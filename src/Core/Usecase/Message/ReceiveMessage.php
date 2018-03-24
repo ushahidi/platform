@@ -103,16 +103,14 @@ class ReceiveMessage extends CreateUsecase
 
       $post_id = null;
       // check if contact is part of an open targeted_survey.
-      if($this->isContactInTargetedSurvey($contact))
+      if($this->isContactInTargetedSurvey($contact_id))
       {
-          //@TODO: lookup the last message sent to this contact
-          //$last_message = $this->contactRepo->getLastMessageSentToContact($contact);
 
-          //@TODO: grab the post_id from that message, attach it to this new message
-          //$post_id = $last_message->post_id;
+          \Log::instance()->add(\Log::ERROR, 'Message received for: '.print_r($contact, true));
 
-          //@TODO: then throw an Event that we received a targeted survey response
-          // and deal with sending new messages to that contact
+        //@TODO: then throw an Event that we received a targeted survey response
+        // and deal with sending new messages from there
+         $this->repo->emitReceivedMessageEventForContact($contact_id);
 
       }else { // don't throw an event
           // ... create post for message
@@ -161,9 +159,10 @@ class ReceiveMessage extends CreateUsecase
 		return $contact;
 	}
 
-    protected function isContactInTargetedSurvey($contact)
+    protected function isContactInTargetedSurvey($contact_id)
     {
-        return $this->contactRepo->isInTargetedSurvey($contact->getId());
+        \Log::instance()->add(\Log::INFO, 'Is there even a contact?: '.print_r($contact_id, true));
+        return $this->contactRepo->isInTargetedSurvey($contact_id);
     }
 
 

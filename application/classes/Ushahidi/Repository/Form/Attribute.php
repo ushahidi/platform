@@ -234,13 +234,38 @@ class Ushahidi_Repository_Form_Attribute extends Ushahidi_Repository implements
 		return $this->getCollection($results->as_array());
 	}
 
-    //returns the attribute that follows the given form attribute
-    public function getNextAttribute(FormAttribute $last_attribute)
-    {
-        //@TODO: looks up the form_stage, then form_id,
-        //  then finds whats next, then returns an entity for the
-        //  next FormAttribute
-    }
+
+    //@TODO: looks up the form_stage, then form_id,
+    //  then finds whats next, then returns an entity for the
+    //  next FormAttribute
+    /**
+	 * @param int $form_id
+	 * @return Entity|FormAttribute
+	 *
+	 * Selects the first attribute of the first stage
+	 * and returns it as a FormAttribute entity
+	 */
+	public function getNextByFormAttribute($form_id, $last_attribute_id)
+	{
+        $last_attribute = $this->getByKey($last_attribute_id);
+
+        Kohana::$log->add(Log::INFO, 'Last attribute was'.print_r($last_attribute, true));
+
+		$query = $this->selectQuery([
+			'form_stages.form_id' => $form_id,
+		], $form_id)
+			->select('form_attributes.*')
+			->join('form_stages', 'INNER')
+			->on('form_stages.id', '=', 'form_attributes.form_stage_id')
+            ->where('form_stages.priority', '>', $last_attribute->priority)
+			->order_by('form_stages.priority', 'ASC')
+			->order_by('form_attributes.priority', 'ASC');
+
+		$results = $query->execute($this->db);
+
+		return $this->getEntity($results->current());
+	}
+
 
 	// FormAttributeRepository
 	public function getRequired($stage_id)

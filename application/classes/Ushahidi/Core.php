@@ -762,6 +762,15 @@ abstract class Ushahidi_Core {
 		$di->setter['Ushahidi_Listener_PostListener']['setWebhookRepo'] =
 			$di->lazyGet('repository.webhook');
 
+        // Incoming message listener requires lots of repos
+        // Contact repo for Post listener
+		$di->setter['Ushahidi_Listener_IncomingMessageListener']['setContactRepo'] =
+		$di->lazyGet('repository.contact');
+
+        // Webhook repo for Post listener
+    	$di->setter['Ushahidi_Listener_IncomingMessageListener']['setFormAttributeRepo'] =
+    			$di->lazyGet('repository.form_attribute');
+
 		// Add Intercom Listener to Config
 		$di->setter['Ushahidi_Repository_Config']['setEvent'] = 'ConfigUpdateEvent';
 		$di->setter['Ushahidi_Repository_Config']['setListener'] =

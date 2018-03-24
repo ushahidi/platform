@@ -129,6 +129,11 @@ class Ushahidi_Repository_Message extends Ushahidi_Repository implements
 		}
 	}
 
+    public function emitReceivedMessageEventForContact($contact_id)
+    {
+        $this->emit($this->event, $contact_id);
+    }
+
 	// MessageRepository
 	public function getPendingMessages($status, $data_provider, $limit)
 	{
@@ -148,13 +153,6 @@ class Ushahidi_Repository_Message extends Ushahidi_Repository implements
 		$direction = Message::INCOMING;
 		return (int) $this->selectCount(compact('contact_id', 'direction'));
 	}
-
-    public function getLastMessageSentToContact($contact)
-    {
-        //@TODO: lookup outgoing messages by contact_id
-        //  order by most recent
-    }
-
 
 	// CreateRepository
 	public function create(Entity $entity)
