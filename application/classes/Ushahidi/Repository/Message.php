@@ -131,7 +131,8 @@ class Ushahidi_Repository_Message extends Ushahidi_Repository implements
 
     public function emitReceivedMessageEventForContact($contact_id)
     {
-        $this->emit($this->event, $contact_id);
+        $this->emit($this->event, ['contact_id' => $contact_id,
+                                    'message_repo' => $this]);
     }
 
 	// MessageRepository
