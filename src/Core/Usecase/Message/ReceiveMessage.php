@@ -105,9 +105,6 @@ class ReceiveMessage extends CreateUsecase
       // check if contact is part of an open targeted_survey.
       if($this->isContactInTargetedSurvey($contact_id))
       {
-
-          \Log::instance()->add(\Log::ERROR, 'Message received for: '.print_r($contact, true));
-
         //@TODO: then throw an Event that we received a targeted survey response
         // and deal with sending new messages from there
          $this->repo->emitReceivedMessageEventForContact($contact_id);
@@ -161,10 +158,8 @@ class ReceiveMessage extends CreateUsecase
 
     protected function isContactInTargetedSurvey($contact_id)
     {
-        \Log::instance()->add(\Log::INFO, 'Is there even a contact?: '.print_r($contact_id, true));
         return $this->contactRepo->isInTargetedSurvey($contact_id);
     }
-
 
 	/**
 	 * Create contact (if its new)
