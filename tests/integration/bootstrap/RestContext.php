@@ -221,8 +221,8 @@ class RestContext implements Context
 						->post($this->requestUrl)
 						->addPostFields($this->postFields)
 						->addPostFiles($this->preparePostFileData($this->postFiles));
-				} // Otherwise assume we have JSON
-				else {
+				} else {
+					// Otherwise assume we have JSON
 					$http_request = $this->client
 						->post($this->requestUrl)
 						->setBody($request['data']);
@@ -283,6 +283,17 @@ class RestContext implements Context
 		$columnCount = count(explode(",", $rows[$arg2]));
 		if ($columnCount !== intval($arg1)) {
 			throw new \Exception("Row $arg2 should have $arg1 columns. Found $columnCount");
+		}
+	}
+
+	/**
+	 * @Then the csv response body should equal:
+	 */
+	public function theCsvResponseBodyShouldEqual(PyStringNode $string)
+	{
+		$data = $this->response->getBody(true);
+		if (trim($data) !== trim($string)) {
+			throw new \Exception("Body $data is not equal to \n $string");
 		}
 	}
 

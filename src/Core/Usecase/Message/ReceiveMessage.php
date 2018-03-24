@@ -91,25 +91,42 @@ class ReceiveMessage extends CreateUsecase
 		// ... verify that the message entity is in a valid state
 		$this->verifyValid($entity);
 
-		// Find or create contact
+		// Find or create contact based on >$this->getPayload('from')
 		$contact = $this->getContactEntity();
 
 		// ... verify the contact is valid
 		$this->verifyValidContact($contact);
 
-		// ... create contact for message
-		$contact_id = $this->createContact($contact);
-		$entity->setState(compact('contact_id'));
+      // ... create contact for message
+      $contact_id = $this->createContact($contact);
+      $entity->setState(compact('contact_id'));
 
-		// ... create post for message
-		$post_id = $this->createPost($entity);
-		$entity->setState(compact('post_id'));
+      $post_id = null;
+      // check if contact is part of an open targeted_survey.
+      if($this->isContactInTargetedSurvey($contact))
+      {
+          //@TODO: lookup the last message sent to this contact
+          //$last_message = $this->contactRepo->getLastMessageSentToContact($contact);
 
-		// ... persist the new message entity
-		$id = $this->repo->create($entity);
+          //@TODO: grab the post_id from that message, attach it to this new message
+          //$post_id = $last_message->post_id;
 
-		// ... and return message id
-		return $id;
+          //@TODO: then throw an Event that we received a targeted survey response
+          // and deal with sending new messages to that contact
+
+      }else { // don't throw an event
+          // ... create post for message
+          $post_id = $this->createPost($entity);
+
+          // ... persist the new message entity
+      }
+      if($post_id)
+       {   $entity->setState(compact('post_id')); }
+
+      $id = $this->repo->create($entity);
+
+	  // ... and return message id
+      return $id;
 	}
 
 	/**
@@ -141,9 +158,14 @@ class ReceiveMessage extends CreateUsecase
 				'data_provider' => $this->getPayload('data_provider'),
 			]);
 		}
-
 		return $contact;
 	}
+
+    protected function isContactInTargetedSurvey($contact)
+    {
+        return $this->contactRepo->isInTargetedSurvey($contact->getId());
+    }
+
 
 	/**
 	 * Create contact (if its new)
@@ -168,30 +190,74 @@ class ReceiveMessage extends CreateUsecase
 	protected function createPost(Entity $message)
 	{
 		$values = [];
+		$form_id = null;
 
-		// Pull locations from extra metadata
+		$content = $message->message;
+
 		if ($message->additional_data) {
+			if (isset($message->additional_data['form_id'])) {
+				$form_id = $message->additional_data['form_id'];
+				// Check provider fields for form attribute mapping
+				$inbound_fields = $message->additional_data['inbound_fields'];
+
+				if (isset($this->payload['title']) && isset($inbound_fields['Title'])) {
+						$values[$inbound_fields['Title']] = array($this->payload['title']);
+				}
+
+				if (isset($this->payload['from']) && isset($inbound_fields['From'])) {
+						$values[$inbound_fields['From']] = array($this->payload['from']);
+				}
+
+				if (isset($this->payload['to']) && isset($inbound_fields['To'])) {
+						$values[$inbound_fields['To']] = array($this->payload['to']);
+				}
+
+				if (isset($this->payload['message']) && isset($inbound_fields['Message'])) {
+						$values[$inbound_fields['Message']] = array($this->payload['message']);
+				}
+
+				if (isset($this->payload['date']) && isset($inbound_fields['Date'])) {
+						$timestamp = date("Y-m-d H:i:s", strtotime($this->payload['date']));
+						$values[$inbound_fields['Date']] = array($timestamp);
+				}
+
+				if (isset($message->additional_data['location']) && isset($inbound_fields['Location'])) {
+					foreach ($message->additional_data['location'] as $location) {
+						if (!empty($location['type']) &&
+							!empty($location['coordinates']) &&
+							ucfirst($location['type']) == 'Point'
+							) {
+							$values[$inbound_fields['Location']][] = [
+								'lon' => $location['coordinates'][0],
+								'lat' => $location['coordinates'][1]
+							];
+						}
+					}
+				}
+			}
+			// Pull locations from extra metadata
 			$values['message_location'] = [];
-			foreach ($message->additional_data['location'] as $location) {
-				if (!empty($location['type']) &&
-					!empty($location['coordinates']) &&
-					ucfirst($location['type']) == 'Point'
-					) {
-					$values['message_location'][] = [
-						'lon' => $location['coordinates'][0],
-						'lat' => $location['coordinates'][1]
-					];
+			if (isset($message->additional_data['location'])) {
+				foreach ($message->additional_data['location'] as $location) {
+					if (!empty($location['type']) &&
+						!empty($location['coordinates']) &&
+						ucfirst($location['type']) == 'Point'
+						) {
+						$values['message_location'][] = [
+							'lon' => $location['coordinates'][0],
+							'lat' => $location['coordinates'][1]
+						];
+					}
 				}
 			}
 		}
-
 		// First create a post
 		$post = $this->postRepo->getEntity()->setState([
-				'title' => $message->title,
-				'content' => $message->message,
-				'values' => $values
+				'title'    => $message->title,
+				'content'  => $content,
+				'values'   => $values,
+				'form_id'  => $form_id
 			]);
-
 		return $this->postRepo->create($post);
 	}
 
@@ -228,5 +294,12 @@ class ReceiveMessage extends CreateUsecase
 	protected function verifyReceiveAuth(Entity $entity)
 	{
 		$this->verifyAuth($entity, 'receive');
+	}
+
+	/**
+	 * @return void
+	 */
+	public function isInTargetedSurvey($argument1)
+	{
 	}
 }

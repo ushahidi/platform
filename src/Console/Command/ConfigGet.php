@@ -59,7 +59,7 @@ class ConfigGet extends Command
 	/**
 	 * Override response handler to flatten array
 	 */
-	protected function handleResponse($response, OutputInterface $output)
+	protected function handleResponse($response, OutputInterface $output, $format = '')
 	{
 		$iterator = new \RecursiveIteratorIterator(new \RecursiveArrayIterator($response));
 		$result = [];

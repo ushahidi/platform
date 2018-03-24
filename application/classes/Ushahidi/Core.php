@@ -119,14 +119,11 @@ abstract class Ushahidi_Core {
 			'db' => $di->lazyGet('kohana.db.multisite')
 		];
 
-		$di->set('session.user', function() use ($di) {
-			// Using the OAuth resource server, get the userid (owner id) for this request
-			$server = $di->get('oauth.server.resource');
-			$userid = $server->getOwnerId();
 
+		$di->set('session.console.user', function() use ($di) {
 			// Using the user repository, load the user
 			$repo = $di->get('repository.user');
-			$user = $repo->get($userid);
+			$user = $repo->get(null);
 
 			return $user;
 		});
@@ -162,9 +159,14 @@ abstract class Ushahidi_Core {
 
 		// Post Exporter
 		$di->setter['Ushahidi\Console\Application']['injectCommands'][] = $di->lazyNew('Ushahidi_Console_PostExporter');
-		$di->setter['Ushahidi_Console_PostExporter']['setPostExportRepo'] = $di->lazyGet('repository.posts_export');
-		$di->setter['Ushahidi_Console_PostExporter']['setDataFactory'] = $di->lazyGet('factory.data');
 
+		$di->setter['Ushahidi_Console_PostExporter']['setPostExportRepo'] = $di->lazyGet('repository.posts_export');
+		$di->setter['Ushahidi_Console_PostExporter']['setExportJobRepo'] = $di->lazyGet('repository.export_job');
+		$di->setter['Ushahidi_Console_PostExporter']['setDataFactory'] = $di->lazyGet('factory.data');
+		$di->setter['Ushahidi_Console_PostExporter']['setFileSystem'] = $di->lazyGet('tool.filesystem');
+		$di->setter['Ushahidi_Console_PostExporter']['setDatabase'] = $di->lazyGet('kohana.db');
+
+		$di->setter['Ushahidi_Console_PostExporter']['setUserRepo'] =  $di->lazyGet('repository.user');
 		// Webhook command
 		$di->setter['Ushahidi\Console\Application']['injectCommands'][] = $di->lazyNew('Ushahidi_Console_Webhook');
 		$di->setter['Ushahidi_Console_Webhook']['setDatabase'] = $di->lazyGet('kohana.db');
@@ -248,8 +250,13 @@ abstract class Ushahidi_Core {
 		];
 		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['posts'] = [
 			'create' => $di->lazyNew('Ushahidi_Validator_Post_Create'),
+			'webhook-update' => $di->lazyNew('Ushahidi_Validator_Post_Update'),
 			'update' => $di->lazyNew('Ushahidi_Validator_Post_Update'),
 			'import' => $di->lazyNew('Ushahidi_Validator_Post_Import'),
+		];
+		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['export_jobs'] = [
+			'create' => $di->lazyNew('Ushahidi_Validator_Export_Job_Create'),
+			'update' => $di->lazyNew('Ushahidi_Validator_Export_Job_Update'),
 		];
 		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['posts_lock'] = [
 			'create' => $di->lazyNew('Ushahidi_Validator_Post_Create'),
@@ -287,6 +294,10 @@ abstract class Ushahidi_Core {
 			'create' => $di->lazyNew('Ushahidi_Validator_Notification_Create'),
 			'update' => $di->lazyNew('Ushahidi_Validator_Notification_Update'),
 		];
+		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['apikeys'] = [
+			'create' => $di->lazyNew('Ushahidi_Validator_ApiKey_Create'),
+			'update' => $di->lazyNew('Ushahidi_Validator_ApiKey_Update'),
+		];
 		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['webhooks'] = [
 			'create' => $di->lazyNew('Ushahidi_Validator_Webhook_Create'),
 			'update' => $di->lazyNew('Ushahidi_Validator_Webhook_Update'),
@@ -323,6 +334,7 @@ abstract class Ushahidi_Core {
 		$di->params['Ushahidi\Factory\FormatterFactory']['map'] = [
 			'config'               => $di->lazyNew('Ushahidi_Formatter_Config'),
 			'dataproviders'        => $di->lazyNew('Ushahidi_Formatter_Dataprovider'),
+			'export_jobs'		   => $di->lazyNew('Ushahidi_Formatter_Export_Job'),
 			'forms'                => $di->lazyNew('Ushahidi_Formatter_Form'),
 			'form_attributes'      => $di->lazyNew('Ushahidi_Formatter_Form_Attribute'),
 			'form_roles'           => $di->lazyNew('Ushahidi_Formatter_Form_Role'),
@@ -339,7 +351,8 @@ abstract class Ushahidi_Core {
 			'savedsearches_posts'  => $di->lazyNew('Ushahidi_Formatter_Post'),
 			'users'                => $di->lazyNew('Ushahidi_Formatter_User'),
 			'notifications'        => $di->lazyNew('Ushahidi_Formatter_Notification'),
-			'webhooks'              => $di->lazyNew('Ushahidi_Formatter_Webhook'),
+			'webhooks'             => $di->lazyNew('Ushahidi_Formatter_Webhook'),
+			'apikeys'              => $di->lazyNew('Ushahidi_Formatter_Apikey'),
 			'contacts'             => $di->lazyNew('Ushahidi_Formatter_Contact'),
 			'csv'                  => $di->lazyNew('Ushahidi_Formatter_CSV'),
 			'roles'                => $di->lazyNew('Ushahidi_Formatter_Role'),
@@ -353,6 +366,7 @@ abstract class Ushahidi_Core {
 		foreach ([
 			'config',
 			'dataprovider',
+			'export_job',
 			'form',
 			'form_attribute',
 			'form_role',
@@ -368,6 +382,7 @@ abstract class Ushahidi_Core {
 			'set_post',
 			'notification',
 			'webhook',
+			'apikey',
 			'contact',
 			'role',
 			'permission',
@@ -422,6 +437,7 @@ abstract class Ushahidi_Core {
 		$di->set('repository.media', $di->lazyNew('Ushahidi_Repository_Media'));
 		$di->set('repository.message', $di->lazyNew('Ushahidi_Repository_Message'));
 		$di->set('repository.post', $di->lazyNew('Ushahidi_Repository_Post'));
+		$di->set('repository.csv_post', $di->lazyNew('Ushahidi_Repository_CSVPost'));
 		$di->set('repository.post_lock', $di->lazyNew('Ushahidi_Repository_Post_Lock'));
 		$di->set('repository.tag', $di->lazyNew('Ushahidi_Repository_Tag'));
 		$di->set('repository.set', $di->lazyNew('Ushahidi_Repository_Set'));
@@ -436,6 +452,7 @@ abstract class Ushahidi_Core {
 		$di->set('repository.role', $di->lazyNew('Ushahidi_Repository_Role'));
 		$di->set('repository.notification', $di->lazyNew('Ushahidi_Repository_Notification'));
 		$di->set('repository.webhook', $di->lazyNew('Ushahidi_Repository_Webhook'));
+		$di->set('repository.apikey', $di->lazyNew('Ushahidi_Repository_ApiKey'));
 		$di->set('repository.csv', $di->lazyNew('Ushahidi_Repository_CSV'));
 		$di->set('repository.notification.queue', $di->lazyNew('Ushahidi_Repository_Notification_Queue'));
 		$di->set('repository.webhook.job', $di->lazyNew('Ushahidi_Repository_Webhook_Job'));
@@ -445,6 +462,11 @@ abstract class Ushahidi_Core {
 		$di->set('repository.oauth.scope', $di->lazyNew('OAuth2_Storage_Scope'));
 		$di->set('repository.posts_export', $di->lazyNew('Ushahidi_Repository_Post_Export'));
 		$di->set('repository.tos', $di->lazyNew('Ushahidi_Repository_Tos'));
+		$di->set('repository.export_job', $di->lazyNew('Ushahidi_Repository_Export_Job'));
+
+		$di->params['Ushahidi_Repository_Export_Job'] = [
+			'post_repo' => $di->lazyGet('repository.post')
+		];
 
 		$di->setter['Ushahidi_Repository_User']['setHasher'] = $di->lazyGet('tool.hasher.password');
 
@@ -484,6 +506,17 @@ abstract class Ushahidi_Core {
 				'post_value_factory' => $di->lazyGet('repository.post_value_factory'),
 				'bounding_box_factory' => $di->newFactory('Util_BoundingBox')
 			];
+
+		// Post repository parameters
+		$di->params['Ushahidi_Repository_CSVPost'] = [
+			'form_attribute_repo' => $di->lazyGet('repository.form_attribute'),
+			'form_stage_repo' => $di->lazyGet('repository.form_stage'),
+			'form_repo' => $di->lazyGet('repository.form'),
+			'post_lock_repo' => $di->lazyGet('repository.post_lock'),
+			'contact_repo' => $di->lazyGet('repository.contact'),
+			'post_value_factory' => $di->lazyGet('repository.post_value_factory'),
+			'bounding_box_factory' => $di->newFactory('Util_BoundingBox')
+		];
 
 		$di->set('repository.post.datetime', $di->lazyNew('Ushahidi_Repository_Post_Datetime'));
 		$di->set('repository.post.decimal', $di->lazyNew('Ushahidi_Repository_Post_Decimal'));
@@ -744,10 +777,27 @@ abstract class Ushahidi_Core {
 		$di->setter['Ushahidi_Repository_User']['setListener'] =
 			$di->lazyNew('Ushahidi_Listener_IntercomAdminListener');
 
+       // Add Listener to Message repository
+       $di->setter['Ushahidi_Repository_User']['setEvent'] = 'IncomingMessageEvent';
+       $di->setter['Ushahidi_Repository_User']['setListener'] =
+       $di->lazyNew('Ushahidi_Listener_IncomingMessageListener');
+
 		// Add Lock Listener
 		$di->setter['Ushahidi_Repository_Post_Lock']['setEvent'] = 'LockBroken';
 		$di->setter['Ushahidi_Repository_Post_Lock']['setListener'] =
 			$di->lazyNew('Ushahidi_Listener_Lock');
+
+		$di->set('session.user', function() use ($di) {
+			// Using the OAuth resource server, get the userid (owner id) for this request
+			$server = $di->get('oauth.server.resource');
+			$userid = $server->getOwnerId();
+
+			// Using the user repository, load the user
+			$repo = $di->get('repository.user');
+			$user = $repo->get($userid);
+
+			return $user;
+		});
 		/**
 		 * 1. Load the plugins
 		 */
@@ -818,4 +868,5 @@ abstract class Ushahidi_Core {
 		$log = \Log::instance();
 		$log->add(Log::INFO, $message);
 	}
+
 }

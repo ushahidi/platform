@@ -12,7 +12,7 @@ use Ushahidi\Core\Entity\Post;
 use Ushahidi\Core\Entity\PostRepository;
 use Ushahidi\Core\Entity\PostExportRepository;
 
-class Ushahidi_Repository_Post_Export extends Ushahidi_Repository_Post implements PostExportRepository
+class Ushahidi_Repository_Post_Export extends Ushahidi_Repository_CSVPost implements PostExportRepository
 {
 
 	/**
@@ -24,13 +24,13 @@ class Ushahidi_Repository_Post_Export extends Ushahidi_Repository_Post implement
     /**
      * Tags (native) should not be shown in the CSV Export
     */
-	unset($data['tags']);
+	  unset($data['tags']);
     // Set attribute keys
     $attributes = [];
-	foreach ($data['values'] as $key => $val)
+  	foreach ($data['values'] as $key => $val)
     {
         $attribute = $this->form_attribute_repo->getByKey($key);
-        $attributes[$key] = ['label' => $attribute->label, 'priority'=> $attribute->priority, 'stage' => $attribute->form_stage_id, 'type'=> $attribute->type, 'form_id'=> $data['form_id']];
+        $attributes[$key] = ['label' => $attribute->label, 'input' => $attribute->input, 'priority'=> $attribute->priority, 'stage' => $attribute->form_stage_id, 'type'=> $attribute->type, 'form_id'=> $data['form_id']];
 
         // Set attribute names. This is for categories (custom field) to show their label and not the ids
         if ($attribute->type === 'tags') {

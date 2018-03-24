@@ -126,6 +126,19 @@ class Ushahidi_Repository_Contact extends Ushahidi_Repository implements
 		return $this->getEntity($this->selectOne(compact('contact', 'type')));
 	}
 
+    public function isInTargetedSurvey($contact_id)
+    {
+        $query = DB::select('targeted_survey_state.contact_id', 'targeted_survey_state.form_id')
+            ->from('targeted_survey_state')
+            ->where('contact_id', '=', $contact_id)
+            ->and_where('last_sent_form_attribute_id', '>', 0);
+
+        if($query->execute($this->db)->count() > 0)
+        {   return true;    }
+
+        return false;
+    }
+
 	// ContactRepository
 	public function getNotificationContacts($set_id, $limit = false, $offset = 0)
 	{

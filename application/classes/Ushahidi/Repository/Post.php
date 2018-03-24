@@ -207,7 +207,9 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 			if (empty($output[$value->key])) {
 				$output[$value->key] = [];
 			}
-			if ($value->value !== NULL) {
+			if (is_array($value->value) && isset($value->value['o_filename']) && isset($value->value['id'])) {
+				$output[$value->key][] = $value->value['id'];
+			} else if ($value->value !== NULL) {
 				$output[$value->key][] = $value->value;
 			}
 		}
@@ -546,18 +548,18 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		// If there's no logged in user, or the user isn't admin
 		// restrict our search to make sure we still return SOME results
 		// they are allowed to see
-		if (!$search->exporter) {
-			if (!$user->id) {
-				$query->where("$table.status", '=', 'published');
-			} elseif (!$this->isUserAdmin($user) and
-					!$this->acl->hasPermission($user, Permission::MANAGE_POSTS)) {
-				$query
-					->and_where_open()
-					->where("$table.status", '=', 'published')
-					->or_where("$table.user_id", '=', $user->id)
-					->and_where_close();
-			}
+
+		if (!$user->id) {
+			$query->where("$table.status", '=', 'published');
+		} elseif (!$this->isUserAdmin($user) and
+				!$this->acl->hasPermission($user, Permission::MANAGE_POSTS)) {
+			$query
+				->and_where_open()
+				->where("$table.status", '=', 'published')
+				->or_where("$table.user_id", '=', $user->id)
+				->and_where_close();
 		}
+
 	}
 
 	// SearchRepository
@@ -601,6 +603,14 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 	{
 		return (int) $this->selectCount(['posts.status' => 'published']);
 	}
+
+
+    public function getPostByFormAndMessageId($form_id, $message_id)
+    {
+        //@TODO: implement this
+        /// there should be only one message that matches, so return that id
+
+    }
 
 	// StatsPostRepository
 	public function getGroupedTotals(SearchData $search)
@@ -987,12 +997,12 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		$count = $this->executeUpdate(['id' => $entity->id], $post);
 
 		$values = $entity->values;
+
 		// Handle legacy post.tags attribute
 		if ($entity->hasChanged('tags'))
 		{
 			// Find first tag attribute
 			list($attr_id, $attr_key) = $this->getFirstTagAttr($entity->form_id);
-
 			// If we don't have tags in the values, use the post.tags value
 			if ($attr_key && !isset($values[$attr_key])) {
 				$values[$attr_key] = $entity->tags;
@@ -1002,6 +1012,7 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		if ($entity->hasChanged('values'))
 		{
 			// Update post-values
+			$this->post_value_factory->proxy()->deleteAllForPost($entity->id);
 			$this->updatePostValues($entity->id, $values);
 		}
 
@@ -1011,17 +1022,70 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 			$this->updatePostStages($entity->id, $entity->form_id, $entity->completed_stages);
 		}
 
+		// TODO: Revist post-Kohana
+		// This might be better placed in the usecase but
+		// given Kohana's future I've put it here
+		$this->emit($this->event, $entity->id, 'update');
+
 		if ($this->post_lock_repo->isActive($entity->id)) {
 			$this->post_lock_repo->releaseLock($entity->id);
 		}
 
+
 		return $count;
+	}
+
+	// UpdateRepository
+	public function updateFromService(Entity $entity)
+	{
+		$post = $entity->getChanged();
+		$post['updated'] = time();
+		// Remove attribute values and tags
+		unset($post['values'], $post['tags'], $post['completed_stages'], $post['sets'], $post['source'], $post['color']);
+		// Convert post_date to mysql format
+		if(!empty($post['post_date'])) {
+			$post['post_date'] = $post['post_date']->format("Y-m-d H:i:s");
+		}
+		$count = $this->executeUpdate(['id' => $entity->id], $post);
+		$values = $entity->values;
+		// Handle legacy post.tags attribute
+		if ($entity->hasChanged('tags'))
+		{
+			// Find first tag attribute
+			list($attr_id, $attr_key) = $this->getFirstTagAttr($entity->form_id);
+			// If we don't have tags in the values, use the post.tags value
+			if ($attr_key && !isset($values[$attr_key])) {
+				$values[$attr_key] = $entity->tags;
+			}
+		}
+		if ($entity->hasChanged('values') || $entity->hasChanged('tags'))
+		{
+			// Update post-values
+			$this->updatePostValues($entity->id, $values);
+		}
+		if ($entity->hasChanged('completed_stages'))
+		{
+			// Update post-stages
+			$this->updatePostStages($entity->id, $entity->form_id, $entity->completed_stages);
+		}
+		// TODO: Revist post-Kohana
+		// This might be better placed in the usecase but
+		// given Kohana's future I've put it here
+		$this->emit($this->event, $entity->id, 'update');
+		return $count;
+	}
+
+	public function delete(Entity $entity)
+	{
+		parent::delete($entity);
+		// TODO: Revist post-Kohana
+		// This might be better placed in the usecase but
+		// given Kohana's future I've put it here
+		//$this->emit($this->event, $entity->id, 'delete');
 	}
 
 	protected function updatePostValues($post_id, $attributes)
 	{
-		$this->post_value_factory->proxy()->deleteAllForPost($post_id);
-
 		foreach ($attributes as $key => $values)
 		{
 			$attribute = $this->form_attribute_repo->getByKey($key);
