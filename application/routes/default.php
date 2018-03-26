@@ -243,7 +243,6 @@ Route::set('forms', $apiBase . 'forms(/<form_id>)/<controller>(/<id>)',
 		'directory'  => 'Api/Forms'
 	));
 
-
 /**
  * Translations API SubRoute
  */

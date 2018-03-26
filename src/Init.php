@@ -139,6 +139,7 @@ $di->params['Ushahidi\Factory\AuthorizerFactory']['map'] = [
 	'export_jobs'          => $di->lazyGet('authorizer.export_job'),
 	'external_auth'        => $di->lazyGet('authorizer.external_auth'),
 	'forms'                => $di->lazyGet('authorizer.form'),
+	'form_contacts'                => $di->lazyGet('authorizer.form_contact'),
 	'form_attributes'      => $di->lazyGet('authorizer.form_attribute'),
 	'form_roles'           => $di->lazyGet('authorizer.form_role'),
 	'form_stages'          => $di->lazyGet('authorizer.form_stage'),
@@ -172,8 +173,10 @@ $di->params['Ushahidi\Factory\RepositoryFactory']['map'] = [
 	'config'               => $di->lazyGet('repository.config'),
 	'export_jobs'		   => $di->lazyGet('repository.export_job'),
 	'dataproviders'        => $di->lazyGet('repository.dataprovider'),
+	'contact_post_states'   => $di->lazyGet('repository.contact_post_state'),
 	'forms'                => $di->lazyGet('repository.form'),
 	'form_attributes'      => $di->lazyGet('repository.form_attribute'),
+	'form_contacts'      => $di->lazyGet('repository.form_contact'),
 	'form_roles'           => $di->lazyGet('repository.form_role'),
 	'form_stages'          => $di->lazyGet('repository.form_stage'),
 	'layers'               => $di->lazyGet('repository.layer'),
@@ -263,6 +266,15 @@ $di->params['Ushahidi\Factory\UsecaseFactory']['map']['form_roles'] = [
 	'update_collection'  => $di->lazyNew('Ushahidi\Core\Usecase\Form\UpdateFormRole'),
 	'search'  => $di->lazyNew('Ushahidi\Core\Usecase\Form\SearchFormRole'),
 ];
+
+$di->params['Ushahidi\Factory\UsecaseFactory']['map']['form_contacts'] = [
+	'create'  => $di->lazyNew('Ushahidi\Core\Usecase\Form\CreateFormContact'),
+	'read'    => $di->lazyNew('Ushahidi\Core\Usecase\Form\ReadFormContact'),
+	 //'update'  => $di->lazyNew('Ushahidi\Core\Usecase\Form\UpdateFormContact'),
+	 // 'delete'  => $di->lazyNew('Ushahidi\Core\Usecase\Form\DeleteFormContact'),
+	'search'  => $di->lazyNew('Ushahidi\Core\Usecase\Form\SearchFormContact'),
+];
+
 $di->params['Ushahidi\Factory\UsecaseFactory']['map']['form_stages'] = [
 	'create'  => $di->lazyNew('Ushahidi\Core\Usecase\Form\CreateFormStage'),
 	'read'    => $di->lazyNew('Ushahidi\Core\Usecase\Form\ReadFormStage'),
@@ -271,6 +283,8 @@ $di->params['Ushahidi\Factory\UsecaseFactory']['map']['form_stages'] = [
 	'search'  => $di->lazyNew('Ushahidi\Core\Usecase\Form\SearchFormStage'),
 ];
 
+$di->setter['Ushahidi\Core\Usecase\Form\CreateFormContact']['setPhoneValidator'] =
+	\libphonenumber\PhoneNumberUtil::getInstance();
 // Media create requires file uploading as part of the payload.
 $di->params['Ushahidi\Factory\UsecaseFactory']['map']['media'] = [
 	'create' => $di->lazyNew('Ushahidi\Core\Usecase\Media\CreateMedia'),
@@ -393,6 +407,7 @@ $di->setter['Ushahidi\Core\Usecase\User\GetResetToken']['setMailer'] = $di->lazy
 // Traits
 
 $di->setter['Ushahidi\Core\Usecase\Form\VerifyFormLoaded']['setFormRepository'] = $di->lazyGet('repository.form');
+$di->setter['Ushahidi\Core\Usecase\Form\VerifyFormLoaded']['setFormContactRepository'] = $di->lazyGet('repository.form_contact');
 $di->setter['Ushahidi\Core\Usecase\Form\VerifyStageLoaded']['setStageRepository']
 	= $di->lazyGet('repository.form_stage');
 
@@ -437,6 +452,12 @@ $di->params['Ushahidi\Core\Tool\Authorizer\FormStageAuthorizer'] = [
 	'form_repo' => $di->lazyGet('repository.form'),
 	'form_auth' => $di->lazyGet('authorizer.form'),
 	];
+
+$di->set('authorizer.form_contact', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\FormContactAuthorizer'));
+$di->params['Ushahidi\Core\Tool\Authorizer\FormContactAuthorizer'] = [
+	'form_repo' => $di->lazyGet('repository.form'),
+	'form_auth' => $di->lazyGet('authorizer.form'),
+];
 
 $di->set('authorizer.user', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\UserAuthorizer'));
 $di->set('authorizer.layer', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\LayerAuthorizer'));

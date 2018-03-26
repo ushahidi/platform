@@ -234,6 +234,30 @@ class Ushahidi_Repository_Form_Attribute extends Ushahidi_Repository implements
 		return $this->getCollection($results->as_array());
 	}
 
+	/**
+	 * @param int $form_id
+	 * @return Entity|FormAttribute
+	 *
+	 * Selects the first attribute of the first stage
+	 * and returns it as a FormAttribute entity
+	 */
+	public function getFirstByForm($form_id)
+	{
+		$query = $this->selectQuery([
+			'form_stages.form_id' => $form_id,
+		], $form_id)
+			->select('form_attributes.*')
+			->join('form_stages', 'INNER')
+			->on('form_stages.id', '=', 'form_attributes.form_stage_id')
+			->order_by('form_stages.priority', 'ASC')
+			->order_by('form_attributes.priority', 'ASC')
+			->limit(1);
+
+		$results = $query->execute($this->db);
+
+		return $this->getEntity($results->current());
+	}
+
 	// FormAttributeRepository
 	public function getRequired($stage_id)
 	{

@@ -235,6 +235,11 @@ abstract class Ushahidi_Core {
 			'create' => $di->lazyNew('Ushahidi_Validator_Form_Role_Create'),
 			'update_collection' => $di->lazyNew('Ushahidi_Validator_Form_Role_Update'),
 		];
+		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['form_contacts'] = [
+			'create' => $di->lazyNew('Ushahidi_Validator_Form_Contact_Create'),
+			'update' => $di->lazyNew('Ushahidi_Validator_Form_Contact_Update'),
+		];
+
 		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['form_stages'] = [
 			'create' => $di->lazyNew('Ushahidi_Validator_Form_Stage_Create'),
 			'update' => $di->lazyNew('Ushahidi_Validator_Form_Stage_Update'),
@@ -339,6 +344,7 @@ abstract class Ushahidi_Core {
 			'form_attributes'      => $di->lazyNew('Ushahidi_Formatter_Form_Attribute'),
 			'form_roles'           => $di->lazyNew('Ushahidi_Formatter_Form_Role'),
 			'form_stages'          => $di->lazyNew('Ushahidi_Formatter_Form_Stage'),
+			'form_contacts'        => $di->lazyNew('Ushahidi_Formatter_Form_Contact'),
 			'layers'               => $di->lazyNew('Ushahidi_Formatter_Layer'),
 			'media'                => $di->lazyNew('Ushahidi_Formatter_Media'),
 			'messages'             => $di->lazyNew('Ushahidi_Formatter_Message'),
@@ -370,6 +376,7 @@ abstract class Ushahidi_Core {
 			'form',
 			'form_attribute',
 			'form_role',
+			'form_contacts',
 			'form_stage',
 			'layer',
 			'media',
@@ -403,6 +410,8 @@ abstract class Ushahidi_Core {
 		$di->set('tool.jsontranscode', $di->lazyNew('Ushahidi\Core\Tool\JsonTranscode'));
 
 		// Formatters
+		$di->set('formatter.entity.form.contact', $di->lazyNew('Ushahidi_Formatter_Form_Contact'));
+		$di->set('formatter.entity.form.contactcollection', $di->lazyNew('Ushahidi_Formatter_Form_ContactCollection'));
 		$di->set('formatter.entity.api', $di->lazyNew('Ushahidi_Formatter_API'));
 		$di->set('formatter.entity.console', $di->lazyNew('Ushahidi_Formatter_Console'));
 		$di->set('formatter.entity.post.value', $di->lazyNew('Ushahidi_Formatter_PostValue'));
@@ -431,11 +440,13 @@ abstract class Ushahidi_Core {
 		$di->set('repository.dataprovider', $di->lazyNew('Ushahidi_Repository_Dataprovider'));
 		$di->set('repository.form', $di->lazyNew('Ushahidi_Repository_Form'));
 		$di->set('repository.form_role', $di->lazyNew('Ushahidi_Repository_Form_Role'));
+		$di->set('repository.form_contact', $di->lazyNew('Ushahidi_Repository_Form_Contact'));
 		$di->set('repository.form_stage', $di->lazyNew('Ushahidi_Repository_Form_Stage'));
 		$di->set('repository.form_attribute', $di->lazyNew('Ushahidi_Repository_Form_Attribute'));
 		$di->set('repository.layer', $di->lazyNew('Ushahidi_Repository_Layer'));
 		$di->set('repository.media', $di->lazyNew('Ushahidi_Repository_Media'));
 		$di->set('repository.message', $di->lazyNew('Ushahidi_Repository_Message'));
+		$di->set('repository.contact_post_state', $di->lazyNew('Ushahidi_Repository_Contact_PostState'));
 		$di->set('repository.post', $di->lazyNew('Ushahidi_Repository_Post'));
 		$di->set('repository.csv_post', $di->lazyNew('Ushahidi_Repository_CSVPost'));
 		$di->set('repository.post_lock', $di->lazyNew('Ushahidi_Repository_Post_Lock'));
@@ -489,6 +500,47 @@ abstract class Ushahidi_Core {
 		$di->params['Ushahidi_Repository_Form_Stage'] = [
 				'form_repo' => $di->lazyGet('repository.form')
 		];
+
+		// Form Stage repository parameters
+		$di->params['Ushahidi_Repository_Form_Contact'] = [
+			'form_repo' => $di->lazyGet('repository.form')
+		];
+		$di->setter['Ushahidi_Repository_Form_Contact']['setEvent'] = 'FormContactEvent';
+
+		// Webhook repo for Post listener
+		$di->setter['Ushahidi_Listener_ContactListener']['setRepo'] =
+			$di->lazyGet('repository.contact');
+		// Webhook repo for Post listener
+		$di->setter['Ushahidi_Listener_ContactListener']['setFormRepo'] =
+			$di->lazyGet('repository.form');
+		// Webhook repo for Post listener
+		$di->setter['Ushahidi_Listener_ContactListener']['setFormAttributeRepo'] =
+			$di->lazyGet('repository.form_attribute');
+
+		// Webhook repo for Post listener
+		$di->setter['Ushahidi_Listener_ContactListener']['setPostRepo'] =
+			$di->lazyGet('repository.post');
+
+		// Webhook repo for Post listener
+		$di->setter['Ushahidi_Listener_ContactListener']['setMessageRepo'] =
+			$di->lazyGet('repository.message');
+
+		$di->setter['Ushahidi_Listener_ContactListener']['setContactPostStateRepo'] =
+			$di->lazyGet('repository.contact_post_state');
+
+		$di->setter['Ushahidi_Repository_Form_Contact']['setListener'] =
+			$di->lazyNew('Ushahidi_Listener_ContactListener');
+
+		$di->setter['Ushahidi_Validator_Form_Contact_Create']['setFormRepo'] =
+			$di->lazyGet('repository.form');
+
+		$di->setter['Ushahidi_Validator_Form_Contact_Create']['setPhoneValidator'] =
+			\libphonenumber\PhoneNumberUtil::getInstance();
+
+		$di->setter['Ushahidi_Validator_Form_Contact_Create']['setContactRepo'] =
+			$di->lazyGet('repository.contact');
+		$di->setter['Ushahidi_Validator_Form_Contact_Create']['setFormContactRepo'] =
+			$di->lazyGet('repository.form_contact');
 
 		// Form Attribute repository parameters
 		$di->params['Ushahidi_Repository_Form_Attribute'] = [
