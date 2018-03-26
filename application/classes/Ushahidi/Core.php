@@ -444,6 +444,7 @@ abstract class Ushahidi_Core {
 		$di->set('repository.form', $di->lazyNew('Ushahidi_Repository_Form'));
 		$di->set('repository.form_role', $di->lazyNew('Ushahidi_Repository_Form_Role'));
 		$di->set('repository.form_contact', $di->lazyNew('Ushahidi_Repository_Form_Contact'));
+		$di->set('repository.form_stats', $di->lazyNew('Ushahidi_Repository_Form_Stats'));
 		$di->set('repository.form_stage', $di->lazyNew('Ushahidi_Repository_Form_Stage'));
 		$di->set('repository.form_attribute', $di->lazyNew('Ushahidi_Repository_Form_Attribute'));
 		$di->set('repository.layer', $di->lazyNew('Ushahidi_Repository_Layer'));
@@ -509,6 +510,11 @@ abstract class Ushahidi_Core {
 			'form_repo' => $di->lazyGet('repository.form')
 		];
 		$di->setter['Ushahidi_Repository_Form_Contact']['setEvent'] = 'FormContactEvent';
+
+		// Form Stage repository parameters
+		$di->params['Ushahidi_Repository_Form_Stats'] = [
+			'form_repo' => $di->lazyGet('repository.form')
+		];
 
 		// Webhook repo for Post listener
 		$di->setter['Ushahidi_Listener_ContactListener']['setRepo'] =

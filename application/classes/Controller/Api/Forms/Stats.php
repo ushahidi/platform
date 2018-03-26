@@ -17,6 +17,11 @@ class Controller_Api_Forms_Stats extends Ushahidi_Rest {
     );
     protected function _scope()
     {
-        return 'stats';
+        return 'forms';
     }
+
+	protected function _resource()
+	{
+		return 'form_stats';
+	}
 }
