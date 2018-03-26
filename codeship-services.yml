@@ -33,10 +33,13 @@ deploy:
   add_docker: true
   environment:
     AWS_REGION: us-east-1
+    LAST_BUILD_DEST_PATH: /vols/out
     DOCKER_PUSH_IMAGE_SRC: ushahidi-platform/dockerimg
     DEPLOYMENT_RULES_REPO: deployment-rules
     DEPLOYMENT_RULES_VERSION: master
     DEPLOYMENT_RULES_FILE: platform.yml
+  volumes:
+    - ./tmp/out:/vols/out
 
 test:
   build:
