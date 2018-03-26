@@ -345,6 +345,7 @@ abstract class Ushahidi_Core {
 			'form_roles'           => $di->lazyNew('Ushahidi_Formatter_Form_Role'),
 			'form_stages'          => $di->lazyNew('Ushahidi_Formatter_Form_Stage'),
 			'form_contacts'        => $di->lazyNew('Ushahidi_Formatter_Form_Contact'),
+			'form_stats'           => $di->lazyNew('Ushahidi_Formatter_Form_Stats'),
 			'layers'               => $di->lazyNew('Ushahidi_Formatter_Layer'),
 			'media'                => $di->lazyNew('Ushahidi_Formatter_Media'),
 			'messages'             => $di->lazyNew('Ushahidi_Formatter_Message'),
@@ -378,6 +379,7 @@ abstract class Ushahidi_Core {
 			'form_role',
 			'form_contacts',
 			'form_stage',
+			'form_stats',
 			'layer',
 			'media',
 			'message',
@@ -402,6 +404,7 @@ abstract class Ushahidi_Core {
 
 		$di->setter['Ushahidi_Formatter_Set']['setAuth'] = $di->lazyGet("authorizer.set");
 		$di->setter['Ushahidi_Formatter_CSV']['setAuth'] = $di->lazyGet("authorizer.csv");
+		$di->setter['Ushahidi_Formatter_Form_Stats']['setAuth'] = $di->lazyGet("authorizer.form_stats");
 
 		// Set Formatter factory
 		$di->params['Ushahidi\Factory\FormatterFactory']['factory'] = $di->newFactory('Ushahidi_Formatter_Collection');
