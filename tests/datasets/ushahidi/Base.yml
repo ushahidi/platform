@@ -1389,10 +1389,14 @@ config:
   -
     group_name: "data-provider"
     config_key: providers
-    config_value: '{"smssync":true,"frontlinesms":true,"nexmo":true,"email":false,"twilio":true}'
+    config_value: '{"smssync":true,"frontlinesms":true,"nexmo":true,"email":false,"twilio":true,"africastalking":true}'
   -
     group_name: "data-provider"
     config_key: nexmo
+    config_value: '{"from":"","api_key":"","api_secret":""}'
+  -
+    group_name: "data-provider"
+    config_key: africastalking
     config_value: '{"from":"","api_key":"","api_secret":""}'
   -
     group_name: "data-provider"

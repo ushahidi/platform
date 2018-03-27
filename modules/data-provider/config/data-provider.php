@@ -23,13 +23,20 @@ return array(
 	),
 
 	// Config params for individual providers
+
+	// 'africastalking' => array(
+	// 	'from' => '',
+	// 	'api_key' => '',
+	// 	'api_secret' => ''
+	// ),
+
 	// 'nexmo' => array(
 	// 	'from' => '',
 	// 	'api_key' => '',
 	// 	'api_secret' => ''
 	// ),
 
-	// // 'twilio' => array(
+	// 'twilio' => array(
 	// 	'from' => '',
 	// 	'account_sid' => '',
 	// 	'auth_token' => '',

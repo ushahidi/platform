@@ -46,6 +46,15 @@ class Config extends API
 		return $val;
 	}
 
+	protected function formatAfricasTalking($val)
+	{
+		if ($this->config_group == 'data-provider') {
+			$val = (object) $val;
+		}
+
+		return $val;
+	}
+
 	protected function formatNexmo($val)
 	{
 		if ($this->config_group == 'data-provider') {
