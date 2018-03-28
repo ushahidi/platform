@@ -12,22 +12,22 @@
 use Ushahidi\Core\Data;
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\SearchData;
-use Ushahidi\Core\Entity\ContactPostStateRepository;
+use Ushahidi\Core\Entity\TargetedSurveyStateRepository;
 
 class Ushahidi_Repository_Contact_PostState extends Ushahidi_Repository implements
-	ContactPostStateRepository
+	TargetedSurveyStateRepository
 {
 	// Ushahidi_Repository
 	protected function getTable()
 	{
-		return 'contact_post_state';
+		return 'targeted_survey_state';
 	}
 
 	// CreateRepository
 	// ReadRepository
 	public function getEntity(Array $data = null)
 	{
-		return new Entity\ContactPostState($data);
+		return new Entity\TargetedSurveyState($data);
 	}
 
 	// SearchRepository

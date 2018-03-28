@@ -262,7 +262,7 @@ class Ushahidi_Repository_Form_Attribute extends Ushahidi_Repository implements
 		$results = $query->execute($this->db);
 		return $this->getEntity($results->current());
 	}
-	
+
 	public function getFirstByForm($form_id)
 	{
 		$query = $this->selectQuery([

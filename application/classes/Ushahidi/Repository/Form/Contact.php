@@ -19,7 +19,7 @@ class Ushahidi_Repository_Form_Contact extends Ushahidi_Repository implements
 {
 	use \Ushahidi\Core\Traits\Event;
 	protected $form_repo;
-	protected $contact_post_state_repo;
+	protected $targeted_survey_state_repo;
 
 	/**
 	 * Construct
@@ -187,10 +187,10 @@ class Ushahidi_Repository_Form_Contact extends Ushahidi_Repository implements
 	}
 
 	private function contactPostStateJoin($query) {
-		return $query->join('contact_post_state', 'INNER')
-			->on('contacts.id', '=', 'contact_post_state.contact_id')
+		return $query->join('targeted_survey_state', 'INNER')
+			->on('contacts.id', '=', 'targeted_survey_state.contact_id')
 			->join('posts', 'INNER')
-			->on('posts.id', '=', 'contact_post_state.post_id');
+			->on('posts.id', '=', 'targeted_survey_state.post_id');
 
 	}
 	public function getSearchTotal() {

@@ -2,7 +2,7 @@
 
 use Phinx\Migration\AbstractMigration;
 
-class ContactPostState extends AbstractMigration
+class TargetedSurveyState extends AbstractMigration
 {
     /**
      * Change Method.
@@ -23,7 +23,7 @@ class ContactPostState extends AbstractMigration
      *    addForeignKey
      *
      * Remember to call "create()" or "update()" and NOT "save()" when working
-     * with the Table class. contact_post_state table: post_id, status, contact_id
+     * with the Table class. targeted_survey_state table: post_id, status, contact_id
 
 	 */
 
@@ -32,7 +32,7 @@ class ContactPostState extends AbstractMigration
 	 */
 	public function up()
 	{
-		$this->table('contact_post_state')
+		$this->table('targeted_survey_state')
 			->addColumn('post_id', 'integer', ['null' => false])
 			->addColumn('contact_id', 'integer', ['null' => false])
 			->addColumn('status', 'string', ['null' => false, 'default' => 'PENDING'])
@@ -54,6 +54,6 @@ class ContactPostState extends AbstractMigration
 	 */
 	public function down()
 	{
-		$this->dropTable('contact_post_state');
+		$this->dropTable('targeted_survey_state');
 	}
 }

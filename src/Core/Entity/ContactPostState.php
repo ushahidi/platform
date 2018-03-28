@@ -13,7 +13,7 @@ namespace Ushahidi\Core\Entity;
 
 use Ushahidi\Core\StaticEntity;
 
-class ContactPostState extends StaticEntity
+class TargetedSurveyState extends StaticEntity
 {
 	protected $post_id;
 	protected $status;
@@ -32,6 +32,6 @@ class ContactPostState extends StaticEntity
 	// Entity
 	public function getResource()
 	{
-		return 'contact_post_states';
+		return 'targeted_survey_states';
 	}
 }

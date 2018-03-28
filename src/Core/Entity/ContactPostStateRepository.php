@@ -14,7 +14,7 @@ namespace Ushahidi\Core\Entity;
 use Ushahidi\Core\Entity\Repository\EntityGet;
 use Ushahidi\Core\Entity\Repository\EntityExists;
 
-interface ContactPostStateRepository extends
+interface TargetedSurveyStateRepository extends
 	EntityGet,
 	EntityExists
 {
