@@ -117,7 +117,9 @@ class Ushahidi_Listener_ContactListener extends AbstractListener
 			}
 			//contact post state
 			$contactPostState = $this->targeted_survey_state->getEntity();
-			$contactPostState->setState(array('post_id' => $postId, 'contact_id' => $contactId, 'status' => 'pending'));
+			$contactPostState->setState(
+				array('form_attribute_id'=> $firstAttribute->id, 'form_id' => $form_id, 'post_id' => $postId, 'contact_id' => $contactId, 'status' => 'pending')
+			);
 
 			$contactPostStateId = $this->targeted_survey_state->create($contactPostState);
 			$result[] = $contactPostStateId;

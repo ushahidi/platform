@@ -446,12 +446,12 @@ abstract class Ushahidi_Core {
 		$di->set('repository.layer', $di->lazyNew('Ushahidi_Repository_Layer'));
 		$di->set('repository.media', $di->lazyNew('Ushahidi_Repository_Media'));
 		$di->set('repository.message', $di->lazyNew('Ushahidi_Repository_Message'));
-		$di->set('repository.targeted_survey_state', $di->lazyNew('Ushahidi_Repository_Contact_PostState'));
+		$di->set('repository.targeted_survey_state', $di->lazyNew('Ushahidi_Repository_TargetedSurveyState'));
 		$di->set('repository.post', $di->lazyNew('Ushahidi_Repository_Post'));
 		$di->set('repository.csv_post', $di->lazyNew('Ushahidi_Repository_CSVPost'));
 		$di->set('repository.post_lock', $di->lazyNew('Ushahidi_Repository_Post_Lock'));
 		$di->set('repository.tag', $di->lazyNew('Ushahidi_Repository_Tag'));
-        $di->set('repository.targeted_survey_state', $di->lazyNew('Ushahidi_Repository_TargetedSurveyState'));
+        //$di->set('repository.targeted_survey_state', $di->lazyNew('Ushahidi_Repository_TargetedSurveyState'));
 		$di->set('repository.set', $di->lazyNew('Ushahidi_Repository_Set'));
 		$di->set('repository.savedsearch', $di->lazyNew(
 			'Ushahidi_Repository_Set',

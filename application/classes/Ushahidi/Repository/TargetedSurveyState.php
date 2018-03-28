@@ -5,15 +5,13 @@
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Application
- * @copyright  2018 Ushahidi
+ * @copyright  2014 Ushahidi
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
 use Ushahidi\Core\Data;
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\SearchData;
-use Ushahidi\Core\Entity\FormRepository;
-//use Ushahidi\Core\Entity\ContactRepository;
 use Ushahidi\Core\Entity\TargetedSurveyStateRepository;
 
 class Ushahidi_Repository_TargetedSurveyState extends Ushahidi_Repository implements
@@ -32,20 +30,31 @@ class Ushahidi_Repository_TargetedSurveyState extends Ushahidi_Repository implem
 		return new Entity\TargetedSurveyState($data);
 	}
 
-    // UpdateRepository
-    public function update(Entity $entity)
-    {
-        $state = [
-            'updated'  => time(),
-        ];
-        return parent::update($entity->setState($state));
-    }
-
 	// SearchRepository
 	public function getSearchFields()
 	{
-		return ['form_id', 'contact_id', 'last_sent_form_attribute_id'];
+		return ['post_id', 'contact_id', 'status', 'form_id', 'form_attribute_id'];
 	}
+
+	// ContactRepository
+	public function getByContact($contact, $type)
+	{
+		return $this->getEntity($this->selectOne(compact('contact', 'type')));
+	}
+
+	public function getByPost($post)
+	{
+		return new Entity\Post($this->selectOne(compact('post')));
+	}
+	////////
+	// UpdateRepository
+//	public function update(Entity $entity)
+//	{
+//		$state = [
+//			'updated'  => time(),
+//		];
+//		return parent::update($entity->setState($state));
+//	}
 
 	public function getByContactId($contact_id)
 	{

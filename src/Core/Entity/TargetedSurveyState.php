@@ -18,21 +18,18 @@ class TargetedSurveyState extends StaticEntity
     protected $id;
 	protected $form_id;
 	protected $contact_id;
-	protected $last_sent_form_attribute_id;
+	protected $form_attribute_id;
+	protected $post_id;
 
 	// DataTransformer
 	protected function getDefinition()
 	{
-		$typeColor = function ($color) {
-			if ($color) {
-				return ltrim($color, '#');
-			}
-		};
 		return [
             'id'          => 'int',
 			'form_id'          => 'int',
 			'contact_id'       => 'int',
-            'last_sent_form_attribute_id'   => 'int',
+            'form_attribute_id'   => 'int',
+			'post_id' => 'int'
 		];
 	}
     protected function getDerived()
@@ -40,7 +37,8 @@ class TargetedSurveyState extends StaticEntity
         return [
             'contact_id' => ['contact', 'contact.id'],
             'form_id' => ['form', 'form.id'],
-            'last_sent_form_attribute_id' => ['form_attribute', 'form_attribute.id'],
+            'form_attribute_id' => ['form_attribute', 'form_attribute.id'],
+			'post_id' => ['post', 'post.id'],
         ];
     }
 	// Entity
