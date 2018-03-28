@@ -989,12 +989,12 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		$count = $this->executeUpdate(['id' => $entity->id], $post);
 
 		$values = $entity->values;
+
 		// Handle legacy post.tags attribute
 		if ($entity->hasChanged('tags'))
 		{
 			// Find first tag attribute
 			list($attr_id, $attr_key) = $this->getFirstTagAttr($entity->form_id);
-
 			// If we don't have tags in the values, use the post.tags value
 			if ($attr_key && !isset($values[$attr_key])) {
 				$values[$attr_key] = $entity->tags;
@@ -1013,14 +1013,69 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 			$this->updatePostStages($entity->id, $entity->form_id, $entity->completed_stages);
 		}
 
+		// TODO: Revist post-Kohana
+		// This might be better placed in the usecase but
+		// given Kohana's future I've put it here
+		$this->emit($this->event, $entity->id, 'update');
+
 		if ($this->post_lock_repo->isActive($entity->id)) {
 			$this->post_lock_repo->releaseLock($entity->id);
 		}
 
+
 		return $count;
 	}
 
-	protected function updatePostValues($post_id, $attributes, $update = true)
+	// UpdateRepository
+	public function updateFromService(Entity $entity)
+	{
+		$post = $entity->getChanged();
+		$post['updated'] = time();
+		// Remove attribute values and tags
+		unset($post['values'], $post['tags'], $post['completed_stages'], $post['sets'], $post['source'], $post['color']);
+		// Convert post_date to mysql format
+		if(!empty($post['post_date'])) {
+			$post['post_date'] = $post['post_date']->format("Y-m-d H:i:s");
+		}
+		$count = $this->executeUpdate(['id' => $entity->id], $post);
+		$values = $entity->values;
+		// Handle legacy post.tags attribute
+		if ($entity->hasChanged('tags'))
+		{
+			// Find first tag attribute
+			list($attr_id, $attr_key) = $this->getFirstTagAttr($entity->form_id);
+			// If we don't have tags in the values, use the post.tags value
+			if ($attr_key && !isset($values[$attr_key])) {
+				$values[$attr_key] = $entity->tags;
+			}
+		}
+		if ($entity->hasChanged('values') || $entity->hasChanged('tags'))
+		{
+			// Update post-values
+			$this->updatePostValues($entity->id, $values, true, false);
+		}
+		if ($entity->hasChanged('completed_stages'))
+		{
+			// Update post-stages
+			$this->updatePostStages($entity->id, $entity->form_id, $entity->completed_stages);
+		}
+		// TODO: Revist post-Kohana
+		// This might be better placed in the usecase but
+		// given Kohana's future I've put it here
+		$this->emit($this->event, $entity->id, 'update');
+		return $count;
+	}
+
+	public function delete(Entity $entity)
+	{
+		parent::delete($entity);
+		// TODO: Revist post-Kohana
+		// This might be better placed in the usecase but
+		// given Kohana's future I've put it here
+		//$this->emit($this->event, $entity->id, 'delete');
+	}
+
+	protected function updatePostValues($post_id, $attributes, $update = true, $deleteOld = true)
 	{
 		$user = $this->getUser();
 		$exclude_types = [];
@@ -1032,7 +1087,9 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 			$exclude_types[] = 'datetime';
 		}
 
-		$this->post_value_factory->proxy([], $exclude_types)->deleteAllForPost($post_id);
+		if ($update && $deleteOld) {
+			$this->post_value_factory->proxy([], $exclude_types)->deleteAllForPost($post_id);
+		}
 
 		foreach ($attributes as $key => $values)
 		{

@@ -78,7 +78,12 @@ class Controller_Ivr_Twilio extends Controller {
 			Kohana::$log->add(Log::ERROR, __("':digits' is not a valid IVR response", array(":digits" => $digits)));
 			return;
 		}
+		// Check if a form id is already associated with this data provider
+		if (isset($options['form_id'])) {
+			$additional_data['form_id'] = $options['form_id'];
+			$additional_data['inbound_fields'] = isset($options['inbound_fields']) ? $options['inbound_fields'] : NULL;
+		}
 
-		$provider->receive(Message_Type::IVR, $from, $message_text, $to, NULL, $message_sid);
+		$provider->receive(Message_Type::IVR, $from, $message_text, $to, $date = NULL, NULL, $message_sid, $additional_data);
 	}
 }

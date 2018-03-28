@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Ushahidi Role Authorizer
+ * Ushahidi ApiKey Authorizer
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Application
@@ -16,40 +16,40 @@ use Ushahidi\Core\Tool\Authorizer;
 use Ushahidi\Core\Traits\AdminAccess;
 use Ushahidi\Core\Traits\UserContext;
 use Ushahidi\Core\Traits\PrivAccess;
+use Ushahidi\Core\Traits\PrivateDeployment;
 
-class RoleAuthorizer implements Authorizer
+class ApiKeyAuthorizer implements Authorizer
 {
+	// The access checks are run under the context of a specific user
 	use UserContext;
+
+	// To check whether the user has admin access
+	use AdminAccess;
 
 	// It uses `PrivAccess` to provide the `getAllowedPrivs` method.
 	use PrivAccess;
-	
-	// Check if user has Admin access
-	use AdminAccess;
+
+	// It uses `PrivateDeployment` to check whether a deployment is private
+	use PrivateDeployment;
 
 	/* Authorizer */
 	public function isAllowed(Entity $entity, $privilege)
 	{
+
 		// These checks are run within the user context.
 		$user = $this->getUser();
-		
-        if ($privilege === 'delete' && $entity->protected === true) {
-            return false;
-        }
-		
-		// Only allow admin access
+
+		// Only logged in users have access if the deployment is private
+		if (!$this->canAccessDeployment($user)) {
+			return false;
+		}
+
+		// Admin is allowed access to everything
 		if ($this->isUserAdmin($user)) {
 			return true;
 		}
 
-        if ($user->getId() and $privilege === 'read') {
-            return true;
-        }
-        // All users are allowed to search forms.
-        if ($user->getId() and $privilege === 'search') {
-            return true;
-        }
-
+		// If no other access checks succeed, we default to denying access
 		return false;
 	}
 }
