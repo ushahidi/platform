@@ -12,6 +12,8 @@
 namespace Ushahidi\Core\Usecase\Form;
 
 // use Ushahidi\Core\Usecase\Concerns\IdentifyRecords;
+use Ushahidi\Core\Entity\FormStats;
+use Ushahidi\Core\Usecase\Concerns\IdentifyRecords;
 use Ushahidi\Core\Usecase\SearchUsecase;
 
 class SearchFormStats extends SearchUsecase
@@ -38,12 +40,12 @@ class SearchFormStats extends SearchUsecase
         // ... pass the search information to the repo
         $this->repo->setSearchParams($search);
 
-        $results = array('total_recipients' => 0, 'total_responses' => 0);
-        // ... get the results of the search
-        $results['total_recipients'] = $this->repo->getRecipients();
-        $results['total_responses'] = $this->repo->getResponses();
-
+        $results = array(
+        	'total_recipients' => $this->repo->getRecipients($this->getIdentifier('form_id')),
+			'total_responses' => $this->repo->getResponses($this->getIdentifier('form_id'))
+		);
+		$entity->setState($results);
         // ... and return the formatted results.
-        return $this->formatter->__invoke($results);
+        return $this->formatter->__invoke($entity);
     }
 }
