@@ -161,6 +161,37 @@ class Ushahidi_Repository_Form_Contact extends Ushahidi_Repository implements
 			->get('total');
 	}
 
+	public function getResponses($form_id)
+	{
+		$query = $this->selectQuery(array('posts.form_id' => $form_id))
+			->resetSelect()
+			->select([DB::expr('COUNT(distinct contact_id)')]);
+		$query = $this->contactPostStateJoin($query);
+		return (bool) $query
+			->execute($this->db);
+	}
+	/**
+	 * @param int $contact_id
+	 * @param int $form_id
+	 * @return bool
+	 */
+	public function getReceipients($form_id)
+	{
+		$query = $this->selectQuery(array('posts.form_id' => $form_id))
+			->resetSelect()
+			->select([DB::expr('COUNT(distinct contact_id)')]);
+		$query = $this->contactPostStateJoin($query);
+		return (bool) $query
+			->execute($this->db);
+	}
+
+	private function contactPostStateJoin($query) {
+		return $query->join('contact_post_state', 'INNER')
+			->on('contacts.id', '=', 'contact_post_state.contact_id')
+			->join('posts', 'INNER')
+			->on('posts.id', '=', 'contact_post_state.post_id');
+	}
+//SELECT COUNT(distinct contact_id) AS `total` FROM `contact_post_state` INNER JOIN `posts` ON (`posts`.`id` = `contact_post_state`.`post_id`) WHERE `posts`.`form_id` = 1;
 	/**
 	 * @param int $contact_id
 	 * @param int $form_id
@@ -186,13 +217,6 @@ class Ushahidi_Repository_Form_Contact extends Ushahidi_Repository implements
 		return $this->getCollection($results->as_array());
 	}
 
-	private function contactPostStateJoin($query) {
-		return $query->join('contact_post_state', 'INNER')
-			->on('contacts.id', '=', 'contact_post_state.contact_id')
-			->join('posts', 'INNER')
-			->on('posts.id', '=', 'contact_post_state.post_id');
-
-	}
 	public function getSearchTotal() {
 
 		// Assume we can simply count the results to get a total

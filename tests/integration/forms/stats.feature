@@ -7,7 +7,9 @@ Feature: Testing the Form Stats
         Then the response is JSON
         And the response has a "total_recipients" property
         And the type of the "total_recipients" property is "numeric"
+        And the "total_recipients" property equals "1"
         And the response has a "total_responses" property
         And the type of the "total_responses" property is "numeric"
+        And the "total_responses" property equals "0"
         Then the guzzle status code should be 200
     

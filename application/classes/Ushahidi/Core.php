@@ -414,6 +414,7 @@ abstract class Ushahidi_Core {
 
 		// Formatters
 		$di->set('formatter.entity.form.contact', $di->lazyNew('Ushahidi_Formatter_Form_Contact'));
+		$di->set('formatter.entity.form.stats', $di->lazyNew('Ushahidi_Formatter_Form_Stats'));
 		$di->set('formatter.entity.form.contactcollection', $di->lazyNew('Ushahidi_Formatter_Form_ContactCollection'));
 		$di->set('formatter.entity.api', $di->lazyNew('Ushahidi_Formatter_API'));
 		$di->set('formatter.entity.console', $di->lazyNew('Ushahidi_Formatter_Console'));

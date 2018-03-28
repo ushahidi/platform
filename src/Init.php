@@ -277,6 +277,10 @@ $di->params['Ushahidi\Factory\UsecaseFactory']['map']['form_contacts'] = [
 	'search'  => $di->lazyNew('Ushahidi\Core\Usecase\Form\SearchFormContact'),
 ];
 
+$di->params['Ushahidi\Factory\UsecaseFactory']['map']['form_stats'] = [
+	'search'  => $di->lazyNew('Ushahidi\Core\Usecase\Form\SearchFormStats'),
+];
+
 $di->params['Ushahidi\Factory\UsecaseFactory']['map']['form_stages'] = [
 	'create'  => $di->lazyNew('Ushahidi\Core\Usecase\Form\CreateFormStage'),
 	'read'    => $di->lazyNew('Ushahidi\Core\Usecase\Form\ReadFormStage'),

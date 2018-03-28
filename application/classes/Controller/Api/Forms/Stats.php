@@ -24,4 +24,14 @@ class Controller_Api_Forms_Stats extends Ushahidi_Rest {
 	{
 		return 'form_stats';
 	}
+
+	// Get Lock
+	public function action_get_index_collection()
+	{
+		$this->_usecase = service('factory.usecase')
+			->get($this->_resource(), 'search');
+		$this->_usecase->setIdentifiers($this->request->param());
+		$this->_usecase
+			->setFormatter(service("formatter.entity.form.stats"));
+	}
 }

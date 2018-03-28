@@ -14,7 +14,7 @@ use Ushahidi\Core\SearchData;
 use Ushahidi\Core\Entity\FormContactRepository;
 
 class Ushahidi_Repository_Form_Stats extends Ushahidi_Repository implements
-	FormContactRepository,
+	Entity\FormStatsRepository,
 	\Ushahidi\Core\Usecase\SearchRepository
 {
 	use \Ushahidi\Core\Traits\Event;
@@ -46,7 +46,7 @@ class Ushahidi_Repository_Form_Stats extends Ushahidi_Repository implements
 	// ReadRepository
 	public function getEntity(Array $data = null)
 	{
-		return new Entity\Contact($data);
+		return new Entity\FormStats($data);
 	}
 
 	// SearchRepository
@@ -64,37 +64,42 @@ class Ushahidi_Repository_Form_Stats extends Ushahidi_Repository implements
 			$query->where('form_id', '=', $search->form_id);
 		}
 	}
+	public function getResponses($form_id)
+	{
+		$query = $this->selectQuery(array('posts.form_id' => $form_id, 'messages.direction' => 'incoming'))
+			->resetSelect()
+			->select([DB::expr('COUNT(messages.id)'), 'total'])
+			->join('contact_post_state', 'INNER')
+				->on('contacts.id', '=', 'contact_post_state.contact_id')
+				->join('posts', 'INNER')
+				->on('posts.id', '=', 'contact_post_state.post_id')
+				->join('messages')
+				->on('messages.post_id', '=', 'contact_post_state.post_id');
+
+		return $query
+			->execute($this->db)
+			->get('total');
+	}
 	/**
+	 * @param int $contact_id
 	 * @param int $form_id
-	 * @return Entity|Entity\Contact
-	 * Returns all
+	 * @return bool
 	 */
-	public function getByForm($form_id)
+	public function getRecipients($form_id)
 	{
-		$query = $this->selectQuery(array('posts.form_id' => $form_id))
-			->select('contacts.*');
+		$query = $this->selectQuery(array('posts.form_id' => intval($form_id)))
+			->resetSelect()
+			->select([DB::expr('COUNT(distinct contact_id)'), 'total']);
 		$query = $this->contactPostStateJoin($query);
-		$results = $query->execute($this->db);
-
-		return $this->getCollection($results->as_array());
+		return $query
+			->execute($this->db)
+			->get('total');
 	}
 
-	/**
-	 * @param  int $contact_id
-	 * @param  int $form_id
-	 * @return [Ushahidi\Core\Entity\FormContact, ...]
-	 */
-	public function existsInFormContact($contact_id, $form_id)
-	{
-		// TODO: Implement existsInFormContact() method.
-	}
-
-	/**
-	 * @param  [Ushahidi\Core\Entity\FormContact, ...]  $entities
-	 * @return [Ushahidi\Core\Entity\FormContact, ...]
-	 */
-	public function updateCollection(array $entities)
-	{
-		// TODO: Implement updateCollection() method.
+	private function contactPostStateJoin($query) {
+		return $query->join('contact_post_state', 'INNER')
+			->on('contacts.id', '=', 'contact_post_state.contact_id')
+			->join('posts', 'INNER')
+			->on('posts.id', '=', 'contact_post_state.post_id');
 	}
 }
