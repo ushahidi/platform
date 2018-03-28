@@ -13,9 +13,10 @@
       - service: release
         command: release
 
-  - name: "Deploy"
+  - name: "Deploy QA"
     service: deploy
-    tag: develop
+    # tag: develop
+    tag: release/csv-export-2399
     command: >
       ANSIBLE_GITHUB_REPO=platform-cloud-ansible
       ANSIBLE_GITHUB_REPO_VERSION=master
