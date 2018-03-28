@@ -62,8 +62,8 @@ return [
 	],
 
 	// Post locking
-	'post-locking' => [
-		'enabled' => TRUE,
+	'targeted-surveys' => [
+		'enabled' => FALSE,
 	],
 
 	// Post locking
