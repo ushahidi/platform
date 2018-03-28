@@ -2,7 +2,7 @@
 
 use Phinx\Migration\AbstractMigration;
 
-class TargetedSurveyStateToTargetedSurvey extends AbstractMigration
+class ContactPostStateToTargetedSurvey extends AbstractMigration
 {
 
 	/**
