@@ -54,11 +54,11 @@ class TosAuthorizer implements Authorizer
             return false;
         }
 
-        if ($privilege === 'create') {
+        if ($user->getId() and $privilege === 'create') {
             return true;
         }
 
-        if ($privilege === 'search') {
+        if ($user->getId() and $privilege === 'search') {
             return true;
         }
 
