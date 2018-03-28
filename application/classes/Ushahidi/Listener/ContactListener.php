@@ -116,13 +116,13 @@ class Ushahidi_Listener_ContactListener extends AbstractListener
 				);
 			}
 			//contact post state
-			$contactPostState = $this->targeted_survey_state->getEntity();
-			$contactPostState->setState(
+			$targetedSurveyStatus = $this->targeted_survey_state->getEntity();
+			$targetedSurveyStatus->setState(
 				array('form_attribute_id'=> $firstAttribute->id, 'form_id' => $form_id, 'post_id' => $postId, 'contact_id' => $contactId, 'status' => 'pending')
 			);
 
-			$contactPostStateId = $this->targeted_survey_state->create($contactPostState);
-			$result[] = $contactPostStateId;
+			$targetedSurveyStatusId = $this->targeted_survey_state->create($targetedSurveyStatus);
+			$result[] = $targetedSurveyStatusId;
 		}
 		return $result;
 	}
