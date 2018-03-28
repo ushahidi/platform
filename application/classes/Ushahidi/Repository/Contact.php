@@ -24,6 +24,8 @@ class Ushahidi_Repository_Contact extends Ushahidi_Repository implements
 {
 	use UserContext;
 	use AdminAccess;
+	// Use Event trait to trigger events
+	// use \Ushahidi\Core\Traits\Event;
 
 	protected function getId(Entity $entity)
 	{
@@ -175,4 +177,5 @@ class Ushahidi_Repository_Contact extends Ushahidi_Repository implements
 
 		return $this->getCollection($results->as_array());
 	}
+
 }
