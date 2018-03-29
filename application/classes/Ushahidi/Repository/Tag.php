@@ -142,12 +142,6 @@ class Ushahidi_Repository_Tag extends Ushahidi_Repository implements
 		return $query->get('total') > 0;
 	}
 
-	// UpdateTagRepository
-	public function isSlugAvailable($slug)
-	{
-		return $this->selectCount(compact('slug')) === 0;
-	}
-
 	public function delete(Entity $entity)
 	{
 		// Remove tag from attribute options
