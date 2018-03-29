@@ -75,7 +75,7 @@ class Ushahidi_Repository_Form_Stats extends Ushahidi_Repository implements
 				->on('posts.id', '=', 'contact_post_state.post_id')
 				->join('messages')
 				->on('messages.post_id', '=', 'contact_post_state.post_id');
-
+		echo $query->compile();die;
 		return $query
 			->execute($this->db)
 			->get('total');
