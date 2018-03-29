@@ -21,6 +21,12 @@ class Ushahidi_Listener_IncomingMessageListener extends AbstractListener
 {
 	protected $form_attr_repo;
 	protected $targeted_survey_state_repo;
+	protected $message_repo;
+
+	public function setMessageRepo(MessageRepository $repo) {
+		$this->message_repo = $repo;
+	}
+
     public function setFormAttributeRepo(FormAttributeRepository $repo)
 	{
 		$this->form_attr_repo = $repo;
@@ -33,7 +39,8 @@ class Ushahidi_Listener_IncomingMessageListener extends AbstractListener
 
     public function handle(EventInterface $event, $event_data = [])
     {
-        /* @TODO: determing how should we mark a survey as done —> we don't, right now*/
+        /* @TODO: determing how should we mark a survey as done —> we don't, right now */
+
         $targetedSurveyStateEntity = $this->targeted_survey_state_repo->getByContactId($event_data['contact_id']);
         Kohana::$log->add(
         	Log::INFO,
@@ -51,16 +58,15 @@ class Ushahidi_Listener_IncomingMessageListener extends AbstractListener
         Kohana::$log->add(
         	Log::INFO, 'Here is the next form attribute:'.print_r($next_form_attribute, true)
 		);
-
+        // get last message
+		$last_message = $this->form_attr_repo->getEntity($targetedSurveyStateEntity->form_attribute_id);
         if($next_form_attribute->getId() > 0)
         {
             $new_message = $message_repo->getEntity();
             // @TODO: grab the post_id from the last message/attribute, attach it to this new message --
-            //$post_id = $last_message->post_id;
-
             $messageState = array(
 				'contact_id' => $event_data['contact_id'],
-				//'post_id' => $postId,
+				'post_id' => $next_form_attribute->getFormByStageId($last_message->stage_id),
 				'title' => $next_form_attribute->label,
 				'message' => $next_form_attribute->label,
 				'status' => 'pending',
