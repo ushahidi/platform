@@ -18,7 +18,7 @@ Feature: Testing the Country Codes API
         And that the request "Authorization" header is "Bearer testbasicuser"
         When I request "/country-codes"
         Then the response is JSON
-        Then the guzzle status code should be 400
+        Then the guzzle status code should be 403
 
     @resetFixture
     Scenario: Anonymous users cannot get Country Codes

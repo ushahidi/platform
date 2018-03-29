@@ -1568,6 +1568,9 @@ oauth_session_token_scopes:
   -
     session_access_token_id: 3
     scope_id: 21
+  -
+    session_access_token_id: 3
+    scope_id: 23
 
   # for testadminuser
   -
