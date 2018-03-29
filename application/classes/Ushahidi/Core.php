@@ -815,10 +815,10 @@ abstract class Ushahidi_Core {
 		$di->setter['Ushahidi_Listener_PostListener']['setWebhookRepo'] =
 			$di->lazyGet('repository.webhook');
 
-        // form attribute repo for Post listener
+        // form attribute repo for Incoming Message Listener
     	$di->setter['Ushahidi_Listener_IncomingMessageListener']['setFormAttributeRepo'] =
     			$di->lazyGet('repository.form_attribute');
-        // form attribute repo for Post listener
+        // form TargetedSurveyState repo for Incoming Message Listener
         $di->setter['Ushahidi_Listener_IncomingMessageListener']['setTargetedSurveyStateRepo'] =
                 $di->lazyGet('repository.targeted_survey_state');
 
