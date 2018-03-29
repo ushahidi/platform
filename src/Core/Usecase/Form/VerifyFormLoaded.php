@@ -59,7 +59,7 @@ trait VerifyFormLoaded
 	 * @param  Data $input
 	 * @return void
 	 */
-	protected function verifyFormDoesNoExistInContactPostState()
+	protected function verifyFormDoesNoExistInTargetedSurveyState()
 	{
 		// Ensure that the form exists.
 		if ($this->form_contact_repo->formExistsInPostStateRepo($this->getRequiredIdentifier('form_id'))) {

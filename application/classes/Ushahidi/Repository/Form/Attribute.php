@@ -185,7 +185,6 @@ class Ushahidi_Repository_Form_Attribute extends Ushahidi_Repository implements
 	// FormAttributeRepository
 	public function getByKey($key, $form_id = null, $include_no_form = false)
 	{
-
 		$query = $this->selectQuery([], $form_id)
 			->select('form_attributes.*')
 			->join('form_stages', 'LEFT')
@@ -234,13 +233,36 @@ class Ushahidi_Repository_Form_Attribute extends Ushahidi_Repository implements
 		return $this->getCollection($results->as_array());
 	}
 
-	/**
+    //@TODO: looks up the form_stage, then form_id,
+    //  then finds whats next, then returns an entity for the
+    //  next FormAttribute
+    /**
 	 * @param int $form_id
 	 * @return Entity|FormAttribute
 	 *
 	 * Selects the first attribute of the first stage
 	 * and returns it as a FormAttribute entity
 	 */
+	public function getNextByFormAttribute($form_id, $last_attribute_id)
+	{
+        //grab the full entity record of the last attribute sent
+
+        //then get the next attribute for sending
+        $last_attribute = $this->get($last_attribute_id);
+        $query = $this->selectQuery()
+			->select('form_attributes.*')
+			->join('form_stages', 'INNER')
+			->on('form_stages.id', '=', 'form_attributes.form_stage_id')
+            ->where('form_stages.priority', '>', $last_attribute->priority)
+            ->where('form_stages.form_id', '=', $form_id)
+            ->order_by('form_stages.priority', 'ASC')
+			->order_by('form_attributes.priority', 'ASC')
+            ->limit(1);
+
+		$results = $query->execute($this->db);
+		return $this->getEntity($results->current());
+	}
+
 	public function getFirstByForm($form_id)
 	{
 		$query = $this->selectQuery([

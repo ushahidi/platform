@@ -17,6 +17,8 @@ use Ushahidi\Core\Usecase\Message\CreateMessageRepository;
 use Ushahidi\Core\Usecase\Message\UpdateMessageRepository;
 use Ushahidi\Core\Usecase\Message\DeleteMessageRepository;
 use Ushahidi\Core\Usecase\Message\MessageData;
+use Ushahidi\Core\Traits\Event;
+
 
 class Ushahidi_Repository_Message extends Ushahidi_Repository implements
 	MessageRepository,
@@ -25,6 +27,7 @@ class Ushahidi_Repository_Message extends Ushahidi_Repository implements
 {
 	// Use the JSON transcoder to encode properties
 	use Ushahidi_JsonTranscodeRepository;
+    use Event;
 
 	// Ushahidi_Repository
 	protected function getTable()
@@ -125,6 +128,12 @@ class Ushahidi_Repository_Message extends Ushahidi_Repository implements
 			}
 		}
 	}
+
+    public function emitReceivedMessageEventForContact($contact_id)
+    {
+        $this->emit($this->event, ['contact_id' => $contact_id,
+                                    'message_repo' => $this]);
+    }
 
 	// MessageRepository
 	public function getPendingMessages($status, $data_provider, $limit)

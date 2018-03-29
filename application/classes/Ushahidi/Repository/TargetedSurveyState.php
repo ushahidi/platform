@@ -12,28 +12,28 @@
 use Ushahidi\Core\Data;
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\SearchData;
-use Ushahidi\Core\Entity\ContactPostStateRepository;
+use Ushahidi\Core\Entity\TargetedSurveyStateRepository;
 
-class Ushahidi_Repository_Contact_PostState extends Ushahidi_Repository implements
-	ContactPostStateRepository
+class Ushahidi_Repository_TargetedSurveyState extends Ushahidi_Repository implements
+	TargetedSurveyStateRepository
 {
 	// Ushahidi_Repository
 	protected function getTable()
 	{
-		return 'contact_post_state';
+		return 'targeted_survey_state';
 	}
 
 	// CreateRepository
 	// ReadRepository
 	public function getEntity(Array $data = null)
 	{
-		return new Entity\ContactPostState($data);
+		return new Entity\TargetedSurveyState($data);
 	}
 
 	// SearchRepository
 	public function getSearchFields()
 	{
-		return ['post_id', 'contact_id', 'status'];
+		return ['post_id', 'contact_id', 'status', 'form_id', 'form_attribute_id'];
 	}
 
 	// ContactRepository
@@ -45,5 +45,24 @@ class Ushahidi_Repository_Contact_PostState extends Ushahidi_Repository implemen
 	public function getByPost($post)
 	{
 		return new Entity\Post($this->selectOne(compact('post')));
+	}
+	////////
+	// UpdateRepository
+//	public function update(Entity $entity)
+//	{
+//		$state = [
+//			'updated'  => time(),
+//		];
+//		return parent::update($entity->setState($state));
+//	}
+
+	public function getByContactId($contact_id)
+	{
+		return $this->getEntity($this->selectOne(compact('contact_id')));
+	}
+
+	public function getByForm($form)
+	{
+		return new Entity\Form($this->selectOne(compact('form')));
 	}
 }

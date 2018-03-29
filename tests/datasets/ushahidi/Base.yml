@@ -1039,6 +1039,20 @@ posts:
     created: 1412025016
     published_to: '[]'
     post_date: "2014-09-29 14:10:16"
+  -
+    id: 1696
+    form_id: 7
+    parent_id:
+    author_email: ""
+    author_realname: ""
+    title: "Test outbound message"
+    type: "report"
+    content: "Second Post to test that we count sent messages in recipients"
+    status: "draft"
+    locale: "en_us"
+    created: 1412025016
+    published_to: '[]'
+    post_date: "2014-09-29 14:10:16"
 post_locks:
   -
     id: 1
@@ -2060,6 +2074,12 @@ contacts:
     type: "phone"
     contact: 099999992
     user_id:
+  -
+    id: 8
+    contact: targetesurveys4@testing
+    type: "phone"
+    contact: 0999999933
+    user_id:
 
 messages:
   -
@@ -2195,6 +2215,18 @@ messages:
     user_id:
     datetime:
     data_provider:
+  -
+    id: 13
+    title: "Test outbound message"
+    message: "A test message"
+    type: "sms"
+    direction: "outgoing"
+    status: "pending"
+    contact_id: 8
+    post_id: 1696
+    user_id:
+    datetime:
+    data_provider:
 layers:
   -
     id: 1
@@ -2324,4 +2356,8 @@ targeted_survey_state:
     contact_id: 7
     status: 'PENDING'
     form_id: 7
-  
+  -
+    post_id: 1696
+    contact_id: 8
+    status: 'PENDING'
+    form_id: 7

@@ -18,7 +18,7 @@ use \Ushahidi\Core\Entity\ContactRepository;
 use \Ushahidi\Core\Entity\PostRepository;
 use \Ushahidi\Core\Entity\MessageRepository;
 use \Ushahidi\Core\Entity\FormAttributeRepository;
-use \Ushahidi\Core\Entity\ContactPostStateRepository;
+use \Ushahidi\Core\Entity\TargetedSurveyStateRepository;
 
 class Ushahidi_Listener_ContactListener extends AbstractListener
 {
@@ -27,7 +27,7 @@ class Ushahidi_Listener_ContactListener extends AbstractListener
 	protected $form_repo;
 	protected $message_repo;
 	protected $form_attribute_repo;
-	protected $contact_post_state;
+	protected $targeted_survey_state;
 
 	public function setRepo(ContactRepository $repo)
 	{
@@ -55,9 +55,9 @@ class Ushahidi_Listener_ContactListener extends AbstractListener
 		$this->form_attribute_repo = $repo;
 	}
 
-	public function setContactPostStateRepo(ContactPostStateRepository $repo)
+	public function setTargetedSurveyStateRepo(TargetedSurveyStateRepository $repo)
 	{
-		$this->contact_post_state = $repo;
+		$this->targeted_survey_state = $repo;
 	}
 
 	public function handle(EventInterface $event, $contactIds = null , $form_id = null, $event_type = null)
@@ -116,11 +116,13 @@ class Ushahidi_Listener_ContactListener extends AbstractListener
 				);
 			}
 			//contact post state
-			$contactPostState = $this->contact_post_state->getEntity();
-			$contactPostState->setState(array('post_id' => $postId, 'contact_id' => $contactId, 'status' => 'pending'));
+			$targetedSurveyStatus = $this->targeted_survey_state->getEntity();
+			$targetedSurveyStatus->setState(
+				array('form_attribute_id'=> $firstAttribute->id, 'form_id' => $form_id, 'post_id' => $postId, 'contact_id' => $contactId, 'status' => 'pending')
+			);
 
-			$contactPostStateId = $this->contact_post_state->create($contactPostState);
-			$result[] = $contactPostStateId;
+			$targetedSurveyStatusId = $this->targeted_survey_state->create($targetedSurveyStatus);
+			$result[] = $targetedSurveyStatusId;
 		}
 		return $result;
 	}

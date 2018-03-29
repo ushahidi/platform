@@ -440,7 +440,7 @@ abstract class Ushahidi_Core {
 
 		// Repositories
 		$di->set('repository.config', $di->lazyNew('Ushahidi_Repository_Config'));
-		$di->set('repository.contact', $di->lazyNew('Ushahidi_Repository_Contact'));		
+		$di->set('repository.contact', $di->lazyNew('Ushahidi_Repository_Contact'));
 		$di->set('repository.dataprovider', $di->lazyNew('Ushahidi_Repository_Dataprovider'));
 		$di->set('repository.form', $di->lazyNew('Ushahidi_Repository_Form'));
 		$di->set('repository.form_role', $di->lazyNew('Ushahidi_Repository_Form_Role'));
@@ -451,11 +451,12 @@ abstract class Ushahidi_Core {
 		$di->set('repository.layer', $di->lazyNew('Ushahidi_Repository_Layer'));
 		$di->set('repository.media', $di->lazyNew('Ushahidi_Repository_Media'));
 		$di->set('repository.message', $di->lazyNew('Ushahidi_Repository_Message'));
-		$di->set('repository.contact_post_state', $di->lazyNew('Ushahidi_Repository_Contact_PostState'));
+		$di->set('repository.targeted_survey_state', $di->lazyNew('Ushahidi_Repository_TargetedSurveyState'));
 		$di->set('repository.post', $di->lazyNew('Ushahidi_Repository_Post'));
 		$di->set('repository.csv_post', $di->lazyNew('Ushahidi_Repository_CSVPost'));
 		$di->set('repository.post_lock', $di->lazyNew('Ushahidi_Repository_Post_Lock'));
 		$di->set('repository.tag', $di->lazyNew('Ushahidi_Repository_Tag'));
+        //$di->set('repository.targeted_survey_state', $di->lazyNew('Ushahidi_Repository_TargetedSurveyState'));
 		$di->set('repository.set', $di->lazyNew('Ushahidi_Repository_Set'));
 		$di->set('repository.savedsearch', $di->lazyNew(
 			'Ushahidi_Repository_Set',
@@ -535,8 +536,8 @@ abstract class Ushahidi_Core {
 		$di->setter['Ushahidi_Listener_ContactListener']['setMessageRepo'] =
 			$di->lazyGet('repository.message');
 
-		$di->setter['Ushahidi_Listener_ContactListener']['setContactPostStateRepo'] =
-			$di->lazyGet('repository.contact_post_state');
+		$di->setter['Ushahidi_Listener_ContactListener']['setTargetedSurveyStateRepo'] =
+			$di->lazyGet('repository.targeted_survey_state');
 
 		$di->setter['Ushahidi_Repository_Form_Contact']['setListener'] =
 			$di->lazyNew('Ushahidi_Listener_ContactListener');
@@ -824,6 +825,13 @@ abstract class Ushahidi_Core {
 		$di->setter['Ushahidi_Listener_PostListener']['setWebhookRepo'] =
 			$di->lazyGet('repository.webhook');
 
+        // form attribute repo for Incoming Message Listener
+    	$di->setter['Ushahidi_Listener_IncomingMessageListener']['setFormAttributeRepo'] =
+    			$di->lazyGet('repository.form_attribute');
+        // form TargetedSurveyState repo for Incoming Message Listener
+        $di->setter['Ushahidi_Listener_IncomingMessageListener']['setTargetedSurveyStateRepo'] =
+                $di->lazyGet('repository.targeted_survey_state');
+
 		// Add Intercom Listener to Config
 		$di->setter['Ushahidi_Repository_Config']['setEvent'] = 'ConfigUpdateEvent';
 		$di->setter['Ushahidi_Repository_Config']['setListener'] =
@@ -838,6 +846,11 @@ abstract class Ushahidi_Core {
 		$di->setter['Ushahidi_Repository_User']['setEvent'] = 'UserGetAllEvent';
 		$di->setter['Ushahidi_Repository_User']['setListener'] =
 			$di->lazyNew('Ushahidi_Listener_IntercomAdminListener');
+
+       // Add Listener to Message repository
+       $di->setter['Ushahidi_Repository_Message']['setEvent'] = 'IncomingMessageEvent';
+        $di->setter['Ushahidi_Repository_Message']['setListener'] =
+        $di->lazyNew('Ushahidi_Listener_IncomingMessageListener');
 
 		// Add Lock Listener
 		$di->setter['Ushahidi_Repository_Post_Lock']['setEvent'] = 'LockBroken';

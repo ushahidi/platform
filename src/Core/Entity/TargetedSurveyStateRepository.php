@@ -1,11 +1,11 @@
 <?php
 
 /**
- * Repository for Contacts
+ * Repository for TargetedSurveyState
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Platform
- * @copyright  2014 Ushahidi
+ * @copyright  2018 Ushahidi
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
@@ -14,21 +14,15 @@ namespace Ushahidi\Core\Entity;
 use Ushahidi\Core\Entity\Repository\EntityGet;
 use Ushahidi\Core\Entity\Repository\EntityExists;
 
-interface ContactPostStateRepository extends
+interface TargetedSurveyStateRepository extends
 	EntityGet,
 	EntityExists
 {
 
 	/**
 	 * @param string  $contact
-	 * @param string  $type
 	 * @return boolean
 	 */
-	public function getByContact($contact, $type);
-	/**
-	 * @param string  $contact
-	 * @param string  $type
-	 * @return boolean
-	 */
-	public function getByPost($post);
+	public function getByContactId($contact_id);
+
 }

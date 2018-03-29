@@ -1,7 +1,7 @@
 Feature: Testing the Form Stats
     @resetFixture
     Scenario: Getting the number of recipients who received an sms targeted survey
-        Given that I want to count all "ContactPostState"
+        Given that I want to count all "TargetedSurveyState"
         And that the request "Authorization" header is "Bearer testadminuser"
         When I request "/forms/6/stats"
         Then the response is JSON
@@ -14,14 +14,14 @@ Feature: Testing the Form Stats
         Then the guzzle status code should be 200
     @resetFixture
     Scenario: Getting the number of recipients who received an sms targeted survey
-        Given that I want to count all "ContactPostState"
+        Given that I want to count all "TargetedSurveyState"
         And that the request "Authorization" header is "Bearer testadminuser"
         When I request "/forms/7/stats"
         Then the response is JSON
         And the response has a "total_recipients" property
         And the type of the "total_recipients" property is "numeric"
-        And the "total_recipients" property equals "2"
+        And the "total_recipients" property equals "3"
         And the response has a "total_responses" property
         And the type of the "total_responses" property is "numeric"
-        And the "total_responses" property equals "1"
+        And the "total_responses" property equals "2"
         Then the guzzle status code should be 200

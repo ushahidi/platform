@@ -91,25 +91,37 @@ class ReceiveMessage extends CreateUsecase
 		// ... verify that the message entity is in a valid state
 		$this->verifyValid($entity);
 
-		// Find or create contact
+		// Find or create contact based on >$this->getPayload('from')
 		$contact = $this->getContactEntity();
 
 		// ... verify the contact is valid
 		$this->verifyValidContact($contact);
 
-		// ... create contact for message
-		$contact_id = $this->createContact($contact);
-		$entity->setState(compact('contact_id'));
+      // ... create contact for message
+      $contact_id = $this->createContact($contact);
+      $entity->setState(compact('contact_id'));
 
-		// ... create post for message
-		$post_id = $this->createPost($entity);
-		$entity->setState(compact('post_id'));
+      $post_id = null;
+      // check if contact is part of an open targeted_survey.
+      if($this->isContactInTargetedSurvey($contact_id))
+      {
+        //@TODO: then throw an Event that we received a targeted survey response
+        // and deal with sending new messages from there
+         $this->repo->emitReceivedMessageEventForContact($contact_id);
 
-		// ... persist the new message entity
-		$id = $this->repo->create($entity);
+      }else { // don't throw an event
+          // ... create post for message
+          $post_id = $this->createPost($entity);
 
-		// ... and return message id
-		return $id;
+          // ... persist the new message entity
+      }
+      if($post_id)
+       {   $entity->setState(compact('post_id')); }
+
+      $id = $this->repo->create($entity);
+
+	  // ... and return message id
+      return $id;
 	}
 
 	/**
@@ -141,9 +153,13 @@ class ReceiveMessage extends CreateUsecase
 				'data_provider' => $this->getPayload('data_provider'),
 			]);
 		}
-
 		return $contact;
 	}
+
+    protected function isContactInTargetedSurvey($contact_id)
+    {
+        return $this->contactRepo->isInTargetedSurvey($contact_id);
+    }
 
 	/**
 	 * Create contact (if its new)
@@ -272,5 +288,12 @@ class ReceiveMessage extends CreateUsecase
 	protected function verifyReceiveAuth(Entity $entity)
 	{
 		$this->verifyAuth($entity, 'receive');
+	}
+
+	/**
+	 * @return void
+	 */
+	public function isInTargetedSurvey($argument1)
+	{
 	}
 }

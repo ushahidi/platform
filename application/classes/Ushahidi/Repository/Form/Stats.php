@@ -19,7 +19,7 @@ class Ushahidi_Repository_Form_Stats extends Ushahidi_Repository implements
 {
 	use \Ushahidi\Core\Traits\Event;
 	protected $form_repo;
-	protected $contact_post_state_repo;
+	protected $targeted_survey_state_repo;
 
 	/**
 	 * Construct
@@ -69,13 +69,12 @@ class Ushahidi_Repository_Form_Stats extends Ushahidi_Repository implements
 		$query = $this->selectQuery(array('posts.form_id' => $form_id, 'messages.direction' => 'incoming'))
 			->resetSelect()
 			->select([DB::expr('COUNT(messages.id)'), 'total'])
-			->join('contact_post_state', 'INNER')
-				->on('contacts.id', '=', 'contact_post_state.contact_id')
+			->join('targeted_survey_state', 'INNER')
+				->on('contacts.id', '=', 'targeted_survey_state.contact_id')
 				->join('posts', 'INNER')
-				->on('posts.id', '=', 'contact_post_state.post_id')
+				->on('posts.id', '=', 'targeted_survey_state.post_id')
 				->join('messages')
-				->on('messages.post_id', '=', 'contact_post_state.post_id');
-		echo $query->compile();die;
+				->on('messages.post_id', '=', 'targeted_survey_state.post_id');
 		return $query
 			->execute($this->db)
 			->get('total');
@@ -90,16 +89,16 @@ class Ushahidi_Repository_Form_Stats extends Ushahidi_Repository implements
 		$query = $this->selectQuery(array('posts.form_id' => intval($form_id)))
 			->resetSelect()
 			->select([DB::expr('COUNT(distinct contact_id)'), 'total']);
-		$query = $this->contactPostStateJoin($query);
+		$query = $this->targetedSurveyStateJoin($query);
 		return $query
 			->execute($this->db)
 			->get('total');
 	}
 
-	private function contactPostStateJoin($query) {
-		return $query->join('contact_post_state', 'INNER')
-			->on('contacts.id', '=', 'contact_post_state.contact_id')
+	private function targetedSurveyStateJoin($query) {
+		return $query->join('targeted_survey_state', 'INNER')
+			->on('contacts.id', '=', 'targeted_survey_state.contact_id')
 			->join('posts', 'INNER')
-			->on('posts.id', '=', 'contact_post_state.post_id');
+			->on('posts.id', '=', 'targeted_survey_state.post_id');
 	}
 }
