@@ -18,7 +18,7 @@ class DataProvider_TestService extends DataProvider {
 	 */
 	public $contact_type = Contact::PHONE;
 
-	// FrontlineSms Cloud api url
+	// Test Service api url
 	protected $_api_url = '';
 
 	/**
@@ -26,7 +26,8 @@ class DataProvider_TestService extends DataProvider {
 	 */
 	public function send($to, $message, $title = "")
 	{
-		// Prepare data to send to frontline cloud
+		$_api_url = isset($this->_options['api_url']) ? $this->_options['api_url'] : '';
+		// Prepare data to send to test service
 		$data = array(
 			"apiKey" => isset($this->_options['key']) ? $this->_options['key'] : '',
 			"payload" => array(

@@ -24,9 +24,9 @@ class Controller_Sms_Testservice extends Controller {
     //Check if data provider is available
     $providers_available = Kohana::$config->load('features.data-providers');
 
-    if ( !$providers_available['frontlinesms'] )
+    if ( !$providers_available['testservice'] )
     {
-      throw HTTP_Exception::factory(403, 'The Fontline SMS data source is not currently available. It can be accessed by upgrading to a higher Ushahidi tier.');
+      throw HTTP_Exception::factory(403, 'The Test Service SMS data source is not currently available. It can be accessed by upgrading to a higher Ushahidi tier.');
     }
 
 		$methods_with_http_request = [Http_Request::POST];
@@ -41,7 +41,7 @@ class Controller_Sms_Testservice extends Controller {
 				->allowed($methods_with_http_request);
 		}
 
-		$this->_provider = DataProvider::factory('frontlinesms');
+		$this->_provider = DataProvider::factory('testservice');
 
 		$this->options = $this->_provider->options();
 
@@ -52,7 +52,7 @@ class Controller_Sms_Testservice extends Controller {
 			'error' => NULL
 		];
 
-		// Process incoming messages from Frontlinecloud only if the request is POST
+		// Process incoming messages from test service only if the request is POST
 		if ( $this->request->method() == 'POST')
 		{
 			$this->_incoming();

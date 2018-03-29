@@ -20,6 +20,12 @@ $plugin = array(
 	),
 
 	'options' => array(
+		'api_url' => array(
+			'label' => 'API Url',
+			'input' => 'text',
+			'description' => 'The Test Service API URL',
+			'rules' => array('required')
+		),
 		'key' => array(
 				'label' => 'Key',
 				'input' => 'text',
