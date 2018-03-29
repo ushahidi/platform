@@ -11,7 +11,7 @@ class ContactPostStateToTargetedSurvey extends AbstractMigration
 	 */
 	public function up()
 	{
-		$this->dropTable('targeted_survey_state');
+		$this->dropTable('contact_post_state');
 		$this->table('targeted_survey_state')
 			->addColumn('form_id', 'integer', ['null' => false])
 			->addColumn('post_id', 'integer', ['null' => false])
@@ -44,7 +44,8 @@ class ContactPostStateToTargetedSurvey extends AbstractMigration
 	 */
 	public function down()
 	{
-		$this->table('targeted_survey_state')
+		$this->dropTable('targeted_survey_state');
+		$this->table('contact_post_state')
 			->addColumn('post_id', 'integer', ['null' => false])
 			->addColumn('contact_id', 'integer', ['null' => false])
 			->addColumn('status', 'string', ['null' => false, 'default' => 'PENDING'])
