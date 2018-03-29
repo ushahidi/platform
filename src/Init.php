@@ -137,6 +137,7 @@ $di->params['Ushahidi\Factory\AuthorizerFactory']['map'] = [
 	'config'               => $di->lazyGet('authorizer.config'),
 	'dataproviders'        => $di->lazyGet('authorizer.dataprovider'),
 	'export_jobs'          => $di->lazyGet('authorizer.export_job'),
+	'country_codes'        => $di->lazyGet('authorizer.country_code'),
 	'external_auth'        => $di->lazyGet('authorizer.external_auth'),
 	'forms'                => $di->lazyGet('authorizer.form'),
 	'form_contacts'                => $di->lazyGet('authorizer.form_contact'),
@@ -171,6 +172,7 @@ $di->set('factory.repository', $di->lazyNew('Ushahidi\Factory\RepositoryFactory'
 // Repositories are shared, so mapping is done with service names.
 $di->params['Ushahidi\Factory\RepositoryFactory']['map'] = [
 	'config'               => $di->lazyGet('repository.config'),
+	'country_codes'        => $di->lazyGet('repository.country_code'),
 	'export_jobs'		   => $di->lazyGet('repository.export_job'),
 	'dataproviders'        => $di->lazyGet('repository.dataprovider'),
 	'contact_post_states'   => $di->lazyGet('repository.contact_post_state'),
@@ -484,6 +486,7 @@ $di->params['Ushahidi\Core\Tool\Authorizer\PostAuthorizer'] = [
 	];
 
 $di->set('authorizer.console', $di->lazyNew('Ushahidi\Console\Authorizer\ConsoleAuthorizer'));
+$di->set('authorizer.country_code', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\CountryCodeAuthorizer'));
 
 
 require __DIR__ . '/App/Init.php';

@@ -1488,6 +1488,10 @@ oauth_scopes:
     id: 22
     scope: apikeys
     name: apikeys
+  -
+    id: 23
+    scope: country_codes
+    name: country_codes
 
 oauth_session_token_scopes:
   # for testingtoken
@@ -1653,6 +1657,12 @@ oauth_session_token_scopes:
   -
     session_access_token_id: 4
     scope_id: 21
+  -
+    session_access_token_id: 4
+    scope_id: 22
+  -
+    session_access_token_id: 4
+    scope_id: 23
 
   # for testbasicuser2
   -
