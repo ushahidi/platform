@@ -35,37 +35,6 @@ Feature: Testing the Tags API
         And the "parent.id" property equals "1"
         Then the guzzle status code should be 200
 
-    Scenario: Creating a duplicate tag
-        Given that I want to make a new "Tag"
-        And that the request "data" is:
-            """
-            {
-                "tag":"Duplicate",
-                "type":"category",
-                "priority":1
-            }
-            """
-        When I request "/tags"
-        Then the response is JSON
-        And the response has a "errors" property
-        Then the guzzle status code should be 422
-
-    Scenario: Creating a tag with a duplicate slug
-        Given that I want to make a new "Tag"
-        And that the request "data" is:
-            """
-            {
-                "tag":"Something",
-                "slug":"duplicate",
-                "type":"category",
-                "priority":1
-            }
-            """
-        When I request "/tags"
-        Then the response is JSON
-        And the response has a "errors" property
-        Then the guzzle status code should be 422
-
     Scenario: Creating a tag with a long name fails
         Given that I want to make a new "Tag"
         And that the request "data" is:

@@ -39,11 +39,6 @@ class Ushahidi_Validator_Tag_Update extends Validator
 			'parent_id' => [
 				[[$this->repo, 'doesTagExist'], [':value']],
 			],
-			'slug' => [
-				['min_length', [':value', 2]],
-				['alpha_dash'],
-				[[$this->repo, 'isSlugAvailable'], [':value']],
-			],
 			'description' => [
 				// alphas, numbers, punctuation, and spaces
 				['regex', [':value', '/^[\pL\pN\pP ]++$/uD']],
