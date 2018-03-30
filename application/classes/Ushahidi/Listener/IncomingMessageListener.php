@@ -55,14 +55,13 @@ class Ushahidi_Listener_IncomingMessageListener extends AbstractListener
         Kohana::$log->add(
         	Log::INFO, 'Here is the next form attribute:'.print_r($next_form_attribute, true)
 		);
-        // get last message
-		$last_message = $this->form_attr_repo->getEntity($targetedSurveyStateEntity->form_attribute_id);
+
         if($next_form_attribute->getId() > 0)
         {
             $new_message = $message_repo->getEntity();
             $messageState = array(
 				'contact_id' => $event_data['contact_id'],
-				'post_id' => $last_message->post_id,
+				'post_id' => $targetedSurveyStateEntity->post_id,
 				'title' => $next_form_attribute->label,
 				'message' => $next_form_attribute->label,
 				'status' => 'pending',
