@@ -139,8 +139,7 @@ class Ushahidi_Repository_Contact extends Ushahidi_Repository implements
     {
         $query = DB::select('targeted_survey_state.contact_id', 'targeted_survey_state.form_id')
             ->from('targeted_survey_state')
-            ->where('contact_id', '=', $contact_id)
-            ->and_where('form_attribute_id', '>', 0);
+            ->where('contact_id', '=', $contact_id);
 
         if($query->execute($this->db)->count() > 0)
         {
