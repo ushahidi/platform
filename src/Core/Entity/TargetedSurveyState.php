@@ -21,6 +21,7 @@ class TargetedSurveyState extends StaticEntity
 	protected $form_attribute_id;
 	protected $post_id;
 	protected $survey_status;
+	protected $message_id;
 
 	// DataTransformer
 	protected function getDefinition()

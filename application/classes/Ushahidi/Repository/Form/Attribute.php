@@ -244,24 +244,32 @@ class Ushahidi_Repository_Form_Attribute extends Ushahidi_Repository implements
 	 * and returns it as a FormAttribute entity
 	 */
 	public function getNextByFormAttribute($form_id, $last_attribute_id)
-	{
-		$query = $this->selectQuery()
+	{//FIXME thiswillreturn  whatever it ffinds  not necessasrily in the same fform
+		$queryByForm = $this->selectQuery([
+			'form_stages.form_id' => $form_id,
+		], $form_id)
 			->select('form_attributes.*')
 			->join('form_stages', 'INNER')
-			->on('form_stages.id', '=', 'form_attributes.form_stage_id');
-        $last_attribute = $this->get($last_attribute_id);
-        if ($last_attribute && $last_attribute->priority !== NULL) {
-        	$query = $query
-				->where('form_stages.priority', '>', $last_attribute->priority);
-		}
-		$query = $query
-            ->where('form_stages.form_id', '=', $form_id)
-            ->order_by('form_stages.priority', 'ASC')
-			->order_by('form_attributes.priority', 'ASC')
-            ->limit(1);
+			->on('form_stages.id', '=', 'form_attributes.form_stage_id')
+			->order_by('form_stages.priority', 'ASC')
+			->order_by('form_attributes.priority', 'ASC');
 
-		$results = $query->execute($this->db);
-		return $this->getEntity($results->current());
+		$results = $queryByForm->execute($this->db);
+		$results = $results->as_array();
+		$next = null;
+		$foundSelf = 0;
+		$i = 0;
+		while($next === null && $i < count($results) )  {
+			if (intval($results[$i]['id']) === intval($last_attribute_id)) {
+				$foundSelf = $i;
+			} 
+			if ($foundSelf < $i) {
+				$next = $results[$i];
+			}
+			$i++;
+		}
+		
+		return $this->getEntity($next);
 	}
 
 	public function getFirstByForm($form_id)
