@@ -43,7 +43,7 @@ class Ushahidi_Repository_Contact extends Ushahidi_Repository implements
 	}
 
 
-    public function getLastMessageSentToContact()
+    public function isWaitingForQuestion($id, $form_id)
     {
         //@TODO: implement this
     }

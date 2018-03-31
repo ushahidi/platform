@@ -20,6 +20,7 @@ class TargetedSurveyState extends StaticEntity
 	protected $contact_id;
 	protected $form_attribute_id;
 	protected $post_id;
+	protected $survey_status;
 
 	// DataTransformer
 	protected function getDefinition()
@@ -29,7 +30,9 @@ class TargetedSurveyState extends StaticEntity
 			'form_id'          => 'int',
 			'contact_id'       => 'int',
             'form_attribute_id'   => 'int',
-			'post_id' => 'int'
+			'post_id' => 'int',
+			'survey_status' => 'string',
+			'message_id' => 'int'
 		];
 	}
     protected function getDerived()

@@ -16,8 +16,9 @@ class ContactPostStateToTargetedSurvey extends AbstractMigration
 			->addColumn('form_id', 'integer', ['null' => false])
 			->addColumn('post_id', 'integer', ['null' => false])
 			->addColumn('contact_id', 'integer', ['null' => false])
+			->addColumn('message_id', 'integer', ['default' => null, 'null' => true])
 			->addColumn('form_attribute_id', 'integer', ['null' => true])
-			->addColumn('status', 'string', ['null' => false, 'default' => 'PENDING'])
+			->addColumn('survey_status', 'string', ['null' => false, 'default' => 'PENDING'])
 			->addColumn('created', 'integer', ['default' => 0])
 			->addColumn('updated', 'integer', ['default' => 0])
 			->addForeignKey('form_id', 'forms', 'id', [
@@ -33,6 +34,11 @@ class ContactPostStateToTargetedSurvey extends AbstractMigration
 				'update' => 'CASCADE',
 			])
 			->addForeignKey('form_attribute_id', 'form_attributes', 'id', [
+				'delete' => 'SET_NULL',
+				'update' => 'SET_NULL',
+			])
+
+			->addForeignKey('message_id', 'messages', 'id', [
 				'delete' => 'SET_NULL',
 				'update' => 'SET_NULL',
 			])

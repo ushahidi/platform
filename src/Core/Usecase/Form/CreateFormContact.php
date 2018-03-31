@@ -48,8 +48,11 @@ class CreateFormContact extends CreateContact
 		$entity = $this->getEntity();
 		// ... verify the current user has have permissions
 		$this->verifyCreateAuth($entity);
+		/**
+		 * @TODO Add validation so that we throw a warning
+		 * to users if they add contacts that are already part of a targeted survey
+		*/
 
-		// Get each item in the collection
 		$entities = [];
 		$invalid = [];
 		$countryCode = $this->getPayload('country_code');

@@ -2344,20 +2344,20 @@ targeted_survey_state:
   -
     post_id: 452
     contact_id: 5
-    status: 'PENDING'
+    survey_status: 'PENDING'
     form_id: 6
   -
     post_id: 1694
     contact_id: 6
-    status: 'PENDING'
+    survey_status: 'PENDING'
     form_id: 7
   -
     post_id: 1695
     contact_id: 7
-    status: 'PENDING'
+    survey_status: 'PENDING'
     form_id: 7
   -
     post_id: 1696
     contact_id: 8
-    status: 'PENDING'
+    survey_status: 'PENDING'
     form_id: 7

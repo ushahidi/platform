@@ -21,7 +21,7 @@ class Ushahidi_Listener_IncomingMessageListener extends AbstractListener
 {
 	protected $form_attr_repo;
 	protected $targeted_survey_state_repo;
-//	protected $message_repo;
+//	protected $messageRepo;
 //
 //	public function setMessageRepo(MessageRepository $repo) {
 //		$this->message_repo = $repo;
@@ -39,46 +39,44 @@ class Ushahidi_Listener_IncomingMessageListener extends AbstractListener
 
     public function handle(EventInterface $event, $event_data = [])
     {
-        /* @TODO: determing how should we mark a survey as done —> we don't, right now */
+        /* @TODO: mark survey as done in targeted_survey state
+		 * if last survey question was answered by contact
+		 */
 
-        $targetedSurveyStateEntity = $this->targeted_survey_state_repo->getByContactId($event_data['contact_id']);
+        $surveyStateEntity = $this->targeted_survey_state_repo->getByContactId($event_data['contact_id']);
 
-
-        //@FIXME: ugly hack for getting the message repo without a circular reference error
-        $message_repo = $event_data['message_repo'];
+        /**
+		 * @FIXME: ugly hack for getting the message repo without a circular reference error
+		 * (becase Message repo has this listener injected)
+		*/
+        $messageRepo = $event_data['message_repo'];
 
         //get the next attribute in that form, based on the form and the last_sent_form_attribute_id
         $next_form_attribute = $this->form_attr_repo->getNextByFormAttribute(
-        	$targetedSurveyStateEntity->form_id, $targetedSurveyStateEntity->form_attribute_id
-		);
-
-        Kohana::$log->add(
-        	Log::INFO, 'Here is the next form attribute:'.print_r($next_form_attribute, true)
+        	$surveyStateEntity->form_id, $surveyStateEntity->form_attribute_id
 		);
 
         if($next_form_attribute->getId() > 0)
-        {
-            $new_message = $message_repo->getEntity();
+        {	// create message that we received
+			$newMessage = $messageRepo->getEntity();
             $messageState = array(
 				'contact_id' => $event_data['contact_id'],
-				'post_id' => $targetedSurveyStateEntity->post_id,
+				'post_id' => $surveyStateEntity->post_id,
 				'title' => $next_form_attribute->label,
 				'message' => $next_form_attribute->label,
-				'status' => 'pending',
+				'status' => 'received',
 			);
-			$new_message->setState($messageState);
-			$new_message_id = $message_repo->create($new_message);
-			if (!$new_message_id) {
+			$newMessage->setState($messageState);
+			$newMessageId = $messageRepo->create($newMessage);
+			if (!$newMessageId) {
 				Kohana::$log->add(
 					Log::ERROR, 'Could not create new message for contact_id: '.print_r($event_data['contact_id'], true)
 				);
 			}
 
-            $targetedSurveyStateEntity->setState(['form_attribute_id' => $next_form_attribute->getId(), 'status' => 'PENDING'] );
-            $updated_tss_entity = $this->targeted_survey_state_repo->update($targetedSurveyStateEntity);
-            Kohana::$log->add( Log::ERROR, 'Updated TSS Entity: '.print_r($updated_tss_entity, true));
-
+            $surveyStateEntity->setState(['form_attribute_id' => $next_form_attribute->getId(), 'status' => 'PENDING'] );
+			$updatedTargetedSurveyState = $this->targeted_survey_state_repo->update($surveyStateEntity);
+            Kohana::$log->add( Log::ERROR, 'Updated TSS Entity: '.print_r($updatedTargetedSurveyState, true));
         }
-
     }
 }

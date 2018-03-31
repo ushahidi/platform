@@ -33,7 +33,7 @@ class Ushahidi_Repository_TargetedSurveyState extends Ushahidi_Repository implem
 	// SearchRepository
 	public function getSearchFields()
 	{
-		return ['post_id', 'contact_id', 'status', 'form_id', 'form_attribute_id'];
+		return ['post_id', 'contact_id', 'survey_status', 'form_id', 'form_attribute_id', 'message_id'];
 	}
 
 	// ContactRepository
@@ -46,15 +46,6 @@ class Ushahidi_Repository_TargetedSurveyState extends Ushahidi_Repository implem
 	{
 		return new Entity\Post($this->selectOne(compact('post')));
 	}
-	////////
-	// UpdateRepository
-//	public function update(Entity $entity)
-//	{
-//		$state = [
-//			'updated'  => time(),
-//		];
-//		return parent::update($entity->setState($state));
-//	}
 
 	public function getByContactId($contact_id)
 	{

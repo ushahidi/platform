@@ -97,31 +97,29 @@ class ReceiveMessage extends CreateUsecase
 		// ... verify the contact is valid
 		$this->verifyValidContact($contact);
 
-      // ... create contact if it doesn't exist
-      $contact_id = $this->createContact($contact);
-      $entity->setState(compact('contact_id'));
+		// ... create contact if it doesn't exist
+		$contact_id = $this->createContact($contact);
+		$entity->setState(compact('contact_id'));
 
-      $post_id = null;
-      // check if contact is part of an open targeted_survey.
-      if($this->isContactInTargetedSurvey($contact_id))
-      {
-        //@TODO: then throw an Event that we received a targeted survey response
-        // and deal with sending new messages from there
-         $this->repo->emitReceivedMessageEventForContact($contact_id);
-
-      }else { // don't throw an event
-          // ... create post for message
-          $post_id = $this->createPost($entity);
-          // ... persist the new message entity
-      }
-      if($post_id) {
-      	$entity->setState(compact('post_id'));
-      }
-
-      $id = $this->repo->create($entity);
-
-	  // ... and return message id
-      return $id;
+		$post_id = null;
+		/**
+		 * check if contact is part of an open targeted_survey.
+		 * If they are, the first post was created already so no need to create a new one
+		 */
+		if($this->isContactInTargetedSurvey($contact_id)) {
+			$this->repo->emitReceivedMessageEventForContact($contact_id);
+		} else {
+			// don't throw an event
+			// ... create post for message
+			$post_id = $this->createPost($entity);
+			// ... persist the new message entity
+			if($post_id) {
+				$entity->setState(compact('post_id'));
+			}
+			$id = $this->repo->create($entity);
+			// ... and return message id
+			return $id;
+		}
 	}
 
 	/**
