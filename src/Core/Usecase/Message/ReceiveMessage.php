@@ -106,14 +106,14 @@ class ReceiveMessage extends CreateUsecase
 		 * check if contact is part of an open targeted_survey.
 		 * If they are, the first post was created already so no need to create a new one
 		 */
-		if($this->isContactInTargetedSurvey($contact_id)) {
+		if ($this->isContactInTargetedSurvey($contact_id)) {
 			$this->repo->emitReceivedMessageEventForContact($contact_id, $entity);
 		} else {
 			// don't throw an event
 			// ... create post for message
 			$post_id = $this->createPost($entity);
 			// ... persist the new message entity
-			if($post_id) {
+			if ($post_id) {
 				$entity->setState(compact('post_id'));
 			}
 			$id = $this->repo->create($entity);

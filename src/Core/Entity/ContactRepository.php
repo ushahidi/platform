@@ -39,6 +39,4 @@ interface ContactRepository extends
 	 * @return boolean
 	 */
 	public function isInTargetedSurvey($contact);
-
-
 }

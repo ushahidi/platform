@@ -67,7 +67,4 @@ class ContactRepositoryTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($this->contactRepo->isInTargetedSurvey($contact_mock->getId()), false );
         */
     }
-
-
-
 }

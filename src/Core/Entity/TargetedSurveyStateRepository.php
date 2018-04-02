@@ -24,5 +24,4 @@ interface TargetedSurveyStateRepository extends
 	 * @return boolean
 	 */
 	public function getByContactId($contact_id);
-
 }

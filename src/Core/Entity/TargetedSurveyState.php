@@ -50,5 +50,4 @@ class TargetedSurveyState extends StaticEntity
 	{
 		return 'targeted_survey_states';
 	}
-
 }
