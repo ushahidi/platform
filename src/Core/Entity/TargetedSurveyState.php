@@ -15,7 +15,7 @@ use Ushahidi\Core\StaticEntity;
 
 class TargetedSurveyState extends StaticEntity
 {
-    protected $id;
+	protected $id;
 	protected $form_id;
 	protected $contact_id;
 	protected $form_attribute_id;
@@ -27,24 +27,26 @@ class TargetedSurveyState extends StaticEntity
 	protected function getDefinition()
 	{
 		return [
-            'id'          => 'int',
-			'form_id'          => 'int',
-			'contact_id'       => 'int',
-            'form_attribute_id'   => 'int',
+			'id' => 'int',
+			'form_id' => 'int',
+			'contact_id' => 'int',
+			'form_attribute_id' => 'int',
 			'post_id' => 'int',
 			'survey_status' => 'string',
 			'message_id' => 'int'
 		];
 	}
-    protected function getDerived()
-    {
-        return [
-            'contact_id' => ['contact', 'contact.id'],
-            'form_id' => ['form', 'form.id'],
-            'form_attribute_id' => ['form_attribute', 'form_attribute.id'],
+
+	protected function getDerived()
+	{
+		return [
+			'contact_id' => ['contact', 'contact.id'],
+			'form_id' => ['form', 'form.id'],
+			'form_attribute_id' => ['form_attribute', 'form_attribute.id'],
 			'post_id' => ['post', 'post.id'],
-        ];
-    }
+		];
+	}
+
 	// Entity
 	public function getResource()
 	{
