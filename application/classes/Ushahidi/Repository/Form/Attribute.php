@@ -233,18 +233,18 @@ class Ushahidi_Repository_Form_Attribute extends Ushahidi_Repository implements
 		return $this->getCollection($results->as_array());
 	}
 
-    //@TODO: looks up the form_stage, then form_id,
-    //  then finds whats next, then returns an entity for the
-    //  next FormAttribute
     /**
 	 * @param int $form_id
 	 * @return Entity|FormAttribute
 	 *
-	 * Selects the first attribute of the first stage
+	 * Selects the first attribute of the first stage AFTER $last_attribute_id
+	 * for the form $form_id
 	 * and returns it as a FormAttribute entity
 	 */
 	public function getNextByFormAttribute($form_id, $last_attribute_id)
-	{//FIXME thiswillreturn  whatever it ffinds  not necessasrily in the same fform
+	{
+		//FIXME need a better query so it finds the first next attribute in mysql
+		// even when changing stagges... instead of this awful thing
 		$queryByForm = $this->selectQuery([
 			'form_stages.form_id' => $form_id,
 		], $form_id)

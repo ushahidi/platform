@@ -2048,6 +2048,14 @@ config:
     group_name: features
     config_key: roles
     config_value: '{"enabled":true}'
+  -
+    group_name: data-provider
+    config_key: providers
+    config_value: '{"smssync":false,"email":false,"twilio":true,"nexmo":false,"twitter":false,"frontlinesms":false}'
+  -
+    group_name: data-provider
+    config_key: twilio
+    config_value: '{"from":"199","auth_token":"111","account_sid":"124","sms_auto_response":"Thank you for your message"}'
 contacts:
   -
     id: 1
@@ -2071,27 +2079,23 @@ contacts:
     type: "email"
   -
     id: 5
-    contact: targetesurveys1@testing
     type: "phone"
     contact: 099999999
     user_id:
   -
     id: 6
-    contact: targetesurveys2@testing
     type: "phone"
-    contact: 099999991
+    contact: 99999991
     user_id:
   -
     id: 7
-    contact: targetesurveys3@testing
     type: "phone"
-    contact: 099999992
+    contact: 99999992
     user_id:
   -
     id: 8
-    contact: targetesurveys4@testing
     type: "phone"
-    contact: 0999999933
+    contact: 999999933
     user_id:
 
 messages:
@@ -2357,20 +2361,21 @@ targeted_survey_state:
   -
     post_id: 452
     contact_id: 5
-    survey_status: 'PENDING'
+    survey_status: 'PENDING RESPONSE'
     form_id: 6
   -
     post_id: 1694
     contact_id: 6
-    survey_status: 'PENDING'
+    survey_status: 'PENDING RESPONSE'
     form_id: 7
   -
     post_id: 1695
     contact_id: 7
-    survey_status: 'PENDING'
+    survey_status: 'PENDING RESPONSE'
     form_id: 7
   -
     post_id: 1696
     contact_id: 8
-    survey_status: 'PENDING'
+    survey_status: 'PENDING RESPONSE'
     form_id: 7
+    message_id: 13

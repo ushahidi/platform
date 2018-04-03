@@ -60,7 +60,7 @@ class Ushahidi_Listener_IncomingMessageListener extends AbstractListener
 			Kohana::$log->add(
 				Log::ERROR, 'Could add contact\'s  message for contact_id: '.print_r($event_data['contact_id'], true) . ' and form '.$surveyStateEntity->form_id
 			);
-			throw new Exception('Outgoing question not found for contact ' . $event_data['contact_id'] . ' and form '.$surveyStateEntity->form_id);
+			throw new HTTP_Exception_400('Outgoing question not found for contact ' . $event_data['contact_id'] . ' and form '.$surveyStateEntity->form_id);
 		}
         //get the next attribute in that form, based on the form and the last_sent_form_attribute_id
         $next_form_attribute = $this->form_attr_repo->getNextByFormAttribute(
@@ -79,7 +79,7 @@ class Ushahidi_Listener_IncomingMessageListener extends AbstractListener
 			Kohana::$log->add(
 				Log::ERROR, 'Could not create new incoming message for contact_id: '.print_r($event_data['contact_id'], true)
 			);
-			throw new Exception('Could not create new incoming message for contact_id: '. $event_data['contact_id']);
+			throw new HTTP_Exception_400('Could not create new incoming message for contact_id: '. $event_data['contact_id']);
 		}
 		$surveyStateEntity->setState(['form_attribute_id' => $next_form_attribute->getId(), 'message_id' => $incomingMessageId, 'survey_status' => 'RECEIVED RESPONSE'] );
 		$updatedTargetedSurveyState = $this->targeted_survey_state_repo->update($surveyStateEntity);
@@ -100,7 +100,7 @@ class Ushahidi_Listener_IncomingMessageListener extends AbstractListener
 				Kohana::$log->add(
 					Log::ERROR, 'Could not create new message for contact_id: '.print_r($event_data['contact_id'], true)
 				);
-				throw new Exception('Could not create new outgoing message for contact_id: '. $event_data['contact_id']);
+				throw new HTTP_Exception_400('Could not create new outgoing message for contact_id: '. $event_data['contact_id']);
 			}
 			$surveyStateEntity->setState(['form_attribute_id' => $next_form_attribute->getId(), 'message_id' => $newMessageId, 'survey_status' => 'PENDING RESPONSE'] );
 			$updatedTargetedSurveyState = $this->targeted_survey_state_repo->update($surveyStateEntity);

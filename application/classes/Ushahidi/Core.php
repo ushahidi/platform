@@ -836,8 +836,6 @@ abstract class Ushahidi_Core {
         // form TargetedSurveyState repo for Incoming Message Listener
         $di->setter['Ushahidi_Listener_IncomingMessageListener']['setTargetedSurveyStateRepo'] =
                 $di->lazyGet('repository.targeted_survey_state');
-//		$di->setter['Ushahidi_Listener_IncomingMessageListener']['setMessageRepo'] =
-//			$di->lazyGet('repository.message');
 
 		// Add Intercom Listener to Config
 		$di->setter['Ushahidi_Repository_Config']['setEvent'] = 'ConfigUpdateEvent';

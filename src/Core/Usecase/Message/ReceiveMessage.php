@@ -287,11 +287,4 @@ class ReceiveMessage extends CreateUsecase
 	{
 		$this->verifyAuth($entity, 'receive');
 	}
-
-	/**
-	 * @return void
-	 */
-	public function isInTargetedSurvey($argument1)
-	{
-	}
 }
