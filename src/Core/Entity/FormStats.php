@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Ushahidi Form Role
+ * Ushahidi Form Contact
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Platform
@@ -13,25 +13,22 @@ namespace Ushahidi\Core\Entity;
 
 use Ushahidi\Core\StaticEntity;
 
-class ContactPostState extends StaticEntity
+class FormStats extends StaticEntity
 {
-	protected $post_id;
-	protected $status;
-	protected $contact_id;
-
+	protected $total_responses;
+	protected $total_recipients;
 	// DataTransformer
 	protected function getDefinition()
 	{
 		return [
-			'form_id'  => 'int',
-			'status'       => 'string',
-			'contact_id'  => 'int'
+			'total_responses'            => 'int',
+			'total_recipients'       => 'int',
 		];
 	}
 
 	// Entity
 	public function getResource()
 	{
-		return 'contact_post_states';
+		return 'form_stats';
 	}
 }

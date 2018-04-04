@@ -346,6 +346,7 @@ abstract class Ushahidi_Core {
 			'form_roles'           => $di->lazyNew('Ushahidi_Formatter_Form_Role'),
 			'form_stages'          => $di->lazyNew('Ushahidi_Formatter_Form_Stage'),
 			'form_contacts'        => $di->lazyNew('Ushahidi_Formatter_Form_Contact'),
+			'form_stats'           => $di->lazyNew('Ushahidi_Formatter_Form_Stats'),
 			'layers'               => $di->lazyNew('Ushahidi_Formatter_Layer'),
 			'media'                => $di->lazyNew('Ushahidi_Formatter_Media'),
 			'messages'             => $di->lazyNew('Ushahidi_Formatter_Message'),
@@ -380,6 +381,7 @@ abstract class Ushahidi_Core {
 			'form_role',
 			'form_contacts',
 			'form_stage',
+			'form_stats',
 			'layer',
 			'media',
 			'message',
@@ -404,6 +406,7 @@ abstract class Ushahidi_Core {
 
 		$di->setter['Ushahidi_Formatter_Set']['setAuth'] = $di->lazyGet("authorizer.set");
 		$di->setter['Ushahidi_Formatter_CSV']['setAuth'] = $di->lazyGet("authorizer.csv");
+		$di->setter['Ushahidi_Formatter_Form_Stats']['setAuth'] = $di->lazyGet("authorizer.form_stats");
         $di->setter['Ushahidi_Formatter_CountryCode']['setAuth'] = $di->lazyGet("authorizer.country_code");
 
 		// Set Formatter factory
@@ -414,6 +417,7 @@ abstract class Ushahidi_Core {
 
 		// Formatters
 		$di->set('formatter.entity.form.contact', $di->lazyNew('Ushahidi_Formatter_Form_Contact'));
+		$di->set('formatter.entity.form.stats', $di->lazyNew('Ushahidi_Formatter_Form_Stats'));
 		$di->set('formatter.entity.form.contactcollection', $di->lazyNew('Ushahidi_Formatter_Form_ContactCollection'));
 		$di->set('formatter.entity.api', $di->lazyNew('Ushahidi_Formatter_API'));
 		$di->set('formatter.entity.country_code', $di->lazyNew('Ushahidi_Formatter_CountryCode'));
@@ -445,17 +449,19 @@ abstract class Ushahidi_Core {
 		$di->set('repository.form', $di->lazyNew('Ushahidi_Repository_Form'));
 		$di->set('repository.form_role', $di->lazyNew('Ushahidi_Repository_Form_Role'));
 		$di->set('repository.form_contact', $di->lazyNew('Ushahidi_Repository_Form_Contact'));
+		$di->set('repository.form_stats', $di->lazyNew('Ushahidi_Repository_Form_Stats'));
 		$di->set('repository.form_stage', $di->lazyNew('Ushahidi_Repository_Form_Stage'));
 		$di->set('repository.country_code', $di->lazyNew('Ushahidi_Repository_CountryCode'));
 		$di->set('repository.form_attribute', $di->lazyNew('Ushahidi_Repository_Form_Attribute'));
 		$di->set('repository.layer', $di->lazyNew('Ushahidi_Repository_Layer'));
 		$di->set('repository.media', $di->lazyNew('Ushahidi_Repository_Media'));
 		$di->set('repository.message', $di->lazyNew('Ushahidi_Repository_Message'));
-		$di->set('repository.contact_post_state', $di->lazyNew('Ushahidi_Repository_Contact_PostState'));
+		$di->set('repository.targeted_survey_state', $di->lazyNew('Ushahidi_Repository_TargetedSurveyState'));
 		$di->set('repository.post', $di->lazyNew('Ushahidi_Repository_Post'));
 		$di->set('repository.csv_post', $di->lazyNew('Ushahidi_Repository_CSVPost'));
 		$di->set('repository.post_lock', $di->lazyNew('Ushahidi_Repository_Post_Lock'));
 		$di->set('repository.tag', $di->lazyNew('Ushahidi_Repository_Tag'));
+        //$di->set('repository.targeted_survey_state', $di->lazyNew('Ushahidi_Repository_TargetedSurveyState'));
 		$di->set('repository.set', $di->lazyNew('Ushahidi_Repository_Set'));
 		$di->set('repository.savedsearch', $di->lazyNew(
 			'Ushahidi_Repository_Set',
@@ -512,6 +518,11 @@ abstract class Ushahidi_Core {
 		];
 		$di->setter['Ushahidi_Repository_Form_Contact']['setEvent'] = 'FormContactEvent';
 
+		// Form Stage repository parameters
+		$di->params['Ushahidi_Repository_Form_Stats'] = [
+			'form_repo' => $di->lazyGet('repository.form')
+		];
+
 		// Webhook repo for Post listener
 		$di->setter['Ushahidi_Listener_ContactListener']['setRepo'] =
 			$di->lazyGet('repository.contact');
@@ -530,8 +541,8 @@ abstract class Ushahidi_Core {
 		$di->setter['Ushahidi_Listener_ContactListener']['setMessageRepo'] =
 			$di->lazyGet('repository.message');
 
-		$di->setter['Ushahidi_Listener_ContactListener']['setContactPostStateRepo'] =
-			$di->lazyGet('repository.contact_post_state');
+		$di->setter['Ushahidi_Listener_ContactListener']['setTargetedSurveyStateRepo'] =
+			$di->lazyGet('repository.targeted_survey_state');
 
 		$di->setter['Ushahidi_Repository_Form_Contact']['setListener'] =
 			$di->lazyNew('Ushahidi_Listener_ContactListener');
