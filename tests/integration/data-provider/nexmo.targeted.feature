@@ -13,5 +13,5 @@ Feature: Testing the Nexmo Data Provider with targeted surveys
         And that the post field "text" is "Data Provider with targeted surveys"
         And that the api_url is ""
         When I request "/sms/nexmo/reply?text=Data Provider with targeted surveys&msisdn=123&to=222&messageId=2223"
-        And the response should contain "Outgoing question not found for contact 7 and form 7"
+        And the "payload.error" property equals "Outgoing question not found for contact 7 and form 7"
         Then the guzzle status code should be 400

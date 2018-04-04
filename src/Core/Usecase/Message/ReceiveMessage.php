@@ -109,6 +109,9 @@ class ReceiveMessage extends CreateUsecase
 		$incomingMessageState['contact_id']= $contact_id;
 		$incomingMessageState['post_id']= $survey_state_entity->post_id;
 		$incomingMessage->setState($incomingMessageState);
+
+		// ... verify that the message entity is in a valid state
+		$this->verifyValid($incomingMessage);
 		$incomingMessageId = $incomingMessageRepo->create($incomingMessage);
 		if (!$incomingMessageId) {
 			Kohana::$log->add(
@@ -138,6 +141,7 @@ class ReceiveMessage extends CreateUsecase
 			'status' => 'received'
 		);
 		$newMessage->setState($messageState);
+		$this->verifyValid($messageState);
 		$newMessageId = $this->repo->create($newMessage);
 		if (!$newMessageId) {
 			Kohana::$log->add(
@@ -155,9 +159,6 @@ class ReceiveMessage extends CreateUsecase
 	 */
 	private function createTargetedSurveyMessages($contact_id, $incoming_message)
 	{
-		/* @TODO: mark survey as done in targeted_survey state
-		 * if last survey question was answered by contact
-		 */
 		$surveyStateEntity = $this->targeted_survey_state_repo->getByContactId($contact_id);
 		$messageInSurveyState = clone $this->repo;
 		// ... attempt to load the entity
@@ -202,7 +203,7 @@ class ReceiveMessage extends CreateUsecase
 			$surveyStateEntity->setState(['survey_status' => 'SURVEY FINISHED'] );
 			$this->targeted_survey_state_repo->update($surveyStateEntity);
 		}
-		return $surveyStateEntity;
+		return $incomingMessageId;
 	}
 
 	// Usecase
@@ -226,15 +227,15 @@ class ReceiveMessage extends CreateUsecase
 		// ... create contact if it doesn't exist
 		$contact_id = $this->createContact($contact);
 		$entity->setState(compact('contact_id'));
-
-		$post_id = null;
+		$id = null;
 		/**
 		 * check if contact is part of an open targeted_survey.
 		 * If they are, the first post was created already so no need to create a new one
 		 */
 		if ($this->isContactInTargetedSurvey($contact_id)) {
-			$this->createTargetedSurveyMessages($contact_id, $entity);
+			$id = $this->createTargetedSurveyMessages($contact_id, $entity);
 		} else {
+			$post_id = null;
 			// don't throw an event
 			// ... create post for message
 			$post_id = $this->createPost($entity);
@@ -243,9 +244,8 @@ class ReceiveMessage extends CreateUsecase
 				$entity->setState(compact('post_id'));
 			}
 			$id = $this->repo->create($entity);
-			// ... and return message id
-			return $id;
 		}
+		return $id;
 	}
 
 	/**
