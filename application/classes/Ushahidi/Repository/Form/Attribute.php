@@ -237,39 +237,21 @@ class Ushahidi_Repository_Form_Attribute extends Ushahidi_Repository implements
 	 * @param int $form_id
 	 * @return Entity|FormAttribute
 	 *
-	 * Selects the first attribute of the first stage AFTER $last_attribute_id
-	 * for the form $form_id
-	 * and returns it as a FormAttribute entity
+	 * Selects the first attribute of the same stage AFTER $last_attribute_id
+	 * for the form $form_id. Will only work correctly for targeted surveys or other single stage surveys
+	 * @return FormAttribute entity
 	 */
 	public function getNextByFormAttribute($form_id, $last_attribute_id)
 	{
-		//FIXME need a better query so it finds the first next attribute in mysql
-		// even when changing stagges... instead of this awful thing
-		$queryByForm = $this->selectQuery([
-			'form_stages.form_id' => $form_id,
-		], $form_id)
-			->select('form_attributes.*')
-			->join('form_stages', 'INNER')
-			->on('form_stages.id', '=', 'form_attributes.form_stage_id')
-			->order_by('form_stages.priority', 'ASC')
-			->order_by('form_attributes.priority', 'ASC');
+		$current_attribute = $this->get($last_attribute_id);
+		$next_attribute = DB::select($this->getTable() . '.*')
+			->from($this->getTable())
+			->where('form_stage_id', '=', $current_attribute->form_stage_id)
+			->where('priority', '>', $current_attribute->priority)
+			->limit(1)
+			->execute();
 
-		$results = $queryByForm->execute($this->db);
-		$results = $results->as_array();
-		$next = null;
-		$foundSelf = 0;
-		$i = 0;
-		while($next === null && $i < count($results) )  {
-			if (intval($results[$i]['id']) === intval($last_attribute_id)) {
-				$foundSelf = $i;
-			} 
-			if ($foundSelf < $i) {
-				$next = $results[$i];
-			}
-			$i++;
-		}
-		
-		return $this->getEntity($next);
+		return $this->getEntity($next_attribute->current());
 	}
 
 	public function getFirstByForm($form_id)

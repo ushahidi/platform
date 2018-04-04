@@ -58,7 +58,7 @@ class Ushahidi_Listener_IncomingMessageListener extends AbstractListener
 		if (!$messageInSurveyState || $messageInSurveyState->direction !== \Ushahidi\Core\Entity\Message::OUTGOING) {
 			//we can't save it as a message of the survey
 			Kohana::$log->add(
-				Log::ERROR, 'Could add contact\'s  message for contact_id: '.print_r($event_data['contact_id'], true) . ' and form '.$surveyStateEntity->form_id
+				Log::ERROR, 'Could not add contact\'s  message for contact_id: '.print_r($event_data['contact_id'], true) . ' and form '.$surveyStateEntity->form_id
 			);
 			throw new HTTP_Exception_400('Outgoing question not found for contact ' . $event_data['contact_id'] . ' and form '.$surveyStateEntity->form_id);
 		}
@@ -103,12 +103,10 @@ class Ushahidi_Listener_IncomingMessageListener extends AbstractListener
 				throw new HTTP_Exception_400('Could not create new outgoing message for contact_id: '. $event_data['contact_id']);
 			}
 			$surveyStateEntity->setState(['form_attribute_id' => $next_form_attribute->getId(), 'message_id' => $newMessageId, 'survey_status' => 'PENDING RESPONSE'] );
-			$updatedTargetedSurveyState = $this->targeted_survey_state_repo->update($surveyStateEntity);
+			$this->targeted_survey_state_repo->update($surveyStateEntity);
 		} else {
 			$surveyStateEntity->setState(['survey_status' => 'SURVEY FINISHED'] );
-			$updatedTargetedSurveyState = $this->targeted_survey_state_repo->update($surveyStateEntity);
+			$this->targeted_survey_state_repo->update($surveyStateEntity);
 		}
-
-		Kohana::$log->add( Log::ERROR, 'Updated TSS Entity: '.print_r($updatedTargetedSurveyState, true));
     }
 }
