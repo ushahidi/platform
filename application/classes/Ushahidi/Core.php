@@ -514,7 +514,8 @@ abstract class Ushahidi_Core {
 
 		// Form Stage repository parameters
 		$di->params['Ushahidi_Repository_Form_Contact'] = [
-			'form_repo' => $di->lazyGet('repository.form')
+			'form_repo' => $di->lazyGet('repository.form'),
+			'targeted_survey_state_repo' => $di->lazyGet('repository.targeted_survey_state')
 		];
 		$di->setter['Ushahidi_Repository_Form_Contact']['setEvent'] = 'FormContactEvent';
 

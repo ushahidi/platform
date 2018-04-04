@@ -28,12 +28,14 @@ class Ushahidi_Repository_Form_Contact extends Ushahidi_Repository implements
 	 */
 	public function __construct(
 		Database $db,
-		Entity\FormRepository $form_repo
+		Entity\FormRepository $form_repo,
+		Entity\TargetedSurveyStateRepository $targeted_survey_state_repo
 	)
 	{
 		parent::__construct($db);
 
 		$this->form_repo = $form_repo;
+		$this->targeted_survey_state_repo = $targeted_survey_state_repo;
 
 	}
 
@@ -81,7 +83,13 @@ class Ushahidi_Repository_Form_Contact extends Ushahidi_Repository implements
 
 		// Start transaction
 		$this->db->begin();
+		$inactive =  [];
 		foreach ($entities as $entity) {
+			$contactWasPartOfActiveSurvey = $this->existsInActiveTargetedSurveyByContactNumber($entity->contact);
+			if ($contactWasPartOfActiveSurvey) {
+				$this->setInactiveTargetedSurvey($contactWasPartOfActiveSurvey['targeted_survey_state_id']);
+				$inactive[] = $entity->contact;
+			}
 			//@fixme how to avoid this ugly line?
 			unset($entity->country_code);
 			$query = DB::insert($this->getTable())
@@ -102,10 +110,9 @@ class Ushahidi_Repository_Form_Contact extends Ushahidi_Repository implements
 		// Start transaction
 		$this->db->commit();
 
-
 		$this->emit($this->event, $results, $form_id, 'created_contact');
 
-		return $entities;
+		return $inactive;
 	}
 
 	/**
@@ -201,6 +208,42 @@ class Ushahidi_Repository_Form_Contact extends Ushahidi_Repository implements
 		return (bool)$query
 			->execute($this->db)
 			->get('total');
+	}
+
+	/**
+	 * @param int $contact_id
+	 * @param int $form_id
+	 * @return bool
+	 */
+	public function existsInActiveTargetedSurveyByContactNumber($contact)
+	{
+		$where = array(
+			'contacts.contact' => $contact,
+			'targeted_survey_state.survey_status' => array('PENDING RESPONSE', 'RECEIVED RESPONSE')
+		);
+		$query = $this->selectQuery($where)
+			->resetSelect()
+			->select(['targeted_survey_state.id','targeted_survey_state_id'])
+			->limit(1);
+		$query = $this->targetedSurveyStateJoin($query);
+		$result = $query
+			->execute($this->db);
+		if ($result) {
+			return $result->current();
+		}
+	}
+
+
+	/**
+	 * @param int $contact_id
+	 * @param int $form_id
+	 * @return bool
+	 */
+	public function setInactiveTargetedSurvey($tss_id)
+	{
+		$repo = $this->targeted_survey_state_repo->get($tss_id);
+		$entity = $repo->setState(array('survey_status' => 'INVALID'));
+		$this->targeted_survey_state_repo->update($entity);
 	}
 
 	// SearchRepository
