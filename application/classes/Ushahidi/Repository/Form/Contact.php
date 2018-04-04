@@ -19,12 +19,12 @@ class Ushahidi_Repository_Form_Contact extends Ushahidi_Repository implements
 {
 	use \Ushahidi\Core\Traits\Event;
 	protected $form_repo;
-	protected $contact_post_state_repo;
+	protected $targeted_survey_state_repo;
 
 	/**
 	 * Construct
-	 * @param Database                              $db
-	 * @param FormRepository                       $form_repo
+	 * @param Database $db
+	 * @param FormRepository $form_repo
 	 */
 	public function __construct(
 		Database $db,
@@ -36,6 +36,7 @@ class Ushahidi_Repository_Form_Contact extends Ushahidi_Repository implements
 		$this->form_repo = $form_repo;
 
 	}
+
 	// Ushahidi_Repository
 	protected function getTable()
 	{
@@ -60,8 +61,8 @@ class Ushahidi_Repository_Form_Contact extends Ushahidi_Repository implements
 	{
 		$query = $this->search_query;
 
-		if ($search->form_id) {
-			$query->where('form_id', '=', $search->form_id);
+		if (isset($search->form_id)) {
+			$query->where('targeted_survey_state.form_id', '=', $search->form_id);
 		}
 	}
 
@@ -80,7 +81,7 @@ class Ushahidi_Repository_Form_Contact extends Ushahidi_Repository implements
 
 		// Start transaction
 		$this->db->begin();
-		foreach($entities as $entity) {
+		foreach ($entities as $entity) {
 			//@fixme how to avoid this ugly line?
 			unset($entity->country_code);
 			$query = DB::insert($this->getTable())
@@ -102,8 +103,7 @@ class Ushahidi_Repository_Form_Contact extends Ushahidi_Repository implements
 		$this->db->commit();
 
 
-
-		$this->emit($this->event,  $results , $form_id, 'created_contact');
+		$this->emit($this->event, $results, $form_id, 'created_contact');
 
 		return $entities;
 	}
@@ -117,7 +117,7 @@ class Ushahidi_Repository_Form_Contact extends Ushahidi_Repository implements
 	{
 		$query = $this->selectQuery(array('posts.form_id' => $form_id))
 			->select('contacts.*');
-		$query = $this->contactPostStateJoin($query);
+		$query = $this->targetedSurveyStateJoin($query);
 		$results = $query->execute($this->db);
 
 		return $this->getCollection($results->as_array());
@@ -134,15 +134,16 @@ class Ushahidi_Repository_Form_Contact extends Ushahidi_Repository implements
 
 	}
 
-	public function formExistsInPostStateRepo($form_id) {
+	public function formExistsInPostStateRepo($form_id)
+	{
 		$query = $this->selectQuery(array('posts.form_id' => $form_id))
 			->resetSelect()
 			->select([DB::expr('COUNT(*)'), 'total']);
-		$query = $this->contactPostStateJoin($query);
+		$query = $this->targetedSurveyStateJoin($query);
 		$res = $query
 			->execute($this->db)
 			->get('total');
-		return (bool) $res;
+		return (bool)$res;
 	}
 
 	/**
@@ -155,10 +156,35 @@ class Ushahidi_Repository_Form_Contact extends Ushahidi_Repository implements
 		$query = $this->selectQuery(array('posts.form_id' => $form_id, 'contacts.id' => $contact_id))
 			->resetSelect()
 			->select([DB::expr('COUNT(*)'), 'total']);
-		$query = $this->contactPostStateJoin($query);
-		return (bool) $query
+		$query = $this->targetedSurveyStateJoin($query);
+		return (bool)$query
 			->execute($this->db)
 			->get('total');
+	}
+
+	public function getResponses($form_id)
+	{
+		$query = $this->selectQuery(array('posts.form_id' => $form_id))
+			->resetSelect()
+			->select([DB::expr('COUNT(distinct contact_id)')]);
+		$query = $this->targetedSurveyStateJoin($query);
+		return (bool)$query
+			->execute($this->db);
+	}
+
+	/**
+	 * @param int $contact_id
+	 * @param int $form_id
+	 * @return bool
+	 */
+	public function getReceipients($form_id)
+	{
+		$query = $this->selectQuery(array('posts.form_id' => $form_id))
+			->resetSelect()
+			->select([DB::expr('COUNT(distinct contact_id)')]);
+		$query = $this->targetedSurveyStateJoin($query);
+		return (bool)$query
+			->execute($this->db);
 	}
 
 	/**
@@ -171,8 +197,8 @@ class Ushahidi_Repository_Form_Contact extends Ushahidi_Repository implements
 		$query = $this->selectQuery(array('posts.form_id' => $form_id, 'contacts.contact' => $contact))
 			->resetSelect()
 			->select([DB::expr('COUNT(*)'), 'total']);
-		$query = $this->contactPostStateJoin($query);
-		return (bool) $query
+		$query = $this->targetedSurveyStateJoin($query);
+		return (bool)$query
 			->execute($this->db)
 			->get('total');
 	}
@@ -181,28 +207,32 @@ class Ushahidi_Repository_Form_Contact extends Ushahidi_Repository implements
 	public function getSearchResults()
 	{
 		$query = $this->getSearchQuery();
-		$query = $this->contactPostStateJoin($query);
+		$query = $this->targetedSurveyStateJoin($query);
 		$results = $query->distinct(TRUE)->execute($this->db);
 		return $this->getCollection($results->as_array());
 	}
 
-	private function contactPostStateJoin($query) {
-		return $query->join('contact_post_state', 'INNER')
-			->on('contacts.id', '=', 'contact_post_state.contact_id')
+
+	private function targetedSurveyStateJoin($query)
+	{
+		return $query->join('targeted_survey_state', 'INNER')
+			->on('contacts.id', '=', 'targeted_survey_state.contact_id')
 			->join('posts', 'INNER')
-			->on('posts.id', '=', 'contact_post_state.post_id');
+			->on('posts.id', '=', 'targeted_survey_state.post_id');
 
 	}
-	public function getSearchTotal() {
+
+	public function getSearchTotal()
+	{
 
 		// Assume we can simply count the results to get a total
 		$query = $this->getSearchQuery(true)
 			->resetSelect()
 			->select([DB::expr('COUNT(*)'), 'total']);
-		$query = $this->contactPostStateJoin($query);
+		$query = $this->targetedSurveyStateJoin($query);
 		// Fetch the result and...
 		$result = $query->execute($this->db);
 		// ... return the total.
-		return (int) $result->get('total', 0);
+		return (int)$result->get('total', 0);
 	}
 }
