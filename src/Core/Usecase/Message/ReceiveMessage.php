@@ -28,6 +28,7 @@ use Ushahidi\Core\Exception\ValidatorException;
 use \Log;
 use \Kohana;
 use HTTP_Exception_400;
+
 class ReceiveMessage extends CreateUsecase
 {
 	/**
@@ -99,7 +100,8 @@ class ReceiveMessage extends CreateUsecase
 	 * @return int|$incomingMessageId
 	 * @throws HTTP_Exception_400
 	 */
-	private function createIncomingMessage($incoming_message, $contact_id, $survey_state_entity) {
+	private function createIncomingMessage($incoming_message, $contact_id, $survey_state_entity)
+    {
 		//create incoming message
 		$incomingMessageRepo = clone $this->repo;
 		$incomingMessage = $incomingMessageRepo->getEntity();
@@ -124,7 +126,8 @@ class ReceiveMessage extends CreateUsecase
 	 * @return int|$incomingMessageId
 	 * @throws HTTP_Exception_400
 	 */
-	private function createOutgoingMessage($contact_id, $survey_state_entity, $next_form_attribute) {
+	private function createOutgoingMessage($contact_id, $survey_state_entity, $next_form_attribute)
+    {
 		// create message that we will send to thhe user next
 		$newMessage = $this->repo->getEntity();
 		$messageState = array(
@@ -162,9 +165,13 @@ class ReceiveMessage extends CreateUsecase
 		if (!$messageInSurveyState || $messageInSurveyState->direction !== \Ushahidi\Core\Entity\Message::OUTGOING) {
 			//we can't save it as a message of the survey
 			Kohana::$log->add(
-				Log::ERROR, 'Could not add contact\'s  message for contact_id: '.print_r($contact_id, true) . ' and form '.$surveyStateEntity->form_id
+				Log::ERROR,
+				'Could not add contact\'s  message for contact_id: ' .
+				print_r($contact_id, true) . ' and form '.$surveyStateEntity->form_id
 			);
-			throw new HTTP_Exception_400('Outgoing question not found for contact ' . $contact_id . ' and form '.$surveyStateEntity->form_id);
+			throw new HTTP_Exception_400(
+				'Outgoing question not found for contact ' . $contact_id . ' and form '.$surveyStateEntity->form_id
+			);
 		}
 		//get the next attribute in that form, based on the form and the last_sent_form_attribute_id
 		$next_form_attribute = $this->form_attr_repo->getNextByFormAttribute(
@@ -173,12 +180,23 @@ class ReceiveMessage extends CreateUsecase
 		//create incoming message
 		$incomingMessageId = $this->createIncomingMessage($incoming_message, $contact_id, $surveyStateEntity);
 		// intermediate state to mark when we receive a message
-		$surveyStateEntity->setState(['form_attribute_id' => $next_form_attribute->getId(), 'message_id' => $incomingMessageId, 'survey_status' => 'RECEIVED RESPONSE'] );
+		$surveyStateEntity->setState(
+			[
+				'form_attribute_id' => $next_form_attribute->getId(),
+				'message_id' => $incomingMessageId,
+				'survey_status' => 'RECEIVED RESPONSE'
+			]
+		);
 		$this->targeted_survey_state_repo->update($surveyStateEntity);
-		if($next_form_attribute->getId() > 0)
-		{
+		if ($next_form_attribute->getId() > 0) {
 			$newMessageId = $this->createOutgoingMessage($contact_id, $surveyStateEntity, $next_form_attribute);
-			$surveyStateEntity->setState(['form_attribute_id' => $next_form_attribute->getId(), 'message_id' => $newMessageId, 'survey_status' => 'PENDING RESPONSE'] );
+			$surveyStateEntity->setState(
+				[
+					'form_attribute_id' => $next_form_attribute->getId(),
+					'message_id' => $newMessageId,
+					'survey_status' => 'PENDING RESPONSE'
+				]
+			);
 			$this->targeted_survey_state_repo->update($surveyStateEntity);
 		} else {
 			$surveyStateEntity->setState(['survey_status' => 'SURVEY FINISHED'] );

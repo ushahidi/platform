@@ -106,6 +106,5 @@ class FeatureContext implements SnippetAcceptingContext
 		$config->set('twilio.enabled', false);
 		$config->set('frontlinesms.enabled', false);
 		$config->set('nexmo.enabled', false);
-
 	}
 }
