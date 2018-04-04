@@ -64,7 +64,7 @@ class Ushahidi_Listener_IncomingMessageListener extends AbstractListener
 		}
         //get the next attribute in that form, based on the form and the last_sent_form_attribute_id
         $next_form_attribute = $this->form_attr_repo->getNextByFormAttribute(
-        	$surveyStateEntity->form_id, $surveyStateEntity->form_attribute_id
+        	$surveyStateEntity->form_attribute_id
 		);
 
 		//create incoming messagge

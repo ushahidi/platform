@@ -241,7 +241,7 @@ class Ushahidi_Repository_Form_Attribute extends Ushahidi_Repository implements
 	 * for the form $form_id. Will only work correctly for targeted surveys or other single stage surveys
 	 * @return FormAttribute entity
 	 */
-	public function getNextByFormAttribute($form_id, $last_attribute_id)
+	public function getNextByFormAttribute($last_attribute_id)
 	{
 		$current_attribute = $this->get($last_attribute_id);
 		$next_attribute = DB::select($this->getTable() . '.*')
