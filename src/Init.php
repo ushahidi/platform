@@ -321,6 +321,13 @@ $di->params['Ushahidi\Factory\UsecaseFactory']['map']['messages'] = [
 $di->setter['Ushahidi\Core\Usecase\Message\ReceiveMessage']['setContactRepository']
 	= $di->lazyGet('repository.contact');
 $di->setter['Ushahidi\Core\Usecase\Message\ReceiveMessage']['setPostRepository'] = $di->lazyGet('repository.post');
+
+// form attribute repo for Incoming Message Listener
+$di->setter['Ushahidi\Core\Usecase\Message\ReceiveMessage']['setFormAttributeRepo'] =
+	$di->lazyGet('repository.form_attribute');
+// form TargetedSurveyState repo for Incoming Message Listener
+$di->setter['Ushahidi\Core\Usecase\Message\ReceiveMessage']['setTargetedSurveyStateRepo'] =
+	$di->lazyGet('repository.targeted_survey_state');
 $di->setter['Ushahidi\Core\Usecase\Message\ReceiveMessage']['setContactValidator']
 	= $di->lazyGet('validator.contact.receive');
 
