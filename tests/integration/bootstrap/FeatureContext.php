@@ -84,4 +84,25 @@ class FeatureContext implements SnippetAcceptingContext
 		$config = \Kohana::$config->load('features');
 		$config->set('data-import.enabled', false);
 	}
+
+	/** @BeforeScenario @dataprovidersEnabled */
+	public function enableDataproviders()
+	{
+		$config = \Kohana::$config->load('features');
+		$config->set('twilio.enabled', true);
+
+		$config = \Kohana::$config->load('features');
+		$config->set('providers', true);
+	}
+
+	/** @AfterScenario @dataprovidersDisabled */
+	public function disableDataproviders()
+	{
+		$config = \Kohana::$config->load('features');
+		$config->set('providers', false);
+
+		$config = \Kohana::$config->load('features');
+		$config->set('twilio.enabled', false);
+
+	}
 }

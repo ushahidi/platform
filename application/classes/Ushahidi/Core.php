@@ -830,6 +830,13 @@ abstract class Ushahidi_Core {
 		$di->setter['Ushahidi_Listener_PostListener']['setWebhookRepo'] =
 			$di->lazyGet('repository.webhook');
 
+        // form attribute repo for Incoming Message Listener
+    	$di->setter['Ushahidi_Listener_IncomingMessageListener']['setFormAttributeRepo'] =
+    			$di->lazyGet('repository.form_attribute');
+        // form TargetedSurveyState repo for Incoming Message Listener
+        $di->setter['Ushahidi_Listener_IncomingMessageListener']['setTargetedSurveyStateRepo'] =
+                $di->lazyGet('repository.targeted_survey_state');
+
 		// Add Intercom Listener to Config
 		$di->setter['Ushahidi_Repository_Config']['setEvent'] = 'ConfigUpdateEvent';
 		$di->setter['Ushahidi_Repository_Config']['setListener'] =
@@ -844,6 +851,11 @@ abstract class Ushahidi_Core {
 		$di->setter['Ushahidi_Repository_User']['setEvent'] = 'UserGetAllEvent';
 		$di->setter['Ushahidi_Repository_User']['setListener'] =
 			$di->lazyNew('Ushahidi_Listener_IntercomAdminListener');
+
+       // Add Listener to Message repository
+       $di->setter['Ushahidi_Repository_Message']['setEvent'] = 'IncomingMessageEvent';
+        $di->setter['Ushahidi_Repository_Message']['setListener'] =
+        $di->lazyNew('Ushahidi_Listener_IncomingMessageListener');
 
 		// Add Lock Listener
 		$di->setter['Ushahidi_Repository_Post_Lock']['setEvent'] = 'LockBroken';

@@ -185,7 +185,6 @@ class Ushahidi_Repository_Form_Attribute extends Ushahidi_Repository implements
 	// FormAttributeRepository
 	public function getByKey($key, $form_id = null, $include_no_form = false)
 	{
-
 		$query = $this->selectQuery([], $form_id)
 			->select('form_attributes.*')
 			->join('form_stages', 'LEFT')
@@ -234,13 +233,45 @@ class Ushahidi_Repository_Form_Attribute extends Ushahidi_Repository implements
 		return $this->getCollection($results->as_array());
 	}
 
-	/**
+    /**
 	 * @param int $form_id
 	 * @return Entity|FormAttribute
 	 *
-	 * Selects the first attribute of the first stage
+	 * Selects the first attribute of the first stage AFTER $last_attribute_id
+	 * for the form $form_id
 	 * and returns it as a FormAttribute entity
 	 */
+	public function getNextByFormAttribute($form_id, $last_attribute_id)
+	{
+		//FIXME need a better query so it finds the first next attribute in mysql
+		// even when changing stagges... instead of this awful thing
+		$queryByForm = $this->selectQuery([
+			'form_stages.form_id' => $form_id,
+		], $form_id)
+			->select('form_attributes.*')
+			->join('form_stages', 'INNER')
+			->on('form_stages.id', '=', 'form_attributes.form_stage_id')
+			->order_by('form_stages.priority', 'ASC')
+			->order_by('form_attributes.priority', 'ASC');
+
+		$results = $queryByForm->execute($this->db);
+		$results = $results->as_array();
+		$next = null;
+		$foundSelf = 0;
+		$i = 0;
+		while($next === null && $i < count($results) )  {
+			if (intval($results[$i]['id']) === intval($last_attribute_id)) {
+				$foundSelf = $i;
+			} 
+			if ($foundSelf < $i) {
+				$next = $results[$i];
+			}
+			$i++;
+		}
+		
+		return $this->getEntity($next);
+	}
+
 	public function getFirstByForm($form_id)
 	{
 		$query = $this->selectQuery([
