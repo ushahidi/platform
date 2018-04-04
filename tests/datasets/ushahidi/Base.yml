@@ -2051,11 +2051,20 @@ config:
   -
     group_name: data-provider
     config_key: providers
-    config_value: '{"smssync":false,"email":false,"twilio":true,"nexmo":false,"twitter":false,"frontlinesms":false}'
+    config_value: '{"smssync":false,"email":false,"twilio":true,"nexmo":true,"twitter":false,"frontlinesms":true}'
   -
     group_name: data-provider
     config_key: twilio
     config_value: '{"from":"199","auth_token":"111","account_sid":"124","sms_auto_response":"Thank you for your message"}'
+  -
+    group_name: data-provider
+    config_key: frontlinesms
+    config_value: '{"from":"199","auth_token":"111","account_sid":"124","sms_auto_response":"Thank you for your message"}'
+  -
+    group_name: data-provider
+    config_key: nexmo
+    config_value: '{"api_key": "222", "api_secret":"secret", "from":"199","auth_token":"111","account_sid":"124","sms_auto_response":"Thank you for your message"}'
+
 contacts:
   -
     id: 1

@@ -90,7 +90,8 @@ class FeatureContext implements SnippetAcceptingContext
 	{
 		$config = \Kohana::$config->load('features');
 		$config->set('twilio.enabled', true);
-
+		$config->set('frontlinesms.enabled', true);
+		$config->set('nexmo.enabled', true);
 		$config = \Kohana::$config->load('features');
 		$config->set('providers', true);
 	}
@@ -103,6 +104,8 @@ class FeatureContext implements SnippetAcceptingContext
 
 		$config = \Kohana::$config->load('features');
 		$config->set('twilio.enabled', false);
+		$config->set('frontlinesms.enabled', false);
+		$config->set('nexmo.enabled', false);
 
 	}
 }

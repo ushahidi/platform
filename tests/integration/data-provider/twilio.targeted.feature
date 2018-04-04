@@ -1,3 +1,4 @@
+@dataprovidersEnabled @resetFixture
 Feature: Testing the Twilio Data Provider with targeted surveys
     Scenario: Submit a message to twilio controller for a targeted survey contact
         Given that I want to submit a new "Message"
