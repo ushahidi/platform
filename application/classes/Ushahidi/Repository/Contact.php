@@ -42,13 +42,6 @@ class Ushahidi_Repository_Contact extends Ushahidi_Repository implements
 		return 'contacts';
 	}
 
-
-    public function isWaitingForQuestion($id, $form_id)
-    {
-        //@TODO: implement this
-    }
-
-
 	// CreateRepository
 	// ReadRepository
 	public function getEntity(Array $data = null)
