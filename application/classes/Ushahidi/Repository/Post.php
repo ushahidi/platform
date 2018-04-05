@@ -604,14 +604,6 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		return (int) $this->selectCount(['posts.status' => 'published']);
 	}
 
-
-    public function getPostByFormAndMessageId($form_id, $message_id)
-    {
-        //@TODO: implement this
-        /// there should be only one message that matches, so return that id
-
-    }
-
 	// StatsPostRepository
 	public function getGroupedTotals(SearchData $search)
 	{
