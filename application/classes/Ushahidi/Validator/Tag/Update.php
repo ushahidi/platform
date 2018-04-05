@@ -63,6 +63,7 @@ class Ushahidi_Validator_Tag_Update extends Validator
 			],
 			'role' => [
 				[[$this->role_repo, 'exists'], [':value']],
+				[[$this->repo, 'isRoleValid'], [':validation', ':fulldata']]
 			]
 		];
 	}
