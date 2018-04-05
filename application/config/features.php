@@ -31,7 +31,7 @@ return [
 		'email' => TRUE,
 		'twilio' => TRUE,
 		'nexmo' => TRUE,
-		'testservice' => FALSE
+		'testservice' => TRUE
 	],
 
 	// Client limits
@@ -69,7 +69,7 @@ return [
 
 	// Targeted Surveys
 	'targeted-surveys' => [
-		'enabled' => FALSE,
+		'enabled' => TRUE,
 	],
 
 	// Post locking
