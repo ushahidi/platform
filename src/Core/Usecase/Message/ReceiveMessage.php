@@ -52,7 +52,7 @@ class ReceiveMessage extends CreateUsecase
 	/**
 	 * @var CreateRepository
 	 */
-	protected $contactRepo;
+	protected $contact_repo;
 
 	/**
 	 * Inject a contact repository
@@ -62,7 +62,7 @@ class ReceiveMessage extends CreateUsecase
 	 */
 	public function setContactRepository(CreateRepository $contactRepo)
 	{
-		$this->contactRepo = $contactRepo;
+		$this->contact_repo = $contactRepo;
 		return $this;
 	}
 
@@ -268,10 +268,10 @@ class ReceiveMessage extends CreateUsecase
 	protected function getContactEntity()
 	{
 		// Is the sender of the message a registered contact?
-		$contact = $this->contactRepo->getByContact($this->getPayload('from'), $this->getPayload('contact_type'));
+		$contact = $this->contact_repo->getByContact($this->getPayload('from'), $this->getPayload('contact_type'));
 		if (! $contact->getId()) {
 			// this is the first time a message has been received by this number, so create contact
-			$contact =  $this->contactRepo->getEntity()->setState([
+			$contact =  $this->contact_repo->getEntity()->setState([
 				'contact' => $this->getPayload('from'),
 				'type' => $this->getPayload('contact_type'),
 				'data_provider' => $this->getPayload('data_provider'),
@@ -282,7 +282,7 @@ class ReceiveMessage extends CreateUsecase
 
     protected function isContactInTargetedSurvey($contact_id)
     {
-        return $this->contactRepo->isInTargetedSurvey($contact_id);
+        return $this->contact_repo->isInTargetedSurvey($contact_id);
     }
 
 	/**
@@ -297,7 +297,7 @@ class ReceiveMessage extends CreateUsecase
 			return $contact->getId();
 		}
 
-		return $this->contactRepo->create($contact);
+		return $this->contact_repo->create($contact);
 	}
 
 	/**
