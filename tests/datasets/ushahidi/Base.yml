@@ -218,6 +218,13 @@ form_stages:
     show_when_published: 0
     task_is_internal_only: 0
     type: "post"
+  -
+    id: 10
+    form_id: 6
+    label: "Post"
+    show_when_published: 0
+    task_is_internal_only: 0
+    type: "post"
 form_attributes:
   -
     id: 1
@@ -591,6 +598,18 @@ form_attributes:
     options: ""
     cardinality: 1
     form_stage_id: 9
+  -
+    id: 32
+    label: "Test varchar Targeted Survey 3"
+    key: "test_varchar_targeted_survey_3"
+    type: "varchar"
+    input: "text"
+    response_private: 0
+    required: 0
+    priority: 1
+    options: ""
+    cardinality: 1
+    form_stage_id: 10
 posts:
   -
     id: 1
@@ -2104,7 +2123,7 @@ contacts:
   -
     id: 8
     type: "phone"
-    contact: 999999933
+    contact: 59891333224
     user_id:
 
 messages:
@@ -2372,6 +2391,7 @@ targeted_survey_state:
     contact_id: 5
     survey_status: 'PENDING RESPONSE'
     form_id: 6
+    form_attribute_id: 32
   -
     post_id: 1694
     contact_id: 6
