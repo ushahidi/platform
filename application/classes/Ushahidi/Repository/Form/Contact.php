@@ -83,12 +83,16 @@ class Ushahidi_Repository_Form_Contact extends Ushahidi_Repository implements
 
 		// Start transaction
 		$this->db->begin();
-		$inactive =  [];
+		$invalidatedContacts =  [];
 		foreach ($entities as $entity) {
-			$contactWasPartOfActiveSurvey = $this->existsInActiveTargetedSurveyByContactNumber($entity->contact);
-			if ($contactWasPartOfActiveSurvey) {
-				$this->setInactiveTargetedSurvey($contactWasPartOfActiveSurvey['targeted_survey_state_id']);
-				$inactive[] = $entity->contact;
+			$contactOnActiveSurvey = $this->existsInActiveTargetedSurveyByContactNumber($entity->contact);
+			if ($contactOnActiveSurvey) {
+				$this->setInactiveTargetedSurvey($contactOnActiveSurvey['targeted_survey_state_id']);
+				$invalidatedContacts[] = [
+					'contact' => $contactOnActiveSurvey['contact'],
+					'contact_id' => $contactOnActiveSurvey['contact_id'],
+					'form_id' => $contactOnActiveSurvey['form_id']
+				];
 			}
 			//@fixme how to avoid this ugly line?
 			unset($entity->country_code);
@@ -112,7 +116,7 @@ class Ushahidi_Repository_Form_Contact extends Ushahidi_Repository implements
 
 		$this->emit($this->event, $results, $form_id, 'created_contact');
 
-		return $inactive;
+		return $invalidatedContacts;
 	}
 
 	/**
@@ -214,6 +218,7 @@ class Ushahidi_Repository_Form_Contact extends Ushahidi_Repository implements
 	 * @param int $contact_id
 	 * @param int $form_id
 	 * @return bool
+	 *
 	 */
 	public function existsInActiveTargetedSurveyByContactNumber($contact)
 	{
@@ -223,7 +228,9 @@ class Ushahidi_Repository_Form_Contact extends Ushahidi_Repository implements
 		);
 		$query = $this->selectQuery($where)
 			->resetSelect()
-			->select(['targeted_survey_state.id','targeted_survey_state_id'])
+			->select(
+				['targeted_survey_state.id', 'targeted_survey_state_id'], ['contacts.contact', 'contact'], ['targeted_survey_state.contact_id', 'contact_id'], ['targeted_survey_state.form_id', 'form_id']
+			)
 			->limit(1);
 		$query = $this->targetedSurveyStateJoin($query);
 		$result = $query
