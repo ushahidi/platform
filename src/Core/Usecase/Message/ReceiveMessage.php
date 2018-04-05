@@ -34,7 +34,7 @@ class ReceiveMessage extends CreateUsecase
 	/**
 	 * @var CreateRepository
 	 */
-	protected $postRepo;
+	protected $post_repo;
 
 	/**
 	 * Inject a post repository
@@ -44,7 +44,7 @@ class ReceiveMessage extends CreateUsecase
 	 */
 	public function setPostRepository(CreateRepository $postRepo)
 	{
-		$this->postRepo = $postRepo;
+		$this->post_repo = $postRepo;
 		return $this;
 	}
 	protected $targeted_survey_state_repo;
@@ -370,13 +370,13 @@ class ReceiveMessage extends CreateUsecase
 			}
 		}
 		// First create a post
-		$post = $this->postRepo->getEntity()->setState([
+		$post = $this->post_repo->getEntity()->setState([
 				'title'    => $message->title,
 				'content'  => $content,
 				'values'   => $values,
 				'form_id'  => $form_id
 			]);
-		return $this->postRepo->create($post);
+		return $this->post_repo->create($post);
 	}
 
 	protected function verifyValidContact(Entity $contact)
