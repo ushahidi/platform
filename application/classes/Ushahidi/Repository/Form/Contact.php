@@ -227,7 +227,7 @@ class Ushahidi_Repository_Form_Contact extends Ushahidi_Repository implements
 	{
 		$where = array(
 			'contacts.contact' => $contact,
-			'targeted_survey_state.survey_status' => array('PENDING RESPONSE', 'RECEIVED RESPONSE')
+			'targeted_survey_state.survey_status' => array(Entity\TargetedSurveyState::PENDING_RESPONSE, Entity\TargetedSurveyState::RECEIVED_RESPONSE)
 		);
 		$query = $this->selectQuery($where)
 			->resetSelect()
@@ -252,7 +252,7 @@ class Ushahidi_Repository_Form_Contact extends Ushahidi_Repository implements
 	public function setInactiveTargetedSurvey($tss_id)
 	{
 		$repo = $this->targeted_survey_state_repo->get($tss_id);
-		$entity = $repo->setState(array('survey_status' => 'INVALID'));
+		$entity = $repo->setState(array('survey_status' => Entity\TargetedSurveyState::STATUS_INVALID));
 		$this->targeted_survey_state_repo->update($entity);
 	}
 

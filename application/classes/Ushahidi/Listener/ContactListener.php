@@ -104,7 +104,7 @@ class Ushahidi_Listener_ContactListener extends AbstractListener
 				'post_id' => $postId,
 				'title' => $firstAttribute->label,
 				'message' => $firstAttribute->label,
-				'status' => 'pending',
+				'status' => \Ushahidi\Core\Entity\Message::PENDING,
 			);
 			$message->setState($messageState);
 			$messageId = $this->message_repo->create($message);
@@ -118,7 +118,14 @@ class Ushahidi_Listener_ContactListener extends AbstractListener
 			//contact post state
 			$targetedSurveyStatus = $this->targeted_survey_state->getEntity();
 			$targetedSurveyStatus->setState(
-				array('message_id'=> $messageId, 'form_attribute_id'=> $firstAttribute->id, 'form_id' => $form_id, 'post_id' => $postId, 'contact_id' => $contactId, 'survey_status' => 'PENDING RESPONSE')
+				array(
+					'message_id'=> $messageId,
+					'form_attribute_id'=> $firstAttribute->id,
+					'form_id' => $form_id,
+					'post_id' => $postId,
+					'contact_id' => $contactId,
+					'survey_status' => \Ushahidi\Core\Entity\TargetedSurveyState::PENDING_RESPONSE
+				)
 			);
 
 			$targetedSurveyStatusId = $this->targeted_survey_state->create($targetedSurveyStatus);

@@ -23,6 +23,12 @@ class TargetedSurveyState extends StaticEntity
 	protected $survey_status;
 	protected $message_id;
 
+	const STATUS_INVALID = 'INVALID';
+	const PENDING_RESPONSE = 'PENDING RESPONSE';
+	const RECEIVED_RESPONSE = 'RECEIVED RESPONSE';
+	const SURVEY_FINISHED = 'SURVEY FINISHED';
+	const INVALID_CONTACT_MOVED = 'ACTIVE CONTACT IN SURVEY ###';
+	
 	// DataTransformer
 	protected function getDefinition()
 	{
