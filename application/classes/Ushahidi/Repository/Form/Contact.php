@@ -94,7 +94,10 @@ class Ushahidi_Repository_Form_Contact extends Ushahidi_Repository implements
 					'form_id' => $contactOnActiveSurvey['form_id']
 				];
 			}
-			//@fixme how to avoid this ugly line?
+			/**
+			 * @fixme this is needed because we want to have a country code in the entity as a property to be used
+			 * in phone number validation but we don't want to save it
+			 */
 			unset($entity->country_code);
 			$query = DB::insert($this->getTable())
 				->columns(array_keys($entity->asArray()));
