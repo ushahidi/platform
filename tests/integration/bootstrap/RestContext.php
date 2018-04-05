@@ -11,6 +11,7 @@ namespace Tests\Integration\Bootstrap;
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
+use Aura\Di\Exception;
 use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\PyStringNode;
 use Symfony\Component\Yaml\Yaml;
@@ -247,14 +248,18 @@ class RestContext implements Context
 			$http_request
 				->addHeaders($this->headers)
 				->send();
+
 		} catch (\Guzzle\Http\Exception\BadResponseException $e) {
 			// Don't care.
 			// 4xx and 5xx statuses are valid error responses
+
 		}
 
 		// Get response object
 		$this->response = $http_request->getResponse();
-
+		$data = $this->response->getBody(true);
+			//var_dump($data);
+			//throw new Exception(print_r($data,true));
 		// Create fake response object if Guzzle doesn't give us one
 		if (! $this->response instanceof \Guzzle\Http\Message\Response) {
 			$this->response = new \Guzzle\Http\Message\Response(null, null, null);

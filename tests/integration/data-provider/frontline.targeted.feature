@@ -15,5 +15,5 @@ Feature: Testing the frontlinesms Data Provider with targeted surveys
         And that the post field "AccountSid" is "124"
         And that the api_url is ""
         When I request "/sms/frontlinesms"
-        And the response should contain "Outgoing question not found for contact 7 and form 7"
+        And the "payload.error" property equals "Outgoing question not found for contact 7 and form 7"
         Then the guzzle status code should be 400
