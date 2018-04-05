@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Ushahidi Form Role
+ * Ushahidi CountryCode Entity
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Platform
@@ -13,25 +13,27 @@ namespace Ushahidi\Core\Entity;
 
 use Ushahidi\Core\StaticEntity;
 
-class ContactPostState extends StaticEntity
+class CountryCode extends StaticEntity
 {
-	protected $post_id;
-	protected $status;
-	protected $contact_id;
+	protected $id;
+	protected $country_name;
+	protected $dial_code;
+	protected $country_code;
 
 	// DataTransformer
-	protected function getDefinition()
+	public function getDefinition()
 	{
 		return [
-			'form_id'  => 'int',
-			'status'       => 'string',
-			'contact_id'  => 'int'
+			'id'           => 'int',
+			'country_name' => 'string',
+			'dial_code'    => 'string',
+			'country_code' => 'string'
 		];
 	}
 
 	// Entity
 	public function getResource()
 	{
-		return 'contact_post_states';
+		return 'country_codes';
 	}
 }

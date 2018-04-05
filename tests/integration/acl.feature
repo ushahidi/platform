@@ -204,7 +204,7 @@ Feature: API Access Control Layer
         When I request "/posts"
         Then the guzzle status code should be 200
         And the response is JSON
-        And the "count" property equals "17"
+        And the "count" property equals "18"
 
     Scenario: User can view public and own private posts in collection
         Given that I want to get all "Posts"
@@ -213,7 +213,7 @@ Feature: API Access Control Layer
         When I request "/posts"
         Then the guzzle status code should be 200
         And the response is JSON
-        And the "count" property equals "20"
+        And the "count" property equals "21"
 
     Scenario: Admin can view all posts in collection
         Given that I want to get all "Posts"
@@ -222,7 +222,7 @@ Feature: API Access Control Layer
         When I request "/posts"
         Then the guzzle status code should be 200
         And the response is JSON
-        And the "count" property equals "24"
+        And the "count" property equals "28"
 
     Scenario: Admin user can view private posts
         Given that I want to find a "Post"
@@ -537,7 +537,7 @@ Feature: API Access Control Layer
         When I request "/posts"
         Then the guzzle status code should be 200
         And the response is JSON
-        And the "count" property equals "23"
+        And the "count" property equals "27"
 
     @rolesEnabled
     Scenario: User with Manage Posts permission can view private posts
