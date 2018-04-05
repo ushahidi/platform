@@ -248,11 +248,9 @@ class RestContext implements Context
 			$http_request
 				->addHeaders($this->headers)
 				->send();
-
 		} catch (\Guzzle\Http\Exception\BadResponseException $e) {
 			// Don't care.
 			// 4xx and 5xx statuses are valid error responses
-
 		}
 
 		// Get response object
