@@ -185,7 +185,6 @@ class Ushahidi_Repository_Form_Attribute extends Ushahidi_Repository implements
 	// FormAttributeRepository
 	public function getByKey($key, $form_id = null, $include_no_form = false)
 	{
-
 		$query = $this->selectQuery([], $form_id)
 			->select('form_attributes.*')
 			->join('form_stages', 'LEFT')
@@ -234,13 +233,27 @@ class Ushahidi_Repository_Form_Attribute extends Ushahidi_Repository implements
 		return $this->getCollection($results->as_array());
 	}
 
-	/**
+    /**
 	 * @param int $form_id
 	 * @return Entity|FormAttribute
 	 *
-	 * Selects the first attribute of the first stage
-	 * and returns it as a FormAttribute entity
+	 * Selects the first attribute of the same stage AFTER $last_attribute_id
+	 * for the form $form_id. Will only work correctly for targeted surveys or other single stage surveys
+	 * @return FormAttribute entity
 	 */
+	public function getNextByFormAttribute($last_attribute_id)
+	{
+		$current_attribute = $this->get($last_attribute_id);
+		$next_attribute = DB::select($this->getTable() . '.*')
+			->from($this->getTable())
+			->where('form_stage_id', '=', $current_attribute->form_stage_id)
+			->where('priority', '>', $current_attribute->priority)
+			->limit(1)
+			->execute();
+
+		return $this->getEntity($next_attribute->current());
+	}
+
 	public function getFirstByForm($form_id)
 	{
 		$query = $this->selectQuery([
