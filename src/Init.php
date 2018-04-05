@@ -322,10 +322,10 @@ $di->setter['Ushahidi\Core\Usecase\Message\ReceiveMessage']['setContactRepositor
 	= $di->lazyGet('repository.contact');
 $di->setter['Ushahidi\Core\Usecase\Message\ReceiveMessage']['setPostRepository'] = $di->lazyGet('repository.post');
 
-// form attribute repo for Incoming Message Listener
+// form attribute repo for ReceiveMessage usecase
 $di->setter['Ushahidi\Core\Usecase\Message\ReceiveMessage']['setFormAttributeRepo'] =
 	$di->lazyGet('repository.form_attribute');
-// form TargetedSurveyState repo for Incoming Message Listener
+// form TargetedSurveyState repo for ReceiveMessage usecase
 $di->setter['Ushahidi\Core\Usecase\Message\ReceiveMessage']['setTargetedSurveyStateRepo'] =
 	$di->lazyGet('repository.targeted_survey_state');
 $di->setter['Ushahidi\Core\Usecase\Message\ReceiveMessage']['setContactValidator']
