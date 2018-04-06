@@ -115,7 +115,8 @@ class ReceiveMessage extends CreateUsecase
 		$incomingMessageId = $incomingMessageRepo->create($incomingMessage);
 		if (!$incomingMessageId) {
 			Kohana::$log->add(
-				Log::ERROR, 'Could not create new incoming message for contact_id: '.print_r($contact_id, true)
+				Log::ERROR,
+				'Could not create new incoming message for contact_id: '.print_r($contact_id, true)
 			);
 			throw new HTTP_Exception_400('Could not create new incoming message for contact_id: '. $contact_id);
 		}
@@ -145,7 +146,8 @@ class ReceiveMessage extends CreateUsecase
 		$newMessageId = $this->repo->create($newMessage);
 		if (!$newMessageId) {
 			Kohana::$log->add(
-				Log::ERROR, 'Could not create new message for contact_id: '.print_r($contact_id, true)
+				Log::ERROR,
+				'Could not create new message for contact_id: '.print_r($contact_id, true)
 			);
 			throw new HTTP_Exception_400('Could not create new outgoing message for contact_id: '. $contact_id);
 		}
