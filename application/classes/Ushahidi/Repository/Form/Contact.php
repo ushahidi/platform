@@ -35,7 +35,6 @@ class Ushahidi_Repository_Form_Contact extends Ushahidi_Repository implements
 	)
 	{
 		parent::__construct($db);
-
 		$this->form_repo = $form_repo;
 		$this->targeted_survey_state_repo = $targeted_survey_state_repo;
 		$this->message_repo = $message_repo;
@@ -54,6 +53,18 @@ class Ushahidi_Repository_Form_Contact extends Ushahidi_Repository implements
 	{
 		return new Entity\Contact($data);
 	}
+
+	// CreateRepository
+	// ReadRepository
+	public function getEntityWithData($contact, $data = [])
+	{
+		$contact = $this->selectQuery(array('contact' => $contact))->execute($this->db)->current();
+		if (!$contact) {
+			return new Entity\Contact($data);
+		}
+		return new Entity\Contact($contact);
+	}
+
 
 	// SearchRepository
 	public function getSearchFields()
