@@ -71,7 +71,8 @@ class Ushahidi_Repository_Form_Stats extends Ushahidi_Repository implements
 			'messages.direction' => 'incoming',
 			'targeted_survey_state.survey_status' => array(
 				Entity\TargetedSurveyState::RECEIVED_RESPONSE,
-				Entity\TargetedSurveyState::PENDING_RESPONSE
+				Entity\TargetedSurveyState::PENDING_RESPONSE,
+				Entity\TargetedSurveyState::SURVEY_FINISHED,
 			)
 		);
 		$query = $this->selectQuery($where)
@@ -87,6 +88,48 @@ class Ushahidi_Repository_Form_Stats extends Ushahidi_Repository implements
 			->execute($this->db)
 			->get('total');
 	}
+
+	public function countSentMessages($form_id)
+	{
+		$where = array(
+			'posts.form_id' => $form_id,
+			'messages.direction' => 'outgoing',
+			'messages.status' => 'sent',
+			'targeted_survey_state.survey_status' => array(
+				Entity\TargetedSurveyState::RECEIVED_RESPONSE,
+				Entity\TargetedSurveyState::PENDING_RESPONSE,
+				Entity\TargetedSurveyState::SURVEY_FINISHED,
+			)
+		);
+		$query = $this->selectQuery($where)
+			->resetSelect()
+			->select([DB::expr('COUNT(distinct message_id)'), 'total']);
+		$query = $this->targetedSurveyStateJoin($query)->join('messages', 'INNER')->on('messages.id', '=', 'targeted_survey_state.message_id');
+		return $query
+			->execute($this->db)
+			->get('total');
+	}
+
+	public function countPendingMessages($form_id)
+	{
+		$where = array(
+			'posts.form_id' => $form_id,
+			'messages.direction' => 'outgoing',
+			'messages.status' => 'pending',
+			'targeted_survey_state.survey_status' => array(
+				Entity\TargetedSurveyState::RECEIVED_RESPONSE,
+				Entity\TargetedSurveyState::PENDING_RESPONSE,
+				Entity\TargetedSurveyState::SURVEY_FINISHED,
+			)
+		);
+		$query = $this->selectQuery($where)
+			->resetSelect()
+			->select([DB::expr('COUNT(distinct message_id)'), 'total']);
+		$query = $this->targetedSurveyStateJoin($query)->join('messages', 'INNER')->on('messages.id', '=', 'targeted_survey_state.message_id');
+		return $query
+			->execute($this->db)
+			->get('total');
+	}
 	/**
 	 * @param int $contact_id
 	 * @param int $form_id
@@ -98,7 +141,8 @@ class Ushahidi_Repository_Form_Stats extends Ushahidi_Repository implements
 			'posts.form_id' => $form_id,
 			'targeted_survey_state.survey_status' => array(
 				Entity\TargetedSurveyState::RECEIVED_RESPONSE,
-				Entity\TargetedSurveyState::PENDING_RESPONSE
+				Entity\TargetedSurveyState::PENDING_RESPONSE,
+				Entity\TargetedSurveyState::SURVEY_FINISHED,
 			)
 		);
 		$query = $this->selectQuery($where)

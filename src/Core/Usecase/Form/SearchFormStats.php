@@ -42,7 +42,9 @@ class SearchFormStats extends SearchUsecase
 
         $results = array(
         	'total_recipients' => $this->repo->getRecipients($this->getIdentifier('form_id')),
-			'total_responses' => $this->repo->getResponses($this->getIdentifier('form_id'))
+			'total_responses' => $this->repo->getResponses($this->getIdentifier('form_id')),
+			'total_messages_sent' => $this->repo->countSentMessages($this->getIdentifier('form_id')),
+			'total_messages_pending' => $this->repo->countPendingMessages($this->getIdentifier('form_id')),
 		);
 		$entity->setState($results);
         // ... and return the formatted results.
