@@ -16,7 +16,7 @@
   - name: "Deploy QA"
     service: deploy
     # tag: develop
-    tag: release/csv-export-2399
+    tag: cycle-2-sms-api
     command: >
       ANSIBLE_GITHUB_REPO=platform-cloud-ansible
       ANSIBLE_GITHUB_REPO_VERSION=master

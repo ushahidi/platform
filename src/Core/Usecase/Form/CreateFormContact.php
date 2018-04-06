@@ -103,9 +103,9 @@ class CreateFormContact extends CreateContact
 			), $invalid);
 		} else {
 			// ... persist the new collection
-			$this->repo->updateCollection($entities, intval($this->getIdentifier('form_id')));
+			$invalidEntities = $this->repo->updateCollection($entities, intval($this->getIdentifier('form_id')));
 			// ... and finally format it for output
-			return $this->formatter->__invoke(intval($this->getIdentifier('form_id')), $entities);
+			return $this->formatter->__invoke(intval($this->getIdentifier('form_id')), $entities, $invalidEntities);
 		}
 	}
 

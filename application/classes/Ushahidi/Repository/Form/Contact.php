@@ -19,6 +19,7 @@ class Ushahidi_Repository_Form_Contact extends Ushahidi_Repository implements
 {
 	use \Ushahidi\Core\Traits\Event;
 	protected $form_repo;
+	protected $message_repo;
 	protected $targeted_survey_state_repo;
 
 	/**
@@ -28,12 +29,16 @@ class Ushahidi_Repository_Form_Contact extends Ushahidi_Repository implements
 	 */
 	public function __construct(
 		Database $db,
-		Entity\FormRepository $form_repo
+		Entity\FormRepository $form_repo,
+		Entity\TargetedSurveyStateRepository $targeted_survey_state_repo,
+		Entity\MessageRepository $message_repo
 	)
 	{
 		parent::__construct($db);
 
 		$this->form_repo = $form_repo;
+		$this->targeted_survey_state_repo = $targeted_survey_state_repo;
+		$this->message_repo = $message_repo;
 
 	}
 
@@ -81,8 +86,29 @@ class Ushahidi_Repository_Form_Contact extends Ushahidi_Repository implements
 
 		// Start transaction
 		$this->db->begin();
+		$invalidatedContacts =  [];
 		foreach ($entities as $entity) {
-			//@fixme how to avoid this ugly line?
+			$contactOnActiveSurvey = $this->existsInActiveTargetedSurvey($entity->contact);
+			if ($contactOnActiveSurvey) {
+				$this->setInactiveTargetedSurvey($contactOnActiveSurvey['targeted_survey_state_id'], $form_id);
+				/** force the message in the survey state to be expired
+				** so we don't send outbound messages by mistake on an invalidated contact-survey
+				**/
+				$message = $this->message_repo->get($contactOnActiveSurvey['message_id']);
+				if ($message->id) {
+					$message->setState(['status' => Entity\Message::EXPIRED]);
+					$this->message_repo->update($message);
+				}
+				$invalidatedContacts[] = [
+					'contact' => $contactOnActiveSurvey['contact'],
+					'contact_id' => $contactOnActiveSurvey['contact_id'],
+					'form_id' => $contactOnActiveSurvey['form_id']
+				];
+			}
+			/**
+			 * @fixme this is needed because we want to have a country code in the entity as a property to be used
+			 * in phone number validation but we don't want to save it
+			 */
 			unset($entity->country_code);
 			$query = DB::insert($this->getTable())
 				->columns(array_keys($entity->asArray()));
@@ -102,10 +128,9 @@ class Ushahidi_Repository_Form_Contact extends Ushahidi_Repository implements
 		// Start transaction
 		$this->db->commit();
 
-
 		$this->emit($this->event, $results, $form_id, 'created_contact');
 
-		return $entities;
+		return $invalidatedContacts;
 	}
 
 	/**
@@ -201,6 +226,48 @@ class Ushahidi_Repository_Form_Contact extends Ushahidi_Repository implements
 		return (bool)$query
 			->execute($this->db)
 			->get('total');
+	}
+
+	/**
+	 * @param int $contact|contact number
+	 * @return bool
+	 *
+	 */
+	public function existsInActiveTargetedSurvey($contact)
+	{
+		$where = array(
+			'contacts.contact' => $contact,
+			'targeted_survey_state.survey_status' => array(Entity\TargetedSurveyState::PENDING_RESPONSE, Entity\TargetedSurveyState::RECEIVED_RESPONSE)
+		);
+		$query = $this->selectQuery($where)
+			->resetSelect()
+			->select(
+				['targeted_survey_state.id', 'targeted_survey_state_id'],
+				['contacts.contact', 'contact'],
+				['targeted_survey_state.contact_id', 'contact_id'],
+				['targeted_survey_state.form_id', 'form_id'],
+				['targeted_survey_state.message_id', 'message_id']
+			)
+			->limit(1);
+		$query = $this->targetedSurveyStateJoin($query);
+		$result = $query
+			->execute($this->db);
+		if ($result) {
+			return $result->current();
+		}
+	}
+
+
+	/**
+	 * @param int $contact_id
+	 * @param int $form_id
+	 * @return bool
+	 */
+	public function setInactiveTargetedSurvey($tss_id, $form_id)
+	{
+		$repo = $this->targeted_survey_state_repo->get($tss_id);
+		$entity = $repo->setState(array('survey_status' => str_replace('###', $form_id,Entity\TargetedSurveyState::INVALID_CONTACT_MOVED)));
+		$this->targeted_survey_state_repo->update($entity);
 	}
 
 	// SearchRepository

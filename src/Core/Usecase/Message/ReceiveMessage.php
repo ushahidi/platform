@@ -188,7 +188,7 @@ class ReceiveMessage extends CreateUsecase
 			[
 				'form_attribute_id' => $next_form_attribute->getId(),
 				'message_id' => $incomingMessageId,
-				'survey_status' => 'RECEIVED RESPONSE'
+				'survey_status' => Entity\TargetedSurveyState::RECEIVED_RESPONSE
 			]
 		);
 		$this->targeted_survey_state_repo->update($surveyStateEntity);
@@ -198,12 +198,12 @@ class ReceiveMessage extends CreateUsecase
 				[
 					'form_attribute_id' => $next_form_attribute->getId(),
 					'message_id' => $newMessageId,
-					'survey_status' => 'PENDING RESPONSE'
+					'survey_status' => Entity\TargetedSurveyState::PENDING_RESPONSE
 				]
 			);
 			$this->targeted_survey_state_repo->update($surveyStateEntity);
 		} else {
-			$surveyStateEntity->setState(['survey_status' => 'SURVEY FINISHED']);
+			$surveyStateEntity->setState(['survey_status' => Entity\TargetedSurveyState::SURVEY_FINISHED]);
 			$this->targeted_survey_state_repo->update($surveyStateEntity);
 		}
 		return $incomingMessageId;
