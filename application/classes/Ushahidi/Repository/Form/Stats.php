@@ -66,7 +66,15 @@ class Ushahidi_Repository_Form_Stats extends Ushahidi_Repository implements
 	}
 	public function getResponses($form_id)
 	{
-		$query = $this->selectQuery(array('posts.form_id' => $form_id, 'messages.direction' => 'incoming'))
+		$where = array(
+			'posts.form_id' => $form_id,
+			'messages.direction' => 'incoming',
+			'targeted_survey_state.survey_status' => array(
+				Entity\TargetedSurveyState::RECEIVED_RESPONSE,
+				Entity\TargetedSurveyState::PENDING_RESPONSE
+			)
+		);
+		$query = $this->selectQuery($where)
 			->resetSelect()
 			->select([DB::expr('COUNT(messages.id)'), 'total'])
 			->join('targeted_survey_state', 'INNER')
@@ -86,7 +94,14 @@ class Ushahidi_Repository_Form_Stats extends Ushahidi_Repository implements
 	 */
 	public function getRecipients($form_id)
 	{
-		$query = $this->selectQuery(array('posts.form_id' => intval($form_id)))
+		$where = array(
+			'posts.form_id' => $form_id,
+			'targeted_survey_state.survey_status' => array(
+				Entity\TargetedSurveyState::RECEIVED_RESPONSE,
+				Entity\TargetedSurveyState::PENDING_RESPONSE
+			)
+		);
+		$query = $this->selectQuery($where)
 			->resetSelect()
 			->select([DB::expr('COUNT(distinct contact_id)'), 'total']);
 		$query = $this->targetedSurveyStateJoin($query);

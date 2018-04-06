@@ -14,12 +14,19 @@ use Ushahidi\Core\Traits\FormatterAuthorizerMetadata;
 class Ushahidi_Formatter_Form_Contact extends Ushahidi_Formatter_API
 {
 	use FormatterAuthorizerMetadata;
-	
-	public function __invoke($form_id, $entities = [])
+
+	/**
+	 * @param $form_id
+	 * @param array $entities (the entities that were added)
+	 * @param array $invalidatedContacts ([{'contact': number, 'contact': id, 'form_id:' form_id}...]
+	 * @return array|mixed
+	 */
+	public function __invoke($form_id, $entities = [], $invalidatedContacts = [])
 	{
 		$data = [
 			'form_id'  => $form_id,
 			'count' => count($entities),
+			'invalidated_contacts' => $invalidatedContacts
 			];
 		return $data;
 	}
