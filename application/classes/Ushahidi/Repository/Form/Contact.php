@@ -121,19 +121,25 @@ class Ushahidi_Repository_Form_Contact extends Ushahidi_Repository implements
 			 * in phone number validation but we don't want to save it
 			 */
 			unset($entity->country_code);
-			$query = DB::insert($this->getTable())
-				->columns(array_keys($entity->asArray()));
-			$query->values($entity->asArray());
-			$result = $query->execute($this->db);
-			if (!isset($result[0])) {
-				throw new HTTP_Exception_500(
-					sprintf(
-						'Could not create contacts. Result:  %s',
-						var_export($entity, true)
-					)
-				);
+			if (!$entity->id) {
+
+				$query = DB::insert($this->getTable())
+					->columns(array_keys($entity->asArray()));
+				$query->values($entity->asArray());
+				$result = $query->execute($this->db);
+				if (!isset($result[0])) {
+					throw new HTTP_Exception_500(
+						sprintf(
+							'Could not create contacts. Result:  %s',
+							var_export($entity, true)
+						)
+					);
+				}
+				array_push($results, $result[0]);
+			} else {
+				array_push($results, $entity->id);
 			}
-			array_push($results, $result[0]);
+
 		}
 
 		// Start transaction
