@@ -99,12 +99,20 @@ class Ushahidi_Listener_ContactListener extends AbstractListener
 					)
 				);
 			}
+
+			// MESSAGE TYPE SHOULD BE CONFIGURABLE
+			// FOR NOW IT IS RESTRICTED TO SMS
+			$message_type = Message_Type::SMS;
+			$data_provider = \DataProvider::getEnabledProviderForType($message_type);
+			
 			$messageState = array(
 				'contact_id' => $contactId,
 				'post_id' => $postId,
 				'title' => $firstAttribute->label,
 				'message' => $firstAttribute->label,
 				'status' => \Ushahidi\Core\Entity\Message::PENDING,
+				'type' => $message_type,
+				'data_provider' => $data_provider
 			);
 			$message->setState($messageState);
 			$messageId = $this->message_repo->create($message);
