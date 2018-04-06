@@ -55,40 +55,25 @@ class CreateFormContact extends CreateContact
 
 		$entities = [];
 		$invalid = [];
-		$countryCode = $this->getPayload('country_code');
 		$contacts = explode(',', $this->getPayload('contacts'));
 		foreach ($contacts as $contact) {
-			$entities[] = $this->getContactEntity($contact, $countryCode, $invalid);
+			$entities[] = $this->getContactEntity($contact, $invalid);
 		}
+
 		return $this->getContactCollection($entities, $invalid);
 	}
 
-	private function getContactEntity($contactNumber, $countryCode, &$invalid)
+	private function getContactEntity($contactNumber)
     {
 		// .. generate an entity for the item
-		$entity = $this->repo->getEntity(array('contact' => $contactNumber));
-		/**
-		 * we only use this field for validation
-		 * we check that country code + phone number are valid.
-		 * country_code is unset before saving the entity
-		 */
-		$entity->country_code = $countryCode;
-		$countryCodeNumber = $this->phone_validator->parse($contactNumber, $countryCode)->getCountryCode();
-		$contactNumber = $countryCodeNumber . $contactNumber;
-		$entity->setState(
-			[
-				'created' => time(),
-				'can_notify' => true,
-				'type' => 'phone',
-				'contact' => $contactNumber
-			]
-		);
-		// ... and save it for later
-		$entities[] = $entity;
-
-		if (!$this->validator->check($entity->asArray())) {
-			$invalid[$entity->contact] = $this->validator->errors();
-		}
+		$entity = $this->repo->getEntity((
+		[
+			'created' => time(),
+			'can_notify' => true,
+			'type' => 'phone',
+			'contact' => $contactNumber
+		]
+		));
 		return $entity;
 	}
 
