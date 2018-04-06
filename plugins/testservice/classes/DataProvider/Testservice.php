@@ -10,6 +10,7 @@
  */
 
 use Ushahidi\Core\Entity\Contact;
+use GuzzleHttp\Client;
 
 class DataProvider_TestService extends DataProvider {
 
@@ -26,7 +27,8 @@ class DataProvider_TestService extends DataProvider {
 	 */
 	public function send($to, $message, $title = "")
 	{
-		$_api_url = isset($this->_options['api_url']) ? $this->_options['api_url'] : '';
+		$this->client = new GuzzleHttp\Client();
+		$uri = $this->_options['api_url'];
 		// Prepare data to send to test service
 		$data = array(
 			"apiKey" => isset($this->_options['key']) ? $this->_options['key'] : '',
@@ -40,33 +42,20 @@ class DataProvider_TestService extends DataProvider {
 				)
 			)
 		);
+		Kohana::$log->add(Log::WARNING, print_r($uri, true));
 
-		// Make a POST request to send the data to frontline cloud
-		$request = Request::factory($this->_api_url)
-				->method(Request::POST)
-				->body(json_encode($data))
-				->headers('Content-Type', 'application/json');
+		$promise = $this->client->requestAsync('POST', $uri, ['form_params' => $data]);
 
-		try
+		$response = $promise->wait();
+		// $promise->then(function ($response) {
+		// 	Kohana::$log->add(Log::WARNING, print_r($response, true));
+		// });
+		
+		if ($response->getStatusCode() === 200)
 		{
-			$response = $request->execute();
-			// Successfully executed the request
-
-			if ($response->status() === 200)
 			{
 				return array(Message_Status::SENT, $this->tracking_id(Message_Type::SMS));
 			}
-
-			// Log warning to log file.
-			$status = $response->status();
-			Kohana::$log->add(Log::WARNING, 'Could not make a successful POST request: :message  status code: :code',
-				array(':message' => $response->messages[$status], ':code' => $status));
-		}
-		catch(Request_Exception $e)
-		{
-			// Log warning to log file.
-			Kohana::$log->add(Log::WARNING, 'Could not make a successful POST request: :message',
-				array(':message' => $e->getMessage()));
 		}
 
 		return array(Message_Status::FAILED, FALSE);
