@@ -56,10 +56,4 @@ class Ushahidi_Repository_TargetedSurveyState extends Ushahidi_Repository implem
 	{
 		return new Entity\Form($this->selectOne(compact('form')));
 	}
-
-
-	public function setStatusByFormId($form_id, $status)
-	{
-		return $this->executeUpdate(array('form_id' => $form_id), array('survey_status' => $status));
-	}
 }

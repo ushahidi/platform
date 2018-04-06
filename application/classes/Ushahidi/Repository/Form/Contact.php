@@ -90,10 +90,7 @@ class Ushahidi_Repository_Form_Contact extends Ushahidi_Repository implements
 		foreach ($entities as $entity) {
 			$contactOnActiveSurvey = $this->existsInActiveTargetedSurvey($entity->contact);
 			if ($contactOnActiveSurvey) {
-				$this->targeted_survey_state_repo->setStatusByFormId(
-					$contactOnActiveSurvey['form_id'],
-					str_replace('###', $form_id,Entity\TargetedSurveyState::INVALID_CONTACT_MOVED)
-				);
+				$this->setInactiveTargetedSurvey($contactOnActiveSurvey['targeted_survey_state_id'], $form_id);
 				/** force the message in the survey state to be expired
 				** so we don't send outbound messages by mistake on an invalidated contact-survey
 				**/
@@ -258,6 +255,19 @@ class Ushahidi_Repository_Form_Contact extends Ushahidi_Repository implements
 		if ($result) {
 			return $result->current();
 		}
+	}
+
+
+	/**
+	 * @param int $contact_id
+	 * @param int $form_id
+	 * @return bool
+	 */
+	public function setInactiveTargetedSurvey($tss_id, $form_id)
+	{
+		$repo = $this->targeted_survey_state_repo->get($tss_id);
+		$entity = $repo->setState(array('survey_status' => str_replace('###', $form_id,Entity\TargetedSurveyState::INVALID_CONTACT_MOVED)));
+		$this->targeted_survey_state_repo->update($entity);
 	}
 
 	// SearchRepository
