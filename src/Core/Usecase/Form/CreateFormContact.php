@@ -66,14 +66,13 @@ class CreateFormContact extends CreateContact
 	private function getContactEntity($contactNumber)
     {
 		// .. generate an entity for the item
-		$entity = $this->repo->getEntity((
-		[
+		$entity = array(
 			'created' => time(),
 			'can_notify' => true,
 			'type' => 'phone',
 			'contact' => $contactNumber
-		]
-		));
+		);
+		$entity = $this->repo->getEntityWithData($contactNumber, $entity);
 		return $entity;
 	}
 
