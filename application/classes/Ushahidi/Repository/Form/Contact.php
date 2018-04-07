@@ -54,8 +54,12 @@ class Ushahidi_Repository_Form_Contact extends Ushahidi_Repository implements
 		return new Entity\Contact($data);
 	}
 
-	// CreateRepository
-	// ReadRepository
+	/**
+	 * @param $contact
+	 * @param array $data
+	 * @return Entity\Contact (return the entity from the database
+	 * if there's a match,or a new one if not)
+	 */
 	public function getEntityWithData($contact, $data = [])
 	{
 		$contact = $this->selectQuery(array('contact' => $contact))->execute($this->db)->current();
