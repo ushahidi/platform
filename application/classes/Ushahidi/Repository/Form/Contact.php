@@ -126,20 +126,7 @@ class Ushahidi_Repository_Form_Contact extends Ushahidi_Repository implements
 			 */
 			unset($entity->country_code);
 			if (!$entity->id) {
-
-				$query = DB::insert($this->getTable())
-					->columns(array_keys($entity->asArray()));
-				$query->values($entity->asArray());
-				$result = $query->execute($this->db);
-				if (!isset($result[0])) {
-					throw new HTTP_Exception_500(
-						sprintf(
-							'Could not create contacts. Result:  %s',
-							var_export($entity, true)
-						)
-					);
-				}
-				array_push($results, $result[0]);
+				array_push($results, $this->createNewContact($entity));
 			} else {
 				array_push($results, $entity->id);
 			}
@@ -153,7 +140,21 @@ class Ushahidi_Repository_Form_Contact extends Ushahidi_Repository implements
 
 		return $invalidatedContacts;
 	}
-
+	private function createNewContact($entity) {
+		$query = DB::insert($this->getTable())
+			->columns(array_keys($entity->asArray()));
+		$query->values($entity->asArray());
+		$result = $query->execute($this->db);
+		if (!isset($result[0])) {
+			throw new HTTP_Exception_500(
+				sprintf(
+					'Could not create contacts. Result:  %s',
+					var_export($entity, true)
+				)
+			);
+		}
+		return $result[0];
+	}
 	/**
 	 * @param int $form_id
 	 * @return Entity|Entity\Contact
