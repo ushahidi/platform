@@ -140,10 +140,12 @@ class ReceiveMessage extends CreateUsecase
 			'post_id' => $survey_state_entity->post_id,
 			'title' => $next_form_attribute->label,
 			'message' => $next_form_attribute->label,
-			'status' => 'received'
+			'status' => Message::PENDING,
+			'type' => 'sms',//FIXME
+			'direction' => Message::OUTGOING
 		);
 		$newMessage->setState($messageState);
-		$this->verifyValid($messageState);
+		//$this->verifyValid($newMessage); FIXME add outggoing validator
 		$newMessageId = $this->repo->create($newMessage);
 		if (!$newMessageId) {
 			Kohana::$log->add(
