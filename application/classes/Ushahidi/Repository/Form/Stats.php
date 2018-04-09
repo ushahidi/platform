@@ -89,6 +89,13 @@ class Ushahidi_Repository_Form_Stats extends Ushahidi_Repository implements
 			->get('total');
 	}
 
+	/**
+	 * @param $form_id
+	 * @param $total_sent
+	 * @return float|int
+	 * Returns the number of TOTAL pending questions (for invalidated+valid contacts off a
+	 * targeted_survey)
+	 */
 	public function countTotalPending($form_id, $total_sent) {
 		$form_id = intval($form_id);
 		$total_contacts = $this->getTotalContacts($form_id);
@@ -99,6 +106,11 @@ class Ushahidi_Repository_Form_Stats extends Ushahidi_Repository implements
 		return ($total_contacts * $total_attributes) - $total_sent - $total_pending_for_inactive;
 	}
 
+	/**
+	 * @return string | sql query to get pending questions for all invalidated contacts
+	 * on a targeted_survey_state group
+	 * Does not receive form_id because it is bound in a later step
+	 */
 	private function getPendingCountQuery() {
 		/**
 		 * Selects attribute priority & id by contact,for contacts marked in targeted_survey_state as Inactive
