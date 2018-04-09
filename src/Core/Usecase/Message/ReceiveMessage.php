@@ -55,6 +55,9 @@ class ReceiveMessage extends CreateUsecase
 	 */
 	protected $contact_repo;
 
+	protected $outgoingMessageValidator;
+
+
 	/**
 	 * Inject a contact repository
 	 *
@@ -81,6 +84,18 @@ class ReceiveMessage extends CreateUsecase
 	public function setContactValidator(Validator $contactValidator)
 	{
 		$this->contactValidator = $contactValidator;
+		return $this;
+	}
+
+	/**
+	 * Inject a contact validator
+	 *
+	 * @param  $repo Validator
+	 * @return $this
+	 */
+	public function setOutgoingMessageValidator(Validator $outgoingValidator)
+	{
+		$this->outgoingMessageValidator = $outgoingValidator;
 		return $this;
 	}
 
@@ -143,7 +158,7 @@ class ReceiveMessage extends CreateUsecase
 			'status' => 'received'
 		);
 		$newMessage->setState($messageState);
-		$this->verifyValid($messageState);
+		$this->outgoingMessageValidator->check($messageState);
 		$newMessageId = $this->repo->create($newMessage);
 		if (!$newMessageId) {
 			Kohana::$log->add(

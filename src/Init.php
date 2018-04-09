@@ -330,6 +330,8 @@ $di->setter['Ushahidi\Core\Usecase\Message\ReceiveMessage']['setTargetedSurveySt
 	$di->lazyGet('repository.targeted_survey_state');
 $di->setter['Ushahidi\Core\Usecase\Message\ReceiveMessage']['setContactValidator']
 	= $di->lazyGet('validator.contact.receive');
+$di->setter['Ushahidi\Core\Usecase\Message\ReceiveMessage']['setOutgoingMessageValidator']
+	= $di->lazyGet('validator.message.create');
 
 // Add custom usecases for posts
 $di->params['Ushahidi\Factory\UsecaseFactory']['map']['posts'] = [
