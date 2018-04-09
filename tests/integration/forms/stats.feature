@@ -29,11 +29,11 @@ Feature: Testing the Form Stats
         And the "total_recipients" property equals "3"
         And the response has a "total_responses" property
         And the type of the "total_responses" property is "numeric"
-        And the "total_responses" property equals "2"
+        And the "total_responses" property equals "0"
         And the response has a "total_messages_pending" property
         And the type of the "total_messages_pending" property is "numeric"
-        And the "total_messages_pending" property equals "1"
+        And the "total_messages_pending" property equals "0"
         And the response has a "total_messages_sent" property
         And the type of the "total_messages_sent" property is "numeric"
-        And the "total_messages_sent" property equals "2"
+        And the "total_messages_sent" property equals "3"
         Then the guzzle status code should be 200

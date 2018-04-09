@@ -115,9 +115,7 @@ class Ushahidi_Repository_Form_Stats extends Ushahidi_Repository implements
 		$sql = "SELECT SUM(results.counted) as total FROM ($attributeCountQuery) as results";
 		return $sql;
 	}
-	private function getAttributePrioritiesQuery($form_id) {
 
-	}
 	private function getTotalAttributes($form_id) {
 		return DB::query(Database::SELECT,
 			"select count(form_attributes.id) as total from form_attributes 

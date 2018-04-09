@@ -2241,8 +2241,8 @@ messages:
     title: "Test inbound message"
     message: "A test message"
     type: "sms"
-    direction: "incoming"
-    status: "received"
+    direction: "outgoing"
+    status: "sent"
     contact_id: 6
     post_id: 1694
     user_id:
@@ -2253,8 +2253,8 @@ messages:
     title: "Test inbound message"
     message: "A test message"
     type: "sms"
-    direction: "incoming"
-    status: "received"
+    direction: "outgoing"
+    status: "sent"
     contact_id: 7
     post_id: 1695
     user_id:
@@ -2266,7 +2266,7 @@ messages:
     message: "A test message"
     type: "sms"
     direction: "outgoing"
-    status: "pending"
+    status: "sent"
     contact_id: 8
     post_id: 1696
     user_id:
@@ -2397,14 +2397,17 @@ targeted_survey_state:
     contact_id: 6
     survey_status: 'PENDING RESPONSE'
     form_id: 7
+    form_attribute_id: 31
   -
     post_id: 1695
     contact_id: 7
     survey_status: 'PENDING RESPONSE'
     form_id: 7
+    form_attribute_id: 31
   -
     post_id: 1696
     contact_id: 8
     survey_status: 'PENDING RESPONSE'
     form_id: 7
     message_id: 13
+    form_attribute_id: 31
