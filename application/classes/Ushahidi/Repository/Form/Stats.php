@@ -100,10 +100,18 @@ class Ushahidi_Repository_Form_Stats extends Ushahidi_Repository implements
 	}
 
 	private function getPendingCountQuery() {
+		/**
+		 * Selects attribute priority & id by contact,for contacts marked in targeted_survey_state as Inactive
+		 * (noted by the ACTIVE CONTACT IN SURVEY  # format of survey_status)
+		 */
 		$attributeListQuery = "SELECT form_attributes.priority, targeted_survey_state.form_attribute_id, targeted_survey_state.contact_id " .
   			"FROM form_attributes " .
 			"INNER JOIN targeted_survey_state ON form_attributes.id =targeted_survey_state.form_attribute_id " .
   			"WHERE targeted_survey_state.form_id=:form_id and targeted_survey_state.survey_status LIKE 'ACTIVE CONTACT IN SURVEY%'";
+		/**
+		 * counts attributes that have a priority higher than the one of the attributess referenced
+		 * in targeted_survey_state for each invalidated contact
+		 */
 		$attributeCountQuery = "SELECT count(form_attributes.form_stage_id) as counted from targeted_survey_state " .
 			"INNER JOIN form_stages ON targeted_survey_state.form_id=form_stages.form_id " .
  			"INNER JOIN form_attributes ON form_stages.id = form_attributes.form_stage_id " .
@@ -112,6 +120,10 @@ class Ushahidi_Repository_Form_Stats extends Ushahidi_Repository implements
  			"WHERE form_attributes.priority > internal_query.priority " .
  			"AND survey_status LIKE 'ACTIVE CONTACT IN SURVEY%' AND form_stages.form_id=:form_id " .
  			"GROUP BY targeted_survey_state.contact_id, form_attributes.form_stage_id";
+		/**
+		 * sums the result of the previous joined queries to gget how many attributes where not yet sent
+		 * for invalidated contacts
+		 */
 		$sql = "SELECT SUM(results.counted) as total FROM ($attributeCountQuery) as results";
 		return $sql;
 	}
