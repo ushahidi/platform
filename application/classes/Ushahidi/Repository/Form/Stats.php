@@ -99,38 +99,18 @@ class Ushahidi_Repository_Form_Stats extends Ushahidi_Repository implements
 		return ($total_contacts * $total_attributes) - $total_sent - $total_pending_for_inactive;
 	}
 
-	/**
-	-SELECT SUM(results.counted) as total FROM
-	(SELECT count(form_attributes.form_stage_id) as counted from targeted_survey_state
-	INNER JOIN form_stages ON targeted_survey_state.form_id=form_stages.form_id
-	INNER JOIN form_attributes ON form_stages.id = form_attributes.form_stage_id
-	INNER JOIN
-	(
-	SELECT form_attributes.priority, targeted_survey_state.form_attribute_id, targeted_survey_state.contact_id
-	FROM form_attributes
-	INNER JOIN targeted_survey_state ON form_attributes.id =targeted_survey_state.form_attribute_id
-	WHERE targeted_survey_state.form_id=8 and targeted_survey_state.survey_status='INACTIVE'
-	) as internal_query
-	ON internal_query.contact_id = targeted_survey_state.contact_id
-	WHERE form_attributes.priority > internal_query.priority
-	AND survey_status = 'INACTIVE' AND form_stages.form_id=8
-	GROUP BY targeted_survey_state.contact_id, form_attributes.form_stage_id
-	) as results;
-
-	 */
-
 	private function getPendingCountQuery() {
 		$attributeListQuery = "SELECT form_attributes.priority, targeted_survey_state.form_attribute_id, targeted_survey_state.contact_id " .
   			"FROM form_attributes " .
 			"INNER JOIN targeted_survey_state ON form_attributes.id =targeted_survey_state.form_attribute_id " .
-  			"WHERE targeted_survey_state.form_id=:form_id and targeted_survey_state.survey_status='INACTIVE'";
+  			"WHERE targeted_survey_state.form_id=:form_id and targeted_survey_state.survey_status LIKE 'ACTIVE CONTACT IN SURVEY%'";
 		$attributeCountQuery = "SELECT count(form_attributes.form_stage_id) as counted from targeted_survey_state " .
 			"INNER JOIN form_stages ON targeted_survey_state.form_id=form_stages.form_id " .
  			"INNER JOIN form_attributes ON form_stages.id = form_attributes.form_stage_id " .
  			"INNER JOIN ($attributeListQuery) as internal_query " .
  			"ON internal_query.contact_id = targeted_survey_state.contact_id " .
  			"WHERE form_attributes.priority > internal_query.priority " .
- 			"AND survey_status = 'INACTIVE' AND form_stages.form_id=:form_id " .
+ 			"AND survey_status LIKE 'ACTIVE CONTACT IN SURVEY%' AND form_stages.form_id=:form_id " .
  			"GROUP BY targeted_survey_state.contact_id, form_attributes.form_stage_id";
 		$sql = "SELECT SUM(results.counted) as total FROM ($attributeCountQuery) as results";
 		return $sql;
