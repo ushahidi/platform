@@ -91,35 +91,67 @@ class Ushahidi_Repository_Form_Stats extends Ushahidi_Repository implements
 
 	public function countTotalPending($form_id, $total_sent) {
 		$form_id = intval($form_id);
-		//total_contacts = select count(contact_id) from targeted_survey_state where form_id=8 and survey_status IN ('RECEIVED RESPONSE','PENDING RESPONSE')
-		//total_attributes = select count(form_attributes.id) from form_attributes INNER JOIN form_stages ON form_attributes.form_stage_id = form_stages.id WHERE form_stages.form_id=8
-		$total_contacts = DB::query(Database::SELECT,
-			"select count(contact_id) as total from targeted_survey_state where form_id=$form_id
-			 and survey_status NOT IN ('SURVEY FINISHED')")
-		->execute($this->db)->get('total');
-		$total_attributes = DB::query(Database::SELECT,
-			"select count(form_attributes.id) as total from form_attributes 
-			INNER JOIN form_stages ON form_attributes.form_stage_id = form_stages.id WHERE form_stages.form_id=$form_id")
+		$total_contacts = $this->getTotalContacts($form_id);
+		$total_attributes =$this->getTotalAttributes($form_id);
+		$total_pending_for_inactive = DB::query(Database::SELECT, $this->getPendingCountQuery())
+			->bind(':form_id', $form_id)
 			->execute($this->db)->get('total');
-		$internal_query = "SELECT count(form_attributes.form_stage_id) as counted from targeted_survey_state " .
-			"INNER JOIN form_stages ON targeted_survey_state.form_id=form_stages.form_id " .
-			"INNER JOIN form_attributes ON form_stages.id = form_attributes.form_stage_id " .
-			"INNER JOIN (SELECT form_attributes.priority, targeted_survey_state.form_attribute_id, targeted_survey_state.contact_id " .
-			"FROM form_attributes " . "INNER JOIN targeted_survey_state ON form_attributes.id =targeted_survey_state.form_attribute_id " .
-			"WHERE targeted_survey_state.form_id=$form_id and targeted_survey_state.survey_status='INACTIVE'";
-		$query_string = "SELECT SUM(results.counted) as total FROM ($internal_query) as internal_query "
-			. "ON internal_query.contact_id = targeted_survey_state.contact_id "
-			. "WHERE form_attributes.priority > internal_query.priority "
-			. "AND survey_status = 'INACTIVE' "
-			. "AND form_stages.form_id=$form_id "
-			. "group by targeted_survey_state.contact_id, form_attributes.form_stage_id) as results;";
-		$total_pending_for_inactive = DB::query(Database::SELECT,
-		$query_string
-		)->execute($this->db)->get('total');
-		//$total_sent_to_inactive = $total_pending_for_inactive > 0? $total_attributes - $total_pending_for_inactive : 0;
 		return ($total_contacts * $total_attributes) - $total_sent - $total_pending_for_inactive;
 	}
 
+	/**
+	-SELECT SUM(results.counted) as total FROM
+	(SELECT count(form_attributes.form_stage_id) as counted from targeted_survey_state
+	INNER JOIN form_stages ON targeted_survey_state.form_id=form_stages.form_id
+	INNER JOIN form_attributes ON form_stages.id = form_attributes.form_stage_id
+	INNER JOIN
+	(
+	SELECT form_attributes.priority, targeted_survey_state.form_attribute_id, targeted_survey_state.contact_id
+	FROM form_attributes
+	INNER JOIN targeted_survey_state ON form_attributes.id =targeted_survey_state.form_attribute_id
+	WHERE targeted_survey_state.form_id=8 and targeted_survey_state.survey_status='INACTIVE'
+	) as internal_query
+	ON internal_query.contact_id = targeted_survey_state.contact_id
+	WHERE form_attributes.priority > internal_query.priority
+	AND survey_status = 'INACTIVE' AND form_stages.form_id=8
+	GROUP BY targeted_survey_state.contact_id, form_attributes.form_stage_id
+	) as results;
+
+	 */
+
+	private function getPendingCountQuery() {
+		$attributeListQuery = "SELECT form_attributes.priority, targeted_survey_state.form_attribute_id, targeted_survey_state.contact_id " .
+  			"FROM form_attributes " .
+			"INNER JOIN targeted_survey_state ON form_attributes.id =targeted_survey_state.form_attribute_id " .
+  			"WHERE targeted_survey_state.form_id=:form_id and targeted_survey_state.survey_status='INACTIVE'";
+		$attributeCountQuery = "SELECT count(form_attributes.form_stage_id) as counted from targeted_survey_state " .
+			"INNER JOIN form_stages ON targeted_survey_state.form_id=form_stages.form_id " .
+ 			"INNER JOIN form_attributes ON form_stages.id = form_attributes.form_stage_id " .
+ 			"INNER JOIN ($attributeListQuery) as internal_query " .
+ 			"ON internal_query.contact_id = targeted_survey_state.contact_id " .
+ 			"WHERE form_attributes.priority > internal_query.priority " .
+ 			"AND survey_status = 'INACTIVE' AND form_stages.form_id=:form_id " .
+ 			"GROUP BY targeted_survey_state.contact_id, form_attributes.form_stage_id";
+		$sql = "SELECT SUM(results.counted) as total FROM ($attributeCountQuery) as results";
+		return $sql;
+	}
+	private function getAttributePrioritiesQuery($form_id) {
+
+	}
+	private function getTotalAttributes($form_id) {
+		return DB::query(Database::SELECT,
+			"select count(form_attributes.id) as total from form_attributes 
+			INNER JOIN form_stages ON form_attributes.form_stage_id = form_stages.id WHERE form_stages.form_id=:form")
+			->bind(':form', $form_id)
+			->execute($this->db)->get('total');
+	}
+	private function getTotalContacts($form_id) {
+		return DB::query(Database::SELECT,
+			"select count(contact_id) as total from targeted_survey_state where form_id=:form
+			 and survey_status NOT IN ('SURVEY FINISHED')")
+			->bind(':form', $form_id)
+			->execute($this->db)->get('total');
+	}
 	public function countOutgoingMessages($form_id)
 	{
 		$query = $this->selectQuery()
@@ -132,7 +164,7 @@ class Ushahidi_Repository_Form_Stats extends Ushahidi_Repository implements
 		$result = $query
 			->execute($this->db);
 		$ret = ['pending' => 0, 'sent' => 0];
-		foreach( $result->as_array()  as $item) {
+		foreach( $result->as_array()  as $item ) {
 			if ($item['status'] === 'pending') {
 				$ret['pending'] = $item['total'];
 			} else if ($item['status'] === 'sent') {
