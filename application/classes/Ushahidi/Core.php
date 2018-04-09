@@ -676,6 +676,7 @@ abstract class Ushahidi_Core {
 		$di->params['Ushahidi_Validator_Message_Receive'] = [
 			'repo' => $di->lazyGet('repository.message'),
 		];
+		$di->set('validator.message.create', $di->lazyNew('Ushahidi_Validator_Message_Create'));
 
 		$di->params['Ushahidi_Validator_Set_Update'] = [
 			'repo' => $di->lazyGet('repository.user'),
