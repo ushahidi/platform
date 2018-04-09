@@ -31,7 +31,7 @@ return [
 		'email' => TRUE,
 		'twilio' => TRUE,
 		'nexmo' => TRUE,
-		'testservice' => TRUE
+		'testservice' => FALSE
 	],
 
 	// Client limits
