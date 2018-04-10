@@ -610,6 +610,18 @@ form_attributes:
     options: ""
     cardinality: 1
     form_stage_id: 10
+  -
+    id: 33
+    label: "A Test Field Form Stage 9"
+    key: "test_field_stage_9"
+    type: "varchar"
+    input: "text"
+    response_private: 0
+    required: 0
+    priority: 3
+    options: ""
+    cardinality: 1
+    form_stage_id: 9
 posts:
   -
     id: 1
@@ -2407,7 +2419,7 @@ targeted_survey_state:
   -
     post_id: 1696
     contact_id: 8
-    survey_status: 'PENDING RESPONSE'
+    survey_status: 'ACTIVE CONTACT IN SURVEY 6'
     form_id: 7
     message_id: 13
     form_attribute_id: 31
