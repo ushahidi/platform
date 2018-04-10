@@ -220,7 +220,7 @@ class ReceiveMessage extends CreateUsecase
 			);
 			$this->targeted_survey_state_repo->update($surveyStateEntity);
 		} else {
-			$surveyStateEntity->setState(['survey_status' => Entity\TargetedSurveyState::SURVEY_FINISHED] );
+			$surveyStateEntity->setState(['survey_status' => Entity\TargetedSurveyState::SURVEY_FINISHED]);
 			$this->targeted_survey_state_repo->update($surveyStateEntity);
 		}
 		return $incomingMessageId;
