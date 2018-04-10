@@ -140,6 +140,10 @@ class Ushahidi_Repository_Form_Stats extends Ushahidi_Repository implements
 		return $sql;
 	}
 
+	/**
+	 * @param $form_id
+	 * @return mixed
+	 */
 	private function getTotalAttributes($form_id) {
 		return DB::query(Database::SELECT,
 			"select count(form_attributes.id) as total from form_attributes 
@@ -147,6 +151,11 @@ class Ushahidi_Repository_Form_Stats extends Ushahidi_Repository implements
 			->bind(':form', $form_id)
 			->execute($this->db)->get('total');
 	}
+
+	/**
+	 * @param $form_id
+	 * @return mixed
+	 */
 	private function getTotalContacts($form_id) {
 		return DB::query(Database::SELECT,
 			"select count(contact_id) as total from targeted_survey_state where form_id=:form
@@ -154,6 +163,11 @@ class Ushahidi_Repository_Form_Stats extends Ushahidi_Repository implements
 			->bind(':form', $form_id)
 			->execute($this->db)->get('total');
 	}
+
+	/**
+	 * @param $form_id
+	 * @return array
+	 */
 	public function countOutgoingMessages($form_id)
 	{
 		$query = $this->selectQuery()
@@ -176,6 +190,10 @@ class Ushahidi_Repository_Form_Stats extends Ushahidi_Repository implements
 		return $ret;
 	}
 
+	/**
+	 * @param $form_id
+	 * @return mixed
+	 */
 	public function countPendingMessages($form_id)
 	{
 		$where = array(
@@ -220,6 +238,11 @@ class Ushahidi_Repository_Form_Stats extends Ushahidi_Repository implements
 			->get('total');
 	}
 
+	/**
+	 * @param $query
+	 * @return mixed
+	 * A reusable join because we use it everywhere.
+	 */
 	private function targetedSurveyStateJoin($query) {
 		return $query->join('targeted_survey_state', 'INNER')
 			->on('contacts.id', '=', 'targeted_survey_state.contact_id')
