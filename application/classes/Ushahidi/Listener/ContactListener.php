@@ -63,14 +63,27 @@ class Ushahidi_Listener_ContactListener extends AbstractListener
 	// CreateRepository
 	private function getContactPostTitle($form_name, $contact_id)
 	{
+		$title_id = $contact_id;
 		try {
-			$uuid = substr(Ramsey\Uuid\Uuid::uuid4()->toString(), 0 , 5);
-			return "$form_name - $uuid$contact_id";
-
-		} catch (UnsatisfiedDependencyException $e) {
-			Kohana::$log->add(Log::ERROR, $e->getMessage());
-			return "$form_name - $contact_id";
+			$title_id = random_int(1, 999999);
+		} catch (TypeError $e) {
+			// This is okay, so long as `Error` is caught before `Exception`.
+			throw new Exception('Please enter a number!');
+		} catch (Error $e) {
+			// This is required, if you do not need to do anything just rethrow.
+			Kohana::$log->add(
+				Log::INFO,
+				'Could not generate a random number for form :form and contact :contact. Exception:' . $e->getMessage(),
+				array(':form' => $form_name, ':contact' => $contact_id)
+			);
+		} catch (Exception $e) {
+			Kohana::$log->add(
+				Log::INFO,
+				'Could not generate a random number for form :form and contact :contact. Exception:' . $e->getMessage(),
+				array(':form' => $form_name, ':contact' => $contact_id)
+			);
 		}
+		return "$form_name - $title_id$contact_id";
 	}
 
 	public function handle(EventInterface $event, $contactIds = null , $form_id = null, $event_type = null)
