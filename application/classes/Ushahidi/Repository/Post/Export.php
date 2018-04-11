@@ -16,6 +16,13 @@ use Ushahidi\Core\Entity\PostExportRepository;
 class Ushahidi_Repository_Post_Export extends Ushahidi_Repository_CSVPost implements PostExportRepository
 {
 
+	public function getFormIdsForHeaders() {
+		$searchQuery = $this->getSearchQuery();
+		$result = $searchQuery->resetSelect()
+			->select([DB::expr('DISTINCT(posts.form_id)'), 'form_id'])->execute($this->db);
+		$result =  $result->as_array();
+		return array_column($result, 'form_id');
+	}
 	public function getHeaders($form_ids) {
 		$sql = "SELECT form_attributes.key as form_attribute_key, form_attributes.label as form_attribute_label, " .
 			"form_attributes.type as form_attribute_type " .

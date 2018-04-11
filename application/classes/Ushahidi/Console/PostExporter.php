@@ -145,7 +145,8 @@ class Ushahidi_Console_PostExporter extends Command
         $this->postExportRepository->setSearchParams($data);
 		//FIXME add form ids from search filters/result of post query
 		//@WILL this is where we get headers
-		$headers = $this->postExportRepository->getHeaders([1,2,3,4]);
+		$form_ids = $this->postExportRepository->getFormIdsForHeaders();
+		$headers = $this->postExportRepository->getHeaders($form_ids);
         $posts = $this->postExportRepository->getSearchResults();
 
 		// // ... remove any entities that cannot be seen
