@@ -83,7 +83,7 @@ class Ushahidi_Listener_ContactListener extends AbstractListener
 				array(':form' => $form_name, ':contact' => $contact_id)
 			);
 		}
-		return "$form_name - $title_id$contact_id";
+		return "$form_name - $title_id";
 	}
 
 	public function handle(EventInterface $event, $contactIds = null , $form_id = null, $event_type = null)
