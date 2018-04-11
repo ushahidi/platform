@@ -183,6 +183,7 @@ class Ushahidi_Formatter_Post_CSV extends Ushahidi_Formatter_API
 		}
 		return $return;
 	}
+
 	private function singleRaw($recordValue, $record, $headingKey, $key){
 	 	if ($key !== null) {
 			return isset($recordValue[$headingKey])? ($recordValue[$headingKey]): '';
