@@ -23,7 +23,7 @@ Feature: Testing the Form Contacts API
         And that the request "data" is:
             """
             {
-                "contacts":"99333222,91333222,59891333224",
+                "contacts":"99999991,91333222,91333224",
                 "country_code": "UY"
             }
             """
@@ -35,7 +35,7 @@ Feature: Testing the Form Contacts API
         And the type of the "count" property is "numeric"
         And the response has a "invalidated_contacts.0.contact" property
         And the type of the "invalidated_contacts.0.contact" property is "string"
-        Then the "invalidated_contacts.0.contact" property equals "59891333224"
+        Then the "invalidated_contacts.0.contact" property equals "99999991"
         Then the guzzle status code should be 200
     Scenario: Creating a new valid set of Contacts for a targeted survey with contacts
         Given that I want to make a new "Contact"

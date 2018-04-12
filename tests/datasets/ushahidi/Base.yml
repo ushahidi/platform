@@ -129,6 +129,15 @@ forms:
     targeted_survey: 1
   -
     id: 7
+    name: "Targeted survey - with invalidated"
+    type: "report"
+    description: "Testing Targeted survey"
+    require_approval: 0
+    hide_author: 0
+    everyone_can_create: 0
+    targeted_survey: 1
+  -
+    id: 8
     name: "Targeted survey - with responses"
     type: "report"
     description: "Testing Targeted survey"
@@ -221,6 +230,13 @@ form_stages:
   -
     id: 10
     form_id: 6
+    label: "Post"
+    show_when_published: 0
+    task_is_internal_only: 0
+    type: "post"
+  -
+    id: 11
+    form_id: 8
     label: "Post"
     show_when_published: 0
     task_is_internal_only: 0
@@ -610,6 +626,42 @@ form_attributes:
     options: ""
     cardinality: 1
     form_stage_id: 10
+  -
+    id: 33
+    label: "A Test Field Form Stage 9"
+    key: "test_field_stage_9"
+    type: "varchar"
+    input: "text"
+    response_private: 0
+    required: 0
+    priority: 3
+    options: ""
+    cardinality: 1
+    form_stage_id: 9
+  -
+    id: 34
+    label: "Test varchar responses"
+    key: "test_varchar_targeted_survey_responses"
+    type: "varchar"
+    input: "text"
+    response_private: 1
+    required: 1
+    priority: 1
+    options: ""
+    cardinality: 1
+    form_stage_id: 11
+  -
+    id: 35
+    label: "Test varchar responses 2"
+    key: "test_varchar_targeted_survey_responses_2"
+    type: "varchar"
+    input: "text"
+    response_private: 1
+    required: 1
+    priority: 1
+    options: ""
+    cardinality: 1
+    form_stage_id: 11
 posts:
   -
     id: 1
@@ -1067,6 +1119,34 @@ posts:
     title: "Test outbound message"
     type: "report"
     content: "Second Post to test that we count sent messages in recipients"
+    status: "draft"
+    locale: "en_us"
+    created: 1412025016
+    published_to: '[]'
+    post_date: "2014-09-29 14:10:16"
+  -
+    id: 1697
+    form_id: 8
+    parent_id:
+    author_email: ""
+    author_realname: ""
+    title: "Test message"
+    type: "report"
+    content: "Post to test form id 8 with 2 contacts 1 response"
+    status: "draft"
+    locale: "en_us"
+    created: 1412025016
+    published_to: '[]'
+    post_date: "2014-09-29 14:10:16"
+  -
+    id: 1698
+    form_id: 8
+    parent_id:
+    author_email: ""
+    author_realname: ""
+    title: "Test message"
+    type: "report"
+    content: "2nd Post to test form id 8 with 2 contacts 1 response"
     status: "draft"
     locale: "en_us"
     created: 1412025016
@@ -2125,7 +2205,16 @@ contacts:
     type: "phone"
     contact: 59891333224
     user_id:
-
+  -
+    id: 9
+    type: "phone"
+    contact: 59891333225
+    user_id:
+  -
+    id: 10
+    type: "phone"
+    contact: 59891333226
+    user_id:
 messages:
   -
     id: 1
@@ -2241,8 +2330,8 @@ messages:
     title: "Test inbound message"
     message: "A test message"
     type: "sms"
-    direction: "incoming"
-    status: "received"
+    direction: "outgoing"
+    status: "sent"
     contact_id: 6
     post_id: 1694
     user_id:
@@ -2253,8 +2342,8 @@ messages:
     title: "Test inbound message"
     message: "A test message"
     type: "sms"
-    direction: "incoming"
-    status: "received"
+    direction: "outgoing"
+    status: "sent"
     contact_id: 7
     post_id: 1695
     user_id:
@@ -2266,9 +2355,57 @@ messages:
     message: "A test message"
     type: "sms"
     direction: "outgoing"
-    status: "pending"
+    status: "sent"
     contact_id: 8
     post_id: 1696
+    user_id:
+    datetime:
+    data_provider:
+  -
+    id: 14
+    title: "Test outbound message"
+    message: "A test message"
+    type: "sms"
+    direction: "outgoing"
+    status: "sent"
+    contact_id: 9
+    post_id: 1697
+    user_id:
+    datetime:
+    data_provider:
+  -
+    id: 15
+    title: "Test outbound message"
+    message: "A test message"
+    type: "sms"
+    direction: "outgoing"
+    status: "sent"
+    contact_id: 10
+    post_id: 1698
+    user_id:
+    datetime:
+    data_provider:
+  -
+    id: 16
+    title: "Test incoming message"
+    message: "A test message"
+    type: "sms"
+    direction: "incoming"
+    status: "received"
+    contact_id: 10
+    post_id: 1698
+    user_id:
+    datetime:
+    data_provider:
+  -
+    id: 17
+    title: "Test incoming message"
+    message: "A test message"
+    type: "sms"
+    direction: "outgoing"
+    status: "sent"
+    contact_id: 10
+    post_id: 1698
     user_id:
     datetime:
     data_provider:
@@ -2397,14 +2534,31 @@ targeted_survey_state:
     contact_id: 6
     survey_status: 'PENDING RESPONSE'
     form_id: 7
+    form_attribute_id: 31
   -
     post_id: 1695
     contact_id: 7
     survey_status: 'PENDING RESPONSE'
     form_id: 7
+    form_attribute_id: 31
   -
     post_id: 1696
     contact_id: 8
-    survey_status: 'PENDING RESPONSE'
+    survey_status: 'ACTIVE CONTACT IN SURVEY 6'
     form_id: 7
     message_id: 13
+    form_attribute_id: 31
+  -
+    post_id: 1697
+    contact_id: 9
+    survey_status: 'PENDING RESPONSE'
+    form_id: 8
+    message_id: 14
+    form_attribute_id: 35
+  -
+    post_id: 1698
+    contact_id: 10
+    survey_status: 'PENDING RESPONSE'
+    form_id: 8
+    message_id: 17
+    form_attribute_id: 35

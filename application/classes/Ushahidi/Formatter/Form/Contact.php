@@ -27,7 +27,7 @@ class Ushahidi_Formatter_Form_Contact extends Ushahidi_Formatter_API
 			'form_id'  => $form_id,
 			'count' => count($entities),
 			'invalidated_contacts' => $invalidatedContacts
-			];
+		];
 		return $data;
 	}
 }
