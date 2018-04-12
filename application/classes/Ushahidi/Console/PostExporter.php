@@ -142,24 +142,37 @@ class Ushahidi_Console_PostExporter extends Command
             $data->$key = $filter;
 		}
 
-        $this->postExportRepository->setSearchParams($data);
-		//FIXME add form ids from search filters/result of post query
-		//@WILL this is where we get headers
-		$form_ids = $this->postExportRepository->getFormIdsForHeaders();
-		$headers = $this->postExportRepository->getHeaders($form_ids);
-        $posts = $this->postExportRepository->getSearchResults();
+		$this->postExportRepository->setSearchParams($data);
+		$posts = $this->postExportRepository->getSearchResults();
+
+		service("formatter.entity.post.$format")->setFileSystem($this->fs);
+		service("formatter.entity.post.$format")->setAddHeader($add_header);
+
+	
+		if (!$job->header_row) {
+			$form_ids = $this->postExportRepository->getFormIdsForHeaders();
+			$attributes = $this->postExportRepository->getAttributes($form_ids);
+
+			$job->header_row = service("formatter.entity.post.$format")->createHeading($attributes, $posts);
+
+			$job->update();
+		} else {
+			service("formatter.entity.post.$format")->setHeading($job->header_row);
+		}
+	
+
 
 		// // ... remove any entities that cannot be seen
 		foreach ($posts as $idx => $post) {
 
 			// Retrieved Attribute Labels for Entity's values
 			$post = $this->postExportRepository->retrieveColumnNameData($post->asArray());
+			
 
 			$posts[$idx] = $post;
 		}
 
-		service("formatter.entity.post.$format")->setFileSystem($this->fs);
-		service("formatter.entity.post.$format")->setAddHeader($add_header);
+		
 		$file = service("formatter.entity.post.$format")->__invoke($posts);
 		
 		$response = [

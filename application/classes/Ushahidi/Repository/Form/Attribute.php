@@ -234,6 +234,19 @@ class Ushahidi_Repository_Form_Attribute extends Ushahidi_Repository implements
 		return $this->getCollection($results->as_array());
 	}
 
+	public function getByForms($form_ids) {
+		$sql = "SELECT form_attributes.key as form_attribute_key, form_attributes.label as form_attribute_label, " .
+			"form_attributes.type as form_attribute_type " .
+			"FROM form_attributes " .
+			"INNER JOIN form_stages ON form_attributes.form_stage_id = form_stages.form_id " .
+			"INNER JOIN forms ON form_stages.form_id = forms.id " .
+			"where forms.id IN :forms";
+		$results = DB::query(Database::SELECT, $sql)
+			->bind(':forms', $form_ids)
+			->execute($this->db);
+		return $results->as_array();
+	}
+
 	// FormAttributeRepository
 	public function getRequired($stage_id)
 	{

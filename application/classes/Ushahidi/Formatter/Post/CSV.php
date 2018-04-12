@@ -34,12 +34,17 @@ class Ushahidi_Formatter_Post_CSV extends Ushahidi_Formatter_API
 	protected $search;
 	protected $fs;
 	protected $tmpfname;
-	protected $add_header;
+	protected $add_header = true;
+	protected $heading;
 
 	// Formatter
 	public function __invoke($records)
 	{
-		return $this->generateCSVRecords($records);
+		if ($this->heading) {
+			return $this->generateCSVRecords($records);
+		} else {
+			//throw exception
+		}
 	}
 
 	public function setAddHeader($add_header)
@@ -47,10 +52,24 @@ class Ushahidi_Formatter_Post_CSV extends Ushahidi_Formatter_API
 		$this->add_header = $add_header;
 	}
 
+
+	public function setHeading($heading)
+	{
+		$this->heading = $heading;
+	}
+
 	public function setFilesystem($fs)
 	{
 		$this->tmpfname = "tmp" . DIRECTORY_SEPARATOR . strtolower(uniqid() . '-' . strftime('%G-%m-%d') . '.csv');
 		$this->fs = $fs;
+	}
+
+	public function createHeading($attributes, $records)
+	{
+		$headingColumns = $this->getCSVHeading($attributes, $records);
+		$this->heading = $this->createSortedHeading($headingColumns);
+		
+		return $this->heading;
 	}
 
 	/**
@@ -73,15 +92,9 @@ class Ushahidi_Formatter_Post_CSV extends Ushahidi_Formatter_API
 		 */
 		ob_clean();
 
-		/**
-		 * Get the columns from the heading, already sorted to match the key's stage & priority.
-		 */
-		$headingColumns = $this->getCSVHeading($records);
-		$heading = $this->createSortedHeading($headingColumns);	
-
 		// Add heading
 		if ($this->add_header) {
-			fputcsv($stream, array_values($heading));
+			fputcsv($stream, array_values($this->heading));
 		}
 
 		foreach ($records as $record)
@@ -183,7 +196,6 @@ class Ushahidi_Formatter_Post_CSV extends Ushahidi_Formatter_API
 		}
 		return $return;
 	}
-
 	private function singleRaw($recordValue, $record, $headingKey, $key){
 	 	if ($key !== null) {
 			return isset($recordValue[$headingKey])? ($recordValue[$headingKey]): '';
@@ -322,22 +334,19 @@ class Ushahidi_Formatter_Post_CSV extends Ushahidi_Formatter_API
 	 *
 	 * @return array
 	 */
-	protected function getCSVHeading($records)
+	protected function getCSVHeading($attributes, $records)
 	{
 		$columns = [];
 
 		// Collect all column headings
 		foreach ($records as $record)
 		{
-			$attributes = $record['attributes'];
-			unset($record['attributes']);
 
 			foreach ($record as $key => $val)
 			{
 				// Assign form keys
 				if ($key == 'values')
 				{
-
 					foreach ($val as $key => $val)
 					{
 						if (array_search($attributes[$key],self::$csvIgnoreFieldsByType) === false) {
@@ -357,6 +366,7 @@ class Ushahidi_Formatter_Post_CSV extends Ushahidi_Formatter_API
 		}
 		return $columns;
 	}
+
 	private function preprocessHeaderForItem($label, $type) {
 		// if it's a date, append (UTC) to the header
 		$dateFields = ['created', 'updated', 'post_date'];

@@ -16,56 +16,48 @@ use Ushahidi\Core\Entity\PostExportRepository;
 class Ushahidi_Repository_Post_Export extends Ushahidi_Repository_CSVPost implements PostExportRepository
 {
 
-	public function getFormIdsForHeaders() {
-		$searchQuery = $this->getSearchQuery();
-		$result = $searchQuery->resetSelect()
-			->select([DB::expr('DISTINCT(posts.form_id)'), 'form_id'])->execute($this->db);
-		$result =  $result->as_array();
-		return array_column($result, 'form_id');
-	}
-	public function getHeaders($form_ids) {
-		$sql = "SELECT form_attributes.key as form_attribute_key, form_attributes.label as form_attribute_label, " .
-			"form_attributes.type as form_attribute_type " .
-			"FROM form_attributes " .
-			"INNER JOIN form_stages ON form_attributes.form_stage_id = form_stages.form_id " .
-			"INNER JOIN forms ON form_stages.form_id = forms.id " .
-			"where forms.id IN :forms";
-		$results = DB::query(Database::SELECT, $sql)
-			->bind(':forms', $form_ids)
-			->execute($this->db);
-		return $results->as_array();
+	public function getAttributes($form_ids) {
+		$attributes = [];
+		$forms = [];
+
+		foreach($form_ids as $form_id) {
+			$forms[$form_id] = $this->form_attribute_repo->getByForm($form_id);
+		}
+
+		foreach ($forms as $form) {
+			foreach ($form as $form_id => $attribute){
+				$attributes[$key] = [
+					'label' => $attribute->label,
+					'input' => $attribute->input,
+					'priority' => $attribute->priority,
+					'stage' => $attribute->form_stage_id,
+					'type' => $attribute->type,
+					'form_id' => $form_id
+				];
+			}
+		}
+
+		return $attributes;
 	}
 	/**
 	 * @param $data
 	 * @return array
 	 */
-	public function retrieveColumnNameData($data)
+	public function retrieveMetaData($data, $attributes)
 	{
 
 		/**
 		 * Tags (native) should not be shown in the CSV Export
 		 */
 		unset($data['tags']);
-		// Set attribute keys
-		$attributes = [];
+		
+		// Set tag labels
 		foreach ($data['values'] as $key => $val) {
-			$attribute = $this->form_attribute_repo->getByKey($key);
-			$attributes[$key] = [
-				'label' => $attribute->label,
-				'input' => $attribute->input,
-				'priority' => $attribute->priority,
-				'stage' => $attribute->form_stage_id,
-				'type' => $attribute->type,
-				'form_id' => $data['form_id']
-			];
-
 			// Set attribute names. This is for categories (custom field) to show their label and not the ids
-			if ($attribute->type === 'tags') {
+			if ($$attributes[$key]->type === 'tags') {
 				$data['values'][$key] = $this->retrieveTagNames($val);
 			}
 		}
-
-		$data += ['attributes' => $attributes];
 
 		// Get contact
 		if (!empty($data['contact_id'])) {

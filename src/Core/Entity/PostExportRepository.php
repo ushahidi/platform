@@ -19,7 +19,7 @@ interface PostExportRepository
 	 * @param  Post Data array $data
 	 * @return Array
 	 */
-	public function retrieveColumnNameData($data);
+	public function retrieveMetaData($data);
 
     public function retrieveTagNames($tag_ids);
 
