@@ -16,28 +16,50 @@ use Ushahidi\Core\Entity\PostExportRepository;
 class Ushahidi_Repository_Post_Export extends Ushahidi_Repository_CSVPost implements PostExportRepository
 {
 
+
+	public function getFormIdsForHeaders() {
+		$searchQuery = $this->getSearchQuery();
+		$result = $searchQuery->resetSelect()
+			->select([DB::expr('DISTINCT(posts.form_id)'), 'form_id'])->execute($this->db);
+		$result =  $result->as_array();
+		return array_column($result, 'form_id');
+	}
+
+//	public function getAttributes($form_ids) {
+//		$attributes = [];
+//		$forms = [];
+//
+//		foreach($form_ids as $form_id) {
+//			$forms[$form_id] = $this->form_attribute_repo->getByForm($form_id);
+//		}
+//
+//		foreach ($forms as $form) {
+//			foreach ($form as $form_id => $attribute){
+//				$attributes[] = [
+//					'label' => $attribute->label,
+//					'input' => $attribute->input,
+//					'priority' => $attribute->priority,
+//					'stage' => $attribute->form_stage_id,
+//					'type' => $attribute->type,
+//					'form_id' => $form_id
+//				];
+//			}
+//		}
+//
+//		return $attributes;
+//	}
+
 	public function getAttributes($form_ids) {
-		$attributes = [];
-		$forms = [];
-
-		foreach($form_ids as $form_id) {
-			$forms[$form_id] = $this->form_attribute_repo->getByForm($form_id);
-		}
-
-		foreach ($forms as $form) {
-			foreach ($form as $form_id => $attribute){
-				$attributes[$key] = [
-					'label' => $attribute->label,
-					'input' => $attribute->input,
-					'priority' => $attribute->priority,
-					'stage' => $attribute->form_stage_id,
-					'type' => $attribute->type,
-					'form_id' => $form_id
-				];
-			}
-		}
-
-		return $attributes;
+		$sql = "SELECT form_attributes.*, form_stages.priority as form_stage_priority, form_stages.form_id as form_id " .
+			"FROM form_attributes " .
+			"INNER JOIN form_stages ON form_attributes.form_stage_id = form_stages.form_id " .
+			"INNER JOIN forms ON form_stages.form_id = forms.id " .
+			"where forms.id IN :forms
+			ORDER BY form_stages.priority, form_attributes.priority";
+		$results = DB::query(Database::SELECT, $sql)
+			->bind(':forms', $form_ids)
+			->execute($this->db);
+		return $results->as_array();
 	}
 	/**
 	 * @param $data

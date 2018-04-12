@@ -25,7 +25,7 @@ class Ushahidi_Formatter_Post_CSV extends Ushahidi_Formatter_API
 	);
 	public static $csvFieldFormat = array(
 		'tags' => 'single_array',
-		'sets' => 'multiple_array',
+		'sets' => 'single_array',
 		'point'=> 'single_value_array'
 	);
 	/**
@@ -38,10 +38,10 @@ class Ushahidi_Formatter_Post_CSV extends Ushahidi_Formatter_API
 	protected $heading;
 
 	// Formatter
-	public function __invoke($records)
+	public function __invoke($records, $attributes = [])
 	{
 		if ($this->heading) {
-			return $this->generateCSVRecords($records);
+			return $this->generateCSVRecords($records, $attributes);
 		} else {
 			//throw exception
 		}
@@ -66,8 +66,8 @@ class Ushahidi_Formatter_Post_CSV extends Ushahidi_Formatter_API
 
 	public function createHeading($attributes, $records)
 	{
-		$headingColumns = $this->getCSVHeading($attributes, $records);
-		$this->heading = $this->createSortedHeading($headingColumns);
+		//$headingColumns = $this->getCSVHeading($attributes, $records);
+		$this->heading = $this->createSortedHeading($attributes);
 		
 		return $this->heading;
 	}
@@ -82,7 +82,7 @@ class Ushahidi_Formatter_Post_CSV extends Ushahidi_Formatter_API
 	 *
 	 * @return array
 	 */
-	protected function generateCSVRecords($records)
+	protected function generateCSVRecords($records, $attributes)
 	{
 		//$stream = fopen('php://memory', 'w');
 		$stream = tmpfile();
@@ -99,6 +99,7 @@ class Ushahidi_Formatter_Post_CSV extends Ushahidi_Formatter_API
 
 		foreach ($records as $record)
 		{
+			$record = $record->asArray();
 			// Transform post_date to a string
 			if ($record['post_date'] instanceof \DateTimeInterface) {
 				$record['post_date'] = $record['post_date']->format("Y-m-d H:i:s");
@@ -113,8 +114,8 @@ class Ushahidi_Formatter_Post_CSV extends Ushahidi_Formatter_API
 
 			$values = [];
 
-			foreach ($heading as $key => $value) {
-				$values[] = $this->getValueFromRecord($record, $key);
+			foreach ($this->heading as $key => $value) {
+				$values[] = $this->getValueFromRecord($record, $key, $attributes);
 			}
 			fputcsv($stream, $values);
 		}
@@ -157,20 +158,20 @@ class Ushahidi_Formatter_Post_CSV extends Ushahidi_Formatter_API
 
 	}
 
-	private function getValueFromRecord($record, $keyParam){
+	private function getValueFromRecord($record, $keyParam, $attributes){
 		$return = '';
 		$keySet = explode('.', $keyParam); //contains key + index of the key
 		$headingKey = isset($keySet[0]) ? $keySet[0] : null;
 		$key = isset($keySet[1]) ? $keySet[1] : null;
-		$recordAttributes = isset($record['attributes'][$headingKey]) ? $record['attributes'][$headingKey] : null;
+		$recordAttributes = isset($attributes[$headingKey]) ? $attributes[$headingKey] : null;
 		$format = 'single_raw';
 		if (is_array($recordAttributes) && isset($recordAttributes['type']) && isset(self::$csvFieldFormat[$recordAttributes['type']])){
 			$format = self::$csvFieldFormat[$recordAttributes['type']];
 		}
-		$recordValue = isset ($record['attributes']) && $recordAttributes? $record['values']: $record;
+		$recordValue = isset ($record['values']) && isset($record['values'][$headingKey])? $record['values']: $record;
 		$isDateField = $recordAttributes['input'] === 'date' && $recordAttributes['type'] === 'datetime';
 
-		if ($isDateField) {
+		if ($isDateField && isset($recordValue[$headingKey])) {
 			$date = new DateTime($recordValue[$headingKey][$key]);
 			$recordValue[$headingKey][$key] = $date->format('Y-m-d');
 		}
@@ -231,11 +232,11 @@ class Ushahidi_Formatter_Post_CSV extends Ushahidi_Formatter_API
 		/**
 		 * First, group fields by stage and survey id
 		 */
-		$attributeKeysWithStage = $this->groupFieldsByStage($fields);
+		//$attributeKeysWithStage = $this->groupFieldsByStage($fields);
 		/**
 		 * After we have group by stage , we can proceed to sort each field by priority inside the stage
 		 */
-		$headingResult = $this->sortGroupedFieldsByPriority($attributeKeysWithStage);
+		$headingResult = $this->sortGroupedFieldsByPriority($fields);
 		return $headingResult;
 	}
 
@@ -243,7 +244,16 @@ class Ushahidi_Formatter_Post_CSV extends Ushahidi_Formatter_API
 	 * @param $groupedFields is an associative array with fields grouped in arrays by their stage
 	 * @return array . Flat, associative. Example => ['keyxyz'=>'label for key', 'keyxyz2'=>'label for key2']
 	 */
-	private function sortGroupedFieldsByPriority($groupedFields){
+	private function sortGroupedFieldsByPriority($fields){
+
+		$groupedFields = [];
+		foreach($fields as $key => $item)
+		{
+			$groupedFields[$item['form_id'].$item['form_stage_priority'].$item['priority']][$item['key']] = $item;
+		}
+
+		ksort($groupedFields, SORT_NUMERIC);
+
 		$attributeKeysWithStageFlat = [];
 		foreach ($groupedFields as $stageKey => $attributeKeys){
 			/**
@@ -261,21 +271,13 @@ class Ushahidi_Formatter_Post_CSV extends Ushahidi_Formatter_API
 			/**
 			 * Finally, we can flatten the array, and set the fields (key->labels) with the user-selected order.
 			 */
-			foreach ($attributeKeys as $attributeKey => $attribute){
-				if (is_array($attribute) && isset($attribute['count']) && $attribute['type'] !== 'point'){
+			foreach ($attributeKeys as $attributeKey => $attribute){//if (is_array($attribute) && isset($attribute['count']) && $attribute['type'] !== 'point'){
+				if (is_array($attribute) && $attribute['type'] !== 'point'){
 					/**
 					 * If the attribute has a count key, it means we want to show that as key.index in the header.
 					 * This is to make sure we don't miss values in multi-value fields
 					 */
-					$singleColumnArray = (isset(self::$csvFieldFormat[$attribute['type']]) && self::$csvFieldFormat[$attribute['type']] === 'single_array');
-					if ($attribute['count'] > 1 & !$singleColumnArray){
-						for ($i = 0 ; $i < $attribute['count']; $i++){
-							$attributeKeysWithStageFlat[$attributeKey.'.'.$i] = $attribute['label'].'.'.$i;
-						}
-					} else {
-						$attributeKeysWithStageFlat[$attributeKey.'.0'] = $attribute['label'];
-					}
-
+					$attributeKeysWithStageFlat[$attributeKey.'.0'] = $attribute['label'];
 				} else if (isset($attribute['type']) && $attribute['type'] === 'point'){
 					$attributeKeysWithStageFlat[$attributeKey.'.lat'] = $attribute['label'].'.lat';
 					$attributeKeysWithStageFlat[$attributeKey.'.lon'] = $attribute['label'].'.lon';
@@ -290,19 +292,20 @@ class Ushahidi_Formatter_Post_CSV extends Ushahidi_Formatter_API
 	 * @return array (associative) . Example structure => ie ['stg1'=>['att1'=> obj, 'att2'=> obj],'stg2'=>['att3'=> obj, 'att4'=> obj],]
 	 *
 	 */
-	private function groupFieldsByStage($fields) {
+	private function groupFieldsByStage($attributes) {
 		$attributeKeysWithStage = [];
+		foreach ($attributes as $fields) {
 
-		foreach ($fields as $attributeKey => $attribute){
-			$key = $attribute["form_id"]."".$attribute["stage"];
-			if (!array_key_exists($key, $attributeKeysWithStage)){
-				$attributeKeysWithStage[$key] = [];
+			foreach ($fields as $attributeKey => $attribute){
+				$key = $attribute["form_id"]."".$attribute["stage"];
+				if (!array_key_exists($key, $attributeKeysWithStage)){
+					$attributeKeysWithStage[$key] = [];
+				}
+				$attributeKeysWithStage[$key][$attributeKey] = $attribute;
 			}
-			$attributeKeysWithStage[$key][$attributeKey] = $attribute;
+			ksort($attributeKeysWithStage);
 		}
-		ksort($attributeKeysWithStage);
 		return $attributeKeysWithStage;
-
 	}
 
 	/**
@@ -339,31 +342,31 @@ class Ushahidi_Formatter_Post_CSV extends Ushahidi_Formatter_API
 		$columns = [];
 
 		// Collect all column headings
-		foreach ($records as $record)
-		{
-
-			foreach ($record as $key => $val)
-			{
-				// Assign form keys
-				if ($key == 'values')
-				{
-					foreach ($val as $key => $val)
-					{
-						if (array_search($attributes[$key],self::$csvIgnoreFieldsByType) === false) {
-							$this->assignColumnHeading($columns, $key, $attributes[$key], $val, false);
-						}
-
-					}
-				}
-				// Assign post keys
-				else
-				{
-					if (array_search($key,self::$csvIgnoreFieldsByType) === false) {
-						$this->assignColumnHeading($columns, $key, $key, $val);
-					}
-				}
-			}
-		}
+//		foreach ($records as $record)
+//		{
+//
+//			foreach ($record->asArray() as $key => $val)
+//			{
+//				// Assign form keys
+//				if ($key == 'values')
+//				{
+//					foreach ($val as $key => $val)
+//					{
+//						if (array_search($attributes[$key],self::$csvIgnoreFieldsByType) === false) {
+//							$this->assignColumnHeading($columns, $key, $attributes[$key], $val, false);
+//						}
+//
+//					}
+//				}
+//				// Assign post keys
+//				else
+//				{
+//					if (array_search($key,self::$csvIgnoreFieldsByType) === false) {
+//						$this->assignColumnHeading($columns, $key, $key, $val);
+//					}
+//				}
+//			}
+//		}
 		return $columns;
 	}
 

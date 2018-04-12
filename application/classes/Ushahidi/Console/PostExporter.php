@@ -141,39 +141,32 @@ class Ushahidi_Console_PostExporter extends Command
         foreach ($filters as $key => $filter) {
             $data->$key = $filter;
 		}
-
+		//fixme do not hardcode
+		//$data->limit = 200;
 		$this->postExportRepository->setSearchParams($data);
 		$posts = $this->postExportRepository->getSearchResults();
 
 		service("formatter.entity.post.$format")->setFileSystem($this->fs);
 		service("formatter.entity.post.$format")->setAddHeader($add_header);
 
-	
-		if (!$job->header_row) {
+		/**FIXME: how to make sure header_row is null/empty instead off an array with an empty item in it? */
+		if (empty($job->header_row) || $job->header_row[0] == '') {
 			$form_ids = $this->postExportRepository->getFormIdsForHeaders();
 			$attributes = $this->postExportRepository->getAttributes($form_ids);
 
-			$job->header_row = service("formatter.entity.post.$format")->createHeading($attributes, $posts);
-
-			$job->update();
+			$header_row = service("formatter.entity.post.$format")->createHeading($attributes, $posts);
+			$job->setState(['header_row' => $header_row]);
+			//FIXME update does not exist $job->update();
 		} else {
 			service("formatter.entity.post.$format")->setHeading($job->header_row);
 		}
-	
-
-
-		// // ... remove any entities that cannot be seen
-		foreach ($posts as $idx => $post) {
-
-			// Retrieved Attribute Labels for Entity's values
-			$post = $this->postExportRepository->retrieveColumnNameData($post->asArray());
-			
-
-			$posts[$idx] = $post;
+		$_attributes = [];
+		foreach($attributes as $key => $item)
+		{
+			$_attributes[$item['key']] = $item;
 		}
 
-		
-		$file = service("formatter.entity.post.$format")->__invoke($posts);
+		$file = service("formatter.entity.post.$format")->__invoke($posts, $_attributes);
 		
 		$response = [
 			[
