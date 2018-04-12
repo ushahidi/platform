@@ -78,7 +78,7 @@ class TagRepository extends OhanzeeRepository implements
 		$query = $this->search_query;
 		foreach (['tag', 'type', 'parent_id'] as $key) {
 			if ($search->$key) {
-				 $query->where($key, '=', $search->$key);
+				$query->where($key, '=', $search->$key);
 			}
 		}
 
@@ -163,8 +163,31 @@ class TagRepository extends OhanzeeRepository implements
 	public function deleteTag($id)
 	{
 		// Remove tag from attribute options
-		$this->removeTagFromAttributeOptions($entity->id);
-
+		$this->removeTagFromAttributeOptions($id);
 		return $this->delete(compact('id'));
+	}
+
+	/**
+	 * Checks if the assigned role is valid for this tag.
+	 * True if there is no role or if it's a parent with no children
+	 * @param Validation $validation
+	 * @param $fullData
+	 * @return bool
+	 */
+	public function isRoleValid(Validation $validation, $fullData)
+	{
+		$valid = true;
+		$entityFullData = $this->getEntity($fullData);
+		$isChild = !!$entityFullData->parent_id;
+		$hasRole = !!$entityFullData->role;
+		$parent = $isChild ? $this->selectOne(['id' => $entityFullData->parent_id]) : null;
+		if ($hasRole && $isChild && $parent) {
+			$parent = $this->getEntity($parent);
+			$valid = $parent->role == $entityFullData->role;
+		}
+		if (!$valid) {
+			$validation->error('role', 'tag.role');
+		}
+		return $valid;
 	}
 }

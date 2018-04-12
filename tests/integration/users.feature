@@ -166,21 +166,13 @@ Feature: Testing the Users API
 		Then the response is JSON
 		Then the guzzle status code should be 404
 
-	Scenario: Finding a User as anonymous user gives partial details
+	Scenario: Finding a User as anonymous user does not give details
 		Given that I want to find a "User"
 		And that its "id" is "1"
 		And that the oauth token is "testanon"
 		When I request "/users"
+		Then the guzzle status code should be 403
 		Then the response is JSON
-		And the response has a "id" property
-		And the type of the "id" property is "numeric"
-		And the response has a "realname" property
-		And the response does not have a "email" property
-		And the response does not have a "logins" property
-		And the response does not have a "failed_attempts" property
-		And the response does not have a "last_login" property
-		And the response does not have a "last_attempt" property
-		Then the guzzle status code should be 200
 
 	Scenario: Finding a non-existent user
 		Given that I want to find a "User"
