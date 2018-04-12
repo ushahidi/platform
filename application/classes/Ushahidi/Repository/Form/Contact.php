@@ -278,8 +278,6 @@ class Ushahidi_Repository_Form_Contact extends Ushahidi_Repository implements
 			return $result->current();
 		}
 	}
-
-
 	/**
 	 * @param int $contact_id
 	 * @param int $form_id
@@ -313,7 +311,6 @@ class Ushahidi_Repository_Form_Contact extends Ushahidi_Repository implements
 
 	public function getSearchTotal()
 	{
-
 		// Assume we can simply count the results to get a total
 		$query = $this->getSearchQuery(true)
 			->resetSelect()
