@@ -142,7 +142,8 @@ class Ushahidi_Console_PostExporter extends Command
             $data->$key = $filter;
 		}
 		//fixme do not hardcode
-		//$data->limit = 200;
+		$data->limit = 200;
+		$data->offset = 401;
 		$this->postExportRepository->setSearchParams($data);
 		$posts = $this->postExportRepository->getSearchResults();
 

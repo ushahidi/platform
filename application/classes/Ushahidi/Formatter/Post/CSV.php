@@ -17,6 +17,7 @@ use League\Flysystem\Util\MimeType;
 
 class Ushahidi_Formatter_Post_CSV extends Ushahidi_Formatter_API
 {
+
 	public static $csvIgnoreFieldsByType = array(
 		'published_to',
 		'lock',
@@ -168,7 +169,9 @@ class Ushahidi_Formatter_Post_CSV extends Ushahidi_Formatter_API
 		if (is_array($recordAttributes) && isset($recordAttributes['type']) && isset(self::$csvFieldFormat[$recordAttributes['type']])){
 			$format = self::$csvFieldFormat[$recordAttributes['type']];
 		}
-		$recordValue = isset ($record['values']) && isset($record['values'][$headingKey])? $record['values']: $record;
+		$isInValuesArray = isset ($record['values']) && isset($record['values'][$headingKey]);
+		$headingKey = $headingKey === 'description' ? 'content' : $headingKey;
+		$recordValue = $isInValuesArray ? $record['values']: $record;
 		$isDateField = $recordAttributes['input'] === 'date' && $recordAttributes['type'] === 'datetime';
 
 		if ($isDateField && isset($recordValue[$headingKey])) {
