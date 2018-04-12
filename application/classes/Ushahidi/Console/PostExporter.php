@@ -145,9 +145,8 @@ class Ushahidi_Console_PostExporter extends Command
 		$posts = $this->postExportRepository->getSearchResults();
 		service("formatter.entity.post.$format")->setFileSystem($this->fs);
 		service("formatter.entity.post.$format")->setAddHeader($add_header);
-
+		//fixme add post_date
 		$form_ids = $this->postExportRepository->getFormIdsForHeaders();
-		// we still need thenative fields such as create date
 		$attributes = $this->postExportRepository->getAttributes($form_ids);
 		$attributes[] = ['label' => 'Post ID', 'key' => 'id', 'type' => 'integer', 'input' => 'number', 'form_id' => 0, 'form_stage_id' => 0, 'form_stage_priority' => 0, 'priority' => 1];
 		$attributes[] = ['label' => 'Created (UTC)','key' => 'created', 'type' => 'datetime', 'input' => 'native', 'form_id' => 0, 'form_stage_id' => 0, 'form_stage_priority' => 0, 'priority' => 2];

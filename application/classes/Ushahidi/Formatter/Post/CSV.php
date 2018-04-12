@@ -65,9 +65,17 @@ class Ushahidi_Formatter_Post_CSV extends Ushahidi_Formatter_API
 		$this->fs = $fs;
 	}
 
+	/**
+	 * @param $attributes
+	 * @param $records
+	 * @return array
+	 * Attributes are sorted with this criteria:
+	 * - Survey "native" fields such as title from the post table go first. These are sorted alphabetically.
+	 * - Form_attributes are grouped by stage, and sorted in ASC order by priority
+
+	 */
 	public function createHeading($attributes, $records)
 	{
-		//$headingColumns = $this->getCSVHeading($attributes, $records);
 		$this->heading = $this->createSortedHeading($attributes);
 		
 		return $this->heading;
@@ -228,14 +236,7 @@ class Ushahidi_Formatter_Post_CSV extends Ushahidi_Formatter_API
 	 */
 	private function createSortedHeading($fields){
 		/**
-		 * sorting the multidimensional array of properties
-		 */
-		/**
-		 * First, group fields by stage and survey id
-		 */
-		//$attributeKeysWithStage = $this->groupFieldsByStage($fields);
-		/**
-		 * After we have group by stage , we can proceed to sort each field by priority inside the stage
+		 * sort each field by priority inside the stage
 		 */
 		$headingResult = $this->sortGroupedFieldsByPriority($fields);
 		return $headingResult;
@@ -286,98 +287,6 @@ class Ushahidi_Formatter_Post_CSV extends Ushahidi_Formatter_API
 			}
 		}
 		return $attributeKeysWithStageFlat;
-	}
-	/**
-	 * @desc Group fields by their stage in the form.
-	 * @param $fields
-	 * @return array (associative) . Example structure => ie ['stg1'=>['att1'=> obj, 'att2'=> obj],'stg2'=>['att3'=> obj, 'att4'=> obj],]
-	 *
-	 */
-	private function groupFieldsByStage($attributes) {
-		$attributeKeysWithStage = [];
-		foreach ($attributes as $fields) {
-
-			foreach ($fields as $attributeKey => $attribute){
-				$key = $attribute["form_id"]."".$attribute["stage"];
-				if (!array_key_exists($key, $attributeKeysWithStage)){
-					$attributeKeysWithStage[$key] = [];
-				}
-				$attributeKeysWithStage[$key][$attributeKey] = $attribute;
-			}
-			ksort($attributeKeysWithStage);
-		}
-		return $attributeKeysWithStage;
-	}
-
-	/**
-	 * @param $columns by reference .
-	 * @param $key
-	 * @param $label
-	 * @param $value
-	 * @param $nativeField
-	 */
-	private function assignColumnHeading(&$columns, $key, $labelObject, $value, $nativeField = true)
-	{
-		$prevColumnValue = isset($columns[$key]) ? $columns[$key]: ['count' => 0];
-		$headingCount = $prevColumnValue['count'] < count($value)?  count($value) : $prevColumnValue['count'] ;
-		if (!is_array($labelObject)){
-			$labelObject = ['label' => $this->preprocessHeaderForItem($labelObject, $key), 'count' => $headingCount, 'type' => $key, 'nativeField' => $nativeField, 'priority' => -1, 'form_id' => -1, 'stage' => -1];
-		} else {
-			$labelObject['label'] = $this->preprocessHeaderForItem($labelObject['label'], $labelObject['type']);
-		}
-		$labelObject['count'] = $headingCount;
-		$columns[$key] = $labelObject;
-	}
-
-	/**
-	 * Extracts column names shared across posts to create a CSV heading, and sorts them with the following criteria:
-	 * - Survey "native" fields such as title from the post table go first. These are sorted alphabetically.
-	 * - Form_attributes are grouped by stage, and sorted in ASC order by priority
-	 *
-	 * @param array $records
-	 *
-	 * @return array
-	 */
-	protected function getCSVHeading($attributes, $records)
-	{
-		$columns = [];
-
-		// Collect all column headings
-//		foreach ($records as $record)
-//		{
-//
-//			foreach ($record->asArray() as $key => $val)
-//			{
-//				// Assign form keys
-//				if ($key == 'values')
-//				{
-//					foreach ($val as $key => $val)
-//					{
-//						if (array_search($attributes[$key],self::$csvIgnoreFieldsByType) === false) {
-//							$this->assignColumnHeading($columns, $key, $attributes[$key], $val, false);
-//						}
-//
-//					}
-//				}
-//				// Assign post keys
-//				else
-//				{
-//					if (array_search($key,self::$csvIgnoreFieldsByType) === false) {
-//						$this->assignColumnHeading($columns, $key, $key, $val);
-//					}
-//				}
-//			}
-//		}
-		return $columns;
-	}
-
-	private function preprocessHeaderForItem($label, $type) {
-		// if it's a date, append (UTC) to the header
-		$dateFields = ['created', 'updated', 'post_date'];
-		if (in_array($label, $dateFields) || $type === 'datetime') {
-			return "$label(UTC)";
-		}
-		return $label;
 	}
 
 	/**
