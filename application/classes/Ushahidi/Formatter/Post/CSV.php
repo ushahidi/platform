@@ -100,7 +100,6 @@ class Ushahidi_Formatter_Post_CSV extends Ushahidi_Formatter_API
 
 		foreach ($records as $record)
 		{
-			$record = $record->asArray();
 			// Transform post_date to a string
 			if ($record['post_date'] instanceof \DateTimeInterface) {
 				$record['post_date'] = $record['post_date']->format("Y-m-d H:i:s");
@@ -122,21 +121,6 @@ class Ushahidi_Formatter_Post_CSV extends Ushahidi_Formatter_API
 		}
 
 		return $this->writeStreamToFS($stream);
-	}
-
-
-	public function retrieveTagNames($tag_ids)
-	{
-		if (empty($tag_ids)) {
-			return null;
-		}
-		$tag_repo = service('repository.tag');
-		$names = [];
-		foreach ($tag_ids as $tag_id) {
-			$tag = $tag_repo->get($tag_id);
-			array_push($names, $tag->tag);
-		}
-		return $names;
 	}
 
 	private function writeStreamToFS($stream)
@@ -192,12 +176,7 @@ class Ushahidi_Formatter_Post_CSV extends Ushahidi_Formatter_API
 			$date = new DateTime($recordValue[$headingKey][$key]);
 			$recordValue[$headingKey][$key] = $date->format('Y-m-d');
 		}
-		if($format === 'single_array' && $recordAttributes['type'] === 'tags'){
-			/*
-			 * Lat/Lon are never multivalue fields so we can get the first index  only
-			 */
-			$return = $this->singleColumnTags($recordValue, $headingKey);
-		} else if($format === 'single_value_array'){
+		if($format === 'single_value_array'){
 			/*
 			 * Lat/Lon are never multivalue fields so we can get the first index  only
 			 */
@@ -236,20 +215,6 @@ class Ushahidi_Formatter_Post_CSV extends Ushahidi_Formatter_API
 		return isset($recordValue[$headingKey])? (implode($separator, $recordValue[$headingKey])): '';
 	}
 
-	private function singleColumnTags($recordValue, $headingKey, $separator = ',') {
-		/**
-		 * we need to join the array items in a single comma separated string
-		 */
-		$tagNames = null;
-		if (isset($recordValue[$headingKey])){
-			$tagNames = $this->retrieveTagNames($recordValue[$headingKey]);
-		}
-		if ($tagNames) {
-			return implode($separator, $tagNames);
-		}
-		return '';
-
-	}
 	private function singleValueArray($recordValue, $headingKey, $key) {
 		/**
 		 * we need to join the array items in a single comma separated string

@@ -31,7 +31,7 @@ class Ushahidi_Repository_Post_Export extends Ushahidi_Repository_CSVPost implem
 	 * fixme move to correct repo
 	 */
 	public function getAttributes($form_ids) {
-		$sql = "SELECT form_attributes.*, form_stages.priority as form_stage_priority, form_stages.form_id as form_id " .
+		$sql = "SELECT DISTINCT form_attributes.*, form_stages.priority as form_stage_priority, form_stages.form_id as form_id " .
 			"FROM form_attributes " .
 			"INNER JOIN form_stages ON form_attributes.form_stage_id = form_stages.form_id " .
 			"INNER JOIN forms ON form_stages.form_id = forms.id " .
@@ -57,7 +57,7 @@ class Ushahidi_Repository_Post_Export extends Ushahidi_Repository_CSVPost implem
 		// Set tag labels
 		foreach ($data['values'] as $key => $val) {
 			// Set attribute names. This is for categories (custom field) to show their label and not the ids
-			if ($$attributes[$key]->type === 'tags') {
+			if (isset($attributes[$key]) && $attributes[$key]['type'] === 'tags') {
 				$data['values'][$key] = $this->retrieveTagNames($val);
 			}
 		}

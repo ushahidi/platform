@@ -107,10 +107,10 @@ class Ushahidi_Console_PostExporter extends Command
         $data = $this->data->get('search');
 
 		// Get CLI params
-		$limit = $input->getOption('limit', 100);
-		$offset = $input->getOption('offset', 0);
-		$job_id = $input->getOption('job', null);
-		$add_header = $input->getOption('include_header', true);
+		$limit = $input->getOption('limit') ? $input->getOption('limit') : 100;
+		$offset = $input->getOption('offset') ? $input->getOption('offset') : 0;
+		$job_id = $input->getOption('job') ? $input->getOption('job') : null;
+		$add_header = $input->getOption('include_header') ? $input->getOption('include_header') : true;
 
 		// At the moment there is only CSV format
 		$format = 'csv';
@@ -141,18 +141,33 @@ class Ushahidi_Console_PostExporter extends Command
         foreach ($filters as $key => $filter) {
             $data->$key = $filter;
 		}
-		//fixme do not hardcode
-		$data->limit = 1000;
 		$this->postExportRepository->setSearchParams($data);
 		$posts = $this->postExportRepository->getSearchResults();
-
 		service("formatter.entity.post.$format")->setFileSystem($this->fs);
 		service("formatter.entity.post.$format")->setAddHeader($add_header);
 
+		$form_ids = $this->postExportRepository->getFormIdsForHeaders();
+		// we still need thenative fields such as create date
+		$attributes = $this->postExportRepository->getAttributes($form_ids);
+		$attributes[] = ['label' => 'Post ID', 'key' => 'id', 'type' => 'integer', 'input' => 'number', 'form_id' => 0, 'form_stage_id' => 0, 'form_stage_priority' => 0, 'priority' => 1];
+		$attributes[] = ['label' => 'Created (UTC)','key' => 'created', 'type' => 'datetime', 'input' => 'native', 'form_id' => 0, 'form_stage_id' => 0, 'form_stage_priority' => 0, 'priority' => 2];
+		$attributes[] = ['label' => 'Updated (UTC)', 'key' => 'updated', 'type' => 'datetime', 'input' => 'native', 'form_id' => 0, 'form_stage_id' => 0, 'form_stage_priority' => 0, 'priority' => 3];
+		$attributes[] = ['label' => 'Contact ID','key' => 'contact_id', 'type' => 'integer', 'input' => 'number', 'form_id' => 0, 'form_stage_id' => 0, 'form_stage_priority' => 0, 'priority' => 4];
+		$attributes[] = ['label' => 'Contact', 'key' => 'contact', 'type' => 'text', 'input' => 'text', 'form_id' => 0, 'form_stage_id' => 0, 'form_stage_priority' => 0, 'priority' => 5];
+		$keyAttributes = [];
+		foreach($attributes as $key => $item)
+		{
+			$keyAttributes[$item['key']] = $item;
+		}
+
+		// // ... remove any entities that cannot be seen
+		foreach ($posts as $idx => $post) {
+			// Retrieved Attribute Labels for Entity's values
+			$post = $this->postExportRepository->retrieveMetaData($post->asArray(), $keyAttributes);
+ 			$posts[$idx] = $post;
+ 		}
 		/**FIXME: how to make sure header_row is null/empty instead off an array with an empty item in it? */
 		if (empty($job->header_row) || $job->header_row[0] == '') {
-			$form_ids = $this->postExportRepository->getFormIdsForHeaders();
-			$attributes = $this->postExportRepository->getAttributes($form_ids);
 
 			$header_row = service("formatter.entity.post.$format")->createHeading($attributes, $posts);
 			$job->setState(['header_row' => $header_row]);
