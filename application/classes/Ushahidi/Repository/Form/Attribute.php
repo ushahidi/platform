@@ -249,7 +249,7 @@ class Ushahidi_Repository_Form_Attribute extends Ushahidi_Repository implements
 			->where('form_stage_id', '=', $current_attribute->form_stage_id)
 			->where('priority', '>', $current_attribute->priority)
 			->limit(1)
-			->execute();
+			->execute($this->db);
 
 		return $this->getEntity($next_attribute->current());
 	}
