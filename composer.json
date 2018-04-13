@@ -46,12 +46,11 @@
         "beheh/flaps": "dev-master",
         "doctrine/cache": "^1.5@dev",
         "ramsey/uuid": "^3.4.1",
-        "sentry/sentry": "^1.8",
-        "giggsey/libphonenumber-for-php": "^8.9"
+        "sentry/sentry": "^1.8"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
-        "guzzlehttp/guzzle": "~6.3.2",
+        "guzzle/guzzle": "~3.9.1",
         "phpunit/phpunit": "^5.7",
         "phpunit/dbunit": "~1.4",
         "phpspec/phpspec": "~3.0",

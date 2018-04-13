@@ -33,10 +33,4 @@ interface ContactRepository extends
 	 * @param int offset
 	 */
 	public function getNotificationContacts($set_id, $limit = false, $offset = 0);
-
-    /**
-	 * @param string  $contact
-	 * @return boolean
-	 */
-	public function isInTargetedSurvey($contact);
 }

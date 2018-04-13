@@ -24,8 +24,6 @@ class Ushahidi_Repository_Contact extends Ushahidi_Repository implements
 {
 	use UserContext;
 	use AdminAccess;
-	// Use Event trait to trigger events
-	// use \Ushahidi\Core\Traits\Event;
 
 	protected function getId(Entity $entity)
 	{
@@ -128,21 +126,6 @@ class Ushahidi_Repository_Contact extends Ushahidi_Repository implements
 		return $this->getEntity($this->selectOne(compact('contact', 'type')));
 	}
 
-    public function isInTargetedSurvey($contact_id)
-    {
-        $query = DB::select('targeted_survey_state.contact_id', 'targeted_survey_state.form_id')
-            ->from('targeted_survey_state')
-            ->where('contact_id', '=', $contact_id);
-
-        if($query->execute($this->db)->count() > 0)
-        {
-            Kohana::$log->add(Log::INFO, 'Contact is in a targeted survey: contact_id#'.print_r($contact_id, true));
-            return true;
-        }
-        Kohana::$log->add(Log::INFO, 'Contact is NOT in a targeted survey: contact_id#'.print_r($contact_id, true));
-        return false;
-    }
-
 	// ContactRepository
 	public function getNotificationContacts($set_id, $limit = false, $offset = 0)
 	{
@@ -169,5 +152,4 @@ class Ushahidi_Repository_Contact extends Ushahidi_Repository implements
 
 		return $this->getCollection($results->as_array());
 	}
-
 }

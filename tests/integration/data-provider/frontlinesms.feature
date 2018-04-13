@@ -1,3 +1,4 @@
+@dataproviders
 Feature: Testing the FrontlineSms Data Provider
 
     Scenario: Submit a message to frontlinesms controller

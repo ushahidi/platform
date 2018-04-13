@@ -81,7 +81,6 @@ forms:
     require_approval: 0
     hide_author: 0
     everyone_can_create: 1
-    targeted_survey: 0
   -
     id: 2
     name: "Missing people"
@@ -90,7 +89,6 @@ forms:
     require_approval: 0
     hide_author: 0
     everyone_can_create: 0
-    targeted_survey: 0
   -
     id: 3
     name: "Video Embed"
@@ -99,7 +97,6 @@ forms:
     require_approval: 0
     hide_author: 0
     everyone_can_create: 0
-    targeted_survey: 0
   -
     id: 4
     name: "Role Restriction"
@@ -108,44 +105,6 @@ forms:
     require_approval: 1
     hide_author: 1
     everyone_can_create: 0
-    targeted_survey: 0
-  -
-    id: 5
-    name: "Targeted survey"
-    type: "report"
-    description: "Testing Targeted survey"
-    require_approval: 0
-    hide_author: 0
-    everyone_can_create: 0
-    targeted_survey: 1
-  -
-    id: 6
-    name: "Targeted survey - no responses"
-    type: "report"
-    description: "Testing Targeted survey"
-    require_approval: 0
-    hide_author: 0
-    everyone_can_create: 0
-    targeted_survey: 1
-  -
-    id: 7
-    name: "Targeted survey - with invalidated"
-    type: "report"
-    description: "Testing Targeted survey"
-    require_approval: 0
-    hide_author: 0
-    everyone_can_create: 0
-    targeted_survey: 1
-  -
-    id: 8
-    name: "Targeted survey - with responses"
-    type: "report"
-    description: "Testing Targeted survey"
-    require_approval: 0
-    hide_author: 0
-    everyone_can_create: 0
-    targeted_survey: 1
-
 form_roles:
   -
     id: 1
@@ -159,10 +118,6 @@ form_roles:
     id: 3
     form_id: 4
     role_id: 3
-  -
-    id: 4
-    form_id: 5
-    role_id: 2
 form_stages:
   -
     id: 1
@@ -211,34 +166,6 @@ form_stages:
     form_id: 4
     label: "Post"
     show_when_published: 1
-    task_is_internal_only: 0
-    type: "post"
-  -
-    id: 8
-    form_id: 5
-    label: "Post"
-    show_when_published: 0
-    task_is_internal_only: 0
-    type: "post"
-  -
-    id: 9
-    form_id: 7
-    label: "Post"
-    show_when_published: 0
-    task_is_internal_only: 0
-    type: "post"
-  -
-    id: 10
-    form_id: 6
-    label: "Post"
-    show_when_published: 0
-    task_is_internal_only: 0
-    type: "post"
-  -
-    id: 11
-    form_id: 8
-    label: "Post"
-    show_when_published: 0
     task_is_internal_only: 0
     type: "post"
 form_attributes:
@@ -590,78 +517,6 @@ form_attributes:
     options: '["1","2","3","4","5","6","7"]'
     cardinality: 0
     form_stage_id: 7
-  -
-    id: 30
-    label: "Test varchar Targeted Survey"
-    key: "test_varchar_targeted_survey_1"
-    type: "varchar"
-    input: "text"
-    response_private: 1
-    required: 1
-    priority: 1
-    options: ""
-    cardinality: 1
-    form_stage_id: 8
-  -
-    id: 31
-    label: "Test varchar Targeted Survey"
-    key: "test_varchar_targeted_survey_2"
-    type: "varchar"
-    input: "text"
-    response_private: 1
-    required: 1
-    priority: 1
-    options: ""
-    cardinality: 1
-    form_stage_id: 9
-  -
-    id: 32
-    label: "Test varchar Targeted Survey 3"
-    key: "test_varchar_targeted_survey_3"
-    type: "varchar"
-    input: "text"
-    response_private: 0
-    required: 0
-    priority: 1
-    options: ""
-    cardinality: 1
-    form_stage_id: 10
-  -
-    id: 33
-    label: "A Test Field Form Stage 9"
-    key: "test_field_stage_9"
-    type: "varchar"
-    input: "text"
-    response_private: 0
-    required: 0
-    priority: 3
-    options: ""
-    cardinality: 1
-    form_stage_id: 9
-  -
-    id: 34
-    label: "Test varchar responses"
-    key: "test_varchar_targeted_survey_responses"
-    type: "varchar"
-    input: "text"
-    response_private: 1
-    required: 1
-    priority: 1
-    options: ""
-    cardinality: 1
-    form_stage_id: 11
-  -
-    id: 35
-    label: "Test varchar responses 2"
-    key: "test_varchar_targeted_survey_responses_2"
-    type: "varchar"
-    input: "text"
-    response_private: 1
-    required: 1
-    priority: 1
-    options: ""
-    cardinality: 1
-    form_stage_id: 11
 posts:
   -
     id: 1
@@ -1053,21 +908,6 @@ posts:
     published_to: '["user"]'
     post_date: "2014-09-29 14:10:16"
   -
-    id: 452
-    form_id: 6
-    parent_id:
-    user_id: 3
-    author_email: "test@ushahidi.com"
-    author_realname: "Test Name"
-    title: "SMS Stats Count"
-    type: "report"
-    content: "Testing SMS Stats"
-    status: "published"
-    locale: "en_us"
-    created: 1412025016
-    published_to: '["user"]'
-    post_date: "2018-01-29 14:10:16"
-  -
     id: 1693
     form_id: 1
     parent_id:
@@ -1077,76 +917,6 @@ posts:
     title: "Test inbound message"
     type: "report"
     content: "Post to test inbound messages"
-    status: "draft"
-    locale: "en_us"
-    created: 1412025016
-    published_to: '[]'
-    post_date: "2014-09-29 14:10:16"
-  -
-    id: 1694
-    form_id: 7
-    parent_id:
-    author_email: ""
-    author_realname: ""
-    title: "Test inbound message"
-    type: "report"
-    content: "Post to test received message count in targeted survey"
-    status: "draft"
-    locale: "en_us"
-    created: 1412025016
-    published_to: '[]'
-    post_date: "2014-09-29 14:10:16"
-  -
-    id: 1695
-    form_id: 7
-    parent_id:
-    author_email: ""
-    author_realname: ""
-    title: "Test inbound message"
-    type: "report"
-    content: "Second Post to test received message count in targeted survey"
-    status: "draft"
-    locale: "en_us"
-    created: 1412025016
-    published_to: '[]'
-    post_date: "2014-09-29 14:10:16"
-  -
-    id: 1696
-    form_id: 7
-    parent_id:
-    author_email: ""
-    author_realname: ""
-    title: "Test outbound message"
-    type: "report"
-    content: "Second Post to test that we count sent messages in recipients"
-    status: "draft"
-    locale: "en_us"
-    created: 1412025016
-    published_to: '[]'
-    post_date: "2014-09-29 14:10:16"
-  -
-    id: 1697
-    form_id: 8
-    parent_id:
-    author_email: ""
-    author_realname: ""
-    title: "Test message"
-    type: "report"
-    content: "Post to test form id 8 with 2 contacts 1 response"
-    status: "draft"
-    locale: "en_us"
-    created: 1412025016
-    published_to: '[]'
-    post_date: "2014-09-29 14:10:16"
-  -
-    id: 1698
-    form_id: 8
-    parent_id:
-    author_email: ""
-    author_realname: ""
-    title: "Test message"
-    type: "report"
-    content: "2nd Post to test form id 8 with 2 contacts 1 response"
     status: "draft"
     locale: "en_us"
     created: 1412025016
@@ -1682,10 +1452,6 @@ oauth_scopes:
     id: 22
     scope: apikeys
     name: apikeys
-  -
-    id: 23
-    scope: country_codes
-    name: country_codes
 
 oauth_session_token_scopes:
   # for testingtoken
@@ -1798,9 +1564,6 @@ oauth_session_token_scopes:
   -
     session_access_token_id: 3
     scope_id: 21
-  -
-    session_access_token_id: 3
-    scope_id: 23
 
   # for testadminuser
   -
@@ -1854,12 +1617,6 @@ oauth_session_token_scopes:
   -
     session_access_token_id: 4
     scope_id: 21
-  -
-    session_access_token_id: 4
-    scope_id: 22
-  -
-    session_access_token_id: 4
-    scope_id: 23
 
   # for testbasicuser2
   -
@@ -2147,23 +1904,6 @@ config:
     group_name: features
     config_key: roles
     config_value: '{"enabled":true}'
-  -
-    group_name: data-provider
-    config_key: providers
-    config_value: '{"smssync":false,"email":false,"twilio":true,"nexmo":true,"twitter":false,"frontlinesms":true}'
-  -
-    group_name: data-provider
-    config_key: twilio
-    config_value: '{"from":"199","auth_token":"111","account_sid":"124","sms_auto_response":"Thank you for your message"}'
-  -
-    group_name: data-provider
-    config_key: frontlinesms
-    config_value: '{"from":"199","auth_token":"111","account_sid":"124","sms_auto_response":"Thank you for your message"}'
-  -
-    group_name: data-provider
-    config_key: nexmo
-    config_value: '{"api_key": "222", "api_secret":"secret", "from":"199","auth_token":"111","account_sid":"124","sms_auto_response":"Thank you for your message"}'
-
 contacts:
   -
     id: 1
@@ -2185,36 +1925,6 @@ contacts:
     user_id: 1
     contact: robbie@ushahidi.com
     type: "email"
-  -
-    id: 5
-    type: "phone"
-    contact: 099999999
-    user_id:
-  -
-    id: 6
-    type: "phone"
-    contact: 99999991
-    user_id:
-  -
-    id: 7
-    type: "phone"
-    contact: 99999992
-    user_id:
-  -
-    id: 8
-    type: "phone"
-    contact: 59891333224
-    user_id:
-  -
-    id: 9
-    type: "phone"
-    contact: 59891333225
-    user_id:
-  -
-    id: 10
-    type: "phone"
-    contact: 59891333226
-    user_id:
 messages:
   -
     id: 1
@@ -2322,90 +2032,6 @@ messages:
     status: "received"
     contact_id: 1
     post_id: 1693
-    user_id:
-    datetime:
-    data_provider:
-  -
-    id: 11
-    title: "Test inbound message"
-    message: "A test message"
-    type: "sms"
-    direction: "outgoing"
-    status: "sent"
-    contact_id: 6
-    post_id: 1694
-    user_id:
-    datetime:
-    data_provider:
-  -
-    id: 12
-    title: "Test inbound message"
-    message: "A test message"
-    type: "sms"
-    direction: "outgoing"
-    status: "sent"
-    contact_id: 7
-    post_id: 1695
-    user_id:
-    datetime:
-    data_provider:
-  -
-    id: 13
-    title: "Test outbound message"
-    message: "A test message"
-    type: "sms"
-    direction: "outgoing"
-    status: "sent"
-    contact_id: 8
-    post_id: 1696
-    user_id:
-    datetime:
-    data_provider:
-  -
-    id: 14
-    title: "Test outbound message"
-    message: "A test message"
-    type: "sms"
-    direction: "outgoing"
-    status: "sent"
-    contact_id: 9
-    post_id: 1697
-    user_id:
-    datetime:
-    data_provider:
-  -
-    id: 15
-    title: "Test outbound message"
-    message: "A test message"
-    type: "sms"
-    direction: "outgoing"
-    status: "sent"
-    contact_id: 10
-    post_id: 1698
-    user_id:
-    datetime:
-    data_provider:
-  -
-    id: 16
-    title: "Test incoming message"
-    message: "A test message"
-    type: "sms"
-    direction: "incoming"
-    status: "received"
-    contact_id: 10
-    post_id: 1698
-    user_id:
-    datetime:
-    data_provider:
-  -
-    id: 17
-    title: "Test incoming message"
-    message: "A test message"
-    type: "sms"
-    direction: "outgoing"
-    status: "sent"
-    contact_id: 10
-    post_id: 1698
     user_id:
     datetime:
     data_provider:
@@ -2522,43 +2148,3 @@ roles_permissions:
   -
     role: importer
     permission: Edit their own posts
-targeted_survey_state:
-  -
-    post_id: 452
-    contact_id: 5
-    survey_status: 'PENDING RESPONSE'
-    form_id: 6
-    form_attribute_id: 32
-  -
-    post_id: 1694
-    contact_id: 6
-    survey_status: 'PENDING RESPONSE'
-    form_id: 7
-    form_attribute_id: 31
-  -
-    post_id: 1695
-    contact_id: 7
-    survey_status: 'PENDING RESPONSE'
-    form_id: 7
-    form_attribute_id: 31
-  -
-    post_id: 1696
-    contact_id: 8
-    survey_status: 'ACTIVE CONTACT IN SURVEY 6'
-    form_id: 7
-    message_id: 13
-    form_attribute_id: 31
-  -
-    post_id: 1697
-    contact_id: 9
-    survey_status: 'PENDING RESPONSE'
-    form_id: 8
-    message_id: 14
-    form_attribute_id: 35
-  -
-    post_id: 1698
-    contact_id: 10
-    survey_status: 'PENDING RESPONSE'
-    form_id: 8
-    message_id: 17
-    form_attribute_id: 35
