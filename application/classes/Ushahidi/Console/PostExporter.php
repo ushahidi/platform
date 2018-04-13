@@ -88,7 +88,7 @@ class Ushahidi_Console_PostExporter extends Command
 			->addOption('offset', ['o'], InputOption::VALUE_OPTIONAL, 'offset')
 			->addOption('job', ['j'], InputOption::VALUE_OPTIONAL, 'job')
 			->addOption('include_header', ['ih'], InputOption::VALUE_OPTIONAL, 'include_header')
-			;
+		;
 	}
 
 	protected function executeList(InputInterface $input, OutputInterface $output)
@@ -104,7 +104,7 @@ class Ushahidi_Console_PostExporter extends Command
 	{
 		$userContextService = service('usercontext.service');
 		// Construct a Search Data objec to hold the search info
-        $data = $this->data->get('search');
+		$data = $this->data->get('search');
 
 		// Get CLI params
 		$limit = $input->getOption('limit') ? $input->getOption('limit') : 100;
@@ -116,9 +116,9 @@ class Ushahidi_Console_PostExporter extends Command
 		$format = 'csv';
 
 		// Set the baseline filter parameters
-        $filters = [
-            'limit' => $limit,
-            'offset' => $offset,
+		$filters = [
+			'limit' => $limit,
+			'offset' => $offset,
 			'exporter' => true
 		];
 
@@ -131,15 +131,15 @@ class Ushahidi_Console_PostExporter extends Command
 			if ($job->filters) {
 				$filters = array_merge($filters, $job->filters);
 			}
-			
+
 			// Set the fields that should be included if set
 			if ($job->fields) {
 				$data->include_attributes = $job->fields;
 			}
 		}
 
-        foreach ($filters as $key => $filter) {
-            $data->$key = $filter;
+		foreach ($filters as $key => $filter) {
+			$data->$key = $filter;
 		}
 		$this->postExportRepository->setSearchParams($data);
 		$posts = $this->postExportRepository->getSearchResults();
@@ -148,11 +148,7 @@ class Ushahidi_Console_PostExporter extends Command
 		//fixme add post_date
 		$form_ids = $this->postExportRepository->getFormIdsForHeaders();
 		$attributes = $this->postExportRepository->getAttributes($form_ids);
-		$attributes[] = ['label' => 'Post ID', 'key' => 'id', 'type' => 'integer', 'input' => 'number', 'form_id' => 0, 'form_stage_id' => 0, 'form_stage_priority' => 0, 'priority' => 1];
-		$attributes[] = ['label' => 'Created (UTC)','key' => 'created', 'type' => 'datetime', 'input' => 'native', 'form_id' => 0, 'form_stage_id' => 0, 'form_stage_priority' => 0, 'priority' => 2];
-		$attributes[] = ['label' => 'Updated (UTC)', 'key' => 'updated', 'type' => 'datetime', 'input' => 'native', 'form_id' => 0, 'form_stage_id' => 0, 'form_stage_priority' => 0, 'priority' => 3];
-		$attributes[] = ['label' => 'Contact ID','key' => 'contact_id', 'type' => 'integer', 'input' => 'number', 'form_id' => 0, 'form_stage_id' => 0, 'form_stage_priority' => 0, 'priority' => 4];
-		$attributes[] = ['label' => 'Contact', 'key' => 'contact', 'type' => 'text', 'input' => 'text', 'form_id' => 0, 'form_stage_id' => 0, 'form_stage_priority' => 0, 'priority' => 5];
+
 		$keyAttributes = [];
 		foreach($attributes as $key => $item)
 		{
@@ -163,8 +159,8 @@ class Ushahidi_Console_PostExporter extends Command
 		foreach ($posts as $idx => $post) {
 			// Retrieved Attribute Labels for Entity's values
 			$post = $this->postExportRepository->retrieveMetaData($post->asArray(), $keyAttributes);
- 			$posts[$idx] = $post;
- 		}
+			$posts[$idx] = $post;
+		}
 		/**FIXME: how to make sure header_row is null/empty instead off an array with an empty item in it? */
 		if (empty($job->header_row) || $job->header_row[0] == '') {
 
@@ -174,14 +170,9 @@ class Ushahidi_Console_PostExporter extends Command
 		} else {
 			service("formatter.entity.post.$format")->setHeading($job->header_row);
 		}
-		$_attributes = [];
-		foreach($attributes as $key => $item)
-		{
-			$_attributes[$item['key']] = $item;
-		}
 
-		$file = service("formatter.entity.post.$format")->__invoke($posts, $_attributes);
-		
+		$file = service("formatter.entity.post.$format")->__invoke($posts, $keyAttributes);
+
 		$response = [
 			[
 				'file' => $file->file,

@@ -40,7 +40,55 @@ class Ushahidi_Repository_Post_Export extends Ushahidi_Repository_CSVPost implem
 		$results = DB::query(Database::SELECT, $sql)
 			->bind(':forms', $form_ids)
 			->execute($this->db);
-		return $results->as_array();
+		$attributes = $results->as_array();
+
+		$native = [[
+			'label' => 'Post ID',
+			'key' => 'id',
+			'type' => 'integer',
+			'input' => 'number',
+			'form_id' => 0,
+			'form_stage_id' => 0,
+			'form_stage_priority' => 0,
+			'priority' => 1
+		], [
+			'label' => 'Created (UTC)',
+			'key' => 'created',
+			'type' => 'datetime',
+			'input' => 'native',
+			'form_id' => 0,
+			'form_stage_id' => 0,
+			'form_stage_priority' => 0,
+			'priority' => 2
+		], [
+			'label' => 'Updated (UTC)',
+			'key' => 'updated',
+			'type' => 'datetime',
+			'input' => 'native',
+			'form_id' => 0,
+			'form_stage_id' => 0,
+			'form_stage_priority' => 0,
+			'priority' => 3
+		], [
+			'label' => 'Contact ID',
+			'key' => 'contact_id',
+			'type' => 'integer',
+			'input' => 'number',
+			'form_id' => 0,
+			'form_stage_id' => 0,
+			'form_stage_priority' => 0,
+			'priority' => 4
+		], [
+			'label' => 'Contact',
+			'key' => 'contact',
+			'type' => 'text',
+			'input' => 'text',
+			'form_id' => 0,
+			'form_stage_id' => 0,
+			'form_stage_priority' => 0,
+			'priority' => 5
+		]];
+		return array_merge($native, $attributes);
 	}
 	/**
 	 * @param $data
