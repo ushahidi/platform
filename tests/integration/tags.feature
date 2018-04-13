@@ -345,4 +345,27 @@ Feature: Testing the Tags API
         When I request "/tags"
         Then the response is JSON
         And the response has a "errors" property
+        And the "errors.1.message" property contains "Role nope does not exist"
         Then the guzzle status code should be 422
+
+    Scenario: Creating a new invalid child for a tag with role=admin
+        Given that I want to make a new "Tag"
+        And that the request "data" is:
+            """
+            {
+                "parent_id":9,
+                "tag":"Not a valid tag role",
+                "slug":"not-valid-tag-role",
+                "description":"My role is invalid",
+                "type":"category",
+                "priority":1,
+                "color":"00ff00",
+                "role":"user"
+            }
+            """
+        When I request "/tags"
+        Then the response is JSON
+        And the response has a "errors" property
+        And the "errors.1.message" property equals "Role must match the parent category"
+        Then the guzzle status code should be 422
+

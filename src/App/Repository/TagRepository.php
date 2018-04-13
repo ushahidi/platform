@@ -174,20 +174,21 @@ class TagRepository extends OhanzeeRepository implements
 	 * @param $fullData
 	 * @return bool
 	 */
-	public function isRoleValid(Validation $validation, $fullData)
+	public function isRoleValid($tag)
 	{
 		$valid = true;
-		$entityFullData = $this->getEntity($fullData);
-		$isChild = !!$entityFullData->parent_id;
-		$hasRole = !!$entityFullData->role;
-		$parent = $isChild ? $this->selectOne(['id' => $entityFullData->parent_id]) : null;
-		if ($hasRole && $isChild && $parent) {
+		$isChild = !!$tag['parent_id'];
+		$parent = $isChild ? $this->selectOne(['id' => $tag['parent_id']]) : null;
+
+		// If tag has a role and is a child category
+		if ($isChild && $parent) {
+			// ... load the parent
 			$parent = $this->getEntity($parent);
-			$valid = $parent->role == $entityFullData->role;
+			// ... and check if the role matches its parent
+			return $parent->role == $tag['role'];
 		}
-		if (!$valid) {
-			$validation->error('role', 'tag.role');
-		}
-		return $valid;
+
+		// Otherwise
+		return true;
 	}
 }
