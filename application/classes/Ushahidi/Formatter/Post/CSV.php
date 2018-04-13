@@ -273,7 +273,7 @@ class Ushahidi_Formatter_Post_CSV extends Ushahidi_Formatter_API
 			/**
 			 * Finally, we can flatten the array, and set the fields (key->labels) with the user-selected order.
 			 */
-			foreach ($attributeKeys as $attributeKey => $attribute){//if (is_array($attribute) && isset($attribute['count']) && $attribute['type'] !== 'point'){
+			foreach ($attributeKeys as $attributeKey => $attribute){
 				if (is_array($attribute) && $attribute['type'] !== 'point'){
 					/**
 					 * If the attribute has a count key, it means we want to show that as key.index in the header.

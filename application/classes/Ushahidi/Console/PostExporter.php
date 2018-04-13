@@ -163,7 +163,7 @@ class Ushahidi_Console_PostExporter extends Command
 			$posts[$idx] = $post;
 		}
 		/**FIXME: how to make sure header_row is null/empty instead off an array with an empty item in it? */
-		if (empty($job->header_row) || $job->header_row[0] == '') {
+		if (empty($job->header_row)) {
 			$job->setState(['header_row' => $attributes]);
             $this->exportJobRepository->update($job);
 		}

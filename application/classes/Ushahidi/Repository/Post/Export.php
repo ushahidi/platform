@@ -69,7 +69,18 @@ class Ushahidi_Repository_Post_Export extends Ushahidi_Repository_CSVPost implem
 			'form_stage_id' => 0,
 			'form_stage_priority' => 0,
 			'priority' => 3
-		], [
+		],
+		[
+			'label' => 'Post Date (UTC)',
+			'key' => 'post_date',
+			'type' => 'datetime',
+			'input' => 'native',
+			'form_id' => 0,
+			'form_stage_id' => 0,
+			'form_stage_priority' => 0,
+			'priority' => 4
+		],
+		[
 			'label' => 'Contact ID',
 			'key' => 'contact_id',
 			'type' => 'integer',
@@ -77,7 +88,7 @@ class Ushahidi_Repository_Post_Export extends Ushahidi_Repository_CSVPost implem
 			'form_id' => 0,
 			'form_stage_id' => 0,
 			'form_stage_priority' => 0,
-			'priority' => 4
+			'priority' => 5
 		], [
 			'label' => 'Contact',
 			'key' => 'contact',
@@ -86,7 +97,7 @@ class Ushahidi_Repository_Post_Export extends Ushahidi_Repository_CSVPost implem
 			'form_id' => 0,
 			'form_stage_id' => 0,
 			'form_stage_priority' => 0,
-			'priority' => 5
+			'priority' => 6
 		]];
 		return array_merge($native, $attributes);
 	}
