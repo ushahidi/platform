@@ -166,7 +166,7 @@ class Ushahidi_Console_PostExporter extends Command
 
 			$header_row = service("formatter.entity.post.$format")->createHeading($attributes, $posts);
 			$job->setState(['header_row' => $header_row]);
-			//FIXME update does not exist $job->update();
+            $this->exportJobRepository->update($job);
 		} else {
 			service("formatter.entity.post.$format")->setHeading($job->header_row);
 		}
