@@ -165,46 +165,74 @@ class Ushahidi_Formatter_Post_CSV extends Ushahidi_Formatter_API
 
 	}
 
+	/**
+	 * @param $record
+	 * @param $keyParam
+	 * @param $attributes
+	 * @return string
+	 * Receives a record, the field to look up, and the full list of available attributes
+	 * Returns the correct value with the expected format for all fields in a post
+	 */
 	private function getValueFromRecord($record, $keyParam, $attributes){
+		// assume it's empty since we go through this for all attributes which might not be available
 		$return = '';
+		// the $keyParam is the key=>label we get in createSortedHeading (keyLabel.index)
 		$keySet = explode('.', $keyParam); //contains key + index of the key
-		$headingKey = isset($keySet[0]) ? $keySet[0] : null;
-		$key = isset($keySet[1]) ? $keySet[1] : null;
+		$headingKey = isset($keySet[0]) ? $keySet[0] : null; // the heading type (sets, contact, title)
+		$key = isset($keySet[1]) ? $keySet[1] : null; // the key to use (0, lat,lon)
+		// check that the key we received is available in $attributes
 		$recordAttributes = isset($attributes[$headingKey]) ? $attributes[$headingKey] : null;
+
+		// default format we will return. See $csvFieldFormat for a list of available formats
 		$format = 'single_raw';
+
+		// if we have an attribute and can find a format for it in $csvFieldFormat, reset the $format
 		if (is_array($recordAttributes) && isset($recordAttributes['type']) && isset(self::$csvFieldFormat[$recordAttributes['type']])){
 			$format = self::$csvFieldFormat[$recordAttributes['type']];
 		}
+
+		/** check if the value is in [values] (user added attributes),
+		 ** otherwise it'll be part of the record itself
+		**/
 		$isInValuesArray = isset ($record['values']) && isset($record['values'][$headingKey]);
+		/**
+		 * Just maps 'description' to look up content instead since it does not come in the values
+		 * with the correct key, it's part of $record
+		 */
 		$headingKey = $headingKey === 'description' ? 'content' : $headingKey;
 		$recordValue = $isInValuesArray ? $record['values']: $record;
+		// handle values that are dates to have consistent formatting
 		$isDateField = $recordAttributes['input'] === 'date' && $recordAttributes['type'] === 'datetime';
-
 		if ($isDateField && isset($recordValue[$headingKey])) {
 			$date = new DateTime($recordValue[$headingKey][$key]);
 			$recordValue[$headingKey][$key] = $date->format('Y-m-d');
 		}
+		/**
+		 * We have 3 formats. A single value array is only a lat/lon right now but would be usable
+		 * for other formats where we have a specific way to separate their fields in columns
+		 */
 		if($format === 'single_value_array'){
 			/*
 			 * Lat/Lon are never multivalue fields so we can get the first index  only
 			 */
 			$return = $this->singleValueArray($recordValue, $headingKey, $key);
-		} else if ($format === 'single_array') {
+		} else if ($format === 'single_array' || ($key !== null && isset($recordValue[$headingKey]) && is_array($recordValue[$headingKey]))) {
 			/**
-			 * we need to join the array items in a single comma separated string
+			 * A single_array is a comma separated list of values (like categories) in a column
+			 * we need to join the array items in a single comma separated string.
+			 * We handle all array as singles at the moment
 			 */
 			$return = $this->singleColumnArray($recordValue, $headingKey);
-		} else if ($format ==='multiple_array' || ($key !== null && isset($recordValue[$headingKey]) && is_array($recordValue[$headingKey]))) {
-			/**
-			 * we work with multiple posts which means our actual count($record[$key])
-			 * value might not exist in all of the posts we are posting in the CSV
-			 */
-			$return = $this->multiColumnArray($recordValue, $headingKey, $key);
 		} else if ($format === 'single_raw') {
+			/**
+			 * Single_raw is the literal representation of the value and
+			 * not usable for types where it's possible to have an array
+			 */
 			$return = $this->singleRaw($recordValue, $record, $headingKey, $key);
 		}
 		return $return;
 	}
+
 	private function singleRaw($recordValue, $record, $headingKey, $key){
 	 	if ($key !== null) {
 			return isset($recordValue[$headingKey])? ($recordValue[$headingKey]): '';
@@ -213,9 +241,11 @@ class Ushahidi_Formatter_Post_CSV extends Ushahidi_Formatter_API
 			return $emptyRecord ? '' : $record[$headingKey];
 		}
 	}
+
 	private function multiColumnArray($recordValue, $headingKey, $key) {
 		return isset($recordValue[$headingKey][$key])? ($recordValue[$headingKey][$key]): '';
 	}
+
 	private function singleColumnArray($recordValue, $headingKey, $separator = ',') {
 		/**
 	 	* we need to join the array items in a single comma separated string
@@ -276,11 +306,13 @@ class Ushahidi_Formatter_Post_CSV extends Ushahidi_Formatter_API
 			foreach ($attributeKeys as $attributeKey => $attribute){
 				if (is_array($attribute) && $attribute['type'] !== 'point'){
 					/**
-					 * If the attribute has a count key, it means we want to show that as key.index in the header.
-					 * This is to make sure we don't miss values in multi-value fields
+					 * key=>label mapping with index[0] for regular fields
 					 */
 					$attributeKeysWithStageFlat[$attributeKey.'.0'] = $attribute['label'];
 				} else if (isset($attribute['type']) && $attribute['type'] === 'point'){
+					/**
+					 * key=>label mapping with lat/lon for point type fields
+					 */
 					$attributeKeysWithStageFlat[$attributeKey.'.lat'] = $attribute['label'].'.lat';
 					$attributeKeysWithStageFlat[$attributeKey.'.lon'] = $attribute['label'].'.lon';
 				}
