@@ -12,6 +12,7 @@
 use Ushahidi\Console\Command;
 use Ushahidi\Core\Entity\PostExportRepository;
 use Ushahidi\Core\Entity\ExportJobRepository;
+use \Ushahidi\Core\Entity\FormAttributeRepository;
 use Ushahidi\Factory\DataFactory;
 use Ushahidi\Core\UserContextService;
 use Ushahidi\Core\Tool\FormatterTrait;
@@ -35,6 +36,7 @@ class Ushahidi_Console_PostExporter extends Command
 	private $data;
 	private $postExportRepository;
 	private $exportJobRepository;
+	private $formAttributeRepository;
 	private $userRepository;
 	private $fs;
 
@@ -58,10 +60,13 @@ class Ushahidi_Console_PostExporter extends Command
 	{
 		$this->exportJobRepository = $repo;
 	}
-//	public function setUser(UserContext $userContext)
-//	{
-//		$this->userContext = $userContext;
-//	}
+
+
+	public function setFormAttributeRepo(FormAttributeRepository $repo)
+	{
+		$this->formAttributeRepository = $repo;
+	}
+
 	public function setUserRepo(\Ushahidi\Core\Entity\UserRepository $repo)
 	{
 		$this->userRepository = $repo;
@@ -148,7 +153,7 @@ class Ushahidi_Console_PostExporter extends Command
 		service("formatter.entity.post.$format")->setAddHeader($add_header ===  'true');
 		//fixme add post_date
 		$form_ids = $this->postExportRepository->getFormIdsForHeaders();
-		$attributes = $this->postExportRepository->getAttributes($form_ids);
+		$attributes = $this->formAttributeRepository->getByForms($form_ids);
 
 		$keyAttributes = [];
 		foreach($attributes as $key => $item)

@@ -162,6 +162,7 @@ abstract class Ushahidi_Core {
 
 		$di->setter['Ushahidi_Console_PostExporter']['setPostExportRepo'] = $di->lazyGet('repository.posts_export');
 		$di->setter['Ushahidi_Console_PostExporter']['setExportJobRepo'] = $di->lazyGet('repository.export_job');
+		$di->setter['Ushahidi_Console_PostExporter']['setFormAttributeRepo'] = $di->lazyGet('repository.form_attribute');
 		$di->setter['Ushahidi_Console_PostExporter']['setDataFactory'] = $di->lazyGet('factory.data');
 		$di->setter['Ushahidi_Console_PostExporter']['setFileSystem'] = $di->lazyGet('tool.filesystem');
 		$di->setter['Ushahidi_Console_PostExporter']['setDatabase'] = $di->lazyGet('kohana.db');
