@@ -44,7 +44,7 @@ class Ushahidi_Formatter_Post_CSV extends Ushahidi_Formatter_API
 		if ($this->heading) {
 			return $this->generateCSVRecords($records, $attributes);
 		} else {
-			//throw exception
+			throw new \Ushahidi\Core\Exception\FormatterException("The CSV Formatter requires a heading.");
 		}
 	}
 

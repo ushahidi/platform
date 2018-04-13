@@ -157,8 +157,8 @@ class Ushahidi_Console_PostExporter extends Command
 		}
 		$header_row = $this->formatter->createHeading($job->header_row, $posts);
 		$this->formatter->setHeading($header_row);
-
-		$file = service("formatter.entity.post.$format")->__invoke($posts, $keyAttributes);
+		$formatter = $this->formatter;
+		$file = $formatter($posts, $keyAttributes);
 
 		$response = [
 			[

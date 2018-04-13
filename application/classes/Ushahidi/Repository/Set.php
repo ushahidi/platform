@@ -239,7 +239,7 @@ class Ushahidi_Repository_Set extends Ushahidi_Repository implements SetReposito
 			->resetSelect()
 			->select('name')
 			->execute($this->db);
-		$result = $result->as_array('name');
-		return array_keys($result);
+		$result = $result->as_array(null, 'name');
+		return $result;
 	}
 }

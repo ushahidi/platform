@@ -199,7 +199,7 @@ class Ushahidi_Repository_Tag extends Ushahidi_Repository implements
 			->resetSelect()
 			->select('tag')
 			->execute($this->db);
-		$result = $result->as_array('tag');
-		return array_keys($result);
+		$result = $result->as_array(null, 'tag');
+		return $result;
 	}
 }
