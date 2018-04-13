@@ -220,7 +220,7 @@ class Ushahidi_Formatter_Post_CSV extends Ushahidi_Formatter_API
 			/**
 			 * A single_array is a comma separated list of values (like categories) in a column
 			 * we need to join the array items in a single comma separated string.
-			 * We handle all array as singles at the moment
+			 * We handle all arryas as singles at the moment
 			 */
 			$return = $this->singleColumnArray($recordValue, $headingKey);
 		} else if ($format === 'single_raw') {

@@ -85,7 +85,7 @@ class Ushahidi_Console_PostExporter extends Command
 			->addOption('limit', ['l'], InputOption::VALUE_OPTIONAL, 'limit', 100)
 			->addOption('offset', ['o'], InputOption::VALUE_OPTIONAL, 'offset', 0)
 			->addOption('job', ['j'], InputOption::VALUE_OPTIONAL, 'job', null)
-			->addOption('include_header', ['ih'], InputOption::VALUE_OPTIONAL, 'include_header', true)
+			->addOption('include_header', ['ih'], InputOption::VALUE_OPTIONAL, 'include_header', 1)
 		;
 	}
 
@@ -133,7 +133,7 @@ class Ushahidi_Console_PostExporter extends Command
 
 		$this->postExportRepository->setSearchParams($data);
 		$posts = $this->postExportRepository->getSearchResults();
-		$this->formatter->setAddHeader($add_header == 'true');
+		$this->formatter->setAddHeader($add_header);
 		//fixme add post_date
 		$form_ids = $this->postExportRepository->getFormIdsForHeaders();
 		$attributes = $this->formAttributeRepository->getByForms($form_ids);
