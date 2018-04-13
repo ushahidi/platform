@@ -13,6 +13,25 @@
       - service: release
         command: release
 
+  - name: "Deploy QA"
+    service: deploy
+    # tag: develop
+    tag: cycle-2-sms-api
+    command: >
+      ANSIBLE_GITHUB_REPO=platform-cloud-ansible
+      ANSIBLE_GITHUB_REPO_VERSION=master
+      ush-ansible-playbook.sh -vv -i hosts/rackspace_qa platform-api-update.yml
+        -e PLATFORM_VERSION="$CI_COMMIT_ID"
+
+  - name: "Deploy Production"
+    service: deploy
+    tag: production
+    command: >
+      ANSIBLE_GITHUB_REPO=platform-cloud-ansible
+      ANSIBLE_GITHUB_REPO_VERSION=master
+      ush-ansible-playbook.sh -i hosts/rackspace_prod platform-api-update.yml
+        -e PLATFORM_VERSION="$CI_COMMIT_ID"
+
   - type: serial
     tag: develop
     steps:

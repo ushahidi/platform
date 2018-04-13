@@ -28,7 +28,7 @@ class Contact extends StaticEntity
 	protected $created;
 	protected $updated;
 	protected $can_notify;
-	public $country_code; // we only want this for validation, needs to be unset before saving
+
 	// StatefulData
 	protected function getDerived()
 	{

@@ -194,32 +194,6 @@ abstract class DataProvider_Core {
 		return DataProvider::$instances[$provider_name];
 	}
 
-	public static function getEnabledProviderForType($type)
-	{
-		$config = Kohana::$config->load('data-provider');
-		$plugin_config = Kohana::$config->load('_plugins');
-		$default_providers = $config->get('default_providers');
-
-		$enabled_providers = $config->get('providers');
-		foreach ($enabled_providers as $provider => $value)
-		{
-			if ($value) {
-				$provider_config = self::get_providers($provider);
-				if ($provider_config['services'][$type])
-				{
-					return $provider;
-				}
-			}
-		}
-
-		if ($default_providers[$type])
-		{
-			return $default_providers[$type];
-		}
-
-		return FALSE;
-	}
-
 	/**
 	 * Get Provider For a particular message type
 	 * @param  string $type Message/Service Type

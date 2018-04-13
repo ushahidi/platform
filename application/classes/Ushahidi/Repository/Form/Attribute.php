@@ -185,6 +185,7 @@ class Ushahidi_Repository_Form_Attribute extends Ushahidi_Repository implements
 	// FormAttributeRepository
 	public function getByKey($key, $form_id = null, $include_no_form = false)
 	{
+
 		$query = $this->selectQuery([], $form_id)
 			->select('form_attributes.*')
 			->join('form_stages', 'LEFT')
@@ -233,44 +234,100 @@ class Ushahidi_Repository_Form_Attribute extends Ushahidi_Repository implements
 		return $this->getCollection($results->as_array());
 	}
 
-    /**
-	 * @param int $form_id
-	 * @return Entity|FormAttribute
-	 *
-	 * Selects the first attribute of the same stage AFTER $last_attribute_id
-	 * for the form $form_id. Will only work correctly for targeted surveys or other single stage surveys
-	 * @return FormAttribute entity
+	/**
+	 * @param $form_ids
+	 * @return array
+	 * Returns a list of attributes with the relevant fields.
+	 * This is mainly to be used in the post exporter where we need a consistent list of attributes
+	 * that does not directly depend on the rows we are fetching at the time but on the
+	 * list of form ids that match a specific query
 	 */
-	public function getNextByFormAttribute($last_attribute_id)
-	{
-		$current_attribute = $this->get($last_attribute_id);
-		$next_attribute = DB::select($this->getTable() . '.*')
-			->from($this->getTable())
-			->where('form_stage_id', '=', $current_attribute->form_stage_id)
-			->where('priority', '>', $current_attribute->priority)
-			->limit(1)
+	public function getByForms($form_ids) {
+		$sql = "SELECT DISTINCT form_attributes.*, form_stages.priority as form_stage_priority, form_stages.form_id as form_id " .
+			"FROM form_attributes " .
+			"INNER JOIN form_stages ON form_attributes.form_stage_id = form_stages.form_id " .
+			"INNER JOIN forms ON form_stages.form_id = forms.id " .
+			"where forms.id IN :forms
+			ORDER BY form_stages.priority, form_attributes.priority";
+		$results = DB::query(Database::SELECT, $sql)
+			->bind(':forms', $form_ids)
 			->execute($this->db);
+		$attributes = $results->as_array();
 
-		return $this->getEntity($next_attribute->current());
+		$native = [
+			[
+			'label' => 'Post ID',
+			'key' => 'id',
+			'type' => 'integer',
+			'input' => 'number',
+			'form_id' => 0,
+			'form_stage_id' => 0,
+			'form_stage_priority' => 0,
+			'priority' => 1
+			],
+			[
+				'label' => 'Created (UTC)',
+				'key' => 'created',
+				'type' => 'datetime',
+				'input' => 'native',
+				'form_id' => 0,
+				'form_stage_id' => 0,
+				'form_stage_priority' => 0,
+				'priority' => 2
+			],
+			[
+				'label' => 'Updated (UTC)',
+				'key' => 'updated',
+				'type' => 'datetime',
+				'input' => 'native',
+				'form_id' => 0,
+				'form_stage_id' => 0,
+				'form_stage_priority' => 0,
+				'priority' => 3
+			],
+			[
+				'label' => 'Post Date (UTC)',
+				'key' => 'post_date',
+				'type' => 'datetime',
+				'input' => 'native',
+				'form_id' => 0,
+				'form_stage_id' => 0,
+				'form_stage_priority' => 0,
+				'priority' => 4
+			],
+			[
+				'label' => 'Contact ID',
+				'key' => 'contact_id',
+				'type' => 'integer',
+				'input' => 'number',
+				'form_id' => 0,
+				'form_stage_id' => 0,
+				'form_stage_priority' => 0,
+				'priority' => 5
+			],
+			[
+				'label' => 'Contact',
+				'key' => 'contact',
+				'type' => 'text',
+				'input' => 'text',
+				'form_id' => 0,
+				'form_stage_id' => 0,
+				'form_stage_priority' => 0,
+				'priority' => 6
+			],
+			[
+				'label' => 'Sets',
+				'key' => 'sets',
+				'type' => 'sets',
+				'input' => 'text',
+				'form_id' => 0,
+				'form_stage_id' => 0,
+				'form_stage_priority' => 0,
+				'priority' => 7
+			]
+		];
+		return array_merge($native, $attributes);
 	}
-
-	public function getFirstByForm($form_id)
-	{
-		$query = $this->selectQuery([
-			'form_stages.form_id' => $form_id,
-		], $form_id)
-			->select('form_attributes.*')
-			->join('form_stages', 'INNER')
-			->on('form_stages.id', '=', 'form_attributes.form_stage_id')
-			->order_by('form_stages.priority', 'ASC')
-			->order_by('form_attributes.priority', 'ASC')
-			->limit(1);
-
-		$results = $query->execute($this->db);
-
-		return $this->getEntity($results->current());
-	}
-
 	// FormAttributeRepository
 	public function getRequired($stage_id)
 	{

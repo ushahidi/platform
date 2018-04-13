@@ -110,7 +110,7 @@ class Controller_Sms_Nexmo extends Controller {
 	 */
 	public function action_reply()
 	{
-		include_once Kohana::find_file('lib', 'nexmo/NexmoMessage');
+		include_once Kohana::find_file('vendor', 'nexmo/NexmoMessage');
 
     //Check if data provider is available
     $providers_available = Kohana::$config->load('features.data-providers');

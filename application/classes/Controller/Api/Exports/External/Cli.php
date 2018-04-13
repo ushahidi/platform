@@ -47,7 +47,6 @@ class Controller_Api_Exports_External_Cli extends Controller_Api_External {
 
 		// Construct console command input
 		$input = new ArrayInput(array(
-			'action' => 'export',
 			'--limit' => $limit,
 			'--offset' => $offset,
 			'--job' => $job_id,

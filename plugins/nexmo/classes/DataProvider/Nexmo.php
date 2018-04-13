@@ -42,7 +42,7 @@ class DataProvider_Nexmo extends DataProvider {
 	 */
 	public function send($to, $message, $title = "")
 	{
-		include_once Kohana::find_file('lib', 'nexmo/NexmoMessage');
+		include_once Kohana::find_file('vendor', 'nexmo/NexmoMessage');
 
 		if ( ! isset($this->_client))
 		{

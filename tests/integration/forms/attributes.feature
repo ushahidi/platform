@@ -186,7 +186,7 @@ Feature: Testing the Form Attributes API
         Then the response is JSON
         And the response has a "count" property
         And the type of the "count" property is "numeric"
-        And the "count" property equals "35"
+        And the "count" property equals "29"
         Then the guzzle status code should be 200
 
     Scenario: Search for point attributes
@@ -213,7 +213,7 @@ Feature: Testing the Form Attributes API
 
     Scenario: Finding a non-existent Attribute
         Given that I want to find a "Attribute"
-        And that its "id" is "999"
+        And that its "id" is "35"
         When I request "/forms/1/attributes"
         Then the response is JSON
         And the response has a "errors" property
@@ -227,7 +227,7 @@ Feature: Testing the Form Attributes API
 
     Scenario: Deleting a non-existent Attribute
         Given that I want to delete a "Attribute"
-        And that its "id" is "998"
+        And that its "id" is "35"
         When I request "/forms/1/attributes"
         And the response has a "errors" property
         Then the guzzle status code should be 404

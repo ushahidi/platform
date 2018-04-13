@@ -26,16 +26,6 @@ Route::set('media', 'media/<filepath>', array(
 	));
 
 /**
-* Path to get country-codes
-*/
-Route::set('country-codes', $apiBase . 'country-codes', array(
-))
-->defaults(array(
-	'controller'=> 'CountryCodes',
-	'action'=> 'index',
-	'directory' => 'Api'));
-
-/**
  * Path to CSV uploads.
  */
 Route::set('csv', $apiBase . 'csv(/<id>)',  array(
@@ -87,7 +77,7 @@ Route::set('post-stats', $apiBase . 'posts/stats')
  * Lock Posts API SubRoute
  */
 Route::set('post-lock', $apiBase . 'posts(/<post_id>)/lock(/<lock_id>)',
-	array(
+	array(		
 		'post_id' => '\d+',
 		'lock_id' => '\d+'
 	))
@@ -95,8 +85,8 @@ Route::set('post-lock', $apiBase . 'posts(/<post_id>)/lock(/<lock_id>)',
 		'action'     => 'index',
 		'controller' => 'Lock',
 		'directory'  => 'Api/Posts'
-	));
-
+	));	
+	
 
 /**
  * GeoJSON API SubRoute
@@ -252,6 +242,7 @@ Route::set('forms', $apiBase . 'forms(/<form_id>)/<controller>(/<id>)',
 		'action'     => 'index',
 		'directory'  => 'Api/Forms'
 	));
+
 
 /**
  * Translations API SubRoute

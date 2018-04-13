@@ -227,4 +227,19 @@ class Ushahidi_Repository_Set extends Ushahidi_Repository implements SetReposito
 		// so that this is queued for the Notifications data provider
 		$this->emit($this->event, $set_id, $post_id);
 	}
+
+	/**
+	 * Gets the set names corresponding to the list of tag ids
+	 * @param $tag_ids
+	 * @return array
+	 */
+	public function getNamesByIds($sets_ids)
+	{
+		$result = $this->selectQuery(array('id' => $sets_ids))
+			->resetSelect()
+			->select('name')
+			->execute($this->db);
+		$result = $result->as_array(null, 'name');
+		return $result;
+	}
 }

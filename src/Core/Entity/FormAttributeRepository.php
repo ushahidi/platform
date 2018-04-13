@@ -34,12 +34,6 @@ interface FormAttributeRepository extends
 	public function getByForm($form_id);
 
 	/**
-	 * @param  int $form_id
-	 * @return [Ushahidi\Core\Entity\FormAttribute, ...]
-	 */
-	public function getFirstByForm($form_id);
-
-	/**
 	 * @return [Ushahidi\Core\Entity\FormAttribute, ...]
 	 */
 	public function getAll();

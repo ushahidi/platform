@@ -131,7 +131,7 @@ abstract class Ushahidi_DataProvider extends DataProvider_Core {
 		foreach($pings as $message)
 		{
 			$provider = DataProvider::factory($message->data_provider, $message->type);
-			
+
 			// Load contact
 			$contact = $contact_repo->get($message->contact_id);
 

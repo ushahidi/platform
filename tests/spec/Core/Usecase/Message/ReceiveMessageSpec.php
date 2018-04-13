@@ -70,7 +70,6 @@ class ReceiveMessageSpec extends ObjectBehavior
  	private function tryLoadContactEntity($payload, $contact_id, $contactRepo, $contact)
  	{
 		// Called by ReceiveMessage::getContactEntity
-		$contactRepo->isInTargetedSurvey($contact_id)->willReturn((false));
 		$contactRepo->getByContact($payload['from'], $payload['contact_type'])->willReturn($contact);
 		$contact->getId()->willReturn($contact_id);
 	}
@@ -256,7 +255,7 @@ class ReceiveMessageSpec extends ObjectBehavior
 		$contact_id = 3;
 		// ... fetch a new entity
 		$this->setupMessageEntity($payload, $repo, $entity);
-		$this->tryLoadContactEntity($payload, $contact_id, $contactRepo, $contact);
+		$this->tryLoadContactEntity($payload, false, $contactRepo, $contact);
 		$this->createPostEntity($payload, $postRepo, $post);
 
 		// Create new contact
