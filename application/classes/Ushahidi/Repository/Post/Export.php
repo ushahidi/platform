@@ -59,6 +59,11 @@ class Ushahidi_Repository_Post_Export extends Ushahidi_Repository_CSVPost implem
 			$form = $this->form_repo->get($data['form_id']);
 			$data['form_name'] = $form->name;
 		}
+
+		if (!empty($data['sets'])) {
+			$data['sets'] = $this->retrieveSetNames($data['sets']);
+		}
+
 		return $data;
 	}
 
