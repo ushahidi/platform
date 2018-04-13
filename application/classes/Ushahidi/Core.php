@@ -159,11 +159,12 @@ abstract class Ushahidi_Core {
 
 		// Post Exporter
 		$di->setter['Ushahidi\Console\Application']['injectCommands'][] = $di->lazyNew('Ushahidi_Console_PostExporter');
-
+		$di->setter['Ushahidi_Console_PostExporter']['setFormatter'] = $di->lazyGet('formatter.entity.post.csv');
+		$di->setter['Ushahidi_Formatter_Post_CSV']['setFilesystem'] = $di->lazyGet('tool.filesystem');
 		$di->setter['Ushahidi_Console_PostExporter']['setPostExportRepo'] = $di->lazyGet('repository.posts_export');
 		$di->setter['Ushahidi_Console_PostExporter']['setExportJobRepo'] = $di->lazyGet('repository.export_job');
+		$di->setter['Ushahidi_Console_PostExporter']['setFormAttributeRepo'] = $di->lazyGet('repository.form_attribute');
 		$di->setter['Ushahidi_Console_PostExporter']['setDataFactory'] = $di->lazyGet('factory.data');
-		$di->setter['Ushahidi_Console_PostExporter']['setFileSystem'] = $di->lazyGet('tool.filesystem');
 		$di->setter['Ushahidi_Console_PostExporter']['setDatabase'] = $di->lazyGet('kohana.db');
 
 		$di->setter['Ushahidi_Console_PostExporter']['setUserRepo'] =  $di->lazyGet('repository.user');
@@ -466,8 +467,10 @@ abstract class Ushahidi_Core {
 
 		$di->params['Ushahidi_Repository_Export_Job'] = [
 			'post_repo' => $di->lazyGet('repository.post')
-		];
 
+		];
+		$di->setter['Ushahidi_Repository_Post_Export']['setSetRepo'] = $di->lazyGet('repository.set');
+		$di->setter['Ushahidi_Repository_Post_Export']['setTagRepo'] = $di->lazyGet('repository.tag');
 		$di->setter['Ushahidi_Repository_User']['setHasher'] = $di->lazyGet('tool.hasher.password');
 
 		// Repository parameters
