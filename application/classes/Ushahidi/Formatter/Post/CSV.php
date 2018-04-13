@@ -39,6 +39,13 @@ class Ushahidi_Formatter_Post_CSV extends Ushahidi_Formatter_API
 	protected $heading;
 
 	// Formatter
+
+	/**
+	 * @param $records
+	 * @param array $attributes (a list of attributes with key,type,priority
+	 * and other important features to manipulate records with
+	 * @return array|mixed
+	 */
 	public function __invoke($records, $attributes = [])
 	{
 		if ($this->heading) {

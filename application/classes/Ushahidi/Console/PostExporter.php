@@ -158,6 +158,11 @@ class Ushahidi_Console_PostExporter extends Command
 		$header_row = $this->formatter->createHeading($job->header_row, $posts);
 		$this->formatter->setHeading($header_row);
 		$formatter = $this->formatter;
+		/**
+		 * KeyAttributes is sent instead of the header row because it contains
+		 * the attributes with the corresponding features (type, priority) that
+		 * we need for manipulating the data
+		 */
 		$file = $formatter($posts, $keyAttributes);
 
 		$response = [
