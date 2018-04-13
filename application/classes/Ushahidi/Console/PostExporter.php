@@ -144,7 +144,7 @@ class Ushahidi_Console_PostExporter extends Command
 		$this->postExportRepository->setSearchParams($data);
 		$posts = $this->postExportRepository->getSearchResults();
 		service("formatter.entity.post.$format")->setFileSystem($this->fs);
-		service("formatter.entity.post.$format")->setAddHeader($add_header);
+		service("formatter.entity.post.$format")->setAddHeader($add_header ===  'true');
 		//fixme add post_date
 		$form_ids = $this->postExportRepository->getFormIdsForHeaders();
 		$attributes = $this->postExportRepository->getAttributes($form_ids);
@@ -163,13 +163,11 @@ class Ushahidi_Console_PostExporter extends Command
 		}
 		/**FIXME: how to make sure header_row is null/empty instead off an array with an empty item in it? */
 		if (empty($job->header_row) || $job->header_row[0] == '') {
-
-			$header_row = service("formatter.entity.post.$format")->createHeading($attributes, $posts);
-			$job->setState(['header_row' => $header_row]);
+			$job->setState(['header_row' => $attributes]);
             $this->exportJobRepository->update($job);
-		} else {
-			service("formatter.entity.post.$format")->setHeading($job->header_row);
 		}
+		$header_row = service("formatter.entity.post.$format")->createHeading($job->header_row, $posts);
+		service("formatter.entity.post.$format")->setHeading($header_row);
 
 		$file = service("formatter.entity.post.$format")->__invoke($posts, $keyAttributes);
 

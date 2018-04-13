@@ -11,7 +11,9 @@ class AddHeaderToExportJob extends AbstractMigration
     public function up()
     {
         $this->table('export_job')
-            ->addColumn('header_row', 'string', ['null' => true, 'default' => null])
+            ->addColumn('header_row', 'text',
+				['null' => true, 'limit' => 16777215, 'default' => null]
+			)
             ->update();
     }
 
