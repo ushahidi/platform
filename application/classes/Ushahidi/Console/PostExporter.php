@@ -38,17 +38,11 @@ class Ushahidi_Console_PostExporter extends Command
 	private $exportJobRepository;
 	private $formAttributeRepository;
 	private $userRepository;
-	private $fs;
 
 	public function __construct()
 	{
 		parent::__construct();
 
-	}
-
-	public function setFileSystem(Filesystem $fs)
-	{
-		$this->fs = $fs;
 	}
 
 	public function setDatabase(Database $db)
@@ -88,34 +82,24 @@ class Ushahidi_Console_PostExporter extends Command
 		$this
 			->setName('exporter')
 			->setDescription('Export Posts')
-			->addArgument('action', InputArgument::REQUIRED, 'list, export')
-			->addOption('limit', ['l'], InputOption::VALUE_OPTIONAL, 'limit')
-			->addOption('offset', ['o'], InputOption::VALUE_OPTIONAL, 'offset')
-			->addOption('job', ['j'], InputOption::VALUE_OPTIONAL, 'job')
-			->addOption('include_header', ['ih'], InputOption::VALUE_OPTIONAL, 'include_header')
+			->addOption('limit', ['l'], InputOption::VALUE_OPTIONAL, 'limit', 100)
+			->addOption('offset', ['o'], InputOption::VALUE_OPTIONAL, 'offset', 0)
+			->addOption('job', ['j'], InputOption::VALUE_OPTIONAL, 'job', null)
+			->addOption('include_header', ['ih'], InputOption::VALUE_OPTIONAL, 'include_header', true)
 		;
 	}
 
-	protected function executeList(InputInterface $input, OutputInterface $output)
-	{
-		return [
-			[
-				'Available actions' => 'export'
-			]
-		];
-	}
-
-	protected function executeExport(InputInterface $input, OutputInterface $output)
+	protected function execute(InputInterface $input, OutputInterface $output)
 	{
 		$userContextService = service('usercontext.service');
 		// Construct a Search Data objec to hold the search info
 		$data = $this->data->get('search');
 
 		// Get CLI params
-		$limit = $input->getOption('limit') ? $input->getOption('limit') : 100;
-		$offset = $input->getOption('offset') ? $input->getOption('offset') : 0;
-		$job_id = $input->getOption('job') ? $input->getOption('job') : null;
-		$add_header = $input->getOption('include_header') ? $input->getOption('include_header') : true;
+		$limit = $input->getOption('limit');
+		$offset = $input->getOption('offset');
+		$job_id = $input->getOption('job');
+		$add_header = $input->getOption('include_header');
 
 		// At the moment there is only CSV format
 		$format = 'csv';
@@ -149,8 +133,7 @@ class Ushahidi_Console_PostExporter extends Command
 
 		$this->postExportRepository->setSearchParams($data);
 		$posts = $this->postExportRepository->getSearchResults();
-		service("formatter.entity.post.$format")->setFileSystem($this->fs);
-		service("formatter.entity.post.$format")->setAddHeader($add_header ===  'true');
+		$this->formatter->setAddHeader($add_header);
 		//fixme add post_date
 		$form_ids = $this->postExportRepository->getFormIdsForHeaders();
 		$attributes = $this->formAttributeRepository->getByForms($form_ids);
