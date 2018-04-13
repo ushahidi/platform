@@ -150,13 +150,13 @@ class Ushahidi_Console_PostExporter extends Command
 			$post = $this->postExportRepository->retrieveMetaData($post->asArray(), $keyAttributes);
 			$posts[$idx] = $post;
 		}
-		/**FIXME: how to make sure header_row is null/empty instead off an array with an empty item in it? */
+
 		if (empty($job->header_row)) {
 			$job->setState(['header_row' => $attributes]);
             $this->exportJobRepository->update($job);
 		}
-		$header_row = service("formatter.entity.post.$format")->createHeading($job->header_row, $posts);
-		service("formatter.entity.post.$format")->setHeading($header_row);
+		$header_row = $this->formatter->createHeading($job->header_row, $posts);
+		$this->formatter->setHeading($header_row);
 
 		$file = service("formatter.entity.post.$format")->__invoke($posts, $keyAttributes);
 
