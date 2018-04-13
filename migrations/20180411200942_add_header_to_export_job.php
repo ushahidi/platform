@@ -27,4 +27,3 @@ class AddHeaderToExportJob extends AbstractMigration
             ->update();
     }
 }
-

@@ -141,6 +141,7 @@ class Ushahidi_Console_PostExporter extends Command
 		foreach ($filters as $key => $filter) {
 			$data->$key = $filter;
 		}
+
 		$this->postExportRepository->setSearchParams($data);
 		$posts = $this->postExportRepository->getSearchResults();
 		service("formatter.entity.post.$format")->setFileSystem($this->fs);
