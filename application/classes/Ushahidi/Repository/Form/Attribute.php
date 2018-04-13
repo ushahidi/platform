@@ -264,7 +264,8 @@ class Ushahidi_Repository_Form_Attribute extends Ushahidi_Repository implements
 			'form_stage_id' => 0,
 			'form_stage_priority' => 0,
 			'priority' => 1
-			], [
+			],
+			[
 				'label' => 'Created (UTC)',
 				'key' => 'created',
 				'type' => 'datetime',
@@ -273,7 +274,8 @@ class Ushahidi_Repository_Form_Attribute extends Ushahidi_Repository implements
 				'form_stage_id' => 0,
 				'form_stage_priority' => 0,
 				'priority' => 2
-			], [
+			],
+			[
 				'label' => 'Updated (UTC)',
 				'key' => 'updated',
 				'type' => 'datetime',
@@ -302,7 +304,8 @@ class Ushahidi_Repository_Form_Attribute extends Ushahidi_Repository implements
 				'form_stage_id' => 0,
 				'form_stage_priority' => 0,
 				'priority' => 5
-			], [
+			],
+			[
 				'label' => 'Contact',
 				'key' => 'contact',
 				'type' => 'text',
@@ -311,7 +314,8 @@ class Ushahidi_Repository_Form_Attribute extends Ushahidi_Repository implements
 				'form_stage_id' => 0,
 				'form_stage_priority' => 0,
 				'priority' => 6
-			], [
+			],
+			[
 				'label' => 'Sets',
 				'key' => 'sets',
 				'type' => 'sets',
