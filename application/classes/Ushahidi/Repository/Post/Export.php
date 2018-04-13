@@ -12,9 +12,22 @@
 use Ushahidi\Core\Entity\Post;
 use Ushahidi\Core\Entity\PostRepository;
 use Ushahidi\Core\Entity\PostExportRepository;
-
+use Ushahidi\Core\Entity\TagRepository;
+use Ushahidi\Core\Entity\SetRepository;
 class Ushahidi_Repository_Post_Export extends Ushahidi_Repository_CSVPost implements PostExportRepository
 {
+	protected $tag_repo;
+	protected $set_repo;
+	/**
+	 * @param TagRepository $repo
+	 */
+	public function setTagRepo(TagRepository $repo) {
+		$this->tag_repo = $repo;
+	}
+
+	public function setSetRepo(SetRepository $repo) {
+		$this->set_repo = $repo;
+	}
 
 	//fixme move to correct repo
 	public function getFormIdsForHeaders() {
@@ -43,7 +56,7 @@ class Ushahidi_Repository_Post_Export extends Ushahidi_Repository_CSVPost implem
 		foreach ($data['values'] as $key => $val) {
 			// Set attribute names. This is for categories (custom field) to show their label and not the ids
 			if (isset($attributes[$key]) && $attributes[$key]['type'] === 'tags') {
-				$data['values'][$key] = $this->retrieveTagNames($val);
+				$data['values'][$key] =  $this->tag_repo->getNamesByIds($val);
 			}
 		}
 
@@ -61,32 +74,10 @@ class Ushahidi_Repository_Post_Export extends Ushahidi_Repository_CSVPost implem
 		}
 
 		if (!empty($data['sets'])) {
-			$data['sets'] = $this->retrieveSetNames($data['sets']);
+			$data['sets'] = $this->set_repo->getNamesByIds($data['sets']);
 		}
 
 		return $data;
-	}
-
-	public function retrieveTagNames($tag_ids)
-	{
-		$tag_repo = service('repository.tag');
-		$names = [];
-		foreach ($tag_ids as $tag_id) {
-			$tag = $tag_repo->get($tag_id);
-			array_push($names, $tag->tag);
-		}
-		return $names;
-	}
-
-	public function retrieveSetNames($set_ids)
-	{
-		$set_repo = service('repository.set');
-		$names = [];
-		foreach ($set_ids as $set_id) {
-			$set = $set_repo->get($set_id);
-			array_push($names, $set->name);
-		}
-		return $names;
 	}
 
 	public function retrieveCompletedStageNames($stage_ids)

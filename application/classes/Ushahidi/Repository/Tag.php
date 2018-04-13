@@ -187,4 +187,19 @@ class Ushahidi_Repository_Tag extends Ushahidi_Repository implements
 		}
 		return $valid;
 	}
+
+	/**
+	 * Gets the tag names corresponding to the list of tag ids
+	 * @param $tag_ids
+	 * @return array
+	 */
+	public function getNamesByIds($tag_ids)
+	{
+		$result = $this->selectQuery(array('id' => $tag_ids))
+			->resetSelect()
+			->select('tag')
+			->execute($this->db);
+		$result = $result->as_array('tag');
+		return array_keys($result);
+	}
 }

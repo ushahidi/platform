@@ -21,9 +21,5 @@ interface PostExportRepository
 	 */
 	public function retrieveMetaData($data, $attributes);
 
-    public function retrieveTagNames($tag_ids);
-
-    public function retrieveSetNames($set_ids);
-
     public function retrieveCompletedStageNames($stage_ids);
 }

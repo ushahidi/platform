@@ -133,7 +133,7 @@ class Ushahidi_Console_PostExporter extends Command
 
 		$this->postExportRepository->setSearchParams($data);
 		$posts = $this->postExportRepository->getSearchResults();
-		$this->formatter->setAddHeader($add_header);
+		$this->formatter->setAddHeader($add_header == 'true');
 		//fixme add post_date
 		$form_ids = $this->postExportRepository->getFormIdsForHeaders();
 		$attributes = $this->formAttributeRepository->getByForms($form_ids);
