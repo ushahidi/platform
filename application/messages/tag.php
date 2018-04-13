@@ -2,9 +2,11 @@
 
 return array(
 	'isSlugAvailable' => ':field :value is already in use',
-	'isRoleValid' => 'Role must match the parent category',
-	'tag.role.isRoleValid' => 'Role must match the parent category',
+	'role' => [
+		'isRoleValid' => 'Role must match the parent category',
+		'exists' => 'Role :value does not exist'
+	],
 	'description.regex' => 'The description must contain only letters, numbers, spaces and punctuation',
-	'tag.regex' => 'The category name must contain only letters, numbers, spaces and punctuation',
+	'regex' => 'The category name must contain only letters, numbers, spaces and punctuation'
 );
 
