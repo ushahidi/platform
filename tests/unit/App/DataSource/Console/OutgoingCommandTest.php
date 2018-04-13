@@ -39,16 +39,16 @@ class OutgoingCommandTest extends TestCase
     {
         $value = $this->artisan('datasource:outgoing', []);
 
-        $this->assertEquals(
-            "+--------------+-------+
+        $this->assertRegExp(
+            "/\+--------------\+-------\+
 | Source       | Total |
-+--------------+-------+
-| FrontlineSMS | 0     |
-| Twilio       | 0     |
-| Email        | 0     |
-| Unassigned   | 0     |
-+--------------+-------+
-",
+\+--------------\+-------\+
+| FrontlineSMS | [0-9]*     |
+| Twilio       | [0-9]*     |
+| Email        | [0-9]*     |
+| Unassigned   | [0-9]*     |
+\+--------------\+-------\+
+/",
             $this->artisanOutput()
         );
     }
@@ -57,18 +57,18 @@ class OutgoingCommandTest extends TestCase
     {
         $value = $this->artisan('datasource:outgoing', ["--all" => true]);
 
-        $this->assertEquals(
-            "+--------------+-------+
+        $this->assertRegExp(
+            "/\+--------------\+-------\+
 | Source       | Total |
-+--------------+-------+
-| Email        | 0     |
-| FrontlineSMS | 0     |
-| Nexmo        | 0     |
-| Twilio       | 0     |
-| Twitter      | 0     |
-| Unassigned   | 0     |
-+--------------+-------+
-",
+\+--------------\+-------\+
+| Email        | [0-9]*     |
+| FrontlineSMS | [0-9]*     |
+| Nexmo        | [0-9]*     |
+| Twilio       | [0-9]*     |
+| Twitter      | [0-9]*     |
+| Unassigned   | [0-9]*     |
+\+--------------\+-------\+
+/",
             $this->artisanOutput()
         );
     }
@@ -77,13 +77,13 @@ class OutgoingCommandTest extends TestCase
     {
         $value = $this->artisan('datasource:outgoing', ["--source" => "nexmo"]);
 
-        $this->assertEquals(
-            "+--------+-------+
+        $this->assertRegExp(
+            "/\+--------\+-------\+
 | Source | Total |
-+--------+-------+
-| Nexmo  | 0     |
-+--------+-------+
-",
+\+--------\+-------\+
+| Nexmo  | [0-9]*     |
+\+--------\+-------\+
+/",
             $this->artisanOutput()
         );
     }
