@@ -150,10 +150,6 @@ class Ushahidi_Repository_Contact extends Ushahidi_Repository implements
 	 */
     public function hasPostOutsideOfTargetedSurvey($contact_id)
 	{
-		//select post_id from messages where
-		// post_id NOT IN (select post_id from targeted_survey_state where contact_id=23)
-		// and contact_id=23;
-
 		$query_posts = DB::select(DB::expr('DISTINCT (messages.post_id) as post_id'))
 			->from('messages')
 			->where("messages.post_id", 'NOT IN',
