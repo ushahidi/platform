@@ -38,5 +38,5 @@ interface ContactRepository extends
 	 * @param string  $contact
 	 * @return boolean
 	 */
-	public function isInTargetedSurvey($contact);
+	public function isInActiveTargetedSurvey($contact);
 }
