@@ -234,7 +234,8 @@ class ReceiveMessage extends CreateUsecase
 				'title'    => $message->title,
 				'content'  => $content,
 				'values'   => $values,
-				'form_id'  => $form_id
+				'form_id'  => $form_id,
+				'post_date'=> $this->getPayload('date', false),
 			]);
 		return $this->postRepo->create($post);
 	}
