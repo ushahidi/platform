@@ -164,6 +164,7 @@ class Twitter implements IncomingAPIDataSource, OutgoingAPIDataSource
 				$user = $status['user'];
 				$screen_name = $user['screen_name'];
 				$text = $status['text'];
+				$date = $status['created_at'];
 
 				$additional_data = [];
 
@@ -184,6 +185,7 @@ class Twitter implements IncomingAPIDataSource, OutgoingAPIDataSource
 					'message' => $text,
 					'to' => null,
 					'title' => null,
+					'date' => $date,
 					'data_source_message_id' => $id,
 					'additional_data' => $additional_data
 				];

@@ -246,6 +246,7 @@ class EmailDataSourceTest extends TestCase
                 'title' => 'Message 1',
                 'data_source_message_id' => 1,
                 'additional_data' => [],
+                'date' => null,
             ],
             [
                 'type' => 'email',
@@ -256,6 +257,7 @@ class EmailDataSourceTest extends TestCase
                 'title' => 'Message 5',
                 'data_source_message_id' => 5,
                 'additional_data' => [],
+                'date' => null,
             ],
             [
                 'type' => 'email',
@@ -266,6 +268,7 @@ class EmailDataSourceTest extends TestCase
                 'title' => 'Message 7',
                 'data_source_message_id' => 7,
                 'additional_data' => [],
+                'date' => null,
             ],
         ], $messages);
     }

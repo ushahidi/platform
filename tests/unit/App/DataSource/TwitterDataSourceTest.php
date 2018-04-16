@@ -194,7 +194,8 @@ class TwitterDataSourceTest extends TestCase
                                 40.05701649
                             ],
                             "type" => "Point"
-                        ]
+                        ],
+                        'created_at' => 'Thu Apr 06 15:24:15 +0000 2017',
                     ],
                     [
                         'id' => 'abc124',
@@ -204,14 +205,16 @@ class TwitterDataSourceTest extends TestCase
                         'text' => 'Test message 2',
                         'retweeted_status' => [
                             'text' => 'notsurewhatthisnormallyis'
-                        ]
+                        ],
+                        'created_at' => 'Thu Apr 06 15:24:15 +0000 2017',
                     ],
                     [
                         'id' => 'abc125',
                         'user' => [
                             'screen_name' => 'someone'
                         ],
-                        'text' => 'Test message 3'
+                        'text' => 'Test message 3',
+                        'created_at' => 'Thu Apr 06 15:24:15 +0000 2017',
                     ],
                     [
                         'id' => 'abc126',
@@ -251,7 +254,8 @@ class TwitterDataSourceTest extends TestCase
                           'name' => 'Washington',
                           'place_type' => 'city',
                           'url' => 'http://api.twitter.com/1/geo/id/01fbe706f872cb32.json',
-                        ]
+                        ],
+                        'created_at' => 'Thu Apr 06 15:24:15 +0000 2017',
                     ],
                 ]
             ]);
@@ -277,7 +281,8 @@ class TwitterDataSourceTest extends TestCase
                             'type' => 'Point'
                         ]
                     ]
-                ]
+                ],
+                'date' =>  'Thu Apr 06 15:24:15 +0000 2017',
             ],
             [
                 'type' => 'twitter',
@@ -287,7 +292,8 @@ class TwitterDataSourceTest extends TestCase
                 'to' => null,
                 'title' => null,
                 'data_source_message_id' => 'abc125',
-                'additional_data' => []
+                'additional_data' => [],
+                'date' =>  'Thu Apr 06 15:24:15 +0000 2017',
             ],
             [
                 'type' => 'twitter',
@@ -334,7 +340,8 @@ class TwitterDataSourceTest extends TestCase
                             'type' => 'Polygon',
                         ]
                     ]
-                ]
+                ],
+                'date' =>  'Thu Apr 06 15:24:15 +0000 2017',
             ],
         ], $messages);
     }
