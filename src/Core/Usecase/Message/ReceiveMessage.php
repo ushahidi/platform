@@ -307,7 +307,7 @@ class ReceiveMessage extends CreateUsecase
 
 	protected function isContactInTargetedSurvey($contact_id)
 	{
-		return $this->contact_repo->isInTargetedSurvey($contact_id);
+		return $this->contact_repo->isInActiveTargetedSurvey($contact_id);
 	}
 
 	/**
