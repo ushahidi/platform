@@ -138,7 +138,10 @@ class Ushahidi_Repository_Contact extends Ushahidi_Repository implements
 			->from('targeted_survey_state')
 			->where('contact_id', '=', $contact_id)
 			->and_where('survey_status', 'IN',
-				array(Entity\TargetedSurveyState::PENDING_RESPONSE, Entity\TargetedSurveyState::RECEIVED_RESPONSE)
+				[
+					Entity\TargetedSurveyState::PENDING_RESPONSE,
+					Entity\TargetedSurveyState::RECEIVED_RESPONSE
+				]
 			);
 		if($query->execute($this->db)->count() > 0)
 		{
