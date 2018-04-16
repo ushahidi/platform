@@ -132,7 +132,8 @@ class Ushahidi_Repository_Contact extends Ushahidi_Repository implements
     {
         $query = DB::select('targeted_survey_state.contact_id', 'targeted_survey_state.form_id')
             ->from('targeted_survey_state')
-            ->where('contact_id', '=', $contact_id);
+            ->where('contact_id', '=', $contact_id)
+			->and_where('survey_status', '!=', Entity\TargetedSurveyState::SURVEY_FINISHED);
 
         if($query->execute($this->db)->count() > 0)
         {
@@ -149,12 +150,19 @@ class Ushahidi_Repository_Contact extends Ushahidi_Repository implements
 	 */
     public function hasPostOutsideOfTargetedSurvey($contact_id)
 	{
+		//select post_id from messages where
+		// post_id NOT IN (select post_id from targeted_survey_state where contact_id=23)
+		// and contact_id=23;
+
 		$query_posts = DB::select(DB::expr('DISTINCT (messages.post_id) as post_id'))
 			->from('messages')
-			->join('targeted_survey_state', 'LEFT')
-			->on('targeted_survey_state.contact_id', '=', 'messages.contact_id')
-			->where(DB::expr('messages.contact_id'), '=', $contact_id)
-			->and_where('targeted_survey_state.post_id', 'IS',NULL);
+			->where("messages.post_id", 'NOT IN',
+				DB::query
+				(
+					Database::SELECT, 'select targeted_survey_state.post_id from targeted_survey_state where contact_id = :contact'
+				)
+				->bind(':contact', $contact_id))
+			->where(DB::expr('messages.contact_id'), '=', $contact_id);
 
 		$post_ids_in_messages = $query_posts->execute($this->db)->as_array(null, 'post_id');
 		if (count($post_ids_in_messages) >= 1) {
