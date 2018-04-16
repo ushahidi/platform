@@ -11,24 +11,61 @@
 
 use Ushahidi\Console\Command;
 use Ushahidi\Core\Entity\PostExportRepository;
+use Ushahidi\Core\Entity\ExportJobRepository;
+use \Ushahidi\Core\Entity\FormAttributeRepository;
 use Ushahidi\Factory\DataFactory;
-use Ushahidi\Core\Traits\UserContext;
+use Ushahidi\Core\UserContextService;
 use Ushahidi\Core\Tool\FormatterTrait;
+
+use Ushahidi\Core\Tool\Filesystem;
+use Ushahidi\Core\Tool\FileData;
 
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-
+use League\Flysystem\Util\MimeType;
+use Aura\Di\Container;
 
 class Ushahidi_Console_PostExporter extends Command
 {
 
-	use UserContext;
+
 	use FormatterTrait;
 
-    private $data;
+	private $data;
 	private $postExportRepository;
+	private $exportJobRepository;
+	private $formAttributeRepository;
+	private $userRepository;
+
+	public function __construct()
+	{
+		parent::__construct();
+
+	}
+
+	public function setDatabase(Database $db)
+	{
+		$this->db = $db;
+	}
+
+	public function setExportJobRepo(ExportJobRepository $repo)
+	{
+		$this->exportJobRepository = $repo;
+	}
+
+
+	public function setFormAttributeRepo(FormAttributeRepository $repo)
+	{
+		$this->formAttributeRepository = $repo;
+	}
+
+	public function setUserRepo(\Ushahidi\Core\Entity\UserRepository $repo)
+	{
+		$this->userRepository = $repo;
+	}
+
 
 	public function setDataFactory(DataFactory $data)
 	{
@@ -45,68 +82,95 @@ class Ushahidi_Console_PostExporter extends Command
 		$this
 			->setName('exporter')
 			->setDescription('Export Posts')
-			->addArgument('action', InputArgument::OPTIONAL, 'list, export', 'list')
-			->addOption('limit', ['l'], InputOption::VALUE_OPTIONAL, 'limit')
-            ->addOption('offset', ['o'], InputOption::VALUE_OPTIONAL, 'offset')
-			;
+			->addOption('limit', ['l'], InputOption::VALUE_OPTIONAL, 'limit', 100)
+			->addOption('offset', ['o'], InputOption::VALUE_OPTIONAL, 'offset', 0)
+			->addOption('job', ['j'], InputOption::VALUE_OPTIONAL, 'job', null)
+			->addOption('include_header', ['ih'], InputOption::VALUE_OPTIONAL, 'include_header', 1)
+		;
 	}
 
-	protected function executeList(InputInterface $input, OutputInterface $output)
+	protected function execute(InputInterface $input, OutputInterface $output)
 	{
-		return [
-			[
-				'Available actions' => 'export'
-			]
-		];
-	}
+		$userContextService = service('usercontext.service');
+		// Construct a Search Data objec to hold the search info
+		$data = $this->data->get('search');
 
-	protected function executeExport(InputInterface $input, OutputInterface $output)
-	{
+		// Get CLI params
+		$limit = $input->getOption('limit');
+		$offset = $input->getOption('offset');
+		$job_id = $input->getOption('job');
+		$add_header = $input->getOption('include_header');
 
-        $data = $this->data->get('search');
-
-		$limit = $input->getOption('limit', 100);
-        $offset = $input->getOption('offset', 0);
-
+		// At the moment there is only CSV format
 		$format = 'csv';
 
-        $filters = [
-            'limit' => $limit,
-            'offset' => $offset,
-			'status' => 'all',
+		// Set the baseline filter parameters
+		$filters = [
+			'limit' => $limit,
+			'offset' => $offset,
 			'exporter' => true
-        ];
+		];
 
-        foreach ($filters as $key => $filter) {
-            $data->$key = $filter;
-        }
+		if ($job_id) {
+			// Load the export job
+			$job = $this->exportJobRepository->get($job_id);
+			$user = $this->userRepository->get($job->user_id);
+			$userContextService->setUser($user);
+			// Merge the export job filters with the base filters
+			if ($job->filters) {
+				$filters = array_merge($filters, $job->filters);
+			}
 
-        $this->postExportRepository->setSearchParams($data);
-        
-		
-        $posts = $this->postExportRepository->getSearchResults();
+			// Set the fields that should be included if set
+			if ($job->fields) {
+				$data->include_attributes = $job->fields;
+			}
+		}
 
-		// ... get the total count for the search
-		$total = $this->postExportRepository->getSearchTotal();
+		foreach ($filters as $key => $filter) {
+			$data->$key = $filter;
+		}
+
+		$this->postExportRepository->setSearchParams($data);
+		$posts = $this->postExportRepository->getSearchResults();
+		$this->formatter->setAddHeader($add_header);
+		//fixme add post_date
+		$form_ids = $this->postExportRepository->getFormIdsForHeaders();
+		$attributes = $this->formAttributeRepository->getByForms($form_ids);
+
+		$keyAttributes = [];
+		foreach($attributes as $key => $item)
+		{
+			$keyAttributes[$item['key']] = $item;
+		}
 
 		// // ... remove any entities that cannot be seen
 		foreach ($posts as $idx => $post) {
-
 			// Retrieved Attribute Labels for Entity's values
-			$post = $this->postExportRepository->retrieveColumnNameData($post->asArray());
-
+			$post = $this->postExportRepository->retrieveMetaData($post->asArray(), $keyAttributes);
 			$posts[$idx] = $post;
 		}
 
-        $res = service("formatter.entity.post.$format")->__invoke($posts);
+		if (empty($job->header_row)) {
+			$job->setState(['header_row' => $attributes]);
+            $this->exportJobRepository->update($job);
+		}
+		$header_row = $this->formatter->createHeading($job->header_row, $posts);
+		$this->formatter->setHeading($header_row);
+		$formatter = $this->formatter;
+		/**
+		 * KeyAttributes is sent instead of the header row because it contains
+		 * the attributes with the corresponding features (type, priority) that
+		 * we need for manipulating the data
+		 */
+		$file = $formatter($posts, $keyAttributes);
+
 		$response = [
 			[
-				'Message' => sprintf('%d posts were found', $total)
+				'file' => $file->file,
 			]
 		];
 
-
-
-		$this->handleResponse($response, $output);
+		$this->handleResponse($response, $output, 'json');
 	}
 }

@@ -13,24 +13,6 @@
       - service: release
         command: release
 
-  - name: "Deploy"
-    service: deploy
-    tag: staging
-    command: >
-      ANSIBLE_GITHUB_REPO=platform-cloud-ansible
-      ANSIBLE_GITHUB_REPO_VERSION=develop
-      ush-ansible-playbook.sh -vv -i hosts/rackspace_staging platform-api-update.yml
-        -e PLATFORM_CLIENT_VERSION="$CI_COMMIT_ID"
-
-  - name: "Deploy Production"
-    service: deploy
-    tag: production
-    command: >
-      ANSIBLE_GITHUB_REPO=platform-cloud-ansible
-      ANSIBLE_GITHUB_REPO_VERSION=master
-      ush-ansible-playbook.sh -i hosts/rackspace_prod platform-api-update.yml
-        -e PLATFORM_CLIENT_VERSION="$CI_COMMIT_ID"
-
   - type: serial
     tag: develop
     steps:

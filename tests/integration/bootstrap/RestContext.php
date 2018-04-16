@@ -11,6 +11,7 @@ namespace Tests\Integration\Bootstrap;
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
+use Aura\Di\Exception;
 use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\PyStringNode;
 use Symfony\Component\Yaml\Yaml;
@@ -254,7 +255,9 @@ class RestContext implements Context
 
 		// Get response object
 		$this->response = $http_request->getResponse();
-
+		$data = $this->response->getBody(true);
+			//var_dump($data);
+			//throw new Exception(print_r($data,true));
 		// Create fake response object if Guzzle doesn't give us one
 		if (! $this->response instanceof \Guzzle\Http\Message\Response) {
 			$this->response = new \Guzzle\Http\Message\Response(null, null, null);
@@ -283,6 +286,17 @@ class RestContext implements Context
 		$columnCount = count(explode(",", $rows[$arg2]));
 		if ($columnCount !== intval($arg1)) {
 			throw new \Exception("Row $arg2 should have $arg1 columns. Found $columnCount");
+		}
+	}
+
+	/**
+	 * @Then the csv response body should equal:
+	 */
+	public function theCsvResponseBodyShouldEqual(PyStringNode $string)
+	{
+		$data = $this->response->getBody(true);
+		if (trim($data) !== trim($string)) {
+			throw new \Exception("Body $data is not equal to \n $string");
 		}
 	}
 

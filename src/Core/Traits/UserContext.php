@@ -36,11 +36,16 @@ trait UserContext
 	 */
 	public function getUser()
 	{
-		if (!$this->user) {
+		$user = $this->user;
+		if (!$user) {
+			$userCtx = service('usercontext.service');
+			$user = $userCtx->getUser();
+		}
+		if (!$user) {
 			throw new RuntimeException('Cannot get the user context before it has been set');
 		}
 
-		return $this->user;
+		return $user;
 	}
 
 	/**
@@ -49,7 +54,12 @@ trait UserContext
 	 */
 	public function getUserId()
 	{
-		return $this->user->id;
+		$user = $this->user;
+		if (!$user || !$user->id) {
+			$userCtx = service('usercontext.service');
+			$user = $userCtx->getUser(false);
+		}
+		return $user ? $user->id : null;
 	}
 
 	/**
