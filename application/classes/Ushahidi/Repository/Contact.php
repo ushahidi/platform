@@ -143,6 +143,26 @@ class Ushahidi_Repository_Contact extends Ushahidi_Repository implements
         return false;
     }
 
+	/**
+	 * @param $contact_id
+	 * @return FALSE or a post_id to reference in the message
+	 */
+    public function hasPostOutsideOfTargetedSurvey($contact_id)
+	{
+		$query_posts = DB::select(DB::expr('DISTINCT (messages.post_id) as post_id'))
+			->from('messages')
+			->join('targeted_survey_state', 'LEFT')
+			->on('targeted_survey_state.contact_id', '=', 'messages.contact_id')
+			->where(DB::expr('messages.contact_id'), '=', $contact_id)
+			->and_where('targeted_survey_state.post_id', 'IS',NULL);
+
+		$post_ids_in_messages = $query_posts->execute($this->db)->as_array(null, 'post_id');
+		if (count($post_ids_in_messages) >= 1) {
+			return $post_ids_in_messages[0];
+		}
+		return false;
+	}
+
 	// ContactRepository
 	public function getNotificationContacts($set_id, $limit = false, $offset = 0)
 	{

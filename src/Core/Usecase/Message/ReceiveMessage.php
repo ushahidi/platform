@@ -255,11 +255,13 @@ class ReceiveMessage extends CreateUsecase
 		if ($this->isContactInTargetedSurvey($contact_id)) {
 			$id = $this->createTargetedSurveyMessages($contact_id, $entity);
 		} else {
-			$post_id = null;
-			// don't throw an event
-			// ... create post for message
-			$post_id = $this->createPost($entity);
-			// ... persist the new message entity
+			$post_id = $this->findPostForContact($contact_id);
+			if (!$post_id) {
+				// don't throw an event
+				// ... create post for message if no post exists
+				$post_id = $this->createPost($entity);
+				// ... persist the new message entity
+			}
 			if ($post_id) {
 				$entity->setState(compact('post_id'));
 			}
@@ -308,6 +310,12 @@ class ReceiveMessage extends CreateUsecase
 	protected function isContactInTargetedSurvey($contact_id)
 	{
 		return $this->contact_repo->isInTargetedSurvey($contact_id);
+	}
+
+
+	protected function findPostForContact($contact_id)
+	{
+		return $this->contact_repo->hasPostOutsideOfTargetedSurvey($contact_id);
 	}
 
 	/**
