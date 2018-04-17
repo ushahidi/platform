@@ -22,6 +22,7 @@ class ExportJob extends StaticEntity
 	protected $filters;
 	protected $status;
 	protected $url;
+	protected $header_row;
 	protected $created;
 	protected $updated;
 	protected $url_expiration;
@@ -46,6 +47,7 @@ class ExportJob extends StaticEntity
 			'url'		     	=> 'string',
 			'fields'    	    => '*json',
 			'filters'   	    => '*json',
+			'header_row'   	    => '*json',
 			'created' 			=> 'int',
 			'updated' 			=> 'int',
 			'url_expiration'	=> 'int'
