@@ -26,6 +26,16 @@ Route::set('media', 'media/<filepath>', array(
 	));
 
 /**
+* Path to get country-codes
+*/
+Route::set('country-codes', $apiBase . 'country-codes', array(
+))
+->defaults(array(
+	'controller'=> 'CountryCodes',
+	'action'=> 'index',
+	'directory' => 'Api'));
+
+/**
  * Path to CSV uploads.
  */
 Route::set('csv', $apiBase . 'csv(/<id>)',  array(
@@ -63,17 +73,6 @@ Route::set('collections-posts', $apiBase . 'collections/<set_id>/posts(/<id>)',
 		'directory'  => 'Api/Collections'
 	));
 
-
-/**
- * Export Posts API SubRoute
- */
- Route::set('export', $apiBase . 'posts/export')
- 	->defaults(array(
- 		'action'     => 'index',
- 		'controller' => 'Export',
- 		'directory'  => 'Api/Posts'
- 	));
-
 /**
  * Stats Posts API SubRoute
  */
@@ -88,7 +87,7 @@ Route::set('post-stats', $apiBase . 'posts/stats')
  * Lock Posts API SubRoute
  */
 Route::set('post-lock', $apiBase . 'posts(/<post_id>)/lock(/<lock_id>)',
-	array(		
+	array(
 		'post_id' => '\d+',
 		'lock_id' => '\d+'
 	))
@@ -96,8 +95,8 @@ Route::set('post-lock', $apiBase . 'posts(/<post_id>)/lock(/<lock_id>)',
 		'action'     => 'index',
 		'controller' => 'Lock',
 		'directory'  => 'Api/Posts'
-	));	
-	
+	));
+
 
 /**
  * GeoJSON API SubRoute
@@ -254,7 +253,6 @@ Route::set('forms', $apiBase . 'forms(/<form_id>)/<controller>(/<id>)',
 		'directory'  => 'Api/Forms'
 	));
 
-
 /**
  * Translations API SubRoute
  */
@@ -282,17 +280,40 @@ Route::set('migration', $apiBase . 'migration/<action>',
 		'directory'  => 'Api'
 	));
 
-	/**
-	 * Dataproviders API Route
-	 */
-	Route::set('inbound-webhook-api', $apiBase . 'webhooks/<controller>/(<id>)',
-		array(
-			'id' => '\d+'
-		))
-		->defaults(array(
-			'action'     => 'index',
-			'directory'  => 'Api/Webhooks/'
-		));
+/**
+ * Webhook API Route
+ */
+Route::set('inbound-webhook-api', $apiBase . 'webhooks/<controller>/(<id>)',
+	array(
+		'id' => '\d+'
+	))
+	->defaults(array(
+		'action'     => 'index',
+		'directory'  => 'Api/Webhooks/'
+	));
+
+/**
+ * Export Job External API Route
+ */
+Route::set('external-export-job', $apiBase . 'exports/external/<controller>(/<id>)', array())
+->defaults(array(
+	'action'     => 'index',
+	'directory'  => 'Api/Exports/External/'
+));
+
+/**
+ * Export Job External API Route
+ */
+Route::set('export-job', $apiBase . 'exports/<controller>(/<id>)',
+	array(
+		'id' => '\d+'
+	))
+	->defaults(array(
+		'action'     => 'index',
+		'directory'  => 'Api/Exports/'
+	));
+
+
 
 /**
  * Migration migrate Route

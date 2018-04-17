@@ -13,6 +13,7 @@ namespace Ushahidi\Core\Usecase\Form;
 
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\Entity\FormRepository;
+use Ushahidi\Core\Exception\ValidatorException;
 
 trait VerifyFormLoaded
 {
@@ -20,6 +21,7 @@ trait VerifyFormLoaded
 	 * @var FormRepository
 	 */
 	protected $form_repo;
+	protected $form_contact_repo;
 
 	/**
 	 * @param  FormRepository $repo
@@ -28,6 +30,16 @@ trait VerifyFormLoaded
 	public function setFormRepository(FormRepository $repo)
 	{
 		$this->form_repo = $repo;
+	}
+
+
+	/**
+	 * @param  FormRepository $repo
+	 * @return void
+	 */
+	public function setFormContactRepository(Entity\FormContactRepository $repo)
+	{
+		$this->form_contact_repo = $repo;
 	}
 
 	/**
@@ -40,6 +52,33 @@ trait VerifyFormLoaded
 		// Ensure that the form exists.
 		$form = $this->form_repo->get($this->getRequiredIdentifier('form_id'));
 		$this->verifyEntityLoaded($form, $this->identifiers);
+	}
+
+	/**
+	 * Checks that the form exists.
+	 * @param  Data $input
+	 * @return void
+	 */
+	protected function verifyFormDoesNoExistInTargetedSurveyState()
+	{
+		// Ensure that the form exists.
+		if ($this->form_contact_repo->formExistsInPostStateRepo($this->getRequiredIdentifier('form_id'))) {
+			throw new \HTTP_Exception_400('The form already has a set of contacts');
+		}
+	}
+
+	/**
+	 * Checks that the form exists.
+	 * @param  Data $input
+	 * @return void
+	 */
+	protected function verifyTargetedSurvey()
+	{
+		$form = $this->form_repo->get($this->getRequiredIdentifier('form_id'));
+		// Ensure that the form exists.
+		if (!$form->targeted_survey) {
+			throw new \HTTP_Exception_400('Not a targeted survey');
+		}
 	}
 
 	// Usecase

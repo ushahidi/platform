@@ -207,7 +207,9 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 			if (empty($output[$value->key])) {
 				$output[$value->key] = [];
 			}
-			if ($value->value !== NULL) {
+			if (is_array($value->value) && isset($value->value['o_filename']) && isset($value->value['id'])) {
+				$output[$value->key][] = $value->value['id'];
+			} else if ($value->value !== NULL) {
 				$output[$value->key][] = $value->value;
 			}
 		}
@@ -546,18 +548,18 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		// If there's no logged in user, or the user isn't admin
 		// restrict our search to make sure we still return SOME results
 		// they are allowed to see
-		if (!$search->exporter) {
-			if (!$user->id) {
-				$query->where("$table.status", '=', 'published');
-			} elseif (!$this->isUserAdmin($user) and
-					!$this->acl->hasPermission($user, Permission::MANAGE_POSTS)) {
-				$query
-					->and_where_open()
-					->where("$table.status", '=', 'published')
-					->or_where("$table.user_id", '=', $user->id)
-					->and_where_close();
-			}
+
+		if (!$user->id) {
+			$query->where("$table.status", '=', 'published');
+		} elseif (!$this->isUserAdmin($user) and
+				!$this->acl->hasPermission($user, Permission::MANAGE_POSTS)) {
+			$query
+				->and_where_open()
+				->where("$table.status", '=', 'published')
+				->or_where("$table.user_id", '=', $user->id)
+				->and_where_close();
 		}
+
 	}
 
 	// SearchRepository

@@ -19,11 +19,7 @@ interface PostExportRepository
 	 * @param  Post Data array $data
 	 * @return Array
 	 */
-	public function retrieveColumnNameData($data);
-
-    public function retrieveTagNames($tag_ids);
-
-    public function retrieveSetNames($set_ids);
+	public function retrieveMetaData($data, $attributes);
 
     public function retrieveCompletedStageNames($stage_ids);
 }
