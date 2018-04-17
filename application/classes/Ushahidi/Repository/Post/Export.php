@@ -32,6 +32,7 @@ class Ushahidi_Repository_Post_Export extends Ushahidi_Repository_CSVPost implem
 	//fixme move to correct repo
 	public function getFormIdsForHeaders() {
 		$searchQuery = $this->getSearchQuery();
+		$searchQuery->resetOrderBy();
 		$searchQuery->limit(null);
 		$searchQuery->offset(null);
 		$result = $searchQuery->resetSelect()
