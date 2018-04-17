@@ -43,49 +43,36 @@ class CreateFormContact extends CreateContact
 		// First verify that the form even exists
 		$this->verifyFormExists();
 		$this->verifyTargetedSurvey();
-		$this->verifyFormDoesNoExistInContactPostState();
+		$this->verifyFormDoesNoExistInTargetedSurveyState();
 		// Fetch a default entity and ...
 		$entity = $this->getEntity();
 		// ... verify the current user has have permissions
 		$this->verifyCreateAuth($entity);
+		/**
+		 * @TODO Add validation so that we throw a warning
+		 * to users if they add contacts that are already part of a targeted survey
+		*/
 
-		// Get each item in the collection
 		$entities = [];
 		$invalid = [];
-		$countryCode = $this->getPayload('country_code');
 		$contacts = explode(',', $this->getPayload('contacts'));
 		foreach ($contacts as $contact) {
-			$entities[] = $this->getContactEntity($contact, $countryCode, $invalid);
+			$entities[] = $this->getContactEntity($contact, $invalid);
 		}
+
 		return $this->getContactCollection($entities, $invalid);
 	}
 
-	private function getContactEntity($contactNumber, $countryCode, &$invalid)
+	private function getContactEntity($contactNumber)
     {
 		// .. generate an entity for the item
-		$entity = $this->repo->getEntity(array('contact' => $contactNumber));
-		/**
-		 * we only use this field for validation
-		 * we check that country code + phone number are valid.
-		 * country_code is unset before saving the entity
-		 */
-		$entity->country_code = $countryCode;
-		$countryCodeNumber = $this->phone_validator->parse($contactNumber, $countryCode)->getCountryCode();
-		$contactNumber = $countryCodeNumber . $contactNumber;
-		$entity->setState(
-			[
-				'created' => time(),
-				'can_notify' => true,
-				'type' => 'phone',
-				'contact' => $contactNumber
-			]
+		$entity = array(
+			'created' => time(),
+			'can_notify' => true,
+			'type' => 'phone',
+			'contact' => $contactNumber
 		);
-		// ... and save it for later
-		$entities[] = $entity;
-
-		if (!$this->validator->check($entity->asArray())) {
-			$invalid[$entity->contact] = $this->validator->errors();
-		}
+		$entity = $this->repo->getEntityWithData($contactNumber, $entity);
 		return $entity;
 	}
 
@@ -100,9 +87,9 @@ class CreateFormContact extends CreateContact
 			), $invalid);
 		} else {
 			// ... persist the new collection
-			$this->repo->updateCollection($entities, intval($this->getIdentifier('form_id')));
+			$invalidEntities = $this->repo->updateCollection($entities, intval($this->getIdentifier('form_id')));
 			// ... and finally format it for output
-			return $this->formatter->__invoke(intval($this->getIdentifier('form_id')), $entities);
+			return $this->formatter->__invoke(intval($this->getIdentifier('form_id')), $entities, $invalidEntities);
 		}
 	}
 

@@ -51,7 +51,7 @@
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
-        "guzzle/guzzle": "~3.9.1",
+        "guzzlehttp/guzzle": "~6.3.2",
         "phpunit/phpunit": "^5.7",
         "phpunit/dbunit": "~1.4",
         "phpspec/phpspec": "~3.0",

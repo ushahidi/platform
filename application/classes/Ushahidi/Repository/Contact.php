@@ -128,6 +128,31 @@ class Ushahidi_Repository_Contact extends Ushahidi_Repository implements
 		return $this->getEntity($this->selectOne(compact('contact', 'type')));
 	}
 
+	/**
+	 * @param string $contact_id
+	 * @return bool
+	 */
+	public function isInActiveTargetedSurvey($contact_id)
+	{
+		$query = DB::select('targeted_survey_state.contact_id', 'targeted_survey_state.form_id')
+			->from('targeted_survey_state')
+			->where('contact_id', '=', $contact_id)
+			->and_where('survey_status', 'IN',
+				[
+					Entity\TargetedSurveyState::PENDING_RESPONSE,
+					Entity\TargetedSurveyState::RECEIVED_RESPONSE
+				]
+			);
+		if($query->execute($this->db)->count() > 0)
+		{
+			Kohana::$log->add(Log::INFO, 'Contact is in a targeted survey: contact_id#'.print_r($contact_id, true));
+			return true;
+		}
+		Kohana::$log->add(Log::INFO, 'Contact is NOT in a targeted survey: contact_id#'.print_r($contact_id, true));
+		return false;
+	}
+
+
 	// ContactRepository
 	public function getNotificationContacts($set_id, $limit = false, $offset = 0)
 	{

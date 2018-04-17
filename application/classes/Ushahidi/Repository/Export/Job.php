@@ -50,7 +50,7 @@ class Ushahidi_Repository_Export_Job extends Ushahidi_Repository implements Expo
 	// Ushahidi_JsonTranscodeRepository
 	protected function getJsonProperties()
 	{
-		return ['fields', 'filters'];
+		return ['fields', 'filters', 'header_row'];
 	}
 
 	// Ushahidi_Repository

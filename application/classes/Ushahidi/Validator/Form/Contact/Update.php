@@ -48,9 +48,6 @@ class Ushahidi_Validator_Form_Contact_Update extends Validator
 			'country_code' => [
 				['not_empty'],
 			],
-			'contact' => [
-				[[$this, 'contactIsValid'], [':value', ':fulldata']],
-			],
 		];
 	}
 	public function contactIsValid($value, $fullData) {

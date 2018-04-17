@@ -31,6 +31,7 @@ return [
 		'email' => TRUE,
 		'twilio' => TRUE,
 		'nexmo' => TRUE,
+		'testservice' => FALSE
 	],
 
 	// Client limits
@@ -63,7 +64,7 @@ return [
 
 	// Post locking
 	'post-locking' => [
-		'enabled' => FALSE,
+		'enabled' => TRUE,
 	],
 
 	// Targeted Surveys
@@ -72,7 +73,7 @@ return [
 	],
 
 	// Post locking
-	// Defaults to False, tests will fail if set to TRUE 
+	// Defaults to False, tests will fail if set to TRUE
 	// without complete Redis setup
 	// see TODO <docs link>
 	'redis' => [
