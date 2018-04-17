@@ -119,13 +119,48 @@ $di->setter['BehEh\Flaps\Flap']['setViolationHandler'] =
 /**
  * This is only be for our csv exporter right now.
  * add to $userContextServiceCommands if you want
- * some commands to always use the usercontextservice
- * for some scenarios.
+ * some commands & URLs to always use the usercontextservice
+ * for some scenarios where our oauth user setup is not viable.
  */
-$userContextServiceCommands = array('exporter');
+// list of commands where we want to add a user not identified by a oauth token
+$userContextServiceCommands = ['exporter'];
+// list of urls where we want to add a user not identified by a oauth token
+$userContextServiceMatches = ['/api/v3/exports/external/'];
+// command name if in cli
 $commandName = isset($argv[1]) ? $argv[1] : null;
 $commandName = php_sapi_name() === 'cli' ? $commandName : null;
-if (array_search($commandName, $userContextServiceCommands) === false) {
+/**
+ * $setUserContextService true will try to set the regular user. We want it
+ * to be false when we find a command that matches
+**/
+$setUserContextService = array_search($commandName, $userContextServiceCommands) === false;
+/**
+ * If $setUserContextService is true (because the command din't match)
+ * we want to check if this is a url where we need to use the regular user setUser
+ * from session.user
+ */
+if ($setUserContextService) {
+	$i =0;
+	// get path only.
+	$urlPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+	// search if any of our listed paths is in the requested url
+	while ($setUserContextService == true & $i < count($userContextServiceMatches)) {
+		if ($urlMatch = !!strstr($urlPath,$userContextServiceMatches[$i])){
+			/**
+			 * if we find a path that matches set this to false
+			 * to avoid setUser to use the 'session.user' service
+			*/
+			$setUserContextService = false;
+		}
+		$i++;
+	}
+}
+/**
+ * Finally, we check if $setUserContextService is true, to use session.user
+ * UserContextService is still always available, but setUser should not be a user for scenarios
+ * where oauth tokens aren't looked up
+ */
+if ($setUserContextService) {
 	$di->setter['Ushahidi\Core\Traits\UserContext']['setUser'] = $di->lazyGet('session.user');
 }
 /**

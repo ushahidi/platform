@@ -64,7 +64,7 @@ trait UserContext
 
 	/**
 	 * Checks if currently logged in user is the same as passed entity/array
-	 * @param  User    $entity entity to check
+	 * @param  User $entity entity to check
 	 * @return boolean
 	 */
 	protected function isUserSelf($entity)
