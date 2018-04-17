@@ -26,7 +26,7 @@ class Controller_Api_Users extends Ushahidi_Rest {
 	{
 		$this->action_get_index();
 
-		if ($id = service('session.user')->getId()) {
+		if ($id = service('session')->getUser()->id) {
 			// Replace the "me" id with the actual id
 			$this->_usecase->setIdentifiers(['id' => $id]);
 		}
@@ -53,7 +53,7 @@ class Controller_Api_Users extends Ushahidi_Rest {
 	{
 		$this->action_put_index();
 
-		if ($id = service('session.user')->getId()) {
+		if ($id = service('session')->getUser()->id) {
 			// Replace the "me" id with the actual id
 			$this->_usecase->setIdentifiers(['id' => $id]);
 		}

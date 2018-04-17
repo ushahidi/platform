@@ -25,9 +25,8 @@ class Controller_Api_Migration extends Ushahidi_Rest {
 
 	public function action_get_index_collection($command = 'status')
 	{
-
-		$user = service('session.user');
-
+		$user = service('session')->getUser();
+        
 		if ('admin' != $user->role) {
 			throw new HTTP_Exception_403('Must be an admin to access this service');
 		}
