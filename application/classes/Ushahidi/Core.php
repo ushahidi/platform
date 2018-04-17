@@ -167,7 +167,6 @@ abstract class Ushahidi_Core {
 		$di->setter['Ushahidi_Console_PostExporter']['setDataFactory'] = $di->lazyGet('factory.data');
 		$di->setter['Ushahidi_Console_PostExporter']['setDatabase'] = $di->lazyGet('kohana.db');
 
-		$di->setter['Ushahidi_Console_PostExporter']['setUserRepo'] =  $di->lazyGet('repository.user');
 		// Webhook command
 		$di->setter['Ushahidi\Console\Application']['injectCommands'][] = $di->lazyNew('Ushahidi_Console_Webhook');
 		$di->setter['Ushahidi_Console_Webhook']['setDatabase'] = $di->lazyGet('kohana.db');
@@ -725,7 +724,6 @@ abstract class Ushahidi_Core {
 		];
 		$di->params['Ushahidi_Validator_User_Update'] = [
 			'repo' => $di->lazyGet('repository.user'),
-			'user' => $di->lazyGet('session.user'),
 			'role_repo' => $di->lazyGet('repository.role'),
 		];
 		$di->params['Ushahidi_Validator_User_Register'] = [
@@ -856,17 +854,6 @@ abstract class Ushahidi_Core {
 		$di->setter['Ushahidi_Repository_Post_Lock']['setListener'] =
 			$di->lazyNew('Ushahidi_Listener_Lock');
 
-		$di->set('session.user', function() use ($di) {
-			// Using the OAuth resource server, get the userid (owner id) for this request
-			$server = $di->get('oauth.server.resource');
-			$userid = $server->getOwnerId();
-
-			// Using the user repository, load the user
-			$repo = $di->get('repository.user');
-			$user = $repo->get($userid);
-
-			return $user;
-		});
 		/**
 		 * 1. Load the plugins
 		 */
