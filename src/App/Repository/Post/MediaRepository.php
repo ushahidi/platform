@@ -16,9 +16,41 @@ namespace Ushahidi\App\Repository\Post;
 
 class MediaRepository extends ValueRepository
 {
+
+	// OhanzeeRepository
+	public function getEntity(array $data = null)
+	{
+		/**
+		 * This value is added here so that we can manipulate it in the CSV getpostvalues and use either id or filename
+		 * depending on the repository used
+		 */
+		$data['value'] = ['o_filename' => $data['o_filename'], 'id' => $data['id']];
+		return new \Ushahidi\Core\Entity\PostValueMedia($data);
+	}
+    
 	// OhanzeeRepository
 	protected function getTable()
 	{
 		return 'post_media';
+	}
+
+	// Override selectQuery to fetch attribute 'key' too
+	protected function selectQuery(array $where = [])
+	{
+		$query = Ushahidi_Repository::selectQuery($where);
+
+		// Select 'key' too
+		$query->select(
+			$this->getTable().'.*',
+			'media.o_filename',
+			'media.id',
+			'form_attributes.key',
+			'form_attributes.form_stage_id',
+			'form_attributes.response_private'
+		)
+			->join('media')->on('value', '=', 'media.id')
+			->join('form_attributes')->on('form_attribute_id', '=', 'form_attributes.id');
+
+		return $query;
 	}
 }

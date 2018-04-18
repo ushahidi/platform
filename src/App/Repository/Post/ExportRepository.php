@@ -12,49 +12,61 @@
 namespace Ushahidi\App\Repository\Post;
 
 use Ushahidi\Core\Entity\Post;
+use Ushahidi\Core\Entity\PostRepository;
 use Ushahidi\Core\Entity\PostExportRepository;
+use Ushahidi\Core\Entity\TagRepository;
+use Ushahidi\Core\Entity\SetRepository;
 
+use Ushahidi\App\Repository\CSVPostRepository;
 
-use Ushahidi\App\Repository\PostRepository;
-
-class ExportRepository extends PostRepository implements PostExportRepository
+class ExportRepository extends CSVPostRepository implements PostExportRepository
 {
+    protected $tag_repo;
+    protected $set_repo;
+    /**
+     * @param TagRepository $repo
+     */
+    public function setTagRepo(TagRepository $repo)
+    {
+        $this->tag_repo = $repo;
+    }
+
+    public function setSetRepo(SetRepository $repo)
+    {
+        $this->set_repo = $repo;
+    }
+
+    //fixme move to correct repo
+    public function getFormIdsForHeaders()
+    {
+        $searchQuery = $this->getSearchQuery();
+        $searchQuery->resetOrderBy();
+        $searchQuery->limit(null);
+        $searchQuery->offset(null);
+        $result = $searchQuery->resetSelect()
+            ->select([DB::expr('DISTINCT(posts.form_id)'), 'form_id'])->execute($this->db);
+        $result =  $result->as_array();
+        return array_column($result, 'form_id');
+    }
 
     /**
      * @param $data
      * @return array
      */
-    public function retrieveColumnNameData($data)
+    public function retrieveMetaData($data, $attributes)
     {
 
         /**
-     * Tags (native) should not be shown in the CSV Export
-    */
+         * Tags (native) should not be shown in the CSV Export
+         */
         unset($data['tags']);
-        // Set attribute keys
-        $attributes = [];
+
+        // Set tag labels
         foreach ($data['values'] as $key => $val) {
-            $attribute = $this->form_attribute_repo->getByKey($key);
-            $attributes[$key] = [
-                'label' => $attribute->label,
-                'priority' => $attribute->priority,
-                'stage' => $attribute->form_stage_id,
-                'type' => $attribute->type,
-                'form_id' => $data['form_id']
-            ];
-
             // Set attribute names. This is for categories (custom field) to show their label and not the ids
-            if ($attribute->type === 'tags') {
-                $data['values'][$key] = $this->retrieveTagNames($val);
+            if (isset($attributes[$key]) && $attributes[$key]['type'] === 'tags') {
+                $data['values'][$key] =  $this->tag_repo->getNamesByIds($val);
             }
-        }
-
-        $data += ['attributes' => $attributes];
-
-
-        // Set Set names
-        if (!empty($data['sets'])) {
-            $data['sets'] = $this->retrieveSetNames($data['sets']);
         }
 
         // Get contact
@@ -64,39 +76,17 @@ class ExportRepository extends PostRepository implements PostExportRepository
             $data['contact'] = $contact->contact;
         }
 
-        // Set Completed Stage names
-        if (!empty($data['completed_stages'])) {
-            $data['completed_stages'] = $this->retrieveCompletedStageNames($data['completed_stages']);
-        }
-
         // Set Form name
         if (!empty($data['form_id'])) {
             $form = $this->form_repo->get($data['form_id']);
             $data['form_name'] = $form->name;
         }
+
+        if (!empty($data['sets'])) {
+            $data['sets'] = $this->set_repo->getNamesByIds($data['sets']);
+        }
+
         return $data;
-    }
-
-    public function retrieveTagNames($tag_ids)
-    {
-        $tag_repo = service('repository.tag');
-        $names = [];
-        foreach ($tag_ids as $tag_id) {
-            $tag = $tag_repo->get($tag_id);
-            array_push($names, $tag->tag);
-        }
-        return $names;
-    }
-
-    public function retrieveSetNames($set_ids)
-    {
-        $set_repo = service('repository.set');
-        $names = [];
-        foreach ($set_ids as $set_id) {
-            $set = $set_repo->get($set_id);
-            array_push($names, $set->name);
-        }
-        return $names;
     }
 
     public function retrieveCompletedStageNames($stage_ids)

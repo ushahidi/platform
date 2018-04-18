@@ -32,6 +32,15 @@ trait UserContext
 	}
 
 	/**
+	 * Get the user session
+	 * @return Session
+	 */
+	public function getSession()
+	{
+		return $this->session;
+	}
+
+	/**
 	 * Get the user context.
 	 * @return User
 	 */

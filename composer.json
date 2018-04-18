@@ -47,11 +47,12 @@
         "twilio/sdk": "^5.15",
         "nexmo/client": "^1.1",
         "sentry/sentry-laravel": "^0.8.0",
-        "laravel/passport": "^4.0"
+        "laravel/passport": "^4.0",
+        "giggsey/libphonenumber-for-php": "^8.9"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
-        "guzzle/guzzle": "~3.9.1",
+        "guzzlehttp/guzzle": "~6.3.2",
         "phpunit/phpunit": "^5.7",
         "phpunit/dbunit": "~1.4",
         "phpspec/phpspec": "~3.0",

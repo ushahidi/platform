@@ -14,9 +14,15 @@ namespace Ushahidi\Console\Command;
 use Illuminate\Console\Command;
 
 use Ushahidi\Core\Entity\PostExportRepository;
+use Ushahidi\Core\Entity\ExportJobRepository;
+use \Ushahidi\Core\Entity\FormAttributeRepository;
 use Ushahidi\Factory\DataFactory;
-use Ushahidi\Core\Traits\UserContext;
+use Ushahidi\Core\UserContextService;
 use Ushahidi\Core\Tool\FormatterTrait;
+use Ushahidi\Core\Traits\UserContext;
+
+use Ushahidi\Core\Tool\Filesystem;
+use Ushahidi\Core\Tool\FileData;
 
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -29,8 +35,10 @@ class PostExporter extends Command
 	use UserContext;
 	use FormatterTrait;
 
-    private $data;
+	private $data;
 	private $postExportRepository;
+	private $exportJobRepository;
+	private $formAttributeRepository;
 
     /**
      * The console command name.
@@ -53,52 +61,92 @@ class PostExporter extends Command
      */
     protected $description = 'Export posts';
 
-	public function __construct()
-	{
-		parent::__construct();
-	}
-
 	public function handle()
 	{
+		// @todo inject
+        $this->exportJobRepository = service('repository.export_job');
+        $this->formAttributeRepository = service('repository.form_attribute');
         $this->data = service('factory.data');
         $this->postExportRepository = service('repository.posts_export');
 
+        // Construct a Search Data object to hold the search info
         $data = $this->data->get('search');
 
+        // Get CLI params
 		$limit = $this->option('limit');
         $offset = $this->option('offset');
+        $job_id = $input->getOption('job');
+        $add_header = $input->getOption('include_header');
 
+        // At the moment there is only CSV format
 		$format = 'csv';
 
-        $filters = [
-            'limit' => $limit,
-            'offset' => $offset,
-			'status' => 'all',
+		// Set the baseline filter parameters
+		$filters = [
+			'limit' => $limit,
+			'offset' => $offset,
 			'exporter' => true
-        ];
+		];
 
-        foreach ($filters as $key => $filter) {
-            $data->$key = $filter;
-        }
+		if ($job_id) {
+			// Load the export job
+			$job = $this->exportJobRepository->get($job_id);
 
-        $this->postExportRepository->setSearchParams($data);
+			$this->getSession()->setUser($job->user_id);
+			// Merge the export job filters with the base filters
+			if ($job->filters) {
+				$filters = array_merge($filters, $job->filters);
+			}
 
+			// Set the fields that should be included if set
+			if ($job->fields) {
+				$data->include_attributes = $job->fields;
+			}
+		}
 
-        $posts = $this->postExportRepository->getSearchResults();
+		foreach ($filters as $key => $filter) {
+			$data->$key = $filter;
+		}
 
-		// ... get the total count for the search
-		$total = $this->postExportRepository->getSearchTotal();
+		$this->postExportRepository->setSearchParams($data);
+		$posts = $this->postExportRepository->getSearchResults();
+		$this->formatter->setAddHeader($add_header);
+		//fixme add post_date
+		$form_ids = $this->postExportRepository->getFormIdsForHeaders();
+		$attributes = $this->formAttributeRepository->getByForms($form_ids);
+
+		$keyAttributes = [];
+		foreach ($attributes as $key => $item) {
+			$keyAttributes[$item['key']] = $item;
+		}
 
 		// // ... remove any entities that cannot be seen
 		foreach ($posts as $idx => $post) {
 			// Retrieved Attribute Labels for Entity's values
-			$post = $this->postExportRepository->retrieveColumnNameData($post->asArray());
-
+			$post = $this->postExportRepository->retrieveMetaData($post->asArray(), $keyAttributes);
 			$posts[$idx] = $post;
 		}
 
-        $res = service("formatter.entity.post.$format")->__invoke($posts);
+		if (empty($job->header_row)) {
+			$job->setState(['header_row' => $attributes]);
+            $this->exportJobRepository->update($job);
+		}
+		$header_row = $this->formatter->createHeading($job->header_row, $posts);
+		$this->formatter->setHeading($header_row);
+		$formatter = $this->formatter;
+		/**
+		 * KeyAttributes is sent instead of the header row because it contains
+		 * the attributes with the corresponding features (type, priority) that
+		 * we need for manipulating the data
+		 */
+		$file = $formatter($posts, $keyAttributes);
 
-		$this->info("{$total} posts were found");
+		$response = [
+			[
+				'file' => $file->file,
+			]
+		];
+
+        $this->line(json_encode($response));
 	}
 }

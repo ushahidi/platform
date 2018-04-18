@@ -59,6 +59,9 @@ class Update extends Validator
 			'disabled' => [
 				['in_array', [':value', [true, false]]]
 			],
+			'targeted_survey' => [
+				[[$this, 'everyoneCanCreateIsFalse'], [':value', ':fulldata']],
+			]
 		];
 	}
 
@@ -70,6 +73,14 @@ class Update extends Validator
 			if ($total_forms >= $this->limits['forms']) {
 				$validation->error('name', 'postTypeLimitReached');
 			}
-        }
-    }
+		}
+	}
+
+	public function everyoneCanCreateIsFalse($value, $fullData)
+	{
+		if ($value === true) {
+			return $fullData['everyone_can_create'] === false;
+		}
+		return true;
+	}
 }

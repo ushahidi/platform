@@ -191,4 +191,19 @@ class TagRepository extends OhanzeeRepository implements
 		// Otherwise
 		return true;
 	}
+
+	/**
+	 * Gets the tag names corresponding to the list of tag ids
+	 * @param $tag_ids
+	 * @return array
+	 */
+	public function getNamesByIds($tag_ids)
+	{
+		$result = $this->selectQuery(array('id' => $tag_ids))
+			->resetSelect()
+			->select('tag')
+			->execute($this->db);
+		$result = $result->as_array(null, 'tag');
+		return $result;
+	}
 }
