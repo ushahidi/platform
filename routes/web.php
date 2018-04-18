@@ -142,10 +142,24 @@ $router->group([
                 $router->get('/{id}', 'AttributesController@show');
             });
 
+            // Contacts
+            $router->group(['prefix' => 'contacts'], function () use ($router) {
+                $router->get('/', 'ContactsController@index');
+                $router->get('/{id}', 'ContactsController@show');
+                $router->post('/', 'ContactsController@store');
+                $router->put('/{id}', 'ContactsController@update');
+                $router->delete('/{id}', 'ContactsController@destroy');
+            });
+
             // Stages
             $router->group(['prefix' => 'stages'], function () use ($router) {
                 $router->get('/', 'StagesController@index');
                 $router->get('/{id}', 'StagesController@show');
+            });
+
+            // Stats
+            $router->group(['prefix' => 'stats'], function () use ($router) {
+                $router->get('/', 'StatsController@index');
             });
 
             // Roles
