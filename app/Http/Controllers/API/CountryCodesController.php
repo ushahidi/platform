@@ -1,4 +1,8 @@
-<?php defined('SYSPATH') OR die('No direct access allowed.');
+<?php
+
+namespace Ushahidi\App\Http\Controllers\API;
+
+use Ushahidi\App\Http\Controllers\RESTController;
 
 /**
  * Ushahidi API CountryCodes Controller
@@ -9,15 +13,9 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-class Controller_Api_CountryCodes extends Ushahidi_Rest {
-	
-	protected $_action_map = array
-	(
-		Http_Request::GET    => 'get',
-		Http_Request::OPTIONS => 'options'
-	);
-
-	protected function _scope()
+class CountryCodesController extends RESTController
+{
+	protected function getResource()
 	{
 		return 'country_codes';
 	}
