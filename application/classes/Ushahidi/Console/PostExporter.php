@@ -14,8 +14,8 @@ use Ushahidi\Core\Entity\PostExportRepository;
 use Ushahidi\Core\Entity\ExportJobRepository;
 use \Ushahidi\Core\Entity\FormAttributeRepository;
 use Ushahidi\Factory\DataFactory;
-use Ushahidi\Core\UserContextService;
 use Ushahidi\Core\Tool\FormatterTrait;
+use Ushahidi\Core\Traits\UserContext;
 
 use Ushahidi\Core\Tool\Filesystem;
 use Ushahidi\Core\Tool\FileData;
@@ -30,14 +30,13 @@ use Aura\Di\Container;
 class Ushahidi_Console_PostExporter extends Command
 {
 
-
+	use UserContext;
 	use FormatterTrait;
 
 	private $data;
 	private $postExportRepository;
 	private $exportJobRepository;
 	private $formAttributeRepository;
-	private $userRepository;
 
 	public function __construct()
 	{
@@ -59,11 +58,6 @@ class Ushahidi_Console_PostExporter extends Command
 	public function setFormAttributeRepo(FormAttributeRepository $repo)
 	{
 		$this->formAttributeRepository = $repo;
-	}
-
-	public function setUserRepo(\Ushahidi\Core\Entity\UserRepository $repo)
-	{
-		$this->userRepository = $repo;
 	}
 
 
@@ -91,7 +85,6 @@ class Ushahidi_Console_PostExporter extends Command
 
 	protected function execute(InputInterface $input, OutputInterface $output)
 	{
-		$userContextService = service('usercontext.service');
 		// Construct a Search Data objec to hold the search info
 		$data = $this->data->get('search');
 
@@ -114,8 +107,8 @@ class Ushahidi_Console_PostExporter extends Command
 		if ($job_id) {
 			// Load the export job
 			$job = $this->exportJobRepository->get($job_id);
-			$user = $this->userRepository->get($job->user_id);
-			$userContextService->setUser($user);
+
+			$this->getSession()->setUser($job->user_id);
 			// Merge the export job filters with the base filters
 			if ($job->filters) {
 				$filters = array_merge($filters, $job->filters);

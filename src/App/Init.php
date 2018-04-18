@@ -116,20 +116,6 @@ $di->setter['BehEh\Flaps\Flap']['setViolationHandler'] =
 	$di->lazyNew('Ushahidi\App\ThrottlingViolationHandler');
 
 
-/**
- * This is only be for our csv exporter right now.
- * add to $userContextServiceCommands if you want
- * some commands to always use the usercontextservice
- * for some scenarios.
- */
-$userContextServiceCommands = array('exporter');
-$commandName = isset($argv[1]) ? $argv[1] : null;
-$commandName = php_sapi_name() === 'cli' ? $commandName : null;
-if (array_search($commandName, $userContextServiceCommands) === false) {
-	$di->setter['Ushahidi\Core\Traits\UserContext']['setUser'] = $di->lazyGet('session.user');
-}
-/**
- * This service compliments the setUser result when in the cli.
- * The setUser method in UserContext checks in the service if it can't find a user as a fallback
- */
-$di->set('usercontext.service', new \Ushahidi\Core\UserContextService());
+$di->set('session', $di->lazyNew(\Ushahidi\App\Tools\KohanaSession::class, [
+    'userRepo' => $di->lazyGet('repository.user')
+]));
