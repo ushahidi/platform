@@ -1,4 +1,4 @@
-<?php defined('SYSPATH') OR die('No direct access allowed.');
+<?php
 
 /**
  * Ushahidi Form Role Repository
@@ -9,13 +9,15 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
+namespace Ushahidi\App\Repository;
+
 use Ushahidi\Core\Data;
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\SearchData;
-use Ushahidi\Core\Entity\TargetedSurveyStateRepository;
+use Ushahidi\Core\Entity\TargetedSurveyStateRepository as TargetedSurveyStateRepositoryContract;
 
-class Ushahidi_Repository_TargetedSurveyState extends Ushahidi_Repository implements
-	TargetedSurveyStateRepository
+class TargetedSurveyStateRepository extends OhanzeeRepository implements
+	TargetedSurveyStateRepositoryContract
 {
 	// Ushahidi_Repository
 	protected function getTable()
@@ -25,7 +27,7 @@ class Ushahidi_Repository_TargetedSurveyState extends Ushahidi_Repository implem
 
 	// CreateRepository
 	// ReadRepository
-	public function getEntity(Array $data = null)
+	public function getEntity(array $data = null)
 	{
 		return new Entity\TargetedSurveyState($data);
 	}

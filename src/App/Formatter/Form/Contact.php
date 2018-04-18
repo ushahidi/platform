@@ -1,4 +1,4 @@
-<?php defined('SYSPATH') OR die('No direct access allowed.');
+<?php
 
 /**
  * Ushahidi API Formatter for Form Role
@@ -9,9 +9,12 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
+namespace Ushahidi\App\Formatter\Form;
+
+use Ushahidi\App\Formatter\API;
 use Ushahidi\Core\Traits\FormatterAuthorizerMetadata;
 
-class Ushahidi_Formatter_Form_Contact extends Ushahidi_Formatter_API
+class Contact extends API
 {
 	use FormatterAuthorizerMetadata;
 

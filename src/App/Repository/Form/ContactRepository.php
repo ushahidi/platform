@@ -1,4 +1,4 @@
-<?php defined('SYSPATH') OR die('No direct access allowed.');
+<?php
 
 /**
  * Ushahidi Form Contact Repository
@@ -9,15 +9,23 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
+namespace Ushahidi\App\Repository\Form;
+
+use Ohanzee\DB;
+use Ohanzee\Database;
+use Ushahidi\App\Repository\OhanzeeRepository;
+
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\SearchData;
 use Ushahidi\Core\Entity\FormContactRepository;
+use Ushahidi\Core\Usecase\SearchRepository;
+use Ushahidi\Core\Traits\Event;
 
-class Ushahidi_Repository_Form_Contact extends Ushahidi_Repository implements
+class ContactRepository extends OhanzeeRepository implements
 	FormContactRepository,
-	\Ushahidi\Core\Usecase\SearchRepository
+	SearchRepository
 {
-	use \Ushahidi\Core\Traits\Event;
+	use Event;
 	protected $form_repo;
 	protected $message_repo;
 	protected $targeted_survey_state_repo;
@@ -32,13 +40,11 @@ class Ushahidi_Repository_Form_Contact extends Ushahidi_Repository implements
 		Entity\FormRepository $form_repo,
 		Entity\TargetedSurveyStateRepository $targeted_survey_state_repo,
 		Entity\MessageRepository $message_repo
-	)
-	{
+	) {
 		parent::__construct($db);
 		$this->form_repo = $form_repo;
 		$this->targeted_survey_state_repo = $targeted_survey_state_repo;
 		$this->message_repo = $message_repo;
-
 	}
 
 	// Ushahidi_Repository
@@ -49,7 +55,7 @@ class Ushahidi_Repository_Form_Contact extends Ushahidi_Repository implements
 
 	// CreateRepository
 	// ReadRepository
-	public function getEntity(Array $data = null)
+	public function getEntity(array $data = null)
 	{
 		return new Entity\Contact($data);
 	}
@@ -87,7 +93,7 @@ class Ushahidi_Repository_Form_Contact extends Ushahidi_Repository implements
 	}
 
 	// FormContactRepository
-	public function updateCollection(Array $entities, $form_id = null)
+	public function updateCollection(array $entities, $form_id = null)
 	{
 		if (empty($entities)) {
 			return;
@@ -130,7 +136,6 @@ class Ushahidi_Repository_Form_Contact extends Ushahidi_Repository implements
 			} else {
 				array_push($results, $entity->id);
 			}
-
 		}
 
 		// Start transaction
@@ -140,7 +145,8 @@ class Ushahidi_Repository_Form_Contact extends Ushahidi_Repository implements
 
 		return $invalidatedContacts;
 	}
-	private function createNewContact($entity) {
+	private function createNewContact($entity)
+    {
 		$query = DB::insert($this->getTable())
 			->columns(array_keys($entity->asArray()));
 		$query->values($entity->asArray());
@@ -178,7 +184,6 @@ class Ushahidi_Repository_Form_Contact extends Ushahidi_Repository implements
 	{
 		$entities = $this->getByForm($form_id);
 		return $this->executeDelete(array('id' => array_column($entities, 'id')));
-
 	}
 
 	public function formExistsInPostStateRepo($form_id)
@@ -257,10 +262,13 @@ class Ushahidi_Repository_Form_Contact extends Ushahidi_Repository implements
 	 */
 	public function existsInActiveTargetedSurvey($contact)
 	{
-		$where = array(
+		$where = [
 			'contacts.contact' => $contact,
-			'targeted_survey_state.survey_status' => array(Entity\TargetedSurveyState::PENDING_RESPONSE, Entity\TargetedSurveyState::RECEIVED_RESPONSE)
-		);
+			'targeted_survey_state.survey_status' => [
+				Entity\TargetedSurveyState::PENDING_RESPONSE,
+				Entity\TargetedSurveyState::RECEIVED_RESPONSE
+			]
+		];
 		$query = $this->selectQuery($where)
 			->resetSelect()
 			->select(
@@ -286,7 +294,13 @@ class Ushahidi_Repository_Form_Contact extends Ushahidi_Repository implements
 	public function setInactiveTargetedSurvey($tss_id, $form_id)
 	{
 		$repo = $this->targeted_survey_state_repo->get($tss_id);
-		$entity = $repo->setState(array('survey_status' => str_replace('###', $form_id,Entity\TargetedSurveyState::INVALID_CONTACT_MOVED)));
+		$entity = $repo->setState([
+			'survey_status' => str_replace(
+				'###',
+				$form_id,
+				Entity\TargetedSurveyState::INVALID_CONTACT_MOVED
+			)
+		]);
 		$this->targeted_survey_state_repo->update($entity);
 	}
 
@@ -295,7 +309,7 @@ class Ushahidi_Repository_Form_Contact extends Ushahidi_Repository implements
 	{
 		$query = $this->getSearchQuery();
 		$query = $this->targetedSurveyStateJoin($query);
-		$results = $query->distinct(TRUE)->execute($this->db);
+		$results = $query->distinct(true)->execute($this->db);
 		return $this->getCollection($results->as_array());
 	}
 
@@ -306,7 +320,6 @@ class Ushahidi_Repository_Form_Contact extends Ushahidi_Repository implements
 			->on('contacts.id', '=', 'targeted_survey_state.contact_id')
 			->join('posts', 'INNER')
 			->on('posts.id', '=', 'targeted_survey_state.post_id');
-
 	}
 
 	public function getSearchTotal()

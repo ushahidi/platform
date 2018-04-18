@@ -1,4 +1,4 @@
-<?php defined('SYSPATH') OR die('No direct access allowed.');
+<?php
 
 /**
  * Ushahidi Form Contact Validator
@@ -9,9 +9,11 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
+namespace Ushahidi\App\Validator\Form\Contact;
+
 use Ushahidi\Core\Tool\Validator;
 
-class Ushahidi_Validator_Form_Contact_Update extends Validator
+class Update extends Validator
 {
 	protected $default_error_source = 'form_contact';
 	protected $form_repo;
@@ -19,9 +21,9 @@ class Ushahidi_Validator_Form_Contact_Update extends Validator
 	protected $form_contact_repo;
 	protected $phone_validator;
 
-	public function setPhoneValidator($validator) {
+	public function setPhoneValidator($validator)
+    {
 		$this->phone_validator = $validator;
-
 	}
 	public function setFormRepo(\Ushahidi\Core\Entity\FormRepository $form_repo)
 	{
@@ -50,7 +52,8 @@ class Ushahidi_Validator_Form_Contact_Update extends Validator
 			],
 		];
 	}
-	public function contactIsValid($value, $fullData) {
+	public function contactIsValid($value, $fullData)
+    {
 		try {
 			$number = $this->phone_validator->parse($value, $fullData['country_code']);
 			$isValid = $this->phone_validator->isValidNumber($number);
@@ -59,5 +62,4 @@ class Ushahidi_Validator_Form_Contact_Update extends Validator
 			return false;
 		}
 	}
-
 }

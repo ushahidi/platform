@@ -1,4 +1,4 @@
-<?php defined('SYSPATH') OR die('No direct access allowed.');
+<?php
 
 /**
  * Ushahidi Form Contact Repository
@@ -9,15 +9,24 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
+namespace Ushahidi\App\Repository\Form;
+
+use Ohanzee\DB;
+use Ohanzee\Database;
+use Ushahidi\App\Repository\OhanzeeRepository;
+
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\SearchData;
 use Ushahidi\Core\Entity\FormContactRepository;
+use Ushahidi\Core\Usecase\SearchRepository;
+use Ushahidi\Core\Traits\Event;
 
-class Ushahidi_Repository_Form_Stats extends Ushahidi_Repository implements
+class StatsRepository extends OhanzeeRepository implements
 	Entity\FormStatsRepository,
-	\Ushahidi\Core\Usecase\SearchRepository
+	SearchRepository
 {
-	use \Ushahidi\Core\Traits\Event;
+	use Event;
+
 	protected $form_repo;
 	protected $targeted_survey_state_repo;
 
@@ -29,12 +38,10 @@ class Ushahidi_Repository_Form_Stats extends Ushahidi_Repository implements
 	public function __construct(
 		Database $db,
 		Entity\FormRepository $form_repo
-	)
-	{
+	) {
 		parent::__construct($db);
 
 		$this->form_repo = $form_repo;
-
 	}
 	// Ushahidi_Repository
 	protected function getTable()
@@ -44,7 +51,7 @@ class Ushahidi_Repository_Form_Stats extends Ushahidi_Repository implements
 
 	// CreateRepository
 	// ReadRepository
-	public function getEntity(Array $data = null)
+	public function getEntity(array $data = null)
 	{
 		return new Entity\FormStats($data);
 	}
@@ -96,7 +103,8 @@ class Ushahidi_Repository_Form_Stats extends Ushahidi_Repository implements
 	 * Returns the number of TOTAL pending questions (for invalidated+valid contacts off a
 	 * targeted_survey)
 	 */
-	public function countTotalPending($form_id, $total_sent) {
+	public function countTotalPending($form_id, $total_sent)
+    {
 		$form_id = intval($form_id);
 		$total_contacts = $this->getTotalContacts($form_id);
 		$total_attributes =$this->getTotalAttributes($form_id);
@@ -111,27 +119,35 @@ class Ushahidi_Repository_Form_Stats extends Ushahidi_Repository implements
 	 * on a targeted_survey_state group
 	 * Does not receive form_id because it is bound in a later step
 	 */
-	private function getPendingCountQuery() {
+	private function getPendingCountQuery()
+    {
 		/**
 		 * Selects attribute priority & id by contact,for contacts marked in targeted_survey_state as Inactive
 		 * (noted by the ACTIVE CONTACT IN SURVEY  # format of survey_status)
 		 */
-		$attributeListQuery = "SELECT form_attributes.priority, targeted_survey_state.form_attribute_id, targeted_survey_state.contact_id " .
-  			"FROM form_attributes " .
-			"INNER JOIN targeted_survey_state ON form_attributes.id =targeted_survey_state.form_attribute_id " .
-  			"WHERE targeted_survey_state.form_id=:form_id and targeted_survey_state.survey_status LIKE 'ACTIVE CONTACT IN SURVEY%'";
+		$attributeListQuery =
+			"SELECT
+				form_attributes.priority,
+				targeted_survey_state.form_attribute_id,
+				targeted_survey_state.contact_id
+			FROM form_attributes
+			INNER JOIN targeted_survey_state
+				ON form_attributes.id =targeted_survey_state.form_attribute_id
+			WHERE targeted_survey_state.form_id=:form_id
+				and targeted_survey_state.survey_status LIKE 'ACTIVE CONTACT IN SURVEY%'";
 		/**
 		 * counts attributes that have a priority higher than the one of the attributess referenced
 		 * in targeted_survey_state for each invalidated contact
 		 */
-		$attributeCountQuery = "SELECT count(form_attributes.form_stage_id) as counted from targeted_survey_state " .
-			"INNER JOIN form_stages ON targeted_survey_state.form_id=form_stages.form_id " .
- 			"INNER JOIN form_attributes ON form_stages.id = form_attributes.form_stage_id " .
- 			"INNER JOIN ($attributeListQuery) as internal_query " .
- 			"ON internal_query.contact_id = targeted_survey_state.contact_id " .
- 			"WHERE form_attributes.priority > internal_query.priority " .
- 			"AND survey_status LIKE 'ACTIVE CONTACT IN SURVEY%' AND form_stages.form_id=:form_id " .
- 			"GROUP BY targeted_survey_state.contact_id, form_attributes.form_stage_id";
+		$attributeCountQuery = "
+			SELECT count(form_attributes.form_stage_id) as counted from targeted_survey_state
+			INNER JOIN form_stages ON targeted_survey_state.form_id=form_stages.form_id
+			INNER JOIN form_attributes ON form_stages.id = form_attributes.form_stage_id
+			INNER JOIN ($attributeListQuery) as internal_query
+			ON internal_query.contact_id = targeted_survey_state.contact_id
+			WHERE form_attributes.priority > internal_query.priority
+			AND survey_status LIKE 'ACTIVE CONTACT IN SURVEY%' AND form_stages.form_id=:form_id
+			GROUP BY targeted_survey_state.contact_id, form_attributes.form_stage_id";
 		/**
 		 * sums the result of the previous joined queries to gget how many attributes where not yet sent
 		 * for invalidated contacts
@@ -144,10 +160,15 @@ class Ushahidi_Repository_Form_Stats extends Ushahidi_Repository implements
 	 * @param $form_id
 	 * @return mixed
 	 */
-	private function getTotalAttributes($form_id) {
-		return DB::query(Database::SELECT,
-			"select count(form_attributes.id) as total from form_attributes 
-			INNER JOIN form_stages ON form_attributes.form_stage_id = form_stages.id WHERE form_stages.form_id=:form")
+	private function getTotalAttributes($form_id)
+    {
+		return DB::query(
+            Database::SELECT,
+			"SELECT count(form_attributes.id) as total from form_attributes
+			INNER JOIN
+			form_stages ON form_attributes.form_stage_id = form_stages.id
+			WHERE form_stages.form_id=:form"
+        )
 			->bind(':form', $form_id)
 			->execute($this->db)->get('total');
 	}
@@ -156,10 +177,13 @@ class Ushahidi_Repository_Form_Stats extends Ushahidi_Repository implements
 	 * @param $form_id
 	 * @return mixed
 	 */
-	private function getTotalContacts($form_id) {
-		return DB::query(Database::SELECT,
+	private function getTotalContacts($form_id)
+    {
+		return DB::query(
+            Database::SELECT,
 			"select count(contact_id) as total from targeted_survey_state where form_id=:form
-			 and survey_status NOT IN ('SURVEY FINISHED')")
+			 and survey_status NOT IN ('SURVEY FINISHED')"
+        )
 			->bind(':form', $form_id)
 			->execute($this->db)->get('total');
 	}
@@ -174,16 +198,20 @@ class Ushahidi_Repository_Form_Stats extends Ushahidi_Repository implements
 			->reset()
 			->from('messages')
 			->select(DB::expr('count(messages.status) as total, messages.status'))
-			->where('post_id', 'IN', DB::expr('(select post_id FROM targeted_survey_state WHERE form_id ='.$form_id.')'))
+			->where(
+				'post_id',
+				'IN',
+				DB::expr('(select post_id FROM targeted_survey_state WHERE form_id ='.$form_id.')')
+			)
 			->where('direction', '=', 'outgoing')
 			->group_by('status');
 		$result = $query
 			->execute($this->db);
 		$ret = ['pending' => 0, 'sent' => 0];
-		foreach( $result->as_array()  as $item ) {
+		foreach ($result->as_array() as $item) {
 			if ($item['status'] === 'pending') {
 				$ret['pending'] = $item['total'];
-			} else if ($item['status'] === 'sent') {
+			} elseif ($item['status'] === 'sent') {
 				$ret['sent'] = $item['total'];
 			}
 		}
@@ -209,7 +237,8 @@ class Ushahidi_Repository_Form_Stats extends Ushahidi_Repository implements
 		$query = $this->selectQuery($where)
 			->resetSelect()
 			->select([DB::expr('COUNT(distinct message_id)'), 'total']);
-		$query = $this->targetedSurveyStateJoin($query)->join('messages', 'INNER')->on('messages.id', '=', 'targeted_survey_state.message_id');
+		$query = $this->targetedSurveyStateJoin($query)
+			->join('messages', 'INNER')->on('messages.id', '=', 'targeted_survey_state.message_id');
 		return $query
 			->execute($this->db)
 			->get('total');
@@ -243,7 +272,8 @@ class Ushahidi_Repository_Form_Stats extends Ushahidi_Repository implements
 	 * @return mixed
 	 * A reusable join because we use it everywhere.
 	 */
-	private function targetedSurveyStateJoin($query) {
+	private function targetedSurveyStateJoin($query)
+    {
 		return $query->join('targeted_survey_state', 'INNER')
 			->on('contacts.id', '=', 'targeted_survey_state.contact_id')
 			->join('posts', 'INNER')

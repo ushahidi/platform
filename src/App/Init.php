@@ -176,8 +176,8 @@ $di->params['Ushahidi\Factory\ValidatorFactory']['map']['posts'] = [
     'webhook-update' => $di->lazyNew(Ushahidi\App\Validator\Post\Create::class),
 ];
 $di->params['Ushahidi\Factory\ValidatorFactory']['map']['export_jobs'] = [
-    'create' => $di->lazyNew(Ushahidi\App\Validator\Export\Job\Create::class),
-    'update' => $di->lazyNew(Ushahidi\App\Validator\Export\Job\Update::class),
+    'create' => $di->lazyNew(Ushahidi\App\Validator\ExportJob\Create::class),
+    'update' => $di->lazyNew(Ushahidi\App\Validator\ExportJob\Update::class),
 ];
 
 $di->params['Ushahidi\Factory\ValidatorFactory']['map']['posts_lock'] = [
@@ -248,7 +248,7 @@ $di->params['Ushahidi\Factory\FormatterFactory']['map'] = [
 	'config'               => $di->lazyNew(Ushahidi\App\Formatter\Config::class),
 	'dataproviders'        => $di->lazyNew(Ushahidi\App\Formatter\Dataprovider::class),
 	'country_codes'        => $di->lazyNew(Ushahidi\App\Formatter\CountryCode::class),
-	'export_jobs'          => $di->lazyNew(Ushahidi\App\Formatter\Export\Job::class),
+	'export_jobs'          => $di->lazyNew(Ushahidi\App\Formatter\ExportJob::class),
 	'forms'                => $di->lazyNew(Ushahidi\App\Formatter\Form::class),
 	'form_attributes'      => $di->lazyNew(Ushahidi\App\Formatter\Form\Attribute::class),
 	'form_roles'           => $di->lazyNew(Ushahidi\App\Formatter\Form\Role::class),
@@ -282,6 +282,7 @@ $di->setter[Ushahidi\App\Formatter\ApiKey::class]['setAuth'] = $di->lazyGet("aut
 $di->setter[Ushahidi\App\Formatter\Config::class]['setAuth'] = $di->lazyGet("authorizer.config");
 $di->setter[Ushahidi\App\Formatter\CSV::class]['setAuth'] = $di->lazyGet("authorizer.csv");
 $di->setter[Ushahidi\App\Formatter\Dataprovider::class]['setAuth'] = $di->lazyGet("authorizer.dataprovider");
+$di->setter[Ushahidi\App\Formatter\ExportJob::class]['setAuth'] = $di->lazyGet("authorizer.export_job");
 $di->setter[Ushahidi\App\Formatter\Form::class]['setAuth'] = $di->lazyGet("authorizer.form");
 $di->setter[Ushahidi\App\Formatter\Form\Attribute::class]['setAuth'] = $di->lazyGet("authorizer.form_attribute");
 $di->setter[Ushahidi\App\Formatter\Form\Role::class]['setAuth'] = $di->lazyGet("authorizer.form_role");
@@ -349,15 +350,18 @@ $di->set('repository.country_code', $di->lazyNew(Ushahidi\App\Repository\Country
 $di->set('repository.dataprovider', $di->lazyNew(Ushahidi\App\Repository\DataproviderRepository::class));
 $di->set('repository.form', $di->lazyNew(Ushahidi\App\Repository\FormRepository::class));
 $di->set('repository.form_role', $di->lazyNew(Ushahidi\App\Repository\Form\RoleRepository::class));
-$di->set('repository.form_contact', $di->lazyNew(Ushahidi\App\Repository\ContactRepository::class));
-$di->set('repository.form_stats', $di->lazyNew(Ushahidi\App\Repository\StatsRepository::class));
+$di->set('repository.form_contact', $di->lazyNew(Ushahidi\App\Repository\Form\ContactRepository::class));
+$di->set('repository.form_stats', $di->lazyNew(Ushahidi\App\Repository\Form\StatsRepository::class));
 
 $di->set('repository.form_stage', $di->lazyNew(Ushahidi\App\Repository\Form\StageRepository::class));
 $di->set('repository.form_attribute', $di->lazyNew(Ushahidi\App\Repository\Form\AttributeRepository::class));
 $di->set('repository.layer', $di->lazyNew(Ushahidi\App\Repository\LayerRepository::class));
 $di->set('repository.media', $di->lazyNew(Ushahidi\App\Repository\MediaRepository::class));
 $di->set('repository.message', $di->lazyNew(Ushahidi\App\Repository\MessageRepository::class));
-$di->set('repository.targeted_survey_state', $di->lazyNew(Ushahidi\App\Repository\TargetedSurveyStateRepository::class));
+$di->set(
+	'repository.targeted_survey_state',
+	$di->lazyNew(Ushahidi\App\Repository\TargetedSurveyStateRepository::class)
+);
 $di->set('repository.post', $di->lazyNew(Ushahidi\App\Repository\PostRepository::class));
 $di->set('repository.csv_post', $di->lazyNew(Ushahidi\App\Repository\CSVPostRepository::class));
 
@@ -384,8 +388,8 @@ $di->set('repository.permission', $di->lazyNew(Ushahidi\App\Repository\Permissio
 // $di->set('repository.oauth.scope', $di->lazyNew('OAuth2_Storage_Scope'));
 $di->set('repository.posts_export', $di->lazyNew(Ushahidi\App\Repository\Post\ExportRepository::class));
 $di->set('repository.tos', $di->lazyNew(Ushahidi\App\Repository\TosRepository::class));
-$di->set('repository.export_job', $di->lazyNew(Ushahidi\App\Repository\Export\JobRepository::class));
-$di->params[Ushahidi\App\Repository\Export\JobRepository::class] = [
+$di->set('repository.export_job', $di->lazyNew(Ushahidi\App\Repository\ExportJobRepository::class));
+$di->params[Ushahidi\App\Repository\ExportJobRepository::class] = [
         'post_repo' => $di->lazyGet('repository.post')
 ];
 $di->setter[Ushahidi\App\Repository\ExportRepository::class]['setSetRepo'] = $di->lazyGet('repository.set');

@@ -1,4 +1,4 @@
-<?php defined('SYSPATH') OR die('No direct access allowed.');
+<?php
 
 /**
  * Ushahidi Post Repository
@@ -9,7 +9,9 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-class Ushahidi_Repository_CSVPost extends Ushahidi_Repository_Post
+namespace Ushahidi\App\Repository;
+
+class CSVPost extends PostRepository
 {
 	protected function getPostValues($id)
 	{
@@ -26,7 +28,7 @@ class Ushahidi_Repository_CSVPost extends Ushahidi_Repository_Post
 			}
 			if (is_array($value->value) && isset($value->value['o_filename'])) {
 				$output[$value->key][] = $value->value['o_filename'];
-			} else if ($value->value !== NULL) {
+			} elseif ($value->value !== null) {
 				$output[$value->key][] = $value->value;
 			}
 		}

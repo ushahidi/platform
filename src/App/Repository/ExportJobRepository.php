@@ -1,4 +1,4 @@
-<?php defined('SYSPATH') OR die('No direct access allowed.');
+<?php
 
 /**
  * Ushahidi Export Job Repository
@@ -9,19 +9,23 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
+namespace Ushahidi\App\Repository;
+
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\Entity\PostRepository;
 use Ushahidi\Core\SearchData;
 use Ushahidi\Core\Entity\ExportJob;
-use Ushahidi\Core\Entity\ExportJobRepository;
+use Ushahidi\Core\Entity\ExportJobRepository as ExportJobRepositoryContract;
 use Ushahidi\Core\Usecase\Concerns\FilterRecords;
 use Ushahidi\Core\Traits\UserContext;
 use Ushahidi\Core\Traits\AdminAccess;
+use Ohanzee\DB;
+use Ohanzee\Database;
 
-class Ushahidi_Repository_Export_Job extends Ushahidi_Repository implements ExportJobRepository
+class ExportJobRepository extends OhanzeeRepository implements ExportJobRepositoryContract
 {
 	// Use the JSON transcoder to encode properties
-	use Ushahidi_JsonTranscodeRepository;
+	use JsonTranscodeRepository;
 
 	// - FilterRecords for setting search parameters
 	use FilterRecords;
@@ -53,7 +57,7 @@ class Ushahidi_Repository_Export_Job extends Ushahidi_Repository implements Expo
 		return ['fields', 'filters', 'header_row'];
 	}
 
-	// Ushahidi_Repository
+	// OhanzeeRepository
 	public function setSearchConditions(SearchData $search)
 	{
 		$query = $this->search_query;
@@ -67,31 +71,27 @@ class Ushahidi_Repository_Export_Job extends Ushahidi_Repository implements Expo
 		}
 		if ($search->max_expiration) {
 			$query->where("url_expiration", '>', intval($search->max_expiration));
-			$query->or_where("url_expiration", 'IS', NULL);
+			$query->or_where("url_expiration", 'IS', null);
 			$query->or_where("url_expiration", '=', 0);
 		}
 		foreach ([
 			'user'
-		] as $fk)
-		{
-			if ($search->$fk)
-			{
+		] as $fk) {
+			if ($search->$fk) {
 				$query->where("export_job.{$fk}_id", '=', $search->$fk);
 			}
 		}
 
 		foreach ([
 			'entity_type',
-		] as $key)
-		{
-			if ($search->$key)
-			{
+		] as $key) {
+			if ($search->$key) {
 				$query->where($key, '=', $search->$key);
 			}
 		}
 	}
 
-	public function getEntity(Array $data = null)
+	public function getEntity(array $data = null)
 	{
 		return new ExportJob($data);
 	}
@@ -127,7 +127,7 @@ class Ushahidi_Repository_Export_Job extends Ushahidi_Repository implements Expo
 		if ($job->filters) {
 			$this->setFilters($job->filters);
 		}
-		
+
 
 		$fields = $this->post_repo->getSearchFields();
 
@@ -136,11 +136,10 @@ class Ushahidi_Repository_Export_Job extends Ushahidi_Repository implements Expo
 		);
 
 		$this->search->group_by === 'form';
-		
+
 		$total = $this->post_repo->getGroupedTotals($this->search);
 
 		return $total;
-
 	}
 
 	public function getSearchFields()

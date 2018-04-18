@@ -1,4 +1,4 @@
-<?php defined('SYSPATH') or die('No direct script access');
+<?php
 
 /**
  * Ushahidi PostSet Listener
@@ -11,6 +11,9 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
+namespace Ushahidi\App\Listener;
+
+use Log;
 use League\Event\AbstractListener;
 use League\Event\EventInterface;
 use \Ushahidi\Core\Entity\FormRepository;
@@ -20,7 +23,7 @@ use \Ushahidi\Core\Entity\MessageRepository;
 use \Ushahidi\Core\Entity\FormAttributeRepository;
 use \Ushahidi\Core\Entity\TargetedSurveyStateRepository;
 
-class Ushahidi_Listener_ContactListener extends AbstractListener
+class ContactListener extends AbstractListener
 {
 	protected $repo;
 	protected $post_repo;
@@ -71,14 +74,12 @@ class Ushahidi_Listener_ContactListener extends AbstractListener
 			throw new Exception('Please enter a number!');
 		} catch (Error $e) {
 			// This is required, if you do not need to do anything just rethrow.
-			Kohana::$log->add(
-				Log::INFO,
+			Log::info(
 				'Could not generate a random number for form :form and contact :contact. Exception:' . $e->getMessage(),
 				array(':form' => $form_name, ':contact' => $contact_id)
 			);
 		} catch (Exception $e) {
-			Kohana::$log->add(
-				Log::INFO,
+			Log::info(
 				'Could not generate a random number for form :form and contact :contact. Exception:' . $e->getMessage(),
 				array(':form' => $form_name, ':contact' => $contact_id)
 			);
@@ -86,7 +87,7 @@ class Ushahidi_Listener_ContactListener extends AbstractListener
 		return "$form_name - $title_id";
 	}
 
-	public function handle(EventInterface $event, $contactIds = null , $form_id = null, $event_type = null)
+	public function handle(EventInterface $event, $contactIds = null, $form_id = null, $event_type = null)
 	{
 		$result = [];
 		foreach ($contactIds as $contactId) {
@@ -114,15 +115,17 @@ class Ushahidi_Listener_ContactListener extends AbstractListener
 			$message = $this->message_repo->getEntity();
 			$firstAttribute = $this->form_attribute_repo->getFirstByForm($form_id);
 			if (!$firstAttribute->id) {
-				Kohana::$log->add(
-					Log::ERROR,
-					'Could not find attributes in form id :form. Messages for contact :contact in this form will not be sent',
+				Log::error(
+					'Could not find attributes in form id :form.
+					Messages for contact :contact in this form will not be sent',
 					array(':form' => $form_id, ':contact' => $contactId)
 				);
 				throw new Exception(
 					sprintf(
-						'Could not find attributes in form id %s. Messages for contact %s in this form will not be sent',
-						$form_id, $contactId
+						'Could not find attributes in form id %s.
+						Messages for contact %s in this form will not be sent',
+						$form_id,
+                        $contactId
 					)
 				);
 			}
@@ -131,7 +134,7 @@ class Ushahidi_Listener_ContactListener extends AbstractListener
 			// FOR NOW IT IS RESTRICTED TO SMS
 			$message_type = Message_Type::SMS;
 			$data_provider = \DataProvider::getEnabledProviderForType($message_type);
-			
+
 			$messageState = array(
 				'contact_id' => $contactId,
 				'post_id' => $postId,
@@ -144,9 +147,8 @@ class Ushahidi_Listener_ContactListener extends AbstractListener
 			$message->setState($messageState);
 			$messageId = $this->message_repo->create($message);
 			if (!$messageId) {
-				Kohana::$log->add(
-					Log::ERROR,
-					'Could not create message for contact id :contact,  post id :post, and form id :form',
+				Log::error(
+					'Could not create message for contact id :contact, post id :post, and form id :form',
 					array(':contact' => $contactId, ':post' => $postId, ':form' => $form_id)
 				);
 			}
@@ -168,5 +170,4 @@ class Ushahidi_Listener_ContactListener extends AbstractListener
 		}
 		return $result;
 	}
-
 }

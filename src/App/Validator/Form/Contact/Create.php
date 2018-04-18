@@ -1,4 +1,4 @@
-<?php defined('SYSPATH') OR die('No direct access allowed.');
+<?php
 
 /**
  * Ushahidi Form Contact Validator
@@ -9,10 +9,10 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
+namespace Ushahidi\App\Validator\Form\Contact;
 
-class Ushahidi_Validator_Form_Contact_Create extends Ushahidi_Validator_Form_Contact_Update
+class Create extends Update
 {
 
 	protected $default_error_source = 'form_contact';
-
 }

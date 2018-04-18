@@ -86,7 +86,7 @@ class CSV extends API
 	public function createHeading($attributes, $records)
 	{
 		$this->heading = $this->createSortedHeading($attributes);
-		
+
 		return $this->heading;
 	}
 
@@ -152,11 +152,11 @@ class CSV extends API
 		$filepath = ltrim($filepath, DIRECTORY_SEPARATOR);
 
 		$extension = pathinfo($filepath, PATHINFO_EXTENSION);
-		
+
 		$mimeType = MimeType::detectByFileExtension($extension) ?: 'text/plain';
-		
+
 		$config = ['mimetype' => $mimeType];
-		
+
 		$this->fs->putStream($filepath, $stream, $config);
 
 		if (is_resource($stream)) {
@@ -196,7 +196,10 @@ class CSV extends API
 		$format = 'single_raw';
 
 		// if we have an attribute and can find a format for it in $csvFieldFormat, reset the $format
-		if (is_array($recordAttributes) && isset($recordAttributes['type']) && isset(self::$csvFieldFormat[$recordAttributes['type']])) {
+		if (is_array($recordAttributes)
+			&& isset($recordAttributes['type'])
+			&& isset(self::$csvFieldFormat[$recordAttributes['type']])
+		) {
 			$format = self::$csvFieldFormat[$recordAttributes['type']];
 		}
 
@@ -225,7 +228,9 @@ class CSV extends API
 			 * Lat/Lon are never multivalue fields so we can get the first index  only
 			 */
 			$return = $this->singleValueArray($recordValue, $headingKey, $key);
-		} elseif ($format === 'single_array' || ($key !== null && isset($recordValue[$headingKey]) && is_array($recordValue[$headingKey]))) {
+		} elseif ($format === 'single_array'
+			|| ($key !== null && isset($recordValue[$headingKey]) && is_array($recordValue[$headingKey]))
+		) {
 			/**
 			 * A single_array is a comma separated list of values (like categories) in a column
 			 * we need to join the array items in a single comma separated string.
@@ -247,7 +252,8 @@ class CSV extends API
 	 	if ($key !== null) {
 			return isset($recordValue[$headingKey])? ($recordValue[$headingKey]): '';
 		} else {
-			$emptyRecord = !isset($record[$headingKey]) || (is_array($record[$headingKey]) && empty($record[$headingKey]));
+			$emptyRecord = !isset($record[$headingKey])
+				|| (is_array($record[$headingKey]) && empty($record[$headingKey]));
 			return $emptyRecord ? '' : $record[$headingKey];
 		}
 	}

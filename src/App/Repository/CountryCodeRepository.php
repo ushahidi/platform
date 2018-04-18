@@ -1,4 +1,4 @@
-<?php defined('SYSPATH') or die('No direct script access');
+<?php
 
 /**
  * Ushahidi Config Repository, using Kohana::$config
@@ -9,14 +9,16 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
+namespace Ushahidi\App\Repository;
+
 use Ushahidi\Core\Entity\CountryCode;
-use Ushahidi\Core\Entity\CountryCodeRepository;
+use Ushahidi\Core\Entity\CountryCodeRepository as CountryCodeRepositoryContract;
 use Ushahidi\Core\SearchData;
 use Ushahidi\Core\Usecase\ReadRepository;
 use Ushahidi\Core\Usecase\SearchRepository;
 
-class Ushahidi_Repository_CountryCode extends Ushahidi_Repository implements
-	CountryCodeRepository,
+class CountryCodeRepository extends OhanzeeRepository implements
+	CountryCodeRepositoryContract,
     ReadRepository,
     SearchRepository
 {
@@ -26,7 +28,8 @@ class Ushahidi_Repository_CountryCode extends Ushahidi_Repository implements
 		return 'country_codes';
 	}
 
-	public function getSearchFields() {
+	public function getSearchFields()
+    {
 		return ['country_code', 'dial_code'];
 	}
 
@@ -36,7 +39,7 @@ class Ushahidi_Repository_CountryCode extends Ushahidi_Repository implements
         return $query;
     }
 
-    public function getEntity(Array $data = null)
+    public function getEntity(array $data = null)
     {
         return new CountryCode($data);
     }
