@@ -59,7 +59,7 @@ class Controller_Api_Index extends Ushahidi_Rest {
 		}
 		sort($endpoints);
 
-		$user = service('session.user');
+		$user = service('session')->getUser();
 
 		$this->_response_payload = [
 			'now'       => date(DateTime::W3C),
