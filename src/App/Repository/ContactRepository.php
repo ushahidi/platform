@@ -148,10 +148,10 @@ class ContactRepository extends OhanzeeRepository implements
 				]
 			);
 		if ($query->execute($this->db)->count() > 0) {
-			Kohana::$log->add(Log::INFO, 'Contact is in a targeted survey: contact_id#'.print_r($contact_id, true));
+			\Log::info('Contact is in a targeted survey', compact($contact_id));
 			return true;
 		}
-		Kohana::$log->add(Log::INFO, 'Contact is NOT in a targeted survey: contact_id#'.print_r($contact_id, true));
+		\Log::info('Contact is NOT in a targeted survey', compact($contact_id));
 		return false;
 	}
 

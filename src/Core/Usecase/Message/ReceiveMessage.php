@@ -126,9 +126,9 @@ class ReceiveMessage extends CreateUsecase
 		$this->verifyValid($incomingMessage);
 		$incomingMessageId = $incomingMessageRepo->create($incomingMessage);
 		if (!$incomingMessageId) {
-			Kohana::$log->add(
-				Log::ERROR,
-				'Could not create new incoming message for contact_id: ' . print_r($contact_id, true)
+			\Log::error(
+				'Could not create new incoming message',
+				compact('contact_id')
 			);
 			throw new HTTP_Exception_400('Could not create new incoming message for contact_id: ' . $contact_id);
 		}
@@ -159,9 +159,9 @@ class ReceiveMessage extends CreateUsecase
 		$this->outgoingMessageValidator->check($messageState);
 		$newMessageId = $this->repo->create($newMessage);
 		if (!$newMessageId) {
-			Kohana::$log->add(
-				Log::ERROR,
-				'Could not create new message for contact_id: ' . print_r($contact_id, true)
+			\Log::error(
+				'Could not create new incoming message',
+				compact('contact_id')
 			);
 			throw new HTTP_Exception_400('Could not create new outgoing message for contact_id: ' . $contact_id);
 		}
@@ -181,10 +181,12 @@ class ReceiveMessage extends CreateUsecase
 		$messageInSurveyState = $messageInSurveyState->get($surveyStateEntity->message_id);
 		if (!$messageInSurveyState || $messageInSurveyState->direction !== \Ushahidi\Core\Entity\Message::OUTGOING) {
 			//we can't save it as a message of the survey
-			Kohana::$log->add(
-				Log::ERROR,
-				'Could not add contact\'s  message for contact_id: ' .
-				print_r($contact_id, true) . ' and form ' . $surveyStateEntity->form_id
+			\Log::error(
+				'Could not add contact\'s  message',
+				[
+					'contact_id' => $contact_id,
+					'form_id' => $surveyStateEntity->form_id
+				]
 			);
 			throw new HTTP_Exception_400(
 				'Outgoing question not found for contact ' . $contact_id . ' and form ' . $surveyStateEntity->form_id
