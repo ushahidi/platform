@@ -44,6 +44,9 @@ class UpdateFormContact extends UpdateUsecase
 		// First verify that the form even exists
 		$this->verifyFormExists();
 
+		// Confirm the form is a targetted survey
+		$this->verifyTargetedSurvey();
+
 		// Fetch a default entity and ...
 		$entity = $this->getEntity();
 

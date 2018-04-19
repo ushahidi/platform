@@ -49,7 +49,7 @@ Feature: Testing the Form Contacts API
             """
         When I request "/forms/6/contacts"
         Then the response is JSON
-        Then the guzzle status code should be 400
+        Then the guzzle status code should be 422
         And the response has a "errors" property
         And the response has a "errors.0.title" property
         And the type of the "errors.0.title" property is "string"
@@ -66,7 +66,7 @@ Feature: Testing the Form Contacts API
             """
         When I request "/forms/1/contacts"
         Then the response is JSON
-        Then the guzzle status code should be 400
+        Then the guzzle status code should be 422
         And the response has a "errors" property
         And the response has a "errors.0.title" property
         And the type of the "errors.0.title" property is "string"
