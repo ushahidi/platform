@@ -81,12 +81,8 @@ class WebhookRepository extends OhanzeeRepository implements WebhookRepositoryCo
 	// CreateRepository
 	public function create(Entity $entity)
 	{
-		try {
-			$uuid = Uuid::uuid4();
-			$uuid = $uuid->toString();
-		} catch (UnsatisfiedDependencyException $e) {
-			Log::error($e->getMessage());
-		}
+		$uuid = Uuid::uuid4();
+		$uuid = $uuid->toString();
 
 		$state = [
 			'user_id' => $entity->user_id,

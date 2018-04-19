@@ -47,12 +47,9 @@ class ApiKeyRepository extends OhanzeeRepository implements ApiKeyRepositoryCont
 	{
 
 		$record = $entity->asArray();
-		try {
-			$uuid = Uuid::uuid4();
-			$record['api_key'] = $uuid->toString();
-		} catch (UnsatisfiedDependencyException $e) {
-			Kohana::$log->add(Log::ERROR, $e->getMessage());
-		}
+
+		$uuid = Uuid::uuid4();
+		$record['api_key'] = $uuid->toString();
 
 		$state = [
 			'created' => time(),
@@ -64,15 +61,11 @@ class ApiKeyRepository extends OhanzeeRepository implements ApiKeyRepositoryCont
 	// UpdateRepository
 	public function update(Entity $entity)
 	{
-
 		$record = $entity->asArray();
 		$record['updated'] = time();
-		try {
-			$uuid = Uuid::uuid4();
-			$record['api_key'] = $uuid->toString();
-		} catch (UnsatisfiedDependencyException $e) {
-			Kohana::$log->add(Log::ERROR, $e->getMessage());
-		}
+
+		$uuid = Uuid::uuid4();
+		$record['api_key'] = $uuid->toString();
 
 		return $this->executeUpdate(['id' => $entity->id], $record);
 	}

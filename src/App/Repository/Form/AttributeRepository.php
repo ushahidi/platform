@@ -108,12 +108,10 @@ class AttributeRepository extends OhanzeeRepository implements
 	{
 		$record = $entity->asArray();
 		unset($record['form_id']);
-		try {
-			$uuid = Uuid::uuid4();
-			$record['key'] = $uuid->toString();
-		} catch (UnsatisfiedDependencyException $e) {
-			Log::error($e->getMessage());
-		}
+
+		$uuid = Uuid::uuid4();
+		$record['key'] = $uuid->toString();
+
 		return $this->executeInsertAttribute($this->removeNullValues($record));
 	}
 
