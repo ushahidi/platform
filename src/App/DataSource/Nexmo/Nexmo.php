@@ -116,9 +116,9 @@ class Nexmo implements CallbackDataSource, OutgoingAPIDataSource
 
 	public function registerRoutes(\Laravel\Lumen\Routing\Router $router)
 	{
-		$router->post('sms/nexmo[/]', 'Ushahidi\App\DataSource\Nexmo\NexmoController@handleRequest');
-		$router->get('sms/nexmo[/]', 'Ushahidi\App\DataSource\Nexmo\NexmoController@handleRequest');
-		$router->post('sms/nexmo/reply', 'Ushahidi\App\DataSource\NexmoController\Nexmo\NexmoController@handleRequest');
-		$router->post('nexmo', 'Ushahidi\App\DataSource\Nexmo\NexmoController\Nexmo@handleRequest');
+		$router->post('sms/nexmo', 'Ushahidi\App\DataSource\Nexmo\NexmoController@handleRequest');
+		$router->get('sms/nexmo', 'Ushahidi\App\DataSource\Nexmo\NexmoController@handleRequest');
+		$router->post('sms/nexmo/reply', 'Ushahidi\App\DataSource\Nexmo\NexmoController@handleRequest');
+		$router->post('nexmo', 'Ushahidi\App\DataSource\Nexmo\NexmoController@handleRequest');
 	}
 }
