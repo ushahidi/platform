@@ -66,6 +66,7 @@ $app->routeMiddleware([
     'scope'  => Ushahidi\App\Http\Middleware\CheckForAnyScope::class,
     //'scopes' => Laravel\Passport\Http\Middleware\CheckScopes::class,
     //'scope'  => Laravel\Passport\Http\Middleware\CheckForAnyScope::class,
+    'signature' => Ushahidi\App\Http\Middleware\SignatureAuth::class,
 ]);
 
 /*

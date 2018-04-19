@@ -1,6 +1,6 @@
 <?php
 
-namespace Ushahidi\App\Http\Controllers\API\Export;
+namespace Ushahidi\App\Http\Controllers\API\Exports;
 
 use Ushahidi\App\Http\Controllers\RESTController;
 use Illuminate\Http\Request;
@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-class Jobs extends RESTController
+class JobsController extends RESTController
 {
     protected function getResource()
     {
