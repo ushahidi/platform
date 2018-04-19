@@ -130,6 +130,19 @@ $router->group([
         $router->get('/{id}', 'DataProvidersController@show');
     });
 
+    // Export Jobs
+    $router->group([
+        'namespace' => 'Export',
+        'middleware' => ['auth:api', 'scope:posts'],
+        'prefix' => '/exports/jobs'
+    ], function () use ($router) {
+        $router->get('/', 'JobsController@index');
+        $router->post('/', 'JobsController@store');
+        $router->get('/{id}', 'JobsController@show');
+        $router->put('/{id}', 'JobsController@update');
+        $router->delete('/{id}', 'JobsController@destroy');
+    });
+
     // Forms
     $router->group([
         'namespace' => 'Forms',
