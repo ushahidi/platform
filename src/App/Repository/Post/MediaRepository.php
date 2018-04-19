@@ -27,7 +27,7 @@ class MediaRepository extends ValueRepository
 		$data['value'] = ['o_filename' => $data['o_filename'], 'id' => $data['id']];
 		return new \Ushahidi\Core\Entity\PostValueMedia($data);
 	}
-    
+
 	// OhanzeeRepository
 	protected function getTable()
 	{
@@ -37,19 +37,14 @@ class MediaRepository extends ValueRepository
 	// Override selectQuery to fetch attribute 'key' too
 	protected function selectQuery(array $where = [])
 	{
-		$query = Ushahidi_Repository::selectQuery($where);
+		$query = parent::selectQuery($where);
 
 		// Select 'key' too
 		$query->select(
-			$this->getTable().'.*',
 			'media.o_filename',
-			'media.id',
-			'form_attributes.key',
-			'form_attributes.form_stage_id',
-			'form_attributes.response_private'
+			'media.id'
 		)
-			->join('media')->on('value', '=', 'media.id')
-			->join('form_attributes')->on('form_attribute_id', '=', 'form_attributes.id');
+		->join('media')->on('value', '=', 'media.id');
 
 		return $query;
 	}
