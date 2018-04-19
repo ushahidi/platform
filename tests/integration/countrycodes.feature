@@ -26,4 +26,4 @@ Feature: Testing the Country Codes API
         And that the oauth token is "testanon"
         When I request "/country-codes"
         Then the response is JSON
-        Then the guzzle status code should be 400
+        Then the guzzle status code should be 403
