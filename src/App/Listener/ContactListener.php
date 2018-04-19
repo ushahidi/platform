@@ -22,6 +22,7 @@ use \Ushahidi\Core\Entity\PostRepository;
 use \Ushahidi\Core\Entity\MessageRepository;
 use \Ushahidi\Core\Entity\FormAttributeRepository;
 use \Ushahidi\Core\Entity\TargetedSurveyStateRepository;
+use Ushahidi\App\DataSource\Message\Type as MessageType;
 
 class ContactListener extends AbstractListener
 {
@@ -132,8 +133,8 @@ class ContactListener extends AbstractListener
 
 			// MESSAGE TYPE SHOULD BE CONFIGURABLE
 			// FOR NOW IT IS RESTRICTED TO SMS
-			$message_type = Message_Type::SMS;
-			$data_provider = \DataProvider::getEnabledProviderForType($message_type);
+			$message_type = MessageType::SMS;
+			$source = app('datasources')->getSourceForType($message_type);
 
 			$messageState = array(
 				'contact_id' => $contactId,
@@ -142,7 +143,7 @@ class ContactListener extends AbstractListener
 				'message' => $firstAttribute->label,
 				'status' => \Ushahidi\Core\Entity\Message::PENDING,
 				'type' => $message_type,
-				'data_provider' => $data_provider
+				'data_source' => $source->getId(),
 			);
 			$message->setState($messageState);
 			$messageId = $this->message_repo->create($message);
