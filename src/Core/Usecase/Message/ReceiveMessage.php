@@ -48,14 +48,11 @@ class ReceiveMessage extends CreateUsecase
 	protected $targeted_survey_state_repo;
     protected $form_attr_repo;
     protected $outgoingMessageValidator;
-    
+
 	/**
 	 * @var CreateRepository
 	 */
 	protected $contact_repo;
-
-	protected $outgoingMessageValidator;
-
 
 	/**
 	 * Inject a contact repository
@@ -401,7 +398,7 @@ class ReceiveMessage extends CreateUsecase
 				'form_id'  => $form_id,
 				'post_date'=> $this->getPayload('date', false),
 			]);
-		return $this->postRepo->create($post);
+		return $this->post_repo->create($post);
 	}
 
 	protected function verifyValidContact(Entity $contact)
