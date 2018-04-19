@@ -37,6 +37,7 @@ Feature: Testing the Form Contacts API
         And the type of the "invalidated_contacts.0.contact" property is "string"
         Then the "invalidated_contacts.0.contact" property equals "99999991"
         Then the guzzle status code should be 200
+    @resetFixture
     Scenario: Creating a new valid set of Contacts for a targeted survey with contacts
         Given that I want to make a new "Contact"
         And that the request "data" is:
@@ -46,7 +47,7 @@ Feature: Testing the Form Contacts API
                 "country_code": "UY"
             }
             """
-        When I request "/forms/5/contacts"
+        When I request "/forms/6/contacts"
         Then the response is JSON
         Then the guzzle status code should be 400
         And the response has a "errors" property
