@@ -155,8 +155,6 @@ class EmailDataSourceTest extends TestCase
             );
         // Handle call for 2nd message
         $mockFetchStructure
-            ->getMock()
-                ->shouldReceive(\phpmock\integration\MockDelegateFunctionBuilder::METHOD)
             ->once()
             ->with('notreallyaconnection', 5, FT_UID)
             ->andReturn(
@@ -170,8 +168,6 @@ class EmailDataSourceTest extends TestCase
             );
         // Handle call for 3rd message
         $mockFetchStructure
-            ->getMock()
-                ->shouldReceive(\phpmock\integration\MockDelegateFunctionBuilder::METHOD)
             ->once()
             ->with('notreallyaconnection', 7, FT_UID)
             ->andReturn(
@@ -192,8 +188,6 @@ class EmailDataSourceTest extends TestCase
             ->andReturn('Some HTML');
         // ... and plain text
         $mockFetchBody
-            ->getMock()
-                ->shouldReceive(\phpmock\integration\MockDelegateFunctionBuilder::METHOD)
             ->once()
             ->with('notreallyaconnection', 1, 111, FT_UID)
             ->andReturn('Plain text');
@@ -201,8 +195,6 @@ class EmailDataSourceTest extends TestCase
 
         // Handle 2nd message HTML
         $mockFetchBody
-            ->getMock()
-                ->shouldReceive(\phpmock\integration\MockDelegateFunctionBuilder::METHOD)
             ->once()
             ->with('notreallyaconnection', 5, 55, FT_UID)
             ->andReturn('HTML 2');
@@ -210,8 +202,6 @@ class EmailDataSourceTest extends TestCase
 
         // Handle 3rd message plaintext
         $mockFetchBody
-            ->getMock()
-                ->shouldReceive(\phpmock\integration\MockDelegateFunctionBuilder::METHOD)
             ->once()
             ->with('notreallyaconnection', 7, 77, FT_UID)
             ->andReturn('Plain text 3');
@@ -222,14 +212,10 @@ class EmailDataSourceTest extends TestCase
             ->once()
             ->andReturn('Some HTML');
         $mockQPrint
-            ->getMock()
-                ->shouldReceive(\phpmock\integration\MockDelegateFunctionBuilder::METHOD)
             ->once()
             ->with('HTML 2')
             ->andReturn('HTML 2');
         $mockQPrint
-            ->getMock()
-                ->shouldReceive(\phpmock\integration\MockDelegateFunctionBuilder::METHOD)
             ->once()
             ->with('Plain text 3')
             ->andReturn('Plain text 3');
