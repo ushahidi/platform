@@ -31,7 +31,7 @@ class TagsRepository extends ValueRepository
 		$this->tag_repo = $tag_repo;
 	}
 
-	// Ushahidi_Repository
+	// OhanzeeRepository
 	protected function getTable()
 	{
 		return 'posts_tags';

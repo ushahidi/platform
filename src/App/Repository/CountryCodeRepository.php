@@ -22,7 +22,7 @@ class CountryCodeRepository extends OhanzeeRepository implements
     ReadRepository,
     SearchRepository
 {
-	// Ushahidi_Repository
+	// OhanzeeRepository
 	protected function getTable()
 	{
 		return 'country_codes';

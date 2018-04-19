@@ -34,7 +34,7 @@ class ApiKeyRepository extends OhanzeeRepository implements ApiKeyRepositoryCont
 		return new ApiKey($data);
 	}
 
-	// Ushahidi_Repository
+	// OhanzeeRepository
 	public function setSearchConditions(SearchData $search)
 	{
 		$query = $this->search_query;

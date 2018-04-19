@@ -30,13 +30,13 @@ class LockRepository extends OhanzeeRepository implements PostLockRepository
 	// Use Event trait to trigger events
 	use Event;
 
-	// Ushahidi_Repository
+	// OhanzeeRepository
 	protected function getTable()
 	{
 		return 'post_locks';
 	}
 
-	// Ushahidi_Repository
+	// OhanzeeRepository
 	public function getSearchFields()
 	{
 		return [
@@ -45,7 +45,7 @@ class LockRepository extends OhanzeeRepository implements PostLockRepository
 		];
 	}
 
-    // Ushahidi_Repository
+    // OhanzeeRepository
 	public function getEntity(array $data = null)
 	{
 

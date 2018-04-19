@@ -24,7 +24,7 @@ class TosRepository extends OhanzeeRepository implements
     use UserContext;
 
 
-    // Ushahidi_Repository
+    // OhanzeeRepository
     protected function getTable()
     {
         return 'tos';

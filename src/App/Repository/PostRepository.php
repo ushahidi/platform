@@ -87,7 +87,7 @@ class PostRepository extends OhanzeeRepository implements
 	 * @param FormAttributeRepository               $form_attribute_repo
 	 * @param FormStageRepository                   $form_stage_repo
 	 * @param PostLockRepository                    $post_lock_repo
-	 * @param Ushahidi_Repository_Post_ValueFactory $post_value_factory
+	 * @param PostValueFactory                      $post_value_factory
 	 * @param Aura\DI\InstanceFactory               $bounding_box_factory
 	 */
 	public function __construct(

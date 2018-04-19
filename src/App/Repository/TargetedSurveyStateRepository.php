@@ -19,7 +19,7 @@ use Ushahidi\Core\Entity\TargetedSurveyStateRepository as TargetedSurveyStateRep
 class TargetedSurveyStateRepository extends OhanzeeRepository implements
 	TargetedSurveyStateRepositoryContract
 {
-	// Ushahidi_Repository
+	// OhanzeeRepository
 	protected function getTable()
 	{
 		return 'targeted_survey_state';

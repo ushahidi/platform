@@ -43,7 +43,7 @@ class StatsRepository extends OhanzeeRepository implements
 
 		$this->form_repo = $form_repo;
 	}
-	// Ushahidi_Repository
+	// OhanzeeRepository
 	protected function getTable()
 	{
 		return 'contacts';
@@ -62,7 +62,7 @@ class StatsRepository extends OhanzeeRepository implements
 		return ['form_id', 'contacts'];
 	}
 
-	// Ushahidi_Repository
+	// OhanzeeRepository
 	protected function setSearchConditions(SearchData $search)
 	{
 		$query = $this->search_query;
