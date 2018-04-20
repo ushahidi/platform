@@ -32,7 +32,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 class PostExporter extends Command
 {
 
-	use UserContext;
 	use FormatterTrait;
 
 	private $data;
@@ -52,7 +51,7 @@ class PostExporter extends Command
      *
      * @var string
      */
-    protected $signature = 'export {--limit=100} {--offset=0}';
+    protected $signature = 'export {--limit=100} {--offset=0} {--job} {--include-header=1}';
 
     /**
      * The console command description.
@@ -68,6 +67,8 @@ class PostExporter extends Command
         $this->formAttributeRepository = service('repository.form_attribute');
         $this->data = service('factory.data');
         $this->postExportRepository = service('repository.posts_export');
+        $this->session = service('session');
+        $this->formatter = service('formatter.entity.post.csv');
 
         // Construct a Search Data object to hold the search info
         $data = $this->data->get('search');
@@ -75,8 +76,8 @@ class PostExporter extends Command
         // Get CLI params
 		$limit = $this->option('limit');
         $offset = $this->option('offset');
-        $job_id = $input->getOption('job');
-        $add_header = $input->getOption('include_header');
+        $job_id = $this->option('job');
+        $add_header = $this->option('include-header');
 
         // At the moment there is only CSV format
 		$format = 'csv';
@@ -92,7 +93,7 @@ class PostExporter extends Command
 			// Load the export job
 			$job = $this->exportJobRepository->get($job_id);
 
-			$this->getSession()->setUser($job->user_id);
+			$this->session->setUser($job->user_id);
 			// Merge the export job filters with the base filters
 			if ($job->filters) {
 				$filters = array_merge($filters, $job->filters);
