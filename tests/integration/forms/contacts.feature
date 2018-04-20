@@ -51,9 +51,9 @@ Feature: Testing the Form Contacts API
         Then the response is JSON
         Then the guzzle status code should be 422
         And the response has a "errors" property
-        And the response has a "errors.0.title" property
-        And the type of the "errors.0.title" property is "string"
-        Then the "errors.0.title" property equals "The form already has a set of contacts"
+        And the response has a "errors.1.message" property
+        And the type of the "errors.1.message" property is "string"
+        Then the "errors.1.message" property equals "The form already has a set of contacts"
     @resetFixture
     Scenario: Creating a new valid set of Contacts for a non targeted survey
         Given that I want to make a new "Contact"
@@ -68,6 +68,6 @@ Feature: Testing the Form Contacts API
         Then the response is JSON
         Then the guzzle status code should be 422
         And the response has a "errors" property
-        And the response has a "errors.0.title" property
-        And the type of the "errors.0.title" property is "string"
-        Then the "errors.0.title" property equals "Not a targeted survey"
+        And the response has a "errors.1.message" property
+        And the type of the "errors.1.message" property is "string"
+        Then the "errors.1.message" property equals "The form is not a targeted survey"
