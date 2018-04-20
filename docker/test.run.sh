@@ -13,7 +13,7 @@ composer pre-test
 
 test_reporter() {
   local _ret=0;
-  exec $@ || _ret=$?
+  "$@" || _ret=$?
   if [ $_ret -ne 0 ]; then
     echo -e "\n\n* Test run failed, output of logs in application/logs follows:"
     echo -e "-------------------- BEGIN LOG OUTPUT --------------------"
