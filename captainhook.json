@@ -12,7 +12,7 @@
             {
                 "action": "\\SebastianFeldmann\\CaptainHook\\Hook\\Message\\Action\\Regex",
                 "options": {
-                    "regex": "#^(feat|fix|docs|style|refactor|test|chore|perf|build|ci|revert)(\\(.*\\))?: .*#i"
+                    "regex": "#^(Merge|(feat|fix|docs|style|refactor|test|chore|perf|build|ci|revert)(\\(.*\\))?:) .*#i"
                 }
             }
         ]
