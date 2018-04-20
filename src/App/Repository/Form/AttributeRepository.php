@@ -11,6 +11,7 @@
 
 namespace Ushahidi\App\Repository\Form;
 
+use Ohanzee\DB;
 use Ohanzee\Database;
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\SearchData;

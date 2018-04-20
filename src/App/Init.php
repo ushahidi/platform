@@ -341,6 +341,9 @@ $di->setter[Ushahidi\App\Formatter\Post\GeoJSON::class]['setDecoder'] = $di->laz
 $di->setter[Ushahidi\App\Formatter\Post\GeoJSONCollection::class]['setDecoder'] =
 	$di->lazyNew('Symm\Gisconverter\Decoders\WKT');
 
+$di->setter[Ushahidi\App\Formatter\Post\CSV::class]['setFilesystem'] = $di->lazyGet('tool.filesystem');
+
+
 // Repositories
 $di->set('repository.apikey', $di->lazyNew(Ushahidi\App\Repository\ApiKeyRepository::class));
 $di->set('repository.config', $di->lazyNew(Ushahidi\App\Repository\ConfigRepository::class));
@@ -392,8 +395,8 @@ $di->set('repository.export_job', $di->lazyNew(Ushahidi\App\Repository\ExportJob
 $di->params[Ushahidi\App\Repository\ExportJobRepository::class] = [
         'post_repo' => $di->lazyGet('repository.post')
 ];
-$di->setter[Ushahidi\App\Repository\ExportRepository::class]['setSetRepo'] = $di->lazyGet('repository.set');
-$di->setter[Ushahidi\App\Repository\ExportRepository::class]['setTagRepo'] = $di->lazyGet('repository.tag');
+$di->setter[Ushahidi\App\Repository\Post\ExportRepository::class]['setSetRepo'] = $di->lazyGet('repository.set');
+$di->setter[Ushahidi\App\Repository\Post\ExportRepository::class]['setTagRepo'] = $di->lazyGet('repository.tag');
 
 $di->setter[Ushahidi\App\Repository\UserRepository::class]['setHasher'] = $di->lazyGet('tool.hasher.password');
 
