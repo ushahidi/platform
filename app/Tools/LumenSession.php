@@ -17,19 +17,32 @@ class LumenSession implements Session
 {
 
 	protected $userRepo;
+    protected $overrideUser;
 
 	public function __construct($userRepo)
 	{
 		$this->userRepo = $userRepo;
 	}
 
+    public function setUser($userId)
+    {
+        $this->overrideUser = $userId;
+    }
+
 	public function getUser()
     {
-        // Using the OAuth resource server, get the userid (owner id) for this request
-        $genericUser = app('auth')->guard()->user();
+        // If user override is set
+        if ($this->overrideUser) {
+            // Use that
+            $userId = $this->overrideUser;
+        } else {
+            // Using the OAuth resource server, get the userid (owner id) for this request
+            $genericUser = app('auth')->guard()->user();
+            $userId = $genericUser ? $genericUser->id : null;
+        }
 
         // Using the user repository, load the user
-        $user = $this->userRepo->get($genericUser ? $genericUser->id : null);
+        $user = $this->userRepo->get($userId);
 
         return $user;
     }
