@@ -17,7 +17,7 @@ test_reporter() {
   if [ $_ret -ne 0 ]; then
     echo -e "\n\n* Test run failed, output of logs in application/logs follows:"
     echo -e "-------------------- BEGIN LOG OUTPUT --------------------"
-    { find application/logs -type f -a \! -name .gitignore | sort ; echo "/dev/null"; } | xargs cat
+    cat storage/logs/lumen.log
     echo -e "--------------------- END LOG OUTPUT ---------------------"
     return 1
   else
