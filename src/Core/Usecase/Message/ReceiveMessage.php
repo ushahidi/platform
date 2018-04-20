@@ -174,7 +174,9 @@ class ReceiveMessage extends CreateUsecase
 				]
 			);
 
-			// @todo Should we actually create a new post if this happens?!
+			// Create a new post
+			$post_id = $this->createPost($incoming_message);
+			$incoming_message->setState(compact('post_id'));
 
 			// But always save the message anyway - otherwise its lost forever
 			return $this->repo->create($incoming_message);
@@ -274,15 +276,11 @@ class ReceiveMessage extends CreateUsecase
 			// @todo decouple this by moving to a listener
 			$id = $this->createTargetedSurveyMessages($entity);
 		} else {
-			$post_id = null;
-			// don't throw an event
 			// ... create post for message
 			// @todo decouple this by moving to a listener
 			$post_id = $this->createPost($entity);
+			$entity->setState(compact('post_id'));
 			// ... persist the new message entity
-			if ($post_id) {
-				$entity->setState(compact('post_id'));
-			}
 			$id = $this->repo->create($entity);
 		}
 		return $id;
