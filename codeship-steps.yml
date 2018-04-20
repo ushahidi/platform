@@ -1,6 +1,6 @@
 - name: "Test"
   service: test
-  command: composer run test --timeout 0
+  command: test_reporter composer run test --timeout 0
 
 - type: parallel
   steps:
