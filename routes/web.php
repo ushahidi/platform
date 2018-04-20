@@ -146,7 +146,7 @@ $router->group([
         $router->group([
             'namespace' => 'External',
             'middleware' => ['signature'],
-            'prefix' => '/exports/jobs/external'
+            'prefix' => '/external'
         ], function () use ($router) {
             // External jobs
             $router->get('/jobs', 'JobsController@index');
