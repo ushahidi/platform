@@ -1,4 +1,4 @@
-FROM ushahidi/php-ci:php-7.0
+FROM ushahidi/php-ci:php-7.0.28
 
 WORKDIR /var/www
 COPY composer.json ./
