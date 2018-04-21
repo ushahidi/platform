@@ -40,16 +40,15 @@ class Ushahidi_Console_ProcessExportJobs extends Command {
 			;
 	}
 
-    //display all jobs, including pending, failed, and successful
+   //display all jobs, including pending, failed, and successful
    protected function executeList(InputInterface $input, OutputInterface $output)
    {
        $jobs = $this->getJobs($input, $output);
+
        foreach ($jobs as $job)
        {
            $list[] = [
                'ID'       => $job->id,
-               'Fields'     => $job->fields,
-               'Filters'    => $job->filters,
                'Status'     => $job->status,
            ];
        }
