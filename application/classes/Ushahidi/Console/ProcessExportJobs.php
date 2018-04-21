@@ -37,9 +37,6 @@ class Ushahidi_Console_ProcessExportJobs extends Command {
 			->setName('processexports')
 			->setDescription('Processes pending export jobs.')
 			->addArgument('action', InputArgument::OPTIONAL, 'list, pending', 'pending')
-			//->addOption('provider', ['p'], InputOption::VALUE_OPTIONAL, 'operate with a single provider')
-			//->addOption('limit', ['l'], InputOption::VALUE_OPTIONAL, 'number of messages')
-			//->addOption('all', ['a'], InputOption::VALUE_NONE, 'all providers, including disabled (use with list)')
 			;
 	}
 
