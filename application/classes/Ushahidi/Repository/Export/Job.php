@@ -108,6 +108,17 @@ class Ushahidi_Repository_Export_Job extends Ushahidi_Repository implements Expo
 		return parent::create($entity->setState($state));
 	}
 
+    // @TODO: is this redundant?
+	public function getAllJobs()
+	{
+		$query = $this->selectQuery()
+					  ->order_by('created', 'ASC');
+
+		$results = $query->execute($this->db);
+
+		return $this->getCollection($results->as_array());
+	}
+
 	// WebhookJobRepository
 	public function getJobs($limit)
 	{
