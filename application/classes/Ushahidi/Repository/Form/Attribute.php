@@ -242,16 +242,21 @@ class Ushahidi_Repository_Form_Attribute extends Ushahidi_Repository implements
 	 * list of form ids that match a specific query
 	 */
 	public function getByForms($form_ids) {
-		$sql = "SELECT DISTINCT form_attributes.*, form_stages.priority as form_stage_priority, form_stages.form_id as form_id " .
-			"FROM form_attributes " .
-			"INNER JOIN form_stages ON form_attributes.form_stage_id = form_stages.form_id " .
-			"INNER JOIN forms ON form_stages.form_id = forms.id " .
-			"where forms.id IN :forms
-			ORDER BY form_stages.priority, form_attributes.priority";
-		$results = DB::query(Database::SELECT, $sql)
-			->bind(':forms', $form_ids)
-			->execute($this->db);
-		$attributes = $results->as_array();
+        $attributes = [];
+        if (count($form_ids) > 0)  // @FIXME: how would empty form_id even happen?
+
+        {
+    		$sql = "SELECT DISTINCT form_attributes.*, form_stages.priority as form_stage_priority, form_stages.form_id as form_id " .
+    			"FROM form_attributes " .
+    			"INNER JOIN form_stages ON form_attributes.form_stage_id = form_stages.form_id " .
+    			"INNER JOIN forms ON form_stages.form_id = forms.id " .
+    			"where forms.id IN :forms
+    			ORDER BY form_stages.priority, form_attributes.priority";
+    		$results = DB::query(Database::SELECT, $sql)
+    			->bind(':forms', $form_ids)
+    			->execute($this->db);
+    		$attributes = $results->as_array();
+        }
 
 		$native = [
 			[
