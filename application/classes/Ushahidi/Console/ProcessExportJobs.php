@@ -10,57 +10,26 @@
  */
 
 use Ushahidi\Console\Command;
-use Ushahidi\Core\Entity\DataProviderRepository;
-use Ushahidi\Core\Entity\PostExportRepository;
-use \Ushahidi\Core\Entity\FormAttributeRepository;
-
-use GuzzleHttp\Promise\Promise;
-
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Output\BufferedOutput;
-
-use Ushahidi\Factory\DataFactory;
-use Ushahidi\Core\Traits\UserContext;
-use Ushahidi\Core\Tool\FormatterTrait;
-
 use Ushahidi\Core\Entity\ExportJobRepository;
 
 /* Simple console command that processes pending jobs in the DB */
 
 class Ushahidi_Console_ProcessExportJobs extends Command {
 
-    use UserContext;
-	use FormatterTrait;
-
     private $data;
-    private $postExportRepository;
     private $exportJobRepository;
-    private $formAttributeRepository;
 
 
     public function setExportJobRepo(ExportJobRepository $repo)
     {
         $this->exportJobRepository = $repo;
     }
-
-    public function setDataFactory(DataFactory $data)
-	{
-		$this->data = $data;
-	}
-
-	public function setPostExportRepo(PostExportRepository $repo)
-	{
-		$this->postExportRepository = $repo;
-	}
-
-	public function setFormAttributeRepo(FormAttributeRepository $repo)
-	{
-		$this->formAttributeRepository = $repo;
-	}
 
 	protected function configure()
 	{
@@ -162,91 +131,5 @@ class Ushahidi_Console_ProcessExportJobs extends Command {
         }
         return $executionResults;
     }
-
-    /*
-    //abridged version of PostExport export
-    // @TODO: go back and DRY this up, if we don't need to dupe portions of this
-    protected function doExportOfJob( $jobId )
-	{
-        $succeeeded = FALSE;
-		// Construct a Search Data object to hold the search info
-		$data = $this->data->get('search');
-		$offset = 0;
-		$add_header = true; //always add the header
-		$format = 'csv';
-
-		// Set the baseline filter parameters
-		$filters = [
-			//'limit' => $limit,
-			'offset' => $offset,
-			'exporter' => true
-		];
-
-		// Load the export job
-        $job = $this->exportJobRepository->get($jobId);
-
-		$this->getSession()->setUser($job->user_id);
-		// Merge the export job filters with the base filters
-		if ($job->filters) {
-			$filters = array_merge($filters, $job->filters);
-		}
-
-		// Set the fields that should be included if set
-		if ($job->fields) {
-			$data->include_attributes = $job->fields;
-		}
-        // Set the filters that should be included if set
-		foreach ($filters as $key => $filter) {
-			$data->$key = $filter;
-		}
-
-		$this->postExportRepository->setSearchParams($data);
-		$posts = $this->postExportRepository->getSearchResults();
-
-		$this->formatter->setAddHeader($add_header);
-		//fixme add post_date
-		$form_ids = $this->postExportRepository->getFormIdsForHeaders();
-		$attributes = $this->formAttributeRepository->getByForms($form_ids);
-
-		$keyAttributes = [];
-		foreach($attributes as $key => $item)
-		{
-			$keyAttributes[$item['key']] = $item;
-		}
-
-		// // ... remove any entities that cannot be seen
-		foreach ($posts as $idx => $post) {
-			// Retrieved Attribute Labels for Entity's values
-			$post = $this->postExportRepository->retrieveMetaData($post->asArray(), $keyAttributes);
-			$posts[$idx] = $post;
-		}
-
-		if (empty($job->header_row)) {
-			$job->setState(['header_row' => $attributes]);
-            $this->exportJobRepository->update($job);
-		}
-
-		$header_row = $this->formatter->createHeading($job->header_row, $posts);
-		$this->formatter->setHeading($header_row);
-
-        $formatter = $this->formatter;
-
-		$file = $formatter->__invoke($posts, $keyAttributes);
-
-        // @TODO: is there a condition when this will result in failure?!
-        //  Add try/catches/finally above, at least, to trigger FAILED updates
-        if (is_string($file->file) && $file->size > 0)
-        {
-            $succeeeded = TRUE;
-        }
-
-        $result = [
-                        'success' => $succeeeded,
-    			        'file' => strtolower(uniqid()).$file->file,
-				  ];
-
-		return $result;
-	}*/
-
 
 }
