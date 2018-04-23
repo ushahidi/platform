@@ -9,7 +9,7 @@ Feature: Testing the Sets Posts API
                 "id":95
             }
             """
-        When I request "/collections/1/posts/"
+        When I request "/collections/1/posts"
         Then the response is JSON
         And the response has a "id" property
         And the type of the "id" property is "numeric"
@@ -24,7 +24,7 @@ Feature: Testing the Sets Posts API
                 "id":75
             }
             """
-        When I request "/collections/1/posts/"
+        When I request "/collections/1/posts"
         Then the response is JSON
         And the response has a "errors" property
         Then the guzzle status code should be 422
@@ -32,7 +32,7 @@ Feature: Testing the Sets Posts API
     @resetFixture
     Scenario: Listing All Posts in a Collection
         Given that I want to get all "Posts"
-        When I request "/collections/1/posts/"
+        When I request "/collections/1/posts"
         Then the response is JSON
         And the "count" property equals "3"
         Then the guzzle status code should be 200
@@ -46,7 +46,7 @@ Feature: Testing the Sets Posts API
     Scenario: Finding a Post in a Set
         Given that I want to find a "Post"
         And that its "id" is "9999"
-        When I request "/collections/1/posts/"
+        When I request "/collections/1/posts"
         Then the response is JSON
         And the response has a "id" property
         And the type of the "id" property is "numeric"
@@ -56,7 +56,7 @@ Feature: Testing the Sets Posts API
     Scenario: Finding a Post thats not in a Set should fail
         Given that I want to find a "Post"
         And that its "id" is "110"
-        When I request "/collections/1/posts/"
+        When I request "/collections/1/posts"
         Then the response is JSON
         And the response has a "errors" property
         Then the guzzle status code should be 404
@@ -64,7 +64,7 @@ Feature: Testing the Sets Posts API
     Scenario: Remove a Post from a Collection
         Given that I want to delete a "Post"
         And that its "id" is "9999"
-        When I request "/collections/1/posts/"
+        When I request "/collections/1/posts"
         Then the response is JSON
         And the "id" property equals "9999"
         Then the guzzle status code should be 200
@@ -79,7 +79,7 @@ Feature: Testing the Sets Posts API
                 "id":111
             }
             """
-        When I request "/collections/1/posts/"
+        When I request "/collections/1/posts"
         Then the response is JSON
         And the response has a "errors" property
         Then the guzzle status code should be 403
@@ -93,7 +93,7 @@ Feature: Testing the Sets Posts API
                 "id":97
             }
             """
-        When I request "/collections/3/posts/"
+        When I request "/collections/3/posts"
         Then the response is JSON
         And the response has a "errors" property
         Then the guzzle status code should be 403
@@ -108,7 +108,7 @@ Feature: Testing the Sets Posts API
                 "id":97
             }
             """
-        When I request "/collections/1/posts/"
+        When I request "/collections/1/posts"
         Then the response is JSON
         And the response has a "id" property
         And the type of the "id" property is "numeric"

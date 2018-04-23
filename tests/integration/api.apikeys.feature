@@ -49,9 +49,6 @@ Feature: Testing the ApiKey API
     Scenario: Listing Apikeys for a user
         Given that I want to get all "Apikeys"
         And that the oauth token is "testadminuser"
-        And that the request "query string" is:
-            """
-            """
         When I request "/apikeys"
         Then the response is JSON
         And the response has a "count" property

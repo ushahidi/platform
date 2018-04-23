@@ -46,12 +46,16 @@ class RestContext implements Context
 	{
 		$this->restObject = new stdClass();
 
-		$options = array();
+		$options = [
+			'http_errors' => false
+		];
 		if ($proxyUrl) {
-			$options['curl.options'] = array(CURLOPT_PROXY => $proxyUrl);
+			$options['proxy'] = [ 'http'  => $proxyUrl ];
 		}
 
-		$this->client = new \Guzzle\Service\Client($baseUrl, $options);
+		$options['base_uri'] = $baseUrl;
+
+		$this->client = new \GuzzleHttp\Client($options);
 	}
 
 	/**
@@ -209,73 +213,73 @@ class RestContext implements Context
 			case 'GET':
 				$request = (array)$this->restObject;
 				$id = ( isset($request['id']) ) ? $request['id'] : '';
-				$http_request = $this->client
-					->get($this->requestUrl.'/'.$id);
-
-				if (isset($request['query string'])) {
-					$url = $http_request->getUrl(true);
-					$url->setQuery((string) trim($request['query string']));
-					$http_request->setUrl($url);
-				}
+				$response = $this->client
+					->get($this->requestUrl.'/'.$id, [
+						'query' => isset($request['query string']) ? trim($request['query string']) : null,
+						'headers' => $this->headers
+					]);
 				break;
 			case 'POST':
 				$request = (array)$this->restObject;
 				// If post fields or files are set assume this is a 'normal' POST request
-				if ($this->postFields or $this->postFiles) {
-					$http_request = $this->client
-						->post($this->requestUrl)
-						->addPostFields($this->postFields)
-						->addPostFiles($this->preparePostFileData($this->postFiles));
+				if ($this->postFiles) {
+					$response = $this->client
+						->post($this->requestUrl, [
+							'headers' => $this->headers,
+							'multipart' =>
+								array_merge(
+									array_map(function ($v, $k) {
+										return ['name' => $k, 'contents' => $v];
+									}, $this->postFields, array_keys($this->postFields)),
+									$this->preparePostFileData($this->postFiles)
+								)
+
+						]);
+				} elseif ($this->postFields) {
+					$response = $this->client
+						->post($this->requestUrl, [
+							'headers' => $this->headers,
+							'form_params' => $this->postFields
+						]);
 				} else {
 					// Otherwise assume we have JSON
-					$http_request = $this->client
-						->post($this->requestUrl)
-						->setBody($request['data']);
-
-					if (empty($this->headers['Content-Type'])) {
-						$this->headers['Content-Type'] = 'application/json';
-					}
+					$response = $this->client
+						->post($this->requestUrl, [
+							'headers' => $this->headers + ['Content-Type' => 'application/json'],
+							'body' => $request['data']
+						]);
 				}
 				break;
 			case 'PUT':
 				$request = (array)$this->restObject;
 				$id = ( isset($request['id']) ) ? $request['id'] : '';
-				$http_request = $this->client
-					->put($this->requestUrl.'/'.$id)
-					->setBody($request['data']);
+				$response = $this->client
+					->put($this->requestUrl.'/'.$id, [
+						'headers' =>  $this->headers + ['Content-Type' => 'application/json'],
+						'body' => $request['data']
+					]);
 				break;
 			case 'DELETE':
 				$request = (array)$this->restObject;
 				$id = ( isset($request['id']) ) ? $request['id'] : '';
-				$http_request = $this->client
-					->delete($this->requestUrl.'/'.$id);
+				$response = $this->client
+					->delete($this->requestUrl.'/'.$id, [
+						'headers' => $this->headers,
+					]);
 				break;
 			case 'OPTIONS':
 				$request = (array)$this->restObject;
 				$id = ( isset($request['id']) ) ? $request['id'] : '';
-				$http_request = $this->client
-					->options($this->requestUrl.'/'.$id);
+				$response = $this->client
+					->options($this->requestUrl.'/'.$id, [
+						'headers' => $this->headers,
+					]);
 				break;
 		}
 
-		try {
-			$http_request
-				->addHeaders($this->headers)
-				->send();
-		} catch (\Guzzle\Http\Exception\BadResponseException $e) {
-			// Don't care.
-			// 4xx and 5xx statuses are valid error responses
-		}
-
 		// Get response object
-		$this->response = $http_request->getResponse();
-		$data = $this->response->getBody(true);
-			//var_dump($data);
-			//throw new Exception(print_r($data,true));
-		// Create fake response object if Guzzle doesn't give us one
-		if (! $this->response instanceof \Guzzle\Http\Message\Response) {
-			$this->response = new \Guzzle\Http\Message\Response(null, null, null);
-		}
+		$this->response = $response;
+		// $data = $this->response->getBody(true);
 	}
 
 	/**
@@ -654,9 +658,9 @@ class RestContext implements Context
 	 */
 	public function theRestHeaderShouldBe($header, $contents)
 	{
-		if ((string)$this->response->getHeader($header) !== $contents) {
+		if ($this->response->getHeaderLine(strtolower($header)) !== $contents) {
 			throw new \Exception('HTTP header ' . $header . ' does not match '.$contents.
-				' (actual: '.$this->response->getHeader($header).')');
+				' (actual: '.$this->response->getHeaderLine(strtolower($header)).')');
 		}
 	}
 
@@ -666,9 +670,11 @@ class RestContext implements Context
 	 */
 	public function echoLastResponse()
 	{
-		var_dump(
-			$this->requestUrl."\n\n".
-			$this->response
+		print("
+{$this->requestUrl}
+HTTP/{$this->response->getProtocolVersion()} {$this->response->getStatusCode()} {$this->response->getReasonPhrase()}
+{$this->response->getBody()}
+"
 		);
 	}
 
@@ -695,21 +701,14 @@ class RestContext implements Context
 	{
 		//Check if post files is not empty
 		if (count($postFiles) > 0) {
-			array_walk_recursive($postFiles, array($this, 'prefixAppPath'));
-			return $postFiles;
+			return array_map(function ($v, $k) {
+				return [
+					'name' => $k,
+					'contents' => fopen(base_path($v), 'r'),
+				];
+			}, $postFiles, array_keys($postFiles));
 		}
 		return $postFiles;
-	}
-
-	/**
-	 * Make the path to upload files to, relative to the application directory
-	 *
-	 * @param  string $item the path to the file to be uploaded
-	 * @return string       path to application folder
-	 */
-	private function prefixAppPath(&$item)
-	{
-		$item = base_path($item);
 	}
 
 	/**
