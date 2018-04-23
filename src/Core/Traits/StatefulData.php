@@ -208,8 +208,8 @@ trait StatefulData
 			} elseif ($value instanceof \DateTimeInterface && $this->$key instanceof \DateTimeInterface) {
 				$current_key = $this->$key;
 
-                $stored_date_ts = date_timestamp_get($current_key);
-                $received_date_ts = date_timestamp_get($value);
+                $stored_date_ts = $current_key->getTimestamp();
+                $received_date_ts = $value->getTimestamp();
                 $timestamp_diff = abs($stored_date_ts - $received_date_ts);
 
                 // TODO: should we set a tolerance for how much variation is allowed in milliseconds?
