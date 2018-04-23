@@ -123,9 +123,11 @@ class StatefulDataTest extends \PHPUnit\Framework\TestCase
             ),
         );
 
-        $postDateTime =  date_create_from_format ( 'Y-m-d H:i:s.u',
-                        '2012-12-18 03:18:40.000000' ,
-                        new \DateTimeZone('UTC')  );
+        $postDateTime =  date_create_from_format(
+            'Y-m-d H:i:s.u',
+            '2012-12-18 03:18:40.000000',
+            new \DateTimeZone('UTC')
+        );
 
         $this->changed_post_data = array (
             'user_id' => 4,
