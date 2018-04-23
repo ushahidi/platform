@@ -10,10 +10,6 @@
     <rule ref="Generic.PHP.CharacterBeforePHPOpeningTag" />
 
     <exclude-pattern>vendor/*</exclude-pattern>
-    <exclude-pattern>application/*</exclude-pattern>
-    <exclude-pattern>modules/*</exclude-pattern>
-    <exclude-pattern>plugins/*</exclude-pattern>
-    <exclude-pattern>httpdocs/*</exclude-pattern>
     <exclude-pattern>tests/spec/*</exclude-pattern>
     <exclude-pattern>migrations/*</exclude-pattern>
     <exclude-pattern>bin/*</exclude-pattern>
