@@ -41,6 +41,7 @@ class AddUsersRoleForeignKey extends AbstractMigration
             ->changeColumn('role', 'string', [
                 'limit' => 50,
                 'null' => false,
+                'default' => 'user'
                 ])
             ->update()
             ;
