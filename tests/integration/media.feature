@@ -16,7 +16,7 @@ Feature: Testing the Media API
         And the "mime" property equals "image/png"
         And the response has a "original_file_url" property
         And the type of the "original_file_url" property is "string"
-        And the "original_file_url" property contains "media/uploads/"
+        And the "original_file_url" property contains "storage/"
         And the response has a "original_width" property
         And the type of the "original_width" property is "numeric"
         And the response has a "original_height" property
@@ -49,7 +49,7 @@ Feature: Testing the Media API
         And the "mime" property equals "image/jpeg"
         And the response has a "original_file_url" property
         And the type of the "original_file_url" property is "string"
-        And the "original_file_url" property contains "/media/uploads/"
+        And the "original_file_url" property contains "/storage/"
         And the response has a "original_width" property
         And the type of the "original_width" property is "numeric"
         And the "original_width" property equals "500"

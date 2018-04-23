@@ -11,7 +11,6 @@
 
 namespace Ushahidi\Core\Usecase\Media;
 
-use Ushahidi\Core\Tool\Filesystem;
 use Ushahidi\Core\Tool\Uploader;
 use Ushahidi\Core\Tool\UploadData;
 use Ushahidi\Core\Usecase\CreateUsecase;
@@ -19,11 +18,6 @@ use Ushahidi\Exception\ValidatorException;
 
 class CreateMedia extends CreateUsecase
 {
-	/**
-	 * @var Filesystem
-	 */
-	protected $filesystem;
-
 	/**
 	 * @var Uploader
 	 */
@@ -33,16 +27,6 @@ class CreateMedia extends CreateUsecase
 	 * @var UploadData
 	 */
 	protected $upload;
-
-	/**
-	 * @param  Filesystem $fs
-	 * @return $this;
-	 */
-	public function setFilesystem(Filesystem $fs)
-	{
-		$this->fs = $fs;
-		return $this;
-	}
 
 	/**
 	 * @param  Uploader $upload
@@ -62,8 +46,8 @@ class CreateMedia extends CreateUsecase
 		} catch (ValidatorException $e) {
 			// If a file was uploaded, it must be purged after a failed upload.
 			// Otherwise storage will be filled with junk files.
-			if ($this->fs->has($this->upload->file)) {
-				$this->fs->delete($this->upload->file);
+			if ($this->upload->file) {
+				$this->uploader->delete($this->upload->file);
 			}
 
 			// Pass the exception.

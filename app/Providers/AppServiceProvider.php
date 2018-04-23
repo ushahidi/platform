@@ -14,6 +14,7 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->configure('cdn');
+        $this->app->configure('filesystems');
         $this->app->configure('media');
         $this->app->configure('ratelimiter');
         $this->app->configure('multisite');
@@ -100,6 +101,14 @@ class AppServiceProvider extends ServiceProvider
             'siteConfig' => $di->lazyGet('site.config'),
             'clientUrl' => $di->lazyGet('clienturl')
         ]));
+
+        // Configure filesystem
+        // The Ushahidi filesystem adapter returns a flysystem adapter for a given
+        // cdn type based on the provided configuration
+        $di->set('tool.filesystem', function () {
+            // Get the underlying League\Flysystem\Filesystem instance
+            return $this->app->make('filesystem')->disk()->getDriver();
+        });
 
         // Setup user session service
         $di->set('session', $di->lazyNew(\Ushahidi\App\Tools\LumenSession::class, [

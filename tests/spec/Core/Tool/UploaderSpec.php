@@ -2,7 +2,7 @@
 
 namespace spec\Ushahidi\Core\Tool;
 
-use Ushahidi\Core\Tool\Filesystem;
+use League\Flysystem\Filesystem;
 use Ushahidi\Core\Tool\FileData;
 use Ushahidi\Core\Tool\UploadData;
 

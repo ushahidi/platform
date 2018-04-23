@@ -11,18 +11,24 @@
 
 namespace Ushahidi\Core\Usecase\CSV;
 
-use Ushahidi\Core\Tool\Filesystem;
+use Ushahidi\Core\Tool\Uploader;
 use Ushahidi\Core\Usecase\DeleteUsecase;
 
 class DeleteCSVUsecase extends DeleteUsecase
 {
-	protected $fs;
 	/**
-	 * @param  Filesystem $fs
+	 * @var Uploader
 	 */
-	public function setFilesystem(Filesystem $fs)
+	protected $uploader;
+
+	/**
+	 * @param  Uploader $upload
+	 * @return $this
+	 */
+	public function setUploader(Uploader $uploader)
 	{
-		$this->fs = $fs;
+		$this->uploader = $uploader;
+		return $this;
 	}
 
 	// Usecase
@@ -38,9 +44,7 @@ class DeleteCSVUsecase extends DeleteUsecase
 		$this->repo->delete($entity);
 
 		// ... delete uploaded CSV file
-		if ($this->fs->has($entity->filename)) {
-			$this->fs->delete($entity->filename);
-		}
+		$this->uploader->delete($entity->filename);
 
 		// ... verify that the entity can be read by the current user
 		$this->verifyReadAuth($entity);

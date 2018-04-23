@@ -11,7 +11,7 @@
 
 namespace Ushahidi\Core\Tool;
 
-use Ushahidi\Core\Tool\Filesystem;
+use League\Flysystem\Filesystem;
 use Ushahidi\Core\Tool\UploadData;
 use Ushahidi\Core\Tool\FileData;
 use League\Flysystem\Util\MimeType;
@@ -90,6 +90,17 @@ class Uploader
 			'width'  => $width,
 			'height' => $height,
 			]);
+	}
+
+	/**
+	 * Clean up file if upload failed
+	 * @param  $file  filepath
+	 */
+	public function delete($file)
+	{
+		if ($this->fs->has($file)) {
+			$this->fs->delete($file);
+		}
 	}
 
 	private function isImage($type)

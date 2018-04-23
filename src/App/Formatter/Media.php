@@ -13,6 +13,7 @@ namespace Ushahidi\App\Formatter;
 
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\Traits\FormatterAuthorizerMetadata;
+use Illuminate\Support\Facades\Storage;
 
 class Media extends API
 {
@@ -59,10 +60,6 @@ class Media extends API
 		array_push($url_path, $filename);
 		$path = implode("/", $url_path);
 
-		if ($cdnBaseUrl = config('cdn.baseurl')) {
-			return $cdnBaseUrl . $path;
-		} else {
-			return url(config('cdn.local.media_upload_dir') . '/' . $path); // @todo load from config
-		}
+		return url(Storage::url($path));
 	}
 }
