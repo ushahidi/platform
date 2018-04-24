@@ -83,7 +83,7 @@ class StatefulDataTest extends \PHPUnit\Framework\TestCase
             'published_to' => '[]',
             'locale' => 'en_us',
             'created' => '1355743120',
-            'post_date' => '2012-12-17 03:18:40',
+            'post_date' => '2012-12-18 03:18:40',
             'message_id' => '4',
             'source' => 'sms',
             'contact_id' => '3',
@@ -123,10 +123,17 @@ class StatefulDataTest extends \PHPUnit\Framework\TestCase
             ),
         );
 
+        $postDateTime =  date_create_from_format(
+            'Y-m-d H:i:s.u',
+            '2012-12-18 03:18:40.000000',
+            new \DateTimeZone('UTC')
+        );
+
         $this->changed_post_data = array (
             'user_id' => 4,
             'title' => 'Updated Test Post',
             'slug' => 'updated-test-post-596fe1a454e54',
+            'post_date' => $postDateTime,
             'values' => array (
                 'missing_date' => array (
                     0 => '2012-09-25 00:00:00',

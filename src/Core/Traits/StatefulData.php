@@ -207,9 +207,13 @@ trait StatefulData
 			// Compare DateTime Objects
 			} elseif ($value instanceof \DateTimeInterface && $this->$key instanceof \DateTimeInterface) {
 				$current_key = $this->$key;
-				$interval = $value->diff($current_key);
 
-				if ($interval->format('F') > 0) {
+                $stored_date_ts = $current_key->getTimestamp();
+                $received_date_ts = $value->getTimestamp();
+                $timestamp_diff = abs($stored_date_ts - $received_date_ts);
+
+                // TODO: should we set a tolerance for how much variation is allowed in milliseconds?
+				if ($timestamp_diff > 0) {
 					// Update the value...
 					$this->setStateValue($key, $value);
 					// ... and track the change.
