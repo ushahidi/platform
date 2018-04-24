@@ -64,6 +64,16 @@ return [
             'url' => env('AWS_URL'),
         ],
 
+        'rackspace' => [
+            'driver'    => 'rackspace',
+            'username'  => env('RS_USERNAME'),
+            'key'       => env('RS_APIKEY'),
+            'container' => env('RS_CONTAINER'),
+            'endpoint'  => 'https://identity.api.rackspacecloud.com/v2.0/',
+            'region'    => env('RS_REGION'),
+            'url_type'  => 'publicURL',
+        ],
+
     ],
 
 ];
