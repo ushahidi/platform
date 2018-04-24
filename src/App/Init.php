@@ -22,40 +22,11 @@ $di->setter[Ushahidi\App\FileReader\CSV::class]['setReaderFactory'] =
 $di->set('csv.reader_factory', $di->lazyNew(Ushahidi\App\FileReader\CSVReaderFactory::class));
 
 // Register filesystem adapter types
-// Currently supported: Local filesysten, AWS S3 v3, Rackspace
-// the naming scheme must match the cdn type set in config/cdn
-$di->set('adapter.local', $di->lazyNew(
-	Ushahidi\App\FilesystemAdapter\Local::class,
-	['config' => $di->lazyGet('cdn.config')]
-));
-
-$di->set('adapter.aws', $di->lazyNew(
-	Ushahidi\App\FilesystemAdapter\AWS::class,
-	['config' => $di->lazyGet('cdn.config')]
-));
-
-$di->set('adapter.rackspace', $di->lazyNew(
-	Ushahidi\App\FilesystemAdapter\Rackspace::class,
-	['config' => $di->lazyGet('cdn.config')]
-));
 
 // Multisite utility class
 $di->set('multisite', $di->lazyNew('Ushahidi\App\Multisite'));
 $di->params['Ushahidi\App\Multisite'] = [
     'db' => $di->lazyGet('kohana.db.multisite')
-];
-
-// Media Filesystem
-// The Ushahidi filesystem adapter returns a flysystem adapter for a given
-// cdn type based on the provided configuration
-$di->set('tool.filesystem', $di->lazyNew(Ushahidi\App\Filesystem::class));
-$di->params[Ushahidi\App\Filesystem::class] = [
-	'adapter' => $di->lazy(function () use ($di) {
-			$adapter_type = $di->get('cdn.config');
-			$fsa = $di->get('adapter.' . $adapter_type['type']);
-
-			return $fsa->getAdapter();
-	})
 ];
 
 // Validation Trait
