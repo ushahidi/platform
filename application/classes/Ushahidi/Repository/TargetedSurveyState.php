@@ -51,7 +51,10 @@ class Ushahidi_Repository_TargetedSurveyState extends Ushahidi_Repository implem
 	{
 		return $this->getEntity($this->selectOne([
 			'contact_id' => $contact_id,
-			'survey_status' => [Entity\TargetedSurveyState::PENDING_RESPONSE,Entity\TargetedSurveyState::RECEIVED_RESPONSE ]
+			'survey_status' => [
+				Entity\TargetedSurveyState::PENDING_RESPONSE,
+				Entity\TargetedSurveyState::RECEIVED_RESPONSE
+			]
 		]));
 	}
 
