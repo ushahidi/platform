@@ -39,47 +39,47 @@ class PostExporter extends Command
 	private $exportJobRepository;
 	private $formAttributeRepository;
 
-    /**
-     * The console command name.
-     *
-     * @var string
-     */
-    protected $name = 'export';
+	/**
+	 * The console command name.
+	 *
+	 * @var string
+	 */
+	protected $name = 'export';
 
-    /**
-     * The console command signature.
-     *
-     * @var string
-     */
-    protected $signature = 'export {--limit=100} {--offset=0} {--job} {--include-header=1}';
+	/**
+	 * The console command signature.
+	 *
+	 * @var string
+	 */
+	protected $signature = 'export {--limit=100} {--offset=0} {--job} {--include-header=1}';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Export posts';
+	/**
+	 * The console command description.
+	 *
+	 * @var string
+	 */
+	protected $description = 'Export posts';
 
 	public function handle()
 	{
 		// @todo inject
-        $this->exportJobRepository = service('repository.export_job');
-        $this->formAttributeRepository = service('repository.form_attribute');
-        $this->data = service('factory.data');
-        $this->postExportRepository = service('repository.posts_export');
-        $this->session = service('session');
-        $this->formatter = service('formatter.entity.post.csv');
+		$this->exportJobRepository = service('repository.export_job');
+		$this->formAttributeRepository = service('repository.form_attribute');
+		$this->data = service('factory.data');
+		$this->postExportRepository = service('repository.posts_export');
+		$this->session = service('session');
+		$this->formatter = service('formatter.entity.post.csv');
 
-        // Construct a Search Data object to hold the search info
-        $data = $this->data->get('search');
+		// Construct a Search Data object to hold the search info
+		$data = $this->data->get('search');
 
-        // Get CLI params
+		// Get CLI params
 		$limit = $this->option('limit');
-        $offset = $this->option('offset');
-        $job_id = $this->option('job');
-        $add_header = $this->option('include-header');
+		$offset = $this->option('offset');
+		$job_id = $this->option('job');
+		$add_header = $this->option('include-header');
 
-        // At the moment there is only CSV format
+		// At the moment there is only CSV format
 		$format = 'csv';
 
 		// Set the baseline filter parameters
@@ -130,7 +130,7 @@ class PostExporter extends Command
 
 		if (empty($job->header_row)) {
 			$job->setState(['header_row' => $attributes]);
-            $this->exportJobRepository->update($job);
+			$this->exportJobRepository->update($job);
 		}
 		$header_row = $this->formatter->createHeading($job->header_row, $posts);
 		$this->formatter->setHeading($header_row);
@@ -148,6 +148,6 @@ class PostExporter extends Command
 			]
 		];
 
-        $this->line(json_encode($response));
+		$this->line(json_encode($response));
 	}
 }
