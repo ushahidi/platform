@@ -5,11 +5,16 @@ namespace spec\Ushahidi\Core\Usecase\Message;
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\Entity\Contact;
 use Ushahidi\Core\Entity\Post;
+use Ushahidi\Core\Entity\Message;
 use Ushahidi\Core\Tool\Authorizer;
 use Ushahidi\Core\Tool\Formatter;
 use Ushahidi\Core\Tool\Validator;
 use Ushahidi\Core\Usecase\CreateRepository;
 use Ushahidi\Core\Entity\ContactRepository;
+use Ushahidi\Core\Entity\FormAttribute;
+use Ushahidi\Core\Entity\FormAttributeRepository;
+use Ushahidi\Core\Entity\TargetedSurveyState;
+use Ushahidi\Core\Entity\TargetedSurveyStateRepository;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
@@ -23,9 +28,13 @@ class ReceiveMessageSpec extends ObjectBehavior
 		CreateRepository $repo,
 		CreateRepository $postRepo,
 		ContactRepository $contactRepo,
-		Validator $contactValid
+		Validator $contactValid,
+		FormAttributeRepository $formAttributeRepo,
+		TargetedSurveyStateRepository $targetedSurveyStateRepo,
+		Validator $outgoingMessageValid
 	) {
 		$contactRepo->beADoubleOf('Ushahidi\Core\Usecase\CreateRepository');
+		$targetedSurveyStateRepo->beADoubleOf('Ushahidi\Core\Usecase\UpdateRepository');
 
 		$this->setAuthorizer($auth);
 		$this->setFormatter($format);
@@ -34,6 +43,9 @@ class ReceiveMessageSpec extends ObjectBehavior
 		$this->setPostRepository($postRepo);
 		$this->setValidator($valid);
 		$this->setContactValidator($contactValid);
+		$this->setFormAttributeRepo($formAttributeRepo);
+		$this->setTargetedSurveyStateRepo($targetedSurveyStateRepo);
+		$this->setOutgoingMessageValidator($outgoingMessageValid);
 	}
 
 	function it_is_initializable()
@@ -297,5 +309,129 @@ class ReceiveMessageSpec extends ObjectBehavior
 
 		// ... and returns it
 		$this->interact()->shouldReturn($id);
+	}
+
+	function it_updates_post_and_send_next_message(
+		$auth,
+		$repo,
+		$contactRepo,
+		$postRepo,
+		$valid,
+		$contactValid,
+		$format,
+		$formAttributeRepo,
+		$targetedSurveyStateRepo,
+		$outgoingMessageValid
+	) {
+		$payload = $this->getPayload();
+		$contact_id = 23;
+		$previous_message_id = 77;
+		$next_attr_id = 78;
+		// ... fetch a new entity
+
+		// Set usecase parameters
+		$this->setPayload($payload);
+
+		// Get a new message entity and set its state
+		$repo->getEntity()->will(function () {
+			return new Message();
+		});
+
+		// Create new contact
+		$contactRepo->getEntity()->will(function () {
+			return new Contact();
+		});
+
+		// ... if authorization passes
+		$action = 'receive';
+		$auth
+			->isAllowed(Argument::type(Message::class), $action)
+			->willReturn(true);
+
+		// ... and validation passes
+		$valid->check([
+			'id' => null,
+			'parent_id' => null,
+			'contact_id' => null,
+			'post_id' => null,
+			'user_id' => null,
+			'data_provider' => "smssync",
+			'data_provider_message_id' => null,
+			'title' => "msgtitle",
+			'message' => "Some message",
+			'datetime' => null,
+			'type' => null,
+			'status' => "received",
+			'direction' => "incoming",
+			'created' => null,
+			'additional_data' => null,
+			'notification_post_id' => null,
+		])->willReturn(true);
+
+		// ... A contact is loaded
+		$contactRepo
+			->getByContact($payload['from'], $payload['contact_type'])
+			->will(function () use ($payload, $contact_id) {
+				return new Contact([
+					'id' => $contact_id,
+					'contact' => $payload['from'],
+					'type' => $payload['contact_type']
+				]);
+			});
+
+		// ... and contact is verified
+		$contactValid
+			->check([
+				"id" => $contact_id,
+				"user_id" => null,
+				"data_provider" => null,
+				"type" => "sms",
+				"contact" => "1234",
+				"created" => null,
+				"updated" => null,
+				"can_notify" => null,
+				"country_code" => null
+			])
+			->willReturn(true);
+
+		// ... then contact is found in a targeted survey
+		$contactRepo->isInActiveTargetedSurvey($contact_id)->willReturn(true);
+
+		// the targeted survey is loaded
+		$targetedSurveyStateRepo
+			->getByContactId($contact_id)
+			->will(function() use ($previous_message_id, $next_attr_id) {
+				return new TargetedSurveyState([
+					'id' => 1,
+					'message_id' => $previous_message_id,
+					'form_attribute_id' => $next_attr_id
+				]);
+			});
+
+		// previous message is loaded
+		$repo->get($previous_message_id)->willReturn(new Message([
+			'id' => $previous_message_id,
+			'direction' => 'outgoing'
+		]));
+
+		// Save the incoming message
+		$messageId = 1;
+		$repo->create(Argument::type(Message::class))->willReturn($messageId);
+
+		// Get next attribute
+		$formAttributeRepo
+			->getNextByFormAttribute($next_attr_id)
+			->willReturn(new FormAttribute([
+				'id' => $next_attr_id
+			]));
+
+		$targetedSurveyStateRepo->update(Argument::type(TargetedSurveyState::class))->willReturn(1);
+
+		$outgoingMessageValid
+			->check(["id" => null, "parent_id" => null, "contact_id" => 23, "post_id" => null, "user_id" => null, "data_provider" => null, "data_provider_message_id" => null, "title" => null, "message" => null, "datetime" => null, "type" => "sms", "status" => "pending", "direction" => "outgoing", "created" => null, "additional_data" => null, "notification_post_id" => null])
+			->willReturn(true);
+
+		// return message ID
+		$this->interact()->shouldReturn($messageId);
 	}
 }
