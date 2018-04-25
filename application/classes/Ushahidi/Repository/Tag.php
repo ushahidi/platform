@@ -171,21 +171,29 @@ class Ushahidi_Repository_Tag extends Ushahidi_Repository implements
 	 * @param $fullData
 	 * @return bool
 	 */
-	public function isRoleValid(Validation $validation, $fullData)
+	public function isRoleValid(\Ushahidi\Core\Tool\ValidationEngine $validation, $tag)
 	{
-		$valid = true;
-		$entityFullData = $this->getEntity($fullData);
-		$isChild = !!$entityFullData->parent_id;
-		$hasRole = !!$entityFullData->role;
-		$parent = $isChild ? $this->selectOne(['id' => $entityFullData->parent_id]) : null;
-		if ($hasRole && $isChild && $parent) {
+		$isChild = !!$tag['parent_id'];
+		$parent = $isChild ? $this->selectOne(['id' => $tag['parent_id']]) : null;
+
+		// If tag has a role and is a child category
+		if ($isChild && $parent) {
+			// ... load the parent
 			$parent = $this->getEntity($parent);
-			$valid = $parent->role == $entityFullData->role;
+
+			// ... and check if the role matches its parent
+			if ($parent->role != $tag['role']) {
+				// If it doesn't, set a validation error
+				// We have to do this here because an empty field gets ignored
+				// by KohanaValidation
+				$validation->error('role', 'isRoleValid');
+				// And return false
+				return false;
+			}
 		}
-		if (!$valid) {
-			$validation->error('role', 'tag.role');
-		}
-		return $valid;
+
+		// Otherwise role is fine
+		return true;
 	}
 
 	/**
