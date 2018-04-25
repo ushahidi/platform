@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-use Artisan;
+use Illuminate\Support\Facades\Artisan;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 
@@ -37,17 +37,18 @@ class CliController extends RESTController
             '--limit' => $request->input('limit', 0),
             '--offset' => $request->input('offset', 0),
             '--job' => $request->input('id'),
-            '--include_header' => $include_header,
+            '--include-header' => $include_header,
         ]);
 
         // Retrieve the results of rhe export
         // which should be a json formatted string
         // containing information aboutt he file generated and
         // saved by the exporter
-        $file_details = json_decode(Artisan::output());
+        $output = Artisan::output();
+        $file_details = json_decode($output, true);
 
-        $this->prepResponse([
+        return $this->prepResponse([
             'results' => $file_details,
-        ]);
+        ], $request);
     }
 }

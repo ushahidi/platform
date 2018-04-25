@@ -11,6 +11,7 @@
 
 namespace Ushahidi\App\Repository\Post;
 
+use Ohanzee\DB;
 use Ushahidi\Core\Entity\Post;
 use Ushahidi\Core\Entity\PostRepository;
 use Ushahidi\Core\Entity\PostExportRepository;

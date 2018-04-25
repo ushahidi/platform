@@ -11,7 +11,7 @@
 
 namespace Ushahidi\App\Repository;
 
-class CSVPost extends PostRepository
+class CSVPostRepository extends PostRepository
 {
 	protected function getPostValues($id)
 	{

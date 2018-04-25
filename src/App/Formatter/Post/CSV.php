@@ -16,6 +16,7 @@ use Ushahidi\Core\SearchData;
 use Ushahidi\Core\Tool\Filesystem;
 use Ushahidi\Core\Tool\FileData;
 use League\Flysystem\Util\MimeType;
+use Ushahidi\App\Formatter\API;
 
 class CSV extends API
 {

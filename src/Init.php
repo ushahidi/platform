@@ -385,7 +385,9 @@ $di->setter['Ushahidi\Core\Tool\Permissions\AclTrait']['setAcl'] = $di->lazyGet(
 
 // Tools
 $di->set('tool.signer', $di->lazyNew('Ushahidi\Core\Tool\Signer'));
-$di->set('tool.verifier', $di->lazyNew('Ushahidi\Core\Tool\Verifier'));
+$di->set('tool.verifier', $di->lazyNew('Ushahidi\Core\Tool\Verifier', [
+	'apiKeyRepo' => $di->lazyGet('repository.apikey')
+]));
 $di->set('tool.uploader', $di->lazyNew('Ushahidi\Core\Tool\Uploader'));
 $di->params['Ushahidi\Core\Tool\Uploader'] = [
 	'fs' => $di->lazyGet('tool.filesystem'),
