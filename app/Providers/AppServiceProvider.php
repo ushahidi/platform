@@ -47,6 +47,11 @@ class AppServiceProvider extends ServiceProvider
             // Just return it from AuraDI
             return service('repository.message');
         });
+
+        $this->app->singleton(\Ushahidi\Core\Tool\Verifier::class, function ($app) {
+            // Just return it from AuraDI
+            return service('tool.verifier');
+        });
     }
 
     public function registerMailer()
