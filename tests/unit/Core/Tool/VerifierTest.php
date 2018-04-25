@@ -47,6 +47,21 @@ class VerifierTest extends TestCase
 		$this->assertTrue($return);
 	}
 
+	public function testValidSignatureWithEmptyPayload()
+	{
+		$repo = M::mock(ApiKeyRepository::class);
+		$verifier = new Verifier($repo);
+		$url = "http://localhost:8000/api/v3/exports/external/count/1?api_key={$this->apiKey}";
+		$payload = "";
+		$signature = $this->makeSig($this->sharedSecret, $url, "");
+
+		$repo->shouldReceive('apiKeyExists')->with($this->apiKey)->andReturn(true);
+
+		$return = $verifier->verified($signature, $this->apiKey, $this->sharedSecret, $url, "");
+
+		$this->assertTrue($return);
+	}
+
 	public function testInvalidApiKeySignature()
 	{
 		$repo = M::mock(ApiKeyRepository::class);
