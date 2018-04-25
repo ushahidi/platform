@@ -182,7 +182,7 @@ class Ushahidi_Repository_Tag extends Ushahidi_Repository implements
 			$parent = $this->getEntity($parent);
 
 			// ... and check if the role matches its parent
-			if ($parent->role == $tag['role']) {
+			if ($parent->role != $tag['role']) {
 				// If it doesn't, set a validation error
 				// We have to do this here because an empty field gets ignored
 				// by KohanaValidation
