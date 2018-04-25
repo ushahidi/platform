@@ -27,6 +27,7 @@ class Signer
     public function computeSignature($url, $json)
     {
         $url = $url . $json;
+
         // This function calculates the HMAC hash of the data with the key
         // passed in
         // Note: hash_hmac requires PHP 5 >= 5.1.2 or PECL hash:1.1-1.5
@@ -34,10 +35,10 @@ class Signer
         return base64_encode(hash_hmac("sha256", $url, $this->authToken, true));
     }
 
-    public function validate($expectedSignature, $url, $data = array())
+    public function validate($expectedSignature, $url, $data = "")
     {
         return self::compare(
-            $this->computeSignature($url, json_encode($data)),
+            $this->computeSignature($url, $data),
             $expectedSignature
         );
     }
