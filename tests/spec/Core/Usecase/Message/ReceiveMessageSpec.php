@@ -400,7 +400,7 @@ class ReceiveMessageSpec extends ObjectBehavior
 		// the targeted survey is loaded
 		$targetedSurveyStateRepo
 			->getActiveByContactId($contact_id)
-			->will(function() use ($previous_message_id, $next_attr_id) {
+			->will(function () use ($previous_message_id, $next_attr_id) {
 				return new TargetedSurveyState([
 					'id' => 1,
 					'message_id' => $previous_message_id,
@@ -428,7 +428,24 @@ class ReceiveMessageSpec extends ObjectBehavior
 		$targetedSurveyStateRepo->update(Argument::type(TargetedSurveyState::class))->willReturn(1);
 
 		$outgoingMessageValid
-			->check(["id" => null, "parent_id" => null, "contact_id" => 23, "post_id" => null, "user_id" => null, "data_provider" => null, "data_provider_message_id" => null, "title" => null, "message" => null, "datetime" => null, "type" => "sms", "status" => "pending", "direction" => "outgoing", "created" => null, "additional_data" => null, "notification_post_id" => null])
+			->check([
+				"id" => null,
+				"parent_id" => null,
+				"contact_id" => 23,
+				"post_id" => null,
+				"user_id" => null,
+				"data_provider" => null,
+				"data_provider_message_id" => null,
+				"title" => null,
+				"message" => null,
+				"datetime" => null,
+				"type" => "sms",
+				"status" => "pending",
+				"direction" => "outgoing",
+				"created" => null,
+				"additional_data" => null,
+				"notification_post_id" => null
+			])
 			->willReturn(true);
 
 		// return message ID

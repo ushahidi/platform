@@ -166,7 +166,8 @@ class ReceiveMessage extends CreateUsecase
 		if (!$messageInSurveyState || $messageInSurveyState->direction !== \Ushahidi\Core\Entity\Message::OUTGOING) {
 			// We can't save it as a message of the survey
 			// ... log an error because we should probably never end up here
-			\Kohana::$log->add(\Log::ERROR,
+			\Kohana::$log->add(
+				\Log::ERROR,
 				'Could not add contact\'s  message',
 				[
 					'contact_id' => $incoming_message->contact_id,
@@ -213,7 +214,8 @@ class ReceiveMessage extends CreateUsecase
 
 			// If this for some unknown reason fails, log it
 			if (!$outgoingMessageId) {
-				\Kohana::$log->add(\Log::ERROR,
+				\Kohana::$log->add(
+					\Log::ERROR,
 					'Could not create new incoming message',
 					compact('contact_id')
 				);
