@@ -39,12 +39,11 @@ class Controller_Sms_Twilio extends Controller {
 
 		// Authenticate the request
 		$options = $provider->options();
-        \Log::instance()->add(\Log::ERROR, print_r($options, true));
 
-		/*if ($this->request->post('AccountSid') !== $options['account_sid'])
+		if ($this->request->post('AccountSid') !== $options['account_sid'])
 		{
 			throw HTTP_Exception::factory(403, 'Incorrect or missing AccountSid');
-		}*/
+		}
 
 		// Remove most Non-Numeric characters because that's what the DB has
 		$to = preg_replace("/[^0-9,+.]/", "", $this->request->post('To'));
