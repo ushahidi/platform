@@ -179,7 +179,7 @@ class ReceiveMessage extends CreateUsecase
 	 */
 	private function createTargetedSurveyMessages($contact_id, $incoming_message)
 	{
-		$surveyStateEntity = $this->targeted_survey_state_repo->getByContactId($contact_id);
+		$surveyStateEntity = $this->targeted_survey_state_repo->getActiveByContactId($contact_id);
 		$messageInSurveyState = clone $this->repo;
 		// ... attempt to load the entity
 		$messageInSurveyState = $messageInSurveyState->get($surveyStateEntity->message_id);
