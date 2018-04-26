@@ -17,7 +17,6 @@ use Ushahidi\Core\Entity\PostExportRepository;
 use Ushahidi\Core\Entity\ExportJobRepository;
 use \Ushahidi\Core\Entity\FormAttributeRepository;
 use Ushahidi\Factory\DataFactory;
-use Ushahidi\Core\UserContextService;
 use Ushahidi\Core\Tool\FormatterTrait;
 use Ushahidi\Core\Traits\UserContext;
 

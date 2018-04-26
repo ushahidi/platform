@@ -56,6 +56,7 @@ class ExportRepository extends CSVPostRepository implements PostExportRepository
      */
     public function retrieveMetaData($data, $attributes)
     {
+        $user = $this->getUser();
 
         /**
          * Tags (native) should not be shown in the CSV Export
@@ -71,7 +72,10 @@ class ExportRepository extends CSVPostRepository implements PostExportRepository
         }
 
         // Get contact
-        if (!empty($data['contact_id'])) {
+        if (!empty($data['contact_id']) &&
+                 $this->isUserAdmin($user) and
+                 $this->acl->hasPermission($user, \Ushahidi\Core\Entity\Permission::MANAGE_POSTS)
+        ) {
             $contact = $this->contact_repo->get($data['contact_id']);
             $data['contact_type'] = $contact->type;
             $data['contact'] = $contact->contact;

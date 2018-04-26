@@ -65,7 +65,7 @@ class Update extends Validator
 			],
 			'role' => [
 				[[$this->role_repo, 'exists'], [':value']],
-				[[$this->repo, 'isRoleValid'], [':fulldata']]
+				[[$this->repo, 'isRoleValid'], [':validation', ':fulldata']]
 			]
 		];
 	}

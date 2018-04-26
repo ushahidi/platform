@@ -174,9 +174,8 @@ class TagRepository extends OhanzeeRepository implements
 	 * @param $fullData
 	 * @return bool
 	 */
-	public function isRoleValid($tag)
+	public function isRoleValid(\Ushahidi\Core\Tool\ValidationEngine $validation, $tag)
 	{
-		$valid = true;
 		$isChild = !!$tag['parent_id'];
 		$parent = $isChild ? $this->selectOne(['id' => $tag['parent_id']]) : null;
 
@@ -184,11 +183,19 @@ class TagRepository extends OhanzeeRepository implements
 		if ($isChild && $parent) {
 			// ... load the parent
 			$parent = $this->getEntity($parent);
+
 			// ... and check if the role matches its parent
-			return $parent->role == $tag['role'];
+			if ($parent->role != $tag['role']) {
+				// If it doesn't, set a validation error
+				// We have to do this here because an empty field gets ignored
+				// by KohanaValidation
+				$validation->error('role', 'isRoleValid');
+				// And return false
+				return false;
+			}
 		}
 
-		// Otherwise
+		// Otherwise role is fine
 		return true;
 	}
 

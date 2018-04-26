@@ -25,6 +25,13 @@ class CreateJob extends CreateUsecase
 			$entity->setState(['user_id' => $this->auth->getUserId()]);
 		}
 
+		// Default status filter to 'all' if not provided
+		if (empty($entity->filters['status'])) {
+			$filters = $entity->filters;
+			$filters['status'] = ['all'];
+			$entity->setState(['filters' => $filters]);
+		}
+
 		return $entity;
 	}
 }

@@ -49,9 +49,15 @@ class TargetedSurveyStateRepository extends OhanzeeRepository implements
 		return new Entity\Post($this->selectOne(compact('post')));
 	}
 
-	public function getByContactId($contact_id)
+	public function getActiveByContactId($contact_id)
 	{
-		return $this->getEntity($this->selectOne(compact('contact_id')));
+		return $this->getEntity($this->selectOne([
+			'contact_id' => $contact_id,
+			'survey_status' => [
+				Entity\TargetedSurveyState::PENDING_RESPONSE,
+				Entity\TargetedSurveyState::RECEIVED_RESPONSE
+			]
+		]));
 	}
 
 	public function getByForm($form)

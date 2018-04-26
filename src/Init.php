@@ -451,6 +451,9 @@ $di->params['Ushahidi\Core\Tool\Authorizer\PostAuthorizer'] = [
 	'post_repo' => $di->lazyGet('repository.post'),
 	'form_repo' => $di->lazyGet('repository.form'),
 	];
+$di->params['Ushahidi\Core\Tool\Authorizer\TagAuthorizer'] = [
+	'tag_repo' => $di->lazyGet('repository.tag'),
+	];
 
 $di->set('authorizer.country_code', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\CountryCodeAuthorizer'));
 

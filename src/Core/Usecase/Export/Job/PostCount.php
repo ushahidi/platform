@@ -12,12 +12,16 @@
 namespace Ushahidi\Core\Usecase\Export\Job;
 
 use Ushahidi\Core\Usecase\ReadUsecase;
+use Ushahidi\Core\Traits\UserContext;
 
 class PostCount extends ReadUsecase
 {
-    public function interact()
+	use UserContext;
+
+	public function interact()
 	{
-        $entity = $this->getEntity();
-        return $this->repo->getPostCount($entity->id);
-    }
+		$entity = $this->getEntity();
+		$this->getSession()->setUser($entity->user_id);
+		return $this->repo->getPostCount($entity->id);
+	}
 }
