@@ -157,7 +157,7 @@ class ReceiveMessage extends CreateUsecase
 	private function createTargetedSurveyMessages($incoming_message)
 	{
 		// Load the survey state for this contact
-		$surveyStateEntity = $this->targeted_survey_state_repo->getByContactId($incoming_message->contact_id);
+		$surveyStateEntity = $this->targeted_survey_state_repo->getActiveByContactId($incoming_message->contact_id);
 
 		// Attempt to load the previous message
 		$messageInSurveyState = $this->repo->get($surveyStateEntity->message_id);
