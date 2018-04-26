@@ -118,6 +118,7 @@ class Nexmo implements CallbackDataSource, OutgoingAPIDataSource
 	{
 		$router->post('sms/nexmo', 'Ushahidi\App\DataSource\Nexmo\NexmoController@handleRequest');
 		$router->get('sms/nexmo', 'Ushahidi\App\DataSource\Nexmo\NexmoController@handleRequest');
+		$router->get('sms/nexmo/reply', 'Ushahidi\App\DataSource\Nexmo\NexmoController@handleRequest');
 		$router->post('sms/nexmo/reply', 'Ushahidi\App\DataSource\Nexmo\NexmoController@handleRequest');
 		$router->post('nexmo', 'Ushahidi\App\DataSource\Nexmo\NexmoController@handleRequest');
 	}
