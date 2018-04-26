@@ -163,7 +163,6 @@ class ReceiveMessage extends CreateUsecase
 		$messageInSurveyState = $this->repo->get($surveyStateEntity->message_id);
 
 		// If we didn't find an outgoing message
-		// I'm not convinced this is right - if someone sends multiple incoming messages before the next outgoing one. But the survey isn't finished... shouldn't we add the messages to the original post?
 		if (!$messageInSurveyState || $messageInSurveyState->direction !== \Ushahidi\Core\Entity\Message::OUTGOING) {
 			// We can't save it as a message of the survey
 			// ... log an error because we should probably never end up here
