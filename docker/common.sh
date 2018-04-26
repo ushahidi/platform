@@ -9,12 +9,12 @@ check_vols_src() {
 }
 
 check_migrations_pending() {
-  local n_pending=$(./bin/phinx status --no-ansi -c application/phinx.php | grep -E '^[[:space:]]+down[[:space:]]+' | wc -l)
+  local n_pending=$(./bin/phinx status --no-ansi -c phinx.php | grep -E '^[[:space:]]+down[[:space:]]+' | wc -l)
   [ $n_pending -gt 0 ]
 }
 
 run_migrations() {
-  ./bin/phinx migrate -c application/phinx.php
+  composer migrate
 }
 
 function sync {

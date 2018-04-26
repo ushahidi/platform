@@ -14,7 +14,6 @@ namespace Ushahidi\Core\Usecase\Set;
 use Ushahidi\Core\Usecase\DeleteUsecase;
 use Ushahidi\Core\Data;
 use Ushahidi\Core\Tool\ValidatorTrait;
-use Ushahidi_Repository;
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\Entity\SetRepository;
 

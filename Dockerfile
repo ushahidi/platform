@@ -1,14 +1,14 @@
-FROM ushahidi/php-fpm-nginx:php-5.6
+FROM ushahidi/php-fpm-nginx:php-7.0
 
 WORKDIR /var/www
 COPY composer.json ./
 COPY composer.lock ./
-RUN composer install --no-autoloader
+RUN composer install --no-autoloader --no-scripts
 
 COPY . .
 RUN chgrp -R 0 . && chmod -R g+rwX . && \
 	usermod -g 0 www-data && \
-	chmod 777 application/cache application/media/uploads application/logs
+	chmod 777 storage
 
 COPY docker/common.sh /common.sh
 COPY docker/run.tasks.conf /etc/chaperone.d/

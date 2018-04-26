@@ -11,7 +11,7 @@
 
 namespace Tests\Unit\Util;
 
-use Util_BoundingBox;
+use Ushahidi\App\Util\BoundingBox;
 
 /**
  * @backupGlobals disabled
@@ -27,10 +27,10 @@ class BoundingBoxTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testToWKT()
 	{
-		$bb = new Util_BoundingBox(-180, -90, 180, 90);
+		$bb = new BoundingBox(-180, -90, 180, 90);
 		$this->assertEquals('POLYGON((-180 -90,180 -90,180 90,-180 90,-180 -90))', $bb->toWKT());
 
-		$bb = new Util_BoundingBox(-1, -1, 1, 1);
+		$bb = new BoundingBox(-1, -1, 1, 1);
 		$this->assertEquals('POLYGON((-1 -1,1 -1,1 1,-1 1,-1 -1))', $bb->toWKT());
 	}
 
@@ -41,11 +41,11 @@ class BoundingBoxTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testAsArray()
 	{
-		$bb = new Util_BoundingBox(-180, -90, 180, 90);
-		$this->assertEquals(array(-180, -90, 180, 90), $bb->as_array());
+		$bb = new BoundingBox(-180, -90, 180, 90);
+		$this->assertEquals(array(-180, -90, 180, 90), $bb->asArray());
 
-		$bb = new Util_BoundingBox(-1, -1, 1, 1);
-		$this->assertEquals(array(-1, -1, 1, 1), $bb->as_array());
+		$bb = new BoundingBox(-1, -1, 1, 1);
+		$this->assertEquals(array(-1, -1, 1, 1), $bb->asArray());
 	}
 
 	/**
@@ -55,11 +55,11 @@ class BoundingBoxTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testToGeometry()
 	{
-		$bb = new Util_BoundingBox(-180, -90, 180, 90);
+		$bb = new BoundingBox(-180, -90, 180, 90);
 		$geom = $bb->toGeometry();
 		$this->assertEquals('POLYGON((-180 -90,180 -90,180 90,-180 90,-180 -90))', $geom->toWKT());
 
-		$bb = new Util_BoundingBox(-1, -1, 1, 1);
+		$bb = new BoundingBox(-1, -1, 1, 1);
 		$geom = $bb->toGeometry();
 		$this->assertEquals('POLYGON((-1 -1,1 -1,1 1,-1 1,-1 -1))', $geom->toWKT());
 	}

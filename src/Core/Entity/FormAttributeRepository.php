@@ -55,4 +55,11 @@ interface FormAttributeRepository extends
 	 * @return boolean
 	 */
 	public function isKeyAvailable($key);
+
+
+    /**
+	 * @param int $form_id
+	 * @return Entity|FormAttribute
+	 */
+	public function getNextByFormAttribute($last_attribute_id);
 }

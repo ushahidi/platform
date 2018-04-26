@@ -115,7 +115,7 @@ if [ "$migrate" = true ]; then
 		phinx="$phinx --no-interaction"
 	fi
 	echo ">>> Running migrations"
-	$phinx migrate -c application/phinx.php
+	$phinx migrate -c phinx.php
 else
 	echo ">>> Skipping running migrations"
 fi

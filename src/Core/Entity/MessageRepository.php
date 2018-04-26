@@ -20,14 +20,24 @@ interface MessageRepository extends
 {
 
 	/**
-	 * Load pending message by data provider and status (pending or pending_poll)
+	 * Load pending message by data provider
 	 *
 	 * @param  String $status
-	 * @param  String $data_provider
+	 * @param  String $data_source
 	 * @param  integer $limit
 	 * @return [Message, ...]
 	 */
-	public function getPendingMessages($status, $data_provider, $limit);
+	public function getPendingMessages($data_source, $limit);
+
+	/**
+	 * Load pending message by type
+	 *
+	 * @param  String $status
+	 * @param  String $data_source
+	 * @param  integer $limit
+	 * @return [Message, ...]
+	 */
+	public function getPendingMessagesByType($type, $limit);
 
 	/**
 	 * Check whether a notification message has been sent to a contact
@@ -43,4 +53,20 @@ interface MessageRepository extends
 	 * @return int
 	 */
 	public function getTotalMessagesFromContact($contact_id);
+
+	/**
+	 * Update message status
+	 * @param  int    $id
+	 * @param  string $status
+	 * @param  string $data_source_message_id
+	 * @return null
+	 */
+	public function updateMessageStatus($id, $status, $data_source_message_id = null);
+
+	/**
+	 * Get most recent message UID
+	 * @param  string $data_source
+	 * @return string
+	 */
+	public function getLastUID($data_source);
 }

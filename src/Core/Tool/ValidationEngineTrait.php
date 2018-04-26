@@ -13,7 +13,6 @@
 
 namespace Ushahidi\Core\Tool;
 
-use Aura\Di\InstanceFactory;
 use Ushahidi\Core\Tool\Validation;
 
 trait ValidationEngineTrait
@@ -27,8 +26,8 @@ trait ValidationEngineTrait
      * @param  $validation_factory
      * @return void
      */
-    public function setValidation(InstanceFactory $validation_factory)
+    public function setValidation(ValidationEngine $validation_engine)
     {
-        $this->validation_engine = $validation_factory();
+        $this->validation_engine = $validation_engine;
     }
 }

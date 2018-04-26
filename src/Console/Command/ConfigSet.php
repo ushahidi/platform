@@ -11,17 +11,33 @@
 
 namespace Ushahidi\Console\Command;
 
-use Ushahidi\Core\Usecase;
-use Ushahidi\Console\Command;
+use Illuminate\Console\Command;
 
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Helper\TableHelper;
+use Ushahidi\Core\Usecase;
+use \Ushahidi\Factory\UsecaseFactory;
 
 class ConfigSet extends Command
 {
+    /**
+     * The console command name.
+     *
+     * @var string
+     */
+    protected $name = 'config:set';
+
+    /**
+     * The console command signature.
+     *
+     * @var string
+     */
+    protected $signature = 'config:set {group} {value} {--key=}';
+
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Set config params';
 
 	/**
 	 * @var Ushahidi\Core\Usecase\Usecase
@@ -29,28 +45,36 @@ class ConfigSet extends Command
 	 */
 	protected $usecase;
 
-	public function setUsecase(Usecase $usecase)
+	public function __construct()
 	{
-		$this->usecase = $usecase;
+		parent::__construct();
 	}
 
-	protected function configure()
+	protected function getUsecase()
 	{
-		$this
-			->setName('config:set')
-			->setDescription('Set config')
-			->addArgument('group', InputArgument::REQUIRED, 'group')
-			->addArgument('value', InputArgument::REQUIRED, 'value or json of values')
-			->addOption('key', ['k'], InputOption::VALUE_OPTIONAL, 'key')
-			;
+		if (!$this->usecase) {
+			// @todo inject
+			$this->usecase = service('factory.usecase')
+				->get('config', 'update')
+				// Override authorizer for console
+				->setAuthorizer(service('authorizer.console'))
+				// Override formatter for console
+				->setFormatter(service('formatter.entity.console'));
+		}
+
+		return $this->usecase;
 	}
 
-	// Execution router takes the action argument and uses it to reroute execution.
-	protected function execute(InputInterface $input, OutputInterface $output)
-	{
-		$group = $input->getArgument('group');
-		$key   = $input->getOption('key');
-		$value = $input->getArgument('value');
+    /**
+     * Execute the console command.
+     *
+     * @return void
+     */
+    public function handle()
+    {
+		$group = $this->argument('group');
+		$key   = $this->option('key');
+		$value = $this->argument('value');
 
 		if ($key) {
 			$value = [
@@ -63,19 +87,19 @@ class ConfigSet extends Command
 			}
 		}
 
-		$this->usecase->setIdentifiers([ 'id' => $group ])
+		$this->getUsecase()->setIdentifiers([ 'id' => $group ])
 			->setPayload($value);
 
-		$response = $this->usecase->interact();
+		$response = $this->getUsecase()->interact();
 
 		// Format the response and output
-		$this->handleResponse($response, $output);
+		$this->handleResponse($response);
 	}
 
 	/**
 	 * Override response handler to flatten array
 	 */
-	protected function handleResponse($response, OutputInterface $output, $format = '')
+	protected function handleResponse($response)
 	{
 		$iterator = new \RecursiveIteratorIterator(new \RecursiveArrayIterator($response));
 		$result = [];
@@ -86,6 +110,8 @@ class ConfigSet extends Command
 			}
 			$result[ join('.', $keys) ] = $leafValue;
 		}
-		return parent::handleResponse($result, $output);
+
+		// Format as table
+		$this->table(array_keys($result), [$result]);
 	}
 }

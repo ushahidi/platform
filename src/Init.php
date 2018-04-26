@@ -17,7 +17,7 @@
 // **If you haven't already done so, you should run `composer install` now.**
 //
 // [composer]: http://getcomposer.org/
-require __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
 // The global [Dependency Injection][di] container lives inside of a global
 // `service()` function. This avoids the need to have a global variable, and
@@ -68,60 +68,6 @@ $di = service();
 
 // Disable auto resolution (as recommended in AuraDI docs)
 $di->setAutoResolve(false);
-
-// Console application is used for command line tools.
-$di->set('app.console', $di->lazyNew('Ushahidi\Console\Application'));
-
-// Any command can be registered with the console app.
-$di->params['Ushahidi\Console\Application']['injectCommands'] = [];
-
-// Set up Import command
-$di->setter['Ushahidi\Console\Application']['injectCommands'][] = $di->lazyNew('Ushahidi\Console\Command\Import');
-$di->setter['Ushahidi\Console\Command\Import']['setReaderMap'] = [];
-$di->setter['Ushahidi\Console\Command\Import']['setReaderMap']['csv'] = $di->lazyGet('filereader.csv');
-$di->setter['Ushahidi\Console\Command\Import']['setTransformer'] = $di->lazyGet('transformer.mapping');
-$di->setter['Ushahidi\Console\Command\Import']['setImportUsecase'] = $di->lazy(function () use ($di) {
-	return service('factory.usecase')
-			->get('posts', 'import')
-			// Override authorizer for console
-			->setAuthorizer($di->get('authorizer.console'));
-});
-
-// User command
-$di->setter['Ushahidi\Console\Application']['injectCommands'][] = $di->lazyNew('Ushahidi\Console\Command\User');
-$di->setter['Ushahidi\Console\Command\User']['setRepo'] = $di->lazyGet('repository.user');
-$di->setter['Ushahidi\Console\Command\User']['setTosRepo'] = $di->lazyGet('repository.tos');
-$di->setter['Ushahidi\Console\Command\User']['setValidator'] = $di->lazyNew('Ushahidi_Validator_User_Create');
-
-// Config commands
-$di->setter['Ushahidi\Console\Application']['injectCommands'][] = $di->lazyNew('Ushahidi\Console\Command\ConfigGet');
-$di->setter['Ushahidi\Console\Command\ConfigGet']['setUsecase'] = $di->lazy(function () use ($di) {
-	return service('factory.usecase')
-			->get('config', 'read')
-			// Override authorizer for console
-			->setAuthorizer($di->get('authorizer.console'))
-			// Override formatter for console
-			->setFormatter($di->get('formatter.entity.console'));
-});
-$di->setter['Ushahidi\Console\Application']['injectCommands'][] = $di->lazyNew('Ushahidi\Console\Command\ConfigSet');
-$di->setter['Ushahidi\Console\Command\ConfigSet']['setUsecase'] = $di->lazy(function () use ($di) {
-	return service('factory.usecase')
-			->get('config', 'update')
-			// Override authorizer for console
-			->setAuthorizer($di->get('authorizer.console'))
-			// Override formatter for console
-			->setFormatter($di->get('formatter.entity.console'));
-});
-
-$di->setter['Ushahidi\Console\Application']['injectCommands'][] = $di->lazyNew('Ushahidi\Console\Command\ApikeySet');
-$di->setter['Ushahidi\Console\Command\ApikeySet']['setUsecase'] = $di->lazy(function () use ($di) {
-	return service('factory.usecase')
-			->get('apikeys', 'create')
-			// Override authorizer for console
-			->setAuthorizer($di->get('authorizer.console'))
-			// Override formatter for console
-			->setFormatter($di->get('formatter.entity.console'));
-});
 
 // Validators are used to parse **and** verify input data used for write operations.
 $di->set('factory.validator', $di->lazyNew('Ushahidi\Factory\ValidatorFactory'));
@@ -298,7 +244,6 @@ $di->params['Ushahidi\Factory\UsecaseFactory']['map']['media'] = [
 	'create' => $di->lazyNew('Ushahidi\Core\Usecase\Media\CreateMedia'),
 ];
 $di->setter['Ushahidi\Core\Usecase\Media\CreateMedia']['setUploader'] = $di->lazyGet('tool.uploader');
-$di->setter['Ushahidi\Core\Usecase\Media\CreateMedia']['setFilesystem'] = $di->lazyGet('tool.filesystem');
 
 // CSV requires file upload
 $di->params['Ushahidi\Factory\UsecaseFactory']['map']['csv'] = [
@@ -309,7 +254,7 @@ $di->params['Ushahidi\Factory\UsecaseFactory']['map']['csv'] = [
 
 $di->setter['Ushahidi\Core\Usecase\CSV\CreateCSVUsecase']['setUploader'] = $di->lazyGet('tool.uploader');
 $di->setter['Ushahidi\Core\Usecase\CSV\CreateCSVUsecase']['setReaderFactory'] = $di->lazyGet('csv.reader_factory');
-$di->setter['Ushahidi\Core\Usecase\CSV\DeleteCSVUsecase']['setFilesystem'] = $di->lazyGet('tool.filesystem');
+$di->setter['Ushahidi\Core\Usecase\CSV\DeleteCSVUsecase']['setUploader'] = $di->lazyGet('tool.uploader');
 
 // Message update requires extra validation of message direction+status.
 $di->params['Ushahidi\Factory\UsecaseFactory']['map']['messages'] = [
@@ -440,7 +385,9 @@ $di->setter['Ushahidi\Core\Tool\Permissions\AclTrait']['setAcl'] = $di->lazyGet(
 
 // Tools
 $di->set('tool.signer', $di->lazyNew('Ushahidi\Core\Tool\Signer'));
-$di->set('tool.verifier', $di->lazyNew('Ushahidi\Core\Tool\Verifier'));
+$di->set('tool.verifier', $di->lazyNew('Ushahidi\Core\Tool\Verifier', [
+	'apiKeyRepo' => $di->lazyGet('repository.apikey')
+]));
 $di->set('tool.uploader', $di->lazyNew('Ushahidi\Core\Tool\Uploader'));
 $di->params['Ushahidi\Core\Tool\Uploader'] = [
 	'fs' => $di->lazyGet('tool.filesystem'),
@@ -508,8 +455,7 @@ $di->params['Ushahidi\Core\Tool\Authorizer\TagAuthorizer'] = [
 	'tag_repo' => $di->lazyGet('repository.tag'),
 	];
 
-$di->set('authorizer.console', $di->lazyNew('Ushahidi\Console\Authorizer\ConsoleAuthorizer'));
 $di->set('authorizer.country_code', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\CountryCodeAuthorizer'));
 
-
 require __DIR__ . '/App/Init.php';
+require __DIR__ . '/Console/Init.php';

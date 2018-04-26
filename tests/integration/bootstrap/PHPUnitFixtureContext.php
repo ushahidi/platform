@@ -65,6 +65,70 @@ class PHPUnitFixtureContext implements Context
 					(30 20, 20 25, 20 15, 30 20)))'));");
 	}
 
+	protected function setConfig($group, $key, $value)
+	{
+		$pdo_connection = $this->getConnection()->getConnection();
+		$pdo_connection->query("
+		  INSERT INTO `config`
+		  (`group_name`, `config_key`, `config_value`) VALUES ('$group', '$key', '$value')
+		  ON DUPLICATE KEY UPDATE `config_value` = '$value';
+		");
+	}
+
+	/** @BeforeScenario @private */
+	public function makePrivate()
+	{
+		$this->setConfig('site', 'private', 'true');
+		$this->setConfig('feature', 'private', '{"enabled":true}');
+	}
+
+	/** @AfterScenario @private */
+	public function makePublic()
+	{
+		$this->setConfig('site', 'private', 'false');
+		$this->setConfig('feature', 'private', '{"enabled":false}');
+	}
+
+	/**
+	 * @BeforeScenario @rolesEnabled
+	 **/
+	public function enableRoles()
+	{
+		$this->setConfig('feature', 'roles', '{"enabled":true}');
+	}
+
+	/**
+	 * @BeforeScenario @rolesDisabled
+	 **/
+	public function disableRoles()
+	{
+		$this->setConfig('feature', 'private', '{"enabled":false}');
+	}
+
+	/** @BeforeScenario @webhooksEnabled */
+	public function enableWebhooks()
+	{
+		$this->setConfig('feature', 'webhooks', '{"enabled":true}');
+	}
+
+	/** @AfterScenario @webhooksEnabled */
+	public function disableWebhooks()
+	{
+		$this->setConfig('feature', 'webhooks', '{"enabled":false}');
+	}
+
+	/** @BeforeScenario @dataImportEnabled */
+	public function enableDataImport()
+	{
+		$this->setConfig('feature', 'data-import', '{"enabled":true}');
+	}
+
+	/** @AfterScenario @dataImportEnabled */
+	public function disableDataImport()
+	{
+		$this->setConfig('feature', 'data-import', '{"enabled":false}');
+	}
+
 	/**
 	 * Creates a connection to the unittesting database
 	 * Overriding to fix database type in DSN - must be lowercase
@@ -74,7 +138,7 @@ class PHPUnitFixtureContext implements Context
 	public function getConnection()
 	{
 		// Get the unittesting db connection
-		$config = \Kohana::$config->load('database.'.$this->database_connection);
+		$config = config('ohanzee-db.'.$this->database_connection);
 
 		if ($config['type'] !== 'pdo') {
 			// Replace MySQLi with MySQL since MySQLi isn't valid for a DSN
@@ -169,7 +233,7 @@ class PHPUnitFixtureContext implements Context
 		//return PHPUnit_Extensions_Database_Operation_Factory::CLEAN_INSERT();
 		$cascadeTruncates = true;
 		return new \PHPUnit_Extensions_Database_Operation_Composite(array(
-			new \Unittest_Database_Operation_MySQL55Truncate($cascadeTruncates),
+			new \Tests\Support\MySQL55Truncate($cascadeTruncates),
 			\PHPUnit_Extensions_Database_Operation_Factory::INSERT()
 		));
 	}

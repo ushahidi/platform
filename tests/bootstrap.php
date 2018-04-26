@@ -1,11 +1,8 @@
 <?php
 // @codingStandardsIgnoreFile
 
-// Initialize the Kohana application
-require __DIR__ . '/../application/kohana.php';
-
-// when testing, docroot is the source root
-define('DOCROOT', realpath(APPPATH . '/../') . DIRECTORY_SEPARATOR);
+// Bootstrap lumen
+require __DIR__ . '/../bootstrap/app.php';
 
 // Disable output buffering
 if (($ob_len = ob_get_length()) !== false) {
