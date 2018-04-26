@@ -10,6 +10,7 @@ Feature: Testing the frontlinesms Data Provider with targeted surveys
         When I request "/sms/frontlinesms"
         Then the guzzle status code should be 200
 
+    # Todo test this elsewhere because messages should always accept
     Scenario: Submit a message to frontlinesms controller for a contact without outgoing message fails
         Given that I want to submit a new "Message"
         And that the post field "from" is "99999992"
@@ -18,5 +19,4 @@ Feature: Testing the frontlinesms Data Provider with targeted surveys
         And that the post field "secret" is "abc123"
         And that the api_url is ""
         When I request "/sms/frontlinesms"
-        And the "payload.error" property equals "Outgoing question not found for contact 7 and form 7"
-        Then the guzzle status code should be 400
+        Then the guzzle status code should be 200
