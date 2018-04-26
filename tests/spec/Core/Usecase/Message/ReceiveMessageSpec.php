@@ -356,8 +356,8 @@ class ReceiveMessageSpec extends ObjectBehavior
 			'contact_id' => null,
 			'post_id' => null,
 			'user_id' => null,
-			'data_provider' => "smssync",
-			'data_provider_message_id' => null,
+			'data_source' => "smssync",
+			'data_source_message_id' => null,
 			'title' => "msgtitle",
 			'message' => "Some message",
 			'datetime' => null,
@@ -367,6 +367,7 @@ class ReceiveMessageSpec extends ObjectBehavior
 			'created' => null,
 			'additional_data' => null,
 			'notification_post_id' => null,
+			'contact' => "something"
 		])->willReturn(true);
 
 		// ... A contact is loaded
@@ -385,7 +386,7 @@ class ReceiveMessageSpec extends ObjectBehavior
 			->check([
 				"id" => $contact_id,
 				"user_id" => null,
-				"data_provider" => null,
+				"data_source" => null,
 				"type" => "sms",
 				"contact" => "1234",
 				"created" => null,
@@ -435,8 +436,8 @@ class ReceiveMessageSpec extends ObjectBehavior
 				"contact_id" => 23,
 				"post_id" => null,
 				"user_id" => null,
-				"data_provider" => null,
-				"data_provider_message_id" => null,
+				"data_source" => null,
+				"data_source_message_id" => null,
 				"title" => null,
 				"message" => null,
 				"datetime" => null,
@@ -445,7 +446,8 @@ class ReceiveMessageSpec extends ObjectBehavior
 				"direction" => "outgoing",
 				"created" => null,
 				"additional_data" => null,
-				"notification_post_id" => null
+				"notification_post_id" => null,
+                "contact" => null
 			])
 			->willReturn(true);
 
