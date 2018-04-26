@@ -49,7 +49,9 @@ class DataSourceStorageTest extends TestCase
                 'title' => null,
                 'date' => null,
                 'data_source_message_id' => null,
-                'additional_data' => null
+                'additional_data' => null,
+                'inbound_form_id' => 1,
+                'inbound_fields' => ['Title' => 'somekey']
             ])
             ->andReturn($this->usecase);
 
@@ -68,7 +70,10 @@ class DataSourceStorageTest extends TestCase
             "YOU!",
             null,
             null,
-            null
+            null,
+            null,
+            1,
+            ['Title' => 'somekey']
         );
 
         $this->assertEquals(['id' => 1], $result);
@@ -94,7 +99,9 @@ class DataSourceStorageTest extends TestCase
                 'title' => null,
                 'date' => null,
                 'data_source_message_id' => null,
-                'additional_data' => null
+                'additional_data' => null,
+                'inbound_form_id' => 1,
+                'inbound_fields' => ['Title' => 'somekey']
             ])
             ->andReturn($this->usecase);
 
@@ -114,7 +121,10 @@ class DataSourceStorageTest extends TestCase
             "YOU!",
             null,
             null,
-            null
+            null,
+            null,
+            1,
+            ['Title' => 'somekey']
         );
 
         $e->shouldHaveReceived('getMessage')->once();

@@ -15,11 +15,13 @@ use Ushahidi\App\DataSource\CallbackDataSource;
 use Ushahidi\App\DataSource\OutgoingAPIDataSource;
 use Ushahidi\App\DataSource\Message\Type as MessageType;
 use Ushahidi\App\DataSource\Message\Status as MessageStatus;
+use Ushahidi\App\DataSource\Concerns\MapsInboundFields;
 use Ushahidi\Core\Entity\Contact;
 use Log;
 
 class Nexmo implements CallbackDataSource, OutgoingAPIDataSource
 {
+	use MapsInboundFields;
 
 	protected $config;
 
@@ -69,6 +71,15 @@ class Nexmo implements CallbackDataSource, OutgoingAPIDataSource
 				'rules' => array('required')
 			)
 		);
+	}
+
+	public function getInboundFields()
+	{
+		return [
+			'From' => 'text',
+			'To' => 'text',
+			'Message' => 'text'
+		];
 	}
 
 	/**

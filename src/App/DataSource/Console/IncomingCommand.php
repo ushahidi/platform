@@ -98,7 +98,9 @@ class IncomingCommand extends Command
                     $message['title'],
                     $message['date'],
                     $message['data_source_message_id'],
-                    $message['additional_data']
+                    $message['additional_data'],
+                    $source->getInboundFormId(),
+                    $source->getInboundFieldMappings()
                 );
             }
 

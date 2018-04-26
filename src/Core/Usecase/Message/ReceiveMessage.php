@@ -46,8 +46,8 @@ class ReceiveMessage extends CreateUsecase
 	}
 
 	protected $targeted_survey_state_repo;
-    protected $form_attr_repo;
-    protected $outgoingMessageValidator;
+	protected $form_attr_repo;
+	protected $outgoingMessageValidator;
 
 	/**
 	 * @var CreateRepository
@@ -175,7 +175,11 @@ class ReceiveMessage extends CreateUsecase
 			);
 
 			// Create a new post
-			$post_id = $this->createPost($incoming_message);
+			$post_id = $this->createPost(
+				$incoming_message,
+				$this->getPayload('inbound_form_id', false),
+				$this->getPayload('inbound_fields', [])
+			);
 			$incoming_message->setState(compact('post_id'));
 
 			// But always save the message anyway - otherwise its lost forever
@@ -276,10 +280,16 @@ class ReceiveMessage extends CreateUsecase
 			// @todo decouple this by moving to a listener
 			$id = $this->createTargetedSurveyMessages($entity);
 		} else {
+			$post_id = null;
 			// ... create post for message
 			// @todo decouple this by moving to a listener
-			$post_id = $this->createPost($entity);
+			$post_id = $this->createPost(
+				$entity,
+				$this->getPayload('inbound_form_id', false),
+				$this->getPayload('inbound_fields', [])
+			);
 			$entity->setState(compact('post_id'));
+
 			// ... persist the new message entity
 			$id = $this->repo->create($entity);
 		}
@@ -348,19 +358,16 @@ class ReceiveMessage extends CreateUsecase
 	 * @param  Entity $message
 	 * @return Int
 	 */
-	protected function createPost(Entity $message)
+	protected function createPost(Entity $message, $form_id, $inbound_fields)
 	{
 		$values = [];
-		$form_id = null;
 
 		$content = $message->message;
 
 		if ($message->additional_data) {
-			if (isset($message->additional_data['form_id'])) {
-				$form_id = $message->additional_data['form_id'];
-				// Check provider fields for form attribute mapping
-				$inbound_fields = $message->additional_data['inbound_fields'];
+			$formId = $source->getInboundFormId();
 
+			if ($form_id) {
 				if (isset($this->payload['title']) && isset($inbound_fields['Title'])) {
 					$values[$inbound_fields['Title']] = array($this->payload['title']);
 				}
@@ -396,6 +403,7 @@ class ReceiveMessage extends CreateUsecase
 					}
 				}
 			}
+
 			// Pull locations from extra metadata
 			$values['message_location'] = [];
 			if (isset($message->additional_data['location'])) {
