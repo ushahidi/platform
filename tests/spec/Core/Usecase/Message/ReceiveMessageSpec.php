@@ -399,7 +399,7 @@ class ReceiveMessageSpec extends ObjectBehavior
 
 		// the targeted survey is loaded
 		$targetedSurveyStateRepo
-			->getByContactId($contact_id)
+			->getActiveByContactId($contact_id)
 			->will(function() use ($previous_message_id, $next_attr_id) {
 				return new TargetedSurveyState([
 					'id' => 1,
