@@ -765,6 +765,9 @@ abstract class Ushahidi_Core {
 		 * Attach database config
 		 */
 		self::attached_db_config();
+
+
+		I18n::lang(Kohana::$config->load('site.language'));
 	}
 
 	public static function attached_db_config()
