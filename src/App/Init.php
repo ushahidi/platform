@@ -630,6 +630,7 @@ $di->params[Ushahidi\App\Validator\CSV\Update::class] = [
 ];
 $di->params[Ushahidi\App\Validator\Role\Update::class] = [
 	'permission_repo' => $di->lazyGet('repository.permission'),
+	'feature' => $di->lazyGet('features.roles'),
 ];
 
 // Validator Setters
