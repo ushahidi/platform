@@ -241,15 +241,20 @@ class Ushahidi_Repository_Form_Attribute extends Ushahidi_Repository implements
 	 * that does not directly depend on the rows we are fetching at the time but on the
 	 * list of form ids that match a specific query
 	 */
-	public function getByForms($form_ids) {
+	public function getByForms($form_ids, $include_attributes = []) {
 		$sql = "SELECT DISTINCT form_attributes.*, form_stages.priority as form_stage_priority, form_stages.form_id as form_id " .
 			"FROM form_attributes " .
 			"INNER JOIN form_stages ON form_attributes.form_stage_id = form_stages.form_id " .
 			"INNER JOIN forms ON form_stages.form_id = forms.id " .
-			"where forms.id IN :forms
-			ORDER BY form_stages.priority, form_attributes.priority";
+			"where forms.id IN :forms ";
+		if (!empty($include_attributes))
+		{
+			$sql .= " AND form_attributes.id IN :form_attributes";
+		}
+		$sql .= "ORDER BY form_stages.priority, form_attributes.priority";
 		$results = DB::query(Database::SELECT, $sql)
 			->bind(':forms', $form_ids)
+			->bind(':form_attributes', $include_attributes)
 			->execute($this->db);
 		$attributes = $results->as_array();
 
