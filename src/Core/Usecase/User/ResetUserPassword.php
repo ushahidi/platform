@@ -62,23 +62,29 @@ class ResetUserPassword implements Usecase
 	public function interact()
 	{
 		$token = $this->getPayload('token');
+		$password = $this->getPayload('password');
+		$entity = [
+			'token' => $token,
+			'password' => $password
+		];
 
-		// Check if the reset token is valid
-		if ($this->repo->isValidResetToken($token)) {
-			// If its valid..
-			// Change the password
-			$password = $this->getPayload('password');
-			$this->repo->setPassword($token, $password);
+		$this->verifyValid($entity);	
+			
+		$this->repo->setPassword($token, $password);
 
-			// And delete the token
-			$this->repo->deleteResetToken($token);
-		} else {
-			// Otherwise throw an exception
-			throw new ValidatorException('Invalid or expired token', ['Invalid or expired reset token']);
-		}
+		// And delete the token
+		$this->repo->deleteResetToken($token);
 
 		// Return an empty success response regardless
 		// if the user was found or not
 		return;
+	}
+
+	// ValidatorTrait
+	protected function verifyValid(Entity $entity)
+	{
+		if (!$this->validator->check($entity->asArray())) {
+			$this->validatorError($entity);
+		}
 	}
 }
