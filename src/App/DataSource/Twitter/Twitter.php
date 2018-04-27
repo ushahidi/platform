@@ -123,8 +123,6 @@ class Twitter implements IncomingAPIDataSource, OutgoingAPIDataSource
 	public function getInboundFields()
 	{
 		return [
-			'From' => 'text',
-			'Title' => 'text',
 			'Date' => 'datetime',
 			'Location' => 'location',
 			'Message' => 'text'

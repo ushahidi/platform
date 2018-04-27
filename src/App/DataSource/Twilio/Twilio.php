@@ -85,8 +85,6 @@ class Twilio implements CallbackDataSource, OutgoingAPIDataSource
 	public function getInboundFields()
 	{
 		return [
-			'From' => 'text',
-			'To' => 'text',
 			'Message' => 'text'
 		];
 	}

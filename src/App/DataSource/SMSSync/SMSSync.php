@@ -78,9 +78,8 @@ class SMSSync implements CallbackDataSource
 	public function getInboundFields()
 	{
 		return [
-			'From' => 'text',
-			'To' => 'text',
-			'Message' => 'text'
+			'Message' => 'text',
+			'Date' => 'datetime',
 		];
 	}
 

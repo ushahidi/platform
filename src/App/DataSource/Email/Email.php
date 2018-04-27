@@ -116,9 +116,7 @@ class Email implements IncomingAPIDataSource, OutgoingAPIDataSource
 	public function getInboundFields()
 	{
 		return [
-			'From' => 'text',
 			'Subject' => 'text',
-			'To' => 'text',
 			'Date' => 'datetime',
 			'Message' => 'text'
 		];
