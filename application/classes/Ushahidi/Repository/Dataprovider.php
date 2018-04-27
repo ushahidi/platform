@@ -28,6 +28,25 @@ class Ushahidi_Repository_Dataprovider implements
 	// ReadRepository
 	public function getEntity(Array $data = null)
 	{
+		// translating labels and description for data-providers
+		if($data !== null && $data['options']) {
+			foreach ($data['options'] as $option_key => $option) {
+				foreach($option as $value_key => $value) {
+					if($value_key === 'label' && $value !== '') {
+						$data['options'][$option_key]['label'] = __($value);
+					}
+					if($value_key === 'description') {
+						$description = $data['options'][$option_key]['description'];
+						if(gettype($description) === 'string') {
+							$data['options'][$option_key]['description'] = __($value);
+						}
+						if(gettype($description) === 'object') {
+							$data['options'][$option_key]['description'] = __($data['options'][$option_key]['description']());
+						}
+					}
+				}
+			}
+		}
 		return new DataProviderEntity($data);
 	}
 
@@ -52,6 +71,7 @@ class Ushahidi_Repository_Dataprovider implements
 	// DataProviderRepository
 	public function all($enabled = false)
 	{
+
 		$providers = $this->getAllProviders($enabled);
 		return $this->getCollection($providers);
 	}
@@ -85,6 +105,8 @@ class Ushahidi_Repository_Dataprovider implements
 	public function getSearchResults()
 	{
 		$providers = $this->getAllProviders();
+
+
 
 		foreach ($providers as $name => $info) {
 			if ($this->search_params->type) {
