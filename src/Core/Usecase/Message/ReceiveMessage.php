@@ -155,14 +155,14 @@ class ReceiveMessage extends CreateUsecase
         $data_provider = \DataProvider::getEnabledProviderForType($message_type);
 		$newMessage = $this->repo->getEntity();
 		$messageState = array(
-			'contact_id' => $contact_id,
-			'post_id' => $survey_state_entity->post_id,
-			'title' => $next_form_attribute->label,
-			'message' => $next_form_attribute->label,
-			'status' => Message::PENDING,
+            'contact_id' => $contact_id,
+            'post_id' => $survey_state_entity->post_id,
+            'title' => $next_form_attribute->label,
+            'message' => $next_form_attribute->label,
+            'status' => Message::PENDING,
             'data_provider' => $data_provider,
-			'type' => $message_type,
-			'direction' => Message::OUTGOING
+            'type' => $message_type,
+            'direction' => Message::OUTGOING
 		);
 		$newMessage->setState($messageState);
 		$this->outgoingMessageValidator->check($messageState);
