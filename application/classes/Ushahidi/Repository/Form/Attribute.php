@@ -245,7 +245,7 @@ class Ushahidi_Repository_Form_Attribute extends Ushahidi_Repository implements
 		$sql = "SELECT DISTINCT form_attributes.*, form_stages.priority as form_stage_priority, form_stages.form_id as form_id " .
 			"FROM form_attributes " .
 			"INNER JOIN form_stages ON form_attributes.form_stage_id = form_stages.id " .
-			"INNER JOIN forms ON form_stages.  = forms.id ";
+			"INNER JOIN forms ON form_stages.form_id = forms.id ";
 		if (!empty($include_attributes))
 		{
 			$sql .= " AND form_attributes.id IN :form_attributes ";
