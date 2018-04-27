@@ -248,7 +248,7 @@ class Ushahidi_Repository_Form_Attribute extends Ushahidi_Repository implements
 			"INNER JOIN forms ON form_stages.form_id = forms.id ";
 		if (!empty($include_attributes))
 		{
-			$sql .= " AND form_attributes.id IN :form_attributes ";
+			$sql .= " AND form_attributes.key IN :form_attributes ";
 		}
 		$sql .= "ORDER BY form_stages.priority, form_attributes.priority ";
 		$results = DB::query(Database::SELECT, $sql)
