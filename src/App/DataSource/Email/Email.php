@@ -301,7 +301,7 @@ class Email implements IncomingAPIDataSource, OutgoingAPIDataSource
 				'message' => $message,
 				'to' => $to,
 				'title' => $title,
-				'date' => $date,
+				'datetime' => $date,
 				'data_source_message_id' => $data_source_message_id,
 				'additional_data' => [],
 			];

@@ -282,7 +282,7 @@ class TwitterDataSourceTest extends TestCase
                         ]
                     ]
                 ],
-                'date' =>  'Thu Apr 06 15:24:15 +0000 2017',
+                'datetime' =>  'Thu Apr 06 15:24:15 +0000 2017',
             ],
             [
                 'type' => 'twitter',
@@ -293,7 +293,7 @@ class TwitterDataSourceTest extends TestCase
                 'title' => null,
                 'data_source_message_id' => 'abc125',
                 'additional_data' => [],
-                'date' =>  'Thu Apr 06 15:24:15 +0000 2017',
+                'datetime' =>  'Thu Apr 06 15:24:15 +0000 2017',
             ],
             [
                 'type' => 'twitter',
@@ -341,7 +341,7 @@ class TwitterDataSourceTest extends TestCase
                         ]
                     ]
                 ],
-                'date' =>  'Thu Apr 06 15:24:15 +0000 2017',
+                'datetime' =>  'Thu Apr 06 15:24:15 +0000 2017',
             ],
         ], $messages);
     }

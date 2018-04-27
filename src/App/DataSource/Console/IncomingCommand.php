@@ -96,7 +96,7 @@ class IncomingCommand extends Command
                     $message['message'],
                     $message['to'],
                     $message['title'],
-                    $message['date'],
+                    $message['datetime'],
                     $message['data_source_message_id'],
                     $message['additional_data'],
                     $source->getInboundFormId(),

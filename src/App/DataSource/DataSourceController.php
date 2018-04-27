@@ -87,7 +87,7 @@ abstract class DataSourceController extends Controller
             $payload['message'],
             isset($payload['to']) ? $payload['to'] : null,
             isset($payload['title']) ? $payload['title'] : null,
-            isset($payload['date']) ? $payload['date'] : null,
+            isset($payload['datetime']) ? $payload['datetime'] : null,
             isset($payload['data_source_message_id']) ? $payload['data_source_message_id'] : null,
             [],
             $this->source->getInboundFormId(),
