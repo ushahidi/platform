@@ -61,7 +61,7 @@ class Message extends StaticEntity
 			'user_id'    => 'int',
 			'title'      => 'string',
 			'message'    => 'string',
-			'datetime'   => '*timestamp',
+			'datetime'   => '*date',
 			'type'       => 'string',
 			'status'     => 'string',
 			'direction'  => 'string',

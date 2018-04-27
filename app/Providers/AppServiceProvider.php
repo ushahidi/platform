@@ -49,6 +49,26 @@ class AppServiceProvider extends ServiceProvider
             return service('repository.message');
         });
 
+        $this->app->singleton(\Ushahidi\Core\Entity\ContactRepository::class, function ($app) {
+            // Just return it from AuraDI
+            return service('repository.contact');
+        });
+
+        $this->app->singleton(\Ushahidi\Core\Entity\PostRepository::class, function ($app) {
+            // Just return it from AuraDI
+            return service('repository.post');
+        });
+
+        $this->app->singleton(\Ushahidi\Core\Entity\TargetedSurveyStateRepository::class, function ($app) {
+            // Just return it from AuraDI
+            return service('repository.targeted_survey_state');
+        });
+
+        $this->app->singleton(\Ushahidi\Core\Entity\FormAttributeRepository::class, function ($app) {
+            // Just return it from AuraDI
+            return service('repository.form_attribute');
+        });
+
         $this->app->singleton(\Ushahidi\Core\Tool\Verifier::class, function ($app) {
             // Just return it from AuraDI
             return service('tool.verifier');
@@ -131,6 +151,9 @@ class AppServiceProvider extends ServiceProvider
         $di->set('kohana.db', function () use ($di) {
             return \Ohanzee\Database::instance('deployment', $this->getDbConfig($di));
         });
+
+        // Configure dispatcher
+        $di->setter[\Ushahidi\Core\Traits\Events\DispatchesEvents::class]['setDispatcher'] = $this->app->make('events');
     }
 
     protected function injectAuraConfig(\Aura\Di\ContainerInterface $di)

@@ -16,4 +16,13 @@ class EventServiceProvider extends ServiceProvider
             'Ushahidi\App\Listeners\EventListener',
         ],
     ];
+
+    /*
+     * The subscriber classes to register.
+     *
+     * @var array
+     */
+    protected $subscribe = [
+        'Ushahidi\App\Subscriber',
+    ];
 }

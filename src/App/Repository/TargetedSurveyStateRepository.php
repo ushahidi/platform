@@ -11,6 +11,8 @@
 
 namespace Ushahidi\App\Repository;
 
+use Ohanzee\DB;
+use Ohanzee\Database;
 use Ushahidi\Core\Data;
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\SearchData;
@@ -69,5 +71,32 @@ class TargetedSurveyStateRepository extends OhanzeeRepository implements
 	public function setStatusByFormId($form_id, $status)
 	{
 		return $this->executeUpdate(array('form_id' => $form_id), array('survey_status' => $status));
+	}
+
+	/**
+	 * @param string $contact_id
+	 * @return bool
+	 */
+	public function isContactInActiveTargetedSurveyAndReceivedMessage($contact_id)
+	{
+		$query = DB::select('targeted_survey_state.contact_id', 'targeted_survey_state.form_id')
+			->from('targeted_survey_state')
+			->join('messages')->on('messages.id', '=', 'targeted_survey_state.message_id')
+			->where('targeted_survey_state.contact_id', '=', $contact_id)
+			->and_where(
+                'survey_status',
+                'IN',
+				[
+					Entity\TargetedSurveyState::PENDING_RESPONSE,
+					Entity\TargetedSurveyState::RECEIVED_RESPONSE
+				]
+			)
+			->and_where(
+				'messages.direction',
+				'=',
+				'outgoing'
+			);
+
+		return ($query->execute($this->db)->count() > 0);
 	}
 }
