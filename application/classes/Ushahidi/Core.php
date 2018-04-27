@@ -766,7 +766,7 @@ abstract class Ushahidi_Core {
 		 */
 		self::attached_db_config();
 
-
+		// override default-language with site-language
 		I18n::lang(Kohana::$config->load('site.language'));
 	}
 
