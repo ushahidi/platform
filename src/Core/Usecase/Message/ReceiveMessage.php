@@ -140,6 +140,8 @@ class ReceiveMessage extends CreateUsecase
 	}
 
 	/**
+     * 	Create the message will be sent next to the targeted survey user
+     *
 	 * @param $contact_id
 	 * @param $survey_state_entity
 	 * @param $next_form_attribute
@@ -151,8 +153,6 @@ class ReceiveMessage extends CreateUsecase
         // @FIXME: Message type should be configurable per deployment,survey
         $message_type = 'sms';
         $data_provider = \DataProvider::getEnabledProviderForType($message_type);
-
-		// create message that we will send to the user next
 		$newMessage = $this->repo->getEntity();
 		$messageState = array(
 			'contact_id' => $contact_id,
