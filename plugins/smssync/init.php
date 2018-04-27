@@ -24,7 +24,7 @@ $plugin = array(
 	// form Key and Label
 	'options' => array(
 		'intro_step1' => array(
-			'label' => __('Step 1: Download the "SMSSync" app from the Android Market.'),
+			'label' => 'Step 1: Download the "SMSSync" app from the Android Market.',
 			'input' => 'read-only-text',
 			'description' => function() {
 				return 'Scan this QR Code with your phone to download the app from the Android Market <img src="'. URL::site('/media/images/smssync.png', TRUE) .'" width="150"/>';
