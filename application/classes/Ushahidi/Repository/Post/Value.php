@@ -62,7 +62,7 @@ abstract class Ushahidi_Repository_Post_Value extends Ushahidi_Repository implem
 		$query = $this->selectQuery(compact('post_id'));
 
 		if ($include_attributes) {
-			$query->where('form_attributes.id', 'IN', $include_attributes);
+			$query->where('form_attributes.key', 'IN', $include_attributes);
 		}
 
 		if ($restricted) {
