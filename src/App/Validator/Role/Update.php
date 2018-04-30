@@ -31,6 +31,7 @@ class Update extends Validator
 		return [
 			'id' => [
 				['numeric'],
+				[[$this, 'checkRolesEnabled'], [':validation']],
 			],
 			'permissions' => [
 				[[$this, 'checkPermissions'], [':validation', ':value']],
@@ -38,7 +39,7 @@ class Update extends Validator
 		];
 	}
 
-	public function checkRolesEnabled(\Kohana\Validation\Validation $validation, $permissions)
+	public function checkRolesEnabled(\Kohana\Validation\Validation $validation)
 	{
 		if ($this->feature['enabled']) {
 			$validation->error('role', 'rolesNotEnabled');
