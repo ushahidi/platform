@@ -1,6 +1,7 @@
 <?php
 
 use Phinx\Migration\AbstractMigration;
+use Phinx\Db\Adapter\MysqlAdapter;
 
 class ExportJobFieldSize extends AbstractMigration
 {
@@ -37,26 +38,17 @@ class ExportJobFieldSize extends AbstractMigration
 			->changeColumn(
 				'fields',
 				'text',
-				['null' => true, 'limit' => 16777215, 'default' => null]
+				['null' => true, 'limit' => MysqlAdapter::TEXT_MEDIUM, 'default' => null]
 			)
 			->changeColumn(
 				'filters',
 				'text',
-				['null' => true, 'limit' => 16777215, 'default' => null]
+				['null' => true, 'limit' => MysqlAdapter::TEXT_MEDIUM, 'default' => null]
 			)
 			->update();
     }
     public function down()
 	{
-		$this->table('export_job')
-			->changeColumn(
-				'fields',
-				'string'
-			)
-			->changeColumn(
-				'filters',
-				'string'
-			)
-			->update();
+		// Noop - don't rollback because it would truncate use data
 	}
 }
