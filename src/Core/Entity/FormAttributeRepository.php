@@ -55,4 +55,11 @@ interface FormAttributeRepository extends
 	 * @return boolean
 	 */
 	public function isKeyAvailable($key);
+
+	/**
+	 * @param  int $form_ids
+	 * @param  array $include_attributes
+	 * @return [Ushahidi\Core\Entity\FormAttribute, ...]
+	 */
+	public function getByForms($form_ids, array $include_attributes = null);
 }
