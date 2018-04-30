@@ -279,6 +279,7 @@ class RestContext implements Context
 
 		// Get response object
 		$this->response = $response;
+		throw new \Exception(print_r($this->response, true));
 		// $data = $this->response->getBody(true);
 	}
 

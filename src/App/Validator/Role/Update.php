@@ -17,13 +17,13 @@ use Ushahidi\Core\Entity\PermissionRepository;
 class Update extends Validator
 {	
 	protected $permission_repo;
-	protected $feature;
+	protected $feature_enabled;
 	protected $default_error_source = 'role';
 
-	public function __construct(PermissionRepository $permission_repo, array $feature)
+	public function __construct(PermissionRepository $permission_repo, $feature_enabled)
 	{
 		$this->permission_repo = $permission_repo;
-		$this->feature = $feature;
+		$this->feature_enabled = (bool) $feature_enabled;
 	}
 
 	protected function getRules()
@@ -31,18 +31,21 @@ class Update extends Validator
 		return [
 			'id' => [
 				['numeric'],
-				[[$this, 'checkRolesEnabled'], [':validation']],
 			],
 			'permissions' => [
 				[[$this, 'checkPermissions'], [':validation', ':value']],
+				
+			],
+			'name' => [
+				[[$this, 'checkRolesEnabled'], [':validation']],
 			],
 		];
 	}
 
 	public function checkRolesEnabled(\Kohana\Validation\Validation $validation)
 	{
-		if ($this->feature['enabled']) {
-			$validation->error('role', 'rolesNotEnabled');
+		if (!$this->feature_enabled) {
+			$validation->error('name', 'rolesNotEnabled');
 			return;
 		}
 		return;
