@@ -127,7 +127,7 @@ class ReceiveMessage extends CreateUsecase
 	 * @param $next_form_attribute
 	 * @return int|$outgoingMessageId
 	 */
-	private function createOutgoingMessage($contact_id, $survey_state_entity, $next_form_attribute)
+	private function createOutgoingMessage($contact_id, $survey_state_entity, $next_form_attribute, $data_provider)
 	{
         // @FIXME: Message type should be configurable per deployment,survey
         $message_type = 'sms';
@@ -139,6 +139,7 @@ class ReceiveMessage extends CreateUsecase
 			'message' => $next_form_attribute->label,
 			'status' => Message::PENDING,
 			'type' => $message_type,
+			'data_provider' => $data_provider,
 			'direction' => Message::OUTGOING
 		]);
 
@@ -213,7 +214,8 @@ class ReceiveMessage extends CreateUsecase
 			$outgoingMessageId = $this->createOutgoingMessage(
 				$incoming_message->contact_id,
 				$surveyStateEntity,
-				$next_form_attribute
+				$next_form_attribute,
+				$incoming_message->data_provider
 			);
 
 			// If this for some unknown reason fails, log it

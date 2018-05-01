@@ -434,7 +434,7 @@ class ReceiveMessageSpec extends ObjectBehavior
 				"contact_id" => 23,
 				"post_id" => null,
 				"user_id" => null,
-				"data_provider" => null,
+				"data_provider" => "smssync",
 				"data_provider_message_id" => null,
 				"title" => null,
 				"message" => null,
