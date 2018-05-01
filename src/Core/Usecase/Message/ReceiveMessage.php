@@ -120,6 +120,8 @@ class ReceiveMessage extends CreateUsecase
 	}
 
 	/**
+     * 	Create the message will be sent next to the targeted survey user
+     *
 	 * @param $contact_id
 	 * @param $survey_state_entity
 	 * @param $next_form_attribute
@@ -127,6 +129,9 @@ class ReceiveMessage extends CreateUsecase
 	 */
 	private function createOutgoingMessage($contact_id, $survey_state_entity, $next_form_attribute)
 	{
+        // @FIXME: Message type should be configurable per deployment,survey
+        $message_type = 'sms';
+        $data_provider = \DataProvider::getEnabledProviderForType($message_type);
 		// Create new message to send next question to the user
 		$outgoingMessage = $this->repo->getEntity()->setState([
 			'contact_id' => $contact_id,
@@ -134,7 +139,8 @@ class ReceiveMessage extends CreateUsecase
 			'title' => $next_form_attribute->label,
 			'message' => $next_form_attribute->label,
 			'status' => Message::PENDING,
-			'type' => 'sms', // FIXME
+			'data_provider' => $data_provider,
+			'type' => $message_type,
 			'direction' => Message::OUTGOING
 		]);
 
