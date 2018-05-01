@@ -73,10 +73,10 @@ class SMSSyncController extends DataSourceController
         }
 
         // Remove Non-Numeric characters because that's what the DB has
-        $to = preg_replace("/[^0-9,.]/", "", $request->input('sent_to'));
+        $to = preg_replace("/[^0-9,+.]/", "", $request->input('sent_to'));
 
         // Allow for Alphanumeric sender
-        $from = preg_replace("/[^0-9A-Za-z ]/", "", $from);
+        $from = preg_replace("/[^0-9A-Za-z+ ]/", "", $from);
 
         $date = $request->input('sent_timestamp');
 

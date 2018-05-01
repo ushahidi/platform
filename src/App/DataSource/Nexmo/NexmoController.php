@@ -31,8 +31,8 @@ class NexmoController extends DataSourceController
 		}
 
 		// Remove Non-Numeric characters because that's what the DB has
-		$to = preg_replace("/[^0-9,.]/", "", $message->getTo());
-		$from  = preg_replace("/[^0-9,.]/", "", $message->getFrom());
+		$to = preg_replace("/[^0-9,+.]/", "", $message->getTo());
+		$from  = preg_replace("/[^0-9,+.]/", "", $message->getFrom());
 
 		$this->save([
 			'type' => MessageType::SMS,

@@ -42,7 +42,7 @@ class FrontlineSMSController extends DataSourceController
 		}
 
 		// Allow for Alphanumeric sender
-		$from = preg_replace("/[^0-9A-Za-z ]/", "", $from);
+		$from = preg_replace("/[^0-9A-Za-z+ ]/", "", $from);
 
 		$this->save([
 			'type' => MessageType::SMS,

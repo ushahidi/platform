@@ -33,8 +33,8 @@ class TwilioController extends DataSourceController
         }
 
         // Remove Non-Numeric characters because that's what the DB has
-        $to = preg_replace("/[^0-9,.]/", "", $request->input('To'));
-        $from  = preg_replace("/[^0-9,.]/", "", $request->input('From'));
+        $to = preg_replace("/[^0-9,+.]/", "", $request->input('To'));
+        $from  = preg_replace("/[^0-9,+.]/", "", $request->input('From'));
 
         $message_text = $request->input('Body');
         $message_sid  = $request->input('MessageSid');
