@@ -265,18 +265,8 @@ $di->params['Ushahidi\Factory\UsecaseFactory']['map']['messages'] = [
 // Message receive requires extra repos
 $di->setter['Ushahidi\Core\Usecase\Message\ReceiveMessage']['setContactRepository']
 	= $di->lazyGet('repository.contact');
-$di->setter['Ushahidi\Core\Usecase\Message\ReceiveMessage']['setPostRepository'] = $di->lazyGet('repository.post');
-
-// form attribute repo for ReceiveMessage usecase
-$di->setter['Ushahidi\Core\Usecase\Message\ReceiveMessage']['setFormAttributeRepo'] =
-	$di->lazyGet('repository.form_attribute');
-// form TargetedSurveyState repo for ReceiveMessage usecase
-$di->setter['Ushahidi\Core\Usecase\Message\ReceiveMessage']['setTargetedSurveyStateRepo'] =
-	$di->lazyGet('repository.targeted_survey_state');
 $di->setter['Ushahidi\Core\Usecase\Message\ReceiveMessage']['setContactValidator']
 	= $di->lazyGet('validator.contact.receive');
-$di->setter['Ushahidi\Core\Usecase\Message\ReceiveMessage']['setOutgoingMessageValidator']
-	= $di->lazyGet('validator.message.create');
 
 // Add custom usecases for posts
 $di->params['Ushahidi\Factory\UsecaseFactory']['map']['posts'] = [

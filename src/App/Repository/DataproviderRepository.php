@@ -48,6 +48,7 @@ class DataProviderRepository implements
 				'name' => $row->getName(),
 				'options' => $row->getOptions(),
 				'services' => $row->getServices(),
+				'inbound_fields' => $row->getInboundFields(),
 			]);
 			$collection[$entity->getId()] = $entity;
 		}
@@ -97,6 +98,7 @@ class DataProviderRepository implements
 			'name' => $source->getName(),
 			'options' => $source->getOptions(),
 			'services' => $source->getServices(),
+			'inbound_fields' => $source->getInboundFields(),
 		]);
 	}
 

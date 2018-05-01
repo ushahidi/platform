@@ -15,6 +15,7 @@ use Ushahidi\App\DataSource\IncomingAPIDataSource;
 use Ushahidi\App\DataSource\OutgoingAPIDataSource;
 use Ushahidi\App\DataSource\Message\Type as MessageType;
 use Ushahidi\App\DataSource\Message\Status as MessageStatus;
+use Ushahidi\App\DataSource\Concerns\MapsInboundFields;
 use Abraham\TwitterOAuth\TwitterOAuth;
 use Abraham\TwitterOAuth\TwitterOAuthException;
 use Symm\Gisconverter\Decoders\WKT;
@@ -28,6 +29,7 @@ use Ushahidi\Core\Entity\ConfigRepository;
 
 class Twitter implements IncomingAPIDataSource, OutgoingAPIDataSource
 {
+	use MapsInboundFields;
 
 	const MAX_REQUESTS_PER_WINDOW = 180;
 	const REQUEST_WINDOW = 900; // Twitter request window in seconds
@@ -118,6 +120,15 @@ class Twitter implements IncomingAPIDataSource, OutgoingAPIDataSource
 		];
 	}
 
+	public function getInboundFields()
+	{
+		return [
+			'Date' => 'datetime',
+			'Location' => 'location',
+			'Message' => 'text'
+		];
+	}
+
 	// DataSource
 	public function fetch($limit = false)
 	{
@@ -185,7 +196,7 @@ class Twitter implements IncomingAPIDataSource, OutgoingAPIDataSource
 					'message' => $text,
 					'to' => null,
 					'title' => null,
-					'date' => $date,
+					'datetime' => $date,
 					'data_source_message_id' => $id,
 					'additional_data' => $additional_data
 				];

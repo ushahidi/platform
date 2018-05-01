@@ -47,9 +47,11 @@ class DataSourceStorage
         $message,
         $to = null,
         $title = null,
-        $date = null,
+        $datetime = null,
         $data_source_message_id = null,
-        array $additional_data = null
+        array $additional_data = null,
+        $inbound_form_id = null,
+        array $inbound_fields = null
     ) {
         $data_source = $source_id;
 
@@ -60,11 +62,15 @@ class DataSourceStorage
                     'message',
                     'to',
                     'title',
-                    'date',
+                    'datetime',
                     'data_source_message_id',
                     'data_source',
                     'contact_type',
-                    'additional_data'
+                    'additional_data',
+                    // Pass data for mapping inbound fields
+                    // @todo these could come directly from the source but it ended up in a circular dependency
+                    'inbound_form_id',
+                    'inbound_fields'
                 ]))
                 ->interact();
         } catch (\Ushahidi\Core\Exception\NotFoundException $e) {

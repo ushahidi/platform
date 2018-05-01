@@ -15,6 +15,7 @@ use Ushahidi\App\DataSource\IncomingAPIDataSource;
 use Ushahidi\App\DataSource\OutgoingAPIDataSource;
 use Ushahidi\App\DataSource\Message\Type as MessageType;
 use Ushahidi\App\DataSource\Message\Status as MessageStatus;
+use Ushahidi\App\DataSource\Concerns\MapsInboundFields;
 use Ushahidi\Core\Entity\MessageRepository;
 use Illuminate\Contracts\Mail\Mailer;
 use Ushahidi\Core\Entity\Contact;
@@ -22,6 +23,7 @@ use Log;
 
 class Email implements IncomingAPIDataSource, OutgoingAPIDataSource
 {
+	use MapsInboundFields;
 
 	protected $config;
 	protected $mailer;
@@ -109,6 +111,15 @@ class Email implements IncomingAPIDataSource, OutgoingAPIDataSource
 				'rules' => array('required')
 			)
 		);
+	}
+
+	public function getInboundFields()
+	{
+		return [
+			'Subject' => 'text',
+			'Date' => 'datetime',
+			'Message' => 'text'
+		];
 	}
 
 	/**
@@ -288,7 +299,7 @@ class Email implements IncomingAPIDataSource, OutgoingAPIDataSource
 				'message' => $message,
 				'to' => $to,
 				'title' => $title,
-				'date' => $date,
+				'datetime' => $date,
 				'data_source_message_id' => $data_source_message_id,
 				'additional_data' => [],
 			];
