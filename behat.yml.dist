@@ -12,13 +12,13 @@ default:
                 - Tests\Integration\Bootstrap\KohanaContext
                 - Tests\Integration\Bootstrap\FeatureContext
                 - Tests\Integration\Bootstrap\RestContext:
-                    baseUrl: http://localhost
+                    baseUrl: http://localhost:8000
                     # proxyUrl: localhost:8888
                 - Tests\Integration\Bootstrap\PHPUnitFixtureContext
                 - Tests\Integration\Bootstrap\MinkExtendedContext
             extensions:
                 Behat\MinkExtension:
-                    base_url:  http://localhost
+                    base_url:  http://localhost:8000
                     sessions:
                         default:
                             goutte: ~
