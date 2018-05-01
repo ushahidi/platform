@@ -18,6 +18,7 @@ use Ushahidi\Core\Tool\AuthorizerTrait;
 use Ushahidi\Core\Tool\FormatterTrait;
 use Ushahidi\Core\Usecase\Concerns\ModifyRecords;
 use Ushahidi\Core\Exception\ValidatorException;
+use Ushahidi\Core\Tool\ValidatorTrait;
 
 class ResetUserPassword implements Usecase
 {
@@ -25,7 +26,8 @@ class ResetUserPassword implements Usecase
 	// setter method for the tool. For example, the AuthorizerTrait provides
 	// a `setAuthorizer` method which only accepts `Authorizer` instances.
 	use AuthorizerTrait,
-		FormatterTrait;
+		FormatterTrait,
+		ValidatorTrait;
 
 	// - ModifyRecords for setting search parameters
 	use ModifyRecords;
@@ -33,7 +35,7 @@ class ResetUserPassword implements Usecase
 	// Usecase
 	public function isWrite()
 	{
-		return false;
+		return true;
 	}
 
 	// Usecase
@@ -63,27 +65,26 @@ class ResetUserPassword implements Usecase
 	{
 		$token = $this->getPayload('token');
 		$password = $this->getPayload('password');
-		$entity = [
+		$entity_array = [
 			'token' => $token,
 			'password' => $password
 		];
 
-		$this->verifyValid($entity);	
+		$this->verifyValid($entity_array);	
 			
 		$this->repo->setPassword($token, $password);
 
 		// And delete the token
 		$this->repo->deleteResetToken($token);
 
-		// Return an empty success response regardless
-		// if the user was found or not
 		return;
 	}
 
 	// ValidatorTrait
-	protected function verifyValid(Entity $entity)
+	protected function verifyValid(array $entity_array)
 	{
-		if (!$this->validator->check($entity->asArray())) {
+		if (!$this->validator->check($entity_array)) {
+			$entity = $this->repo->getEntity();
 			$this->validatorError($entity);
 		}
 	}

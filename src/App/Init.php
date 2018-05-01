@@ -164,7 +164,7 @@ $di->params['Ushahidi\Factory\ValidatorFactory']['map']['users'] = [
 	'create'   => $di->lazyNew(Ushahidi\App\Validator\User\Create::class),
 	'update'   => $di->lazyNew(Ushahidi\App\Validator\User\Update::class),
 	'register' => $di->lazyNew(Ushahidi\App\Validator\User\Register::class),
-	'reset' => $di->lazyNew(Ushahidi\App\Validator\User\Reset::class)
+	'passwordreset' => $di->lazyNew(Ushahidi\App\Validator\User\Reset::class)
 ];
 $di->params['Ushahidi\Factory\ValidatorFactory']['map']['messages'] = [
 	'create' => $di->lazyNew(Ushahidi\App\Validator\Message\Create::class),
@@ -625,7 +625,7 @@ $di->params[Ushahidi\App\Validator\User\Register::class] = [
 	'repo'    => $di->lazyGet('repository.user')
 ];
 $di->params[Ushahidi\App\Validator\User\Reset::class] = [
-	'repo'    => $di->lazyGet('repository.resetpassword')
+	'repo'    => $di->lazyGet('repository.user')
 ];
 $di->params[Ushahidi\App\Validator\CSV\Create::class] = [
 	'form_repo' => $di->lazyGet('repository.form'),

@@ -216,6 +216,8 @@ class UserRepository extends OhanzeeRepository implements
 			->where('created', '>', time() - 1800) // Expire tokens after less than 30 mins
 			->execute($this->db);
 
+			
+
 		$count = $result->get('total') ?: 0;
 
 		return $count !== 0;

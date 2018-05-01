@@ -13,16 +13,15 @@ namespace Ushahidi\App\Validator\User;
 
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\Tool\Validator;
-use Ushahidi\Core\Entity\ResetPasswordRepository;
+use Ushahidi\Core\Entity\UserRepository;
 
 class Reset extends Validator
 {
-	use UserContext;
 
 	protected $default_error_source = 'user';
 	protected $repo;
 
-	public function __construct(ResetPasswordRepository $repo)
+	public function __construct(UserRepository $repo)
 	{
 		$this->repo = $repo;
 	}
@@ -42,8 +41,8 @@ class Reset extends Validator
 
 	public function checkResetToken(\Kohana\Validation\Validation $validation, $token)
 	{
-		if ($this->repo->isValidResetToken($token)) {
-			$validation->error('user', 'invalidResetToken');
+		if (!$this->repo->isValidResetToken($token)) {
+			$validation->error('token', 'invalidResetToken');
 		}
 	}
 }
