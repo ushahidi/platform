@@ -131,7 +131,6 @@ class ReceiveMessage extends CreateUsecase
 	{
         // @FIXME: Message type should be configurable per deployment,survey
         $message_type = 'sms';
-        $data_provider = \DataProvider::getEnabledProviderForType($message_type);
 		// Create new message to send next question to the user
 		$outgoingMessage = $this->repo->getEntity()->setState([
 			'contact_id' => $contact_id,
@@ -139,7 +138,6 @@ class ReceiveMessage extends CreateUsecase
 			'title' => $next_form_attribute->label,
 			'message' => $next_form_attribute->label,
 			'status' => Message::PENDING,
-			'data_provider' => $data_provider,
 			'type' => $message_type,
 			'direction' => Message::OUTGOING
 		]);
@@ -222,7 +220,7 @@ class ReceiveMessage extends CreateUsecase
 			if (!$outgoingMessageId) {
 				\Kohana::$log->add(
 					\Log::ERROR,
-					'Could not create new incoming message',
+					'Could not create new outgoing message',
 					compact('contact_id')
 				);
 

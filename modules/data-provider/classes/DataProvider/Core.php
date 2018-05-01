@@ -159,7 +159,7 @@ abstract class DataProvider_Core {
 		// Grab default provider if none passed
 		if ( ! $provider_name)
 		{
-			$provider_name = self::getProviderForType($type);
+			$provider_name = self::getEnabledProviderForType($type);
 		}
 
 		if ( ! $provider_name)
@@ -361,7 +361,7 @@ abstract class DataProvider_Core {
 	 * @param  boolean $limit   maximum number of messages to send at a time
 	 * @param  string  $provider Grab messages for only this provider
 	 */
-	public static function process_pending_messages($limit = 20, $provider = FALSE)
+	public static function process_pending_messages($limit = 20, $provider = NULL)
 	{
 		return 0;
 	}
