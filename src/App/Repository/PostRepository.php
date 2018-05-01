@@ -444,18 +444,16 @@ class PostRepository extends OhanzeeRepository implements
             )
 			->and_where_close();
 		} elseif ($search->has_location === 'unmapped') {
-			$query->and_where_open()
-			->where(
+			$query->where(
                 "$table.id",
                 'NOT IN',
                 DB::query(Database::SELECT, 'select post_geometry.post_id from post_geometry')
-            )
-			->or_where(
+            );
+			$query->where(
                 "$table.id",
                 'NOT IN',
                 DB::query(Database::SELECT, 'select post_point.post_id from post_point')
-            )
-			->and_where_close();
+            );
 		}
 
 		// Filter by tag

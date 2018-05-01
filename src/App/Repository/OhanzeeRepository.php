@@ -100,18 +100,19 @@ abstract class OhanzeeRepository implements
 		$sorting = $search->getSorting();
 
 		if (!empty($sorting['orderby'])) {
+			$order = isset($sorting['order']) ? strtoupper($sorting['order']) : 'ASC';
 			$this->search_query->order_by(
 				$this->getTable() . '.' . $sorting['orderby'],
-				isset($sorting['order']) ? $sorting['order'] : null
+				($order == 'DESC' ? 'DESC' : 'ASC')
 			);
 		}
 
 		if (!empty($sorting['offset'])) {
-			$this->search_query->offset($sorting['offset']);
+			$this->search_query->offset(intval($sorting['offset']));
 		}
 
 		if (!empty($sorting['limit'])) {
-			$this->search_query->limit($sorting['limit']);
+			$this->search_query->limit(intval($sorting['limit']));
 		}
 
 		// apply the unique conditions of the search
@@ -289,7 +290,7 @@ abstract class OhanzeeRepository implements
 	 */
 	protected function executeDelete(array $where)
 	{
-		
+
 		if (!$where) {
 			throw new RuntimeException(sprintf(
 				'Cannot delete every record in table "%s"',

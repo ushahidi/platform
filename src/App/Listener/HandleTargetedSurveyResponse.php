@@ -75,7 +75,8 @@ class HandleTargetedSurveyResponse
             $outgoingMessageId = $this->createOutgoingMessage(
                 $incomingMessage->contact_id,
                 $surveyStateEntity,
-                $nextFormAttribute
+                $nextFormAttribute,
+                $incomingMessage->data_source
             );
 
             // If this for some unknown reason fails, log it
@@ -118,7 +119,7 @@ class HandleTargetedSurveyResponse
      * @param $nextFormAttribute
      * @return int|$outgoingMessageId
      */
-    private function createOutgoingMessage($contact_id, $surveyStateEntity, $nextFormAttribute)
+    private function createOutgoingMessage($contact_id, $surveyStateEntity, $nextFormAttribute, $data_source)
     {
         // Create new message to send next question to the user
         $outgoingMessage = $this->messageRepo->getEntity()->setState([
@@ -128,6 +129,7 @@ class HandleTargetedSurveyResponse
             'message' => $nextFormAttribute->label,
             'status' => Message::PENDING,
             'type' => 'sms', // FIXME
+            'data_source' => $data_source,
             'direction' => Message::OUTGOING
         ]);
 
