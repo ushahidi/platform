@@ -239,4 +239,21 @@ Feature: Testing the Users API
 			"""
 		When I request "/passwordreset/confirm"
 		Then the guzzle status code should be 204
+	@resetpass
+	Scenario: Fail to reset a users password
+		Given that I want to make a new "user"
+		And that the request "data" is:
+			"""
+			{
+				"email":"demo@ushahidi.com",
+				"token":"testresettoken2",
+				"password":"a"
+			}
+			"""
+		When I request "/passwordreset/confirm"
+		And the response has a "errors" property
+		And the "errors.0.message" property contains "password must be at least 7 characters long"
+		Then the response is JSON
+
+		Then the guzzle status code should be 422	
 

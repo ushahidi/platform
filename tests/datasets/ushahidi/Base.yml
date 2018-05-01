@@ -78,6 +78,11 @@ user_reset_tokens:
     user_id: 5
     reset_token: testresettoken
     created: 1893477600
+  -
+    id: 2
+    user_id: 5
+    reset_token: testresettoken2
+    created: 1893477600    
 forms:
   -
     id: 1
