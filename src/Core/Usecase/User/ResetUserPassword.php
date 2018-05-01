@@ -70,7 +70,7 @@ class ResetUserPassword implements Usecase
 			'password' => $password
 		];
 
-		$this->verifyValid($entity_array);	
+		$this->verifyValid($entity_array);
 			
 		$this->repo->setPassword($token, $password);
 

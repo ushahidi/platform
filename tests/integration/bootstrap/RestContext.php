@@ -281,8 +281,7 @@ class RestContext implements Context
 		$this->response = $response;
 		// $data = $this->response->getBody(true);
 		// $data = explode("\n", $data);
-		// \Log::info(print_r($data, true));
-		
+		// \Log::info(print_r($data, true));	
 	}
 
 	/**
