@@ -15,7 +15,7 @@ use Ushahidi\Core\Tool\Validator;
 use Ushahidi\Core\Entity\PermissionRepository;
 
 class Update extends Validator
-{	
+{
 	protected $permission_repo;
 	protected $feature_enabled;
 	protected $default_error_source = 'role';
