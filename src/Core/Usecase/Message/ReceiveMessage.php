@@ -25,9 +25,6 @@ use Ushahidi\Core\Usecase\CreateUsecase;
 use Ushahidi\Core\Usecase\CreateRepository;
 
 use Ushahidi\Core\Exception\ValidatorException;
-use \Log;
-use \Kohana;
-use HTTP_Exception_400;
 
 class ReceiveMessage extends CreateUsecase
 {
@@ -49,14 +46,13 @@ class ReceiveMessage extends CreateUsecase
 	}
 
 	protected $targeted_survey_state_repo;
-	protected $form_attr_repo;
+    protected $form_attr_repo;
+    protected $outgoingMessageValidator;
+
 	/**
 	 * @var CreateRepository
 	 */
 	protected $contact_repo;
-
-	protected $outgoingMessageValidator;
-
 
 	/**
 	 * Inject a contact repository
@@ -111,31 +107,15 @@ class ReceiveMessage extends CreateUsecase
 
 	/**
 	 * @param $incoming_message
-	 * @param $contact_id
 	 * @param $survey_state_entity
 	 * @return int|$incomingMessageId
-	 * @throws HTTP_Exception_400
 	 */
-	private function createIncomingMessage($incoming_message, $contact_id, $survey_state_entity)
+	private function createIncomingMessage($incoming_message, $survey_state_entity)
 	{
-		//create incoming message
-		$incomingMessageRepo = clone $this->repo;
-		$incomingMessage = $incomingMessageRepo->getEntity();
-		$incomingMessageState = $incoming_message->asArray();
-		$incomingMessageState['contact_id'] = $contact_id;
-		$incomingMessageState['post_id'] = $survey_state_entity->post_id;
-		$incomingMessage->setState($incomingMessageState);
+		// Update state with post id
+		$incoming_message->setState(['post_id' => $survey_state_entity->post_id]);
+		$incomingMessageId = $this->repo->create($incoming_message);
 
-		// ... verify that the message entity is in a valid state
-		$this->verifyValid($incomingMessage);
-		$incomingMessageId = $incomingMessageRepo->create($incomingMessage);
-		if (!$incomingMessageId) {
-			Kohana::$log->add(
-				Log::ERROR,
-				'Could not create new incoming message for contact_id: ' . print_r($contact_id, true)
-			);
-			throw new HTTP_Exception_400('Could not create new incoming message for contact_id: ' . $contact_id);
-		}
 		return $incomingMessageId;
 	}
 
@@ -145,67 +125,79 @@ class ReceiveMessage extends CreateUsecase
 	 * @param $contact_id
 	 * @param $survey_state_entity
 	 * @param $next_form_attribute
-	 * @return int|$incomingMessageId
-	 * @throws HTTP_Exception_400
+	 * @return int|$outgoingMessageId
 	 */
-	private function createOutgoingMessage($contact_id, $survey_state_entity, $next_form_attribute)
+	private function createOutgoingMessage($contact_id, $survey_state_entity, $next_form_attribute, $data_provider)
 	{
         // @FIXME: Message type should be configurable per deployment,survey
         $message_type = 'sms';
-        $data_provider = \DataProvider::getEnabledProviderForType($message_type);
-		$newMessage = $this->repo->getEntity();
-		$messageState = array(
-            'contact_id' => $contact_id,
-            'post_id' => $survey_state_entity->post_id,
-            'title' => $next_form_attribute->label,
-            'message' => $next_form_attribute->label,
-            'status' => Message::PENDING,
-            'data_provider' => $data_provider,
-            'type' => $message_type,
-            'direction' => Message::OUTGOING
-		);
-		$newMessage->setState($messageState);
-		$this->outgoingMessageValidator->check($messageState);
-		$newMessageId = $this->repo->create($newMessage);
-		if (!$newMessageId) {
-			Kohana::$log->add(
-				Log::ERROR,
-				'Could not create new message for contact_id: ' . print_r($contact_id, true)
-			);
-			throw new HTTP_Exception_400('Could not create new outgoing message for contact_id: ' . $contact_id);
+		// Create new message to send next question to the user
+		$outgoingMessage = $this->repo->getEntity()->setState([
+			'contact_id' => $contact_id,
+			'post_id' => $survey_state_entity->post_id,
+			'title' => $next_form_attribute->label,
+			'message' => $next_form_attribute->label,
+			'status' => Message::PENDING,
+			'type' => $message_type,
+			'data_provider' => $data_provider,
+			'direction' => Message::OUTGOING
+		]);
+
+		// Verify its valid
+		// @todo not sure we even need to bother. If its not valid, all is lost.
+		if (!$this->outgoingMessageValidator->check($outgoingMessage->asArray())) {
+			$this->validatorError($outgoingMessage);
 		}
-		return $newMessageId;
+
+		// Save the message
+		$outgoingMessageId = $this->repo->create($outgoingMessage);
+
+		// But then continue anyway
+		return $outgoingMessageId;
 	}
 
 	/**
-	 * @param $contact_id
 	 * @param $incoming_message
-	 * @throws HTTP_Exception_400
 	 */
-	private function createTargetedSurveyMessages($contact_id, $incoming_message)
+	private function createTargetedSurveyMessages($incoming_message)
 	{
-		$surveyStateEntity = $this->targeted_survey_state_repo->getActiveByContactId($contact_id);
-		$messageInSurveyState = clone $this->repo;
-		// ... attempt to load the entity
-		$messageInSurveyState = $messageInSurveyState->get($surveyStateEntity->message_id);
+		// Load the survey state for this contact
+		$surveyStateEntity = $this->targeted_survey_state_repo->getActiveByContactId($incoming_message->contact_id);
+
+		// Attempt to load the previous message
+		$messageInSurveyState = $this->repo->get($surveyStateEntity->message_id);
+
+		// If we didn't find an outgoing message
 		if (!$messageInSurveyState || $messageInSurveyState->direction !== \Ushahidi\Core\Entity\Message::OUTGOING) {
-			//we can't save it as a message of the survey
-			Kohana::$log->add(
-				Log::ERROR,
-				'Could not add contact\'s  message for contact_id: ' .
-				print_r($contact_id, true) . ' and form ' . $surveyStateEntity->form_id
+			// We can't save it as a message of the survey
+			// ... log an error because we should probably never end up here
+			\Kohana::$log->add(
+				\Log::ERROR,
+				'Could not add contact\'s  message',
+				[
+					'contact_id' => $incoming_message->contact_id,
+					'form_id' => $surveyStateEntity->form_id
+				]
 			);
-			throw new HTTP_Exception_400(
-				'Outgoing question not found for contact ' . $contact_id . ' and form ' . $surveyStateEntity->form_id
-			);
+
+			// Create a new post
+			$post_id = $this->createPost($incoming_message);
+			$incoming_message->setState(compact('post_id'));
+
+			// But always save the message anyway - otherwise its lost forever
+			return $this->repo->create($incoming_message);
 		}
-		//get the next attribute in that form, based on the form and the last_sent_form_attribute_id
+
+		// We found the outgoing message... flow continues
+		// Save the incoming message
+		$incomingMessageId = $this->createIncomingMessage($incoming_message, $surveyStateEntity);
+
+		// Get the next attribute in that form, based on the form and the last_sent_form_attribute_id
 		$next_form_attribute = $this->form_attr_repo->getNextByFormAttribute(
 			$surveyStateEntity->form_attribute_id
 		);
-		//create incoming message
-		$incomingMessageId = $this->createIncomingMessage($incoming_message, $contact_id, $surveyStateEntity);
-		// intermediate state to mark when we receive a message
+
+		// Set up intermediate state w/ message id, next attribute and new status
 		$surveyStateEntity->setState(
 			[
 				'form_attribute_id' => $next_form_attribute->getId(),
@@ -213,21 +205,51 @@ class ReceiveMessage extends CreateUsecase
 				'survey_status' => Entity\TargetedSurveyState::RECEIVED_RESPONSE
 			]
 		);
+		// And save intermediate state
 		$this->targeted_survey_state_repo->update($surveyStateEntity);
+
+		// If we have another question to send
 		if ($next_form_attribute->getId() > 0) {
-			$newMessageId = $this->createOutgoingMessage($contact_id, $surveyStateEntity, $next_form_attribute);
+			// Queue next question to be sent
+			$outgoingMessageId = $this->createOutgoingMessage(
+				$incoming_message->contact_id,
+				$surveyStateEntity,
+				$next_form_attribute,
+				$incoming_message->data_provider
+			);
+
+			// If this for some unknown reason fails, log it
+			if (!$outgoingMessageId) {
+				\Kohana::$log->add(
+					\Log::ERROR,
+					'Could not create new outgoing message',
+					compact('contact_id')
+				);
+
+				// Return the incoming message as per usual
+				return $incomingMessageId;
+			}
+
+			// Update the state with: outgoing message, attribute id, and new status
 			$surveyStateEntity->setState(
 				[
 					'form_attribute_id' => $next_form_attribute->getId(),
-					'message_id' => $newMessageId,
+					'message_id' => $outgoingMessageId,
 					'survey_status' => Entity\TargetedSurveyState::PENDING_RESPONSE
 				]
 			);
+
+			// And save state
 			$this->targeted_survey_state_repo->update($surveyStateEntity);
 		} else {
+			// Otherwise, No more questions to send
+			// Mark survey finished
 			$surveyStateEntity->setState(['survey_status' => Entity\TargetedSurveyState::SURVEY_FINISHED]);
+			// And save state
 			$this->targeted_survey_state_repo->update($surveyStateEntity);
 		}
+
+		// Finally, return the new message ID
 		return $incomingMessageId;
 	}
 
@@ -253,21 +275,20 @@ class ReceiveMessage extends CreateUsecase
 		$contact_id = $this->createContact($contact);
 		$entity->setState(compact('contact_id'));
 		$id = null;
+
 		/**
 		 * check if contact is part of an open targeted_survey.
 		 * If they are, the first post was created already so no need to create a new one
 		 */
 		if ($this->isContactInTargetedSurvey($contact_id)) {
-			$id = $this->createTargetedSurveyMessages($contact_id, $entity);
+			// @todo decouple this by moving to a listener
+			$id = $this->createTargetedSurveyMessages($entity);
 		} else {
-			$post_id = null;
-			// don't throw an event
 			// ... create post for message
+			// @todo decouple this by moving to a listener
 			$post_id = $this->createPost($entity);
+			$entity->setState(compact('post_id'));
 			// ... persist the new message entity
-			if ($post_id) {
-				$entity->setState(compact('post_id'));
-			}
 			$id = $this->repo->create($entity);
 		}
 		return $id;
@@ -299,13 +320,11 @@ class ReceiveMessage extends CreateUsecase
 		$contact = $this->contact_repo->getByContact($this->getPayload('from'), $this->getPayload('contact_type'));
 		if (!$contact->getId()) {
 			// this is the first time a message has been received by this number, so create contact
-			$contact = $this->contact_repo->getEntity()->setState(
-				[
-					'contact' => $this->getPayload('from'),
-					'type' => $this->getPayload('contact_type'),
-					'data_provider' => $this->getPayload('data_provider'),
-				]
-			);
+			$contact = $this->contact_repo->getEntity()->setState([
+				'contact' => $this->getPayload('from'),
+				'type' => $this->getPayload('contact_type'),
+				'data_provider' => $this->getPayload('data_provider'),
+			]);
 		}
 		return $contact;
 	}
@@ -402,14 +421,12 @@ class ReceiveMessage extends CreateUsecase
 			}
 		}
 		// First create a post
-		$post = $this->post_repo->getEntity()->setState(
-			[
-				'title' => $message->title,
-				'content' => $content,
-				'values' => $values,
-				'form_id' => $form_id
-			]
-		);
+		$post = $this->post_repo->getEntity()->setState([
+			'title' => $message->title,
+			'content' => $content,
+			'values' => $values,
+			'form_id' => $form_id
+		]);
 		return $this->post_repo->create($post);
 	}
 
