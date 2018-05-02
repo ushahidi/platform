@@ -143,3 +143,21 @@ Feature: Testing the Roles API
 		And the response has a "protected" property
 		And the "protected" property is true
         Then the guzzle status code should be 200
+
+#    @rolesDisabled
+#    Scenario: Cannot update role when roles disabled
+#       Given that I want to update a "Role"
+#       And that the oauth token is "testadminuser"
+#       And that the request "data" is:
+#           """
+#           {
+#               "name":"supervisor",
+#               "display_name":"Supervisor",
+#               "permissions":["Manage Users"]
+#           }
+#            """
+#        And that its "id" is "1"
+#        When I request "/roles"
+#        Then the response is JSON
+#		And the response has a "errors" property
+#        Then the guzzle status code should be 422
