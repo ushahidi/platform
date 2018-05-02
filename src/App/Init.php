@@ -815,6 +815,12 @@ $di->set('features.data-providers', function () use ($di) {
     return array_filter($config['data-providers']);
 });
 
+// HDX feature config
+$di->set('hxl.enabled', function () use ($di) {
+	$config = $di->get('features');
+
+	return $config['hxl']['enabled'];
+});
 // Private deployment config settings
 // @todo move to repo
 $di->set('site.private', function () use ($di) {
