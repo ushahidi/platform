@@ -47,32 +47,66 @@ $di->set('memcached', $di->lazy(function () use ($di) {
 	return $memcached;
 }));
 
+// Set up register rate limiter
+$di->set('ratelimiter.register.flap', $di->lazyNew(
+	'BehEh\Flaps\Flap',
+	array(
+		'storage' => $di->lazyNew(
+			'BehEh\Flaps\Storage\DoctrineCacheAdapter',
+			array(
+				'cache' => $di->lazyGet('ratelimiter.cache')
+			)
+		),
+		'name' => 'register'
+	)
+));
+
+$di->set('ratelimiter.register.strategy', $di->lazyNew(
+	'BehEh\Flaps\Throttling\LeakyBucketStrategy',
+	array(
+		'requests' => 3,
+		'timeSpan' => '1m'
+	)
+));
+
+$di->set('ratelimiter.register', $di->lazyNew(
+	Ushahidi\App\RateLimiter::class,
+	array(
+		'flap' => $di->lazyGet('ratelimiter.register.flap'),
+		'throttlingStrategy' => $di->lazyGet('ratelimiter.register.strategy'),	
+	)
+));
+
 // Set up login rate limiter
-$di->set('ratelimiter.login.flap', $di->lazyNew('BehEh\Flaps\Flap'));
+$di->set('ratelimiter.login.flap', $di->lazyNew(
+	'BehEh\Flaps\Flap',
+	array(
+		'storage' => $di->lazyNew(
+			'BehEh\Flaps\Storage\DoctrineCacheAdapter',
+			array(
+				'cache' => $di->lazyGet('ratelimiter.cache')
+			)
+		),
+		'name' => 'login'
+	)
+));
 
-$di->params['BehEh\Flaps\Flap'] = [
-	'storage' => $di->lazyNew('BehEh\Flaps\Storage\DoctrineCacheAdapter'),
-	'name' => 'login'
-];
 
-$di->set('ratelimiter.login.strategy', $di->lazyNew('BehEh\Flaps\Throttling\LeakyBucketStrategy'));
+$di->set('ratelimiter.login.strategy', $di->lazyNew(
+	'BehEh\Flaps\Throttling\LeakyBucketStrategy',
+	array(
+		'requests' => 3,
+		'timeSpan' => '1m'
+	)
+));
 
-// 3 requests every 1 minute by default
-$di->params['BehEh\Flaps\Throttling\LeakyBucketStrategy'] = [
-	'requests' => 3,
-	'timeSpan' => '1m'
-];
-
-$di->set('ratelimiter.login', $di->lazyNew(Ushahidi\App\RateLimiter::class));
-
-$di->params[Ushahidi\App\RateLimiter::class] = [
-	'flap' => $di->lazyGet('ratelimiter.login.flap'),
-	'throttlingStrategy' => $di->lazyGet('ratelimiter.login.strategy'),
-];
-
-$di->params['BehEh\Flaps\Storage\DoctrineCacheAdapter'] = [
-	'cache' => $di->lazyGet('ratelimiter.cache')
-];
+$di->set('ratelimiter.login', $di->lazyNew(
+	Ushahidi\App\RateLimiter::class,
+	array(
+		'flap' => $di->lazyGet('ratelimiter.login.flap'),
+		'throttlingStrategy' => $di->lazyGet('ratelimiter.login.strategy'),	
+	)
+));
 
 // Rate limit storage cache
 $di->set('ratelimiter.cache', function () use ($di) {
@@ -99,7 +133,6 @@ $di->set('ratelimiter.cache', function () use ($di) {
 // Rate limiter violation handler
 $di->setter['BehEh\Flaps\Flap']['setViolationHandler'] =
 	$di->lazyNew(Ushahidi\App\ThrottlingViolationHandler::class);
-
 
 // Validator mapping
 $di->params['Ushahidi\Factory\ValidatorFactory']['map']['apikeys'] = [
