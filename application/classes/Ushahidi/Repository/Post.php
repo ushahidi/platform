@@ -459,10 +459,8 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 			->or_where("$table.id", 'IN', DB::query(Database::SELECT, 'select post_point.post_id from post_point'))
 			->and_where_close();
 		} else if($search->has_location === 'unmapped') {
-			$query->and_where_open()
-			->where("$table.id", 'NOT IN', DB::query(Database::SELECT, 'select post_geometry.post_id from post_geometry'))
-			->or_where("$table.id", 'NOT IN', DB::query(Database::SELECT, 'select post_point.post_id from post_point'))
-			->and_where_close();
+			$query->where("$table.id", 'NOT IN', DB::query(Database::SELECT, 'select post_geometry.post_id from post_geometry'));
+			$query->where("$table.id", 'NOT IN', DB::query(Database::SELECT, 'select post_point.post_id from post_point'));
 		}
 
 		// Filter by tag
