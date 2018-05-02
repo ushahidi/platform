@@ -37,7 +37,6 @@
         "ddeboer/data-import": "dev-master",
         "symfony/property-access": "~2.5",
         "league/event": "^2.2@dev",
-        "league/url": "~3.0",
         "beheh/flaps": "dev-master",
         "doctrine/cache": "^1.6.2",
         "ramsey/uuid": "^3.4.1",

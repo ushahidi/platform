@@ -10,9 +10,9 @@
 
 namespace Ushahidi\App;
 
-use League\Url\Url;
 use Ohanzee\DB;
 use Ohanzee\Database;
+use Illuminate\Http\Request;
 
 class Multisite
 {
@@ -38,14 +38,10 @@ class Multisite
 			}
 			// If we still don't have a host
 			if (! $host) {
-				try {
-					// .. parse the current URL
-					$url = Url::createFromServer($_SERVER);
-					// .. and grab the host
-					$host = $url->getHost()->toUnicode();
-				} catch (\RuntimeException $e) {
-					// Something went wrong parsing the host
-				}
+				// @todo we should try app('request') first but we can't guarantee its been created
+				$request = Request::capture();
+				// .. parse the current URL
+				$host = $request->getHost();
 			}
 
 			// If we still don't have a host
