@@ -14,6 +14,15 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         Commands\RoutesCommand::class,
+        Commands\MigrateCommand::class,
+        Commands\MigrateInstallCommand::class,
+        Commands\MigrateMakeCommand::class,
+        Commands\MigrateRefreshCommand::class,
+        Commands\MigrateResetCommand::class,
+        Commands\MigrateRollbackCommand::class,
+        Commands\MigrateStatusCommand::class,
+        Commands\SeedMakeCommand::class,
+        Commands\SeedCommand::class,
         \Ushahidi\Console\Command\ConfigSet::class,
         \Ushahidi\Console\Command\ConfigGet::class,
         \Ushahidi\Console\Command\Import::class,
