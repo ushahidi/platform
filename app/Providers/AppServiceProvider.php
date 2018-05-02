@@ -24,17 +24,12 @@ class AppServiceProvider extends ServiceProvider
 
         $this->registerFilesystem();
         $this->registerMailer();
-        $this->registerDataSources();
 
         $this->configureAuraDI();
 
-        if (!$this->app->runningInConsole()) {
-            // Switch DB based on site
-            $this->setupMultisiteIlluminateDB();
+        $this->registerDataSources();
 
-            // Hack, must construct it to register route :/
-            $this->app->make('datasources');
-        }
+        $this->setupMultisiteIlluminateDB();
     }
 
     public function registerServicesFromAura()
@@ -101,13 +96,7 @@ class AppServiceProvider extends ServiceProvider
 
     public function registerDataSources()
     {
-        $this->app->singleton('datasources', function () {
-            return $this->app->loadComponent(
-                'datasources',
-                \Ushahidi\App\DataSource\DataSourceServiceProvider::class,
-                'datasources'
-            );
-        });
+        $this->app->register(\Ushahidi\App\DataSource\DataSourceServiceProvider::class);
     }
 
     protected function configureAuraDI()

@@ -70,6 +70,12 @@ class Multisite
     {
 		$this->parseHost($host);
 
+		// If we're running in the CLI and we can't get a subdomain
+		// just return the multisite db
+		if (app()->runningInConsole() && $this->subdomain === false && $this->domain === config('multisite.domain')) {
+			return config('ohanzee-db.multisite');
+		}
+
 		// .. and find the current deployment credentials
 		$result = DB::select()->from('deployments')
 			->where('subdomain', '=', $this->subdomain)

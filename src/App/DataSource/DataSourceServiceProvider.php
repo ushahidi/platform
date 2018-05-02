@@ -18,6 +18,13 @@ class DataSourceServiceProvider extends ServiceProvider
         $this->registerCommands();
     }
 
+    public function boot()
+    {
+        if (!$this->app->runningInConsole()) {
+            $this->app->make('datasources')->registerRoutes();
+        }
+    }
+
     /**
      * Register the data provider manager.
      *
@@ -37,7 +44,6 @@ class DataSourceServiceProvider extends ServiceProvider
             $manager->setStorage($app->make(DataSourceStorage::class));
 
             $this->registerDataSources($manager);
-            $manager->registerRoutes();
 
             return $manager;
         });
