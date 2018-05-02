@@ -50,7 +50,7 @@ class PostExporter extends Command
 	 *
 	 * @var string
 	 */
-	protected $signature = 'export {--limit=100} {--offset=0} {--job} {--include-header=1}';
+	protected $signature = 'export {--limit=100} {--offset=0} {--job=} {--include-header=1}';
 
 	/**
 	 * The console command description.
