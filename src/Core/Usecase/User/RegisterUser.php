@@ -16,13 +16,30 @@ use Ushahidi\Core\Tool\PasswordAuthenticator;
 use Ushahidi\Core\Usecase\CreateUsecase;
 use Ushahidi\Core\Exception\AuthorizerException;
 use Ushahidi\Core\Entity;
+use Ushahidi\Core\Tool\RateLimiter;
 
 class RegisterUser extends CreateUsecase
 {
+	/**
+	 * @var RateLimiter
+	 */
+	protected $rateLimiter;
+
+	/**
+	 * @param RateLimiter $rateLimiter
+	 */
+	public function setRateLimiter(RateLimiter $rateLimiter)
+	{
+		$this->rateLimiter = $rateLimiter;
+	}
+
 	public function interact()
 	{
 		// fetch entity
 		$entity = $this->getEntity();
+
+		// Rate limit registration attempts
+		$this->rateLimiter->limit($entity);
 
 		// verify that registration can be done in this case
 		$this->verifyRegisterAuth($entity);

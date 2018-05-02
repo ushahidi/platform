@@ -58,12 +58,16 @@ trait VerifyFormLoaded
 	 * Checks that the form exists.
 	 * @param  Data $input
 	 * @return void
+	 * @todo  maybe move to validator
 	 */
 	protected function verifyFormDoesNoExistInTargetedSurveyState()
 	{
 		// Ensure that the form exists.
 		if ($this->form_contact_repo->formExistsInPostStateRepo($this->getRequiredIdentifier('form_id'))) {
-			throw new \HTTP_Exception_400('The form already has a set of contacts');
+			// @todo Define a more sensible exception
+			throw new ValidatorException('The form already has a set of contacts', [
+				'id' => 'The form already has a set of contacts'
+			]);
 		}
 	}
 
@@ -71,13 +75,17 @@ trait VerifyFormLoaded
 	 * Checks that the form exists.
 	 * @param  Data $input
 	 * @return void
+	 * @todo  maybe move to validator
 	 */
 	protected function verifyTargetedSurvey()
 	{
 		$form = $this->form_repo->get($this->getRequiredIdentifier('form_id'));
 		// Ensure that the form exists.
 		if (!$form->targeted_survey) {
-			throw new \HTTP_Exception_400('Not a targeted survey');
+			// @todo Define a more sensible exception
+			throw new ValidatorException('The form is not a targeted survey', [
+				'id' => 'The form is not a targeted survey'
+			]);
 		}
 	}
 

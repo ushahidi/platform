@@ -36,8 +36,8 @@ class Message extends StaticEntity
 	protected $contact_id;
 	protected $post_id;
 	protected $user_id;
-	protected $data_provider;
-	protected $data_provider_message_id;
+	protected $data_source;
+	protected $data_source_message_id;
 	protected $title;
 	protected $message;
 	protected $datetime;
@@ -47,6 +47,8 @@ class Message extends StaticEntity
 	protected $created;
 	protected $additional_data;
 	protected $notification_post_id;
+	// Optionally including contact directly with message
+	protected $contact;
 
 	// DataTransformer
 	protected function getDefinition()
@@ -59,17 +61,18 @@ class Message extends StaticEntity
 			'user_id'    => 'int',
 			'title'      => 'string',
 			'message'    => 'string',
-			'datetime'   => '*timestamp',
+			'datetime'   => '*date',
 			'type'       => 'string',
 			'status'     => 'string',
 			'direction'  => 'string',
 			'created'    => 'int',
 			// data provider relations
-			'data_provider'            => 'string',
-			'data_provider_message_id' => 'string',
+			'data_source'            => 'string',
+			'data_source_message_id' => 'string',
 			// any additional message data
 			'additional_data' => '*json',
-			'notification_post_id' => 'int'
+			'notification_post_id' => 'int',
+			'contact' => 'string'
 		];
 	}
 

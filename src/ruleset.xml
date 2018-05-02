@@ -6,4 +6,13 @@
     <rule ref="PSR2">
         <exclude name="Generic.WhiteSpace.DisallowTabIndent"/>
     </rule>
+
+    <rule ref="Generic.PHP.CharacterBeforePHPOpeningTag" />
+
+    <exclude-pattern>vendor/*</exclude-pattern>
+    <exclude-pattern>tests/spec/*</exclude-pattern>
+    <exclude-pattern>migrations/*</exclude-pattern>
+    <exclude-pattern>bin/*</exclude-pattern>
+    <exclude-pattern>database/*</exclude-pattern>
+    <exclude-pattern>resources/views/*</exclude-pattern>
 </ruleset>

@@ -9,7 +9,7 @@ Feature: Testing the Form Contacts API
                 "country_code": "UY"
             }
             """
-        And that the request "Authorization" header is "Bearer testadminuser"
+        And that the oauth token is "testadminuser"
         When I request "/forms/5/contacts"
         Then the response is JSON
         And the response has a "form_id" property
@@ -19,14 +19,14 @@ Feature: Testing the Form Contacts API
         Then the guzzle status code should be 200
     Scenario: Getting a valid set of Contacts for a targeted survey
         Given that I want to get all "Contacts"
-        And that the request "Authorization" header is "Bearer testbasicuser"
+        And that the oauth token is "testbasicuser"
         When I request "/forms/5/contacts"
         Then the response is JSON
         Then the guzzle status code should be 403
 
     Scenario: Getting a valid set of Contacts for a targeted survey (admin)
         Given that I want to get all "Contacts"
-        And that the request "Authorization" header is "Bearer testadminuser"
+        And that the oauth token is "testadminuser"
         When I request "/forms/5/contacts"
         Then the response is JSON
         Then the guzzle status code should be 200
@@ -40,7 +40,7 @@ Feature: Testing the Form Contacts API
                 "country_code": "UY"
             }
             """
-        And that the request "Authorization" header is "Bearer testbasicuser"
+        And that the oauth token is "testbasicuser"
         When I request "/forms/5/contacts"
         Then the response is JSON
         Then the guzzle status code should be 403

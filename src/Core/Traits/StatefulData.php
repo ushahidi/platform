@@ -136,13 +136,15 @@ trait StatefulData
 					$possible = [$possible];
 				}
 				foreach ($possible as $from) {
-					if (is_callable($from)) {
+					if ($from instanceof \Closure) {
 						// Callable function which returns the derived value
 						//
 						// function ($data) {
 						//     return $data['foo'] . '-' . uniqid();
 						// }
 						//
+						// Its important we check for Closure here rather than
+						// using is_callable which allows global function as well
 						if ($derivedValue = $from($data)) {
 							$data[$key] = $derivedValue;
 						}

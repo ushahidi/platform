@@ -22,7 +22,7 @@ class Contact extends StaticEntity
 
 	protected $id;
 	protected $user_id;
-	protected $data_provider;
+	protected $data_source;
 	protected $type;
 	protected $contact;
 	protected $created;
@@ -45,7 +45,7 @@ class Contact extends StaticEntity
 			'id'            => 'int',
 			'user'          => false, /* alias */
 			'user_id'       => 'int',
-			'data_provider' => 'string',
+			'data_source' => 'string',
 			'type'          => 'string',
 			'contact'       => 'string',
 			'created'       => 'int',

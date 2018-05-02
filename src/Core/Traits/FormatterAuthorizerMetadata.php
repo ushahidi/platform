@@ -35,13 +35,10 @@ trait FormatterAuthorizerMetadata
 		return $this->auth->getAllowedPrivs($entity);
 	}
 
-	// @todo method name does not PSR because it is used in Kohana
-	// @codingStandardsIgnoreStart
-	protected function add_metadata(Array $data, Entity $entity)
+	protected function addMetadata(array $data, Entity $entity)
 	{
 		return $data + [
 			'allowed_privileges' => $this->getAllowedPrivs($entity),
 		];
 	}
-	// @codingStandardsIgnoreEnd
 }

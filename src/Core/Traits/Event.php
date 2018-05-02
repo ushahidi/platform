@@ -5,6 +5,7 @@
  *
  * Makes objects eventable
  *
+ * @deprecated v4 Migrate to DispatchesEvents trait
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Application
  * @copyright  2014 Ushahidi
@@ -71,7 +72,7 @@ trait Event
 		if (! $this->event) {
 			throw new \LogicException('Cannot add a listener without an event');
 		}
-		
+
 		$this->addListener($this->event, $listener);
 	}
 }

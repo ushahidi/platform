@@ -12,9 +12,13 @@
 namespace Ushahidi\Core\Entity;
 
 use Ushahidi\Core\Entity\Repository\EntityGet;
+use Ushahidi\Core\Usecase\CreateRepository;
+use Ushahidi\Core\Usecase\UpdateRepository;
 
 interface PostRepository extends
-	EntityGet
+	EntityGet,
+	CreateRepository,
+	UpdateRepository
 {
 	/**
 	 * @param  int $id
