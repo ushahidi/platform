@@ -65,17 +65,27 @@ class ConfigRepository implements
 	{
 		$this->verifyGroup($group);
 
-		$query = DB::select('config.*')
-			->from('config')
-			->where('group_name', '=', $group)
-			->execute($this->db);
-
 		$config = [];
-		if (count($query)) {
-			$config = $query->as_array('config_key', 'config_value');
-			$config = array_map(function ($config_value) {
-				return json_decode($config_value, true);
-			}, $config);
+		try {
+			$query = DB::select('config.*')
+				->from('config')
+				->where('group_name', '=', $group)
+				->execute($this->db);
+
+			if (count($query)) {
+				$config = $query->as_array('config_key', 'config_value');
+				$config = array_map(function ($config_value) {
+					return json_decode($config_value, true);
+				}, $config);
+			}
+		} catch (\Ohanzee\Database\Exception $e) {
+			// If error was NOT because table doesn't exist
+			if (!preg_match("/Table '.*' doesn't exist/", $e->getMessage())) {
+				// Throw the error again
+				throw $e;
+			}
+
+			// Otherwise, Config table doesn't exist: continue to default values
 		}
 
 		// Merge defaults
