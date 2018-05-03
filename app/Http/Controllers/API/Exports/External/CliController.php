@@ -28,15 +28,15 @@ class CliController extends RESTController
 
     public function show(Request $request)
     {
+    	$route_params = $this->getRouteParams($request);
         // this is a trick to convert 'false' to falsy (which would be true),
         // 'true' to true, and an unset param to false
         $include_header = json_decode($request->input('include_header', 1)) == true ? 1 : 0;
-
-        // Run export command
+		// Run export command
         $exitCode = Artisan::call('export', [
+			'job' => $route_params['id'],
             '--limit' => $request->input('limit', 0),
             '--offset' => $request->input('offset', 0),
-            '--job' => $request->input('id'),
             '--include-header' => $include_header,
         ]);
 

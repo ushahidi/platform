@@ -110,7 +110,9 @@ class CSV extends API
 		 * Before doing anything, clean the ouput buffer and avoid garbage like unnecessary space
 		 * paddings in our csv export
 		 */
-		ob_clean();
+		if (ob_get_length()) {
+			ob_clean();
+		}
 
 		// Add heading
 		if ($this->add_header) {

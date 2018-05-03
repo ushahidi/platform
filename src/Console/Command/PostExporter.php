@@ -50,7 +50,7 @@ class PostExporter extends Command
 	 *
 	 * @var string
 	 */
-	protected $signature = 'export {--limit=100} {--offset=0} {--job=} {--include-header=1}';
+	protected $signature = 'export {job} {--limit=100} {--offset=0} {--include-header=1}';
 
 	/**
 	 * The console command description.
@@ -77,7 +77,7 @@ class PostExporter extends Command
 
 		// set CLI params to be the payload for the usecase
 		$payload = [
-			'job_id' => $this->option('job'),
+			'job_id' => $this->argument('job'),
 			'limit' => $this->option('limit'),
 			'offset' => $this->option('offset'),
 			'add_header' => $this->option('include-header'),
@@ -88,17 +88,7 @@ class PostExporter extends Command
 			->setPayload($payload)
 			->setFormatter($this->formatter)
 			->interact();
-		// Execute the import
-var_dump($file);die;
-
-
-		$this->line(json_encode($response));
+		$this->line(json_encode($file));
 	}
 
-
-	// ValidatorTrait
-	protected function verifyValid(Entity $entity)
-	{
-		return true;
-	}
 }

@@ -121,7 +121,7 @@ class Notification extends Command
 				];
 
 				$messageType = $this->mapContactToMessageType($contact->type);
-				$data_source = $contact->data_source ?: $this->sources->getProviderForType($messageType);
+				$data_source = $contact->data_source ?: $this->sources->getSourceForType($messageType);
 
 				$state = [
 					'contact_id' => $contact->id,
