@@ -50,7 +50,7 @@ class PostExporter extends Command
 	 *
 	 * @var string
 	 */
-	protected $signature = 'export {--limit=100} {--offset=0} {--job} {--include-header=1}';
+	protected $signature = 'export {job} {--limit=100} {--offset=0} {--include-header=1}';
 
 	/**
 	 * The console command description.
@@ -75,7 +75,7 @@ class PostExporter extends Command
 		// Get CLI params
 		$limit = $this->option('limit');
 		$offset = $this->option('offset');
-		$job_id = $this->option('job');
+		$job_id = $this->argument('job');
 		$add_header = $this->option('include-header');
 
 		// At the moment there is only CSV format
@@ -88,20 +88,19 @@ class PostExporter extends Command
 			'exporter' => true
 		];
 
-		if ($job_id) {
-			// Load the export job
-			$job = $this->exportJobRepository->get($job_id);
 
-			$this->session->setUser($job->user_id);
-			// Merge the export job filters with the base filters
-			if ($job->filters) {
-				$filters = array_merge($filters, $job->filters);
-			}
+		// Load the export job
+		$job = $this->exportJobRepository->get($job_id);
 
-			// Set the fields that should be included if set
-			if ($job->fields) {
-				$data->include_attributes = $job->fields;
-			}
+		$this->session->setUser($job->user_id);
+		// Merge the export job filters with the base filters
+		if ($job->filters) {
+			$filters = array_merge($filters, $job->filters);
+		}
+
+		// Set the fields that should be included if set
+		if ($job->fields) {
+			$data->include_attributes = $job->fields;
 		}
 
 		foreach ($filters as $key => $filter) {
