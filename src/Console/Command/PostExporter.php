@@ -90,5 +90,4 @@ class PostExporter extends Command
 			->interact();
 		$this->line(json_encode($file));
 	}
-
 }
