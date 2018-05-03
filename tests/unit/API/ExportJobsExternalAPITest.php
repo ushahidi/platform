@@ -49,7 +49,7 @@ class ExportJobsExternalAPITest extends TestCase
      */
     public function testCount()
     {
-        $this->get('/api/v3/exports/jobs/external/count/'. $this->jobId);
+        $this->get('/api/v3/exports/external/count/'. $this->jobId);
 
         $this->seeStatusCode('200')
             ->seeJsonStructure([[
@@ -63,7 +63,7 @@ class ExportJobsExternalAPITest extends TestCase
      */
     public function testCli()
     {
-        $this->get('/api/v3/exports/jobs/external/cli/'. $this->jobId);
+        $this->get('/api/v3/exports/external/cli/'. $this->jobId);
 
         $this->seeStatusCode('200')
             ->seeJsonStructure([
@@ -78,7 +78,7 @@ class ExportJobsExternalAPITest extends TestCase
      */
     public function testGetJobs()
     {
-        $this->get('/api/v3/exports/jobs/external/jobs');
+        $this->get('/api/v3/exports/external/jobs');
 
         $this->seeStatusCode('200')
             ->seeJsonStructure([
@@ -104,7 +104,7 @@ class ExportJobsExternalAPITest extends TestCase
      */
     public function testGetJob()
     {
-        $this->get('/api/v3/exports/jobs/external/jobs/'. $this->jobId);
+        $this->get('/api/v3/exports/external/jobs/'. $this->jobId);
 
         $this->seeStatusCode('200')
             ->seeJsonStructure([
@@ -125,7 +125,7 @@ class ExportJobsExternalAPITest extends TestCase
      */
     public function testUpdateJob()
     {
-        $this->json('PUT', '/api/v3/exports/jobs/external/jobs/'. $this->jobId, [
+        $this->json('PUT', '/api/v3/exports/external/jobs/'. $this->jobId, [
             'filters' => ['status' => 'draft']
         ]);
 
@@ -174,14 +174,14 @@ class ExportJobsExternalAPITest extends TestCase
         $sig = $this->makeSig(
             'asharedsecret',
             $this->prepareUrlForRequest(
-                '/api/v3/exports/jobs/external/jobs/'. $this->jobId . '?api_key='. $apiKey->api_key
+                '/api/v3/exports/external/jobs/'. $this->jobId . '?api_key='. $apiKey->api_key
             ),
             json_encode(['filters' => ['status' => 'draft']])
         );
 
         $this->json(
             'PUT',
-            '/api/v3/exports/jobs/external/jobs/'. $this->jobId . '?api_key='. $apiKey->api_key,
+            '/api/v3/exports/external/jobs/'. $this->jobId . '?api_key='. $apiKey->api_key,
             [
                 'filters' => ['status' => 'draft']
             ],
