@@ -246,7 +246,9 @@ class AttributeRepository extends OhanzeeRepository implements
 	 */
 	public function getExportAttributes(array $include_attributes = null)
 	{
-		$sql = "SELECT DISTINCT form_attributes.*, form_stages.priority as form_stage_priority, form_stages.form_id as form_id, forms.name as form_name, forms.id as form_id " .
+		$sql = "SELECT DISTINCT form_attributes.*, 
+			form_stages.priority as form_stage_priority,
+			form_stages.form_id as form_id, forms.name as form_name, forms.id as form_id " .
 			"FROM form_attributes " .
 			"INNER JOIN form_stages ON form_attributes.form_stage_id = form_stages.id " .
 			"INNER JOIN forms ON form_stages.form_id = forms.id ";

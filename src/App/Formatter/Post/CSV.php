@@ -205,18 +205,27 @@ class CSV extends API
 		$recordAttributes = isset($attributes[$headingKey]) ? $attributes[$headingKey] : null;
 		// Ignore attributes that are not related to this Post by Form Id
 		// Ensure that native attributes identified via id 0 are included
-		if (is_array($recordAttributes) && isset($recordAttributes['form_id']) && isset($record['form_id']) && $recordAttributes['form_id'] != 0 && ($record['form_id'] != $recordAttributes['form_id'])) {
+		if (is_array($recordAttributes)
+			&& isset($recordAttributes['form_id'])
+			&& isset($record['form_id'])
+			&& $recordAttributes['form_id'] != 0
+			&& ($record['form_id'] != $recordAttributes['form_id'])) {
 			return '';
 		}
 		// If the returned attribute for the given heading key is the native form name attribute
 		// Retrieve Form Name from the attribute rather than from the Post until the data model improves
-		if (is_array($recordAttributes) && isset($recordAttributes['type']) && $recordAttributes['type'] === 'form_name') {
-			return is_array($recordAttributes) && isset($recordAttributes['form_name']) ? $recordAttributes['form_name'] : '';
+		if (is_array($recordAttributes)
+			&& isset($recordAttributes['type'])
+			&& $recordAttributes['type'] === 'form_name') {
+			return is_array($recordAttributes) && isset($recordAttributes['form_name'])
+				? $recordAttributes['form_name'] : '';
 		}
 		// default format we will return. See $csvFieldFormat for a list of available formats
 		$format = 'single_raw';
 		// if we have an attribute and can find a format for it in $csvFieldFormat, reset the $format
-		if (is_array($recordAttributes) && isset($recordAttributes['type']) && isset(self::$csvFieldFormat[$recordAttributes['type']])) {
+		if (is_array($recordAttributes)
+			&& isset($recordAttributes['type'])
+			&& isset(self::$csvFieldFormat[$recordAttributes['type']])) {
 			$format = self::$csvFieldFormat[$recordAttributes['type']];
 		}
 		/** check if the value is in [values] (user added attributes),
@@ -228,7 +237,10 @@ class CSV extends API
 		 * since their labels are stored as attributes but their values are stored as fields on the record :/
 		 * The Key UUID will not match the equivalent field on the Post so we must change to use the correct field names
 		 */
-		if (is_array($recordAttributes) && isset($recordAttributes['type']) && ($recordAttributes['type'] === 'title' || $recordAttributes['type'] === 'description')) {
+		if (is_array($recordAttributes)
+			&& isset($recordAttributes['type'])
+			&& ($recordAttributes['type'] === 'title'
+			|| $recordAttributes['type'] === 'description')) {
 			// Description must be mapped to content
 			// Title is title
 			$headingKey = $recordAttributes['type'] === 'title' ? 'title' : 'content';
@@ -250,7 +262,8 @@ class CSV extends API
 			 * Lat/Lon are never multivalue fields so we can get the first index  only
 			 */
 			$return = $this->singleValueArray($recordValue, $headingKey, $key);
-		} elseif ($format === 'single_array' || ($key !== null && isset($recordValue[$headingKey]) && is_array($recordValue[$headingKey]))) {
+		} elseif ($format === 'single_array' ||
+			($key !== null && isset($recordValue[$headingKey]) && is_array($recordValue[$headingKey]))) {
 			/**
 			 * A single_array is a comma separated list of values (like categories) in a column
 			 * we need to join the array items in a single comma separated string.
