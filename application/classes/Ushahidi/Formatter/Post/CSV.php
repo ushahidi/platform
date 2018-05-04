@@ -132,6 +132,7 @@ class Ushahidi_Formatter_Post_CSV extends Ushahidi_Formatter_API
 			foreach ($this->heading as $key => $value) {
 				$values[] = $this->getValueFromRecord($record, $key, $attributes);
 			}
+			
 			fputcsv($stream, $values);
 		
 		}		
@@ -199,8 +200,9 @@ class Ushahidi_Formatter_Post_CSV extends Ushahidi_Formatter_API
 
 		// If the returned attribute for the given heading key is the native form name attribute
 		// Retrieve Form Name from the attribute rather than from the Post until the data model improves
+		
 		if (is_array($recordAttributes) && isset($recordAttributes['type']) && $recordAttributes['type'] === 'form_name') {
-			return is_array($recordAttributes) && isset($recordAttributes['form_name']) ? $recordAttributes['form_name'] : '';
+			return is_array($record) && isset($record['form_name']) ? $record['form_name'] : '';
 		}
 
 		// default format we will return. See $csvFieldFormat for a list of available formats
