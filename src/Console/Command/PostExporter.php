@@ -13,29 +13,11 @@ namespace Ushahidi\Console\Command;
 
 use Illuminate\Console\Command;
 
-use Ushahidi\Core\Entity\PostExportRepository;
-use Ushahidi\Core\Entity\ExportJobRepository;
-use \Ushahidi\Core\Entity\FormAttributeRepository;
-use Ushahidi\Core\Tool\AuthorizerTrait;
-use Ushahidi\Core\Tool\ValidatorTrait;
-use Ushahidi\Factory\DataFactory;
-use Ushahidi\Core\Tool\FormatterTrait;
-use Ushahidi\Core\Traits\UserContext;
-
 use Ushahidi\Core\Tool\Filesystem;
-use Ushahidi\Core\Tool\FileData;
-
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
 
 class PostExporter extends Command
 {
 
-	use ValidatorTrait;
-	use FormatterTrait;
-	use AuthorizerTrait;
 	private $usecase;
 
 	/**
@@ -64,7 +46,7 @@ class PostExporter extends Command
 		if (!$this->usecase) {
 			// @todo inject
 			$this->usecase = service('factory.usecase')
-				->get('posts', 'export');
+				->get('posts_export', 'export');
 		}
 
 		return $this->usecase;
@@ -72,21 +54,19 @@ class PostExporter extends Command
 
 	public function handle()
 	{
-		// @todo inject
-		$this->formatter = service('formatter.entity.post.csv');
-
 		// set CLI params to be the payload for the usecase
 		$payload = [
 			'job_id' => $this->argument('job'),
 			'limit' => $this->option('limit'),
 			'offset' => $this->option('offset'),
 			'add_header' => $this->option('include-header'),
-			'exporter' => true
 		];
+
 		// Get the usecase and pass in authorizer, payload and transformer
 		$file  = $this->getUsecase()
 			->setPayload($payload)
-			->setFormatter($this->formatter)
+			->setAuthorizer(service('authorizer.export_job'))
+			->setFormatter(service('formatter.entity.post.csv'))
 			->interact();
 		$this->line(json_encode($file));
 	}

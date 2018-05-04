@@ -17,6 +17,5 @@ class ProcessJob extends CreateUsecase
 {
 	public function interact()
 	{
-
 	}
 }

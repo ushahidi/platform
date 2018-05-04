@@ -237,33 +237,30 @@ class AttributeRepository extends OhanzeeRepository implements
 	}
 
 	/**
-	 * @param $form_ids
+	 * @param array $include_attributes optional
 	 * @return array
 	 * Returns a list of attributes with the relevant fields.
 	 * This is mainly to be used in the post exporter where we need a consistent list of attributes
 	 * that does not directly depend on the rows we are fetching at the time but on the
 	 * list of form ids that match a specific query
 	 */
-	public function getByForms($form_ids, array $include_attributes = null)
+	public function getExportAttributes(array $include_attributes = null)
     {
-        $attributes = [];
-        if (count($form_ids) > 0) { // @FIXME: how would empty form_id even happen?
-            $sql = "SELECT
-            	DISTINCT form_attributes.*,
-            	form_stages.priority as form_stage_priority,
-            	form_stages.form_id as form_id
-                FROM form_attributes
-                INNER JOIN form_stages ON form_attributes.form_stage_id = form_stages.id
-                INNER JOIN forms ON form_stages.form_id = forms.id ";
-            if (!empty($include_attributes)) {
-                $sql .= " AND form_attributes.key IN :form_attributes ";
-            }
-            $sql .= " ORDER BY form_stages.priority, form_attributes.priority ";
-            $results = DB::query(Database::SELECT, $sql)
-                ->bind(':form_attributes', $include_attributes)
-                ->execute($this->db);
-            $attributes = $results->as_array();
-        }
+		$sql = "SELECT
+			DISTINCT form_attributes.*,
+			form_stages.priority as form_stage_priority,
+			form_stages.form_id as form_id
+			FROM form_attributes
+			INNER JOIN form_stages ON form_attributes.form_stage_id = form_stages.id
+			INNER JOIN forms ON form_stages.form_id = forms.id ";
+		if (!empty($include_attributes)) {
+			$sql .= " AND form_attributes.key IN :form_attributes ";
+		}
+		$sql .= " ORDER BY form_stages.priority, form_attributes.priority ";
+		$results = DB::query(Database::SELECT, $sql)
+			->bind(':form_attributes', $include_attributes)
+			->execute($this->db);
+		$attributes = $results->as_array();
 
 		$native = [
 			[

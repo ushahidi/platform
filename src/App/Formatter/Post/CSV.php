@@ -101,11 +101,9 @@ class CSV extends API
 	 *
 	 * @return array
 	 */
-	protected function generateCSVRecords($records, $attributes)
+	public function generateCSVRecords($records, $attributes)
 	{
-		//$stream = fopen('php://memory', 'w');
 		$stream = tmpfile();
-
 		/**
 		 * Before doing anything, clean the ouput buffer and avoid garbage like unnecessary space
 		 * paddings in our csv export
@@ -120,27 +118,38 @@ class CSV extends API
 		}
 
 		foreach ($records as $record) {
-			// Transform post_date to a string
-			if ($record['post_date'] instanceof \DateTimeInterface) {
-				$record['post_date'] = $record['post_date']->format("Y-m-d H:i:s");
-			}
-			// Transform post_date to a string
-			if (is_numeric($record['created'])) {
-				$record['created'] = date("Y-m-d H:i:s", $record['created']);
-			}
-			if (is_numeric($record['updated'])) {
-				$record['updated'] = date("Y-m-d H:i:s", $record['updated']);
-			}
-
-			$values = [];
-
-			foreach ($this->heading as $key => $value) {
-				$values[] = $this->getValueFromRecord($record, $key, $attributes);
-			}
+			$values = $this->formatRecordForCSV($record, $attributes);
 			fputcsv($stream, $values);
 		}
 
 		return $this->writeStreamToFS($stream);
+	}
+
+	/**
+	 * @param $record
+	 * @param $attributes
+	 * @return array
+	 */
+	public function formatRecordForCSV($record, $attributes)
+    {
+		// Transform post_date to a string
+		if ($record['post_date'] instanceof \DateTimeInterface) {
+			$record['post_date'] = $record['post_date']->format("Y-m-d H:i:s");
+		}
+		// Transform post_date to a string
+		if (is_numeric($record['created'])) {
+			$record['created'] = date("Y-m-d H:i:s", $record['created']);
+		}
+		if (is_numeric($record['updated'])) {
+			$record['updated'] = date("Y-m-d H:i:s", $record['updated']);
+		}
+
+		$values = [];
+
+		foreach ($this->heading as $key => $value) {
+			$values[] = $this->getValueFromRecord($record, $key, $attributes);
+		}
+		return $values;
 	}
 
 	private function writeStreamToFS($stream)
@@ -186,7 +195,7 @@ class CSV extends API
 	 */
 	private function getValueFromRecord($record, $keyParam, $attributes)
     {
-		// assume it's empty since we go through this for all attributes which might not be available
+    	// assume it's empty since we go through this for all attributes which might not be available
 		$return = '';
 		// the $keyParam is the key=>label we get in createSortedHeading (keyLabel.index)
 		$keySet = explode('.', $keyParam); //contains key + index of the key
@@ -194,7 +203,6 @@ class CSV extends API
 		$key = isset($keySet[1]) ? $keySet[1] : null; // the key to use (0, lat,lon)
 		// check that the key we received is available in $attributes
 		$recordAttributes = isset($attributes[$headingKey]) ? $attributes[$headingKey] : null;
-
 		// default format we will return. See $csvFieldFormat for a list of available formats
 		$format = 'single_raw';
 
@@ -205,7 +213,6 @@ class CSV extends API
 		) {
 			$format = self::$csvFieldFormat[$recordAttributes['type']];
 		}
-
 		/** check if the value is in [values] (user added attributes),
 		 ** otherwise it'll be part of the record itself
 		**/
@@ -222,6 +229,7 @@ class CSV extends API
 			$date = new DateTime($recordValue[$headingKey][$key]);
 			$recordValue[$headingKey][$key] = $date->format('Y-m-d');
 		}
+
 		/**
 		 * We have 3 formats. A single value array is only a lat/lon right now but would be usable
 		 * for other formats where we have a specific way to separate their fields in columns

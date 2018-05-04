@@ -37,19 +37,6 @@ class ExportRepository extends CSVPostRepository implements PostExportRepository
         $this->set_repo = $repo;
     }
 
-    //fixme move to correct repo
-    public function getFormIdsForHeaders()
-    {
-        $searchQuery = $this->getSearchQuery();
-        $searchQuery->resetOrderBy();
-        $searchQuery->limit(null);
-        $searchQuery->offset(null);
-        $result = $searchQuery->resetSelect()
-            ->select([DB::expr('DISTINCT(posts.form_id)'), 'form_id'])->execute($this->db);
-        $result =  $result->as_array();
-        return array_column($result, 'form_id');
-    }
-
     /**
      * @param $data
      * @return array

@@ -109,7 +109,7 @@ $di->params['Ushahidi\Factory\AuthorizerFactory']['map'] = [
 	'csv'                  => $di->lazyGet('authorizer.csv'),
 	'roles'                => $di->lazyGet('authorizer.role'),
 	'permissions'          => $di->lazyGet('authorizer.permission'),
-	'posts_export'         => $di->lazyGet('authorizer.post'),
+	'posts_export'         => $di->lazyGet('authorizer.export_job'),
 	'tos'				   => $di->lazyGet('authorizer.tos'),
 ];
 
@@ -344,6 +344,11 @@ $di->params['Ushahidi\Factory\UsecaseFactory']['map']['posts_export'] = [
 // Set up traits for SetsPosts Usecases
 $di->setter['Ushahidi\Core\Usecase\Set\SetRepositoryTrait']['setSetRepository'] = $di->lazyGet('repository.set');
 $di->setter['Ushahidi\Core\Usecase\Set\AuthorizeSet']['setSetAuthorizer'] = $di->lazyGet('authorizer.set');
+
+// repositories for Ushahidi\Core\Usecase\Post\Export usecase
+$di->setter['Ushahidi\Core\Usecase\Post\Export']['setExportJobRepository'] = $di->lazyGet('repository.export_job');
+$di->setter['Ushahidi\Core\Usecase\Post\Export']['setFormAttributeRepository'] = $di->lazyGet('repository.form_attribute');
+$di->setter['Ushahidi\Core\Usecase\Post\Export']['setPostExportRepository'] = $di->lazyGet('repository.posts_export');
 
 // User login is a custom read the uses authentication.
 $di->params['Ushahidi\Factory\UsecaseFactory']['map']['users'] = [
