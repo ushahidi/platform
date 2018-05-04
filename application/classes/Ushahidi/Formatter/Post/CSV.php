@@ -198,7 +198,7 @@ class Ushahidi_Formatter_Post_CSV extends Ushahidi_Formatter_API
 		}
 
 		// Retrieve Form Name from the attribute rather than from the Post until the data model improves
-		if (is_array($recordAttributes) && isset($recordAttributes['type']) && $recordAttributes['type']) === 'form_name') {
+		if (is_array($recordAttributes) && isset($recordAttributes['type']) && $recordAttributes['type'] === 'form_name') {
 			return is_array($recordAttributes) && isset($recordAttributes['form_name']) ? $recordAttributes['form_name'] : '';
 		}
 
