@@ -58,9 +58,9 @@ class Controller_Ivr_Twilio extends Controller {
 			throw HTTP_Exception::factory(403, 'Incorrect or missing AccountSid');
 		}
 
-		// Remove Non-Numeric characters because that's what the DB has
-		$to = preg_replace("/[^0-9,.]/", "", $this->request->post('To'));
-		$from  = preg_replace("/[^0-9,.]/", "", $this->request->post('From'));
+		// Remove most Non-Numeric characters because that's what the DB has
+		$to = preg_replace("/[^0-9,+.]/", "", $this->request->post('To'));
+		$from  = preg_replace("/[^0-9,+.]/", "", $this->request->post('From'));
 		$message_sid  = $this->request->post('CallSid');
 
 		$digits  = $this->request->post('Digits');

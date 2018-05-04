@@ -129,8 +129,7 @@ class Ushahidi_Console_PostExporter extends Command
 		$this->formatter->setAddHeader($add_header);
 		//fixme add post_date
 		$form_ids = $this->postExportRepository->getFormIdsForHeaders();
-		$attributes = $this->formAttributeRepository->getByForms($form_ids);
-		
+		$attributes = $this->formAttributeRepository->getByForms($form_ids, $data->include_attributes);
 
 		$keyAttributes = [];
 		foreach($attributes as $key => $item)
