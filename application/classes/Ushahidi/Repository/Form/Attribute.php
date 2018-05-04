@@ -267,7 +267,7 @@ class Ushahidi_Repository_Form_Attribute extends Ushahidi_Repository implements
 			[
 				'label' => 'Survey',
 				'key' => 'form_name',
-				'type' => 'text',
+				'type' => 'form_name',
 				'input' => 'text',
 				'form_id' => 0,
 				'form_stage_id' => 0,

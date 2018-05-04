@@ -191,14 +191,14 @@ class Ushahidi_Formatter_Post_CSV extends Ushahidi_Formatter_API
 		// check that the key we received is available in $attributes
 		$recordAttributes = isset($attributes[$headingKey]) ? $attributes[$headingKey] : null;
 
-
 		// Ignore attributes that are not related to this Post by Form Id
+		// Ensure that native attributes identified via id 0 are included
 		if (is_array($recordAttributes) && isset($recordAttributes['form_id']) && isset($record['form_id']) && $recordAttributes['form_id'] != 0 && ($record['form_id'] != $recordAttributes['form_id'])) {
 			return '';
 		}
 
 		// Retrieve Form Name from the attribute rather than from the Post until the data model improves
-		if ($headingKey === 'form_name.0') {
+		if (is_array($recordAttributes) && isset($recordAttributes['type']) && $recordAttributes['type']) === 'form_name') {
 			return is_array($recordAttributes) && isset($recordAttributes['form_name']) ? $recordAttributes['form_name'] : '';
 		}
 
@@ -223,7 +223,6 @@ class Ushahidi_Formatter_Post_CSV extends Ushahidi_Formatter_API
 			// Title is title
 			$headingKey = $recordAttributes['type'] === 'title' ? 'title' : 'content';
 		}
-
 		
 		$recordValue = $isInValuesArray ? $record['values']: $record;
 
