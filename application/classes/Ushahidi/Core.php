@@ -156,11 +156,7 @@ abstract class Ushahidi_Core {
 		$di->setter['Ushahidi_Console_SavedSearch']['setMessageRepo'] = $di->lazyGet('repository.message');
 		$di->setter['Ushahidi_Console_SavedSearch']['setContactRepo'] = $di->lazyGet('repository.contact');
 		$di->setter['Ushahidi_Console_SavedSearch']['setDataFactory'] = $di->lazyGet('factory.data');
-
-        // Export Jobs Processor
-        $di->setter['Ushahidi\Console\Application']['injectCommands'][] = $di->lazyNew('Ushahidi_Console_ProcessExportJobs');
-        $di->setter['Ushahidi_Console_ProcessExportJobs']['setExportJobRepo'] = $di->lazyGet('repository.export_job');
-      
+        
 		// Post Exporter
 		$di->setter['Ushahidi\Console\Application']['injectCommands'][] = $di->lazyNew('Ushahidi_Console_PostExporter');
 		$di->setter['Ushahidi_Console_PostExporter']['setFormatter'] = $di->lazyGet('formatter.entity.post.csv');

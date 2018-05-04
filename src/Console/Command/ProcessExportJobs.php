@@ -1,4 +1,4 @@
-<?php defined('SYSPATH') or die('No direct script access');
+<?php
 
 /**
  * Ushahidi Data Provider Console Commands
@@ -9,6 +9,10 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
+
+namespace Ushahidi\Console\Command;
+
+use Ushahidi\Core\Usecase;
 use Ushahidi\Console\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -20,7 +24,7 @@ use Ushahidi\Core\Entity\ExportJobRepository;
 
 /* Simple console command that processes pending jobs in the DB */
 
-class Ushahidi_Console_ProcessExportJobs extends Command {
+class ProcessExportJobs extends Command {
 
     private $data;
     private $exportJobRepository;

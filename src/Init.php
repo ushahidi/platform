@@ -87,6 +87,10 @@ $di->setter['Ushahidi\Console\Command\Import']['setImportUsecase'] = $di->lazy(f
 			->setAuthorizer($di->get('authorizer.console'));
 });
 
+//Process Export Jobs console command
+$di->setter['Ushahidi\Console\Application']['injectCommands'][] = $di->lazyNew('Ushahidi\Console\Command\ProcessExportJobs');
+$di->setter['Ushahidi\Console\Command\ProcessExportJobs']['setExportJobRepo'] = $di->lazyGet('repository.export_job');
+
 // User command
 $di->setter['Ushahidi\Console\Application']['injectCommands'][] = $di->lazyNew('Ushahidi\Console\Command\User');
 $di->setter['Ushahidi\Console\Command\User']['setRepo'] = $di->lazyGet('repository.user');
