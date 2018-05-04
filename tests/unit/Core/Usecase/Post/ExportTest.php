@@ -13,9 +13,8 @@ use Mockery as M;
 use Ushahidi\App\Repository\ExportJobRepository;
 use Ushahidi\App\Repository\Form\AttributeRepository;
 use Ushahidi\App\Repository\Post\ExportRepository;
-use Ushahidi\Core\Entity\ExportJob;
-use Ushahidi\Core\Entity\MockExportJobEntity;
-use Ushahidi\Core\Entity\Post;
+use Tests\Unit\Core\Entity\MockPostEntity;
+use Tests\Unit\Core\Entity\MockExportJobEntity;
 use Ushahidi\Core\SearchData;
 
 class ExportTest extends TestCase
@@ -63,11 +62,6 @@ class ExportTest extends TestCase
 			'post_date',
             '2017-02-22'
 		);
-//		$post1->shouldReceive('asArray')
-//			->andReturn([$post1, $post2]);
-//		$post2->shouldReceive('asArray')
-//			->andReturn([$post1, $post2]);
-
 		$jobRepoSpy = \Mockery::mock(ExportJobRepository::class);
 		$searchDataMock = M::type(SearchData::class);
 
@@ -76,7 +70,7 @@ class ExportTest extends TestCase
 			->with($searchDataMock)
 			->andReturn(null);
 		$this->postExportRepository->shouldReceive('retrieveMetaData')
-			->once()
+			->twice()//once per post
 			->andReturn([]);
 		$this->postExportRepository->shouldReceive('getSearchResults')
 			->once()
@@ -98,88 +92,17 @@ class ExportTest extends TestCase
 					'form_stage_id' => 0,
 					'form_stage_priority' => 0,
 					'priority' => 1
-				],
-				[
-					'label' => 'Post Status',
-					'key' => 'status',
-					'type' => 'string',
-					'input' => 'string',
-					'form_id' => 0,
-					'form_stage_id' => 0,
-					'form_stage_priority' => 0,
-					'priority' => 2
-				],
-				[
-					'label' => 'Created (UTC)',
-					'key' => 'created',
-					'type' => 'datetime',
-					'input' => 'native',
-					'form_id' => 0,
-					'form_stage_id' => 0,
-					'form_stage_priority' => 0,
-					'priority' => 3
-				],
-				[
-					'label' => 'Updated (UTC)',
-					'key' => 'updated',
-					'type' => 'datetime',
-					'input' => 'native',
-					'form_id' => 0,
-					'form_stage_id' => 0,
-					'form_stage_priority' => 0,
-					'priority' => 4
-				],
-				[
-					'label' => 'Post Date (UTC)',
-					'key' => 'post_date',
-					'type' => 'datetime',
-					'input' => 'native',
-					'form_id' => 0,
-					'form_stage_id' => 0,
-					'form_stage_priority' => 0,
-					'priority' => 5
-				],
-				[
-					'label' => 'Contact ID',
-					'key' => 'contact_id',
-					'type' => 'integer',
-					'input' => 'number',
-					'form_id' => 0,
-					'form_stage_id' => 0,
-					'form_stage_priority' => 0,
-					'priority' => 6
-				],
-				[
-					'label' => 'Contact',
-					'key' => 'contact',
-					'type' => 'text',
-					'input' => 'text',
-					'form_id' => 0,
-					'form_stage_id' => 0,
-					'form_stage_priority' => 0,
-					'priority' => 7
-				],
-				[
-					'label' => 'Sets',
-					'key' => 'sets',
-					'type' => 'sets',
-					'input' => 'text',
-					'form_id' => 0,
-					'form_stage_id' => 0,
-					'form_stage_priority' => 0,
-					'priority' => 8
 				]]);
 
 		$this->usecase
 			->setExportJobRepository($jobRepoSpy);
 
-		$exportJobEntity = new \Tests\Unit\Core\Usecase\Post\MockExportJobEntity();
+		$exportJobEntity = new MockExportJobEntity();
 		$exportJobEntity->user_id = 1;
 		$exportJobEntity->id = 11;
 		$exportJobEntity->setState([
 			'post_date' => '2017-02-22',
 		]);
-
 		$jobRepoSpy
 			->shouldReceive('get')
 			->with(1)

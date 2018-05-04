@@ -133,14 +133,14 @@ class CSV extends API
 	public function formatRecordForCSV($record, $attributes)
     {
 		// Transform post_date to a string
-		if ($record['post_date'] instanceof \DateTimeInterface) {
+		if (isset($record['post_date']) && $record['post_date'] instanceof \DateTimeInterface) {
 			$record['post_date'] = $record['post_date']->format("Y-m-d H:i:s");
 		}
 		// Transform post_date to a string
-		if (is_numeric($record['created'])) {
+		if (isset($record['created']) && is_numeric($record['created'])) {
 			$record['created'] = date("Y-m-d H:i:s", $record['created']);
 		}
-		if (is_numeric($record['updated'])) {
+		if (isset($record['updated']) && is_numeric($record['updated'])) {
 			$record['updated'] = date("Y-m-d H:i:s", $record['updated']);
 		}
 
