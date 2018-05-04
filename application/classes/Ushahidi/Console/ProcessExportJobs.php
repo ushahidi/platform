@@ -68,7 +68,7 @@ class Ushahidi_Console_ProcessExportJobs extends Command {
         return $resultStatus;
 	}
 
-	protected function executePending(InputInterface $input, OutputInterface $output)
+	protected function execute(InputInterface $input, OutputInterface $output)
 	{
         $pendingJobs = $this->getJobs();
         $jobsProcessed = ['count' => 0, 'job_info' => []];
