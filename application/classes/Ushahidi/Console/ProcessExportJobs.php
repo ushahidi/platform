@@ -36,24 +36,8 @@ class Ushahidi_Console_ProcessExportJobs extends Command {
 		$this
 			->setName('processexports')
 			->setDescription('Processes pending export jobs.')
-			->addArgument('action', InputArgument::OPTIONAL, 'list, pending', 'pending')
 			;
 	}
-
-   //display all jobs, including pending, failed, and successful
-   protected function executeList(InputInterface $input, OutputInterface $output)
-   {
-       $jobs = $this->getJobs($input, $output);
-
-       foreach ($jobs as $job)
-       {
-           $list[] = [
-               'ID'       => $job->id,
-               'Status'     => $job->status,
-           ];
-       }
-       return $list;
-   }
 
 	protected function getJobs()
 	{
