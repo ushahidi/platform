@@ -218,6 +218,7 @@ class Ushahidi_Formatter_Post_CSV extends Ushahidi_Formatter_API
 		/**
 		 * Remap Title and Description type attributes as these are a special case of attributes
 		 * since their labels are stored as attributes but their values are stored as fields on the record :/
+		 * The Key UUID will not match the equivalent field on the Post so we must change to use the correct field names
 		 */
 		if (is_array($recordAttributes) && isset($recordAttributes['type']) && ($recordAttributes['type'] === 'title' || $recordAttributes['type'] === 'description')) {
 			// Description must be mapped to content
