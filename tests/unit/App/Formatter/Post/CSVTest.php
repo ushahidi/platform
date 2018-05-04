@@ -258,7 +258,7 @@ class CSVTest extends TestCase
 			}
 			$postsFinal[] = $post->asArray();
 		}
-		$this->formatter->createHeading($this->headerRow, $postsFinal);
+		$this->formatter->createHeading($this->headerRow);
 		$formatter = $this->formatter;
 		$values = $formatter->formatRecordForCSV([
 			'post_date' => '2017-02-22',

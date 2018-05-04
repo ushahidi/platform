@@ -84,7 +84,7 @@ class CSV extends API
 	 * - Form_attributes are grouped by stage, and sorted in ASC order by priority
 
 	 */
-	public function createHeading($attributes, $records)
+	public function createHeading($attributes)
 	{
 		$this->heading = $this->createSortedHeading($attributes);
 
@@ -195,7 +195,7 @@ class CSV extends API
 	 */
 	private function getValueFromRecord($record, $keyParam, $attributes)
     {
-    	// assume it's empty since we go through this for all attributes which might not be available
+		// assume it's empty since we go through this for all attributes which might not be available
 		$return = '';
 		// the $keyParam is the key=>label we get in createSortedHeading (keyLabel.index)
 		$keySet = explode('.', $keyParam); //contains key + index of the key
@@ -203,25 +203,37 @@ class CSV extends API
 		$key = isset($keySet[1]) ? $keySet[1] : null; // the key to use (0, lat,lon)
 		// check that the key we received is available in $attributes
 		$recordAttributes = isset($attributes[$headingKey]) ? $attributes[$headingKey] : null;
+		// Ignore attributes that are not related to this Post by Form Id
+		// Ensure that native attributes identified via id 0 are included
+		if (is_array($recordAttributes) && isset($recordAttributes['form_id']) && isset($record['form_id']) && $recordAttributes['form_id'] != 0 && ($record['form_id'] != $recordAttributes['form_id'])) {
+			return '';
+		}
+		// If the returned attribute for the given heading key is the native form name attribute
+		// Retrieve Form Name from the attribute rather than from the Post until the data model improves
+		if (is_array($recordAttributes) && isset($recordAttributes['type']) && $recordAttributes['type'] === 'form_name') {
+			return is_array($recordAttributes) && isset($recordAttributes['form_name']) ? $recordAttributes['form_name'] : '';
+		}
 		// default format we will return. See $csvFieldFormat for a list of available formats
 		$format = 'single_raw';
-
 		// if we have an attribute and can find a format for it in $csvFieldFormat, reset the $format
-		if (is_array($recordAttributes)
-			&& isset($recordAttributes['type'])
-			&& isset(self::$csvFieldFormat[$recordAttributes['type']])
-		) {
+		if (is_array($recordAttributes) && isset($recordAttributes['type']) && isset(self::$csvFieldFormat[$recordAttributes['type']])) {
 			$format = self::$csvFieldFormat[$recordAttributes['type']];
 		}
 		/** check if the value is in [values] (user added attributes),
 		 ** otherwise it'll be part of the record itself
-		**/
+		 **/
 		$isInValuesArray = isset($record['values']) && isset($record['values'][$headingKey]);
 		/**
-		 * Just maps 'description' to look up content instead since it does not come in the values
-		 * with the correct key, it's part of $record
+		 * Remap Title and Description type attributes as these are a special case of attributes
+		 * since their labels are stored as attributes but their values are stored as fields on the record :/
+		 * The Key UUID will not match the equivalent field on the Post so we must change to use the correct field names
 		 */
-		$headingKey = $headingKey === 'description' ? 'content' : $headingKey;
+		if (is_array($recordAttributes) && isset($recordAttributes['type']) && ($recordAttributes['type'] === 'title' || $recordAttributes['type'] === 'description')) {
+			// Description must be mapped to content
+			// Title is title
+			$headingKey = $recordAttributes['type'] === 'title' ? 'title' : 'content';
+		}
+
 		$recordValue = $isInValuesArray ? $record['values']: $record;
 		// handle values that are dates to have consistent formatting
 		$isDateField = $recordAttributes['input'] === 'date' && $recordAttributes['type'] === 'datetime';
@@ -229,7 +241,6 @@ class CSV extends API
 			$date = new DateTime($recordValue[$headingKey][$key]);
 			$recordValue[$headingKey][$key] = $date->format('Y-m-d');
 		}
-
 		/**
 		 * We have 3 formats. A single value array is only a lat/lon right now but would be usable
 		 * for other formats where we have a specific way to separate their fields in columns
@@ -239,9 +250,7 @@ class CSV extends API
 			 * Lat/Lon are never multivalue fields so we can get the first index  only
 			 */
 			$return = $this->singleValueArray($recordValue, $headingKey, $key);
-		} elseif ($format === 'single_array'
-			|| ($key !== null && isset($recordValue[$headingKey]) && is_array($recordValue[$headingKey]))
-		) {
+		} elseif ($format === 'single_array' || ($key !== null && isset($recordValue[$headingKey]) && is_array($recordValue[$headingKey]))) {
 			/**
 			 * A single_array is a comma separated list of values (like categories) in a column
 			 * we need to join the array items in a single comma separated string.

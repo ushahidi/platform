@@ -237,7 +237,7 @@ class AttributeRepository extends OhanzeeRepository implements
 	}
 
 	/**
-	 * @param array $include_attributes optional
+	 * @param $include_attributes (optional)
 	 * @return array
 	 * Returns a list of attributes with the relevant fields.
 	 * This is mainly to be used in the post exporter where we need a consistent list of attributes
@@ -245,23 +245,19 @@ class AttributeRepository extends OhanzeeRepository implements
 	 * list of form ids that match a specific query
 	 */
 	public function getExportAttributes(array $include_attributes = null)
-    {
-		$sql = "SELECT
-			DISTINCT form_attributes.*,
-			form_stages.priority as form_stage_priority,
-			form_stages.form_id as form_id
-			FROM form_attributes
-			INNER JOIN form_stages ON form_attributes.form_stage_id = form_stages.id
-			INNER JOIN forms ON form_stages.form_id = forms.id ";
+	{
+		$sql = "SELECT DISTINCT form_attributes.*, form_stages.priority as form_stage_priority, form_stages.form_id as form_id, forms.name as form_name, forms.id as form_id " .
+			"FROM form_attributes " .
+			"INNER JOIN form_stages ON form_attributes.form_stage_id = form_stages.id " .
+			"INNER JOIN forms ON form_stages.form_id = forms.id ";
 		if (!empty($include_attributes)) {
 			$sql .= " AND form_attributes.key IN :form_attributes ";
 		}
-		$sql .= " ORDER BY form_stages.priority, form_attributes.priority ";
+		$sql .= "ORDER BY forms.id, form_stages.priority, form_attributes.priority ";
 		$results = DB::query(Database::SELECT, $sql)
 			->bind(':form_attributes', $include_attributes)
 			->execute($this->db);
 		$attributes = $results->as_array();
-
 		$native = [
 			[
 				'label' => 'Post ID',
@@ -274,6 +270,16 @@ class AttributeRepository extends OhanzeeRepository implements
 				'priority' => 1
 			],
 			[
+				'label' => 'Survey',
+				'key' => 'form_name',
+				'type' => 'form_name',
+				'input' => 'text',
+				'form_id' => 0,
+				'form_stage_id' => 0,
+				'form_stage_priority' => 0,
+				'priority' => 2
+			],
+			[
 				'label' => 'Post Status',
 				'key' => 'status',
 				'type' => 'string',
@@ -281,7 +287,7 @@ class AttributeRepository extends OhanzeeRepository implements
 				'form_id' => 0,
 				'form_stage_id' => 0,
 				'form_stage_priority' => 0,
-				'priority' => 2
+				'priority' => 3
 			],
 			[
 				'label' => 'Created (UTC)',
@@ -291,7 +297,7 @@ class AttributeRepository extends OhanzeeRepository implements
 				'form_id' => 0,
 				'form_stage_id' => 0,
 				'form_stage_priority' => 0,
-				'priority' => 3
+				'priority' => 4
 			],
 			[
 				'label' => 'Updated (UTC)',
@@ -301,7 +307,7 @@ class AttributeRepository extends OhanzeeRepository implements
 				'form_id' => 0,
 				'form_stage_id' => 0,
 				'form_stage_priority' => 0,
-				'priority' => 4
+				'priority' => 5
 			],
 			[
 				'label' => 'Post Date (UTC)',
@@ -311,7 +317,7 @@ class AttributeRepository extends OhanzeeRepository implements
 				'form_id' => 0,
 				'form_stage_id' => 0,
 				'form_stage_priority' => 0,
-				'priority' => 5
+				'priority' => 6
 			],
 			[
 				'label' => 'Contact ID',
@@ -321,7 +327,7 @@ class AttributeRepository extends OhanzeeRepository implements
 				'form_id' => 0,
 				'form_stage_id' => 0,
 				'form_stage_priority' => 0,
-				'priority' => 6
+				'priority' => 7
 			],
 			[
 				'label' => 'Contact',
@@ -331,7 +337,7 @@ class AttributeRepository extends OhanzeeRepository implements
 				'form_id' => 0,
 				'form_stage_id' => 0,
 				'form_stage_priority' => 0,
-				'priority' => 7
+				'priority' => 8
 			],
 			[
 				'label' => 'Sets',
@@ -341,7 +347,7 @@ class AttributeRepository extends OhanzeeRepository implements
 				'form_id' => 0,
 				'form_stage_id' => 0,
 				'form_stage_priority' => 0,
-				'priority' => 8
+				'priority' => 9
 			]
 		];
 		return array_merge($native, $attributes);
