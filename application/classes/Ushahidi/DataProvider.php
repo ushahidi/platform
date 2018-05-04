@@ -118,7 +118,7 @@ abstract class Ushahidi_DataProvider extends DataProvider_Core {
 	 *
 	 * @param  boolean $limit   maximum number of messages to send at a time
 	 */
-	public static function process_pending_messages($limit = 20, $provider = FALSE)
+	public static function process_pending_messages($limit = 20, $provider = NULL)
 	{
 		$message_repo = service('repository.message');
 		$contact_repo = service('repository.contact');
@@ -131,7 +131,7 @@ abstract class Ushahidi_DataProvider extends DataProvider_Core {
 		foreach($pings as $message)
 		{
 			$provider = DataProvider::factory($message->data_provider, $message->type);
-			
+
 			// Load contact
 			$contact = $contact_repo->get($message->contact_id);
 
