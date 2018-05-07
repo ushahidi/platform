@@ -415,6 +415,7 @@ class RestContext implements Context
 	{
 		$data = json_decode($this->response->getBody(true), true);
 		$this->theResponseIsJson();
+		var_dump($data);
 
 		if (array_get($data, $propertyName) === null) {
 			throw new \Exception("Property '".$propertyName."' is not set!\n");

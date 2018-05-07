@@ -111,6 +111,8 @@ $di->params['Ushahidi\Factory\AuthorizerFactory']['map'] = [
 	'permissions'          => $di->lazyGet('authorizer.permission'),
 	'posts_export'         => $di->lazyGet('authorizer.post'),
 	'tos'				   => $di->lazyGet('authorizer.tos'),
+	'hxl'               => $di->lazyGet('authorizer.hxl'),
+	'hxl_licenses'               => $di->lazyGet('authorizer.hxl'),
 ];
 
 // Repositories are used for storage and retrieval of records.
@@ -119,6 +121,7 @@ $di->set('factory.repository', $di->lazyNew('Ushahidi\Factory\RepositoryFactory'
 // Repositories are shared, so mapping is done with service names.
 $di->params['Ushahidi\Factory\RepositoryFactory']['map'] = [
 	'config'               => $di->lazyGet('repository.config'),
+	'hxl_licenses'               => $di->lazyGet('repository.hxl_license'),
 	'country_codes'        => $di->lazyGet('repository.country_code'),
 	'export_jobs'		   => $di->lazyGet('repository.export_job'),
 	'dataproviders'        => $di->lazyGet('repository.dataprovider'),
@@ -204,6 +207,10 @@ $di->params['Ushahidi\Factory\UsecaseFactory']['map']['config'] = [
 	'search' => $di->newFactory('Ushahidi\Core\Usecase\Config\SearchConfig'),
 ];
 
+$di->params['Ushahidi\Factory\UsecaseFactory']['map']['hxl_licenses'] = [
+	'search' => $di->newFactory('Ushahidi\Core\Usecase\HXL\SearchHXLLicense'),
+];
+
 // Form sub-endpoints must verify that the form exists before anything else.
 $di->params['Ushahidi\Factory\UsecaseFactory']['map']['form_attributes'] = [
 	'create'  => $di->lazyNew('Ushahidi\Core\Usecase\Form\CreateFormAttribute'),
@@ -280,7 +287,6 @@ $di->params['Ushahidi\Factory\UsecaseFactory']['map']['posts'] = [
 	'import'          => $di->lazyNew('Ushahidi\Core\Usecase\ImportUsecase'),
 	'export'            => $di->lazyNew('Ushahidi\Core\Usecase\Post\ExportPost'),
 ];
-
 // Add custom create usecase for notifications
 $di->params['Ushahidi\Factory\UsecaseFactory']['map']['notifications'] = [
 	'create'  => $di->lazyNew('Ushahidi\Core\Usecase\Notification\CreateNotification')
@@ -384,6 +390,7 @@ $di->params['Ushahidi\Core\Tool\Uploader'] = [
 	];
 
 // Authorizers
+$di->set('authorizer.hxl', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\HXLAuthorizer'));
 $di->set('authorizer.config', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\ConfigAuthorizer'));
 $di->set('authorizer.dataprovider', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\DataProviderAuthorizer'));
 $di->set('authorizer.form', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\FormAuthorizer'));

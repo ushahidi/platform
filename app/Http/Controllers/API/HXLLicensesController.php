@@ -15,12 +15,12 @@ use Ushahidi\App\Http\Controllers\RESTController;
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-class HXLController extends RESTController
+class HXLLicensesController extends RESTController
 {
 
 	protected function getResource()
 	{
-		return 'hxl';
+		return 'hxl_licenses';
 	}
 
 	/**
@@ -32,8 +32,8 @@ class HXLController extends RESTController
 	 */
 	public function index(Request $request)
 	{
-		return [
-			'hxl'       => 'YAY!'
-		];
+		$this->usecase = $this->usecaseFactory
+			->get($this->getResource(), 'search');
+		return $this->prepResponse($this->executeUsecase($request), $request);
 	}
 }
