@@ -30,6 +30,8 @@ class AppServiceProvider extends ServiceProvider
         $this->registerDataSources();
 
         $this->setupMultisiteIlluminateDB();
+
+        $this->registerFeatures();
     }
 
     public function registerServicesFromAura()
@@ -237,5 +239,12 @@ class AppServiceProvider extends ServiceProvider
             'password'  => $config['connection']['password'],
             'host'      => $config['connection']['hostname'],
         ] + $existing]);
+    }
+
+    public function registerFeatures()
+    {
+        $this->app->singleton('features', function ($app) {
+            return new \Ushahidi\App\Tools\Features(service('features'));
+        });
     }
 }

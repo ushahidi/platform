@@ -240,6 +240,10 @@ $router->group([
         });
     });
 
+    if (Features::isEnabled('hxl')) {
+        $router->get('hxl', "HXLController@index");
+    }
+
     // Layers
     $router->group([
         'prefix' => 'layers',
