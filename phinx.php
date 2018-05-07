@@ -11,6 +11,7 @@ try {
 return [
 	'paths' => [
 		'migrations' => __DIR__ . '/migrations',
+		'seeds' => __DIR__ . '/seeds',
 	],
 	'environments' => [
 		'default_migration_table' => 'phinxlog',

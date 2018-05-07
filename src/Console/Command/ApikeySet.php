@@ -11,17 +11,26 @@
 
 namespace Ushahidi\Console\Command;
 
+use Illuminate\Console\Command;
 use Ushahidi\Core\Usecase;
-use Ushahidi\Console\Command;
-
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Helper\TableHelper;
+use Ushahidi\Factory\UsecaseFactory;
 
 class ApikeySet extends Command
 {
+
+    /**
+     * The console command signature.
+     *
+     * @var string
+     */
+    protected $signature = 'apikey:set';
+
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Set apikey';
 
 	/**
 	 * @var Ushahidi\Core\Usecase\Usecase
@@ -29,32 +38,34 @@ class ApikeySet extends Command
 	 */
 	protected $usecase;
 
-	public function setUsecase(Usecase $usecase)
+	protected function getUsecase()
 	{
-		$this->usecase = $usecase;
-	}
+		if (!$this->usecase) {
+			// @todo inject
+			$this->usecase = service('factory.usecase')
+				->get('apikeys', 'create')
+				// Override authorizer for console
+				->setAuthorizer(service('authorizer.console'))
+				// Override formatter for console
+				->setFormatter(service('formatter.entity.console'));
+		}
 
-	protected function configure()
-	{
-		$this
-			->setName('apikey:set')
-			->setDescription('Set apikey')
-			;
+		return $this->usecase;
 	}
 
 	// Execution router takes the action argument and uses it to reroute execution.
-	protected function execute(InputInterface $input, OutputInterface $output)
+	public function handle()
 	{
-		$response = $this->usecase->interact();
+		$response = $this->getUsecase()->interact();
 
 		// Format the response and output
-		$this->handleResponse($response, $output);
+		$this->handleResponse($response);
 	}
 
 	/**
 	 * Override response handler to flatten array
 	 */
-	protected function handleResponse($response, OutputInterface $output, $format = '')
+	protected function handleResponse($response)
 	{
 		$iterator = new \RecursiveIteratorIterator(new \RecursiveArrayIterator($response));
 		$result = [];
@@ -65,6 +76,8 @@ class ApikeySet extends Command
 			}
 			$result[ join('.', $keys) ] = $leafValue;
 		}
-		return parent::handleResponse($result, $output);
+
+		// Format as table
+		$this->table(array_keys($result), [$result]);
 	}
 }
