@@ -72,9 +72,9 @@ class DataProvider_Email extends DataProvider {
 
 			return array(Message_Status::SENT, $tracking_id);
 		}
-		catch (Exception $e)
+		catch (\Exception $e)
 		{
-			Kohana::$log->add(Log::ERROR, $e->getMessage());
+			Kohana::$log->add(Log::INFO, $e->getMessage());
 			// Failed
 			return array(Message_Status::FAILED, FALSE);
 		}
@@ -120,7 +120,7 @@ class DataProvider_Email extends DataProvider {
 			// Return on connection error
 			if (! $connection)
 			{
-				Kohana::$log->add(Log::ERROR, "Could not connect to incoming email server");
+				Kohana::$log->add(Log::INFO, "Could not connect to incoming email server");
 				return 0;
 			}
 
@@ -185,7 +185,7 @@ class DataProvider_Email extends DataProvider {
 
 			imap_close($connection);
 		}
-		catch (Exception $e)
+		catch (\Exception $e)
 		{
 			$errors = imap_errors();
 			$errors = is_array($errors) ? implode(', ', $errors) : "";
