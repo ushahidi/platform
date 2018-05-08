@@ -145,10 +145,9 @@ class Ushahidi_Repository_Contact extends Ushahidi_Repository implements
 			);
 		if($query->execute($this->db)->count() > 0)
 		{
-			Kohana::$log->add(Log::INFO, 'Contact is in a targeted survey: contact_id#'.print_r($contact_id, true));
 			return true;
 		}
-		Kohana::$log->add(Log::INFO, 'Contact is NOT in a targeted survey: contact_id#'.print_r($contact_id, true));
+
 		return false;
 	}
 
