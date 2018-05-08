@@ -182,6 +182,7 @@ class DataProvider_Email extends DataProvider {
 			}
 
 			imap_errors();
+			imap_alerts();
 
 			imap_close($connection);
 		}
