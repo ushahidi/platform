@@ -477,6 +477,16 @@ $router->group([
         // Public access
         $router->get('/', 'UsersController@index');
         $router->get('/{id:[0-9]+}', 'UsersController@show');
+        $router->get('/settings', 'SettingsController@index');
+
+        // Sub-user routes
+        $router->group(['prefix' => '/{user_id:[0-9]+}'], function () use ($router) {
+            // Settings
+            $router->group(['prefix' => 'settings'], function () use ($router) {
+                $router->get('/', 'SettingsController@index');
+                $router->get('/{id}', 'SettingsController@show');
+            });
+        });
 
         // Restricted access
         $router->group([
@@ -487,6 +497,16 @@ $router->group([
             $router->delete('/{id:[0-9]+}', 'UsersController@destroy');
             $router->get('/me', 'UsersController@showMe');
             $router->put('/me', 'UsersController@updateMe');
+
+            // Sub-user routes
+            $router->group(['prefix' => '/{user_id:[0-9]+}'], function () use ($router) {
+                // Settings
+                $router->group(['prefix' => 'settings'], function () use ($router) {
+                    $router->post('/', 'SettingsController@store');
+                    $router->put('/{id}', 'SettingsController@update');
+                    $router->delete('/{id}', 'SettingsController@destroy');
+                });
+            });
         });
     });
 
