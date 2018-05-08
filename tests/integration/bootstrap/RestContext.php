@@ -208,7 +208,6 @@ class RestContext implements Context
 	public function iRequest($pageUrl)
 	{
 		$this->requestUrl 	= $this->apiUrl.$pageUrl;
-		\Log::info(print_r($this->requestUrl, true));
 
 		switch (strtoupper($this->restObjectMethod)) {
 			case 'GET':
@@ -280,9 +279,9 @@ class RestContext implements Context
 
 		// Get response object
 		$this->response = $response;
-		$data = $this->response->getBody(true);
-		$data = explode("\n", $data);
-		\Log::info(print_r($data, true));
+		// $data = $this->response->getBody(true);
+		// $data = explode("\n", $data);
+		// \Log::info(print_r($data, true));
 	}
 
 	/**

@@ -21,16 +21,20 @@ class SettingsController extends RESTController
 		return 'user_settings';
 	}
 
-	// public function index(Request $request)
-    // {
-    //     $params = $this->getRouteParams($request);
-    //     $this->usecase = $this->usecaseFactory
-    //         ->get($this->getResource(), 'search')
-    //         ->setIdentifiers($params)
-    //         ->setFilters($request->query() + [
-    //             'user_id' => $params['user_id']
-    //         ]);
+	public function index(Request $request)
+    {
+        $params = $this->getRouteParams($request);
+        
+        $this->usecase = $this->usecaseFactory
+            ->get($this->getResource(), 'search');
+        
+        if (is_array($params) && array_key_exists('user_id', $params)) {
+            $this->usecase
+                ->setFilters($request->query() + [
+                    'user_id' => $params['user_id']
+                ]);
+        }
 
-    //     return $this->prepResponse($this->executeUsecase($request), $request);
-    // }
+        return $this->prepResponse($this->executeUsecase($request), $request);
+    }
 }
