@@ -72,9 +72,9 @@ class DataProvider_Email extends DataProvider {
 
 			return array(Message_Status::SENT, $tracking_id);
 		}
-		catch (Exception $e)
+		catch (\Exception $e)
 		{
-			Kohana::$log->add(Log::ERROR, $e->getMessage());
+			Kohana::$log->add(Log::INFO, $e->getMessage());
 			// Failed
 			return array(Message_Status::FAILED, FALSE);
 		}
@@ -115,12 +115,20 @@ class DataProvider_Email extends DataProvider {
 		try
 		{
 			// Try to connect
-			$connection = imap_open('{'.$server.':'.$port.'/'.$type.$encryption.'}INBOX', $username, $password);
+			$inbox = '{'.$server.':'.$port.'/'.$type.$encryption.'}INBOX';
+			$connection = @imap_open($inbox, $username, $password, 0, 1);
+
+			$errors = imap_errors();
+			$alerts = imap_alerts();
 
 			// Return on connection error
-			if (! $connection)
+			if (! $connection || $errors || $alerts)
 			{
-				Kohana::$log->add(Log::ERROR, "Could not connect to incoming email server");
+				$errors = is_array($errors) ? implode(', ', $errors) : "";
+				$alerts = is_array($alerts) ? implode(', ', $errors) : "";
+				Kohana::$log->add(Log::INFO, "Could not connect to incoming email server. Errors: :errors, Alerts: :alerts",
+					[':errors' => $errors, ':alerts' => $alerts]);
+
 				return 0;
 			}
 
@@ -182,15 +190,18 @@ class DataProvider_Email extends DataProvider {
 			}
 
 			imap_errors();
+			imap_alerts();
 
 			imap_close($connection);
 		}
-		catch (Exception $e)
+		catch (\Exception $e)
 		{
 			$errors = imap_errors();
+			$alerts = imap_alerts();
 			$errors = is_array($errors) ? implode(', ', $errors) : "";
-			Kohana::$log->add(Log::INFO, $e->getMessage() . ". Errors: :errors",
-				[':errors' => $errors]);
+			$alerts = is_array($alerts) ? implode(', ', $errors) : "";
+			Kohana::$log->add(Log::INFO, $e->getMessage() . ". Errors: :errors, Alerts: :alerts",
+				[':errors' => $errors, ':alerts' => $alerts]);
 		}
 
 		return $count;
