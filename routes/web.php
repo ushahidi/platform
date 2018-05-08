@@ -242,12 +242,15 @@ $router->group([
 
     if (Features::isEnabled('hxl')) {
 		$router->group([
+			'namespace' => 'HXL',
 			'prefix' => 'hxl',
 			'middleware' => ['auth:api'] //TODO which scopes do we need?
 		], function () use ($router) {
 			// Public access
 			$router->get('/', 'HXLController@index');
 			$router->get('/licenses', 'HXLLicensesController@index');
+			$router->get('/tags', 'HXLTagsController@index');
+			$router->get('/form_attributes', 'HXLTagAttributesController@index');
 		});
     }
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Ushahidi\App\Http\Controllers\API;
+namespace Ushahidi\App\Http\Controllers\API\HXL;
 
 use Ushahidi\App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -15,12 +15,12 @@ use Ushahidi\App\Http\Controllers\RESTController;
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-class HXLLicensesController extends RESTController
+class HXLTagAttributesController extends RESTController
 {
 
 	protected function getResource()
 	{
-		return 'hxl_licenses';
+		return 'hxl_tag_attributes';
 	}
 
 	/**
@@ -32,6 +32,23 @@ class HXLLicensesController extends RESTController
 	 */
 	public function index(Request $request)
 	{
+		/**
+		 *
+			{
+			"form_attribute_types": ["string"], /// attribute types
+			"tag_id": 0,
+			"tag_name": "string",
+			"tag_description": "string",
+			"hxl_attributes": [
+				{
+				"description": "string",
+				"name": "string",
+				"id": 0
+				}
+			]
+			}
+			]
+		 */
 		$this->usecase = $this->usecaseFactory
 			->get($this->getResource(), 'search');
 		return $this->prepResponse($this->executeUsecase($request), $request);

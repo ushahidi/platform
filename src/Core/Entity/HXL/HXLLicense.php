@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Ushahidi CountryCode Entity
+ * Ushahidi HXLLicense Entity
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Platform
@@ -9,7 +9,7 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Ushahidi\Core\Entity;
+namespace Ushahidi\Core\Entity\HXL;
 
 use Ushahidi\Core\StaticEntity;
 
@@ -24,7 +24,7 @@ class HXLLicense extends StaticEntity
 	public function getDefinition()
 	{
 		return [
-			'id'           => 'int',
+			'id'        => 'int',
 			'code'      => 'string',
 			'name' 		=> 'string',
 			'link'    	=> 'string',

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Ushahidi Config Repository, using Kohana::$config
+ * Ushahidi HXLTag Repository, using Kohana::$config
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Application
@@ -9,28 +9,29 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Ushahidi\App\Repository;
+namespace Ushahidi\App\Repository\HXL;
 
-use Ushahidi\Core\Entity\HXLLicense;
-use Ushahidi\Core\Entity\HXLLicenseRepository as HXLLicenseRepositoryContract;
+use Ushahidi\Core\Entity\HXL\HXLAttributes;
 use Ushahidi\Core\SearchData;
+use Ushahidi\Core\Entity\HXL\HXLAttributesRepository as HXLAttributeRepositoryContract;
 use Ushahidi\Core\Usecase\ReadRepository;
 use Ushahidi\Core\Usecase\SearchRepository;
+use Ushahidi\App\Repository\OhanzeeRepository;
 
-class HXLLicenseRepository extends OhanzeeRepository implements
-	HXLLicenseRepositoryContract,
-    ReadRepository,
-    SearchRepository
+class HXLAttributeRepository extends OhanzeeRepository implements
+	HXLAttributeRepositoryContract,
+	SearchRepository,
+	ReadRepository
 {
 	// OhanzeeRepository
 	protected function getTable()
 	{
-		return 'hxl_license';
+		return 'hxl_attributes';
 	}
 
 	public function getSearchFields()
     {
-		return ['name', 'code'];
+		return ['tag_id', 'attribute'];
 	}
 
 	public function setSearchConditions(SearchData $search)
@@ -41,6 +42,12 @@ class HXLLicenseRepository extends OhanzeeRepository implements
 
     public function getEntity(array $data = null)
     {
-        return new HXLLicense($data);
+        return new HXLAttributes($data);
     }
+
+	// RoleRepository
+	public function getByTagId($tag_id)
+	{
+		return $this->selectQuery(compact('tag_id'))->execute($this->db)->as_array();
+	}
 }
