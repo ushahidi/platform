@@ -9,7 +9,7 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Ushahidi\App\Validator\Form\Role;
+namespace Ushahidi\App\Validator\User\Setting;
 
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\Entity\UserRepository;
@@ -20,7 +20,8 @@ class Update extends Validator
 	protected $user_repo;
 	protected $default_error_source = 'user_setting';
 
-	public function setUserRepo(UserRepository $user_repo)
+
+	public function __construct(UserRepository $user_repo)
 	{
 		$this->user_repo = $user_repo;
 	}

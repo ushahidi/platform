@@ -471,12 +471,14 @@ $router->group([
 
     // Users
     $router->group([
+        'namespace' => 'Users',
         'prefix' => 'users',
         'middleware' => ['scope:users']
     ], function () use ($router) {
         // Public access
         $router->get('/', 'UsersController@index');
         $router->get('/{id:[0-9]+}', 'UsersController@show');
+        
         $router->get('/settings', 'SettingsController@index');
 
         // Sub-user routes

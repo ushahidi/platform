@@ -9,7 +9,7 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Ushahidi\App\Repository\Form;
+namespace Ushahidi\App\Repository\User;
 
 use Ohanzee\DB;
 use Ushahidi\Core\Data;
@@ -21,7 +21,7 @@ use Ushahidi\App\Repository\OhanzeeRepository;
 use Ushahidi\App\Repository\JsonTranscodeRepository;
 
 class SettingRepository extends OhanzeeRepository implements
-UserSettingRepositoryContract
+	UserSettingRepositoryContract
 {
 	// OhanzeeRepository
 	protected function getTable()

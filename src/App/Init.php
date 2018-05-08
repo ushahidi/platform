@@ -166,6 +166,10 @@ $di->params['Ushahidi\Factory\ValidatorFactory']['map']['users'] = [
 	'register' => $di->lazyNew(Ushahidi\App\Validator\User\Register::class),
 	'passwordreset' => $di->lazyNew(Ushahidi\App\Validator\User\Reset::class)
 ];
+$di->params['Ushahidi\Factory\ValidatorFactory']['map']['user_settings'] = [
+	'create' => $di->lazyNew(Ushahidi\App\Validator\User\Setting\Create::class),
+	'update' => $di->lazyNew(Ushahidi\App\Validator\User\Setting\Update::class),
+];
 $di->params['Ushahidi\Factory\ValidatorFactory']['map']['messages'] = [
 	'create' => $di->lazyNew(Ushahidi\App\Validator\Message\Create::class),
 	'update' => $di->lazyNew(Ushahidi\App\Validator\Message\Update::class),
@@ -238,6 +242,7 @@ $di->params['Ushahidi\Factory\FormatterFactory']['map'] = [
 	'sets_posts'           => $di->lazyNew(Ushahidi\App\Formatter\Post::class),
 	'savedsearches_posts'  => $di->lazyNew(Ushahidi\App\Formatter\Post::class),
 	'users'                => $di->lazyNew(Ushahidi\App\Formatter\User::class),
+	'user_settings'        => $di->lazyNew(Ushahidi\App\Formatter\User\Setting::class),
 	'notifications'        => $di->lazyNew(Ushahidi\App\Formatter\Notification::class),
 	'webhooks'             => $di->lazyNew(Ushahidi\App\Formatter\Webhook::class),
 	'contacts'             => $di->lazyNew(Ushahidi\App\Formatter\Contact::class),
@@ -267,6 +272,7 @@ $di->setter[Ushahidi\App\Formatter\Post\Lock::class]['setAuth'] = $di->lazyGet("
 $di->setter[Ushahidi\App\Formatter\Tag::class]['setAuth'] = $di->lazyGet("authorizer.tag");
 $di->setter[Ushahidi\App\Formatter\Tos::class]['setAuth'] = $di->lazyGet("authorizer.tos");
 $di->setter[Ushahidi\App\Formatter\User::class]['setAuth'] = $di->lazyGet("authorizer.user");
+$di->setter[Ushahidi\App\Formatter\User\Setting::class]['setAuth'] = $di->lazyGet("authorizer.user_setting");
 $di->setter[Ushahidi\App\Formatter\Savedsearch::class]['setAuth'] = $di->lazyGet("authorizer.savedsearch");
 $di->setter[Ushahidi\App\Formatter\Set::class]['setAuth'] = $di->lazyGet("authorizer.set");
 $di->setter[Ushahidi\App\Formatter\Set\Post::class]['setAuth'] = $di->lazyGet("authorizer.set_post");
@@ -351,6 +357,7 @@ $di->set('repository.savedsearch', $di->lazyNew(
 	]
 ));
 $di->set('repository.user', $di->lazyNew(Ushahidi\App\Repository\UserRepository::class));
+$di->set('repository.user_setting', $di->lazyNew(Ushahidi\App\Repository\User\SettingRepository::class));
 $di->set('repository.resetpassword', $di->lazyNew(Ushahidi\App\Repository\ResetPasswordRepository::class));
 $di->set('repository.role', $di->lazyNew(Ushahidi\App\Repository\RoleRepository::class));
 $di->set('repository.notification', $di->lazyNew(Ushahidi\App\Repository\NotificationRepository::class));
@@ -624,8 +631,11 @@ $di->params[Ushahidi\App\Validator\User\Update::class] = [
 $di->params[Ushahidi\App\Validator\User\Register::class] = [
 	'repo'    => $di->lazyGet('repository.user')
 ];
-$di->params[Ushahidi\App\Validator\User\Reset::class] = [
-	'repo'    => $di->lazyGet('repository.user')
+$di->params[Ushahidi\App\Validator\User\Setting\Update::class] = [
+	'user_repo'    => $di->lazyGet('repository.user')
+];
+$di->params[Ushahidi\App\Validator\Contact\Update::class] = [
+	'repo' => $di->lazyGet('repository.user'),
 ];
 $di->params[Ushahidi\App\Validator\CSV\Create::class] = [
 	'form_repo' => $di->lazyGet('repository.form'),

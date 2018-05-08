@@ -21,8 +21,7 @@ interface UserSettingRepository extends
 
 	/**
 	 * @param  int $form_id
-	 * @return [Ushahidi\Core\Entity\FormRole, ...]
+	 * @return [Ushahidi\Core\Entity\UserSetting, ...]
 	 */
 	public function getByUser($user_id);
-
 }

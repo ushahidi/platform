@@ -102,6 +102,7 @@ $di->params['Ushahidi\Factory\AuthorizerFactory']['map'] = [
 	'sets_posts'           => $di->lazyGet('authorizer.post'),
 	'savedsearches'        => $di->lazyGet('authorizer.savedsearch'),
 	'users'                => $di->lazyGet('authorizer.user'),
+	'user_settings'        => $di->lazyGet('authorizer.user_setting'),
 	'notifications'        => $di->lazyGet('authorizer.notification'),
 	'webhooks'             => $di->lazyGet('authorizer.webhook'),
 	'apikeys'              => $di->lazyGet('authorizer.apikey'),
@@ -139,6 +140,7 @@ $di->params['Ushahidi\Factory\RepositoryFactory']['map'] = [
 	'sets_posts'           => $di->lazyGet('repository.post'),
 	'savedsearches'        => $di->lazyGet('repository.savedsearch'),
 	'users'                => $di->lazyGet('repository.user'),
+	'user_settings'        => $di->lazyGet('repository.user_setting'),
 	'notifications'        => $di->lazyGet('repository.notification'),
 	'webhooks'             => $di->lazyGet('repository.webhook'),
 	'apikeys'              => $di->lazyGet('repository.apikey'),
@@ -418,6 +420,8 @@ $di->params['Ushahidi\Core\Tool\Authorizer\FormStatsAuthorizer'] = [
 	'form_auth' => $di->lazyGet('authorizer.form'),
 ];
 $di->set('authorizer.user', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\UserAuthorizer'));
+$di->set('authorizer.user_setting', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\UserSettingAuthorizer'));
+
 $di->set('authorizer.layer', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\LayerAuthorizer'));
 $di->set('authorizer.media', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\MediaAuthorizer'));
 $di->set('authorizer.message', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\MessageAuthorizer'));

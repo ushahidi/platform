@@ -72,6 +72,21 @@ users:
     realname: CannotEditor
     email: "cannoteditor@ushahidi.com"
     role: "noedit"
+user_settings:
+ - 
+   id: 1
+   config_key: "some key"
+   config_value: "some value"
+   created: 1893477600
+   updated: 1893477600
+   user_id: 1
+ - 
+   id: 2
+   config_key: "some key"
+   config_value: "some value"
+   created: 1893477600
+   updated: 1893477600
+   user_id: 2
 user_reset_tokens:
   -
     id: 1

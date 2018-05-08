@@ -18,6 +18,7 @@ use Ushahidi\Core\Tool\Authorizer;
 use Ushahidi\Core\Traits\AdminAccess;
 use Ushahidi\Core\Traits\UserContext;
 use Ushahidi\Core\Traits\PrivAccess;
+use Ushahidi\Core\Traits\OwnerAccess;
 use Ushahidi\Core\Traits\PrivateDeployment;
 use Ushahidi\Core\Tool\Permissions\AclTrait;
 
@@ -28,7 +29,7 @@ class UserSettingAuthorizer implements Authorizer
 	use UserContext;
 
 	// - `AdminAccess` to check if the user has admin access
-	use AdminAccess;
+	use AdminAccess, OwnerAccess;
 
 	// It uses `PrivAccess` to provide the `getAllowedPrivs` method.
 	use PrivAccess;
@@ -71,7 +72,7 @@ class UserSettingAuthorizer implements Authorizer
 		}
 
 		// Regular user should be able to perform all actions on their own settings
-		if ($this->isUserOwner($entity)) {
+		if ($this->isUserOwner($entity, $user)) {
 			return true;
 		}
 

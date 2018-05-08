@@ -11,7 +11,7 @@ Feature: Testing the Form Settingss API
                 "config_value":"value"
             }
             """
-        When I request "/user/1/setitngs"
+        When I request "/users/1/settings"
         Then the response is JSON
         And the response has a "id" property
         And the type of the "id" property is "numeric"
@@ -30,26 +30,7 @@ Feature: Testing the Form Settingss API
         When I request "/users/9999/settings"
         Then the response is JSON
         And the response has a "errors" property
-        Then the guzzle status code should be 404
-
-    Scenario: Creating a new Settings on a Stage with the wrong Form ID
-        Given that I want to make a new "Settings"
-        And that the request "data" is:
-            """
-            {
-                "user_id":1,
-                "key":"some_key",
-                "label":"Hey a Thing",
-                "type":"varchar",
-                "input":"text",
-                "required":true,
-                "priority":1
-            }
-            """
-        When I request "/users/2/Settingss"
-        Then the response is JSON
-        And the response has a "errors" property
-        Then the guzzle status code should be 400
+        Then the guzzle status code should be 422
 
     Scenario: Updating a Settings
         Given that I want to update a "Settings"
@@ -70,6 +51,7 @@ Feature: Testing the Form Settingss API
         And the response has a "config_key" property
         And the "config_key" property equals "updated key"
         Then the guzzle status code should be 200
+
 
     Scenario: Updating a non-existent Settings
         Given that I want to update a "Settings"
@@ -94,7 +76,7 @@ Feature: Testing the Form Settingss API
         Then the response is JSON
         And the response has a "count" property
         And the type of the "count" property is "numeric"
-        And the "count" property equals "3"
+        And the "count" property equals "2"
         Then the guzzle status code should be 200
 
     @resetFixture
@@ -104,7 +86,7 @@ Feature: Testing the Form Settingss API
         Then the response is JSON
         And the response has a "count" property
         And the type of the "count" property is "numeric"
-        And the "count" property equals "35"
+        And the "count" property equals "2"
         Then the guzzle status code should be 200
 
     Scenario: Finding a Settings
@@ -136,3 +118,4 @@ Feature: Testing the Form Settingss API
         When I request "/users/1/settings"
         And the response has a "errors" property
         Then the guzzle status code should be 404
+
