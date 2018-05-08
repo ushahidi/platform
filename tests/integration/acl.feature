@@ -416,6 +416,15 @@ Feature: API Access Control Layer
         And the response has a "errors" property
         Then the guzzle status code should be 403
 
+    Scenario: Fail to access resources without corresponding scope
+        Given that I want to find a "User Setting"
+        And that the oauth token is "testingtoken"
+        And that its "id" is "1"
+        When I request "/users/1/settings"
+        Then the response is JSON
+        And the response has a "errors" property
+        Then the guzzle status code should be 403
+
     @resetFixture
     Scenario: User can view post published to members
         Given that I want to find a "Post"
