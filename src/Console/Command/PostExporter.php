@@ -67,6 +67,6 @@ class PostExporter extends Command
 			->setAuthorizer(service('authorizer.export_job'))
 			->setFormatter(service('formatter.entity.post.csv'))
 			->interact();
-		$this->line(json_encode($file));
+		$this->line("Export generated in file: {$file[0]['file']}");
 	}
 }
