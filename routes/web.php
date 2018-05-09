@@ -246,11 +246,9 @@ $router->group([
 			'prefix' => 'hxl',
 			'middleware' => ['auth:api'] //TODO which scopes do we need?
 		], function () use ($router) {
-			// Public access
-			$router->get('/', 'HXLController@index');
+			// Restricted access
 			$router->get('/licenses', 'HXLLicensesController@index');
 			$router->get('/tags', 'HXLTagsController@index');
-			$router->get('/form_attributes', 'HXLTagAttributesController@index');
 		});
     }
 

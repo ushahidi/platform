@@ -213,7 +213,6 @@ $di->params['Ushahidi\Factory\UsecaseFactory']['map']['hxl_licenses'] = [
 	'search' => $di->newFactory('Ushahidi\Core\Usecase\HXL\SearchHXLLicense'),
 ];
 
-
 // Form sub-endpoints must verify that the form exists before anything else.
 $di->params['Ushahidi\Factory\UsecaseFactory']['map']['form_attributes'] = [
 	'create'  => $di->lazyNew('Ushahidi\Core\Usecase\Form\CreateFormAttribute'),
