@@ -34,17 +34,17 @@ class Export extends SearchUsecase
 	use VerifyParentLoaded;
 
 	public function setExportJobRepository(ExportJobRepository $repo)
-    {
+	{
 		$this->exportJobRepository = $repo;//service('repository.export_job');
 	}
 
 	public function setFormAttributeRepository(AttributeRepository $repo)
-    {
+	{
 		$this->formAttributeRepository = $repo; //service('repository.form_attribute');
 	}
 
 	public function setPostExportRepository(ExportRepository $repo)
-    {
+	{
 		$this->postExportRepository = $repo; //service('repository.posts_export');
 	}
 
@@ -55,7 +55,7 @@ class Export extends SearchUsecase
 	 * Construct a filters object
 	 */
 	public function constructFilters($payload, $job_filters = null)
-    {
+	{
 		// Set the baseline filter parameters
 		$filters = [
 			'limit' => $payload['limit'],
@@ -75,7 +75,7 @@ class Export extends SearchUsecase
 	 * Construct a Search Data object to hold the search info
 	 */
 	public function constructSearchData($job, $filters)
-    {
+	{
 		$data = $this->data->get('search');
 
 		// Set the fields that should be included if set
