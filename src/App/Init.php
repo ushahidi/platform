@@ -222,7 +222,6 @@ $di->params['Ushahidi\Factory\FormatterFactory']['map'] = [
 	'country_codes'        => $di->lazyNew(Ushahidi\App\Formatter\CountryCode::class),
 	'hxl_licenses'         => $di->lazyNew(Ushahidi\App\Formatter\HXL\HXLLicense::class),
 	'hxl_tags'        	   => $di->lazyNew(Ushahidi\App\Formatter\HXL\HXLTag::class),
-	'hxl_attribute_type_tag'  => $di->lazyNew(Ushahidi\App\Formatter\HXL\HXLTagAttributesCollection::class),
 	'export_jobs'          => $di->lazyNew(Ushahidi\App\Formatter\ExportJob::class),
 	'forms'                => $di->lazyNew(Ushahidi\App\Formatter\Form::class),
 	'form_attributes'      => $di->lazyNew(Ushahidi\App\Formatter\Form\Attribute::class),
@@ -258,8 +257,6 @@ $di->setter[Ushahidi\App\Formatter\Config::class]['setAuth'] = $di->lazyGet("aut
 $di->setter[Ushahidi\App\Formatter\CSV::class]['setAuth'] = $di->lazyGet("authorizer.csv");
 $di->setter[Ushahidi\App\Formatter\HXL\HXLLicense::class]['setAuth'] = $di->lazyGet("authorizer.hxl");
 $di->setter[Ushahidi\App\Formatter\HXL\HXLTag::class]['setAuth'] = $di->lazyGet("authorizer.hxl");
-$di->setter[Ushahidi\App\Formatter\HXL\HXLTagAttributesCollection::class]['setAuth'] = $di->lazyGet("authorizer.hxl");
-$di->setter[Ushahidi\App\Formatter\HXL\HXLAttributeCollection::class]['setAuth'] = $di->lazyGet("authorizer.hxl");
 $di->setter[Ushahidi\App\Formatter\Dataprovider::class]['setAuth'] = $di->lazyGet("authorizer.dataprovider");
 $di->setter[Ushahidi\App\Formatter\ExportJob::class]['setAuth'] = $di->lazyGet("authorizer.export_job");
 $di->setter[Ushahidi\App\Formatter\Form::class]['setAuth'] = $di->lazyGet("authorizer.form");
@@ -297,17 +294,6 @@ $di->set('formatter.entity.api', $di->lazyNew(Ushahidi\App\Formatter\API::class)
 $di->set('formatter.entity.country_code', $di->lazyNew(Ushahidi\App\Formatter\CountryCode::class));
 $di->set('formatter.entity.hxl_license', $di->lazyNew(Ushahidi\App\Formatter\HXL\HXLLicense::class));
 $di->set('formatter.entity.hxl_tag', $di->lazyNew(Ushahidi\App\Formatter\HXL\HXLTag::class));
-$di->set('formatter.entity.hxl_attribute', $di->lazyNew(Ushahidi\App\Formatter\HXL\HXLAttribute::class));
-$di->set('formatter.entity.hxl_attribute_type_tag', $di->lazyNew(Ushahidi\App\Formatter\HXL\HXLTagAttributes::class));
-
-$di->set(
-	'formatter.entity.hxl_attributecollection',
-	$di->lazyNew(Ushahidi\App\Formatter\HXL\HXLAttributeCollection::class)
-);
-$di->set(
-	'formatter.entity.hxl_attribute_type_tagcollection',
-	$di->lazyNew(Ushahidi\App\Formatter\HXL\HXLTagAttributesCollection::class)
-);
 
 $di->set('formatter.entity.console', $di->lazyNew(Ushahidi\App\Formatter\Console::class));
 $di->set('formatter.entity.form.contact', $di->lazyNew(Ushahidi\App\Formatter\Form\Contact::class));
@@ -344,14 +330,6 @@ $di->set('repository.contact', $di->lazyNew(Ushahidi\App\Repository\ContactRepos
 $di->set('repository.country_code', $di->lazyNew(Ushahidi\App\Repository\CountryCodeRepository::class));
 $di->set('repository.hxl_license', $di->lazyNew(Ushahidi\App\Repository\HXL\HXLLicenseRepository::class));
 $di->set('repository.hxl_tag', $di->lazyNew(Ushahidi\App\Repository\HXL\HXLTagRepository::class));
-$di->set(
-	'repository.hxl_attribute',
-	$di->lazyNew(Ushahidi\App\Repository\HXL\HXLAttributeRepository::class)
-);
-$di->set(
-	'repository.hxl_attribute_type_tag',
-	$di->lazyNew(Ushahidi\App\Repository\HXL\HXLTagAttributesRepository::class)
-);
 $di->set('repository.dataprovider', $di->lazyNew(Ushahidi\App\Repository\DataproviderRepository::class));
 $di->set('repository.form', $di->lazyNew(Ushahidi\App\Repository\FormRepository::class));
 $di->set('repository.form_role', $di->lazyNew(Ushahidi\App\Repository\Form\RoleRepository::class));
@@ -485,16 +463,6 @@ $di->params[Ushahidi\App\Repository\Form\AttributeRepository::class] = [
 		'form_repo' => $di->lazyGet('repository.form')
 ];
 
-// HXLTagAttributesRepository repository parameters
-$di->params[Ushahidi\App\Repository\HXL\HXLTagRepository::class] = [
-	'hxl_attribute_repo' => $di->lazyGet('repository.hxl_attribute'),
-	'hxl_tag_attribute_repo' => $di->lazyGet('repository.hxl_attribute_type_tag'),
-];
-
-// HXL Attributes repository parameters
-$di->params[Ushahidi\App\Repository\HXL\HXLTagAttributesRepository::class] = [
-	'hxl_tag_repo' => $di->lazyGet('repository.hxl_tag'),
-];
 // Post repository parameters
 $di->params[Ushahidi\App\Repository\PostRepository::class] = [
 		'form_attribute_repo' => $di->lazyGet('repository.form_attribute'),

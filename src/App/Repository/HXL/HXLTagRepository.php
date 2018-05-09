@@ -12,15 +12,12 @@
 namespace Ushahidi\App\Repository\HXL;
 
 use Ohanzee\Database;
-use Ushahidi\Core\Entity\HXL\HXLAttributes;
-use Ushahidi\Core\Entity\HXL\HXLTagAttributes;
 use Ushahidi\Core\SearchData;
 use Ushahidi\Core\Entity\HXL\HXLTag;
 use Ushahidi\Core\Entity\HXL\HXLTagRepository as HXLTagRepositoryContract;
 use Ushahidi\Core\Usecase\ReadRepository;
 use Ushahidi\Core\Usecase\SearchRepository;
 use Ushahidi\App\Repository\OhanzeeRepository;
-use Ushahidi\Core\Entity\HXL\HXLAttributesRepository;
 use Ohanzee\DB;
 
 class HXLTagRepository extends OhanzeeRepository implements
@@ -28,16 +25,9 @@ class HXLTagRepository extends OhanzeeRepository implements
 	SearchRepository,
 	ReadRepository
 {
-	protected $hxl_attribute_repo;
-	protected $hxl_tag_attribute_repo;
 	public function __construct(
-		Database $db,
-		HXLAttributesRepository $hxl_attribute_repo,
-		HXLTagAttributesRepository $hxl_tag_attribute_repo
+		Database $db
 	) {
-		$this->hxl_attribute_repo = $hxl_attribute_repo;
-		$this->hxl_tag_attribute_repo = $hxl_tag_attribute_repo;
-
 		parent::__construct($db);
 	}
 

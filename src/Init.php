@@ -114,7 +114,6 @@ $di->params['Ushahidi\Factory\AuthorizerFactory']['map'] = [
 	'hxl'               => $di->lazyGet('authorizer.hxl'),
 	'hxl_licenses'               => $di->lazyGet('authorizer.hxl'),
 	'hxl_tags'               => $di->lazyGet('authorizer.hxl'),
-	'hxl_attribute_type_tag'               => $di->lazyGet('authorizer.hxl'),
 ];
 
 // Repositories are used for storage and retrieval of records.
@@ -125,8 +124,6 @@ $di->params['Ushahidi\Factory\RepositoryFactory']['map'] = [
 	'config'               => $di->lazyGet('repository.config'),
 	'hxl_licenses'         => $di->lazyGet('repository.hxl_license'),
 	'hxl_tags'             => $di->lazyGet('repository.hxl_tag'),
-	'hxl_attributes'       => $di->lazyGet('repository.hxl_attribute'),
-	'hxl_attribute_type_tag'   => $di->lazyGet('repository.hxl_attribute_type_tag'),
 	'country_codes'        => $di->lazyGet('repository.country_code'),
 	'export_jobs'		   => $di->lazyGet('repository.export_job'),
 	'dataproviders'        => $di->lazyGet('repository.dataprovider'),
@@ -216,9 +213,6 @@ $di->params['Ushahidi\Factory\UsecaseFactory']['map']['hxl_licenses'] = [
 	'search' => $di->newFactory('Ushahidi\Core\Usecase\HXL\SearchHXLLicense'),
 ];
 
-$di->params['Ushahidi\Factory\UsecaseFactory']['map']['hxl_attribute_type_tag'] = [
-	'search' => $di->newFactory('Ushahidi\Core\Usecase\HXL\SearchHXLTagAttributes'),
-];
 
 // Form sub-endpoints must verify that the form exists before anything else.
 $di->params['Ushahidi\Factory\UsecaseFactory']['map']['form_attributes'] = [
