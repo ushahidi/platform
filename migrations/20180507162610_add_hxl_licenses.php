@@ -73,6 +73,7 @@ class AddHxlLicenses extends AbstractMigration
 				'link' => ''
 			]
 		];
+    
 	public function up()
     {
 		$pdo = $this->getAdapter()->getConnection();
@@ -96,6 +97,7 @@ class AddHxlLicenses extends AbstractMigration
 			);
 		}
     }
+
     public function down() {
 		$pdo = $this->getAdapter()->getConnection();
     	foreach ($this->licenses as $license) {
