@@ -79,16 +79,6 @@ Feature: Testing the Form Settingss API
         And the "count" property equals "1"
         Then the guzzle status code should be 200
 
-    @resetFixture
-    Scenario: Listing All Settingss
-        Given that I want to get all "Settings"
-        When I request "/users/settings"
-        Then the response is JSON
-        And the response has a "count" property
-        And the type of the "count" property is "numeric"
-        And the "count" property equals "2"
-        Then the guzzle status code should be 200
-
     Scenario: Finding a Settings
         Given that I want to find a "Settings"
         And that its "id" is "1"

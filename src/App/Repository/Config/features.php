@@ -85,4 +85,9 @@ return [
 	'hxl' => [
 		'enabled' => false,
 	],
+
+	// Enable or disable User Settings feature
+	'user-settings' => [
+		'enabled' => true,
+	],
 ];
