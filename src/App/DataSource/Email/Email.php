@@ -166,7 +166,7 @@ class Email implements IncomingAPIDataSource, OutgoingAPIDataSource
 
 			return array(MessageStatus::SENT, false);
 		} catch (\Exception $e) {
-			app('log')->error($e->getMessage());
+			Log::info("Couldn't send email:" . $e->getMessage());
 			// Failed
 			return array(MessageStatus::FAILED, false);
 		}
@@ -205,11 +205,17 @@ class Email implements IncomingAPIDataSource, OutgoingAPIDataSource
 
 		try {
 			// Try to connect
-			$connection = imap_open('{'.$server.':'.$port.'/'.$type.$encryption.'}INBOX', $username, $password);
+			$inbox = '{'.$server.':'.$port.'/'.$type.$encryption.'}INBOX';
+			$connection = @imap_open($inbox, $username, $password, 0, 1);
+
+			$errors = imap_errors();
+			$alerts = imap_alerts();
 
 			// Return on connection error
-			if (! $connection) {
-				app('log')->error("Could not connect to incoming email server");
+			if (! $connection || $errors || $alerts) {
+				$errors = is_array($errors) ? implode(', ', $errors) : "";
+				$alerts = is_array($alerts) ? implode(', ', $errors) : "";
+				Log::info("Could not connect to incoming email server", compact('errors', 'alerts'));
 				return [];
 			}
 
@@ -260,12 +266,15 @@ class Email implements IncomingAPIDataSource, OutgoingAPIDataSource
 			}
 
 			imap_errors();
+			imap_alerts();
 
 			imap_close($connection);
 		} catch (\ErrorException $e) {
 			$errors = imap_errors();
+			$alerts = imap_alerts();
 			$errors = is_array($errors) ? implode(', ', $errors) : "";
-			app('log')->info($e->getMessage(), [':errors' => $errors]);
+			$alerts = is_array($alerts) ? implode(', ', $errors) : "";
+			Log::info($e->getMessage(), compact('errors', 'alerts'));
 		}
 
 		return $messages;
