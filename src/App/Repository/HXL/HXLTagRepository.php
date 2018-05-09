@@ -21,6 +21,7 @@ use Ushahidi\Core\Usecase\ReadRepository;
 use Ushahidi\Core\Usecase\SearchRepository;
 use Ushahidi\App\Repository\OhanzeeRepository;
 use Ushahidi\Core\Entity\HXL\HXLAttributesRepository;
+use Ohanzee\DB;
 
 class HXLTagRepository extends OhanzeeRepository implements
 	HXLTagRepositoryContract,
@@ -60,19 +61,37 @@ class HXLTagRepository extends OhanzeeRepository implements
     public function getEntity(array $data = null)
     {
     	if ($data) {
-			$data['form_attribute_types'] = array_flatten($this->getTypes($data['id']));
-			$data['hxl_attributes'] = $this->getHydratedAttributes($data['id']);
+			$data['form_attribute_types'] = array_flatten($this->getFormAttributeTypes($data['id']));
+			$data['hxl_attributes'] = $this->getHXLAttributes($data['id']);
     	}
 		return new HXLTag($data);
     }
 
-    protected function getHydratedAttributes($hxl_tag_id)
+	/**
+	 * @param $hxl_tag_id
+	 */
+	protected function getHXLAttributes($hxl_tag_id)
 	{
-		return $this->hxl_attribute_repo->getByTagId($hxl_tag_id);
+		return DB::select('hxl_attributes.id', 'hxl_attributes.attribute', 'hxl_attributes.description')
+			->from('hxl_tags')
+			->join('hxl_tag_attributes')
+			->on('hxl_tags.id', '=', 'hxl_tag_attributes.tag_id')
+			->join('hxl_attributes')
+			->on('hxl_tag_attributes.attribute_id', '=', 'hxl_attributes.id')
+			->where('hxl_tag_attributes.tag_id', '=', $hxl_tag_id)
+			->execute($this->db)->as_array();
 	}
 
-	protected function getTypes($hxl_tag_id)
+	/**
+	 * Get all attribute types that can be matched to this hxl tag
+	 * @param $hxl_tag_id
+	 * @return mixed
+	 */
+	protected function getFormAttributeTypes($hxl_tag_id)
     {
-		return $this->hxl_tag_attribute_repo->getTypesByTagId($hxl_tag_id);
+		return DB::select('form_attribute_type')
+			->from('hxl_attribute_type_tag')
+			->where('hxl_tag_id', '=', $hxl_tag_id)
+			->execute($this->db)->as_array();
 	}
 }

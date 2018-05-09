@@ -12,6 +12,7 @@
 namespace Ushahidi\App\Repository\HXL;
 
 use Ohanzee\Database;
+use Ohanzee\DB;
 use Ushahidi\Core\Entity\HXL\HXLTag;
 use Ushahidi\Core\Entity\HXL\HXLTagAttributes;
 use Ushahidi\Core\SearchData;
@@ -52,15 +53,14 @@ class HXLTagAttributesRepository extends OhanzeeRepository implements
 	// OhanzeeRepository
 	public function getEntity(array $data = null)
 	{
-		//$data['hxl_tag'] = $this->getHydratedTag($data['hxl_tag_id']);
 		return new HXLTagAttributes($data);
 	}
 
 	public function getTypesByTagId($hxl_tag_id)
 	{
-		return $this->selectQuery(compact('hxl_tag_id'))
-					->resetSelect()
-					->select('hxl_attribute_type_tag.form_attribute_type')
-					->execute($this->db)->as_array();
+		return DB::select('form_attribute_type')
+			->from('hxl_attribute_type_tag')
+			->where('hxl_tag_id', '=', $hxl_tag_id)
+			->execute($this->db)->as_array();
 	}
 }

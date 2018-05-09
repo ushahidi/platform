@@ -31,7 +31,7 @@ class HXLAttributeRepository extends OhanzeeRepository implements
 
 	public function getSearchFields()
     {
-		return ['tag_id', 'attribute'];
+		return ['attribute'];
 	}
 
 	public function setSearchConditions(SearchData $search)
