@@ -60,7 +60,7 @@ interface MessageRepository extends
 
 	/**
 	 * Update message status
-	 * @param  int    $id
+	 * @param  int $id
 	 * @param  string $status
 	 * @param  string $data_source_message_id
 	 * @return null

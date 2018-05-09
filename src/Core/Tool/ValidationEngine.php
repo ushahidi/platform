@@ -14,56 +14,56 @@ namespace Ushahidi\Core\Tool;
 
 interface ValidationEngine
 {
-    /**
-     * Set or reset the data to be validated
-     *
-     * @param Array $data array of data in $key => $value format
-     */
-    public function setData(array $data);
+	/**
+	 * Set or reset the data to be validated
+	 *
+	 * @param Array $data array of data in $key => $value format
+	 */
+	public function setData(array $data);
 
-    /**
-     * Get data by its array key
-     * @param  string $key
-     * @return mixed
-     */
-    public function getData($key = null);
+	/**
+	 * Get data by its array key
+	 * @param  string $key
+	 * @return mixed
+	 */
+	public function getData($key = null);
 
-    /**
-     * Set or reset the full data array to be referenced for validation
-     *
-     * @param Array $data array of data in $key => $value format
-     */
-    public function setFullData(array $data);
+	/**
+	 * Set or reset the full data array to be referenced for validation
+	 *
+	 * @param Array $data array of data in $key => $value format
+	 */
+	public function setFullData(array $data);
 
-    /**
-     * Get full data by its array key
-     * @param  string $key
-     * @return mixed
-     */
-    public function getFullData($key = null);
+	/**
+	 * Get full data by its array key
+	 * @param  string $key
+	 * @return mixed
+	 */
+	public function getFullData($key = null);
 
-    /**
-     * Set rules that the validator will apply against the data
-     *
-     * @return null
-     */
-    public function rules($field, array $rules);
+	/**
+	 * Set rules that the validator will apply against the data
+	 *
+	 * @return null
+	 */
+	public function rules($field, array $rules);
 
-    /**
-     * Check the data against the previously set rules
-     *
-     * @return bool
-     */
-    public function check();
+	/**
+	 * Check the data against the previously set rules
+	 *
+	 * @return bool
+	 */
+	public function check();
 
-    /**
-     * Get any errors that occurred during validation
-     * Optionally load messages from a $file
-     * and $translate them into the default language (or a given language)
-     *
-     * @param  string $file      file containing custom error messages
-     * @param  mixed  $translate boolean or string representing a language
-     * @return array
-     */
-    public function errors($file = null, $translate = true);
+	/**
+	 * Get any errors that occurred during validation
+	 * Optionally load messages from a $file
+	 * and $translate them into the default language (or a given language)
+	 *
+	 * @param  string $file file containing custom error messages
+	 * @param  mixed $translate boolean or string representing a language
+	 * @return array
+	 */
+	public function errors($file = null, $translate = true);
 }

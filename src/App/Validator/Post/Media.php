@@ -28,7 +28,7 @@ class Media extends ValueValidator
 			return 'digit';
 		}
 
-		if (! $this->repo->exists($value)) {
+		if (!$this->repo->exists($value)) {
 			return 'exists';
 		}
 	}

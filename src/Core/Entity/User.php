@@ -33,19 +33,19 @@ class User extends StaticEntity
 	protected function getDefinition()
 	{
 		return [
-			'id'              => 'int',
-			'email'           => '*email',
-			'realname'        => 'string',
-			'password'        => 'string',
-			'logins'          => 'int',
+			'id' => 'int',
+			'email' => '*email',
+			'realname' => 'string',
+			'password' => 'string',
+			'logins' => 'int',
 			'failed_attempts' => 'int',
-			'last_login'      => 'int',
-			'last_attempt'    => 'int',
-			'created'         => 'int',
-			'updated'         => 'int',
-			'role'            => 'string',
-			'language'		  => 'string',
-			'contacts' 		  => 'array'
+			'last_login' => 'int',
+			'last_attempt' => 'int',
+			'created' => 'int',
+			'updated' => 'int',
+			'role' => 'string',
+			'language' => 'string',
+			'contacts' => 'array'
 		];
 	}
 

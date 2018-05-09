@@ -37,7 +37,7 @@ class Twilio implements CallbackDataSource, OutgoingAPIDataSource
 	}
 
 	public function getName()
-    {
+	{
 		return 'Twilio';
 	}
 
@@ -134,11 +134,11 @@ class Twilio implements CallbackDataSource, OutgoingAPIDataSource
 
 	public function verifySid($sid)
 	{
-        if (isset($this->config['account_sid']) and $sid === $this->config['account_sid']) {
-            return true;
-        }
+		if (isset($this->config['account_sid']) and $sid === $this->config['account_sid']) {
+			return true;
+		}
 
-        return false;
+		return false;
 	}
 
 	public function getSmsAutoResponse()

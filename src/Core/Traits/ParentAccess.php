@@ -26,8 +26,8 @@ trait ParentAccess
 {
 	/**
 	 * Check if $user has access to the parent of $entity
-	 * @param  Entity  $entity
-	 * @param  User    $user
+	 * @param  Entity $entity
+	 * @param  User $user
 	 * @return boolean
 	 */
 	protected function isAllowedParent(Entity $entity, $privilege)

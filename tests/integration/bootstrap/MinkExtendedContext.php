@@ -41,7 +41,7 @@ class MinkExtendedContext extends MinkContext
 				'"@mink:goutte" or "@mink:symfony". ' .
 				'Intercepting the redirections is not ' .
 				'supported by %s',
-                $driver
+				$driver
 			);
 		}
 	}

@@ -30,14 +30,14 @@ class FormStage extends StaticEntity
 	protected function getDefinition()
 	{
 		return [
-			'id'       => 'int',
+			'id' => 'int',
 			'description' => 'string',
 			'show_when_published' => 'boolean',
-			'type'     => 'string',
-			'form_id'  => 'int',
-			'label'    => 'string',
+			'type' => 'string',
+			'form_id' => 'int',
+			'label' => 'string',
 			'priority' => 'int',
-			'icon'     => 'string',
+			'icon' => 'string',
 			'required' => 'boolean',
 			'task_is_internal_only' => 'boolean'
 		];

@@ -37,7 +37,6 @@ class ContactPostStateToTargetedSurvey extends AbstractMigration
 				'delete' => 'SET_NULL',
 				'update' => 'SET_NULL',
 			])
-
 			->addForeignKey('message_id', 'messages', 'id', [
 				'delete' => 'SET_NULL',
 				'update' => 'SET_NULL',

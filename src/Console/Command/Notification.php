@@ -26,32 +26,32 @@ class Notification extends Command
 	private $messageRepository;
 	private $notificationQueueRepository;
 
-    /**
-     * The console command name.
-     *
-     * @var string
-     */
-    protected $name = 'notification:queue';
+	/**
+	 * The console command name.
+	 *
+	 * @var string
+	 */
+	protected $name = 'notification:queue';
 
-    /**
-     * The console command signature.
-     *
-     * @var string
-     */
-    protected $signature = 'notification:queue {--limit=}';
+	/**
+	 * The console command signature.
+	 *
+	 * @var string
+	 */
+	protected $signature = 'notification:queue {--limit=}';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Queue notifications for sending';
+	/**
+	 * The console command description.
+	 *
+	 * @var string
+	 */
+	protected $description = 'Queue notifications for sending';
 
 	public function __construct(DataSourceManager $sources)
 	{
 		parent::__construct();
 
-        $this->sources = $sources;
+		$this->sources = $sources;
 	}
 
 	public function handle()
@@ -77,7 +77,7 @@ class Notification extends Command
 
 		foreach ($notifications as $notification) {
 			// Get contacts and generate messages from new notification
-			$count+=$this->generateMessages($notification);
+			$count += $this->generateMessages($notification);
 		}
 
 		// Finally commit changes
@@ -143,7 +143,7 @@ class Notification extends Command
 				break;
 			}
 
-			$offset+=$limit;
+			$offset += $limit;
 		}
 
 		return $count;

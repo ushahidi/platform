@@ -50,7 +50,7 @@ class Post extends StaticEntity
 	protected function getDerived()
 	{
 		return [
-			'slug'    => function ($data) {
+			'slug' => function ($data) {
 				if (array_key_exists('title', $data)) {
 					// Truncate the title to 137 chars so that the
 					// 13 char uniqid will fit
@@ -62,8 +62,8 @@ class Post extends StaticEntity
 				}
 				return false;
 			},
-			'form_id'   => ['form', 'form.id'], /* alias */
-			'user_id'   => ['user', 'user.id'], /* alias */
+			'form_id' => ['form', 'form.id'], /* alias */
+			'user_id' => ['user', 'user.id'], /* alias */
 			'parent_id' => ['parent', 'parent.id'], /* alias */
 		];
 	}
@@ -72,29 +72,29 @@ class Post extends StaticEntity
 	protected function getDefinition()
 	{
 		return [
-			'id'              => 'int',
-			'parent_id'       => 'int',
-			'form'            => false, /* alias */
-			'form_id'         => 'int',
-			'user'            => false, /* alias */
-			'user_id'         => 'int',
-			'type'            => 'string',
-			'title'           => 'string',
-			'slug'            => '*slug',
-			'content'         => 'string',
-			'author_email'    => 'string', /* @todo email filter */
+			'id' => 'int',
+			'parent_id' => 'int',
+			'form' => false, /* alias */
+			'form_id' => 'int',
+			'user' => false, /* alias */
+			'user_id' => 'int',
+			'type' => 'string',
+			'title' => 'string',
+			'slug' => '*slug',
+			'content' => 'string',
+			'author_email' => 'string', /* @todo email filter */
 			'author_realname' => 'string', /* @todo redundent with user record */
-			'status'          => 'string',
-			'created'         => 'int',
-			'updated'         => 'int',
-			'post_date'       => '*date',
-			'locale'          => '*lowercasestring',
-			'values'          => 'array',
-			'tags'            => 'array',
-			'published_to'    => '*json',
-			'completed_stages'=> '*arrayInt',
-			'sets'            => 'array',
-			'lock'            => 'array',
+			'status' => 'string',
+			'created' => 'int',
+			'updated' => 'int',
+			'post_date' => '*date',
+			'locale' => '*lowercasestring',
+			'values' => 'array',
+			'tags' => 'array',
+			'published_to' => '*json',
+			'completed_stages' => '*arrayInt',
+			'sets' => 'array',
+			'lock' => 'array',
 		];
 	}
 

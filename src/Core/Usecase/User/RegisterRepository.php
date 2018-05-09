@@ -18,5 +18,6 @@ use Ushahidi\Core\Entity;
 interface RegisterRepository
 {
 	public function isUniqueEmail($email);
+
 	public function register(Entity $entity);
 }

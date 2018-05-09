@@ -7,7 +7,7 @@
         <exclude name="Generic.WhiteSpace.DisallowTabIndent"/>
     </rule>
 
-    <rule ref="Generic.PHP.CharacterBeforePHPOpeningTag" />
+    <rule ref="Generic.PHP.CharacterBeforePHPOpeningTag"/>
 
     <exclude-pattern>vendor/*</exclude-pattern>
     <exclude-pattern>tests/spec/*</exclude-pattern>

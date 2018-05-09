@@ -64,7 +64,7 @@ class MediaRepository extends OhanzeeRepository implements
 		if ($search->orphans) {
 			$this->search_query
 				->join('posts_media', 'left')
-					->on('posts_media.media_id', '=', 'media.id')
+				->on('posts_media.media_id', '=', 'media.id')
 				->where('posts_media.post_id', 'is', null);
 		}
 	}

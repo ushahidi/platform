@@ -97,6 +97,6 @@ class RoleRepository extends OhanzeeRepository implements
 	// FormRoleRepository
 	public function existsInFormRole($role_id, $form_id)
 	{
-		return (bool) $this->selectCount(compact('role_id', 'form_id'));
+		return (bool)$this->selectCount(compact('role_id', 'form_id'));
 	}
 }

@@ -42,13 +42,13 @@ class WebhookRepository extends OhanzeeRepository implements WebhookRepositoryCo
 
 		// Limit search to user's records unless they are admin
 		// or if we get user=me as a search param
-		if (! $this->isUserAdmin($user) || $search->user === 'me') {
+		if (!$this->isUserAdmin($user) || $search->user === 'me') {
 			$search->user = $this->getUserId();
 		}
 
 		foreach ([
-			'user'
-		] as $fk) {
+					 'user'
+				 ] as $fk) {
 			if ($search->$fk) {
 				$query->where("webhooks.{$fk}_id", '=', $search->$fk);
 			}

@@ -68,13 +68,13 @@ class CreateMedia extends CreateUsecase
 		);
 
 		$payload = [
-			'caption'    => $this->getPayload('caption', false) ?: null,
-			'user_id'    => $this->getPayload('user_id', false) ?: null,
-			'mime'       => $this->upload->type,
+			'caption' => $this->getPayload('caption', false) ?: null,
+			'user_id' => $this->getPayload('user_id', false) ?: null,
+			'mime' => $this->upload->type,
 			'o_filename' => $this->upload->file,
-			'o_size'     => $this->upload->size,
-			'o_width'    => $this->upload->width,
-			'o_height'   => $this->upload->height,
+			'o_size' => $this->upload->size,
+			'o_width' => $this->upload->width,
+			'o_height' => $this->upload->height,
 		];
 
 		return $this->repo->getEntity()->setState($payload);

@@ -25,10 +25,10 @@ class ApiKey extends StaticEntity
 	protected function getDefinition()
 	{
 		return [
-			'id'            	=> 'int',
-			'api_key'					=> 'string',
-			'created'       	=> 'int',
-			'updated'       	=> 'int',
+			'id' => 'int',
+			'api_key' => 'string',
+			'created' => 'int',
+			'updated' => 'int',
 		];
 	}
 

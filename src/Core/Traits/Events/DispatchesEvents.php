@@ -25,10 +25,10 @@ trait DispatchesEvents
 	/**
 	 * Trigger event
 	 *
-     * @param  string|object  $event
-     * @param  mixed  $payload
-     * @param  bool  $halt
-     * @return array|null
+	 * @param  string|object $event
+	 * @param  mixed $payload
+	 * @param  bool $halt
+	 * @return array|null
 	 */
 	protected function dispatch($event, $payload = [], $halt = false)
 	{

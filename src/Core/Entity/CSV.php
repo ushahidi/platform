@@ -30,16 +30,16 @@ class CSV extends StaticEntity
 	public function getDefinition()
 	{
 		return [
-			'id'           => 'int',
-			'columns'      => '*json',
-			'maps_to'      => '*json',
-			'fixed'        => '*json',
-			'filename'     => 'string',
-			'mime'         => 'string',
-			'size'         => 'int',
-			'created'      => 'int',
-			'updated'      => 'int',
-			'completed'    => 'bool',
+			'id' => 'int',
+			'columns' => '*json',
+			'maps_to' => '*json',
+			'fixed' => '*json',
+			'filename' => 'string',
+			'mime' => 'string',
+			'size' => 'int',
+			'created' => 'int',
+			'updated' => 'int',
+			'completed' => 'bool',
 		];
 	}
 

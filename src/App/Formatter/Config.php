@@ -31,7 +31,7 @@ class Config extends API
 	protected function formatClustering($val)
 	{
 		if ($this->config_group == 'map') {
-			return (bool) $val;
+			return (bool)$val;
 		}
 
 		return $val;
@@ -40,7 +40,7 @@ class Config extends API
 	protected function formatClusterRadius($val)
 	{
 		if ($this->config_group == 'map') {
-			return (integer) $val;
+			return (integer)$val;
 		}
 
 		return $val;
@@ -49,7 +49,7 @@ class Config extends API
 	protected function formatNexmo($val)
 	{
 		if ($this->config_group == 'data-provider') {
-			$val = (object) $val;
+			$val = (object)$val;
 		}
 
 		return $val;
@@ -58,7 +58,7 @@ class Config extends API
 	protected function formatTwilio($val)
 	{
 		if ($this->config_group == 'data-provider') {
-			$val = (object) $val;
+			$val = (object)$val;
 		}
 
 		return $val;
@@ -67,7 +67,7 @@ class Config extends API
 	protected function formatSmssync($val)
 	{
 		if ($this->config_group == 'data-provider') {
-			$val = (object) $val;
+			$val = (object)$val;
 		}
 
 		return $val;
@@ -76,7 +76,7 @@ class Config extends API
 	protected function formatTwitter($val)
 	{
 		if ($this->config_group == 'data-provider') {
-			$val = (object) $val;
+			$val = (object)$val;
 		}
 
 		return $val;
@@ -85,7 +85,7 @@ class Config extends API
 	protected function formatFrontlinesms($val)
 	{
 		if ($this->config_group == 'data-provider') {
-			$val = (object) $val;
+			$val = (object)$val;
 		}
 
 		return $val;

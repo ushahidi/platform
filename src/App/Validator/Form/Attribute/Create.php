@@ -16,15 +16,15 @@ use Ushahidi\Core\Tool\Validator;
 
 class Create extends Update
 {
-    public function getRules()
-    {
-        return array_merge_recursive(parent::getRules(), [
-            'label' => [
-                ['not_empty'],
-            ],
-            'form_stage_id' => [
-                ['not_empty'],
-            ],
-        ]);
-    }
+	public function getRules()
+	{
+		return array_merge_recursive(parent::getRules(), [
+			'label' => [
+				['not_empty'],
+			],
+			'form_stage_id' => [
+				['not_empty'],
+			],
+		]);
+	}
 }

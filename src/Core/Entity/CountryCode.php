@@ -24,9 +24,9 @@ class CountryCode extends StaticEntity
 	public function getDefinition()
 	{
 		return [
-			'id'           => 'int',
+			'id' => 'int',
 			'country_name' => 'string',
-			'dial_code'    => 'string',
+			'dial_code' => 'string',
 			'country_code' => 'string'
 		];
 	}

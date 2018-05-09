@@ -71,7 +71,7 @@ class UserRepository extends OhanzeeRepository implements
 		// injected into the User repo to avoid this we access the table directly
 		// NOTE: This creates a hard coded dependency on the table naming for contacts
 		$query = DB::select('*')->from('contacts')
-					->where('user_id', '=', $entity_id);
+			->where('user_id', '=', $entity_id);
 
 		$results = $query->execute($this->db);
 
@@ -82,12 +82,12 @@ class UserRepository extends OhanzeeRepository implements
 	public function create(Entity $entity)
 	{
 		$state = [
-			'created'  => time(),
+			'created' => time(),
 			'password' => $this->hasher->hash($entity->password),
 		];
 		$entity->setState($state);
 		if ($entity->role === 'admin') {
-				$this->updateIntercomAdminUsers($entity);
+			$this->updateIntercomAdminUsers($entity);
 		}
 		return parent::create($entity);
 	}
@@ -96,11 +96,11 @@ class UserRepository extends OhanzeeRepository implements
 	public function createWithHash(Entity $entity)
 	{
 		$state = [
-			'created'  => time()
+			'created' => time()
 		];
 		$entity->setState($state);
 		if ($entity->role === 'admin') {
-				$this->updateIntercomAdminUsers($entity);
+			$this->updateIntercomAdminUsers($entity);
 		}
 
 		return parent::create($entity);
@@ -146,7 +146,7 @@ class UserRepository extends OhanzeeRepository implements
 
 			// Adding search contacts
 			$query->join('contacts')->on("$table.id", '=', 'contacts.user_id')
-			->or_where('contacts.contact', 'like', '%' . $search->q . '%');
+				->or_where('contacts.contact', 'like', '%' . $search->q . '%');
 		}
 
 		if ($search->role) {
@@ -179,15 +179,15 @@ class UserRepository extends OhanzeeRepository implements
 
 		return $this->executeInsert([
 			'realname' => $entity->realname,
-			'email'    => $entity->email,
+			'email' => $entity->email,
 			'password' => $this->hasher->hash($entity->password),
-			'created'  => time()
-			]);
+			'created' => time()
+		]);
 	}
 
 	// ResetPasswordRepository
 	public function getResetToken(Entity $entity)
-    {
+	{
 		// Todo: replace with something more robust.
 		// This is predictable if we don't have the openssl mod
 		$token = Security::token(true);
@@ -209,14 +209,13 @@ class UserRepository extends OhanzeeRepository implements
 
 	// ResetPasswordRepository
 	public function isValidResetToken($token)
-    {
+	{
 		$result = DB::select([DB::expr('COUNT(*)'), 'total'])
 			->from('user_reset_tokens')
 			->where('reset_token', '=', $token)
-			->where('created', '>', time() - 1800) // Expire tokens after less than 30 mins
+			->where('created', '>', time() - 1800)// Expire tokens after less than 30 mins
 			->execute($this->db);
 
-			
 
 		$count = $result->get('total') ?: 0;
 
@@ -225,7 +224,7 @@ class UserRepository extends OhanzeeRepository implements
 
 	// ResetPasswordRepository
 	public function setPassword($token, $password)
-    {
+	{
 		$sub = DB::select('user_id')
 			->from('user_reset_tokens')
 			->where('reset_token', '=', $token);
@@ -237,7 +236,7 @@ class UserRepository extends OhanzeeRepository implements
 
 	// ResetPasswordRepository
 	public function deleteResetToken($token)
-    {
+	{
 		$result = DB::delete('user_reset_tokens')
 			->where('reset_token', '=', $token)
 			->execute($this->db);
@@ -255,9 +254,9 @@ class UserRepository extends OhanzeeRepository implements
 
 	// DeleteRepository
 	public function delete(Entity $entity)
-    {
+	{
 		if ($entity->role === 'admin') {
-				$this->updateIntercomAdminUsers($entity);
+			$this->updateIntercomAdminUsers($entity);
 		}
 		return parent::delete($entity);
 	}

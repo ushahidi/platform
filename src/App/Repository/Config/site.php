@@ -24,15 +24,15 @@
  *                          See http://php.net/manual/en/datetime.createfromformat.php
  */
 
-  return array(
-	'name'          => '',
-	'description'   => '',
-	'email'         => '',
-	'timezone'      => 'UTC',
-	'language'      => 'en-US',
-	'date_format'   => 'n/j/Y',
-	'client_url'    => false,
-	'first_login'   => true,
-	'tier'          => 'free',
-	'private'       => false,
-  );
+return array(
+	'name' => '',
+	'description' => '',
+	'email' => '',
+	'timezone' => 'UTC',
+	'language' => 'en-US',
+	'date_format' => 'n/j/Y',
+	'client_url' => false,
+	'first_login' => true,
+	'tier' => 'free',
+	'private' => false,
+);

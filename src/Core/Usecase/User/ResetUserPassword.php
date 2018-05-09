@@ -71,7 +71,7 @@ class ResetUserPassword implements Usecase
 		];
 
 		$this->verifyValid($entity_array);
-			
+
 		$this->repo->setPassword($token, $password);
 
 		// And delete the token

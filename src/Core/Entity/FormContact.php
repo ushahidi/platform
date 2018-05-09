@@ -17,13 +17,14 @@ class FormContact extends StaticEntity
 {
 	protected $form_id;
 	protected $contacts;
+
 	// DataTransformer
 	protected function getDefinition()
 	{
 		return [
-			'form_id'            => 'int',
+			'form_id' => 'int',
 			//'user'          => false, /* alias */
-			'contacts'       => 'string',
+			'contacts' => 'string',
 //			'data_provider' => 'string',
 //			'type'          => 'string',
 //			'contact'       => 'string',

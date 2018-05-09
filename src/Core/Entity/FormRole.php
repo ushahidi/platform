@@ -23,9 +23,9 @@ class FormRole extends StaticEntity
 	protected function getDefinition()
 	{
 		return [
-			'id'       => 'int',
-			'form_id'  => 'int',
-			'role_id'  => 'int'
+			'id' => 'int',
+			'form_id' => 'int',
+			'role_id' => 'int'
 		];
 	}
 

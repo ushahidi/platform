@@ -27,9 +27,9 @@ class Export extends SearchUsecase
 	{
 		return [
 			'orderby' => 'created',
-			'order'   => 'asc',
-			'limit'   => null,
-			'offset'  => 0
+			'order' => 'asc',
+			'limit' => null,
+			'offset' => 0
 		];
 	}
 

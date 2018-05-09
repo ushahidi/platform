@@ -4,20 +4,20 @@ use Phinx\Migration\AbstractMigration;
 
 class ChangeTitleTypeToText extends AbstractMigration
 {
-    public function up()
-    {
-        $pdo = $this->getAdapter()->getConnection();
+	public function up()
+	{
+		$pdo = $this->getAdapter()->getConnection();
 
-        $insert = $pdo->prepare("
+		$insert = $pdo->prepare("
             UPDATE form_attributes
             SET input = 'text'
             WHERE type = 'title'
             ;");
 
-        $insert->execute();
-    }
+		$insert->execute();
+	}
 
-    public function down()
-    {
-    }
+	public function down()
+	{
+	}
 }

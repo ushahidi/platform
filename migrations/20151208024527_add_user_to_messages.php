@@ -17,9 +17,9 @@ class AddUserToMessages extends AbstractMigration
 				'default' => null
 			])
 			->addForeignKey('user_id', 'users', 'id', [
-                'delete' => 'SET NULL',
-                'update' => 'CASCADE',
-                ])
+				'delete' => 'SET NULL',
+				'update' => 'CASCADE',
+			])
 			->update();
 	}
 

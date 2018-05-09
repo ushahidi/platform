@@ -51,5 +51,5 @@ $router->group([
 			$router->put('/{id:[0-9]+}', 'SettingsController@update');
 			$router->delete('/{id:[0-9]+}', 'SettingsController@destroy');
 		});
-});
+	});
 });

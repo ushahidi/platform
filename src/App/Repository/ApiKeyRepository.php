@@ -72,7 +72,7 @@ class ApiKeyRepository extends OhanzeeRepository implements ApiKeyRepositoryCont
 
 	public function apiKeyExists($api_key)
 	{
-		return (bool) $this->selectCount(compact('api_key'));
+		return (bool)$this->selectCount(compact('api_key'));
 	}
 
 	public function getSearchFields()

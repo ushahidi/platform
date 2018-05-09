@@ -16,12 +16,12 @@ use Ushahidi\Core\Tool\Validator;
 
 class Create extends Update
 {
-    protected function getRules()
-    {
-        return array_merge_recursive(parent::getRules(), [
-        'entity_type' => [
-        ['not_empty'],
-        ],
-        ]);
-    }
+	protected function getRules()
+	{
+		return array_merge_recursive(parent::getRules(), [
+			'entity_type' => [
+				['not_empty'],
+			],
+		]);
+	}
 }

@@ -24,10 +24,10 @@ trait FindPostEntity
 	{
 		$this->verifyPostRepo($this->repo);
 
-		$id        = $this->getIdentifier('id');
+		$id = $this->getIdentifier('id');
 		$parent_id = $this->getIdentifier('parent_id');
-		$locale    = $this->getIdentifier('locale');
-		$type      = $this->getIdentifier('type');
+		$locale = $this->getIdentifier('locale');
+		$type = $this->getIdentifier('type');
 
 		if ($parent_id && $locale) {
 			$entity = $this->repo->getByLocale($locale, $parent_id, $type);

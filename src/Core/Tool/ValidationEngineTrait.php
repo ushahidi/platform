@@ -17,17 +17,17 @@ use Ushahidi\Core\Tool\Validation;
 
 trait ValidationEngineTrait
 {
-    /**
-     * @var Ushahidi\Core\Tool\Validation
-     */
-    protected $validation_engine;
+	/**
+	 * @var Ushahidi\Core\Tool\Validation
+	 */
+	protected $validation_engine;
 
-    /**
-     * @param  $validation_factory
-     * @return void
-     */
-    public function setValidation(ValidationEngine $validation_engine)
-    {
-        $this->validation_engine = $validation_engine;
-    }
+	/**
+	 * @param  $validation_factory
+	 * @return void
+	 */
+	public function setValidation(ValidationEngine $validation_engine)
+	{
+		$this->validation_engine = $validation_engine;
+	}
 }

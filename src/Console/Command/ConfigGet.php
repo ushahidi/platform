@@ -18,26 +18,26 @@ use \Ushahidi\Factory\UsecaseFactory;
 
 class ConfigGet extends Command
 {
-    /**
-     * The console command name.
-     *
-     * @var string
-     */
-    protected $name = 'config:get';
+	/**
+	 * The console command name.
+	 *
+	 * @var string
+	 */
+	protected $name = 'config:get';
 
-    /**
-     * The console command signature.
-     *
-     * @var string
-     */
-    protected $signature = 'config:get {group}';
+	/**
+	 * The console command signature.
+	 *
+	 * @var string
+	 */
+	protected $signature = 'config:get {group}';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Get config params';
+	/**
+	 * The console command description.
+	 *
+	 * @var string
+	 */
+	protected $description = 'Get config params';
 
 	/**
 	 * @var Ushahidi\Core\Usecase\Usecase
@@ -69,7 +69,7 @@ class ConfigGet extends Command
 	{
 		$group = $this->argument('group');
 
-		$this->getUsecase()->setIdentifiers([ 'id' => $group ]);
+		$this->getUsecase()->setIdentifiers(['id' => $group]);
 
 		$response = $this->getUsecase()->interact();
 
@@ -89,7 +89,7 @@ class ConfigGet extends Command
 			foreach (range(0, $iterator->getDepth()) as $depth) {
 				$keys[] = $iterator->getSubIterator($depth)->key();
 			}
-			$result[ join('.', $keys) ] = $leafValue;
+			$result[join('.', $keys)] = $leafValue;
 		}
 
 		// Format as table

@@ -24,6 +24,7 @@ use Ddeboer\DataImport\Step\MappingStep;
 class MappingTransformer implements MappingTransformerInterface
 {
 	protected $map;
+
 	// MappingTransformer
 	public function setMap(array $map)
 	{
@@ -31,6 +32,7 @@ class MappingTransformer implements MappingTransformerInterface
 	}
 
 	protected $fixedValues;
+
 	// MappingTransformer
 	public function setFixedValues(array $fixedValues)
 	{

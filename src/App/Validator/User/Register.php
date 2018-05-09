@@ -23,7 +23,7 @@ class Register extends Validator
 
 	public function __construct(RegisterRepository $repo)
 	{
-		$this->repo	= $repo;
+		$this->repo = $repo;
 	}
 
 	protected function getRules()

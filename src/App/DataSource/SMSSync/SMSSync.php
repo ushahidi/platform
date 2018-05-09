@@ -32,7 +32,7 @@ class SMSSync implements CallbackDataSource
 	}
 
 	public function getName()
-    {
+	{
 		return 'SMSSync';
 	}
 
@@ -54,7 +54,7 @@ class SMSSync implements CallbackDataSource
 				'input' => 'read-only-text',
 				'description' => function () {
 					return 'Scan this QR Code with your phone to download the app from the Android Market
-						<img src="'. url('/images/smssync.png') .'" width="150"/>';
+						<img src="' . url('/images/smssync.png') . '" width="150"/>';
 				}
 			),
 			// @todo figure out how to inject link and fix base url

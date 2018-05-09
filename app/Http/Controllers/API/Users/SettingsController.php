@@ -13,7 +13,6 @@ use Illuminate\Http\Request;
  * @copyright  2018 Ushahidi
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
-
 class SettingsController extends RESTController
 {
 	protected function getResource()
@@ -22,19 +21,19 @@ class SettingsController extends RESTController
 	}
 
 	public function index(Request $request)
-    {
-        $params = $this->getRouteParams($request);
-        
-        $this->usecase = $this->usecaseFactory
-            ->get($this->getResource(), 'search');
-        
-        if (is_array($params) && array_key_exists('user_id', $params)) {
-            $this->usecase
-                ->setFilters($request->query() + [
-                    'user_id' => $params['user_id']
-                ]);
-        }
+	{
+		$params = $this->getRouteParams($request);
 
-        return $this->prepResponse($this->executeUsecase($request), $request);
-    }
+		$this->usecase = $this->usecaseFactory
+			->get($this->getResource(), 'search');
+
+		if (is_array($params) && array_key_exists('user_id', $params)) {
+			$this->usecase
+				->setFilters($request->query() + [
+						'user_id' => $params['user_id']
+					]);
+		}
+
+		return $this->prepResponse($this->executeUsecase($request), $request);
+	}
 }

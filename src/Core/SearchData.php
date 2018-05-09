@@ -56,7 +56,7 @@ class SearchData
 	 * Set search filters as if they are object properties.
 	 *
 	 * @param  String $key
-	 * @param  Mixed  $value
+	 * @param  Mixed $value
 	 * @return Mixed
 	 */
 	public function __set($key, $value)

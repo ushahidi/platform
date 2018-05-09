@@ -16,11 +16,11 @@ use Ushahidi\Core\Entity\Repository\EntityGet;
 interface PostLockRepository extends
 	EntityGet
 {
-    public function releaseLock($entity_id);
+	public function releaseLock($entity_id);
 
-    public function releaseLockByLockId($lock_id);
+	public function releaseLockByLockId($lock_id);
 
-    public function isActive($entity_id);
+	public function isActive($entity_id);
 
-    public function getPostLock($entity_id);
+	public function getPostLock($entity_id);
 }

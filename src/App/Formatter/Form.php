@@ -19,7 +19,7 @@ class Form extends API
 
 	protected function formatDisabled($value)
 	{
-		return (bool) $value;
+		return (bool)$value;
 	}
 
 	protected function formatColor($value)

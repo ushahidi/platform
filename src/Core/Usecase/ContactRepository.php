@@ -13,5 +13,5 @@ namespace Ushahidi\Core\Usecase;
 
 interface ContactRepository
 {
-    public function getLastMessageSentToContact($contact);
+	public function getLastMessageSentToContact($contact);
 }

@@ -18,108 +18,108 @@ use Ushahidi\Core\Entity\FormStageRepository;
 
 class Update extends Validator
 {
-    protected $default_error_source = 'form_attribute';
-    protected $valid;
-    protected $repo;
-    protected $form_stage_repo;
+	protected $default_error_source = 'form_attribute';
+	protected $valid;
+	protected $repo;
+	protected $form_stage_repo;
 
-    public function __construct(FormAttributeRepository $repo, FormStageRepository $form_stage_repo)
-    {
-        $this->repo = $repo;
-        $this->form_stage_repo = $form_stage_repo;
-    }
+	public function __construct(FormAttributeRepository $repo, FormStageRepository $form_stage_repo)
+	{
+		$this->repo = $repo;
+		$this->form_stage_repo = $form_stage_repo;
+	}
 
-    protected function getRules()
-    {
-        $type = $this->validation_engine->getFullData('type');
+	protected function getRules()
+	{
+		$type = $this->validation_engine->getFullData('type');
 
-        return [
-            'key' => [
-                ['max_length', [':value', 150]],
-                ['alpha_dash', [':value', true]],
-                [[$this->repo, 'isKeyAvailable'], [':value']]
-            ],
-            'label' => [
-                ['max_length', [':value', 150]],
-            ],
-            'input' => [
-                ['in_array', [':value', [
-                    'text',
-                    'textarea',
-                    'select',
-                    'radio',
-                    'checkbox',
-                    'checkboxes',
-                    'date',
-                    'datetime',
-                    'location',
-                    'number',
-                    'relation',
-                    'upload',
-                    'video',
-                    'markdown',
-                    'tags',
-                ]]],
-            ],
-            'type' => [
-                ['in_array', [':value', [
-                    'decimal',
-                    'int',
-                    'geometry',
-                    'text',
-                    'varchar',
-                    'markdown',
-                    'point',
-                    'datetime',
-                    'link',
-                    'relation',
-                    'media',
-                    'title',
-                    'description',
-                    'tags',
-                ]]],
-            ],
-            'required' => [
-                ['in_array', [':value', [true, false]]],
-            ],
-            'priority' => [
-                ['digit'],
-            ],
-            'cardinality' => [
-                ['digit'],
-            ],
-            'form_stage_id' => [
-                ['digit'],
-                [[$this->form_stage_repo, 'exists'], [':value']],
-                [[$this, 'formStageBelongsToForm'], [':value']],
-            ],
-            'form_id' => [
-                ['digit'],
-            ],
-            'response_private' => [
-                [[$this, 'canMakePrivate'], [':value', $type]]
-            ]
-        ];
-    }
+		return [
+			'key' => [
+				['max_length', [':value', 150]],
+				['alpha_dash', [':value', true]],
+				[[$this->repo, 'isKeyAvailable'], [':value']]
+			],
+			'label' => [
+				['max_length', [':value', 150]],
+			],
+			'input' => [
+				['in_array', [':value', [
+					'text',
+					'textarea',
+					'select',
+					'radio',
+					'checkbox',
+					'checkboxes',
+					'date',
+					'datetime',
+					'location',
+					'number',
+					'relation',
+					'upload',
+					'video',
+					'markdown',
+					'tags',
+				]]],
+			],
+			'type' => [
+				['in_array', [':value', [
+					'decimal',
+					'int',
+					'geometry',
+					'text',
+					'varchar',
+					'markdown',
+					'point',
+					'datetime',
+					'link',
+					'relation',
+					'media',
+					'title',
+					'description',
+					'tags',
+				]]],
+			],
+			'required' => [
+				['in_array', [':value', [true, false]]],
+			],
+			'priority' => [
+				['digit'],
+			],
+			'cardinality' => [
+				['digit'],
+			],
+			'form_stage_id' => [
+				['digit'],
+				[[$this->form_stage_repo, 'exists'], [':value']],
+				[[$this, 'formStageBelongsToForm'], [':value']],
+			],
+			'form_id' => [
+				['digit'],
+			],
+			'response_private' => [
+				[[$this, 'canMakePrivate'], [':value', $type]]
+			]
+		];
+	}
 
-    public function formStageBelongsToForm($value)
-    {
-        // don't check against nonexistant data
-        if (!$value || !isset($this->valid['form_id'])) {
-            return true;
-        }
+	public function formStageBelongsToForm($value)
+	{
+		// don't check against nonexistant data
+		if (!$value || !isset($this->valid['form_id'])) {
+			return true;
+		}
 
-        $group = $this->form_stage_repo->get($value);
-        return ($group->form_id == $this->valid['form_id']);
-    }
+		$group = $this->form_stage_repo->get($value);
+		return ($group->form_id == $this->valid['form_id']);
+	}
 
-    public function canMakePrivate($value, $type)
-    {
-        // If input type is tags, then attribute cannot be private
-        if ($type === 'tags' && $value !== false) {
-            return false;
-        }
+	public function canMakePrivate($value, $type)
+	{
+		// If input type is tags, then attribute cannot be private
+		if ($type === 'tags' && $value !== false) {
+			return false;
+		}
 
-        return true;
-    }
+		return true;
+	}
 }

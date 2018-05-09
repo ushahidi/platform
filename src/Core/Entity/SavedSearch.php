@@ -19,8 +19,8 @@ class SavedSearch extends Set
 	protected function getDefinition()
 	{
 		return parent::getDefinition() + [
-			'filter'       => '*json',
-		];
+				'filter' => '*json',
+			];
 	}
 
 	// Entity

@@ -14,7 +14,6 @@ use Phinx\Wrapper\TextWrapper;
  * @copyright  2013 Ushahidi
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
-
 class MigrateController extends Controller
 {
 
@@ -30,10 +29,10 @@ class MigrateController extends Controller
 		$phinx_wrapper = new TextWrapper($phinx_app, $phinx_config);
 
 		$migration_results = call_user_func([$phinx_wrapper, 'getMigrate'], 'ushahidi', null);
-		$error  = $phinx_wrapper->getExitCode() > 0;
+		$error = $phinx_wrapper->getExitCode() > 0;
 
 		return response()->json([
-			'results'	=> explode("\n", $migration_results, -1),
+			'results' => explode("\n", $migration_results, -1),
 		]);
 	}
 }

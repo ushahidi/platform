@@ -18,32 +18,36 @@ class PostLock extends StaticEntity
 	protected $user_id;
 	protected $post_id;
 	protected $expires;
+
 	// StatefulData
 	protected function getDerived()
 	{
 		// Foreign key alias
 		return [
 			'user_id' => ['user', 'user.id'],
-            'post_id' => ['post', 'post.id'],
+			'post_id' => ['post', 'post.id'],
 		];
 	}
+
 	// DataTransformer
 	protected function getDefinition()
 	{
 		return [
-			'id'            	=> 'int',
-			'user'          	=> false,
-			'user_id'       	=> 'int',
-			'post'          	=> false,
-			'post_id'       	=> 'int',
-			'expires'       	=> 'int',
+			'id' => 'int',
+			'user' => false,
+			'user_id' => 'int',
+			'post' => false,
+			'post_id' => 'int',
+			'expires' => 'int',
 		];
 	}
+
 	// Entity
 	public function getResource()
 	{
 		return 'post_locks';
 	}
+
 	// StatefulData
 	protected function getImmutable()
 	{

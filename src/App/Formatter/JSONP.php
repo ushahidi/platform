@@ -31,7 +31,7 @@ class JSONP extends JSON implements Formatter, OutputFormatter
 	/**
 	 * Sets the JSONP callback. Callback must be alpha-numeric, but can contain
 	 * a class name: foo, foo.bar, Foo.go123 are all valid callbacks.
-	 * @param  string  $callback
+	 * @param  string $callback
 	 * @return $this
 	 * @throws InvalidArgumentException
 	 */
@@ -44,13 +44,13 @@ class JSONP extends JSON implements Formatter, OutputFormatter
 
 		if (empty($callback)) {
 			throw new InvalidArgumentException('JSONP callback must not be empty');
-        }
+		}
 
 		// Callback can be any of: foo, Foo.bar, foo.b123, f123.b123
 		// But cannot be: 123, 1.23, foo-bar, or anything else weird
 		if (!preg_match('/^(?:[a-z_][a-z0-9_]*\.)?[a-z_][a-z0-9_]*$/i', $callback)) {
 			throw new InvalidArgumentException('JSONP callback is not valid: ' . $callback);
-        }
+		}
 
 		$this->callback = $callback;
 		return $this;

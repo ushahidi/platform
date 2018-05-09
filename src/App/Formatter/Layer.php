@@ -21,7 +21,7 @@ class Layer extends API
 	{
 		$remap = [
 			'media_id' => 'media',
-			];
+		];
 
 		if (isset($remap[$field])) {
 			return $remap[$field];

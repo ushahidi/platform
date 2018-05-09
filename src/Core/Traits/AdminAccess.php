@@ -23,7 +23,7 @@ trait AdminAccess
 
 	/**
 	 * Check if the user has an Admin role
-	 * @param  User    $user
+	 * @param  User $user
 	 * @return boolean
 	 */
 	protected function isUserAdmin(User $user)

@@ -24,7 +24,7 @@ class Update extends Validator
 	/**
 	 * Construct
 	 *
-	 * @param FormRepository  $repo
+	 * @param FormRepository $repo
 	 */
 	public function __construct(FormRepository $repo, array $limits)
 	{
@@ -65,8 +65,8 @@ class Update extends Validator
 		];
 	}
 
-    public function checkPostTypeLimit(\Kohana\Validation\Validation $validation)
-    {
+	public function checkPostTypeLimit(\Kohana\Validation\Validation $validation)
+	{
 		if ($this->limits['forms'] !== true) {
 			$total_forms = $this->repo->getTotalCount();
 

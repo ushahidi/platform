@@ -29,26 +29,26 @@ class SavedSearch extends Command
 	private $data;
 	private $postSearchData;
 
-    /**
-     * The console command name.
-     *
-     * @var string
-     */
-    protected $name = 'savedsearch:sync';
+	/**
+	 * The console command name.
+	 *
+	 * @var string
+	 */
+	protected $name = 'savedsearch:sync';
 
-    /**
-     * The console command signature.
-     *
-     * @var string
-     */
-    protected $signature = 'savedsearch:sync';
+	/**
+	 * The console command signature.
+	 *
+	 * @var string
+	 */
+	protected $signature = 'savedsearch:sync';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Sync saved search posts';
+	/**
+	 * The console command description.
+	 *
+	 * @var string
+	 */
+	protected $description = 'Sync saved search posts';
 
 	public function __construct()
 	{
@@ -84,7 +84,7 @@ class SavedSearch extends Command
 			$posts = $this->postRepository->getSearchResults();
 
 			foreach ($posts as $post) {
-				if (! $this->setRepository->setPostExists($savedSearch->id, $post->id)) {
+				if (!$this->setRepository->setPostExists($savedSearch->id, $post->id)) {
 					$this->setRepository->addPostToSet($savedSearch->id, $post->id);
 					$count++;
 				}

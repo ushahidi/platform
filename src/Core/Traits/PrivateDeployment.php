@@ -30,7 +30,7 @@ trait PrivateDeployment
 	 */
 	public function isPrivate()
 	{
-		return (bool) $this->private;
+		return (bool)$this->private;
 	}
 
 	/**

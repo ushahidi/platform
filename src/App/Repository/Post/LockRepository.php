@@ -45,7 +45,7 @@ class LockRepository extends OhanzeeRepository implements PostLockRepository
 		];
 	}
 
-    // OhanzeeRepository
+	// OhanzeeRepository
 	public function getEntity(array $data = null)
 	{
 
@@ -98,7 +98,7 @@ class LockRepository extends OhanzeeRepository implements PostLockRepository
 	}
 
 	public function warnUserLockBroken($user_id)
-    {
+	{
 		$user = $this->getUser();
 
 		if ($user_id !== $user->id) {

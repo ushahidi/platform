@@ -16,16 +16,16 @@ use Ushahidi\Core\Tool\Validator;
 
 class Update extends Create
 {
-    protected function getRules()
-    {
-        return [
-            'user_id' => [
-                ['digit'],
-            ],
-            'caption' => [
-                // alphas, numbers, punctuation, and spaces
-                ['regex', [':value', '/^[\pL\pN\pP ]++$/uD']],
-            ]
-        ];
-    }
+	protected function getRules()
+	{
+		return [
+			'user_id' => [
+				['digit'],
+			],
+			'caption' => [
+				// alphas, numbers, punctuation, and spaces
+				['regex', [':value', '/^[\pL\pN\pP ]++$/uD']],
+			]
+		];
+	}
 }

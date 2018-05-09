@@ -45,42 +45,42 @@ class BoundingBox
 	public function expandByKilometers($km = 0)
 	{
 		if (!$km) {
-            return $this;
-        }
+			return $this;
+		}
 
 		$origin = (object)[
 			'north' => $this->north,
-			'east'  => $this->east,
+			'east' => $this->east,
 			'south' => $this->south,
-			'west'  => $this->west,
+			'west' => $this->west,
 		];
 
 		$this->north = $this->newPointByVector(
 			$origin->north,
-            $origin->west,
-            $km,
-            0
+			$origin->west,
+			$km,
+			0
 		)[0];
 
 		$this->east = $this->newPointByVector(
 			$origin->north,
-            $origin->east,
-            $km,
-            90
+			$origin->east,
+			$km,
+			90
 		)[1];
 
 		$this->south = $this->newPointByVector(
 			$origin->south,
-            $origin->west,
-            $km,
-            180
+			$origin->west,
+			$km,
+			180
 		)[0];
 
 		$this->west = $this->newPointByVector(
 			$origin->north,
-            $origin->west,
-            $km,
-            270
+			$origin->west,
+			$km,
+			270
 		)[1];
 
 		return $this;
@@ -92,10 +92,10 @@ class BoundingBox
 	 *
 	 * Calculations are based on http://williams.best.vwh.net/avform.htm#LL
 	 *
-	 * @param  float $lat      latitude of the initial point
-	 * @param  float $lon      longitude of the initial point
+	 * @param  float $lat latitude of the initial point
+	 * @param  float $lon longitude of the initial point
 	 * @param  float $distance distance away in kilometers of the resulting point
-	 * @param  float $angle    bearing in degrees, with 0 being North
+	 * @param  float $angle bearing in degrees, with 0 being North
 	 * @return Array           an array in [<lat>, <lon>] format
 	 */
 	protected function newPointByVector($lat, $lon, $km, $angle)
@@ -120,25 +120,25 @@ class BoundingBox
 			$new_lon = $lon; // endpoint a pole
 		} else {
 			$new_lon = $mod(
-				$lon - asin(sin($true_course) * sin($d) / cos($new_lat)) + M_PI,
-				2 * M_PI
-			) - M_PI;
+                $lon - asin(sin($true_course) * sin($d) / cos($new_lat)) + M_PI,
+                2 * M_PI
+            ) - M_PI;
 		}
 
 		return [rad2deg($new_lat), rad2deg($new_lon)];
-    }
+	}
 
 	public function toGeometry()
 	{
 		return new Polygon(array(
-				new LinearRing(array(
-					new Point(array($this->west, $this->north)),
-					new Point(array($this->east, $this->north)),
-					new Point(array($this->east, $this->south)),
-					new Point(array($this->west, $this->south)),
-					new Point(array($this->west, $this->north))
-				))
-			));
+			new LinearRing(array(
+				new Point(array($this->west, $this->north)),
+				new Point(array($this->east, $this->north)),
+				new Point(array($this->east, $this->south)),
+				new Point(array($this->west, $this->south)),
+				new Point(array($this->west, $this->north))
+			))
+		));
 	}
 
 	public function toWKT()

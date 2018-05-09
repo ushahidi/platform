@@ -13,7 +13,6 @@ use Illuminate\Http\Request;
  * @copyright  2013 Ushahidi
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
-
 class CSVImportController extends RestController
 {
 	protected function getResource()
@@ -50,11 +49,11 @@ class CSVImportController extends RestController
 		$transformer->setMap($csv->maps_to);
 		$transformer->setFixedValues($csv->fixed);
 
-        $this->usecase = $this->usecaseFactory
-            ->get($this->getResource(), 'import')
-            ->setPayload($records)
+		$this->usecase = $this->usecaseFactory
+			->get($this->getResource(), 'import')
+			->setPayload($records)
 			->setTransformer($transformer);
 
-        return $this->prepResponse($this->executeUsecase($request), $request);
-    }
+		return $this->prepResponse($this->executeUsecase($request), $request);
+	}
 }

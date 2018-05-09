@@ -1,5 +1,5 @@
 <?php
 
 return [
-    'contactIsValid' => 'Invalid phone number',
+	'contactIsValid' => 'Invalid phone number',
 ];

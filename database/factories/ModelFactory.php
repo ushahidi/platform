@@ -12,8 +12,8 @@
 */
 
 $factory->define(Ushahidi\App\User::class, function (Faker\Generator $faker) {
-    return [
-        'name' => $faker->name,
-        'email' => $faker->email,
-    ];
+	return [
+		'name' => $faker->name,
+		'email' => $faker->email,
+	];
 });

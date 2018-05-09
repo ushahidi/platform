@@ -32,8 +32,8 @@ class StatsRepository extends OhanzeeRepository implements
 
 	/**
 	 * Construct
-	 * @param Database                              $db
-	 * @param FormRepository                       $form_repo
+	 * @param Database $db
+	 * @param FormRepository $form_repo
 	 */
 	public function __construct(
 		Database $db,
@@ -43,6 +43,7 @@ class StatsRepository extends OhanzeeRepository implements
 
 		$this->form_repo = $form_repo;
 	}
+
 	// OhanzeeRepository
 	protected function getTable()
 	{
@@ -71,6 +72,7 @@ class StatsRepository extends OhanzeeRepository implements
 			$query->where('form_id', '=', $search->form_id);
 		}
 	}
+
 	public function getResponses($form_id)
 	{
 		$where = array(
@@ -86,11 +88,11 @@ class StatsRepository extends OhanzeeRepository implements
 			->resetSelect()
 			->select([DB::expr('COUNT(messages.id)'), 'total'])
 			->join('targeted_survey_state', 'INNER')
-				->on('contacts.id', '=', 'targeted_survey_state.contact_id')
-				->join('posts', 'INNER')
-				->on('posts.id', '=', 'targeted_survey_state.post_id')
-				->join('messages')
-				->on('messages.post_id', '=', 'targeted_survey_state.post_id');
+			->on('contacts.id', '=', 'targeted_survey_state.contact_id')
+			->join('posts', 'INNER')
+			->on('posts.id', '=', 'targeted_survey_state.post_id')
+			->join('messages')
+			->on('messages.post_id', '=', 'targeted_survey_state.post_id');
 		return $query
 			->execute($this->db)
 			->get('total');
@@ -104,10 +106,10 @@ class StatsRepository extends OhanzeeRepository implements
 	 * targeted_survey)
 	 */
 	public function countTotalPending($form_id, $total_sent)
-    {
+	{
 		$form_id = intval($form_id);
 		$total_contacts = $this->getTotalContacts($form_id);
-		$total_attributes =$this->getTotalAttributes($form_id);
+		$total_attributes = $this->getTotalAttributes($form_id);
 		$total_pending_for_inactive = DB::query(Database::SELECT, $this->getPendingCountQuery())
 			->bind(':form_id', $form_id)
 			->execute($this->db)->get('total');
@@ -120,7 +122,7 @@ class StatsRepository extends OhanzeeRepository implements
 	 * Does not receive form_id because it is bound in a later step
 	 */
 	private function getPendingCountQuery()
-    {
+	{
 		/**
 		 * Selects attribute priority & id by contact,for contacts marked in targeted_survey_state as Inactive
 		 * (noted by the ACTIVE CONTACT IN SURVEY  # format of survey_status)
@@ -161,14 +163,14 @@ class StatsRepository extends OhanzeeRepository implements
 	 * @return mixed
 	 */
 	private function getTotalAttributes($form_id)
-    {
+	{
 		return DB::query(
-            Database::SELECT,
+			Database::SELECT,
 			"SELECT count(form_attributes.id) as total from form_attributes
 			INNER JOIN
 			form_stages ON form_attributes.form_stage_id = form_stages.id
 			WHERE form_stages.form_id=:form"
-        )
+		)
 			->bind(':form', $form_id)
 			->execute($this->db)->get('total');
 	}
@@ -178,12 +180,12 @@ class StatsRepository extends OhanzeeRepository implements
 	 * @return mixed
 	 */
 	private function getTotalContacts($form_id)
-    {
+	{
 		return DB::query(
-            Database::SELECT,
+			Database::SELECT,
 			"select count(contact_id) as total from targeted_survey_state where form_id=:form
 			 and survey_status NOT IN ('SURVEY FINISHED')"
-        )
+		)
 			->bind(':form', $form_id)
 			->execute($this->db)->get('total');
 	}
@@ -201,7 +203,7 @@ class StatsRepository extends OhanzeeRepository implements
 			->where(
 				'post_id',
 				'IN',
-				DB::expr('(select post_id FROM targeted_survey_state WHERE form_id ='.$form_id.')')
+				DB::expr('(select post_id FROM targeted_survey_state WHERE form_id =' . $form_id . ')')
 			)
 			->where('direction', '=', 'outgoing')
 			->group_by('status');
@@ -243,6 +245,7 @@ class StatsRepository extends OhanzeeRepository implements
 			->execute($this->db)
 			->get('total');
 	}
+
 	/**
 	 * @param int $contact_id
 	 * @param int $form_id
@@ -273,7 +276,7 @@ class StatsRepository extends OhanzeeRepository implements
 	 * A reusable join because we use it everywhere.
 	 */
 	private function targetedSurveyStateJoin($query)
-    {
+	{
 		return $query->join('targeted_survey_state', 'INNER')
 			->on('contacts.id', '=', 'targeted_survey_state.contact_id')
 			->join('posts', 'INNER')

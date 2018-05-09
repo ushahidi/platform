@@ -21,7 +21,7 @@ interface UpdatePostRepository
 
 	/**
 	 * @param  String $locale
-	 * @param  Int    $parent_id
+	 * @param  Int $parent_id
 	 * @param  String $type
 	 * @return Boolean
 	 */

@@ -27,7 +27,7 @@ class Contact extends API
 	public function __invoke($form_id, $entities = [], $invalidatedContacts = [])
 	{
 		$data = [
-			'form_id'  => $form_id,
+			'form_id' => $form_id,
 			'count' => count($entities),
 			'invalidated_contacts' => $invalidatedContacts
 		];

@@ -54,14 +54,14 @@ class Create extends Validator
 	/**
 	 * Construct
 	 *
-	 * @param UpdatePostRepository                  $repo
-	 * @param FormAttributeRepository               $form_attribute_repo
-	 * @param TagRepository                         $tag_repo
-	 * @param UserRepository                        $user_repo
-	 * @param FormRepository                        $form_repo
-	 * @param RoleRepository                        $role_repo
-	 * @param PostValueFactory  $post_value_factory
-	 * @param ValueFactory  $post_value_validator_factory
+	 * @param UpdatePostRepository $repo
+	 * @param FormAttributeRepository $form_attribute_repo
+	 * @param TagRepository $tag_repo
+	 * @param UserRepository $user_repo
+	 * @param FormRepository $form_repo
+	 * @param RoleRepository $role_repo
+	 * @param PostValueFactory $post_value_factory
+	 * @param ValueFactory $post_value_validator_factory
 	 */
 	public function __construct(
 		UpdatePostRepository $repo,
@@ -75,8 +75,8 @@ class Create extends Validator
 		PostValueFactory $post_value_factory,
 		ValueFactory $post_value_validator_factory,
 		array $limits
-    ) {
-	
+	) {
+
 		$this->repo = $repo;
 		$this->attribute_repo = $attribute_repo;
 		$this->stage_repo = $stage_repo;
@@ -210,7 +210,7 @@ class Create extends Validator
 		// Are we trying to change publish a post that requires approval?
 		if ($requireApproval && $status !== 'draft') {
 			$validation->error('status', 'postNeedsApprovalBeforePublishing');
-		// Are we trying to unpublish or archive an auto-approved post?
+			// Are we trying to unpublish or archive an auto-approved post?
 		} elseif (!$requireApproval && $status !== 'published') {
 			$validation->error('status', 'postCanOnlyBeUnpublishedByAdmin');
 		}
@@ -227,7 +227,7 @@ class Create extends Validator
 				$tag = $tag['id'];
 			}
 
-			if (! $this->tag_repo->doesTagExist($tag)) {
+			if (!$this->tag_repo->doesTagExist($tag)) {
 				$validation->error('tags', 'tagDoesNotExist', [$tag]);
 			}
 		}
@@ -241,12 +241,12 @@ class Create extends Validator
 			return;
 		}
 
-		$post_id = ! empty($fullData['id']) ? $fullData['id'] : 0;
+		$post_id = !empty($fullData['id']) ? $fullData['id'] : 0;
 
 		foreach ($attributes as $key => $values) {
 			// Check attribute exists
 			$attribute = $this->attribute_repo->getByKey($key, $fullData['form_id'], true);
-			if (! $attribute->id) {
+			if (!$attribute->id) {
 				$validation->error('values', 'attributeDoesNotExist', [$key]);
 				return;
 			}
@@ -277,8 +277,8 @@ class Create extends Validator
 	 * Check completed stages actually exist in form
 	 *
 	 * @param  Validation $validation
-	 * @param  Array      $attributes
-	 * @param  Array      $fullData
+	 * @param  Array $attributes
+	 * @param  Array $fullData
 	 */
 	public function checkStageInForm(Validation $validation, $completed_stages, $fullData)
 	{
@@ -288,7 +288,7 @@ class Create extends Validator
 
 		foreach ($completed_stages as $stage_id) {
 			// Check stage exists in form
-			if (! $this->stage_repo->existsInForm($stage_id, $fullData['form_id'])) {
+			if (!$this->stage_repo->existsInForm($stage_id, $fullData['form_id'])) {
 				$validation->error('completed_stages', 'stageDoesNotExist', [$stage_id]);
 				return;
 			}
@@ -299,8 +299,8 @@ class Create extends Validator
 	 * Check required stages are completed before publishing
 	 *
 	 * @param  Validation $validation
-	 * @param  Array      $attributes
-	 * @param  Array      $fullData
+	 * @param  Array $attributes
+	 * @param  Array $fullData
 	 */
 	public function checkRequiredStages(Validation $validation, $fullData)
 	{
@@ -312,7 +312,7 @@ class Create extends Validator
 			$required_stages = $this->stage_repo->getRequired($fullData['form_id']);
 			foreach ($required_stages as $stage) {
 				// Check the required stages have been completed
-				if (! in_array($stage->id, $completed_stages)) {
+				if (!in_array($stage->id, $completed_stages)) {
 					// If its not completed, add a validation error
 					$validation->error('completed_stages', 'stageRequired', [$stage->label]);
 				}
@@ -324,8 +324,8 @@ class Create extends Validator
 	 * Check required attributes are completed before completing stages
 	 *
 	 * @param  Validation $validation
-	 * @param  Array      $attributes
-	 * @param  Array      $fullData
+	 * @param  Array $attributes
+	 * @param  Array $fullData
 	 */
 	public function checkRequiredPostAttributes(Validation $validation, $attributes, $fullData)
 	{
@@ -350,8 +350,8 @@ class Create extends Validator
 	 * Check required attributes are completed before completing stages
 	 *
 	 * @param  Validation $validation
-	 * @param  Array      $attributes
-	 * @param  Array      $fullData
+	 * @param  Array $attributes
+	 * @param  Array $fullData
 	 */
 	public function checkRequiredTaskAttributes(Validation $validation, $attributes, $fullData)
 	{
@@ -384,7 +384,7 @@ class Create extends Validator
 	 */
 	public function onlyAuthorOrUserSet($user_id, $fullData)
 	{
-		return (empty($user_id) or (empty($fullData['author_email']) and empty($fullData['author_realname'])) );
+		return (empty($user_id) or (empty($fullData['author_email']) and empty($fullData['author_realname'])));
 	}
 
 	public function validDate($str)

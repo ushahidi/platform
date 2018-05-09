@@ -22,9 +22,9 @@ class SearchFormRole extends SearchFormAttribute
 	{
 		return [
 			'orderby' => 'role_id',
-			'order'   => 'asc',
-			'limit'   => null,
-			'offset'  => 0
+			'order' => 'asc',
+			'limit' => null,
+			'offset' => 0
 		];
 	}
 }

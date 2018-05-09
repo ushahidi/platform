@@ -28,6 +28,7 @@ trait EnsureUserEntity
 	protected $user_repo;
 
 	// It defines a default constructor which accepts a `UserRepository`
+
 	/**
 	 * @param UserRepository $user_repo
 	 */
@@ -38,13 +39,13 @@ trait EnsureUserEntity
 
 	/**
 	 * Ensure user is a User Entity, or load it from the user repo
-	 * @param  User|Int $user  User Entity or user id
+	 * @param  User|Int $user User Entity or user id
 	 * @return User
 	 */
 	protected function ensureUserIsEntity(&$user)
 	{
 		// Check if the user is an instance of `User`
-		if (! $user instanceof User) {
+		if (!$user instanceof User) {
 			// If we only have a user id, we load the full entity.
 			$user = $this->user_repo->get($user);
 		}

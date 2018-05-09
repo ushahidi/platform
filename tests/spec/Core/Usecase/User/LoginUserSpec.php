@@ -19,7 +19,8 @@ class LoginUserSpec extends ObjectBehavior
 		UserRepository $repo,
 		PasswordAuthenticator $authenticator,
 		RateLimiter $rateLimiter
-	) {
+	)
+	{
 		$repo->beADoubleOf('Ushahidi\Core\Usecase\ReadRepository');
 
 		$this->setAuthorizer($auth);

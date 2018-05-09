@@ -23,7 +23,7 @@ class PermissionAuthorizer implements Authorizer
 
 	// It uses `PrivAccess` to provide the `getAllowedPrivs` method.
 	use PrivAccess;
-	
+
 	// Check if user has Admin access
 	use AdminAccess;
 
@@ -32,7 +32,7 @@ class PermissionAuthorizer implements Authorizer
 	{
 		// These checks are run within the user context.
 		$user = $this->getUser();
-		
+
 		// Only allow admin access
 		if ($this->isUserAdmin($user)
 			and in_array($privilege, ['search', 'read'])) {

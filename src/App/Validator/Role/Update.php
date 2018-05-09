@@ -23,7 +23,7 @@ class Update extends Validator
 	public function __construct(PermissionRepository $permission_repo, $feature_enabled)
 	{
 		$this->permission_repo = $permission_repo;
-		$this->feature_enabled = (bool) $feature_enabled;
+		$this->feature_enabled = (bool)$feature_enabled;
 	}
 
 	protected function getRules()
@@ -34,7 +34,7 @@ class Update extends Validator
 			],
 			'permissions' => [
 				[[$this, 'checkPermissions'], [':validation', ':value']],
-				
+
 			],
 			'name' => [
 				[[$this, 'checkRolesEnabled'], [':validation']],

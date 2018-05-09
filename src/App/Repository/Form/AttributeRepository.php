@@ -54,15 +54,15 @@ class AttributeRepository extends OhanzeeRepository implements
 
 	/**
 	 * Construct
-	 * @param Database                              $db
-	 * @param FormStageRepository                   $form_stage_repo
-	 * @param FormRepository                   $form_repo
+	 * @param Database $db
+	 * @param FormStageRepository $form_stage_repo
+	 * @param FormRepository $form_repo
 	 */
 	public function __construct(
-        Database $db,
-        FormStageRepositoryContract $form_stage_repo,
-        FormRepositoryContract $form_repo
-    ) {
+		Database $db,
+		FormStageRepositoryContract $form_stage_repo,
+		FormRepositoryContract $form_repo
+	) {
 
 		parent::__construct($db);
 
@@ -97,7 +97,7 @@ class AttributeRepository extends OhanzeeRepository implements
 		// Restrict returned attributes based on User rights
 		$user = $this->getUser();
 		if (!$this->canUserEditForm($form_id, $user)) {
-			$exclude_stages =  $this->form_stage_repo->getHiddenStageIds($form_id);
+			$exclude_stages = $this->form_stage_repo->getHiddenStageIds($form_id);
 			$exclude_stages ? $query->where('form_attributes.form_stage_id', 'NOT IN', $exclude_stages) : null;
 		}
 
@@ -153,10 +153,10 @@ class AttributeRepository extends OhanzeeRepository implements
 		$query = $this->search_query;
 
 		foreach ([
-			'key', 'label', 'input', 'type'
-		] as $key) {
+					 'key', 'label', 'input', 'type'
+				 ] as $key) {
 			if (isset($search->$key)) {
-				$query->where('form_attributes.'.$key, '=', $search->$key);
+				$query->where('form_attributes.' . $key, '=', $search->$key);
 			}
 		}
 
@@ -191,7 +191,7 @@ class AttributeRepository extends OhanzeeRepository implements
 		$query = $this->selectQuery([], $form_id)
 			->select('form_attributes.*')
 			->join('form_stages', 'LEFT')
-				->on('form_stages.id', '=', 'form_attributes.form_stage_id')
+			->on('form_stages.id', '=', 'form_attributes.form_stage_id')
 			->where('key', '=', $key)
 			->limit(1);
 
@@ -225,11 +225,11 @@ class AttributeRepository extends OhanzeeRepository implements
 	public function getByForm($form_id)
 	{
 		$query = $this->selectQuery([
-				'form_stages.form_id' => $form_id,
-			], $form_id)
+			'form_stages.form_id' => $form_id,
+		], $form_id)
 			->select('form_attributes.*')
 			->join('form_stages', 'INNER')
-				->on('form_stages.id', '=', 'form_attributes.form_stage_id');
+			->on('form_stages.id', '=', 'form_attributes.form_stage_id');
 
 		$results = $query->execute($this->db);
 
@@ -245,25 +245,25 @@ class AttributeRepository extends OhanzeeRepository implements
 	 * list of form ids that match a specific query
 	 */
 	public function getByForms($form_ids, array $include_attributes = null)
-    {
-        $attributes = [];
-        if (count($form_ids) > 0) { // @FIXME: how would empty form_id even happen?
-            $sql = "SELECT
+	{
+		$attributes = [];
+		if (count($form_ids) > 0) { // @FIXME: how would empty form_id even happen?
+			$sql = "SELECT
                 DISTINCT form_attributes.*,
                 form_stages.priority as form_stage_priority,
                 forms.name as form_name,
                 forms.id as form_id
                 INNER JOIN form_stages ON form_attributes.form_stage_id = form_stages.id
                 INNER JOIN forms ON form_stages.form_id = forms.id ";
-            if (!empty($include_attributes)) {
-                $sql .= " AND form_attributes.key IN :form_attributes ";
-            }
-            $sql .= " ORDER BY forms.id, form_stages.priority, form_attributes.priority ";
-            $results = DB::query(Database::SELECT, $sql)
-                ->bind(':form_attributes', $include_attributes)
-                ->execute($this->db);
-            $attributes = $results->as_array();
-        }
+			if (!empty($include_attributes)) {
+				$sql .= " AND form_attributes.key IN :form_attributes ";
+			}
+			$sql .= " ORDER BY forms.id, form_stages.priority, form_attributes.priority ";
+			$results = DB::query(Database::SELECT, $sql)
+				->bind(':form_attributes', $include_attributes)
+				->execute($this->db);
+			$attributes = $results->as_array();
+		}
 
 		$native = [
 			[
@@ -362,7 +362,7 @@ class AttributeRepository extends OhanzeeRepository implements
 		return array_merge($native, $attributes);
 	}
 
-    /**
+	/**
 	 * @param int $form_id
 	 * @return Entity|FormAttribute
 	 *
@@ -377,7 +377,7 @@ class AttributeRepository extends OhanzeeRepository implements
 			->from($this->getTable())
 			->where('form_stage_id', '=', $current_attribute->form_stage_id)
 			->where('priority', '>', $current_attribute->priority)
-            ->order_by('form_attributes.priority', 'ASC')
+			->order_by('form_attributes.priority', 'ASC')
 			->limit(1)
 			->execute($this->db);
 
@@ -404,12 +404,12 @@ class AttributeRepository extends OhanzeeRepository implements
 	// FormAttributeRepository
 	public function getRequired($stage_id)
 	{
-        $form_id = $this->getFormId($stage_id);
+		$form_id = $this->getFormId($stage_id);
 
 		$query = $this->selectQuery([
-				'form_attributes.form_stage_id'  => $stage_id,
-				'form_attributes.required' => true
-			], $form_id)
+			'form_attributes.form_stage_id' => $stage_id,
+			'form_attributes.required' => true
+		], $form_id)
 			->select('form_attributes.*');
 
 		$results = $query->execute($this->db);

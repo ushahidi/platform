@@ -66,7 +66,7 @@ class ExportJobRepository extends OhanzeeRepository implements ExportJobReposito
 
 		// Limit search to user's records unless they are admin
 		// or if we get user=me as a search param
-		if (! $this->isUserAdmin($user) || $search->user === 'me') {
+		if (!$this->isUserAdmin($user) || $search->user === 'me') {
 			$search->user = $this->getUserId();
 		}
 		if ($search->max_expiration) {
@@ -75,16 +75,16 @@ class ExportJobRepository extends OhanzeeRepository implements ExportJobReposito
 			$query->or_where("url_expiration", '=', 0);
 		}
 		foreach ([
-			'user'
-		] as $fk) {
+					 'user'
+				 ] as $fk) {
 			if ($search->$fk) {
 				$query->where("export_job.{$fk}_id", '=', $search->$fk);
 			}
 		}
 
 		foreach ([
-			'entity_type',
-		] as $key) {
+					 'entity_type',
+				 ] as $key) {
 			if ($search->$key) {
 				$query->where($key, '=', $search->$key);
 			}
@@ -112,8 +112,8 @@ class ExportJobRepository extends OhanzeeRepository implements ExportJobReposito
 	public function getJobs($limit)
 	{
 		$query = $this->selectQuery()
-					  ->limit($limit)
-					  ->order_by('created', 'ASC');
+			->limit($limit)
+			->order_by('created', 'ASC');
 
 		$results = $query->execute($this->db);
 

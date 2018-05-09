@@ -27,9 +27,9 @@ class SearchPost extends SearchUsecase
 	{
 		return [
 			'orderby' => 'post_date',
-			'order'   => 'desc',
-			'limit'   => null,
-			'offset'  => 0
+			'order' => 'desc',
+			'limit' => null,
+			'offset' => 0
 		];
 	}
 }

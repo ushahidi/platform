@@ -48,7 +48,7 @@ trait DataTransformer
 		}
 
 		if (static::optionJsonAlwaysArray()) {
-			$value = (array) $value;
+			$value = (array)$value;
 		}
 
 		return $value;
@@ -128,7 +128,7 @@ trait DataTransformer
 			// Convert post_date to DateTime
 			$trialValue = date_create($value, new \DateTimeZone('UTC'));
 			// If that didn't work, try assuming treating the value as a
-			$value = $trialValue ?: date_create('@'.$value, new \DateTimeZone('UTC'));
+			$value = $trialValue ?: date_create('@' . $value, new \DateTimeZone('UTC'));
 		}
 		// Always use UTC
 		$value->setTimezone(new \DateTimeZone('UTC'));

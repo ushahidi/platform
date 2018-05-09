@@ -35,7 +35,7 @@ class Webhook extends StaticEntity
 		// Foreign key alias
 		return [
 			'user_id' => ['user', 'user.id'],
-			'form_id'   => ['form', 'form.id']
+			'form_id' => ['form', 'form.id']
 		];
 	}
 
@@ -43,21 +43,21 @@ class Webhook extends StaticEntity
 	protected function getDefinition()
 	{
 		return [
-			'id'            	        => 'int',
-			'name'					          => 'string',
-			'url'							        => 'string',
-			'shared_secret'		        => 'string',
-			'webhook_uuid'		        => 'string',
-			'event_type'		          => 'string',
-			'entity_type'		          => 'string',
-			'source_field_key'	      => 'string',
-			'destination_field_key'   => 'string',
-			'user'          	        => false,
-			'user_id'       	        => 'int',
-			'form'                    => false, /* alias */
-			'form_id'                 => 'int',
-			'created'       	        => 'int',
-			'updated'       	        => 'int',
+			'id' => 'int',
+			'name' => 'string',
+			'url' => 'string',
+			'shared_secret' => 'string',
+			'webhook_uuid' => 'string',
+			'event_type' => 'string',
+			'entity_type' => 'string',
+			'source_field_key' => 'string',
+			'destination_field_key' => 'string',
+			'user' => false,
+			'user_id' => 'int',
+			'form' => false, /* alias */
+			'form_id' => 'int',
+			'created' => 'int',
+			'updated' => 'int',
 		];
 	}
 

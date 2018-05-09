@@ -43,20 +43,20 @@ class StageRepository extends OhanzeeRepository implements
 	protected $form_id;
 	protected $form_repo;
 
-		/**
-		 * Construct
-		 * @param Database                              $db
-		 * @param FormRepository                       $form_repo
-		 */
-    public function __construct(
-        Database $db,
-        FormRepositoryContract $form_repo
-    ) {
+	/**
+	 * Construct
+	 * @param Database $db
+	 * @param FormRepository $form_repo
+	 */
+	public function __construct(
+		Database $db,
+		FormRepositoryContract $form_repo
+	) {
 
-        parent::__construct($db);
+		parent::__construct($db);
 
-        $this->form_repo = $form_repo;
-    }
+		$this->form_repo = $form_repo;
+	}
 
 	// OhanzeeRepository
 	protected function getTable()
@@ -145,8 +145,8 @@ class StageRepository extends OhanzeeRepository implements
 	public function getFormByStageId($id)
 	{
 		$query = DB::select('form_id')
-				->from('form_stages')
-				->where('id', '=', $id);
+			->from('form_stages')
+			->where('id', '=', $id);
 
 		$results = $query->execute($this->db);
 
@@ -163,50 +163,50 @@ class StageRepository extends OhanzeeRepository implements
 	}
 
 	/**
-		* Retrieve Hidden Stage IDs for a given form
-		* if no form is found return false
-		* @param  $form_id
-		* @return Array
-		*/
+	 * Retrieve Hidden Stage IDs for a given form
+	 * if no form is found return false
+	 * @param  $form_id
+	 * @return Array
+	 */
 	public function getHiddenStageIds($form_id, $post_status = null)
 	{
-			$stages = [];
+		$stages = [];
 
-			$query = DB::select('id')
-					->from('form_stages')
-					->where('form_id', '=', $form_id);
+		$query = DB::select('id')
+			->from('form_stages')
+			->where('form_id', '=', $form_id);
 
-        if ($post_status === 'published') {
-            $query->where('show_when_published', '=', 0);
-        } else {
-            $query->and_where_open()
-            ->where('show_when_published', '=', 0)
-            ->or_where('task_is_internal_only', '=', 1)
-            ->and_where_close();
-        }
+		if ($post_status === 'published') {
+			$query->where('show_when_published', '=', 0);
+		} else {
+			$query->and_where_open()
+				->where('show_when_published', '=', 0)
+				->or_where('task_is_internal_only', '=', 1)
+				->and_where_close();
+		}
 
-			$results = $query->execute($this->db)->as_array();
+		$results = $query->execute($this->db)->as_array();
 
-        foreach ($results as $stage) {
-            array_push($stages, $stage['id']);
-        }
+		foreach ($results as $stage) {
+			array_push($stages, $stage['id']);
+		}
 
-			return $stages;
+		return $stages;
 	}
 
 	// FormStageRepository
 	public function existsInForm($id, $form_id)
 	{
-		return (bool) $this->selectCount(compact('id', 'form_id'));
+		return (bool)$this->selectCount(compact('id', 'form_id'));
 	}
 
 	// FormStageRepository
 	public function getRequired($form_id)
 	{
 		$query = $this->selectQuery([
-				'form_stages.form_id'  => $form_id,
-				'form_stages.required' => true
-			], $form_id)
+			'form_stages.form_id' => $form_id,
+			'form_stages.required' => true
+		], $form_id)
 			->select('form_stages.*');
 
 		$results = $query->execute($this->db);
@@ -218,8 +218,8 @@ class StageRepository extends OhanzeeRepository implements
 	public function getPostStage($form_id)
 	{
 		return $this->getEntity($this->selectOne([
-				'form_stages.form_id'  => $form_id,
-				'form_stages.type' => 'post'
-			]));
+			'form_stages.form_id' => $form_id,
+			'form_stages.type' => 'post'
+		]));
 	}
 }

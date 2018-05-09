@@ -5,8 +5,8 @@ namespace Tests\Unit\Core\Traits;
 class MockPostData
 {
 	use \Ushahidi\Core\Traits\StatefulData;
-    
-    protected $id;
+
+	protected $id;
 	protected $parent_id;
 	protected $form_id;
 	protected $user_id;
@@ -34,14 +34,14 @@ class MockPostData
 	// When originating in an SMS message
 	protected $contact_id;
 
-    public function __get($key)
-    {
-        if (property_exists($this, $key)) {
+	public function __get($key)
+	{
+		if (property_exists($this, $key)) {
 			return $this->$key;
 		}
-    }
+	}
 
-    public function __isset($key)
+	public function __isset($key)
 	{
 		return property_exists($this, $key);
 	}
@@ -58,38 +58,38 @@ class MockPostData
 		}
 	}
 
-    protected function getDefinition()
+	protected function getDefinition()
 	{
 		return [
-			'id'              => 'int',
-			'parent_id'       => 'int',
-			'form'            => false, /* alias */
-			'form_id'         => 'int',
-			'user'            => false, /* alias */
-			'user_id'         => 'int',
-			'type'            => 'string',
-			'title'           => 'string',
-			'slug'            => '*slug',
-			'content'         => 'string',
-			'author_email'    => 'string', /* @todo email filter */
+			'id' => 'int',
+			'parent_id' => 'int',
+			'form' => false, /* alias */
+			'form_id' => 'int',
+			'user' => false, /* alias */
+			'user_id' => 'int',
+			'type' => 'string',
+			'title' => 'string',
+			'slug' => '*slug',
+			'content' => 'string',
+			'author_email' => 'string', /* @todo email filter */
 			'author_realname' => 'string', /* @todo redundent with user record */
-			'status'          => 'string',
-			'created'         => 'int',
-			'updated'         => 'int',
-			'post_date'       => '*date',
-			'locale'          => '*lowercasestring',
-			'values'          => 'array',
-			'tags'            => 'array',
-			'published_to'    => '*json',
-			'completed_stages'=> 'array',
-			'sets'            => 'array',
+			'status' => 'string',
+			'created' => 'int',
+			'updated' => 'int',
+			'post_date' => '*date',
+			'locale' => '*lowercasestring',
+			'values' => 'array',
+			'tags' => 'array',
+			'published_to' => '*json',
+			'completed_stages' => 'array',
+			'sets' => 'array',
 		];
 	}
 
-    protected function getDerived()
+	protected function getDerived()
 	{
 		return [
-			'slug'    => function ($data) {
+			'slug' => function ($data) {
 				if (array_key_exists('title', $data)) {
 					// Truncate the title to 137 chars so that the
 					// 13 char uniqid will fit
@@ -101,8 +101,8 @@ class MockPostData
 				}
 				return false;
 			},
-			'form_id'   => ['form', 'form.id'], /* alias */
-			'user_id'   => ['user', 'user.id'], /* alias */
+			'form_id' => ['form', 'form.id'], /* alias */
+			'user_id' => ['user', 'user.id'], /* alias */
 			'parent_id' => ['parent', 'parent.id'], /* alias */
 		];
 	}

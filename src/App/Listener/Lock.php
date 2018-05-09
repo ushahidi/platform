@@ -20,38 +20,38 @@ use Ushahidi\Core\Traits\UserContext;
 
 class Lock extends AbstractListener
 {
-    // Provides getUser()
+	// Provides getUser()
 	use UserContext;
 
-    use RedisFeature;
+	use RedisFeature;
 
-    public function handle(EventInterface $event, $user_id = null, $event_type = null)
-    {
-        $user = $this->getUser();
-        // Check if the webhooks feature enabled
-        if (!$this->isRedisEnabled()) {
-            return false;
-        }
+	public function handle(EventInterface $event, $user_id = null, $event_type = null)
+	{
+		$user = $this->getUser();
+		// Check if the webhooks feature enabled
+		if (!$this->isRedisEnabled()) {
+			return false;
+		}
 
-        if ($user_id) {
-            $host = getenv('REDIS_HOST');
-            $port = getenv('REDIS_PORT');
-            $redis_channel = getenv('REDIS_CHANNEL');
+		if ($user_id) {
+			$host = getenv('REDIS_HOST');
+			$port = getenv('REDIS_PORT');
+			$redis_channel = getenv('REDIS_CHANNEL');
 
-            if ($host && $port) {
-                $redis = new Redis();
+			if ($host && $port) {
+				$redis = new Redis();
 
-                $event = json_encode([
-                    "channel" => $user_id . '-lock',
-                    "message" => 'lock_broken'
-                ]);
+				$event = json_encode([
+					"channel" => $user_id . '-lock',
+					"message" => 'lock_broken'
+				]);
 
-                $redis->connect($host, $port);
+				$redis->connect($host, $port);
 
-                $redis->publish($redis_channel, $event);
+				$redis->publish($redis_channel, $event);
 
-                $redis->close();
-            }
-        }
-    }
+				$redis->close();
+			}
+		}
+	}
 }

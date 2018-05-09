@@ -14,9 +14,9 @@ namespace Ushahidi\Core\Entity\Repository;
 
 interface EntityExists
 {
-    /**
-     * @param  mixed $id
-     * @return bool
-     */
-    public function exists($id);
+	/**
+	 * @param  mixed $id
+	 * @return bool
+	 */
+	public function exists($id);
 }

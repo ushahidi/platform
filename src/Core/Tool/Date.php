@@ -62,7 +62,7 @@ class Date
 	 * Adds a timestamp to every row in a set of results. Each row in the results
 	 * is expected to be an array. If $add is set to the same value as $key,
 	 * the date will be replaced with the timestamp.
-	 * @param  Array  $results [arr, arr, ...]
+	 * @param  Array $results [arr, arr, ...]
 	 * @param  String $key that contains the date string
 	 * @param  String $add the new key for the timestamp
 	 * @param  String $format non-default format

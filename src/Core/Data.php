@@ -30,7 +30,7 @@ abstract class Data
 
 	/**
 	 * Stores what (allowed) keys were defined by input data.
-	 * @param  Array  $data  raw input
+	 * @param  Array $data raw input
 	 * @return void
 	 */
 	public function __construct(array $data)
@@ -85,7 +85,7 @@ abstract class Data
 	/**
 	 * Compare with some existing data and get the delta between the two.
 	 * Only values that were present in the input data will be returned!
-	 * @param  Array  $compare  existing data
+	 * @param  Array $compare existing data
 	 * @return Data
 	 */
 	public function getDifferent(array $compare)

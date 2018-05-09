@@ -22,7 +22,7 @@ class ReadSetPost extends ReadPost
 	{
 		$this->verifyPostRepo($this->repo);
 
-		$id     = $this->getIdentifier('id');
+		$id = $this->getIdentifier('id');
 		$set_id = $this->getIdentifier('set_id');
 
 		$entity = $this->repo->getPostInSet($id, $set_id);

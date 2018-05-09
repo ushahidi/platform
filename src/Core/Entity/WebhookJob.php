@@ -34,11 +34,11 @@ class WebhookJob extends StaticEntity
 	protected function getDefinition()
 	{
 		return [
-			'id'       			=> 'int',
-			'post'     			=> false,
-			'post_id'  			=> 'int',
-			'event_type'	  => 'string',
-			'created' 			=> 'int'
+			'id' => 'int',
+			'post' => false,
+			'post_id' => 'int',
+			'event_type' => 'string',
+			'created' => 'int'
 		];
 	}
 

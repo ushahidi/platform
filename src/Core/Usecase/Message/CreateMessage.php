@@ -30,10 +30,10 @@ class CreateMessage extends CreateUsecase
 
 		// Retrieve message type and data provider
 		// from incoming message when replying to a message
-		if (! empty($this->payload['parent_id'])) {
+		if (!empty($this->payload['parent_id'])) {
 			$parent = $this->repo->get($this->payload['parent_id']);
 			$entity->setState(['type' => $parent->type,
-							   'data_source' => $parent->data_source]);
+				'data_source' => $parent->data_source]);
 		}
 
 		// If no user information is provided, default to the current session user.

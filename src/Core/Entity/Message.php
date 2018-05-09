@@ -16,19 +16,19 @@ use Ushahidi\Core\StaticEntity;
 class Message extends StaticEntity
 {
 	// Valid boxes are defined as constants.
-	const INBOX          = 'inbox';
-	const OUTBOX         = 'sent';
+	const INBOX = 'inbox';
+	const OUTBOX = 'sent';
 
 	// Valid directions are defined as constants.
-	const INCOMING       = 'incoming';
-	const OUTGOING       = 'outgoing';
+	const INCOMING = 'incoming';
+	const OUTGOING = 'outgoing';
 
 	// Valid status types are defined as constants.
-	const PENDING        = 'pending';
-	const RECEIVED       = 'received';
-	const EXPIRED        = 'expired';
-	const CANCELLED      = 'cancelled';
-	const FAILED         = 'failed';
+	const PENDING = 'pending';
+	const RECEIVED = 'received';
+	const EXPIRED = 'expired';
+	const CANCELLED = 'cancelled';
+	const FAILED = 'failed';
 	const DEFAULT_STATUS = 'pending';
 
 	protected $id;
@@ -54,20 +54,20 @@ class Message extends StaticEntity
 	protected function getDefinition()
 	{
 		return [
-			'id'         => 'int',
-			'parent_id'  => 'int',
+			'id' => 'int',
+			'parent_id' => 'int',
 			'contact_id' => 'int',
-			'post_id'    => 'int',
-			'user_id'    => 'int',
-			'title'      => 'string',
-			'message'    => 'string',
-			'datetime'   => '*date',
-			'type'       => 'string',
-			'status'     => 'string',
-			'direction'  => 'string',
-			'created'    => 'int',
+			'post_id' => 'int',
+			'user_id' => 'int',
+			'title' => 'string',
+			'message' => 'string',
+			'datetime' => '*date',
+			'type' => 'string',
+			'status' => 'string',
+			'direction' => 'string',
+			'created' => 'int',
 			// data provider relations
-			'data_source'            => 'string',
+			'data_source' => 'string',
 			'data_source_message_id' => 'string',
 			// any additional message data
 			'additional_data' => '*json',
@@ -99,7 +99,7 @@ class Message extends StaticEntity
 	protected function getDerived()
 	{
 		return [
-			'user_id'   => ['user', 'user.id'], /* alias */
+			'user_id' => ['user', 'user.id'], /* alias */
 		];
 	}
 }

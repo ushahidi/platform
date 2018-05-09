@@ -37,13 +37,13 @@ class Collection extends CollectionFormatter
 		$prev = url($request->path()) . '?' . http_build_query($prev_params);
 
 		return [
-			'limit'       => $params['limit'],
-			'offset'      => $params['offset'],
-			'order'       => $params['order'],
-			'orderby'     => $params['orderby'],
-			'curr'        => $curr,
-			'next'        => $next,
-			'prev'        => $prev,
+			'limit' => $params['limit'],
+			'offset' => $params['offset'],
+			'order' => $params['order'],
+			'orderby' => $params['orderby'],
+			'curr' => $curr,
+			'next' => $next,
+			'prev' => $prev,
 			'total_count' => $this->total
 		];
 	}

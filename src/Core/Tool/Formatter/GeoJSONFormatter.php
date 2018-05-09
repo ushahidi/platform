@@ -25,8 +25,8 @@ trait GeoJSONFormatter
 	/**
 	 * Create a GeoJSON geometry from form field value
 	 *
-	 * @param  array|string $value    Value
-	 * @param  string       $type     Value Type (point or geometry)
+	 * @param  array|string $value Value
+	 * @param  string $type Value Type (point or geometry)
 	 * @return array
 	 */
 	protected function valueToGeometry($value)

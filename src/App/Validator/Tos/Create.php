@@ -15,39 +15,39 @@ use Ushahidi\Core\Entity\UserRepository;
 
 class Create extends Validator
 {
-    protected $user_repo;
-    protected $default_error_source = 'tos';
+	protected $user_repo;
+	protected $default_error_source = 'tos';
 
-    public function __construct(UserRepository $user_repo)
-    {
-        $this->user_repo = $user_repo;
-    }
+	public function __construct(UserRepository $user_repo)
+	{
+		$this->user_repo = $user_repo;
+	}
 
-    protected function getRules()
-    {
-        return [
-            'id' => [
-                ['numeric'],
-            ],
-            'user_id' => [
-                ['numeric'],
-                [[$this->user_repo, 'exists'], [':value']],
-            ],
-            'agreement_date' => [
-                [[$this, 'validDate'], [':value']],
-            ],
-            'tos_version_date' => [
-                [[$this, 'validDate'], [':value']],
-            ],
+	protected function getRules()
+	{
+		return [
+			'id' => [
+				['numeric'],
+			],
+			'user_id' => [
+				['numeric'],
+				[[$this->user_repo, 'exists'], [':value']],
+			],
+			'agreement_date' => [
+				[[$this, 'validDate'], [':value']],
+			],
+			'tos_version_date' => [
+				[[$this, 'validDate'], [':value']],
+			],
 
-        ];
-    }
+		];
+	}
 
-    public function validDate($str)
-    {
-        if ($str instanceof \DateTimeInterface) {
-            return true;
-        }
-        return (strtotime($str) !== false);
-    }
+	public function validDate($str)
+	{
+		if ($str instanceof \DateTimeInterface) {
+			return true;
+		}
+		return (strtotime($str) !== false);
+	}
 }

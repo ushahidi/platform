@@ -30,7 +30,7 @@ class CSV extends API
 	public static $csvFieldFormat = array(
 		'tags' => 'single_array',
 		'sets' => 'single_array',
-		'point'=> 'single_value_array'
+		'point' => 'single_value_array'
 	);
 	/**
 	 * @var SearchData
@@ -84,7 +84,6 @@ class CSV extends API
 	 * - Survey "native" fields such as title from the post table go first.
 	 *   These are sorted alphabetically.
 	 * - Form_attributes are grouped by stage, and sorted in ASC order by priority
-
 	 */
 	public function createHeading($attributes)
 	{
@@ -152,7 +151,7 @@ class CSV extends API
 		$filepath = implode(DIRECTORY_SEPARATOR, [
 			'csv',
 			$this->tmpfname,
-			]);
+		]);
 
 		// Remove any leading slashes on the filename, path is always relative.
 		$filepath = ltrim($filepath, DIRECTORY_SEPARATOR);
@@ -173,10 +172,10 @@ class CSV extends API
 		$type = $this->fs->getMimetype($filepath);
 
 		return new FileData([
-			'file'   => $filepath,
-			'type'   => $type,
-			'size'   => $size,
-			]);
+			'file' => $filepath,
+			'type' => $type,
+			'size' => $size,
+		]);
 	}
 
 	/**
@@ -188,7 +187,7 @@ class CSV extends API
 	 * Returns the correct value with the expected format for all fields in a post
 	 */
 	private function getValueFromRecord($record, $keyParam, $attributes)
-    {
+	{
 		// assume it's empty since we go through this for all attributes which might not be available
 		$return = '';
 		// the $keyParam is the key=>label we get in createSortedHeading (keyLabel.index)
@@ -232,7 +231,7 @@ class CSV extends API
 
 		/** check if the value is in [values] (user added attributes),
 		 ** otherwise it'll be part of the record itself
-		**/
+		 **/
 		$isInValuesArray = isset($record['values']) && isset($record['values'][$headingKey]);
 		/**
 		 * Remap Title and Description type attributes as these are a special case of attributes
@@ -248,7 +247,7 @@ class CSV extends API
 			$headingKey = $recordAttributes['type'] === 'title' ? 'title' : 'content';
 		}
 
-		$recordValue = $isInValuesArray ? $record['values']: $record;
+		$recordValue = $isInValuesArray ? $record['values'] : $record;
 
 		// handle values that are dates to have consistent formatting
 		$isDateField = $recordAttributes['input'] === 'date' && $recordAttributes['type'] === 'datetime';
@@ -285,9 +284,9 @@ class CSV extends API
 	}
 
 	private function singleRaw($recordValue, $record, $headingKey, $key)
-    {
-	 	if ($key !== null) {
-			return isset($recordValue[$headingKey])? ($recordValue[$headingKey]): '';
+	{
+		if ($key !== null) {
+			return isset($recordValue[$headingKey]) ? ($recordValue[$headingKey]) : '';
 		} else {
 			$emptyRecord = !isset($record[$headingKey])
 				|| (is_array($record[$headingKey]) && empty($record[$headingKey]));
@@ -296,33 +295,33 @@ class CSV extends API
 	}
 
 	private function multiColumnArray($recordValue, $headingKey, $key)
-    {
-		return isset($recordValue[$headingKey][$key])? ($recordValue[$headingKey][$key]): '';
+	{
+		return isset($recordValue[$headingKey][$key]) ? ($recordValue[$headingKey][$key]) : '';
 	}
 
 	private function singleColumnArray($recordValue, $headingKey, $separator = ',')
-    {
-		/**
-	 	* we need to join the array items in a single comma separated string
-	 	*/
-		return isset($recordValue[$headingKey])? (implode($separator, $recordValue[$headingKey])): '';
-	}
-
-	private function singleValueArray($recordValue, $headingKey, $key)
-    {
+	{
 		/**
 		 * we need to join the array items in a single comma separated string
 		 */
-		return isset($recordValue[$headingKey][0][$key])? ($recordValue[$headingKey][0][$key]): '';
+		return isset($recordValue[$headingKey]) ? (implode($separator, $recordValue[$headingKey])) : '';
+	}
+
+	private function singleValueArray($recordValue, $headingKey, $key)
+	{
+		/**
+		 * we need to join the array items in a single comma separated string
+		 */
+		return isset($recordValue[$headingKey][0][$key]) ? ($recordValue[$headingKey][0][$key]) : '';
 	}
 
 	/**
-	 * @param $fields: an array with the form: ["key": (value)] where value can be anything that the user chose.
+	 * @param $fields : an array with the form: ["key": (value)] where value can be anything that the user chose.
 	 * @return array of sorted fields with a zero based index. Multivalue keys have the format keyxyz.index
 	 * index being an arbitrary count of the amount of fields.
 	 */
 	private function createSortedHeading($fields)
-    {
+	{
 		/**
 		 * sort each field by priority inside the stage
 		 */
@@ -335,11 +334,11 @@ class CSV extends API
 	 * @return array . Flat, associative. Example => ['keyxyz'=>'label for key', 'keyxyz2'=>'label for key2']
 	 */
 	private function sortGroupedFieldsByPriority($fields)
-    {
+	{
 
 		$groupedFields = [];
 		foreach ($fields as $key => $item) {
-			$groupedFields[$item['form_id'].$item['form_stage_priority'].$item['priority']][$item['key']] = $item;
+			$groupedFields[$item['form_id'] . $item['form_stage_priority'] . $item['priority']][$item['key']] = $item;
 		}
 
 		ksort($groupedFields, SORT_NUMERIC);
@@ -367,13 +366,13 @@ class CSV extends API
 					/**
 					 * key=>label mapping with index[0] for regular fields
 					 */
-					$attributeKeysWithStageFlat[$attributeKey.'.0'] = $attribute['label'];
+					$attributeKeysWithStageFlat[$attributeKey . '.0'] = $attribute['label'];
 				} elseif (isset($attribute['type']) && $attribute['type'] === 'point') {
 					/**
 					 * key=>label mapping with lat/lon for point type fields
 					 */
-					$attributeKeysWithStageFlat[$attributeKey.'.lat'] = $attribute['label'].'.lat';
-					$attributeKeysWithStageFlat[$attributeKey.'.lon'] = $attribute['label'].'.lon';
+					$attributeKeysWithStageFlat[$attributeKey . '.lat'] = $attribute['label'] . '.lat';
+					$attributeKeysWithStageFlat[$attributeKey . '.lon'] = $attribute['label'] . '.lon';
 				}
 			}
 		}

@@ -23,7 +23,7 @@ trait GuestAccess
 {
 	/**
 	 * Check if $user is unloaded or has the "guest" role
-	 * @param  User    $user
+	 * @param  User $user
 	 * @return boolean
 	 */
 	protected function isUserGuest(User $user)

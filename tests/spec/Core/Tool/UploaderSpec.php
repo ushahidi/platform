@@ -35,11 +35,11 @@ class UploaderSpec extends ObjectBehavior
 		$stream = Argument::any();
 
 		// Define the upload...
-		$input->name     = 'upload.png';
+		$input->name = 'upload.png';
 		$input->tmp_name = $tmpfile;
-		$input->type     = 'image/png';
-		$input->size     = 1024;
-		$input->error    = UPLOAD_ERR_OK;
+		$input->type = 'image/png';
+		$input->size = 1024;
+		$input->error = UPLOAD_ERR_OK;
 
 		// ... which will be written from the stream
 		$fs->putStream($filepath, $stream, ["mimetype" => "image/png"])->shouldBeCalled();

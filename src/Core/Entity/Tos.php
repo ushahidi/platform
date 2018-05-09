@@ -15,32 +15,32 @@ use Ushahidi\Core\StaticEntity;
 
 class Tos extends StaticEntity
 {
-    protected $id;
-    protected $user_id;
-    protected $agreement_date;
-    protected $tos_version_date;
+	protected $id;
+	protected $user_id;
+	protected $agreement_date;
+	protected $tos_version_date;
 
-    protected function getDerived()
-    {
-        // Foreign key alias
-        return [
-            'user_id' => ['user', 'user.id']
-        ];
-    }
+	protected function getDerived()
+	{
+		// Foreign key alias
+		return [
+			'user_id' => ['user', 'user.id']
+		];
+	}
 
-    protected function getDefinition()
-    {
-        return [
-            'id'              => 'int',
-            'user_id'         => 'int',
-            'agreement_date'  => '*date',
-            'tos_version_date' => '*date',
-        ];
-    }
+	protected function getDefinition()
+	{
+		return [
+			'id' => 'int',
+			'user_id' => 'int',
+			'agreement_date' => '*date',
+			'tos_version_date' => '*date',
+		];
+	}
 
-    // Entity
-    public function getResource()
-    {
-        return 'tos';
-    }
+	// Entity
+	public function getResource()
+	{
+		return 'tos';
+	}
 }

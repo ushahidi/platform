@@ -16,5 +16,5 @@ use Ushahidi\Core\Traits\FormatterAuthorizerMetadata;
 
 class Setting extends API
 {
-    use FormatterAuthorizerMetadata;
+	use FormatterAuthorizerMetadata;
 }

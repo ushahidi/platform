@@ -7,13 +7,13 @@ use Phinx\Console\Command\Status as PhinxStatusCommand;
 
 class MigrateStatusCommand extends PhinxStatusCommand
 {
-    /**
-     * {@inheritdoc}
-     */
-    protected function configure()
-    {
-        parent::configure();
+	/**
+	 * {@inheritdoc}
+	 */
+	protected function configure()
+	{
+		parent::configure();
 
-        $this->setName('migrate:status');
-    }
+		$this->setName('migrate:status');
+	}
 }

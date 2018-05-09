@@ -23,8 +23,8 @@ interface Authorizer
 
 	/**
 	 * Check if access to an entity is allowed.
-	 * @param  Entity  $entity     Entity being accessed
-	 * @param  String  $privilege  Privilege that is requested
+	 * @param  Entity $entity Entity being accessed
+	 * @param  String $privilege Privilege that is requested
 	 * @return Boolean
 	 */
 	public function isAllowed(Entity $entity, $privilege);

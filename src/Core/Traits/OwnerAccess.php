@@ -25,8 +25,8 @@ trait OwnerAccess
 	/**
 	 * Check if $user is the owner of $entity
 	 *
-	 * @param  Entity  $entity
-	 * @param  User    $user
+	 * @param  Entity $entity
+	 * @param  User $user
 	 * @return boolean
 	 */
 	protected function isUserOwner(Entity $entity, User $user)
@@ -38,13 +38,13 @@ trait OwnerAccess
 	/**
 	 * Check if $user and owner of $entity are anonymous (user id 0)
 	 *
-	 * @param  Entity  $entity
-	 * @param  User    $user
+	 * @param  Entity $entity
+	 * @param  User $user
 	 * @return boolean
 	 */
 	protected function isUserAndOwnerAnonymous(Entity $entity, User $user)
 	{
 		// @todo ensure we always check the original user_id not the updated value!
-		return (! $user->getId() && ! $entity->user_id);
+		return (!$user->getId() && !$entity->user_id);
 	}
 }

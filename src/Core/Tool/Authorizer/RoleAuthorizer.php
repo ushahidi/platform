@@ -23,7 +23,7 @@ class RoleAuthorizer implements Authorizer
 
 	// It uses `PrivAccess` to provide the `getAllowedPrivs` method.
 	use PrivAccess;
-	
+
 	// Check if user has Admin access
 	use AdminAccess;
 
@@ -32,23 +32,23 @@ class RoleAuthorizer implements Authorizer
 	{
 		// These checks are run within the user context.
 		$user = $this->getUser();
-		
-        if ($privilege === 'delete' && $entity->protected === true) {
-            return false;
-        }
-		
+
+		if ($privilege === 'delete' && $entity->protected === true) {
+			return false;
+		}
+
 		// Only allow admin access
 		if ($this->isUserAdmin($user)) {
 			return true;
 		}
 
-        if ($user->getId() and $privilege === 'read') {
-            return true;
-        }
-        // All users are allowed to search forms.
-        if ($user->getId() and $privilege === 'search') {
-            return true;
-        }
+		if ($user->getId() and $privilege === 'read') {
+			return true;
+		}
+		// All users are allowed to search forms.
+		if ($user->getId() and $privilege === 'search') {
+			return true;
+		}
 
 		return false;
 	}

@@ -64,7 +64,7 @@ class LayerAuthorizer implements Authorizer
 
 	/**
 	 * Check if a layer is active
-	 * @param  Entity  $entity
+	 * @param  Entity $entity
 	 * @return boolean
 	 */
 	protected function isLayerActive(Entity $entity)

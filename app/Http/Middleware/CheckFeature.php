@@ -7,22 +7,22 @@ use Closure;
 
 class CheckFeature
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
-     * @param  mixed  ...$features
-     * @return mixed
-     */
-    public function handle($request, Closure $next, ...$features)
-    {
-        foreach ($features as $feature) {
-            if (!Features::isEnabled($feature)) {
-                abort(403, "Forbidden.");
-            }
-        }
+	/**
+	 * Handle an incoming request.
+	 *
+	 * @param  \Illuminate\Http\Request $request
+	 * @param  \Closure $next
+	 * @param  mixed ...$features
+	 * @return mixed
+	 */
+	public function handle($request, Closure $next, ...$features)
+	{
+		foreach ($features as $feature) {
+			if (!Features::isEnabled($feature)) {
+				abort(403, "Forbidden.");
+			}
+		}
 
-        return $next($request);
-    }
+		return $next($request);
+	}
 }

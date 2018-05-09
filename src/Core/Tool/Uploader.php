@@ -34,7 +34,7 @@ class Uploader
 	 * When manually setting the filename, be sure to include the unique prefix!
 	 *
 	 * @param  Ushahidi\Core\Tool\UploadData $upload
-	 * @param  String  $filename  file to overwrite or create
+	 * @param  String $filename file to overwrite or create
 	 * @return Ushahidi\Core\Tool\FileData
 	 */
 	public function upload(UploadData $file, $filename = null)
@@ -56,7 +56,7 @@ class Uploader
 			$filename[0],
 			$filename[1],
 			$filename,
-			]);
+		]);
 
 		// Remove any leading slashes on the filename, path is always relative.
 		$filepath = ltrim($filepath, '/');
@@ -84,12 +84,12 @@ class Uploader
 
 		// And return the new file information.
 		return new FileData([
-			'file'   => $filepath,
-			'size'   => $size,
-			'type'   => $type,
-			'width'  => $width,
+			'file' => $filepath,
+			'size' => $size,
+			'type' => $type,
+			'width' => $width,
 			'height' => $height,
-			]);
+		]);
 	}
 
 	/**
@@ -105,6 +105,6 @@ class Uploader
 
 	private function isImage($type)
 	{
-		return (bool) preg_match('#^image/#', $type);
+		return (bool)preg_match('#^image/#', $type);
 	}
 }

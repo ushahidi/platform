@@ -13,7 +13,6 @@ use Illuminate\Http\Request;
  * @copyright  2013 Ushahidi
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
-
 class PasswordResetController extends RESTController
 {
 
@@ -24,11 +23,11 @@ class PasswordResetController extends RESTController
 
 	public function store(Request $request)
 	{
-        $this->usecase = $this->usecaseFactory
-            ->get($this->getResource(), 'getresettoken')
-            ->setPayload($request->json()->all());
+		$this->usecase = $this->usecaseFactory
+			->get($this->getResource(), 'getresettoken')
+			->setPayload($request->json()->all());
 
-        return $this->prepResponse($this->executeUsecase($request), $request);
+		return $this->prepResponse($this->executeUsecase($request), $request);
 	}
 
 	public function confirmOptions()
@@ -38,10 +37,10 @@ class PasswordResetController extends RESTController
 
 	public function confirm(Request $request)
 	{
-        $this->usecase = $this->usecaseFactory
-            ->get($this->getResource(), 'passwordreset')
-            ->setPayload($request->json()->all());
+		$this->usecase = $this->usecaseFactory
+			->get($this->getResource(), 'passwordreset')
+			->setPayload($request->json()->all());
 
-        return $this->prepResponse($this->executeUsecase($request), $request);
+		return $this->prepResponse($this->executeUsecase($request), $request);
 	}
 }

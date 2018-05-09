@@ -103,7 +103,7 @@ class TagAuthorizer implements Authorizer
 		// We check if the user has access to a parent tag. This doesn't
 		// grant them access, but is used to deny access even if the child tag
 		// is public.
-		if (! $this->isAllowedParent($entity, $privilege, $user)) {
+		if (!$this->isAllowedParent($entity, $privilege, $user)) {
 			return false;
 		}
 

@@ -9,28 +9,28 @@ use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
  */
 class ValidationException extends UnprocessableEntityHttpException
 {
-    protected $errors = [];
+	protected $errors = [];
 
-    /**
-     * Constructor.
-     *
-     * @param string     $message  The internal exception message
-     * @param \Exception $previous The previous exception
-     * @param int        $code     The internal exception code
-     */
-    public function __construct($message = null, \Exception $previous = null, array $errors = null)
-    {
-        $this->errors = $errors ?: [];
+	/**
+	 * Constructor.
+	 *
+	 * @param string $message The internal exception message
+	 * @param \Exception $previous The previous exception
+	 * @param int $code The internal exception code
+	 */
+	public function __construct($message = null, \Exception $previous = null, array $errors = null)
+	{
+		$this->errors = $errors ?: [];
 
-        if (method_exists($previous, 'getErrors')) {
-            $this->errors = $this->errors + $previous->getErrors();
-        }
+		if (method_exists($previous, 'getErrors')) {
+			$this->errors = $this->errors + $previous->getErrors();
+		}
 
-        parent::__construct($message, $previous, 0);
-    }
+		parent::__construct($message, $previous, 0);
+	}
 
-    public function getErrors()
-    {
-        return $this->errors ?: [];
-    }
+	public function getErrors()
+	{
+		return $this->errors ?: [];
+	}
 }

@@ -1,12 +1,12 @@
 @acl
 Feature: Access Control when modifying posts
 
-    @rolesEnabled
-    Scenario: Users can edit their own posts
-        Given that I want to update a "Post"
-        And that its "id" is "110"
-        And that the oauth token is "testbasicuser"
-        And that the request "data" is:
+  @rolesEnabled
+  Scenario: Users can edit their own posts
+    Given that I want to update a "Post"
+    And that its "id" is "110"
+    And that the oauth token is "testbasicuser"
+    And that the request "data" is:
         """
         {
             "form_id": 1,
@@ -17,17 +17,17 @@ Feature: Access Control when modifying posts
             "locale": "en_us"
         }
         """
-        When I request "/posts"
-        Then the guzzle status code should be 200
-        And the response is JSON
-        And the response has an "id" property
+    When I request "/posts"
+    Then the guzzle status code should be 200
+    And the response is JSON
+    And the response has an "id" property
 
-    @rolesEnabled
-    Scenario: Users without 'Edit own Posts' canNOT edit their own posts
-        Given that I want to update a "Post"
-        And that its "id" is "200"
-        And that the oauth token is "testnoedit"
-        And that the request "data" is:
+  @rolesEnabled
+  Scenario: Users without 'Edit own Posts' canNOT edit their own posts
+    Given that I want to update a "Post"
+    And that its "id" is "200"
+    And that the oauth token is "testnoedit"
+    And that the request "data" is:
         """
         {
             "form_id": 1,
@@ -38,16 +38,16 @@ Feature: Access Control when modifying posts
             "locale": "en_us"
         }
         """
-        When I request "/posts"
-        Then the guzzle status code should be 403
-        And the response is JSON
+    When I request "/posts"
+    Then the guzzle status code should be 403
+    And the response is JSON
 
-    @rolesEnabled
-    Scenario: Users trying to update another post by change ownership to themselves should fail
-        Given that I want to update a "Post"
-        And that its "id" is "105"
-        And that the oauth token is "testbasicuser"
-        And that the request "data" is:
+  @rolesEnabled
+  Scenario: Users trying to update another post by change ownership to themselves should fail
+    Given that I want to update a "Post"
+    And that its "id" is "105"
+    And that the oauth token is "testbasicuser"
+    And that the request "data" is:
         """
         {
             "form_id": 1,
@@ -59,17 +59,17 @@ Feature: Access Control when modifying posts
             "user_id": 1
         }
         """
-        When I request "/posts"
-        Then the guzzle status code should be 403
-        And the response is JSON
-        And the response has an "errors" property
+    When I request "/posts"
+    Then the guzzle status code should be 403
+    And the response is JSON
+    And the response has an "errors" property
 
-    @rolesEnabled
-    Scenario: Anonymous users can not edit posts
-        Given that I want to update a "Post"
-        And that the oauth token is "testanon"
-        And that its "id" is "110"
-        And that the request "data" is:
+  @rolesEnabled
+  Scenario: Anonymous users can not edit posts
+    Given that I want to update a "Post"
+    And that the oauth token is "testanon"
+    And that its "id" is "110"
+    And that the request "data" is:
         """
         {
             "form_id": 1,
@@ -78,44 +78,44 @@ Feature: Access Control when modifying posts
             "status": "published"
         }
         """
-        When I request "/posts"
-        Then the guzzle status code should be 403
+    When I request "/posts"
+    Then the guzzle status code should be 403
 
-    @rolesEnabled
-    Scenario: Users can delete their own posts
-        Given that I want to delete a "Post"
-        And that the oauth token is "testbasicuser"
-        And that its "id" is "110"
-        When I request "/posts"
-        Then the response is JSON
-        And the response has a "id" property
-        Then the guzzle status code should be 200
+  @rolesEnabled
+  Scenario: Users can delete their own posts
+    Given that I want to delete a "Post"
+    And that the oauth token is "testbasicuser"
+    And that its "id" is "110"
+    When I request "/posts"
+    Then the response is JSON
+    And the response has a "id" property
+    Then the guzzle status code should be 200
 
-    @rolesEnabled
-    Scenario: Users without 'Edit own Posts' canNOT delete their own posts
-        Given that I want to delete a "Post"
-        And that the oauth token is "testnoedit"
-        And that its "id" is "200"
-        When I request "/posts"
-        Then the response is JSON
-        Then the guzzle status code should be 403
+  @rolesEnabled
+  Scenario: Users without 'Edit own Posts' canNOT delete their own posts
+    Given that I want to delete a "Post"
+    And that the oauth token is "testnoedit"
+    And that its "id" is "200"
+    When I request "/posts"
+    Then the response is JSON
+    Then the guzzle status code should be 403
 
-    @rolesEnabled
-    Scenario: Users without 'Edit own Posts' can view their own posts
-        Given that I want to find a "Post"
-        And that its "id" is "200"
-        And that the oauth token is "testnoedit"
-        When I request "/posts"
-        Then the guzzle status code should be 200
-        And the response is JSON
-        And the response has an "id" property
+  @rolesEnabled
+  Scenario: Users without 'Edit own Posts' can view their own posts
+    Given that I want to find a "Post"
+    And that its "id" is "200"
+    And that the oauth token is "testnoedit"
+    When I request "/posts"
+    Then the guzzle status code should be 200
+    And the response is JSON
+    And the response has an "id" property
 
-    @rolesDisabled
-    Scenario: Users can edit their own posts w/ custom roles disabled
-        Given that I want to update a "Post"
-        And that its "id" is "111"
-        And that the oauth token is "testbasicuser"
-        And that the request "data" is:
+  @rolesDisabled
+  Scenario: Users can edit their own posts w/ custom roles disabled
+    Given that I want to update a "Post"
+    And that its "id" is "111"
+    And that the oauth token is "testbasicuser"
+    And that the request "data" is:
         """
         {
             "form_id": 1,
@@ -126,17 +126,17 @@ Feature: Access Control when modifying posts
             "locale": "en_us"
         }
         """
-        When I request "/posts"
-        Then the guzzle status code should be 200
-        And the response is JSON
-        And the response has an "id" property
+    When I request "/posts"
+    Then the guzzle status code should be 200
+    And the response is JSON
+    And the response has an "id" property
 
-    @rolesDisabled
-    Scenario: Custom role cannot edit their own posts w/ custom roles disabled
-        Given that I want to update a "Post"
-        And that its "id" is "200"
-        And that the oauth token is "testnoedit"
-        And that the request "data" is:
+  @rolesDisabled
+  Scenario: Custom role cannot edit their own posts w/ custom roles disabled
+    Given that I want to update a "Post"
+    And that its "id" is "200"
+    And that the oauth token is "testnoedit"
+    And that the request "data" is:
         """
         {
             "form_id": 1,
@@ -147,6 +147,6 @@ Feature: Access Control when modifying posts
             "locale": "en_us"
         }
         """
-        When I request "/posts"
-        Then the guzzle status code should be 403
-        And the response is JSON
+    When I request "/posts"
+    Then the guzzle status code should be 403
+    And the response is JSON

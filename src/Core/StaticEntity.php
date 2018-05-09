@@ -23,7 +23,7 @@ abstract class StaticEntity implements Entity
 	/**
 	 * Transparent access to private entity properties.
 	 *
-	 * @param  String  $key
+	 * @param  String $key
 	 * @return Mixed
 	 */
 	public function __get($key)
@@ -36,7 +36,7 @@ abstract class StaticEntity implements Entity
 	/**
 	 * Transparent checking of private entity properties.
 	 *
-	 * @param  String  $key
+	 * @param  String $key
 	 * @return Mixed
 	 */
 	final public function __isset($key)

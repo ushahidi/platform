@@ -40,17 +40,17 @@ class ExportJob extends StaticEntity
 	protected function getDefinition()
 	{
 		return [
-			'id'       			=> 'int',
-			'entity_type'     	=> 'string',
-			'user_id'			=> 'int',
-			'status'     		=> 'string',
-			'url'		     	=> 'string',
-			'fields'    	    => '*json',
-			'filters'   	    => '*json',
-			'header_row'   	    => '*json',
-			'created' 			=> 'int',
-			'updated' 			=> 'int',
-			'url_expiration'	=> 'int'
+			'id' => 'int',
+			'entity_type' => 'string',
+			'user_id' => 'int',
+			'status' => 'string',
+			'url' => 'string',
+			'fields' => '*json',
+			'filters' => '*json',
+			'header_row' => '*json',
+			'created' => 'int',
+			'updated' => 'int',
+			'url_expiration' => 'int'
 		];
 	}
 

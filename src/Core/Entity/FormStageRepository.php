@@ -15,8 +15,8 @@ use Ushahidi\Core\Entity\Repository\EntityGet;
 use Ushahidi\Core\Entity\Repository\EntityExists;
 
 interface FormStageRepository extends
-    EntityGet,
-    EntityExists
+	EntityGet,
+	EntityExists
 {
 
 	/**

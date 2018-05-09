@@ -16,9 +16,9 @@ use Ushahidi\Core\StaticEntity;
 class Contact extends StaticEntity
 {
 	// Valid contact types
-	const EMAIL    = 'email';
-	const PHONE    = 'phone';
-	const TWITTER  = 'twitter';
+	const EMAIL = 'email';
+	const PHONE = 'phone';
+	const TWITTER = 'twitter';
 
 	protected $id;
 	protected $user_id;
@@ -29,6 +29,7 @@ class Contact extends StaticEntity
 	protected $updated;
 	protected $can_notify;
 	public $country_code; // we only want this for validation, needs to be unset before saving
+
 	// StatefulData
 	protected function getDerived()
 	{
@@ -42,15 +43,15 @@ class Contact extends StaticEntity
 	protected function getDefinition()
 	{
 		return [
-			'id'            => 'int',
-			'user'          => false, /* alias */
-			'user_id'       => 'int',
+			'id' => 'int',
+			'user' => false, /* alias */
+			'user_id' => 'int',
 			'data_source' => 'string',
-			'type'          => 'string',
-			'contact'       => 'string',
-			'created'       => 'int',
-			'updated'       => 'int',
-			'can_notify'    => 'bool',
+			'type' => 'string',
+			'contact' => 'string',
+			'created' => 'int',
+			'updated' => 'int',
+			'can_notify' => 'bool',
 		];
 	}
 

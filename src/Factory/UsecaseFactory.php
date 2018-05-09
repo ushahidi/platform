@@ -58,27 +58,27 @@ class UsecaseFactory
 	 *
 	 * @param  AuthorizerFactory $authorizers
 	 * @param  RepositoryFactory $repositories
-	 * @param  FormatterFactory  $formatters
+	 * @param  FormatterFactory $formatters
 	 * @param  Array $actions
 	 * @param  Array $map
 	 */
 	public function __construct(
 		AuthorizerFactory $authorizers,
-		DataFactory       $data,
-		FormatterFactory  $formatters,
+		DataFactory $data,
+		FormatterFactory $formatters,
 		RepositoryFactory $repositories,
-		ValidatorFactory  $validators,
+		ValidatorFactory $validators,
 		array $actions,
 		array $map
 	) {
-		$this->authorizers  = $authorizers;
-		$this->data         = $data;
-		$this->formatters   = $formatters;
+		$this->authorizers = $authorizers;
+		$this->data = $data;
+		$this->formatters = $formatters;
 		$this->repositories = $repositories;
-		$this->validators   = $validators;
+		$this->validators = $validators;
 
 		$this->actions = $actions;
-		$this->map     = $map;
+		$this->map = $map;
 	}
 
 	/**
@@ -106,8 +106,7 @@ class UsecaseFactory
 		$usecase = $factory()
 			->setAuthorizer($this->authorizers->get($resource))
 			->setRepository($this->repositories->get($resource))
-			->setFormatter($this->formatters->get($resource, $action))
-			;
+			->setFormatter($this->formatters->get($resource, $action));
 
 		if ($usecase->isWrite()) {
 			$usecase->setValidator($this->validators->get($resource, $action));

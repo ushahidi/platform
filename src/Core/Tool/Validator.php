@@ -36,8 +36,8 @@ abstract class Validator
 	/**
 	 * Check the data against the rules returned by getRules()
 	 *
-	 * @param  Array $data      an array of changed values to check in $key => $value format
-	 * @param  Array $fullData  an array of full entity data for reference during validation
+	 * @param  Array $data an array of changed values to check in $key => $value format
+	 * @param  Array $fullData an array of full entity data for reference during validation
 	 * @return bool
 	 */
 	public function check(array $data, array $fullData = [])
@@ -66,7 +66,7 @@ abstract class Validator
 
 	/**
 	 * Attach a set of rules to the validator
-	 * @param  array  $rules Array of rules in $key => $rule format
+	 * @param  array $rules Array of rules in $key => $rule format
 	 */
 	protected function attachRules($rules = array())
 	{

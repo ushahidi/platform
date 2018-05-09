@@ -18,26 +18,26 @@ use \Ushahidi\Factory\UsecaseFactory;
 
 class ConfigSet extends Command
 {
-    /**
-     * The console command name.
-     *
-     * @var string
-     */
-    protected $name = 'config:set';
+	/**
+	 * The console command name.
+	 *
+	 * @var string
+	 */
+	protected $name = 'config:set';
 
-    /**
-     * The console command signature.
-     *
-     * @var string
-     */
-    protected $signature = 'config:set {group} {value} {--key=}';
+	/**
+	 * The console command signature.
+	 *
+	 * @var string
+	 */
+	protected $signature = 'config:set {group} {value} {--key=}';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Set config params';
+	/**
+	 * The console command description.
+	 *
+	 * @var string
+	 */
+	protected $description = 'Set config params';
 
 	/**
 	 * @var Ushahidi\Core\Usecase\Usecase
@@ -65,15 +65,15 @@ class ConfigSet extends Command
 		return $this->usecase;
 	}
 
-    /**
-     * Execute the console command.
-     *
-     * @return void
-     */
-    public function handle()
-    {
+	/**
+	 * Execute the console command.
+	 *
+	 * @return void
+	 */
+	public function handle()
+	{
 		$group = $this->argument('group');
-		$key   = $this->option('key');
+		$key = $this->option('key');
 		$value = $this->argument('value');
 
 		if ($key) {
@@ -87,7 +87,7 @@ class ConfigSet extends Command
 			}
 		}
 
-		$this->getUsecase()->setIdentifiers([ 'id' => $group ])
+		$this->getUsecase()->setIdentifiers(['id' => $group])
 			->setPayload($value);
 
 		$response = $this->getUsecase()->interact();
@@ -108,7 +108,7 @@ class ConfigSet extends Command
 			foreach (range(0, $iterator->getDepth()) as $depth) {
 				$keys[] = $iterator->getSubIterator($depth)->key();
 			}
-			$result[ join('.', $keys) ] = $leafValue;
+			$result[join('.', $keys)] = $leafValue;
 		}
 
 		// Format as table

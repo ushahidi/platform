@@ -126,7 +126,7 @@ class ContactListener extends AbstractListener
 						'Could not find attributes in form id %s.
 						Messages for contact %s in this form will not be sent',
 						$form_id,
-                        $contactId
+						$contactId
 					)
 				);
 			}
@@ -157,8 +157,8 @@ class ContactListener extends AbstractListener
 			$targetedSurveyStatus = $this->targeted_survey_state->getEntity();
 			$targetedSurveyStatus->setState(
 				array(
-					'message_id'=> $messageId,
-					'form_attribute_id'=> $firstAttribute->id,
+					'message_id' => $messageId,
+					'form_attribute_id' => $firstAttribute->id,
 					'form_id' => $form_id,
 					'post_id' => $postId,
 					'contact_id' => $contactId,

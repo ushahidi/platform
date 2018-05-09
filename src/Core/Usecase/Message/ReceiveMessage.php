@@ -128,7 +128,7 @@ class ReceiveMessage extends CreateUsecase
 		$contact = $this->contactRepo->getByContact($this->getPayload('from'), $this->getPayload('contact_type'));
 		if (!$contact->getId()) {
 			// this is the first time a message has been received by this number, so create contact
-			$contact =  $this->contactRepo->getEntity()->setState([
+			$contact = $this->contactRepo->getEntity()->setState([
 				'contact' => $this->getPayload('from'),
 				'type' => $this->getPayload('contact_type'),
 				'data_source' => $this->getPayload('data_source'),

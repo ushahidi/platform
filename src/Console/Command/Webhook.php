@@ -26,26 +26,26 @@ class Webhook extends Command
 	private $webhookJobRepository;
 	private $client;
 
-    /**
-     * The console command name.
-     *
-     * @var string
-     */
-    protected $name = 'webhook:send';
+	/**
+	 * The console command name.
+	 *
+	 * @var string
+	 */
+	protected $name = 'webhook:send';
 
-    /**
-     * The console command signature.
-     *
-     * @var string
-     */
-    protected $signature = 'webhook:send {--limit=}';
+	/**
+	 * The console command signature.
+	 *
+	 * @var string
+	 */
+	protected $signature = 'webhook:send {--limit=}';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Send webhook requests';
+	/**
+	 * The console command description.
+	 *
+	 * @var string
+	 */
+	protected $description = 'Send webhook requests';
 
 	public function __construct()
 	{
@@ -119,7 +119,7 @@ class Webhook extends Command
 				$promise = $this->client->request('POST', $webhook['url'], [
 					'headers' => [
 						'X-Ushahidi-Signature' => $signature,
-						'Accept'               => 'application/json'
+						'Accept' => 'application/json'
 					],
 					'json' => $data
 				]);

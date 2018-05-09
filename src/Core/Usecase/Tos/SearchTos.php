@@ -15,18 +15,18 @@ use Ushahidi\Core\Usecase\SearchUsecase;
 
 class SearchTos extends SearchUsecase
 {
-    /**
-     * Get filter parameters that are used for paging.
-     *
-     * @return Array
-     */
-    protected function getPagingFields()
-    {
-        return [
-            'orderby' => 'agreement_date',
-            'order'   => 'desc',
-            'limit'   => 1,
-            'offset'  => 0
-        ];
-    }
+	/**
+	 * Get filter parameters that are used for paging.
+	 *
+	 * @return Array
+	 */
+	protected function getPagingFields()
+	{
+		return [
+			'orderby' => 'agreement_date',
+			'order' => 'desc',
+			'limit' => 1,
+			'offset' => 0
+		];
+	}
 }

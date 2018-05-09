@@ -19,26 +19,26 @@ use Ushahidi\Core\Exception\NotFoundException;
 
 class UserDelete extends Command
 {
-    /**
-     * The console command name.
-     *
-     * @var string
-     */
-    protected $name = 'user:delete';
+	/**
+	 * The console command name.
+	 *
+	 * @var string
+	 */
+	protected $name = 'user:delete';
 
-    /**
-     * The console command signature.
-     *
-     * @var string
-     */
-    protected $signature = 'user:delete {--email=}';
+	/**
+	 * The console command signature.
+	 *
+	 * @var string
+	 */
+	protected $signature = 'user:delete {--email=}';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Delete a user';
+	/**
+	 * The console command description.
+	 *
+	 * @var string
+	 */
+	protected $description = 'Delete a user';
 
 	protected $repo;
 

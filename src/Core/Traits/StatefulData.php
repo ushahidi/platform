@@ -77,7 +77,7 @@ trait StatefulData
 	 * Direct access to object properties must not be allowed, to maintain state.
 	 *
 	 * @param  String $key
-	 * @param  Mixed  $value
+	 * @param  Mixed $value
 	 * @return void
 	 * @throws RuntimeException
 	 */
@@ -122,7 +122,7 @@ trait StatefulData
 	 * Change the internal state of the entity, updating values and tracking any
 	 * changes that are made.
 	 *
-	 * @param  Array  $data
+	 * @param  Array $data
 	 * @return $this
 	 */
 	public function setState(array $data)
@@ -206,15 +206,15 @@ trait StatefulData
 					// Track changes for changed array keys
 					$changed[$key] = array_keys($diff);
 				}
-			// Compare DateTime Objects
+				// Compare DateTime Objects
 			} elseif ($value instanceof \DateTimeInterface && $this->$key instanceof \DateTimeInterface) {
 				$current_key = $this->$key;
 
-                $stored_date_ts = $current_key->getTimestamp();
-                $received_date_ts = $value->getTimestamp();
-                $timestamp_diff = abs($stored_date_ts - $received_date_ts);
+				$stored_date_ts = $current_key->getTimestamp();
+				$received_date_ts = $value->getTimestamp();
+				$timestamp_diff = abs($stored_date_ts - $received_date_ts);
 
-                // TODO: should we set a tolerance for how much variation is allowed in milliseconds?
+				// TODO: should we set a tolerance for how much variation is allowed in milliseconds?
 				if ($timestamp_diff > 0) {
 					// Update the value...
 					$this->setStateValue($key, $value);
@@ -238,7 +238,7 @@ trait StatefulData
 	 * methods to have `protected` visibility.
 	 *
 	 * @param  String $key
-	 * @param  Mixed  $value
+	 * @param  Mixed $value
 	 * @return void
 	 */
 	abstract protected function setStateValue($key, $value);

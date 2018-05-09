@@ -15,15 +15,15 @@ interface Status
 {
 
 	// Waiting to be sent
-	const PENDING        = 'pending';
+	const PENDING = 'pending';
 
-	const SENT           = 'sent';
-	const RECEIVED       = 'received';
+	const SENT = 'sent';
+	const RECEIVED = 'received';
 
-	const EXPIRED        = 'expired';
-	const CANCELLED      = 'cancelled';
-	const FAILED         = 'failed';
-	const UNKNOWN        = 'unknown';
+	const EXPIRED = 'expired';
+	const CANCELLED = 'cancelled';
+	const FAILED = 'failed';
+	const UNKNOWN = 'unknown';
 
 	const DEFAULT_STATUS = 'pending';
 }

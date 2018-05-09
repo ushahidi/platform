@@ -29,28 +29,28 @@ use Ushahidi\Core\Usecase\ImportUsecase;
 class Import extends Command
 {
 
-    /**
-     * The console command name.
-     *
-     * @var string
-     */
-    protected $name = 'import';
+	/**
+	 * The console command name.
+	 *
+	 * @var string
+	 */
+	protected $name = 'import';
 
-    /**
-     * The console command signature.
-     *
-     * import source.csv mapping.json fixedvalues.json
-     *
-     * @var string
-     */
-    protected $signature = 'import {file} {map} {value} {--type=csv} {--limit=} {--offset=}';
+	/**
+	 * The console command signature.
+	 *
+	 * import source.csv mapping.json fixedvalues.json
+	 *
+	 * @var string
+	 */
+	protected $signature = 'import {file} {map} {value} {--type=csv} {--limit=} {--offset=}';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Import posts';
+	/**
+	 * The console command description.
+	 *
+	 * @var string
+	 */
+	protected $description = 'Import posts';
 
 	public function __construct()
 	{

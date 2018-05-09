@@ -22,17 +22,17 @@ use Ushahidi\App\DataSource\SMSSync\SMSSync;
  */
 class SMSSyncDataSourceTest extends TestCase
 {
-    public function testVerifySecret()
-    {
-        $smssync = new SMSSync([
-            'secret' => "a secret",
-        ]);
+	public function testVerifySecret()
+	{
+		$smssync = new SMSSync([
+			'secret' => "a secret",
+		]);
 
-        $this->assertTrue($smssync->verifySecret('a secret'));
-        $this->assertFalse($smssync->verifySecret('notsecret'));
+		$this->assertTrue($smssync->verifySecret('a secret'));
+		$this->assertFalse($smssync->verifySecret('notsecret'));
 
-        $twilio = new SMSSync([]);
+		$twilio = new SMSSync([]);
 
-        $this->assertFalse($smssync->verifySecret('secret'));
-    }
+		$this->assertFalse($smssync->verifySecret('secret'));
+	}
 }

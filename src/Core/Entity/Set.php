@@ -31,17 +31,17 @@ class Set extends StaticEntity
 	protected function getDefinition()
 	{
 		return [
-			'id'           => 'int',
-			'user_id'      => 'int',
-			'name'         => 'string',
-			'description'  => 'string',
-			'url'          => '*url',
-			'view'         => 'string',
+			'id' => 'int',
+			'user_id' => 'int',
+			'name' => 'string',
+			'description' => 'string',
+			'url' => '*url',
+			'view' => 'string',
 			'view_options' => '*json',
-			'role'   => '*json',
-			'featured'     => 'boolean',
-			'created'      => 'int',
-			'updated'      => 'int',
+			'role' => '*json',
+			'featured' => 'boolean',
+			'created' => 'int',
+			'updated' => 'int',
 		];
 	}
 
@@ -61,7 +61,7 @@ class Set extends StaticEntity
 	protected function getDerived()
 	{
 		return [
-			'user_id'   => ['user', 'user.id'], /* alias */
+			'user_id' => ['user', 'user.id'], /* alias */
 		];
 	}
 }

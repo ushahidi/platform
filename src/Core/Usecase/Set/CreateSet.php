@@ -30,12 +30,12 @@ class CreateSet extends CreateUsecase
 	 */
 	protected function getEntity()
 	{
-        $entity = parent::getEntity();
-        // always use the current session user.
-        if ($this->auth->getUserId()) {
-            $entity->setState(['user_id' => $this->auth->getUserId()]);
-        }
+		$entity = parent::getEntity();
+		// always use the current session user.
+		if ($this->auth->getUserId()) {
+			$entity->setState(['user_id' => $this->auth->getUserId()]);
+		}
 
-        return $entity;
+		return $entity;
 	}
 }

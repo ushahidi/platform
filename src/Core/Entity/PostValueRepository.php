@@ -24,7 +24,7 @@ interface PostValueRepository
 	/**
 	 * Get a query to return matching values LIKE some value
 	 *
-	 * @param  int    $form_attribute_id
+	 * @param  int $form_attribute_id
 	 * @param  string $match
 	 * @return Database_Query
 	 */

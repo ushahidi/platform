@@ -29,9 +29,9 @@ class RoleRepository extends OhanzeeRepository implements
 	protected function getPermissions($role)
 	{
 		return DB::select('permission')->from('roles_permissions')
-				->where('role', '=', $role)
-				->execute($this->db)
-				->as_array(null, 'permission');
+			->where('role', '=', $role)
+			->execute($this->db)
+			->as_array(null, 'permission');
 	}
 
 	protected function updatePermissions($role, $permissions)
@@ -90,7 +90,7 @@ class RoleRepository extends OhanzeeRepository implements
 			return true;
 		}
 
-		$found = (int) $this->selectCount(['name' => $roles]);
+		$found = (int)$this->selectCount(['name' => $roles]);
 		return count($roles) === $found;
 	}
 
@@ -142,7 +142,7 @@ class RoleRepository extends OhanzeeRepository implements
 		}
 
 		if ($search->q) {
-			$query->where('name', 'LIKE', "%" .$search->q. "%");
+			$query->where('name', 'LIKE', "%" . $search->q . "%");
 		}
 
 		return $query;
@@ -153,18 +153,18 @@ class RoleRepository extends OhanzeeRepository implements
 	public function exists($role = '')
 	{
 		if (!$role) {
-            return false;
-        }
-		return (bool) $this->selectCount(['name' => $role]);
+			return false;
+		}
+		return (bool)$this->selectCount(['name' => $role]);
 	}
 
 	// OhanzeeRepository
 	public function idExists($role_id = null)
 	{
 		if (!$role_id) {
-            return false;
-        }
-		return (bool) $this->selectCount(['id' => $role_id]);
+			return false;
+		}
+		return (bool)$this->selectCount(['id' => $role_id]);
 	}
 
 	// RoleRepository

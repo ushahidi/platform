@@ -21,7 +21,7 @@ class Acl implements AclInterface
 	protected $role_repo;
 	protected $roles_enabled = false;
 	const DEFAULT_ROLES = [
-		'user'  => [Permission::EDIT_OWN_POSTS]
+		'user' => [Permission::EDIT_OWN_POSTS]
 	];
 
 	public function setRoleRepo(RoleRepository $role_repo)
@@ -40,7 +40,7 @@ class Acl implements AclInterface
 	 */
 	protected function hasRolesEnabled()
 	{
-		return (bool) $this->roles_enabled;
+		return (bool)$this->roles_enabled;
 	}
 
 	// Acl interface

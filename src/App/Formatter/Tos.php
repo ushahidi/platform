@@ -16,7 +16,7 @@ use Ushahidi\Core\Traits\FormatterAuthorizerMetadata;
 
 class Tos extends API
 {
-    use FormatterAuthorizerMetadata;
+	use FormatterAuthorizerMetadata;
 
 	protected function formatAgreementDate($value)
 	{

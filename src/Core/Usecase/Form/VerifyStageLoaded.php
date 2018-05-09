@@ -44,7 +44,7 @@ trait VerifyStageLoaded
 		$stage = $this->form_stage_repo->get($entity->form_stage_id);
 		$this->verifyEntityLoaded($stage, ['form_stage_id' => $entity->form_stage_id]);
 
-		$expected_form_id = (int) $this->getRequiredIdentifier('form_id');
+		$expected_form_id = (int)$this->getRequiredIdentifier('form_id');
 
 		if ($stage->form_id !== $expected_form_id) {
 			throw new \InvalidArgumentException(sprintf(

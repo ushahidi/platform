@@ -28,6 +28,6 @@ trait WebhookAccess
 	 */
 	public function isWebhookEnabled()
 	{
-		return (bool) $this->enabled;
+		return (bool)$this->enabled;
 	}
 }

@@ -30,9 +30,9 @@ class QueueRepository extends OhanzeeRepository implements NotificationQueueRepo
 		$query = $this->search_query;
 
 		foreach ([
-			'post',
-			'set',
-		] as $fk) {
+					 'post',
+					 'set',
+				 ] as $fk) {
 			if ($search->$fk) {
 				$query->where("notification_queue.{$fk}_id", '=', $search->$fk);
 			}
@@ -58,8 +58,8 @@ class QueueRepository extends OhanzeeRepository implements NotificationQueueRepo
 	public function getNotifications($limit)
 	{
 		$query = $this->selectQuery()
-					  ->limit($limit)
-					  ->order_by('created', 'ASC');
+			->limit($limit)
+			->order_by('created', 'ASC');
 
 		$results = $query->execute($this->db);
 

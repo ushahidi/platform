@@ -19,14 +19,15 @@ class FormStats extends StaticEntity
 	protected $total_recipients;
 	protected $total_messages_sent;
 	protected $total_messages_pending;
+
 	// DataTransformer
 	protected function getDefinition()
 	{
 		return [
-			'total_responses'            => 'int',
-			'total_recipients'       => 'int',
-			'total_messages_sent'       => 'int',
-			'total_messages_pending'       => 'int',
+			'total_responses' => 'int',
+			'total_recipients' => 'int',
+			'total_messages_sent' => 'int',
+			'total_messages_pending' => 'int',
 		];
 	}
 

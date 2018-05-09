@@ -13,17 +13,17 @@ namespace Ushahidi\App\Validator\Post;
 
 class Import extends Create
 {
-    protected function getRules()
-    {
-        // We remove the rules validating required stages
-        // as stages are not validated during an import
+	protected function getRules()
+	{
+		// We remove the rules validating required stages
+		// as stages are not validated during an import
 		return array_merge(parent::getRules(), [
-        'values' => [
+			'values' => [
 				[[$this, 'checkValues'], [':validation', ':value', ':fulldata']]
-		  ],
-        'completed_stages' => [
+			],
+			'completed_stages' => [
 				[[$this, 'checkStageInForm'], [':validation', ':value', ':fulldata']]
-        ]
-        ]);
-    }
+			]
+		]);
+	}
 }

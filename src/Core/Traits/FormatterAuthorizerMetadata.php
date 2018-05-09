@@ -38,7 +38,7 @@ trait FormatterAuthorizerMetadata
 	protected function addMetadata(array $data, Entity $entity)
 	{
 		return $data + [
-			'allowed_privileges' => $this->getAllowedPrivs($entity),
-		];
+				'allowed_privileges' => $this->getAllowedPrivs($entity),
+			];
 	}
 }

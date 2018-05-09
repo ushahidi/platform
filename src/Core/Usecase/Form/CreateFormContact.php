@@ -24,6 +24,7 @@ class CreateFormContact extends CreateContact
 	use VerifyEntityLoaded;
 	use IdentifyRecords;
 	protected $phone_validator;
+
 	protected function getEntity()
 	{
 		$entity = parent::getEntity();
@@ -51,7 +52,7 @@ class CreateFormContact extends CreateContact
 		/**
 		 * @TODO Add validation so that we throw a warning
 		 * to users if they add contacts that are already part of a targeted survey
-		*/
+		 */
 
 		$entities = [];
 		$invalid = [];
@@ -64,7 +65,7 @@ class CreateFormContact extends CreateContact
 	}
 
 	private function getContactEntity($contactNumber)
-    {
+	{
 		// .. generate an entity for the item
 		$entity = array(
 			'created' => time(),
@@ -77,7 +78,7 @@ class CreateFormContact extends CreateContact
 	}
 
 	private function getContactCollection($entities, $invalid)
-    {
+	{
 		// FIXME: move to collection error trait?
 		if (!empty($invalid)) {
 			$invalidList = implode(',', array_keys($invalid));
@@ -94,7 +95,7 @@ class CreateFormContact extends CreateContact
 	}
 
 	public function setPhoneValidator($validator)
-    {
+	{
 		$this->phone_validator = $validator;
 	}
 }

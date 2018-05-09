@@ -24,12 +24,13 @@ use Ushahidi\Core\Traits\AdminAccess;
 
 class ContactRepository extends OhanzeeRepository implements
 	ContactRepositoryContract,
-    CreateRepository,
-    UpdateRepository,
-    SearchRepository
+	CreateRepository,
+	UpdateRepository,
+	SearchRepository
 {
 	use UserContext;
 	use AdminAccess;
+
 	// Use Event trait to trigger events
 	// use \Ushahidi\Core\Traits\Event;
 
@@ -72,23 +73,23 @@ class ContactRepository extends OhanzeeRepository implements
 
 		// Limit search to user's records unless they are admin
 		// or if we get user=me as a search param
-		if (! $this->isUserAdmin($user) || $search->user === 'me') {
+		if (!$this->isUserAdmin($user) || $search->user === 'me') {
 			$search->user = $this->getUserId();
 		}
 
 		foreach ([
-			'user',
-		] as $fk) {
+					 'user',
+				 ] as $fk) {
 			if ($search->$fk) {
 				$query->where("contacts.{$fk}_id", '=', $search->$fk);
 			}
 		}
 
 		foreach ([
-			'type',
-			'data_source',
-			'contact'
-		] as $key) {
+					 'type',
+					 'data_source',
+					 'contact'
+				 ] as $key) {
 			if ($search->$key) {
 				$query->where("contacts.{$key}", '=', $search->$key);
 			}
@@ -108,7 +109,7 @@ class ContactRepository extends OhanzeeRepository implements
 		}
 
 		$state = [
-			'created'  => time(),
+			'created' => time(),
 		];
 
 		return parent::create($entity->setState($state));
@@ -118,7 +119,7 @@ class ContactRepository extends OhanzeeRepository implements
 	public function update(Entity $entity)
 	{
 		$state = [
-			'updated'  => time(),
+			'updated' => time(),
 		];
 
 		return parent::update($entity->setState($state));
@@ -152,7 +153,7 @@ class ContactRepository extends OhanzeeRepository implements
 			$query->offset($offset);
 		}
 
-		$results =  $query->execute($this->db);
+		$results = $query->execute($this->db);
 
 		return $this->getCollection($results->as_array());
 	}

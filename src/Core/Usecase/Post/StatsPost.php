@@ -29,7 +29,7 @@ class StatsPost extends SearchUsecase
 
 		// ... check if the user is allowed to published posts
 		// ... if not filter to only published posts
-		if (! $this->auth->isAllowed($entity, 'change_status')) {
+		if (!$this->auth->isAllowed($entity, 'change_status')) {
 			$search->status = 'published';
 		}
 

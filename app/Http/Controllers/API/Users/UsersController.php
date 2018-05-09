@@ -30,13 +30,13 @@ class UsersController extends RESTController
 	 */
 	public function showMe(Request $request)
 	{
-        $this->usecase = $this->usecaseFactory
-            ->get($this->getResource(), 'read')
-            ->setIdentifiers([
-                'id' => $request->user()->id ?: 0
-            ]);
+		$this->usecase = $this->usecaseFactory
+			->get($this->getResource(), 'read')
+			->setIdentifiers([
+				'id' => $request->user()->id ?: 0
+			]);
 
-        return $this->prepResponse($this->executeUsecase($request), $request);
+		return $this->prepResponse($this->executeUsecase($request), $request);
 	}
 
 	/**
@@ -58,13 +58,13 @@ class UsersController extends RESTController
 	 */
 	public function updateMe(Request $request)
 	{
-        $this->usecase = $this->usecaseFactory
-            ->get($this->getResource(), 'update')
-            ->setIdentifiers([
-                'id' => $request->user()->id ?: 0
-            ])
-            ->setPayload($request->json()->all());
+		$this->usecase = $this->usecaseFactory
+			->get($this->getResource(), 'update')
+			->setIdentifiers([
+				'id' => $request->user()->id ?: 0
+			])
+			->setPayload($request->json()->all());
 
-        return $this->prepResponse($this->executeUsecase($request), $request);
+		return $this->prepResponse($this->executeUsecase($request), $request);
 	}
 }

@@ -22,25 +22,25 @@ class LockController extends PostsController
 	}
 
 	// Get Lock
-    public function store(Request $request)
-    {
-        $this->usecase = $this->usecaseFactory
-            ->get($this->getResource(), 'create')
-            ->setPayload($this->getPayload($request))
+	public function store(Request $request)
+	{
+		$this->usecase = $this->usecaseFactory
+			->get($this->getResource(), 'create')
+			->setPayload($this->getPayload($request))
 			->setIdentifiers($this->getIdentifiers($request))
 			->setFormatter(service("formatter.entity.post.lock"));
 
-        return $this->prepResponse($this->executeUsecase($request), $request);
-    }
+		return $this->prepResponse($this->executeUsecase($request), $request);
+	}
 
 	// Break Lock
-    public function destroy(Request $request)
-    {
-        $this->usecase = $this->usecaseFactory
-            ->get($this->getResource(), 'delete')
-            ->setIdentifiers($this->getIdentifiers($request))
+	public function destroy(Request $request)
+	{
+		$this->usecase = $this->usecaseFactory
+			->get($this->getResource(), 'delete')
+			->setIdentifiers($this->getIdentifiers($request))
 			->setFormatter(service("formatter.entity.post.lock"));
 
-        return $this->prepResponse($this->executeUsecase($request), $request);
-    }
+		return $this->prepResponse($this->executeUsecase($request), $request);
+	}
 }

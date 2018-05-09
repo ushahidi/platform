@@ -21,7 +21,7 @@ class GeoJSONController extends PostsController
 
 	public function prepBoundingBox(Request $request)
 	{
-        $params = $this->getRouteParams($request);
+		$params = $this->getRouteParams($request);
 
 		// If zoom/x/y are passed get bounding box
 		$zoom = isset($params['zoom']) ? $params['zoom'] : false;
@@ -40,8 +40,8 @@ class GeoJSONController extends PostsController
 	protected function getFilters(Request $request)
 	{
 		return parent::getFilters($request) + [
-			'include_types' => ['point', 'geometry']
-		];
+				'include_types' => ['point', 'geometry']
+			];
 	}
 
 	/**
@@ -51,18 +51,18 @@ class GeoJSONController extends PostsController
 	 *
 	 * @return void
 	 */
-    public function index(Request $request)
-    {
-    	$this->prepBoundingBox($request);
+	public function index(Request $request)
+	{
+		$this->prepBoundingBox($request);
 
-        $this->usecase = $this->usecaseFactory
-            ->get($this->getResource(), 'search')
-            ->setFilters($this->getFilters($request))
+		$this->usecase = $this->usecaseFactory
+			->get($this->getResource(), 'search')
+			->setFilters($this->getFilters($request))
 			->setIdentifiers($this->getIdentifiers($request))
 			->setFormatter(service('formatter.entity.post.geojsoncollection'));
 
-        return $this->prepResponse($this->executeUsecase($request), $request);
-    }
+		return $this->prepResponse($this->executeUsecase($request), $request);
+	}
 
 	/**
 	 * Retrieve A Post
@@ -71,15 +71,15 @@ class GeoJSONController extends PostsController
 	 *
 	 * @return void
 	 */
-    public function show(Request $request)
-    {
-    	$this->prepBoundingBox($request);
+	public function show(Request $request)
+	{
+		$this->prepBoundingBox($request);
 
-        $this->usecase = $this->usecaseFactory
-            ->get($this->getResource(), 'read')
-            ->setIdentifiers($this->getIdentifiers($request))
-            ->setFormatter(service('formatter.entity.post.geojson'));
+		$this->usecase = $this->usecaseFactory
+			->get($this->getResource(), 'read')
+			->setIdentifiers($this->getIdentifiers($request))
+			->setFormatter(service('formatter.entity.post.geojson'));
 
-        return $this->prepResponse($this->executeUsecase($request), $request);
-    }
+		return $this->prepResponse($this->executeUsecase($request), $request);
+	}
 }

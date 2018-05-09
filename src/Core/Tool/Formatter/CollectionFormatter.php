@@ -40,13 +40,13 @@ abstract class CollectionFormatter implements Formatter
 	 * Store paging parameters.
 	 *
 	 * @param  SearchData $search
-	 * @param  Integer    $total
+	 * @param  Integer $total
 	 * @return $this
 	 */
 	public function setSearch(SearchData $search, $total = null)
 	{
 		$this->search = $search;
-		$this->total  = $total;
+		$this->total = $total;
 		return $this;
 	}
 
@@ -63,7 +63,7 @@ abstract class CollectionFormatter implements Formatter
 		}
 
 		$output = [
-			'count'   => count($results),
+			'count' => count($results),
 			'results' => $results,
 		];
 

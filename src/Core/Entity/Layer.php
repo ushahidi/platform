@@ -38,16 +38,16 @@ class Layer extends StaticEntity
 	protected function getDefinition()
 	{
 		return [
-			'id'                 => 'int',
-			'media_id'           => 'int',
-			'name'               => 'string',
-			'data_url'           => 'string',
-			'type'               => 'string',
-			'options'            => '*json',
-			'active'             => 'bool',
+			'id' => 'int',
+			'media_id' => 'int',
+			'name' => 'string',
+			'data_url' => 'string',
+			'type' => 'string',
+			'options' => '*json',
+			'active' => 'bool',
 			'visible_by_default' => 'bool',
-			'created'            => 'int',
-			'updated'            => 'int',
+			'created' => 'int',
+			'updated' => 'int',
 		];
 	}
 

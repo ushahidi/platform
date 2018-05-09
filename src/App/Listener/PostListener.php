@@ -35,8 +35,8 @@ class PostListener extends AbstractListener
 		$this->webhook_repo = $webhook_repo;
 	}
 
-    public function handle(EventInterface $event, $post_id = null, $event_type = null)
-    {
+	public function handle(EventInterface $event, $post_id = null, $event_type = null)
+	{
 		$state = [
 			'post_id' => $post_id,
 			'event_type' => $event_type
@@ -45,5 +45,5 @@ class PostListener extends AbstractListener
 		$entity = $this->repo->getEntity();
 		$entity->setState($state);
 		$this->repo->create($entity);
-    }
+	}
 }

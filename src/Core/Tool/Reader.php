@@ -15,5 +15,6 @@ namespace Ushahidi\Core\Tool;
 interface Reader
 {
 	public function fetchOne();
+
 	public function fetchAssoc();
 }
