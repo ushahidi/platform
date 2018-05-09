@@ -71,7 +71,8 @@ class CSV extends API
 
 	public function setFilesystem($fs)
 	{
-		$this->tmpfname = "tmp" . DIRECTORY_SEPARATOR . strtolower(uniqid() . '-' . strftime('%G-%m-%d') . '.csv');
+		$this->tmpfname = "tmp" . DIRECTORY_SEPARATOR .
+			strtolower(uniqid() . '-' . strftime('%G-%m-%d') . '.csv');
 		$this->fs = $fs;
 	}
 
@@ -80,7 +81,8 @@ class CSV extends API
 	 * @param $records
 	 * @return array
 	 * Attributes are sorted with this criteria:
-	 * - Survey "native" fields such as title from the post table go first. These are sorted alphabetically.
+	 * - Survey "native" fields such as title from the post table go first.
+	 *   These are sorted alphabetically.
 	 * - Form_attributes are grouped by stage, and sorted in ASC order by priority
 
 	 */
@@ -247,6 +249,7 @@ class CSV extends API
 		}
 
 		$recordValue = $isInValuesArray ? $record['values']: $record;
+
 		// handle values that are dates to have consistent formatting
 		$isDateField = $recordAttributes['input'] === 'date' && $recordAttributes['type'] === 'datetime';
 		if ($isDateField && isset($recordValue[$headingKey])) {

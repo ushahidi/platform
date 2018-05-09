@@ -103,7 +103,9 @@ class EmailDataSourceTest extends TestCase
             ->with(
                 '{imap.somewhere.com:993/imap/ssl}INBOX',
                 'someuser',
-                'mypassword'
+                'mypassword',
+                0,
+                1
             )
             ->once()
             ->andReturn('notreallyaconnection');
@@ -113,6 +115,7 @@ class EmailDataSourceTest extends TestCase
             ->with('notreallyaconnection')
             ->once();
         $mockErrors = PHPMockery::mock("Ushahidi\App\DataSource\Email", "imap_errors");
+        $mockAlerts = PHPMockery::mock("Ushahidi\App\DataSource\Email", "imap_alerts");
 
         $mockFetchOverview = PHPMockery::mock("Ushahidi\App\DataSource\Email", "imap_fetch_overview");
         $mockFetchOverview

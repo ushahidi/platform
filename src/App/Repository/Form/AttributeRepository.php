@@ -352,6 +352,7 @@ class AttributeRepository extends OhanzeeRepository implements
 				'priority' => 9
 			]
 		];
+
 		return array_merge($native, $attributes);
 	}
 

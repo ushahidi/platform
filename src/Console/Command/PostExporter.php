@@ -48,7 +48,6 @@ class PostExporter extends Command
 			$this->usecase = service('factory.usecase')
 				->get('posts_export', 'export');
 		}
-
 		return $this->usecase;
 	}
 
