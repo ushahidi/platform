@@ -19,8 +19,8 @@ use Ushahidi\Core\Usecase\SearchRepository;
 
 class HXLLicenseRepository extends OhanzeeRepository implements
 	HXLLicenseRepositoryContract,
-    ReadRepository,
-    SearchRepository
+	ReadRepository,
+	SearchRepository
 {
 	// OhanzeeRepository
 	protected function getTable()
@@ -29,18 +29,18 @@ class HXLLicenseRepository extends OhanzeeRepository implements
 	}
 
 	public function getSearchFields()
-    {
+	{
 		return ['name', 'code'];
 	}
 
 	public function setSearchConditions(SearchData $search)
-    {
-        $query = $this->search_query;
-        return $query;
-    }
+	{
+		$query = $this->search_query;
+		return $query;
+	}
 
-    public function getEntity(array $data = null)
-    {
-        return new HXLLicense($data);
-    }
+	public function getEntity(array $data = null)
+	{
+		return new HXLLicense($data);
+	}
 }
