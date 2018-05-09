@@ -37,6 +37,8 @@ class IncomingCommandTest extends TestCase
 
         PHPMockery::mock("Ushahidi\App\DataSource\Email", "imap_open");
         PHPMockery::mock("Ushahidi\App\DataSource\Email", "imap_close");
+        PHPMockery::mock("Ushahidi\App\DataSource\Email", "imap_errors");
+        PHPMockery::mock("Ushahidi\App\DataSource\Email", "imap_alerts");
     }
 
     public function testIncoming()

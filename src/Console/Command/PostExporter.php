@@ -125,12 +125,14 @@ class PostExporter extends Command
 			$post = $this->postExportRepository->retrieveMetaData($post->asArray(), $keyAttributes);
 			$posts[$idx] = $post;
 		}
-
+		
 		if (empty($job->header_row)) {
 			$job->setState(['header_row' => $attributes]);
 			$this->exportJobRepository->update($job);
 		}
-		$header_row = $this->formatter->createHeading($job->header_row, $posts);
+
+		$header_row = $this->formatter->createHeading($job->header_row);
+		
 		$this->formatter->setHeading($header_row);
 		$formatter = $this->formatter;
 		/**

@@ -71,7 +71,8 @@ class CSV extends API
 
 	public function setFilesystem($fs)
 	{
-		$this->tmpfname = "tmp" . DIRECTORY_SEPARATOR . strtolower(uniqid() . '-' . strftime('%G-%m-%d') . '.csv');
+		$this->tmpfname = "tmp" . DIRECTORY_SEPARATOR .
+			strtolower(uniqid() . '-' . strftime('%G-%m-%d') . '.csv');
 		$this->fs = $fs;
 	}
 
@@ -80,11 +81,12 @@ class CSV extends API
 	 * @param $records
 	 * @return array
 	 * Attributes are sorted with this criteria:
-	 * - Survey "native" fields such as title from the post table go first. These are sorted alphabetically.
+	 * - Survey "native" fields such as title from the post table go first.
+	 *   These are sorted alphabetically.
 	 * - Form_attributes are grouped by stage, and sorted in ASC order by priority
 
 	 */
-	public function createHeading($attributes, $records)
+	public function createHeading($attributes)
 	{
 		$this->heading = $this->createSortedHeading($attributes);
 
@@ -137,6 +139,7 @@ class CSV extends API
 			foreach ($this->heading as $key => $value) {
 				$values[] = $this->getValueFromRecord($record, $key, $attributes);
 			}
+
 			fputcsv($stream, $values);
 		}
 
@@ -195,6 +198,27 @@ class CSV extends API
 		// check that the key we received is available in $attributes
 		$recordAttributes = isset($attributes[$headingKey]) ? $attributes[$headingKey] : null;
 
+		// Ignore attributes that are not related to this Post by Form Id
+		// Ensure that native attributes identified via id 0 are included
+		if (is_array($recordAttributes) &&
+			isset($recordAttributes['form_id']) &&
+			isset($record['form_id']) &&
+			$recordAttributes['form_id'] != 0 &&
+			($record['form_id'] != $recordAttributes['form_id'])
+		) {
+			return '';
+		}
+
+		// If the returned attribute for the given heading key is the native form name attribute
+		// Retrieve Form Name from the attribute rather than from the Post until the data model improves
+
+		if (is_array($recordAttributes) &&
+			isset($recordAttributes['type']) &&
+			$recordAttributes['type'] === 'form_name'
+		) {
+			return is_array($record) && isset($record['form_name']) ? $record['form_name'] : '';
+		}
+
 		// default format we will return. See $csvFieldFormat for a list of available formats
 		$format = 'single_raw';
 
@@ -211,11 +235,21 @@ class CSV extends API
 		**/
 		$isInValuesArray = isset($record['values']) && isset($record['values'][$headingKey]);
 		/**
-		 * Just maps 'description' to look up content instead since it does not come in the values
-		 * with the correct key, it's part of $record
+		 * Remap Title and Description type attributes as these are a special case of attributes
+		 * since their labels are stored as attributes but their values are stored as fields on the record :/
+		 * The Key UUID will not match the equivalent field on the Post so we must change to use the correct field names
 		 */
-		$headingKey = $headingKey === 'description' ? 'content' : $headingKey;
+		if (is_array($recordAttributes) &&
+			isset($recordAttributes['type']) &&
+			($recordAttributes['type'] === 'title' || $recordAttributes['type'] === 'description')
+		) {
+			// Description must be mapped to content
+			// Title is title
+			$headingKey = $recordAttributes['type'] === 'title' ? 'title' : 'content';
+		}
+
 		$recordValue = $isInValuesArray ? $record['values']: $record;
+
 		// handle values that are dates to have consistent formatting
 		$isDateField = $recordAttributes['input'] === 'date' && $recordAttributes['type'] === 'datetime';
 		if ($isDateField && isset($recordValue[$headingKey])) {
