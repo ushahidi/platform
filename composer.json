@@ -47,7 +47,6 @@
         "nexmo/client": "^1.1",
         "sentry/sentry-laravel": "^0.8.0",
         "laravel/passport": "^4.0",
-        "giggsey/libphonenumber-for-php": "^8.9",
         "germanazo/laravel-ckan-api": "^1.0"
     },
     "require-dev": {
