@@ -30,7 +30,7 @@ class SettingRepository extends OhanzeeRepository implements
 	}
 
 	// CreateRepository
-	// ReadRepository
+		// ReadRepository
 	public function getEntity(array $data = null)
 	{
 		return new UserSetting($data);
@@ -93,8 +93,8 @@ class SettingRepository extends OhanzeeRepository implements
 	public function existsInUserSetting($user_id)
 	{
 		return (bool) $this->selectCount(compact('user_id'));
-    }
-    
+	}
+
 	public function create(Entity $entity)
 	{
 		$record = $entity->asArray();

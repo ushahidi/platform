@@ -34,14 +34,14 @@ class Update extends Validator
 				[[$this->user_repo, 'exists'], [':value']],
 			],
 			'config_key' => [
-                ['is_string', [':value']],
-                ['min_length', [':value', 3]],
-                ['max_length', [':value', 255]]
+				['is_string', [':value']],
+				['min_length', [':value', 3]],
+				['max_length', [':value', 255]]
 			],
 			'config_value' => [
-                ['is_string', [':value']],
-                ['min_length', [':value', 3]],
-                ['max_length', [':value', 255]]
+				['is_string', [':value']],
+				['min_length', [':value', 3]],
+				['max_length', [':value', 255]]
 			],
 		];
 	}
