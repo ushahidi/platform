@@ -13,8 +13,8 @@ use Mockery as M;
 use Ushahidi\App\Repository\ExportJobRepository;
 use Ushahidi\App\Repository\Form\AttributeRepository;
 use Ushahidi\App\Repository\Post\ExportRepository;
-use Tests\Unit\Core\Entity\MockPostEntity;
-use Tests\Unit\Core\Entity\MockExportJobEntity;
+use Ushahidi\Core\Entity\ExportJob;
+use Ushahidi\Core\Entity\Post;
 use Ushahidi\Core\SearchData;
 
 class ExportTest extends TestCase
@@ -43,7 +43,7 @@ class ExportTest extends TestCase
 	}
 
 	public function testJobIsUpdated()
-    {
+	{
 		// set CLI params to be the payload for the usecase
 		$payload = [
 			'job_id' => 1,
@@ -52,16 +52,16 @@ class ExportTest extends TestCase
 			'add_header' => true,
 		];
 
-		$post1 = new MockPostEntity();
-		$post2 = new MockPostEntity();
-		$post1->setStateValue(
-			'post_date',
-            '2017-02-22'
-		);
-		$post2->setStateValue(
-			'post_date',
-            '2017-02-22'
-		);
+		$post1 = new Post();
+		$post2 = new Post();
+		$post1->setState([
+			'post_date' =>
+				'2017-02-22'
+		]);
+		$post2->setState([
+			'post_date' =>
+				'2017-02-22'
+		]);
 		$jobRepoSpy = \Mockery::mock(ExportJobRepository::class);
 		$searchDataMock = M::type(SearchData::class);
 
@@ -97,10 +97,10 @@ class ExportTest extends TestCase
 		$this->usecase
 			->setExportJobRepository($jobRepoSpy);
 
-		$exportJobEntity = new MockExportJobEntity();
-		$exportJobEntity->user_id = 1;
-		$exportJobEntity->id = 11;
+		$exportJobEntity = new ExportJob();
 		$exportJobEntity->setState([
+			'user_id' => 1,
+			'id'	=> 11,
 			'post_date' => '2017-02-22',
 		]);
 		$jobRepoSpy
