@@ -19,7 +19,7 @@ class CheckFeature
 	{
 		foreach ($features as $feature) {
 			if (!Features::isEnabled($feature)) {
-				abort(403, "Forbidden.");
+				abort(404);
 			}
 		}
 
