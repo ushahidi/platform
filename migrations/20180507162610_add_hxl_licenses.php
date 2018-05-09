@@ -73,7 +73,7 @@ class AddHxlLicenses extends AbstractMigration
 				'link' => ''
 			]
 		];
-    
+
 	public function up()
     {
 		$pdo = $this->getAdapter()->getConnection();
