@@ -15,7 +15,7 @@ class Features
 
 	/**
 	 * Check if a feature is enabled
-	 * @param  string  $feature
+	 * @param  string $feature
 	 * @return boolean
 	 */
 	public function isEnabled($feature)

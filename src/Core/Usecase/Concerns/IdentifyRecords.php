@@ -46,7 +46,7 @@ trait IdentifyRecords
 	 * returned if the parameter does not exist.
 	 *
 	 * @param  String $name
-	 * @param  Mixed  $default
+	 * @param  Mixed $default
 	 * @return Mixed
 	 */
 	protected function getIdentifier($name, $default = null)

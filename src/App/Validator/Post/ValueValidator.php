@@ -18,6 +18,7 @@ abstract class ValueValidator
 
 
 	protected $config;
+
 	public function setConfig(array $config = null)
 	{
 		$this->config = $config;

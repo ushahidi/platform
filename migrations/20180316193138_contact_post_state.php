@@ -24,7 +24,6 @@ class ContactPostState extends AbstractMigration
 	 *
 	 * Remember to call "create()" or "update()" and NOT "save()" when working
 	 * with the Table class. targeted_survey_state table: post_id, status, contact_id
-
 	 */
 
 	/**

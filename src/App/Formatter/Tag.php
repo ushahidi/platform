@@ -24,17 +24,17 @@ class Tag extends API
 		return $value ? '#' . $value : null;
 	}
 
-    protected function formatChildren($tags)
-    {
-        $output = [];
+	protected function formatChildren($tags)
+	{
+		$output = [];
 
-        if (is_array($tags)) {
-            foreach ($tags as $tagid) {
-                $output[] = $this->getRelation('tags', $tagid);
-                //$output[] = intval($tagid);
-            }
-        }
+		if (is_array($tags)) {
+			foreach ($tags as $tagid) {
+				$output[] = $this->getRelation('tags', $tagid);
+				//$output[] = intval($tagid);
+			}
+		}
 
-        return $output;
-    }
+		return $output;
+	}
 }

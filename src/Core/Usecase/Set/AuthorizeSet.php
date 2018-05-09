@@ -37,8 +37,8 @@ trait AuthorizeSet
 	/**
 	 * Verifies the current user is allowed $privilege on $entity
 	 *
-	 * @param  Entity  $entity
-	 * @param  String  $privilege
+	 * @param  Entity $entity
+	 * @param  String $privilege
 	 * @return void
 	 * @throws AuthorizerException
 	 */
@@ -58,8 +58,8 @@ trait AuthorizeSet
 	/**
 	 * Verifies the current user is allowed update access on $entity
 	 *
-	 * @param  Entity  $entity
-	 * @param  Data    $input
+	 * @param  Entity $entity
+	 * @param  Data $input
 	 * @return void
 	 * @throws AuthorizerException
 	 */

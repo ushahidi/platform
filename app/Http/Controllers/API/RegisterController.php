@@ -21,19 +21,19 @@ class RegisterController extends RESTController
 		return 'users';
 	}
 
-    /**
-     * Register a user
-     *
-     * POST /api/v3/register
-     *
-     * @return void
-     */
-    public function store(Request $request)
-    {
-        $this->usecase = $this->usecaseFactory
-            ->get($this->getResource(), 'register')
-            ->setPayload($request->json()->all());
+	/**
+	 * Register a user
+	 *
+	 * POST /api/v3/register
+	 *
+	 * @return void
+	 */
+	public function store(Request $request)
+	{
+		$this->usecase = $this->usecaseFactory
+			->get($this->getResource(), 'register')
+			->setPayload($request->json()->all());
 
-        return $this->prepResponse($this->executeUsecase($request), $request);
-    }
+		return $this->prepResponse($this->executeUsecase($request), $request);
+	}
 }

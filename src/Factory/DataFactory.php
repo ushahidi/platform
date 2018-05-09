@@ -39,7 +39,7 @@ class DataFactory
 	 *     $search = $data->get('search', $params);
 	 *
 	 * @param  String $action
-	 * @param  Array  $params
+	 * @param  Array $params
 	 * @return Ushahidi\Core\Data
 	 */
 	public function get($action, array $params = null)

@@ -306,7 +306,7 @@ class Twitter implements IncomingAPIDataSource, OutgoingAPIDataSource
 
 	private function canMakeRequest()
 	{
-		return  $this->request_count < self::MAX_REQUESTS_PER_WINDOW;
+		return $this->request_count < self::MAX_REQUESTS_PER_WINDOW;
 	}
 
 	private function initialize()
@@ -314,19 +314,19 @@ class Twitter implements IncomingAPIDataSource, OutgoingAPIDataSource
 		$twitterConfig = $this->configRepo->get('twitter');
 
 		isset($twitterConfig->since_id) ?
-							   $this->since_id = $twitterConfig->since_id:
-							   $this->since_id = 0;
+			$this->since_id = $twitterConfig->since_id :
+			$this->since_id = 0;
 
-		$this->search_terms = isset($this->config['twitter_search_terms']) ? $this->config['twitter_search_terms']: "";
+		$this->search_terms = isset($this->config['twitter_search_terms']) ? $this->config['twitter_search_terms'] : "";
 
 		// If search terms have changed, reset since_id
 		if ($this->search_terms !== $twitterConfig->search_terms) {
 			$this->since_id = 0;
 		}
 
-		$twitterConfig && isset($twitterConfig->request_count)?
-							   $this->request_count = $twitterConfig->request_count:
-							   $this->request_count = 0;
+		$twitterConfig && isset($twitterConfig->request_count) ?
+			$this->request_count = $twitterConfig->request_count :
+			$this->request_count = 0;
 
 		if (isset($twitterConfig->window_timestamp)) {
 			$this->window_timestamp = $twitterConfig->window_timestamp;
@@ -365,11 +365,11 @@ class Twitter implements IncomingAPIDataSource, OutgoingAPIDataSource
 			app('log')->warning('You have reached your rate limit for this window');
 			return;
 		}
-			// Check we have the required config
+		// Check we have the required config
 		if (!isset($this->config['consumer_key']) ||
-			 !isset($this->config['consumer_secret']) ||
-			 !isset($this->config['oauth_access_token']) ||
-			 !isset($this->config['oauth_access_token_secret'])
+			!isset($this->config['consumer_secret']) ||
+			!isset($this->config['oauth_access_token']) ||
+			!isset($this->config['oauth_access_token_secret'])
 		) {
 			app('log')->warning('Could not connect to twitter, incomplete config');
 			return;

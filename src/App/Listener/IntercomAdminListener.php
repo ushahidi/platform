@@ -23,40 +23,40 @@ use GuzzleHttp\Exception\ClientException;
 class IntercomAdminListener extends AbstractListener
 {
 
-    public function handle(EventInterface $event, $user = null)
-    {
-        if ($user && $user->role === 'admin') {
-            $intercomAppToken = getenv('INTERCOM_APP_TOKEN');
-            $domain = service('site');
-            $company = [
-                "company_id" => $domain
-            ];
+	public function handle(EventInterface $event, $user = null)
+	{
+		if ($user && $user->role === 'admin') {
+			$intercomAppToken = getenv('INTERCOM_APP_TOKEN');
+			$domain = service('site');
+			$company = [
+				"company_id" => $domain
+			];
 
-            if ($intercomAppToken && !empty($domain)) {
-                $client = new IntercomClient($intercomAppToken, null);
+			if ($intercomAppToken && !empty($domain)) {
+				$client = new IntercomClient($intercomAppToken, null);
 
-                try {
-                    $intercom_user = [
-                        "email" => $user->email,
-                        "created_at" => $user->created,
-                        "user_id" => $domain . '_' . $user->id,
-                        "name" => $user->realname,
-                        "companies" => [
-                            $company
-                        ],
-                        "custom_attributes" => [
-                            "last_login" => $user->last_login,
-                            "logins" => $user->logins,
-                            "role" => $user->role,
-                            "language" => $user->language,
-                        ]
-                    ];
+				try {
+					$intercom_user = [
+						"email" => $user->email,
+						"created_at" => $user->created,
+						"user_id" => $domain . '_' . $user->id,
+						"name" => $user->realname,
+						"companies" => [
+							$company
+						],
+						"custom_attributes" => [
+							"last_login" => $user->last_login,
+							"logins" => $user->logins,
+							"role" => $user->role,
+							"language" => $user->language,
+						]
+					];
 
-                    $client->users->update($intercom_user);
-                } catch (ClientException $e) {
-                    \Log::info($e->getMessage());
-                }
-            }
-        }
-    }
+					$client->users->update($intercom_user);
+				} catch (ClientException $e) {
+					\Log::info($e->getMessage());
+				}
+			}
+		}
+	}
 }

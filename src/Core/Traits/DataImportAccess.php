@@ -28,6 +28,6 @@ trait DataImportAccess
 	 */
 	public function canImportData()
 	{
-		return (bool) $this->enabled;
+		return (bool)$this->enabled;
 	}
 }

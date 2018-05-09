@@ -38,7 +38,7 @@ interface Entity
 	 * Change the internal state of the entity, updating values and tracking any
 	 * changes that are made.
 	 *
-	 * @param  Array  $data
+	 * @param  Array $data
 	 * @return $this
 	 */
 	public function setState(array $data);

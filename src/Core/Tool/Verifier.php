@@ -1,13 +1,13 @@
 <?php
 
 /**
-* Ushahidi Platform Verifier Tool
-*
-* @author     Ushahidi Team <team@ushahidi.com>
-* @package    Ushahidi\Platform
-* @copyright  2014 Ushahidi
-* @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
-*/
+ * Ushahidi Platform Verifier Tool
+ *
+ * @author     Ushahidi Team <team@ushahidi.com>
+ * @package    Ushahidi\Platform
+ * @copyright  2014 Ushahidi
+ * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
+ */
 
 namespace Ushahidi\Core\Tool;
 
@@ -16,14 +16,14 @@ use Ushahidi\Core\Entity\ApiKeyRepository;
 
 class Verifier
 {
-    protected $apiKeyRepo;
+	protected $apiKeyRepo;
 
-    public function __construct($apiKeyRepo)
-    {
-        $this->apiKeyRepo = $apiKeyRepo;
-    }
+	public function __construct($apiKeyRepo)
+	{
+		$this->apiKeyRepo = $apiKeyRepo;
+	}
 
-    public function checkApiKey($api_key)
+	public function checkApiKey($api_key)
 	{
 		if ($api_key) {
 			// Get api key and compare
@@ -41,10 +41,10 @@ class Verifier
 			return $signer->validate($signature, $url, $data);
 		}
 		return false;
-    }
+	}
 
-    public function verified($signature, $api_key, $shared_secret, $url, $data)
-    {
-        return $this->checkApiKey($api_key) && $this->checkSignature($signature, $shared_secret, $url, $data);
-    }
+	public function verified($signature, $api_key, $shared_secret, $url, $data)
+	{
+		return $this->checkApiKey($api_key) && $this->checkSignature($signature, $shared_secret, $url, $data);
+	}
 }

@@ -23,21 +23,21 @@ use Ushahidi\Core\Tool\Permissions\AclTrait;
 class DataProviderAuthorizer implements Authorizer
 {
 	// The access checks are run under the context of a specific user
-    use UserContext;
+	use UserContext;
 
-    // It uses `AdminAccess` to check if the user has admin access
-    use AdminAccess;
+	// It uses `AdminAccess` to check if the user has admin access
+	use AdminAccess;
 
-    // It uses `PrivAccess` to provide the `getAllowedPrivs` method
-    use PrivAccess;
+	// It uses `PrivAccess` to provide the `getAllowedPrivs` method
+	use PrivAccess;
 
 	// Check that the user has the necessary permissions
 	// if roles are available for this deployment.
 	use AclTrait;
 
 	// Authorizer
-    public function isAllowed(Entity $entity, $privilege)
-    {
+	public function isAllowed(Entity $entity, $privilege)
+	{
 		// These checks are run within the user context.
 		$user = $this->getUser();
 
@@ -51,6 +51,6 @@ class DataProviderAuthorizer implements Authorizer
 			return true;
 		}
 
-        return false;
-    }
+		return false;
+	}
 }

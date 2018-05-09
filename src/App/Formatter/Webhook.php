@@ -20,8 +20,8 @@ class Webhook extends API
 	protected function getFieldName($field)
 	{
 		$remap = [
-			'user_id'  => 'user'
-			];
+			'user_id' => 'user'
+		];
 
 		if (isset($remap[$field])) {
 			return $remap[$field];

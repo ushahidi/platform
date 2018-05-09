@@ -17,6 +17,7 @@ use Ushahidi\Core\Usecase\SearchUsecase;
 class SearchFormContact extends SearchUsecase
 {
 	use IdentifyRecords;
+
 	/**
 	 * Get filter parameters and default values that are used for paging.
 	 *
@@ -26,9 +27,9 @@ class SearchFormContact extends SearchUsecase
 	{
 		return [
 			'orderby' => 'id',
-			'order'   => 'asc',
-			'limit'   => null,
-			'offset'  => 0
+			'order' => 'asc',
+			'limit' => null,
+			'offset' => 0
 		];
 	}
 

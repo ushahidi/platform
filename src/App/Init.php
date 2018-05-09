@@ -26,7 +26,7 @@ $di->set('csv.reader_factory', $di->lazyNew(Ushahidi\App\FileReader\CSVReaderFac
 // Multisite utility class
 $di->set('multisite', $di->lazyNew('Ushahidi\App\Multisite'));
 $di->params['Ushahidi\App\Multisite'] = [
-    'db' => $di->lazyGet('kohana.db.multisite')
+	'db' => $di->lazyGet('kohana.db.multisite')
 ];
 
 // Validation Trait
@@ -103,8 +103,8 @@ $di->setter['BehEh\Flaps\Flap']['setViolationHandler'] =
 
 // Validator mapping
 $di->params['Ushahidi\Factory\ValidatorFactory']['map']['apikeys'] = [
-        'create' => $di->lazyNew(Ushahidi\App\Validator\ApiKey\Create::class),
-        'update' => $di->lazyNew(Ushahidi\App\Validator\ApiKey\Update::class),
+	'create' => $di->lazyNew(Ushahidi\App\Validator\ApiKey\Create::class),
+	'update' => $di->lazyNew(Ushahidi\App\Validator\ApiKey\Update::class),
 ];
 $di->params['Ushahidi\Factory\ValidatorFactory']['map']['config'] = [
 	'update' => $di->lazyNew(Ushahidi\App\Validator\Config\Update::class),
@@ -123,8 +123,8 @@ $di->params['Ushahidi\Factory\ValidatorFactory']['map']['form_roles'] = [
 	'update_collection' => $di->lazyNew(Ushahidi\App\Validator\Form\Role\Update::class),
 ];
 $di->params['Ushahidi\Factory\ValidatorFactory']['map']['form_contacts'] = [
-    'create' => $di->lazyNew(Ushahidi\App\Validator\Form\Contact\Create::class),
-    'update' => $di->lazyNew(Ushahidi\App\Validator\Form\Contact\Update::class),
+	'create' => $di->lazyNew(Ushahidi\App\Validator\Form\Contact\Create::class),
+	'update' => $di->lazyNew(Ushahidi\App\Validator\Form\Contact\Update::class),
 ];
 
 $di->params['Ushahidi\Factory\ValidatorFactory']['map']['form_stages'] = [
@@ -144,11 +144,11 @@ $di->params['Ushahidi\Factory\ValidatorFactory']['map']['posts'] = [
 	'create' => $di->lazyNew(Ushahidi\App\Validator\Post\Create::class),
 	'update' => $di->lazyNew(Ushahidi\App\Validator\Post\Update::class),
 	'import' => $di->lazyNew(Ushahidi\App\Validator\Post\Import::class),
-    'webhook-update' => $di->lazyNew(Ushahidi\App\Validator\Post\Create::class),
+	'webhook-update' => $di->lazyNew(Ushahidi\App\Validator\Post\Create::class),
 ];
 $di->params['Ushahidi\Factory\ValidatorFactory']['map']['export_jobs'] = [
-    'create' => $di->lazyNew(Ushahidi\App\Validator\ExportJob\Create::class),
-    'update' => $di->lazyNew(Ushahidi\App\Validator\ExportJob\Update::class),
+	'create' => $di->lazyNew(Ushahidi\App\Validator\ExportJob\Create::class),
+	'update' => $di->lazyNew(Ushahidi\App\Validator\ExportJob\Update::class),
 ];
 
 $di->params['Ushahidi\Factory\ValidatorFactory']['map']['posts_lock'] = [
@@ -161,10 +161,14 @@ $di->params['Ushahidi\Factory\ValidatorFactory']['map']['tags'] = [
 	'delete' => $di->lazyNew(Ushahidi\App\Validator\Tag\Delete::class),
 ];
 $di->params['Ushahidi\Factory\ValidatorFactory']['map']['users'] = [
-	'create'   => $di->lazyNew(Ushahidi\App\Validator\User\Create::class),
-	'update'   => $di->lazyNew(Ushahidi\App\Validator\User\Update::class),
+	'create' => $di->lazyNew(Ushahidi\App\Validator\User\Create::class),
+	'update' => $di->lazyNew(Ushahidi\App\Validator\User\Update::class),
 	'register' => $di->lazyNew(Ushahidi\App\Validator\User\Register::class),
 	'passwordreset' => $di->lazyNew(Ushahidi\App\Validator\User\Reset::class)
+];
+$di->params['Ushahidi\Factory\ValidatorFactory']['map']['user_settings'] = [
+	'create' => $di->lazyNew(Ushahidi\App\Validator\User\Setting\Create::class),
+	'update' => $di->lazyNew(Ushahidi\App\Validator\User\Setting\Update::class),
 ];
 $di->params['Ushahidi\Factory\ValidatorFactory']['map']['messages'] = [
 	'create' => $di->lazyNew(Ushahidi\App\Validator\Message\Create::class),
@@ -211,42 +215,43 @@ $di->params['Ushahidi\Factory\ValidatorFactory']['map']['permissions'] = [
 	'update' => $di->lazyNew(Ushahidi\App\Validator\Permission\Update::class),
 ];
 $di->params['Ushahidi\Factory\ValidatorFactory']['map']['tos'] = [
-    'create' => $di->lazyNew(Ushahidi\App\Validator\Tos\Create::class),
+	'create' => $di->lazyNew(Ushahidi\App\Validator\Tos\Create::class),
 ];
 
 // Formatter mapping
 $di->params['Ushahidi\Factory\FormatterFactory']['map'] = [
-    'apikeys'              => $di->lazyNew(Ushahidi\App\Formatter\ApiKey::class),
-	'config'               => $di->lazyNew(Ushahidi\App\Formatter\Config::class),
-	'dataproviders'        => $di->lazyNew(Ushahidi\App\Formatter\Dataprovider::class),
-	'country_codes'        => $di->lazyNew(Ushahidi\App\Formatter\CountryCode::class),
-	'export_jobs'          => $di->lazyNew(Ushahidi\App\Formatter\ExportJob::class),
-	'forms'                => $di->lazyNew(Ushahidi\App\Formatter\Form::class),
-	'form_attributes'      => $di->lazyNew(Ushahidi\App\Formatter\Form\Attribute::class),
-	'form_roles'           => $di->lazyNew(Ushahidi\App\Formatter\Form\Role::class),
-	'form_stages'          => $di->lazyNew(Ushahidi\App\Formatter\Form\Stage::class),
-	'form_contacts'        => $di->lazyNew(Ushahidi\App\Formatter\Form\Contact::class),
-	'form_stats'           => $di->lazyNew(Ushahidi\App\Formatter\Form\Stats::class),
-	'layers'               => $di->lazyNew(Ushahidi\App\Formatter\Layer::class),
-	'media'                => $di->lazyNew(Ushahidi\App\Formatter\Media::class),
-	'messages'             => $di->lazyNew(Ushahidi\App\Formatter\Message::class),
-	'posts'                => $di->lazyNew(Ushahidi\App\Formatter\Post::class),
-    'posts_lock'           => $di->lazyNew(Ushahidi\App\Formatter\Post\Lock::class),
-	'tags'                 => $di->lazyNew(Ushahidi\App\Formatter\Tag::class),
-	'savedsearches'        => $di->lazyNew(Ushahidi\App\Formatter\Set::class),
-	'sets'                 => $di->lazyNew(Ushahidi\App\Formatter\Set::class),
-	'sets_posts'           => $di->lazyNew(Ushahidi\App\Formatter\Post::class),
-	'savedsearches_posts'  => $di->lazyNew(Ushahidi\App\Formatter\Post::class),
-	'users'                => $di->lazyNew(Ushahidi\App\Formatter\User::class),
-	'notifications'        => $di->lazyNew(Ushahidi\App\Formatter\Notification::class),
-	'webhooks'             => $di->lazyNew(Ushahidi\App\Formatter\Webhook::class),
-	'contacts'             => $di->lazyNew(Ushahidi\App\Formatter\Contact::class),
-	'csv'                  => $di->lazyNew(Ushahidi\App\Formatter\CSV::class),
-	'roles'                => $di->lazyNew(Ushahidi\App\Formatter\Role::class),
-	'permissions'          => $di->lazyNew(Ushahidi\App\Formatter\Permission::class),
+	'apikeys' => $di->lazyNew(Ushahidi\App\Formatter\ApiKey::class),
+	'config' => $di->lazyNew(Ushahidi\App\Formatter\Config::class),
+	'dataproviders' => $di->lazyNew(Ushahidi\App\Formatter\Dataprovider::class),
+	'country_codes' => $di->lazyNew(Ushahidi\App\Formatter\CountryCode::class),
+	'export_jobs' => $di->lazyNew(Ushahidi\App\Formatter\ExportJob::class),
+	'forms' => $di->lazyNew(Ushahidi\App\Formatter\Form::class),
+	'form_attributes' => $di->lazyNew(Ushahidi\App\Formatter\Form\Attribute::class),
+	'form_roles' => $di->lazyNew(Ushahidi\App\Formatter\Form\Role::class),
+	'form_stages' => $di->lazyNew(Ushahidi\App\Formatter\Form\Stage::class),
+	'form_contacts' => $di->lazyNew(Ushahidi\App\Formatter\Form\Contact::class),
+	'form_stats' => $di->lazyNew(Ushahidi\App\Formatter\Form\Stats::class),
+	'layers' => $di->lazyNew(Ushahidi\App\Formatter\Layer::class),
+	'media' => $di->lazyNew(Ushahidi\App\Formatter\Media::class),
+	'messages' => $di->lazyNew(Ushahidi\App\Formatter\Message::class),
+	'posts' => $di->lazyNew(Ushahidi\App\Formatter\Post::class),
+	'posts_lock' => $di->lazyNew(Ushahidi\App\Formatter\Post\Lock::class),
+	'tags' => $di->lazyNew(Ushahidi\App\Formatter\Tag::class),
+	'savedsearches' => $di->lazyNew(Ushahidi\App\Formatter\Set::class),
+	'sets' => $di->lazyNew(Ushahidi\App\Formatter\Set::class),
+	'sets_posts' => $di->lazyNew(Ushahidi\App\Formatter\Post::class),
+	'savedsearches_posts' => $di->lazyNew(Ushahidi\App\Formatter\Post::class),
+	'users' => $di->lazyNew(Ushahidi\App\Formatter\User::class),
+	'user_settings' => $di->lazyNew(Ushahidi\App\Formatter\User\Setting::class),
+	'notifications' => $di->lazyNew(Ushahidi\App\Formatter\Notification::class),
+	'webhooks' => $di->lazyNew(Ushahidi\App\Formatter\Webhook::class),
+	'contacts' => $di->lazyNew(Ushahidi\App\Formatter\Contact::class),
+	'csv' => $di->lazyNew(Ushahidi\App\Formatter\CSV::class),
+	'roles' => $di->lazyNew(Ushahidi\App\Formatter\Role::class),
+	'permissions' => $di->lazyNew(Ushahidi\App\Formatter\Permission::class),
 	// Formatter for post exports. Defaults to CSV export
-	'posts_export'         => $di->lazyNew(Ushahidi\App\Formatter\Post\CSV::class),
-	'tos'                  => $di->lazyNew(Ushahidi\App\Formatter\Tos::class),
+	'posts_export' => $di->lazyNew(Ushahidi\App\Formatter\Post\CSV::class),
+	'tos' => $di->lazyNew(Ushahidi\App\Formatter\Tos::class),
 ];
 
 // Formatter parameters
@@ -267,6 +272,7 @@ $di->setter[Ushahidi\App\Formatter\Post\Lock::class]['setAuth'] = $di->lazyGet("
 $di->setter[Ushahidi\App\Formatter\Tag::class]['setAuth'] = $di->lazyGet("authorizer.tag");
 $di->setter[Ushahidi\App\Formatter\Tos::class]['setAuth'] = $di->lazyGet("authorizer.tos");
 $di->setter[Ushahidi\App\Formatter\User::class]['setAuth'] = $di->lazyGet("authorizer.user");
+$di->setter[Ushahidi\App\Formatter\User\Setting::class]['setAuth'] = $di->lazyGet("authorizer.user_setting");
 $di->setter[Ushahidi\App\Formatter\Savedsearch::class]['setAuth'] = $di->lazyGet("authorizer.savedsearch");
 $di->setter[Ushahidi\App\Formatter\Set::class]['setAuth'] = $di->lazyGet("authorizer.set");
 $di->setter[Ushahidi\App\Formatter\Set\Post::class]['setAuth'] = $di->lazyGet("authorizer.set_post");
@@ -351,6 +357,7 @@ $di->set('repository.savedsearch', $di->lazyNew(
 	]
 ));
 $di->set('repository.user', $di->lazyNew(Ushahidi\App\Repository\UserRepository::class));
+$di->set('repository.user_setting', $di->lazyNew(Ushahidi\App\Repository\User\SettingRepository::class));
 $di->set('repository.resetpassword', $di->lazyNew(Ushahidi\App\Repository\ResetPasswordRepository::class));
 $di->set('repository.role', $di->lazyNew(Ushahidi\App\Repository\RoleRepository::class));
 $di->set('repository.notification', $di->lazyNew(Ushahidi\App\Repository\NotificationRepository::class));
@@ -366,7 +373,7 @@ $di->set('repository.posts_export', $di->lazyNew(Ushahidi\App\Repository\Post\Ex
 $di->set('repository.tos', $di->lazyNew(Ushahidi\App\Repository\TosRepository::class));
 $di->set('repository.export_job', $di->lazyNew(Ushahidi\App\Repository\ExportJobRepository::class));
 $di->params[Ushahidi\App\Repository\ExportJobRepository::class] = [
-        'post_repo' => $di->lazyGet('repository.post')
+	'post_repo' => $di->lazyGet('repository.post')
 ];
 $di->setter[Ushahidi\App\Repository\Post\ExportRepository::class]['setSetRepo'] = $di->lazyGet('repository.set');
 $di->setter[Ushahidi\App\Repository\Post\ExportRepository::class]['setTagRepo'] = $di->lazyGet('repository.tag');
@@ -378,12 +385,12 @@ $di->setter[Ushahidi\App\Repository\UserRepository::class]['setHasher'] = $di->l
 // Abstract repository parameters
 $di->params[Ushahidi\App\Repository\OhanzeeRepository::class] = [
 	'db' => $di->lazyGet('kohana.db'),
-	];
+];
 
 // Config
 $di->params[Ushahidi\App\Repository\ConfigRepository::class] = [
 	'db' => $di->lazyGet('kohana.db'),
-	];
+];
 
 // Set up Json Transcode Repository Trait
 $di->setter[Ushahidi\App\Repository\JsonTranscodeRepository::class]['setTranscoder'] =
@@ -392,89 +399,88 @@ $di->setter[Ushahidi\App\Repository\JsonTranscodeRepository::class]['setTranscod
 // Media repository parameters
 $di->params[Ushahidi\App\Repository\MediaRepository::class] = [
 	'upload' => $di->lazyGet('tool.uploader'),
-	];
+];
 
 // Form Stage repository parameters
 $di->params[Ushahidi\App\Repository\Form\StageRepository::class] = [
-		'form_repo' => $di->lazyGet('repository.form')
+	'form_repo' => $di->lazyGet('repository.form')
 ];
 
 // Form Contact repository parameters
 $di->params[Ushahidi\App\Repository\Form\ContactRepository::class] = [
-        'form_repo' => $di->lazyGet('repository.form'),
-        'targeted_survey_state_repo' => $di->lazyGet('repository.targeted_survey_state'),
-        'message_repo' => $di->lazyGet('repository.message'),
+	'form_repo' => $di->lazyGet('repository.form'),
+	'targeted_survey_state_repo' => $di->lazyGet('repository.targeted_survey_state'),
+	'message_repo' => $di->lazyGet('repository.message'),
 ];
 $di->setter[Ushahidi\App\Repository\Form\ContactRepository::class]['setEvent'] = 'FormContactEvent';
 
 // Form Stats repository parameters
 $di->params[Ushahidi\App\Repository\Form\StatsRepository::class] = [
-        'form_repo' => $di->lazyGet('repository.form')
+	'form_repo' => $di->lazyGet('repository.form')
 ];
 
 // Webhook repo for Post listener
 $di->setter[Ushahidi\App\Listener\ContactListener::class]['setRepo'] =
-        $di->lazyGet('repository.contact');
+	$di->lazyGet('repository.contact');
 // Webhook repo for Post listener
 $di->setter[Ushahidi\App\Listener\ContactListener::class]['setFormRepo'] =
-        $di->lazyGet('repository.form');
+	$di->lazyGet('repository.form');
 // Webhook repo for Post listener
 $di->setter[Ushahidi\App\Listener\ContactListener::class]['setFormAttributeRepo'] =
-        $di->lazyGet('repository.form_attribute');
+	$di->lazyGet('repository.form_attribute');
 
 // Webhook repo for Post listener
 $di->setter[Ushahidi\App\Listener\ContactListener::class]['setPostRepo'] =
-        $di->lazyGet('repository.post');
+	$di->lazyGet('repository.post');
 
 // Webhook repo for Post listener
 $di->setter[Ushahidi\App\Listener\ContactListener::class]['setMessageRepo'] =
-        $di->lazyGet('repository.message');
+	$di->lazyGet('repository.message');
 
 $di->setter[Ushahidi\App\Listener\ContactListener::class]['setTargetedSurveyStateRepo'] =
-        $di->lazyGet('repository.targeted_survey_state');
+	$di->lazyGet('repository.targeted_survey_state');
 
 $di->setter[Ushahidi\App\Repository\Form\ContactRepository::class]['setListener'] =
-        $di->lazyNew(Ushahidi\App\Listener\ContactListener::class);
+	$di->lazyNew(Ushahidi\App\Listener\ContactListener::class);
 
 $di->setter[Ushahidi\App\Validator\Form\Contact\Create::class]['setFormRepo'] =
-        $di->lazyGet('repository.form');
+	$di->lazyGet('repository.form');
 
 $di->setter[Ushahidi\App\Validator\Form\Contact\Create::class]['setPhoneValidator'] =
-        \libphonenumber\PhoneNumberUtil::getInstance();
+	\libphonenumber\PhoneNumberUtil::getInstance();
 
 $di->setter[Ushahidi\App\Validator\Form\Contact\Create::class]['setContactRepo'] =
-        $di->lazyGet('repository.contact');
+	$di->lazyGet('repository.contact');
 $di->setter[Ushahidi\App\Validator\Form\Contact\Create::class]['setFormContactRepo'] =
-        $di->lazyGet('repository.form_contact');
-
+	$di->lazyGet('repository.form_contact');
 
 
 // Form Attribute repository parameters
 $di->params[Ushahidi\App\Repository\Form\AttributeRepository::class] = [
-		'form_stage_repo' => $di->lazyGet('repository.form_stage'),
-		'form_repo' => $di->lazyGet('repository.form')
+	'form_stage_repo' => $di->lazyGet('repository.form_stage'),
+	'form_repo' => $di->lazyGet('repository.form')
 ];
 
 // Post repository parameters
 $di->params[Ushahidi\App\Repository\PostRepository::class] = [
-		'form_attribute_repo' => $di->lazyGet('repository.form_attribute'),
-		'form_stage_repo' => $di->lazyGet('repository.form_stage'),
-		'form_repo' => $di->lazyGet('repository.form'),
-		'post_lock_repo' => $di->lazyGet('repository.post_lock'),
-		'contact_repo' => $di->lazyGet('repository.contact'),
-		'post_value_factory' => $di->lazyGet('repository.post_value_factory'),
-		'bounding_box_factory' => $di->newFactory(Ushahidi\App\Util\BoundingBox::class)
-	];
+	'form_attribute_repo' => $di->lazyGet('repository.form_attribute'),
+	'form_stage_repo' => $di->lazyGet('repository.form_stage'),
+	'form_repo' => $di->lazyGet('repository.form'),
+	'post_lock_repo' => $di->lazyGet('repository.post_lock'),
+	'contact_repo' => $di->lazyGet('repository.contact'),
+	'post_value_factory' => $di->lazyGet('repository.post_value_factory'),
+	'bounding_box_factory' => $di->newFactory(Ushahidi\App\Util\BoundingBox::class)
+];
 
 // Post repository parameters
 $di->params[Ushahidi\App\Repository\CSVPostRepository::class] = [
-        'form_attribute_repo' => $di->lazyGet('repository.form_attribute'),
-        'form_stage_repo' => $di->lazyGet('repository.form_stage'),
-        'form_repo' => $di->lazyGet('repository.form'),
-        'post_lock_repo' => $di->lazyGet('repository.post_lock'),
-        'contact_repo' => $di->lazyGet('repository.contact'),
-        'post_value_factory' => $di->lazyGet('repository.post_value_factory'),
-        'bounding_box_factory' => $di->newFactory('Util_BoundingBox')
+	'form_attribute_repo' => $di->lazyGet('repository.form_attribute'),
+	'form_stage_repo' => $di->lazyGet('repository.form_stage'),
+	'form_repo' => $di->lazyGet('repository.form'),
+	'post_lock_repo' => $di->lazyGet('repository.post_lock'),
+	'contact_repo' => $di->lazyGet('repository.contact'),
+	'post_value_factory' => $di->lazyGet('repository.post_value_factory'),
+	'bounding_box_factory' => $di->newFactory('Util_BoundingBox')
 ];
 
 
@@ -493,33 +499,33 @@ $di->set('repository.post.media', $di->lazyNew(Ushahidi\App\Repository\Post\Medi
 $di->set('repository.post.tags', $di->lazyNew(Ushahidi\App\Repository\Post\TagsRepository::class));
 
 $di->params[Ushahidi\App\Repository\Post\TagsRepository::class] = [
-    'tag_repo' => $di->lazyGet('repository.tag')
+	'tag_repo' => $di->lazyGet('repository.tag')
 ];
 
 // The post value repo factory
 $di->set('repository.post_value_factory', $di->lazyNew(Ushahidi\App\Repository\Post\ValueFactory::class));
 $di->params[Ushahidi\App\Repository\Post\ValueFactory::class] = [
-		// a map of attribute types to repositories
-		'map' => [
-			'datetime' => $di->lazyGet('repository.post.datetime'),
-			'decimal'  => $di->lazyGet('repository.post.decimal'),
-			'geometry' => $di->lazyGet('repository.post.geometry'),
-			'int'      => $di->lazyGet('repository.post.int'),
-			'point'    => $di->lazyGet('repository.post.point'),
-			'relation' => $di->lazyGet('repository.post.relation'),
-			'text'     => $di->lazyGet('repository.post.text'),
-			'description' => $di->lazyGet('repository.post.description'),
-			'varchar'  => $di->lazyGet('repository.post.varchar'),
-			'markdown'  => $di->lazyGet('repository.post.markdown'),
-			'title'    => $di->lazyGet('repository.post.title'),
-			'media'    => $di->lazyGet('repository.post.media'),
-			'tags'     => $di->lazyGet('repository.post.tags'),
-		],
-	];
+	// a map of attribute types to repositories
+	'map' => [
+		'datetime' => $di->lazyGet('repository.post.datetime'),
+		'decimal' => $di->lazyGet('repository.post.decimal'),
+		'geometry' => $di->lazyGet('repository.post.geometry'),
+		'int' => $di->lazyGet('repository.post.int'),
+		'point' => $di->lazyGet('repository.post.point'),
+		'relation' => $di->lazyGet('repository.post.relation'),
+		'text' => $di->lazyGet('repository.post.text'),
+		'description' => $di->lazyGet('repository.post.description'),
+		'varchar' => $di->lazyGet('repository.post.varchar'),
+		'markdown' => $di->lazyGet('repository.post.markdown'),
+		'title' => $di->lazyGet('repository.post.title'),
+		'media' => $di->lazyGet('repository.post.media'),
+		'tags' => $di->lazyGet('repository.post.tags'),
+	],
+];
 
 $di->params[Ushahidi\App\Repository\Post\PointRepository::class] = [
 	'decoder' => $di->lazyNew('Symm\Gisconverter\Decoders\WKT')
-	];
+];
 
 // Validators
 $di->set('validator.user.login', $di->lazyNew(Ushahidi\App\Validator\User\Login::class));
@@ -538,7 +544,7 @@ $di->params[Ushahidi\App\Validator\Config\Update::class] = [
 ];
 
 $di->params[Ushahidi\App\Validator\Tos\Create::class] = [
-    'user_repo' => $di->lazyGet('repository.user')
+	'user_repo' => $di->lazyGet('repository.user')
 ];
 
 // Dependencies of validators
@@ -554,17 +560,17 @@ $di->params[Ushahidi\App\Validator\Post\Create::class] = [
 	'post_value_factory' => $di->lazyGet('repository.post_value_factory'),
 	'post_value_validator_factory' => $di->lazyGet('validator.post.value_factory'),
 	'limits' => $di->lazyGet('features.limits'),
-	];
+];
 
 $di->params[Ushahidi\App\Validator\Post\Lock\Update::class] = [
-    'post_repo' => $di->lazyGet('repository.post_lock'),
+	'post_repo' => $di->lazyGet('repository.post_lock'),
 ];
 
 
 $di->params[Ushahidi\App\Validator\Form\Update::class] = [
 	'repo' => $di->lazyGet('repository.form'),
 	'limits' => $di->lazyGet('features.limits'),
-	];
+];
 
 $di->param[Ushahidi\App\Validator\Form\Attribute\Update::class] = [
 	'repo' => $di->lazyGet('repository.form_attribute'),
@@ -622,10 +628,16 @@ $di->params[Ushahidi\App\Validator\User\Update::class] = [
 	'limits' => $di->lazyGet('features.limits'),
 ];
 $di->params[Ushahidi\App\Validator\User\Register::class] = [
-	'repo'    => $di->lazyGet('repository.user')
+	'repo' => $di->lazyGet('repository.user')
 ];
 $di->params[Ushahidi\App\Validator\User\Reset::class] = [
-	'repo'    => $di->lazyGet('repository.user')
+	'repo' => $di->lazyGet('repository.user')
+];
+$di->params[Ushahidi\App\Validator\User\Setting\Update::class] = [
+	'user_repo' => $di->lazyGet('repository.user')
+];
+$di->params[Ushahidi\App\Validator\Contact\Update::class] = [
+	'repo' => $di->lazyGet('repository.user'),
 ];
 $di->params[Ushahidi\App\Validator\CSV\Create::class] = [
 	'form_repo' => $di->lazyGet('repository.form'),
@@ -674,33 +686,33 @@ $di->params[Ushahidi\App\Validator\Post\Media::class] = [
 ];
 $di->set('validator.post.tags', $di->lazyNew(Ushahidi\App\Validator\Post\Tags::class));
 $di->params[Ushahidi\App\Validator\Post\Tags::class] = [
-    'tags_repo' => $di->lazyGet('repository.tag')
+	'tags_repo' => $di->lazyGet('repository.tag')
 ];
 
 
 $di->set('validator.post.value_factory', $di->lazyNew(Ushahidi\App\Validator\Post\ValueFactory::class));
 $di->params[Ushahidi\App\Validator\Post\ValueFactory::class] = [
-		// a map of attribute types to validators
-		'map' => [
-			'datetime' => $di->lazyGet('validator.post.datetime'),
-			'decimal'  => $di->lazyGet('validator.post.decimal'),
-			'geometry' => $di->lazyGet('validator.post.geometry'),
-			'int'      => $di->lazyGet('validator.post.int'),
-			'link'     => $di->lazyGet('validator.post.link'),
-			'point'    => $di->lazyGet('validator.post.point'),
-			'relation' => $di->lazyGet('validator.post.relation'),
-			'varchar'  => $di->lazyGet('validator.post.varchar'),
-			'markdown' => $di->lazyGet('validator.post.markdown'),
-			'title'    => $di->lazyGet('validator.post.title'),
-			'media'    => $di->lazyGet('validator.post.media'),
-			'video'    => $di->lazyGet('validator.post.video'),
-            'tags'     => $di->lazyGet('validator.post.tags'),
-		],
-	];
+	// a map of attribute types to validators
+	'map' => [
+		'datetime' => $di->lazyGet('validator.post.datetime'),
+		'decimal' => $di->lazyGet('validator.post.decimal'),
+		'geometry' => $di->lazyGet('validator.post.geometry'),
+		'int' => $di->lazyGet('validator.post.int'),
+		'link' => $di->lazyGet('validator.post.link'),
+		'point' => $di->lazyGet('validator.post.point'),
+		'relation' => $di->lazyGet('validator.post.relation'),
+		'varchar' => $di->lazyGet('validator.post.varchar'),
+		'markdown' => $di->lazyGet('validator.post.markdown'),
+		'title' => $di->lazyGet('validator.post.title'),
+		'media' => $di->lazyGet('validator.post.media'),
+		'video' => $di->lazyGet('validator.post.video'),
+		'tags' => $di->lazyGet('validator.post.tags'),
+	],
+];
 
 $di->params[Ushahidi\App\Validator\Post\Relation::class] = [
 	'repo' => $di->lazyGet('repository.post')
-	];
+];
 
 $di->set('transformer.mapping', $di->lazyNew(Ushahidi\App\Transformer\MappingTransformer::class));
 $di->set('transformer.csv', $di->lazyNew(Ushahidi\App\Transformer\CSVPostTransformer::class));
@@ -749,18 +761,18 @@ $di->setter[Ushahidi\App\Repository\UserRepository::class]['setListener'] =
 // Add Lock Listener
 $di->setter[Ushahidi\App\Repository\Post\LockRepository::class]['setEvent'] = 'LockBroken';
 $di->setter[Ushahidi\App\Repository\Post\LockRepository::class]['setListener'] =
-    $di->lazyNew(Ushahidi\App\Listener\Lock::class);
+	$di->lazyNew(Ushahidi\App\Listener\Lock::class);
 
 // Set up config bindings
 
 // Site config
 $di->set('site.config', function () use ($di) {
-    return $di->get('repository.config')->get('site')->asArray();
+	return $di->get('repository.config')->get('site')->asArray();
 });
 
 // Feature config
 $di->set('features', function () use ($di) {
-    return $di->get('repository.config')->get('features')->asArray();
+	return $di->get('repository.config')->get('features')->asArray();
 });
 
 // @todo add some kind of FeatureManager that owns all these checkes
@@ -768,58 +780,58 @@ $di->set('features', function () use ($di) {
 // $features->getQuota('admins');
 // Roles config settings
 $di->set('roles.enabled', function () use ($di) {
-    $config = $di->get('features');
+	$config = $di->get('features');
 
-    return $config['roles']['enabled'];
+	return $config['roles']['enabled'];
 });
 
 // Feature config
 $di->set('features.limits', function () use ($di) {
-    $config = $di->get('features');
+	$config = $di->get('features');
 
-    return $config['limits'];
+	return $config['limits'];
 });
 
 // Webhooks config settings
 $di->set('webhooks.enabled', function () use ($di) {
-    $config = $di->get('features');
+	$config = $di->get('features');
 
-    return $config['webhooks']['enabled'];
+	return $config['webhooks']['enabled'];
 });
 
 // Post Locking config settings
 $di->set('post-locking.enabled', function () use ($di) {
-    $config = $di->get('features');
+	$config = $di->get('features');
 
-    return $config['post-locking']['enabled'];
+	return $config['post-locking']['enabled'];
 });
 
 // Redis config settings
 $di->set('redis.enabled', function () use ($di) {
-    $config = $di->get('features');
+	$config = $di->get('features');
 
-    return $config['redis']['enabled'];
+	return $config['redis']['enabled'];
 });
 
 // Data import config settings
 $di->set('data-import.enabled', function () use ($di) {
-    $config = $di->get('features');
+	$config = $di->get('features');
 
-    return $config['data-import']['enabled'];
+	return $config['data-import']['enabled'];
 });
 
 // Dataprovider feature config
 $di->set('features.data-providers', function () use ($di) {
-    $config = $di->get('features');
+	$config = $di->get('features');
 
-    return array_filter($config['data-providers']);
+	return array_filter($config['data-providers']);
 });
 
 // Private deployment config settings
 // @todo move to repo
 $di->set('site.private', function () use ($di) {
-    $site = $di->get('site.config');
-    $features = $di->get('features');
-    return $site['private']
-        and $features['private']['enabled'];
+	$site = $di->get('site.config');
+	$features = $di->get('features');
+	return $site['private']
+		and $features['private']['enabled'];
 });

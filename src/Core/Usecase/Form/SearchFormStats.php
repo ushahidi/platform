@@ -18,30 +18,31 @@ use Ushahidi\Core\Usecase\SearchUsecase;
 
 class SearchFormStats extends SearchUsecase
 {
-    use IdentifyRecords;
-    /**
-     * Get filter parameters and default values that are used for paging.
-     *
-     * @return Array
-     */
+	use IdentifyRecords;
 
-    // Usecase
-    public function interact()
-    {
-        // Fetch an empty entity...
-        $entity = $this->getEntity();
+	/**
+	 * Get filter parameters and default values that are used for paging.
+	 *
+	 * @return Array
+	 */
 
-        // ... verify that the entity can be searched by the current user
-        $this->verifySearchAuth($entity);
+	// Usecase
+	public function interact()
+	{
+		// Fetch an empty entity...
+		$entity = $this->getEntity();
 
-        // ... and get the search filters for this entity
-        $search = $this->getSearch();
-        $search->setFilter('form_id', $this->getIdentifier('form_id'));
-        // ... pass the search information to the repo
-        $this->repo->setSearchParams($search);
+		// ... verify that the entity can be searched by the current user
+		$this->verifySearchAuth($entity);
+
+		// ... and get the search filters for this entity
+		$search = $this->getSearch();
+		$search->setFilter('form_id', $this->getIdentifier('form_id'));
+		// ... pass the search information to the repo
+		$this->repo->setSearchParams($search);
 		$outgoing = $this->repo->countOutgoingMessages($this->getIdentifier('form_id'));
-        $results = array(
-        	'total_recipients' => $this->repo->getRecipients($this->getIdentifier('form_id')),
+		$results = array(
+			'total_recipients' => $this->repo->getRecipients($this->getIdentifier('form_id')),
 			'total_responses' => $this->repo->getResponses($this->getIdentifier('form_id')),
 			'total_messages_sent' => $outgoing['sent'],
 			'total_messages_pending' => $this->repo->countTotalPending(
@@ -50,7 +51,7 @@ class SearchFormStats extends SearchUsecase
 			)
 		);
 		$entity->setState($results);
-        // ... and return the formatted results.
-        return $this->formatter->__invoke($entity);
-    }
+		// ... and return the formatted results.
+		return $this->formatter->__invoke($entity);
+	}
 }

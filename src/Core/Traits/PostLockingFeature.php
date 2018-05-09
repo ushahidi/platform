@@ -28,6 +28,6 @@ trait PostLockingFeature
 	 */
 	public function isPostLockingEnabled()
 	{
-		return (bool) $this->enabled;
+		return (bool)$this->enabled;
 	}
 }

@@ -107,14 +107,14 @@ class ContactRepository extends OhanzeeRepository implements
 
 		// Start transaction
 		$this->db->begin();
-		$invalidatedContacts =  [];
+		$invalidatedContacts = [];
 		foreach ($entities as $entity) {
 			$contactOnActiveSurvey = $this->existsInActiveTargetedSurvey($entity->contact);
 			if ($contactOnActiveSurvey) {
 				$this->setInactiveTargetedSurvey($contactOnActiveSurvey['targeted_survey_state_id'], $form_id);
 				/** force the message in the survey state to be expired
-				** so we don't send outbound messages by mistake on an invalidated contact-survey
-				**/
+				 ** so we don't send outbound messages by mistake on an invalidated contact-survey
+				 **/
 				$message = $this->message_repo->get($contactOnActiveSurvey['message_id']);
 				if ($message->id) {
 					$message->setState(['status' => Entity\Message::EXPIRED]);
@@ -145,8 +145,9 @@ class ContactRepository extends OhanzeeRepository implements
 
 		return $invalidatedContacts;
 	}
+
 	private function createNewContact($entity)
-    {
+	{
 		$query = DB::insert($this->getTable())
 			->columns(array_keys($entity->asArray()));
 		$query->values($entity->asArray());
@@ -161,6 +162,7 @@ class ContactRepository extends OhanzeeRepository implements
 		}
 		return $result[0];
 	}
+
 	/**
 	 * @param int $form_id
 	 * @return Entity|Entity\Contact
@@ -256,7 +258,7 @@ class ContactRepository extends OhanzeeRepository implements
 	}
 
 	/**
-	 * @param int $contact|contact number
+	 * @param int $contact |contact number
 	 * @return bool
 	 *
 	 */
@@ -286,6 +288,7 @@ class ContactRepository extends OhanzeeRepository implements
 			return $result->current();
 		}
 	}
+
 	/**
 	 * @param int $contact_id
 	 * @param int $form_id

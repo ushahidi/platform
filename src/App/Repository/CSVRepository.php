@@ -46,7 +46,7 @@ class CSVRepository extends OhanzeeRepository implements
 	public function create(Entity $entity)
 	{
 		$state = [
-			'created'  => time(),
+			'created' => time(),
 		];
 
 		return parent::create($entity->setState($state));
@@ -56,7 +56,7 @@ class CSVRepository extends OhanzeeRepository implements
 	public function update(Entity $entity)
 	{
 		$state = [
-			'updated'  => time(),
+			'updated' => time(),
 		];
 
 		return parent::update($entity->setState($state));

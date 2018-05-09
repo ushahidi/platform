@@ -45,18 +45,18 @@ class Tag extends StaticEntity
 			}
 		};
 		return [
-			'id'          => 'int',
-			'parent_id'   => 'int',
-			'tag'         => 'string',
-			'slug'        => '*slug',
-			'type'        => 'string',
-			'color'       => $typeColor,
-			'icon'        => 'string',
+			'id' => 'int',
+			'parent_id' => 'int',
+			'tag' => 'string',
+			'slug' => '*slug',
+			'type' => 'string',
+			'color' => $typeColor,
+			'icon' => 'string',
 			'description' => 'string',
-			'priority'    => 'int',
-			'created'     => 'int',
-			'role'        => '*json',
-			'children'    => 'array',
+			'priority' => 'int',
+			'created' => 'int',
+			'role' => '*json',
+			'children' => 'array',
 		];
 	}
 
@@ -65,6 +65,7 @@ class Tag extends StaticEntity
 	{
 		return 'tags';
 	}
+
 	protected function getImmutable()
 	{
 		// Hack: Add computed properties to immutable list

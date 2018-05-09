@@ -56,7 +56,7 @@ trait ModifyRecords
 	 *
 	 * @throws InvalidArgumentException
 	 * @param  String $name
-	 * @param  Mixed  $default
+	 * @param  Mixed $default
 	 * @return Mixed
 	 */
 	protected function getPayload($name, $default = null)

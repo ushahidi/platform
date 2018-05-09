@@ -82,7 +82,7 @@ class ConfigAuthorizer implements Authorizer
 
 	/**
 	 * Check if a config group is public
-	 * @param  Entity  $entity
+	 * @param  Entity $entity
 	 * @return boolean
 	 */
 	protected function isConfigPublic(Config $entity)
@@ -101,7 +101,7 @@ class ConfigAuthorizer implements Authorizer
 
 	/**
 	 * Check if a config group is read only
-	 * @param  Entity  $entity
+	 * @param  Entity $entity
 	 * @return boolean
 	 */
 	protected function isConfigReadOnly(Config $entity)

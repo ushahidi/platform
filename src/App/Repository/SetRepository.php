@@ -78,7 +78,7 @@ class SetRepository extends OhanzeeRepository implements SetRepositoryContract
 
 	// CreateRepository
 	public function create(Entity $entity)
-    {
+	{
 		// Get record and filter empty values
 		$record = array_filter($entity->asArray());
 
@@ -205,7 +205,7 @@ class SetRepository extends OhanzeeRepository implements SetRepositoryContract
 			->execute($this->db)
 			->as_array();
 
-		return (bool) count($result);
+		return (bool)count($result);
 	}
 
 	// SetRepository

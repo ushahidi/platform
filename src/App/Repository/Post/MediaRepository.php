@@ -44,7 +44,7 @@ class MediaRepository extends ValueRepository
 			'media.o_filename',
 			'media.id'
 		)
-		->join('media')->on('value', '=', 'media.id');
+			->join('media')->on('value', '=', 'media.id');
 
 		return $query;
 	}

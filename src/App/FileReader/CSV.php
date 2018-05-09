@@ -19,18 +19,21 @@ class CSV implements FileReader
 {
 
 	protected $limit;
+
 	public function setLimit($limit)
 	{
 		$this->limit = $limit;
 	}
 
 	protected $offset;
+
 	public function setOffset($offset)
 	{
 		$this->offset = $offset;
 	}
 
 	protected $reader_factory;
+
 	public function setReaderFactory(ReaderFactory $reader_factory)
 	{
 		$this->reader_factory = $reader_factory;
@@ -43,7 +46,7 @@ class CSV implements FileReader
 		// Filter out empty rows
 		$nbColumns = count($reader->fetchOne());
 		$reader->addFilter(function ($row) use ($nbColumns) {
-		    return count($row) == $nbColumns;
+			return count($row) == $nbColumns;
 		});
 
 		if ($this->offset) {

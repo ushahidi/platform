@@ -7,13 +7,13 @@ use Phinx\Console\Command\SeedCreate as PhinxSeedCreateCommand;
 
 class SeedMakeCommand extends PhinxSeedCreateCommand
 {
-    /**
-     * {@inheritdoc}
-     */
-    protected function configure()
-    {
-        parent::configure();
+	/**
+	 * {@inheritdoc}
+	 */
+	protected function configure()
+	{
+		parent::configure();
 
-        $this->setName('make:seeder');
-    }
+		$this->setName('make:seeder');
+	}
 }

@@ -12,11 +12,11 @@
 */
 
 $app = new Laravel\Lumen\Application(
-    realpath(__DIR__.'/../')
+	realpath(__DIR__ . '/../')
 );
 
 $app->withFacades(true, [
-    'Ushahidi\App\Facades\Features' => 'Features',
+	'Ushahidi\App\Facades\Features' => 'Features',
 ]);
 
 $app->withEloquent();
@@ -33,13 +33,13 @@ $app->withEloquent();
 */
 
 $app->singleton(
-    Illuminate\Contracts\Debug\ExceptionHandler::class,
-    Ushahidi\App\Exceptions\Handler::class
+	Illuminate\Contracts\Debug\ExceptionHandler::class,
+	Ushahidi\App\Exceptions\Handler::class
 );
 
 $app->singleton(
-    Illuminate\Contracts\Console\Kernel::class,
-    Ushahidi\App\Console\Kernel::class
+	Illuminate\Contracts\Console\Kernel::class,
+	Ushahidi\App\Console\Kernel::class
 );
 
 /*
@@ -54,21 +54,19 @@ $app->singleton(
 */
 
 $app->middleware([
-    Barryvdh\Cors\HandleCors::class,
+	Barryvdh\Cors\HandleCors::class,
 ]);
 
-// $app->routeMiddleware([
-//     'auth' => Ushahidi\App\Http\Middleware\Authenticate::class,
-// ]);
 $app->routeMiddleware([
-    'auth' => Ushahidi\App\Http\Middleware\Authenticate::class,
+	'auth' => Ushahidi\App\Http\Middleware\Authenticate::class,
 	//'cors'   => Ushahidi\App\Http\Middleware\CorsMiddleware::class,
-    // Customised scope middleware
-    'scopes' => Ushahidi\App\Http\Middleware\CheckScopes::class,
-    'scope'  => Ushahidi\App\Http\Middleware\CheckForAnyScope::class,
-    //'scopes' => Laravel\Passport\Http\Middleware\CheckScopes::class,
-    //'scope'  => Laravel\Passport\Http\Middleware\CheckForAnyScope::class,
-    'signature' => Ushahidi\App\Http\Middleware\SignatureAuth::class,
+	// Customised scope middleware
+	'scopes' => Ushahidi\App\Http\Middleware\CheckScopes::class,
+	'scope' => Ushahidi\App\Http\Middleware\CheckForAnyScope::class,
+	//'scopes' => Laravel\Passport\Http\Middleware\CheckScopes::class,
+	//'scope'  => Laravel\Passport\Http\Middleware\CheckForAnyScope::class,
+	'signature' => Ushahidi\App\Http\Middleware\SignatureAuth::class,
+	'feature' => Ushahidi\App\Http\Middleware\CheckFeature::class,
 ]);
 
 /*
@@ -101,9 +99,10 @@ $app->register(Sentry\SentryLaravel\SentryLumenServiceProvider::class);
 */
 
 $app->router->group([
-    'namespace' => 'Ushahidi\App\Http\Controllers',
+	'namespace' => 'Ushahidi\App\Http\Controllers',
 ], function ($router) {
-    require __DIR__.'/../routes/web.php';
+	require __DIR__ . '/../routes/web.php';
+	require __DIR__ . '/../routes/features.php';
 });
 
 

@@ -12,23 +12,23 @@ use Phinx\Migration\AbstractMigration;
 
 class AllowNullInWebhooksUpdated extends AbstractMigration
 {
-    /**
-     * Migrate Up.
-     */
-    public function up()
-    {
-        $this->table('webhooks')
-            ->changeColumn('updated', 'integer', ['default' => 0, 'null' => true])
-            ->save();
-    }
+	/**
+	 * Migrate Up.
+	 */
+	public function up()
+	{
+		$this->table('webhooks')
+			->changeColumn('updated', 'integer', ['default' => 0, 'null' => true])
+			->save();
+	}
 
-    /**
-     * Migrate Down.
-     */
-    public function down()
-    {
-        $this->table('webhooks')
-            ->changeColumn('updated', 'integer', ['default' => 0, 'null' => false])
-            ->save();
-    }
+	/**
+	 * Migrate Down.
+	 */
+	public function down()
+	{
+		$this->table('webhooks')
+			->changeColumn('updated', 'integer', ['default' => 0, 'null' => false])
+			->save();
+	}
 }

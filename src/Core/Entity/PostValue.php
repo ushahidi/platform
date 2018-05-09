@@ -29,14 +29,14 @@ class PostValue extends StaticEntity
 	protected function getDefinition()
 	{
 		return [
-			'id'                => 'int',
-			'post_id'           => 'int',
+			'id' => 'int',
+			'post_id' => 'int',
 			'form_attribute_id' => 'int',
-			'value'             => null, /* @todo array or string? not sure */
-			'created'           => 'int',
-			'key'               => 'string',
-			'cardinality'       => 'int',
-			'type'              => 'string',
+			'value' => null, /* @todo array or string? not sure */
+			'created' => 'int',
+			'key' => 'string',
+			'cardinality' => 'int',
+			'type' => 'string',
 		];
 	}
 

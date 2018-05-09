@@ -41,7 +41,7 @@ class PermissionRepository extends OhanzeeRepository implements
 		$query = $this->search_query;
 
 		if ($search->q) {
-			$query->where('name', 'LIKE', "%" .$search->q ."%");
+			$query->where('name', 'LIKE', "%" . $search->q . "%");
 		}
 
 		return $query;
@@ -50,6 +50,6 @@ class PermissionRepository extends OhanzeeRepository implements
 	// UshahidiRepository
 	public function exists($permission)
 	{
-		return (bool) $this->selectCount(['name' => $permission]);
+		return (bool)$this->selectCount(['name' => $permission]);
 	}
 }

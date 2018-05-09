@@ -82,7 +82,7 @@ class CSVPostTransformer implements MappingTransformer
 				$val = [$val];
 			}
 
-			if (! is_array($val)) {
+			if (!is_array($val)) {
 				$val = [$val];
 			}
 		});
@@ -91,10 +91,10 @@ class CSVPostTransformer implements MappingTransformer
 
 
 		return array_merge_recursive(
-            $post_fields,
-            $form_values,
-            $this->fixedValues
-        );
+			$post_fields,
+			$form_values,
+			$this->fixedValues
+		);
 	}
 
 	/**
@@ -113,7 +113,7 @@ class CSVPostTransformer implements MappingTransformer
 			$column_name = array_shift($keys);
 
 			// Assign sub-key to multi-value column
-			if (! empty($keys)) {
+			if (!empty($keys)) {
 				unset($record[$column]);
 
 				foreach ($keys as $key) {

@@ -39,8 +39,8 @@ trait AuthorizerTrait
 	/**
 	 * Verifies the current user is allowed $privilege on $entity
 	 *
-	 * @param  Entity  $entity
-	 * @param  String  $privilege
+	 * @param  Entity $entity
+	 * @param  String $privilege
 	 * @return void
 	 * @throws AuthorizerException
 	 */
@@ -60,7 +60,7 @@ trait AuthorizerTrait
 	/**
 	 * Verifies the current user is allowed search access on $entity
 	 *
-	 * @param  Entity  $entity
+	 * @param  Entity $entity
 	 * @return void
 	 * @throws AuthorizerException
 	 */
@@ -72,7 +72,7 @@ trait AuthorizerTrait
 	/**
 	 * Verifies the current user is allowed read access on $entity
 	 *
-	 * @param  Entity  $entity
+	 * @param  Entity $entity
 	 * @return void
 	 * @throws AuthorizerException
 	 */
@@ -84,7 +84,7 @@ trait AuthorizerTrait
 	/**
 	 * Verifies the current user is allowed lock access on $entity
 	 *
-	 * @param  Entity  $entity
+	 * @param  Entity $entity
 	 * @return void
 	 * @throws AuthorizerException
 	 */
@@ -96,7 +96,7 @@ trait AuthorizerTrait
 	/**
 	 * Verifies the current user is allowed delete access on $entity
 	 *
-	 * @param  Entity  $entity
+	 * @param  Entity $entity
 	 * @return void
 	 * @throws AuthorizerException
 	 */
@@ -108,8 +108,8 @@ trait AuthorizerTrait
 	/**
 	 * Verifies the current user is allowed update access on $entity
 	 *
-	 * @param  Entity  $entity
-	 * @param  Data    $input
+	 * @param  Entity $entity
+	 * @param  Data $input
 	 * @return void
 	 * @throws AuthorizerException
 	 */
@@ -121,8 +121,8 @@ trait AuthorizerTrait
 	/**
 	 * Verifies the current user is allowed create access on $entity
 	 *
-	 * @param  Entity  $entity
-	 * @param  Data    $input
+	 * @param  Entity $entity
+	 * @param  Data $input
 	 * @return void
 	 * @throws AuthorizerException
 	 */
@@ -134,8 +134,8 @@ trait AuthorizerTrait
 	/**
 	 * Verifies the current user is allowed import access on $entity
 	 *
-	 * @param  Entity  $entity
-	 * @param  Data    $input
+	 * @param  Entity $entity
+	 * @param  Data $input
 	 * @return void
 	 * @throws AuthorizerException
 	 */

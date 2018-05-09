@@ -81,19 +81,19 @@ class PostValueRepositoryTest extends \PHPUnit\Framework\TestCase
 		$mockResult->expects($this->any())
 			->method('as_array')
 			->will($this->returnValue([
-					[
-						'id' => 1,
-						'value' => 'one'
-					],
-					[
-						'id' => 2,
-						'value' => 'two'
-					],
-					[
-						'id' => 3,
-						'value' => 'three'
-					],
-				]));
+				[
+					'id' => 1,
+					'value' => 'one'
+				],
+				[
+					'id' => 2,
+					'value' => 'two'
+				],
+				[
+					'id' => 3,
+					'value' => 'three'
+				],
+			]));
 
 		// Check that getAllForPost() returns an array of PostValue's
 		$values = $this->repository->getAllForPost(1);

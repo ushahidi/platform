@@ -20,18 +20,18 @@ class Role extends StaticEntity
 	protected $display_name;
 	protected $description;
 	protected $permissions;
-    protected $protected;
+	protected $protected;
 
 	// DataTransformer
 	protected function getDefinition()
 	{
 		return [
-			'id'           => 'int',
-			'name'         => 'string',
+			'id' => 'int',
+			'name' => 'string',
 			'display_name' => 'string',
-			'description'  => 'string',
-			'permissions'  => 'array',
-			'protected'    => 'boolean',
+			'description' => 'string',
+			'permissions' => 'array',
+			'protected' => 'boolean',
 		];
 	}
 
@@ -50,6 +50,6 @@ class Role extends StaticEntity
 	// StatefulData
 	protected function getImmutable()
 	{
-		return array_merge(parent::getImmutable(), ['name','protected']);
+		return array_merge(parent::getImmutable(), ['name', 'protected']);
 	}
 }

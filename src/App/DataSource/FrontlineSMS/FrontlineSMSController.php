@@ -20,14 +20,14 @@ use Ushahidi\Core\Entity\Contact;
 class FrontlineSMSController extends DataSourceController
 {
 
-    protected $source = 'frontlinesms';
+	protected $source = 'frontlinesms';
 
 	public function handleRequest(Request $request)
 	{
-        // Authenticate the request
-        if (!$this->source->verifySecret($request->input('secret'))) {
-            return abort(403, 'Incorrect or missing secret key');
-        }
+		// Authenticate the request
+		if (!$this->source->verifySecret($request->input('secret'))) {
+			return abort(403, 'Incorrect or missing secret key');
+		}
 
 		$from = $request->input('from');
 

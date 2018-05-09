@@ -40,7 +40,7 @@ class ConfigRepository implements
 	// ReadRepository
 	public function getEntity(array $data = null)
 	{
-        return new ConfigEntity($data);
+		return new ConfigEntity($data);
 	}
 
 	protected function getDefaults($group)
@@ -128,7 +128,7 @@ class ConfigRepository implements
 				$intercom_data['deployment_created_date'] = date("Y-m-d H:i:s");
 			}
 
-			if (! in_array($key, $immutable)) {
+			if (!in_array($key, $immutable)) {
 				$this->insertOrUpdate($group, $key, $val);
 			}
 		}
@@ -147,12 +147,12 @@ class ConfigRepository implements
 			(`group_name`, `config_key`, `config_value`) VALUES (:group, :key, :value)
 			ON DUPLICATE KEY UPDATE `config_value` = :value;
 		")
-		->parameters([
-			':group' => $group,
-			':key' => $key,
-			':value' => $value
-		])
-		->execute($this->db);
+			->parameters([
+				':group' => $group,
+				':key' => $key,
+				':value' => $value
+			])
+			->execute($this->db);
 	}
 
 	// ConfigRepository

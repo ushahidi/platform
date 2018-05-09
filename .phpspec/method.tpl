@@ -1,7 +1,6 @@
-
-	/**
-	 * @return void
-	 */
-	public function %name%(%arguments%)
-	{
-	}
+/**
+* @return void
+*/
+public function %name%(%arguments%)
+{
+}

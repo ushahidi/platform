@@ -16,5 +16,5 @@ use Ushahidi\Core\Traits\FormatterAuthorizerMetadata;
 
 class Stats extends API
 {
-    use FormatterAuthorizerMetadata;
+	use FormatterAuthorizerMetadata;
 }

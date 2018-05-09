@@ -14,10 +14,10 @@ namespace Ushahidi\Core\Entity\Repository;
 
 interface EntityGet
 {
-    /**
-     * @param  mixed $id
-     * @param  array $options
-     * @return Ushahidi\Core\Entity
-     */
-    public function get($id);
+	/**
+	 * @param  mixed $id
+	 * @param  array $options
+	 * @return Ushahidi\Core\Entity
+	 */
+	public function get($id);
 }

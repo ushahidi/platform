@@ -17,9 +17,9 @@ class Create extends Update
 	{
 		return array_merge_recursive(parent::getRules(), [
 			'name' => [['not_empty']],
-            'user_id' => [
-                [[$this->user_repo, 'exists'], [':value']],
-            ],
+			'user_id' => [
+				[[$this->user_repo, 'exists'], [':value']],
+			],
 		]);
 	}
 }

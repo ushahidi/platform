@@ -61,7 +61,7 @@ class Update extends Validator
 
 
 	public function isUserOwner($entity)
-    {
-		return ($this->getUser() &&  $entity['user_id'] === $this->getUserId());
+	{
+		return ($this->getUser() && $entity['user_id'] === $this->getUserId());
 	}
 }

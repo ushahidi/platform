@@ -22,7 +22,7 @@ namespace Ushahidi\Core\Traits;
 trait ArrayExchange
 {
 	/**
-	 * @param  array  $data  initial value
+	 * @param  array $data initial value
 	 * @return void
 	 */
 	public function __construct($data = null)
@@ -33,7 +33,7 @@ trait ArrayExchange
 	}
 
 	/**
-	 * @param  array  $data  new values
+	 * @param  array $data new values
 	 * @return $this
 	 */
 	public function setData($data)

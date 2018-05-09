@@ -35,7 +35,7 @@ class FrontlineSMS implements CallbackDataSource, OutgoingAPIDataSource
 	}
 
 	public function getName()
-    {
+	{
 		return 'FrontlineSMS';
 	}
 
@@ -53,10 +53,10 @@ class FrontlineSMS implements CallbackDataSource, OutgoingAPIDataSource
 	{
 		return array(
 			'key' => array(
-					'label' => 'Key',
-					'input' => 'text',
-					'description' => 'The API key',
-					'rules' => array('required')
+				'label' => 'Key',
+				'input' => 'text',
+				'description' => 'The API key',
+				'rules' => array('required')
 			),
 			'secret' => array(
 				'label' => 'Secret',
@@ -112,12 +112,12 @@ class FrontlineSMS implements CallbackDataSource, OutgoingAPIDataSource
 
 		try {
 			$response = $this->client->request('POST', $this->apiUrl, [
-					'headers' => [
-						'Accept'               => 'application/json',
-						'Content-Type'         => 'application/json'
-					],
-					'json' => $data
-				]);
+				'headers' => [
+					'Accept' => 'application/json',
+					'Content-Type' => 'application/json'
+				],
+				'json' => $data
+			]);
 			// Successfully executed the request
 
 			if ($response->getStatusCode() === 200) {
@@ -127,15 +127,15 @@ class FrontlineSMS implements CallbackDataSource, OutgoingAPIDataSource
 			// Log warning to log file.
 			$status = $response->getStatusCode();
 			app('log')->warning(
-                'Could not make a successful POST request',
-                array('message' => $response->messages[$status], 'status' => $status)
-            );
+				'Could not make a successful POST request',
+				array('message' => $response->messages[$status], 'status' => $status)
+			);
 		} catch (\GuzzleHttp\Exception\ClientException $e) {
 			// Log warning to log file.
 			app('log')->warning(
-                'Could not make a successful POST request',
-                array('message' => $e->getMessage())
-            );
+				'Could not make a successful POST request',
+				array('message' => $e->getMessage())
+			);
 		}
 
 		return array(MessageStatus::FAILED, false);

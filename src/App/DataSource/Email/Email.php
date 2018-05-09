@@ -88,7 +88,7 @@ class Email implements IncomingAPIDataSource, OutgoingAPIDataSource
 				'label' => 'Incoming Server Port',
 				'input' => 'text',
 				'description' => 'Common ports: 110 (POP3), 143 (IMAP), 995 (POP3 with SSL), 993 (IMAP with SSL)',
-				'rules' => array('required','number')
+				'rules' => array('required', 'number')
 			),
 			'incoming_security' => array(
 				'label' => 'Incoming Server Security',
@@ -178,13 +178,13 @@ class Email implements IncomingAPIDataSource, OutgoingAPIDataSource
 	 * For services where we have to poll for message (Twitter, Email, FrontlineSMS) this should
 	 * poll the service and pass messages to $this->receive()
 	 *
-	 * @param  boolean $limit   maximum number of messages to fetch at a time
+	 * @param  boolean $limit maximum number of messages to fetch at a time
 	 * @return int              number of messages fetched
 	 */
 	public function fetch($limit = false)
 	{
 		// Return if no imap extension
-		if (! function_exists('imap_open') && ! function_exists(__NAMESPACE__ . '\imap_open')) {
+		if (!function_exists('imap_open') && !function_exists(__NAMESPACE__ . '\imap_open')) {
 			app('log')->error("imap extension not enabled");
 			return [];
 		}
@@ -201,18 +201,18 @@ class Email implements IncomingAPIDataSource, OutgoingAPIDataSource
 		$password = $this->config['incoming_password'];
 
 		// Encryption type
-		$encryption = (strcasecmp($encryption, 'none') != 0) ? '/'.$encryption : '';
+		$encryption = (strcasecmp($encryption, 'none') != 0) ? '/' . $encryption : '';
 
 		try {
 			// Try to connect
-			$inbox = '{'.$server.':'.$port.'/'.$type.$encryption.'}INBOX';
+			$inbox = '{' . $server . ':' . $port . '/' . $type . $encryption . '}INBOX';
 			$connection = @imap_open($inbox, $username, $password, 0, 1);
 
 			$errors = imap_errors();
 			$alerts = imap_alerts();
 
 			// Return on connection error
-			if (! $connection || $errors || $alerts) {
+			if (!$connection || $errors || $alerts) {
 				$errors = is_array($errors) ? implode(', ', $errors) : "";
 				$alerts = is_array($alerts) ? implode(', ', $errors) : "";
 				Log::info("Could not connect to incoming email server", compact('errors', 'alerts'));
@@ -239,7 +239,7 @@ class Email implements IncomingAPIDataSource, OutgoingAPIDataSource
 					$structure = imap_fetchstructure($connection, $email->uid, FT_UID);
 
 					// Get HTML message from multipart message
-					if (! empty($structure->parts)) {
+					if (!empty($structure->parts)) {
 						$no_of_parts = count($structure->parts);
 
 						foreach ($structure->parts as $part_number => $part) {
@@ -255,10 +255,10 @@ class Email implements IncomingAPIDataSource, OutgoingAPIDataSource
 					}
 
 					// Process the email
-					if (! empty($html_message)) {
+					if (!empty($html_message)) {
 						$html_message = imap_qprint($html_message);
 						$messages[] = $this->processIncoming($email, $html_message);
-					} elseif (! empty($message)) {
+					} elseif (!empty($message)) {
 						$message = imap_qprint($message);
 						$messages[] = $this->processIncoming($email, $message);
 					}

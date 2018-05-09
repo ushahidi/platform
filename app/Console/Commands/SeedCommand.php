@@ -7,13 +7,13 @@ use Phinx\Console\Command\SeedRun as PhinxSeedRunCommand;
 
 class SeedCommand extends PhinxSeedRunCommand
 {
-    /**
-     * {@inheritdoc}
-     */
-    protected function configure()
-    {
-        parent::configure();
+	/**
+	 * {@inheritdoc}
+	 */
+	protected function configure()
+	{
+		parent::configure();
 
-        $this->setName('db:seed');
-    }
+		$this->setName('db:seed');
+	}
 }

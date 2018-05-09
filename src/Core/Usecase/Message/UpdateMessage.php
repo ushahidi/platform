@@ -21,7 +21,7 @@ class UpdateMessage extends UpdateUsecase
 	{
 		$this->validator->set([
 			'direction' => $entity->direction,
-			'status'    => $entity->status,
+			'status' => $entity->status,
 		]);
 		parent::verifyValid($entity);
 	}

@@ -19,54 +19,54 @@ use Ushahidi\Core\Tool\JsonTranscode;
 trait JsonTranscodeRepository
 {
 
-    protected $json_transcoder;
+	protected $json_transcoder;
 
-    /**
-     * Return an array of properties to be json encoded
-     * @return Array
-     */
-    abstract protected function getJsonProperties();
+	/**
+	 * Return an array of properties to be json encoded
+	 * @return Array
+	 */
+	abstract protected function getJsonProperties();
 
-    public function setTranscoder(JsonTranscode $transcoder)
-    {
-        $this->json_transcoder = $transcoder;
-    }
+	public function setTranscoder(JsonTranscode $transcoder)
+	{
+		$this->json_transcoder = $transcoder;
+	}
 
-    // Temporary override function for attribute addition
-    public function executeInsertAttribute(array $input)
-    {
-        // JSON Encode defined properties
-        $input = $this->json_transcoder->encode(
-            $input,
-            $this->getJsonProperties()
-        );
+	// Temporary override function for attribute addition
+	public function executeInsertAttribute(array $input)
+	{
+		// JSON Encode defined properties
+		$input = $this->json_transcoder->encode(
+			$input,
+			$this->getJsonProperties()
+		);
 
-        return parent::executeInsert($input);
-    }
+		return parent::executeInsert($input);
+	}
 
-    // OhanzeeRepository
-    public function executeInsert(array $input)
-    {
-        // JSON Encode defined properties
-        // The use of array_filter causes issues with array items set as 0
-        // the items are removed. This code should ultimately be refactored.
-        $input = array_filter($this->json_transcoder->encode(
-            $input,
-            $this->getJsonProperties()
-        ));
+	// OhanzeeRepository
+	public function executeInsert(array $input)
+	{
+		// JSON Encode defined properties
+		// The use of array_filter causes issues with array items set as 0
+		// the items are removed. This code should ultimately be refactored.
+		$input = array_filter($this->json_transcoder->encode(
+			$input,
+			$this->getJsonProperties()
+		));
 
-        return parent::executeInsert($input);
-    }
+		return parent::executeInsert($input);
+	}
 
-    // OhanzeeRepository
-    public function executeUpdate(array $where, array $input)
-    {
-        // JSON Encode defined properties
-        $input = $this->json_transcoder->encode(
-            $input,
-            $this->getJsonProperties()
-        );
+	// OhanzeeRepository
+	public function executeUpdate(array $where, array $input)
+	{
+		// JSON Encode defined properties
+		$input = $this->json_transcoder->encode(
+			$input,
+			$this->getJsonProperties()
+		);
 
-        return parent::executeUpdate($where, $input);
-    }
+		return parent::executeUpdate($where, $input);
+	}
 }

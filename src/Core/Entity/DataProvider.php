@@ -25,11 +25,11 @@ class DataProvider extends StaticEntity
 	protected function getDefinition()
 	{
 		return [
-			'id'       => 'string',
-			'name'     => 'string',
+			'id' => 'string',
+			'name' => 'string',
 			'services' => 'array',
-			'options'  => 'array',
-            'inbound_fields'  => 'array',
+			'options' => 'array',
+			'inbound_fields' => 'array',
 		];
 	}
 

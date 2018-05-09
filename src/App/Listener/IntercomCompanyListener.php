@@ -23,24 +23,24 @@ use GuzzleHttp\Exception\ClientException;
 class IntercomCompanyListener extends AbstractListener
 {
 
-    public function handle(EventInterface $event, $data = null)
-    {
-        $intercomAppToken = getenv('INTERCOM_APP_TOKEN');
-        $domain = service('site');
+	public function handle(EventInterface $event, $data = null)
+	{
+		$intercomAppToken = getenv('INTERCOM_APP_TOKEN');
+		$domain = service('site');
 
-        if ($intercomAppToken && !empty($domain)) {
-            try {
-                $client = new IntercomClient($intercomAppToken, null);
+		if ($intercomAppToken && !empty($domain)) {
+			try {
+				$client = new IntercomClient($intercomAppToken, null);
 
-                $company = [
-                    "company_id" => $domain,
-                    "custom_attributes" => $data
-                ];
-                // Update company
-                $client->companies->create($company);
-            } catch (ClientException $e) {
-                \Log::info($e->getMessage());
-            }
-        }
-    }
+				$company = [
+					"company_id" => $domain,
+					"custom_attributes" => $data
+				];
+				// Update company
+				$client->companies->create($company);
+			} catch (ClientException $e) {
+				\Log::info($e->getMessage());
+			}
+		}
+	}
 }

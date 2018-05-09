@@ -14,7 +14,6 @@ use Ushahidi\Core\Usecase;
  * @copyright  2013 Ushahidi
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
-
 class PostsController extends RESTController
 {
 	/**
@@ -36,26 +35,26 @@ class PostsController extends RESTController
 	protected function getIdentifiers(Request $request)
 	{
 		return $this->getRouteParams($request) + [
-			'type'      => $this->postType
-		];
+				'type' => $this->postType
+			];
 	}
 
 	protected function getFilters(Request $request)
 	{
-        $params = $this->getRouteParams($request);
+		$params = $this->getRouteParams($request);
 		return $request->query() + [
-			'type'      => $this->postType,
-			'parent'    => isset($params['parent_id']) ? $params['parent_id'] : null,
-		];
+				'type' => $this->postType,
+				'parent' => isset($params['parent_id']) ? $params['parent_id'] : null,
+			];
 	}
 
 	protected function getPayload(Request $request)
 	{
-        $params = $this->getRouteParams($request);
+		$params = $this->getRouteParams($request);
 		return $request->json()->all() + [
-			'type'      => $this->postType,
-			'parent_id' => isset($params['parent_id']) ? $params['parent_id'] : null,
-		];
+				'type' => $this->postType,
+				'parent_id' => isset($params['parent_id']) ? $params['parent_id'] : null,
+			];
 	}
 
 	/**
@@ -65,15 +64,15 @@ class PostsController extends RESTController
 	 *
 	 * @return void
 	 */
-    public function store(Request $request)
-    {
-        $this->usecase = $this->usecaseFactory
-            ->get($this->getResource(), 'create')
-            ->setPayload($this->getPayload($request))
+	public function store(Request $request)
+	{
+		$this->usecase = $this->usecaseFactory
+			->get($this->getResource(), 'create')
+			->setPayload($this->getPayload($request))
 			->setIdentifiers($this->getIdentifiers($request));
 
-        return $this->prepResponse($this->executeUsecase($request), $request);
-    }
+		return $this->prepResponse($this->executeUsecase($request), $request);
+	}
 
 	/**
 	 * Retrieve All Posts
@@ -82,64 +81,64 @@ class PostsController extends RESTController
 	 *
 	 * @return void
 	 */
-    public function index(Request $request)
-    {
-        $this->usecase = $this->usecaseFactory
-            ->get($this->getResource(), 'search')
-            ->setFilters($this->getFilters($request))
+	public function index(Request $request)
+	{
+		$this->usecase = $this->usecaseFactory
+			->get($this->getResource(), 'search')
+			->setFilters($this->getFilters($request))
 			->setIdentifiers($this->getIdentifiers($request));
 
-        return $this->prepResponse($this->executeUsecase($request), $request);
-    }
+		return $this->prepResponse($this->executeUsecase($request), $request);
+	}
 
-    /**
-     * Retrieve An Entity
-     *
-     * GET /api/foo/:id
-     *
-     * @return void
-     */
-    public function show(Request $request)
-    {
-        $this->usecase = $this->usecaseFactory
-            ->get($this->getResource(), 'read')
-            ->setIdentifiers($this->getIdentifiers($request));
+	/**
+	 * Retrieve An Entity
+	 *
+	 * GET /api/foo/:id
+	 *
+	 * @return void
+	 */
+	public function show(Request $request)
+	{
+		$this->usecase = $this->usecaseFactory
+			->get($this->getResource(), 'read')
+			->setIdentifiers($this->getIdentifiers($request));
 
-        return $this->prepResponse($this->executeUsecase($request), $request);
-    }
+		return $this->prepResponse($this->executeUsecase($request), $request);
+	}
 
-    /**
-     * Update An Entity
-     *
-     * PUT /api/foo/:id
-     *
-     * @return void
-     */
-    public function update(Request $request)
-    {
-        $this->usecase = $this->usecaseFactory
-            ->get($this->getResource(), 'update')
-            ->setIdentifiers($this->getIdentifiers($request))
-            ->setPayload($this->getPayload($request));
+	/**
+	 * Update An Entity
+	 *
+	 * PUT /api/foo/:id
+	 *
+	 * @return void
+	 */
+	public function update(Request $request)
+	{
+		$this->usecase = $this->usecaseFactory
+			->get($this->getResource(), 'update')
+			->setIdentifiers($this->getIdentifiers($request))
+			->setPayload($this->getPayload($request));
 
-        return $this->prepResponse($this->executeUsecase($request), $request);
-    }
+		return $this->prepResponse($this->executeUsecase($request), $request);
+	}
 
-    /**
-     * Delete An Entity
-     *
-     * DELETE /api/foo/:id
-     *
-     * @return void
-     */
-    public function destroy(Request $request)
-    {
-        $this->usecase = $this->usecaseFactory
-            ->get($this->getResource(), 'delete')
-            ->setIdentifiers($this->getIdentifiers($request));
+	/**
+	 * Delete An Entity
+	 *
+	 * DELETE /api/foo/:id
+	 *
+	 * @return void
+	 */
+	public function destroy(Request $request)
+	{
+		$this->usecase = $this->usecaseFactory
+			->get($this->getResource(), 'delete')
+			->setIdentifiers($this->getIdentifiers($request));
 
-        return $this->prepResponse($this->executeUsecase($request), $request);
-    }
+		return $this->prepResponse($this->executeUsecase($request), $request);
+	}
 
 	/**
 	 * Retrieve post stats
@@ -150,12 +149,12 @@ class PostsController extends RESTController
 	 */
 	public function stats(Request $request)
 	{
-        $this->usecase = $this->usecaseFactory
-            ->get($this->getResource(), 'stats')
-            ->setFilters($this->getFilters($request))
+		$this->usecase = $this->usecaseFactory
+			->get($this->getResource(), 'stats')
+			->setFilters($this->getFilters($request))
 			// @todo allow injecting formatters based on resource + action
 			->setFormatter(service('formatter.entity.post.stats'));
 
-        return $this->prepResponse($this->executeUsecase($request), $request);
+		return $this->prepResponse($this->executeUsecase($request), $request);
 	}
 }

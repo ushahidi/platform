@@ -24,55 +24,55 @@ use Mockery as M;
 class SignatureAuthTest extends TestCase
 {
 
-    public function testValidSignature()
-    {
-        $verifier = M::mock(Verifier::class);
-        $middleware = new SignatureAuth($verifier);
-        $request = new Request(
-            [],
-            [],
-            [],
-            [],
-            [],
-            [],
-            ""
-        );
+	public function testValidSignature()
+	{
+		$verifier = M::mock(Verifier::class);
+		$middleware = new SignatureAuth($verifier);
+		$request = new Request(
+			[],
+			[],
+			[],
+			[],
+			[],
+			[],
+			""
+		);
 
-        $verifier->shouldReceive('verified')->with(null, null, false, 'http://:', "")->andReturn(true);
+		$verifier->shouldReceive('verified')->with(null, null, false, 'http://:', "")->andReturn(true);
 
-        $return = $middleware->handle($request, function ($r) use ($request) {
-            $this->assertSame($request, $r);
+		$return = $middleware->handle($request, function ($r) use ($request) {
+			$this->assertSame($request, $r);
 
-            return 'a response';
-        });
+			return 'a response';
+		});
 
-        $this->assertSame('a response', $return);
-    }
+		$this->assertSame('a response', $return);
+	}
 
-    public function testInvalidSignature()
-    {
-        $verifier = M::mock(Verifier::class);
-        $middleware = new SignatureAuth($verifier);
-        $request = new Request(
-            [],
-            [],
-            [],
-            [],
-            [],
-            [],
-            ""
-        );
+	public function testInvalidSignature()
+	{
+		$verifier = M::mock(Verifier::class);
+		$middleware = new SignatureAuth($verifier);
+		$request = new Request(
+			[],
+			[],
+			[],
+			[],
+			[],
+			[],
+			""
+		);
 
-        $verifier->shouldReceive('verified')->with(null, null, false, 'http://:', "")->andReturn(false);
+		$verifier->shouldReceive('verified')->with(null, null, false, 'http://:', "")->andReturn(false);
 
-        try {
-            $middleware->handle($request, function ($request) {
-                $this->fail('Should have thrown an exception');
-            });
-        } catch (\Exception $e) {
-            $this->assertInstanceOf(\Symfony\Component\HttpKernel\Exception\HttpException::class, $e);
-            $this->assertEquals('Forbidden.', $e->getMessage());
-            $this->assertEquals(403, $e->getStatusCode());
-        }
-    }
+		try {
+			$middleware->handle($request, function ($request) {
+				$this->fail('Should have thrown an exception');
+			});
+		} catch (\Exception $e) {
+			$this->assertInstanceOf(\Symfony\Component\HttpKernel\Exception\HttpException::class, $e);
+			$this->assertEquals('Forbidden.', $e->getMessage());
+			$this->assertEquals(403, $e->getStatusCode());
+		}
+	}
 }

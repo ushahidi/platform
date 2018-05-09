@@ -31,7 +31,7 @@ class JSON implements Formatter, OutputFormatter
 
 		if ($json === false) {
 			throw new FormatterException('Unable to format data as JSON: ' . json_last_error());
-        }
+		}
 
 		return $json;
 	}

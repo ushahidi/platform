@@ -18,8 +18,8 @@ interface Mailer
 	/**
 	 * Send a templated email
 	 *
-	 * @param  string     $to     Destination email
-	 * @param  string     $type   Email type (ie. template to use)
+	 * @param  string $to Destination email
+	 * @param  string $type Email type (ie. template to use)
 	 * @param  Array|null $params Params for populating the template
 	 * @return void
 	 */

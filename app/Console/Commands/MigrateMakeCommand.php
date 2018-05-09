@@ -7,13 +7,13 @@ use Phinx\Console\Command\Create as PhinxCreateCommand;
 
 class MigrateMakeCommand extends PhinxCreateCommand
 {
-    /**
-     * {@inheritdoc}
-     */
-    protected function configure()
-    {
-        parent::configure();
+	/**
+	 * {@inheritdoc}
+	 */
+	protected function configure()
+	{
+		parent::configure();
 
-        $this->setName('migrate:make');
-    }
+		$this->setName('migrate:make');
+	}
 }

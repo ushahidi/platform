@@ -16,24 +16,24 @@ use Illuminate\Http\Request;
 class StatsController extends RESTController
 {
 
-    protected function getResource()
-    {
-        return 'form_stats';
-    }
+	protected function getResource()
+	{
+		return 'form_stats';
+	}
 
-    public function index(Request $request)
-    {
-        $params = $this->getRouteParams($request);
-        $this->usecase = $this->usecaseFactory
-            ->get($this->getResource(), 'search')
-            ->setIdentifiers($params)
-            ->setFormatter(service('formatter.entity.form.stats'));
-            // @todo do we need this?
-            // ->setFilters($request->query() + [
-            //     'form_id' => isset($params['form_id']) ? $params['form_id'] : null
-            // ])
-            ;
+	public function index(Request $request)
+	{
+		$params = $this->getRouteParams($request);
+		$this->usecase = $this->usecaseFactory
+			->get($this->getResource(), 'search')
+			->setIdentifiers($params)
+			->setFormatter(service('formatter.entity.form.stats'));
+		// @todo do we need this?
+		// ->setFilters($request->query() + [
+		//     'form_id' => isset($params['form_id']) ? $params['form_id'] : null
+		// ])
+		;
 
-        return $this->prepResponse($this->executeUsecase($request), $request);
-    }
+		return $this->prepResponse($this->executeUsecase($request), $request);
+	}
 }

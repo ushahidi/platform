@@ -13,7 +13,6 @@ use Ushahidi\App\Http\Controllers\RESTController;
  * @copyright  2014 Ushahidi
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
-
 class IndexController extends Controller
 {
 
@@ -29,11 +28,11 @@ class IndexController extends Controller
 		$user = service('session')->getUser();
 
 		return [
-			'now'       => date(\DateTime::W3C),
-			'version'   => RESTController::version(),
-			'user'      => [
-				'id'       => $user->id,
-				'email'    => $user->email,
+			'now' => date(\DateTime::W3C),
+			'version' => RESTController::version(),
+			'user' => [
+				'id' => $user->id,
+				'email' => $user->email,
 				'realname' => $user->realname,
 			],
 		];

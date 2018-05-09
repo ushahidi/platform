@@ -21,8 +21,8 @@ interface FormAttributeRepository extends
 {
 	/**
 	 * @param  string $key
-	 * @param  int    $form_id
-	 * @param  boolena $include_no_form  Include attributes with null form_id
+	 * @param  int $form_id
+	 * @param  boolena $include_no_form Include attributes with null form_id
 	 * @return Ushahidi\Core\Entity\FormAttribute
 	 */
 	public function getByKey($key, $form_id = null, $include_no_form = false);
@@ -51,7 +51,7 @@ interface FormAttributeRepository extends
 	public function getRequired($stage_id);
 
 	/**
-	 * @param  string  $key
+	 * @param  string $key
 	 * @return boolean
 	 */
 	public function isKeyAvailable($key);
@@ -64,7 +64,7 @@ interface FormAttributeRepository extends
 	public function getByForms($form_ids, array $include_attributes = null);
 
 
-    /**
+	/**
 	 * @param int $form_id
 	 * @return Entity|FormAttribute
 	 */

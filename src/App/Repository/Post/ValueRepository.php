@@ -43,11 +43,11 @@ abstract class ValueRepository extends OhanzeeRepository implements
 
 		// Select 'key' too
 		$query->select(
-            $this->getTable().'.*',
-            'form_attributes.key',
-            'form_attributes.form_stage_id',
-            'form_attributes.response_private'
-        )
+			$this->getTable() . '.*',
+			'form_attributes.key',
+			'form_attributes.form_stage_id',
+			'form_attributes.response_private'
+		)
 			->join('form_attributes')->on('form_attribute_id', '=', 'form_attributes.id');
 
 		return $query;

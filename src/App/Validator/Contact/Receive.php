@@ -20,10 +20,10 @@ class Receive extends Create
 		// Valid Email?
 		if (isset($data['type']) and
 			$data['type'] == Contact::EMAIL and
-			 ! \Kohana\Validation\Valid::email($contact) ) {
+			!\Kohana\Validation\Valid::email($contact)) {
 			return $validation->error('contact', 'invalid_email', [$contact]);
 		} elseif (isset($data['type']) and
-			$data['type'] == Contact::PHONE ) {
+			$data['type'] == Contact::PHONE) {
 			// Allow for alphanumeric sender
 			$number = preg_replace('/[^a-zA-Z0-9 ]/', '', $contact);
 

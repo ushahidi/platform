@@ -20,13 +20,13 @@ class TagsRepository extends ValueRepository
 
 	/**
 	 * Construct
-	 * @param Database              $db
-	 * @param TagRepo               $tag_repo
+	 * @param Database $db
+	 * @param TagRepo $tag_repo
 	 */
 	public function __construct(
-        Database $db,
-        UpdatePostTagRepository $tag_repo
-    ) {
+		Database $db,
+		UpdatePostTagRepository $tag_repo
+	) {
 		parent::__construct($db);
 		$this->tag_repo = $tag_repo;
 	}
@@ -44,8 +44,8 @@ class TagsRepository extends ValueRepository
 
 		// Select 'tag_id' as value too
 		$query->select(
-            ['posts_tags.tag_id', 'value']
-        );
+			['posts_tags.tag_id', 'value']
+		);
 
 		return $query;
 	}
@@ -94,7 +94,7 @@ class TagsRepository extends ValueRepository
 		// Find the tag by id or name
 		// @todo this should happen before we even get here
 		$tag_entity = $this->tag_repo->getByTag($tag);
-		if (! $tag_entity->id) {
+		if (!$tag_entity->id) {
 			$tag_entity = $this->tag_repo->get($tag);
 		}
 

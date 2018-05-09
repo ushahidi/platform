@@ -26,7 +26,7 @@ class NotificationQueue extends StaticEntity
 		// Foreign key alias
 		return [
 			'post_id' => ['post', 'post.id'],
-			'set_id'  => ['set', 'set.id']
+			'set_id' => ['set', 'set.id']
 		];
 	}
 
@@ -35,12 +35,12 @@ class NotificationQueue extends StaticEntity
 	protected function getDefinition()
 	{
 		return [
-			'id'       => 'int',
-			'post'     => false,
-			'post_id'  => 'int',
-			'set'      => false,
-			'set_id'   => 'string',
-			'created'  => 'int'
+			'id' => 'int',
+			'post' => false,
+			'post_id' => 'int',
+			'set' => false,
+			'set_id' => 'string',
+			'created' => 'int'
 		];
 	}
 

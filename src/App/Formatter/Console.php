@@ -25,13 +25,13 @@ class Console implements Formatter
 	{
 		if (!($entity instanceof Entity)) {
 			throw new FormatterException("Console formatter requries an Entity as input");
-        }
+		}
 
 		$fields = $entity->asArray();
 
 		$data = [
-			'id'  => $entity->id,
-			];
+			'id' => $entity->id,
+		];
 
 		foreach ($fields as $field => $value) {
 			$name = $this->getFieldName($field);
@@ -58,7 +58,7 @@ class Console implements Formatter
 	 *
 	 * Must return the formatted data!
 	 *
-	 * @param  Array  $data   formatted data
+	 * @param  Array $data formatted data
 	 * @param  Entity $entity resource
 	 * @return Array
 	 */

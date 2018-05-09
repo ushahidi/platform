@@ -19,7 +19,7 @@ trait CollectionLoader
 {
 	/**
 	 * Get the entity for this repository.
-	 * @param  Array  $data
+	 * @param  Array $data
 	 * @return Ushahidi\Core\Entity
 	 */
 	abstract public function getEntity(array $data = null);

@@ -68,11 +68,11 @@ class WebhooksPosts extends RESTController
 
 	public function store()
 	{
-        $this->usecase = $this->usecaseFactory
-            ->get($this->getResource(), 'webhook-update')
-            ->setIdentifiers($this->getRouteParams($request))
-            ->setPayload($request->json()->all());
+		$this->usecase = $this->usecaseFactory
+			->get($this->getResource(), 'webhook-update')
+			->setIdentifiers($this->getRouteParams($request))
+			->setPayload($request->json()->all());
 
-        return $this->prepResponse($this->executeUsecase($request), $request);
+		return $this->prepResponse($this->executeUsecase($request), $request);
 	}
 }

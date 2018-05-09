@@ -22,9 +22,10 @@ class Update extends Validator
 	protected $phone_validator;
 
 	public function setPhoneValidator($validator)
-    {
+	{
 		$this->phone_validator = $validator;
 	}
+
 	public function setFormRepo(\Ushahidi\Core\Entity\FormRepository $form_repo)
 	{
 		$this->form_repo = $form_repo;
@@ -52,8 +53,9 @@ class Update extends Validator
 			],
 		];
 	}
+
 	public function contactIsValid($value, $fullData)
-    {
+	{
 		try {
 			$number = $this->phone_validator->parse($value, $fullData['country_code']);
 			$isValid = $this->phone_validator->isValidNumber($number);

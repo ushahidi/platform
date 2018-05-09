@@ -28,6 +28,6 @@ trait RedisFeature
 	 */
 	public function isRedisEnabled()
 	{
-		return (bool) $this->enabled;
+		return (bool)$this->enabled;
 	}
 }

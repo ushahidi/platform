@@ -65,7 +65,7 @@ class MessageRepository extends OhanzeeRepository implements
 	{
 		$query = $this->search_query
 			->join('contacts')
-				->on('contact_id', '=', 'contacts.id');
+			->on('contact_id', '=', 'contacts.id');
 
 		if ($search->box === 'outbox') {
 			// Outbox only shows outgoing messages
@@ -100,19 +100,19 @@ class MessageRepository extends OhanzeeRepository implements
 		}
 
 		foreach ([
-			'contact',
-			'parent',
-			'post',
-		] as $fk) {
+					 'contact',
+					 'parent',
+					 'post',
+				 ] as $fk) {
 			if ($search->$fk) {
 				$query->where("messages.{$fk}_id", '=', $search->$fk);
 			}
 		}
 
 		foreach ([
-			'type',
-			'data_source',
-		] as $key) {
+					 'type',
+					 'data_source',
+				 ] as $key) {
 			if ($search->$key) {
 				$query->where("messages.{$key}", '=', $search->$key);
 			}
@@ -129,8 +129,7 @@ class MessageRepository extends OhanzeeRepository implements
 			->order_by('created', 'ASC')
 			// Include contact in same query
 			->join('contacts', 'LEFT')->on('contacts.id', '=', 'messages.contact_id')
-			->select('contacts.contact')
-			;
+			->select('contacts.contact');
 
 		if ($data_source) {
 			$query->where('messages.data_source', '=', $data_source);
@@ -153,8 +152,7 @@ class MessageRepository extends OhanzeeRepository implements
 			->join('contacts', 'LEFT')->on('contacts.id', '=', 'messages.contact_id')
 			->select('contacts.contact')
 			// Only return messages without a specified provider
-			->where('messages.data_source', 'IS', null)
-			;
+			->where('messages.data_source', 'IS', null);
 
 		if ($type) {
 			$query->where('messages.type', '=', $type);
@@ -169,7 +167,7 @@ class MessageRepository extends OhanzeeRepository implements
 	public function updateMessageStatus($id, $status, $data_source_message_id = null)
 	{
 		$changes = [
-			'status'   => $status,
+			'status' => $status,
 			'data_source_message_id' => $data_source_message_id
 		];
 
@@ -179,14 +177,14 @@ class MessageRepository extends OhanzeeRepository implements
 	public function getTotalMessagesFromContact($contact_id)
 	{
 		$direction = Message::INCOMING;
-		return (int) $this->selectCount(compact('contact_id', 'direction'));
+		return (int)$this->selectCount(compact('contact_id', 'direction'));
 	}
 
 	// CreateRepository
 	public function create(Entity $entity)
 	{
 		return parent::create($entity->setState([
-			'created'   => time(),
+			'created' => time(),
 		]));
 	}
 
@@ -220,7 +218,7 @@ class MessageRepository extends OhanzeeRepository implements
 				'desc'
 			)
 			->limit(1);
-		$result =	$query->execute($this->db);
+		$result = $query->execute($this->db);
 
 		$last_uid = $result->get('uid', 0) ? $result->get('uid', 0) : null;
 
@@ -241,7 +239,7 @@ class MessageRepository extends OhanzeeRepository implements
 	public function notificationMessageExists($post_id, $contact_id)
 	{
 		return $this->selectCount(
-			['notification_post_id' => $post_id, 'contact_id' => $contact_id, 'direction' => 'outgoing']
-		) > 0;
+            ['notification_post_id' => $post_id, 'contact_id' => $contact_id, 'direction' => 'outgoing']
+        ) > 0;
 	}
 }

@@ -21,7 +21,7 @@ class Create extends Update
 	{
 		return array_merge_recursive(parent::getRules(), [
 			'name' => [
-                ['not_empty'],
+				['not_empty'],
 				[[$this, 'checkPostTypeLimit'], [':validation']],
 			]
 		]);

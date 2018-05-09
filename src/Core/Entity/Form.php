@@ -40,21 +40,21 @@ class Form extends StaticEntity
 			}
 		};
 		return [
-			'id'          => 'int',
-			'parent_id'   => 'int',
-			'name'        => 'string',
+			'id' => 'int',
+			'parent_id' => 'int',
+			'name' => 'string',
 			'description' => 'string',
-			'color'       => $typeColor,
-			'type'        => 'string',
-			'disabled'    => 'bool',
-			'created'     => 'int',
-			'updated'     => 'int',
-			'hide_author'           => 'bool',
-			'require_approval'      => 'bool',
-			'everyone_can_create'   => 'bool',
-			'targeted_survey'   => 'bool',
-			'can_create'            => 'array',
-			'tags'        => 'array',
+			'color' => $typeColor,
+			'type' => 'string',
+			'disabled' => 'bool',
+			'created' => 'int',
+			'updated' => 'int',
+			'hide_author' => 'bool',
+			'require_approval' => 'bool',
+			'everyone_can_create' => 'bool',
+			'targeted_survey' => 'bool',
+			'can_create' => 'array',
+			'tags' => 'array',
 		];
 	}
 

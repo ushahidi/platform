@@ -26,87 +26,87 @@ use Ushahidi\App\DataSource\SMSSync\SMSSync;
  */
 class DataSourceManagerTest extends TestCase
 {
-    public function testAddGetSource()
-    {
-        $manager = new DataSourceManager($this->app->router);
+	public function testAddGetSource()
+	{
+		$manager = new DataSourceManager($this->app->router);
 
-        $manager->addSource(new Email([]));
-        $manager->addSource(new Twitter([]));
+		$manager->addSource(new Email([]));
+		$manager->addSource(new Twitter([]));
 
-        $this->assertInstanceOf(Twitter::class, $manager->getSource('twitter'));
-        $this->assertInstanceOf(Email::class, $manager->getSource('email'));
+		$this->assertInstanceOf(Twitter::class, $manager->getSource('twitter'));
+		$this->assertInstanceOf(Email::class, $manager->getSource('email'));
 
-        $this->assertInternalType('array', $manager->getSource());
-    }
+		$this->assertInternalType('array', $manager->getSource());
+	}
 
-    public function testEnabledSources()
-    {
-        $manager = new DataSourceManager($this->app->router);
+	public function testEnabledSources()
+	{
+		$manager = new DataSourceManager($this->app->router);
 
-        $manager->addSource(new Email([]));
-        $manager->addSource(new Twitter([]));
-        $manager->addSource(new Nexmo([]));
+		$manager->addSource(new Email([]));
+		$manager->addSource(new Twitter([]));
+		$manager->addSource(new Nexmo([]));
 
-        $manager->setEnabledSources([
-            'nexmo' => true
-        ]);
+		$manager->setEnabledSources([
+			'nexmo' => true
+		]);
 
-        $manager->setAvailableSources([
-            'nexmo' => true,
-            'twitter' => true,
-            'email' => true
-        ]);
+		$manager->setAvailableSources([
+			'nexmo' => true,
+			'twitter' => true,
+			'email' => true
+		]);
 
-        $this->assertCount(1, $manager->getEnabledSources());
-        $this->assertFalse($manager->getEnabledSources('twitter'));
-    }
+		$this->assertCount(1, $manager->getEnabledSources());
+		$this->assertFalse($manager->getEnabledSources('twitter'));
+	}
 
-    public function testAvailableSources()
-    {
-        $manager = new DataSourceManager($this->app->router);
+	public function testAvailableSources()
+	{
+		$manager = new DataSourceManager($this->app->router);
 
-        $manager->addSource(new Email([]));
-        $manager->addSource(new Twitter([]));
-        $manager->addSource(new Nexmo([]));
+		$manager->addSource(new Email([]));
+		$manager->addSource(new Twitter([]));
+		$manager->addSource(new Nexmo([]));
 
-        $manager->setEnabledSources([
-            'nexmo' => true,
-            'twitter' => true,
-            'email' => true
-        ]);
+		$manager->setEnabledSources([
+			'nexmo' => true,
+			'twitter' => true,
+			'email' => true
+		]);
 
-        $manager->setAvailableSources([
-            'nexmo' => true
-        ]);
+		$manager->setAvailableSources([
+			'nexmo' => true
+		]);
 
-        $this->assertCount(1, $manager->getEnabledSources());
-        $this->assertFalse($manager->getEnabledSources('twitter'));
-    }
+		$this->assertCount(1, $manager->getEnabledSources());
+		$this->assertFalse($manager->getEnabledSources('twitter'));
+	}
 
-    public function testGetSourceForType()
-    {
-        $manager = new DataSourceManager($this->app->router);
+	public function testGetSourceForType()
+	{
+		$manager = new DataSourceManager($this->app->router);
 
-        $manager->addSource(new Email([]));
-        $manager->addSource(new Twitter([]));
-        $manager->addSource(new Nexmo([]));
-        $manager->addSource(new SMSSync([]));
+		$manager->addSource(new Email([]));
+		$manager->addSource(new Twitter([]));
+		$manager->addSource(new Nexmo([]));
+		$manager->addSource(new SMSSync([]));
 
-        $manager->setEnabledSources([
-            'nexmo' => true,
-            'twitter' => true,
-            'email' => true,
-            'smssync' => true
-        ]);
+		$manager->setEnabledSources([
+			'nexmo' => true,
+			'twitter' => true,
+			'email' => true,
+			'smssync' => true
+		]);
 
-        $manager->setAvailableSources([
-            'nexmo' => true,
-            'twitter' => true,
-            'email' => true,
-            'smssync' => true
-        ]);
+		$manager->setAvailableSources([
+			'nexmo' => true,
+			'twitter' => true,
+			'email' => true,
+			'smssync' => true
+		]);
 
-        $this->assertInstanceOf(Twitter::class, $manager->getSourceForType('twitter'));
-        $this->assertInstanceOf(Nexmo::class, $manager->getSourceForType('sms'));
-    }
+		$this->assertInstanceOf(Twitter::class, $manager->getSourceForType('twitter'));
+		$this->assertInstanceOf(Nexmo::class, $manager->getSourceForType('sms'));
+	}
 }

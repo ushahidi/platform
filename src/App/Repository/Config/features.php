@@ -14,13 +14,13 @@ return [
 
 	// Post views
 	'views' => [
-        'data' => true,
+		'data' => true,
 		'map' => true,
 		'list' => true,
 		'chart' => true,
 		'timeline' => true,
 		'activity' => true,
-        'plan' => false,
+		'plan' => false,
 	],
 
 	// Data sources
@@ -31,7 +31,7 @@ return [
 		'email' => true,
 		'twilio' => true,
 		'nexmo' => true,
-        'testservice' => false
+		'testservice' => false
 	],
 
 	// Client limits
@@ -84,5 +84,10 @@ return [
 	// We will need a new 'hxl-download' flag when we do the HXL downloads for P1
 	'hxl' => [
 		'enabled' => false,
+	],
+
+	// Enable or disable User Settings feature
+	'user-settings' => [
+		'enabled' => true,
 	],
 ];

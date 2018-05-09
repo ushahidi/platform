@@ -30,9 +30,9 @@ class JobRepository extends OhanzeeRepository implements WebhookJobRepositoryCon
 		$query = $this->search_query;
 
 		foreach ([
-			'post',
-			'webhook',
-		] as $fk) {
+					 'post',
+					 'webhook',
+				 ] as $fk) {
 			if ($search->$fk) {
 				$query->where("webhook_job.{$fk}_id", '=', $search->$fk);
 			}
@@ -58,8 +58,8 @@ class JobRepository extends OhanzeeRepository implements WebhookJobRepositoryCon
 	public function getJobs($limit)
 	{
 		$query = $this->selectQuery()
-					  ->limit($limit)
-					  ->order_by('created', 'ASC');
+			->limit($limit)
+			->order_by('created', 'ASC');
 
 		$results = $query->execute($this->db);
 

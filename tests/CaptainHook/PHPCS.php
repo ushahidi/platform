@@ -23,39 +23,39 @@ use SebastianFeldmann\Git\Repository;
  */
 class PHPCS implements Action
 {
-    /**
-     * Executes the action.
-     *
-     * @param  \SebastianFeldmann\CaptainHook\Config         $config
-     * @param  \SebastianFeldmann\CaptainHook\Console\IO     $io
-     * @param  \SebastianFeldmann\Git\Repository             $repository
-     * @param  \SebastianFeldmann\CaptainHook\Config\Action  $action
-     * @throws \Exception
-     */
-    public function execute(Config $config, IO $io, Repository $repository, Config\Action $action)
-    {
-        $options = $action->getOptions()->getAll();
-        $changedPHPFiles = $repository->getIndexOperator()->getStagedFilesOfType('php');
+	/**
+	 * Executes the action.
+	 *
+	 * @param  \SebastianFeldmann\CaptainHook\Config $config
+	 * @param  \SebastianFeldmann\CaptainHook\Console\IO $io
+	 * @param  \SebastianFeldmann\Git\Repository $repository
+	 * @param  \SebastianFeldmann\CaptainHook\Config\Action $action
+	 * @throws \Exception
+	 */
+	public function execute(Config $config, IO $io, Repository $repository, Config\Action $action)
+	{
+		$options = $action->getOptions()->getAll();
+		$changedPHPFiles = $repository->getIndexOperator()->getStagedFilesOfType('php');
 
-        // If nothing has changed, skip
-        if (!$changedPHPFiles) {
-            return;
-        }
+		// If nothing has changed, skip
+		if (!$changedPHPFiles) {
+			return;
+		}
 
-        $io->write('Running PHPCS:', true, IO::VERBOSE);
+		$io->write('Running PHPCS:', true, IO::VERBOSE);
 
-        $process = new Processor();
-        $result  = $process->run(
-            'bin/phpcs ' .
-            implode(' ', $options) .
-            ' ' .
-            implode(' ', array_map('escapeshellarg', $changedPHPFiles))
-        );
+		$process = new Processor();
+		$result = $process->run(
+			'bin/phpcs ' .
+			implode(' ', $options) .
+			' ' .
+			implode(' ', array_map('escapeshellarg', $changedPHPFiles))
+		);
 
-        if (!$result->isSuccessful()) {
-            throw ActionFailed::withMessage($result->getStdOut() . PHP_EOL . $result->getStdErr());
-        }
+		if (!$result->isSuccessful()) {
+			throw ActionFailed::withMessage($result->getStdOut() . PHP_EOL . $result->getStdErr());
+		}
 
-        $io->write($result->getStdOut());
-    }
+		$io->write($result->getStdOut());
+	}
 }

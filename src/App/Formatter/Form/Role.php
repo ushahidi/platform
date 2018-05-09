@@ -21,11 +21,11 @@ class Role extends API
 	public function __invoke($entity)
 	{
 		$data = [
-			'id'  => $entity->id,
+			'id' => $entity->id,
 			'url' => url('forms/' . $entity->form_id . '/roles/' . $entity->id),
 			'form_id' => $entity->form_id,
 			'role_id' => $entity->role_id,
-			];
+		];
 
 		$data = $this->addMetadata($data, $entity);
 

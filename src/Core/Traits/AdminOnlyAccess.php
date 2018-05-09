@@ -18,24 +18,24 @@ use Ushahidi\Core\Traits\PrivAccess;
 
 trait AdminOnlyAccess
 {
-    // The access checks are run under the context of a specific user
-    use UserContext;
+	// The access checks are run under the context of a specific user
+	use UserContext;
 
-    // It uses `AdminAccess` to check if the user has admin access
-    use AdminAccess;
+	// It uses `AdminAccess` to check if the user has admin access
+	use AdminAccess;
 
-    // It uses `PrivAccess` to provide the `getAllowedPrivs` method
-    use PrivAccess;
+	// It uses `PrivAccess` to provide the `getAllowedPrivs` method
+	use PrivAccess;
 
-    /**
-     * Allows full access only if the user is an admin
-     *
-     * @param  Entity  $entity
-     * @param  string  $privilege
-     * @return boolean
-     */
-    public function isAllowed(Entity $entity, $privilege)
-    {
-        return $this->isUserAdmin($this->getUser());
-    }
+	/**
+	 * Allows full access only if the user is an admin
+	 *
+	 * @param  Entity $entity
+	 * @param  string $privilege
+	 * @return boolean
+	 */
+	public function isAllowed(Entity $entity, $privilege)
+	{
+		return $this->isUserAdmin($this->getUser());
+	}
 }

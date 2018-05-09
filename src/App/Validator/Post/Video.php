@@ -18,12 +18,12 @@ class Video extends ValueValidator
 			return 'url';
 		}
 		if (!$this->checkVideoTypes($value)) {
-            return 'video_type';
+			return 'video_type';
 		}
 	}
 
-    protected function checkVideoTypes($value)
-    {
-        return (strpos($value, 'youtube') !== false || strpos($value, 'vimeo') !== false);
-    }
+	protected function checkVideoTypes($value)
+	{
+		return (strpos($value, 'youtube') !== false || strpos($value, 'vimeo') !== false);
+	}
 }

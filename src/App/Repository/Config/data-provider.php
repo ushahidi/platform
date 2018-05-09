@@ -40,8 +40,8 @@ return array(
 	// ),
 
 	'email' => array(
-	// 	'from' => '',
-	// 	'from_name' => '',
+		// 	'from' => '',
+		// 	'from_name' => '',
 
 		'incoming_type' => '',
 		'incoming_server' => '',
@@ -51,9 +51,9 @@ return array(
 		'incoming_password' => '',
 	),
 
-	'twilio'       => [],
-	'smssync'      => [],
-	'twitter'      => [],
-	'nexmo'        => [],
+	'twilio' => [],
+	'smssync' => [],
+	'twitter' => [],
+	'nexmo' => [],
 	'frontlinesms' => [],
 );

@@ -37,7 +37,7 @@ class Multisite
 				$host = getenv('HOST');
 			}
 			// If we still don't have a host
-			if (! $host) {
+			if (!$host) {
 				// @todo we should try app('request') first but we can't guarantee its been created
 				$request = Request::capture();
 				// .. parse the current URL
@@ -45,7 +45,7 @@ class Multisite
 			}
 
 			// If we still don't have a host
-			if (! $host) {
+			if (!$host) {
 				// Finally fallback to just $_SERVER vars
 				// Or just no subdomain if we can't figure it out
 				$host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : $domain;
@@ -54,7 +54,7 @@ class Multisite
 			// If $domain is set and we're at a subdomain of $domain..
 			if ($domain and substr($host, strlen($domain) * -1) == $domain) {
 				// .. grab just the subdomain
-				$subdomain = substr($host, 0, (strlen($domain) * -1) -1);
+				$subdomain = substr($host, 0, (strlen($domain) * -1) - 1);
 			} else {
 				// .. otherwise grab the whole domain
 				$domain = $host;
@@ -67,7 +67,7 @@ class Multisite
 	}
 
 	public function getDbConfig($host = null)
-    {
+	{
 		$this->parseHost($host);
 
 		// If we're running in the CLI and we can't get a subdomain
@@ -88,7 +88,7 @@ class Multisite
 		$deployment = $result->current();
 
 		// No deployment? throw a 404
-		if (! count($deployment)) {
+		if (!count($deployment)) {
 			abort(404, "Deployment not found");
 		}
 
@@ -97,10 +97,10 @@ class Multisite
 		$config = config('ohanzee-db.default');
 
 		$config['connection'] = [
-			'hostname'   => $deployment['db_host'],
-			'database'   => $deployment['db_name'],
-			'username'   => $deployment['db_username'],
-			'password'   => $deployment['db_password'],
+			'hostname' => $deployment['db_host'],
+			'database' => $deployment['db_name'],
+			'username' => $deployment['db_username'],
+			'password' => $deployment['db_password'],
 			'persistent' => $config['connection']['persistent'],
 		];
 

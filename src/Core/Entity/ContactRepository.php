@@ -23,8 +23,8 @@ interface ContactRepository extends
 {
 
 	/**
-	 * @param string  $contact
-	 * @param string  $type
+	 * @param string $contact
+	 * @param string $type
 	 * @return boolean
 	 */
 	public function getByContact($contact, $type);

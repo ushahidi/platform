@@ -27,7 +27,7 @@ class Notification extends StaticEntity
 		// Foreign key alias
 		return [
 			'user_id' => ['user', 'user.id'],
-			'set_id'  => ['set', 'set.id']
+			'set_id' => ['set', 'set.id']
 		];
 	}
 
@@ -35,13 +35,13 @@ class Notification extends StaticEntity
 	protected function getDefinition()
 	{
 		return [
-			'id'            => 'int',
-			'user'          => false,
-			'user_id'       => 'int',
-			'set'           => false,
-			'set_id'        => 'int',
-			'created'       => 'int',
-			'updated'       => 'int',
+			'id' => 'int',
+			'user' => false,
+			'user_id' => 'int',
+			'set' => false,
+			'set_id' => 'int',
+			'created' => 'int',
+			'updated' => 'int',
 		];
 	}
 

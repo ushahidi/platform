@@ -42,18 +42,18 @@ class CountryCodeAuthorizer implements Authorizer
 		// These checks are run within the `User` context.
 		$user = $this->getUser();
 
-        // Only read and search-usecases can be performed on country-codes
-        if ($privilege === 'read' || $privilege === 'search') {
-		    // Allow role with the right permissions to do everything else
-		    if ($this->acl->hasPermission($user, Permission::MANAGE_SETTINGS)) {
-                return true;
-		    }
+		// Only read and search-usecases can be performed on country-codes
+		if ($privilege === 'read' || $privilege === 'search') {
+			// Allow role with the right permissions to do everything else
+			if ($this->acl->hasPermission($user, Permission::MANAGE_SETTINGS)) {
+				return true;
+			}
 
-		    // If a user has the 'admin' role, they can do pretty much everything else
-		    if ($this->isUserAdmin($user)) {
-			    return true;
-		    }
-        }
+			// If a user has the 'admin' role, they can do pretty much everything else
+			if ($this->isUserAdmin($user)) {
+				return true;
+			}
+		}
 
 		// If no other access checks succeed, we default to denying access
 		return false;

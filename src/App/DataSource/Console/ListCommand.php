@@ -19,29 +19,29 @@ use \Ushahidi\Factory\UsecaseFactory;
 class ListCommand extends Command
 {
 
-    /**
-     * The console command name.
-     *
-     * @var string
-     */
-    protected $name = 'datasource:list';
+	/**
+	 * The console command name.
+	 *
+	 * @var string
+	 */
+	protected $name = 'datasource:list';
 
-    /**
-     * The console command signature.
-     *
-     * @var string
-     */
-    protected $signature = 'datasource:list {--source=} {--all}';
+	/**
+	 * The console command signature.
+	 *
+	 * @var string
+	 */
+	protected $signature = 'datasource:list {--source=} {--all}';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'List data sources';
+	/**
+	 * The console command description.
+	 *
+	 * @var string
+	 */
+	protected $description = 'List data sources';
 
 	public function __construct(\Ushahidi\App\DataSource\DataSourceManager $sources)
-    {
+	{
 		parent::__construct();
 		$this->sources = $sources;
 	}
@@ -65,8 +65,8 @@ class ListCommand extends Command
 		$list = [];
 		foreach ($sources as $id => $source) {
 			$list[] = [
-				'Name'        => $source->getName(),
-				'Services'    => implode(', ', $source->getServices()),
+				'Name' => $source->getName(),
+				'Services' => implode(', ', $source->getServices()),
 			];
 		}
 

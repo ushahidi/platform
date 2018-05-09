@@ -83,23 +83,23 @@ class PostRepository extends OhanzeeRepository implements
 
 	/**
 	 * Construct
-	 * @param Database                              $db
-	 * @param FormAttributeRepository               $form_attribute_repo
-	 * @param FormStageRepository                   $form_stage_repo
-	 * @param PostLockRepository                    $post_lock_repo
-	 * @param PostValueFactory                      $post_value_factory
-	 * @param Aura\DI\InstanceFactory               $bounding_box_factory
+	 * @param Database $db
+	 * @param FormAttributeRepository $form_attribute_repo
+	 * @param FormStageRepository $form_stage_repo
+	 * @param PostLockRepository $post_lock_repo
+	 * @param PostValueFactory $post_value_factory
+	 * @param Aura\DI\InstanceFactory $bounding_box_factory
 	 */
 	public function __construct(
-        Database $db,
-        FormAttributeRepositoryContract $form_attribute_repo,
-        FormStageRepositoryContract $form_stage_repo,
-        FormRepositoryContract $form_repo,
-        PostLockRepository $post_lock_repo,
-        ContactRepository $contact_repo,
-        PostValueFactory $post_value_factory,
-        InstanceFactory $bounding_box_factory
-    ) {
+		Database $db,
+		FormAttributeRepositoryContract $form_attribute_repo,
+		FormStageRepositoryContract $form_stage_repo,
+		FormRepositoryContract $form_repo,
+		PostLockRepository $post_lock_repo,
+		ContactRepository $contact_repo,
+		PostValueFactory $post_value_factory,
+		InstanceFactory $bounding_box_factory
+	) {
 
 		parent::__construct($db);
 
@@ -137,7 +137,7 @@ class PostRepository extends OhanzeeRepository implements
 			$data += [
 				'values' => $this->getPostValues($data['id']),
 				// Continued for legacy
-				'tags'   => $this->getTagsForPost($data['id'], $data['form_id']),
+				'tags' => $this->getTagsForPost($data['id'], $data['form_id']),
 				'sets' => $this->getSetsForPost($data['id']),
 				'completed_stages' => $this->getCompletedStagesForPost($data['id']),
 				'lock' => null,
@@ -383,7 +383,7 @@ class PostRepository extends OhanzeeRepository implements
 		} elseif ($search->center_point && $search->within_km) {
 			$bounding_box = $this->createBoundingBoxFromCenter(
 				$search->center_point,
-                $search->within_km
+				$search->within_km
 			);
 		}
 
@@ -392,15 +392,13 @@ class PostRepository extends OhanzeeRepository implements
 				->join([
 					$this->getBoundingBoxSubquery($bounding_box), 'Filter_BBox'
 				], 'INNER')
-				->on('posts.id', '=', 'Filter_BBox.post_id')
-				;
+				->on('posts.id', '=', 'Filter_BBox.post_id');
 		}
 
 		// Published to
 		if ($search->published_to) {
 			$query
-				->where("$table.published_to", 'LIKE', "%'$search->published_to'%")
-				;
+				->where("$table.published_to", 'LIKE', "%'$search->published_to'%");
 		}
 
 		if ($sources = $search->source) {
@@ -426,34 +424,33 @@ class PostRepository extends OhanzeeRepository implements
 			}
 
 			$query
-				->where("$table.id", 'IN', $post_id)
-				;
+				->where("$table.id", 'IN', $post_id);
 		}
 
 		if ($search->has_location === 'mapped') {
 			$query->and_where_open()
-			->where(
-                "$table.id",
-                'IN',
-                DB::query(Database::SELECT, 'select post_geometry.post_id from post_geometry')
-            )
-			->or_where(
-                "$table.id",
-                'IN',
-                DB::query(Database::SELECT, 'select post_point.post_id from post_point')
-            )
-			->and_where_close();
+				->where(
+					"$table.id",
+					'IN',
+					DB::query(Database::SELECT, 'select post_geometry.post_id from post_geometry')
+				)
+				->or_where(
+					"$table.id",
+					'IN',
+					DB::query(Database::SELECT, 'select post_point.post_id from post_point')
+				)
+				->and_where_close();
 		} elseif ($search->has_location === 'unmapped') {
 			$query->where(
-                "$table.id",
-                'NOT IN',
-                DB::query(Database::SELECT, 'select post_geometry.post_id from post_geometry')
-            );
+				"$table.id",
+				'NOT IN',
+				DB::query(Database::SELECT, 'select post_geometry.post_id from post_geometry')
+			);
 			$query->where(
-                "$table.id",
-                'NOT IN',
-                DB::query(Database::SELECT, 'select post_point.post_id from post_point')
-            );
+				"$table.id",
+				'NOT IN',
+				DB::query(Database::SELECT, 'select post_point.post_id from post_point')
+			);
 		}
 
 		// Filter by tag
@@ -520,8 +517,8 @@ class PostRepository extends OhanzeeRepository implements
 					->getValueQuery($attribute->id, $value);
 
 				$query
-					->join([$sub, 'Filter_'.ucfirst($key)], 'INNER')
-					->on('posts.id', '=', 'Filter_'.ucfirst($key).'.post_id');
+					->join([$sub, 'Filter_' . ucfirst($key)], 'INNER')
+					->on('posts.id', '=', 'Filter_' . ucfirst($key) . '.post_id');
 			}
 		}
 
@@ -533,7 +530,7 @@ class PostRepository extends OhanzeeRepository implements
 		if (!$user->id) {
 			$query->where("$table.status", '=', 'published');
 		} elseif (!$this->isUserAdmin($user) and
-				!$this->acl->hasPermission($user, Permission::MANAGE_POSTS)) {
+			!$this->acl->hasPermission($user, Permission::MANAGE_POSTS)) {
 			$query
 				->and_where_open()
 				->where("$table.status", '=', 'published')
@@ -556,7 +553,7 @@ class PostRepository extends OhanzeeRepository implements
 		$total = 0;
 
 		foreach ($results->as_array() as $result) {
-			$total += array_key_exists('total', $result) ? (int) $result['total'] : 0;
+			$total += array_key_exists('total', $result) ? (int)$result['total'] : 0;
 		}
 
 		return $total;
@@ -573,7 +570,7 @@ class PostRepository extends OhanzeeRepository implements
 			$results = DB::query(Database::SELECT, $raw_sql)->execute($this->db);
 
 			foreach ($results->as_array() as $result) {
-				$mapped = array_key_exists('total', $result) ? (int) $result['total'] : 0;
+				$mapped = array_key_exists('total', $result) ? (int)$result['total'] : 0;
 			}
 		}
 		return $total_posts - $mapped;
@@ -582,7 +579,7 @@ class PostRepository extends OhanzeeRepository implements
 	// PostRepository
 	public function getPublishedTotal()
 	{
-		return (int) $this->selectCount(['posts.status' => 'published']);
+		return (int)$this->selectCount(['posts.status' => 'published']);
 	}
 
 	// StatsPostRepository
@@ -590,13 +587,13 @@ class PostRepository extends OhanzeeRepository implements
 	{
 		// Create a new query to select posts count
 		$this->search_query = DB::select([DB::expr('COUNT(DISTINCT posts.id)'), 'total'])
-				->from('posts')
-				->JOIN('messages', 'LEFT')
-				->ON('posts.id', '=', 'messages.post_id');
+			->from('posts')
+			->JOIN('messages', 'LEFT')
+			->ON('posts.id', '=', 'messages.post_id');
 
 		// Quick hack to ensure all posts are available to
 		// group_by=status
-		if ($search->group_by === 'status' && ! $search->status) {
+		if ($search->group_by === 'status' && !$search->status) {
 			$search->status = 'all';
 		}
 
@@ -625,19 +622,19 @@ class PostRepository extends OhanzeeRepository implements
 
 					// Join to attribute
 					$this->search_query
-						->join([$sub, 'Time_'.ucfirst($key)], 'INNER')
-							->on('form_attribute_id', '=', DB::expr($attribute->id))
-							->on('posts.id', '=', 'Time_'.ucfirst($key).'.post_id');
+						->join([$sub, 'Time_' . ucfirst($key)], 'INNER')
+						->on('form_attribute_id', '=', DB::expr($attribute->id))
+						->on('posts.id', '=', 'Time_' . ucfirst($key) . '.post_id');
 
 					// Use the attribute `value` as our time
-					$time_field = 'Time_'.ucfirst($key).'.value';
+					$time_field = 'Time_' . ucfirst($key) . '.value';
 				}
 			}
 
 			$this->search_query
 				->select([
 					DB::expr(
-						'FLOOR('.$time_field.'/:interval)*:interval',
+						'FLOOR(' . $time_field . '/:interval)*:interval',
 						[':interval' => (int)$search->getFilter('timeline_interval', 86400)]
 					),
 					'time_label'
@@ -656,10 +653,10 @@ class PostRepository extends OhanzeeRepository implements
 					->getValueTable();
 
 				$this->search_query
-					->join([$sub, 'Group_'.ucfirst($key)], 'INNER')
-						->on('form_attribute_id', '=', DB::expr($attribute->id))
-						->on('posts.id', '=', 'Group_'.ucfirst($key).'.post_id')
-					->select(['Group_'.ucfirst($key).'.value', 'label'])
+					->join([$sub, 'Group_' . ucfirst($key)], 'INNER')
+					->on('form_attribute_id', '=', DB::expr($attribute->id))
+					->on('posts.id', '=', 'Group_' . ucfirst($key) . '.post_id')
+					->select(['Group_' . ucfirst($key) . '.value', 'label'])
 					->group_by('label');
 			}
 		} // Group by status
@@ -702,12 +699,12 @@ class PostRepository extends OhanzeeRepository implements
 				->join('posts_tags')->on('posts.id', '=', 'posts_tags.post_id')
 				->join('tags')->on('posts_tags.tag_id', '=', 'tags.id')
 				->join(['tags', 'parents'])
-					// Slight hack to avoid kohana db forcing multiple ON clauses to use AND not OR.
-					->on(
-						DB::expr("`parents`.`id` = `tags`.`parent_id` OR `parents`.`id` = `posts_tags`.`tag_id`"),
-						'',
-						DB::expr("")
-					)
+				// Slight hack to avoid kohana db forcing multiple ON clauses to use AND not OR.
+				->on(
+					DB::expr("`parents`.`id` = `tags`.`parent_id` OR `parents`.`id` = `posts_tags`.`tag_id`"),
+					'',
+					DB::expr("")
+				)
 				// This should really use ANY_VALUE(forms.name) but that only exists in mysql5.7
 				->select([DB::expr('MAX(parents.tag)'), 'label'])
 				->select(['parents.id', 'id'])
@@ -785,8 +782,7 @@ class PostRepository extends OhanzeeRepository implements
 	private function createBoundingBoxFromCSV($csv)
 	{
 		list($bb_west, $bb_north, $bb_east, $bb_south)
-				= array_map('floatval', explode(',', $csv))
-				;
+			= array_map('floatval', explode(',', $csv));
 
 		$bounding_box_factory = $this->bounding_box_factory;
 		return $bounding_box_factory($bb_west, $bb_north, $bb_east, $bb_south);
@@ -803,9 +799,9 @@ class PostRepository extends OhanzeeRepository implements
 		$bounding_box_factory = $this->bounding_box_factory;
 		$bounding_box = $bounding_box_factory(
 			$center_lon,
-            $center_lat,
-            $center_lon,
-            $center_lat
+			$center_lat,
+			$center_lon,
+			$center_lat
 		);
 
 		if ($within_km) {
@@ -836,7 +832,7 @@ class PostRepository extends OhanzeeRepository implements
 
 	/**
 	 * Get tags for a post
-	 * @param  int   $id  post id
+	 * @param  int $id post id
 	 * @return array      tag ids for post
 	 */
 	private function getTagsForPost($id, $form_id)
@@ -850,9 +846,9 @@ class PostRepository extends OhanzeeRepository implements
 		return $result->as_array(null, 'tag_id');
 	}
 
-  /**
+	/**
 	 * Get sets for a post
-	 * @param  int   $id  post id
+	 * @param  int $id post id
 	 * @return array      set ids for post
 	 */
 	private function getSetsForPost($id)
@@ -886,9 +882,9 @@ class PostRepository extends OhanzeeRepository implements
 
 		// Check for other translations
 		return $this->selectCount([
-			'posts.type' => 'translation',
-			'posts.parent_id' => $parent_id,
-			'posts.locale' => $locale
+				'posts.type' => 'translation',
+				'posts.parent_id' => $parent_id,
+				'posts.locale' => $locale
 			]) === 0;
 	}
 
@@ -912,7 +908,7 @@ class PostRepository extends OhanzeeRepository implements
 		// Set default value for post_date
 		if (empty($post['post_date'])) {
 			$post['post_date'] = date_create()->format("Y-m-d H:i:s");
-		// Convert post_date to mysql format
+			// Convert post_date to mysql format
 		} else {
 			$post['post_date'] = $post['post_date']->format("Y-m-d H:i:s");
 		}
@@ -1096,7 +1092,7 @@ class PostRepository extends OhanzeeRepository implements
 
 	protected function updatePostStages($post_id, $form_id, $completed_stages)
 	{
-		if (! is_array($completed_stages)) {
+		if (!is_array($completed_stages)) {
 			$completed_stages = [];
 		}
 

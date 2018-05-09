@@ -28,6 +28,6 @@ trait DataExportAccess
 	 */
 	public function canExportData()
 	{
-		return (bool) $this->enabled;
+		return (bool)$this->enabled;
 	}
 }

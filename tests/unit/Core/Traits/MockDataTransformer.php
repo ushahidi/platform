@@ -14,7 +14,7 @@ class MockDataTransformer
 	}
 
 	public function pTransform($data)
-    {
+	{
 		return $this->transform($data);
 	}
 }

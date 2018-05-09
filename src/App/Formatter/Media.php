@@ -22,17 +22,17 @@ class Media extends API
 	protected function addMetadata(array $data, Entity $media)
 	{
 		return $data + [
-			// Add additional URLs and sizes
-			// 'medium_file_url'    => $this->resizedUrl($medium_width, $medium_height, $media->o_filename),
-			// 'medium_width'       => $medium_width,
-			// 'medium_height'      => $medium_height,
-			// 'thumbnail_file_url' => $this->resizedUrl($thumbnail_width, $thumbnail_height, $media->o_filename),
-			// 'thumbnail_width'    => $thumbnail_width,
-			// 'thumbnail_height'   => $thumbnail_height,
+				// Add additional URLs and sizes
+				// 'medium_file_url'    => $this->resizedUrl($medium_width, $medium_height, $media->o_filename),
+				// 'medium_width'       => $medium_width,
+				// 'medium_height'      => $medium_height,
+				// 'thumbnail_file_url' => $this->resizedUrl($thumbnail_width, $thumbnail_height, $media->o_filename),
+				// 'thumbnail_width'    => $thumbnail_width,
+				// 'thumbnail_height'   => $thumbnail_height,
 
-			// Add the allowed HTTP methods
-			'allowed_privileges' => $this->getAllowedPrivs($media),
-		];
+				// Add the allowed HTTP methods
+				'allowed_privileges' => $this->getAllowedPrivs($media),
+			];
 	}
 
 	protected function getFieldName($field)
@@ -40,10 +40,10 @@ class Media extends API
 
 		$remap = [
 			'o_filename' => 'original_file_url',
-			'o_size'     => 'original_file_size',
-			'o_width'    => 'original_width',
-			'o_height'   => 'original_height',
-			];
+			'o_size' => 'original_file_size',
+			'o_width' => 'original_width',
+			'o_height' => 'original_height',
+		];
 
 		if (isset($remap[$field])) {
 			return $remap[$field];

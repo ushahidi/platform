@@ -39,7 +39,7 @@ class Post extends API
 			'form_id' => 'form',
 			'message_id' => 'message',
 			'contact_id' => 'contact'
-			];
+		];
 
 		if (isset($remap[$field])) {
 			return $remap[$field];

@@ -19,8 +19,8 @@ use Ushahidi\Core\Usecase\SearchRepository;
 
 class CountryCodeRepository extends OhanzeeRepository implements
 	CountryCodeRepositoryContract,
-    ReadRepository,
-    SearchRepository
+	ReadRepository,
+	SearchRepository
 {
 	// OhanzeeRepository
 	protected function getTable()
@@ -29,18 +29,18 @@ class CountryCodeRepository extends OhanzeeRepository implements
 	}
 
 	public function getSearchFields()
-    {
+	{
 		return ['country_code', 'dial_code'];
 	}
 
 	public function setSearchConditions(SearchData $search)
-    {
-        $query = $this->search_query;
-        return $query;
-    }
+	{
+		$query = $this->search_query;
+		return $query;
+	}
 
-    public function getEntity(array $data = null)
-    {
-        return new CountryCode($data);
-    }
+	public function getEntity(array $data = null)
+	{
+		return new CountryCode($data);
+	}
 }

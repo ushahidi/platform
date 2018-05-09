@@ -30,12 +30,12 @@ class RateLimiter implements RateLimiterInterface
 	 * @param BehEh\Flaps\ThrottlingStrategyInterface $trottlingStrategy
 	 */
 	public function __construct(Flap $flap, ThrottlingStrategyInterface $throttlingStrategy)
-    {
-        $this->flap = $flap;
+	{
+		$this->flap = $flap;
 
 		// @todo allow multiple strategies
 		$this->flap->pushThrottlingStrategy($throttlingStrategy);
-    }
+	}
 
 	public function limit(Entity $entity)
 	{

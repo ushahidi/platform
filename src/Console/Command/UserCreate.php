@@ -73,14 +73,14 @@ class UserCreate extends Command
 
 		$acceptTos = $this->option('tos');
 		if ($acceptTos) {
-				$tos = $this->tosRepo->getEntity([
-						'user_id' => $id,
-						'tos_version_date' => getenv('TOS_RELEASE_DATE')
-						? date_create(getenv('TOS_RELEASE_DATE'), new \DateTimeZone('UTC'))
-						: date_create()
-				]);
+			$tos = $this->tosRepo->getEntity([
+				'user_id' => $id,
+				'tos_version_date' => getenv('TOS_RELEASE_DATE')
+					? date_create(getenv('TOS_RELEASE_DATE'), new \DateTimeZone('UTC'))
+					: date_create()
+			]);
 
-				$this->tosRepo->create($tos);
+			$this->tosRepo->create($tos);
 		}
 
 		$this->info("Account was created successfully, id: {$id}");

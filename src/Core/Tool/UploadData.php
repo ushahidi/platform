@@ -16,7 +16,7 @@ use Ushahidi\Core\Data;
 class UploadData extends Data
 {
 	/**
-	 * @var String  $name original file name
+	 * @var String $name original file name
 	 */
 	public $name;
 

@@ -50,9 +50,9 @@ trait Event
 
 	/**
 	 * Add Event listener
-	 * @param  string   $event triggered event
+	 * @param  string $event triggered event
 	 * @param  Listener $listener
-	 * @param  int      $priority
+	 * @param  int $priority
 	 * @return object   $this
 	 */
 	protected function addListener($event, ListenerInterface $listener, $priority = EmitterInterface::P_NORMAL)
@@ -69,7 +69,7 @@ trait Event
 
 	public function setListener(ListenerInterface $listener)
 	{
-		if (! $this->event) {
+		if (!$this->event) {
 			throw new \LogicException('Cannot add a listener without an event');
 		}
 

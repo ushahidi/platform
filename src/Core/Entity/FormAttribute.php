@@ -42,19 +42,19 @@ class FormAttribute extends StaticEntity
 	protected function getDefinition()
 	{
 		return [
-			'id'            => 'int',
-			'key'           => 'string',
-			'label'         => 'string',
-			'instructions'  => 'string',
-			'input'         => 'string',
-			'type'          => 'string',
-			'required'      => 'bool',
-			'default'       => 'string',
-			'priority'      => 'int',
-			'options'       => '*json',
-			'cardinality'   => 'int',
-			'config'        => '*json',
-			'form_stage'    => false, /* alias */
+			'id' => 'int',
+			'key' => 'string',
+			'label' => 'string',
+			'instructions' => 'string',
+			'input' => 'string',
+			'type' => 'string',
+			'required' => 'bool',
+			'default' => 'string',
+			'priority' => 'int',
+			'options' => '*json',
+			'cardinality' => 'int',
+			'config' => '*json',
+			'form_stage' => false, /* alias */
 			'form_stage_id' => 'int',
 			'response_private' => 'bool',
 		];

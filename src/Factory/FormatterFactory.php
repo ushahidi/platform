@@ -35,8 +35,8 @@ class FormatterFactory
 	protected $collection_factory;
 
 	/**
-	 * @param  Array   $map
-	 * @param  Array   $collections
+	 * @param  Array $map
+	 * @param  Array $collections
 	 * @param  Closure $factory
 	 */
 	public function __construct(
@@ -44,7 +44,7 @@ class FormatterFactory
 		array $collections,
 		$factory
 	) {
-		$this->map         = $map;
+		$this->map = $map;
 		$this->collections = $collections;
 
 		$this->collection_factory = $factory;

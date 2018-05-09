@@ -41,9 +41,9 @@ class KohanaSession implements Session
 			$userId = $server->getOwnerId();
 		}
 
-        // Using the user repository, load the user
-        $user = $this->userRepo->get($userId);
+		// Using the user repository, load the user
+		$user = $this->userRepo->get($userId);
 
-        return $user;
-    }
+		return $user;
+	}
 }

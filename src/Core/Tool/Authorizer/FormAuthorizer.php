@@ -114,6 +114,6 @@ class FormAuthorizer implements Authorizer
 	 */
 	protected function isFormDisabled(Entity $entity)
 	{
-		return (bool) $entity->disabled;
+		return (bool)$entity->disabled;
 	}
 }

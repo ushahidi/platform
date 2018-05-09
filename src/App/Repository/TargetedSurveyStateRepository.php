@@ -84,8 +84,8 @@ class TargetedSurveyStateRepository extends OhanzeeRepository implements
 			->join('messages')->on('messages.id', '=', 'targeted_survey_state.message_id')
 			->where('targeted_survey_state.contact_id', '=', $contact_id)
 			->and_where(
-                'survey_status',
-                'IN',
+				'survey_status',
+				'IN',
 				[
 					Entity\TargetedSurveyState::PENDING_RESPONSE,
 					Entity\TargetedSurveyState::RECEIVED_RESPONSE

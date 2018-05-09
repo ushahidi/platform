@@ -42,7 +42,7 @@ class GeoJSONCollection implements Formatter
 				}
 			}
 
-			if (! empty($geometries)) {
+			if (!empty($geometries)) {
 				$color = ltrim($entity->color, '#');
 				$color = $color ? '#' . $color : null;
 
@@ -88,13 +88,13 @@ class GeoJSONCollection implements Formatter
 	 * Store paging parameters.
 	 *
 	 * @param  SearchData $search
-	 * @param  Integer    $total
+	 * @param  Integer $total
 	 * @return $this
 	 */
 	public function setSearch(SearchData $search, $total = null)
 	{
 		$this->search = $search;
-		$this->total  = $total;
+		$this->total = $total;
 		return $this;
 	}
 }

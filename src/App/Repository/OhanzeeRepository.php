@@ -40,7 +40,7 @@ abstract class OhanzeeRepository implements
 
 	/**
 	 * Get the entity for this repository.
-	 * @param  Array  $data
+	 * @param  Array $data
 	 * @return Ushahidi\Core\Entity
 	 */
 	abstract public function getEntity(array $data = null);
@@ -70,7 +70,7 @@ abstract class OhanzeeRepository implements
 	public function get($id)
 	{
 		return $this->getEntity($this->selectOne([
-			$this->getTable().'.id' => $id
+			$this->getTable() . '.id' => $id
 		]));
 	}
 
@@ -141,7 +141,7 @@ abstract class OhanzeeRepository implements
 		$result = $query->execute($this->db);
 
 		// ... return the total.
-		return (int) $result->get('total', 0);
+		return (int)$result->get('total', 0);
 	}
 
 	/**
@@ -161,7 +161,7 @@ abstract class OhanzeeRepository implements
 	 * Get a copy of the current search query, optionally removing the LIMIT,
 	 * OFFSET, and ORDER BY parameters (for query that can be COUNT'ed).
 	 * @throws RuntimeException if called before search parameters are set
-	 * @param  Boolean $countable  remove limit/offset/orderby
+	 * @param  Boolean $countable remove limit/offset/orderby
 	 * @return Database_Query_Select
 	 */
 	protected function getSearchQuery($countable = false)
@@ -242,8 +242,7 @@ abstract class OhanzeeRepository implements
 
 		$query = DB::insert($this->getTable())
 			->columns(array_keys($input))
-			->values(array_values($input))
-			;
+			->values(array_values($input));
 
 		list($id) = $query->execute($this->db);
 		return $id;
@@ -317,8 +316,8 @@ abstract class OhanzeeRepository implements
 	 */
 	public function exists($id)
 	{
-		return (bool) $this->selectCount([
-			$this->getTable().'.id' => $id
+		return (bool)$this->selectCount([
+			$this->getTable() . '.id' => $id
 		]);
 	}
 }

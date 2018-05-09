@@ -18,8 +18,8 @@ use Ushahidi\Core\Traits\AdminAccess;
 use Ushahidi\Core\Traits\UserContext;
 
 /** The `FormContactAuthorizer` class is responsible
- for access checks on `Contacts` that are created for a targetted survey
-**/
+ * for access checks on `Contacts` that are created for a targetted survey
+ **/
 class FormContactAuthorizer implements Authorizer
 {
 	// The access checks are run under the context of a specific user

@@ -27,22 +27,23 @@ class PostValueMedia extends StaticEntity
 	protected $o_height;
 	protected $value;
 	protected $key;
+
 	// DataTransformer
 	public function getDefinition()
 	{
 		return [
-			'id'         => 'int',
-			'user_id'    => 'int',
-			'caption'    => 'string',
-			'created'    => 'int',
-			'updated'    => 'int',
-			'mime'       => 'string',
+			'id' => 'int',
+			'user_id' => 'int',
+			'caption' => 'string',
+			'created' => 'int',
+			'updated' => 'int',
+			'mime' => 'string',
 			'o_filename' => 'string',
-			'o_size'     => 'int',
-			'o_width'    => 'int',
-			'o_height'   => 'int',
-			'value'      => null, // needed for csv values,
-			'key'		=> 'string'
+			'o_size' => 'int',
+			'o_width' => 'int',
+			'o_height' => 'int',
+			'value' => null, // needed for csv values,
+			'key' => 'string'
 		];
 	}
 

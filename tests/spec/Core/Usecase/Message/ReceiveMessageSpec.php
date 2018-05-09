@@ -26,7 +26,8 @@ class ReceiveMessageSpec extends ObjectBehavior
 		ContactRepository $contactRepo,
 		Validator $contactValid,
 		Dispatcher $dispatcher
-	) {
+	)
+	{
 		$contactRepo->beADoubleOf('Ushahidi\Core\Usecase\CreateRepository');
 
 		$this->setAuthorizer($auth);
@@ -69,8 +70,8 @@ class ReceiveMessageSpec extends ObjectBehavior
 		$entity->setState($payload + ["status" => "received", "direction" => "incoming"])->willReturn($entity);
 	}
 
- 	private function tryLoadContactEntity($payload, $contact_id, $contactRepo, $contact)
- 	{
+	private function tryLoadContactEntity($payload, $contact_id, $contactRepo, $contact)
+	{
 		// Called by ReceiveMessage::getContactEntity
 		$contactRepo->getByContact($payload['from'], $payload['contact_type'])->willReturn($contact);
 		$contact->getId()->willReturn($contact_id);
@@ -82,7 +83,8 @@ class ReceiveMessageSpec extends ObjectBehavior
 		$contactRepo,
 		Entity $entity,
 		Contact $contact
-	) {
+	)
+	{
 		$payload = $this->getPayload();
 		$contact_id = 3;
 		// ... fetch a new entity
@@ -108,7 +110,8 @@ class ReceiveMessageSpec extends ObjectBehavior
 		$contactValid,
 		Entity $entity,
 		Contact $contact
-	) {
+	)
+	{
 		$payload = $this->getPayload();
 		$contact_id = 3;
 		// ... fetch a new entity
@@ -140,7 +143,8 @@ class ReceiveMessageSpec extends ObjectBehavior
 		$contactValid,
 		Entity $entity,
 		Contact $contact
-	) {
+	)
+	{
 		$payload = $this->getPayload();
 		$contact_id = 3;
 		// ... fetch a new entity
@@ -180,7 +184,8 @@ class ReceiveMessageSpec extends ObjectBehavior
 		Entity $entity,
 		Entity $created,
 		Contact $contact
-	) {
+	)
+	{
 		$payload = $this->getPayload();
 		$contact_id = 3;
 		// ... fetch a new entity
@@ -223,7 +228,8 @@ class ReceiveMessageSpec extends ObjectBehavior
 		Entity $entity,
 		Entity $created,
 		Contact $contact
-	) {
+	)
+	{
 		$payload = $this->getPayload();
 		$contact_id = 3;
 		// ... fetch a new entity

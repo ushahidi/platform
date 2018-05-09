@@ -124,9 +124,9 @@ class SearchUsecase implements Usecase
 	{
 		return [
 			'orderby' => 'id',
-			'order'   => 'asc',
-			'limit'   => null,
-			'offset'  => 0
+			'order' => 'asc',
+			'limit' => null,
+			'offset' => 0
 		];
 	}
 

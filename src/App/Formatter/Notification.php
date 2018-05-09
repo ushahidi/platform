@@ -20,8 +20,8 @@ class Notification extends API
 	protected function getFieldName($field)
 	{
 		$remap = [
-			'set_id'  => 'set'
-			];
+			'set_id' => 'set'
+		];
 
 		if (isset($remap[$field])) {
 			return $remap[$field];

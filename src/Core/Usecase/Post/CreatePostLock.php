@@ -18,19 +18,19 @@ class CreatePostLock extends UpdateUsecase
 {
 	use PostLockTrait;
 
-    // Usecase
+	// Usecase
 	public function interact()
 	{
 		// Fetch a default entity and apply the payload...
 		$post = $this->getPostEntity();
-		
+
 		// ... verify that the entity can be created by the current user
 		$this->verifyLockAuth($post);
-		
+
 		$id = $this->repo->getLock($post);
-		
+
 		$lock = $this->getLockEntity($id);
-		
+
 		return $this->formatter->__invoke($lock);
 	}
 }

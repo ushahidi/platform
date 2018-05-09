@@ -21,26 +21,26 @@ use Mockery as M;
 class OutgoingCommandTest extends TestCase
 {
 
-    public function setUp()
-    {
-        parent::setUp();
-        // Ensure enabled providers is in a known state
-        $this->app->make('datasources')->setEnabledSources([
-            'email' => false,
-            'frontlinesms' => true,
-            'nexmo' => false,
-            'twilio' => true,
-            'twitter' => false,
-            'smssync' => true,
-        ]);
-    }
+	public function setUp()
+	{
+		parent::setUp();
+		// Ensure enabled providers is in a known state
+		$this->app->make('datasources')->setEnabledSources([
+			'email' => false,
+			'frontlinesms' => true,
+			'nexmo' => false,
+			'twilio' => true,
+			'twitter' => false,
+			'smssync' => true,
+		]);
+	}
 
-    public function testOutgoing()
-    {
-        $value = $this->artisan('datasource:outgoing', []);
+	public function testOutgoing()
+	{
+		$value = $this->artisan('datasource:outgoing', []);
 
-        $this->assertRegExp(
-            "/\+--------------\+-------\+
+		$this->assertRegExp(
+			"/\+--------------\+-------\+
 | Source       | Total |
 \+--------------\+-------\+
 | FrontlineSMS | [0-9]*     |
@@ -49,16 +49,16 @@ class OutgoingCommandTest extends TestCase
 | Unassigned   | [0-9]*     |
 \+--------------\+-------\+
 /",
-            $this->artisanOutput()
-        );
-    }
+			$this->artisanOutput()
+		);
+	}
 
-    public function testOutgoingAll()
-    {
-        $value = $this->artisan('datasource:outgoing', ["--all" => true]);
+	public function testOutgoingAll()
+	{
+		$value = $this->artisan('datasource:outgoing', ["--all" => true]);
 
-        $this->assertRegExp(
-            "/\+--------------\+-------\+
+		$this->assertRegExp(
+			"/\+--------------\+-------\+
 | Source       | Total |
 \+--------------\+-------\+
 | Email        | [0-9]*     |
@@ -69,22 +69,22 @@ class OutgoingCommandTest extends TestCase
 | Unassigned   | [0-9]*     |
 \+--------------\+-------\+
 /",
-            $this->artisanOutput()
-        );
-    }
+			$this->artisanOutput()
+		);
+	}
 
-    public function testOutgoingNexmo()
-    {
-        $value = $this->artisan('datasource:outgoing', ["--source" => "nexmo"]);
+	public function testOutgoingNexmo()
+	{
+		$value = $this->artisan('datasource:outgoing', ["--source" => "nexmo"]);
 
-        $this->assertRegExp(
-            "/\+--------\+-------\+
+		$this->assertRegExp(
+			"/\+--------\+-------\+
 | Source | Total |
 \+--------\+-------\+
 | Nexmo  | [0-9]*     |
 \+--------\+-------\+
 /",
-            $this->artisanOutput()
-        );
-    }
+			$this->artisanOutput()
+		);
+	}
 }

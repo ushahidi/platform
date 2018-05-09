@@ -15,16 +15,16 @@ interface UpdatePostValueRepository
 {
 	/**
 	 * Create new post value
-	 * @param  Mixed   $value
-	 * @param  Int     $form_attribute_id
-	 * @param  Int     $post_id
+	 * @param  Mixed $value
+	 * @param  Int $form_attribute_id
+	 * @param  Int $post_id
 	 */
 	public function createValue($value, $form_attribute_id, $post_id);
 
 	/**
 	 * Update an existing post value
-	 * @param  Int     $id
-	 * @param  Mixed   $value
+	 * @param  Int $id
+	 * @param  Mixed $value
 	 * @param  void
 	 */
 	public function updateValue($id, $value);
@@ -33,7 +33,7 @@ interface UpdatePostValueRepository
 	/**
 	 * Delete values that are not in the ids array
 	 * @param  Integer $post_id
-	 * @param  Array   $ids
+	 * @param  Array $ids
 	 */
 	public function deleteNotIn($post_id, array $ids);
 }

@@ -12,7 +12,6 @@ use Illuminate\Http\Request;
  * @copyright  2013 Ushahidi
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
-
 class ExportController extends PostsController
 {
 
@@ -21,18 +20,18 @@ class ExportController extends PostsController
 		return 'posts_export';
 	}
 
-    public function index(Request $request)
-    {
-        $this->usecase = $this->usecaseFactory
-            ->get($this->getResource(), 'export')
-            ->setFilters($this->getFilters($request));
+	public function index(Request $request)
+	{
+		$this->usecase = $this->usecaseFactory
+			->get($this->getResource(), 'export')
+			->setFilters($this->getFilters($request));
 
-        $format = strtolower($request->query('format'));
+		$format = strtolower($request->query('format'));
 
 		if ($format) {
 			$this->usecase->setFormatter(service("formatter.entity.post.$format"));
 		}
 
-        return $this->prepResponse($this->executeUsecase($request), $request);
-    }
+		return $this->prepResponse($this->executeUsecase($request), $request);
+	}
 }

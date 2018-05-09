@@ -13,24 +13,24 @@ namespace Ushahidi\App\Validator\Webhook;
 
 class Create extends Update
 {
-    protected function getRules()
-    {
-        return array_merge_recursive(parent::getRules(), [
-        'name' => [
-        ['not_empty'],
-        ],
-        'shared_secret' => [
-        ['not_empty'],
-        ],
-        'url' => [
-        ['not_empty'],
-        ],
-        'event_type' => [
-        ['not_empty'],
-        ],
-        'entity_type' => [
-        ['not_empty'],
-        ],
-        ]);
-    }
+	protected function getRules()
+	{
+		return array_merge_recursive(parent::getRules(), [
+			'name' => [
+				['not_empty'],
+			],
+			'shared_secret' => [
+				['not_empty'],
+			],
+			'url' => [
+				['not_empty'],
+			],
+			'event_type' => [
+				['not_empty'],
+			],
+			'entity_type' => [
+				['not_empty'],
+			],
+		]);
+	}
 }

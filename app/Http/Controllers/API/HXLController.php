@@ -12,7 +12,6 @@ use Ushahidi\App\Http\Controllers\Controller;
  * @copyright  2014 Ushahidi
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
-
 class HXLController extends Controller
 {
 
@@ -26,7 +25,7 @@ class HXLController extends Controller
 	public function index()
 	{
 		return [
-			'hxl'       => 'YAY!'
+			'hxl' => 'YAY!'
 		];
 	}
 }

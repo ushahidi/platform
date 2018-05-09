@@ -15,7 +15,7 @@ use Ushahidi\Core\Usecase\CreateUsecase;
 
 class CreateJob extends CreateUsecase
 {
-    protected function getEntity()
+	protected function getEntity()
 	{
 		$entity = parent::getEntity();
 

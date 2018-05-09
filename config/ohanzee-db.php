@@ -21,18 +21,18 @@ if (getenv("CLEARDB_DATABASE_URL")) {
 
 // DB config
 $config = [
-	'type'       => 'MySQLi',
+	'type' => 'MySQLi',
 	'connection' => [
-		'hostname'   => getenv('DB_HOST'),
-		'database'   => getenv('DB_DATABASE'),
-		'username'   => getenv('DB_USERNAME'),
-		'password'   => getenv('DB_PASSWORD'),
+		'hostname' => getenv('DB_HOST'),
+		'database' => getenv('DB_DATABASE'),
+		'username' => getenv('DB_USERNAME'),
+		'password' => getenv('DB_PASSWORD'),
 		'persistent' => false,
 	],
 	'table_prefix' => '',
-	'charset'      => 'utf8',
-	'caching'      => true,
-	'profiling'    => true,
+	'charset' => 'utf8',
+	'caching' => true,
+	'profiling' => true,
 ];
 
 // If multisite is enabled
@@ -40,13 +40,13 @@ if (!empty(getenv("MULTISITE_DOMAIN"))) {
 	// Use this config for the multisite db
 	return [
 		// Just define basics for default connection
-		'default'   => [
-			'type'         => 'MySQLi',
-			'connection'   => [ 'persistent' => false, ],
+		'default' => [
+			'type' => 'MySQLi',
+			'connection' => ['persistent' => false,],
 			'table_prefix' => '',
-			'charset'      => 'utf8',
-			'caching'      => true,
-			'profiling'    => true,
+			'charset' => 'utf8',
+			'caching' => true,
+			'profiling' => true,
 		],
 		'multisite' => $config
 	];

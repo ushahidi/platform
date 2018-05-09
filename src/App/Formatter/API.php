@@ -26,14 +26,14 @@ class API implements Formatter
 	{
 		if (!($entity instanceof Entity)) {
 			throw new FormatterException("API formatter requries an Entity as input");
-        }
+		}
 
 		$fields = $entity->asArray();
 
 		$data = [
-			'id'  => $entity->id,
+			'id' => $entity->id,
 			'url' => url(RESTController::url($entity->getResource(), $entity->id)),
-			];
+		];
 
 		if (isset($fields['parent_id'])) {
 			$data['parent'] = $this->getRelation($entity->getResource(), $entity->parent_id);
@@ -70,7 +70,7 @@ class API implements Formatter
 	 *
 	 * Must return the formatted data!
 	 *
-	 * @param  Array  $data   formatted data
+	 * @param  Array $data formatted data
 	 * @param  Entity $entity resource
 	 * @return Array
 	 */
@@ -99,13 +99,13 @@ class API implements Formatter
 	/**
 	 * Format relations into url/id arrays
 	 * @param  string $resource resource name as used in urls
-	 * @param  int    $id       resource id
+	 * @param  int $id resource id
 	 * @return array
 	 */
 	protected function getRelation($resource, $id)
 	{
 		return !$id ? null : [
-			'id'  => intval($id),
+			'id' => intval($id),
 			'url' => url(RESTController::url($resource, $id)),
 		];
 	}

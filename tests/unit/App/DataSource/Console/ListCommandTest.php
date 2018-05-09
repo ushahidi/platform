@@ -21,26 +21,26 @@ use Mockery as M;
 class ListCommandTest extends TestCase
 {
 
-    public function setUp()
-    {
-        parent::setUp();
-        // Ensure enabled providers is in a known state
-        $this->app->make('datasources')->setEnabledSources([
-            'email' => false,
-            'frontlinesms' => true,
-            'nexmo' => false,
-            'twilio' => true,
-            'twitter' => false,
-            'smssync' => true,
-        ]);
-    }
+	public function setUp()
+	{
+		parent::setUp();
+		// Ensure enabled providers is in a known state
+		$this->app->make('datasources')->setEnabledSources([
+			'email' => false,
+			'frontlinesms' => true,
+			'nexmo' => false,
+			'twilio' => true,
+			'twitter' => false,
+			'smssync' => true,
+		]);
+	}
 
-    public function testList()
-    {
-        $value = $this->artisan('datasource:list', []);
+	public function testList()
+	{
+		$value = $this->artisan('datasource:list', []);
 
-        $this->assertEquals(
-            "+--------------+----------+
+		$this->assertEquals(
+			"+--------------+----------+
 | Name         | Services |
 +--------------+----------+
 | FrontlineSMS | sms      |
@@ -48,16 +48,16 @@ class ListCommandTest extends TestCase
 | Twilio       | sms      |
 +--------------+----------+
 ",
-            $this->artisanOutput()
-        );
-    }
+			$this->artisanOutput()
+		);
+	}
 
-    public function testListAll()
-    {
-        $value = $this->artisan('datasource:list', ["--all" => true]);
+	public function testListAll()
+	{
+		$value = $this->artisan('datasource:list', ["--all" => true]);
 
-        $this->assertEquals(
-            "+--------------+----------+
+		$this->assertEquals(
+			"+--------------+----------+
 | Name         | Services |
 +--------------+----------+
 | Email        | email    |
@@ -68,7 +68,7 @@ class ListCommandTest extends TestCase
 | Twitter      | twitter  |
 +--------------+----------+
 ",
-            $this->artisanOutput()
-        );
-    }
+			$this->artisanOutput()
+		);
+	}
 }

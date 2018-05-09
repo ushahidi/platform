@@ -4,7 +4,7 @@
 namespace Tests\Integration\Bootstrap;
 
 // Load bootstrap to hook into \Kohana
-require_once __DIR__.'/../../bootstrap.php';
+require_once __DIR__ . '/../../bootstrap.php';
 
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;

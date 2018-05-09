@@ -28,7 +28,7 @@ class TargetedSurveyState extends StaticEntity
 	const RECEIVED_RESPONSE = 'RECEIVED RESPONSE';
 	const SURVEY_FINISHED = 'SURVEY FINISHED';
 	const INVALID_CONTACT_MOVED = 'ACTIVE CONTACT IN SURVEY ###';
-	
+
 	// DataTransformer
 	protected function getDefinition()
 	{

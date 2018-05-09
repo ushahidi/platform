@@ -18,19 +18,19 @@ use Ushahidi\Factory\UsecaseFactory;
 class ApikeySet extends Command
 {
 
-    /**
-     * The console command signature.
-     *
-     * @var string
-     */
-    protected $signature = 'apikey:set';
+	/**
+	 * The console command signature.
+	 *
+	 * @var string
+	 */
+	protected $signature = 'apikey:set';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Set apikey';
+	/**
+	 * The console command description.
+	 *
+	 * @var string
+	 */
+	protected $description = 'Set apikey';
 
 	/**
 	 * @var Ushahidi\Core\Usecase\Usecase
@@ -74,7 +74,7 @@ class ApikeySet extends Command
 			foreach (range(0, $iterator->getDepth()) as $depth) {
 				$keys[] = $iterator->getSubIterator($depth)->key();
 			}
-			$result[ join('.', $keys) ] = $leafValue;
+			$result[join('.', $keys)] = $leafValue;
 		}
 
 		// Format as table
