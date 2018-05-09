@@ -10,7 +10,7 @@ class AddCountryCodesToScope extends AbstractMigration
      */
     public function up()
     {
-            $this->execute("INSERT INTO oauth_scopes (scope, name) VALUES ('country_codes', 'country_codes')");
+        // Noop after lumen migrations
     }
 
     /**
@@ -18,6 +18,6 @@ class AddCountryCodesToScope extends AbstractMigration
      */
     public function down()
     {
-            $this->execute("DELETE FROM oauth_scopes WHERE scope = 'country_codes'");
+        // Noop after lumen migrations
     }
 }

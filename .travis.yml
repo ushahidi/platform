@@ -5,21 +5,21 @@ dist: precise
 #    secure: NxhzhKGYnZYZiWVZM4w1PlZpTy9bbmNlvbqjL+9d4PvK4hFzPwQU12CchhBPeXNGLWBHg/ti6Scn/t5XIS3YJrkk4ydWmJBht5UId8uFZ1A7GCUnNNPTt2RG55lbJJdZSj01rOGZjEQbE5RyckEjgRzhZjdZ+HsjoPaRzWIBrvE=
 language: php
 php:
-- '5.6'
 - '7.0'
 - '7.1'
+- 'nightly'
 env:
 - coverage="--coverage"
 - coverage=""
 matrix:
   exclude:
-  - php: '7.0'
-    env: coverage="--coverage"
   - php: '7.1'
+    env: coverage="--coverage"
+  - php: 'nightly'
     env: coverage="--coverage"
   allow_failures:
   - env: coverage="--coverage"
-  - php: '7.1'
+  - php: 'nightly'
   fast_finish: true
 cache:
   directories:

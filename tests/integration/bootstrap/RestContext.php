@@ -32,9 +32,11 @@ class RestContext implements Context
 	private $apiUrl            = 'api/v3';
 
 	private $parameters        = array();
-	private $headers           = array();
+	private $headers           = [
+		'Accept' => 'application/json'
+	];
 	private $postFields        = array();
-	private $postFiles        = array();
+	private $postFiles         = array();
 
 	/**
 	 * Initializes context.
@@ -44,12 +46,16 @@ class RestContext implements Context
 	{
 		$this->restObject = new stdClass();
 
-		$options = array();
+		$options = [
+			'http_errors' => false
+		];
 		if ($proxyUrl) {
-			$options['curl.options'] = array(CURLOPT_PROXY => $proxyUrl);
+			$options['proxy'] = [ 'http'  => $proxyUrl ];
 		}
 
-		$this->client = new \Guzzle\Service\Client($baseUrl, $options);
+		$options['base_uri'] = $baseUrl;
+
+		$this->client = new \GuzzleHttp\Client($options);
 	}
 
 	/**
@@ -58,7 +64,7 @@ class RestContext implements Context
 	 */
 	public function setDefaultBearerAuth()
 	{
-		$this->thatTheRequestHeaderIs('Authorization', 'Bearer defaulttoken');
+		$this->thatTheOauthTokenIs('defaulttoken');
 	}
 
 	/**
@@ -150,6 +156,16 @@ class RestContext implements Context
 	}
 
 	/**
+	 * @Given /^that I want to make an OPTIONS request$/
+	 */
+	public function thatIWantToMakeAnOptionsRequest()
+	{
+		// Reset _restObject
+		$this->restObject = new stdClass();
+		$this->restObjectMethod = 'options';
+	}
+
+	/**
 	 * @Given /^that the request "([^"]*)" is:$/
 	 * @Given /^that the request "([^"]*)" is "([^"]*)"$/
 	 * @Given /^that its "([^"]*)" is "([^"]*)"$/
@@ -167,14 +183,6 @@ class RestContext implements Context
 	{
 		$this->headers[$headerName] = $headerValue;
 	}
-
-	/**
-     * @Given /^that the response "([^"]*)" header is "([^"]*)"$/
-     */
-    public function thatTheResponseHeaderIs($headerName, $headerValue)
-    {
-		$this->headers[$headerName] = $headerValue;
-    }
 
 	/**
 	 * @Given /^that the post field "([^"]*)" is:$/
@@ -205,63 +213,75 @@ class RestContext implements Context
 			case 'GET':
 				$request = (array)$this->restObject;
 				$id = ( isset($request['id']) ) ? $request['id'] : '';
-				$http_request = $this->client
-					->get($this->requestUrl.'/'.$id);
-
-				if (isset($request['query string'])) {
-					$url = $http_request->getUrl(true);
-					$url->setQuery((string) trim($request['query string']));
-					$http_request->setUrl($url);
-				}
+				$response = $this->client
+					->get($this->requestUrl.'/'.$id, [
+						'query' => isset($request['query string']) ? trim($request['query string']) : null,
+						'headers' => $this->headers
+					]);
 				break;
 			case 'POST':
 				$request = (array)$this->restObject;
 				// If post fields or files are set assume this is a 'normal' POST request
-				if ($this->postFields or $this->postFiles) {
-					$http_request = $this->client
-						->post($this->requestUrl)
-						->addPostFields($this->postFields)
-						->addPostFiles($this->preparePostFileData($this->postFiles));
+				if ($this->postFiles) {
+					$response = $this->client
+						->post($this->requestUrl, [
+							'headers' => $this->headers,
+							'multipart' =>
+								array_merge(
+									array_map(function ($v, $k) {
+										return ['name' => $k, 'contents' => $v];
+									}, $this->postFields, array_keys($this->postFields)),
+									$this->preparePostFileData($this->postFiles)
+								)
+
+						]);
+				} elseif ($this->postFields) {
+					$response = $this->client
+						->post($this->requestUrl, [
+							'headers' => $this->headers,
+							'form_params' => $this->postFields
+						]);
 				} else {
 					// Otherwise assume we have JSON
-					$http_request = $this->client
-						->post($this->requestUrl)
-						->setBody($request['data']);
+					$response = $this->client
+						->post($this->requestUrl, [
+							'headers' => $this->headers + ['Content-Type' => 'application/json'],
+							'body' => $request['data']
+						]);
 				}
 				break;
 			case 'PUT':
 				$request = (array)$this->restObject;
 				$id = ( isset($request['id']) ) ? $request['id'] : '';
-				$http_request = $this->client
-					->put($this->requestUrl.'/'.$id)
-					->setBody($request['data']);
+				$response = $this->client
+					->put($this->requestUrl.'/'.$id, [
+						'headers' =>  $this->headers + ['Content-Type' => 'application/json'],
+						'body' => $request['data']
+					]);
 				break;
 			case 'DELETE':
 				$request = (array)$this->restObject;
 				$id = ( isset($request['id']) ) ? $request['id'] : '';
-				$http_request = $this->client
-					->delete($this->requestUrl.'/'.$id);
+				$response = $this->client
+					->delete($this->requestUrl.'/'.$id, [
+						'headers' => $this->headers,
+					]);
+				break;
+			case 'OPTIONS':
+				$request = (array)$this->restObject;
+				$id = ( isset($request['id']) ) ? $request['id'] : '';
+				$response = $this->client
+					->options($this->requestUrl.'/'.$id, [
+						'headers' => $this->headers,
+					]);
 				break;
 		}
 
-		try {
-			$http_request
-				->addHeaders($this->headers)
-				->send();
-		} catch (\Guzzle\Http\Exception\BadResponseException $e) {
-			// Don't care.
-			// 4xx and 5xx statuses are valid error responses
-		}
-
 		// Get response object
-		$this->response = $http_request->getResponse();
-		$data = $this->response->getBody(true);
-			//var_dump($data);
-			//throw new Exception(print_r($data,true));
-		// Create fake response object if Guzzle doesn't give us one
-		if (! $this->response instanceof \Guzzle\Http\Message\Response) {
-			$this->response = new \Guzzle\Http\Message\Response(null, null, null);
-		}
+		$this->response = $response;
+		// $data = $this->response->getBody(true);
+		// $data = explode("\n", $data);
+		// \Log::info(print_r($data, true));
 	}
 
 	/**
@@ -346,7 +366,7 @@ class RestContext implements Context
 	 */
 	public function theResponseIsJsonp()
 	{
-		$result = preg_match('/^.+\(({.+})\)$/', $this->response->getBody(true), $matches);
+		$result = preg_match('/.+\(({.+})\);?/s', $this->response->getBody(true), $matches);
 
 		if ($result != 1 or empty($matches[1])) {
 			throw new \Exception("Response was not JSONP\nBody:" . $this->response->getBody(true));
@@ -396,7 +416,7 @@ class RestContext implements Context
 		$data = json_decode($this->response->getBody(true), true);
 		$this->theResponseIsJson();
 
-		if (\Arr::path($data, $propertyName) === null) {
+		if (array_get($data, $propertyName) === null) {
 			throw new \Exception("Property '".$propertyName."' is not set!\n");
 		}
 	}
@@ -411,7 +431,7 @@ class RestContext implements Context
 
 		$this->theResponseIsJson();
 
-		if (\Arr::path($data, $propertyName) !== null) {
+		if (array_get($data, $propertyName) !== null) {
 			throw new \Exception("Property '".$propertyName."' is set but should not be!\n");
 		}
 	}
@@ -424,7 +444,7 @@ class RestContext implements Context
 		$data = json_decode($this->response->getBody(true), true);
 		$this->theResponseIsJson();
 
-		$actualPropertyValue = \Arr::path($data, $propertyName);
+		$actualPropertyValue = array_get($data, $propertyName);
 
 		if ($actualPropertyValue === null) {
 			throw new \Exception("Property '".$propertyName."' is not set!\n");
@@ -448,7 +468,7 @@ class RestContext implements Context
 
 		$this->theResponseIsJson();
 
-		$actualPropertyValue = \Arr::path($data, $propertyName);
+		$actualPropertyValue = array_get($data, $propertyName);
 
 		if ($actualPropertyValue === null) {
 			throw new \Exception("Property '".$propertyName."' is not set!\n");
@@ -467,7 +487,7 @@ class RestContext implements Context
 
 		$this->theResponseIsJson();
 
-		$actualPropertyValue = \Arr::path($data, $propertyName);
+		$actualPropertyValue = array_get($data, $propertyName);
 
 		if ($actualPropertyValue === null) {
 			throw new \Exception("Property '".$propertyName."' is not set!\n");
@@ -487,7 +507,7 @@ class RestContext implements Context
 
 		$this->theResponseIsJson();
 
-		$actualPropertyValue = \Arr::path($data, $propertyName);
+		$actualPropertyValue = array_get($data, $propertyName);
 
 		if ($actualPropertyValue === null) {
 			throw new Exception("Property '".$propertyName."' is not set!\n");
@@ -520,7 +540,7 @@ class RestContext implements Context
 
 		$this->theResponseIsJson();
 
-		$actualPropertyValue = \Arr::path($data, $propertyName);
+		$actualPropertyValue = array_get($data, $propertyName);
 
 		if ($actualPropertyValue === null) {
 			throw new Exception("Property '".$propertyName."' is not set!\n");
@@ -553,7 +573,7 @@ class RestContext implements Context
 
 		$this->theResponseIsJson();
 
-		$actualPropertyValue = \Arr::path($data, $propertyName);
+		$actualPropertyValue = array_get($data, $propertyName);
 
 		if ($actualPropertyValue === null) {
 			throw new \Exception("Property '".$propertyName."' is not set!\n");
@@ -578,7 +598,7 @@ class RestContext implements Context
 
 		$this->theResponseIsJson();
 
-		$actualPropertyValue = \Arr::path($data, $propertyName);
+		$actualPropertyValue = array_get($data, $propertyName);
 
 		if ($actualPropertyValue === null) {
 			throw new \Exception("Property '".$propertyName."' is not set!\n");
@@ -607,7 +627,7 @@ class RestContext implements Context
 
 		$this->theResponseIsJson();
 
-		$actualPropertyValue = \Arr::path($data, $propertyName);
+		$actualPropertyValue = array_get($data, $propertyName);
 
 		if (!empty($actualPropertyValue)) {
 			throw new \Exception("Property '{$propertyName}' is not empty!\n");
@@ -636,13 +656,13 @@ class RestContext implements Context
 	}
 
 	/**
-	 * @Then /^the the ([^"]*)" header should be "([^"]*)"$/
+	 * @Then /^the "([^"]*)" header should be "([^"]*)"$/
 	 */
-	public function theRestHeaderShouldExistBe($header, $contents)
+	public function theRestHeaderShouldBe($header, $contents)
 	{
-		if ((string)$this->response->getHeader($header) !== $contents) {
+		if ($this->response->getHeaderLine(strtolower($header)) !== $contents) {
 			throw new \Exception('HTTP header ' . $header . ' does not match '.$contents.
-				' (actual: '.$this->response->getHeader($header).')');
+				' (actual: '.$this->response->getHeaderLine(strtolower($header)).')');
 		}
 	}
 
@@ -652,9 +672,11 @@ class RestContext implements Context
 	 */
 	public function echoLastResponse()
 	{
-		var_dump(
-			$this->requestUrl."\n\n".
-			$this->response
+		print("
+{$this->requestUrl}
+HTTP/{$this->response->getProtocolVersion()} {$this->response->getStatusCode()} {$this->response->getReasonPhrase()}
+{$this->response->getBody()}
+"
 		);
 	}
 
@@ -681,21 +703,14 @@ class RestContext implements Context
 	{
 		//Check if post files is not empty
 		if (count($postFiles) > 0) {
-			array_walk_recursive($postFiles, array($this, 'prefixAppPath'));
-			return $postFiles;
+			return array_map(function ($v, $k) {
+				return [
+					'name' => $k,
+					'contents' => fopen(base_path($v), 'r'),
+				];
+			}, $postFiles, array_keys($postFiles));
 		}
 		return $postFiles;
-	}
-
-	/**
-	 * Make the path to upload files to, relative to the application directory
-	 *
-	 * @param  string $item the path to the file to be uploaded
-	 * @return string       path to application folder
-	 */
-	private function prefixAppPath(&$item)
-	{
-		$item = DOCROOT.$item;
 	}
 
 	/**
@@ -708,5 +723,38 @@ class RestContext implements Context
 
 		$this->restObjectType   = ucwords(strtolower($objectType));
 		$this->restObjectMethod = 'get';
+	}
+
+	// Map tokens to users
+	// Needs ot match data in Base.yml
+	private $tokenUserMap = [
+		'testanon' => null,
+		'testingtoken' => 2,
+		'defaulttoken' => 2,
+		'testadminuser' => 2,
+		'testbasicuser' => 1,
+		'testbasicuser2' => 3,
+		'testmanager' => 6,
+		'testimporter' => 7,
+		'missingtoken' => 99,
+		'testnoedit' => 8
+	];
+
+	/**
+	 * @Given /^that the oauth token is "([^"]*)"$/
+	 */
+	public function thatTheOauthTokenIs($tokenId)
+	{
+		$key = new \League\OAuth2\Server\CryptKey("file://".\Laravel\Passport\Passport::keyPath('oauth-private.key'));
+		$scope = new \Laravel\Passport\Bridge\Scope('*');
+		$client = new \Laravel\Passport\Bridge\Client('demoapp', 'demoapp', '/');
+
+		$accessToken = new \Laravel\Passport\Bridge\AccessToken($this->tokenUserMap[$tokenId], [$scope]);
+		$accessToken->setIdentifier($tokenId);
+		$accessToken->setExpiryDateTime((new \DateTime())->add(new \DateInterval('P1D')));
+		$accessToken->setClient($client);
+		$token = $accessToken->convertToJwt($key);
+
+		$this->headers['Authorization'] = "Bearer $token";
 	}
 }

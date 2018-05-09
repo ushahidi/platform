@@ -13,10 +13,13 @@ namespace Ushahidi\Core\Entity;
 
 use Ushahidi\Core\Entity\Repository\EntityGet;
 use Ushahidi\Core\Entity\Repository\EntityExists;
+use Ushahidi\Core\Usecase\CreateRepository;
+use Ushahidi\Core\Usecase\UpdateRepository;
 
 interface ContactRepository extends
 	EntityGet,
-	EntityExists
+	EntityExists,
+	CreateRepository
 {
 
 	/**
@@ -33,10 +36,4 @@ interface ContactRepository extends
 	 * @param int offset
 	 */
 	public function getNotificationContacts($set_id, $limit = false, $offset = 0);
-
-    /**
-	 * @param string  $contact
-	 * @return boolean
-	 */
-	public function isInActiveTargetedSurvey($contact);
 }

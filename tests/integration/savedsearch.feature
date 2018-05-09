@@ -103,7 +103,7 @@ Feature: Testing the Sets API
 
 	Scenario: Non admin user trying to make a SavedSearch featured fails
 		Given that I want to update a "SavedSearch"
-		And that the request "Authorization" header is "Bearer testbasicuser2"
+		And that the oauth token is "testbasicuser2"
 		And that the request "data" is:
 			"""
 			{

@@ -17,9 +17,7 @@ class DataProvider extends StaticEntity
 {
 	protected $id;
 	protected $name;
-	protected $version;
 	protected $services;
-	protected $links;
 	protected $options;
 	protected $inbound_fields;
 
@@ -27,13 +25,11 @@ class DataProvider extends StaticEntity
 	protected function getDefinition()
 	{
 		return [
-			'id'             	=> 'string',
-			'name'            => 'string',
-			'version'         => 'float',
-			'services'        => 'array',
-			'links'           => 'array',
-			'options'         => 'array',
-			'inbound_fields'  => 'array',
+			'id'       => 'string',
+			'name'     => 'string',
+			'services' => 'array',
+			'options'  => 'array',
+            'inbound_fields'  => 'array',
 		];
 	}
 

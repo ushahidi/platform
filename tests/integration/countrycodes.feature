@@ -3,7 +3,7 @@ Feature: Testing the Country Codes API
 
     Scenario: Retrieve All Country Codes
         Given that I want to get all "CountryCodes"
-        And that the request "Authorization" header is "Bearer testadminuser"
+        And that the oauth token is "testadminuser"
         When I request "/country-codes"
         Then the response is JSON
         And the response has a "total_count" property
@@ -15,7 +15,7 @@ Feature: Testing the Country Codes API
     @resetFixture
     Scenario: Basic User users cannot get Country Codes
         Given that I want to get all "CountryCodes"
-        And that the request "Authorization" header is "Bearer testbasicuser"
+        And that the oauth token is "testbasicuser"
         When I request "/country-codes"
         Then the response is JSON
         Then the guzzle status code should be 403
@@ -23,7 +23,7 @@ Feature: Testing the Country Codes API
     @resetFixture
     Scenario: Anonymous users cannot get Country Codes
         Given that I want to get all "CountryCodes"
-        And that the request "Authorization" header is "Bearer testanon"
+        And that the oauth token is "testanon"
         When I request "/country-codes"
         Then the response is JSON
-        Then the guzzle status code should be 400
+        Then the guzzle status code should be 403

@@ -39,7 +39,7 @@ Feature: Testing the Messages API
         And the "message" property equals "Test message reply"
         And the "status" property equals "pending"
         And the "type" property equals "sms"
-        And the "data_provider" property equals "smssync"
+        And the "data_source" property equals "smssync"
         And the "contact_id" property equals "3"
         And the "parent.id" property equals "9"
         Then the guzzle status code should be 200
@@ -205,7 +205,7 @@ Feature: Testing the Messages API
         Given that I want to get all "Messages"
         And that the request "query string" is:
             """
-            data_provider=smssync
+            data_source=smssync
             """
         When I request "/messages"
         Then the response is JSON
