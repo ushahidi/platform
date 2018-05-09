@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Ushahidi\App\Http\Controllers\RESTController;
 
 /**
- * Demo HXL feature flag
+ * HXL Licenses controller
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Application\Controllers
