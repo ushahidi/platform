@@ -140,8 +140,10 @@ class Export extends SearchUsecase
 		 */
 		$file = $formatter($posts, $keyAttributes);
 		return [
-			[
-				'file' => $file->file,
+			'results' => [
+				[
+					'file' => $file->file,
+				]
 			]
 		];
 	}
