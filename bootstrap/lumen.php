@@ -17,6 +17,7 @@ $app = new Laravel\Lumen\Application(
 
 $app->withFacades(true, [
     'Ushahidi\App\Facades\Features' => 'Features',
+    'Germanazo\CkanApi\Facades\CkanApi' => 'CkanApi'
 ]);
 
 $app->withEloquent();
@@ -88,6 +89,7 @@ $app->register(Ushahidi\App\Providers\EventServiceProvider::class);
 $app->register(Ushahidi\App\Providers\PassportServiceProvider::class);
 $app->register(Barryvdh\Cors\ServiceProvider::class);
 $app->register(Sentry\SentryLaravel\SentryLumenServiceProvider::class);
+$app->register(Germanazo\CkanApi\CkanServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------

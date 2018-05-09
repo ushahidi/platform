@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d75fca3a90b71b004b48a0b018ac2ffb",
+    "content-hash": "e27ab523932293113a656039bd0b60ce",
     "packages": [
         {
             "name": "abraham/twitteroauth",
@@ -782,6 +782,57 @@
             "description": "A simple library to encode and decode JSON Web Tokens (JWT) in PHP. Should conform to the current spec.",
             "homepage": "https://github.com/firebase/php-jwt",
             "time": "2017-06-27T22:17:23+00:00"
+        },
+        {
+            "name": "germanazo/laravel-ckan-api",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Germanaz0/laravel-ckan-api.git",
+                "reference": "fe7b6591a3d8c91771357979958745ba6d8e67d5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Germanaz0/laravel-ckan-api/zipball/fe7b6591a3d8c91771357979958745ba6d8e67d5",
+                "reference": "fe7b6591a3d8c91771357979958745ba6d8e67d5",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^6.2.0",
+                "php": ">=5.5.9"
+            },
+            "require-dev": {
+                "laravel/laravel": "5.4.*",
+                "mockery/mockery": "^0.9.4",
+                "phpunit/phpunit": "^5.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Germanazo\\CkanApi\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "German Bortoli",
+                    "email": "germanazo@gmail.com",
+                    "homepage": "https://github.com/Germanaz0",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Laravel 5 client for CKAN Api",
+            "homepage": "https://github.com/Germanaz0/laravel-ckan-api",
+            "keywords": [
+                "api",
+                "ckan",
+                "laravel",
+                "php"
+            ],
+            "time": "2017-02-17T17:31:38+00:00"
         },
         {
             "name": "giggsey/libphonenumber-for-php",
