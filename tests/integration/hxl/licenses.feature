@@ -1,12 +1,14 @@
+@hxl
 Feature: Testing the HXL Licenses API
     Scenario: List all HXL Licenses
         Given that I want to get all "HXL Licenses"
+        And that the oauth token is "testadminuser"
         When I request "/hxl/licenses"
         Then the response is JSON
         And the response has a "count" property
         And the type of the "count" property is "numeric"
-        And the "total_count" property equals "9"
-        And the response has a "result" property
+        And the "count" property equals "9"
+        And the response has a "results" property
         Then the guzzle status code should be 200
 
     @resetFixture
@@ -29,4 +31,4 @@ Feature: Testing the HXL Licenses API
         Given that I want to get all "HXLLicenses"
         When I request "/hxl/licenses"
         Then the response is JSON
-        Then the guzzle status code should be 403
+        Then the guzzle status code should be 401

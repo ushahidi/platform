@@ -243,7 +243,7 @@ $router->group([
     if (Features::isEnabled('hxl')) {
 		$router->group([
 			'prefix' => 'hxl',
-			'middleware' => ['auth:api'] //TODO which scopes do we need?
+			'middleware' => ['auth:api', 'scope:hxl']
 		], function () use ($router) {
 			// Public access
 			$router->get('/', 'HXLController@index');
