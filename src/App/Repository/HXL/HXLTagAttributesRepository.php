@@ -35,7 +35,7 @@ class HXLTagAttributesRepository extends OhanzeeRepository implements
 	// OhanzeeRepository
 	protected function getTable()
 	{
-		return 'hxl_tag_attributes';
+		return 'hxl_attribute_type_tag';
 	}
 
 	public function getSearchFields()
@@ -60,7 +60,7 @@ class HXLTagAttributesRepository extends OhanzeeRepository implements
 	{
 		return $this->selectQuery(compact('hxl_tag_id'))
 					->resetSelect()
-					->select('hxl_tag_attributes.form_attribute_type')
+					->select('hxl_attribute_type_tag.form_attribute_type')
 					->execute($this->db)->as_array();
 	}
 }

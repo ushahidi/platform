@@ -42,7 +42,7 @@ class HXLTagAttributes extends StaticEntity
 	// Entity
 	public function getResource()
 	{
-		return 'hxl_tag_attributes';
+		return 'hxl_attribute_type_tag';
 	}
 
 

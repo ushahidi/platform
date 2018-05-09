@@ -587,19 +587,28 @@ class CreateHxlTagsTables extends AbstractMigration
 				'default' => false,
 				'comment' => 'The hxl attribute. Examples: +f, +m, +adolescents'
 			])
-			->addColumn('tag_id', 'integer', [
-				'null' => false,
-				'default' => false
-			])
 			->addColumn('description', 'string', [
 				'null' => false,
 				'default' => false
 			])
+			->addIndex(['attribute'], ['unique' => true])
+			->create();
+
+		$this->table('hxl_tag_attributes')
+			->addColumn('tag_id', 'integer', [
+				'null' => false,
+				'default' => false
+			])
+			->addColumn('attribute_id', 'integer', [
+				'null' => false,
+				'default' => false
+			])
+			->addIndex(['attribute_id', 'tag_id'], ['unique' => true])
+			->addForeignKey('attribute_id', 'hxl_attributes', 'id')
 			->addForeignKey('tag_id', 'hxl_tags', 'id')
 			->create();
 
-
-		$this->table('hxl_tag_attributes')
+		$this->table('hxl_attribute_type_tag')
 			->addColumn('form_attribute_type', 'string', [
 				'null' => false,
 				'default' => false,
@@ -629,13 +638,18 @@ class CreateHxlTagsTables extends AbstractMigration
 		$insert_attribute = $pdo->prepare(
 			"INSERT IGNORE into
 					hxl_attributes
-					(`attribute`, `tag_id`)
-				VALUES (:attribute, :tag_id)"
+					(`attribute`)
+				VALUES (:attribute)"
 		);
 
-		$insert_tag_attribute_type = $pdo->prepare(
+		$insert_tag_attributes = $pdo->prepare(
 			"INSERT IGNORE into
 					hxl_tag_attributes
+					(`tag_id`, `attribute_id`)
+				VALUES (:tag_id, :attribute_id)");
+		$insert_attribute_types = $pdo->prepare(
+			"INSERT IGNORE into
+					hxl_attribute_type_tag
 					(`form_attribute_type`, `hxl_tag_id`)
 				VALUES (:form_attribute_type, :hxl_tag_id)"
 		);
@@ -653,11 +667,18 @@ class CreateHxlTagsTables extends AbstractMigration
 						$insert_attribute->execute(
 							[
 								':attribute' => $attribute,
-								':tag_id'	=> $tag_id
 							]
 						);
+						$select_attribute_id = $pdo->prepare("SELECT id from hxl_attributes where attribute = :attribute");
+						$select_attribute_id->execute([':attribute' => $attribute]);
+						$attribute_id = $select_attribute_id->fetch(PDO::FETCH_ASSOC);
+						$attribute_id = $attribute_id['id'];
+						$insert_tag_attributes->execute([
+							':tag_id' => $tag_id,
+							':attribute_id' => $attribute_id
+						]);
 					}
-					$insert_tag_attribute_type->execute([':form_attribute_type' => $type, ':hxl_tag_id' => $tag_id]);
+					$insert_attribute_types->execute([':form_attribute_type' => $type, ':hxl_tag_id' => $tag_id]);
 				}
 
 			}
@@ -667,6 +688,7 @@ class CreateHxlTagsTables extends AbstractMigration
     public function down()
 	{
 		$this->dropTable('hxl_tag_attributes');
+		$this->dropTable('hxl_attribute_type_tag');
 		$this->dropTable('hxl_attributes');
 		$this->dropTable('hxl_tags');
 	}

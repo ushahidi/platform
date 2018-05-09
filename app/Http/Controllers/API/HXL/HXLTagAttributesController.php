@@ -20,7 +20,7 @@ class HXLTagAttributesController extends RESTController
 
 	protected function getResource()
 	{
-		return 'hxl_tag_attributes';
+		return 'hxl_attribute_type_tag';
 	}
 
 	/**
