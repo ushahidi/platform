@@ -478,10 +478,16 @@ $router->group([
         // Sub-user routes
         $router->group(['prefix' => '/{user_id:[0-9]+}'], function () use ($router) {
             // Settings
-            $router->group(['prefix' => 'settings'], function () use ($router) {
-                $router->get('/', 'SettingsController@index');
-                $router->get('/{id}', 'SettingsController@show');
-            });
+            $router->group([
+				'prefix' => 'settings',
+				'middleware' => ['feature:user-settings']
+			], function () use ($router) {
+				$router->get('/', 'SettingsController@index');
+				$router->get('/{id:[0-9]+}', 'SettingsController@show');
+				$router->post('/', 'SettingsController@store');
+				$router->put('/{id:[0-9]+}', 'SettingsController@update');
+				$router->delete('/{id:[0-9]+}', 'SettingsController@destroy');
+			});
         });
 
         // Restricted access
@@ -508,7 +514,15 @@ $router->group([
         $router->delete('/{id:[0-9]+}', 'WebhooksController@destroy');
 
         $router->put('/posts', 'WebhookPostsController@update');
-    });
+	});
+	
+	// HXL
+	$router->group([
+		'prefix' => 'hxl',
+		'middleware' => ['feature:hxl']
+	], function () use ($router) {
+		$router->get('/', "HXLController@index");
+	});
 });
 
 // Migration

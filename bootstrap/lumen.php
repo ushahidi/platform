@@ -102,7 +102,6 @@ $app->router->group([
     'namespace' => 'Ushahidi\App\Http\Controllers',
 ], function ($router) {
     require __DIR__.'/../routes/web.php';
-    require __DIR__.'/../routes/features.php';
 });
 
 

@@ -61,11 +61,6 @@ class UserSettingAuthorizer implements Authorizer
 			return false;
 		}
 
-		// Role with the Manage Users permission can manage all users
-		if ($this->acl->hasPermission($user, Permission::MANAGE_USERS)) {
-			return true;
-		}
-
 		// Admin user should be able to do anything - short of deleting self
 		if ($this->isUserAdmin($user)) {
 			return true;

@@ -84,7 +84,7 @@ class SettingRepository extends OhanzeeRepository implements
 		return $this->getCollection($results->as_array());
 	}
 
-	public function deleteAllForForm($user_id)
+	public function deleteAllForUser($user_id)
 	{
 		return $this->executeDelete(compact('user_id'));
 	}
