@@ -50,9 +50,10 @@ class AddHxlLicenses extends AbstractMigration
 		}
     }
 
-    public function down() {
+    public function down()
+    {
 		$pdo = $this->getAdapter()->getConnection();
-		$codes = implode(",", array_map(function($license) {
+		$codes = implode(",", array_map(function ($license) {
 			return '"' . $license['id'] . '"';
 		}, $this->getLicenses()));
 		$delete = $pdo->prepare(
@@ -66,7 +67,8 @@ class AddHxlLicenses extends AbstractMigration
 	 * V1 will pull this daily from hdx into this db
 	 * @return array
 	 */
-	private function getLicenses() {
+	private function getLicenses()
+    {
 		return json_decode(
 			'[
 				{
@@ -213,7 +215,8 @@ class AddHxlLicenses extends AbstractMigration
 					"domain_software": "False",
 					"id": "hdx-other"
 				}
-			]'
-		, true);
+			]',
+            true
+        );
 	}
 }

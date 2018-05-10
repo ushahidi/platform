@@ -10,12 +10,10 @@ class DataImportPermissionNameChange extends AbstractMigration
 		$this->execute("UPDATE 	permissions SET 
 							name = 'Bulk Data Import & Export', 
 							description = 'Import and export data in bulk'
-							WHERE name = 'Bulk Data Import';"
-		);
+							WHERE name = 'Bulk Data Import';");
 		$this->execute("UPDATE 	roles_permissions SET 
 							`permission` = 'Bulk Data Import & Export'
-							WHERE `permission` = 'Bulk Data Import';"
-		);
+							WHERE `permission` = 'Bulk Data Import';");
 	}
 
 	public function down()
@@ -23,11 +21,9 @@ class DataImportPermissionNameChange extends AbstractMigration
 		$this->execute("UPDATE 	permissions SET 
 							name = 'Bulk Data Import', 
 							description = 'Import data from external sources'
-							WHERE name = 'Bulk Data Import & Export';"
-		);
+							WHERE name = 'Bulk Data Import & Export';");
 		$this->execute("UPDATE 	roles_permissions SET 
 							permission = 'Bulk Data Import' 
-							WHERE permission = 'Bulk Data Import & Export';"
-		);
+							WHERE permission = 'Bulk Data Import & Export';");
 	}
 }
