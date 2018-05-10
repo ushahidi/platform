@@ -19,58 +19,58 @@ use Ushahidi\App\Repository\OhanzeeRepository;
 
 class JobRepository extends OhanzeeRepository implements WebhookJobRepositoryContract
 {
-	protected function getTable()
-	{
-		return 'webhook_job';
-	}
+    protected function getTable()
+    {
+        return 'webhook_job';
+    }
 
-	// OhanzeeRepository
-	public function setSearchConditions(SearchData $search)
-	{
-		$query = $this->search_query;
+    // OhanzeeRepository
+    public function setSearchConditions(SearchData $search)
+    {
+        $query = $this->search_query;
 
-		foreach ([
-			'post',
-			'webhook',
-		] as $fk) {
-			if ($search->$fk) {
-				$query->where("webhook_job.{$fk}_id", '=', $search->$fk);
-			}
-		}
-	}
+        foreach ([
+            'post',
+            'webhook',
+        ] as $fk) {
+            if ($search->$fk) {
+                $query->where("webhook_job.{$fk}_id", '=', $search->$fk);
+            }
+        }
+    }
 
-	public function getEntity(array $data = null)
-	{
-		return new WebhookJob($data);
-	}
+    public function getEntity(array $data = null)
+    {
+        return new WebhookJob($data);
+    }
 
-	// CreateRepository
-	public function create(Entity $entity)
-	{
-		$state = [
-			'created' => time(),
-		];
+    // CreateRepository
+    public function create(Entity $entity)
+    {
+        $state = [
+            'created' => time(),
+        ];
 
-		return parent::create($entity->setState($state));
-	}
+        return parent::create($entity->setState($state));
+    }
 
-	// WebhookJobRepository
-	public function getJobs($limit)
-	{
-		$query = $this->selectQuery()
-					  ->limit($limit)
-					  ->order_by('created', 'ASC');
+    // WebhookJobRepository
+    public function getJobs($limit)
+    {
+        $query = $this->selectQuery()
+                      ->limit($limit)
+                      ->order_by('created', 'ASC');
 
-		$results = $query->execute($this->db);
+        $results = $query->execute($this->db);
 
-		return $this->getCollection($results->as_array());
-	}
+        return $this->getCollection($results->as_array());
+    }
 
-	public function getSearchFields()
-	{
-		return [
-			'post',
-			'webhook'
-		];
-	}
+    public function getSearchFields()
+    {
+        return [
+            'post',
+            'webhook'
+        ];
+    }
 }

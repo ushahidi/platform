@@ -16,39 +16,39 @@ use Ushahidi\Core\Entity\UserRepository;
 
 class Update extends Validator
 {
-	protected $user_repo;
-	protected $default_error_source = 'webhook';
+    protected $user_repo;
+    protected $default_error_source = 'webhook';
 
-	public function __construct(UserRepository $user_repo)
-	{
-		$this->user_repo = $user_repo;
-	}
+    public function __construct(UserRepository $user_repo)
+    {
+        $this->user_repo = $user_repo;
+    }
 
-	protected function getRules()
-	{
-		return [
-			'id' => [
-				['numeric'],
-			],
-			'name' => [
-				['max_length', [':value', 255]],
-				// alphas, numbers, punctuation, and spaces
-				['regex', [':value', '/^[\pL\pN\pP ]++$/uD']],
-			],
-			'shared_secret' => [
-				['min_length', [':value', 20]],
-				// alphas, numbers, punctuation, and spaces
-				['regex', [':value', '/^[\pL\pN\pP ]++$/uD']],
-			],
-			'url' => [
-				['url']
-			],
-			'event_type' => [
-				['in_array', [':value', ['create', 'delete', 'update']]],
-			],
-			'entity_type' => [
-				['in_array', [':value', ['post']]],
-			]
-		];
-	}
+    protected function getRules()
+    {
+        return [
+            'id' => [
+                ['numeric'],
+            ],
+            'name' => [
+                ['max_length', [':value', 255]],
+                // alphas, numbers, punctuation, and spaces
+                ['regex', [':value', '/^[\pL\pN\pP ]++$/uD']],
+            ],
+            'shared_secret' => [
+                ['min_length', [':value', 20]],
+                // alphas, numbers, punctuation, and spaces
+                ['regex', [':value', '/^[\pL\pN\pP ]++$/uD']],
+            ],
+            'url' => [
+                ['url']
+            ],
+            'event_type' => [
+                ['in_array', [':value', ['create', 'delete', 'update']]],
+            ],
+            'entity_type' => [
+                ['in_array', [':value', ['post']]],
+            ]
+        ];
+    }
 }

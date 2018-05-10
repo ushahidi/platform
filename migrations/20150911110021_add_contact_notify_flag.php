@@ -10,11 +10,11 @@ class AddContactNotifyFlag extends AbstractMigration
      */
     public function up()
     {
-		$this->table('contacts')
+        $this->table('contacts')
             ->addColumn('can_notify', 'boolean', [
                 'after' => 'updated',
                 'null' => false,
-				'default' => false
+                'default' => false
             ])
             ->update();
     }
@@ -24,8 +24,8 @@ class AddContactNotifyFlag extends AbstractMigration
      */
     public function down()
     {
-		$this->table('contacts')
-			 ->removeColumn('can_notify')
+        $this->table('contacts')
+             ->removeColumn('can_notify')
             ->update();
     }
 }

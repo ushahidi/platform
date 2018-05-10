@@ -13,9 +13,9 @@ namespace Ushahidi\Core\Usecase\Tag;
 
 interface ReadTagRepository
 {
-	/**
-	 * @param  int $id
-	 * @return Ushahidi\Core\Entity\Tag
-	 */
-	public function get($id);
+    /**
+     * @param  int $id
+     * @return Ushahidi\Core\Entity\Tag
+     */
+    public function get($id);
 }

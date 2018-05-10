@@ -18,33 +18,33 @@ use Ushahidi\Core\SearchData;
 
 class Collection extends CollectionFormatter
 {
-	// CollectionFormatter
-	public function getPaging()
-	{
-		// Get paging parameters, ensuring all values are set
-		$params = $this->search->getSorting(true);
+    // CollectionFormatter
+    public function getPaging()
+    {
+        // Get paging parameters, ensuring all values are set
+        $params = $this->search->getSorting(true);
 
-		$prev_params = $next_params = $params;
-		$next_params['offset'] = $params['offset'] + $params['limit'];
-		$prev_params['offset'] = $params['offset'] - $params['limit'];
-		$prev_params['offset'] = $prev_params['offset'] > 0 ? $prev_params['offset'] : 0;
+        $prev_params = $next_params = $params;
+        $next_params['offset'] = $params['offset'] + $params['limit'];
+        $prev_params['offset'] = $params['offset'] - $params['limit'];
+        $prev_params['offset'] = $prev_params['offset'] > 0 ? $prev_params['offset'] : 0;
 
-		// @todo inject this
-		$request = app('request');
+        // @todo inject this
+        $request = app('request');
 
-		$curr = url($request->path()) . '?' . http_build_query($params);
-		$next = url($request->path()) . '?' . http_build_query($next_params);
-		$prev = url($request->path()) . '?' . http_build_query($prev_params);
+        $curr = url($request->path()) . '?' . http_build_query($params);
+        $next = url($request->path()) . '?' . http_build_query($next_params);
+        $prev = url($request->path()) . '?' . http_build_query($prev_params);
 
-		return [
-			'limit'       => $params['limit'],
-			'offset'      => $params['offset'],
-			'order'       => $params['order'],
-			'orderby'     => $params['orderby'],
-			'curr'        => $curr,
-			'next'        => $next,
-			'prev'        => $prev,
-			'total_count' => $this->total
-		];
-	}
+        return [
+            'limit'       => $params['limit'],
+            'offset'      => $params['offset'],
+            'order'       => $params['order'],
+            'orderby'     => $params['orderby'],
+            'curr'        => $curr,
+            'next'        => $next,
+            'prev'        => $prev,
+            'total_count' => $this->total
+        ];
+    }
 }

@@ -1,7 +1,7 @@
 <?php
 
 return [
-	'roles' => [
-		'roleDoesNotExist' => 'role_id :value does not exist',
-	]
+    'roles' => [
+        'roleDoesNotExist' => 'role_id :value does not exist',
+    ]
 ];

@@ -16,40 +16,40 @@ use Ushahidi\Core\Entity\Permission;
 use Ushahidi\Core\Entity\PermissionRepository as PermissionRepositoryContract;
 
 class PermissionRepository extends OhanzeeRepository implements
-	PermissionRepositoryContract
+    PermissionRepositoryContract
 {
-	// OhanzeeRepository
-	protected function getTable()
-	{
-		return 'permissions';
-	}
+    // OhanzeeRepository
+    protected function getTable()
+    {
+        return 'permissions';
+    }
 
-	// OhanzeeRepository
-	public function getEntity(array $data = null)
-	{
-		return new Permission($data);
-	}
+    // OhanzeeRepository
+    public function getEntity(array $data = null)
+    {
+        return new Permission($data);
+    }
 
-	public function getSearchFields()
-	{
-		return ['q', /* LIKE name */];
-	}
+    public function getSearchFields()
+    {
+        return ['q', /* LIKE name */];
+    }
 
-	// SearchRepository
-	public function setSearchConditions(SearchData $search)
-	{
-		$query = $this->search_query;
+    // SearchRepository
+    public function setSearchConditions(SearchData $search)
+    {
+        $query = $this->search_query;
 
-		if ($search->q) {
-			$query->where('name', 'LIKE', "%" .$search->q ."%");
-		}
+        if ($search->q) {
+            $query->where('name', 'LIKE', "%" .$search->q ."%");
+        }
 
-		return $query;
-	}
+        return $query;
+    }
 
-	// UshahidiRepository
-	public function exists($permission)
-	{
-		return (bool) $this->selectCount(['name' => $permission]);
-	}
+    // UshahidiRepository
+    public function exists($permission)
+    {
+        return (bool) $this->selectCount(['name' => $permission]);
+    }
 }

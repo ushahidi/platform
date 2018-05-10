@@ -13,5 +13,5 @@ namespace Ushahidi\Core\Tool;
 
 interface Hasher
 {
-	public function hash($string);
+    public function hash($string);
 }

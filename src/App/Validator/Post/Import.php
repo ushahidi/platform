@@ -17,12 +17,12 @@ class Import extends Create
     {
         // We remove the rules validating required stages
         // as stages are not validated during an import
-		return array_merge(parent::getRules(), [
+        return array_merge(parent::getRules(), [
         'values' => [
-				[[$this, 'checkValues'], [':validation', ':value', ':fulldata']]
-		  ],
+                [[$this, 'checkValues'], [':validation', ':value', ':fulldata']]
+          ],
         'completed_stages' => [
-				[[$this, 'checkStageInForm'], [':validation', ':value', ':fulldata']]
+                [[$this, 'checkStageInForm'], [':validation', ':value', ':fulldata']]
         ]
         ]);
     }

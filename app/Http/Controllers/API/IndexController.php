@@ -17,25 +17,25 @@ use Ushahidi\App\Http\Controllers\RESTController;
 class IndexController extends Controller
 {
 
-	/**
-	 * Retrieve a basic information about the API
-	 *
-	 * GET /api
-	 *
-	 * @return void
-	 */
-	public function index()
-	{
-		$user = service('session')->getUser();
+    /**
+     * Retrieve a basic information about the API
+     *
+     * GET /api
+     *
+     * @return void
+     */
+    public function index()
+    {
+        $user = service('session')->getUser();
 
-		return [
-			'now'       => date(\DateTime::W3C),
-			'version'   => RESTController::version(),
-			'user'      => [
-				'id'       => $user->id,
-				'email'    => $user->email,
-				'realname' => $user->realname,
-			],
-		];
-	}
+        return [
+            'now'       => date(\DateTime::W3C),
+            'version'   => RESTController::version(),
+            'user'      => [
+                'id'       => $user->id,
+                'email'    => $user->email,
+                'realname' => $user->realname,
+            ],
+        ];
+    }
 }

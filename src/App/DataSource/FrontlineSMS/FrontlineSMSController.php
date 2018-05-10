@@ -22,40 +22,40 @@ class FrontlineSMSController extends DataSourceController
 
     protected $source = 'frontlinesms';
 
-	public function handleRequest(Request $request)
-	{
+    public function handleRequest(Request $request)
+    {
         // Authenticate the request
         if (!$this->source->verifySecret($request->input('secret'))) {
             return abort(403, 'Incorrect or missing secret key');
         }
 
-		$from = $request->input('from');
+        $from = $request->input('from');
 
-		if (empty($from)) {
-			abort(400, 'Missing from');
-		}
+        if (empty($from)) {
+            abort(400, 'Missing from');
+        }
 
-		$message_text = $request->input('message');
+        $message_text = $request->input('message');
 
-		if (empty($message_text)) {
-			abort(400, 'Missing message');
-		}
+        if (empty($message_text)) {
+            abort(400, 'Missing message');
+        }
 
-		// Allow for Alphanumeric sender
-		$from = preg_replace("/[^0-9A-Za-z+ ]/", "", $from);
+        // Allow for Alphanumeric sender
+        $from = preg_replace("/[^0-9A-Za-z+ ]/", "", $from);
 
-		$this->save([
-			'type' => MessageType::SMS,
-			'from' => $from,
-			'contact_type' => Contact::PHONE,
-			'message' => $message_text,
-			'title' => null,
-			'data_source' => 'frontlinesms'
-		]);
+        $this->save([
+            'type' => MessageType::SMS,
+            'from' => $from,
+            'contact_type' => Contact::PHONE,
+            'message' => $message_text,
+            'title' => null,
+            'data_source' => 'frontlinesms'
+        ]);
 
-		return ['payload' => [
-			'success' => true,
-			'error' => null
-		]];
-	}
+        return ['payload' => [
+            'success' => true,
+            'error' => null
+        ]];
+    }
 }

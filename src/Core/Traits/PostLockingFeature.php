@@ -15,19 +15,19 @@ namespace Ushahidi\Core\Traits;
 
 trait PostLockingFeature
 {
-	protected $enabled = false;
+    protected $enabled = false;
 
-	public function setEnabled($enabled)
-	{
-		$this->enabled = $enabled;
-	}
+    public function setEnabled($enabled)
+    {
+        $this->enabled = $enabled;
+    }
 
-	/**
-	 * Check if the user has PostLocking feature
-	 * @return boolean
-	 */
-	public function isPostLockingEnabled()
-	{
-		return (bool) $this->enabled;
-	}
+    /**
+     * Check if the user has PostLocking feature
+     * @return boolean
+     */
+    public function isPostLockingEnabled()
+    {
+        return (bool) $this->enabled;
+    }
 }

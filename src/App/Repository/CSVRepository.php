@@ -21,56 +21,56 @@ use League\Event\ListenerInterface;
 use Ushahidi\Core\Traits\Event;
 
 class CSVRepository extends OhanzeeRepository implements
-	CSVRepositoryContract
+    CSVRepositoryContract
 {
 
-	// Use the JSON transcoder to encode properties
-	use JsonTranscodeRepository;
+    // Use the JSON transcoder to encode properties
+    use JsonTranscodeRepository;
 
-	// Use Event trait to trigger events
-	use Event;
+    // Use Event trait to trigger events
+    use Event;
 
-	// JsonTranscodeRepository
-	protected function getJsonProperties()
-	{
-		return ['columns', 'maps_to', 'fixed'];
-	}
+    // JsonTranscodeRepository
+    protected function getJsonProperties()
+    {
+        return ['columns', 'maps_to', 'fixed'];
+    }
 
-	// OhanzeeRepository
-	protected function getTable()
-	{
-		return 'csv';
-	}
+    // OhanzeeRepository
+    protected function getTable()
+    {
+        return 'csv';
+    }
 
-	// CreateRepository
-	public function create(Entity $entity)
-	{
-		$state = [
-			'created'  => time(),
-		];
+    // CreateRepository
+    public function create(Entity $entity)
+    {
+        $state = [
+            'created'  => time(),
+        ];
 
-		return parent::create($entity->setState($state));
-	}
+        return parent::create($entity->setState($state));
+    }
 
-	// UpdateRepository
-	public function update(Entity $entity)
-	{
-		$state = [
-			'updated'  => time(),
-		];
+    // UpdateRepository
+    public function update(Entity $entity)
+    {
+        $state = [
+            'updated'  => time(),
+        ];
 
-		return parent::update($entity->setState($state));
-	}
+        return parent::update($entity->setState($state));
+    }
 
-	// OhanzeeRepository
-	public function getEntity(array $data = null)
-	{
-		return new CSV($data);
-	}
+    // OhanzeeRepository
+    public function getEntity(array $data = null)
+    {
+        return new CSV($data);
+    }
 
-	// SearchRepository
-	public function getSearchFields()
-	{
-		return ['columns', 'maps_to', 'fixed', 'filename'];
-	}
+    // SearchRepository
+    public function getSearchFields()
+    {
+        return ['columns', 'maps_to', 'fixed', 'filename'];
+    }
 }

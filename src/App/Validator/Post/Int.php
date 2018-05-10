@@ -13,10 +13,10 @@ namespace Ushahidi\App\Validator\Post;
 
 class Int extends ValueValidator
 {
-	protected function validate($value)
-	{
-		if (!\Kohana\Validation\Valid::digit($value)) {
-			return 'digit';
-		}
-	}
+    protected function validate($value)
+    {
+        if (!\Kohana\Validation\Valid::digit($value)) {
+            return 'digit';
+        }
+    }
 }

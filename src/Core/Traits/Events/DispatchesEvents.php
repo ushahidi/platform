@@ -15,23 +15,23 @@ use Illuminate\Contracts\Events\Dispatcher;
 
 trait DispatchesEvents
 {
-	protected $events;
+    protected $events;
 
-	public function setDispatcher(Dispatcher $events)
-	{
-		$this->events = $events;
-	}
+    public function setDispatcher(Dispatcher $events)
+    {
+        $this->events = $events;
+    }
 
-	/**
-	 * Trigger event
-	 *
+    /**
+     * Trigger event
+     *
      * @param  string|object  $event
      * @param  mixed  $payload
      * @param  bool  $halt
      * @return array|null
-	 */
-	protected function dispatch($event, $payload = [], $halt = false)
-	{
-		$this->events->dispatch($event, $payload, $halt);
-	}
+     */
+    protected function dispatch($event, $payload = [], $halt = false)
+    {
+        $this->events->dispatch($event, $payload, $halt);
+    }
 }

@@ -16,10 +16,10 @@ use Ushahidi\App\Reader;
 
 class CSVReaderFactory implements ReaderFactory
 {
-	public function createReader($file)
-	{
-		return $file instanceof \SplFileObject
-			? Reader::createFromFileObject($file)
-			: Reader::createFromPath($file);
-	}
+    public function createReader($file)
+    {
+        return $file instanceof \SplFileObject
+            ? Reader::createFromFileObject($file)
+            : Reader::createFromPath($file);
+    }
 }

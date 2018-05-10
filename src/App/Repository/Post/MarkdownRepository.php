@@ -16,9 +16,9 @@ use Ushahidi\Core\Entity\PostValueRepository as PostValueRepositoryContract;
 
 class MarkdownRepository extends ValueRepository
 {
-	// OhanzeeRepository
-	protected function getTable()
-	{
-		return 'post_markdown';
-	}
+    // OhanzeeRepository
+    protected function getTable()
+    {
+        return 'post_markdown';
+    }
 }

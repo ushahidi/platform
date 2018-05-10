@@ -24,128 +24,128 @@ use Ohanzee\Database;
 
 class ExportJobRepository extends OhanzeeRepository implements ExportJobRepositoryContract
 {
-	// Use the JSON transcoder to encode properties
-	use JsonTranscodeRepository;
+    // Use the JSON transcoder to encode properties
+    use JsonTranscodeRepository;
 
-	// - FilterRecords for setting search parameters
-	use FilterRecords;
-	use UserContext;
-	use AdminAccess;
+    // - FilterRecords for setting search parameters
+    use FilterRecords;
+    use UserContext;
+    use AdminAccess;
 
-	/**
-	 * @var SearchData
-	 */
-	protected $search;
+    /**
+     * @var SearchData
+     */
+    protected $search;
 
-	protected $post_repo;
+    protected $post_repo;
 
-	public function __construct(Database $db, PostRepository $post_repo)
-	{
-		parent::__construct($db);
+    public function __construct(Database $db, PostRepository $post_repo)
+    {
+        parent::__construct($db);
 
-		$this->post_repo = $post_repo;
-	}
+        $this->post_repo = $post_repo;
+    }
 
-	protected function getTable()
-	{
-		return 'export_job';
-	}
+    protected function getTable()
+    {
+        return 'export_job';
+    }
 
-	// Ushahidi_JsonTranscodeRepository
-	protected function getJsonProperties()
-	{
-		return ['fields', 'filters', 'header_row'];
-	}
+    // Ushahidi_JsonTranscodeRepository
+    protected function getJsonProperties()
+    {
+        return ['fields', 'filters', 'header_row'];
+    }
 
-	// OhanzeeRepository
-	public function setSearchConditions(SearchData $search)
-	{
-		$query = $this->search_query;
+    // OhanzeeRepository
+    public function setSearchConditions(SearchData $search)
+    {
+        $query = $this->search_query;
 
-		$user = $this->getUser();
+        $user = $this->getUser();
 
-		// Limit search to user's records unless they are admin
-		// or if we get user=me as a search param
-		if (! $this->isUserAdmin($user) || $search->user === 'me') {
-			$search->user = $this->getUserId();
-		}
-		if ($search->max_expiration) {
-			$query->where("url_expiration", '>', intval($search->max_expiration));
-			$query->or_where("url_expiration", 'IS', null);
-			$query->or_where("url_expiration", '=', 0);
-		}
-		foreach ([
-			'user'
-		] as $fk) {
-			if ($search->$fk) {
-				$query->where("export_job.{$fk}_id", '=', $search->$fk);
-			}
-		}
+        // Limit search to user's records unless they are admin
+        // or if we get user=me as a search param
+        if (! $this->isUserAdmin($user) || $search->user === 'me') {
+            $search->user = $this->getUserId();
+        }
+        if ($search->max_expiration) {
+            $query->where("url_expiration", '>', intval($search->max_expiration));
+            $query->or_where("url_expiration", 'IS', null);
+            $query->or_where("url_expiration", '=', 0);
+        }
+        foreach ([
+            'user'
+        ] as $fk) {
+            if ($search->$fk) {
+                $query->where("export_job.{$fk}_id", '=', $search->$fk);
+            }
+        }
 
-		foreach ([
-			'entity_type',
-		] as $key) {
-			if ($search->$key) {
-				$query->where($key, '=', $search->$key);
-			}
-		}
-	}
+        foreach ([
+            'entity_type',
+        ] as $key) {
+            if ($search->$key) {
+                $query->where($key, '=', $search->$key);
+            }
+        }
+    }
 
-	public function getEntity(array $data = null)
-	{
-		return new ExportJob($data);
-	}
+    public function getEntity(array $data = null)
+    {
+        return new ExportJob($data);
+    }
 
-	// CreateRepository
-	public function create(Entity $entity)
-	{
-		$state = [
-			'created' => time(),
-			'status' => "pending",
-			'user_id' => $entity->user_id,
-		];
+    // CreateRepository
+    public function create(Entity $entity)
+    {
+        $state = [
+            'created' => time(),
+            'status' => "pending",
+            'user_id' => $entity->user_id,
+        ];
 
-		return parent::create($entity->setState($state));
-	}
+        return parent::create($entity->setState($state));
+    }
 
-	// WebhookJobRepository
-	public function getJobs($limit)
-	{
-		$query = $this->selectQuery()
-					  ->limit($limit)
-					  ->order_by('created', 'ASC');
+    // WebhookJobRepository
+    public function getJobs($limit)
+    {
+        $query = $this->selectQuery()
+                      ->limit($limit)
+                      ->order_by('created', 'ASC');
 
-		$results = $query->execute($this->db);
+        $results = $query->execute($this->db);
 
-		return $this->getCollection($results->as_array());
-	}
+        return $this->getCollection($results->as_array());
+    }
 
-	public function getPostCount($job_id)
-	{
-		$job = $this->get($job_id);
+    public function getPostCount($job_id)
+    {
+        $job = $this->get($job_id);
 
-		if ($job->filters) {
-			$this->setFilters($job->filters);
-		}
+        if ($job->filters) {
+            $this->setFilters($job->filters);
+        }
 
 
-		$fields = $this->post_repo->getSearchFields();
+        $fields = $this->post_repo->getSearchFields();
 
-		$this->search = new SearchData(
-			$this->getFilters($fields)
-		);
+        $this->search = new SearchData(
+            $this->getFilters($fields)
+        );
 
-		$this->search->group_by === 'form';
+        $this->search->group_by === 'form';
 
-		$total = $this->post_repo->getGroupedTotals($this->search);
+        $total = $this->post_repo->getGroupedTotals($this->search);
 
-		return $total;
-	}
+        return $total;
+    }
 
-	public function getSearchFields()
-	{
-		return [
-			'entity_type', 'user', 'max_expiration'
-		];
-	}
+    public function getSearchFields()
+    {
+        return [
+            'entity_type', 'user', 'max_expiration'
+        ];
+    }
 }

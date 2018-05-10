@@ -102,14 +102,14 @@
             "@migrate"
         ],
         "lint" : [
-            "phpcs --standard=src/ruleset.xml --tab-width=4 ./",
-            "phpcs --standard=tests/spec/ruleset.xml --tab-width=4 ./tests/spec/",
-            "phpcs --standard=migrations/ruleset.xml --tab-width=4 ./migrations/ ./database"
+            "phpcs --standard=src/ruleset.xml ./",
+            "phpcs --standard=tests/spec/ruleset.xml ./tests/spec/",
+            "phpcs --standard=migrations/ruleset.xml ./migrations/ ./database"
         ],
         "fixlint" : [
-            "phpcbf --standard=src/ruleset.xml --tab-width=4 ./",
-            "phpcbf --standard=tests/spec/ruleset.xml --tab-width=4 ./tests/spec/",
-            "phpcbf --standard=migrations/ruleset.xml --tab-width=4 ./migrations/ ./database"
+            "phpcbf --standard=src/ruleset.xml ./",
+            "phpcbf --standard=tests/spec/ruleset.xml ./tests/spec/",
+            "phpcbf --standard=migrations/ruleset.xml ./migrations/ ./database"
         ],
         "pre-coverage" : [
             "rm -rf coverage/"

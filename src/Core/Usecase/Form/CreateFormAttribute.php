@@ -17,22 +17,22 @@ use Ushahidi\Core\Usecase\Concerns\VerifyEntityLoaded;
 
 class CreateFormAttribute extends CreateUsecase
 {
-	// - VerifyStageLoaded for checking that the stage exists
-	use VerifyStageLoaded;
+    // - VerifyStageLoaded for checking that the stage exists
+    use VerifyStageLoaded;
 
-	// For form check:
-	// - IdentifyRecords
-	// - VerifyEntityLoaded
-	use IdentifyRecords,
-		VerifyEntityLoaded;
+    // For form check:
+    // - IdentifyRecords
+    // - VerifyEntityLoaded
+    use IdentifyRecords,
+        VerifyEntityLoaded;
 
-	// CreateUsecase
-	protected function getEntity()
-	{
-		$entity = parent::getEntity();
+    // CreateUsecase
+    protected function getEntity()
+    {
+        $entity = parent::getEntity();
 
-		$this->verifyStageExists($entity);
+        $this->verifyStageExists($entity);
 
-		return $entity;
-	}
+        return $entity;
+    }
 }

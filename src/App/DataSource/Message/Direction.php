@@ -14,6 +14,6 @@ namespace Ushahidi\App\DataSource\Message;
 interface Direction
 {
 
-	const INCOMING = 'incoming';
-	const OUTGOING = 'outgoing';
+    const INCOMING = 'incoming';
+    const OUTGOING = 'outgoing';
 }

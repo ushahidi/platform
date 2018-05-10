@@ -21,13 +21,13 @@ use Ushahidi\Core\Entity\User;
 trait AdminAccess
 {
 
-	/**
-	 * Check if the user has an Admin role
-	 * @param  User    $user
-	 * @return boolean
-	 */
-	protected function isUserAdmin(User $user)
-	{
-		return ($user->id && $user->role === 'admin');
-	}
+    /**
+     * Check if the user has an Admin role
+     * @param  User    $user
+     * @return boolean
+     */
+    protected function isUserAdmin(User $user)
+    {
+        return ($user->id && $user->role === 'admin');
+    }
 }

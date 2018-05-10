@@ -16,72 +16,72 @@ use Ushahidi\Core\Traits\FormatterAuthorizerMetadata;
 
 class Post extends API
 {
-	use FormatterAuthorizerMetadata;
+    use FormatterAuthorizerMetadata;
 
-	public function __invoke($post)
-	{
-		// prefer doing it here until we implement parent method for filtering results
-		// mixing and matching with metadata is just plain ugly
-		$data = parent::__invoke($post);
+    public function __invoke($post)
+    {
+        // prefer doing it here until we implement parent method for filtering results
+        // mixing and matching with metadata is just plain ugly
+        $data = parent::__invoke($post);
 
-		if (!in_array('read_full', $data['allowed_privileges'])) {
-			// Remove sensitive fields
-			unset($data['author_realname']);
-			unset($data['author_email']);
-		}
+        if (!in_array('read_full', $data['allowed_privileges'])) {
+            // Remove sensitive fields
+            unset($data['author_realname']);
+            unset($data['author_email']);
+        }
 
-		return $data;
-	}
+        return $data;
+    }
 
-	protected function getFieldName($field)
-	{
-		$remap = [
-			'form_id' => 'form',
-			'message_id' => 'message',
-			'contact_id' => 'contact'
-			];
+    protected function getFieldName($field)
+    {
+        $remap = [
+            'form_id' => 'form',
+            'message_id' => 'message',
+            'contact_id' => 'contact'
+            ];
 
-		if (isset($remap[$field])) {
-			return $remap[$field];
-		}
+        if (isset($remap[$field])) {
+            return $remap[$field];
+        }
 
-		return parent::getFieldName($field);
-	}
+        return parent::getFieldName($field);
+    }
 
-	protected function formatFormId($form_id)
-	{
-		return $this->getRelation('forms', $form_id);
-	}
+    protected function formatFormId($form_id)
+    {
+        return $this->getRelation('forms', $form_id);
+    }
 
-	protected function formatMessageId($form_id)
-	{
-		return $this->getRelation('messages', $form_id);
-	}
+    protected function formatMessageId($form_id)
+    {
+        return $this->getRelation('messages', $form_id);
+    }
 
-	protected function formatContactId($contact_id)
-	{
-		return $this->getRelation('contact', $contact_id);
-	}
+    protected function formatContactId($contact_id)
+    {
+        return $this->getRelation('contact', $contact_id);
+    }
 
-	protected function formatColor($value)
-	{
-		// enforce a leading hash on color, or null if unset
-		$value = ltrim($value, '#');
-		return $value ? '#' . $value : null;
-	}
+    protected function formatColor($value)
+    {
+        // enforce a leading hash on color, or null if unset
+        $value = ltrim($value, '#');
+        return $value ? '#' . $value : null;
+    }
 
-	protected function formatTags($tags)
-	{
-		$output = [];
-		foreach ($tags as $tagid) {
-			$output[] = $this->getRelation('tags', $tagid);
-		}
+    protected function formatTags($tags)
+    {
+        $output = [];
+        foreach ($tags as $tagid) {
+            $output[] = $this->getRelation('tags', $tagid);
+        }
 
-		return $output;
-	}
+        return $output;
+    }
 
-	protected function formatPostDate($value)
-	{
-		return $value ? $value->format(\DateTime::W3C) : null;
-	}
+    protected function formatPostDate($value)
+    {
+        return $value ? $value->format(\DateTime::W3C) : null;
+    }
 }

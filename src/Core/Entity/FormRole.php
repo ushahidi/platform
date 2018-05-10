@@ -15,23 +15,23 @@ use Ushahidi\Core\StaticEntity;
 
 class FormRole extends StaticEntity
 {
-	protected $id;
-	protected $form_id;
-	protected $role_id;
+    protected $id;
+    protected $form_id;
+    protected $role_id;
 
-	// DataTransformer
-	protected function getDefinition()
-	{
-		return [
-			'id'       => 'int',
-			'form_id'  => 'int',
-			'role_id'  => 'int'
-		];
-	}
+    // DataTransformer
+    protected function getDefinition()
+    {
+        return [
+            'id'       => 'int',
+            'form_id'  => 'int',
+            'role_id'  => 'int'
+        ];
+    }
 
-	// Entity
-	public function getResource()
-	{
-		return 'form_roles';
-	}
+    // Entity
+    public function getResource()
+    {
+        return 'form_roles';
+    }
 }

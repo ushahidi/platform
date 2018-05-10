@@ -21,29 +21,29 @@ use Ushahidi\Core\Entity\WebhookRepository;
 
 class PostListener extends AbstractListener
 {
-	protected $repo;
+    protected $repo;
 
-	protected $webhook_repo;
+    protected $webhook_repo;
 
-	public function setRepo(WebhookJobRepository $repo)
-	{
-		$this->repo = $repo;
-	}
+    public function setRepo(WebhookJobRepository $repo)
+    {
+        $this->repo = $repo;
+    }
 
-	public function setWebhookRepo(WebhookRepository $webhook_repo)
-	{
-		$this->webhook_repo = $webhook_repo;
-	}
+    public function setWebhookRepo(WebhookRepository $webhook_repo)
+    {
+        $this->webhook_repo = $webhook_repo;
+    }
 
     public function handle(EventInterface $event, $post_id = null, $event_type = null)
     {
-		$state = [
-			'post_id' => $post_id,
-			'event_type' => $event_type
-		];
+        $state = [
+            'post_id' => $post_id,
+            'event_type' => $event_type
+        ];
 
-		$entity = $this->repo->getEntity();
-		$entity->setState($state);
-		$this->repo->create($entity);
+        $entity = $this->repo->getEntity();
+        $entity->setState($state);
+        $this->repo->create($entity);
     }
 }
