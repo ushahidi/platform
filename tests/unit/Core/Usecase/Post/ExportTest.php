@@ -111,7 +111,7 @@ class ExportTest extends TestCase
 			->with($exportJobEntity)
 			->andReturn(11);
 		$this->usecase
-			->setPayload($payload)
+			->setFilters($payload)
 			->interact();
 	}
 }

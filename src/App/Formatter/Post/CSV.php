@@ -103,7 +103,7 @@ class CSV extends API
 	 *
 	 * @return array
 	 */
-	public function generateCSVRecords($records, $attributes)
+	protected function generateCSVRecords($records, $attributes)
 	{
 		$stream = tmpfile();
 		/**

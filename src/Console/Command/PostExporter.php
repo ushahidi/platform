@@ -46,7 +46,9 @@ class PostExporter extends Command
 		if (!$this->usecase) {
 			// @todo inject
 			$this->usecase = service('factory.usecase')
-				->get('posts_export', 'export');
+				->get('posts_export', 'export')
+				->setAuthorizer(service('authorizer.export_job'))
+				->setFormatter(service('formatter.entity.post.csv'));
 		}
 		return $this->usecase;
 	}
@@ -54,7 +56,7 @@ class PostExporter extends Command
 	public function handle()
 	{
 		// set CLI params to be the payload for the usecase
-		$payload = [
+		$filters = [
 			'job_id' => $this->argument('job'),
 			'limit' => $this->option('limit'),
 			'offset' => $this->option('offset'),
@@ -63,9 +65,7 @@ class PostExporter extends Command
 
 		// Get the usecase and pass in authorizer, payload and transformer
 		$file  = $this->getUsecase()
-			->setPayload($payload)
-			->setAuthorizer(service('authorizer.export_job'))
-			->setFormatter(service('formatter.entity.post.csv'))
+			->setFilters($filters)
 			->interact();
 		$this->line("Export generated in file: {$file['results'][0]['file']}");
 	}

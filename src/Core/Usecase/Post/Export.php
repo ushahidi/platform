@@ -19,7 +19,7 @@ use Ushahidi\Core\Usecase\SearchUsecase;
 
 class Export extends SearchUsecase
 {
-	private $payload;
+	protected $filters;
 	private $session;
 	private $data;
 	private $postExportRepository;
@@ -49,17 +49,17 @@ class Export extends SearchUsecase
 	}
 
 	/**
-	 * @param $payload
+	 * @param $filters
 	 * @param null $job_filters
 	 * @return array
 	 * Construct a filters object
 	 */
-	public function constructFilters($payload, $job_filters = null)
+	public function constructFilters($filters, $job_filters = null)
 	{
 		// Set the baseline filter parameters
 		$filters = [
-			'limit' => $payload['limit'],
-			'offset' => $payload['offset'],
+			'limit' => $filters['limit'],
+			'offset' => $filters['offset'],
 		];
 		// Merge the export job filters with the base filters
 		if ($job_filters) {
@@ -76,7 +76,7 @@ class Export extends SearchUsecase
 	 */
 	public function constructSearchData($job, $filters)
 	{
-		$data = $this->data->get('search');
+		$data = $this->search;
 
 		// Set the fields that should be included if set
 		if ($job->fields) {
@@ -91,46 +91,70 @@ class Export extends SearchUsecase
 		return $data;
 	}
 
-	public function interact()
+	/**
+	 * Get the attributes we will use for the CSV header
+	 * and create an assoc array like
+	 * {'attribute_key': attribute, '2ndkey' : attribute}
+	 * that we can use for the heading formatting
+	 * @param $attributes
+	 * @return array
+	 */
+	private function getAttributesWithKeys($attributes)
 	{
-
-		//FIXME inject
-		$this->data = service('factory.data');
-		$this->session = service('session');
-
-		$job_id = $this->payload['job_id'];
-		$add_header = $this->payload['add_header'];
-		// Load the export job
-		$job = $this->exportJobRepository->get($job_id);
-
-		// load the user from the job into the 'session'
-		$this->session->setUser($job->user_id);
-		$filters = $this->constructFilters($this->payload, $job->filters);
-		$data = $this->constructSearchData($job, $filters);
-
-		$this->postExportRepository->setSearchParams($data);
-		$attributes = $this->formAttributeRepository->getExportAttributes($data->include_attributes);
-
+		/**
+		 * Get the attributes we will use for the CSV header
+		 * and create an assoc array like
+		 * {'attribute_key': attribute, '2ndkey' : attribute}
+		 * that we can use for the heading formatting
+		 */
 		$keyAttributes = [];
 		foreach ($attributes as $key => $item) {
 			$keyAttributes[$item['key']] = $item;
 		}
+		return $keyAttributes;
+	}
+	public function interact()
+	{
 
+		//FIXME inject
+		$this->session = service('session');
+		// Load the export job
+		$job = $this->exportJobRepository->get($this->filters['job_id']);
+		// load the user from the job into the 'session'
+		$this->session->setUser($job->user_id);
+		// merge filters from the controller/cli call with the job's saved filters
+		$filters = $this->constructFilters($this->filters, $job->filters);
+		// get filters for the search object
+		$data = $this->constructSearchData($job, $filters);
+		$this->postExportRepository->setSearchParams($data);
+		$attributes = $this->formAttributeRepository->getExportAttributes($data->include_attributes);
+		$keyAttributes = $this->getAttributesWithKeys($attributes);
+		/**
+		 * get the search results based on filters
+		 * and retrieve the metadata for each of the posts
+		**/
 		$posts = $this->postExportRepository->getSearchResults();
-		$this->formatter->setAddHeader($add_header);
-
 		foreach ($posts as $idx => $post) {
 			// Retrieved Attribute Labels for Entity's values
 			$post = $this->postExportRepository->retrieveMetaData($post->asArray(), $keyAttributes);
 			$posts[$idx] = $post;
 		}
-
+		/**
+		 * update the header attributes
+		 * in the job table so we know which headers to
+		 * use in other chunks of the export
+		 */
 		if (empty($job->header_row)) {
 			$job->setState(['header_row' => $attributes]);
 			$this->exportJobRepository->update($job);
 		}
+		/**
+		 * set 'add header' in the formatter
+		 * so it knows how to return the results
+		 * for the csv (with or without a header row)
+		 */
+		$this->formatter->setAddHeader($this->filters['add_header']);
 		$header_row = $this->formatter->createHeading($job->header_row);
-
 		$this->formatter->setHeading($header_row);
 		$formatter = $this->formatter;
 		/**
@@ -146,20 +170,5 @@ class Export extends SearchUsecase
 				]
 			]
 		];
-	}
-
-
-	/**
-	 * Inject a repository that can create entities.
-	 *
-	 * @todo  setPayload doesn't match signature for other usecases
-	 *
-	 * @param  $repo Iterator
-	 * @return $this
-	 */
-	public function setPayload($payload)
-	{
-		$this->payload = $payload;
-		return $this;
 	}
 }
