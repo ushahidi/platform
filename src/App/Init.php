@@ -769,11 +769,6 @@ $di->params['Ushahidi\Factory\AuthorizerFactory']['map']['hxl_licenses'] =
 	$di->lazyGet('authorizer.hxl');
 $di->params['Ushahidi\Factory\RepositoryFactory']['map']['hxl_licenses'] =
 	$di->lazyGet('repository.hxl_license');
-
-$di->params['Ushahidi\Factory\UsecaseFactory']['map']['hxl_licenses'] = [
-	'search' => $di->newFactory('Ushahidi\Core\Usecase\HXL\SearchHXLLicense'),
-];
-
 $di->params['Ushahidi\Factory\FormatterFactory']['map']['hxl_licenses'] =
 	$di->lazyNew(Ushahidi\App\Formatter\HXLLicense::class);
 $di->setter[Ushahidi\App\Formatter\HXLLicense::class]['setAuth'] = $di->lazyGet("authorizer.hxl");

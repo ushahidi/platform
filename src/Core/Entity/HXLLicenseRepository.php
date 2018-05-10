@@ -12,8 +12,12 @@
 namespace Ushahidi\Core\Entity;
 
 use Ushahidi\Core\Entity\Repository\EntityGet;
+use Ushahidi\Core\Usecase\ReadRepository;
+use Ushahidi\Core\Usecase\SearchRepository;
 
 interface HXLLicenseRepository extends
-	EntityGet
+	EntityGet,
+	ReadRepository,
+	SearchRepository
 {
 }
