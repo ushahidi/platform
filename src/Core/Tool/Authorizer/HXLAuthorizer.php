@@ -46,7 +46,7 @@ class HXLAuthorizer implements Authorizer
 		$user = $this->getUser();
 		if ($this->isUserAdmin($user) ||
 			$this->acl->hasPermission($user, Permission::MANAGE_POSTS) ||
-			$this->acl->hasPermission($user, Permission::DATA_IMPORT) ||
+			$this->acl->hasPermission($user, Permission::DATA_IMPORT_EXPORT) ||
 			$this->acl->hasPermission($user, Permission::MANAGE_SETTINGS)
 		) {
 			return true;
