@@ -2030,7 +2030,7 @@ roles_permissions:
     permission: Manage Settings
   -
     role: importer
-    permission: Bulk Data Import
+    permission: Bulk Data Import & Export
   -
     role: user
     permission: Edit their own posts
