@@ -83,10 +83,7 @@
         "psr-4": {
             "Ushahidi\\": "src/",
             "Ushahidi\\App\\": "app/"
-        },
-        "files": [
-            "app/Tools/PatchConfigPath.php"
-        ]
+        }
     },
     "autoload-dev": {
         "psr-4": {
