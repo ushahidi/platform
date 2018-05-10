@@ -14,7 +14,7 @@ namespace Ushahidi\App\Repository\Post;
 use Ushahidi\Core\Entity\PostValue;
 use Ushahidi\Core\Entity\PostValueRepository as PostValueRepositoryContract;
 
-class IntRepository extends ValueRepository
+class IntegerRepository extends ValueRepository
 {
     // OhanzeeRepository
     protected function getTable()

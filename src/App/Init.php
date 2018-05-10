@@ -481,7 +481,7 @@ $di->params[Ushahidi\App\Repository\CSVPostRepository::class] = [
 $di->set('repository.post.datetime', $di->lazyNew(Ushahidi\App\Repository\Post\DatetimeRepository::class));
 $di->set('repository.post.decimal', $di->lazyNew(Ushahidi\App\Repository\Post\DecimalRepository::class));
 $di->set('repository.post.geometry', $di->lazyNew(Ushahidi\App\Repository\Post\GeometryRepository::class));
-$di->set('repository.post.int', $di->lazyNew(Ushahidi\App\Repository\Post\IntRepository::class));
+$di->set('repository.post.int', $di->lazyNew(Ushahidi\App\Repository\Post\IntegerRepository::class));
 $di->set('repository.post.point', $di->lazyNew(Ushahidi\App\Repository\Post\PointRepository::class));
 $di->set('repository.post.relation', $di->lazyNew(Ushahidi\App\Repository\Post\RelationRepository::class));
 $di->set('repository.post.text', $di->lazyNew(Ushahidi\App\Repository\Post\TextRepository::class));
@@ -660,7 +660,7 @@ $di->setter[Ushahidi\App\Validator\CSV\Create::class] = [
 $di->set('validator.post.datetime', $di->lazyNew(Ushahidi\App\Validator\Post\Datetime::class));
 $di->set('validator.post.decimal', $di->lazyNew(Ushahidi\App\Validator\Post\Decimal::class));
 $di->set('validator.post.geometry', $di->lazyNew(Ushahidi\App\Validator\Post\Geometry::class));
-$di->set('validator.post.int', $di->lazyNew(Ushahidi\App\Validator\Post\Int::class));
+$di->set('validator.post.int', $di->lazyNew(Ushahidi\App\Validator\Post\Integer::class));
 $di->set('validator.post.link', $di->lazyNew(Ushahidi\App\Validator\Post\Link::class));
 $di->set('validator.post.point', $di->lazyNew(Ushahidi\App\Validator\Post\Point::class));
 $di->set('validator.post.relation', $di->lazyNew(Ushahidi\App\Validator\Post\Relation::class));

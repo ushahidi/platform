@@ -11,7 +11,7 @@
 
 namespace Ushahidi\App\Validator\Post;
 
-class Int extends ValueValidator
+class Integer extends ValueValidator
 {
     protected function validate($value)
     {
