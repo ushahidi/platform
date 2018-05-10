@@ -242,6 +242,7 @@ $router->group([
 
     if (Features::isEnabled('hxl')) {
 		$router->group([
+			'namespace' => 'HXL',
 			'prefix' => 'hxl',
 			'middleware' => ['auth:api', 'scope:hxl']
 		], function () use ($router) {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Ushahidi\App\Http\Controllers\API;
+namespace Ushahidi\App\Http\Controllers\API\HXL;
 
 use Ushahidi\App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
