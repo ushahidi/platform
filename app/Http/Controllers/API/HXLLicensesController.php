@@ -22,18 +22,4 @@ class HXLLicensesController extends RESTController
 	{
 		return 'hxl_licenses';
 	}
-
-	/**
-	 * Retrieve a basic information about the API
-	 *
-	 * GET /api
-	 *
-	 * @return void
-	 */
-	public function index(Request $request)
-	{
-		$this->usecase = $this->usecaseFactory
-			->get($this->getResource(), 'search');
-		return $this->prepResponse($this->executeUsecase($request), $request);
-	}
 }

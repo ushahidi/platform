@@ -19,7 +19,9 @@ class CreateLicenseTable extends AbstractMigration
 			->addColumn('code', 'string', [
 				'null' => false,
 				'default' => false
-			])->create();
+			])
+			->addIndex(['code'], ['unique' => true])
+			->create();
 	}
 
 	/**
