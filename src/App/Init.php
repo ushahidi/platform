@@ -439,9 +439,6 @@ $di->setter[Ushahidi\App\Repository\Form\ContactRepository::class]['setListener'
 $di->setter[Ushahidi\App\Validator\Form\Contact\Create::class]['setFormRepo'] =
         $di->lazyGet('repository.form');
 
-$di->setter[Ushahidi\App\Validator\Form\Contact\Create::class]['setPhoneValidator'] =
-        \libphonenumber\PhoneNumberUtil::getInstance();
-
 $di->setter[Ushahidi\App\Validator\Form\Contact\Create::class]['setContactRepo'] =
         $di->lazyGet('repository.contact');
 $di->setter[Ushahidi\App\Validator\Form\Contact\Create::class]['setFormContactRepo'] =
