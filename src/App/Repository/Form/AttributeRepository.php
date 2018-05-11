@@ -11,6 +11,7 @@
 
 namespace Ushahidi\App\Repository\Form;
 
+use Illuminate\Support\Facades\App;
 use Ohanzee\DB;
 use Ohanzee\Database;
 use Ushahidi\Core\Entity;
@@ -248,17 +249,19 @@ class AttributeRepository extends OhanzeeRepository implements
     {
         $attributes = [];
         if (count($form_ids) > 0) { // @FIXME: how would empty form_id even happen?
-            $sql = "SELECT
-                DISTINCT form_attributes.*,
+            $sql = "SELECT DISTINCT 
+                form_attributes.*,
                 form_stages.priority as form_stage_priority,
                 forms.name as form_name,
                 forms.id as form_id 
-                INNER JOIN form_stages ON form_attributes.form_stage_id = form_stages.id 
+                FROM form_attributes 
+                INNER JOIN form_stages ON form_attributes.form_stage_id = form_stages.id  
                 INNER JOIN forms ON form_stages.form_id = forms.id ";
             if (!empty($include_attributes)) {
                 $sql .= " AND form_attributes.key IN :form_attributes ";
             }
             $sql .= " ORDER BY forms.id, form_stages.priority, form_attributes.priority ";
+            \Log::info($sql);
             $results = DB::query(Database::SELECT, $sql)
                 ->bind(':form_attributes', $include_attributes)
                 ->execute($this->db);
