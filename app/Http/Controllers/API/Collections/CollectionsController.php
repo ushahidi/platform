@@ -16,8 +16,8 @@ use Illuminate\Http\Request;
 
 class CollectionsController extends RESTController
 {
-	protected function getResource()
-	{
-		return 'sets';
-	}
+    protected function getResource()
+    {
+        return 'sets';
+    }
 }

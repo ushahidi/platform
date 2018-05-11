@@ -17,9 +17,9 @@ use Ushahidi\Core\Entity\Repository\EntityGet;
 interface DeleteRepository extends EntityGet
 {
 
-	/**
-	 * @param  Entity $entity
-	 * @return void
-	 */
-	public function delete(Entity $entity);
+    /**
+     * @param  Entity $entity
+     * @return void
+     */
+    public function delete(Entity $entity);
 }

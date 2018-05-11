@@ -14,16 +14,16 @@ namespace Ushahidi\Core\Entity;
 use Ushahidi\Core\Entity\Repository\EntityGet;
 
 interface ConfigRepository extends
-	EntityGet
+    EntityGet
 {
-	/**
-	 * @return array
-	 */
-	public function groups();
+    /**
+     * @return array
+     */
+    public function groups();
 
-	/**
-	 * @param  array $groups
-	 * @return array
-	 */
-	public function all(array $groups = null);
+    /**
+     * @param  array $groups
+     * @return array
+     */
+    public function all(array $groups = null);
 }

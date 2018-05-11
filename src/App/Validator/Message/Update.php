@@ -18,20 +18,20 @@ use Ushahidi\Core\Usecase\Message\UpdateMessageRepository;
 
 class Update extends Validator
 {
-	protected $repo;
-	protected $default_error_source = 'message';
+    protected $repo;
+    protected $default_error_source = 'message';
 
-	public function __construct(UpdateMessageRepository $repo)
-	{
-		$this->repo = $repo;
-	}
+    public function __construct(UpdateMessageRepository $repo)
+    {
+        $this->repo = $repo;
+    }
 
-	protected function getRules()
-	{
-		return [
-			'status' => [
-				[[$this->repo, 'checkStatus'], [':value', $this->get('direction')]]
-			]
-		];
-	}
+    protected function getRules()
+    {
+        return [
+            'status' => [
+                [[$this->repo, 'checkStatus'], [':value', $this->get('direction')]]
+            ]
+        ];
+    }
 }

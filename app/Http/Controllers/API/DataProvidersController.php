@@ -16,8 +16,8 @@ use Ushahidi\App\Http\Controllers\RESTController;
 class DataProvidersController extends RESTController
 {
 
-	protected function getResource()
-	{
-		return 'dataproviders';
-	}
+    protected function getResource()
+    {
+        return 'dataproviders';
+    }
 }

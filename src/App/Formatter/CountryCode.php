@@ -15,5 +15,5 @@ use Ushahidi\Core\Traits\FormatterAuthorizerMetadata;
 
 class CountryCode extends API
 {
-	use FormatterAuthorizerMetadata;
+    use FormatterAuthorizerMetadata;
 }

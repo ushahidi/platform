@@ -24,23 +24,23 @@ class Verifier
     }
 
     public function checkApiKey($api_key)
-	{
-		if ($api_key) {
-			// Get api key and compare
-			return $this->apiKeyRepo->apiKeyExists($api_key);
-		}
+    {
+        if ($api_key) {
+            // Get api key and compare
+            return $this->apiKeyRepo->apiKeyExists($api_key);
+        }
 
-		return false;
-	}
+        return false;
+    }
 
-	public function checkSignature($signature, $shared_secret, $url, $data)
-	{
-		if ($signature) {
-			// Validate signature
-			$signer = new Signer($shared_secret);
-			return $signer->validate($signature, $url, $data);
-		}
-		return false;
+    public function checkSignature($signature, $shared_secret, $url, $data)
+    {
+        if ($signature) {
+            // Validate signature
+            $signer = new Signer($shared_secret);
+            return $signer->validate($signature, $url, $data);
+        }
+        return false;
     }
 
     public function verified($signature, $api_key, $shared_secret, $url, $data)

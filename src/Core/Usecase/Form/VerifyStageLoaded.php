@@ -19,45 +19,45 @@ use Ushahidi\Core\Exception\NotFoundException;
 
 trait VerifyStageLoaded
 {
-	/**
-	 * @var FormRepository
-	 */
-	protected $form_stage_repo;
+    /**
+     * @var FormRepository
+     */
+    protected $form_stage_repo;
 
-	/**
-	 * @param  FormStageRepository $repo
-	 * @return void
-	 */
-	public function setStageRepository(FormStageRepository $repo)
-	{
-		$this->form_stage_repo = $repo;
-	}
+    /**
+     * @param  FormStageRepository $repo
+     * @return void
+     */
+    public function setStageRepository(FormStageRepository $repo)
+    {
+        $this->form_stage_repo = $repo;
+    }
 
-	/**
-	 * Checks that the form exists.
-	 * @param  Data $input
-	 * @return void
-	 */
-	protected function verifyStageExists(FormAttribute $entity)
-	{
-		// Ensure that the stage exists.
-		$stage = $this->form_stage_repo->get($entity->form_stage_id);
-		$this->verifyEntityLoaded($stage, ['form_stage_id' => $entity->form_stage_id]);
+    /**
+     * Checks that the form exists.
+     * @param  Data $input
+     * @return void
+     */
+    protected function verifyStageExists(FormAttribute $entity)
+    {
+        // Ensure that the stage exists.
+        $stage = $this->form_stage_repo->get($entity->form_stage_id);
+        $this->verifyEntityLoaded($stage, ['form_stage_id' => $entity->form_stage_id]);
 
-		$expected_form_id = (int) $this->getRequiredIdentifier('form_id');
+        $expected_form_id = (int) $this->getRequiredIdentifier('form_id');
 
-		if ($stage->form_id !== $expected_form_id) {
-			throw new \InvalidArgumentException(sprintf(
-				'Invalid form stage used, stage %d is not in form %d',
-				$entity->form_stage_id,
-				$expected_form_id
-			));
-		}
-	}
+        if ($stage->form_id !== $expected_form_id) {
+            throw new \InvalidArgumentException(sprintf(
+                'Invalid form stage used, stage %d is not in form %d',
+                $entity->form_stage_id,
+                $expected_form_id
+            ));
+        }
+    }
 
-	// IdentifyRecords
-	abstract protected function getRequiredIdentifier($name);
+    // IdentifyRecords
+    abstract protected function getRequiredIdentifier($name);
 
-	// VerifyEntityLoaded
-	abstract protected function verifyEntityLoaded(Entity $entity, $lookup);
+    // VerifyEntityLoaded
+    abstract protected function verifyEntityLoaded(Entity $entity, $lookup);
 }

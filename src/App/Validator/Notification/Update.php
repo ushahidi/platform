@@ -17,40 +17,40 @@ use Ushahidi\Core\Entity\SetRepository;
 
 class Update extends Validator
 {
-	protected $user_repo;
-	protected $collection_repo;
-	protected $savedsearch_repo;
-	protected $default_error_source = 'notification';
+    protected $user_repo;
+    protected $collection_repo;
+    protected $savedsearch_repo;
+    protected $default_error_source = 'notification';
 
-	public function __construct(
-		UserRepository $user_repo,
-		SetRepository $collection_repo,
-		SetRepository $savedsearch_repo
-	) {
-		$this->user_repo = $user_repo;
-		$this->collection_repo = $collection_repo;
-		$this->savedsearch_repo = $savedsearch_repo;
-	}
+    public function __construct(
+        UserRepository $user_repo,
+        SetRepository $collection_repo,
+        SetRepository $savedsearch_repo
+    ) {
+        $this->user_repo = $user_repo;
+        $this->collection_repo = $collection_repo;
+        $this->savedsearch_repo = $savedsearch_repo;
+    }
 
-	protected function getRules()
-	{
-		return [
-			'id' => [
-				['numeric'],
-			],
-			'user_id' => [
-				['numeric'],
-				[[$this->user_repo, 'exists'], [':value']],
-			],
-			'set_id' => [
-				['numeric'],
-				[[$this, 'exists'], [':value']],
-			]
-		];
-	}
+    protected function getRules()
+    {
+        return [
+            'id' => [
+                ['numeric'],
+            ],
+            'user_id' => [
+                ['numeric'],
+                [[$this->user_repo, 'exists'], [':value']],
+            ],
+            'set_id' => [
+                ['numeric'],
+                [[$this, 'exists'], [':value']],
+            ]
+        ];
+    }
 
-	public function exists($set_id)
-	{
-		return $this->collection_repo->exists($set_id) or $this->savedsearch_repo->exists($set_id);
-	}
+    public function exists($set_id)
+    {
+        return $this->collection_repo->exists($set_id) or $this->savedsearch_repo->exists($set_id);
+    }
 }

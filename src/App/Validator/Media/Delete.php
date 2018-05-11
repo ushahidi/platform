@@ -16,15 +16,15 @@ use Ushahidi\Core\Tool\Validator;
 
 class Delete extends Validator
 {
-	protected $default_error_source = 'media';
+    protected $default_error_source = 'media';
 
-	protected function getRules()
-	{
-		return [
-			'id' => [
-				['not_empty'],
-				['digit'],
-			],
-		];
-	}
+    protected function getRules()
+    {
+        return [
+            'id' => [
+                ['not_empty'],
+                ['digit'],
+            ],
+        ];
+    }
 }

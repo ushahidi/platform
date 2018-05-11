@@ -16,8 +16,8 @@ use Illuminate\Http\Request;
 
 class FormsController extends RESTController
 {
-	protected function getResource()
-	{
-		return 'forms';
-	}
+    protected function getResource()
+    {
+        return 'forms';
+    }
 }

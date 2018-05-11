@@ -25,87 +25,87 @@ use Log;
 
 class WebhookRepository extends OhanzeeRepository implements WebhookRepositoryContract
 {
-	use UserContext;
-	use AdminAccess;
+    use UserContext;
+    use AdminAccess;
 
-	protected function getTable()
-	{
-		return 'webhooks';
-	}
+    protected function getTable()
+    {
+        return 'webhooks';
+    }
 
-	// OhanzeeRepository
-	public function setSearchConditions(SearchData $search)
-	{
-		$query = $this->search_query;
+    // OhanzeeRepository
+    public function setSearchConditions(SearchData $search)
+    {
+        $query = $this->search_query;
 
-		$user = $this->getUser();
+        $user = $this->getUser();
 
-		// Limit search to user's records unless they are admin
-		// or if we get user=me as a search param
-		if (! $this->isUserAdmin($user) || $search->user === 'me') {
-			$search->user = $this->getUserId();
-		}
+        // Limit search to user's records unless they are admin
+        // or if we get user=me as a search param
+        if (! $this->isUserAdmin($user) || $search->user === 'me') {
+            $search->user = $this->getUserId();
+        }
 
-		foreach ([
-			'user'
-		] as $fk) {
-			if ($search->$fk) {
-				$query->where("webhooks.{$fk}_id", '=', $search->$fk);
-			}
-		}
-	}
+        foreach ([
+            'user'
+        ] as $fk) {
+            if ($search->$fk) {
+                $query->where("webhooks.{$fk}_id", '=', $search->$fk);
+            }
+        }
+    }
 
-	public function getEntity(array $data = null)
-	{
-		return new Webhook($data);
-	}
+    public function getEntity(array $data = null)
+    {
+        return new Webhook($data);
+    }
 
-	public function getByEventType($event_type = null)
-	{
-		return $this->getEntity($this->selectOne(compact('event_type')));
-	}
+    public function getByEventType($event_type = null)
+    {
+        return $this->getEntity($this->selectOne(compact('event_type')));
+    }
 
-	public function getAllByEventType($event_type = null)
-	{
-		$query = $this->selectQuery(compact('event_type'));
+    public function getAllByEventType($event_type = null)
+    {
+        $query = $this->selectQuery(compact('event_type'));
 
-		$results = $query->execute($this->db);
-		return $results->as_array();
-	}
+        $results = $query->execute($this->db);
+        return $results->as_array();
+    }
 
-	public function getByUUID($webhook_uuid = null)
-	{
-		return $this->getEntity($this->selectOne(compact('webhook_uuid')));
-	}
+    public function getByUUID($webhook_uuid = null)
+    {
+        return $this->getEntity($this->selectOne(compact('webhook_uuid')));
+    }
 
-	// CreateRepository
-	public function create(Entity $entity)
-	{
-		$uuid = Uuid::uuid4();
-		$uuid = $uuid->toString();
+    // CreateRepository
+    public function create(Entity $entity)
+    {
+        $uuid = Uuid::uuid4();
+        $uuid = $uuid->toString();
 
-		$state = [
-			'user_id' => $entity->user_id,
-			'webhook_uuid' => $uuid,
-			'created' => time(),
-		];
+        $state = [
+            'user_id' => $entity->user_id,
+            'webhook_uuid' => $uuid,
+            'created' => time(),
+        ];
 
-		return parent::create($entity->setState($state));
-	}
+        return parent::create($entity->setState($state));
+    }
 
-	// UpdateRepository
-	public function update(Entity $entity)
-	{
+    // UpdateRepository
+    public function update(Entity $entity)
+    {
 
-		$record = $entity->asArray();
-		$record['updated'] = time();
-		return $this->executeUpdate(['id' => $entity->id], $record);
-	}
+        $record = $entity->asArray();
+        $record['updated'] = time();
+        return $this->executeUpdate(['id' => $entity->id], $record);
+    }
 
-	public function getSearchFields()
-	{
-		return [
-			'user'
-		];
-	}
+    public function getSearchFields()
+    {
+        return [
+            'user'
+        ];
+    }
 }

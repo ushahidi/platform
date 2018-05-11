@@ -16,9 +16,9 @@ use Ushahidi\Core\Entity\Repository\EntityGet;
 
 interface UpdateRepository extends EntityGet
 {
-	/**
-	 * @param  Entity $entity
-	 * @return void
-	 */
-	public function update(Entity $entity);
+    /**
+     * @param  Entity $entity
+     * @return void
+     */
+    public function update(Entity $entity);
 }

@@ -15,45 +15,45 @@ use Ushahidi\Core\StaticEntity;
 
 class Notification extends StaticEntity
 {
-	protected $id;
-	protected $user_id;
-	protected $set_id;
-	protected $created;
-	protected $updated;
+    protected $id;
+    protected $user_id;
+    protected $set_id;
+    protected $created;
+    protected $updated;
 
-	// StatefulData
-	protected function getDerived()
-	{
-		// Foreign key alias
-		return [
-			'user_id' => ['user', 'user.id'],
-			'set_id'  => ['set', 'set.id']
-		];
-	}
+    // StatefulData
+    protected function getDerived()
+    {
+        // Foreign key alias
+        return [
+            'user_id' => ['user', 'user.id'],
+            'set_id'  => ['set', 'set.id']
+        ];
+    }
 
-	// DataTransformer
-	protected function getDefinition()
-	{
-		return [
-			'id'            => 'int',
-			'user'          => false,
-			'user_id'       => 'int',
-			'set'           => false,
-			'set_id'        => 'int',
-			'created'       => 'int',
-			'updated'       => 'int',
-		];
-	}
+    // DataTransformer
+    protected function getDefinition()
+    {
+        return [
+            'id'            => 'int',
+            'user'          => false,
+            'user_id'       => 'int',
+            'set'           => false,
+            'set_id'        => 'int',
+            'created'       => 'int',
+            'updated'       => 'int',
+        ];
+    }
 
-	// Entity
-	public function getResource()
-	{
-		return 'notifications';
-	}
+    // Entity
+    public function getResource()
+    {
+        return 'notifications';
+    }
 
-	// StatefulData
-	protected function getImmutable()
-	{
-		return array_merge(parent::getImmutable(), ['user_id', 'set_id']);
-	}
+    // StatefulData
+    protected function getImmutable()
+    {
+        return array_merge(parent::getImmutable(), ['user_id', 'set_id']);
+    }
 }

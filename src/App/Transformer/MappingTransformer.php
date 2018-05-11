@@ -23,27 +23,27 @@ use Ddeboer\DataImport\Step\MappingStep;
 
 class MappingTransformer implements MappingTransformerInterface
 {
-	protected $map;
-	// MappingTransformer
-	public function setMap(array $map)
-	{
-		$this->map = new MappingStep($map);
-	}
+    protected $map;
+    // MappingTransformer
+    public function setMap(array $map)
+    {
+        $this->map = new MappingStep($map);
+    }
 
-	protected $fixedValues;
-	// MappingTransformer
-	public function setFixedValues(array $fixedValues)
-	{
-		$this->fixedValues = $fixedValues;
-	}
+    protected $fixedValues;
+    // MappingTransformer
+    public function setFixedValues(array $fixedValues)
+    {
+        $this->fixedValues = $fixedValues;
+    }
 
-	// Tranformer
-	public function interact(array $data)
-	{
-		$this->map->process($data);
+    // Tranformer
+    public function interact(array $data)
+    {
+        $this->map->process($data);
 
-		$data = array_merge($data, $this->fixedValues);
+        $data = array_merge($data, $this->fixedValues);
 
-		return $data;
-	}
+        return $data;
+    }
 }

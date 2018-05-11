@@ -13,10 +13,10 @@ namespace Ushahidi\Core\Tool;
 
 interface Formatter
 {
-	/**
-	 * @param  mixed $input
-	 * @return mixed
-	 * @throws \Ushahidi\Core\Exception\FormatterException
-	 */
-	public function __invoke($input);
+    /**
+     * @param  mixed $input
+     * @return mixed
+     * @throws \Ushahidi\Core\Exception\FormatterException
+     */
+    public function __invoke($input);
 }

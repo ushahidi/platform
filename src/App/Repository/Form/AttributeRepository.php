@@ -54,9 +54,9 @@ class AttributeRepository extends OhanzeeRepository implements
 
     /**
      * Construct
-     * @param Database $db
-     * @param FormStageRepository $form_stage_repo
-     * @param FormRepository $form_repo
+     * @param Database                              $db
+     * @param FormStageRepository                   $form_stage_repo
+     * @param FormRepository                   $form_repo
      */
     public function __construct(
         Database $db,
@@ -158,7 +158,6 @@ class AttributeRepository extends OhanzeeRepository implements
                 $query->where('form_attributes.' . $key, '=', $search->$key);
             }
         }
-
         if ($search->form_id) {
             $query
                 ->join('form_stages', 'INNER')->on('form_stages.id', '=', 'form_attributes.form_stage_id')

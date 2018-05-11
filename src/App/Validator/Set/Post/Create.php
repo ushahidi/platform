@@ -16,22 +16,22 @@ use Ushahidi\Core\Entity\PostRepository;
 
 class Create extends Validator
 {
-	protected $post_repo;
-	protected $default_error_source = 'set';
+    protected $post_repo;
+    protected $default_error_source = 'set';
 
-	public function __construct(PostRepository $post_repo)
-	{
-		$this->post_repo = $post_repo;
-	}
+    public function __construct(PostRepository $post_repo)
+    {
+        $this->post_repo = $post_repo;
+    }
 
-	protected function getRules()
-	{
-		return [
-			'id' => [
-				['not_empty'],
-				['digit'],
-				[[$this->post_repo, 'exists'], [':value']],
-			],
-		];
-	}
+    protected function getRules()
+    {
+        return [
+            'id' => [
+                ['not_empty'],
+                ['digit'],
+                [[$this->post_repo, 'exists'], [':value']],
+            ],
+        ];
+    }
 }

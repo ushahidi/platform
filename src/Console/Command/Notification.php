@@ -21,10 +21,10 @@ use Ushahidi\App\DataSource\DataSourceManager;
 
 class Notification extends Command
 {
-	private $postRepository;
-	private $contactRepository;
-	private $messageRepository;
-	private $notificationQueueRepository;
+    private $postRepository;
+    private $contactRepository;
+    private $messageRepository;
+    private $notificationQueueRepository;
 
     /**
      * The console command name.
@@ -47,118 +47,118 @@ class Notification extends Command
      */
     protected $description = 'Queue notifications for sending';
 
-	public function __construct(DataSourceManager $sources)
-	{
-		parent::__construct();
+    public function __construct(DataSourceManager $sources)
+    {
+        parent::__construct();
 
         $this->sources = $sources;
-	}
+    }
 
-	public function handle()
-	{
-		$this->db = service('kohana.db');
-		$this->contactRepository = service('repository.contact');
-		$this->postRepository = service('repository.post');
-		$this->messageRepository = service('repository.message');
-		$this->notificationQueueRepository = service('repository.notification.queue');
+    public function handle()
+    {
+        $this->db = service('kohana.db');
+        $this->contactRepository = service('repository.contact');
+        $this->postRepository = service('repository.post');
+        $this->messageRepository = service('repository.message');
+        $this->notificationQueueRepository = service('repository.notification.queue');
 
-		$this->siteConfig = service('site.config');
-		$this->clientUrl = service('clienturl');
+        $this->siteConfig = service('site.config');
+        $this->clientUrl = service('clienturl');
 
-		$limit = $this->option('limit');
+        $limit = $this->option('limit');
 
-		$count = 0;
+        $count = 0;
 
-		// Get Queued notifications
-		$notifications = $this->notificationQueueRepository->getNotifications($limit);
+        // Get Queued notifications
+        $notifications = $this->notificationQueueRepository->getNotifications($limit);
 
-		// Start transaction
-		$this->db->begin();
+        // Start transaction
+        $this->db->begin();
 
-		foreach ($notifications as $notification) {
-			// Get contacts and generate messages from new notification
-			$count+=$this->generateMessages($notification);
-		}
+        foreach ($notifications as $notification) {
+            // Get contacts and generate messages from new notification
+            $count+=$this->generateMessages($notification);
+        }
 
-		// Finally commit changes
-		$this->db->commit();
+        // Finally commit changes
+        $this->db->commit();
 
-		$this->info("{$count} messages queued for sending");
-	}
+        $this->info("{$count} messages queued for sending");
+    }
 
-	private function generateMessages($notification)
-	{
-		// Delete queued notification
-		$this->notificationQueueRepository->delete($notification);
+    private function generateMessages($notification)
+    {
+        // Delete queued notification
+        $this->notificationQueueRepository->delete($notification);
 
-		// Get post title and text
-		$post = $this->postRepository->get($notification->post_id);
+        // Get post title and text
+        $post = $this->postRepository->get($notification->post_id);
 
-		$count = 0;
+        $count = 0;
 
-		$offset = 0;
-		$limit = 1000;
+        $offset = 0;
+        $limit = 1000;
 
-		$site_name = $this->siteConfig['name'] ?: 'Ushahidi';
-		$client_url = $this->clientUrl;
+        $site_name = $this->siteConfig['name'] ?: 'Ushahidi';
+        $client_url = $this->clientUrl;
 
-		// Get contacts (max $limit at a time) and generate messages.
-		while (true) {
-			$contacts = $this->contactRepository
-				->getNotificationContacts($notification->set_id, $limit, $offset);
+        // Get contacts (max $limit at a time) and generate messages.
+        while (true) {
+            $contacts = $this->contactRepository
+                ->getNotificationContacts($notification->set_id, $limit, $offset);
 
-			// Create outgoing messages
-			foreach ($contacts as $contact) {
-				if ($this->messageRepository->notificationMessageExists($post->id, $contact->id)) {
-					continue;
-				}
+            // Create outgoing messages
+            foreach ($contacts as $contact) {
+                if ($this->messageRepository->notificationMessageExists($post->id, $contact->id)) {
+                    continue;
+                }
 
-				$subs = [
-					'sitename' => $site_name,
-					'title' => $post->title,
-					'content' => $post->content,
-					'url' => $client_url . '/posts/' . $post->id
-				];
+                $subs = [
+                    'sitename' => $site_name,
+                    'title' => $post->title,
+                    'content' => $post->content,
+                    'url' => $client_url . '/posts/' . $post->id
+                ];
 
-				$messageType = $this->mapContactToMessageType($contact->type);
-				$data_source = $contact->data_source ?: $this->sources->getSourceForType($messageType);
+                $messageType = $this->mapContactToMessageType($contact->type);
+                $data_source = $contact->data_source ?: $this->sources->getSourceForType($messageType);
 
-				$state = [
-					'contact_id' => $contact->id,
-					'notification_post_id' => $post->id,
-					'title' => trans('notifications.' . $messageType . '.title', $subs),
-					'message' => trans('notifications.' . $messageType . '.message', $subs),
-					'type' => $messageType,
-					'data_source' => $data_source,
-				];
+                $state = [
+                    'contact_id' => $contact->id,
+                    'notification_post_id' => $post->id,
+                    'title' => trans('notifications.' . $messageType . '.title', $subs),
+                    'message' => trans('notifications.' . $messageType . '.message', $subs),
+                    'type' => $messageType,
+                    'data_source' => $data_source,
+                ];
 
-				$entity = $this->messageRepository->getEntity();
-				$entity->setState($state);
-				$this->messageRepository->create($entity);
+                $entity = $this->messageRepository->getEntity();
+                $entity->setState($state);
+                $this->messageRepository->create($entity);
 
-				$count++;
-			}
+                $count++;
+            }
 
-			if (count($contacts) < $limit) {
-				break;
-			}
+            if (count($contacts) < $limit) {
+                break;
+            }
 
-			$offset+=$limit;
-		}
+            $offset+=$limit;
+        }
 
-		return $count;
-	}
+        return $count;
+    }
 
 
-	private $contactToMessageTypeMap = [
-		'phone' => 'sms',
-		'email' => 'email',
-		'twitter' => 'twitter',
-	];
+    private $contactToMessageTypeMap = [
+        'phone' => 'sms',
+        'email' => 'email',
+        'twitter' => 'twitter',
+    ];
 
-	private function mapContactToMessageType($contactType)
-	{
-		return isset($this->contactToMessageTypeMap[$contactType])
-			? $this->contactToMessageTypeMap[$contactType] : $contactType;
-	}
+    private function mapContactToMessageType($contactType)
+    {
+        return isset($this->contactToMessageTypeMap[$contactType])
+            ? $this->contactToMessageTypeMap[$contactType] : $contactType;
+    }
 }

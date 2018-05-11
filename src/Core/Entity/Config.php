@@ -15,21 +15,21 @@ use Ushahidi\Core\DynamicEntity;
 
 class Config extends DynamicEntity
 {
-	// DataTransformer
-	protected function getDefinition()
-	{
-		return ['id' => 'string'];
-	}
+    // DataTransformer
+    protected function getDefinition()
+    {
+        return ['id' => 'string'];
+    }
 
-	// Entity
-	public function getResource()
-	{
-		return 'config';
-	}
+    // Entity
+    public function getResource()
+    {
+        return 'config';
+    }
 
-	// StatefulData
-	public function getImmutable()
-	{
-		return array_merge(parent::getImmutable(), ['allowed_privileges']);
-	}
+    // StatefulData
+    public function getImmutable()
+    {
+        return array_merge(parent::getImmutable(), ['allowed_privileges']);
+    }
 }

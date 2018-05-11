@@ -15,19 +15,19 @@ namespace Ushahidi\Core\Traits;
 
 trait WebhookAccess
 {
-	protected $enabled = false;
+    protected $enabled = false;
 
-	public function setEnabled($enabled)
-	{
-		$this->enabled = $enabled;
-	}
+    public function setEnabled($enabled)
+    {
+        $this->enabled = $enabled;
+    }
 
-	/**
-	 * Check if the user has webhooks feature
-	 * @return boolean
-	 */
-	public function isWebhookEnabled()
-	{
-		return (bool) $this->enabled;
-	}
+    /**
+     * Check if the user has webhooks feature
+     * @return boolean
+     */
+    public function isWebhookEnabled()
+    {
+        return (bool) $this->enabled;
+    }
 }

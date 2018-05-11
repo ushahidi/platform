@@ -13,32 +13,32 @@ namespace Ushahidi\Factory;
 
 class AuthorizerFactory
 {
-	// Array of authorizers, mapped by resource:
-	//
-	//     $map = [
-	//         'widgets' => $di->lazyNew('Namespace\To\WidgetAuthorizer'),
-	//         ...
-	//     ]
-	//
-	// Resource names correspond with entity types.
-	protected $map = [];
+    // Array of authorizers, mapped by resource:
+    //
+    //     $map = [
+    //         'widgets' => $di->lazyNew('Namespace\To\WidgetAuthorizer'),
+    //         ...
+    //     ]
+    //
+    // Resource names correspond with entity types.
+    protected $map = [];
 
-	/**
-	 * @param  Array $map
-	 */
-	public function __construct(array $map)
-	{
-		$this->map = $map;
-	}
+    /**
+     * @param  Array $map
+     */
+    public function __construct(array $map)
+    {
+        $this->map = $map;
+    }
 
-	/**
-	 * Gets an authorizer from the map by resource.
-	 * @param  String $resource
-	 * @return Ushahidi\Core\Tool\Authorizer
-	 */
-	public function get($resource)
-	{
-		$factory = $this->map[$resource];
-		return $factory();
-	}
+    /**
+     * Gets an authorizer from the map by resource.
+     * @param  String $resource
+     * @return Ushahidi\Core\Tool\Authorizer
+     */
+    public function get($resource)
+    {
+        $factory = $this->map[$resource];
+        return $factory();
+    }
 }

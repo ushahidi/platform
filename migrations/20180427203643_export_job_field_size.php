@@ -28,27 +28,27 @@ class ExportJobFieldSize extends AbstractMigration
      */
     public function up()
     {
-		/**
-		 * Changing fields and filters to the MEDIUM_TEXT
-		 * length. We would not (always) be able to handle
-		 * very large deployments with many fields
-		 * with a 255 varchar.
-		 */
-		$this->table('export_job')
-			->changeColumn(
-				'fields',
-				'text',
-				['null' => true, 'limit' => MysqlAdapter::TEXT_MEDIUM, 'default' => null]
-			)
-			->changeColumn(
-				'filters',
-				'text',
-				['null' => true, 'limit' => MysqlAdapter::TEXT_MEDIUM, 'default' => null]
-			)
-			->update();
+        /**
+         * Changing fields and filters to the MEDIUM_TEXT
+         * length. We would not (always) be able to handle
+         * very large deployments with many fields
+         * with a 255 varchar.
+         */
+        $this->table('export_job')
+            ->changeColumn(
+                'fields',
+                'text',
+                ['null' => true, 'limit' => MysqlAdapter::TEXT_MEDIUM, 'default' => null]
+            )
+            ->changeColumn(
+                'filters',
+                'text',
+                ['null' => true, 'limit' => MysqlAdapter::TEXT_MEDIUM, 'default' => null]
+            )
+            ->update();
     }
     public function down()
-	{
-		// Noop - don't rollback because it would truncate use data
-	}
+    {
+        // Noop - don't rollback because it would truncate use data
+    }
 }

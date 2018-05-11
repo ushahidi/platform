@@ -16,8 +16,8 @@ use Ushahidi\App\Http\Controllers\RESTController;
 class RolesController extends RESTController
 {
 
-	protected function getResource()
-	{
-		return 'roles';
-	}
+    protected function getResource()
+    {
+        return 'roles';
+    }
 }

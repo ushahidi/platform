@@ -31,7 +31,7 @@
  * - string   email       from email for password resets, etc
  */
 return [
-	'enabled' => !empty(env("MULTISITE_DOMAIN")),
-	'domain'  => env("MULTISITE_DOMAIN"),
+    'enabled' => !empty(env("MULTISITE_DOMAIN")),
+    'domain'  => env("MULTISITE_DOMAIN"),
     'email'   => env("MULTISITE_EMAIL"),
 ];

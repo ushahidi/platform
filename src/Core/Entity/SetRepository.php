@@ -18,22 +18,22 @@ interface SetRepository extends
     EntityGet,
     EntityExists
 {
-	/**
-	 * @param  Int $set_id
-	 * @param  Int $post_id
-	 */
-	public function deleteSetPost($set_id, $post_id);
+    /**
+     * @param  Int $set_id
+     * @param  Int $post_id
+     */
+    public function deleteSetPost($set_id, $post_id);
 
-	/**
-	 * @param Int $set_id
-	 * @param Int $post_id
-	 * @return Boolean
-	 */
-	public function setPostExists($set_id, $post_id);
+    /**
+     * @param Int $set_id
+     * @param Int $post_id
+     * @return Boolean
+     */
+    public function setPostExists($set_id, $post_id);
 
-	/**
-	 * @param Int $set_id
-	 * @param Int $post_id
-	 */
-	public function addPostToSet($set_id, $post_id);
+    /**
+     * @param Int $set_id
+     * @param Int $post_id
+     */
+    public function addPostToSet($set_id, $post_id);
 }

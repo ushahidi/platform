@@ -13,5 +13,5 @@ namespace Ushahidi\App\Http\Controllers\API\Posts;
 
 class RevisionsController extends PostsController
 {
-	protected $postType = 'revision';
+    protected $postType = 'revision';
 }

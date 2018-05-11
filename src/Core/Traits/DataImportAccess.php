@@ -15,19 +15,19 @@ namespace Ushahidi\Core\Traits;
 
 trait DataImportAccess
 {
-	protected $enabled = false;
+    protected $enabled = false;
 
-	public function setEnabled($enabled)
-	{
-		$this->enabled = $enabled;
-	}
+    public function setEnabled($enabled)
+    {
+        $this->enabled = $enabled;
+    }
 
-	/**
-	 * Check if the user can import data
-	 * @return boolean
-	 */
-	public function canImportData()
-	{
-		return (bool) $this->enabled;
-	}
+    /**
+     * Check if the user can import data
+     * @return boolean
+     */
+    public function canImportData()
+    {
+        return (bool) $this->enabled;
+    }
 }

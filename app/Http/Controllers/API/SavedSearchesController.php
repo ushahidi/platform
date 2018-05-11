@@ -16,8 +16,8 @@ use Ushahidi\App\Http\Controllers\RESTController;
 class SavedSearchesController extends RESTController
 {
 
-	protected function getResource()
-	{
-		return 'savedsearches';
-	}
+    protected function getResource()
+    {
+        return 'savedsearches';
+    }
 }

@@ -15,8 +15,8 @@ use Ushahidi\App\Http\Controllers\RESTController;
 
 class CountryCodesController extends RESTController
 {
-	protected function getResource()
-	{
-		return 'country_codes';
-	}
+    protected function getResource()
+    {
+        return 'country_codes';
+    }
 }

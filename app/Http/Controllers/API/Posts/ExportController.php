@@ -16,10 +16,10 @@ use Illuminate\Http\Request;
 class ExportController extends PostsController
 {
 
-	protected function getResource()
-	{
-		return 'posts_export';
-	}
+    protected function getResource()
+    {
+        return 'posts_export';
+    }
 
     public function index(Request $request)
     {
@@ -29,9 +29,9 @@ class ExportController extends PostsController
 
         $format = strtolower($request->query('format'));
 
-		if ($format) {
-			$this->usecase->setFormatter(service("formatter.entity.post.$format"));
-		}
+        if ($format) {
+            $this->usecase->setFormatter(service("formatter.entity.post.$format"));
+        }
 
         return $this->prepResponse($this->executeUsecase($request), $request);
     }

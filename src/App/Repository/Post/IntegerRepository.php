@@ -14,18 +14,18 @@ namespace Ushahidi\App\Repository\Post;
 use Ushahidi\Core\Entity\PostValue;
 use Ushahidi\Core\Entity\PostValueRepository as PostValueRepositoryContract;
 
-class IntRepository extends ValueRepository
+class IntegerRepository extends ValueRepository
 {
-	// OhanzeeRepository
-	protected function getTable()
-	{
-		return 'post_int';
-	}
+    // OhanzeeRepository
+    protected function getTable()
+    {
+        return 'post_int';
+    }
 
-	// OhanzeeRepository
-	public function getEntity(array $data = null)
-	{
-		$data['value'] = intval($data['value']);
-		return new PostValue($data);
-	}
+    // OhanzeeRepository
+    public function getEntity(array $data = null)
+    {
+        $data['value'] = intval($data['value']);
+        return new PostValue($data);
+    }
 }

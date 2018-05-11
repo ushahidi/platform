@@ -15,12 +15,12 @@ use Ushahidi\Core\Entity\User;
 
 interface Acl
 {
-	/**
-	 * Check if user has permissions
-	 *
-	 * @param Ushahidi|Core|Entity|User $user
-	 * @param String $permission The permission to check for
-	 * @return Boolean
-	 */
-	public function hasPermission(User $user, $permission);
+    /**
+     * Check if user has permissions
+     *
+     * @param Ushahidi|Core|Entity|User $user
+     * @param String $permission The permission to check for
+     * @return Boolean
+     */
+    public function hasPermission(User $user, $permission);
 }

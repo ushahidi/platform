@@ -13,19 +13,19 @@ namespace Ushahidi\Core\Entity;
 
 class SavedSearch extends Set
 {
-	protected $filter;
+    protected $filter;
 
-	// DataTransformer
-	protected function getDefinition()
-	{
-		return parent::getDefinition() + [
-			'filter'       => '*json',
-		];
-	}
+    // DataTransformer
+    protected function getDefinition()
+    {
+        return parent::getDefinition() + [
+            'filter'       => '*json',
+        ];
+    }
 
-	// Entity
-	public function getResource()
-	{
-		return 'savedsearches';
-	}
+    // Entity
+    public function getResource()
+    {
+        return 'savedsearches';
+    }
 }

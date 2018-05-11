@@ -17,13 +17,13 @@ use Ushahidi\Core\Tool\Validator;
 
 class Create extends Update
 {
-	protected function getRules()
-	{
-		return array_merge_recursive(parent::getRules(), [
-			'name' => [
+    protected function getRules()
+    {
+        return array_merge_recursive(parent::getRules(), [
+            'name' => [
                 ['not_empty'],
-				[[$this, 'checkPostTypeLimit'], [':validation']],
-			]
-		]);
-	}
+                [[$this, 'checkPostTypeLimit'], [':validation']],
+            ]
+        ]);
+    }
 }

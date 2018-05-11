@@ -15,8 +15,8 @@ use Ushahidi\App\Http\Controllers\RESTController;
 
 class ApiKeysController extends RESTController
 {
-	protected function getResource()
-	{
-		return 'apikeys';
-	}
+    protected function getResource()
+    {
+        return 'apikeys';
+    }
 }

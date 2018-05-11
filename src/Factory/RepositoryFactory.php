@@ -13,32 +13,32 @@ namespace Ushahidi\Factory;
 
 class RepositoryFactory
 {
-	// Array of repositories, mapped by resource:
-	//
-	//     $map = [
-	//         'widgets' => $di->lazyNew('Namespace\To\WidgetRepository'),
-	//         ...
-	//     ]
-	//
-	// Resource names correspond with entity types.
-	protected $map = [];
+    // Array of repositories, mapped by resource:
+    //
+    //     $map = [
+    //         'widgets' => $di->lazyNew('Namespace\To\WidgetRepository'),
+    //         ...
+    //     ]
+    //
+    // Resource names correspond with entity types.
+    protected $map = [];
 
-	/**
-	 * @param  Array $map
-	 */
-	public function __construct(array $map)
-	{
-		$this->map = $map;
-	}
+    /**
+     * @param  Array $map
+     */
+    public function __construct(array $map)
+    {
+        $this->map = $map;
+    }
 
-	/**
-	 * Gets a repository from the map by resource.
-	 * @param  String $resource
-	 * @return Ushahidi\Repository
-	 */
-	public function get($resource)
-	{
-		$factory = $this->map[$resource];
-		return $factory();
-	}
+    /**
+     * Gets a repository from the map by resource.
+     * @param  String $resource
+     * @return Ushahidi\Repository
+     */
+    public function get($resource)
+    {
+        $factory = $this->map[$resource];
+        return $factory();
+    }
 }

@@ -16,9 +16,9 @@ use Ushahidi\Core\Entity;
 
 interface RateLimiter
 {
-	/**
-	 * @param Entity $entity
-	 * @throws Exception
-	 */
-	public function limit(Entity $entity);
+    /**
+     * @param Entity $entity
+     * @throws Exception
+     */
+    public function limit(Entity $entity);
 }

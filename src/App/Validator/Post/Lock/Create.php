@@ -13,12 +13,12 @@ namespace Ushahidi\App\Validator\Post\Lock;
 
 class Create extends Update
 {
-	protected function getRules()
-	{
-		return array_merge_recursive(parent::getRules(), [
-			'post_id' => [
-				['not_empty'],
-			],
-		]);
-	}
+    protected function getRules()
+    {
+        return array_merge_recursive(parent::getRules(), [
+            'post_id' => [
+                ['not_empty'],
+            ],
+        ]);
+    }
 }

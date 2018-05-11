@@ -16,10 +16,10 @@ use Illuminate\Http\Request;
 
 class PostsController extends RestController
 {
-	protected function getResource()
-	{
-		return 'sets_posts';
-	}
+    protected function getResource()
+    {
+        return 'sets_posts';
+    }
 
 
     /**
@@ -34,8 +34,8 @@ class PostsController extends RestController
         $this->usecase = $this->usecaseFactory
             ->get($this->getResource(), 'create')
             ->setPayload($request->json()->all())
-			// Send through parent collection id
-			->setIdentifiers($this->getRouteParams($request));
+            // Send through parent collection id
+            ->setIdentifiers($this->getRouteParams($request));
 
         return $this->prepResponse($this->executeUsecase($request), $request);
     }
@@ -52,12 +52,12 @@ class PostsController extends RestController
         $params = $this->getRouteParams($request);
         $this->usecase = $this->usecaseFactory
             ->get($this->getResource(), 'search')
-			// And add parent collection id to the filters
+            // And add parent collection id to the filters
             ->setFilters($request->query() + [
                 'set_id' => isset($params['set_id']) ? $params['set_id'] : null
-			])
-			// Send through parent collection id
-			->setIdentifiers($params);
+            ])
+            // Send through parent collection id
+            ->setIdentifiers($params);
 
         return $this->prepResponse($this->executeUsecase($request), $request);
     }

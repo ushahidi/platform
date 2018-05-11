@@ -23,7 +23,7 @@ class CreateExportJobTable extends AbstractMigration
                 'delete' => 'CASCADE',
                 'update' => 'CASCADE',
                 ])
-    		->create();
+            ->create();
     }
 
     /**
