@@ -14,7 +14,6 @@ namespace Ushahidi\Core\Usecase\Post;
 use Ushahidi\App\Repository\ExportJobRepository;
 use Ushahidi\App\Repository\Form\AttributeRepository;
 use Ushahidi\App\Repository\Post\ExportRepository;
-use Ushahidi\Core\Entity\Permission;
 use Ushahidi\Core\Tool\AuthorizerTrait;
 use Ushahidi\Core\Tool\FormatterTrait;
 use Ushahidi\Core\Usecase;
@@ -22,229 +21,228 @@ use Ushahidi\Core\SearchData;
 use Ushahidi\Core\Traits\UserContext;
 use Ushahidi\Core\Usecase\SearchRepository;
 use Ushahidi\Core\Usecase\Concerns\FilterRecords;
-use Ushahidi\Core\Tool\Authorizer\ExportJobAuthorizer;
 
 class Export implements Usecase
 {
-	use UserContext;
+    use UserContext;
 
-	// Uses several traits to assign tools. Each of these traits provides a
-	// setter method for the tool. For example, the AuthorizerTrait provides
-	// a `setAuthorizer` method which only accepts `Authorizer` instances.
-	use AuthorizerTrait,
-		FormatterTrait;
+    // Uses several traits to assign tools. Each of these traits provides a
+    // setter method for the tool. For example, the AuthorizerTrait provides
+    // a `setAuthorizer` method which only accepts `Authorizer` instances.
+    use AuthorizerTrait,
+        FormatterTrait;
 
-	// - FilterRecords for setting search parameters
-	use FilterRecords;
-	protected $filters;
-	private $postExportRepository;
-	private $exportJobRepository;
-	private $formAttributeRepository;
+    // - FilterRecords for setting search parameters
+    use FilterRecords;
+    protected $filters;
+    private $postExportRepository;
+    private $exportJobRepository;
+    private $formAttributeRepository;
 
-	/**
-	 * @var SearchRepository
-	 */
-	protected $repo;
+    /**
+     * @var SearchRepository
+     */
+    protected $repo;
 
-	/**
-	 * Inject a repository that can search for entities.
-	 *
-	 * @param  SearchRepository $repo
-	 * @return $this
-	 */
-	public function setRepository(SearchRepository $repo)
-	{
-		$this->repo = $repo;
-		return $this;
-	}
+    /**
+     * Inject a repository that can search for entities.
+     *
+     * @param  SearchRepository $repo
+     * @return $this
+     */
+    public function setRepository(SearchRepository $repo)
+    {
+        $this->repo = $repo;
+        return $this;
+    }
 
-	/**
-	 * @var SearchData
-	 */
-	protected $search;
+    /**
+     * @var SearchData
+     */
+    protected $search;
 
-	// - VerifyParentLoaded for checking that the parent exists
-	use VerifyParentLoaded;
+    // - VerifyParentLoaded for checking that the parent exists
+    use VerifyParentLoaded;
 
-	public function setExportJobRepository(ExportJobRepository $repo)
-	{
-		$this->exportJobRepository = $repo;//service('repository.export_job');
-	}
+    public function setExportJobRepository(ExportJobRepository $repo)
+    {
+        $this->exportJobRepository = $repo;//service('repository.export_job');
+    }
 
-	public function setFormAttributeRepository(AttributeRepository $repo)
-	{
-		$this->formAttributeRepository = $repo; //service('repository.form_attribute');
-	}
+    public function setFormAttributeRepository(AttributeRepository $repo)
+    {
+        $this->formAttributeRepository = $repo; //service('repository.form_attribute');
+    }
 
-	public function setPostExportRepository(ExportRepository $repo)
-	{
-		$this->postExportRepository = $repo; //service('repository.posts_export');
-	}
+    public function setPostExportRepository(ExportRepository $repo)
+    {
+        $this->postExportRepository = $repo; //service('repository.posts_export');
+    }
 
-	/**
-	 * @return array|mixed|\Ushahidi\Core\Array
-	 */
-	public function interact()
-	{
-		// Load the export job
-		$job = $this->exportJobRepository->get($this->getIdentifier('job_id'));
-		// load the user from the job into the 'session'
-		$this->session->setUser($job->user_id);
-		// verify the user can export posts
-		$this->verifyAuth($job, 'export');
-		// merge filters from the controller/cli call with the job's saved filters
-		$data = $this->constructSearchData($job);
-		$this->postExportRepository->setSearchParams($data);
+    /**
+     * @return array|mixed|\Ushahidi\Core\Array
+     */
+    public function interact()
+    {
+        // Load the export job
+        $job = $this->exportJobRepository->get($this->getIdentifier('job_id'));
+        // load the user from the job into the 'session'
+        $this->session->setUser($job->user_id);
+        // verify the user can export posts
+        $this->verifyAuth($job, 'export');
+        // merge filters from the controller/cli call with the job's saved filters
+        $data = $this->constructSearchData($job);
+        $this->postExportRepository->setSearchParams($data);
 
-		// get the form attributes for the export
-		$attributes = $this->formAttributeRepository->getExportAttributes($data->include_attributes);
-		$keyAttributes = $this->getAttributesWithKeys($attributes);
+        // get the form attributes for the export
+        $attributes = $this->formAttributeRepository->getExportAttributes($data->include_attributes);
+        $keyAttributes = $this->getAttributesWithKeys($attributes);
 
-		/**
-		 * get the search results based on filters
-		 * and retrieve the metadata for each of the posts
-		 **/
-		$posts = $this->postExportRepository->getSearchResults();
-		foreach ($posts as $idx => $post) {
-			// Retrieved Attribute Labels for Entity's values
-			$post = $this->postExportRepository->retrieveMetaData($post->asArray(), $keyAttributes);
-			$posts[$idx] = $post;
-		}
+        /**
+         * get the search results based on filters
+         * and retrieve the metadata for each of the posts
+         **/
+        $posts = $this->postExportRepository->getSearchResults();
+        foreach ($posts as $idx => $post) {
+            // Retrieved Attribute Labels for Entity's values
+            $post = $this->postExportRepository->retrieveMetaData($post->asArray(), $keyAttributes);
+            $posts[$idx] = $post;
+        }
 
-		/**
-		 * update the header attributes
-		 * in the job table so we know which headers to
-		 * use in other chunks of the export
-		 */
-		$this->saveHeaderRow($job, $attributes);
+        /**
+         * update the header attributes
+         * in the job table so we know which headers to
+         * use in other chunks of the export
+         */
+        $this->saveHeaderRow($job, $attributes);
 
-		/**
-		 * set 'add header' in the formatter
-		 * so it knows how to return the results
-		 * for the csv (with or without a header row)
-		 */
-		$this->formatter->setAddHeader($this->filters['add_header']);
+        /**
+         * set 'add header' in the formatter
+         * so it knows how to return the results
+         * for the csv (with or without a header row)
+         */
+        $this->formatter->setAddHeader($this->filters['add_header']);
 
-		$formatter = $this->formatter;
-		/**
-		 * KeyAttributes is sent instead of the header row because it contains
-		 * the attributes with the corresponding features (type, priority) that
-		 * we need for manipulating the data
-		 */
-		$file = $formatter($posts, $job, $keyAttributes);
-		return [
-			'results' => [
-				[
-					'file' => $file->file,
-				]
-			]
-		];
-	}
+        $formatter = $this->formatter;
+        /**
+         * KeyAttributes is sent instead of the header row because it contains
+         * the attributes with the corresponding features (type, priority) that
+         * we need for manipulating the data
+         */
+        $file = $formatter($posts, $job, $keyAttributes);
+        return [
+            'results' => [
+                [
+                    'file' => $file->file,
+                ]
+            ]
+        ];
+    }
 
-	/**
-	 * @param $job
-	 * @param $attributes
-	 */
-	private function saveHeaderRow($job, $attributes)
-	{
-		if (empty($job->header_row)) {
-			$job->setState(['header_row' => $attributes]);
-			$this->exportJobRepository->update($job);
-		}
-	}
+    /**
+     * @param $job
+     * @param $attributes
+     */
+    private function saveHeaderRow($job, $attributes)
+    {
+        if (empty($job->header_row)) {
+            $job->setState(['header_row' => $attributes]);
+            $this->exportJobRepository->update($job);
+        }
+    }
 
-	/**
-	 * @param $filters
-	 * @param null $job_filters
-	 * @return array
-	 * Construct a filters object
-	 */
-	public function constructFilters($filters, $job_filters = null)
-	{
-		// Set the baseline filter parameters
-		$filters = [
-			'limit' => $filters['limit'],
-			'offset' => $filters['offset'],
-		];
-		// Merge the export job filters with the base filters
-		if ($job_filters) {
-			$filters = array_merge($filters, $job_filters);
-		}
-		return $filters;
-	}
+    /**
+     * @param $filters
+     * @param null $job_filters
+     * @return array
+     * Construct a filters object
+     */
+    public function constructFilters($filters, $job_filters = null)
+    {
+        // Set the baseline filter parameters
+        $filters = [
+            'limit' => $filters['limit'],
+            'offset' => $filters['offset'],
+        ];
+        // Merge the export job filters with the base filters
+        if ($job_filters) {
+            $filters = array_merge($filters, $job_filters);
+        }
+        return $filters;
+    }
 
-	/**
-	 * @param $job
-	 * @param $filters
-	 * @return mixed
-	 * Construct a Search Data object to hold the search info
-	 */
-	public function constructSearchData($job)
-	{
-		$filters = $this->constructFilters($this->filters, $job->filters);
-		$data = $this->search;
+    /**
+     * @param $job
+     * @param $filters
+     * @return mixed
+     * Construct a Search Data object to hold the search info
+     */
+    public function constructSearchData($job)
+    {
+        $filters = $this->constructFilters($this->filters, $job->filters);
+        $data = $this->search;
 
-		// Set the fields that should be included if set
-		if ($job->fields) {
-			$data->include_attributes = $job->fields;
-		}
+        // Set the fields that should be included if set
+        if ($job->fields) {
+            $data->include_attributes = $job->fields;
+        }
 
-		// set the filters that should be used
-		foreach ($filters as $key => $filter) {
-			$data->$key = $filter;
-		}
+        // set the filters that should be used
+        foreach ($filters as $key => $filter) {
+            $data->$key = $filter;
+        }
 
-		return $data;
-	}
+        return $data;
+    }
 
-	/**
-	 * Get the attributes we will use for the CSV header
-	 * and create an assoc array like
-	 * {'attribute_key': attribute, '2ndkey' : attribute}
-	 * that we can use for the heading formatting
-	 * @param $attributes
-	 * @return array
-	 */
-	private function getAttributesWithKeys($attributes)
-	{
-		/**
-		 * Get the attributes we will use for the CSV header
-		 * and create an assoc array like
-		 * {'attribute_key': attribute, '2ndkey' : attribute}
-		 * that we can use for the heading formatting
-		 */
-		$keyAttributes = [];
-		foreach ($attributes as $key => $item) {
-			$keyAttributes[$item['key']] = $item;
-		}
-		return $keyAttributes;
-	}
+    /**
+     * Get the attributes we will use for the CSV header
+     * and create an assoc array like
+     * {'attribute_key': attribute, '2ndkey' : attribute}
+     * that we can use for the heading formatting
+     * @param $attributes
+     * @return array
+     */
+    private function getAttributesWithKeys($attributes)
+    {
+        /**
+         * Get the attributes we will use for the CSV header
+         * and create an assoc array like
+         * {'attribute_key': attribute, '2ndkey' : attribute}
+         * that we can use for the heading formatting
+         */
+        $keyAttributes = [];
+        foreach ($attributes as $key => $item) {
+            $keyAttributes[$item['key']] = $item;
+        }
+        return $keyAttributes;
+    }
 
-	/**
-	 * Will this usecase write any data?
-	 *
-	 * @return Boolean
-	 */
-	public function isWrite()
-	{
-		return false;
-	}
+    /**
+     * Will this usecase write any data?
+     *
+     * @return Boolean
+     */
+    public function isWrite()
+    {
+        return false;
+    }
 
-	/**
-	 * Will this usecase search for data?
-	 *
-	 * @return Boolean
-	 */
-	public function isSearch()
-	{
-		return true;
-	}
+    /**
+     * Will this usecase search for data?
+     *
+     * @return Boolean
+     */
+    public function isSearch()
+    {
+        return true;
+    }
 
-	/**
-	 * @param SearchData $search
-	 */
-	public function setData(SearchData $search)
-	{
-		$this->search = $search;
-	}
+    /**
+     * @param SearchData $search
+     */
+    public function setData(SearchData $search)
+    {
+        $this->search = $search;
+    }
 }
