@@ -67,7 +67,7 @@ class HXLTagRepository extends OhanzeeRepository implements
 	 */
 	protected function getAllHXLAttributes($tag_id)
 	{
-	    if ($this->tags_attributes) {
+	    if (!$this->tags_attributes) {
             $this->tags_attributes =  DB::select(
                 ['hxl_tags.id', 'hxl_tag_id'],
                 'hxl_attributes.id',
