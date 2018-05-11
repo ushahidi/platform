@@ -252,8 +252,8 @@ class AttributeRepository extends OhanzeeRepository implements
                 DISTINCT form_attributes.*,
                 form_stages.priority as form_stage_priority,
                 forms.name as form_name,
-                forms.id as form_id
-                INNER JOIN form_stages ON form_attributes.form_stage_id = form_stages.id
+                forms.id as form_id 
+                INNER JOIN form_stages ON form_attributes.form_stage_id = form_stages.id 
                 INNER JOIN forms ON form_stages.form_id = forms.id ";
             if (!empty($include_attributes)) {
                 $sql .= " AND form_attributes.key IN :form_attributes ";
