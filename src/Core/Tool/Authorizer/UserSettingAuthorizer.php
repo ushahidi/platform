@@ -61,13 +61,14 @@ class UserSettingAuthorizer implements Authorizer
 			return false;
 		}
 
-		// Admin user should be able to do anything - short of deleting self
-		if ($this->isUserAdmin($user)) {
+		// Regular user should be able to perform all actions on their own settings
+		if ($this->isUserOwner($entity, $user)) {
 			return true;
 		}
 
-		// Regular user should be able to perform all actions on their own settings
-		if ($this->isUserOwner($entity, $user)) {
+		// Anyone can search, this is highly problematic because the results
+		// are loaded and then filtered out based on the read priv
+		if ($privilege === 'search') {
 			return true;
 		}
 

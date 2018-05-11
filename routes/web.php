@@ -493,6 +493,7 @@ $router->group([
 					'middleware' => ['feature:user-settings']
 				], function () use ($router) {
 					$router->get('/', 'SettingsController@index');
+					$router->post('/', 'SettingsController@store');
 					$router->get('/{id}', 'SettingsController@show');
 					$router->put('/{id}', 'SettingsController@update');
 					$router->delete('/{id}', 'SettingsController@destroy');

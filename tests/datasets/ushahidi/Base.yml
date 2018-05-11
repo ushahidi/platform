@@ -79,14 +79,14 @@ user_settings:
    config_value: "some value"
    created: 1893477600
    updated: 1893477600
-   user_id: 1
+   user_id: 2
  - 
    id: 2
-   config_key: "some key"
+   config_key: "some key2"
    config_value: "some value"
    created: 1893477600
    updated: 1893477600
-   user_id: 2
+   user_id: 1
 user_reset_tokens:
   -
     id: 1
