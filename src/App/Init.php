@@ -322,7 +322,6 @@ $di->set('repository.apikey', $di->lazyNew(Ushahidi\App\Repository\ApiKeyReposit
 $di->set('repository.config', $di->lazyNew(Ushahidi\App\Repository\ConfigRepository::class));
 $di->set('repository.contact', $di->lazyNew(Ushahidi\App\Repository\ContactRepository::class));
 $di->set('repository.country_code', $di->lazyNew(Ushahidi\App\Repository\CountryCodeRepository::class));
-
 $di->set('repository.dataprovider', $di->lazyNew(Ushahidi\App\Repository\DataproviderRepository::class));
 $di->set('repository.form', $di->lazyNew(Ushahidi\App\Repository\FormRepository::class));
 $di->set('repository.form_role', $di->lazyNew(Ushahidi\App\Repository\Form\RoleRepository::class));
@@ -758,21 +757,31 @@ $di->setter[Ushahidi\App\Repository\Post\LockRepository::class]['setListener'] =
  *
  */
 
-
-$di->set('repository.hxl_license', $di->lazyNew(Ushahidi\App\Repository\HXLLicenseRepository::class));
-$di->set('formatter.entity.hxl_license', $di->lazyNew(Ushahidi\App\Formatter\HXLLicense::class));
+$di->set('repository.hxl_license', $di->lazyNew(Ushahidi\App\Repository\HXL\HXLLicenseRepository::class));
+$di->set('repository.hxl_tag', $di->lazyNew(Ushahidi\App\Repository\HXL\HXLTagRepository::class));
+$di->set('formatter.entity.hxl_license', $di->lazyNew(Ushahidi\App\Formatter\HXL\HXLLicense::class));
+$di->set('formatter.entity.hxl_tag', $di->lazyNew(Ushahidi\App\Formatter\HXL\HXLTag::class));
 $di->set('authorizer.hxl', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\HXLAuthorizer'));
-
+$di->setter[Ushahidi\App\Formatter\HXL\HXLLicense::class]['setAuth'] = $di->lazyGet("authorizer.hxl");
+$di->setter[Ushahidi\App\Formatter\HXL\HXLTag::class]['setAuth'] = $di->lazyGet("authorizer.hxl");
 $di->params['Ushahidi\Factory\AuthorizerFactory']['map']['hxl'] =
     $di->lazyGet('authorizer.hxl');
 $di->params['Ushahidi\Factory\AuthorizerFactory']['map']['hxl_licenses'] =
     $di->lazyGet('authorizer.hxl');
+$di->params['Ushahidi\Factory\AuthorizerFactory']['map']['hxl_tags'] =
+    $di->lazyGet('authorizer.hxl');
+
 $di->params['Ushahidi\Factory\RepositoryFactory']['map']['hxl_licenses'] =
     $di->lazyGet('repository.hxl_license');
-$di->params['Ushahidi\Factory\FormatterFactory']['map']['hxl_licenses'] =
-    $di->lazyNew(Ushahidi\App\Formatter\HXLLicense::class);
-$di->setter[Ushahidi\App\Formatter\HXLLicense::class]['setAuth'] = $di->lazyGet("authorizer.hxl");
+$di->params['Ushahidi\Factory\RepositoryFactory']['map']['hxl_tags'] =
+    $di->lazyGet('repository.hxl_tag');
 
+$di->params['Ushahidi\Factory\FormatterFactory']['map']['hxl_licenses'] =
+    $di->lazyNew(Ushahidi\App\Formatter\HXL\HXLLicense::class);
+$di->params['Ushahidi\Factory\FormatterFactory']['map']['hxl_tags'] =
+    $di->lazyNew(Ushahidi\App\Formatter\HXL\HXLTag::class);
+$di->setter[Ushahidi\App\Formatter\HXL\HXLLicense::class]['setAuth'] = $di->lazyGet("authorizer.hxl");
+$di->setter[Ushahidi\App\Formatter\HXL\HXLTag::class]['setAuth'] = $di->lazyGet("authorizer.hxl");
 
 // Set up config bindings
 
