@@ -19,12 +19,6 @@ class Update extends Validator
     protected $form_repo;
     protected $contact_repo;
     protected $form_contact_repo;
-    protected $phone_validator;
-
-    public function setPhoneValidator($validator)
-    {
-        $this->phone_validator = $validator;
-    }
 
     public function setFormContactRepo(\Ushahidi\Core\Entity\FormContactRepository $form_contact_repo)
     {
