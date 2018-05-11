@@ -253,6 +253,7 @@ class AttributeRepository extends OhanzeeRepository implements
                 form_stages.priority as form_stage_priority,
                 forms.name as form_name,
                 forms.id as form_id
+                FROM form_attributes
                 INNER JOIN form_stages ON form_attributes.form_stage_id = form_stages.id
                 INNER JOIN forms ON form_stages.form_id = forms.id ";
             if (!empty($include_attributes)) {
