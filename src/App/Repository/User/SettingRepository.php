@@ -53,40 +53,12 @@ class SettingRepository extends OhanzeeRepository implements
 	}
 
 	// UserSettingRepository
-	public function updateCollection(array $entities)
-	{
-		if (empty($entities)) {
-			return;
-		}
-
-		// Delete all existing user settings records
-		// Assuming all entites have the same user id
-		$this->deleteAllForUser(current($entities)->user_id);
-
-		$query = DB::insert($this->getTable())
-			->columns(array_keys(current($entities)->asArray()));
-
-		foreach ($entities as $entity) {
-			$query->values($entity->asArray());
-		}
-
-		$query->execute($this->db);
-
-		return $entities;
-	}
-
-	// UserSettingRepository
 	public function getByUser($user_id)
 	{
 		$query = $this->selectQuery(compact($user_id));
 		$results = $query->execute($this->db);
 
 		return $this->getCollection($results->as_array());
-	}
-
-	public function deleteAllForUser($user_id)
-	{
-		return $this->executeDelete(compact('user_id'));
 	}
 
 	// UserSettingRepository
