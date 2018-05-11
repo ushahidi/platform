@@ -41,11 +41,11 @@ class HXLController extends Controller
         $data = [];
 
         //package_create
-// 		$data = $ckanClient->dataset()->create([
-//                 'owner_org' => 'ushahidi',
-//                 'name' => 'super-title',
-//                 'title' => 'SUPER API TITLE'
-//         ]);
+        // $data = $ckanClient->dataset()->create([
+        // 'owner_org' => 'ushahidi',
+        // 'name' => 'super-title',
+        // 'title' => 'SUPER API TITLE'
+        // ]);
 
         //package_show
         //$data = $ckanClient->dataset()->show();

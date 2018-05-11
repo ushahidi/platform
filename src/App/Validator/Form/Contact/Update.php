@@ -25,6 +25,11 @@ class Update extends Validator
         $this->form_contact_repo = $form_contact_repo;
     }
 
+    public function setFormRepo(\Ushahidi\Core\Entity\FormRepository $form_repo)
+    {
+        $this->form_repo = $form_repo;
+    }
+
     public function setContactRepo(\Ushahidi\Core\Entity\ContactRepository $contact_repo)
     {
         $this->contact_repo = $contact_repo;
