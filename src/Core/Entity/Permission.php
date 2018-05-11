@@ -18,9 +18,10 @@ class Permission extends StaticEntity
 	protected $id;
 	protected $name;
 	protected $description;
-
+	// FIXME: this LEGACY_DATA_IMPORT has to be removed after the prod release
+    const LEGACY_DATA_IMPORT      = 'Bulk Data Import';
 	// Standard permissions names
-	const DATA_IMPORT_EXPORT  = 'Bulk Data Import & Export';
+	const DATA_IMPORT_EXPORT  = 'Bulk Data Import and Export';
 	const MANAGE_POSTS     = 'Manage Posts';
 	const MANAGE_SETTINGS  = 'Manage Settings';
     const MANAGE_USERS     = 'Manage Users';
