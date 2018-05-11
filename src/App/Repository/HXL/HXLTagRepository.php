@@ -55,15 +55,9 @@ class HXLTagRepository extends OhanzeeRepository implements
 	 */
 	public function getEntity(array $data = null)
 	{
-		if (!$this->tags_attributes) {
-			$this->tags_attributes = $this->getAllHXLAttributes();
-		}
-
 		if ($data) {
 			$data['form_attribute_types'] = $this->getFormAttributeTypes($data['id']);
-			$data['hxl_attributes'] = array_filter($this->tags_attributes, function ($tag_attributes) use ($data) {
-				return $tag_attributes['hxl_tag_id'] === $data['id'];
-			});
+			$data['hxl_attributes'] = $this->getAllHXLAttributes($data['id']);
 		}
 		return new HXLTag($data);
 	}
@@ -71,19 +65,25 @@ class HXLTagRepository extends OhanzeeRepository implements
 	/**
 	 * @param $hxl_tag_id
 	 */
-	protected function getAllHXLAttributes()
+	protected function getAllHXLAttributes($tag_id)
 	{
-		return DB::select(
-			['hxl_tags.id', 'hxl_tag_id'],
-			'hxl_attributes.id',
-			'hxl_attributes.attribute',
-			'hxl_attributes.description'
-		)
-			->from('hxl_tags')
-			->join('hxl_tag_attributes')
-			->on('hxl_tags.id', '=', 'hxl_tag_attributes.tag_id')
-			->join('hxl_attributes')
-			->on('hxl_tag_attributes.attribute_id', '=', 'hxl_attributes.id')->execute($this->db)->as_array();
+	    if ($this->tags_attributes) {
+            $this->tags_attributes =  DB::select(
+                ['hxl_tags.id', 'hxl_tag_id'],
+                'hxl_attributes.id',
+                'hxl_attributes.attribute',
+                'hxl_attributes.description'
+            )
+                ->from('hxl_tags')
+                ->join('hxl_tag_attributes')
+                ->on('hxl_tags.id', '=', 'hxl_tag_attributes.tag_id')
+                ->join('hxl_attributes')
+                ->on('hxl_tag_attributes.attribute_id', '=', 'hxl_attributes.id')->execute($this->db)->as_array();
+        }
+
+        return array_filter($this->tags_attributes, function ($tag_attributes) use ($tag_id) {
+            return $tag_attributes['hxl_tag_id'] === $tag_id;
+        });
 	}
 
 	/**
