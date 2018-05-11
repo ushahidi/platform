@@ -7,50 +7,50 @@ class AddHxlLicenses extends AbstractMigration
 
     protected $licenses;
 
-	public function up()
+    public function up()
     {
-		$this->licenses = $this->getLicenses();
-		$pdo = $this->getAdapter()->getConnection();
-		$insert = $pdo->prepare(
-			"INSERT into
+        $this->licenses = $this->getLicenses();
+        $pdo = $this->getAdapter()->getConnection();
+        $insert = $pdo->prepare(
+            "INSERT into
                 hxl_license
                 (`code`, `name`, `link`)
             VALUES
             	(:code, :name, :link)
 			"
-		);
-		foreach ($this->licenses as $item) {
-			$insert->execute(
-				[
-					':code' => $item['id'],
-					':link' => $item['url'],
-					':name' => $item['title']
-				]
-			);
-		}
+        );
+        foreach ($this->licenses as $item) {
+            $insert->execute(
+                [
+                    ':code' => $item['id'],
+                    ':link' => $item['url'],
+                    ':name' => $item['title']
+                ]
+            );
+        }
     }
 
     public function down()
     {
-		$pdo = $this->getAdapter()->getConnection();
-		$codes = implode(",", array_map(function ($license) {
-			return '"' . $license['id'] . '"';
-		}, $this->getLicenses()));
-		$delete = $pdo->prepare(
-			"DELETE FROM hxl_license WHERE hxl_license.code IN ($codes)"
-		);
-		$delete->execute();
-	}
+        $pdo = $this->getAdapter()->getConnection();
+        $codes = implode(",", array_map(function ($license) {
+            return '"' . $license['id'] . '"';
+        }, $this->getLicenses()));
+        $delete = $pdo->prepare(
+            "DELETE FROM hxl_license WHERE hxl_license.code IN ($codes)"
+        );
+        $delete->execute();
+    }
 
-	/**
-	 * Returns a list of licenses from /license_list
-	 * V1 will pull this daily from hdx into this db
-	 * @return array
-	 */
-	private function getLicenses()
+    /**
+     * Returns a list of licenses from /license_list
+     * V1 will pull this daily from hdx into this db
+     * @return array
+     */
+    private function getLicenses()
     {
-		return json_decode(
-			'[
+        return json_decode(
+            '[
 				{
 					"status": "active",
 					"maintainer": "",
@@ -198,5 +198,5 @@ class AddHxlLicenses extends AbstractMigration
 			]',
             true
         );
-	}
+    }
 }

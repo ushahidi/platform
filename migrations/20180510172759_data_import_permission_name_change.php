@@ -5,8 +5,8 @@ use Phinx\Migration\AbstractMigration;
 class DataImportPermissionNameChange extends AbstractMigration
 {
 
-	public function up()
-	{
+    public function up()
+    {
 
         $this->execute("UPDATE 	permissions SET 
 							name = 'Bulk Data Import and Export', 
@@ -24,11 +24,10 @@ class DataImportPermissionNameChange extends AbstractMigration
         $this->execute("UPDATE 	roles_permissions SET 
 							`permission` = 'Bulk Data Import and Export'
 							WHERE `permission` = 'Bulk Data Import';");
+    }
 
-	}
-
-	public function down()
-	{
+    public function down()
+    {
 
         $this->execute("UPDATE 	permissions SET 
 							name = 'Bulk Data Import', 
@@ -37,6 +36,5 @@ class DataImportPermissionNameChange extends AbstractMigration
         $this->execute("UPDATE 	roles_permissions SET 
 							permission = 'Bulk Data Import' 
 							WHERE permission = 'Bulk Data Import and Export';");
-
     }
 }
