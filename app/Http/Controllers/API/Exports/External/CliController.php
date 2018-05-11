@@ -28,25 +28,24 @@ class CliController extends RESTController
 
     public function show(Request $request)
     {
-		$route_params = $this->getRouteParams($request);
-		// this is a trick to convert 'false' to falsy (which would be true),
-		// 'true' to true, and an unset param to false
-		$include_header = json_decode($request->input('include_header', 1)) == true ? 1 : 0;
+        $route_params = $this->getRouteParams($request);
+        // this is a trick to convert 'false' to falsy (which would be true),
+        // 'true' to true, and an unset param to false
+        $include_header = json_decode($request->input('include_header', 1)) == true ? 1 : 0;
 
-		// set CLI params to be the payload for the usecase
-		$filters = [
-			'limit' => $request->input('limit', 0),
-			'offset' => $request->input('offset', 0),
-			'add_header' => $include_header
-		];
-		;
-		// Get the usecase and pass in authorizer, payload and transformer
-		$this->usecase = $this->usecaseFactory->get('posts_export', 'export')
-			->setFilters($filters)
-			->setIdentifiers(['job_id' => $route_params['id']])
-			->setAuthorizer(service('authorizer.export_job'))
-			->setFormatter(service('formatter.entity.post.csv'));
+        // set CLI params to be the payload for the usecase
+        $filters = [
+            'limit' => $request->input('limit', 0),
+            'offset' => $request->input('offset', 0),
+            'add_header' => $include_header
+        ];
+        // Get the usecase and pass in authorizer, payload and transformer
+        $this->usecase = $this->usecaseFactory->get('posts_export', 'export')
+            ->setFilters($filters)
+            ->setIdentifiers(['job_id' => $route_params['id']])
+            ->setAuthorizer(service('authorizer.export_job'))
+            ->setFormatter(service('formatter.entity.post.csv'));
 
-		return $this->prepResponse($this->executeUsecase($request), $request);
+        return $this->prepResponse($this->executeUsecase($request), $request);
     }
 }

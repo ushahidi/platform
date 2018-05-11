@@ -14,29 +14,30 @@ use Ushahidi\App\Formatter\Post\CSV;
 
 class CSVTest extends TestCase
 {
-	protected $headerRow;
-	protected $formatter;
-	protected $fs;
-	public function setUp()
-	{
-		parent::setup();
-		$this->fs = \Mockery::mock(\League\Flysystem\Filesystem::class);
+    protected $headerRow;
+    protected $formatter;
+    protected $fs;
 
-		$this->fs->shouldReceive('putStream')->andReturn([]);
-		$this->fs->shouldReceive('getSize')->andReturn(200);
-		$this->fs->shouldReceive('getMimetype')->andReturn('text/csv');
-		$this->formatter = new CSV();
-		$this->formatter->setFilesystem($this->fs);
-	}
+    public function setUp()
+    {
+        parent::setup();
+        $this->fs = \Mockery::mock(\League\Flysystem\Filesystem::class);
 
-	public function tearDown()
-	{
-		parent::tearDown();
-	}
+        $this->fs->shouldReceive('putStream')->andReturn([]);
+        $this->fs->shouldReceive('getSize')->andReturn(200);
+        $this->fs->shouldReceive('getMimetype')->andReturn('text/csv');
+        $this->formatter = new CSV();
+        $this->formatter->setFilesystem($this->fs);
+    }
 
-	public function testCSVRowsAreCreated()
-	{
-		$this->headerRow = json_decode('[
+    public function tearDown()
+    {
+        parent::tearDown();
+    }
+
+    public function testCSVRowsAreCreated()
+    {
+        $this->headerRow = json_decode('[
 		  {
 			"label": "Post ID",
 			"key": "id",
@@ -232,67 +233,67 @@ class CSVTest extends TestCase
 			  "form_id": "3"
 			}
 		]', true);
-		$keyAttributes = [];
-		foreach ($this->headerRow as $key => $item) {
-			$keyAttributes[$item['key']] = $item;
-		}
+        $keyAttributes = [];
+        foreach ($this->headerRow as $key => $item) {
+            $keyAttributes[$item['key']] = $item;
+        }
 
-		$posts = [new MockPostEntity(), new MockPostEntity(), new MockPostEntity()];
-		$postKeys = ['post_date' => '2017-02-22'];
-		$postsFinal = [];
-		foreach ($posts as $post) {
-			foreach ($postKeys as $key => $value) {
-				if ($value) {
-					$post->setStateValue($key, $value);
-				} else {
-					$post->setStateValue($key, random_bytes(256));
-				}
-			}
-			$postsFinal[] = $post->asArray();
-		}
-		$this->formatter->createHeading($this->headerRow);
-		$formatter = $this->formatter;
-		$values = $formatter->formatRecordForCSV([
-			'post_date' => '2017-02-22',
-			'created' => '2017-02-23',
-			'updated' => '2017-02-24',
-			'id' => 1234,
-			'title' => 'This title has content',
-			'content' => 'This is a description',
-			'contact' => 123456,
-			'status' => 'draft',
-			'values' => [
-				'tags2' => [1,2,3],
-				'tags5' => [222],//will not appear in response since there is no attribute matching
-				'last_location' => [
-					[
-						'lon' => 8888,
-						'lat' => 9999
-					],
-					[
-						'lon' => 8888,
-						'lat' => 9999
-					],
-				]
-			]
-		], $keyAttributes);
-		// check that the format matches what is expected from the attribute list
-		$this->assertEquals([
-			1234,
-			'draft',
-			'2017-02-23',
-			'2017-02-24',
-			'2017-02-22',
-			'',
-			123456,
-			'',//sets
-			'This is a description',//desc
-			'This title has content',//title
-			'',//markdown
-			'',//categories,
-			'1,2,3',//tags2
-			9999,//last_location_point.lat
-			8888//last_location_point.lot
-		], $values);
-	}
+        $posts = [new MockPostEntity(), new MockPostEntity(), new MockPostEntity()];
+        $postKeys = ['post_date' => '2017-02-22'];
+        $postsFinal = [];
+        foreach ($posts as $post) {
+            foreach ($postKeys as $key => $value) {
+                if ($value) {
+                    $post->setStateValue($key, $value);
+                } else {
+                    $post->setStateValue($key, random_bytes(256));
+                }
+            }
+            $postsFinal[] = $post->asArray();
+        }
+        $this->formatter->createHeading($this->headerRow);
+        $formatter = $this->formatter;
+        $values = $formatter->formatRecordForCSV([
+            'post_date' => '2017-02-22',
+            'created' => '2017-02-23',
+            'updated' => '2017-02-24',
+            'id' => 1234,
+            'title' => 'This title has content',
+            'content' => 'This is a description',
+            'contact' => 123456,
+            'status' => 'draft',
+            'values' => [
+                'tags2' => [1, 2, 3],
+                'tags5' => [222],//will not appear in response since there is no attribute matching
+                'last_location' => [
+                    [
+                        'lon' => 8888,
+                        'lat' => 9999
+                    ],
+                    [
+                        'lon' => 8888,
+                        'lat' => 9999
+                    ],
+                ]
+            ]
+        ], $keyAttributes);
+        // check that the format matches what is expected from the attribute list
+        $this->assertEquals([
+            1234,
+            'draft',
+            '2017-02-23',
+            '2017-02-24',
+            '2017-02-22',
+            '',
+            123456,
+            '',//sets
+            'This is a description',//desc
+            'This title has content',//title
+            '',//markdown
+            '',//categories,
+            '1,2,3',//tags2
+            9999,//last_location_point.lat
+            8888//last_location_point.lot
+        ], $values);
+    }
 }

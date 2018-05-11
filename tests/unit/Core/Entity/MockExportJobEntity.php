@@ -12,94 +12,93 @@ use Ushahidi\Core\Entity;
  * @copyright  2018 Ushahidi
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
-
-
 class MockExportJobEntity implements Entity
 {
 
-	use \Ushahidi\Core\Traits\StatefulData;
+    use \Ushahidi\Core\Traits\StatefulData;
 
-	public $id;
-	public $entity_type;
-	public $user_id;
-	public $fields;
-	public $filters;
-	public $status;
-	public $url;
-	public $header_row;
-	public $created;
-	public $updated;
-	public $url_expiration;
+    public $id;
+    public $entity_type;
+    public $user_id;
+    public $fields;
+    public $filters;
+    public $status;
+    public $url;
+    public $header_row;
+    public $created;
+    public $updated;
+    public $url_expiration;
 
-	public function __get($key)
-	{
-		if (property_exists($this, $key)) {
-			return $this->$key;
-		}
-	}
+    public function __get($key)
+    {
+        if (property_exists($this, $key)) {
+            return $this->$key;
+        }
+    }
 
-	public function __isset($key)
-	{
-		return property_exists($this, $key);
-	}
+    public function __isset($key)
+    {
+        return property_exists($this, $key);
+    }
 
-	public function asArray()
-	{
-		return get_object_vars($this);
-	}
+    public function asArray()
+    {
+        return get_object_vars($this);
+    }
 
-	public function setStateValue($key, $value)
-	{
-		if (property_exists($this, $key)) {
-			$this->$key = $value;
-		}
-	}
-	// StatefulData
-	public function getDerived()
-	{
-		// Foreign key alias
-		return [
-			'user_id' => ['user', 'user.id']
-		];
-	}
+    public function setStateValue($key, $value)
+    {
+        if (property_exists($this, $key)) {
+            $this->$key = $value;
+        }
+    }
 
-	// DataTransformer
-	public function getDefinition()
-	{
-		return [
-			'id'       			=> 'int',
-			'entity_type'     	=> 'string',
-			'user_id'			=> 'int',
-			'status'     		=> 'string',
-			'url'		     	=> 'string',
-			'fields'    	    => '*json',
-			'filters'   	    => '*json',
-			'header_row'   	    => '*json',
-			'created' 			=> 'int',
-			'updated' 			=> 'int',
-			'url_expiration'	=> 'int'
-		];
-	}
+    // StatefulData
+    public function getDerived()
+    {
+        // Foreign key alias
+        return [
+            'user_id' => ['user', 'user.id']
+        ];
+    }
 
-	// Entity
-	public function getResource()
-	{
-		return 'export_job';
-	}
+    // DataTransformer
+    public function getDefinition()
+    {
+        return [
+            'id' => 'int',
+            'entity_type' => 'string',
+            'user_id' => 'int',
+            'status' => 'string',
+            'url' => 'string',
+            'fields' => '*json',
+            'filters' => '*json',
+            'header_row' => '*json',
+            'created' => 'int',
+            'updated' => 'int',
+            'url_expiration' => 'int'
+        ];
+    }
 
-	// StatefulData
-	public function getImmutable()
-	{
-		return ['user_id'];
-	}
+    // Entity
+    public function getResource()
+    {
+        return 'export_job';
+    }
 
-	/**
-	 * Return the unique ID for the entity.
-	 *
-	 * @return Mixed
-	 */
-	public function getId()
-	{
-		// TODO: Implement getId() method.
-	}
+    // StatefulData
+    public function getImmutable()
+    {
+        return ['user_id'];
+    }
+
+    /**
+     * Return the unique ID for the entity.
+     *
+     * @return Mixed
+     */
+    public function getId()
+    {
+        // TODO: Implement getId() method.
+    }
 }
