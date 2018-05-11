@@ -48,7 +48,7 @@ class ExportJobAuthorizer implements Authorizer
     {
 
         // These checks are run within the user context.
-        $user = $this->getUser(false);
+        $user = $this->getUser();
 
         // Only logged in users have access if the deployment is private
         if (!$this->canAccessDeployment($user)) {
@@ -61,6 +61,10 @@ class ExportJobAuthorizer implements Authorizer
             return true;
         }
 
+        // First check whether there is a role with the right permissions
+        if ($this->acl->hasPermission($user, Permission::MANAGE_POSTS)) {
+            return true;
+        }
 
         // Admin is allowed access to everything
         if ($this->isUserAdmin($user)) {

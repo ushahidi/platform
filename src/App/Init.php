@@ -144,6 +144,7 @@ $di->params['Ushahidi\Factory\ValidatorFactory']['map']['posts'] = [
     'create' => $di->lazyNew(Ushahidi\App\Validator\Post\Create::class),
     'update' => $di->lazyNew(Ushahidi\App\Validator\Post\Update::class),
     'import' => $di->lazyNew(Ushahidi\App\Validator\Post\Import::class),
+    'export' => $di->lazyNew(Ushahidi\App\Validator\Post\Export::class),
     'webhook-update' => $di->lazyNew(Ushahidi\App\Validator\Post\Create::class),
 ];
 $di->params['Ushahidi\Factory\ValidatorFactory']['map']['export_jobs'] = [

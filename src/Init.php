@@ -80,37 +80,37 @@ $di->set('factory.authorizer', $di->lazyNew('Ushahidi\Factory\AuthorizerFactory'
 
 // Authorizers are shared, so mapping is done with service names.
 $di->params['Ushahidi\Factory\AuthorizerFactory']['map'] = [
-    'config' => $di->lazyGet('authorizer.config'),
-    'dataproviders' => $di->lazyGet('authorizer.dataprovider'),
-    'export_jobs' => $di->lazyGet('authorizer.export_job'),
-    'country_codes' => $di->lazyGet('authorizer.country_code'),
-    'external_auth' => $di->lazyGet('authorizer.external_auth'),
-    'forms' => $di->lazyGet('authorizer.form'),
-    'form_contacts' => $di->lazyGet('authorizer.form_contact'),
-    'form_attributes' => $di->lazyGet('authorizer.form_attribute'),
-    'form_roles' => $di->lazyGet('authorizer.form_role'),
-    'form_stages' => $di->lazyGet('authorizer.form_stage'),
-    'form_stats' => $di->lazyGet('authorizer.form_stats'),
-    'tags' => $di->lazyGet('authorizer.tag'),
-    'layers' => $di->lazyGet('authorizer.layer'),
-    'media' => $di->lazyGet('authorizer.media'),
-    'messages' => $di->lazyGet('authorizer.message'),
-    'posts' => $di->lazyGet('authorizer.post'),
-    'posts_lock' => $di->lazyGet('authorizer.post_lock'),
-    'tags' => $di->lazyGet('authorizer.tag'),
-    'sets' => $di->lazyGet('authorizer.set'),
-    'sets_posts' => $di->lazyGet('authorizer.post'),
-    'savedsearches' => $di->lazyGet('authorizer.savedsearch'),
-    'users' => $di->lazyGet('authorizer.user'),
-    'notifications' => $di->lazyGet('authorizer.notification'),
-    'webhooks' => $di->lazyGet('authorizer.webhook'),
-    'apikeys' => $di->lazyGet('authorizer.apikey'),
-    'contacts' => $di->lazyGet('authorizer.contact'),
-    'csv' => $di->lazyGet('authorizer.csv'),
-    'roles' => $di->lazyGet('authorizer.role'),
-    'permissions' => $di->lazyGet('authorizer.permission'),
-    'posts_export' => $di->lazyGet('authorizer.post'),
-    'tos' => $di->lazyGet('authorizer.tos'),
+	'config'               => $di->lazyGet('authorizer.config'),
+	'dataproviders'        => $di->lazyGet('authorizer.dataprovider'),
+	'export_jobs'          => $di->lazyGet('authorizer.export_job'),
+	'country_codes'        => $di->lazyGet('authorizer.country_code'),
+	'external_auth'        => $di->lazyGet('authorizer.external_auth'),
+	'forms'                => $di->lazyGet('authorizer.form'),
+	'form_contacts'        => $di->lazyGet('authorizer.form_contact'),
+	'form_attributes'      => $di->lazyGet('authorizer.form_attribute'),
+	'form_roles'           => $di->lazyGet('authorizer.form_role'),
+	'form_stages'          => $di->lazyGet('authorizer.form_stage'),
+	'form_stats'           => $di->lazyGet('authorizer.form_stats'),
+	'tags'                 => $di->lazyGet('authorizer.tag'),
+	'layers'               => $di->lazyGet('authorizer.layer'),
+	'media'                => $di->lazyGet('authorizer.media'),
+	'messages'             => $di->lazyGet('authorizer.message'),
+	'posts'                => $di->lazyGet('authorizer.post'),
+	'posts_lock'           => $di->lazyGet('authorizer.post_lock'),
+	'tags'                 => $di->lazyGet('authorizer.tag'),
+	'sets'                 => $di->lazyGet('authorizer.set'),
+	'sets_posts'           => $di->lazyGet('authorizer.post'),
+	'savedsearches'        => $di->lazyGet('authorizer.savedsearch'),
+	'users'                => $di->lazyGet('authorizer.user'),
+	'notifications'        => $di->lazyGet('authorizer.notification'),
+	'webhooks'             => $di->lazyGet('authorizer.webhook'),
+	'apikeys'              => $di->lazyGet('authorizer.apikey'),
+	'contacts'             => $di->lazyGet('authorizer.contact'),
+	'csv'                  => $di->lazyGet('authorizer.csv'),
+	'roles'                => $di->lazyGet('authorizer.role'),
+	'permissions'          => $di->lazyGet('authorizer.permission'),
+	'posts_export'         => $di->lazyGet('authorizer.export_job'),
+	'tos'				   => $di->lazyGet('authorizer.tos'),
 ];
 
 // Repositories are used for storage and retrieval of records.
@@ -343,6 +343,11 @@ $di->params['Ushahidi\Factory\UsecaseFactory']['map']['posts_export'] = [
 // Set up traits for SetsPosts Usecases
 $di->setter['Ushahidi\Core\Usecase\Set\SetRepositoryTrait']['setSetRepository'] = $di->lazyGet('repository.set');
 $di->setter['Ushahidi\Core\Usecase\Set\AuthorizeSet']['setSetAuthorizer'] = $di->lazyGet('authorizer.set');
+
+// repositories for Ushahidi\Core\Usecase\Post\Export usecase
+$di->setter['Ushahidi\Core\Usecase\Post\Export']['setExportJobRepository'] = $di->lazyGet('repository.export_job');
+$di->setter['Ushahidi\Core\Usecase\Post\Export']['setFormAttributeRepository'] = $di->lazyGet('repository.form_attribute');
+$di->setter['Ushahidi\Core\Usecase\Post\Export']['setPostExportRepository'] = $di->lazyGet('repository.posts_export');
 
 // User login is a custom read the uses authentication.
 $di->params['Ushahidi\Factory\UsecaseFactory']['map']['users'] = [
