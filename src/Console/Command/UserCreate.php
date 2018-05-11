@@ -20,69 +20,69 @@ use Ushahidi\Core\Entity\UserRepository;
 
 class UserCreate extends Command
 {
-	/**
-	 * The console command name.
-	 *
-	 * @var string
-	 */
-	protected $name = 'user:create';
+    /**
+     * The console command name.
+     *
+     * @var string
+     */
+    protected $name = 'user:create';
 
-	/**
-	 * The console command signature.
-	 *
-	 * @var string
-	 */
-	protected $signature = 'user:create {--realname=} {--email=} {--role=admin} {--password=} {--with-hash} {--tos}';
+    /**
+     * The console command signature.
+     *
+     * @var string
+     */
+    protected $signature = 'user:create {--realname=} {--email=} {--role=admin} {--password=} {--with-hash} {--tos}';
 
-	/**
-	 * The console command description.
-	 *
-	 * @var string
-	 */
-	protected $description = 'Create a user';
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Create a user';
 
-	protected $validator;
-	protected $repo;
+    protected $validator;
+    protected $repo;
 
-	public function __construct()
-	{
-		parent::__construct();
-	}
+    public function __construct()
+    {
+        parent::__construct();
+    }
 
-	public function handle()
-	{
-		$this->repo = service('repository.user');
-		$this->validator = service('factory.validator')->get('users', 'create');
-		$this->tosRepo = service('repository.tos');
+    public function handle()
+    {
+        $this->repo = service('repository.user');
+        $this->validator = service('factory.validator')->get('users', 'create');
+        $this->tosRepo = service('repository.tos');
 
-		$state = [
-			'realname' => $this->option('realname') ?: null,
-			'email' => $this->option('email'),
-			// Default to creating an admin user
-			'role' => $this->option('role') ?: 'admin',
-			'password' => $this->option('password'),
-		];
+        $state = [
+            'realname' => $this->option('realname') ?: null,
+            'email' => $this->option('email'),
+            // Default to creating an admin user
+            'role' => $this->option('role') ?: 'admin',
+            'password' => $this->option('password'),
+        ];
 
-		if (!$this->validator->check($state)) {
-			throw new ValidatorException('Failed to validate user', $this->validator->errors());
-		}
+        if (!$this->validator->check($state)) {
+            throw new ValidatorException('Failed to validate user', $this->validator->errors());
+        }
 
-		$entity = $this->repo->getEntity();
-		$entity->setState($state);
-		$id = $this->option('with-hash') ? $this->repo->createWithHash($entity) : $this->repo->create($entity);
+        $entity = $this->repo->getEntity();
+        $entity->setState($state);
+        $id = $this->option('with-hash') ? $this->repo->createWithHash($entity) : $this->repo->create($entity);
 
-		$acceptTos = $this->option('tos');
-		if ($acceptTos) {
-				$tos = $this->tosRepo->getEntity([
-						'user_id' => $id,
-						'tos_version_date' => getenv('TOS_RELEASE_DATE')
-						? date_create(getenv('TOS_RELEASE_DATE'), new \DateTimeZone('UTC'))
-						: date_create()
-				]);
+        $acceptTos = $this->option('tos');
+        if ($acceptTos) {
+                $tos = $this->tosRepo->getEntity([
+                        'user_id' => $id,
+                        'tos_version_date' => getenv('TOS_RELEASE_DATE')
+                        ? date_create(getenv('TOS_RELEASE_DATE'), new \DateTimeZone('UTC'))
+                        : date_create()
+                ]);
 
-				$this->tosRepo->create($tos);
-		}
+                $this->tosRepo->create($tos);
+        }
 
-		$this->info("Account was created successfully, id: {$id}");
-	}
+        $this->info("Account was created successfully, id: {$id}");
+    }
 }

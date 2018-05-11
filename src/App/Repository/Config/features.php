@@ -10,79 +10,78 @@
  */
 
 return [
-	// Determines which features are available in a deployment
+    // Determines which features are available in a deployment
 
-	// Post views
-	'views' => [
+    // Post views
+    'views' => [
         'data' => true,
-		'map' => true,
-		'list' => true,
-		'chart' => true,
-		'timeline' => true,
-		'activity' => true,
+        'map' => true,
+        'list' => true,
+        'chart' => true,
+        'timeline' => true,
+        'activity' => true,
         'plan' => false,
-	],
+    ],
 
-	// Data sources
-	'data-providers' => [
-		'smssync' => true,
-		'twitter' => true,
-		'frontlinesms' => true,
-		'email' => true,
-		'twilio' => true,
-		'nexmo' => true,
+    // Data sources
+    'data-providers' => [
+        'smssync' => true,
+        'twitter' => true,
+        'frontlinesms' => true,
+        'email' => true,
+        'twilio' => true,
+        'nexmo' => true,
         'testservice' => false
-	],
+    ],
 
-	// Client limits
-	// Where TRUE is infinite and an integer defines a limit
-	'limits' => [
-		'posts' => true,
-		'forms' => true,
-		'admin_users' => true,
-	],
+    // Client limits
+    // Where TRUE is infinite and an integer defines a limit
+    'limits' => [
+        'posts' => true,
+        'forms' => true,
+        'admin_users' => true,
+    ],
 
-	// Private deployments
-	'private' => [
-		'enabled' => true,
-	],
+    // Private deployments
+    'private' => [
+        'enabled' => true,
+    ],
 
-	// Roles
-	'roles' => [
-		'enabled' => true,
-	],
+    // Roles
+    'roles' => [
+        'enabled' => true,
+    ],
 
-	// Webhooks
-	'webhooks' => [
-		'enabled' => true,
-	],
+    // Webhooks
+    'webhooks' => [
+        'enabled' => true,
+    ],
 
-	// Data import
-	'data-import' => [
-		'enabled' => true,
-	],
+    // Data import
+    'data-import' => [
+        'enabled' => true,
+    ],
 
-	// Post locking
-	'post-locking' => [
-		'enabled' => true,
-	],
+    // Post locking
+    'post-locking' => [
+        'enabled' => true,
+    ],
 
-	// Targeted Surveys
-	'targeted-surveys' => [
-		'enabled' => false,
-	],
+    // Targeted Surveys
+    'targeted-surveys' => [
+        'enabled' => false,
+    ],
 
-	// Post locking
-	// Defaults to False, tests will fail if set to TRUE
-	// without complete Redis setup
-	// see TODO <docs link>
-	'redis' => [
-		'enabled' => false,
-	],
-
-	// Enable or disable HXL export to HDX
-	// We will need a new 'hxl-download' flag when we do the HXL downloads for P1
-	'hxl' => [
-		'enabled' => true,
-	],
+    // Post locking
+    // Defaults to False, tests will fail if set to TRUE
+    // without complete Redis setup
+    // see TODO <docs link>
+    'redis' => [
+        'enabled' => false,
+    ],
+    // Enable or disable HXL export to HDX
+    // We will need a new 'hxl-download' flag when we do the HXL downloads for P1
+    'hxl' => [
+        'enabled' => false,
+    ],
 ];

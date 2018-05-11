@@ -17,78 +17,78 @@ use Ushahidi\Core\Tool\FormatterTrait;
 
 class ReadUsecase implements Usecase
 {
-	// Uses several traits to assign tools. Each of these traits provides a
-	// setter method for the tool. For example, the AuthorizerTrait provides
-	// a `setAuthorizer` method which only accepts `Authorizer` instances.
-	use AuthorizerTrait,
-		FormatterTrait;
+    // Uses several traits to assign tools. Each of these traits provides a
+    // setter method for the tool. For example, the AuthorizerTrait provides
+    // a `setAuthorizer` method which only accepts `Authorizer` instances.
+    use AuthorizerTrait,
+        FormatterTrait;
 
-	// - IdentifyRecords for setting entity lookup parameters
-	use Concerns\IdentifyRecords;
+    // - IdentifyRecords for setting entity lookup parameters
+    use Concerns\IdentifyRecords;
 
-	// - VerifyEntityLoaded for checking that an entity is found
-	use Concerns\VerifyEntityLoaded;
+    // - VerifyEntityLoaded for checking that an entity is found
+    use Concerns\VerifyEntityLoaded;
 
-	/**
-	 * @var ReadRepository
-	 */
-	protected $repo;
+    /**
+     * @var ReadRepository
+     */
+    protected $repo;
 
-	/**
-	 * Inject a repository that can read entities.
-	 *
-	 * @param  $repo ReadRepository
-	 * @return $this
-	 */
-	public function setRepository(ReadRepository $repo)
-	{
-		$this->repo = $repo;
-		return $this;
-	}
+    /**
+     * Inject a repository that can read entities.
+     *
+     * @param  $repo ReadRepository
+     * @return $this
+     */
+    public function setRepository(ReadRepository $repo)
+    {
+        $this->repo = $repo;
+        return $this;
+    }
 
-	// Usecase
-	public function isWrite()
-	{
-		return false;
-	}
+    // Usecase
+    public function isWrite()
+    {
+        return false;
+    }
 
-	// Usecase
-	public function isSearch()
-	{
-		return false;
-	}
+    // Usecase
+    public function isSearch()
+    {
+        return false;
+    }
 
-	// Usecase
-	public function interact()
-	{
+    // Usecase
+    public function interact()
+    {
 
-		// Fetch the entity, using provided identifiers...
-		$entity = $this->getEntity();
+        // Fetch the entity, using provided identifiers...
+        $entity = $this->getEntity();
 
-		// ... verify that the entity can be read by the current user
-		$this->verifyReadAuth($entity);
+        // ... verify that the entity can be read by the current user
+        $this->verifyReadAuth($entity);
 
-		// ... and return the formatted result.
-		return $this->formatter->__invoke($entity);
-	}
+        // ... and return the formatted result.
+        return $this->formatter->__invoke($entity);
+    }
 
-	/**
-	 * Find entity based on identifying parameters.
-	 *
-	 * @return Entity
-	 */
-	protected function getEntity()
-	{
-		// Entity will be loaded using the provided id
-		$id = $this->getRequiredIdentifier('id');
+    /**
+     * Find entity based on identifying parameters.
+     *
+     * @return Entity
+     */
+    protected function getEntity()
+    {
+        // Entity will be loaded using the provided id
+        $id = $this->getRequiredIdentifier('id');
 
-		// ... attempt to load the entity
-		$entity = $this->repo->get($id);
+        // ... attempt to load the entity
+        $entity = $this->repo->get($id);
 
-		// ... and verify that the entity was actually loaded
-		$this->verifyEntityLoaded($entity, compact('id'));
+        // ... and verify that the entity was actually loaded
+        $this->verifyEntityLoaded($entity, compact('id'));
 
-		// ... then return it
-		return $entity;
-	}
+        // ... then return it
+        return $entity;
+    }
 }

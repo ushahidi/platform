@@ -39,31 +39,31 @@ class ConfigSet extends Command
      */
     protected $description = 'Set config params';
 
-	/**
-	 * @var Ushahidi\Core\Usecase\Usecase
-	 * @todo  support multiple entity types
-	 */
-	protected $usecase;
+    /**
+     * @var Ushahidi\Core\Usecase\Usecase
+     * @todo  support multiple entity types
+     */
+    protected $usecase;
 
-	public function __construct()
-	{
-		parent::__construct();
-	}
+    public function __construct()
+    {
+        parent::__construct();
+    }
 
-	protected function getUsecase()
-	{
-		if (!$this->usecase) {
-			// @todo inject
-			$this->usecase = service('factory.usecase')
-				->get('config', 'update')
-				// Override authorizer for console
-				->setAuthorizer(service('authorizer.console'))
-				// Override formatter for console
-				->setFormatter(service('formatter.entity.console'));
-		}
+    protected function getUsecase()
+    {
+        if (!$this->usecase) {
+            // @todo inject
+            $this->usecase = service('factory.usecase')
+                ->get('config', 'update')
+                // Override authorizer for console
+                ->setAuthorizer(service('authorizer.console'))
+                // Override formatter for console
+                ->setFormatter(service('formatter.entity.console'));
+        }
 
-		return $this->usecase;
-	}
+        return $this->usecase;
+    }
 
     /**
      * Execute the console command.
@@ -72,46 +72,46 @@ class ConfigSet extends Command
      */
     public function handle()
     {
-		$group = $this->argument('group');
-		$key   = $this->option('key');
-		$value = $this->argument('value');
+        $group = $this->argument('group');
+        $key   = $this->option('key');
+        $value = $this->argument('value');
 
-		if ($key) {
-			$value = [
-				$key => $value
-			];
-		} else {
-			$value = json_decode($value, true);
-			if (!is_array($value)) {
-				$value = [];
-			}
-		}
+        if ($key) {
+            $value = [
+                $key => $value
+            ];
+        } else {
+            $value = json_decode($value, true);
+            if (!is_array($value)) {
+                $value = [];
+            }
+        }
 
-		$this->getUsecase()->setIdentifiers([ 'id' => $group ])
-			->setPayload($value);
+        $this->getUsecase()->setIdentifiers([ 'id' => $group ])
+            ->setPayload($value);
 
-		$response = $this->getUsecase()->interact();
+        $response = $this->getUsecase()->interact();
 
-		// Format the response and output
-		$this->handleResponse($response);
-	}
+        // Format the response and output
+        $this->handleResponse($response);
+    }
 
-	/**
-	 * Override response handler to flatten array
-	 */
-	protected function handleResponse($response)
-	{
-		$iterator = new \RecursiveIteratorIterator(new \RecursiveArrayIterator($response));
-		$result = [];
-		foreach ($iterator as $leafValue) {
-			$keys = [];
-			foreach (range(0, $iterator->getDepth()) as $depth) {
-				$keys[] = $iterator->getSubIterator($depth)->key();
-			}
-			$result[ join('.', $keys) ] = $leafValue;
-		}
+    /**
+     * Override response handler to flatten array
+     */
+    protected function handleResponse($response)
+    {
+        $iterator = new \RecursiveIteratorIterator(new \RecursiveArrayIterator($response));
+        $result = [];
+        foreach ($iterator as $leafValue) {
+            $keys = [];
+            foreach (range(0, $iterator->getDepth()) as $depth) {
+                $keys[] = $iterator->getSubIterator($depth)->key();
+            }
+            $result[ join('.', $keys) ] = $leafValue;
+        }
 
-		// Format as table
-		$this->table(array_keys($result), [$result]);
-	}
+        // Format as table
+        $this->table(array_keys($result), [$result]);
+    }
 }

@@ -14,8 +14,8 @@ class AddHeaderToExportJob extends AbstractMigration
             ->addColumn(
                 'header_row',
                 'text',
-				['null' => true, 'limit' => 16777215, 'default' => null]
-			)
+                ['null' => true, 'limit' => 16777215, 'default' => null]
+            )
             ->update();
     }
 

@@ -16,21 +16,21 @@ use Ushahidi\Core\Tool\Validator;
 
 class Update extends Validator
 {
-	protected $post_repo;
+    protected $post_repo;
 
-	protected $default_error_source = 'post_lock';
+    protected $default_error_source = 'post_lock';
 
-	public function __construct(PostRepository $post_repo)
-	{
-		$this->post_repo = $post_repo;
-	}
+    public function __construct(PostRepository $post_repo)
+    {
+        $this->post_repo = $post_repo;
+    }
 
-	protected function getRules()
-	{
-		return [
-			'post_id' => [
-				[[$this->post_repo, 'exists'], [':value']],
-			],
-		];
-	}
+    protected function getRules()
+    {
+        return [
+            'post_id' => [
+                [[$this->post_repo, 'exists'], [':value']],
+            ],
+        ];
+    }
 }

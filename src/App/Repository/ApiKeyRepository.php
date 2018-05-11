@@ -22,62 +22,62 @@ use Ramsey\Uuid\Exception\UnsatisfiedDependencyException;
 
 class ApiKeyRepository extends OhanzeeRepository implements ApiKeyRepositoryContract
 {
-	use AdminAccess;
+    use AdminAccess;
 
-	protected function getTable()
-	{
-		return 'apikeys';
-	}
+    protected function getTable()
+    {
+        return 'apikeys';
+    }
 
-	public function getEntity(array $data = null)
-	{
-		return new ApiKey($data);
-	}
+    public function getEntity(array $data = null)
+    {
+        return new ApiKey($data);
+    }
 
-	// OhanzeeRepository
-	public function setSearchConditions(SearchData $search)
-	{
-		$query = $this->search_query;
+    // OhanzeeRepository
+    public function setSearchConditions(SearchData $search)
+    {
+        $query = $this->search_query;
 
-		return $query;
-	}
+        return $query;
+    }
 
-	// CreateRepository
-	public function create(Entity $entity)
-	{
+    // CreateRepository
+    public function create(Entity $entity)
+    {
 
-		$record = $entity->asArray();
+        $record = $entity->asArray();
 
-		$uuid = Uuid::uuid4();
-		$record['api_key'] = $uuid->toString();
+        $uuid = Uuid::uuid4();
+        $record['api_key'] = $uuid->toString();
 
-		$state = [
-			'created' => time(),
-		];
+        $state = [
+            'created' => time(),
+        ];
 
-		return $this->executeInsert($this->removeNullValues($record));
-	}
+        return $this->executeInsert($this->removeNullValues($record));
+    }
 
-	// UpdateRepository
-	public function update(Entity $entity)
-	{
-		$record = $entity->asArray();
-		$record['updated'] = time();
+    // UpdateRepository
+    public function update(Entity $entity)
+    {
+        $record = $entity->asArray();
+        $record['updated'] = time();
 
-		$uuid = Uuid::uuid4();
-		$record['api_key'] = $uuid->toString();
+        $uuid = Uuid::uuid4();
+        $record['api_key'] = $uuid->toString();
 
-		return $this->executeUpdate(['id' => $entity->id], $record);
-	}
+        return $this->executeUpdate(['id' => $entity->id], $record);
+    }
 
-	public function apiKeyExists($api_key)
-	{
-		return (bool) $this->selectCount(compact('api_key'));
-	}
+    public function apiKeyExists($api_key)
+    {
+        return (bool) $this->selectCount(compact('api_key'));
+    }
 
-	public function getSearchFields()
-	{
-		return [
-		];
-	}
+    public function getSearchFields()
+    {
+        return [
+        ];
+    }
 }

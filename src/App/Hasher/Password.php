@@ -15,8 +15,8 @@ use Ushahidi\Core\Tool\Hasher;
 
 class Password implements Hasher
 {
-	public function hash($password)
-	{
-		return password_hash($password, PASSWORD_BCRYPT, ['cost' => 12]);
-	}
+    public function hash($password)
+    {
+        return password_hash($password, PASSWORD_BCRYPT, ['cost' => 12]);
+    }
 }

@@ -16,22 +16,22 @@ use Ushahidi\Core\Usecase\CreateUsecase;
 class CreateJob extends CreateUsecase
 {
     protected function getEntity()
-	{
-		$entity = parent::getEntity();
+    {
+        $entity = parent::getEntity();
 
-		// Add user id if this is not provided
-		// TODO: throw this away
-		if (empty($entity->user_id) && $this->auth->getUserId()) {
-			$entity->setState(['user_id' => $this->auth->getUserId()]);
-		}
+        // Add user id if this is not provided
+        // TODO: throw this away
+        if (empty($entity->user_id) && $this->auth->getUserId()) {
+            $entity->setState(['user_id' => $this->auth->getUserId()]);
+        }
 
-		// Default status filter to 'all' if not provided
-		if (empty($entity->filters['status'])) {
-			$filters = $entity->filters;
-			$filters['status'] = ['all'];
-			$entity->setState(['filters' => $filters]);
-		}
+        // Default status filter to 'all' if not provided
+        if (empty($entity->filters['status'])) {
+            $filters = $entity->filters;
+            $filters['status'] = ['all'];
+            $entity->setState(['filters' => $filters]);
+        }
 
-		return $entity;
-	}
+        return $entity;
+    }
 }

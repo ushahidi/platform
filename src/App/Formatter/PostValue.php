@@ -14,20 +14,20 @@ namespace Ushahidi\App\Formatter;
 
 class PostValue extends API
 {
-	protected $map = [];
+    protected $map = [];
 
-	public function __construct($map = [])
-	{
-		$this->map = $map;
-	}
+    public function __construct($map = [])
+    {
+        $this->map = $map;
+    }
 
-	public function __invoke($entity)
-	{
-		if (isset($this->map[$entity->type])) {
-			$formatter = $this->map[$entity->type];
-			return $formatter($entity);
-		}
+    public function __invoke($entity)
+    {
+        if (isset($this->map[$entity->type])) {
+            $formatter = $this->map[$entity->type];
+            return $formatter($entity);
+        }
 
-		return $entity->value;
-	}
+        return $entity->value;
+    }
 }

@@ -15,27 +15,27 @@ use Ushahidi\Core\Traits\FormatterAuthorizerMetadata;
 
 class Form extends API
 {
-	use FormatterAuthorizerMetadata;
+    use FormatterAuthorizerMetadata;
 
-	protected function formatDisabled($value)
-	{
-		return (bool) $value;
-	}
+    protected function formatDisabled($value)
+    {
+        return (bool) $value;
+    }
 
-	protected function formatColor($value)
-	{
-		// enforce a leading hash on color, or null if unset
-		$value = ltrim($value, '#');
-		return $value ? '#' . $value : null;
-	}
+    protected function formatColor($value)
+    {
+        // enforce a leading hash on color, or null if unset
+        $value = ltrim($value, '#');
+        return $value ? '#' . $value : null;
+    }
 
-	protected function formatTags($tags)
-	{
-		$output = [];
-		foreach ($tags as $tagid) {
-			$output[] = $this->getRelation('tags', $tagid);
-		}
+    protected function formatTags($tags)
+    {
+        $output = [];
+        foreach ($tags as $tagid) {
+            $output[] = $this->getRelation('tags', $tagid);
+        }
 
-		return $output;
-	}
+        return $output;
+    }
 }

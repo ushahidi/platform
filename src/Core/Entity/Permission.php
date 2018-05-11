@@ -15,36 +15,36 @@ use Ushahidi\Core\StaticEntity;
 
 class Permission extends StaticEntity
 {
-	protected $id;
-	protected $name;
-	protected $description;
+    protected $id;
+    protected $name;
+    protected $description;
 
-	// Standard permissions names
-	const DATA_IMPORT      = 'Bulk Data Import';
-	const MANAGE_POSTS     = 'Manage Posts';
-	const MANAGE_SETTINGS  = 'Manage Settings';
+    // Standard permissions names
+    const DATA_IMPORT      = 'Bulk Data Import';
+    const MANAGE_POSTS     = 'Manage Posts';
+    const MANAGE_SETTINGS  = 'Manage Settings';
     const MANAGE_USERS     = 'Manage Users';
     const EDIT_OWN_POSTS   = 'Edit their own posts';
 
-	// DataTransformer
-	public function getDefinition()
-	{
-		return [
-			'id'           => 'int',
-			'name'         => 'string',
-			'description'  => 'string',
-		];
-	}
+    // DataTransformer
+    public function getDefinition()
+    {
+        return [
+            'id'           => 'int',
+            'name'         => 'string',
+            'description'  => 'string',
+        ];
+    }
 
-	// Entity
-	public function getResource()
-	{
-		return 'permission';
-	}
+    // Entity
+    public function getResource()
+    {
+        return 'permission';
+    }
 
-	// StatefulData
-	protected function getImmutable()
-	{
-		return array_merge(parent::getImmutable(), ['name']);
-	}
+    // StatefulData
+    protected function getImmutable()
+    {
+        return array_merge(parent::getImmutable(), ['name']);
+    }
 }

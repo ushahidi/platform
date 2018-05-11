@@ -13,10 +13,10 @@ namespace Ushahidi\App\Validator\Post;
 
 class Markdown extends ValueValidator
 {
-	protected function validate($value)
-	{
-		if (!is_scalar($value)) {
-			return 'scalar';
-		}
-	}
+    protected function validate($value)
+    {
+        if (!is_scalar($value)) {
+            return 'scalar';
+        }
+    }
 }

@@ -16,33 +16,33 @@ use Ushahidi\Core\Usecase\CreateUsecase;
 
 class CreatePost extends CreateUsecase
 {
-	// - VerifyParentLoaded for checking that the parent exists
-	use VerifyParentLoaded;
+    // - VerifyParentLoaded for checking that the parent exists
+    use VerifyParentLoaded;
 
-	protected function getEntity()
-	{
-		$entity = parent::getEntity();
+    protected function getEntity()
+    {
+        $entity = parent::getEntity();
 
-		// If no user information is provided, default to the current session user.
-		if (empty($entity->user_id) &&
-			empty($entity->author_email) &&
-			empty($entity->author_realname) &&
-			$this->auth->getUserId()
-		) {
-			$entity->setState(['user_id' => $this->auth->getUserId()]);
-		}
+        // If no user information is provided, default to the current session user.
+        if (empty($entity->user_id) &&
+            empty($entity->author_email) &&
+            empty($entity->author_realname) &&
+            $this->auth->getUserId()
+        ) {
+            $entity->setState(['user_id' => $this->auth->getUserId()]);
+        }
 
-		// If status is not set..
-		if (empty($entity->status)) {
-			// .. check if the post requires approval
-			// .. and set a default status
-			if ($this->repo->doesPostRequireApproval($entity->form_id)) {
-				$entity->setState(['status' => 'draft']);
-			} else {
-				$entity->setState(['status' => 'published']);
-			}
-		}
+        // If status is not set..
+        if (empty($entity->status)) {
+            // .. check if the post requires approval
+            // .. and set a default status
+            if ($this->repo->doesPostRequireApproval($entity->form_id)) {
+                $entity->setState(['status' => 'draft']);
+            } else {
+                $entity->setState(['status' => 'published']);
+            }
+        }
 
-		return $entity;
-	}
+        return $entity;
+    }
 }

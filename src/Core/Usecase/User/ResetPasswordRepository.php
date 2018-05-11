@@ -16,11 +16,11 @@ use Ushahidi\Core\Entity\UserRepository;
 
 interface ResetPasswordRepository extends UserRepository
 {
-	public function getResetToken(Entity $entity);
+    public function getResetToken(Entity $entity);
 
-	public function isValidResetToken($token);
+    public function isValidResetToken($token);
 
-	public function setPassword($token, $password);
+    public function setPassword($token, $password);
 
-	public function deleteResetToken($token);
+    public function deleteResetToken($token);
 }

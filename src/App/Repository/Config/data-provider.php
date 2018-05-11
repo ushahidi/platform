@@ -10,50 +10,50 @@
  */
 
 return array(
-	'providers' => array(
-		// List of data providers key=provider value=enabled
-		'smssync' => false,
-		'email' => false,
-		'twilio' => false,
-		'nexmo' => false,
-		'twitter' => false,
-		'frontlinesms' => false
-	),
+    'providers' => array(
+        // List of data providers key=provider value=enabled
+        'smssync' => false,
+        'email' => false,
+        'twilio' => false,
+        'nexmo' => false,
+        'twitter' => false,
+        'frontlinesms' => false
+    ),
 
-	// Config params for individual providers
-	// 'nexmo' => array(
-	// 	'from' => '',
-	// 	'api_key' => '',
-	// 	'api_secret' => ''
-	// ),
+    // Config params for individual providers
+    // 'nexmo' => array(
+    //  'from' => '',
+    //  'api_key' => '',
+    //  'api_secret' => ''
+    // ),
 
-	// // 'twilio' => array(
-	// 	'from' => '',
-	// 	'account_sid' => '',
-	// 	'auth_token' => '',
-	// 	'sms_auto_response' => ''
-	// ),
+    // // 'twilio' => array(
+    //  'from' => '',
+    //  'account_sid' => '',
+    //  'auth_token' => '',
+    //  'sms_auto_response' => ''
+    // ),
 
-	// 'smssync' => array(
-	// 	'from' => '12345',
-	// 	'secret' => '1234'
-	// ),
+    // 'smssync' => array(
+    //  'from' => '12345',
+    //  'secret' => '1234'
+    // ),
 
-	'email' => array(
-	// 	'from' => '',
-	// 	'from_name' => '',
+    'email' => array(
+    //  'from' => '',
+    //  'from_name' => '',
 
-		'incoming_type' => '',
-		'incoming_server' => '',
-		'incoming_port' => '',
-		'incoming_security' => '',
-		'incoming_username' => '',
-		'incoming_password' => '',
-	),
+        'incoming_type' => '',
+        'incoming_server' => '',
+        'incoming_port' => '',
+        'incoming_security' => '',
+        'incoming_username' => '',
+        'incoming_password' => '',
+    ),
 
-	'twilio'       => [],
-	'smssync'      => [],
-	'twitter'      => [],
-	'nexmo'        => [],
-	'frontlinesms' => [],
+    'twilio'       => [],
+    'smssync'      => [],
+    'twitter'      => [],
+    'nexmo'        => [],
+    'frontlinesms' => [],
 );

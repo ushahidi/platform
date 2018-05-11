@@ -40,36 +40,36 @@ class ListCommand extends Command
      */
     protected $description = 'List data sources';
 
-	public function __construct(\Ushahidi\App\DataSource\DataSourceManager $sources)
+    public function __construct(\Ushahidi\App\DataSource\DataSourceManager $sources)
     {
-		parent::__construct();
-		$this->sources = $sources;
-	}
+        parent::__construct();
+        $this->sources = $sources;
+    }
 
-	protected function getSources()
-	{
-		if ($source = $this->option('source')) {
-			$sources = array_filter([$source => $this->sources->getSource($source)]);
-		} elseif ($this->option('all')) {
-			$sources = $this->sources->getSource();
-		} else {
-			$sources = $this->sources->getEnabledSources();
-		}
-		return $sources;
-	}
+    protected function getSources()
+    {
+        if ($source = $this->option('source')) {
+            $sources = array_filter([$source => $this->sources->getSource($source)]);
+        } elseif ($this->option('all')) {
+            $sources = $this->sources->getSource();
+        } else {
+            $sources = $this->sources->getEnabledSources();
+        }
+        return $sources;
+    }
 
-	public function handle()
-	{
-		$sources = $this->getSources();
+    public function handle()
+    {
+        $sources = $this->getSources();
 
-		$list = [];
-		foreach ($sources as $id => $source) {
-			$list[] = [
-				'Name'        => $source->getName(),
-				'Services'    => implode(', ', $source->getServices()),
-			];
-		}
+        $list = [];
+        foreach ($sources as $id => $source) {
+            $list[] = [
+                'Name'        => $source->getName(),
+                'Services'    => implode(', ', $source->getServices()),
+            ];
+        }
 
-		return $this->table(['Name', 'Services'], $list);
-	}
+        return $this->table(['Name', 'Services'], $list);
+    }
 }

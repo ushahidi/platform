@@ -62,7 +62,7 @@ $app->middleware([
 // ]);
 $app->routeMiddleware([
     'auth' => Ushahidi\App\Http\Middleware\Authenticate::class,
-	//'cors'   => Ushahidi\App\Http\Middleware\CorsMiddleware::class,
+    //'cors'   => Ushahidi\App\Http\Middleware\CorsMiddleware::class,
     // Customised scope middleware
     'scopes' => Ushahidi\App\Http\Middleware\CheckScopes::class,
     'scope'  => Ushahidi\App\Http\Middleware\CheckForAnyScope::class,

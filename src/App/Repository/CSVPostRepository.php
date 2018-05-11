@@ -13,25 +13,25 @@ namespace Ushahidi\App\Repository;
 
 class CSVPostRepository extends PostRepository
 {
-	protected function getPostValues($id)
-	{
+    protected function getPostValues($id)
+    {
 
-		// Get all the values for the post. These are the EAV values.
-		$values = $this->post_value_factory
-			->proxy($this->include_value_types)
-			->getAllForPost($id, $this->include_attributes, $this->exclude_stages, $this->restricted);
+        // Get all the values for the post. These are the EAV values.
+        $values = $this->post_value_factory
+            ->proxy($this->include_value_types)
+            ->getAllForPost($id, $this->include_attributes, $this->exclude_stages, $this->restricted);
 
-		$output = [];
-		foreach ($values as $value) {
-			if (empty($output[$value->key])) {
-				$output[$value->key] = [];
-			}
-			if (is_array($value->value) && isset($value->value['o_filename'])) {
-				$output[$value->key][] = $value->value['o_filename'];
-			} elseif ($value->value !== null) {
-				$output[$value->key][] = $value->value;
-			}
-		}
-		return $output;
-	}
+        $output = [];
+        foreach ($values as $value) {
+            if (empty($output[$value->key])) {
+                $output[$value->key] = [];
+            }
+            if (is_array($value->value) && isset($value->value['o_filename'])) {
+                $output[$value->key][] = $value->value['o_filename'];
+            } elseif ($value->value !== null) {
+                $output[$value->key][] = $value->value;
+            }
+        }
+        return $output;
+    }
 }

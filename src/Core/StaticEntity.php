@@ -17,56 +17,56 @@ use Ushahidi\Core\Traits\StatefulData;
 
 abstract class StaticEntity implements Entity
 {
-	// Static entities are stateful.
-	use StatefulData;
+    // Static entities are stateful.
+    use StatefulData;
 
-	/**
-	 * Transparent access to private entity properties.
-	 *
-	 * @param  String  $key
-	 * @return Mixed
-	 */
-	public function __get($key)
-	{
-		if (property_exists($this, $key)) {
-			return $this->$key;
-		}
-	}
+    /**
+     * Transparent access to private entity properties.
+     *
+     * @param  String  $key
+     * @return Mixed
+     */
+    public function __get($key)
+    {
+        if (property_exists($this, $key)) {
+            return $this->$key;
+        }
+    }
 
-	/**
-	 * Transparent checking of private entity properties.
-	 *
-	 * @param  String  $key
-	 * @return Mixed
-	 */
-	final public function __isset($key)
-	{
-		return property_exists($this, $key);
-	}
+    /**
+     * Transparent checking of private entity properties.
+     *
+     * @param  String  $key
+     * @return Mixed
+     */
+    final public function __isset($key)
+    {
+        return property_exists($this, $key);
+    }
 
-	// StatefulData
-	final protected function setStateValue($key, $value)
-	{
-		if (property_exists($this, $key)) {
-			$this->$key = $value;
-		}
-	}
+    // StatefulData
+    final protected function setStateValue($key, $value)
+    {
+        if (property_exists($this, $key)) {
+            $this->$key = $value;
+        }
+    }
 
-	// Entity
-	public function asArray()
-	{
-		return get_object_vars($this);
-	}
+    // Entity
+    public function asArray()
+    {
+        return get_object_vars($this);
+    }
 
-	// Entity
-	public function getId()
-	{
-		return $this->id;
-	}
+    // Entity
+    public function getId()
+    {
+        return $this->id;
+    }
 
-	// StatefulData
-	protected function getImmutable()
-	{
-		return ['id', 'created'];
-	}
+    // StatefulData
+    protected function getImmutable()
+    {
+        return ['id', 'created'];
+    }
 }

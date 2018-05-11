@@ -19,24 +19,24 @@ use Ushahidi\Core\Traits\UserContext;
 class DeletePostLock extends DeleteUsecase
 {
     // Provides getUser()
-	use UserContext;
+    use UserContext;
 
     use PostLockTrait;
 
     // Usecase
-	public function interact()
-	{
-		// Fetch a default entity and apply the payload...
-		$post = $this->getPostEntity();
+    public function interact()
+    {
+        // Fetch a default entity and apply the payload...
+        $post = $this->getPostEntity();
         $lock = new PostLock();
 
-		// ... verify that the entity can be locked by the current user
-		$this->verifyLockAuth($post);
+        // ... verify that the entity can be locked by the current user
+        $this->verifyLockAuth($post);
 
         // We have 3 mechanisms by which a lock(s) can be release
         // by lock id, by post id or by user id
         // In the case of user id we release all locks owned by this user
-		if ($this->getIdentifier('lock_id')) {
+        if ($this->getIdentifier('lock_id')) {
             $lock = $this->repo->releaseLockByLockId($this->getIdentifier('lock_id'));
         } elseif ($this->getIdentifier('post_id')) {
             $lock = $this->repo->releaseLock($post->id);
@@ -48,5 +48,5 @@ class DeletePostLock extends DeleteUsecase
         }
 
         return $this->formatter->__invoke($lock);
-	}
+    }
 }

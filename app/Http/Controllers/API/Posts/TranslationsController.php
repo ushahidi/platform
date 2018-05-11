@@ -13,5 +13,5 @@ namespace Ushahidi\App\Http\Controllers\API\Posts;
 
 class TranslationsController extends PostsController
 {
-	protected $postType = 'translation';
+    protected $postType = 'translation';
 }

@@ -14,8 +14,8 @@ use Ushahidi\App\Http\Controllers\API\MediaController;
  */
 class CSVController extends MediaController
 {
-	protected function getResource()
-	{
-		return 'csv';
-	}
+    protected function getResource()
+    {
+        return 'csv';
+    }
 }

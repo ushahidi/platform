@@ -15,6 +15,6 @@ use Ushahidi\Core\Usecase\ReadUsecase;
 
 class ReadFormStage extends ReadUsecase
 {
-	// - VerifyFormLoaded for checking that the form exists
-	use VerifyFormLoaded;
+    // - VerifyFormLoaded for checking that the form exists
+    use VerifyFormLoaded;
 }

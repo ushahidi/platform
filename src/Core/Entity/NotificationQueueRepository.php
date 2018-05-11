@@ -18,11 +18,11 @@ interface NotificationQueueRepository extends
     EntityGet,
     EntityExists
 {
-	/**
-	 * Get new notifications
-	 *
-	 * @param  int $limit
-	 * @return array
-	 */
-	public function getNotifications($limit);
+    /**
+     * Get new notifications
+     *
+     * @param  int $limit
+     * @return array
+     */
+    public function getNotifications($limit);
 }

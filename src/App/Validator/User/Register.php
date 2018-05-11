@@ -18,32 +18,32 @@ use Ushahidi\Core\Usecase\User\RegisterRepository;
 
 class Register extends Validator
 {
-	protected $default_error_source = 'user';
-	private $repo;
+    protected $default_error_source = 'user';
+    private $repo;
 
-	public function __construct(RegisterRepository $repo)
-	{
-		$this->repo	= $repo;
-	}
+    public function __construct(RegisterRepository $repo)
+    {
+        $this->repo = $repo;
+    }
 
-	protected function getRules()
-	{
+    protected function getRules()
+    {
 
-		return [
-			'realname' => [
-				['max_length', [':value', 150]],
-			],
-			'email' => [
-				['not_empty'],
-				['max_length', [':value', 150]],
-				['email', [':value', true]],
-				[[$this->repo, 'isUniqueEmail'], [':value']],
-			],
-			'password' => [
-				['not_empty'],
-				['min_length', [':value', 7]],
-				['max_length', [':value', 72]]
-			]
-		];
-	}
+        return [
+            'realname' => [
+                ['max_length', [':value', 150]],
+            ],
+            'email' => [
+                ['not_empty'],
+                ['max_length', [':value', 150]],
+                ['email', [':value', true]],
+                [[$this->repo, 'isUniqueEmail'], [':value']],
+            ],
+            'password' => [
+                ['not_empty'],
+                ['min_length', [':value', 7]],
+                ['max_length', [':value', 72]]
+            ]
+        ];
+    }
 }

@@ -21,39 +21,39 @@ use Ushahidi\Core\Entity\FormRepository;
 trait PostValueRestrictions
 {
 
-	public function canUserSeePostLock(Post $post, $user)
-	{
-		// At present only logged in users with Manage Post Permission can see that a Post is locked
-		return $this->canUserEditForm($post->form_id, $user);
-	}
+    public function canUserSeePostLock(Post $post, $user)
+    {
+        // At present only logged in users with Manage Post Permission can see that a Post is locked
+        return $this->canUserEditForm($post->form_id, $user);
+    }
 
-	public function canUserSeeAuthor(Post $post, FormRepository $form_repo, $user)
-	{
+    public function canUserSeeAuthor(Post $post, FormRepository $form_repo, $user)
+    {
 
-		if ($post->form_id) {
-			if ($this->canUserEditForm($post->form_id, $user)) {
-				return true;
-			}
+        if ($post->form_id) {
+            if ($this->canUserEditForm($post->form_id, $user)) {
+                return true;
+            }
 
-			return !$form_repo->isAuthorHidden($post->form_id);
-		}
+            return !$form_repo->isAuthorHidden($post->form_id);
+        }
 
-		return true;
-	}
+        return true;
+    }
 
-	/**
-	 * Test whether the post instance requires value restriction
-	 * @param  Post $post
-	 * @return Boolean
-	 */
-	public function canUserReadPostsValues(Post $post, $user)
-	{
-		return $this->canUserEditForm($post->form_id, $user);
-	}
+    /**
+     * Test whether the post instance requires value restriction
+     * @param  Post $post
+     * @return Boolean
+     */
+    public function canUserReadPostsValues(Post $post, $user)
+    {
+        return $this->canUserEditForm($post->form_id, $user);
+    }
 
-	/* FormRole */
-	protected function canUserEditForm($form_id, $user)
-	{
-		return $this->isUserAdmin($user) || $this->acl->hasPermission($user, Permission::MANAGE_POSTS);
-	}
+    /* FormRole */
+    protected function canUserEditForm($form_id, $user)
+    {
+        return $this->isUserAdmin($user) || $this->acl->hasPermission($user, Permission::MANAGE_POSTS);
+    }
 }

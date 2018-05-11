@@ -16,32 +16,32 @@ use Ushahidi\Core\Usecase\UpdateUsecase;
 
 class UpdatePost extends UpdateUsecase
 {
-	// This replaces the default getEntity() logic to allow loading
-	// posts by locale, parent id and id.
-	use FindPostEntity {
-		// In the case of updates, we have to apply the payload after fetch.
-		getEntity as private getEntityWithoutPayload;
-	}
+    // This replaces the default getEntity() logic to allow loading
+    // posts by locale, parent id and id.
+    use FindPostEntity {
+        // In the case of updates, we have to apply the payload after fetch.
+        getEntity as private getEntityWithoutPayload;
+    }
 
-	// UpdateUsecase
-	protected function getEntity()
-	{
-		return $this->getEntityWithoutPayload();
-	}
+    // UpdateUsecase
+    protected function getEntity()
+    {
+        return $this->getEntityWithoutPayload();
+    }
 
-	// UpdateUsecase
-	protected function verifyValid(Entity $entity)
-	{
-		$changed = $entity->getChanged();
+    // UpdateUsecase
+    protected function verifyValid(Entity $entity)
+    {
+        $changed = $entity->getChanged();
 
-		// Always pass values to validation
+        // Always pass values to validation
 
-		if (isset($entity->values)) {
-			$changed['values'] = $entity->values;
-		}
+        if (isset($entity->values)) {
+            $changed['values'] = $entity->values;
+        }
 
-		if (!$this->validator->check($changed, $entity->asArray())) {
-			$this->validatorError($entity);
-		}
-	}
+        if (!$this->validator->check($changed, $entity->asArray())) {
+            $this->validatorError($entity);
+        }
+    }
 }

@@ -15,53 +15,53 @@ use Ushahidi\Core\StaticEntity;
 
 class Set extends StaticEntity
 {
-	protected $id;
-	protected $user_id;
-	protected $name;
-	protected $description;
-	protected $url;
-	protected $view;
-	protected $view_options;
-	protected $role;
-	protected $featured;
-	protected $created;
-	protected $updated;
+    protected $id;
+    protected $user_id;
+    protected $name;
+    protected $description;
+    protected $url;
+    protected $view;
+    protected $view_options;
+    protected $role;
+    protected $featured;
+    protected $created;
+    protected $updated;
 
-	// DataTransformer
-	protected function getDefinition()
-	{
-		return [
-			'id'           => 'int',
-			'user_id'      => 'int',
-			'name'         => 'string',
-			'description'  => 'string',
-			'url'          => '*url',
-			'view'         => 'string',
-			'view_options' => '*json',
-			'role'   => '*json',
-			'featured'     => 'boolean',
-			'created'      => 'int',
-			'updated'      => 'int',
-		];
-	}
+    // DataTransformer
+    protected function getDefinition()
+    {
+        return [
+            'id'           => 'int',
+            'user_id'      => 'int',
+            'name'         => 'string',
+            'description'  => 'string',
+            'url'          => '*url',
+            'view'         => 'string',
+            'view_options' => '*json',
+            'role'   => '*json',
+            'featured'     => 'boolean',
+            'created'      => 'int',
+            'updated'      => 'int',
+        ];
+    }
 
-	// Entity
-	public function getResource()
-	{
-		return 'sets';
-	}
+    // Entity
+    public function getResource()
+    {
+        return 'sets';
+    }
 
-	// StatefulData
-	protected function getImmutable()
-	{
-		return array_merge(parent::getImmutable(), ['user_id']);
-	}
+    // StatefulData
+    protected function getImmutable()
+    {
+        return array_merge(parent::getImmutable(), ['user_id']);
+    }
 
-	// StatefulData
-	protected function getDerived()
-	{
-		return [
-			'user_id'   => ['user', 'user.id'], /* alias */
-		];
-	}
+    // StatefulData
+    protected function getDerived()
+    {
+        return [
+            'user_id'   => ['user', 'user.id'], /* alias */
+        ];
+    }
 }

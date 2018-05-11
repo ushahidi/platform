@@ -16,5 +16,5 @@ use Ushahidi\Core\Data;
 
 class DeletePost extends DeleteUsecase
 {
-	use FindPostEntity;
+    use FindPostEntity;
 }

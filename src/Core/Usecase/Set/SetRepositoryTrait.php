@@ -15,16 +15,16 @@ use Ushahidi\Core\Entity\SetRepository;
 
 trait SetRepositoryTrait
 {
-	protected $setRepo;
+    protected $setRepo;
 
-	public function setSetRepository(SetRepository $setRepo)
-	{
-		$this->setRepo = $setRepo;
-		return $this;
-	}
+    public function setSetRepository(SetRepository $setRepo)
+    {
+        $this->setRepo = $setRepo;
+        return $this;
+    }
 
-	public function getSetRepository()
-	{
-		return $this->setRepo;
-	}
+    public function getSetRepository()
+    {
+        return $this->setRepo;
+    }
 }

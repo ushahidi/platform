@@ -15,21 +15,21 @@ use Ushahidi\Core\Entity\MediaRepository;
 
 class Media extends ValueValidator
 {
-	protected $media_repo;
+    protected $media_repo;
 
-	public function __construct(MediaRepository $media_repo)
-	{
-		$this->repo = $media_repo;
-	}
+    public function __construct(MediaRepository $media_repo)
+    {
+        $this->repo = $media_repo;
+    }
 
-	protected function validate($value)
-	{
-		if (!\Kohana\Validation\Valid::digit($value)) {
-			return 'digit';
-		}
+    protected function validate($value)
+    {
+        if (!\Kohana\Validation\Valid::digit($value)) {
+            return 'digit';
+        }
 
-		if (! $this->repo->exists($value)) {
-			return 'exists';
-		}
-	}
+        if (! $this->repo->exists($value)) {
+            return 'exists';
+        }
+    }
 }
