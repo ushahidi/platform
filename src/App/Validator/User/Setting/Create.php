@@ -17,5 +17,5 @@ use Ushahidi\Core\Entity\UserRepository;
 
 class Create extends Update
 {
-	protected $default_error_source = 'user_setting';
+    protected $default_error_source = 'user_setting';
 }

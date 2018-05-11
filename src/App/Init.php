@@ -167,8 +167,8 @@ $di->params['Ushahidi\Factory\ValidatorFactory']['map']['users'] = [
     'passwordreset' => $di->lazyNew(Ushahidi\App\Validator\User\Reset::class)
 ];
 $di->params['Ushahidi\Factory\ValidatorFactory']['map']['user_settings'] = [
-	'create' => $di->lazyNew(Ushahidi\App\Validator\User\Setting\Create::class),
-	'update' => $di->lazyNew(Ushahidi\App\Validator\User\Setting\Update::class),
+    'create' => $di->lazyNew(Ushahidi\App\Validator\User\Setting\Create::class),
+    'update' => $di->lazyNew(Ushahidi\App\Validator\User\Setting\Update::class),
 ];
 $di->params['Ushahidi\Factory\ValidatorFactory']['map']['messages'] = [
     'create' => $di->lazyNew(Ushahidi\App\Validator\Message\Create::class),
@@ -241,8 +241,8 @@ $di->params['Ushahidi\Factory\FormatterFactory']['map'] = [
     'sets'                 => $di->lazyNew(Ushahidi\App\Formatter\Set::class),
     'sets_posts'           => $di->lazyNew(Ushahidi\App\Formatter\Post::class),
     'savedsearches_posts'  => $di->lazyNew(Ushahidi\App\Formatter\Post::class),
-	'users'                => $di->lazyNew(Ushahidi\App\Formatter\User::class),
-	'user_settings'        => $di->lazyNew(Ushahidi\App\Formatter\User\Setting::class),
+    'users'                => $di->lazyNew(Ushahidi\App\Formatter\User::class),
+    'user_settings'        => $di->lazyNew(Ushahidi\App\Formatter\User\Setting::class),
     'notifications'        => $di->lazyNew(Ushahidi\App\Formatter\Notification::class),
     'webhooks'             => $di->lazyNew(Ushahidi\App\Formatter\Webhook::class),
     'contacts'             => $di->lazyNew(Ushahidi\App\Formatter\Contact::class),
@@ -635,10 +635,10 @@ $di->params[Ushahidi\App\Validator\User\Reset::class] = [
     'repo'    => $di->lazyGet('repository.user')
 ];
 $di->params[Ushahidi\App\Validator\User\Setting\Update::class] = [
-	'user_repo'    => $di->lazyGet('repository.user')
+    'user_repo'    => $di->lazyGet('repository.user')
 ];
 $di->params[Ushahidi\App\Validator\Contact\Update::class] = [
-	'repo' => $di->lazyGet('repository.user'),
+    'repo' => $di->lazyGet('repository.user'),
 ];
 $di->params[Ushahidi\App\Validator\CSV\Create::class] = [
     'form_repo' => $di->lazyGet('repository.form'),

@@ -15,13 +15,13 @@ use Ushahidi\Core\Entity\Repository\EntityGet;
 use Ushahidi\Core\Entity\Repository\EntityExists;
 
 interface UserSettingRepository extends
-	EntityGet,
-	EntityExists
+    EntityGet,
+    EntityExists
 {
 
-	/**
-	 * @param  int $form_id
-	 * @return [Ushahidi\Core\Entity\UserSetting, ...]
-	 */
-	public function getByUser($user_id);
+    /**
+     * @param  int $form_id
+     * @return [Ushahidi\Core\Entity\UserSetting, ...]
+     */
+    public function getByUser($user_id);
 }

@@ -15,29 +15,29 @@ use Ushahidi\Core\StaticEntity;
 
 class UserSetting extends StaticEntity
 {
-	protected $id;
+    protected $id;
     protected $user_id;
     protected $config_key;
     protected $config_value;
     protected $created;
     protected $updated;
 
-	// DataTransformer
-	protected function getDefinition()
-	{
-		return [
-			'id'       => 'int',
-			'user_id'  => 'int',
-			'config_key'  => 'string',
-			'config_value'  => 'string',
-			'created'      => 'int',
-			'updated'      => 'int',
-		];
-	}
+    // DataTransformer
+    protected function getDefinition()
+    {
+        return [
+            'id'       => 'int',
+            'user_id'  => 'int',
+            'config_key'  => 'string',
+            'config_value'  => 'string',
+            'created'      => 'int',
+            'updated'      => 'int',
+        ];
+    }
 
-	// Entity
-	public function getResource()
-	{
-		return 'user_settings';
-	}
+    // Entity
+    public function getResource()
+    {
+        return 'user_settings';
+    }
 }

@@ -16,21 +16,21 @@ use Illuminate\Http\Request;
 
 class SettingsController extends RESTController
 {
-	protected function getResource()
-	{
-		return 'user_settings';
-	}
+    protected function getResource()
+    {
+        return 'user_settings';
+    }
 
-	public function index(Request $request)
-	{
-		$params = $this->getRouteParams($request);
-		
-		$this->usecase = $this->usecaseFactory
-			->get($this->getResource(), 'search')
-			->setFilters($request->query() + [
-				'user_id' => $params['user_id']
-			]);
+    public function index(Request $request)
+    {
+        $params = $this->getRouteParams($request);
+        
+        $this->usecase = $this->usecaseFactory
+            ->get($this->getResource(), 'search')
+            ->setFilters($request->query() + [
+                'user_id' => $params['user_id']
+            ]);
 
-		return $this->prepResponse($this->executeUsecase($request), $request);
-	}
+        return $this->prepResponse($this->executeUsecase($request), $request);
+    }
 }

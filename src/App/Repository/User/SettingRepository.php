@@ -21,67 +21,67 @@ use Ushahidi\App\Repository\OhanzeeRepository;
 use Ushahidi\App\Repository\JsonTranscodeRepository;
 
 class SettingRepository extends OhanzeeRepository implements
-	UserSettingRepositoryContract
+    UserSettingRepositoryContract
 {
-	// OhanzeeRepository
-	protected function getTable()
-	{
-		return 'user_settings';
-	}
+    // OhanzeeRepository
+    protected function getTable()
+    {
+        return 'user_settings';
+    }
 
-	// CreateRepository
-		// ReadRepository
-	public function getEntity(array $data = null)
-	{
-		return new UserSetting($data);
-	}
+    // CreateRepository
+        // ReadRepository
+    public function getEntity(array $data = null)
+    {
+        return new UserSetting($data);
+    }
 
-	// SearchRepository
-	public function getSearchFields()
-	{
-		return ['user_id'];
-	}
+    // SearchRepository
+    public function getSearchFields()
+    {
+        return ['user_id'];
+    }
 
-	// OhanzeeRepository
-	protected function setSearchConditions(SearchData $search)
-	{
-		$query = $this->search_query;
+    // OhanzeeRepository
+    protected function setSearchConditions(SearchData $search)
+    {
+        $query = $this->search_query;
 
-		if ($search->user_id) {
-			$query->where('user_id', '=', $search->user_id);
-		}
-	}
+        if ($search->user_id) {
+            $query->where('user_id', '=', $search->user_id);
+        }
+    }
 
-	// UserSettingRepository
-	public function getByUser($user_id)
-	{
-		$query = $this->selectQuery(compact($user_id));
-		$results = $query->execute($this->db);
+    // UserSettingRepository
+    public function getByUser($user_id)
+    {
+        $query = $this->selectQuery(compact($user_id));
+        $results = $query->execute($this->db);
 
-		return $this->getCollection($results->as_array());
-	}
+        return $this->getCollection($results->as_array());
+    }
 
-	// UserSettingRepository
-	public function existsInUserSetting($user_id)
-	{
-		return (bool) $this->selectCount(compact('user_id'));
-	}
+    // UserSettingRepository
+    public function existsInUserSetting($user_id)
+    {
+        return (bool) $this->selectCount(compact('user_id'));
+    }
 
-	public function create(Entity $entity)
-	{
-		$record = $entity->asArray();
-		$record['created'] = time();
+    public function create(Entity $entity)
+    {
+        $record = $entity->asArray();
+        $record['created'] = time();
 
-		$id = $this->executeInsert($this->removeNullValues($record));
+        $id = $this->executeInsert($this->removeNullValues($record));
 
-		return $id;
-	}
+        return $id;
+    }
 
-	public function update(Entity $entity)
-	{
-		$record = $entity->asArray();
-		$record['updated'] = time();
+    public function update(Entity $entity)
+    {
+        $record = $entity->asArray();
+        $record['updated'] = time();
 
-		return $this->executeUpdate(['id' => $entity->id], $record);
-	}
+        return $this->executeUpdate(['id' => $entity->id], $record);
+    }
 }
