@@ -475,21 +475,6 @@ $router->group([
         $router->get('/', 'UsersController@index');
         $router->get('/{id:[0-9]+}', 'UsersController@show');
 
-        // Sub-user routes
-        $router->group(['prefix' => '/{user_id:[0-9]+}'], function () use ($router) {
-            // Settings
-            $router->group([
-				'prefix' => 'settings',
-				'middleware' => ['feature:user-settings']
-			], function () use ($router) {
-				$router->get('/', 'SettingsController@index');
-				$router->get('/{id:[0-9]+}', 'SettingsController@show');
-				$router->post('/', 'SettingsController@store');
-				$router->put('/{id:[0-9]+}', 'SettingsController@update');
-				$router->delete('/{id:[0-9]+}', 'SettingsController@destroy');
-			});
-        });
-
         // Restricted access
         $router->group([
             'middleware' => ['auth:api', 'scope:users']
@@ -498,7 +483,21 @@ $router->group([
             $router->put('/{id:[0-9]+}', 'UsersController@update');
             $router->delete('/{id:[0-9]+}', 'UsersController@destroy');
             $router->get('/me', 'UsersController@showMe');
-            $router->put('/me', 'UsersController@updateMe');
+			$router->put('/me', 'UsersController@updateMe');
+			
+			// Sub-user routes
+			$router->group(['prefix' => '/{user_id:[0-9]+}'], function () use ($router) {
+				// Settings
+				$router->group([
+					'prefix' => 'settings',
+					'middleware' => ['feature:user-settings']
+				], function () use ($router) {
+					$router->get('/', 'SettingsController@index');
+					$router->get('/{id}', 'SettingsController@show');
+					$router->put('/{id}', 'SettingsController@update');
+					$router->delete('/{id}', 'SettingsController@destroy');
+				});
+			});
         });
     });
 

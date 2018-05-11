@@ -10,7 +10,7 @@ class AddUserSettingsTable extends AbstractMigration
     public function up()
     {
         $this->table('user_settings')
-            ->addColumn('config_key', 'string', [
+			->addColumn('config_key', 'string', [
                 'null' => false,
                 'default' => false
             ])
@@ -20,7 +20,13 @@ class AddUserSettingsTable extends AbstractMigration
             ])
             ->addColumn('user_id', 'integer', ['null' => false])
             ->addColumn('created', 'integer', ['default' => 0])
-            ->addColumn('updated', 'integer', ['default' => 0])
+			->addColumn('updated', 'integer', ['default' => 0])
+			->addIndex(
+				['config_key', 'user_id'],
+				[
+					'unique' => true
+				]
+			)
             ->addForeignKey('user_id', 'users', 'id', [
                'delete' => 'CASCADE'
             ])

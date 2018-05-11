@@ -1666,6 +1666,10 @@ config:
     config_key: roles
     config_value: '{"enabled":true}'
   -
+    group_name: features
+    config_key: user-settings
+    config_value: '{"enabled":true}'
+  -
     group_name: "data-provider"
     config_key: default_providers
     config_value: '{"sms":"smssync","ivr":false,"email":"email","twitter":"twitter"}'

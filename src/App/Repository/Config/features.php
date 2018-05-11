@@ -88,6 +88,6 @@ return [
 
 	// Enable or disable User Settings feature
 	'user-settings' => [
-		'enabled' => true,
+		'enabled' => false,
 	],
 ];

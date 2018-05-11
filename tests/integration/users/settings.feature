@@ -13,9 +13,8 @@ Feature: Testing the Form Settingss API
             """
         When I request "/users/1/settings"
         Then the response is JSON
-        And the response has a "id" property
-        And the type of the "id" property is "numeric"
-        Then the guzzle status code should be 200
+        And the response has a "errors" property
+        Then the guzzle status code should be 405
 
     Scenario: Creating a new Setting on a non-existent User
         Given that I want to make a new "Setting"
@@ -30,7 +29,7 @@ Feature: Testing the Form Settingss API
         When I request "/users/9999/settings"
         Then the response is JSON
         And the response has a "errors" property
-        Then the guzzle status code should be 422
+        Then the guzzle status code should be 405
 
     Scenario: Updating a Settings
         Given that I want to update a "Settings"
