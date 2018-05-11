@@ -34,14 +34,6 @@ class CSVTest extends TestCase
 		parent::tearDown();
 	}
 
-	public function testFormatterFailsIfHeaderIsNull()
-	{
-
-		$formatter = $this->formatter;
-		$this->expectException(\Ushahidi\Core\Exception\FormatterException::class);
-		$formatter([], []);
-	}
-
 	public function testCSVRowsAreCreated()
 	{
 		$this->headerRow = json_decode('[

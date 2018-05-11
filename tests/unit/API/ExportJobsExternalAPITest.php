@@ -21,20 +21,31 @@ class ExportJobsExternalAPITest extends TestCase
         parent::setUp();
 
         $this->withoutMiddleware();
-        $faker = Faker\Factory::create();
-
-        $this->userId = service('repository.user')->create(new \Ushahidi\Core\Entity\User([
-            'email' => $faker->email,
-            'password' => $faker->password(10),
-            'realname' => $faker->name,
-        ]));
-
-        $exportJobs = service('repository.export_job');
-        $this->jobId = $exportJobs->create(new \Ushahidi\Core\Entity\ExportJob([
-            'user_id' => $this->userId,
-            'entity_type' => 'post'
-        ]));
     }
+
+	/**
+	 * Moved this out of setup.
+	 * Helper to set the user role and the job correctly since we
+	 * override this setup in the test for authorization
+	 * @param $user_role
+	 */
+	private function setUserAndJob($user_role)
+	{
+		$faker = Faker\Factory::create();
+
+		$this->userId = service('repository.user')->create(new \Ushahidi\Core\Entity\User([
+			'email' => $faker->email,
+			'password' => $faker->password(10),
+			'realname' => $faker->name,
+			'role' => $user_role
+		]));
+
+		$exportJobs = service('repository.export_job');
+		$this->jobId = $exportJobs->create(new \Ushahidi\Core\Entity\ExportJob([
+			'user_id' => $this->userId,
+			'entity_type' => 'post'
+		]));
+	}
 
     public function tearDown()
     {
@@ -43,12 +54,12 @@ class ExportJobsExternalAPITest extends TestCase
         service('repository.user')->delete(new \Ushahidi\Core\Entity\User(['id' => $this->userId]));
         service('repository.export_job')->delete(new \Ushahidi\Core\Entity\ExportJob(['id' => $this->jobId]));
     }
-
     /**
      * Get count
      */
     public function testCount()
     {
+		$this->setUserAndJob('admin');
         $this->get('/api/v3/exports/external/count/'. $this->jobId);
 
         $this->seeStatusCode('200')
@@ -63,6 +74,7 @@ class ExportJobsExternalAPITest extends TestCase
      */
     public function testCli()
     {
+		$this->setUserAndJob('admin');
         $this->get('/api/v3/exports/external/cli/'. $this->jobId);
 
         $this->seeStatusCode('200')
@@ -78,6 +90,7 @@ class ExportJobsExternalAPITest extends TestCase
      */
     public function testGetJobs()
     {
+		$this->setUserAndJob('admin');
         $this->get('/api/v3/exports/external/jobs');
 
         $this->seeStatusCode('200')
@@ -104,6 +117,7 @@ class ExportJobsExternalAPITest extends TestCase
      */
     public function testGetJob()
     {
+		$this->setUserAndJob('admin');
         $this->get('/api/v3/exports/external/jobs/'. $this->jobId);
 
         $this->seeStatusCode('200')
@@ -125,6 +139,7 @@ class ExportJobsExternalAPITest extends TestCase
      */
     public function testUpdateJob()
     {
+		$this->setUserAndJob('admin');
         $this->json('PUT', '/api/v3/exports/external/jobs/'. $this->jobId, [
             'filters' => ['status' => 'draft']
         ]);
@@ -159,6 +174,7 @@ class ExportJobsExternalAPITest extends TestCase
      */
     public function testUpdateJobWithSignature()
     {
+		$this->setUserAndJob('admin');
         // Re-enable middleware
         $this->app->instance('middleware.disable', false);
         // Set the shared secret
@@ -211,4 +227,17 @@ class ExportJobsExternalAPITest extends TestCase
         $apiKeys->delete($apiKey);
         putenv('PLATFORM_SHARED_SECRET='.$originalSecret);
     }
+
+
+	/**
+	 * Test that if we send a regular user without permissions to export,
+	 * we get a 401
+	 */
+	public function testJobUserIsAuthorized()
+	{
+		$this->setUserAndJob('user');
+		$this->get('/api/v3/exports/external/cli/'. $this->jobId);
+
+		$this->seeStatusCode('401');
+	}
 }

@@ -16,18 +16,36 @@ use Ushahidi\App\Repository\Post\ExportRepository;
 use Ushahidi\Core\Entity\ExportJob;
 use Ushahidi\Core\Entity\Post;
 use Ushahidi\Core\SearchData;
+use Faker;
 
 class ExportTest extends TestCase
 {
+
+	protected $jobId;
+	protected $userId;
+
 	public function setUp()
 	{
 		parent::setup();
+		$this->withoutMiddleware();
+
+		$faker = Faker\Factory::create();
+
+		$this->userId = service('repository.user')->create(new \Ushahidi\Core\Entity\User([
+			'email' => $faker->email,
+			'password' => $faker->password(10),
+			'realname' => $faker->name,
+			'role' => 'admin'
+		]));
 
 		$this->postExportRepository = M::mock(ExportRepository::class);
 		$this->exportJobRepository = M::mock(ExportJobRepository::class);
 		$this->formAttributeRepository = M::mock(AttributeRepository::class);
 		$this->usecase = service('factory.usecase')->get('posts_export', 'export');
-
+		$this->jobId = service('repository.export_job')->create(new \Ushahidi\Core\Entity\ExportJob([
+			'user_id' => $this->userId,
+			'entity_type' => 'post'
+		]));
 		// Get the usecase and pass in authorizer, payload and transformer
 		$this->usecase = $this->usecase
 			->setAuthorizer(service('authorizer.export_job'))
@@ -46,7 +64,6 @@ class ExportTest extends TestCase
 	{
 		// set CLI params to be the payload for the usecase
 		$payload = [
-			'job_id' => 1,
 			'limit' => 100,
 			'offset' => 0,
 			'add_header' => true,
@@ -99,19 +116,20 @@ class ExportTest extends TestCase
 
 		$exportJobEntity = new ExportJob();
 		$exportJobEntity->setState([
-			'user_id' => 1,
-			'id'	=> 11,
+			'user_id' => $this->userId,
+			'id'	=> $this->jobId,
 			'post_date' => '2017-02-22',
 		]);
 		$jobRepoSpy
 			->shouldReceive('get')
-			->with(1)
+			->with($this->jobId)
 			->andReturn($exportJobEntity);
 		$jobRepoSpy->shouldReceive('update')
 			->with($exportJobEntity)
-			->andReturn(11);
+			->andReturn($this->jobId);
 		$this->usecase
 			->setFilters($payload)
+			->setIdentifiers(['job_id' => $this->jobId])
 			->interact();
 	}
 }
