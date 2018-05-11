@@ -14,21 +14,54 @@ namespace Ushahidi\Core\Usecase\Post;
 use Ushahidi\App\Repository\ExportJobRepository;
 use Ushahidi\App\Repository\Form\AttributeRepository;
 use Ushahidi\App\Repository\Post\ExportRepository;
+use Ushahidi\Core\Entity\Permission;
+use Ushahidi\Core\Tool\AuthorizerTrait;
 use Ushahidi\Core\Tool\FormatterTrait;
-use Ushahidi\Core\Usecase\SearchUsecase;
+use Ushahidi\Core\Usecase;
+use Ushahidi\Core\SearchData;
+use Ushahidi\Core\Traits\UserContext;
+use Ushahidi\Core\Usecase\SearchRepository;
+use Ushahidi\Core\Usecase\Concerns\FilterRecords;
+use Ushahidi\Core\Tool\Authorizer\ExportJobAuthorizer;
 
-class Export extends SearchUsecase
+class Export implements Usecase
 {
+	use UserContext;
+
+	// Uses several traits to assign tools. Each of these traits provides a
+	// setter method for the tool. For example, the AuthorizerTrait provides
+	// a `setAuthorizer` method which only accepts `Authorizer` instances.
+	use AuthorizerTrait,
+		FormatterTrait;
+
+	// - FilterRecords for setting search parameters
+	use FilterRecords;
 	protected $filters;
-	private $session;
-	private $data;
 	private $postExportRepository;
 	private $exportJobRepository;
 	private $formAttributeRepository;
 
+	/**
+	 * @var SearchRepository
+	 */
+	protected $repo;
 
-	// provides setFormatter to assign the formatter the usecase will use
-	use FormatterTrait;
+	/**
+	 * Inject a repository that can search for entities.
+	 *
+	 * @param  SearchRepository $repo
+	 * @return $this
+	 */
+	public function setRepository(SearchRepository $repo)
+	{
+		$this->repo = $repo;
+		return $this;
+	}
+
+	/**
+	 * @var SearchData
+	 */
+	protected $search;
 
 	// - VerifyParentLoaded for checking that the parent exists
 	use VerifyParentLoaded;
@@ -46,6 +79,78 @@ class Export extends SearchUsecase
 	public function setPostExportRepository(ExportRepository $repo)
 	{
 		$this->postExportRepository = $repo; //service('repository.posts_export');
+	}
+
+	/**
+	 * @return array|mixed|\Ushahidi\Core\Array
+	 */
+	public function interact()
+	{
+		// Load the export job
+		$job = $this->exportJobRepository->get($this->getIdentifier('job_id'));
+		// load the user from the job into the 'session'
+		$this->session->setUser($job->user_id);
+		// verify the user can export posts
+		$this->verifyAuth($job, 'export');
+		// merge filters from the controller/cli call with the job's saved filters
+		$data = $this->constructSearchData($job);
+		$this->postExportRepository->setSearchParams($data);
+
+		// get the form attributes for the export
+		$attributes = $this->formAttributeRepository->getExportAttributes($data->include_attributes);
+		$keyAttributes = $this->getAttributesWithKeys($attributes);
+
+		/**
+		 * get the search results based on filters
+		 * and retrieve the metadata for each of the posts
+		 **/
+		$posts = $this->postExportRepository->getSearchResults();
+		foreach ($posts as $idx => $post) {
+			// Retrieved Attribute Labels for Entity's values
+			$post = $this->postExportRepository->retrieveMetaData($post->asArray(), $keyAttributes);
+			$posts[$idx] = $post;
+		}
+
+		/**
+		 * update the header attributes
+		 * in the job table so we know which headers to
+		 * use in other chunks of the export
+		 */
+		$this->saveHeaderRow($job, $attributes);
+
+		/**
+		 * set 'add header' in the formatter
+		 * so it knows how to return the results
+		 * for the csv (with or without a header row)
+		 */
+		$this->formatter->setAddHeader($this->filters['add_header']);
+
+		$formatter = $this->formatter;
+		/**
+		 * KeyAttributes is sent instead of the header row because it contains
+		 * the attributes with the corresponding features (type, priority) that
+		 * we need for manipulating the data
+		 */
+		$file = $formatter($posts, $job, $keyAttributes);
+		return [
+			'results' => [
+				[
+					'file' => $file->file,
+				]
+			]
+		];
+	}
+
+	/**
+	 * @param $job
+	 * @param $attributes
+	 */
+	private function saveHeaderRow($job, $attributes)
+	{
+		if (empty($job->header_row)) {
+			$job->setState(['header_row' => $attributes]);
+			$this->exportJobRepository->update($job);
+		}
 	}
 
 	/**
@@ -74,8 +179,9 @@ class Export extends SearchUsecase
 	 * @return mixed
 	 * Construct a Search Data object to hold the search info
 	 */
-	public function constructSearchData($job, $filters)
+	public function constructSearchData($job)
 	{
+		$filters = $this->constructFilters($this->filters, $job->filters);
 		$data = $this->search;
 
 		// Set the fields that should be included if set
@@ -113,62 +219,32 @@ class Export extends SearchUsecase
 		}
 		return $keyAttributes;
 	}
-	public function interact()
-	{
 
-		//FIXME inject
-		$this->session = service('session');
-		// Load the export job
-		$job = $this->exportJobRepository->get($this->filters['job_id']);
-		// load the user from the job into the 'session'
-		$this->session->setUser($job->user_id);
-		// merge filters from the controller/cli call with the job's saved filters
-		$filters = $this->constructFilters($this->filters, $job->filters);
-		// get filters for the search object
-		$data = $this->constructSearchData($job, $filters);
-		$this->postExportRepository->setSearchParams($data);
-		$attributes = $this->formAttributeRepository->getExportAttributes($data->include_attributes);
-		$keyAttributes = $this->getAttributesWithKeys($attributes);
-		/**
-		 * get the search results based on filters
-		 * and retrieve the metadata for each of the posts
-		**/
-		$posts = $this->postExportRepository->getSearchResults();
-		foreach ($posts as $idx => $post) {
-			// Retrieved Attribute Labels for Entity's values
-			$post = $this->postExportRepository->retrieveMetaData($post->asArray(), $keyAttributes);
-			$posts[$idx] = $post;
-		}
-		/**
-		 * update the header attributes
-		 * in the job table so we know which headers to
-		 * use in other chunks of the export
-		 */
-		if (empty($job->header_row)) {
-			$job->setState(['header_row' => $attributes]);
-			$this->exportJobRepository->update($job);
-		}
-		/**
-		 * set 'add header' in the formatter
-		 * so it knows how to return the results
-		 * for the csv (with or without a header row)
-		 */
-		$this->formatter->setAddHeader($this->filters['add_header']);
-		$header_row = $this->formatter->createHeading($job->header_row);
-		$this->formatter->setHeading($header_row);
-		$formatter = $this->formatter;
-		/**
-		 * KeyAttributes is sent instead of the header row because it contains
-		 * the attributes with the corresponding features (type, priority) that
-		 * we need for manipulating the data
-		 */
-		$file = $formatter($posts, $keyAttributes);
-		return [
-			'results' => [
-				[
-					'file' => $file->file,
-				]
-			]
-		];
+	/**
+	 * Will this usecase write any data?
+	 *
+	 * @return Boolean
+	 */
+	public function isWrite()
+	{
+		return false;
+	}
+
+	/**
+	 * Will this usecase search for data?
+	 *
+	 * @return Boolean
+	 */
+	public function isSearch()
+	{
+		return true;
+	}
+
+	/**
+	 * @param SearchData $search
+	 */
+	public function setData(SearchData $search)
+	{
+		$this->search = $search;
 	}
 }

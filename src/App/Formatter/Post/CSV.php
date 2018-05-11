@@ -45,17 +45,15 @@ class CSV extends API
 
 	/**
 	 * @param $records
+	 * @param $job (an export job)
 	 * @param array $attributes (a list of attributes with key,type,priority
 	 * and other important features to manipulate records with
 	 * @return array|mixed
 	 */
-	public function __invoke($records, $attributes = [])
+	public function __invoke($records, $job = null, $attributes = [])
 	{
-		if ($this->heading) {
-			return $this->generateCSVRecords($records, $attributes);
-		} else {
-			throw new \Ushahidi\Core\Exception\FormatterException("The CSV Formatter requires a heading.");
-		}
+		$this->createHeading($job->header_row);
+		return $this->generateCSVRecords($records, $attributes);
 	}
 
 	public function setAddHeader($add_header)
@@ -89,7 +87,6 @@ class CSV extends API
 	public function createHeading($attributes)
 	{
 		$this->heading = $this->createSortedHeading($attributes);
-
 		return $this->heading;
 	}
 

@@ -57,7 +57,6 @@ class PostExporter extends Command
 	{
 		// set CLI params to be the payload for the usecase
 		$filters = [
-			'job_id' => $this->argument('job'),
 			'limit' => $this->option('limit'),
 			'offset' => $this->option('offset'),
 			'add_header' => $this->option('include-header'),
@@ -66,6 +65,7 @@ class PostExporter extends Command
 		// Get the usecase and pass in authorizer, payload and transformer
 		$file  = $this->getUsecase()
 			->setFilters($filters)
+			->setIdentifiers(['job_id' => $this->argument('job')])
 			->interact();
 		$this->line("Export generated in file: {$file['results'][0]['file']}");
 	}

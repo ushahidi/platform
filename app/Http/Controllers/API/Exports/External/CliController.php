@@ -35,7 +35,6 @@ class CliController extends RESTController
 
 		// set CLI params to be the payload for the usecase
 		$filters = [
-			'job_id' => $route_params['id'],
 			'limit' => $request->input('limit', 0),
 			'offset' => $request->input('offset', 0),
 			'add_header' => $include_header
@@ -44,6 +43,7 @@ class CliController extends RESTController
 		// Get the usecase and pass in authorizer, payload and transformer
 		$this->usecase = $this->usecaseFactory->get('posts_export', 'export')
 			->setFilters($filters)
+			->setIdentifiers(['job_id' => $route_params['id']])
 			->setAuthorizer(service('authorizer.export_job'))
 			->setFormatter(service('formatter.entity.post.csv'));
 
