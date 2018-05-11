@@ -18,144 +18,144 @@ use Ushahidi\Core\Tool\FormatterTrait;
 
 class SearchUsecase implements Usecase
 {
-	// Uses several traits to assign tools. Each of these traits provides a
-	// setter method for the tool. For example, the AuthorizerTrait provides
-	// a `setAuthorizer` method which only accepts `Authorizer` instances.
-	use AuthorizerTrait,
-		FormatterTrait;
+    // Uses several traits to assign tools. Each of these traits provides a
+    // setter method for the tool. For example, the AuthorizerTrait provides
+    // a `setAuthorizer` method which only accepts `Authorizer` instances.
+    use AuthorizerTrait,
+        FormatterTrait;
 
-	// - FilterRecords for setting search parameters
-	use Concerns\FilterRecords;
+    // - FilterRecords for setting search parameters
+    use Concerns\FilterRecords;
 
-	/**
-	 * @var SearchData
-	 */
-	protected $search;
+    /**
+     * @var SearchData
+     */
+    protected $search;
 
-	/**
-	 * @param SearchData $search
-	 */
-	public function setData(SearchData $search)
-	{
-		$this->search = $search;
-	}
+    /**
+     * @param SearchData $search
+     */
+    public function setData(SearchData $search)
+    {
+        $this->search = $search;
+    }
 
-	/**
-	 * @var SearchRepository
-	 */
-	protected $repo;
+    /**
+     * @var SearchRepository
+     */
+    protected $repo;
 
-	/**
-	 * Inject a repository that can search for entities.
-	 *
-	 * @param  SearchRepository $repo
-	 * @return $this
-	 */
-	public function setRepository(SearchRepository $repo)
-	{
-		$this->repo = $repo;
-		return $this;
-	}
+    /**
+     * Inject a repository that can search for entities.
+     *
+     * @param  SearchRepository $repo
+     * @return $this
+     */
+    public function setRepository(SearchRepository $repo)
+    {
+        $this->repo = $repo;
+        return $this;
+    }
 
-	// Usecase
-	public function isWrite()
-	{
-		return false;
-	}
+    // Usecase
+    public function isWrite()
+    {
+        return false;
+    }
 
-	// Usecase
-	public function isSearch()
-	{
-		return true;
-	}
+    // Usecase
+    public function isSearch()
+    {
+        return true;
+    }
 
-	// Usecase
-	public function interact()
-	{
-		// Fetch an empty entity...
-		$entity = $this->getEntity();
+    // Usecase
+    public function interact()
+    {
+        // Fetch an empty entity...
+        $entity = $this->getEntity();
 
-		// ... verify that the entity can be searched by the current user
-		$this->verifySearchAuth($entity);
+        // ... verify that the entity can be searched by the current user
+        $this->verifySearchAuth($entity);
 
-		// ... and get the search filters for this entity
-		$search = $this->getSearch();
+        // ... and get the search filters for this entity
+        $search = $this->getSearch();
 
-		// ... pass the search information to the repo
-		$this->repo->setSearchParams($search);
+        // ... pass the search information to the repo
+        $this->repo->setSearchParams($search);
 
-		// ... get the results of the search
-		$results = $this->repo->getSearchResults();
+        // ... get the results of the search
+        $results = $this->repo->getSearchResults();
 
-		// ... get the total count for the search
-		$total = $this->repo->getSearchTotal();
+        // ... get the total count for the search
+        $total = $this->repo->getSearchTotal();
 
-		// ... remove any entities that cannot be seen
-		$priv = 'read';
-		foreach ($results as $idx => $entity) {
-			if (!$this->auth->isAllowed($entity, $priv)) {
-				unset($results[$idx]);
-			}
-		}
+        // ... remove any entities that cannot be seen
+        $priv = 'read';
+        foreach ($results as $idx => $entity) {
+            if (!$this->auth->isAllowed($entity, $priv)) {
+                unset($results[$idx]);
+            }
+        }
 
-		// ... pass the search information to the formatter, for paging
-		$this->formatter->setSearch($search, $total);
+        // ... pass the search information to the formatter, for paging
+        $this->formatter->setSearch($search, $total);
 
-		// ... and return the formatted results.
-		return $this->formatter->__invoke($results);
-	}
+        // ... and return the formatted results.
+        return $this->formatter->__invoke($results);
+    }
 
-	/**
-	 * Get an empty entity.
-	 *
-	 * @return Entity
-	 */
-	protected function getEntity()
-	{
-		return $this->repo->getEntity();
-	}
+    /**
+     * Get an empty entity.
+     *
+     * @return Entity
+     */
+    protected function getEntity()
+    {
+        return $this->repo->getEntity();
+    }
 
-	/**
-	 * Get filter parameters and default values that are used for paging.
-	 *
-	 * @return Array
-	 */
-	protected function getPagingFields()
-	{
-		return [
-			'orderby' => 'id',
-			'order'   => 'asc',
-			'limit'   => null,
-			'offset'  => 0
-		];
-	}
+    /**
+     * Get filter parameters and default values that are used for paging.
+     *
+     * @return Array
+     */
+    protected function getPagingFields()
+    {
+        return [
+            'orderby' => 'id',
+            'order'   => 'asc',
+            'limit'   => null,
+            'offset'  => 0
+        ];
+    }
 
-	/**
-	 * Get filter parameters as search data.
-	 *
-	 * @return SearchData
-	 */
-	protected function getSearch()
-	{
-		// Get possible search fields from the repo
-		$fields = $this->repo->getSearchFields();
-		// Get possible fields for paging
-		$paging = $this->getPagingFields();
+    /**
+     * Get filter parameters as search data.
+     *
+     * @return SearchData
+     */
+    protected function getSearch()
+    {
+        // Get possible search fields from the repo
+        $fields = $this->repo->getSearchFields();
+        // Get possible fields for paging
+        $paging = $this->getPagingFields();
 
-		// Get filter values for both paging and search fields
-		$filters = $this->getFilters(array_merge($fields, array_keys($paging)));
+        // Get filter values for both paging and search fields
+        $filters = $this->getFilters(array_merge($fields, array_keys($paging)));
 
-		// Merge default paging values, and user input
-		// and save that to search data
-		$this->search->setFilters(array_merge($paging, $filters));
-		// Flag sorting values in search data
-		$this->search->setSortingKeys(array_keys($paging));
+        // Merge default paging values, and user input
+        // and save that to search data
+        $this->search->setFilters(array_merge($paging, $filters));
+        // Flag sorting values in search data
+        $this->search->setSortingKeys(array_keys($paging));
 
-		return $this->search;
-	}
+        return $this->search;
+    }
 
-	public function getSearchTotal()
-	{
-		return $this->repo->getSearchTotal();
-	}
+    public function getSearchTotal()
+    {
+        return $this->repo->getSearchTotal();
+    }
 }

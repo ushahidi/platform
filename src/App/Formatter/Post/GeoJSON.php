@@ -16,41 +16,41 @@ use Ushahidi\Core\Tool\Formatter\GeoJSONFormatter;
 
 class GeoJSON implements Formatter
 {
-	use GeoJSONFormatter;
+    use GeoJSONFormatter;
 
-	// Formatter
-	public function __invoke($entity)
-	{
-		$features = array();
-		foreach ($entity->values as $attribute => $values) {
-			foreach ($values as $value) {
-				if ($geometry = $this->valueToGeometry($value)) {
-					$color = ltrim($entity->color, '#');
-					$color = $color ? '#' . $color : null;
+    // Formatter
+    public function __invoke($entity)
+    {
+        $features = array();
+        foreach ($entity->values as $attribute => $values) {
+            foreach ($values as $value) {
+                if ($geometry = $this->valueToGeometry($value)) {
+                    $color = ltrim($entity->color, '#');
+                    $color = $color ? '#' . $color : null;
 
-					$features[] = [
-						'type' => 'Feature',
-						'geometry' => $geometry,
-						'properties' => [
-							'title' => $entity->title,
-							'description' => $entity->content,
-							'marker-color' => $color,
-							'id' => $entity->id,
-							'attribute_key' => $attribute
-							// @todo add mark- attributes based on tag symbol+color
-							//'marker-size' => '',
-							//'marker-symbol' => '',
-							//'resource' => $post
-						]
-					];
-				}
-			}
-		}
+                    $features[] = [
+                        'type' => 'Feature',
+                        'geometry' => $geometry,
+                        'properties' => [
+                            'title' => $entity->title,
+                            'description' => $entity->content,
+                            'marker-color' => $color,
+                            'id' => $entity->id,
+                            'attribute_key' => $attribute
+                            // @todo add mark- attributes based on tag symbol+color
+                            //'marker-size' => '',
+                            //'marker-symbol' => '',
+                            //'resource' => $post
+                        ]
+                    ];
+                }
+            }
+        }
 
-		return [
-			'type' => 'FeatureCollection',
-			'features' => $features
-			// @todo include bbox
-		];
-	}
+        return [
+            'type' => 'FeatureCollection',
+            'features' => $features
+            // @todo include bbox
+        ];
+    }
 }

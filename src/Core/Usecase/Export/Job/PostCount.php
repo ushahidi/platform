@@ -16,12 +16,12 @@ use Ushahidi\Core\Traits\UserContext;
 
 class PostCount extends ReadUsecase
 {
-	use UserContext;
+    use UserContext;
 
-	public function interact()
-	{
-		$entity = $this->getEntity();
-		$this->getSession()->setUser($entity->user_id);
-		return $this->repo->getPostCount($entity->id);
-	}
+    public function interact()
+    {
+        $entity = $this->getEntity();
+        $this->getSession()->setUser($entity->user_id);
+        return $this->repo->getPostCount($entity->id);
+    }
 }

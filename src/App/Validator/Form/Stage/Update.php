@@ -17,31 +17,31 @@ use Ushahidi\Core\Tool\Validator;
 
 class Update extends Validator
 {
-	protected $form_repo;
-	protected $default_error_source = 'form';
+    protected $form_repo;
+    protected $default_error_source = 'form';
 
-	public function setFormRepo(FormRepository $form_repo)
-	{
-		$this->form_repo = $form_repo;
-	}
+    public function setFormRepo(FormRepository $form_repo)
+    {
+        $this->form_repo = $form_repo;
+    }
 
-	protected function getRules()
-	{
-		return [
-			'form_id' => [
-				['digit'],
-				[[$this->form_repo, 'exists'], [':value']],
-			],
-			'label' => [
-				['min_length', [':value', 2]],
-				['regex', [':value', Validator::REGEX_STANDARD_TEXT]], // alpha, number, punctuation, space
-			],
-			'priority' => [
-				['digit'],
-			],
-			'icon' => [
-				['alpha'],
-			],
-		];
-	}
+    protected function getRules()
+    {
+        return [
+            'form_id' => [
+                ['digit'],
+                [[$this->form_repo, 'exists'], [':value']],
+            ],
+            'label' => [
+                ['min_length', [':value', 2]],
+                ['regex', [':value', Validator::REGEX_STANDARD_TEXT]], // alpha, number, punctuation, space
+            ],
+            'priority' => [
+                ['digit'],
+            ],
+            'icon' => [
+                ['alpha'],
+            ],
+        ];
+    }
 }

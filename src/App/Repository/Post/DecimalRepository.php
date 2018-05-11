@@ -16,9 +16,9 @@ use Ushahidi\Core\Entity\PostValueRepository as PostValueRepositoryContract;
 
 class DecimalRepository extends ValueRepository
 {
-	// OhanzeeRepository
-	protected function getTable()
-	{
-		return 'post_decimal';
-	}
+    // OhanzeeRepository
+    protected function getTable()
+    {
+        return 'post_decimal';
+    }
 }

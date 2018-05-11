@@ -15,12 +15,12 @@ use Ushahidi\Core\Tool\Validator;
 
 class Update extends Validator
 {
-	protected $default_error_source = 'apikey';
+    protected $default_error_source = 'apikey';
 
-	protected function getRules()
-	{
-		return [
+    protected function getRules()
+    {
+        return [
 
-		];
-	}
+        ];
+    }
 }

@@ -14,8 +14,8 @@ namespace Ushahidi\App\DataSource\Message;
 interface Type
 {
 
-	const SMS = 'sms';
-	const TWITTER = 'twitter';
-	const IVR = 'ivr';
-	const EMAIL = 'email';
+    const SMS = 'sms';
+    const TWITTER = 'twitter';
+    const IVR = 'ivr';
+    const EMAIL = 'email';
 }

@@ -18,30 +18,30 @@ use Ushahidi\Core\Tool\Validator;
 
 class Update extends Validator
 {
-	protected $form_repo;
-	protected $role_repo;
-	protected $default_error_source = 'form_role';
+    protected $form_repo;
+    protected $role_repo;
+    protected $default_error_source = 'form_role';
 
-	public function setFormRepo(FormRepository $form_repo)
-	{
-		$this->form_repo = $form_repo;
-	}
+    public function setFormRepo(FormRepository $form_repo)
+    {
+        $this->form_repo = $form_repo;
+    }
 
-	public function setRoleRepo(RoleRepository $role_repo)
-	{
-		$this->role_repo = $role_repo;
-	}
+    public function setRoleRepo(RoleRepository $role_repo)
+    {
+        $this->role_repo = $role_repo;
+    }
 
-	protected function getRules()
-	{
-		return [
-			'form_id' => [
-				['digit'],
-				[[$this->form_repo, 'exists'], [':value']],
-			],
-			'role_id' => [
-				[[$this->role_repo, 'idExists'], [':value']],
-			],
-		];
-	}
+    protected function getRules()
+    {
+        return [
+            'form_id' => [
+                ['digit'],
+                [[$this->form_repo, 'exists'], [':value']],
+            ],
+            'role_id' => [
+                [[$this->role_repo, 'idExists'], [':value']],
+            ],
+        ];
+    }
 }

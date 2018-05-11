@@ -15,26 +15,26 @@ use Ushahidi\Core\StaticEntity;
 
 class ApiKey extends StaticEntity
 {
-	protected $id;
-	protected $api_key;
-	protected $created;
-	protected $updated;
+    protected $id;
+    protected $api_key;
+    protected $created;
+    protected $updated;
 
 
-	// DataTransformer
-	protected function getDefinition()
-	{
-		return [
-			'id'            	=> 'int',
-			'api_key'					=> 'string',
-			'created'       	=> 'int',
-			'updated'       	=> 'int',
-		];
-	}
+    // DataTransformer
+    protected function getDefinition()
+    {
+        return [
+            'id'                => 'int',
+            'api_key'                   => 'string',
+            'created'           => 'int',
+            'updated'           => 'int',
+        ];
+    }
 
-	// Entity
-	public function getResource()
-	{
-		return 'apikey';
-	}
+    // Entity
+    public function getResource()
+    {
+        return 'apikey';
+    }
 }

@@ -24,25 +24,25 @@ use Ushahidi\Core\Entity\PermissionRepository;
 class RoleUpdateTest extends TestCase
 {
 
-	public function testRoleDisabled()
-	{
-		$validationMock = M::mock(Validation::class);
-		$validator = new Update(M::mock(PermissionRepository::class), false);
-		$validationMock->expects('error')->with(
-			'name',
-			'rolesNotEnabled'
-		);
-		$validator->checkRolesEnabled($validationMock);
-	}
+    public function testRoleDisabled()
+    {
+        $validationMock = M::mock(Validation::class);
+        $validator = new Update(M::mock(PermissionRepository::class), false);
+        $validationMock->expects('error')->with(
+            'name',
+            'rolesNotEnabled'
+        );
+        $validator->checkRolesEnabled($validationMock);
+    }
 
-	public function testRoleEnabled()
-	{
-		$validationMock = M::mock(Validation::class);
-		$validator = new Update(M::mock(PermissionRepository::class), true);
-		$validationMock->shouldNotReceive('error')->with(
-			'name',
-			'rolesNotEnabled'
-		);
-		$validator->checkRolesEnabled($validationMock);
-	}
+    public function testRoleEnabled()
+    {
+        $validationMock = M::mock(Validation::class);
+        $validator = new Update(M::mock(PermissionRepository::class), true);
+        $validationMock->shouldNotReceive('error')->with(
+            'name',
+            'rolesNotEnabled'
+        );
+        $validator->checkRolesEnabled($validationMock);
+    }
 }

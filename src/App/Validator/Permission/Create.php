@@ -13,13 +13,13 @@ namespace Ushahidi\App\Validator\Permission;
 
 class Create extends Update
 {
-	protected function getRules()
-	{
-		return parent::getRules() +
-			[
-				'name' => [
-					['not_empty'],
-				]
-			];
-	}
+    protected function getRules()
+    {
+        return parent::getRules() +
+            [
+                'name' => [
+                    ['not_empty'],
+                ]
+            ];
+    }
 }

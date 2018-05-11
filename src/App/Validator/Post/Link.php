@@ -13,10 +13,10 @@ namespace Ushahidi\App\Validator\Post;
 
 class Link extends ValueValidator
 {
-	protected function validate($value)
-	{
-		if (!\Kohana\Validation\Valid::url($value)) {
-			return 'url';
-		}
-	}
+    protected function validate($value)
+    {
+        if (!\Kohana\Validation\Valid::url($value)) {
+            return 'url';
+        }
+    }
 }

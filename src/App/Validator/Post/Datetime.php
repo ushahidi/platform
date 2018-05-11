@@ -13,10 +13,10 @@ namespace Ushahidi\App\Validator\Post;
 
 class Datetime extends ValueValidator
 {
-	protected function validate($value)
-	{
-		if (!\Kohana\Validation\Valid::date($value)) {
-			return 'date';
-		}
-	}
+    protected function validate($value)
+    {
+        if (!\Kohana\Validation\Valid::date($value)) {
+            return 'date';
+        }
+    }
 }

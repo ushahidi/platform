@@ -15,23 +15,23 @@ use Ushahidi\Core\Traits\FormatterAuthorizerMetadata;
 
 class Webhook extends API
 {
-	use FormatterAuthorizerMetadata;
+    use FormatterAuthorizerMetadata;
 
-	protected function getFieldName($field)
-	{
-		$remap = [
-			'user_id'  => 'user'
-			];
+    protected function getFieldName($field)
+    {
+        $remap = [
+            'user_id'  => 'user'
+            ];
 
-		if (isset($remap[$field])) {
-			return $remap[$field];
-		}
+        if (isset($remap[$field])) {
+            return $remap[$field];
+        }
 
-		return parent::getFieldName($field);
-	}
+        return parent::getFieldName($field);
+    }
 
-	protected function formatUserId($user_id)
-	{
-		return $this->getRelation('users', $user_id);
-	}
+    protected function formatUserId($user_id)
+    {
+        return $this->getRelation('users', $user_id);
+    }
 }

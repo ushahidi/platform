@@ -4,17 +4,17 @@ namespace Tests\Unit\Core\Traits;
 
 class MockDataTransformer
 {
-	use \Ushahidi\Core\Traits\DataTransformer;
+    use \Ushahidi\Core\Traits\DataTransformer;
 
-	protected function getDefinition()
-	{
-		return [
-			'date' => '*date'
-		];
-	}
-
-	public function pTransform($data)
+    protected function getDefinition()
     {
-		return $this->transform($data);
-	}
+        return [
+            'date' => '*date'
+        ];
+    }
+
+    public function pTransform($data)
+    {
+        return $this->transform($data);
+    }
 }

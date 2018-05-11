@@ -19,22 +19,22 @@ interface FormRoleRepository extends
     EntityExists
 {
 
-	/**
-	 * @param  int $form_id
-	 * @return [Ushahidi\Core\Entity\FormRole, ...]
-	 */
-	public function getByForm($form_id);
+    /**
+     * @param  int $form_id
+     * @return [Ushahidi\Core\Entity\FormRole, ...]
+     */
+    public function getByForm($form_id);
 
-	/**
-	 * @param  int $role_id
-	 * @param  int $form_id
-	 * @return [Ushahidi\Core\Entity\FormRole, ...]
-	 */
-	public function existsInFormRole($role_id, $form_id);
+    /**
+     * @param  int $role_id
+     * @param  int $form_id
+     * @return [Ushahidi\Core\Entity\FormRole, ...]
+     */
+    public function existsInFormRole($role_id, $form_id);
 
-	/**
-	 * @param  [Ushahidi\Core\Entity\FormRole, ...]  $entities
-	 * @return [Ushahidi\Core\Entity\FormRole, ...]
-	 */
-	public function updateCollection(array $entities);
+    /**
+     * @param  [Ushahidi\Core\Entity\FormRole, ...]  $entities
+     * @return [Ushahidi\Core\Entity\FormRole, ...]
+     */
+    public function updateCollection(array $entities);
 }

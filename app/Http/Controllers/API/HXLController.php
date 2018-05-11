@@ -16,17 +16,17 @@ use Ushahidi\App\Http\Controllers\Controller;
 class HXLController extends Controller
 {
 
-	/**
-	 * Retrieve a basic information about the API
-	 *
-	 * GET /api
-	 *
-	 * @return void
-	 */
-	public function index()
-	{
-		return [
-			'hxl'       => 'YAY!'
-		];
-	}
+    /**
+     * Retrieve a basic information about the API
+     *
+     * GET /api
+     *
+     * @return void
+     */
+    public function index()
+    {
+        return [
+            'hxl'       => 'YAY!'
+        ];
+    }
 }

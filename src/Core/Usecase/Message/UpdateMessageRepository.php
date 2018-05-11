@@ -13,10 +13,10 @@ namespace Ushahidi\Core\Usecase\Message;
 
 interface UpdateMessageRepository
 {
-	/**
-	 * @param  String $status
-	 * @param  String $direction
-	 * @return Boolean
-	 */
-	public function checkStatus($status, $direction);
+    /**
+     * @param  String $status
+     * @param  String $direction
+     * @return Boolean
+     */
+    public function checkStatus($status, $direction);
 }

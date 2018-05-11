@@ -16,44 +16,44 @@ use Illuminate\Http\Request;
 
 class CSVImportController extends RestController
 {
-	protected function getResource()
-	{
-		return 'posts';
-	}
+    protected function getResource()
+    {
+        return 'posts';
+    }
 
-	public function store(Request $request, $id = null)
-	{
-		/**
-		 * Step two of import.
-		 * Support all line endings without manually specifying it
-		 * (primarily added because of OS9 line endings which do not work by default )
-		 */
-		ini_set('auto_detect_line_endings', 1);
+    public function store(Request $request, $id = null)
+    {
+        /**
+         * Step two of import.
+         * Support all line endings without manually specifying it
+         * (primarily added because of OS9 line endings which do not work by default )
+         */
+        ini_set('auto_detect_line_endings', 1);
 
-		// Get payload from CSV repo
-		$csv = service('repository.csv')->get($id);
+        // Get payload from CSV repo
+        $csv = service('repository.csv')->get($id);
 
-		$fs = service('tool.filesystem');
-		$reader = service('filereader.csv');
-		$transformer = service('transformer.csv');
+        $fs = service('tool.filesystem');
+        $reader = service('filereader.csv');
+        $transformer = service('transformer.csv');
 
-		// Read file
-		$file = new \SplTempFileObject();
-		$contents = $fs->read($csv->filename);
-		$file->fwrite($contents);
+        // Read file
+        $file = new \SplTempFileObject();
+        $contents = $fs->read($csv->filename);
+        $file->fwrite($contents);
 
-		// Get records
-		// @todo read up to a sensible offset and process the rest later
-		$records = $reader->process($file);
+        // Get records
+        // @todo read up to a sensible offset and process the rest later
+        $records = $reader->process($file);
 
-		// Set map and fixed values for transformer
-		$transformer->setMap($csv->maps_to);
-		$transformer->setFixedValues($csv->fixed);
+        // Set map and fixed values for transformer
+        $transformer->setMap($csv->maps_to);
+        $transformer->setFixedValues($csv->fixed);
 
         $this->usecase = $this->usecaseFactory
             ->get($this->getResource(), 'import')
             ->setPayload($records)
-			->setTransformer($transformer);
+            ->setTransformer($transformer);
 
         return $this->prepResponse($this->executeUsecase($request), $request);
     }

@@ -16,8 +16,8 @@ use Ushahidi\App\Http\Controllers\RESTController;
 class PermissionsController extends RESTController
 {
 
-	protected function getResource()
-	{
-		return 'permissions';
-	}
+    protected function getResource()
+    {
+        return 'permissions';
+    }
 }

@@ -16,8 +16,8 @@ use Ushahidi\App\Http\Controllers\RESTController;
 class LayersController extends RESTController
 {
 
-	protected function getResource()
-	{
-		return 'layers';
-	}
+    protected function getResource()
+    {
+        return 'layers';
+    }
 }

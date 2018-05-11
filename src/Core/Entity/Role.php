@@ -15,41 +15,41 @@ use Ushahidi\Core\StaticEntity;
 
 class Role extends StaticEntity
 {
-	protected $id;
-	protected $name;
-	protected $display_name;
-	protected $description;
-	protected $permissions;
+    protected $id;
+    protected $name;
+    protected $display_name;
+    protected $description;
+    protected $permissions;
     protected $protected;
 
-	// DataTransformer
-	protected function getDefinition()
-	{
-		return [
-			'id'           => 'int',
-			'name'         => 'string',
-			'display_name' => 'string',
-			'description'  => 'string',
-			'permissions'  => 'array',
-			'protected'    => 'boolean',
-		];
-	}
+    // DataTransformer
+    protected function getDefinition()
+    {
+        return [
+            'id'           => 'int',
+            'name'         => 'string',
+            'display_name' => 'string',
+            'description'  => 'string',
+            'permissions'  => 'array',
+            'protected'    => 'boolean',
+        ];
+    }
 
-	// Entity
-	public function getResource()
-	{
-		return 'roles';
-	}
+    // Entity
+    public function getResource()
+    {
+        return 'roles';
+    }
 
-	// Entity
-	public function getId()
-	{
-		return $this->name;
-	}
+    // Entity
+    public function getId()
+    {
+        return $this->name;
+    }
 
-	// StatefulData
-	protected function getImmutable()
-	{
-		return array_merge(parent::getImmutable(), ['name','protected']);
-	}
+    // StatefulData
+    protected function getImmutable()
+    {
+        return array_merge(parent::getImmutable(), ['name','protected']);
+    }
 }

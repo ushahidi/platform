@@ -20,52 +20,52 @@ use Ushahidi\Core\Tool\Uploader;
 use Ushahidi\Core\Tool\UploadData;
 
 class MediaRepository extends OhanzeeRepository implements
-	MediaRepositoryContract
+    MediaRepositoryContract
 {
-	private $upload;
+    private $upload;
 
-	private $created_id;
-	private $created_ts;
+    private $created_id;
+    private $created_ts;
 
-	private $deleted_media;
+    private $deleted_media;
 
-	public function __construct(Database $db, Uploader $upload)
-	{
-		parent::__construct($db);
+    public function __construct(Database $db, Uploader $upload)
+    {
+        parent::__construct($db);
 
-		$this->upload = $upload;
-	}
+        $this->upload = $upload;
+    }
 
-	// OhanzeeRepository
-	protected function getTable()
-	{
-		return 'media';
-	}
+    // OhanzeeRepository
+    protected function getTable()
+    {
+        return 'media';
+    }
 
-	// OhanzeeRepository
-	public function getEntity(array $data = null)
-	{
-		return new Media($data);
-	}
+    // OhanzeeRepository
+    public function getEntity(array $data = null)
+    {
+        return new Media($data);
+    }
 
-	// SearchRepository
-	public function getSearchFields()
-	{
-		return ['user', 'orphans'];
-	}
+    // SearchRepository
+    public function getSearchFields()
+    {
+        return ['user', 'orphans'];
+    }
 
-	// OhanzeeRepository
-	protected function setSearchConditions(SearchData $search)
-	{
-		if ($search->user) {
-			$this->search_query->where('user_id', '=', $search->user);
-		}
+    // OhanzeeRepository
+    protected function setSearchConditions(SearchData $search)
+    {
+        if ($search->user) {
+            $this->search_query->where('user_id', '=', $search->user);
+        }
 
-		if ($search->orphans) {
-			$this->search_query
-				->join('posts_media', 'left')
-					->on('posts_media.media_id', '=', 'media.id')
-				->where('posts_media.post_id', 'is', null);
-		}
-	}
+        if ($search->orphans) {
+            $this->search_query
+                ->join('posts_media', 'left')
+                    ->on('posts_media.media_id', '=', 'media.id')
+                ->where('posts_media.post_id', 'is', null);
+        }
+    }
 }

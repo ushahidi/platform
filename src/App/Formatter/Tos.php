@@ -18,13 +18,13 @@ class Tos extends API
 {
     use FormatterAuthorizerMetadata;
 
-	protected function formatAgreementDate($value)
-	{
-		return $value ? $value->format(DateTime::W3C) : null;
-	}
+    protected function formatAgreementDate($value)
+    {
+        return $value ? $value->format(DateTime::W3C) : null;
+    }
 
-	protected function formatTosVersionDate($value)
-	{
-		return $value ? $value->format(DateTime::W3C) : null;
-	}
+    protected function formatTosVersionDate($value)
+    {
+        return $value ? $value->format(DateTime::W3C) : null;
+    }
 }

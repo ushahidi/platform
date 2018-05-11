@@ -13,26 +13,26 @@ namespace Ushahidi\Core\Entity;
 
 interface PostValueRepository
 {
-	/**
-	 * @param  int $id
-	 * @param  int $post_id
-	 * @param  int $form_attribute_id
-	 * @return Ushahidi\Core\Entity\PostValue
-	 */
-	public function get($id, $post_id = null, $form_attribute_id = null);
+    /**
+     * @param  int $id
+     * @param  int $post_id
+     * @param  int $form_attribute_id
+     * @return Ushahidi\Core\Entity\PostValue
+     */
+    public function get($id, $post_id = null, $form_attribute_id = null);
 
-	/**
-	 * Get a query to return matching values LIKE some value
-	 *
-	 * @param  int    $form_attribute_id
-	 * @param  string $match
-	 * @return Database_Query
-	 */
-	public function getValueQuery($form_attribute_id, array $matches);
+    /**
+     * Get a query to return matching values LIKE some value
+     *
+     * @param  int    $form_attribute_id
+     * @param  string $match
+     * @return Database_Query
+     */
+    public function getValueQuery($form_attribute_id, array $matches);
 
-	/**
-	 * Get the table name for use in joins
-	 * @return String
-	 */
-	public function getValueTable();
+    /**
+     * Get the table name for use in joins
+     * @return String
+     */
+    public function getValueTable();
 }

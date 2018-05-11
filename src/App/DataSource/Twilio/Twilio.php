@@ -23,126 +23,126 @@ use Log;
 
 class Twilio implements CallbackDataSource, OutgoingAPIDataSource
 {
-	use MapsInboundFields;
+    use MapsInboundFields;
 
-	protected $config;
+    protected $config;
 
-	/**
-	 * Constructor function for DataSource
-	 */
-	public function __construct(array $config, \Closure $clientFactory = null)
-	{
-		$this->config = $config;
-		$this->clientFactory = $clientFactory;
-	}
-
-	public function getName()
+    /**
+     * Constructor function for DataSource
+     */
+    public function __construct(array $config, \Closure $clientFactory = null)
     {
-		return 'Twilio';
-	}
+        $this->config = $config;
+        $this->clientFactory = $clientFactory;
+    }
 
-	public function getId()
-	{
-		return strtolower($this->getName());
-	}
+    public function getName()
+    {
+        return 'Twilio';
+    }
 
-	public function getServices()
-	{
-		return [MessageType::SMS];
-	}
+    public function getId()
+    {
+        return strtolower($this->getName());
+    }
 
-	public function getOptions()
-	{
-		return array(
-			'from' => array(
-				'label' => 'Phone Number',
-				'input' => 'text',
-				'description' => 'The from phone number.
+    public function getServices()
+    {
+        return [MessageType::SMS];
+    }
+
+    public function getOptions()
+    {
+        return array(
+            'from' => array(
+                'label' => 'Phone Number',
+                'input' => 'text',
+                'description' => 'The from phone number.
 					A Twilio phone number enabled for the type of message you wish to send. ',
-				'rules' => array('required')
-			),
-			'account_sid' => array(
-				'label' => 'Account SID',
-				'input' => 'text',
-				'description' => 'The unique id of the Account that sent this message.',
-				'rules' => array('required')
-			),
-			'auth_token' => array(
-				'label' => 'Auth Token',
-				'input' => 'text',
-				'description' => '',
-				'rules' => array('required')
-			),
-			'sms_auto_response' => array(
-				'label' => 'SMS Auto response',
-				'input' => 'text',
-				'description' => '',
-				'rules' => array('required')
-			)
-		);
-	}
+                'rules' => array('required')
+            ),
+            'account_sid' => array(
+                'label' => 'Account SID',
+                'input' => 'text',
+                'description' => 'The unique id of the Account that sent this message.',
+                'rules' => array('required')
+            ),
+            'auth_token' => array(
+                'label' => 'Auth Token',
+                'input' => 'text',
+                'description' => '',
+                'rules' => array('required')
+            ),
+            'sms_auto_response' => array(
+                'label' => 'SMS Auto response',
+                'input' => 'text',
+                'description' => '',
+                'rules' => array('required')
+            )
+        );
+    }
 
-	public function getInboundFields()
-	{
-		return [
-			'Message' => 'text'
-		];
-	}
+    public function getInboundFields()
+    {
+        return [
+            'Message' => 'text'
+        ];
+    }
 
-	/**
-	 * @return mixed
-	 */
-	public function send($to, $message, $title = "")
-	{
-		// Check we have the required config
-		if (!isset($this->config['account_sid']) || !isset($this->config['auth_token'])) {
-			app('log')->warning('Could not send message with Twilio, incomplete config');
-			return [MessageStatus::FAILED, false];
-		}
+    /**
+     * @return mixed
+     */
+    public function send($to, $message, $title = "")
+    {
+        // Check we have the required config
+        if (!isset($this->config['account_sid']) || !isset($this->config['auth_token'])) {
+            app('log')->warning('Could not send message with Twilio, incomplete config');
+            return [MessageStatus::FAILED, false];
+        }
 
-		// Make twilio client
-		$client = ($this->clientFactory)($this->config['account_sid'], $this->config['auth_token']);
+        // Make twilio client
+        $client = ($this->clientFactory)($this->config['account_sid'], $this->config['auth_token']);
 
-		if (!($client instanceof \Twilio\Rest\Client)) {
-			throw new \Exception("Client is not an instance of Twilio\Rest\Client");
-		}
+        if (!($client instanceof \Twilio\Rest\Client)) {
+            throw new \Exception("Client is not an instance of Twilio\Rest\Client");
+        }
 
-		$from = isset($this->config['from']) ? $this->config['from'] : 'Ushahidi';
+        $from = isset($this->config['from']) ? $this->config['from'] : 'Ushahidi';
 
-		// Send!
-		try {
-			$message = $client->messages->create(
-				$to,
-				[
-					'from' => $from,
-					'body' => $message
-				]
-			);
-			return [MessageStatus::SENT, $message->sid];
-		} catch (\Twilio\Exceptions\RestException $e) {
-			app('log')->error($e->getMessage());
-		}
+        // Send!
+        try {
+            $message = $client->messages->create(
+                $to,
+                [
+                    'from' => $from,
+                    'body' => $message
+                ]
+            );
+            return [MessageStatus::SENT, $message->sid];
+        } catch (\Twilio\Exceptions\RestException $e) {
+            app('log')->error($e->getMessage());
+        }
 
-		return [MessageStatus::FAILED, false];
-	}
+        return [MessageStatus::FAILED, false];
+    }
 
-	public function registerRoutes(\Laravel\Lumen\Routing\Router $router)
-	{
-		$router->post('sms/twilio[/]', 'Ushahidi\App\DataSource\Twilio\TwilioController@handleRequest');
-		$router->post('sms/twilio/reply[/]', 'Ushahidi\App\DataSource\Twilio\TwilioController@handleRequest');
-	}
+    public function registerRoutes(\Laravel\Lumen\Routing\Router $router)
+    {
+        $router->post('sms/twilio[/]', 'Ushahidi\App\DataSource\Twilio\TwilioController@handleRequest');
+        $router->post('sms/twilio/reply[/]', 'Ushahidi\App\DataSource\Twilio\TwilioController@handleRequest');
+    }
 
-	public function verifySid($sid)
-	{
+    public function verifySid($sid)
+    {
         if (isset($this->config['account_sid']) and $sid === $this->config['account_sid']) {
             return true;
         }
 
         return false;
-	}
+    }
 
-	public function getSmsAutoResponse()
-	{
-		return isset($this->config['sms_auto_response']) ? $this->config['sms_auto_response'] : false;
-	}
+    public function getSmsAutoResponse()
+    {
+        return isset($this->config['sms_auto_response']) ? $this->config['sms_auto_response'] : false;
+    }
 }

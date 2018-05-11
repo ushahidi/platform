@@ -15,14 +15,14 @@ use Ushahidi\Core\Traits\FormatterAuthorizerMetadata;
 
 class Tag extends API
 {
-	use FormatterAuthorizerMetadata;
+    use FormatterAuthorizerMetadata;
 
-	protected function formatColor($value)
-	{
-		// enforce a leading hash on color, or null if unset
-		$value = ltrim($value, '#');
-		return $value ? '#' . $value : null;
-	}
+    protected function formatColor($value)
+    {
+        // enforce a leading hash on color, or null if unset
+        $value = ltrim($value, '#');
+        return $value ? '#' . $value : null;
+    }
 
     protected function formatChildren($tags)
     {

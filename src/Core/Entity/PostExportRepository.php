@@ -14,12 +14,12 @@ namespace Ushahidi\Core\Entity;
 interface PostExportRepository
 {
 
-	/**
-	 * Get Column Names for given Post Data
-	 * @param  Post Data array $data
-	 * @return Array
-	 */
-	public function retrieveMetaData($data, $attributes);
+    /**
+     * Get Column Names for given Post Data
+     * @param  Post Data array $data
+     * @return Array
+     */
+    public function retrieveMetaData($data, $attributes);
 
     public function retrieveCompletedStageNames($stage_ids);
 }

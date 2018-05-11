@@ -172,28 +172,28 @@ class StatefulDataTest extends \PHPUnit\Framework\TestCase
     protected function getPostDefinition()
     {
         return [
-			'id'              => 'int',
-			'parent_id'       => 'int',
-			'form'            => false, /* alias */
-			'form_id'         => 'int',
-			'user'            => false, /* alias */
-			'user_id'         => 'int',
-			'type'            => 'string',
-			'title'           => 'string',
-			'slug'            => '*slug',
-			'content'         => 'string',
-			'author_email'    => 'string', /* @todo email filter */
-			'author_realname' => 'string', /* @todo redundent with user record */
-			'status'          => 'string',
-			'created'         => 'int',
-			'updated'         => 'int',
-			'post_date'       => '*date',
-			'locale'          => '*lowercasestring',
-			'values'          => 'array',
-			'tags'            => 'array',
-			'published_to'    => '*json',
-			'completed_stages'=> 'array',
-			'sets'            => 'array',
-		];
+            'id'              => 'int',
+            'parent_id'       => 'int',
+            'form'            => false, /* alias */
+            'form_id'         => 'int',
+            'user'            => false, /* alias */
+            'user_id'         => 'int',
+            'type'            => 'string',
+            'title'           => 'string',
+            'slug'            => '*slug',
+            'content'         => 'string',
+            'author_email'    => 'string', /* @todo email filter */
+            'author_realname' => 'string', /* @todo redundent with user record */
+            'status'          => 'string',
+            'created'         => 'int',
+            'updated'         => 'int',
+            'post_date'       => '*date',
+            'locale'          => '*lowercasestring',
+            'values'          => 'array',
+            'tags'            => 'array',
+            'published_to'    => '*json',
+            'completed_stages'=> 'array',
+            'sets'            => 'array',
+        ];
     }
 }

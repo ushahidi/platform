@@ -16,10 +16,10 @@ use Illuminate\Http\Request;
 class RegisterController extends RESTController
 {
 
-	protected function getResource()
-	{
-		return 'users';
-	}
+    protected function getResource()
+    {
+        return 'users';
+    }
 
     /**
      * Register a user
