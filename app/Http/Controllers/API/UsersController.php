@@ -16,20 +16,20 @@ use Illuminate\Http\Request;
 class UsersController extends RESTController
 {
 
-	protected function getResource()
-	{
-		return 'users';
-	}
+    protected function getResource()
+    {
+        return 'users';
+    }
 
-	/**
-	 * Get current user
-	 *
-	 * GET /api/users/me
-	 *
-	 * @return void
-	 */
-	public function showMe(Request $request)
-	{
+    /**
+     * Get current user
+     *
+     * GET /api/users/me
+     *
+     * @return void
+     */
+    public function showMe(Request $request)
+    {
         $this->usecase = $this->usecaseFactory
             ->get($this->getResource(), 'read')
             ->setIdentifiers([
@@ -37,27 +37,27 @@ class UsersController extends RESTController
             ]);
 
         return $this->prepResponse($this->executeUsecase($request), $request);
-	}
+    }
 
-	/**
-	 * Get options for /users/me
-	 *
-	 * @return void
-	 */
-	public function optionsMe()
-	{
-		$this->response->status(200);
-	}
+    /**
+     * Get options for /users/me
+     *
+     * @return void
+     */
+    public function optionsMe()
+    {
+        $this->response->status(200);
+    }
 
-	/**
-	 * Update current user
-	 *
-	 * PUT /api/users/me
-	 *
-	 * @return void
-	 */
-	public function updateMe(Request $request)
-	{
+    /**
+     * Update current user
+     *
+     * PUT /api/users/me
+     *
+     * @return void
+     */
+    public function updateMe(Request $request)
+    {
         $this->usecase = $this->usecaseFactory
             ->get($this->getResource(), 'update')
             ->setIdentifiers([
@@ -66,5 +66,5 @@ class UsersController extends RESTController
             ->setPayload($request->json()->all());
 
         return $this->prepResponse($this->executeUsecase($request), $request);
-	}
+    }
 }

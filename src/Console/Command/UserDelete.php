@@ -40,31 +40,31 @@ class UserDelete extends Command
      */
     protected $description = 'Delete a user';
 
-	protected $repo;
+    protected $repo;
 
-	public function __construct()
-	{
-		parent::__construct();
-	}
+    public function __construct()
+    {
+        parent::__construct();
+    }
 
-	public function handle()
-	{
-		$this->repo = service('repository.user');
+    public function handle()
+    {
+        $this->repo = service('repository.user');
 
-		$email = $this->option('email');
+        $email = $this->option('email');
 
-		$entity = $this->repo->getByEmail($email);
+        $entity = $this->repo->getByEmail($email);
 
-		if (!$entity->getId()) {
-			throw new NotFoundException(sprintf(
-				'Could not locate any %s matching [%s]',
-				$entity->getResource(),
-				$email
-			));
-		}
+        if (!$entity->getId()) {
+            throw new NotFoundException(sprintf(
+                'Could not locate any %s matching [%s]',
+                $entity->getResource(),
+                $email
+            ));
+        }
 
-		$id = $this->repo->delete($entity);
+        $id = $this->repo->delete($entity);
 
-		$this->info("Account was deleted successfully, id: {$id}");
-	}
+        $this->info("Account was deleted successfully, id: {$id}");
+    }
 }

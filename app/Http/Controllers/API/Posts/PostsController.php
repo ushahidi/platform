@@ -17,77 +17,77 @@ use Ushahidi\Core\Usecase;
 
 class PostsController extends RESTController
 {
-	/**
-	 * @var int Post Parent ID
-	 */
-	protected $parentId = null;
+    /**
+     * @var int Post Parent ID
+     */
+    protected $parentId = null;
 
-	/**
-	 * @var string Post Type
-	 */
-	protected $postType = 'report';
+    /**
+     * @var string Post Type
+     */
+    protected $postType = 'report';
 
-	// Ushahidi_Rest
-	protected function getResource()
-	{
-		return 'posts';
-	}
+    // Ushahidi_Rest
+    protected function getResource()
+    {
+        return 'posts';
+    }
 
-	protected function getIdentifiers(Request $request)
-	{
-		return $this->getRouteParams($request) + [
-			'type'      => $this->postType
-		];
-	}
+    protected function getIdentifiers(Request $request)
+    {
+        return $this->getRouteParams($request) + [
+            'type'      => $this->postType
+        ];
+    }
 
-	protected function getFilters(Request $request)
-	{
+    protected function getFilters(Request $request)
+    {
         $params = $this->getRouteParams($request);
-		return $request->query() + [
-			'type'      => $this->postType,
-			'parent'    => isset($params['parent_id']) ? $params['parent_id'] : null,
-		];
-	}
+        return $request->query() + [
+            'type'      => $this->postType,
+            'parent'    => isset($params['parent_id']) ? $params['parent_id'] : null,
+        ];
+    }
 
-	protected function getPayload(Request $request)
-	{
+    protected function getPayload(Request $request)
+    {
         $params = $this->getRouteParams($request);
-		return $request->json()->all() + [
-			'type'      => $this->postType,
-			'parent_id' => isset($params['parent_id']) ? $params['parent_id'] : null,
-		];
-	}
+        return $request->json()->all() + [
+            'type'      => $this->postType,
+            'parent_id' => isset($params['parent_id']) ? $params['parent_id'] : null,
+        ];
+    }
 
-	/**
-	 * Create A Post
-	 *
-	 * POST /api/posts
-	 *
-	 * @return void
-	 */
+    /**
+     * Create A Post
+     *
+     * POST /api/posts
+     *
+     * @return void
+     */
     public function store(Request $request)
     {
         $this->usecase = $this->usecaseFactory
             ->get($this->getResource(), 'create')
             ->setPayload($this->getPayload($request))
-			->setIdentifiers($this->getIdentifiers($request));
+            ->setIdentifiers($this->getIdentifiers($request));
 
         return $this->prepResponse($this->executeUsecase($request), $request);
     }
 
-	/**
-	 * Retrieve All Posts
-	 *
-	 * GET /api/posts
-	 *
-	 * @return void
-	 */
+    /**
+     * Retrieve All Posts
+     *
+     * GET /api/posts
+     *
+     * @return void
+     */
     public function index(Request $request)
     {
         $this->usecase = $this->usecaseFactory
             ->get($this->getResource(), 'search')
             ->setFilters($this->getFilters($request))
-			->setIdentifiers($this->getIdentifiers($request));
+            ->setIdentifiers($this->getIdentifiers($request));
 
         return $this->prepResponse($this->executeUsecase($request), $request);
     }
@@ -141,21 +141,21 @@ class PostsController extends RESTController
         return $this->prepResponse($this->executeUsecase($request), $request);
     }
 
-	/**
-	 * Retrieve post stats
-	 *
-	 * GET /api/posts/stats
-	 *
-	 * @return void
-	 */
-	public function stats(Request $request)
-	{
+    /**
+     * Retrieve post stats
+     *
+     * GET /api/posts/stats
+     *
+     * @return void
+     */
+    public function stats(Request $request)
+    {
         $this->usecase = $this->usecaseFactory
             ->get($this->getResource(), 'stats')
             ->setFilters($this->getFilters($request))
-			// @todo allow injecting formatters based on resource + action
-			->setFormatter(service('formatter.entity.post.stats'));
+            // @todo allow injecting formatters based on resource + action
+            ->setFormatter(service('formatter.entity.post.stats'));
 
         return $this->prepResponse($this->executeUsecase($request), $request);
-	}
+    }
 }

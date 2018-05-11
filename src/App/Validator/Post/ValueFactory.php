@@ -13,16 +13,16 @@ namespace Ushahidi\App\Validator\Post;
 
 class ValueFactory
 {
-	// a map of value type to factory closures
-	protected $map = array();
+    // a map of value type to factory closures
+    protected $map = array();
 
-	public function __construct($map = array())
-	{
-		$this->map = $map;
-	}
+    public function __construct($map = array())
+    {
+        $this->map = $map;
+    }
 
-	public function getValidator($type)
-	{
-		return isset($this->map[$type]) ? $this->map[$type]() : false;
-	}
+    public function getValidator($type)
+    {
+        return isset($this->map[$type]) ? $this->map[$type]() : false;
+    }
 }

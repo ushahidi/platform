@@ -16,8 +16,8 @@ use Ushahidi\App\Http\Controllers\RESTController;
 class WebhooksController extends RESTController
 {
 
-	protected function getResource()
-	{
-		return 'webhooks';
-	}
+    protected function getResource()
+    {
+        return 'webhooks';
+    }
 }

@@ -16,18 +16,18 @@ use Ushahidi\Core\Tool\Validator;
 
 class Create extends Update
 {
-	protected function getRules()
-	{
-		return array_merge_recursive(parent::getRules(), [
-			'tag' => [
-				['not_empty'],
-			],
-			'slug' => [
-				['not_empty'],
-			],
-			'type' => [
-				['not_empty'],
-			],
-		]);
-	}
+    protected function getRules()
+    {
+        return array_merge_recursive(parent::getRules(), [
+            'tag' => [
+                ['not_empty'],
+            ],
+            'slug' => [
+                ['not_empty'],
+            ],
+            'type' => [
+                ['not_empty'],
+            ],
+        ]);
+    }
 }

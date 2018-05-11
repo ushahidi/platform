@@ -16,19 +16,19 @@ use Ushahidi\Core\Traits\FormatterAuthorizerMetadata;
 
 class Role extends API
 {
-	use FormatterAuthorizerMetadata;
+    use FormatterAuthorizerMetadata;
 
-	public function __invoke($entity)
-	{
-		$data = [
-			'id'  => $entity->id,
-			'url' => url('forms/' . $entity->form_id . '/roles/' . $entity->id),
-			'form_id' => $entity->form_id,
-			'role_id' => $entity->role_id,
-			];
+    public function __invoke($entity)
+    {
+        $data = [
+            'id'  => $entity->id,
+            'url' => url('forms/' . $entity->form_id . '/roles/' . $entity->id),
+            'form_id' => $entity->form_id,
+            'role_id' => $entity->role_id,
+            ];
 
-		$data = $this->addMetadata($data, $entity);
+        $data = $this->addMetadata($data, $entity);
 
-		return $data;
-	}
+        return $data;
+    }
 }

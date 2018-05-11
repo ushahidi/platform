@@ -13,5 +13,5 @@ namespace Ushahidi\Core\Usecase\Form;
 
 class SearchFormStage extends SearchFormAttribute
 {
-	// Intentionally left blank
+    // Intentionally left blank
 }

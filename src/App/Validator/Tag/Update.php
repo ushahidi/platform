@@ -18,55 +18,55 @@ use Ushahidi\Core\Tool\Validator;
 
 class Update extends Validator
 {
-	protected $repo;
-	protected $role_repo;
+    protected $repo;
+    protected $role_repo;
 
-	protected $default_error_source = 'tag';
+    protected $default_error_source = 'tag';
 
-	public function __construct(UpdateTagRepository $repo, RoleRepository $role_repo)
-	{
-		$this->repo = $repo;
-		$this->role_repo = $role_repo;
-	}
+    public function __construct(UpdateTagRepository $repo, RoleRepository $role_repo)
+    {
+        $this->repo = $repo;
+        $this->role_repo = $role_repo;
+    }
 
-	protected function getRules()
-	{
-		return [
-			'tag' => [
-				['min_length', [':value', 2]],
-				['max_length', [':value', 255]],
-				// alphas, numbers, punctuation, and spaces
-				['regex', [':value', '/^[\pL\pN\pP ]++$/uD']],
-			],
-			'parent_id' => [
-				[[$this->repo, 'doesTagExist'], [':value']],
-			],
-			'slug' => [
-				['min_length', [':value', 2]],
-				['alpha_dash'],
-				[[$this->repo, 'isSlugAvailable'], [':value']],
-			],
-			'description' => [
-				// alphas, numbers, punctuation, and spaces
-				['regex', [':value', '/^[\pL\pN\pP ]++$/uD']],
-			],
-			'type' => [
-				['in_array', [':value', ['category', 'status']]],
-			],
-			'color' => [
-				['color'],
-			],
-			'icon' => [
-				// alphas, dashes and spaces
-				['regex', [':value', '/^[\pL\s\_\-]++$/uD']],
-			],
-			'priority' => [
-				['digit'],
-			],
-			'role' => [
-				[[$this->role_repo, 'exists'], [':value']],
-				[[$this->repo, 'isRoleValid'], [':validation', ':fulldata']]
-			]
-		];
-	}
+    protected function getRules()
+    {
+        return [
+            'tag' => [
+                ['min_length', [':value', 2]],
+                ['max_length', [':value', 255]],
+                // alphas, numbers, punctuation, and spaces
+                ['regex', [':value', '/^[\pL\pN\pP ]++$/uD']],
+            ],
+            'parent_id' => [
+                [[$this->repo, 'doesTagExist'], [':value']],
+            ],
+            'slug' => [
+                ['min_length', [':value', 2]],
+                ['alpha_dash'],
+                [[$this->repo, 'isSlugAvailable'], [':value']],
+            ],
+            'description' => [
+                // alphas, numbers, punctuation, and spaces
+                ['regex', [':value', '/^[\pL\pN\pP ]++$/uD']],
+            ],
+            'type' => [
+                ['in_array', [':value', ['category', 'status']]],
+            ],
+            'color' => [
+                ['color'],
+            ],
+            'icon' => [
+                // alphas, dashes and spaces
+                ['regex', [':value', '/^[\pL\s\_\-]++$/uD']],
+            ],
+            'priority' => [
+                ['digit'],
+            ],
+            'role' => [
+                [[$this->role_repo, 'exists'], [':value']],
+                [[$this->repo, 'isRoleValid'], [':validation', ':fulldata']]
+            ]
+        ];
+    }
 }

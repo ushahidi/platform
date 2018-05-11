@@ -16,9 +16,9 @@ use Ushahidi\Core\Entity\PostValueRepository as PostValueRepositoryContract;
 
 class TextRepository extends ValueRepository
 {
-	// OhanzeeRepository
-	protected function getTable()
-	{
-		return 'post_text';
-	}
+    // OhanzeeRepository
+    protected function getTable()
+    {
+        return 'post_text';
+    }
 }

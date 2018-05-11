@@ -13,10 +13,10 @@ namespace Ushahidi\App\Validator\Post;
 
 class Decimal extends ValueValidator
 {
-	protected function validate($value)
-	{
-		if (!\Kohana\Validation\Valid::numeric($value)) {
-			return 'decimal';
-		}
-	}
+    protected function validate($value)
+    {
+        if (!\Kohana\Validation\Valid::numeric($value)) {
+            return 'decimal';
+        }
+    }
 }

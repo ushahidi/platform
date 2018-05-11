@@ -16,8 +16,8 @@ use Illuminate\Http\Request;
 
 class TosController extends RESTController
 {
-	protected function getResource()
-	{
-		return 'tos';
-	}
+    protected function getResource()
+    {
+        return 'tos';
+    }
 }

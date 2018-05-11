@@ -15,42 +15,42 @@ use Ushahidi\Core\StaticEntity;
 
 class WebhookJob extends StaticEntity
 {
-	protected $id;
-	protected $post_id;
-	protected $event_type;
-	protected $created;
+    protected $id;
+    protected $post_id;
+    protected $event_type;
+    protected $created;
 
-	// StatefulData
-	protected function getDerived()
-	{
-		// Foreign key alias
-		return [
-			'post_id' => ['post', 'post.id']
-		];
-	}
+    // StatefulData
+    protected function getDerived()
+    {
+        // Foreign key alias
+        return [
+            'post_id' => ['post', 'post.id']
+        ];
+    }
 
 
-	// DataTransformer
-	protected function getDefinition()
-	{
-		return [
-			'id'       			=> 'int',
-			'post'     			=> false,
-			'post_id'  			=> 'int',
-			'event_type'	  => 'string',
-			'created' 			=> 'int'
-		];
-	}
+    // DataTransformer
+    protected function getDefinition()
+    {
+        return [
+            'id'                => 'int',
+            'post'              => false,
+            'post_id'           => 'int',
+            'event_type'      => 'string',
+            'created'           => 'int'
+        ];
+    }
 
-	// Entity
-	public function getResource()
-	{
-		return 'webhook_job';
-	}
+    // Entity
+    public function getResource()
+    {
+        return 'webhook_job';
+    }
 
-	// StatefulData
-	protected function getImmutable()
-	{
-		return array_merge(parent::getImmutable(), ['post_id']);
-	}
+    // StatefulData
+    protected function getImmutable()
+    {
+        return array_merge(parent::getImmutable(), ['post_id']);
+    }
 }

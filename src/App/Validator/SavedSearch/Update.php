@@ -16,12 +16,12 @@ use Ushahidi\App\Validator\Set;
 class Update extends Set\Update
 {
 
-	protected function getRules()
-	{
-		return array_merge_recursive(parent::getRules(), [
-			'filter' => [
-				['is_array', [':value']]
-			]
-		]);
-	}
+    protected function getRules()
+    {
+        return array_merge_recursive(parent::getRules(), [
+            'filter' => [
+                ['is_array', [':value']]
+            ]
+        ]);
+    }
 }

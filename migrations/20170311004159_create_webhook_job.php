@@ -11,13 +11,13 @@ class CreateWebhookJob extends AbstractMigration
     public function up()
     {
         $this->table('webhook_job')
-  		    ->addColumn('post_id', 'integer', ['null' => false])
+            ->addColumn('post_id', 'integer', ['null' => false])
           ->addColumn('event_type', 'string', ['null' => false])
-    		  ->addColumn('created', 'integer', ['default' => 0])
-    		  ->addForeignKey('post_id', 'posts', 'id', [
-    				'delete' => 'CASCADE'
-    		  ])
-    			->create();
+              ->addColumn('created', 'integer', ['default' => 0])
+              ->addForeignKey('post_id', 'posts', 'id', [
+                    'delete' => 'CASCADE'
+              ])
+                ->create();
     }
 
     /**

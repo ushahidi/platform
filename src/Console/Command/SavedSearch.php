@@ -22,12 +22,12 @@ use Ushahidi\Factory\DataFactory;
 
 class SavedSearch extends Command
 {
-	private $contactRepository;
-	private $setRepository;
-	private $postRepository;
-	private $messageRepository;
-	private $data;
-	private $postSearchData;
+    private $contactRepository;
+    private $setRepository;
+    private $postRepository;
+    private $messageRepository;
+    private $data;
+    private $postSearchData;
 
     /**
      * The console command name.
@@ -50,47 +50,47 @@ class SavedSearch extends Command
      */
     protected $description = 'Sync saved search posts';
 
-	public function __construct()
-	{
-		parent::__construct();
-	}
+    public function __construct()
+    {
+        parent::__construct();
+    }
 
-	public function handle()
-	{
-		$this->data = service('factory.data');
-		$this->contactRepository = service('repository.contact');
-		$this->setRepository = service('repository.savedsearch');
-		$this->postRepository = service('repository.post');
-		$this->messageRepository = service('repository.message');
+    public function handle()
+    {
+        $this->data = service('factory.data');
+        $this->contactRepository = service('repository.contact');
+        $this->setRepository = service('repository.savedsearch');
+        $this->postRepository = service('repository.post');
+        $this->messageRepository = service('repository.message');
 
-		$count = 0;
+        $count = 0;
 
-		// Get saved searches
-		$this->setRepository->setSearchParams($this->data->get('search'));
+        // Get saved searches
+        $this->setRepository->setSearchParams($this->data->get('search'));
 
-		// @todo Might need to limit the number of saved searches retrieved at a time
-		$savedSearches = $this->setRepository->getSearchResults();
+        // @todo Might need to limit the number of saved searches retrieved at a time
+        $savedSearches = $this->setRepository->getSearchResults();
 
-		foreach ($savedSearches as $savedSearch) {
-			// Get fresh SearchData
-			$data = $this->data->get('search');
+        foreach ($savedSearches as $savedSearch) {
+            // Get fresh SearchData
+            $data = $this->data->get('search');
 
-			// Get posts with the search filter
-			foreach ($savedSearch->filter as $key => $filter) {
-				$data->$key = $filter;
-			}
+            // Get posts with the search filter
+            foreach ($savedSearch->filter as $key => $filter) {
+                $data->$key = $filter;
+            }
 
-			$this->postRepository->setSearchParams($data);
-			$posts = $this->postRepository->getSearchResults();
+            $this->postRepository->setSearchParams($data);
+            $posts = $this->postRepository->getSearchResults();
 
-			foreach ($posts as $post) {
-				if (! $this->setRepository->setPostExists($savedSearch->id, $post->id)) {
-					$this->setRepository->addPostToSet($savedSearch->id, $post->id);
-					$count++;
-				}
-			}
-		}
+            foreach ($posts as $post) {
+                if (! $this->setRepository->setPostExists($savedSearch->id, $post->id)) {
+                    $this->setRepository->addPostToSet($savedSearch->id, $post->id);
+                    $count++;
+                }
+            }
+        }
 
-		$this->info("{$count} posts were added");
-	}
+        $this->info("{$count} posts were added");
+    }
 }

@@ -21,34 +21,34 @@ use Ushahidi\Core\Exception\NotFoundException;
 
 trait VerifyEntityLoaded
 {
-	/**
-	 * Verifies that a given entity has been loaded, by checking that the "id"
-	 * property is not empty.
-	 * @param  Entity  $entity
-	 * @param  Mixed   $lookup
-	 * @return Entity
-	 * @throws NotFoundException
-	 */
-	protected function verifyEntityLoaded(Entity $entity, $lookup)
-	{
-		if (!$entity->getId()) {
-			if (is_array($lookup)) {
-				$arr = [];
-				foreach ($lookup as $key => $val) {
-					$arr[] = "$key: $val";
-				}
-				$lookup_string = implode(', ', $arr);
-			} else {
-				$lookup_string = $lookup;
-			}
+    /**
+     * Verifies that a given entity has been loaded, by checking that the "id"
+     * property is not empty.
+     * @param  Entity  $entity
+     * @param  Mixed   $lookup
+     * @return Entity
+     * @throws NotFoundException
+     */
+    protected function verifyEntityLoaded(Entity $entity, $lookup)
+    {
+        if (!$entity->getId()) {
+            if (is_array($lookup)) {
+                $arr = [];
+                foreach ($lookup as $key => $val) {
+                    $arr[] = "$key: $val";
+                }
+                $lookup_string = implode(', ', $arr);
+            } else {
+                $lookup_string = $lookup;
+            }
 
-			throw new NotFoundException(sprintf(
-				'Could not locate any %s matching [%s]',
-				$entity->getResource(),
-				$lookup_string
-			));
-		}
+            throw new NotFoundException(sprintf(
+                'Could not locate any %s matching [%s]',
+                $entity->getResource(),
+                $lookup_string
+            ));
+        }
 
-		return $entity;
-	}
+        return $entity;
+    }
 }

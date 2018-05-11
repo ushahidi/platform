@@ -16,123 +16,123 @@ use Illuminate\Http\Request;
 
 class Multisite
 {
-	protected $db;
-	protected $domain;
-	protected $subdomain;
+    protected $db;
+    protected $domain;
+    protected $subdomain;
 
-	public function __construct(Database $db)
-	{
-		$this->db = $db;
-	}
-
-	protected function parseHost($host)
-	{
-		if (!$this->domain && !$this->subdomain) {
-			// Load the default domain
-			// @todo stop call config directly
-			$domain = config('multisite.domain');
-
-			// If no host passed in, check the for HOST in environment
-			if (!$host) {
-				$host = getenv('HOST');
-			}
-			// If we still don't have a host
-			if (! $host) {
-				// @todo we should try app('request') first but we can't guarantee its been created
-				$request = Request::capture();
-				// .. parse the current URL
-				$host = $request->getHost();
-			}
-
-			// If we still don't have a host
-			if (! $host) {
-				// Finally fallback to just $_SERVER vars
-				// Or just no subdomain if we can't figure it out
-				$host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : $domain;
-			}
-
-			// If $domain is set and we're at a subdomain of $domain..
-			if ($domain and substr($host, strlen($domain) * -1) == $domain) {
-				// .. grab just the subdomain
-				$subdomain = substr($host, 0, (strlen($domain) * -1) -1);
-			} else {
-				// .. otherwise grab the whole domain
-				$domain = $host;
-				$subdomain = '';
-			}
-
-			$this->domain = $domain;
-			$this->subdomain = $subdomain;
-		}
-	}
-
-	public function getDbConfig($host = null)
+    public function __construct(Database $db)
     {
-		$this->parseHost($host);
+        $this->db = $db;
+    }
 
-		// If we're running in the CLI and we can't get a subdomain
-		// just return the multisite db
-		if (app()->runningInConsole() && $this->subdomain === false && $this->domain === config('multisite.domain')) {
-			return config('ohanzee-db.multisite');
-		}
+    protected function parseHost($host)
+    {
+        if (!$this->domain && !$this->subdomain) {
+            // Load the default domain
+            // @todo stop call config directly
+            $domain = config('multisite.domain');
 
-		// .. and find the current deployment credentials
-		$result = DB::select()->from('deployments')
-			->where('subdomain', '=', $this->subdomain)
-			->where('domain', '=', $this->domain)
-			->limit(1)
-			->offset(0)
-			// @todo filter only active deployments?
-			->execute($this->db);
+            // If no host passed in, check the for HOST in environment
+            if (!$host) {
+                $host = getenv('HOST');
+            }
+            // If we still don't have a host
+            if (! $host) {
+                // @todo we should try app('request') first but we can't guarantee its been created
+                $request = Request::capture();
+                // .. parse the current URL
+                $host = $request->getHost();
+            }
 
-		$deployment = $result->current();
+            // If we still don't have a host
+            if (! $host) {
+                // Finally fallback to just $_SERVER vars
+                // Or just no subdomain if we can't figure it out
+                $host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : $domain;
+            }
 
-		// No deployment? throw a 404
-		if (! count($deployment)) {
-			abort(404, "Deployment not found");
-		}
+            // If $domain is set and we're at a subdomain of $domain..
+            if ($domain and substr($host, strlen($domain) * -1) == $domain) {
+                // .. grab just the subdomain
+                $subdomain = substr($host, 0, (strlen($domain) * -1) -1);
+            } else {
+                // .. otherwise grab the whole domain
+                $domain = $host;
+                $subdomain = '';
+            }
 
-		// Set new database config
-		// @todo stop call config directly
-		$config = config('ohanzee-db.default');
+            $this->domain = $domain;
+            $this->subdomain = $subdomain;
+        }
+    }
 
-		$config['connection'] = [
-			'hostname'   => $deployment['db_host'],
-			'database'   => $deployment['db_name'],
-			'username'   => $deployment['db_username'],
-			'password'   => $deployment['db_password'],
-			'persistent' => $config['connection']['persistent'],
-		];
+    public function getDbConfig($host = null)
+    {
+        $this->parseHost($host);
 
-		// Check we can connect to the DB
-		try {
-			DB::select(DB::expr('1'))->from('users')
-				->execute(Database::instance('deployment', $config));
-		} catch (Exception $e) {
-			// If we can't connect, throw 503 Service Unavailable
-			abort(503, "Deployment not ready");
-		}
+        // If we're running in the CLI and we can't get a subdomain
+        // just return the multisite db
+        if (app()->runningInConsole() && $this->subdomain === false && $this->domain === config('multisite.domain')) {
+            return config('ohanzee-db.multisite');
+        }
 
-		return $config;
-	}
+        // .. and find the current deployment credentials
+        $result = DB::select()->from('deployments')
+            ->where('subdomain', '=', $this->subdomain)
+            ->where('domain', '=', $this->domain)
+            ->limit(1)
+            ->offset(0)
+            // @todo filter only active deployments?
+            ->execute($this->db);
 
-	public function getCdnPrefix($host = null)
-	{
-		$this->parseHost($host);
+        $deployment = $result->current();
 
-		return $this->subdomain . ($this->domain ? '.' . $this->domain : '');
-	}
+        // No deployment? throw a 404
+        if (! count($deployment)) {
+            abort(404, "Deployment not found");
+        }
 
-	public function getSite($host = null)
-	{
-		$this->parseHost($host);
-		return $this->subdomain . ($this->domain ? '.' . $this->domain : '');
-	}
+        // Set new database config
+        // @todo stop call config directly
+        $config = config('ohanzee-db.default');
 
-	public function getClientUrl($host = null)
-	{
-		$this->parseHost($host);
+        $config['connection'] = [
+            'hostname'   => $deployment['db_host'],
+            'database'   => $deployment['db_name'],
+            'username'   => $deployment['db_username'],
+            'password'   => $deployment['db_password'],
+            'persistent' => $config['connection']['persistent'],
+        ];
 
-		return $this->subdomain . '.' . getenv('MULTISITE_CLIENT_DOMAIN');
-	}
+        // Check we can connect to the DB
+        try {
+            DB::select(DB::expr('1'))->from('users')
+                ->execute(Database::instance('deployment', $config));
+        } catch (Exception $e) {
+            // If we can't connect, throw 503 Service Unavailable
+            abort(503, "Deployment not ready");
+        }
+
+        return $config;
+    }
+
+    public function getCdnPrefix($host = null)
+    {
+        $this->parseHost($host);
+
+        return $this->subdomain . ($this->domain ? '.' . $this->domain : '');
+    }
+
+    public function getSite($host = null)
+    {
+        $this->parseHost($host);
+        return $this->subdomain . ($this->domain ? '.' . $this->domain : '');
+    }
+
+    public function getClientUrl($host = null)
+    {
+        $this->parseHost($host);
+
+        return $this->subdomain . '.' . getenv('MULTISITE_CLIENT_DOMAIN');
+    }
 }

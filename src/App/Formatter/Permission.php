@@ -15,5 +15,5 @@ use Ushahidi\Core\Traits\FormatterAuthorizerMetadata;
 
 class Permission extends API
 {
-	use FormatterAuthorizerMetadata;
+    use FormatterAuthorizerMetadata;
 }

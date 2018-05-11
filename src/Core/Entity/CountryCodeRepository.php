@@ -14,6 +14,6 @@ namespace Ushahidi\Core\Entity;
 use Ushahidi\Core\Entity\Repository\EntityGet;
 
 interface CountryCodeRepository extends
-	EntityGet
+    EntityGet
 {
 }

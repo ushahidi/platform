@@ -16,20 +16,20 @@ use Ushahidi\Core\Session;
 class LumenSession implements Session
 {
 
-	protected $userRepo;
+    protected $userRepo;
     protected $overrideUser;
 
-	public function __construct($userRepo)
-	{
-		$this->userRepo = $userRepo;
-	}
+    public function __construct($userRepo)
+    {
+        $this->userRepo = $userRepo;
+    }
 
     public function setUser($userId)
     {
         $this->overrideUser = $userId;
     }
 
-	public function getUser()
+    public function getUser()
     {
         // If user override is set
         if ($this->overrideUser) {

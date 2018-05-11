@@ -16,27 +16,27 @@ use Ushahidi\Core\Entity\PostValueRepository as PostValueRepositoryContract;
 
 class DatetimeRepository extends ValueRepository
 {
-	// OhanzeeRepository
-	protected function getTable()
-	{
-		return 'post_datetime';
-	}
+    // OhanzeeRepository
+    protected function getTable()
+    {
+        return 'post_datetime';
+    }
 
-	private function convertToMysqlFormat($value)
-	{
-		$value = date("Y-m-d H:i:s", strtotime($value));
-		return $value;
-	}
+    private function convertToMysqlFormat($value)
+    {
+        $value = date("Y-m-d H:i:s", strtotime($value));
+        return $value;
+    }
 
-	public function createValue($value, $form_attribute_id, $post_id)
-	{
-		$value = $this->convertToMysqlFormat($value);
-		return parent::createValue($value, $form_attribute_id, $post_id);
-	}
+    public function createValue($value, $form_attribute_id, $post_id)
+    {
+        $value = $this->convertToMysqlFormat($value);
+        return parent::createValue($value, $form_attribute_id, $post_id);
+    }
 
-	public function updateValue($id, $value)
-	{
-		$value = $this->convertToMysqlFormat($value);
-		return parent::updateValue($id, $value);
-	}
+    public function updateValue($id, $value)
+    {
+        $value = $this->convertToMysqlFormat($value);
+        return parent::updateValue($id, $value);
+    }
 }

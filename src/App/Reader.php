@@ -16,5 +16,5 @@ use Ushahidi\Core\Tool\Reader as ReaderInterface;
 
 class Reader extends CSVReader implements ReaderInterface
 {
-	// intentionally left blank
+    // intentionally left blank
 }
