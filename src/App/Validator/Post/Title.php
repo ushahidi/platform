@@ -13,13 +13,13 @@ namespace Ushahidi\App\Validator\Post;
 
 class Title extends Varchar
 {
-	protected function validate($value)
-	{
-		if (!is_scalar($value)) {
-			return 'scalar';
-		}
-		if (!\Kohana\Validation\Valid::max_length($value, 255)) {
-			return 'max_length';
-		}
-	}
+    protected function validate($value)
+    {
+        if (!is_scalar($value)) {
+            return 'scalar';
+        }
+        if (!\Kohana\Validation\Valid::max_length($value, 255)) {
+            return 'max_length';
+        }
+    }
 }

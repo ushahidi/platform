@@ -16,8 +16,8 @@ use Ushahidi\App\Http\Controllers\RESTController;
 class NotificationsController extends RESTController
 {
 
-	protected function getResource()
-	{
-		return 'notifications';
-	}
+    protected function getResource()
+    {
+        return 'notifications';
+    }
 }

@@ -14,9 +14,9 @@ namespace Ushahidi\Core;
 interface Session
 {
 
-	/**
-	 * Get the User
-	 * @return User
-	 */
-	public function getUser();
+    /**
+     * Get the User
+     * @return User
+     */
+    public function getUser();
 }

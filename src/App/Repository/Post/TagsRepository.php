@@ -16,88 +16,88 @@ use Ushahidi\Core\Usecase\Post\UpdatePostTagRepository;
 
 class TagsRepository extends ValueRepository
 {
-	protected $tag_repo;
+    protected $tag_repo;
 
-	/**
-	 * Construct
-	 * @param Database              $db
-	 * @param TagRepo               $tag_repo
-	 */
-	public function __construct(
+    /**
+     * Construct
+     * @param Database              $db
+     * @param TagRepo               $tag_repo
+     */
+    public function __construct(
         Database $db,
         UpdatePostTagRepository $tag_repo
     ) {
-		parent::__construct($db);
-		$this->tag_repo = $tag_repo;
-	}
+        parent::__construct($db);
+        $this->tag_repo = $tag_repo;
+    }
 
-	// OhanzeeRepository
-	protected function getTable()
-	{
-		return 'posts_tags';
-	}
+    // OhanzeeRepository
+    protected function getTable()
+    {
+        return 'posts_tags';
+    }
 
-	// Override selectQuery to fetch attribute 'key' too
-	protected function selectQuery(array $where = [])
-	{
-		$query = parent::selectQuery($where);
+    // Override selectQuery to fetch attribute 'key' too
+    protected function selectQuery(array $where = [])
+    {
+        $query = parent::selectQuery($where);
 
-		// Select 'tag_id' as value too
-		$query->select(
+        // Select 'tag_id' as value too
+        $query->select(
             ['posts_tags.tag_id', 'value']
         );
 
-		return $query;
-	}
+        return $query;
+    }
 
-	// PostValueRepository
-	public function getValueQuery($form_attribute_id, array $matches)
-	{
-		$query = $this->selectQuery(compact('form_attribute_id'))
-			->and_where_open();
+    // PostValueRepository
+    public function getValueQuery($form_attribute_id, array $matches)
+    {
+        $query = $this->selectQuery(compact('form_attribute_id'))
+            ->and_where_open();
 
-		foreach ($matches as $match) {
-			$query->or_where('tag_id', 'LIKE', "%$match%");
-		}
+        foreach ($matches as $match) {
+            $query->or_where('tag_id', 'LIKE', "%$match%");
+        }
 
-		$query->and_where_close();
+        $query->and_where_close();
 
-		return $query;
-	}
+        return $query;
+    }
 
-	// UpdatePostValueRepository
-	public function createValue($value, $form_attribute_id, $post_id)
-	{
-		$tag_id = $this->parseTag($value);
-		$input = compact('tag_id', 'form_attribute_id', 'post_id');
-		$input['created'] = time();
+    // UpdatePostValueRepository
+    public function createValue($value, $form_attribute_id, $post_id)
+    {
+        $tag_id = $this->parseTag($value);
+        $input = compact('tag_id', 'form_attribute_id', 'post_id');
+        $input['created'] = time();
 
-		return $this->executeInsert($input);
-	}
+        return $this->executeInsert($input);
+    }
 
-	// UpdatePostValueRepository
-	public function updateValue($id, $value)
-	{
-		$tag_id = $this->parseTag($value);
-		$update = compact($tag_id);
-		if ($id && $update) {
-			$this->executeUpdate(compact('id'), $update);
-		}
-	}
+    // UpdatePostValueRepository
+    public function updateValue($id, $value)
+    {
+        $tag_id = $this->parseTag($value);
+        $update = compact($tag_id);
+        if ($id && $update) {
+            $this->executeUpdate(compact('id'), $update);
+        }
+    }
 
-	protected function parseTag($tag)
-	{
-		if (is_array($tag)) {
-			$tag = $tag['id'];
-		}
+    protected function parseTag($tag)
+    {
+        if (is_array($tag)) {
+            $tag = $tag['id'];
+        }
 
-		// Find the tag by id or name
-		// @todo this should happen before we even get here
-		$tag_entity = $this->tag_repo->getByTag($tag);
-		if (! $tag_entity->id) {
-			$tag_entity = $this->tag_repo->get($tag);
-		}
+        // Find the tag by id or name
+        // @todo this should happen before we even get here
+        $tag_entity = $this->tag_repo->getByTag($tag);
+        if (! $tag_entity->id) {
+            $tag_entity = $this->tag_repo->get($tag);
+        }
 
-		return $tag_entity->id;
-	}
+        return $tag_entity->id;
+    }
 }

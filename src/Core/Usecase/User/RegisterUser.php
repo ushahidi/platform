@@ -19,29 +19,29 @@ use Ushahidi\Core\Entity;
 
 class RegisterUser extends CreateUsecase
 {
-	public function interact()
-	{
-		// fetch entity
-		$entity = $this->getEntity();
+    public function interact()
+    {
+        // fetch entity
+        $entity = $this->getEntity();
 
-		// verify that registration can be done in this case
-		$this->verifyRegisterAuth($entity);
+        // verify that registration can be done in this case
+        $this->verifyRegisterAuth($entity);
 
-		// verify that the entity is in a valid state
-		$this->verifyValid($entity);
+        // verify that the entity is in a valid state
+        $this->verifyValid($entity);
 
-		// persist the new entity
-		$id = $this->repo->register($entity);
+        // persist the new entity
+        $id = $this->repo->register($entity);
 
-		// get the newly created entity
-		$entity = $this->getCreatedEntity($id);
+        // get the newly created entity
+        $entity = $this->getCreatedEntity($id);
 
-		// return the formatted entity
-		return $this->formatter->__invoke($entity);
-	}
+        // return the formatted entity
+        return $this->formatter->__invoke($entity);
+    }
 
-	protected function verifyRegisterAuth(Entity $entity)
-	{
-		$this->verifyAuth($entity, 'register');
-	}
+    protected function verifyRegisterAuth(Entity $entity)
+    {
+        $this->verifyAuth($entity, 'register');
+    }
 }

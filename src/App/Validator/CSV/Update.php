@@ -16,21 +16,21 @@ use Ushahidi\Core\Entity\FormRepository;
 
 class Update extends Validator
 {
-	protected $form_repo;
-	protected $default_error_source = 'csv';
+    protected $form_repo;
+    protected $default_error_source = 'csv';
 
-	public function __construct(FormRepository $form_repo)
-	{
-		$this->form_repo = $form_repo;
-	}
+    public function __construct(FormRepository $form_repo)
+    {
+        $this->form_repo = $form_repo;
+    }
 
-	protected function getRules()
-	{
-		return [
-			'form_id' => [
-				['numeric'],
-				[[$this->form_repo, 'exists'], [':value']],
-			],
-		];
-	}
+    protected function getRules()
+    {
+        return [
+            'form_id' => [
+                ['numeric'],
+                [[$this->form_repo, 'exists'], [':value']],
+            ],
+        ];
+    }
 }

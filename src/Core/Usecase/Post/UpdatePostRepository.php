@@ -13,17 +13,17 @@ namespace Ushahidi\Core\Usecase\Post;
 
 interface UpdatePostRepository
 {
-	/**
-	 * @param  String $slug
-	 * @return Boolean
-	 */
-	public function isSlugAvailable($slug);
+    /**
+     * @param  String $slug
+     * @return Boolean
+     */
+    public function isSlugAvailable($slug);
 
-	/**
-	 * @param  String $locale
-	 * @param  Int    $parent_id
-	 * @param  String $type
-	 * @return Boolean
-	 */
-	public function doesTranslationExist($locale, $parent_id, $type);
+    /**
+     * @param  String $locale
+     * @param  Int    $parent_id
+     * @param  String $type
+     * @return Boolean
+     */
+    public function doesTranslationExist($locale, $parent_id, $type);
 }

@@ -19,26 +19,26 @@ use BehEh\Flaps\ThrottlingStrategyInterface;
 
 class RateLimiter implements RateLimiterInterface
 {
-	/**
-	 * @var BehEh\Flaps\Flap
-	 */
-	protected $flap;
+    /**
+     * @var BehEh\Flaps\Flap
+     */
+    protected $flap;
 
-	/**
-	 * Sets up a rate limiter with a throttling strategy
-	 * @param BehEh\Flaps\Flap $flap
-	 * @param BehEh\Flaps\ThrottlingStrategyInterface $trottlingStrategy
-	 */
-	public function __construct(Flap $flap, ThrottlingStrategyInterface $throttlingStrategy)
+    /**
+     * Sets up a rate limiter with a throttling strategy
+     * @param BehEh\Flaps\Flap $flap
+     * @param BehEh\Flaps\ThrottlingStrategyInterface $trottlingStrategy
+     */
+    public function __construct(Flap $flap, ThrottlingStrategyInterface $throttlingStrategy)
     {
         $this->flap = $flap;
 
-		// @todo allow multiple strategies
-		$this->flap->pushThrottlingStrategy($throttlingStrategy);
+        // @todo allow multiple strategies
+        $this->flap->pushThrottlingStrategy($throttlingStrategy);
     }
 
-	public function limit(Entity $entity)
-	{
-		$this->flap->limit($entity->id);
-	}
+    public function limit(Entity $entity)
+    {
+        $this->flap->limit($entity->id);
+    }
 }

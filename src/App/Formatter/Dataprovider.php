@@ -15,23 +15,23 @@ use Ushahidi\Core\Traits\FormatterAuthorizerMetadata;
 
 class Dataprovider extends API
 {
-	use FormatterAuthorizerMetadata;
+    use FormatterAuthorizerMetadata;
 
-	protected function formatOptions(array $options)
-	{
-		foreach ($options as $name => $input) {
-			if (isset($input['description']) and $input['description'] instanceof \Closure) {
-				$options[$name]['description'] = $options[$name]['description']();
-			}
+    protected function formatOptions(array $options)
+    {
+        foreach ($options as $name => $input) {
+            if (isset($input['description']) and $input['description'] instanceof \Closure) {
+                $options[$name]['description'] = $options[$name]['description']();
+            }
 
-			if (isset($input['label']) and $input['label'] instanceof \Closure) {
-				$options[$name]['label'] = $options[$name]['label']();
-			}
+            if (isset($input['label']) and $input['label'] instanceof \Closure) {
+                $options[$name]['label'] = $options[$name]['label']();
+            }
 
-			if (isset($input['rules']) and $input['rules'] instanceof \Closure) {
-				$options[$name]['rules'] = $options[$name]['rules']();
-			}
-		}
-		return $options;
-	}
+            if (isset($input['rules']) and $input['rules'] instanceof \Closure) {
+                $options[$name]['rules'] = $options[$name]['rules']();
+            }
+        }
+        return $options;
+    }
 }

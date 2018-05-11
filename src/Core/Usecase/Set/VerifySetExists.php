@@ -16,31 +16,31 @@ use Ushahidi\Core\Entity;
 trait VerifySetExists
 {
 
-	/**
-	 * Checks that the set exists.
-	 * @param  Data $input
-	 * @return void
-	 */
-	protected function verifySetExists()
-	{
-		// Ensure that the set exists.
-		$set = $this->getSetRepository()->get($this->getRequiredIdentifier('set_id'));
-		$this->verifyEntityLoaded($set, $this->identifiers);
-	}
+    /**
+     * Checks that the set exists.
+     * @param  Data $input
+     * @return void
+     */
+    protected function verifySetExists()
+    {
+        // Ensure that the set exists.
+        $set = $this->getSetRepository()->get($this->getRequiredIdentifier('set_id'));
+        $this->verifyEntityLoaded($set, $this->identifiers);
+    }
 
-	// Usecase
-	public function interact()
-	{
-		$this->verifySetExists();
-		return parent::interact();
-	}
+    // Usecase
+    public function interact()
+    {
+        $this->verifySetExists();
+        return parent::interact();
+    }
 
-	// IdentifyRecords
-	abstract protected function getRequiredIdentifier($name);
+    // IdentifyRecords
+    abstract protected function getRequiredIdentifier($name);
 
-	// VerifyEntityLoaded
-	abstract protected function verifyEntityLoaded(Entity $entity, $lookup);
+    // VerifyEntityLoaded
+    abstract protected function verifyEntityLoaded(Entity $entity, $lookup);
 
-	// SetRepositoryTrait
-	abstract public function getSetRepository();
+    // SetRepositoryTrait
+    abstract public function getSetRepository();
 }

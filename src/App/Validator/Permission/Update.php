@@ -15,14 +15,14 @@ use Ushahidi\Core\Tool\Validator;
 
 class Update extends Validator
 {
-	protected $default_error_source = 'permission';
+    protected $default_error_source = 'permission';
 
-	protected function getRules()
-	{
-		return [
-			'id' => [
-				['numeric'],
-			],
-		];
-	}
+    protected function getRules()
+    {
+        return [
+            'id' => [
+                ['numeric'],
+            ],
+        ];
+    }
 }

@@ -18,57 +18,57 @@ use Ushahidi\Core\Traits\StatefulData;
 
 abstract class DynamicEntity implements Entity
 {
-	// Dynamic entities are stateful.
-	use StatefulData;
+    // Dynamic entities are stateful.
+    use StatefulData;
 
-	/**
-	 * @var Array
-	 */
-	protected $data = [];
+    /**
+     * @var Array
+     */
+    protected $data = [];
 
-	/**
-	 * Transparent access to dynamic entity properties.
-	 *
-	 * @param  String $key
-	 * @return Mixed
-	 */
-	public function __get($key)
-	{
-		return isset($this->data[$key]) ? $this->data[$key] : null;
-	}
+    /**
+     * Transparent access to dynamic entity properties.
+     *
+     * @param  String $key
+     * @return Mixed
+     */
+    public function __get($key)
+    {
+        return isset($this->data[$key]) ? $this->data[$key] : null;
+    }
 
-	/**
-	 * Transparent checking of dynamic entity properties.
-	 *
-	 * @param  String $key
-	 * @return Boolean
-	 */
-	public function __isset($key)
-	{
-		return isset($this->data[$key]);
-	}
+    /**
+     * Transparent checking of dynamic entity properties.
+     *
+     * @param  String $key
+     * @return Boolean
+     */
+    public function __isset($key)
+    {
+        return isset($this->data[$key]);
+    }
 
-	// StatefulData
-	protected function setStateValue($key, $value)
-	{
-		$this->data[$key] = $value;
-	}
+    // StatefulData
+    protected function setStateValue($key, $value)
+    {
+        $this->data[$key] = $value;
+    }
 
-	// Entity
-	public function asArray()
-	{
-		return $this->data;
-	}
+    // Entity
+    public function asArray()
+    {
+        return $this->data;
+    }
 
-	// Entity
-	public function getId()
-	{
-		return $this->id;
-	}
+    // Entity
+    public function getId()
+    {
+        return $this->id;
+    }
 
-	// StatefulData
-	protected function getImmutable()
-	{
-		return ['id', 'allowed_privileges'];
-	}
+    // StatefulData
+    protected function getImmutable()
+    {
+        return ['id', 'allowed_privileges'];
+    }
 }

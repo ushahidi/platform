@@ -13,11 +13,11 @@ namespace Ushahidi\Core\Tool;
 
 interface PasswordAuthenticator
 {
-	/**
-	 * @param  string password in plain text
-	 * @param  string stored password hash
-	 * @return boolean
-	 * @throws Ushahidi\Core\Exception\AuthenticatorException
-	 */
-	public function checkPassword($plaintext, $hash);
+    /**
+     * @param  string password in plain text
+     * @param  string stored password hash
+     * @return boolean
+     * @throws Ushahidi\Core\Exception\AuthenticatorException
+     */
+    public function checkPassword($plaintext, $hash);
 }

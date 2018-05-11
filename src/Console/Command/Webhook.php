@@ -20,11 +20,11 @@ use Ushahidi\Core\Entity\WebhookRepository;
 
 class Webhook extends Command
 {
-	private $db;
-	private $postRepository;
-	private $webhookRepository;
-	private $webhookJobRepository;
-	private $client;
+    private $db;
+    private $postRepository;
+    private $webhookRepository;
+    private $webhookJobRepository;
+    private $client;
 
     /**
      * The console command name.
@@ -47,83 +47,83 @@ class Webhook extends Command
      */
     protected $description = 'Send webhook requests';
 
-	public function __construct()
-	{
-		parent::__construct();
-	}
+    public function __construct()
+    {
+        parent::__construct();
+    }
 
-	public function handle()
-	{
-		$this->db = service('kohana.db');
-		$this->webhookRepository = service('repository.webhook');
-		$this->postRepository = service('repository.post');
-		$this->webhookJobRepository = service('repository.webhook.job');
+    public function handle()
+    {
+        $this->db = service('kohana.db');
+        $this->webhookRepository = service('repository.webhook');
+        $this->postRepository = service('repository.post');
+        $this->webhookJobRepository = service('repository.webhook.job');
 
-		$this->client = new \GuzzleHttp\Client();
+        $this->client = new \GuzzleHttp\Client();
 
-		$limit = $this->option('limit');
+        $limit = $this->option('limit');
 
-		$count = 0;
+        $count = 0;
 
-		// Get Queued webhook requests
-		$webhook_requests = $this->webhookJobRepository->getJobs($limit);
+        // Get Queued webhook requests
+        $webhook_requests = $this->webhookJobRepository->getJobs($limit);
 
-		// Start transaction
-		$this->db->begin();
+        // Start transaction
+        $this->db->begin();
 
-		foreach ($webhook_requests as $webhook_request) {
-			$this->generateRequest($webhook_request);
+        foreach ($webhook_requests as $webhook_request) {
+            $this->generateRequest($webhook_request);
 
-			$count++;
-		}
+            $count++;
+        }
 
-		// Finally commit changes
-		$this->db->commit();
+        // Finally commit changes
+        $this->db->commit();
 
-		$this->info("{$count} webhook requests sent");
-	}
+        $this->info("{$count} webhook requests sent");
+    }
 
-	private function generateRequest($webhook_request)
-	{
-		// Delete queued webhook request
-		$this->webhookJobRepository->delete($webhook_request);
+    private function generateRequest($webhook_request)
+    {
+        // Delete queued webhook request
+        $this->webhookJobRepository->delete($webhook_request);
 
-		// Get post data
-		$post = $this->postRepository->get($webhook_request->post_id);
+        // Get post data
+        $post = $this->postRepository->get($webhook_request->post_id);
 
-		// Get webhook data
-		$webhooks = $this->webhookRepository->getAllByEventType($webhook_request->event_type);
+        // Get webhook data
+        $webhooks = $this->webhookRepository->getAllByEventType($webhook_request->event_type);
 
-		foreach ($webhooks as $webhook) {
-			if ($post->form_id == $webhook['form_id']) {
-				$this->signer = new Signer($webhook['shared_secret']);
+        foreach ($webhooks as $webhook) {
+            if ($post->form_id == $webhook['form_id']) {
+                $this->signer = new Signer($webhook['shared_secret']);
 
-				$data = $post->asArray();
+                $data = $post->asArray();
 
-				// Attach Webhook Uuid so that service can subsequently identify itself
-				// when sending data to the Platform
-				$data['webhook_uuid'] = $webhook['webhook_uuid'];
+                // Attach Webhook Uuid so that service can subsequently identify itself
+                // when sending data to the Platform
+                $data['webhook_uuid'] = $webhook['webhook_uuid'];
 
-				// If set append the source and destination fields to the request
-				// These fields identify the UUIDs of the Post fields which the remot service should
-				// treat as the source of data and the destination for any data to be posted back to the Platform
-				$data['source_field_key'] = $webhook['source_field_key'] ?: null;
-				$data['destination_field_key'] = $webhook['destination_field_key'] ?: null;
+                // If set append the source and destination fields to the request
+                // These fields identify the UUIDs of the Post fields which the remot service should
+                // treat as the source of data and the destination for any data to be posted back to the Platform
+                $data['source_field_key'] = $webhook['source_field_key'] ?: null;
+                $data['destination_field_key'] = $webhook['destination_field_key'] ?: null;
 
-				$json = json_encode($data);
-				$signature = $this->signer->sign($webhook['url'], $json);
+                $json = json_encode($data);
+                $signature = $this->signer->sign($webhook['url'], $json);
 
-				// This is an asynchronous request, we don't expect a result
-				// this can be extended to allow for handling of the returned promise
-				//TODO: HANDLE HTTP ERRORS
-				$promise = $this->client->request('POST', $webhook['url'], [
-					'headers' => [
-						'X-Ushahidi-Signature' => $signature,
-						'Accept'               => 'application/json'
-					],
-					'json' => $data
-				]);
-			}
-		}
-	}
+                // This is an asynchronous request, we don't expect a result
+                // this can be extended to allow for handling of the returned promise
+                //TODO: HANDLE HTTP ERRORS
+                $promise = $this->client->request('POST', $webhook['url'], [
+                    'headers' => [
+                        'X-Ushahidi-Signature' => $signature,
+                        'Accept'               => 'application/json'
+                    ],
+                    'json' => $data
+                ]);
+            }
+        }
+    }
 }

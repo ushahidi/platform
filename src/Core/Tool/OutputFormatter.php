@@ -15,9 +15,9 @@ namespace Ushahidi\Core\Tool;
 
 interface OutputFormatter
 {
-	/**
-	 * Get the MIME type of a format.
-	 * @return  string
-	 */
-	public function getMimeType();
+    /**
+     * Get the MIME type of a format.
+     * @return  string
+     */
+    public function getMimeType();
 }

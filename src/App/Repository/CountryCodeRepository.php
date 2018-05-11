@@ -18,22 +18,22 @@ use Ushahidi\Core\Usecase\ReadRepository;
 use Ushahidi\Core\Usecase\SearchRepository;
 
 class CountryCodeRepository extends OhanzeeRepository implements
-	CountryCodeRepositoryContract,
+    CountryCodeRepositoryContract,
     ReadRepository,
     SearchRepository
 {
-	// OhanzeeRepository
-	protected function getTable()
-	{
-		return 'country_codes';
-	}
-
-	public function getSearchFields()
+    // OhanzeeRepository
+    protected function getTable()
     {
-		return ['country_code', 'dial_code'];
-	}
+        return 'country_codes';
+    }
 
-	public function setSearchConditions(SearchData $search)
+    public function getSearchFields()
+    {
+        return ['country_code', 'dial_code'];
+    }
+
+    public function setSearchConditions(SearchData $search)
     {
         $query = $this->search_query;
         return $query;

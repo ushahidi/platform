@@ -16,8 +16,8 @@ use Ushahidi\App\Http\Controllers\RESTController;
 class TagsController extends RESTController
 {
 
-	protected function getResource()
-	{
-		return 'tags';
-	}
+    protected function getResource()
+    {
+        return 'tags';
+    }
 }

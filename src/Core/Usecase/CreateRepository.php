@@ -16,17 +16,17 @@ use Ushahidi\Core\Entity\Repository\EntityGet;
 
 interface CreateRepository extends EntityGet
 {
-	/**
-	 * Creates a new record and returns the created id.
-	 * @param  Entity $entity
-	 * @return Mixed
-	 */
-	public function create(Entity $entity);
+    /**
+     * Creates a new record and returns the created id.
+     * @param  Entity $entity
+     * @return Mixed
+     */
+    public function create(Entity $entity);
 
-	/**
-	 * Converts an array of entity data into an object.
-	 * @param  Array $data
-	 * @return Entity
-	 */
-	public function getEntity(array $data = null);
+    /**
+     * Converts an array of entity data into an object.
+     * @param  Array $data
+     * @return Entity
+     */
+    public function getEntity(array $data = null);
 }

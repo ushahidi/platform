@@ -4,12 +4,12 @@ use Phinx\Migration\AbstractMigration;
 
 class AddMigrateOauthScope extends AbstractMigration
 {
-	/**
+    /**
      * Migrate Up.
      */
     public function up()
     {
-		$this->execute("INSERT INTO oauth_scopes (scope, name) VALUES ('migrate', 'migrate')");
+        $this->execute("INSERT INTO oauth_scopes (scope, name) VALUES ('migrate', 'migrate')");
     }
 
     /**
@@ -17,6 +17,6 @@ class AddMigrateOauthScope extends AbstractMigration
      */
     public function down()
     {
-		$this->execute("DELETE FROM oauth_scopes WHERE scope = 'migrate'");
+        $this->execute("DELETE FROM oauth_scopes WHERE scope = 'migrate'");
     }
 }

@@ -18,11 +18,11 @@ interface WebhookJobRepository extends
     EntityGet,
     EntityExists
 {
-	/**
-	 * Get new webhooks
-	 *
-	 * @param  int $limit
-	 * @return array
-	 */
-	public function getJobs($limit);
+    /**
+     * Get new webhooks
+     *
+     * @param  int $limit
+     * @return array
+     */
+    public function getJobs($limit);
 }

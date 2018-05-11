@@ -18,27 +18,27 @@ use Ushahidi\Core\Tool\Authorizer;
 
 trait FormatterAuthorizerMetadata
 {
-	protected $auth;
+    protected $auth;
 
-	public function setAuth(Authorizer $auth)
-	{
-		$this->auth = $auth;
-		return $this;
-	}
+    public function setAuth(Authorizer $auth)
+    {
+        $this->auth = $auth;
+        return $this;
+    }
 
-	protected function getAllowedPrivs(Entity $entity)
-	{
-		if (!$this->auth) {
-			throw new \LogicException('Authorizer must be defined by calling setAuth');
-		}
-		// interally, methods are referred to as privileges
-		return $this->auth->getAllowedPrivs($entity);
-	}
+    protected function getAllowedPrivs(Entity $entity)
+    {
+        if (!$this->auth) {
+            throw new \LogicException('Authorizer must be defined by calling setAuth');
+        }
+        // interally, methods are referred to as privileges
+        return $this->auth->getAllowedPrivs($entity);
+    }
 
-	protected function addMetadata(array $data, Entity $entity)
-	{
-		return $data + [
-			'allowed_privileges' => $this->getAllowedPrivs($entity),
-		];
-	}
+    protected function addMetadata(array $data, Entity $entity)
+    {
+        return $data + [
+            'allowed_privileges' => $this->getAllowedPrivs($entity),
+        ];
+    }
 }

@@ -17,31 +17,31 @@ use Illuminate\Http\Request;
 class PasswordResetController extends RESTController
 {
 
-	protected function getResource()
-	{
-		return 'users';
-	}
+    protected function getResource()
+    {
+        return 'users';
+    }
 
-	public function store(Request $request)
-	{
+    public function store(Request $request)
+    {
         $this->usecase = $this->usecaseFactory
             ->get($this->getResource(), 'getresettoken')
             ->setPayload($request->json()->all());
 
         return $this->prepResponse($this->executeUsecase($request), $request);
-	}
+    }
 
-	public function confirmOptions()
-	{
-		//$this->action_options_index_collection();
-	}
+    public function confirmOptions()
+    {
+        //$this->action_options_index_collection();
+    }
 
-	public function confirm(Request $request)
-	{
+    public function confirm(Request $request)
+    {
         $this->usecase = $this->usecaseFactory
             ->get($this->getResource(), 'passwordreset')
             ->setPayload($request->json()->all());
 
         return $this->prepResponse($this->executeUsecase($request), $request);
-	}
+    }
 }

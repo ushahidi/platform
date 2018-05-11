@@ -18,17 +18,17 @@ use Ushahidi\Core\Entity\RoleRepository;
 
 class Create extends Update
 {
-	protected $default_error_source = 'user';
+    protected $default_error_source = 'user';
 
-	protected function getRules()
-	{
-		return array_merge_recursive(parent::getRules(), [
-			'email' => [
-				['not_empty'],
-			],
-			'password' => [
-				['not_empty'],
-			],
-		]);
-	}
+    protected function getRules()
+    {
+        return array_merge_recursive(parent::getRules(), [
+            'email' => [
+                ['not_empty'],
+            ],
+            'password' => [
+                ['not_empty'],
+            ],
+        ]);
+    }
 }

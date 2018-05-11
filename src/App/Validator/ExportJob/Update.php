@@ -16,17 +16,17 @@ use Ushahidi\Core\Tool\Validator;
 
 class Update extends Validator
 {
-	protected $default_error_source = 'export';
+    protected $default_error_source = 'export';
 
-	protected function getRules()
-	{
-		return [
-			'id' => [
-				['numeric'],
-			],
-			'entity_type' => [
-				['in_array', [':value', ['post']]],
-			]
-		];
-	}
+    protected function getRules()
+    {
+        return [
+            'id' => [
+                ['numeric'],
+            ],
+            'entity_type' => [
+                ['in_array', [':value', ['post']]],
+            ]
+        ];
+    }
 }
