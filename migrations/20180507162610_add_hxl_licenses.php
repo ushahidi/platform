@@ -4,7 +4,7 @@ use Phinx\Migration\AbstractMigration;
 
 class AddHxlLicenses extends AbstractMigration
 {
-    
+
     protected $licenses;
 
 	public function up()

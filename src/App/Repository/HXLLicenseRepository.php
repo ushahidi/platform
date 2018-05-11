@@ -16,38 +16,38 @@ use Ushahidi\Core\Entity\HXLLicenseRepository as HXLLicenseRepositoryContract;
 use Ushahidi\Core\SearchData;
 
 class HXLLicenseRepository extends OhanzeeRepository implements
-	HXLLicenseRepositoryContract
+    HXLLicenseRepositoryContract
 {
-	// OhanzeeRepository
-	protected function getTable()
-	{
-		return 'hxl_license';
-	}
+    // OhanzeeRepository
+    protected function getTable()
+    {
+        return 'hxl_license';
+    }
 
-	public function getSearchFields()
-	{
-		return ['name', 'code'];
-	}
+    public function getSearchFields()
+    {
+        return ['name', 'code'];
+    }
 
 
-	/**
-	 * @param SearchData $search
-	 * Search by license code
-	 */
-	public function setSearchConditions(SearchData $search)
-	{
-		$query = $this->search_query;
-		if ($search->code) {
-			$query->where('code', '=', $search->code);
-		}
-		if ($search->name) {
-			$query->where('name', '=', $search->name);
-		}
-		return $query;
-	}
+    /**
+     * @param SearchData $search
+     * Search by license code
+     */
+    public function setSearchConditions(SearchData $search)
+    {
+        $query = $this->search_query;
+        if ($search->code) {
+            $query->where('code', '=', $search->code);
+        }
+        if ($search->name) {
+            $query->where('name', '=', $search->name);
+        }
+        return $query;
+    }
 
-	public function getEntity(array $data = null)
-	{
-		return new HXLLicense($data);
-	}
+    public function getEntity(array $data = null)
+    {
+        return new HXLLicense($data);
+    }
 }

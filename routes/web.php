@@ -38,9 +38,9 @@ $router->group([
 
     // Collections
     $router->group([
-            'namespace' => 'Collections',
-            'prefix' => 'collections',
-            'middleware' => ['scope:collections,sets']
+        'namespace' => 'Collections',
+        'prefix' => 'collections',
+        'middleware' => ['scope:collections,sets']
     ], function () use ($router) {
         // Public access
         $router->get('/', 'CollectionsController@index');
@@ -241,15 +241,15 @@ $router->group([
     });
 
     if (Features::isEnabled('hxl')) {
-		$router->group([
-			'namespace' => 'HXL',
-			'prefix' => 'hxl',
-			'middleware' => ['auth:api', 'scope:hxl']
-		], function () use ($router) {
-			// Public access
-			$router->get('/', 'HXLController@index');
-			$router->get('/licenses', 'HXLLicensesController@index');
-		});
+        $router->group([
+            'namespace' => 'HXL',
+            'prefix' => 'hxl',
+            'middleware' => ['auth:api', 'scope:hxl']
+        ], function () use ($router) {
+            // Public access
+            $router->get('/', 'HXLController@index');
+            $router->get('/licenses', 'HXLLicensesController@index');
+        });
     }
 
     // Layers

@@ -16,8 +16,8 @@ use Ushahidi\Core\Usecase\ReadRepository;
 use Ushahidi\Core\Usecase\SearchRepository;
 
 interface HXLLicenseRepository extends
-	EntityGet,
-	ReadRepository,
-	SearchRepository
+    EntityGet,
+    ReadRepository,
+    SearchRepository
 {
 }
