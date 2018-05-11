@@ -39,6 +39,7 @@ class HXLController extends Controller
 		$client = new Client($config);
 
 		$ckanClient = new CkanApiClient($client);
+        $data = [];
 
 		//package_create
 // 		$data = $ckanClient->dataset()->create([
