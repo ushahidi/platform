@@ -116,8 +116,7 @@
         ],
         "coverage" : [
             "phpunit",
-            "phpspec run --no-code-generation",
-            "behat --strict --profile ci"
+            "phpspec run --no-code-generation"
         ],
         "migrate" : [
             "phinx migrate -c phinx.php"
