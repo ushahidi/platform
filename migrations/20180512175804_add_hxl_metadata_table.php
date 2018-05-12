@@ -6,12 +6,12 @@ class AddHxlMetadataTable extends AbstractMigration
 {
     public function up()
     {
-        $this->table('hxl_metadata') //TODO check with team on table name
+        $this->table('hxl_metadata')
             ->addColumn('private', 'boolean', [
                 'default' => true,
                 'comment' => 'Is this a private dataset in HDX? ',
             ])
-            ->addColumn('dataset_title', 'text', [
+            ->addColumn('dataset_title', 'string', [
                 'null' => false,
                 'limit' => 255,
                 'comment' => 'Dataset title in HDX',
@@ -26,19 +26,19 @@ class AddHxlMetadataTable extends AbstractMigration
             ->addColumn('user_id', 'integer', [
                 'null' => false,
             ])
-            ->addColumn('organisation', 'text', [
+            ->addColumn('organisation', 'string', [
                 'null' => false,
                 'limit' => 255
             ])
-
-            ->addColumn('source', 'text', [
+            ->addColumn('source', 'string', [
                 'null' => false,
                 'limit' => 255
             ])
-            ->addColumn('maintainer', 'text', [
+            ->addColumn('maintainer', 'string', [
                 'null' => false,
                 'limit' => 255
             ])
+            ->addIndex('dataset_title')
             ->addColumn('created', 'integer', ['default' => 0])
             ->addColumn('updated', 'integer', ['null' => true])
             ->addForeignKey('user_id', 'users', 'id')
