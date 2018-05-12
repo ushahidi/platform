@@ -20,6 +20,7 @@ class CreateLicenseTable extends AbstractMigration
                 'null' => false,
                 'default' => false
             ])
+            ->addIndex(['name'])
             ->addIndex(['code'], ['unique' => true])
             ->create();
     }
