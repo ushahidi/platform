@@ -249,6 +249,7 @@ $router->group([
             // Restricted access
             $router->get('/licenses', 'HXLLicensesController@index');
             $router->get('/tags', 'HXLTagsController@index');
+            $router->post('/metadata', 'HXLMetadataController@store');
         });
     }
 
