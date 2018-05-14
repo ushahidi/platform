@@ -783,8 +783,8 @@ $di->params['Ushahidi\Factory\RepositoryFactory']['map']['hxl_tags'] =
     $di->lazyGet('repository.hxl_tag');
 
 $di->params['Ushahidi\Factory\FormatterFactory']['map']['hxl_licenses'] =
-    $di->lazyNew(Ushahidi\App\Formatter\HXL\HXLTag::class);
-$di->params['Ushahidi\Factory\FormatterFactory']['map']['hxl_licenses'] =
+    $di->lazyNew(Ushahidi\App\Formatter\HXL\HXLLicense::class);
+$di->params['Ushahidi\Factory\FormatterFactory']['map']['hxl_tags'] =
     $di->lazyNew(Ushahidi\App\Formatter\HXL\HXLTag::class);
 $di->setter[Ushahidi\App\Formatter\HXL\HXLLicense::class]['setAuth'] = $di->lazyGet("authorizer.hxl");
 $di->setter[Ushahidi\App\Formatter\HXL\HXLTag::class]['setAuth'] = $di->lazyGet("authorizer.hxl");
