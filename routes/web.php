@@ -525,7 +525,6 @@ $router->group([
         $router->get('/licenses', 'HXLLicensesController@index');
         $router->get('/tags', 'HXLTagsController@index');
     });
-
 });
 
 // Migration

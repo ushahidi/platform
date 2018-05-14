@@ -14,6 +14,6 @@ namespace Ushahidi\Core\Entity\HXL;
 use Ushahidi\Core\Entity\Repository\EntityGet;
 
 interface HXLTagRepository extends
-	EntityGet
+    EntityGet
 {
 }

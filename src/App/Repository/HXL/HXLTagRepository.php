@@ -21,53 +21,53 @@ use Ushahidi\App\Repository\OhanzeeRepository;
 use Ohanzee\DB;
 
 class HXLTagRepository extends OhanzeeRepository implements
-	HXLTagRepositoryContract,
-	SearchRepository,
-	ReadRepository
+    HXLTagRepositoryContract,
+    SearchRepository,
+    ReadRepository
 {
-	private $tags_attributes;
+    private $tags_attributes;
 
-	public function __construct(Database $db)
-	{
-		parent::__construct($db);
-	}
+    public function __construct(Database $db)
+    {
+        parent::__construct($db);
+    }
 
-	// OhanzeeRepository
-	protected function getTable()
-	{
-		return 'hxl_tags';
-	}
+    // OhanzeeRepository
+    protected function getTable()
+    {
+        return 'hxl_tags';
+    }
 
-	public function getSearchFields()
-	{
-		return ['tag_name'];
-	}
+    public function getSearchFields()
+    {
+        return ['tag_name'];
+    }
 
-	public function setSearchConditions(SearchData $search)
-	{
-		$query = $this->search_query;
-		return $query;
-	}
+    public function setSearchConditions(SearchData $search)
+    {
+        $query = $this->search_query;
+        return $query;
+    }
 
-	/**
-	 * @param array|null $data
-	 * @return \Ushahidi\App\Repository\Ushahidi\Core\Entity|HXLTag|\Ushahidi\Core\Usecase\Entity
-	 */
-	public function getEntity(array $data = null)
-	{
-		if ($data) {
-			$data['form_attribute_types'] = $this->getFormAttributeTypes($data['id']);
-			$data['hxl_attributes'] = $this->getAllHXLAttributes($data['id']);
-		}
-		return new HXLTag($data);
-	}
+    /**
+     * @param array|null $data
+     * @return \Ushahidi\App\Repository\Ushahidi\Core\Entity|HXLTag|\Ushahidi\Core\Usecase\Entity
+     */
+    public function getEntity(array $data = null)
+    {
+        if ($data) {
+            $data['form_attribute_types'] = $this->getFormAttributeTypes($data['id']);
+            $data['hxl_attributes'] = $this->getAllHXLAttributes($data['id']);
+        }
+        return new HXLTag($data);
+    }
 
-	/**
-	 * @param $hxl_tag_id
-	 */
-	protected function getAllHXLAttributes($tag_id)
-	{
-	    if (!$this->tags_attributes) {
+    /**
+     * @param $hxl_tag_id
+     */
+    protected function getAllHXLAttributes($tag_id)
+    {
+        if (!$this->tags_attributes) {
             $this->tags_attributes =  DB::select(
                 ['hxl_tags.id', 'hxl_tag_id'],
                 'hxl_attributes.id',
@@ -84,18 +84,18 @@ class HXLTagRepository extends OhanzeeRepository implements
         return array_filter($this->tags_attributes, function ($tag_attributes) use ($tag_id) {
             return $tag_attributes['hxl_tag_id'] === $tag_id;
         });
-	}
+    }
 
-	/**
-	 * Get all attribute types that can be matched to this hxl tag
-	 * @param $hxl_tag_id
-	 * @return mixed
-	 */
-	protected function getFormAttributeTypes($hxl_tag_id)
-	{
-		return DB::select('form_attribute_type')
-			->from('hxl_attribute_type_tag')
-			->where('hxl_tag_id', '=', $hxl_tag_id)
-			->execute($this->db)->as_array();
-	}
+    /**
+     * Get all attribute types that can be matched to this hxl tag
+     * @param $hxl_tag_id
+     * @return mixed
+     */
+    protected function getFormAttributeTypes($hxl_tag_id)
+    {
+        return DB::select('form_attribute_type')
+            ->from('hxl_attribute_type_tag')
+            ->where('hxl_tag_id', '=', $hxl_tag_id)
+            ->execute($this->db)->as_array();
+    }
 }

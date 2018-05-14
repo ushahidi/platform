@@ -12,6 +12,7 @@
 namespace Ushahidi\App\Repository\HXL;
 
 use Ushahidi\Core\SearchData;
+
 class HXLLicenseRepository extends OhanzeeRepository implements
     HXLLicenseRepositoryContract
 {

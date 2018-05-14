@@ -18,8 +18,8 @@ use Ushahidi\App\Http\Controllers\RESTController;
 class HXLTagsController extends RESTController
 {
 
-	protected function getResource()
-	{
-		return 'hxl_tags';
-	}
+    protected function getResource()
+    {
+        return 'hxl_tags';
+    }
 }

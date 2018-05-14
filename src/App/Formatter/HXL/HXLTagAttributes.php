@@ -17,5 +17,5 @@ use Ushahidi\Core\Traits\FormatterAuthorizerMetadata;
 
 class HXLTagAttributes extends API
 {
-	use FormatterAuthorizerMetadata;
+    use FormatterAuthorizerMetadata;
 }

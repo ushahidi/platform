@@ -15,25 +15,25 @@ use Ushahidi\Core\StaticEntity;
 
 class HXLTag extends StaticEntity
 {
-	protected $id;
-	protected $tag_name;
-	protected $hxl_attributes;
-	protected $form_attribute_types;
-	// DataTransformer
-	public function getDefinition()
-	{
-		return [
-			'id'        => 'int',
-			'tag_name'      => 'string',
-			'description' => 'string',
-			'hxl_attributes'	=> 'array',
-			'form_attribute_types' => 'array'
-		];
-	}
+    protected $id;
+    protected $tag_name;
+    protected $hxl_attributes;
+    protected $form_attribute_types;
+    // DataTransformer
+    public function getDefinition()
+    {
+        return [
+            'id'        => 'int',
+            'tag_name'      => 'string',
+            'description' => 'string',
+            'hxl_attributes'    => 'array',
+            'form_attribute_types' => 'array'
+        ];
+    }
 
-	// Entity
-	public function getResource()
-	{
-		return 'hxl_tag';
-	}
+    // Entity
+    public function getResource()
+    {
+        return 'hxl_tag';
+    }
 }
