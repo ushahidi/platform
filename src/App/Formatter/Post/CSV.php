@@ -30,7 +30,7 @@ class CSV extends API
     public static $csvFieldFormat = array(
         'tags' => 'single_array',
         'sets' => 'single_array',
-        'point'=> 'single_value_array'
+        'point' => 'single_value_array'
     );
     /**
      * @var SearchData
@@ -45,17 +45,15 @@ class CSV extends API
 
     /**
      * @param $records
+     * @param $job (an export job)
      * @param array $attributes (a list of attributes with key,type,priority
      * and other important features to manipulate records with
      * @return array|mixed
      */
-    public function __invoke($records, $attributes = [])
+    public function __invoke($records, $job = null, $attributes = [])
     {
-        if ($this->heading) {
-            return $this->generateCSVRecords($records, $attributes);
-        } else {
-            throw new \Ushahidi\Core\Exception\FormatterException("The CSV Formatter requires a heading.");
-        }
+        $this->createHeading($job->header_row);
+        return $this->generateCSVRecords($records, $attributes);
     }
 
     public function setAddHeader($add_header)
@@ -84,12 +82,10 @@ class CSV extends API
      * - Survey "native" fields such as title from the post table go first.
      *   These are sorted alphabetically.
      * - Form_attributes are grouped by stage, and sorted in ASC order by priority
-
      */
     public function createHeading($attributes)
     {
         $this->heading = $this->createSortedHeading($attributes);
-
         return $this->heading;
     }
 
@@ -105,9 +101,7 @@ class CSV extends API
      */
     protected function generateCSVRecords($records, $attributes)
     {
-        //$stream = fopen('php://memory', 'w');
         $stream = tmpfile();
-
         /**
          * Before doing anything, clean the ouput buffer and avoid garbage like unnecessary space
          * paddings in our csv export
@@ -122,28 +116,38 @@ class CSV extends API
         }
 
         foreach ($records as $record) {
-            // Transform post_date to a string
-            if ($record['post_date'] instanceof \DateTimeInterface) {
-                $record['post_date'] = $record['post_date']->format("Y-m-d H:i:s");
-            }
-            // Transform post_date to a string
-            if (is_numeric($record['created'])) {
-                $record['created'] = date("Y-m-d H:i:s", $record['created']);
-            }
-            if (is_numeric($record['updated'])) {
-                $record['updated'] = date("Y-m-d H:i:s", $record['updated']);
-            }
-
-            $values = [];
-
-            foreach ($this->heading as $key => $value) {
-                $values[] = $this->getValueFromRecord($record, $key, $attributes);
-            }
-
+            $values = $this->formatRecordForCSV($record, $attributes);
             fputcsv($stream, $values);
         }
 
         return $this->writeStreamToFS($stream);
+    }
+
+    /**
+     * @param $record
+     * @param $attributes
+     * @return array
+     */
+    public function formatRecordForCSV($record, $attributes)
+    {
+        // Transform post_date to a string
+        if (isset($record['post_date']) && $record['post_date'] instanceof \DateTimeInterface) {
+            $record['post_date'] = $record['post_date']->format("Y-m-d H:i:s");
+        }
+        // Transform post_date to a string
+        if (isset($record['created']) && is_numeric($record['created'])) {
+            $record['created'] = date("Y-m-d H:i:s", $record['created']);
+        }
+        if (isset($record['updated']) && is_numeric($record['updated'])) {
+            $record['updated'] = date("Y-m-d H:i:s", $record['updated']);
+        }
+
+        $values = [];
+
+        foreach ($this->heading as $key => $value) {
+            $values[] = $this->getValueFromRecord($record, $key, $attributes);
+        }
+        return $values;
     }
 
     private function writeStreamToFS($stream)
@@ -152,7 +156,7 @@ class CSV extends API
         $filepath = implode(DIRECTORY_SEPARATOR, [
             'csv',
             $this->tmpfname,
-            ]);
+        ]);
 
         // Remove any leading slashes on the filename, path is always relative.
         $filepath = ltrim($filepath, DIRECTORY_SEPARATOR);
@@ -173,10 +177,10 @@ class CSV extends API
         $type = $this->fs->getMimetype($filepath);
 
         return new FileData([
-            'file'   => $filepath,
-            'type'   => $type,
-            'size'   => $size,
-            ]);
+            'file' => $filepath,
+            'type' => $type,
+            'size' => $size,
+        ]);
     }
 
     /**
@@ -197,58 +201,50 @@ class CSV extends API
         $key = isset($keySet[1]) ? $keySet[1] : null; // the key to use (0, lat,lon)
         // check that the key we received is available in $attributes
         $recordAttributes = isset($attributes[$headingKey]) ? $attributes[$headingKey] : null;
-
         // Ignore attributes that are not related to this Post by Form Id
         // Ensure that native attributes identified via id 0 are included
-        if (is_array($recordAttributes) &&
-            isset($recordAttributes['form_id']) &&
-            isset($record['form_id']) &&
-            $recordAttributes['form_id'] != 0 &&
-            ($record['form_id'] != $recordAttributes['form_id'])
-        ) {
+        if (is_array($recordAttributes)
+            && isset($recordAttributes['form_id'])
+            && isset($record['form_id'])
+            && $recordAttributes['form_id'] != 0
+            && ($record['form_id'] != $recordAttributes['form_id'])) {
             return '';
         }
-
         // If the returned attribute for the given heading key is the native form name attribute
         // Retrieve Form Name from the attribute rather than from the Post until the data model improves
-
-        if (is_array($recordAttributes) &&
-            isset($recordAttributes['type']) &&
-            $recordAttributes['type'] === 'form_name'
-        ) {
-            return is_array($record) && isset($record['form_name']) ? $record['form_name'] : '';
+        if (is_array($recordAttributes)
+            && isset($recordAttributes['type'])
+            && $recordAttributes['type'] === 'form_name') {
+            return is_array($recordAttributes) && isset($recordAttributes['form_name'])
+                ? $recordAttributes['form_name'] : '';
         }
-
         // default format we will return. See $csvFieldFormat for a list of available formats
         $format = 'single_raw';
-
         // if we have an attribute and can find a format for it in $csvFieldFormat, reset the $format
         if (is_array($recordAttributes)
             && isset($recordAttributes['type'])
-            && isset(self::$csvFieldFormat[$recordAttributes['type']])
-        ) {
+            && isset(self::$csvFieldFormat[$recordAttributes['type']])) {
             $format = self::$csvFieldFormat[$recordAttributes['type']];
         }
-
         /** check if the value is in [values] (user added attributes),
          ** otherwise it'll be part of the record itself
-        **/
+         **/
         $isInValuesArray = isset($record['values']) && isset($record['values'][$headingKey]);
         /**
          * Remap Title and Description type attributes as these are a special case of attributes
          * since their labels are stored as attributes but their values are stored as fields on the record :/
          * The Key UUID will not match the equivalent field on the Post so we must change to use the correct field names
          */
-        if (is_array($recordAttributes) &&
-            isset($recordAttributes['type']) &&
-            ($recordAttributes['type'] === 'title' || $recordAttributes['type'] === 'description')
-        ) {
+        if (is_array($recordAttributes)
+            && isset($recordAttributes['type'])
+            && ($recordAttributes['type'] === 'title'
+                || $recordAttributes['type'] === 'description')) {
             // Description must be mapped to content
             // Title is title
             $headingKey = $recordAttributes['type'] === 'title' ? 'title' : 'content';
         }
 
-        $recordValue = $isInValuesArray ? $record['values']: $record;
+        $recordValue = $isInValuesArray ? $record['values'] : $record;
 
         // handle values that are dates to have consistent formatting
         $isDateField = $recordAttributes['input'] === 'date' && $recordAttributes['type'] === 'datetime';
@@ -265,9 +261,8 @@ class CSV extends API
              * Lat/Lon are never multivalue fields so we can get the first index  only
              */
             $return = $this->singleValueArray($recordValue, $headingKey, $key);
-        } elseif ($format === 'single_array'
-            || ($key !== null && isset($recordValue[$headingKey]) && is_array($recordValue[$headingKey]))
-        ) {
+        } elseif ($format === 'single_array' ||
+            ($key !== null && isset($recordValue[$headingKey]) && is_array($recordValue[$headingKey]))) {
             /**
              * A single_array is a comma separated list of values (like categories) in a column
              * we need to join the array items in a single comma separated string.
@@ -287,7 +282,7 @@ class CSV extends API
     private function singleRaw($recordValue, $record, $headingKey, $key)
     {
         if ($key !== null) {
-            return isset($recordValue[$headingKey])? ($recordValue[$headingKey]): '';
+            return isset($recordValue[$headingKey]) ? ($recordValue[$headingKey]) : '';
         } else {
             $emptyRecord = !isset($record[$headingKey])
                 || (is_array($record[$headingKey]) && empty($record[$headingKey]));
@@ -297,15 +292,15 @@ class CSV extends API
 
     private function multiColumnArray($recordValue, $headingKey, $key)
     {
-        return isset($recordValue[$headingKey][$key])? ($recordValue[$headingKey][$key]): '';
+        return isset($recordValue[$headingKey][$key]) ? ($recordValue[$headingKey][$key]) : '';
     }
 
     private function singleColumnArray($recordValue, $headingKey, $separator = ',')
     {
         /**
-        * we need to join the array items in a single comma separated string
-        */
-        return isset($recordValue[$headingKey])? (implode($separator, $recordValue[$headingKey])): '';
+         * we need to join the array items in a single comma separated string
+         */
+        return isset($recordValue[$headingKey]) ? (implode($separator, $recordValue[$headingKey])) : '';
     }
 
     private function singleValueArray($recordValue, $headingKey, $key)
@@ -313,11 +308,11 @@ class CSV extends API
         /**
          * we need to join the array items in a single comma separated string
          */
-        return isset($recordValue[$headingKey][0][$key])? ($recordValue[$headingKey][0][$key]): '';
+        return isset($recordValue[$headingKey][0][$key]) ? ($recordValue[$headingKey][0][$key]) : '';
     }
 
     /**
-     * @param $fields: an array with the form: ["key": (value)] where value can be anything that the user chose.
+     * @param $fields : an array with the form: ["key": (value)] where value can be anything that the user chose.
      * @return array of sorted fields with a zero based index. Multivalue keys have the format keyxyz.index
      * index being an arbitrary count of the amount of fields.
      */
@@ -339,7 +334,7 @@ class CSV extends API
 
         $groupedFields = [];
         foreach ($fields as $key => $item) {
-            $groupedFields[$item['form_id'].$item['form_stage_priority'].$item['priority']][$item['key']] = $item;
+            $groupedFields[$item['form_id'] . $item['form_stage_priority'] . $item['priority']][$item['key']] = $item;
         }
 
         ksort($groupedFields, SORT_NUMERIC);
@@ -367,13 +362,13 @@ class CSV extends API
                     /**
                      * key=>label mapping with index[0] for regular fields
                      */
-                    $attributeKeysWithStageFlat[$attributeKey.'.0'] = $attribute['label'];
+                    $attributeKeysWithStageFlat[$attributeKey . '.0'] = $attribute['label'];
                 } elseif (isset($attribute['type']) && $attribute['type'] === 'point') {
                     /**
                      * key=>label mapping with lat/lon for point type fields
                      */
-                    $attributeKeysWithStageFlat[$attributeKey.'.lat'] = $attribute['label'].'.lat';
-                    $attributeKeysWithStageFlat[$attributeKey.'.lon'] = $attribute['label'].'.lon';
+                    $attributeKeysWithStageFlat[$attributeKey . '.lat'] = $attribute['label'] . '.lat';
+                    $attributeKeysWithStageFlat[$attributeKey . '.lon'] = $attribute['label'] . '.lon';
                 }
             }
         }

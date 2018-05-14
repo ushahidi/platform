@@ -32,23 +32,20 @@ class CliController extends RESTController
         // this is a trick to convert 'false' to falsy (which would be true),
         // 'true' to true, and an unset param to false
         $include_header = json_decode($request->input('include_header', 1)) == true ? 1 : 0;
-        // Run export command
-        $exitCode = Artisan::call('export', [
-            'job' => $route_params['id'],
-            '--limit' => $request->input('limit', 0),
-            '--offset' => $request->input('offset', 0),
-            '--include-header' => $include_header,
-        ]);
 
-        // Retrieve the results of rhe export
-        // which should be a json formatted string
-        // containing information aboutt he file generated and
-        // saved by the exporter
-        $output = Artisan::output();
-        $file_details = json_decode($output, true);
+        // set CLI params to be the payload for the usecase
+        $filters = [
+            'limit' => $request->input('limit', 0),
+            'offset' => $request->input('offset', 0),
+            'add_header' => $include_header
+        ];
+        // Get the usecase and pass in authorizer, payload and transformer
+        $this->usecase = $this->usecaseFactory->get('posts_export', 'export')
+            ->setFilters($filters)
+            ->setIdentifiers(['job_id' => $route_params['id']])
+            ->setAuthorizer(service('authorizer.export_job'))
+            ->setFormatter(service('formatter.entity.post.csv'));
 
-        return $this->prepResponse([
-            'results' => $file_details,
-        ], $request);
+        return $this->prepResponse($this->executeUsecase($request), $request);
     }
 }
