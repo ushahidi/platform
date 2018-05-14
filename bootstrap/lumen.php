@@ -16,7 +16,7 @@ $app = new Laravel\Lumen\Application(
 );
 
 $app->withFacades(true, [
-    'Ushahidi\App\Facades\Features' => 'Features',
+    'Ushahidi\App\Facades\Features' => 'Features'
 ]);
 
 $app->withEloquent();
