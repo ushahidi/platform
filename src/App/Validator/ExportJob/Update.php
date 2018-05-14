@@ -47,12 +47,27 @@ class Update extends Validator
                     [[$this, 'sendToHDXIsFalse'], [':validation', ':value', ':fulldata']],
                 ],
                 'include_hxl' => [
-                    ['numeric'], // FIXME bool check?
+                    [[$this, 'trueIfSendToHDXIsTrue'], [':validation', ':value', ':fulldata']],
                 ]
             ];
         }
         return $hxl_rules;
     }
+
+    /**
+     * @param $validation
+     * @param $value
+     * @param $fullData
+     * @return bool
+     */
+    public function trueIfSendToHDXIsTrue($validation, $value, $fullData)
+    {
+        if ($fullData['send_to_hdx'] === true && $value === false) {
+            $validation->error('include_hxl', 'includeHXLShouldBeTrue');
+        }
+        return true;
+    }
+
     /**
      * @param $validation
      * @param $value
