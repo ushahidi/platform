@@ -57,9 +57,6 @@ $app->middleware([
     Barryvdh\Cors\HandleCors::class,
 ]);
 
-// $app->routeMiddleware([
-//     'auth' => Ushahidi\App\Http\Middleware\Authenticate::class,
-// ]);
 $app->routeMiddleware([
     'auth' => Ushahidi\App\Http\Middleware\Authenticate::class,
     //'cors'   => Ushahidi\App\Http\Middleware\CorsMiddleware::class,
@@ -69,6 +66,7 @@ $app->routeMiddleware([
     //'scopes' => Laravel\Passport\Http\Middleware\CheckScopes::class,
     //'scope'  => Laravel\Passport\Http\Middleware\CheckForAnyScope::class,
     'signature' => Ushahidi\App\Http\Middleware\SignatureAuth::class,
+    'feature' => Ushahidi\App\Http\Middleware\CheckFeature::class,
 ]);
 
 /*
