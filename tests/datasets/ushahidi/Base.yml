@@ -72,6 +72,21 @@ users:
     realname: CannotEditor
     email: "cannoteditor@ushahidi.com"
     role: "noedit"
+user_settings:
+ - 
+   id: 1
+   config_key: "some key"
+   config_value: "some value"
+   created: 1893477600
+   updated: 1893477600
+   user_id: 2
+ - 
+   id: 2
+   config_key: "some key2"
+   config_value: "some value"
+   created: 1893477600
+   updated: 1893477600
+   user_id: 1
 user_reset_tokens:
   -
     id: 1
@@ -1649,6 +1664,10 @@ config:
   -
     group_name: features
     config_key: roles
+    config_value: '{"enabled":true}'
+  -
+    group_name: features
+    config_key: user-settings
     config_value: '{"enabled":true}'
   -
     group_name: "data-provider"

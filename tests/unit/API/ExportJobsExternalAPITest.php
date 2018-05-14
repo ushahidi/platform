@@ -21,12 +21,23 @@ class ExportJobsExternalAPITest extends TestCase
         parent::setUp();
 
         $this->withoutMiddleware();
+    }
+
+    /**
+     * Moved this out of setup.
+     * Helper to set the user role and the job correctly since we
+     * override this setup in the test for authorization
+     * @param $user_role
+     */
+    private function setUserAndJob($user_role)
+    {
         $faker = Faker\Factory::create();
 
         $this->userId = service('repository.user')->create(new \Ushahidi\Core\Entity\User([
             'email' => $faker->email,
             'password' => $faker->password(10),
             'realname' => $faker->name,
+            'role' => $user_role
         ]));
 
         $exportJobs = service('repository.export_job');
@@ -49,7 +60,8 @@ class ExportJobsExternalAPITest extends TestCase
      */
     public function testCount()
     {
-        $this->get('/api/v3/exports/external/count/'. $this->jobId);
+        $this->setUserAndJob('admin');
+        $this->get('/api/v3/exports/external/count/' . $this->jobId);
 
         $this->seeStatusCode('200')
             ->seeJsonStructure([[
@@ -63,7 +75,8 @@ class ExportJobsExternalAPITest extends TestCase
      */
     public function testCli()
     {
-        $this->get('/api/v3/exports/external/cli/'. $this->jobId);
+        $this->setUserAndJob('admin');
+        $this->get('/api/v3/exports/external/cli/' . $this->jobId);
 
         $this->seeStatusCode('200')
             ->seeJsonStructure([
@@ -78,6 +91,7 @@ class ExportJobsExternalAPITest extends TestCase
      */
     public function testGetJobs()
     {
+        $this->setUserAndJob('admin');
         $this->get('/api/v3/exports/external/jobs');
 
         $this->seeStatusCode('200')
@@ -104,7 +118,8 @@ class ExportJobsExternalAPITest extends TestCase
      */
     public function testGetJob()
     {
-        $this->get('/api/v3/exports/external/jobs/'. $this->jobId);
+        $this->setUserAndJob('admin');
+        $this->get('/api/v3/exports/external/jobs/' . $this->jobId);
 
         $this->seeStatusCode('200')
             ->seeJsonStructure([
@@ -125,7 +140,8 @@ class ExportJobsExternalAPITest extends TestCase
      */
     public function testUpdateJob()
     {
-        $this->json('PUT', '/api/v3/exports/external/jobs/'. $this->jobId, [
+        $this->setUserAndJob('admin');
+        $this->json('PUT', '/api/v3/exports/external/jobs/' . $this->jobId, [
             'filters' => ['status' => 'draft']
         ]);
 
@@ -159,6 +175,7 @@ class ExportJobsExternalAPITest extends TestCase
      */
     public function testUpdateJobWithSignature()
     {
+        $this->setUserAndJob('admin');
         // Re-enable middleware
         $this->app->instance('middleware.disable', false);
         // Set the shared secret
@@ -174,14 +191,14 @@ class ExportJobsExternalAPITest extends TestCase
         $sig = $this->makeSig(
             'asharedsecret',
             $this->prepareUrlForRequest(
-                '/api/v3/exports/external/jobs/'. $this->jobId . '?api_key='. $apiKey->api_key
+                '/api/v3/exports/external/jobs/' . $this->jobId . '?api_key=' . $apiKey->api_key
             ),
             json_encode(['filters' => ['status' => 'draft']])
         );
 
         $this->json(
             'PUT',
-            '/api/v3/exports/external/jobs/'. $this->jobId . '?api_key='. $apiKey->api_key,
+            '/api/v3/exports/external/jobs/' . $this->jobId . '?api_key=' . $apiKey->api_key,
             [
                 'filters' => ['status' => 'draft']
             ],
@@ -209,6 +226,19 @@ class ExportJobsExternalAPITest extends TestCase
 
         // Clean up
         $apiKeys->delete($apiKey);
-        putenv('PLATFORM_SHARED_SECRET='.$originalSecret);
+        putenv('PLATFORM_SHARED_SECRET=' . $originalSecret);
+    }
+
+
+    /**
+     * Test that if we send a regular user without permissions to export,
+     * we get a 401
+     */
+    public function testJobUserIsAuthorized()
+    {
+        $this->setUserAndJob('user');
+        $this->get('/api/v3/exports/external/cli/' . $this->jobId);
+
+        $this->seeStatusCode('401');
     }
 }

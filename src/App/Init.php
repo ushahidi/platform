@@ -144,6 +144,7 @@ $di->params['Ushahidi\Factory\ValidatorFactory']['map']['posts'] = [
     'create' => $di->lazyNew(Ushahidi\App\Validator\Post\Create::class),
     'update' => $di->lazyNew(Ushahidi\App\Validator\Post\Update::class),
     'import' => $di->lazyNew(Ushahidi\App\Validator\Post\Import::class),
+    'export' => $di->lazyNew(Ushahidi\App\Validator\Post\Export::class),
     'webhook-update' => $di->lazyNew(Ushahidi\App\Validator\Post\Create::class),
 ];
 $di->params['Ushahidi\Factory\ValidatorFactory']['map']['export_jobs'] = [
@@ -165,6 +166,10 @@ $di->params['Ushahidi\Factory\ValidatorFactory']['map']['users'] = [
     'update' => $di->lazyNew(Ushahidi\App\Validator\User\Update::class),
     'register' => $di->lazyNew(Ushahidi\App\Validator\User\Register::class),
     'passwordreset' => $di->lazyNew(Ushahidi\App\Validator\User\Reset::class)
+];
+$di->params['Ushahidi\Factory\ValidatorFactory']['map']['user_settings'] = [
+    'create' => $di->lazyNew(Ushahidi\App\Validator\User\Setting\Create::class),
+    'update' => $di->lazyNew(Ushahidi\App\Validator\User\Setting\Update::class),
 ];
 $di->params['Ushahidi\Factory\ValidatorFactory']['map']['messages'] = [
     'create' => $di->lazyNew(Ushahidi\App\Validator\Message\Create::class),
@@ -216,34 +221,35 @@ $di->params['Ushahidi\Factory\ValidatorFactory']['map']['tos'] = [
 
 // Formatter mapping
 $di->params['Ushahidi\Factory\FormatterFactory']['map'] = [
-    'apikeys' => $di->lazyNew(Ushahidi\App\Formatter\ApiKey::class),
-    'config' => $di->lazyNew(Ushahidi\App\Formatter\Config::class),
-    'dataproviders' => $di->lazyNew(Ushahidi\App\Formatter\Dataprovider::class),
-    'country_codes' => $di->lazyNew(Ushahidi\App\Formatter\CountryCode::class),
-    'export_jobs' => $di->lazyNew(Ushahidi\App\Formatter\ExportJob::class),
-    'forms' => $di->lazyNew(Ushahidi\App\Formatter\Form::class),
-    'form_attributes' => $di->lazyNew(Ushahidi\App\Formatter\Form\Attribute::class),
-    'form_roles' => $di->lazyNew(Ushahidi\App\Formatter\Form\Role::class),
-    'form_stages' => $di->lazyNew(Ushahidi\App\Formatter\Form\Stage::class),
-    'form_contacts' => $di->lazyNew(Ushahidi\App\Formatter\Form\Contact::class),
-    'form_stats' => $di->lazyNew(Ushahidi\App\Formatter\Form\Stats::class),
-    'layers' => $di->lazyNew(Ushahidi\App\Formatter\Layer::class),
-    'media' => $di->lazyNew(Ushahidi\App\Formatter\Media::class),
-    'messages' => $di->lazyNew(Ushahidi\App\Formatter\Message::class),
-    'posts' => $di->lazyNew(Ushahidi\App\Formatter\Post::class),
-    'posts_lock' => $di->lazyNew(Ushahidi\App\Formatter\Post\Lock::class),
-    'tags' => $di->lazyNew(Ushahidi\App\Formatter\Tag::class),
-    'savedsearches' => $di->lazyNew(Ushahidi\App\Formatter\Set::class),
-    'sets' => $di->lazyNew(Ushahidi\App\Formatter\Set::class),
-    'sets_posts' => $di->lazyNew(Ushahidi\App\Formatter\Post::class),
-    'savedsearches_posts' => $di->lazyNew(Ushahidi\App\Formatter\Post::class),
-    'users' => $di->lazyNew(Ushahidi\App\Formatter\User::class),
-    'notifications' => $di->lazyNew(Ushahidi\App\Formatter\Notification::class),
-    'webhooks' => $di->lazyNew(Ushahidi\App\Formatter\Webhook::class),
-    'contacts' => $di->lazyNew(Ushahidi\App\Formatter\Contact::class),
-    'csv' => $di->lazyNew(Ushahidi\App\Formatter\CSV::class),
-    'roles' => $di->lazyNew(Ushahidi\App\Formatter\Role::class),
-    'permissions' => $di->lazyNew(Ushahidi\App\Formatter\Permission::class),
+    'apikeys'              => $di->lazyNew(Ushahidi\App\Formatter\ApiKey::class),
+    'config'               => $di->lazyNew(Ushahidi\App\Formatter\Config::class),
+    'dataproviders'        => $di->lazyNew(Ushahidi\App\Formatter\Dataprovider::class),
+    'country_codes'        => $di->lazyNew(Ushahidi\App\Formatter\CountryCode::class),
+    'export_jobs'          => $di->lazyNew(Ushahidi\App\Formatter\ExportJob::class),
+    'forms'                => $di->lazyNew(Ushahidi\App\Formatter\Form::class),
+    'form_attributes'      => $di->lazyNew(Ushahidi\App\Formatter\Form\Attribute::class),
+    'form_roles'           => $di->lazyNew(Ushahidi\App\Formatter\Form\Role::class),
+    'form_stages'          => $di->lazyNew(Ushahidi\App\Formatter\Form\Stage::class),
+    'form_contacts'        => $di->lazyNew(Ushahidi\App\Formatter\Form\Contact::class),
+    'form_stats'           => $di->lazyNew(Ushahidi\App\Formatter\Form\Stats::class),
+    'layers'               => $di->lazyNew(Ushahidi\App\Formatter\Layer::class),
+    'media'                => $di->lazyNew(Ushahidi\App\Formatter\Media::class),
+    'messages'             => $di->lazyNew(Ushahidi\App\Formatter\Message::class),
+    'posts'                => $di->lazyNew(Ushahidi\App\Formatter\Post::class),
+    'posts_lock'           => $di->lazyNew(Ushahidi\App\Formatter\Post\Lock::class),
+    'tags'                 => $di->lazyNew(Ushahidi\App\Formatter\Tag::class),
+    'savedsearches'        => $di->lazyNew(Ushahidi\App\Formatter\Set::class),
+    'sets'                 => $di->lazyNew(Ushahidi\App\Formatter\Set::class),
+    'sets_posts'           => $di->lazyNew(Ushahidi\App\Formatter\Post::class),
+    'savedsearches_posts'  => $di->lazyNew(Ushahidi\App\Formatter\Post::class),
+    'users'                => $di->lazyNew(Ushahidi\App\Formatter\User::class),
+    'user_settings'        => $di->lazyNew(Ushahidi\App\Formatter\User\Setting::class),
+    'notifications'        => $di->lazyNew(Ushahidi\App\Formatter\Notification::class),
+    'webhooks'             => $di->lazyNew(Ushahidi\App\Formatter\Webhook::class),
+    'contacts'             => $di->lazyNew(Ushahidi\App\Formatter\Contact::class),
+    'csv'                  => $di->lazyNew(Ushahidi\App\Formatter\CSV::class),
+    'roles'                => $di->lazyNew(Ushahidi\App\Formatter\Role::class),
+    'permissions'          => $di->lazyNew(Ushahidi\App\Formatter\Permission::class),
     // Formatter for post exports. Defaults to CSV export
     'posts_export' => $di->lazyNew(Ushahidi\App\Formatter\Post\CSV::class),
     'tos' => $di->lazyNew(Ushahidi\App\Formatter\Tos::class),
@@ -267,6 +273,7 @@ $di->setter[Ushahidi\App\Formatter\Post\Lock::class]['setAuth'] = $di->lazyGet("
 $di->setter[Ushahidi\App\Formatter\Tag::class]['setAuth'] = $di->lazyGet("authorizer.tag");
 $di->setter[Ushahidi\App\Formatter\Tos::class]['setAuth'] = $di->lazyGet("authorizer.tos");
 $di->setter[Ushahidi\App\Formatter\User::class]['setAuth'] = $di->lazyGet("authorizer.user");
+$di->setter[Ushahidi\App\Formatter\User\Setting::class]['setAuth'] = $di->lazyGet("authorizer.user_setting");
 $di->setter[Ushahidi\App\Formatter\Savedsearch::class]['setAuth'] = $di->lazyGet("authorizer.savedsearch");
 $di->setter[Ushahidi\App\Formatter\Set::class]['setAuth'] = $di->lazyGet("authorizer.set");
 $di->setter[Ushahidi\App\Formatter\Set\Post::class]['setAuth'] = $di->lazyGet("authorizer.set_post");
@@ -351,6 +358,7 @@ $di->set('repository.savedsearch', $di->lazyNew(
     ]
 ));
 $di->set('repository.user', $di->lazyNew(Ushahidi\App\Repository\UserRepository::class));
+$di->set('repository.user_setting', $di->lazyNew(Ushahidi\App\Repository\User\SettingRepository::class));
 $di->set('repository.resetpassword', $di->lazyNew(Ushahidi\App\Repository\ResetPasswordRepository::class));
 $di->set('repository.role', $di->lazyNew(Ushahidi\App\Repository\RoleRepository::class));
 $di->set('repository.notification', $di->lazyNew(Ushahidi\App\Repository\NotificationRepository::class));
@@ -438,9 +446,6 @@ $di->setter[Ushahidi\App\Repository\Form\ContactRepository::class]['setListener'
 
 $di->setter[Ushahidi\App\Validator\Form\Contact\Create::class]['setFormRepo'] =
     $di->lazyGet('repository.form');
-
-$di->setter[Ushahidi\App\Validator\Form\Contact\Create::class]['setPhoneValidator'] =
-    \libphonenumber\PhoneNumberUtil::getInstance();
 
 $di->setter[Ushahidi\App\Validator\Form\Contact\Create::class]['setContactRepo'] =
     $di->lazyGet('repository.contact');
@@ -625,6 +630,12 @@ $di->params[Ushahidi\App\Validator\User\Register::class] = [
 ];
 $di->params[Ushahidi\App\Validator\User\Reset::class] = [
     'repo' => $di->lazyGet('repository.user')
+];
+$di->params[Ushahidi\App\Validator\User\Setting\Update::class] = [
+    'user_repo'    => $di->lazyGet('repository.user')
+];
+$di->params[Ushahidi\App\Validator\Contact\Update::class] = [
+    'repo' => $di->lazyGet('repository.user'),
 ];
 $di->params[Ushahidi\App\Validator\CSV\Create::class] = [
     'form_repo' => $di->lazyGet('repository.form'),
