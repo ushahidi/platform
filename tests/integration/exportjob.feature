@@ -1,6 +1,6 @@
 @exportjobs @hxlDisabled
 Feature: Testing the Export Job API
-
+    @hxlDisabled
     Scenario: Create a export job
         Given that I want to make a new "ExportJob"
         And that the oauth token is "testadminuser"

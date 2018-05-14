@@ -413,6 +413,7 @@ class RestContext implements Context
      */
     public function theResponseHasAProperty($propertyName)
     {
+
         $data = json_decode($this->response->getBody(true), true);
         $this->theResponseIsJson();
 
