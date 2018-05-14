@@ -12,31 +12,34 @@
 namespace Ushahidi\App\Repository\HXL;
 
 use Ushahidi\Core\SearchData;
-use Ushahidi\Core\Entity\HXL\HXLLicense;
-use Ushahidi\Core\Entity\HXL\HXLLicenseRepository as HXLLicenseRepositoryContract;
-use Ushahidi\Core\Usecase\ReadRepository;
-use Ushahidi\Core\Usecase\SearchRepository;
-use Ushahidi\App\Repository\OhanzeeRepository;
-
 class HXLLicenseRepository extends OhanzeeRepository implements
-	HXLLicenseRepositoryContract,
-	SearchRepository,
-	ReadRepository
+    HXLLicenseRepositoryContract
 {
-	// OhanzeeRepository
-	protected function getTable()
-	{
-		return 'hxl_license';
-	}
-
-	public function getSearchFields()
+    // OhanzeeRepository
+    protected function getTable()
     {
-		return ['name', 'code'];
-	}
+        return 'hxl_license';
+    }
 
-	public function setSearchConditions(SearchData $search)
+    public function getSearchFields()
+    {
+        return ['name', 'code'];
+    }
+
+
+    /**
+     * @param SearchData $search
+     * Search by license code
+     */
+    public function setSearchConditions(SearchData $search)
     {
         $query = $this->search_query;
+        if ($search->code) {
+            $query->where('code', '=', $search->code);
+        }
+        if ($search->name) {
+            $query->where('name', '=', $search->name);
+        }
         return $query;
     }
 

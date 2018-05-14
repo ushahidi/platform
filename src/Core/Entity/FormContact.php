@@ -15,27 +15,27 @@ use Ushahidi\Core\StaticEntity;
 
 class FormContact extends StaticEntity
 {
-	protected $form_id;
-	protected $contacts;
-	// DataTransformer
-	protected function getDefinition()
-	{
-		return [
-			'form_id'            => 'int',
-			//'user'          => false, /* alias */
-			'contacts'       => 'string',
-//			'data_provider' => 'string',
-//			'type'          => 'string',
-//			'contact'       => 'string',
-//			'created'       => 'int',
-//			'updated'       => 'int',
-//			'can_notify'    => 'bool',
-		];
-	}
+    protected $form_id;
+    protected $contacts;
+    // DataTransformer
+    protected function getDefinition()
+    {
+        return [
+            'form_id'            => 'int',
+            //'user'          => false, /* alias */
+            'contacts'       => 'string',
+//          'data_provider' => 'string',
+//          'type'          => 'string',
+//          'contact'       => 'string',
+//          'created'       => 'int',
+//          'updated'       => 'int',
+//          'can_notify'    => 'bool',
+        ];
+    }
 
-	// Entity
-	public function getResource()
-	{
-		return 'form_contacts';
-	}
+    // Entity
+    public function getResource()
+    {
+        return 'form_contacts';
+    }
 }

@@ -15,25 +15,25 @@ use Ushahidi\Core\StaticEntity;
 
 class CountryCode extends StaticEntity
 {
-	protected $id;
-	protected $country_name;
-	protected $dial_code;
-	protected $country_code;
+    protected $id;
+    protected $country_name;
+    protected $dial_code;
+    protected $country_code;
 
-	// DataTransformer
-	public function getDefinition()
-	{
-		return [
-			'id'           => 'int',
-			'country_name' => 'string',
-			'dial_code'    => 'string',
-			'country_code' => 'string'
-		];
-	}
+    // DataTransformer
+    public function getDefinition()
+    {
+        return [
+            'id'           => 'int',
+            'country_name' => 'string',
+            'dial_code'    => 'string',
+            'country_code' => 'string'
+        ];
+    }
 
-	// Entity
-	public function getResource()
-	{
-		return 'country_codes';
-	}
+    // Entity
+    public function getResource()
+    {
+        return 'country_codes';
+    }
 }

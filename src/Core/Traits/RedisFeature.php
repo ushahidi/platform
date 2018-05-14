@@ -15,19 +15,19 @@ namespace Ushahidi\Core\Traits;
 
 trait RedisFeature
 {
-	protected $enabled = false;
+    protected $enabled = false;
 
-	public function setEnabled($enabled)
-	{
-		$this->enabled = $enabled;
-	}
+    public function setEnabled($enabled)
+    {
+        $this->enabled = $enabled;
+    }
 
-	/**
-	 * Check if the user has Redis feature
-	 * @return boolean
-	 */
-	public function isRedisEnabled()
-	{
-		return (bool) $this->enabled;
-	}
+    /**
+     * Check if the user has Redis feature
+     * @return boolean
+     */
+    public function isRedisEnabled()
+    {
+        return (bool) $this->enabled;
+    }
 }

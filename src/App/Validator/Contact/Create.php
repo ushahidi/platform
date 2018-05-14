@@ -13,15 +13,15 @@ namespace Ushahidi\App\Validator\Contact;
 
 class Create extends Update
 {
-	protected function getRules()
-	{
-		return array_merge_recursive(parent::getRules(), [
-			'type' => [
-				['not_empty'],
-			],
-			'contact' => [
-				['not_empty'],
-			]
-		]);
-	}
+    protected function getRules()
+    {
+        return array_merge_recursive(parent::getRules(), [
+            'type' => [
+                ['not_empty'],
+            ],
+            'contact' => [
+                ['not_empty'],
+            ]
+        ]);
+    }
 }

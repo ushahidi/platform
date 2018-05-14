@@ -16,5 +16,5 @@ use Ushahidi\Core\Traits\FormatterAuthorizerMetadata;
 
 class HXLLicense extends API
 {
-	use FormatterAuthorizerMetadata;
+    use FormatterAuthorizerMetadata;
 }

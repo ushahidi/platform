@@ -21,63 +21,63 @@ use Ushahidi\App\DataSource\Message\Status as MessageStatus;
 
 class Create extends Validator
 {
-	protected $repo;
-	protected $default_error_source = 'message';
+    protected $repo;
+    protected $default_error_source = 'message';
 
-	public function __construct(CreateMessageRepository $repo, UserRepository $user_repo)
-	{
-		$this->repo = $repo;
-		$this->user_repo = $user_repo;
-	}
+    public function __construct(CreateMessageRepository $repo, UserRepository $user_repo)
+    {
+        $this->repo = $repo;
+        $this->user_repo = $user_repo;
+    }
 
-	protected function getRules()
-	{
-		// @todo inject
-		$sources = app('datasources');
+    protected function getRules()
+    {
+        // @todo inject
+        $sources = app('datasources');
 
-		return [
-			'direction' => [
-				['not_empty'],
-				['in_array', [':value', [MessageDirection::OUTGOING]]],
-			],
-			'message' => [
-				['not_empty'],
-			],
-			'datetime' => [
-				['date'],
-			],
-			'type' => [
-				['not_empty'],
-				['max_length', [':value', 255]],
-				// @todo this should be shared via repo or other means
-				['in_array', [':value', ['sms', 'ivr', 'email', 'twitter']]],
-			],
-			'data_source' => [
-				['in_array', [':value', array_keys($sources->getEnabledSources())]],
-			],
-			'data_source_message_id' => [
-				['max_length', [':value', 511]],
-			],
-			'status' => [
-				['not_empty'],
-				['in_array', [':value', [
-					// @todo this should be shared via repo
-					MessageStatus::PENDING,
-				]]],
-			],
-			'parent_id' => [
-				['numeric'],
-				[[$this->repo, 'parentExists'], [':value']],
-			],
-			'post_id' => [
-				['numeric'],
-			],
-			'contact_id' => [
-				['numeric'],
-			],
-			'user_id' => [
-				[[$this->user_repo, 'exists'], [':value']]
-			],
-		];
-	}
+        return [
+            'direction' => [
+                ['not_empty'],
+                ['in_array', [':value', [MessageDirection::OUTGOING]]],
+            ],
+            'message' => [
+                ['not_empty'],
+            ],
+            'datetime' => [
+                ['date'],
+            ],
+            'type' => [
+                ['not_empty'],
+                ['max_length', [':value', 255]],
+                // @todo this should be shared via repo or other means
+                ['in_array', [':value', ['sms', 'ivr', 'email', 'twitter']]],
+            ],
+            'data_source' => [
+                ['in_array', [':value', array_keys($sources->getEnabledSources())]],
+            ],
+            'data_source_message_id' => [
+                ['max_length', [':value', 511]],
+            ],
+            'status' => [
+                ['not_empty'],
+                ['in_array', [':value', [
+                    // @todo this should be shared via repo
+                    MessageStatus::PENDING,
+                ]]],
+            ],
+            'parent_id' => [
+                ['numeric'],
+                [[$this->repo, 'parentExists'], [':value']],
+            ],
+            'post_id' => [
+                ['numeric'],
+            ],
+            'contact_id' => [
+                ['numeric'],
+            ],
+            'user_id' => [
+                [[$this->user_repo, 'exists'], [':value']]
+            ],
+        ];
+    }
 }

@@ -20,23 +20,23 @@ use Ushahidi\Core\Entity\NotificationQueueRepository;
 
 class PostSetListener extends AbstractListener
 {
-	protected $repo;
+    protected $repo;
 
-	public function setRepo(NotificationQueueRepository $repo)
-	{
-		$this->repo = $repo;
-	}
+    public function setRepo(NotificationQueueRepository $repo)
+    {
+        $this->repo = $repo;
+    }
 
     public function handle(EventInterface $event, $set_id = null, $post_id = null)
     {
-		// Insert into Notification Queue
-		$state = [
-			'set'  => $set_id,
-			'post' => $post_id
-		];
+        // Insert into Notification Queue
+        $state = [
+            'set'  => $set_id,
+            'post' => $post_id
+        ];
 
-		$entity = $this->repo->getEntity();
-		$entity->setState($state);
-		$this->repo->create($entity);
+        $entity = $this->repo->getEntity();
+        $entity->setState($state);
+        $this->repo->create($entity);
     }
 }

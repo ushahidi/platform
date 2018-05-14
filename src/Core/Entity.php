@@ -13,40 +13,40 @@ namespace Ushahidi\Core;
 
 interface Entity
 {
-	/**
-	 * Return the unique ID for the entity.
-	 *
-	 * @return Mixed
-	 */
-	public function getId();
+    /**
+     * Return the unique ID for the entity.
+     *
+     * @return Mixed
+     */
+    public function getId();
 
-	/**
-	 * Return the resource name for this entity.
-	 *
-	 * @return String
-	 */
-	public function getResource();
+    /**
+     * Return the resource name for this entity.
+     *
+     * @return String
+     */
+    public function getResource();
 
-	/**
-	 * Get the current entity state as an associative array.
-	 *
-	 * @return Array
-	 */
-	public function asArray();
+    /**
+     * Get the current entity state as an associative array.
+     *
+     * @return Array
+     */
+    public function asArray();
 
-	/**
-	 * Change the internal state of the entity, updating values and tracking any
-	 * changes that are made.
-	 *
-	 * @param  Array  $data
-	 * @return $this
-	 */
-	public function setState(array $data);
+    /**
+     * Change the internal state of the entity, updating values and tracking any
+     * changes that are made.
+     *
+     * @param  Array  $data
+     * @return $this
+     */
+    public function setState(array $data);
 
-	/**
-	 * Get all values that have been changed since initial state was defined.
-	 *
-	 * @return Array
-	 */
-	public function getChanged();
+    /**
+     * Get all values that have been changed since initial state was defined.
+     *
+     * @return Array
+     */
+    public function getChanged();
 }

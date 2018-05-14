@@ -15,28 +15,28 @@ use Ushahidi\Core\Data;
 
 class UploadData extends Data
 {
-	/**
-	 * @var String  $name original file name
-	 */
-	public $name;
+    /**
+     * @var String  $name original file name
+     */
+    public $name;
 
-	/*
-	 * @var String $type MIME type (not reliable!)
-	 */
-	public $type;
+    /*
+     * @var String $type MIME type (not reliable!)
+     */
+    public $type;
 
-	/*
-	 * @var Integer $size in bytes
-	 */
-	public $size;
+    /*
+     * @var Integer $size in bytes
+     */
+    public $size;
 
-	/*
-	 * @var Integer $tmp_name temporary filesystem path
-	 */
-	public $tmp_name;
+    /*
+     * @var Integer $tmp_name temporary filesystem path
+     */
+    public $tmp_name;
 
-	/*
-	 * @var Integer $error PHP error code
-	 */
-	public $error;
+    /*
+     * @var Integer $error PHP error code
+     */
+    public $error;
 }

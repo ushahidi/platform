@@ -21,138 +21,138 @@ use Log;
 
 class FrontlineSMS implements CallbackDataSource, OutgoingAPIDataSource
 {
-	use MapsInboundFields;
+    use MapsInboundFields;
 
-	protected $config;
+    protected $config;
 
-	/**
-	 * Constructor function for DataSource
-	 */
-	public function __construct(array $config, \GuzzleHttp\Client $client = null)
-	{
-		$this->config = $config;
-		$this->client = $client;
-	}
-
-	public function getName()
+    /**
+     * Constructor function for DataSource
+     */
+    public function __construct(array $config, \GuzzleHttp\Client $client = null)
     {
-		return 'FrontlineSMS';
-	}
+        $this->config = $config;
+        $this->client = $client;
+    }
 
-	public function getId()
-	{
-		return strtolower($this->getName());
-	}
+    public function getName()
+    {
+        return 'FrontlineSMS';
+    }
 
-	public function getServices()
-	{
-		return [MessageType::SMS];
-	}
+    public function getId()
+    {
+        return strtolower($this->getName());
+    }
 
-	public function getOptions()
-	{
-		return array(
-			'key' => array(
-					'label' => 'Key',
-					'input' => 'text',
-					'description' => 'The API key',
-					'rules' => array('required')
-			),
-			'secret' => array(
-				'label' => 'Secret',
-				'input' => 'text',
-				'description' => 'Set a secret so that only authorized FrontlineCloud accounts can send/recieve message.
+    public function getServices()
+    {
+        return [MessageType::SMS];
+    }
+
+    public function getOptions()
+    {
+        return array(
+            'key' => array(
+                    'label' => 'Key',
+                    'input' => 'text',
+                    'description' => 'The API key',
+                    'rules' => array('required')
+            ),
+            'secret' => array(
+                'label' => 'Secret',
+                'input' => 'text',
+                'description' => 'Set a secret so that only authorized FrontlineCloud accounts can send/recieve message.
 					You need to configure the same secret in the FrontlineCloud Activity.',
-				'rules' => array('required')
-			)
-		);
-	}
+                'rules' => array('required')
+            )
+        );
+    }
 
-	public function getInboundFields()
-	{
-		return [
-			'Message' => 'text'
-		];
-	}
+    public function getInboundFields()
+    {
+        return [
+            'Message' => 'text'
+        ];
+    }
 
-	/**
-	 * Contact type user for this provider
-	 */
-	public $contact_type = Contact::PHONE;
+    /**
+     * Contact type user for this provider
+     */
+    public $contact_type = Contact::PHONE;
 
-	// FrontlineSms Cloud api url
-	protected $apiUrl = 'https://cloud.frontlinesms.com/api/1/webhook';
+    // FrontlineSms Cloud api url
+    protected $apiUrl = 'https://cloud.frontlinesms.com/api/1/webhook';
 
-	/**
-	 * @return mixed
-	 */
-	public function send($to, $message, $title = "")
-	{
-		// Check we have the required config
-		if (!isset($this->config['key'])) {
-			app('log')->warning('Could not send message with FrontlineSMS, incomplete config');
-			return array(MessageStatus::FAILED, false);
-		}
+    /**
+     * @return mixed
+     */
+    public function send($to, $message, $title = "")
+    {
+        // Check we have the required config
+        if (!isset($this->config['key'])) {
+            app('log')->warning('Could not send message with FrontlineSMS, incomplete config');
+            return array(MessageStatus::FAILED, false);
+        }
 
-		// Prepare data to send to frontline cloud
-		$data = array(
-			"apiKey" => isset($this->config['key']) ? $this->config['key'] : '',
-			"payload" => array(
-				"message" => $message,
-				"recipients" => array(
-					array(
-						"type" => "mobile",
-						"value" => $to
-					)
-				)
-			)
-		);
+        // Prepare data to send to frontline cloud
+        $data = array(
+            "apiKey" => isset($this->config['key']) ? $this->config['key'] : '',
+            "payload" => array(
+                "message" => $message,
+                "recipients" => array(
+                    array(
+                        "type" => "mobile",
+                        "value" => $to
+                    )
+                )
+            )
+        );
 
-		// Make a POST request to send the data to frontline cloud
+        // Make a POST request to send the data to frontline cloud
 
-		try {
-			$response = $this->client->request('POST', $this->apiUrl, [
-					'headers' => [
-						'Accept'               => 'application/json',
-						'Content-Type'         => 'application/json'
-					],
-					'json' => $data
-				]);
-			// Successfully executed the request
+        try {
+            $response = $this->client->request('POST', $this->apiUrl, [
+                    'headers' => [
+                        'Accept'               => 'application/json',
+                        'Content-Type'         => 'application/json'
+                    ],
+                    'json' => $data
+                ]);
+            // Successfully executed the request
 
-			if ($response->getStatusCode() === 200) {
-				return array(MessageStatus::SENT, false);
-			}
+            if ($response->getStatusCode() === 200) {
+                return array(MessageStatus::SENT, false);
+            }
 
-			// Log warning to log file.
-			$status = $response->getStatusCode();
-			app('log')->warning(
+            // Log warning to log file.
+            $status = $response->getStatusCode();
+            app('log')->warning(
                 'Could not make a successful POST request',
                 array('message' => $response->messages[$status], 'status' => $status)
             );
-		} catch (\GuzzleHttp\Exception\ClientException $e) {
-			// Log warning to log file.
-			app('log')->warning(
+        } catch (\GuzzleHttp\Exception\ClientException $e) {
+            // Log warning to log file.
+            app('log')->warning(
                 'Could not make a successful POST request',
                 array('message' => $e->getMessage())
             );
-		}
+        }
 
-		return array(MessageStatus::FAILED, false);
-	}
+        return array(MessageStatus::FAILED, false);
+    }
 
-	public function registerRoutes(\Laravel\Lumen\Routing\Router $router)
-	{
-		$router->post('sms/frontlinesms', 'Ushahidi\App\DataSource\FrontlineSMS\FrontlineSMSController@handleRequest');
-		$router->post('frontlinesms', 'Ushahidi\App\DataSource\FrontlineSMS\FrontlineSMSController@handleRequest');
-	}
+    public function registerRoutes(\Laravel\Lumen\Routing\Router $router)
+    {
+        $router->post('sms/frontlinesms', 'Ushahidi\App\DataSource\FrontlineSMS\FrontlineSMSController@handleRequest');
+        $router->post('frontlinesms', 'Ushahidi\App\DataSource\FrontlineSMS\FrontlineSMSController@handleRequest');
+    }
 
-	public function verifySecret($secret)
-	{
-		if (isset($this->config['secret']) and $secret === $this->config['secret']) {
-			return true;
-		}
+    public function verifySecret($secret)
+    {
+        if (isset($this->config['secret']) and $secret === $this->config['secret']) {
+            return true;
+        }
 
-		return false;
-	}
+        return false;
+    }
 }

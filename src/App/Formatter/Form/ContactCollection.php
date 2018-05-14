@@ -17,28 +17,28 @@ use Ushahidi\Core\SearchData;
 
 class ContactCollection extends API
 {
-	use FormatterAuthorizerMetadata;
+    use FormatterAuthorizerMetadata;
 
-	public function __invoke($entities = [])
-	{
-		$data = [];
-		foreach ($entities as $entity) {
-			$data[] = $entity->asArray();
-		}
-		return $data;
-	}
+    public function __invoke($entities = [])
+    {
+        $data = [];
+        foreach ($entities as $entity) {
+            $data[] = $entity->asArray();
+        }
+        return $data;
+    }
 
-	/**
-	 * Store paging parameters.
-	 *
-	 * @param  SearchData $search
-	 * @param  Integer    $total
-	 * @return $this
-	 */
-	public function setSearch(SearchData $search, $total = null)
-	{
-		$this->search = $search;
-		$this->total  = $total;
-		return $this;
-	}
+    /**
+     * Store paging parameters.
+     *
+     * @param  SearchData $search
+     * @param  Integer    $total
+     * @return $this
+     */
+    public function setSearch(SearchData $search, $total = null)
+    {
+        $this->search = $search;
+        $this->total  = $total;
+        return $this;
+    }
 }

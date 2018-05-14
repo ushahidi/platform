@@ -15,18 +15,18 @@ use Ushahidi\Core\Entity\Repository\EntityGet;
 use Ushahidi\Core\Entity\Repository\EntityExists;
 
 interface RoleRepository extends
-	EntityGet,
-	EntityExists
+    EntityGet,
+    EntityExists
 {
-	/**
-	 * @param  Array $roles
-	 * @return Boolean
-	 */
-	public function doRolesExist(array $roles = null);
+    /**
+     * @param  Array $roles
+     * @return Boolean
+     */
+    public function doRolesExist(array $roles = null);
 
-	/**
-	 * @param String $name
-	 * @return \Ushahidi\Core\Entity\Role
-	 */
-	public function getByName($name);
+    /**
+     * @param String $name
+     * @return \Ushahidi\Core\Entity\Role
+     */
+    public function getByName($name);
 }

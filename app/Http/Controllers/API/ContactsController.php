@@ -16,8 +16,8 @@ use Ushahidi\App\Http\Controllers\RESTController;
 class ContactsController extends RESTController
 {
 
-	protected function getResource()
-	{
-		return 'contacts';
-	}
+    protected function getResource()
+    {
+        return 'contacts';
+    }
 }

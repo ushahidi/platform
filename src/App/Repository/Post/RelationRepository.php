@@ -13,9 +13,9 @@ namespace Ushahidi\App\Repository\Post;
 
 class RelationRepository extends ValueRepository
 {
-	// OhanzeeRepository
-	protected function getTable()
-	{
-		return 'post_relation';
-	}
+    // OhanzeeRepository
+    protected function getTable()
+    {
+        return 'post_relation';
+    }
 }

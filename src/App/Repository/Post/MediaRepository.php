@@ -17,35 +17,35 @@ namespace Ushahidi\App\Repository\Post;
 class MediaRepository extends ValueRepository
 {
 
-	// OhanzeeRepository
-	public function getEntity(array $data = null)
-	{
-		/**
-		 * This value is added here so that we can manipulate it in the CSV getpostvalues and use either id or filename
-		 * depending on the repository used
-		 */
-		$data['value'] = ['o_filename' => $data['o_filename'], 'id' => $data['id']];
-		return new \Ushahidi\Core\Entity\PostValueMedia($data);
-	}
+    // OhanzeeRepository
+    public function getEntity(array $data = null)
+    {
+        /**
+         * This value is added here so that we can manipulate it in the CSV getpostvalues and use either id or filename
+         * depending on the repository used
+         */
+        $data['value'] = ['o_filename' => $data['o_filename'], 'id' => $data['id']];
+        return new \Ushahidi\Core\Entity\PostValueMedia($data);
+    }
 
-	// OhanzeeRepository
-	protected function getTable()
-	{
-		return 'post_media';
-	}
+    // OhanzeeRepository
+    protected function getTable()
+    {
+        return 'post_media';
+    }
 
-	// Override selectQuery to fetch attribute 'key' too
-	protected function selectQuery(array $where = [])
-	{
-		$query = parent::selectQuery($where);
+    // Override selectQuery to fetch attribute 'key' too
+    protected function selectQuery(array $where = [])
+    {
+        $query = parent::selectQuery($where);
 
-		// Select 'key' too
-		$query->select(
-			'media.o_filename',
-			'media.id'
-		)
-		->join('media')->on('value', '=', 'media.id');
+        // Select 'key' too
+        $query->select(
+            'media.o_filename',
+            'media.id'
+        )
+        ->join('media')->on('value', '=', 'media.id');
 
-		return $query;
-	}
+        return $query;
+    }
 }

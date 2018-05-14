@@ -13,10 +13,10 @@ namespace Ushahidi\Core\Usecase\Set;
 
 interface SetPostRepository
 {
-	/**
-	 * @param  Int    $post_id
-	 * @param  Int    $set_id
-	 * @return Post
-	 */
-	public function getPostInSet($post_id, $set_id);
+    /**
+     * @param  Int    $post_id
+     * @param  Int    $set_id
+     * @return Post
+     */
+    public function getPostInSet($post_id, $set_id);
 }

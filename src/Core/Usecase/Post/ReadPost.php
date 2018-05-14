@@ -15,5 +15,5 @@ use Ushahidi\Core\Usecase\ReadUsecase;
 
 class ReadPost extends ReadUsecase
 {
-	use FindPostEntity;
+    use FindPostEntity;
 }

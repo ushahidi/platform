@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Ushahidi Post Date Validator
+ * Ushahidi Post Create Validator
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Application
@@ -11,12 +11,10 @@
 
 namespace Ushahidi\App\Validator\Post;
 
-class Int extends ValueValidator
+class Export extends Create
 {
-	protected function validate($value)
-	{
-		if (!\Kohana\Validation\Valid::digit($value)) {
-			return 'digit';
-		}
-	}
+    protected function getRules()
+    {
+        return [];
+    }
 }

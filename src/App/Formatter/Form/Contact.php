@@ -16,21 +16,21 @@ use Ushahidi\Core\Traits\FormatterAuthorizerMetadata;
 
 class Contact extends API
 {
-	use FormatterAuthorizerMetadata;
+    use FormatterAuthorizerMetadata;
 
-	/**
-	 * @param $form_id
-	 * @param array $entities (the entities that were added)
-	 * @param array $invalidatedContacts ([{'contact': number, 'contact': id, 'form_id:' form_id}...]
-	 * @return array|mixed
-	 */
-	public function __invoke($form_id, $entities = [], $invalidatedContacts = [])
-	{
-		$data = [
-			'form_id'  => $form_id,
-			'count' => count($entities),
-			'invalidated_contacts' => $invalidatedContacts
-		];
-		return $data;
-	}
+    /**
+     * @param $form_id
+     * @param array $entities (the entities that were added)
+     * @param array $invalidatedContacts ([{'contact': number, 'contact': id, 'form_id:' form_id}...]
+     * @return array|mixed
+     */
+    public function __invoke($form_id, $entities = [], $invalidatedContacts = [])
+    {
+        $data = [
+            'form_id'  => $form_id,
+            'count' => count($entities),
+            'invalidated_contacts' => $invalidatedContacts
+        ];
+        return $data;
+    }
 }

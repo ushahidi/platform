@@ -15,37 +15,37 @@ use Symm\Gisconverter\Exceptions\InvalidText;
 
 trait GeoJSONFormatter
 {
-	protected $decoder;
+    protected $decoder;
 
-	public function setDecoder(WKT $decoder)
-	{
-		$this->decoder = $decoder;
-	}
+    public function setDecoder(WKT $decoder)
+    {
+        $this->decoder = $decoder;
+    }
 
-	/**
-	 * Create a GeoJSON geometry from form field value
-	 *
-	 * @param  array|string $value    Value
-	 * @param  string       $type     Value Type (point or geometry)
-	 * @return array
-	 */
-	protected function valueToGeometry($value)
-	{
-		// Assume array value's are always lat/lon arrays
-		if (is_array($value)) {
-			return [
-				'type' => 'Point',
-				'coordinates' => [$value['lon'], $value['lat']]
-			];
-		}
+    /**
+     * Create a GeoJSON geometry from form field value
+     *
+     * @param  array|string $value    Value
+     * @param  string       $type     Value Type (point or geometry)
+     * @return array
+     */
+    protected function valueToGeometry($value)
+    {
+        // Assume array value's are always lat/lon arrays
+        if (is_array($value)) {
+            return [
+                'type' => 'Point',
+                'coordinates' => [$value['lon'], $value['lat']]
+            ];
+        }
 
-		// Otherwise assume value is WKT text
-		try {
-			$geometry = $this->decoder->geomFromText($value);
-			return $geometry->toGeoArray();
-		} catch (InvalidText $itex) {
-			// Invalid value, just skip it
-			return [];
-		}
-	}
+        // Otherwise assume value is WKT text
+        try {
+            $geometry = $this->decoder->geomFromText($value);
+            return $geometry->toGeoArray();
+        } catch (InvalidText $itex) {
+            // Invalid value, just skip it
+            return [];
+        }
+    }
 }

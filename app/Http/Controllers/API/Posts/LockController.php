@@ -15,31 +15,31 @@ use Illuminate\Http\Request;
 class LockController extends PostsController
 {
 
-	// Ushahidi_Rest
-	protected function getResource()
-	{
-		return 'posts_lock';
-	}
+    // Ushahidi_Rest
+    protected function getResource()
+    {
+        return 'posts_lock';
+    }
 
-	// Get Lock
+    // Get Lock
     public function store(Request $request)
     {
         $this->usecase = $this->usecaseFactory
             ->get($this->getResource(), 'create')
             ->setPayload($this->getPayload($request))
-			->setIdentifiers($this->getIdentifiers($request))
-			->setFormatter(service("formatter.entity.post.lock"));
+            ->setIdentifiers($this->getIdentifiers($request))
+            ->setFormatter(service("formatter.entity.post.lock"));
 
         return $this->prepResponse($this->executeUsecase($request), $request);
     }
 
-	// Break Lock
+    // Break Lock
     public function destroy(Request $request)
     {
         $this->usecase = $this->usecaseFactory
             ->get($this->getResource(), 'delete')
             ->setIdentifiers($this->getIdentifiers($request))
-			->setFormatter(service("formatter.entity.post.lock"));
+            ->setFormatter(service("formatter.entity.post.lock"));
 
         return $this->prepResponse($this->executeUsecase($request), $request);
     }

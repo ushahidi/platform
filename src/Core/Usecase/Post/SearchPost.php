@@ -15,21 +15,21 @@ use Ushahidi\Core\Usecase\SearchUsecase;
 
 class SearchPost extends SearchUsecase
 {
-	// - VerifyParentLoaded for checking that the parent exists
-	use VerifyParentLoaded;
+    // - VerifyParentLoaded for checking that the parent exists
+    use VerifyParentLoaded;
 
-	/**
-	 * Get filter parameters that are used for paging.
-	 *
-	 * @return Array
-	 */
-	protected function getPagingFields()
-	{
-		return [
-			'orderby' => 'post_date',
-			'order'   => 'desc',
-			'limit'   => null,
-			'offset'  => 0
-		];
-	}
+    /**
+     * Get filter parameters that are used for paging.
+     *
+     * @return Array
+     */
+    protected function getPagingFields()
+    {
+        return [
+            'orderby' => 'post_date',
+            'order'   => 'desc',
+            'limit'   => null,
+            'offset'  => 0
+        ];
+    }
 }

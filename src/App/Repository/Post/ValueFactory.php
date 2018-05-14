@@ -13,48 +13,48 @@ namespace Ushahidi\App\Repository\Post;
 
 class ValueFactory
 {
-	// a map of value type to factory closures
-	protected $map = array();
+    // a map of value type to factory closures
+    protected $map = array();
 
-	public function __construct($map = array())
-	{
-		$this->map = $map;
-	}
+    public function __construct($map = array())
+    {
+        $this->map = $map;
+    }
 
-	/**
-	 * Get repository for post value `$type`
-	 * @param  string $type
-	 * @return Ushahidi\Core\Entity\PostValueRepository
-	 */
-	public function getRepo($type)
-	{
-		return $this->map[$type]();
-	}
+    /**
+     * Get repository for post value `$type`
+     * @param  string $type
+     * @return Ushahidi\Core\Entity\PostValueRepository
+     */
+    public function getRepo($type)
+    {
+        return $this->map[$type]();
+    }
 
-	/**
-	 * Get an array of post value types (based on injected map)
-	 * @return array
-	 */
-	public function getTypes()
-	{
-		return array_keys($this->map);
-	}
+    /**
+     * Get an array of post value types (based on injected map)
+     * @return array
+     */
+    public function getTypes()
+    {
+        return array_keys($this->map);
+    }
 
-	public function proxy(array $include_types = [])
-	{
-		return new ValueProxy($this, $include_types);
-	}
+    public function proxy(array $include_types = [])
+    {
+        return new ValueProxy($this, $include_types);
+    }
 
-	public function each($callback, array $include_types = [])
-	{
-		$map = $this->map;
-		if ($include_types) {
-			$map = array_intersect_key($this->map, array_fill_keys($include_types, true));
-		}
+    public function each($callback, array $include_types = [])
+    {
+        $map = $this->map;
+        if ($include_types) {
+            $map = array_intersect_key($this->map, array_fill_keys($include_types, true));
+        }
 
-		foreach ($map as $type => $class) {
-			$repo = $this->getRepo($type);
-			$callback($repo);
-		}
-	}
+        foreach ($map as $type => $class) {
+            $repo = $this->getRepo($type);
+            $callback($repo);
+        }
+    }
 }

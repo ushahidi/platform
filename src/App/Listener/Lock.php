@@ -21,7 +21,7 @@ use Ushahidi\Core\Traits\UserContext;
 class Lock extends AbstractListener
 {
     // Provides getUser()
-	use UserContext;
+    use UserContext;
 
     use RedisFeature;
 

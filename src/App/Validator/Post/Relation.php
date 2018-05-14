@@ -15,26 +15,26 @@ use Ushahidi\Core\Entity\PostRepository;
 
 class Relation extends ValueValidator
 {
-	protected $repo;
+    protected $repo;
 
-	public function __construct(PostRepository $repo)
-	{
-		$this->repo = $repo;
-	}
+    public function __construct(PostRepository $repo)
+    {
+        $this->repo = $repo;
+    }
 
-	protected function validate($value)
-	{
-		if (!\Kohana\Validation\Valid::digit($value)) {
-			return 'digit';
-		}
+    protected function validate($value)
+    {
+        if (!\Kohana\Validation\Valid::digit($value)) {
+            return 'digit';
+        }
 
-		if (! $this->repo->exists($value)) {
-			return 'exists';
-		}
+        if (! $this->repo->exists($value)) {
+            return 'exists';
+        }
 
-		$post = $this->repo->get($value);
-		if (is_int($this->config['input']['form']) && $post->form_id !== $this->config['input']['form']) {
-			return 'invalidForm';
-		}
-	}
+        $post = $this->repo->get($value);
+        if (is_int($this->config['input']['form']) && $post->form_id !== $this->config['input']['form']) {
+            return 'invalidForm';
+        }
+    }
 }

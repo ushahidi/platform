@@ -72,6 +72,21 @@ users:
     realname: CannotEditor
     email: "cannoteditor@ushahidi.com"
     role: "noedit"
+user_settings:
+ - 
+   id: 1
+   config_key: "some key"
+   config_value: "some value"
+   created: 1893477600
+   updated: 1893477600
+   user_id: 2
+ - 
+   id: 2
+   config_key: "some key2"
+   config_value: "some value"
+   created: 1893477600
+   updated: 1893477600
+   user_id: 1
 user_reset_tokens:
   -
     id: 1
@@ -1651,6 +1666,10 @@ config:
     config_key: roles
     config_value: '{"enabled":true}'
   -
+    group_name: features
+    config_key: user-settings
+    config_value: '{"enabled":true}'
+  -
     group_name: "data-provider"
     config_key: default_providers
     config_value: '{"sms":"smssync","ivr":false,"email":"email","twitter":"twitter"}'
@@ -2018,6 +2037,17 @@ export_job:
     id: 1
     entity_type: "post"
     user_id: 2
+permissions:
+  -
+    name: Manage Users
+  -
+    name: Manage Posts
+  -
+    name: Manage Settings
+  -
+    name: Bulk Data Import and Export
+  -
+    name: Edit their own posts
 roles_permissions:
   -
     role: manager
@@ -2030,7 +2060,7 @@ roles_permissions:
     permission: Manage Settings
   -
     role: importer
-    permission: Bulk Data Import
+    permission: Bulk Data Import and Export
   -
     role: user
     permission: Edit their own posts

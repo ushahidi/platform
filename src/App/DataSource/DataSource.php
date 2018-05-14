@@ -13,17 +13,17 @@ namespace Ushahidi\App\DataSource;
 interface DataSource
 {
 
-	/**
-	 * Constructor function for DataSource
-	 */
-	// @todo add state store
-	public function __construct(array $config);
+    /**
+     * Constructor function for DataSource
+     */
+    // @todo add state store
+    public function __construct(array $config);
 
-	public function getName();
-	public function getId();
-	public function getServices();
-	public function getOptions();
-	public function getInboundFields();
-	public function getInboundFormId();
-	public function getInboundFieldMappings();
+    public function getName();
+    public function getId();
+    public function getServices();
+    public function getOptions();
+    public function getInboundFields();
+    public function getInboundFormId();
+    public function getInboundFieldMappings();
 }

@@ -17,28 +17,28 @@ use Ushahidi\Core\Exception\FormatterException;
 
 class JSON implements Formatter, OutputFormatter
 {
-	protected function getOptions()
-	{
-		// Are we in development environment?
-		return env('APP_DEBUG', false) ? JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES : null;
-	}
+    protected function getOptions()
+    {
+        // Are we in development environment?
+        return env('APP_DEBUG', false) ? JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES : null;
+    }
 
-	// Formatter
-	public function __invoke($input)
-	{
-		$opts = $this->getOptions();
-		$json = json_encode($input, $opts);
+    // Formatter
+    public function __invoke($input)
+    {
+        $opts = $this->getOptions();
+        $json = json_encode($input, $opts);
 
-		if ($json === false) {
-			throw new FormatterException('Unable to format data as JSON: ' . json_last_error());
+        if ($json === false) {
+            throw new FormatterException('Unable to format data as JSON: ' . json_last_error());
         }
 
-		return $json;
-	}
+        return $json;
+    }
 
-	// OutputFormatter
-	public function getMimeType()
-	{
-		return 'application/json';
-	}
+    // OutputFormatter
+    public function getMimeType()
+    {
+        return 'application/json';
+    }
 }

@@ -15,23 +15,23 @@ use Ushahidi\Core\Traits\FormatterAuthorizerMetadata;
 
 class Layer extends API
 {
-	use FormatterAuthorizerMetadata;
+    use FormatterAuthorizerMetadata;
 
-	protected function getFieldName($field)
-	{
-		$remap = [
-			'media_id' => 'media',
-			];
+    protected function getFieldName($field)
+    {
+        $remap = [
+            'media_id' => 'media',
+            ];
 
-		if (isset($remap[$field])) {
-			return $remap[$field];
-		}
+        if (isset($remap[$field])) {
+            return $remap[$field];
+        }
 
-		return parent::getFieldName($field);
-	}
+        return parent::getFieldName($field);
+    }
 
-	protected function formatMediaId($media_id)
-	{
-		return $this->getRelation('media', $media_id);
-	}
+    protected function formatMediaId($media_id)
+    {
+        return $this->getRelation('media', $media_id);
+    }
 }

@@ -16,7 +16,7 @@ $app = new Laravel\Lumen\Application(
 );
 
 $app->withFacades(true, [
-    'Ushahidi\App\Facades\Features' => 'Features',
+    'Ushahidi\App\Facades\Features' => 'Features'
 ]);
 
 $app->withEloquent();
@@ -57,18 +57,16 @@ $app->middleware([
     Barryvdh\Cors\HandleCors::class,
 ]);
 
-// $app->routeMiddleware([
-//     'auth' => Ushahidi\App\Http\Middleware\Authenticate::class,
-// ]);
 $app->routeMiddleware([
     'auth' => Ushahidi\App\Http\Middleware\Authenticate::class,
-	//'cors'   => Ushahidi\App\Http\Middleware\CorsMiddleware::class,
+    //'cors'   => Ushahidi\App\Http\Middleware\CorsMiddleware::class,
     // Customised scope middleware
     'scopes' => Ushahidi\App\Http\Middleware\CheckScopes::class,
     'scope'  => Ushahidi\App\Http\Middleware\CheckForAnyScope::class,
     //'scopes' => Laravel\Passport\Http\Middleware\CheckScopes::class,
     //'scope'  => Laravel\Passport\Http\Middleware\CheckForAnyScope::class,
     'signature' => Ushahidi\App\Http\Middleware\SignatureAuth::class,
+    'feature' => Ushahidi\App\Http\Middleware\CheckFeature::class,
 ]);
 
 /*

@@ -20,36 +20,36 @@ use Ushahidi\Core\Traits\PrivateDeployment;
 
 class ApiKeyAuthorizer implements Authorizer
 {
-	// The access checks are run under the context of a specific user
-	use UserContext;
+    // The access checks are run under the context of a specific user
+    use UserContext;
 
-	// To check whether the user has admin access
-	use AdminAccess;
+    // To check whether the user has admin access
+    use AdminAccess;
 
-	// It uses `PrivAccess` to provide the `getAllowedPrivs` method.
-	use PrivAccess;
+    // It uses `PrivAccess` to provide the `getAllowedPrivs` method.
+    use PrivAccess;
 
-	// It uses `PrivateDeployment` to check whether a deployment is private
-	use PrivateDeployment;
+    // It uses `PrivateDeployment` to check whether a deployment is private
+    use PrivateDeployment;
 
-	/* Authorizer */
-	public function isAllowed(Entity $entity, $privilege)
-	{
+    /* Authorizer */
+    public function isAllowed(Entity $entity, $privilege)
+    {
 
-		// These checks are run within the user context.
-		$user = $this->getUser();
+        // These checks are run within the user context.
+        $user = $this->getUser();
 
-		// Only logged in users have access if the deployment is private
-		if (!$this->canAccessDeployment($user)) {
-			return false;
-		}
+        // Only logged in users have access if the deployment is private
+        if (!$this->canAccessDeployment($user)) {
+            return false;
+        }
 
-		// Admin is allowed access to everything
-		if ($this->isUserAdmin($user)) {
-			return true;
-		}
+        // Admin is allowed access to everything
+        if ($this->isUserAdmin($user)) {
+            return true;
+        }
 
-		// If no other access checks succeed, we default to denying access
-		return false;
-	}
+        // If no other access checks succeed, we default to denying access
+        return false;
+    }
 }

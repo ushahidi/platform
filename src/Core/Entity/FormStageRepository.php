@@ -19,32 +19,32 @@ interface FormStageRepository extends
     EntityExists
 {
 
-	/**
-	 * @param  int $form_id
-	 * @return [Ushahidi\Core\Entity\FormStage, ...]
-	 */
-	public function getByForm($form_id);
+    /**
+     * @param  int $form_id
+     * @return [Ushahidi\Core\Entity\FormStage, ...]
+     */
+    public function getByForm($form_id);
 
-	/**
-	 * @param  int $id
-	 * @param  int $form_id
-	 * @return [Ushahidi\Core\Entity\FormStage, ...]
-	 */
-	public function existsInForm($id, $form_id);
+    /**
+     * @param  int $id
+     * @param  int $form_id
+     * @return [Ushahidi\Core\Entity\FormStage, ...]
+     */
+    public function existsInForm($id, $form_id);
 
-	/**
-	 * Get required stages for form
-	 *
-	 * @param  int $form_id
-	 * @return [Ushahidi\Core\Entity\FormAttribute, ...]
-	 */
-	public function getRequired($form_id);
+    /**
+     * Get required stages for form
+     *
+     * @param  int $form_id
+     * @return [Ushahidi\Core\Entity\FormAttribute, ...]
+     */
+    public function getRequired($form_id);
 
-	/**
-	 * Get 'post' type stage for form
-	 *
-	 * @param  int $form_id
-	 * @return Ushahidi\Core\Entity\FormAttribute
-	 */
-	public function getPostStage($form_id);
+    /**
+     * Get 'post' type stage for form
+     *
+     * @param  int $form_id
+     * @return Ushahidi\Core\Entity\FormAttribute
+     */
+    public function getPostStage($form_id);
 }

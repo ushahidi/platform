@@ -21,11 +21,11 @@ use Database_MySQLi;
 class ContactRepositoryTest extends \PHPUnit\Framework\TestCase
 {
 
-	protected $repository;
+    protected $repository;
 
-	public function setUp()
-	{
-		parent::setUp();
+    public function setUp()
+    {
+        parent::setUp();
         /* @TODO:
             Use a fixture / mock to setup some testable data.
 
@@ -37,10 +37,10 @@ class ContactRepositoryTest extends \PHPUnit\Framework\TestCase
             'password' => 'xxxxxx',
             'socket'   => '',
             'port'     => 3306]];
-		$local_conn = '?';
+        $local_conn = '?';
 
         $db = new Database_MySQLi($local_conn, $dbconfig);
-		$this->contactRepo = new Ushahidi_Repository_Contact($db); // not a mock!
+        $this->contactRepo = new Ushahidi_Repository_Contact($db); // not a mock!
 
         @TODO: add known targeted contact data
             e.g., $this->known_targeted_contact_phone = '2222222222';
@@ -49,7 +49,7 @@ class ContactRepositoryTest extends \PHPUnit\Framework\TestCase
             e.g., $this->known_regular_contact_phone = '1111111111';
 
         */
-	}
+    }
 
 
     public function testIsInTargetedSurvey()

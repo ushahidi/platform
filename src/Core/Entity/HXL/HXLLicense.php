@@ -15,25 +15,25 @@ use Ushahidi\Core\StaticEntity;
 
 class HXLLicense extends StaticEntity
 {
-	protected $id;
-	protected $code;
-	protected $name;
-	protected $link;
+    protected $id;
+    protected $code;
+    protected $name;
+    protected $link;
 
-	// DataTransformer
-	public function getDefinition()
-	{
-		return [
-			'id'        => 'int',
-			'code'      => 'string',
-			'name' 		=> 'string',
-			'link'    	=> 'string',
-		];
-	}
+    // DataTransformer
+    public function getDefinition()
+    {
+        return [
+            'id' => 'int',
+            'code' => 'string',
+            'name' => 'string',
+            'link' => 'string',
+        ];
+    }
 
-	// Entity
-	public function getResource()
-	{
-		return 'hxl_license';
-	}
+    // Entity
+    public function getResource()
+    {
+        return 'hxl_license';
+    }
 }
