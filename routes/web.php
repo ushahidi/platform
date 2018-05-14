@@ -240,10 +240,6 @@ $router->group([
         });
     });
 
-    if (Features::isEnabled('hxl')) {
-        $router->get('hxl', "HXLController@index");
-    }
-
     // Layers
     $router->group([
         'prefix' => 'layers',
@@ -471,6 +467,7 @@ $router->group([
 
     // Users
     $router->group([
+        'namespace' => 'Users',
         'prefix' => 'users',
         'middleware' => ['scope:users']
     ], function () use ($router) {
@@ -487,6 +484,21 @@ $router->group([
             $router->delete('/{id:[0-9]+}', 'UsersController@destroy');
             $router->get('/me', 'UsersController@showMe');
             $router->put('/me', 'UsersController@updateMe');
+            
+            // Sub-user routes
+            $router->group(['prefix' => '/{user_id:[0-9]+}'], function () use ($router) {
+                // Settings
+                $router->group([
+                    'prefix' => 'settings',
+                    'middleware' => ['feature:user-settings']
+                ], function () use ($router) {
+                    $router->get('/', 'SettingsController@index');
+                    $router->post('/', 'SettingsController@store');
+                    $router->get('/{id}', 'SettingsController@show');
+                    $router->put('/{id}', 'SettingsController@update');
+                    $router->delete('/{id}', 'SettingsController@destroy');
+                });
+            });
         });
     });
 
@@ -502,6 +514,14 @@ $router->group([
         $router->delete('/{id:[0-9]+}', 'WebhooksController@destroy');
 
         $router->put('/posts', 'WebhookPostsController@update');
+    });
+
+    // HXL
+    $router->group([
+        'prefix' => 'hxl',
+        'middleware' => ['feature:hxl']
+    ], function () use ($router) {
+        $router->get('/', "HXLController@index");
     });
 });
 

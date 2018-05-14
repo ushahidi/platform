@@ -226,7 +226,7 @@ Feature: Testing the Users API
 			"""
 		When I request "/passwordreset"
 		Then the guzzle status code should be 204
-
+	
 	Scenario: Reset a users password
 		Given that I want to make a new "user"
 		And that the request "data" is:
