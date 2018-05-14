@@ -670,17 +670,17 @@ class RestContext implements Context
     }
 
 
-     /**
+
+    /**
      * @Then /^echo last response$/
      */
     public function echoLastResponse()
     {
-        print(
-            "
-                {$this->requestUrl}
-                HTTP/{$this->response->getProtocolVersion()} {$this->response->getStatusCode()} {$this->response->getReasonPhrase()}
-                {$this->response->getBody()}
-            "
+        print("
+{$this->requestUrl}
+HTTP/{$this->response->getProtocolVersion()} {$this->response->getStatusCode()} {$this->response->getReasonPhrase()}
+{$this->response->getBody()}
+"
         );
     }
 
