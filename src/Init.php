@@ -237,8 +237,6 @@ $di->params['Ushahidi\Factory\UsecaseFactory']['map']['form_stages'] = [
     'search' => $di->lazyNew('Ushahidi\Core\Usecase\Form\SearchFormStage'),
 ];
 
-$di->setter['Ushahidi\Core\Usecase\Form\CreateFormContact']['setPhoneValidator'] =
-    \libphonenumber\PhoneNumberUtil::getInstance();
 // Media create requires file uploading as part of the payload.
 $di->params['Ushahidi\Factory\UsecaseFactory']['map']['media'] = [
     'create' => $di->lazyNew('Ushahidi\Core\Usecase\Media\CreateMedia'),
