@@ -105,6 +105,23 @@ class PHPUnitFixtureContext implements Context
         $this->setConfig('feature', 'private', '{"enabled":false}');
     }
 
+
+    /**
+     * @BeforeScenario @hxlEnabled
+     **/
+    public function enableHxl()
+    {
+        $this->setConfig('feature', 'hxl', '{"enabled":true}');
+    }
+
+    /**
+     * @BeforeScenario @hxlDisabled
+     **/
+    public function disableHxl()
+    {
+        $this->setConfig('feature', 'hxl', '{"enabled":false}');
+    }
+
     /** @BeforeScenario @webhooksEnabled */
     public function enableWebhooks()
     {

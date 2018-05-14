@@ -11,7 +11,7 @@
 
 namespace Ushahidi\App\Validator\ExportJob;
 
-use Ushahidi\Core\Entity;
+use Ushahidi\App\Facades\Features;
 use Ushahidi\Core\Tool\Validator;
 
 class Update extends Validator
@@ -20,13 +20,86 @@ class Update extends Validator
 
     protected function getRules()
     {
-        return [
+
+        return array_merge([
             'id' => [
                 ['numeric'],
             ],
             'entity_type' => [
                 ['in_array', [':value', ['post']]],
-            ]
-        ];
+            ],
+        ], $this->getHxlRules());
+    }
+
+    /**
+     * @return array
+     * Return hxl rules array if Feature hxl is enabled, empty array otherwise
+     */
+    private function getHxlRules()
+    {
+        $hxl_rules = [];
+        if (Features::isEnabled('hxl')) {
+            $hxl_rules = [
+                'send_to_hdx' => [
+                    [[$this, 'sendToBrowserIsFalse'], [':validation', ':value', ':fulldata']],
+                ],
+                'send_to_browser' => [
+                    [[$this, 'sendToHDXIsFalse'], [':validation', ':value', ':fulldata']],
+                ],
+                'include_hxl' => [
+                    ['numeric'], // FIXME bool check?
+                ]
+            ];
+        }
+        return $hxl_rules;
+    }
+    /**
+     * @param $validation
+     * @param $value
+     * @param $fullData
+     * @return bool
+     */
+    public function sendToBrowserIsFalse($validation, $value, $fullData)
+    {
+        if (!$this->isOppositeBool($value, $fullData['send_to_browser'])) {
+            $validation->error('send_to_hdx', 'sendToHDXShouldBeTrue');
+        }
+        return true;
+    }
+
+    /**
+     * @param $validation
+     * @param $value
+     * @param $fullData
+     * @return bool
+     */
+    public function sendToHDXIsFalse($validation, $value, $fullData)
+    {
+        if (!$this->isOppositeBool($value, $fullData['send_to_hdx'])) {
+            $validation->error('send_to_browser', 'sendToBrowserShouldBeTrue');
+        }
+        return true;
+    }
+
+    /**
+     * @param $first
+     * @param $second
+     * @return bool
+     */
+    private function isOppositeBool($first, $second)
+    {
+        if ($this->isBool($first) && $this->isBool($second)) {
+            return $first !== $second;
+        }
+        return false;
+    }
+
+    /**
+     * @param $value
+     * @return bool
+     */
+    private function isBool($value)
+    {
+        return $value !== null && is_bool($value);
     }
 }

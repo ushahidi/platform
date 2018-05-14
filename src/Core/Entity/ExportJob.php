@@ -26,6 +26,10 @@ class ExportJob extends StaticEntity
     protected $created;
     protected $updated;
     protected $url_expiration;
+    protected $include_hxl;
+    protected $send_to_browser;
+    protected $send_to_hdx;
+    protected $hxl_heading_row;
 
     // StatefulData
     protected function getDerived()
@@ -50,7 +54,11 @@ class ExportJob extends StaticEntity
             'header_row'        => '*json',
             'created'           => 'int',
             'updated'           => 'int',
-            'url_expiration'    => 'int'
+            'url_expiration'    => 'int',
+            'include_hxl'       => 'bool',
+            'send_to_browser'   => 'bool',
+            'send_to_hdx'       => 'bool',
+            'hxl_heading_row'   => 'string'
         ];
     }
 

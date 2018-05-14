@@ -1,4 +1,4 @@
-@exportjobs
+@exportjobs @hxlDisabled
 Feature: Testing the Export Job API
 
     Scenario: Create a export job
@@ -25,7 +25,6 @@ Feature: Testing the Export Job API
         And the response has a "id" property
         And the type of the "id" property is "numeric"
         Then the guzzle status code should be 200
-
     Scenario: An anonymous user cannot create to an export job
         Given that I want to make a new "ExportJob"
         And that the oauth token is "testanon"
