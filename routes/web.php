@@ -38,9 +38,9 @@ $router->group([
 
     // Collections
     $router->group([
-            'namespace' => 'Collections',
-            'prefix' => 'collections',
-            'middleware' => ['scope:collections,sets']
+        'namespace' => 'Collections',
+        'prefix' => 'collections',
+        'middleware' => ['scope:collections,sets']
     ], function () use ($router) {
         // Public access
         $router->get('/', 'CollectionsController@index');
@@ -239,7 +239,6 @@ $router->group([
             });
         });
     });
-
     // Layers
     $router->group([
         'prefix' => 'layers',
@@ -519,9 +518,11 @@ $router->group([
     // HXL
     $router->group([
         'prefix' => 'hxl',
-        'middleware' => ['feature:hxl']
+        'middleware' => ['feature:hxl'],
+        'namespace' => 'HXL'
     ], function () use ($router) {
         $router->get('/', "HXLController@index");
+        $router->get('/licenses', 'HXLLicensesController@index');
     });
 });
 

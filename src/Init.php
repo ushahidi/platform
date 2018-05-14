@@ -280,7 +280,6 @@ $di->params['Ushahidi\Factory\UsecaseFactory']['map']['posts'] = [
     'import'          => $di->lazyNew('Ushahidi\Core\Usecase\ImportUsecase'),
     'export'            => $di->lazyNew('Ushahidi\Core\Usecase\Post\ExportPost'),
 ];
-
 // Add custom create usecase for notifications
 $di->params['Ushahidi\Factory\UsecaseFactory']['map']['notifications'] = [
     'create'  => $di->lazyNew('Ushahidi\Core\Usecase\Notification\CreateNotification')
@@ -387,7 +386,6 @@ $di->params['Ushahidi\Core\Tool\Uploader'] = [
     'directory_prefix' => $di->lazyGet('tool.uploader.prefix')
 ];
 
-// Authorizers
 $di->set('authorizer.config', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\ConfigAuthorizer'));
 $di->set('authorizer.dataprovider', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\DataProviderAuthorizer'));
 $di->set('authorizer.form', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\FormAuthorizer'));
@@ -451,6 +449,7 @@ $di->params['Ushahidi\Core\Tool\Authorizer\TagAuthorizer'] = [
 ];
 
 $di->set('authorizer.country_code', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\CountryCodeAuthorizer'));
+
 
 require __DIR__ . '/App/Init.php';
 require __DIR__ . '/Console/Init.php';

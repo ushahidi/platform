@@ -11,6 +11,7 @@
 
 namespace Ushahidi\App\Repository\Form;
 
+use Illuminate\Support\Facades\App;
 use Ohanzee\DB;
 use Ohanzee\Database;
 use Ushahidi\Core\Entity;

@@ -56,7 +56,8 @@ class ExportJobAuthorizer implements Authorizer
         }
 
         // First check whether there is a role with the right permissions
-        if ($this->acl->hasPermission($user, Permission::DATA_IMPORT)) {
+        if ($this->acl->hasPermission($user, Permission::DATA_IMPORT_EXPORT) or
+            $this->acl->hasPermission($user, Permission::LEGACY_DATA_IMPORT)) {
             return true;
         }
 

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Ushahidi CSV Authorizer
+ * Ushahidi Config Authorizer
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Application
@@ -12,54 +12,47 @@
 namespace Ushahidi\Core\Tool\Authorizer;
 
 use Ushahidi\Core\Entity;
-use Ushahidi\Core\Entity\CSV;
+use Ushahidi\Core\Entity\Config;
+use Ushahidi\Core\Entity\User;
+use Ushahidi\Core\Entity\UserRepository;
 use Ushahidi\Core\Entity\Permission;
 use Ushahidi\Core\Tool\Authorizer;
 use Ushahidi\Core\Traits\AdminAccess;
 use Ushahidi\Core\Traits\UserContext;
 use Ushahidi\Core\Traits\PrivAccess;
 use Ushahidi\Core\Tool\Permissions\AclTrait;
-use Ushahidi\Core\Traits\DataImportAccess;
 
-class CSVAuthorizer implements Authorizer
+// The `HXLAuthorizer` class is responsible for access checks on `HXL` Entities
+class HXLAuthorizer implements Authorizer
 {
+    // The access checks are run under the context of a specific user
     use UserContext;
+
+    // It uses `AdminAccess` to check if the user has admin access
+    use AdminAccess;
 
     // It uses `PrivAccess` to provide the `getAllowedPrivs` method.
     use PrivAccess;
-
-    // Check if user has Admin access
-    use AdminAccess;
 
     // Check that the user has the necessary permissions
     // if roles are available for this deployment.
     use AclTrait;
 
-    // Check if the user can import data
-    use DataImportAccess;
 
     /* Authorizer */
     public function isAllowed(Entity $entity, $privilege)
     {
-        // Check if the user can import data first
-        if (!$this->canImportData()) {
-            return false;
-        }
-
-        // These checks are run within the user context.
+        // These checks are run within the `User` context.
         $user = $this->getUser();
-
-        // Allow role with the right permissions
-        if ($this->acl->hasPermission($user, Permission::DATA_IMPORT_EXPORT) or
-            $this->acl->hasPermission($user, Permission::LEGACY_DATA_IMPORT)) {
+        if ($this->isUserAdmin($user) ||
+            $this->acl->hasPermission($user, Permission::MANAGE_POSTS) ||
+            $this->acl->hasPermission($user, Permission::DATA_IMPORT_EXPORT) ||
+            $this->acl->hasPermission($user, Permission::LEGACY_DATA_IMPORT) ||
+            $this->acl->hasPermission($user, Permission::MANAGE_SETTINGS)
+        ) {
             return true;
         }
-
-        // Allow admin access
-        if ($this->isUserAdmin($user)) {
-            return true;
-        }
-
+        // If no other access checks succeed, we default to denying access
         return false;
     }
 }
