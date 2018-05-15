@@ -60,6 +60,6 @@ class HXLMetadata extends StaticEntity
     // Entity
     public function getResource()
     {
-        return 'hxl_metadata';
+        return 'hxl_meta_data';
     }
 }

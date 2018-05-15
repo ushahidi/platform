@@ -674,7 +674,7 @@ class RestContext implements Context
                 ' (actual: ' . $this->response->getHeaderLine(strtolower($header)) . ')');
         }
     }
-    
+
     /**
      * @Then /^echo last response$/
      */
