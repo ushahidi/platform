@@ -31,17 +31,17 @@ class HXLMetadata extends StaticEntity
     public function getDefinition()
     {
         return [
-            'id'        => 'int',
-            'private'   => 'bool',
-            'dataset_title'      => 'string',
-            'license_id'      => 'int',
-            'export_job_id'      => 'int',
-            'user_id'      => 'int',
+            'id'                => 'int',
+            'private'           => 'bool',
+            'dataset_title'     => 'string',
+            'license_id'        => 'int',
+            'export_job_id'     => 'int',
+            'user_id'           => 'int',
             'organisation'      => 'string',
-            'source'      => 'string',
-            'maintainer'      => 'string',
-            'created'      => 'int',
-            'updated'      => 'int',
+            'source'            => 'string',
+            'maintainer'        => 'string',
+            'created'           => 'int',
+            'updated'           => 'int',
         ];
     }
 
@@ -50,9 +50,9 @@ class HXLMetadata extends StaticEntity
     {
         // Foreign key alias
         return [
-            'license_id' => ['hxl_license', 'hxl_license.id'],
+            'license_id'     => ['hxl_license', 'hxl_license.id'],
             'export_job_id'  => ['export_job', 'export_job.id'],
-            'user_id'  => ['users', 'users.id']
+            'user_id'        => ['users', 'users.id']
         ];
     }
 
