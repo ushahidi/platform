@@ -762,10 +762,12 @@ $di->setter[Ushahidi\App\Repository\Post\LockRepository::class]['setListener'] =
 
 
 /**
- *
  * HXL block
- *
  */
+$di->set(
+    'repository.form_attribute_hxl_attribute_tag',
+    $di->lazyNew(Ushahidi\App\Repository\HXL\HXLFormAttributeHXLAttributeTagRepository::class)
+);
 $di->set('repository.hxl_metadata', $di->lazyNew(Ushahidi\App\Repository\HXL\HXLMetadataRepository::class));
 $di->set('repository.hxl_license', $di->lazyNew(Ushahidi\App\Repository\HXL\HXLLicenseRepository::class));
 $di->set('repository.hxl_tag', $di->lazyNew(Ushahidi\App\Repository\HXL\HXLTagRepository::class));
@@ -808,6 +810,9 @@ $di->params['Ushahidi\Factory\ValidatorFactory']['map']['hxl_metadata'] = [
     'create' => $di->lazyNew(Ushahidi\App\Validator\HXL\Metadata\Create::class),
 ];
 
+// CreateJob form_attribute_hxl_attribute_tag
+$di->setter['Ushahidi\Core\Usecase\Export\Job\CreateJob']['setFormAttributeHxlRepository']
+    = $di->lazyGet('repository.form_attribute_hxl_attribute_tag');
 $di->params[Ushahidi\App\Validator\HXL\Metadata\Create::class] = [
     'repo' => $di->lazyGet('repository.hxl_metadata'),
     'export_job_repo' => $di->lazyGet('repository.export_job'),

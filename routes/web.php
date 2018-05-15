@@ -511,21 +511,19 @@ $router->group([
         $router->get('/{id:[0-9]+}', 'WebhooksController@show');
         $router->put('/{id:[0-9]+}', 'WebhooksController@update');
         $router->delete('/{id:[0-9]+}', 'WebhooksController@destroy');
-
         $router->put('/posts', 'WebhookPostsController@update');
     });
 
     // HXL
     $router->group([
         'prefix' => 'hxl',
-        'middleware' => ['feature:hxl'],
+        'middleware' => ['auth:api','feature:hxl'],
         'namespace' => 'HXL'
     ], function () use ($router) {
         $router->get('/', "HXLController@index");
         $router->get('/licenses', 'HXLLicensesController@index');
         $router->get('/tags', 'HXLTagsController@index');
         $router->post('/metadata', 'HXLMetadataController@store');
-
     });
 });
 

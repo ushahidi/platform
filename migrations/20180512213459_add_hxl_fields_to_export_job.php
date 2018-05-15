@@ -20,7 +20,7 @@ class AddHxlFieldsToExportJob extends AbstractMigration
                 'comment' => 'Will we send the file to HDX?',
             ])
             ->addColumn(
-                'hxl_header_row',
+                'hxl_heading_row',
                 'text',
                 [
                     'null' => true,
@@ -38,7 +38,7 @@ class AddHxlFieldsToExportJob extends AbstractMigration
             ->removeColumn('include_hxl')
             ->removeColumn('send_to_browser')
             ->removeColumn('send_to_hdx')
-            ->removeColumn('hxl_header_row')
+            ->removeColumn('hxl_heading_row')
             ->update();
     }
 }
