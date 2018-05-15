@@ -39,8 +39,7 @@ class Update extends Validator
             'config_key' => [
                 ['is_string', [':value']],
                 ['min_length', [':value', 3]],
-                ['max_length', [':value', 255]],
-                [[$this, 'isUserConfigKeyPairUnique'], [':validation', ':data', ':value']]
+                ['max_length', [':value', 255]]
             ],
             'config_value' => [
                 ['is_string', [':value']],
@@ -48,13 +47,5 @@ class Update extends Validator
                 ['max_length', [':value', 255]]
             ],
         ];
-    }
-
-    public function isUserConfigKeyPairUnique($validation, $data, $config_key)
-    {
-        $user_id = isset($data['user_id']) ? $data['user_id'] : null;
-        if ($user_id && $this->user_setting_repo->userConfigKeyPairExists($user_id, $config_key)) {
-            $validation->error('config_key', 'duplicateConfigKeyUser', [$user_id, $config_key]);
-        }
     }
 }
