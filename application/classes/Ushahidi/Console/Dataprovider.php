@@ -103,6 +103,11 @@ class Ushahidi_Console_Dataprovider extends Command {
 			];
 		}
 
+		$totals[] = [
+			'Provider' => 'Unassigned',
+			'Total'    => \DataProvider::process_pending_messages($limit)
+		];
+
 		return $totals;
 	}
 }

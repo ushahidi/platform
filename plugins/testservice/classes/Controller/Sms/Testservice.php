@@ -83,7 +83,7 @@ class Controller_Sms_Testservice extends Controller {
 		}
 
 		// Allow for Alphanumeric sender
-		$from = preg_replace("/[^0-9A-Za-z ]/", "", $from);
+		$from = preg_replace("/[^0-9A-Za-z+ ]/", "", $from);
 
 		$options = $this->_provider->options();
 

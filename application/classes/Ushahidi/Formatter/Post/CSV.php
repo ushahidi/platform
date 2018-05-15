@@ -81,7 +81,7 @@ class Ushahidi_Formatter_Post_CSV extends Ushahidi_Formatter_API
 	 * - Form_attributes are grouped by stage, and sorted in ASC order by priority
 
 	 */
-	public function createHeading($attributes, $records)
+	public function createHeading($attributes)
 	{
 		$this->heading = $this->createSortedHeading($attributes);
 		
@@ -132,8 +132,10 @@ class Ushahidi_Formatter_Post_CSV extends Ushahidi_Formatter_API
 			foreach ($this->heading as $key => $value) {
 				$values[] = $this->getValueFromRecord($record, $key, $attributes);
 			}
+			
 			fputcsv($stream, $values);
-		}
+		
+		}		
 
 		return $this->writeStreamToFS($stream);
 	}
@@ -181,7 +183,7 @@ class Ushahidi_Formatter_Post_CSV extends Ushahidi_Formatter_API
 	 * Returns the correct value with the expected format for all fields in a post
 	 */
 	private function getValueFromRecord($record, $keyParam, $attributes){
-		// assume it's empty since we go through this for all attributes which might not be available
+		// assume it's empty since we go through this for all attributes which might not be available		
 		$return = '';
 		// the $keyParam is the key=>label we get in createSortedHeading (keyLabel.index)
 		$keySet = explode('.', $keyParam); //contains key + index of the key
@@ -189,6 +191,19 @@ class Ushahidi_Formatter_Post_CSV extends Ushahidi_Formatter_API
 		$key = isset($keySet[1]) ? $keySet[1] : null; // the key to use (0, lat,lon)
 		// check that the key we received is available in $attributes
 		$recordAttributes = isset($attributes[$headingKey]) ? $attributes[$headingKey] : null;
+
+		// Ignore attributes that are not related to this Post by Form Id
+		// Ensure that native attributes identified via id 0 are included
+		if (is_array($recordAttributes) && isset($recordAttributes['form_id']) && isset($record['form_id']) && $recordAttributes['form_id'] != 0 && ($record['form_id'] != $recordAttributes['form_id'])) {
+			return '';
+		}
+
+		// If the returned attribute for the given heading key is the native form name attribute
+		// Retrieve Form Name from the attribute rather than from the Post until the data model improves
+		
+		if (is_array($recordAttributes) && isset($recordAttributes['type']) && $recordAttributes['type'] === 'form_name') {
+			return is_array($record) && isset($record['form_name']) ? $record['form_name'] : '';
+		}
 
 		// default format we will return. See $csvFieldFormat for a list of available formats
 		$format = 'single_raw';
@@ -203,11 +218,18 @@ class Ushahidi_Formatter_Post_CSV extends Ushahidi_Formatter_API
 		**/
 		$isInValuesArray = isset ($record['values']) && isset($record['values'][$headingKey]);
 		/**
-		 * Just maps 'description' to look up content instead since it does not come in the values
-		 * with the correct key, it's part of $record
+		 * Remap Title and Description type attributes as these are a special case of attributes
+		 * since their labels are stored as attributes but their values are stored as fields on the record :/
+		 * The Key UUID will not match the equivalent field on the Post so we must change to use the correct field names
 		 */
-		$headingKey = $headingKey === 'description' ? 'content' : $headingKey;
+		if (is_array($recordAttributes) && isset($recordAttributes['type']) && ($recordAttributes['type'] === 'title' || $recordAttributes['type'] === 'description')) {
+			// Description must be mapped to content
+			// Title is title
+			$headingKey = $recordAttributes['type'] === 'title' ? 'title' : 'content';
+		}
+		
 		$recordValue = $isInValuesArray ? $record['values']: $record;
+
 		// handle values that are dates to have consistent formatting
 		$isDateField = $recordAttributes['input'] === 'date' && $recordAttributes['type'] === 'datetime';
 		if ($isDateField && isset($recordValue[$headingKey])) {
