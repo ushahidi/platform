@@ -30,19 +30,16 @@ class Ushahidi_Repository_Dataprovider implements
 	{
 		// translating labels and description for data-providers
 		if($data !== null && $data['options']) {
-			foreach ($data['options'] as $option_key => $option) {
-				foreach($option as $value_key => $value) {
-					if($value_key === 'label' && $value !== '') {
-						$data['options'][$option_key]['label'] = __($value);
+			foreach ($data['options'] as &$option) {
+				if(isset($option['label'])) {
+					 $option['label'] =  __($option['label']);
+				}
+				if(isset($option['description'])) {
+					if(is_string($option['description'])) {
+						$option['description'] = __($option['description']);
 					}
-					if($value_key === 'description') {
-						$description = $data['options'][$option_key]['description'];
-						if(gettype($description) === 'string') {
-							$data['options'][$option_key]['description'] = __($value);
-						}
-						if(gettype($description) === 'object') {
-							$data['options'][$option_key]['description'] = __($data['options'][$option_key]['description']());
-						}
+					if(is_callable($option['description'])) {
+						$option['description'] = __($option['description']());
 					}
 				}
 			}
