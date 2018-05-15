@@ -84,4 +84,9 @@ class SettingRepository extends OhanzeeRepository implements
 
         return $this->executeUpdate(['id' => $entity->id], $record);
     }
+
+    public function userConfigKeyPairExists($user_id, $config_key)
+    {
+        return (bool) $this->selectCount(compact('user_id', 'config_key'));
+    }
 }
