@@ -22,17 +22,16 @@ use stdClass;
  */
 class RestContext implements Context
 {
+    private $restObject        = null;
+    private $restObjectType    = null;
+    private $restObjectMethod  = 'get';
+    private $client            = null;
+    private $response          = null;
+    private $requestUrl        = null;
+    private $apiUrl            = 'api/v3';
 
-    private $restObject = null;
-    private $restObjectType = null;
-    private $restObjectMethod = 'get';
-    private $client = null;
-    private $response = null;
-    private $requestUrl = null;
-    private $apiUrl = 'api/v3';
-
-    private $parameters = array();
-    private $headers = [
+    private $parameters        = array();
+    private $headers           = [
         'Accept' => 'application/json'
     ];
     private $postFields = array();
@@ -614,14 +613,14 @@ class RestContext implements Context
             case 'numeric':
                 if (!is_numeric($actualPropertyValue)) {
                     throw new \Exception(
-                        "Property '" . $propertyName . "' is not of the correct type: " . $typeString . "!\n"
+                        "Property '".$propertyName."' is not of the correct type: ".$typeString."!\n"
                     );
                 }
                 break;
             case 'int':
                 if (!is_int($actualPropertyValue)) {
                     throw new \Exception(
-                        "Property '" . $propertyName . "' is not of the correct type: " . $typeString . "!\n"
+                        "Property '".$propertyName."' is not of the correct type: ".$typeString."!\n"
                     );
                 }
                 break;
@@ -675,8 +674,7 @@ class RestContext implements Context
                 ' (actual: ' . $this->response->getHeaderLine(strtolower($header)) . ')');
         }
     }
-
-
+    
     /**
      * @Then /^echo last response$/
      */

@@ -79,10 +79,14 @@ return [
     'redis' => [
         'enabled' => false,
     ],
-
     // Enable or disable HXL export to HDX
     // We will need a new 'hxl-download' flag when we do the HXL downloads for P1
     'hxl' => [
+        'enabled' => false,
+    ],
+
+    // Enable or disable User Settings feature
+    'user-settings' => [
         'enabled' => false,
     ],
 ];

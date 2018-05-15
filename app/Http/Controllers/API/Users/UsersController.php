@@ -1,6 +1,6 @@
 <?php
 
-namespace Ushahidi\App\Http\Controllers\API;
+namespace Ushahidi\App\Http\Controllers\API\Users;
 
 use Ushahidi\App\Http\Controllers\RESTController;
 use Illuminate\Http\Request;

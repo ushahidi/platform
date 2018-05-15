@@ -219,12 +219,13 @@ class AddHxlTags extends AbstractMigration
 					(`form_attribute_type`, `hxl_tag_id`)
 				VALUES (:form_attribute_type, :hxl_tag_id)"
         );
+        $select_tag_id = $pdo->prepare("SELECT id from hxl_tags where tag_name = :tag_name");
+        $select_attribute_id = $pdo->prepare("SELECT id from hxl_attributes where attribute = :attribute");
         foreach ($this->types_tags as $type => $map) {
             foreach ($map['tags'] as $tag) {
                 $insert_tag->execute(
                     [':tag_name' => $tag]
                 );
-                $select_tag_id = $pdo->prepare("SELECT id from hxl_tags where tag_name = :tag_name");
                 if ($select_tag_id->execute([':tag_name' => $tag])) {
                     $tag_id = $select_tag_id->fetch(PDO::FETCH_ASSOC);
                     $tag_id = $tag_id['id'];
@@ -235,8 +236,6 @@ class AddHxlTags extends AbstractMigration
                                 ':attribute' => $attribute,
                             ]
                         );
-                        $select_attribute_id =
-                            $pdo->prepare("SELECT id from hxl_attributes where attribute = :attribute");
                         $select_attribute_id->execute([':attribute' => $attribute]);
                         $attribute_id = $select_attribute_id->fetch(PDO::FETCH_ASSOC);
                         $attribute_id = $attribute_id['id'];
