@@ -21,7 +21,7 @@ class HXLMetadataRepository extends OhanzeeRepository implements
     // OhanzeeRepository
     protected function getTable()
     {
-        return 'hxl_metadata';
+        return 'hxl_meta_data';
     }
 
     public function getSearchFields()

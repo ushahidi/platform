@@ -22,21 +22,20 @@ use stdClass;
  */
 class RestContext implements Context
 {
+    private $restObject        = null;
+    private $restObjectType    = null;
+    private $restObjectMethod  = 'get';
+    private $client            = null;
+    private $response          = null;
+    private $requestUrl        = null;
+    private $apiUrl            = 'api/v3';
 
-    private $restObject = null;
-    private $restObjectType = null;
-    private $restObjectMethod = 'get';
-    private $client = null;
-    private $response = null;
-    private $requestUrl = null;
-    private $apiUrl = 'api/v3';
-
-    private $parameters = array();
-    private $headers = [
+    private $parameters        = array();
+    private $headers           = [
         'Accept' => 'application/json'
     ];
-    private $postFields = array();
-    private $postFiles = array();
+    private $postFields        = array();
+    private $postFiles         = array();
 
     /**
      * Initializes context.
@@ -50,7 +49,7 @@ class RestContext implements Context
             'http_errors' => false
         ];
         if ($proxyUrl) {
-            $options['proxy'] = ['http' => $proxyUrl];
+            $options['proxy'] = [ 'http'  => $proxyUrl ];
         }
 
         $options['base_uri'] = $baseUrl;
@@ -75,7 +74,7 @@ class RestContext implements Context
         // Reset restObject
         $this->restObject = new stdClass();
 
-        $this->restObjectType = ucwords(strtolower($objectType));
+        $this->restObjectType   = ucwords(strtolower($objectType));
         $this->restObjectMethod = 'post';
     }
 
@@ -87,7 +86,7 @@ class RestContext implements Context
         // Reset restObject
         $this->restObject = new stdClass();
 
-        $this->restObjectType = ucwords(strtolower($objectType));
+        $this->restObjectType   = ucwords(strtolower($objectType));
         $this->restObjectMethod = 'post';
     }
 
@@ -100,7 +99,7 @@ class RestContext implements Context
         // Reset restObject
         $this->restObject = new stdClass();
 
-        $this->restObjectType = ucwords(strtolower($objectType));
+        $this->restObjectType   = ucwords(strtolower($objectType));
         $this->restObjectMethod = 'post';
     }
 
@@ -113,7 +112,7 @@ class RestContext implements Context
         // Reset restObject
         $this->restObject = new stdClass();
 
-        $this->restObjectType = ucwords(strtolower($objectType));
+        $this->restObjectType   = ucwords(strtolower($objectType));
         $this->restObjectMethod = 'put';
     }
 
@@ -126,7 +125,7 @@ class RestContext implements Context
         // Reset restObject
         $this->restObject = new stdClass();
 
-        $this->restObjectType = ucwords(strtolower($objectType));
+        $this->restObjectType   = ucwords(strtolower($objectType));
         $this->restObjectMethod = 'get';
     }
 
@@ -138,7 +137,7 @@ class RestContext implements Context
         // Reset restObject
         $this->restObject = new stdClass();
 
-        $this->restObjectType = ucwords(strtolower($objectType));
+        $this->restObjectType   = ucwords(strtolower($objectType));
         $this->restObjectMethod = 'get';
     }
 
@@ -151,7 +150,7 @@ class RestContext implements Context
         // Reset restObject
         $this->restObject = new stdClass();
 
-        $this->restObjectType = ucwords(strtolower($objectType));
+        $this->restObjectType   = ucwords(strtolower($objectType));
         $this->restObjectMethod = 'delete';
     }
 
@@ -207,14 +206,14 @@ class RestContext implements Context
      */
     public function iRequest($pageUrl)
     {
-        $this->requestUrl = $this->apiUrl . $pageUrl;
+        $this->requestUrl   = $this->apiUrl.$pageUrl;
 
         switch (strtoupper($this->restObjectMethod)) {
             case 'GET':
                 $request = (array)$this->restObject;
-                $id = (isset($request['id'])) ? $request['id'] : '';
+                $id = ( isset($request['id']) ) ? $request['id'] : '';
                 $response = $this->client
-                    ->get($this->requestUrl . '/' . $id, [
+                    ->get($this->requestUrl.'/'.$id, [
                         'query' => isset($request['query string']) ? trim($request['query string']) : null,
                         'headers' => $this->headers
                     ]);
@@ -252,26 +251,26 @@ class RestContext implements Context
                 break;
             case 'PUT':
                 $request = (array)$this->restObject;
-                $id = (isset($request['id'])) ? $request['id'] : '';
+                $id = ( isset($request['id']) ) ? $request['id'] : '';
                 $response = $this->client
-                    ->put($this->requestUrl . '/' . $id, [
-                        'headers' => $this->headers + ['Content-Type' => 'application/json'],
+                    ->put($this->requestUrl.'/'.$id, [
+                        'headers' =>  $this->headers + ['Content-Type' => 'application/json'],
                         'body' => $request['data']
                     ]);
                 break;
             case 'DELETE':
                 $request = (array)$this->restObject;
-                $id = (isset($request['id'])) ? $request['id'] : '';
+                $id = ( isset($request['id']) ) ? $request['id'] : '';
                 $response = $this->client
-                    ->delete($this->requestUrl . '/' . $id, [
+                    ->delete($this->requestUrl.'/'.$id, [
                         'headers' => $this->headers,
                     ]);
                 break;
             case 'OPTIONS':
                 $request = (array)$this->restObject;
-                $id = (isset($request['id'])) ? $request['id'] : '';
+                $id = ( isset($request['id']) ) ? $request['id'] : '';
                 $response = $this->client
-                    ->options($this->requestUrl . '/' . $id, [
+                    ->options($this->requestUrl.'/'.$id, [
                         'headers' => $this->headers,
                     ]);
                 break;
@@ -417,7 +416,7 @@ class RestContext implements Context
         $this->theResponseIsJson();
 
         if (array_get($data, $propertyName) === null) {
-            throw new \Exception("Property '" . $propertyName . "' is not set!\n");
+            throw new \Exception("Property '".$propertyName."' is not set!\n");
         }
     }
 
@@ -432,7 +431,7 @@ class RestContext implements Context
         $this->theResponseIsJson();
 
         if (array_get($data, $propertyName) !== null) {
-            throw new \Exception("Property '" . $propertyName . "' is set but should not be!\n");
+            throw new \Exception("Property '".$propertyName."' is set but should not be!\n");
         }
     }
 
@@ -447,14 +446,13 @@ class RestContext implements Context
         $actualPropertyValue = array_get($data, $propertyName);
 
         if ($actualPropertyValue === null) {
-            var_dump($data);
-            throw new \Exception("Property '" . $propertyName . "' is not set!\n");
+            throw new \Exception("Property '".$propertyName."' is not set!\n");
         }
         // Check the value - note this has to use != since $propertValue
         // is always a string so strict comparison would fail.
         if ($actualPropertyValue != $propertyValue) {
             throw new \Exception(
-                "Property value mismatch on '" . $propertyName . "'! " .
+                "Property value mismatch on '" . $propertyName . "'! ".
                 "(given: " . $propertyValue . ", match: " . $actualPropertyValue . ")"
             );
         }
@@ -472,14 +470,10 @@ class RestContext implements Context
         $actualPropertyValue = array_get($data, $propertyName);
 
         if ($actualPropertyValue === null) {
-            throw new \Exception(
-                "Property '" . $propertyName . "' is not set!\n"
-            );
+            throw new \Exception("Property '".$propertyName."' is not set!\n");
         }
         if ($actualPropertyValue !== true) {
-            throw new \Exception(
-                'Property \'' . $propertyName . '\' is not true! (match: ' . $actualPropertyValue . ')'
-            );
+            throw new \Exception('Property \''.$propertyName.'\' is not true! (match: '.$actualPropertyValue.')');
         }
     }
 
@@ -495,12 +489,10 @@ class RestContext implements Context
         $actualPropertyValue = array_get($data, $propertyName);
 
         if ($actualPropertyValue === null) {
-            throw new \Exception("Property '" . $propertyName . "' is not set!\n");
+            throw new \Exception("Property '".$propertyName."' is not set!\n");
         }
         if ($actualPropertyValue !== false) {
-            throw new \Exception(
-                'Property \'' . $propertyName . '\' is not false! (match: ' . $actualPropertyValue . ')'
-            );
+            throw new \Exception('Property \''.$propertyName.'\' is not false! (match: '.$actualPropertyValue.')');
         }
     }
 
@@ -517,22 +509,22 @@ class RestContext implements Context
         $actualPropertyValue = array_get($data, $propertyName);
 
         if ($actualPropertyValue === null) {
-            throw new Exception("Property '" . $propertyName . "' is not set!\n");
+            throw new Exception("Property '".$propertyName."' is not set!\n");
         }
 
-        if (is_array($actualPropertyValue) and !in_array($propertyContainsValue, $actualPropertyValue)) {
+        if (is_array($actualPropertyValue) and ! in_array($propertyContainsValue, $actualPropertyValue)) {
             throw new \Exception(
-                'Property \'' . $propertyName . '\' does not contain value!' .
-                '(given: ' . $propertyContainsValue . ', match: ' . json_encode($actualPropertyValue) . ')'
+                'Property \''.$propertyName.'\' does not contain value!' .
+                '(given: '.$propertyContainsValue.', match: '.json_encode($actualPropertyValue).')'
             );
         } elseif (is_string($actualPropertyValue) and strpos($actualPropertyValue, $propertyContainsValue) === false) {
             throw new \Exception(
-                'Property \'' . $propertyName . '\' does not contain value!' .
-                '(given: ' . $propertyContainsValue . ', match: ' . $actualPropertyValue . ')'
+                'Property \''.$propertyName.'\' does not contain value!' .
+                '(given: '.$propertyContainsValue.', match: '.$actualPropertyValue.')'
             );
         } elseif (!is_array($actualPropertyValue) and !is_string($actualPropertyValue)) {
             throw new \Exception(
-                "Property '" . $propertyName . "' could not be compared. Must be string or array.\n"
+                "Property '".$propertyName."' could not be compared. Must be string or array.\n"
             );
         }
     }
@@ -550,22 +542,22 @@ class RestContext implements Context
         $actualPropertyValue = array_get($data, $propertyName);
 
         if ($actualPropertyValue === null) {
-            throw new Exception("Property '" . $propertyName . "' is not set!\n");
+            throw new Exception("Property '".$propertyName."' is not set!\n");
         }
 
         if (is_array($actualPropertyValue) and in_array($propertyContainsValue, $actualPropertyValue)) {
             throw new \Exception(
-                'Property \'' . $propertyName . '\' contains value!' .
-                '(given: ' . $propertyContainsValue . ', match: ' . json_encode($actualPropertyValue) . ')'
+                'Property \''.$propertyName.'\' contains value!' .
+                '(given: '.$propertyContainsValue.', match: '.json_encode($actualPropertyValue).')'
             );
         } elseif (is_string($actualPropertyValue) and strpos($actualPropertyValue, $propertyContainsValue) !== false) {
             throw new \Exception(
-                'Property \'' . $propertyName . '\' does not contain value!' .
-                '(given: ' . $propertyContainsValue . ', match: ' . $actualPropertyValue . ')'
+                'Property \''.$propertyName.'\' does not contain value!' .
+                '(given: '.$propertyContainsValue.', match: '.$actualPropertyValue.')'
             );
         } elseif (!is_array($actualPropertyValue) and !is_string($actualPropertyValue)) {
             throw new \Exception(
-                "Property '" . $propertyName . "' could not be compared. Must be string or array.\n"
+                "Property '".$propertyName."' could not be compared. Must be string or array.\n"
             );
         }
     }
@@ -583,16 +575,16 @@ class RestContext implements Context
         $actualPropertyValue = array_get($data, $propertyName);
 
         if ($actualPropertyValue === null) {
-            throw new \Exception("Property '" . $propertyName . "' is not set!\n");
+            throw new \Exception("Property '".$propertyName."' is not set!\n");
         }
 
         if (is_array($actualPropertyValue) and count($actualPropertyValue) != $propertyCountValue) {
             throw new \Exception(
-                'Property \'' . $propertyName . '\' count does not match!' .
-                '(given: ' . $propertyCountValue . ', match: ' . count($actualPropertyValue) . ')'
+                'Property \''.$propertyName.'\' count does not match!' .
+                '(given: '.$propertyCountValue.', match: '.count($actualPropertyValue).')'
             );
         } elseif (!is_array($actualPropertyValue)) {
-            throw new \Exception("Property '" . $propertyName . "' could not be compared. Must be an array.\n");
+            throw new \Exception("Property '".$propertyName."' could not be compared. Must be an array.\n");
         }
     }
 
@@ -608,21 +600,21 @@ class RestContext implements Context
         $actualPropertyValue = array_get($data, $propertyName);
 
         if ($actualPropertyValue === null) {
-            throw new \Exception("Property '" . $propertyName . "' is not set!\n");
+            throw new \Exception("Property '".$propertyName."' is not set!\n");
         }
         // check our type
         switch (strtolower($typeString)) {
             case 'numeric':
                 if (!is_numeric($actualPropertyValue)) {
                     throw new \Exception(
-                        "Property '" . $propertyName . "' is not of the correct type: " . $typeString . "!\n"
+                        "Property '".$propertyName."' is not of the correct type: ".$typeString."!\n"
                     );
                 }
                 break;
             case 'int':
                 if (!is_int($actualPropertyValue)) {
                     throw new \Exception(
-                        "Property '" . $propertyName . "' is not of the correct type: " . $typeString . "!\n"
+                        "Property '".$propertyName."' is not of the correct type: ".$typeString."!\n"
                     );
                 }
                 break;
@@ -651,8 +643,8 @@ class RestContext implements Context
     public function theRestResponseStatusCodeShouldBe($httpStatus)
     {
         if ((string)$this->response->getStatusCode() !== $httpStatus) {
-            throw new \Exception('HTTP code does not match ' . $httpStatus .
-                ' (actual: ' . $this->response->getStatusCode() . ')');
+            throw new \Exception('HTTP code does not match '.$httpStatus.
+                ' (actual: '.$this->response->getStatusCode().')');
         }
     }
 
@@ -662,7 +654,7 @@ class RestContext implements Context
     public function theRestHeaderShouldExist($header)
     {
         if (!$this->response->hasHeader($header)) {
-            throw new \Exception('HTTP header does not exist ' . $header);
+            throw new \Exception('HTTP header does not exist '.$header);
         }
     }
 
@@ -672,10 +664,11 @@ class RestContext implements Context
     public function theRestHeaderShouldBe($header, $contents)
     {
         if ($this->response->getHeaderLine(strtolower($header)) !== $contents) {
-            throw new \Exception('HTTP header ' . $header . ' does not match ' . $contents .
-                ' (actual: ' . $this->response->getHeaderLine(strtolower($header)) . ')');
+            throw new \Exception('HTTP header ' . $header . ' does not match '.$contents.
+                ' (actual: '.$this->response->getHeaderLine(strtolower($header)).')');
         }
     }
+
 
 
     /**
@@ -732,7 +725,7 @@ HTTP/{$this->response->getProtocolVersion()} {$this->response->getStatusCode()} 
         // Reset restObject
         $this->restObject = new stdClass();
 
-        $this->restObjectType = ucwords(strtolower($objectType));
+        $this->restObjectType   = ucwords(strtolower($objectType));
         $this->restObjectMethod = 'get';
     }
 
@@ -756,7 +749,7 @@ HTTP/{$this->response->getProtocolVersion()} {$this->response->getStatusCode()} 
      */
     public function thatTheOauthTokenIs($tokenId)
     {
-        $key = new \League\OAuth2\Server\CryptKey("file://" . \Laravel\Passport\Passport::keyPath('oauth-private.key'));
+        $key = new \League\OAuth2\Server\CryptKey("file://".\Laravel\Passport\Passport::keyPath('oauth-private.key'));
         $scope = new \Laravel\Passport\Bridge\Scope('*');
         $client = new \Laravel\Passport\Bridge\Client('demoapp', 'demoapp', '/');
 

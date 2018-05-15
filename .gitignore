@@ -16,6 +16,7 @@ build/*
 puppet/modules
 Puppetfile.lock
 .tmp/*
+*.vscode
 .env
 phpunit.xml
 phpspec.yml
