@@ -22,7 +22,6 @@ use stdClass;
  */
 class RestContext implements Context
 {
-
     private $restObject        = null;
     private $restObjectType    = null;
     private $restObjectMethod  = 'get';
@@ -607,12 +606,16 @@ class RestContext implements Context
         switch (strtolower($typeString)) {
             case 'numeric':
                 if (!is_numeric($actualPropertyValue)) {
-                    throw new \Exception("Property '".$propertyName."' is not of the correct type: ".$typeString."!\n");
+                    throw new \Exception(
+                        "Property '".$propertyName."' is not of the correct type: ".$typeString."!\n"
+                    );
                 }
                 break;
             case 'int':
                 if (!is_int($actualPropertyValue)) {
-                    throw new \Exception("Property '".$propertyName."' is not of the correct type: ".$typeString."!\n");
+                    throw new \Exception(
+                        "Property '".$propertyName."' is not of the correct type: ".$typeString."!\n"
+                    );
                 }
                 break;
         }
@@ -667,7 +670,8 @@ class RestContext implements Context
     }
 
 
-     /**
+
+    /**
      * @Then /^echo last response$/
      */
     public function echoLastResponse()

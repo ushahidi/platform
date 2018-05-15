@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Ushahidi Config Repository, using Kohana::$config
+ * Ushahidi HXLTag Repository, using Kohana::$config
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Application
@@ -9,11 +9,12 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Ushahidi\App\Repository;
+namespace Ushahidi\App\Repository\HXL;
 
-use Ushahidi\Core\Entity\HXLLicense;
-use Ushahidi\Core\Entity\HXLLicenseRepository as HXLLicenseRepositoryContract;
 use Ushahidi\Core\SearchData;
+use Ushahidi\Core\Entity\HXL\HXLLicense;
+use Ushahidi\Core\Entity\HXL\HXLLicenseRepository as HXLLicenseRepositoryContract;
+use Ushahidi\App\Repository\OhanzeeRepository;
 
 class HXLLicenseRepository extends OhanzeeRepository implements
     HXLLicenseRepositoryContract
