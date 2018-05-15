@@ -517,7 +517,7 @@ $router->group([
     // HXL
     $router->group([
         'prefix' => 'hxl',
-        'middleware' => ['auth:api','feature:hxl'],
+        'middleware' => ['auth:api', 'feature:hxl'],
         'namespace' => 'HXL'
     ], function () use ($router) {
         $router->get('/', "HXLController@index");

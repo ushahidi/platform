@@ -22,7 +22,6 @@ use stdClass;
  */
 class RestContext implements Context
 {
-
     private $restObject = null;
     private $restObjectType = null;
     private $restObjectMethod = 'get';
@@ -616,14 +615,14 @@ class RestContext implements Context
             case 'numeric':
                 if (!is_numeric($actualPropertyValue)) {
                     throw new \Exception(
-                        "Property '" . $propertyName . "' is not of the correct type: " . $typeString . "!\n"
+                        "Property '".$propertyName."' is not of the correct type: ".$typeString."!\n"
                     );
                 }
                 break;
             case 'int':
                 if (!is_int($actualPropertyValue)) {
                     throw new \Exception(
-                        "Property '" . $propertyName . "' is not of the correct type: " . $typeString . "!\n"
+                        "Property '".$propertyName."' is not of the correct type: ".$typeString."!\n"
                     );
                 }
                 break;

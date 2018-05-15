@@ -631,7 +631,8 @@ $di->params[Ushahidi\App\Validator\User\Reset::class] = [
     'repo' => $di->lazyGet('repository.user')
 ];
 $di->params[Ushahidi\App\Validator\User\Setting\Update::class] = [
-    'user_repo'    => $di->lazyGet('repository.user')
+    'user_repo'    => $di->lazyGet('repository.user'),
+    'user_setting_repo'    => $di->lazyGet('repository.user_setting')
 ];
 $di->params[Ushahidi\App\Validator\Contact\Update::class] = [
     'repo' => $di->lazyGet('repository.user'),
@@ -831,6 +832,22 @@ $di->params['Ushahidi\Factory\ValidatorFactory']['map']['form_attribute_hxl_attr
     'create' => $di->lazyNew(Ushahidi\App\Validator\HXL\HXLFormAttributeHXLAttributeTag\Create::class),
 ];
 $di->setter['Ushahidi\Core\Usecase\Post\Export']['setFormAttributeRepository'] = $di->lazyGet('repository.form_attribute');
+
+$di->params['Ushahidi\Factory\RepositoryFactory']['map']['hxl_licenses'] =
+    $di->lazyGet('repository.hxl_license');
+$di->params['Ushahidi\Factory\RepositoryFactory']['map']['hxl_tags'] =
+    $di->lazyGet('repository.hxl_tag');
+
+$di->params['Ushahidi\Factory\FormatterFactory']['map']['hxl_licenses'] =
+    $di->lazyNew(Ushahidi\App\Formatter\HXL\HXLLicense::class);
+$di->params['Ushahidi\Factory\FormatterFactory']['map']['hxl_tags'] =
+    $di->lazyNew(Ushahidi\App\Formatter\HXL\HXLTag::class);
+$di->setter[Ushahidi\App\Formatter\HXL\HXLLicense::class]['setAuth'] = $di->lazyGet("authorizer.hxl");
+$di->setter[Ushahidi\App\Formatter\HXL\HXLTag::class]['setAuth'] = $di->lazyGet("authorizer.hxl");
+$di->set('formatter.entity.hxl_license', $di->lazyNew(Ushahidi\App\Formatter\HXL\HXLLicense::class));
+$di->set('formatter.entity.hxl_tag', $di->lazyNew(Ushahidi\App\Formatter\HXL\HXLTag::class));
+$di->set('repository.hxl_license', $di->lazyNew(Ushahidi\App\Repository\HXL\HXLLicenseRepository::class));
+$di->set('repository.hxl_tag', $di->lazyNew(Ushahidi\App\Repository\HXL\HXLTagRepository::class));
 
 // CreateJob form_attribute_hxl_attribute_tag
 $di->setter['Ushahidi\Core\Usecase\Export\Job\CreateJob']['setFormAttributeHxlRepository']

@@ -13,17 +13,20 @@ namespace Ushahidi\App\Validator\User\Setting;
 
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\Entity\UserRepository;
+use Ushahidi\Core\Entity\UserSettingRepository;
 use Ushahidi\Core\Tool\Validator;
 
 class Update extends Validator
 {
     protected $user_repo;
+    protected $user_setting_repo;
     protected $default_error_source = 'user_setting';
 
 
-    public function __construct(UserRepository $user_repo)
+    public function __construct(UserRepository $user_repo, UserSettingRepository $user_setting_repo)
     {
         $this->user_repo = $user_repo;
+        $this->user_setting_repo = $user_setting_repo;
     }
 
     protected function getRules()
