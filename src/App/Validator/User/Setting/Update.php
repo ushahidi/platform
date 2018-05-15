@@ -39,8 +39,7 @@ class Update extends Validator
             'config_key' => [
                 ['is_string', [':value']],
                 ['min_length', [':value', 3]],
-                ['max_length', [':value', 255]],
-                [[$this, 'isUserConfigKeyPairUnique'], [':validation', ':data', ':value']]
+                ['max_length', [':value', 255]]
             ],
             'config_value' => [
                 ['is_string', [':value']],
