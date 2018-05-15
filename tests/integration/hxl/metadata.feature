@@ -40,7 +40,7 @@ Feature: Testing the HXL Metadata API
     When I request "/hxl/metadata"
     Then the response is JSON
     And the response has a "errors.0.message" property
-    And the "errors.0.message" property equals "User 2 is not allowed to create resource hxl_metadata #0"
+    And the "errors.0.message" property equals "User 2 is not allowed to create resource hxl_meta_data #0"
     Then the guzzle status code should be 403
   Scenario: Create a metadata object fails if the license does not exists
     Given that I want to make a new "HXL Metadata"

@@ -19,6 +19,6 @@ class HXLMetadataController extends RESTController
 
     protected function getResource()
     {
-        return 'hxl_metadata';
+        return 'hxl_meta_data';
     }
 }
