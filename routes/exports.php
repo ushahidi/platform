@@ -1,17 +1,9 @@
 <?php
 
 // Export Jobs
-$router->group([
-    'namespace' => 'Exports',
+resource($router, '/exports/jobs', 'Exports\JobsController', [
     'middleware' => ['auth:api', 'scope:posts'],
-    'prefix' => '/exports/jobs'
-], function () use ($router) {
-    $router->get('/', 'JobsController@index');
-    $router->post('/', 'JobsController@store');
-    $router->get('/{id}', 'JobsController@show');
-    $router->put('/{id}', 'JobsController@update');
-    $router->delete('/{id}', 'JobsController@destroy');
-});
+]);
 
 $router->group([
     'namespace' => 'Exports\External',

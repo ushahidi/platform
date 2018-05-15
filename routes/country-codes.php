@@ -1,10 +1,7 @@
 <?php
 
 // Country Codes
-$router->group([
+resource($router, 'country-codes', 'CountryCodesController', [
     'middleware' => ['auth:api', 'scope:country_codes'],
-    'prefix' => 'country-codes'
-], function () use ($router) {
-    $router->get('/', 'CountryCodesController@index');
-    $router->get('/{id}', 'CountryCodesController@show');
-});
+    'only' => ['index', 'show']
+]);

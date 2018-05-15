@@ -6,15 +6,15 @@ $router->group([
     'middleware' => ['scope:config']
 ], function () use ($router) {
     // Public access
-    $router->get('/', ['uses' => 'ConfigController@index']);
+    resource($router, '/', 'ConfigController', [
+        'only' => ['index', 'show'],
+        'id' => 'id' // Override id to allow non-numeric IDs
+    ]);
     // @todo stop using this in client, and remove?
     $router->options('/', ['uses' => 'ConfigController@indexOptions']);
-    $router->get('/{id}', ['uses' => 'ConfigController@show']);
 
     // Restricted access
     $router->group(['middleware' => ['auth:api', 'scope:config']], function () use ($router) {
-        // $router->post('/', ['middleware' => 'oauth:config', 'uses' => 'ConfigController@store']);
         $router->put('/{id}', ['uses' => 'ConfigController@update']);
-        // $router->delete('/{id}', ['middleware' => 'oauth:config', 'uses' => 'ConfigController@destroy']);
     });
 });

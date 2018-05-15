@@ -1,10 +1,7 @@
 <?php
 
 // Permissions
-$router->group([
+resource($router, 'permissions', 'PermissionsController', [
     'middleware' => ['auth:api', 'scope:permissions'],
-    'prefix' => 'permissions'
-], function () use ($router) {
-    $router->get('/', 'PermissionsController@index');
-    $router->get('/{id}', 'PermissionsController@show');
-});
+    'only' => ['index', 'show'],
+]);

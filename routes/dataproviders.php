@@ -1,10 +1,8 @@
 <?php
 
 // Data providers
-$router->group([
+resource($router, 'dataproviders', 'DataProvidersController', [
     'middleware' => ['auth:api', 'scope:dataproviders'],
-    'prefix' => 'dataproviders'
-], function () use ($router) {
-    $router->get('/', 'DataProvidersController@index');
-    $router->get('/{id}', 'DataProvidersController@show');
-});
+    'only' => ['index', 'show'],
+    'id' => 'id' // Override id to allow non-numeric IDs
+]);

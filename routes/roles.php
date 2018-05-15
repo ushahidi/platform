@@ -6,15 +6,13 @@ $router->group([
     'middleware' => ['scope:roles']
 ], function () use ($router) {
     // Public access
-    $router->get('/', 'RolesController@index');
-    $router->get('/{id}', 'RolesController@show');
+    resource($router, '/', 'RolesController', [
+        'only' => ['index', 'show'],
+    ]);
 
     // Restricted access
-    $router->group([
-        'middleware' => ['auth:api', 'scope:roles']
-    ], function () use ($router) {
-        $router->post('/', 'RolesController@store');
-        $router->put('/{id}', 'RolesController@update');
-        $router->delete('/{id}', 'RolesController@destroy');
-    });
+    resource($router, '/', 'RolesController', [
+        'middleware' => ['auth:api'],
+        'only' => ['store', 'update', 'destroy'],
+    ]);
 });

@@ -6,15 +6,13 @@ $router->group([
     'middleware' => ['scope:layers']
 ], function () use ($router) {
     // Public access
-    $router->get('/', 'LayersController@index');
-    $router->get('/{id}', 'LayersController@show');
+    resource($router, '/', 'LayersController', [
+        'only' => ['index', 'show'],
+    ]);
 
     // Restricted access
-    $router->group([
-        'middleware' => ['auth:api', 'scope:layers']
-    ], function () use ($router) {
-        $router->post('/', 'LayersController@store');
-        $router->put('/{id}', 'LayersController@update');
-        $router->delete('/{id}', 'LayersController@destroy');
-    });
+    resource($router, '/', 'LayersController', [
+        'middleware' => ['auth:api'],
+        'only' => ['store', 'update', 'destroy'],
+    ]);
 });

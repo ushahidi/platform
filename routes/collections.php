@@ -7,8 +7,9 @@ $router->group([
         'middleware' => ['scope:collections,sets']
 ], function () use ($router) {
     // Public access
-    $router->get('/', 'CollectionsController@index');
-    $router->get('/{id}', 'CollectionsController@show');
+    resource($router, '/', 'CollectionsController', [
+        'only' => ['index', 'show']
+    ]);
     $router->group(['prefix' => '/{set_id:[0-9]+}/posts'], function () use ($router) {
         $router->get('/', 'PostsController@index');
         $router->get('/{id}', 'PostsController@show');
@@ -16,11 +17,11 @@ $router->group([
 
     // Restricted access
     $router->group([
-        'middleware' => ['auth:api', 'scope:collections,sets']
+        'middleware' => ['auth:api']
     ], function () use ($router) {
-        $router->post('/', 'CollectionsController@store');
-        $router->put('/{id}', 'CollectionsController@update');
-        $router->delete('/{id}', 'CollectionsController@destroy');
+        resource($router, '/', 'CollectionsController', [
+            'only' => ['store', 'update', 'destroy']
+        ]);
 
         $router->group(['prefix' => '/{set_id:[0-9]+}/posts'], function () use ($router) {
             $router->post('/', 'PostsController@store');
