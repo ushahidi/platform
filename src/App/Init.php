@@ -631,7 +631,8 @@ $di->params[Ushahidi\App\Validator\User\Reset::class] = [
     'repo' => $di->lazyGet('repository.user')
 ];
 $di->params[Ushahidi\App\Validator\User\Setting\Update::class] = [
-    'user_repo'    => $di->lazyGet('repository.user')
+    'user_repo'    => $di->lazyGet('repository.user'),
+    'user_setting_repo'    => $di->lazyGet('repository.user_setting')
 ];
 $di->params[Ushahidi\App\Validator\Contact\Update::class] = [
     'repo' => $di->lazyGet('repository.user'),
