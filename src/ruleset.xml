@@ -4,7 +4,19 @@
 
     <rule ref="PSR2" />
 
+    <!-- Checks that the opening PHP tag is the first content in a file -->
     <rule ref="Generic.PHP.CharacterBeforePHPOpeningTag" />
+    <!-- Checks format of doc blocks -->
+    <rule ref="Generic.Commenting.DocComment" />
+    <!-- forbids TODO commemts -->
+    <rule ref="Generic.Commenting.Todo"/>
+    <!--
+    Parses and verifies the doc comments for functions.
+    Throws error if there is no doc block
+    -->
+    <rule ref="Squiz.Commenting.FunctionComment" />
+    <!-- Checks that there is a throw tag for each exception thrown by a function -->
+    <rule ref="Squiz.Commenting.FunctionCommentThrowTag" />
 
     <exclude-pattern>vendor/*</exclude-pattern>
     <exclude-pattern>tests/spec/*</exclude-pattern>
