@@ -103,6 +103,7 @@ class ExportJobRepository extends OhanzeeRepository implements ExportJobReposito
             'created' => time(),
             'status' => "pending",
             'user_id' => $entity->user_id,
+            'hxl_heading_row' => null
         ];
 
         return parent::create($entity->setState($state));

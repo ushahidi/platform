@@ -14,17 +14,20 @@ namespace Ushahidi\Core\Usecase\Export\Job;
 use Ushahidi\Core\Entity\HXL\HXLFormAttributeHXLAttributeTag;
 use Ushahidi\Core\Entity\HXL\HXLFormAttributeHXLAttributeTagRepository;
 use Ushahidi\Core\Usecase\CreateUsecase;
+use Ushahidi\Core\Usecase\Export\Job\CreateHXLHeadingRow;
 
 class CreateJob extends CreateUsecase
 {
     protected $form_attribute_hxl_repository;
-
+    protected $create_hxl_heading_row;
     public function setFormAttributeHxlRepository(HXLFormAttributeHXLAttributeTagRepository $repo)
     {
         $this->form_attribute_hxl_repository = $repo;
     }
 
-
+    public function setCreateHXLHeadingRowUsecase($usecase) {
+        $this->create_hxl_heading_row = $usecase;
+    }
     // Usecase
     public function interact()
     {
@@ -43,12 +46,18 @@ class CreateJob extends CreateUsecase
         // ... get the newly created entity
         $entity = $this->getCreatedEntity($id);
         if ($entity->getId()) {
+
+            //var_dump($this->create_hxl_heading_row);die;
             foreach ($hxl_heading_row as $heading_row) {
-                var_dump($heading_row);
-                $entity_hxl = new HXLFormAttributeHXLAttributeTag();
-                $entity_hxl->setState($heading_row);
-                $entity_hxl->setState(['export_job_id' => $entity->getId()]);
-                $this->form_attribute_hxl_repository->create($entity_hxl);
+                $heading_row['export_job_id'] = $entity->getId();
+                $this->create_hxl_heading_row
+                    ->get('form_attribute_hxl_attribute_tag', 'create')
+                    ->setPayload($heading_row)
+                    ->interact();
+//                $entity_hxl = new HXLFormAttributeHXLAttributeTag();
+//                $entity_hxl->setState($heading_row);
+//                $entity_hxl->setState(['export_job_id' => $entity->getId()]);
+//                $this->form_attribute_hxl_repository->create($entity_hxl);
             }
         }
         // ... check that the entity can be read by the current user
