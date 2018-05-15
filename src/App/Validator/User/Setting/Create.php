@@ -17,5 +17,20 @@ use Ushahidi\Core\Entity\UserRepository;
 
 class Create extends Update
 {
-    protected $default_error_source = 'user_setting';
+    protected function getRules()
+    {
+        return array_merge_recursive(parent::getRules(), [
+            'config_key' => [
+                [[$this, 'isUserConfigKeyPairUnique'], [':validation', ':data', ':value']]
+            ],
+        ]);
+    }
+
+    public function isUserConfigKeyPairUnique($validation, $data, $config_key)
+    {
+        $user_id = isset($data['user_id']) ? $data['user_id'] : null;
+        if ($user_id && $this->user_setting_repo->userConfigKeyPairExists($user_id, $config_key)) {
+            $validation->error('config_key', 'duplicateConfigKeyUser', [$user_id, $config_key]);
+        }
+    }
 }
