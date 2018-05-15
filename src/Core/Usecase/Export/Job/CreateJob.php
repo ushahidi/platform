@@ -45,19 +45,13 @@ class CreateJob extends CreateUsecase
 
         // ... get the newly created entity
         $entity = $this->getCreatedEntity($id);
-        if ($entity->getId()) {
-
-            //var_dump($this->create_hxl_heading_row);die;
+        if ($entity->getId() && is_array($hxl_heading_row)) {
             foreach ($hxl_heading_row as $heading_row) {
                 $heading_row['export_job_id'] = $entity->getId();
                 $this->create_hxl_heading_row
                     ->get('form_attribute_hxl_attribute_tag', 'create')
                     ->setPayload($heading_row)
                     ->interact();
-//                $entity_hxl = new HXLFormAttributeHXLAttributeTag();
-//                $entity_hxl->setState($heading_row);
-//                $entity_hxl->setState(['export_job_id' => $entity->getId()]);
-//                $this->form_attribute_hxl_repository->create($entity_hxl);
             }
         }
         // ... check that the entity can be read by the current user
