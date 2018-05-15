@@ -13,17 +13,20 @@ namespace Ushahidi\App\Validator\User\Setting;
 
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\Entity\UserRepository;
+use Ushahidi\Core\Entity\UserSettingRepository;
 use Ushahidi\Core\Tool\Validator;
 
 class Update extends Validator
 {
     protected $user_repo;
+    protected $user_setting_repo;
     protected $default_error_source = 'user_setting';
 
 
-    public function __construct(UserRepository $user_repo)
+    public function __construct(UserRepository $user_repo, UserSettingRepository $user_setting_repo)
     {
         $this->user_repo = $user_repo;
+        $this->user_setting_repo = $user_setting_repo;
     }
 
     protected function getRules()
@@ -36,7 +39,8 @@ class Update extends Validator
             'config_key' => [
                 ['is_string', [':value']],
                 ['min_length', [':value', 3]],
-                ['max_length', [':value', 255]]
+                ['max_length', [':value', 255]],
+                [[$this, 'isUserConfigKeyPairUnique'], [':validation', ':data', ':value']]
             ],
             'config_value' => [
                 ['is_string', [':value']],
@@ -44,5 +48,13 @@ class Update extends Validator
                 ['max_length', [':value', 255]]
             ],
         ];
+    }
+
+    public function isUserConfigKeyPairUnique($validation, $data, $config_key)
+    {
+        $user_id = isset($data['user_id']) ? $data['user_id'] : null;
+        if ($user_id && $this->user_setting_repo->userConfigKeyPairExists($user_id, $config_key)) {
+            $validation->error('config_key', 'duplicateConfigKeyUser', [$user_id, $config_key]);
+        }
     }
 }
