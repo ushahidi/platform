@@ -769,13 +769,7 @@ $di->setter[Ushahidi\App\Repository\Post\LockRepository::class]['setListener'] =
  *
  */
 
-$di->set('repository.hxl_license', $di->lazyNew(Ushahidi\App\Repository\HXL\HXLLicenseRepository::class));
-$di->set('repository.hxl_tag', $di->lazyNew(Ushahidi\App\Repository\HXL\HXLTagRepository::class));
-$di->set('formatter.entity.hxl_license', $di->lazyNew(Ushahidi\App\Formatter\HXL\HXLLicense::class));
-$di->set('formatter.entity.hxl_tag', $di->lazyNew(Ushahidi\App\Formatter\HXL\HXLTag::class));
 $di->set('authorizer.hxl', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\HXLAuthorizer'));
-$di->setter[Ushahidi\App\Formatter\HXL\HXLLicense::class]['setAuth'] = $di->lazyGet("authorizer.hxl");
-$di->setter[Ushahidi\App\Formatter\HXL\HXLTag::class]['setAuth'] = $di->lazyGet("authorizer.hxl");
 $di->params['Ushahidi\Factory\AuthorizerFactory']['map']['hxl'] =
     $di->lazyGet('authorizer.hxl');
 $di->params['Ushahidi\Factory\AuthorizerFactory']['map']['hxl_licenses'] =
