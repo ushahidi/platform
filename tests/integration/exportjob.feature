@@ -17,7 +17,9 @@ Feature: Testing the Export Job API
               "order_unlocked_on_top" : "true",
               "source" : ["sms","twitter","web","email"]
             },
-            "entity_type":"post"
+            "entity_type":"post",
+            "send_to_browser": true,
+            "send_to_hdx": false
           }
           """
         When I request "/exports/jobs"

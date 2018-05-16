@@ -25,7 +25,8 @@ class CreateJob extends CreateUsecase
         $this->form_attribute_hxl_repository = $repo;
     }
 
-    public function setCreateHXLHeadingRowUsecase($usecase) {
+    public function setCreateHXLHeadingRowUsecase($usecase)
+    {
         $this->create_hxl_heading_row = $usecase;
     }
     // Usecase
@@ -65,7 +66,8 @@ class CreateJob extends CreateUsecase
      * @param $entity
      * call the usecase to create the form attribute hxl tags for each heading row item
      */
-    private function createHxlHeadingTags($hxl_heading_row, $entity) {
+    private function createHxlHeadingTags($hxl_heading_row, $entity)
+    {
         foreach ($hxl_heading_row as $heading_row) {
             $heading_row['export_job_id'] = $entity->getId();
             $this->create_hxl_heading_row

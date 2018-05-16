@@ -31,7 +31,8 @@ class CreateFormAttributeHxlAttributeTagTable extends AbstractMigration
             This lets us set the hxl header correctly and search for the assigned values'])
             ->create();
     }
-    public function down() {
+    public function down()
+    {
         $this->dropTable('form_attribute_hxl_attribute_tag');
     }
 }

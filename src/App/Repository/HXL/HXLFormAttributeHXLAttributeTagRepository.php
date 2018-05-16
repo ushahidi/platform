@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Ushahidi HXLTag Repository, using Kohana::$config
+ * Ushahidi HXLFormAttributeHXLAttributeTagRepository Repository, using Kohana::$config
  *
  * @author    Ushahidi Team <team@ushahidi.com>
  * @package   Ushahidi\Application
@@ -14,7 +14,8 @@ namespace Ushahidi\App\Repository\HXL;
 use Ohanzee\Database;
 use Ushahidi\Core\Entity\HXL\HXLFormAttributeHXLAttributeTag;
 use Ushahidi\Core\SearchData;
-use Ushahidi\Core\Entity\HXL\HXLFormAttributeHXLAttributeTagRepository as HXLFormAttributeHXLAttributeTagRepositoryContract;
+use Ushahidi\Core\Entity\HXL\HXLFormAttributeHXLAttributeTagRepository
+    as HXLFormAttributeHXLAttributeTagRepositoryContract;
 use Ushahidi\Core\Usecase\ReadRepository;
 use Ushahidi\Core\Usecase\SearchRepository;
 use Ushahidi\App\Repository\OhanzeeRepository;
@@ -24,8 +25,6 @@ class HXLFormAttributeHXLAttributeTagRepository extends OhanzeeRepository implem
     SearchRepository,
     ReadRepository
 {
-    private $tags_attributes;
-
     public function __construct(Database $db)
     {
         parent::__construct($db);
@@ -55,37 +54,5 @@ class HXLFormAttributeHXLAttributeTagRepository extends OhanzeeRepository implem
     public function getEntity(array $data = null)
     {
         return new HXLFormAttributeHXLAttributeTag($data);
-    }
-
-    /**
-     * @param $hxl_tag_id
-     */
-    protected function getAllHXLAttributes()
-    {
-//        return DB::select(
-//            ['hxl_tags.id', 'hxl_tag_id'],
-//            'hxl_attributes.id',
-//            'hxl_attributes.attribute',
-//            'hxl_attributes.description'
-//        )
-//            ->from('hxl_tags')
-//            ->join('hxl_tag_attributes')
-//            ->on('hxl_tags.id', '=', 'hxl_tag_attributes.tag_id')
-//            ->join('hxl_attributes')
-//            ->on('hxl_tag_attributes.attribute_id', '=', 'hxl_attributes.id')->execute($this->db)->as_array();
-    }
-
-    /**
-     * Get all attribute types that can be matched to this hxl tag
-     *
-     * @param  $hxl_tag_id
-     * @return mixed
-     */
-    protected function getFormAttributeTypes($hxl_tag_id)
-    {
-//        return DB::select('form_attribute_type')
-//            ->from('hxl_attribute_type_tag')
-//            ->where('hxl_tag_id', '=', $hxl_tag_id)
-//            ->execute($this->db)->as_array();
     }
 }

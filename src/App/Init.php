@@ -803,13 +803,16 @@ $di->setter['Ushahidi\Core\Usecase\Export\Job\CreateJob']['setFormAttributeHxlRe
 $di->params['Ushahidi\Factory\UsecaseFactory']['map']['form_attribute_hxl_attribute_tag'] = [
     'create' => $di->newFactory('Ushahidi\Core\Usecase\HXL\CreateHXLHeadingRow')
 ];
-$di->set('formatter.entity.form_attribute_hxl_attribute_tag',
+$di->set(
+    'formatter.entity.form_attribute_hxl_attribute_tag',
     $di->lazyNew(Ushahidi\App\Formatter\HXL\HXLFormAttributeHXLAttributeTagFormatter::class)
 );
-$di->set('authorizer.hxl.form_attribute_hxl_attribute_tag',
+$di->set(
+    'authorizer.hxl.form_attribute_hxl_attribute_tag',
     $di->lazyNew('Ushahidi\Core\Tool\Authorizer\HXLAuthorizer')
 );
-$di->setter[Ushahidi\App\Formatter\HXL\HXLFormAttributeHXLAttributeTagFormatter::class]['setAuth'] = $di->lazyGet("authorizer.hxl");
+$di->setter[Ushahidi\App\Formatter\HXL\HXLFormAttributeHXLAttributeTagFormatter::class]['setAuth']
+    = $di->lazyGet("authorizer.hxl");
 $di->params['Ushahidi\Factory\AuthorizerFactory']['map']['form_attribute_hxl_attribute_tag'] =
     $di->lazyGet('authorizer.hxl.form_attribute_hxl_attribute_tag');
 $di->params['Ushahidi\Factory\RepositoryFactory']['map']['form_attribute_hxl_attribute_tag'] =
@@ -832,10 +835,12 @@ $di->params[Ushahidi\App\Validator\HXL\HXLFormAttributeHXLAttributeTag\Create::c
 ];
 $di->setter['Ushahidi\Core\Usecase\Export\Job\CreateJob']['setCreateHXLHeadingRowUsecase']
     = $di->lazyGet('factory.usecase');
-$di->set('repository.form_attribute_hxl_attribute_tag',
+$di->set(
+    'repository.form_attribute_hxl_attribute_tag',
     $di->lazyNew(Ushahidi\App\Repository\HXL\HXLFormAttributeHXLAttributeTagRepository::class)
 );
-$di->setter['Ushahidi\Core\Usecase\Post\Export']['setFormAttributeRepository'] = $di->lazyGet('repository.form_attribute');
+$di->setter['Ushahidi\Core\Usecase\Post\Export']['setFormAttributeRepository'] =
+    $di->lazyGet('repository.form_attribute');
 
 // hxl attributes
 $di->set('repository.hxl_attribute', $di->lazyNew(Ushahidi\App\Repository\HXL\HXLAttributeRepository::class));
