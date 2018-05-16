@@ -142,7 +142,9 @@ class ExportJobsExternalAPITest extends TestCase
     {
         $this->setUserAndJob('admin');
         $this->json('PUT', '/api/v3/exports/external/jobs/' . $this->jobId, [
-            'filters' => ['status' => 'draft']
+            'filters' => ['status' => 'draft'],
+            'send_to_hdx' => false,
+            'send_to_browser' => true,
         ]);
 
         $this->seeStatusCode('200')
@@ -200,7 +202,9 @@ class ExportJobsExternalAPITest extends TestCase
             'PUT',
             '/api/v3/exports/external/jobs/' . $this->jobId . '?api_key=' . $apiKey->api_key,
             [
-                'filters' => ['status' => 'draft']
+                'filters' => ['status' => 'draft'],
+                'send_to_hdx' => false,
+                'send_to_browser' => true,
             ],
             [
                 'X-Ushahidi-Signature' => $sig
