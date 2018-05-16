@@ -12,10 +12,9 @@
 namespace Ushahidi\Console\Command;
 
 use Illuminate\Console\Command;
-
 use Ushahidi\Core\Entity\ExportJobRepository;
 
-class Webhook extends Command
+class SendExport extends Command
 {
     private $db;
     private $exportJobRepository;
@@ -33,7 +32,7 @@ class Webhook extends Command
      *
      * @var string
      */
-    protected $signature = 'export:send {export_broker_uri} {deployment_domain}';
+    protected $signature = 'export:send {export_broker_uri} {deployment_domain} {deployment_subdomain}';
 
     /**
      * The console command description.
