@@ -6,7 +6,7 @@ class AddHxlMetadataTable extends AbstractMigration
 {
     public function up()
     {
-        $this->table('hxl_metadata')
+        $this->table('hxl_meta_data')
             ->addColumn('private', 'boolean', [
                 'default' => true,
                 'comment' => 'Is this a private dataset in HDX? ',
@@ -49,6 +49,6 @@ class AddHxlMetadataTable extends AbstractMigration
 
     public function down()
     {
-        $this->dropTable('hxl_metadata');
+        $this->dropTable('hxl_meta_data');
     }
 }

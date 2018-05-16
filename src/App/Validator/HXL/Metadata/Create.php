@@ -40,10 +40,10 @@ class Create extends Validator
      */
     protected function getRules()
     {
-        return [
+        return array_merge([
             'private' => [
                 ['not_empty']
-            ], //FIXME how do I check bools? just range 0..1?
+            ],
             'dataset_title' => [
                 ['not_empty'],
                 ['min_length', [':value', 2]],
@@ -67,7 +67,17 @@ class Create extends Validator
                 ['min_length', [':value', 2]],
                 ['max_length', [':value', 255]],
                 ['regex', [':value', Validator::REGEX_STANDARD_TEXT]], // alpha, number, punctuation, space
-            ],
+            ]
+        ], $this->getForeignKeyRules());
+    }
+
+    /**
+     * Get rules for references to other tables
+     * @return array
+     */
+    private function getForeignKeyRules()
+    {
+        return [
             'license_id' => [
                 [[$this->license_repo, 'exists'], [':value']],
             ],
@@ -76,7 +86,7 @@ class Create extends Validator
             ],
             'user_id' => [
                 [[$this->user_repo, 'exists'], [':value']],
-            ],
+            ]
         ];
     }
 }

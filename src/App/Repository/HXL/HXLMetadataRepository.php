@@ -21,7 +21,7 @@ class HXLMetadataRepository extends OhanzeeRepository implements
     // OhanzeeRepository
     protected function getTable()
     {
-        return 'hxl_metadata';
+        return 'hxl_meta_data';
     }
 
     public function getSearchFields()
@@ -32,7 +32,7 @@ class HXLMetadataRepository extends OhanzeeRepository implements
 
     /**
      * @param SearchData $search
-     * Search by license code
+     * Search by dataset_title and export_job_id
      */
     public function setSearchConditions(SearchData $search)
     {
