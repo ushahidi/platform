@@ -339,6 +339,12 @@ $di->params['Ushahidi\Factory\UsecaseFactory']['map']['posts_export'] = [
     'export' => $di->lazyNew('Ushahidi\Core\Usecase\Post\Export'),
 ];
 
+// Add usecase for hxl_send
+$di->params['Ushahidi\Factory\UsecaseFactory']['map']['hxl_send'] = [
+    'send' => $di->lazyNew('Ushahidi\Core\Usecase\HXL\SendHXLUsecase'),
+];
+
+
 // Set up traits for SetsPosts Usecases
 $di->setter['Ushahidi\Core\Usecase\Set\SetRepositoryTrait']['setSetRepository'] = $di->lazyGet('repository.set');
 $di->setter['Ushahidi\Core\Usecase\Set\AuthorizeSet']['setSetAuthorizer'] = $di->lazyGet('authorizer.set');
@@ -347,6 +353,13 @@ $di->setter['Ushahidi\Core\Usecase\Set\AuthorizeSet']['setSetAuthorizer'] = $di-
 $di->setter['Ushahidi\Core\Usecase\Post\Export']['setExportJobRepository'] = $di->lazyGet('repository.export_job');
 $di->setter['Ushahidi\Core\Usecase\Post\Export']['setFormAttributeRepository'] = $di->lazyGet('repository.form_attribute');
 $di->setter['Ushahidi\Core\Usecase\Post\Export']['setPostExportRepository'] = $di->lazyGet('repository.posts_export');
+
+
+// repositories for Ushahidi\Core\Usecase\HXL\SendHXLUsecase
+$di->setter['Ushahidi\Core\Usecase\Post\Export']['setExportJobRepository'] = $di->lazyGet('repository.export_job');
+//$di->setter['Ushahidi\Core\Usecase\Post\Export']['setUserHXLSettingsRepository'] = $di->lazyGet('repository.user_setting');
+//$di->setter['Ushahidi\Core\Usecase\Post\Export']['setHXLMetadataRepository'] = $di->lazyGet('repository.XXXXXXX');
+
 
 // User login is a custom read the uses authentication.
 $di->params['Ushahidi\Factory\UsecaseFactory']['map']['users'] = [
