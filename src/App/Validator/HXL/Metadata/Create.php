@@ -75,7 +75,8 @@ class Create extends Validator
      * Get rules for references to other tables
      * @return array
      */
-    private function getForeignKeyRules() {
+    private function getForeignKeyRules()
+    {
         return [
             'license_id' => [
                 [[$this->license_repo, 'exists'], [':value']],
