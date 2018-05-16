@@ -59,6 +59,7 @@ class CSV extends API
     }
 
     public function generateHXLRows($header_rows, $hxl_rows) {
+        $hxl = [];
         foreach ($header_rows as $key => $label){
             $hxl[] = $this->generateHxlTagAndAttribute($key, $hxl_rows);
         }
@@ -66,19 +67,23 @@ class CSV extends API
     }
     private function generateHxlTagAndAttribute($key, $hxl_rows) {
         $tag = '';
-        //FIXME handle multi column values when CSV starts supporting them again
+        //TODO handle multi column values when CSV starts supporting them again
+
         foreach ($hxl_rows as $hxl_row) {
             $key_set = explode('.', $key); //contains key + index of the key
             $heading_key = isset($key_set[0]) ? $key_set[0] : null; // the heading type (sets, contact, title)
             if ($hxl_row['key'] === $heading_key) {
-                $tag = '#'.$hxl_row['tag_name'];
+                if ($tag === '') {
+                    $tag = '#' . $hxl_row['tag_name'];
+                }
                 $attribute = $hxl_row['attribute'] && !empty($hxl_row['attribute']) ?
-                    ' +'. $hxl_row['attribute'] : '';
+                        ' +'. $hxl_row['attribute'] : '';
                 $tag = $tag.$attribute;
             }
         }
         return $tag;
     }
+
     public function setAddHeader($add_header)
     {
         $this->add_header = $add_header;
