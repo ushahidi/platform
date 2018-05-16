@@ -250,6 +250,7 @@ $di->params['Ushahidi\Factory\FormatterFactory']['map'] = [
     'csv'                  => $di->lazyNew(Ushahidi\App\Formatter\CSV::class),
     'roles'                => $di->lazyNew(Ushahidi\App\Formatter\Role::class),
     'permissions'          => $di->lazyNew(Ushahidi\App\Formatter\Permission::class),
+
     // Formatter for post exports. Defaults to CSV export
     'posts_export' => $di->lazyNew(Ushahidi\App\Formatter\Post\CSV::class),
     'tos' => $di->lazyNew(Ushahidi\App\Formatter\Tos::class),
@@ -768,9 +769,7 @@ $di->setter[Ushahidi\App\Repository\Post\LockRepository::class]['setListener'] =
  *
  */
 
-
 $di->set('authorizer.hxl', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\HXLAuthorizer'));
-
 $di->params['Ushahidi\Factory\AuthorizerFactory']['map']['hxl'] =
     $di->lazyGet('authorizer.hxl');
 $di->params['Ushahidi\Factory\AuthorizerFactory']['map']['hxl_licenses'] =

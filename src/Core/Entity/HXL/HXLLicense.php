@@ -24,10 +24,10 @@ class HXLLicense extends StaticEntity
     public function getDefinition()
     {
         return [
-            'id' => 'int',
-            'code' => 'string',
-            'name' => 'string',
-            'link' => 'string',
+            'id'        => 'int',
+            'code'      => 'string',
+            'name'      => 'string',
+            'link'      => 'string',
         ];
     }
 

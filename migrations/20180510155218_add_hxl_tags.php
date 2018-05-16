@@ -236,7 +236,6 @@ class AddHxlTags extends AbstractMigration
                                 ':attribute' => $attribute,
                             ]
                         );
-
                         $select_attribute_id->execute([':attribute' => $attribute]);
                         $attribute_id = $select_attribute_id->fetch(PDO::FETCH_ASSOC);
                         $attribute_id = $attribute_id['id'];
