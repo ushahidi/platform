@@ -108,7 +108,17 @@ class ExportJobRepository extends OhanzeeRepository implements ExportJobReposito
         return parent::create($entity->setState($state));
     }
 
-    // WebhookJobRepository
+    public function getPendingJobs($limit=10)
+    {
+        $query = $this->selectQuery()
+                      ->limit($limit)
+                      ->where('status', 'pending');
+
+        $results = $query->execute($this->db);
+
+        return $this->getCollection($results->as_array());
+    }
+
     public function getJobs($limit)
     {
         $query = $this->selectQuery()
