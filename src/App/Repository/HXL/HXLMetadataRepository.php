@@ -32,7 +32,7 @@ class HXLMetadataRepository extends OhanzeeRepository implements
 
     /**
      * @param SearchData $search
-     * Search by license code
+     * Search by dataset_title and export_job_id
      */
     public function setSearchConditions(SearchData $search)
     {
