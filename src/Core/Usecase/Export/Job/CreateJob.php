@@ -45,14 +45,10 @@ class CreateJob extends CreateUsecase
 
         // ... get the newly created entity
         $entity = $this->getCreatedEntity($id);
+        // if there are items in $hxl_heading_row and the entity was created,
+        // create the hxl tags for each attribute
         if ($entity->getId() && is_array($hxl_heading_row)) {
-            foreach ($hxl_heading_row as $heading_row) {
-                $heading_row['export_job_id'] = $entity->getId();
-                $this->create_hxl_heading_row
-                    ->get('form_attribute_hxl_attribute_tag', 'create')
-                    ->setPayload($heading_row)
-                    ->interact();
-            }
+            $this->createHxlHeadingTags($hxl_heading_row, $entity);
         }
         // ... check that the entity can be read by the current user
         if ($this->auth->isAllowed($entity, 'read')) {
@@ -63,6 +59,25 @@ class CreateJob extends CreateUsecase
             return;
         }
     }
+
+    /**
+     * @param $hxl_heading_row
+     * @param $entity
+     * call the usecase to create the form attribute hxl tags for each heading row item
+     */
+    private function createHxlHeadingTags($hxl_heading_row, $entity) {
+        foreach ($hxl_heading_row as $heading_row) {
+            $heading_row['export_job_id'] = $entity->getId();
+            $this->create_hxl_heading_row
+                ->get('form_attribute_hxl_attribute_tag', 'create')
+                ->setPayload($heading_row)
+                ->interact();
+        }
+    }
+
+    /**
+     * @return \Ushahidi\Core\Entity
+     */
     protected function getEntity()
     {
         $entity = parent::getEntity();
