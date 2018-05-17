@@ -98,7 +98,8 @@ class HDXInterface
      * @return array
      * Create dataset object based on the parameters we received from create/update
      */
-    private function formatDatasetObject(array $metadata, $license, $tags = []) {
+    private function formatDatasetObject(array $metadata, $license, $tags = [])
+    {
 
         return $dataset = array(
             "name" =>  $metadata['dataset_title'], //TODO should this be a separate thing?
