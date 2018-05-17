@@ -26,6 +26,7 @@ class SendHXLUsecase implements Usecase
     protected $userSettingRepository;
     protected $exportJobRepository;
     protected $jobID;
+    protected $hdxInterface;
 
         // @TODO: fetch these from the user settings when that exists
     protected $userSettings = [
@@ -57,20 +58,30 @@ class SendHXLUsecase implements Usecase
     {
         // what this needs to do...
         $job = $this->exportJobRepository->get($this->getIdentifier('job_id'));
-        $metadata = $this->metadataRepository->getByJobId($this->getIdentifier('job_id'));
         $user_settings = $this->userSettingRepository->getByUser($job->user_id);
         //@TODO: then use the HDXInterface methods to attempt creation or update (as the case may be)
-        $hdx_interface = $this->getHDXInterface($user_settings);
+        $this->hdxInterface = $this->setHDXInterface($user_settings);
+        $metadata = $this->metadataRepository->getByJobId($this->getIdentifier('job_id'));
+        $existing_dataset_id = $this->hdxInterface->getDatasetIDByTitle($metadata->dataset_title);
+        if (!!$existing_dataset_id) {
+            // TODO call update in hdx interface
+        } else {
+            // TODO call create in hdx interface
+        }
+
+
        //@TODO: on success, update the export_job record with SUCCESS
 
        //@TODO: and on failure, update the export_job record with FAILED
     }
 
-    private function getHDXInterface($user_settings)
+
+    private function setHDXInterface($user_settings)
     {
-        $hdx_interface = new HDXInterface(getenv('HDX_URL'), $user_settings->api_key);
-        // set client handler?
-        return $hdx_interface;
+        $this->hdxInterface = new HDXInterface(
+            getenv('HDX_URL'),
+            $user_settings->api_key
+        );
     }
     /**
      * Will this usecase write any data?
