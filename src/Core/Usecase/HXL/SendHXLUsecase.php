@@ -66,6 +66,8 @@ class SendHXLUsecase implements Usecase
         $metadata = $this->metadataRepository->getByJobId($this->getIdentifier('job_id'));
         // check if the dataset exists to decide if we update or create one
         $existing_dataset_id = $this->hdxInterface->getDatasetIDByTitle($metadata->dataset_title);
+        // TODO grab the tags assigned by the user to add them to the dataset's resource
+        // TODO Add resource creation
         if (!!$existing_dataset_id) {
             $updated_job = $this->updateDataset($metadata, $job);
         } else {
