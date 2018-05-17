@@ -886,6 +886,12 @@ $di->setter['Ushahidi\Core\Usecase\HXL\SendHXLUsecase']['setHXLMetadataRepositor
 $di->params['Ushahidi\Factory\UsecaseFactory']['map']['hxl_send'] = [
     'send' => $di->lazyNew('Ushahidi\Core\Usecase\HXL\SendHXLUsecase'),
 ];
+$di->params['Ushahidi\Factory\FormatterFactory']['map']['hxl_send'] =
+    $di->lazyNew(Ushahidi\App\Formatter\HXL\HXLSend::class);
+$di->params['Ushahidi\Factory\AuthorizerFactory']['map']['hxl_send'] =
+    $di->lazyGet('authorizer.hxl');
+
+
 
 $di->setter['Ushahidi\App\Listeners\SendToHDXEventListener']['setUsecaseFactory']
     = $di->lazyGet('factory.usecase');

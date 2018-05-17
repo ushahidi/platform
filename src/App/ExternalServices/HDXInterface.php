@@ -97,7 +97,7 @@ class HDXInterface
             $updateResult = $apiClient->dataset()->update($metadata);
         } catch (Exception $e) {
             // @TODO: be graceful here
-            echo "exception".$e;
+            $updateResult = ['error' => 'Unable to update dataset on HDX server.'];
             Log::error('Unable to update dataset on HDX server: '.print_r($e, true));
         }
         return $updateResult;
@@ -114,6 +114,7 @@ class HDXInterface
             $createResult = $apiClient->dataset()->create($metadata);
         } catch (Exception $e) {
             // @TODO: be graceful here
+            $createResult = ['error' => 'Unable to create dataset on HDX server.'];
             Log::error('Unable to create dataset on HDX server: '.print_r($e, true));
         }
         return $createResult;

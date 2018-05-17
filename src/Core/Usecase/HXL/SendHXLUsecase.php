@@ -56,25 +56,47 @@ class SendHXLUsecase implements Usecase
 
     public function interact()
     {
-        // what this needs to do...
+        // get job by job_id
         $job = $this->exportJobRepository->get($this->getIdentifier('job_id'));
+        // get user settings by user id
         $user_settings = $this->userSettingRepository->getByUser($job->user_id);
-        //@TODO: then use the HDXInterface methods to attempt creation or update (as the case may be)
+        // setup hdx interface
         $this->setHDXInterface($user_settings);
+        // get metadata by job id
         $metadata = $this->metadataRepository->getByJobId($this->getIdentifier('job_id'));
+        // check if the dataset exists to decide if we update or create one
         $existing_dataset_id = $this->hdxInterface->getDatasetIDByTitle($metadata->dataset_title);
         if (!!$existing_dataset_id) {
-            // TODO call update in hdx interface
+            $updated_job = $this->updateDataset($metadata, $job);
         } else {
-            // TODO call create in hdx interface
+            $updated_job = $this->createDataset($metadata, $job);
         }
-
-
-       //@TODO: on success, update the export_job record with SUCCESS
-
-       //@TODO: and on failure, update the export_job record with FAILED
+        return $this->formatter->__invoke($updated_job);
     }
 
+    private function updateDataset($metadata, $job)
+    {
+        $results = $this->hdxInterface->updateHDXDatasetRecord($metadata->asArray());
+        if (isset($results['error'])) {
+            $job->setState(['status' => 'FAILED']);
+        } else {
+            $job->setState(['status' => 'SUCCESS']);
+        }
+        $this->exportJobRepository->update($job);
+        return $job;
+    }
+
+    private function createDataset($metadata, $job)
+    {
+        $results = $this->hdxInterface->createHDXDatasetRecord($metadata->asArray());
+        if (isset($results['error'])) {
+            $job->setState(['status' => 'FAILED']);
+        } else {
+            $job->setState(['status' => 'SUCCESS']);
+        }
+        $this->exportJobRepository->update($job);
+        return $job;
+    }
 
     private function setHDXInterface($user_settings)
     {
