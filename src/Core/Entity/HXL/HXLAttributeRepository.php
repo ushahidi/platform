@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Repository for HXLMetadata
+ * Repository for HXLAttribute
  *
  * @author    Ushahidi Team <team@ushahidi.com>
  * @package   Ushahidi\Platform
@@ -12,12 +12,8 @@
 namespace Ushahidi\Core\Entity\HXL;
 
 use Ushahidi\Core\Entity\Repository\EntityGet;
-use Ushahidi\Core\Usecase\ReadRepository;
-use Ushahidi\Core\Usecase\SearchRepository;
 
-interface HXLMetadataRepository extends
-    EntityGet,
-    ReadRepository,
-    SearchRepository
+interface HXLAttributeRepository extends
+    EntityGet
 {
 }

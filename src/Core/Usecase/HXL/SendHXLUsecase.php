@@ -11,20 +11,30 @@
 
 namespace Ushahidi\Core\Usecase\HXL;
 
+use Ushahidi\Core\Entity\ExportJobRepository;
+use Ushahidi\Core\Entity\HXL\HXLMetadataRepository;
+use Ushahidi\Core\Entity\UserSettingRepository;
 use Ushahidi\Core\Tool\AuthorizerTrait;
 use Ushahidi\App\ExternalServices\HDXInterface;
 use Ushahidi\Core\Entity\UserSetting;
 use Ushahidi\Core\Entity\UserSettingRepository as UserSettingRepositoryContract;
 use Ushahidi\Core\Entity\ExportJob;
 use Ushahidi\Core\Entity\ExportJobRepository as ExportJobRepositoryContract;
+use Ushahidi\Core\Usecase;
 
-class SendHXLUsecase // extends something?
+class SendHXLUsecase implements Usecase
 {
-        use AuthorizerTrait; // ? do we need this here?
+    use AuthorizerTrait; // ? do we need this here?
+    protected $metadataRepository;
+    protected $userSettingRepository;
+    protected $exportJobRepository;
+    protected $jobID;
 
         // @TODO: fetch these from the user settings when that exists
-    protected $userSettings = ['hdx_server' => 'http://192.168.33.60:5000',
-                                    'user_key' => 'e0371305-e830-469f-adce-56f9ff211157'];
+    protected $userSettings = [
+        'hdx_server' => 'http://192.168.33.60:5000',
+        'user_key' => 'e0371305-e830-469f-adce-56f9ff211157'
+    ];
 
     public function setExportJobRepository(ExportJobRepository $repo)
     {
@@ -61,5 +71,25 @@ class SendHXLUsecase // extends something?
        //@TODO: on success, update the export_job record with SUCCESS
 
        //@TODO: and on failure, update the export_job record with FAILED
+    }
+
+    /**
+     * Will this usecase write any data?
+     *
+     * @return Boolean
+     */
+    public function isWrite()
+    {
+        return false;
+    }
+
+    /**
+     * Will this usecase search for data?
+     *
+     * @return Boolean
+     */
+    public function isSearch()
+    {
+        return false;
     }
 }

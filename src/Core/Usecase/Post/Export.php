@@ -13,6 +13,7 @@ namespace Ushahidi\Core\Usecase\Post;
 
 use Ushahidi\App\Repository\ExportJobRepository;
 use Ushahidi\App\Repository\Form\AttributeRepository;
+use Ushahidi\App\Repository\HXL\HXLFormAttributeHXLAttributeTagRepository;
 use Ushahidi\App\Repository\Post\ExportRepository;
 use Ushahidi\Core\Tool\AuthorizerTrait;
 use Ushahidi\Core\Tool\FormatterTrait;
@@ -38,6 +39,7 @@ class Export implements Usecase
     private $postExportRepository;
     private $exportJobRepository;
     private $formAttributeRepository;
+    private $hxlFromAttributeHxlAttributeTagRepo;
 
     /**
      * @var SearchRepository
@@ -69,6 +71,11 @@ class Export implements Usecase
         $this->exportJobRepository = $repo;//service('repository.export_job');
     }
 
+    public function setHXLFromAttributeHxlAttributeTagRepo(HXLFormAttributeHXLAttributeTagRepository $repo)
+    {
+        $this->hxlFromAttributeHxlAttributeTagRepo = $repo;//service('repository.form_attribute_hxl_attribute_tag');
+    }
+
     public function setFormAttributeRepository(AttributeRepository $repo)
     {
         $this->formAttributeRepository = $repo; //service('repository.form_attribute');
@@ -97,7 +104,6 @@ class Export implements Usecase
         // get the form attributes for the export
         $attributes = $this->formAttributeRepository->getExportAttributes($data->include_attributes);
         $keyAttributes = $this->getAttributesWithKeys($attributes);
-
         /**
          * get the search results based on filters
          * and retrieve the metadata for each of the posts
@@ -122,8 +128,15 @@ class Export implements Usecase
          * for the csv (with or without a header row)
          */
         $this->formatter->setAddHeader($this->filters['add_header']);
-
+        // handle hxl
+        $hxl_rows = $this->formatter->generateHXLRows(
+            $this->formatter->createHeading($attributes),
+            $this->getHxlRows($job)
+        );
+        $this->saveHXLHeaderRow($job, $hxl_rows);
+        $this->formatter->setHxlHeading($hxl_rows);
         $formatter = $this->formatter;
+
         /**
          * KeyAttributes is sent instead of the header row because it contains
          * the attributes with the corresponding features (type, priority) that
@@ -141,12 +154,37 @@ class Export implements Usecase
 
     /**
      * @param $job
+     * If the include_hxl flag is true, generate the heading row and include
+     * the hxl heading in the csv
+     */
+    private function getHxlRows($job)
+    {
+        $hxl = [];
+        if ($job->include_hxl === true) {
+            $hxl = $this->hxlFromAttributeHxlAttributeTagRepo->getHxlWithFormAttributes($job);
+        }
+        return $hxl;
+    }
+    /**
+     * @param $job
      * @param $attributes
      */
     private function saveHeaderRow($job, $attributes)
     {
         if (empty($job->header_row)) {
             $job->setState(['header_row' => $attributes]);
+            $this->exportJobRepository->update($job);
+        }
+    }
+
+    /**
+     * @param $job
+     * @param $hxl heading row
+     */
+    private function saveHXLHeaderRow($job, $hxl)
+    {
+        if (empty($job->hxl_heading_row)) {
+            $job->setState(['hxl_heading_row' => $hxl]);
             $this->exportJobRepository->update($job);
         }
     }

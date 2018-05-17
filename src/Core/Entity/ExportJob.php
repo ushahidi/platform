@@ -3,10 +3,10 @@
 /**
  * Ushahidi Export Job
  *
- * @author     Ushahidi Team <team@ushahidi.com>
- * @package    Ushahidi\Platform
- * @copyright  2018 Ushahidi
- * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
+ * @author    Ushahidi Team <team@ushahidi.com>
+ * @package   Ushahidi\Platform
+ * @copyright 2018 Ushahidi
+ * @license   https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
 namespace Ushahidi\Core\Entity;
@@ -26,6 +26,10 @@ class ExportJob extends StaticEntity
     protected $created;
     protected $updated;
     protected $url_expiration;
+    protected $include_hxl;
+    protected $send_to_browser;
+    protected $send_to_hdx;
+    protected $hxl_heading_row;
 
     // StatefulData
     protected function getDerived()
@@ -50,7 +54,11 @@ class ExportJob extends StaticEntity
             'header_row'        => '*json',
             'created'           => 'int',
             'updated'           => 'int',
-            'url_expiration'    => 'int'
+            'url_expiration'    => 'int',
+            'include_hxl'       => 'bool',
+            'send_to_browser'   => 'bool',
+            'send_to_hdx'       => 'bool',
+            'hxl_heading_row'   => '*json'
         ];
     }
 
