@@ -24,6 +24,22 @@ use Mockery as M;
 class SignatureAuthTest extends TestCase
 {
 
+    public function setUp()
+    {
+        parent::setUp();
+
+        // Set the shared secret
+        $this->originalSecret = getenv('PLATFORM_SHARED_SECRET');
+        putenv('PLATFORM_SHARED_SECRET=asharedsecret');
+    }
+
+    public function tearDown()
+    {
+        putenv('PLATFORM_SHARED_SECRET=' . $this->originalSecret);
+
+        parent::tearDown();
+    }
+
     public function testValidSignature()
     {
         $verifier = M::mock(Verifier::class);
@@ -38,7 +54,7 @@ class SignatureAuthTest extends TestCase
             ""
         );
 
-        $verifier->shouldReceive('verified')->with(null, null, false, 'http://:', "")->andReturn(true);
+        $verifier->shouldReceive('verified')->with(null, null, 'asharedsecret', 'http://:', "")->andReturn(true);
 
         $return = $middleware->handle($request, function ($r) use ($request) {
             $this->assertSame($request, $r);
@@ -63,7 +79,7 @@ class SignatureAuthTest extends TestCase
             ""
         );
 
-        $verifier->shouldReceive('verified')->with(null, null, false, 'http://:', "")->andReturn(false);
+        $verifier->shouldReceive('verified')->with(null, null, 'asharedsecret', 'http://:', "")->andReturn(false);
 
         try {
             $middleware->handle($request, function ($request) {
