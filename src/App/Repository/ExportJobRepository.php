@@ -108,7 +108,7 @@ class ExportJobRepository extends OhanzeeRepository implements ExportJobReposito
         return parent::create($entity->setState($state));
     }
 
-    public function getPendingJobs($limit=10)
+    public function getPendingJobs($limit = 10)
     {
         $query = $this->selectQuery()
                       ->limit($limit)
