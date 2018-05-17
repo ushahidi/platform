@@ -1,5 +1,4 @@
 <?php
-
 namespace Tests\Unit\App\ExternalServices;
 
 use Ushahidi\App\ExternalServices\HDXInterface;
@@ -56,6 +55,67 @@ class HDXInterfaceTest extends TestCase
          $this->assertEquals(null, $badResponse);
     }
 
+    public function testGetAllOrganizationsForUser()
+    {
+        $auth_failed_response = json_encode(['success' => '',
+                                            'error' => [
+                                            'message' =>
+                                            'Access denied: User xxxx not authorized',
+                                            '__type' => 'Authorization Error'
+                                            ]
+                                         ]);
+
+         $fakeMetadata = [];  // can be empty for test
+         $mock = new MockHandler([
+             // $goodResult
+             new Response(200, ['Content-Type' => 'application/json'], json_encode($this->getGoodOrganizationsResponse())),
+             // $unauthorizedResult
+             new Response(200, ['Content-Type' => 'application/json'], $auth_failed_response),
+             // $badResponse
+             new Response(500),
+             new RequestException("Server unavailable", new Request('GET', 'test'))
+         ]);
+
+         $handler = HandlerStack::create($mock);
+         $hdxInterface = new HDXInterface('test', 'test');
+         $hdxInterface->setClientHandler($handler);
+
+         $goodResult = $hdxInterface->getAllOrganizationsForUser();
+         $unauthorizedResult =$hdxInterface->getAllOrganizationsForUser();
+         $badResponse = $hdxInterface->getAllOrganizationsForUser();
+
+         $this->assertEquals(1, count($goodResult));
+         $this->assertEquals(false, $unauthorizedResult);
+         $this->assertEquals(false, $badResponse);
+    }
+
+    protected function getGoodOrganizationsResponse()
+    {
+        $response = [
+        'help' => 'http://localhost/api/3/action/help_show?name=organization_list',
+        'success' => 1,
+        'result' => [  [
+                        'display_name' => 'UshahidiLocalOrg',
+                        'description' => 'This is a local org for testing',
+                        'image_display_url' => '',
+                        'package_count' => 32,
+                        'created' => '2018-05-12T04:57:57.903794',
+                        'name' => 'ushahidilocalorg',
+                        'is_organization' => 1,
+                        'state' => 'active',
+                        'image_url' => '',
+                        'type' => 'organization',
+                        'title' => 'UshahidiLocalOrg',
+                        'revision_id' => 'bcd73b5a-8563-46e8-a140-f36e8cf797a2',
+                        'num_followers' => 0,
+                        'id' => '98d635f0-e5c9-48f0-b2d3-871ccd5199a5',
+                        'approval_status' => 'approved',
+                   ]
+            ]
+        ];
+        return $response;
+    }
+
     protected function getGoodCreateResponse()
     {
            $good_response =  [
@@ -109,39 +169,4 @@ class HDXInterfaceTest extends TestCase
                 return $good_response;
     }
 
-
-    public function testCreateNewDatasource()
-    {
-        $creation_success = json_encode($this->getGoodCreateResponse());
-        $creation_failed = json_encode(['success' => '',
-                                         'error' => [
-                                            'message' =>
-                                                'Access denied: User xxxx not authorized',
-                                             '__type' => 'Authorization Error'
-                                                ]
-                                         ]);
-
-         $fakeMetadata = [];  // can be empty for test
-         $mock = new MockHandler([
-             // $goodResult
-             new Response(200, ['Content-Type' => 'application/json'], $creation_success),
-             // $unauthorizedResult
-             new Response(200, ['Content-Type' => 'application/json'], $creation_failed),
-             // $badResponse
-             new Response(500),
-             new RequestException("Server unavailable", new Request('GET', 'test'))
-         ]);
-
-         $handler = HandlerStack::create($mock);
-         $hdxInterface = new HDXInterface('test', 'test');
-         $hdxInterface->setClientHandler($handler);
-
-         $goodResult = $hdxInterface->createHDXDatasetRecord($fakeMetadata);
-         $unauthorizedResult =$hdxInterface->createHDXDatasetRecord($fakeMetadata);
-         $badResponse = $hdxInterface->createHDXDatasetRecord($fakeMetadata);
-
-         $this->assertEquals('1', $goodResult['success']);
-         $this->assertEquals('Access denied: User xxxx not authorized', $unauthorizedResult['error']['message']);
-         $this->assertEquals(false, $badResponse);
-    }
 }

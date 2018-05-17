@@ -120,6 +120,23 @@ class HDXInterface
         return $createResult;
     }
 
+    public function getAllOrganizationsForUser()
+    {
+        $apiClient = $this->getApiClient();
+        $orgId = null;
+        $data = []; // nothing to send here
+        try {
+            $orgResult = $apiClient->organization()->all($data);
+        } catch (Exception $e) {
+            // @TODO: gracefully handle this
+            Log::error('Unable to get Org results '.print_r($e, true));
+        }
+        if (!$orgResult ||  !array_key_exists('result', $orgResult)) {
+            return false;
+        }
+        return $orgResult['result'];
+    }
+
     public function getOrganizationIDByName(String $organizationName)
     {
         $apiClient = $this->getApiClient();
