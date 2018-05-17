@@ -35,17 +35,11 @@ class WebhookUpdatePost extends UpdateUsecase
         // ... persist the changes
         $this->repo->updateFromService($entity);
 
-        // ... check that the entity can be read by the current user
-        if ($this->auth->isAllowed($entity, 'read')) {
-            // ... and either load the updated entity from the storage layer
-            $updated_entity = $this->getEntity();
+        // ... and either load the updated entity from the storage layer
+        $updated_entity = $this->getEntity();
 
-            // ... and return the updated, formatted entity
-            return $this->formatter->__invoke($updated_entity);
-        } else {
-            // ... or just return nothing
-            return;
-        }
+        // ... and return the updated, formatted entity
+        return $this->formatter->__invoke($updated_entity);
     }
 
     // UpdateUsecase
