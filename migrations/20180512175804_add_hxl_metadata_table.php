@@ -30,7 +30,6 @@ class AddHxlMetadataTable extends AbstractMigration
                 'null' => false,
                 'limit' => 255
             ])
-
             ->addColumn('source', 'string', [
                 'null' => false,
                 'limit' => 255

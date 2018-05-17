@@ -525,6 +525,7 @@ $router->group([
         $router->get('/', "HXLController@index");
         $router->get('/licenses', 'HXLLicensesController@index');
         $router->get('/tags', 'HXLTagsController@index');
+        $router->post('/metadata', 'HXLMetadataController@store');
     });
 });
 
