@@ -129,8 +129,11 @@ class Export implements Usecase
          */
         $this->formatter->setAddHeader($this->filters['add_header']);
         // handle hxl
-        $hxl_rows = $this->formatter->generateHXLRows($this->formatter->createHeading($attributes), $this->getHxlRows($job));
-        $this->saveHXLHeaderRow($job,$hxl_rows);
+        $hxl_rows = $this->formatter->generateHXLRows(
+            $this->formatter->createHeading($attributes),
+            $this->getHxlRows($job)
+        );
+        $this->saveHXLHeaderRow($job, $hxl_rows);
         $this->formatter->setHxlHeading($hxl_rows);
         $formatter = $this->formatter;
 
@@ -154,7 +157,8 @@ class Export implements Usecase
      * If the include_hxl flag is true, generate the heading row and include
      * the hxl heading in the csv
      */
-    private function getHxlRows($job) {
+    private function getHxlRows($job)
+    {
         $hxl = [];
         if ($job->include_hxl === true) {
             $hxl = $this->hxlFromAttributeHxlAttributeTagRepo->getHxlWithFormAttributes($job);
