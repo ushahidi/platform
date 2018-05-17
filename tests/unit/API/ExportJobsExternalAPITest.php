@@ -43,7 +43,10 @@ class ExportJobsExternalAPITest extends TestCase
         $exportJobs = service('repository.export_job');
         $this->jobId = $exportJobs->create(new \Ushahidi\Core\Entity\ExportJob([
             'user_id' => $this->userId,
-            'entity_type' => 'post'
+            'entity_type' => 'post',
+            'send_to_hdx' => false,
+            'send_to_browser' => true,
+            'include_hxl' => false,
         ]));
     }
 
@@ -145,6 +148,7 @@ class ExportJobsExternalAPITest extends TestCase
             'filters' => ['status' => 'draft'],
             'send_to_hdx' => false,
             'send_to_browser' => true,
+            'include_hxl' => false,
         ]);
 
         $this->seeStatusCode('200')
@@ -195,7 +199,12 @@ class ExportJobsExternalAPITest extends TestCase
             $this->prepareUrlForRequest(
                 '/api/v3/exports/external/jobs/' . $this->jobId . '?api_key=' . $apiKey->api_key
             ),
-            json_encode(['filters' => ['status' => 'draft']])
+            json_encode([
+                'filters' => ['status' => 'draft'],
+                'send_to_hdx' => false,
+                'send_to_browser' => true,
+                'include_hxl' => false,
+            ])
         );
 
         $this->json(
@@ -205,6 +214,7 @@ class ExportJobsExternalAPITest extends TestCase
                 'filters' => ['status' => 'draft'],
                 'send_to_hdx' => false,
                 'send_to_browser' => true,
+                'include_hxl' => false,
             ],
             [
                 'X-Ushahidi-Signature' => $sig

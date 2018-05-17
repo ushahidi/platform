@@ -69,11 +69,13 @@ class CreateJob extends CreateUsecase
     private function createHxlHeadingTags($hxl_heading_row, $entity)
     {
         foreach ($hxl_heading_row as $heading_row) {
-            $heading_row['export_job_id'] = $entity->getId();
-            $this->create_hxl_heading_row
-                ->get('form_attribute_hxl_attribute_tag', 'create')
-                ->setPayload($heading_row)
-                ->interact();
+            if (isset($heading_row['hxl_tag_id'])) {
+                $heading_row['export_job_id'] = $entity->getId();
+                $this->create_hxl_heading_row
+                    ->get('form_attribute_hxl_attribute_tag', 'create')
+                    ->setPayload($heading_row)
+                    ->interact();
+            }
         }
     }
 

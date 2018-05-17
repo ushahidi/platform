@@ -12,8 +12,8 @@ class CreateFormAttributeHxlAttributeTagTable extends AbstractMigration
                 'default' => false
             ])
             ->addColumn('hxl_attribute_id', 'integer', [
-                'null' => false,
-                'default' => false
+                'null' => true,
+                'default' => null
             ])
             ->addColumn('hxl_tag_id', 'integer', [
                 'null' => false,
