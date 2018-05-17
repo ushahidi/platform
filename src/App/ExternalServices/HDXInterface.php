@@ -160,10 +160,12 @@ class HDXInterface
         $apiClient = $this->getHttpClient($config);
         try {
             $request = $apiClient->get("$this->ckanURL/api/action/organization_list_for_user");
-            if ($request->getStatusCode() != 200) {
+            $requestBody = json_decode($request->getBody()->getContents(), true);
+
+            if ($request->getStatusCode() != 200 || (bool) $requestBody['success'] == false) {
                 return false;
             }
-            return json_decode($request->getBody()->getContents(), true);
+            return $requestBody;
         } catch (\Exception $e) {
             return false;
         }
