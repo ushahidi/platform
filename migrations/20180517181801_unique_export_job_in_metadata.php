@@ -28,6 +28,7 @@ class UniqueExportJobInMetadata extends AbstractMigration
     public function change()
     {
         $this->table('hxl_meta_data')
-            ->addIndex(['export_job_id'], ['unique' => true]);
+            ->addIndex(['export_job_id'], ['unique' => true])
+            ->update();
     }
 }
