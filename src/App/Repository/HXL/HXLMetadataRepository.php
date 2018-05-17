@@ -50,4 +50,15 @@ class HXLMetadataRepository extends OhanzeeRepository implements
     {
         return new HXLMetadata($data);
     }
+
+    // FormAttributeRepository
+    public function getByJobId($jobId)
+    {
+        $query = $this->selectQuery(['export_job_id' => $jobId])
+            ->select("{$this->getTable()}.*")
+            ->limit(1);
+
+        $result = $query->execute($this->db);
+        return $this->getEntity($result->current());
+    }
 }

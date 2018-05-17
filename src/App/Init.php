@@ -875,14 +875,20 @@ $di->setter[Ushahidi\App\Formatter\HXL\HXLTag::class]['setAuth'] =
     $di->lazyGet("authorizer.hxl");
 
 // repositories for Ushahidi\Core\Usecase\HXL\SendHXLUsecase
-$di->setter['Ushahidi\Core\Usecase\HXL\SendHXLUsecase']['setExportJobRepository'] = $di->lazyGet('repository.export_job');
-$di->setter['Ushahidi\Core\Usecase\HXL\SendHXLUsecase']['setUserHXLSettingsRepository'] = $di->lazyGet('repository.user_setting');
-$di->setter['Ushahidi\Core\Usecase\HXL\SendHXLUsecase']['setHXLMetadataRepository'] = $di->lazyGet('repository.hxl_meta_data');
+$di->setter['Ushahidi\Core\Usecase\HXL\SendHXLUsecase']['setExportJobRepository'] =
+    $di->lazyGet('repository.export_job');
+$di->setter['Ushahidi\Core\Usecase\HXL\SendHXLUsecase']['setUserHXLSettingsRepository'] =
+    $di->lazyGet('repository.user_setting');
+$di->setter['Ushahidi\Core\Usecase\HXL\SendHXLUsecase']['setHXLMetadataRepository'] =
+    $di->lazyGet('repository.hxl_meta_data');
 
 // Add usecase for hxl_send
 $di->params['Ushahidi\Factory\UsecaseFactory']['map']['hxl_send'] = [
     'send' => $di->lazyNew('Ushahidi\Core\Usecase\HXL\SendHXLUsecase'),
 ];
+
+$di->setter['Ushahidi\App\Listeners\SendToHDXEventListener']['setUsecaseFactory']
+    = $di->lazyGet('factory.usecase');
 
 // Set up config bindings
 

@@ -16,14 +16,11 @@ use Ushahidi\Core\Entity\HXL\HXLMetadataRepository;
 use Ushahidi\Core\Entity\UserSettingRepository;
 use Ushahidi\Core\Tool\AuthorizerTrait;
 use Ushahidi\App\ExternalServices\HDXInterface;
-use Ushahidi\Core\Entity\UserSetting;
-use Ushahidi\Core\Entity\UserSettingRepository as UserSettingRepositoryContract;
-use Ushahidi\Core\Entity\ExportJob;
-use Ushahidi\Core\Entity\ExportJobRepository as ExportJobRepositoryContract;
 use Ushahidi\Core\Usecase;
 
 class SendHXLUsecase implements Usecase
 {
+    use Usecase\Concerns\IdentifyRecords;
     use AuthorizerTrait; // ? do we need this here?
     protected $metadataRepository;
     protected $userSettingRepository;
@@ -59,20 +56,22 @@ class SendHXLUsecase implements Usecase
     public function interact()
     {
         // what this needs to do...
-        //@TODO grab the job details from ExportJobRepository
-        //    $this->exportJobRepository
-        //@TODO grab the metadata record from HXL/HXLMetadataRepository
-
-        //@TODO grab the users settings from UserSettingRepository by user_id
-         //   $this->UserSettingRepository
-
-       //@TODO: then use the HDXInterface methods to attempt creation or update (as the case may be)
-
+        $job = $this->exportJobRepository->get($this->getIdentifier('job_id'));
+        $metadata = $this->metadataRepository->getByJobId($this->getIdentifier('job_id'));
+        $user_settings = $this->userSettingRepository->getByUser($job->user_id);
+        //@TODO: then use the HDXInterface methods to attempt creation or update (as the case may be)
+        $hdx_interface = $this->getHDXInterface($user_settings);
        //@TODO: on success, update the export_job record with SUCCESS
 
        //@TODO: and on failure, update the export_job record with FAILED
     }
 
+    private function getHDXInterface($user_settings)
+    {
+        $hdx_interface = new HDXInterface(getenv('HDX_URL'), $user_settings->api_key);
+        // set client handler?
+        return $hdx_interface;
+    }
     /**
      * Will this usecase write any data?
      *
