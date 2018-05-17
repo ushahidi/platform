@@ -107,16 +107,35 @@ class HDXInterface
         }
         return $updateResult;
     }
-
-    /** Note: if error condition is the result, then we ignore it gracefully,
-    * but the full error response array will be returned instead of a confirmation array
-    */
-    public function createHDXDatasetRecord(array $metadata)
+    /**
+     * @param array $metadata
+     * @param $license
+     * @param array $tags
+     * @return array
+     * Note: if error condition is the result, then we ignore it gracefully,
+     * but the full error response array will be returned instead of a confirmation array
+     */
+    public function createHDXDatasetRecord(array $metadata, $license, $tags = [])
     {
+        $dataset = array(
+            "name" =>  $metadata['dataset_title'], //TODO should this be a separate thing?
+            "author" => $metadata['maintainer'],
+            "maintainer" => $metadata['maintainer'],
+            "organization" => $metadata['organisation'],
+            "private" => $metadata['private'],
+            "owner_org" => $metadata['organisation'],
+            "title" => $metadata['dataset_title'],
+            "dataset_source" =>  $metadata['source'],
+            "data_update_frequency" => "1", //1 day. TODO add frequency to metadata
+            "methodology" => "other", //TODO add methodology to metadata
+            "tags" => $tags, //[{"name":"coordinates"}],
+            "license_id" => $license->code,
+            "allow_no_resources" => true
+        );
         $apiClient = $this->getApiClient();
         $createResult = [];
         try {
-            $createResult = $apiClient->dataset()->create($metadata);
+            $createResult = $apiClient->dataset()->create($dataset);
         } catch (Exception $e) {
             // @TODO: be graceful here
             $createResult = ['error' => 'Unable to create dataset on HDX server.'];

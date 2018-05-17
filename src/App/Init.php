@@ -881,6 +881,10 @@ $di->setter['Ushahidi\Core\Usecase\HXL\SendHXLUsecase']['setUserHXLSettingsRepos
     $di->lazyGet('repository.user_setting');
 $di->setter['Ushahidi\Core\Usecase\HXL\SendHXLUsecase']['setHXLMetadataRepository'] =
     $di->lazyGet('repository.hxl_meta_data');
+$di->setter['Ushahidi\Core\Usecase\HXL\SendHXLUsecase']['setHXLLicenseRepository'] =
+    $di->lazyGet('repository.hxl_license');
+$di->setter['Ushahidi\Core\Usecase\HXL\SendHXLUsecase']['setHXLFormAttributeHXLAttributeTagRepository'] =
+    $di->lazyGet('repository.form_attribute_hxl_attribute_tag');
 
 // Add usecase for hxl_send
 $di->params['Ushahidi\Factory\UsecaseFactory']['map']['hxl_send'] = [
