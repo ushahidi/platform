@@ -50,4 +50,10 @@ class HXLMetadataRepository extends OhanzeeRepository implements
     {
         return new HXLMetadata($data);
     }
+
+    public function getEntityByJobId($job_id) {
+        $entity = $this->selectQuery(['export_job_id' => $job_id])
+            ->execute($this->db)->current();
+        return new HXLMetadata($entity);
+    }
 }

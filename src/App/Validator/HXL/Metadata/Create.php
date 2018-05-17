@@ -23,6 +23,7 @@ class Create extends Validator
     protected $user_repo;
     protected $license_repo;
     protected $export_job_repo;
+    protected $default_error_source = 'hxl_metadata';
 
     public function __construct(
         HXLMetadataRepository $repo,
@@ -83,10 +84,21 @@ class Create extends Validator
             ],
             'export_job_id' => [
                 [[$this->export_job_repo, 'exists'], [':value']],
+                [[$this, 'notExists'], [':value', ':validation']],
             ],
             'user_id' => [
                 [[$this->user_repo, 'exists'], [':value']],
             ]
         ];
+    }
+
+    public function notExists($value, $validation) {
+        if (!$value) {
+            return true;
+        }
+        $entity = $this->repo->getEntityByJobId($value);
+        if ($entity->getId()) {
+            $validation->error('export_job_id', 'uniqueMetadataByJob');
+        }
     }
 }
