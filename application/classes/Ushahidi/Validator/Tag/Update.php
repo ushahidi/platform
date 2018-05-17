@@ -41,7 +41,6 @@ class Ushahidi_Validator_Tag_Update extends Validator
 			],
 			'slug' => [
 				['min_length', [':value', 2]],
-				['alpha_dash'],
 				[[$this->repo, 'isSlugAvailable'], [':value']],
 			],
 			'description' => [
