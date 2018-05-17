@@ -41,13 +41,13 @@ class Update extends Validator
         if (Features::isEnabled('hxl')) {
             $hxl_rules = [
                 'send_to_hdx' => [
-                    [[$this, 'sendToBrowserIsFalse'], [':validation', ':value', ':fulldata']],
+                    [[$this, 'sendToBrowserIsFalse'], [':value', ':fulldata', ':validation']],
                 ],
                 'send_to_browser' => [
-                    [[$this, 'sendToHDXIsFalse'], [':validation', ':value', ':fulldata']],
+                    [[$this, 'sendToHDXIsFalse'], [':value', ':fulldata', ':validation']],
                 ],
                 'include_hxl' => [
-                    [[$this, 'trueIfSendToHDXIsTrue'], [':validation', ':value', ':fulldata']],
+                    [[$this, 'trueIfSendToHDXIsTrue'], [':value', ':fulldata', ':validation']],
                 ]
             ];
         }
@@ -60,7 +60,7 @@ class Update extends Validator
      * @param $fullData
      * @return bool
      */
-    public function trueIfSendToHDXIsTrue($validation, $value, $fullData)
+    public function trueIfSendToHDXIsTrue($value, $fullData, $validation)
     {
         if ($fullData['send_to_hdx'] === true && $value === false) {
             $validation->error('include_hxl', 'includeHXLShouldBeTrue');
@@ -74,9 +74,9 @@ class Update extends Validator
      * @param $fullData
      * @return bool
      */
-    public function sendToBrowserIsFalse($validation, $value, $fullData)
+    public function sendToBrowserIsFalse($value, $fullData, $validation)
     {
-        if (!$this->isOppositeBool($value, $fullData['send_to_browser'])) {
+        if (!$this->isOppositeBool($fullData['send_to_hdx'], $fullData['send_to_browser'])) {
             $validation->error('send_to_hdx', 'sendToHDXShouldBeTrue');
         }
         return true;
@@ -88,9 +88,9 @@ class Update extends Validator
      * @param $fullData
      * @return bool
      */
-    public function sendToHDXIsFalse($validation, $value, $fullData)
+    public function sendToHDXIsFalse($value, $fullData, $validation)
     {
-        if (!$this->isOppositeBool($value, $fullData['send_to_hdx'])) {
+        if (!$this->isOppositeBool($fullData['send_to_browser'], $fullData['send_to_hdx'])) {
             $validation->error('send_to_browser', 'sendToBrowserShouldBeTrue');
         }
         return true;

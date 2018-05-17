@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d75fca3a90b71b004b48a0b018ac2ffb",
+    "content-hash": "bf5e7ba9fe143c9a53553371d806f3e9",
     "packages": [
         {
             "name": "abraham/twitteroauth",
@@ -114,16 +114,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.55.4",
+            "version": "3.56.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "8c3093d7cbd30a94ab781777bd1f67c29b2bf7fc"
+                "reference": "b4a2ac39a00eef77c1da5fa3807e7ec54982dddd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/8c3093d7cbd30a94ab781777bd1f67c29b2bf7fc",
-                "reference": "8c3093d7cbd30a94ab781777bd1f67c29b2bf7fc",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/b4a2ac39a00eef77c1da5fa3807e7ec54982dddd",
+                "reference": "b4a2ac39a00eef77c1da5fa3807e7ec54982dddd",
                 "shasum": ""
             },
             "require": {
@@ -190,7 +190,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2018-04-30T23:04:55+00:00"
+            "time": "2018-05-16T18:29:09+00:00"
         },
         {
             "name": "barryvdh/laravel-cors",
@@ -784,106 +784,32 @@
             "time": "2017-06-27T22:17:23+00:00"
         },
         {
-            "name": "giggsey/libphonenumber-for-php",
-            "version": "8.9.4",
+            "name": "germanazo/laravel-ckan-api",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/giggsey/libphonenumber-for-php.git",
-                "reference": "dcdd1257eff60f3f3c72ba3e2d5a3b73efe317e9"
+                "url": "https://github.com/Germanaz0/laravel-ckan-api.git",
+                "reference": "fe7b6591a3d8c91771357979958745ba6d8e67d5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/dcdd1257eff60f3f3c72ba3e2d5a3b73efe317e9",
-                "reference": "dcdd1257eff60f3f3c72ba3e2d5a3b73efe317e9",
+                "url": "https://api.github.com/repos/Germanaz0/laravel-ckan-api/zipball/fe7b6591a3d8c91771357979958745ba6d8e67d5",
+                "reference": "fe7b6591a3d8c91771357979958745ba6d8e67d5",
                 "shasum": ""
             },
             "require": {
-                "ext-mbstring": "*",
-                "giggsey/locale": "^1.2",
-                "php": ">=5.3.2"
+                "guzzlehttp/guzzle": "^6.2.0",
+                "php": ">=5.5.9"
             },
             "require-dev": {
-                "pear/pear-core-minimal": "^1.9",
-                "pear/pear_exception": "^1.0",
-                "pear/versioncontrol_git": "^0.5",
-                "phing/phing": "^2.7",
-                "phpunit/phpunit": "^4.8|^5.0",
-                "satooshi/php-coveralls": "^1.0|^2.0",
-                "symfony/console": "^2.8|^3.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "8.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "libphonenumber\\": "src/"
-                },
-                "exclude-from-classmap": [
-                    "/src/data/",
-                    "/src/carrier/data/",
-                    "/src/geocoding/data/",
-                    "/src/timezone/data/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "Apache-2.0"
-            ],
-            "authors": [
-                {
-                    "name": "Joshua Gigg",
-                    "email": "giggsey@gmail.com",
-                    "homepage": "https://giggsey.com/"
-                }
-            ],
-            "description": "PHP Port of Google's libphonenumber",
-            "homepage": "https://github.com/giggsey/libphonenumber-for-php",
-            "keywords": [
-                "geocoding",
-                "geolocation",
-                "libphonenumber",
-                "mobile",
-                "phonenumber",
-                "validation"
-            ],
-            "time": "2018-04-17T10:23:54+00:00"
-        },
-        {
-            "name": "giggsey/locale",
-            "version": "1.5",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/giggsey/Locale.git",
-                "reference": "3c9cc23c15851c54cb3ccd41a00fd4b5a89feeff"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/giggsey/Locale/zipball/3c9cc23c15851c54cb3ccd41a00fd4b5a89feeff",
-                "reference": "3c9cc23c15851c54cb3ccd41a00fd4b5a89feeff",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.2"
-            },
-            "require-dev": {
-                "pear/pear-core-minimal": "^1.9",
-                "pear/pear_exception": "^1.0",
-                "pear/versioncontrol_git": "^0.5",
-                "phing/phing": "~2.7",
-                "phpunit/phpunit": "^4.8|^5.0",
-                "satooshi/php-coveralls": "^1.0",
-                "symfony/console": "^2.8|^3.0|^4.0",
-                "symfony/filesystem": "^2.8|^3.0|^4.0",
-                "symfony/finder": "^2.8|^3.0|^4.0",
-                "symfony/process": "^2.8|^3.0|^4.0"
+                "laravel/laravel": "5.4.*",
+                "mockery/mockery": "^0.9.4",
+                "phpunit/phpunit": "^5.1"
             },
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "Giggsey\\Locale\\": "src/"
+                    "Germanazo\\CkanApi\\": "src"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -892,13 +818,21 @@
             ],
             "authors": [
                 {
-                    "name": "Joshua Gigg",
-                    "email": "giggsey@gmail.com",
-                    "homepage": "http://giggsey.com/"
+                    "name": "German Bortoli",
+                    "email": "germanazo@gmail.com",
+                    "homepage": "https://github.com/Germanaz0",
+                    "role": "Developer"
                 }
             ],
-            "description": "Locale functions required by libphonenumber-for-php",
-            "time": "2018-04-03T15:53:12+00:00"
+            "description": "Laravel 5 client for CKAN Api",
+            "homepage": "https://github.com/Germanaz0/laravel-ckan-api",
+            "keywords": [
+                "api",
+                "ckan",
+                "laravel",
+                "php"
+            ],
+            "time": "2017-02-17T17:31:38+00:00"
         },
         {
             "name": "guzzle/guzzle",
@@ -2699,16 +2633,16 @@
         },
         {
             "name": "league/flysystem",
-            "version": "1.0.44",
+            "version": "1.0.45",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem.git",
-                "reference": "168dbe519737221dc87d17385cde33073881fd02"
+                "reference": "a99f94e63b512d75f851b181afcdf0ee9ebef7e6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/168dbe519737221dc87d17385cde33073881fd02",
-                "reference": "168dbe519737221dc87d17385cde33073881fd02",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/a99f94e63b512d75f851b181afcdf0ee9ebef7e6",
+                "reference": "a99f94e63b512d75f851b181afcdf0ee9ebef7e6",
                 "shasum": ""
             },
             "require": {
@@ -2779,7 +2713,7 @@
                 "sftp",
                 "storage"
             ],
-            "time": "2018-04-06T09:58:14+00:00"
+            "time": "2018-05-07T08:44:23+00:00"
         },
         {
             "name": "league/flysystem-aws-s3-v3",
@@ -4072,16 +4006,16 @@
         },
         {
             "name": "sentry/sentry",
-            "version": "1.8.4",
+            "version": "1.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/getsentry/sentry-php.git",
-                "reference": "643ec20d181ca55317d4ccda6ad658b9a8b4f06a"
+                "reference": "c90567d78382b803e563939654d1563ddee61707"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/getsentry/sentry-php/zipball/643ec20d181ca55317d4ccda6ad658b9a8b4f06a",
-                "reference": "643ec20d181ca55317d4ccda6ad658b9a8b4f06a",
+                "url": "https://api.github.com/repos/getsentry/sentry-php/zipball/c90567d78382b803e563939654d1563ddee61707",
+                "reference": "c90567d78382b803e563939654d1563ddee61707",
                 "shasum": ""
             },
             "require": {
@@ -4132,7 +4066,7 @@
                 "log",
                 "logging"
             ],
-            "time": "2018-03-20T12:52:10+00:00"
+            "time": "2018-05-03T12:06:52+00:00"
         },
         {
             "name": "sentry/sentry-laravel",
@@ -5296,16 +5230,16 @@
         },
         {
             "name": "twilio/sdk",
-            "version": "5.18.0",
+            "version": "5.19.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twilio/twilio-php.git",
-                "reference": "f59405409b9060103f7ae1d52d3d4c05400eb90e"
+                "reference": "1fb58ee9922c709c7218ab58d6d636594ed2962a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twilio/twilio-php/zipball/f59405409b9060103f7ae1d52d3d4c05400eb90e",
-                "reference": "f59405409b9060103f7ae1d52d3d4c05400eb90e",
+                "url": "https://api.github.com/repos/twilio/twilio-php/zipball/1fb58ee9922c709c7218ab58d6d636594ed2962a",
+                "reference": "1fb58ee9922c709c7218ab58d6d636594ed2962a",
                 "shasum": ""
             },
             "require": {
@@ -5338,7 +5272,7 @@
                 "sms",
                 "twilio"
             ],
-            "time": "2018-04-28T21:16:28+00:00"
+            "time": "2018-05-11T21:13:38+00:00"
         },
         {
             "name": "ushahidi/kohana-validation",
@@ -5681,27 +5615,27 @@
         },
         {
             "name": "behat/mink-browserkit-driver",
-            "version": "v1.3.2",
+            "version": "1.3.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/minkphp/MinkBrowserKitDriver.git",
-                "reference": "10e67fb4a295efcd62ea0bf16025a85ea19534fb"
+                "reference": "1b9a7ce903cfdaaec5fb32bfdbb26118343662eb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/minkphp/MinkBrowserKitDriver/zipball/10e67fb4a295efcd62ea0bf16025a85ea19534fb",
-                "reference": "10e67fb4a295efcd62ea0bf16025a85ea19534fb",
+                "url": "https://api.github.com/repos/minkphp/MinkBrowserKitDriver/zipball/1b9a7ce903cfdaaec5fb32bfdbb26118343662eb",
+                "reference": "1b9a7ce903cfdaaec5fb32bfdbb26118343662eb",
                 "shasum": ""
             },
             "require": {
                 "behat/mink": "^1.7.1@dev",
                 "php": ">=5.3.6",
-                "symfony/browser-kit": "~2.3|~3.0",
-                "symfony/dom-crawler": "~2.3|~3.0"
+                "symfony/browser-kit": "~2.3|~3.0|~4.0",
+                "symfony/dom-crawler": "~2.3|~3.0|~4.0"
             },
             "require-dev": {
-                "silex/silex": "~1.2",
-                "symfony/phpunit-bridge": "~2.7|~3.0"
+                "mink/driver-testsuite": "dev-master",
+                "symfony/http-kernel": "~2.3|~3.0|~4.0"
             },
             "type": "mink-driver",
             "extra": {
@@ -5733,7 +5667,7 @@
                 "browser",
                 "testing"
             ],
-            "time": "2016-03-05T08:59:47+00:00"
+            "time": "2018-05-02T09:25:31+00:00"
         },
         {
             "name": "behat/mink-extension",
@@ -6296,16 +6230,16 @@
         },
         {
             "name": "mockery/mockery",
-            "version": "1.0",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mockery/mockery.git",
-                "reference": "1bac8c362b12f522fdd1f1fa3556284c91affa38"
+                "reference": "99e29d3596b16dabe4982548527d5ddf90232e99"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mockery/mockery/zipball/1bac8c362b12f522fdd1f1fa3556284c91affa38",
-                "reference": "1bac8c362b12f522fdd1f1fa3556284c91affa38",
+                "url": "https://api.github.com/repos/mockery/mockery/zipball/99e29d3596b16dabe4982548527d5ddf90232e99",
+                "reference": "99e29d3596b16dabe4982548527d5ddf90232e99",
                 "shasum": ""
             },
             "require": {
@@ -6314,7 +6248,8 @@
                 "php": ">=5.6.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "~5.7|~6.1"
+                "phpdocumentor/phpdocumentor": "^2.9",
+                "phpunit/phpunit": "~5.7.10|~6.5"
             },
             "type": "library",
             "extra": {
@@ -6343,8 +6278,8 @@
                     "homepage": "http://davedevelopment.co.uk"
                 }
             ],
-            "description": "Mockery is a simple yet flexible PHP mock object framework for use in unit testing with PHPUnit, PHPSpec or any other testing framework. Its core goal is to offer a test double framework with a succinct API capable of clearly defining all possible object operations and interactions using a human readable Domain Specific Language (DSL). Designed as a drop in alternative to PHPUnit's phpunit-mock-objects library, Mockery is easy to integrate with PHPUnit and can operate alongside phpunit-mock-objects without the World ending.",
-            "homepage": "http://github.com/mockery/mockery",
+            "description": "Mockery is a simple yet flexible PHP mock object framework",
+            "homepage": "https://github.com/mockery/mockery",
             "keywords": [
                 "BDD",
                 "TDD",
@@ -6357,7 +6292,7 @@
                 "test double",
                 "testing"
             ],
-            "time": "2017-10-06T16:20:43+00:00"
+            "time": "2018-05-08T08:54:48+00:00"
         },
         {
             "name": "myclabs/deep-copy",
@@ -7954,16 +7889,16 @@
         },
         {
             "name": "sebastianfeldmann/captainhook",
-            "version": "2.1.0",
+            "version": "2.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianfeldmann/captainhook.git",
-                "reference": "015bfbcac5f523b66eb90e2e3aa998f23ed3190c"
+                "reference": "8668e6f4fa2a86eaf4eb46a1dd8f1a041e222f4b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianfeldmann/captainhook/zipball/015bfbcac5f523b66eb90e2e3aa998f23ed3190c",
-                "reference": "015bfbcac5f523b66eb90e2e3aa998f23ed3190c",
+                "url": "https://api.github.com/repos/sebastianfeldmann/captainhook/zipball/8668e6f4fa2a86eaf4eb46a1dd8f1a041e222f4b",
+                "reference": "8668e6f4fa2a86eaf4eb46a1dd8f1a041e222f4b",
                 "shasum": ""
             },
             "require": {
@@ -7975,7 +7910,8 @@
                 "symfony/console": ">=2.7"
             },
             "require-dev": {
-                "composer/composer": "~1"
+                "composer/composer": "~1",
+                "phpunit/phpunit": "^6.5"
             },
             "suggest": {
                 "your git hooks": "run 'vendor/bin/captainhook configure' to set up your hook configuration"
@@ -8013,7 +7949,7 @@
                 "pre-commit",
                 "pre-push"
             ],
-            "time": "2018-01-18T12:29:44+00:00"
+            "time": "2018-05-03T12:04:10+00:00"
         },
         {
             "name": "sebastianfeldmann/cli",
@@ -8504,7 +8440,7 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=7.0",
+        "php": ">=7.0 <7.2",
         "ext-curl": "*",
         "ext-gd": "*",
         "ext-json": "*",
