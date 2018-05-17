@@ -129,7 +129,9 @@ class HDXInterface
     {
         try {
             $orgResult = $this->ckanGetOrganizationListForUser();
-            $orgResult = $orgResult ? $orgResult['result'] : $orgResult;
+            if (isset($orgResult['result'])) {
+                $orgResult = $orgResult['result'];
+            }
         } catch (Exception $e) {
             $orgResult = false;
             // @TODO: gracefully handle this
