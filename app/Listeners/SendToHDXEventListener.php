@@ -9,6 +9,7 @@ use Log;
 
 class SendToHDXEventListener
 {
+    protected $usecaseFactory;
     /**
      * Create the event listener.
      *
@@ -18,7 +19,15 @@ class SendToHDXEventListener
     {
         //
     }
+    public function setUsecaseFactory($usecaseFactory)
+    {
+        $this->usecaseFactory = $usecaseFactory;
+    }
 
+
+    protected function getUsecase()
+    {
+    }
     /**
      * Handle the event.
      *
@@ -27,11 +36,16 @@ class SendToHDXEventListener
      */
     public function handle(SendToHDXEvent $event)
     {
+
         Log::debug('Received a SendToHDXEvent: '.print_r($event, true));
         // Initiate the process to send data to HDX
         //confirm that we want to send HDX info
 
         //@TODO: handle this with the SendHXLUsecase...
          /// lookup the metadata, lookup the user settings, etc
+        $this->usecaseFactory
+            ->get('hxl_send', 'send')
+            ->setIdentifiers(['job_id' => $event['jobId']])
+            ->interact();
     }
 }

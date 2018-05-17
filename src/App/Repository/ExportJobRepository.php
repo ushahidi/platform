@@ -3,10 +3,10 @@
 /**
  * Ushahidi Export Job Repository
  *
- * @author     Ushahidi Team <team@ushahidi.com>
- * @package    Ushahidi\Application
- * @copyright  2018 Ushahidi
- * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
+ * @author    Ushahidi Team <team@ushahidi.com>
+ * @package   Ushahidi\Application
+ * @copyright 2018 Ushahidi
+ * @license   https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
 namespace Ushahidi\App\Repository;
@@ -58,7 +58,7 @@ class ExportJobRepository extends OhanzeeRepository implements ExportJobReposito
     // Ushahidi_JsonTranscodeRepository
     protected function getJsonProperties()
     {
-        return ['fields', 'filters', 'header_row'];
+        return ['fields', 'filters', 'header_row', 'hxl_heading_row'];
     }
 
     // OhanzeeRepository
@@ -107,6 +107,7 @@ class ExportJobRepository extends OhanzeeRepository implements ExportJobReposito
             'created' => time(),
             'status' => "pending",
             'user_id' => $entity->user_id,
+            'hxl_heading_row' => null
         ];
 
         return parent::create($entity->setState($state));
@@ -132,7 +133,18 @@ class ExportJobRepository extends OhanzeeRepository implements ExportJobReposito
     }
 
 
-    // WebhookJobRepository
+
+    public function getPendingJobs($limit = 10)
+    {
+        $query = $this->selectQuery()
+                      ->limit($limit)
+                      ->where('status', 'pending');
+
+        $results = $query->execute($this->db);
+
+        return $this->getCollection($results->as_array());
+    }
+
     public function getJobs($limit)
     {
         $query = $this->selectQuery()

@@ -11,20 +11,28 @@
 
 namespace Ushahidi\Core\Usecase\HXL;
 
+use Ushahidi\Core\Entity\ExportJobRepository;
+use Ushahidi\Core\Entity\HXL\HXLMetadataRepository;
+use Ushahidi\Core\Entity\UserSettingRepository;
 use Ushahidi\Core\Tool\AuthorizerTrait;
 use Ushahidi\App\ExternalServices\HDXInterface;
-use Ushahidi\Core\Entity\UserSetting;
-use Ushahidi\Core\Entity\UserSettingRepository as UserSettingRepositoryContract;
-use Ushahidi\Core\Entity\ExportJob;
-use Ushahidi\Core\Entity\ExportJobRepository as ExportJobRepositoryContract;
+use Ushahidi\Core\Usecase;
 
-class SendHXLUsecase // extends something?
+class SendHXLUsecase implements Usecase
 {
-        use AuthorizerTrait; // ? do we need this here?
+    use Usecase\Concerns\IdentifyRecords;
+    use AuthorizerTrait; // ? do we need this here?
+    protected $metadataRepository;
+    protected $userSettingRepository;
+    protected $exportJobRepository;
+    protected $jobID;
+    protected $hdxInterface;
 
         // @TODO: fetch these from the user settings when that exists
-    protected $userSettings = ['hdx_server' => 'http://192.168.33.60:5000',
-                                    'user_key' => 'e0371305-e830-469f-adce-56f9ff211157'];
+    protected $userSettings = [
+        'hdx_server' => 'http://192.168.33.60:5000',
+        'user_key' => 'e0371305-e830-469f-adce-56f9ff211157'
+    ];
 
     public function setExportJobRepository(ExportJobRepository $repo)
     {
@@ -48,18 +56,74 @@ class SendHXLUsecase // extends something?
 
     public function interact()
     {
-        // what this needs to do...
-        //@TODO grab the job details from ExportJobRepository
-        //    $this->exportJobRepository
-        //@TODO grab the metadata record from HXL/HXLMetadataRepository
+        // get job by job_id
+        $job = $this->exportJobRepository->get($this->getIdentifier('job_id'));
+        // get user settings by user id
+        $user_settings = $this->userSettingRepository->getByUser($job->user_id);
+        // setup hdx interface
+        $this->setHDXInterface($user_settings);
+        // get metadata by job id
+        $metadata = $this->metadataRepository->getByJobId($this->getIdentifier('job_id'));
+        // check if the dataset exists to decide if we update or create one
+        $existing_dataset_id = $this->hdxInterface->getDatasetIDByTitle($metadata->dataset_title);
+        // TODO grab the tags assigned by the user to add them to the dataset's resource
+        // TODO Add resource creation
+        if (!!$existing_dataset_id) {
+            $updated_job = $this->updateDataset($metadata, $job);
+        } else {
+            $updated_job = $this->createDataset($metadata, $job);
+        }
+        return $this->formatter->__invoke($updated_job);
+    }
 
-        //@TODO grab the users settings from UserSettingRepository by user_id
-         //   $this->UserSettingRepository
+    private function updateDataset($metadata, $job)
+    {
+        $results = $this->hdxInterface->updateHDXDatasetRecord($metadata->asArray());
+        if (isset($results['error'])) {
+            $job->setState(['status' => 'FAILED']);
+        } else {
+            $job->setState(['status' => 'SUCCESS']);
+        }
+        $this->exportJobRepository->update($job);
+        return $job;
+    }
 
-       //@TODO: then use the HDXInterface methods to attempt creation or update (as the case may be)
+    private function createDataset($metadata, $job)
+    {
+        $results = $this->hdxInterface->createHDXDatasetRecord($metadata->asArray());
+        if (isset($results['error'])) {
+            $job->setState(['status' => 'FAILED']);
+        } else {
+            $job->setState(['status' => 'SUCCESS']);
+        }
+        $this->exportJobRepository->update($job);
+        return $job;
+    }
 
-       //@TODO: on success, update the export_job record with SUCCESS
+    private function setHDXInterface($user_settings)
+    {
+        $this->hdxInterface = new HDXInterface(
+            getenv('HDX_URL'),
+            $user_settings->api_key
+        );
+    }
+    /**
+     * Will this usecase write any data?
+     *
+     * @return Boolean
+     */
+    public function isWrite()
+    {
+        return false;
+    }
 
-       //@TODO: and on failure, update the export_job record with FAILED
+    /**
+     * Will this usecase search for data?
+     *
+     * @return Boolean
+     */
+    public function isSearch()
+    {
+        return false;
     }
 }
