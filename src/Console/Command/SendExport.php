@@ -48,6 +48,8 @@ class SendExport extends Command
 
     public function handle()
     {
+        $this->db = service('kohana.db');
+
         $this->exportJobRepository = service('repository.export_job');
 
         $this->client = new \GuzzleHttp\Client();
@@ -58,6 +60,8 @@ class SendExport extends Command
         // Start transaction
         $this->db->begin();
 
+        $count = 0;
+
         foreach ($pending_jobs as $pending_job) {
             $this->generateRequest($pending_job);
 
@@ -67,15 +71,15 @@ class SendExport extends Command
         // Finally commit changes
         $this->db->commit();
 
-        $this->info("{$count} webhook requests sent");
+        $this->info("{$count} export requests sent");
     }
 
     private function generateRequest($pending_job)
     {
-        $export_broker_uri = $this->option('export_broker_uri');
+        $export_broker_uri = $this->argument('export_broker_uri');
 
-        $data['deployment_domain'] = $this->option('deployment_domain');
-        $data['deployment_subdomain'] = $this->option('deployment_subdomain');
+        $data['deployment_domain'] = $this->argument('deployment_domain');
+        $data['deployment_subdomain'] = $this->argument('deployment_subdomain');
         $data['job_id'] = $pending_job->id;
 
         $json = json_encode($data);

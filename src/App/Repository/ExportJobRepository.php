@@ -113,7 +113,7 @@ class ExportJobRepository extends OhanzeeRepository implements ExportJobReposito
     {
         $query = $this->selectQuery()
                       ->limit($limit)
-                      ->where('status', 'pending');
+                      ->where('status', '=', 'pending');
 
         $results = $query->execute($this->db);
 
