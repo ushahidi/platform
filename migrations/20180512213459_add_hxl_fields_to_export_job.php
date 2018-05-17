@@ -26,7 +26,7 @@ class AddHxlFieldsToExportJob extends AbstractMigration
                     'null' => true,
                     'limit' => Phinx\Db\Adapter\MysqlAdapter::TEXT_MEDIUM,
                     'default' => null,
-                    'comment' => 'The computer row of HXL tags+attributes'
+                    'comment' => 'The computed row of HXL tags+attributes'
                 ]
             )
             ->update();
