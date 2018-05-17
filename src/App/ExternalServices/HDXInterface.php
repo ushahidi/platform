@@ -91,15 +91,43 @@ class HDXInterface
         return $datasetId;
     }
 
+    /**
+     * @param array $metadata
+     * @param $license
+     * @param array $tags
+     * @return array
+     * Create dataset object based on the parameters we received from create/update
+     */
+    private function formatDatasetObject(array $metadata, $license, $tags = []) {
+
+        return $dataset = array(
+            "name" =>  $metadata['dataset_title'], //TODO should this be a separate thing?
+            "author" => $metadata['maintainer'],
+            "maintainer" => $metadata['maintainer'],
+            "organization" => $metadata['organisation'],
+            "private" => $metadata['private'],
+            "owner_org" => $metadata['organisation'],
+            "title" => $metadata['dataset_title'],
+            "dataset_source" =>  $metadata['source'],
+            "data_update_frequency" => "1", //1 day. TODO add frequency to metadata
+            "methodology" => "other", //TODO add methodology to metadata
+            "tags" => $tags, //[{"name":"coordinates"}],
+            "license_id" => $license->code,
+            "allow_no_resources" => true
+        );
+    }
+
     /** Note: if error condition is the result, then we ignore it gracefully,
     * but the full error response array will be returned instead of a confirmation array
     */
-    public function updateHDXDatasetRecord(array $metadata)
+    public function updateHDXDatasetRecord($dataset_id, array $metadata, $license, $tags = [])
     {
+        $dataset = $this->formatDatasetObject($metadata, $license, $tags);
+        $dataset['id'] = $dataset_id;
         $apiClient = $this->getApiClient();
         $updateResult = [];
         try {
-            $updateResult = $apiClient->dataset()->update($metadata);
+            $updateResult = $apiClient->dataset()->update($dataset);
         } catch (Exception $e) {
             // @TODO: be graceful here
             $updateResult = ['error' => 'Unable to update dataset on HDX server.'];
@@ -117,21 +145,7 @@ class HDXInterface
      */
     public function createHDXDatasetRecord(array $metadata, $license, $tags = [])
     {
-        $dataset = array(
-            "name" =>  $metadata['dataset_title'], //TODO should this be a separate thing?
-            "author" => $metadata['maintainer'],
-            "maintainer" => $metadata['maintainer'],
-            "organization" => $metadata['organisation'],
-            "private" => $metadata['private'],
-            "owner_org" => $metadata['organisation'],
-            "title" => $metadata['dataset_title'],
-            "dataset_source" =>  $metadata['source'],
-            "data_update_frequency" => "1", //1 day. TODO add frequency to metadata
-            "methodology" => "other", //TODO add methodology to metadata
-            "tags" => $tags, //[{"name":"coordinates"}],
-            "license_id" => $license->code,
-            "allow_no_resources" => true
-        );
+        $dataset = $this->formatDatasetObject($metadata, $license, $tags);
         $apiClient = $this->getApiClient();
         $createResult = [];
         try {

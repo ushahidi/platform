@@ -86,21 +86,19 @@ class SendHXLUsecase implements Usecase
         }, $tags);
         // check if the dataset exists to decide if we update or create one
         $existing_dataset_id = $this->hdxInterface->getDatasetIDByTitle($metadata->dataset_title);
-        // TODO grab the tags assigned by the user to add them to the dataset's resource
-
         // TODO Add resource creation
         if (!!$existing_dataset_id) {
             //TODO update 'updatedataset' to support this fields
-            $updated_job = $this->updateDataset($metadata, $job, $license, $tags);
+            $updated_job = $this->updateDataset($existing_dataset_id, $metadata, $job, $license, $tags);
         } else {
             $updated_job = $this->createDataset($metadata, $job, $license, $tags);
         }
         return $this->formatter->__invoke($updated_job);
     }
 
-    private function updateDataset($metadata, $job)
+    private function updateDataset($dataset_id, $metadata, $job, $license, $tags)
     {
-        $results = $this->hdxInterface->updateHDXDatasetRecord($metadata->asArray());
+        $results = $this->hdxInterface->updateHDXDatasetRecord($dataset_id, $metadata->asArray(), $license, $tags);
         if (isset($results['error'])) {
             $job->setState(['status' => 'FAILED']);
         } else {
