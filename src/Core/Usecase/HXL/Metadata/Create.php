@@ -7,10 +7,12 @@
  */
 
 namespace Ushahidi\Core\Usecase\HXL\Metadata;
+
 use Ushahidi\Core\Tool\AuthorizerTrait;
 use Ushahidi\Core\Tool\FormatterTrait;
 use Ushahidi\Core\Tool\ValidatorTrait;
 use Ushahidi\Core\Usecase\CreateUsecase;
+
 class Create extends CreateUsecase
 {
 
