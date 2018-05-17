@@ -60,7 +60,7 @@ class SendHXLUsecase implements Usecase
         $job = $this->exportJobRepository->get($this->getIdentifier('job_id'));
         $user_settings = $this->userSettingRepository->getByUser($job->user_id);
         //@TODO: then use the HDXInterface methods to attempt creation or update (as the case may be)
-        $this->hdxInterface = $this->setHDXInterface($user_settings);
+        $this->setHDXInterface($user_settings);
         $metadata = $this->metadataRepository->getByJobId($this->getIdentifier('job_id'));
         $existing_dataset_id = $this->hdxInterface->getDatasetIDByTitle($metadata->dataset_title);
         if (!!$existing_dataset_id) {
