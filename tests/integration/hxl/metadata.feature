@@ -1,4 +1,4 @@
-@hxl
+@hxl @hxlEnabled
 Feature: Testing the HXL Metadata API
   Scenario: Create a metadata object for an existing export job
     Given that I want to make a new "HXL Metadata"
@@ -12,8 +12,7 @@ Feature: Testing the HXL Metadata API
               "source": "other",
               "maintainer": "ushahidi-maintainer",
               "private": true,
-              "export_job_id":1,
-              "user_id":2
+              "export_job_id":1
           }
           """
     When I request "/hxl/metadata"
@@ -34,7 +33,7 @@ Feature: Testing the HXL Metadata API
               "maintainer": "ushahidi-maintainer",
               "private": true,
               "export_job_id":1,
-              "user_id":3
+              "user_id": 10
           }
           """
     When I request "/hxl/metadata"
@@ -54,8 +53,7 @@ Feature: Testing the HXL Metadata API
               "source": "other",
               "maintainer": "ushahidi-maintainer",
               "private": true,
-              "export_job_id":1,
-              "user_id":2
+              "export_job_id":1
           }
           """
     When I request "/hxl/metadata"
@@ -76,8 +74,7 @@ Feature: Testing the HXL Metadata API
               "source": "other",
               "maintainer": "ushahidi-maintainer",
               "private": true,
-              "export_job_id":99,
-              "user_id":2
+              "export_job_id":99
           }
           """
     When I request "/hxl/metadata"
