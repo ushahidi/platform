@@ -780,9 +780,9 @@ $di->set('formatter.entity.hxl_meta_data', $di->lazyNew(Ushahidi\App\Formatter\H
 $di->set('authorizer.hxl.meta_data', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\HXLMetadataAuthorizer'));
 
 $di->setter[Ushahidi\App\Formatter\HXL\HXLMetadata::class]['setAuth'] = $di->lazyGet("authorizer.hxl.meta_data");
-$di->setter[Ushahidi\App\Formatter\HXL\HXLMetadata::class]['setAuth'] =
-    $di->lazyGet("authorizer.hxl.meta_data");
-
+$di->params['Ushahidi\Factory\UsecaseFactory']['map']['hxl_meta_data'] = [
+    'create' => $di->newFactory('Ushahidi\Core\Usecase\HXL\Metadata\Create'),
+];
 $di->params['Ushahidi\Factory\AuthorizerFactory']['map']['hxl_meta_data'] =
     $di->lazyGet('authorizer.hxl.meta_data');
 $di->params['Ushahidi\Factory\RepositoryFactory']['map']['hxl_meta_data'] =
