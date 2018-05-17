@@ -42,7 +42,8 @@ class CSV extends API
     protected $heading;
     protected $hxl_heading;
     // Formatter
-    public function setHxlHeading($rows) {
+    public function setHxlHeading($rows)
+    {
         $this->hxl_heading = $rows;
     }
     /**
@@ -58,14 +59,16 @@ class CSV extends API
         return $this->generateCSVRecords($records, $attributes);
     }
 
-    public function generateHXLRows($header_rows, $hxl_rows) {
+    public function generateHXLRows($header_rows, $hxl_rows)
+    {
         $hxl = [];
-        foreach ($header_rows as $key => $label){
+        foreach ($header_rows as $key => $label) {
             $hxl[] = $this->generateHxlTagAndAttribute($key, $hxl_rows);
         }
         return $hxl;
     }
-    private function generateHxlTagAndAttribute($key, $hxl_rows) {
+    private function generateHxlTagAndAttribute($key, $hxl_rows)
+    {
         $tag = '';
         //TODO handle multi column values when CSV starts supporting them again
 

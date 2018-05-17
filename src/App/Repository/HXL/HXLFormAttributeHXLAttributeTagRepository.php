@@ -47,28 +47,35 @@ class HXLFormAttributeHXLAttributeTagRepository extends OhanzeeRepository implem
         $query = $this->search_query;
         return $query;
     }
-    public function getHxlForFormAttributes($job, $attributes) {
+    public function getHxlForFormAttributes($job, $attributes)
+    {
         $attributeIds = $this->getFormAttributeIds($attributes);
         $hxl = $this->getHxlWithFormAttributes($job);
-
     }
 
-    public function getHxlWithFormAttributes($job) {
+    public function getHxlWithFormAttributes($job)
+    {
         // select form_attribute_hxl_attribute_tag.*, hxl_tags.tag_name, hxl_attributes.attribute
         // FROM form_attribute_hxl_attribute_tag
         // INNER JOIN hxl_tags ON form_attribute_hxl_attribute_tag.hxl_tag_id = hxl_tags.id
         // INNER JOIN hxl_attributes ON form_attribute_hxl_attribute_tag.hxl_attribute_id = hxl_attributes.id ;
 
-        $result = DB::select('form_attribute_hxl_attribute_tag.*','form_attributes.key', 'hxl_tags.tag_name', 'hxl_attributes.attribute')
+        $result = DB::select(
+            'form_attribute_hxl_attribute_tag.*',
+            'form_attributes.key',
+            'hxl_tags.tag_name',
+            'hxl_attributes.attribute'
+        )
             ->from($this->getTable())
             ->join('hxl_tags')->on('form_attribute_hxl_attribute_tag.hxl_tag_id', '=', 'hxl_tags.id')
-            ->join('hxl_attributes')->on('form_attribute_hxl_attribute_tag.hxl_attribute_id', '=', 'hxl_attributes.id')
-            ->join('form_attributes')->on('form_attribute_hxl_attribute_tag.form_attribute_id', '=', 'form_attributes.id')
+            ->join('hxl_attributes')
+            ->on('form_attribute_hxl_attribute_tag.hxl_attribute_id', '=', 'hxl_attributes.id')
+            ->join('form_attributes')
+            ->on('form_attribute_hxl_attribute_tag.form_attribute_id', '=', 'form_attributes.id')
             ->where('form_attribute_hxl_attribute_tag.export_job_id', '=', $job->id)
             ->execute($this->db)
             ->as_array();
         return $result;
-
     }
     /**
      * @param array|null $data
