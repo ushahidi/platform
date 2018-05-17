@@ -512,7 +512,6 @@ $router->group([
         $router->get('/{id:[0-9]+}', 'WebhooksController@show');
         $router->put('/{id:[0-9]+}', 'WebhooksController@update');
         $router->delete('/{id:[0-9]+}', 'WebhooksController@destroy');
-
         $router->put('/posts', 'WebhookPostsController@update');
     });
 

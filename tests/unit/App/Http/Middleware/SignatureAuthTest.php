@@ -42,6 +42,7 @@ class SignatureAuthTest extends TestCase
 
     public function testValidSignature()
     {
+        putenv('PLATFORM_SHARED_SECRET=asharedsecret');
         $verifier = M::mock(Verifier::class);
         $middleware = new SignatureAuth($verifier);
         $request = new Request(
@@ -67,6 +68,7 @@ class SignatureAuthTest extends TestCase
 
     public function testInvalidSignature()
     {
+        putenv('PLATFORM_SHARED_SECRET=asharedsecret');
         $verifier = M::mock(Verifier::class);
         $middleware = new SignatureAuth($verifier);
         $request = new Request(

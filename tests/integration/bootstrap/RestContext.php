@@ -412,6 +412,7 @@ class RestContext implements Context
      */
     public function theResponseHasAProperty($propertyName)
     {
+
         $data = json_decode($this->response->getBody(true), true);
         $this->theResponseIsJson();
 
@@ -668,7 +669,6 @@ class RestContext implements Context
                 ' (actual: '.$this->response->getHeaderLine(strtolower($header)).')');
         }
     }
-
 
 
     /**
