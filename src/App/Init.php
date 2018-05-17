@@ -890,8 +890,26 @@ $di->params['Ushahidi\Factory\FormatterFactory']['map']['hxl_send'] =
     $di->lazyNew(Ushahidi\App\Formatter\HXL\HXLSend::class);
 $di->params['Ushahidi\Factory\AuthorizerFactory']['map']['hxl_send'] =
     $di->lazyGet('authorizer.hxl');
+// add organisations
+$di->params['Ushahidi\Factory\UsecaseFactory']['map']['hxl_organisations'] = [
+    'search' => $di->newFactory('Ushahidi\Core\Usecase\HXL\Organisations\GetByUser'),
+];
+$di->params['Ushahidi\Factory\FormatterFactory']['map']['hxl_organisations'] =
+    $di->lazyNew(Ushahidi\App\Formatter\HXL\HXLOrganisations::class);
+$di->params['Ushahidi\Factory\AuthorizerFactory']['map']['hxl_organisations'] =
+    $di->lazyGet('authorizer.hxl');
 
+$di->setter[Ushahidi\App\Formatter\HXL\HXLOrganisations::class]['setAuth'] =
+    $di->lazyGet("authorizer.hxl");
 
+$di->setter['Ushahidi\Core\Usecase\HXL\Organisations\GetByUser']['setUserHXLSettingsRepository'] =
+    $di->lazyGet('repository.user_setting');
+$di->setter['Ushahidi\Core\Usecase\HXL\Organisations\GetByUser']['setRepository'] =
+    null;
+$di->params['Ushahidi\Factory\RepositoryFactory']['map']['hxl_organisations'] =
+    $di->lazyGet('repository.hxl_tag');//FIXME
+
+$di->set('repository.hxl_organisations', $di->lazyNew(Ushahidi\App\Repository\HXL\HXLTagRepository::class));//FIXME
 
 $di->setter['Ushahidi\App\Listeners\SendToHDXEventListener']['setUsecaseFactory']
     = $di->lazyGet('factory.usecase');

@@ -68,7 +68,11 @@ class HDXInterfaceTest extends TestCase
          $fakeMetadata = [];  // can be empty for test
          $mock = new MockHandler([
              // $goodResult
-             new Response(200, ['Content-Type' => 'application/json'], json_encode($this->getGoodOrganizationsResponse())),
+             new Response(
+                 200,
+                 ['Content-Type' => 'application/json'],
+                 json_encode($this->getGoodOrganizationsResponse())
+             ),
              // $unauthorizedResult
              new Response(200, ['Content-Type' => 'application/json'], $auth_failed_response),
              // $badResponse
@@ -168,5 +172,4 @@ class HDXInterfaceTest extends TestCase
             ];
                 return $good_response;
     }
-
 }

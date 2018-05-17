@@ -104,7 +104,7 @@ class SendHXLUsecase implements Usecase
     {
         $this->hdxInterface = new HDXInterface(
             getenv('HDX_URL'),
-            $user_settings->api_key
+            $user_settings->config_value
         );
     }
     /**

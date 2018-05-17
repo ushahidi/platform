@@ -11,6 +11,7 @@ namespace Ushahidi\App\ExternalServices;
  * @license   http://www.gnu.org/copyleft/gpl.html GNU General Public License Version 3 (GPLv3)
  */
 
+use Germanazo\CkanApi\Repositories\BaseRepository;
 use Ushahidi\Core\Usecase\HXL\SendHXLUsecase;
 use Germanazo\CkanApi\CkanApiClient;
 use GuzzleHttp\Client;
@@ -56,10 +57,14 @@ class HDXInterface
                 $config['handler'] = $this->handler;
             }
             //create a Guzzle client, used by CKAN api
-            $client = new Client($config);
+            $client = $this->getHttpClient($config);
             $this->ckanClient = new CkanApiClient($client);
         }
         return $this->ckanClient;
+    }
+    private function getHttpClient($config)
+    {
+        return new Client($config);
     }
 
     // returns ID or null
@@ -119,22 +124,38 @@ class HDXInterface
         }
         return $createResult;
     }
-
+    // TODO test
     public function getAllOrganizationsForUser()
     {
-        $apiClient = $this->getApiClient();
-        $orgId = null;
-        $data = []; // nothing to send here
         try {
-            $orgResult = $apiClient->organization()->all($data);
+            $orgResult = $this->ckanGetOrganizationListForUser();
+            $orgResult = $orgResult['result'];
         } catch (Exception $e) {
+            $orgResult = ['error' => 'Unable to get organisations list for the current user.'];
             // @TODO: gracefully handle this
             Log::error('Unable to get Org results '.print_r($e, true));
         }
-        if (!$orgResult ||  !array_key_exists('result', $orgResult)) {
-            return false;
-        }
-        return $orgResult['result'];
+        return $orgResult;
+    }
+
+    /**
+     * Custom request to ckan api since Laravel CKAN API library does not
+     * include the organization_list_for_user action and adding the new repository to
+     * the germanazzo namespace results in issues due to the endpoint formatting it does
+     * (it adds _list to the end of the action and breaks the request)
+     * @return mixed
+     */
+    private function ckanGetOrganizationListForUser()
+    {
+        $apiClient = $this->getHttpClient([
+            'base_uri' => $this->ckanURL,
+            'headers' => ['Authorization' => $this->userAPIKey],
+        ]);
+        $response = $apiClient
+            ->get("$this->ckanURL/api/action/organization_list_for_user")
+            ->getBody()->getContents();
+        $results = json_decode($response, true);
+        return $results;
     }
 
     public function getOrganizationIDByName(String $organizationName)
