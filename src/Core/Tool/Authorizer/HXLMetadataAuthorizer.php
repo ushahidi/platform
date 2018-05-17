@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Ushahidi Config Authorizer
+ * Ushahidi HXLMetadataAuthorizer Authorizer
  *
  * @author    Ushahidi Team <team@ushahidi.com>
  * @package   Ushahidi\Application
@@ -18,12 +18,13 @@ use Ushahidi\Core\Entity\UserRepository;
 use Ushahidi\Core\Entity\Permission;
 use Ushahidi\Core\Tool\Authorizer;
 use Ushahidi\Core\Traits\AdminAccess;
+use Ushahidi\Core\Traits\OwnerAccess;
 use Ushahidi\Core\Traits\UserContext;
 use Ushahidi\Core\Traits\PrivAccess;
 use Ushahidi\Core\Tool\Permissions\AclTrait;
 
-// The `HXLAuthorizer` class is responsible for access checks on `HXL` Entities
-class HXLAuthorizer implements Authorizer
+// The `HXLMetadataAuthorizer` class is responsible for access checks on `HXLMetadata` Entity
+class HXLMetadataAuthorizer extends HXLAuthorizer
 {
     // The access checks are run under the context of a specific user
     use UserContext;
@@ -38,19 +39,15 @@ class HXLAuthorizer implements Authorizer
     // if roles are available for this deployment.
     use AclTrait;
 
+    use OwnerAccess;
+
 
     /* Authorizer */
     public function isAllowed(Entity $entity, $privilege)
     {
-        // These checks are run within the `User` context.
-        $user = $this->getUser();
-        if ($this->isUserAdmin($user) ||
-            $this->acl->hasPermission($user, Permission::MANAGE_POSTS) ||
-            $this->acl->hasPermission($user, Permission::DATA_IMPORT_EXPORT) ||
-            $this->acl->hasPermission($user, Permission::LEGACY_DATA_IMPORT) ||
-            $this->acl->hasPermission($user, Permission::MANAGE_SETTINGS)
-        ) {
-            return true;
+        if (parent::isAllowed($entity, $privilege)) {
+            $user = $this->getUser();
+            return $this->isUserOwner($entity, $user);
         }
         // If no other access checks succeed, we default to denying access
         return false;

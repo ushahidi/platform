@@ -1,54 +1,53 @@
 <?php
 
 /**
- * Ushahidi HXLTag Repository, using Kohana::$config
+ * Ushahidi HXLMetadata Repository, using Kohana::$config
  *
  * @author    Ushahidi Team <team@ushahidi.com>
  * @package   Ushahidi\Application
  * @copyright 2014 Ushahidi
  * @license   https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
-
 namespace Ushahidi\App\Repository\HXL;
 
 use Ushahidi\Core\SearchData;
-use Ushahidi\Core\Entity\HXL\HXLLicense;
-use Ushahidi\Core\Entity\HXL\HXLLicenseRepository as HXLLicenseRepositoryContract;
+use Ushahidi\Core\Entity\HXL\HXLMetadata;
+use Ushahidi\Core\Entity\HXL\HXLMetadataRepository as HXLMetadataRepositoryContract;
 use Ushahidi\App\Repository\OhanzeeRepository;
 
-class HXLLicenseRepository extends OhanzeeRepository implements
-    HXLLicenseRepositoryContract
+class HXLMetadataRepository extends OhanzeeRepository implements
+    HXLMetadataRepositoryContract
 {
     // OhanzeeRepository
     protected function getTable()
     {
-        return 'hxl_license';
+        return 'hxl_meta_data';
     }
 
     public function getSearchFields()
     {
-        return ['name', 'code'];
+        return ['dataset_title', 'export_job_id'];
     }
 
 
     /**
      * @param SearchData $search
-     * Search by license code
+     * Search by dataset_title and export_job_id
      */
     public function setSearchConditions(SearchData $search)
     {
         $query = $this->search_query;
-        if ($search->code) {
-            $query->where('code', '=', $search->code);
+        if ($search->dataset_title) {
+            $query->where('dataset_title', '=', $search->dataset_title);
         }
-        if ($search->name) {
-            $query->where('name', '=', $search->name);
+        if ($search->export_job_id) {
+            $query->where('export_job_id', '=', $search->export_job_id);
         }
         return $query;
     }
 
     public function getEntity(array $data = null)
     {
-        return new HXLLicense($data);
+        return new HXLMetadata($data);
     }
 }

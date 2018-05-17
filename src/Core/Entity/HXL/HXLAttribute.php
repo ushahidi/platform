@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Ushahidi HXLLicense Entity
+ * Ushahidi HXLAttribute Entity
  *
  * @author    Ushahidi Team <team@ushahidi.com>
  * @package   Ushahidi\Platform
@@ -13,27 +13,25 @@ namespace Ushahidi\Core\Entity\HXL;
 
 use Ushahidi\Core\StaticEntity;
 
-class HXLLicense extends StaticEntity
+class HXLAttribute extends StaticEntity
 {
     protected $id;
-    protected $code;
-    protected $name;
-    protected $link;
-
+    protected $tag_name;
+    protected $hxl_attributes;
+    protected $form_attribute_types;
     // DataTransformer
     public function getDefinition()
     {
         return [
             'id'        => 'int',
-            'code'      => 'string',
-            'name'      => 'string',
-            'link'      => 'string',
+            'attribute'      => 'string',
+            'description' => 'string',
         ];
     }
 
     // Entity
     public function getResource()
     {
-        return 'hxl_license';
+        return 'hxl_attribute';
     }
 }
