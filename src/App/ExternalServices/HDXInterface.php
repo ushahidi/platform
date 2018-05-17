@@ -129,9 +129,9 @@ class HDXInterface
     {
         try {
             $orgResult = $this->ckanGetOrganizationListForUser();
-            $orgResult = $orgResult['result'];
+            $orgResult = $orgResult ? $orgResult['result'] : $orgResult;
         } catch (Exception $e) {
-            $orgResult = ['error' => 'Unable to get organisations list for the current user.'];
+            $orgResult = false;
             // @TODO: gracefully handle this
             Log::error('Unable to get Org results '.print_r($e, true));
         }
@@ -147,14 +147,25 @@ class HDXInterface
      */
     private function ckanGetOrganizationListForUser()
     {
-        $apiClient = $this->getHttpClient([
+        $config = [
             'base_uri' => $this->ckanURL,
             'headers' => ['Authorization' => $this->userAPIKey],
-        ]);
-        $response = $apiClient
-            ->get("$this->ckanURL/api/action/organization_list_for_user")
-            ->getBody()->getContents();
-        $results = json_decode($response, true);
+        ];
+        //if we passed in a mock handler
+        if (isset($this->handler)) {
+            $config['handler'] = $this->handler;
+        }
+        $apiClient = $this->getHttpClient($config);
+        try {
+            $request = $apiClient->get("$this->ckanURL/api/action/organization_list_for_user");
+            if ($request->getStatusCode() !== '200') {
+                return false;
+            }
+            return json_decode($request->getBody()->getContents(), true);
+        } catch (\Exception $e) {
+            return false;
+        }
+
         return $results;
     }
 
