@@ -24,6 +24,22 @@ use Mockery as M;
 class SignatureAuthTest extends TestCase
 {
 
+    public function setUp()
+    {
+        parent::setUp();
+
+        // Set the shared secret
+        $this->originalSecret = getenv('PLATFORM_SHARED_SECRET');
+        putenv('PLATFORM_SHARED_SECRET=asharedsecret');
+    }
+
+    public function tearDown()
+    {
+        putenv('PLATFORM_SHARED_SECRET=' . $this->originalSecret);
+
+        parent::tearDown();
+    }
+
     public function testValidSignature()
     {
         putenv('PLATFORM_SHARED_SECRET=asharedsecret');
