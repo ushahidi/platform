@@ -26,6 +26,7 @@ class SignatureAuthTest extends TestCase
 
     public function testValidSignature()
     {
+        putenv('PLATFORM_SHARED_SECRET=asharedsecret');
         $verifier = M::mock(Verifier::class);
         $middleware = new SignatureAuth($verifier);
         $request = new Request(
@@ -38,7 +39,7 @@ class SignatureAuthTest extends TestCase
             ""
         );
 
-        $verifier->shouldReceive('verified')->with(null, null, false, 'http://:', "")->andReturn(true);
+        $verifier->shouldReceive('verified')->with(null, null, 'asharedsecret', 'http://:', "")->andReturn(true);
 
         $return = $middleware->handle($request, function ($r) use ($request) {
             $this->assertSame($request, $r);
@@ -51,6 +52,7 @@ class SignatureAuthTest extends TestCase
 
     public function testInvalidSignature()
     {
+        putenv('PLATFORM_SHARED_SECRET=asharedsecret');
         $verifier = M::mock(Verifier::class);
         $middleware = new SignatureAuth($verifier);
         $request = new Request(
@@ -63,7 +65,7 @@ class SignatureAuthTest extends TestCase
             ""
         );
 
-        $verifier->shouldReceive('verified')->with(null, null, false, 'http://:', "")->andReturn(false);
+        $verifier->shouldReceive('verified')->with(null, null, 'asharedsecret', 'http://:', "")->andReturn(false);
 
         try {
             $middleware->handle($request, function ($request) {
