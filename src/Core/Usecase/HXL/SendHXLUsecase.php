@@ -80,7 +80,7 @@ class SendHXLUsecase implements Usecase
         // get job by job_id
         $job = $this->exportJobRepository->get($this->getIdentifier('job_id'));
         // get user settings by user id
-        $user_settings = $this->userSettingRepository->getConfigKeyByUser($this->auth->getUserId(), 'hdx_api_key');
+        $user_settings = $this->userSettingRepository->getConfigKeyByUser($job->user_id, 'hdx_api_key');
         // setup hdx interface
         $this->setHDXInterface($user_settings);
         // get metadata by job id
@@ -179,6 +179,7 @@ class SendHXLUsecase implements Usecase
     private function setJobStatusAndUpdate($job, $status)
     {
         $job->setState(['status' => $status]);
+        Log::debug('Job updated:' . print_r($job, true));
         $this->exportJobRepository->update($job);
         return $job;
     }
