@@ -71,7 +71,7 @@ class HDXInterface
     {
         /// setup a search query by title
         $data = [
-           'q' => 'title:'.$titleText
+           'q' => 'title='.$titleText
         ];
         $datasetId = null;
         try {
