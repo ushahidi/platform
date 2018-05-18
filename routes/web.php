@@ -484,7 +484,7 @@ $router->group([
             $router->delete('/{id:[0-9]+}', 'UsersController@destroy');
             $router->get('/me', 'UsersController@showMe');
             $router->put('/me', 'UsersController@updateMe');
-            
+
             // Sub-user routes
             $router->group(['prefix' => '/{user_id:[0-9]+}'], function () use ($router) {
                 // Settings
@@ -506,22 +506,17 @@ $router->group([
     $router->group([
         'prefix' => 'webhooks'
     ], function () use ($router) {
-        $router->group([
-            'middleware' => ['auth:api', 'scope:webhooks']
-        ], function () use ($router) {
-            $router->get('/', 'WebhooksController@index');
-            $router->post('/', 'WebhooksController@store');
-            $router->get('/{id:[0-9]+}', 'WebhooksController@show');
-            $router->put('/{id:[0-9]+}', 'WebhooksController@update');
-            $router->delete('/{id:[0-9]+}', 'WebhooksController@destroy');
-        });
-        $router->group([
-            'middleware' => ['signature'],
-            'prefix' => 'posts'
-        ], function () use ($router) {
-            $router->put('/', 'WebhookPostsController@update');
-        });
+        $router->get('/', 'WebhooksController@index');
+        $router->post('/', 'WebhooksController@store');
+        $router->get('/{id:[0-9]+}', 'WebhooksController@show');
+        $router->put('/{id:[0-9]+}', 'WebhooksController@update');
+        $router->delete('/{id:[0-9]+}', 'WebhooksController@destroy');
     });
+    // Webhook posts update endpoint
+    $router->put('/webhooks/posts/{id:[0-9]+}', [
+        'uses' => 'WebhookPostsController@update',
+        'middleware' => ['signature']
+    ]);
 
     // HXL
     $router->group([
