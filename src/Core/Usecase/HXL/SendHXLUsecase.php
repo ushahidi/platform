@@ -137,8 +137,9 @@ class SendHXLUsecase implements Usecase
      */
     private function createDatasetAndResource($metadata, $job, $license, $tags)
     {
+        Log::debug('createdatasetandresource');
         $dataset_result = $this->hdxInterface->createHDXDatasetRecord($metadata->asArray(), $license, $tags);
-
+        Log::debug('createdatasetandresource happened');
         if (isset($dataset_result['error'])) {
             Log::debug('Dataset resulted in error: '.print_r($dataset_result, true));
 

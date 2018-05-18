@@ -11,6 +11,8 @@
 
 namespace Ushahidi\Core\Tool;
 
+use Log;
+
 class Signer
 {
     protected $authToken;
@@ -37,6 +39,10 @@ class Signer
 
     public function validate($expectedSignature, $url, $data = "")
     {
+        Log::debug('Computing signature: URL = ' .
+            $url . ' |||| data=' .
+            var_export($data, true) .
+            ' ||| Expected signature: '. $expectedSignature);
         return hash_equals(
             $this->computeSignature($url, $data),
             $expectedSignature

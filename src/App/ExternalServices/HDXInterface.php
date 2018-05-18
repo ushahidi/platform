@@ -70,7 +70,8 @@ class HDXInterface
     // returns ID or null
     public function getDatasetIDByName($title)
     {
-        $slug = strtolower(preg_replace('/[^A-Za-z0-9-]+/', '-', $title));
+        $slug = trim(strtolower(preg_replace('/[^A-Za-z0-9-]+/', '-', $title)));
+
         $datasetId = null;
         try {
             $dataset = $this->getApiClient()->dataset()->show($slug);
@@ -139,6 +140,7 @@ class HDXInterface
      */
     public function createHDXDatasetRecord(array $metadata, $license, $tags = [])
     {
+
         $dataset = $this->formatDatasetObject($metadata, $license, $tags);
         $apiClient = $this->getApiClient();
         $createResult = [];
