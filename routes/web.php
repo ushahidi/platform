@@ -504,7 +504,6 @@ $router->group([
 
     // Web hooks
     $router->group([
-        'middleware' => ['auth:api', 'scope:webhooks'],
         'prefix' => 'webhooks'
     ], function () use ($router) {
         $router->get('/', 'WebhooksController@index');
