@@ -170,6 +170,8 @@ class HDXInterface
         ];
         $apiClient = $this->getApiClient();
         $createResult = [];
+        Log::debug('resource sent');
+        Log::debug(var_export($resource, true));
         try {
             $createResult = $apiClient->resource()->create($resource);
         } catch (\Exception $e) {
