@@ -20,6 +20,7 @@ use Ushahidi\Core\Tool\AuthorizerTrait;
 use Ushahidi\App\ExternalServices\HDXInterface;
 use Ushahidi\Core\Tool\FormatterTrait;
 use Ushahidi\Core\Usecase;
+use Log;
 
 class SendHXLUsecase implements Usecase
 {
@@ -93,9 +94,13 @@ class SendHXLUsecase implements Usecase
         }, $tags);
         // check if the dataset exists to decide if we update or create one
         $existing_dataset_id = $this->hdxInterface->getDatasetIDByName($metadata->dataset_title);
+
+
         if (!!$existing_dataset_id) {
+            Log::debug('Found dataset' . print_r($metadata->dataset_title, true));
             $updated_job = $this->updateDatasetAndResource($existing_dataset_id, $metadata, $job, $license, $tags);
         } else {
+            Log::debug('Did not find dataset' . print_r($metadata->dataset_title, true));
             $updated_job = $this->createDatasetAndResource($metadata, $job, $license, $tags);
         }
         return $this->formatter->__invoke($updated_job);
@@ -133,7 +138,10 @@ class SendHXLUsecase implements Usecase
     private function createDatasetAndResource($metadata, $job, $license, $tags)
     {
         $dataset_result = $this->hdxInterface->createHDXDatasetRecord($metadata->asArray(), $license, $tags);
+
         if (isset($dataset_result['error'])) {
+            Log::debug('Dataset resulted in error: '.print_r($dataset_result, true));
+
             $job = $this->setJobStatusAndUpdate($job, 'FAILED');
             return $job;
         }
@@ -155,9 +163,11 @@ class SendHXLUsecase implements Usecase
             $metadata->dataset_title
         );
         if (isset($resource_result['error'])) {
+            Log::debug('Resource is an error: '.print_r($resource_result, true));
             $job = $this->setJobStatusAndUpdate($job, 'FAILED');
             return $job;
         }
+        Log::debug('Resource success: '.print_r($resource_result, true));
         $job = $this->setJobStatusAndUpdate($job, 'SUCCESS');
         return $job;
     }

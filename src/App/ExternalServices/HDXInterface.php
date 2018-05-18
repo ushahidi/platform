@@ -51,6 +51,7 @@ class HDXInterface
                 'base_uri' => $this->ckanURL,
                 'headers' => ['Authorization' => $this->userAPIKey],
             ];
+            Log::debug('Api client config: '.print_r($config, true));
             //if we passed in a mock handler
             if (isset($this->handler)) {
                 $config['handler'] = $this->handler;
