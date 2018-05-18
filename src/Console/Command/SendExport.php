@@ -63,6 +63,7 @@ class SendExport extends Command
         $count = 0;
 
         foreach ($pending_jobs as $pending_job) {
+            $this->updateStatus($pending_job);
             $this->generateRequest($pending_job);
 
             $count++;
@@ -88,9 +89,13 @@ class SendExport extends Command
                 'Accept'               => 'application/json'
             ],
             'json' => $data
-        ]);
-        $pending_job->status = 'queued';
+        ]);        
+    }
 
-        $this->exportJobRepository->update($pending_job);
+    private function updateStatus($job)
+    {
+        $status = 'queued';
+        $job->setState(compact('status'));
+        $this->exportJobRepository->update($job);
     }
 }
