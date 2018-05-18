@@ -28,7 +28,6 @@ class HDXInterface
          $this->ckanURL = $url;
          $this->userAPIKey = $key;
     }
-
     public function setServer($url)
     {
         $this->ckanURL = $url;
@@ -100,9 +99,10 @@ class HDXInterface
      */
     private function formatDatasetObject(array $metadata, $license, $tags = [])
     {
+        $slug = strtolower(preg_replace('/[^A-Za-z0-9-]+/', '-', $metadata['dataset_title']));
 
         return $dataset = array(
-            "name" =>  $metadata['dataset_title'], //TODO should this be a separate thing?
+            "name" =>  $slug, //FIXME should it be user input?
             "author" => $metadata['maintainer'],
             "maintainer" => $metadata['maintainer'],
             "organization" => $metadata['organisation'],
@@ -179,7 +179,6 @@ class HDXInterface
         $createResult = [];
         try {
             $createResult = $apiClient->resource()->create($resource);
-            var_dump($createResult);
         } catch (Exception $e) {
             // @TODO: be graceful here
             $createResult = ['error' => 'Unable to create resource on HDX server.'];

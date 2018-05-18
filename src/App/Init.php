@@ -887,9 +887,13 @@ $di->setter['Ushahidi\Core\Usecase\HXL\SendHXLUsecase']['setHXLFormAttributeHXLA
     $di->lazyGet('repository.form_attribute_hxl_attribute_tag');
 
 // Add usecase for hxl_send
+
+$di->params['Ushahidi\Factory\RepositoryFactory']['map']['hxl_send'] =
+    $di->lazyGet('repository.hxl_tag');//FIXME
 $di->params['Ushahidi\Factory\UsecaseFactory']['map']['hxl_send'] = [
     'send' => $di->lazyNew('Ushahidi\Core\Usecase\HXL\SendHXLUsecase'),
 ];
+
 $di->params['Ushahidi\Factory\FormatterFactory']['map']['hxl_send'] =
     $di->lazyNew(Ushahidi\App\Formatter\HXL\HXLSend::class);
 $di->params['Ushahidi\Factory\AuthorizerFactory']['map']['hxl_send'] =
@@ -914,9 +918,6 @@ $di->params['Ushahidi\Factory\RepositoryFactory']['map']['hxl_organisations'] =
     $di->lazyGet('repository.hxl_tag');//FIXME
 
 $di->set('repository.hxl_organisations', $di->lazyNew(Ushahidi\App\Repository\HXL\HXLTagRepository::class));//FIXME
-
-$di->setter['Ushahidi\App\Listeners\SendToHDXEventListener']['setUsecaseFactory']
-    = $di->lazyGet('factory.usecase');
 
 // Set up config bindings
 

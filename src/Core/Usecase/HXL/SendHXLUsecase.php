@@ -18,12 +18,14 @@ use Ushahidi\Core\Entity\HXL\HXLMetadataRepository;
 use Ushahidi\Core\Entity\UserSettingRepository;
 use Ushahidi\Core\Tool\AuthorizerTrait;
 use Ushahidi\App\ExternalServices\HDXInterface;
+use Ushahidi\Core\Tool\FormatterTrait;
 use Ushahidi\Core\Usecase;
 
 class SendHXLUsecase implements Usecase
 {
     use Usecase\Concerns\IdentifyRecords;
     use AuthorizerTrait; // ? do we need this here?
+    use FormatterTrait;
     protected $metadataRepository;
     protected $userSettingRepository;
     protected $exportJobRepository;
@@ -38,6 +40,11 @@ class SendHXLUsecase implements Usecase
         'hdx_server' => 'http://192.168.33.60:5000',
         'user_key' => 'e0371305-e830-469f-adce-56f9ff211157'
     ];
+
+    public function setRepository($repo)
+    {
+        return $this;
+    }
 
     public function setExportJobRepository(ExportJobRepository $repo)
     {
@@ -128,11 +135,13 @@ class SendHXLUsecase implements Usecase
     private function createDatasetAndResource($metadata, $job, $license, $tags)
     {
         $dataset_result = $this->hdxInterface->createHDXDatasetRecord($metadata->asArray(), $license, $tags);
+
         if (isset($dataset_result['error'])) {
             $job = $this->setJobStatusAndUpdate($job, 'FAILED');
             return $job;
         }
-        return $this->createResourceAndUpdateJob($dataset_result['id'], $job, $metadata);
+
+        return $this->createResourceAndUpdateJob($dataset_result['result']['id'], $job, $metadata);
     }
 
     /**

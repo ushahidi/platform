@@ -76,7 +76,7 @@ class Create extends Validator
     public function notEmptyBool($value, $validation)
     {
         if ($value === null) {
-            $validation->error('private', 'notEmptyBool');
+            $validation->error('private', 'privateShouldNotBeEmpty');
         }
         return true;
     }

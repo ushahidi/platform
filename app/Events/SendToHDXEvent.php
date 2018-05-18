@@ -5,7 +5,7 @@ use Log;
 
 class SendToHDXEvent extends Event
 {
-    protected $jobId;
+    public $jobId;
 
     /**
      * Create a new event instance.
