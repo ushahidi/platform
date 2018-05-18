@@ -25,7 +25,7 @@ class HDXInterfaceTest extends TestCase
         'description' => 'Listado con ubicación'
         ]*/
 
-    public function testGetDatasetIDByTitle()
+    public function testGetDatasetIDByName()
     {
         $exists_response = json_encode(['result'=>
                                             [ 'count' => 1,
@@ -46,9 +46,9 @@ class HDXInterfaceTest extends TestCase
          $hdxInterface = new HDXInterface('test', 'test');
          $hdxInterface->setClientHandler($handler);
 
-         $goodResult = $hdxInterface->getDatasetIDByTitle('test title');
-         $notFoundResult = $hdxInterface->getDatasetIDByTitle('test title');
-         $badResponse = $hdxInterface->getDatasetIDByTitle('test title');
+         $goodResult = $hdxInterface->getDatasetIDByName('test title');
+         $notFoundResult = $hdxInterface->getDatasetIDByName('test title');
+         $badResponse = $hdxInterface->getDatasetIDByName('test title');
 
          $this->assertEquals('knownid', $goodResult);
          $this->assertEquals(null, $notFoundResult);
