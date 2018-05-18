@@ -346,7 +346,8 @@ $di->setter['Ushahidi\Core\Usecase\Set\AuthorizeSet']['setSetAuthorizer'] = $di-
 $di->setter['Ushahidi\Core\Usecase\Post\Export']['setExportJobRepository'] = $di->lazyGet('repository.export_job');
 $di->setter['Ushahidi\Core\Usecase\Post\Export']['setFormAttributeRepository'] = $di->lazyGet('repository.form_attribute');
 $di->setter['Ushahidi\Core\Usecase\Post\Export']['setPostExportRepository'] = $di->lazyGet('repository.posts_export');
-
+$di->setter['Ushahidi\Core\Usecase\Post\Export']['setHXLFromAttributeHxlAttributeTagRepo'] =
+    $di->lazyGet('repository.form_attribute_hxl_attribute_tag');
 // User login is a custom read the uses authentication.
 $di->params['Ushahidi\Factory\UsecaseFactory']['map']['users'] = [
     'login'    => $di->lazyNew('Ushahidi\Core\Usecase\User\LoginUser'),
