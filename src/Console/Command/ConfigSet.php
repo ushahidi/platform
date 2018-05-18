@@ -30,7 +30,7 @@ class ConfigSet extends Command
      *
      * @var string
      */
-    protected $signature = 'config:set {group} {value} {--key=}';
+    protected $signature = 'config:set {group} {value} {--key=} {--json}';
 
     /**
      * The console command description.
@@ -74,11 +74,12 @@ class ConfigSet extends Command
     {
         $group = $this->argument('group');
         $key   = $this->option('key');
+        $is_json   = $this->option('json');
         $value = $this->argument('value');
 
         if ($key) {
             $value = [
-                $key => $value
+                $key => $is_json ? json_decode($value, true) : $value
             ];
         } else {
             $value = json_decode($value, true);
