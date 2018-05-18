@@ -157,6 +157,7 @@ class SendHXLUsecase implements Usecase
      */
     private function createResourceAndUpdateJob($dataset_id, $job, $metadata)
     {
+        Log::debug('Dataset job' . var_export($job->asArray(), true));
         $resource_result = $this->hdxInterface->createResourceForDataset(
             $dataset_id,
             $job->url,
