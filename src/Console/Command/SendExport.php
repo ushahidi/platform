@@ -89,8 +89,7 @@ class SendExport extends Command
             ],
             'json' => $data
         ]);
-        $pending_job->status = 'queued';
-
+        $pending_job->setState(['status' => 'queued']);
         $this->exportJobRepository->update($pending_job);
     }
 }
