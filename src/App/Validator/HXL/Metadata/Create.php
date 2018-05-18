@@ -19,7 +19,7 @@ use Ushahidi\Core\Tool\Validator;
 
 class Create extends Validator
 {
-    protected $default_error_source = 'metadata';
+    protected $default_error_source = 'hxl_metadata';
 
     protected $repo;
     protected $user_repo;
@@ -92,10 +92,22 @@ class Create extends Validator
             ],
             'export_job_id' => [
                 [[$this->export_job_repo, 'exists'], [':value']],
+                [[$this, 'notExists'], [':value', ':validation']],
             ],
             'user_id' => [
                 [[$this->user_repo, 'exists'], [':value']],
             ]
         ];
+    }
+
+    public function notExists($value, $validation)
+    {
+        if (!$value) {
+            return true;
+        }
+        $entity = $this->repo->getByJobId($value);
+        if ($entity->getId()) {
+            $validation->error('export_job_id', 'uniqueMetadataByJob');
+        }
     }
 }
