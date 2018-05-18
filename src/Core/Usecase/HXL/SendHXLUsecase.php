@@ -92,10 +92,8 @@ class SendHXLUsecase implements Usecase
             return ['name' => $tag['tag_name']];
         }, $tags);
         // check if the dataset exists to decide if we update or create one
-        $existing_dataset_id = $this->hdxInterface->getDatasetIDByTitle($metadata->dataset_title);
-        // TODO Add resource creation
+        $existing_dataset_id = $this->hdxInterface->getDatasetIDByName($metadata->dataset_title);
         if (!!$existing_dataset_id) {
-            //TODO update 'updatedataset' to support this fields
             $updated_job = $this->updateDatasetAndResource($existing_dataset_id, $metadata, $job, $license, $tags);
         } else {
             $updated_job = $this->createDatasetAndResource($metadata, $job, $license, $tags);
@@ -135,7 +133,6 @@ class SendHXLUsecase implements Usecase
     private function createDatasetAndResource($metadata, $job, $license, $tags)
     {
         $dataset_result = $this->hdxInterface->createHDXDatasetRecord($metadata->asArray(), $license, $tags);
-
         if (isset($dataset_result['error'])) {
             $job = $this->setJobStatusAndUpdate($job, 'FAILED');
             return $job;

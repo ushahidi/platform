@@ -7,7 +7,7 @@ Feature: Testing the HXL Licenses API
         Then the response is JSON
         And the response has a "count" property
         And the type of the "count" property is "numeric"
-        And the "count" property equals "9"
+        And the "count" property equals "8"
         And the response has a "results" property
         Then the guzzle status code should be 200
     Scenario: Find one HXL License by code

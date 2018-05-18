@@ -67,26 +67,18 @@ class HDXInterface
     }
 
     // returns ID or null
-    public function getDatasetIDByTitle(string $titleText)
+    public function getDatasetIDByName($title)
     {
-        /// setup a search query by title
-        $data = [
-           'q' => 'title='.$titleText
-        ];
+        $slug = strtolower(preg_replace('/[^A-Za-z0-9-]+/', '-', $title));
         $datasetId = null;
         try {
-            $allMatchingDatasets = $this->getApiClient()->dataset()->all($data);
+            $dataset = $this->getApiClient()->dataset()->show($slug);
+            $datasetId = isset($dataset['result']) && isset($dataset['result']['id']) ?
+                $dataset['result']['id'] : null;
         } catch (Exception $e) {
             Log::error('Unable to find HDX datasets by title '.print_r($e, true));
         }
-        if ($allMatchingDatasets && array_key_exists('result', $allMatchingDatasets)) {
-            if ($allMatchingDatasets['result']['count'] > 1) {
-                Log::debug('Multiple datasets found: '.print_r($allMatchingDatasets['result']['count'], true));
-            }
-            foreach ($allMatchingDatasets['result']['results'] as $eachDataset) {
-                $datasetId = $eachDataset['id'];
-            }
-        }
+
         return $datasetId;
     }
 
