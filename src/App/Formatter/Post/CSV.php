@@ -40,9 +40,12 @@ class CSV extends API
     protected $tmpfname;
     protected $add_header = true;
     protected $heading;
-
+    protected $hxl_heading;
     // Formatter
-
+    public function setHxlHeading($rows)
+    {
+        $this->hxl_heading = $rows;
+    }
     /**
      * @param $records
      * @param $job (an export job)
@@ -54,6 +57,34 @@ class CSV extends API
     {
         $this->createHeading($job->header_row);
         return $this->generateCSVRecords($records, $attributes);
+    }
+
+    public function generateHXLRows($header_rows, $hxl_rows)
+    {
+        $hxl = [];
+        foreach ($header_rows as $key => $label) {
+            $hxl[] = $this->generateHxlTagAndAttribute($key, $hxl_rows);
+        }
+        return $hxl;
+    }
+    private function generateHxlTagAndAttribute($key, $hxl_rows)
+    {
+        $tag = '';
+        //TODO handle multi column values when CSV starts supporting them again
+
+        foreach ($hxl_rows as $hxl_row) {
+            $key_set = explode('.', $key); //contains key + index of the key
+            $heading_key = isset($key_set[0]) ? $key_set[0] : null; // the heading type (sets, contact, title)
+            if ($hxl_row['key'] === $heading_key) {
+                if ($tag === '') {
+                    $tag = '#' . $hxl_row['tag_name'];
+                }
+                $attribute = $hxl_row['attribute'] && !empty($hxl_row['attribute']) ?
+                        ' +'. $hxl_row['attribute'] : '';
+                $tag = $tag.$attribute;
+            }
+        }
+        return $tag;
     }
 
     public function setAddHeader($add_header)
@@ -113,7 +144,9 @@ class CSV extends API
         // Add heading
         if ($this->add_header) {
             fputcsv($stream, array_values($this->heading));
+            fputcsv($stream, array_values($this->hxl_heading));
         }
+
 
         foreach ($records as $record) {
             $values = $this->formatRecordForCSV($record, $attributes);
