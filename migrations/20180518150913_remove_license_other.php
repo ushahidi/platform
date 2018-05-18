@@ -7,12 +7,8 @@ class RemoveLicenseOther extends AbstractMigration
     
     public function change()
     {
-
-        $pdo = $this->getAdapter()->getConnection();
-
-        $delete = $pdo->prepare(
-            "DELETE FROM hxl_license WHERE hxl_license.code ='hdx-other'"
+        $this->execute(
+            "DELETE FROM hxl_license WHERE hxl_license.code = 'hdx-other'"
         );
-        $delete->execute();
     }
 }

@@ -42,9 +42,24 @@ class AddHxlMetadataTable extends AbstractMigration
             ->addIndex(['export_job_id'], ['unique' => true,'name' => 'export_job_id_unique'])
             ->addColumn('created', 'integer', ['default' => 0])
             ->addColumn('updated', 'integer', ['null' => true])
-            ->addForeignKey('user_id', 'users', 'id')
-            ->addForeignKey('export_job_id', 'export_job', 'id')
-            ->addForeignKey('license_id', 'hxl_license', 'id')
+            ->addForeignKey(
+                'user_id',
+                'users',
+                'id',
+                ['delete'=>'CASCADE', 'update'=>'CASCADE']
+            )
+            ->addForeignKey(
+                'export_job_id',
+                'export_job',
+                'id',
+                ['delete'=>'CASCADE', 'update'=>'CASCADE']
+            )
+            ->addForeignKey(
+                'license_id',
+                'hxl_license',
+                'id',
+                ['delete'=>'CASCADE', 'update'=>'CASCADE']
+            )
             ->create();
     }
 
