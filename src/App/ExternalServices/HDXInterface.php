@@ -158,6 +158,36 @@ class HDXInterface
         }
         return $createResult;
     }
+
+    /**
+     * @param array $metadata
+     * @param $license
+     * @param array $tags
+     * @return array
+     * Note: if error condition is the result, then we ignore it gracefully,
+     * but the full error response array will be returned instead of a confirmation array
+     */
+    public function createResourceForDataset($package_id, $job_url, $dataset_title)
+    {
+        $resource = [
+            'package_id' => $package_id,
+            'url' => $job_url,
+            'resource_type' => 'csv',
+            'name' => $dataset_title
+        ];
+        $apiClient = $this->getApiClient();
+        $createResult = [];
+        try {
+            $createResult = $apiClient->resource()->create($resource);
+            var_dump($createResult);
+        } catch (Exception $e) {
+            // @TODO: be graceful here
+            $createResult = ['error' => 'Unable to create resource on HDX server.'];
+            Log::error('Unable to create resource on HDX server: '.print_r($e, true));
+        }
+        return $createResult;
+    }
+
     // TODO test
     public function getAllOrganizationsForUser()
     {

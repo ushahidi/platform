@@ -89,33 +89,80 @@ class SendHXLUsecase implements Usecase
         // TODO Add resource creation
         if (!!$existing_dataset_id) {
             //TODO update 'updatedataset' to support this fields
-            $updated_job = $this->updateDataset($existing_dataset_id, $metadata, $job, $license, $tags);
+            $updated_job = $this->updateDatasetAndResource($existing_dataset_id, $metadata, $job, $license, $tags);
         } else {
-            $updated_job = $this->createDataset($metadata, $job, $license, $tags);
+            $updated_job = $this->createDatasetAndResource($metadata, $job, $license, $tags);
         }
         return $this->formatter->__invoke($updated_job);
     }
 
-    private function updateDataset($dataset_id, $metadata, $job, $license, $tags)
+    /**
+     * @param $dataset_id
+     * @param $metadata
+     * @param $job
+     * @param $license
+     * @param $tags
+     * @return mixed
+     */
+    private function updateDatasetAndResource($dataset_id, $metadata, $job, $license, $tags)
     {
-        $results = $this->hdxInterface->updateHDXDatasetRecord($dataset_id, $metadata->asArray(), $license, $tags);
-        if (isset($results['error'])) {
-            $job->setState(['status' => 'FAILED']);
-        } else {
-            $job->setState(['status' => 'SUCCESS']);
+        $dataset_result = $this->hdxInterface->updateHDXDatasetRecord(
+            $dataset_id,
+            $metadata->asArray(),
+            $license,
+            $tags
+        );
+        if (isset($dataset_result['error'])) {
+            $job = $this->setJobStatusAndUpdate($job, 'FAILED');
+            return $job;
         }
-        $this->exportJobRepository->update($job);
-        return $job;
+        return $this->createResourceAndUpdateJob($dataset_id, $job, $metadata);
+    }
+    /**
+     * @param $metadata
+     * @param $job
+     * @param $license
+     * @param $tags
+     * @return mixed
+     */
+    private function createDatasetAndResource($metadata, $job, $license, $tags)
+    {
+        $dataset_result = $this->hdxInterface->createHDXDatasetRecord($metadata->asArray(), $license, $tags);
+        if (isset($dataset_result['error'])) {
+            $job = $this->setJobStatusAndUpdate($job, 'FAILED');
+            return $job;
+        }
+        return $this->createResourceAndUpdateJob($dataset_result['id'], $job, $metadata);
     }
 
-    private function createDataset($metadata, $job, $license, $tags)
+    /**
+     * @param $dataset_id
+     * @param $job
+     * @param $metadata
+     * @return mixed
+     */
+    private function createResourceAndUpdateJob($dataset_id, $job, $metadata)
     {
-        $results = $this->hdxInterface->createHDXDatasetRecord($metadata->asArray(), $license, $tags);
-        if (isset($results['error'])) {
-            $job->setState(['status' => 'FAILED']);
-        } else {
-            $job->setState(['status' => 'SUCCESS']);
+        $resource_result = $this->hdxInterface->createResourceForDataset(
+            $dataset_id,
+            $job->url,
+            $metadata->dataset_title
+        );
+        if (isset($resource_result['error'])) {
+            $job = $this->setJobStatusAndUpdate($job, 'FAILED');
+            return $job;
         }
+        $job = $this->setJobStatusAndUpdate($job, 'SUCCESS');
+        return $job;
+    }
+    /**
+     * @param $job
+     * @param $status
+     * @return mixed
+     */
+    private function setJobStatusAndUpdate($job, $status)
+    {
+        $job->setState(['status' => $status]);
         $this->exportJobRepository->update($job);
         return $job;
     }
