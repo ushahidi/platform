@@ -12,23 +12,25 @@ namespace Ushahidi\App\Http\Controllers\API;
  */
 
 use Illuminate\Http\Request;
-use Ushahidi\App\Http\Controllers\RESTController;
+use Ushahidi\App\Http\Controllers\API\Posts\PostsController;
 use Ushahidi\Core\Tool\Signer;
 
-class WebhooksPosts extends RESTController
+class WebhookPostsController extends PostsController
 {
 
-    protected function getResource()
-    {
-        return 'posts';
-    }
-
-    public function store(Request $request)
+    /**
+     * Update An Entity
+     *
+     * PUT /api/foo/:id
+     *
+     * @return void
+     */
+    public function update(Request $request)
     {
         $this->usecase = $this->usecaseFactory
             ->get($this->getResource(), 'webhook-update')
-            ->setIdentifiers($this->getRouteParams($request))
-            ->setPayload($request->json()->all());
+            ->setIdentifiers($this->getIdentifiers($request))
+            ->setPayload($this->getPayload($request));
 
         return $this->prepResponse($this->executeUsecase($request), $request);
     }
