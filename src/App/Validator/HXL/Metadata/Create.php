@@ -19,6 +19,8 @@ use Ushahidi\Core\Tool\Validator;
 
 class Create extends Validator
 {
+    protected $default_error_source = 'metadata';
+
     protected $repo;
     protected $user_repo;
     protected $license_repo;
@@ -42,7 +44,7 @@ class Create extends Validator
     {
         return array_merge([
             'private' => [
-                ['not_empty']
+                [[$this, 'notEmptyBool'], [':value', ':validation']],
             ],
             'dataset_title' => [
                 ['not_empty'],
@@ -71,6 +73,13 @@ class Create extends Validator
         ], $this->getForeignKeyRules());
     }
 
+    public function notEmptyBool($value, $validation)
+    {
+        if ($value === null) {
+            $validation->error('private', 'notEmptyBool');
+        }
+        return true;
+    }
     /**
      * Get rules for references to other tables
      * @return array
