@@ -19,6 +19,8 @@ use Ushahidi\Core\Tool\Validator;
 
 class Create extends Validator
 {
+    protected $default_error_source = 'hxl_metadata';
+
     protected $repo;
     protected $user_repo;
     protected $license_repo;
@@ -42,7 +44,7 @@ class Create extends Validator
     {
         return array_merge([
             'private' => [
-                ['not_empty']
+                [[$this, 'notEmptyBool'], [':value', ':validation']],
             ],
             'dataset_title' => [
                 ['not_empty'],
@@ -71,6 +73,13 @@ class Create extends Validator
         ], $this->getForeignKeyRules());
     }
 
+    public function notEmptyBool($value, $validation)
+    {
+        if ($value === null) {
+            $validation->error('private', 'privateShouldNotBeEmpty');
+        }
+        return true;
+    }
     /**
      * Get rules for references to other tables
      * @return array
@@ -83,10 +92,22 @@ class Create extends Validator
             ],
             'export_job_id' => [
                 [[$this->export_job_repo, 'exists'], [':value']],
+                [[$this, 'notExists'], [':value', ':validation']],
             ],
             'user_id' => [
                 [[$this->user_repo, 'exists'], [':value']],
             ]
         ];
+    }
+
+    public function notExists($value, $validation)
+    {
+        if (!$value) {
+            return true;
+        }
+        $entity = $this->repo->getByJobId($value);
+        if ($entity->getId()) {
+            $validation->error('export_job_id', 'uniqueMetadataByJob');
+        }
     }
 }

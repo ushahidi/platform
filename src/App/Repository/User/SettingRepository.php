@@ -62,6 +62,14 @@ class SettingRepository extends OhanzeeRepository implements
     }
 
     // UserSettingRepository
+    public function getConfigKeyByUser($user_id, $config_key)
+    {
+        return $this->getEntity(
+            $this->selectOne(compact($user_id, $config_key))
+        );
+    }
+
+    // UserSettingRepository
     public function existsInUserSetting($user_id)
     {
         return (bool) $this->selectCount(compact('user_id'));

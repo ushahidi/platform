@@ -10,6 +10,7 @@
  */
 namespace Ushahidi\App\Repository\HXL;
 
+use Ohanzee\DB;
 use Ushahidi\Core\SearchData;
 use Ushahidi\Core\Entity\HXL\HXLMetadata;
 use Ushahidi\Core\Entity\HXL\HXLMetadataRepository as HXLMetadataRepositoryContract;
@@ -49,5 +50,15 @@ class HXLMetadataRepository extends OhanzeeRepository implements
     public function getEntity(array $data = null)
     {
         return new HXLMetadata($data);
+    }
+
+    public function getByJobId($jobId)
+    {
+        $query = $this->selectQuery(['export_job_id' => $jobId])
+            ->select("{$this->getTable()}.*")
+            ->limit(1);
+
+        $result = $query->execute($this->db);
+        return $this->getEntity($result->current());
     }
 }
