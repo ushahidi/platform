@@ -39,6 +39,7 @@ class AddHxlMetadataTable extends AbstractMigration
                 'limit' => 255
             ])
             ->addIndex('dataset_title')
+            ->addIndex(['export_job_id'], ['unique' => true,'name' => 'export_job_id_unique'])
             ->addColumn('created', 'integer', ['default' => 0])
             ->addColumn('updated', 'integer', ['null' => true])
             ->addForeignKey('user_id', 'users', 'id')
