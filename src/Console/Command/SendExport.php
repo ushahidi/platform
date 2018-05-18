@@ -89,7 +89,7 @@ class SendExport extends Command
                 'Accept'               => 'application/json'
             ],
             'json' => $data
-        ]);        
+        ]);
     }
 
     private function updateStatus($job)
