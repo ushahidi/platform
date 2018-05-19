@@ -65,11 +65,9 @@ class SettingRepository extends OhanzeeRepository implements
     // UserSettingRepository
     public function getConfigKeyByUser($user_id, $config_key)
     {
-        Log::debug('Config key params- userid'. $user_id . 'configkey: '. $config_key);
         $entity = $this->getEntity(
             $this->selectOne(['user_id' => $user_id, 'config_key' =>  $config_key])
         );
-        Log::debug('Config key entitu'. print_r($entity, true));
         return $entity;
     }
 

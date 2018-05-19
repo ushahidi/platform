@@ -46,9 +46,6 @@ class Verifier
 
     public function verified($signature, $api_key, $shared_secret, $url, $data)
     {
-        Log::debug('verified fucntion values');
-        Log::debug(var_export(array($signature, $api_key, $shared_secret, $url, $data), true));
-        Log::debug('API KEY exists' . var_export($this->checkApiKey($api_key), true));
         return $this->checkApiKey($api_key) && $this->checkSignature($signature, $shared_secret, $url, $data);
     }
 }

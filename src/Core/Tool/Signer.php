@@ -39,11 +39,6 @@ class Signer
 
     public function validate($expectedSignature, $url, $data = "")
     {
-        Log::debug('Computing signature: URL = ' .
-            $url . ' |||| data=' .
-            var_export($data, true) .
-            ' ||| Expected signature: '. $expectedSignature);
-        Log::debug('Computed=====>' . $this->computeSignature($url, $data));
         return hash_equals(
             $this->computeSignature($url, $data),
             $expectedSignature

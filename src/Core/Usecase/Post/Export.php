@@ -22,6 +22,7 @@ use Ushahidi\Core\SearchData;
 use Ushahidi\Core\Traits\UserContext;
 use Ushahidi\Core\Usecase\SearchRepository;
 use Ushahidi\Core\Usecase\Concerns\FilterRecords;
+use Log;
 
 class Export implements Usecase
 {
@@ -136,7 +137,7 @@ class Export implements Usecase
         $this->saveHXLHeaderRow($job, $hxl_rows);
         $this->formatter->setHxlHeading($hxl_rows);
         $formatter = $this->formatter;
-
+        Log::debug('EXPORTER: Count posts: ' . count($posts));
         /**
          * KeyAttributes is sent instead of the header row because it contains
          * the attributes with the corresponding features (type, priority) that
