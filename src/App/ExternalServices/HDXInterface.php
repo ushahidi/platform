@@ -110,7 +110,7 @@ class HDXInterface
             "license_id" => $license->code,
             "allow_no_resources" => true
         );
-        Log::debug('dataset array', var_export($dataset, true));
+        Log::debug('dataset array'.var_export($dataset, true));
         return $dataset;
     }
 
