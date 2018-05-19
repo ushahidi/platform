@@ -92,10 +92,13 @@ class Export implements Usecase
      */
     public function interact()
     {
+        Log::debug('EXPORTER: on interact: ');
+
         // Load the export job
         $job = $this->exportJobRepository->get($this->getIdentifier('job_id'));
         // load the user from the job into the 'session'
         $this->session->setUser($job->user_id);
+        Log::debug('EXPORTER: on interact - user id: ' . $job->user_id);
         // verify the user can export posts
         $this->verifyAuth($job, 'export');
         // merge filters from the controller/cli call with the job's saved filters
@@ -115,6 +118,7 @@ class Export implements Usecase
             $post = $this->postExportRepository->retrieveMetaData($post->asArray(), $keyAttributes);
             $posts[$idx] = $post;
         }
+        Log::debug('EXPORTER: on interact Count posts: ' . count($posts));
 
         /**
          * update the header attributes
