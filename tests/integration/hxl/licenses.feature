@@ -10,6 +10,7 @@ Feature: Testing the HXL Licenses API
         And the "count" property equals "8"
         And the response has a "results" property
         Then the guzzle status code should be 200
+
     Scenario: Find one HXL License by code
         Given that I want to find a "HXL License"
         And that the oauth token is "testadminuser"
@@ -28,6 +29,7 @@ Feature: Testing the HXL Licenses API
         And the "results.0.code" property equals "cc-by-igo"
         And the "results.0.name" property equals "Creative Commons Attribution for Intergovernmental Organisations"
         Then the guzzle status code should be 200
+
     Scenario: Find one HXL License by name
         Given that I want to find a "HXL License"
         And that the oauth token is "testadminuser"
