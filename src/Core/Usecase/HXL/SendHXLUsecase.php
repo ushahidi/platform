@@ -84,7 +84,7 @@ class SendHXLUsecase implements Usecase
         // setup hdx interface
         $this->setHDXInterface($user_settings);
         // get metadata by job id
-        $metadata = $this->metadataRepository->getByJobId($this->getIdentifier('job_id'));
+        $metadata = $this->metadataRepository->get($job->hxl_meta_data_id);
         // get license by metadata->license_id
         $license = $this->licenseRepository->get($metadata->license_id);
         // get all the tags assigned to this hxl export job's data
