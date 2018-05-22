@@ -1,4 +1,4 @@
-@hxl
+@hxl @resetFixture
 Feature: Testing the HXL Licenses API
     Scenario: List all HXL Licenses
         Given that I want to get all "HXL Licenses"
