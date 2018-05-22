@@ -84,7 +84,9 @@ class ExportJobsExternalAPITest extends TestCase
     public function tearDown()
     {
         parent::tearDown();
-
+        service('repository.hxl_license')->delete(new \Ushahidi\Core\Entity\HXL\HXLLicense(['id' => $this->hxlLicenseId]));
+        service('repository.hxl_meta_data')->delete(new \Ushahidi\Core\Entity\HXL\HXLMetadata(['id' => $this->hxlMetaDataId_1]));
+        service('repository.hxl_meta_data')->delete(new \Ushahidi\Core\Entity\HXL\HXLMetadata(['id' => $this->hxlMetaDataId_2]));
         service('repository.user')->delete(new \Ushahidi\Core\Entity\User(['id' => $this->userId]));
         service('repository.export_job')->delete(new \Ushahidi\Core\Entity\ExportJob(['id' => $this->jobId]));
     }
