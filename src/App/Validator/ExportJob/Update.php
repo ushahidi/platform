@@ -37,19 +37,21 @@ class Update extends Validator
     protected function getRules()
     {
 
-        return array_merge([
-            'id' => [
-                ['numeric'],
+        return array_merge(
+            [
+                'id' => [
+                    ['numeric'],
+                ],
+                'entity_type' => [
+                    ['in_array', [':value', ['post']]],
+                ],
+                'hxl_meta_data_id' => [
+                    ['in_array', [':value', ['post']]],
+                ],
             ],
-            'entity_type' => [
-                ['in_array', [':value', ['post']]],
-            ],
-            'hxl_meta_data_id' => [
-                ['in_array', [':value', ['post']]],
-            ],
-        ], 
-        $this->getHxlRules(),
-        $this->getForeignKeyRules());
+            $this->getHxlRules(),
+            $this->getForeignKeyRules()
+        );
     }
 
     /**

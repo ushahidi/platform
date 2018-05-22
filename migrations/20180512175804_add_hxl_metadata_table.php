@@ -35,7 +35,7 @@ class AddHxlMetadataTable extends AbstractMigration
                 'null' => false,
                 'limit' => 255
             ])
-            ->addIndex('dataset_title')            
+            ->addIndex('dataset_title')
             ->addColumn('created', 'integer', ['default' => 0])
             ->addColumn('updated', 'integer', ['null' => true])
             ->addForeignKey(
