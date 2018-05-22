@@ -24,18 +24,15 @@ class Create extends Validator
     protected $repo;
     protected $user_repo;
     protected $license_repo;
-    protected $export_job_repo;
 
     public function __construct(
         HXLMetadataRepository $repo,
         UserRepository $user_repo,
-        HXLLicenseRepository $license_repo,
-        ExportJobRepository $export_job_repo
+        HXLLicenseRepository $license_repo
     ) {
         $this->repo = $repo;
         $this->user_repo = $user_repo;
         $this->license_repo = $license_repo;
-        $this->export_job_repo = $export_job_repo;
     }
     /**
      * @return array|\Ushahidi\Core\Tool\ArrayValidation
@@ -90,24 +87,9 @@ class Create extends Validator
             'license_id' => [
                 [[$this->license_repo, 'exists'], [':value']],
             ],
-            'export_job_id' => [
-                [[$this->export_job_repo, 'exists'], [':value']],
-                [[$this, 'notExists'], [':value', ':validation']],
-            ],
             'user_id' => [
                 [[$this->user_repo, 'exists'], [':value']],
             ]
         ];
-    }
-
-    public function notExists($value, $validation)
-    {
-        if (!$value) {
-            return true;
-        }
-        $entity = $this->repo->getByJobId($value);
-        if ($entity->getId()) {
-            $validation->error('export_job_id', 'uniqueMetadataByJob');
-        }
     }
 }

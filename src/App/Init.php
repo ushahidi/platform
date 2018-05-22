@@ -791,9 +791,14 @@ $di->params['Ushahidi\Factory\ValidatorFactory']['map']['hxl_meta_data'] = [
     'create' => $di->lazyNew(Ushahidi\App\Validator\HXL\Metadata\Create::class),
 ];
 
+$di->params[Ushahidi\App\Validator\ExportJob\Update::class] = [
+    'repo' => $di->lazyGet('repository.export_job'),
+    'hxl_meta_data_repo' => $di->lazyGet('repository.hxl_meta_data'),
+    'user_repo' => $di->lazyGet('repository.user'),
+];
+
 $di->params[Ushahidi\App\Validator\HXL\Metadata\Create::class] = [
     'repo' => $di->lazyGet('repository.hxl_meta_data'),
-    'export_job_repo' => $di->lazyGet('repository.export_job'),
     'license_repo' => $di->lazyGet('repository.hxl_license'),
     'user_repo' => $di->lazyGet('repository.user'),
 ];
