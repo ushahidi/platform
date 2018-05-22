@@ -48,6 +48,7 @@ Feature: Testing the HXL Licenses API
         And the "results.0.code" property equals "cc-by-igo"
         And the "results.0.name" property equals "Creative Commons Attribution for Intergovernmental Organisations"
         Then the guzzle status code should be 200
+
     @resetFixture
     Scenario: Basic User users cannot get HXL Licenses
         Given that I want to get all "HXLLicenses"
@@ -63,6 +64,7 @@ Feature: Testing the HXL Licenses API
         When I request "/hxl/licenses"
         Then the response is JSON
         Then the guzzle status code should be 403
+
     @resetFixture
     Scenario: Not using a token results in a 401
         Given that I want to get all "HXLLicenses"

@@ -1,4 +1,4 @@
-@exportjobs @hxlEnabled
+@exportjobs @hxlEnabled @hxl
 Feature: Testing the Export Job API for HXL
   Scenario: Create a export job with send_to_browser=true
     Given that I want to make a new "ExportJob"
@@ -84,7 +84,6 @@ Feature: Testing the Export Job API for HXL
     And the response has a "id" property
     Then the guzzle status code should be 200
 
-  @resetFixture
   Scenario: Create a export job for browser
     Given that I want to make a new "ExportJob"
     And that the oauth token is "testadminuser"
