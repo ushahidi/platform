@@ -20,6 +20,7 @@ use Ushahidi\Core\Tool\AuthorizerTrait;
 use Ushahidi\App\ExternalServices\HDXInterface;
 use Ushahidi\Core\Tool\FormatterTrait;
 use Ushahidi\Core\Usecase;
+use Log;
 
 class SendHXLUsecase implements Usecase
 {
@@ -79,11 +80,11 @@ class SendHXLUsecase implements Usecase
         // get job by job_id
         $job = $this->exportJobRepository->get($this->getIdentifier('job_id'));
         // get user settings by user id
-        $user_settings = $this->userSettingRepository->getConfigKeyByUser($this->auth->getUserId(), 'hdx_api_key');
+        $user_settings = $this->userSettingRepository->getConfigKeyByUser($job->user_id, 'hdx_api_key');
         // setup hdx interface
         $this->setHDXInterface($user_settings);
         // get metadata by job id
-        $metadata = $this->metadataRepository->getByJobId($this->getIdentifier('job_id'));
+        $metadata = $this->metadataRepository->get($job->hxl_meta_data_id);
         // get license by metadata->license_id
         $license = $this->licenseRepository->get($metadata->license_id);
         // get all the tags assigned to this hxl export job's data
@@ -93,9 +94,13 @@ class SendHXLUsecase implements Usecase
         }, $tags);
         // check if the dataset exists to decide if we update or create one
         $existing_dataset_id = $this->hdxInterface->getDatasetIDByName($metadata->dataset_title);
+
+
         if (!!$existing_dataset_id) {
+            Log::debug('Found dataset' . print_r($metadata->dataset_title, true));
             $updated_job = $this->updateDatasetAndResource($existing_dataset_id, $metadata, $job, $license, $tags);
         } else {
+            Log::debug('Did not find dataset' . print_r($metadata->dataset_title, true));
             $updated_job = $this->createDatasetAndResource($metadata, $job, $license, $tags);
         }
         return $this->formatter->__invoke($updated_job);
@@ -132,8 +137,12 @@ class SendHXLUsecase implements Usecase
      */
     private function createDatasetAndResource($metadata, $job, $license, $tags)
     {
+        Log::debug('createdatasetandresource');
         $dataset_result = $this->hdxInterface->createHDXDatasetRecord($metadata->asArray(), $license, $tags);
+        Log::debug('createdatasetandresource happened');
         if (isset($dataset_result['error'])) {
+            Log::debug('Dataset resulted in error: '.print_r($dataset_result, true));
+
             $job = $this->setJobStatusAndUpdate($job, 'FAILED');
             return $job;
         }
@@ -149,15 +158,18 @@ class SendHXLUsecase implements Usecase
      */
     private function createResourceAndUpdateJob($dataset_id, $job, $metadata)
     {
+        Log::debug('Dataset job' . var_export($job->asArray(), true));
         $resource_result = $this->hdxInterface->createResourceForDataset(
             $dataset_id,
             $job->url,
             $metadata->dataset_title
         );
         if (isset($resource_result['error'])) {
+            Log::debug('Resource is an error: '.print_r($resource_result, true));
             $job = $this->setJobStatusAndUpdate($job, 'FAILED');
             return $job;
         }
+        Log::debug('Resource success: '.print_r($resource_result, true));
         $job = $this->setJobStatusAndUpdate($job, 'SUCCESS');
         return $job;
     }
@@ -169,6 +181,7 @@ class SendHXLUsecase implements Usecase
     private function setJobStatusAndUpdate($job, $status)
     {
         $job->setState(['status' => $status]);
+        Log::debug('Job updated:' . print_r($job, true));
         $this->exportJobRepository->update($job);
         return $job;
     }

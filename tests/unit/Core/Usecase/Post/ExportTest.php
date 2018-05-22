@@ -23,6 +23,8 @@ class ExportTest extends TestCase
 
     protected $jobId;
     protected $userId;
+    protected $hxlMetaDataId;
+    protected $hxlLicenseId;
 
     public function setUp()
     {
@@ -41,10 +43,27 @@ class ExportTest extends TestCase
         $this->postExportRepository = M::mock(ExportRepository::class);
         $this->exportJobRepository = M::mock(ExportJobRepository::class);
         $this->formAttributeRepository = M::mock(AttributeRepository::class);
+
+        $this->hxlLicenseId = service('repository.hxl_license')->create(new \Ushahidi\Core\Entity\HXL\HXLLicense([
+            'code' => "ushahidi".rand(),
+            'name' => "ushahidi-dataset",
+            'link' => "other",
+        ]));
+
+        $this->hxlMetaDataId = service('repository.hxl_meta_data')->create(new \Ushahidi\Core\Entity\HXL\HXLMetadata([
+            'license_id' => $this->hxlLicenseId,
+            'organisation' => "ushahidi",
+            'dataset_title' => "ushahidi-dataset",
+            'source' => "other",
+            'maintainer' => "ushahidi-maintainer",
+            'private' => true,
+            'user_id' => $this->userId,
+        ]));
         $this->usecase = service('factory.usecase')->get('posts_export', 'export');
         $this->jobId = service('repository.export_job')->create(new \Ushahidi\Core\Entity\ExportJob([
             'user_id' => $this->userId,
-            'entity_type' => 'post'
+            'entity_type' => 'post',
+            'hxl_meta_data_id' => $this->hxlMetaDataId
         ]));
         // Get the usecase and pass in authorizer, payload and transformer
         $this->usecase = $this->usecase

@@ -20,9 +20,6 @@ class AddHxlMetadataTable extends AbstractMigration
                 'null' => false,
                 'comment' => 'Dataset license in HDX',
             ])
-            ->addColumn('export_job_id', 'integer', [
-                'null' => false,
-            ])
             ->addColumn('user_id', 'integer', [
                 'null' => false,
             ])
@@ -38,19 +35,12 @@ class AddHxlMetadataTable extends AbstractMigration
                 'null' => false,
                 'limit' => 255
             ])
-            ->addIndex('dataset_title')
-            ->addIndex(['export_job_id'], ['unique' => true,'name' => 'export_job_id_unique'])
+            ->addIndex('dataset_title')            
             ->addColumn('created', 'integer', ['default' => 0])
             ->addColumn('updated', 'integer', ['null' => true])
             ->addForeignKey(
                 'user_id',
                 'users',
-                'id',
-                ['delete'=>'CASCADE', 'update'=>'CASCADE']
-            )
-            ->addForeignKey(
-                'export_job_id',
-                'export_job',
                 'id',
                 ['delete'=>'CASCADE', 'update'=>'CASCADE']
             )

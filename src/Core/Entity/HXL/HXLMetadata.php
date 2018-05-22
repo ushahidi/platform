@@ -19,7 +19,6 @@ class HXLMetadata extends StaticEntity
     protected $private;
     protected $dataset_title;
     protected $license_id;
-    protected $export_job_id;
     protected $user_id;
     protected $organisation;
     protected $source;
@@ -35,7 +34,6 @@ class HXLMetadata extends StaticEntity
             'private'           => 'bool',
             'dataset_title'     => 'string',
             'license_id'        => 'int',
-            'export_job_id'     => 'int',
             'user_id'           => 'int',
             'organisation'      => 'string',
             'source'            => 'string',

@@ -15,6 +15,9 @@ class ExportJobsExternalAPITest extends TestCase
 
     protected $jobId;
     protected $userId;
+    protected $hxlMetaDataId_1;
+    protected $hxlMetaDataId_2;
+    protected $hxlLicenseId;
 
     public function setUp()
     {
@@ -33,11 +36,38 @@ class ExportJobsExternalAPITest extends TestCase
     {
         $faker = Faker\Factory::create();
 
+
         $this->userId = service('repository.user')->create(new \Ushahidi\Core\Entity\User([
             'email' => $faker->email,
             'password' => $faker->password(10),
             'realname' => $faker->name,
             'role' => $user_role
+        ]));
+
+        $this->hxlLicenseId = service('repository.hxl_license')->create(new \Ushahidi\Core\Entity\HXL\HXLLicense([
+            'code' => "ushahidi".rand(),
+            'name' => "ushahidi-dataset",
+            'link' => "other",
+        ]));
+
+        $this->hxlMetaDataId_1 = service('repository.hxl_meta_data')->create(new \Ushahidi\Core\Entity\HXL\HXLMetadata([
+            'license_id' => $this->hxlLicenseId,
+            'organisation' => "ushahidi",
+            'dataset_title' => "ushahidi-dataset",
+            'source' => "other",
+            'maintainer' => "ushahidi-maintainer",
+            'private' => true,
+            'user_id' => $this->userId,
+        ]));
+
+        $this->hxlMetaDataId_2 = service('repository.hxl_meta_data')->create(new \Ushahidi\Core\Entity\HXL\HXLMetadata([
+            'license_id' => $this->hxlLicenseId,
+            'organisation' => "ushahidi",
+            'dataset_title' => "ushahidi-dataset",
+            'source' => "other",
+            'maintainer' => "ushahidi-maintainer",
+            'private' => true,
+            'user_id' => $this->userId,
         ]));
 
         $exportJobs = service('repository.export_job');
@@ -47,6 +77,7 @@ class ExportJobsExternalAPITest extends TestCase
             'send_to_hdx' => false,
             'send_to_browser' => true,
             'include_hxl' => false,
+            'hxl_meta_data_id' => $this->hxlMetaDataId_1,
         ]));
     }
 
@@ -204,6 +235,7 @@ class ExportJobsExternalAPITest extends TestCase
                 'send_to_hdx' => false,
                 'send_to_browser' => true,
                 'include_hxl' => false,
+                'hxl_meta_data_id' => $this->hxlMetaDataId_2,
             ])
         );
 
@@ -215,6 +247,7 @@ class ExportJobsExternalAPITest extends TestCase
                 'send_to_hdx' => false,
                 'send_to_browser' => true,
                 'include_hxl' => false,
+                'hxl_meta_data_id' => $this->hxlMetaDataId_2,
             ],
             [
                 'X-Ushahidi-Signature' => $sig
@@ -230,7 +263,8 @@ class ExportJobsExternalAPITest extends TestCase
                 'filters',
                 'status',
                 'header_row',
-                'created'
+                'created',
+                'hxl_meta_data_id'
             ])
             ->seeJson([
                 'filters' => [

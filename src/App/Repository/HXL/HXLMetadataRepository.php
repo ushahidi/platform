@@ -41,24 +41,11 @@ class HXLMetadataRepository extends OhanzeeRepository implements
         if ($search->dataset_title) {
             $query->where('dataset_title', '=', $search->dataset_title);
         }
-        if ($search->export_job_id) {
-            $query->where('export_job_id', '=', $search->export_job_id);
-        }
         return $query;
     }
 
     public function getEntity(array $data = null)
     {
         return new HXLMetadata($data);
-    }
-
-    public function getByJobId($jobId)
-    {
-        $query = $this->selectQuery(['export_job_id' => $jobId])
-            ->select("{$this->getTable()}.*")
-            ->limit(1);
-
-        $result = $query->execute($this->db);
-        return $this->getEntity($result->current());
     }
 }

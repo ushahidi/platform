@@ -2032,11 +2032,49 @@ webhooks:
     entity_type: "post"
     event_type: "search"
 csv:
+hxl_meta_data:
+  -
+    id: 1
+    license_id: 1
+    organisation: "ushahidi"
+    dataset_title: "ushahidi-dataset"
+    source: "other"
+    maintainer: "ushahidi-maintainer"
+    private: true
+    user_id: 2
+  -
+    id: 2
+    license_id: 1
+    organisation: "ushahidi"
+    dataset_title: "ushahidi-dataset"
+    source: "other"
+    maintainer: "ushahidi-maintainer"
+    private: true
+    user_id: 2
+  -
+    id: 3
+    license_id: 1
+    organisation: "ushahidi"
+    dataset_title: "ushahidi-dataset"
+    source: "other"
+    maintainer: "ushahidi-maintainer"
+    private: true
+    user_id: 2
+  -
+    id: 4
+    license_id: 1
+    organisation: "ushahidi"
+    dataset_title: "ushahidi-dataset"
+    source: "other"
+    maintainer: "ushahidi-maintainer"
+    private: true
+    user_id: 2
 export_job:
   -
     id: 1
     entity_type: "post"
     user_id: 2
+    hxl_meta_data_id: 1
 permissions:
   -
     name: Manage Users
