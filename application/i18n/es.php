@@ -34,7 +34,7 @@ return array(
 'API secret' => 'Código secreto API',
 'The API secret' => 'El código secreto API',
 'Step 1: Download the "SMSSync" app from the Android Market.' => 'Paso 1: Descargue la aplicación "SMSSync" del Android Market.',
-'Scan this QR Code with your phone to download the app from the Android Market <img src="'. URL::site('/media/images/smssync.png', TRUE) .'" width="150"/>' =>
+'Scan this QR Code with your phone to download the app from the Android Market <img src="'. URL::site('/media/images/smssync.png', TRUE) .'" width="150"/>' => 'Escanee este código QR con su teléfono para descargar la aplicación desde el Android Market' . URL::site('/media/images/smssync.png', TRUE) . '" width="150"/>',
 'Turn on SMSSync and use the following link as the Sync URL:' . URL::site('smssync', TRUE) => 'Active SMSSync y use el siguiente enlace como el URL de sincronización:' . URL::site('smssync', TRUE),
 'Set a secret so that only authorized SMSSync devices can send/recieve message. You need to configure the same secret in the SMSSync App.' => 'Establezca un código secreto para que sólo los dispositivos SMSSync autorizados puedan enviar\/recibir mensajes. Debe configurar el mismo código secreto en la aplicación SMSSync',
 'Phone Number' => 'Número de teléfono',
