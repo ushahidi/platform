@@ -24,6 +24,8 @@ use Ushahidi\Core\Usecase\User\ResetPasswordRepository;
 
 use League\Event\ListenerInterface;
 use Ushahidi\Core\Traits\Event;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class UserRepository extends OhanzeeRepository implements
 	UserRepositoryContract,
@@ -188,9 +190,7 @@ class UserRepository extends OhanzeeRepository implements
 	// ResetPasswordRepository
 	public function getResetToken(Entity $entity)
     {
-		// Todo: replace with something more robust.
-		// This is predictable if we don't have the openssl mod
-		$token = Security::token(true);
+		$token = Hash::make(Str::random(40));
 
 		$input = [
 			'reset_token' => $token,
@@ -216,7 +216,7 @@ class UserRepository extends OhanzeeRepository implements
 			->where('created', '>', time() - 1800) // Expire tokens after less than 30 mins
 			->execute($this->db);
 
-			
+
 
 		$count = $result->get('total') ?: 0;
 
