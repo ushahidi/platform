@@ -13,6 +13,7 @@
 
 #### It is ready for development when
 - [ ] Has a description that includes purpose of this particular feature/improvement (how it will help the user and for which use cases)
+- [ ] Links to  user stories, evidence and research to support the feature
 - [ ] Can be delivered within a sprint (make sure issues are small pieces of work, not huge epics)
 - [ ] Has all designs and UI assets available
 - [ ] Has all (probable) dependencies identified
