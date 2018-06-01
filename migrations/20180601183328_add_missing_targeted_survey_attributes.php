@@ -57,7 +57,7 @@ class AddMissingTargetedSurveyAttributes extends AbstractMigration
         );
 
         $form_stages_to_ignore = [];
-        foreach($already_set as $form_stage) {
+        foreach ($already_set as $form_stage) {
             if (!in_array($form_stage['form_stage_id'], $form_stages_to_ignore)) {
                 array_push($form_stages_to_ignore, $form_stage['form_stage_id']);
             }
