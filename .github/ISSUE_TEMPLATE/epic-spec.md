@@ -9,6 +9,12 @@ Describe the output of epic
 
 ## Who is it for? Who are the users?
 
+## What privacy impacts does it have?
+- Does it change the personal data we collect?
+- Does it expose data that was previously private?
+- Does it send data to new services? or change how we process it?
+- If privacy impacts are high risk, consider completing an impact assessment per GDPR (https://ico.org.uk/for-organisations/guide-to-the-general-data-protection-regulation-gdpr/accountability-and-governance/data-protection-impact-assessments/)
+
 ## Requirements
 
 ### Who will this be deployed to?
