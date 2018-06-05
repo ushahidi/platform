@@ -112,7 +112,7 @@ class Ushahidi_Listener_ContactListener extends AbstractListener
 			 *  Use the message status to mark it as "pending" (ready for delivery via SMS)
 			 */
 			$message = $this->message_repo->getEntity();
-			$firstAttribute = $this->form_attribute_repo->getFirstByForm($form_id);
+			$firstAttribute = $this->form_attribute_repo->getFirstNonDefaultByForm($form_id);
 			if (!$firstAttribute->id) {
 				Kohana::$log->add(
 					Log::ERROR,

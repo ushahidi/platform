@@ -37,7 +37,7 @@ interface FormAttributeRepository extends
 	 * @param  int $form_id
 	 * @return [Ushahidi\Core\Entity\FormAttribute, ...]
 	 */
-	public function getFirstByForm($form_id);
+	public function getFirstNonDefaultByForm($form_id);
 
 	/**
 	 * @return [Ushahidi\Core\Entity\FormAttribute, ...]
