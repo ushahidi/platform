@@ -19,6 +19,7 @@ use Ushahidi\Core\Entity\UserSetting;
 use Ushahidi\Core\Entity\UserSettingRepository as UserSettingRepositoryContract;
 use Ushahidi\App\Repository\OhanzeeRepository;
 use Ushahidi\App\Repository\JsonTranscodeRepository;
+use Log;
 
 class SettingRepository extends OhanzeeRepository implements
     UserSettingRepositoryContract
@@ -64,9 +65,10 @@ class SettingRepository extends OhanzeeRepository implements
     // UserSettingRepository
     public function getConfigKeyByUser($user_id, $config_key)
     {
-        return $this->getEntity(
-            $this->selectOne(compact($user_id, $config_key))
+        $entity = $this->getEntity(
+            $this->selectOne(['user_id' => $user_id, 'config_key' =>  $config_key])
         );
+        return $entity;
     }
 
     // UserSettingRepository

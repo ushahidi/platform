@@ -51,6 +51,7 @@ class HDXInterface
                 'base_uri' => $this->ckanURL,
                 'headers' => ['Authorization' => $this->userAPIKey],
             ];
+            Log::debug('Api client config: '.print_r($config, true));
             //if we passed in a mock handler
             if (isset($this->handler)) {
                 $config['handler'] = $this->handler;
@@ -69,14 +70,15 @@ class HDXInterface
     // returns ID or null
     public function getDatasetIDByName($title)
     {
-        $slug = strtolower(preg_replace('/[^A-Za-z0-9-]+/', '-', $title));
+        $slug = trim(strtolower(preg_replace('/[^A-Za-z0-9-]+/', '-', $title)));
+
         $datasetId = null;
         try {
             $dataset = $this->getApiClient()->dataset()->show($slug);
             $datasetId = isset($dataset['result']) && isset($dataset['result']['id']) ?
                 $dataset['result']['id'] : null;
-        } catch (Exception $e) {
-            Log::error('Unable to find HDX datasets by title '.print_r($e, true));
+        } catch (\Exception $e) {
+            Log::error('Unable to find HDX datasets by title '.print_r($e->getMessage(), true));
         }
 
         return $datasetId;
@@ -93,7 +95,7 @@ class HDXInterface
     {
         $slug = strtolower(preg_replace('/[^A-Za-z0-9-]+/', '-', $metadata['dataset_title']));
 
-        return $dataset = array(
+        $dataset = array(
             "name" =>  $slug, //FIXME should it be user input?
             "author" => $metadata['maintainer'],
             "maintainer" => $metadata['maintainer'],
@@ -108,6 +110,8 @@ class HDXInterface
             "license_id" => $license->code,
             "allow_no_resources" => true
         );
+        Log::debug('dataset array'.var_export($dataset, true));
+        return $dataset;
     }
 
     /** Note: if error condition is the result, then we ignore it gracefully,
@@ -138,12 +142,13 @@ class HDXInterface
      */
     public function createHDXDatasetRecord(array $metadata, $license, $tags = [])
     {
+
         $dataset = $this->formatDatasetObject($metadata, $license, $tags);
         $apiClient = $this->getApiClient();
         $createResult = [];
         try {
             $createResult = $apiClient->dataset()->create($dataset);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             // @TODO: be graceful here
             $createResult = ['error' => 'Unable to create dataset on HDX server.'];
             Log::error('Unable to create dataset on HDX server: '.print_r($e, true));
@@ -169,12 +174,14 @@ class HDXInterface
         ];
         $apiClient = $this->getApiClient();
         $createResult = [];
+        Log::debug('resource sent');
+        Log::debug(var_export($resource, true));
         try {
             $createResult = $apiClient->resource()->create($resource);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             // @TODO: be graceful here
             $createResult = ['error' => 'Unable to create resource on HDX server.'];
-            Log::error('Unable to create resource on HDX server: '.print_r($e, true));
+            Log::error('Unable to create resource on HDX server: '.print_r($e->getMessage(), true));
         }
         return $createResult;
     }
@@ -187,7 +194,7 @@ class HDXInterface
             if (isset($orgResult['result'])) {
                 $orgResult = $orgResult['result'];
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $orgResult = false;
             // @TODO: gracefully handle this
             Log::error('Unable to get Org results '.print_r($e, true));
@@ -235,7 +242,7 @@ class HDXInterface
         $data = []; // nothing to send here
         try {
             $orgResult = $apiClient->organization()->all($data);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             // @TODO: gracefully handle this
             Log::error('Unable to get Org results '.print_r($e, true));
         }

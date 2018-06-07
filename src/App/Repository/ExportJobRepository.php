@@ -68,6 +68,11 @@ class ExportJobRepository extends OhanzeeRepository implements ExportJobReposito
 
         $user = $this->getUser();
 
+
+        if ($search->hxl_meta_data_id) {
+            $query->where('hxl_meta_data_id', '=', $search->hxl_meta_data_id);
+        }
+
         // Limit search to user's records unless they are admin
         // or if we get user=me as a search param
         if (! $this->isUserAdmin($user) || $search->user === 'me') {
@@ -118,18 +123,18 @@ class ExportJobRepository extends OhanzeeRepository implements ExportJobReposito
     //   as SUCCESSful
     public function update(Entity $entity)
     {
-        $state = [];
         //check for new status of 'EXPORTED_TO_CDN'
         if ($entity->status == 'EXPORTED_TO_CDN' && $entity->send_to_hdx == true) {
+            parent::update($entity->setState(['status' => "PENDING_HDX"]));
             //if sending to HXL is required, then we spawn an event to do that
             Event::fire(new SendToHDXEvent($entity->id));
-            $state = ['status' => "PENDING_HDX"];
         } elseif ($entity->status == 'EXPORTED_TO_CDN' && $entity->send_to_hdx == false) {
             //if sending to HDX is not required, (or send_to_hdx does not exist)
             // then simply update the status to success
-            $state = [ 'status' => "SUCCESS"];
+            parent::update($entity->setState([ 'status' => "SUCCESS"]));
+        } else {
+            return parent::update($entity);
         }
-        return parent::update($entity->setState($state));
     }
 
 

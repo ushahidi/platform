@@ -22,6 +22,7 @@ use Ushahidi\Core\SearchData;
 use Ushahidi\Core\Traits\UserContext;
 use Ushahidi\Core\Usecase\SearchRepository;
 use Ushahidi\Core\Usecase\Concerns\FilterRecords;
+use Log;
 
 class Export implements Usecase
 {
@@ -91,10 +92,13 @@ class Export implements Usecase
      */
     public function interact()
     {
+        Log::debug('EXPORTER: on interact: ');
+
         // Load the export job
         $job = $this->exportJobRepository->get($this->getIdentifier('job_id'));
         // load the user from the job into the 'session'
         $this->session->setUser($job->user_id);
+        Log::debug('EXPORTER: on interact - user id: ' . $job->user_id);
         // verify the user can export posts
         $this->verifyAuth($job, 'export');
         // merge filters from the controller/cli call with the job's saved filters
@@ -114,6 +118,7 @@ class Export implements Usecase
             $post = $this->postExportRepository->retrieveMetaData($post->asArray(), $keyAttributes);
             $posts[$idx] = $post;
         }
+        Log::debug('EXPORTER: on interact Count posts: ' . count($posts));
 
         /**
          * update the header attributes
@@ -136,7 +141,7 @@ class Export implements Usecase
         $this->saveHXLHeaderRow($job, $hxl_rows);
         $this->formatter->setHxlHeading($hxl_rows);
         $formatter = $this->formatter;
-
+        Log::debug('EXPORTER: Count posts: ' . count($posts));
         /**
          * KeyAttributes is sent instead of the header row because it contains
          * the attributes with the corresponding features (type, priority) that

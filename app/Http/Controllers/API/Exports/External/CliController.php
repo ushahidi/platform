@@ -17,6 +17,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
+use Log;
 
 class CliController extends RESTController
 {
@@ -39,6 +40,7 @@ class CliController extends RESTController
             'offset' => $request->input('offset', 0),
             'add_header' => $include_header
         ];
+        Log::debug('In CLI Controller' . var_export($filters, true));
         // Get the usecase and pass in authorizer, payload and transformer
         $this->usecase = $this->usecaseFactory->get('posts_export', 'export')
             ->setFilters($filters)

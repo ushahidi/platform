@@ -30,15 +30,7 @@ class ExportJob extends StaticEntity
     protected $send_to_browser;
     protected $send_to_hdx;
     protected $hxl_heading_row;
-
-    // StatefulData
-    protected function getDerived()
-    {
-        // Foreign key alias
-        return [
-            'user_id' => ['user', 'user.id']
-        ];
-    }
+    protected $hxl_meta_data_id;
 
     // DataTransformer
     protected function getDefinition()
@@ -58,7 +50,8 @@ class ExportJob extends StaticEntity
             'include_hxl'       => 'bool',
             'send_to_browser'   => 'bool',
             'send_to_hdx'       => 'bool',
-            'hxl_heading_row'   => '*json'
+            'hxl_heading_row'   => '*json',
+            'hxl_meta_data_id'  => 'int'
         ];
     }
 
@@ -66,6 +59,16 @@ class ExportJob extends StaticEntity
     public function getResource()
     {
         return 'export_job';
+    }
+
+    // StatefulData
+    protected function getDerived()
+    {
+        // Foreign key alias
+        return [
+            'hxl_meta_data_id'  => ['hxl_meta_data', 'hxl_meta_data.id'],
+            'user_id'        => ['users', 'users.id']
+        ];
     }
 
     // StatefulData

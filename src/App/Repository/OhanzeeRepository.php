@@ -136,7 +136,6 @@ abstract class OhanzeeRepository implements
         $query = $this->getSearchQuery(true)
             ->resetSelect()
             ->select([DB::expr('COUNT(*)'), 'total']);
-
         // Fetch the result and...
         $result = $query->execute($this->db);
 

@@ -12,23 +12,62 @@
 namespace Ushahidi\App\Validator\ExportJob;
 
 use Ushahidi\App\Facades\Features;
+use Ushahidi\Core\Entity\ExportJobRepository;
+use Ushahidi\Core\Entity\HXL\HXLMetadataRepository;
+use Ushahidi\Core\Entity\UserRepository;
 use Ushahidi\Core\Tool\Validator;
 
 class Update extends Validator
 {
     protected $default_error_source = 'export';
+    protected $repo;
+    protected $user_repo;
+    protected $hxl_meta_data_repo;
+
+    public function __construct(
+        ExportJobRepository $repo,
+        UserRepository $user_repo,
+        HXLMetadataRepository $hxl_meta_data_repo
+    ) {
+        $this->repo = $repo;
+        $this->user_repo = $user_repo;
+        $this->hxl_meta_data_repo = $hxl_meta_data_repo;
+    }
 
     protected function getRules()
     {
 
-        return array_merge([
-            'id' => [
-                ['numeric'],
+        return array_merge(
+            [
+                'id' => [
+                    ['numeric'],
+                ],
+                'entity_type' => [
+                    ['in_array', [':value', ['post']]],
+                ],
+                'hxl_meta_data_id' => [
+                    ['in_array', [':value', ['post']]],
+                ],
             ],
-            'entity_type' => [
-                ['in_array', [':value', ['post']]],
+            $this->getHxlRules(),
+            $this->getForeignKeyRules()
+        );
+    }
+
+    /**
+     * Get rules for references to other tables
+     * @return array
+     */
+    private function getForeignKeyRules()
+    {
+        return [
+            'hxl_meta_data_id' => [
+                [[$this->hxl_meta_data_repo, 'exists'], [':value']],
             ],
-        ], $this->getHxlRules());
+            'user_id' => [
+                [[$this->user_repo, 'exists'], [':value']],
+            ]
+        ];
     }
 
     /**
