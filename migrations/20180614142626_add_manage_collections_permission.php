@@ -22,5 +22,3 @@ class AddManageCollectionsPermission extends AbstractMigration
         $this->execute("DELETE FROM roles_permissions WHERE permission = 'Manage Collections'");
     }
 }
-
-
