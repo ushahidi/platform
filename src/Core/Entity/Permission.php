@@ -20,11 +20,12 @@ class Permission extends StaticEntity
 	protected $description;
 
 	// Standard permissions names
-	const DATA_IMPORT      = 'Bulk Data Import';
-	const MANAGE_POSTS     = 'Manage Posts';
-	const MANAGE_SETTINGS  = 'Manage Settings';
-    const MANAGE_USERS     = 'Manage Users';
-    const EDIT_OWN_POSTS   = 'Edit their own posts';
+	const DATA_IMPORT          = 'Bulk Data Import';
+    const MANAGE_POSTS         = 'Manage Posts';
+    const MANAGE_COLLECTIONS   = 'Manage Collections';
+	const MANAGE_SETTINGS      = 'Manage Settings';
+    const MANAGE_USERS         = 'Manage Users';
+    const EDIT_OWN_POSTS       = 'Edit their own posts';
 
 	// DataTransformer
 	public function getDefinition()
