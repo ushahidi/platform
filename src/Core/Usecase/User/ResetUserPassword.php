@@ -61,8 +61,7 @@ class ResetUserPassword implements Usecase
 
 	public function interact()
 	{
-		$token = $this->getPayload('token');
-
+		$token = urldecode($this->getPayload('token'));
 		// Check if the reset token is valid
 		if ($this->repo->isValidResetToken($token)) {
 			// If its valid..
