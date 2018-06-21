@@ -648,7 +648,7 @@ Feature: API Access Control Layer
         Then the guzzle status code should be 200
 
     @rolesEnabled
-    Scenario: User with Manage Collections and Savedsearches can update a Collection
+    Scenario: User with Manage Collections and Saved Searches can update a Collection
 		Given that I want to update a "collection"
         And that the request "Authorization" header is "Bearer testsets"
 		And that the request "data" is:
@@ -669,7 +669,7 @@ Feature: API Access Control Layer
 
     
     @rolesEnabled
-    Scenario: User without Manage Collections and Savedsearches can not update a Collection
+    Scenario: User without Manage Collections and Saved Searches can not update a Collection
 		Given that I want to update a "collection"
         And that the request "Authorization" header is "Bearer testanon"
 		And that the request "data" is:

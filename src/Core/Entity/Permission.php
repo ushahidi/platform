@@ -22,7 +22,7 @@ class Permission extends StaticEntity
 	// Standard permissions names
     const DATA_IMPORT          = 'Bulk Data Import';
     const MANAGE_POSTS         = 'Manage Posts';
-    const MANAGE_SETS          = 'Manage Collections and Savedsearches';
+    const MANAGE_SETS          = 'Manage Collections and Saved Searches';
     const MANAGE_SETTINGS      = 'Manage Settings';
     const MANAGE_USERS         = 'Manage Users';
     const EDIT_OWN_POSTS       = 'Edit their own posts';

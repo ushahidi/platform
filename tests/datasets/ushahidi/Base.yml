@@ -2592,7 +2592,7 @@ roles_permissions:
     permission: Manage Settings
   -
     role: sets
-    permission: Manage Collections and Savedsearches
+    permission: Manage Collections and Saved Searches
   -
     role: importer
     permission: Bulk Data Import
