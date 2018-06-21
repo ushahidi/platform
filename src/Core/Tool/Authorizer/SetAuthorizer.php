@@ -66,7 +66,7 @@ class SetAuthorizer implements Authorizer
         }
         
         // First check whether there is a role with the right permissions
-        if ($this->acl->hasPermission($user, Permission::MANAGE_COLLECTIONS)) {
+        if ($this->acl->hasPermission($user, Permission::MANAGE_SETS)) {
             return true;
         }
 

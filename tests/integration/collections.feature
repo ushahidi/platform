@@ -119,7 +119,7 @@ Feature: Testing the Sets API
 		Then the response is JSON
 		And the response has a "count" property
 		And the type of the "count" property is "numeric"
-		And the "count" property equals "3"
+		And the "count" property equals "4"
 		Then the guzzle status code should be 200
 
 	@resetFixture
@@ -130,7 +130,7 @@ Feature: Testing the Sets API
 		Then the response is JSON
 		And the response has a "count" property
 		And the type of the "count" property is "numeric"
-		And the "count" property equals "2"
+		And the "count" property equals "3"
 		Then the guzzle status code should be 200
 
 	@resetFixture

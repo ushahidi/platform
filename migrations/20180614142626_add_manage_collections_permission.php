@@ -7,18 +7,18 @@ class AddManageCollectionsPermission extends AbstractMigration
     public function up()
     {
         $this->execute("INSERT INTO permissions (name, description)
-            VALUES ('Manage Collections', 'Manage collections')
+            VALUES ('Manage Collections and Savedsearches', 'Manage collections and savedsearches')
         ");
 
         $this->execute("INSERT INTO `roles_permissions` (`role`, `permission`)
-            VALUES ('admin', 'Manage Collections')
+            VALUES ('admin', 'Manage Collections and Savedsearches')
         ");
     }
 
     public function down()
     {
-        $this->execute("DELETE FROM permissions WHERE name = 'Manage Collections'");
+        $this->execute("DELETE FROM permissions WHERE name = 'Manage Collections and Savedsearches'");
 
-        $this->execute("DELETE FROM roles_permissions WHERE permission = 'Manage Collections'");
+        $this->execute("DELETE FROM roles_permissions WHERE permission = 'Manage Collections and Savedsearches'");
     }
 }
