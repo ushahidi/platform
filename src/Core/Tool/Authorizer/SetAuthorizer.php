@@ -63,7 +63,12 @@ class SetAuthorizer implements Authorizer
 		// Only logged in users have access if the deployment is private
 		if (!$this->canAccessDeployment($user)) {
 			return false;
-		}
+        }
+        
+        // First check whether there is a role with the right permissions
+        if ($this->acl->hasPermission($user, Permission::MANAGE_SETS)) {
+            return true;
+        }
 
 		// Then we check if a user has the 'admin' role. If they do they're
 		// allowed access to everything (all entities and all privileges)
