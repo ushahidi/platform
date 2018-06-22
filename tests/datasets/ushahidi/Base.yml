@@ -16,6 +16,10 @@ roles:
     display_name: "Manager"
     protected: 0
   -
+    name: "sets"
+    display_name: "Sets"
+    protected: 0
+  -
     name: "importer"
     display_name: "Importer"
     protected: 0
@@ -72,6 +76,12 @@ users:
     realname: CannotEditor
     email: "cannoteditor@ushahidi.com"
     role: "noedit"
+  -
+    id: 9
+    password: "$2y$15$iWANGZn.DomLWU.YtjUcX.HEq1hoMGauzXFRubKgar/BRaAj9zQ9q"
+    realname: Sets
+    email: "sets@ushahidi.com"
+    role: "sets"
 forms:
   -
     id: 1
@@ -1449,6 +1459,11 @@ sets:
     search: 1
     filter: '{"q":"junk"}'
     role: '["admin"]'
+  -
+    id: 7
+    name: Manage Collections
+    search: 0
+    user_id: 9
 posts_sets:
   -
     set_id: 1
@@ -1468,6 +1483,15 @@ posts_sets:
   -
     set_id: 1
     post_id: 112
+  -
+    set_id: 5
+    post_id: 113
+  -
+    set_id: 5
+    post_id: 112
+  -
+    set_id: 5
+    post_id: 114
 # OAuth Tables
 oauth_clients:
   -
@@ -1536,6 +1560,11 @@ oauth_sessions:
     client_id: "demoapp"
     owner_type: "user"
     owner_id: 8
+  -
+    id: 8
+    client_id: "demoapp"
+    owner_type: "user"
+    owner_id: 9
 
 oauth_session_redirects:
   -
@@ -1591,6 +1620,11 @@ oauth_session_access_tokens:
     id: 9
     session_id: 7
     access_token: "testnoedit"
+    access_token_expires: 1893477600
+  -
+    id: 10
+    session_id: 8
+    access_token: "testsets"
     access_token_expires: 1893477600
 
 oauth_scopes:
@@ -2050,6 +2084,52 @@ oauth_session_token_scopes:
   -
     session_access_token_id: 9
     scope_id: 1
+# for testsets
+  -
+    session_access_token_id: 10
+    scope_id: 1
+  -
+    session_access_token_id: 10
+    scope_id: 2
+  -
+    session_access_token_id: 10
+    scope_id: 3
+  -
+    session_access_token_id: 10
+    scope_id: 4
+  -
+    session_access_token_id: 10
+    scope_id: 5
+  -
+    session_access_token_id: 10
+    scope_id: 6
+  -
+    session_access_token_id: 10
+    scope_id: 7
+  -
+    session_access_token_id: 10
+    scope_id: 8
+  -
+    session_access_token_id: 10
+    scope_id: 9
+  -
+    session_access_token_id: 10
+    scope_id: 10
+  -
+    session_access_token_id: 10
+    scope_id: 11
+  -
+    session_access_token_id: 10
+    scope_id: 13
+  -
+    session_access_token_id: 10
+    scope_id: 17
+  -
+    session_access_token_id: 10
+    scope_id: 18
+  -
+    session_access_token_id: 10
+    scope_id: 21
 
 
 # include other oauth tables to ensure a blank slate for test runs
@@ -2510,6 +2590,9 @@ roles_permissions:
   -
     role: manager
     permission: Manage Settings
+  -
+    role: sets
+    permission: Manage Collections and Saved Searches
   -
     role: importer
     permission: Bulk Data Import
