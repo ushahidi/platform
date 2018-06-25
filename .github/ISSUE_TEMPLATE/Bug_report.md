@@ -7,16 +7,16 @@ about: Create a report to help us improve
 **Describe the bug**
 A clear and concise description of what the bug is.
 
-**Where was the bug observed**
+**Where was the bug observed?**
 Include Deployment and page URL (e.g. "https://test.ushahidi.io/views/map")
+If a certain type of user account (e.g. admin, manage data) is required to reproduce this bug, please specify if there is a support account that can be used to login.
 
 **To Reproduce**
 Steps to reproduce the behavior:
 1. Go to '...'
-2. Log in as '...' (Please note if certain user permissions, like Admin or Manage Data, are required to reproduce this bug. Also include if there is a support@ or admin@ account for this deployment. If not, contact the platform slack channel with further instructions.)
-3. Click on '....'
-4. Scroll down to '....'
-5. See error
+2. Click on '....'
+3. Scroll down to '....'
+4. See error (include screenshot if possible)
 
 **Expected behavior**
 A clear and concise description of what you expected to happen.
