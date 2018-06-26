@@ -7,5 +7,6 @@
         <exclude name="PSR1.Classes.ClassDeclaration.MissingNamespace"/>
     </rule>
 
+    <rule ref="Generic.PHP.CharacterBeforePHPOpeningTag" />
     <rule ref="Generic.Arrays.DisallowLongArraySyntax" />
 </ruleset>

@@ -8,5 +8,6 @@
         <exclude name="Squiz.Scope.MethodScope"/>
     </rule>
 
+    <rule ref="Generic.PHP.CharacterBeforePHPOpeningTag" />
     <rule ref="Generic.Arrays.DisallowLongArraySyntax" />
 </ruleset>
