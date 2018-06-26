@@ -40,7 +40,7 @@ class SearchFormStats extends SearchUsecase
         // ... pass the search information to the repo
         $this->repo->setSearchParams($search);
         $outgoing = $this->repo->countOutgoingMessages($this->getIdentifier('form_id'));
-        $results = array(
+        $results = [
             'total_recipients' => $this->repo->getRecipients($this->getIdentifier('form_id')),
             'total_responses' => $this->repo->getResponses($this->getIdentifier('form_id')),
             'total_messages_sent' => $outgoing['sent'],
@@ -48,7 +48,7 @@ class SearchFormStats extends SearchUsecase
                 $this->getIdentifier('form_id'),
                 $outgoing['sent']
             )
-        );
+        ];
         $entity->setState($results);
         // ... and return the formatted results.
         return $this->formatter->__invoke($entity);

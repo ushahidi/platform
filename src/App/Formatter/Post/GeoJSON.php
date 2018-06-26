@@ -21,7 +21,7 @@ class GeoJSON implements Formatter
     // Formatter
     public function __invoke($entity)
     {
-        $features = array();
+        $features = [];
         foreach ($entity->values as $attribute => $values) {
             foreach ($values as $value) {
                 if ($geometry = $this->valueToGeometry($value)) {

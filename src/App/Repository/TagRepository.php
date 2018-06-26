@@ -206,7 +206,7 @@ class TagRepository extends OhanzeeRepository implements
      */
     public function getNamesByIds($tag_ids)
     {
-        $result = $this->selectQuery(array('id' => $tag_ids))
+        $result = $this->selectQuery(['id' => $tag_ids])
             ->resetSelect()
             ->select('tag')
             ->execute($this->db);

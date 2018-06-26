@@ -204,7 +204,7 @@ class ConfigRepository implements
             $groups = $this->groups();
         }
 
-        $result = array();
+        $result = [];
         foreach ($groups as $group) {
             $result[] = $this->get($group);
         }

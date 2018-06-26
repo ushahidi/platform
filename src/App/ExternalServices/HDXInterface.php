@@ -95,7 +95,7 @@ class HDXInterface
     {
         $slug = strtolower(preg_replace('/[^A-Za-z0-9-]+/', '-', $metadata['dataset_title']));
 
-        $dataset = array(
+        $dataset = [
             "name" =>  $slug, //FIXME should it be user input?
             "author" => $metadata['maintainer'],
             "maintainer" => $metadata['maintainer'],
@@ -109,7 +109,7 @@ class HDXInterface
             "tags" => $tags, //[{"name":"coordinates"}],
             "license_id" => $license->code,
             "allow_no_resources" => true
-        );
+        ];
         Log::debug('dataset array'.var_export($dataset, true));
         return $dataset;
     }
