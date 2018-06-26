@@ -7,4 +7,6 @@
         <exclude name="PSR1.Methods.CamelCapsMethodName"/>
         <exclude name="Squiz.Scope.MethodScope"/>
     </rule>
+
+    <rule ref="Generic.Arrays.DisallowLongArraySyntax" />
 </ruleset>

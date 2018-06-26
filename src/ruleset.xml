@@ -5,6 +5,7 @@
     <rule ref="PSR2" />
 
     <rule ref="Generic.PHP.CharacterBeforePHPOpeningTag" />
+    <rule ref="Generic.Arrays.DisallowLongArraySyntax" />
 
     <exclude-pattern>vendor/*</exclude-pattern>
     <exclude-pattern>tests/spec/*</exclude-pattern>
