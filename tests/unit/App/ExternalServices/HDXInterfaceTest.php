@@ -1,6 +1,7 @@
 <?php
 namespace Tests\Unit\App\ExternalServices;
 
+use Germanazo\CkanApi\Repositories\LicenseRepository;
 use Ushahidi\App\ExternalServices\HDXInterface;
 
 use Tests\TestCase;
@@ -11,6 +12,8 @@ use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Except\ClientException;
 use GuzzleHttp\Exception\RequestException;
+use Ushahidi\App\Repository\HXL\HXLLicenseRepository;
+use Ushahidi\Core\Entity\HXL\HXLLicense;
 
 class HDXInterfaceTest extends TestCase
 {
@@ -27,34 +30,84 @@ class HDXInterfaceTest extends TestCase
 
     public function testGetDatasetIDByName()
     {
-//        $exists_response = json_encode(['result'=>
-//                                            [ 'count' => 1,
-//                                              'results' => [['id' => 'knownid']]
-//                                            ]
-//                                      ]);
-//        $notexists_response = json_encode(['result'=> ['count' => 0,
-//                                                    'results' => [] ]]);
-//
-//         $mock = new MockHandler([
-//             new Response(200, ['Content-Type' => 'application/json'], $exists_response),
-//             new Response(200, ['Content-Type' => 'application/json'], $notexists_response),
-//             new Response(500),
-//             new RequestException("Server unavailable", new Request('GET', 'test'))
-//         ]);
-//
-//         $handler = HandlerStack::create($mock);
-//         $hdxInterface = new HDXInterface('test', 'test');
-//         $hdxInterface->setClientHandler($handler);
-//
-//         $goodResult = $hdxInterface->getDatasetIDByName('test title');
-//         $notFoundResult = $hdxInterface->getDatasetIDByName('test title');
-//         $badResponse = $hdxInterface->getDatasetIDByName('test title');
-//
-//         $this->assertEquals('knownid', $goodResult);
-//         $this->assertEquals(null, $notFoundResult);
-//         $this->assertEquals(null, $badResponse);
-    }
+        $exists_response = json_encode(['result'=>
+                                            [ 'id' => 'knownid']
+                                      ]);
+        $notexists_response = json_encode(['result'=> []]);
 
+         $mock = new MockHandler([
+             new Response(200, ['Content-Type' => 'application/json'], $exists_response),
+             new Response(200, ['Content-Type' => 'application/json'], $notexists_response),
+             new Response(500),
+             new RequestException("Server unavailable", new Request('GET', 'test'))
+         ]);
+
+         $handler = HandlerStack::create($mock);
+         $hdxInterface = new HDXInterface('test', 'test');
+         $hdxInterface->setClientHandler($handler);
+
+         $goodResult = $hdxInterface->getDatasetIDByName('test title', 'my org');
+         $notFoundResult = $hdxInterface->getDatasetIDByName('test title', 'my org2');
+         $badResponse = $hdxInterface->getDatasetIDByName('test title', 'my bad org');
+
+         $this->assertEquals('knownid', $goodResult);
+         $this->assertEquals(null, $notFoundResult);
+         $this->assertEquals(null, $badResponse);
+    }
+    public function testSlugIsFormatted()
+    {
+
+        $metadata = array(
+            "maintainer" => "maintainer-1",
+            "organisation" => "org-1",
+            "private" => "private",
+            "dataset_title" => "cuantos posts hay por año?",
+            "source" => "source"
+        );
+        $tags = array(
+            array ("name" => "coordinates")
+        );
+        $license = new \Ushahidi\Core\Entity\HXL\HXLLicense([
+            'code' => "ushahidi".rand(),
+            'name' => "ushahidi-dataset",
+            'link' => "other",
+        ]);
+
+        $dataset = array(
+            "name" =>  $metadata["dataset_title"],
+            "author" => $metadata['maintainer'],
+            "maintainer" => $metadata['maintainer'],
+            "organization" => $metadata['organisation'],
+            "private" => $metadata['private'],
+            "owner_org" => $metadata['organisation'],
+            "title" => $metadata['dataset_title'],
+            "dataset_source" =>  $metadata['source'],
+            "data_update_frequency" => "1", //1 day. TODO add frequency to metadata
+            "methodology" => "other", //TODO add methodology to metadata
+            "tags" => $tags, //[{"name":"coordinates"}],
+            "license_id" => $license->code,
+            "allow_no_resources" => true
+        );
+
+        $mock = new MockHandler([
+            new Response(200, ['Content-Type' => 'application/json'], json_encode($dataset))
+        ]);
+        $handler = HandlerStack::create($mock);
+        $hdxInterface = new HDXInterface('test', 'test');
+        $hdxInterface->setClientHandler($handler);
+
+        $good = $hdxInterface->formatDatasetObject($metadata, $license, $tags);
+        $this->assertEquals("org-1-cuantos-posts-hay-por-ano", $good["name"]);
+
+        $metadata["dataset_title"] = null;
+        $this->expectExceptionMessage("Cannot create a slug without an organisation name and dataset title");
+        $hdxInterface->formatDatasetObject($metadata, $license, $tags);
+
+        $metadata["dataset_title"] = "something";
+        $metadata["organisation"] = "some-org";
+        $this->expectExceptionMessage("Cannot create a slug without an organisation name and dataset title");
+        $hdxInterface->formatDatasetObject($metadata, $license, $tags);
+    }
     public function testGetAllOrganizationsForUser()
     {
         $auth_failed_response = json_encode(['success' => '',
