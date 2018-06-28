@@ -127,7 +127,21 @@ if (getenv("RAVEN_URL"))
 	$client = (
 		new Raven_Client(getenv("RAVEN_URL"), [
 			'exclude' => ['HTTP_Exception_404'],
-			'error_types' => (E_ALL & ~E_NOTICE & ~E_USER_NOTICE)
+			'error_types' => (E_ALL & ~E_NOTICE & ~E_USER_NOTICE),
+			'processors' => [
+				'Raven_Processor_SanitizeHttpHeadersProcessor',
+				'Raven_Processor_SanitizeDataProcessor'
+			],
+			'processorOptions' => [
+				'Raven_Processor_SanitizeDataProcessor' => [
+					'fields_re' => '/(authorization|password|passwd|secret|password_confirmation|card_number|auth_pw|authToken|api_key|client_secret)/i',
+				],
+				'Raven_Processor_SanitizeHttpHeadersProcessor' => [
+					'sanitize_http_headers' => [
+						'Authorization', 'Proxy-Authorization', 'X-Csrf-Token', 'X-CSRFToken', 'X-XSRF-TOKEN', 'X-Ushahidi-Signature',
+					]
+				]
+			]
 		])
 	)->install();
 
