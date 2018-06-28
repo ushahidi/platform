@@ -53,33 +53,33 @@ class Twilio implements CallbackDataSource, OutgoingAPIDataSource
 
     public function getOptions()
     {
-        return array(
-            'from' => array(
+        return [
+            'from' => [
                 'label' => 'Phone Number',
                 'input' => 'text',
                 'description' => 'The from phone number.
 					A Twilio phone number enabled for the type of message you wish to send. ',
-                'rules' => array('required')
-            ),
-            'account_sid' => array(
+                'rules' => ['required']
+            ],
+            'account_sid' => [
                 'label' => 'Account SID',
                 'input' => 'text',
                 'description' => 'The unique id of the Account that sent this message.',
-                'rules' => array('required')
-            ),
-            'auth_token' => array(
+                'rules' => ['required']
+            ],
+            'auth_token' => [
                 'label' => 'Auth Token',
                 'input' => 'text',
                 'description' => '',
-                'rules' => array('required')
-            ),
-            'sms_auto_response' => array(
+                'rules' => ['required']
+            ],
+            'sms_auto_response' => [
                 'label' => 'SMS Auto response',
                 'input' => 'text',
                 'description' => '',
-                'rules' => array('required')
-            )
-        );
+                'rules' => ['required']
+            ]
+        ];
     }
 
     public function getInboundFields()

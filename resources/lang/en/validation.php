@@ -1,6 +1,6 @@
 <?php
 
-return array(
+return [
 
     'alpha'         => ':field must contain only letters',
     'alpha_dash'    => ':field must contain only numbers, letters and dashes',
@@ -26,4 +26,4 @@ return array(
     'regex'         => ':field does not match the required format',
     'url'           => ':field must be a url',
 
-);
+];

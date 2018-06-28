@@ -13,7 +13,7 @@ trait RecursiveArrayDiff
 {
     public function arrayRecursiveDiff($aArray1, $aArray2)
     {
-        $aReturn = array();
+        $aReturn = [];
 
         foreach ($aArray1 as $mKey => $mValue) {
             // TODO: revisit this from the perspective of ensuring Entities are

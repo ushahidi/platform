@@ -70,15 +70,15 @@ class Twitter implements IncomingAPIDataSource, OutgoingAPIDataSource
     public function getOptions()
     {
         return [
-            'intro_step1' => array(
+            'intro_step1' => [
                 'label' => 'Step 1: Create a new Twitter application',
                 'input' => 'read-only-text',
                 'description' => function () {
                     return 'Create a <a href="https://apps.twitter.com/app/new">new twitter application</a>';
                 }
-            ),
+            ],
             // @todo figure out how to inject link and fix base url
-            'intro_step2' => array(
+            'intro_step2' => [
                 'label' => 'Step 2: Generate a consumer key and secret',
                 'input' => 'read-only-text',
                 'description' => function () {
@@ -86,37 +86,37 @@ class Twitter implements IncomingAPIDataSource, OutgoingAPIDataSource
 						Then click "Generate Consumer Key and Secret".<br />
 						Copy keys, tokens and secrets into the fields below.';
                 }
-            ),
-            'consumer_key' => array(
+            ],
+            'consumer_key' => [
                 'label' => 'Consumer Key',
                 'input' => 'text',
                 'description' => 'Add the consumer key from your Twitter app. ',
-                'rules' => array('required')
-            ),
-            'consumer_secret' => array(
+                'rules' => ['required']
+            ],
+            'consumer_secret' => [
                 'label' => 'Consumer Secret',
                 'input' => 'text',
                 'description' => 'Add the consumer secret from your Twitter app.',
-                'rules' => array('required')
-            ),
-            'oauth_access_token' => array(
+                'rules' => ['required']
+            ],
+            'oauth_access_token' => [
                 'label' => 'Access Token',
                 'input' => 'text',
                 'description' => 'Add the access token you generated for your Twitter app.',
-                'rules' => array('required')
-            ),
-            'oauth_access_token_secret' => array(
+                'rules' => ['required']
+            ],
+            'oauth_access_token_secret' => [
                 'label' => 'Access Token Secret',
                 'input' => 'text',
                 'description' => 'Add the access secret that you generated for your Twitter app.',
-                'rules' => array('required')
-            ),
-            'twitter_search_terms' => array(
+                'rules' => ['required']
+            ],
+            'twitter_search_terms' => [
                 'label' => 'Twitter search terms',
                 'input' => 'text',
                 'description' => 'Add search terms separated with commas',
-                'rules' => array('required')
-            )
+                'rules' => ['required']
+            ]
         ];
     }
 
@@ -256,10 +256,10 @@ class Twitter implements IncomingAPIDataSource, OutgoingAPIDataSource
             if (!empty($results['result']['places'])) {
                 $geoloc = $results['result']['places'][0];
                 if ($geoloc['centroid']) {
-                    $additional_data['location'][] = array(
+                    $additional_data['location'][] = [
                         'coordinates' => $geoloc['centroid'],
                         'type' => 'Point'
-                    );
+                    ];
                 }
                 # Add the bounding box too (if available)
                 if ($geoloc['bounding_box']) {
@@ -287,15 +287,15 @@ class Twitter implements IncomingAPIDataSource, OutgoingAPIDataSource
 
             if (!isset($response->id)) {
                 app('log')->error("Twitter: Send failed", ['response' => $response]);
-                return array(MessageStatus::FAILED, false);
+                return [MessageStatus::FAILED, false];
             }
-            return array(MessageStatus::SENT, $response->id);
+            return [MessageStatus::SENT, $response->id];
         } catch (TwitterOAuthException $e) {
             app('log')->error($e->getMessage());
-            return array(MessageStatus::FAILED, false);
+            return [MessageStatus::FAILED, false];
         } catch (Exception $e) {
             app('log')->error($e->getMessage());
-            return array(MessageStatus::FAILED, false);
+            return [MessageStatus::FAILED, false];
         }
     }
 

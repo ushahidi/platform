@@ -130,29 +130,29 @@ class BoundingBox
 
     public function toGeometry()
     {
-        return new Polygon(array(
-                new LinearRing(array(
-                    new Point(array($this->west, $this->north)),
-                    new Point(array($this->east, $this->north)),
-                    new Point(array($this->east, $this->south)),
-                    new Point(array($this->west, $this->south)),
-                    new Point(array($this->west, $this->north))
-                ))
-            ));
+        return new Polygon([
+                new LinearRing([
+                    new Point([$this->west, $this->north]),
+                    new Point([$this->east, $this->north]),
+                    new Point([$this->east, $this->south]),
+                    new Point([$this->west, $this->south]),
+                    new Point([$this->west, $this->north])
+                ])
+            ]);
     }
 
     public function toWKT()
     {
-        return strtr("POLYGON((:west :north,:east :north,:east :south,:west :south,:west :north))", array(
+        return strtr("POLYGON((:west :north,:east :north,:east :south,:west :south,:west :north))", [
             ':west' => $this->west,
             ':north' => $this->north,
             ':east' => $this->east,
             ':south' => $this->south
-        ));
+        ]);
     }
 
     public function asArray()
     {
-        return array($this->west, $this->north, $this->east, $this->south);
+        return [$this->west, $this->north, $this->east, $this->south];
     }
 }
