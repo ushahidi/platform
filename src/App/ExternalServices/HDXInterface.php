@@ -44,6 +44,10 @@ class HDXInterface
         $this->handler = $handler;
     }
 
+    /**
+     * Creates a CkanAPIClient object based on the configured ckan url (ie data.humdata.org) and API key
+     * @return CkanApiClient
+     */
     public function getApiClient()
     {
         if (!isset($this->ckanClient)) {
@@ -51,23 +55,31 @@ class HDXInterface
                 'base_uri' => $this->ckanURL,
                 'headers' => ['Authorization' => $this->userAPIKey],
             ];
-            Log::debug('Api client config: '.print_r($config, true));
+            Log::debug('Api client config: ' . print_r($config, true));
             //if we passed in a mock handler
             if (isset($this->handler)) {
                 $config['handler'] = $this->handler;
             }
-            //create a Guzzle client, used by CKAN api
+            //create a Guzzle client, which is used by the CKAN api handler
             $client = $this->getHttpClient($config);
             $this->ckanClient = new CkanApiClient($client);
         }
         return $this->ckanClient;
     }
+
+    /**
+     * @param $config
+     * @return Client
+     */
     private function getHttpClient($config)
     {
         return new Client($config);
     }
 
-    // returns ID or null
+    /**
+     * @param $title the title of the dataset
+     * @return null|integer (id)
+     */
     public function getDatasetIDByName($title)
     {
         $slug = trim(strtolower(preg_replace('/[^A-Za-z0-9-]+/', '-', $title)));
@@ -110,27 +122,39 @@ class HDXInterface
             "license_id" => $license->code,
             "allow_no_resources" => true
         );
-        Log::debug('dataset array'.var_export($dataset, true));
+
         return $dataset;
     }
 
-    /** Note: if error condition is the result, then we ignore it gracefully,
-    * but the full error response array will be returned instead of a confirmation array
-    */
+    /**
+     * @param $dataset_id
+     * @param array $metadata
+     * @param $license
+     * @param array $tags
+     * @return array
+     * Note: if error condition is the result, then we ignore it gracefully,
+     * but the full error response array will be returned instead of a confirmation array
+     */
     public function updateHDXDatasetRecord($dataset_id, array $metadata, $license, $tags = [])
     {
         $dataset = $this->formatDatasetObject($metadata, $license, $tags);
         $dataset['id'] = $dataset_id;
         $apiClient = $this->getApiClient();
-        $updateResult = [];
+        $result = [];
         try {
-            $updateResult = $apiClient->dataset()->update($dataset);
+            $result = $apiClient->dataset()->update($dataset);
         } catch (Exception $e) {
             // @TODO: be graceful here
-            $updateResult = ['error' => 'Unable to update dataset on HDX server.'];
-            Log::error('Unable to update dataset on HDX server: '.print_r($e, true));
+            $result = ['error' => 'Unable to update dataset on HDX server.'];
+
+            Log::error(
+                'Unable to update dataset on HDX server. Exception:  ' .
+                var_export($e, true) .
+                ' - Dataset: ' .
+                var_export($dataset, true)
+            );
         }
-        return $updateResult;
+        return $result;
     }
     /**
      * @param array $metadata
@@ -142,7 +166,6 @@ class HDXInterface
      */
     public function createHDXDatasetRecord(array $metadata, $license, $tags = [])
     {
-
         $dataset = $this->formatDatasetObject($metadata, $license, $tags);
         $apiClient = $this->getApiClient();
         $createResult = [];
@@ -151,7 +174,13 @@ class HDXInterface
         } catch (\Exception $e) {
             // @TODO: be graceful here
             $createResult = ['error' => 'Unable to create dataset on HDX server.'];
-            Log::error('Unable to create dataset on HDX server: '.print_r($e, true));
+
+            Log::error(
+                'Unable to create dataset on HDX server. Exception:  ' .
+                var_export($e, true) .
+                ' - Dataset: ' .
+                var_export($dataset, true)
+            );
         }
         return $createResult;
     }
@@ -174,19 +203,25 @@ class HDXInterface
         ];
         $apiClient = $this->getApiClient();
         $createResult = [];
-        Log::debug('resource sent');
-        Log::debug(var_export($resource, true));
         try {
             $createResult = $apiClient->resource()->create($resource);
         } catch (\Exception $e) {
             // @TODO: be graceful here
             $createResult = ['error' => 'Unable to create resource on HDX server.'];
-            Log::error('Unable to create resource on HDX server: '.print_r($e->getMessage(), true));
+            Log::error(
+                'Unable to create resource on HDX server. Exception:  ' .
+                var_export($e, true) .
+                ' - Dataset: ' .
+                var_export($resource, true)
+            );
         }
         return $createResult;
     }
 
-    // TODO test
+    /**
+     * Returns the organisations a user belongs to
+     * @return bool|object
+     */
     public function getAllOrganizationsForUser()
     {
         try {
@@ -197,7 +232,7 @@ class HDXInterface
         } catch (\Exception $e) {
             $orgResult = false;
             // @TODO: gracefully handle this
-            Log::error('Unable to get Org results '.print_r($e, true));
+            Log::error('Unable to get organisations for user '.print_r($e, true));
         }
         return $orgResult;
     }
@@ -225,33 +260,17 @@ class HDXInterface
             $requestBody = json_decode($request->getBody()->getContents(), true);
 
             if ($request->getStatusCode() != 200 || (bool) $requestBody['success'] == false) {
+                Log::error(
+                    'Unable to get organisations for user. Status code: ' .
+                    $request->getStatusCode() .
+                    ' - Request: '.
+                    print_r($requestBody, true)
+                );
                 return false;
             }
             return $requestBody;
         } catch (\Exception $e) {
             return false;
         }
-
-        return $results;
-    }
-
-    public function getOrganizationIDByName(String $organizationName)
-    {
-        $apiClient = $this->getApiClient();
-        $orgId = null;
-        $data = []; // nothing to send here
-        try {
-            $orgResult = $apiClient->organization()->all($data);
-        } catch (\Exception $e) {
-            // @TODO: gracefully handle this
-            Log::error('Unable to get Org results '.print_r($e, true));
-        }
-        // @TODO deal with this if more than one
-        if ($orgResult && array_key_exists('result', $orgResult)) {
-            foreach ($orgResult['result'] as $eachOrg) {
-                $orgId = $eachOrg['id'];
-            }
-        }
-        return $orgId;
     }
 }
