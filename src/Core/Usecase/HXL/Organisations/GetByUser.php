@@ -68,7 +68,10 @@ class GetByUser implements Usecase
     {
         // get user settings by user id
         $user_settings_key = $this->userSettingRepository->getConfigKeyByUser($this->auth->getUserId(), 'hdx_api_key');
-        $user_settings_user_id = $this->userSettingRepository->getConfigKeyByUser($this->auth->getUserId(), 'hdx_user_id');
+        $user_settings_user_id = $this->userSettingRepository->getConfigKeyByUser(
+            $this->auth->getUserId(),
+            'hdx_user_id'
+        );
         // setup hdx interface
         $this->setHDXInterface($user_settings_key, $user_settings_user_id);
         $organisations = $this->hdxInterface->getAllOrganizationsForUser();
