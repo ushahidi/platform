@@ -80,9 +80,10 @@ class SendHXLUsecase implements Usecase
         // get job by job_id
         $job = $this->exportJobRepository->get($this->getIdentifier('job_id'));
         // get user settings by user id
-        $user_settings = $this->userSettingRepository->getConfigKeyByUser($job->user_id, 'hdx_api_key');
+        $user_settings_key = $this->userSettingRepository->getConfigKeyByUser($job->user_id, 'hdx_api_key');
+        $user_settings_user = $this->userSettingRepository->getConfigKeyByUser($job->user_id, 'hdx_user_id');
         // setup hdx interface
-        $this->setHDXInterface($user_settings);
+        $this->setHDXInterface($user_settings_key, $user_settings_user_id);
         // get metadata by job id
         $metadata = $this->metadataRepository->get($job->hxl_meta_data_id);
         // get license by metadata->license_id
@@ -186,11 +187,12 @@ class SendHXLUsecase implements Usecase
         return $job;
     }
 
-    private function setHDXInterface($user_settings)
+    private function setHDXInterface($user_settings_key, $user_settings_user_id)
     {
         $this->hdxInterface = new HDXInterface(
             getenv('HDX_URL'),
-            $user_settings->config_value
+            $user_settings_key->config_value,
+            $user_settings_user_id->config_value
         );
     }
     /**

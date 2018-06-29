@@ -55,7 +55,6 @@ class ExportJobsExternalAPITest extends TestCase
             'organisation' => "ushahidi",
             'dataset_title' => "ushahidi-dataset",
             'source' => "other",
-            'maintainer' => "ushahidi-maintainer",
             'private' => true,
             'user_id' => $this->userId,
         ]));
@@ -65,7 +64,6 @@ class ExportJobsExternalAPITest extends TestCase
             'organisation' => "ushahidi",
             'dataset_title' => "ushahidi-dataset",
             'source' => "other",
-            'maintainer' => "ushahidi-maintainer",
             'private' => true,
             'user_id' => $this->userId,
         ]));
