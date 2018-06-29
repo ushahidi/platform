@@ -72,6 +72,21 @@ users:
     realname: CannotEditor
     email: "cannoteditor@ushahidi.com"
     role: "noedit"
+user_settings:
+ - 
+   id: 1
+   config_key: "some key"
+   config_value: "some value"
+   created: 1893477600
+   updated: 1893477600
+   user_id: 2
+ - 
+   id: 2
+   config_key: "some key2"
+   config_value: "some value"
+   created: 1893477600
+   updated: 1893477600
+   user_id: 1
 user_reset_tokens:
   -
     id: 1
@@ -1651,6 +1666,10 @@ config:
     config_key: roles
     config_value: '{"enabled":true}'
   -
+    group_name: features
+    config_key: user-settings
+    config_value: '{"enabled":true}'
+  -
     group_name: "data-provider"
     config_key: default_providers
     config_value: '{"sms":"smssync","ivr":false,"email":"email","twitter":"twitter"}'
@@ -1678,6 +1697,10 @@ config:
     group_name: "data-provider"
     config_key: frontlinesms
     config_value: '{"f":"12345","key":"1234","frontlinecloud_api_url":"http:\/\/frontlinesms.com:8130\/api\/1\/webconnection\/11","secret":"abc123"}'
+  -
+    group_name: features
+    config_key: hxl
+    config_value: '{"enabled":true}'
 contacts:
   -
     id: 1
@@ -2009,11 +2032,60 @@ webhooks:
     entity_type: "post"
     event_type: "search"
 csv:
+hxl_meta_data:
+  -
+    id: 1
+    license_id: 1
+    organisation: "ushahidi"
+    dataset_title: "ushahidi-dataset"
+    source: "other"
+    maintainer: "ushahidi-maintainer"
+    private: true
+    user_id: 2
+  -
+    id: 2
+    license_id: 1
+    organisation: "ushahidi"
+    dataset_title: "ushahidi-dataset"
+    source: "other"
+    maintainer: "ushahidi-maintainer"
+    private: true
+    user_id: 2
+  -
+    id: 3
+    license_id: 1
+    organisation: "ushahidi"
+    dataset_title: "ushahidi-dataset"
+    source: "other"
+    maintainer: "ushahidi-maintainer"
+    private: true
+    user_id: 2
+  -
+    id: 4
+    license_id: 1
+    organisation: "ushahidi"
+    dataset_title: "ushahidi-dataset"
+    source: "other"
+    maintainer: "ushahidi-maintainer"
+    private: true
+    user_id: 2
 export_job:
   -
     id: 1
     entity_type: "post"
     user_id: 2
+    hxl_meta_data_id: 1
+permissions:
+  -
+    name: Manage Users
+  -
+    name: Manage Posts
+  -
+    name: Manage Settings
+  -
+    name: Bulk Data Import and Export
+  -
+    name: Edit their own posts
 roles_permissions:
   -
     role: manager
@@ -2026,7 +2098,7 @@ roles_permissions:
     permission: Manage Settings
   -
     role: importer
-    permission: Bulk Data Import
+    permission: Bulk Data Import and Export
   -
     role: user
     permission: Edit their own posts

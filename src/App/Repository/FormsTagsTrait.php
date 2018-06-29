@@ -58,7 +58,7 @@ trait FormsTagsTrait
 
                 // Save it
                 DB::update('form_attributes')
-                    ->set(array('options' => $options))
+                    ->set(['options' => $options])
                     ->where('id', '=', $attr_id)
                     ->execute($this->db);
             }

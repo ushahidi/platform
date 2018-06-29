@@ -35,6 +35,6 @@ class ValidatorException extends \InvalidArgumentException
 
     public function getErrors()
     {
-        return $this->errors ?: array();
+        return $this->errors ?: [];
     }
 }

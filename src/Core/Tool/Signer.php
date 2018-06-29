@@ -11,6 +11,8 @@
 
 namespace Ushahidi\Core\Tool;
 
+use Log;
+
 class Signer
 {
     protected $authToken;

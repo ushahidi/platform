@@ -11,6 +11,7 @@
 
 namespace Ushahidi\App\Repository\Form;
 
+use Illuminate\Support\Facades\App;
 use Ohanzee\DB;
 use Ohanzee\Database;
 use Ushahidi\Core\Entity;
@@ -63,7 +64,6 @@ class AttributeRepository extends OhanzeeRepository implements
         FormStageRepositoryContract $form_stage_repo,
         FormRepositoryContract $form_repo
     ) {
-
         parent::__construct($db);
 
         $this->form_stage_repo = $form_stage_repo;
@@ -97,7 +97,7 @@ class AttributeRepository extends OhanzeeRepository implements
         // Restrict returned attributes based on User rights
         $user = $this->getUser();
         if (!$this->canUserEditForm($form_id, $user)) {
-            $exclude_stages =  $this->form_stage_repo->getHiddenStageIds($form_id);
+            $exclude_stages = $this->form_stage_repo->getHiddenStageIds($form_id);
             $exclude_stages ? $query->where('form_attributes.form_stage_id', 'NOT IN', $exclude_stages) : null;
         }
 
@@ -153,13 +153,12 @@ class AttributeRepository extends OhanzeeRepository implements
         $query = $this->search_query;
 
         foreach ([
-            'key', 'label', 'input', 'type'
-        ] as $key) {
+                     'key', 'label', 'input', 'type'
+                 ] as $key) {
             if (isset($search->$key)) {
-                $query->where('form_attributes.'.$key, '=', $search->$key);
+                $query->where('form_attributes.' . $key, '=', $search->$key);
             }
         }
-
         if ($search->form_id) {
             $query
                 ->join('form_stages', 'INNER')->on('form_stages.id', '=', 'form_attributes.form_stage_id')
@@ -191,7 +190,7 @@ class AttributeRepository extends OhanzeeRepository implements
         $query = $this->selectQuery([], $form_id)
             ->select('form_attributes.*')
             ->join('form_stages', 'LEFT')
-                ->on('form_stages.id', '=', 'form_attributes.form_stage_id')
+            ->on('form_stages.id', '=', 'form_attributes.form_stage_id')
             ->where('key', '=', $key)
             ->limit(1);
 
@@ -225,11 +224,11 @@ class AttributeRepository extends OhanzeeRepository implements
     public function getByForm($form_id)
     {
         $query = $this->selectQuery([
-                'form_stages.form_id' => $form_id,
-            ], $form_id)
+            'form_stages.form_id' => $form_id,
+        ], $form_id)
             ->select('form_attributes.*')
             ->join('form_stages', 'INNER')
-                ->on('form_stages.id', '=', 'form_attributes.form_stage_id');
+            ->on('form_stages.id', '=', 'form_attributes.form_stage_id');
 
         $results = $query->execute($this->db);
 
@@ -237,34 +236,29 @@ class AttributeRepository extends OhanzeeRepository implements
     }
 
     /**
-     * @param $form_ids
+     * @param $include_attributes (optional)
      * @return array
      * Returns a list of attributes with the relevant fields.
      * This is mainly to be used in the post exporter where we need a consistent list of attributes
      * that does not directly depend on the rows we are fetching at the time but on the
      * list of form ids that match a specific query
      */
-    public function getByForms($form_ids, array $include_attributes = null)
+    public function getExportAttributes(array $include_attributes = null)
     {
-        $attributes = [];
-        if (count($form_ids) > 0) { // @FIXME: how would empty form_id even happen?
-            $sql = "SELECT
-                DISTINCT form_attributes.*,
-                form_stages.priority as form_stage_priority,
-                forms.name as form_name,
-                forms.id as form_id
-                INNER JOIN form_stages ON form_attributes.form_stage_id = form_stages.id
-                INNER JOIN forms ON form_stages.form_id = forms.id ";
-            if (!empty($include_attributes)) {
-                $sql .= " AND form_attributes.key IN :form_attributes ";
-            }
-            $sql .= " ORDER BY forms.id, form_stages.priority, form_attributes.priority ";
-            $results = DB::query(Database::SELECT, $sql)
-                ->bind(':form_attributes', $include_attributes)
-                ->execute($this->db);
-            $attributes = $results->as_array();
+        $sql = "SELECT DISTINCT form_attributes.*, 
+			form_stages.priority as form_stage_priority,
+			form_stages.form_id as form_id, forms.name as form_name, forms.id as form_id " .
+            "FROM form_attributes " .
+            "INNER JOIN form_stages ON form_attributes.form_stage_id = form_stages.id " .
+            "INNER JOIN forms ON form_stages.form_id = forms.id ";
+        if (!empty($include_attributes)) {
+            $sql .= " AND form_attributes.key IN :form_attributes ";
         }
-
+        $sql .= "ORDER BY forms.id, form_stages.priority, form_attributes.priority ";
+        $results = DB::query(Database::SELECT, $sql)
+            ->bind(':form_attributes', $include_attributes)
+            ->execute($this->db);
+        $attributes = $results->as_array();
         $native = [
             [
                 'label' => 'Post ID',
@@ -277,7 +271,6 @@ class AttributeRepository extends OhanzeeRepository implements
                 'priority' => 1
             ],
             [
-
                 'label' => 'Survey',
                 'key' => 'form_name',
                 'type' => 'form_name',
@@ -407,9 +400,9 @@ class AttributeRepository extends OhanzeeRepository implements
         $form_id = $this->getFormId($stage_id);
 
         $query = $this->selectQuery([
-                'form_attributes.form_stage_id'  => $stage_id,
-                'form_attributes.required' => true
-            ], $form_id)
+            'form_attributes.form_stage_id' => $stage_id,
+            'form_attributes.required' => true
+        ], $form_id)
             ->select('form_attributes.*');
 
         $results = $query->execute($this->db);

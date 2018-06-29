@@ -88,7 +88,8 @@ class AuthServiceProvider extends ServiceProvider
             'roles' => 'Access roles',
             'permissions' => 'Access permissions',
             'migrate' => 'Access migrate',
-            'webhooks' => 'Access webhooks'
+            'webhooks' => 'Access webhooks',
+            'hxl' => 'Access HDX & HXL features'
         ]);
     }
 

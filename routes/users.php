@@ -2,6 +2,7 @@
 
 // Users
 $router->group([
+    'namespace' => 'Users',
     'middleware' => ['scope:users']
 ], function () use ($router) {
     // Public access
@@ -19,4 +20,11 @@ $router->group([
         $router->get('/users/me', 'UsersController@showMe');
         $router->put('/users/me', 'UsersController@updateMe');
     });
+
+    // Sub-user routes
+    // User settings
+    resource($router, 'users', 'SettingsController', [
+        'prefix' => '/users/{user_id:[0-9]+}/settings',
+        'middleware' => ['feature:user-settings']
+    ]);
 });

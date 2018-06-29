@@ -68,7 +68,7 @@ class ContactRepository extends OhanzeeRepository implements
      */
     public function getEntityWithData($contact, $data = [])
     {
-        $contact = $this->selectQuery(array('contact' => $contact))->execute($this->db)->current();
+        $contact = $this->selectQuery(['contact' => $contact])->execute($this->db)->current();
         if (!$contact) {
             return new Entity\Contact($data);
         }
@@ -168,7 +168,7 @@ class ContactRepository extends OhanzeeRepository implements
      */
     public function getByForm($form_id)
     {
-        $query = $this->selectQuery(array('posts.form_id' => $form_id))
+        $query = $this->selectQuery(['posts.form_id' => $form_id])
             ->select('contacts.*');
         $query = $this->targetedSurveyStateJoin($query);
         $results = $query->execute($this->db);
@@ -183,12 +183,12 @@ class ContactRepository extends OhanzeeRepository implements
     public function deleteAllForForm($form_id)
     {
         $entities = $this->getByForm($form_id);
-        return $this->executeDelete(array('id' => array_column($entities, 'id')));
+        return $this->executeDelete(['id' => array_column($entities, 'id')]);
     }
 
     public function formExistsInPostStateRepo($form_id)
     {
-        $query = $this->selectQuery(array('posts.form_id' => $form_id))
+        $query = $this->selectQuery(['posts.form_id' => $form_id])
             ->resetSelect()
             ->select([DB::expr('COUNT(*)'), 'total']);
         $query = $this->targetedSurveyStateJoin($query);
@@ -205,7 +205,7 @@ class ContactRepository extends OhanzeeRepository implements
      */
     public function existsInFormContact($contact_id, $form_id)
     {
-        $query = $this->selectQuery(array('posts.form_id' => $form_id, 'contacts.id' => $contact_id))
+        $query = $this->selectQuery(['posts.form_id' => $form_id, 'contacts.id' => $contact_id])
             ->resetSelect()
             ->select([DB::expr('COUNT(*)'), 'total']);
         $query = $this->targetedSurveyStateJoin($query);
@@ -216,7 +216,7 @@ class ContactRepository extends OhanzeeRepository implements
 
     public function getResponses($form_id)
     {
-        $query = $this->selectQuery(array('posts.form_id' => $form_id))
+        $query = $this->selectQuery(['posts.form_id' => $form_id])
             ->resetSelect()
             ->select([DB::expr('COUNT(distinct contact_id)')]);
         $query = $this->targetedSurveyStateJoin($query);
@@ -231,7 +231,7 @@ class ContactRepository extends OhanzeeRepository implements
      */
     public function getReceipients($form_id)
     {
-        $query = $this->selectQuery(array('posts.form_id' => $form_id))
+        $query = $this->selectQuery(['posts.form_id' => $form_id])
             ->resetSelect()
             ->select([DB::expr('COUNT(distinct contact_id)')]);
         $query = $this->targetedSurveyStateJoin($query);
@@ -246,7 +246,7 @@ class ContactRepository extends OhanzeeRepository implements
      */
     public function existsInFormContactByContactNumber($contact, $form_id)
     {
-        $query = $this->selectQuery(array('posts.form_id' => $form_id, 'contacts.contact' => $contact))
+        $query = $this->selectQuery(['posts.form_id' => $form_id, 'contacts.contact' => $contact])
             ->resetSelect()
             ->select([DB::expr('COUNT(*)'), 'total']);
         $query = $this->targetedSurveyStateJoin($query);

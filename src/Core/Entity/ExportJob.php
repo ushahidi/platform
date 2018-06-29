@@ -3,10 +3,10 @@
 /**
  * Ushahidi Export Job
  *
- * @author     Ushahidi Team <team@ushahidi.com>
- * @package    Ushahidi\Platform
- * @copyright  2018 Ushahidi
- * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
+ * @author    Ushahidi Team <team@ushahidi.com>
+ * @package   Ushahidi\Platform
+ * @copyright 2018 Ushahidi
+ * @license   https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
 namespace Ushahidi\Core\Entity;
@@ -26,15 +26,11 @@ class ExportJob extends StaticEntity
     protected $created;
     protected $updated;
     protected $url_expiration;
-
-    // StatefulData
-    protected function getDerived()
-    {
-        // Foreign key alias
-        return [
-            'user_id' => ['user', 'user.id']
-        ];
-    }
+    protected $include_hxl;
+    protected $send_to_browser;
+    protected $send_to_hdx;
+    protected $hxl_heading_row;
+    protected $hxl_meta_data_id;
 
     // DataTransformer
     protected function getDefinition()
@@ -50,7 +46,12 @@ class ExportJob extends StaticEntity
             'header_row'        => '*json',
             'created'           => 'int',
             'updated'           => 'int',
-            'url_expiration'    => 'int'
+            'url_expiration'    => 'int',
+            'include_hxl'       => 'bool',
+            'send_to_browser'   => 'bool',
+            'send_to_hdx'       => 'bool',
+            'hxl_heading_row'   => '*json',
+            'hxl_meta_data_id'  => 'int'
         ];
     }
 
@@ -58,6 +59,16 @@ class ExportJob extends StaticEntity
     public function getResource()
     {
         return 'export_job';
+    }
+
+    // StatefulData
+    protected function getDerived()
+    {
+        // Foreign key alias
+        return [
+            'hxl_meta_data_id'  => ['hxl_meta_data', 'hxl_meta_data.id'],
+            'user_id'        => ['users', 'users.id']
+        ];
     }
 
     // StatefulData

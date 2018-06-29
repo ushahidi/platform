@@ -105,6 +105,23 @@ class PHPUnitFixtureContext implements Context
         $this->setConfig('feature', 'private', '{"enabled":false}');
     }
 
+
+    /**
+     * @BeforeScenario @hxlEnabled
+     **/
+    public function enableHxl()
+    {
+        $this->setConfig('feature', 'hxl', '{"enabled":true}');
+    }
+
+    /**
+     * @BeforeScenario @hxlDisabled
+     **/
+    public function disableHxl()
+    {
+        $this->setConfig('feature', 'hxl', '{"enabled":false}');
+    }
+
     /** @BeforeScenario @webhooksEnabled */
     public function enableWebhooks()
     {
@@ -232,10 +249,10 @@ class PHPUnitFixtureContext implements Context
     {
         //return PHPUnit_Extensions_Database_Operation_Factory::CLEAN_INSERT();
         $cascadeTruncates = true;
-        return new \PHPUnit_Extensions_Database_Operation_Composite(array(
+        return new \PHPUnit_Extensions_Database_Operation_Composite([
             new \Tests\Support\MySQL55Truncate($cascadeTruncates),
             \PHPUnit_Extensions_Database_Operation_Factory::INSERT()
-        ));
+        ]);
     }
 
     /**
