@@ -127,10 +127,10 @@ class ObfuscateData extends Command
                 $fakeEmail = $faker->safeEmail;
                 $contactEntity->setState(['contact'=> $fakeEmail]);
             } elseif ($row['type'] == 'twitter') {
-                $fakeTwitter = '@'.preg_replace('/\s+/', '_', $faker->realText());
+                $fakeTwitter = '@fake'.preg_replace("/[^A-Za-z0-9]/", '', $faker->realText(15));
                 $contactEntity->setState(['contact'=> $fakeTwitter]);
             } else {
-                $fakeText = preg_replace('/\s+/', '_', $faker->realText());
+                $fakeText = preg_replace("/[^A-Za-z0-9]/", '', $faker->realText(20));
                 $contactEntity->setState(['contact'=> $fakeText]);
             }
             $overwrittenCount += $this->contactRepository->update($contactEntity);
