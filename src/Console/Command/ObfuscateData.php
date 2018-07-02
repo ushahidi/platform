@@ -58,9 +58,12 @@ class ObfuscateData extends Command
         $this->userRepository = service('repository.user');
 
         if ($this->isTestDeployment() || $this->isStagingDeployment()) {
-            //confirm acknowledgement
-            $this->info("This script will wipe data from the current deployment.\n\n");
-
+            //confirm acknowledgements
+            $this->alert("WARNING: This script will wipe user, contacts, post author and data source data.");
+            if (!$this->confirm("Do you want to continue?")) {
+                $this->info("Request canceled.\n");
+                exit;
+            }
             if (!$this->confirm('Do you acknowledge that this data will still contain sensitive data?')) {
                 $this->info("Request canceled.\n");
                 exit;
