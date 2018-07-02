@@ -23,8 +23,7 @@ $router->group([
 
     // Sub-user routes
     // User settings
-    resource($router, 'users', 'SettingsController', [
-        'prefix' => '/users/{user_id:[0-9]+}/settings',
+    resource($router, 'users/{user_id:[0-9]+}/settings', 'SettingsController', [
         'middleware' => ['feature:user-settings']
     ]);
 });
