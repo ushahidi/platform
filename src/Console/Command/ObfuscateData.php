@@ -177,9 +177,20 @@ class ObfuscateData extends Command
     {
         $this->info("\nRemoving general settings data...");
         $siteConfig = $this->configRepository->get('site');
+
+        //prepend with OBFUSCATED if not already prepended
+        $newSiteName = $siteConfig->name;
+        if (substr($siteConfig->name, 0, 11) !== 'OBFUSCATED:') {
+            $newSiteName = 'OBFUSCATED: '.$newSiteName;
+        }
+        $newSiteDescription = $siteConfig->description;
+        if (substr($newSiteDescription, 0, 11) !== 'OBFUSCATED:') {
+            $newSiteDescription = 'OBFUSCATED: '.$newSiteDescription;
+        }
+
         $siteConfig->setState([
-            'name' => 'Test site',
-            'description' => 'Staging deployment for testing',
+            'name' => $newSiteName,
+            'description' => $newSiteDescription,
             'email' => 'admin@ushahidi.com',
             //TODO: reset these?
             //'cient_url' => '??',
