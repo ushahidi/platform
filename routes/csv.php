@@ -7,8 +7,7 @@ $router->group([
     'prefix' => 'csv'
 ], function () use ($router) {
     resource($router, '/', 'CSVController', [
-        'middleware' => ['auth:api', 'scope:csv'],
-        'namespace' => 'CSV',
+        'middleware' => ['auth:api', 'scope:csv']
     ]);
 
     $router->post('/{id}/import', 'CSVImportController@store');
