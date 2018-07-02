@@ -234,13 +234,12 @@ class ObfuscateData extends Command
             ->from('users')
             ->execute($this->db)
             ->as_array();
-
-        foreach($results as $row){
+        $overwrittenCount = 0;
+        $resultsCount = count($results);
+        foreach ($results as $row) {
             $userEntity = $this->userRepository->getEntity($row);
             $fakeEmail = $faker->safeEmail;
             $fakeName = $faker->firstName." ".$faker->lastName;
-            echo "Overwriting row:";
-            print_r($row);
             $userEntity->setState([
                 'email'=> $fakeEmail,
                 'realname'=> $fakeName,
