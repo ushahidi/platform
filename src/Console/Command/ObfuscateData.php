@@ -120,8 +120,19 @@ class ObfuscateData extends Command
         $resultsCount = count($results);
         foreach ($results as $row) {
             $contactEntity = $this->contactRepository->getEntity($row);
-            $fakePhone = $faker->e164PhoneNumber;
-            $contactEntity->setState(['contact'=> $fakePhone]);
+            if ($row['type'] == 'phone') {
+                $fakePhone = $faker->e164PhoneNumber;
+                $contactEntity->setState(['contact'=> $fakePhone]);
+            } elseif ($row['type'] == 'email') {
+                $fakeEmail = $faker->safeEmail;
+                $contactEntity->setState(['contact'=> $fakeEmail]);
+            } elseif ($row['type'] == 'twitter') {
+                $fakeTwitter = '@'.preg_replace('/\s+/', '_', $faker->realText());
+                $contactEntity->setState(['contact'=> $fakeTwitter]);
+            } else {
+                $fakeText = preg_replace('/\s+/', '_', $faker->realText());
+                $contactEntity->setState(['contact'=> $fakeText]);
+            }
             $overwrittenCount += $this->contactRepository->update($contactEntity);
         }
         if ($overwrittenCount == $resultsCount) {
