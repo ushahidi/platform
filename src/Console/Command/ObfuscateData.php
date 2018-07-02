@@ -215,6 +215,38 @@ class ObfuscateData extends Command
         $this->info("\nSet all dataproviders to false.");
     }
 
+    private function overwriteUsers()
+    {
+        $this->info("Overwriting users...");
+        $faker = Faker\Factory::create();
+        $results = DB::select('users.*')
+            ->from('users')
+            ->execute($this->db)
+            ->as_array();
+
+        foreach($results as $row){
+            $userEntity = $this->userRepository->getEntity($row);
+            $fakeEmail = $faker->safeEmail;
+            $fakeName = $faker->firstName." ".$faker->lastName;
+            echo "Overwriting row:";
+            print_r($row);
+            $userEntity->setState([
+                'email'=> $fakeEmail,
+                'realname'=> $fakeName,
+                //randomized password
+                //'password'=> preg_replace("/[^A-Za-z0-9]/", '', $faker->realText(20))
+            ]);
+            $overwrittenCount += $this->userRepository->update($userEntity);
+        }
+        if ($overwrittenCount == $resultsCount) {
+            $this->info("updated ".$overwrittenCount." user records.\n");
+            return $overwrittenCount;
+        } else {
+            $this->info("failed to overwrite all user records.\n");
+            return false;
+        }
+    }
+
     private function deleteUsers()
     {
         $this->info("Deleting users...");
