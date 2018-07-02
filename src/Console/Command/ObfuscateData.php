@@ -175,7 +175,7 @@ class ObfuscateData extends Command
 
     private function overwriteSiteConfig()
     {
-        $this->info("\nORemoving general settings data...");
+        $this->info("\nRemoving general settings data...");
         $siteConfig = $this->configRepository->get('site');
         $siteConfig->setState([
             'name' => 'Test site',
