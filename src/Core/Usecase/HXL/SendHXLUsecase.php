@@ -81,7 +81,7 @@ class SendHXLUsecase implements Usecase
         $job = $this->exportJobRepository->get($this->getIdentifier('job_id'));
         // get user settings by user id
         $user_settings_key = $this->userSettingRepository->getConfigKeyByUser($job->user_id, 'hdx_api_key');
-        $user_settings_user = $this->userSettingRepository->getConfigKeyByUser($job->user_id, 'hdx_user_id');
+        $user_settings_user = $this->userSettingRepository->getConfigKeyByUser($job->user_id, 'hdx_maintainer_id');
         // setup hdx interface
         $this->setHDXInterface($user_settings_key, $user_settings_user_id);
         // get metadata by job id
