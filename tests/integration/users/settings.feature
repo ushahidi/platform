@@ -102,6 +102,8 @@ Feature: Testing the Form Settingss API
         Then the response is JSON
         And the response has a "id" property
         And the type of the "id" property is "numeric"
+        And the response has a "config_value" property
+        And the "config_value" property equals "******alue"
         Then the guzzle status code should be 200
 
     Scenario: Finding a non-existent Settings

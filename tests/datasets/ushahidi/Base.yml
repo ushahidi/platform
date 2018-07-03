@@ -75,7 +75,7 @@ users:
 user_settings:
  - 
    id: 1
-   config_key: "some key"
+   config_key: "api some key"
    config_value: "some value"
    created: 1893477600
    updated: 1893477600
