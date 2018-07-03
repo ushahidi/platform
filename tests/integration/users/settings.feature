@@ -17,7 +17,23 @@ Feature: Testing the Form Settingss API
         And the type of the "id" property is "numeric"
         Then the guzzle status code should be 200
 
+    @resetFixture
     Scenario: Fail to create duplicate Setting
+        Given that I want to make a new "Setting"
+        And that the request "data" is:
+            """
+            {
+                "user_id":2,
+                "config_key":"key",
+                "config_value":"value"
+            }
+            """
+        When I request "/users/2/settings"
+        Then the response is JSON
+        And the response has a "id" property
+        And the type of the "id" property is "numeric"
+        Then the guzzle status code should be 200
+        # Now overwrite it
         Given that I want to make a new "Setting"
         And that the request "data" is:
             """
