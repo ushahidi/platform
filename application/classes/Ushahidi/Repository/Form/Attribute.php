@@ -239,7 +239,7 @@ class Ushahidi_Repository_Form_Attribute extends Ushahidi_Repository implements
      * @return null|array
      */
     public function getFormsByAttributes($include_attributes) {
-	    if ($include_attributes && !empty($include_attributes)) {
+	    if (!empty($include_attributes)) {
 	        return array_column($this->selectQuery()
             ->resetSelect()
             ->select('form_stages.form_id')
