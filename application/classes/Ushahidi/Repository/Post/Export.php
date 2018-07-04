@@ -36,7 +36,8 @@ class Ushahidi_Repository_Post_Export extends Ushahidi_Repository_CSVPost implem
 		$searchQuery->limit(null);
 		$searchQuery->offset(null);
 		$result = $searchQuery->resetSelect()
-			->select([DB::expr('DISTINCT(posts.form_id)'), 'form_id'])->execute($this->db);
+			->select([DB::expr('DISTINCT(posts.form_id)'), 'form_id'])
+            ->execute($this->db);
 		$result =  $result->as_array();
 		return array_column($result, 'form_id');
 	}
