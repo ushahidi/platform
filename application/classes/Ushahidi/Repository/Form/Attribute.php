@@ -233,6 +233,25 @@ class Ushahidi_Repository_Form_Attribute extends Ushahidi_Repository implements
 		return $this->getCollection($results->as_array());
 	}
 
+    /**
+     * Filter the form ids that are included in the attributes the user selected for a CSV
+     * @param $include_attributes
+     * @return null|array
+     */
+    public function getFormsByAttributes($include_attributes) {
+	    if ($include_attributes && !empty($include_attributes)) {
+	        return array_column($this->selectQuery()
+            ->resetSelect()
+            ->select('form_stages.form_id')
+            ->distinct(true)
+            ->join('form_stages')
+            ->on('form_stages.id', '=', 'form_attributes.form_stage_id')
+            ->where('form_attributes.key', 'IN', $include_attributes)
+            ->execute($this->db)
+            ->as_array(), 'form_id');
+        }
+        return null;
+    }
 	/**
 	 * @param $form_ids
 	 * @return array
