@@ -98,7 +98,7 @@ class HDXInterface
     public function formatDatasetObject(array $metadata, $license, $tags = [])
     {
         $slug = $this->getSlug($metadata['organisation'], $metadata['dataset_title']);
-        $dataset = array(
+        $dataset = [
             "name" =>  $slug,
             "author" => $metadata['maintainer'],
             "maintainer" => $metadata['maintainer'],
@@ -111,8 +111,8 @@ class HDXInterface
             "methodology" => "other", //TODO add methodology to metadata
             "tags" => $tags, //[{"name":"coordinates"}],
             "license_id" => $license->code,
-            "allow_no_resources" => true
-        );
+            "allow_no_resources" => true,
+        ];
         Log::debug('dataset array'.var_export($dataset, true));
         return $dataset;
     }

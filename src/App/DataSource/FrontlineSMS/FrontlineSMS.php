@@ -51,21 +51,21 @@ class FrontlineSMS implements CallbackDataSource, OutgoingAPIDataSource
 
     public function getOptions()
     {
-        return array(
-            'key' => array(
+        return [
+            'key' => [
                     'label' => 'Key',
                     'input' => 'text',
                     'description' => 'The API key',
-                    'rules' => array('required')
-            ),
-            'secret' => array(
+                    'rules' => ['required']
+            ],
+            'secret' => [
                 'label' => 'Secret',
                 'input' => 'text',
                 'description' => 'Set a secret so that only authorized FrontlineCloud accounts can send/recieve message.
 					You need to configure the same secret in the FrontlineCloud Activity.',
-                'rules' => array('required')
-            )
-        );
+                'rules' => ['required']
+            ]
+        ];
     }
 
     public function getInboundFields()
@@ -91,22 +91,22 @@ class FrontlineSMS implements CallbackDataSource, OutgoingAPIDataSource
         // Check we have the required config
         if (!isset($this->config['key'])) {
             app('log')->warning('Could not send message with FrontlineSMS, incomplete config');
-            return array(MessageStatus::FAILED, false);
+            return [MessageStatus::FAILED, false];
         }
 
         // Prepare data to send to frontline cloud
-        $data = array(
+        $data = [
             "apiKey" => isset($this->config['key']) ? $this->config['key'] : '',
-            "payload" => array(
+            "payload" => [
                 "message" => $message,
-                "recipients" => array(
-                    array(
+                "recipients" => [
+                    [
                         "type" => "mobile",
                         "value" => $to
-                    )
-                )
-            )
-        );
+                    ]
+                ]
+            ]
+        ];
 
         // Make a POST request to send the data to frontline cloud
 
@@ -121,24 +121,24 @@ class FrontlineSMS implements CallbackDataSource, OutgoingAPIDataSource
             // Successfully executed the request
 
             if ($response->getStatusCode() === 200) {
-                return array(MessageStatus::SENT, false);
+                return [MessageStatus::SENT, false];
             }
 
             // Log warning to log file.
             $status = $response->getStatusCode();
             app('log')->warning(
                 'Could not make a successful POST request',
-                array('message' => $response->messages[$status], 'status' => $status)
+                ['message' => $response->messages[$status], 'status' => $status]
             );
         } catch (\GuzzleHttp\Exception\ClientException $e) {
             // Log warning to log file.
             app('log')->warning(
                 'Could not make a successful POST request',
-                array('message' => $e->getMessage())
+                ['message' => $e->getMessage()]
             );
         }
 
-        return array(MessageStatus::FAILED, false);
+        return [MessageStatus::FAILED, false];
     }
 
     public function registerRoutes(\Laravel\Lumen\Routing\Router $router)

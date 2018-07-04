@@ -24,7 +24,7 @@
  *                          See http://php.net/manual/en/datetime.createfromformat.php
  */
 
-  return array(
+  return [
     'name'          => '',
     'description'   => '',
     'email'         => '',
@@ -35,4 +35,4 @@
     'first_login'   => true,
     'tier'          => 'free',
     'private'       => false,
-  );
+  ];

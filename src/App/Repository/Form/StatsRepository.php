@@ -73,15 +73,15 @@ class StatsRepository extends OhanzeeRepository implements
     }
     public function getResponses($form_id)
     {
-        $where = array(
+        $where = [
             'posts.form_id' => $form_id,
             'messages.direction' => 'incoming',
-            'targeted_survey_state.survey_status' => array(
+            'targeted_survey_state.survey_status' => [
                 Entity\TargetedSurveyState::RECEIVED_RESPONSE,
                 Entity\TargetedSurveyState::PENDING_RESPONSE,
                 Entity\TargetedSurveyState::SURVEY_FINISHED,
-            )
-        );
+            ]
+        ];
         $query = $this->selectQuery($where)
             ->resetSelect()
             ->select([DB::expr('COUNT(messages.id)'), 'total'])
@@ -224,16 +224,16 @@ class StatsRepository extends OhanzeeRepository implements
      */
     public function countPendingMessages($form_id)
     {
-        $where = array(
+        $where = [
             'posts.form_id' => $form_id,
             'messages.direction' => 'outgoing',
             'messages.status' => 'pending',
-            'targeted_survey_state.survey_status' => array(
+            'targeted_survey_state.survey_status' => [
                 Entity\TargetedSurveyState::RECEIVED_RESPONSE,
                 Entity\TargetedSurveyState::PENDING_RESPONSE,
                 Entity\TargetedSurveyState::SURVEY_FINISHED,
-            )
-        );
+            ]
+        ];
         $query = $this->selectQuery($where)
             ->resetSelect()
             ->select([DB::expr('COUNT(distinct message_id)'), 'total']);
@@ -250,14 +250,14 @@ class StatsRepository extends OhanzeeRepository implements
      */
     public function getRecipients($form_id)
     {
-        $where = array(
+        $where = [
             'posts.form_id' => $form_id,
-            'targeted_survey_state.survey_status' => array(
+            'targeted_survey_state.survey_status' => [
                 Entity\TargetedSurveyState::RECEIVED_RESPONSE,
                 Entity\TargetedSurveyState::PENDING_RESPONSE,
                 Entity\TargetedSurveyState::SURVEY_FINISHED,
-            )
-        );
+            ]
+        ];
         $query = $this->selectQuery($where)
             ->resetSelect()
             ->select([DB::expr('COUNT(distinct contact_id)'), 'total']);

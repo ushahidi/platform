@@ -30,12 +30,12 @@ class RestContext implements Context
     private $requestUrl        = null;
     private $apiUrl            = 'api/v3';
 
-    private $parameters        = array();
+    private $parameters        = [];
     private $headers           = [
         'Accept' => 'application/json'
     ];
-    private $postFields        = array();
-    private $postFiles         = array();
+    private $postFields        = [];
+    private $postFiles         = [];
 
     /**
      * Initializes context.

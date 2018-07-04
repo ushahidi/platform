@@ -21,17 +21,17 @@ use Ushahidi\App\Formatter\API;
 class CSV extends API
 {
 
-    public static $csvIgnoreFieldsByType = array(
+    public static $csvIgnoreFieldsByType = [
         'published_to',
         'lock',
         'parent_id',
         'locale'
-    );
-    public static $csvFieldFormat = array(
+    ];
+    public static $csvFieldFormat = [
         'tags' => 'single_array',
         'sets' => 'single_array',
         'point' => 'single_value_array'
-    );
+    ];
     /**
      * @var SearchData
      */

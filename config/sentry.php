@@ -1,6 +1,6 @@
 <?php
 
-return array(
+return [
     'dsn' => env('SENTRY_DSN', false) ?: env('RAVEN_URL', false),
 
     // capture release as git sha
@@ -11,4 +11,4 @@ return array(
 
     // Capture default user context
     'user_context' => false, // Disabled because it causes requests to fail w/ 401
-);
+];
