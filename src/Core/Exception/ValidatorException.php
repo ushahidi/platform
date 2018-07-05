@@ -18,7 +18,7 @@ class ValidatorException extends \InvalidArgumentException
 {
 	private $errors;
 
-	public function __construct($message, array $errors, Exception $previous = null)
+	public function __construct($message, array $errors, \Exception $previous = null)
 	{
 		$flatErrors = iterator_to_array(new RecursiveIteratorIterator(new RecursiveArrayIterator($errors)), false);
 
