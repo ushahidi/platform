@@ -266,16 +266,23 @@ class ObfuscateData extends Command
         return $count;
     }
 
-    //TODO: unhardcode this if this is a feature we want
     private function addAdminUser()
     {
-        $newUserEntity = $this->userRepository->getEntity();
-        $newUserEntity->setState([
-            'email' => 'admin@ushahidi.com',
-            'realname' => 'Admin User',
-            'role' => 'admin',
-            'password' => 'admin' ]); // NOTE: pw is implicitly hashed via create
-        $id = $this->userRepository->create($newUserEntity);
-        $this->info("Created admin user with Id: ".$id);
+        if (!$this->confirm("Do you want to add an admin user?")) {
+            $this->info("Request canceled.\n");
+            return;
+        }else{
+            //TODO: add input validation
+            $adminEmail = $this->anticipate('Email address for admin user?', ['admin@ushahidi.com']);
+            $adminPassword = $this->secret('What should the password be?');
+            $newUserEntity = $this->userRepository->getEntity();
+            $newUserEntity->setState([
+                'email' => $adminEmail,
+                'realname' => 'Admin User',
+                'role' => 'admin',
+                'password' => $adminPassword ]); // NOTE: pw is hashed via create
+            $id = $this->userRepository->create($newUserEntity);
+            $this->info("Created admin user with Id: ".$id);
+        }
     }
 }
