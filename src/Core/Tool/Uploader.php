@@ -66,9 +66,24 @@ class Uploader
 		$extension = pathinfo($filepath, PATHINFO_EXTENSION);
 		$mimeType = MimeType::detectByFileExtension($extension) ?: 'text/plain';
 		$config = ['mimetype' => $mimeType];
-		$this->fs->putStream($filepath, $stream, $config);
-		if (is_resource($stream)) {
-			fclose($stream);
+
+		try {
+			$this->fs->putStream($filepath, $stream, $config);
+		} catch (\Guzzle\Http\Exception\ClientErrorResponseException $e) {
+			// Flysystem and FlysystemRackspace are very leaky abstractions
+			// so we have to manually catch guzzle errors here
+			$response = $e->getResponse();
+
+			throw new \InvalidArgumentException('Could not upload file: '. $response->getBody(true));
+		} catch (\Guzzle\Http\Exception\BadResponseException $e) {
+			// Flysystem and FlysystemRackspace are very leaky abstractions
+			// so we have to manually catch guzzle errors here
+
+			throw new \InvalidArgumentException('Could not upload file');
+		} finally {
+			if (is_resource($stream)) {
+				fclose($stream);
+			}
 		}
 
 		// Get meta information about the file.

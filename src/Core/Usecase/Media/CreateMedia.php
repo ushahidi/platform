@@ -79,9 +79,15 @@ class CreateMedia extends CreateUsecase
 	protected function getEntity()
 	{
 		// Upload the file and get the file reference
-		$this->upload = $this->uploader->upload(
-			new UploadData($this->getPayload('file'))
-		);
+		try {
+			$this->upload = $this->uploader->upload(
+				new UploadData($this->getPayload('file'))
+			);
+		} catch (\InvalidArgumentException $e) {
+			throw new ValidatorException($e->getMessage(), [
+				'file' => $e->getMessage()
+			], $e);
+		}
 
 		$payload = [
 			'caption'    => $this->getPayload('caption', false) ?: null,
