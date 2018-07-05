@@ -62,7 +62,7 @@ class CreateMedia extends CreateUsecase
 		} catch (ValidatorException $e) {
 			// If a file was uploaded, it must be purged after a failed upload.
 			// Otherwise storage will be filled with junk files.
-			if ($this->fs->has($this->upload->file)) {
+			if ($this->upload && $this->fs->has($this->upload->file)) {
 				$this->fs->delete($this->upload->file);
 			}
 
