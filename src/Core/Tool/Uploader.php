@@ -44,9 +44,10 @@ class Uploader
 			$filename = uniqid() . '-' . $file->name;
 		}
 
-		// Avoid any possible issues with case sensitivity by forcing all files
-		// to be made lowercase.
-		$filename = strtolower($filename);
+		// Avoid possible issues with case sensitivity by forcing all files
+		// to be made lowercase. Also replace possibly invalid characters in filename
+		$filename = strtolower(preg_replace('/[^\pL\pN\-\_\s\.]+/u', '', $filename));
+
 
 		// Add the first and second letters of filename to the directory path
 		// to help segment the files, producing a more reasonable amount of
