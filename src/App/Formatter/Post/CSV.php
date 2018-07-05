@@ -67,24 +67,59 @@ class CSV extends API
         }
         return $hxl;
     }
-    private function generateHxlTagAndAttribute($key, $hxl_rows)
+
+    /**
+     * @param $form_attribute_key
+     * @param $hxl_rows
+     * @return string
+     * Iterates through all hxl attributes and looks for one that matches the given $form_attribute_key
+     */
+    private function generateHxlTagAndAttribute($form_attribute_key, $hxl_rows)
     {
         $tag = '';
         //TODO handle multi column values when CSV starts supporting them again
-
         foreach ($hxl_rows as $hxl_row) {
-            $key_set = explode('.', $key); //contains key + index of the key
-            $heading_key = isset($key_set[0]) ? $key_set[0] : null; // the heading type (sets, contact, title)
-            if ($hxl_row['key'] === $heading_key) {
-                if ($tag === '') {
-                    $tag = '#' . $hxl_row['tag_name'];
-                }
-                $attribute = $hxl_row['attribute'] && !empty($hxl_row['attribute']) ?
-                        ' +'. $hxl_row['attribute'] : '';
-                $tag = $tag.$attribute;
+            //contains key + index of the key
+            $key_set = explode('.', $form_attribute_key);
+            // the heading type (sets, contact, title)
+            $heading_key = isset($key_set[0]) ? $key_set[0] : null;
+
+            // checks that the hxl field matches the form attribute we received in $form_attribute_key
+            $key_matches_hxl = $hxl_row['key'] === $heading_key;
+                $should_process = $key_matches_hxl && $this->shouldProcessLatLonTag($key_set, $hxl_row);
+            if ($should_process) {
+                $tag = $this->returnHXLTagAndAttributeString($tag, $hxl_row);
             }
         }
         return $tag;
+    }
+
+    private function shouldProcessLatLonTag($key_set, $hxl_row)
+    {
+        $should_process_lat_lon = $hxl_row['tag_name'] === 'geo' && $hxl_row['type'] === 'point' && $hxl_row['input'] === 'location';
+        if (!$should_process_lat_lon) {
+            return true;
+        }
+        $attr_type = isset($key_set[1]) ? $key_set[1] : null;
+        $attribute_type_matches_hxl_row_type = $hxl_row['attribute'] === $attr_type;
+        $is_geo_other = $hxl_row['attribute'] !== 'lat' && $hxl_row['attribute'] !== 'lon';
+        return $attribute_type_matches_hxl_row_type || $is_geo_other;
+    }
+
+    /**
+     * @param $tag
+     * @param $hxl_row
+     * @return string
+     * Creates the #tag +attribute string for the hxl tags in a csv
+     */
+    private function returnHXLTagAndAttributeString($tag, $hxl_row)
+    {
+        if ($tag === '') {
+            $tag = '#' . $hxl_row['tag_name'];
+        }
+        $attribute = $hxl_row['attribute'] && !empty($hxl_row['attribute']) ?
+            ' +'. $hxl_row['attribute'] : '';
+        return $tag . $attribute;
     }
 
     public function setAddHeader($add_header)
