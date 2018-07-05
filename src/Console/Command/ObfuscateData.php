@@ -86,12 +86,14 @@ class ObfuscateData extends Command
 
     private function isTestDeployment()
     {
-        return (strtolower(getenv('APP_ENV')) == 'test');
+        $cur_env = $this->getLaravel()->environment();
+        return (strtolower($cur_env) == 'test');
     }
 
     private function isStagingDeployment()
     {
-        return (strtolower(getenv('APP_ENV')) == 'staging');
+        $cur_env = $this->getLaravel()->environment();
+        return (strtolower($cur_env) == 'staging');
     }
 
     /* optional implementations...
