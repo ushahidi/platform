@@ -15,7 +15,7 @@ use Ushahidi\Core\Tool\Filesystem;
 use Ushahidi\Core\Tool\Uploader;
 use Ushahidi\Core\Tool\UploadData;
 use Ushahidi\Core\Usecase\CreateUsecase;
-use Ushahidi\Exception\ValidatorException;
+use Ushahidi\Core\Exception\ValidatorException;
 
 class CreateMedia extends CreateUsecase
 {
@@ -62,7 +62,7 @@ class CreateMedia extends CreateUsecase
 		} catch (ValidatorException $e) {
 			// If a file was uploaded, it must be purged after a failed upload.
 			// Otherwise storage will be filled with junk files.
-			if ($this->fs->has($this->upload->file)) {
+			if ($this->upload && $this->fs->has($this->upload->file)) {
 				$this->fs->delete($this->upload->file);
 			}
 
@@ -79,9 +79,15 @@ class CreateMedia extends CreateUsecase
 	protected function getEntity()
 	{
 		// Upload the file and get the file reference
-		$this->upload = $this->uploader->upload(
-			new UploadData($this->getPayload('file'))
-		);
+		try {
+			$this->upload = $this->uploader->upload(
+				new UploadData($this->getPayload('file'))
+			);
+		} catch (\InvalidArgumentException $e) {
+			throw new ValidatorException($e->getMessage(), [
+				'file' => $e->getMessage()
+			], $e);
+		}
 
 		$payload = [
 			'caption'    => $this->getPayload('caption', false) ?: null,
