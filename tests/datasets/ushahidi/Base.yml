@@ -2039,7 +2039,6 @@ hxl_meta_data:
     organisation: "ushahidi"
     dataset_title: "ushahidi-dataset"
     source: "other"
-    maintainer: "ushahidi-maintainer"
     private: true
     user_id: 2
   -
@@ -2048,7 +2047,6 @@ hxl_meta_data:
     organisation: "ushahidi"
     dataset_title: "ushahidi-dataset"
     source: "other"
-    maintainer: "ushahidi-maintainer"
     private: true
     user_id: 2
   -
@@ -2057,7 +2055,6 @@ hxl_meta_data:
     organisation: "ushahidi"
     dataset_title: "ushahidi-dataset"
     source: "other"
-    maintainer: "ushahidi-maintainer"
     private: true
     user_id: 2
   -
@@ -2066,7 +2063,6 @@ hxl_meta_data:
     organisation: "ushahidi"
     dataset_title: "ushahidi-dataset"
     source: "other"
-    maintainer: "ushahidi-maintainer"
     private: true
     user_id: 2
 export_job:

@@ -43,7 +43,7 @@ class HDXInterfaceTest extends TestCase
 //         ]);
 //
 //         $handler = HandlerStack::create($mock);
-//         $hdxInterface = new HDXInterface('test', 'test');
+//         $hdxInterface = new HDXInterface('test', 'test', 'test');
 //         $hdxInterface->setClientHandler($handler);
 //
 //         $goodResult = $hdxInterface->getDatasetIDByName('test title');
@@ -81,7 +81,7 @@ class HDXInterfaceTest extends TestCase
          ]);
 
          $handler = HandlerStack::create($mock);
-         $hdxInterface = new HDXInterface('test', 'test');
+         $hdxInterface = new HDXInterface('test', 'test', 'test');
          $hdxInterface->setClientHandler($handler);
 
          $goodResult = $hdxInterface->getAllOrganizationsForUser();
@@ -127,7 +127,6 @@ class HDXInterfaceTest extends TestCase
             'success' => 1,
             'result' => [
                     'license_title' => '',
-                    'maintainer' => '',
                     'relationships_as_object' => [],
                     'private' => '',
                     'maintainer_email' =>'',
