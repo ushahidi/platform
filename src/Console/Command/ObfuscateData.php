@@ -271,7 +271,7 @@ class ObfuscateData extends Command
         if (!$this->confirm("Do you want to add an admin user?")) {
             $this->info("Request canceled.\n");
             return;
-        }else{
+        } else {
             //TODO: add input validation
             $adminEmail = $this->anticipate('Email address for admin user?', ['admin@ushahidi.com']);
             $adminPassword = $this->secret('What should the password be?');
