@@ -15,7 +15,7 @@ use Ushahidi\Core\Tool\Filesystem;
 use Ushahidi\Core\Tool\Uploader;
 use Ushahidi\Core\Tool\UploadData;
 use Ushahidi\Core\Usecase\CreateUsecase;
-use Ushahidi\Exception\ValidatorException;
+use Ushahidi\Core\Exception\ValidatorException;
 
 class CreateMedia extends CreateUsecase
 {
