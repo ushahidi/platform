@@ -4,6 +4,11 @@ about: Suggest an idea for a new feature or a small enhancement to existing feat
 
 ---
 
+**Which user group(s) are the primary audience for this feature/enhancement.**
+Include deployment names if possible
+Specify key workflows (e.g. crisis, elections)
+Specify key use cases (program/data workers, incident management, advocacy/storytelling)
+
 **Is your feature request related to a problem? Please describe.**
 A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
 
