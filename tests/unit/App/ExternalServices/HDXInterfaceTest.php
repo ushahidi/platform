@@ -43,7 +43,7 @@ class HDXInterfaceTest extends TestCase
          ]);
 
          $handler = HandlerStack::create($mock);
-         $hdxInterface = new HDXInterface('test', 'test');
+         $hdxInterface = new HDXInterface('test', 'test', 'maintainer-1234');
          $hdxInterface->setClientHandler($handler);
 
          $goodResult = $hdxInterface->getDatasetIDByName('test title', 'my org');
