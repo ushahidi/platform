@@ -86,7 +86,7 @@ class CSV extends API
 
             // checks that the hxl field matches the form attribute we received in $form_attribute_key
             $key_matches_hxl = $hxl_row['key'] === $heading_key;
-                $should_process = $key_matches_hxl && $this->shouldProcessLatLonTag($key_set, $hxl_row);
+            $should_process = $key_matches_hxl && $this->shouldProcessLatLonTag($key_set, $hxl_row);
             if ($should_process) {
                 $tag = $this->returnHXLTagAndAttributeString($tag, $hxl_row);
             }
