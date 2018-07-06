@@ -21,12 +21,14 @@ class HDXInterface
 {
     protected $ckanClient;
     protected $userAPIKey;
+    protected $hdx_maintainer_id;
     protected $ckanURL;
 
-    public function __construct($url, $key)
+    public function __construct($url, $key, $hdx_maintainer_id)
     {
          $this->ckanURL = $url;
          $this->userAPIKey = $key;
+         $this->hdx_maintainer_id = $hdx_maintainer_id;
     }
     public function setServer($url)
     {
@@ -97,8 +99,8 @@ class HDXInterface
 
         $dataset = [
             "name" =>  $slug, //FIXME should it be user input?
-            "author" => $metadata['maintainer'],
-            "maintainer" => $metadata['maintainer'],
+            "author" => $this->hdx_maintainer_id,
+            "maintainer" => $this->hdx_maintainer_id,
             "organization" => $metadata['organisation'],
             "private" => $metadata['private'],
             "owner_org" => $metadata['organisation'],
