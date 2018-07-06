@@ -105,7 +105,7 @@ class ImportUsecase implements Usecase
         // ... verify that the entity can be created by the current user
         $this->verifyImportAuth($entity);
 
-        $created_entities = array();
+        $created_entities = [];
         // Fetch a record
         foreach ($this->payload as $index => $record) {
             // ... transform record

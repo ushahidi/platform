@@ -64,53 +64,53 @@ class Email implements IncomingAPIDataSource, OutgoingAPIDataSource
 
     public function getOptions()
     {
-        return array(
-            'intro_text' => array(
+        return [
+            'intro_text' => [
                 'label' => '',
                 'input' => 'read-only-text',
                 'description' => 'In order to receive reports by email, please input your email account settings below'
-            ),
-            'incoming_type' => array(
+            ],
+            'incoming_type' => [
                 'label' => 'Incoming Server Type',
                 'input' => 'radio',
                 'description' => '',
-                'options' => array('POP', 'IMAP'),
-                'rules' => array('required', 'number')
-            ),
-            'incoming_server' => array(
+                'options' => ['POP', 'IMAP'],
+                'rules' => ['required', 'number']
+            ],
+            'incoming_server' => [
                 'label' => 'Incoming Server',
                 'input' => 'text',
                 'description' => '',
                 'description' => 'Examples: mail.yourwebsite.com, imap.gmail.com, pop.gmail.com',
-                'rules' => array('required')
-            ),
-            'incoming_port' => array(
+                'rules' => ['required']
+            ],
+            'incoming_port' => [
                 'label' => 'Incoming Server Port',
                 'input' => 'text',
                 'description' => 'Common ports: 110 (POP3), 143 (IMAP), 995 (POP3 with SSL), 993 (IMAP with SSL)',
-                'rules' => array('required','number')
-            ),
-            'incoming_security' => array(
+                'rules' => ['required','number']
+            ],
+            'incoming_security' => [
                 'label' => 'Incoming Server Security',
                 'input' => 'radio',
                 'description' => '',
-                'options' => array('None', 'SSL', 'TLS')
-            ),
-            'incoming_username' => array(
+                'options' => ['None', 'SSL', 'TLS']
+            ],
+            'incoming_username' => [
                 'label' => 'Incoming Username',
                 'input' => 'text',
                 'description' => '',
                 'placeholder' => 'Email account username',
-                'rules' => array('required')
-            ),
-            'incoming_password' => array(
+                'rules' => ['required']
+            ],
+            'incoming_password' => [
                 'label' => 'Incoming Password',
                 'input' => 'text',
                 'description' => '',
                 'placeholder' => 'Email account password',
-                'rules' => array('required')
-            )
-        );
+                'rules' => ['required']
+            ]
+        ];
     }
 
     public function getInboundFields()
@@ -164,11 +164,11 @@ class Email implements IncomingAPIDataSource, OutgoingAPIDataSource
                 }
             );
 
-            return array(MessageStatus::SENT, false);
+            return [MessageStatus::SENT, false];
         } catch (\Exception $e) {
             Log::info("Couldn't send email:" . $e->getMessage());
             // Failed
-            return array(MessageStatus::FAILED, false);
+            return [MessageStatus::FAILED, false];
         }
     }
 

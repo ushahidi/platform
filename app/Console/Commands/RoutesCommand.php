@@ -30,7 +30,7 @@ class RoutesCommand extends Command
         global $app;
         $routeCollection = $app->router->getRoutes();
 
-        $rows = array();
+        $rows = [];
         $x = 0;
         foreach ($routeCollection as $route) {
             if (!empty($route['action']['uses'])) {
@@ -47,7 +47,7 @@ class RoutesCommand extends Command
             $x++;
         }
 
-        $headers = array( 'Verb', 'Path', 'Action' );
+        $headers = [ 'Verb', 'Path', 'Action' ];
         $this->table($headers, $rows);
     }
 }

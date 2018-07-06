@@ -68,9 +68,13 @@ class GetByUser implements Usecase
     public function interact()
     {
         // get user settings by user id
-        $user_settings = $this->userSettingRepository->getConfigKeyByUser($this->auth->getUserId(), 'hdx_api_key');
+        $user_settings_key = $this->userSettingRepository->getConfigKeyByUser($this->auth->getUserId(), 'hdx_api_key');
+        $user_settings_user_id = $this->userSettingRepository->getConfigKeyByUser(
+            $this->auth->getUserId(),
+            'hdx_maintainer_id'
+        );
         // setup hdx interface
-        $this->setHDXInterface($user_settings);
+        $this->setHDXInterface($user_settings_key, $user_settings_user_id);
         $organisations = $this->hdxInterface->getAllOrganizationsForUser();
         if (!$organisations) {
             return $this->formatter->__invoke(null);
@@ -79,11 +83,12 @@ class GetByUser implements Usecase
         return $this->formatter->__invoke($organisations);
     }
 
-    private function setHDXInterface($user_settings)
+    private function setHDXInterface($user_settings_key, $user_settings_user_id)
     {
         $this->hdxInterface = new HDXInterface(
             getenv('HDX_URL'),
-            $user_settings->config_value
+            $user_settings_key->config_value,
+            $user_settings_user_id->config_value
         );
     }
 }

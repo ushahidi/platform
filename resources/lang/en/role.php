@@ -1,5 +1,5 @@
 <?php
 
-return array(
+return [
     'rolesNotEnabled'    => 'The roles feature is not enabled for your deployment.'
-);
+];
