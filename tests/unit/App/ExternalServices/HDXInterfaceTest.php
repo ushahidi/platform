@@ -93,7 +93,7 @@ class HDXInterfaceTest extends TestCase
             new Response(200, ['Content-Type' => 'application/json'], json_encode($dataset))
         ]);
         $handler = HandlerStack::create($mock);
-        $hdxInterface = new HDXInterface('test', 'test');
+        $hdxInterface = new HDXInterface('test', 'test', 'maintainer-1234');
         $hdxInterface->setClientHandler($handler);
 
         $good = $hdxInterface->formatDatasetObject($metadata, $license, $tags);
