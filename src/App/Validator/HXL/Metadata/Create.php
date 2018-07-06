@@ -60,12 +60,6 @@ class Create extends Validator
                 ['min_length', [':value', 2]],
                 ['max_length', [':value', 255]],
                 ['regex', [':value', Validator::REGEX_STANDARD_TEXT]], // alpha, number, punctuation, space
-            ],
-            'maintainer' => [
-                ['not_empty'],
-                ['min_length', [':value', 2]],
-                ['max_length', [':value', 255]],
-                ['regex', [':value', Validator::REGEX_STANDARD_TEXT]], // alpha, number, punctuation, space
             ]
         ], $this->getForeignKeyRules());
     }

@@ -57,23 +57,23 @@ class HDXInterfaceTest extends TestCase
     public function testSlugIsFormatted()
     {
 
-        $metadata = array(
+        $metadata = [
             "maintainer" => "maintainer-1",
             "organisation" => "org-1",
             "private" => "private",
             "dataset_title" => "cuantos posts hay por año?",
             "source" => "source"
-        );
-        $tags = array(
-            array ("name" => "coordinates")
-        );
+        ];
+        $tags = [
+            ["name" => "coordinates"]
+        ];
         $license = new \Ushahidi\Core\Entity\HXL\HXLLicense([
             'code' => "ushahidi".rand(),
             'name' => "ushahidi-dataset",
             'link' => "other",
         ]);
 
-        $dataset = array(
+        $dataset = [
             "name" =>  $metadata["dataset_title"],
             "author" => $metadata['maintainer'],
             "maintainer" => $metadata['maintainer'],
@@ -87,7 +87,7 @@ class HDXInterfaceTest extends TestCase
             "tags" => $tags, //[{"name":"coordinates"}],
             "license_id" => $license->code,
             "allow_no_resources" => true
-        );
+        ];
 
         $mock = new MockHandler([
             new Response(200, ['Content-Type' => 'application/json'], json_encode($dataset))
@@ -134,7 +134,7 @@ class HDXInterfaceTest extends TestCase
          ]);
 
          $handler = HandlerStack::create($mock);
-         $hdxInterface = new HDXInterface('test', 'test');
+         $hdxInterface = new HDXInterface('test', 'test', 'test');
          $hdxInterface->setClientHandler($handler);
 
          $goodResult = $hdxInterface->getAllOrganizationsForUser();
@@ -180,7 +180,6 @@ class HDXInterfaceTest extends TestCase
             'success' => 1,
             'result' => [
                     'license_title' => '',
-                    'maintainer' => '',
                     'relationships_as_object' => [],
                     'private' => '',
                     'maintainer_email' =>'',
