@@ -120,14 +120,29 @@ class Ushahidi_Console_PostExporter extends Command
 			}
 		}
 
-		foreach ($filters as $key => $filter) {
+        /**
+         * Setup the fields as filters by the form they belong to.
+         * If the user selected only fields from some forms, we should not return all the forms
+         * even if they did not have a form filter selected (since they can't filter that in the UI right now)
+         */
+        $form_ids_by_attributes = $this->formAttributeRepository->getFormsByAttributes($data->include_attributes);
+		if (!empty($form_ids_by_attributes)) {
+		    $filters['form'] = array_unique(
+                array_merge(
+                    isset($filters['form']) ? $filters['form'] : [],
+                    array_map(function ($itm) { return intval($itm); } , $form_ids_by_attributes)
+                )
+            );
+        }
+        foreach ($filters as $key => $filter) {
 			$data->$key = $filter;
 		}
-
 		$this->postExportRepository->setSearchParams($data);
 		$posts = $this->postExportRepository->getSearchResults();
 		$this->formatter->setAddHeader($add_header);
 		//fixme add post_date
+
+
 		$form_ids = $this->postExportRepository->getFormIdsForHeaders();
 		$attributes = $this->formAttributeRepository->getByForms($form_ids, $data->include_attributes);
 
