@@ -280,7 +280,8 @@ abstract class Ushahidi_Core {
 		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['users'] = [
 			'create'   => $di->lazyNew('Ushahidi_Validator_User_Create'),
 			'update'   => $di->lazyNew('Ushahidi_Validator_User_Update'),
-			'register' => $di->lazyNew('Ushahidi_Validator_User_Register')
+			'register' => $di->lazyNew('Ushahidi_Validator_User_Register'),
+			'passwordreset' => $di->lazyNew(Ushahidi\App\Validator\User\Reset::class)
 		];
 		$di->params['Ushahidi\Factory\ValidatorFactory']['map']['messages'] = [
 			'create' => $di->lazyNew('Ushahidi_Validator_Message_Create'),
@@ -727,6 +728,9 @@ abstract class Ushahidi_Core {
 			'role_repo' => $di->lazyGet('repository.role'),
 		];
 		$di->params['Ushahidi_Validator_User_Register'] = [
+			'repo'    => $di->lazyGet('repository.user')
+		];
+		$di->params[Ushahidi\App\Validator\User\Reset::class] = [
 			'repo'    => $di->lazyGet('repository.user')
 		];
 		$di->params['Ushahidi_Validator_CSV_Create'] = [
