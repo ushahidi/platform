@@ -737,6 +737,7 @@ abstract class Ushahidi_Core {
 		];
 		$di->params['Ushahidi_Validator_Role_Update'] = [
 			'permission_repo' => $di->lazyGet('repository.permission'),
+			'feature_enabled' => $di->lazyGet('roles.enabled'),
 		];
 
 		// Validator Setters
