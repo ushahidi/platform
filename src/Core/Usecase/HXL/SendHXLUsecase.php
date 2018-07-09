@@ -94,8 +94,10 @@ class SendHXLUsecase implements Usecase
             return ['name' => $tag['tag_name']];
         }, $tags);
         // check if the dataset exists to decide if we update or create one
-        $existing_dataset_id = $this->hdxInterface->getDatasetIDByName($metadata->dataset_title);
-
+        $existing_dataset_id = $this->hdxInterface->getDatasetIDByName(
+            $metadata->dataset_title,
+            $metadata->organisation
+        );
 
         if (!!$existing_dataset_id) {
             Log::debug('Found dataset' . print_r($metadata->dataset_title, true));

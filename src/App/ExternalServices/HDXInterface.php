@@ -12,6 +12,7 @@ namespace Ushahidi\App\ExternalServices;
  */
 
 use Germanazo\CkanApi\Repositories\BaseRepository;
+use Ushahidi\Core\Exception\FormatterException;
 use Ushahidi\Core\Usecase\HXL\SendHXLUsecase;
 use Germanazo\CkanApi\CkanApiClient;
 use GuzzleHttp\Client;
@@ -69,11 +70,14 @@ class HDXInterface
         return new Client($config);
     }
 
-    // returns ID or null
-    public function getDatasetIDByName($title)
+    /**
+     * @param $title
+     * @param $organisation
+     * @return null
+     */
+    public function getDatasetIDByName($title, $organisation)
     {
-        $slug = trim(strtolower(preg_replace('/[^A-Za-z0-9-]+/', '-', $title)));
-
+        $slug = $this->getSlug($organisation, $title);
         $datasetId = null;
         try {
             $dataset = $this->getApiClient()->dataset()->show($slug);
@@ -93,10 +97,9 @@ class HDXInterface
      * @return array
      * Create dataset object based on the parameters we received from create/update
      */
-    private function formatDatasetObject(array $metadata, $license, $tags = [])
+    public function formatDatasetObject(array $metadata, $license, $tags = [])
     {
-        $slug = strtolower(preg_replace('/[^A-Za-z0-9-]+/', '-', $metadata['dataset_title']));
-
+        $slug = $this->getSlug($metadata['organisation'], $metadata['dataset_title']);
         $dataset = [
             "name" =>  $slug, //FIXME should it be user input?
             "author" => $this->hdx_maintainer_id,
@@ -110,10 +113,22 @@ class HDXInterface
             "methodology" => "other", //TODO add methodology to metadata
             "tags" => $tags, //[{"name":"coordinates"}],
             "license_id" => $license->code,
-            "allow_no_resources" => true
+            "allow_no_resources" => true,
         ];
         Log::debug('dataset array'.var_export($dataset, true));
         return $dataset;
+    }
+
+    /**
+     * @param $title
+     * @param $organisation
+     */
+    private function getSlug($organisation, $title)
+    {
+        if (!$title || !$organisation) {
+            throw new \Exception("Cannot create a slug without an organisation name and dataset title");
+        }
+        return str_slug("$organisation $title");
     }
 
     /** Note: if error condition is the result, then we ignore it gracefully,
