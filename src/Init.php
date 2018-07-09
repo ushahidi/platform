@@ -419,6 +419,9 @@ $di->params['Ushahidi\Factory\UsecaseFactory']['map']['users'] = [
 ];
 $di->setter['Ushahidi\Core\Usecase\User\LoginUser']['setAuthenticator'] = $di->lazyGet('tool.authenticator.password');
 $di->setter['Ushahidi\Core\Usecase\User\LoginUser']['setRateLimiter'] = $di->lazyGet('ratelimiter.login');
+
+$di->setter['Ushahidi\Core\Usecase\User\RegisterUser']['setRateLimiter'] = $di->lazyGet('ratelimiter.register');
+
 $di->setter['Ushahidi\Core\Usecase\User\GetResetToken']['setMailer'] = $di->lazyGet('tool.mailer');
 
 // Traits
