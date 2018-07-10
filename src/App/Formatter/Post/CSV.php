@@ -243,13 +243,22 @@ class CSV extends API
             && ($record['form_id'] != $recordAttributes['form_id'])) {
             return '';
         }
+
+        // Check if we are dealing with an unstructured post but not an unstructured attribute
+        if (is_array($recordAttributes)
+            && isset($recordAttributes['type'])
+            && $recordAttributes['form_id'] !== 'unstructured'
+            && !isset($record['form_id'])) {
+            return '';
+        }
+
         // If the returned attribute for the given heading key is the native form name attribute
         // Retrieve Form Name from the attribute rather than from the Post until the data model improves
         if (is_array($recordAttributes)
             && isset($recordAttributes['type'])
             && $recordAttributes['type'] === 'form_name') {
             return is_array($recordAttributes) && isset($recordAttributes['form_name'])
-                ? $recordAttributes['form_name'] : '';
+                ? $recordAttributes['form_name'] : 'Unstructured';
         }
         // default format we will return. See $csvFieldFormat for a list of available formats
         $format = 'single_raw';
