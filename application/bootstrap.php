@@ -67,9 +67,10 @@ ini_set('unserialize_callback_func', 'spl_autoload_call');
 
 
 /**
- * Add response message for HTTP 422
+ * Add response message for HTTP 422 and 429
  */
 Kohana_Response::$messages[422] = 'Unprocessable Entity';
+Kohana_Response::$messages[429] = 'Too Many Requests';
 
 /**
  * Set Kohana::$environment if a 'KOHANA_ENV' environment variable has been supplied.

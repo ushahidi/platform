@@ -465,6 +465,10 @@ abstract class Ushahidi_Rest extends Controller {
 				$e
 			);
 		}
+		catch (Ushahidi\Core\Exception\ThrottlingException $e)
+		{
+			throw new HTTP_Exception_429('Too Many Requests');
+		}
 		catch (\InvalidArgumentException $e)
 		{
 			throw new HTTP_Exception_400(
