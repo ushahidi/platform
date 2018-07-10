@@ -10,7 +10,6 @@ Feature: Testing the HXL Metadata API
               "organisation": "ushahidi",
               "dataset_title": "ushahidi-dataset",
               "source": "other",
-              "maintainer": "ushahidi-maintainer",
               "private": true
           }
           """
@@ -30,7 +29,6 @@ Feature: Testing the HXL Metadata API
               "organisation": "ushahidi",
               "dataset_title": "ushahidi-dataset",
               "source": "other",
-              "maintainer": "ushahidi-maintainer",
               "private": true,
               "user_id": 10
           }
@@ -51,7 +49,6 @@ Feature: Testing the HXL Metadata API
               "organisation": "ushahidi",
               "dataset_title": "ushahidi-dataset",
               "source": "other",
-              "maintainer": "ushahidi-maintainer",
               "private": true
           }
           """
