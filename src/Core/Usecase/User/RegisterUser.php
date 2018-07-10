@@ -16,32 +16,49 @@ use Ushahidi\Core\Tool\PasswordAuthenticator;
 use Ushahidi\Core\Usecase\CreateUsecase;
 use Ushahidi\Core\Exception\AuthorizerException;
 use Ushahidi\Core\Entity;
+use Ushahidi\Core\Tool\RateLimiter;
 
 class RegisterUser extends CreateUsecase
 {
-	public function interact()
-	{
-		// fetch entity
-		$entity = $this->getEntity();
+    /**
+     * @var RateLimiter
+     */
+    protected $rateLimiter;
 
-		// verify that registration can be done in this case
-		$this->verifyRegisterAuth($entity);
+    /**
+     * @param RateLimiter $rateLimiter
+     */
+    public function setRateLimiter(RateLimiter $rateLimiter)
+    {
+        $this->rateLimiter = $rateLimiter;
+    }
 
-		// verify that the entity is in a valid state
-		$this->verifyValid($entity);
+    public function interact()
+    {
+        // fetch entity
+        $entity = $this->getEntity();
 
-		// persist the new entity
-		$id = $this->repo->register($entity);
+        // Rate limit registration attempts
+        $this->rateLimiter->limit($entity);
 
-		// get the newly created entity
-		$entity = $this->getCreatedEntity($id);
+        // verify that registration can be done in this case
+        $this->verifyRegisterAuth($entity);
 
-		// return the formatted entity
-		return $this->formatter->__invoke($entity);
-	}
+        // verify that the entity is in a valid state
+        $this->verifyValid($entity);
 
-	protected function verifyRegisterAuth(Entity $entity)
-	{
-		$this->verifyAuth($entity, 'register');
-	}
+        // persist the new entity
+        $id = $this->repo->register($entity);
+
+        // get the newly created entity
+        $entity = $this->getCreatedEntity($id);
+
+        // return the formatted entity
+        return $this->formatter->__invoke($entity);
+    }
+
+    protected function verifyRegisterAuth(Entity $entity)
+    {
+        $this->verifyAuth($entity, 'register');
+    }
 }

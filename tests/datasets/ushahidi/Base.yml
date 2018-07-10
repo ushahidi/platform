@@ -82,6 +82,17 @@ users:
     realname: Sets
     email: "sets@ushahidi.com"
     role: "sets"
+user_reset_tokens:
+  -
+    id: 1
+    user_id: 5
+    reset_token: testresettoken
+    created: 1893477600
+  -
+    id: 2
+    user_id: 5
+    reset_token: testresettoken2
+    created: 1893477600
 forms:
   -
     id: 1
@@ -1167,7 +1178,7 @@ post_locks:
     id: 1
     post_id: 1692
     expires: 1412007022
-    user_id: 1 
+    user_id: 1
 post_datetime:
 post_decimal:
 post_geometry:
@@ -2257,7 +2268,7 @@ contacts:
     type: "email"
   -
     id: 3
-    user_id: 
+    user_id:
     contact: 773456789
     type: "phone"
   -

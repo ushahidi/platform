@@ -207,3 +207,45 @@ Feature: Testing the Users API
 		And the "role" property equals "user"
 		And the response does not have a "password" property
 		Then the guzzle status code should be 200
+
+	Scenario: Generating a password reset
+		Given that I want to make a new "user"
+		And that the request "data" is:
+			"""
+			{
+				"email":"test@ushahidi.com"
+			}
+			"""
+		When I request "/passwordreset"
+		Then the guzzle status code should be 204
+
+	Scenario: Reset a users password
+		Given that I want to make a new "user"
+		And that the request "data" is:
+			"""
+			{
+				"email":"demo@ushahidi.com",
+				"token":"testresettoken",
+				"password":"abcd1234"
+			}
+			"""
+		When I request "/passwordreset/confirm"
+		Then the guzzle status code should be 204
+	@resetpass
+	Scenario: Fail to reset a users password
+		Given that I want to make a new "user"
+		And that the request "data" is:
+			"""
+			{
+				"email":"demo@ushahidi.com",
+				"token":"testresettoken2",
+				"password":"a"
+			}
+			"""
+		When I request "/passwordreset/confirm"
+		And the response has a "errors" property
+		And the "errors.1.message" property contains "password must be at least 7 characters long"
+		Then the response is JSON
+
+		Then the guzzle status code should be 422
+
