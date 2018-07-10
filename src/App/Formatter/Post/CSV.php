@@ -234,6 +234,15 @@ class CSV extends API
         $key = isset($keySet[1]) ? $keySet[1] : null; // the key to use (0, lat,lon)
         // check that the key we received is available in $attributes
         $recordAttributes = isset($attributes[$headingKey]) ? $attributes[$headingKey] : null;
+
+        // If the returned attribute for the given heading key is the native form name attribute
+        // Retrieve Form Name from the attribute rather than from the Post until the data model improves
+        
+        if (is_array($recordAttributes)
+            && isset($recordAttributes['type'])
+            && $recordAttributes['type'] === 'form_name') {
+            return is_array($record) && isset($record['form_name']) ? $record['form_name'] : 'Unstructured';
+        }
         // Ignore attributes that are not related to this Post by Form Id
         // Ensure that native attributes identified via id 0 are included
         if (is_array($recordAttributes)
@@ -244,22 +253,21 @@ class CSV extends API
             return '';
         }
 
-        // Check if we are dealing with an unstructured post but not an unstructured attribute
+        // Check if we are dealing with a structured post but not a structured attribute
         if (is_array($recordAttributes)
-            && isset($recordAttributes['type'])
-            && $recordAttributes['form_id'] !== 'unstructured'
-            && !isset($record['form_id'])) {
+            && isset($recordAttributes['unstructured'])
+            && $recordAttributes['unstructured']
+            && isset($record['form_id'])) {
             return '';
-        }
+        } 
 
-        // If the returned attribute for the given heading key is the native form name attribute
-        // Retrieve Form Name from the attribute rather than from the Post until the data model improves
-        if (is_array($recordAttributes)
-            && isset($recordAttributes['type'])
-            && $recordAttributes['type'] === 'form_name') {
-            return is_array($recordAttributes) && isset($recordAttributes['form_name'])
-                ? $recordAttributes['form_name'] : 'Unstructured';
-        }
+        // Check if we're dealing with an unstructured post but a structured attribute
+        if (!isset($record['form_id'])
+            && isset($recordAttributes['form_id'])
+            && $recordAttributes['form_id'] != 0) {
+            return '';
+            }
+
         // default format we will return. See $csvFieldFormat for a list of available formats
         $format = 'single_raw';
         // if we have an attribute and can find a format for it in $csvFieldFormat, reset the $format
@@ -291,7 +299,7 @@ class CSV extends API
         // handle values that are dates to have consistent formatting
         $isDateField = $recordAttributes['input'] === 'date' && $recordAttributes['type'] === 'datetime';
         if ($isDateField && isset($recordValue[$headingKey])) {
-            $date = new DateTime($recordValue[$headingKey][$key]);
+            $date = new \DateTime($recordValue[$headingKey][$key]);
             $recordValue[$headingKey][$key] = $date->format('Y-m-d');
         }
         /**

@@ -88,23 +88,6 @@ class Export implements Usecase
     }
 
     /**
-     * @param $attributes an associative array of attributes
-     * @return array associative array of attributes with unstructured attributes added
-     */
-    private function appendUnstructuredAttributes($attributes)
-    {
-        // Unstructured attribute for Description
-        $description_attribute = [
-            'form_id' => 'unstructured',
-            'form_stage_priority' => 0,
-            'priority' => 0,
-            'label' => 'Unstructured Description',
-            'type' => 'description',
-            'key' => 'unstructured'
-        ];
-    }
-
-    /**
      * @return array|mixed|\Ushahidi\Core\Array
      */
     public function interact()
@@ -124,7 +107,6 @@ class Export implements Usecase
 
         // get the form attributes for the export
         $attributes = $this->formAttributeRepository->getExportAttributes($data->include_attributes);
-        $attributes = $this->appendUnstructuredAttributes($attributes);
         $keyAttributes = $this->getAttributesWithKeys($attributes);
 
         /**
