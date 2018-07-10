@@ -259,14 +259,14 @@ class CSV extends API
             && $recordAttributes['unstructured']
             && isset($record['form_id'])) {
             return '';
-        } 
+        }
 
         // Check if we're dealing with an unstructured post but a structured attribute
         if (!isset($record['form_id'])
             && isset($recordAttributes['form_id'])
             && $recordAttributes['form_id'] != 0) {
             return '';
-            }
+        }
 
         // default format we will return. See $csvFieldFormat for a list of available formats
         $format = 'single_raw';

@@ -109,16 +109,6 @@ class CSVTest extends TestCase
 			"priority": 7
 		  },
 		  {
-			"label": "Sets",
-			"key": "sets",
-			"type": "sets",
-			"input": "text",
-			"form_id": 0,
-			"form_stage_id": 0,
-			"form_stage_priority": 0,
-			"priority": 8
-		  },
-		  {
 			"id": "4",
 			"key": "description",
 			"label": "Description",
@@ -259,6 +249,7 @@ class CSVTest extends TestCase
             'updated' => '2017-02-24',
             'id' => 1234,
             'title' => 'This title has content',
+            'form_id' => 1,
             'content' => 'This is a description',
             'contact' => 123456,
             'status' => 'draft',
@@ -286,14 +277,13 @@ class CSVTest extends TestCase
             '2017-02-22',
             '',
             123456,
-            '',//sets
             'This is a description',//desc
             'This title has content',//title
             '',//markdown
             '',//categories,
-            '1,2,3',//tags2
-            9999,//last_location_point.lat
-            8888//last_location_point.lot
+            '',//tags2
+            '',//last_location_point.lat
+            ''//last_location_point.lot
         ], $values);
     }
 }
