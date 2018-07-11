@@ -246,8 +246,7 @@ class CSV extends API
         // Ignore attributes that are not related to this Post by Form Id
         // Ensure that native attributes identified via id 0 are included
         if (is_array($recordAttributes) && isset($recordAttributes['form_id']) && isset($record['form_id'])
-            && $recordAttributes['form_id'] != 0
-            && ($record['form_id'] != $recordAttributes['form_id'])) {
+            && $recordAttributes['form_id'] != 0 && ($record['form_id'] != $recordAttributes['form_id'])) {
             $should_return = true;
         }
 
@@ -259,8 +258,7 @@ class CSV extends API
 
         // Check if we're dealing with an unstructured post but a structured attribute
         if (!isset($record['form_id'])
-            && isset($recordAttributes['form_id'])
-            && $recordAttributes['form_id'] != 0) {
+            && isset($recordAttributes['form_id']) && $recordAttributes['form_id'] != 0) {
             $should_return = true;
         }
 
@@ -430,8 +428,7 @@ class CSV extends API
      */
     protected function isLocation($value)
     {
-        return is_array($value) &&
-            array_key_exists('lon', $value) &&
+        return is_array($value) && array_key_exists('lon', $value) &&
             array_key_exists('lat', $value);
     }
 
