@@ -35,12 +35,8 @@ class CSV extends API
     /**
      * @var SearchData
      */
-    protected $search;
-    protected $fs;
-    protected $tmpfname;
+    protected $search, $fs, $tmpfname, $heading, $hxl_heading;
     protected $add_header = true;
-    protected $heading;
-    protected $hxl_heading;
     // Formatter
     public function setHxlHeading($rows)
     {
@@ -239,26 +235,21 @@ class CSV extends API
         // If the returned attribute for the given heading key is the native form name attribute
         // Retrieve Form Name from the attribute rather than from the Post until the data model improves
         
-        if (is_array($recordAttributes)
-            && isset($recordAttributes['type'])
+        if (is_array($recordAttributes) && isset($recordAttributes['type'])
             && $recordAttributes['type'] === 'form_name') {
             return is_array($record) && isset($record['form_name']) ? $record['form_name'] : 'Unstructured';
         }
         // Ignore attributes that are not related to this Post by Form Id
         // Ensure that native attributes identified via id 0 are included
-        if (is_array($recordAttributes)
-            && isset($recordAttributes['form_id'])
-            && isset($record['form_id'])
+        if (is_array($recordAttributes) && isset($recordAttributes['form_id']) && isset($record['form_id'])
             && $recordAttributes['form_id'] != 0
             && ($record['form_id'] != $recordAttributes['form_id'])) {
             $should_return = true;
         }
 
         // Check if we are dealing with a structured post but not a structured attribute
-        if (is_array($recordAttributes)
-            && isset($recordAttributes['unstructured'])
-            && $recordAttributes['unstructured']
-            && isset($record['form_id'])) {
+        if (is_array($recordAttributes) && isset($recordAttributes['unstructured'])
+            && $recordAttributes['unstructured'] && isset($record['form_id'])) {
             $should_return = true;
         }
 
@@ -276,8 +267,7 @@ class CSV extends API
         // default format we will return. See $csvFieldFormat for a list of available formats
         $format = 'single_raw';
         // if we have an attribute and can find a format for it in $csvFieldFormat, reset the $format
-        if (is_array($recordAttributes)
-            && isset($recordAttributes['type'])
+        if (is_array($recordAttributes) && isset($recordAttributes['type'])
             && isset(self::$csvFieldFormat[$recordAttributes['type']])) {
             $format = self::$csvFieldFormat[$recordAttributes['type']];
         }
@@ -290,10 +280,8 @@ class CSV extends API
          * since their labels are stored as attributes but their values are stored as fields on the record :/
          * The Key UUID will not match the equivalent field on the Post so we must change to use the correct field names
          */
-        if (is_array($recordAttributes)
-            && isset($recordAttributes['type'])
-            && ($recordAttributes['type'] === 'title'
-                || $recordAttributes['type'] === 'description')) {
+        if (is_array($recordAttributes) && isset($recordAttributes['type'])
+            && ($recordAttributes['type'] === 'title'   || $recordAttributes['type'] === 'description')) {
             // Description must be mapped to content
             // Title is title
             $headingKey = $recordAttributes['type'] === 'title' ? 'title' : 'content';
@@ -376,8 +364,7 @@ class CSV extends API
         /**
          * sort each field by priority inside the stage
          */
-        $headingResult = $this->sortGroupedFieldsByPriority($fields);
-        return $headingResult;
+        return $this->sortGroupedFieldsByPriority($fields);
     }
 
     /**
