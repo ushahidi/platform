@@ -228,6 +228,7 @@ class CSV extends API
     {
         // assume it's empty since we go through this for all attributes which might not be available
         $return = '';
+        $should_return = false;
         // the $keyParam is the key=>label we get in createSortedHeading (keyLabel.index)
         $keySet = explode('.', $keyParam); //contains key + index of the key
         $headingKey = isset($keySet[0]) ? $keySet[0] : null; // the heading type (sets, contact, title)
@@ -250,7 +251,7 @@ class CSV extends API
             && isset($record['form_id'])
             && $recordAttributes['form_id'] != 0
             && ($record['form_id'] != $recordAttributes['form_id'])) {
-            return '';
+            $should_return = true;
         }
 
         // Check if we are dealing with a structured post but not a structured attribute
@@ -258,13 +259,17 @@ class CSV extends API
             && isset($recordAttributes['unstructured'])
             && $recordAttributes['unstructured']
             && isset($record['form_id'])) {
-            return '';
+            $should_return = true;
         }
 
         // Check if we're dealing with an unstructured post but a structured attribute
         if (!isset($record['form_id'])
             && isset($recordAttributes['form_id'])
             && $recordAttributes['form_id'] != 0) {
+            $should_return = true;
+        }
+
+        if ($should_return) {
             return '';
         }
 
