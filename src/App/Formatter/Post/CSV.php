@@ -35,7 +35,11 @@ class CSV extends API
     /**
      * @var SearchData
      */
-    protected $search, $fs, $tmpfname, $heading, $hxl_heading;
+    protected $search;
+    protected $fs;
+    protected $tmpfname;
+    protected $heading;
+    protected $hxl_heading;
     protected $add_header = true;
     // Formatter
     public function setHxlHeading($rows)
@@ -271,10 +275,7 @@ class CSV extends API
             && isset(self::$csvFieldFormat[$recordAttributes['type']])) {
             $format = self::$csvFieldFormat[$recordAttributes['type']];
         }
-        /** check if the value is in [values] (user added attributes),
-         ** otherwise it'll be part of the record itself
-         **/
-        $isInValuesArray = isset($record['values']) && isset($record['values'][$headingKey]);
+        
         /**
          * Remap Title and Description type attributes as these are a special case of attributes
          * since their labels are stored as attributes but their values are stored as fields on the record :/
@@ -287,7 +288,10 @@ class CSV extends API
             $headingKey = $recordAttributes['type'] === 'title' ? 'title' : 'content';
         }
 
-        $recordValue = $isInValuesArray ? $record['values'] : $record;
+        /** check if the value is in [values] (user added attributes),
+         ** otherwise it'll be part of the record itself
+         **/
+        $recordValue = isset($record['values']) && isset($record['values'][$headingKey]) ? $record['values'] : $record;
 
         // handle values that are dates to have consistent formatting
         $isDateField = $recordAttributes['input'] === 'date' && $recordAttributes['type'] === 'datetime';
