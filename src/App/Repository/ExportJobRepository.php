@@ -73,11 +73,9 @@ class ExportJobRepository extends OhanzeeRepository implements ExportJobReposito
             $query->where('hxl_meta_data_id', '=', $search->hxl_meta_data_id);
         }
 
-        // Limit search to user's records unless they are admin
-        // or if we get user=me as a search param
-        if (! $this->isUserAdmin($user) || $search->user === 'me') {
-            $search->user = $this->getUserId();
-        }
+        // get user ID so that we only ever get jobs from that user
+        $search->user = $this->getUserId();
+        
         if ($search->max_expiration) {
             $query->where("url_expiration", '>', intval($search->max_expiration));
             $query->or_where("url_expiration", 'IS', null);
