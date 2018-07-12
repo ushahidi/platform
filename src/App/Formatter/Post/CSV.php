@@ -235,7 +235,6 @@ class CSV extends API
         $key = isset($keySet[1]) ? $keySet[1] : null; // the key to use (0, lat,lon)
         // check that the key we received is available in $attributes
         $recordAttributes = isset($attributes[$headingKey]) ? $attributes[$headingKey] : null;
-
         // If the returned attribute for the given heading key is the native form name attribute
         // Retrieve Form Name from the attribute rather than from the Post until the data model improves
         

@@ -107,10 +107,21 @@ class CSVTest extends TestCase
 			"form_stage_id": 0,
 			"form_stage_priority": 0,
 			"priority": 7
+          },
+		  {
+			"label": "Unstructured Description",
+			"key": "description",
+			"type": "description",
+			"input": "text",
+			"form_id": 0,
+			"form_stage_id": 0,
+			"form_stage_priority": 0,
+            "unstructured": "1",
+			"priority": 8
 		  },
 		  {
 			"id": "4",
-			"key": "description",
+			"key": "descriptionreal",
 			"label": "Description",
 			"instructions": null,
 			"input": "textarea",
@@ -277,8 +288,40 @@ class CSVTest extends TestCase
             '2017-02-22',
             '',
             123456,
+            '',
             'This is a description',//desc
             'This title has content',//title
+            '',//markdown
+            '',//categories,
+            '',//tags2
+            '',//last_location_point.lat
+            ''//last_location_point.lot
+        ], $values);
+
+        // Test unstructured Post
+        $values = $formatter->formatRecordForCSV([
+            'post_date' => '2017-02-22',
+            'created' => '2017-02-23',
+            'updated' => '2017-02-24',
+            'id' => 1234,
+            'title' => null,
+            'form_id' => null,
+            'content' => 'This is a description',
+            'contact' => 123456,
+            'status' => 'draft'
+        ], $keyAttributes);
+        // check that the format matches what is expected from the attribute list
+        $this->assertEquals([
+            1234,
+            'draft',
+            '2017-02-23',
+            '2017-02-24',
+            '2017-02-22',
+            '',
+            123456,
+            'This is a description',//desc
+            '',//desc
+            '',//title
             '',//markdown
             '',//categories,
             '',//tags2
