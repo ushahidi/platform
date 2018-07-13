@@ -77,32 +77,36 @@ class CSV extends API
     private function generateHxlTagAndAttribute($form_attribute_key, $hxl_rows)
     {
         $tag = '';
+        //contains key + index of the key
+        $key_set = explode('.', $form_attribute_key);
+        // the heading type (sets, contact, title)
+        $heading_key = isset($key_set[0]) ? $key_set[0] : null;
         //TODO handle multi column values when CSV starts supporting them again
         foreach ($hxl_rows as $hxl_row) {
-            //contains key + index of the key
-            $key_set = explode('.', $form_attribute_key);
-            // the heading type (sets, contact, title)
-            $heading_key = isset($key_set[0]) ? $key_set[0] : null;
-
             // checks that the hxl field matches the form attribute we received in $form_attribute_key
-            $key_matches_hxl = $hxl_row['key'] === $heading_key;
-            $should_process = $key_matches_hxl && $this->shouldProcessLatLonTag($key_set, $hxl_row);
-            if ($should_process) {
+            // and if its a latlon field that needs extra processing, it does that before returning the tag
+            if ($hxl_row['key'] === $heading_key && $this->shouldProcessLatLonTag($key_set, $hxl_row)) {
                 $tag = $this->returnHXLTagAndAttributeString($tag, $hxl_row);
             }
         }
         return $tag;
     }
 
+    /**
+     * @param $key_set
+     * @param $hxl_row
+     * @return bool
+     */
     private function shouldProcessLatLonTag($key_set, $hxl_row)
     {
-        $should_not_process_lat_lon =
-            $hxl_row['tag_name'] !== 'geo' &&
+        if ($hxl_row['tag_name'] !== 'geo' &&
             $hxl_row['type'] !== 'point' &&
-            $hxl_row['input'] !== 'location';
-        if ($should_not_process_lat_lon) {
+            $hxl_row['input'] !== 'location'
+        ) {
             return true;
         }
+        // if it is an attribute with lat lon or it doesn't match the attribute type,
+        // we should not process the tag
         $attr_type = isset($key_set[1]) ? $key_set[1] : null;
         $attribute_type_matches_hxl_row_type = $hxl_row['attribute'] === $attr_type;
         $is_geo_other = $hxl_row['attribute'] !== 'lat' && $hxl_row['attribute'] !== 'lon';
