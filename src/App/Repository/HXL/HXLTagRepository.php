@@ -81,9 +81,13 @@ class HXLTagRepository extends OhanzeeRepository implements
                 ->on('hxl_tag_attributes.attribute_id', '=', 'hxl_attributes.id')->execute($this->db)->as_array();
         }
 
-        return array_filter($this->tags_attributes, function ($tag_attributes) use ($tag_id) {
+        return array_map(function ($tag) {
+            $tag['hxl_tag_id'] = intval($tag['hxl_tag_id']);
+            $tag['id'] = intval($tag['id']);
+            return $tag;
+        }, array_filter($this->tags_attributes, function ($tag_attributes) use ($tag_id) {
             return $tag_attributes['hxl_tag_id'] === $tag_id;
-        });
+        }));
     }
 
     /**

@@ -76,7 +76,7 @@ class SendHXLUsecase implements Usecase
         $user_settings_key = $this->userSettingRepository->getConfigKeyByUser($job->user_id, 'hdx_api_key');
         $user_settings_user = $this->userSettingRepository->getConfigKeyByUser($job->user_id, 'hdx_maintainer_id');
         // setup hdx interface
-        $this->setHDXInterface($user_settings_key, $user_settings_user_id);
+        $this->setHDXInterface($user_settings_key, $user_settings_user);
         // get metadata by job id
         $metadata = $this->metadataRepository->get($job->hxl_meta_data_id);
         // get license by metadata->license_id
@@ -87,7 +87,12 @@ class SendHXLUsecase implements Usecase
             return ['name' => $tag['tag_name']];
         }, $tags);
         // check if the dataset exists to decide if we update or create one
-        $existing_dataset_id = $this->hdxInterface->getDatasetIDByName($metadata->dataset_title);
+
+        $existing_dataset_id = $this->hdxInterface->getDatasetIDByName(
+            $metadata->dataset_title,
+            $metadata->organisation
+        );
+
         if (!!$existing_dataset_id) {
             $updated_job = $this->updateDatasetAndResource($existing_dataset_id, $metadata, $job, $license, $tags);
         } else {
