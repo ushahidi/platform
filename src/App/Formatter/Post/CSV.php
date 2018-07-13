@@ -96,11 +96,11 @@ class CSV extends API
 
     private function shouldProcessLatLonTag($key_set, $hxl_row)
     {
-        $should_process_lat_lon =
-            $hxl_row['tag_name'] === 'geo' &&
-            $hxl_row['type'] === 'point' &&
-            $hxl_row['input'] === 'location';
-        if (!$should_process_lat_lon) {
+        $should_not_process_lat_lon =
+            $hxl_row['tag_name'] !== 'geo' &&
+            $hxl_row['type'] !== 'point' &&
+            $hxl_row['input'] !== 'location';
+        if ($should_not_process_lat_lon) {
             return true;
         }
         $attr_type = isset($key_set[1]) ? $key_set[1] : null;
