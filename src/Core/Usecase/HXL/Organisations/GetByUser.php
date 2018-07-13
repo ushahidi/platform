@@ -15,6 +15,7 @@ use Ushahidi\Core\Tool\AuthorizerTrait;
 use Ushahidi\App\ExternalServices\HDXInterface;
 use Ushahidi\Core\Tool\FormatterTrait;
 use Ushahidi\Core\Usecase;
+use Log;
 
 class GetByUser implements Usecase
 {
@@ -78,6 +79,7 @@ class GetByUser implements Usecase
         if (!$organisations) {
             return $this->formatter->__invoke(null);
         }
+
         return $this->formatter->__invoke($organisations);
     }
 
