@@ -16,6 +16,10 @@ roles:
     display_name: "Manager"
     protected: 0
   -
+    name: "sets"
+    display_name: "Sets"
+    protected: 0
+  -
     name: "importer"
     display_name: "Importer"
     protected: 0
@@ -72,15 +76,21 @@ users:
     realname: CannotEditor
     email: "cannoteditor@ushahidi.com"
     role: "noedit"
+  -
+    id: 9
+    password: "$2y$15$iWANGZn.DomLWU.YtjUcX.HEq1hoMGauzXFRubKgar/BRaAj9zQ9q"
+    realname: Sets
+    email: "sets@ushahidi.com"
+    role: "sets"
 user_settings:
- - 
+ -
    id: 1
-   config_key: "some key"
+   config_key: "api some key"
    config_value: "some value"
    created: 1893477600
    updated: 1893477600
    user_id: 2
- - 
+ -
    id: 2
    config_key: "some key2"
    config_value: "some value"
@@ -97,7 +107,7 @@ user_reset_tokens:
     id: 2
     user_id: 5
     reset_token: testresettoken2
-    created: 1893477600    
+    created: 1893477600
 forms:
   -
     id: 1
@@ -1475,6 +1485,11 @@ sets:
     search: 1
     filter: '{"q":"junk"}'
     role: '["admin"]'
+  -
+    id: 7
+    name: Manage Collections
+    search: 0
+    user_id: 9
 posts_sets:
   -
     set_id: 1
@@ -1494,6 +1509,15 @@ posts_sets:
   -
     set_id: 1
     post_id: 112
+  -
+    set_id: 5
+    post_id: 113
+  -
+    set_id: 5
+    post_id: 112
+  -
+    set_id: 5
+    post_id: 114
 # OAuth Tables
 oauth_clients:
   -
@@ -1567,6 +1591,12 @@ oauth_access_tokens:
     id: testnoedit
     client_id: demoapp
     user_id: 8
+    scopes: '["*"]'
+    expires_at: "2031-01-01"
+  -
+    id: testsets
+    client_id: demoapp
+    user_id: 9
     scopes: '["*"]'
     expires_at: "2031-01-01"
 
@@ -1714,7 +1744,7 @@ contacts:
     type: "email"
   -
     id: 3
-    user_id: 
+    user_id:
     contact: 773456789
     type: "phone"
   -
@@ -2039,7 +2069,6 @@ hxl_meta_data:
     organisation: "ushahidi"
     dataset_title: "ushahidi-dataset"
     source: "other"
-    maintainer: "ushahidi-maintainer"
     private: true
     user_id: 2
   -
@@ -2048,7 +2077,6 @@ hxl_meta_data:
     organisation: "ushahidi"
     dataset_title: "ushahidi-dataset"
     source: "other"
-    maintainer: "ushahidi-maintainer"
     private: true
     user_id: 2
   -
@@ -2057,7 +2085,6 @@ hxl_meta_data:
     organisation: "ushahidi"
     dataset_title: "ushahidi-dataset"
     source: "other"
-    maintainer: "ushahidi-maintainer"
     private: true
     user_id: 2
   -
@@ -2066,7 +2093,6 @@ hxl_meta_data:
     organisation: "ushahidi"
     dataset_title: "ushahidi-dataset"
     source: "other"
-    maintainer: "ushahidi-maintainer"
     private: true
     user_id: 2
 export_job:
@@ -2086,6 +2112,8 @@ permissions:
     name: Bulk Data Import and Export
   -
     name: Edit their own posts
+  -
+    name: Manage Collections and Saved Searches
 roles_permissions:
   -
     role: manager
@@ -2096,6 +2124,9 @@ roles_permissions:
   -
     role: manager
     permission: Manage Settings
+  -
+    role: sets
+    permission: Manage Collections and Saved Searches
   -
     role: importer
     permission: Bulk Data Import and Export

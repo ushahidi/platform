@@ -741,7 +741,8 @@ HTTP/{$this->response->getProtocolVersion()} {$this->response->getStatusCode()} 
         'testmanager' => 6,
         'testimporter' => 7,
         'missingtoken' => 99,
-        'testnoedit' => 8
+        'testnoedit' => 8,
+        'testsets' => 9,
     ];
 
     /**

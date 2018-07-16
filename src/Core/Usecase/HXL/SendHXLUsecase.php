@@ -35,13 +35,6 @@ class SendHXLUsecase implements Usecase
     protected $jobID;
     protected $hdxInterface;
 
-
-        // @TODO: fetch these from the user settings when that exists
-    protected $userSettings = [
-        'hdx_server' => 'http://192.168.33.60:5000',
-        'user_key' => 'e0371305-e830-469f-adce-56f9ff211157'
-    ];
-
     public function setRepository($repo)
     {
         return $this;
@@ -80,9 +73,10 @@ class SendHXLUsecase implements Usecase
         // get job by job_id
         $job = $this->exportJobRepository->get($this->getIdentifier('job_id'));
         // get user settings by user id
-        $user_settings = $this->userSettingRepository->getConfigKeyByUser($job->user_id, 'hdx_api_key');
+        $user_settings_key = $this->userSettingRepository->getConfigKeyByUser($job->user_id, 'hdx_api_key');
+        $user_settings_user = $this->userSettingRepository->getConfigKeyByUser($job->user_id, 'hdx_maintainer_id');
         // setup hdx interface
-        $this->setHDXInterface($user_settings);
+        $this->setHDXInterface($user_settings_key, $user_settings_user);
         // get metadata by job id
         $metadata = $this->metadataRepository->get($job->hxl_meta_data_id);
         // get license by metadata->license_id
@@ -93,14 +87,15 @@ class SendHXLUsecase implements Usecase
             return ['name' => $tag['tag_name']];
         }, $tags);
         // check if the dataset exists to decide if we update or create one
-        $existing_dataset_id = $this->hdxInterface->getDatasetIDByName($metadata->dataset_title);
 
+        $existing_dataset_id = $this->hdxInterface->getDatasetIDByName(
+            $metadata->dataset_title,
+            $metadata->organisation
+        );
 
         if (!!$existing_dataset_id) {
-            Log::debug('Found dataset' . print_r($metadata->dataset_title, true));
             $updated_job = $this->updateDatasetAndResource($existing_dataset_id, $metadata, $job, $license, $tags);
         } else {
-            Log::debug('Did not find dataset' . print_r($metadata->dataset_title, true));
             $updated_job = $this->createDatasetAndResource($metadata, $job, $license, $tags);
         }
         return $this->formatter->__invoke($updated_job);
@@ -137,12 +132,9 @@ class SendHXLUsecase implements Usecase
      */
     private function createDatasetAndResource($metadata, $job, $license, $tags)
     {
-        Log::debug('createdatasetandresource');
         $dataset_result = $this->hdxInterface->createHDXDatasetRecord($metadata->asArray(), $license, $tags);
-        Log::debug('createdatasetandresource happened');
         if (isset($dataset_result['error'])) {
-            Log::debug('Dataset resulted in error: '.print_r($dataset_result, true));
-
+            Log::error('Dataset creation error: ' . var_export($dataset_result, true));
             $job = $this->setJobStatusAndUpdate($job, 'FAILED');
             return $job;
         }
@@ -158,19 +150,17 @@ class SendHXLUsecase implements Usecase
      */
     private function createResourceAndUpdateJob($dataset_id, $job, $metadata)
     {
-        Log::debug('Dataset job' . var_export($job->asArray(), true));
         $resource_result = $this->hdxInterface->createResourceForDataset(
             $dataset_id,
             $job->url,
             $metadata->dataset_title
         );
         if (isset($resource_result['error'])) {
-            Log::debug('Resource is an error: '.print_r($resource_result, true));
-            $job = $this->setJobStatusAndUpdate($job, 'FAILED');
+            Log::error("Resource creation error for job {$job->id}: " . print_r($resource_result, true));
+            $job = $this->setJobStatusAndUpdate($job, "FAILED");
             return $job;
         }
-        Log::debug('Resource success: '.print_r($resource_result, true));
-        $job = $this->setJobStatusAndUpdate($job, 'SUCCESS');
+        $job = $this->setJobStatusAndUpdate($job, "SUCCESS");
         return $job;
     }
     /**
@@ -181,16 +171,16 @@ class SendHXLUsecase implements Usecase
     private function setJobStatusAndUpdate($job, $status)
     {
         $job->setState(['status' => $status]);
-        Log::debug('Job updated:' . print_r($job, true));
         $this->exportJobRepository->update($job);
         return $job;
     }
 
-    private function setHDXInterface($user_settings)
+    private function setHDXInterface($user_settings_key, $user_settings_user_id)
     {
         $this->hdxInterface = new HDXInterface(
             getenv('HDX_URL'),
-            $user_settings->config_value
+            $user_settings_key->config_value,
+            $user_settings_user_id->config_value
         );
     }
     /**

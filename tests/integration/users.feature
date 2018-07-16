@@ -108,7 +108,7 @@ Feature: Testing the Users API
 		Then the response is JSON
 		And the response has a "count" property
 		And the type of the "count" property is "numeric"
-		And the "count" property equals "8"
+		And the "count" property equals "9"
 		Then the guzzle status code should be 200
 
 	@resetFixture

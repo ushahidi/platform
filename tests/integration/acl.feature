@@ -620,6 +620,41 @@ Feature: API Access Control Layer
         And the response does not have a "password" property
         Then the guzzle status code should be 200
 
+    @rolesEnabled
+    Scenario: User with Manage Collections and Saved Searches can update a Collection
+		Given that I want to update a "collection"
+        And that the oauth token is "testsets"
+		And that the request "data" is:
+			"""
+			{
+				"name":"Updated Set One"
+			}
+			"""
+		And that its "id" is "7"
+		When I request "/collections"
+		Then the response is JSON
+		And the response has a "id" property
+		And the type of the "id" property is "numeric"
+		And the "id" property equals "7"
+		And the response has a "name" property
+		And the "name" property equals "Updated Set One"
+		Then the guzzle status code should be 200
+
+
+    @rolesEnabled
+    Scenario: User without Manage Collections and Saved Searches can not update a Collection
+		Given that I want to update a "collection"
+        And that the oauth token is "testanon"
+		And that the request "data" is:
+			"""
+			{
+				"name":"Updated Set One"
+			}
+			"""
+		And that its "id" is "7"
+		When I request "/collections"
+		Then the guzzle status code should be 403
+
     @rolesEnabled @dataImportEnabled
     Scenario: Uploading a CSV file with the Importer role
         Given that I want to make a new "CSV"

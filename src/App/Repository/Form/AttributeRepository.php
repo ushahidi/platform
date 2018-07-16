@@ -220,6 +220,27 @@ class AttributeRepository extends OhanzeeRepository implements
         return $this->getCollection($results->as_array());
     }
 
+    /**
+     * Filter the form ids that are included in the attributes the user selected for a CSV
+     * @param $include_attributes
+     * @return null|array
+     */
+    public function getFormsByAttributes($include_attributes)
+    {
+        if (!empty($include_attributes)) {
+            return array_column($this->selectQuery()
+                ->resetSelect()
+                ->select('form_stages.form_id')
+                ->distinct(true)
+                ->join('form_stages')
+                ->on('form_stages.id', '=', 'form_attributes.form_stage_id')
+                ->where('form_attributes.key', 'IN', $include_attributes)
+                ->execute($this->db)
+                ->as_array(), 'form_id');
+        }
+        return null;
+    }
+
     // FormAttributeRepository
     public function getByForm($form_id)
     {
@@ -245,7 +266,7 @@ class AttributeRepository extends OhanzeeRepository implements
      */
     public function getExportAttributes(array $include_attributes = null)
     {
-        $sql = "SELECT DISTINCT form_attributes.*, 
+        $sql = "SELECT DISTINCT form_attributes.*,
 			form_stages.priority as form_stage_priority,
 			form_stages.form_id as form_id, forms.name as form_name, forms.id as form_id " .
             "FROM form_attributes " .
@@ -378,7 +399,7 @@ class AttributeRepository extends OhanzeeRepository implements
         return $this->getEntity($next_attribute->current());
     }
 
-    public function getFirstByForm($form_id)
+    public function getFirstNonDefaultByForm($form_id)
     {
         $query = $this->selectQuery([
             'form_stages.form_id' => $form_id,
@@ -386,6 +407,7 @@ class AttributeRepository extends OhanzeeRepository implements
             ->select('form_attributes.*')
             ->join('form_stages', 'INNER')
             ->on('form_stages.id', '=', 'form_attributes.form_stage_id')
+            ->where('form_attributes.type', 'not in', ['title', 'description'])
             ->order_by('form_stages.priority', 'ASC')
             ->order_by('form_attributes.priority', 'ASC')
             ->limit(1);
