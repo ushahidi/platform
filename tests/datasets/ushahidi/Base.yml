@@ -2101,6 +2101,18 @@ export_job:
     entity_type: "post"
     user_id: 2
     hxl_meta_data_id: 1
+  -
+    id: 2
+    entity_type: "post"
+    user_id: 2
+  -
+    id: 3
+    entity_type: "post"
+    user_id: 6
+  -
+    id: 4
+    entity_type: "post"
+    user_id: 2
 permissions:
   -
     name: Manage Users
