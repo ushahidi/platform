@@ -2591,6 +2591,18 @@ export_job:
     id: 1
     entity_type: "post"
     user_id: 2
+  -
+    id: 2
+    entity_type: "post"
+    user_id: 2
+  -
+    id: 3
+    entity_type: "post"
+    user_id: 7
+  -
+    id: 4
+    entity_type: "post"
+    user_id: 2
 roles_permissions:
   -
     role: manager

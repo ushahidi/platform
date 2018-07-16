@@ -60,11 +60,10 @@ class Ushahidi_Repository_Export_Job extends Ushahidi_Repository implements Expo
 
 		$user = $this->getUser();
 
-		// Limit search to user's records unless they are admin
-		// or if we get user=me as a search param
-		if (! $this->isUserAdmin($user) || $search->user === 'me') {
-			$search->user = $this->getUserId();
-		}
+		// get user ID so that we only ever get jobs from that user
+        $search->user = $this->getUserId();
+        Kohana::$log->add(Log::ERROR, print_r($search->user, true));
+        
 		if ($search->max_expiration) {
 			$query->where("url_expiration", '>', intval($search->max_expiration));
 			$query->or_where("url_expiration", 'IS', NULL);
