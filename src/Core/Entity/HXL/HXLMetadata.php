@@ -21,6 +21,7 @@ class HXLMetadata extends StaticEntity
     protected $license_id;
     protected $user_id;
     protected $organisation;
+    protected $organisation_name;
     protected $source;
     protected $created;
     protected $updated;
@@ -35,6 +36,7 @@ class HXLMetadata extends StaticEntity
             'license_id'        => 'int',
             'user_id'           => 'int',
             'organisation'      => 'string',
+            'organisation_name' => 'string',
             'source'            => 'string',
             'created'           => 'int',
             'updated'           => 'int',

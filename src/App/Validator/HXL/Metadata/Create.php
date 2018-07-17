@@ -55,6 +55,12 @@ class Create extends Validator
                 ['max_length', [':value', 255]],
                 ['regex', [':value', Validator::REGEX_STANDARD_TEXT]], // alpha, number, punctuation, space
             ],
+            'organisation_name' => [
+                ['not_empty'],
+                ['min_length', [':value', 1]],
+                ['max_length', [':value', 255]],
+                ['regex', [':value', Validator::REGEX_STANDARD_TEXT]], // alpha, number, punctuation, space
+            ],
             'source' => [
                 ['not_empty'],
                 ['min_length', [':value', 2]],

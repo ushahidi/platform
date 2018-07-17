@@ -84,9 +84,9 @@ class HDXInterface
      * @param $organisation
      * @return null
      */
-    public function getDatasetIDByName($title, $organisation)
+    public function getDatasetIDByName($title, $organisation_name)
     {
-        $slug = $this->getSlug($organisation, $title);
+        $slug = $this->getSlug($organisation_name, $title);
         $datasetId = null;
         try {
             $dataset = $this->getApiClient()->dataset()->show($slug);
@@ -134,12 +134,12 @@ class HDXInterface
      * @return string
      * @throws \Exception
      */
-    private function getSlug($organisation, $title)
+    private function getSlug($organisation_name, $title)
     {
-        if (!$title || !$organisation) {
+        if (!$title || !$organisation_name) {
             throw new \Exception("Cannot create a slug without an organisation name and dataset title");
         }
-        return str_slug("$organisation $title");
+        return str_slug("$organisation_name $title");
     }
 
     /** Note: if error condition is the result, then we ignore it gracefully,
