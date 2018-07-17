@@ -184,7 +184,8 @@ class Ushahidi_Formatter_Post_CSV extends Ushahidi_Formatter_API
 	 */
 	private function getValueFromRecord($record, $keyParam, $attributes){
 		// assume it's empty since we go through this for all attributes which might not be available		
-		$return = '';
+        $return = '';
+        $should_return = false;
 		// the $keyParam is the key=>label we get in createSortedHeading (keyLabel.index)
 		$keySet = explode('.', $keyParam); //contains key + index of the key
 		$headingKey = isset($keySet[0]) ? $keySet[0] : null; // the heading type (sets, contact, title)
@@ -194,41 +195,60 @@ class Ushahidi_Formatter_Post_CSV extends Ushahidi_Formatter_API
 
 		// Ignore attributes that are not related to this Post by Form Id
 		// Ensure that native attributes identified via id 0 are included
-		if (is_array($recordAttributes) && isset($recordAttributes['form_id']) && isset($record['form_id']) && $recordAttributes['form_id'] != 0 && ($record['form_id'] != $recordAttributes['form_id'])) {
-			return '';
+        if (is_array($recordAttributes) && isset($recordAttributes['form_id']) && isset($record['form_id'])
+            && $recordAttributes['form_id'] != 0 && ($record['form_id'] != $recordAttributes['form_id'])) {
+			$should_return = true;
 		}
 
 		// If the returned attribute for the given heading key is the native form name attribute
 		// Retrieve Form Name from the attribute rather than from the Post until the data model improves
 		
-		if (is_array($recordAttributes) && isset($recordAttributes['type']) && $recordAttributes['type'] === 'form_name') {
-			return is_array($record) && isset($record['form_name']) ? $record['form_name'] : '';
-		}
+        if (is_array($recordAttributes) && isset($recordAttributes['type'])
+            && $recordAttributes['type'] === 'form_name') {
+            $return = is_array($record) && isset($record['form_name']) ? $record['form_name'] : 'Unstructured';
+        }
+        
+        // Check if we are dealing with a structured post but not a structured attribute
+        if (is_array($recordAttributes) && isset($recordAttributes['unstructured'])
+            && $recordAttributes['unstructured'] && isset($record['form_id'])) {
+            $should_return = true;
+        }
+
+        // Check if we're dealing with an unstructured post but a structured attribute
+        if (!isset($record['form_id'])
+            && isset($recordAttributes['form_id']) && $recordAttributes['form_id'] != 0) {
+            $should_return = true;
+        }
+
+        if ($should_return) {
+            return $return;
+        }
 
 		// default format we will return. See $csvFieldFormat for a list of available formats
 		$format = 'single_raw';
 
 		// if we have an attribute and can find a format for it in $csvFieldFormat, reset the $format
-		if (is_array($recordAttributes) && isset($recordAttributes['type']) && isset(self::$csvFieldFormat[$recordAttributes['type']])){
+        if (is_array($recordAttributes) && isset($recordAttributes['type'])
+            && isset(self::$csvFieldFormat[$recordAttributes['type']])) {
 			$format = self::$csvFieldFormat[$recordAttributes['type']];
 		}
 
-		/** check if the value is in [values] (user added attributes),
-		 ** otherwise it'll be part of the record itself
-		**/
-		$isInValuesArray = isset ($record['values']) && isset($record['values'][$headingKey]);
 		/**
 		 * Remap Title and Description type attributes as these are a special case of attributes
 		 * since their labels are stored as attributes but their values are stored as fields on the record :/
 		 * The Key UUID will not match the equivalent field on the Post so we must change to use the correct field names
 		 */
-		if (is_array($recordAttributes) && isset($recordAttributes['type']) && ($recordAttributes['type'] === 'title' || $recordAttributes['type'] === 'description')) {
+        if (is_array($recordAttributes) && isset($recordAttributes['type'])
+            && ($recordAttributes['type'] === 'title'   || $recordAttributes['type'] === 'description')) {
 			// Description must be mapped to content
 			// Title is title
 			$headingKey = $recordAttributes['type'] === 'title' ? 'title' : 'content';
 		}
-		
-		$recordValue = $isInValuesArray ? $record['values']: $record;
+        
+        /** check if the value is in [values] (user added attributes),
+		 ** otherwise it'll be part of the record itself
+		**/
+		$recordValue = isset($record['values']) && isset($record['values'][$headingKey]) ? $record['values'] : $record;
 
 		// handle values that are dates to have consistent formatting
 		$isDateField = $recordAttributes['input'] === 'date' && $recordAttributes['type'] === 'datetime';
@@ -297,8 +317,7 @@ class Ushahidi_Formatter_Post_CSV extends Ushahidi_Formatter_API
 		/**
 		 * sort each field by priority inside the stage
 		 */
-		$headingResult = $this->sortGroupedFieldsByPriority($fields);
-		return $headingResult;
+		return $this->sortGroupedFieldsByPriority($fields);
 	}
 
 	/**
@@ -359,8 +378,7 @@ class Ushahidi_Formatter_Post_CSV extends Ushahidi_Formatter_API
 	 */
 	protected function isLocation($value)
 	{
-		return is_array($value) &&
-			array_key_exists('lon', $value) &&
+		return is_array($value) && array_key_exists('lon', $value) &&
 			array_key_exists('lat', $value);
 	}
 
