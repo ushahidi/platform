@@ -28,7 +28,7 @@ class AddOrgNameToHxlMetadata extends AbstractMigration
     public function up()
     {
         $this->table('hxl_meta_data')
-            ->addColumn('organisation_name','string', [
+            ->addColumn('organisation_name', 'string', [
                 'null' => true,
                 'limit' => 255
             ])
