@@ -20,7 +20,7 @@ class Permission extends StaticEntity
 	protected $description;
 
 	// Standard permissions names
-    const DATA_IMPORT          = 'Bulk Data Import';
+    const DATA_IMPORT          = 'Bulk Data Import and Export';
     const MANAGE_POSTS         = 'Manage Posts';
     const MANAGE_SETS          = 'Manage Collections and Saved Searches';
     const MANAGE_SETTINGS      = 'Manage Settings';

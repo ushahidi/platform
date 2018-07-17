@@ -54,7 +54,7 @@ Feature: Testing the Export Job API
 @resetFixture
     Scenario: Listing Export Jobs for admin
         Given that I want to get all "ExportJob"
-        And that the request "Authorization" header is "testadminuser"
+        And that the request "Authorization" header is "Bearer testadminuser"
         When I request "/exports/jobs"
         Then the response is JSON
         And the response has a "count" property
@@ -63,11 +63,15 @@ Feature: Testing the Export Job API
         Then the guzzle status code should be 200
     Scenario: Listing Export Jobs for a Manager
         Given that I want to get all "ExportJob"
-        And that the request "Authorization" header is "testmanager"
+        And that the request "Authorization" header is "Bearer testmanager"
         When I request "/exports/jobs"
-        Then the guzzle status code should be 403
+        Then the response is JSON
+        And the response has a "count" property
+        And the type of the "count" property is "numeric"
+        And the "count" property equals "1"
+        Then the guzzle status code should be 200
     Scenario: A basic user (without permisions) can't get exports
         Given that I want to get all "ExportJob"
-        And that the request "Authorization" header is "testbasicuser"
+        And that the request "Authorization" header is "Bearer testbasicuser"
         When I request "/exports/jobs"
         Then the guzzle status code should be 403
