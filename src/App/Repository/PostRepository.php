@@ -113,13 +113,12 @@ class PostRepository extends OhanzeeRepository implements
         // Ensure we are dealing with a structured Post
 
         $user = $this->getUser();
-        $includePrivateValues = false;
+        $excludePrivateValues = true;
         $excludeStages = [];
 
         // Check post permissions
         // @todo move or double up in formatter. That should enforce what users can see
-        $includePrivateValues =
-            $this->postPermissions->canUserReadPrivateValues(
+        $excludePrivateValues = !$this->postPermissions->canUserReadPrivateValues(
                 $user,
                 new Post($data)
             );
@@ -170,13 +169,13 @@ class PostRepository extends OhanzeeRepository implements
             }
 
             $data += [
-                'values' => $this->getPostValues($data['id'], $includePrivateValues, $excludeStages),
+                'values' => $this->getPostValues($data['id'], $excludePrivateValues, $excludeStages),
                 // Continued for legacy
                 'tags'   => $this->getTagsForPost($data['id'], $data['form_id']),
                 'sets' => $this->getSetsForPost($data['id']),
                 'completed_stages' => $this->getCompletedStagesForPost(
                     $data['id'],
-                    $includePrivateValues,
+                    $excludePrivateValues,
                     $excludeStages
                 ),
                 'lock' => null,
@@ -221,13 +220,13 @@ class PostRepository extends OhanzeeRepository implements
         return $query;
     }
 
-    protected function getPostValues($id, $includePrivateValues, $excludeStages)
+    protected function getPostValues($id, $excludePrivateValues, $excludeStages)
     {
 
         // Get all the values for the post. These are the EAV values.
         $values = $this->post_value_factory
             ->proxy($this->include_value_types)
-            ->getAllForPost($id, $this->include_attributes, $excludeStages, $includePrivateValues);
+            ->getAllForPost($id, $this->include_attributes, $excludeStages, $excludePrivateValues);
 
         $output = [];
         foreach ($values as $value) {
@@ -243,14 +242,14 @@ class PostRepository extends OhanzeeRepository implements
         return $output;
     }
 
-    protected function getCompletedStagesForPost($id, $includePrivateValues, $excludeStages)
+    protected function getCompletedStagesForPost($id, $excludePrivateValues, $excludeStages)
     {
         $query = DB::select('form_stage_id', 'completed')
             ->from('form_stages_posts')
             ->where('post_id', '=', $id)
             ->where('completed', '=', 1);
 
-        if (!$includePrivateValues && $excludeStages) {
+        if (!$excludePrivateValues && $excludeStages) {
             $query->where('form_stage_id', 'NOT IN', $excludeStages);
         }
 

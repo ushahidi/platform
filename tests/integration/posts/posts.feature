@@ -1626,11 +1626,11 @@ Feature: Testing the Posts API
 		And the response has a "curr" property
 		Then the guzzle status code should be 200
 
-	@get
+	@get @postsAnon
 	Scenario: View post with restricted data as normal users limits info
 		Given that I want to find a "Post"
 		And that its "id" is "1690"
-        And that the request "Authorization" header is "Bearer testbasicuser"
+        And that the oauth token is "testbasicuser"
 		When I request "/posts"
 		Then the response is JSON
 		And the response has a "id" property
@@ -1655,7 +1655,7 @@ Feature: Testing the Posts API
 	Scenario: View post with restricted data as admin gets full info
 		Given that I want to find a "Post"
 		And that its "id" is "1690"
-        And that the request "Authorization" header is "Bearer testadminuser"
+        And that the oauth token is "testadminuser"
 		When I request "/posts"
 		Then the response is JSON
 		And the response has a "id" property

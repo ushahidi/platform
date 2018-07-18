@@ -20,7 +20,7 @@ class TitleRepository extends VarcharRepository
         $post_id,
         array $include_attributes = [],
         array $exclude_stages = [],
-        $includePrivateValues = false
+        $excludePrivateValues = true
     ) {
         return [];
     }

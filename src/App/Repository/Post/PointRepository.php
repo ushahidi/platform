@@ -73,7 +73,6 @@ class PointRepository extends ValueRepository
             // Fetch AsText(value) aliased to value
                 [DB::expr('AsText(value)'), 'value']
         );
-
         return $query;
     }
 

@@ -1,6 +1,5 @@
 @oauth2Skip @forms @form_attributes
 Feature: Testing the Form Attributes API
-
     Scenario: Creating a new Attribute
         Given that I want to make a new "Attribute"
         And that the request "data" is:

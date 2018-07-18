@@ -123,6 +123,18 @@ class PostPermissions
 	}
 
 	/**
+	 * Test whether the user can manage posts
+	 *
+	 * @param  Post $post
+	 * @return Boolean
+	 */
+	public function canUserManagePosts(User $user, Post $post)
+	{
+		// Delegate to post authorizer
+		return $this->acl->hasPermission($user, Permission::MANAGE_POSTS);
+	}
+
+	/**
 	 * Test whether the post instance requires value restriction
 	 *
 	 * @param  Post $post

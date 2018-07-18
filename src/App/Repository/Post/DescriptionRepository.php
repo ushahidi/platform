@@ -20,7 +20,7 @@ class DescriptionRepository extends TextRepository
         $post_id,
         array $include_attributes = [],
         array $exclude_stages = [],
-        $includePrivateValues = false
+        $excludePrivateValues = true
     ) {
         return [];
     }

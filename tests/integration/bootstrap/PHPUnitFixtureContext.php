@@ -58,7 +58,7 @@ class PHPUnitFixtureContext implements Context
         $pdo_connection->query("INSERT INTO `post_point` (`id`, `post_id`, `form_attribute_id`, `value`)
             VALUES (6, 97, 8, POINT(1, 1));");
         $pdo_connection->query("INSERT INTO `post_point` (`id`, `post_id`, `form_attribute_id`, `value`)
-            VALUES (8, 1690, 30, POINT(10.1235, 26.2135));");
+            VALUES (8, 1690, 36, POINT(10.1235, 26.2135));");
 
         $pdo_connection->query("INSERT INTO `post_geometry` (`id`, `post_id`, `form_attribute_id`, `value`)
             VALUES (1, 1, 9,

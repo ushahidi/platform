@@ -29,15 +29,15 @@ class ValueProxy implements ValuesForPostRepository
         $post_id,
         array $include_attributes = [],
         array $exclude_stages = [],
-        $includePrivateValues = false
+        $excludePrivateValues = true
     ) {
         $results = [];
 
         $this->factory->each(
-            function ($repo) use ($post_id, $include_attributes, &$results, $exclude_stages, $includePrivateValues) {
+            function ($repo) use ($post_id, $include_attributes, &$results, $exclude_stages, $excludePrivateValues) {
                 $results = array_merge(
                     $results,
-                    $repo->getAllForPost($post_id, $include_attributes, $exclude_stages, $includePrivateValues)
+                    $repo->getAllForPost($post_id, $include_attributes, $exclude_stages, $excludePrivateValues)
                 );
             },
             $this->include_types

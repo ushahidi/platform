@@ -62,7 +62,7 @@ class StageRepository extends OhanzeeRepository implements
         $query = parent::selectQuery($where);
 
         $user = $this->getUser();
-        if (!$this->formPermissions->canUserEditForm($form_id, $user)) {
+        if (!$this->formPermissions->canUserEditForm($user, $form_id)) {
             $query->where('show_when_published', '=', "1");
 
             if ($post_status !== 'published') {
