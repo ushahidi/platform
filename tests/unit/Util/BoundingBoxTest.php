@@ -11,7 +11,7 @@
 
 namespace Tests\Unit\Util;
 
-use Util_BoundingBox;
+use Ushahidi\App\Util\BoundingBox;
 
 /**
  * @backupGlobals disabled
@@ -20,47 +20,47 @@ use Util_BoundingBox;
 class BoundingBoxTest extends \PHPUnit\Framework\TestCase
 {
 
-	/**
-	 * Test Bounding Box to WKT
-	 *
-	 * @return void
-	 */
-	public function testToWKT()
-	{
-		$bb = new Util_BoundingBox(-180, -90, 180, 90);
-		$this->assertEquals('POLYGON((-180 -90,180 -90,180 90,-180 90,-180 -90))', $bb->toWKT());
+    /**
+     * Test Bounding Box to WKT
+     *
+     * @return void
+     */
+    public function testToWKT()
+    {
+        $bb = new BoundingBox(-180, -90, 180, 90);
+        $this->assertEquals('POLYGON((-180 -90,180 -90,180 90,-180 90,-180 -90))', $bb->toWKT());
 
-		$bb = new Util_BoundingBox(-1, -1, 1, 1);
-		$this->assertEquals('POLYGON((-1 -1,1 -1,1 1,-1 1,-1 -1))', $bb->toWKT());
-	}
+        $bb = new BoundingBox(-1, -1, 1, 1);
+        $this->assertEquals('POLYGON((-1 -1,1 -1,1 1,-1 1,-1 -1))', $bb->toWKT());
+    }
 
-	/**
-	 * Test Bounding Box to array
-	 *
-	 * @return void
-	 */
-	public function testAsArray()
-	{
-		$bb = new Util_BoundingBox(-180, -90, 180, 90);
-		$this->assertEquals(array(-180, -90, 180, 90), $bb->as_array());
+    /**
+     * Test Bounding Box to array
+     *
+     * @return void
+     */
+    public function testAsArray()
+    {
+        $bb = new BoundingBox(-180, -90, 180, 90);
+        $this->assertEquals([-180, -90, 180, 90], $bb->asArray());
 
-		$bb = new Util_BoundingBox(-1, -1, 1, 1);
-		$this->assertEquals(array(-1, -1, 1, 1), $bb->as_array());
-	}
+        $bb = new BoundingBox(-1, -1, 1, 1);
+        $this->assertEquals([-1, -1, 1, 1], $bb->asArray());
+    }
 
-	/**
-	 * Test Bounding Box to geometry
-	 *
-	 * @return void
-	 */
-	public function testToGeometry()
-	{
-		$bb = new Util_BoundingBox(-180, -90, 180, 90);
-		$geom = $bb->toGeometry();
-		$this->assertEquals('POLYGON((-180 -90,180 -90,180 90,-180 90,-180 -90))', $geom->toWKT());
+    /**
+     * Test Bounding Box to geometry
+     *
+     * @return void
+     */
+    public function testToGeometry()
+    {
+        $bb = new BoundingBox(-180, -90, 180, 90);
+        $geom = $bb->toGeometry();
+        $this->assertEquals('POLYGON((-180 -90,180 -90,180 90,-180 90,-180 -90))', $geom->toWKT());
 
-		$bb = new Util_BoundingBox(-1, -1, 1, 1);
-		$geom = $bb->toGeometry();
-		$this->assertEquals('POLYGON((-1 -1,1 -1,1 1,-1 1,-1 -1))', $geom->toWKT());
-	}
+        $bb = new BoundingBox(-1, -1, 1, 1);
+        $geom = $bb->toGeometry();
+        $this->assertEquals('POLYGON((-1 -1,1 -1,1 1,-1 1,-1 -1))', $geom->toWKT());
+    }
 }

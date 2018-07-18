@@ -15,61 +15,63 @@ use Ushahidi\Core\StaticEntity;
 
 class Form extends StaticEntity
 {
-	protected $id;
-	protected $parent_id;
-	protected $name;
-	protected $description;
-	protected $color;
-	protected $type;
-	protected $disabled;
-	protected $created;
-	protected $updated;
-	protected $hide_author;
-	protected $hide_time;
-	protected $hide_location;
-	protected $require_approval;
-	protected $everyone_can_create;
-	protected $can_create;
-	protected $tags;
+    protected $id;
+    protected $parent_id;
+    protected $name;
+    protected $description;
+    protected $color;
+    protected $type;
+    protected $disabled;
+    protected $created;
+    protected $updated;
+    protected $hide_author;
+    protected $hide_time;
+    protected $hide_location;
+    protected $require_approval;
+    protected $everyone_can_create;
+    protected $targeted_survey;
+    protected $can_create;
+    protected $tags;
 
-	// DataTransformer
-	protected function getDefinition()
-	{
-		$typeColor = function ($color) {
-			if ($color) {
-				return ltrim($color, '#');
-			}
-		};
-		return [
-			'id'          => 'int',
-			'parent_id'   => 'int',
-			'name'        => 'string',
-			'description' => 'string',
-			'color'       => $typeColor,
-			'type'        => 'string',
-			'disabled'    => 'bool',
-			'created'     => 'int',
-			'updated'     => 'int',
-			'hide_author'           => 'bool',
-			'hide_time'             => 'bool',
-			'hide_location'         => 'bool',
-			'require_approval'      => 'bool',
-			'everyone_can_create'   => 'bool',
-			'can_create'            => 'array',
-			'tags'        => 'array',
-		];
-	}
+    // DataTransformer
+    protected function getDefinition()
+    {
+        $typeColor = function ($color) {
+            if ($color) {
+                return ltrim($color, '#');
+            }
+        };
+        return [
+            'id'          => 'int',
+            'parent_id'   => 'int',
+            'name'        => 'string',
+            'description' => 'string',
+            'color'       => $typeColor,
+            'type'        => 'string',
+            'disabled'    => 'bool',
+            'created'     => 'int',
+            'updated'     => 'int',
+            'hide_author'           => 'bool',
+            'hide_time'             => 'bool',
+            'hide_location'         => 'bool',
+            'require_approval'      => 'bool',
+            'everyone_can_create'   => 'bool',
+            'targeted_survey'       => 'bool',
+            'can_create'            => 'array',
+            'tags'        => 'array',
+        ];
+    }
 
-	// Entity
-	public function getResource()
-	{
-		return 'forms';
-	}
+    // Entity
+    public function getResource()
+    {
+        return 'forms';
+    }
 
-	// StatefulData
-	protected function getImmutable()
-	{
-		// Hack: Add computed properties to immutable list
-		return array_merge(parent::getImmutable(), ['tags', 'can_create']);
-	}
+    // StatefulData
+    protected function getImmutable()
+    {
+        // Hack: Add computed properties to immutable list
+        return array_merge(parent::getImmutable(), ['tags', 'can_create']);
+    }
 }

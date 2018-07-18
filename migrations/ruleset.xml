@@ -5,6 +5,8 @@
     <!-- Specs use PSR2 with an exclusion of method names -->
     <rule ref="PSR2">
         <exclude name="PSR1.Classes.ClassDeclaration.MissingNamespace"/>
-        <exclude name="Generic.WhiteSpace.DisallowTabIndent"/>
     </rule>
+
+    <rule ref="Generic.PHP.CharacterBeforePHPOpeningTag" />
+    <rule ref="Generic.Arrays.DisallowLongArraySyntax" />
 </ruleset>

@@ -3,7 +3,7 @@ Feature: Testing the Tos API
 
     Scenario: Create a ToS entry
         Given that I want to make a new "tos"
-        And that the request "Authorization" header is "Bearer testbasicuser"
+        And that the oauth token is "testbasicuser"
         And that the request "data" is:
             """
             {
@@ -19,7 +19,7 @@ Feature: Testing the Tos API
 @resetFixture
     Scenario: Anonymous users cannot create a TOS entry
         Given that I want to make a new "tos"
-        And that the request "Authorization" header is "Bearer testanon"
+        And that the oauth token is "testanon"
         And that the request "data" is:
             """
             {
@@ -32,7 +32,7 @@ Feature: Testing the Tos API
     @resetFixture
     Scenario: Getting a ToS entry
         Given that I want to find a "Tos"
-        And that the request "Authorization" header is "Bearer testbasicuser"
+        And that the oauth token is "testbasicuser"
         When I request "/tos"
         Then the response is JSON
         And the response has a "results" property
@@ -42,6 +42,6 @@ Feature: Testing the Tos API
 @resetFixture
         Scenario: Anonymous users cannot get a ToS entry
         Given that I want to find a "Tos"
-        And that the request "Authorization" header is "Bearer testanon"
+        And that the oauth token is "testanon"
         When I request "/tos"
         Then the guzzle status code should be 403

@@ -10,7 +10,9 @@ class AddApiKeyToOauthTable extends AbstractMigration
      */
     public function up()
     {
-		    $this->execute("INSERT INTO oauth_scopes (scope, name) VALUES ('apikeys', 'apikeys')");
+        if ($this->hasTable('oauth_scopes')) {
+            $this->execute("INSERT INTO oauth_scopes (scope, name) VALUES ('apikeys', 'apikeys')");
+        }
     }
 
     /**
@@ -18,6 +20,8 @@ class AddApiKeyToOauthTable extends AbstractMigration
      */
     public function down()
     {
-		    $this->execute("DELETE FROM oauth_scopes WHERE scope = 'apikeys'");
+        if ($this->hasTable('oauth_scopes')) {
+            $this->execute("DELETE FROM oauth_scopes WHERE scope = 'apikeys'");
+        }
     }
 }

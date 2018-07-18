@@ -72,7 +72,7 @@ Feature: Testing the Users API
 	@resetFixture
 	Scenario: A normal user should not be able to change their own role
 		Given that I want to update a "user"
-		And that the request "Authorization" header is "Bearer testbasicuser"
+		And that the oauth token is "testbasicuser"
 		And that the request "data" is:
 			"""
 			{
@@ -108,7 +108,7 @@ Feature: Testing the Users API
 		Then the response is JSON
 		And the response has a "count" property
 		And the type of the "count" property is "numeric"
-		And the "count" property equals "8"
+		And the "count" property equals "9"
 		Then the guzzle status code should be 200
 
 	@resetFixture
@@ -137,7 +137,7 @@ Feature: Testing the Users API
 	Scenario: Finding a User as Admin gives full details
 		Given that I want to find a "User"
 		And that its "id" is "3"
-		And that the request "Authorization" header is "Bearer defaulttoken"
+		And that the oauth token is "defaulttoken"
 		When I request "/users"
 		Then the response is JSON
 		And the response has a "id" property
@@ -149,7 +149,7 @@ Feature: Testing the Users API
 	Scenario: Loading own user gives full details
 		Given that I want to find a "User"
 		And that its "id" is "me"
-		And that the request "Authorization" header is "Bearer testbasicuser"
+		And that the oauth token is "testbasicuser"
 		When I request "/users"
 		Then the response is JSON
 		And the response has a "id" property
@@ -158,10 +158,18 @@ Feature: Testing the Users API
 		And the "email" property equals "robbie@ushahidi.com"
 		Then the guzzle status code should be 200
 
+	Scenario: Loading own user gives full details
+		Given that I want to find a "User"
+		And that its "id" is "me"
+		And that the oauth token is "testanon"
+		When I request "/users"
+		Then the response is JSON
+		Then the guzzle status code should be 404
+
 	Scenario: Finding a User as anonymous user does not give details
 		Given that I want to find a "User"
 		And that its "id" is "1"
-		And that the request "Authorization" header is "Bearer testanon"
+		And that the oauth token is "testanon"
 		When I request "/users"
 		Then the guzzle status code should be 403
 		Then the response is JSON
@@ -192,7 +200,7 @@ Feature: Testing the Users API
 		And that the request "data" is:
 			"""
 			{
-        "full_name":"New User",
+				"full_name":"New User",
 				"email":"newuser@ushahidi.com",
 				"password":"testing",
 				"role":"admin"
@@ -207,3 +215,45 @@ Feature: Testing the Users API
 		And the "role" property equals "user"
 		And the response does not have a "password" property
 		Then the guzzle status code should be 200
+
+	Scenario: Generating a password reset
+		Given that I want to make a new "user"
+		And that the request "data" is:
+			"""
+			{
+				"email":"test@ushahidi.com"
+			}
+			"""
+		When I request "/passwordreset"
+		Then the guzzle status code should be 204
+	
+	Scenario: Reset a users password
+		Given that I want to make a new "user"
+		And that the request "data" is:
+			"""
+			{
+				"email":"demo@ushahidi.com",
+				"token":"testresettoken",
+				"password":"abcd1234"
+			}
+			"""
+		When I request "/passwordreset/confirm"
+		Then the guzzle status code should be 204
+	@resetpass
+	Scenario: Fail to reset a users password
+		Given that I want to make a new "user"
+		And that the request "data" is:
+			"""
+			{
+				"email":"demo@ushahidi.com",
+				"token":"testresettoken2",
+				"password":"a"
+			}
+			"""
+		When I request "/passwordreset/confirm"
+		And the response has a "errors" property
+		And the "errors.0.message" property contains "password must be at least 7 characters long"
+		Then the response is JSON
+
+		Then the guzzle status code should be 422	
+

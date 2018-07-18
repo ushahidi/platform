@@ -13,24 +13,23 @@ namespace Ushahidi\Core\Usecase\Post;
 
 interface ValuesForPostRepository
 {
+    /**
+     * @param  int $post_id
+     * @param  Array $include_attributes
+     * @param  Array $exclude_stages
+     * @param  boolean $includePrivateValues
+     * @return [Ushahidi\Core\Entity\PostValue, ...]
+     */
+    public function getAllForPost(
+        $post_id,
+        array $include_attributes = [],
+        array $exclude_stages = [],
+        $includePrivateValues = false
+    );
 
-	/**
-	 * @param  int $post_id
-	 * @param  Array $include_attributes
-	 * @param  Array $exclude_stages
-	 * @param  boolean $includePrivateValues
-	 * @return [Ushahidi\Core\Entity\PostValue, ...]
-	 */
-	public function getAllForPost(
-		$post_id,
-		array $include_attributes = [],
-		array $exclude_stages = [],
-		$includePrivateValues = false
-	);
-
-	/**
-	 * @param  int $post_id
-	 * @return [Ushahidi\Core\Entity\PostValue, ...]
-	 */
-	public function deleteAllForPost($post_id);
+    /**
+     * @param  int $post_id
+     * @return [Ushahidi\Core\Entity\PostValue, ...]
+     */
+    public function deleteAllForPost($post_id);
 }

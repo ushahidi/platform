@@ -11,6 +11,8 @@
 
 namespace Ushahidi\Console\Command;
 
+use Illuminate\Console\Command;
+
 use SplFileObject;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -20,7 +22,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Logger\ConsoleLogger;
 use Psr\Log\LoggerInterface;
 
-use Ushahidi\Console\Command;
 use League\Csv\Reader;
 use Ushahidi\Core\Tool\MappingTransformer;
 use Ushahidi\Core\Usecase\ImportUsecase;
@@ -28,117 +29,109 @@ use Ushahidi\Core\Usecase\ImportUsecase;
 class Import extends Command
 {
 
-	/**
-	 * Data Importers
-	 * @var [Ushahidi\DataImport\Importer, ..]
-	 */
-	protected $importers;
+    /**
+     * The console command name.
+     *
+     * @var string
+     */
+    protected $name = 'import';
 
-	/**
-	 * Set Data Importers
-	 * @param [Ushahidi\DataImport\Importer, ..] $importers
-	 */
-	public function setImporters(array $importers)
-	{
-		$this->importers = $importers;
-	}
+    /**
+     * The console command signature.
+     *
+     * import source.csv mapping.json fixedvalues.json
+     *
+     * @var string
+     */
+    protected $signature = 'import {file} {map} {value} {--type=csv} {--limit=} {--offset=}';
 
-	protected function configure()
-	{
-		$this
-			->setName('import')
-			->setDescription('Import data')
-			->addArgument('action', InputArgument::OPTIONAL, 'list, run', 'list')
-			// @todo provide allowed types list
-			->addOption('type', ['t'], InputOption::VALUE_OPTIONAL, 'import source type', 'csv')
-			->addOption('file', ['f'], InputOption::VALUE_REQUIRED, 'Source filename')
-			->addOption('map', ['m'], InputOption::VALUE_REQUIRED, 'Source-Destination field mapping')
-			->addOption('values', [], InputOption::VALUE_REQUIRED, 'Static field values')
-			->addOption('limit', [], InputOption::VALUE_OPTIONAL, 'Number of records to import')
-			->addOption('offset', [], InputOption::VALUE_OPTIONAL, 'Offset to start importing from')
-			;
-	}
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Import posts';
 
-	protected function executeList(InputInterface $input, OutputInterface $output)
-	{
-		return [
-			[
-				'Supported Types' => 'CSV'
-			]
-		];
-	}
+    public function __construct()
+    {
+        parent::__construct();
 
-	protected function executeRun(InputInterface $input, OutputInterface $output)
-	{
-		// Get the filename
-		$filename = $input->getOption('file');
+        $this->readerMap = [
+            'csv' => service('filereader.csv')
+        ];
+        $this->transformer = service('transformer.mapping');
+    }
 
-		// Load mapping and pass to transformer
-		$map = file_get_contents($input->getOption('map'));
-		$this->transformer->setMap(json_decode($map, true));
+    protected function getUsecase()
+    {
+        if (!$this->usecase) {
+            // @todo inject
+            $this->usecase = service('factory.usecase')
+                ->get('posts', 'import')
+                // Override authorizer for console
+                ->setAuthorizer(service('authorizer.console'));
+        }
 
-		// Load fixed values and pass to transformer
-		$values = file_get_contents($input->getOption('values'));
-		$this->transformer->setFixedValues(json_decode($values, true));
+        return $this->usecase;
+    }
 
-		// Get CSV reader
-		$reader = $this->getReader($input->getOption('type'));
 
-		// Set limit..
-		if ($limit = $input->getOption('limit')) {
-			$reader->setLimit($limit);
-		}
-		// .. and offset
-		if ($offset = $input->getOption('offset')) {
-			$reader->setOffset($offset);
-		}
+    /**
+     * Map of readers
+     * @var [FileReader, ...]
+     */
+    protected $readerMap = [];
 
-		// Get the traversable results
-		$payload = $reader->process($filename);
+    /**
+     * @var Ushahidi\Core\Tool\MappingTransformer
+     */
+    protected $transformer;
 
-		// Get the usecase and pass in authorizer, payload and transformer
-		$this->usecase
-			->setPayload($payload)
-			->setTransformer($this->transformer);
+    /**
+     * @var Ushahidi\Core\Usecase\ImportUsecase
+     * @todo  support multiple entity types
+     */
+    protected $usecase;
 
-		// Execute the import
-		return $this->usecase->interact();
-	}
+    protected function getReader($type)
+    {
+        return $this->readerMap[$type]();
+    }
 
-	/**
-	 * Map of readers
-	 * @var [FileReader, ...]
-	 */
-	protected $readerMap = [];
+    public function handle()
+    {
+        // Get the filename
+        $filename = $this->option('file');
 
-	public function setReaderMap($map)
-	{
-		$this->readerMap = $map;
-	}
+        // Load mapping and pass to transformer
+        $map = file_get_contents($this->argument('map'));
+        $this->transformer->setMap(json_decode($map, true));
 
-	protected function getReader($type)
-	{
-		return $this->readerMap[$type]();
-	}
+        // Load fixed values and pass to transformer
+        $values = file_get_contents($this->argument('values'));
+        $this->transformer->setFixedValues(json_decode($values, true));
 
-	/**
-	 * @var Ushahidi\Core\Tool\MappingTransformer
-	 */
-	protected $transformer;
+        // Get CSV reader
+        $reader = $this->getReader($this->option('type'));
 
-	public function setTransformer(MappingTransformer $transformer)
-	{
-		$this->transformer = $transformer;
-	}
+        // Set limit..
+        if ($limit = $this->option('limit')) {
+            $reader->setLimit($limit);
+        }
+        // .. and offset
+        if ($offset = $this->option('offset')) {
+            $reader->setOffset($offset);
+        }
 
-	/**
-	 * @var Ushahidi\Core\Usecase\ImportUsecase
-	 * @todo  support multiple entity types
-	 */
-	protected $usecase;
+        // Get the traversable results
+        $payload = $reader->process($filename);
 
-	public function setImportUsecase(ImportUsecase $usecase)
-	{
-		$this->usecase = $usecase;
-	}
+        // Get the usecase and pass in authorizer, payload and transformer
+        $this->getUsecase()
+            ->setPayload($payload)
+            ->setTransformer($this->transformer);
+
+        // Execute the import
+        return $this->getUsecase()->interact();
+    }
 }

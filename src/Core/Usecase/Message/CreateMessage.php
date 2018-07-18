@@ -12,30 +12,37 @@
 namespace Ushahidi\Core\Usecase\Message;
 
 use Ushahidi\Core\Entity;
+use Ushahidi\Core\Entity\Message;
 use Ushahidi\Core\Usecase\CreateUsecase;
 
 class CreateMessage extends CreateUsecase
 {
 
-	protected function getEntity()
-	{
-		$entity = parent::getEntity();
+    protected function getEntity()
+    {
+        $entity = parent::getEntity();
 
-		// Retrieve message type and data provider
-		// from incoming message when replying to a message
-		if (! empty($this->payload['parent_id'])) {
-			$parent = $this->repo->get($this->payload['parent_id']);
-			$entity->setState(['type' => $parent->type,
-							   'data_provider' => $parent->data_provider]);
-		}
+        // New messages cannot have any other state
+        $entity->setState([
+            'status' => Message::PENDING,
+            'direction' => Message::OUTGOING
+        ]);
 
-		// If no user information is provided, default to the current session user.
-		if (empty($entity->user_id) &&
-			$this->auth->getUserId()
-		) {
-			$entity->setState(['user_id' => $this->auth->getUserId()]);
-		}
+        // Retrieve message type and data provider
+        // from incoming message when replying to a message
+        if (! empty($this->payload['parent_id'])) {
+            $parent = $this->repo->get($this->payload['parent_id']);
+            $entity->setState(['type' => $parent->type,
+                               'data_source' => $parent->data_source]);
+        }
 
-		return $entity;
-	}
+        // If no user information is provided, default to the current session user.
+        if (empty($entity->user_id) &&
+            $this->auth->getUserId()
+        ) {
+            $entity->setState(['user_id' => $this->auth->getUserId()]);
+        }
+
+        return $entity;
+    }
 }

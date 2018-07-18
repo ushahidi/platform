@@ -19,17 +19,17 @@ use Ushahidi\Core\Usecase\CreateUsecase;
 
 class CreateSet extends CreateUsecase
 {
-	use
-		VerifyEntityLoaded,
-		AuthorizeSet;
+    use
+        VerifyEntityLoaded,
+        AuthorizeSet;
 
-	/**
-	 * Find entity based on identifying parameters.
-	 *
-	 * @return Entity
-	 */
-	protected function getEntity()
-	{
+    /**
+     * Find entity based on identifying parameters.
+     *
+     * @return Entity
+     */
+    protected function getEntity()
+    {
         $entity = parent::getEntity();
         // always use the current session user.
         if ($this->auth->getUserId()) {
@@ -37,5 +37,5 @@ class CreateSet extends CreateUsecase
         }
 
         return $entity;
-	}
+    }
 }

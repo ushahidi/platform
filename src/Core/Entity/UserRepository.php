@@ -15,12 +15,12 @@ use Ushahidi\Core\Entity\Repository\EntityGet;
 use Ushahidi\Core\Entity\Repository\EntityExists;
 
 interface UserRepository extends
-	EntityGet,
-	EntityExists
+    EntityGet,
+    EntityExists
 {
-	/**
-	 * @param string $email
-	 * @return \Ushahidi\Core\Entity\User
-	 */
-	public function getByEmail($email);
+    /**
+     * @param string $email
+     * @return \Ushahidi\Core\Entity\User
+     */
+    public function getByEmail($email);
 }

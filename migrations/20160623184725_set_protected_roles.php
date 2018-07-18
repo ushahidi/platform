@@ -25,7 +25,7 @@ class SetProtectedRoles extends AbstractMigration
                     ( 'user', 'User', 'Registered member' )
                 ");
         }
-	    
+        
         $this->execute("UPDATE roles
         	SET protected = 1
             WHERE

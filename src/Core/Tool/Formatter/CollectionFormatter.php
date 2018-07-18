@@ -19,66 +19,66 @@ use Ushahidi\Core\Exception\FormatterException;
 
 abstract class CollectionFormatter implements Formatter
 {
-	protected $formatter;
+    protected $formatter;
 
-	/**
-	 * @var SearchData
-	 */
-	protected $search;
+    /**
+     * @var SearchData
+     */
+    protected $search;
 
-	/**
-	 * Collection formatter recursively invokes an entity-specific formatter.
-	 *
-	 * @param  Formatter $formatter
-	 */
-	public function __construct(Formatter $formatter)
-	{
-		$this->formatter = $formatter;
-	}
+    /**
+     * Collection formatter recursively invokes an entity-specific formatter.
+     *
+     * @param  Formatter $formatter
+     */
+    public function __construct(Formatter $formatter)
+    {
+        $this->formatter = $formatter;
+    }
 
-	/**
-	 * Store paging parameters.
-	 *
-	 * @param  SearchData $search
-	 * @param  Integer    $total
-	 * @return $this
-	 */
-	public function setSearch(SearchData $search, $total = null)
-	{
-		$this->search = $search;
-		$this->total  = $total;
-		return $this;
-	}
+    /**
+     * Store paging parameters.
+     *
+     * @param  SearchData $search
+     * @param  Integer    $total
+     * @return $this
+     */
+    public function setSearch(SearchData $search, $total = null)
+    {
+        $this->search = $search;
+        $this->total  = $total;
+        return $this;
+    }
 
-	// Formatter
-	public function __invoke($entities)
-	{
-		if (!is_array($entities)) {
-			throw new FormatterException('Collection formatter requries an array of entities');
-		}
+    // Formatter
+    public function __invoke($entities)
+    {
+        if (!is_array($entities)) {
+            throw new FormatterException('Collection formatter requries an array of entities');
+        }
 
-		$results = [];
-		foreach ($entities as $entity) {
-			$results[] = $this->formatter->__invoke($entity);
-		}
+        $results = [];
+        foreach ($entities as $entity) {
+            $results[] = $this->formatter->__invoke($entity);
+        }
 
-		$output = [
-			'count'   => count($results),
-			'results' => $results,
-		];
+        $output = [
+            'count'   => count($results),
+            'results' => $results,
+        ];
 
-		if ($this->search) {
-			$output += $this->getPaging();
-		}
+        if ($this->search) {
+            $output += $this->getPaging();
+        }
 
-		return $output;
-	}
+        return $output;
+    }
 
-	/**
-	 * Collections are always paged, which requires pages metadata to be added
-	 * to the results.
-	 *
-	 * @return Array
-	 */
-	abstract public function getPaging();
+    /**
+     * Collections are always paged, which requires pages metadata to be added
+     * to the results.
+     *
+     * @return Array
+     */
+    abstract public function getPaging();
 }

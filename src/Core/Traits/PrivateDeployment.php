@@ -17,33 +17,33 @@ use Ushahidi\Core\Entity\User;
 
 trait PrivateDeployment
 {
-	protected $private;
+    protected $private;
 
-	public function setPrivate($private)
-	{
-		$this->private = $private;
-	}
+    public function setPrivate($private)
+    {
+        $this->private = $private;
+    }
 
-	/**
-	 * Check if the deployment is private
-	 * @return boolean
-	 */
-	public function isPrivate()
-	{
-		return (bool) $this->private;
-	}
+    /**
+     * Check if the deployment is private
+     * @return boolean
+     */
+    public function isPrivate()
+    {
+        return (bool) $this->private;
+    }
 
-	/**
-	 * Check if user can access deployment
-	 * @return boolean
-	 */
-	public function canAccessDeployment(User $user)
-	{
-		// Only logged in users have access if the deployment is private
-		if ($this->isPrivate() and !$this->user->id) {
-			return false;
-		}
+    /**
+     * Check if user can access deployment
+     * @return boolean
+     */
+    public function canAccessDeployment(User $user)
+    {
+        // Only logged in users have access if the deployment is private
+        if ($this->isPrivate() and !$user->id) {
+            return false;
+        }
 
-		return true;
-	}
+        return true;
+    }
 }

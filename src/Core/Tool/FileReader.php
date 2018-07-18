@@ -13,15 +13,15 @@ namespace Ushahidi\Core\Tool;
 
 interface FileReader
 {
-	/**
-	 * Read a file and return a Traversable object
-	 *
-	 * @param  SplFileObject|string $file
-	 * @return Traversable
-	 */
-	public function process($file);
+    /**
+     * Read a file and return a Traversable object
+     *
+     * @param  SplFileObject|string $file
+     * @return Traversable
+     */
+    public function process($file);
 
-	public function setOffset($offset);
+    public function setOffset($offset);
 
-	public function setLimit($limit);
+    public function setLimit($limit);
 }

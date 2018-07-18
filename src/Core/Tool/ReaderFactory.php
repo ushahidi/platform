@@ -14,8 +14,8 @@ namespace Ushahidi\Core\Tool;
 
 interface ReaderFactory
 {
-	/**
-	 * @param SplFileObject|string $file
-	 */
-	public function createReader($file);
+    /**
+     * @param SplFileObject|string $file
+     */
+    public function createReader($file);
 }
