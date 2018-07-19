@@ -15,10 +15,10 @@ namespace Ushahidi\Core\Tool\Permissions;
 
 trait InteractsWithFormPermissions
 {
-	protected $formPermissions;
+    protected $formPermissions;
 
-	public function setFormPermissions(FormPermissions $formPermissions)
-	{
-		$this->formPermissions = $formPermissions;
-	}
+    public function setFormPermissions(FormPermissions $formPermissions)
+    {
+        $this->formPermissions = $formPermissions;
+    }
 }

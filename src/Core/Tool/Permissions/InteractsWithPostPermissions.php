@@ -15,10 +15,10 @@ namespace Ushahidi\Core\Tool\Permissions;
 
 trait InteractsWithPostPermissions
 {
-	protected $postPermissions;
+    protected $postPermissions;
 
-	public function setPostPermissions(PostPermissions $postPermissions)
-	{
-		$this->postPermissions = $postPermissions;
-	}
+    public function setPostPermissions(PostPermissions $postPermissions)
+    {
+        $this->postPermissions = $postPermissions;
+    }
 }

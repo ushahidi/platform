@@ -119,9 +119,9 @@ class PostRepository extends OhanzeeRepository implements
         // Check post permissions
         // @todo move or double up in formatter. That should enforce what users can see
         $excludePrivateValues = !$this->postPermissions->canUserReadPrivateValues(
-                $user,
-                new Post($data)
-            );
+            $user,
+            new Post($data)
+        );
 
         $this->post_value_factory->getRepo('point')->hideLocation(
             !$this->postPermissions->canUserSeeLocation(
@@ -592,8 +592,8 @@ class PostRepository extends OhanzeeRepository implements
 
         $mapped = 0;
         $raw_sql = "select count(distinct post_id) as 'total' from (select post_geometry.post_id from post_geometry
-			union
-			select post_point.post_id from post_point) as sub;";
+            union
+            select post_point.post_id from post_point) as sub;";
         if ($total_posts > 0) {
             $results = DB::query(Database::SELECT, $raw_sql)->execute($this->db);
 
