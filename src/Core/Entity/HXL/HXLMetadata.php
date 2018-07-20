@@ -20,7 +20,8 @@ class HXLMetadata extends StaticEntity
     protected $dataset_title;
     protected $license_id;
     protected $user_id;
-    protected $organisation;
+    protected $organisation_id;
+    protected $organisation_name;
     protected $source;
     protected $created;
     protected $updated;
@@ -34,7 +35,8 @@ class HXLMetadata extends StaticEntity
             'dataset_title'     => 'string',
             'license_id'        => 'int',
             'user_id'           => 'int',
-            'organisation'      => 'string',
+            'organisation_id'   => 'string',
+            'organisation_name' => 'string',
             'source'            => 'string',
             'created'           => 'int',
             'updated'           => 'int',
