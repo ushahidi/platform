@@ -362,13 +362,14 @@ class AttributeRepository extends OhanzeeRepository implements
                 'priority' => 8
             ],
             [
-                'label' => 'Sets',
-                'key' => 'sets',
-                'type' => 'sets',
+                'label' => 'Unstructured Description',
+                'key' => 'description',
+                'type' => 'description',
                 'input' => 'text',
                 'form_id' => 0,
                 'form_stage_id' => 0,
                 'form_stage_priority' => 0,
+                'unstructured' => true,
                 'priority' => 9
             ]
         ];

@@ -108,6 +108,7 @@ class Export implements Usecase
         // get the form attributes for the export
         $attributes = $this->formAttributeRepository->getExportAttributes($data->include_attributes);
         $keyAttributes = $this->getAttributesWithKeys($attributes);
+
         /**
          * get the search results based on filters
          * and retrieve the metadata for each of the posts
