@@ -125,7 +125,7 @@ class CSV extends API
             $tag = '#' . $hxl_row['tag_name'];
         }
         $attribute = $hxl_row['attribute'] && !empty($hxl_row['attribute']) ?
-            ' +'. $hxl_row['attribute'] : '';
+            '+'. $hxl_row['attribute'] : '';
         return $tag . $attribute;
     }
 
