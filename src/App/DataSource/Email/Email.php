@@ -68,7 +68,7 @@ class Email implements IncomingAPIDataSource, OutgoingAPIDataSource
             'intro_text' => [
                 'label' => '',
                 'input' => 'read-only-text',
-                'description' => 'In order to receive reports by email, please input your email account settings below'
+                'description' => 'In order to receive posts by email, please input your email account settings below'
             ],
             'incoming_type' => [
                 'label' => 'Incoming Server Type',
