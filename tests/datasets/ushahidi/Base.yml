@@ -2591,6 +2591,31 @@ export_job:
     id: 1
     entity_type: "post"
     user_id: 2
+  -
+    id: 2
+    entity_type: "post"
+    user_id: 2
+  -
+    id: 3
+    entity_type: "post"
+    user_id: 6
+  -
+    id: 4
+    entity_type: "post"
+    user_id: 2
+permissions:
+  -
+    name: Manage Users
+  -
+    name: Manage Posts
+  -
+    name: Manage Settings
+  -
+    name: Bulk Data Import and Export
+  -
+    name: Edit their own posts
+  -
+    name: Manage Collections and Saved Searches
 roles_permissions:
   -
     role: manager
@@ -2606,7 +2631,10 @@ roles_permissions:
     permission: Manage Collections and Saved Searches
   -
     role: importer
-    permission: Bulk Data Import
+    permission: Bulk Data Import and Export
+  -
+    role: manager
+    permission: Bulk Data Import and Export
   -
     role: user
     permission: Edit their own posts
