@@ -40,19 +40,21 @@ class PointRepository extends ValueRepository
     public function hideLocation($hide = true)
     {
         $this->hideLocation = $hide;
+
     }
 
     // OhanzeeRepository
     public function getEntity(array $data = null)
     {
+        $map_config = service('map.config');
         try {
             $geometry = $this->decoder->geomFromText($data['value']);
             if ($geometry instanceof Point) {
                 $data['value'] = ['lon' => $geometry->lon, 'lat' => $geometry->lat];
                 if ($this->hideLocation) {
                     // Round to nearest 0.01 or roughly 500m
-                    $data['value']['lat'] = round($data['value']['lat'], 2);
-                    $data['value']['lon'] = round($data['value']['lon'], 2);
+                    $data['value']['lat'] = round($data['value']['lat'], $map_config['location_precision']);
+                    $data['value']['lon'] = round($data['value']['lon'], $map_config['location_precision']);
                 }
             }
         } catch (InvalidText $e) {

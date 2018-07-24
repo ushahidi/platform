@@ -13,7 +13,7 @@ return [
     // Enable marker clustering with leaflet.markercluster
     'clustering'     => true,
     'cluster_radius' => 50,
-    'obfuscation_distance' => 500,
+    'location_precision' => 2,
     // Map start location
     'default_view' => [
         'lat'                => -1.3048035,

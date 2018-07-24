@@ -70,8 +70,8 @@ class Update extends Validator
                     'default_view' => [
                         ['is_array', [':value']]
                     ],
-                    'obfuscation_distance' => [
-                        ['is_number', [':value']]
+                    'location_precision' => [
+                        ['digit', [':value']]
                     ]
                 ];
                 break;

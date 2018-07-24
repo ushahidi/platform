@@ -1734,8 +1734,8 @@ config:
     config_value: '50'
   -
     group_name: map
-    config_key: obfuscation_distnace
-    config_value: '500'
+    config_key: location_precision
+    config_value: '2'
   -
     group_name: test
     config_key: testkey

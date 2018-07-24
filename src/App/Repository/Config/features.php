@@ -94,6 +94,6 @@ return [
     // Controls whether users can set obfuscation of location, redaction of date/time
     // and reporter info
     'anonymise-reporters' => [
-        'enabled' => false,
+        'enabled' => true,
     ],
 ];
