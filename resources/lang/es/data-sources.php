@@ -3,8 +3,8 @@
 
 
 return [
-    'In order to receive reports by email, please input your email account settings below'
-        => 'Para poder recibir informes por correo electrónico,' .
+    'In order to receive posts by email, please input your email account settings below'
+        => 'Para poder recibir publicaciones por correo electrónico,' .
            'por favor ingrese la configuración de su cuenta de correo electrónico a continuación',
     'Incoming Server Type'=> 'Tipo de servidor entrante',
     'Incoming Server' => 'Servidor de entrada',
