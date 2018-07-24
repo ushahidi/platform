@@ -59,7 +59,7 @@ class PostPermissions
         if ($post->form_id) {
             // @todo inject form repo via constructor or take form as parameter
             // ... if not, check if the form has author set as hidden or public
-            return !$form_repo->isAuthorHidden($post->form_id);
+            return !$form_repo->isTypeHidden($post->form_id, 'hide_author');
         }
 
         // Default to scrubbing author info for non-admins on unstructured posts
@@ -87,7 +87,7 @@ class PostPermissions
         if ($post->form_id) {
             // @todo inject form repo via constructor or take form as parameter
             // ... if not, check if the form has author set as hidden or public
-            return !$form_repo->isTimeHidden($post->form_id);
+            return !$form_repo->isTypeHidden($post->form_id, 'hide_time');
         }
 
         // Default to scrubbing info for non-admins on unstructured posts
@@ -115,7 +115,7 @@ class PostPermissions
         if ($post->form_id) {
             // @todo inject form repo via constructor or take form as parameter
             // ... if not, check if the form has location set as hidden or public
-            return !$form_repo->isLocationHidden($post->form_id);
+            return !$form_repo->isTypeHidden($post->form_id, 'hide_location');
         }
 
         // Default to scrubbing info for non-admins on unstructured posts

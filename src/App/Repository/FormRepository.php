@@ -106,54 +106,21 @@ class FormRepository extends OhanzeeRepository implements
     }
 
     /**
-      * Get value of Form property hide_author
+      * Get value of Form property type
       * if no form is found return false
       * @param  $form_id
+      * @param $type, form property to check
       * @return Boolean
       */
-    public function isAuthorHidden($form_id)
+    public function isTypeHidden($form_id, $type)
     {
-        $query = DB::select('hide_author')
+        $query = DB::select($type)
             ->from('forms')
             ->where('id', '=', $form_id);
 
         $results = $query->execute($this->db)->as_array();
 
-        return count($results) > 0 ? $results[0]['hide_author'] : false;
-    }
-
-    /**
-      * Get value of Form property hide_time
-      * if no form is found return false
-      * @param  $form_id
-      * @return Boolean
-      */
-    public function isTimeHidden($form_id)
-    {
-        $query = DB::select('hide_time')
-            ->from('forms')
-            ->where('id', '=', $form_id);
-
-        $results = $query->execute($this->db)->as_array();
-
-        return count($results) > 0 ? $results[0]['hide_time'] : false;
-    }
-
-    /**
-      * Get value of Form property hide_location
-      * if no form is found return false
-      * @param  $form_id
-      * @return Boolean
-      */
-    public function isLocationHidden($form_id)
-    {
-        $query = DB::select('hide_location')
-            ->from('forms')
-            ->where('id', '=', $form_id);
-
-        $results = $query->execute($this->db)->as_array();
-
-        return count($results) > 0 ? $results[0]['hide_location'] : false;
+        return count($results) > 0 ? $results[0][$type] : false;
     }
 
     /**
