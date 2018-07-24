@@ -90,7 +90,7 @@ class SendHXLUsecase implements Usecase
 
         $existing_dataset_id = $this->hdxInterface->getDatasetIDByName(
             $metadata->dataset_title,
-            $metadata->organisation
+            $metadata->organisation_name
         );
 
         if (!!$existing_dataset_id) {

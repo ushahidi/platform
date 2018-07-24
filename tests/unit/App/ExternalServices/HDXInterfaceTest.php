@@ -59,7 +59,8 @@ class HDXInterfaceTest extends TestCase
 
         $metadata = [
             "maintainer" => "maintainer-1",
-            "organisation" => "org-1",
+            "organisation_id" => "org-id-1",
+            "organisation_name" => "org-name",
             "private" => "private",
             "dataset_title" => "cuantos posts hay por año?",
             "source" => "source"
@@ -77,9 +78,9 @@ class HDXInterfaceTest extends TestCase
             "name" =>  $metadata["dataset_title"],
             "author" => $metadata['maintainer'],
             "maintainer" => $metadata['maintainer'],
-            "organization" => $metadata['organisation'],
+            "organization" => $metadata['organisation_id'],
             "private" => $metadata['private'],
-            "owner_org" => $metadata['organisation'],
+            "owner_org" => $metadata['organisation_id'],
             "title" => $metadata['dataset_title'],
             "dataset_source" =>  $metadata['source'],
             "data_update_frequency" => "1", //1 day. TODO add frequency to metadata
@@ -97,14 +98,15 @@ class HDXInterfaceTest extends TestCase
         $hdxInterface->setClientHandler($handler);
 
         $good = $hdxInterface->formatDatasetObject($metadata, $license, $tags);
-        $this->assertEquals("org-1-cuantos-posts-hay-por-ano", $good["name"]);
+        $this->assertEquals("org-name-cuantos-posts-hay-por-ano", $good["name"]);
 
         $metadata["dataset_title"] = null;
         $this->expectExceptionMessage("Cannot create a slug without an organisation name and dataset title");
         $hdxInterface->formatDatasetObject($metadata, $license, $tags);
 
         $metadata["dataset_title"] = "something";
-        $metadata["organisation"] = "some-org";
+        $metadata["organisation_name"] = "some-org";
+        $metadata["organisation_id"] = "id-of-some-org";
         $this->expectExceptionMessage("Cannot create a slug without an organisation name and dataset title");
         $hdxInterface->formatDatasetObject($metadata, $license, $tags);
     }

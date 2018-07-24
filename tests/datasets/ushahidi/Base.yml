@@ -2115,7 +2115,8 @@ hxl_meta_data:
   -
     id: 1
     license_id: 1
-    organisation: "ushahidi"
+    organisation_name: "ushahidi"
+    organisation_id: "ushahidi-org-id"
     dataset_title: "ushahidi-dataset"
     source: "other"
     private: true
@@ -2123,7 +2124,8 @@ hxl_meta_data:
   -
     id: 2
     license_id: 1
-    organisation: "ushahidi"
+    organisation_name: "ushahidi"
+    organisation_id: "ushahidi-org-id"
     dataset_title: "ushahidi-dataset"
     source: "other"
     private: true
@@ -2131,7 +2133,8 @@ hxl_meta_data:
   -
     id: 3
     license_id: 1
-    organisation: "ushahidi"
+    organisation_name: "ushahidi"
+    organisation_id: "ushahidi-org-id"
     dataset_title: "ushahidi-dataset"
     source: "other"
     private: true
@@ -2139,7 +2142,8 @@ hxl_meta_data:
   -
     id: 4
     license_id: 1
-    organisation: "ushahidi"
+    organisation_name: "ushahidi"
+    organisation_id: "ushahidi-org-id"
     dataset_title: "ushahidi-dataset"
     source: "other"
     private: true

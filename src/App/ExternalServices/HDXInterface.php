@@ -81,12 +81,12 @@ class HDXInterface
 
     /**
      * @param $title
-     * @param $organisation
+     * @param $organisation_name
      * @return null
      */
-    public function getDatasetIDByName($title, $organisation)
+    public function getDatasetIDByName($title, $organisation_name)
     {
-        $slug = $this->getSlug($organisation, $title);
+        $slug = $this->getSlug($organisation_name, $title);
         $datasetId = null;
         try {
             $dataset = $this->getApiClient()->dataset()->show($slug);
@@ -108,14 +108,14 @@ class HDXInterface
      */
     public function formatDatasetObject(array $metadata, $license, $tags = [])
     {
-        $slug = $this->getSlug($metadata['organisation'], $metadata['dataset_title']);
+        $slug = $this->getSlug($metadata['organisation_name'], $metadata['dataset_title']);
         $dataset = [
             "name" =>  $slug, //FIXME should it be user input?
             "author" => $this->hdx_maintainer_id,
             "maintainer" => $this->hdx_maintainer_id,
-            "organization" => $metadata['organisation'],
+            "organization" => $metadata['organisation_id'],
             "private" => $metadata['private'],
-            "owner_org" => $metadata['organisation'],
+            "owner_org" => $metadata['organisation_id'],
             "title" => $metadata['dataset_title'],
             "dataset_source" =>  $metadata['source'],
             "data_update_frequency" => "1", //1 day. TODO add frequency to metadata
@@ -130,16 +130,16 @@ class HDXInterface
 
     /**
      * @param $title
-     * @param $organisation
+     * @param $organisation_name
      * @return string
      * @throws \Exception
      */
-    private function getSlug($organisation, $title)
+    private function getSlug($organisation_name, $title)
     {
-        if (!$title || !$organisation) {
+        if (!$title || !$organisation_name) {
             throw new \Exception("Cannot create a slug without an organisation name and dataset title");
         }
-        return str_slug("$organisation $title");
+        return str_slug("$organisation_name $title");
     }
 
     /** Note: if error condition is the result, then we ignore it gracefully,
