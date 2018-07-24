@@ -1733,6 +1733,10 @@ config:
     config_key: cluster_radius
     config_value: '50'
   -
+    group_name: map
+    config_key: obfuscation_distnace
+    config_value: '500'
+  -
     group_name: test
     config_key: testkey
     config_value: '"testval"'
