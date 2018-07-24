@@ -40,7 +40,6 @@ class PointRepository extends ValueRepository
     public function hideLocation($hide = true)
     {
         $this->hideLocation = $hide;
-
     }
 
     // OhanzeeRepository
