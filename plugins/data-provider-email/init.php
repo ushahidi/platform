@@ -27,7 +27,7 @@ $plugin = array(
 		'intro_text' => array(
 			'label' => '',
 			'input' => 'read-only-text',
-			'description' => 'In order to receive reports by email, please input your email account settings below'
+			'description' => 'In order to receive posts by email, please input your email account settings below'
 		),
 		'incoming_type' => array(
 			'label' => 'Incoming Server Type',
