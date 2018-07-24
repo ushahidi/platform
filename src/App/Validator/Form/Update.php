@@ -32,7 +32,6 @@ class Update extends Validator
         $this->limits = $limits;
     }
 
-
     protected function getRules()
     {
         // Always check validation for name
@@ -50,27 +49,13 @@ class Update extends Validator
                 ['min_length', [':value', 2]],
                 ['regex', [':value', Validator::REGEX_STANDARD_TEXT]], // alpha, number, punctuation, space
             ],
-            'description' => [
-                ['is_string'],
-            ],
-            'color' => [
-                ['color'],
-            ],
-            'disabled' => [
-                ['in_array', [':value', [true, false]]]
-            ],
-            'hide_author' => [
-                ['in_array', [':value', [true, false]]]
-            ],
-            'hide_location' => [
-                ['in_array', [':value', [true, false]]]
-            ],
-            'hide_time' => [
-                ['in_array', [':value', [true, false]]]
-            ],
-            'targeted_survey' => [
-                [[$this, 'everyoneCanCreateIsFalse'], [':value', ':fulldata']],
-            ]
+            'description' => [['is_string']],
+            'color' => [['color']],
+            'disabled' => [['in_array', [':value', [true, false]]]],
+            'hide_author' => [['in_array', [':value', [true, false]]]],
+            'hide_location' => [['in_array', [':value', [true, false]]]],
+            'hide_time' => [['in_array', [':value', [true, false]]]],
+            'targeted_survey' => [[[$this, 'everyoneCanCreateIsFalse'], [':value', ':fulldata']],]
         ];
     }
 
