@@ -119,9 +119,9 @@ class PostRepository extends OhanzeeRepository implements
         // Check post permissions
         // @todo move or double up in formatter. That should enforce what users can see
         $excludePrivateValues = !$this->postPermissions->canUserReadPrivateValues(
-                $user,
-                new Post($data)
-            );
+            $user,
+            new Post($data)
+        );
 
         $this->post_value_factory->getRepo('point')->hideLocation(
             !$this->postPermissions->canUserSeeLocation(
