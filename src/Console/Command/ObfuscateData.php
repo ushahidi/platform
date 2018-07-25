@@ -116,14 +116,12 @@ class ObfuscateData extends Command
     /* optional implementations...
     private function randomizeLongitudeLatitude($boundaries)
     {
-
     }
     */
 
     /* TODO: would this be useful?
     private function scrambleLongitudeLatitude($distanceFromOrigin = null)
     {
-
     }
     */
 
