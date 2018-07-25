@@ -171,6 +171,7 @@ class Export implements Usecase
         }
         return $hxl;
     }
+
     /**
      * @param $job
      * @param $attributes
@@ -203,6 +204,7 @@ class Export implements Usecase
      */
     public function constructFilters($filters, $job_filters = null)
     {
+
         // Set the baseline filter parameters
         $filters = [
             'limit' => $filters['limit'],
@@ -223,7 +225,23 @@ class Export implements Usecase
      */
     public function constructSearchData($job)
     {
+        $form_ids_by_attributes = $this->formAttributeRepository->getFormsByAttributes($job->fields);
         $filters = $this->constructFilters($this->filters, $job->filters);
+
+        if (!empty($form_ids_by_attributes)) {
+            $filters['form'] = array_unique(
+                array_merge(
+                    isset($filters['form']) ? $filters['form'] : [],
+                    array_map(
+                        function ($item) {
+                            return intval($item);
+                        },
+                        $form_ids_by_attributes
+                    )
+                )
+            );
+        }
+
         $data = $this->search;
 
         // Set the fields that should be included if set
