@@ -233,8 +233,8 @@ class Export implements Usecase
                 array_merge(
                     isset($filters['form']) ? $filters['form'] : [],
                     array_map(
-                        function ($itm) {
-                            return intval($itm);
+                        function ($item) {
+                            return intval($item);
                         },
                         $form_ids_by_attributes
                     )

@@ -124,6 +124,11 @@ class ExportTest extends TestCase
             ->shouldReceive('setSearchParams')
             ->with(['filters' => []])
             ->andReturn(null);
+        $this->formAttributeRepository->shouldReceive('getFormsByAttributes')->once()
+            ->with([])
+            ->andReturn(
+                [1]
+            );
         $this->formAttributeRepository->shouldReceive('getExportAttributes')->once()
             ->with([])
             ->andReturn([
