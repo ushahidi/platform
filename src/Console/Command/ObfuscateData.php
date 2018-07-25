@@ -37,7 +37,7 @@ class ObfuscateData extends Command
      *
      * @var string
      */
-    protected $signature = 'db:obfuscatedata {subdomain?}';
+    protected $signature = 'db:obfuscatedata';
 
     /**
      * The console command description.
