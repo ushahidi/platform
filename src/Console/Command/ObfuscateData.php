@@ -15,8 +15,10 @@ use Ushahidi\Core\Entity\PostRepository;
 use Ushahidi\Core\Entity\ContactRepository;
 use Ushahidi\Core\Entity\ConfigRepository;
 use Ushahidi\Core\Entity\UserRepository;
+use Ushahidi\App\Multisite;
 use Ohanzee\DB;
 use Faker;
+use Database;
 
 class ObfuscateData extends Command
 {
@@ -35,7 +37,7 @@ class ObfuscateData extends Command
      *
      * @var string
      */
-    protected $signature = 'db:obfuscatedata';
+    protected $signature = 'db:obfuscatedata {subdomain?}';
 
     /**
      * The console command description.
@@ -51,13 +53,22 @@ class ObfuscateData extends Command
 
     public function handle()
     {
-        $this->db = service('kohana.db');
+        //set up repos
         $this->contactRepository = service('repository.contact');
         $this->postRepository = service('repository.post');
         $this->configRepository = service('repository.config');
         $this->userRepository = service('repository.user');
 
-        if ($this->isTestDeployment() || $this->isStagingDeployment()) {
+        $this->db = service('kohana.db');
+
+        if ($this->isThisAMultisiteInstall()) {
+            if (!getenv('HOST') || strlen(getenv('HOST')) < 1) {
+                $this->alert("ERROR: A host must be specified for a multisite deployment.");
+                exit;
+            }
+        }
+
+        if ($this->isTestEnvironment() || $this->isStagingEnvironment()) {
             //confirm acknowledgements
             $this->alert("WARNING: This script will wipe user, contacts, post author and data source data.");
             if (!$this->confirm("Do you want to continue?")) {
@@ -84,13 +95,19 @@ class ObfuscateData extends Command
         }
     }
 
-    private function isTestDeployment()
+    protected function isThisAMultisiteInstall()
+    {
+        // @TODO: is this the correct way to check against multisite
+        return (config('multisite.domain'));
+    }
+
+    private function isTestEnvironment()
     {
         $cur_env = $this->getLaravel()->environment();
         return (strtolower($cur_env) == 'test');
     }
 
-    private function isStagingDeployment()
+    private function isStagingEnvironment()
     {
         $cur_env = $this->getLaravel()->environment();
         return (strtolower($cur_env) == 'staging');
