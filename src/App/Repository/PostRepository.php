@@ -265,6 +265,7 @@ class PostRepository extends OhanzeeRepository implements
             'status', 'type', 'locale', 'slug', 'user',
             'parent', 'form', 'set', 'q', /* LIKE title, content */
             'created_before', 'created_after',
+            'created_before_by_id', 'created_after_by_id',
             'updated_before', 'updated_after',
             'date_before', 'date_after',
             'bbox', 'tags', 'values',
@@ -366,6 +367,24 @@ class PostRepository extends OhanzeeRepository implements
             $query->where('id', '=', $search->id);
         }
 
+        if ($search->created_before_by_id) {
+            $comparison_post = $this->selectOne([
+                $this->getTable().'.id' => $search->created_before_by_id
+            ]);
+            $comparison_post_created = $comparison_post['created'];
+            $query->where("$table.created", '<=', $comparison_post_created);
+        }
+
+        if ($search->created_after_by_id) {
+            $comparison_post = $this->selectOne([
+                $this->getTable().'.id' => $search->created_after_by_id
+            ]);
+            // We're adding 1 second to the time to make sure the result is
+            // not inclusive of the query post
+            $comparison_post_created = (int)$comparison_post['created'] + 1;
+            $query->where("$table.created", '>=', $comparison_post_created);
+        }
+
         // date chcks
         if ($search->created_after) {
             $created_after = strtotime($search->created_after);
@@ -388,16 +407,16 @@ class PostRepository extends OhanzeeRepository implements
         }
 
         if ($search->date_after) {
-            $date_after = date_create($search->date_after, new DateTimeZone('UTC'));
+            $date_after = date_create($search->date_after, new \DateTimeZone('UTC'));
             // Convert to UTC (needed in case date came with a tz)
-            $date_after->setTimezone(new DateTimeZone('UTC'));
+            $date_after->setTimezone(new \DateTimeZone('UTC'));
             $query->where("$table.post_date", '>', $date_after->format('Y-m-d H:i:s'));
         }
 
         if ($search->date_before) {
-            $date_before = date_create($search->date_before, new DateTimeZone('UTC'));
+            $date_before = date_create($search->date_before, new \DateTimeZone('UTC'));
             // Convert to UTC (needed in case date came with a tz)
-            $date_before->setTimezone(new DateTimeZone('UTC'));
+            $date_before->setTimezone(new \DateTimeZone('UTC'));
             $query->where("$table.post_date", '<=', $date_before->format('Y-m-d H:i:s'));
         }
 
