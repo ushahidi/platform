@@ -1233,6 +1233,62 @@ Feature: Testing the Posts API
 		And the "count" property equals "3"
 		Then the guzzle status code should be 200
 
+	@resetFixture @search
+	Scenario: Filter All Posts by multiple collections
+		Given that I want to get all "Posts"
+		And that the request "query string" is:
+			"""
+			created_before_by_id=1
+			"""
+		When I request "/posts"
+		Then the response is JSON
+		And the response has a "count" property
+		And the type of the "count" property is "numeric"
+		And the "count" property equals "4"
+		Then the guzzle status code should be 200
+
+	@resetFixture @search
+	Scenario: Get all posts created before a selected post
+		Given that I want to get all "Posts"
+		And that the request "query string" is:
+			"""
+			created_before_by_id=1
+			"""
+		When I request "/posts"
+		Then the response is JSON
+		And the response has a "count" property
+		And the type of the "count" property is "numeric"
+		And the "count" property equals "4"
+		Then the guzzle status code should be 200
+
+	@resetFixture @search
+	Scenario: Get 0 posts created after a selected post (which is latest post)
+		Given that I want to get all "Posts"
+		And that the request "query string" is:
+			"""
+			created_after_by_id=1697
+			"""
+		When I request "/posts"
+		Then the response is JSON
+		And the response has a "count" property
+		And the type of the "count" property is "numeric"
+		And the "count" property equals "0"
+		Then the guzzle status code should be 200
+
+	@resetFixture @search1
+	Scenario: Get posts created after a selected post
+		Given that I want to get all "Posts"
+		And that the request "query string" is:
+			"""
+			created_after_by_id=116
+			"""
+		When I request "/posts"
+		Then the response is JSON
+		And the response has a "count" property
+		And the type of the "count" property is "numeric"
+		And the "count" property equals "9"
+		Then the guzzle status code should be 200
+
 	@get
 	Scenario: Finding a Post
 		Given that I want to find a "Post"

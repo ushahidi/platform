@@ -96,7 +96,7 @@ class Update extends Validator
     {
         if ($string) {
             try {
-                $check = new DateTimeZone($string);
+                $check = new \DateTimeZone($string);
             } catch (\Exception $e) {
                 $check = false;
             }
