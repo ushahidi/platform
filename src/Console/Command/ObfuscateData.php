@@ -61,7 +61,7 @@ class ObfuscateData extends Command
         if ($this->isThisAMultisiteInstall()) {
             if (!getenv('HOST') || strlen(getenv('HOST')) < 1) {
                 $this->alert("ERROR: A host must be specified for a multisite deployment.");
-                exit;
+                return;
             }
         }
 
@@ -70,11 +70,11 @@ class ObfuscateData extends Command
             $this->alert("WARNING: This script will wipe user, contacts, post author and data source data.");
             if (!$this->confirm("Do you want to continue?")) {
                 $this->info("Request canceled.");
-                exit;
+                return;
             }
             if (!$this->confirm('Do you acknowledge that this data will still contain sensitive data?')) {
                 $this->info("Request canceled.");
-                exit;
+                return;
             }
 
             // Do overwriting
@@ -88,7 +88,7 @@ class ObfuscateData extends Command
             $this->db->commit();
         } else {
             $this->info("This script will only run on test or staging deployments.");
-            exit;
+            return;
         }
     }
 
