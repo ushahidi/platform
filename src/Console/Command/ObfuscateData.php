@@ -49,18 +49,15 @@ class ObfuscateData extends Command
     public function __construct()
     {
         parent::__construct();
-    }
-
-    public function handle()
-    {
-        //set up repos
+        $this->db = service('kohana.db');
         $this->contactRepository = service('repository.contact');
         $this->postRepository = service('repository.post');
         $this->configRepository = service('repository.config');
         $this->userRepository = service('repository.user');
+    }
 
-        $this->db = service('kohana.db');
-
+    public function handle()
+    {
         if ($this->isThisAMultisiteInstall()) {
             if (!getenv('HOST') || strlen(getenv('HOST')) < 1) {
                 $this->alert("ERROR: A host must be specified for a multisite deployment.");
