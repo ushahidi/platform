@@ -72,11 +72,11 @@ class ObfuscateData extends Command
             //confirm acknowledgements
             $this->alert("WARNING: This script will wipe user, contacts, post author and data source data.");
             if (!$this->confirm("Do you want to continue?")) {
-                $this->info("Request canceled.\n");
+                $this->info("Request canceled.");
                 exit;
             }
             if (!$this->confirm('Do you acknowledge that this data will still contain sensitive data?')) {
-                $this->info("Request canceled.\n");
+                $this->info("Request canceled.");
                 exit;
             }
 
@@ -90,7 +90,7 @@ class ObfuscateData extends Command
             $this->addAdminUser();
             $this->db->commit();
         } else {
-            $this->info("This script will only run on test or staging deployments.\n\n");
+            $this->info("This script will only run on test or staging deployments.");
             exit;
         }
     }
@@ -153,10 +153,10 @@ class ObfuscateData extends Command
             $overwrittenCount += $this->contactRepository->update($contactEntity);
         }
         if ($overwrittenCount == $resultsCount) {
-            $this->info("updated ".$overwrittenCount." records.\n");
+            $this->info("Updated ".$overwrittenCount." records.");
             return $overwrittenCount;
         } else {
-            $this->info("failed to overwrite all records.\n");
+            $this->info("failed to overwrite all records.");
             return false;
         }
     }
@@ -182,17 +182,17 @@ class ObfuscateData extends Command
             $overwrittenCount += $this->postRepository->update($postEntity);
         }
         if ($overwrittenCount == $resultsCount) {
-            $this->info("updated ".$overwrittenCount." records.\n");
+            $this->info("updated ".$overwrittenCount." records.");
             return $overwrittenCount;
         } else {
-            $this->info("failed to overwrite all records.\n");
+            $this->info("failed to overwrite all records.");
             return false;
         }
     }
 
     private function overwriteSiteConfig()
     {
-        $this->info("\nRemoving general settings data...");
+        $this->info("Removing general settings data...");
         $siteConfig = $this->configRepository->get('site');
 
         //prepend with OBFUSCATED if not already prepended
@@ -214,12 +214,12 @@ class ObfuscateData extends Command
             // 'url' => '??'
         ]);
         $this->configRepository->update($siteConfig);
-        $this->info("\nDone.");
+        $this->info("Done.");
     }
 
     private function removeDataProviderValues()
     {
-        $this->info("\nORemoving dataProvider data...");
+        $this->info("Removing dataProvider data...");
         $dataProviderConfig = $this->configRepository->get('data-provider');
         //TODO: walk through each key instead?
         //TODO:  otherwise set them to defaults?
@@ -240,7 +240,7 @@ class ObfuscateData extends Command
             'email'=> [],
         ]);
         $this->configRepository->update($dataProviderConfig);
-        $this->info("\nSet all dataproviders to false.");
+        $this->info("Set all dataproviders to false.");
     }
 
     private function overwriteUsers()
@@ -266,10 +266,10 @@ class ObfuscateData extends Command
             $overwrittenCount += $this->userRepository->update($userEntity);
         }
         if ($overwrittenCount == $resultsCount) {
-            $this->info("updated ".$overwrittenCount." user records.\n");
+            $this->info("Updated ".$overwrittenCount." user records.");
             return $overwrittenCount;
         } else {
-            $this->info("failed to overwrite all user records.\n");
+            $this->info("Failed to overwrite all user records.");
             return false;
         }
     }
@@ -279,14 +279,14 @@ class ObfuscateData extends Command
         $this->info("Deleting users...");
         $query = DB::delete('users');
         $count = $query->execute($this->db);
-        $this->info("removed ".$count." records.\n");
+        $this->info("Removed ".$count." records.");
         return $count;
     }
 
     private function addAdminUser()
     {
         if (!$this->confirm("Do you want to add an admin user?")) {
-            $this->info("Request canceled.\n");
+            $this->info("Request canceled.");
             return;
         } else {
             //TODO: add input validation
