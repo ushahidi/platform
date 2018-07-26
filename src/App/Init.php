@@ -964,6 +964,12 @@ $di->set('site.config', function () use ($di) {
     return $di->get('repository.config')->get('site')->asArray();
 });
 
+// Map
+// Site config
+$di->set('map.config', function () use ($di) {
+    return $di->get('repository.config')->get('map')->asArray();
+});
+
 // Feature config
 $di->set('features', function () use ($di) {
     return $di->get('repository.config')->get('features')->asArray();
