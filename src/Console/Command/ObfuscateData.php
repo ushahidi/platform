@@ -210,9 +210,6 @@ class ObfuscateData extends Command
             'name' => $newSiteName,
             'description' => $newSiteDescription,
             'email' => 'admin@ushahidi.com',
-            //TODO: reset these?
-            //'cient_url' => '??',
-            // 'url' => '??'
         ]);
         $this->configRepository->update($siteConfig);
         $this->info("Done.");
@@ -225,7 +222,6 @@ class ObfuscateData extends Command
         //TODO: walk through each key instead?
         //TODO:  otherwise set them to defaults?
         $dataProviderConfig->setState([
-            'url' => '',
             'providers' => [
                 'smssync' => false,
                 'email' => false,
