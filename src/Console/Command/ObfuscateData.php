@@ -130,8 +130,10 @@ class ObfuscateData extends Command
             ->distinct(true)
             ->from('contacts');
         $results = $query->execute($this->db);
-        $overwrittenCount = 0;
         $resultsCount = count($results);
+
+        // iterates through each contact record, overwrites with fake data
+        $overwrittenCount = 0;
         foreach ($results as $row) {
             $contactEntity = $this->contactRepository->getEntity($row);
             if ($row['type'] == 'phone') {
@@ -149,11 +151,13 @@ class ObfuscateData extends Command
             }
             $overwrittenCount += $this->contactRepository->update($contactEntity);
         }
+
+        //checks if overwritten count matches results count
         if ($overwrittenCount == $resultsCount) {
             $this->info("Updated ".$overwrittenCount." records.");
             return $overwrittenCount;
         } else {
-            $this->info("failed to overwrite all records.");
+            $this->info("Failed to overwrite all records.");
             return false;
         }
     }
