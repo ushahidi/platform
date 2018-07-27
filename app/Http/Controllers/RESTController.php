@@ -214,7 +214,6 @@ abstract class RESTController extends Controller
     protected function executeUsecase(Request $request)
     {
         $maintenanceMode = getenv('MAINTENANCE_MODE');
-        Log::info('MAINTENANCE_MODE: ' . gettype($maintenanceMode));
         if ($maintenanceMode === '1') {
             $maintenanceMessage = 'This site is down for maintenance';
 

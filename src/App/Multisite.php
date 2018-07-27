@@ -10,6 +10,7 @@
 
 namespace Ushahidi\App;
 
+use Log;
 use Ohanzee\DB;
 use Ohanzee\Database;
 use Illuminate\Http\Request;
@@ -104,13 +105,26 @@ class Multisite
             'persistent' => $config['connection']['persistent'],
         ];
 
+        $status = $result->status;
+        $deployedDate = $result->deployed_date;
+
+        if ($status === 'migrating' && !$deployedDate) {
+            abort(503, "Deployment not ready");
+        }
+        if (($status === 'migrating' && $deployedDate) || $status === 'maintenance') {
+            abort(503, $this->domain . "is down for maintenance");
+        }
+        if ($status === 'pending') {
+            abort(503, $this->domain . "is not ready");
+        }
+
         // Check we can connect to the DB
         try {
             DB::select(DB::expr('1'))->from('users')
                 ->execute(Database::instance('deployment', $config));
         } catch (Exception $e) {
             // If we can't connect, throw 503 Service Unavailable
-            abort(503, "Deployment not ready");
+            abort(503, $this->domain . "is not ready");
         }
 
         return $config;
