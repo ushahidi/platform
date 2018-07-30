@@ -87,7 +87,7 @@ class Multisite
 
         $deployment = $result->current();
 
-        checkDeploymentStatus($deployment);
+        $this->checkDeploymentStatus($deployment);
         
         // Set new database config
         // @todo stop call config directly
@@ -101,7 +101,7 @@ class Multisite
             'persistent' => $config['connection']['persistent'],
         ];
 
-        checkDeploymentDbConnection($config);
+        $this->checkDeploymentDbConnection($config);
 
         return $config;
     }
@@ -133,16 +133,16 @@ class Multisite
         }
 
         $status = $deployment['status'];
-        $deployed_date = $deployment['deployed_date'];
+        $deployedDate = $deployment['deployed_date'];
 
         if ($status === 'migrating' && !$deployedDate) {
             abort(503, "Deployment not ready");
         }
         if (($status === 'migrating' && $deployedDate) || $status === 'maintenance') {
-            abort(503, $this->domain . "is down for maintenance");
+            abort(503, $this->subdomain . " is down for maintenance");
         }
         if ($status === 'pending') {
-            abort(503, $this->domain . "is not ready");
+            abort(503, $this->subdomain . " is not ready");
         }
     }
     protected function checkDeploymentDbConnection($config)
