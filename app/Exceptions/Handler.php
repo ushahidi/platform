@@ -117,12 +117,12 @@ class Handler extends ExceptionHandler
                 'errors' => $errors
             ], $statusCode, $headers);
 
-            // In the circumstance where an exception is raised 
-            // before the lumen request cycle reaches the middleware stage, 
+            // In the circumstance where an exception is raised
+            // before the lumen request cycle reaches the middleware stage,
             // it is necessary to force the inclusion of the CORS headers.
 
             // This uses the app's CORS config.
-            // This config must be loaded in the bootstrap process 
+            // This config must be loaded in the bootstrap process
             // before exception handlers are expected to be used.
             $options = config('cors');
 

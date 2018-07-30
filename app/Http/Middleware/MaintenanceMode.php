@@ -15,20 +15,20 @@ class MaintenanceMode
     * @param  string|null  $guard
     * @return mixed
     */
-   public function handle($request, Closure $next, $guard = null)
-   {
-       $maintenanceMode = getenv('MAINTENANCE_MODE');
-       if ($maintenanceMode === '1') {
-           $maintenanceMessage = 'This site is down for maintenance';
+    public function handle($request, Closure $next, $guard = null)
+    {
+        $maintenanceMode = getenv('MAINTENANCE_MODE');
+        if ($maintenanceMode === '1') {
+            $maintenanceMessage = 'This site is down for maintenance';
             if (service('site.config')) {
-               $maintenanceMessage = service('site.config')['name'] . ' is down for maintenance.';
-           }
-           abort(
-               503,
-               $maintenanceMessage
-           );
-       }
+                $maintenanceMessage = service('site.config')['name'] . ' is down for maintenance.';
+            }
+            abort(
+                503,
+                $maintenanceMessage
+            );
+        }
 
-       return $next($request);
-   }
+        return $next($request);
+    }
 }

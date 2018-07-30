@@ -104,7 +104,6 @@ class Multisite
         checkDeploymentDbConnection($config);
 
         return $config;
-
     }
 
     public function getCdnPrefix($host = null)
@@ -126,7 +125,8 @@ class Multisite
 
         return $this->subdomain . '.' . getenv('MULTISITE_CLIENT_DOMAIN');
     }
-    protected function checkDeploymentStatus($deployment) {
+    protected function checkDeploymentStatus($deployment)
+    {
         // No deployment? throw a 404
         if (! count($deployment)) {
             abort(404, "Deployment not found");
@@ -144,9 +144,9 @@ class Multisite
         if ($status === 'pending') {
             abort(503, $this->domain . "is not ready");
         }
-
     }
-    protected function checkDeploymentDbConnection($config) {
+    protected function checkDeploymentDbConnection($config)
+    {
         // Check we can connect to the DB
         try {
             DB::select(DB::expr('1'))->from('users')
