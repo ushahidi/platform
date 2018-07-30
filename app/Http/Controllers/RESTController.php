@@ -11,8 +11,6 @@
 
 namespace Ushahidi\App\Http\Controllers;
 
-use Log;
-
 use Ushahidi\Factory\UsecaseFactory;
 use Illuminate\Http\Request;
 use League\OAuth2\Server\Exception\OAuth2Exception;
@@ -213,19 +211,6 @@ abstract class RESTController extends Controller
      */
     protected function executeUsecase(Request $request)
     {
-        $maintenanceMode = getenv('MAINTENANCE_MODE');
-        if ($maintenanceMode === '1') {
-            $maintenanceMessage = 'This site is down for maintenance';
-
-            if (service('site.config')) {
-                $maintenanceMessage = service('site.config')['name'] . ' is down for maintenance.';
-            }
-                       
-            throw abort(
-                503,
-                $maintenanceMessage
-            );
-        }
         try {
             // Attempt to execute the usecase to get the response
             $responsePayload = $this->usecase->interact();
