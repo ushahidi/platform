@@ -81,25 +81,21 @@ class ObfuscateData extends Command
 
             // Do overwriting
             $this->db->begin();
-            if ($this->option('use-faker'))
-            {
+            if ($this->option('use-faker')) {
                 $this->overwriteContactsWithFaker();
-            }else{
+            } else {
                 $this->overwriteContacts();
             }
-            if ($this->option('use-faker'))
-            {
+            if ($this->option('use-faker')) {
                 $this->overwritePostAuthorsWithFaker();
-            }else{
+            } else {
                 $this->overwritePostAuthors();
             }
-
             $this->removeDataProviderValues();
             $this->overwriteSiteConfig();
             $this->deleteUsers();
             $this->addAdminUser();
             $this->db->commit();
-
         } else {
             $this->info("This script will only run on test or staging deployments.");
             return;
@@ -140,6 +136,7 @@ class ObfuscateData extends Command
     protected function overwriteContacts()
     {
         $this->info("Overwriting post author data...");
+        // @codingStandardsIgnoreLine
         $randomEmailGenerator = LaravelDB::raw("CONCAT(lpad(conv(floor(rand()*pow(26,8)), 10, 36), 8, 0),'@',LEFT(UUID(), 8),'.example.com')");
         $randomPhoneGenerator = LaravelDB::raw("CONCAT('+', CAST(rand()*10000000000 as UNSIGNED) )");
         $randomTwitterGenerator = LaravelDB::raw("CONCAT('@',lpad(conv(floor(rand()*pow(26,12)), 10, 36), 12, 0))");
@@ -208,11 +205,12 @@ class ObfuscateData extends Command
         }
     }
 
-
     protected function overwritePostAuthors()
     {
         $this->info("Overwriting post author data...");
+        // @codingStandardsIgnoreLine
         $randomEmail = LaravelDB::raw("CONCAT(lpad(conv(floor(rand()*pow(26,8)), 10, 36), 8, 0),'@',LEFT(UUID(), 8),'.example.com')");
+        // @codingStandardsIgnoreLine
         $randomName = LaravelDB::raw("CONCAT(lpad(conv(floor(rand()*pow(26,8)), 10, 36), 8, 0),' ',lpad(conv(floor(rand()*pow(26,8)), 10, 36), 8, 0))");
         $resultCount = LaravelDB::table('posts')
             ->whereNotNull('author_email')
@@ -343,7 +341,7 @@ class ObfuscateData extends Command
     private function addAdminUser()
     {
         if (!$this->confirm("Do you want to add an admin user?")) {
-            $this->info("Request canceled.");
+            $this->info("Admin user skipped.");
             return;
         } else {
             //TODO: add input validation
