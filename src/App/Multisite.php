@@ -87,11 +87,7 @@ class Multisite
 
         $deployment = $result->current();
 
-        $status = $deployment['status'];
-        $deployedDate = $deployment['deployed_date'];
-        $deploymentName = $deployment['deployment_name'];
-
-        $this->checkDeploymentStatus($deployment, $status, $deployedDate, $deploymentName);
+        $this->checkDeploymentStatus($deployment);
         
         // Set new database config
         // @todo stop call config directly
@@ -129,20 +125,19 @@ class Multisite
 
         return $this->subdomain . '.' . getenv('MULTISITE_CLIENT_DOMAIN');
     }
-    protected function checkDeploymentStatus($deployment, $status, $deployedDate, $deploymentName)
+    protected function checkDeploymentStatus($deployment)
     {
+        $status = $deployment['status'];
+        $deployedDate = $deployment['deployed_date'];
+        $deploymentName = $deployment['deployment_name'] ? $deployment['deployment_name'] : 'Deployment'
+        
         // No deployment? throw a 404
         if (! count($deployment)) {
-            abort(404, "Deployment not found");
-        } else if ($status === 'migrating') {
-            if (!$deployedDate) {
-                abort(503, "Deployment not ready");
-            } else if ($deployedDate || $status === 'maintenance') {
-                abort(503, $deploymentName . " is down for maintenance");
-
-            }
-        } else if ($status === 'pending') {
+            abort(404, $deploymentName . " not found");
+        } else if (($status === 'migrating' && !$deployedDate) || $status === 'pending') {
             abort(503, $deploymentName . " is not ready");
+        } else if (($status === 'migrating' && $deployedDate) || $status === 'maintenance') {
+            abort(503, $deploymentName . " is down for maintenance");
         }
     }
     protected function checkDeploymentDbConnection($config)
