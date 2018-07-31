@@ -134,9 +134,9 @@ class Multisite
         // No deployment? throw a 404
         if (! count($deployment)) {
             abort(404, $deploymentName . " not found");
-        } else if (($status === 'migrating' && !$deployedDate) || $status === 'pending') {
+        } elseif (($status === 'migrating' && !$deployedDate) || $status === 'pending') {
             abort(503, $deploymentName . " is not ready");
-        } else if (($status === 'migrating' && $deployedDate) || $status === 'maintenance') {
+        } elseif (($status === 'migrating' && $deployedDate) || $status === 'maintenance') {
             abort(503, $deploymentName . " is down for maintenance");
         }
     }
