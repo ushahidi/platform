@@ -13,13 +13,13 @@ namespace Ushahidi\App\Repository;
 
 class CSVPostRepository extends PostRepository
 {
-    protected function getPostValues($id)
+    protected function getPostValues($id, $excludePrivateValues, $excludeStages)
     {
 
         // Get all the values for the post. These are the EAV values.
         $values = $this->post_value_factory
             ->proxy($this->include_value_types)
-            ->getAllForPost($id, $this->include_attributes, $this->exclude_stages, $this->restricted);
+            ->getAllForPost($id, $this->include_attributes, $excludeStages, $excludePrivateValues);
 
         $output = [];
         foreach ($values as $value) {

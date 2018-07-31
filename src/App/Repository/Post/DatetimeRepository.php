@@ -22,6 +22,17 @@ class DatetimeRepository extends ValueRepository
         return 'post_datetime';
     }
 
+    // Ushahidi_Repository
+    public function getEntity(array $data = null)
+    {
+        // Replace time with 00:00:00
+        if ($this->hideTime && $postDate = date_create($data['value'], new \DateTimeZone('UTC'))) {
+            $data['value'] = $postDate->setTime(0, 0, 0)->format('Y-m-d H:i:s');
+        }
+
+        return new PostValue($data);
+    }
+
     private function convertToMysqlFormat($value)
     {
         $value = date("Y-m-d H:i:s", strtotime($value));
@@ -38,5 +49,12 @@ class DatetimeRepository extends ValueRepository
     {
         $value = $this->convertToMysqlFormat($value);
         return parent::updateValue($id, $value);
+    }
+
+    protected $hideTime = false;
+
+    public function hideTime($hide = true)
+    {
+        $this->hideTime = $hide;
     }
 }
