@@ -25,6 +25,8 @@ class Form extends StaticEntity
     protected $created;
     protected $updated;
     protected $hide_author;
+    protected $hide_time;
+    protected $hide_location;
     protected $require_approval;
     protected $everyone_can_create;
     protected $targeted_survey;
@@ -50,9 +52,11 @@ class Form extends StaticEntity
             'created'     => 'int',
             'updated'     => 'int',
             'hide_author'           => 'bool',
+            'hide_time'             => 'bool',
+            'hide_location'         => 'bool',
             'require_approval'      => 'bool',
             'everyone_can_create'   => 'bool',
-            'targeted_survey'   => 'bool',
+            'targeted_survey'       => 'bool',
             'can_create'            => 'array',
             'tags'        => 'array',
         ];
