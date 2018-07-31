@@ -17,6 +17,7 @@ use Ushahidi\Core\Entity\ConfigRepository;
 use Ushahidi\Core\Entity\UserRepository;
 use Ushahidi\App\Multisite;
 use Ohanzee\DB;
+use DB as LaravelDB;
 use Faker;
 use Database;
 
@@ -37,7 +38,8 @@ class ObfuscateData extends Command
      *
      * @var string
      */
-    protected $signature = 'db:obfuscatedata';
+    protected $signature = 'db:obfuscatedata
+        {--use-faker : Uses the slower Faker library to generate realistic data }';
 
     /**
      * The console command description.
@@ -79,17 +81,30 @@ class ObfuscateData extends Command
 
             // Do overwriting
             $this->db->begin();
-            $this->overwriteContacts();
-            $this->overwritePostAuthors();
+            if ($this->option('use-faker'))
+            {
+                $this->overwriteContactsWithFaker();
+            }else{
+                $this->overwriteContacts();
+            }
+            if ($this->option('use-faker'))
+            {
+                $this->overwritePostAuthorsWithFaker();
+            }else{
+                $this->overwritePostAuthors();
+            }
+
             $this->removeDataProviderValues();
             $this->overwriteSiteConfig();
             $this->deleteUsers();
             $this->addAdminUser();
             $this->db->commit();
+
         } else {
             $this->info("This script will only run on test or staging deployments.");
             return;
         }
+        $this->info('Data scrubbing complete.');
     }
 
     protected function isThisAMultisiteInstall()
@@ -122,7 +137,38 @@ class ObfuscateData extends Command
     }
     */
 
-    private function overwriteContacts()
+    protected function overwriteContacts()
+    {
+        $this->info("Overwriting post author data...");
+        $randomEmailGenerator = LaravelDB::raw("CONCAT(lpad(conv(floor(rand()*pow(26,8)), 10, 36), 8, 0),'@',LEFT(UUID(), 8),'.example.com')");
+        $randomPhoneGenerator = LaravelDB::raw("CONCAT('+', CAST(rand()*10000000000 as UNSIGNED) )");
+        $randomTwitterGenerator = LaravelDB::raw("CONCAT('@',lpad(conv(floor(rand()*pow(26,12)), 10, 36), 12, 0))");
+        $randomTextGenerator = LaravelDB::raw("lpad(conv(floor(rand()*pow(26,12)), 10, 36), 12, 0)");
+
+        $resultEmailCount = LaravelDB::table('contacts')
+            ->where('type', 'email')
+            ->update(['contact' => $randomEmailGenerator]);
+
+        $resultPhoneCount = LaravelDB::table('contacts')
+            ->where('type', 'phone')
+            ->update(['contact' => $randomPhoneGenerator]);
+
+        $resultTwitterCount = LaravelDB::table('contacts')
+            ->where('type', 'twitter')
+            ->update(['contact' => $randomTwitterGenerator]);
+
+        $resultOtherCount = LaravelDB::table('contacts')
+            ->where('type', '!=', 'twitter')
+            ->where('type', '!=', 'email')
+            ->where('type', '!=', 'phone')
+            ->update(['contact' => $randomTextGenerator]);
+
+        $totalChangedCount = ($resultEmailCount + $resultPhoneCount + $resultTwitterCount + $resultOtherCount);
+
+        $this->info("Updated ".print_r($totalChangedCount, true)." contact records.");
+    }
+
+    private function overwriteContactsWithFaker()
     {
         $this->info("Overwriting contact data...");
         $faker = Faker\Factory::create();
@@ -162,7 +208,21 @@ class ObfuscateData extends Command
         }
     }
 
-    private function overwritePostAuthors()
+
+    protected function overwritePostAuthors()
+    {
+        $this->info("Overwriting post author data...");
+        $randomEmail = LaravelDB::raw("CONCAT(lpad(conv(floor(rand()*pow(26,8)), 10, 36), 8, 0),'@',LEFT(UUID(), 8),'.example.com')");
+        $randomName = LaravelDB::raw("CONCAT(lpad(conv(floor(rand()*pow(26,8)), 10, 36), 8, 0),' ',lpad(conv(floor(rand()*pow(26,8)), 10, 36), 8, 0))");
+        $resultCount = LaravelDB::table('posts')
+            ->whereNotNull('author_email')
+            ->update(['author_email' => $randomEmail,
+                        'author_realname' => $randomName]);
+
+        $this->info("Updated ".print_r($resultCount, true)." records.");
+    }
+
+    private function overwritePostAuthorsWithFaker()
     {
         $this->info("Overwriting post author data...");
         $faker = Faker\Factory::create();
