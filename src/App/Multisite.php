@@ -87,7 +87,11 @@ class Multisite
 
         $deployment = $result->current();
 
-        $this->checkDeploymentStatus($deployment);
+        $status = $deployment['status'];
+        $deployedDate = $deployment['deployed_date'];
+        $deploymentName = $deployment['deployment_name'];
+
+        $this->checkDeploymentStatus($deployment, $status, $deployedDate, $deploymentName);
         
         // Set new database config
         // @todo stop call config directly
@@ -125,18 +129,12 @@ class Multisite
 
         return $this->subdomain . '.' . getenv('MULTISITE_CLIENT_DOMAIN');
     }
-    protected function checkDeploymentStatus($deployment)
+    protected function checkDeploymentStatus($deployment, $status, $deployedDate, $deploymentName)
     {
         // No deployment? throw a 404
         if (! count($deployment)) {
             abort(404, "Deployment not found");
-        }
-
-        $status = $deployment['status'];
-        $deployedDate = $deployment['deployed_date'];
-        $deploymentName = $deployment['deployment_name'];
-
-        if ($status === 'migrating') {
+        } else if ($status === 'migrating') {
             if (!$deployedDate) {
                 abort(503, "Deployment not ready");
             } else if ($deployedDate || $status === 'maintenance') {
