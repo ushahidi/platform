@@ -134,15 +134,17 @@ class Multisite
 
         $status = $deployment['status'];
         $deployedDate = $deployment['deployed_date'];
+        $deploymentName = $deployment['deployment_name'];
 
-        if ($status === 'migrating' && !$deployedDate) {
-            abort(503, "Deployment not ready");
-        }
-        if (($status === 'migrating' && $deployedDate) || $status === 'maintenance') {
-            abort(503, $this->subdomain . " is down for maintenance");
-        }
-        if ($status === 'pending') {
-            abort(503, $this->subdomain . " is not ready");
+        if ($status === 'migrating') {
+            if (!$deployedDate) {
+                abort(503, "Deployment not ready");
+            } else if ($deployedDate || $status === 'maintenance') {
+                abort(503, $deploymentName . " is down for maintenance");
+
+            }
+        } else if ($status === 'pending') {
+            abort(503, $deploymentName . " is not ready");
         }
     }
     protected function checkDeploymentDbConnection($config)

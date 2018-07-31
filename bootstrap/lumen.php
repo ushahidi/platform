@@ -21,6 +21,11 @@ $app->withFacades(true, [
 
 $app->withEloquent();
 
+// Configure CORS package
+// The exception handler class relies on this configuration to be loaded
+// in order to provide CORS headers for requests that fail before the middleware stage
+$app->configure('cors');
+
 /*
 |--------------------------------------------------------------------------
 | Register Container Bindings
@@ -80,11 +85,6 @@ $app->routeMiddleware([
 | totally optional, so you are not required to uncomment this line.
 |
 */
-
-// Configure CORS package
-// The exception handler class relies on this configuration to be loaded
-// in order to provide CORS headers for requests that fail before the middleware stage
-$app->configure('cors');
 
 $app->register(Ushahidi\App\Providers\AppServiceProvider::class);
 $app->register(Ushahidi\App\Providers\AuthServiceProvider::class);

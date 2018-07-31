@@ -17,8 +17,8 @@ class MaintenanceMode
     */
     public function handle($request, Closure $next, $guard = null)
     {
-        $maintenanceMode = getenv('MAINTENANCE_MODE');
-        if ($maintenanceMode === '1') {
+        $maintenanceMode = env('MAINTENANCE_MODE');
+        if ($maintenanceMode) {
             $maintenanceMessage = 'This site is down for maintenance';
             if (service('site.config')) {
                 $maintenanceMessage = service('site.config')['name'] . ' is down for maintenance.';

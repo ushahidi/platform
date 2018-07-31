@@ -126,9 +126,12 @@ class Handler extends ExceptionHandler
             // before exception handlers are expected to be used.
             $options = config('cors');
 
-            // This CorsService relies on Asm89\Stack
-            $cors = new CorsService($options);
-            $response = $cors->addActualRequestHeaders($response, $request);
+            if (! $response->headers->has('Access-Control-Allow-Origin')) {
+                // This CorsService relies on Asm89\Stack
+                $cors = new CorsService($options);
+                $response = $cors->addActualRequestHeaders($response, $request);
+            }
+
 
             return $response;
         }
