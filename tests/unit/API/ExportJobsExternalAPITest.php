@@ -52,20 +52,24 @@ class ExportJobsExternalAPITest extends TestCase
 
         $this->hxlMetaDataId_1 = service('repository.hxl_meta_data')->create(new \Ushahidi\Core\Entity\HXL\HXLMetadata([
             'license_id' => $this->hxlLicenseId,
-            'organisation' => "ushahidi",
+            'organisation_id' => "id-of-ushahidi",
+            'organisation_name' => "ushahidi",
             'dataset_title' => "ushahidi-dataset",
             'source' => "other",
             'private' => true,
             'user_id' => $this->userId,
+            'maintainer_id' =>  'maintainer-1234',
         ]));
 
         $this->hxlMetaDataId_2 = service('repository.hxl_meta_data')->create(new \Ushahidi\Core\Entity\HXL\HXLMetadata([
             'license_id' => $this->hxlLicenseId,
-            'organisation' => "ushahidi",
+            'organisation_id' => "id-of-ushahidi",
+            'organisation_name' => "ushahidi",
             'dataset_title' => "ushahidi-dataset",
             'source' => "other",
             'private' => true,
             'user_id' => $this->userId,
+            'maintainer_id' =>  'maintainer-1234',
         ]));
 
         $exportJobs = service('repository.export_job');

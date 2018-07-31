@@ -58,6 +58,8 @@ class HXLFormAttributeHXLAttributeTagRepository extends OhanzeeRepository implem
         $result = DB::select(
             'form_attribute_hxl_attribute_tag.*',
             'form_attributes.key',
+            'form_attributes.type',
+            'form_attributes.input',
             'hxl_tags.tag_name',
             'hxl_attributes.attribute'
         )

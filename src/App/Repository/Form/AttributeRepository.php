@@ -21,12 +21,11 @@ use Ushahidi\Core\Entity\FormAttributeRepository as FormAttributeRepositoryContr
 use Ushahidi\Core\Entity\FormStageRepository as FormStageRepositoryContract;
 use Ushahidi\Core\Entity\FormRepository as FormRepositoryContract;
 use Ushahidi\Core\Traits\UserContext;
-use Ushahidi\Core\Traits\PostValueRestrictions;
-use Ushahidi\Core\Traits\AdminAccess;
-use Ushahidi\Core\Tool\Permissions\AclTrait;
 use Ushahidi\App\Repository\OhanzeeRepository;
 use Ushahidi\App\Repository\JsonTranscodeRepository;
 use Ushahidi\App\Repository\FormsTagsTrait;
+
+use Ushahidi\Core\Tool\Permissions\InteractsWithFormPermissions;
 
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\Exception\UnsatisfiedDependencyException;
@@ -36,12 +35,8 @@ class AttributeRepository extends OhanzeeRepository implements
 {
     use UserContext;
     // Checks if user is Admin
-    use AdminAccess;
 
-    // Provides `acl`
-    use AclTrait;
-
-    use PostValueRestrictions;
+    use InteractsWithFormPermissions;
 
     protected $form_stage_repo;
 
@@ -96,7 +91,7 @@ class AttributeRepository extends OhanzeeRepository implements
 
         // Restrict returned attributes based on User rights
         $user = $this->getUser();
-        if (!$this->canUserEditForm($form_id, $user)) {
+        if (!$this->formPermissions->canUserEditForm($user, $form_id)) {
             $exclude_stages = $this->form_stage_repo->getHiddenStageIds($form_id);
             $exclude_stages ? $query->where('form_attributes.form_stage_id', 'NOT IN', $exclude_stages) : null;
         }
@@ -159,6 +154,7 @@ class AttributeRepository extends OhanzeeRepository implements
                 $query->where('form_attributes.' . $key, '=', $search->$key);
             }
         }
+
         if ($search->form_id) {
             $query
                 ->join('form_stages', 'INNER')->on('form_stages.id', '=', 'form_attributes.form_stage_id')
@@ -362,13 +358,14 @@ class AttributeRepository extends OhanzeeRepository implements
                 'priority' => 8
             ],
             [
-                'label' => 'Sets',
-                'key' => 'sets',
-                'type' => 'sets',
+                'label' => 'Unstructured Description',
+                'key' => 'description',
+                'type' => 'description',
                 'input' => 'text',
                 'form_id' => 0,
                 'form_stage_id' => 0,
                 'form_stage_priority' => 0,
+                'unstructured' => true,
                 'priority' => 9
             ]
         ];

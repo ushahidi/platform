@@ -60,7 +60,7 @@ class PostValueRepositoryTest extends \PHPUnit\Framework\TestCase
     {
         // Create mocks
         $mockQueryBuilder = $this->getMockBuilder('Database_Query_Builder_Select')
-            ->setMethods(['execute'])
+            ->setMethods(['execute', 'where'])
             ->disableOriginalConstructor()
             ->getMock();
 

@@ -38,9 +38,9 @@ class CSV extends API
     protected $search;
     protected $fs;
     protected $tmpfname;
-    protected $add_header = true;
     protected $heading;
     protected $hxl_heading;
+    protected $add_header = true;
     // Formatter
     public function setHxlHeading($rows)
     {
@@ -67,24 +67,66 @@ class CSV extends API
         }
         return $hxl;
     }
-    private function generateHxlTagAndAttribute($key, $hxl_rows)
+
+    /**
+     * @param $form_attribute_key
+     * @param $hxl_rows
+     * @return string
+     * Iterates through all hxl attributes and looks for one that matches the given $form_attribute_key
+     */
+    private function generateHxlTagAndAttribute($form_attribute_key, $hxl_rows)
     {
         $tag = '';
+        //contains key + index of the key
+        $key_set = explode('.', $form_attribute_key);
+        // the heading type (sets, contact, title)
+        $heading_key = isset($key_set[0]) ? $key_set[0] : null;
         //TODO handle multi column values when CSV starts supporting them again
-
         foreach ($hxl_rows as $hxl_row) {
-            $key_set = explode('.', $key); //contains key + index of the key
-            $heading_key = isset($key_set[0]) ? $key_set[0] : null; // the heading type (sets, contact, title)
-            if ($hxl_row['key'] === $heading_key) {
-                if ($tag === '') {
-                    $tag = '#' . $hxl_row['tag_name'];
-                }
-                $attribute = $hxl_row['attribute'] && !empty($hxl_row['attribute']) ?
-                        ' +'. $hxl_row['attribute'] : '';
-                $tag = $tag.$attribute;
+            // checks that the hxl field matches the form attribute we received in $form_attribute_key
+            // and if its a latlon field that needs extra processing, it does that before returning the tag
+            if ($hxl_row['key'] === $heading_key && $this->shouldProcessLatLonTag($key_set, $hxl_row)) {
+                $tag = $this->returnHXLTagAndAttributeString($tag, $hxl_row);
             }
         }
         return $tag;
+    }
+
+    /**
+     * @param $key_set
+     * @param $hxl_row
+     * @return bool
+     */
+    private function shouldProcessLatLonTag($key_set, $hxl_row)
+    {
+        if ($hxl_row['tag_name'] !== 'geo' &&
+            $hxl_row['type'] !== 'point' &&
+            $hxl_row['input'] !== 'location'
+        ) {
+            return true;
+        }
+        // if it is an attribute with lat lon or it doesn't match the attribute type,
+        // we should not process the tag
+        $attr_type = isset($key_set[1]) ? $key_set[1] : null;
+        $attribute_type_matches_hxl_row_type = $hxl_row['attribute'] === $attr_type;
+        $is_geo_other = $hxl_row['attribute'] !== 'lat' && $hxl_row['attribute'] !== 'lon';
+        return $attribute_type_matches_hxl_row_type || $is_geo_other;
+    }
+
+    /**
+     * @param $tag
+     * @param $hxl_row
+     * @return string
+     * Creates the #tag +attribute string for the hxl tags in a csv
+     */
+    private function returnHXLTagAndAttributeString($tag, $hxl_row)
+    {
+        if ($tag === '') {
+            $tag = '#' . $hxl_row['tag_name'];
+        }
+        $attribute = $hxl_row['attribute'] && !empty($hxl_row['attribute']) ?
+            ' +'. $hxl_row['attribute'] : '';
+        return $tag . $attribute;
     }
 
     public function setAddHeader($add_header)
@@ -228,61 +270,72 @@ class CSV extends API
     {
         // assume it's empty since we go through this for all attributes which might not be available
         $return = '';
+        $should_return = false;
         // the $keyParam is the key=>label we get in createSortedHeading (keyLabel.index)
         $keySet = explode('.', $keyParam); //contains key + index of the key
         $headingKey = isset($keySet[0]) ? $keySet[0] : null; // the heading type (sets, contact, title)
         $key = isset($keySet[1]) ? $keySet[1] : null; // the key to use (0, lat,lon)
         // check that the key we received is available in $attributes
         $recordAttributes = isset($attributes[$headingKey]) ? $attributes[$headingKey] : null;
-        // Ignore attributes that are not related to this Post by Form Id
-        // Ensure that native attributes identified via id 0 are included
-        if (is_array($recordAttributes)
-            && isset($recordAttributes['form_id'])
-            && isset($record['form_id'])
-            && $recordAttributes['form_id'] != 0
-            && ($record['form_id'] != $recordAttributes['form_id'])) {
-            return '';
-        }
         // If the returned attribute for the given heading key is the native form name attribute
         // Retrieve Form Name from the attribute rather than from the Post until the data model improves
-        if (is_array($recordAttributes)
-            && isset($recordAttributes['type'])
+        
+        if (is_array($recordAttributes) && isset($recordAttributes['type'])
             && $recordAttributes['type'] === 'form_name') {
-            return is_array($recordAttributes) && isset($recordAttributes['form_name'])
-                ? $recordAttributes['form_name'] : '';
+            return is_array($record) && isset($record['form_name']) ? $record['form_name'] : 'Unstructured';
         }
+        // Ignore attributes that are not related to this Post by Form Id
+        // Ensure that native attributes identified via id 0 are included
+        if (is_array($recordAttributes) && isset($recordAttributes['form_id']) && isset($record['form_id'])
+            && $recordAttributes['form_id'] != 0 && ($record['form_id'] != $recordAttributes['form_id'])) {
+            $should_return = true;
+        }
+
+        // Check if we are dealing with a structured post but not a structured attribute
+        if (is_array($recordAttributes) && isset($recordAttributes['unstructured'])
+            && $recordAttributes['unstructured'] && isset($record['form_id'])) {
+            $should_return = true;
+        }
+
+        // Check if we're dealing with an unstructured post but a structured attribute
+        if (!isset($record['form_id'])
+            && isset($recordAttributes['form_id']) && $recordAttributes['form_id'] != 0) {
+            $should_return = true;
+        }
+
+        if ($should_return) {
+            return '';
+        }
+
         // default format we will return. See $csvFieldFormat for a list of available formats
         $format = 'single_raw';
         // if we have an attribute and can find a format for it in $csvFieldFormat, reset the $format
-        if (is_array($recordAttributes)
-            && isset($recordAttributes['type'])
+        if (is_array($recordAttributes) && isset($recordAttributes['type'])
             && isset(self::$csvFieldFormat[$recordAttributes['type']])) {
             $format = self::$csvFieldFormat[$recordAttributes['type']];
         }
-        /** check if the value is in [values] (user added attributes),
-         ** otherwise it'll be part of the record itself
-         **/
-        $isInValuesArray = isset($record['values']) && isset($record['values'][$headingKey]);
+        
         /**
          * Remap Title and Description type attributes as these are a special case of attributes
          * since their labels are stored as attributes but their values are stored as fields on the record :/
          * The Key UUID will not match the equivalent field on the Post so we must change to use the correct field names
          */
-        if (is_array($recordAttributes)
-            && isset($recordAttributes['type'])
-            && ($recordAttributes['type'] === 'title'
-                || $recordAttributes['type'] === 'description')) {
+        if (is_array($recordAttributes) && isset($recordAttributes['type'])
+            && ($recordAttributes['type'] === 'title'   || $recordAttributes['type'] === 'description')) {
             // Description must be mapped to content
             // Title is title
             $headingKey = $recordAttributes['type'] === 'title' ? 'title' : 'content';
         }
 
-        $recordValue = $isInValuesArray ? $record['values'] : $record;
+        /** check if the value is in [values] (user added attributes),
+         ** otherwise it'll be part of the record itself
+         **/
+        $recordValue = isset($record['values']) && isset($record['values'][$headingKey]) ? $record['values'] : $record;
 
         // handle values that are dates to have consistent formatting
         $isDateField = $recordAttributes['input'] === 'date' && $recordAttributes['type'] === 'datetime';
         if ($isDateField && isset($recordValue[$headingKey])) {
-            $date = new DateTime($recordValue[$headingKey][$key]);
+            $date = new \DateTime($recordValue[$headingKey][$key]);
             $recordValue[$headingKey][$key] = $date->format('Y-m-d');
         }
         /**
@@ -354,8 +407,7 @@ class CSV extends API
         /**
          * sort each field by priority inside the stage
          */
-        $headingResult = $this->sortGroupedFieldsByPriority($fields);
-        return $headingResult;
+        return $this->sortGroupedFieldsByPriority($fields);
     }
 
     /**
@@ -417,8 +469,7 @@ class CSV extends API
      */
     protected function isLocation($value)
     {
-        return is_array($value) &&
-            array_key_exists('lon', $value) &&
+        return is_array($value) && array_key_exists('lon', $value) &&
             array_key_exists('lat', $value);
     }
 

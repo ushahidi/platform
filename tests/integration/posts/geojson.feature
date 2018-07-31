@@ -7,7 +7,7 @@ Feature: Testing the Posts API
 		Then the response is JSON
 		And the response has a "type" property
 		And the response has a "features" property
-		And the "features" property count is "5"
+		And the "features" property count is "6"
 		Then the guzzle status code should be 200
 
 	Scenario: Find a Post as GeoJSON
@@ -52,7 +52,7 @@ Feature: Testing the Posts API
 		Then the response is JSON
 		And the response has a "type" property
 		And the response has a "features" property
-		And the "features" property count is "5"
+		And the "features" property count is "6"
 		Then the guzzle status code should be 200
 
 	Scenario: Return GeoJSON for bounding box
