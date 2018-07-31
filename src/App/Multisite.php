@@ -76,7 +76,7 @@ class Multisite
             return config('ohanzee-db.multisite');
         }
 
-        // .. and find the current deployment credentials
+        // find the current deployment credentials
         $result = DB::select()->from('deployments')
             ->where('subdomain', '=', $this->subdomain)
             ->where('domain', '=', $this->domain)
@@ -87,11 +87,8 @@ class Multisite
 
         $deployment = $result->current();
 
-        // No deployment? throw a 404
-        if (! count($deployment)) {
-            abort(404, "Deployment not found");
-        }
-
+        $this->checkDeploymentStatus($deployment);
+        
         // Set new database config
         // @todo stop call config directly
         $config = config('ohanzee-db.default');
@@ -104,14 +101,7 @@ class Multisite
             'persistent' => $config['connection']['persistent'],
         ];
 
-        // Check we can connect to the DB
-        try {
-            DB::select(DB::expr('1'))->from('users')
-                ->execute(Database::instance('deployment', $config));
-        } catch (Exception $e) {
-            // If we can't connect, throw 503 Service Unavailable
-            abort(503, "Deployment not ready");
-        }
+        $this->checkDeploymentDbConnection($config);
 
         return $config;
     }
@@ -134,5 +124,31 @@ class Multisite
         $this->parseHost($host);
 
         return $this->subdomain . '.' . getenv('MULTISITE_CLIENT_DOMAIN');
+    }
+    protected function checkDeploymentStatus($deployment)
+    {
+        $status = $deployment['status'];
+        $deployedDate = $deployment['deployed_date'];
+        $deploymentName = $deployment['deployment_name'] ? $deployment['deployment_name'] : 'Deployment';
+        
+        // No deployment? throw a 404
+        if (! count($deployment)) {
+            abort(404, $deploymentName . " not found");
+        } elseif (($status === 'migrating' && !$deployedDate) || $status === 'pending') {
+            abort(503, $deploymentName . " is not ready");
+        } elseif (($status === 'migrating' && $deployedDate) || $status === 'maintenance') {
+            abort(503, $deploymentName . " is down for maintenance");
+        }
+    }
+    protected function checkDeploymentDbConnection($config)
+    {
+        // Check we can connect to the DB
+        try {
+            DB::select(DB::expr('1'))->from('users')
+                ->execute(Database::instance('deployment', $config));
+        } catch (Exception $e) {
+            // If we can't connect, throw 503 Service Unavailable
+            abort(503, $this->domain . "is not ready");
+        }
     }
 }
