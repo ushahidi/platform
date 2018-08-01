@@ -156,7 +156,7 @@ class ObfuscateData extends Command
 
         $totalChangedCount = ($resultEmailCount + $resultPhoneCount + $resultTwitterCount + $resultOtherCount);
 
-        $this->info("Updated ".print_r($totalChangedCount, true)." contact records.");
+        $this->info("Updated ".$totalChangedCount." contact records.");
     }
 
     private function overwriteContactsWithFaker()
