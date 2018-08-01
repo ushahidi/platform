@@ -48,6 +48,12 @@ class ObfuscateData extends Command
      */
     protected $description = 'Obfuscates selected PII and removes various config keys from database';
 
+    /**
+         * Allow environment patterns (matched using Str::is)
+         * @var [string...]
+         */
+    protected $allowedEnvironments = ['staging*', 'test*'];
+
     public function __construct()
     {
         parent::__construct();
@@ -67,7 +73,7 @@ class ObfuscateData extends Command
             }
         }
 
-        if ($this->isTestEnvironment() || $this->isStagingEnvironment()) {
+        if ($this->getLaravel()->environment($this->allowedEnvironments)) {
             //confirm acknowledgements
             $this->alert("WARNING: This script will wipe user, contacts, post author and data source data.");
             if (!$this->confirm("Do you want to continue?")) {
@@ -107,18 +113,6 @@ class ObfuscateData extends Command
     {
         // @TODO: is this the correct way to check against multisite
         return (config('multisite.enabled'));
-    }
-
-    private function isTestEnvironment()
-    {
-        $cur_env = $this->getLaravel()->environment();
-        return (strtolower($cur_env) == 'test');
-    }
-
-    private function isStagingEnvironment()
-    {
-        $cur_env = $this->getLaravel()->environment();
-        return (strtolower($cur_env) == 'staging');
     }
 
     /* optional implementations...
