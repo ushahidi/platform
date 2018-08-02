@@ -39,7 +39,9 @@ class ObfuscateData extends Command
      * @var string
      */
     protected $signature = 'db:obfuscatedata
-        {--use-faker : Uses the slower Faker library to generate realistic data }';
+        {--use-faker : Uses the slower Faker library to generate realistic data },
+        {--non-interactive : Overrides prompts },
+        {--admin-username= : Adds an admin user to users table with auto-generated password }';
 
     /**
      * The console command description.
@@ -66,6 +68,12 @@ class ObfuscateData extends Command
 
     public function handle()
     {
+        //check for sanity of admin-username
+        if ($this->option('admin-username') && strlen($this->option('admin-username')) < 5) {
+            $this->alert("ERROR: usernames must be longer than 4 characters");
+            return;
+        }
+
         if ($this->isThisAMultisiteInstall()) {
             if (!getenv('HOST') || strlen(getenv('HOST')) < 1) {
                 $this->alert("ERROR: A host must be specified for a multisite deployment.");
@@ -76,13 +84,15 @@ class ObfuscateData extends Command
         if ($this->getLaravel()->environment($this->allowedEnvironments)) {
             //confirm acknowledgements
             $this->alert("WARNING: This script will wipe user, contacts, post author and data source data.");
-            if (!$this->confirm("Do you want to continue?")) {
-                $this->info("Request canceled.");
-                return;
-            }
-            if (!$this->confirm('Do you acknowledge that this data will still contain sensitive data?')) {
-                $this->info("Request canceled.");
-                return;
+            if (!$this->option('non-interactive')) {
+                if (!$this->confirm("Do you want to continue?")) {
+                    $this->info("Request canceled.");
+                    return;
+                }
+                if (!$this->confirm('Do you acknowledge that this data will still contain sensitive data?')) {
+                    $this->info("Request canceled.");
+                    return;
+                }
             }
 
             // Do overwriting
@@ -334,21 +344,36 @@ class ObfuscateData extends Command
 
     private function addAdminUser()
     {
-        if (!$this->confirm("Do you want to add an admin user?")) {
-            $this->info("Admin user skipped.");
-            return;
-        } else {
-            //TODO: add input validation
-            $adminEmail = $this->anticipate('Email address for admin user?', ['admin@ushahidi.com']);
-            $adminPassword = $this->secret('What should the password be?');
-            $newUserEntity = $this->userRepository->getEntity();
-            $newUserEntity->setState([
-                'email' => $adminEmail,
-                'realname' => 'Admin User',
-                'role' => 'admin',
-                'password' => $adminPassword ]); // NOTE: pw is hashed via create
-            $id = $this->userRepository->create($newUserEntity);
-            $this->info("Created admin user with Id: ".$id);
+        //in all cases, if the username is specified, we create an admin user and password
+        if ($this->option('admin-username')) { // checking length in fire()
+            $adminEmail = $this->option('admin-username');
+            $adminPassword = str_random(25);
+            $this->info("Generated password: ".$adminPassword);
+            $id = $this->saveAdminUser($adminEmail, $adminPassword);
+            $this->info("Created admin user ".$adminEmail." with Id: ".$id);
         }
+        //otherwise, if not in 'non-interactive' mode, we prompt for info
+        if (!$this->option('non-interactive')) {
+            if (!$this->confirm("Do you want to add an admin user?")) {
+                $this->info("Admin user skipped.");
+                return;
+            } else { // if we *do* want to create admin user
+                $adminEmail = $this->anticipate('Email address for admin user?', ['admin@ushahidi.com']);
+                $adminPassword = $this->secret('What should the password be?');
+                $id = $this->saveAdminUser($adminEmail, $adminPassword);
+                $this->info("Created admin user with Id: ".$id);
+            }
+        }
+    }
+
+    private function saveAdminUser($username, $password)
+    {
+        $newUserEntity = $this->userRepository->getEntity();
+        $newUserEntity->setState([
+            'email' => $username,
+            'realname' => 'Admin User',
+            'role' => 'admin',
+            'password' => $password ]); // NOTE: pw is hashed via create
+        return $this->userRepository->create($newUserEntity);
     }
 }
