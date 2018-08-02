@@ -229,6 +229,8 @@ abstract class RESTController extends Controller
                 // Otherwise throw a 403
                 abort(403, $e->getMessage());
             }
+        } catch (\Ushahidi\Core\Exception\ThrottlingException $e) {
+            abort(429, 'Too Many Requests');
         } catch (\Ushahidi\Core\Exception\ValidatorException $e) {
             throw new ValidationException($e->getMessage(), $e);
         } catch (\InvalidArgumentException $e) {

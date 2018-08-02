@@ -216,6 +216,58 @@ Feature: Testing the Users API
 		And the response does not have a "password" property
 		Then the guzzle status code should be 200
 
+	@resetFixture
+	Scenario: Registering many users hits a rate limit
+		Given that I want to make a new "user"
+		And that the request "data" is:
+			"""
+			{
+				"full_name":"New User",
+				"email":"newuser2@ushahidi.com",
+				"password":"testing",
+				"role":"admin"
+			}
+			"""
+		When I request "/register"
+		Then the response is JSON
+		Given that I want to make a new "user"
+		And that the request "data" is:
+			"""
+			{
+				"full_name":"New User",
+				"email":"newuser3@ushahidi.com",
+				"password":"testing",
+				"role":"admin"
+			}
+			"""
+		When I request "/register"
+		Then the response is JSON
+		Given that I want to make a new "user"
+		And that the request "data" is:
+			"""
+			{
+				"full_name":"New User",
+				"email":"newuser4@ushahidi.com",
+				"password":"testing",
+				"role":"admin"
+			}
+			"""
+		When I request "/register"
+		Then the response is JSON
+		Given that I want to make a new "user"
+		And that the request "data" is:
+			"""
+			{
+				"full_name":"New User",
+				"email":"newuser5@ushahidi.com",
+				"password":"testing",
+				"role":"admin"
+			}
+			"""
+		When I request "/register"
+		Then the response is JSON
+		Then the guzzle status code should be 429
+
 	Scenario: Generating a password reset
 		Given that I want to make a new "user"
 		And that the request "data" is:
@@ -226,7 +278,7 @@ Feature: Testing the Users API
 			"""
 		When I request "/passwordreset"
 		Then the guzzle status code should be 204
-	
+
 	Scenario: Reset a users password
 		Given that I want to make a new "user"
 		And that the request "data" is:
@@ -255,5 +307,5 @@ Feature: Testing the Users API
 		And the "errors.0.message" property contains "password must be at least 7 characters long"
 		Then the response is JSON
 
-		Then the guzzle status code should be 422	
+		Then the guzzle status code should be 422
 
