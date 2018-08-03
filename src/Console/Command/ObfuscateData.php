@@ -54,7 +54,7 @@ class ObfuscateData extends Command
          * Allow environment patterns (matched using Str::is)
          * @var [string...]
          */
-    protected $allowedEnvironments = ['staging*', 'test*'];
+    protected $allowedEnvironments = ['local', 'staging*', 'test*'];
 
     public function __construct()
     {
