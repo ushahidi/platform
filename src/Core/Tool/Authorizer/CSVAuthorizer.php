@@ -50,8 +50,9 @@ class CSVAuthorizer implements Authorizer
 		$user = $this->getUser();
 
 		// Allow role with the right permissions
-		if ($this->acl->hasPermission($user, Permission::DATA_IMPORT)) {
-			return true;
+        if ($this->acl->hasPermission($user, Permission::DATA_IMPORT_EXPORT) or
+            $this->acl->hasPermission($user, Permission::LEGACY_DATA_IMPORT)) {
+            return true;
 		}
 
 		// Allow admin access
