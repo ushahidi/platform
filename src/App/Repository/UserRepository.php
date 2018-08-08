@@ -188,9 +188,7 @@ class UserRepository extends OhanzeeRepository implements
     // ResetPasswordRepository
     public function getResetToken(Entity $entity)
     {
-        // Todo: replace with something more robust.
-        // This is predictable if we don't have the openssl mod
-        $token = Security::token(true);
+        $token = random_bytes(45);
 
         $input = [
             'reset_token' => $token,
