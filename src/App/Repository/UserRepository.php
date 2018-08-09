@@ -190,7 +190,7 @@ class UserRepository extends OhanzeeRepository implements
     // ResetPasswordRepository
     public function getResetToken(Entity $entity)
     {
-		$token = Hash::make(Str::random(40));
+        $token = Hash::make(Str::random(40));
 
         $input = [
             'reset_token' => $token,
