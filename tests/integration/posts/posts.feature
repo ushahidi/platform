@@ -1233,6 +1233,62 @@ Feature: Testing the Posts API
 		And the "count" property equals "3"
 		Then the guzzle status code should be 200
 
+	@resetFixture @search
+	Scenario: Filter All Posts by multiple collections
+		Given that I want to get all "Posts"
+		And that the request "query string" is:
+			"""
+			created_before_by_id=1
+			"""
+		When I request "/posts"
+		Then the response is JSON
+		And the response has a "count" property
+		And the type of the "count" property is "numeric"
+		And the "count" property equals "4"
+		Then the guzzle status code should be 200
+
+	@resetFixture @search
+	Scenario: Get all posts created before a selected post
+		Given that I want to get all "Posts"
+		And that the request "query string" is:
+			"""
+			created_before_by_id=1
+			"""
+		When I request "/posts"
+		Then the response is JSON
+		And the response has a "count" property
+		And the type of the "count" property is "numeric"
+		And the "count" property equals "4"
+		Then the guzzle status code should be 200
+
+	@resetFixture @search
+	Scenario: Get 0 posts created after a selected post (which is latest post)
+		Given that I want to get all "Posts"
+		And that the request "query string" is:
+			"""
+			created_after_by_id=1697
+			"""
+		When I request "/posts"
+		Then the response is JSON
+		And the response has a "count" property
+		And the type of the "count" property is "numeric"
+		And the "count" property equals "0"
+		Then the guzzle status code should be 200
+
+	@resetFixture @search1
+	Scenario: Get posts created after a selected post
+		Given that I want to get all "Posts"
+		And that the request "query string" is:
+			"""
+			created_after_by_id=116
+			"""
+		When I request "/posts"
+		Then the response is JSON
+		And the response has a "count" property
+		And the type of the "count" property is "numeric"
+		And the "count" property equals "9"
+		Then the guzzle status code should be 200
+
 	@get
 	Scenario: Finding a Post
 		Given that I want to find a "Post"
@@ -1624,4 +1680,53 @@ Feature: Testing the Posts API
 		And the response has a "next" property
 		And the response has a "prev" property
 		And the response has a "curr" property
+		Then the guzzle status code should be 200
+
+	@get @postsAnon
+	Scenario: View post with restricted data as normal users limits info
+		Given that I want to find a "Post"
+		And that its "id" is "1690"
+        And that the oauth token is "testbasicuser"
+		When I request "/posts"
+		Then the response is JSON
+		And the response has a "id" property
+		And the type of the "id" property is "numeric"
+		And the response has a "url" property
+		And the "title" property equals "Post published to members"
+		And the response has a "tags" property
+		And the response has a "values" property
+		And the "values.location_restrictions.0.lat" property equals "26.21"
+		And the "values.location_restrictions.0.lon" property equals "10.12"
+		And the "values.datetime_restrictions.0" property equals "2014-09-29 00:00:00"
+		And the "post_date" property equals "2014-09-29T00:00:00+00:00"
+		And the "created" property equals "2014-09-29T00:00:00+00:00"
+		And the "updated" property is empty
+		And the "user_id" property is empty
+		And the "user.id" property is empty
+		And the "author_email" property is empty
+		And the "author_realname" property is empty
+		Then the guzzle status code should be 200
+
+	@get
+	Scenario: View post with restricted data as admin gets full info
+		Given that I want to find a "Post"
+		And that its "id" is "1690"
+        And that the oauth token is "testadminuser"
+		When I request "/posts"
+		Then the response is JSON
+		And the response has a "id" property
+		And the type of the "id" property is "numeric"
+		And the response has a "url" property
+		And the "title" property equals "Post published to members"
+		And the response has a "tags" property
+		And the response has a "values" property
+		And the "values.location_restrictions.0.lat" property equals "26.2135"
+		And the "values.location_restrictions.0.lon" property equals "10.1235"
+		And the "values.datetime_restrictions.0" property equals "2014-09-29 15:11:46"
+		And the "post_date" property equals "2014-09-29T14:10:16+00:00"
+		And the "created" property equals "2014-09-29T21:10:16+00:00"
+		And the "updated" property is empty
+		And the "user.id" property equals "3"
+		And the "author_email" property equals "test@ushahidi.com"
+		And the "author_realname" property equals "Test Name"
 		Then the guzzle status code should be 200
