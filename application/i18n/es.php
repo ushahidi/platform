@@ -1,7 +1,7 @@
 <?php defined('SYSPATH') OR die('No direct script access.');
 
 return array(
-'In order to receive reports by email, please input your email account settings below' => 'Para poder recibir informes por correo electrónico, por favor ingrese la configuración de su cuenta de correo electrónico a continuación',
+'In order to receive posts by email, please input your email account settings below' => 'Para poder recibir publicaciones por correo electrónico, por favor ingrese la configuración de su cuenta de correo electrónico a continuación',
 'Incoming Server Type'=> 'Tipo de servidor entrante',
 'Incoming Server' => 'Servidor de entrada',
 'Examples: mail.yourwebsite.com, imap.gmail.com, pop.gmail.com' => 'Ejemplos: mail.yourwebsite.com, imap.gmail.com, pop.gmail.com',
