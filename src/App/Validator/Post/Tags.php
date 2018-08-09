@@ -15,21 +15,21 @@ use Ushahidi\Core\Entity\TagRepository;
 
 class Tags extends ValueValidator
 {
-	protected $repo;
+    protected $repo;
 
-	public function __construct(TagRepository $tags_repo)
-	{
-		$this->repo = $tags_repo;
-	}
+    public function __construct(TagRepository $tags_repo)
+    {
+        $this->repo = $tags_repo;
+    }
 
-	protected function validate($value)
-	{
-		if (is_array($value)) {
-			$value = $value['id'];
-		}
+    protected function validate($value)
+    {
+        if (is_array($value)) {
+            $value = $value['id'];
+        }
 
-		if (!$this->repo->doesTagExist($value)) {
-			return 'tagExists';
-		}
-	}
+        if (!$this->repo->doesTagExist($value)) {
+            return 'tagExists';
+        }
+    }
 }

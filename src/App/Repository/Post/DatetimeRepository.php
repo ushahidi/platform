@@ -16,27 +16,45 @@ use Ushahidi\Core\Entity\PostValueRepository as PostValueRepositoryContract;
 
 class DatetimeRepository extends ValueRepository
 {
-	// OhanzeeRepository
-	protected function getTable()
-	{
-		return 'post_datetime';
-	}
+    // OhanzeeRepository
+    protected function getTable()
+    {
+        return 'post_datetime';
+    }
 
-	private function convertToMysqlFormat($value)
-	{
-		$value = date("Y-m-d H:i:s", strtotime($value));
-		return $value;
-	}
+    // Ushahidi_Repository
+    public function getEntity(array $data = null)
+    {
+        // Replace time with 00:00:00
+        if ($this->hideTime && $postDate = date_create($data['value'], new \DateTimeZone('UTC'))) {
+            $data['value'] = $postDate->setTime(0, 0, 0)->format('Y-m-d H:i:s');
+        }
 
-	public function createValue($value, $form_attribute_id, $post_id)
-	{
-		$value = $this->convertToMysqlFormat($value);
-		return parent::createValue($value, $form_attribute_id, $post_id);
-	}
+        return new PostValue($data);
+    }
 
-	public function updateValue($id, $value)
-	{
-		$value = $this->convertToMysqlFormat($value);
-		return parent::updateValue($id, $value);
-	}
+    private function convertToMysqlFormat($value)
+    {
+        $value = date("Y-m-d H:i:s", strtotime($value));
+        return $value;
+    }
+
+    public function createValue($value, $form_attribute_id, $post_id)
+    {
+        $value = $this->convertToMysqlFormat($value);
+        return parent::createValue($value, $form_attribute_id, $post_id);
+    }
+
+    public function updateValue($id, $value)
+    {
+        $value = $this->convertToMysqlFormat($value);
+        return parent::updateValue($id, $value);
+    }
+
+    protected $hideTime = false;
+
+    public function hideTime($hide = true)
+    {
+        $this->hideTime = $hide;
+    }
 }

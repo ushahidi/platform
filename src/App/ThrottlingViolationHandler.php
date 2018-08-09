@@ -16,8 +16,8 @@ use BehEh\Flaps\ViolationHandlerInterface;
 
 class ThrottlingViolationHandler implements ViolationHandlerInterface
 {
-	public function handleViolation()
-	{
-		throw new ThrottlingException();
-	}
+    public function handleViolation()
+    {
+        throw new ThrottlingException();
+    }
 }

@@ -15,18 +15,18 @@ namespace Ushahidi\Core\Tool;
 
 trait FormatterTrait
 {
-	/**
-	 * @var Formatter
-	 */
-	protected $formatter;
+    /**
+     * @var Formatter
+     */
+    protected $formatter;
 
-	/**
-	 * @param  Formatter $formatter
-	 * @return void
-	 */
-	public function setFormatter(Formatter $formatter)
-	{
-		$this->formatter = $formatter;
-		return $this;
-	}
+    /**
+     * @param  Formatter $formatter
+     * @return void
+     */
+    public function setFormatter(Formatter $formatter)
+    {
+        $this->formatter = $formatter;
+        return $this;
+    }
 }

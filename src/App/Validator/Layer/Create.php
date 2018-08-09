@@ -16,35 +16,35 @@ use Ushahidi\Core\Tool\Validator;
 
 class Create extends Update
 {
-	protected $default_error_source = 'layer';
+    protected $default_error_source = 'layer';
 
-	protected function getRules()
-	{
-		return array_merge_recursive(parent::getRules(), [
-			'name' => [
-				['not_empty'],
-			],
-			'type' => [
-				['not_empty'],
-			],
-			'active' => [
-				['not_empty'],
-			],
-			'visible_by_default' => [
-				['not_empty'],
-			],
-			'data_url' => [
-				[function ($validation, $data) {
-					// At least 1 of data_url and media_id must be defined..
-					if (empty($data['data_url']) and empty($data['media_id'])) {
-						$validation->error('data_url', 'dataUrlOrMediaRequired');
-					}
-					// .. but both can't be defined at the same time
-					if (! empty($data['data_url']) and ! empty($data['media_id'])) {
-						$validation->error('data_url', 'dataUrlMediaConflict');
-					}
-				}, [':validation', ':data']]
-			],
-		]);
-	}
+    protected function getRules()
+    {
+        return array_merge_recursive(parent::getRules(), [
+            'name' => [
+                ['not_empty'],
+            ],
+            'type' => [
+                ['not_empty'],
+            ],
+            'active' => [
+                ['not_empty'],
+            ],
+            'visible_by_default' => [
+                ['not_empty'],
+            ],
+            'data_url' => [
+                [function ($validation, $data) {
+                    // At least 1 of data_url and media_id must be defined..
+                    if (empty($data['data_url']) and empty($data['media_id'])) {
+                        $validation->error('data_url', 'dataUrlOrMediaRequired');
+                    }
+                    // .. but both can't be defined at the same time
+                    if (! empty($data['data_url']) and ! empty($data['media_id'])) {
+                        $validation->error('data_url', 'dataUrlMediaConflict');
+                    }
+                }, [':validation', ':data']]
+            ],
+        ]);
+    }
 }

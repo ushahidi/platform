@@ -44,7 +44,7 @@ class StatefulDataTest extends \PHPUnit\Framework\TestCase
     // POST DATA SECTION
     protected function setPostTestData()
     {
-        $this->test_post_data_current = array (
+        $this->test_post_data_current =  [
             'id' => '110',
             'parent_id' => null,
             'form_id' => '1',
@@ -66,9 +66,9 @@ class StatefulDataTest extends \PHPUnit\Framework\TestCase
             'contact_id' => '3',
             'color' => null,
             'completed_stages' => [1]
-        ) ;
+        ] ;
 
-        $this->test_post_data_new = array (
+        $this->test_post_data_new =  [
             'id' => '110',
             'parent_id' => null,
             'form_id' => '1',
@@ -89,39 +89,39 @@ class StatefulDataTest extends \PHPUnit\Framework\TestCase
             'contact_id' => '3',
             'color' => null,
             'values' =>
-            array (
-                'missing_date' => array (
+             [
+                'missing_date' =>  [
                     0 => '2012-09-25 00:00:00',
-                ),
-                'last_location_point' => array (
-                0 => array (
+                ],
+                'last_location_point' =>  [
+                0 =>  [
                         'lon' => -85.39,
                         'lat' => 33.755,
-                    ),
-                ),
-                'full_name' => array (
+                    ],
+                ],
+                'full_name' =>  [
                     0 => 'David Kobia',
-                ),
-                'last_location' => array (
+                ],
+                'last_location' =>  [
                         0 => 'atlanta',
-                ),
-                'missing_status' => array (
+                ],
+                'missing_status' =>  [
                     0 => 'believed_missing',
-                ),
-                'tags1' => array (
+                ],
+                'tags1' =>  [
                     0 => '3',
                     1 => '4',
-                ),
-            ),
-            'tags' => array (
+                ],
+             ],
+            'tags' =>  [
                 0 => '3',
                 1 => '4',
-            ),
-            'sets' => array (
-            ),
-            'completed_stages' =>array (
-            ),
-        );
+            ],
+            'sets' =>  [
+            ],
+            'completed_stages' => [
+            ],
+        ];
 
         $postDateTime =  date_create_from_format(
             'Y-m-d H:i:s.u',
@@ -129,71 +129,71 @@ class StatefulDataTest extends \PHPUnit\Framework\TestCase
             new \DateTimeZone('UTC')
         );
 
-        $this->changed_post_data = array (
+        $this->changed_post_data =  [
             'user_id' => 4,
             'title' => 'Updated Test Post',
             'slug' => 'updated-test-post-596fe1a454e54',
             'post_date' => $postDateTime,
-            'values' => array (
-                'missing_date' => array (
+            'values' =>  [
+                'missing_date' =>  [
                     0 => '2012-09-25 00:00:00',
-                ),
-                'last_location_point' => array (
-                    0 => array (
+                ],
+                'last_location_point' =>  [
+                    0 =>  [
                         'lon' => -85.390000000000001,
                         'lat' => 33.755000000000003,
-                    ),
-                ),
-                'full_name' => array (
+                    ],
+                ],
+                'full_name' =>  [
                     0 => 'David Kobia',
-                ),
-                'last_location' => array (
+                ],
+                'last_location' =>  [
                     0 => 'atlanta',
-                ),
-                'missing_status' => array (
+                ],
+                'missing_status' =>  [
                     0 => 'believed_missing',
-                ),
-                'tags1' => array (
+                ],
+                'tags1' =>  [
                     0 => '3',
                     1 => '4',
-                ),
-            ),
-            'tags' => array (
+                ],
+            ],
+            'tags' =>  [
                 0 => '3',
                 1 => '4',
-            ),
-            'sets' => array (
-            ),
-            'completed_stages' =>array (
-            )
-        );
+            ],
+            'sets' =>  [
+            ],
+            'completed_stages' => [
+            ]
+        ];
     }
 
     protected function getPostDefinition()
     {
         return [
-			'id'              => 'int',
-			'parent_id'       => 'int',
-			'form'            => false, /* alias */
-			'form_id'         => 'int',
-			'user'            => false, /* alias */
-			'user_id'         => 'int',
-			'type'            => 'string',
-			'title'           => 'string',
-			'slug'            => '*slug',
-			'content'         => 'string',
-			'author_email'    => 'string', /* @todo email filter */
-			'author_realname' => 'string', /* @todo redundent with user record */
-			'status'          => 'string',
-			'created'         => 'int',
-			'updated'         => 'int',
-			'post_date'       => '*date',
-			'locale'          => '*lowercasestring',
-			'values'          => 'array',
-			'tags'            => 'array',
-			'published_to'    => '*json',
-			'completed_stages'=> 'array',
-			'sets'            => 'array',
-		];
+            'id'              => 'int',
+            'parent_id'       => 'int',
+            'form'            => false, /* alias */
+            'form_id'         => 'int',
+            'user'            => false, /* alias */
+            'user_id'         => 'int',
+            'type'            => 'string',
+            'title'           => 'string',
+            'slug'            => '*slug',
+            'content'         => 'string',
+            'author_email'    => 'string', /* @todo email filter */
+            'author_realname' => 'string', /* @todo redundent with user record */
+            'status'          => 'string',
+            'created'         => 'int',
+            'updated'         => 'int',
+            'post_date'       => '*date',
+            'locale'          => '*lowercasestring',
+            'values'          => 'array',
+            'tags'            => 'array',
+            'published_to'    => '*json',
+            'completed_stages'=> 'array',
+            'sets'            => 'array',
+        ];
     }
 }

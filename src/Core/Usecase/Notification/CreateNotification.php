@@ -16,15 +16,15 @@ use Ushahidi\Core\Usecase\CreateUsecase;
 
 class CreateNotification extends CreateUsecase
 {
-	protected function getEntity()
-	{
-		$entity = parent::getEntity();
+    protected function getEntity()
+    {
+        $entity = parent::getEntity();
 
-		// Add user id if this is not provided
-		if (empty($entity->user_id) && $this->auth->getUserId()) {
-			$entity->setState(['user_id' => $this->auth->getUserId()]);
-		}
+        // Add user id if this is not provided
+        if (empty($entity->user_id) && $this->auth->getUserId()) {
+            $entity->setState(['user_id' => $this->auth->getUserId()]);
+        }
 
-		return $entity;
-	}
+        return $entity;
+    }
 }

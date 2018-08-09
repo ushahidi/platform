@@ -15,46 +15,46 @@ use Ushahidi\Core\Usecase\Post\ValuesForPostRepository;
 
 class ValueProxy implements ValuesForPostRepository
 {
-	protected $factory;
-	protected $include_types;
+    protected $factory;
+    protected $include_types;
 
-	public function __construct(ValueFactory $factory, array $include_types = [])
-	{
-		$this->factory = $factory;
-		$this->include_types = $include_types;
-	}
+    public function __construct(ValueFactory $factory, array $include_types = [])
+    {
+        $this->factory = $factory;
+        $this->include_types = $include_types;
+    }
 
-	// ValuesForPostRepository
-	public function getAllForPost(
-		$post_id,
-		array $include_attributes = [],
-		array $exclude_stages = [],
-		$restricted = false
-	) {
-		$results = [];
+    // ValuesForPostRepository
+    public function getAllForPost(
+        $post_id,
+        array $include_attributes = [],
+        array $exclude_stages = [],
+        $excludePrivateValues = true
+    ) {
+        $results = [];
 
-		$this->factory->each(
-			function ($repo) use ($post_id, $include_attributes, &$results, $exclude_stages, $restricted) {
-				$results = array_merge(
-					$results,
-					$repo->getAllForPost($post_id, $include_attributes, $exclude_stages, $restricted)
-				);
-			},
-			$this->include_types
-		);
+        $this->factory->each(
+            function ($repo) use ($post_id, $include_attributes, &$results, $exclude_stages, $excludePrivateValues) {
+                $results = array_merge(
+                    $results,
+                    $repo->getAllForPost($post_id, $include_attributes, $exclude_stages, $excludePrivateValues)
+                );
+            },
+            $this->include_types
+        );
 
-		return $results;
-	}
+        return $results;
+    }
 
-	// ValuesForPostRepository
-	public function deleteAllForPost($post_id)
-	{
-		$total = 0;
+    // ValuesForPostRepository
+    public function deleteAllForPost($post_id)
+    {
+        $total = 0;
 
-		$this->factory->each(function ($repo) use ($post_id, &$total) {
-			$total += $repo->deleteAllForPost($post_id);
-		});
+        $this->factory->each(function ($repo) use ($post_id, &$total) {
+            $total += $repo->deleteAllForPost($post_id);
+        });
 
-		return $total;
-	}
+        return $total;
+    }
 }

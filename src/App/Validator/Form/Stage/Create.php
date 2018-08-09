@@ -15,23 +15,23 @@ use Ushahidi\Core\Entity;
 
 class Create extends Update
 {
-	protected $default_error_source = 'form_stage';
+    protected $default_error_source = 'form_stage';
 
-	protected function getRules()
-	{
-		return [
-			'form_id' => [
-				['not_empty'],
-			],
-			'label' => [
-				['not_empty'],
-			],
-			'type' => [
-				['in_array', [':value', [
-					'post',
-					'task'
-				]]],
-			],
-		];
-	}
+    protected function getRules()
+    {
+        return [
+            'form_id' => [
+                ['not_empty'],
+            ],
+            'label' => [
+                ['not_empty'],
+            ],
+            'type' => [
+                ['in_array', [':value', [
+                    'post',
+                    'task'
+                ]]],
+            ],
+        ];
+    }
 }

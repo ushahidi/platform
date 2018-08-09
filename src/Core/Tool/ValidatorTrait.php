@@ -18,41 +18,41 @@ use Ushahidi\Core\Exception\ValidatorException;
 
 trait ValidatorTrait
 {
-	/**
-	 * @var Validator
-	 */
-	protected $validator;
+    /**
+     * @var Validator
+     */
+    protected $validator;
 
-	/**
-	 * @param  Validator $valid
-	 * @return void
-	 */
-	public function setValidator(Validator $validator)
-	{
-		$this->validator = $validator;
-		return $this;
-	}
+    /**
+     * @param  Validator $valid
+     * @return void
+     */
+    public function setValidator(Validator $validator)
+    {
+        $this->validator = $validator;
+        return $this;
+    }
 
-	/**
-	 * Verify that the given entity is valid.
-	 *
-	 * @param  Entity $entity
-	 * @return void
-	 */
-	abstract protected function verifyValid(Entity $entity);
+    /**
+     * Verify that the given entity is valid.
+     *
+     * @param  Entity $entity
+     * @return void
+     */
+    abstract protected function verifyValid(Entity $entity);
 
-	/**
-	 * Throw a ValidatorException
-	 *
-	 * @param  Entity $entity
-	 * @return null
-	 * @throws ValidatorException
-	 */
-	protected function validatorError(Entity $entity)
-	{
-		throw new ValidatorException(sprintf(
-			'Failed to validate %s entity',
-			$entity->getResource()
-		), $this->validator->errors());
-	}
+    /**
+     * Throw a ValidatorException
+     *
+     * @param  Entity $entity
+     * @return null
+     * @throws ValidatorException
+     */
+    protected function validatorError(Entity $entity)
+    {
+        throw new ValidatorException(sprintf(
+            'Failed to validate %s entity',
+            $entity->getResource()
+        ), $this->validator->errors());
+    }
 }

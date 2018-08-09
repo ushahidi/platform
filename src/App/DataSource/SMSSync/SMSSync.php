@@ -19,94 +19,94 @@ use Ushahidi\Core\Entity\Contact;
 
 class SMSSync implements CallbackDataSource
 {
-	use MapsInboundFields;
+    use MapsInboundFields;
 
-	protected $config;
+    protected $config;
 
-	/**
-	 * Constructor function for DataSource
-	 */
-	public function __construct(array $config)
-	{
-		$this->config = $config;
-	}
-
-	public function getName()
+    /**
+     * Constructor function for DataSource
+     */
+    public function __construct(array $config)
     {
-		return 'SMSSync';
-	}
+        $this->config = $config;
+    }
 
-	public function getId()
-	{
-		return strtolower($this->getName());
-	}
+    public function getName()
+    {
+        return 'SMSSync';
+    }
 
-	public function getServices()
-	{
-		return [MessageType::SMS];
-	}
+    public function getId()
+    {
+        return strtolower($this->getName());
+    }
 
-	public function getOptions()
-	{
-		return array(
-			'intro_step1' => array(
-				'label' => 'Step 1: Download the "SMSSync" app from the Android Market.',
-				'input' => 'read-only-text',
-				'description' => function () {
-					return 'Scan this QR Code with your phone to download the app from the Android Market
+    public function getServices()
+    {
+        return [MessageType::SMS];
+    }
+
+    public function getOptions()
+    {
+        return [
+            'intro_step1' => [
+                'label' => 'Step 1: Download the "SMSSync" app from the Android Market.',
+                'input' => 'read-only-text',
+                'description' => function () {
+                    return 'Scan this QR Code with your phone to download the app from the Android Market
 						<img src="'. url('/images/smssync.png') .'" width="150"/>';
-				}
-			),
-			// @todo figure out how to inject link and fix base url
-			'intro_step2' => array(
-				'label' => 'Step 2: Android App Settings',
-				'input' => 'read-only-text',
-				'description' => function () {
-					return 'Turn on SMSSync and use the following link as the Sync URL: ' . url('sms/smssync');
-				}
-			),
-			'secret' => array(
-				'label' => 'Secret',
-				'input' => 'text',
-				'description' => 'Set a secret so that only authorized SMSSync devices can send/recieve message.
+                }
+            ],
+            // @todo figure out how to inject link and fix base url
+            'intro_step2' => [
+                'label' => 'Step 2: Android App Settings',
+                'input' => 'read-only-text',
+                'description' => function () {
+                    return 'Turn on SMSSync and use the following link as the Sync URL: ' . url('sms/smssync');
+                }
+            ],
+            'secret' => [
+                'label' => 'Secret',
+                'input' => 'text',
+                'description' => 'Set a secret so that only authorized SMSSync devices can send/recieve message.
 					You need to configure the same secret in the SMSSync App.',
-				'rules' => array('required')
-			)
-		);
-	}
+                'rules' => ['required']
+            ]
+        ];
+    }
 
-	public function getInboundFields()
-	{
-		return [
-			'Message' => 'text',
-			'Date' => 'datetime',
-		];
-	}
+    public function getInboundFields()
+    {
+        return [
+            'Message' => 'text',
+            'Date' => 'datetime',
+        ];
+    }
 
-	/**
-	 * Contact type user for this provider
-	 */
-	public $contact_type = Contact::PHONE;
+    /**
+     * Contact type user for this provider
+     */
+    public $contact_type = Contact::PHONE;
 
-	public function registerRoutes(\Laravel\Lumen\Routing\Router $router)
-	{
-		$router->post('sms/smssync', 'Ushahidi\App\DataSource\SMSSync\SMSSyncController@handleRequest');
-		$router->post('smssync', 'Ushahidi\App\DataSource\SMSSync\SMSSyncController@handleRequest');
-		$router->get('sms/smssync', 'Ushahidi\App\DataSource\SMSSync\SMSSyncController@handleRequest');
-		$router->get('smssync', 'Ushahidi\App\DataSource\SMSSync\SMSSyncController@handleRequest');
-	}
+    public function registerRoutes(\Laravel\Lumen\Routing\Router $router)
+    {
+        $router->post('sms/smssync', 'Ushahidi\App\DataSource\SMSSync\SMSSyncController@handleRequest');
+        $router->post('smssync', 'Ushahidi\App\DataSource\SMSSync\SMSSyncController@handleRequest');
+        $router->get('sms/smssync', 'Ushahidi\App\DataSource\SMSSync\SMSSyncController@handleRequest');
+        $router->get('smssync', 'Ushahidi\App\DataSource\SMSSync\SMSSyncController@handleRequest');
+    }
 
-	public function verifySecret($secret)
-	{
-		if (isset($this->config['secret']) and $secret === $this->config['secret']) {
-			return true;
-		}
+    public function verifySecret($secret)
+    {
+        if (isset($this->config['secret']) and $secret === $this->config['secret']) {
+            return true;
+        }
 
-		return false;
-	}
+        return false;
+    }
 
-	public function getSecret()
-	{
-		return isset($this->config['secret']) ? $this->config['secret'] : false;
-	}
+    public function getSecret()
+    {
+        return isset($this->config['secret']) ? $this->config['secret'] : false;
+    }
 }

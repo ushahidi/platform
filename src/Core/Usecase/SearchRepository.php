@@ -15,32 +15,32 @@ use Ushahidi\Core\SearchData;
 
 interface SearchRepository
 {
-	/**
-	 * Converts an array of entity data into an object.
-	 * @param  Array $data
-	 * @return Entity
-	 */
-	public function getEntity(array $data = null);
+    /**
+     * Converts an array of entity data into an object.
+     * @param  Array $data
+     * @return Entity
+     */
+    public function getEntity(array $data = null);
 
-	/**
-	 * Get fields that can be used for searches.
-	 * @return Array
-	 */
-	public function getSearchFields();
+    /**
+     * Get fields that can be used for searches.
+     * @return Array
+     */
+    public function getSearchFields();
 
-	/**
-	 * @param  SearchData $search
-	 * @return $this
-	 */
-	public function setSearchParams(SearchData $search);
+    /**
+     * @param  SearchData $search
+     * @return $this
+     */
+    public function setSearchParams(SearchData $search);
 
-	/**
-	 * @return [Ushahidi\Core\Entity, ...]
-	 */
-	public function getSearchResults();
+    /**
+     * @return [Ushahidi\Core\Entity, ...]
+     */
+    public function getSearchResults();
 
-	/**
-	 * @return Integer
-	 */
-	public function getSearchTotal();
+    /**
+     * @return Integer
+     */
+    public function getSearchTotal();
 }

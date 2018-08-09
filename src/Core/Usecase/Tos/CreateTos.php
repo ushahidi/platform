@@ -17,13 +17,13 @@ use Ushahidi\Core\Usecase\CreateUsecase;
 class CreateTos extends CreateUsecase
 {
 
-	protected function getEntity()
-	{
-		$entity = parent::getEntity();
+    protected function getEntity()
+    {
+        $entity = parent::getEntity();
 
-		// Default to the current session user.
-		$entity->setState(['user_id' => $this->auth->getUserId()]);
+        // Default to the current session user.
+        $entity->setState(['user_id' => $this->auth->getUserId()]);
 
-		return $entity;
-	}
+        return $entity;
+    }
 }

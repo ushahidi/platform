@@ -214,7 +214,6 @@ abstract class RESTController extends Controller
         try {
             // Attempt to execute the usecase to get the response
             $responsePayload = $this->usecase->interact();
-
             return $responsePayload;
         } catch (\Ushahidi\Core\Exception\NotFoundException $e) {
             abort(404, $e->getMessage());
@@ -230,6 +229,8 @@ abstract class RESTController extends Controller
                 // Otherwise throw a 403
                 abort(403, $e->getMessage());
             }
+        } catch (\Ushahidi\Core\Exception\ThrottlingException $e) {
+            abort(429, 'Too Many Requests');
         } catch (\Ushahidi\Core\Exception\ValidatorException $e) {
             throw new ValidationException($e->getMessage(), $e);
         } catch (\InvalidArgumentException $e) {

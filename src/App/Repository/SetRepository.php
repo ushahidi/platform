@@ -23,221 +23,221 @@ use Ushahidi\Core\Traits\Event;
 
 class SetRepository extends OhanzeeRepository implements SetRepositoryContract
 {
-	// Use the JSON transcoder to encode properties
-	use JsonTranscodeRepository;
+    // Use the JSON transcoder to encode properties
+    use JsonTranscodeRepository;
 
-	// Use Event trait to trigger events
-	use Event;
+    // Use Event trait to trigger events
+    use Event;
 
-	/**
-	 * @var  Boolean  Return SavedSearches (when true) or vanilla Sets
-	 **/
-	protected $savedSearch = false;
+    /**
+     * @var  Boolean  Return SavedSearches (when true) or vanilla Sets
+     **/
+    protected $savedSearch = false;
 
-	protected $listener;
+    protected $listener;
 
-	public function setSavedSearch($savedSearch)
-	{
-		$this->savedSearch = $savedSearch;
-	}
-
-	// OhanzeeRepository
-	protected function getTable()
-	{
-		return 'sets';
-	}
-
-	// OhanzeeRepository
-	public function getEntity(array $data = null)
-	{
-		return $this->savedSearch ? new SavedSearch($data) : new Set($data);
-	}
-
-	// JsonTranscodeRepository
-	protected function getJsonProperties()
-	{
-		return ['filter', 'view_options', 'role'];
-	}
-
-	/**
-	 * Override selectQuery to enforce filtering by search=0/1
-	 */
-	protected function selectQuery(array $where = [])
-	{
-		$query = parent::selectQuery($where);
-
-		$query->where('search', '=', (int)$this->savedSearch);
-
-		return $query;
-	}
-
-	/*
-	 * Override core get/create/update/delete methods to only include
-	 * saved searches or sets depending on $this->savedSearch
-	 */
-
-	// CreateRepository
-	public function create(Entity $entity)
+    public function setSavedSearch($savedSearch)
     {
-		// Get record and filter empty values
-		$record = array_filter($entity->asArray());
+        $this->savedSearch = $savedSearch;
+    }
 
-		// Set the created time
-		$record['created'] = time();
+    // OhanzeeRepository
+    protected function getTable()
+    {
+        return 'sets';
+    }
 
-		// And save if this is a saved search or collection
-		$record['search'] = (int)$this->savedSearch;
+    // OhanzeeRepository
+    public function getEntity(array $data = null)
+    {
+        return $this->savedSearch ? new SavedSearch($data) : new Set($data);
+    }
 
-		// Finally, save the record to the DB
-		return $this->executeInsert($this->removeNullValues($record));
-	}
+    // JsonTranscodeRepository
+    protected function getJsonProperties()
+    {
+        return ['filter', 'view_options', 'role'];
+    }
 
-	// UpdateRepository
-	public function update(Entity $entity)
-	{
-		// Get changed values
-		$record = $entity->getChanged();
+    /**
+     * Override selectQuery to enforce filtering by search=0/1
+     */
+    protected function selectQuery(array $where = [])
+    {
+        $query = parent::selectQuery($where);
 
-		// Set the updated time
-		$record['updated'] = time();
+        $query->where('search', '=', (int)$this->savedSearch);
 
-		// Finally, update the record in the DB
-		return $this->executeUpdate([
-			'id' => $entity->id,
-			'search' => (int)$this->savedSearch
-		], $record);
-	}
+        return $query;
+    }
 
-	// DeleteRepository
-	public function delete(Entity $entity)
-	{
-		return $this->executeDelete([
-			'id' => $entity->id,
-			'search' => (int)$this->savedSearch
-		]);
-	}
+    /*
+     * Override core get/create/update/delete methods to only include
+     * saved searches or sets depending on $this->savedSearch
+     */
 
-	// SearchRepository
-	public function getSearchFields()
-	{
-		return [
-			'user_id',
-			'q', /* LIKE name */
-			'featured',
-		];
-	}
+    // CreateRepository
+    public function create(Entity $entity)
+    {
+        // Get record and filter empty values
+        $record = array_filter($entity->asArray());
 
-	// SearchRepository
-	public function setSearchParams(SearchData $search)
-	{
-		// Overriding so we can alter sorting logic
-		// @todo make it easier to override just sorting
+        // Set the created time
+        $record['created'] = time();
 
-		$this->search_query = $this->selectQuery();
+        // And save if this is a saved search or collection
+        $record['search'] = (int)$this->savedSearch;
 
-		$sorting = $search->getSorting();
+        // Finally, save the record to the DB
+        return $this->executeInsert($this->removeNullValues($record));
+    }
 
-		// Always return featured sets first
-		// @todo make this optional
-		$this->search_query->order_by('sets.featured', 'DESC');
+    // UpdateRepository
+    public function update(Entity $entity)
+    {
+        // Get changed values
+        $record = $entity->getChanged();
 
-		if (!empty($sorting['orderby'])) {
-			$this->search_query->order_by(
-				$this->getTable() . '.' . $sorting['orderby'],
-				isset($sorting['order']) ? $sorting['order'] : null
-			);
-		}
+        // Set the updated time
+        $record['updated'] = time();
 
-		if (!empty($sorting['offset'])) {
-			$this->search_query->offset($sorting['offset']);
-		}
+        // Finally, update the record in the DB
+        return $this->executeUpdate([
+            'id' => $entity->id,
+            'search' => (int)$this->savedSearch
+        ], $record);
+    }
 
-		if (!empty($sorting['limit'])) {
-			$this->search_query->limit($sorting['limit']);
-		}
+    // DeleteRepository
+    public function delete(Entity $entity)
+    {
+        return $this->executeDelete([
+            'id' => $entity->id,
+            'search' => (int)$this->savedSearch
+        ]);
+    }
 
-		// apply the unique conditions of the search
-		$this->setSearchConditions($search);
-	}
+    // SearchRepository
+    public function getSearchFields()
+    {
+        return [
+            'user_id',
+            'q', /* LIKE name */
+            'featured',
+        ];
+    }
 
-	// OhanzeeRepository
-	protected function setSearchConditions(SearchData $search)
-	{
-		$sets_query = $this->search_query;
+    // SearchRepository
+    public function setSearchParams(SearchData $search)
+    {
+        // Overriding so we can alter sorting logic
+        // @todo make it easier to override just sorting
 
-		if ($search->q) {
-			$sets_query->where('name', 'LIKE', "%{$search->q}%");
-		}
+        $this->search_query = $this->selectQuery();
 
-		if ($search->featured !== null) {
-			$sets_query->where('featured', '=', (int)$search->featured);
-		}
+        $sorting = $search->getSorting();
 
-		if ($search->user_id) {
-			$sets_query->where('user_id', '=', $search->user_id);
-		}
+        // Always return featured sets first
+        // @todo make this optional
+        $this->search_query->order_by('sets.featured', 'DESC');
 
-		if (isset($search->search)) {
-			$sets_query->where('search', '=', (int)$search->search);
-		}
+        if (!empty($sorting['orderby'])) {
+            $this->search_query->order_by(
+                $this->getTable() . '.' . $sorting['orderby'],
+                isset($sorting['order']) ? $sorting['order'] : null
+            );
+        }
 
-		if ($search->id) {
-			$sets_query->where('id', '=', $search->id);
-		}
-	}
+        if (!empty($sorting['offset'])) {
+            $this->search_query->offset($sorting['offset']);
+        }
 
-	// SetRepository
-	public function deleteSetPost($set_id, $post_id)
-	{
-		DB::delete('posts_sets')
-			->where('post_id', '=', $post_id)
-			->where('set_id', '=', $set_id)
-			->execute($this->db);
-	}
+        if (!empty($sorting['limit'])) {
+            $this->search_query->limit($sorting['limit']);
+        }
 
-	// SetRepository
-	public function setPostExists($set_id, $post_id)
-	{
-		$result = DB::select('posts_sets.*')
-			->from('posts_sets')
-			->where('post_id', '=', $post_id)
-			->where('set_id', '=', $set_id)
-			->execute($this->db)
-			->as_array();
+        // apply the unique conditions of the search
+        $this->setSearchConditions($search);
+    }
 
-		return (bool) count($result);
-	}
+    // OhanzeeRepository
+    protected function setSearchConditions(SearchData $search)
+    {
+        $sets_query = $this->search_query;
 
-	// SetRepository
-	public function addPostToSet($set_id, $post_id)
-	{
-		// Ensure post_id is an int
-		// @todo this probably should have happened elsewhere
-		$post_id = (int)$post_id;
-		$set_id = (int)$set_id;
+        if ($search->q) {
+            $sets_query->where('name', 'LIKE', "%{$search->q}%");
+        }
 
-		DB::insert('posts_sets')
-			->columns(['post_id', 'set_id'])
-			->values(array_values(compact('post_id', 'set_id')))
-			->execute($this->db);
+        if ($search->featured !== null) {
+            $sets_query->where('featured', '=', (int)$search->featured);
+        }
 
-		// Fire event after post is added
-		// so that this is queued for the Notifications data provider
-		$this->emit($this->event, $set_id, $post_id);
-	}
+        if ($search->user_id) {
+            $sets_query->where('user_id', '=', $search->user_id);
+        }
 
-	/**
-	 * Gets the set names corresponding to the list of tag ids
-	 * @param $tag_ids
-	 * @return array
-	 */
-	public function getNamesByIds($sets_ids)
-	{
-		$result = $this->selectQuery(array('id' => $sets_ids))
-			->resetSelect()
-			->select('name')
-			->execute($this->db);
-		$result = $result->as_array(null, 'name');
-		return $result;
-	}
+        if (isset($search->search)) {
+            $sets_query->where('search', '=', (int)$search->search);
+        }
+
+        if ($search->id) {
+            $sets_query->where('id', '=', $search->id);
+        }
+    }
+
+    // SetRepository
+    public function deleteSetPost($set_id, $post_id)
+    {
+        DB::delete('posts_sets')
+            ->where('post_id', '=', $post_id)
+            ->where('set_id', '=', $set_id)
+            ->execute($this->db);
+    }
+
+    // SetRepository
+    public function setPostExists($set_id, $post_id)
+    {
+        $result = DB::select('posts_sets.*')
+            ->from('posts_sets')
+            ->where('post_id', '=', $post_id)
+            ->where('set_id', '=', $set_id)
+            ->execute($this->db)
+            ->as_array();
+
+        return (bool) count($result);
+    }
+
+    // SetRepository
+    public function addPostToSet($set_id, $post_id)
+    {
+        // Ensure post_id is an int
+        // @todo this probably should have happened elsewhere
+        $post_id = (int)$post_id;
+        $set_id = (int)$set_id;
+
+        DB::insert('posts_sets')
+            ->columns(['post_id', 'set_id'])
+            ->values(array_values(compact('post_id', 'set_id')))
+            ->execute($this->db);
+
+        // Fire event after post is added
+        // so that this is queued for the Notifications data provider
+        $this->emit($this->event, $set_id, $post_id);
+    }
+
+    /**
+     * Gets the set names corresponding to the list of tag ids
+     * @param $tag_ids
+     * @return array
+     */
+    public function getNamesByIds($sets_ids)
+    {
+        $result = $this->selectQuery(['id' => $sets_ids])
+            ->resetSelect()
+            ->select('name')
+            ->execute($this->db);
+        $result = $result->as_array(null, 'name');
+        return $result;
+    }
 }

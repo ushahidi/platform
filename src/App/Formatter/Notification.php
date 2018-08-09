@@ -15,23 +15,23 @@ use Ushahidi\Core\Traits\FormatterAuthorizerMetadata;
 
 class Notification extends API
 {
-	use FormatterAuthorizerMetadata;
+    use FormatterAuthorizerMetadata;
 
-	protected function getFieldName($field)
-	{
-		$remap = [
-			'set_id'  => 'set'
-			];
+    protected function getFieldName($field)
+    {
+        $remap = [
+            'set_id'  => 'set'
+            ];
 
-		if (isset($remap[$field])) {
-			return $remap[$field];
-		}
+        if (isset($remap[$field])) {
+            return $remap[$field];
+        }
 
-		return parent::getFieldName($field);
-	}
+        return parent::getFieldName($field);
+    }
 
-	protected function formatSetId($set_id)
-	{
-		return $this->getRelation('sets', $set_id);
-	}
+    protected function formatSetId($set_id)
+    {
+        return $this->getRelation('sets', $set_id);
+    }
 }

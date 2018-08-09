@@ -23,42 +23,43 @@ use Ushahidi\Core\Traits\DataImportAccess;
 
 class CSVAuthorizer implements Authorizer
 {
-	use UserContext;
+    use UserContext;
 
-	// It uses `PrivAccess` to provide the `getAllowedPrivs` method.
-	use PrivAccess;
+    // It uses `PrivAccess` to provide the `getAllowedPrivs` method.
+    use PrivAccess;
 
-	// Check if user has Admin access
-	use AdminAccess;
+    // Check if user has Admin access
+    use AdminAccess;
 
-	// Check that the user has the necessary permissions
-	// if roles are available for this deployment.
-	use AclTrait;
+    // Check that the user has the necessary permissions
+    // if roles are available for this deployment.
+    use AclTrait;
 
-	// Check if the user can import data
-	use DataImportAccess;
+    // Check if the user can import data
+    use DataImportAccess;
 
-	/* Authorizer */
-	public function isAllowed(Entity $entity, $privilege)
-	{
-		// Check if the user can import data first
-		if (!$this->canImportData()) {
-			return false;
-		}
+    /* Authorizer */
+    public function isAllowed(Entity $entity, $privilege)
+    {
+        // Check if the user can import data first
+        if (!$this->canImportData()) {
+            return false;
+        }
 
-		// These checks are run within the user context.
-		$user = $this->getUser();
+        // These checks are run within the user context.
+        $user = $this->getUser();
 
-		// Allow role with the right permissions
-		if ($this->acl->hasPermission($user, Permission::DATA_IMPORT)) {
-			return true;
-		}
+        // Allow role with the right permissions
+        if ($this->acl->hasPermission($user, Permission::DATA_IMPORT_EXPORT) or
+            $this->acl->hasPermission($user, Permission::LEGACY_DATA_IMPORT)) {
+            return true;
+        }
 
-		// Allow admin access
-		if ($this->isUserAdmin($user)) {
-			return true;
-		}
+        // Allow admin access
+        if ($this->isUserAdmin($user)) {
+            return true;
+        }
 
-		return false;
-	}
+        return false;
+    }
 }

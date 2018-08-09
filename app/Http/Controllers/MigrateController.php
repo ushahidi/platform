@@ -18,22 +18,22 @@ use Phinx\Wrapper\TextWrapper;
 class MigrateController extends Controller
 {
 
-	public function migrate()
-	{
-		$phinx_config = [
-			'configuration' => base_path('phinx.php'),
-			'parser' => 'php',
-		];
+    public function migrate()
+    {
+        $phinx_config = [
+            'configuration' => base_path('phinx.php'),
+            'parser' => 'php',
+        ];
 
-		$phinx_app = new PhinxApplication();
+        $phinx_app = new PhinxApplication();
 
-		$phinx_wrapper = new TextWrapper($phinx_app, $phinx_config);
+        $phinx_wrapper = new TextWrapper($phinx_app, $phinx_config);
 
-		$migration_results = call_user_func([$phinx_wrapper, 'getMigrate'], 'ushahidi', null);
-		$error  = $phinx_wrapper->getExitCode() > 0;
+        $migration_results = call_user_func([$phinx_wrapper, 'getMigrate'], 'ushahidi', null);
+        $error  = $phinx_wrapper->getExitCode() > 0;
 
-		return response()->json([
-			'results'	=> explode("\n", $migration_results, -1),
-		]);
-	}
+        return response()->json([
+            'results'   => explode("\n", $migration_results, -1),
+        ]);
+    }
 }

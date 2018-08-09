@@ -52,86 +52,86 @@ class Import extends Command
      */
     protected $description = 'Import posts';
 
-	public function __construct()
-	{
-		parent::__construct();
+    public function __construct()
+    {
+        parent::__construct();
 
-		$this->readerMap = [
-			'csv' => service('filereader.csv')
-		];
-		$this->transformer = service('transformer.mapping');
-	}
+        $this->readerMap = [
+            'csv' => service('filereader.csv')
+        ];
+        $this->transformer = service('transformer.mapping');
+    }
 
-	protected function getUsecase()
-	{
-		if (!$this->usecase) {
-			// @todo inject
-			$this->usecase = service('factory.usecase')
-				->get('posts', 'import')
-				// Override authorizer for console
-				->setAuthorizer(service('authorizer.console'));
-		}
+    protected function getUsecase()
+    {
+        if (!$this->usecase) {
+            // @todo inject
+            $this->usecase = service('factory.usecase')
+                ->get('posts', 'import')
+                // Override authorizer for console
+                ->setAuthorizer(service('authorizer.console'));
+        }
 
-		return $this->usecase;
-	}
+        return $this->usecase;
+    }
 
 
-	/**
-	 * Map of readers
-	 * @var [FileReader, ...]
-	 */
-	protected $readerMap = [];
+    /**
+     * Map of readers
+     * @var [FileReader, ...]
+     */
+    protected $readerMap = [];
 
-	/**
-	 * @var Ushahidi\Core\Tool\MappingTransformer
-	 */
-	protected $transformer;
+    /**
+     * @var Ushahidi\Core\Tool\MappingTransformer
+     */
+    protected $transformer;
 
-	/**
-	 * @var Ushahidi\Core\Usecase\ImportUsecase
-	 * @todo  support multiple entity types
-	 */
-	protected $usecase;
+    /**
+     * @var Ushahidi\Core\Usecase\ImportUsecase
+     * @todo  support multiple entity types
+     */
+    protected $usecase;
 
-	protected function getReader($type)
-	{
-		return $this->readerMap[$type]();
-	}
+    protected function getReader($type)
+    {
+        return $this->readerMap[$type]();
+    }
 
-	public function handle()
-	{
-		// Get the filename
-		$filename = $this->option('file');
+    public function handle()
+    {
+        // Get the filename
+        $filename = $this->option('file');
 
-		// Load mapping and pass to transformer
-		$map = file_get_contents($this->argument('map'));
-		$this->transformer->setMap(json_decode($map, true));
+        // Load mapping and pass to transformer
+        $map = file_get_contents($this->argument('map'));
+        $this->transformer->setMap(json_decode($map, true));
 
-		// Load fixed values and pass to transformer
-		$values = file_get_contents($this->argument('values'));
-		$this->transformer->setFixedValues(json_decode($values, true));
+        // Load fixed values and pass to transformer
+        $values = file_get_contents($this->argument('values'));
+        $this->transformer->setFixedValues(json_decode($values, true));
 
-		// Get CSV reader
-		$reader = $this->getReader($this->option('type'));
+        // Get CSV reader
+        $reader = $this->getReader($this->option('type'));
 
-		// Set limit..
-		if ($limit = $this->option('limit')) {
-			$reader->setLimit($limit);
-		}
-		// .. and offset
-		if ($offset = $this->option('offset')) {
-			$reader->setOffset($offset);
-		}
+        // Set limit..
+        if ($limit = $this->option('limit')) {
+            $reader->setLimit($limit);
+        }
+        // .. and offset
+        if ($offset = $this->option('offset')) {
+            $reader->setOffset($offset);
+        }
 
-		// Get the traversable results
-		$payload = $reader->process($filename);
+        // Get the traversable results
+        $payload = $reader->process($filename);
 
-		// Get the usecase and pass in authorizer, payload and transformer
-		$this->getUsecase()
-			->setPayload($payload)
-			->setTransformer($this->transformer);
+        // Get the usecase and pass in authorizer, payload and transformer
+        $this->getUsecase()
+            ->setPayload($payload)
+            ->setTransformer($this->transformer);
 
-		// Execute the import
-		return $this->getUsecase()->interact();
-	}
+        // Execute the import
+        return $this->getUsecase()->interact();
+    }
 }

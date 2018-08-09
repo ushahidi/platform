@@ -13,9 +13,9 @@ namespace Ushahidi\Core\Usecase\Message;
 
 interface CreateMessageRepository
 {
-	/**
-	 * @param  int $parent_id
-	 * @return Boolean
-	 */
-	public function parentExists($parent_id);
+    /**
+     * @param  int $parent_id
+     * @return Boolean
+     */
+    public function parentExists($parent_id);
 }

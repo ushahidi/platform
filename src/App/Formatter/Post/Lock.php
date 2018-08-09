@@ -18,5 +18,5 @@ use Ushahidi\App\Formatter\API;
 
 class Lock extends API
 {
-	use FormatterAuthorizerMetadata;
+    use FormatterAuthorizerMetadata;
 }

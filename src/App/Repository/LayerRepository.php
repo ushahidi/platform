@@ -17,62 +17,62 @@ use Ushahidi\Core\SearchData;
 
 class LayerRepository extends OhanzeeRepository
 {
-	// Use the JSON transcoder to encode properties
-	use JsonTranscodeRepository;
+    // Use the JSON transcoder to encode properties
+    use JsonTranscodeRepository;
 
-	// OhanzeeRepository
-	protected function getTable()
-	{
-		return 'layers';
-	}
+    // OhanzeeRepository
+    protected function getTable()
+    {
+        return 'layers';
+    }
 
-	// OhanzeeRepository
-	public function getEntity(array $data = null)
-	{
-		return new Layer($data);
-	}
+    // OhanzeeRepository
+    public function getEntity(array $data = null)
+    {
+        return new Layer($data);
+    }
 
-	// JsonTranscodeRepository
-	protected function getJsonProperties()
-	{
-		return ['options'];
-	}
+    // JsonTranscodeRepository
+    protected function getJsonProperties()
+    {
+        return ['options'];
+    }
 
-	// SearchRepository
-	public function getSearchFields()
-	{
-		return ['active', 'type'];
-	}
+    // SearchRepository
+    public function getSearchFields()
+    {
+        return ['active', 'type'];
+    }
 
-	// OhanzeeRepository
-	protected function setSearchConditions(SearchData $search)
-	{
-		$query = $this->search_query;
+    // OhanzeeRepository
+    protected function setSearchConditions(SearchData $search)
+    {
+        $query = $this->search_query;
 
-		if ($search->active !== null) {
-			$query->where('active', '=', $search->active);
-		}
+        if ($search->active !== null) {
+            $query->where('active', '=', $search->active);
+        }
 
-		if ($search->type) {
-			$query->where('type', '=', $search->type);
-		}
-	}
+        if ($search->type) {
+            $query->where('type', '=', $search->type);
+        }
+    }
 
-	// CreateRepository
-	public function create(Entity $entity)
-	{
-		$record = array_filter($entity->asArray());
-		$record['created'] = time();
+    // CreateRepository
+    public function create(Entity $entity)
+    {
+        $record = array_filter($entity->asArray());
+        $record['created'] = time();
 
-		return $this->executeInsert($this->removeNullValues($record));
-	}
+        return $this->executeInsert($this->removeNullValues($record));
+    }
 
-	// UpdateRepository
-	public function update(Entity $entity)
-	{
-		$update = $entity->getChanged();
-		$update['updated'] = time();
+    // UpdateRepository
+    public function update(Entity $entity)
+    {
+        $update = $entity->getChanged();
+        $update['updated'] = time();
 
-		return $this->executeUpdate(['id' => $entity->id], $update);
-	}
+        return $this->executeUpdate(['id' => $entity->id], $update);
+    }
 }

@@ -4,7 +4,7 @@ use Phinx\Migration\AbstractMigration;
 
 class CreateNotifications extends AbstractMigration
 {
-	/**
+    /**
      * Change Method.
      *
      * More information on this method is available here:
@@ -18,15 +18,15 @@ class CreateNotifications extends AbstractMigration
             ->addColumn('user_id', 'integer', ['null' => false])
             ->addColumn('set_id', 'integer', ['null' => false])
             ->addColumn('created', 'integer', ['default' => 0])
-			->addForeignKey('user_id', 'users', 'id', [
+            ->addForeignKey('user_id', 'users', 'id', [
                 'delete' => 'CASCADE',
                 'update' => 'CASCADE',
                 ])
-			->addForeignKey('set_id', 'sets', 'id', [
+            ->addForeignKey('set_id', 'sets', 'id', [
                 'delete' => 'CASCADE',
                 'update' => 'CASCADE',
                 ])
             ->create()
-			;
+            ;
     }
 }

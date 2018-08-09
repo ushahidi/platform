@@ -19,122 +19,123 @@ use Ushahidi\Core\Usecase\Post\UpdatePostValueRepository;
 use Ushahidi\App\Repository\OhanzeeRepository;
 
 abstract class ValueRepository extends OhanzeeRepository implements
-	PostValueRepositoryContract,
-	ValuesForPostRepository,
-	UpdatePostValueRepository
+    PostValueRepositoryContract,
+    ValuesForPostRepository,
+    UpdatePostValueRepository
 {
 
-	// OhanzeeRepository
-	public function getEntity(array $data = null)
-	{
-		return new PostValue($data);
-	}
+    // OhanzeeRepository
+    public function getEntity(array $data = null)
+    {
+        return new PostValue($data);
+    }
 
-	// OhanzeeRepository
-	public function getSearchFields()
-	{
-		return [];
-	}
+    // OhanzeeRepository
+    public function getSearchFields()
+    {
+        return [];
+    }
 
-	// Override selectQuery to fetch attribute 'key' too
-	protected function selectQuery(array $where = [])
-	{
-		$query = parent::selectQuery($where);
+    // Override selectQuery to fetch attribute 'key' too
+    protected function selectQuery(array $where = [])
+    {
+        $query = parent::selectQuery($where);
 
-		// Select 'key' too
-		$query->select(
+        // Select 'key' too
+        $query->select(
             $this->getTable().'.*',
             'form_attributes.key',
             'form_attributes.form_stage_id',
             'form_attributes.response_private'
         )
-			->join('form_attributes')->on('form_attribute_id', '=', 'form_attributes.id');
+            ->join('form_attributes')->on('form_attribute_id', '=', 'form_attributes.id');
 
-		return $query;
-	}
+        return $query;
+    }
 
-	// PostValueRepository
-	public function get($id, $post_id = null, $form_attribute_id = null)
-	{
-		$where = array_filter(compact('id', 'post_id', 'form_attribute_id'));
-		return $this->getEntity($this->selectOne($where));
-	}
+    // PostValueRepository
+    public function get($id, $post_id = null, $form_attribute_id = null)
+    {
+        $where = array_filter(compact('id', 'post_id', 'form_attribute_id'));
+        return $this->getEntity($this->selectOne($where));
+    }
 
-	// ValuesForPostRepository
-	public function getAllForPost(
-		$post_id,
-		array $include_attributes = [],
-		array $exclude_stages = [],
-		$restricted = false
-	) {
-		$query = $this->selectQuery(compact('post_id'));
+    // ValuesForPostRepository
+    public function getAllForPost(
+        $post_id,
+        array $include_attributes = [],
+        array $exclude_stages = [],
+        $excludePrivateValues = true
+    ) {
+        $query = $this->selectQuery(compact('post_id'));
 
-		if ($include_attributes) {
-			$query->where('form_attributes.key', 'IN', $include_attributes);
-		}
+        if ($include_attributes) {
+            $query->where('form_attributes.key', 'IN', $include_attributes);
+        }
 
-		if ($restricted) {
-			$query->where('form_attributes.response_private', '!=', '1');
-			if ($exclude_stages) {
-				$query->where('form_attributes.form_stage_id', 'NOT IN', $exclude_stages);
-			}
-		}
+        if ($excludePrivateValues) {
+            $query->where('form_attributes.response_private', '!=', '1');
+            if ($exclude_stages) {
+                $query->where('form_attributes.form_stage_id', 'NOT IN', $exclude_stages);
+            }
+        }
 
-		$results = $query->execute($this->db);
-		return $this->getCollection($results->as_array());
-	}
+        $results = $query->execute($this->db);
 
-	// ValuesForPostRepository
-	public function deleteAllForPost($post_id)
-	{
-		return $this->executeDelete(compact('post_id'));
-	}
+        return $this->getCollection($results->as_array());
+    }
 
-	// PostValueRepository
-	public function getValueQuery($form_attribute_id, array $matches)
-	{
-		$query = $this->selectQuery(compact('form_attribute_id'))
-			->and_where_open();
+    // ValuesForPostRepository
+    public function deleteAllForPost($post_id)
+    {
+        return $this->executeDelete(compact('post_id'));
+    }
 
-		foreach ($matches as $match) {
-			$query->or_where('value', 'LIKE', "%$match%");
-		}
+    // PostValueRepository
+    public function getValueQuery($form_attribute_id, array $matches)
+    {
+        $query = $this->selectQuery(compact('form_attribute_id'))
+            ->and_where_open();
 
-		$query->and_where_close();
+        foreach ($matches as $match) {
+            $query->or_where('value', 'LIKE', "%$match%");
+        }
 
-		return $query;
-	}
+        $query->and_where_close();
 
-	// PostValueRepository
-	public function getValueTable()
-	{
-		return $this->getTable();
-	}
+        return $query;
+    }
 
-	// UpdatePostValueRepository
-	public function createValue($value, $form_attribute_id, $post_id)
-	{
-		$input = compact('value', 'form_attribute_id', 'post_id');
-		$input['created'] = time();
+    // PostValueRepository
+    public function getValueTable()
+    {
+        return $this->getTable();
+    }
 
-		return $this->executeInsert($input);
-	}
+    // UpdatePostValueRepository
+    public function createValue($value, $form_attribute_id, $post_id)
+    {
+        $input = compact('value', 'form_attribute_id', 'post_id');
+        $input['created'] = time();
 
-	// UpdatePostValueRepository
-	public function updateValue($id, $value)
-	{
-		$update = compact('value');
-		if ($id && $update) {
-			$this->executeUpdate(compact('id'), $update);
-		}
-	}
+        return $this->executeInsert($input);
+    }
 
-	// UpdatePostValueRepository
-	public function deleteNotIn($post_id, array $ids)
-	{
-		DB::delete($this->getTable())
-			->where('post_id', '=', $post_id)
-			->where('id', 'NOT IN', $ids)
-			->execute($this->db);
-	}
+    // UpdatePostValueRepository
+    public function updateValue($id, $value)
+    {
+        $update = compact('value');
+        if ($id && $update) {
+            $this->executeUpdate(compact('id'), $update);
+        }
+    }
+
+    // UpdatePostValueRepository
+    public function deleteNotIn($post_id, array $ids)
+    {
+        DB::delete($this->getTable())
+            ->where('post_id', '=', $post_id)
+            ->where('id', 'NOT IN', $ids)
+            ->execute($this->db);
+    }
 }

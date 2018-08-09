@@ -21,121 +21,121 @@ use Ushahidi\Core\Traits\CollectionLoader;
 use Ushahidi\Core\Exception\NotFoundException;
 
 class DataProviderRepository implements
-	ReadRepository,
-	SearchRepository,
-	DataProviderRepositoryContract
+    ReadRepository,
+    SearchRepository,
+    DataProviderRepositoryContract
 {
 
-	public function __construct()
-	{
-		$this->datasources = app('datasources');
-	}
+    public function __construct()
+    {
+        $this->datasources = app('datasources');
+    }
 
-	// use CollectionLoader;
+    // use CollectionLoader;
 
-	/**
-	 * Converts an array of results into an array of entities,
-	 * indexed by the entity id.
-	 * @param  Array $results
-	 * @return Array
-	 */
-	protected function getCollection(array $results)
-	{
-		$collection = [];
-		foreach ($results as $id => $row) {
-			$entity = $this->getEntity([
-				'id' => $id,
-				'name' => $row->getName(),
-				'options' => $row->getOptions(),
-				'services' => $row->getServices(),
-				'inbound_fields' => $row->getInboundFields(),
-			]);
-			$collection[$entity->getId()] = $entity;
-		}
-		return $collection;
-	}
+    /**
+     * Converts an array of results into an array of entities,
+     * indexed by the entity id.
+     * @param  Array $results
+     * @return Array
+     */
+    protected function getCollection(array $results)
+    {
+        $collection = [];
+        foreach ($results as $id => $row) {
+            $entity = $this->getEntity([
+                'id' => $id,
+                'name' => $row->getName(),
+                'options' => $row->getOptions(),
+                'services' => $row->getServices(),
+                'inbound_fields' => $row->getInboundFields(),
+            ]);
+            $collection[$entity->getId()] = $entity;
+        }
+        return $collection;
+    }
 
-	// ReadRepository
-	public function getEntity(array $data = null)
-	{
-		return new DataProviderEntity($data);
-	}
+    // ReadRepository
+    public function getEntity(array $data = null)
+    {
+        return new DataProviderEntity($data);
+    }
 
-	/**
-	 * Get all enabled providers, with their configuration data.
-	 * @return Array
-	 */
-	protected function getAllProviders($enabled = false)
-	{
-		if ($enabled) {
-			// Returns all *enabled* providers.
-			return $this->datasources->getEnabledSources();
-		} else {
-			// Returns all providers, even if they are disabled.
-			return $this->datasources->getSource();
-		}
-	}
+    /**
+     * Get all enabled providers, with their configuration data.
+     * @return Array
+     */
+    protected function getAllProviders($enabled = false)
+    {
+        if ($enabled) {
+            // Returns all *enabled* providers.
+            return $this->datasources->getEnabledSources();
+        } else {
+            // Returns all providers, even if they are disabled.
+            return $this->datasources->getSource();
+        }
+    }
 
-	// DataProviderRepository
-	public function all($enabled = false)
-	{
-		$providers = $this->getAllProviders($enabled);
-		return $this->getCollection($providers);
-	}
+    // DataProviderRepository
+    public function all($enabled = false)
+    {
+        $providers = $this->getAllProviders($enabled);
+        return $this->getCollection($providers);
+    }
 
-	// ReadRepository
-	// DataProviderRepository
-	public function get($provider)
-	{
-		$source = $this->datasources->getSource($provider);
+    // ReadRepository
+    // DataProviderRepository
+    public function get($provider)
+    {
+        $source = $this->datasources->getSource($provider);
 
-		if (!$source) {
-			return $this->getEntity([]);
-		}
+        if (!$source) {
+            return $this->getEntity([]);
+        }
 
-		return $this->getEntity([
-			'id' => $provider,
-			'name' => $source->getName(),
-			'options' => $source->getOptions(),
-			'services' => $source->getServices(),
-			'inbound_fields' => $source->getInboundFields(),
-		]);
-	}
+        return $this->getEntity([
+            'id' => $provider,
+            'name' => $source->getName(),
+            'options' => $source->getOptions(),
+            'services' => $source->getServices(),
+            'inbound_fields' => $source->getInboundFields(),
+        ]);
+    }
 
-	// SearchRepository
-	public function getSearchFields()
-	{
-		return ['type'];
-	}
+    // SearchRepository
+    public function getSearchFields()
+    {
+        return ['type'];
+    }
 
-	// SearchRepository
-	public function setSearchParams(SearchData $search)
-	{
-		$this->search_params = $search;
-	}
+    // SearchRepository
+    public function setSearchParams(SearchData $search)
+    {
+        $this->search_params = $search;
+    }
 
-	// SearchRepository
-	public function getSearchResults()
-	{
-		$providers = $this->getAllProviders();
+    // SearchRepository
+    public function getSearchResults()
+    {
+        $providers = $this->getAllProviders();
 
-		foreach ($providers as $name => $source) {
-			if ($this->search_params->type) {
-				if (!in_array($this->search_params->type, $source->getServices())) {
-					// Provider does not offer this type of service, skip it.
-					unset($providers[$name]);
-				}
-			}
-		}
+        foreach ($providers as $name => $source) {
+            if ($this->search_params->type) {
+                if (!in_array($this->search_params->type, $source->getServices())) {
+                    // Provider does not offer this type of service, skip it.
+                    unset($providers[$name]);
+                }
+            }
+        }
 
-		$this->search_total = count($providers);
+        $this->search_total = count($providers);
 
-		return $this->getCollection($providers);
-	}
+        return $this->getCollection($providers);
+    }
 
-	// SearchRepository
-	public function getSearchTotal()
-	{
-		return $this->search_total;
-	}
+    // SearchRepository
+    public function getSearchTotal()
+    {
+        return $this->search_total;
+    }
 }

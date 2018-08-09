@@ -17,70 +17,64 @@ use Ushahidi\Core\Tool\Validator;
 
 class Update extends Validator
 {
-	protected $default_error_source = 'form';
-	protected $repo;
-	protected $limits;
+    protected $default_error_source = 'form';
+    protected $repo;
+    protected $limits;
 
-	/**
-	 * Construct
-	 *
-	 * @param FormRepository  $repo
-	 */
-	public function __construct(FormRepository $repo, array $limits)
-	{
-		$this->repo = $repo;
-		$this->limits = $limits;
-	}
+    /**
+     * Construct
+     *
+     * @param FormRepository  $repo
+     */
+    public function __construct(FormRepository $repo, array $limits)
+    {
+        $this->repo = $repo;
+        $this->limits = $limits;
+    }
 
+    protected function getRules()
+    {
+        // Always check validation for name
+        $name = $this->validation_engine->getFullData('name');
+        if ($name) {
+            $data = $this->validation_engine->getData();
+            $data['name'] = $name;
+            $this->validation_engine->setData($data);
+        }
+        // End
 
-	protected function getRules()
-	{
-		// Always check validation for name
-		$name = $this->validation_engine->getFullData('name');
-		if ($name) {
-			$data = $this->validation_engine->getData();
-			$data['name'] = $name;
-			$this->validation_engine->setData($data);
-		}
-		// End
-
-		return [
-			'name' => [
-				['not_empty'],
-				['min_length', [':value', 2]],
-				['regex', [':value', Validator::REGEX_STANDARD_TEXT]], // alpha, number, punctuation, space
-			],
-			'description' => [
-				['is_string'],
-			],
-			'color' => [
-				['color'],
-			],
-			'disabled' => [
-				['in_array', [':value', [true, false]]]
-			],
-			'targeted_survey' => [
-				[[$this, 'everyoneCanCreateIsFalse'], [':value', ':fulldata']],
-			]
-		];
-	}
+        return [
+            'name' => [
+                ['not_empty'],
+                ['min_length', [':value', 2]],
+                ['regex', [':value', Validator::REGEX_STANDARD_TEXT]], // alpha, number, punctuation, space
+            ],
+            'description' => [['is_string']],
+            'color' => [['color']],
+            'disabled' => [['in_array', [':value', [true, false]]]],
+            'hide_author' => [['in_array', [':value', [true, false]]]],
+            'hide_location' => [['in_array', [':value', [true, false]]]],
+            'hide_time' => [['in_array', [':value', [true, false]]]],
+            'targeted_survey' => [[[$this, 'everyoneCanCreateIsFalse'], [':value', ':fulldata']],]
+        ];
+    }
 
     public function checkPostTypeLimit(\Kohana\Validation\Validation $validation)
     {
-		if ($this->limits['forms'] !== true) {
-			$total_forms = $this->repo->getTotalCount();
+        if ($this->limits['forms'] !== true) {
+            $total_forms = $this->repo->getTotalCount();
 
-			if ($total_forms >= $this->limits['forms']) {
-				$validation->error('name', 'postTypeLimitReached');
-			}
-		}
-	}
+            if ($total_forms >= $this->limits['forms']) {
+                $validation->error('name', 'postTypeLimitReached');
+            }
+        }
+    }
 
-	public function everyoneCanCreateIsFalse($value, $fullData)
-	{
-		if ($value === true) {
-			return $fullData['everyone_can_create'] === false;
-		}
-		return true;
-	}
+    public function everyoneCanCreateIsFalse($value, $fullData)
+    {
+        if ($value === true) {
+            return $fullData['everyone_can_create'] === false;
+        }
+        return true;
+    }
 }

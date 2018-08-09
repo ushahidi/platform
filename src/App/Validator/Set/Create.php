@@ -13,13 +13,13 @@ namespace Ushahidi\App\Validator\Set;
 
 class Create extends Update
 {
-	protected function getRules()
-	{
-		return array_merge_recursive(parent::getRules(), [
-			'name' => [['not_empty']],
+    protected function getRules()
+    {
+        return array_merge_recursive(parent::getRules(), [
+            'name' => [['not_empty']],
             'user_id' => [
                 [[$this->user_repo, 'exists'], [':value']],
             ],
-		]);
-	}
+        ]);
+    }
 }

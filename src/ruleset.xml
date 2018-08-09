@@ -2,12 +2,10 @@
 <ruleset name="Ushahidi">
     <description>Ushahidi uses PSR2 with tabs instead of spaces</description>
 
-    <!-- Specs use PSR2 with an exclusion of method names -->
-    <rule ref="PSR2">
-        <exclude name="Generic.WhiteSpace.DisallowTabIndent"/>
-    </rule>
+    <rule ref="PSR2" />
 
     <rule ref="Generic.PHP.CharacterBeforePHPOpeningTag" />
+    <rule ref="Generic.Arrays.DisallowLongArraySyntax" />
 
     <exclude-pattern>vendor/*</exclude-pattern>
     <exclude-pattern>tests/spec/*</exclude-pattern>

@@ -15,55 +15,55 @@ use Ushahidi\Core\Entity\PostRepository;
 
 trait PostLockTrait
 {
-	protected $post_repo;
+    protected $post_repo;
 
-	public function setPostRepository(PostRepository $post_repo)
-	{
-		$this->post_repo = $post_repo;
-		return $this;
-	}
+    public function setPostRepository(PostRepository $post_repo)
+    {
+        $this->post_repo = $post_repo;
+        return $this;
+    }
 
-	public function getPostRepository()
-	{
-		return $this->post_repo;
-	}
+    public function getPostRepository()
+    {
+        return $this->post_repo;
+    }
 
-	/**
-	 * Find lock entity based on id.
-	 * @param $id The Lock id
-	 * @return Entity
-	 */
-	protected function getLockEntity($id)
-	{
+    /**
+     * Find lock entity based on id.
+     * @param $id The Lock id
+     * @return Entity
+     */
+    protected function getLockEntity($id)
+    {
 
-		// ... attempt to load the entity
-		$entity = $this->repo->get($id);
+        // ... attempt to load the entity
+        $entity = $this->repo->get($id);
 
-		// ... and verify that the entity was actually loaded
-		$this->verifyEntityLoaded($entity, compact('id'));
+        // ... and verify that the entity was actually loaded
+        $this->verifyEntityLoaded($entity, compact('id'));
 
-		// ... then return it
-		return $entity;
-	}
+        // ... then return it
+        return $entity;
+    }
 
-	/**
-	 * Find entity based on identifying parameters.
-	 *
-	 * @return Entity
-	 */
-	protected function getPostEntity()
-	{
-		$post_repo = $this->getPostRepository();
+    /**
+     * Find entity based on identifying parameters.
+     *
+     * @return Entity
+     */
+    protected function getPostEntity()
+    {
+        $post_repo = $this->getPostRepository();
 
-		$entity = $post_repo->getEntity();
+        $entity = $post_repo->getEntity();
 
-		if ($id = $this->getIdentifier('post_id')) {
-			// ... attempt to load the entity
-			$entity = $post_repo->get($id);
-			// ... and verify that the entity was actually loaded
-			$this->verifyEntityLoaded($entity, compact('id'));
-		}
-		// ... then return it
-		return $entity;
-	}
+        if ($id = $this->getIdentifier('post_id')) {
+            // ... attempt to load the entity
+            $entity = $post_repo->get($id);
+            // ... and verify that the entity was actually loaded
+            $this->verifyEntityLoaded($entity, compact('id'));
+        }
+        // ... then return it
+        return $entity;
+    }
 }

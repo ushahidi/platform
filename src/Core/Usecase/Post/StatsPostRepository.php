@@ -16,10 +16,10 @@ use Ushahidi\Core\SearchData;
 interface StatsPostRepository
 {
 
-	/**
-	 * Get grouped totals for stats
-	 * @param  SearchData $search
-	 * @return Array
-	 */
-	public function getGroupedTotals(SearchData $search);
+    /**
+     * Get grouped totals for stats
+     * @param  SearchData $search
+     * @return Array
+     */
+    public function getGroupedTotals(SearchData $search);
 }

@@ -19,49 +19,49 @@ use Ushahidi\Core\Traits\UserContext;
 class Update extends Validator
 {
 
-	use UserContext;
+    use UserContext;
 
-	protected $user_repo;
-	protected $role_repo;
-	protected $default_error_source = 'set';
+    protected $user_repo;
+    protected $role_repo;
+    protected $default_error_source = 'set';
 
-	public function __construct(UserRepository $repo, RoleRepository $role_repo)
-	{
-		$this->user_repo = $repo;
-		$this->role_repo = $role_repo;
-	}
-
-	protected function getRules()
-	{
-		return [
-			'id' => [
-				['numeric'],
-			],
-			'user_id' => [
-				['numeric'],
-				[[$this->user_repo, 'exists'], [':value']],
-			],
-			'name' => [
-				['min_length', [':value', 3]],
-				['max_length', [':value', 255]],
-			],
-			'user_id' => [
-				[[$this->user_repo, 'exists'], [':value']],
-				[[$this, 'isUserOwner'], [':fulldata']]
-			],
-			'view' => [
-				// @todo stop hardcoding views
-				['in_array', [':value', ['map', 'list', 'chart', 'timeline', 'data']]]
-			],
-			'role' => [
-				[[$this->role_repo, 'exists'], [':value']],
-			]
-		];
-	}
-
-
-	public function isUserOwner($entity)
+    public function __construct(UserRepository $repo, RoleRepository $role_repo)
     {
-		return ($this->getUser() &&  $entity['user_id'] === $this->getUserId());
-	}
+        $this->user_repo = $repo;
+        $this->role_repo = $role_repo;
+    }
+
+    protected function getRules()
+    {
+        return [
+            'id' => [
+                ['numeric'],
+            ],
+            'user_id' => [
+                ['numeric'],
+                [[$this->user_repo, 'exists'], [':value']],
+            ],
+            'name' => [
+                ['min_length', [':value', 3]],
+                ['max_length', [':value', 255]],
+            ],
+            'user_id' => [
+                [[$this->user_repo, 'exists'], [':value']],
+                [[$this, 'isUserOwner'], [':fulldata']]
+            ],
+            'view' => [
+                // @todo stop hardcoding views
+                ['in_array', [':value', ['map', 'list', 'chart', 'timeline', 'data']]]
+            ],
+            'role' => [
+                [[$this->role_repo, 'exists'], [':value']],
+            ]
+        ];
+    }
+
+
+    public function isUserOwner($entity)
+    {
+        return ($this->getUser() &&  $entity['user_id'] === $this->getUserId());
+    }
 }

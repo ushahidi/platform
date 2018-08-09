@@ -15,43 +15,43 @@ use Ushahidi\Core\StaticEntity;
 
 class User extends StaticEntity
 {
-	protected $id;
-	protected $email;
-	protected $realname;
-	protected $password;
-	protected $logins;
-	protected $failed_attempts;
-	protected $last_login;
-	protected $last_attempt;
-	protected $created;
-	protected $updated;
-	protected $role;
-	protected $language;
-	protected $contacts;
+    protected $id;
+    protected $email;
+    protected $realname;
+    protected $password;
+    protected $logins;
+    protected $failed_attempts;
+    protected $last_login;
+    protected $last_attempt;
+    protected $created;
+    protected $updated;
+    protected $role;
+    protected $language;
+    protected $contacts;
 
-	// DataTransformer
-	protected function getDefinition()
-	{
-		return [
-			'id'              => 'int',
-			'email'           => '*email',
-			'realname'        => 'string',
-			'password'        => 'string',
-			'logins'          => 'int',
-			'failed_attempts' => 'int',
-			'last_login'      => 'int',
-			'last_attempt'    => 'int',
-			'created'         => 'int',
-			'updated'         => 'int',
-			'role'            => 'string',
-			'language'		  => 'string',
-			'contacts' 		  => 'array'
-		];
-	}
+    // DataTransformer
+    protected function getDefinition()
+    {
+        return [
+            'id'              => 'int',
+            'email'           => '*email',
+            'realname'        => 'string',
+            'password'        => 'string',
+            'logins'          => 'int',
+            'failed_attempts' => 'int',
+            'last_login'      => 'int',
+            'last_attempt'    => 'int',
+            'created'         => 'int',
+            'updated'         => 'int',
+            'role'            => 'string',
+            'language'        => 'string',
+            'contacts'        => 'array'
+        ];
+    }
 
-	// Entity
-	public function getResource()
-	{
-		return 'users';
-	}
+    // Entity
+    public function getResource()
+    {
+        return 'users';
+    }
 }

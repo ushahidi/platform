@@ -37,19 +37,6 @@ class ExportRepository extends CSVPostRepository implements PostExportRepository
         $this->set_repo = $repo;
     }
 
-    //fixme move to correct repo
-    public function getFormIdsForHeaders()
-    {
-        $searchQuery = $this->getSearchQuery();
-        $searchQuery->resetOrderBy();
-        $searchQuery->limit(null);
-        $searchQuery->offset(null);
-        $result = $searchQuery->resetSelect()
-            ->select([DB::expr('DISTINCT(posts.form_id)'), 'form_id'])->execute($this->db);
-        $result =  $result->as_array();
-        return array_column($result, 'form_id');
-    }
-
     /**
      * @param $data
      * @return array
@@ -73,10 +60,8 @@ class ExportRepository extends CSVPostRepository implements PostExportRepository
 
         // Get contact
         if (!empty($data['contact_id']) &&
-            (
-                $this->isUserAdmin($user) ||
-                $this->acl->hasPermission($user, \Ushahidi\Core\Entity\Permission::MANAGE_POSTS)
-            )
+                 $this->isUserAdmin($user) ||
+                 $this->postPermission->canUserManagePost($user)
         ) {
             $contact = $this->contact_repo->get($data['contact_id']);
             $data['contact_type'] = $contact->type;

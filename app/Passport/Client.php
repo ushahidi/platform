@@ -13,5 +13,5 @@ class Client extends LaravelPassportClient
      *
      * @var bool
      */
-	public $incrementing = false;
+    public $incrementing = false;
 }
