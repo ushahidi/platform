@@ -130,7 +130,7 @@ class Multisite
         $status = $deployment['status'];
         $deployedDate = $deployment['deployed_date'];
         $deploymentName = $deployment['deployment_name'] ? $deployment['deployment_name'] : 'Deployment';
-        
+
         // No deployment? throw a 404
         if (! count($deployment)) {
             abort(404, $deploymentName . " not found");
