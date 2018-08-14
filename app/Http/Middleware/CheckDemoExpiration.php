@@ -23,11 +23,7 @@ class CheckDemoExpiration
             $extension_date = strtotime(service('site.config')['extension_date']);
             $now = new DateTime();
             if ($expiration_date < $now && (!$extension_date || $extension_date < $now)) {
-                $expirationMessage = 'The demo period for this deployment has expired.';
-                abort(
-                    503,
-                    $expirationMessage
-                );
+                abort(503, 'The demo period for this deployment has expired.');
             }
         }
         return $next($request);
