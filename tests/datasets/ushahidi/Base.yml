@@ -2196,6 +2196,9 @@ roles_permissions:
     role: importer
     permission: Bulk Data Import and Export
   -
+    role: manager
+    permission: Bulk Data Import and Export
+  -
     role: user
     permission: Edit their own posts
   -

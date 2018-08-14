@@ -8,7 +8,7 @@ Feature: Testing the Export Job API
           """
           {
             "fields":"test",
-            "filters":
+            "filters": 
             {
               "status" : ["published","draft"],
               "has_location" : "all",
