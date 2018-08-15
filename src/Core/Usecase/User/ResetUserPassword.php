@@ -63,8 +63,8 @@ class ResetUserPassword implements Usecase
 
     public function interact()
     {
-        $token = urldecode($this->getPayload('token'));
-            $password = $this->getPayload('password');
+        $token = $this->getPayload('token');
+        $password = $this->getPayload('password');
         $entity_array = [
             'token' => $token,
             'password' => $password
@@ -72,10 +72,10 @@ class ResetUserPassword implements Usecase
 
         $this->verifyValid($entity_array);
             
-            $this->repo->setPassword($token, $password);
+        $this->repo->setPassword($token, $password);
 
-            // And delete the token
-            $this->repo->deleteResetToken($token);
+        // And delete the token
+        $this->repo->deleteResetToken($token);
 
         return;
     }
