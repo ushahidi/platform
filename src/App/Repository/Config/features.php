@@ -69,7 +69,7 @@ return [
 
     // Targeted Surveys
     'targeted-surveys' => [
-        'enabled' => true,
+        'enabled' => false,
     ],
 
     // Post locking
