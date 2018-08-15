@@ -1,3 +1,4 @@
+@formStats
 Feature: Testing the Form Stats
     @resetFixture
     Scenario: Getting the number of recipients who received an sms targeted survey
