@@ -86,7 +86,7 @@ class StatsRepository extends OhanzeeRepository implements
             
         if ($created_after) {
             $query->where('posts.created', '>=', $created_after);
-        } 
+        }
 
         if ($created_before) {
             $query->where('posts.created', '<=', $created_before);
@@ -272,7 +272,7 @@ class StatsRepository extends OhanzeeRepository implements
     public function getRecipients($form_id, $created_after, $created_before)
     {
         $where = [
-            'posts.form_id' => $form_id, 
+            'posts.form_id' => $form_id,
             'targeted_survey_state.survey_status' => [
                 Entity\TargetedSurveyState::RECEIVED_RESPONSE,
                 Entity\TargetedSurveyState::PENDING_RESPONSE,
@@ -320,7 +320,7 @@ class StatsRepository extends OhanzeeRepository implements
             $query = DB::select()
             ->from([$query, 'form_posts'])
             ->where('created', '>=', $created_after);
-        } 
+        }
 
         if ($created_before) {
             $query = DB::select()
@@ -351,7 +351,8 @@ class StatsRepository extends OhanzeeRepository implements
             ->on('posts.id', '=', 'targeted_survey_state.post_id');
     }
 
-    public function getSurveyType($form_id) {
+    public function getSurveyType($form_id) 
+    {
         $query = DB::select('targeted_survey')
         ->from('forms')
         ->where('id', '=', $form_id);
@@ -360,7 +361,8 @@ class StatsRepository extends OhanzeeRepository implements
         return $results->as_array();
     }
 
-    public function getPostCountByDataSource($form_id, $created_after, $created_before) {
+    public function getPostCountByDataSource($form_id, $created_after, $created_before) 
+    {
         if ($created_after) {
             $created_after = strtotime($created_after);
         } 
@@ -412,7 +414,7 @@ class StatsRepository extends OhanzeeRepository implements
 
         if ($created_before) {
             $query->where('posts.created', '>=', $created_after);
-        }    
+        }
 
         $webResult = $query
             ->execute($this->db)
@@ -428,7 +430,7 @@ class StatsRepository extends OhanzeeRepository implements
 
         if ($created_before) {
             $query->where('posts.created', '>=', $created_after);
-        }    
+        }
 
         $allPostsResult = $query
             ->execute($this->db)

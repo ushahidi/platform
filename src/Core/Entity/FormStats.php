@@ -30,13 +30,13 @@ class FormStats extends StaticEntity
             'total_recipients'           => 'int',
             'total_messages_sent'        => 'int',
             'total_messages_pending'     => 'int',
-            'total_by_data_source'       => array(
+            'total_by_data_source'       => [
                 'all' => 'int',
                 'sms' => 'int',
                 'web' => 'int',
                 'twitter' => 'int',
                 'email' => 'int'
-            ),
+            ],
         ];
     }
 
