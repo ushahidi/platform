@@ -48,15 +48,15 @@ class SearchFormStats extends SearchUsecase
         // If we're dealing with a targeted survey, go get those states
         if ($surveyType[0]['targeted_survey']) {
             $results = $this->getTargetedSurveyStats(
-            $this->getIdentifier('form_id'),
-            $this->getIdentifier('created_after'),
-            $this->getIdentifier('created_before')
+                $this->getIdentifier('form_id'),
+                $this->getIdentifier('created_after'),
+                $this->getIdentifier('created_before')
             );
         } else {
             $results = $this->getCrowdsourcedSurveyStats(
-            $this->getIdentifier('form_id'),
-            $this->getIdentifier('created_after'),
-            $this->getIdentifier('created_before')
+                $this->getIdentifier('form_id'),
+                $this->getIdentifier('created_after'),
+                $this->getIdentifier('created_before')
             );
         }
 
@@ -71,9 +71,9 @@ class SearchFormStats extends SearchUsecase
         $results = [
             'total_recipients' => $this->repo->getRecipients($form_id, $created_after, $created_before),
             'total_response_recipients' => $this->repo->getResponseRecipients(
-            $form_id,
-            $created_after,
-            $created_before
+                $form_id,
+                $created_after,
+                $created_before
             ),
             'total_responses' => $this->repo->getResponses($form_id, $created_after, $created_before),
             'total_messages_sent' => $outgoing['sent'],

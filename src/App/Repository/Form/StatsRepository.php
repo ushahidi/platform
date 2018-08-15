@@ -445,5 +445,4 @@ class StatsRepository extends OhanzeeRepository implements
             ->execute($this->db)
             ->get('total');
     }
-
 }
