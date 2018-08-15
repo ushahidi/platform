@@ -351,7 +351,7 @@ class StatsRepository extends OhanzeeRepository implements
             ->on('posts.id', '=', 'targeted_survey_state.post_id');
     }
 
-    public function getSurveyType($form_id) 
+    public function getSurveyType($form_id)
     {
         $query = DB::select('targeted_survey')
         ->from('forms')
@@ -361,16 +361,29 @@ class StatsRepository extends OhanzeeRepository implements
         return $results->as_array();
     }
 
-    public function getPostCountByDataSource($form_id, $created_after, $created_before) 
+    public function getPostCountByDataSource($form_id, $created_after, $created_before)
     {
         if ($created_after) {
             $created_after = strtotime($created_after);
-        } 
+        }
 
         if ($created_before) {
             $created_before = strtotime($created_before);
         }
 
+        $result = [
+            'sms' => $this->queryByDataSource($form_id, $created_after, $created_before, 'sms'),
+            'email' => $this->queryByDataSource($form_id, $created_after, $created_before, 'email'),
+            'twitter' => $this->queryByDataSource($form_id, $created_after, $created_before, 'twitter'),
+            'web' => $this->queryForWeb($form_id, $created_after, $created_before),
+            'all' => $this->queryForAllPosts($form_id, $created_after, $created_before)
+        ];
+
+        return $result;
+    }
+
+    private function queryByDataSource($form_id, $created_after, $created_before, $source)
+    {
         $query = DB::select([DB::expr('COUNT(messages.id)'), 'total'])
             ->from('posts')
             ->join('messages', 'INNER')
@@ -384,23 +397,16 @@ class StatsRepository extends OhanzeeRepository implements
         if ($created_before) {
             $query->where('messages.created', '>=', $created_after);
         }
-        
 
-        $smsResult = $query
-            ->where('messages.type', '=', 'sms')
+        return $query
+            ->where('messages.type', '=', $source)
             ->execute($this->db)
             ->get('total');
-        
-        $emailResult = $query
-            ->where('messages.type', '=', 'email')
-            ->execute($this->db)
-            ->get('total');
+    }
 
-        $twitterResult = $query
-            ->where('messages.type', '=', 'twitter')
-            ->execute($this->db)
-            ->get('total');
 
+    private function queryForWeb($form_id, $created_after, $created_before)
+    {
         $query = DB::select([DB::expr('COUNT(posts.id)'), 'total'])
             ->from('posts')
             ->join('messages', 'LEFT')
@@ -416,10 +422,13 @@ class StatsRepository extends OhanzeeRepository implements
             $query->where('posts.created', '>=', $created_after);
         }
 
-        $webResult = $query
+        return $query
             ->execute($this->db)
             ->get('total');
+    }
 
+    private function queryForAllPosts($form_id, $created_after, $created_before)
+    {
         $query = DB::select([DB::expr('COUNT(posts.id)'), 'total'])
             ->from('posts')
             ->where('posts.form_id', '=', $form_id);
@@ -432,17 +441,9 @@ class StatsRepository extends OhanzeeRepository implements
             $query->where('posts.created', '>=', $created_after);
         }
 
-        $allPostsResult = $query
+        return $query
             ->execute($this->db)
             ->get('total');
-
-        $result = [
-            'sms' => $smsResult,
-            'email' => $emailResult,
-            'twitter' => $twitterResult,
-            'web' => $webResult,
-            'all' => $allPostsResult
-        ];
-        return $result;
     }
+
 }

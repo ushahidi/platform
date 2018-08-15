@@ -60,18 +60,26 @@ class SearchFormStats extends SearchUsecase
     private function getTargetedSurveyStats()
     {
         $outgoing = $this->repo->countOutgoingMessages(
-            $this->getIdentifier('form_id'), $this->getIdentifier('created_after'),
-            $this->getIdentifier('created_before'));
+        $this->getIdentifier('form_id'),
+        $this->getIdentifier('created_after'),
+        $this->getIdentifier('created_before')
+        );
         $results = [
             'total_recipients' => $this->repo->getRecipients(
-                $this->getIdentifier('form_id'), $this->getIdentifier('created_after'),
-                $this->getIdentifier('created_before')),
+            $this->getIdentifier('form_id'),
+            $this->getIdentifier('created_after'),
+            $this->getIdentifier('created_before')
+            ),
             'total_response_recipients' => $this->repo->getResponseRecipients(
-                $this->getIdentifier('form_id'), $this->getIdentifier('created_after'),
-                $this->getIdentifier('created_before')),
+            $this->getIdentifier('form_id'),
+            $this->getIdentifier('created_after'),
+            $this->getIdentifier('created_before')
+            ),
             'total_responses' => $this->repo->getResponses(
-                $this->getIdentifier('form_id'), $this->getIdentifier('created_after'),
-                $this->getIdentifier('created_before')),
+            $this->getIdentifier('form_id'),
+            $this->getIdentifier('created_after'),
+            $this->getIdentifier('created_before')
+            ),
             'total_messages_sent' => $outgoing['sent'],
             'total_messages_pending' => $this->repo->countTotalPending(
                 $this->getIdentifier('form_id'),
@@ -85,8 +93,10 @@ class SearchFormStats extends SearchUsecase
     {
         $results = [
             'total_by_data_source' => $this->repo->getPostCountByDataSource(
-                $this->getIdentifier('form_id'), $this->getIdentifier('created_after'),
-                $this->getIdentifier('created_before'))
+            $this->getIdentifier('form_id'),
+            $this->getIdentifier('created_after'),
+            $this->getIdentifier('created_before')
+            )
         ];
         return $results;
     }
