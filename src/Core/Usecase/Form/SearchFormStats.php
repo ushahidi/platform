@@ -47,9 +47,17 @@ class SearchFormStats extends SearchUsecase
 
         // If we're dealing with a targeted survey, go get those states
         if ($surveyType[0]['targeted_survey']) {
-            $results = $this->getTargetedSurveyStats();
+            $results = $this->getTargetedSurveyStats(
+            $this->getIdentifier('form_id'),
+            $this->getIdentifier('created_after'),
+            $this->getIdentifier('created_before')
+            );
         } else {
-            $results = $this->getCrowdsourcedSurveyStats();
+            $results = $this->getCrowdsourcedSurveyStats(
+            $this->getIdentifier('form_id'),
+            $this->getIdentifier('created_after'),
+            $this->getIdentifier('created_before')
+            );
         }
 
         $entity->setState($results);
@@ -57,46 +65,30 @@ class SearchFormStats extends SearchUsecase
         return $this->formatter->__invoke($entity);
     }
 
-    private function getTargetedSurveyStats()
+    private function getTargetedSurveyStats($form_id, $created_after, $created_before)
     {
-        $outgoing = $this->repo->countOutgoingMessages(
-        $this->getIdentifier('form_id'),
-        $this->getIdentifier('created_after'),
-        $this->getIdentifier('created_before')
-        );
+        $outgoing = $this->repo->countOutgoingMessages($form_id, $created_after, $created_before);
         $results = [
-            'total_recipients' => $this->repo->getRecipients(
-            $this->getIdentifier('form_id'),
-            $this->getIdentifier('created_after'),
-            $this->getIdentifier('created_before')
-            ),
+            'total_recipients' => $this->repo->getRecipients($form_id, $created_after, $created_before),
             'total_response_recipients' => $this->repo->getResponseRecipients(
-            $this->getIdentifier('form_id'),
-            $this->getIdentifier('created_after'),
-            $this->getIdentifier('created_before')
+            $form_id,
+            $created_after,
+            $created_before
             ),
-            'total_responses' => $this->repo->getResponses(
-            $this->getIdentifier('form_id'),
-            $this->getIdentifier('created_after'),
-            $this->getIdentifier('created_before')
-            ),
+            'total_responses' => $this->repo->getResponses($form_id, $created_after, $created_before),
             'total_messages_sent' => $outgoing['sent'],
             'total_messages_pending' => $this->repo->countTotalPending(
-                $this->getIdentifier('form_id'),
+                $form_id,
                 $outgoing['sent']
             )
         ];
         return $results;
     }
 
-    private function getCrowdsourcedSurveyStats()
+    private function getCrowdsourcedSurveyStats($form_id, $created_after, $created_before)
     {
         $results = [
-            'total_by_data_source' => $this->repo->getPostCountByDataSource(
-            $this->getIdentifier('form_id'),
-            $this->getIdentifier('created_after'),
-            $this->getIdentifier('created_before')
-            )
+            'total_by_data_source' => $this->repo->getPostCountByDataSource($form_id, $created_after, $created_before)
         ];
         return $results;
     }
