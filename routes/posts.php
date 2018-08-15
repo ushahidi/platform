@@ -51,6 +51,10 @@ $router->group([
         $router->put('/{post_id:[0-9]+}/lock', 'LockController@store');
         $router->delete('/{post_id:[0-9]+}/lock', 'LockController@destroy');
 
+        // Coments
+        $router->put('/{post_id:[0-9]+}/comment', 'CommentController@store');
+        $router->delete('/{post_id:[0-9]+}/comment', 'CommentController@destroy');
+
         // Sub-post routes
         $router->group(['prefix' => '/{parent_id:[0-9]+}'], function () use ($router) {
             // Translations

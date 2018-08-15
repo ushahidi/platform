@@ -189,6 +189,12 @@ $di->params['Ushahidi\Factory\ValidatorFactory']['map']['posts_lock'] = [
     'create' => $di->lazyNew(Ushahidi\App\Validator\Post\Create::class),
     'update' => $di->lazyNew(Ushahidi\App\Validator\Post\Update::class),
 ];
+
+$di->params['Ushahidi\Factory\ValidatorFactory']['map']['posts_comment'] = [
+    'create' => $di->lazyNew(Ushahidi\App\Validator\Post\Create::class),
+    'update' => $di->lazyNew(Ushahidi\App\Validator\Post\Update::class),
+];
+
 $di->params['Ushahidi\Factory\ValidatorFactory']['map']['tags'] = [
     'create' => $di->lazyNew(Ushahidi\App\Validator\Tag\Create::class),
     'update' => $di->lazyNew(Ushahidi\App\Validator\Tag\Update::class),
@@ -270,6 +276,7 @@ $di->params['Ushahidi\Factory\FormatterFactory']['map'] = [
     'messages'             => $di->lazyNew(Ushahidi\App\Formatter\Message::class),
     'posts'                => $di->lazyNew(Ushahidi\App\Formatter\Post::class),
     'posts_lock'           => $di->lazyNew(Ushahidi\App\Formatter\Post\Lock::class),
+    'posts_comment'        => $di->lazyNew(Ushahidi\App\Formatter\Post\Comment::class),
     'tags'                 => $di->lazyNew(Ushahidi\App\Formatter\Tag::class),
     'savedsearches'        => $di->lazyNew(Ushahidi\App\Formatter\Set::class),
     'sets'                 => $di->lazyNew(Ushahidi\App\Formatter\Set::class),
@@ -303,6 +310,7 @@ $di->setter[Ushahidi\App\Formatter\Media::class]['setAuth'] = $di->lazyGet("auth
 $di->setter[Ushahidi\App\Formatter\Message::class]['setAuth'] = $di->lazyGet("authorizer.message");
 $di->setter[Ushahidi\App\Formatter\Post::class]['setAuth'] = $di->lazyGet("authorizer.post");
 $di->setter[Ushahidi\App\Formatter\Post\Lock::class]['setAuth'] = $di->lazyGet("authorizer.post");
+$di->setter[Ushahidi\App\Formatter\Post\Comment::class]['setAuth'] = $di->lazyGet("authorizer.post");
 $di->setter[Ushahidi\App\Formatter\Tag::class]['setAuth'] = $di->lazyGet("authorizer.tag");
 $di->setter[Ushahidi\App\Formatter\Tos::class]['setAuth'] = $di->lazyGet("authorizer.tos");
 $di->setter[Ushahidi\App\Formatter\User::class]['setAuth'] = $di->lazyGet("authorizer.user");
@@ -334,6 +342,7 @@ $di->set('formatter.entity.form.stats', $di->lazyNew(Ushahidi\App\Formatter\Form
 $di->set('formatter.entity.form.contactcollection', $di->lazyNew(Ushahidi\App\Formatter\Form\ContactCollection::class));
 $di->set('formatter.entity.post.value', $di->lazyNew(Ushahidi\App\Formatter\PostValue::class));
 $di->set('formatter.entity.post.lock', $di->lazyNew(Ushahidi\App\Formatter\Post\Lock::class));
+$di->set('formatter.entity.post.comment', $di->lazyNew(Ushahidi\App\Formatter\Post\Comment::class));
 $di->set('formatter.entity.post.geojson', $di->lazyNew(Ushahidi\App\Formatter\Post\GeoJSON::class));
 $di->set('formatter.entity.post.geojsoncollection', $di->lazyNew(Ushahidi\App\Formatter\Post\GeoJSONCollection::class));
 $di->set('formatter.entity.post.stats', $di->lazyNew(Ushahidi\App\Formatter\Post\Stats::class));
@@ -380,6 +389,7 @@ $di->set('repository.post', $di->lazyNew(Ushahidi\App\Repository\PostRepository:
 $di->set('repository.csv_post', $di->lazyNew(Ushahidi\App\Repository\CSVPostRepository::class));
 
 $di->set('repository.post_lock', $di->lazyNew(Ushahidi\App\Repository\Post\LockRepository::class));
+$di->set('repository.post_comment', $di->lazyNew(Ushahidi\App\Repository\Post\CommentRepository::class));
 $di->set('repository.tag', $di->lazyNew(Ushahidi\App\Repository\TagRepository::class));
 $di->set('repository.set', $di->lazyNew(Ushahidi\App\Repository\SetRepository::class));
 $di->set('repository.savedsearch', $di->lazyNew(
@@ -497,6 +507,7 @@ $di->params[Ushahidi\App\Repository\PostRepository::class] = [
     'form_stage_repo' => $di->lazyGet('repository.form_stage'),
     'form_repo' => $di->lazyGet('repository.form'),
     'post_lock_repo' => $di->lazyGet('repository.post_lock'),
+    'post_comment_repo' => $di->lazyGet('repository.post_comment'),
     'contact_repo' => $di->lazyGet('repository.contact'),
     'post_value_factory' => $di->lazyGet('repository.post_value_factory'),
     'bounding_box_factory' => $di->newFactory(Ushahidi\App\Util\BoundingBox::class)
@@ -586,6 +597,7 @@ $di->params[Ushahidi\App\Validator\Post\Create::class] = [
     'user_repo' => $di->lazyGet('repository.user'),
     'form_repo' => $di->lazyGet('repository.form'),
     'post_lock_repo' => $di->lazyGet('repository.post_lock'),
+    'post_comment_repo' => $di->lazyGet('repository.post_comment'),
     'role_repo' => $di->lazyGet('repository.role'),
     'post_value_factory' => $di->lazyGet('repository.post_value_factory'),
     'post_value_validator_factory' => $di->lazyGet('validator.post.value_factory'),
@@ -596,6 +608,9 @@ $di->params[Ushahidi\App\Validator\Post\Lock\Update::class] = [
     'post_repo' => $di->lazyGet('repository.post_lock'),
 ];
 
+$di->params[Ushahidi\App\Validator\Post\Comment\Update::class] = [
+    'post_repo' => $di->lazyGet('repository.post_comment'),
+];
 
 $di->params[Ushahidi\App\Validator\Form\Update::class] = [
     'repo' => $di->lazyGet('repository.form'),
@@ -1004,6 +1019,13 @@ $di->set('post-locking.enabled', function () use ($di) {
     $config = $di->get('features');
 
     return $config['post-locking']['enabled'];
+});
+
+// Post Comment config settings
+$di->set('post-comment.enabled', function () use ($di) {
+    $config = $di->get('features');
+
+    return $config['post-comment']['enabled'];
 });
 
 // Redis config settings

@@ -67,6 +67,11 @@ return [
         'enabled' => true,
     ],
 
+    // Post comment
+    'post-comment' => [
+        'enabled' => true,
+    ],
+
     // Targeted Surveys
     'targeted-surveys' => [
         'enabled' => false,
