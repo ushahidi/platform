@@ -36,8 +36,8 @@ class SearchFormStats extends SearchUsecase
         // ... and get the search filters for this entity
         $search = $this->getSearch();
         $search->setFilter('form_id', $this->getIdentifier('form_id'));
-        $search->setFilter('created_after', $this->getIdentifier('created_after'));
-        $search->setFilter('created_before', $this->getIdentifier('created_before'));
+        $search->setFilter('created_after', $this->getFilter('created_after'));
+        $search->setFilter('created_before', $this->getFilter('created_before'));
 
         // ... pass the search information to the repo
         $this->repo->setSearchParams($search);
@@ -49,14 +49,14 @@ class SearchFormStats extends SearchUsecase
         if ($surveyType[0]['targeted_survey']) {
             $results = $this->getTargetedSurveyStats(
                 $this->getIdentifier('form_id'),
-                $this->getIdentifier('created_after'),
-                $this->getIdentifier('created_before')
+                $this->getFilter('created_after'),
+                $this->getFilter('created_before')
             );
         } else {
             $results = $this->getCrowdsourcedSurveyStats(
                 $this->getIdentifier('form_id'),
-                $this->getIdentifier('created_after'),
-                $this->getIdentifier('created_before')
+                $this->getFilter('created_after'),
+                $this->getFilter('created_before')
             );
         }
 

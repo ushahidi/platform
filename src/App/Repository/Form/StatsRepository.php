@@ -317,14 +317,12 @@ class StatsRepository extends OhanzeeRepository implements
             ->where('form_id', '=', $form_id);
 
         if ($created_after) {
-            $query = DB::select()
-            ->from([$query, 'form_posts'])
+            $query
             ->where('created', '>=', $created_after);
         }
 
         if ($created_before) {
-            $query = DB::select()
-            ->from([$query, 'selected_posts'])
+            $query
             ->where('created', '<=', $created_before);
         }
 
@@ -371,10 +369,11 @@ class StatsRepository extends OhanzeeRepository implements
             $created_before = strtotime($created_before);
         }
 
+        $dataSourceCounts = $this->queryByDataSource($form_id, $created_after, $created_before);
         $result = [
-            'sms' => $this->queryByDataSource($form_id, $created_after, $created_before, 'sms'),
-            'email' => $this->queryByDataSource($form_id, $created_after, $created_before, 'email'),
-            'twitter' => $this->queryByDataSource($form_id, $created_after, $created_before, 'twitter'),
+            'sms' => $dataSourceCounts['sms'],
+            'email' => $dataSourceCounts['email'],
+            'twitter' => $dataSourceCounts['twitter'],
             'web' => $this->queryForWeb($form_id, $created_after, $created_before),
             'all' => $this->queryForAllPosts($form_id, $created_after, $created_before)
         ];
@@ -382,13 +381,14 @@ class StatsRepository extends OhanzeeRepository implements
         return $result;
     }
 
-    private function queryByDataSource($form_id, $created_after, $created_before, $source)
+    private function queryByDataSource($form_id, $created_after, $created_before)
     {
-        $query = DB::select([DB::expr('COUNT(messages.id)'), 'total'])
+        $query = DB::select('messages.type', [DB::expr('COUNT(messages.id)'), 'total'])
             ->from('posts')
             ->join('messages', 'INNER')
             ->on('messages.post_id', '=', 'posts.id')
-            ->where('posts.form_id', '=', $form_id);
+            ->where('posts.form_id', '=', $form_id)
+            ->group_by('messages.type');
         
         if ($created_after) {
             $query->where('messages.created', '>=', $created_after);
@@ -398,10 +398,20 @@ class StatsRepository extends OhanzeeRepository implements
             $query->where('messages.created', '>=', $created_after);
         }
 
-        return $query
-            ->where('messages.type', '=', $source)
-            ->execute($this->db)
-            ->get('total');
+        $result = $query
+            ->execute($this->db);
+
+        $ret = ['sms' => 0, 'email' => 0, 'twitter' => 0];
+        foreach ($result->as_array() as $item) {
+            if ($item['type'] === 'sms') {
+                $ret['sms'] = $item['total'];
+            } elseif ($item['type'] === 'email') {
+                $ret['email'] = $item['total'];
+            } elseif ($item['type'] === 'twitter') {
+                $ret['twitter'] = $item['total'];
+            }
+        }
+        return $ret;
     }
 
 
