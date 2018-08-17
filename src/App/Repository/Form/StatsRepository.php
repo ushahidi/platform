@@ -59,7 +59,7 @@ class StatsRepository extends OhanzeeRepository implements
     // SearchRepository
     public function getSearchFields()
     {
-        return ['form_id', 'contacts'];
+        return ['form_id', 'contacts', 'created_after', 'created_before'];
     }
 
     // OhanzeeRepository
@@ -71,7 +71,7 @@ class StatsRepository extends OhanzeeRepository implements
             $query->where('form_id', '=', $search->form_id);
         }
     }
-    public function getResponses($form_id)
+    public function getResponses($form_id, $created_after, $created_before)
     {
         $where = [
             'posts.form_id' => $form_id,
@@ -82,9 +82,21 @@ class StatsRepository extends OhanzeeRepository implements
                 Entity\TargetedSurveyState::SURVEY_FINISHED,
             ]
         ];
-        $query = $this->selectQuery($where)
+        $query = $this->selectQuery($where);
+            
+        if ($created_after) {
+            $query->where('posts.created', '>=', $created_after);
+        }
+
+        if ($created_before) {
+            $query->where('posts.created', '<=', $created_before);
+        }
+
+        $query
             ->resetSelect()
-            ->select([DB::expr('COUNT(messages.id)'), 'total'])
+            ->select([DB::expr('COUNT(messages.id)'), 'total']);
+
+        $query
             ->join('targeted_survey_state', 'INNER')
                 ->on('contacts.id', '=', 'targeted_survey_state.contact_id')
                 ->join('posts', 'INNER')
@@ -192,7 +204,7 @@ class StatsRepository extends OhanzeeRepository implements
      * @param $form_id
      * @return array
      */
-    public function countOutgoingMessages($form_id)
+    public function countOutgoingMessages($form_id, $created_after, $created_before)
     {
         $query = $this->selectQuery()
             ->reset()
@@ -205,6 +217,15 @@ class StatsRepository extends OhanzeeRepository implements
             )
             ->where('direction', '=', 'outgoing')
             ->group_by('status');
+
+        if ($created_after) {
+            $query->where('created', '>=', $created_after);
+        }
+
+        if ($created_before) {
+            $query->where('created', '<=', $created_before);
+        }
+
         $result = $query
             ->execute($this->db);
         $ret = ['pending' => 0, 'sent' => 0];
@@ -248,7 +269,7 @@ class StatsRepository extends OhanzeeRepository implements
      * @param int $form_id
      * @return bool
      */
-    public function getRecipients($form_id)
+    public function getRecipients($form_id, $created_after, $created_before)
     {
         $where = [
             'posts.form_id' => $form_id,
@@ -260,11 +281,59 @@ class StatsRepository extends OhanzeeRepository implements
         ];
         $query = $this->selectQuery($where)
             ->resetSelect()
-            ->select([DB::expr('COUNT(distinct contact_id)'), 'total']);
+            ->select([DB::expr('COUNT(contacts.id)'), 'total']);
+
         $query = $this->targetedSurveyStateJoin($query);
+        if ($created_after || $created_before) {
+            $query
+                ->join('messages', 'INNER')
+                ->on('messages.contact_id', '=', 'contacts.id')
+                ->where('messages.direction', '=', 'outgoing');
+            if ($created_after) {
+                $query->where('messages.created', '>=', $created_after);
+            }
+            if ($created_before) {
+                $query->where('messages.created', '<=', $created_before);
+            }
+        }
+        
         return $query
             ->execute($this->db)
             ->get('total');
+    }
+    /**
+     * @param $query
+     * @param int $form_id
+     * @param string $created_after
+     * @param string $created_before
+     * @param $result
+     * @return array
+     */
+    public function getResponseRecipients($form_id, $created_after, $created_before)
+    {
+        
+        $query = DB::select()
+            ->from('posts')
+            ->where('form_id', '=', $form_id);
+
+        if ($created_after) {
+            $query
+            ->where('created', '>=', $created_after);
+        }
+
+        if ($created_before) {
+            $query
+            ->where('created', '<=', $created_before);
+        }
+
+        $query = DB::select('contact_id')
+            ->distinct(true)
+            ->from([$query,'targeted_posts'])
+            ->join('messages', 'INNER')
+            ->on('messages.post_id', '=', 'targeted_posts.id');
+
+        $results =  $query->execute($this->db);
+        return $this->getCollection($results->as_array());
     }
 
     /**
@@ -278,5 +347,112 @@ class StatsRepository extends OhanzeeRepository implements
             ->on('contacts.id', '=', 'targeted_survey_state.contact_id')
             ->join('posts', 'INNER')
             ->on('posts.id', '=', 'targeted_survey_state.post_id');
+    }
+
+    public function getSurveyType($form_id)
+    {
+        $query = DB::select('targeted_survey')
+        ->from('forms')
+        ->where('id', '=', $form_id);
+
+        $results = $query->execute($this->db);
+        return $results->as_array();
+    }
+
+    public function getPostCountByDataSource($form_id, $created_after, $created_before)
+    {
+        if ($created_after) {
+            $created_after = strtotime($created_after);
+        }
+
+        if ($created_before) {
+            $created_before = strtotime($created_before);
+        }
+
+        $dataSourceCounts = $this->queryByDataSource($form_id, $created_after, $created_before);
+        $result = [
+            'sms' => $dataSourceCounts['sms'],
+            'email' => $dataSourceCounts['email'],
+            'twitter' => $dataSourceCounts['twitter'],
+            'web' => $this->queryForWeb($form_id, $created_after, $created_before),
+            'all' => $this->queryForAllPosts($form_id, $created_after, $created_before)
+        ];
+
+        return $result;
+    }
+
+    private function queryByDataSource($form_id, $created_after, $created_before)
+    {
+        $query = DB::select('messages.type', [DB::expr('COUNT(messages.id)'), 'total'])
+            ->from('posts')
+            ->join('messages', 'INNER')
+            ->on('messages.post_id', '=', 'posts.id')
+            ->where('posts.form_id', '=', $form_id)
+            ->group_by('messages.type');
+        
+        if ($created_after) {
+            $query->where('messages.created', '>=', $created_after);
+        }
+
+        if ($created_before) {
+            $query->where('messages.created', '>=', $created_after);
+        }
+
+        $result = $query
+            ->execute($this->db);
+
+        $ret = ['sms' => 0, 'email' => 0, 'twitter' => 0];
+        foreach ($result->as_array() as $item) {
+            if ($item['type'] === 'sms') {
+                $ret['sms'] = $item['total'];
+            } elseif ($item['type'] === 'email') {
+                $ret['email'] = $item['total'];
+            } elseif ($item['type'] === 'twitter') {
+                $ret['twitter'] = $item['total'];
+            }
+        }
+        return $ret;
+    }
+
+
+    private function queryForWeb($form_id, $created_after, $created_before)
+    {
+        $query = DB::select([DB::expr('COUNT(posts.id)'), 'total'])
+            ->from('posts')
+            ->join('messages', 'LEFT')
+            ->on('messages.post_id', '=', 'posts.id')
+            ->where('messages.post_id', 'is', null)
+            ->where('posts.form_id', '=', $form_id);
+
+        if ($created_after) {
+            $query->where('posts.created', '>=', $created_after);
+        }
+
+        if ($created_before) {
+            $query->where('posts.created', '>=', $created_after);
+        }
+
+        return $query
+            ->execute($this->db)
+            ->get('total');
+    }
+
+    private function queryForAllPosts($form_id, $created_after, $created_before)
+    {
+        $query = DB::select([DB::expr('COUNT(posts.id)'), 'total'])
+            ->from('posts')
+            ->where('posts.form_id', '=', $form_id);
+
+        if ($created_after) {
+            $query->where('posts.created', '>=', $created_after);
+        }
+
+        if ($created_before) {
+            $query->where('posts.created', '>=', $created_after);
+        }
+
+        return $query
+            ->execute($this->db)
+            ->get('total');
     }
 }
