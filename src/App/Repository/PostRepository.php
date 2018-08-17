@@ -706,13 +706,13 @@ class PostRepository extends OhanzeeRepository implements
                     ->select(['Group_'.ucfirst($key).'.value', 'label'])
                     ->group_by('label');
             }
-        } // Group by status
-        elseif ($search->group_by === 'status') {
+        // Group by status
+        } elseif ($search->group_by === 'status') {
             $this->search_query
                 ->select(['posts.status', 'label'])
                 ->group_by('label');
-        } // Group by form
-        elseif ($search->group_by === 'form') {
+        // Group by form
+        } elseif ($search->group_by === 'form') {
             $this->search_query
                 ->join('forms', 'LEFT')->on('posts.form_id', '=', 'forms.id')
                 // Select Datasource
@@ -724,8 +724,8 @@ class PostRepository extends OhanzeeRepository implements
                 ->group_by('forms.id')
                 // ...and then by datasource
                 ->group_by('messages.type');
-        } // Group by tags
-        elseif ($search->group_by === 'tags') {
+        // Group by tags
+        } elseif ($search->group_by === 'tags') {
             /**
              * The output query looks something like
              * SELECT
@@ -772,8 +772,8 @@ class PostRepository extends OhanzeeRepository implements
                         ->and_where_close();
                 }
             }
-        } // If no group_by just count all posts
-        else {
+        // If no group_by just count all posts
+        } else {
             $this->search_query
                 ->select([DB::expr('"all"'), 'label']);
         }
