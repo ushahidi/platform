@@ -24,7 +24,7 @@ class StatsController extends RESTController
     public function index(Request $request)
     {
         $params = $this->getRouteParams($request);
-        $filters = getFilters($request);
+        $filters = $this->getRouteParams($request);
         $filters['created_after'] = $request->input('created_after');
         $filters['created_before'] = $request->input('created_before');
         $this->usecase = $this->usecaseFactory
