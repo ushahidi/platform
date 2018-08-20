@@ -8,6 +8,7 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 namespace Ushahidi\Core\Entity;
+
 use Ushahidi\Core\StaticEntity;
 
 class FormStats extends StaticEntity

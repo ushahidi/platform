@@ -17,6 +17,7 @@ use Ushahidi\Core\Traits\AdminAccess;
 use Ushahidi\Core\Traits\PrivAccess;
 use Ushahidi\Core\Traits\PrivateDeployment;
 use Ushahidi\Core\Tool\Permissions\AclTrait;
+
 // The `FormStageAuthorizer` class is responsible for access checks on `Forms`
 class FormStatsAuthorizer implements Authorizer
 {
