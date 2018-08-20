@@ -9,6 +9,7 @@
  */
 namespace Ushahidi\Core\Entity;
 use Ushahidi\Core\StaticEntity;
+
 class FormStats extends StaticEntity
 {
     protected $total_responses;
