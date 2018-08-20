@@ -30,7 +30,11 @@ class Controller_Api_Forms_Stats extends Ushahidi_Rest {
 	{
 		$this->_usecase = service('factory.usecase')
 			->get($this->_resource(), 'search');
-		$this->_usecase->setIdentifiers($this->request->param());
+        $this->_usecase->setIdentifiers($this->request->param());
+        $this->_usecase->setFilters($this->request->query() + [
+            'created_before' => $this->request->param('created_before'),
+            'created_after' => $this->request->param('created_after'),
+			]);
 		$this->_usecase
 			->setFormatter(service("formatter.entity.form.stats"));
 	}
