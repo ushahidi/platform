@@ -2541,6 +2541,7 @@ messages:
     post_id: 1699
     user_id:
     datetime:
+    data_provider:
   -
     id: 19
     title: "Testing twitter count for form stats"
@@ -2552,6 +2553,7 @@ messages:
     post_id: 1700
     user_id:
     datetime:
+    data_provider:
 layers:
   -
     id: 1
