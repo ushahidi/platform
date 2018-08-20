@@ -395,7 +395,7 @@ class StatsRepository extends OhanzeeRepository implements
         }
 
         if ($created_before) {
-            $query->where('messages.created', '>=', $created_after);
+            $query->where('messages.created', '<=', $created_before);
         }
 
         $result = $query
@@ -429,7 +429,7 @@ class StatsRepository extends OhanzeeRepository implements
         }
 
         if ($created_before) {
-            $query->where('posts.created', '>=', $created_after);
+            $query->where('posts.created', '<=', $created_before);
         }
 
         return $query
@@ -448,7 +448,7 @@ class StatsRepository extends OhanzeeRepository implements
         }
 
         if ($created_before) {
-            $query->where('posts.created', '>=', $created_after);
+            $query->where('posts.created', '<=', $created_before);
         }
 
         return $query
