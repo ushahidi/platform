@@ -2530,7 +2530,7 @@ messages:
     user_id:
     datetime:
     data_provider:
- -
+  -
     id: 18
     title: "Testing email count for form stats"
     message: "this is an email test"
