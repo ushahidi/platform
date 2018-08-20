@@ -263,8 +263,7 @@ class Ushahidi_Repository_Form_Stats extends Ushahidi_Repository implements
                 $query->where('messages.created', '<=', $created_before);
             }
         }
-        
-		$query = $this->targetedSurveyStateJoin($query);
+
 		return $query
 			->execute($this->db)
 			->get('total');

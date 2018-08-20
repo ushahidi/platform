@@ -1,3 +1,4 @@
+@formstats
 Feature: Testing the Form Stats
     @resetFixture
     Scenario: Getting the number of recipients who received an sms targeted survey
@@ -65,7 +66,7 @@ Feature: Testing the Form Stats
 
     @resetFixture
     Scenario: Getting the number of posts by data source for survey 1
-        And that the oauth token is "testadminuser"
+        And that the request "Authorization" header is "Bearer testadminuser"
         When I request "/forms/1/stats"
         Then the response is JSON
         And the response has a "total_by_data_source" property
