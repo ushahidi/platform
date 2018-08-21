@@ -15,5 +15,4 @@ class ChangingTitleInputToText extends AbstractMigration
 
         $update->execute();
     }
-
 }
