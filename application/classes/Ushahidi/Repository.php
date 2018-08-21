@@ -74,7 +74,7 @@ abstract class Ushahidi_Repository implements
 	public function create(Entity $entity)
 	{
 		return $this->executeInsert($this->removeNullValues($entity->asArray()));
-	}
+    }
 
 	// UpdateRepository
 	public function update(Entity $entity)
@@ -152,7 +152,7 @@ abstract class Ushahidi_Repository implements
 		return array_filter($data, function ($val) {
 			return isset($val);
 		});
-	}
+    }
 
 	/**
 	 * Get a copy of the current search query, optionally removing the LIMIT,
@@ -245,6 +245,31 @@ abstract class Ushahidi_Repository implements
 
 		list($id) = $query->execute($this->db);
 		return $id;
+    }
+    
+    /**
+	 * Create a single record from input and return the created ID.
+	 * @param  Array $input hash of input
+	 * @return Integer
+	 */
+	protected function executeInsertMany($keys, Array $input)
+	{
+		if (!$input) {
+			throw new RuntimeException(sprintf(
+				'Cannot create an empty record in table "%s"',
+				$this->getTable()
+			));
+		}
+
+		$query = DB::insert($this->getTable())
+            ->columns($keys);
+
+        foreach($input as $row) {
+            $query->values(array_values($row));
+        }
+
+        $ids = $query->execute($this->db);      
+		return $ids;
 	}
 
 	/**

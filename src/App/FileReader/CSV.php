@@ -38,10 +38,11 @@ class CSV implements FileReader
 
 	public function process($file)
 	{
-		$reader = $this->reader_factory->createReader($file);
 
+		$reader = $this->reader_factory->createReader($file);
 		// Filter out empty rows
-		$nbColumns = count($reader->fetchOne());
+        $nbColumns = count($reader->fetchOne());
+        
 		$reader->addFilter(function ($row) use ($nbColumns) {
 		    return count($row) == $nbColumns;
 		});
