@@ -353,7 +353,7 @@ class Ushahidi_Repository_Form_Stats extends Ushahidi_Repository implements
             $query->where('messages.created', '>=', $created_after);
         }
         if ($created_before) {
-            $query->where('messages.created', '>=', $created_before);
+            $query->where('messages.created', '<=', $created_before);
         }
         $result = $query
             ->execute($this->db);
@@ -382,7 +382,7 @@ class Ushahidi_Repository_Form_Stats extends Ushahidi_Repository implements
             $query->where('posts.created', '>=', $created_after);
         }
         if ($created_before) {
-            $query->where('posts.created', '>=', $created_before);
+            $query->where('posts.created', '<=', $created_before);
         }
         return $query
             ->execute($this->db)
@@ -398,7 +398,7 @@ class Ushahidi_Repository_Form_Stats extends Ushahidi_Repository implements
             $query->where('posts.created', '>=', $created_after);
         }
         if ($created_before) {
-            $query->where('posts.created', '>=', $created_before);
+            $query->where('posts.created', '<=', $created_before);
         }
         return $query
             ->execute($this->db)
