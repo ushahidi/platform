@@ -1173,6 +1173,36 @@ posts:
     created: 1412025016
     published_to: '[]'
     post_date: "2014-09-29 14:10:16"
+  -
+    id: 1699
+    form_id: 1
+    parent_id:
+    user_id: 1
+    author_email: ""
+    author_realname: ""
+    title: "Testing email count for form stats"
+    type: "report"
+    content: "this is an email test"
+    status: "draft"
+    locale: "en_us"
+    created: 1534342200
+    published_to: '[]'
+    post_date: "2018-08-12 14:10:16"
+  -
+    id: 1700
+    form_id: 1
+    parent_id:
+    user_id: 1
+    author_email: ""
+    author_realname: ""
+    title: "Testing twitter count for form stats"
+    type: "report"
+    content: "this is an twitter test"
+    status: "draft"
+    locale: "en_us"
+    created: 1534342200
+    published_to: '[]'
+    post_date: "2018-08-12 14:10:16"
 post_locks:
   -
     id: 1
@@ -2497,6 +2527,30 @@ messages:
     status: "sent"
     contact_id: 10
     post_id: 1698
+    user_id:
+    datetime:
+    data_provider:
+  -
+    id: 18
+    title: "Testing email count for form stats"
+    message: "this is an email test"
+    type: "email"
+    direction: "incoming"
+    status: "received"
+    contact_id: 1
+    post_id: 1699
+    user_id:
+    datetime:
+    data_provider:
+  -
+    id: 19
+    title: "Testing twitter count for form stats"
+    message: "this is an twitter test"
+    type: "twitter"
+    direction: "incoming"
+    status: "received"
+    contact_id: 1
+    post_id: 1700
     user_id:
     datetime:
     data_provider:
