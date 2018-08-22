@@ -56,5 +56,7 @@ return array(
 'Access Token Secret' => 'Código Secreto del Token de Acceso',
 'Add the access secret that you generated for your Twitter app.' => 'Agregue el código secreto de acceso que generó para su aplicación de Twitter.',
 'Twitter search terms' => 'Términos de búsqueda de Twitter',
-'Add search terms separated with commas' => 'Agregar términos de búsqueda separados con comas'
+'Add search terms separated with commas' => 'Agregar términos de búsqueda separados con comas',
+'duplicateTypes' => 'No puede haber más de un campo de tipo :type'
+
 );

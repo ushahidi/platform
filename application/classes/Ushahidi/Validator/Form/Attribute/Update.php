@@ -76,6 +76,7 @@ class Ushahidi_Validator_Form_Attribute_Update extends Validator
                     'description',
                     'tags',
                 ]]],
+                [[$this,'checkForDuplicates'], [':validation', ':value']],
             ],
             'required' => [
                 ['in_array', [':value', [true, false]]],
@@ -98,6 +99,25 @@ class Ushahidi_Validator_Form_Attribute_Update extends Validator
                 [[$this, 'canMakePrivate'], [':value', $type]]
             ]
         ];
+    }
+
+    public function checkForDuplicates(Validation $validation, $value)
+    {
+        $form_stage_id = $this->validation_engine->getFullData('form_stage_id');
+        $form_id = $this->form_stage_repo->getFormByStageId($form_stage_id);
+        $id = $this->validation_engine->getFullData('id');
+
+        if($value === 'description' || $value === 'title') {
+            $attributes = $this->repo->getAllByType($value, $form_id, $id);
+
+            if(count($attributes) === 0) {
+                 return true;
+            }
+
+            return $validation->error('type', 'duplicateTypes', [$value]);
+        }
+
+        return true;
     }
 
     public function formStageBelongsToForm($value)

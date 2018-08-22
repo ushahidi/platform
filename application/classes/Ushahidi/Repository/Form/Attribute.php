@@ -176,15 +176,40 @@ class Ushahidi_Repository_Form_Attribute extends Ushahidi_Repository implements
 	}
 
 	// FormAttributeRepository
-	public function getByKey($key, $form_id = null, $include_no_form = false)
+	public function getByKey($key_value, $form_id = null, $include_no_form = false)
+	{
+		$query = $this->getQueryByField('key', $key_value, $form_id, $include_no_form, 1);
+
+		$result = $query->execute($this->db);
+		return $this->getEntity($result->current());
+	}
+
+	// FormAttributeRepository
+	public function getAllByType($field_value, $form_id = null, $attribute_id = null)
+	{
+		$query = $this->getQueryByField('type', $field_value, $form_id, false, null);
+
+		if($attribute_id) {
+			$query->where('form_attributes.id', '!=', $attribute_id);
+		}
+
+		return $query->execute($this->db);
+	}
+
+	// FormAttributeRepository
+	private function getQueryByField($field, $field_value, $form_id = null, $include_no_form = false, $limit = 1)
 	{
 
 		$query = $this->selectQuery([], $form_id)
 			->select('form_attributes.*')
 			->join('form_stages', 'LEFT')
 				->on('form_stages.id', '=', 'form_attributes.form_stage_id')
-			->where('key', '=', $key)
-			->limit(1);
+			->where('form_attributes.' . $field, '=', $field_value);
+
+
+			if($limit) {
+				$query->limit($limit);
+			}
 
 		if ($form_id) {
 			$query
@@ -197,9 +222,7 @@ class Ushahidi_Repository_Form_Attribute extends Ushahidi_Repository implements
 
 			$query->and_where_close();
 		}
-
-		$result = $query->execute($this->db);
-		return $this->getEntity($result->current());
+		return $query;
 	}
 
 	// FormAttributeRepository
