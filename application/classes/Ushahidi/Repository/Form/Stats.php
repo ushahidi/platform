@@ -64,6 +64,30 @@ class Ushahidi_Repository_Form_Stats extends Ushahidi_Repository implements
 			$query->where('form_id', '=', $search->form_id);
 		}
 	}
+
+    /**
+     * @param $query
+     * @param $column
+     * @param null $before
+     * @param null $after
+     * @return mixed
+     */
+	private function betweenDates($query, $column, $before = null, $after = null) {
+        //2018-08-23T23:00:01.000Z
+        $before_dt = \DateTime::createFromFormat('YYYY-MM-DD HH:mm:ss', $before, DateTimeZone::UTC);
+        $before_dt = $before_dt ? $before_dt->getTimestamp() : null;
+        $after_dt = \DateTime::createFromFormat('YYYY-MM-DDTHH:MM:SSZ', $after);
+        $after_dt = $after_dt ? $after_dt->getTimestamp() : null;
+
+        if ($before_dt && $after_dt) {
+            $query->where($column, 'BETWEEN', [strtotime($before_dt), strtotime($after_dt)]);
+        } else if ($before_dt) {
+            $query->where($column, '<=', strtotime($before_dt));
+        } else if ($after_dt) {
+            $query->where($column, '>=', strtotime($after_dt));
+        }
+        return $query;
+    }
 	public function getResponses($form_id, $created_after, $created_before)
 	{
 		$where = array(
@@ -76,13 +100,9 @@ class Ushahidi_Repository_Form_Stats extends Ushahidi_Repository implements
 			)
         );
         $query = $this->selectQuery($where);
-            
-        if ($created_after) {
-            $query->where('posts.created', '>=', $created_after);
-        }
-        if ($created_before) {
-            $query->where('posts.created', '<=', $created_before);
-        }
+
+        $query = $this->betweenDates($query,'posts.created', $created_before, $created_after);
+
         $query
             ->resetSelect()
             ->select([DB::expr('COUNT(messages.id)'), 'total']);
@@ -93,6 +113,7 @@ class Ushahidi_Repository_Form_Stats extends Ushahidi_Repository implements
                 ->on('posts.id', '=', 'targeted_survey_state.post_id')
                 ->join('messages')
                 ->on('messages.post_id', '=', 'targeted_survey_state.post_id');
+
         return $query
             ->execute($this->db)
             ->get('total');
@@ -186,15 +207,8 @@ class Ushahidi_Repository_Form_Stats extends Ushahidi_Repository implements
 			->where('post_id', 'IN', DB::expr('(select post_id FROM targeted_survey_state WHERE form_id ='.$form_id.')'))
 			->where('direction', '=', 'outgoing')
             ->group_by('status');
-            
-        if ($created_after) {
-            $query->where('created', '>=', $created_after);
-        }
-        if ($created_before) {
-            $query->where('created', '<=', $created_before);
-        }
-    
-		$result = $query
+        $query = $this->betweenDates($query,'created', $created_before, $created_after);
+        $result = $query
 			->execute($this->db);
 		$ret = ['pending' => 0, 'sent' => 0];
 		foreach( $result->as_array()  as $item ) {
@@ -256,12 +270,7 @@ class Ushahidi_Repository_Form_Stats extends Ushahidi_Repository implements
                 ->join('messages', 'INNER')
                 ->on('messages.contact_id', '=', 'contacts.id')
                 ->where('messages.direction', '=', 'outgoing');
-            if ($created_after) {
-                $query->where('messages.created', '>=', $created_after);
-            }
-            if ($created_before) {
-                $query->where('messages.created', '<=', $created_before);
-            }
+            $query = $this->betweenDates($query,'messages.created', $created_before, $created_after);
         }
 		return $query
 			->execute($this->db)
@@ -283,20 +292,16 @@ class Ushahidi_Repository_Form_Stats extends Ushahidi_Repository implements
         $query = DB::select()
             ->from('posts')
             ->where('form_id', '=', $form_id);
-        if ($created_after) {
-            $query
-            ->where('created', '>=', $created_after);
-        }
-        if ($created_before) {
-            $query
-            ->where('created', '<=', $created_before);
-        }
+
+        $query = $this->betweenDates($query,'created', $created_before, $created_after);
+
         $query = DB::select([DB::expr('COUNT(contact_id)'), 'total'])
             ->distinct(true)
             ->from([$query,'targeted_posts'])
             ->join('messages', 'INNER')
             ->on('messages.post_id', '=', 'targeted_posts.id')
             ->where('messages.direction','=', 'incoming');
+
         return $query
             ->execute($this->db)
             ->get('total');
@@ -350,13 +355,8 @@ class Ushahidi_Repository_Form_Stats extends Ushahidi_Repository implements
             ->on('messages.post_id', '=', 'posts.id')
             ->where('posts.form_id', '=', $form_id)
             ->group_by('messages.type');
-        
-        if ($created_after) {
-            $query->where('messages.created', '>=', $created_after);
-        }
-        if ($created_before) {
-            $query->where('messages.created', '<=', $created_before);
-        }
+
+        $query = $this->betweenDates($query,'messages.created', $created_before, $created_after);
 
         $result = $query
             ->execute($this->db);
@@ -383,12 +383,7 @@ class Ushahidi_Repository_Form_Stats extends Ushahidi_Repository implements
             ->on('messages.post_id', '=', 'posts.id')
             ->where('messages.post_id', 'is', null)
             ->where('posts.form_id', '=', $form_id);
-        if ($created_after) {
-            $query->where('posts.created', '>=', $created_after);
-        }
-        if ($created_before) {
-            $query->where('posts.created', '<=', $created_before);
-        }
+        $query = $this->betweenDates($query,'posts.created', $created_before, $created_after);
         $query->and_where('posts.type', '=', 'report');
         return $query
             ->execute($this->db)
