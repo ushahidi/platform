@@ -968,7 +968,75 @@ class Ushahidi_Repository_Post extends Ushahidi_Repository implements
 		$this->emit($this->event, $id, 'create');
 
 		return $id;
-	}
+    }
+    
+    public function createMany(Array $entities)
+    {
+        
+        $posts = [];
+        $keys = [];
+        foreach($entities as $entity) {
+            $post = $entity->asArray();
+            $post['created'] = time();
+            // Remove attribute values and tags
+            unset($post['values'], $post['tags'], $post['completed_stages'], $post['sets'], $post['source'], $post['color'], $post['lock']);
+
+            // Set default value for post_date
+            if (empty($post['post_date'])) {
+                $post['post_date'] = date_create()->format("Y-m-d H:i:s");
+            // Convert post_date to mysql format
+            } else  {
+                $post['post_date'] = $post['post_date']->format("Y-m-d H:i:s");
+            }
+
+            $post = $this->removeNullValues($post);
+
+            $post_keys = array_keys($post);
+
+            $diff_keys = array_diff($post_keys, $keys);
+
+            $keys = array_merge($keys, $diff_keys);
+
+            $posts[] = $post;
+
+        }
+        \Log::instance()->add(\Log::ERROR, print_r(sizeof($posts), true));
+        \Log::instance()->add(\Log::ERROR, print_r($keys, true));
+		// // Create the post
+		$ids = $this->executeInsertMany($keys, $posts);
+        Kohana::$log->add(Log::ERROR, print_r($ids, true));
+		// $values = $entity->values;
+		// // Handle legacy post.tags attribute
+		// if ($entity->tags)
+		// {
+		// 	// Find first tag attribute
+		// 	list($attr_id, $attr_key) = $this->getFirstTagAttr($entity->form_id);
+
+		// 	// If we don't have tags in the values, use the post.tags value
+		// 	if ($attr_key && !isset($values[$attr_key])) {
+		// 		$values[$attr_key] = $entity->tags;
+		// 	}
+		// }
+
+		// if ($entity->values)
+		// {
+		// 	// Update post-values
+		// 	$this->updatePostValues($id, $values);
+		// }
+
+		// if ($entity->completed_stages)
+		// {
+		// 	// Update post-stages
+		// 	$this->updatePostStages($id, $entity->form_id, $entity->completed_stages);
+		// }
+
+		// // TODO: Revist post-Kohana
+		// // This might be better placed in the usecase but
+		// // given Kohana's future I've put it here
+		// $this->emit($this->event, $id, 'create');
+
+		// return $id;
+    }
 
 	// UpdateRepository
 	public function update(Entity $entity)

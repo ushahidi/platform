@@ -240,7 +240,7 @@ abstract class Ushahidi_Rest extends Controller {
 		// not present in OPTIONS requests.
 		// We don't require them for GET either, since Authorizer will reject
 		// requests where anonymous users don't have access
-		return (!in_array($this->request->method(), [Request::OPTIONS, Request::GET]));
+		return (!in_array($this->request->method(), [Request::OPTIONS, Request::GET, Request::POST]));
 	}
 
 	/**

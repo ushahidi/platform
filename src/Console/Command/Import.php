@@ -72,9 +72,10 @@ class Import extends Command
 	{
 		// Get the filename
 		$filename = $input->getOption('file');
-
+        
 		// Load mapping and pass to transformer
-		$map = file_get_contents($input->getOption('map'));
+        $map = file_get_contents($input->getOption('map'));
+
 		$this->transformer->setMap(json_decode($map, true));
 
 		// Load fixed values and pass to transformer
@@ -83,7 +84,7 @@ class Import extends Command
 
 		// Get CSV reader
 		$reader = $this->getReader($input->getOption('type'));
-
+        
 		// Set limit..
 		if ($limit = $input->getOption('limit')) {
 			$reader->setLimit($limit);
@@ -94,8 +95,7 @@ class Import extends Command
 		}
 
 		// Get the traversable results
-		$payload = $reader->process($filename);
-
+        $payload = $reader->process($filename);
 		// Get the usecase and pass in authorizer, payload and transformer
 		$this->usecase
 			->setPayload($payload)
