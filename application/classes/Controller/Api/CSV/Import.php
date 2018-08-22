@@ -58,8 +58,8 @@ class Controller_API_CSV_Import extends Ushahidi_Rest {
 
 		$this->_usecase = service('factory.usecase')
                         ->get($this->_resource(), 'import')
+                        ->setPayload($records)
                         ->setCSV($csv)
-						->setPayload($records)
 						->setTransformer($transformer);
 	}
 }

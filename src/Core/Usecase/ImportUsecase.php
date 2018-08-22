@@ -87,6 +87,7 @@ class ImportUsecase implements Usecase
     public function setCSV(CSV $csv)
     {
         $this->csv = $csv;
+		return $this;
     }
 
 	// Usecase
@@ -146,7 +147,7 @@ class ImportUsecase implements Usecase
         $new_status = 'SUCCESS';
         $this->csv->setState([
             'status' => $new_status,
-            'created_ids' => $created_entities,
+            'created_ids' => json_encode($created_entities),
 			'processed' => $processed,
 			'errors' => $errors
         ]);
@@ -154,7 +155,12 @@ class ImportUsecase implements Usecase
         service('repository.csv')->update($this->csv);
 
 		// ... and return the formatted entity
-		return [];
+		return [
+            'status' => $new_status,
+            'created_ids' => $created_entities,
+            'processed' => $processed,
+            'errors' => $errors
+        ];
 	}
 
 	// ValidatorTrait
