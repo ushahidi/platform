@@ -13,6 +13,7 @@ namespace Ushahidi\Core\Usecase;
 
 use Traversable;
 use Ushahidi\Core\Entity;
+use Ushahidi\Core\Entity\CSV;
 use Ushahidi\Core\Usecase;
 use Ushahidi\Core\Tool\AuthorizerTrait;
 use Ushahidi\Core\Tool\FormatterTrait;
@@ -43,7 +44,7 @@ class ImportUsecase implements Usecase
 	{
 		$this->repo = $repo;
 		return $this;
-	}
+    }
 
 	/**
 	 * @var Traversable
@@ -79,7 +80,14 @@ class ImportUsecase implements Usecase
 	{
 		$this->transformer = $transformer;
 		return $this;
-	}
+    }
+
+    protected $csv;
+    
+    public function setCSV(CSV $csv)
+    {
+        $this->csv = $csv;
+    }
 
 	// Usecase
 	public function isWrite()
@@ -97,7 +105,7 @@ class ImportUsecase implements Usecase
 	public function interact()
 	{
 		// Start count of records processed, and errors
-		$processed = $errors = 0;
+        $processed = $errors = 0;
 
 		// Fetch an empty entity..
 		$entity = $this->getEntity();
@@ -106,7 +114,8 @@ class ImportUsecase implements Usecase
 		$this->verifyImportAuth($entity);
 
 	 	$created_entities = array();
-		// Fetch a record
+        // Fetch a record
+
 		foreach ($this->payload as $index => $record) {
 			// ... transform record
 			$entity = $this->transform($record);
@@ -114,25 +123,38 @@ class ImportUsecase implements Usecase
 			// Ensure that under review is correctly mapped to draft
 			if (strcasecmp($entity->status, 'under review')== 0) {
 				$entity->setState(['status' => 'draft']);
-			}
-			// ... verify that the entity can be created by the current user
-			$this->verifyCreateAuth($entity);
+            }
 
-			// ... verify that the entity is in a valid state
-			$this->verifyValid($entity);
+            if (!service('csv-speedup.enabled')) {
+                // ... verify that the entity can be created by the current user
+                $this->verifyCreateAuth($entity);
 
-			// ... persist the new entity
-			$id = $this->repo->create($entity);
+                // ... verify that the entity is in a valid state
+                $this->verifyValid($entity);
+            } 
+            // ... persist the new entity
+            try {
+                $id = $this->repo->create($entity);
+            } catch(Exception $e) {
+                $errors++;
+            }
+			
 			$created_entities[] = $id;
 			$processed++;
-		}
+        }
 
-		// ... and return the formatted entity
-		return [
-			'created_ids' => $created_entities,
+        $new_status = 'SUCCESS';
+        $this->csv->setState([
+            'status' => $new_status,
+            'created_ids' => $created_entities,
 			'processed' => $processed,
 			'errors' => $errors
-		];
+        ]);
+
+        service('repository.csv')->update($this->csv);
+
+		// ... and return the formatted entity
+		return [];
 	}
 
 	// ValidatorTrait

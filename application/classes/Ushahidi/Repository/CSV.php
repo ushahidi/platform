@@ -58,7 +58,23 @@ class Ushahidi_Repository_CSV extends Ushahidi_Repository implements
 		];
 
 		return parent::update($entity->setState($state));
-	}
+    }
+    
+    // Ushahidi_Repository
+	public function setSearchConditions(SearchData $search)
+	{
+		$query = $this->search_query;
+
+		foreach ([
+			'filename',
+		] as $key)
+		{
+			if ($search->$key)
+			{
+				$query->where($key, '=', $search->$key);
+			}
+		}
+    }
 
 	// Ushahidi_Repository
 	public function getEntity(Array $data = null)

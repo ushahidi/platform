@@ -86,6 +86,11 @@ abstract class Ushahidi_Core {
 		// Webhooks config settings
 		$di->set('webhooks.enabled', function() use ($di) {
 			return Kohana::$config->load('features.webhooks.enabled');
+        });
+        
+        // csv speedup config settings
+		$di->set('csv-speedup.enabled', function() use ($di) {
+			return Kohana::$config->load('features.csv-speedup.enabled');
 		});
 
 		// Post Locking config settings
@@ -759,7 +764,7 @@ abstract class Ushahidi_Core {
 		];
 		$di->setter['Ushahidi_Validator_CSV_Create'] = [
 			// @todo load from config
-			'setMaxBytes' => '2048000',
+			'setMaxBytes' => '8000000',
 		];
 
 
