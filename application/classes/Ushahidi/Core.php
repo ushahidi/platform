@@ -862,7 +862,11 @@ abstract class Ushahidi_Core {
 		// Add Lock Listener
 		$di->setter['Ushahidi_Repository_Post_Lock']['setEvent'] = 'LockBroken';
 		$di->setter['Ushahidi_Repository_Post_Lock']['setListener'] =
-			$di->lazyNew('Ushahidi_Listener_Lock');
+            $di->lazyNew('Ushahidi_Listener_Lock');
+            
+        $di->setter['Ushahidi\Core\Usecase\ImportUsecase']['setEvent'] = 'ImportPosts';
+        $di->setter['Ushahidi\Core\Usecase\ImportUsecase']['setListener'] =
+            $di->lazyNew('Ushahidi_Listener_Import');
 
 		/**
 		 * 1. Load the plugins

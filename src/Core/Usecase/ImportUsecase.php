@@ -20,6 +20,9 @@ use Ushahidi\Core\Tool\FormatterTrait;
 use Ushahidi\Core\Tool\ValidatorTrait;
 use Ushahidi\Core\Tool\Transformer;
 
+use League\Event\ListenerInterface;
+use Ushahidi\Core\Traits\Event;
+
 class ImportUsecase implements Usecase
 {
 	// Uses several traits to assign tools. Each of these traits provides a
@@ -28,6 +31,9 @@ class ImportUsecase implements Usecase
 	use AuthorizerTrait,
 		FormatterTrait,
 		ValidatorTrait;
+
+	// Use Event trait to trigger events
+    use Event;
 
 	/**
 	 * @var ImportRepository
@@ -114,54 +120,36 @@ class ImportUsecase implements Usecase
 		// ... verify that the entity can be created by the current user
 		$this->verifyImportAuth($entity);
 
-	 	$created_entities = array();
-        // Fetch a record
+        $this->emit(
+            $this->event,
+            $this->payload,
+            $this->csv,
+            $this->transformer,
+            $this->repo,
+            $this
+        );
 
-		foreach ($this->payload as $index => $record) {
-			// ... transform record
-			$entity = $this->transform($record);
-
-			// Ensure that under review is correctly mapped to draft
-			if (strcasecmp($entity->status, 'under review')== 0) {
-				$entity->setState(['status' => 'draft']);
-            }
-
-            if (!service('csv-speedup.enabled')) {
-                // ... verify that the entity can be created by the current user
-                $this->verifyCreateAuth($entity);
-
-                // ... verify that the entity is in a valid state
-                $this->verifyValid($entity);
-            }
-            // ... persist the new entity
-            try {
-                $id = $this->repo->create($entity);
-            } catch (Exception $e) {
-                $errors++;
-            }
-			
-			$created_entities[] = $id;
-			$processed++;
-        }
-
-        $new_status = 'SUCCESS';
+        $new_status = 'PENDING';
         $this->csv->setState([
-            'status' => $new_status,
-            'created_ids' => json_encode($created_entities),
-			'processed' => $processed,
-			'errors' => $errors
+            'status' => $new_status
         ]);
 
         service('repository.csv')->update($this->csv);
 
 		// ... and return the formatted entity
 		return [
-            'status' => $new_status,
-            'created_ids' => $created_entities,
-            'processed' => $processed,
-            'errors' => $errors
+            'status' => $new_status
         ];
-	}
+    }
+    
+    public function verify($entity)
+    {
+        // ... verify that the entity can be created by the current user
+        $this->verifyCreateAuth($entity);
+
+        // ... verify that the entity is in a valid state
+        $this->verifyValid($entity);
+    }
 
 	// ValidatorTrait
 	protected function verifyValid(Entity $entity)
@@ -181,14 +169,4 @@ class ImportUsecase implements Usecase
 		return $this->repo->getEntity();
 	}
 
-	/**
-	 * [transform description]
-	 * @return [type] [description]
-	 */
-	protected function transform($record)
-	{
-		$record = $this->transformer->interact($record);
-
-		return $this->repo->getEntity()->setState($record);
-	}
 }
