@@ -72,12 +72,12 @@ class Ushahidi_Repository_Form_Stats extends Ushahidi_Repository implements
      * @param null $after
      * @return mixed
      */
-	private function betweenDates($query, $column, $before = null, $after = null) {
+	private function betweenDates($query, $column, $before_dt = null, $after_dt = null) {
         //2018-08-23T23:00:01.000Z
-        $before_dt = \DateTime::createFromFormat('YYYY-MM-DD HH:mm:ss', $before, DateTimeZone::UTC);
-        $before_dt = $before_dt ? $before_dt->getTimestamp() : null;
-        $after_dt = \DateTime::createFromFormat('YYYY-MM-DDTHH:MM:SSZ', $after);
-        $after_dt = $after_dt ? $after_dt->getTimestamp() : null;
+//        $before_dt = \DateTime::createFromFormat(DateTime::ISO8601, $before, DateTimeZone::UTC);
+//        $before_dt = $before_dt ? $before_dt->getTimestamp() : null;
+//        $after_dt = \DateTime::createFromFormat('YYYY-MM-DDTHH:MM:SSZ', $after);
+//        $after_dt = $after_dt ? $after_dt->getTimestamp() : null;
 
         if ($before_dt && $after_dt) {
             $query->where($column, 'BETWEEN', [strtotime($before_dt), strtotime($after_dt)]);
