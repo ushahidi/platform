@@ -263,7 +263,6 @@ class Ushahidi_Repository_Form_Stats extends Ushahidi_Repository implements
                 $query->where('messages.created', '<=', $created_before);
             }
         }
-
 		return $query
 			->execute($this->db)
 			->get('total');
@@ -275,6 +274,7 @@ class Ushahidi_Repository_Form_Stats extends Ushahidi_Repository implements
      * @param string $created_after
      * @param string $created_before
      * @param $result
+     * Count of Unique Responders to Targeted Survey
      * @return array
      */
     public function getResponseRecipients($form_id, $created_after, $created_before)
@@ -291,13 +291,15 @@ class Ushahidi_Repository_Form_Stats extends Ushahidi_Repository implements
             $query
             ->where('created', '<=', $created_before);
         }
-        $query = DB::select('contact_id')
+        $query = DB::select([DB::expr('COUNT(contact_id)'), 'total'])
             ->distinct(true)
             ->from([$query,'targeted_posts'])
             ->join('messages', 'INNER')
-            ->on('messages.post_id', '=', 'targeted_posts.id');
-        $results =  $query->execute($this->db);
-        return $this->getCollection($results->as_array());
+            ->on('messages.post_id', '=', 'targeted_posts.id')
+            ->where('messages.direction','=', 'incoming');
+        return $query
+            ->execute($this->db)
+            ->get('total');
     }
 
 	/**
@@ -335,8 +337,8 @@ class Ushahidi_Repository_Form_Stats extends Ushahidi_Repository implements
             'email' => $dataSourceCounts['email'],
             'twitter' => $dataSourceCounts['twitter'],
             'web' => $this->queryForWeb($form_id, $created_after, $created_before),
-            'all' => $this->queryForAllPosts($form_id, $created_after, $created_before)
         ];
+        $result['all'] = $result['web'] + $result['email'] + $result['twitter'] + $result['sms'];
         return $result;
     }
 
@@ -355,8 +357,10 @@ class Ushahidi_Repository_Form_Stats extends Ushahidi_Repository implements
         if ($created_before) {
             $query->where('messages.created', '<=', $created_before);
         }
+
         $result = $query
             ->execute($this->db);
+
         $ret = ['sms' => 0, 'email' => 0, 'twitter' => 0];
         foreach ($result->as_array() as $item) {
             if ($item['type'] === 'sms') {
@@ -367,6 +371,7 @@ class Ushahidi_Repository_Form_Stats extends Ushahidi_Repository implements
                 $ret['twitter'] = $item['total'];
             }
         }
+
         return $ret;
     }
 
@@ -384,22 +389,7 @@ class Ushahidi_Repository_Form_Stats extends Ushahidi_Repository implements
         if ($created_before) {
             $query->where('posts.created', '<=', $created_before);
         }
-        return $query
-            ->execute($this->db)
-            ->get('total');
-    }
-
-    private function queryForAllPosts($form_id, $created_after, $created_before)
-    {
-        $query = DB::select([DB::expr('COUNT(posts.id)'), 'total'])
-            ->from('posts')
-            ->where('posts.form_id', '=', $form_id);
-        if ($created_after) {
-            $query->where('posts.created', '>=', $created_after);
-        }
-        if ($created_before) {
-            $query->where('posts.created', '<=', $created_before);
-        }
+        $query->and_where('posts.type', '=', 'report');
         return $query
             ->execute($this->db)
             ->get('total');
