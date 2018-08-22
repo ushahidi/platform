@@ -131,11 +131,11 @@ class ImportUsecase implements Usecase
 
                 // ... verify that the entity is in a valid state
                 $this->verifyValid($entity);
-            } 
+            }
             // ... persist the new entity
             try {
                 $id = $this->repo->create($entity);
-            } catch(Exception $e) {
+            } catch (Exception $e) {
                 $errors++;
             }
 			
