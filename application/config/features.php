@@ -82,6 +82,6 @@ return [
     
     // CSV Speedup
 	'csv-speedup' => [
-		'enabled' => TRUE,
+		'enabled' => FALSE,
 	],
 ];
