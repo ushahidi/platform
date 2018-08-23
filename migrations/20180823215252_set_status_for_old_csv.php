@@ -9,8 +9,12 @@ class SetStatusForOldCsv extends AbstractMigration
      */
     public function up()
     {
+        $pdo = $this->getAdapter()->getConnection();
+
         $update = $pdo->prepare(
-            "UPDATE csv set status='SUCCESS"
+            "UPDATE csv set status='SUCCESS'"
         );
+
+        $update->execute();
     }
 }
