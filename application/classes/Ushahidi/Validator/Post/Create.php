@@ -104,7 +104,9 @@ class Ushahidi_Validator_Post_Create extends Validator
 				['min_length', [':value', 2]],
 				['max_length', [':value', 150]],
 				['alpha_dash', [':value', TRUE]],
-				[[$this->repo, 'isSlugAvailable'], [':value']],
+				// Slug validation is unreasonably expensive when importing posts
+				// Disabling it pending removal of slugs entirely
+				//[[$this->repo, 'isSlugAvailable'], [':value']],
 			],
 			'locale' => [
 				['max_length', [':value', 5]],

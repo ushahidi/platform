@@ -58,7 +58,7 @@ class Post extends StaticEntity
 					if (strlen($slug) >= 137) {
 						$slug = substr($slug, 0, 136);
 					}
-					return $slug . ' ' . uniqid();
+					return $slug . ' ' . uniqid('', true);
 				}
 				return false;
 			},
