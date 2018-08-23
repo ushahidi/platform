@@ -74,5 +74,5 @@ Feature: Testing the Form Stats
         And the "total_by_data_source.sms" property equals "2"
         And the "total_by_data_source.email" property equals "1"
         And the "total_by_data_source.twitter" property equals "1"
-        And the "total_by_data_source.web" property equals "20"
-        And the "total_by_data_source.all" property equals "24"
+        And the "total_by_data_source.web" property equals "13"
+        And the "total_by_data_source.all" property equals "17"
