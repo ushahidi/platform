@@ -13,6 +13,7 @@
 
 use League\Event\AbstractListener;
 use League\Event\EventInterface;
+use Ushahidi\Core\Entity\Set;
 
 class Ushahidi_Listener_Import extends AbstractListener
 {
@@ -44,9 +45,12 @@ class Ushahidi_Listener_Import extends AbstractListener
         $processed = $errors = 0;
 
 
-        $collection_id = service('repository.set')->create([
-            => $csv->filename
-        ]);
+        $collection_id = service('repository.set')->create(new Set([
+           'name' => $csv->filename,
+           'description' => 'Import',
+           'view' => 'data',
+           'featured' => false
+        ]));
 
         $created_entities = array();
         foreach ($records as $index => $record) {
