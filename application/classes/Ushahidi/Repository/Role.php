@@ -156,17 +156,25 @@ class Ushahidi_Repository_Role extends Ushahidi_Repository implements
 		if (!$role) { return false; }
 		return (bool) $this->selectCount(['name' => $role]);
 	}
-	
+
 	// Ushahidi_Repository
 	public function idExists($role_id = null)
 	{
 		if (!$role_id) { return false; }
 		return (bool) $this->selectCount(['id' => $role_id]);
-	}	
+	}
+
+	protected $rolesByName = [];
 
 	// RoleRepository
 	public function getByName($name)
 	{
-		return $this->getEntity($this->selectOne(compact('name')));
+		// Check if we already know this exists or not.
+		if (!isset($this->rolesByName[$name])) {
+			// If we don't, go check the DB
+			$this->rolesByName[$name] = $this->getEntity($this->selectOne(compact('name')));
+		}
+
+		return $this->rolesByName[$name];
 	}
 }
