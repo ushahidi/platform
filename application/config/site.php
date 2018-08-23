@@ -47,4 +47,5 @@ return array(
 	'first_login'   => true,
 	'tier'          => 'free',
 	'private'       => false,
+    'AccessTokenTTL' => 86400,
 );

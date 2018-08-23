@@ -58,10 +58,12 @@ class Controller_OAuth extends Controller {
 
 	public function action_token()
 	{
-		$server = service('oauth.server.auth');
+        $server = service('oauth.server.auth');
+        $AccessTokenTTL = \Kohana::$config->load('site.AccessTokenTTL');
 
 		try
 		{
+            $server->setAccessTokenTTL($AccessTokenTTL);
 			$response = $server->issueAccessToken(json_decode($this->request->body(), TRUE));
 			if (!empty($response['refresh_token'])) {
 				$response['refresh_token_expires_in'] = $server->getGrantType('refresh_token')->getRefreshTokenTTL();
