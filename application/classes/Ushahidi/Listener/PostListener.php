@@ -19,29 +19,43 @@ use Ushahidi\Core\Entity\WebhookRepository;
 
 class Ushahidi_Listener_PostListener extends AbstractListener
 {
-	protected $repo;
+    protected $repo;
 
-	protected $webhook_repo;
+    protected $webhook_repo;
+    protected $hasWebhooks;
 
-	public function setRepo(WebhookJobRepository $repo)
-	{
-		$this->repo = $repo;
-	}
+    public function setRepo(WebhookJobRepository $repo)
+    {
+        $this->repo = $repo;
+    }
 
-	public function setWebhookRepo(WebhookRepository $webhook_repo)
-	{
-		$this->webhook_repo = $webhook_repo;
-	}
+    public function setWebhookRepo(WebhookRepository $webhook_repo)
+    {
+        $this->webhook_repo = $webhook_repo;
+    }
 
-  public function handle(EventInterface $event, $post_id = null, $event_type = null)
-  {
-		$state = [
-			'post_id' => $post_id,
-			'event_type' => $event_type
-		];
+    public function hasWebhooks()
+    {
+        if (!isset($this->hasWebhooks)) {
+            $this->hasWebhooks = $this->webhook_repo->hasRows();
+        }
 
-		$entity = $this->repo->getEntity();
-		$entity->setState($state);
-		$this->repo->create($entity);
+        return $this->hasWebhooks;
+    }
+
+    public function handle(EventInterface $event, $post_id = null, $event_type = null)
+    {
+        if (!$this->hasWebhooks()) {
+            return;
+        }
+
+        $state = [
+            'post_id' => $post_id,
+            'event_type' => $event_type
+        ];
+
+        $entity = $this->repo->getEntity();
+        $entity->setState($state);
+        $this->repo->create($entity);
   }
 }
