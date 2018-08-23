@@ -22,7 +22,7 @@ class CheckDemoExpiration
         $now = new DateTime();
         $expiration_date = strtotime(service('site.config')['expiration_date']);
         $extension_date = strtotime(service('site.config')['extension_date']);
-        $isNotGet = !$request->isMethod('get')
+        $isNotGet = !$request->isMethod('get');
 
         if ($multisite && $isNotGet && $isDemoTier) {
             if ($expiration_date < $now && (!$extension_date || $extension_date < $now)) {
