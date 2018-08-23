@@ -104,6 +104,16 @@ class Ushahidi_Repository_Webhook extends Ushahidi_Repository implements Webhook
 		return $this->executeUpdate(['id' => $entity->id], $record);
 	}
 
+	/**
+	 * Check if we have any webhooks
+	 * @param  int $id
+	 * @return bool
+	 */
+	public function hasRows()
+	{
+		return (bool) $this->selectCount();
+	}
+
 	public function getSearchFields()
 	{
 		return [

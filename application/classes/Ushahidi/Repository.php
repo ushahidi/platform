@@ -309,6 +309,7 @@ abstract class Ushahidi_Repository implements
 		return $count;
 	}
 
+	protected $exists = [];
 
 	/**
 	 * Check if an entity with the given id exists
@@ -317,8 +318,14 @@ abstract class Ushahidi_Repository implements
 	 */
 	public function exists($id)
 	{
-		return (bool) $this->selectCount([
-			$this->getTable().'.id' => $id
-		]);
+		// Check if we already know this exists or not.
+		if (!isset($this->exists[$id])) {
+			// If we don't, go check the DB
+			$this->exists[$id] = (bool) $this->selectCount([
+				$this->getTable().'.id' => $id
+			]);
+		}
+
+		return $this->exists[$id];
 	}
 }

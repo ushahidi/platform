@@ -214,7 +214,7 @@ class Ushahidi_Repository_User extends Ushahidi_Repository implements
 			->where('created', '>', time() - 1800) // Expire tokens after less than 30 mins
 			->execute($this->db);
 
-			
+
 
 		$count = $result->get('total') ?: 0;
 
@@ -266,5 +266,22 @@ class Ushahidi_Repository_User extends Ushahidi_Repository implements
 	protected function updateIntercomAdminUsers($user)
 	{
 		$this->emit($this->event, $user);
+	}
+
+
+
+	/**
+	 * Check if an entity with the given id exists
+	 * @param  int $id
+	 * @return bool
+	 */
+	public function exists($id)
+	{
+		// Users with null id never exist
+		if ($id == null) {
+			return false;
+		}
+
+		return parent::exists($id);
 	}
 }
