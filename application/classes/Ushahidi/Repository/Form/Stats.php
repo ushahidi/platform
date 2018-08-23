@@ -73,14 +73,8 @@ class Ushahidi_Repository_Form_Stats extends Ushahidi_Repository implements
      * @return mixed
      */
 	private function betweenDates($query, $column, $before_dt = null, $after_dt = null) {
-        //2018-08-23T23:00:01.000Z
-//        $before_dt = \DateTime::createFromFormat(DateTime::ISO8601, $before, DateTimeZone::UTC);
-//        $before_dt = $before_dt ? $before_dt->getTimestamp() : null;
-//        $after_dt = \DateTime::createFromFormat('YYYY-MM-DDTHH:MM:SSZ', $after);
-//        $after_dt = $after_dt ? $after_dt->getTimestamp() : null;
-
         if ($before_dt && $after_dt) {
-            $query->where($column, 'BETWEEN', [strtotime($before_dt), strtotime($after_dt)]);
+            $query->where($column, 'BETWEEN', [strtotime($after_dt), strtotime($before_dt)]);
         } else if ($before_dt) {
             $query->where($column, '<=', strtotime($before_dt));
         } else if ($after_dt) {
@@ -113,7 +107,6 @@ class Ushahidi_Repository_Form_Stats extends Ushahidi_Repository implements
                 ->on('posts.id', '=', 'targeted_survey_state.post_id')
                 ->join('messages')
                 ->on('messages.post_id', '=', 'targeted_survey_state.post_id');
-
         return $query
             ->execute($this->db)
             ->get('total');
