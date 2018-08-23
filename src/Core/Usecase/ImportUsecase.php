@@ -167,5 +167,4 @@ class ImportUsecase implements Usecase
 	{
 		return $this->repo->getEntity();
 	}
-
 }
