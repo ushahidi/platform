@@ -78,5 +78,10 @@ return [
 	// see TODO <docs link>
 	'redis' => [
 		'enabled' => FALSE,
+    ],
+    
+    // CSV Speedup
+	'csv-speedup' => [
+		'enabled' => FALSE,
 	],
 ];

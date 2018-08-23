@@ -13,5 +13,5 @@ class Controller_Api_CSV extends Controller_Api_Media
 	protected function _scope()
 	{
 		return 'csv';
-	}
+    }
 }
