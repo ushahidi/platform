@@ -35,7 +35,7 @@ class Controller_API_CSV_Import extends Ushahidi_Rest {
 		 */
         ini_set('auto_detect_line_endings', 1);
         ini_set('memory_limit', '-1');ini_set('memory_limit', '-1');
-        set_time_limit(360);
+        set_time_limit(720);
 
 		// Get payload from CSV repo
 		$csv = service('repository.csv')->get($this->request->param('csv_id'));

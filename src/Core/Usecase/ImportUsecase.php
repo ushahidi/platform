@@ -118,7 +118,14 @@ class ImportUsecase implements Usecase
 		$entity = $this->getEntity();
 
 		// ... verify that the entity can be created by the current user
-		$this->verifyImportAuth($entity);
+        $this->verifyImportAuth($entity);
+
+        $new_status = 'PENDING';
+        $this->csv->setState([
+            'status' => $new_status
+        ]);
+
+        service('repository.csv')->update($this->csv);
 
         $this->emit(
             $this->event,
@@ -128,14 +135,6 @@ class ImportUsecase implements Usecase
             $this->repo,
             $this
         );
-
-        $new_status = 'PENDING';
-        $this->csv->setState([
-            'status' => $new_status
-        ]);
-
-        service('repository.csv')->update($this->csv);
-
 		// ... and return the formatted entity
 		return [
             'status' => $new_status
