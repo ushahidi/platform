@@ -140,7 +140,7 @@ trait StatefulData
 						// Callable function which returns the derived value
 						//
 						// function ($data) {
-						//     return $data['foo'] . '-' . uniqid();
+						//     return $data['foo'] . '-' . uniqid('', true);
 						// }
 						//
 						if ($derivedValue = $from($data)) {

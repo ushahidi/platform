@@ -41,7 +41,7 @@ class Uploader
 	{
 		if (!$filename) {
 			// Use the upload filename, adding a unique prefix to prevent collisions.
-			$filename = uniqid() . '-' . $file->name;
+			$filename = uniqid('', true) . '-' . $file->name;
 		}
 
 		// Avoid possible issues with case sensitivity by forcing all files
