@@ -44,11 +44,9 @@ class Ushahidi_Listener_Import extends AbstractListener
         $processed = $errors = 0;
 
         $created_entities = array();
-        Kohana::$log->add(Log::INFO, 'Importing');
         foreach ($records as $index => $record) {
 			// ... transform record
             $entity = $this->transform($record);
-           Kohana::$log->add(Log::INFO, print_r($record['Post ID'],true));
 
 			// Ensure that under review is correctly mapped to draft
 			if (strcasecmp($entity->status, 'under review')== 0) {
@@ -68,7 +66,6 @@ class Ushahidi_Listener_Import extends AbstractListener
 			$created_entities[] = $id;
 			$processed++;
         }
-        Kohana::$log->add(Log::INFO, 'finished');
         $new_status = 'SUCCESS';
         $csv->setState([
             'status' => $new_status,

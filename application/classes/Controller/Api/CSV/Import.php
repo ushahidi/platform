@@ -34,7 +34,7 @@ class Controller_API_CSV_Import extends Ushahidi_Rest {
 		 * Support all line endings without manually specifying it (primarily added because of OS9 line endings which do not work by default )
 		 */
         ini_set('auto_detect_line_endings', 1);
-        ini_set('memory_limit', '-1');ini_set('memory_limit', '-1');
+        ini_set('memory_limit', '-1');
         set_time_limit(720);
 
 		// Get payload from CSV repo
