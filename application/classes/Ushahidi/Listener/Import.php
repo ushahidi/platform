@@ -43,6 +43,11 @@ class Ushahidi_Listener_Import extends AbstractListener
         $this->repo = $repo;
         $processed = $errors = 0;
 
+
+        $collection_id = service('repository.set')->create([
+            => $csv->filename
+        ]);
+
         $created_entities = array();
         foreach ($records as $index => $record) {
 			// ... transform record
@@ -62,14 +67,15 @@ class Ushahidi_Listener_Import extends AbstractListener
             } catch (Exception $e) {
                 $errors++;
             }
+            service('repository.set')->addPostToSet($collection_id, $id);
 
-			$created_entities[] = $id;
 			$processed++;
         }
+
         $new_status = 'SUCCESS';
         $csv->setState([
             'status' => $new_status,
-            'created_ids' => json_encode($created_entities),
+            'collection_id' => $collection_id,
 			'processed' => $processed,
 			'errors' => $errors
         ]);
