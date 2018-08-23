@@ -13,7 +13,7 @@ class AddStatusToCsv extends AbstractMigration
           ->addColumn('status', 'string', ['null' => true])
           ->addColumn('errors', 'string', ['null' => true])
           ->addColumn('processed', 'string', ['null' => true])
-          ->addColumn('created_ids', 'string', ['null' => true])
+          ->addColumn('colletion_id', 'int', ['null' => true])
           ->update();
     }
 
@@ -26,7 +26,7 @@ class AddStatusToCsv extends AbstractMigration
           ->removeColumn('status')
           ->removeColumn('errors')
           ->removeColumn('processed')
-          ->removeColumn('created_ids')
+          ->removeColumn('colletion_id')
           ->update();
     }
 }
