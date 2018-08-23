@@ -430,10 +430,6 @@ $di->params['Ushahidi\Core\Tool\Authorizer\FormContactAuthorizer'] = [
 ];
 
 $di->set('authorizer.form_stats', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\FormStatsAuthorizer'));
-$di->params['Ushahidi\Core\Tool\Authorizer\FormStatsAuthorizer'] = [
-    'form_repo' => $di->lazyGet('repository.form'),
-    'form_auth' => $di->lazyGet('authorizer.form'),
-];
 $di->set('authorizer.user', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\UserAuthorizer'));
 $di->set('authorizer.user_setting', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\UserSettingAuthorizer'));
 
