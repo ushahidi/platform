@@ -61,6 +61,24 @@ class StatsRepository extends OhanzeeRepository implements
     {
         return ['form_id', 'contacts', 'created_after', 'created_before'];
     }
+    /**
+     * @param $query
+     * @param $column
+     * @param null $before
+     * @param null $after
+     * @return mixed
+     */
+    private function betweenDates($query, $column, $before_dt = null, $after_dt = null)
+    {
+        if ($before_dt && $after_dt) {
+            $query->where($column, 'BETWEEN', [strtotime($after_dt), strtotime($before_dt)]);
+        } elseif ($before_dt) {
+            $query->where($column, '<=', strtotime($before_dt));
+        } elseif ($after_dt) {
+            $query->where($column, '>=', strtotime($after_dt));
+        }
+        return $query;
+    }
 
     // OhanzeeRepository
     protected function setSearchConditions(SearchData $search)
@@ -83,14 +101,7 @@ class StatsRepository extends OhanzeeRepository implements
             ]
         ];
         $query = $this->selectQuery($where);
-            
-        if ($created_after) {
-            $query->where('posts.created', '>=', $created_after);
-        }
-
-        if ($created_before) {
-            $query->where('posts.created', '<=', $created_before);
-        }
+        $query = $this->betweenDates($query, 'posts.created', $created_before, $created_after);
 
         $query
             ->resetSelect()
@@ -217,14 +228,8 @@ class StatsRepository extends OhanzeeRepository implements
             )
             ->where('direction', '=', 'outgoing')
             ->group_by('status');
+        $query = $this->betweenDates($query, 'created', $created_before, $created_after);
 
-        if ($created_after) {
-            $query->where('created', '>=', $created_after);
-        }
-
-        if ($created_before) {
-            $query->where('created', '<=', $created_before);
-        }
 
         $result = $query
             ->execute($this->db);
@@ -284,17 +289,13 @@ class StatsRepository extends OhanzeeRepository implements
             ->select([DB::expr('COUNT(contacts.id)'), 'total']);
 
         $query = $this->targetedSurveyStateJoin($query);
+
         if ($created_after || $created_before) {
             $query
                 ->join('messages', 'INNER')
                 ->on('messages.contact_id', '=', 'contacts.id')
                 ->where('messages.direction', '=', 'outgoing');
-            if ($created_after) {
-                $query->where('messages.created', '>=', $created_after);
-            }
-            if ($created_before) {
-                $query->where('messages.created', '<=', $created_before);
-            }
+            $query = $this->betweenDates($query, 'messages.created', $created_before, $created_after);
         }
         
         return $query
@@ -307,33 +308,25 @@ class StatsRepository extends OhanzeeRepository implements
      * @param string $created_after
      * @param string $created_before
      * @param $result
+     * Count of Unique Responders to Targeted Survey
      * @return array
      */
     public function getResponseRecipients($form_id, $created_after, $created_before)
     {
-        
+
         $query = DB::select()
             ->from('posts')
             ->where('form_id', '=', $form_id);
-
-        if ($created_after) {
-            $query
-            ->where('created', '>=', $created_after);
-        }
-
-        if ($created_before) {
-            $query
-            ->where('created', '<=', $created_before);
-        }
-
-        $query = DB::select('contact_id')
+        $query = $this->betweenDates($query, 'created', $created_before, $created_after);
+        $query = DB::select([DB::expr('COUNT(contact_id)'), 'total'])
             ->distinct(true)
             ->from([$query,'targeted_posts'])
             ->join('messages', 'INNER')
-            ->on('messages.post_id', '=', 'targeted_posts.id');
-
-        $results =  $query->execute($this->db);
-        return $this->getCollection($results->as_array());
+            ->on('messages.post_id', '=', 'targeted_posts.id')
+            ->where('messages.direction', '=', 'incoming');
+        return $query
+            ->execute($this->db)
+            ->get('total');
     }
 
     /**
@@ -352,35 +345,29 @@ class StatsRepository extends OhanzeeRepository implements
     public function getSurveyType($form_id)
     {
         $query = DB::select('targeted_survey')
-        ->from('forms')
-        ->where('id', '=', $form_id);
-
+            ->from('forms')
+            ->where('id', '=', $form_id);
         $results = $query->execute($this->db);
         return $results->as_array();
     }
-
     public function getPostCountByDataSource($form_id, $created_after, $created_before)
     {
         if ($created_after) {
             $created_after = strtotime($created_after);
         }
-
         if ($created_before) {
             $created_before = strtotime($created_before);
         }
-
         $dataSourceCounts = $this->queryByDataSource($form_id, $created_after, $created_before);
         $result = [
             'sms' => $dataSourceCounts['sms'],
             'email' => $dataSourceCounts['email'],
             'twitter' => $dataSourceCounts['twitter'],
             'web' => $this->queryForWeb($form_id, $created_after, $created_before),
-            'all' => $this->queryForAllPosts($form_id, $created_after, $created_before)
         ];
-
+        $result['all'] = $result['web'] + $result['email'] + $result['twitter'] + $result['sms'];
         return $result;
     }
-
     private function queryByDataSource($form_id, $created_after, $created_before)
     {
         $query = DB::select('messages.type', [DB::expr('COUNT(messages.id)'), 'total'])
@@ -389,18 +376,9 @@ class StatsRepository extends OhanzeeRepository implements
             ->on('messages.post_id', '=', 'posts.id')
             ->where('posts.form_id', '=', $form_id)
             ->group_by('messages.type');
-        
-        if ($created_after) {
-            $query->where('messages.created', '>=', $created_after);
-        }
-
-        if ($created_before) {
-            $query->where('messages.created', '>=', $created_after);
-        }
-
+        $query = $this->betweenDates($query, 'messages.created', $created_before, $created_after);
         $result = $query
             ->execute($this->db);
-
         $ret = ['sms' => 0, 'email' => 0, 'twitter' => 0];
         foreach ($result->as_array() as $item) {
             if ($item['type'] === 'sms') {
@@ -413,8 +391,6 @@ class StatsRepository extends OhanzeeRepository implements
         }
         return $ret;
     }
-
-
     private function queryForWeb($form_id, $created_after, $created_before)
     {
         $query = DB::select([DB::expr('COUNT(posts.id)'), 'total'])
@@ -423,34 +399,8 @@ class StatsRepository extends OhanzeeRepository implements
             ->on('messages.post_id', '=', 'posts.id')
             ->where('messages.post_id', 'is', null)
             ->where('posts.form_id', '=', $form_id);
-
-        if ($created_after) {
-            $query->where('posts.created', '>=', $created_after);
-        }
-
-        if ($created_before) {
-            $query->where('posts.created', '>=', $created_after);
-        }
-
-        return $query
-            ->execute($this->db)
-            ->get('total');
-    }
-
-    private function queryForAllPosts($form_id, $created_after, $created_before)
-    {
-        $query = DB::select([DB::expr('COUNT(posts.id)'), 'total'])
-            ->from('posts')
-            ->where('posts.form_id', '=', $form_id);
-
-        if ($created_after) {
-            $query->where('posts.created', '>=', $created_after);
-        }
-
-        if ($created_before) {
-            $query->where('posts.created', '>=', $created_after);
-        }
-
+        $query = $this->betweenDates($query, 'posts.created', $created_before, $created_after);
+        $query->and_where('posts.type', '=', 'report');
         return $query
             ->execute($this->db)
             ->get('total');
