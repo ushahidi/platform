@@ -88,7 +88,7 @@ class Multisite
         $deployment = $result->current();
 
         $this->checkDeploymentStatus($deployment);
-        
+
         // Set new database config
         // @todo stop call config directly
         $config = config('ohanzee-db.default');
@@ -130,13 +130,13 @@ class Multisite
         $status = $deployment['status'];
         $deployedDate = $deployment['deployed_date'];
         $deploymentName = $deployment['deployment_name'] ? $deployment['deployment_name'] : 'Deployment';
-        
+
         // No deployment? throw a 404
         if (! count($deployment)) {
             abort(404, $deploymentName . " not found");
         } elseif (($status === 'migrating' && !$deployedDate) || $status === 'pending') {
             abort(503, $deploymentName . " is not ready");
-        } elseif (($status === 'migrating' && $deployedDate) || $status === 'maintenance') {
+        } elseif (($status === 'migrating' && $deployedDate) || $status === 'maintenance' || $status === 'importing') {
             abort(503, $deploymentName . " is down for maintenance");
         }
     }
