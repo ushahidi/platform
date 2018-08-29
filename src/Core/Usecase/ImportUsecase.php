@@ -12,14 +12,12 @@
 namespace Ushahidi\Core\Usecase;
 
 use Traversable;
-use Ushahidi\App\Jobs\ImportJob;
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\Usecase;
 use Ushahidi\Core\Tool\AuthorizerTrait;
 use Ushahidi\Core\Tool\FormatterTrait;
 use Ushahidi\Core\Tool\ValidatorTrait;
 use Ushahidi\Core\Tool\Transformer;
-use Ushahidi\Core\Entity\CSV;
 
 class ImportUsecase implements Usecase
 {
@@ -29,17 +27,11 @@ class ImportUsecase implements Usecase
     use AuthorizerTrait,
         FormatterTrait,
         ValidatorTrait;
+
     /**
      * @var ImportRepository
      */
     protected $repo;
-    protected $csv;
-
-    public function setCSV(CSV $csv)
-    {
-        $this->csv = $csv;
-        return $this;
-    }
 
     /**
      * Inject a repository that can create entities.
@@ -104,20 +96,51 @@ class ImportUsecase implements Usecase
     // Usecase
     public function interact()
     {
+        // Start count of records processed, and errors
+        $processed = $errors = 0;
+
         // Fetch an empty entity..
         $entity = $this->getEntity();
+
         // ... verify that the entity can be created by the current user
         $this->verifyImportAuth($entity);
-        $new_status = 'PENDING';
-        $this->csv->setState([
-            'status' => $new_status
-        ]);
-        service('repository.csv')->update($this->csv);
-        dispatch(new ImportJob($this->csv));
+
+        $created_entities = [];
+        // Fetch a record
+        foreach ($this->payload as $index => $record) {
+            // ... transform record
+            $entity = $this->transform($record);
+
+            // Ensure that under review is correctly mapped to draft
+            if (strcasecmp($entity->status, 'under review')== 0) {
+                $entity->setState(['status' => 'draft']);
+            }
+            // ... verify that the entity can be created by the current user
+            $this->verifyCreateAuth($entity);
+
+            // ... verify that the entity is in a valid state
+            $this->verifyValid($entity);
+
+            // ... persist the new entity
+            $id = $this->repo->create($entity);
+            $created_entities[] = $id;
+            $processed++;
+        }
+
         // ... and return the formatted entity
         return [
-            'status' => $new_status
+            'created_ids' => $created_entities,
+            'processed' => $processed,
+            'errors' => $errors
         ];
+    }
+
+    // ValidatorTrait
+    protected function verifyValid(Entity $entity)
+    {
+        if (!$this->validator->check($entity->asArray())) {
+            $this->validatorError($entity);
+        }
     }
 
     /**
@@ -131,13 +154,13 @@ class ImportUsecase implements Usecase
     }
 
     /**
-     * Verify that the given entity is valid.
-     *
-     * @param  Entity $entity
-     * @return void
+     * [transform description]
+     * @return [type] [description]
      */
-    protected function verifyValid(Entity $entity)
+    protected function transform($record)
     {
-        // TODO: Implement verifyValid() method.
+        $record = $this->transformer->interact($record);
+
+        return $this->repo->getEntity()->setState($record);
     }
 }

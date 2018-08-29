@@ -21,7 +21,6 @@ class FormStats extends StaticEntity
     protected $total_messages_sent;
     protected $total_messages_pending;
     protected $total_by_data_source;
-
     // DataTransformer
     protected function getDefinition()
     {
@@ -40,6 +39,7 @@ class FormStats extends StaticEntity
             ],
         ];
     }
+
     // Entity
     public function getResource()
     {
