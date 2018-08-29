@@ -20,6 +20,9 @@ use Ushahidi\Core\Tool\FormatterTrait;
 use Ushahidi\Core\Tool\ValidatorTrait;
 use Ushahidi\Core\Tool\Transformer;
 use Ushahidi\Core\Entity\CSV;
+use League\Event\ListenerInterface;
+use Ushahidi\Core\Traits\Event;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 
 class ImportUsecase implements Usecase
 {
@@ -29,6 +32,8 @@ class ImportUsecase implements Usecase
     use AuthorizerTrait,
         FormatterTrait,
         ValidatorTrait;
+    // Use Event trait to trigger events
+    use Event;
     /**
      * @var ImportRepository
      */
@@ -120,6 +125,21 @@ class ImportUsecase implements Usecase
         ];
     }
 
+    public function verify($entity)
+    {
+        // ... verify that the entity can be created by the current user
+        $this->verifyCreateAuth($entity);
+        // ... verify that the entity is in a valid state
+        $this->verifyValid($entity);
+    }
+
+    // ValidatorTrait
+    protected function verifyValid(Entity $entity)
+    {
+        if (!$this->validator->check($entity->asArray())) {
+            $this->validatorError($entity);
+        }
+    }
     /**
      * Get an empty entity
      *

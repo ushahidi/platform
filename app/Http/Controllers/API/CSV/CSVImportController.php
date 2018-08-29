@@ -23,12 +23,25 @@ class CSVImportController extends RestController
 
     public function store(Request $request, $id = null)
     {
+        /**
+         * Step two of import.
+         * Support all line endings without manually specifying it
+         * (primarily added because of OS9 line endings which do not work by default )
+         */
+        ini_set('auto_detect_line_endings', 1);
+        ini_set('memory_limit', '-1');
+        set_time_limit(720);
+
+
         // Get payload from CSV repo
         $csv = service('repository.csv')->get($id);
 
         $this->usecase = $this->usecaseFactory
             ->get($this->getResource(), 'import')
+            //->setPayload($records)
             ->setCSV($csv);
+            //->setTransformer($transformer);
+
         return $this->prepResponse($this->executeUsecase($request), $request);
     }
 }
