@@ -129,4 +129,15 @@ class ImportUsecase implements Usecase
     {
         return $this->repo->getEntity();
     }
+
+    /**
+     * Verify that the given entity is valid.
+     *
+     * @param  Entity $entity
+     * @return void
+     */
+    protected function verifyValid(Entity $entity)
+    {
+        // TODO: Implement verifyValid() method.
+    }
 }
