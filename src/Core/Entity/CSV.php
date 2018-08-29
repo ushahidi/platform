@@ -15,33 +15,43 @@ use Ushahidi\Core\StaticEntity;
 
 class CSV extends StaticEntity
 {
-    protected $id;
-    protected $columns;
-    protected $maps_to;
-    protected $fixed;
-    protected $filename;
-    protected $mime;
-    protected $size;
-    protected $created;
-    protected $updated;
-    protected $completed;
 
-    // DataTransformer
-    public function getDefinition()
-    {
-        return [
-            'id'           => 'int',
-            'columns'      => '*json',
-            'maps_to'      => '*json',
-            'fixed'        => '*json',
-            'filename'     => 'string',
+	protected $id;
+	protected $columns;
+	protected $maps_to;
+	protected $fixed;
+	protected $filename;
+	protected $mime;
+	protected $size;
+	protected $created;
+	protected $updated;
+    protected $completed;
+    protected $status;
+    protected $errors;
+    protected $processed;
+    protected $collection_id;
+
+	// DataTransformer
+	public function getDefinition()
+	{
+		return [
+			'id'           => 'int',
+			'columns'      => '*json',
+			'maps_to'      => '*json',
+			'fixed'        => '*json',
+			'filename'     => 'string',
             'mime'         => 'string',
-            'size'         => 'int',
-            'created'      => 'int',
-            'updated'      => 'int',
-            'completed'    => 'bool',
-        ];
-    }
+            'status'       => 'string',
+            'errors'       => 'string',
+            'processed'    => 'string',
+            'created_ids'  => 'string',
+            'collection_id'=> 'int',
+			'size'         => 'int',
+			'created'      => 'int',
+			'updated'      => 'int',
+			'completed'    => 'bool',
+		];
+	}
 
     // Entity
     public function getResource()

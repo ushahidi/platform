@@ -59,7 +59,6 @@ class SearchFormStats extends SearchUsecase
                 $this->getFilter('created_before')
             );
         }
-
         $entity->setState($results);
         // ... and return the formatted results.
         return $this->formatter->__invoke($entity);
