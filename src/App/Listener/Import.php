@@ -1,5 +1,5 @@
-<?php defined('SYSPATH') or die('No direct script access');
-
+<?php
+namespace Ushahidi\App\Listener;
 /**
  * Ushahidi PostSet Listener
  *
@@ -15,7 +15,7 @@ use League\Event\AbstractListener;
 use League\Event\EventInterface;
 use Ushahidi\Core\Entity\Set;
 
-class Ushahidi_Listener_Import extends AbstractListener
+class Import extends AbstractListener
 {
 
     protected $transformer;

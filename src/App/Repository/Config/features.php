@@ -69,7 +69,7 @@ return [
 
     // Targeted Surveys
     'targeted-surveys' => [
-        'enabled' => false,
+        'enabled' => true,
     ],
 
     // Post locking
@@ -79,6 +79,11 @@ return [
     'redis' => [
         'enabled' => false,
     ],
+
+    'csv-speedup' => [
+        'enabled' => false,
+    ],
+
     // Enable or disable HXL export to HDX
     // We will need a new 'hxl-download' flag when we do the HXL downloads for P1
     'hxl' => [
