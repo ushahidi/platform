@@ -794,7 +794,9 @@ $di->setter[Ushahidi\App\Repository\Post\LockRepository::class]['setEvent'] = 'L
 $di->setter[Ushahidi\App\Repository\Post\LockRepository::class]['setListener'] =
     $di->lazyNew(Ushahidi\App\Listener\Lock::class);
 
-
+$di->setter[Ushahidi\Core\Usecase\ImportUsecase::class]['setEvent'] = 'ImportPosts';
+$di->setter[Ushahidi\Core\Usecase\ImportUsecase::class]['setListener'] =
+    $di->lazyNew(Ushahidi\App\Listener\Import::class);
 /**
  * HXL block
  */
@@ -983,6 +985,12 @@ $di->set('roles.enabled', function () use ($di) {
     $config = $di->get('features');
 
     return $config['roles']['enabled'];
+});
+
+// csv speedup config settings
+$di->set('csv-speedup.enabled', function () use ($di) {
+    $config = $di->get('features');
+    return $config['csv-speedup']['enabled'];
 });
 
 // Feature config

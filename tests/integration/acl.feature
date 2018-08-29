@@ -19,7 +19,7 @@ Feature: API Access Control Layer
         """
         When I request "/posts"
         Then the guzzle status code should be 204
-    
+
     Scenario: Anonymous user can not see restricted fields of public posts
         Given that I want to find a "Post"
         And that the oauth token is "testanon"
