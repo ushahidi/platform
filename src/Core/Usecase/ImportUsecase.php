@@ -109,6 +109,9 @@ class ImportUsecase implements Usecase
     // Usecase
     public function interact()
     {
+        // Start count of records processed, and errors
+        $processed = $errors = 0;
+
         // Fetch an empty entity..
         $entity = $this->getEntity();
         // ... verify that the entity can be created by the current user

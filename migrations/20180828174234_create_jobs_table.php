@@ -84,4 +84,5 @@ class CreateJobsTable extends AbstractMigration
     public function down(){
         $this->dropTable('jobs');
     }
+
 }
