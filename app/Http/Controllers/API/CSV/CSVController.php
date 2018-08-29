@@ -16,6 +16,6 @@ class CSVController extends MediaController
 {
     protected function getResource()
     {
-		return 'csv';
+        return 'csv';
     }
 }
