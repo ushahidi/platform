@@ -25,11 +25,7 @@ class CSV extends StaticEntity
     protected $created;
     protected $updated;
     protected $completed;
-    protected $status;
-    protected $errors;
-    protected $processed;
-    protected $collection_id;
-    // DataTransformer
+
     // DataTransformer
     public function getDefinition()
     {
@@ -40,11 +36,6 @@ class CSV extends StaticEntity
             'fixed'        => '*json',
             'filename'     => 'string',
             'mime'         => 'string',
-            'status'       => 'string',
-            'errors'       => 'string',
-            'processed'    => 'string',
-            'created_ids'  => 'string',
-            'collection_id'=> 'int',
             'size'         => 'int',
             'created'      => 'int',
             'updated'      => 'int',

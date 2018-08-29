@@ -696,9 +696,10 @@ $di->setter[Ushahidi\App\Validator\Media\Create::class] = [
 ];
 $di->setter[Ushahidi\App\Validator\CSV\Create::class] = [
     // @todo load from config
-    'setMaxBytes' => '8000000',
+    'setMaxBytes' => '2048000',
 ];
-$di->set('validator.post.import', $di->lazyNew(Ushahidi\App\Validator\Post\Import::class));
+
+
 $di->set('validator.post.datetime', $di->lazyNew(Ushahidi\App\Validator\Post\Datetime::class));
 $di->set('validator.post.decimal', $di->lazyNew(Ushahidi\App\Validator\Post\Decimal::class));
 $di->set('validator.post.geometry', $di->lazyNew(Ushahidi\App\Validator\Post\Geometry::class));
@@ -793,10 +794,7 @@ $di->setter[Ushahidi\App\Repository\Post\LockRepository::class]['setEvent'] = 'L
 $di->setter[Ushahidi\App\Repository\Post\LockRepository::class]['setListener'] =
     $di->lazyNew(Ushahidi\App\Listener\Lock::class);
 
-//$di->setter[Ushahidi\App\Jobs\ImportJob::class]['setEvent'] = 'ImportPosts';
-$di->setter[Ushahidi\App\Jobs\ImportJob::class]['setUsecase'] =
-    $di->lazyNew('Ushahidi\Core\Usecase\ImportUsecase');
-$di->setter[Ushahidi\App\Jobs\ImportJob::class]['setRepository'] =$di->lazyGet('repository.post');
+
 /**
  * HXL block
  */
@@ -985,12 +983,6 @@ $di->set('roles.enabled', function () use ($di) {
     $config = $di->get('features');
 
     return $config['roles']['enabled'];
-});
-
-// csv speedup config settings
-$di->set('csv-speedup.enabled', function () use ($di) {
-    $config = $di->get('features');
-    return $config['csv-speedup']['enabled'];
 });
 
 // Feature config

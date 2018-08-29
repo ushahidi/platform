@@ -73,18 +73,4 @@ class CSVRepository extends OhanzeeRepository implements
     {
         return ['columns', 'maps_to', 'fixed', 'filename'];
     }
-
-
-    // Ushahidi_Repository
-    public function setSearchConditions(SearchData $search)
-    {
-        $query = $this->search_query;
-        foreach ([
-                     'filename',
-                 ] as $key) {
-            if ($search->$key) {
-                $query->where($key, '=', $search->$key);
-            }
-        }
-    }
 }
