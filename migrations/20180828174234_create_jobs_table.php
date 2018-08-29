@@ -81,8 +81,7 @@ class CreateJobsTable extends AbstractMigration
             ->addIndex(['queue'])
             ->create();
     }
-    public function down()
-    {
+    public function down(){
         $this->dropTable('jobs');
     }
 }
