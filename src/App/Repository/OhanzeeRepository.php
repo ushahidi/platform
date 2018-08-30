@@ -243,6 +243,7 @@ abstract class OhanzeeRepository implements
             ->columns(array_keys($input))
             ->values(array_values($input))
             ;
+        \Log::debug(var_export($input,true));
 
         list($id) = $query->execute($this->db);
         return $id;
