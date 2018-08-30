@@ -206,7 +206,7 @@ class MessageRepository extends OhanzeeRepository implements
             $message['datetime'] = $message['datetime']->format("Y-m-d H:i:s");
         }
         // Create the post
-        return $this->executeUpdate(['id' => $message['id']],$this->removeNullValues($message));
+        return $this->executeUpdate(['id' => $message['id']], $this->removeNullValues($message));
     }
 
     // UpdateMessageRepository
