@@ -19,9 +19,11 @@ use Ushahidi\Core\Entity\TagRepository;
 use Ushahidi\Core\Entity\SetRepository;
 
 use Ushahidi\App\Repository\CSVPostRepository;
+use Ushahidi\Core\Traits\AdminAccess;
 
 class ExportRepository extends CSVPostRepository implements PostExportRepository
 {
+    use AdminAccess;
     protected $tag_repo;
     protected $set_repo;
     /**
