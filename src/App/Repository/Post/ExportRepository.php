@@ -17,7 +17,6 @@ use Ushahidi\Core\Entity\PostRepository;
 use Ushahidi\Core\Entity\PostExportRepository;
 use Ushahidi\Core\Entity\TagRepository;
 use Ushahidi\Core\Entity\SetRepository;
-
 use Ushahidi\App\Repository\CSVPostRepository;
 use Ushahidi\Core\Traits\AdminAccess;
 
