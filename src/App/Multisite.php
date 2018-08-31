@@ -146,7 +146,7 @@ class Multisite
         try {
             DB::select(DB::expr('1'))->from('users')
                 ->execute(Database::instance('deployment', $config));
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             // If we can't connect, throw 503 Service Unavailable
             abort(503, $this->domain . "is not ready");
         }
