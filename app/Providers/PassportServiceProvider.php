@@ -4,12 +4,15 @@ namespace Ushahidi\App\Providers;
 
 use Laravel\Passport\Passport;
 use Laravel\Passport\PassportServiceProvider as LaravelPassportServiceProvider;
+use League\OAuth2\Server\AuthorizationServer;
 use League\OAuth2\Server\ResourceServer;
 use League\OAuth2\Server\Grant\PasswordGrant;
 use Laravel\Passport\Bridge\RefreshTokenRepository;
 use Laravel\Passport\TokenRepository;
 use Laravel\Passport\ClientRepository;
 use Ushahidi\App\Passport\TokenGuard;
+use Ushahidi\App\Passport\BearerTokenResponse;
+
 
 use Illuminate\Auth\RequestGuard;
 
@@ -74,5 +77,23 @@ class PassportServiceProvider extends LaravelPassportServiceProvider
                 $this->app->make('encrypter')
             ))->user($request);
         }, $this->app['request']);
+    }
+
+
+    /**
+     * Make the authorization service instance.
+     *
+     * @return \League\OAuth2\Server\AuthorizationServer
+     */
+    public function makeAuthorizationServer()
+    {
+        return new AuthorizationServer(
+            $this->app->make(\Laravel\Passport\Bridge\ClientRepository::class),
+            $this->app->make(\Laravel\Passport\Bridge\AccessTokenRepository::class),
+            $this->app->make(\Laravel\Passport\Bridge\ScopeRepository::class),
+            $this->makeCryptKey('oauth-private.key'),
+            app('encrypter')->getKey(),
+            new BearerTokenResponse() // Override response with our own
+        );
     }
 }
