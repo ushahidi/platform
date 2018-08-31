@@ -134,7 +134,7 @@ class Multisite
         // No deployment? throw a 404
         if (! count($deployment)) {
             abort(404, $deploymentName . " not found");
-        } elseif (($status === 'migrating' && !$deployedDate) || $status === 'pending') {
+        } elseif (($status === 'migrating' && !$deployedDate) || $status === 'pending' || $status === 'deploying') {
             abort(503, $deploymentName . " is not ready");
         } elseif (($status === 'migrating' && $deployedDate) || $status === 'maintenance' || $status === 'importing') {
             abort(503, $deploymentName . " is down for maintenance");
@@ -150,7 +150,7 @@ class Multisite
                 ->execute(Database::instance('deployment', $config));
         } catch (\Exception $e) {
             // If we can't connect, throw 503 Service Unavailable
-            abort(503, $deploymentName . "is not ready");
+            abort(503, $deploymentName . " is not ready");
         }
     }
 }
