@@ -49,7 +49,8 @@ class Create extends Validator
             ],
         ];
     }
-    public function validateNotEmpty($validation, $size) {
+    public function validateNotEmpty($validation, $size)
+    {
         if ($size === 0) {
             $validation->error('size', 'not_empty');
         }

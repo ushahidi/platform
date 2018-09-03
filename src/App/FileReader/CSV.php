@@ -58,11 +58,13 @@ class CSV implements FileReader
         } catch (\InvalidArgumentException $invalidArgumentException) {
             if ($invalidArgumentException->getMessage() === 'The array must contain unique values') {
                 throw new ValidatorException(
-                    'CSV column names must be unique. Please rename any duplicate columns and try again.', []
+                    'CSV column names must be unique. Please rename any duplicate columns and try again.',
+                    []
                 );
             } elseif ($invalidArgumentException->getMessage() === 'The array can not be empty') {
                 throw new ValidatorException(
-                    'The CSV file you uploaded is empty. Please check your CSV file and try again.', []
+                    'The CSV file you uploaded is empty. Please check your CSV file and try again.',
+                    []
                 );
             } else {
                 throw $invalidArgumentException;
