@@ -46,6 +46,7 @@ class ReceiveMessageSpec extends ObjectBehavior
     private function getPayload()
     {
         return [
+            'id' => 1,
             'contact' => 'something',
             'contact_type' => 'sms',
             'from' => 1234,
@@ -208,6 +209,8 @@ class ReceiveMessageSpec extends ObjectBehavior
         // ... create a new record
         $id = 1;
         $repo->create($entity)->willReturn($id);
+        // ..  id is set
+        $entity->setState(['id' => $id])->willReturn($entity);
 
         // ... and returns it
         $this->interact()->shouldReturn($id);
@@ -260,6 +263,8 @@ class ReceiveMessageSpec extends ObjectBehavior
         // ... create a new record
         $id = 1;
         $repo->create($entity)->willReturn($id);
+        // ..  id is set
+        $entity->setState(['id' => $id])->willReturn($entity);
 
         // ... and returns it
         $this->interact()->shouldReturn($id);
