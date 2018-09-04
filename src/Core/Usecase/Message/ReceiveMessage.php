@@ -91,6 +91,8 @@ class ReceiveMessage extends CreateUsecase
         // ... persist the new message entity
         $id = $this->repo->create($entity);
 
+        $entity->setState(compact('id'));
+
         $this->dispatch('message.receive', [
             'id' => $id,
             'entity' => $entity,
