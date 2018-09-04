@@ -414,23 +414,4 @@ class StatsRepository extends OhanzeeRepository implements
             ->execute($this->db)
             ->get('total');
     }
-
-    private function queryForAllPosts($form_id, $created_after, $created_before)
-    {
-        $query = DB::select([DB::expr('COUNT(posts.id)'), 'total'])
-            ->from('posts')
-            ->where('posts.form_id', '=', $form_id);
-
-        if ($created_after) {
-            $query->where('posts.created', '>=', $created_after);
-        }
-
-        if ($created_before) {
-            $query->where('posts.created', '>=', $created_after);
-        }
-
-        return $query
-            ->execute($this->db)
-            ->get('total');
-    }
 }
