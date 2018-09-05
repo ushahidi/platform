@@ -18,6 +18,7 @@ use League\Event\AbstractListener;
 use League\Event\EventInterface;
 use \Ushahidi\Core\Entity\FormRepository;
 use \Ushahidi\Core\Entity\ContactRepository;
+use Ushahidi\Core\Entity\Message;
 use \Ushahidi\Core\Entity\PostRepository;
 use \Ushahidi\Core\Entity\MessageRepository;
 use \Ushahidi\Core\Entity\FormAttributeRepository;
@@ -143,6 +144,7 @@ class ContactListener extends AbstractListener
                 'message' => $firstAttribute->label,
                 'status' => \Ushahidi\Core\Entity\Message::PENDING,
                 'type' => $message_type,
+                'direction' => \Ushahidi\Core\Entity\Message::OUTGOING,
                 'data_source' => $source->getId(),
             ];
             $message->setState($messageState);
