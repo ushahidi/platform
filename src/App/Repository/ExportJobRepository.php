@@ -126,7 +126,7 @@ class ExportJobRepository extends OhanzeeRepository implements ExportJobReposito
             parent::update($entity->setState(['status' => "PENDING_HDX"]));
             //if sending to HXL is required, then we spawn an event to do that
             Event::fire(new SendToHDXEvent($entity->id));
-        } elseif ($entity->status == 'EXPORTED_TO_C DN' && $entity->send_to_hdx == false) {
+        } elseif ($entity->status == 'EXPORTED_TO_CDN' && $entity->send_to_hdx == false) {
             //if sending to HDX is not required, (or send_to_hdx does not exist)
             // then simply update the status to success
             parent::update($entity->setState([ 'status' => "SUCCESS"]));
