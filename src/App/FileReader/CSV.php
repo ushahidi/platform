@@ -12,6 +12,7 @@
 namespace Ushahidi\App\FileReader;
 
 use League\Csv\Reader;
+use Ushahidi\Core\Exception\ValidatorException;
 use Ushahidi\Core\Tool\FileReader;
 use Ushahidi\Core\Tool\ReaderFactory;
 
@@ -52,7 +53,22 @@ class CSV implements FileReader
         if ($this->limit) {
             $reader->setLimit($this->limit);
         }
-
-        return new \ArrayIterator($reader->fetchAssoc());
+        try {
+            return new \ArrayIterator($reader->fetchAssoc());
+        } catch (\InvalidArgumentException $invalidArgumentException) {
+            if ($invalidArgumentException->getMessage() === 'The array must contain unique values') {
+                throw new ValidatorException(
+                    'CSV column names must be unique. Please rename any duplicate columns and try again.',
+                    []
+                );
+            } elseif ($invalidArgumentException->getMessage() === 'The array can not be empty') {
+                throw new ValidatorException(
+                    'The CSV file you uploaded is empty. Please check your CSV file and try again.',
+                    []
+                );
+            } else {
+                throw $invalidArgumentException;
+            }
+        }
     }
 }

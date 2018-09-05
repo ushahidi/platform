@@ -403,6 +403,7 @@ class AttributeRepository extends OhanzeeRepository implements
             ->from($this->getTable())
             ->where('form_stage_id', '=', $current_attribute->form_stage_id)
             ->where('priority', '>', $current_attribute->priority)
+            ->where('form_attributes.type', 'not in', ['title', 'description'])
             ->order_by('form_attributes.priority', 'ASC')
             ->limit(1)
             ->execute($this->db);

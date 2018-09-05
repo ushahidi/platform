@@ -48,6 +48,11 @@ class PassportServiceProvider extends LaravelPassportServiceProvider
             \Ushahidi\App\Passport\UserRepository::class
         );
 
+        $this->app->bind(
+            \Laravel\Passport\Bridge\RefreshTokenRepository::class,
+            \Ushahidi\App\Passport\RefreshTokenRepository::class
+        );
+
         parent::boot();
     }
 
