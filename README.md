@@ -92,8 +92,11 @@ If you see an error like "Vagrant was unable to mount VirtualBox shared folders.
   - You will have to ssh into your vagrant machine to finish installing the dependencies if you used --ignore-platform-reqs before
 
   `vagrant ssh`
+  
   `cd ~/Code/platform-api`
+  
   `	sudo update-alternatives --set php /usr/bin/php7.1`
+  
   `composer install` => if this fails you can still run it --ignore-platform-reqs 
 
 - Important: If you didn't setup vagrant-hostupdater, you will need to add the following lines to /etc/hosts:
