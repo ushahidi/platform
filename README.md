@@ -36,8 +36,8 @@ These are some ways to get involved:
 - **Report a bug**: oops. If you found an issue/bug, please be awesome and report it [here](https://github.com/ushahidi/platform/issues). Someone on the team will jump in to check it, try to help, and prioritize it for future development depending on the issue type.
 - **Fix a bug**: everyone can use a hand from time to time. We are no different. If you want to help fixing a bug you or someone else found, we will be happy to review your PR and provide support.
 - **Helping other users in the community**: you are welcome and encouraged to jump in and help other members of the community, either by responding to issues in github or jumping into our community channels to answer questions. 
-- **New features**: our features are generally driven by our product and engineering team members, but if you have a great idea, or found a user need that we haven't covered, you are more than welcome to make a suggestion in the form of a github issue, or reach out to Ushahidi staff in [gitter]
-
+- **New features**: our features are generally driven by our product and engineering team members, but if you have a great idea, or found a user need that we haven't covered, you are more than welcome to make a suggestion in the form of a github issue [here](https://github.com/ushahidi/platform/issues), or reach out to Ushahidi staff in [gitter](https://gitter.im/ushahidi/Community)
+- **Security issues**: if you think you have found a security issue, please follow [https://www.ushahidi.com/security](this link where we explain our disclosure and reporting policies)
 
 ## Using the Platform
 
