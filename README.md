@@ -25,7 +25,7 @@ Ushahidi 3
 Ushahidi is an open source web application for information collection, visualization and interactive mapping. It helps you to collect info from: SMS, Twitter, RSS feeds, Email. It helps you to process that information, categorize it, geo-locate it and publish it on a map.
 
 ## A note for grassroots organizations
-If you are a grassroots organization, you can apply for a free social-impact responder account [here](https://www.ushahidi.com/plans/apply-for-free) after verifying that you meet the criteria.
+If you are starting a deployment for a grassroots organization, you can apply for a free social-impact responder account [here](https://www.ushahidi.com/plans/apply-for-free) after verifying that you meet the criteria.
 
 
 ## Getting Involved
