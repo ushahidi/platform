@@ -88,6 +88,8 @@ class Notification extends Command
 
     private function generateMessages($notification)
     {
+        $this->info("Generating messages for post {$notification->post_id} in set {$notification->set_id}");
+
         // Delete queued notification
         $this->notificationQueueRepository->delete($notification);
 
@@ -106,10 +108,14 @@ class Notification extends Command
         while (true) {
             $contacts = $this->contactRepository
                 ->getNotificationContacts($notification->set_id, $limit, $offset);
+            $countContacts = count($contacts);
+
+            $this->info("Got $countContacts contacts to notify about set {$notification->set_id}");
 
             // Create outgoing messages
             foreach ($contacts as $contact) {
                 if ($this->messageRepository->notificationMessageExists($post->id, $contact->id)) {
+                    $this->info("Contact {$contact->id} already notified");
                     continue;
                 }
 
@@ -134,12 +140,14 @@ class Notification extends Command
 
                 $entity = $this->messageRepository->getEntity();
                 $entity->setState($state);
-                $this->messageRepository->create($entity);
+                $id = $this->messageRepository->create($entity);
 
                 $count++;
+                $this->info("Queued message id {$id} for {$contact->id}");
             }
 
-            if (count($contacts) < $limit) {
+            if ($countContacts < $limit) {
+                $this->info('Ran out of contacts');
                 break;
             }
 
