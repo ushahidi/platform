@@ -15,31 +15,27 @@ use Ushahidi\Core\StaticEntity;
 
 class DataProvider extends StaticEntity
 {
-	protected $id;
-	protected $name;
-	protected $version;
-	protected $services;
-	protected $links;
-	protected $options;
-	protected $inbound_fields;
+    protected $id;
+    protected $name;
+    protected $services;
+    protected $options;
+    protected $inbound_fields;
 
-	// DataTransformer
-	protected function getDefinition()
-	{
-		return [
-			'id'             	=> 'string',
-			'name'            => 'string',
-			'version'         => 'float',
-			'services'        => 'array',
-			'links'           => 'array',
-			'options'         => 'array',
-			'inbound_fields'  => 'array',
-		];
-	}
+    // DataTransformer
+    protected function getDefinition()
+    {
+        return [
+            'id'       => 'string',
+            'name'     => 'string',
+            'services' => 'array',
+            'options'  => 'array',
+            'inbound_fields'  => 'array',
+        ];
+    }
 
-	// Entity
-	public function getResource()
-	{
-		return 'dataprovider';
-	}
+    // Entity
+    public function getResource()
+    {
+        return 'dataprovider';
+    }
 }

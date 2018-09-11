@@ -37,6 +37,7 @@ Feature: Testing the Form Contacts API
         And the type of the "invalidated_contacts.0.contact" property is "string"
         Then the "invalidated_contacts.0.contact" property equals "99999991"
         Then the guzzle status code should be 200
+    @resetFixture
     Scenario: Creating a new valid set of Contacts for a targeted survey with contacts
         Given that I want to make a new "Contact"
         And that the request "data" is:
@@ -46,13 +47,13 @@ Feature: Testing the Form Contacts API
                 "country_code": "UY"
             }
             """
-        When I request "/forms/5/contacts"
+        When I request "/forms/6/contacts"
         Then the response is JSON
-        Then the guzzle status code should be 400
+        Then the guzzle status code should be 422
         And the response has a "errors" property
-        And the response has a "errors.0.title" property
-        And the type of the "errors.0.title" property is "string"
-        Then the "errors.0.title" property equals "The form already has a set of contacts"
+        And the response has a "errors.1.message" property
+        And the type of the "errors.1.message" property is "string"
+        Then the "errors.1.message" property equals "The form already has a set of contacts"
     @resetFixture
     Scenario: Creating a new valid set of Contacts for a non targeted survey
         Given that I want to make a new "Contact"
@@ -65,8 +66,8 @@ Feature: Testing the Form Contacts API
             """
         When I request "/forms/1/contacts"
         Then the response is JSON
-        Then the guzzle status code should be 400
+        Then the guzzle status code should be 422
         And the response has a "errors" property
-        And the response has a "errors.0.title" property
-        And the type of the "errors.0.title" property is "string"
-        Then the "errors.0.title" property equals "Not a targeted survey"
+        And the response has a "errors.1.message" property
+        And the type of the "errors.1.message" property is "string"
+        Then the "errors.1.message" property equals "The form is not a targeted survey"

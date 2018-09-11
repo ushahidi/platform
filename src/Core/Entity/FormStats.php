@@ -37,6 +37,7 @@ class FormStats extends StaticEntity
             ],
         ];
     }
+
     // Entity
     public function getResource()
     {

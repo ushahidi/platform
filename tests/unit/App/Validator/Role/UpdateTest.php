@@ -11,43 +11,38 @@
 
 namespace Tests\Unit\Core\Tool;
 
-use Ushahidi_Validator_Role_Update;
+use Kohana\Validation\Validation;
+use Ushahidi\App\Validator\Role\Update;
+use Tests\TestCase;
+use Mockery as M;
 use Ushahidi\Core\Entity\PermissionRepository;
 
 /**
  * @backupGlobals disabled
  * @preserveGlobalState disabled
  */
-class RoleUpdateTest extends \PHPUnit\Framework\TestCase
+class RoleUpdateTest extends TestCase
 {
 
-	public function testRoleDisabled()
-	{
-		$validationMock = $this->createMock(\Validation::class);
+    public function testRoleDisabled()
+    {
+        $validationMock = M::mock(Validation::class);
+        $validator = new Update(M::mock(PermissionRepository::class), false);
+        $validationMock->expects('error')->with(
+            'name',
+            'rolesNotEnabled'
+        );
+        $validator->checkRolesEnabled($validationMock);
+    }
 
-		$validator = new Ushahidi_Validator_Role_Update($this->createMock(PermissionRepository::class), false);
-		$validationMock
-			->expects($this->once())
-            ->method('error')
-            ->with(
-				'name',
-				'rolesNotEnabled'
-			);
-		$validator->checkRolesEnabled($validationMock);
-	}
-
-	public function testRoleEnabled()
-	{
-		$validationMock = $this->createMock(\Validation::class);
-		$validator = new Ushahidi_Validator_Role_Update($this->createMock(PermissionRepository::class), true);
-		$validationMock
-			->expects($this->never())
-			->method('error')
-			// ->with(
-			// 	'name',
-			// 	'rolesNotEnabled'
-			// )
-			;
-		$validator->checkRolesEnabled($validationMock);
-	}
+    public function testRoleEnabled()
+    {
+        $validationMock = M::mock(Validation::class);
+        $validator = new Update(M::mock(PermissionRepository::class), true);
+        $validationMock->shouldNotReceive('error')->with(
+            'name',
+            'rolesNotEnabled'
+        );
+        $validator->checkRolesEnabled($validationMock);
+    }
 }

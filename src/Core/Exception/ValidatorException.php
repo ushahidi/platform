@@ -16,25 +16,25 @@ use RecursiveArrayIterator;
 
 class ValidatorException extends \InvalidArgumentException
 {
-	private $errors;
+    private $errors;
 
-	public function __construct($message, array $errors, \Exception $previous = null)
-	{
-		$flatErrors = iterator_to_array(new RecursiveIteratorIterator(new RecursiveArrayIterator($errors)), false);
+    public function __construct($message, array $errors, \Exception $previous = null)
+    {
+        $flatErrors = iterator_to_array(new RecursiveIteratorIterator(new RecursiveArrayIterator($errors)), false);
 
-		$message = $message . ":\n" . implode("\n", $flatErrors);
+        $message = $message . ":\n" . implode("\n", $flatErrors);
 
-		parent::__construct($message, 0, $previous);
-		$this->setErrors($errors);
-	}
+        parent::__construct($message, 0, $previous);
+        $this->setErrors($errors);
+    }
 
-	public function setErrors(array $errors)
-	{
-		$this->errors = $errors;
-	}
+    public function setErrors(array $errors)
+    {
+        $this->errors = $errors;
+    }
 
-	public function getErrors()
-	{
-		return $this->errors ?: array();
-	}
+    public function getErrors()
+    {
+        return $this->errors ?: [];
+    }
 }

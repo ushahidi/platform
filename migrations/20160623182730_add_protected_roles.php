@@ -10,11 +10,11 @@ class AddProtectedRoles extends AbstractMigration
      */
     public function up()
     {
-		$this->table('roles')
+        $this->table('roles')
             ->addColumn('protected', 'boolean', [
                 'after' => 'id',
                 'null' => false,
-				'default' => false
+                'default' => false
             ])
             ->update();
     }
@@ -24,8 +24,8 @@ class AddProtectedRoles extends AbstractMigration
      */
     public function down()
     {
-		$this->table('roles')
-			 ->removeColumn('protected')
+        $this->table('roles')
+             ->removeColumn('protected')
             ->update();
     }
 }

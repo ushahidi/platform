@@ -13,15 +13,23 @@ namespace Ushahidi\Core\Entity;
 
 use Ushahidi\Core\Entity\Repository\EntityGet;
 use Ushahidi\Core\Entity\Repository\EntityExists;
+use Ushahidi\Core\Usecase\UpdateRepository;
 
 interface TargetedSurveyStateRepository extends
-	EntityGet,
-	EntityExists
+    EntityGet,
+    EntityExists,
+    UpdateRepository
 {
 
-	/**
-	 * @param string  $contact
-	 * @return boolean
-	 */
-	public function getActiveByContactId($contact_id);
+    /**
+     * @param string  $contact
+     * @return boolean
+     */
+    public function getActiveByContactId($contact_id);
+
+    /**
+     * @param string  $contact
+     * @return boolean
+     */
+    public function isContactInActiveTargetedSurveyAndReceivedMessage($contact);
 }

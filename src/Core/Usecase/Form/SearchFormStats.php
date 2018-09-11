@@ -11,7 +11,6 @@
 
 namespace Ushahidi\Core\Usecase\Form;
 
-// use Ushahidi\Core\Usecase\Concerns\IdentifyRecords;
 use Ushahidi\Core\Entity\FormStats;
 use Ushahidi\Core\Usecase\Concerns\IdentifyRecords;
 use Ushahidi\Core\Usecase\SearchUsecase;
@@ -39,12 +38,13 @@ class SearchFormStats extends SearchUsecase
         $search->setFilter('form_id', $this->getIdentifier('form_id'));
         $search->setFilter('created_after', $this->getFilter('created_after'));
         $search->setFilter('created_before', $this->getFilter('created_before'));
+
         // ... pass the search information to the repo
         $this->repo->setSearchParams($search);
-	// ... pass the search information to the repo
-        $this->repo->setSearchParams($search);
+
         // Check the survey type so we can determine which stats to get
         $surveyType =  $this->repo->getSurveyType($this->getIdentifier('form_id'));
+
         // If we're dealing with a targeted survey, go get those states
         if ($surveyType[0]['targeted_survey']) {
             $results = $this->getTargetedSurveyStats(
@@ -63,7 +63,7 @@ class SearchFormStats extends SearchUsecase
         // ... and return the formatted results.
         return $this->formatter->__invoke($entity);
     }
- 
+
     private function getTargetedSurveyStats($form_id, $created_after, $created_before)
     {
         $outgoing = $this->repo->countOutgoingMessages($form_id, $created_after, $created_before);

@@ -17,80 +17,88 @@ use Ushahidi\Core\Exception\ValidatorException;
 
 trait VerifyFormLoaded
 {
-	/**
-	 * @var FormRepository
-	 */
-	protected $form_repo;
-	protected $form_contact_repo;
+    /**
+     * @var FormRepository
+     */
+    protected $form_repo;
+    protected $form_contact_repo;
 
-	/**
-	 * @param  FormRepository $repo
-	 * @return void
-	 */
-	public function setFormRepository(FormRepository $repo)
-	{
-		$this->form_repo = $repo;
-	}
+    /**
+     * @param  FormRepository $repo
+     * @return void
+     */
+    public function setFormRepository(FormRepository $repo)
+    {
+        $this->form_repo = $repo;
+    }
 
 
-	/**
-	 * @param  FormRepository $repo
-	 * @return void
-	 */
-	public function setFormContactRepository(Entity\FormContactRepository $repo)
-	{
-		$this->form_contact_repo = $repo;
-	}
+    /**
+     * @param  FormRepository $repo
+     * @return void
+     */
+    public function setFormContactRepository(Entity\FormContactRepository $repo)
+    {
+        $this->form_contact_repo = $repo;
+    }
 
-	/**
-	 * Checks that the form exists.
-	 * @param  Data $input
-	 * @return void
-	 */
-	protected function verifyFormExists()
-	{
-		// Ensure that the form exists.
-		$form = $this->form_repo->get($this->getRequiredIdentifier('form_id'));
-		$this->verifyEntityLoaded($form, $this->identifiers);
-	}
+    /**
+     * Checks that the form exists.
+     * @param  Data $input
+     * @return void
+     */
+    protected function verifyFormExists()
+    {
+        // Ensure that the form exists.
+        $form = $this->form_repo->get($this->getRequiredIdentifier('form_id'));
+        $this->verifyEntityLoaded($form, $this->identifiers);
+    }
 
-	/**
-	 * Checks that the form exists.
-	 * @param  Data $input
-	 * @return void
-	 */
-	protected function verifyFormDoesNoExistInTargetedSurveyState()
-	{
-		// Ensure that the form exists.
-		if ($this->form_contact_repo->formExistsInPostStateRepo($this->getRequiredIdentifier('form_id'))) {
-			throw new \HTTP_Exception_400('The form already has a set of contacts');
-		}
-	}
+    /**
+     * Checks that the form exists.
+     * @param  Data $input
+     * @return void
+     * @todo  maybe move to validator
+     */
+    protected function verifyFormDoesNoExistInTargetedSurveyState()
+    {
+        // Ensure that the form exists.
+        if ($this->form_contact_repo->formExistsInPostStateRepo($this->getRequiredIdentifier('form_id'))) {
+            // @todo Define a more sensible exception
+            throw new ValidatorException('The form already has a set of contacts', [
+                'id' => 'The form already has a set of contacts'
+            ]);
+        }
+    }
 
-	/**
-	 * Checks that the form exists.
-	 * @param  Data $input
-	 * @return void
-	 */
-	protected function verifyTargetedSurvey()
-	{
-		$form = $this->form_repo->get($this->getRequiredIdentifier('form_id'));
-		// Ensure that the form exists.
-		if (!$form->targeted_survey) {
-			throw new \HTTP_Exception_400('Not a targeted survey');
-		}
-	}
+    /**
+     * Checks that the form exists.
+     * @param  Data $input
+     * @return void
+     * @todo  maybe move to validator
+     */
+    protected function verifyTargetedSurvey()
+    {
+        $form = $this->form_repo->get($this->getRequiredIdentifier('form_id'));
+        // Ensure that the form exists.
+        if (!$form->targeted_survey) {
+            // @todo Define a more sensible exception
+            throw new ValidatorException('The form is not a targeted survey', [
+                'id' => 'The form is not a targeted survey'
+            ]);
+        }
+    }
 
-	// Usecase
-	public function interact()
-	{
-		$this->verifyFormExists();
-		return parent::interact();
-	}
+    // Usecase
+    public function interact()
+    {
+        $this->verifyFormExists();
+        return parent::interact();
+    }
 
-	// IdentifyRecords
-	abstract protected function getRequiredIdentifier($name);
+    // IdentifyRecords
+    abstract protected function getRequiredIdentifier($name);
 
-	// VerifyEntityLoaded
-	abstract protected function verifyEntityLoaded(Entity $entity, $lookup);
+    // VerifyEntityLoaded
+    abstract protected function verifyEntityLoaded(Entity $entity, $lookup);
 }

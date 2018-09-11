@@ -15,59 +15,59 @@ use Ushahidi\Core\StaticEntity;
 
 class Tag extends StaticEntity
 {
-	protected $id;
-	protected $parent_id;
-	protected $tag;
-	protected $slug;
-	protected $type;
-	protected $color;
-	protected $icon;
-	protected $description;
-	protected $priority;
-	protected $created;
-	protected $role;
-	protected $children;
+    protected $id;
+    protected $parent_id;
+    protected $tag;
+    protected $slug;
+    protected $type;
+    protected $color;
+    protected $icon;
+    protected $description;
+    protected $priority;
+    protected $created;
+    protected $role;
+    protected $children;
 
-	// StatefulData
-	protected function getDerived()
-	{
-		return [
-			'slug' => 'tag',
-		];
-	}
+    // StatefulData
+    protected function getDerived()
+    {
+        return [
+            'slug' => 'tag',
+        ];
+    }
 
-	// DataTransformer
-	protected function getDefinition()
-	{
-		$typeColor = function ($color) {
-			if ($color) {
-				return ltrim($color, '#');
-			}
-		};
-		return [
-			'id'          => 'int',
-			'parent_id'   => 'int',
-			'tag'         => 'string',
-			'slug'        => '*slug',
-			'type'        => 'string',
-			'color'       => $typeColor,
-			'icon'        => 'string',
-			'description' => 'string',
-			'priority'    => 'int',
-			'created'     => 'int',
-			'role'        => '*json',
-			'children'    => 'array',
-		];
-	}
+    // DataTransformer
+    protected function getDefinition()
+    {
+        $typeColor = function ($color) {
+            if ($color) {
+                return ltrim($color, '#');
+            }
+        };
+        return [
+            'id'          => 'int',
+            'parent_id'   => 'int',
+            'tag'         => 'string',
+            'slug'        => '*slug',
+            'type'        => 'string',
+            'color'       => $typeColor,
+            'icon'        => 'string',
+            'description' => 'string',
+            'priority'    => 'int',
+            'created'     => 'int',
+            'role'        => '*json',
+            'children'    => 'array',
+        ];
+    }
 
-	// Entity
-	public function getResource()
-	{
-		return 'tags';
-	}
-	protected function getImmutable()
-	{
-		// Hack: Add computed properties to immutable list
-		return array_merge(parent::getImmutable(), ['children']);
-	}
+    // Entity
+    public function getResource()
+    {
+        return 'tags';
+    }
+    protected function getImmutable()
+    {
+        // Hack: Add computed properties to immutable list
+        return array_merge(parent::getImmutable(), ['children']);
+    }
 }

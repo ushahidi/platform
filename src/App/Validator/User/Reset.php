@@ -18,31 +18,31 @@ use Ushahidi\Core\Entity\UserRepository;
 class Reset extends Validator
 {
 
-	protected $default_error_source = 'user';
-	protected $repo;
+    protected $default_error_source = 'user';
+    protected $repo;
 
-	public function __construct(UserRepository $repo)
-	{
-		$this->repo = $repo;
-	}
+    public function __construct(UserRepository $repo)
+    {
+        $this->repo = $repo;
+    }
 
-	protected function getRules()
-	{
-		return [
-			'token' => [
-				[[$this, 'checkResetToken'], [':validation', ':value']]
-			],
-			'password' => [
-				['min_length', [':value', 7]],
-				['max_length', [':value', 72]],
-			],
-		];
-	}
+    protected function getRules()
+    {
+        return [
+            'token' => [
+                [[$this, 'checkResetToken'], [':validation', ':value']]
+            ],
+            'password' => [
+                ['min_length', [':value', 7]],
+                ['max_length', [':value', 72]],
+            ],
+        ];
+    }
 
-	public function checkResetToken(\Validation $validation, $token)
-	{
-		if (!$this->repo->isValidResetToken($token)) {
-			$validation->error('token', 'invalidResetToken');
-		}
-	}
+    public function checkResetToken(\Kohana\Validation\Validation $validation, $token)
+    {
+        if (!$this->repo->isValidResetToken($token)) {
+            $validation->error('token', 'invalidResetToken');
+        }
+    }
 }

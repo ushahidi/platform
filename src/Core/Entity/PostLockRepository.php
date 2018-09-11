@@ -14,7 +14,7 @@ namespace Ushahidi\Core\Entity;
 use Ushahidi\Core\Entity\Repository\EntityGet;
 
 interface PostLockRepository extends
-	EntityGet
+    EntityGet
 {
     public function releaseLock($entity_id);
 

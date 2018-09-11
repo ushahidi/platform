@@ -2,7 +2,7 @@
 Feature: Testing the Roles API
     Scenario: Create a new role
         Given that I want to make a new "Role"
-        And that the request "Authorization" header is "Bearer testadminuser"
+        And that the oauth token is "testadminuser"
         And that the request "data" is:
             """
             {
@@ -18,7 +18,7 @@ Feature: Testing the Roles API
 
     Scenario: Create a new role with permissions
         Given that I want to make a new "Role"
-        And that the request "Authorization" header is "Bearer testadminuser"
+        And that the oauth token is "testadminuser"
         And that the request "data" is:
             """
             {
@@ -37,7 +37,7 @@ Feature: Testing the Roles API
 
     Scenario: Assign a permission to a role
         Given that I want to update a "Role"
-        And that the request "Authorization" header is "Bearer testadminuser"
+        And that the oauth token is "testadminuser"
         And that the request "data" is:
             """
             {
@@ -53,7 +53,7 @@ Feature: Testing the Roles API
 
      Scenario: Change permission of a role
         Given that I want to update a "Role"
-        And that the request "Authorization" header is "Bearer testadminuser"
+        And that the oauth token is "testadminuser"
         And that the request "data" is:
             """
             {
@@ -68,7 +68,7 @@ Feature: Testing the Roles API
 
      Scenario: Removing permissions from a role
         Given that I want to update a "Role"
-        And that the request "Authorization" header is "Bearer testadminuser"
+        And that the oauth token is "testadminuser"
         And that the request "data" is:
             """
             {
@@ -83,7 +83,7 @@ Feature: Testing the Roles API
 
      Scenario: Get role by name
         Given that I want to find a "Role"
-        And that the request "Authorization" header is "Bearer testadminuser"
+        And that the oauth token is "testadminuser"
         And that the request "query string" is:
             """
             name=manager
@@ -96,7 +96,7 @@ Feature: Testing the Roles API
 
      Scenario: Get protected status of protected role
         Given that I want to find a "Role"
-        And that the request "Authorization" header is "Bearer testadminuser"
+        And that the oauth token is "testadminuser"
         And that its "id" is "1"
         When I request "/roles"
         Then the response is JSON
@@ -106,7 +106,7 @@ Feature: Testing the Roles API
 
      Scenario: Get protected status of unprotected role
         Given that I want to find a "Role"
-        And that the request "Authorization" header is "Bearer testadminuser"
+        And that the oauth token is "testadminuser"
         And that its "id" is "4"
         When I request "/roles"
         Then the response is JSON
@@ -116,21 +116,21 @@ Feature: Testing the Roles API
 
      Scenario: Delete a protected role
         Given that I want to delete a "Role"
-        And that the request "Authorization" header is "Bearer testadminuser"
+        And that the oauth token is "testadminuser"
         And that its "id" is "1"
         When I request "/roles"
         Then the guzzle status code should be 403
 
      Scenario: Delete an unprotected role
         Given that I want to delete a "Role"
-        And that the request "Authorization" header is "Bearer testadminuser"
+        And that the oauth token is "testadminuser"
         And that its "id" is "4"
         When I request "/roles"
         Then the guzzle status code should be 200
 
      Scenario: Change protected status of a role (Change should fail because "protected" is immutable)
         Given that I want to update a "Role"
-        And that the request "Authorization" header is "Bearer testadminuser"
+        And that the oauth token is "testadminuser"
         And that the request "data" is:
             """
             {

@@ -13,11 +13,11 @@ namespace Ushahidi\Core\Usecase\Tag;
 
 interface DeleteTagRepository
 {
-	// TagRepository
-	public function get($id);
+    // TagRepository
+    public function get($id);
 
-	/**
-	 * @param  Integer $id
-	 */
-	public function deleteTag($id);
+    /**
+     * @param  Integer $id
+     */
+    public function deleteTag($id);
 }

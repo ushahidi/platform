@@ -11,41 +11,45 @@
 
 namespace Ushahidi\Core\Usecase\CSV;
 
-use Ushahidi\Core\Tool\Filesystem;
+use Ushahidi\Core\Tool\Uploader;
 use Ushahidi\Core\Usecase\DeleteUsecase;
 
 class DeleteCSVUsecase extends DeleteUsecase
 {
-	protected $fs;
-	/**
-	 * @param  Filesystem $fs
-	 */
-	public function setFilesystem(Filesystem $fs)
-	{
-		$this->fs = $fs;
-	}
+    /**
+     * @var Uploader
+     */
+    protected $uploader;
 
-	// Usecase
-	public function interact()
-	{
-		// Fetch the entity, using provided identifiers...
-		$entity = $this->getEntity();
+    /**
+     * @param  Uploader $upload
+     * @return $this
+     */
+    public function setUploader(Uploader $uploader)
+    {
+        $this->uploader = $uploader;
+        return $this;
+    }
 
-		// ... verify that the entity can be deleted by the current user
-		$this->verifyDeleteAuth($entity);
+    // Usecase
+    public function interact()
+    {
+        // Fetch the entity, using provided identifiers...
+        $entity = $this->getEntity();
 
-		// ... persist the delete
-		$this->repo->delete($entity);
+        // ... verify that the entity can be deleted by the current user
+        $this->verifyDeleteAuth($entity);
 
-		// ... delete uploaded CSV file
-		if ($this->fs->has($entity->filename)) {
-			$this->fs->delete($entity->filename);
-		}
+        // ... persist the delete
+        $this->repo->delete($entity);
 
-		// ... verify that the entity can be read by the current user
-		$this->verifyReadAuth($entity);
+        // ... delete uploaded CSV file
+        $this->uploader->delete($entity->filename);
 
-		// ... and return the formatted entity
-		return $this->formatter->__invoke($entity);
-	}
+        // ... verify that the entity can be read by the current user
+        $this->verifyReadAuth($entity);
+
+        // ... and return the formatted entity
+        return $this->formatter->__invoke($entity);
+    }
 }

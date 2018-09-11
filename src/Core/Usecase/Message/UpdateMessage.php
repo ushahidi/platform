@@ -17,12 +17,12 @@ use Ushahidi\Core\Usecase\UpdateUsecase;
 
 class UpdateMessage extends UpdateUsecase
 {
-	protected function verifyValid(Entity $entity)
-	{
-		$this->validator->set([
-			'direction' => $entity->direction,
-			'status'    => $entity->status,
-		]);
-		parent::verifyValid($entity);
-	}
+    protected function verifyValid(Entity $entity)
+    {
+        $this->validator->set([
+            'direction' => $entity->direction,
+            'status'    => $entity->status,
+        ]);
+        parent::verifyValid($entity);
+    }
 }

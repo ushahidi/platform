@@ -17,26 +17,26 @@ use Ushahidi\Core\Entity;
 
 trait CollectionLoader
 {
-	/**
-	 * Get the entity for this repository.
-	 * @param  Array  $data
-	 * @return Ushahidi\Core\Entity
-	 */
-	abstract public function getEntity(array $data = null);
+    /**
+     * Get the entity for this repository.
+     * @param  Array  $data
+     * @return Ushahidi\Core\Entity
+     */
+    abstract public function getEntity(array $data = null);
 
-	/**
-	 * Converts an array of results into an array of entities,
-	 * indexed by the entity id.
-	 * @param  Array $results
-	 * @return Array
-	 */
-	protected function getCollection(array $results)
-	{
-		$collection = [];
-		foreach ($results as $row) {
-			$entity = $this->getEntity($row);
-			$collection[$entity->getId()] = $entity;
-		}
-		return $collection;
-	}
+    /**
+     * Converts an array of results into an array of entities,
+     * indexed by the entity id.
+     * @param  Array $results
+     * @return Array
+     */
+    protected function getCollection(array $results)
+    {
+        $collection = [];
+        foreach ($results as $row) {
+            $entity = $this->getEntity($row);
+            $collection[$entity->getId()] = $entity;
+        }
+        return $collection;
+    }
 }

@@ -1,9 +1,9 @@
-@exportjobs
+@exportjobs @hxlDisabled
 Feature: Testing the Export Job API
-
+    @hxlDisabled
     Scenario: Create a export job
         Given that I want to make a new "ExportJob"
-        And that the request "Authorization" header is "Bearer testadminuser"
+        And that the oauth token is "testadminuser"
         And that the request "data" is:
           """
           {
@@ -17,7 +17,9 @@ Feature: Testing the Export Job API
               "order_unlocked_on_top" : "true",
               "source" : ["sms","twitter","web","email"]
             },
-            "entity_type":"post"
+            "entity_type":"post",
+            "send_to_browser": true,
+            "send_to_hdx": false
           }
           """
         When I request "/exports/jobs"
@@ -28,7 +30,7 @@ Feature: Testing the Export Job API
 
     Scenario: An anonymous user cannot create to an export job
         Given that I want to make a new "ExportJob"
-        And that the request "Authorization" header is "Bearer testanon"
+        And that the oauth token is "testanon"
         And that the request "data" is:
             """
             {
@@ -42,7 +44,7 @@ Feature: Testing the Export Job API
 
     Scenario: Deleting a Export Job entry
         Given that I want to delete a "ExportJob"
-        And that the request "Authorization" header is "Bearer testadminuser"
+        And that the oauth token is "testadminuser"
         And that its "id" is "1"
         When I request "/exports/jobs"
         Then the response is JSON
@@ -51,10 +53,10 @@ Feature: Testing the Export Job API
         And the "id" property equals "1"
         Then the guzzle status code should be 200
 
-@resetFixture
+    @resetFixture
     Scenario: Listing Export Jobs for admin
         Given that I want to get all "ExportJob"
-        And that the request "Authorization" header is "Bearer testadminuser"
+        And that the oauth token is "testadminuser"
         When I request "/exports/jobs"
         Then the response is JSON
         And the response has a "count" property
@@ -63,7 +65,7 @@ Feature: Testing the Export Job API
         Then the guzzle status code should be 200
     Scenario: Listing Export Jobs for a Manager
         Given that I want to get all "ExportJob"
-        And that the request "Authorization" header is "Bearer testmanager"
+        And that the oauth token is "testmanager"
         When I request "/exports/jobs"
         Then the response is JSON
         And the response has a "count" property
@@ -72,6 +74,6 @@ Feature: Testing the Export Job API
         Then the guzzle status code should be 200
     Scenario: A basic user (without permisions) can't get exports
         Given that I want to get all "ExportJob"
-        And that the request "Authorization" header is "Bearer testbasicuser"
+        And that the oauth token is "testbasicuser"
         When I request "/exports/jobs"
         Then the guzzle status code should be 403

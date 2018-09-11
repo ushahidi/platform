@@ -17,66 +17,66 @@ use Ushahidi\Core\Tool\FormatterTrait;
 
 class OptionsUsecase implements Usecase
 {
-	// Uses several traits to assign tools. Each of these traits provides a
-	// setter method for the tool. For example, the AuthorizerTrait provides
-	// a `setAuthorizer` method which only accepts `Authorizer` instances.
-	use AuthorizerTrait,
-		FormatterTrait;
+    // Uses several traits to assign tools. Each of these traits provides a
+    // setter method for the tool. For example, the AuthorizerTrait provides
+    // a `setAuthorizer` method which only accepts `Authorizer` instances.
+    use AuthorizerTrait,
+        FormatterTrait;
 
-	// - IdentifyRecords for setting entity lookup parameters
-	use Concerns\IdentifyRecords;
+    // - IdentifyRecords for setting entity lookup parameters
+    use Concerns\IdentifyRecords;
 
-	/**
-	 * @var SearchRepository
-	 */
-	protected $repo;
+    /**
+     * @var SearchRepository
+     */
+    protected $repo;
 
-	/**
-	 * Inject a repository that can read entities.
-	 *
-	 * @param  ReadRepository $repo
-	 * @return $this
-	 */
-	public function setRepository(ReadRepository $repo)
-	{
-		$this->repo = $repo;
-		return $this;
-	}
+    /**
+     * Inject a repository that can read entities.
+     *
+     * @param  ReadRepository $repo
+     * @return $this
+     */
+    public function setRepository(ReadRepository $repo)
+    {
+        $this->repo = $repo;
+        return $this;
+    }
 
-	// Usecase
-	public function isWrite()
-	{
-		return false;
-	}
+    // Usecase
+    public function isWrite()
+    {
+        return false;
+    }
 
-	// Usecase
-	public function isSearch()
-	{
-		return false;
-	}
+    // Usecase
+    public function isSearch()
+    {
+        return false;
+    }
 
-	// Usecase
-	public function interact()
-	{
-		// Fetch an empty entity...
-		$entity = $this->getEntity();
+    // Usecase
+    public function interact()
+    {
+        // Fetch an empty entity...
+        $entity = $this->getEntity();
 
-		// ... grab the privileges that are allowed for the current user
-		$data = [
-			'allowed_privileges' => $this->getAllowedPrivs($entity)
-		];
+        // ... grab the privileges that are allowed for the current user
+        $data = [
+            'allowed_privileges' => $this->getAllowedPrivs($entity)
+        ];
 
-		// ... and return the formatted results.
-		return $data;
-	}
+        // ... and return the formatted results.
+        return $data;
+    }
 
-	/**
-	 * Get an empty entity.
-	 *
-	 * @return Entity
-	 */
-	protected function getEntity()
-	{
-		return $this->repo->getEntity();
-	}
+    /**
+     * Get an empty entity.
+     *
+     * @return Entity
+     */
+    protected function getEntity()
+    {
+        return $this->repo->getEntity();
+    }
 }

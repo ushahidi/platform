@@ -19,101 +19,101 @@ use Ushahidi\Core\Traits\ArrayExchange;
 
 abstract class Data
 {
-	use ArrayExchange {
-		asArray as private asArraySimple;
-	}
+    use ArrayExchange {
+        asArray as private asArraySimple;
+    }
 
-	/**
-	 * @var Array allowed keys that were in the input data
-	 */
-	private static $defined_input_keys = [];
+    /**
+     * @var Array allowed keys that were in the input data
+     */
+    private static $defined_input_keys = [];
 
-	/**
-	 * Stores what (allowed) keys were defined by input data.
-	 * @param  Array  $data  raw input
-	 * @return void
-	 */
-	public function __construct(array $data)
-	{
-		// Get the (empty) array that currently exists, this tells us what
-		// properties are allowed in this object.
-		$allowed = $this->asArraySimple();
+    /**
+     * Stores what (allowed) keys were defined by input data.
+     * @param  Array  $data  raw input
+     * @return void
+     */
+    public function __construct(array $data)
+    {
+        // Get the (empty) array that currently exists, this tells us what
+        // properties are allowed in this object.
+        $allowed = $this->asArraySimple();
 
-		// Using the allowed properties, determine which of them are present
-		// in the given input data...
-		$defined = array_keys(array_intersect_key($data, $allowed));
+        // Using the allowed properties, determine which of them are present
+        // in the given input data...
+        $defined = array_keys(array_intersect_key($data, $allowed));
 
-		// ... and store those values for delta comparison.
-		self::$defined_input_keys[$this->getObjectId()] = $defined;
+        // ... and store those values for delta comparison.
+        self::$defined_input_keys[$this->getObjectId()] = $defined;
 
-		$this->setData($data);
-	}
+        $this->setData($data);
+    }
 
-	/**
-	 * Clears what (allowed) keys were defined by input data.
-	 * @return void
-	 */
-	public function __destruct()
-	{
-		unset(self::$defined_input_keys[$this->getObjectId()]);
-	}
+    /**
+     * Clears what (allowed) keys were defined by input data.
+     * @return void
+     */
+    public function __destruct()
+    {
+        unset(self::$defined_input_keys[$this->getObjectId()]);
+    }
 
-	/**
-	 * Get the unique identity of the object instance.
-	 * @return string
-	 */
-	final private function getObjectId()
-	{
-		return spl_object_hash($this);
-	}
+    /**
+     * Get the unique identity of the object instance.
+     * @return string
+     */
+    final private function getObjectId()
+    {
+        return spl_object_hash($this);
+    }
 
-	/**
-	 * Get all values in the current object, reducing the result to defined input.
-	 * @return Array
-	 */
-	public function asArray()
-	{
-		// Get defined properties, flipping the list of keys into an associative array...
-		$defined = array_flip(self::$defined_input_keys[$this->getObjectId()]);
+    /**
+     * Get all values in the current object, reducing the result to defined input.
+     * @return Array
+     */
+    public function asArray()
+    {
+        // Get defined properties, flipping the list of keys into an associative array...
+        $defined = array_flip(self::$defined_input_keys[$this->getObjectId()]);
 
-		// ... and use it to reduce the values to what was actually input.
-		$values = array_intersect_key($this->asArraySimple(), $defined);
+        // ... and use it to reduce the values to what was actually input.
+        $values = array_intersect_key($this->asArraySimple(), $defined);
 
-		return $values;
-	}
+        return $values;
+    }
 
-	/**
-	 * Compare with some existing data and get the delta between the two.
-	 * Only values that were present in the input data will be returned!
-	 * @param  Array  $compare  existing data
-	 * @return Data
-	 */
-	public function getDifferent(array $compare)
-	{
-		// Get the difference of current data and comparison.
-		// This will allow null values in $compare to be overridden,
-		// and new values not present in $compare to be added.
+    /**
+     * Compare with some existing data and get the delta between the two.
+     * Only values that were present in the input data will be returned!
+     * @param  Array  $compare  existing data
+     * @return Data
+     */
+    public function getDifferent(array $compare)
+    {
+        // Get the difference of current data and comparison.
+        // This will allow null values in $compare to be overridden,
+        // and new values not present in $compare to be added.
 
-		$delta = [];
-		foreach ($this->asArray() as $key => $value) {
-			$delta_value = $value;
-			$exists_in_compare = array_key_exists($key, $compare);
+        $delta = [];
+        foreach ($this->asArray() as $key => $value) {
+            $delta_value = $value;
+            $exists_in_compare = array_key_exists($key, $compare);
 
-			if ($delta_value === null && $exists_in_compare) {
-				$delta_value = $compare[$key];
-			}
+            if ($delta_value === null && $exists_in_compare) {
+                $delta_value = $compare[$key];
+            }
 
-			if ($delta_value === null) {
-				continue;
-			}
+            if ($delta_value === null) {
+                continue;
+            }
 
-			if ($exists_in_compare && $compare[$key] == $delta_value) {
-				continue;
-			}
+            if ($exists_in_compare && $compare[$key] == $delta_value) {
+                continue;
+            }
 
-			$delta[$key] = $delta_value;
-		}
+            $delta[$key] = $delta_value;
+        }
 
-		return new static($delta);
-	}
+        return new static($delta);
+    }
 }

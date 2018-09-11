@@ -15,6 +15,6 @@ use Ushahidi\Core\Usecase\UpdateUsecase;
 
 class UpdateFormAttribute extends UpdateUsecase
 {
-	// - VerifyFormLoaded for checking that the form exists
-	use VerifyFormLoaded;
+    // - VerifyFormLoaded for checking that the form exists
+    use VerifyFormLoaded;
 }

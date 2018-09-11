@@ -5,6 +5,7 @@
  *
  * Makes objects eventable
  *
+ * @deprecated v4 Migrate to DispatchesEvents trait
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Application
  * @copyright  2014 Ushahidi
@@ -18,60 +19,60 @@ use League\Event\ListenerInterface;
 
 trait Event
 {
-	protected $emitter;
-	protected $event;
+    protected $emitter;
+    protected $event;
 
-	public function setEmitter(EmitterInterface $emitter)
-	{
-		$this->emitter = $emitter;
-	}
+    public function setEmitter(EmitterInterface $emitter)
+    {
+        $this->emitter = $emitter;
+    }
 
-	/**
-	 * Trigger event
-	 * @param  string $event event name
-	 * @return string event
-	 */
-	protected function emit($event)
-	{
-		$args = [$event] + func_get_args();
-		return call_user_func_array([$this->emitter, 'emit'], $args);
-	}
+    /**
+     * Trigger event
+     * @param  string $event event name
+     * @return string event
+     */
+    protected function emit($event)
+    {
+        $args = [$event] + func_get_args();
+        return call_user_func_array([$this->emitter, 'emit'], $args);
+    }
 
-	/**
-	 * Trigger events in batches
-	 * @param  array $events array of event names
-	 * @return array events
-	 */
-	protected function emitBatch($events)
-	{
-		return $this->emitter->emitBatch($events);
-	}
+    /**
+     * Trigger events in batches
+     * @param  array $events array of event names
+     * @return array events
+     */
+    protected function emitBatch($events)
+    {
+        return $this->emitter->emitBatch($events);
+    }
 
-	/**
-	 * Add Event listener
-	 * @param  string   $event triggered event
-	 * @param  Listener $listener
-	 * @param  int      $priority
-	 * @return object   $this
-	 */
-	protected function addListener($event, ListenerInterface $listener, $priority = EmitterInterface::P_NORMAL)
-	{
-		$this->emitter->addListener($event, $listener, $priority);
+    /**
+     * Add Event listener
+     * @param  string   $event triggered event
+     * @param  Listener $listener
+     * @param  int      $priority
+     * @return object   $this
+     */
+    protected function addListener($event, ListenerInterface $listener, $priority = EmitterInterface::P_NORMAL)
+    {
+        $this->emitter->addListener($event, $listener, $priority);
 
-		return $this;
-	}
+        return $this;
+    }
 
-	public function setEvent($event)
-	{
-		$this->event = $event;
-	}
+    public function setEvent($event)
+    {
+        $this->event = $event;
+    }
 
-	public function setListener(ListenerInterface $listener)
-	{
-		if (! $this->event) {
-			throw new \LogicException('Cannot add a listener without an event');
-		}
-		
-		$this->addListener($this->event, $listener);
-	}
+    public function setListener(ListenerInterface $listener)
+    {
+        if (! $this->event) {
+            throw new \LogicException('Cannot add a listener without an event');
+        }
+
+        $this->addListener($this->event, $listener);
+    }
 }

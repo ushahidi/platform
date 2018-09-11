@@ -19,76 +19,76 @@ use Ushahidi\Core\Usecase\ReadUsecase;
 
 class LoginUser extends ReadUsecase
 {
-	/**
-	 * @var Authenticator
-	 */
-	protected $authenticator;
+    /**
+     * @var Authenticator
+     */
+    protected $authenticator;
 
-	/**
-	 * @var RateLimiter
-	 */
-	protected $rateLimiter;
+    /**
+     * @var RateLimiter
+     */
+    protected $rateLimiter;
 
-	/**
-	 * @param  Authenticator $authenticator
-	 * @return void
-	 */
-	public function setAuthenticator(PasswordAuthenticator $authenticator)
-	{
-		$this->authenticator = $authenticator;
-		return $this;
-	}
+    /**
+     * @param  Authenticator $authenticator
+     * @return void
+     */
+    public function setAuthenticator(PasswordAuthenticator $authenticator)
+    {
+        $this->authenticator = $authenticator;
+        return $this;
+    }
 
-	/**
-	 * @param RateLimiter $rateLimiter
-	 */
-	public function setRateLimiter(RateLimiter $rateLimiter)
-	{
-		$this->rateLimiter = $rateLimiter;
-	}
+    /**
+     * @param RateLimiter $rateLimiter
+     */
+    public function setRateLimiter(RateLimiter $rateLimiter)
+    {
+        $this->rateLimiter = $rateLimiter;
+    }
 
-	// Usecase
-	public function interact()
-	{
-		// Fetch the entity, using provided identifiers...
-		$entity = $this->getEntity();
+    // Usecase
+    public function interact()
+    {
+        // Fetch the entity, using provided identifiers...
+        $entity = $this->getEntity();
 
-		// Rate limit login attempts
-		$this->rateLimiter->limit($entity);
+        // Rate limit login attempts
+        $this->rateLimiter->limit($entity);
 
-		// ... verify that the password matches
-		$this->authenticator->checkPassword($this->getRequiredIdentifier('password'), $entity->password);
+        // ... verify that the password matches
+        $this->authenticator->checkPassword($this->getRequiredIdentifier('password'), $entity->password);
 
-		// ... and return the formatted result.
-		return $this->formatter->__invoke($entity);
-	}
+        // ... and return the formatted result.
+        return $this->formatter->__invoke($entity);
+    }
 
-	// ReadUsecase
-	protected function getEntity()
-	{
-		// Make sure the repository has then methods necessary.
-		$this->verifyUserRepository($this->repo);
+    // ReadUsecase
+    protected function getEntity()
+    {
+        // Make sure the repository has then methods necessary.
+        $this->verifyUserRepository($this->repo);
 
-		// Entity will be loaded using the provided email
-		$email = $this->getRequiredIdentifier('email');
+        // Entity will be loaded using the provided email
+        $email = $this->getRequiredIdentifier('email');
 
-		// ... attempt to load the entity
-		$entity = $this->repo->getByEmail($email);
+        // ... attempt to load the entity
+        $entity = $this->repo->getByEmail($email);
 
-		// ... and verify that the entity was actually loaded
-		$this->verifyEntityLoaded($entity, compact('email'));
+        // ... and verify that the entity was actually loaded
+        $this->verifyEntityLoaded($entity, compact('email'));
 
-		// ... then return it
-		return $entity;
-	}
+        // ... then return it
+        return $entity;
+    }
 
-	/**
-	 * Verify that the given repository is a the correct type.
-	 * (PHP is weird about overloaded type hinting.)
-	 * @return UserRepository
-	 */
-	private function verifyUserRepository(UserRepository $repo)
-	{
-		return true;
-	}
+    /**
+     * Verify that the given repository is a the correct type.
+     * (PHP is weird about overloaded type hinting.)
+     * @return UserRepository
+     */
+    private function verifyUserRepository(UserRepository $repo)
+    {
+        return true;
+    }
 }

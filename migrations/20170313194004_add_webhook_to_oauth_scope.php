@@ -10,7 +10,9 @@ class AddWebhookToOauthScope extends AbstractMigration
      */
     public function up()
     {
-		    $this->execute("INSERT INTO oauth_scopes (scope, name) VALUES ('webhooks', 'webhooks')");
+        if ($this->hasTable('oauth_scopes')) {
+            $this->execute("INSERT INTO oauth_scopes (scope, name) VALUES ('webhooks', 'webhooks')");
+        }
     }
 
     /**
@@ -18,6 +20,8 @@ class AddWebhookToOauthScope extends AbstractMigration
      */
     public function down()
     {
-		    $this->execute("DELETE FROM oauth_scopes WHERE scope = 'webhooks'");
+        if ($this->hasTable('oauth_scopes')) {
+            $this->execute("DELETE FROM oauth_scopes WHERE scope = 'webhooks'");
+        }
     }
 }

@@ -13,21 +13,21 @@ namespace Ushahidi\Core\Usecase\Post;
 
 interface UpdatePostTagRepository
 {
-	/**
-	 * @param  int $id
-	 * @return Ushahidi\Core\Entity\Tag
-	 */
-	public function get($id);
+    /**
+     * @param  int $id
+     * @return Ushahidi\Core\Entity\Tag
+     */
+    public function get($id);
 
-	/**
-	 * @param  string $tag
-	 * @return Ushahidi\Core\Entity\Tag
-	 */
-	public function getByTag($tag);
+    /**
+     * @param  string $tag
+     * @return Ushahidi\Core\Entity\Tag
+     */
+    public function getByTag($tag);
 
-	/**
-	 * @param  string $tag
-	 * @return Boolean
-	 */
-	public function doesTagExist($tag_or_id);
+    /**
+     * @param  string $tag
+     * @return Boolean
+     */
+    public function doesTagExist($tag_or_id);
 }

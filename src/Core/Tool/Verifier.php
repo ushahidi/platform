@@ -12,47 +12,40 @@
 namespace Ushahidi\Core\Tool;
 
 use Ushahidi\Core\Tool\Signer;
+use Ushahidi\Core\Entity\ApiKeyRepository;
+use Log;
 
 class Verifier
 {
-    protected $signature;
-    protected $api_key;
-    protected $shared_secret;
-    protected $fullURL;
-    protected $data;
+    protected $apiKeyRepo;
 
-    public function __construct($signature, $api_key, $shared_secret, $fullURL, $data)
+    public function __construct($apiKeyRepo)
     {
-        $this->signature = $signature;
-        $this->api_key = $api_key;
-        $this->shared_secret = $shared_secret;
-        $this->fullURL = $fullURL;
-        $this->data = $data;
+        $this->apiKeyRepo = $apiKeyRepo;
     }
 
-    public function checkApiKey()
-	{
-
-		if ($this->api_key) {
-			// Get api key and compare
-			return service('repository.apikey')->apiKeyExists($this->api_key);
-		}
-
-		return false;
-	}
-
-	public function checkSignature()
-	{
-		if ($this->signature) {
-			//Validate signature
-			$signer = new Signer($this->shared_secret);
-			return $signer->validate($this->signature, $this->fullURL, $this->data);
-		}
-		return false;
-    }
-    
-    public function verified()
+    public function checkApiKey($api_key)
     {
-        return $this->checkApiKey() && $this->checkSignature();
+        if ($api_key) {
+            // Get api key and compare
+            return $this->apiKeyRepo->apiKeyExists($api_key);
+        }
+
+        return false;
+    }
+
+    public function checkSignature($signature, $shared_secret, $url, $data)
+    {
+        if ($signature) {
+            // Validate signature
+            $signer = new Signer($shared_secret);
+            return $signer->validate($signature, $url, $data);
+        }
+        return false;
+    }
+
+    public function verified($signature, $api_key, $shared_secret, $url, $data)
+    {
+        return $this->checkApiKey($api_key) && $this->checkSignature($signature, $shared_secret, $url, $data);
     }
 }

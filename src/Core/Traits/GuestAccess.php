@@ -21,13 +21,13 @@ use Ushahidi\Core\Entity\User;
 
 trait GuestAccess
 {
-	/**
-	 * Check if $user is unloaded or has the "guest" role
-	 * @param  User    $user
-	 * @return boolean
-	 */
-	protected function isUserGuest(User $user)
-	{
-		return (!$user->id || $user->role === 'guest');
-	}
+    /**
+     * Check if $user is unloaded or has the "guest" role
+     * @param  User    $user
+     * @return boolean
+     */
+    protected function isUserGuest(User $user)
+    {
+        return (!$user->id || $user->role === 'guest');
+    }
 }

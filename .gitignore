@@ -4,6 +4,7 @@
 *.DS_Store
 .htaccess
 composer.phar
+/vendor
 vendor/*
 bin/*
 !bin/tests
@@ -15,10 +16,15 @@ build/*
 puppet/modules
 Puppetfile.lock
 .tmp/*
+*.vscode
 .env
 phpunit.xml
 phpspec.yml
 phinx.yml
+
+# Homestead / Laravel files
+Homestead.json
+Homestead.yaml
 
 # Kohana deployment specifics
 application/logs/*

@@ -1,0 +1,54 @@
+{
+    "commit-msg": {
+        "enabled": true,
+        "actions": [
+            {
+                "action": "\\SebastianFeldmann\\CaptainHook\\Hook\\Message\\Action\\Rules",
+                "options": [
+                    "\\SebastianFeldmann\\CaptainHook\\Hook\\Message\\Rule\\MsgNotEmpty",
+                    "\\SebastianFeldmann\\CaptainHook\\Hook\\Message\\Rule\\NoPeriodOnSubjectEnd"
+                ]
+            },
+            {
+                "action": "\\SebastianFeldmann\\CaptainHook\\Hook\\Message\\Action\\Regex",
+                "options": {
+                    "regex": "#^(Merge|(feat|fix|docs|style|refactor|test|chore|perf|build|ci|revert)(\\(.*\\))?:) .*#i"
+                }
+            }
+        ]
+    },
+    "pre-commit": {
+        "enabled": true,
+        "actions": [
+            {
+                "action": "\\SebastianFeldmann\\CaptainHook\\Hook\\Composer\\Action\\CheckLockFile",
+                "options": []
+            },
+            {
+                "action": "\\SebastianFeldmann\\CaptainHook\\Hook\\PHP\\Action\\Linting",
+                "options": []
+            },
+            {
+                "action": "\\Tests\\CaptainHook\\PHPCS",
+                "options": [
+                    "--ignore=vendor/*,application/*,modules/*,plugins/*,httpdocs/*,tests/spec/*,migrations/*,bin/*,database/*,resources/views/*",
+                    "--standard=src/ruleset.xml",
+                    "--tab-width=4"
+                ]
+            }
+        ]
+    },
+    "pre-push": {
+        "enabled": true,
+        "actions": [
+            {
+                "action": "bin/phpspec run --no-code-generation",
+                "options": []
+            },
+            {
+                "action": "bin/phpunit --no-coverage",
+                "options": []
+            }
+        ]
+    }
+}

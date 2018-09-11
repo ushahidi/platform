@@ -11,60 +11,73 @@
 
 namespace Ushahidi\Console\Command;
 
+use Illuminate\Console\Command;
 use Ushahidi\Core\Usecase;
-use Ushahidi\Console\Command;
-
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Helper\TableHelper;
+use Ushahidi\Factory\UsecaseFactory;
 
 class ApikeySet extends Command
 {
 
-	/**
-	 * @var Ushahidi\Core\Usecase\Usecase
-	 * @todo  support multiple entity types
-	 */
-	protected $usecase;
+    /**
+     * The console command signature.
+     *
+     * @var string
+     */
+    protected $signature = 'apikey:set';
 
-	public function setUsecase(Usecase $usecase)
-	{
-		$this->usecase = $usecase;
-	}
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Set apikey';
 
-	protected function configure()
-	{
-		$this
-			->setName('apikey:set')
-			->setDescription('Set apikey')
-			;
-	}
+    /**
+     * @var Ushahidi\Core\Usecase\Usecase
+     * @todo  support multiple entity types
+     */
+    protected $usecase;
 
-	// Execution router takes the action argument and uses it to reroute execution.
-	protected function execute(InputInterface $input, OutputInterface $output)
-	{
-		$response = $this->usecase->interact();
+    protected function getUsecase()
+    {
+        if (!$this->usecase) {
+            // @todo inject
+            $this->usecase = service('factory.usecase')
+                ->get('apikeys', 'create')
+                // Override authorizer for console
+                ->setAuthorizer(service('authorizer.console'))
+                // Override formatter for console
+                ->setFormatter(service('formatter.entity.console'));
+        }
 
-		// Format the response and output
-		$this->handleResponse($response, $output);
-	}
+        return $this->usecase;
+    }
 
-	/**
-	 * Override response handler to flatten array
-	 */
-	protected function handleResponse($response, OutputInterface $output, $format = '')
-	{
-		$iterator = new \RecursiveIteratorIterator(new \RecursiveArrayIterator($response));
-		$result = [];
-		foreach ($iterator as $leafValue) {
-			$keys = [];
-			foreach (range(0, $iterator->getDepth()) as $depth) {
-				$keys[] = $iterator->getSubIterator($depth)->key();
-			}
-			$result[ join('.', $keys) ] = $leafValue;
-		}
-		return parent::handleResponse($result, $output);
-	}
+    // Execution router takes the action argument and uses it to reroute execution.
+    public function handle()
+    {
+        $response = $this->getUsecase()->interact();
+
+        // Format the response and output
+        $this->handleResponse($response);
+    }
+
+    /**
+     * Override response handler to flatten array
+     */
+    protected function handleResponse($response)
+    {
+        $iterator = new \RecursiveIteratorIterator(new \RecursiveArrayIterator($response));
+        $result = [];
+        foreach ($iterator as $leafValue) {
+            $keys = [];
+            foreach (range(0, $iterator->getDepth()) as $depth) {
+                $keys[] = $iterator->getSubIterator($depth)->key();
+            }
+            $result[ join('.', $keys) ] = $leafValue;
+        }
+
+        // Format as table
+        $this->table(array_keys($result), [$result]);
+    }
 }

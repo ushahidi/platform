@@ -11,7 +11,6 @@
 
 namespace Ushahidi\Core\Usecase\Media;
 
-use Ushahidi\Core\Tool\Filesystem;
 use Ushahidi\Core\Tool\Uploader;
 use Ushahidi\Core\Tool\UploadData;
 use Ushahidi\Core\Usecase\CreateUsecase;
@@ -19,86 +18,71 @@ use Ushahidi\Core\Exception\ValidatorException;
 
 class CreateMedia extends CreateUsecase
 {
-	/**
-	 * @var Filesystem
-	 */
-	protected $filesystem;
+    /**
+     * @var Uploader
+     */
+    protected $uploader;
 
-	/**
-	 * @var Uploader
-	 */
-	protected $uploader;
+    /**
+     * @var UploadData
+     */
+    protected $upload;
 
-	/**
-	 * @var UploadData
-	 */
-	protected $upload;
+    /**
+     * @param  Uploader $upload
+     * @return $this
+     */
+    public function setUploader(Uploader $uploader)
+    {
+        $this->uploader = $uploader;
+        return $this;
+    }
 
-	/**
-	 * @param  Filesystem $fs
-	 * @return $this;
-	 */
-	public function setFilesystem(Filesystem $fs)
-	{
-		$this->fs = $fs;
-		return $this;
-	}
+    // Usecase
+    public function interact()
+    {
+        try {
+            return parent::interact();
+        } catch (ValidatorException $e) {
+            // If a file was uploaded, it must be purged after a failed upload.
+            // Otherwise storage will be filled with junk files.
+            if ($this->upload && $this->upload->file) {
+                $this->uploader->delete($this->upload->file);
+            }
 
-	/**
-	 * @param  Uploader $upload
-	 * @return $this
-	 */
-	public function setUploader(Uploader $uploader)
-	{
-		$this->uploader = $uploader;
-		return $this;
-	}
+            // Pass the exception.
+            throw $e;
+        }
+    }
 
-	// Usecase
-	public function interact()
-	{
-		try {
-			return parent::interact();
-		} catch (ValidatorException $e) {
-			// If a file was uploaded, it must be purged after a failed upload.
-			// Otherwise storage will be filled with junk files.
-			if ($this->upload && $this->fs->has($this->upload->file)) {
-				$this->fs->delete($this->upload->file);
-			}
+    /**
+     * Get an empty entity, apply the payload.
+     *
+     * @return Entity
+     */
+    protected function getEntity()
+    {
+        // Upload the file and get the file reference
+        try {
+            $this->upload = $this->uploader->upload(
+                new UploadData($this->getPayload('file'))
+            );
+        } catch (\InvalidArgumentException $e) {
+            throw new ValidatorException($e->getMessage(), [
+                'file' => $e->getMessage()
+            ], $e);
+        }
 
-			// Pass the exception.
-			throw $e;
-		}
-	}
+        $payload = [
+            'caption'    => $this->getPayload('caption', false) ?: null,
+            'user_id'    => $this->getPayload('user_id', false) ?: null,
+            'mime'       => $this->upload->type,
+            'o_filename' => $this->upload->file,
+            'o_size'     => $this->upload->size,
+            'o_width'    => $this->upload->width,
+            'o_height'   => $this->upload->height,
+        ];
 
-	/**
-	 * Get an empty entity, apply the payload.
-	 *
-	 * @return Entity
-	 */
-	protected function getEntity()
-	{
-		// Upload the file and get the file reference
-		try {
-			$this->upload = $this->uploader->upload(
-				new UploadData($this->getPayload('file'))
-			);
-		} catch (\InvalidArgumentException $e) {
-			throw new ValidatorException($e->getMessage(), [
-				'file' => $e->getMessage()
-			], $e);
-		}
-
-		$payload = [
-			'caption'    => $this->getPayload('caption', false) ?: null,
-			'user_id'    => $this->getPayload('user_id', false) ?: null,
-			'mime'       => $this->upload->type,
-			'o_filename' => $this->upload->file,
-			'o_size'     => $this->upload->size,
-			'o_width'    => $this->upload->width,
-			'o_height'   => $this->upload->height,
-		];
-
-		return $this->repo->getEntity()->setState($payload);
-	}
+        return $this->repo->getEntity()->setState($payload);
+    }
 }

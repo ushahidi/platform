@@ -16,11 +16,11 @@ use Ushahidi\Core\Exception\AuthenticatorException;
 
 class Password implements PasswordAuthenticator
 {
-	public function checkPassword($plaintext, $hash)
-	{
-		if (!password_verify($plaintext, $hash)) {
-			throw new AuthenticatorException("Password does not match this account");
-		}
-		return true;
-	}
+    public function checkPassword($plaintext, $hash)
+    {
+        if (!password_verify($plaintext, $hash)) {
+            throw new AuthenticatorException("Password does not match this account");
+        }
+        return true;
+    }
 }

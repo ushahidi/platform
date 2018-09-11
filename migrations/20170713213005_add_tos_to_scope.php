@@ -10,7 +10,7 @@ class AddTosToScope extends AbstractMigration
      */
     public function up()
     {
-            $this->execute("INSERT INTO oauth_scopes (scope, name) VALUES ('tos', 'tos')");
+        // noop, scopes table has been removed
     }
 
     /**
@@ -18,6 +18,6 @@ class AddTosToScope extends AbstractMigration
      */
     public function down()
     {
-            $this->execute("DELETE FROM oauth_scopes WHERE scope = 'tos'");
+        // noop, scopes table has been removed
     }
 }

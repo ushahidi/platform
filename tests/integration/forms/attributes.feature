@@ -1,6 +1,5 @@
 @oauth2Skip @forms @form_attributes
 Feature: Testing the Form Attributes API
-
     Scenario: Creating a new Attribute
         Given that I want to make a new "Attribute"
         And that the request "data" is:
@@ -186,7 +185,7 @@ Feature: Testing the Form Attributes API
         Then the response is JSON
         And the response has a "count" property
         And the type of the "count" property is "numeric"
-        And the "count" property equals "35"
+        And the "count" property equals "37"
         Then the guzzle status code should be 200
 
     Scenario: Search for point attributes

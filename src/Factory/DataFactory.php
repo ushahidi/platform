@@ -13,44 +13,44 @@ namespace Ushahidi\Factory;
 
 class DataFactory
 {
-	/**
-	 * Array of data transfer object names, mapped by action:
-	 *
-	 *     $actions = [
-	 *         'search' => $di->lazyNew('Namespace\To\Data\SearchData'),
-	 *         ...
-	 *     ];
-	 *
-	 * @var Array
-	 */
-	protected $actions = [];
+    /**
+     * Array of data transfer object names, mapped by action:
+     *
+     *     $actions = [
+     *         'search' => $di->lazyNew('Namespace\To\Data\SearchData'),
+     *         ...
+     *     ];
+     *
+     * @var Array
+     */
+    protected $actions = [];
 
-	/**
-	 * @param  Array $actions
-	 */
-	public function __construct(array $actions)
-	{
-		$this->actions = $actions;
-	}
+    /**
+     * @param  Array $actions
+     */
+    public function __construct(array $actions)
+    {
+        $this->actions = $actions;
+    }
 
-	/**
-	 * Gets a new data transfer object from the map by type:
-	 *
-	 *     $search = $data->get('search', $params);
-	 *
-	 * @param  String $action
-	 * @param  Array  $params
-	 * @return Ushahidi\Core\Data
-	 */
-	public function get($action, array $params = null)
-	{
-		if (empty($this->actions[$action])) {
-			throw new \InvalidArgumentException(sprintf(
-				'Data type %s is not defined',
-				$action
-			));
-		}
-		$factory = $this->actions[$action];
-		return $factory($params);
-	}
+    /**
+     * Gets a new data transfer object from the map by type:
+     *
+     *     $search = $data->get('search', $params);
+     *
+     * @param  String $action
+     * @param  Array  $params
+     * @return Ushahidi\Core\Data
+     */
+    public function get($action, array $params = null)
+    {
+        if (empty($this->actions[$action])) {
+            throw new \InvalidArgumentException(sprintf(
+                'Data type %s is not defined',
+                $action
+            ));
+        }
+        $factory = $this->actions[$action];
+        return $factory($params);
+    }
 }
