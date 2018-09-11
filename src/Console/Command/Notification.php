@@ -13,6 +13,7 @@ namespace Ushahidi\Console\Command;
 
 use Illuminate\Console\Command;
 
+use Ushahidi\Core\Entity\Message;
 use Ushahidi\Core\Entity\PostRepository;
 use Ushahidi\Core\Entity\MessageRepository;
 use Ushahidi\Core\Entity\NotificationQueueRepository;
@@ -136,6 +137,7 @@ class Notification extends Command
                     'message' => trans('notifications.' . $messageType . '.message', $subs),
                     'type' => $messageType,
                     'data_source' => $data_source,
+                    'direction' => Message::OUTGOING
                 ];
 
                 $entity = $this->messageRepository->getEntity();
