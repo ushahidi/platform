@@ -26,4 +26,5 @@ interface DataSource
     public function getInboundFields();
     public function getInboundFormId();
     public function getInboundFieldMappings();
+    public function isUserConfigurable();
 }

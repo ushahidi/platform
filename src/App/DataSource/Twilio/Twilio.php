@@ -89,6 +89,11 @@ class Twilio implements CallbackDataSource, OutgoingAPIDataSource
         ];
     }
 
+    public function isUserConfigurable()
+    {
+        return true;
+    }
+
     /**
      * @return mixed
      */

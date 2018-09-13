@@ -21,7 +21,7 @@ use Illuminate\Contracts\Mail\Mailer;
 use Ushahidi\Core\Entity\Contact;
 use Log;
 
-class Email implements IncomingAPIDataSource, OutgoingAPIDataSource
+class Email extends OutgoingEmail implements IncomingAPIDataSource
 {
     use MapsInboundFields;
 
@@ -122,55 +122,15 @@ class Email implements IncomingAPIDataSource, OutgoingAPIDataSource
         ];
     }
 
+    public function isUserConfigurable()
+    {
+        return true;
+    }
+
     /**
      * Contact type user for this provider
      */
     public $contact_type = Contact::EMAIL;
-
-    /**
-     * @return mixed
-     */
-    public function send($to, $message, $title = "")
-    {
-        $site_name = $this->siteConfig['name'];
-        $site_email = $this->siteConfig['email'];
-        $multisite_email = config('multisite.email');
-
-        // @todo make this more robust
-        if ($multisite_email) {
-            $from_email = $multisite_email;
-        } elseif ($site_email) {
-            $from_email = $site_email;
-        } else {
-            $from_email = false;
-            // Get host from lumen
-            // $host = app()->make('request')->getHost();
-            // $from_email = 'noreply@' . $host;
-        }
-
-        try {
-            $this->mailer->send(
-                'emails/outgoing-message',
-                [
-                    'message_text' => $message,
-                    'site_url' => $this->clientUrl
-                ],
-                function ($message) use ($to, $title, $from_email, $site_name) {
-                    $message->to($to);
-                    $message->subject($title);
-                    if ($from_email) {
-                        $message->from($from_email, $site_name);
-                    }
-                }
-            );
-
-            return [MessageStatus::SENT, false];
-        } catch (\Exception $e) {
-            Log::info("Couldn't send email:" . $e->getMessage());
-            // Failed
-            return [MessageStatus::FAILED, false];
-        }
-    }
 
     /**
      * Fetch email messages from server

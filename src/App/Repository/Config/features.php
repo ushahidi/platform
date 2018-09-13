@@ -29,6 +29,7 @@ return [
         'twitter' => true,
         'frontlinesms' => true,
         'email' => true,
+        'outgoingemail' => true,
         'twilio' => true,
         'nexmo' => true,
         'testservice' => false
@@ -94,7 +95,7 @@ return [
     'user-settings' => [
         'enabled' => false,
     ],
-    
+
     // Enable or disable the Anonymisation of Reporters
     // Controls whether users can set obfuscation of location, redaction of date/time
     // and reporter info
