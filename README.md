@@ -13,7 +13,6 @@ Ushahidi 3
 ============
 
 [![Build Status](https://travis-ci.org/ushahidi/platform.png)](https://travis-ci.org/ushahidi/platform)
-[![Stories up next](https://badge.waffle.io/ushahidi/platform.png?label=Stage:Backlog&title=Backlog)](https://waffle.io/ushahidi/platform)
 [![Coverage Status](https://coveralls.io/repos/github/ushahidi/platform/badge.svg)](https://coveralls.io/github/ushahidi/platform)
 
 
