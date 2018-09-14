@@ -46,6 +46,7 @@ $router->group([
     require __DIR__.'/roles.php';
     require __DIR__.'/savedsearches.php';
     require __DIR__.'/tags.php';
+    require __DIR__.'/confidence_scores.php';
     require __DIR__.'/tos.php';
     require __DIR__.'/users.php';
     require __DIR__.'/webhooks.php';

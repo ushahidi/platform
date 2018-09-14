@@ -13,6 +13,7 @@ namespace Ushahidi\App\Repository;
 
 use Ohanzee\DB;
 use Ohanzee\Database;
+use Ushahidi\App\Repository\ConfidenceScoreRepository;
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\Entity\FormRepository as FormRepositoryContract;
 use Ushahidi\Core\Entity\FormAttributeRepository as FormAttributeRepositoryContract;
@@ -61,6 +62,7 @@ class PostRepository extends OhanzeeRepository implements
     protected $contact_repo;
     protected $post_value_factory;
     protected $bounding_box_factory;
+    protected $confidence_score_repo;
     // By default remove all private responses
     protected $restricted = true;
 
@@ -69,7 +71,7 @@ class PostRepository extends OhanzeeRepository implements
     protected $exclude_stages = [];
 
     protected $listener;
-
+    protected $confidence_score_values = [];
     /**
      * Construct
      * @param Database                              $db
@@ -87,7 +89,8 @@ class PostRepository extends OhanzeeRepository implements
         PostLockRepository $post_lock_repo,
         ContactRepository $contact_repo,
         PostValueFactory $post_value_factory,
-        InstanceFactory $bounding_box_factory
+        InstanceFactory $bounding_box_factory,
+        ConfidenceScoreRepository $confidence_score_repo
     ) {
 
         parent::__construct($db);
@@ -99,6 +102,7 @@ class PostRepository extends OhanzeeRepository implements
         $this->contact_repo = $contact_repo;
         $this->post_value_factory = $post_value_factory;
         $this->bounding_box_factory = $bounding_box_factory;
+        $this->confidence_score_repo = $confidence_score_repo;
     }
 
     // OhanzeeRepository
@@ -171,6 +175,7 @@ class PostRepository extends OhanzeeRepository implements
                 'values' => $this->getPostValues($data['id'], $excludePrivateValues, $excludeStages),
                 // Continued for legacy
                 'tags'   => $this->getTagsForPost($data['id'], $data['form_id']),
+                'tags_confidence_score' => $this->getTagsConfidenceScoreForPost($data['id'], $data['form_id']),
                 'sets' => $this->getSetsForPost($data['id']),
                 'completed_stages' => $this->getCompletedStagesForPost(
                     $data['id'],
@@ -893,6 +898,20 @@ class PostRepository extends OhanzeeRepository implements
         return $result->as_array(null, 'tag_id');
     }
 
+
+    /**
+     * Get confidence scores tags for a tag
+     * @param  int   $id  post id
+     * @return array      tag ids for post
+     */
+    private function getTagsConfidenceScoreForPost($post_id)
+    {
+        $result = $this->confidence_score_repo->getByPost($post_id);
+
+        return $result->as_array();
+    }
+
+
   /**
      * Get sets for a post
      * @param  int   $id  post id
@@ -974,7 +993,6 @@ class PostRepository extends OhanzeeRepository implements
                 $values[$attr_key] = $entity->tags;
             }
         }
-
         if ($entity->values) {
             // Update post-values
             $this->updatePostValues($id, $values);
@@ -1056,10 +1074,12 @@ class PostRepository extends OhanzeeRepository implements
     // UpdateRepository
     public function updateFromService(Entity $entity)
     {
+
         $post = $entity->getChanged();
         $post['updated'] = time();
         // Remove attribute values and tags
         unset(
+            $post['tags_confidence_score'],
             $post['values'],
             $post['tags'],
             $post['completed_stages'],
@@ -1085,6 +1105,13 @@ class PostRepository extends OhanzeeRepository implements
         if ($entity->hasChanged('values') || $entity->hasChanged('tags')) {
             // Update post-values
             $this->updatePostValues($entity->id, $values);
+            if (count($this->confidence_score_values) > 0) {
+                \Log::debug('confidence more than zero');
+                foreach ($this->confidence_score_values as $tag => $confidenceScore) {
+                    \Log::debug('confidence more than zero - tag' . var_export(array($confidenceScore['post_value_id'], $confidenceScore['confidence_score']),true));
+                    $this->updatePostTagConfidenceScores($confidenceScore['post_value_id'], $confidenceScore['confidence_score']);
+                }
+            }
         }
         if ($entity->hasChanged('completed_stages')) {
             // Update post-stages
@@ -1115,13 +1142,30 @@ class PostRepository extends OhanzeeRepository implements
             }
 
             $repo = $this->post_value_factory->getRepo($attribute->type);
-
-            foreach ($values as $val) {
-                $repo->createValue($val, $attribute->id, $post_id);
+            foreach ($values as $keyVal => $val) {
+                if ($keyVal !== 'confidence_score') {
+                    $id = $repo->createValue($val, $attribute->id, $post_id);
+                    if (isset($values['confidence_score'])) {
+                        \Log::debug('confidence_score hit');
+                        $this->confidence_score_values[$val] = ['post_value_id' => $id, 'confidence_score' => $values['confidence_score']];
+                    }
+                }
             }
         }
     }
+    protected function updatePostTagConfidenceScores($post_value_id, $confidence_score) {
+        $entity = $this->confidence_score_repo->getEntity(['post_tag_id' => $post_value_id, 'score' => $confidence_score, 'source'=> 'COMRADES']);
+        \Log::debug('entity update posttagconfidencescore'. var_export($entity,true));
 
+        $exists_id = $this->confidence_score_repo->getByPostTag($post_value_id);
+        if ($exists_id && $exists_id->getId()) {
+            $entity->set(['id' => $exists_id->getId()]);
+            $this->confidence_score_repo->update($entity);
+        } else {
+            $this->confidence_score_repo->create($entity);
+        }
+
+    }
     public function getFirstTagAttr($form_id)
     {
         $result = DB::select('form_attributes.id', 'form_attributes.key')

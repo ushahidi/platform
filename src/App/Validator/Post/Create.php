@@ -221,14 +221,16 @@ class Create extends Validator
         if (!$tags) {
             return;
         }
-
         foreach ($tags as $key => $tag) {
-            if (is_array($tag)) {
-                $tag = $tag['id'];
-            }
-
-            if (! $this->tag_repo->doesTagExist($tag)) {
-                $validation->error('tags', 'tagDoesNotExist', [$tag]);
+            if ($key !== 'confidence_score') {
+                if (is_array($tag) && !isset($tag['confidence_score'])) {
+                    $tag = $tag['id'];
+                } else if (isset($tag['confidence_score'])) {
+                    $tag = $tag['value'];
+                }
+                if (! $this->tag_repo->doesTagExist($tag)) {
+                    $validation->error('tags', 'tagDoesNotExist', [$tag]);
+                }
             }
         }
     }

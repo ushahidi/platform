@@ -97,7 +97,7 @@ $di->params['Ushahidi\Factory\AuthorizerFactory']['map'] = [
     'messages'             => $di->lazyGet('authorizer.message'),
     'posts'                => $di->lazyGet('authorizer.post'),
     'posts_lock'           => $di->lazyGet('authorizer.post_lock'),
-    'tags'                 => $di->lazyGet('authorizer.tag'),
+    'confidence_scores'    => $di->lazyGet('authorizer.confidence_score'),
     'sets'                 => $di->lazyGet('authorizer.set'),
     'sets_posts'           => $di->lazyGet('authorizer.post'),
     'savedsearches'        => $di->lazyGet('authorizer.savedsearch'),
@@ -136,6 +136,7 @@ $di->params['Ushahidi\Factory\RepositoryFactory']['map'] = [
     'posts'                => $di->lazyGet('repository.post'),
     'posts_lock'           => $di->lazyGet('repository.post_lock'),
     'tags'                 => $di->lazyGet('repository.tag'),
+    'confidence_scores'    > $di->lazyGet('repository.confidence_score'),
     'sets'                 => $di->lazyGet('repository.set'),
     'sets_posts'           => $di->lazyGet('repository.post'),
     'savedsearches'        => $di->lazyGet('repository.savedsearch'),
@@ -316,11 +317,11 @@ $di->params['Ushahidi\Factory\UsecaseFactory']['map']['sets_posts'] = [
 
 // Add custom useses for post_lock
 // Add usecase for posts_lock
+
 $di->params['Ushahidi\Factory\UsecaseFactory']['map']['posts_lock'] = [
     'create' => $di->lazyNew('Ushahidi\Core\Usecase\Post\CreatePostLock'),
     'delete' => $di->lazyNew('Ushahidi\Core\Usecase\Post\DeletePostLock'),
 ];
-
 $di->setter['Ushahidi\Core\Usecase\Post\PostLockTrait']['setPostRepository'] = $di->lazyGet('repository.post');
 
 // Add custom usecases for sets_posts
@@ -438,6 +439,7 @@ $di->set('authorizer.layer', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\LayerAu
 $di->set('authorizer.media', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\MediaAuthorizer'));
 $di->set('authorizer.message', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\MessageAuthorizer'));
 $di->set('authorizer.tag', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\TagAuthorizer'));
+$di->set('authorizer.confidence_score', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\ConfidenceScoreAuthorizer'));
 $di->set('authorizer.savedsearch', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\SetAuthorizer'));
 $di->set('authorizer.set', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\SetAuthorizer'));
 $di->set('authorizer.notification', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\NotificationAuthorizer'));
@@ -458,6 +460,9 @@ $di->params['Ushahidi\Core\Tool\Authorizer\PostAuthorizer'] = [
 ];
 $di->params['Ushahidi\Core\Tool\Authorizer\TagAuthorizer'] = [
     'tag_repo' => $di->lazyGet('repository.tag'),
+];
+$di->params['Ushahidi\Core\Tool\Authorizer\ConfidenceScoreAuthorizer'] = [
+    'score_repo' => $di->lazyGet('repository.confidence_score'),
 ];
 
 $di->set('authorizer.country_code', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\CountryCodeAuthorizer'));

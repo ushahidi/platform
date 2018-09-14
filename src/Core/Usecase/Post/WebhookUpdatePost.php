@@ -26,6 +26,7 @@ class WebhookUpdatePost extends UpdateUsecase
     // Usecase
     public function interact()
     {
+        \Log::debug(var_export($this->payload,true));
         // Fetch the entity and apply the payload...
         $entity = $this->getEntity()->setState($this->payload);
 
@@ -42,6 +43,9 @@ class WebhookUpdatePost extends UpdateUsecase
         return $this->formatter->__invoke($updated_entity);
     }
 
+    protected function hasConfidenceScore($payload) {
+
+    }
     // UpdateUsecase
     protected function getEntity()
     {

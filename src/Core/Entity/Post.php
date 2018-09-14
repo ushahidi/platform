@@ -37,6 +37,7 @@ class Post extends StaticEntity
     protected $values;
     protected $post_date;
     protected $tags;
+    protected $tags_confidence_score;
     protected $published_to;
     protected $completed_stages;
     protected $sets;
@@ -75,6 +76,7 @@ class Post extends StaticEntity
             'id'              => 'int',
             'parent_id'       => 'int',
             'form'            => false, /* alias */
+            'tags_confidence_score' => 'array', /**alias**/
             'form_id'         => 'int',
             'user'            => false, /* alias */
             'user_id'         => 'int',

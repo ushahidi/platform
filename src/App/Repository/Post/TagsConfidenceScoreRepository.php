@@ -12,12 +12,13 @@
 namespace Ushahidi\App\Repository\Post;
 
 use Ohanzee\Database;
+use Ushahidi\Core\Usecase\Post\UpdatePostTagConfidenceScoreRepository;
 use Ushahidi\Core\Usecase\Post\UpdatePostTagRepository;
 
-class TagsRepository extends ValueRepository
+class TagsConfidenceScoreRepository extends ValueRepository
 {
+    protected $post_tag_score_repo;
     protected $tag_repo;
-
     /**
      * Construct
      * @param Database              $db
@@ -25,16 +26,18 @@ class TagsRepository extends ValueRepository
      */
     public function __construct(
         Database $db,
-        UpdatePostTagRepository $tag_repo
+        UpdatePostTagRepository $tag_repo,
+        UpdatePostTagConfidenceScoreRepository $post_tag_score_repo
     ) {
         parent::__construct($db);
         $this->tag_repo = $tag_repo;
+        $this->post_tag_score_repo = $post_tag_score_repo;
     }
 
     // OhanzeeRepository
     protected function getTable()
     {
-        return 'posts_tags';
+        return 'post_tag_confidence_score';
     }
 
     // Override selectQuery to fetch attribute 'key' too
@@ -44,54 +47,53 @@ class TagsRepository extends ValueRepository
 
         // Select 'tag_id' as value too
         $query->select(
-            ['posts_tags.tag_id', 'value']
+            ['post_tag_confidence_score.post_tag_id', 'value']
         );
 
         return $query;
     }
 
-    // PostValueRepository
-    public function getValueQuery($form_attribute_id, array $matches)
-    {
-        $query = $this->selectQuery(compact('form_attribute_id'))
-            ->and_where_open();
-
-        foreach ($matches as $match) {
-            $query->or_where('tag_id', 'LIKE', "%$match%");
-        }
-
-        $query->and_where_close();
-
-        return $query;
-    }
+//    // PostValueRepository
+//    public function getValueQuery($form_attribute_id, array $matches)
+//    {
+//        $query = $this->selectQuery(compact('form_attribute_id'))
+//            ->and_where_open();
+//
+//        foreach ($matches as $match) {
+//            $query->or_where('tag_id', 'LIKE', "%$match%");
+//        }
+//
+//        $query->and_where_close();
+//
+//        return $query;
+//    }
 
     // UpdatePostValueRepository
     public function createValue($value, $form_attribute_id, $post_id)
     {
+        \Log::debug('createvalue', compact('tag_id', 'form_attribute_id', 'post_id'));
         $tag_id = $this->parseTag($value);
         $input = compact('tag_id', 'form_attribute_id', 'post_id');
         $input['created'] = time();
-        $id = $this->executeInsert($input);
-        return $id;
+
+        return $this->executeInsert($input);
     }
 
     // UpdatePostValueRepository
     public function updateValue($id, $value)
     {
+        \Log::debug('updatevalue', compact('id', 'value'));
         $tag_id = $this->parseTag($value);
         $update = compact($tag_id);
         if ($id && $update) {
             $this->executeUpdate(compact('id'), $update);
         }
-        return $tag_id;
     }
 
     protected function parseTag($tag)
     {
-        if (is_array($tag) && !isset($tag['confidence_score'])) {
+        if (is_array($tag)) {
             $tag = $tag['id'];
-        } else if (isset($tag['confidence_score'])) {
-            $tag = $tag['value'];
         }
 
         // Find the tag by id or name
