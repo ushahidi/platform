@@ -97,7 +97,7 @@ If you see an error like "Vagrant was unable to mount VirtualBox shared folders.
   
   `	sudo update-alternatives --set php /usr/bin/php7.1`
   
-  `composer install` => if this fails you can still run it --ignore-platform-reqs 
+  `composer install`
 
 - Important: If you didn't setup vagrant-hostupdater, you will need to add the following lines to /etc/hosts:
 ```
