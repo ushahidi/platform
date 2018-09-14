@@ -27,7 +27,7 @@ trait RecursiveArrayDiff
                         $aReturn[$mKey] = $aRecursiveDiff;
                     }
                 } else {
-                    if ($mValue != $aArray2[$mKey]) {
+                    if ($mValue !== $aArray2[$mKey]) {
                         $aReturn[$mKey] = $mValue;
                     }
                 }
