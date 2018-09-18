@@ -23,7 +23,6 @@ class CreateFormContact extends CreateContact
     // For form check:
     use VerifyEntityLoaded;
     use IdentifyRecords;
-    protected $phone_validator;
     protected function getEntity()
     {
         $entity = parent::getEntity();
@@ -66,12 +65,12 @@ class CreateFormContact extends CreateContact
     private function getContactEntity($contactNumber)
     {
         // .. generate an entity for the item
-        $entity = array(
+        $entity = [
             'created' => time(),
             'can_notify' => true,
             'type' => 'phone',
             'contact' => $contactNumber
-        );
+        ];
         $entity = $this->repo->getEntityWithData($contactNumber, $entity);
         return $entity;
     }
@@ -91,10 +90,5 @@ class CreateFormContact extends CreateContact
             // ... and finally format it for output
             return $this->formatter->__invoke(intval($this->getIdentifier('form_id')), $entities, $invalidEntities);
         }
-    }
-
-    public function setPhoneValidator($validator)
-    {
-        $this->phone_validator = $validator;
     }
 }

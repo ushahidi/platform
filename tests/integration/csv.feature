@@ -57,10 +57,7 @@ Feature: Testing the CSV API
         """
         When I request "/csv/1/import"
         Then the response is JSON
-        And the response has a "processed" property
-        And the type of the "processed" property is "numeric"
-        And the response has a "errors" property
-        And the type of the "errors" property is "numeric"
+        And the response has a "status" property
         Then the guzzle status code should be 200
 
     Scenario: Deleting a CSV entry

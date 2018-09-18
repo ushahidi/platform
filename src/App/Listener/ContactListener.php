@@ -18,6 +18,7 @@ use League\Event\AbstractListener;
 use League\Event\EventInterface;
 use \Ushahidi\Core\Entity\FormRepository;
 use \Ushahidi\Core\Entity\ContactRepository;
+use Ushahidi\Core\Entity\Message;
 use \Ushahidi\Core\Entity\PostRepository;
 use \Ushahidi\Core\Entity\MessageRepository;
 use \Ushahidi\Core\Entity\FormAttributeRepository;
@@ -77,12 +78,12 @@ class ContactListener extends AbstractListener
             // This is required, if you do not need to do anything just rethrow.
             Log::info(
                 'Could not generate a random number for form :form and contact :contact. Exception:' . $e->getMessage(),
-                array(':form' => $form_name, ':contact' => $contact_id)
+                [':form' => $form_name, ':contact' => $contact_id]
             );
         } catch (Exception $e) {
             Log::info(
                 'Could not generate a random number for form :form and contact :contact. Exception:' . $e->getMessage(),
-                array(':form' => $form_name, ':contact' => $contact_id)
+                [':form' => $form_name, ':contact' => $contact_id]
             );
         }
         return "$form_name - $title_id";
@@ -101,12 +102,12 @@ class ContactListener extends AbstractListener
              */
             $post = $this->post_repo->getEntity();
             $postTitle = $this->getContactPostTitle($formEntity->name, $contactEntity->id);
-            $postState = array(
+            $postState = [
                 'title' => $postTitle,
                 'content' => $postTitle,
                 'form_id' => $form_id,
                 'status' => 'draft'
-            );
+            ];
             $post->setState($postState);
             $postId = $this->post_repo->create($post);
             /**
@@ -114,12 +115,12 @@ class ContactListener extends AbstractListener
              *  Use the message status to mark it as "pending" (ready for delivery via SMS)
              */
             $message = $this->message_repo->getEntity();
-            $firstAttribute = $this->form_attribute_repo->getFirstByForm($form_id);
+            $firstAttribute = $this->form_attribute_repo->getFirstNonDefaultByForm($form_id);
             if (!$firstAttribute->id) {
                 Log::error(
                     'Could not find attributes in form id :form.
 					Messages for contact :contact in this form will not be sent',
-                    array(':form' => $form_id, ':contact' => $contactId)
+                    [':form' => $form_id, ':contact' => $contactId]
                 );
                 throw new Exception(
                     sprintf(
@@ -136,34 +137,35 @@ class ContactListener extends AbstractListener
             $message_type = MessageType::SMS;
             $source = app('datasources')->getSourceForType($message_type);
 
-            $messageState = array(
+            $messageState = [
                 'contact_id' => $contactId,
                 'post_id' => $postId,
                 'title' => $firstAttribute->label,
                 'message' => $firstAttribute->label,
                 'status' => \Ushahidi\Core\Entity\Message::PENDING,
                 'type' => $message_type,
+                'direction' => \Ushahidi\Core\Entity\Message::OUTGOING,
                 'data_source' => $source->getId(),
-            );
+            ];
             $message->setState($messageState);
             $messageId = $this->message_repo->create($message);
             if (!$messageId) {
                 Log::error(
                     'Could not create message for contact id :contact, post id :post, and form id :form',
-                    array(':contact' => $contactId, ':post' => $postId, ':form' => $form_id)
+                    [':contact' => $contactId, ':post' => $postId, ':form' => $form_id]
                 );
             }
             //contact post state
             $targetedSurveyStatus = $this->targeted_survey_state->getEntity();
             $targetedSurveyStatus->setState(
-                array(
+                [
                     'message_id'=> $messageId,
                     'form_attribute_id'=> $firstAttribute->id,
                     'form_id' => $form_id,
                     'post_id' => $postId,
                     'contact_id' => $contactId,
                     'survey_status' => \Ushahidi\Core\Entity\TargetedSurveyState::PENDING_RESPONSE
-                )
+                ]
             );
 
             $targetedSurveyStatusId = $this->targeted_survey_state->create($targetedSurveyStatus);

@@ -44,7 +44,7 @@ class Create extends Validator
                 ['not_empty'],
             ],
             'datetime' => [
-                ['date'],
+                [[$this, 'validDate'], [':value']],
             ],
             'type' => [
                 ['not_empty'],
@@ -79,5 +79,13 @@ class Create extends Validator
                 [[$this->user_repo, 'exists'], [':value']]
             ],
         ];
+    }
+
+    public function validDate($str)
+    {
+        if ($str instanceof \DateTimeInterface) {
+            return true;
+        }
+        return (strtotime($str) !== false);
     }
 }

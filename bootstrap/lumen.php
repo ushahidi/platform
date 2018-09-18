@@ -16,10 +16,15 @@ $app = new Laravel\Lumen\Application(
 );
 
 $app->withFacades(true, [
-    'Ushahidi\App\Facades\Features' => 'Features',
+    'Ushahidi\App\Facades\Features' => 'Features'
 ]);
 
 $app->withEloquent();
+
+// Configure CORS package
+// The exception handler class relies on this configuration to be loaded
+// in order to provide CORS headers for requests that fail before the middleware stage
+$app->configure('cors');
 
 /*
 |--------------------------------------------------------------------------
@@ -55,11 +60,9 @@ $app->singleton(
 
 $app->middleware([
     Barryvdh\Cors\HandleCors::class,
+    Ushahidi\App\Http\Middleware\MaintenanceMode::class
 ]);
 
-// $app->routeMiddleware([
-//     'auth' => Ushahidi\App\Http\Middleware\Authenticate::class,
-// ]);
 $app->routeMiddleware([
     'auth' => Ushahidi\App\Http\Middleware\Authenticate::class,
     //'cors'   => Ushahidi\App\Http\Middleware\CorsMiddleware::class,
@@ -69,6 +72,7 @@ $app->routeMiddleware([
     //'scopes' => Laravel\Passport\Http\Middleware\CheckScopes::class,
     //'scope'  => Laravel\Passport\Http\Middleware\CheckForAnyScope::class,
     'signature' => Ushahidi\App\Http\Middleware\SignatureAuth::class,
+    'feature' => Ushahidi\App\Http\Middleware\CheckFeature::class,
 ]);
 
 /*
@@ -105,9 +109,5 @@ $app->router->group([
 ], function ($router) {
     require __DIR__.'/../routes/web.php';
 });
-
-
-// Configure CORS package
-$app->configure('cors');
 
 return $app;

@@ -65,7 +65,7 @@ abstract class ValueRepository extends OhanzeeRepository implements
         $post_id,
         array $include_attributes = [],
         array $exclude_stages = [],
-        $restricted = false
+        $excludePrivateValues = true
     ) {
         $query = $this->selectQuery(compact('post_id'));
 
@@ -73,7 +73,7 @@ abstract class ValueRepository extends OhanzeeRepository implements
             $query->where('form_attributes.key', 'IN', $include_attributes);
         }
 
-        if ($restricted) {
+        if ($excludePrivateValues) {
             $query->where('form_attributes.response_private', '!=', '1');
             if ($exclude_stages) {
                 $query->where('form_attributes.form_stage_id', 'NOT IN', $exclude_stages);
@@ -81,6 +81,7 @@ abstract class ValueRepository extends OhanzeeRepository implements
         }
 
         $results = $query->execute($this->db);
+
         return $this->getCollection($results->as_array());
     }
 

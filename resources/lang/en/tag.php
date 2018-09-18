@@ -1,6 +1,6 @@
 <?php
 
-return array(
+return [
     'isSlugAvailable' => ':field :value is already in use',
     'role' => [
         'isRoleValid' => 'Role must match the parent category',
@@ -8,4 +8,4 @@ return array(
     ],
     'description.regex' => 'The description must contain only letters, numbers, spaces and punctuation',
     'regex' => 'The category name must contain only letters, numbers, spaces and punctuation'
-);
+];

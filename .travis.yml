@@ -65,4 +65,4 @@ after_success:
 #     repo: ushahidi/platform
 #     php: 5.5
 #     tags: true
-#     all_branches: true
+#     all_branches: true 

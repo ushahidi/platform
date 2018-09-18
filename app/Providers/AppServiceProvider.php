@@ -19,6 +19,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->configure('ratelimiter');
         $this->app->configure('multisite');
         $this->app->configure('ohanzee-db');
+        $this->app->configure('services');
 
         $this->registerServicesFromAura();
 

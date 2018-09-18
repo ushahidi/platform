@@ -22,6 +22,7 @@ Feature: API Access Control Layer
 
     Scenario: Anonymous user can not see restricted fields of public posts
         Given that I want to find a "Post"
+        And that the oauth token is "testanon"
         And that its "id" is "121"
         When I request "/posts"
         Then the response is JSON
@@ -166,7 +167,7 @@ Feature: API Access Control Layer
         Then the response is JSON
         And the response has a "count" property
         And the type of the "count" property is "numeric"
-        And the "count" property equals "3"
+        And the "count" property equals "5"
         Then the guzzle status code should be 200
 
     Scenario: Listing All Attributes for a form with hidden stages with edit permission
@@ -176,7 +177,7 @@ Feature: API Access Control Layer
         Then the response is JSON
         And the response has a "count" property
         And the type of the "count" property is "numeric"
-        And the "count" property equals "8"
+        And the "count" property equals "10"
         Then the guzzle status code should be 200
 
     Scenario: User can see hidden tasks of posts published when survey restricted to their role
@@ -213,7 +214,7 @@ Feature: API Access Control Layer
         When I request "/posts"
         Then the guzzle status code should be 200
         And the response is JSON
-        And the "count" property equals "21"
+        And the "count" property equals "23"
 
     @resetFixture
     Scenario: Admin can view all posts in collection
@@ -223,7 +224,7 @@ Feature: API Access Control Layer
         When I request "/posts"
         Then the guzzle status code should be 200
         And the response is JSON
-        And the "count" property equals "29"
+        And the "count" property equals "31"
 
     Scenario: Admin user can view private posts
         Given that I want to find a "Post"
@@ -416,6 +417,15 @@ Feature: API Access Control Layer
         And the response has a "errors" property
         Then the guzzle status code should be 403
 
+    Scenario: Fail to access resources without corresponding scope
+        Given that I want to find a "User Setting"
+        And that the oauth token is "testingtoken"
+        And that its "id" is "1"
+        When I request "/users/1/settings"
+        Then the response is JSON
+        And the response has a "errors" property
+        Then the guzzle status code should be 403
+
     @resetFixture
     Scenario: User can view post published to members
         Given that I want to find a "Post"
@@ -501,7 +511,7 @@ Feature: API Access Control Layer
         When I request "/posts"
         Then the guzzle status code should be 200
         And the response is JSON
-        And the "count" property equals "29"
+        And the "count" property equals "31"
 
     @rolesEnabled
     Scenario: User with Manage Posts permission can view private posts
@@ -610,6 +620,41 @@ Feature: API Access Control Layer
         And the "role" property equals "user"
         And the response does not have a "password" property
         Then the guzzle status code should be 200
+
+    @rolesEnabled
+    Scenario: User with Manage Collections and Saved Searches can update a Collection
+		Given that I want to update a "collection"
+        And that the oauth token is "testsets"
+		And that the request "data" is:
+			"""
+			{
+				"name":"Updated Set One"
+			}
+			"""
+		And that its "id" is "7"
+		When I request "/collections"
+		Then the response is JSON
+		And the response has a "id" property
+		And the type of the "id" property is "numeric"
+		And the "id" property equals "7"
+		And the response has a "name" property
+		And the "name" property equals "Updated Set One"
+		Then the guzzle status code should be 200
+
+
+    @rolesEnabled
+    Scenario: User without Manage Collections and Saved Searches can not update a Collection
+		Given that I want to update a "collection"
+        And that the oauth token is "testanon"
+		And that the request "data" is:
+			"""
+			{
+				"name":"Updated Set One"
+			}
+			"""
+		And that its "id" is "7"
+		When I request "/collections"
+		Then the guzzle status code should be 403
 
     @rolesEnabled @dataImportEnabled
     Scenario: Uploading a CSV file with the Importer role

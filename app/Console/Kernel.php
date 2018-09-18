@@ -31,8 +31,10 @@ class Kernel extends ConsoleKernel
         \Ushahidi\Console\Command\UserDelete::class,
         \Ushahidi\Console\Command\Notification::class,
         \Ushahidi\Console\Command\PostExporter::class,
+        \Ushahidi\Console\Command\SendExport::class,
         \Ushahidi\Console\Command\SavedSearch::class,
-        \Ushahidi\Console\Command\Webhook::class
+        \Ushahidi\Console\Command\Webhook::class,
+        \Ushahidi\Console\Command\ObfuscateData::class,
     ];
 
     /**

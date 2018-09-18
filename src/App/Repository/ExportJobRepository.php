@@ -3,10 +3,10 @@
 /**
  * Ushahidi Export Job Repository
  *
- * @author     Ushahidi Team <team@ushahidi.com>
- * @package    Ushahidi\Application
- * @copyright  2018 Ushahidi
- * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
+ * @author    Ushahidi Team <team@ushahidi.com>
+ * @package   Ushahidi\Application
+ * @copyright 2018 Ushahidi
+ * @license   https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
 namespace Ushahidi\App\Repository;
@@ -19,8 +19,12 @@ use Ushahidi\Core\Entity\ExportJobRepository as ExportJobRepositoryContract;
 use Ushahidi\Core\Usecase\Concerns\FilterRecords;
 use Ushahidi\Core\Traits\UserContext;
 use Ushahidi\Core\Traits\AdminAccess;
+use Ushahidi\App\Events\SendToHDXEvent;
 use Ohanzee\DB;
 use Ohanzee\Database;
+
+use Event;
+use Log;
 
 class ExportJobRepository extends OhanzeeRepository implements ExportJobRepositoryContract
 {
@@ -54,7 +58,7 @@ class ExportJobRepository extends OhanzeeRepository implements ExportJobReposito
     // Ushahidi_JsonTranscodeRepository
     protected function getJsonProperties()
     {
-        return ['fields', 'filters', 'header_row'];
+        return ['fields', 'filters', 'header_row', 'hxl_heading_row'];
     }
 
     // OhanzeeRepository
@@ -64,11 +68,14 @@ class ExportJobRepository extends OhanzeeRepository implements ExportJobReposito
 
         $user = $this->getUser();
 
-        // Limit search to user's records unless they are admin
-        // or if we get user=me as a search param
-        if (! $this->isUserAdmin($user) || $search->user === 'me') {
-            $search->user = $this->getUserId();
+
+        if ($search->hxl_meta_data_id) {
+            $query->where('hxl_meta_data_id', '=', $search->hxl_meta_data_id);
         }
+
+        // get user ID so that we only ever get jobs from that user
+        $search->user = $this->getUserId();
+        
         if ($search->max_expiration) {
             $query->where("url_expiration", '>', intval($search->max_expiration));
             $query->or_where("url_expiration", 'IS', null);
@@ -103,12 +110,44 @@ class ExportJobRepository extends OhanzeeRepository implements ExportJobReposito
             'created' => time(),
             'status' => "pending",
             'user_id' => $entity->user_id,
+            'hxl_heading_row' => null
         ];
 
         return parent::create($entity->setState($state));
     }
 
-    // WebhookJobRepository
+    // overriding the update method here to intercept 'EXPORT_COMPLETED'
+    //   and decide if we still need to send something to HDX or mark this
+    //   as SUCCESSful
+    public function update(Entity $entity)
+    {
+        //check for new status of 'EXPORTED_TO_CDN'
+        if ($entity->status == 'EXPORTED_TO_CDN' && $entity->send_to_hdx == true) {
+            parent::update($entity->setState(['status' => "PENDING_HDX"]));
+            //if sending to HXL is required, then we spawn an event to do that
+            Event::fire(new SendToHDXEvent($entity->id));
+        } elseif ($entity->status == 'EXPORTED_TO_CDN' && $entity->send_to_hdx == false) {
+            //if sending to HDX is not required, (or send_to_hdx does not exist)
+            // then simply update the status to success
+            parent::update($entity->setState([ 'status' => "SUCCESS"]));
+        } else {
+            return parent::update($entity);
+        }
+    }
+
+
+
+    public function getPendingJobs($limit = 10)
+    {
+        $query = $this->selectQuery()
+                      ->limit($limit)
+                      ->where('status', '=', 'pending');
+
+        $results = $query->execute($this->db);
+
+        return $this->getCollection($results->as_array());
+    }
+
     public function getJobs($limit)
     {
         $query = $this->selectQuery()

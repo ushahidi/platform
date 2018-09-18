@@ -68,7 +68,7 @@ abstract class Validator
      * Attach a set of rules to the validator
      * @param  array  $rules Array of rules in $key => $rule format
      */
-    protected function attachRules($rules = array())
+    protected function attachRules($rules = [])
     {
         foreach ($rules as $name => $ruleset) {
             $this->validation_engine->rules($name, $ruleset);

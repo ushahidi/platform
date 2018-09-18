@@ -12,8 +12,8 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        'Ushahidi\App\Events\SomeEvent' => [
-            'Ushahidi\App\Listeners\EventListener',
+        'Ushahidi\App\Events\SendToHDXEvent' => [
+            'Ushahidi\App\Listeners\SendToHDXEventListener',
         ],
     ];
 

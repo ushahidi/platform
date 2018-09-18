@@ -44,35 +44,37 @@ class PHPUnitFixtureContext implements Context
     {
         $pdo_connection = $this->getConnection()->getConnection();
         $pdo_connection->query("INSERT INTO `post_point` (`id`, `post_id`, `form_attribute_id`, `value`)
-			VALUES (1, 1, 8, POINT(12.123, 21.213));");
+            VALUES (1, 1, 8, POINT(12.123, 21.213));");
         $pdo_connection->query("INSERT INTO `post_point` (`id`, `post_id`, `form_attribute_id`, `value`)
-			VALUES (7, 1, 8, POINT(12.223, 21.313));");
+            VALUES (7, 1, 8, POINT(12.223, 21.313));");
         $pdo_connection->query("INSERT INTO `post_point` (`id`, `post_id`, `form_attribute_id`, `value`)
-			VALUES (2, 99, 8, POINT(11.123, 24.213));");
+            VALUES (2, 99, 8, POINT(11.123, 24.213));");
         $pdo_connection->query("INSERT INTO `post_point` (`id`, `post_id`, `form_attribute_id`, `value`)
-			VALUES (3, 9999, 8, POINT(10.123, 26.213));");
+            VALUES (3, 9999, 8, POINT(10.123, 26.213));");
         $pdo_connection->query("INSERT INTO `post_point` (`id`, `post_id`, `form_attribute_id`, `value`)
-			VALUES (4, 95, 8, POINT(1, 1));");
+            VALUES (4, 95, 8, POINT(1, 1));");
         $pdo_connection->query("INSERT INTO `post_point` (`id`, `post_id`, `form_attribute_id`, `value`)
-			VALUES (5, 95, 12, POINT(1.2, 0.5));");
+            VALUES (5, 95, 12, POINT(1.2, 0.5));");
         $pdo_connection->query("INSERT INTO `post_point` (`id`, `post_id`, `form_attribute_id`, `value`)
-			VALUES (6, 97, 8, POINT(1, 1));");
+            VALUES (6, 97, 8, POINT(1, 1));");
+        $pdo_connection->query("INSERT INTO `post_point` (`id`, `post_id`, `form_attribute_id`, `value`)
+            VALUES (8, 1690, 36, POINT(10.1235, 26.2135));");
 
         $pdo_connection->query("INSERT INTO `post_geometry` (`id`, `post_id`, `form_attribute_id`, `value`)
-			VALUES (1, 1, 9,
-				GeomFromText('MULTIPOLYGON (((40 40, 20 45, 45 30, 40 40)),
-					((20 35, 45 20, 30 5, 10 10, 10 30, 20 35),
-					(30 20, 20 25, 20 15, 30 20)))'));");
+            VALUES (1, 1, 9,
+                GeomFromText('MULTIPOLYGON (((40 40, 20 45, 45 30, 40 40)),
+                    ((20 35, 45 20, 30 5, 10 10, 10 30, 20 35),
+                    (30 20, 20 25, 20 15, 30 20)))'));");
     }
 
     protected function setConfig($group, $key, $value)
     {
         $pdo_connection = $this->getConnection()->getConnection();
         $pdo_connection->query("
-		  INSERT INTO `config`
-		  (`group_name`, `config_key`, `config_value`) VALUES ('$group', '$key', '$value')
-		  ON DUPLICATE KEY UPDATE `config_value` = '$value';
-		");
+          INSERT INTO `config`
+          (`group_name`, `config_key`, `config_value`) VALUES ('$group', '$key', '$value')
+          ON DUPLICATE KEY UPDATE `config_value` = '$value';
+        ");
     }
 
     /** @BeforeScenario @private */
@@ -103,6 +105,23 @@ class PHPUnitFixtureContext implements Context
     public function disableRoles()
     {
         $this->setConfig('feature', 'private', '{"enabled":false}');
+    }
+
+
+    /**
+     * @BeforeScenario @hxlEnabled
+     **/
+    public function enableHxl()
+    {
+        $this->setConfig('feature', 'hxl', '{"enabled":true}');
+    }
+
+    /**
+     * @BeforeScenario @hxlDisabled
+     **/
+    public function disableHxl()
+    {
+        $this->setConfig('feature', 'hxl', '{"enabled":false}');
     }
 
     /** @BeforeScenario @webhooksEnabled */
@@ -232,10 +251,10 @@ class PHPUnitFixtureContext implements Context
     {
         //return PHPUnit_Extensions_Database_Operation_Factory::CLEAN_INSERT();
         $cascadeTruncates = true;
-        return new \PHPUnit_Extensions_Database_Operation_Composite(array(
+        return new \PHPUnit_Extensions_Database_Operation_Composite([
             new \Tests\Support\MySQL55Truncate($cascadeTruncates),
             \PHPUnit_Extensions_Database_Operation_Factory::INSERT()
-        ));
+        ]);
     }
 
     /**

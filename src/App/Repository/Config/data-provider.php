@@ -9,8 +9,8 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-return array(
-    'providers' => array(
+return [
+    'providers' => [
         // List of data providers key=provider value=enabled
         'smssync' => false,
         'email' => false,
@@ -18,7 +18,7 @@ return array(
         'nexmo' => false,
         'twitter' => false,
         'frontlinesms' => false
-    ),
+    ],
 
     // Config params for individual providers
     // 'nexmo' => array(
@@ -39,7 +39,7 @@ return array(
     //  'secret' => '1234'
     // ),
 
-    'email' => array(
+    'email' => [
     //  'from' => '',
     //  'from_name' => '',
 
@@ -49,11 +49,11 @@ return array(
         'incoming_security' => '',
         'incoming_username' => '',
         'incoming_password' => '',
-    ),
+    ],
 
     'twilio'       => [],
     'smssync'      => [],
     'twitter'      => [],
     'nexmo'        => [],
     'frontlinesms' => [],
-);
+];

@@ -24,10 +24,14 @@ class StatsController extends RESTController
     public function index(Request $request)
     {
         $params = $this->getRouteParams($request);
+        $filters = $this->getRouteParams($request);
+        $filters['created_after'] = $request->input('created_after');
+        $filters['created_before'] = $request->input('created_before');
         $this->usecase = $this->usecaseFactory
             ->get($this->getResource(), 'search')
             ->setIdentifiers($params)
-            ->setFormatter(service('formatter.entity.form.stats'));
+            ->setFormatter(service('formatter.entity.form.stats'))
+            ->setFilters($filters);
             // @todo do we need this?
             // ->setFilters($request->query() + [
             //     'form_id' => isset($params['form_id']) ? $params['form_id'] : null
