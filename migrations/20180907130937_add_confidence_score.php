@@ -19,7 +19,7 @@ class AddConfidenceScore extends AbstractMigration
             )
             ->addColumn('source', 'string')
             ->addColumn('post_tag_id', 'integer')
-            ->addForeignKey('post_tag_id', 'posts_tags', 'id')
+            ->addForeignKey('post_tag_id', 'posts_tags', 'id', ['delete'=> 'CASCADE', 'update'=> 'CASCADE'])
             ->create();
     }
 }
