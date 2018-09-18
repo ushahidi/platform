@@ -1164,7 +1164,9 @@ class PostRepository extends OhanzeeRepository implements
                         $this->confidence_score_values[$val] = ['post_value_id' => $id, 'confidence_score' => isset($values['confidence_score']) ? $values['confidence_score'] : null];
 
                     }
-                    $ret[$val] = $id;
+                    if (is_numeric($val)) {
+                        $ret[$val] = $id;
+                    }
                 }
             }
         }
