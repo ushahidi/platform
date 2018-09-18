@@ -57,16 +57,17 @@ class ListCommandTest extends TestCase
         $value = $this->artisan('datasource:list', ["--all" => true]);
 
         $this->assertEquals(
-            "+--------------+----------+
-| Name         | Services |
-+--------------+----------+
-| Email        | email    |
-| FrontlineSMS | sms      |
-| Nexmo        | sms      |
-| SMSSync      | sms      |
-| Twilio       | sms      |
-| Twitter      | twitter  |
-+--------------+----------+
+            "+---------------+----------+
+| Name          | Services |
++---------------+----------+
+| Email         | email    |
+| OutgoingEmail | email    |
+| FrontlineSMS  | sms      |
+| Nexmo         | sms      |
+| SMSSync       | sms      |
+| Twilio        | sms      |
+| Twitter       | twitter  |
++---------------+----------+
 ",
             $this->artisanOutput()
         );

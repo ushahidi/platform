@@ -21,7 +21,7 @@ use Illuminate\Contracts\Mail\Mailer;
 use Ushahidi\Core\Entity\Contact;
 use Log;
 
-class Email implements IncomingAPIDataSource, OutgoingAPIDataSource
+class Email extends OutgoingEmail implements IncomingAPIDataSource
 {
     use MapsInboundFields;
 
@@ -122,55 +122,15 @@ class Email implements IncomingAPIDataSource, OutgoingAPIDataSource
         ];
     }
 
+    public function isUserConfigurable()
+    {
+        return true;
+    }
+
     /**
      * Contact type user for this provider
      */
     public $contact_type = Contact::EMAIL;
-
-    /**
-     * @return mixed
-     */
-    public function send($to, $message, $title = "")
-    {
-        $site_name = $this->siteConfig['name'];
-        $site_email = $this->siteConfig['email'];
-        $multisite_email = config('multisite.email');
-
-        // @todo make this more robust
-        if ($multisite_email) {
-            $from_email = $multisite_email;
-        } elseif ($site_email) {
-            $from_email = $site_email;
-        } else {
-            $from_email = false;
-            // Get host from lumen
-            // $host = app()->make('request')->getHost();
-            // $from_email = 'noreply@' . $host;
-        }
-
-        try {
-            $this->mailer->send(
-                'emails/outgoing-message',
-                [
-                    'message_text' => $message,
-                    'site_url' => $this->clientUrl
-                ],
-                function ($message) use ($to, $title, $from_email, $site_name) {
-                    $message->to($to);
-                    $message->subject($title);
-                    if ($from_email) {
-                        $message->from($from_email, $site_name);
-                    }
-                }
-            );
-
-            return [MessageStatus::SENT, false];
-        } catch (\Exception $e) {
-            Log::info("Couldn't send email:" . $e->getMessage());
-            // Failed
-            return [MessageStatus::FAILED, false];
-        }
-    }
 
     /**
      * Fetch email messages from server
@@ -219,11 +179,25 @@ class Email implements IncomingAPIDataSource, OutgoingAPIDataSource
                 return [];
             }
 
-            $last_uid = $this->messageRepo->getLastUID('email');
-            $max_range = $last_uid + $limit;
-            $search_string = $last_uid ? $last_uid + 1 . ':' . $max_range : '1:' . $max_range;
+            $mailboxinfo = imap_check($connection);
 
-            $emails = imap_fetch_overview($connection, $search_string, FT_UID);
+            Log::info("Connected to $inbox", [$username, $password, $mailboxinfo]);
+
+            $last_uid = $this->messageRepo->getLastUID('email');
+            if ($last_uid > 0) {
+                $max_range = $last_uid + $limit;
+                $search_string = $last_uid ? $last_uid + 1 . ':' . $max_range : '1:' . $max_range;
+                // Grab next set of messages by uid
+                $emails = imap_fetch_overview($connection, $search_string, FT_UID);
+                Log::info("Emails: ", [count($emails), $search_string]);
+            } else {
+                // Grab first set of messages by sequence numbers instead of uid
+                // This avoids getting an empty set on the first fetch
+                $max_range = $limit < $mailboxinfo->Nmsgs ? $limit : $mailboxinfo->Nmsgs;
+                $search_string = "1:$max_range";
+                $emails = imap_fetch_overview($connection, $search_string);
+                Log::info("Emails: ", [count($emails), $search_string]);
+            }
 
             if ($emails) {
                 // reverse sort emails?

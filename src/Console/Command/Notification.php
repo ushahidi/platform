@@ -13,6 +13,7 @@ namespace Ushahidi\Console\Command;
 
 use Illuminate\Console\Command;
 
+use Ushahidi\Core\Entity\Message;
 use Ushahidi\Core\Entity\PostRepository;
 use Ushahidi\Core\Entity\MessageRepository;
 use Ushahidi\Core\Entity\NotificationQueueRepository;
@@ -88,6 +89,8 @@ class Notification extends Command
 
     private function generateMessages($notification)
     {
+        $this->info("Generating messages for post {$notification->post_id} in set {$notification->set_id}");
+
         // Delete queued notification
         $this->notificationQueueRepository->delete($notification);
 
@@ -106,10 +109,14 @@ class Notification extends Command
         while (true) {
             $contacts = $this->contactRepository
                 ->getNotificationContacts($notification->set_id, $limit, $offset);
+            $countContacts = count($contacts);
+
+            $this->info("Got $countContacts contacts to notify about set {$notification->set_id}");
 
             // Create outgoing messages
             foreach ($contacts as $contact) {
                 if ($this->messageRepository->notificationMessageExists($post->id, $contact->id)) {
+                    $this->info("Contact {$contact->id} already notified");
                     continue;
                 }
 
@@ -121,7 +128,12 @@ class Notification extends Command
                 ];
 
                 $messageType = $this->mapContactToMessageType($contact->type);
-                $data_source = $contact->data_source ?: $this->sources->getSourceForType($messageType);
+                $data_source = null;
+                if ($contact->data_source) {
+                    $data_source = $contact->data_source;
+                } elseif ($source_service = $this->sources->getSourceForType($messageType)) {
+                    $data_source = $source_service->getId();
+                }
 
                 $state = [
                     'contact_id' => $contact->id,
@@ -130,16 +142,19 @@ class Notification extends Command
                     'message' => trans('notifications.' . $messageType . '.message', $subs),
                     'type' => $messageType,
                     'data_source' => $data_source,
+                    'direction' => Message::OUTGOING
                 ];
 
                 $entity = $this->messageRepository->getEntity();
                 $entity->setState($state);
-                $this->messageRepository->create($entity);
+                $id = $this->messageRepository->create($entity);
 
                 $count++;
+                $this->info("Queued message id {$id} for {$contact->id}");
             }
 
-            if (count($contacts) < $limit) {
+            if ($countContacts < $limit) {
+                $this->info('Ran out of contacts');
                 break;
             }
 

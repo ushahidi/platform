@@ -83,6 +83,11 @@ class SMSSync implements CallbackDataSource
         ];
     }
 
+    public function isUserConfigurable()
+    {
+        return true;
+    }
+
     /**
      * Contact type user for this provider
      */

@@ -65,22 +65,12 @@ class DataProviderRepository implements
      * Get all enabled providers, with their configuration data.
      * @return Array
      */
-    protected function getAllProviders($enabled = false)
+    protected function getAllProviders()
     {
-        if ($enabled) {
-            // Returns all *enabled* providers.
-            return $this->datasources->getEnabledSources();
-        } else {
-            // Returns all providers, even if they are disabled.
-            return $this->datasources->getSource();
-        }
-    }
-
-    // DataProviderRepository
-    public function all($enabled = false)
-    {
-        $providers = $this->getAllProviders($enabled);
-        return $this->getCollection($providers);
+        // Returns all providers, even if they are disabled.
+        return array_filter($this->datasources->getSource(), function ($source) {
+            return $source->isUserConfigurable();
+        });
     }
 
     // ReadRepository
