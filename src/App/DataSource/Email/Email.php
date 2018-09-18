@@ -179,11 +179,25 @@ class Email extends OutgoingEmail implements IncomingAPIDataSource
                 return [];
             }
 
-            $last_uid = $this->messageRepo->getLastUID('email');
-            $max_range = $last_uid + $limit;
-            $search_string = $last_uid ? $last_uid + 1 . ':' . $max_range : '1:' . $max_range;
+            $mailboxinfo = imap_check($connection);
 
-            $emails = imap_fetch_overview($connection, $search_string, FT_UID);
+            Log::info("Connected to $inbox", [$username, $password, $mailboxinfo]);
+
+            $last_uid = $this->messageRepo->getLastUID('email');
+            if ($last_uid > 0) {
+                $max_range = $last_uid + $limit;
+                $search_string = $last_uid ? $last_uid + 1 . ':' . $max_range : '1:' . $max_range;
+                // Grab next set of messages by uid
+                $emails = imap_fetch_overview($connection, $search_string, FT_UID);
+                Log::info("Emails: ", [count($emails), $search_string]);
+            } else {
+                // Grab first set of messages by sequence numbers instead of uid
+                // This avoids getting an empty set on the first fetch
+                $max_range = $limit < $mailboxinfo->Nmsgs ? $limit : $mailboxinfo->Nmsgs;
+                $search_string = "1:$max_range";
+                $emails = imap_fetch_overview($connection, $search_string);
+                Log::info("Emails: ", [count($emails), $search_string]);
+            }
 
             if ($emails) {
                 // reverse sort emails?

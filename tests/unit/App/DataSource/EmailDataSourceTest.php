@@ -110,6 +110,12 @@ class EmailDataSourceTest extends TestCase
             ->once()
             ->andReturn('notreallyaconnection');
 
+        $mockImapOpen = PHPMockery::mock("Ushahidi\App\DataSource\Email", "imap_check");
+        $mockImapOpen
+            ->with('notreallyaconnection')
+            ->once()
+            ->andReturn((object)['Nmsgs' => 100]);
+
         $mockImapClose = PHPMockery::mock("Ushahidi\App\DataSource\Email", "imap_close");
         $mockImapClose
             ->with('notreallyaconnection')
