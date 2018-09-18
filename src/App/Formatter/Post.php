@@ -79,6 +79,16 @@ class Post extends API
 
         return $output;
     }
+    protected function formatTagsConfidenceScore($scores) {
+
+        $output = [];
+        foreach ($scores as $score) {
+            $score['tag_id'] = intval($score['tag_id']);
+            $output[] = $score;
+        }
+
+        return $output;
+    }
 
     protected function formatPostDate($value)
     {

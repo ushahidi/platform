@@ -1021,6 +1021,7 @@ class PostRepository extends OhanzeeRepository implements
         unset(
             $post['values'],
             $post['tags'],
+            $post['tags_confidence_score'],
             $post['completed_stages'],
             $post['sets'],
             $post['source'],
@@ -1036,7 +1037,6 @@ class PostRepository extends OhanzeeRepository implements
         $count = $this->executeUpdate(['id' => $entity->id], $post);
 
         $values = $entity->values;
-
         // Handle legacy post.tags attribute
         if ($entity->hasChanged('tags')) {
             // Find first tag attribute
@@ -1047,10 +1047,24 @@ class PostRepository extends OhanzeeRepository implements
             }
         }
 
-        if ($entity->hasChanged('values')) {
+        $tags = $entity->tags;
+        if ($entity->hasChanged('values') || $entity->hasChanged('tags')) {
             // Update post-values
             $this->post_value_factory->proxy()->deleteAllForPost($entity->id);
-            $this->updatePostValues($entity->id, $values);
+            $values_added = $this->updatePostValues($entity->id, $values);//val (ie tag_id) = > value id (ie post_value_id)
+            if (count($this->confidence_score_values) > 0)  {
+                foreach ($this->confidence_score_values as $tag => $confidenceScore) {
+                    $this->updatePostTagConfidenceScores($confidenceScore['post_value_id'], $confidenceScore['confidence_score']);
+                }
+            } else if (count($entity->tags_confidence_score) > 0) {
+                foreach ($tags as $tag) {
+                    $tag_value_id = isset($values_added[$tag['id']])? $values_added[$tag['id']] : null;
+                    if ($tag_value_id && isset($tag['confidence_score'])) {
+                        $this->updatePostTagConfidenceScores($tag_value_id, $tag['confidence_score']);
+                    }
+
+                }
+            }
         }
 
         if ($entity->hasChanged('completed_stages')) {
@@ -1135,23 +1149,26 @@ class PostRepository extends OhanzeeRepository implements
 
     protected function updatePostValues($post_id, $attributes)
     {
+        $ret = [];
         foreach ($attributes as $key => $values) {
             $attribute = $this->form_attribute_repo->getByKey($key);
             if (!$attribute->id) {
                 continue;
             }
-
             $repo = $this->post_value_factory->getRepo($attribute->type);
             foreach ($values as $keyVal => $val) {
                 if ($keyVal !== 'confidence_score') {
                     $id = $repo->createValue($val, $attribute->id, $post_id);
                     if (isset($values['confidence_score'])) {
                         \Log::debug('confidence_score hit');
-                        $this->confidence_score_values[$val] = ['post_value_id' => $id, 'confidence_score' => $values['confidence_score']];
+                        $this->confidence_score_values[$val] = ['post_value_id' => $id, 'confidence_score' => isset($values['confidence_score']) ? $values['confidence_score'] : null];
+
                     }
+                    $ret[$val] = $id;
                 }
             }
         }
+        return $ret;
     }
     protected function updatePostTagConfidenceScores($post_value_id, $confidence_score) {
         $entity = $this->confidence_score_repo->getEntity(['post_tag_id' => $post_value_id, 'score' => $confidence_score, 'source'=> 'COMRADES']);
