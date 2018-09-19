@@ -1101,6 +1101,7 @@ class PostRepository extends OhanzeeRepository implements
             $post['source'],
             $post['color']
         );
+        $tagsByAttributes = [];
         // Convert post_date to mysql format
         if (!empty($post['post_date'])) {
             $post['post_date'] = $post['post_date']->format("Y-m-d H:i:s");
@@ -1121,13 +1122,17 @@ class PostRepository extends OhanzeeRepository implements
         \Log::debug('attributes' . var_export($values, true));
         if ($entity->hasChanged('values') || $entity->hasChanged('tags')) {
             // Update post-values
-            $this->updatePostValuesWithKeys($entity->id, $values);
-            if (count($this->confidence_score_values) > 0) {
-                \Log::debug('confidence more than zero');
-                foreach ($this->confidence_score_values as $tag => $confidenceScore) {
-                    \Log::debug('confidence more than zero - tag' . var_export(array($confidenceScore['post_value_id'], $confidenceScore['confidence_score']),true));
-                    $this->updatePostTagConfidenceScores($confidenceScore['post_value_id'], $confidenceScore['confidence_score']);
+            if (count($tagsByAttributes) > 0 ) {
+                $this->updatePostValuesWithKeys($entity->id, $values);
+                if (count($this->confidence_score_values) > 0) {
+                    \Log::debug('confidence more than zero');
+                    foreach ($this->confidence_score_values as $tag => $confidenceScore) {
+                        \Log::debug('confidence more than zero - tag' . var_export(array($confidenceScore['post_value_id'], $confidenceScore['confidence_score']),true));
+                        $this->updatePostTagConfidenceScores($confidenceScore['post_value_id'], $confidenceScore['confidence_score']);
+                    }
                 }
+            } else {
+                $this->updatePostValues($entity->id, $values);
             }
         }
         if ($entity->hasChanged('completed_stages')) {
