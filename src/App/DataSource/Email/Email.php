@@ -181,7 +181,7 @@ class Email extends OutgoingEmail implements IncomingAPIDataSource
 
             $mailboxinfo = imap_check($connection);
 
-            Log::info("Connected to $inbox", [$username, $password, $mailboxinfo]);
+            Log::info("Connected to $inbox", [$mailboxinfo]);
 
             $last_uid = $this->messageRepo->getLastUID('email');
             if ($last_uid > 0) {
