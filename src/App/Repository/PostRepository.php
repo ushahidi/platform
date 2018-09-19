@@ -1109,16 +1109,19 @@ class PostRepository extends OhanzeeRepository implements
         $values = $entity->values;
         // Handle legacy post.tags attribute
         if ($entity->hasChanged('tags')) {
+            $tags = $entity->tags;
             // Find first tag attribute
-            list($attr_id, $attr_key) = $this->getFirstTagAttr($entity->form_id);
+            //list($attr_id, $attr_key) = $this->getFirstTagAttr($entity->form_id);
+            \Log::debug('taggggs'.var_export($entity->tags,true));//conf
+            // check because of confidence scores
+            $tagsByAttributes = $this->groupTagsByAttributes($entity->form_id, $entity->tags);
             // If we don't have tags in the values, use the post.tags value
-            if ($attr_key && !isset($values[$attr_key])) {
-                $values[$attr_key] = $entity->tags;
-            }
+            $values = array_merge($values, $tagsByAttributes);
         }
+        \Log::debug('attributes' . var_export($values, true));
         if ($entity->hasChanged('values') || $entity->hasChanged('tags')) {
             // Update post-values
-            $this->updatePostValues($entity->id, $values);
+            $this->updatePostValuesWithKeys($entity->id, $values);
             if (count($this->confidence_score_values) > 0) {
                 \Log::debug('confidence more than zero');
                 foreach ($this->confidence_score_values as $tag => $confidenceScore) {
@@ -1146,28 +1149,63 @@ class PostRepository extends OhanzeeRepository implements
         // given Kohana's future I've put it here
         //$this->emit($this->event, $entity->id, 'delete');
     }
-
-    protected function updatePostValues($post_id, $attributes)
+    protected function updatePostValuesWithKeys($post_id, $attributes)
     {
         $ret = [];
+
         foreach ($attributes as $key => $values) {
             $attribute = $this->form_attribute_repo->getByKey($key);
             if (!$attribute->id) {
                 continue;
             }
             $repo = $this->post_value_factory->getRepo($attribute->type);
+            \Log::debug('valuesupdate'. var_export($values,true));
+            foreach ($values as $val) {
+                $id = $repo->createValue($val['value'], $attribute->id, $post_id);
+                if (isset($val['confidence_score'])) {
+                    \Log::debug('confidence_score hit');
+                    $this->confidence_score_values[$val['value']] = [
+                        'post_value_id' => $id,
+                        'confidence_score' => isset($val['confidence_score']) ? $val['confidence_score'] : null
+                    ];
+                }
+                if (is_numeric($val)) {
+                    $ret[$val] = $id;
+                }
+                \Log::debug('valval'. var_export($val,true));
+
+            }
+        }
+        return $ret;
+    }
+    protected function updatePostValues($post_id, $attributes)
+    {
+        $ret = [];
+
+        foreach ($attributes as $key => $values) {
+            $attribute = $this->form_attribute_repo->getByKey($key);
+            if (!$attribute->id) {
+                continue;
+            }
+            $repo = $this->post_value_factory->getRepo($attribute->type);
+            \Log::debug('valuesupdate'. var_export($values,true));
             foreach ($values as $keyVal => $val) {
                 if ($keyVal !== 'confidence_score') {
                     $id = $repo->createValue($val, $attribute->id, $post_id);
                     if (isset($values['confidence_score'])) {
                         \Log::debug('confidence_score hit');
-                        $this->confidence_score_values[$val] = ['post_value_id' => $id, 'confidence_score' => isset($values['confidence_score']) ? $values['confidence_score'] : null];
-
+                        $this->confidence_score_values[$val] = [
+                            'post_value_id' => $id,
+                            'confidence_score' => isset($values['confidence_score']) ? $values['confidence_score'] : null
+                        ];
                     }
                     if (is_numeric($val)) {
                         $ret[$val] = $id;
                     }
                 }
+
+                \Log::debug('valval'. var_export($val,true));
+
             }
         }
         return $ret;
@@ -1184,6 +1222,39 @@ class PostRepository extends OhanzeeRepository implements
             $this->confidence_score_repo->create($entity);
         }
 
+    }
+    public function groupTagsByAttributes($form_id, $tags) {
+        $score = null;
+        if (isset($tags['confidence_score'])){
+
+        }
+        // get the attributes for the form
+        $attributesQuery = DB::select('form_attributes.options', 'form_attributes.id', 'form_attributes.key')
+            ->from('form_attributes')
+            ->join('form_stages', 'INNER')->on('form_stages.id', '=', 'form_attributes.form_stage_id')
+            ->where('form_stages.form_id', '=', $form_id)
+            ->where('form_attributes.type', '=', 'tags')
+            ->order_by('form_attributes.priority', 'ASC');
+        \Log::debug('attquery' . $attributesQuery->compile($this->db));
+        $attributes = $attributesQuery
+            ->execute($this->db);
+
+        $return = [];
+        $attributes = $attributes->as_array();
+        foreach ($attributes as $attribute) {
+            $tagsQuery = DB::select('tags.tag', 'tags.id')
+                ->from('tags')
+                ->where('tags.id', 'IN', json_decode($attribute['options']))
+                ->where('tags.tag', 'IN', $tags);
+            $tagsQueryResult = $tagsQuery
+                ->execute($this->db);
+            \Log::debug('tagquery' . $tagsQuery->compile($this->db));
+            $return[$attribute['key']] = array_map(function ($tag) use ($tags) {
+                return ['value' => $tag['tag'], 'confidence_score' => isset($tags['confidence_score']) ? $tags['confidence_score'] : null];
+            }, $tagsQueryResult->as_array());
+        }
+        \Log::debug('ret'.var_export($return,true));
+        return $return;
     }
     public function getFirstTagAttr($form_id)
     {
