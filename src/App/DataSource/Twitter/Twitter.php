@@ -247,26 +247,27 @@ class Twitter implements IncomingAPIDataSource, OutgoingAPIDataSource
                 // Also save the original bounding box
                 $additional_data['location'][] = $status['place']['bounding_box'];
             }
-        } elseif (!empty($status['user']) && !empty($status['user']['location'])) {
-            # Search the provided location for matches in twitter's geocoder
-            $results = $connection->get("geo/search", [
-                "query" => $status['user']['location']
-            ]);
-            # If there are results, get the centroid of the first one
-            if (!empty($results['result']['places'])) {
-                $geoloc = $results['result']['places'][0];
-                if ($geoloc['centroid']) {
-                    $additional_data['location'][] = [
-                        'coordinates' => $geoloc['centroid'],
-                        'type' => 'Point'
-                    ];
-                }
-                # Add the bounding box too (if available)
-                if ($geoloc['bounding_box']) {
-                    $additional_data['location'][] = $geoloc['bounding_box'];
-                }
-            }
         }
+//        elseif (!empty($status['user']) && !empty($status['user']['location'])) {
+//            # Search the provided location for matches in twitter's geocoder
+//            $results = $connection->get("geo/search", [
+//                "query" => $status['user']['location']
+//            ]);
+//            # If there are results, get the centroid of the first one
+//            if (!empty($results['result']['places'])) {
+//                $geoloc = $results['result']['places'][0];
+//                if ($geoloc['centroid']) {
+//                    $additional_data['location'][] = [
+//                        'coordinates' => $geoloc['centroid'],
+//                        'type' => 'Point'
+//                    ];
+//                }
+//                # Add the bounding box too (if available)
+//                if ($geoloc['bounding_box']) {
+//                    $additional_data['location'][] = $geoloc['bounding_box'];
+//                }
+//            }
+//        }
 
         return $additional_data;
     }
