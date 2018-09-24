@@ -1110,24 +1110,18 @@ class PostRepository extends OhanzeeRepository implements
         $values = $entity->values;
         // Handle legacy post.tags attribute
         if ($entity->hasChanged('tags')) {
-            $tags = $entity->tags;
-            // Find first tag attribute
-            //list($attr_id, $attr_key) = $this->getFirstTagAttr($entity->form_id);
-            \Log::debug('taggggs'.var_export($entity->tags,true));//conf
             // check because of confidence scores
+            // and tags from multiple possible attributes
             $tagsByAttributes = $this->groupTagsByAttributes($entity->form_id, $entity->tags);
             // If we don't have tags in the values, use the post.tags value
             $values = array_merge($values, $tagsByAttributes);
         }
-        \Log::debug('attributes' . var_export($values, true));
         if ($entity->hasChanged('values') || $entity->hasChanged('tags')) {
             // Update post-values
             if (count($tagsByAttributes) > 0 ) {
                 $this->updatePostValuesWithKeys($entity->id, $values);
                 if (count($this->confidence_score_values) > 0) {
-                    \Log::debug('confidence more than zero');
                     foreach ($this->confidence_score_values as $tag => $confidenceScore) {
-                        \Log::debug('confidence more than zero - tag' . var_export(array($confidenceScore['post_value_id'], $confidenceScore['confidence_score']),true));
                         $this->updatePostTagConfidenceScores($confidenceScore['post_value_id'], $confidenceScore['confidence_score']);
                     }
                 }
@@ -1164,11 +1158,9 @@ class PostRepository extends OhanzeeRepository implements
                 continue;
             }
             $repo = $this->post_value_factory->getRepo($attribute->type);
-            \Log::debug('valuesupdate'. var_export($values,true));
             foreach ($values as $val) {
                 $id = $repo->createValue($val['value'], $attribute->id, $post_id);
                 if (isset($val['confidence_score'])) {
-                    \Log::debug('confidence_score hit');
                     $this->confidence_score_values[$val['value']] = [
                         'post_value_id' => $id,
                         'confidence_score' => isset($val['confidence_score']) ? $val['confidence_score'] : null
@@ -1177,7 +1169,6 @@ class PostRepository extends OhanzeeRepository implements
                 if (is_numeric($val)) {
                     $ret[$val] = $id;
                 }
-                \Log::debug('valval'. var_export($val,true));
 
             }
         }
@@ -1193,12 +1184,10 @@ class PostRepository extends OhanzeeRepository implements
                 continue;
             }
             $repo = $this->post_value_factory->getRepo($attribute->type);
-            \Log::debug('valuesupdate'. var_export($values,true));
             foreach ($values as $keyVal => $val) {
                 if ($keyVal !== 'confidence_score') {
                     $id = $repo->createValue($val, $attribute->id, $post_id);
                     if (isset($values['confidence_score'])) {
-                        \Log::debug('confidence_score hit');
                         $this->confidence_score_values[$val] = [
                             'post_value_id' => $id,
                             'confidence_score' => isset($values['confidence_score']) ? $values['confidence_score'] : null
@@ -1208,17 +1197,12 @@ class PostRepository extends OhanzeeRepository implements
                         $ret[$val] = $id;
                     }
                 }
-
-                \Log::debug('valval'. var_export($val,true));
-
             }
         }
         return $ret;
     }
     protected function updatePostTagConfidenceScores($post_value_id, $confidence_score) {
         $entity = $this->confidence_score_repo->getEntity(['post_tag_id' => $post_value_id, 'score' => $confidence_score, 'source'=> 'COMRADES']);
-        \Log::debug('entity update posttagconfidencescore'. var_export($entity,true));
-
         $exists_id = $this->confidence_score_repo->getByPostTag($post_value_id);
         if ($exists_id && $exists_id->getId()) {
             $entity->set(['id' => $exists_id->getId()]);
@@ -1230,9 +1214,6 @@ class PostRepository extends OhanzeeRepository implements
     }
     public function groupTagsByAttributes($form_id, $tags) {
         $score = null;
-        if (isset($tags['confidence_score'])){
-
-        }
         // get the attributes for the form
         $attributesQuery = DB::select('form_attributes.options', 'form_attributes.id', 'form_attributes.key')
             ->from('form_attributes')
@@ -1240,7 +1221,6 @@ class PostRepository extends OhanzeeRepository implements
             ->where('form_stages.form_id', '=', $form_id)
             ->where('form_attributes.type', '=', 'tags')
             ->order_by('form_attributes.priority', 'ASC');
-        \Log::debug('attquery' . $attributesQuery->compile($this->db));
         $attributes = $attributesQuery
             ->execute($this->db);
 
@@ -1253,12 +1233,10 @@ class PostRepository extends OhanzeeRepository implements
                 ->where('tags.tag', 'IN', $tags);
             $tagsQueryResult = $tagsQuery
                 ->execute($this->db);
-            \Log::debug('tagquery' . $tagsQuery->compile($this->db));
             $return[$attribute['key']] = array_map(function ($tag) use ($tags) {
                 return ['value' => $tag['tag'], 'confidence_score' => isset($tags['confidence_score']) ? $tags['confidence_score'] : null];
             }, $tagsQueryResult->as_array());
         }
-        \Log::debug('ret'.var_export($return,true));
         return $return;
     }
     public function getFirstTagAttr($form_id)
