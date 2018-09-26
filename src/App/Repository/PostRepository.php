@@ -1088,7 +1088,6 @@ class PostRepository extends OhanzeeRepository implements
     // UpdateRepository
     public function updateFromService(Entity $entity)
     {
-
         $post = $entity->getChanged();
         $post['updated'] = time();
         // Remove attribute values and tags
@@ -1112,18 +1111,23 @@ class PostRepository extends OhanzeeRepository implements
         if ($entity->hasChanged('tags')) {
             // check because of confidence scores
             // and tags from multiple possible attributes
-            $tagsByAttributes = $this->groupTagsByAttributes($entity->form_id, $entity->tags);
+            $tagsByAttributes = $this->groupTagsByAttributes(
+                $entity->form_id,
+                array_pluck($entity->tags, 'value')
+            );
+
             // If we don't have tags in the values, use the post.tags value
             $values = array_merge($values, $tagsByAttributes);
         }
         if ($entity->hasChanged('values') || $entity->hasChanged('tags')) {
             // Update post-values
             if (count($tagsByAttributes) > 0 ) {
-                $this->updatePostValuesWithKeys($entity->id, $values);
-                if (count($this->confidence_score_values) > 0) {
-                    foreach ($this->confidence_score_values as $tag => $confidenceScore) {
-                        $this->updatePostTagConfidenceScores($confidenceScore['post_value_id'], $confidenceScore['confidence_score']);
-                    }
+                $confidenceScoreValues = $this->updatePostValuesWithKeys($entity->id, $values);
+                foreach ($confidenceScoreValues as $tag => $confidenceScore) {
+                    $this->updatePostTagConfidenceScores(
+                        $confidenceScore['post_value_id'],
+                        $confidenceScore['confidence_score']
+                    );
                 }
             } else {
                 $this->updatePostValues($entity->id, $values);
@@ -1151,7 +1155,6 @@ class PostRepository extends OhanzeeRepository implements
     protected function updatePostValuesWithKeys($post_id, $attributes)
     {
         $ret = [];
-
         foreach ($attributes as $key => $values) {
             $attribute = $this->form_attribute_repo->getByKey($key);
             if (!$attribute->id) {
@@ -1160,16 +1163,12 @@ class PostRepository extends OhanzeeRepository implements
             $repo = $this->post_value_factory->getRepo($attribute->type);
             foreach ($values as $val) {
                 $id = $repo->createValue($val['value'], $attribute->id, $post_id);
-                if (isset($val['confidence_score'])) {
-                    $this->confidence_score_values[$val['value']] = [
+                if (is_array($val) && isset($val['confidence_score'])) {
+                    $ret[$val['value']] = [
                         'post_value_id' => $id,
                         'confidence_score' => isset($val['confidence_score']) ? $val['confidence_score'] : null
                     ];
                 }
-                if (is_numeric($val)) {
-                    $ret[$val] = $id;
-                }
-
             }
         }
         return $ret;
@@ -1230,11 +1229,18 @@ class PostRepository extends OhanzeeRepository implements
             $tagsQuery = DB::select('tags.tag', 'tags.id')
                 ->from('tags')
                 ->where('tags.id', 'IN', json_decode($attribute['options']))
-                ->where('tags.tag', 'IN', $tags);
+                ->where('tags.tag', 'IN', array_pluck($tags,'value'));
             $tagsQueryResult = $tagsQuery
                 ->execute($this->db);
             $return[$attribute['key']] = array_map(function ($tag) use ($tags) {
-                return ['value' => $tag['tag'], 'confidence_score' => isset($tags['confidence_score']) ? $tags['confidence_score'] : null];
+                $scoreFind =  array_filter($tags, function($t) use ($tag){
+                    return $tag['tag'] == $t['value'];
+                });
+                $scoreFind = array_pop($scoreFind);
+                return [
+                    'value' => $tag['tag'],
+                    'confidence_score' =>isset($scoreFind['confidence_score']) ? $scoreFind['confidence_score'] : null
+                ];
             }, $tagsQueryResult->as_array());
         }
         return $return;
