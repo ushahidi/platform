@@ -45,4 +45,23 @@ class Update extends Create
             return;
         }
     }
+
+    public function checkTags(Validation $validation, $tags)
+    {
+        if (!$tags) {
+            return;
+        }
+        foreach ($tags as $key => $tag) {
+            if ($key !== 'confidence_score') {
+                if (is_array($tag) && isset($tag['id'])) {
+                    $tag = $tag['id'];
+                } else if (is_array($tag) && !isset($tag['id'])) {
+                    $tag = $tag['value'];
+                }
+                if (! $this->tag_repo->doesTagExist($tag)) {
+                    $validation->error('tags', 'tagDoesNotExist', [$tag]);
+                }
+            }
+        }
+    }
 }

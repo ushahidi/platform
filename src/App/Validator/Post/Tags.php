@@ -24,8 +24,10 @@ class Tags extends ValueValidator
 
     protected function validate($value)
     {
-        if (is_array($value)) {
+        if (is_array($value) && !isset($value['confidence_score'])) {
             $value = $value['id'];
+        } else if (isset($value['confidence_score'])) {
+            $value = $value['value'];
         }
 
         if (!$this->repo->doesTagExist($value)) {

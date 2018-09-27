@@ -13,6 +13,7 @@ namespace Ushahidi\App\Repository;
 
 use Ohanzee\DB;
 use Ohanzee\Database;
+use Ushahidi\App\Repository\ConfidenceScoreRepository;
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\Entity\FormRepository as FormRepositoryContract;
 use Ushahidi\Core\Entity\FormAttributeRepository as FormAttributeRepositoryContract;
@@ -61,6 +62,7 @@ class PostRepository extends OhanzeeRepository implements
     protected $contact_repo;
     protected $post_value_factory;
     protected $bounding_box_factory;
+    protected $confidence_score_repo;
     // By default remove all private responses
     protected $restricted = true;
 
@@ -69,7 +71,7 @@ class PostRepository extends OhanzeeRepository implements
     protected $exclude_stages = [];
 
     protected $listener;
-
+    protected $confidence_score_values = [];
     /**
      * Construct
      * @param Database                              $db
@@ -87,7 +89,8 @@ class PostRepository extends OhanzeeRepository implements
         PostLockRepository $post_lock_repo,
         ContactRepository $contact_repo,
         PostValueFactory $post_value_factory,
-        InstanceFactory $bounding_box_factory
+        InstanceFactory $bounding_box_factory,
+        ConfidenceScoreRepository $confidence_score_repo
     ) {
 
         parent::__construct($db);
@@ -99,6 +102,7 @@ class PostRepository extends OhanzeeRepository implements
         $this->contact_repo = $contact_repo;
         $this->post_value_factory = $post_value_factory;
         $this->bounding_box_factory = $bounding_box_factory;
+        $this->confidence_score_repo = $confidence_score_repo;
     }
 
     // OhanzeeRepository
@@ -171,6 +175,7 @@ class PostRepository extends OhanzeeRepository implements
                 'values' => $this->getPostValues($data['id'], $excludePrivateValues, $excludeStages),
                 // Continued for legacy
                 'tags'   => $this->getTagsForPost($data['id'], $data['form_id']),
+                'tags_confidence_score' => $this->getTagsConfidenceScoreForPost($data['id'], $data['form_id']),
                 'sets' => $this->getSetsForPost($data['id']),
                 'completed_stages' => $this->getCompletedStagesForPost(
                     $data['id'],
@@ -437,14 +442,14 @@ class PostRepository extends OhanzeeRepository implements
                     $this->getBoundingBoxSubquery($bounding_box), 'Filter_BBox'
                 ], 'INNER')
                 ->on('posts.id', '=', 'Filter_BBox.post_id')
-                ;
+            ;
         }
 
         // Published to
         if ($search->published_to) {
             $query
                 ->where("$table.published_to", 'LIKE', "%'$search->published_to'%")
-                ;
+            ;
         }
 
         if ($sources = $search->source) {
@@ -471,22 +476,22 @@ class PostRepository extends OhanzeeRepository implements
 
             $query
                 ->where("$table.id", 'IN', $post_id)
-                ;
+            ;
         }
 
         if ($search->has_location === 'mapped') {
             $query->and_where_open()
-            ->where(
-                "$table.id",
-                'IN',
-                DB::query(Database::SELECT, 'select post_geometry.post_id from post_geometry')
-            )
-            ->or_where(
-                "$table.id",
-                'IN',
-                DB::query(Database::SELECT, 'select post_point.post_id from post_point')
-            )
-            ->and_where_close();
+                ->where(
+                    "$table.id",
+                    'IN',
+                    DB::query(Database::SELECT, 'select post_geometry.post_id from post_geometry')
+                )
+                ->or_where(
+                    "$table.id",
+                    'IN',
+                    DB::query(Database::SELECT, 'select post_point.post_id from post_point')
+                )
+                ->and_where_close();
         } elseif ($search->has_location === 'unmapped') {
             $query->where(
                 "$table.id",
@@ -633,9 +638,9 @@ class PostRepository extends OhanzeeRepository implements
     {
         // Create a new query to select posts count
         $this->search_query = DB::select([DB::expr('COUNT(DISTINCT posts.id)'), 'total'])
-                ->from('posts')
-                ->JOIN('messages', 'LEFT')
-                ->ON('posts.id', '=', 'messages.post_id');
+            ->from('posts')
+            ->JOIN('messages', 'LEFT')
+            ->ON('posts.id', '=', 'messages.post_id');
 
         // Quick hack to ensure all posts are available to
         // group_by=status
@@ -669,8 +674,8 @@ class PostRepository extends OhanzeeRepository implements
                     // Join to attribute
                     $this->search_query
                         ->join([$sub, 'Time_'.ucfirst($key)], 'INNER')
-                            ->on('form_attribute_id', '=', DB::expr($attribute->id))
-                            ->on('posts.id', '=', 'Time_'.ucfirst($key).'.post_id');
+                        ->on('form_attribute_id', '=', DB::expr($attribute->id))
+                        ->on('posts.id', '=', 'Time_'.ucfirst($key).'.post_id');
 
                     // Use the attribute `value` as our time
                     $time_field = 'Time_'.ucfirst($key).'.value';
@@ -700,17 +705,17 @@ class PostRepository extends OhanzeeRepository implements
 
                 $this->search_query
                     ->join([$sub, 'Group_'.ucfirst($key)], 'INNER')
-                        ->on('form_attribute_id', '=', DB::expr($attribute->id))
-                        ->on('posts.id', '=', 'Group_'.ucfirst($key).'.post_id')
+                    ->on('form_attribute_id', '=', DB::expr($attribute->id))
+                    ->on('posts.id', '=', 'Group_'.ucfirst($key).'.post_id')
                     ->select(['Group_'.ucfirst($key).'.value', 'label'])
                     ->group_by('label');
             }
-        // Group by status
+            // Group by status
         } elseif ($search->group_by === 'status') {
             $this->search_query
                 ->select(['posts.status', 'label'])
                 ->group_by('label');
-        // Group by form
+            // Group by form
         } elseif ($search->group_by === 'form') {
             $this->search_query
                 ->join('forms', 'LEFT')->on('posts.form_id', '=', 'forms.id')
@@ -723,7 +728,7 @@ class PostRepository extends OhanzeeRepository implements
                 ->group_by('forms.id')
                 // ...and then by datasource
                 ->group_by('messages.type');
-        // Group by tags
+            // Group by tags
         } elseif ($search->group_by === 'tags') {
             /**
              * The output query looks something like
@@ -745,12 +750,12 @@ class PostRepository extends OhanzeeRepository implements
                 ->join('posts_tags')->on('posts.id', '=', 'posts_tags.post_id')
                 ->join('tags')->on('posts_tags.tag_id', '=', 'tags.id')
                 ->join(['tags', 'parents'])
-                    // Slight hack to avoid kohana db forcing multiple ON clauses to use AND not OR.
-                    ->on(
-                        DB::expr("`parents`.`id` = `tags`.`parent_id` OR `parents`.`id` = `posts_tags`.`tag_id`"),
-                        '',
-                        DB::expr("")
-                    )
+                // Slight hack to avoid kohana db forcing multiple ON clauses to use AND not OR.
+                ->on(
+                    DB::expr("`parents`.`id` = `tags`.`parent_id` OR `parents`.`id` = `posts_tags`.`tag_id`"),
+                    '',
+                    DB::expr("")
+                )
                 // This should really use ANY_VALUE(forms.name) but that only exists in mysql5.7
                 ->select([DB::expr('MAX(parents.tag)'), 'label'])
                 ->select(['parents.id', 'id'])
@@ -771,7 +776,7 @@ class PostRepository extends OhanzeeRepository implements
                         ->and_where_close();
                 }
             }
-        // If no group_by just count all posts
+            // If no group_by just count all posts
         } else {
             $this->search_query
                 ->select([DB::expr('"all"'), 'label']);
@@ -828,8 +833,8 @@ class PostRepository extends OhanzeeRepository implements
     private function createBoundingBoxFromCSV($csv)
     {
         list($bb_west, $bb_north, $bb_east, $bb_south)
-                = array_map('floatval', explode(',', $csv))
-                ;
+            = array_map('floatval', explode(',', $csv))
+        ;
 
         $bounding_box_factory = $this->bounding_box_factory;
         return $bounding_box_factory($bb_west, $bb_north, $bb_east, $bb_south);
@@ -893,7 +898,21 @@ class PostRepository extends OhanzeeRepository implements
         return $result->as_array(null, 'tag_id');
     }
 
-  /**
+
+    /**
+     * Get confidence scores tags for a tag
+     * @param  int   $id  post id
+     * @return array      tag ids for post
+     */
+    private function getTagsConfidenceScoreForPost($post_id)
+    {
+        $result = $this->confidence_score_repo->getByPost($post_id);
+
+        return $result->as_array();
+    }
+
+
+    /**
      * Get sets for a post
      * @param  int   $id  post id
      * @return array      set ids for post
@@ -929,9 +948,9 @@ class PostRepository extends OhanzeeRepository implements
 
         // Check for other translations
         return $this->selectCount([
-            'posts.type' => 'translation',
-            'posts.parent_id' => $parent_id,
-            'posts.locale' => $locale
+                'posts.type' => 'translation',
+                'posts.parent_id' => $parent_id,
+                'posts.locale' => $locale
             ]) === 0;
     }
 
@@ -955,7 +974,7 @@ class PostRepository extends OhanzeeRepository implements
         // Set default value for post_date
         if (empty($post['post_date'])) {
             $post['post_date'] = date_create()->format("Y-m-d H:i:s");
-        // Convert post_date to mysql format
+            // Convert post_date to mysql format
         } else {
             $post['post_date'] = $post['post_date']->format("Y-m-d H:i:s");
         }
@@ -974,7 +993,6 @@ class PostRepository extends OhanzeeRepository implements
                 $values[$attr_key] = $entity->tags;
             }
         }
-
         if ($entity->values) {
             // Update post-values
             $this->updatePostValues($id, $values);
@@ -1003,6 +1021,7 @@ class PostRepository extends OhanzeeRepository implements
         unset(
             $post['values'],
             $post['tags'],
+            $post['tags_confidence_score'],
             $post['completed_stages'],
             $post['sets'],
             $post['source'],
@@ -1017,22 +1036,18 @@ class PostRepository extends OhanzeeRepository implements
 
         $count = $this->executeUpdate(['id' => $entity->id], $post);
 
-        $values = $entity->values;
-
-        // Handle legacy post.tags attribute
-        if ($entity->hasChanged('tags')) {
-            // Find first tag attribute
-            list($attr_id, $attr_key) = $this->getFirstTagAttr($entity->form_id);
-            // If we don't have tags in the values, use the post.tags value
-            if ($attr_key && !isset($values[$attr_key])) {
-                $values[$attr_key] = $entity->tags;
-            }
-        }
-
-        if ($entity->hasChanged('values')) {
+        if ($entity->hasChanged('values') || $entity->hasChanged('tags')) {
             // Update post-values
             $this->post_value_factory->proxy()->deleteAllForPost($entity->id);
-            $this->updatePostValues($entity->id, $values);
+            $values_added = $this->updatePostValues($entity->id, $entity->values);//val (ie tag_id) = > value id (ie post_value_id)
+            if (count($entity->tags_confidence_score) > 0) {
+                foreach ($entity->tags as $tag) {
+                    $tag_value_id = isset($values_added[$tag['id']])? $values_added[$tag['id']] : null;
+                    if ($tag_value_id && isset($tag['confidence_score'])) {
+                        $this->updatePostTagConfidenceScores($tag_value_id, $tag['confidence_score']);
+                    }
+                }
+            }
         }
 
         if ($entity->hasChanged('completed_stages')) {
@@ -1060,6 +1075,7 @@ class PostRepository extends OhanzeeRepository implements
         $post['updated'] = time();
         // Remove attribute values and tags
         unset(
+            $post['tags_confidence_score'],
             $post['values'],
             $post['tags'],
             $post['completed_stages'],
@@ -1067,6 +1083,7 @@ class PostRepository extends OhanzeeRepository implements
             $post['source'],
             $post['color']
         );
+        $tagsByAttributes = [];
         // Convert post_date to mysql format
         if (!empty($post['post_date'])) {
             $post['post_date'] = $post['post_date']->format("Y-m-d H:i:s");
@@ -1075,16 +1092,28 @@ class PostRepository extends OhanzeeRepository implements
         $values = $entity->values;
         // Handle legacy post.tags attribute
         if ($entity->hasChanged('tags')) {
-            // Find first tag attribute
-            list($attr_id, $attr_key) = $this->getFirstTagAttr($entity->form_id);
+            // check because of confidence scores
+            // and tags from multiple possible attributes
+            $tagsByAttributes = $this->groupTagsByAttributes(
+                $entity->form_id,
+                array_pluck($entity->tags, 'value')
+            );
             // If we don't have tags in the values, use the post.tags value
-            if ($attr_key && !isset($values[$attr_key])) {
-                $values[$attr_key] = $entity->tags;
-            }
+            $values = array_merge($values, $tagsByAttributes);
         }
         if ($entity->hasChanged('values') || $entity->hasChanged('tags')) {
             // Update post-values
-            $this->updatePostValues($entity->id, $values);
+            if (count($tagsByAttributes) > 0 ) {
+                $confidenceScoreValues = $this->updatePostValuesWithKeys($entity->id, $values);
+                foreach ($confidenceScoreValues as $tag => $confidenceScore) {
+                    $this->updatePostTagConfidenceScores(
+                        $confidenceScore['post_value_id'],
+                        $confidenceScore['confidence_score']
+                    );
+                }
+            } else {
+                $this->updatePostValues($entity->id, $values);
+            }
         }
         if ($entity->hasChanged('completed_stages')) {
             // Update post-stages
@@ -1106,22 +1135,98 @@ class PostRepository extends OhanzeeRepository implements
         //$this->emit($this->event, $entity->id, 'delete');
     }
 
-    protected function updatePostValues($post_id, $attributes)
+    /**
+     * @param $post_id
+     * @param $attributes
+     * @return array
+     * This method is only needed for the updateFromService functionality
+     * which is used by the service-proxy.
+     */
+    protected function updatePostValuesWithKeys($post_id, $attributes)
     {
+        $ret = [];
         foreach ($attributes as $key => $values) {
             $attribute = $this->form_attribute_repo->getByKey($key);
             if (!$attribute->id) {
                 continue;
             }
-
             $repo = $this->post_value_factory->getRepo($attribute->type);
-
             foreach ($values as $val) {
-                $repo->createValue($val, $attribute->id, $post_id);
+                $id = $repo->createValue($val['value'], $attribute->id, $post_id);
+                if (is_array($val) && isset($val['confidence_score'])) {
+                    $ret[$val['value']] = [
+                        'post_value_id' => $id,
+                        'confidence_score' => isset($val['confidence_score']) ?: null
+                    ];
+                }
             }
         }
+        return $ret;
     }
+    protected function updatePostValues($post_id, $attributes)
+    {
+        $postValueIds = [];
 
+        foreach ($attributes as $key => $values) {
+            $attribute = $this->form_attribute_repo->getByKey($key);
+            if (!$attribute->id) {
+                continue;
+            }
+            $repo = $this->post_value_factory->getRepo($attribute->type);
+            foreach ($values as $val) {
+                $id = $repo->createValue($val, $attribute->id, $post_id);
+                if (is_numeric($val)) {
+                    $postValueIds[$val] = $id;
+                }
+            }
+        }
+        return $postValueIds;
+    }
+    protected function updatePostTagConfidenceScores($post_value_id, $confidence_score) {
+        $entity = $this->confidence_score_repo->getEntity(['post_tag_id' => $post_value_id, 'score' => $confidence_score, 'source'=> 'COMRADES']);
+        $exists_id = $this->confidence_score_repo->getByPostTag($post_value_id);
+        if ($exists_id && $exists_id->getId()) {
+            $entity->set(['id' => $exists_id->getId()]);
+            $this->confidence_score_repo->update($entity);
+        } else {
+            $this->confidence_score_repo->create($entity);
+        }
+
+    }
+    public function groupTagsByAttributes($form_id, $tags) {
+        $score = null;
+        // get the attributes for the form
+        $attributesQuery = DB::select('form_attributes.options', 'form_attributes.id', 'form_attributes.key')
+            ->from('form_attributes')
+            ->join('form_stages', 'INNER')->on('form_stages.id', '=', 'form_attributes.form_stage_id')
+            ->where('form_stages.form_id', '=', $form_id)
+            ->where('form_attributes.type', '=', 'tags')
+            ->order_by('form_attributes.priority', 'ASC');
+        $attributes = $attributesQuery
+            ->execute($this->db);
+
+        $return = [];
+        $attributes = $attributes->as_array();
+        foreach ($attributes as $attribute) {
+            $tagsQuery = DB::select('tags.tag', 'tags.id')
+                ->from('tags')
+                ->where('tags.id', 'IN', json_decode($attribute['options']))
+                ->where('tags.tag', 'IN', array_pluck($tags,'value'));
+            $tagsQueryResult = $tagsQuery
+                ->execute($this->db);
+            $return[$attribute['key']] = array_map(function ($tag) use ($tags) {
+                $scoreFind =  array_filter($tags, function($t) use ($tag){
+                    return $tag['tag'] == $t['value'];
+                });
+                $scoreFind = array_pop($scoreFind);
+                return [
+                    'value' => $tag['tag'],
+                    'confidence_score' =>isset($scoreFind['confidence_score']) ? $scoreFind['confidence_score'] : null
+                ];
+            }, $tagsQueryResult->as_array());
+        }
+        return $return;
+    }
     public function getFirstTagAttr($form_id)
     {
         $result = DB::select('form_attributes.id', 'form_attributes.key')

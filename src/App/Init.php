@@ -499,7 +499,8 @@ $di->params[Ushahidi\App\Repository\PostRepository::class] = [
     'post_lock_repo' => $di->lazyGet('repository.post_lock'),
     'contact_repo' => $di->lazyGet('repository.contact'),
     'post_value_factory' => $di->lazyGet('repository.post_value_factory'),
-    'bounding_box_factory' => $di->newFactory(Ushahidi\App\Util\BoundingBox::class)
+    'bounding_box_factory' => $di->newFactory(Ushahidi\App\Util\BoundingBox::class),
+    'confidence_score_repo' => $di->lazyGet('repository.confidence_score')
 ];
 
 // Post repository parameters
@@ -527,7 +528,7 @@ $di->set('repository.post.markdown', $di->lazyNew(Ushahidi\App\Repository\Post\M
 $di->set('repository.post.title', $di->lazyNew(Ushahidi\App\Repository\Post\TitleRepository::class));
 $di->set('repository.post.media', $di->lazyNew(Ushahidi\App\Repository\Post\MediaRepository::class));
 $di->set('repository.post.tags', $di->lazyNew(Ushahidi\App\Repository\Post\TagsRepository::class));
-
+$di->set('repository.post.tags_confidence_score', $di->lazyNew(Ushahidi\App\Repository\Post\TagsConfidenceScoreRepository::class));
 $di->params[Ushahidi\App\Repository\Post\TagsRepository::class] = [
     'tag_repo' => $di->lazyGet('repository.tag')
 ];
@@ -550,6 +551,7 @@ $di->params[Ushahidi\App\Repository\Post\ValueFactory::class] = [
         'title' => $di->lazyGet('repository.post.title'),
         'media' => $di->lazyGet('repository.post.media'),
         'tags' => $di->lazyGet('repository.post.tags'),
+        //'tags_confidence_score' => $di->lazyGet('repository.post.tags_confidence_score')
     ],
 ];
 
@@ -958,6 +960,49 @@ $di->params['Ushahidi\Factory\RepositoryFactory']['map']['hxl_organisations'] =
     $di->lazyGet('repository.hxl_tag');//FIXME
 
 $di->set('repository.hxl_organisations', $di->lazyNew(Ushahidi\App\Repository\HXL\HXLTagRepository::class));//FIXME
+//confidence score
+
+//$di->set('repository.hxl_license', $di->lazyNew(Ushahidi\App\Repository\HXL\HXLLicenseRepository::class));
+//
+//$di->set('formatter.entity.hxl_license', $di->lazyNew(Ushahidi\App\Formatter\HXL\HXLLicense::class));
+//
+//$di->params['Ushahidi\Factory\AuthorizerFactory']['map']['hxl_licenses'] =
+//    $di->lazyGet('authorizer.hxl');
+//$di->params['Ushahidi\Factory\RepositoryFactory']['map']['hxl_licenses'] =
+//    $di->lazyGet('repository.hxl_license');
+//$di->params['Ushahidi\Factory\FormatterFactory']['map']['hxl_licenses'] =
+//    $di->lazyNew(Ushahidi\App\Formatter\HXL\HXLLicense::class);
+//$di->setter[Ushahidi\App\Formatter\HXL\HXLLicense::class]['setAuth'] =
+//    $di->lazyGet("authorizer.hxl");
+
+
+$di->set('repository.confidence_score', $di->lazyNew(Ushahidi\App\Repository\ConfidenceScoreRepository::class));
+$di->params['Ushahidi\Factory\UsecaseFactory']['map']['confidence_scores'] = [
+    'read'  => $di->lazyNew('Ushahidi\Core\Usecase\ConfidenceScore\ReadConfidenceScore'),
+    'update'  => $di->lazyNew('Ushahidi\Core\Usecase\ConfidenceScore\UpdateConfidenceScore'),
+    'create'  => $di->lazyNew('Ushahidi\Core\Usecase\ConfidenceScore\CreateConfidenceScore'),
+];
+$di->params['Ushahidi\Factory\RepositoryFactory']['map']['confidence_scores'] =
+    $di->lazyGet('repository.confidence_score');
+
+$di->params['Ushahidi\Factory\ValidatorFactory']['map']['confidence_scores'] = [
+    'create' => $di->lazyNew(Ushahidi\App\Validator\ConfidenceScore\Create::class),
+    'update' => $di->lazyNew(Ushahidi\App\Validator\ConfidenceScore\Update::class),
+];
+$di->params['Ushahidi\Factory\FormatterFactory']['map']['confidence_scores'] =
+    $di->lazyNew(Ushahidi\App\Formatter\ConfidenceScore::class);
+
+$di->params[Ushahidi\App\Validator\ConfidenceScore\Update::class] = [
+    'repo' => $di->lazyGet('repository.confidence_score'),
+];
+
+$di->params[Ushahidi\App\Repository\ConfidenceScoreRepository::class] = [
+    'repo' => $di->lazyGet('repository.confidence_score') //FIXME
+];
+
+
+
+$di->setter[Ushahidi\App\Formatter\ConfidenceScore::class]['setAuth'] = $di->lazyGet("authorizer.confidence_score");
 
 // Set up config bindings
 
