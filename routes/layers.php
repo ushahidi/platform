@@ -3,7 +3,7 @@
 // Layers
 $router->group([
     'prefix' => 'layers',
-    'middleware' => ['scope:layers']
+    'middleware' => ['scope:layers', 'expiration']
 ], function () use ($router) {
     // Public access
     resource($router, '/', 'LayersController', [

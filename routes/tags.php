@@ -3,7 +3,7 @@
 // Tags
 $router->group([
     'prefix' => 'tags',
-    'middleware' => ['scope:tags']
+    'middleware' => ['scope:tags', 'expiration']
 ], function () use ($router) {
     // Public access
     resource($router, '/', 'TagsController', [

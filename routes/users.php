@@ -3,7 +3,7 @@
 // Users
 $router->group([
     'namespace' => 'Users',
-    'middleware' => ['scope:users']
+    'middleware' => ['scope:users', 'expiration']
 ], function () use ($router) {
     // Public access
     resource($router, 'users', 'UsersController', [
