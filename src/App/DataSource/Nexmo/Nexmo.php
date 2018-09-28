@@ -80,6 +80,11 @@ class Nexmo implements CallbackDataSource, OutgoingAPIDataSource
         ];
     }
 
+    public function isUserConfigurable()
+    {
+        return true;
+    }
+
     /**
      * Client to talk to the Nexmo API
      *

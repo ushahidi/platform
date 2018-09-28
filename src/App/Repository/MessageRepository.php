@@ -185,9 +185,28 @@ class MessageRepository extends OhanzeeRepository implements
     // CreateRepository
     public function create(Entity $entity)
     {
-        return parent::create($entity->setState([
-            'created'   => time(),
-        ]));
+
+        $message = $entity->asArray();
+        // Set default value for post_date
+        if (!empty($message['datetime'])) {
+            $message['datetime'] = $message['datetime']->format("Y-m-d H:i:s");
+        }
+        $message['created'] = time();
+        // Create the post
+        return $this->executeInsert($this->removeNullValues($message));
+    }
+
+    // Update Repository
+    public function update(Entity $entity)
+    {
+
+        $message = $entity->asArray();
+        // Set default value for post_date
+        if (!empty($message['datetime'])) {
+            $message['datetime'] = $message['datetime']->format("Y-m-d H:i:s");
+        }
+        // Create the post
+        return $this->executeUpdate(['id' => $message['id']], $this->removeNullValues($message));
     }
 
     // UpdateMessageRepository

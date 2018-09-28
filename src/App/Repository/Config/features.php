@@ -29,6 +29,7 @@ return [
         'twitter' => true,
         'frontlinesms' => true,
         'email' => true,
+        'outgoingemail' => true,
         'twilio' => true,
         'nexmo' => true,
         'testservice' => false
@@ -79,6 +80,11 @@ return [
     'redis' => [
         'enabled' => false,
     ],
+
+    'csv-speedup' => [
+        'enabled' => false,
+    ],
+
     // Enable or disable HXL export to HDX
     // We will need a new 'hxl-download' flag when we do the HXL downloads for P1
     'hxl' => [
@@ -89,7 +95,7 @@ return [
     'user-settings' => [
         'enabled' => false,
     ],
-    
+
     // Enable or disable the Anonymisation of Reporters
     // Controls whether users can set obfuscation of location, redaction of date/time
     // and reporter info

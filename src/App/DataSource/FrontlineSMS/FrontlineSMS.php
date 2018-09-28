@@ -75,6 +75,11 @@ class FrontlineSMS implements CallbackDataSource, OutgoingAPIDataSource
         ];
     }
 
+    public function isUserConfigurable()
+    {
+        return true;
+    }
+
     /**
      * Contact type user for this provider
      */

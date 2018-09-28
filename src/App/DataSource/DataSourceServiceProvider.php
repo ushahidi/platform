@@ -59,6 +59,7 @@ class DataSourceServiceProvider extends ServiceProvider
         $dataProviderConfig = $configRepo->get('data-provider')->asArray();
 
         $manager->addSource($this->makeEmail($dataProviderConfig));
+        $manager->addSource($this->makeOutgoingEmail($dataProviderConfig));
         $manager->addSource($this->makeFrontlineSMS($dataProviderConfig));
         $manager->addSource($this->makeNexmo($dataProviderConfig));
         $manager->addSource(new SMSSync\SMSSync($dataProviderConfig['smssync']));
@@ -76,6 +77,16 @@ class DataSourceServiceProvider extends ServiceProvider
             service('site.config'),
             service('clienturl'),
             service('repository.message')
+        );
+    }
+
+    protected function makeOutgoingEmail($dataProviderConfig)
+    {
+        return new Email\OutgoingEmail(
+            $dataProviderConfig['email'],
+            $this->app->make('mailer'),
+            service('site.config'),
+            service('clienturl')
         );
     }
 

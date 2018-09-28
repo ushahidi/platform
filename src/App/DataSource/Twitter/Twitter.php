@@ -129,6 +129,11 @@ class Twitter implements IncomingAPIDataSource, OutgoingAPIDataSource
         ];
     }
 
+    public function isUserConfigurable()
+    {
+        return true;
+    }
+
     // DataSource
     public function fetch($limit = false)
     {

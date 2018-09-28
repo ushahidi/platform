@@ -88,7 +88,7 @@ class Multisite
         $deployment = $result->current();
 
         $this->checkDeploymentStatus($deployment);
-        
+
         // Set new database config
         // @todo stop call config directly
         $config = config('ohanzee-db.default');
@@ -101,7 +101,7 @@ class Multisite
             'persistent' => $config['connection']['persistent'],
         ];
 
-        $this->checkDeploymentDbConnection($config);
+        $this->checkDeploymentDbConnection($config, $deployment);
 
         return $config;
     }
@@ -134,21 +134,23 @@ class Multisite
         // No deployment? throw a 404
         if (! count($deployment)) {
             abort(404, $deploymentName . " not found");
-        } elseif (($status === 'migrating' && !$deployedDate) || $status === 'pending') {
+        } elseif (($status === 'migrating' && !$deployedDate) || $status === 'pending' || $status === 'deploying') {
             abort(503, $deploymentName . " is not ready");
-        } elseif (($status === 'migrating' && $deployedDate) || $status === 'maintenance') {
+        } elseif (($status === 'migrating' && $deployedDate) || $status === 'maintenance' || $status === 'importing') {
             abort(503, $deploymentName . " is down for maintenance");
         }
     }
-    protected function checkDeploymentDbConnection($config)
+    protected function checkDeploymentDbConnection($config, $deployment)
     {
+        $deploymentName = $deployment['deployment_name'] ? $deployment['deployment_name'] : 'Deployment';
+
         // Check we can connect to the DB
         try {
             DB::select(DB::expr('1'))->from('users')
                 ->execute(Database::instance('deployment', $config));
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             // If we can't connect, throw 503 Service Unavailable
-            abort(503, $this->domain . "is not ready");
+            abort(503, $deploymentName . " is not ready");
         }
     }
 }

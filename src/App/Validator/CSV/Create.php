@@ -37,20 +37,24 @@ class Create extends Validator
                 ['numeric'],
                 [[$this->form_repo, 'exists'], [':value']],
             ],
+            'size' => [
+                [[$this, 'validateNotEmpty'], [':validation', ':value']],
+                ['range', [':value', 0, $this->max_bytes]],
+            ],
             'mime' => [
-                ['not_empty'],
                 [[$this, 'validateMime'], [':validation', ':value']],
             ],
             'filename' => [
                 ['not_empty']
             ],
-            'size' => [
-                ['not_empty'],
-                ['range', [':value', 0, $this->max_bytes]],
-            ],
         ];
     }
-
+    public function validateNotEmpty($validation, $size)
+    {
+        if ($size === 0) {
+            $validation->error('size', 'not_empty');
+        }
+    }
     public function validateMime($validation, $mime)
     {
         $allowed_mime_types = [
