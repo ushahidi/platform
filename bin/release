@@ -42,20 +42,18 @@ fi
 TARFILE="${DEST_DIR}/ushahidi-platform-bundle-${VERSION}.tar"
 
 tar -cf $TARFILE \
-    --exclude 'application/cache' \
-    --exclude 'application/logs' \
-    --exclude 'application/media/uploads' \
-    --exclude 'application/config/environments' \
-    --exclude 'application/routes' \
+    --exclude 'storage' \
     --exclude '.htaccess' \
     --exclude 'build' \
-    --exclude 'application/tests' \
+    --exclude 'tests' \
     --exclude 'spec' \
-    --exclude '.phpspec' \
+    --exclude 'codeship*' \
+    --exclude 'deployment.env*' \
     --exclude '.travis.yml' \
     --exclude '.librarian' \
-    --exclude '.vagrant' \
+    --exclude 'tmp' \
     --exclude '.tmp' \
+    --exclude 'pre-commit' \
     --exclude 'phpspec.yml.dist' \
     --exclude 'behat.yml.dist' \
     --exclude 'phpunit.xml.dist' \
@@ -64,13 +62,6 @@ tar -cf $TARFILE \
     --exclude '.git*' \
     ushahidi-platform-bundle-${VERSION}/
 
-# Add extra file that would have been excluded otherwise
-tar -rf $TARFILE \
-    ushahidi-platform-bundle-${VERSION}/application/cache/.gitignore \
-    ushahidi-platform-bundle-${VERSION}/application/logs/.gitignore \
-    ushahidi-platform-bundle-${VERSION}/application/media/uploads/.gitignore \
-    ushahidi-platform-bundle-${VERSION}/application/config/environments/development/.gitignore \
-    ushahidi-platform-bundle-${VERSION}/application/routes/default.php
 
 gzip -f $TARFILE
 echo "Release tarball: ${TARFILE}.gz"

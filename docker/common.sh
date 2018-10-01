@@ -35,7 +35,7 @@ function sync {
 }
 
 function run_composer_install {
-  composer install --no-interaction
+  composer install --no-interaction "$@"
 }
 
 function wait_for_mysql {
