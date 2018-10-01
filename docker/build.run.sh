@@ -31,7 +31,7 @@ function sync {
 }
 
 function run_composer_install {
-  composer install --no-interaction
+  composer install --no-interaction --no-scripts
 }
 
 function bundle {

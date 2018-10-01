@@ -2,7 +2,7 @@
 
 // Messages
 $router->group([
-    'middleware' => ['auth:api', 'scope:messages'],
+    'middleware' => ['auth:api', 'scope:messages', 'expiration'],
     'prefix' => 'messages'
 ], function () use ($router) {
     $router->get('/', 'MessagesController@index');

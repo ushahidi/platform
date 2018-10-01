@@ -2,5 +2,5 @@
 
 // Notifications
 resource($router, 'notifications', 'NotificationsController', [
-    'middleware' => ['auth:api', 'scope:notifications'],
+    'middleware' => ['auth:api', 'scope:notifications', 'expiration'],
 ]);
