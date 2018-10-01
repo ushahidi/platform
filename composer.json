@@ -31,7 +31,6 @@
         "ext-gd": "*",
         "ext-json": "*",
         "ext-mbstring": "*",
-        "ext-mcrypt": "*",
         "league/csv": "~7.1@dev",
         "laravel/lumen-framework": "5.5.*",
         "ddeboer/data-import": "dev-master",
