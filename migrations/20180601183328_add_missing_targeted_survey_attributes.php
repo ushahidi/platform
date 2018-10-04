@@ -1,4 +1,4 @@
-    <?php
+<?php
 
 use Phinx\Migration\AbstractMigration;
 use Ramsey\Uuid\Uuid;

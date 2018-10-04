@@ -439,7 +439,6 @@ $di->set('authorizer.layer', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\LayerAu
 $di->set('authorizer.media', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\MediaAuthorizer'));
 $di->set('authorizer.message', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\MessageAuthorizer'));
 $di->set('authorizer.tag', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\TagAuthorizer'));
-$di->set('authorizer.confidence_score', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\ConfidenceScoreAuthorizer'));
 $di->set('authorizer.savedsearch', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\SetAuthorizer'));
 $di->set('authorizer.set', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\SetAuthorizer'));
 $di->set('authorizer.notification', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\NotificationAuthorizer'));
@@ -460,9 +459,6 @@ $di->params['Ushahidi\Core\Tool\Authorizer\PostAuthorizer'] = [
 ];
 $di->params['Ushahidi\Core\Tool\Authorizer\TagAuthorizer'] = [
     'tag_repo' => $di->lazyGet('repository.tag'),
-];
-$di->params['Ushahidi\Core\Tool\Authorizer\ConfidenceScoreAuthorizer'] = [
-    'score_repo' => $di->lazyGet('repository.confidence_score'),
 ];
 
 $di->set('authorizer.country_code', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\CountryCodeAuthorizer'));

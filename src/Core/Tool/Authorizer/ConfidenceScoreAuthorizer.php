@@ -46,7 +46,7 @@ class ConfidenceScoreAuthorizer implements Authorizer
     protected $score_repo;
 
     /**
-     * @param TagRepository $tag_repo
+     * @param ConfidenceScoreRepository $tag_repo
      */
     public function __construct(ConfidenceScoreRepository $score_repo)
     {

@@ -222,8 +222,8 @@ class Create extends Validator
             return;
         }
         foreach ($tags as $key => $tag) {
-            if (is_array($tag) && isset($tag['value']) && isset($tag['value']['confidence_score'])) {
-                $tag = $tag['value']['value'];
+            if (isset($tag['value'])) {
+                $tag = $tag['value'];
             } else if (is_array($tag)) {
                 $tag = $tag['id'];
             }

@@ -1096,15 +1096,17 @@ class PostRepository extends OhanzeeRepository implements
             // and tags from multiple possible attributes
             $tagsByAttributes = $this->groupTagsByAttributes(
                 $entity->form_id,
-                array_pluck($entity->tags, 'value')
+                $entity->tags
             );
             // If we don't have tags in the values, use the post.tags value
             $values = array_merge($values, $tagsByAttributes);
         }
+        \Log::debug('values' . var_export($values,true));
+        \Log::debug('tagsByattributes' . var_export($tagsByAttributes,true));
         if ($entity->hasChanged('values') || $entity->hasChanged('tags')) {
             // Update post-values
             if (count($tagsByAttributes) > 0 ) {
-                $confidenceScoreValues = $this->updatePostValuesWithKeys($entity->id, $values);
+                $confidenceScoreValues = $this->updatePostValuesWithKeys($entity->id, $tagsByAttributes);
                 foreach ($confidenceScoreValues as $tag => $confidenceScore) {
                     $this->updatePostTagConfidenceScores(
                         $confidenceScore['post_value_id'],
@@ -1145,12 +1147,14 @@ class PostRepository extends OhanzeeRepository implements
     protected function updatePostValuesWithKeys($post_id, $attributes)
     {
         $ret = [];
+
         foreach ($attributes as $key => $values) {
             $attribute = $this->form_attribute_repo->getByKey($key);
             if (!$attribute->id) {
                 continue;
             }
             $repo = $this->post_value_factory->getRepo($attribute->type);
+            \Log::debug('here be dragons' . var_export($values,true));
             foreach ($values as $val) {
                 $id = $repo->createValue($val['value'], $attribute->id, $post_id);
                 if (is_array($val) && isset($val['confidence_score'])) {
@@ -1183,8 +1187,10 @@ class PostRepository extends OhanzeeRepository implements
         return $postValueIds;
     }
     protected function updatePostTagConfidenceScores($post_value_id, $confidence_score) {
+        \Log::debug(var_export(['post_tag_id' => $post_value_id, 'score' => $confidence_score, 'source'=> 'COMRADES'],true));
         $entity = $this->confidence_score_repo->getEntity(['post_tag_id' => $post_value_id, 'score' => $confidence_score, 'source'=> 'COMRADES']);
         $exists_id = $this->confidence_score_repo->getByPostTag($post_value_id);
+        \Log::debug(var_export($entity,true));
         if ($exists_id && $exists_id->getId()) {
             $entity->set(['id' => $exists_id->getId()]);
             $this->confidence_score_repo->update($entity);
@@ -1214,6 +1220,8 @@ class PostRepository extends OhanzeeRepository implements
                 ->where('tags.tag', 'IN', array_pluck($tags,'value'));
             $tagsQueryResult = $tagsQuery
                 ->execute($this->db);
+            \Log::debug('tags'  . var_export($tags,true));
+            \Log::debug('tagsQueryResult' . var_export($tagsQueryResult,true));
             $return[$attribute['key']] = array_map(function ($tag) use ($tags) {
                 $scoreFind =  array_filter($tags, function($t) use ($tag){
                     return $tag['tag'] == $t['value'];

@@ -102,4 +102,13 @@ return [
     'anonymise-reporters' => [
         'enabled' => true,
     ],
+    // Enable or disable the fallback behavior of using the profile's location
+    // of a twitter user if they dont send a location in their tweet
+    'twitter-fallback-profile-location' => [
+        'enabled' => true
+    ],
+    // Enable or disable categories being displayed as list (vs categories as comma separated values)
+    'post-categories-display-style' => [
+        'style' => 'comma-separated' //options: 'list', 'comma-separated'
+    ]
 ];
