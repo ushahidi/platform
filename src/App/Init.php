@@ -602,7 +602,7 @@ $di->params[Ushahidi\App\Validator\Form\Update::class] = [
     'limits' => $di->lazyGet('features.limits'),
 ];
 
-$di->param[Ushahidi\App\Validator\Form\Attribute\Update::class] = [
+$di->params[Ushahidi\App\Validator\Form\Attribute\Update::class] = [
     'repo' => $di->lazyGet('repository.form_attribute'),
     'form_stage_repo' => $di->lazyGet('repository.form_stage'),
 ];
