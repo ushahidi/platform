@@ -45,6 +45,7 @@ class Post extends StaticEntity
     protected $source;
     // When originating in an SMS message
     protected $contact_id;
+    protected $data_source_message_id;
 
     // StatefulData
     protected function getDerived()
@@ -95,6 +96,7 @@ class Post extends StaticEntity
             'completed_stages'=> '*arrayInt',
             'sets'            => 'array',
             'lock'            => 'array',
+            'data_source_message_id'  => 'string'
         ];
     }
 

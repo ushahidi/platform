@@ -296,6 +296,11 @@ class CSV extends API
             && $recordAttributes['unstructured'] && isset($record['form_id'])) {
             $should_return = true;
         }
+        // Check if we are dealing with twitter
+        if (is_array($recordAttributes) && isset($recordAttributes['unstructured'])
+            && $recordAttributes['unstructured'] && isset($record['source']) && $record['source'] === 'twitter') {
+            $should_return = true;
+        }
 
         // Check if we're dealing with an unstructured post but a structured attribute
         if (!isset($record['form_id'])
