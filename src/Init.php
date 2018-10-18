@@ -148,7 +148,7 @@ $di->params['Ushahidi\Factory\RepositoryFactory']['map'] = [
     'csv'                  => $di->lazyGet('repository.csv'),
     'roles'                => $di->lazyGet('repository.role'),
     'permissions'          => $di->lazyGet('repository.permission'),
-    'posts_export'         => $di->lazyGet('repository.posts_export'),
+    'posts_export'         => $di->lazyGet('repository.export_batch'),
     'tos'                  => $di->lazyGet('repository.tos'),
 ];
 

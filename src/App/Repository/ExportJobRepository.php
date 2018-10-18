@@ -75,7 +75,7 @@ class ExportJobRepository extends OhanzeeRepository implements ExportJobReposito
 
         // get user ID so that we only ever get jobs from that user
         $search->user = $this->getUserId();
-        
+
         if ($search->max_expiration) {
             $query->where("url_expiration", '>', intval($search->max_expiration));
             $query->or_where("url_expiration", 'IS', null);
@@ -110,6 +110,7 @@ class ExportJobRepository extends OhanzeeRepository implements ExportJobReposito
             'created' => time(),
             'status' => "pending",
             'user_id' => $entity->user_id,
+            // Don't save this now, we need to generate it properly
             'hxl_heading_row' => null
         ];
 
@@ -167,7 +168,6 @@ class ExportJobRepository extends OhanzeeRepository implements ExportJobReposito
             $this->setFilters($job->filters);
         }
 
-
         $fields = $this->post_repo->getSearchFields();
 
         $this->search = new SearchData(
@@ -186,5 +186,27 @@ class ExportJobRepository extends OhanzeeRepository implements ExportJobReposito
         return [
             'entity_type', 'user', 'max_expiration'
         ];
+    }
+
+    /**
+     * Check if job is finished?
+     *
+     * @param  Int  $jobId
+     * @return boolean
+     */
+    public function isJobFinished($jobId)
+    {
+        $query = $this->selectQuery([
+                'export_job.id' => $jobId,
+                'export_batches.status' => 'completed' // Move string to Entity?
+            ])
+            ->select([DB::expr('COUNT(DISTINCT export_batches.id)'), 'completed_batches'])
+            ->join('export_batches')
+                ->on('export_job_id', '=', 'export_job.id')
+            ->group_by('export_job.id');
+
+        $result = $query->execute($this->db)->current();
+
+        return ($result['completed_batches'] == $result['total_batches']);
     }
 }

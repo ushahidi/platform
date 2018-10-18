@@ -407,6 +407,7 @@ $di->set('repository.export_job', $di->lazyNew(Ushahidi\App\Repository\ExportJob
 $di->params[Ushahidi\App\Repository\ExportJobRepository::class] = [
     'post_repo' => $di->lazyGet('repository.post')
 ];
+$di->set('repository.export_batch', $di->lazyNew(Ushahidi\App\Repository\ExportBatchRepository::class));
 $di->setter[Ushahidi\App\Repository\Post\ExportRepository::class]['setSetRepo'] = $di->lazyGet('repository.set');
 $di->setter[Ushahidi\App\Repository\Post\ExportRepository::class]['setTagRepo'] = $di->lazyGet('repository.tag');
 $di->setter[Ushahidi\App\Repository\Post\ExportRepository::class]['setMessageRepo'] =
@@ -416,6 +417,9 @@ $di->setter[Ushahidi\App\Repository\UserRepository::class]['setHasher'] = $di->l
 // Repository parameters
 
 // Abstract repository parameters
+$di->params[Ushahidi\App\Repository\EloquentRepository::class] = [
+    'connection' => $di->lazyGet('db.eloquent.connection'),
+];
 $di->params[Ushahidi\App\Repository\OhanzeeRepository::class] = [
     'db' => $di->lazyGet('kohana.db'),
 ];

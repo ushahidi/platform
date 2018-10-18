@@ -25,4 +25,12 @@ interface ExportJobRepository extends
      * @return array
      */
     public function getJobs($limit);
+
+    /**
+     * Check if job is finished?
+     *
+     * @param  Int  $jobId
+     * @return boolean
+     */
+    public function isJobFinished($jobId);
 }

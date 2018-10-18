@@ -3,6 +3,7 @@
 namespace Ushahidi\App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\DB;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -57,6 +58,16 @@ class AppServiceProvider extends ServiceProvider
             return service('repository.post');
         });
 
+        $this->app->singleton(\Ushahidi\Core\Entity\ExportJobRepository::class, function ($app) {
+            // Just return it from AuraDI
+            return service('repository.export_job');
+        });
+
+        $this->app->singleton(\Ushahidi\Core\Entity\ExportBatchRepository::class, function ($app) {
+            // Just return it from AuraDI
+            return service('repository.export_batch');
+        });
+
         $this->app->singleton(\Ushahidi\Core\Entity\TargetedSurveyStateRepository::class, function ($app) {
             // Just return it from AuraDI
             return service('repository.targeted_survey_state');
@@ -70,6 +81,22 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(\Ushahidi\Core\Tool\Verifier::class, function ($app) {
             // Just return it from AuraDI
             return service('tool.verifier');
+        });
+
+        $this->app->singleton(\Ushahidi\Core\Usecase\Export\Job\PostCount::class, function ($app) {
+            return service('factory.usecase')
+                    // Override action
+                    ->get('export_jobs', 'post-count')
+                    // Override authorizer
+                    ->setAuthorizer(service('authorizer.external_auth')) // @todo remove the need for this?
+                    ;
+        });
+
+        $this->app->singleton(\Ushahidi\Core\Usecase\Post\Export::class, function ($app) {
+            return service('factory.usecase')
+                    ->get('posts_export', 'export')
+                    ->setAuthorizer(service('authorizer.export_job'))
+                    ;
         });
     }
 
@@ -142,6 +169,10 @@ class AppServiceProvider extends ServiceProvider
         // Deployment db
         $di->set('kohana.db', function () use ($di) {
             return \Ohanzee\Database::instance('deployment', $this->getDbConfig($di));
+        });
+
+        $di->set('db.eloquent.connection', function () use ($di) {
+            return DB::connection();
         });
 
         // Configure dispatcher

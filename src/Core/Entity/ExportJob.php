@@ -31,6 +31,8 @@ class ExportJob extends StaticEntity
     protected $send_to_hdx;
     protected $hxl_heading_row;
     protected $hxl_meta_data_id;
+    protected $total_batches;
+    protected $total_rows;
 
     // DataTransformer
     protected function getDefinition()
@@ -51,7 +53,9 @@ class ExportJob extends StaticEntity
             'send_to_browser'   => 'bool',
             'send_to_hdx'       => 'bool',
             'hxl_heading_row'   => '*json',
-            'hxl_meta_data_id'  => 'int'
+            'hxl_meta_data_id'  => 'int',
+            'total_batches'     => 'int',
+            'total_rows'        => 'int',
         ];
     }
 
