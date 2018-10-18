@@ -377,7 +377,6 @@ $di->set(
     $di->lazyNew(Ushahidi\App\Repository\TargetedSurveyStateRepository::class)
 );
 $di->set('repository.post', $di->lazyNew(Ushahidi\App\Repository\PostRepository::class));
-$di->set('repository.csv_post', $di->lazyNew(Ushahidi\App\Repository\CSVPostRepository::class));
 
 $di->set('repository.post_lock', $di->lazyNew(Ushahidi\App\Repository\Post\LockRepository::class));
 $di->set('repository.tag', $di->lazyNew(Ushahidi\App\Repository\TagRepository::class));
@@ -501,18 +500,6 @@ $di->params[Ushahidi\App\Repository\PostRepository::class] = [
     'post_value_factory' => $di->lazyGet('repository.post_value_factory'),
     'bounding_box_factory' => $di->newFactory(Ushahidi\App\Util\BoundingBox::class)
 ];
-
-// Post repository parameters
-$di->params[Ushahidi\App\Repository\CSVPostRepository::class] = [
-    'form_attribute_repo' => $di->lazyGet('repository.form_attribute'),
-    'form_stage_repo' => $di->lazyGet('repository.form_stage'),
-    'form_repo' => $di->lazyGet('repository.form'),
-    'post_lock_repo' => $di->lazyGet('repository.post_lock'),
-    'contact_repo' => $di->lazyGet('repository.contact'),
-    'post_value_factory' => $di->lazyGet('repository.post_value_factory'),
-    'bounding_box_factory' => $di->newFactory('Util_BoundingBox')
-];
-
 
 $di->set('repository.post.datetime', $di->lazyNew(Ushahidi\App\Repository\Post\DatetimeRepository::class));
 $di->set('repository.post.decimal', $di->lazyNew(Ushahidi\App\Repository\Post\DecimalRepository::class));
