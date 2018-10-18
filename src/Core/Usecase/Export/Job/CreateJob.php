@@ -48,6 +48,13 @@ class CreateJob extends CreateUsecase
         if ($entity->getId() && is_array($hxl_heading_row)) {
             $this->createHxlHeadingTags($hxl_heading_row, $entity);
         }
+
+        // ... dispatch an event and let other services know
+        $this->dispatch($entity->getResource(). '.create', [
+            'id' => $id,
+            'entity' => $entity,
+        ]);
+
         // ... check that the entity can be read by the current user
         if ($this->auth->isAllowed($entity, 'read')) {
             // ... and either return the formatted entity
