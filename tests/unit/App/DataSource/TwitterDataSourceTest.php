@@ -200,7 +200,8 @@ class TwitterDataSourceTest extends TestCase
                     [
                         'id' => 'abc124',
                         'user' => [
-                            'screen_name' => 'ushahidi'
+                            'screen_name' => 'ushahidi',
+                            'id_str' => '1112222222'
                         ],
                         'text' => 'Test message 2',
                         'retweeted_status' => [
