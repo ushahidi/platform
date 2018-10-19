@@ -39,9 +39,6 @@ class Receive extends Validator
                 ['not_empty'],
                 ['in_array', [':value', [MessageDirection::INCOMING]]],
             ],
-            'message' => [
-                ['not_empty'],
-            ],
             'datetime' => [
                 [[$this, 'validDate'], [':value']],
             ],
