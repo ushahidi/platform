@@ -401,7 +401,7 @@ class AttributeRepository extends OhanzeeRepository implements
                 'form_stage_id' => 0,
                 'form_stage_priority' => 0,
                 'unstructured' => true,
-                'priority' => 10
+                'priority' => 11
             ]
         ];
 

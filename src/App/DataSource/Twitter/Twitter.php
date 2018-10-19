@@ -138,7 +138,6 @@ class Twitter implements IncomingAPIDataSource, OutgoingAPIDataSource
     public function fetch($limit = false)
     {
         $this->initialize();
-        \Log::debug($this->config['twitter_search_terms']);
         // Check we have the required config
         if (!isset($this->config['twitter_search_terms'])) {
             app('log')->warning('Could not fetch messages from twitter, incomplete config');

@@ -302,12 +302,6 @@ class CSV extends API
             $should_return = true;
         }
 
-        if (is_array($recordAttributes) && isset($recordAttributes['unstructured'])
-            && $recordAttributes['unstructured'] && isset($record['form_id'])) {
-            $should_return = true;
-        }
-
-
         // Check if we're dealing with an unstructured post but a structured attribute
         if (!isset($record['form_id'])
             && isset($recordAttributes['form_id']) && $recordAttributes['form_id'] != 0) {
