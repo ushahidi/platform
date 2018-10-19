@@ -185,7 +185,8 @@ class TwitterDataSourceTest extends TestCase
                     [
                         'id' => 'abc123',
                         'user' => [
-                            'screen_name' => 'ushahidi'
+                            'screen_name' => 'ushahidi',
+                            'id_str' => '1112222223'
                         ],
                         'text' => 'Test message',
                         'coordinates' => [
@@ -212,7 +213,8 @@ class TwitterDataSourceTest extends TestCase
                     [
                         'id' => 'abc125',
                         'user' => [
-                            'screen_name' => 'someone'
+                            'screen_name' => 'someone',
+                            'id_str' => '1112222225'
                         ],
                         'text' => 'Test message 3',
                         'created_at' => 'Thu Apr 06 15:24:15 +0000 2017',
