@@ -91,7 +91,7 @@ class CombineExportedPostBatchesJobTest extends TestCase
         $job->handle($exportJobRepo, $exportBatchRepo);
 
         // Sets job status to completed
-        $this->assertEquals('completed', $exportJob->status);
+        $this->assertEquals('EXPORTED_TO_CDN', $exportJob->status);
 
         // There should only be 1 output file
         $this->assertCount(1, Storage::allFiles());
@@ -147,7 +147,7 @@ class CombineExportedPostBatchesJobTest extends TestCase
 
         $exportJob = new ExportJob([
                 'id' => $jobId,
-                'status' => 'completed'
+                'status' => 'SUCCESS'
             ]);
         // Loads jobs
         $exportJobRepo->shouldReceive('get')

@@ -5,6 +5,7 @@ namespace Ushahidi\App\Jobs;
 use Exception;
 use RuntimeException;
 use Log;
+use Ushahidi\Core\Entity\ExportJob;
 use Ushahidi\Core\Entity\ExportJobRepository;
 use Ushahidi\Core\Entity\ExportBatchRepository;
 use Illuminate\Http\File;
@@ -42,7 +43,11 @@ class CombineExportedPostBatchesJob extends Job
         // Load job
         $job = $exportJobRepo->get($this->jobId);
 
-        if ($job->status === 'completed') {
+        // @todo move business role to model? $job->isCombineDone()
+        if (in_array(
+            $job->status,
+            [ExportJob::STATUS_SUCCESS, ExportJob::STATUS_EXPORTED_TO_CDN, ExportJob::STATUS_PENDING_HDX]
+        )) {
             Log::debug('Job already completed', ['jobId' => $this->jobId]);
             // All done here
             return;
@@ -84,10 +89,7 @@ class CombineExportedPostBatchesJob extends Job
         $job->setState([
             'url' => Storage::url($destinationFile),
             'url_expiration' => null, // $urlExpiration, // @todo fix me
-            'status' => 'completed' // Check expected value, move to constant
-            // EXPORTED_TO_CDN
-            // FAILED
-            //
+            'status' => ExportJob::STATUS_EXPORTED_TO_CDN
         ]);
         $exportJobRepo->update($job);
     }
@@ -140,7 +142,7 @@ class CombineExportedPostBatchesJob extends Job
         // Set status failed
         $job = $exportJobRepo->get($this->jobId);
         $job->setState([
-            'status' => 'failed'
+            'status' => ExportJob::STATUS_FAILED
         ]);
         $exportJobRepo->update($job);
     }

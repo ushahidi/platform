@@ -20,6 +20,7 @@ use Ushahidi\Core\Tool\FormatterTrait;
 use Ushahidi\Core\Usecase;
 use Ushahidi\Core\SearchData;
 use Ushahidi\Core\Traits\UserContext;
+use Ushahidi\Core\Entity\ExportBatch;
 use Ushahidi\Core\Entity\ExportBatchRepository;
 use Ushahidi\Core\Usecase\Concerns\FilterRecords;
 use Log;
@@ -104,7 +105,7 @@ class Export implements Usecase
         $batchEntity = $this->repo->getEntity()->setState([
             'export_job_id' => $job->id,
             'batch_number' => $this->getIdentifier('batch_number'),
-            'status' => 'pending',
+            'status' => ExportBatch::STATUS_PENDING,
             'has_headers' => $this->getFilter('add_header', false)
         ]);
         $batchId = $this->repo->create($batchEntity);
@@ -165,7 +166,7 @@ class Export implements Usecase
         // Include filename, post count, header row etc
         $batchEntity = $this->repo->get($batchId);
         $batchEntity->setState([
-            'status' => 'completed',
+            'status' => ExportBatch::STATUS_COMPLETED,
             'filename' => $file->file,
             'rows' => count($posts),
         ]);

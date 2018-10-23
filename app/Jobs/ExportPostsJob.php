@@ -4,6 +4,7 @@ namespace Ushahidi\App\Jobs;
 
 use Exception;
 use Ushahidi\Core\Usecase\Export\Job\PostCount;
+use Ushahidi\Core\Entity\ExportJob;
 use Ushahidi\Core\Entity\ExportJobRepository;
 use Illuminate\Support\Facades\Log;
 
@@ -66,7 +67,7 @@ class ExportPostsJob extends Job
         $job->setState([
             'total_batches' => $totalBatches, // Add 1 because it was zero indexed
             'total_rows' => $totalRows,
-            'status' => 'queued' // Check expected value, move to constant
+            'status' => ExportJob::STATUS_QUEUED,
         ]);
         // @todo add to count usecase?
         $exportJobRepo->update($job);
@@ -84,7 +85,7 @@ class ExportPostsJob extends Job
         // Set status failed
         $job = $exportJobRepo->get($this->jobId);
         $job->setState([
-            'status' => 'failed'
+            'status' => ExportJob::STATUS_FAILED
         ]);
         $exportJobRepo->update($job);
     }

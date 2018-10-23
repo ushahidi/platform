@@ -67,6 +67,6 @@ class ExportPostsJobTest extends TestCase
         $job->handle($usecase, $exportJobRepo);
         $this->assertEquals(830, $exportJob->total_rows);
         $this->assertEquals(5, $exportJob->total_batches);
-        $this->assertEquals('queued', $exportJob->status);
+        $this->assertEquals('QUEUED', $exportJob->status);
     }
 }

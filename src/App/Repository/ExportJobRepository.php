@@ -14,6 +14,7 @@ namespace Ushahidi\App\Repository;
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\Entity\PostRepository;
 use Ushahidi\Core\SearchData;
+use Ushahidi\Core\Entity\ExportBatch;
 use Ushahidi\Core\Entity\ExportJob;
 use Ushahidi\Core\Entity\ExportJobRepository as ExportJobRepositoryContract;
 use Ushahidi\Core\Usecase\Concerns\FilterRecords;
@@ -108,7 +109,7 @@ class ExportJobRepository extends OhanzeeRepository implements ExportJobReposito
     {
         $state = [
             'created' => time(),
-            'status' => "pending",
+            'status' => ExportJob::STATUS_PENDING,
             'user_id' => $entity->user_id,
             // Don't save this now, we need to generate it properly
             'hxl_heading_row' => null
@@ -122,27 +123,26 @@ class ExportJobRepository extends OhanzeeRepository implements ExportJobReposito
     //   as SUCCESSful
     public function update(Entity $entity)
     {
+        // @todo move this out of the repo
         //check for new status of 'EXPORTED_TO_CDN'
-        if ($entity->status == 'EXPORTED_TO_CDN' && $entity->send_to_hdx == true) {
-            parent::update($entity->setState(['status' => "PENDING_HDX"]));
+        if ($entity->status == ExportJob::STATUS_EXPORTED_TO_CDN && $entity->send_to_hdx == true) {
+            parent::update($entity->setState(['status' => ExportJob::STATUS_PENDING_HDX]));
             //if sending to HXL is required, then we spawn an event to do that
             Event::fire(new SendToHDXEvent($entity->id));
-        } elseif ($entity->status == 'EXPORTED_TO_CDN' && $entity->send_to_hdx == false) {
+        } elseif ($entity->status == ExportJob::STATUS_EXPORTED_TO_CDN && $entity->send_to_hdx == false) {
             //if sending to HDX is not required, (or send_to_hdx does not exist)
             // then simply update the status to success
-            parent::update($entity->setState([ 'status' => "SUCCESS"]));
+            parent::update($entity->setState([ 'status' => ExportJob::STATUS_SUCCESS]));
         } else {
             return parent::update($entity);
         }
     }
 
-
-
     public function getPendingJobs($limit = 10)
     {
         $query = $this->selectQuery()
                       ->limit($limit)
-                      ->where('status', '=', 'pending');
+                      ->where('status', '=', ExportJob::STATUS_PENDING);
 
         $results = $query->execute($this->db);
 
@@ -198,7 +198,7 @@ class ExportJobRepository extends OhanzeeRepository implements ExportJobReposito
     {
         $query = $this->selectQuery([
                 'export_job.id' => $jobId,
-                'export_batches.status' => 'completed' // Move string to Entity?
+                'export_batches.status' => ExportBatch::STATUS_COMPLETED
             ])
             ->select([DB::expr('COUNT(DISTINCT export_batches.id)'), 'completed_batches'])
             ->join('export_batches')

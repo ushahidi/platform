@@ -5,6 +5,7 @@ namespace Ushahidi\App\Jobs;
 use Exception;
 use Log;
 use Ushahidi\Factory\UsecaseFactory;
+use Ushahidi\Core\Entity\ExportJob;
 use Ushahidi\Core\Entity\ExportJobRepository;
 use Ushahidi\Core\Usecase\Post\Export;
 
@@ -76,7 +77,7 @@ class ExportPostsBatchJob extends Job
         // Set status failed
         $job = $exportJobRepo->get($this->jobId);
         $job->setState([
-            'status' => 'failed'
+            'status' => ExportJob::STATUS_FAILED
         ]);
         $exportJobRepo->update($job);
     }

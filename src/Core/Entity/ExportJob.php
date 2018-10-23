@@ -15,6 +15,13 @@ use Ushahidi\Core\StaticEntity;
 
 class ExportJob extends StaticEntity
 {
+    const STATUS_PENDING            = 'PENDING';
+    const STATUS_QUEUED             = 'QUEUED';
+    const STATUS_SUCCESS            = 'SUCCESS';
+    const STATUS_FAILED             = 'FAILED';
+    const STATUS_EXPORTED_TO_CDN    = 'EXPORTED_TO_CDN';
+    const STATUS_PENDING_HDX        = 'PENDING_HDX';
+
     protected $id;
     protected $entity_type;
     protected $user_id;

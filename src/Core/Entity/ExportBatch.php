@@ -15,6 +15,10 @@ use Ushahidi\Core\StaticEntity;
 
 class ExportBatch extends StaticEntity
 {
+    const STATUS_PENDING     = 'pending';
+    const STATUS_COMPLETED   = 'completed';
+    const STATUS_FAILED      = 'failed';
+
     protected $id;
     protected $export_job_id;
     protected $batch_number;
