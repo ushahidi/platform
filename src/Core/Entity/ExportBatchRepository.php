@@ -18,4 +18,10 @@ interface ExportBatchRepository extends
     CreateRepository,
     UpdateRepository
 {
+    /**
+     * Get all batches for job id
+     * @param  int $jobId
+     * @return \Illuminate\Support\Collection
+     */
+    public function getByJobId($jobId);
 }

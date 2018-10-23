@@ -35,4 +35,18 @@ class ExportBatchRepository extends EloquentRepository implements ExportBatchRep
     {
         return 'export_batches';
     }
+
+    /**
+     * Get all batches for job id
+     * @param  int $jobId
+     * @return \Illuminate\Support\Collection
+     */
+    public function getByJobId($jobId)
+    {
+        $results = $this
+            ->selectQuery(['export_job_id' => $jobId])
+            ->get();
+
+        return $this->getCollection($results);
+    }
 }

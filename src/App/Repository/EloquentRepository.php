@@ -13,9 +13,8 @@ namespace Ushahidi\App\Repository;
 
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\Usecase;
-use Ushahidi\Core\Traits\CollectionLoader;
-
 use Illuminate\Database\ConnectionInterface;
+use Illuminate\Support\Collection;
 
 abstract class EloquentRepository implements
     Usecase\CreateRepository,
@@ -24,8 +23,6 @@ abstract class EloquentRepository implements
     Usecase\DeleteRepository,
     Usecase\ImportRepository
 {
-    use CollectionLoader;
-
     protected $connection;
 
     public function __construct(ConnectionInterface $connection)
@@ -41,6 +38,24 @@ abstract class EloquentRepository implements
     abstract public function getEntity(array $data = null);
 
     /**
+     * Converts an array/collection of results into an collection
+     * of entities, indexed by the entity id.
+     *
+     * Included directly instead of using Ushahidi\Core\Traits\CollectionLoader
+     * because this implementation returns an Illuminate\Support\Collection
+     *
+     * @param  Array|Iterable $results
+     * @return \Illuminate\Support\Collection
+     */
+    protected function getCollection($results)
+    {
+        return Collection::wrap($results)->mapWithKeys(function ($item, $key) {
+            $entity = $this->getEntity((array) $item);
+            return [$entity->getId() => $entity];
+        });
+    }
+
+    /**
      * Get the table name for this repository.
      * @return String
      */
@@ -52,7 +67,7 @@ abstract class EloquentRepository implements
     // DeleteRepository
     public function get($id)
     {
-        return $this->getEntity($this->selectOne([
+        return $this->getEntity((array) $this->selectOne([
             $this->getTable().'.id' => $id
         ]));
     }
@@ -116,7 +131,7 @@ abstract class EloquentRepository implements
     /**
      * Return a SELECT query, optionally with preconditions.
      * @param  Array $where optional hash of conditions
-     * @return Database_Query_Builder_Select
+     * @return \Illuminate\Database\Query\Builder
      */
     protected function selectQuery(array $where = [])
     {
