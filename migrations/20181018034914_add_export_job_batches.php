@@ -14,7 +14,6 @@ class AddExportJobBatches extends AbstractMigration
             ])
             ->addColumn('batch_number', 'integer', ['default' => 0])
             ->addColumn('filename', 'string')
-            ->addColumn('url', 'string', ['null' => true]) // Do we need both?
             ->addColumn('has_headers', 'boolean', ['default' => false])
             ->addColumn('rows', 'integer', ['default' => 0])
             ->addColumn('created', 'integer', ['default' => 0])
