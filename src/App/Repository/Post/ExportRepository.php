@@ -83,7 +83,6 @@ class ExportRepository extends CSVPostRepository implements PostExportRepository
             $this->isUserAdmin($user) ||
             $this->postPermissions->canUserManagePosts($user)
         ) {
-
             $message = $this->message_repo->get(['id' => $data['message_id']]);
             $data['data_source_message_id'] = $message->data_source_message_id;
             $data['data_source'] = $message->data_source;
