@@ -69,7 +69,7 @@ class ExportPostsBatchJobTest extends TestCase
                 ]
             ]);
 
-        $exportJobRepo->shouldReceive('isJobFinished')
+        $exportJobRepo->shouldReceive('areBatchesFinished')
             ->with($jobId)
             ->once()
             ->andReturn(false);
@@ -121,7 +121,7 @@ class ExportPostsBatchJobTest extends TestCase
                 ]
             ]);
 
-        $exportJobRepo->shouldReceive('isJobFinished')
+        $exportJobRepo->shouldReceive('areBatchesFinished')
             ->with($jobId)
             ->once()
             ->andReturn(true);

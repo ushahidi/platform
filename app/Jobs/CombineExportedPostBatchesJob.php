@@ -54,7 +54,7 @@ class CombineExportedPostBatchesJob extends Job
         }
 
         // Check if all batches exported
-        if (!$exportJobRepo->isJobFinished($this->jobId)) {
+        if (!$exportJobRepo->areBatchesFinished($this->jobId)) {
             Log::debug('Batches not finished, requeueing', ['jobId' => $this->jobId]);
             // Batches aren't done yet, wait 5 minutes and try again
             dispatch(

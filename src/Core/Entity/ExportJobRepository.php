@@ -32,12 +32,12 @@ interface ExportJobRepository extends
     public function getJobs($limit);
 
     /**
-     * Check if job is finished?
+     * Check if job batches are finished?
      *
      * @param  Int  $jobId
      * @return boolean
      */
-    public function isJobFinished($jobId);
+    public function areBatchesFinished($jobId);
 
     /**
      * @param  int $job_id

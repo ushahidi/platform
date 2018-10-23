@@ -189,12 +189,12 @@ class ExportJobRepository extends OhanzeeRepository implements ExportJobReposito
     }
 
     /**
-     * Check if job is finished?
+     * Check if job's batches are finished?
      *
      * @param  Int  $jobId
      * @return boolean
      */
-    public function isJobFinished($jobId)
+    public function areBatchesFinished($jobId)
     {
         $query = $this->selectQuery([
                 'export_job.id' => $jobId,

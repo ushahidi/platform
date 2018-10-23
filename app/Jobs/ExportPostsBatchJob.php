@@ -57,12 +57,15 @@ class ExportPostsBatchJob extends Job
         // Check for success!?!
         // Or can I just ignore it and let exceptions do there thing?
 
-        // Check if job is finished
-        if ($exportJobRepo->isJobFinished($this->jobId)) {
+        // Check if batches are finished
+        if ($exportJobRepo->areBatchesFinished($this->jobId)) {
             Log::debug('All batches finished', ['jobId' => $this->jobId]);
             // if yes, queue combine job
             dispatch(new CombineExportedPostBatchesJob($this->jobId));
         }
+        // @todo there is probably a race condition
+        // where the last batch finishes while the above check runs
+        // Not sure if we need to handle that somewhere
     }
 
     /**

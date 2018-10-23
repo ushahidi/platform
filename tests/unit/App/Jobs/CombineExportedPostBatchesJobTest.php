@@ -51,7 +51,7 @@ class CombineExportedPostBatchesJobTest extends TestCase
             ->andReturn($exportJob);
 
         // Check job is done
-        $exportJobRepo->shouldReceive('isJobFinished')
+        $exportJobRepo->shouldReceive('areBatchesFinished')
             ->with($jobId)
             ->once()
             ->andReturn(true);
@@ -125,7 +125,7 @@ class CombineExportedPostBatchesJobTest extends TestCase
             ->andReturn($exportJob);
 
         // Check job is done
-        $exportJobRepo->shouldReceive('isJobFinished')
+        $exportJobRepo->shouldReceive('areBatchesFinished')
             ->with($jobId)
             ->once()
             ->andReturn(false);
