@@ -87,4 +87,12 @@ class ExportJob extends StaticEntity
     {
         return array_merge(parent::getImmutable(), ['user_id']);
     }
+
+    public function isCombineBatchesDone()
+    {
+        return in_array(
+            $this->status,
+            [self::STATUS_SUCCESS, self::STATUS_EXPORTED_TO_CDN, self::STATUS_PENDING_HDX]
+        );
+    }
 }
