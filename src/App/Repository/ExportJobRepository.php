@@ -20,11 +20,9 @@ use Ushahidi\Core\Entity\ExportJobRepository as ExportJobRepositoryContract;
 use Ushahidi\Core\Usecase\Concerns\FilterRecords;
 use Ushahidi\Core\Traits\UserContext;
 use Ushahidi\Core\Traits\AdminAccess;
-use Ushahidi\App\Events\SendToHDXEvent;
 use Ohanzee\DB;
 use Ohanzee\Database;
 
-use Event;
 use Log;
 
 class ExportJobRepository extends OhanzeeRepository implements ExportJobRepositoryContract
@@ -118,24 +116,13 @@ class ExportJobRepository extends OhanzeeRepository implements ExportJobReposito
         return parent::create($entity->setState($state));
     }
 
-    // overriding the update method here to intercept 'EXPORT_COMPLETED'
-    //   and decide if we still need to send something to HDX or mark this
-    //   as SUCCESSful
+    // Overriding the update method here to handle state transitions
     public function update(Entity $entity)
     {
-        // @todo move this out of the repo
-        //check for new status of 'EXPORTED_TO_CDN'
-        if ($entity->status == ExportJob::STATUS_EXPORTED_TO_CDN && $entity->send_to_hdx == true) {
-            parent::update($entity->setState(['status' => ExportJob::STATUS_PENDING_HDX]));
-            //if sending to HXL is required, then we spawn an event to do that
-            Event::fire(new SendToHDXEvent($entity->id));
-        } elseif ($entity->status == ExportJob::STATUS_EXPORTED_TO_CDN && $entity->send_to_hdx == false) {
-            //if sending to HDX is not required, (or send_to_hdx does not exist)
-            // then simply update the status to success
-            parent::update($entity->setState([ 'status' => ExportJob::STATUS_SUCCESS]));
-        } else {
-            return parent::update($entity);
-        }
+        // Run state transition handler
+        $entity->handleStateTransition();
+
+        return parent::update($entity);
     }
 
     public function getPendingJobs($limit = 10)
