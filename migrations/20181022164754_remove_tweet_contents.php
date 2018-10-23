@@ -42,6 +42,5 @@ class RemoveTweetContents extends AbstractMigration
                     AND messages.data_source='twitter';
         ");
         $this->execute("UPDATE messages set message=null where data_source='twitter'");
-
     }
 }

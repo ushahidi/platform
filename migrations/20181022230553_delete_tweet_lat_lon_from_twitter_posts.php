@@ -35,6 +35,5 @@ class DeleteTweetLatLonFromTwitterPosts extends AbstractMigration
         $this->execute(
             "UPDATE messages SET additional_data='[]' WHERE data_source='twitter'"
         );
-
     }
 }
