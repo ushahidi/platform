@@ -185,15 +185,14 @@ class Twitter implements IncomingAPIDataSource, OutgoingAPIDataSource
                 ) {
                     continue;
                 }
-
                 // @todo Check for similar messages in the database before saving
                 $messages[] = [
                     'type' => MessageType::TWITTER,
                     'contact_type' => Contact::TWITTER,
                     'from' => $user['id_str'],
                     'to' => null,
-                    'message' => '',
-                    'title' => null,
+                    'message' => 'https://twitter.com/statuses/' . $id,
+                    'title' => 'From twitter on ' .  $date,
                     'datetime' => $date,
                     'data_source_message_id' => $id,
                     'additional_data' => []
