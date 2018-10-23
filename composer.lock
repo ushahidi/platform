@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "bbe9dca316693f96f64ad9637cd29179",
+    "content-hash": "0d568086b70f919cde21b69bdf38dca2",
     "packages": [
         {
             "name": "abraham/twitteroauth",
@@ -2022,6 +2022,51 @@
             "description": "The Illuminate Queue package.",
             "homepage": "https://laravel.com",
             "time": "2018-01-06T15:59:38+00:00"
+        },
+        {
+            "name": "illuminate/redis",
+            "version": "v5.5.44",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/illuminate/redis.git",
+                "reference": "2d57f7ec6177a5df2ac181fb08532bb3102d0d8a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/illuminate/redis/zipball/2d57f7ec6177a5df2ac181fb08532bb3102d0d8a",
+                "reference": "2d57f7ec6177a5df2ac181fb08532bb3102d0d8a",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/contracts": "5.5.*",
+                "illuminate/support": "5.5.*",
+                "php": ">=7.0",
+                "predis/predis": "~1.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "5.5-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Illuminate\\Redis\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Taylor Otwell",
+                    "email": "taylor@laravel.com"
+                }
+            ],
+            "description": "The Illuminate Redis package.",
+            "homepage": "https://laravel.com",
+            "time": "2018-05-22T11:51:18+00:00"
         },
         {
             "name": "illuminate/session",
