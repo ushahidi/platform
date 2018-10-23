@@ -47,7 +47,8 @@
         "sentry/sentry-laravel": "^0.8.0",
         "laravel/passport": "^4.0",
         "germanazo/laravel-ckan-api": "^1.0",
-        "asm89/stack-cors": "1.2.0"
+        "asm89/stack-cors": "1.2.0",
+        "predis/predis": "^1.1"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
