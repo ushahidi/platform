@@ -76,7 +76,8 @@ class Receive extends Validator
         ];
     }
     public function notEmptyIfTwitter($value, $validation) {
-        if ($this->validation_engine->getFullData('data_source') === 'twitter') {
+        if ($this->validation_engine->getFullData('data_source') === 'twitter')
+        {
             return true;
         }
         if (empty($value)) {
