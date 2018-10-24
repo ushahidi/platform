@@ -27,9 +27,6 @@ class RemoveContactUsernames extends AbstractMigration
      */
     public function change()
     {
-        $this->table('contacts')
-            ->changeColumn('contact', 'string', ['null' => true])
-            ->update();
-        $this->execute("update contacts set contact=NULL where data_source='twitter'");
+        $this->execute("DELETE FROM contacts where id IN (select contact_id from messages where data_source='twitter')");
     }
 }
