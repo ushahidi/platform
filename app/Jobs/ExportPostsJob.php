@@ -42,6 +42,19 @@ class ExportPostsJob extends Job
 
         Log::debug('Got job count', ['jobId' => $this->jobId, 'results' => $results]);
 
+        // If count is zero. Mark as failed
+        if ($totalRows == 0) {
+            // Set status = failed
+            $job->setState([
+                'total_batches' => 0,
+                'total_rows' => 0,
+                'status' => ExportJob::STATUS_FAILED,
+            ]);
+            $exportJobRepo->update($job);
+            // All done
+            return;
+        }
+
         $totalBatches = ceil($totalRows / $this->batchSize);
 
         // Generate other meta data here too? ie. header rows
@@ -65,7 +78,7 @@ class ExportPostsJob extends Job
 
         // Set status = queued
         $job->setState([
-            'total_batches' => $totalBatches, // Add 1 because it was zero indexed
+            'total_batches' => $totalBatches,
             'total_rows' => $totalRows,
             'status' => ExportJob::STATUS_QUEUED,
         ]);
