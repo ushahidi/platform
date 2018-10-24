@@ -69,8 +69,7 @@ $app->routeMiddleware([
     // Customised scope middleware
     'scopes' => Ushahidi\App\Http\Middleware\CheckScopes::class,
     'scope'  => Ushahidi\App\Http\Middleware\CheckForAnyScope::class,
-    //'scopes' => Laravel\Passport\Http\Middleware\CheckScopes::class,
-    //'scope'  => Laravel\Passport\Http\Middleware\CheckForAnyScope::class,
+    'expiration' => Ushahidi\App\Http\Middleware\CheckDemoExpiration::class,
     'signature' => Ushahidi\App\Http\Middleware\SignatureAuth::class,
     'feature' => Ushahidi\App\Http\Middleware\CheckFeature::class,
 ]);

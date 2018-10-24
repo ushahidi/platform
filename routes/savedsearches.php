@@ -3,7 +3,7 @@
 // Saved Searches
 $router->group([
     'prefix' => 'savedsearches',
-    'middleware' => ['scope:savedsearches']
+    'middleware' => ['scope:savedsearches', 'expiration']
 ], function () use ($router) {
     // Public access
     resource($router, '/', 'SavedSearchesController', [
