@@ -75,8 +75,9 @@ class Receive extends Validator
             ]
         ];
     }
-    public function notEmptyIfTwitter($value, $validation) {
-        if ($this->validation_engine->getFullData('data_source') === 'twitter')
+    public function notEmptyIfTwitter($value, $validation)
+    {
+        if ($this->validation_engine->getFullData('data_source') === 'twitter') 
         {
             return true;
         }
@@ -88,7 +89,6 @@ class Receive extends Validator
     }
     public function validDate($str)
     {
-
         if ($str instanceof \DateTimeInterface) {
             return true;
         }
