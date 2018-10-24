@@ -39,6 +39,9 @@ class Receive extends Validator
                 ['not_empty'],
                 ['in_array', [':value', [MessageDirection::INCOMING]]],
             ],
+            'message' => [
+                [[$this, 'notEmptyIfTwitter'], [':value',':validation']],
+            ],
             'datetime' => [
                 [[$this, 'validDate'], [':value']],
             ],
@@ -72,8 +75,19 @@ class Receive extends Validator
             ]
         ];
     }
+    public function notEmptyIfTwitter($value, $validation) {
+        if ($this->validation_engine->getFullData('data_source') === 'twitter') {
+            return true;
+        }
+        if (empty($value)) {
+            $validation->error('message', 'not_empty');
+            return false;
+        }
+        return true;
+    }
     public function validDate($str)
     {
+
         if ($str instanceof \DateTimeInterface) {
             return true;
         }
