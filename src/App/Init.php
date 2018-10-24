@@ -410,7 +410,8 @@ $di->params[Ushahidi\App\Repository\ExportJobRepository::class] = [
 ];
 $di->setter[Ushahidi\App\Repository\Post\ExportRepository::class]['setSetRepo'] = $di->lazyGet('repository.set');
 $di->setter[Ushahidi\App\Repository\Post\ExportRepository::class]['setTagRepo'] = $di->lazyGet('repository.tag');
-
+$di->setter[Ushahidi\App\Repository\Post\ExportRepository::class]['setMessageRepo'] =
+    $di->lazyGet('repository.message');
 $di->setter[Ushahidi\App\Repository\UserRepository::class]['setHasher'] = $di->lazyGet('tool.hasher.password');
 
 // Repository parameters

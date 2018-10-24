@@ -210,10 +210,17 @@ class PostRepository extends OhanzeeRepository implements
 
         // Join to messages and load message id
         $query->join('messages', 'LEFT')->on('posts.id', '=', 'messages.post_id')
-            ->select(['messages.id', 'message_id'], ['messages.type', 'source'], ['messages.contact_id', 'contact_id']);
+            ->select(
+                ['messages.id', 'message_id'],
+                ['messages.type', 'source'],
+                ['messages.contact_id', 'contact_id'],
+                ['messages.data_source_message_id', 'data_source_message_id']
+            );
 
         // Join to form
-        $query->join('forms', 'LEFT')->on('posts.form_id', '=', 'forms.id')
+        $query
+            ->join('forms', 'LEFT')
+            ->on('posts.form_id', '=', 'forms.id')
             ->select(['forms.color', 'color']);
 
         return $query;
