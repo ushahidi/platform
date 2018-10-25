@@ -18,36 +18,33 @@ use Ushahidi\Core\Usecase\Export\Job\CreateHXLHeadingRow;
 
 class CreateJob extends CreateUsecase
 {
-    protected $form_attribute_hxl_repository;
     protected $create_hxl_heading_row;
-    public function setFormAttributeHxlRepository(HXLFormAttributeHXLAttributeTagRepository $repo)
-    {
-        $this->form_attribute_hxl_repository = $repo;
-    }
-
-    public function setCreateHXLHeadingRowUsecase($usecase)
+    public function setCreateHXLHeadingRowUsecase(CreateUsecase $usecase)
     {
         $this->create_hxl_heading_row = $usecase;
     }
+
     // Usecase
     public function interact()
     {
         // Fetch a default entity and apply the payload...
         $entity = $this->getEntity();
+
         // ... verify that the entity can be created by the current user
         $this->verifyCreateAuth($entity);
 
         // ... verify that the entity is in a valid state
         $this->verifyValid($entity);
-        // get heading row to map hxl attributes and tags to form attributes
-        $hxl_heading_row = $entity->hxl_heading_row;
+
         // ... persist the new entity
         $id = $this->repo->create($entity);
 
         // ... get the newly created entity
         $entity = $this->getCreatedEntity($id);
-        // if there are items in $hxl_heading_row and the entity was created,
+
+        // if there are items in `hxl_heading_row` and the entity was created,
         // create the hxl tags for each attribute
+        $hxl_heading_row = $this->getPayload('hxl_heading_row', false);
         if ($entity->getId() && is_array($hxl_heading_row)) {
             $this->createHxlHeadingTags($hxl_heading_row, $entity);
         }
@@ -72,7 +69,6 @@ class CreateJob extends CreateUsecase
             if (isset($heading_row['hxl_tag_id'])) {
                 $heading_row['export_job_id'] = $entity->getId();
                 $this->create_hxl_heading_row
-                    ->get('form_attribute_hxl_attribute_tag', 'create')
                     ->setPayload($heading_row)
                     ->interact();
             }

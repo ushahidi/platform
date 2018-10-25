@@ -14,14 +14,13 @@ namespace Ushahidi\App\Repository\Post;
 use Ohanzee\DB;
 use Ushahidi\Core\Entity\MessageRepository;
 use Ushahidi\Core\Entity\Post;
-use Ushahidi\Core\Entity\PostRepository;
 use Ushahidi\Core\Entity\PostExportRepository;
 use Ushahidi\Core\Entity\TagRepository;
 use Ushahidi\Core\Entity\SetRepository;
-use Ushahidi\App\Repository\CSVPostRepository;
+use Ushahidi\App\Repository\PostRepository;
 use Ushahidi\Core\Traits\AdminAccess;
 
-class ExportRepository extends CSVPostRepository implements PostExportRepository
+class ExportRepository extends PostRepository implements PostExportRepository
 {
     use AdminAccess;
     protected $tag_repo;
@@ -109,5 +108,27 @@ class ExportRepository extends CSVPostRepository implements PostExportRepository
             array_push($names, $stage->label);
         }
         return $names;
+    }
+
+    protected function getPostValues($id, $excludePrivateValues, $excludeStages)
+    {
+
+        // Get all the values for the post. These are the EAV values.
+        $values = $this->post_value_factory
+            ->proxy($this->include_value_types)
+            ->getAllForPost($id, $this->include_attributes, $excludeStages, $excludePrivateValues);
+
+        $output = [];
+        foreach ($values as $value) {
+            if (empty($output[$value->key])) {
+                $output[$value->key] = [];
+            }
+            if (is_array($value->value) && isset($value->value['o_filename'])) {
+                $output[$value->key][] = $value->value['o_filename'];
+            } elseif ($value->value !== null) {
+                $output[$value->key][] = $value->value;
+            }
+        }
+        return $output;
     }
 }
