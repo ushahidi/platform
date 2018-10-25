@@ -33,6 +33,6 @@
     'date_format'   => 'n/j/Y',
     'client_url'    => false,
     'first_login'   => true,
-    'tier'          => 'free',
+    'tier'          => 'demo_1',
     'private'       => false,
   ];
