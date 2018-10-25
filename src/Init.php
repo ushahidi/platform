@@ -277,8 +277,7 @@ $di->params['Ushahidi\Factory\UsecaseFactory']['map']['posts'] = [
     'delete'          => $di->lazyNew('Ushahidi\Core\Usecase\Post\DeletePost'),
     'search'          => $di->lazyNew('Ushahidi\Core\Usecase\Post\SearchPost'),
     'stats'           => $di->lazyNew('Ushahidi\Core\Usecase\Post\StatsPost'),
-    'import'          => $di->lazyNew('Ushahidi\Core\Usecase\ImportUsecase'),
-    'export'            => $di->lazyNew('Ushahidi\Core\Usecase\Post\ExportPost'),
+    'import'          => $di->lazyNew('Ushahidi\Core\Usecase\ImportUsecase')
 ];
 // Add custom create usecase for notifications
 $di->params['Ushahidi\Factory\UsecaseFactory']['map']['notifications'] = [

@@ -373,6 +373,26 @@ class AttributeRepository extends OhanzeeRepository implements
                 'priority' => 8
             ],
             [
+                'label' => 'Data Source ID',
+                'key' => 'data_source_message_id',
+                'type' => 'integer',
+                'input' => 'number',
+                'form_id' => 0,
+                'form_stage_id' => 0,
+                'form_stage_priority' => 0,
+                'priority' => 9
+            ],
+            [
+                'label' => 'Source',
+                'key' => 'data_source',
+                'type' => 'integer',
+                'input' => 'number',
+                'form_id' => 0,
+                'form_stage_id' => 0,
+                'form_stage_priority' => 0,
+                'priority' => 10
+            ],
+            [
                 'label' => 'Unstructured Description',
                 'key' => 'description',
                 'type' => 'description',
@@ -381,7 +401,7 @@ class AttributeRepository extends OhanzeeRepository implements
                 'form_stage_id' => 0,
                 'form_stage_priority' => 0,
                 'unstructured' => true,
-                'priority' => 9
+                'priority' => 11
             ]
         ];
 

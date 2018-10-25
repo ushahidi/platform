@@ -284,7 +284,7 @@ $di->params['Ushahidi\Factory\FormatterFactory']['map'] = [
     'roles'                => $di->lazyNew(Ushahidi\App\Formatter\Role::class),
     'permissions'          => $di->lazyNew(Ushahidi\App\Formatter\Permission::class),
     // Formatter for post exports. Defaults to CSV export
-    'posts_export' => $di->lazyNew(Ushahidi\App\Formatter\Post\CSV::class),
+    'posts_export'         => $di->lazyNew(Ushahidi\App\Formatter\Post\CSV::class),
     'tos' => $di->lazyNew(Ushahidi\App\Formatter\Tos::class),
 ];
 
@@ -377,7 +377,6 @@ $di->set(
     $di->lazyNew(Ushahidi\App\Repository\TargetedSurveyStateRepository::class)
 );
 $di->set('repository.post', $di->lazyNew(Ushahidi\App\Repository\PostRepository::class));
-$di->set('repository.csv_post', $di->lazyNew(Ushahidi\App\Repository\CSVPostRepository::class));
 
 $di->set('repository.post_lock', $di->lazyNew(Ushahidi\App\Repository\Post\LockRepository::class));
 $di->set('repository.tag', $di->lazyNew(Ushahidi\App\Repository\TagRepository::class));
@@ -410,7 +409,8 @@ $di->params[Ushahidi\App\Repository\ExportJobRepository::class] = [
 ];
 $di->setter[Ushahidi\App\Repository\Post\ExportRepository::class]['setSetRepo'] = $di->lazyGet('repository.set');
 $di->setter[Ushahidi\App\Repository\Post\ExportRepository::class]['setTagRepo'] = $di->lazyGet('repository.tag');
-
+$di->setter[Ushahidi\App\Repository\Post\ExportRepository::class]['setMessageRepo'] =
+    $di->lazyGet('repository.message');
 $di->setter[Ushahidi\App\Repository\UserRepository::class]['setHasher'] = $di->lazyGet('tool.hasher.password');
 
 // Repository parameters
@@ -502,18 +502,6 @@ $di->params[Ushahidi\App\Repository\PostRepository::class] = [
     'bounding_box_factory' => $di->newFactory(Ushahidi\App\Util\BoundingBox::class)
 ];
 
-// Post repository parameters
-$di->params[Ushahidi\App\Repository\CSVPostRepository::class] = [
-    'form_attribute_repo' => $di->lazyGet('repository.form_attribute'),
-    'form_stage_repo' => $di->lazyGet('repository.form_stage'),
-    'form_repo' => $di->lazyGet('repository.form'),
-    'post_lock_repo' => $di->lazyGet('repository.post_lock'),
-    'contact_repo' => $di->lazyGet('repository.contact'),
-    'post_value_factory' => $di->lazyGet('repository.post_value_factory'),
-    'bounding_box_factory' => $di->newFactory('Util_BoundingBox')
-];
-
-
 $di->set('repository.post.datetime', $di->lazyNew(Ushahidi\App\Repository\Post\DatetimeRepository::class));
 $di->set('repository.post.decimal', $di->lazyNew(Ushahidi\App\Repository\Post\DecimalRepository::class));
 $di->set('repository.post.geometry', $di->lazyNew(Ushahidi\App\Repository\Post\GeometryRepository::class));
@@ -602,7 +590,7 @@ $di->params[Ushahidi\App\Validator\Form\Update::class] = [
     'limits' => $di->lazyGet('features.limits'),
 ];
 
-$di->param[Ushahidi\App\Validator\Form\Attribute\Update::class] = [
+$di->params[Ushahidi\App\Validator\Form\Attribute\Update::class] = [
     'repo' => $di->lazyGet('repository.form_attribute'),
     'form_stage_repo' => $di->lazyGet('repository.form_stage'),
 ];
@@ -837,12 +825,7 @@ $di->params[Ushahidi\App\Validator\HXL\Metadata\Create::class] = [
     'license_repo' => $di->lazyGet('repository.hxl_license'),
     'user_repo' => $di->lazyGet('repository.user'),
 ];
-// form_attribute_hxl_attribute_tag
-$di->setter['Ushahidi\Core\Usecase\Export\Job\CreateJob']['setFormAttributeHxlRepository']
-    = $di->lazyGet('repository.form_attribute_hxl_attribute_tag');
-$di->params['Ushahidi\Factory\UsecaseFactory']['map']['form_attribute_hxl_attribute_tag'] = [
-    'create' => $di->newFactory('Ushahidi\Core\Usecase\HXL\CreateHXLHeadingRow')
-];
+
 $di->set(
     'formatter.entity.form_attribute_hxl_attribute_tag',
     $di->lazyNew(Ushahidi\App\Formatter\HXL\HXLFormAttributeHXLAttributeTagFormatter::class)
@@ -874,7 +857,10 @@ $di->params[Ushahidi\App\Validator\HXL\HXLFormAttributeHXLAttributeTag\Create::c
     'form_attribute_repo' => $di->lazyGet('repository.form_attribute'),
 ];
 $di->setter['Ushahidi\Core\Usecase\Export\Job\CreateJob']['setCreateHXLHeadingRowUsecase']
-    = $di->lazyGet('factory.usecase');
+    = $di->lazy(function () {
+        return service('factory.usecase')->get('form_attribute_hxl_attribute_tag', 'create');
+    });
+
 $di->set(
     'repository.form_attribute_hxl_attribute_tag',
     $di->lazyNew(Ushahidi\App\Repository\HXL\HXLFormAttributeHXLAttributeTagRepository::class)
