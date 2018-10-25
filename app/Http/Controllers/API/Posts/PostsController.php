@@ -101,20 +101,7 @@ class PostsController extends RESTController
      */
     public function show(Request $request)
     {
-
-        $isDemoTier = service('site.config')['tier'] === 'demo_1';
-        $identifiers = $this->getIdentifiers($request);
-        if ($isDemoTier) {
-            // Demo deployments are limited to the first 25 posts,
-            // if any thing other more than that or a different offset is request
-            // none will be returned
-            if (array_key_exists('offset', $identifiers)) {
-                $identifiers['limit'] = $identifiers['offset'] > 0 ? 0 : 25;
-                $identifiers['offset'] = 0;
-            } else {
-                $identifiers['limit'] = 25;
-            }
-        }
+        $identifiers = $this->demoCheck($this->getIdentifiers($request));
 
         $this->usecase = $this->usecaseFactory
             ->get($this->getResource(), 'read')

@@ -56,6 +56,27 @@ abstract class RESTController extends Controller
         return self::$version;
     }
 
+    public function demoCheck($identifiers)
+    {
+        $isDemoTier = service('site.config')['tier'] === 'demo_1';
+
+        if ($isDemoTier) {
+            // Demo deployments are limited to the first 25 posts,
+            // if any thing other more than that or a different offset is request
+            // none will be returned
+            if (array_key_exists('offset', $identifiers)
+                && array_key_exists('limit', $identifiers)) {
+                if ($identifiers['offset'] + $identifiers['limit'] > 25) {
+                    $diff = $identifiers['limit'] - $identifiers['offset'];
+                    $identifiers['limit'] =  $diff > 0 ? $diff : 0;
+                }
+            } else {
+                $identifiers['limit'] = 25;
+            }
+        }
+        return $identifiers;
+    }
+
     /**
      * Get an API URL for a resource.
      * @param  string  $resource
