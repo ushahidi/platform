@@ -18,7 +18,7 @@ class CheckDemoExpiration
     public function handle($request, Closure $next, $guard = null)
     {
         $multisite = config('multisite.enabled');
-        $isDemoTier = service('site.config')['tier'] === 'demo';
+        $isDemoTier = service('site.config')['tier'] === 'demo_1';
         $isNotGet = !$request->isMethod('get');
 
         if ($multisite && $isNotGet && $isDemoTier) {

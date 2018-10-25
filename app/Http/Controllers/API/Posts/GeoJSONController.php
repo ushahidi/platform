@@ -73,11 +73,21 @@ class GeoJSONController extends PostsController
      */
     public function show(Request $request)
     {
+        $isDemoTier = service('site.config')['tier'] === 'demo_1';
+        $identifiers = $this->getIdentifiers($request);
+        if ($isDemoTier) {
+            // Demo deployments are limited to the first 25 posts,
+            // if any thing other more than that or a different offset is request
+            // none will be returned
+            $identifiers['limit'] = $identifiers['offset'] > 0 ? 0 : 25;
+            $identifiers['offset'] = 0;
+        }
+
         $this->prepBoundingBox($request);
 
         $this->usecase = $this->usecaseFactory
             ->get($this->getResource(), 'read')
-            ->setIdentifiers($this->getIdentifiers($request))
+            ->setIdentifiers($identifiers)
             ->setFormatter(service('formatter.entity.post.geojson'));
 
         return $this->prepResponse($this->executeUsecase($request), $request);
