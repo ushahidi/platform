@@ -92,23 +92,6 @@ class CreatePostFromMessage
                 }
             }
         }
-
-        // Pull locations from extra metadata
-        $values['message_location'] = [];
-        if (isset($message->additional_data['location'])) {
-            foreach ($message->additional_data['location'] as $location) {
-                if (!empty($location['type'])
-                    && !empty($location['coordinates'])
-                    && ucfirst($location['type']) == 'Point'
-                ) {
-                    $values['message_location'][] = [
-                        'lon' => $location['coordinates'][0],
-                        'lat' => $location['coordinates'][1]
-                    ];
-                }
-            }
-        }
-
         // First create a post
         $post = $this->postRepo->getEntity()->setState([
                 'title'    => $message->title,
@@ -117,7 +100,6 @@ class CreatePostFromMessage
                 'form_id'  => $form_id,
                 'post_date'=> $message->datetime,
             ]);
-
         return $this->postRepo->create($post);
     }
 }

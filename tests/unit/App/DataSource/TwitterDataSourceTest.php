@@ -185,7 +185,8 @@ class TwitterDataSourceTest extends TestCase
                     [
                         'id' => 'abc123',
                         'user' => [
-                            'screen_name' => 'ushahidi'
+                            'screen_name' => 'ushahidi',
+                            'id_str' => '1112222223'
                         ],
                         'text' => 'Test message',
                         'coordinates' => [
@@ -200,7 +201,8 @@ class TwitterDataSourceTest extends TestCase
                     [
                         'id' => 'abc124',
                         'user' => [
-                            'screen_name' => 'ushahidi'
+                            'screen_name' => 'ushahidi',
+                            'id_str' => '1112222222'
                         ],
                         'text' => 'Test message 2',
                         'retweeted_status' => [
@@ -211,7 +213,8 @@ class TwitterDataSourceTest extends TestCase
                     [
                         'id' => 'abc125',
                         'user' => [
-                            'screen_name' => 'someone'
+                            'screen_name' => 'someone',
+                            'id_str' => '1112222225'
                         ],
                         'text' => 'Test message 3',
                         'created_at' => 'Thu Apr 06 15:24:15 +0000 2017',
@@ -219,6 +222,7 @@ class TwitterDataSourceTest extends TestCase
                     [
                         'id' => 'abc126',
                         'user' => [
+                            'id_str' => '12344494949',
                             'screen_name' => 'someone'
                         ],
                         'text' => 'Test message 4',
@@ -266,31 +270,21 @@ class TwitterDataSourceTest extends TestCase
             [
                 'type' => 'twitter',
                 'contact_type' => 'twitter',
-                'from' => 'ushahidi',
-                'message' => 'Test message',
+                'from' => '1112222223', // twitter user id
+                'message' => 'https://twitter.com/statuses/abc123',
                 'to' => null,
-                'title' => null,
+                'title' => 'From twitter on Thu Apr 06 15:24:15 +0000 2017',
                 'data_source_message_id' => 'abc123',
-                'additional_data' => [
-                    'location' => [
-                        [
-                            'coordinates' => [
-                                -75.14310264,
-                                40.05701649
-                            ],
-                            'type' => 'Point'
-                        ]
-                    ]
-                ],
+                'additional_data' => [],
                 'datetime' =>  'Thu Apr 06 15:24:15 +0000 2017',
             ],
             [
                 'type' => 'twitter',
                 'contact_type' => 'twitter',
-                'from' => 'someone',
-                'message' => 'Test message 3',
+                'from' => '1112222225', // twitter user id
+                'message' => 'https://twitter.com/statuses/abc125',
                 'to' => null,
-                'title' => null,
+                'title' => 'From twitter on Thu Apr 06 15:24:15 +0000 2017',
                 'data_source_message_id' => 'abc125',
                 'additional_data' => [],
                 'datetime' =>  'Thu Apr 06 15:24:15 +0000 2017',
@@ -298,49 +292,12 @@ class TwitterDataSourceTest extends TestCase
             [
                 'type' => 'twitter',
                 'contact_type' => 'twitter',
-                'from' => 'someone',
-                'message' => 'Test message 4',
+                'from' => '12344494949', //twitter user id
+                'message' => 'https://twitter.com/statuses/abc126',
                 'to' => null,
-                'title' => null,
+                'title' => 'From twitter on Thu Apr 06 15:24:15 +0000 2017',
                 'data_source_message_id' => 'abc126',
-                'additional_data' => [
-                    'location' => [
-                        [
-                            'coordinates' => [
-                                -77.014576,
-                                38.8935965
-                            ],
-                            'type' => 'Point'
-                        ],
-                        [
-                            'coordinates' => [
-                                [
-                                    [
-                                      -77.119759000000002,
-                                      38.791645000000003,
-                                    ],
-                                    [
-                                      -76.909392999999994,
-                                      38.791645000000003,
-                                    ],
-                                    [
-                                      -76.909392999999994,
-                                      38.995547999999999,
-                                    ],
-                                    [
-                                      -77.119759000000002,
-                                      38.995547999999999,
-                                    ],
-                                    [
-                                      -77.119759000000002,
-                                      38.791645000000003,
-                                    ],
-                                ],
-                            ],
-                            'type' => 'Polygon',
-                        ]
-                    ]
-                ],
+                'additional_data' => [],
                 'datetime' =>  'Thu Apr 06 15:24:15 +0000 2017',
             ],
         ], $messages);
