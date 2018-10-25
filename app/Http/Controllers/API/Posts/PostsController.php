@@ -108,8 +108,12 @@ class PostsController extends RESTController
             // Demo deployments are limited to the first 25 posts,
             // if any thing other more than that or a different offset is request
             // none will be returned
-            $identifiers['limit'] = $identifiers['offset'] > 0 ? 0 : 25;
-            $identifiers['offset'] = 0;
+            if (array_key_exists('offset', $identifiers)) {
+                $identifiers['limit'] = $identifiers['offset'] > 0 ? 0 : 25;
+                $identifiers['offset'] = 0;
+            } else {
+                $identifiers['limit'] = 25;
+            }
         }
 
         $this->usecase = $this->usecaseFactory

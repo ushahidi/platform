@@ -9,7 +9,7 @@ Feature: Testing the Posts API
 		And the response has a "features" property
 		And the "features" property count is "6"
 		Then the guzzle status code should be 200
-
+    @geojson
 	Scenario: Find a Post as GeoJSON
 		Given that I want to find a "Post"
 		When I request "/posts/1/geojson"
