@@ -57,6 +57,15 @@ class ExportPostsJob extends Job
 
         $totalBatches = ceil($totalRows / $this->batchSize);
 
+        // Set status = queued
+        $job->setState([
+            'total_batches' => $totalBatches,
+            'total_rows' => $totalRows,
+            'status' => ExportJob::STATUS_QUEUED,
+        ]);
+        // @todo add to count usecase?
+        $exportJobRepo->update($job);
+
         // Generate other meta data here too? ie. header rows
         //
         Log::debug('Queuing batches', ['totalBatches' => $totalBatches]);
@@ -75,15 +84,6 @@ class ExportPostsJob extends Job
                 ($batchNumber === 0)
             ));
         }
-
-        // Set status = queued
-        $job->setState([
-            'total_batches' => $totalBatches,
-            'total_rows' => $totalRows,
-            'status' => ExportJob::STATUS_QUEUED,
-        ]);
-        // @todo add to count usecase?
-        $exportJobRepo->update($job);
     }
 
     /**
