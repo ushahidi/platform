@@ -83,8 +83,7 @@ class CombineExportedPostBatchesJob extends Job
 
         // Set status = completed
         $job->setState([
-            'url' => Storage::url($destinationFile),
-            'url_expiration' => null, // $urlExpiration, // @todo fix me
+            'url' => $destinationFile, // No longer actually saving a URL, we can format it when it goes to the API
             'status' => ExportJob::STATUS_EXPORTED_TO_CDN
         ]);
         $exportJobRepo->update($job);
