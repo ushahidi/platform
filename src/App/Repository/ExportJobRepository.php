@@ -75,6 +75,8 @@ class ExportJobRepository extends OhanzeeRepository implements ExportJobReposito
         // get user ID so that we only ever get jobs from that user
         $search->user = $this->getUserId();
 
+        // Keeping this to filter our legacy URLs
+        // All new urls are generated on the fly instead, so their expiration=null
         if ($search->max_expiration) {
             $query->where("url_expiration", '>', intval($search->max_expiration));
             $query->or_where("url_expiration", 'IS', null);
