@@ -11,9 +11,9 @@
 - Install composer following the instructions for your environment [here](https://getcomposer.org/doc/00-intro.md)
 - Copy `.env.example` to a new file called `.env` to create the default .env file
 - open .env with your IDE or text editor. 
-    - Change the CACHE_DRIVER to be file instead of memcache (you can also set it up with memcache, but for simplicity we 
-    - Change the DATABASE HOST to 127.0.0.1
-    - Change the DATABASE USER to your mysql user  (root in the default XAMPP install)
+    - Change the CACHE_DRIVER to be `file` instead of `memcache` (you can also set it up with memcache, but for simplicity we use file)
+    - Change the DATABASE HOST to `127.0.0.1`
+    - Change the DATABASE USER to your mysql user  (`root` in the default XAMPP install)
     - Change the DB PASSWORD  (empty by default with XAMPP)
 	- Change the DB name to `platform`
 - A note on composer: if you didn't setup composer globally, you should use `php composer.phar {command}` instead of `composer {command}` in the next two steps 
