@@ -18,8 +18,7 @@ use Illuminate\Support\Facades\File as LocalFilesystem;
 class CombineExportedPostBatchesJob extends Job
 {
     protected $jobId;
-
-    protected $csvPrefix = 'csv/tmp';
+    protected $csvPrefix;
 
     /**
      * Create a new job instance.
@@ -29,6 +28,7 @@ class CombineExportedPostBatchesJob extends Job
     public function __construct($jobId)
     {
         $this->jobId = $jobId;
+        $this->csvPrefix = config('media.csv_final_prefix', 'csv');
     }
 
     /**

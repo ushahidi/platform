@@ -59,7 +59,7 @@ class CSV extends API
     public function __invoke($records, $job = null, $attributes = [])
     {
         // Generate filename
-        $this->tmpfname = "tmp" . DIRECTORY_SEPARATOR . Carbon::now()->format('Ymd') .'-'. Str::random(40) . '.csv';
+        $this->tmpfname = Carbon::now()->format('Ymd') .'-'. Str::random(40) . '.csv';
 
         $this->createHeading($job->header_row);
         return $this->generateCSVRecords($records, $attributes);
@@ -233,7 +233,7 @@ class CSV extends API
     {
 
         $filepath = implode(DIRECTORY_SEPARATOR, [
-            'csv',
+            config('media.csv_batch_prefix', 'csv'),
             $this->tmpfname,
         ]);
 

@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Log;
 
 class ExportPostsJob extends Job
 {
-    protected $batchSize = 200;
+    protected $batchSize;
 
     protected $jobId;
 
@@ -22,6 +22,7 @@ class ExportPostsJob extends Job
     public function __construct($jobId)
     {
         $this->jobId = $jobId;
+        $this->batchSize = config('media.csv_batch_size', 200);
     }
 
     /**
