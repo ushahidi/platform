@@ -45,6 +45,9 @@ class ExportJob extends API
         } catch (\RuntimeException $e) {
             // If it fails (some providers can't support it) fallback to a standard URL
             return url(Storage::url($path));
+        } catch (\OpenCloud\ObjectStore\Exception\ObjectNotFoundException $e) {
+            // Catch ObjectNotFoundException from Rackspace
+            return null;
         }
     }
 }
