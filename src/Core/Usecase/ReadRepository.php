@@ -15,4 +15,10 @@ use Ushahidi\Core\Entity\Repository\EntityGet;
 
 interface ReadRepository extends EntityGet
 {
+    /**
+     * Converts an array of entity data into an object.
+     * @param  Array $data
+     * @return Entity
+     */
+    public function getEntity(array $data = null);
 }
