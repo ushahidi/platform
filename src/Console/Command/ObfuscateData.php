@@ -221,7 +221,7 @@ class ObfuscateData extends Command
             ->update(['author_email' => $randomEmail,
                         'author_realname' => $randomName]);
 
-        $this->info("Updated ".print_r($resultCount, true)." records.");
+        $this->info("Updated $resultCount records.");
     }
 
     private function overwritePostAuthorsWithFaker()
