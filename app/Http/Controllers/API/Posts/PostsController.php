@@ -84,9 +84,10 @@ class PostsController extends RESTController
      */
     public function index(Request $request)
     {
+        $filters = $this->demoCheck($this->getFilters($request));
         $this->usecase = $this->usecaseFactory
             ->get($this->getResource(), 'search')
-            ->setFilters($this->getFilters($request))
+            ->setFilters($filters)
             ->setIdentifiers($this->getIdentifiers($request));
 
         return $this->prepResponse($this->executeUsecase($request), $request);
@@ -101,11 +102,9 @@ class PostsController extends RESTController
      */
     public function show(Request $request)
     {
-        $identifiers = $this->demoCheck($this->getIdentifiers($request));
-
         $this->usecase = $this->usecaseFactory
             ->get($this->getResource(), 'read')
-            ->setIdentifiers($identifiers);
+            ->setIdentifiers($this->getIdentifiers($request));
 
         return $this->prepResponse($this->executeUsecase($request), $request);
     }
