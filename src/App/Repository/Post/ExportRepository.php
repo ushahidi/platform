@@ -12,6 +12,7 @@
 namespace Ushahidi\App\Repository\Post;
 
 use Ohanzee\DB;
+use Ushahidi\Core\Entity\MessageRepository;
 use Ushahidi\Core\Entity\Post;
 use Ushahidi\Core\Entity\PostRepository;
 use Ushahidi\Core\Entity\PostExportRepository;
@@ -25,12 +26,20 @@ class ExportRepository extends CSVPostRepository implements PostExportRepository
     use AdminAccess;
     protected $tag_repo;
     protected $set_repo;
+    protected $message_repo;
     /**
      * @param TagRepository $repo
      */
     public function setTagRepo(TagRepository $repo)
     {
         $this->tag_repo = $repo;
+    }
+    /**
+     * @param TagRepository $repo
+     */
+    public function setMessageRepo(MessageRepository $repo)
+    {
+        $this->message_repo = $repo;
     }
 
     public function setSetRepo(SetRepository $repo)
@@ -67,6 +76,16 @@ class ExportRepository extends CSVPostRepository implements PostExportRepository
             $contact = $this->contact_repo->get($data['contact_id']);
             $data['contact_type'] = $contact->type;
             $data['contact'] = $contact->contact;
+        }
+
+        // Get datasource message id
+        if (!empty($data['data_source_message_id']) &&
+            $this->isUserAdmin($user) ||
+            $this->postPermissions->canUserManagePosts($user)
+        ) {
+            $message = $this->message_repo->get(['id' => $data['message_id']]);
+            $data['data_source_message_id'] = $message->data_source_message_id;
+            $data['data_source'] = $message->data_source;
         }
 
         // Set Form name

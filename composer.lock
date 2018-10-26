@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "04bb8fec4f2243366583f0f253343130",
+    "content-hash": "1b1f7080f44aafc86acf4b10133a0e46",
     "packages": [
         {
             "name": "abraham/twitteroauth",
@@ -7505,6 +7505,7 @@
                 "github",
                 "test"
             ],
+            "abandoned": "php-coveralls/php-coveralls",
             "time": "2017-12-08T14:28:16+00:00"
         },
         {
@@ -8578,8 +8579,7 @@
         "ext-curl": "*",
         "ext-gd": "*",
         "ext-json": "*",
-        "ext-mbstring": "*",
-        "ext-mcrypt": "*"
+        "ext-mbstring": "*"
     },
     "platform-dev": []
 }
