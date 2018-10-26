@@ -90,7 +90,7 @@ class TagsRepository extends ValueRepository
     {
         if (is_array($tag) && !isset($tag['confidence_score'])) {
             $tag = $tag['id'];
-        } else if (isset($tag['confidence_score'])) {
+        } elseif (isset($tag['confidence_score'])) {
             $tag = $tag['value'];
         }
 

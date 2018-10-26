@@ -26,7 +26,7 @@ class Tags extends ValueValidator
     {
         if (is_array($value) && !isset($value['confidence_score'])) {
             $value = $value['id'];
-        } else if (isset($value['confidence_score'])) {
+        } elseif (isset($value['confidence_score'])) {
             $value = $value['value'];
         }
 

@@ -79,7 +79,8 @@ class Post extends API
 
         return $output;
     }
-    protected function formatTagsConfidenceScore($scores) {
+    protected function formatTagsConfidenceScore($scores)
+    {
 
         $output = [];
         foreach ($scores as $score) {

@@ -71,7 +71,6 @@ class TagsConfidenceScoreRepository extends ValueRepository
     // UpdatePostValueRepository
     public function createValue($value, $form_attribute_id, $post_id)
     {
-        \Log::debug('createvalue', compact('tag_id', 'form_attribute_id', 'post_id'));
         $tag_id = $this->parseTag($value);
         $input = compact('tag_id', 'form_attribute_id', 'post_id');
         $input['created'] = time();
@@ -82,7 +81,6 @@ class TagsConfidenceScoreRepository extends ValueRepository
     // UpdatePostValueRepository
     public function updateValue($id, $value)
     {
-        \Log::debug('updatevalue', compact('id', 'value'));
         $tag_id = $this->parseTag($value);
         $update = compact($tag_id);
         if ($id && $update) {

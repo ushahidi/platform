@@ -1046,7 +1046,8 @@ class PostRepository extends OhanzeeRepository implements
         if ($entity->hasChanged('values') || $entity->hasChanged('tags')) {
             // Update post-values
             $this->post_value_factory->proxy()->deleteAllForPost($entity->id);
-            $values_added = $this->updatePostValues($entity->id, $entity->values);//val (ie tag_id) = > value id (ie post_value_id)
+            //val (ie tag_id) = > value id (ie post_value_id)
+            $values_added = $this->updatePostValues($entity->id, $entity->values);
             if (count($entity->tags_confidence_score) > 0) {
                 foreach ($entity->tags as $tag) {
                     $tag_value_id = isset($values_added[$tag['id']])? $values_added[$tag['id']] : null;
@@ -1108,11 +1109,9 @@ class PostRepository extends OhanzeeRepository implements
             // If we don't have tags in the values, use the post.tags value
             $values = array_merge($values, $tagsByAttributes);
         }
-        \Log::debug('values' . var_export($values,true));
-        \Log::debug('tagsByattributes' . var_export($tagsByAttributes,true));
         if ($entity->hasChanged('values') || $entity->hasChanged('tags')) {
             // Update post-values
-            if (count($tagsByAttributes) > 0 ) {
+            if (count($tagsByAttributes) > 0) {
                 $confidenceScoreValues = $this->updatePostValuesWithKeys($entity->id, $tagsByAttributes);
                 foreach ($confidenceScoreValues as $tag => $confidenceScore) {
                     $this->updatePostTagConfidenceScores(
@@ -1161,13 +1160,12 @@ class PostRepository extends OhanzeeRepository implements
                 continue;
             }
             $repo = $this->post_value_factory->getRepo($attribute->type);
-            \Log::debug('here be dragons' . var_export($values,true));
             foreach ($values as $val) {
                 $id = $repo->createValue($val['value'], $attribute->id, $post_id);
                 if (is_array($val) && isset($val['confidence_score'])) {
                     $ret[$val['value']] = [
                         'post_value_id' => $id,
-                        'confidence_score' => isset($val['confidence_score']) ?: null
+                        'confidence_score' => isset($val['confidence_score']) ? $val['confidence_score'] : null
                     ];
                 }
             }
@@ -1193,20 +1191,25 @@ class PostRepository extends OhanzeeRepository implements
         }
         return $postValueIds;
     }
-    protected function updatePostTagConfidenceScores($post_value_id, $confidence_score) {
-        \Log::debug(var_export(['post_tag_id' => $post_value_id, 'score' => $confidence_score, 'source'=> 'COMRADES'],true));
-        $entity = $this->confidence_score_repo->getEntity(['post_tag_id' => $post_value_id, 'score' => $confidence_score, 'source'=> 'COMRADES']);
+    protected function updatePostTagConfidenceScores($post_value_id, $confidence_score)
+    {
+        $entity = $this->confidence_score_repo->getEntity(
+            [
+                'post_tag_id' => $post_value_id,
+                'score' => $confidence_score,
+                'source'=> 'COMRADES'
+            ]
+        );
         $exists_id = $this->confidence_score_repo->getByPostTag($post_value_id);
-        \Log::debug(var_export($entity,true));
         if ($exists_id && $exists_id->getId()) {
             $entity->set(['id' => $exists_id->getId()]);
             $this->confidence_score_repo->update($entity);
         } else {
             $this->confidence_score_repo->create($entity);
         }
-
     }
-    public function groupTagsByAttributes($form_id, $tags) {
+    public function groupTagsByAttributes($form_id, $tags)
+    {
         $score = null;
         // get the attributes for the form
         $attributesQuery = DB::select('form_attributes.options', 'form_attributes.id', 'form_attributes.key')
@@ -1224,13 +1227,11 @@ class PostRepository extends OhanzeeRepository implements
             $tagsQuery = DB::select('tags.tag', 'tags.id')
                 ->from('tags')
                 ->where('tags.id', 'IN', json_decode($attribute['options']))
-                ->where('tags.tag', 'IN', array_pluck($tags,'value'));
+                ->where('tags.tag', 'IN', array_pluck($tags, 'value'));
             $tagsQueryResult = $tagsQuery
                 ->execute($this->db);
-            \Log::debug('tags'  . var_export($tags,true));
-            \Log::debug('tagsQueryResult' . var_export($tagsQueryResult,true));
             $return[$attribute['key']] = array_map(function ($tag) use ($tags) {
-                $scoreFind =  array_filter($tags, function($t) use ($tag){
+                $scoreFind =  array_filter($tags, function ($t) use ($tag) {
                     return $tag['tag'] == $t['value'];
                 });
                 $scoreFind = array_pop($scoreFind);
