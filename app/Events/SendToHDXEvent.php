@@ -14,7 +14,6 @@ class SendToHDXEvent extends Event
      */
     public function __construct($jobId)
     {
-        Log::debug('You fired a SendToHDXEvent for job: '.print_r($jobId, true));
         $this->jobId = $jobId;
     }
 }

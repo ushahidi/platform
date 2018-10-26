@@ -124,7 +124,6 @@ class Twitter implements IncomingAPIDataSource, OutgoingAPIDataSource
     {
         return [
             'Date' => 'datetime',
-            'Location' => 'location',
             'Message' => 'text'
         ];
     }
