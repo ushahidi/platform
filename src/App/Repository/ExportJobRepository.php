@@ -189,10 +189,11 @@ class ExportJobRepository extends OhanzeeRepository implements ExportJobReposito
                 'export_job.id' => $jobId,
                 'export_batches.status' => ExportBatch::STATUS_COMPLETED
             ])
-            ->select([DB::expr('COUNT(DISTINCT export_batches.id)'), 'completed_batches'])
+            ->resetSelect()
+            ->select([DB::expr('COUNT(DISTINCT export_batches.id)'), 'completed_batches'], 'total_batches')
             ->join('export_batches')
                 ->on('export_job_id', '=', 'export_job.id')
-            ->group_by('export_job.id');
+            ->group_by(['export_job.id', 'total_batches']);
 
         $result = $query->execute($this->db)->current();
 
