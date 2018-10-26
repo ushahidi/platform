@@ -27,7 +27,7 @@ class SendToHDXEventListener
      */
     public function handle(SendToHDXEvent $event)
     {
-        Log::debug('Received a SendToHDXEvent: '.print_r($event, true));
+        Log::debug('Received a SendToHDXEvent', [$event]);
 
         // Initiate the process to send data to HDX
         //confirm that we want to send HDX info
