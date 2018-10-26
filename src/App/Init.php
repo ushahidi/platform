@@ -529,7 +529,8 @@ $di->set('repository.post.markdown', $di->lazyNew(Ushahidi\App\Repository\Post\M
 $di->set('repository.post.title', $di->lazyNew(Ushahidi\App\Repository\Post\TitleRepository::class));
 $di->set('repository.post.media', $di->lazyNew(Ushahidi\App\Repository\Post\MediaRepository::class));
 $di->set('repository.post.tags', $di->lazyNew(Ushahidi\App\Repository\Post\TagsRepository::class));
-$di->set('repository.post.tags_confidence_score', $di->lazyNew(Ushahidi\App\Repository\Post\TagsConfidenceScoreRepository::class));
+$di->set('repository.post.tags_confidence_score',
+    $di->lazyNew(Ushahidi\App\Repository\Post\TagsConfidenceScoreRepository::class));
 $di->params[Ushahidi\App\Repository\Post\TagsRepository::class] = [
     'tag_repo' => $di->lazyGet('repository.tag')
 ];
