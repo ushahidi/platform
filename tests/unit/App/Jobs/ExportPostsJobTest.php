@@ -69,4 +69,35 @@ class ExportPostsJobTest extends TestCase
         $this->assertEquals(5, $exportJob->total_batches);
         $this->assertEquals('QUEUED', $exportJob->status);
     }
+
+    public function testExportPostsJobErrorHandling()
+    {
+        $jobId = 33;
+
+        $exportJobRepo = M::mock(\Ushahidi\Core\Entity\ExportJobRepository::class);
+
+        $exportJob = new ExportJob([
+                'id' => $jobId
+            ]);
+        $exportJobRepo->shouldReceive('get')
+            ->with($jobId)
+            ->once()
+            ->andReturn($exportJob);
+
+        $exportJobRepo->shouldReceive('update')
+            ->with($exportJob)
+            ->once();
+
+        // Inject mocks into the app
+        unset($this->app->availableBindings[\Ushahidi\Core\Entity\ExportJobRepository::class]);
+        $this->app->instance(
+            \Ushahidi\Core\Entity\ExportJobRepository::class,
+            $exportJobRepo
+        );
+
+        $job = new ExportPostsJob($jobId);
+        $job->failed(new \RuntimeException('I broke it'));
+
+        $this->assertEquals('FAILED', $exportJob->status);
+    }
 }
