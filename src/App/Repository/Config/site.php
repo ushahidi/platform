@@ -34,5 +34,6 @@
     'client_url'    => false,
     'first_login'   => true,
     'tier'          => 'demo_1',
+    'expiration_date' => '27/10/2018',
     'private'       => false,
   ];

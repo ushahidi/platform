@@ -53,11 +53,13 @@ class GeoJSONController extends PostsController
      */
     public function index(Request $request)
     {
+        $filters = $this->demoCheck($this->getFilters($request));
+
         $this->prepBoundingBox($request);
 
         $this->usecase = $this->usecaseFactory
             ->get($this->getResource(), 'search')
-            ->setFilters($this->getFilters($request))
+            ->setFilters($filters)
             ->setIdentifiers($this->getIdentifiers($request))
             ->setFormatter(service('formatter.entity.post.geojsoncollection'));
 
@@ -73,13 +75,11 @@ class GeoJSONController extends PostsController
      */
     public function show(Request $request)
     {
-        $identifiers = $this->demoCheck($this->getIdentifiers($request));
-
         $this->prepBoundingBox($request);
 
         $this->usecase = $this->usecaseFactory
             ->get($this->getResource(), 'read')
-            ->setIdentifiers($identifiers)
+            ->setIdentifiers($this->getIdentifiers($request))
             ->setFormatter(service('formatter.entity.post.geojson'));
 
         return $this->prepResponse($this->executeUsecase($request), $request);
