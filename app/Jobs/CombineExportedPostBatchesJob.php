@@ -2,7 +2,6 @@
 
 namespace Ushahidi\App\Jobs;
 
-use Exception;
 use RuntimeException;
 use Log;
 use Ushahidi\Core\Entity\ExportJob;
@@ -17,6 +16,8 @@ use Illuminate\Support\Facades\File as LocalFilesystem;
 
 class CombineExportedPostBatchesJob extends Job
 {
+    use RecordsExportJobFailure;
+
     protected $jobId;
     protected $csvPrefix;
 
@@ -123,22 +124,5 @@ class CombineExportedPostBatchesJob extends Job
         }
 
         return true;
-    }
-
-    /**
-     * The job failed to process.
-     *
-     * @param  Exception  $exception
-     * @return void
-     */
-    public function failed(Exception $exception)
-    {
-        $exportJobRepo = app(ExportJobRepository::class);
-        // Set status failed
-        $job = $exportJobRepo->get($this->jobId);
-        $job->setState([
-            'status' => ExportJob::STATUS_FAILED
-        ]);
-        $exportJobRepo->update($job);
     }
 }

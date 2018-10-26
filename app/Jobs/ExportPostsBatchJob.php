@@ -2,7 +2,6 @@
 
 namespace Ushahidi\App\Jobs;
 
-use Exception;
 use Log;
 use Ushahidi\Factory\UsecaseFactory;
 use Ushahidi\Core\Entity\ExportJob;
@@ -11,6 +10,8 @@ use Ushahidi\Core\Usecase\Post\Export;
 
 class ExportPostsBatchJob extends Job
 {
+    use RecordsExportJobFailure;
+
     protected $jobId;
     protected $batchNumber;
     protected $offset;
@@ -60,22 +61,5 @@ class ExportPostsBatchJob extends Job
             // if yes, queue combine job
             dispatch(new CombineExportedPostBatchesJob($this->jobId));
         }
-    }
-
-    /**
-     * The job failed to process.
-     *
-     * @param  Exception  $exception
-     * @return void
-     */
-    public function failed(Exception $exception)
-    {
-        $exportJobRepo = app(ExportJobRepository::class);
-        // Set status failed
-        $job = $exportJobRepo->get($this->jobId);
-        $job->setState([
-            'status' => ExportJob::STATUS_FAILED
-        ]);
-        $exportJobRepo->update($job);
     }
 }

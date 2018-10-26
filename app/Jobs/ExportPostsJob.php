@@ -2,7 +2,6 @@
 
 namespace Ushahidi\App\Jobs;
 
-use Exception;
 use Ushahidi\Core\Usecase\Export\Job\PostCount;
 use Ushahidi\Core\Entity\ExportJob;
 use Ushahidi\Core\Entity\ExportJobRepository;
@@ -10,6 +9,8 @@ use Illuminate\Support\Facades\Log;
 
 class ExportPostsJob extends Job
 {
+    use RecordsExportJobFailure;
+
     protected $batchSize;
 
     protected $jobId;
@@ -85,22 +86,5 @@ class ExportPostsJob extends Job
                 ($batchNumber === 0)
             ));
         }
-    }
-
-    /**
-     * The job failed to process.
-     *
-     * @param  Exception  $exception
-     * @return void
-     */
-    public function failed(Exception $exception)
-    {
-        $exportJobRepo = app(ExportJobRepository::class);
-        // Set status failed
-        $job = $exportJobRepo->get($this->jobId);
-        $job->setState([
-            'status' => ExportJob::STATUS_FAILED
-        ]);
-        $exportJobRepo->update($job);
     }
 }
