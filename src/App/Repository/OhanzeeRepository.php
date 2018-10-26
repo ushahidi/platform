@@ -24,7 +24,8 @@ abstract class OhanzeeRepository implements
     Usecase\UpdateRepository,
     Usecase\DeleteRepository,
     Usecase\SearchRepository,
-    Usecase\ImportRepository
+    Usecase\ImportRepository,
+    Usecase\LockRepository
 {
 
     use CollectionLoader;
