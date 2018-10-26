@@ -58,7 +58,7 @@ class HDXInterface
                 'base_uri' => $this->ckanURL,
                 'headers' => ['Authorization' => $this->userAPIKey],
             ];
-            Log::debug('Api client config: ' . print_r($config, true));
+            Log::debug('Api client config: ', $config);
             //if we passed in a mock handler
             if (isset($this->handler)) {
                 $config['handler'] = $this->handler;
@@ -93,7 +93,7 @@ class HDXInterface
             $datasetId = isset($dataset['result']) && isset($dataset['result']['id']) ?
                 $dataset['result']['id'] : null;
         } catch (\Exception $e) {
-            Log::error('Unable to find HDX datasets by title '.print_r($e->getMessage(), true));
+            Log::error('Unable to find HDX datasets by title ', [$e->getMessage()]);
         }
 
         return $datasetId;
@@ -242,7 +242,7 @@ class HDXInterface
         } catch (\Exception $e) {
             $orgResult = false;
             // @TODO: gracefully handle this
-            Log::error('Unable to get organisations for user '.print_r($e, true));
+            Log::error('Unable to get organisations for user', [$e]);
         }
         return $orgResult;
     }
@@ -271,10 +271,11 @@ class HDXInterface
 
             if ($request->getStatusCode() != 200 || (bool) $requestBody['success'] == false) {
                 Log::error(
-                    'Unable to get organisations for user. Status code: ' .
-                    $request->getStatusCode() .
-                    ' - Request: '.
-                    print_r($requestBody, true)
+                    'Unable to get organisations for user',
+                    [
+                        'status' => $request->getStatusCode(),
+                        'body' => $requestBody
+                    ]
                 );
                 return false;
             }
