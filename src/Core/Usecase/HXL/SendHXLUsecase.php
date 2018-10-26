@@ -156,7 +156,7 @@ class SendHXLUsecase implements Usecase
             $metadata->dataset_title
         );
         if (isset($resource_result['error'])) {
-            Log::error("Resource creation error for job {$job->id}: " . print_r($resource_result, true));
+            Log::error("Resource creation error for job", ['job_id' => $job->id, 'result' => $resource_result]);
             $job = $this->setJobStatusAndUpdate($job, "FAILED");
             return $job;
         }
