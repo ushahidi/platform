@@ -16,7 +16,7 @@
     ],
     "require": {
         "php": ">=7.0 <7.2",
-        "aura/di": "2.2",
+        "aura/di": "~3.4",
         "league/flysystem-aws-s3-v3": "~1.0",
         "league/flysystem-rackspace": "~1.0",
         "league/flysystem": "~1.0",

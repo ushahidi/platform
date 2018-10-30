@@ -31,7 +31,8 @@ function service($what = null)
 {
     static $di;
     if (!$di) {
-        $di = new Aura\Di\Container(new Aura\Di\Factory);
+        $builder = new Aura\Di\ContainerBuilder();
+        $di = $builder->newInstance(false);
     }
     if ($what) {
         return $di->get($what);
@@ -45,9 +46,6 @@ function service($what = null)
 // When adding services that are private to a plugin, define them with a
 // `namespace.`, such as `acme.tool.hash.magic`.
 $di = service();
-
-// Disable auto resolution (as recommended in AuraDI docs)
-$di->setAutoResolve(false);
 
 // Validators are used to parse **and** verify input data used for write operations.
 $di->set('factory.validator', $di->lazyNew('Ushahidi\Factory\ValidatorFactory'));
@@ -223,7 +221,7 @@ $di->params['Ushahidi\Factory\UsecaseFactory']['map']['form_stages'] = [
 $di->params['Ushahidi\Factory\UsecaseFactory']['map']['media'] = [
     'create' => $di->lazyNew('Ushahidi\Core\Usecase\Media\CreateMedia'),
 ];
-$di->setter['Ushahidi\Core\Usecase\Media\CreateMedia']['setUploader'] = $di->lazyGet('tool.uploader');
+$di->setters['Ushahidi\Core\Usecase\Media\CreateMedia']['setUploader'] = $di->lazyGet('tool.uploader');
 
 // CSV requires file upload
 $di->params['Ushahidi\Factory\UsecaseFactory']['map']['csv'] = [
@@ -232,9 +230,9 @@ $di->params['Ushahidi\Factory\UsecaseFactory']['map']['csv'] = [
     'delete' => $di->lazyNew('Ushahidi\Core\Usecase\CSV\DeleteCSVUsecase'),
 ];
 
-$di->setter['Ushahidi\Core\Usecase\CSV\CreateCSVUsecase']['setUploader'] = $di->lazyGet('tool.uploader');
-$di->setter['Ushahidi\Core\Usecase\CSV\CreateCSVUsecase']['setReaderFactory'] = $di->lazyGet('csv.reader_factory');
-$di->setter['Ushahidi\Core\Usecase\CSV\DeleteCSVUsecase']['setUploader'] = $di->lazyGet('tool.uploader');
+$di->setters['Ushahidi\Core\Usecase\CSV\CreateCSVUsecase']['setUploader'] = $di->lazyGet('tool.uploader');
+$di->setters['Ushahidi\Core\Usecase\CSV\CreateCSVUsecase']['setReaderFactory'] = $di->lazyGet('csv.reader_factory');
+$di->setters['Ushahidi\Core\Usecase\CSV\DeleteCSVUsecase']['setUploader'] = $di->lazyGet('tool.uploader');
 
 // Message update requires extra validation of message direction+status.
 $di->params['Ushahidi\Factory\UsecaseFactory']['map']['messages'] = [
@@ -243,9 +241,9 @@ $di->params['Ushahidi\Factory\UsecaseFactory']['map']['messages'] = [
     'receive' => $di->newFactory('Ushahidi\Core\Usecase\Message\ReceiveMessage'),
 ];
 // Message receive requires extra repos
-$di->setter['Ushahidi\Core\Usecase\Message\ReceiveMessage']['setContactRepository']
+$di->setters['Ushahidi\Core\Usecase\Message\ReceiveMessage']['setContactRepository']
     = $di->lazyGet('repository.contact');
-$di->setter['Ushahidi\Core\Usecase\Message\ReceiveMessage']['setContactValidator']
+$di->setters['Ushahidi\Core\Usecase\Message\ReceiveMessage']['setContactValidator']
     = $di->lazyGet('validator.contact.receive');
 
 // Add custom usecases for posts
@@ -300,7 +298,7 @@ $di->params['Ushahidi\Factory\UsecaseFactory']['map']['posts_lock'] = [
     'delete' => $di->lazyNew('Ushahidi\Core\Usecase\Post\DeletePostLock'),
 ];
 
-$di->setter['Ushahidi\Core\Usecase\Post\PostLockTrait']['setPostRepository'] = $di->lazyGet('repository.post');
+$di->setters['Ushahidi\Core\Usecase\Post\PostLockTrait']['setPostRepository'] = $di->lazyGet('repository.post');
 
 // Add custom usecases for sets_posts
 $di->params['Ushahidi\Factory\UsecaseFactory']['map']['savedsearches'] = [
@@ -319,15 +317,15 @@ $di->params['Ushahidi\Factory\UsecaseFactory']['map']['posts_export'] = [
 
 
 // Set up traits for SetsPosts Usecases
-$di->setter['Ushahidi\Core\Usecase\Set\SetRepositoryTrait']['setSetRepository'] = $di->lazyGet('repository.set');
-$di->setter['Ushahidi\Core\Usecase\Set\AuthorizeSet']['setSetAuthorizer'] = $di->lazyGet('authorizer.set');
+$di->setters['Ushahidi\Core\Usecase\Set\SetRepositoryTrait']['setSetRepository'] = $di->lazyGet('repository.set');
+$di->setters['Ushahidi\Core\Usecase\Set\AuthorizeSet']['setSetAuthorizer'] = $di->lazyGet('authorizer.set');
 
 // repositories for Ushahidi\Core\Usecase\Post\Export usecase
-$di->setter['Ushahidi\Core\Usecase\Post\Export']['setExportJobRepository'] = $di->lazyGet('repository.export_job');
-$di->setter['Ushahidi\Core\Usecase\Post\Export']['setFormAttributeRepository'] = $di->lazyGet('repository.form_attribute');
-$di->setter['Ushahidi\Core\Usecase\Post\Export']['setPostExportRepository'] = $di->lazyGet('repository.posts_export');
+$di->setters['Ushahidi\Core\Usecase\Post\Export']['setExportJobRepository'] = $di->lazyGet('repository.export_job');
+$di->setters['Ushahidi\Core\Usecase\Post\Export']['setFormAttributeRepository'] = $di->lazyGet('repository.form_attribute');
+$di->setters['Ushahidi\Core\Usecase\Post\Export']['setPostExportRepository'] = $di->lazyGet('repository.posts_export');
 
-$di->setter['Ushahidi\Core\Usecase\Post\Export']['setHXLFromAttributeHxlAttributeTagRepo'] =
+$di->setters['Ushahidi\Core\Usecase\Post\Export']['setHXLFromAttributeHxlAttributeTagRepo'] =
     $di->lazyGet('repository.form_attribute_hxl_attribute_tag');
 
 // User login is a custom read the uses authentication.
@@ -337,37 +335,37 @@ $di->params['Ushahidi\Factory\UsecaseFactory']['map']['users'] = [
     'getresettoken' => $di->lazyNew('Ushahidi\Core\Usecase\User\GetResetToken'),
     'passwordreset' => $di->lazyNew('Ushahidi\Core\Usecase\User\ResetUserPassword'),
 ];
-$di->setter['Ushahidi\Core\Usecase\User\LoginUser']['setAuthenticator'] = $di->lazyGet('tool.authenticator.password');
-$di->setter['Ushahidi\Core\Usecase\User\LoginUser']['setRateLimiter'] = $di->lazyGet('ratelimiter.login');
+$di->setters['Ushahidi\Core\Usecase\User\LoginUser']['setAuthenticator'] = $di->lazyGet('tool.authenticator.password');
+$di->setters['Ushahidi\Core\Usecase\User\LoginUser']['setRateLimiter'] = $di->lazyGet('ratelimiter.login');
 
-$di->setter['Ushahidi\Core\Usecase\User\RegisterUser']['setRateLimiter'] = $di->lazyGet('ratelimiter.register');
+$di->setters['Ushahidi\Core\Usecase\User\RegisterUser']['setRateLimiter'] = $di->lazyGet('ratelimiter.register');
 
-$di->setter['Ushahidi\Core\Usecase\User\GetResetToken']['setMailer'] = $di->lazyGet('tool.mailer');
+$di->setters['Ushahidi\Core\Usecase\User\GetResetToken']['setMailer'] = $di->lazyGet('tool.mailer');
 
 // Traits
-$di->setter['Ushahidi\Core\Traits\UserContext']['setSession'] = $di->lazyGet('session');
-$di->setter['Ushahidi\Core\Usecase\Form\VerifyFormLoaded']['setFormRepository'] = $di->lazyGet('repository.form');
-$di->setter['Ushahidi\Core\Usecase\Form\VerifyFormLoaded']['setFormContactRepository'] = $di->lazyGet('repository.form_contact');
-$di->setter['Ushahidi\Core\Usecase\Form\VerifyStageLoaded']['setStageRepository']
+$di->setters['Ushahidi\Core\Traits\UserContext']['setSession'] = $di->lazyGet('session');
+$di->setters['Ushahidi\Core\Usecase\Form\VerifyFormLoaded']['setFormRepository'] = $di->lazyGet('repository.form');
+$di->setters['Ushahidi\Core\Usecase\Form\VerifyFormLoaded']['setFormContactRepository'] = $di->lazyGet('repository.form_contact');
+$di->setters['Ushahidi\Core\Usecase\Form\VerifyStageLoaded']['setStageRepository']
     = $di->lazyGet('repository.form_stage');
 
-$di->setter['Ushahidi\Core\Traits\Event']['setEmitter'] = $di->lazyNew('League\Event\Emitter');
-$di->setter['Ushahidi\Core\Traits\PrivateDeployment']['setPrivate'] = $di->lazyGet('site.private');
-$di->setter['Ushahidi\Core\Traits\WebhookAccess']['setEnabled'] = $di->lazyGet('webhooks.enabled');
-$di->setter['Ushahidi\Core\Traits\PostLockingFeature']['setEnabled'] = $di->lazyGet('post-locking.enabled');
-$di->setter['Ushahidi\Core\Traits\RedisFeature']['setEnabled'] = $di->lazyGet('redis.enabled');
-$di->setter['Ushahidi\Core\Traits\DataImportAccess']['setEnabled'] = $di->lazyGet('data-import.enabled');
+$di->setters['Ushahidi\Core\Traits\Event']['setEmitter'] = $di->lazyNew('League\Event\Emitter');
+$di->setters['Ushahidi\Core\Traits\PrivateDeployment']['setPrivate'] = $di->lazyGet('site.private');
+$di->setters['Ushahidi\Core\Traits\WebhookAccess']['setEnabled'] = $di->lazyGet('webhooks.enabled');
+$di->setters['Ushahidi\Core\Traits\PostLockingFeature']['setEnabled'] = $di->lazyGet('post-locking.enabled');
+$di->setters['Ushahidi\Core\Traits\RedisFeature']['setEnabled'] = $di->lazyGet('redis.enabled');
+$di->setters['Ushahidi\Core\Traits\DataImportAccess']['setEnabled'] = $di->lazyGet('data-import.enabled');
 // Set ACL for ACL Trait
-$di->setter['Ushahidi\Core\Tool\Permissions\AclTrait']['setAcl'] = $di->lazyGet('tool.acl');
+$di->setters['Ushahidi\Core\Tool\Permissions\AclTrait']['setAcl'] = $di->lazyGet('tool.acl');
 
 // Set post permissions instance
-$di->setter['Ushahidi\Core\Tool\Permissions\InteractsWithPostPermissions']['setPostPermissions'] = $di->lazyNew(Ushahidi\Core\Tool\Permissions\PostPermissions::class);
+$di->setters['Ushahidi\Core\Tool\Permissions\InteractsWithPostPermissions']['setPostPermissions'] = $di->lazyNew(Ushahidi\Core\Tool\Permissions\PostPermissions::class);
 
 // Set form permissions instance
-$di->setter['Ushahidi\Core\Tool\Permissions\InteractsWithFormPermissions']['setFormPermissions'] = $di->lazyNew(Ushahidi\Core\Tool\Permissions\FormPermissions::class);
+$di->setters['Ushahidi\Core\Tool\Permissions\InteractsWithFormPermissions']['setFormPermissions'] = $di->lazyNew(Ushahidi\Core\Tool\Permissions\FormPermissions::class);
 
 // Set ACL for ACL Trait
-$di->setter['Ushahidi\Core\Tool\Permissions\AclTrait']['setAcl'] = $di->lazyGet('tool.acl');
+$di->setters['Ushahidi\Core\Tool\Permissions\AclTrait']['setAcl'] = $di->lazyGet('tool.acl');
 
 // Tools
 $di->set('tool.signer', $di->lazyNew('Ushahidi\Core\Tool\Signer'));

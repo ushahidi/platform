@@ -110,7 +110,7 @@ class AppServiceProvider extends ServiceProvider
         $this->injectAuraConfig($di);
     }
 
-    protected function configureAuraServices(\Aura\Di\ContainerInterface $di)
+    protected function configureAuraServices(\Aura\Di\Container $di)
     {
         // Configure mailer
         $di->set('tool.mailer', $di->lazyNew('Ushahidi\App\Tools\LumenMailer', [
@@ -145,10 +145,11 @@ class AppServiceProvider extends ServiceProvider
         });
 
         // Configure dispatcher
-        $di->setter[\Ushahidi\Core\Traits\Events\DispatchesEvents::class]['setDispatcher'] = $this->app->make('events');
+        $di->setters[\Ushahidi\Core\Traits\Events\DispatchesEvents::class]['setDispatcher']
+            = $this->app->make('events');
     }
 
-    protected function injectAuraConfig(\Aura\Di\ContainerInterface $di)
+    protected function injectAuraConfig(\Aura\Di\Container $di)
     {
         // CDN Config settings
         $di->set('cdn.config', function () use ($di) {
@@ -192,7 +193,7 @@ class AppServiceProvider extends ServiceProvider
         });
     }
 
-    protected function getDbConfig(\Aura\Di\ContainerInterface $di)
+    protected function getDbConfig(\Aura\Di\Container $di)
     {
         // Kohana injection
         // DB config
