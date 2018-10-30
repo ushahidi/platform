@@ -39,26 +39,6 @@ function service($what = null)
     return $di;
 }
 
-// A special configuration group called "features" stores a list of feature
-// toggles. These switches are used to enable and disable specific aspects
-// of the platform for varying levels of subscription to Ushahidi-managed
-// deployments.
-
-// To make this as easy as possible, we define a global
-// feature() function that always responds boolean.
-//
-// **Features that do not exist will always return `false`.**
-function feature($name)
-{
-    $config = service('repository.config');
-    try {
-        $conf = $config->get('features');
-    } catch (\Exception $e) {
-        return false;
-    }
-    return !empty($conf->$name);
-}
-
 // All services set in the container should follow a `prefix.name` format,
 // such as `repository.user` or `validate.user.login` or `tool.hash.password`.
 //
