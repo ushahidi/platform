@@ -53,9 +53,9 @@ class GeoJSONController extends PostsController
      */
     public function index(Request $request)
     {
-        $filters = $this->demoCheck($this->getFilters($request));
-
         $this->prepBoundingBox($request);
+
+        $filters = $this->demoCheck($this->getFilters($request));
 
         $this->usecase = $this->usecaseFactory
             ->get($this->getResource(), 'search')
