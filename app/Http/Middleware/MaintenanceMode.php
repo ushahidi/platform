@@ -20,8 +20,8 @@ class MaintenanceMode
         $maintenanceMode = env('MAINTENANCE_MODE');
         if ($maintenanceMode) {
             $maintenanceMessage = 'This site is down for maintenance';
-            if (service('site.config')) {
-                $maintenanceMessage = service('site.config')['name'] . ' is down for maintenance.';
+            if ($site = app('multisite')->getSite()) {
+                $maintenanceMessage = $site->getName() . ' is down for maintenance.';
             }
             abort(
                 503,

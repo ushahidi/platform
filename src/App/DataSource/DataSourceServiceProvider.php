@@ -74,9 +74,7 @@ class DataSourceServiceProvider extends ServiceProvider
         return new Email\Email(
             $dataProviderConfig['email'],
             $this->app->make('mailer'),
-            service('site.config'),
-            service('clienturl'),
-            service('repository.message')
+            $this->app->make(\Ushahidi\Core\Entity\MessageRepository::class)
         );
     }
 
@@ -84,9 +82,7 @@ class DataSourceServiceProvider extends ServiceProvider
     {
         return new Email\OutgoingEmail(
             $dataProviderConfig['email'],
-            $this->app->make('mailer'),
-            service('site.config'),
-            service('clienturl')
+            $this->app->make('mailer')
         );
     }
 

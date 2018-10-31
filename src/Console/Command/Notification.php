@@ -20,9 +20,12 @@ use Ushahidi\Core\Entity\NotificationQueueRepository;
 use Ushahidi\Core\Entity\ContactRepository;
 use Ushahidi\App\DataSource\DataSourceManager;
 use Ushahidi\App\Multisite\OhanzeeResolver;
+use Ushahidi\App\Multisite\UsesSiteInfo;
 
 class Notification extends Command
 {
+    use UsesSiteInfo;
+
     private $postRepository;
     private $contactRepository;
     private $messageRepository;
@@ -75,9 +78,6 @@ class Notification extends Command
         $this->messageRepository = service('repository.message');
         $this->notificationQueueRepository = service('repository.notification.queue');
 
-        $this->siteConfig = service('site.config');
-        $this->clientUrl = service('clienturl');
-
         $limit = $this->option('limit');
 
         $count = 0;
@@ -114,8 +114,8 @@ class Notification extends Command
         $offset = 0;
         $limit = 1000;
 
-        $site_name = $this->siteConfig['name'] ?: 'Ushahidi';
-        $client_url = $this->clientUrl;
+        $site_name = $this->getSite()->getName() ?: 'Ushahidi';
+        $client_url = $this->getSite()->getClientUri();
 
         // Get contacts (max $limit at a time) and generate messages.
         while (true) {

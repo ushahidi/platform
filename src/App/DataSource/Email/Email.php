@@ -35,15 +35,10 @@ class Email extends OutgoingEmail implements IncomingAPIDataSource
     public function __construct(
         array $config,
         Mailer $mailer = null,
-        $siteConfig = null,
-        $clientUrl = null,
         MessageRepository $messageRepo = null
     ) {
         $this->config = $config;
         $this->mailer = $mailer;
-        // @todo figure out a better way to set these. Maybe globally for all emails?
-        $this->siteConfig = $siteConfig;
-        $this->clientUrl = $clientUrl;
         $this->messageRepo = $messageRepo;
     }
 

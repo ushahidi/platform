@@ -11,6 +11,9 @@
 
 namespace Ushahidi\App\Multisite;
 
+use Illuminate\Support\Facades\DB;
+use Ushahidi\Core\Entity\ConfigRepository;
+
 // @todo consider just an Eloquent model? or ushahidi entity
 class Site
 {
@@ -35,39 +38,99 @@ class Site
         }
     }
 
+    /**
+     * Get site id
+     * @return int
+     */
     public function getId()
     {
         return $this->id;
     }
 
-    public function getDeploymentName()
+    /**
+     * Get deployment name from deployments table or site config
+     * @return string
+     */
+    public function getName()
     {
-        return $this->deployment_name ?: 'Deployment';
+        return $this->getSiteConfig('name', $this->deployment_name ?: 'Deployment');
+    }
+
+    /**
+     * Get site config
+     *
+     * @param  mixed $param   param to return
+     * @param  mixed $default default if param not set
+     * @return mixed
+     */
+    public function getSiteConfig($param = false, $default = null)
+    {
+        // @todo inject repo
+        // @todo cache result
+        $siteConfig = app(ConfigRepository::class)->get('site');
+
+        if ($param) {
+            return $siteConfig->$param ?? $default;
+        }
+
+        return $siteConfig;
+    }
+
+    /**
+     * Get deployment email from multisite config or site config
+     *
+     * @return string
+     */
+    public function getEmail()
+    {
+        // @todo can I avoid loading this from site?
+        $multisite_email = config('multisite.email');
+
+        // If we're in multisite mode
+        if (config('multisite.enabled') && $multisite_email) {
+            // use multisite email
+            return $multisite_email;
+        } elseif ($site_email = $this->getSiteConfig('email')) {
+            // Otherwise get email from site config
+            return $site_email;
+        } else {
+            // Get host from lumen
+            // @todo handle missing request?
+            $host = app('request')->getHost();
+            return $host ? 'noreply@' . $host : false;
+        }
     }
 
     /**
      * Get site client url
+     *
      * @return string
      */
-    public function getClientUrl()
+    public function getClientUri()
     {
-        // @todo fetch from config
-        // @todo handle non multsite case?
-        return $this->subdomain . '.' . getenv('MULTISITE_CLIENT_DOMAIN');
+        // @todo this feels kind like mixing responsibilities?
+        // If we're in multisite mode
+        if (config('multisite.enabled')) {
+            // build the url from config + subdomain
+            return implode('.', array_filter([$this->subdomain, config('multisite.client_domain', $this->domain)]));
+        } else {
+            // get client_url from site config
+            return $this->getSiteConfig('client_url', false);
+        }
     }
 
     /**
      * Get site base url
      * @return string
      */
-    public function getBaseUrl() // fixme: naming. Technically a URN or URI. not a URL
+    public function getBaseUri()
     {
-        return $this->subdomain . ($this->domain ? '.' . $this->domain : '');
+        return implode('.', array_filter([$this->subdomain, $this->domain]));
     }
 
     public function getCdnPrefix()
     {
-        return $this->subdomain . ($this->domain ? '.' . $this->domain : '');
+        return implode('.', array_filter([$this->subdomain, $this->domain]));
     }
 
     /**

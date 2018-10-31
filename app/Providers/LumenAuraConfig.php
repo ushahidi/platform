@@ -18,9 +18,7 @@ class LumenAuraConfig extends ContainerConfig
     {
         // Configure mailer
         $di->set('tool.mailer', $di->lazyNew('Ushahidi\App\Tools\LumenMailer', [
-            'mailer' => app('mailer'),
-            'siteConfig' => $di->lazyGet('site.config'),
-            'clientUrl' => $di->lazyGet('clienturl')
+            'mailer' => app('mailer')
         ]));
 
         // Configure filesystem
@@ -63,19 +61,6 @@ class LumenAuraConfig extends ContainerConfig
         });
 
         // Multisite db
-        // Move multisite enabled check to class and move to src/App
-        $di->set('site', function () use ($di) {
-            // @todo default to using the current domain
-            $site = '';
-
-            // Is this a multisite install?
-            $multisite = config('multisite.enabled');
-            if ($multisite) {
-                $site = $di->get('multisite')->getSite();
-            }
-
-            return $site;
-        });
 
         // Move multisite enabled check to class and move to src/App
         $di->set('tool.uploader.prefix', function () use ($di) {
@@ -87,29 +72,5 @@ class LumenAuraConfig extends ContainerConfig
 
             return '';
         });
-
-        // Client Url
-        $di->set('clienturl', function () use ($di) {
-            return $this->getClientUrl($di->get('site.config'), $di->lazyGet('multisite'));
-        });
-    }
-
-    protected function getClientUrl($config, $multisite)
-    {
-        $clientUrl = env('CLIENT_URL', false);
-
-        if (env("MULTISITE_DOMAIN", false)) {
-            try {
-                $clientUrl = $multisite()->getClientUrl();
-            } catch (Exception $e) {
-            }
-        }
-
-        // Or overwrite from config
-        if (!$clientUrl && $config['client_url']) {
-            $client_url = $config['client_url'];
-        }
-
-        return $clientUrl;
     }
 }

@@ -980,11 +980,6 @@ class AppConfig extends ContainerConfig
 
         // Set up config bindings
 
-        // Site config
-        $di->set('site.config', function () use ($di) {
-            return $di->get('repository.config')->get('site')->asArray();
-        });
-
         // Map
         // Site config
         $di->set('map.config', function () use ($di) {
