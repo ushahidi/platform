@@ -142,25 +142,6 @@ class AppServiceProvider extends ServiceProvider
         return $config;
     }
 
-    protected function getClientUrl($config, $multisite)
-    {
-        $clientUrl = env('CLIENT_URL', false);
-
-        if (env("MULTISITE_DOMAIN", false)) {
-            try {
-                $clientUrl = $multisite()->getClientUrl();
-            } catch (Exception $e) {
-            }
-        }
-
-        // Or overwrite from config
-        if (!$clientUrl && $config['client_url']) {
-            $client_url = $config['client_url'];
-        }
-
-        return $clientUrl;
-    }
-
     protected function setupMultisiteIlluminateDB()
     {
         $config = $this->getDbConfig();
