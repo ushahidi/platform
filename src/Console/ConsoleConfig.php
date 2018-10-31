@@ -11,8 +11,4 @@ class ConsoleConfig extends ContainerConfig
     {
         $di->set('authorizer.console', $di->lazyNew('Ushahidi\Console\Authorizer\ConsoleAuthorizer'));
     }
-
-    public function modify(Container $di)
-    {
-    }
 }

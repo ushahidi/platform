@@ -413,8 +413,4 @@ class CoreConfig extends ContainerConfig
 
         $di->set('authorizer.country_code', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\CountryCodeAuthorizer'));
     }
-
-    public function modify(Container $di)
-    {
-    }
 }

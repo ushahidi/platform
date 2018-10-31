@@ -13,11 +13,7 @@ class LumenAuraConfig extends ContainerConfig
         $this->injectAuraConfig($di);
     }
 
-    public function modify(Container $di)
-    {
-    }
-
-    protected function configureAuraServices(\Aura\Di\Container $di)
+    protected function configureAuraServices(Container $di)
     {
         // Configure mailer
         $di->set('tool.mailer', $di->lazyNew('Ushahidi\App\Tools\LumenMailer', [
@@ -56,7 +52,7 @@ class LumenAuraConfig extends ContainerConfig
             = app('events');
     }
 
-    protected function injectAuraConfig(\Aura\Di\Container $di)
+    protected function injectAuraConfig(Container $di)
     {
         // CDN Config settings
         $di->set('cdn.config', function () use ($di) {
