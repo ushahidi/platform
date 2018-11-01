@@ -31,12 +31,6 @@ class AppConfig extends ContainerConfig
 
         // Register filesystem adapter types
 
-        // Multisite utility class
-        $di->set('multisite', $di->lazyNew('Ushahidi\App\Multisite'));
-        $di->params['Ushahidi\App\Multisite'] = [
-            'db' => $di->lazyGet('kohana.db.multisite')
-        ];
-
         // Validation Trait
         // We're injecting via lazy so that we get a separate ValidationEngine for every validator
         // Rather than a shared engine as we would if we used lazyNew->set->lazyGet->
