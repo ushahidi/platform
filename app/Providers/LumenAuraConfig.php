@@ -59,18 +59,5 @@ class LumenAuraConfig extends ContainerConfig
         $di->set('ratelimiter.config', function () use ($di) {
             return config('ratelimiter');
         });
-
-        // Multisite db
-
-        // Move multisite enabled check to class and move to src/App
-        $di->set('tool.uploader.prefix', function () use ($di) {
-            // Is this a multisite install?
-            $multisite = config('multisite.enabled');
-            if ($multisite) {
-                return $di->get('multisite')->getCdnPrefix();
-            }
-
-            return '';
-        });
     }
 }
