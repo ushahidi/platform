@@ -15,11 +15,29 @@ use Ohanzee\Database;
 
 class OhanzeeResolver
 {
+    /**
+     * @var Ohanzee\Database
+     */
+    protected $currentConnection;
+
+    public function useDefaultConnection()
+    {
+        $config = config('ohanzee-db'); // In construct() ??
+
+        $this->currentConnection = Database::instance('default', $config['default']);
+    }
 
     public function setConnection($name, $config)
     {
+        $defaults = config('ohanzee-db')['default']; // In construct() ??
+
+        $defaults['connection']['hostname'] = $config['host'];
+        $defaults['connection']['database'] = $config['database'];
+        $defaults['connection']['username'] = $config['username'];
+        $defaults['connection']['password'] = $config['password'];
+
         // @todo check if config already exists
-        $this->currentConnection = Database::instance($name, $config);
+        $this->currentConnection = Database::instance($name, $defaults);
     }
 
     public function connection()

@@ -11,6 +11,8 @@
 
 namespace Ushahidi\App\Multisite;
 
+use Illuminate\Support\Facades\Event;
+
 class MultisiteManager
 {
     protected $enabled;
@@ -85,6 +87,24 @@ class MultisiteManager
     }
 
     /**
+     * Set site to fake default for single site mode
+     */
+    public function setDefaultSite($domain = '')
+    {
+        $this->setSite(new Site(
+            [
+                'id' => 0,
+                'status' => 'deployed',
+                'domain' => $domain,
+                'db_host' => config('database.connections.mysql.host'),
+                'db_name' => config('database.connections.mysql.database'),
+                'db_username' => config('database.connections.mysql.username'),
+                'db_password' => config('database.connections.mysql.password'),
+            ]
+        ));
+    }
+
+    /**
      * @param Site $site
      * @return void
      */
@@ -93,7 +113,7 @@ class MultisiteManager
         $this->currentSite = $site;
 
         // Trigger DB changes, etc
-        // event('multisite.site.changed', ['site' => $site]);
+        Event::dispatch('multisite.site.changed', ['site' => $site]);
     }
 
     /**
