@@ -19,6 +19,7 @@ use Ushahidi\Core\Entity\MessageRepository;
 use Ushahidi\Core\Entity\NotificationQueueRepository;
 use Ushahidi\Core\Entity\ContactRepository;
 use Ushahidi\App\DataSource\DataSourceManager;
+use Ushahidi\App\Multisite\OhanzeeResolver;
 
 class Notification extends Command
 {
@@ -26,6 +27,7 @@ class Notification extends Command
     private $contactRepository;
     private $messageRepository;
     private $notificationQueueRepository;
+    protected $resolver;
 
     /**
      * The console command name.
@@ -48,16 +50,26 @@ class Notification extends Command
      */
     protected $description = 'Queue notifications for sending';
 
-    public function __construct(DataSourceManager $sources)
+    public function __construct(DataSourceManager $sources, OhanzeeResolver $resolver)
     {
         parent::__construct();
 
         $this->sources = $sources;
+        $this->resolver = $resolver;
+    }
+
+    /**
+     * Get current connection
+     *
+     * @return Ohanzee\Database;
+     */
+    protected function db()
+    {
+        return $this->resolver->connection();
     }
 
     public function handle()
     {
-        $this->db = service('kohana.db');
         $this->contactRepository = service('repository.contact');
         $this->postRepository = service('repository.post');
         $this->messageRepository = service('repository.message');
@@ -74,7 +86,7 @@ class Notification extends Command
         $notifications = $this->notificationQueueRepository->getNotifications($limit);
 
         // Start transaction
-        $this->db->begin();
+        $this->db()->begin();
 
         foreach ($notifications as $notification) {
             // Get contacts and generate messages from new notification
@@ -82,7 +94,7 @@ class Notification extends Command
         }
 
         // Finally commit changes
-        $this->db->commit();
+        $this->db()->commit();
 
         $this->info("{$count} messages queued for sending");
     }

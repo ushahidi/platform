@@ -97,6 +97,6 @@ class TargetedSurveyStateRepository extends OhanzeeRepository implements
                 'outgoing'
             );
 
-        return ($query->execute($this->db)->count() > 0);
+        return ($query->execute($this->db())->count() > 0);
     }
 }

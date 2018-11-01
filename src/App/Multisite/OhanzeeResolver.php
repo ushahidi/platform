@@ -42,6 +42,10 @@ class OhanzeeResolver
 
     public function connection()
     {
+        if (!$this->currentConnection) {
+            throw new \RuntimeException('Database not configured yet');
+        }
+
         return $this->currentConnection;
     }
 }

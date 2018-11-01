@@ -42,9 +42,9 @@ class ExportJobRepository extends OhanzeeRepository implements ExportJobReposito
 
     protected $post_repo;
 
-    public function __construct(Database $db, PostRepository $post_repo)
+    public function __construct(\Ushahidi\App\Multisite\OhanzeeResolver $resolver, PostRepository $post_repo)
     {
-        parent::__construct($db);
+        parent::__construct($resolver);
 
         $this->post_repo = $post_repo;
     }
@@ -133,7 +133,7 @@ class ExportJobRepository extends OhanzeeRepository implements ExportJobReposito
                       ->limit($limit)
                       ->where('status', '=', ExportJob::STATUS_PENDING);
 
-        $results = $query->execute($this->db);
+        $results = $query->execute($this->db());
 
         return $this->getCollection($results->as_array());
     }
@@ -144,7 +144,7 @@ class ExportJobRepository extends OhanzeeRepository implements ExportJobReposito
                       ->limit($limit)
                       ->order_by('created', 'ASC');
 
-        $results = $query->execute($this->db);
+        $results = $query->execute($this->db());
 
         return $this->getCollection($results->as_array());
     }
@@ -195,7 +195,7 @@ class ExportJobRepository extends OhanzeeRepository implements ExportJobReposito
                 ->on('export_job_id', '=', 'export_job.id')
             ->group_by(['export_job.id', 'total_batches']);
 
-        $result = $query->execute($this->db)->current();
+        $result = $query->execute($this->db())->current();
 
         return ($result['completed_batches'] == $result['total_batches']);
     }

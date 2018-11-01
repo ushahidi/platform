@@ -75,7 +75,7 @@ class UserRepository extends OhanzeeRepository implements
         $query = DB::select('*')->from('contacts')
                     ->where('user_id', '=', $entity_id);
 
-        $results = $query->execute($this->db);
+        $results = $query->execute($this->db());
 
         return $results->as_array();
     }
@@ -202,7 +202,7 @@ class UserRepository extends OhanzeeRepository implements
         $query = DB::insert('user_reset_tokens')
             ->columns(array_keys($input))
             ->values(array_values($input))
-            ->execute($this->db);
+            ->execute($this->db());
 
         return $token;
     }
@@ -214,9 +214,9 @@ class UserRepository extends OhanzeeRepository implements
             ->from('user_reset_tokens')
             ->where('reset_token', '=', $token)
             ->where('created', '>', time() - 1800) // Expire tokens after less than 30 mins
-            ->execute($this->db);
+            ->execute($this->db());
 
-            
+
 
         $count = $result->get('total') ?: 0;
 
@@ -240,7 +240,7 @@ class UserRepository extends OhanzeeRepository implements
     {
         $result = DB::delete('user_reset_tokens')
             ->where('reset_token', '=', $token)
-            ->execute($this->db);
+            ->execute($this->db());
     }
 
     /**

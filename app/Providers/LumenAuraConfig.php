@@ -36,20 +36,13 @@ class LumenAuraConfig extends ContainerConfig
             'userRepo' => $di->lazyGet('repository.user')
         ]));
 
-        // Multisite db
-        $di->set('kohana.db.multisite', function () use ($di) {
-            $config = config('ohanzee-db');
-
-            return \Ohanzee\Database::instance('multisite', $config['multisite']);
-        });
-
-        // Deployment db
-        $di->set('kohana.db', function () use ($di) {
-            return \Ohanzee\Database::instance('deployment', $this->getDbConfig($di));
-        });
-
         $di->set('db.eloquent.resolver', $di->lazy(function () {
             return app('db');
+        }));
+
+        // Abstract repository parameters
+        $di->set('db.ohanzee.resolver', $di->lazy(function () {
+            return app(\Ushahidi\App\Multisite\OhanzeeResolver::class);
         }));
 
         // Configure dispatcher
@@ -99,22 +92,6 @@ class LumenAuraConfig extends ContainerConfig
         $di->set('clienturl', function () use ($di) {
             return $this->getClientUrl($di->get('site.config'), $di->lazyGet('multisite'));
         });
-    }
-
-    protected function getDbConfig(\Aura\Di\Container $di)
-    {
-        // Kohana injection
-        // DB config
-        $config = config('ohanzee-db');
-        $config = $config['default'];
-
-        // Is this a multisite install?
-        $multisite = config('multisite.enabled');
-        if ($multisite) {
-            $config = $di->get('multisite')->getDbConfig();
-        }
-
-        return $config;
     }
 
     protected function getClientUrl($config, $multisite)

@@ -445,12 +445,12 @@ class AppConfig extends ContainerConfig
             'resolver' => $di->lazyGet('db.eloquent.resolver'),
         ];
         $di->params[\Ushahidi\App\Repository\OhanzeeRepository::class] = [
-            'db' => $di->lazyGet('kohana.db'),
+            'resolver' => $di->lazyGet('db.ohanzee.resolver'),
         ];
 
         // Config
         $di->params[\Ushahidi\App\Repository\ConfigRepository::class] = [
-            'db' => $di->lazyGet('kohana.db'),
+            'resolver' => $di->lazyGet('db.ohanzee.resolver'),
         ];
 
         // Set up Json Transcode Repository Trait

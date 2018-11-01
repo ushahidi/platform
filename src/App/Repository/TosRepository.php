@@ -66,7 +66,7 @@ class TosRepository extends OhanzeeRepository implements
     public function getSearchResults()
     {
         $query = $this->getSearchQuery();
-        $results = $query->distinct(true)->execute($this->db);
+        $results = $query->distinct(true)->execute($this->db());
         return $this->getCollection($results->as_array());
     }
 }

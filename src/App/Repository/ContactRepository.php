@@ -38,7 +38,7 @@ class ContactRepository extends OhanzeeRepository implements
         $result = $this->selectQuery()
             ->where('user_id', '=', $entity->user_id)
             ->and_where('contact', '=', $entity->contact)
-            ->execute($this->db);
+            ->execute($this->db());
         return $result->get('id', 0);
     }
 
@@ -152,7 +152,7 @@ class ContactRepository extends OhanzeeRepository implements
             $query->offset($offset);
         }
 
-        $results =  $query->execute($this->db);
+        $results =  $query->execute($this->db());
 
         return $this->getCollection($results->as_array());
     }
