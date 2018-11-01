@@ -1063,8 +1063,4 @@ class AppConfig extends ContainerConfig
                 and $features['private']['enabled'];
         });
     }
-
-    public function modify(Container $di)
-    {
-    }
 }
