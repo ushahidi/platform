@@ -26,6 +26,7 @@ class AppServiceProvider extends ServiceProvider
         $this->registerFilesystem();
         $this->registerMailer();
 
+        $this->registerMultisite();
         $this->registerDataSources();
 
         $this->setupMultisiteIlluminateDB();
@@ -119,6 +120,11 @@ class AppServiceProvider extends ServiceProvider
                 'filesystem'
             );
         });
+    }
+
+    public function registerMultisite()
+    {
+        $this->app->register(\Ushahidi\App\Multisite\MultisiteServiceProvider::class);
     }
 
     public function registerDataSources()
