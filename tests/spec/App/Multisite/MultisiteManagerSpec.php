@@ -8,17 +8,18 @@ use Ushahidi\App\Multisite\SiteRepository;
 use Ushahidi\App\Multisite\SiteNotFoundException;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
+use Illuminate\Contracts\Events\Dispatcher;
 
 class MultisiteManagerSpec extends ObjectBehavior
 {
-    function let(SiteRepository $repo)
+    function let(SiteRepository $repo, Dispatcher $events)
     {
         $config = [
             'enabled' => true,
             'domain'  => 'myushahidi.com'
         ];
 
-        $this->beConstructedWith($config, $repo);
+        $this->beConstructedWith($config, $repo, $events);
     }
 
     function it_is_initializable()

@@ -11,7 +11,7 @@
 
 namespace Ushahidi\App\Multisite;
 
-use Illuminate\Support\Facades\Event;
+use Illuminate\Contracts\Events\Dispatcher;
 
 class MultisiteManager
 {
@@ -22,11 +22,12 @@ class MultisiteManager
     /**
      * @param array $config
      */
-    public function __construct($config, SiteRepository $repo)
+    public function __construct($config, SiteRepository $repo, Dispatcher $events)
     {
         $this->enabled = $config['enabled'];
         $this->domain = $config['domain'];
         $this->repo = $repo;
+        $this->events = $events;
     }
 
     public function getDomain()
@@ -113,7 +114,7 @@ class MultisiteManager
         $this->currentSite = $site;
 
         // Trigger DB changes, etc
-        Event::dispatch('multisite.site.changed', ['site' => $site]);
+        $this->events->dispatch('multisite.site.changed', ['site' => $site]);
     }
 
     /**

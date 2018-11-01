@@ -13,7 +13,11 @@ class MultisiteServiceProvider extends ServiceProvider
     {
         // Register manager
         $this->app->singleton('multisite', function ($app) {
-            return new MultisiteManager(config('multisite'), $app[SiteRepository::class]);
+            return new MultisiteManager(
+                config('multisite'),
+                $app[SiteRepository::class],
+                $app[\Illuminate\Contracts\Events\Dispatcher::class]
+            );
         });
 
         // Register OhanzeeResolver
