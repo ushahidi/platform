@@ -442,7 +442,7 @@ class AppConfig extends ContainerConfig
 
         // Abstract repository parameters
         $di->params[\Ushahidi\App\Repository\EloquentRepository::class] = [
-            'connection' => $di->lazyGet('db.eloquent.connection'),
+            'resolver' => $di->lazyGet('db.eloquent.resolver'),
         ];
         $di->params[\Ushahidi\App\Repository\OhanzeeRepository::class] = [
             'db' => $di->lazyGet('kohana.db'),

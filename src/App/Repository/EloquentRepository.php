@@ -13,6 +13,7 @@ namespace Ushahidi\App\Repository;
 
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\Usecase;
+use Illuminate\Database\ConnectionResolverInterface;
 use Illuminate\Database\ConnectionInterface;
 use Illuminate\Support\Collection;
 
@@ -23,11 +24,21 @@ abstract class EloquentRepository implements
     Usecase\DeleteRepository,
     Usecase\ImportRepository
 {
-    protected $connection;
+    protected $resolver;
 
-    public function __construct(ConnectionInterface $connection)
+    public function __construct(ConnectionResolverInterface $resolver)
     {
-        $this->connection = $connection;
+        $this->resolver = $resolver;
+    }
+
+    /**
+     * Get current connection
+     *
+     * @return Illuminate\Database\Connection;
+     */
+    protected function connection()
+    {
+        return $this->resolver->connection();
     }
 
     /**
@@ -122,7 +133,7 @@ abstract class EloquentRepository implements
      */
     protected function selectCount(array $where = [])
     {
-        return $this->connection->table($this->getTable())
+        return $this->connection()->table($this->getTable())
             ->select($this->getTable() . '.*') // @todo do we need this?
             ->where($where) // @todo do we need to handle whereIn here too?
             ->count();
@@ -135,7 +146,7 @@ abstract class EloquentRepository implements
      */
     protected function selectQuery(array $where = [])
     {
-        $query = $this->connection->table($this->getTable())
+        $query = $this->connection()->table($this->getTable())
             ->select($this->getTable() . '.*') // @todo do we need this?
             ->where($where) // @todo do we need to handle whereIn here too?
             ;
@@ -157,7 +168,7 @@ abstract class EloquentRepository implements
             ));
         }
 
-        return $this->connection
+        return $this->connection()
             ->table($this->getTable())
             ->insertGetId($input);
     }
@@ -187,7 +198,7 @@ abstract class EloquentRepository implements
             return 0; // nothing would be updated, just ignore
         }
 
-        return $this->connection
+        return $this->connection()
             ->table($this->getTable())
             ->where($where)
             ->update($input);
@@ -207,7 +218,7 @@ abstract class EloquentRepository implements
             ));
         }
 
-        return $this->connection
+        return $this->connection()
             ->table($this->getTable())
             ->where($where)
             ->delete();
@@ -220,7 +231,7 @@ abstract class EloquentRepository implements
      */
     public function exists($id)
     {
-        return $this->connection->table($this->getTable())
+        return $this->connection()->table($this->getTable())
             ->select($this->getTable() . '.*') // @todo do we need this?
             ->where($where) // @todo do we need to handle whereIn here too?
             ->exists();

@@ -48,10 +48,9 @@ class LumenAuraConfig extends ContainerConfig
             return \Ohanzee\Database::instance('deployment', $this->getDbConfig($di));
         });
 
-        $di->set('db.eloquent.connection', function () use ($di) {
-            return DB::connection();
-        });
-
+        $di->set('db.eloquent.resolver', $di->lazy(function () {
+            return app('db');
+        }));
 
         // Configure dispatcher
         $di->setters[\Ushahidi\Core\Traits\Events\DispatchesEvents::class]['setDispatcher']

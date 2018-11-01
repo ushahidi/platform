@@ -29,8 +29,6 @@ class AppServiceProvider extends ServiceProvider
         $this->registerMultisite();
         $this->registerDataSources();
 
-        $this->setupMultisiteIlluminateDB();
-
         $this->registerFeatures();
     }
 
@@ -130,36 +128,6 @@ class AppServiceProvider extends ServiceProvider
     public function registerDataSources()
     {
         $this->app->register(\Ushahidi\App\DataSource\DataSourceServiceProvider::class);
-    }
-
-    protected function getDbConfig()
-    {
-        // Kohana injection
-        // DB config
-        $config = config('ohanzee-db');
-        $config = $config['default'];
-
-        // Is this a multisite install?
-        $multisite = config('multisite.enabled');
-        if ($multisite) {
-            $config = service('multisite')->getDbConfig();
-        }
-
-        return $config;
-    }
-
-    protected function setupMultisiteIlluminateDB()
-    {
-        $config = $this->getDbConfig();
-
-        $existing = config('database.connections.mysql');
-
-        config(['database.connections.mysql' => [
-            'database'  => $config['connection']['database'],
-            'username'  => $config['connection']['username'],
-            'password'  => $config['connection']['password'],
-            'host'      => $config['connection']['hostname'],
-        ] + $existing]);
     }
 
     public function registerFeatures()
