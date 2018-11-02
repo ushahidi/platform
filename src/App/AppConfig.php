@@ -18,7 +18,6 @@ class AppConfig extends ContainerConfig
         // Helpers, tools, etc
         $di->set('tool.acl', $di->lazyNew(\Ushahidi\App\Acl::class));
         $di->setters[\Ushahidi\App\Acl::class]['setRoleRepo'] = $di->lazyGet('repository.role');
-        $di->setters[\Ushahidi\App\Acl::class]['setRolesEnabled'] = $di->lazyGet('roles.enabled');
 
         $di->set('tool.hasher.password', $di->lazyNew(\Ushahidi\App\Hasher\Password::class));
         $di->set('tool.authenticator.password', $di->lazyNew(\Ushahidi\App\Authenticator\Password::class));
@@ -602,7 +601,6 @@ class AppConfig extends ContainerConfig
             'role_repo' => $di->lazyGet('repository.role'),
             'post_value_factory' => $di->lazyGet('repository.post_value_factory'),
             'post_value_validator_factory' => $di->lazyGet('validator.post.value_factory'),
-            'limits' => $di->lazyGet('features.limits'),
         ];
 
         $di->params[\Ushahidi\App\Validator\Post\Lock\Update::class] = [
@@ -612,7 +610,6 @@ class AppConfig extends ContainerConfig
 
         $di->params[\Ushahidi\App\Validator\Form\Update::class] = [
             'repo' => $di->lazyGet('repository.form'),
-            'limits' => $di->lazyGet('features.limits'),
         ];
 
         $di->params[\Ushahidi\App\Validator\Form\Attribute\Update::class] = [
@@ -668,7 +665,6 @@ class AppConfig extends ContainerConfig
         $di->params[\Ushahidi\App\Validator\User\Update::class] = [
             'repo' => $di->lazyGet('repository.user'),
             'role_repo' => $di->lazyGet('repository.role'),
-            'limits' => $di->lazyGet('features.limits'),
         ];
         $di->params[\Ushahidi\App\Validator\User\Register::class] = [
             'repo' => $di->lazyGet('repository.user')
@@ -690,8 +686,7 @@ class AppConfig extends ContainerConfig
             'form_repo' => $di->lazyGet('repository.form'),
         ];
         $di->params[\Ushahidi\App\Validator\Role\Update::class] = [
-            'permission_repo' => $di->lazyGet('repository.permission'),
-            'feature_enabled' => $di->lazyGet('roles.enabled'),
+            'permission_repo' => $di->lazyGet('repository.permission')
         ];
 
         // Validator Setters
@@ -980,76 +975,11 @@ class AppConfig extends ContainerConfig
             return $di->get('repository.config')->get('map')->asArray();
         });
 
-        // Feature config
-        $di->set('features', function () use ($di) {
-            return $di->get('repository.config')->get('features')->asArray();
-        });
-
-        // @todo add some kind of FeatureManager that owns all these checkes
-        // $features->isEnabled('roles')
-        // $features->getQuota('admins');
-        // Roles config settings
-        $di->set('roles.enabled', function () use ($di) {
-            $config = $di->get('features');
-
-            return $config['roles']['enabled'];
-        });
-
-        // csv speedup config settings
-        $di->set('csv-speedup.enabled', function () use ($di) {
-            $config = $di->get('features');
-            return $config['csv-speedup']['enabled'];
-        });
-
-        // Feature config
-        $di->set('features.limits', function () use ($di) {
-            $config = $di->get('features');
-
-            return $config['limits'];
-        });
-
-        // Webhooks config settings
-        $di->set('webhooks.enabled', function () use ($di) {
-            $config = $di->get('features');
-
-            return $config['webhooks']['enabled'];
-        });
-
-        // Post Locking config settings
-        $di->set('post-locking.enabled', function () use ($di) {
-            $config = $di->get('features');
-
-            return $config['post-locking']['enabled'];
-        });
-
-        // Redis config settings
-        $di->set('redis.enabled', function () use ($di) {
-            $config = $di->get('features');
-
-            return $config['redis']['enabled'];
-        });
-
-        // Data import config settings
-        $di->set('data-import.enabled', function () use ($di) {
-            $config = $di->get('features');
-
-            return $config['data-import']['enabled'];
-        });
-
         // Dataprovider feature config
         $di->set('features.data-providers', function () use ($di) {
-            $config = $di->get('features');
+            $config = $di->get('repository.config')->get('features')->asArray();
 
             return array_filter($config['data-providers']);
-        });
-
-        // Private deployment config settings
-        // @todo move to repo
-        $di->set('site.private', function () use ($di) {
-            $site = $di->get('site.config');
-            $features = $di->get('features');
-            return $site['private']
-                and $features['private']['enabled'];
         });
     }
 }
