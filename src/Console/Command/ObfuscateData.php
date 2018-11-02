@@ -134,7 +134,7 @@ class ObfuscateData extends Command
     protected function isThisAMultisiteInstall()
     {
         // @TODO: is this the correct way to check against multisite
-        return (config('multisite.enabled'));
+        return app('multisite')->enabled();
     }
 
     /* optional implementations...
