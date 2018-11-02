@@ -995,13 +995,6 @@ class AppConfig extends ContainerConfig
             return $config['limits'];
         });
 
-        // Data import config settings
-        $di->set('data-import.enabled', function () use ($di) {
-            $config = $di->get('features');
-
-            return $config['data-import']['enabled'];
-        });
-
         // Dataprovider feature config
         $di->set('features.data-providers', function () use ($di) {
             $config = $di->get('repository.config')->get('features')->asArray();
