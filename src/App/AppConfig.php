@@ -995,13 +995,6 @@ class AppConfig extends ContainerConfig
             return $config['limits'];
         });
 
-        // Redis config settings
-        $di->set('redis.enabled', function () use ($di) {
-            $config = $di->get('features');
-
-            return $config['redis']['enabled'];
-        });
-
         // Data import config settings
         $di->set('data-import.enabled', function () use ($di) {
             $config = $di->get('features');
