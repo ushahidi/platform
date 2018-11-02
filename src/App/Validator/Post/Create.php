@@ -29,6 +29,7 @@ use Ushahidi\Core\Traits\Permissions\ManagePosts;
 use Ushahidi\Core\Usecase\Post\UpdatePostRepository;
 use Ushahidi\Core\Usecase\Post\UpdatePostTagRepository;
 use Ushahidi\App\Repository\Post\ValueFactory as PostValueFactory;
+use Ushahidi\App\Facades\Features;
 
 class Create extends Validator
 {
@@ -73,10 +74,9 @@ class Create extends Validator
         RoleRepository $role_repo,
         PostLockRepository $post_lock_repo,
         PostValueFactory $post_value_factory,
-        ValueFactory $post_value_validator_factory,
-        array $limits
+        ValueFactory $post_value_validator_factory
     ) {
-    
+
         $this->repo = $repo;
         $this->attribute_repo = $attribute_repo;
         $this->stage_repo = $stage_repo;
@@ -87,7 +87,6 @@ class Create extends Validator
         $this->post_lock_repo = $post_lock_repo;
         $this->post_value_factory = $post_value_factory;
         $this->post_value_validator_factory = $post_value_validator_factory;
-        $this->limits = $limits;
     }
 
     protected function getRules()
@@ -176,10 +175,11 @@ class Create extends Validator
 
     public function checkPublishedLimit(Validation $validation, $status)
     {
-        if ($this->limits['posts'] !== true && $status == 'published') {
+        $limit = Features::getLimit('posts');
+        if ($limit !== INF && $status == 'published') {
             $total_published = $this->repo->getPublishedTotal();
 
-            if ($total_published >= $this->limits['posts']) {
+            if ($total_published >= $limit) {
                 $validation->error('status', 'publishedPostsLimitReached');
             }
         }

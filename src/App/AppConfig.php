@@ -603,7 +603,6 @@ class AppConfig extends ContainerConfig
             'role_repo' => $di->lazyGet('repository.role'),
             'post_value_factory' => $di->lazyGet('repository.post_value_factory'),
             'post_value_validator_factory' => $di->lazyGet('validator.post.value_factory'),
-            'limits' => $di->lazyGet('features.limits'),
         ];
 
         $di->params[\Ushahidi\App\Validator\Post\Lock\Update::class] = [
@@ -613,7 +612,6 @@ class AppConfig extends ContainerConfig
 
         $di->params[\Ushahidi\App\Validator\Form\Update::class] = [
             'repo' => $di->lazyGet('repository.form'),
-            'limits' => $di->lazyGet('features.limits'),
         ];
 
         $di->params[\Ushahidi\App\Validator\Form\Attribute\Update::class] = [
@@ -669,7 +667,6 @@ class AppConfig extends ContainerConfig
         $di->params[\Ushahidi\App\Validator\User\Update::class] = [
             'repo' => $di->lazyGet('repository.user'),
             'role_repo' => $di->lazyGet('repository.role'),
-            'limits' => $di->lazyGet('features.limits'),
         ];
         $di->params[\Ushahidi\App\Validator\User\Register::class] = [
             'repo' => $di->lazyGet('repository.user')
@@ -983,16 +980,6 @@ class AppConfig extends ContainerConfig
         // Site config
         $di->set('map.config', function () use ($di) {
             return $di->get('repository.config')->get('map')->asArray();
-        });
-
-        // @todo add some kind of FeatureManager that owns all these checkes
-        // $features->getQuota('admins');
-
-        // Feature config
-        $di->set('features.limits', function () use ($di) {
-            $config = $di->get('features');
-
-            return $config['limits'];
         });
 
         // Dataprovider feature config

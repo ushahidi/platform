@@ -35,4 +35,26 @@ class Features
 
         return false;
     }
+
+    /**
+     * Get limit for feature
+     * @param  string $feature
+     * @return int|INF
+     */
+    public function getLimit($feature)
+    {
+        $config = $this->configRepo->get('features');
+
+        if (isset($config->limits[$feature])) {
+            if ($config->limits[$feature] === true) {
+                // Return infinity ie. unlimited
+                return INF;
+            }
+
+            return (int) $config->limits[$feature];
+        }
+
+        // Return infinity ie. unlimited
+        return INF;
+    }
 }
