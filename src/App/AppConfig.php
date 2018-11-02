@@ -987,13 +987,7 @@ class AppConfig extends ContainerConfig
             return $di->get('repository.config')->get('map')->asArray();
         });
 
-        // Feature config
-        $di->set('features', function () use ($di) {
-            return $di->get('repository.config')->get('features')->asArray();
-        });
-
         // @todo add some kind of FeatureManager that owns all these checkes
-        // $features->isEnabled('roles')
         // $features->getQuota('admins');
         // Roles config settings
         $di->set('roles.enabled', function () use ($di) {
