@@ -44,6 +44,11 @@ class AppServiceProvider extends ServiceProvider
             return service('repository.message');
         });
 
+        $this->app->singleton(\Ushahidi\Core\Entity\ConfigRepository::class, function ($app) {
+            // Just return it from AuraDI
+            return service('repository.config');
+        });
+
         $this->app->singleton(\Ushahidi\Core\Entity\ContactRepository::class, function ($app) {
             // Just return it from AuraDI
             return service('repository.contact');

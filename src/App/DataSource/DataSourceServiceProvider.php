@@ -35,7 +35,7 @@ class DataSourceServiceProvider extends ServiceProvider
         $this->app->singleton('datasources', function ($app) {
             $manager = new DataSourceManager($app->router);
 
-            $configRepo = service('repository.config');
+            $configRepo = $this->app->make(\Ushahidi\Core\Entity\ConfigRepository::class);
             $dataProviderConfig = $configRepo->get('data-provider')->asArray();
 
             $manager->setEnabledSources($dataProviderConfig['providers']);
@@ -55,7 +55,7 @@ class DataSourceServiceProvider extends ServiceProvider
 
     protected function registerDataSources($manager)
     {
-        $configRepo = service('repository.config');
+        $configRepo = $this->app->make(\Ushahidi\Core\Entity\ConfigRepository::class);
         $dataProviderConfig = $configRepo->get('data-provider')->asArray();
 
         $manager->addSource($this->makeEmail($dataProviderConfig));
@@ -109,7 +109,7 @@ class DataSourceServiceProvider extends ServiceProvider
     {
         return new Twitter\Twitter(
             $dataProviderConfig['twitter'],
-            service('repository.config'),
+            $this->app->make(\Ushahidi\Core\Entity\ConfigRepository::class),
             function ($consumer_key, $consumer_secret, $oauth_access_token, $oauth_access_token_secret) {
                 return new \Abraham\TwitterOAuth\TwitterOAuth(
                     $consumer_key,
@@ -130,8 +130,9 @@ class DataSourceServiceProvider extends ServiceProvider
 
     protected function makeStorage()
     {
-        $receiveUsecase = service('factory.usecase')->get('messages', 'receive');
-        $messageRepo = service('repository.message');
+        $receiveUsecase = $this->app->make(\Ushahidi\Factory\UsecaseFactory::class)
+            ->get('messages', 'receive');
+        $messageRepo = $this->app->make(\Ushahidi\Core\Entity\MessageRepository::class);
         return new DataSourceStorage($receiveUsecase, $messageRepo);
     }
 
