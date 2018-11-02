@@ -1049,14 +1049,5 @@ class AppConfig extends ContainerConfig
 
             return array_filter($config['data-providers']);
         });
-
-        // Private deployment config settings
-        // @todo move to repo
-        $di->set('site.private', function () use ($di) {
-            $site = $di->get('site.config');
-            $features = $di->get('features');
-            return $site['private']
-                and $features['private']['enabled'];
-        });
     }
 }
