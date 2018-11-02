@@ -322,7 +322,6 @@ class CoreConfig extends ContainerConfig
             = $di->lazyGet('repository.form_stage');
 
         $di->setters['Ushahidi\Core\Traits\Event']['setEmitter'] = $di->lazyNew('League\Event\Emitter');
-        $di->setters['Ushahidi\Core\Traits\PostLockingFeature']['setEnabled'] = $di->lazyGet('post-locking.enabled');
         $di->setters['Ushahidi\Core\Traits\RedisFeature']['setEnabled'] = $di->lazyGet('redis.enabled');
         $di->setters['Ushahidi\Core\Traits\DataImportAccess']['setEnabled'] = $di->lazyGet('data-import.enabled');
         // Set ACL for ACL Trait
