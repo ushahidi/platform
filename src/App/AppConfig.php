@@ -1039,7 +1039,7 @@ class AppConfig extends ContainerConfig
 
         // Dataprovider feature config
         $di->set('features.data-providers', function () use ($di) {
-            $config = $di->get('features');
+            $config = $di->get('repository.config')->get('features')->asArray();
 
             return array_filter($config['data-providers']);
         });
