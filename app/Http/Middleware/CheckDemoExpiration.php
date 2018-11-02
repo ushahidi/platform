@@ -17,14 +17,16 @@ class CheckDemoExpiration
     */
     public function handle($request, Closure $next, $guard = null)
     {
-        $multisite = config('multisite.enabled');
-        $isDemoTier = service('site.config')['tier'] === 'demo';
+        $multisite = app('multisite');
+        $site = $multisite->getSite();
+        $isDemoTier = $site->tier === 'demo';
         $isNotGet = !$request->isMethod('get');
 
-        if ($multisite && $isNotGet && $isDemoTier) {
+        if ($multisite->enabled() && $isNotGet && $isDemoTier) {
             $now = new DateTime();
-            $expiration_date = strtotime(service('site.config')['expiration_date']);
-            $extension_date = strtotime(service('site.config')['extension_date']);
+            // Move time conversion to Site model
+            $expiration_date = strtotime($site->expiration_date);
+            $extension_date = strtotime($site->extension_date);
 
             if ($expiration_date < $now && (!$extension_date || $extension_date < $now)) {
                 abort(503, 'The demo period for this deployment has expired.');

@@ -26,7 +26,8 @@ class SiteRepository
     public function getByDomain($subdomain, $domain)
     {
         $result = $this->connection->table('deployments')
-            ->select('deployments.*')
+            ->select('deployments.*', 'tiers.key as tier')
+            ->join('tiers', 'tiers.id', '=', 'deployments.tier_id')
             ->where(compact('subdomain', 'domain'))
             ->first()
             ;
@@ -37,7 +38,8 @@ class SiteRepository
     public function getById($id)
     {
         $result = $this->connection->table('deployments')
-            ->select('deployments.*')
+            ->select('deployments.*', 'tiers.key as tier')
+            ->join('tiers', 'tiers.id', '=', 'deployments.tier_id')
             ->where(compact('id'))
             ->first()
             ;

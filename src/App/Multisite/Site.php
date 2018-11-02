@@ -22,11 +22,14 @@ class Site
     public $domain;
     protected $deployment_name;
     public $deployed_date;
+    public $expiration_date;
+    public $extension_date;
     public $db_host;
     public $db_name;
     public $db_username;
     public $db_password;
     protected $status;
+    public $tier;
 
     public function __construct(array $data)
     {
