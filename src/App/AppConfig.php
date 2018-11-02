@@ -18,7 +18,6 @@ class AppConfig extends ContainerConfig
         // Helpers, tools, etc
         $di->set('tool.acl', $di->lazyNew(\Ushahidi\App\Acl::class));
         $di->setters[\Ushahidi\App\Acl::class]['setRoleRepo'] = $di->lazyGet('repository.role');
-        $di->setters[\Ushahidi\App\Acl::class]['setRolesEnabled'] = $di->lazyGet('roles.enabled');
 
         $di->set('tool.hasher.password', $di->lazyNew(\Ushahidi\App\Hasher\Password::class));
         $di->set('tool.authenticator.password', $di->lazyNew(\Ushahidi\App\Authenticator\Password::class));
@@ -692,8 +691,7 @@ class AppConfig extends ContainerConfig
             'form_repo' => $di->lazyGet('repository.form'),
         ];
         $di->params[\Ushahidi\App\Validator\Role\Update::class] = [
-            'permission_repo' => $di->lazyGet('repository.permission'),
-            'feature_enabled' => $di->lazyGet('roles.enabled'),
+            'permission_repo' => $di->lazyGet('repository.permission')
         ];
 
         // Validator Setters
@@ -989,12 +987,6 @@ class AppConfig extends ContainerConfig
 
         // @todo add some kind of FeatureManager that owns all these checkes
         // $features->getQuota('admins');
-        // Roles config settings
-        $di->set('roles.enabled', function () use ($di) {
-            $config = $di->get('features');
-
-            return $config['roles']['enabled'];
-        });
 
         // csv speedup config settings
         $di->set('csv-speedup.enabled', function () use ($di) {
