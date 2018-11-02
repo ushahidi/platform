@@ -995,13 +995,6 @@ class AppConfig extends ContainerConfig
             return $config['limits'];
         });
 
-        // Webhooks config settings
-        $di->set('webhooks.enabled', function () use ($di) {
-            $config = $di->get('features');
-
-            return $config['webhooks']['enabled'];
-        });
-
         // Post Locking config settings
         $di->set('post-locking.enabled', function () use ($di) {
             $config = $di->get('features');
