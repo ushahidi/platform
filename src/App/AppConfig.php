@@ -988,12 +988,6 @@ class AppConfig extends ContainerConfig
         // @todo add some kind of FeatureManager that owns all these checkes
         // $features->getQuota('admins');
 
-        // csv speedup config settings
-        $di->set('csv-speedup.enabled', function () use ($di) {
-            $config = $di->get('features');
-            return $config['csv-speedup']['enabled'];
-        });
-
         // Feature config
         $di->set('features.limits', function () use ($di) {
             $config = $di->get('features');
