@@ -162,25 +162,20 @@ class Site
         return $this->status;
     }
 
+    /**
+     * Check if db is ready
+     * @return boolean
+     */
     public function isDbReady()
     {
-        /*
-        $deploymentName = $deployment['deployment_name'] ? $deployment['deployment_name'] : 'Deployment';
-
-        // Check we can connect to the DB
-        try {
-            DB::select(DB::expr('1'))->from('users')
-                ->execute(Database::instance('deployment', $config));
-        } catch (\Exception $e) {
-            // If we can't connect, throw 503 Service Unavailable
-            abort(503, $deploymentName . " is not ready");
-        }
-        */
-
-        // @todo implement me
-        return true;
+        // @todo confirm this can't use the wrong db
+        return DB::connection('deployment-'.$this->id)->getSchemaBuilder()->hasTable('users');
     }
 
+    /**
+     * Get db config
+     * @return array
+     */
     public function getDbConfig()
     {
         return [

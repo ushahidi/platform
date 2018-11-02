@@ -43,6 +43,11 @@ class DetectSiteMiddleware
             abort(503, $site->getName() . " is down for maintenance");
         }
 
+        // Finally, confirm the db is ready
+        if (!$site->isDbReady()) {
+            abort(503, $site->getName() . " is not ready");
+        }
+
         // Otherwise just continue with the request
         return $next($request);
     }
