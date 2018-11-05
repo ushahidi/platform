@@ -148,12 +148,12 @@ class Email extends OutgoingEmail implements IncomingAPIDataSource
 
         $limit = 200;
 
-        $type = $this->config['incoming_type'];
-        $server = $this->config['incoming_server'];
-        $port = $this->config['incoming_port'];
-        $encryption = $this->config['incoming_security'];
-        $username = $this->config['incoming_username'];
-        $password = $this->config['incoming_password'];
+        $type = $this->config['incoming_type'] ?? '';
+        $server = $this->config['incoming_server'] ?? '';
+        $port = $this->config['incoming_port'] ?? '';
+        $encryption = $this->config['incoming_security'] ?? '';
+        $username = $this->config['incoming_username'] ?? '';
+        $password = $this->config['incoming_password'] ?? '';
 
         // Encryption type
         $encryption = (strcasecmp($encryption, 'none') != 0) ? '/'.$encryption : '';

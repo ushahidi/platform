@@ -146,7 +146,7 @@ class FrontlineSMS implements CallbackDataSource, OutgoingAPIDataSource
         return [MessageStatus::FAILED, false];
     }
 
-    public function registerRoutes(\Laravel\Lumen\Routing\Router $router)
+    public static function registerRoutes(\Laravel\Lumen\Routing\Router $router)
     {
         $router->post('sms/frontlinesms', 'Ushahidi\App\DataSource\FrontlineSMS\FrontlineSMSController@handleRequest');
         $router->post('frontlinesms', 'Ushahidi\App\DataSource\FrontlineSMS\FrontlineSMSController@handleRequest');

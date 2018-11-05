@@ -2,38 +2,42 @@
 
 namespace Ushahidi\App\DataSource;
 
+use Laravel\Lumen\Routing\Router;
+use Ushahidi\Core\Entity\ConfigRepository;
+use InvalidArgumentException;
+
 class DataSourceManager
 {
+    /**
+     * Config repo instance
+     *
+     * @var \Ushahidi\Core\Entity\ConfigRepository;
+     */
+    protected $configRepo;
 
     /**
-     * Router instance
+     * Sources to be configured
      *
-     * @var \Laravel\Lumen\Routing\Router
+     * [name => classname]
+     *
+     * @var [string, ...]
      */
-    protected $router;
+    protected $sources = [
+        'email' => Email\Email::class,
+        'outgoingemail' => Email\OutgoingEmail::class,
+        'frontlinesms' => FrontlineSMS\FrontlineSMS::class,
+        'nexmo' => Nexmo\Nexmo::class,
+        'smssync' => SMSSync\SMSSync::class,
+        'twilio' => Twilio\Twilio::class,
+        'twitter' => Twitter\Twitter::class,
+    ];
 
     /**
      * The array of data sources.
      *
      * @var [Ushahidi\App\DataSource\DataSource, ...]
      */
-    protected $sources = [];
-
-    /**
-     * The array of enabled data sources (by name)
-     *
-     * @var [string, ...]
-     */
-    protected $enabledSources = [];
-
-    /**
-     * The array of available data sources (by name)
-     *
-     * Availability is defined by feature toggles
-     *
-     * @var [string, ...]
-     */
-    protected $availableSources = [];
+    protected $loadedSources = [];
 
     /**
      * Data Source Storage
@@ -47,55 +51,89 @@ class DataSourceManager
      * @param  Laravel\Lumen\Routing\Router  $router
      * @return void
      */
-    public function __construct(\Laravel\Lumen\Routing\Router $router)
+    public function __construct(ConfigRepository $configRepo)
     {
-        $this->router = $router;
+        $this->configRepo = $configRepo;
     }
 
-    public function addSource(DataSource $source)
+    public function getSources() : array
     {
-        $this->sources[$source->getId()] = $source;
+        return array_keys($this->sources);
     }
 
-    public function getSource($name = false)
+    /**
+     * Get an array of enabled source names
+     *
+     * @return [string, ...]
+     */
+    public function getEnabledSources() : array
     {
-        if ($name) {
-            return isset($this->sources[$name]) ? $this->sources[$name] : false;
-        }
-
-        return $this->sources;
-    }
-
-    public function setEnabledSources(array $sources)
-    {
-        $this->enabledSources = array_keys(array_filter($sources));
-    }
-
-
-    public function setAvailableSources(array $sources)
-    {
-        $this->availableSources = array_keys(array_filter($sources));
-    }
-
-    public function getEnabledSources($name = false)
-    {
-        $sources = array_intersect_key(
-            $this->sources,
-            array_combine($this->enabledSources, $this->enabledSources),
-            array_combine($this->availableSources, $this->availableSources)
+        // Load enabled sources
+        $enabledSources = array_filter(
+            $this->configRepo->get('data-provider')->asArray()['providers']
         );
 
-        if ($name) {
-            return isset($sources[$name]) ? $sources[$name] : false;
-        }
+        // Load available sources
+        $availableSources = array_filter(
+            $this->configRepo->get('features')->asArray()['data-providers']
+        );
 
-        return $sources;
+        $sources = array_intersect_key(
+            $this->sources,
+            $enabledSources,
+            $availableSources
+        );
+
+
+        return array_keys($sources);
     }
 
-    public function getSourceForType($type)
+    /**
+     * Check if source is enabled
+     * @param  string  $name
+     * @return boolean
+     */
+    public function isEnabledSource(string $name) : bool
+    {
+        $sources = $this->getEnabledSources();
+
+        return in_array($name, $sources);
+    }
+
+    /**
+     * Get data source instance
+     * @param  string $name
+     * @return DataSource
+     */
+    public function getSource(string $name) : DataSource
+    {
+        return $this->loadedSources[$name] ?? $this->resolve($name);
+    }
+
+    /**
+     * Get enabled data source instance
+     * @param  string $name
+     * @return DataSource
+     */
+    public function getEnabledSource(string $name) : DataSource
+    {
+        if (!$this->isEnabledSource($name)) {
+            throw new InvalidArgumentException("Source [{$name}] is not enabled.");
+        }
+
+        return $this->getSource($name);
+    }
+
+    /**
+     * Get the enable source for a specific type
+     * @param  string $type
+     * @return DataSource|boolean
+     */
+    public function getSourceForType(string $type)
     {
         // Grab the first enabled source that provides that service
-        foreach ($this->getEnabledSources() as $source) {
+        foreach ($this->getEnabledSources() as $name) {
+            $source = $this->getSource($name);
             if (in_array($type, $source->getServices())) {
                 return $source;
             }
@@ -104,25 +142,121 @@ class DataSourceManager
         return false;
     }
 
-    public function registerRoutes()
+    /**
+     * Register routes for callback sources
+     */
+    public function registerRoutes(Router $router)
     {
-        foreach ($this->getEnabledSources() as $source) {
-            if (!($source instanceof CallbackDataSource)) {
-                // Data source doesn't implement callbacks
-                continue;
+        foreach ($this->sources as $name => $class) {
+            if (in_array(CallbackDataSource::class, class_implements($class))) {
+                $class::registerRoutes($router);
             }
-
-            $source->registerRoutes($this->router);
         }
     }
 
-    public function setStorage($storage)
+    /**
+     * Set data source storage
+     * @param DataSourceStorage $storage
+     */
+    public function setStorage(DataSourceStorage $storage)
     {
         $this->storage = $storage;
     }
 
-    public function getStorage()
+    /**
+     * Get data source storage
+     * @return DataSourceStorage
+     */
+    public function getStorage() : DataSourceStorage
     {
         return $this->storage;
+    }
+
+    /**
+     * Get config for data source
+     * @param  string $name
+     * @return array
+     */
+    protected function getConfig(string $name) : array
+    {
+        $config = $this->configRepo->get('data-provider')->asArray();
+
+        return $config[$name] ?? [];
+    }
+
+    /**
+     * Resolve data source class
+     * @param  string $name
+     * @return DataSource
+     */
+    protected function resolve(string $name) : DataSource
+    {
+        $config = $this->getConfig($name);
+
+        $driverMethod = 'create'.ucfirst($name).'Source';
+
+        if (method_exists($this, $driverMethod)) {
+            return $this->loadedSources[$name] = $this->{$driverMethod}($config);
+        } else {
+            throw new InvalidArgumentException("Source [{$name}] is not supported.");
+        }
+    }
+
+
+    protected function createSmssyncSource(array $config)
+    {
+        return new SMSSync\SMSSync($config);
+    }
+
+    protected function createEmailSource(array $config)
+    {
+        return new Email\Email(
+            $config,
+            app('mailer'),
+            app(\Ushahidi\Core\Entity\MessageRepository::class)
+        );
+    }
+
+    protected function createOutgoingemailSource(array $config)
+    {
+        return new Email\OutgoingEmail(
+            $config, // NB: This is not the same as email config and is likely to be empty
+            app('mailer')
+        );
+    }
+
+    protected function createFrontlinesmsSource(array $config)
+    {
+        return new FrontlineSMS\FrontlineSMS($config, new \GuzzleHttp\Client());
+    }
+
+    protected function createTwilioSource(array $config)
+    {
+        return new Twilio\Twilio($config, function ($accountSid, $authToken) {
+            return new \Twilio\Rest\Client($accountSid, $authToken);
+        });
+    }
+
+    protected function createNexmoSource(array $config)
+    {
+        return new Nexmo\Nexmo($config, function ($apiKey, $apiSecret) {
+            return new \Nexmo\Client(new \Nexmo\Client\Credentials\Basic($apiKey, $apiSecret));
+        });
+    }
+
+    protected function createTwitterSource($config)
+    {
+        return new Twitter\Twitter(
+            $config,
+            $this->configRepo,
+            function ($consumer_key, $consumer_secret, $oauth_access_token, $oauth_access_token_secret) {
+                return new \Abraham\TwitterOAuth\TwitterOAuth(
+                    $consumer_key,
+                    $consumer_secret,
+                    $oauth_access_token,
+                    $oauth_access_token_secret
+                );
+            }
+        );
     }
 }
