@@ -29,6 +29,10 @@ class LumenAuraConfig extends ContainerConfig
             return app('filesystem')->disk()->getDriver();
         });
 
+        $di->set('multisite', function () {
+            return app('multisite');
+        });
+
         // Setup user session service
         $di->set('session', $di->lazyNew(\Ushahidi\App\Tools\LumenSession::class, [
             'userRepo' => $di->lazyGet('repository.user')

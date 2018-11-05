@@ -15,16 +15,16 @@ use League\Flysystem\Filesystem;
 use Ushahidi\Core\Tool\UploadData;
 use Ushahidi\Core\Tool\FileData;
 use League\Flysystem\Util\MimeType;
-use Ushahidi\App\Multisite\UsesSiteInfo;
+use Ushahidi\App\Multisite\MultisiteManager;
 
 class Uploader
 {
-    use UsesSiteInfo;
     private $fs;
 
-    public function __construct(Filesystem $fs)
+    public function __construct(Filesystem $fs, MultisiteManager $multisite)
     {
         $this->fs = $fs;
+        $this->multisite = $multisite;
     }
 
     /**
@@ -53,7 +53,7 @@ class Uploader
         // to help segment the files, producing a more reasonable amount of
         // files per directory, eg: abc-myfile.png -> a/b/abc-myfile.png
         $filepath = implode('/', [
-            $this->getSite()->getCdnPrefix(),
+            $this->multisite->getSite()->getCdnPrefix(),
             $filename[0],
             $filename[1],
             $filename,
