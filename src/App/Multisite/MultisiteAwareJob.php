@@ -1,6 +1,6 @@
 <?php
 
-namespace Ushahidi\App\Jobs;
+namespace Ushahidi\App\Multisite;
 
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
@@ -33,7 +33,7 @@ trait MultisiteAwareJob
 
     public function __wakeup()
     {
-        if (isset($this->site_id)) {
+        if (isset($this->site_id) && $this->site_id) {
             Log::debug('Restoring deployment id for job', [$this->site_id]);
             $multisite = app('multisite');
             $multisite->setSiteByID($this->site_id);
