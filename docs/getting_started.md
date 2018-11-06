@@ -1,4 +1,4 @@
-# Getting Started
+# getting\_started
 
 ## Installing
 
@@ -11,3 +11,4 @@ We have detailed guide to [getting involed](https://www.ushahidi.com/support/get
 ## Adding code to Ushahidi
 
 See our support pages for a step by step guide to [adding code to Ushahidi](https://www.ushahidi.com/support/add-code-to-ushahidi)
+
