@@ -31,18 +31,7 @@ class MultisiteServiceProvider extends ServiceProvider
     // @todo move some of this into manager?
     public function boot()
     {
-        // Set up listeners
-        Event::listen('multisite.site.changed', function ($site) {
-            Log::debug('Handling multisite.site.change', [$site]);
-            $dbConfig = $site->getDbConfig();
-            $connectionName = 'deployment-'.$site->getId();
-            $this->app->make(OhanzeeResolver::class)->setConnection($connectionName, $dbConfig);
-
-            // @todo save db config into config
-            $defaults = config('database.connections.mysql'); // @todo use actual default config
-            config(['database.connections.'.$connectionName => $dbConfig + $defaults]);
-            $this->app->make(ConnectionResolverInterface::class)->setDefaultConnection($connectionName);
-        });
+        $this->setupListeners();
 
         $multisite = $this->app->make('multisite');
 
@@ -61,5 +50,23 @@ class MultisiteServiceProvider extends ServiceProvider
                 $multisite->setDefaultSite();
             }
         }
+    }
+
+    protected function setupListeners()
+    {
+        Event::listen('multisite.site.changed', function (Site $site) {
+            Log::debug('Handling multisite.site.change', [$site]);
+            $dbConfig = $site->getDbConfig();
+            $connectionName = 'deployment-'.$site->getId();
+            $this->app->make(OhanzeeResolver::class)->setConnection($connectionName, $dbConfig);
+
+            // @todo save db config into config
+            $defaults = config('database.connections.mysql'); // @todo use actual default config
+            config(['database.connections.'.$connectionName => $dbConfig + $defaults]);
+            $this->app->make(ConnectionResolverInterface::class)->setDefaultConnection($connectionName);
+
+            // Set cache key
+            config(['cache.prefix' => $connectionName]);
+        });
     }
 }
