@@ -34,8 +34,6 @@ use Ushahidi\App\Repository\Post\ValueFactory as PostValueFactory;
 use Ushahidi\App\Util\BoundingBox;
 use Ushahidi\Core\Tool\Permissions\InteractsWithPostPermissions;
 
-use Aura\DI\InstanceFactory;
-
 use League\Event\ListenerInterface;
 use Ushahidi\Core\Traits\Event;
 
@@ -87,7 +85,7 @@ class PostRepository extends OhanzeeRepository implements
         PostLockRepository $post_lock_repo,
         ContactRepository $contact_repo,
         PostValueFactory $post_value_factory,
-        InstanceFactory $bounding_box_factory
+        \Aura\Di\Injection\Factory $bounding_box_factory
     ) {
 
         parent::__construct($db);
