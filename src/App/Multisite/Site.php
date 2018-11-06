@@ -11,12 +11,18 @@
 
 namespace Ushahidi\App\Multisite;
 
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Ushahidi\Core\Entity\ConfigRepository;
 
 // @todo consider just an Eloquent model? or ushahidi entity
 class Site
 {
+    /**
+     * Cache lifetime in minutes
+     */
+    const CACHE_LIFETIME = 1;
+
     public $id;
     public $subdomain;
     public $domain;
@@ -68,9 +74,10 @@ class Site
      */
     public function getSiteConfig($param = false, $default = null)
     {
-        // @todo inject repo
-        // @todo cache result
-        $siteConfig = app(ConfigRepository::class)->get('site');
+        $siteConfig = Cache::remember('config.site', self::CACHE_LIFETIME, function () {
+            // @todo inject repo
+            return app(ConfigRepository::class)->get('site');
+        });
 
         if ($param) {
             return $siteConfig->$param ?? $default;
