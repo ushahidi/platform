@@ -27,10 +27,15 @@ class SiteRepository
     {
         $result = $this->connection->table('deployments')
             ->select('deployments.*', 'tiers.key as tier')
+            // Note this is an inner join, so a deployment without a tier won't be found
             ->join('tiers', 'tiers.id', '=', 'deployments.tier_id')
             ->where(compact('subdomain', 'domain'))
             ->first()
             ;
+
+        if (!$result) {
+            return false;
+        }
 
         return new Site(collect($result)->toArray());
     }
@@ -39,10 +44,15 @@ class SiteRepository
     {
         $result = $this->connection->table('deployments')
             ->select('deployments.*', 'tiers.key as tier')
+            // Note this is an inner join, so a deployment without a tier won't be found
             ->join('tiers', 'tiers.id', '=', 'deployments.tier_id')
-            ->where(compact('id'))
+            ->where('deployments.id', '=', $id)
             ->first()
             ;
+
+        if (!$result) {
+            return false;
+        }
 
         return new Site(collect($result)->toArray());
     }
