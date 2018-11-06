@@ -2,12 +2,18 @@
 
 namespace Ushahidi\App\DataSource;
 
+use Illuminate\Support\Facades\Cache;
 use Laravel\Lumen\Routing\Router;
 use Ushahidi\Core\Entity\ConfigRepository;
 use InvalidArgumentException;
 
 class DataSourceManager
 {
+    /**
+     * Cache lifetime in minutes
+     */
+    const CACHE_LIFETIME = 1;
+
     /**
      * Config repo instance
      *
@@ -68,24 +74,25 @@ class DataSourceManager
      */
     public function getEnabledSources() : array
     {
-        // Load enabled sources
-        $enabledSources = array_filter(
-            $this->configRepo->get('data-provider')->asArray()['providers']
-        );
+        return Cache::remember('datasources.enabled', self::CACHE_LIFETIME, function () {
+            // Load enabled sources
+            $enabledSources = array_filter(
+                $this->configRepo->get('data-provider')->asArray()['providers']
+            );
 
-        // Load available sources
-        $availableSources = array_filter(
-            $this->configRepo->get('features')->asArray()['data-providers']
-        );
+            // Load available sources
+            $availableSources = array_filter(
+                $this->configRepo->get('features')->asArray()['data-providers']
+            );
 
-        $sources = array_intersect_key(
-            $this->sources,
-            $enabledSources,
-            $availableSources
-        );
+            $sources = array_intersect_key(
+                $this->sources,
+                $enabledSources,
+                $availableSources
+            );
 
-
-        return array_keys($sources);
+            return array_keys($sources);
+        });
     }
 
     /**
@@ -179,7 +186,9 @@ class DataSourceManager
      */
     protected function getConfig(string $name) : array
     {
-        $config = $this->configRepo->get('data-provider')->asArray();
+        $config = Cache::remember('config.data-provider', self::CACHE_LIFETIME, function () {
+            return $this->configRepo->get('data-provider')->asArray();
+        });
 
         return $config[$name] ?? [];
     }
