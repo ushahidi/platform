@@ -7,7 +7,21 @@ use Closure;
 class DetectSiteMiddleware
 {
 
-    // @todo grab config in __construct??
+    /**
+     * @var \Ushahidi\App\Multisite\MultisiteManager;
+     */
+    protected $multisite;
+
+    /**
+     * Create a new middleware instance.
+     *
+     * @param  \Illuminate\Contracts\Auth\Factory  $auth
+     * @return void
+     */
+    public function __construct(MultisiteManager $multisite)
+    {
+        $this->multisite = $multisite;
+    }
 
     /**
      * Handle an incoming request.
@@ -20,18 +34,18 @@ class DetectSiteMiddleware
     public function handle($request, Closure $next)
     {
         // If we're not running in multsite mode...
-        if (!$multsite->enabled()) {
+        if (!$this->multisite->enabled()) {
             // ... just continue with the request
             return $next($request);
         }
 
         try {
-            $multisite->setSiteFromHost($request->getHost());
+            $this->multisite->setSiteFromHost($request->getHost());
         } catch (SiteNotFoundException $e) {
             abort(404, "Deployment not found");
         }
 
-        $deployment = $multisite->getSite();
+        $site = $this->multisite->getSite();
 
         // If the deployment hasn't been deployed yet
         if ($site->getStatus() === 'pending') {
