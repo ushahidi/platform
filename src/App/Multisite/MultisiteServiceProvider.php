@@ -4,6 +4,7 @@ namespace Ushahidi\App\Multisite;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\ConnectionResolverInterface;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Log;
 
@@ -65,8 +66,8 @@ class MultisiteServiceProvider extends ServiceProvider
             config(['database.connections.'.$connectionName => $dbConfig + $defaults]);
             $this->app->make(ConnectionResolverInterface::class)->setDefaultConnection($connectionName);
 
-            // Set cache key
-            config(['cache.prefix' => $connectionName]);
+            // Set cache prefix
+            Cache::setPrefix($connectionName);
         });
     }
 }
