@@ -202,6 +202,13 @@ class DataSourceManager
         }
     }
 
+    /**
+     * Wipe resolved source instances
+     */
+    public function clearResolvedSources()
+    {
+        $this->loadedSources = [];
+    }
 
     protected function createSmssyncSource(array $config)
     {

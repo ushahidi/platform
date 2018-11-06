@@ -3,6 +3,7 @@
 namespace Ushahidi\App\DataSource;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Event;
 
 class DataSourceServiceProvider extends ServiceProvider
 {
@@ -21,6 +22,11 @@ class DataSourceServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->app->make('datasources')->registerRoutes($this->app->router);
+
+        Event::listen('multisite.site.changed', function () {
+            // Reset datasources
+            $this->app->make('datasources')->clearResolvedSources();
+        });
     }
 
     /**
