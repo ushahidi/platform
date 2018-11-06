@@ -14,7 +14,9 @@ Ushahidi 3
 
 [![Build Status](https://travis-ci.org/ushahidi/platform.png)](https://travis-ci.org/ushahidi/platform)
 [![Coverage Status](https://coveralls.io/repos/github/ushahidi/platform/badge.svg)](https://coveralls.io/github/ushahidi/platform)
+[![Backers on Open Collective](https://opencollective.com/platform/backers/badge.svg)](#backers)
 
+ [![Sponsors on Open Collective](https://opencollective.com/platform/sponsors/badge.svg)](#sponsors) 
 
 
 [![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
@@ -125,6 +127,28 @@ Follow the instructions [here](docs/setup_alternatives/XAMPP.md)
 # Installing the client
 
 - The latest install instructions for the client are always [in the platform-client README, at this url](https://github.com/ushahidi/platform-client/blob/develop/README.md). 
+
+## Credits
+
+### Contributors
+
+This project exists thanks to all the people who contribute. [[Contribute](CONTRIBUTING.md)].
+
+<a href="graphs/contributors"><img src="https://opencollective.com/platform/contributors.svg?width=890&button=false" /></a>
+
+### Backers
+
+Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com/platform#backer)]
+
+<a href="https://opencollective.com/platform#backers" target="_blank"><img src="https://opencollective.com/platform/backers.svg?width=890"></a>
+
+### Sponsors
+
+Support this project by becoming a sponsor. Your logo will show up here with a link to your website. [[Become a sponsor](https://opencollective.com/platform#sponsor)]
+
+<a href="https://opencollective.com/platform/sponsor/0/website" target="_blank"><img src="https://opencollective.com/platform/sponsor/0/avatar.svg"></a>
+
+
 
 ## Useful Links
 
