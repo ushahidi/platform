@@ -2,6 +2,7 @@
 
 * [README](README.md)
 * [Setup Guides](setup_alternatives/README.md)
+  * [Installing for production environments](setup_alternatives/installing-for-production-environments.md)
   * [Platform Client installation](setup_alternatives/setting-up-the-platform-client.md)
   * [\[API\] Vagrant setup](setup_alternatives/vagrant-setup.md)
   * [\[API\] XAMPP](setup_alternatives/xampp.md)
