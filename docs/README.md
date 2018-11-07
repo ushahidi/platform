@@ -33,7 +33,7 @@ There are many ways to get involved with Ushahidi, and some of them are great ev
 
 ## Technical docs
 
-* [Getting Started](getting_started.md)
+* [Getting Started]()
 * [Architecture](architecture/)
 * DB Schema [svg](https://github.com/ushahidi/platform/tree/adff3c2af479788bfdea05fa4a198e08080a98f0/docs/schema.svg) [png](https://github.com/ushahidi/platform/tree/adff3c2af479788bfdea05fa4a198e08080a98f0/docs/schema.svg)
 

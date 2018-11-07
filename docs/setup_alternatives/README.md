@@ -1,7 +1,3 @@
----
-description: Some of the available options for setting up the platform.
----
-
 # Setup Guides
 
 ## Platform API \(Backend\) Install Guides

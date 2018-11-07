@@ -1,4 +1,4 @@
-# architecture
+# Architecture
 
 ## High Level Data Flows
 
@@ -90,5 +90,5 @@ filters]
 
 %23direction%3A%20right)
 
-See [Use Case Internals](../use-case-internals.md) for more detail
+See [Use Case Internals](use-case-internals.md) for more detail
 
