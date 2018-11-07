@@ -1,4 +1,15 @@
+---
+description: >-
+  Please note that at the time, our installation guides assume an intermediate
+  level of knowledge about git, web servers, server configuration and the
+  technologies we use to run the system.
+---
+
 # Setup Guides
+
+## Deploying to production environments
+
+{% page-ref page="installing-for-production-environments.md" %}
 
 ## Platform API \(Backend\) Install Guides
 

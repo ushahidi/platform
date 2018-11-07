@@ -7,6 +7,7 @@
   * [\[API\] Vagrant setup](setup_alternatives/vagrant-setup.md)
   * [\[API\] XAMPP](setup_alternatives/xampp.md)
   * [PLATFORM\_RELEASE\_INSTALL](setup_alternatives/platform_release_install.md)
+* [Contributing \| Getting Involved](contributing-or-getting-involved.md)
 * [Architecture](architecture/README.md)
   * [Use case internals](architecture/use-case-internals.md)
 
