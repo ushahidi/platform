@@ -1,5 +1,8 @@
 ---
-description: A complete guide on deploying Ushahidi V3+ on your own server
+description: >-
+  A complete guide on deploying Ushahidi V3+ on your own server. Note that while
+  we provide instructions and recommend nginx, you can still run the platform
+  with apache if that's your preference.
 ---
 
 # Installing for production environments
@@ -27,7 +30,7 @@ description: A complete guide on deploying Ushahidi V3+ on your own server
   * xml
   * zip
 * Composer for PHP package management \( [https://getcomposer.org](https://getcomposer.org) \)
-* Nginx version 1.10.x
+* Nginx version 1.10.x **\(Note: you can technically use apache, but this instructions will provide specific steps for Nginx only\)**
 * MySQL server 5.7.x
 * Node.js v6.x
 * Redis v3.2
