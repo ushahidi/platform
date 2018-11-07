@@ -4,6 +4,8 @@ description: Some of the available options for setting up the platform.
 
 # Setup Guides
 
+## Platform API \(Backend\) Install Guides
+
 ### Installing with Vagrant
 
 This is the preferred option for local development. The Ushahidi dev team uses this setup for most of their development work.
@@ -21,6 +23,10 @@ This option is only recommended for local development, in particular for situati
 Deploy-ready versions from the platform-release repository, which contains production-ready tags of the platform. Ready to use with docker.
 
 {% page-ref page="./" %}
+
+## Platform Client \(Frontend\) install guides
+
+{% page-ref page="setting-up-the-platform-client.md" %}
 
 
 
