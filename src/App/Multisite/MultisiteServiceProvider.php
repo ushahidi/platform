@@ -67,7 +67,9 @@ class MultisiteServiceProvider extends ServiceProvider
             $this->app->make(ConnectionResolverInterface::class)->setDefaultConnection($connectionName);
 
             // Set cache prefix
-            Cache::setPrefix($connectionName);
+            if (method_exists(Cache::store()->getStore(), 'setPrefix')) {
+                Cache::setPrefix($connectionName);
+            }
         });
     }
 }
