@@ -18,7 +18,7 @@ use Ushahidi\Core\Traits\OwnerAccess;
 use Ushahidi\Core\Traits\UserContext;
 use Ushahidi\Core\Traits\PrivAccess;
 use Ushahidi\Core\Traits\PrivateDeployment;
-use Ushahidi\Core\Traits\WebhookAccess;
+use Ushahidi\App\Facades\Features;
 
 class WebhookAuthorizer implements Authorizer
 {
@@ -37,16 +37,13 @@ class WebhookAuthorizer implements Authorizer
     // It uses `PrivateDeployment` to check whether a deployment is private
     use PrivateDeployment;
 
-    // Check if webhook feature is enabled
-    use WebhookAccess;
-
 
     /* Authorizer */
     public function isAllowed(Entity $entity, $privilege)
     {
 
         // Check if the webhooks feature enabled
-        if (!$this->isWebhookEnabled()) {
+        if (!Features::isEnabled('webhooks')) {
             return false;
         }
 

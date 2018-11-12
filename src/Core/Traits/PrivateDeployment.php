@@ -14,23 +14,23 @@
 namespace Ushahidi\Core\Traits;
 
 use Ushahidi\Core\Entity\User;
+use Ushahidi\App\Facades\Features;
 
 trait PrivateDeployment
 {
-    protected $private;
-
-    public function setPrivate($private)
-    {
-        $this->private = $private;
-    }
-
     /**
      * Check if the deployment is private
      * @return boolean
      */
     public function isPrivate()
     {
-        return (bool) $this->private;
+        $site = service('site.config');
+        // if feature enabled and site set private in config
+        if (Features::isEnabled('private') && $site['private']) {
+            return true;
+        }
+
+        return false;
     }
 
     /**

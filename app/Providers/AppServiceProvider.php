@@ -178,7 +178,7 @@ class AppServiceProvider extends ServiceProvider
     public function registerFeatures()
     {
         $this->app->singleton('features', function ($app) {
-            return new \Ushahidi\App\Tools\Features(service('features'));
+            return new \Ushahidi\App\Tools\Features(service('repository.config'));
         });
     }
 }

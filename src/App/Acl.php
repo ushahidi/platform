@@ -15,11 +15,11 @@ use Ushahidi\Core\Tool\Permissions\Acl as AclInterface;
 use Ushahidi\Core\Entity\User;
 use Ushahidi\Core\Entity\Permission;
 use Ushahidi\Core\Entity\RoleRepository;
+use Ushahidi\App\Facades\Features;
 
 class Acl implements AclInterface
 {
     protected $role_repo;
-    protected $roles_enabled = false;
     const DEFAULT_ROLES = [
         'user'  => [Permission::EDIT_OWN_POSTS]
     ];
@@ -27,20 +27,6 @@ class Acl implements AclInterface
     public function setRoleRepo(RoleRepository $role_repo)
     {
         $this->role_repo = $role_repo;
-    }
-
-    public function setRolesEnabled($roles_enabled)
-    {
-        $this->roles_enabled = $roles_enabled;
-    }
-
-    /**
-     * Check if custom roles are enabled for this deployment
-     * @return boolean
-     */
-    protected function hasRolesEnabled()
-    {
-        return (bool) $this->roles_enabled;
     }
 
     // Acl interface
@@ -59,7 +45,7 @@ class Acl implements AclInterface
 
         // Don't check for permissions if we don't have the
         // roles feature enabled
-        if ($this->hasRolesEnabled()) {
+        if (Features::isEnabled('roles')) {
             return $this->customRoleHasPermission($user, $permission);
         } else {
             return $this->defaultHasPermission($user, $permission);
