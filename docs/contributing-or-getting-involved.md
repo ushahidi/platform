@@ -9,6 +9,12 @@ description: >-
 
 There are many ways to get involved with Ushahidi, and we're some of them are great for first time contributors. If you never contributed to Open Source Software before, or need more guidance doing it, please jump in our [gitter](https://gitter.im/ushahidi/Community) channel or [open an issue](https://github.com/ushahidi/platform/issues/new/choose) with a clear description of what you are trying to do, and someone in there will try to help you. These are some ways to get involved:
 
+### **Required reading: Code Of Conduct**
+
+We love having you here. To ensure everyone has a good experience, we ask **everyone** that interacts with our community and staff to read our code of conduct.
+
+{% page-ref page="code-of-conduct.md" %}
+
 ### **Documentation**
 
 **I**f you find an area of the Ushahidi platform that could use better docs, we would love to hear from you in an issue, and would be seriously excited if you send a [Pull Request](https://github.com/ushahidi/platform/compare). **This is a great way to get involved,** and one of the highest impact changes you can make at the moment. You can choose to work on user documentation, fix typos, or add new sections for discussion and collaboration with the community. Every little bit helps. 
@@ -32,4 +38,6 @@ Feature development is generally driven by our product and engineering team memb
 ### **Security issues**
 
 If you think you have found a security issue, please follow [this link where we explain our disclosure and reporting policies](https://www.ushahidi.com/security).
+
+
 
