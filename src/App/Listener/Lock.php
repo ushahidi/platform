@@ -17,19 +17,18 @@ use League\Event\AbstractListener;
 use League\Event\EventInterface;
 use Ushahidi\Core\Traits\RedisFeature;
 use Ushahidi\Core\Traits\UserContext;
+use Ushahidi\App\Facades\Features;
 
 class Lock extends AbstractListener
 {
     // Provides getUser()
     use UserContext;
 
-    use RedisFeature;
-
     public function handle(EventInterface $event, $user_id = null, $event_type = null)
     {
         $user = $this->getUser();
         // Check if the webhooks feature enabled
-        if (!$this->isRedisEnabled()) {
+        if (!Features::isEnabled('redis')) {
             return false;
         }
 

@@ -15,6 +15,7 @@ namespace Ushahidi\App\Listener;
 use League\Event\AbstractListener;
 use League\Event\EventInterface;
 use Ushahidi\Core\Entity\Set;
+use Ushahidi\App\Facades\Features;
 
 class Import extends AbstractListener
 {
@@ -62,7 +63,7 @@ class Import extends AbstractListener
                 $entity->setState(['status' => 'draft']);
             }
 
-            if (!service('csv-speedup.enabled')) {
+            if (!Features::isEnabled('csv-speedup')) {
                 $importUsecase->verify($entity);
             }
             // ... persist the new entity
@@ -83,7 +84,7 @@ class Import extends AbstractListener
             'processed' => $processed,
             'errors' => $errors
         ]);
-        
+
         service('repository.csv')->update($csv);
     }
 }

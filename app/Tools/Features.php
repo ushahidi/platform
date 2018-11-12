@@ -2,15 +2,16 @@
 
 namespace Ushahidi\App\Tools;
 
+use Ushahidi\Core\Entity\ConfigRepository;
+
 class Features
 {
-
     /**
-     * @param array $config
+     * @param array $configRepo
      */
-    public function __construct(array $config)
+    public function __construct(ConfigRepository $configRepo)
     {
-        $this->config = $config;
+        $this->configRepo = $configRepo;
     }
 
     /**
@@ -20,16 +21,40 @@ class Features
      */
     public function isEnabled($feature)
     {
-        if (isset($this->config[$feature])) {
-            if (!is_array($this->config[$feature])) {
-                return !!$this->config[$feature];
+        $config = $this->configRepo->get('features');
+
+        if (isset($config->$feature)) {
+            if (!is_array($config->$feature)) {
+                return !!$config->$feature;
             }
 
-            if (isset($this->config[$feature]['enabled'])) {
-                return !!$this->config[$feature]['enabled'];
+            if (isset($config->$feature['enabled'])) {
+                return !!$config->$feature['enabled'];
             }
         }
 
         return false;
+    }
+
+    /**
+     * Get limit for feature
+     * @param  string $feature
+     * @return int|INF
+     */
+    public function getLimit($feature)
+    {
+        $config = $this->configRepo->get('features');
+
+        if (isset($config->limits[$feature])) {
+            if ($config->limits[$feature] === true) {
+                // Return infinity ie. unlimited
+                return INF;
+            }
+
+            return (int) $config->limits[$feature];
+        }
+
+        // Return infinity ie. unlimited
+        return INF;
     }
 }

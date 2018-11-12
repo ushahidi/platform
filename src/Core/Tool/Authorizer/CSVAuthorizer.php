@@ -19,7 +19,7 @@ use Ushahidi\Core\Traits\AdminAccess;
 use Ushahidi\Core\Traits\UserContext;
 use Ushahidi\Core\Traits\PrivAccess;
 use Ushahidi\Core\Tool\Permissions\AclTrait;
-use Ushahidi\Core\Traits\DataImportAccess;
+use Ushahidi\App\Facades\Features;
 
 class CSVAuthorizer implements Authorizer
 {
@@ -35,14 +35,11 @@ class CSVAuthorizer implements Authorizer
     // if roles are available for this deployment.
     use AclTrait;
 
-    // Check if the user can import data
-    use DataImportAccess;
-
     /* Authorizer */
     public function isAllowed(Entity $entity, $privilege)
     {
         // Check if the user can import data first
-        if (!$this->canImportData()) {
+        if (!Features::isEnabled('data-import')) {
             return false;
         }
 
