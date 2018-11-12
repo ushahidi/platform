@@ -37,7 +37,7 @@ class Export implements Usecase
 
     // - FilterRecords for setting search parameters
     use FilterRecords;
-    protected $filters;
+
     private $postExportRepository;
     private $exportJobRepository;
     private $formAttributeRepository;
