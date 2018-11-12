@@ -30,14 +30,14 @@ class MultisiteManager
         $this->events = $events;
     }
 
-    public function getDomain()
+    public function getDomain() : string
     {
         return $this->domain;
     }
 
-    public function enabled()
+    public function enabled() : bool
     {
-        return $this->enabled;
+        return (bool) $this->enabled;
     }
 
     /**
@@ -45,7 +45,7 @@ class MultisiteManager
      * @return void
      * @throws SiteNotFoundException
      */
-    public function setSiteFromHost($host)
+    public function setSiteFromHost(string $host)
     {
         // @todo validate host?
 
@@ -74,7 +74,7 @@ class MultisiteManager
      * @return void
      * @throws SiteNotFoundException
      */
-    public function setSiteById($siteId)
+    public function setSiteById(int $siteId)
     {
         $site = $this->repo->getById($siteId);
 
