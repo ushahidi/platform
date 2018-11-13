@@ -110,7 +110,6 @@ abstract class OhanzeeRepository implements
         if (!empty($sorting['offset'])) {
             $this->search_query->offset(intval($sorting['offset']));
         }
-
         if (!empty($sorting['limit'])) {
             $this->search_query->limit(intval($sorting['limit']));
         }
