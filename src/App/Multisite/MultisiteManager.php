@@ -47,7 +47,12 @@ class MultisiteManager
      */
     public function setSiteFromHost(string $host)
     {
-        // @todo validate host?
+        // Validate the host
+        // This is very permissive filter. We're not using FILTER_FLAG_HOSTNAME
+        // because it would block IDNs
+        if (!filter_var($host, FILTER_VALIDATE_DOMAIN)) {
+            throw new \InvalidArgumentException();
+        }
 
         // If $domain is set and we're at a subdomain of $domain...
         if ($this->domain and substr($host, strlen($this->domain) * -1) == $this->domain) {
