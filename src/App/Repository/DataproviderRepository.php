@@ -35,8 +35,9 @@ class DataProviderRepository implements
     // use CollectionLoader;
 
     /**
-     * Converts an array of results into an array of entities,
+     * Converts a laravel collection of data sources into an array of entities
      * indexed by the entity id.
+     *
      * @param  Collection $sources
      * @return Array
      */
