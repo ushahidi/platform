@@ -20,9 +20,9 @@ trait MultisiteAwareJob
 
     public function __sleep()
     {
-        $multsite = app('multisite');
+        $multisite = app('multisite');
         if (!$this->site_id) {
-            $this->site_id = $multsite->getSiteId();
+            $this->site_id = $multisite->getSiteId();
             Log::debug('Saving deployment id for job', [$this->site_id]);
         }
 
