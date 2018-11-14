@@ -109,7 +109,7 @@ class AppConfig extends ContainerConfig
         $di->set('memcached', $di->lazy(function () use ($di) {
             $config = $di->get('ratelimiter.config');
 
-            $memcached = new Memcached();
+            $memcached = new \Memcached();
             $memcached->addServer($config['memcached']['host'], $config['memcached']['port']);
 
             return $memcached;
