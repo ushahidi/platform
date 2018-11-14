@@ -23,7 +23,7 @@ class CheckDemoExpiration
         $isNotGet = !$request->isMethod('get');
 
         if ($multisite->enabled() && $isNotGet && $isDemoTier) {
-            $now = new DateTime();
+            $now = time();
             // Move time conversion to Site model
             $expiration_date = strtotime($site->expiration_date);
             $extension_date = strtotime($site->extension_date);
