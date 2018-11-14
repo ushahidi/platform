@@ -3,6 +3,7 @@
 namespace Ushahidi\App\Http\Middleware;
 
 use Closure;
+use DateTime;
 
 class CheckDemoExpiration
 {
