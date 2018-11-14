@@ -3,26 +3,50 @@
 namespace Ushahidi\App\Http\Middleware;
 
 use Closure;
+use Ushahidi\App\Multisite\MultisiteManager;
 
 class CheckDemoExpiration
 {
+
+    /**
+     * @var \Ushahidi\App\Multisite\MultisiteManager;
+     */
+    protected $multisite;
+
+    /**
+     * Create a new middleware instance.
+     *
+     * @param  \Illuminate\Contracts\Auth\Factory  $auth
+     * @return void
+     */
+    public function __construct(MultisiteManager $multisite)
+    {
+        $this->multisite = $multisite;
+    }
 
    /**
     * Handle an incoming request.
     *
     * @param  \Illuminate\Http\Request  $request
     * @param  \Closure  $next
-    * @param  string|null  $guard
     * @return mixed
     */
-    public function handle($request, Closure $next, $guard = null)
+    public function handle($request, Closure $next)
     {
-        $multisite = app('multisite');
-        $site = $multisite->getSite();
-        $isDemoTier = $site->tier === 'demo';
-        $isNotGet = !$request->isMethod('get');
+        // If multisite is disabled, skip entirely
+        if (!$this->multisite->enabled()) {
+            return $next($request);
+        }
 
-        if ($multisite->enabled() && $isNotGet && $isDemoTier) {
+        // If request is get, skip entirely
+        if ($request->isMethod('get')) {
+            return $next($request);
+        }
+
+        $site = $this->multisite->getSite();
+        $isDemoTier = $site->tier === 'demo';
+
+        if ($isDemoTier) {
             $now = time();
             // Move time conversion to Site model
             $expiration_date = strtotime($site->expiration_date);
