@@ -3,7 +3,6 @@
 namespace Ushahidi\App\Http\Middleware;
 
 use Closure;
-use DateTime;
 
 class CheckDemoExpiration
 {
@@ -23,7 +22,7 @@ class CheckDemoExpiration
         $isNotGet = !$request->isMethod('get');
 
         if ($multisite && $isNotGet && $isDemoTier) {
-            $now = new DateTime();
+            $now = strtotime('now');
             $config = service('site.config');
             if ($config) {
                 $expiration_date = array_key_exists('expiration_date', $config) ?
