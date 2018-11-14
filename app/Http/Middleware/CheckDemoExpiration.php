@@ -3,7 +3,6 @@
 namespace Ushahidi\App\Http\Middleware;
 
 use Closure;
-use DateTime;
 
 class CheckDemoExpiration
 {
@@ -23,12 +22,17 @@ class CheckDemoExpiration
         $isNotGet = !$request->isMethod('get');
 
         if ($multisite && $isNotGet && $isDemoTier) {
-            $now = new DateTime();
-            $expiration_date = strtotime(service('site.config')['expiration_date']);
-            $extension_date = strtotime(service('site.config')['extension_date']);
-
-            if ($expiration_date < $now && (!$extension_date || $extension_date < $now)) {
-                abort(503, 'The demo period for this deployment has expired.');
+            $now = strtotime('now');
+            $config = service('site.config');
+            if ($config) {
+                $expiration_date = array_key_exists('expiration_date', $config) ?
+                    strtotime($config['expiration_date']) : null;
+                $extension_date = array_key_exists('extension_date', $config) ?
+                    strtotime($config['extension_date']) : null;
+                
+                if ($expiration_date < $now && (!$extension_date || $extension_date < $now)) {
+                    abort(503, 'The demo period for this deployment has expired.');
+                }
             }
         }
         return $next($request);
