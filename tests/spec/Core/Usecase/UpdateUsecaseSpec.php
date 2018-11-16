@@ -7,18 +7,20 @@ use Ushahidi\Core\Tool\Authorizer;
 use Ushahidi\Core\Tool\Formatter;
 use Ushahidi\Core\Tool\Validator;
 use Ushahidi\Core\Usecase\UpdateRepository;
+use Illuminate\Contracts\Events\Dispatcher;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
 class UpdateUsecaseSpec extends ObjectBehavior
 {
-    function let(Authorizer $auth, Formatter $format, Validator $valid, UpdateRepository $repo)
+    function let(Authorizer $auth, Formatter $format, Validator $valid, UpdateRepository $repo, Dispatcher $dispatcher)
     {
         $this->setAuthorizer($auth);
         $this->setFormatter($format);
         $this->setValidator($valid);
         $this->setRepository($repo);
+        $this->setDispatcher($dispatcher);
     }
 
     function it_is_initializable()
@@ -114,6 +116,9 @@ class UpdateUsecaseSpec extends ObjectBehavior
 
         // ... store the changes
         $repo->update($entity)->shouldBeCalled();
+
+        // ... the exception requests data for the error message
+        $entity->getResource()->willReturn('widgets');
 
         // ... and verify that the record can be read
         $action = 'read';

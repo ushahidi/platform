@@ -6,17 +6,19 @@ use Ushahidi\Core\Entity;
 use Ushahidi\Core\Tool\Authorizer;
 use Ushahidi\Core\Tool\Formatter;
 use Ushahidi\Core\Usecase\DeleteRepository;
+use Illuminate\Contracts\Events\Dispatcher;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
 class DeleteUsecaseSpec extends ObjectBehavior
 {
-    function let(Authorizer $auth, Formatter $format, DeleteRepository $repo)
+    function let(Authorizer $auth, Formatter $format, DeleteRepository $repo, Dispatcher $dispatcher)
     {
         $this->setAuthorizer($auth);
         $this->setFormatter($format);
         $this->setRepository($repo);
+        $this->setDispatcher($dispatcher);
     }
 
     function it_is_initializable()

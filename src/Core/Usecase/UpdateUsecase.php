@@ -16,6 +16,7 @@ use Ushahidi\Core\Usecase;
 use Ushahidi\Core\Tool\AuthorizerTrait;
 use Ushahidi\Core\Tool\FormatterTrait;
 use Ushahidi\Core\Tool\ValidatorTrait;
+use Ushahidi\Core\Traits\Events\DispatchesEvents;
 
 class UpdateUsecase implements Usecase
 {
@@ -33,6 +34,9 @@ class UpdateUsecase implements Usecase
 
     // - VerifyEntityLoaded for checking that an entity is found
     use Concerns\VerifyEntityLoaded;
+
+    // - Provides dispatch()
+    use DispatchesEvents;
 
     /**
      * @var UpdateRepository
@@ -77,6 +81,12 @@ class UpdateUsecase implements Usecase
 
         // ... persist the changes
         $this->repo->update($entity);
+
+        // ... dispatch an event and let other services know
+        $this->dispatch($entity->getResource(). '.update', [
+            'id' => $entity->getId(),
+            'entity' => $entity,
+        ]);
 
         // ... check that the entity can be read by the current user
         if ($this->auth->isAllowed($entity, 'read')) {

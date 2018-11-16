@@ -14,6 +14,7 @@ namespace Ushahidi\Core\Usecase;
 use Ushahidi\Core\Usecase;
 use Ushahidi\Core\Tool\AuthorizerTrait;
 use Ushahidi\Core\Tool\FormatterTrait;
+use Ushahidi\Core\Traits\Events\DispatchesEvents;
 
 class DeleteUsecase implements Usecase
 {
@@ -28,6 +29,9 @@ class DeleteUsecase implements Usecase
 
     // - VerifyEntityLoaded for checking that an entity is found
     use Concerns\VerifyEntityLoaded;
+
+    // - Provides dispatch()
+    use DispatchesEvents;
 
     /**
      * @var DeleteRepository
@@ -72,6 +76,12 @@ class DeleteUsecase implements Usecase
 
         // ... verify that the entity can be read by the current user
         $this->verifyReadAuth($entity);
+
+        // ... dispatch an event and let other services know
+        $this->dispatch($entity->getResource(). '.delete', [
+            'id' => $entity->getId(),
+            'entity' => $entity,
+        ]);
 
         // ... and return the formatted entity
         return $this->formatter->__invoke($entity);
