@@ -40,6 +40,11 @@ class AppServiceProvider extends ServiceProvider
             return service('factory.usecase');
         });
 
+        $this->app->singleton(\Ushahidi\Core\Entity\FormRepository::class, function ($app) {
+            // Just return it from AuraDI
+            return service('repository.form');
+        });
+
         $this->app->singleton(\Ushahidi\Core\Entity\MessageRepository::class, function ($app) {
             // Just return it from AuraDI
             return service('repository.message');

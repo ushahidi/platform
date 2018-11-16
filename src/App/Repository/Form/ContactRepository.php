@@ -19,13 +19,15 @@ use Ushahidi\Core\Entity;
 use Ushahidi\Core\SearchData;
 use Ushahidi\Core\Entity\FormContactRepository;
 use Ushahidi\Core\Usecase\SearchRepository;
-use Ushahidi\Core\Traits\Event;
+use Ushahidi\Core\Traits\Events\DispatchesEvents;
 
 class ContactRepository extends OhanzeeRepository implements
     FormContactRepository,
     SearchRepository
 {
-    use Event;
+    // - Provides dispatch()
+    use DispatchesEvents;
+
     protected $form_repo;
     protected $message_repo;
     protected $targeted_survey_state_repo;
@@ -141,7 +143,11 @@ class ContactRepository extends OhanzeeRepository implements
         // Start transaction
         $this->db->commit();
 
-        $this->emit($this->event, $results, $form_id, 'created_contact');
+        // @todo move to usecase
+        $this->dispatch('form_contacts.created', [
+            'contact_ids' => $results,
+            'form_id' => $form_id
+        ]);
 
         return $invalidatedContacts;
     }

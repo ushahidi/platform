@@ -467,36 +467,11 @@ class AppConfig extends ContainerConfig
             'targeted_survey_state_repo' => $di->lazyGet('repository.targeted_survey_state'),
             'message_repo' => $di->lazyGet('repository.message'),
         ];
-        $di->setters[\Ushahidi\App\Repository\Form\ContactRepository::class]['setEvent'] = 'FormContactEvent';
 
         // Form Stats repository parameters
         $di->params[\Ushahidi\App\Repository\Form\StatsRepository::class] = [
             'form_repo' => $di->lazyGet('repository.form')
         ];
-
-        // Webhook repo for Post listener
-        $di->setters[\Ushahidi\App\Listener\ContactListener::class]['setRepo'] =
-            $di->lazyGet('repository.contact');
-        // Webhook repo for Post listener
-        $di->setters[\Ushahidi\App\Listener\ContactListener::class]['setFormRepo'] =
-            $di->lazyGet('repository.form');
-        // Webhook repo for Post listener
-        $di->setters[\Ushahidi\App\Listener\ContactListener::class]['setFormAttributeRepo'] =
-            $di->lazyGet('repository.form_attribute');
-
-        // Webhook repo for Post listener
-        $di->setters[\Ushahidi\App\Listener\ContactListener::class]['setPostRepo'] =
-            $di->lazyGet('repository.post');
-
-        // Webhook repo for Post listener
-        $di->setters[\Ushahidi\App\Listener\ContactListener::class]['setMessageRepo'] =
-            $di->lazyGet('repository.message');
-
-        $di->setters[\Ushahidi\App\Listener\ContactListener::class]['setTargetedSurveyStateRepo'] =
-            $di->lazyGet('repository.targeted_survey_state');
-
-        $di->setters[\Ushahidi\App\Repository\Form\ContactRepository::class]['setListener'] =
-            $di->lazyNew(\Ushahidi\App\Listener\ContactListener::class);
 
         $di->setters[\Ushahidi\App\Validator\Form\Contact\Create::class]['setFormRepo'] =
             $di->lazyGet('repository.form');

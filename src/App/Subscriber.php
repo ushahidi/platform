@@ -6,6 +6,7 @@ use Illuminate\Contracts\Events\Dispatcher;
 use Ushahidi\App\Listener\CreatePostFromMessage;
 use Ushahidi\App\Listener\HandleTargetedSurveyResponse;
 use Ushahidi\App\Listener\ImportPosts;
+use Ushahidi\App\Listener\CreateTargetedSurveyMessageForContact;
 
 class Subscriber
 {
@@ -30,6 +31,11 @@ class Subscriber
         $events->listen(
             'csv.import',
             ImportPosts::class
+        );
+
+        $events->listen(
+            'form_contacts.create',
+            CreateTargetedSurveyMessageForContact::class
         );
     }
 }
