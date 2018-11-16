@@ -68,14 +68,6 @@ return [
         'enabled' => false,
     ],
 
-    // Post locking
-    // Defaults to False, tests will fail if set to TRUE
-    // without complete Redis setup
-    // see TODO <docs link>
-    'redis' => [
-        'enabled' => false,
-    ],
-
     'csv-speedup' => [
         'enabled' => false,
     ],
