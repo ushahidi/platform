@@ -18,7 +18,6 @@ use Ushahidi\Core\Entity\CSV;
 use Ushahidi\Core\Entity\CSVRepository as CSVRepositoryContract;
 
 use League\Event\ListenerInterface;
-use Ushahidi\Core\Traits\Event;
 
 class CSVRepository extends OhanzeeRepository implements
     CSVRepositoryContract
@@ -26,9 +25,6 @@ class CSVRepository extends OhanzeeRepository implements
 
     // Use the JSON transcoder to encode properties
     use JsonTranscodeRepository;
-
-    // Use Event trait to trigger events
-    use Event;
 
     // JsonTranscodeRepository
     protected function getJsonProperties()

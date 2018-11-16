@@ -19,13 +19,11 @@ use Ushahidi\Core\Entity;
 use Ushahidi\Core\SearchData;
 use Ushahidi\Core\Entity\FormContactRepository;
 use Ushahidi\Core\Usecase\SearchRepository;
-use Ushahidi\Core\Traits\Event;
 
 class StatsRepository extends OhanzeeRepository implements
     Entity\FormStatsRepository,
     SearchRepository
 {
-    use Event;
 
     protected $form_repo;
     protected $targeted_survey_state_repo;
@@ -298,7 +296,7 @@ class StatsRepository extends OhanzeeRepository implements
                 ->where('messages.direction', '=', 'outgoing');
             $query = $this->betweenDates($query, 'messages.created', $created_before, $created_after);
         }
-        
+
         return $query
             ->execute($this->db)
             ->get('total');

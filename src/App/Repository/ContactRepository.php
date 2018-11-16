@@ -30,8 +30,6 @@ class ContactRepository extends OhanzeeRepository implements
 {
     use UserContext;
     use AdminAccess;
-    // Use Event trait to trigger events
-    // use \Ushahidi\Core\Traits\Event;
 
     protected function getId(Entity $entity)
     {
