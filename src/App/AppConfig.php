@@ -801,8 +801,6 @@ class AppConfig extends ContainerConfig
 
         // Add Lock Listener
         $di->setters[\Ushahidi\App\Repository\Post\LockRepository::class]['setEvent'] = 'LockBroken';
-        $di->setters[\Ushahidi\App\Repository\Post\LockRepository::class]['setListener'] =
-            $di->lazyNew(\Ushahidi\App\Listener\Lock::class);
 
         $di->setters[\Ushahidi\Core\Usecase\ImportUsecase::class]['setEvent'] = 'ImportPosts';
         $di->setters[\Ushahidi\Core\Usecase\ImportUsecase::class]['setListener'] =
