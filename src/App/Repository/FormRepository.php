@@ -17,16 +17,10 @@ use Ushahidi\Core\Entity\Form;
 use Ushahidi\Core\Entity\FormRepository as FormRepositoryContract;
 use Ushahidi\Core\SearchData;
 
-use League\Event\ListenerInterface;
-use Ushahidi\Core\Traits\Event;
-
 class FormRepository extends OhanzeeRepository implements
     FormRepositoryContract
 {
     use FormsTagsTrait;
-
-    // Use Event trait to trigger events
-    use Event;
 
     // OhanzeeRepository
     protected function getTable()
@@ -79,12 +73,6 @@ class FormRepository extends OhanzeeRepository implements
     // UpdateRepository
     public function update(Entity $entity)
     {
-        // If orignal Form update Intercom if Name changed
-        if ($entity->id === 1) {
-            foreach ($entity->getChanged() as $key => $val) {
-                $key === 'name' ? $this->emit($this->event, ['primary_survey_name' => $val]) : null;
-            }
-        }
         $form = $entity->getChanged();
         $form['updated'] = time();
         // removing tags from form before saving

@@ -19,7 +19,6 @@ use Ushahidi\Core\Usecase\UpdateRepository;
 use Ushahidi\Core\Exception\NotFoundException;
 
 use League\Event\ListenerInterface;
-use Ushahidi\Core\Traits\Event;
 use Ohanzee\DB;
 use Ohanzee\Database;
 
@@ -28,10 +27,6 @@ class ConfigRepository implements
     UpdateRepository,
     ConfigRepositoryContract
 {
-
-    // Use Event trait to trigger events
-    use Event;
-
     public function __construct(Database $db)
     {
         $this->db = $db;
@@ -104,37 +99,11 @@ class ConfigRepository implements
 
         $this->verifyGroup($group);
 
-        // Intercom count datasources
-        if ($group === 'data-provider') {
-            $intercom_data['num_data_sources'] = 0;
-            foreach ($entity->providers as $key => $value) {
-                $value ? $intercom_data['num_data_sources']++ : null;
-            }
-        }
-
         $immutable = $entity->getImmutable();
         foreach ($entity->getChanged() as $key => $val) {
-            // Emit Intercom Update events
-            if ($key === 'description') {
-                $intercom_data['has_description'] = true;
-            }
-
-            if ($key === 'image_header') {
-                $intercom_data['has_logo'] = true;
-            }
-
-            // New User - set their deployment created date
-            if ($key === 'first_login') {
-                $intercom_data['deployment_created_date'] = date("Y-m-d H:i:s");
-            }
-
             if (! in_array($key, $immutable)) {
                 $this->insertOrUpdate($group, $key, $val);
             }
-        }
-
-        if ($intercom_data) {
-            $this->emit($this->event, $intercom_data);
         }
     }
 

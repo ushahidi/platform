@@ -735,15 +735,6 @@ class AppConfig extends ContainerConfig
         $di->setters[\Ushahidi\App\Transformer\CSVPostTransformer::class]['setRepo'] =
             $di->lazyGet('repository.post');
 
-        // Add Intercom Listener to Config
-        $di->setters[\Ushahidi\App\Repository\ConfigRepository::class]['setEvent'] = 'ConfigUpdateEvent';
-        $di->setters[\Ushahidi\App\Repository\ConfigRepository::class]['setListener'] =
-            $di->lazyNew(\Ushahidi\App\Listener\IntercomCompanyListener::class);
-
-        // Add Intercom Listener to Form
-        $di->setters[\Ushahidi\App\Repository\FormRepository::class]['setEvent'] = 'FormUpdateEvent';
-        $di->setters[\Ushahidi\App\Repository\FormRepository::class]['setListener'] =
-            $di->lazyNew(\Ushahidi\App\Listener\IntercomCompanyListener::class);
 
         // Add Lock Listener
         $di->setters[\Ushahidi\App\Repository\Post\LockRepository::class]['setEvent'] = 'LockBroken';

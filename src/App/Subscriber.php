@@ -8,6 +8,7 @@ use Ushahidi\App\Listener\HandleTargetedSurveyResponse;
 use Ushahidi\App\Listener\ImportPosts;
 use Ushahidi\App\Listener\CreateTargetedSurveyMessageForContact;
 use Ushahidi\App\Listener\IntercomAdminListener;
+use Ushahidi\App\Listener\IntercomCompanyListener;
 use Ushahidi\App\Listener\PostSetListener;
 use Ushahidi\App\Listener\PostListener;
 
@@ -54,6 +55,16 @@ class Subscriber
         $events->listen(
             'posts.*',
             PostListener::class
+        );
+
+        $events->listen(
+            'forms.update',
+            IntercomCompanyListener::class
+        );
+
+        $events->listen(
+            'config.update',
+            IntercomCompanyListener::class
         );
     }
 }
