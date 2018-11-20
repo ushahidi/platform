@@ -19,16 +19,10 @@ use Ushahidi\Core\Entity\PostLockRepository;
 use Ushahidi\Core\Traits\UserContext;
 use Ushahidi\App\Repository\OhanzeeRepository;
 
-use League\Event\ListenerInterface;
-use Ushahidi\Core\Traits\Event;
-
 class LockRepository extends OhanzeeRepository implements PostLockRepository
 {
     // Provides getUser()
     use UserContext;
-
-    // Use Event trait to trigger events
-    use Event;
 
     // OhanzeeRepository
     protected function getTable()
@@ -59,8 +53,6 @@ class LockRepository extends OhanzeeRepository implements PostLockRepository
             ->limit(1)
             ->execute($this->db);
 
-        $this->warnUserLockBroken($result->get('user_id'));
-
         $lock = $this->get($result->get('id'));
 
         $this->executeDelete(['id' => $result->get('id')]);
@@ -72,8 +64,6 @@ class LockRepository extends OhanzeeRepository implements PostLockRepository
     {
 
         $lock = $this->get($lock_id);
-
-        $this->warnUserLockBroken($lock->user_id);
 
         $this->delete($lock);
 
@@ -89,20 +79,7 @@ class LockRepository extends OhanzeeRepository implements PostLockRepository
         $locks = $this->getCollection($results->as_array());
 
         foreach ($locks as $lock) {
-            $this->warnUserLockBroken($lock->user_id);
-
             $this->delete($lock);
-        }
-
-        return;
-    }
-
-    public function warnUserLockBroken($user_id)
-    {
-        $user = $this->getUser();
-
-        if ($user_id !== $user->id) {
-            $this->emit($this->event, $user_id);
         }
 
         return;

@@ -735,10 +735,6 @@ class AppConfig extends ContainerConfig
         $di->setters[\Ushahidi\App\Transformer\CSVPostTransformer::class]['setRepo'] =
             $di->lazyGet('repository.post');
 
-
-        // Add Lock Listener
-        $di->setters[\Ushahidi\App\Repository\Post\LockRepository::class]['setEvent'] = 'LockBroken';
-
         /**
          * HXL block
          */
