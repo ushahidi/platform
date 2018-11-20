@@ -13,21 +13,18 @@
 
 namespace Ushahidi\App\Listener;
 
-use League\Event\AbstractListener;
-use League\Event\EventInterface;
-
 use Ushahidi\Core\Entity\NotificationQueueRepository;
 
-class PostSetListener extends AbstractListener
+class PostSetListener
 {
     protected $repo;
 
-    public function setRepo(NotificationQueueRepository $repo)
+    public function __construct(NotificationQueueRepository $repo)
     {
         $this->repo = $repo;
     }
 
-    public function handle(EventInterface $event, $set_id = null, $post_id = null)
+    public function handle(int $set_id, int $post_id)
     {
         // Insert into Notification Queue
         $state = [

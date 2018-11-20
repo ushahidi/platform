@@ -60,6 +60,11 @@ class AppServiceProvider extends ServiceProvider
             return service('repository.post');
         });
 
+        $this->app->singleton(\Ushahidi\Core\Entity\NotificationQueueRepository::class, function ($app) {
+            // Just return it from AuraDI
+            return service('repository.notification.queue');
+        });
+
         $this->app->singleton(\Ushahidi\Core\Entity\TargetedSurveyStateRepository::class, function ($app) {
             // Just return it from AuraDI
             return service('repository.targeted_survey_state');

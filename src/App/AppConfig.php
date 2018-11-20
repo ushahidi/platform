@@ -735,16 +735,6 @@ class AppConfig extends ContainerConfig
         $di->setters[\Ushahidi\App\Transformer\CSVPostTransformer::class]['setRepo'] =
             $di->lazyGet('repository.post');
 
-        // Event listener for the Set repo
-        $di->setters[\Ushahidi\App\Repository\SetRepository::class]['setEvent'] = 'PostSetEvent';
-
-        $di->setters[\Ushahidi\App\Repository\SetRepository::class]['setListener'] =
-            $di->lazyNew(\Ushahidi\App\Listener\PostSetListener::class);
-
-        // NotificationQueue repo for Set listener
-        $di->setters[\Ushahidi\App\Listener\PostSetListener::class]['setRepo'] =
-            $di->lazyGet('repository.notification.queue');
-
         // Event listener for the Post repo
         $di->setters[\Ushahidi\App\Repository\PostRepository::class]['setEvent'] = 'PostCreateEvent';
         $di->setters[\Ushahidi\App\Repository\PostRepository::class]['setListener'] =
