@@ -71,6 +71,13 @@ class UserCreate extends Command
         $entity->setState($state);
         $id = $this->option('with-hash') ? $this->repo->createWithHash($entity) : $this->repo->create($entity);
 
+        // dispatch an event and let other services know
+        // unfortunately we have to duplicate this here unless we use a usecase
+        event($entity->getResource(). '.create', [
+            'id' => $id,
+            'entity' => $entity,
+        ]);
+
         $acceptTos = $this->option('tos');
         if ($acceptTos) {
                 $tos = $this->tosRepo->getEntity([

@@ -7,6 +7,7 @@ use Ushahidi\App\Listener\CreatePostFromMessage;
 use Ushahidi\App\Listener\HandleTargetedSurveyResponse;
 use Ushahidi\App\Listener\ImportPosts;
 use Ushahidi\App\Listener\CreateTargetedSurveyMessageForContact;
+use Ushahidi\App\Listener\IntercomAdminListener;
 
 class Subscriber
 {
@@ -36,6 +37,11 @@ class Subscriber
         $events->listen(
             'form_contacts.create',
             CreateTargetedSurveyMessageForContact::class
+        );
+
+        $events->listen(
+            'user.create',
+            IntercomAdminListener::class
         );
     }
 }

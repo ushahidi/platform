@@ -53,6 +53,12 @@ class RegisterUser extends CreateUsecase
         // get the newly created entity
         $entity = $this->getCreatedEntity($id);
 
+        // ... dispatch an event and let other services know
+        $this->dispatch($entity->getResource(). '.create', [
+            'id' => $id,
+            'entity' => $entity,
+        ]);
+
         // return the formatted entity
         return $this->formatter->__invoke($entity);
     }

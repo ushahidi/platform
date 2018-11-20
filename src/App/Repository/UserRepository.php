@@ -22,8 +22,6 @@ use Ushahidi\Core\Tool\Hasher;
 use Ushahidi\Core\Usecase\User\RegisterRepository;
 use Ushahidi\Core\Usecase\User\ResetPasswordRepository;
 
-use League\Event\ListenerInterface;
-use Ushahidi\Core\Traits\Event;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
@@ -36,9 +34,6 @@ class UserRepository extends OhanzeeRepository implements
      * @var Hasher
      */
     protected $hasher;
-
-    // Use Event trait to trigger events
-    use Event;
 
     /**
      * @param  Hasher $hasher
@@ -88,9 +83,7 @@ class UserRepository extends OhanzeeRepository implements
             'password' => $this->hasher->hash($entity->password),
         ];
         $entity->setState($state);
-        if ($entity->role === 'admin') {
-                $this->updateIntercomAdminUsers($entity);
-        }
+
         return parent::create($entity);
     }
 
@@ -101,9 +94,6 @@ class UserRepository extends OhanzeeRepository implements
             'created'  => time()
         ];
         $entity->setState($state);
-        if ($entity->role === 'admin') {
-                $this->updateIntercomAdminUsers($entity);
-        }
 
         return parent::create($entity);
     }
@@ -119,10 +109,6 @@ class UserRepository extends OhanzeeRepository implements
 
         if ($entity->hasChanged('password')) {
             $user['password'] = $this->hasher->hash($entity->password);
-        }
-
-        if ($entity->role === 'admin') {
-            $this->updateIntercomAdminUsers($entity);
         }
 
         return $this->executeUpdate(['id' => $entity->id], $user);
@@ -216,8 +202,6 @@ class UserRepository extends OhanzeeRepository implements
             ->where('created', '>', time() - 1800) // Expire tokens after less than 30 mins
             ->execute($this->db);
 
-            
-
         $count = $result->get('total') ?: 0;
 
         return $count !== 0;
@@ -251,25 +235,5 @@ class UserRepository extends OhanzeeRepository implements
     public function getTotalCount(array $where = [])
     {
         return $this->selectCount($where);
-    }
-
-    // DeleteRepository
-    public function delete(Entity $entity)
-    {
-        if ($entity->role === 'admin') {
-                $this->updateIntercomAdminUsers($entity);
-        }
-        return parent::delete($entity);
-    }
-
-    /**
-     * Pass User count to Intercom
-     * takes a postive/negative offset by which to increase/decrease count for create/delete
-     * @param Integer $offset
-     * @return void
-     */
-    protected function updateIntercomAdminUsers($user)
-    {
-        $this->emit($this->event, $user);
     }
 }

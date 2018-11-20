@@ -768,11 +768,6 @@ class AppConfig extends ContainerConfig
         $di->setters[\Ushahidi\App\Repository\FormRepository::class]['setListener'] =
             $di->lazyNew(\Ushahidi\App\Listener\IntercomCompanyListener::class);
 
-        // Add Intercom Listener to User
-        $di->setters[\Ushahidi\App\Repository\UserRepository::class]['setEvent'] = 'UserGetAllEvent';
-        $di->setters[\Ushahidi\App\Repository\UserRepository::class]['setListener'] =
-            $di->lazyNew(\Ushahidi\App\Listener\IntercomAdminListener::class);
-
         // Add Lock Listener
         $di->setters[\Ushahidi\App\Repository\Post\LockRepository::class]['setEvent'] = 'LockBroken';
 
