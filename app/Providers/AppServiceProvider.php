@@ -69,6 +69,11 @@ class AppServiceProvider extends ServiceProvider
             // Just return it from AuraDI
             return service('tool.verifier');
         });
+
+        $this->app->singleton(\Ushahidi\Core\Usecase\CSV\ImportCSVPostsUsecase::class, function ($app) {
+            // Just return it from AuraDI
+            return service('usecase.csv.importposts');
+        });
     }
 
     public function registerMailer()

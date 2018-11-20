@@ -188,9 +188,22 @@ class CoreConfig extends ContainerConfig
         // CSV requires file upload
         $di->params['Ushahidi\Factory\UsecaseFactory']['map']['csv'] = [
             'create' => $di->lazyNew('Ushahidi\Core\Usecase\CSV\CreateCSVUsecase'),
-            'read'    => $di->lazyNew('Ushahidi\Core\Usecase\ReadUsecase'),
+            'read'   => $di->lazyNew('Ushahidi\Core\Usecase\ReadUsecase'),
             'delete' => $di->lazyNew('Ushahidi\Core\Usecase\CSV\DeleteCSVUsecase'),
+            'import' => $di->lazyNew('Ushahidi\Core\Usecase\CSV\ImportCSVUsecase')
         ];
+
+        // Set up ImportCSVPostsUsecase
+        $di->set('usecase.csv.importposts', $di->lazyNew(\Ushahidi\Core\Usecase\CSV\ImportCSVPostsUsecase::class, [
+            'postRepo' => $di->lazyGet('repository.post'),
+            'fs' => $di->lazyGet('tool.filesystem'),
+            'reader' => $di->lazyGet('filereader.csv'),
+            'transformer' => $di->lazyGet('transformer.csv'),
+            'setRepo' => $di->lazyGet('repository.set'),
+            'csvRepo' => $di->lazyGet('repository.csv'),
+            'validator' => $di->lazyNew(\Ushahidi\App\Validator\Post\Import::class), // @todo get from validator factory
+            'authorizer' => $di->lazyGet('authorizer.post')
+        ]));
 
         $di->setters['Ushahidi\Core\Usecase\CSV\CreateCSVUsecase']['setUploader'] = $di->lazyGet('tool.uploader');
         $di->setters['Ushahidi\Core\Usecase\CSV\CreateCSVUsecase']['setReaderFactory']
@@ -217,8 +230,7 @@ class CoreConfig extends ContainerConfig
             'webhook-update'  => $di->lazyNew('Ushahidi\Core\Usecase\Post\WebhookUpdatePost'),
             'delete'          => $di->lazyNew('Ushahidi\Core\Usecase\Post\DeletePost'),
             'search'          => $di->lazyNew('Ushahidi\Core\Usecase\Post\SearchPost'),
-            'stats'           => $di->lazyNew('Ushahidi\Core\Usecase\Post\StatsPost'),
-            'import'          => $di->lazyNew('Ushahidi\Core\Usecase\ImportUsecase')
+            'stats'           => $di->lazyNew('Ushahidi\Core\Usecase\Post\StatsPost')
         ];
         // Add custom create usecase for notifications
         $di->params['Ushahidi\Factory\UsecaseFactory']['map']['notifications'] = [

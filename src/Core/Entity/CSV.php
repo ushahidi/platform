@@ -15,6 +15,8 @@ use Ushahidi\Core\StaticEntity;
 
 class CSV extends StaticEntity
 {
+    const STATUS_PENDING = 'SUCCESS';
+    const STATUS_SUCCESS = 'PENDING';
 
     protected $id;
     protected $columns;

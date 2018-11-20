@@ -69,7 +69,7 @@ class CreateCSVUsecase extends CreateMedia
             'mime'       => $this->upload->type,
             'size'       => $this->upload->size,
         ];
-        
+
         return $this->repo->getEntity()->setState($payload);
     }
 }

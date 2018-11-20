@@ -184,7 +184,6 @@ class AppConfig extends ContainerConfig
         $di->params['Ushahidi\Factory\ValidatorFactory']['map']['posts'] = [
             'create' => $di->lazyNew(\Ushahidi\App\Validator\Post\Create::class),
             'update' => $di->lazyNew(\Ushahidi\App\Validator\Post\Update::class),
-            'import' => $di->lazyNew(\Ushahidi\App\Validator\Post\Import::class),
             'export' => $di->lazyNew(\Ushahidi\App\Validator\Post\Export::class),
             'webhook-update' => $di->lazyNew(\Ushahidi\App\Validator\Post\Create::class),
         ];
@@ -802,9 +801,6 @@ class AppConfig extends ContainerConfig
         // Add Lock Listener
         $di->setters[\Ushahidi\App\Repository\Post\LockRepository::class]['setEvent'] = 'LockBroken';
 
-        $di->setters[\Ushahidi\Core\Usecase\ImportUsecase::class]['setEvent'] = 'ImportPosts';
-        $di->setters[\Ushahidi\Core\Usecase\ImportUsecase::class]['setListener'] =
-            $di->lazyNew(\Ushahidi\App\Listener\Import::class);
         /**
          * HXL block
          */

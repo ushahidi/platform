@@ -10,5 +10,5 @@ $router->group([
         'middleware' => ['auth:api', 'scope:csv', 'expiration']
     ]);
 
-    $router->post('/{id}/import', 'CSVImportController@store');
+    $router->post('/{id}/import', 'CSVController@import');
 });

@@ -3,6 +3,7 @@
 namespace Ushahidi\App\Http\Controllers\API\CSV;
 
 use Ushahidi\App\Http\Controllers\API\MediaController;
+use Illuminate\Http\Request;
 
 /**
  * Ushahidi API CSV Controller
@@ -17,5 +18,22 @@ class CSVController extends MediaController
     protected function getResource()
     {
         return 'csv';
+    }
+
+    public function import(Request $request)
+    {
+        /**
+         * Step two of import.
+         * Support all line endings without manually specifying it
+         * (primarily added because of OS9 line endings which do not work by default )
+         */
+        ini_set('auto_detect_line_endings', 1);
+
+        $this->usecase = $this->usecaseFactory
+            ->get($this->getResource(), 'import')
+            ->setIdentifiers($this->getRouteParams($request));
+            ;
+
+        return $this->prepResponse($this->executeUsecase($request), $request);
     }
 }
