@@ -333,7 +333,6 @@ class CoreConfig extends ContainerConfig
         $di->setters['Ushahidi\Core\Usecase\Form\VerifyStageLoaded']['setStageRepository']
             = $di->lazyGet('repository.form_stage');
 
-        $di->setters['Ushahidi\Core\Traits\Event']['setEmitter'] = $di->lazyNew('League\Event\Emitter');
         // Set ACL for ACL Trait
         $di->setters['Ushahidi\Core\Tool\Permissions\AclTrait']['setAcl'] = $di->lazyGet('tool.acl');
 

@@ -35,7 +35,6 @@
         "laravel/lumen-framework": "5.5.*",
         "ddeboer/data-import": "dev-master",
         "symfony/property-access": "~2.5",
-        "league/event": "^2.2@dev",
         "beheh/flaps": "dev-master",
         "doctrine/cache": "^1.6.2",
         "ramsey/uuid": "^3.4.1",

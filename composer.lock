@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "96a5a6311d04ce4df79cfa0e61ec832f",
+    "content-hash": "85b088dada27cc268deab9a9e6509a1e",
     "packages": [
         {
             "name": "abraham/twitteroauth",
@@ -2665,16 +2665,16 @@
         },
         {
             "name": "league/event",
-            "version": "dev-master",
+            "version": "2.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/event.git",
-                "reference": "0bfa3954c93a7b596168b4fd32d0e6631fd175e2"
+                "reference": "e4bfc88dbcb60c8d8a2939a71f9813e141bbe4cd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/event/zipball/0bfa3954c93a7b596168b4fd32d0e6631fd175e2",
-                "reference": "0bfa3954c93a7b596168b4fd32d0e6631fd175e2",
+                "url": "https://api.github.com/repos/thephpleague/event/zipball/e4bfc88dbcb60c8d8a2939a71f9813e141bbe4cd",
+                "reference": "e4bfc88dbcb60c8d8a2939a71f9813e141bbe4cd",
                 "shasum": ""
             },
             "require": {
@@ -2682,7 +2682,7 @@
             },
             "require-dev": {
                 "henrikbjorn/phpspec-code-coverage": "~1.0.1",
-                "phpspec/phpspec": "^2.2"
+                "phpspec/phpspec": "~2.0.0"
             },
             "type": "library",
             "extra": {
@@ -2711,7 +2711,7 @@
                 "event",
                 "listener"
             ],
-            "time": "2016-07-23T09:33:29+00:00"
+            "time": "2015-05-21T12:24:47+00:00"
         },
         {
             "name": "league/flysystem",
@@ -8567,7 +8567,6 @@
         "ohanzee/database": 20,
         "league/csv": 20,
         "ddeboer/data-import": 20,
-        "league/event": 20,
         "beheh/flaps": 20,
         "ushahidi/kohana-validation": 20,
         "heroku/heroku-buildpack-php": 20,
