@@ -735,19 +735,6 @@ class AppConfig extends ContainerConfig
         $di->setters[\Ushahidi\App\Transformer\CSVPostTransformer::class]['setRepo'] =
             $di->lazyGet('repository.post');
 
-        // Event listener for the Post repo
-        $di->setters[\Ushahidi\App\Repository\PostRepository::class]['setEvent'] = 'PostCreateEvent';
-        $di->setters[\Ushahidi\App\Repository\PostRepository::class]['setListener'] =
-            $di->lazyNew(\Ushahidi\App\Listener\PostListener::class);
-
-        // WebhookJob repo for Post listener
-        $di->setters[\Ushahidi\App\Listener\PostListener::class]['setRepo'] =
-            $di->lazyGet('repository.webhook.job');
-
-        // Webhook repo for Post listener
-        $di->setters[\Ushahidi\App\Listener\PostListener::class]['setWebhookRepo'] =
-            $di->lazyGet('repository.webhook');
-
         // Add Intercom Listener to Config
         $di->setters[\Ushahidi\App\Repository\ConfigRepository::class]['setEvent'] = 'ConfigUpdateEvent';
         $di->setters[\Ushahidi\App\Repository\ConfigRepository::class]['setListener'] =

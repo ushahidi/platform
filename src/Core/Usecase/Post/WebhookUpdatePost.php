@@ -38,6 +38,12 @@ class WebhookUpdatePost extends UpdateUsecase
         // ... and either load the updated entity from the storage layer
         $updated_entity = $this->getEntity();
 
+        // ... dispatch an event and let other services know
+        $this->dispatch($entity->getResource(). '.update', [
+            'id' => $entity->getId(),
+            'entity' => $entity,
+        ]);
+
         // ... and return the updated, formatted entity
         return $this->formatter->__invoke($updated_entity);
     }

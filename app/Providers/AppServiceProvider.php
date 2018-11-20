@@ -65,6 +65,16 @@ class AppServiceProvider extends ServiceProvider
             return service('repository.notification.queue');
         });
 
+        $this->app->singleton(\Ushahidi\Core\Entity\WebhookRepository::class, function ($app) {
+            // Just return it from AuraDI
+            return service('repository.webhook');
+        });
+
+        $this->app->singleton(\Ushahidi\Core\Entity\WebhookJobRepository::class, function ($app) {
+            // Just return it from AuraDI
+            return service('repository.webhook.job');
+        });
+
         $this->app->singleton(\Ushahidi\Core\Entity\TargetedSurveyStateRepository::class, function ($app) {
             // Just return it from AuraDI
             return service('repository.targeted_survey_state');

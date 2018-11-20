@@ -13,30 +13,33 @@
 
 namespace Ushahidi\App\Listener;
 
-use League\Event\AbstractListener;
-use League\Event\EventInterface;
-
 use Ushahidi\Core\Entity\WebhookJobRepository;
 use Ushahidi\Core\Entity\WebhookRepository;
+use Log;
 
-class PostListener extends AbstractListener
+class PostListener
 {
-    protected $repo;
+    protected $allowed_events = ['create', 'update'];
 
+    protected $repo;
     protected $webhook_repo;
 
-    public function setRepo(WebhookJobRepository $repo)
+    public function __construct(WebhookJobRepository $repo, WebhookRepository $webhook_repo)
     {
         $this->repo = $repo;
-    }
-
-    public function setWebhookRepo(WebhookRepository $webhook_repo)
-    {
         $this->webhook_repo = $webhook_repo;
     }
 
-    public function handle(EventInterface $event, $post_id = null, $event_type = null)
+    public function handle($eventName, $payload)
     {
+        $post_id = $payload['id'];
+
+        $event_type = str_replace('posts.', '', $eventName);
+
+        if (!in_array($event_type, $this->allowed_events)) {
+            return;
+        }
+
         $state = [
             'post_id' => $post_id,
             'event_type' => $event_type

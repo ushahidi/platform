@@ -2164,6 +2164,7 @@ webhooks:
     url: "https://test.test"
     entity_type: "post"
     event_type: "search"
+webhook_job:
 csv:
 hxl_meta_data:
   -

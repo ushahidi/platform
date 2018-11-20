@@ -34,18 +34,12 @@ use Ushahidi\App\Repository\Post\ValueFactory as PostValueFactory;
 use Ushahidi\App\Util\BoundingBox;
 use Ushahidi\Core\Tool\Permissions\InteractsWithPostPermissions;
 
-use League\Event\ListenerInterface;
-use Ushahidi\Core\Traits\Event;
-
 class PostRepository extends OhanzeeRepository implements
     PostRepositoryContract,
     UpdatePostRepository,
     SetPostRepository
 {
     use UserContext;
-
-    // Use Event trait to trigger events
-    use Event;
 
     // Use the JSON transcoder to encode properties
     use JsonTranscodeRepository;
@@ -65,8 +59,6 @@ class PostRepository extends OhanzeeRepository implements
     protected $include_value_types = [];
     protected $include_attributes = [];
     protected $exclude_stages = [];
-
-    protected $listener;
 
     /**
      * Construct
@@ -990,11 +982,6 @@ class PostRepository extends OhanzeeRepository implements
             $this->updatePostStages($id, $entity->form_id, $entity->completed_stages);
         }
 
-        // TODO: Revist post-Kohana
-        // This might be better placed in the usecase but
-        // given Kohana's future I've put it here
-        $this->emit($this->event, $id, 'create');
-
         return $id;
     }
 
@@ -1045,11 +1032,6 @@ class PostRepository extends OhanzeeRepository implements
             $this->updatePostStages($entity->id, $entity->form_id, $entity->completed_stages);
         }
 
-        // TODO: Revist post-Kohana
-        // This might be better placed in the usecase but
-        // given Kohana's future I've put it here
-        $this->emit($this->event, $entity->id, 'update');
-
         if ($this->post_lock_repo->isActive($entity->id)) {
             $this->post_lock_repo->releaseLock($entity->id);
         }
@@ -1095,10 +1077,7 @@ class PostRepository extends OhanzeeRepository implements
             // Update post-stages
             $this->updatePostStages($entity->id, $entity->form_id, $entity->completed_stages);
         }
-        // TODO: Revist post-Kohana
-        // This might be better placed in the usecase but
-        // given Kohana's future I've put it here
-        $this->emit($this->event, $entity->id, 'update');
+
         return $count;
     }
 

@@ -9,6 +9,7 @@ use Ushahidi\App\Listener\ImportPosts;
 use Ushahidi\App\Listener\CreateTargetedSurveyMessageForContact;
 use Ushahidi\App\Listener\IntercomAdminListener;
 use Ushahidi\App\Listener\PostSetListener;
+use Ushahidi\App\Listener\PostListener;
 
 class Subscriber
 {
@@ -45,10 +46,14 @@ class Subscriber
             IntercomAdminListener::class
         );
 
-
         $events->listen(
             'sets.post.add',
             PostSetListener::class
+        );
+
+        $events->listen(
+            'posts.*',
+            PostListener::class
         );
     }
 }
