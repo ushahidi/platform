@@ -26,7 +26,6 @@ class Kernel extends ConsoleKernel
         \Ushahidi\Console\Command\ApikeySet::class,
         \Ushahidi\Console\Command\ConfigSet::class,
         \Ushahidi\Console\Command\ConfigGet::class,
-        \Ushahidi\Console\Command\Import::class,
         \Ushahidi\Console\Command\UserCreate::class,
         \Ushahidi\Console\Command\UserDelete::class,
         \Ushahidi\Console\Command\Notification::class,
