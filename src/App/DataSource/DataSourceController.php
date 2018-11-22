@@ -26,8 +26,13 @@ abstract class DataSourceController extends Controller
 
     public function __construct(DataSourceManager $manager, DataSourceStorage $storage)
     {
-        $this->source = $manager->getSource($this->source);
         $this->storage = $storage;
+
+        try {
+            $this->source = $manager->getEnabledSource($this->source);
+        } catch (\InvalidArgumentException $e) {
+            abort(404);
+        }
     }
 
     abstract public function handleRequest(Request $request);
