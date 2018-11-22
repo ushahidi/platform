@@ -34,4 +34,5 @@ return [
     'enabled' => !empty(env("MULTISITE_DOMAIN")),
     'domain'  => env("MULTISITE_DOMAIN"),
     'email'   => env("MULTISITE_EMAIL"),
+    'client_domain' => env("MULTISITE_CLIENT_DOMAIN"),
 ];

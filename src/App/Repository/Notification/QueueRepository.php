@@ -61,7 +61,7 @@ class QueueRepository extends OhanzeeRepository implements NotificationQueueRepo
                       ->limit($limit)
                       ->order_by('created', 'ASC');
 
-        $results = $query->execute($this->db);
+        $results = $query->execute($this->db());
 
         return $this->getCollection($results->as_array());
     }

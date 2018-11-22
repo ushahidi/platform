@@ -30,12 +30,6 @@ class AppConfig extends ContainerConfig
 
         // Register filesystem adapter types
 
-        // Multisite utility class
-        $di->set('multisite', $di->lazyNew('Ushahidi\App\Multisite'));
-        $di->params['Ushahidi\App\Multisite'] = [
-            'db' => $di->lazyGet('kohana.db.multisite')
-        ];
-
         // Validation Trait
         // We're injecting via lazy so that we get a separate ValidationEngine for every validator
         // Rather than a shared engine as we would if we used lazyNew->set->lazyGet->
@@ -441,15 +435,15 @@ class AppConfig extends ContainerConfig
 
         // Abstract repository parameters
         $di->params[\Ushahidi\App\Repository\EloquentRepository::class] = [
-            'connection' => $di->lazyGet('db.eloquent.connection'),
+            'resolver' => $di->lazyGet('db.eloquent.resolver'),
         ];
         $di->params[\Ushahidi\App\Repository\OhanzeeRepository::class] = [
-            'db' => $di->lazyGet('kohana.db'),
+            'resolver' => $di->lazyGet('db.ohanzee.resolver'),
         ];
 
         // Config
         $di->params[\Ushahidi\App\Repository\ConfigRepository::class] = [
-            'db' => $di->lazyGet('kohana.db'),
+            'resolver' => $di->lazyGet('db.ohanzee.resolver'),
         ];
 
         // Set up Json Transcode Repository Trait
@@ -974,11 +968,6 @@ class AppConfig extends ContainerConfig
         $di->set('repository.hxl_organisations', $di->lazyNew(\Ushahidi\App\Repository\HXL\HXLTagRepository::class));
 
         // Set up config bindings
-
-        // Site config
-        $di->set('site.config', function () use ($di) {
-            return $di->get('repository.config')->get('site')->asArray();
-        });
 
         // Map
         // Site config

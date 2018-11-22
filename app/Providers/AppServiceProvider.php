@@ -26,9 +26,8 @@ class AppServiceProvider extends ServiceProvider
         $this->registerFilesystem();
         $this->registerMailer();
 
+        $this->registerMultisite();
         $this->registerDataSources();
-
-        $this->setupMultisiteIlluminateDB();
 
         $this->registerFeatures();
     }
@@ -43,6 +42,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(\Ushahidi\Core\Entity\MessageRepository::class, function ($app) {
             // Just return it from AuraDI
             return service('repository.message');
+        });
+
+        $this->app->singleton(\Ushahidi\Core\Entity\ConfigRepository::class, function ($app) {
+            // Just return it from AuraDI
+            return service('repository.config');
         });
 
         $this->app->singleton(\Ushahidi\Core\Entity\ContactRepository::class, function ($app) {
@@ -121,64 +125,20 @@ class AppServiceProvider extends ServiceProvider
         });
     }
 
+    public function registerMultisite()
+    {
+        $this->app->register(\Ushahidi\App\Multisite\MultisiteServiceProvider::class);
+    }
+
     public function registerDataSources()
     {
         $this->app->register(\Ushahidi\App\DataSource\DataSourceServiceProvider::class);
     }
 
-    protected function getDbConfig()
-    {
-        // Kohana injection
-        // DB config
-        $config = config('ohanzee-db');
-        $config = $config['default'];
-
-        // Is this a multisite install?
-        $multisite = config('multisite.enabled');
-        if ($multisite) {
-            $config = service('multisite')->getDbConfig();
-        }
-
-        return $config;
-    }
-
-    protected function getClientUrl($config, $multisite)
-    {
-        $clientUrl = env('CLIENT_URL', false);
-
-        if (env("MULTISITE_DOMAIN", false)) {
-            try {
-                $clientUrl = $multisite()->getClientUrl();
-            } catch (Exception $e) {
-            }
-        }
-
-        // Or overwrite from config
-        if (!$clientUrl && $config['client_url']) {
-            $client_url = $config['client_url'];
-        }
-
-        return $clientUrl;
-    }
-
-    protected function setupMultisiteIlluminateDB()
-    {
-        $config = $this->getDbConfig();
-
-        $existing = config('database.connections.mysql');
-
-        config(['database.connections.mysql' => [
-            'database'  => $config['connection']['database'],
-            'username'  => $config['connection']['username'],
-            'password'  => $config['connection']['password'],
-            'host'      => $config['connection']['hostname'],
-        ] + $existing]);
-    }
-
     public function registerFeatures()
     {
         $this->app->singleton('features', function ($app) {
-            return new \Ushahidi\App\Tools\Features(service('repository.config'));
+            return new \Ushahidi\App\Tools\Features($app[\Ushahidi\Core\Entity\ConfigRepository::class]);
         });
     }
 }

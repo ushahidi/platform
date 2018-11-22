@@ -36,10 +36,10 @@ class StatsRepository extends OhanzeeRepository implements
      * @param FormRepository                       $form_repo
      */
     public function __construct(
-        Database $db,
+        \Ushahidi\App\Multisite\OhanzeeResolver $resolver,
         Entity\FormRepository $form_repo
     ) {
-        parent::__construct($db);
+        parent::__construct($resolver);
 
         $this->form_repo = $form_repo;
     }
@@ -117,7 +117,7 @@ class StatsRepository extends OhanzeeRepository implements
                 ->join('messages')
                 ->on('messages.post_id', '=', 'targeted_survey_state.post_id');
         return $query
-            ->execute($this->db)
+            ->execute($this->db())
             ->get('total');
     }
 
@@ -135,7 +135,7 @@ class StatsRepository extends OhanzeeRepository implements
         $total_attributes =$this->getTotalAttributes($form_id);
         $total_pending_for_inactive = DB::query(Database::SELECT, $this->getPendingCountQuery())
             ->bind(':form_id', $form_id)
-            ->execute($this->db)->get('total');
+            ->execute($this->db())->get('total');
         return ($total_contacts * $total_attributes) - $total_sent - $total_pending_for_inactive;
     }
 
@@ -195,7 +195,7 @@ class StatsRepository extends OhanzeeRepository implements
 			WHERE form_stages.form_id=:form"
         )
             ->bind(':form', $form_id)
-            ->execute($this->db)->get('total');
+            ->execute($this->db())->get('total');
     }
 
     /**
@@ -210,7 +210,7 @@ class StatsRepository extends OhanzeeRepository implements
 			 and survey_status NOT IN ('SURVEY FINISHED')"
         )
             ->bind(':form', $form_id)
-            ->execute($this->db)->get('total');
+            ->execute($this->db())->get('total');
     }
 
     /**
@@ -234,7 +234,7 @@ class StatsRepository extends OhanzeeRepository implements
         $query = $this->betweenDates($query, 'created', $created_before, $created_after);
 
         $result = $query
-            ->execute($this->db);
+            ->execute($this->db());
         $ret = ['pending' => 0, 'sent' => 0];
         foreach ($result->as_array() as $item) {
             if ($item['status'] === 'pending') {
@@ -268,7 +268,7 @@ class StatsRepository extends OhanzeeRepository implements
         $query = $this->targetedSurveyStateJoin($query)
             ->join('messages', 'INNER')->on('messages.id', '=', 'targeted_survey_state.message_id');
         return $query
-            ->execute($this->db)
+            ->execute($this->db())
             ->get('total');
     }
     /**
@@ -298,9 +298,9 @@ class StatsRepository extends OhanzeeRepository implements
                 ->where('messages.direction', '=', 'outgoing');
             $query = $this->betweenDates($query, 'messages.created', $created_before, $created_after);
         }
-        
+
         return $query
-            ->execute($this->db)
+            ->execute($this->db())
             ->get('total');
     }
     /**
@@ -324,7 +324,7 @@ class StatsRepository extends OhanzeeRepository implements
             ->on('messages.post_id', '=', 'targeted_posts.id')
             ->where('messages.direction', '=', 'incoming');
         return $query
-            ->execute($this->db)
+            ->execute($this->db())
             ->get('total');
     }
 
@@ -347,7 +347,7 @@ class StatsRepository extends OhanzeeRepository implements
         ->from('forms')
         ->where('id', '=', $form_id);
 
-        $results = $query->execute($this->db);
+        $results = $query->execute($this->db());
         return $results->as_array();
     }
 
@@ -384,7 +384,7 @@ class StatsRepository extends OhanzeeRepository implements
         $query = $this->betweenDates($query, 'messages.created', $created_before, $created_after);
 
         $result = $query
-            ->execute($this->db);
+            ->execute($this->db());
 
         $ret = ['sms' => 0, 'email' => 0, 'twitter' => 0];
         foreach ($result->as_array() as $item) {
@@ -411,7 +411,7 @@ class StatsRepository extends OhanzeeRepository implements
         $query = $this->betweenDates($query, 'posts.created', $created_before, $created_after);
         $query->and_where('posts.type', '=', 'report');
         return $query
-            ->execute($this->db)
+            ->execute($this->db())
             ->get('total');
     }
 }

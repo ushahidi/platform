@@ -49,9 +49,9 @@ class ListCommand extends Command
     protected function getSources()
     {
         if ($source = $this->option('source')) {
-            $sources = array_filter([$source => $this->sources->getSource($source)]);
+            $sources = [$source];
         } elseif ($this->option('all')) {
-            $sources = $this->sources->getSource();
+            $sources = $this->sources->getSources();
         } else {
             $sources = $this->sources->getEnabledSources();
         }
@@ -63,7 +63,8 @@ class ListCommand extends Command
         $sources = $this->getSources();
 
         $list = [];
-        foreach ($sources as $id => $source) {
+        foreach ($sources as $id) {
+            $source = $this->sources->getSource($id);
             $list[] = [
                 'Name'        => $source->getName(),
                 'Services'    => implode(', ', $source->getServices()),

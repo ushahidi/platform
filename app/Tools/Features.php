@@ -3,15 +3,28 @@
 namespace Ushahidi\App\Tools;
 
 use Ushahidi\Core\Entity\ConfigRepository;
+use Illuminate\Support\Facades\Cache;
 
 class Features
 {
+    /**
+     * Cache lifetime in minutes
+     */
+    const CACHE_LIFETIME = 1;
+
     /**
      * @param array $configRepo
      */
     public function __construct(ConfigRepository $configRepo)
     {
         $this->configRepo = $configRepo;
+    }
+
+    protected function getFeatureConfig()
+    {
+        return Cache::remember('config.features', self::CACHE_LIFETIME, function () {
+            return $this->configRepo->get('features');
+        });
     }
 
     /**
@@ -21,7 +34,7 @@ class Features
      */
     public function isEnabled($feature)
     {
-        $config = $this->configRepo->get('features');
+        $config = $this->getFeatureConfig();
 
         if (isset($config->$feature)) {
             if (!is_array($config->$feature)) {
@@ -43,7 +56,7 @@ class Features
      */
     public function getLimit($feature)
     {
-        $config = $this->configRepo->get('features');
+        $config = $this->getFeatureConfig();
 
         if (isset($config->limits[$feature])) {
             if ($config->limits[$feature] === true) {

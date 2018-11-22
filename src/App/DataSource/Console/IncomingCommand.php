@@ -63,9 +63,9 @@ class IncomingCommand extends Command
     protected function getSources()
     {
         if ($source = $this->option('source')) {
-            $sources = array_filter([$source => $this->sources->getSource($source)]);
+            $sources = [$source];
         } elseif ($this->option('all')) {
-            $sources = $this->sources->getSource();
+            $sources = $this->sources->getSources();
         } else {
             $sources = $this->sources->getEnabledSources();
         }
@@ -79,7 +79,8 @@ class IncomingCommand extends Command
 
         $totals = [];
 
-        foreach ($sources as $sourceId => $source) {
+        foreach ($sources as $sourceId) {
+            $source = $this->sources->getSource($sourceId);
             if (!($source instanceof IncomingAPIDataSource)) {
                 // Data source doesn't have an API we can pull messages from
                 continue;

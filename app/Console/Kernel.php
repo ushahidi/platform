@@ -34,6 +34,7 @@ class Kernel extends ConsoleKernel
         \Ushahidi\Console\Command\SavedSearch::class,
         \Ushahidi\Console\Command\Webhook::class,
         \Ushahidi\Console\Command\ObfuscateData::class,
+        Commands\TestMultisiteJob::class,
     ];
 
     /**

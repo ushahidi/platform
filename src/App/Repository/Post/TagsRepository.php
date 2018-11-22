@@ -24,10 +24,10 @@ class TagsRepository extends ValueRepository
      * @param TagRepo               $tag_repo
      */
     public function __construct(
-        Database $db,
+        \Ushahidi\App\Multisite\OhanzeeResolver $resolver,
         UpdatePostTagRepository $tag_repo
     ) {
-        parent::__construct($db);
+        parent::__construct($resolver);
         $this->tag_repo = $tag_repo;
     }
 

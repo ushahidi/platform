@@ -128,7 +128,7 @@ class Nexmo implements CallbackDataSource, OutgoingAPIDataSource
         return [MessageStatus::FAILED, false];
     }
 
-    public function registerRoutes(\Laravel\Lumen\Routing\Router $router)
+    public static function registerRoutes(\Laravel\Lumen\Routing\Router $router)
     {
         $router->post('sms/nexmo', 'Ushahidi\App\DataSource\Nexmo\NexmoController@handleRequest');
         $router->get('sms/nexmo', 'Ushahidi\App\DataSource\Nexmo\NexmoController@handleRequest');
