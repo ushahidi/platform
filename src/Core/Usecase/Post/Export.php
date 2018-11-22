@@ -20,7 +20,8 @@ use Ushahidi\Core\Tool\FormatterTrait;
 use Ushahidi\Core\Usecase;
 use Ushahidi\Core\SearchData;
 use Ushahidi\Core\Traits\UserContext;
-use Ushahidi\Core\Usecase\SearchRepository;
+use Ushahidi\Core\Entity\ExportBatch;
+use Ushahidi\Core\Entity\ExportBatchRepository;
 use Ushahidi\Core\Usecase\Concerns\FilterRecords;
 use Log;
 
@@ -48,12 +49,12 @@ class Export implements Usecase
     protected $repo;
 
     /**
-     * Inject a repository that can search for entities.
+     * Inject a repository to create/update ExportBatches
      *
-     * @param  SearchRepository $repo
+     * @param  ExportBatchRepository $repo
      * @return $this
      */
-    public function setRepository(SearchRepository $repo)
+    public function setRepository(ExportBatchRepository $repo)
     {
         $this->repo = $repo;
         return $this;
@@ -99,6 +100,16 @@ class Export implements Usecase
         // load the user from the job into the 'session'
         $this->session->setUser($job->user_id);
         Log::debug('EXPORTER: on interact - user id: ' . $job->user_id);
+
+        // Create new export batch status=pending
+        $batchEntity = $this->repo->getEntity()->setState([
+            'export_job_id' => $job->id,
+            'batch_number' => $this->getIdentifier('batch_number'),
+            'status' => ExportBatch::STATUS_PENDING,
+            'has_headers' => $this->getFilter('add_header', false)
+        ]);
+        $batchId = $this->repo->create($batchEntity);
+
         // verify the user can export posts
         $this->verifyAuth($job, 'export');
         // merge filters from the controller/cli call with the job's saved filters
@@ -143,18 +154,30 @@ class Export implements Usecase
         $this->formatter->setHxlHeading($hxl_rows);
         $formatter = $this->formatter;
         Log::debug('EXPORTER: Count posts: ' . count($posts));
+
         /**
          * KeyAttributes is sent instead of the header row because it contains
          * the attributes with the corresponding features (type, priority) that
          * we need for manipulating the data
          */
         $file = $formatter($posts, $job, $keyAttributes);
+
+        // Update export batch status=done
+        // Include filename, post count, header row etc
+        $batchEntity = $this->repo->get($batchId);
+        $batchEntity->setState([
+            'status' => ExportBatch::STATUS_COMPLETED,
+            'filename' => $file->file,
+            'rows' => count($posts),
+        ]);
+        $this->repo->update($batchEntity);
+
         return [
-            'results' => [
-                [
-                    'file' => $file->file,
-                ]
-            ]
+            'filename' => $file->file,
+            'id' => $batchId,
+            'jobId' => $job->id,
+            'rows' => $batchEntity->rows,
+            'status' => $batchEntity->status
         ];
     }
 

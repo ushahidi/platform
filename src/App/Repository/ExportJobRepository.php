@@ -14,16 +14,15 @@ namespace Ushahidi\App\Repository;
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\Entity\PostRepository;
 use Ushahidi\Core\SearchData;
+use Ushahidi\Core\Entity\ExportBatch;
 use Ushahidi\Core\Entity\ExportJob;
 use Ushahidi\Core\Entity\ExportJobRepository as ExportJobRepositoryContract;
 use Ushahidi\Core\Usecase\Concerns\FilterRecords;
 use Ushahidi\Core\Traits\UserContext;
 use Ushahidi\Core\Traits\AdminAccess;
-use Ushahidi\App\Events\SendToHDXEvent;
 use Ohanzee\DB;
 use Ohanzee\Database;
 
-use Event;
 use Log;
 
 class ExportJobRepository extends OhanzeeRepository implements ExportJobRepositoryContract
@@ -43,9 +42,9 @@ class ExportJobRepository extends OhanzeeRepository implements ExportJobReposito
 
     protected $post_repo;
 
-    public function __construct(Database $db, PostRepository $post_repo)
+    public function __construct(\Ushahidi\App\Multisite\OhanzeeResolver $resolver, PostRepository $post_repo)
     {
-        parent::__construct($db);
+        parent::__construct($resolver);
 
         $this->post_repo = $post_repo;
     }
@@ -75,7 +74,9 @@ class ExportJobRepository extends OhanzeeRepository implements ExportJobReposito
 
         // get user ID so that we only ever get jobs from that user
         $search->user = $this->getUserId();
-        
+
+        // Keeping this to filter our legacy URLs
+        // All new urls are generated on the fly instead, so their expiration=null
         if ($search->max_expiration) {
             $query->where("url_expiration", '>', intval($search->max_expiration));
             $query->or_where("url_expiration", 'IS', null);
@@ -108,42 +109,31 @@ class ExportJobRepository extends OhanzeeRepository implements ExportJobReposito
     {
         $state = [
             'created' => time(),
-            'status' => "pending",
+            'status' => ExportJob::STATUS_PENDING,
             'user_id' => $entity->user_id,
+            // Don't save this now, we need to generate it properly
             'hxl_heading_row' => null
         ];
 
         return parent::create($entity->setState($state));
     }
 
-    // overriding the update method here to intercept 'EXPORT_COMPLETED'
-    //   and decide if we still need to send something to HDX or mark this
-    //   as SUCCESSful
+    // Overriding the update method here to handle state transitions
     public function update(Entity $entity)
     {
-        //check for new status of 'EXPORTED_TO_CDN'
-        if ($entity->status == 'EXPORTED_TO_CDN' && $entity->send_to_hdx == true) {
-            parent::update($entity->setState(['status' => "PENDING_HDX"]));
-            //if sending to HXL is required, then we spawn an event to do that
-            Event::fire(new SendToHDXEvent($entity->id));
-        } elseif ($entity->status == 'EXPORTED_TO_CDN' && $entity->send_to_hdx == false) {
-            //if sending to HDX is not required, (or send_to_hdx does not exist)
-            // then simply update the status to success
-            parent::update($entity->setState([ 'status' => "SUCCESS"]));
-        } else {
-            return parent::update($entity);
-        }
+        // Run state transition handler
+        $entity->handleStateTransition();
+
+        return parent::update($entity);
     }
-
-
 
     public function getPendingJobs($limit = 10)
     {
         $query = $this->selectQuery()
                       ->limit($limit)
-                      ->where('status', '=', 'pending');
+                      ->where('status', '=', ExportJob::STATUS_PENDING);
 
-        $results = $query->execute($this->db);
+        $results = $query->execute($this->db());
 
         return $this->getCollection($results->as_array());
     }
@@ -154,7 +144,7 @@ class ExportJobRepository extends OhanzeeRepository implements ExportJobReposito
                       ->limit($limit)
                       ->order_by('created', 'ASC');
 
-        $results = $query->execute($this->db);
+        $results = $query->execute($this->db());
 
         return $this->getCollection($results->as_array());
     }
@@ -166,7 +156,6 @@ class ExportJobRepository extends OhanzeeRepository implements ExportJobReposito
         if ($job->filters) {
             $this->setFilters($job->filters);
         }
-
 
         $fields = $this->post_repo->getSearchFields();
 
@@ -186,5 +175,28 @@ class ExportJobRepository extends OhanzeeRepository implements ExportJobReposito
         return [
             'entity_type', 'user', 'max_expiration'
         ];
+    }
+
+    /**
+     * Check if job's batches are finished?
+     *
+     * @param  Int  $jobId
+     * @return boolean
+     */
+    public function areBatchesFinished($jobId)
+    {
+        $query = $this->selectQuery([
+                'export_job.id' => $jobId,
+                'export_batches.status' => ExportBatch::STATUS_COMPLETED
+            ])
+            ->resetSelect()
+            ->select([DB::expr('COUNT(DISTINCT export_batches.id)'), 'completed_batches'], 'total_batches')
+            ->join('export_batches')
+                ->on('export_job_id', '=', 'export_job.id')
+            ->group_by(['export_job.id', 'total_batches']);
+
+        $result = $query->execute($this->db())->current();
+
+        return ($result['completed_batches'] == $result['total_batches']);
     }
 }

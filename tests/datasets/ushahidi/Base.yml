@@ -2202,6 +2202,7 @@ hxl_meta_data:
     source: "other"
     private: true
     user_id: 2
+export_batches:
 export_job:
   -
     id: 1

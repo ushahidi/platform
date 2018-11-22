@@ -25,7 +25,7 @@ class PostValueRepositoryTest extends \PHPUnit\Framework\TestCase
         parent::setUp();
 
         $this->repository = $this->getMockBuilder(\Ushahidi\App\Repository\Post\ValueRepository::class)
-            ->setMethods(['selectOne', 'selectQuery', 'getTable'])
+            ->setMethods(['selectOne', 'selectQuery', 'getTable', 'db'])
             ->disableOriginalConstructor()
             ->getMock();
 

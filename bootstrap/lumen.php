@@ -59,6 +59,7 @@ $app->singleton(
 */
 
 $app->middleware([
+    Ushahidi\App\Multisite\DetectSiteMiddleware::class,
     Barryvdh\Cors\HandleCors::class,
     Ushahidi\App\Http\Middleware\MaintenanceMode::class
 ]);
@@ -91,6 +92,7 @@ $app->register(Ushahidi\App\Providers\EventServiceProvider::class);
 $app->register(Ushahidi\App\Providers\PassportServiceProvider::class);
 $app->register(Barryvdh\Cors\ServiceProvider::class);
 $app->register(Sentry\SentryLaravel\SentryLumenServiceProvider::class);
+$app->register(Illuminate\Redis\RedisServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------

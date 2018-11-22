@@ -63,10 +63,14 @@ class Media extends API
         $adapter = Storage::getAdapter();
         // Special handling for RS to get SSL URLs
         if ($adapter instanceof \League\Flysystem\Rackspace\RackspaceAdapter) {
-            return (string) $adapter
-                ->getContainer()
-                ->getObject($path)
-                ->getPublicUrl(\OpenCloud\ObjectStore\Constants\UrlType::SSL);
+            try {
+                return (string) $adapter
+                    ->getContainer()
+                    ->getObject($path)
+                    ->getPublicUrl(\OpenCloud\ObjectStore\Constants\UrlType::SSL);
+            } catch (\OpenCloud\ObjectStore\Exception\ObjectNotFoundException $e) {
+                return null;
+            }
         } else {
             return url(Storage::url($path));
         }

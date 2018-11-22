@@ -35,15 +35,10 @@ class Email extends OutgoingEmail implements IncomingAPIDataSource
     public function __construct(
         array $config,
         Mailer $mailer = null,
-        $siteConfig = null,
-        $clientUrl = null,
         MessageRepository $messageRepo = null
     ) {
         $this->config = $config;
         $this->mailer = $mailer;
-        // @todo figure out a better way to set these. Maybe globally for all emails?
-        $this->siteConfig = $siteConfig;
-        $this->clientUrl = $clientUrl;
         $this->messageRepo = $messageRepo;
     }
 
@@ -153,12 +148,12 @@ class Email extends OutgoingEmail implements IncomingAPIDataSource
 
         $limit = 200;
 
-        $type = $this->config['incoming_type'];
-        $server = $this->config['incoming_server'];
-        $port = $this->config['incoming_port'];
-        $encryption = $this->config['incoming_security'];
-        $username = $this->config['incoming_username'];
-        $password = $this->config['incoming_password'];
+        $type = $this->config['incoming_type'] ?? '';
+        $server = $this->config['incoming_server'] ?? '';
+        $port = $this->config['incoming_port'] ?? '';
+        $encryption = $this->config['incoming_security'] ?? '';
+        $username = $this->config['incoming_username'] ?? '';
+        $password = $this->config['incoming_password'] ?? '';
 
         // Encryption type
         $encryption = (strcasecmp($encryption, 'none') != 0) ? '/'.$encryption : '';

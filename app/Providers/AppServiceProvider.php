@@ -26,9 +26,8 @@ class AppServiceProvider extends ServiceProvider
         $this->registerFilesystem();
         $this->registerMailer();
 
+        $this->registerMultisite();
         $this->registerDataSources();
-
-        $this->setupMultisiteIlluminateDB();
 
         $this->registerFeatures();
     }
@@ -45,6 +44,11 @@ class AppServiceProvider extends ServiceProvider
             return service('repository.message');
         });
 
+        $this->app->singleton(\Ushahidi\Core\Entity\ConfigRepository::class, function ($app) {
+            // Just return it from AuraDI
+            return service('repository.config');
+        });
+
         $this->app->singleton(\Ushahidi\Core\Entity\ContactRepository::class, function ($app) {
             // Just return it from AuraDI
             return service('repository.contact');
@@ -53,6 +57,16 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(\Ushahidi\Core\Entity\PostRepository::class, function ($app) {
             // Just return it from AuraDI
             return service('repository.post');
+        });
+
+        $this->app->singleton(\Ushahidi\Core\Entity\ExportJobRepository::class, function ($app) {
+            // Just return it from AuraDI
+            return service('repository.export_job');
+        });
+
+        $this->app->singleton(\Ushahidi\Core\Entity\ExportBatchRepository::class, function ($app) {
+            // Just return it from AuraDI
+            return service('repository.export_batch');
         });
 
         $this->app->singleton(\Ushahidi\Core\Entity\TargetedSurveyStateRepository::class, function ($app) {
@@ -68,6 +82,22 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(\Ushahidi\Core\Tool\Verifier::class, function ($app) {
             // Just return it from AuraDI
             return service('tool.verifier');
+        });
+
+        $this->app->singleton(\Ushahidi\Core\Usecase\Export\Job\PostCount::class, function ($app) {
+            return service('factory.usecase')
+                    // Override action
+                    ->get('export_jobs', 'post-count')
+                    // Override authorizer
+                    ->setAuthorizer(service('authorizer.external_auth')) // @todo remove the need for this?
+                    ;
+        });
+
+        $this->app->singleton(\Ushahidi\Core\Usecase\Post\Export::class, function ($app) {
+            return service('factory.usecase')
+                    ->get('posts_export', 'export')
+                    ->setAuthorizer(service('authorizer.export_job'))
+                    ;
         });
     }
 
@@ -95,64 +125,20 @@ class AppServiceProvider extends ServiceProvider
         });
     }
 
+    public function registerMultisite()
+    {
+        $this->app->register(\Ushahidi\App\Multisite\MultisiteServiceProvider::class);
+    }
+
     public function registerDataSources()
     {
         $this->app->register(\Ushahidi\App\DataSource\DataSourceServiceProvider::class);
     }
 
-    protected function getDbConfig()
-    {
-        // Kohana injection
-        // DB config
-        $config = config('ohanzee-db');
-        $config = $config['default'];
-
-        // Is this a multisite install?
-        $multisite = config('multisite.enabled');
-        if ($multisite) {
-            $config = service('multisite')->getDbConfig();
-        }
-
-        return $config;
-    }
-
-    protected function getClientUrl($config, $multisite)
-    {
-        $clientUrl = env('CLIENT_URL', false);
-
-        if (env("MULTISITE_DOMAIN", false)) {
-            try {
-                $clientUrl = $multisite()->getClientUrl();
-            } catch (Exception $e) {
-            }
-        }
-
-        // Or overwrite from config
-        if (!$clientUrl && $config['client_url']) {
-            $client_url = $config['client_url'];
-        }
-
-        return $clientUrl;
-    }
-
-    protected function setupMultisiteIlluminateDB()
-    {
-        $config = $this->getDbConfig();
-
-        $existing = config('database.connections.mysql');
-
-        config(['database.connections.mysql' => [
-            'database'  => $config['connection']['database'],
-            'username'  => $config['connection']['username'],
-            'password'  => $config['connection']['password'],
-            'host'      => $config['connection']['hostname'],
-        ] + $existing]);
-    }
-
     public function registerFeatures()
     {
         $this->app->singleton('features', function ($app) {
-            return new \Ushahidi\App\Tools\Features(service('repository.config'));
+            return new \Ushahidi\App\Tools\Features($app[\Ushahidi\Core\Entity\ConfigRepository::class]);
         });
     }
 }
