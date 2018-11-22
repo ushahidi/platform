@@ -40,7 +40,7 @@ class CliController extends RESTController
             'offset' => $request->input('offset', 0),
             'add_header' => $include_header
         ];
-        Log::debug('In CLI Controller' . var_export($filters, true));
+        Log::debug('In CLI Controller ' . var_export($filters, true));
         // Get the usecase and pass in authorizer, payload and transformer
         $this->usecase = $this->usecaseFactory->get('posts_export', 'export')
             ->setFilters($filters)
