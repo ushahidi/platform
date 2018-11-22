@@ -284,7 +284,7 @@ $di->params['Ushahidi\Factory\FormatterFactory']['map'] = [
     'roles'                => $di->lazyNew(Ushahidi\App\Formatter\Role::class),
     'permissions'          => $di->lazyNew(Ushahidi\App\Formatter\Permission::class),
     // Formatter for post exports. Defaults to CSV export
-    'posts_export' => $di->lazyNew(Ushahidi\App\Formatter\Post\CSV::class),
+    'posts_export'         => $di->lazyNew(Ushahidi\App\Formatter\Post\CSV::class),
     'tos' => $di->lazyNew(Ushahidi\App\Formatter\Tos::class),
 ];
 
@@ -825,12 +825,7 @@ $di->params[Ushahidi\App\Validator\HXL\Metadata\Create::class] = [
     'license_repo' => $di->lazyGet('repository.hxl_license'),
     'user_repo' => $di->lazyGet('repository.user'),
 ];
-// form_attribute_hxl_attribute_tag
-$di->setter['Ushahidi\Core\Usecase\Export\Job\CreateJob']['setFormAttributeHxlRepository']
-    = $di->lazyGet('repository.form_attribute_hxl_attribute_tag');
-$di->params['Ushahidi\Factory\UsecaseFactory']['map']['form_attribute_hxl_attribute_tag'] = [
-    'create' => $di->newFactory('Ushahidi\Core\Usecase\HXL\CreateHXLHeadingRow')
-];
+
 $di->set(
     'formatter.entity.form_attribute_hxl_attribute_tag',
     $di->lazyNew(Ushahidi\App\Formatter\HXL\HXLFormAttributeHXLAttributeTagFormatter::class)
@@ -862,7 +857,10 @@ $di->params[Ushahidi\App\Validator\HXL\HXLFormAttributeHXLAttributeTag\Create::c
     'form_attribute_repo' => $di->lazyGet('repository.form_attribute'),
 ];
 $di->setter['Ushahidi\Core\Usecase\Export\Job\CreateJob']['setCreateHXLHeadingRowUsecase']
-    = $di->lazyGet('factory.usecase');
+    = $di->lazy(function () {
+        return service('factory.usecase')->get('form_attribute_hxl_attribute_tag', 'create');
+    });
+
 $di->set(
     'repository.form_attribute_hxl_attribute_tag',
     $di->lazyNew(Ushahidi\App\Repository\HXL\HXLFormAttributeHXLAttributeTagRepository::class)

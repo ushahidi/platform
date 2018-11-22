@@ -18,14 +18,8 @@ use Ushahidi\Core\Usecase\Export\Job\CreateHXLHeadingRow;
 
 class CreateJob extends CreateUsecase
 {
-    protected $form_attribute_hxl_repository;
     protected $create_hxl_heading_row;
-    public function setFormAttributeHxlRepository(HXLFormAttributeHXLAttributeTagRepository $repo)
-    {
-        $this->form_attribute_hxl_repository = $repo;
-    }
-
-    public function setCreateHXLHeadingRowUsecase($usecase)
+    public function setCreateHXLHeadingRowUsecase(CreateUsecase $usecase)
     {
         $this->create_hxl_heading_row = $usecase;
     }
@@ -75,7 +69,6 @@ class CreateJob extends CreateUsecase
             if (isset($heading_row['hxl_tag_id'])) {
                 $heading_row['export_job_id'] = $entity->getId();
                 $this->create_hxl_heading_row
-                    ->get('form_attribute_hxl_attribute_tag', 'create')
                     ->setPayload($heading_row)
                     ->interact();
             }
