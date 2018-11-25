@@ -38,7 +38,7 @@ class MultisiteServiceProvider extends ServiceProvider
 
         // If multisite is disabled, use the default connection
         if (!$multisite->enabled()) {
-            Log::debug('Multisite disabled, setting up default site');
+            // Log::debug('Multisite disabled, setting up default site');
             $multisite->setDefaultSite();
         }
 
@@ -56,7 +56,7 @@ class MultisiteServiceProvider extends ServiceProvider
     protected function setupListeners()
     {
         Event::listen('multisite.site.changed', function (Site $site) {
-            Log::debug('Handling multisite.site.change', [$site]);
+            // Log::debug('Handling multisite.site.change', [$site]);
             $dbConfig = $site->getDbConfig();
             $connectionName = 'deployment-'.$site->getId();
             $this->app->make(OhanzeeResolver::class)->setConnection($connectionName, $dbConfig);
