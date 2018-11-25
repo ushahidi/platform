@@ -225,6 +225,35 @@ class PostRepository extends OhanzeeRepository implements
         return $query;
     }
 
+    // SearchRepository
+    public function setSearchParams(SearchData $search)
+    {
+        $this->search_query = $this->selectQuery();
+
+        $sorting = $search->getSorting();
+
+        if (!empty($sorting['orderby'])) {
+            $order = isset($sorting['order']) ? strtoupper($sorting['order']) : 'ASC';
+            $this->search_query->order_by(
+                $this->getTable() . '.' . $sorting['orderby'],
+                ($order == 'DESC' ? 'DESC' : 'ASC')
+            );
+        }
+
+        if (!empty($sorting['offset'])) {
+            $this->search_query->offset(intval($sorting['offset']));
+        }
+
+        if (array_key_exists('limit', $sorting)
+            && $sorting['limit'] >= 0
+            && strlen($sorting['limit'])) {
+            $this->search_query->limit(intval($sorting['limit']));
+        }
+
+        // apply the unique conditions of the search
+        $this->setSearchConditions($search);
+    }
+
     protected function getPostValues($id, $excludePrivateValues, $excludeStages)
     {
 

@@ -8,7 +8,7 @@ use Ushahidi\App\Multisite\MultisiteManager;
 class CheckDemoExpiration
 {
 
-    /**
+   /**
      * @var \Ushahidi\App\Multisite\MultisiteManager;
      */
     protected $multisite;
@@ -51,7 +51,7 @@ class CheckDemoExpiration
             // Move time conversion to Site model
             $expiration_date = strtotime($site->expiration_date);
             $extension_date = strtotime($site->extension_date);
-
+                
             if ($expiration_date < $now && (!$extension_date || $extension_date < $now)) {
                 abort(503, 'The demo period for this deployment has expired.');
             }

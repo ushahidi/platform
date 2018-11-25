@@ -55,9 +55,11 @@ class GeoJSONController extends PostsController
     {
         $this->prepBoundingBox($request);
 
+        $filters = $this->demoCheck($this->getFilters($request));
+
         $this->usecase = $this->usecaseFactory
             ->get($this->getResource(), 'search')
-            ->setFilters($this->getFilters($request))
+            ->setFilters($filters)
             ->setIdentifiers($this->getIdentifiers($request))
             ->setFormatter(service('formatter.entity.post.geojsoncollection'));
 
