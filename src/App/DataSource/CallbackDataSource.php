@@ -12,6 +12,5 @@ namespace Ushahidi\App\DataSource;
  */
 interface CallbackDataSource extends DataSource
 {
-
-    public function registerRoutes(\Laravel\Lumen\Routing\Router $router);
+    public static function registerRoutes(\Laravel\Lumen\Routing\Router $router);
 }

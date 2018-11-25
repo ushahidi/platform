@@ -17,10 +17,11 @@ use Ushahidi\Core\Tool\Signer;
 use Ushahidi\Core\Entity\PostRepository;
 use Ushahidi\Core\Entity\WebhookJobRepository;
 use Ushahidi\Core\Entity\WebhookRepository;
+use Ushahidi\App\Multisite\OhanzeeResolver;
 
 class Webhook extends Command
 {
-    private $db;
+    protected $resolver;
     private $postRepository;
     private $webhookRepository;
     private $webhookJobRepository;
@@ -47,14 +48,24 @@ class Webhook extends Command
      */
     protected $description = 'Send webhook requests';
 
-    public function __construct()
+    public function __construct(OhanzeeResolver $resolver)
     {
         parent::__construct();
+        $this->resolver = $resolver;
     }
 
-    public function handle()
+    /**
+     * Get current connection
+     *
+     * @return Ohanzee\Database;
+     */
+    protected function db()
     {
-        $this->db = service('kohana.db');
+        return $this->resolver->connection();
+    }
+
+    public function handle(OhanzeeResolver $resolver)
+    {
         $this->webhookRepository = service('repository.webhook');
         $this->postRepository = service('repository.post');
         $this->webhookJobRepository = service('repository.webhook.job');
@@ -69,7 +80,7 @@ class Webhook extends Command
         $webhook_requests = $this->webhookJobRepository->getJobs($limit);
 
         // Start transaction
-        $this->db->begin();
+        $this->db()->begin();
 
         foreach ($webhook_requests as $webhook_request) {
             $this->generateRequest($webhook_request);
@@ -78,7 +89,7 @@ class Webhook extends Command
         }
 
         // Finally commit changes
-        $this->db->commit();
+        $this->db()->commit();
 
         $this->info("{$count} webhook requests sent");
     }

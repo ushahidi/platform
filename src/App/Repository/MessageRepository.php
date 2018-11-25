@@ -136,7 +136,7 @@ class MessageRepository extends OhanzeeRepository implements
             $query->where('messages.data_source', '=', $data_source);
         }
 
-        $results = $query->execute($this->db);
+        $results = $query->execute($this->db());
 
         return $this->getCollection($results->as_array());
     }
@@ -160,7 +160,7 @@ class MessageRepository extends OhanzeeRepository implements
             $query->where('messages.type', '=', $type);
         }
 
-        $results = $query->execute($this->db);
+        $results = $query->execute($this->db());
 
         return $this->getCollection($results->as_array());
     }
@@ -239,7 +239,7 @@ class MessageRepository extends OhanzeeRepository implements
                 'desc'
             )
             ->limit(1);
-        $result =   $query->execute($this->db);
+        $result =   $query->execute($this->db());
 
         $last_uid = $result->get('uid', 0) ? $result->get('uid', 0) : null;
 

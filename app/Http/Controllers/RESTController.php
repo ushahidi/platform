@@ -16,6 +16,7 @@ use Illuminate\Http\Request;
 use League\OAuth2\Server\Exception\OAuth2Exception;
 use League\OAuth2\Server\Exception\MissingAccessTokenException;
 use Ushahidi\App\Exceptions\ValidationException;
+use Ushahidi\App\Multisite\MultisiteManager;
 
 abstract class RESTController extends Controller
 {
@@ -31,14 +32,20 @@ abstract class RESTController extends Controller
      */
     protected $usecaseFactory;
 
+   /**
+     * @var \Ushahidi\App\Multisite\MultisiteManager;
+     */
+    protected $multisite;
+
     /**
      * @var Ushahidi\Core\Usecase
      */
     protected $usecase;
 
-    public function __construct(UsecaseFactory $usecaseFactory)
+    public function __construct(UsecaseFactory $usecaseFactory, MultisiteManager $multisite)
     {
         $this->usecaseFactory = $usecaseFactory;
+        $this->multisite = $multisite;
     }
 
     /**
@@ -58,8 +65,8 @@ abstract class RESTController extends Controller
 
     public function demoCheck($filters)
     {
-        $isDemoTier = service('site.config')['tier'] === 'demo_1';
-        if ($isDemoTier) {
+        $isDemoTier = $this->multisite->getSite()->tier === 'demo_1';
+        if ($this->multisite->enabled() && $isDemoTier) {
             // Demo deployments are limited to the first 25 posts,
             // if any thing other more than that or a different offset is request
             // none will be returned

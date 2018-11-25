@@ -16,6 +16,7 @@ use Ushahidi\Core\Entity\ContactRepository;
 use Ushahidi\Core\Entity\ConfigRepository;
 use Ushahidi\Core\Entity\UserRepository;
 use Ushahidi\App\Multisite;
+use Ushahidi\App\Multisite\OhanzeeResolver;
 use Ohanzee\DB;
 use DB as LaravelDB;
 use Faker;
@@ -23,6 +24,7 @@ use Database;
 
 class ObfuscateData extends Command
 {
+    protected $resolver;
     private $postRepository;
     private $contactRepository;
 
@@ -56,17 +58,27 @@ class ObfuscateData extends Command
          */
     protected $allowedEnvironments = ['local', 'staging*', 'test*'];
 
-    public function __construct()
+    public function __construct(OhanzeeResolver $resolver)
     {
         parent::__construct();
-        $this->db = service('kohana.db');
+        $this->resolver = $resolver;
         $this->contactRepository = service('repository.contact');
         $this->postRepository = service('repository.post');
         $this->configRepository = service('repository.config');
         $this->userRepository = service('repository.user');
     }
 
-    public function handle()
+    /**
+     * Get current connection
+     *
+     * @return Ohanzee\Database;
+     */
+    protected function db()
+    {
+        return $this->resolver->connection();
+    }
+
+    public function handle(OhanzeeResolver $resolver)
     {
         //check for sanity of admin-username
         if ($this->option('admin-username') && strlen($this->option('admin-username')) < 5) {
@@ -96,7 +108,7 @@ class ObfuscateData extends Command
             }
 
             // Do overwriting
-            $this->db->begin();
+            $this->db()->begin();
             if ($this->option('use-faker')) {
                 $this->overwriteContactsWithFaker();
             } else {
@@ -111,7 +123,7 @@ class ObfuscateData extends Command
             $this->overwriteSiteConfig();
             $this->deleteUsers();
             $this->addAdminUser();
-            $this->db->commit();
+            $this->db()->commit();
         } else {
             $this->info("This script will only run on test or staging deployments.");
             return;
@@ -122,7 +134,7 @@ class ObfuscateData extends Command
     protected function isThisAMultisiteInstall()
     {
         // @TODO: is this the correct way to check against multisite
-        return (config('multisite.enabled'));
+        return app('multisite')->enabled();
     }
 
     /* optional implementations...
@@ -176,7 +188,7 @@ class ObfuscateData extends Command
         $query = DB::select('contacts.id', 'contacts.type', 'contacts.contact')
             ->distinct(true)
             ->from('contacts');
-        $results = $query->execute($this->db);
+        $results = $query->execute($this->db());
         $resultsCount = count($results);
 
         // iterates through each contact record, overwrites with fake data
@@ -221,7 +233,7 @@ class ObfuscateData extends Command
             ->update(['author_email' => $randomEmail,
                         'author_realname' => $randomName]);
 
-        $this->info("Updated ".print_r($resultCount, true)." records.");
+        $this->info("Updated $resultCount records.");
     }
 
     private function overwritePostAuthorsWithFaker()
@@ -230,7 +242,7 @@ class ObfuscateData extends Command
         $faker = Faker\Factory::create();
         $results = DB::select('posts.*')
             ->from('posts')
-            ->execute($this->db)
+            ->execute($this->db())
             ->as_array();
         $overwrittenCount = 0;
         $resultsCount = count($results);
@@ -308,7 +320,7 @@ class ObfuscateData extends Command
         $faker = Faker\Factory::create();
         $results = DB::select('users.*')
             ->from('users')
-            ->execute($this->db)
+            ->execute($this->db())
             ->as_array();
         $overwrittenCount = 0;
         $resultsCount = count($results);
@@ -337,7 +349,7 @@ class ObfuscateData extends Command
     {
         $this->info("Deleting users...");
         $query = DB::delete('users');
-        $count = $query->execute($this->db);
+        $count = $query->execute($this->db());
         $this->info("Removed ".$count." records.");
         return $count;
     }

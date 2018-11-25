@@ -14,14 +14,15 @@ namespace Ushahidi\App\Tools;
 use Ushahidi\Core\Tool\Mailer as MailerContract;
 use Illuminate\Contracts\Mail\Mailer;
 use Illuminate\Support\Str;
+use Ushahidi\App\Multisite\UsesSiteInfo;
 
 class LumenMailer implements MailerContract
 {
-    public function __construct(Mailer $mailer, $siteConfig, $clientUrl)
+    use UsesSiteInfo;
+
+    public function __construct(Mailer $mailer)
     {
         $this->mailer = $mailer;
-        $this->siteConfig = $siteConfig;
-        $this->clientUrl = $clientUrl;
     }
 
     public function send($to, $type, array $params = null)
@@ -38,26 +39,13 @@ class LumenMailer implements MailerContract
 
     protected function sendResetpassword($to, $params)
     {
-        $site_name = $this->siteConfig['name'];
-        $site_email = $this->siteConfig['email'];
-        $multisite_email = config('multisite.email');
-
-        // @todo make this more robust
-        if ($multisite_email) {
-            $from_email = $multisite_email;
-        } elseif ($site_email) {
-            $from_email = $site_email;
-        } else {
-            $from_email = false;
-            // Get host from lumen
-            // $host = app()->make('request')->getHost();
-            // $from_email = 'noreply@' . $host;
-        }
+        $site_name = $this->getSite()->getName();
+        $site_email = $this->getSite()->getEmail();
 
         $data = [
             'site_name' => $site_name,
             'token' => $params['token'],
-            'client_url' => $this->clientUrl
+            'client_url' => $this->getSite()->getClientUri()
         ];
 
         $subject = $site_name . ': Password reset';
@@ -65,11 +53,11 @@ class LumenMailer implements MailerContract
         $this->mailer->send(
             'emails/forgot-password',
             $data,
-            function ($message) use ($to, $subject, $from_email, $site_name) {
+            function ($message) use ($to, $subject, $site_email, $site_name) {
                 $message->to($to);
                 $message->subject($subject);
-                if ($from_email) {
-                    $message->from($from_email, $site_name);
+                if ($site_email) {
+                    $message->from($site_email, $site_name);
                 }
             }
         );

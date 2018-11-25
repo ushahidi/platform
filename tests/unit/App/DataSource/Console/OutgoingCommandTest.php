@@ -13,6 +13,10 @@ namespace Tests\Unit\App\DataSource\Console;
 
 use Tests\TestCase;
 use Mockery as M;
+use Ushahidi\App\DataSource\Console\OutgoingCommand;
+use Ushahidi\App\DataSource\DataSourceManager;
+use Ushahidi\App\DataSource\DataSourceStorage;
+use Illuminate\Console\Application as Artisan;
 
 /**
  * @backupGlobals disabled
@@ -25,14 +29,35 @@ class OutgoingCommandTest extends TestCase
     {
         parent::setUp();
         // Ensure enabled providers is in a known state
-        $this->app->make('datasources')->setEnabledSources([
-            'email' => false,
-            'frontlinesms' => true,
-            'nexmo' => false,
-            'twilio' => true,
-            'twitter' => false,
-            'smssync' => true,
-        ]);
+        // Mock the config repo
+        $configRepo = M::mock(\Ushahidi\Core\Entity\ConfigRepository::class);
+        $configRepo->shouldReceive('get')->with('data-provider')->andReturn(new \Ushahidi\Core\Entity\Config([
+            'providers' => [
+                'email' => false,
+                'frontlinesms' => true,
+                'nexmo' => false,
+                'twilio' => true,
+                'twitter' => false,
+                'smssync' => true,
+            ]
+        ]));
+        $configRepo->shouldReceive('get')->with('features')->andReturn(new \Ushahidi\Core\Entity\Config([
+            'data-providers' => [
+                'email' => false,
+                'frontlinesms' => true,
+                'nexmo' => false,
+                'twilio' => true,
+                'twitter' => false,
+                'smssync' => true,
+            ]
+        ]));
+        $this->app->instance(\Ushahidi\Core\Entity\ConfigRepository::class, $configRepo);
+
+        // Reinsert command with mocks
+        $commands = new OutgoingCommand(new DataSourceManager($configRepo), $this->app->make(DataSourceStorage::class));
+        Artisan::starting(function ($artisan) use ($commands) {
+            $artisan->add($commands);
+        });
     }
 
     public function testOutgoing()

@@ -32,9 +32,8 @@ use Ushahidi\Core\Traits\UserContext;
 use Ushahidi\Core\Entity\ContactRepository;
 use Ushahidi\App\Repository\Post\ValueFactory as PostValueFactory;
 use Ushahidi\App\Util\BoundingBox;
+use Ushahidi\App\Multisite\OhanzeeResolver;
 use Ushahidi\Core\Tool\Permissions\InteractsWithPostPermissions;
-
-use Aura\DI\InstanceFactory;
 
 use League\Event\ListenerInterface;
 use Ushahidi\Core\Traits\Event;
@@ -80,17 +79,17 @@ class PostRepository extends OhanzeeRepository implements
      * @param Aura\DI\InstanceFactory               $bounding_box_factory
      */
     public function __construct(
-        Database $db,
+        OhanzeeResolver $resolver,
         FormAttributeRepositoryContract $form_attribute_repo,
         FormStageRepositoryContract $form_stage_repo,
         FormRepositoryContract $form_repo,
         PostLockRepository $post_lock_repo,
         ContactRepository $contact_repo,
         PostValueFactory $post_value_factory,
-        InstanceFactory $bounding_box_factory
+        \Aura\Di\Injection\Factory $bounding_box_factory
     ) {
 
-        parent::__construct($db);
+        parent::__construct($resolver);
 
         $this->form_attribute_repo = $form_attribute_repo;
         $this->form_stage_repo = $form_stage_repo;
@@ -288,7 +287,7 @@ class PostRepository extends OhanzeeRepository implements
             $query->where('form_stage_id', 'NOT IN', $excludeStages);
         }
 
-        $result = $query->execute($this->db);
+        $result = $query->execute($this->db());
 
         return $result->as_array(null, 'form_stage_id');
     }
@@ -630,7 +629,7 @@ class PostRepository extends OhanzeeRepository implements
             ->select([DB::expr('COUNT(DISTINCT posts.id)'), 'total']);
 
         // Fetch the result and...
-        $results = $query->execute($this->db);
+        $results = $query->execute($this->db());
         // ... return the total.
         $total = 0;
 
@@ -649,7 +648,7 @@ class PostRepository extends OhanzeeRepository implements
             union
             select post_point.post_id from post_point) as sub;";
         if ($total_posts > 0) {
-            $results = DB::query(Database::SELECT, $raw_sql)->execute($this->db);
+            $results = DB::query(Database::SELECT, $raw_sql)->execute($this->db());
 
             foreach ($results->as_array() as $result) {
                 $mapped = array_key_exists('total', $result) ? (int) $result['total'] : 0;
@@ -825,7 +824,7 @@ class PostRepository extends OhanzeeRepository implements
         }
 
         // Fetch the results and...
-        $results = $this->search_query->execute($this->db);
+        $results = $this->search_query->execute($this->db());
         $results = $results->as_array();
         if ($search->include_unmapped) {
             // Append unmapped totals to stats
@@ -925,7 +924,7 @@ class PostRepository extends OhanzeeRepository implements
         $result = DB::select('tag_id')->from('posts_tags')
             ->where('post_id', '=', $id)
             ->where('form_attribute_id', '=', $attr_id)
-            ->execute($this->db);
+            ->execute($this->db());
         return $result->as_array(null, 'tag_id');
     }
 
@@ -938,7 +937,7 @@ class PostRepository extends OhanzeeRepository implements
     {
         $result = DB::select('set_id')->from('posts_sets')
             ->where('post_id', '=', $id)
-            ->execute($this->db);
+            ->execute($this->db());
         return $result->as_array(null, 'set_id');
     }
 
@@ -1167,7 +1166,7 @@ class PostRepository extends OhanzeeRepository implements
             ->where('form_attributes.type', '=', 'tags')
             ->order_by('form_attributes.priority', 'ASC')
             ->limit(1)
-            ->execute($this->db);
+            ->execute($this->db());
 
         return [$result->get('id'), $result->get('key')];
     }
@@ -1182,7 +1181,7 @@ class PostRepository extends OhanzeeRepository implements
         // Remove any existing entries
         DB::delete('form_stages_posts')
             ->where('post_id', '=', $post_id)
-            ->execute($this->db);
+            ->execute($this->db());
 
         $insert = DB::insert('form_stages_posts', ['form_stage_id', 'post_id', 'completed']);
         // Get all stages for form
@@ -1195,7 +1194,7 @@ class PostRepository extends OhanzeeRepository implements
             ]);
         }
         // Execute the insert
-        $insert->execute($this->db);
+        $insert->execute($this->db());
     }
 
     // SetPostRepository
@@ -1206,7 +1205,7 @@ class PostRepository extends OhanzeeRepository implements
             ->join('posts_sets', 'INNER')->on('posts.id', '=', 'posts_sets.post_id')
             ->where('posts_sets.set_id', '=', $set_id)
             ->limit(1)
-            ->execute($this->db)
+            ->execute($this->db())
             ->current();
 
         return $this->getEntity($result);

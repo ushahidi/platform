@@ -29,9 +29,9 @@ class MediaRepository extends OhanzeeRepository implements
 
     private $deleted_media;
 
-    public function __construct(Database $db, Uploader $upload)
+    public function __construct(\Ushahidi\App\Multisite\OhanzeeResolver $resolver, Uploader $upload)
     {
-        parent::__construct($db);
+        parent::__construct($resolver);
 
         $this->upload = $upload;
     }

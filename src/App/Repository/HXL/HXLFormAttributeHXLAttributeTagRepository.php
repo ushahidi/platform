@@ -26,9 +26,9 @@ class HXLFormAttributeHXLAttributeTagRepository extends OhanzeeRepository implem
     SearchRepository,
     ReadRepository
 {
-    public function __construct(Database $db)
+    public function __construct(\Ushahidi\App\Multisite\OhanzeeResolver $resolver)
     {
-        parent::__construct($db);
+        parent::__construct($resolver);
     }
 
     // OhanzeeRepository
@@ -70,7 +70,7 @@ class HXLFormAttributeHXLAttributeTagRepository extends OhanzeeRepository implem
             ->join('form_attributes')
             ->on('form_attribute_hxl_attribute_tag.form_attribute_id', '=', 'form_attributes.id')
             ->where('form_attribute_hxl_attribute_tag.export_job_id', '=', $job->id)
-            ->execute($this->db)
+            ->execute($this->db())
             ->as_array();
         return $result;
     }
@@ -86,7 +86,7 @@ class HXLFormAttributeHXLAttributeTagRepository extends OhanzeeRepository implem
             ->join('form_attributes')
             ->on('form_attribute_hxl_attribute_tag.form_attribute_id', '=', 'form_attributes.id')
             ->where('form_attribute_hxl_attribute_tag.export_job_id', '=', $job->id)
-            ->execute($this->db)
+            ->execute($this->db())
             ->as_array();
         return $result;
     }

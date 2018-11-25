@@ -63,21 +63,8 @@ return [
         'enabled' => true,
     ],
 
-    // Post locking
-    'post-locking' => [
-        'enabled' => true,
-    ],
-
     // Targeted Surveys
     'targeted-surveys' => [
-        'enabled' => false,
-    ],
-
-    // Post locking
-    // Defaults to False, tests will fail if set to TRUE
-    // without complete Redis setup
-    // see TODO <docs link>
-    'redis' => [
         'enabled' => false,
     ],
 

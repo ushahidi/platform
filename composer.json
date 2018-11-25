@@ -15,8 +15,8 @@
         }
     ],
     "require": {
-        "php": ">=7.0 <7.2",
-        "aura/di": "2.2",
+        "php": ">=7.0 <=7.3",
+        "aura/di": "~3.4",
         "league/flysystem-aws-s3-v3": "~1.0",
         "league/flysystem-rackspace": "~1.0",
         "league/flysystem": "~1.0",
@@ -47,7 +47,9 @@
         "sentry/sentry-laravel": "^0.8.0",
         "laravel/passport": "^4.0",
         "germanazo/laravel-ckan-api": "^1.0",
-        "asm89/stack-cors": "1.2.0"
+        "asm89/stack-cors": "1.2.0",
+        "predis/predis": "~1.1",
+        "illuminate/redis": "5.5.*"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

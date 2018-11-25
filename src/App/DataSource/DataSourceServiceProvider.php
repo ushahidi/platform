@@ -3,6 +3,7 @@
 namespace Ushahidi\App\DataSource;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Event;
 
 class DataSourceServiceProvider extends ServiceProvider
 {
@@ -20,9 +21,12 @@ class DataSourceServiceProvider extends ServiceProvider
 
     public function boot()
     {
-        if (!$this->app->runningInConsole()) {
-            $this->app->make('datasources')->registerRoutes();
-        }
+        $this->app->make('datasources')->registerRoutes($this->app->router);
+
+        Event::listen('multisite.site.changed', function () {
+            // Reset datasources
+            $this->app->make('datasources')->clearResolvedSources();
+        });
     }
 
     /**
@@ -33,17 +37,10 @@ class DataSourceServiceProvider extends ServiceProvider
     protected function registerManager()
     {
         $this->app->singleton('datasources', function ($app) {
-            $manager = new DataSourceManager($app->router);
+            $configRepo = $this->app->make(\Ushahidi\Core\Entity\ConfigRepository::class);
 
-            $configRepo = service('repository.config');
-            $dataProviderConfig = $configRepo->get('data-provider')->asArray();
-
-            $manager->setEnabledSources($dataProviderConfig['providers']);
-            $manager->setAvailableSources(service('features.data-providers'));
-
+            $manager = new DataSourceManager($configRepo);
             $manager->setStorage($app->make(DataSourceStorage::class));
-
-            $this->registerDataSources($manager);
 
             return $manager;
         });
@@ -53,77 +50,6 @@ class DataSourceServiceProvider extends ServiceProvider
         });
     }
 
-    protected function registerDataSources($manager)
-    {
-        $configRepo = service('repository.config');
-        $dataProviderConfig = $configRepo->get('data-provider')->asArray();
-
-        $manager->addSource($this->makeEmail($dataProviderConfig));
-        $manager->addSource($this->makeOutgoingEmail($dataProviderConfig));
-        $manager->addSource($this->makeFrontlineSMS($dataProviderConfig));
-        $manager->addSource($this->makeNexmo($dataProviderConfig));
-        $manager->addSource(new SMSSync\SMSSync($dataProviderConfig['smssync']));
-        $manager->addSource($this->makeTwilio($dataProviderConfig));
-        $manager->addSource($this->makeTwitter($dataProviderConfig));
-
-        return $manager;
-    }
-
-    protected function makeEmail($dataProviderConfig)
-    {
-        return new Email\Email(
-            $dataProviderConfig['email'],
-            $this->app->make('mailer'),
-            service('site.config'),
-            service('clienturl'),
-            service('repository.message')
-        );
-    }
-
-    protected function makeOutgoingEmail($dataProviderConfig)
-    {
-        return new Email\OutgoingEmail(
-            $dataProviderConfig['email'],
-            $this->app->make('mailer'),
-            service('site.config'),
-            service('clienturl')
-        );
-    }
-
-    protected function makeFrontlineSMS($dataProviderConfig)
-    {
-        return new FrontlineSMS\FrontlineSMS($dataProviderConfig['frontlinesms'], new \GuzzleHttp\Client());
-    }
-
-    protected function makeTwilio($dataProviderConfig)
-    {
-        return new Twilio\Twilio($dataProviderConfig['twilio'], function ($accountSid, $authToken) {
-            return new \Twilio\Rest\Client($accountSid, $authToken);
-        });
-    }
-
-    protected function makeNexmo($dataProviderConfig)
-    {
-        return new Nexmo\Nexmo($dataProviderConfig['nexmo'], function ($apiKey, $apiSecret) {
-            return new \Nexmo\Client(new \Nexmo\Client\Credentials\Basic($apiKey, $apiSecret));
-        });
-    }
-
-    protected function makeTwitter($dataProviderConfig)
-    {
-        return new Twitter\Twitter(
-            $dataProviderConfig['twitter'],
-            service('repository.config'),
-            function ($consumer_key, $consumer_secret, $oauth_access_token, $oauth_access_token_secret) {
-                return new \Abraham\TwitterOAuth\TwitterOAuth(
-                    $consumer_key,
-                    $consumer_secret,
-                    $oauth_access_token,
-                    $oauth_access_token_secret
-                );
-            }
-        );
-    }
 
     protected function registerStorage()
     {
@@ -134,8 +60,9 @@ class DataSourceServiceProvider extends ServiceProvider
 
     protected function makeStorage()
     {
-        $receiveUsecase = service('factory.usecase')->get('messages', 'receive');
-        $messageRepo = service('repository.message');
+        $receiveUsecase = $this->app->make(\Ushahidi\Factory\UsecaseFactory::class)
+            ->get('messages', 'receive');
+        $messageRepo = $this->app->make(\Ushahidi\Core\Entity\MessageRepository::class);
         return new DataSourceStorage($receiveUsecase, $messageRepo);
     }
 
