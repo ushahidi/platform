@@ -119,8 +119,9 @@ class CombineExportedPostBatchesJob extends Job
 
     public function doAllFilesExist(Array $fileNames)
     {
-        foreach ($fileNames as $file) {
+        foreach ($fileNames as $index => $file) {
             if (!Storage::exists($file)) {
+                Log::warning('File does not exist', ['file' => $file, 'index' => $index]);
                 return false;
             }
         }
