@@ -36,6 +36,8 @@ class ExportPostsJobTest extends TestCase
         $dispatcher = $this->mockDispatcher();
         $dispatcher->shouldReceive('dispatch')->times(5)
                 ->with(M::type(\Ushahidi\App\Jobs\ExportPostsBatchJob::class));
+        $dispatcher->shouldReceive('dispatch')->times(1)
+                ->with(M::type(\Ushahidi\App\Jobs\CombineExportedPostBatchesJob::class));
 
         $usecase = M::mock(\Ushahidi\Core\Usecase\Export\Job\PostCount::class);
         $exportJobRepo = M::mock(\Ushahidi\Core\Entity\ExportJobRepository::class);
