@@ -57,10 +57,7 @@ class CombineExportedPostBatchesJob extends Job
         if (!$exportJobRepo->areBatchesFinished($this->jobId)) {
             Log::debug('Batches not finished, requeueing', ['jobId' => $this->jobId]);
             // Batches aren't done yet, wait 5 minutes and try again
-            dispatch(
-                (new CombineExportedPostBatchesJob($this->jobId))
-                    ->delay(Carbon::now()->addMinutes(5))
-            );
+            dispatch(new CombineExportedPostBatchesJob($this->jobId));
             // All done
             return;
         }
