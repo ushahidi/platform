@@ -57,7 +57,7 @@ class CombineExportedPostBatchesJobTest extends TestCase
             ->andReturn(true);
 
         $exportBatchRepo->shouldReceive('getByJobId')
-            ->with($jobId)
+            ->with($jobId, 'completed')
             ->once()
             ->andReturn(collect([
                 new ExportBatch([

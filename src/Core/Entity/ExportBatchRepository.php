@@ -21,7 +21,8 @@ interface ExportBatchRepository extends
     /**
      * Get all batches for job id
      * @param  int $jobId
+     * @param  string $status
      * @return \Illuminate\Support\Collection
      */
-    public function getByJobId($jobId);
+    public function getByJobId($jobId, $status = ExportBatch::STATUS_COMPLETED);
 }
