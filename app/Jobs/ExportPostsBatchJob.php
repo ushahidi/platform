@@ -12,7 +12,6 @@ use Ushahidi\Core\Usecase\Post\Export;
 class ExportPostsBatchJob extends Job
 {
     use MultisiteAwareJob;
-    use RecordsExportJobFailure;
 
     protected $jobId;
     protected $batchNumber;
