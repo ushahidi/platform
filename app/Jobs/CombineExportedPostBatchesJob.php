@@ -6,6 +6,7 @@ use RuntimeException;
 use Log;
 use Ushahidi\Core\Entity\ExportJob;
 use Ushahidi\Core\Entity\ExportJobRepository;
+use Ushahidi\Core\Entity\ExportBatch;
 use Ushahidi\Core\Entity\ExportBatchRepository;
 use Ushahidi\App\Multisite\MultisiteAwareJob;
 use Illuminate\Http\File;
@@ -65,7 +66,7 @@ class CombineExportedPostBatchesJob extends Job
         }
 
         // Load batches
-        $batches = $exportBatchRepo->getByJobId($this->jobId);
+        $batches = $exportBatchRepo->getByJobId($this->jobId, ExportBatch::STATUS_COMPLETED);
         // Get just filenames
         $fileNames = $batches
             ->sortBy('batch_number')
