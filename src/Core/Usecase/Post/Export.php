@@ -166,9 +166,7 @@ class Export implements Usecase
             // Mark batch as failed
             $batchEntity = $this->repo->get($batchId);
             $batchEntity->setState([
-                'status' => ExportBatch::STATUS_FAILED,
-                'filename' => $file->file,
-                'rows' => count($posts),
+                'status' => ExportBatch::STATUS_FAILED
             ]);
             $this->repo->update($batchEntity);
             // And rethrow the error
