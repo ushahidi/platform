@@ -28,6 +28,13 @@ class ImportPostsJob extends Job
     public function handle(ImportCSVPostsUsecase $usecase)
     {
         $usecase->setIdentifiers(['id' => $this->csvId]);
+        /**
+         * Step two of import.
+         * Support all line endings without manually specifying it
+         * (primarily added because of OS9 line endings which do not work by default )
+         */
+        ini_set('auto_detect_line_endings', 1);
+
 
         $results = $usecase->interact();
     }
