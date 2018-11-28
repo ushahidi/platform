@@ -33,7 +33,7 @@ You are welcome and encouraged to jump in and help other members of the communit
 
 ### **New features**
 
-Feature development is generally driven by our product and engineering team members, but if you have a great idea or found a user need that we haven't covered, you are more than welcome to make a suggestion in the form of a GitHub issue [here](https://github.com/ushahidi/platform/issues), or reach out to Ushahidi staff in [Gitter](https://gitter.im/ushahidi/Community)
+Feature development is generally driven by our product and engineering team members, but if you have a great idea or found a user need that we haven't covered, you are more than welcome to make a suggestion in the form of a GitHub issue [here](https://github.com/ushahidi/platform/issues), or reach out to Ushahidi staff in [Gitter](https://gitter.im/ushahidi/Community).
 
 ### **Security issues**
 

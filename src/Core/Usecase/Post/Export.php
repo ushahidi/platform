@@ -20,7 +20,8 @@ use Ushahidi\Core\Tool\FormatterTrait;
 use Ushahidi\Core\Usecase;
 use Ushahidi\Core\SearchData;
 use Ushahidi\Core\Traits\UserContext;
-use Ushahidi\Core\Usecase\SearchRepository;
+use Ushahidi\Core\Entity\ExportBatch;
+use Ushahidi\Core\Entity\ExportBatchRepository;
 use Ushahidi\Core\Usecase\Concerns\FilterRecords;
 use Log;
 
@@ -48,12 +49,12 @@ class Export implements Usecase
     protected $repo;
 
     /**
-     * Inject a repository that can search for entities.
+     * Inject a repository to create/update ExportBatches
      *
-     * @param  SearchRepository $repo
+     * @param  ExportBatchRepository $repo
      * @return $this
      */
-    public function setRepository(SearchRepository $repo)
+    public function setRepository(ExportBatchRepository $repo)
     {
         $this->repo = $repo;
         return $this;
@@ -99,62 +100,97 @@ class Export implements Usecase
         // load the user from the job into the 'session'
         $this->session->setUser($job->user_id);
         Log::debug('EXPORTER: on interact - user id: ' . $job->user_id);
-        // verify the user can export posts
-        $this->verifyAuth($job, 'export');
-        // merge filters from the controller/cli call with the job's saved filters
-        $data = $this->constructSearchData($job);
-        $this->postExportRepository->setSearchParams($data);
 
-        // get the form attributes for the export
-        $attributes = $this->formAttributeRepository->getExportAttributes($data->include_attributes);
-        $keyAttributes = $this->getAttributesWithKeys($attributes);
+        // Create new export batch status=pending
+        $batchEntity = $this->repo->getEntity()->setState([
+            'export_job_id' => $job->id,
+            'batch_number' => $this->getIdentifier('batch_number'),
+            'status' => ExportBatch::STATUS_PENDING,
+            'has_headers' => $this->getFilter('add_header', false)
+        ]);
+        $batchId = $this->repo->create($batchEntity);
 
-        /**
-         * get the search results based on filters
-         * and retrieve the metadata for each of the posts
-         **/
-        $posts = $this->postExportRepository->getSearchResults();
-        foreach ($posts as $idx => $post) {
-            // Retrieved Attribute Labels for Entity's values
-            $post = $this->postExportRepository->retrieveMetaData($post->asArray(), $keyAttributes);
-            $posts[$idx] = $post;
+        try {
+            // verify the user can export posts
+            $this->verifyAuth($job, 'export');
+            // merge filters from the controller/cli call with the job's saved filters
+            $data = $this->constructSearchData($job);
+            $this->postExportRepository->setSearchParams($data);
+
+            // get the form attributes for the export
+            $attributes = $this->formAttributeRepository->getExportAttributes($data->include_attributes);
+            $keyAttributes = $this->getAttributesWithKeys($attributes);
+
+            /**
+             * get the search results based on filters
+             * and retrieve the metadata for each of the posts
+             **/
+            $posts = $this->postExportRepository->getSearchResults();
+            foreach ($posts as $idx => $post) {
+                // Retrieved Attribute Labels for Entity's values
+                $post = $this->postExportRepository->retrieveMetaData($post->asArray(), $keyAttributes);
+                $posts[$idx] = $post;
+            }
+            Log::debug('EXPORTER: on interact Count posts: ' . count($posts));
+
+            /**
+             * update the header attributes
+             * in the job table so we know which headers to
+             * use in other chunks of the export
+             */
+            $this->saveHeaderRow($job, $attributes);
+
+            /**
+             * set 'add header' in the formatter
+             * so it knows how to return the results
+             * for the csv (with or without a header row)
+             */
+            $this->formatter->setAddHeader($this->filters['add_header']);
+            // handle hxl
+            $hxl_rows = $this->formatter->generateHXLRows(
+                $this->formatter->createHeading($attributes),
+                $this->getHxlRows($job)
+            );
+            $this->saveHXLHeaderRow($job, $hxl_rows);
+            $this->formatter->setHxlHeading($hxl_rows);
+            $formatter = $this->formatter;
+            Log::debug('EXPORTER: Count posts: ' . count($posts));
+
+            /**
+             * KeyAttributes is sent instead of the header row because it contains
+             * the attributes with the corresponding features (type, priority) that
+             * we need for manipulating the data
+             */
+            $file = $formatter($posts, $job, $keyAttributes);
+        } catch (\Exception $e) {
+            // Mark batch as failed
+            $batchEntity = $this->repo->get($batchId);
+            $batchEntity->setState([
+                'status' => ExportBatch::STATUS_FAILED,
+                'filename' => $file->file,
+                'rows' => count($posts),
+            ]);
+            $this->repo->update($batchEntity);
+            // And rethrow the error
+            throw $e;
         }
-        Log::debug('EXPORTER: on interact Count posts: ' . count($posts));
 
-        /**
-         * update the header attributes
-         * in the job table so we know which headers to
-         * use in other chunks of the export
-         */
-        $this->saveHeaderRow($job, $attributes);
+        // Update export batch status=done
+        // Include filename, post count, header row etc
+        $batchEntity = $this->repo->get($batchId);
+        $batchEntity->setState([
+            'status' => ExportBatch::STATUS_COMPLETED,
+            'filename' => $file->file,
+            'rows' => count($posts),
+        ]);
+        $this->repo->update($batchEntity);
 
-        /**
-         * set 'add header' in the formatter
-         * so it knows how to return the results
-         * for the csv (with or without a header row)
-         */
-        $this->formatter->setAddHeader($this->filters['add_header']);
-        // handle hxl
-        $hxl_rows = $this->formatter->generateHXLRows(
-            $this->formatter->createHeading($attributes),
-            $this->getHxlRows($job)
-        );
-        $this->saveHXLHeaderRow($job, $hxl_rows);
-        $this->formatter->setHxlHeading($hxl_rows);
-        $formatter = $this->formatter;
-        Log::debug('EXPORTER: Count posts: ' . count($posts));
-        /**
-         * KeyAttributes is sent instead of the header row because it contains
-         * the attributes with the corresponding features (type, priority) that
-         * we need for manipulating the data
-         */
-        $file = $formatter($posts, $job, $keyAttributes);
         return [
-            'results' => [
-                [
-                    'file' => $file->file,
-                ]
-            ]
+            'filename' => $file->file,
+            'id' => $batchId,
+            'jobId' => $job->id,
+            'rows' => $batchEntity->rows,
+            'status' => $batchEntity->status
         ];
     }
 

@@ -55,11 +55,11 @@ class AttributeRepository extends OhanzeeRepository implements
      * @param FormRepository                   $form_repo
      */
     public function __construct(
-        Database $db,
+        \Ushahidi\App\Multisite\OhanzeeResolver $resolver,
         FormStageRepositoryContract $form_stage_repo,
         FormRepositoryContract $form_repo
     ) {
-        parent::__construct($db);
+        parent::__construct($resolver);
 
         $this->form_stage_repo = $form_stage_repo;
         $this->form_repo = $form_repo;
@@ -184,7 +184,7 @@ class AttributeRepository extends OhanzeeRepository implements
     public function getByKey($key_value, $form_id = null, $include_no_form = false)
     {
         $query = $this->getQueryByField('key', $key_value, $form_id, $include_no_form, 1);
-        $result = $query->execute($this->db);
+        $result = $query->execute($this->db());
         return $this->getEntity($result->current());
     }
 
@@ -195,7 +195,7 @@ class AttributeRepository extends OhanzeeRepository implements
         if ($attribute_id) {
             $query->where('form_attributes.id', '!=', $attribute_id);
         }
-        return $query->execute($this->db);
+        return $query->execute($this->db());
     }
 
     // FormAttributeRepository
@@ -226,7 +226,7 @@ class AttributeRepository extends OhanzeeRepository implements
     {
         $query = $this->selectQuery();
 
-        $results = $query->execute($this->db);
+        $results = $query->execute($this->db());
 
         return $this->getCollection($results->as_array());
     }
@@ -246,7 +246,7 @@ class AttributeRepository extends OhanzeeRepository implements
                 ->join('form_stages')
                 ->on('form_stages.id', '=', 'form_attributes.form_stage_id')
                 ->where('form_attributes.key', 'IN', $include_attributes)
-                ->execute($this->db)
+                ->execute($this->db())
                 ->as_array(), 'form_id');
         }
         return null;
@@ -262,7 +262,7 @@ class AttributeRepository extends OhanzeeRepository implements
             ->join('form_stages', 'INNER')
             ->on('form_stages.id', '=', 'form_attributes.form_stage_id');
 
-        $results = $query->execute($this->db);
+        $results = $query->execute($this->db());
 
         return $this->getCollection($results->as_array());
     }
@@ -289,7 +289,7 @@ class AttributeRepository extends OhanzeeRepository implements
         $sql .= "ORDER BY forms.id, form_stages.priority, form_attributes.priority ";
         $results = DB::query(Database::SELECT, $sql)
             ->bind(':form_attributes', $include_attributes)
-            ->execute($this->db);
+            ->execute($this->db());
         $attributes = $results->as_array();
         $native = [
             [
@@ -426,7 +426,7 @@ class AttributeRepository extends OhanzeeRepository implements
             ->where('form_attributes.type', 'not in', ['title', 'description'])
             ->order_by('form_attributes.priority', 'ASC')
             ->limit(1)
-            ->execute($this->db);
+            ->execute($this->db());
 
         return $this->getEntity($next_attribute->current());
     }
@@ -444,7 +444,7 @@ class AttributeRepository extends OhanzeeRepository implements
             ->order_by('form_attributes.priority', 'ASC')
             ->limit(1);
 
-        $results = $query->execute($this->db);
+        $results = $query->execute($this->db());
 
         return $this->getEntity($results->current());
     }
@@ -460,7 +460,7 @@ class AttributeRepository extends OhanzeeRepository implements
         ], $form_id)
             ->select('form_attributes.*');
 
-        $results = $query->execute($this->db);
+        $results = $query->execute($this->db());
 
         return $this->getCollection($results->as_array());
     }

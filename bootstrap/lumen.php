@@ -59,6 +59,7 @@ $app->singleton(
 */
 
 $app->middleware([
+    Ushahidi\App\Multisite\DetectSiteMiddleware::class,
     Barryvdh\Cors\HandleCors::class,
     Ushahidi\App\Http\Middleware\MaintenanceMode::class
 ]);
@@ -85,6 +86,7 @@ $app->routeMiddleware([
 |
 */
 
+$app->register(Illuminate\Redis\RedisServiceProvider::class);
 $app->register(Ushahidi\App\Providers\AppServiceProvider::class);
 $app->register(Ushahidi\App\Providers\AuthServiceProvider::class);
 $app->register(Ushahidi\App\Providers\EventServiceProvider::class);

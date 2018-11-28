@@ -7,18 +7,20 @@ use Ushahidi\Core\Tool\Authorizer;
 use Ushahidi\Core\Tool\Formatter;
 use Ushahidi\Core\Tool\Validator;
 use Ushahidi\Core\Usecase\CreateRepository;
+use Illuminate\Contracts\Events\Dispatcher;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
 class CreateUsecaseSpec extends ObjectBehavior
 {
-    function let(Authorizer $auth, Formatter $format, Validator $valid, CreateRepository $repo)
+    function let(Authorizer $auth, Formatter $format, Validator $valid, CreateRepository $repo, Dispatcher $dispatcher)
     {
         $this->setAuthorizer($auth);
         $this->setFormatter($format);
         $this->setRepository($repo);
         $this->setValidator($valid);
+        $this->setDispatcher($dispatcher);
     }
 
     function it_is_initializable()

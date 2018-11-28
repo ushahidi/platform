@@ -27,9 +27,9 @@ class HXLTagRepository extends OhanzeeRepository implements
 {
     private $tags_attributes;
 
-    public function __construct(Database $db)
+    public function __construct(\Ushahidi\App\Multisite\OhanzeeResolver $resolver)
     {
-        parent::__construct($db);
+        parent::__construct($resolver);
     }
 
     // OhanzeeRepository
@@ -78,7 +78,7 @@ class HXLTagRepository extends OhanzeeRepository implements
                 ->join('hxl_tag_attributes')
                 ->on('hxl_tags.id', '=', 'hxl_tag_attributes.tag_id')
                 ->join('hxl_attributes')
-                ->on('hxl_tag_attributes.attribute_id', '=', 'hxl_attributes.id')->execute($this->db)->as_array();
+                ->on('hxl_tag_attributes.attribute_id', '=', 'hxl_attributes.id')->execute($this->db())->as_array();
         }
 
         return array_map(function ($tag) {
@@ -100,6 +100,6 @@ class HXLTagRepository extends OhanzeeRepository implements
         return DB::select('form_attribute_type')
             ->from('hxl_attribute_type_tag')
             ->where('hxl_tag_id', '=', $hxl_tag_id)
-            ->execute($this->db)->as_array();
+            ->execute($this->db())->as_array();
     }
 }

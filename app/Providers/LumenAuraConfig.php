@@ -4,6 +4,7 @@ namespace Ushahidi\App\Providers;
 
 use Aura\Di\Container;
 use Aura\Di\ContainerConfig;
+use Illuminate\Support\Facades\DB;
 
 class LumenAuraConfig extends ContainerConfig
 {
@@ -17,9 +18,7 @@ class LumenAuraConfig extends ContainerConfig
     {
         // Configure mailer
         $di->set('tool.mailer', $di->lazyNew('Ushahidi\App\Tools\LumenMailer', [
-            'mailer' => app('mailer'),
-            'siteConfig' => $di->lazyGet('site.config'),
-            'clientUrl' => $di->lazyGet('clienturl')
+            'mailer' => app('mailer')
         ]));
 
         // Configure filesystem
@@ -30,22 +29,23 @@ class LumenAuraConfig extends ContainerConfig
             return app('filesystem')->disk()->getDriver();
         });
 
+        $di->set('multisite', function () {
+            return app('multisite');
+        });
+
         // Setup user session service
         $di->set('session', $di->lazyNew(\Ushahidi\App\Tools\LumenSession::class, [
             'userRepo' => $di->lazyGet('repository.user')
         ]));
 
-        // Multisite db
-        $di->set('kohana.db.multisite', function () use ($di) {
-            $config = config('ohanzee-db');
+        $di->set('db.eloquent.resolver', $di->lazy(function () {
+            return app('db');
+        }));
 
-            return \Ohanzee\Database::instance('multisite', $config['multisite']);
-        });
-
-        // Deployment db
-        $di->set('kohana.db', function () use ($di) {
-            return \Ohanzee\Database::instance('deployment', $this->getDbConfig($di));
-        });
+        // Abstract repository parameters
+        $di->set('db.ohanzee.resolver', $di->lazy(function () {
+            return app(\Ushahidi\App\Multisite\OhanzeeResolver::class);
+        }));
 
         // Configure dispatcher
         $di->setters[\Ushahidi\Core\Traits\Events\DispatchesEvents::class]['setDispatcher']
@@ -63,71 +63,5 @@ class LumenAuraConfig extends ContainerConfig
         $di->set('ratelimiter.config', function () use ($di) {
             return config('ratelimiter');
         });
-
-        // Multisite db
-        // Move multisite enabled check to class and move to src/App
-        $di->set('site', function () use ($di) {
-            // @todo default to using the current domain
-            $site = '';
-
-            // Is this a multisite install?
-            $multisite = config('multisite.enabled');
-            if ($multisite) {
-                $site = $di->get('multisite')->getSite();
-            }
-
-            return $site;
-        });
-
-        // Move multisite enabled check to class and move to src/App
-        $di->set('tool.uploader.prefix', function () use ($di) {
-            // Is this a multisite install?
-            $multisite = config('multisite.enabled');
-            if ($multisite) {
-                return $di->get('multisite')->getCdnPrefix();
-            }
-
-            return '';
-        });
-
-        // Client Url
-        $di->set('clienturl', function () use ($di) {
-            return $this->getClientUrl($di->get('site.config'), $di->lazyGet('multisite'));
-        });
-    }
-
-    protected function getDbConfig(\Aura\Di\Container $di)
-    {
-        // Kohana injection
-        // DB config
-        $config = config('ohanzee-db');
-        $config = $config['default'];
-
-        // Is this a multisite install?
-        $multisite = config('multisite.enabled');
-        if ($multisite) {
-            $config = $di->get('multisite')->getDbConfig();
-        }
-
-        return $config;
-    }
-
-    protected function getClientUrl($config, $multisite)
-    {
-        $clientUrl = env('CLIENT_URL', false);
-
-        if (env("MULTISITE_DOMAIN", false)) {
-            try {
-                $clientUrl = $multisite()->getClientUrl();
-            } catch (Exception $e) {
-            }
-        }
-
-        // Or overwrite from config
-        if (!$clientUrl && $config['client_url']) {
-            $client_url = $config['client_url'];
-        }
-
-        return $clientUrl;
     }
 }

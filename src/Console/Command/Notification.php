@@ -19,13 +19,18 @@ use Ushahidi\Core\Entity\MessageRepository;
 use Ushahidi\Core\Entity\NotificationQueueRepository;
 use Ushahidi\Core\Entity\ContactRepository;
 use Ushahidi\App\DataSource\DataSourceManager;
+use Ushahidi\App\Multisite\OhanzeeResolver;
+use Ushahidi\App\Multisite\UsesSiteInfo;
 
 class Notification extends Command
 {
+    use UsesSiteInfo;
+
     private $postRepository;
     private $contactRepository;
     private $messageRepository;
     private $notificationQueueRepository;
+    protected $resolver;
 
     /**
      * The console command name.
@@ -48,23 +53,30 @@ class Notification extends Command
      */
     protected $description = 'Queue notifications for sending';
 
-    public function __construct(DataSourceManager $sources)
+    public function __construct(DataSourceManager $sources, OhanzeeResolver $resolver)
     {
         parent::__construct();
 
         $this->sources = $sources;
+        $this->resolver = $resolver;
+    }
+
+    /**
+     * Get current connection
+     *
+     * @return Ohanzee\Database;
+     */
+    protected function db()
+    {
+        return $this->resolver->connection();
     }
 
     public function handle()
     {
-        $this->db = service('kohana.db');
         $this->contactRepository = service('repository.contact');
         $this->postRepository = service('repository.post');
         $this->messageRepository = service('repository.message');
         $this->notificationQueueRepository = service('repository.notification.queue');
-
-        $this->siteConfig = service('site.config');
-        $this->clientUrl = service('clienturl');
 
         $limit = $this->option('limit');
 
@@ -74,7 +86,7 @@ class Notification extends Command
         $notifications = $this->notificationQueueRepository->getNotifications($limit);
 
         // Start transaction
-        $this->db->begin();
+        $this->db()->begin();
 
         foreach ($notifications as $notification) {
             // Get contacts and generate messages from new notification
@@ -82,7 +94,7 @@ class Notification extends Command
         }
 
         // Finally commit changes
-        $this->db->commit();
+        $this->db()->commit();
 
         $this->info("{$count} messages queued for sending");
     }
@@ -102,8 +114,8 @@ class Notification extends Command
         $offset = 0;
         $limit = 1000;
 
-        $site_name = $this->siteConfig['name'] ?: 'Ushahidi';
-        $client_url = $this->clientUrl;
+        $site_name = $this->getSite()->getName() ?: 'Ushahidi';
+        $client_url = $this->getSite()->getClientUri();
 
         // Get contacts (max $limit at a time) and generate messages.
         while (true) {
