@@ -104,6 +104,10 @@ class AppServiceProvider extends ServiceProvider
             return service('tool.verifier');
         });
 
+        $this->app->singleton(\Ushahidi\Core\Session::class, function ($app) {
+            return service('session');
+        });
+
         $this->app->singleton(\Ushahidi\Core\Usecase\CSV\ImportCSVPostsUsecase::class, function ($app) {
             // Just return it from AuraDI
             return service('usecase.csv.importposts');

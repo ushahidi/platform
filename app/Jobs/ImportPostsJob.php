@@ -9,15 +9,17 @@ use Illuminate\Support\Facades\Log;
 class ImportPostsJob extends Job
 {
     protected $csvId;
+    protected $userId;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($csvId)
+    public function __construct($csvId, $userId)
     {
         $this->csvId = $csvId;
+        $this->userId = $userId;
     }
 
     /**
@@ -27,7 +29,17 @@ class ImportPostsJob extends Job
      */
     public function handle(ImportCSVPostsUsecase $usecase)
     {
-        $usecase->setIdentifiers(['id' => $this->csvId]);
+        /**
+         * Step two of import.
+         * Support all line endings without manually specifying it
+         * (primarily added because of OS9 line endings which do not work by default )
+         */
+        ini_set('auto_detect_line_endings', 1);
+
+        $usecase->setIdentifiers([
+            'id' => $this->csvId,
+            'user_id' => $this->userId
+        ]);
 
         $results = $usecase->interact();
     }

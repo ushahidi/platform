@@ -31,6 +31,8 @@ use Ushahidi\Core\Tool\FileReader;
 use Ushahidi\Core\Usecase\Concerns\VerifyEntityLoaded;
 use Ushahidi\Core\Usecase\Concerns\IdentifyRecords;
 use Ushahidi\App\Facades\Features;
+use Ushahidi\Core\Traits\UserContext;
+use Log;
 
 class ImportCSVPostsUsecase implements Usecase
 {
@@ -47,6 +49,8 @@ class ImportCSVPostsUsecase implements Usecase
 
     // - Provides dispatch()
     use DispatchesEvents;
+
+    use UserContext;
 
     public function __construct(
         PostRepository $postRepo,
@@ -93,6 +97,11 @@ class ImportCSVPostsUsecase implements Usecase
 
         $csv = $this->getCSV();
 
+        // load the user from the job into the 'session'
+        // the CSV itself doesn't save the creator so we're passing this
+        // in from the job queue
+        $this->session->setUser($this->getRequiredIdentifier('user_id'));
+
         // Read file
         $file = new \SplTempFileObject();
         $contents = $this->fs->read($csv->filename);
@@ -110,7 +119,8 @@ class ImportCSVPostsUsecase implements Usecase
            'name' => $csv->filename,
            'description' => 'Import',
            'view' => 'data',
-           'featured' => false
+           'featured' => false,
+           'user_id' => $this->getUserId()
         ]));
 
         $created_entities = [];
@@ -130,10 +140,10 @@ class ImportCSVPostsUsecase implements Usecase
             // ... persist the new entity
             try {
                 $id = $this->postRepo->create($entity);
-            } catch (Exception $e) {
+                $this->setRepo->addPostToSet($collection_id, $id);
+            } catch (\Exception $e) {
                 $errors++;
             }
-            $this->setRepo->addPostToSet($collection_id, $id);
 
             $processed++;
         }
