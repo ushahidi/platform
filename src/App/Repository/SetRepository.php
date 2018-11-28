@@ -184,7 +184,7 @@ class SetRepository extends OhanzeeRepository implements SetRepositoryContract
         DB::delete('posts_sets')
             ->where('post_id', '=', $post_id)
             ->where('set_id', '=', $set_id)
-            ->execute($this->db);
+            ->execute($this->db());
     }
 
     // SetRepository
@@ -194,7 +194,7 @@ class SetRepository extends OhanzeeRepository implements SetRepositoryContract
             ->from('posts_sets')
             ->where('post_id', '=', $post_id)
             ->where('set_id', '=', $set_id)
-            ->execute($this->db)
+            ->execute($this->db())
             ->as_array();
 
         return (bool) count($result);
@@ -211,7 +211,7 @@ class SetRepository extends OhanzeeRepository implements SetRepositoryContract
         DB::insert('posts_sets')
             ->columns(['post_id', 'set_id'])
             ->values(array_values(compact('post_id', 'set_id')))
-            ->execute($this->db);
+            ->execute($this->db());
 
         // Fire event after post is added
         // so that this is queued for the Notifications data provider
@@ -228,7 +228,7 @@ class SetRepository extends OhanzeeRepository implements SetRepositoryContract
         $result = $this->selectQuery(['id' => $sets_ids])
             ->resetSelect()
             ->select('name')
-            ->execute($this->db);
+            ->execute($this->db());
         $result = $result->as_array(null, 'name');
         return $result;
     }

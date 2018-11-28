@@ -72,11 +72,19 @@ class SendHXLUsecase implements Usecase
     {
         // get job by job_id
         $job = $this->exportJobRepository->get($this->getIdentifier('job_id'));
+
         // get user settings by user id
         $user_settings_key = $this->userSettingRepository->getConfigKeyByUser($job->user_id, 'hdx_api_key');
         $user_settings_user = $this->userSettingRepository->getConfigKeyByUser($job->user_id, 'hdx_maintainer_id');
         // setup hdx interface
-        $this->setHDXInterface($user_settings_key, $user_settings_user);
+        $isHdxConfigured = $this->setHDXInterface($user_settings_key, $user_settings_user);
+
+        // If HDX isn't configured, just exit now
+        if (!$isHdxConfigured) {
+            $updated_job = $this->setJobStatusAndUpdate($job, "FAILED");
+            return $this->formatter->__invoke($updated_job);
+        }
+
         // get metadata by job id
         $metadata = $this->metadataRepository->get($job->hxl_meta_data_id);
         // get license by metadata->license_id
@@ -177,11 +185,19 @@ class SendHXLUsecase implements Usecase
 
     private function setHDXInterface($user_settings_key, $user_settings_user_id)
     {
+        $hdx_url = getenv('HDX_URL');
+        // If any config values aren't set, fail
+        if (empty($hdx_url) || empty($user_settings_key->config_value) || empty($user_settings_user_id->config_value)) {
+            return false;
+        }
+
         $this->hdxInterface = new HDXInterface(
             getenv('HDX_URL'),
             $user_settings_key->config_value,
             $user_settings_user_id->config_value
         );
+
+        return true;
     }
     /**
      * Will this usecase write any data?

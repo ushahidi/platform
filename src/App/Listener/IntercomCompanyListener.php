@@ -18,9 +18,11 @@ use Ushahidi\Core\Entity\Form;
 
 use Intercom\IntercomClient;
 use GuzzleHttp\Exception\ClientException;
+use Ushahidi\App\Multisite\UsesSiteInfo;
 
 class IntercomCompanyListener
 {
+    use UsesSiteInfo;
 
     public function handle($id, $entity)
     {
@@ -62,7 +64,7 @@ class IntercomCompanyListener
         }
 
         $intercomAppToken = getenv('INTERCOM_APP_TOKEN');
-        $domain = service('site');
+        $domain = $this->getSite()->getBaseUri();
 
         if ($intercomAppToken && !empty($domain) && !empty($data)) {
             try {

@@ -15,13 +15,14 @@ use Ushahidi\App\DataSource\OutgoingAPIDataSource;
 use Ushahidi\App\DataSource\Message\Type as MessageType;
 use Ushahidi\App\DataSource\Message\Status as MessageStatus;
 use Ushahidi\App\DataSource\Concerns\MapsInboundFields;
+use Ushahidi\App\Multisite\UsesSiteInfo;
 use Illuminate\Contracts\Mail\Mailer;
 use Ushahidi\Core\Entity\Contact;
 use Log;
 
 class OutgoingEmail implements OutgoingAPIDataSource
 {
-    use MapsInboundFields;
+    use MapsInboundFields, UsesSiteInfo;
 
     protected $config;
     protected $mailer;
@@ -32,15 +33,10 @@ class OutgoingEmail implements OutgoingAPIDataSource
      */
     public function __construct(
         array $config,
-        Mailer $mailer = null,
-        $siteConfig = null,
-        $clientUrl = null
+        Mailer $mailer = null
     ) {
         $this->config = $config;
         $this->mailer = $mailer;
-        // @todo figure out a better way to set these. Maybe globally for all emails?
-        $this->siteConfig = $siteConfig;
-        $this->clientUrl = $clientUrl;
     }
 
     public function getName()
@@ -83,34 +79,21 @@ class OutgoingEmail implements OutgoingAPIDataSource
      */
     public function send($to, $message, $title = "")
     {
-        $site_name = $this->siteConfig['name'];
-        $site_email = $this->siteConfig['email'];
-        $multisite_email = config('multisite.email');
-
-        // @todo make this more robust
-        if ($multisite_email) {
-            $from_email = $multisite_email;
-        } elseif ($site_email) {
-            $from_email = $site_email;
-        } else {
-            $from_email = false;
-            // Get host from lumen
-            // $host = app()->make('request')->getHost();
-            // $from_email = 'noreply@' . $host;
-        }
+        $site_name = $this->getSite()->getName();
+        $site_email = $this->getSite()->getEmail();
 
         try {
             $this->mailer->send(
                 'emails/outgoing-message',
                 [
                     'message_text' => $message,
-                    'site_url' => $this->clientUrl
+                    'site_url' => $this->getSite()->getClientUri(),
                 ],
-                function ($message) use ($to, $title, $from_email, $site_name) {
+                function ($message) use ($to, $title, $site_email, $site_name) {
                     $message->to($to);
                     $message->subject($title);
-                    if ($from_email) {
-                        $message->from($from_email, $site_name);
+                    if ($site_email) {
+                        $message->from($site_email, $site_name);
                     }
                 }
             );

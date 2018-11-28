@@ -33,8 +33,6 @@
         "ext-mbstring": "*",
         "league/csv": "~7.1@dev",
         "laravel/lumen-framework": "5.5.*",
-        "ddeboer/data-import": "dev-master",
-        "symfony/property-access": "~2.5",
         "beheh/flaps": "dev-master",
         "doctrine/cache": "^1.6.2",
         "ramsey/uuid": "^3.4.1",
@@ -46,7 +44,9 @@
         "sentry/sentry-laravel": "^0.8.0",
         "laravel/passport": "^4.0",
         "germanazo/laravel-ckan-api": "^1.0",
-        "asm89/stack-cors": "1.2.0"
+        "asm89/stack-cors": "1.2.0",
+        "predis/predis": "~1.1",
+        "illuminate/redis": "5.5.*"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

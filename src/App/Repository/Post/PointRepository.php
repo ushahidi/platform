@@ -18,14 +18,15 @@ use Ushahidi\Core\Entity\PostValueRepository as PostValueRepositoryContract;
 use Symm\Gisconverter\Decoders\WKT;
 use Symm\Gisconverter\Geometry\Point;
 use Symm\Gisconverter\Exceptions\InvalidText;
+use Ushahidi\App\Multisite\OhanzeeResolver;
 
 class PointRepository extends ValueRepository
 {
     protected $decoder;
 
-    public function __construct(Database $db, WKT $decoder)
+    public function __construct(OhanzeeResolver $resolver, WKT $decoder)
     {
-        $this->db = $db;
+        parent::__construct($resolver);
         $this->decoder = $decoder;
     }
 

@@ -88,7 +88,7 @@ class CoreConfig extends ContainerConfig
             'csv'                  => $di->lazyGet('repository.csv'),
             'roles'                => $di->lazyGet('repository.role'),
             'permissions'          => $di->lazyGet('repository.permission'),
-            'posts_export'         => $di->lazyGet('repository.posts_export'),
+            'posts_export'         => $di->lazyGet('repository.export_batch'),
             'tos'                  => $di->lazyGet('repository.tos'),
         ];
 
@@ -355,7 +355,7 @@ class CoreConfig extends ContainerConfig
         $di->set('tool.uploader', $di->lazyNew('Ushahidi\Core\Tool\Uploader'));
         $di->params['Ushahidi\Core\Tool\Uploader'] = [
             'fs' => $di->lazyGet('tool.filesystem'),
-            'directory_prefix' => $di->lazyGet('tool.uploader.prefix')
+            'multisite' => $di->lazyGet('multisite'),
         ];
 
         $di->set('authorizer.config', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\ConfigAuthorizer'));

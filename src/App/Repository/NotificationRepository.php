@@ -28,7 +28,7 @@ class NotificationRepository extends OhanzeeRepository implements NotificationRe
         $result = $this->selectQuery()
             ->where('user_id', '=', $entity->user_id)
             ->and_where('set_id', '=', $entity->set_id)
-            ->execute($this->db);
+            ->execute($this->db());
         return $result->get('id', 0);
     }
 

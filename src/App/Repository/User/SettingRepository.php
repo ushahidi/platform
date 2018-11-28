@@ -57,7 +57,7 @@ class SettingRepository extends OhanzeeRepository implements
     public function getByUser($user_id)
     {
         $query = $this->selectQuery(compact($user_id));
-        $results = $query->execute($this->db);
+        $results = $query->execute($this->db());
 
         return $this->getCollection($results->as_array());
     }

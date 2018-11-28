@@ -14,6 +14,10 @@ namespace Tests\Unit\App\DataSource\Console;
 use Tests\TestCase;
 use Mockery as M;
 use phpmock\mockery\PHPMockery;
+use Ushahidi\App\DataSource\Console\IncomingCommand;
+use Ushahidi\App\DataSource\DataSourceManager;
+use Ushahidi\App\DataSource\DataSourceStorage;
+use Illuminate\Console\Application as Artisan;
 
 /**
  * @backupGlobals disabled
@@ -26,14 +30,37 @@ class IncomingCommandTest extends TestCase
     {
         parent::setUp();
         // Ensure enabled providers is in a known state
-        $this->app->make('datasources')->setEnabledSources([
-            'email' => false,
-            'frontlinesms' => true,
-            'nexmo' => false,
-            'twilio' => true,
-            'twitter' => true,
-            'smssync' => true,
-        ]);
+        // Mock the config repo
+        unset($this->app->availableBindings['Ushahidi\Core\Entity\ConfigRepository']);
+        $configRepo = M::mock(\Ushahidi\Core\Entity\ConfigRepository::class);
+        $configRepo->shouldReceive('get')->with('data-provider')->andReturn(new \Ushahidi\Core\Entity\Config([
+            'providers' => [
+                'email' => false,
+                'frontlinesms' => true,
+                'nexmo' => false,
+                'twilio' => true,
+                'twitter' => true,
+                'smssync' => true,
+            ]
+        ]));
+        $configRepo->shouldReceive('get')->with('features')->andReturn(new \Ushahidi\Core\Entity\Config([
+            'data-providers' => [
+                'email' => false,
+                'frontlinesms' => true,
+                'nexmo' => false,
+                'twilio' => true,
+                'twitter' => true,
+                'smssync' => true,
+            ]
+        ]));
+        $configRepo->shouldReceive('get')->with('twitter')->andReturn(new \Ushahidi\Core\Entity\Config([]));
+        $this->app->instance(\Ushahidi\Core\Entity\ConfigRepository::class, $configRepo);
+
+        // Reinsert command with mocks
+        $commands = new IncomingCommand(new DataSourceManager($configRepo), $this->app->make(DataSourceStorage::class));
+        Artisan::starting(function ($artisan) use ($commands) {
+            $artisan->add($commands);
+        });
 
         PHPMockery::mock("Ushahidi\App\DataSource\Email", "imap_open");
         PHPMockery::mock("Ushahidi\App\DataSource\Email", "imap_close");

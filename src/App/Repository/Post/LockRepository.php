@@ -51,7 +51,7 @@ class LockRepository extends OhanzeeRepository implements PostLockRepository
         $result = DB::select()->from('post_locks')
             ->where('post_id', '=', $post_id)
             ->limit(1)
-            ->execute($this->db);
+            ->execute($this->db());
 
         $lock = $this->get($result->get('id'));
 
@@ -74,7 +74,7 @@ class LockRepository extends OhanzeeRepository implements PostLockRepository
     {
         $results = DB::select()->from('post_locks')
             ->where('user_id', '=', $user_id)
-            ->execute($this->db);
+            ->execute($this->db());
 
         $locks = $this->getCollection($results->as_array());
 
@@ -91,7 +91,7 @@ class LockRepository extends OhanzeeRepository implements PostLockRepository
             ->from('post_locks')
             ->where('post_id', '=', $post_id)
             ->limit(1)
-            ->execute($this->db);
+            ->execute($this->db());
 
         if ($result->get('expires')) {
             $time = $result->get('expires');
@@ -144,7 +144,7 @@ class LockRepository extends OhanzeeRepository implements PostLockRepository
                 ->columns(array_keys($lock))
                 ->values(array_values($lock));
 
-            list($id) = $query->execute($this->db);
+            list($id) = $query->execute($this->db());
 
             return $id;
         } elseif ($this->userOwnsLock($entity->id)) {
@@ -168,7 +168,7 @@ class LockRepository extends OhanzeeRepository implements PostLockRepository
             ->from('post_locks')
             ->where('post_id', '=', $entity_id)
             ->limit(1)
-            ->execute($this->db)
+            ->execute($this->db())
             ->as_array();
 
         return count($result) > 0 ? $result[0] : null;

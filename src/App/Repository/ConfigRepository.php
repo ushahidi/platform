@@ -17,6 +17,7 @@ use Ushahidi\Core\Entity\ConfigRepository as ConfigRepositoryContract;
 use Ushahidi\Core\Usecase\ReadRepository;
 use Ushahidi\Core\Usecase\UpdateRepository;
 use Ushahidi\Core\Exception\NotFoundException;
+use Ushahidi\App\Multisite\OhanzeeResolver;
 
 use League\Event\ListenerInterface;
 use Ohanzee\DB;
@@ -27,9 +28,21 @@ class ConfigRepository implements
     UpdateRepository,
     ConfigRepositoryContract
 {
-    public function __construct(Database $db)
+    protected $resolver;
+
+    public function __construct(OhanzeeResolver $resolver)
     {
-        $this->db = $db;
+        $this->resolver = $resolver;
+    }
+
+    /**
+     * Get current connection
+     *
+     * @return Ohanzee\Database;
+     */
+    protected function db()
+    {
+        return $this->resolver->connection();
     }
 
     // ReadRepository
@@ -65,7 +78,7 @@ class ConfigRepository implements
             $query = DB::select('config.*')
                 ->from('config')
                 ->where('group_name', '=', $group)
-                ->execute($this->db);
+                ->execute($this->db());
 
             if (count($query)) {
                 $config = $query->as_array('config_key', 'config_value');
@@ -121,7 +134,7 @@ class ConfigRepository implements
             ':key' => $key,
             ':value' => $value
         ])
-        ->execute($this->db);
+        ->execute($this->db());
     }
 
     // ConfigRepository

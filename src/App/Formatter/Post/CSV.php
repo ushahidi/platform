@@ -18,6 +18,9 @@ use Ushahidi\Core\Tool\FileData;
 use League\Flysystem\Util\MimeType;
 use Ushahidi\App\Formatter\API;
 
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Str;
+
 class CSV extends API
 {
 
@@ -55,6 +58,9 @@ class CSV extends API
      */
     public function __invoke($records, $job = null, $attributes = [])
     {
+        // Generate filename
+        $this->tmpfname = Carbon::now()->format('Ymd') .'-'. Str::random(40) . '.csv';
+
         $this->createHeading($job->header_row);
         return $this->generateCSVRecords($records, $attributes);
     }
@@ -142,8 +148,6 @@ class CSV extends API
 
     public function setFilesystem($fs)
     {
-        $this->tmpfname = "tmp" . DIRECTORY_SEPARATOR .
-            strtolower(uniqid() . '-' . strftime('%G-%m-%d') . '.csv');
         $this->fs = $fs;
     }
 
@@ -229,7 +233,7 @@ class CSV extends API
     {
 
         $filepath = implode(DIRECTORY_SEPARATOR, [
-            'csv',
+            config('media.csv_batch_prefix', 'csv'),
             $this->tmpfname,
         ]);
 
@@ -279,7 +283,7 @@ class CSV extends API
         $recordAttributes = isset($attributes[$headingKey]) ? $attributes[$headingKey] : null;
         // If the returned attribute for the given heading key is the native form name attribute
         // Retrieve Form Name from the attribute rather than from the Post until the data model improves
-        
+
         if (is_array($recordAttributes) && isset($recordAttributes['type'])
             && $recordAttributes['type'] === 'form_name') {
             return is_array($record) && isset($record['form_name']) ? $record['form_name'] : 'Unstructured';
@@ -319,7 +323,7 @@ class CSV extends API
             && isset(self::$csvFieldFormat[$recordAttributes['type']])) {
             $format = self::$csvFieldFormat[$recordAttributes['type']];
         }
-        
+
         /**
          * Remap Title and Description type attributes as these are a special case of attributes
          * since their labels are stored as attributes but their values are stored as fields on the record :/

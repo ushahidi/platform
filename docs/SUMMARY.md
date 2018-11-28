@@ -12,6 +12,7 @@
 * [Changing UI styles: introduction to the pattern library](changing-ui-styles-introduction-to-the-pattern-library.md)
 * [Architecture](architecture/README.md)
   * [Use case internals](architecture/use-case-internals.md)
+* [FAQ](faq.md)
 * [Untitled](untitled.md)
 * [Untitled](untitled-1.md)
 

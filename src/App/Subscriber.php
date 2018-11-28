@@ -11,6 +11,7 @@ use Ushahidi\App\Listener\IntercomAdminListener;
 use Ushahidi\App\Listener\IntercomCompanyListener;
 use Ushahidi\App\Listener\PostSetListener;
 use Ushahidi\App\Listener\PostListener;
+use Ushahidi\App\Listener\QueueExportJob;
 
 class Subscriber
 {
@@ -65,6 +66,11 @@ class Subscriber
         $events->listen(
             'config.update',
             IntercomCompanyListener::class
+        );
+
+        $events->listen(
+            'export_job.create',
+            QueueExportJob::class
         );
     }
 }

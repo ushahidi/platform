@@ -34,16 +34,16 @@ class ContactRepository extends OhanzeeRepository implements
 
     /**
      * Construct
-     * @param Database $db
+     * @param \Ushahidi\App\Multisite\OhanzeeResolver $resolver
      * @param FormRepository $form_repo
      */
     public function __construct(
-        Database $db,
+        \Ushahidi\App\Multisite\OhanzeeResolver $resolver,
         Entity\FormRepository $form_repo,
         Entity\TargetedSurveyStateRepository $targeted_survey_state_repo,
         Entity\MessageRepository $message_repo
     ) {
-        parent::__construct($db);
+        parent::__construct($resolver);
         $this->form_repo = $form_repo;
         $this->targeted_survey_state_repo = $targeted_survey_state_repo;
         $this->message_repo = $message_repo;
@@ -70,7 +70,7 @@ class ContactRepository extends OhanzeeRepository implements
      */
     public function getEntityWithData($contact, $data = [])
     {
-        $contact = $this->selectQuery(['contact' => $contact])->execute($this->db)->current();
+        $contact = $this->selectQuery(['contact' => $contact])->execute($this->db())->current();
         if (!$contact) {
             return new Entity\Contact($data);
         }
@@ -108,7 +108,7 @@ class ContactRepository extends OhanzeeRepository implements
          */
 
         // Start transaction
-        $this->db->begin();
+        $this->db()->begin();
         $invalidatedContacts =  [];
         foreach ($entities as $entity) {
             $contactOnActiveSurvey = $this->existsInActiveTargetedSurvey($entity->contact);
@@ -141,7 +141,7 @@ class ContactRepository extends OhanzeeRepository implements
         }
 
         // Start transaction
-        $this->db->commit();
+        $this->db()->commit();
 
         // @todo move to usecase
         $this->dispatch('form_contacts.created', [
@@ -156,7 +156,7 @@ class ContactRepository extends OhanzeeRepository implements
         $query = DB::insert($this->getTable())
             ->columns(array_keys($entity->asArray()));
         $query->values($entity->asArray());
-        $result = $query->execute($this->db);
+        $result = $query->execute($this->db());
         if (!isset($result[0])) {
             throw new HTTP_Exception_500(
                 sprintf(
@@ -177,7 +177,7 @@ class ContactRepository extends OhanzeeRepository implements
         $query = $this->selectQuery(['posts.form_id' => $form_id])
             ->select('contacts.*');
         $query = $this->targetedSurveyStateJoin($query);
-        $results = $query->execute($this->db);
+        $results = $query->execute($this->db());
 
         return $this->getCollection($results->as_array());
     }
@@ -199,7 +199,7 @@ class ContactRepository extends OhanzeeRepository implements
             ->select([DB::expr('COUNT(*)'), 'total']);
         $query = $this->targetedSurveyStateJoin($query);
         $res = $query
-            ->execute($this->db)
+            ->execute($this->db())
             ->get('total');
         return (bool)$res;
     }
@@ -216,7 +216,7 @@ class ContactRepository extends OhanzeeRepository implements
             ->select([DB::expr('COUNT(*)'), 'total']);
         $query = $this->targetedSurveyStateJoin($query);
         return (bool)$query
-            ->execute($this->db)
+            ->execute($this->db())
             ->get('total');
     }
 
@@ -227,7 +227,7 @@ class ContactRepository extends OhanzeeRepository implements
             ->select([DB::expr('COUNT(distinct contact_id)')]);
         $query = $this->targetedSurveyStateJoin($query);
         return (bool)$query
-            ->execute($this->db);
+            ->execute($this->db());
     }
 
     /**
@@ -242,7 +242,7 @@ class ContactRepository extends OhanzeeRepository implements
             ->select([DB::expr('COUNT(distinct contact_id)')]);
         $query = $this->targetedSurveyStateJoin($query);
         return (bool)$query
-            ->execute($this->db);
+            ->execute($this->db());
     }
 
     /**
@@ -257,7 +257,7 @@ class ContactRepository extends OhanzeeRepository implements
             ->select([DB::expr('COUNT(*)'), 'total']);
         $query = $this->targetedSurveyStateJoin($query);
         return (bool)$query
-            ->execute($this->db)
+            ->execute($this->db())
             ->get('total');
     }
 
@@ -287,7 +287,7 @@ class ContactRepository extends OhanzeeRepository implements
             ->limit(1);
         $query = $this->targetedSurveyStateJoin($query);
         $result = $query
-            ->execute($this->db);
+            ->execute($this->db());
         if ($result) {
             return $result->current();
         }
@@ -315,7 +315,7 @@ class ContactRepository extends OhanzeeRepository implements
     {
         $query = $this->getSearchQuery();
         $query = $this->targetedSurveyStateJoin($query);
-        $results = $query->distinct(true)->execute($this->db);
+        $results = $query->distinct(true)->execute($this->db());
         return $this->getCollection($results->as_array());
     }
 
@@ -336,7 +336,7 @@ class ContactRepository extends OhanzeeRepository implements
             ->select([DB::expr('COUNT(*)'), 'total']);
         $query = $this->targetedSurveyStateJoin($query);
         // Fetch the result and...
-        $result = $query->execute($this->db);
+        $result = $query->execute($this->db());
         // ... return the total.
         return (int)$result->get('total', 0);
     }

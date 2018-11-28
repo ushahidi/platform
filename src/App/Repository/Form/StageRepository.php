@@ -41,11 +41,11 @@ class StageRepository extends OhanzeeRepository implements
          * @param FormRepository                       $form_repo
          */
     public function __construct(
-        Database $db,
+        \Ushahidi\App\Multisite\OhanzeeResolver $resolver,
         FormRepositoryContract $form_repo
     ) {
 
-        parent::__construct($db);
+        parent::__construct($resolver);
 
         $this->form_repo = $form_repo;
     }
@@ -140,7 +140,7 @@ class StageRepository extends OhanzeeRepository implements
                 ->from('form_stages')
                 ->where('id', '=', $id);
 
-        $results = $query->execute($this->db);
+        $results = $query->execute($this->db());
 
         return count($results) > 0 ? $results[0]['form_id'] : false;
     }
@@ -149,7 +149,7 @@ class StageRepository extends OhanzeeRepository implements
     public function getByForm($form_id)
     {
         $query = $this->selectQuery(compact($form_id), $form_id);
-        $results = $query->execute($this->db);
+        $results = $query->execute($this->db());
 
         return $this->getCollection($results->as_array());
     }
@@ -177,7 +177,7 @@ class StageRepository extends OhanzeeRepository implements
             ->and_where_close();
         }
 
-            $results = $query->execute($this->db)->as_array();
+            $results = $query->execute($this->db())->as_array();
 
         foreach ($results as $stage) {
             array_push($stages, $stage['id']);
@@ -201,7 +201,7 @@ class StageRepository extends OhanzeeRepository implements
             ], $form_id)
             ->select('form_stages.*');
 
-        $results = $query->execute($this->db);
+        $results = $query->execute($this->db());
 
         return $this->getCollection($results->as_array());
     }

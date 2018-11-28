@@ -16,15 +16,17 @@ namespace Ushahidi\App\Listener;
 use Ushahidi\Core\Entity\User;
 use Intercom\IntercomClient;
 use GuzzleHttp\Exception\ClientException;
+use Ushahidi\App\Multisite\UsesSiteInfo;
 
 class IntercomAdminListener
 {
+    use UsesSiteInfo;
 
     public function handle($id, User $user)
     {
         if ($user->role === 'admin') {
             $intercomAppToken = getenv('INTERCOM_APP_TOKEN');
-            $domain = service('site');
+            $domain = $this->getSite()->getBaseUri();
             $company = [
                 "company_id" => $domain
             ];

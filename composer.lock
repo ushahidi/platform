@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "85b088dada27cc268deab9a9e6509a1e",
+    "content-hash": "097348ef1b4c64d52649deeea073e8d7",
     "packages": [
         {
             "name": "abraham/twitteroauth",
@@ -389,78 +389,6 @@
             "description": "Promoting the interoperability of container objects (DIC, SL, etc.)",
             "homepage": "https://github.com/container-interop/container-interop",
             "time": "2017-02-14T19:40:03+00:00"
-        },
-        {
-            "name": "ddeboer/data-import",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/ddeboer/data-import.git",
-                "reference": "1b8f2e6f5731a21206cb8656334574b9be71d30a"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/ddeboer/data-import/zipball/1b8f2e6f5731a21206cb8656334574b9be71d30a",
-                "reference": "1b8f2e6f5731a21206cb8656334574b9be71d30a",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.4.0",
-                "psr/log": "~1.0"
-            },
-            "require-dev": {
-                "doctrine/dbal": "~2.4",
-                "doctrine/orm": "~2.4",
-                "ext-iconv": "*",
-                "ext-mbstring": "*",
-                "ext-sqlite3": "*",
-                "henrikbjorn/phpspec-code-coverage": "~1.0",
-                "phpoffice/phpexcel": "*",
-                "phpspec/phpspec": "~2.1",
-                "symfony/console": "~2.8|~3.0",
-                "symfony/property-access": "~2.5",
-                "symfony/validator": "~2.8|~3.0"
-            },
-            "suggest": {
-                "doctrine/dbal": "If you want to use the DbalReader",
-                "ext-iconv": "For the CharsetValueConverter",
-                "ext-mbstring": "For the CharsetValueConverter",
-                "phpoffice/phpexcel": "If you want to use the ExcelReader",
-                "symfony/console": "If you want to use the ConsoleProgressWriter",
-                "symfony/property-access": "If you want to use the ObjectConverter",
-                "symfony/validator": "to use the ValidatorFilter"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Ddeboer\\DataImport\\": "src/",
-                    "Ddeboer\\DataImport\\Tests\\": "tests/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "The community",
-                    "homepage": "https://github.com/ddeboer/data-import/graphs/contributors"
-                },
-                {
-                    "name": "David de Boer",
-                    "email": "david@ddeboer.nl"
-                }
-            ],
-            "description": "Import data from, and export data to, a range of file formats and media",
-            "keywords": [
-                "csv",
-                "data",
-                "doctrine",
-                "excel",
-                "export",
-                "import"
-            ],
-            "time": "2017-08-31T09:18:10+00:00"
         },
         {
             "name": "defuse/php-encryption",
@@ -2054,6 +1982,51 @@
             "description": "The Illuminate Queue package.",
             "homepage": "https://laravel.com",
             "time": "2018-01-06T15:59:38+00:00"
+        },
+        {
+            "name": "illuminate/redis",
+            "version": "v5.5.44",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/illuminate/redis.git",
+                "reference": "2d57f7ec6177a5df2ac181fb08532bb3102d0d8a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/illuminate/redis/zipball/2d57f7ec6177a5df2ac181fb08532bb3102d0d8a",
+                "reference": "2d57f7ec6177a5df2ac181fb08532bb3102d0d8a",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/contracts": "5.5.*",
+                "illuminate/support": "5.5.*",
+                "php": ">=7.0",
+                "predis/predis": "~1.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "5.5-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Illuminate\\Redis\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Taylor Otwell",
+                    "email": "taylor@laravel.com"
+                }
+            ],
+            "description": "The Illuminate Redis package.",
+            "homepage": "https://laravel.com",
+            "time": "2018-05-22T11:51:18+00:00"
         },
         {
             "name": "illuminate/session",
@@ -3698,6 +3671,56 @@
             "time": "2018-04-15T16:55:05+00:00"
         },
         {
+            "name": "predis/predis",
+            "version": "v1.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nrk/predis.git",
+                "reference": "f0210e38881631afeafb56ab43405a92cafd9fd1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nrk/predis/zipball/f0210e38881631afeafb56ab43405a92cafd9fd1",
+                "reference": "f0210e38881631afeafb56ab43405a92cafd9fd1",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.9"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.8"
+            },
+            "suggest": {
+                "ext-curl": "Allows access to Webdis when paired with phpiredis",
+                "ext-phpiredis": "Allows faster serialization and deserialization of the Redis protocol"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Predis\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Daniele Alessandri",
+                    "email": "suppakilla@gmail.com",
+                    "homepage": "http://clorophilla.net"
+                }
+            ],
+            "description": "Flexible and feature-complete Redis client for PHP and HHVM",
+            "homepage": "http://github.com/nrk/predis",
+            "keywords": [
+                "nosql",
+                "predis",
+                "redis"
+            ],
+            "time": "2016-06-16T16:22:20+00:00"
+        },
+        {
             "name": "psr/container",
             "version": "1.0.0",
             "source": {
@@ -4831,7 +4854,7 @@
         },
         {
             "name": "symfony/polyfill-ctype",
-            "version": "v1.9.0",
+            "version": "v1.10.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-ctype.git",
@@ -5053,67 +5076,6 @@
             "description": "Symfony Process Component",
             "homepage": "https://symfony.com",
             "time": "2018-07-26T11:19:56+00:00"
-        },
-        {
-            "name": "symfony/property-access",
-            "version": "v2.8.44",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/property-access.git",
-                "reference": "6951dc7a6b9aef1cd8387ac4d9e8d3e78a2b8aa5"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/property-access/zipball/6951dc7a6b9aef1cd8387ac4d9e8d3e78a2b8aa5",
-                "reference": "6951dc7a6b9aef1cd8387ac4d9e8d3e78a2b8aa5",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.9",
-                "symfony/polyfill-ctype": "~1.8"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.8-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Symfony\\Component\\PropertyAccess\\": ""
-                },
-                "exclude-from-classmap": [
-                    "/Tests/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
-                }
-            ],
-            "description": "Symfony PropertyAccess Component",
-            "homepage": "https://symfony.com",
-            "keywords": [
-                "access",
-                "array",
-                "extraction",
-                "index",
-                "injection",
-                "object",
-                "property",
-                "property path",
-                "reflection"
-            ],
-            "time": "2018-07-26T09:03:18+00:00"
         },
         {
             "name": "symfony/psr-http-message-bridge",
@@ -8084,6 +8046,7 @@
                 "pre-commit",
                 "pre-push"
             ],
+            "abandoned": "captainhook/captainhook",
             "time": "2018-05-03T12:04:10+00:00"
         },
         {
@@ -8566,7 +8529,6 @@
     "stability-flags": {
         "ohanzee/database": 20,
         "league/csv": 20,
-        "ddeboer/data-import": 20,
         "beheh/flaps": 20,
         "ushahidi/kohana-validation": 20,
         "heroku/heroku-buildpack-php": 20,

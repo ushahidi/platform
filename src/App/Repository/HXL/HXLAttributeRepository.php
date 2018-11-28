@@ -26,9 +26,9 @@ class HXLAttributeRepository extends OhanzeeRepository implements
 {
     private $tags_attributes;
 
-    public function __construct(Database $db)
+    public function __construct(\Ushahidi\App\Multisite\OhanzeeResolver $resolver)
     {
-        parent::__construct($db);
+        parent::__construct($resolver);
     }
 
     // OhanzeeRepository

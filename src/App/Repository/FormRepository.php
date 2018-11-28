@@ -106,7 +106,7 @@ class FormRepository extends OhanzeeRepository implements
             ->from('forms')
             ->where('id', '=', $form_id);
 
-        $results = $query->execute($this->db)->as_array();
+        $results = $query->execute($this->db())->as_array();
 
         return count($results) > 0 ? $results[0][$type] : false;
     }
@@ -127,7 +127,7 @@ class FormRepository extends OhanzeeRepository implements
             ->on('roles.id', '=', 'form_roles.role_id')
             ->where('forms.id', '=', $form_id);
 
-        $results =  $query->execute($this->db)->as_array();
+        $results =  $query->execute($this->db())->as_array();
 
         $everyone_can_create = (count($results) == 0 ? 1 : $results[0]['everyone_can_create']);
 
