@@ -32,6 +32,7 @@ use Ushahidi\Core\Usecase\Concerns\VerifyEntityLoaded;
 use Ushahidi\Core\Usecase\Concerns\IdentifyRecords;
 use Ushahidi\App\Facades\Features;
 use Ushahidi\Core\Traits\UserContext;
+use Log;
 
 class ImportCSVPostsUsecase implements Usecase
 {
@@ -139,10 +140,10 @@ class ImportCSVPostsUsecase implements Usecase
             // ... persist the new entity
             try {
                 $id = $this->postRepo->create($entity);
-            } catch (Exception $e) {
+                $this->setRepo->addPostToSet($collection_id, $id);
+            } catch (\Exception $e) {
                 $errors++;
             }
-            $this->setRepo->addPostToSet($collection_id, $id);
 
             $processed++;
         }
