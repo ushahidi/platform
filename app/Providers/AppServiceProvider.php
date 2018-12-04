@@ -32,8 +32,13 @@ class AppServiceProvider extends ServiceProvider
         $this->registerFeatures();
 
         $this->app->singleton(
-            \Ushahidi\App\ImportUshahidiV2\ImportMappingRepositoryContract::class,
-            \Ushahidi\App\ImportUshahidiV2\ImportMappingRepository::class
+            \Ushahidi\App\ImportUshahidiV2\Contracts\ImportMappingRepository::class,
+            \Ushahidi\App\ImportUshahidiV2\Repositories\ImportMappingRepository::class
+        );
+
+        $this->app->singleton(
+            \Ushahidi\App\ImportUshahidiV2\Contracts\ImportRepository::class,
+            \Ushahidi\App\ImportUshahidiV2\Repositories\ImportRepository::class
         );
     }
 

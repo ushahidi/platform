@@ -16,7 +16,7 @@ class CreateDefaultSurvey extends Job
      *
      * @return void
      */
-    public function __construct($importId)
+    public function __construct(int $importId)
     {
         $this->importId = $importId;
     }
@@ -149,7 +149,7 @@ class CreateDefaultSurvey extends Job
      * @return void
      */
     public function handle(
-        ImportUshahidiV2\ImportMappingRepositoryContract $mappingRepo,
+        ImportUshahidiV2\Contracts\ImportMappingRepository $mappingRepo,
         Entity\FormRepository $formRepo,
         Entity\FormStageRepository $stageRepo,
         Entity\FormAttributeRepository $attrRepo
@@ -180,12 +180,12 @@ class CreateDefaultSurvey extends Job
         }
 
         // Save form --> survey mapping
-        $mappingRepo->create([
+        $mappingRepo->create(new ImportUshahidiV2\ImportMapping([
             'import_id' => $this->importId,
             'source_type' => 'form',
             'source_id' => 0,
             'dest_type' => 'survey',
             'dest_id' => $formId,
-        ]);
+        ]));
     }
 }

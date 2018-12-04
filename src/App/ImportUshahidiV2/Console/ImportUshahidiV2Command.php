@@ -54,7 +54,7 @@ class ImportUshahidiV2Command extends Command
         $this->dispatcher = $dispatcher;
     }
 
-    public function handle(PostRepository $postRepo)
+    public function handle(ImportUshahidiV2\Contracts\ImportRepository $importRepo, PostRepository $postRepo)
     {
         // Check we don't already have v3 data
         if ($postRepo->getTotal() > 1) {
@@ -69,25 +69,26 @@ class ImportUshahidiV2Command extends Command
         $this->verifyCanConnectToDb($dbConfig);
 
         // Create import record
+        $importId = $importRepo->create(new ImportUshahidiV2\Import());
 
         // Collect all table names
         // Copy all data to current DB with v2_ prefix
         $this->info('Copying raw data');
-        $this->dispatcher->dispatchNow(new ImportUshahidiV2\Jobs\CopyRawTables($dbConfig));
+        $this->dispatcher->dispatchNow(new ImportUshahidiV2\Jobs\CopyRawTables($importId, $dbConfig));
 
         // Create default survey
         $this->info('Create default survey');
-        $this->dispatcher->dispatchNow(new ImportUshahidiV2\Jobs\CreateDefaultSurvey($dbConfig));
+        $this->dispatcher->dispatchNow(new ImportUshahidiV2\Jobs\CreateDefaultSurvey($importId, $dbConfig));
 
         // Import users
         $this->info('Importing users');
-        $this->dispatcher->dispatchNow(new ImportUshahidiV2\Jobs\ImportUsers($dbConfig));
+        $this->dispatcher->dispatchNow(new ImportUshahidiV2\Jobs\ImportUsers($importId, $dbConfig));
 
         $this->info('Importing messages');
 
         // Import incidents to posts
         $this->info('Importing posts');
-        $this->dispatcher->dispatchNow(new ImportUshahidiV2\Jobs\ImportIncidents($dbConfig));
+        $this->dispatcher->dispatchNow(new ImportUshahidiV2\Jobs\ImportIncidents($importId, $dbConfig));
 
         // Import xyz
 
