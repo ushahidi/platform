@@ -14,6 +14,7 @@ use Ushahidi\Core\Entity;
 use Ushahidi\App\Facades\Features;
 use Ushahidi\App\Jobs\ImportPostsJob;
 use Ushahidi\Core\Session;
+use Illuminate\Contracts\Bus\Dispatcher;
 
 class ImportPosts
 {
@@ -26,6 +27,14 @@ class ImportPosts
     public function handle($id, Entity $entity)
     {
         $userId = $this->session->getUser()->getId();
-        dispatch(new ImportPostsJob($id, $userId));
+
+        // If csv-queue feature is enabled
+        if (Features::isEnabled('csv-queue')) {
+            // Queue the export
+            dispatch(new ImportPostsJob($id, $userId));
+        } else {
+            // Otherwise run synchronously
+            app(Dispatcher::class)->dispatchNow(new ImportPostsJob($id, $userId));
+        }
     }
 }
