@@ -104,6 +104,11 @@ class AppServiceProvider extends ServiceProvider
             return service('repository.form_attribute');
         });
 
+        $this->app->singleton(\Ushahidi\Core\Entity\UserRepository::class, function ($app) {
+            // Just return it from AuraDI
+            return service('repository.user');
+        });
+
         $this->app->singleton(\Ushahidi\Core\Tool\Verifier::class, function ($app) {
             // Just return it from AuraDI
             return service('tool.verifier');
