@@ -5,13 +5,11 @@ namespace Ushahidi\App\Jobs;
 use Ushahidi\Core\Usecase\Export\Job\PostCount;
 use Ushahidi\Core\Entity\ExportJob;
 use Ushahidi\Core\Entity\ExportJobRepository;
-use Ushahidi\App\Multisite\MultisiteAwareJob;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Carbon;
 
 class ExportPostsJob extends Job
 {
-    use MultisiteAwareJob;
     use RecordsExportJobFailure;
 
     protected $batchSize;

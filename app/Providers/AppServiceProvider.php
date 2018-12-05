@@ -30,6 +30,11 @@ class AppServiceProvider extends ServiceProvider
         $this->registerDataSources();
 
         $this->registerFeatures();
+
+        $this->app->singleton(
+            \Ushahidi\App\ImportUshahidiV2\ImportMappingRepositoryContract::class,
+            \Ushahidi\App\ImportUshahidiV2\ImportMappingRepository::class
+        );
     }
 
     public function registerServicesFromAura()
@@ -52,6 +57,21 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(\Ushahidi\Core\Entity\ContactRepository::class, function ($app) {
             // Just return it from AuraDI
             return service('repository.contact');
+        });
+
+        $this->app->singleton(\Ushahidi\Core\Entity\FormRepository::class, function ($app) {
+            // Just return it from AuraDI
+            return service('repository.form');
+        });
+
+        $this->app->singleton(\Ushahidi\Core\Entity\FormStageRepository::class, function ($app) {
+            // Just return it from AuraDI
+            return service('repository.form_stage');
+        });
+
+        $this->app->singleton(\Ushahidi\Core\Entity\FormAttributeRepository::class, function ($app) {
+            // Just return it from AuraDI
+            return service('repository.form_attribute');
         });
 
         $this->app->singleton(\Ushahidi\Core\Entity\PostRepository::class, function ($app) {

@@ -41,4 +41,10 @@ interface PostRepository extends
      * @return int
      */
     public function getPublishedTotal();
+
+    /**
+     * Get total number of posts
+     * @return int
+     */
+    public function getTotal();
 }
