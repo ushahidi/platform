@@ -7,12 +7,35 @@ use Ushahidi\Core\Entity\User;
 
 class UserMapper
 {
+    protected $roleMap = [
+        'superadmin' => 'admin',
+        'admin'      => 'admin',
+        'login'      => 'user',
+        'member'     => 'user'
+    ];
+
     public function __invoke(array $input) : Entity
     {
         return new User([
             'email' => $input['email'],
             'realname' => $input['name'] ?? '',
-            // 'role' => 
+            'role' => $this->getRole($input['role']),
         ]);
+    }
+
+    protected function getRole($role)
+    {
+        $roles = explode(',', $role);
+
+        return collect($roles)->reduce(function ($c, $item) {
+            // If role maps to admin
+            if ($this->roleMap[$item] === 'admin') {
+                // Set v3 role to admin
+                return 'admin';
+            }
+
+            // Otherwise map all other roles to user
+            return 'user';
+        }, 'user');
     }
 }

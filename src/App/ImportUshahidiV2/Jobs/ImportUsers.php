@@ -58,6 +58,10 @@ class ImportUsers extends Job
             // Fetch users
             $sourceUsers = $this->getConnection()
                 ->table('users')
+                ->select('users.*', DB::raw('GROUP_CONCAT(`roles`.`name`) AS role'))
+                ->join('roles_users', 'users.id', '=', 'roles_users.user_id')
+                ->join('roles', 'roles.id', '=', 'roles_users.role_id')
+                ->groupBy('users.id')
                 ->limit(self::BATCH_SIZE)
                 ->offset($batch * self::BATCH_SIZE)
                 ->orderBy('id', 'asc')
