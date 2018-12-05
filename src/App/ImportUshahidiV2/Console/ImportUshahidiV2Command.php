@@ -15,6 +15,7 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Contracts\Bus\Dispatcher;
 use Ushahidi\App\ImportUshahidiV2;
+use Ushahidi\App\Multisite\OhanzeeResolver;
 use Ushahidi\Core\Entity\PostRepository;
 
 class ImportUshahidiV2Command extends Command
@@ -34,9 +35,10 @@ class ImportUshahidiV2Command extends Command
      */
     protected $signature = 'import:ushahidiv2
                             {database : The name of the database to import}
-                            {--u|user : The username to connect to the DB}
-                            {--p|password : The password to connect to the DB}
-                            {--host : The database host to connect to}';
+                            {--u|user= : The username to connect to the DB}
+                            {--p|password= : The password to connect to the DB}
+                            {--host= : The database host to connect to}
+                            {--rollback : Rollback import when finished (useful for testing)}';
 
     /**
      * The console command description.
@@ -54,8 +56,11 @@ class ImportUshahidiV2Command extends Command
         $this->dispatcher = $dispatcher;
     }
 
-    public function handle(ImportUshahidiV2\Contracts\ImportRepository $importRepo, PostRepository $postRepo)
-    {
+    public function handle(
+        ImportUshahidiV2\Contracts\ImportRepository $importRepo,
+        PostRepository $postRepo,
+        OhanzeeResolver $resolver
+    ) {
         // Check we don't already have v3 data
         if ($postRepo->getTotal() > 1) {
             $this->error('Deployment is not empty. Please import into an empty deployment');
@@ -67,6 +72,10 @@ class ImportUshahidiV2Command extends Command
 
         // Connect to DB and check connection
         $this->verifyCanConnectToDb($dbConfig);
+
+        // Begin transaction
+        DB::beginTransaction();
+        $resolver->connection()->begin();
 
         // Create import record
         $importId = $importRepo->create(new ImportUshahidiV2\Import());
@@ -93,6 +102,15 @@ class ImportUshahidiV2Command extends Command
         // Import xyz
 
         // Mark import complete?
+
+        // Rollback import
+        if ($this->option('rollback')) {
+            DB::rollback();
+            $resolver->connection()->rollback();
+        } else {
+            DB::commit();
+            $resolver->connection()->commit();
+        }
     }
 
     protected function getDbConfig()
