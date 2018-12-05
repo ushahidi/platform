@@ -11,8 +11,8 @@ class UserMapper
     {
         return new User([
             'email' => $input['email'],
-            'realname' => $input['name'],
-            // 'role' =>
+            'realname' => $input['name'] ?? '',
+            // 'role' => 
         ]);
     }
 }

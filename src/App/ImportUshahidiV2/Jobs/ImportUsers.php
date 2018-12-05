@@ -69,21 +69,27 @@ class ImportUsers extends Job
                 break;
             }
 
+            // Transform users
+            $destUsers = $sourceUsers->map(function ($item) use ($userMapper) {
+                return $userMapper((array) $item);
+            });
+
             // Save users
-            $destUsers = $sourceUsers->each(function ($item) use ($userMapper, $userRepo, $mappingRepo) {
-                $user = $userMapper((array) $item);
+            $inserted = $userRepo->createMany($destUsers);
 
-                $id = $userRepo->create($user);
-
-                // Save form --> survey mapping
-                $mappingRepo->create(new ImportUshahidiV2\ImportMapping([
+            // Match source and destination ids
+            $mappings = $sourceUsers->pluck('id')->combine($inserted)->map(function ($item, $key) {
+                return new ImportUshahidiV2\ImportMapping([
                     'import_id' => $this->importId,
                     'source_type' => 'user',
-                    'source_id' => $item->id,
+                    'source_id' => $key,
                     'dest_type' => 'user',
-                    'dest_id' => $id,
-                ]));
+                    'dest_id' => $item,
+                ]);
             });
+
+            // Save mappings
+            $mappingRepo->createMany($mappings);
 
             // Add to count
             $importedUsers += $destUsers->count();

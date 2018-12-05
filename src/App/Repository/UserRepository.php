@@ -26,6 +26,7 @@ use League\Event\ListenerInterface;
 use Ushahidi\Core\Traits\Event;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Illuminate\Support\Collection;
 
 class UserRepository extends OhanzeeRepository implements
     UserRepositoryContract,
@@ -106,6 +107,32 @@ class UserRepository extends OhanzeeRepository implements
         }
 
         return parent::create($entity);
+    }
+
+    public function createMany(Collection $collection) : array
+    {
+        // Check MySQL `innodb_autoinc_lock_mode` = 0 or 1 before running
+
+        $first = $this->removeNullValues($collection->first()->asArray());
+        unset($first['contacts']);
+        $columns = array_keys($first);
+
+        $values = $collection->map(function ($entity) {
+            $data = $this->removeNullValues($entity->asArray());
+
+            unset($data['contacts']);
+
+            return $data;
+        })->all();
+
+        $query = DB::insert($this->getTable())
+            ->columns($columns);
+
+        call_user_func_array([$query, 'values'], $values);
+
+        list($insertId, $created) = $query->execute($this->db());
+
+        return range($insertId, $insertId + $created - 1);
     }
 
     // UpdateRepository

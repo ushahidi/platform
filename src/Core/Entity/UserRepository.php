@@ -13,10 +13,14 @@ namespace Ushahidi\Core\Entity;
 
 use Ushahidi\Core\Entity\Repository\EntityGet;
 use Ushahidi\Core\Entity\Repository\EntityExists;
+use Ushahidi\Core\Entity\Repository\EntityCreate;
+use Ushahidi\Core\Entity\Repository\EntityCreateMany;
 
 interface UserRepository extends
     EntityGet,
-    EntityExists
+    EntityExists,
+    EntityCreate,
+    EntityCreateMany
 {
     /**
      * @param string $email
