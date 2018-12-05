@@ -12,7 +12,7 @@ use Ushahidi\App\ImportUshahidiV2;
 class ImportUsers extends Job
 {
 
-    const BATCH_SIZE = 5;
+    const BATCH_SIZE = 50;
 
     protected $importId;
     protected $dbConfig;
