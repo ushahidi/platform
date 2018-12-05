@@ -15,6 +15,7 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Contracts\Bus\Dispatcher;
 use Ushahidi\App\ImportUshahidiV2;
+use Ushahidi\Core\Entity\PostRepository;
 
 class ImportUshahidiV2Command extends Command
 {
@@ -53,9 +54,13 @@ class ImportUshahidiV2Command extends Command
         $this->dispatcher = $dispatcher;
     }
 
-    public function handle()
+    public function handle(PostRepository $postRepo)
     {
         // Check we don't already have v3 data
+        if ($postRepo->getTotal() > 1) {
+            $this->error('Deployment is not empty. Please import into an empty deployment');
+            return 1;
+        }
 
         // Build config
         $dbConfig = $this->getDbConfig();

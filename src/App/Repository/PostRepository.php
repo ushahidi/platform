@@ -663,6 +663,12 @@ class PostRepository extends OhanzeeRepository implements
         return (int) $this->selectCount(['posts.status' => 'published']);
     }
 
+    // PostRepository
+    public function getTotal()
+    {
+        return (int) $this->selectCount(['posts.type' => 'report']);
+    }
+
     // StatsPostRepository
     public function getGroupedTotals(SearchData $search)
     {
