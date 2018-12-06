@@ -28,8 +28,13 @@ class UserMapper
         $roles = explode(',', $role);
 
         return collect($roles)->reduce(function ($c, $item) {
+            // If we already found an admin role
+            if ($c === 'admin') {
+                return 'admin';
+            }
+
             // If role maps to admin
-            if ($this->roleMap[$item] === 'admin') {
+            if (isset($this->roleMap[$item]) && $this->roleMap[$item] === 'admin') {
                 // Set v3 role to admin
                 return 'admin';
             }
