@@ -68,7 +68,7 @@ return [
             'collation' => env('DB_COLLATION', 'utf8_unicode_ci'),
             'prefix'    => env('DB_PREFIX', ''),
             'timezone'  => env('DB_TIMEZONE', '+00:00'),
-            'strict'    => env('DB_STRICT_MODE', false),
+            'strict'    => env('DB_STRICT_MODE', true),
         ],
 
         'pgsql' => [
@@ -104,7 +104,7 @@ return [
             'collation' => env('DB_COLLATION', 'utf8_unicode_ci'),
             'prefix'    => env('DB_PREFIX', ''),
             'timezone'  => env('DB_TIMEZONE', '+00:00'),
-            'strict'    => env('DB_STRICT_MODE', false),
+            'strict'    => env('DB_STRICT_MODE', true),
         ],
 
     ],
