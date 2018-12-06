@@ -22,7 +22,7 @@ class TagMapperTest extends TestCase
             'category_title' => $faker->word,
             'category_description' => $faker->sentence,
             'category_color' => '#3af364',
-            'parent_id' => 0
+            'category_visible' => 1
         ];
 
         $repo = M::mock(ImportMappingRepository::class);
@@ -48,6 +48,7 @@ class TagMapperTest extends TestCase
             'category_title' => $faker->word,
             'category_description' => $faker->sentence,
             'category_color' => '#b0a50d',
+            'category_visible' => 1,
             'parent_id' => 10
         ];
 
@@ -65,5 +66,43 @@ class TagMapperTest extends TestCase
         $this->assertEquals($input['category_description'], $tag->description);
         $this->assertEquals('b0a50d', $tag->color);
         $this->assertEquals(110, $tag->parent_id);
+    }
+
+    public function testMapVisiblity()
+    {
+        $faker = Faker\Factory::create();
+
+        $repo = M::mock(ImportMappingRepository::class);
+        $repo->shouldReceive('getDestId')
+            ->with('category', 0)
+            ->andReturn(null);
+
+        $mapper = new CategoryTagMapper($repo);
+
+        $input = [
+            'category_title' => $faker->word,
+            'category_description' => $faker->sentence,
+            'category_color' => '#3af364',
+            'category_visible' => 0,
+            'parent_id' => 0
+        ];
+
+        $tag = $mapper($input);
+
+        $this->assertInstanceOf(Tag::class, $tag);
+        $this->assertEquals(['admin'], $tag->role);
+
+        $input = [
+            'category_title' => $faker->word,
+            'category_description' => $faker->sentence,
+            'category_color' => '#3af364',
+            'category_visible' => 1,
+            'parent_id' => 0
+        ];
+
+        $tag = $mapper($input);
+
+        $this->assertInstanceOf(Tag::class, $tag);
+        $this->assertEquals([], $tag->role);
     }
 }

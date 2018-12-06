@@ -22,14 +22,27 @@ class CategoryTagMapper implements Mapper
             'tag' => $input['category_title'],
             'description' => $input['category_description'] ?? '',
             'color' => $input['category_color'] ?? '',
-            'parent_id' => $this->getParent($input['parent_id']),
-            // @todo category visible
-            // Trusted? Type? Custom icons?
+            'parent_id' => $this->getParent($input['parent_id'] ?? 0),
+            'role' => $this->getRole($input['category_visible'] ?? 1),
+            'priority' => $input['category_position'] ?? 99,
         ]);
+
+        // NB: We don't map some data ie:
+        // - trusted categoried
+        // - category icons
     }
 
     protected function getParent($parent)
     {
         return $this->mappingRepo->getDestId('category', $parent);
+    }
+
+    protected function getRole($visible)
+    {
+        if (!$visible) {
+            return ['admin'];
+        } else {
+            return [];
+        }
     }
 }
