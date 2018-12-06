@@ -4,8 +4,9 @@ namespace Ushahidi\App\ImportUshahidiV2\Mappers;
 
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\Entity\User;
+use Ushahidi\App\ImportUshahidiV2\Contracts\Mapper;
 
-class UserMapper
+class UserMapper implements Mapper
 {
     protected $roleMap = [
         'superadmin' => 'admin',

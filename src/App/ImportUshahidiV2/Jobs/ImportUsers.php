@@ -11,12 +11,12 @@ use Ushahidi\App\ImportUshahidiV2;
 
 class ImportUsers extends Job
 {
+    use Concerns\ConnectsToV2DB;
 
     const BATCH_SIZE = 50;
 
     protected $importId;
     protected $dbConfig;
-    protected $dbConnection;
 
     /**
      * Create a new job instance.
@@ -29,18 +29,6 @@ class ImportUsers extends Job
         $this->dbConfig = $dbConfig;
     }
 
-    protected function getConnection()
-    {
-        if (!$this->dbConnection) {
-            // Configure database
-            config(['database.connections.importv2' => $this->dbConfig]);
-
-            return $this->dbConnection = DB::connection('importv2');
-        }
-
-        return $this->dbConnection;
-    }
-
     /**
      * Execute the job.
      *
@@ -48,10 +36,18 @@ class ImportUsers extends Job
      */
     public function handle(
         ImportUshahidiV2\Contracts\ImportMappingRepository $mappingRepo,
-        Entity\UserRepository $userRepo,
-        ImportUshahidiV2\Mappers\UserMapper $userMapper
+        Entity\UserRepository $destRepo,
+        ImportUshahidiV2\Mappers\UserMapper $mapper
     ) {
-        $importedUsers = 0;
+        // Set up importer
+        $importer = new ImportUshahidiV2\Importer(
+            'user',
+            $mapper,
+            $mappingRepo,
+            $destRepo
+        );
+
+        $imported = 0;
         $batch = 0;
         // While there are users left
         while (true) {
@@ -73,30 +69,10 @@ class ImportUsers extends Job
                 break;
             }
 
-            // Transform users
-            $destUsers = $sourceUsers->map(function ($item) use ($userMapper) {
-                return $userMapper((array) $item);
-            });
-
-            // Save users
-            $inserted = $userRepo->createMany($destUsers);
-
-            // Match source and destination ids
-            $mappings = $sourceUsers->pluck('id')->combine($inserted)->map(function ($item, $key) {
-                return new ImportUshahidiV2\ImportMapping([
-                    'import_id' => $this->importId,
-                    'source_type' => 'user',
-                    'source_id' => $key,
-                    'dest_type' => 'user',
-                    'dest_id' => $item,
-                ]);
-            });
-
-            // Save mappings
-            $mappingRepo->createMany($mappings);
+            $created = $importer->run($this->importId, $sourceUsers);
 
             // Add to count
-            $importedUsers += $destUsers->count();
+            $imported += $created;
             $batch++;
         }
     }
