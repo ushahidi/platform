@@ -121,14 +121,15 @@ class UserRepository extends OhanzeeRepository implements
             throw new \RuntimeException('Cannot bulk insert users with innodb_autoinc_lock_mode = ' . $lockMode);
         }
 
-        $first = $this->removeNullValues($collection->first()->asArray());
+        $first = $collection->first()->asArray();
         unset($first['contacts']);
         $columns = array_keys($first);
 
         $values = $collection->map(function ($entity) {
-            $data = $this->removeNullValues($entity->asArray());
+            $data = $entity->asArray();
 
             unset($data['contacts']);
+            $data['created'] = time();
 
             return $data;
         })->all();
