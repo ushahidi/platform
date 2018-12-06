@@ -68,9 +68,10 @@ class UserRepositoryTest extends TestCase
         $user3 = new User([
             'email' => $faker->email,
             'realname' => $faker->name,
+            'password' => $faker->password
         ]);
 
-        $repo = app(UserRepository::class);
+        $repo = service('repository.user');
         $inserted = $repo->createMany(collect([
             $user1,
             $user2,
@@ -91,7 +92,13 @@ class UserRepositoryTest extends TestCase
         $this->seeInDatabase('users', [
             'id' => $inserted[2],
             'email' => $user3->email,
-            'realname' => $user3->realname
+            'realname' => $user3->realname,
+        ]);
+
+        // Ensure unhashed password isn't saved
+        $this->missingFromDatabase('users', [
+            'email' => $user3->email,
+            'password' => $user3->password,
         ]);
     }
 }

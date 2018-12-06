@@ -128,6 +128,10 @@ class UserRepository extends OhanzeeRepository implements
         $values = $collection->map(function ($entity) {
             $data = $entity->asArray();
 
+            if ($data['password']) {
+                $data['password'] = $this->hasher->hash($data['password']);
+            }
+
             unset($data['contacts']);
             $data['created'] = time();
 
