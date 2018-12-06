@@ -6,6 +6,7 @@ use Ushahidi\App\Repository\UserRepository;
 use Ushahidi\Core\Entity\User;
 use Tests\TestCase;
 use Mockery as M;
+use Faker;
 
 /**
  * @backupGlobals disabled
@@ -49,5 +50,55 @@ class UserRepositoryTest extends TestCase
         $token = $repo->getResetToken($user);
 
         $this->assertInternalType('string', $token);
+    }
+
+    public function testCreateMany()
+    {
+        $faker = Faker\Factory::create();
+
+        // Generate user data
+        $user1 = new User([
+            'email' => $faker->email,
+            'realname' => $faker->name,
+        ]);
+        $user2 = new User([
+            'email' => $faker->email,
+            'realname' => $faker->name,
+        ]);
+        $user3 = new User([
+            'email' => $faker->email,
+            'realname' => $faker->name,
+            'password' => $faker->password
+        ]);
+
+        $repo = service('repository.user');
+        $inserted = $repo->createMany(collect([
+            $user1,
+            $user2,
+            $user3,
+        ]));
+
+        $this->assertCount(3, $inserted);
+        $this->seeInDatabase('users', [
+            'id' => $inserted[0],
+            'email' => $user1->email,
+            'realname' => $user1->realname
+        ]);
+        $this->seeInDatabase('users', [
+            'id' => $inserted[1],
+            'email' => $user2->email,
+            'realname' => $user2->realname
+        ]);
+        $this->seeInDatabase('users', [
+            'id' => $inserted[2],
+            'email' => $user3->email,
+            'realname' => $user3->realname,
+        ]);
+
+        // Ensure unhashed password isn't saved
+        $this->missingFromDatabase('users', [
+            'email' => $user3->email,
+            'password' => $user3->password,
+        ]);
     }
 }

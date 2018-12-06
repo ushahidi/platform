@@ -14,6 +14,7 @@
 namespace Ushahidi\App\Repository;
 
 use Ohanzee\DB;
+use Ohanzee\Database;
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\Entity\User;
 use Ushahidi\Core\Entity\UserRepository as UserRepositoryContract;
@@ -26,6 +27,7 @@ use League\Event\ListenerInterface;
 use Ushahidi\Core\Traits\Event;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Illuminate\Support\Collection;
 
 class UserRepository extends OhanzeeRepository implements
     UserRepositoryContract,
@@ -106,6 +108,44 @@ class UserRepository extends OhanzeeRepository implements
         }
 
         return parent::create($entity);
+    }
+
+    public function createMany(Collection $collection) : array
+    {
+        // Check MySQL `innodb_autoinc_lock_mode` = 0 or 1 before running
+        $lockMode = DB::query(Database::SELECT, "SHOW VARIABLES LIKE 'innodb_autoinc_lock_mode'")
+            ->execute($this->db())
+            ->get('Value');
+
+        if (!in_array((int) $lockMode, [0, 1])) {
+            throw new \RuntimeException('Cannot bulk insert users with innodb_autoinc_lock_mode = ' . $lockMode);
+        }
+
+        $first = $collection->first()->asArray();
+        unset($first['contacts']);
+        $columns = array_keys($first);
+
+        $values = $collection->map(function ($entity) {
+            $data = $entity->asArray();
+
+            if ($data['password']) {
+                $data['password'] = $this->hasher->hash($data['password']);
+            }
+
+            unset($data['contacts']);
+            $data['created'] = time();
+
+            return $data;
+        })->all();
+
+        $query = DB::insert($this->getTable())
+            ->columns($columns);
+
+        call_user_func_array([$query, 'values'], $values);
+
+        list($insertId, $created) = $query->execute($this->db());
+
+        return range($insertId, $insertId + $created - 1);
     }
 
     // UpdateRepository

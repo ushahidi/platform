@@ -12,9 +12,11 @@
 namespace Ushahidi\App\ImportUshahidiV2\Contracts;
 
 use Ushahidi\App\ImportUshahidiV2\ImportMapping;
+use Illuminate\Support\Collection;
 
 interface ImportMappingRepository
 {
-
     public function create(ImportMapping $model) : int;
+
+    public function createMany(Collection $collection) : array;
 }

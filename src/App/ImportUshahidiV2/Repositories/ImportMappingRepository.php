@@ -13,6 +13,7 @@ namespace Ushahidi\App\ImportUshahidiV2\Repositories;
 
 use Ushahidi\App\ImportUshahidiV2\ImportMapping;
 use Ushahidi\App\ImportUshahidiV2\Contracts\ImportMappingRepository as ImportMappingRepositoryContract;
+use Illuminate\Support\Collection;
 
 class ImportMappingRepository /*extends EloquentRepository*/ implements ImportMappingRepositoryContract
 {
@@ -20,5 +21,18 @@ class ImportMappingRepository /*extends EloquentRepository*/ implements ImportMa
     public function create(ImportMapping $model) : int
     {
         return $model->save() ? $model->id : false;
+    }
+
+    public function createMany(Collection $collection) : array
+    {
+        $insertId = ImportMapping::insert(
+            $collection->map(function ($model) {
+                return $model->toArray();
+            })->all()
+        );
+
+        $insertId = ImportMapping::resolveConnection()->getPdo()->lastInsertId();
+
+        return range($insertId, $insertId + $collection->count() - 1);
     }
 }
