@@ -3,7 +3,7 @@
 namespace Ushahidi\App\ImportUshahidiV2;
 
 use Illuminate\Support\Collection;
-use Ushahidi\Core\Entity\Repository\EntityCreateMany; // @todo correct interface?
+use Ushahidi\Core\Entity\Repository\EntityCreateMany;
 use Ushahidi\App\ImportUshahidiV2;
 
 class Importer
@@ -24,9 +24,6 @@ class Importer
         $this->mapper = $mapper;
         $this->mappingRepo = $mappingRepo;
         $this->destRepo = $destRepo;
-
-        // @todo depend on an interface that supplies getEntity?
-        $this->destType = $this->destRepo->getEntity()->getResource();
     }
 
     /**
@@ -47,16 +44,19 @@ class Importer
             return $mapper((array) $item);
         });
 
+        // Get the resource type from the first model
+        $destType = $destModels->first()->getResource();
+
         // Save users
         $inserted = $this->destRepo->createMany($destModels);
 
         // Match source and destination ids
-        $mappings = $source->pluck('id')->combine($inserted)->map(function ($item, $key) use ($importId) {
+        $mappings = $source->pluck('id')->combine($inserted)->map(function ($item, $key) use ($importId, $destType) {
             return new ImportUshahidiV2\ImportMapping([
                 'import_id' => $importId,
                 'source_type' => $this->sourceType,
                 'source_id' => $key,
-                'dest_type' => $this->destType,
+                'dest_type' => $destType,
                 'dest_id' => $item,
             ]);
         });
