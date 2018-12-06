@@ -104,6 +104,11 @@ class AppServiceProvider extends ServiceProvider
             return service('repository.form_attribute');
         });
 
+        $this->app->singleton(\Ushahidi\Core\Entity\TagRepository::class, function ($app) {
+            // Just return it from AuraDI
+            return service('repository.tag');
+        });
+
         $this->app->singleton(\Ushahidi\Core\Entity\UserRepository::class, function ($app) {
             // Just return it from AuraDI
             return service('repository.user');

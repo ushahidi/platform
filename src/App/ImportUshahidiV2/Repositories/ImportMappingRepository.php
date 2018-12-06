@@ -35,4 +35,12 @@ class ImportMappingRepository /*extends EloquentRepository*/ implements ImportMa
 
         return range($insertId, $insertId + $collection->count() - 1);
     }
+
+    public function getDestId($sourceType, $sourceId)
+    {
+        return ImportMapping::where([
+            'source_type' => $sourceType,
+            'source_id' => $sourceId
+        ])->value('dest_id');
+    }
 }

@@ -19,11 +19,11 @@ class Tag extends StaticEntity
     protected $parent_id;
     protected $tag;
     protected $slug;
-    protected $type;
+    protected $type = 'category';
     protected $color;
-    protected $icon;
+    protected $icon = 'tag';
     protected $description;
-    protected $priority;
+    protected $priority = 99;
     protected $created;
     protected $role;
     protected $children;

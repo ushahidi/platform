@@ -12,6 +12,7 @@
 namespace Ushahidi\App\Repository;
 
 use Ohanzee\DB;
+use Ohanzee\Database;
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\SearchData;
 use Ushahidi\Core\Entity\Tag;
@@ -19,6 +20,7 @@ use Ushahidi\Core\Entity\TagRepository as TagRepositoryContract;
 use Ushahidi\Core\Usecase\Tag\UpdateTagRepository;
 use Ushahidi\Core\Usecase\Tag\DeleteTagRepository;
 use Ushahidi\Core\Usecase\Post\UpdatePostTagRepository;
+use Illuminate\Support\Collection;
 
 class TagRepository extends OhanzeeRepository implements
     UpdateTagRepository,
@@ -112,6 +114,40 @@ class TagRepository extends OhanzeeRepository implements
         $id = $this->executeInsert($this->removeNullValues($record));
 
         return $id;
+    }
+
+    public function createMany(Collection $collection) : array
+    {
+        // Check MySQL `innodb_autoinc_lock_mode` = 0 or 1 before running
+        $lockMode = DB::query(Database::SELECT, "SHOW VARIABLES LIKE 'innodb_autoinc_lock_mode'")
+            ->execute($this->db())
+            ->get('Value');
+
+        if (!in_array((int) $lockMode, [0, 1])) {
+            throw new \RuntimeException('Cannot bulk insert users with innodb_autoinc_lock_mode = ' . $lockMode);
+        }
+
+        $first = $collection->first()->asArray();
+        unset($first['children']);
+        $columns = array_keys($first);
+
+        $values = $collection->map(function ($entity) {
+            $data = $entity->asArray();
+
+            unset($data['children']);
+            $data['created'] = time();
+
+            return $data;
+        })->all();
+
+        $query = DB::insert($this->getTable())
+            ->columns($columns);
+
+        call_user_func_array([$query, 'values'], $values);
+
+        list($insertId, $created) = $query->execute($this->db());
+
+        return range($insertId, $insertId + $created - 1);
     }
 
     public function update(Entity $entity)
