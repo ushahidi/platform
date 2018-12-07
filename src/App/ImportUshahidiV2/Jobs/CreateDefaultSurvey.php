@@ -156,7 +156,8 @@ class CreateDefaultSurvey extends Job
     ) {
         // Create form
         $formId = $formRepo->create(new Entity\Form([
-            'name' => 'Incident',
+            'name' => 'Report',
+            'description' => 'Report an incident',
             'require_approval' => true,
             'everyone_can_create' => true,
         ]));
