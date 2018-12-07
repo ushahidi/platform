@@ -137,6 +137,12 @@ class TagRepository extends OhanzeeRepository implements
             unset($data['children']);
             $data['created'] = time();
 
+            // JSON encode values
+            $data = $this->json_transcoder->encode(
+                $data,
+                $this->getJsonProperties()
+            );
+
             return $data;
         })->all();
 
