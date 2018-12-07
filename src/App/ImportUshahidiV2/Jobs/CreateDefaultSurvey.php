@@ -24,7 +24,7 @@ class CreateDefaultSurvey extends Job
     // Add default attributes
     protected $defaultAttributes = [
         [
-            'key' => 'title',
+            'source_id' => 'title',
             'input' => 'text',
             'label' => 'Report Title',
             'priority' => 1,
@@ -35,7 +35,7 @@ class CreateDefaultSurvey extends Job
             'cardinality' => 1,
         ],
         [
-            'key' => 'description',
+            'source_id' => 'description',
             'input' => 'text',
             'label' => 'Description',
             'priority' => 2,
@@ -46,20 +46,7 @@ class CreateDefaultSurvey extends Job
             'cardinality' => 1,
         ],
         [
-            'key' => 'date',
-            // 'original_id' => 'date',
-            'label' => 'Date',
-            'required' => 0,
-            'priority' => 0,
-            'default' => 0,
-            'type' => 'datetime',
-            'input' => 'datetime',
-            'options' => [],
-            'cardinality' => 1,
-        ],
-        [
-            'key' => 'location_name',
-            // 'original_id' => 'location_name',
+            'source_id' => 'location_name',
             'label' => 'Location Name',
             'required' => 0,
             'priority' => 0,
@@ -70,8 +57,7 @@ class CreateDefaultSurvey extends Job
             'cardinality' => 1,
         ],
         [
-            'key' => 'location',
-            // 'original_id' => 'location',
+            'source_id' => 'location',
             'label' => 'Location',
             'required' => 0,
             'priority' => 0,
@@ -82,8 +68,7 @@ class CreateDefaultSurvey extends Job
             'cardinality' => 1,
         ],
         [
-            'key' => 'verified',
-            // 'original_id' => 'verified',
+            'source_id' => 'verified',
             'label' => 'Verified',
             'required' => 0,
             'priority' => 0,
@@ -94,8 +79,7 @@ class CreateDefaultSurvey extends Job
             'cardinality' => 1,
         ],
         [
-            'key' => 'news_source_link',
-            // 'original_id' => 'news',
+            'source_id' => 'news_source_link',
             'label' => 'News Source Link',
             'required' => 0,
             'priority' => 0,
@@ -106,8 +90,7 @@ class CreateDefaultSurvey extends Job
             'cardinality' => 0,
         ],
         [
-            'key' => 'video_link',
-            // 'original_id' => 'news',
+            'source_id' => 'video_link',
             'label' => 'External Video Link',
             'required' => 0,
             'priority' => 0,
@@ -118,8 +101,7 @@ class CreateDefaultSurvey extends Job
             'cardinality' => 0,
         ],
         [
-            'key' => 'photos',
-            // 'original_id' => 'news',
+            'source_id' => 'photos',
             'label' => 'Photos',
             'required' => 0,
             'priority' => 0,
@@ -130,9 +112,8 @@ class CreateDefaultSurvey extends Job
             'cardinality' => 0,
         ],
         [
-            'key' => 'categories',
-            // 'original_id' => 'news',
-            'label' => 'Photos',
+            'source_id' => 'categories',
+            'label' => 'Categories',
             'required' => 0,
             'priority' => 0,
             'default' => 0,
@@ -175,9 +156,27 @@ class CreateDefaultSurvey extends Job
 
         // Create attributes
         foreach ($this->defaultAttributes as $attr) {
-            $attrRepo->create(new Entity\FormAttribute(
+            $attrId = $attrRepo->create(new Entity\FormAttribute(
                 ['form_stage_id' => $stageId] + $attr
             ));
+
+            $mappingRepo->create(new ImportUshahidiV2\ImportMapping([
+                'import_id' => $this->importId,
+                'source_type' => 'incident_column',
+                // Combine form id + attribute id
+                'source_id' => '0-' . $attr['source_id'],
+                'dest_type' => 'form_attribute',
+                'dest_id' => $attrId,
+            ]));
+            // Hack. Map form id 1 too because v2 treats them as 1 form.
+            $mappingRepo->create(new ImportUshahidiV2\ImportMapping([
+                'import_id' => $this->importId,
+                'source_type' => 'incident_column',
+                // Combine form id + attribute id
+                'source_id' => '1-' . $attr['source_id'],
+                'dest_type' => 'form_attribute',
+                'dest_id' => $attrId,
+            ]));
         }
 
         // Save form --> survey mapping
@@ -185,7 +184,15 @@ class CreateDefaultSurvey extends Job
             'import_id' => $this->importId,
             'source_type' => 'form',
             'source_id' => 0,
-            'dest_type' => 'survey',
+            'dest_type' => 'form',
+            'dest_id' => $formId,
+        ]));
+        // Hack. Map form id 1 too because v2 treats them as 1 form.
+        $mappingRepo->create(new ImportUshahidiV2\ImportMapping([
+            'import_id' => $this->importId,
+            'source_type' => 'form',
+            'source_id' => 1,
+            'dest_type' => 'form',
             'dest_id' => $formId,
         ]));
     }

@@ -14,7 +14,7 @@ class ImportMapping extends Model
     protected $casts = [
         'import_id' => 'integer',
         'source_type' => 'string',
-        'source_id' => 'integer',
+        'source_id' => 'string',
         'dest_type' => 'string',
         'dest_id' => 'integer',
     ];
