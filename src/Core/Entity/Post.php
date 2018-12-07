@@ -24,7 +24,7 @@ class Post extends StaticEntity
     protected $message_id;
     // Color is taken from the asscoiated form entity
     protected $color;
-    protected $type;
+    protected $type = 'report';
     protected $title;
     protected $slug;
     protected $content;
@@ -33,11 +33,11 @@ class Post extends StaticEntity
     protected $status;
     protected $created;
     protected $updated;
-    protected $locale;
+    protected $locale = 'en_US';
     protected $values;
     protected $post_date;
     protected $tags;
-    protected $published_to;
+    protected $published_to = [];
     protected $completed_stages;
     protected $sets;
     protected $lock;
