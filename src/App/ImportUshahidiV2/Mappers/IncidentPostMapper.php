@@ -42,7 +42,10 @@ class IncidentPostMapper implements Mapper
                 // video_link
                 // photos
                 // categories
-            ]
+            ],
+            'locale' => 'en_US',
+            'type' => 'report',
+            'published_to' => [],
         ]);
 
         // NB: We don't map some data ie:

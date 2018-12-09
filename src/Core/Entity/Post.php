@@ -48,16 +48,6 @@ class Post extends StaticEntity
     protected $data_source_message_id;
 
     // StatefulData
-    protected function getDefaultData()
-    {
-        return [
-            'type' => 'report',
-            'locale' => 'en_US',
-            'published_to' => [],
-        ];
-    }
-
-    // StatefulData
     protected function getDerived()
     {
         return [
