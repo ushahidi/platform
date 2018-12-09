@@ -19,11 +19,11 @@ class IncidentPostMapper implements Mapper
         $this->attrRepo = $attrRepo;
     }
 
-    public function __invoke(array $input) : Entity
+    public function __invoke(int $importId, array $input) : Entity
     {
         return new Post([
-            'form_id' => $this->mappingRepo->getDestId('form', $input['form_id']),
-            'user_id' => $this->mappingRepo->getDestId('user', $input['user_id']),
+            'form_id' => $this->mappingRepo->getDestId($importId, 'form', $input['form_id']),
+            'user_id' => $this->mappingRepo->getDestId($importId, 'user', $input['user_id']),
             'title' => $input['incident_title'],
             'content' => $input['incident_description'],
             'status' => $input['incident_active'] ? 'published' : 'draft',
@@ -32,15 +32,15 @@ class IncidentPostMapper implements Mapper
             'post_date' => $input['incident_date'],
             'values' => [
                 // @todo handle missing attributes!?
-                $this->getAttributeKey($input['form_id'], 'location_name')
+                $this->getAttributeKey($importId, $input['form_id'], 'location_name')
                     => [$input['location_name']],
-                $this->getAttributeKey($input['form_id'], 'location')
+                $this->getAttributeKey($importId, $input['form_id'], 'location')
                     => [['lat' => $input['latitude'], 'lon' => $input['longitude']]],
-                $this->getAttributeKey($input['form_id'], 'verified')
+                $this->getAttributeKey($importId, $input['form_id'], 'verified')
                     => [$input['incident_verified']],
                 // categories
-                $this->getAttributeKey($input['form_id'], 'categories') =>
-                    $this->getCategories($input['categories'])
+                $this->getAttributeKey($importId, $input['form_id'], 'categories') =>
+                    $this->getCategories($importId, $input['categories'])
                 // news_source_link
                 // video_link
                 // photos
@@ -54,22 +54,22 @@ class IncidentPostMapper implements Mapper
         // - Custom form fields
     }
 
-    public function getAttributeKey($formId, $column)
+    public function getAttributeKey($importId, $formId, $column)
     {
         // Get attribute map <formid>-<attribute>
-        $id = $this->mappingRepo->getDestId('incident_column', $formId.'-'.$column);
+        $id = $this->mappingRepo->getDestId($importId, 'incident_column', $formId.'-'.$column);
         // Load the actual attribute
         $attribute = $this->attrRepo->get($id);
         // Return the key
         return $attribute->key ?? $column;
     }
 
-    public function getCategories($categories)
+    public function getCategories($importId, $categories)
     {
         $categories = explode(',', $categories);
 
-        return collect($categories)->map(function ($item) {
-            return $this->mappingRepo->getDestId('category', $item);
+        return collect($categories)->map(function ($item) use ($importId) {
+            return $this->mappingRepo->getDestId($importId, 'category', $item);
         })->all();
     }
 }
