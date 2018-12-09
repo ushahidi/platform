@@ -66,6 +66,7 @@ class ImportIncidents extends Job
                 ->leftJoin('incident_person', 'incident.id', '=', 'incident_person.incident_id')
                 ->leftJoin('location', 'incident.location_id', '=', 'location.id')
                 ->groupBy('incident.id')
+                ->groupBy('incident_person.id')
                 ->limit(self::BATCH_SIZE)
                 ->offset($batch * self::BATCH_SIZE)
                 ->orderBy('id', 'asc')
