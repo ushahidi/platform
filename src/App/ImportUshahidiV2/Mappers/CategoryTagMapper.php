@@ -16,13 +16,13 @@ class CategoryTagMapper implements Mapper
         $this->mappingRepo = $mappingRepo;
     }
 
-    public function __invoke(array $input) : Entity
+    public function __invoke(int $importId, array $input) : Entity
     {
         return new Tag([
             'tag' => $input['category_title'],
             'description' => $input['category_description'] ?? '',
             'color' => $input['category_color'] ?? '',
-            'parent_id' => $this->getParent($input['parent_id'] ?? 0),
+            'parent_id' => $this->getParent($importId, $input['parent_id'] ?? 0),
             'role' => $this->getRole($input['category_visible'] ?? 1),
             'priority' => $input['category_position'] ?? 99,
         ]);
@@ -32,9 +32,9 @@ class CategoryTagMapper implements Mapper
         // - category icons
     }
 
-    protected function getParent($parent)
+    protected function getParent($importId, $parent)
     {
-        return $this->mappingRepo->getDestId('category', $parent);
+        return $this->mappingRepo->getDestId($importId, 'category', $parent);
     }
 
     protected function getRole($visible)

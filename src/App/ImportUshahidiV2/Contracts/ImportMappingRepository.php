@@ -20,5 +20,5 @@ interface ImportMappingRepository
 
     public function createMany(Collection $collection) : array;
 
-    public function getDestId($sourceType, $sourceId);
+    public function getDestId(int $importId, string $sourceType, $sourceId);
 }

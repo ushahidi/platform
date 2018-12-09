@@ -27,12 +27,12 @@ class TagMapperTest extends TestCase
 
         $repo = M::mock(ImportMappingRepository::class);
         $repo->shouldReceive('getDestId')
-            ->with('category', 0)
+            ->with(1, 'category', 0)
             ->andReturn(null);
 
         $mapper = new CategoryTagMapper($repo);
 
-        $tag = $mapper($input);
+        $tag = $mapper(1, $input);
 
         $this->assertInstanceOf(Tag::class, $tag);
         $this->assertEquals($input['category_title'], $tag->tag);
@@ -54,12 +54,12 @@ class TagMapperTest extends TestCase
 
         $repo = M::mock(ImportMappingRepository::class);
         $repo->shouldReceive('getDestId')
-            ->with('category', 10)
+            ->with(1, 'category', 10)
             ->andReturn(110);
 
         $mapper = new CategoryTagMapper($repo);
 
-        $tag = $mapper($input);
+        $tag = $mapper(1, $input);
 
         $this->assertInstanceOf(Tag::class, $tag);
         $this->assertEquals($input['category_title'], $tag->tag);
@@ -74,7 +74,7 @@ class TagMapperTest extends TestCase
 
         $repo = M::mock(ImportMappingRepository::class);
         $repo->shouldReceive('getDestId')
-            ->with('category', 0)
+            ->with(1, 'category', 0)
             ->andReturn(null);
 
         $mapper = new CategoryTagMapper($repo);
@@ -87,7 +87,7 @@ class TagMapperTest extends TestCase
             'parent_id' => 0
         ];
 
-        $tag = $mapper($input);
+        $tag = $mapper(1, $input);
 
         $this->assertInstanceOf(Tag::class, $tag);
         $this->assertEquals(['admin'], $tag->role);
@@ -100,7 +100,7 @@ class TagMapperTest extends TestCase
             'parent_id' => 0
         ];
 
-        $tag = $mapper($input);
+        $tag = $mapper(1, $input);
 
         $this->assertInstanceOf(Tag::class, $tag);
         $this->assertEquals([], $tag->role);

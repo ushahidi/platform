@@ -35,13 +35,13 @@ class Importer
      * @param  Collection $source   source data
      * @return int                  records imported
      */
-    public function run($importId, Collection $source) : int
+    public function run(int $importId, Collection $source) : int
     {
         $mapper = $this->mapper;
 
         // Transform users
-        $destModels = $source->map(function ($item) use ($mapper) {
-            return $mapper((array) $item);
+        $destModels = $source->map(function ($item) use ($importId, $mapper) {
+            return $mapper($importId, (array) $item);
         });
 
         // Get the resource type from the first model

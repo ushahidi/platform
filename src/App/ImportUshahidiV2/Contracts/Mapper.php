@@ -6,5 +6,12 @@ use Ushahidi\Core\Entity;
 
 interface Mapper
 {
-    public function __invoke(array $input) : Entity;
+    /**
+     * Map source array to Entity
+     *
+     * @param  int    $importId Import ID used to scope any relation mappings
+     * @param  array  $input    Source data
+     * @return Entity
+     */
+    public function __invoke(int $importId, array $input) : Entity;
 }

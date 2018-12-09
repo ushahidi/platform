@@ -25,7 +25,7 @@ class UserMapperTest extends TestCase
 
         $mapper = new UserMapper();
 
-        $user = $mapper($input);
+        $user = $mapper(1, $input);
 
         $this->assertInstanceOf(User::class, $user);
         $this->assertEquals('admin', $user->role);
@@ -44,7 +44,7 @@ class UserMapperTest extends TestCase
 
         $mapper = new UserMapper();
 
-        $user = $mapper($input);
+        $user = $mapper(1, $input);
 
         $this->assertInstanceOf(User::class, $user);
         $this->assertEquals('admin', $user->role);
@@ -64,7 +64,7 @@ class UserMapperTest extends TestCase
 
         $mapper = new UserMapper();
 
-        $user = $mapper($input);
+        $user = $mapper(1, $input);
 
         $this->assertInstanceOf(User::class, $user);
         $this->assertEquals('user', $user->role);

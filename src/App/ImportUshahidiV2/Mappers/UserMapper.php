@@ -15,7 +15,7 @@ class UserMapper implements Mapper
         'member'     => 'user'
     ];
 
-    public function __invoke(array $input) : Entity
+    public function __invoke(int $importId, array $input) : Entity
     {
         return new User([
             'email' => $input['email'],
