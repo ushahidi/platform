@@ -60,15 +60,18 @@ class UserRepositoryTest extends TestCase
         $user1 = new User([
             'email' => $faker->email,
             'realname' => $faker->name,
+            'role' => 'user'
         ]);
         $user2 = new User([
             'email' => $faker->email,
             'realname' => $faker->name,
+            'role' => 'user',
         ]);
         $user3 = new User([
             'email' => $faker->email,
             'realname' => $faker->name,
-            'password' => $faker->password
+            'password' => $faker->password,
+            'role' => 'user',
         ]);
 
         $repo = service('repository.user');
