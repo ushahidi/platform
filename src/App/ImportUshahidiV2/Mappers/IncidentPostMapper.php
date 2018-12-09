@@ -38,10 +38,12 @@ class IncidentPostMapper implements Mapper
                     => [['lat' => $input['latitude'], 'lon' => $input['longitude']]],
                 $this->getAttributeKey($input['form_id'], 'verified')
                     => [$input['incident_verified']],
+                // categories
+                $this->getAttributeKey($input['form_id'], 'categories') =>
+                    $this->getCategories($input['categories'])
                 // news_source_link
                 // video_link
                 // photos
-                // categories
             ],
             'locale' => 'en_US',
             'type' => 'report',
@@ -60,5 +62,14 @@ class IncidentPostMapper implements Mapper
         $attribute = $this->attrRepo->get($id);
         // Return the key
         return $attribute->key ?? $column;
+    }
+
+    public function getCategories($categories)
+    {
+        $categories = explode(',', $categories);
+
+        return collect($categories)->map(function ($item) {
+            return $this->mappingRepo->getDestId('category', $item);
+        })->all();
     }
 }
