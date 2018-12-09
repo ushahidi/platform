@@ -19,14 +19,24 @@ class Tag extends StaticEntity
     protected $parent_id;
     protected $tag;
     protected $slug;
-    protected $type = 'category';
+    protected $type;
     protected $color;
-    protected $icon = 'tag';
+    protected $icon;
     protected $description;
-    protected $priority = 99;
+    protected $priority;
     protected $created;
     protected $role;
     protected $children;
+
+    // StatefulData
+    protected function getDefaultData()
+    {
+        return [
+            'type' => 'category',
+            'icon' => 'tag',
+            'priority' => 99,
+        ];
+    }
 
     // StatefulData
     protected function getDerived()
