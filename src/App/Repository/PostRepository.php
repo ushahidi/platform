@@ -38,6 +38,7 @@ use Ushahidi\Core\Tool\Permissions\InteractsWithPostPermissions;
 use League\Event\ListenerInterface;
 use Ushahidi\Core\Traits\Event;
 use Illuminate\Support\Collection;
+use Log;
 
 class PostRepository extends OhanzeeRepository implements
     PostRepositoryContract,
@@ -1102,11 +1103,29 @@ class PostRepository extends OhanzeeRepository implements
         $newPostIds = range($insertId, $insertId + $created - 1);
 
         // Loop over entities, and aggregate values by attribute
-        $postValues = collect($newPostIds)->combine($collection)->map(function ($entity, $id) {
-            if ($entity->values) {
-                $this->updatePostValues($id, $entity->values);
+        $postsById = collect($newPostIds)->combine($collection);
+
+        $postValues = $postsById->map(function ($entity, $id) {
+            return collect($entity->values)->map(function ($value, $key) use ($id) {
+                return compact('value', 'key', 'id');
+            })->all();
+        })
+        ->flatten(1)
+        ->groupBy('key')
+        // Bulk save attributes
+        ->each(function ($values, $key) {
+            $attribute = $this->form_attribute_repo->getByKey($key);
+            if (!$attribute->id) {
+                return;
             }
 
+            $repo = $this->post_value_factory->getRepo($attribute->type);
+
+            $repo->createManyValues($values->all(), $attribute->id);
+        });
+
+        // Save completed stages
+        $postsById->each(function ($entity, $id) {
             if ($entity->completed_stages) {
                 $this->updatePostStages($id, $entity->form_id, $entity->completed_stages);
             }
@@ -1115,7 +1134,6 @@ class PostRepository extends OhanzeeRepository implements
         // Run createMany on postvalues
 
         // NB: We don't handle legacy post.tags during bulk insert
-        // NB: We don't handle completed_stages during bulk insert
 
         return $newPostIds;
     }

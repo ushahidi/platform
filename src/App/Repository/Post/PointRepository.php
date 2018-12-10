@@ -78,7 +78,8 @@ class PointRepository extends ValueRepository
         return $query;
     }
 
-    private function normalizeValue($value)
+    // Override prepareValue to save 'value' using GeomFromText
+    protected function prepareValue($value)
     {
         if (is_array($value)) {
             $value = array_map('floatval', $value);
@@ -88,17 +89,5 @@ class PointRepository extends ValueRepository
         }
 
         return $value;
-    }
-
-    // Override createValue to save 'value' using GeomFromText
-    public function createValue($value, $form_attribute_id, $post_id)
-    {
-        return parent::createValue($this->normalizeValue($value), $form_attribute_id, $post_id);
-    }
-
-    // Override updateValue to save 'value' using GeomFromText
-    public function updateValue($id, $value)
-    {
-        return parent::updateValue($id, $this->normalizeValue($value));
     }
 }
