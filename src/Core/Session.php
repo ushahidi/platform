@@ -19,4 +19,10 @@ interface Session
      * @return User
      */
     public function getUser();
+
+    /**
+     * Override the user id
+     * @param int $userId
+     */
+    public function setUser($userId);
 }
