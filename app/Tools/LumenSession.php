@@ -15,9 +15,9 @@ use Ushahidi\Core\Session;
 
 class LumenSession implements Session
 {
-
     protected $userRepo;
-    protected $overrideUser;
+    protected $overrideUserId;
+    protected $cachedUser;
 
     public function __construct($userRepo)
     {
@@ -26,24 +26,33 @@ class LumenSession implements Session
 
     public function setUser($userId)
     {
-        $this->overrideUser = $userId;
+        // Wipe cached used
+        if ($this->cachedUser) {
+            unset($this->cachedUser);
+        }
+
+        // Override user id
+        $this->overrideUserId = $userId;
     }
 
     public function getUser()
     {
-        // If user override is set
-        if ($this->overrideUser) {
-            // Use that
-            $userId = $this->overrideUser;
-        } else {
-            // Using the OAuth resource server, get the userid (owner id) for this request
-            $genericUser = app('auth')->guard()->user();
-            $userId = $genericUser ? $genericUser->id : null;
+        // If we haven't already loaded the user  go get it
+        if (!$this->cachedUser) {
+            // If user override is set
+            if ($this->overrideUserId) {
+                // Use that
+                $userId = $this->overrideUserId;
+            } else {
+                // Using the OAuth resource server, get the userid (owner id) for this request
+                $genericUser = app('auth')->guard()->user();
+                $userId = $genericUser ? $genericUser->id : null;
+            }
+
+            // Using the user repository, load the user
+            $this->cachedUser = $this->userRepo->get($userId);
         }
 
-        // Using the user repository, load the user
-        $user = $this->userRepo->get($userId);
-
-        return $user;
+        return $this->cachedUser;
     }
 }
