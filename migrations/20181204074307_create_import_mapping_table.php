@@ -18,6 +18,7 @@ class CreateImportMappingTable extends AbstractMigration
                 'id',
                 ['delete' => 'CASCADE', 'update' => 'CASCADE']
             )
+            ->addIndex(['import_id', 'source_type', 'source_id'])
             ->create();
     }
 }
