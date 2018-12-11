@@ -12,6 +12,7 @@
 namespace Ushahidi\App\Tools;
 
 use Ushahidi\Core\Session;
+use Ushahidi\Core\Entity\User;
 
 class LumenSession implements Session
 {
@@ -34,13 +35,13 @@ class LumenSession implements Session
      *
      * @param int $userId
      */
-    public function setUser($userId)
+    public function setUser(int $userId)
     {
         // Override user id
         $this->overrideUserId = $userId;
     }
 
-    public function getUser()
+    public function getUser(): User
     {
         // If user override is set
         if ($this->overrideUserId) {
