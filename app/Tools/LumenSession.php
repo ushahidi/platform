@@ -16,8 +16,8 @@ use Ushahidi\Core\Session;
 class LumenSession implements Session
 {
     protected $userRepo;
-    protected $overrideUserId;
-    protected $cachedUser;
+    protected $overrideUserId = false;
+    protected $cachedUser = false;
 
     public function __construct($userRepo)
     {
@@ -26,29 +26,30 @@ class LumenSession implements Session
 
     public function setUser($userId)
     {
-        // Wipe cached used
-        if ($this->cachedUser) {
-            unset($this->cachedUser);
-        }
-
         // Override user id
         $this->overrideUserId = $userId;
     }
 
     public function getUser()
     {
-        // If we haven't already loaded the user  go get it
-        if (!$this->cachedUser) {
-            // If user override is set
-            if ($this->overrideUserId) {
-                // Use that
-                $userId = $this->overrideUserId;
-            } else {
-                // Using the OAuth resource server, get the userid (owner id) for this request
-                $genericUser = app('auth')->guard()->user();
-                $userId = $genericUser ? $genericUser->id : null;
-            }
+        // If user override is set
+        if ($this->overrideUserId) {
+            // Use that
+            $userId = $this->overrideUserId;
+        } else {
+            // Using the OAuth resource server, get the userid (owner id) for this request
+            $genericUser = app('auth')->guard()->user();
+            $userId = $genericUser ? $genericUser->id : null;
+        }
 
+        // If we have no user id return
+        if (!$userId) {
+            // return an empty user
+            return $this->userRepo->getEntity();
+        }
+
+        // If we haven't already loaded the user, or the user has changed
+        if (!$this->cachedUser || $this->cachedUser->getId() !== $userId) {
             // Using the user repository, load the user
             $this->cachedUser = $this->userRepo->get($userId);
         }
