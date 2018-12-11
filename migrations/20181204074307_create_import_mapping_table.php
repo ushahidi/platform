@@ -9,7 +9,7 @@ class CreateImportMappingTable extends AbstractMigration
         $this->table('import_mappings')
             ->addColumn('import_id', 'integer')
             ->addColumn('source_type', 'string')
-            ->addColumn('source_id', 'integer')
+            ->addColumn('source_id', 'string')
             ->addColumn('dest_type', 'string')
             ->addColumn('dest_id', 'integer')
             ->addForeignKey(

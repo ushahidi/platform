@@ -1,0 +1,85 @@
+<?php
+
+namespace Tests;
+
+use Laravel\Lumen\Testing\DatabaseTransactions as LumenDatabaseTransactions;
+use Ushahidi\App\Multisite\OhanzeeResolver;
+use Ohanzee\DB;
+
+/**
+ * Extend Database Transactions trait to
+ * - start transactions on ohanzee db
+ * - start transactions on multisite and deployment dbs
+ */
+trait DatabaseTransactions
+{
+
+    /**
+     * @param Ohanzee\Database
+     */
+    protected $database;
+
+    protected $connectionsToTransact = ['mysql', 'multisite', 'deployment-0'];
+
+    use LumenDatabaseTransactions {
+        LumenDatabaseTransactions::beginDatabaseTransaction as parentBeginDatabaseTransaction;
+    }
+
+    /**
+     * Handle database transactions on the specified connections.
+     *
+     * @return void
+     */
+    public function beginDatabaseTransaction()
+    {
+        $this->parentBeginDatabaseTransaction();
+
+        $this->database = $this->app->make(OhanzeeResolver::class)->connection();
+        // Start a transaction
+        $this->database->begin();
+    }
+
+    public function rollbackDatabaseTransaction()
+    {
+        $this->database->rollback();
+    }
+
+    public function tearDown()
+    {
+        $this->rollbackDatabaseTransaction();
+
+        parent::tearDown();
+    }
+
+    /**
+     * Assert that a given where condition exists in the database.
+     *
+     * We have to use a custom version because the transaction is isolated
+     * to the individual connection
+     *
+     * @param  string  $table
+     * @param  array  $data
+     * @param  string|null $onConnection
+     * @return $this
+     */
+    protected function seeInOhanzeeDatabase($table, array $data)
+    {
+        $query = DB::select([DB::expr('COUNT(*)'), 'total'])
+            ->from($table);
+
+        foreach ($data as $column => $value) {
+            $predicate = is_array($value) ? 'IN' : '=';
+            $query->where($column, $predicate, $value);
+        }
+
+        $count = (int) $query
+            ->execute($this->database)
+            ->get('total', 0);
+
+        $this->assertGreaterThan(0, $count, sprintf(
+            'Unable to find row in database table [%s] that matched attributes [%s].',
+            $table,
+            json_encode($data)
+        ));
+    }
+}

@@ -37,6 +37,7 @@ use Ushahidi\Core\Tool\Permissions\InteractsWithPostPermissions;
 
 use League\Event\ListenerInterface;
 use Ushahidi\Core\Traits\Event;
+use Illuminate\Support\Collection;
 
 class PostRepository extends OhanzeeRepository implements
     PostRepositoryContract,
@@ -53,6 +54,8 @@ class PostRepository extends OhanzeeRepository implements
 
     // Provides `postPermissions`
     use InteractsWithPostPermissions;
+
+    use Concerns\UsesBulkAutoIncrement;
 
     protected $form_attribute_repo;
     protected $form_stage_repo;
@@ -994,6 +997,7 @@ class PostRepository extends OhanzeeRepository implements
         );
 
         // Set default value for post_date
+        // @todo move to entity
         if (empty($post['post_date'])) {
             $post['post_date'] = date_create()->format("Y-m-d H:i:s");
         // Convert post_date to mysql format
@@ -1032,6 +1036,88 @@ class PostRepository extends OhanzeeRepository implements
         $this->emit($this->event, $id, 'create');
 
         return $id;
+    }
+
+    public function createMany(Collection $collection) : array
+    {
+        $this->checkAutoIncMode();
+
+        $first = $collection->first()->asArray();
+        unset(
+            $first['values'],
+            $first['tags'],
+            $first['completed_stages'],
+            $first['sets'],
+            $first['source'],
+            $first['color'],
+            $first['lock'],
+            $first['message_id'],
+            $first['data_source_message_id'],
+            $first['contact_id']
+        );
+        $columns = array_keys($first);
+
+        $values = $collection->map(function ($entity) {
+            $data = $entity->asArray();
+
+            $data['created'] = time();
+
+            unset(
+                $data['values'],
+                $data['tags'],
+                $data['completed_stages'],
+                $data['sets'],
+                $data['source'],
+                $data['color'],
+                $data['lock'],
+                $data['message_id'],
+                $data['data_source_message_id'],
+                $data['contact_id']
+            );
+
+            // Set default value for post_date
+            // @todo move to entity
+            if (empty($data['post_date'])) {
+                $data['post_date'] = date_create()->format("Y-m-d H:i:s");
+            // Convert post_date to mysql format
+            } else {
+                $data['post_date'] = $data['post_date']->format("Y-m-d H:i:s");
+            }
+
+            // JSON encode values
+            $data = $this->json_transcoder->encode(
+                $data,
+                $this->getJsonProperties()
+            );
+
+            return $data;
+        })->all();
+
+        $query = DB::insert($this->getTable())
+            ->columns($columns);
+
+        call_user_func_array([$query, 'values'], $values);
+
+        list($insertId, $created) = $query->execute($this->db());
+        $newPostIds = range($insertId, $insertId + $created - 1);
+
+        // Loop over entities, and aggregate values by attribute
+        $postValues = collect($newPostIds)->combine($collection)->map(function ($entity, $id) {
+            if ($entity->values) {
+                $this->updatePostValues($id, $entity->values);
+            }
+
+            if ($entity->completed_stages) {
+                $this->updatePostStages($id, $entity->form_id, $entity->completed_stages);
+            }
+        });
+
+        // Run createMany on postvalues
+
+        // NB: We don't handle legacy post.tags during bulk insert
+        // NB: We don't handle completed_stages during bulk insert
+
+        return $newPostIds;
     }
 
     // UpdateRepository

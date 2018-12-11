@@ -1,0 +1,105 @@
+<?php
+
+namespace Tests\Unit\App\ImportUshahidiV2\Mappers;
+
+use Ushahidi\App\ImportUshahidiV2\Mappers\IncidentPostMapper;
+use Ushahidi\App\ImportUshahidiV2\Contracts\ImportMappingRepository;
+use Ushahidi\Core\Entity\Post;
+use Ushahidi\Core\Entity\FormAttribute;
+use Ushahidi\Core\Entity\FormAttributeRepository;
+use Tests\TestCase;
+use Mockery as M;
+use Faker;
+
+/**
+ * @backupGlobals disabled
+ * @preserveGlobalState disabled
+ */
+class PostMapperTest extends TestCase
+{
+    public function testMap()
+    {
+        $importId = 1;
+        $faker = Faker\Factory::create();
+        $input = [
+            'incident_title' => $faker->sentence(3),
+            'incident_description' => $faker->paragraph,
+            'form_id' => 30,
+            'user_id' => 77,
+            'incident_active' => 1,
+            'person_email' => $faker->email,
+            'person_first' => $faker->firstName,
+            'person_last' => $faker->lastName,
+            'incident_date' => $faker->date,
+            'location_name' => $faker->address,
+            'latitude' => $faker->latitude,
+            'longitude' => $faker->longitude,
+            'categories' => '1,4,5',
+            'incident_verified' => 1
+        ];
+
+        $mappingRepo = M::mock(ImportMappingRepository::class);
+        $mappingRepo->shouldReceive('getDestId')
+            ->with($importId, 'form', 30)
+            ->andReturn(3);
+        $mappingRepo->shouldReceive('getDestId')
+            ->with($importId, 'user', 77)
+            ->andReturn(7);
+        $mappingRepo->shouldReceive('getDestId')
+            ->with($importId, 'incident_column', '30-location_name')
+            ->andReturn(1);
+        $mappingRepo->shouldReceive('getDestId')
+            ->with($importId, 'incident_column', '30-location')
+            ->andReturn(2);
+        $mappingRepo->shouldReceive('getDestId')
+            ->with($importId, 'incident_column', '30-verified')
+            ->andReturn(3);
+        $mappingRepo->shouldReceive('getDestId')
+            ->with($importId, 'incident_column', '30-categories')
+            ->andReturn(4);
+        $mappingRepo->shouldReceive('getDestId')
+            ->with($importId, 'category', '1')
+            ->andReturn(11);
+        $mappingRepo->shouldReceive('getDestId')
+            ->with($importId, 'category', '4')
+            ->andReturn(44);
+        $mappingRepo->shouldReceive('getDestId')
+            ->with($importId, 'category', '5')
+            ->andReturn(55);
+
+        $attrRepo = M::mock(FormAttributeRepository::class);
+        $attrRepo->shouldReceive('get')
+            ->with(1)
+            ->andReturn(new FormAttribute(['key' => 'location-name-key']));
+        $attrRepo->shouldReceive('get')
+            ->with(2)
+            ->andReturn(new FormAttribute(['key' => 'location-key']));
+        $attrRepo->shouldReceive('get')
+            ->with(3)
+            ->andReturn(new FormAttribute(['key' => 'verified-key']));
+        $attrRepo->shouldReceive('get')
+            ->with(4)
+            ->andReturn(new FormAttribute(['key' => 'categories-key']));
+
+        $mapper = new IncidentPostMapper($mappingRepo, $attrRepo);
+
+        $post = $mapper($importId, $input);
+
+        $this->assertInstanceOf(Post::class, $post);
+        $this->assertInstanceOf(\DateTime::class, $post->post_date);
+        $this->assertEquals($input['incident_title'], $post->title);
+        $this->assertEquals($input['incident_description'], $post->content);
+        $this->assertEquals(3, $post->form_id);
+        $this->assertEquals(0, $post->parent_id);
+        $this->assertEquals('published', $post->status);
+        $this->assertEquals($input['person_first'].' '.$input['person_last'], $post->author_realname);
+        $this->assertEquals($input['person_email'], $post->author_email);
+        $this->assertEquals([11, 44, 55], $post->values['categories-key']);
+        $this->assertEquals([$input['location_name']], $post->values['location-name-key']);
+        $this->assertEquals(
+            [['lat' => $input['latitude'], 'lon' => $input['longitude']]],
+            $post->values['location-key']
+        );
+        $this->assertEquals([1], $post->values['verified-key']);
+    }
+}
