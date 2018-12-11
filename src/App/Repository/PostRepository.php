@@ -55,6 +55,8 @@ class PostRepository extends OhanzeeRepository implements
     // Provides `postPermissions`
     use InteractsWithPostPermissions;
 
+    use Concerns\UsesBulkAutoIncrement;
+
     protected $form_attribute_repo;
     protected $form_stage_repo;
     protected $form_repo;
@@ -1038,14 +1040,7 @@ class PostRepository extends OhanzeeRepository implements
 
     public function createMany(Collection $collection) : array
     {
-        // Check MySQL `innodb_autoinc_lock_mode` = 0 or 1 before running
-        $lockMode = DB::query(Database::SELECT, "SHOW VARIABLES LIKE 'innodb_autoinc_lock_mode'")
-            ->execute($this->db())
-            ->get('Value');
-
-        if (!in_array((int) $lockMode, [0, 1])) {
-            throw new \RuntimeException('Cannot bulk insert users with innodb_autoinc_lock_mode = ' . $lockMode);
-        }
+        $this->checkAutoIncMode();
 
         $first = $collection->first()->asArray();
         unset(
