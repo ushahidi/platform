@@ -19,4 +19,6 @@ interface ImportMappingRepository
     public function create(ImportMapping $model) : int;
 
     public function createMany(Collection $collection) : array;
+
+    public function getDestId(int $importId, string $sourceType, $sourceId);
 }
