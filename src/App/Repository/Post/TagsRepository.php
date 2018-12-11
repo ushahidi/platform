@@ -110,16 +110,18 @@ class TagsRepository extends ValueRepository
     protected function parseTag($tag)
     {
         if (is_array($tag)) {
-            $tag = $tag['id'];
+            return $tag['id'];
+        }
+
+        if (is_numeric($tag)) {
+            return $tag;
         }
 
         // Find the tag by id or name
         // @todo this should happen before we even get here
         $tag_entity = $this->tag_repo->getByTag($tag);
-        if (! $tag_entity->id) {
-            $tag_entity = $this->tag_repo->get($tag);
-        }
 
-        return $tag_entity->id;
+        // If we didn't find it by tag, return the raw value
+        return $tag_entity->id ?? $tag;
     }
 }
