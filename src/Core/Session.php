@@ -21,7 +21,13 @@ interface Session
     public function getUser();
 
     /**
-     * Override the user id
+     * Override the user set in oauth / lumen auth layer
+     * with something else.
+     *
+     * This is primarily used to when running background jobs in a user
+     * context. ie. an export that needs to run with the same permissions
+     * as a user who triggered it
+     *
      * @param int $userId
      */
     public function setUser($userId);
