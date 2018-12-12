@@ -68,12 +68,19 @@ class UserRepositoryTest extends TestCase
             'email' => $faker->email,
             'realname' => $faker->name,
             'role' => 'user',
+            'contacts' => [
+                ['contact' => 'ushahidi', 'type' => 'twitter'],
+            ]
         ]);
         $user3 = new User([
             'email' => $faker->email,
             'realname' => $faker->name,
             'password' => $faker->password,
             'role' => 'user',
+            'contacts' => [
+                ['contact' => 'ushbot', 'type' => 'twitter', 'can_notify' => 0],
+                ['contact' => '12345678', 'type' => 'phone', 'can_notify' => 1],
+            ]
         ]);
 
         $repo = service('repository.user');
@@ -104,6 +111,25 @@ class UserRepositoryTest extends TestCase
         $this->notSeeInOhanzeeDatabase('users', [
             'email' => $user3->email,
             'password' => $user3->password,
+        ]);
+
+        $this->seeInOhanzeeDatabase('contacts', [
+            'user_id' => $inserted[1],
+            'contact' => 'ushahidi',
+            'can_notify' => 0,
+            'type' => 'twitter',
+        ]);
+        $this->seeInOhanzeeDatabase('contacts', [
+            'user_id' => $inserted[2],
+            'contact' => '12345678',
+            'can_notify' => 1,
+            'type' => 'phone',
+        ]);
+        $this->seeInOhanzeeDatabase('contacts', [
+            'user_id' => $inserted[2],
+            'contact' => 'ushbot',
+            'can_notify' => 0,
+            'type' => 'twitter',
         ]);
     }
 }
