@@ -82,4 +82,33 @@ trait DatabaseTransactions
             json_encode($data)
         ));
     }
+
+    /**
+     * Assert that a given where condition does not exist in the database.
+     *
+     * @param  string  $table
+     * @param  array  $data
+     * @param  string|null $onConnection
+     * @return $this
+     */
+    protected function notSeeInOhanzeeDatabase($table, array $data)
+    {
+        $query = DB::select([DB::expr('COUNT(*)'), 'total'])
+            ->from($table);
+
+        foreach ($data as $column => $value) {
+            $predicate = is_array($value) ? 'IN' : '=';
+            $query->where($column, $predicate, $value);
+        }
+
+        $count = (int) $query
+            ->execute($this->database)
+            ->get('total', 0);
+
+        $this->assertEquals(0, $count, sprintf(
+            'Found unexpected records in database table [%s] that matched attributes [%s].',
+            $table,
+            json_encode($data)
+        ));
+    }
 }
