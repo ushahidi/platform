@@ -5,6 +5,7 @@ namespace Tests\Unit\App\Repository;
 use Ushahidi\App\Repository\UserRepository;
 use Ushahidi\Core\Entity\User;
 use Tests\TestCase;
+use Tests\DatabaseTransactions;
 use Mockery as M;
 use Faker;
 
@@ -14,6 +15,7 @@ use Faker;
  */
 class UserRepositoryTest extends TestCase
 {
+    use DatabaseTransactions;
 
     public function testGetResetToken()
     {
@@ -82,24 +84,24 @@ class UserRepositoryTest extends TestCase
         ]));
 
         $this->assertCount(3, $inserted);
-        $this->seeInDatabase('users', [
+        $this->seeInOhanzeeDatabase('users', [
             'id' => $inserted[0],
             'email' => $user1->email,
             'realname' => $user1->realname
         ]);
-        $this->seeInDatabase('users', [
+        $this->seeInOhanzeeDatabase('users', [
             'id' => $inserted[1],
             'email' => $user2->email,
             'realname' => $user2->realname
         ]);
-        $this->seeInDatabase('users', [
+        $this->seeInOhanzeeDatabase('users', [
             'id' => $inserted[2],
             'email' => $user3->email,
             'realname' => $user3->realname,
         ]);
 
         // Ensure unhashed password isn't saved
-        $this->missingFromDatabase('users', [
+        $this->notSeeInOhanzeeDatabase('users', [
             'email' => $user3->email,
             'password' => $user3->password,
         ]);
