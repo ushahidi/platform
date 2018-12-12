@@ -29,7 +29,7 @@ class MessageMapper implements Mapper
 
         return new Message([
             'contact_id' => $this->getContactId($input['service_account'], $this->getType($input['service_name'])),
-            // 'parent_id'
+            'parent_id' => $this->getParentId($importId, $input['parent_id']),
             'post_id' => $this->getPostId($importId, $input['incident_id']),
             'user_id' => $this->getUserId($importId, $input['user_id']),
             'data_source' => $this->getDataSource($input['service_name']),
@@ -100,10 +100,10 @@ class MessageMapper implements Mapper
         if ($input['longitude'] && $input['latitude']) {
             return [
                 'location' => [[
-                    'type' => 'point',
+                    'type' => 'Point',
                     'coordinates' => [
-                        $input['longitude'], // lon
-                        $input['latitude'],  // lat
+                        (float) $input['longitude'], // lon
+                        (float) $input['latitude'],  // lat
                     ]
                 ]],
             ];
