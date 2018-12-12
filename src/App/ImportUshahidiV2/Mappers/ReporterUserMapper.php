@@ -18,7 +18,7 @@ class ReporterUserMapper implements Mapper
 
         return new User([
             'email' => $input['service_name'] === 'Email' ? $input['service_account'] : $input['reporter_email'],
-            'realname' => $input['reporter_first'] . ' ' . $input['reporter_last'],
+            'realname' => $this->getName($input['reporter_first'], $input['reporter_last']),
             'role' => null, // Reporters don't have any log in role at all
             'contacts' => $this->getContacts($input),
         ]);
@@ -34,8 +34,9 @@ class ReporterUserMapper implements Mapper
         if ($input['service_name'] === 'SMS') {
             $contacts[] = [
                 'type' => 'phone',
+                'data_source' => null,
                 'contact' => $input['service_account'],
-                'can_notify' => 1,
+                'can_notify' => true,
             ];
         } else {
             // This handles twitter, email and other not yet supporter services
@@ -43,10 +44,15 @@ class ReporterUserMapper implements Mapper
                 'type' => strtolower($input['service_name']),
                 'data_source' => strtolower($input['service_name']),
                 'contact' => $input['service_account'],
-                'can_notify' => 1,
+                'can_notify' => true,
             ];
         }
 
         return $contacts;
+    }
+
+    protected function getName($first, $last)
+    {
+        return implode(' ', array_filter([$first, $last]));
     }
 }
