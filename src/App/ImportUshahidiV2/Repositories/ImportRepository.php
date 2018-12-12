@@ -21,4 +21,9 @@ class ImportRepository /*extends EloquentRepository*/ implements ImportRepositor
     {
         return $model->save() ? $model->id : false;
     }
+
+    public function update(Import $model) : bool
+    {
+        return $model->save();
+    }
 }

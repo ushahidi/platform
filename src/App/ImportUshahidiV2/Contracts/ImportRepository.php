@@ -16,4 +16,6 @@ use Ushahidi\App\ImportUshahidiV2\Import;
 interface ImportRepository
 {
     public function create(Import $model) : int;
+
+    public function update(Import $model) : bool;
 }

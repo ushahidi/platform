@@ -78,7 +78,8 @@ class ImportUshahidiV2Command extends Command
         $resolver->connection()->begin();
 
         // Create import record
-        $importId = $importRepo->create(new ImportUshahidiV2\Import());
+        $import = new ImportUshahidiV2\Import();
+        $importId = $importRepo->create($import);
 
         // Collect all table names
         // Copy all data to current DB with v2_ prefix
@@ -100,15 +101,20 @@ class ImportUshahidiV2Command extends Command
         $this->info('Importing messages');
 
         // Import incidents to posts
-        $this->info('Importing posts');
+        $this->info('Importing incidents to posts');
         $this->dispatcher->dispatchNow(new ImportUshahidiV2\Jobs\ImportIncidents($importId, $dbConfig));
 
         // Import xyz
 
         // Mark import complete?
+        $importId = $importRepo->update(
+            $import->markComplete()
+        );
+        $this->info('Import complete!');
 
         // Rollback import
         if ($this->option('rollback')) {
+            $this->info('Rolling back');
             DB::rollback();
             $resolver->connection()->rollback();
         } else {

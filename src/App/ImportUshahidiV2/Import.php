@@ -12,6 +12,7 @@ class Import extends Model
     const UPDATED_AT = 'updated';
 
     const STATUS_PENDING = 'pending';
+    const STATUS_COMPLETE = 'complete';
 
     protected $attributes = [
         'status' => self::STATUS_PENDING,
@@ -31,5 +32,12 @@ class Import extends Model
     public function mappings()
     {
         return $this->hasMany(ImportMapping::class);
+    }
+
+    public function markComplete()
+    {
+        $this->status = self::STATUS_COMPLETE;
+
+        return $this;
     }
 }
