@@ -9,6 +9,9 @@ use Tests\DatabaseTransactions;
 use Mockery as M;
 use Faker;
 
+use Ohanzee\DB;
+use Ohanzee\Database;
+
 /**
  * @backupGlobals disabled
  * @preserveGlobalState disabled
@@ -16,6 +19,22 @@ use Faker;
 class UserRepositoryTest extends TestCase
 {
     use DatabaseTransactions;
+
+    public function setUp()
+    {
+        parent::setUp();
+
+        DB::insert('users')
+            ->columns(['realname', 'id'])
+            ->values(['realname' => 'Test Users', 'id' => 9999910])
+            ->execute($this->database);
+
+        DB::insert('contacts')
+            ->columns(['contact', 'type', 'user_id'])
+            ->values(['contact' => 'testByEmail@ushahidi.com', 'type' => 'email', 'user_id' => 9999910])
+            ->values(['contact' => '9999', 'type' => 'phone', 'user_id' => 9999910])
+            ->execute($this->database);
+    }
 
     public function testGetResetToken()
     {
@@ -131,5 +150,25 @@ class UserRepositoryTest extends TestCase
             'can_notify' => 0,
             'type' => 'twitter',
         ]);
+    }
+
+    public function testGetByEmail()
+    {
+        $repo = service('repository.user');
+
+        $user = $repo->getByEmail('testByEmail@ushahidi.com');
+        $this->assertInstanceOf(User::class, $user);
+        $this->assertEquals(9999910, $user->id);
+
+        $user2 = $repo->getByEmail('9999');
+        $this->assertInstanceOf(User::class, $user2);
+        $this->assertEquals(null, $user2->id);
+    }
+
+    public function testIsUniqueEmail()
+    {
+        $repo = service('repository.user');
+        $this->assertFalse($repo->isUniqueEmail('testByEmail@ushahidi.com'));
+        $this->assertTrue($repo->isUniqueEmail('auniqueemail@ushahidi.com'));
     }
 }

@@ -73,6 +73,21 @@ class UserRepository extends OhanzeeRepository implements
         return new User($data);
     }
 
+    /**
+     * Return a SELECT query, optionally with preconditions.
+     * @param  Array $where optional hash of conditions
+     * @return Database_Query_Builder_Select
+     */
+    protected function selectQuery(array $where = [])
+    {
+        $query = parent::selectQuery($where);
+
+        // Join to contacts
+        $query->join('contacts', 'LEFT')->on('users.id', '=', 'contacts.user_id');
+
+        return $query;
+    }
+
     protected function getContacts($entity_id)
     {
         // Unfortunately there is a circular reference created if the Contact repo is
@@ -217,13 +232,19 @@ class UserRepository extends OhanzeeRepository implements
     // UserRepository
     public function getByEmail($email)
     {
-        return $this->getEntity($this->selectOne(compact('email')));
+        return $this->getEntity($this->selectOne([
+            'contact' => $email,
+            'type' => 'email'
+        ]));
     }
 
     // RegisterRepository
     public function isUniqueEmail($email)
     {
-        return $this->selectCount(compact('email')) === 0;
+        return $this->selectCount([
+            'contact' => $email,
+            'type' => 'email'
+        ]) === 0;
     }
 
     // RegisterRepository
