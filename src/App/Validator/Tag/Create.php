@@ -12,7 +12,6 @@
 namespace Ushahidi\App\Validator\Tag;
 
 use Ushahidi\Core\Entity;
-use Ushahidi\Core\Tool\Validator;
 
 class Create extends Update
 {

@@ -12,7 +12,7 @@
 namespace Ushahidi\App\Validator\ExportJob;
 
 use Ushahidi\Core\Entity;
-use Ushahidi\Core\Tool\Validator;
+use Ushahidi\App\Validator\LegacyValidator;
 
 class Create extends Update
 {

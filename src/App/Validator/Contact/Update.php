@@ -12,10 +12,10 @@
 namespace Ushahidi\App\Validator\Contact;
 
 use Ushahidi\Core\Entity\Contact;
-use Ushahidi\Core\Tool\Validator;
+use Ushahidi\App\Validator\LegacyValidator;
 use Ushahidi\Core\Entity\UserRepository;
 
-class Update extends Validator
+class Update extends LegacyValidator
 {
     protected $user_repo;
     protected $default_error_source = 'contact';

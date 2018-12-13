@@ -14,9 +14,9 @@ namespace Ushahidi\App\Validator\User\Setting;
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\Entity\UserRepository;
 use Ushahidi\Core\Entity\UserSettingRepository;
-use Ushahidi\Core\Tool\Validator;
+use Ushahidi\App\Validator\LegacyValidator;
 
-class Update extends Validator
+class Update extends LegacyValidator
 {
     protected $user_repo;
     protected $user_setting_repo;

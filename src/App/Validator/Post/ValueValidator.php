@@ -11,8 +11,9 @@
 
 namespace Ushahidi\App\Validator\Post;
 
-// Note: this doesn't actually implement Ushahidi\Core\Tool\Validator
-abstract class ValueValidator
+use Ushahidi\Core\Tool\Validator;
+
+abstract class ValueValidator /* implements Validator */
 {
     protected $default_error_source = 'post';
 

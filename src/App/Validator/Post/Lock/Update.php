@@ -12,9 +12,9 @@
 namespace Ushahidi\App\Validator\Post\Lock;
 
 use Ushahidi\Core\Entity\PostRepository;
-use Ushahidi\Core\Tool\Validator;
+use Ushahidi\App\Validator\LegacyValidator;
 
-class Update extends Validator
+class Update extends LegacyValidator
 {
     protected $post_repo;
 

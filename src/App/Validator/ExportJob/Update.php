@@ -15,9 +15,9 @@ use Ushahidi\App\Facades\Features;
 use Ushahidi\Core\Entity\ExportJobRepository;
 use Ushahidi\Core\Entity\HXL\HXLMetadataRepository;
 use Ushahidi\Core\Entity\UserRepository;
-use Ushahidi\Core\Tool\Validator;
+use Ushahidi\App\Validator\LegacyValidator;
 
-class Update extends Validator
+class Update extends LegacyValidator
 {
     protected $default_error_source = 'export';
     protected $repo;

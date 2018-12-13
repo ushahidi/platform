@@ -11,11 +11,11 @@
 
 namespace Ushahidi\App\Validator\Role;
 
-use Ushahidi\Core\Tool\Validator;
+use Ushahidi\App\Validator\LegacyValidator;
 use Ushahidi\Core\Entity\PermissionRepository;
 use Ushahidi\App\Facades\Features;
 
-class Update extends Validator
+class Update extends LegacyValidator
 {
     protected $permission_repo;
     protected $feature_enabled;

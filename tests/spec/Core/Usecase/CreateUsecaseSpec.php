@@ -35,8 +35,7 @@ class CreateUsecaseSpec extends ObjectBehavior
         $this->setPayload($payload);
 
         // Called by CreateUsecase::getEntity
-        $repo->getEntity()->willReturn($entity);
-        $entity->setState($payload)->willReturn($entity);
+        $repo->getEntity($payload)->willReturn($entity);
     }
 
     function it_fails_when_authorization_is_denied($auth, $repo, Entity $entity)
