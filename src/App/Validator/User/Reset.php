@@ -12,10 +12,10 @@
 namespace Ushahidi\App\Validator\User;
 
 use Ushahidi\Core\Entity;
-use Ushahidi\Core\Tool\Validator;
+use Ushahidi\App\Validator\LegacyValidator;
 use Ushahidi\Core\Entity\UserRepository;
 
-class Reset extends Validator
+class Reset extends LegacyValidator
 {
 
     protected $default_error_source = 'user';

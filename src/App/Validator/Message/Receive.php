@@ -12,14 +12,14 @@
 namespace Ushahidi\App\Validator\Message;
 
 use Ushahidi\Core\Entity;
-use Ushahidi\Core\Tool\Validator;
+use Ushahidi\App\Validator\LegacyValidator;
 use Ushahidi\Core\Usecase\Message\CreateMessageRepository;
 use Ushahidi\App\DataSource\Message\Type as MessageType;
 use Ushahidi\App\DataSource\Message\Direction as MessageDirection;
 use Ushahidi\App\DataSource\Message\Status as MessageStatus;
 use Ushahidi\App\DataSource\DataSourceManager;
 
-class Receive extends Validator
+class Receive extends LegacyValidator
 {
     protected $repo;
     protected $default_error_source = 'message';

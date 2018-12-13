@@ -10,10 +10,10 @@
 
 namespace Ushahidi\App\Validator\TOS;
 
-use Ushahidi\Core\Tool\Validator;
+use Ushahidi\App\Validator\LegacyValidator;
 use Ushahidi\Core\Entity\UserRepository;
 
-class Create extends Validator
+class Create extends LegacyValidator
 {
     protected $user_repo;
     protected $default_error_source = 'tos';
