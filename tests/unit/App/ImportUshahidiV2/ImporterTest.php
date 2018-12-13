@@ -36,7 +36,7 @@ class ImporterTest extends TestCase
         $destRepo->shouldReceive('createMany')
             ->once()
             ->with(M::type(Collection::class))
-            ->andReturn(array_fill(0, 20, 7));
+            ->andReturn(range(10, 29));
 
         $mappingRepo->shouldReceive('createMany')
             ->once()
@@ -59,7 +59,7 @@ class ImporterTest extends TestCase
             });
 
         $imported = $importer->run(1, $source);
-
-        $this->assertEquals(20, $imported);
+        $this->assertInstanceOf(Collection::class, $imported);
+        $this->assertEquals(20, $imported->count());
     }
 }

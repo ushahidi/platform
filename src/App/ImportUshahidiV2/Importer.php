@@ -35,7 +35,7 @@ class Importer
      * @param  Collection $source   source data
      * @return int                  records imported
      */
-    public function run(int $importId, Collection $source) : int
+    public function run(int $importId, Collection $source) : Collection
     {
         $mapper = $this->mapper;
 
@@ -64,7 +64,7 @@ class Importer
         // Save mappings
         $this->mappingRepo->createMany($mappings);
 
-        // Return count
-        return $destModels->count();
+        // Return collection of entities with new ids
+        return collect($inserted)->combine($destModels);
     }
 }

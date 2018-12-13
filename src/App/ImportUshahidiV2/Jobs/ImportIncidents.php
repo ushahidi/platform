@@ -45,7 +45,6 @@ class ImportIncidents extends Job
             $destRepo
         );
 
-        $imported = 0;
         $batch = 0;
         // While there are data left
         while (true) {
@@ -99,8 +98,6 @@ class ImportIncidents extends Job
 
             $created = $importer->run($this->importId, $sourceData);
 
-            // Add to count
-            $imported += $created;
             $batch++;
         }
     }

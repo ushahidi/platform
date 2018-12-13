@@ -33,6 +33,20 @@ class Form extends StaticEntity
     protected $can_create;
     protected $tags;
 
+    // StatefulData
+    protected function getDefaultData()
+    {
+        return [
+            'type' => 'report',
+            'require_approval' => true,
+            'everyone_can_create' => true,
+            'hide_author' => false,
+            'hide_time' => false,
+            'hide_location' => false,
+            'targeted_survey' => false,
+        ];
+    }
+
     // DataTransformer
     protected function getDefinition()
     {

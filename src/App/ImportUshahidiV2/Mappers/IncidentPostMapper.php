@@ -31,7 +31,7 @@ class IncidentPostMapper implements Mapper
     {
         $user_id = $this->mappingRepo->getDestId($importId, 'user', $input['user_id']);
         return new Post([
-            'form_id' => $this->mappingRepo->getDestId($importId, 'form', $input['form_id']),
+            'form_id' => $this->getFormId($importId, $input['form_id']),
             'user_id' => $user_id,
             'title' => $input['incident_title'],
             'content' => $input['incident_description'],
@@ -67,6 +67,20 @@ class IncidentPostMapper implements Mapper
 
         // NB: We don't map some data ie:
         // - Custom form fields
+    }
+
+    public function getFormId($importId, $formId)
+    {
+        if ($formId == 0) {
+            // Try form id 1 first
+            $id = $this->mappingRepo->getDestId($importId, 'form', 1);
+            if (!$id) {
+                $id = $this->mappingRepo->getDestId($importId, 'form', 0);
+            }
+            return $id;
+        }
+
+        return $this->mappingRepo->getDestId($importId, 'form', $formId);
     }
 
     public function getAttributeKey($importId, $formId, $column)
