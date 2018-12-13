@@ -208,13 +208,11 @@ class UserRepository extends OhanzeeRepository implements
 
         if ($search->q) {
             $query->and_where_open();
-            $query->where('email', 'LIKE', "%" . $search->q . "%");
             $query->or_where('realname', 'LIKE', "%" . $search->q . "%");
             $query->and_where_close();
 
             // Adding search contacts
-            $query->join('contacts')->on("$table.id", '=', 'contacts.user_id')
-            ->or_where('contacts.contact', 'like', '%' . $search->q . '%');
+            $query->or_where('contacts.contact', 'like', '%' . $search->q . '%');
         }
 
         if ($search->role) {
