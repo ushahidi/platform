@@ -32,55 +32,46 @@ users:
     id: 1
     password: "$2y$15$iWANGZn.DomLWU.YtjUcX.HEq1hoMGauzXFRubKgar/BRaAj9zQ9q"
     realname: Robbie Mackay
-    email: "robbie@ushahidi.com"
     role: "user"
   -
     id: 2
     password: "$2y$15$Ha7nHVZApHXfzhrD2HCukuUjjQhIUzPJ0JNWk7KooT6edQFTbeWr6"
     realname: Admin
-    email: "admin@ushahidi.com"
     role: "admin"
   -
     id: 3
     password: "$2y$15$iWANGZn.DomLWU.YtjUcX.HEq1hoMGauzXFRubKgar/BRaAj9zQ9q"
     realname: Test User
-    email: test@v3.ushahidi.com
     role: "user"
   -
     id: 4
     password: "$2y$15$iWANGZn.DomLWU.YtjUcX.HEq1hoMGauzXFRubKgar/BRaAj9zQ9q"
     realname: Import admin
-    email: "importadmin@ushahidi.com"
     role: "admin"
   -
     id: 5
     password: "$2y$15$iWANGZn.DomLWU.YtjUcX.HEq1hoMGauzXFRubKgar/BRaAj9zQ9q"
     realname: Demo
-    email: "demo@ushahidi.com"
     role: "admin"
   -
     id: 6
     password: "$2y$15$iWANGZn.DomLWU.YtjUcX.HEq1hoMGauzXFRubKgar/BRaAj9zQ9q"
     realname: Manager
-    email: "manager@ushahidi.com"
     role: "manager"
   -
     id: 7
     password: "$2y$15$iWANGZn.DomLWU.YtjUcX.HEq1hoMGauzXFRubKgar/BRaAj9zQ9q"
     realname: Importer
-    email: "importer@ushahidi.com"
     role: "importer"
   -
     id: 8
     password: "$2y$15$iWANGZn.DomLWU.YtjUcX.HEq1hoMGauzXFRubKgar/BRaAj9zQ9q"
     realname: CannotEditor
-    email: "cannoteditor@ushahidi.com"
     role: "noedit"
   -
     id: 9
     password: "$2y$15$iWANGZn.DomLWU.YtjUcX.HEq1hoMGauzXFRubKgar/BRaAj9zQ9q"
     realname: Sets
-    email: "sets@ushahidi.com"
     role: "sets"
 user_settings:
  -
@@ -1861,6 +1852,46 @@ contacts:
     type: "phone"
     contact: 59891333226
     user_id:
+  -
+    id: 12
+    user_id: 2
+    type: "email"
+    contact: "admin@ushahidi.com"
+  -
+    id: 13
+    user_id: 3
+    type: "email"
+    contact: test@v3.ushahidi.com
+  -
+    id: 14
+    user_id: 4
+    type: "email"
+    contact: "importadmin@ushahidi.com"
+  -
+    id: 15
+    user_id: 5
+    type: "email"
+    contact: "demo@ushahidi.com"
+  -
+    id: 16
+    user_id: 6
+    type: "email"
+    contact: "manager@ushahidi.com"
+  -
+    id: 17
+    user_id: 7
+    type: "email"
+    contact: "importer@ushahidi.com"
+  -
+    id: 18
+    user_id: 8
+    type: "email"
+    contact: "cannoteditor@ushahidi.com"
+  -
+    id: 19
+    user_id: 9
+    type: "email"
+    contact: "sets@ushahidi.com"
 messages:
   -
     id: 1
