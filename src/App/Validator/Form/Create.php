@@ -13,7 +13,6 @@ namespace Ushahidi\App\Validator\Form;
 
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\Entity\FormRepository;
-use Ushahidi\Core\Tool\Validator;
 
 class Create extends Update
 {

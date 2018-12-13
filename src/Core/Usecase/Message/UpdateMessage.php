@@ -19,10 +19,10 @@ class UpdateMessage extends UpdateUsecase
 {
     protected function verifyValid(Entity $entity)
     {
-        $this->validator->set([
-            'direction' => $entity->direction,
-            'status'    => $entity->status,
-        ]);
+        // $this->validator->set([
+        //     'direction' => $entity->direction,
+        //     'status'    => $entity->status,
+        // ]);
         parent::verifyValid($entity);
     }
 }
