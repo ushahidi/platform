@@ -111,7 +111,7 @@ class CreateUsecase implements Usecase
      */
     protected function getEntity()
     {
-        return $this->repo->getEntity()->setState($this->payload);
+        return $this->repo->getEntity($this->payload);
     }
 
     /**

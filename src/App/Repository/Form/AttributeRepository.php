@@ -24,6 +24,7 @@ use Ushahidi\Core\Traits\UserContext;
 use Ushahidi\App\Repository\OhanzeeRepository;
 use Ushahidi\App\Repository\JsonTranscodeRepository;
 use Ushahidi\App\Repository\FormsTagsTrait;
+use Ushahidi\App\Repository\Concerns\CachesData;
 
 use Ushahidi\Core\Tool\Permissions\InteractsWithFormPermissions;
 
@@ -47,6 +48,7 @@ class AttributeRepository extends OhanzeeRepository implements
     // Use the JSON transcoder to encode properties
     use JsonTranscodeRepository;
     use FormsTagsTrait;
+    use CachesData;
 
     /**
      * Construct

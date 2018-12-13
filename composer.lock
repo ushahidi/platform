@@ -8046,6 +8046,7 @@
                 "pre-commit",
                 "pre-push"
             ],
+            "abandoned": "captainhook/captainhook",
             "time": "2018-05-03T12:04:10+00:00"
         },
         {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\App\Listener;
+namespace Tests\Unit\App\Repository;
 
 use Ushahidi\App\Repository\UserRepository;
 use Ushahidi\Core\Entity\User;
