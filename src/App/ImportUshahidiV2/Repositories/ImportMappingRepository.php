@@ -26,7 +26,14 @@ class ImportMappingRepository /*extends EloquentRepository*/ implements ImportMa
 
     public function create(ImportMapping $model) : int
     {
-        return $model->save() ? $model->id : false;
+        $id = $model->save() ? $model->id : false;
+
+        if ($id) {
+            $key = "mapping.{$model->importId}.{$model->sourceType}.{$model->sourceId}";
+            Cache::tags(['import_mapping'])->put($key, $model->destId);
+        }
+
+        return $id;
     }
 
     public function createMany(Collection $collection) : array
@@ -38,6 +45,12 @@ class ImportMappingRepository /*extends EloquentRepository*/ implements ImportMa
         );
 
         $insertId = ImportMapping::resolveConnection()->getPdo()->lastInsertId();
+
+        // Save mappings to cache
+        $collection->each(function ($item) {
+            $key = "mapping.{$item->importId}.{$item->sourceType}.{$item->sourceId}";
+            Cache::tags(['import_mapping'])->put($key, $item->destId);
+        });
 
         return range($insertId, $insertId + $collection->count() - 1);
     }

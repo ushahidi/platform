@@ -38,6 +38,7 @@ use Ushahidi\Core\Tool\Permissions\InteractsWithPostPermissions;
 use League\Event\ListenerInterface;
 use Ushahidi\Core\Traits\Event;
 use Illuminate\Support\Collection;
+use Log;
 
 class PostRepository extends OhanzeeRepository implements
     PostRepositoryContract,
@@ -1102,20 +1103,44 @@ class PostRepository extends OhanzeeRepository implements
         $newPostIds = range($insertId, $insertId + $created - 1);
 
         // Loop over entities, and aggregate values by attribute
-        $postValues = collect($newPostIds)->combine($collection)->map(function ($entity, $id) {
-            if ($entity->values) {
-                $this->updatePostValues($id, $entity->values);
+        // Combine post ids with entities
+        $postsById = collect($newPostIds)->combine($collection);
+
+        // Grab values from post entities, combined with attribute key and post id
+        // Each set of values is still grouped by post id at this point
+        $postValues = $postsById->map(function ($entity, $id) {
+            return collect($entity->values)->map(function ($value, $key) use ($id) {
+                return compact('value', 'key', 'id');
+            })->all();
+        })
+        // Flatten post values to a single level
+        ->flatten(1)
+        // Group by attribute key
+        ->groupBy('key')
+        // For each group of post values...
+        ->each(function ($values, $key) {
+            // Get the form attribute
+            $attribute = $this->form_attribute_repo->getByKey($key);
+            if (!$attribute->id) {
+                return;
             }
 
+            // Get the correct post value repo for the attribute
+            $repo = $this->post_value_factory->getRepo($attribute->type);
+
+            // Bulk insert the post values in the post_... table
+            $repo->createManyValues($values->all(), $attribute->id);
+        });
+
+        // Save completed stages
+        // We're not bothering to batch insert this step because its not heavily used.
+        $postsById->each(function ($entity, $id) {
             if ($entity->completed_stages) {
                 $this->updatePostStages($id, $entity->form_id, $entity->completed_stages);
             }
         });
 
-        // Run createMany on postvalues
-
         // NB: We don't handle legacy post.tags during bulk insert
-        // NB: We don't handle completed_stages during bulk insert
 
         return $newPostIds;
     }

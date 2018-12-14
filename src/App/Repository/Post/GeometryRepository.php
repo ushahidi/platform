@@ -38,19 +38,8 @@ class GeometryRepository extends ValueRepository
         return $query;
     }
 
-    // Override createValue to save 'value' using GeomFromText
-    public function createValue($value, $form_attribute_id, $post_id)
+    protected function prepareValue($value)
     {
-        $value = DB::expr('GeomFromText(:text)')->param(':text', $value);
-
-        return parent::createValue($value, $form_attribute_id, $post_id);
-    }
-
-    // Override updateValue to save 'value' using GeomFromText
-    public function updateValue($id, $value)
-    {
-        $value = DB::expr('GeomFromText(:text)')->param(':text', $value);
-
-        return parent::updateValue($id, $value);
+        return DB::expr('GeomFromText(:text)')->param(':text', $value);
     }
 }

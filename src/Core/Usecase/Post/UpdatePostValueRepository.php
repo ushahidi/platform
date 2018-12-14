@@ -22,13 +22,20 @@ interface UpdatePostValueRepository
     public function createValue($value, $form_attribute_id, $post_id);
 
     /**
+     * Create new post value
+     * @param  Mixed   $value
+     * @param  Int     $form_attribute_id
+     * @param  Int     $post_id
+     */
+    public function createManyValues(array $values, int $form_attribute_id);
+
+    /**
      * Update an existing post value
      * @param  Int     $id
      * @param  Mixed   $value
      * @param  void
      */
     public function updateValue($id, $value);
-
 
     /**
      * Delete values that are not in the ids array
