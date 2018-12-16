@@ -1125,6 +1125,11 @@ class PostRepository extends OhanzeeRepository implements
                 return;
             }
 
+            // Handle media items especially, to save the media entities first
+            if ($attribute->type === 'media') {
+                $values = $this->createManyMedia($values);
+            }
+
             // Get the correct post value repo for the attribute
             $repo = $this->post_value_factory->getRepo($attribute->type);
 
@@ -1143,6 +1148,27 @@ class PostRepository extends OhanzeeRepository implements
         // NB: We don't handle legacy post.tags during bulk insert
 
         return $newPostIds;
+    }
+
+    public function createManyMedia($values)
+    {
+        // @todo inject this
+        $mediaRepo = service('repository.media');
+
+        // Loop over all media values
+        return $values->map(function ($group) use ($mediaRepo) {
+            $group['value'] = collect($group['value'])->map(function ($value) use ($mediaRepo) {
+                // If the value is an array, assume it's an unsaved media object
+                if (is_array($value)) {
+                    // Pass it to the media repo to save, and pass the ID back
+                    $value = $mediaRepo->create(new Entity\Media($value));
+                }
+
+                return $value;
+            })->all();
+
+            return $group;
+        });
     }
 
     // UpdateRepository

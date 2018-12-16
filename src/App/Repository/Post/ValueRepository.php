@@ -140,6 +140,10 @@ abstract class ValueRepository extends OhanzeeRepository implements
             }
         }
 
+        if (empty($insertValues)) {
+            return;
+        }
+
         $query = DB::insert($this->getTable())
             ->columns(['post_id', 'form_attribute_id', 'value', 'created']);
 

@@ -72,22 +72,30 @@ class ImportIncidents extends Job
                 ->orderBy('id', 'asc')
                 ->get();
 
-            // $incidentMediaReader = new Reader\PdoReader(
-            //     $connection,
-            //     "SELECT media.*
-            //         FROM media
-            //         WHERE incident_id IS NOT NULL
-            //         AND media_type = 4
-            //         ORDER BY incident_id ASC
-            //         "
-            // );
-
-
             // If there is no more data
             if ($sourceData->isEmpty()) {
                 // Break out of the loop
                 break;
             }
+
+            // Fetch media for incidents
+            $mediaData = $this->getConnection()
+                ->table('media')
+                ->select(
+                    'media.*'
+                )
+                // Load all media items for this batch of incidents
+                ->whereIn('incident_id', $sourceData->pluck('id')->all())
+                ->orderBy('incident_id', 'asc')
+                ->orderBy('id', 'asc')
+                ->get()
+                // Group returned collection by incident id
+                ->groupBy('incident_id');
+
+            // Merge the media into the incidents
+            $sourceData->each(function ($incident) use ($mediaData) {
+                $incident->media = $mediaData->get($incident->id);
+            });
 
             $created = $importer->run($this->importId, $sourceData);
 

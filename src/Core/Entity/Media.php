@@ -48,4 +48,15 @@ class Media extends StaticEntity
     {
         return 'media';
     }
+
+    // StatefulData
+    protected function getDefaultData()
+    {
+        return [
+            'mime' => 'text/plain',
+            'o_size' => 0,
+            'o_width' => null,
+            'o_height' => null,
+        ];
+    }
 }

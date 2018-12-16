@@ -552,6 +552,7 @@ class AppConfig extends ContainerConfig
                 'datetime' => $di->lazyGet('repository.post.datetime'),
                 'decimal' => $di->lazyGet('repository.post.decimal'),
                 'geometry' => $di->lazyGet('repository.post.geometry'),
+                'link' => $di->lazyGet('repository.post.varchar'),
                 'int' => $di->lazyGet('repository.post.int'),
                 'point' => $di->lazyGet('repository.post.point'),
                 'relation' => $di->lazyGet('repository.post.relation'),
