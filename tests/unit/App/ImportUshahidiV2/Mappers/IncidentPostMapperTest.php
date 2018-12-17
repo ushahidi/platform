@@ -35,7 +35,8 @@ class PostMapperTest extends TestCase
             'latitude' => $faker->latitude,
             'longitude' => $faker->longitude,
             'categories' => '1,4,5',
-            'incident_verified' => 1
+            'incident_verified' => 1,
+            'media' => []
         ];
 
         $mappingRepo = M::mock(ImportMappingRepository::class);
@@ -57,6 +58,15 @@ class PostMapperTest extends TestCase
         $mappingRepo->shouldReceive('getDestId')
             ->with($importId, 'incident_column', '30-categories')
             ->andReturn(4);
+        $mappingRepo->shouldReceive('getDestId')
+            ->with($importId, 'incident_column', '30-news_source_link')
+            ->andReturn(5);
+        $mappingRepo->shouldReceive('getDestId')
+            ->with($importId, 'incident_column', '30-video_link')
+            ->andReturn(6);
+        $mappingRepo->shouldReceive('getDestId')
+            ->with($importId, 'incident_column', '30-photos')
+            ->andReturn(7);
         $mappingRepo->shouldReceive('getDestId')
             ->with($importId, 'category', '1')
             ->andReturn(11);
@@ -80,6 +90,15 @@ class PostMapperTest extends TestCase
         $attrRepo->shouldReceive('get')
             ->with(4)
             ->andReturn(new FormAttribute(['key' => 'categories-key']));
+        $attrRepo->shouldReceive('get')
+            ->with(5)
+            ->andReturn(new FormAttribute(['key' => 'news-key']));
+        $attrRepo->shouldReceive('get')
+            ->with(6)
+            ->andReturn(new FormAttribute(['key' => 'videos-key']));
+        $attrRepo->shouldReceive('get')
+            ->with(7)
+            ->andReturn(new FormAttribute(['key' => 'photos-key']));
 
         $mapper = new IncidentPostMapper($mappingRepo, $attrRepo);
 
