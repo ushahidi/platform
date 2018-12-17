@@ -36,7 +36,8 @@ class PostMapperTest extends TestCase
             'longitude' => $faker->longitude,
             'categories' => '1,4,5',
             'incident_verified' => 1,
-            'media' => []
+            'media' => [],
+            'form_responses' => [],
         ];
 
         $mappingRepo = M::mock(ImportMappingRepository::class);
