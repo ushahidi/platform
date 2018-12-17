@@ -35,5 +35,3 @@ Deploy-ready versions from the platform-release repository, which contains produ
 
 {% page-ref page="setting-up-the-platform-client.md" %}
 
-
-

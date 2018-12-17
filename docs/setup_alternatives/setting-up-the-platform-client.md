@@ -7,23 +7,23 @@ description: >-
 
 # Platform Client installation
 
-### What is the platform client?
+## What is the platform client?
 
 The web client is the component that end users interact with when opening the Platform website with a web browser. The client interacts with the API in order to perform operations on the system \(i.e. submit posts, query posts\).
 
-### Installation steps 
+## Installation steps
 
 {% hint style="warning" %}
-Pre-requisite: Install the platform API by following one of the API setup guides 
+
+Pre-requisite: Install the platform API by following one of the API setup guides
 
 {% page-ref page="./" %}
-{% endhint %}
 
 {% hint style="warning" %}
 Pre-requisite: Install Node V6.x \(you might want to use NVM for this\) before continuing.
 {% endhint %}
 
-#### **Getting the platform-client code**
+### **Getting the platform-client code**
 
 Clone the repository \(this will create a directory named _platform-client\)_
 
@@ -69,7 +69,7 @@ OAUTH_CLIENT_SECRET=35e7f0bca957836d05ca0492211b0ac707671261
 {% endcode-tabs-item %}
 
 {% code-tabs-item title=undefined %}
-```
+```text
 
 ```
 {% endcode-tabs-item %}
@@ -85,7 +85,7 @@ gulp
 
 alternatively, if you haven't setup node\_modules in your PATH, run:
 
-### Running a local development server
+## Running a local development server
 
 Run:
 
@@ -95,7 +95,7 @@ node_modules/gulp/bin/gulp.js
 
 This will start the watcher for local development, and any changes you make to the code will be reflected in the application.
 
-### Building for production deployments
+## Building for production deployments
 
 Run:
 
@@ -112,8 +112,4 @@ node_modules/gulp/bin/gulp.js build
 This will start the process of generating the static site. Once the files are generated, you can host the **server/www** directory and load the site.
 
 In the **server** directory you will also find an example nginx and an example apache2 file to get you started on hosting the client.
-
-
-
-
 

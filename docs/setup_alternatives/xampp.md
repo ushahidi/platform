@@ -38,7 +38,7 @@ RewriteBase /httpdocs RewriteCond %{HTTP:Authorization} . RewriteRule .\* - \[E=
 
 ## Protect hidden files from being viewed
 
- Order Deny,Allow Deny From All
+Order Deny,Allow Deny From All
 
 ## Uncomment to force redirection to https site.
 
@@ -68,7 +68,7 @@ RewriteEngine On
 
 ## Protect hidden files from being viewed
 
- Order Deny,Allow Deny From All
+Order Deny,Allow Deny From All
 
 ## Rewrite all other URLs to httpdocs
 
@@ -78,9 +78,9 @@ RewriteRule .\* httpdocs/$0 \[PT\]
 - In your httpd.conf file (open xampp => config -> httpd.conf) , add this virtualhost
 ```
 
- ServerAdmin webmaster@localhost DocumentRoot "C:/newxamp/htdocs/platform" ServerName ushahidi.api.test
+ServerAdmin webmaster@localhost DocumentRoot "C:/newxamp/htdocs/platform" ServerName ushahidi.api.test
 
- AllowOverride all &lt;/VirtualHost&gt;
+AllowOverride all &lt;/VirtualHost&gt;
 
 \`\`\`
 
