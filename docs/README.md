@@ -18,7 +18,7 @@ We love having you here. To ensure everyone has a good experience, we ask **ever
 
 ## Getting Involved
 
-{% page-ref page="contributing-or-getting-involved.md" %}
+{% page-ref page="contributing-or-getting-involved/" %}
 
 ## Using the Platform
 

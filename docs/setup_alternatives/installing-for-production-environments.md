@@ -1,10 +1,3 @@
----
-description: >-
-  A complete guide on deploying Ushahidi V3+ on your own server. Note that while
-  we provide instructions and recommend nginx, you can still run the platform
-  with apache if that's your preference.
----
-
 # Installing for production environments
 
 ## Server requirements:

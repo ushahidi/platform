@@ -1,10 +1,3 @@
----
-description: >-
-  Here you will learn how to set up the platform-client repository to work with
-  your platform API, and how to proceed for both development and production
-  environments.
----
-
 # Platform Client installation
 
 ### What is the platform client?
