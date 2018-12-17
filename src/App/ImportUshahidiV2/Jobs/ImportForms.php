@@ -83,7 +83,7 @@ class ImportForms extends Job
             'required' => 0,
             'priority' => 0,
             'default' => 0,
-            'type' => 'link',
+            'type' => 'varchar',
             'input' => 'text',
             'options' => [],
             'cardinality' => 0,
