@@ -157,17 +157,57 @@ Add the following lines to the crontab
 {% code-tabs %}
 {% code-tabs-item title="crontab" %}
 ```bash
-MAILTO=admin@example.com #ensure a valid email for system notifications
+MAILTO=admin@example.com
+ #ensure a valid email for system notifications
 */5 * * * * cd /var/www/platform && php artisan datasource:outgoing
 */5 * * * * cd /var/www/platform && php artisan datasource:incoming
 */5 * * * * cd /var/www/platform && php artisan savedsearch:sync
 */5 * * * * cd /var/www/platform && php artisan notification:queue
-*/5 * * * * cd /var/www/platform && php artisan webhook:send
+
+*/5 * * * * cd /var/www/platform && php artisan webhook:send
 ```
 {% endcode-tabs-item %}
 {% endcode-tabs %}
 
 At this point, the backend is almost ready, but we still need to configure the web server and set up the client before we can see the application running.
+
+#### Setting up the queue
+
+From Ushahidi 4.2.x we use Laravel's queues to run CSV exports and other background tasks. You can run the queue worker manually to test:
+
+```bash
+php artisan queue:work
+```
+
+For production however you should run the queue using supervisor. First install supervisor
+
+```bash
+sudo apt-get install supervisor
+```
+
+Create a supervisor config file in `/etc/supervisor/conf.d/laravel-worker.conf`
+
+```
+[program:laravel-worker]
+process_name=%(program_name)s_%(process_num)02d
+command=php /home/forge/app.com/artisan queue:work --sleep=3 --tries=3 --timeout=290
+autostart=true
+autorestart=true
+user=www-data
+numprocs=8
+redirect_stderr=true
+stdout_logfile=/var/www/platform/storage/logs/worker.log
+```
+
+Start supervisor:
+
+```bash
+sudo supervisorctl reread
+sudo supervisorctl update
+sudo supervisorctl start laravel-worker:*
+```
+
+For further information on Laravel queue's see the [laravel docs](https://laravel.com/docs/5.7/queues)
 
 ### Preparing the client to be served
 
@@ -185,27 +225,36 @@ Create the /etc/nginx/sites-available/platform.conf file, referencing the httpdo
 {% code-tabs-item title="/etc/nginx/sites-available/platform.conf" %}
 ```text
 server {
-    listen 80 ;
+    
+listen 80 ;
     listen [::]:80 ;
     server_name your-site.api.example.com;
     charset UTF-8;
     root /var/www/platform/httpdocs;
     index index.php;
     # pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
-    location / {
-        try_files $uri $uri/ /index.php$uri?$args;
+    
+location / {
+    
+    try_files $uri $uri/ /index.php$uri?$args;
     }
-    # NOTE: You should have "cgi.fix_pathinfo = 0;" in php.ini
+    
+# NOTE: You should have "cgi.fix_pathinfo = 0;" in php.ini
     location ^~ /index.php {
-        fastcgi_split_path_info ^(.+\.php)(/.+)$;
-        fastcgi_pass unix:/var/run/php7.0-fpm.sock;
-        fastcgi_index index.php;
+        
+fastcgi_split_path_info ^(.+\.php)(/.+)$;
+        
+fastcgi_pass unix:/var/run/php7.0-fpm.sock;
+        
+fastcgi_index index.php;
         client_max_body_size 10m;
         fastcgi_read_timeout 600;
         include fastcgi_params;
-        break;
+        
+break;
     }
-}
+
+}
 ```
 {% endcode-tabs-item %}
 {% endcode-tabs %}
@@ -217,34 +266,55 @@ Create the /etc/nginx/sites-available/platform-client.conf file, referencing the
 ```text
 server {
     listen 80 default_server;
-    listen [::]:80 ;
+    
+listen [::]:80 ;
     server_name your-site.example.com;
     charset UTF-8;
     root /var/www/platform-client/server/www;
-    index index.html;
+    
+index index.html;
     location / {
-        try_files $uri $uri/ @missing;
+        
+try_files $uri $uri/ @missing;
     }
-    location /config.json {
-        if ($request_method = 'OPTIONS') {
+    
+location /config.json {
+        
+if ($request_method = 'OPTIONS') {
             add_header 'Access-Control-Allow-Origin' '*';
             add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS';
-            add_header 'Access-Control-Allow-Headers''DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Content-Range,Range';
+            add_header 'Access-Control-Allow-Headers'
+'DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Co
+ntrol,Content-Type,Content-Range,Range';
             add_header 'Access-Control-Max-Age' 1728000;
             add_header 'Content-Type' 'text/plain charset=UTF-8';
-            add_header 'Content-Length' 0;return 204;
+            
+add_header 'Content-Length' 0;
+return 204;
         }
-        if ($request_method = 'GET') {
-            add_header 'Access-Control-Allow-Origin' '*';
+        
+if ($request_method = 'GET') {
+            
+add_header 'Access-Control-Allow-Origin' '*';
             add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS';
-            add_header 'Access-Control-Allow-Headers''DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Content-Range,Range';
-            add_header 'Access-Control-Expose-Headers''DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Content-Range,Range';
-        }
-    }
-    location @missing {
+            
+add_header 'Access-Control-Allow-Headers'
+'DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Co
+ntrol,Content-Type,Content-Range,Range';
+            
+add_header 'Access-Control-Expose-Headers'
+'DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Co
+ntrol,Content-Type,Content-Range,Range';
+        
+}
+    
+}
+    
+location @missing {
         rewrite ^ /index.html last;
     }
-}
+
+}
 ```
 {% endcode-tabs-item %}
 {% endcode-tabs %}
@@ -254,10 +324,14 @@ server {
 Run the following commands 
 
 ```bash
-rm /etc/nginx/sites-enabled/default;
-ln -s /etc/nginx/sites-available/platform.conf /etc/nginx/sites-enabled/platform.conf;
+rm /etc/nginx/sites-enabled/default
+;
+ln -s /etc/nginx/sites-available/platform.conf /etc/nginx/sites-enabled/platform.conf
+;
 ln -s /etc/nginx/sites-available/platform-client.conf /etc/nginx/sites-enabled/platform-client.conf;
-systemctl restart nginx.service;
+
+systemctl restart nginx.service
+;
 systemctl restart php7.0-fpm.service;
 ```
 
@@ -269,16 +343,24 @@ Example contents for the file /etc/php/7.1/fpm/pool.d/www.conf
 {% code-tabs-item title="/etc/php/7.1/fpm/pool.d/www.conf" %}
 ```text
 [www]
-user = www-data
-group = www-data
-listen = /run/php/php7.0-fpm.sock
-listen.owner = www-data
-listen.group = www-datapm = dynamic
+
+user = www-data
+
+group = www-data
+
+listen = /run/php/php7.0-fpm.sock
+
+listen.owner = www-data
+
+listen.group = www-data
+pm = dynamic
 pm.max_children = 8
 pm.start_servers = 4
 pm.min_spare_servers = 1
-pm.max_spare_servers = 4
-pm.process_idle_timeout = 30s
+
+pm.max_spare_servers = 4
+
+pm.process_idle_timeout = 30s
 ```
 {% endcode-tabs-item %}
 {% endcode-tabs %}
