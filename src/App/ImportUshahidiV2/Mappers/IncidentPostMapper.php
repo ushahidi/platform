@@ -108,9 +108,15 @@ class IncidentPostMapper implements Mapper
         ];
 
         foreach ($input['form_responses'] as $response) {
-            $values[
-                $this->getAttributeKeyForField($importId, $input['form_id'], $response->form_field_id)
-            ] = [$response->form_response];
+            $key = $this->getAttributeKeyForField($importId, $input['form_id'], $response->form_field_id);
+
+            // Add key to values array if not set
+            if (!isset($values[$key])) {
+                $values[$key] = [];
+            }
+
+            // Append the value
+            $values[$key][] = $response->form_response;
         }
 
         return $values;
