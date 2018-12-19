@@ -1457,7 +1457,7 @@ Bearer: &lt;your-auth-token&gt;
 
 {% api-method method="get" host="https://ushahididocs.api.ushahidi.io" path="/api/v3/forms" %}
 {% api-method-summary %}
-Get all survey options
+Get all surveys
 {% endapi-method-summary %}
 
 {% api-method-description %}
@@ -1466,12 +1466,6 @@ Get all survey options
 
 {% api-method-spec %}
 {% api-method-request %}
-{% api-method-path-parameters %}
-{% api-method-parameter name="" type="string" required=false %}
-
-{% endapi-method-parameter %}
-{% endapi-method-path-parameters %}
-
 {% api-method-headers %}
 {% api-method-parameter name="Authorization" type="string" required=false %}
 Bearer: &lt;your-auth-token&gt;
@@ -2223,7 +2217,9 @@ Create a survey
 {% endapi-method-summary %}
 
 {% api-method-description %}
-
+Create a survey in the backend.   
+- when using \`tasks.$n.id\` substitute $n for the task number.   
+- when setting the task id, use a naming scheme like "interim\_id\_$n for consistency.  
 {% endapi-method-description %}
 
 {% api-method-spec %}
@@ -2294,7 +2290,7 @@ Does the data in this survey auto-publish or is it saved as draft \(default: fal
 {% endapi-method-parameter %}
 
 {% api-method-parameter name="color" type="string" required=false %}
-The survey color \(shohwn in map and data view\)
+The survey color \(shown in map and data view\)
 {% endapi-method-parameter %}
 {% endapi-method-body-parameters %}
 {% endapi-method-request %}
@@ -2333,6 +2329,362 @@ The survey color \(shohwn in map and data view\)
         "search"
     ]
 }
+```
+{% endapi-method-response-example %}
+{% endapi-method-response %}
+{% endapi-method-spec %}
+{% endapi-method %}
+
+
+
+{% api-method method="put" host="https://ushahididocs.api.ushahidi.io" path="/api/v3/forms/:form\_id" %}
+{% api-method-summary %}
+Update a survey \(example adding a new field\)
+{% endapi-method-summary %}
+
+{% api-method-description %}
+Create a survey in the backend.   
+- when using \`tasks.$n.id\` substitute $n for the task number.   
+- when setting the task id, use a naming scheme like "interim\_id\_$n for consistency.  
+{% endapi-method-description %}
+
+{% api-method-spec %}
+{% api-method-request %}
+{% api-method-path-parameters %}
+{% api-method-parameter name="form\_id" type="number" required=true %}
+The survey id.
+{% endapi-method-parameter %}
+{% endapi-method-path-parameters %}
+
+{% api-method-headers %}
+{% api-method-parameter name="Authorization" type="string" required=false %}
+Bearer: &lt;your-auth-token&gt;
+{% endapi-method-parameter %}
+{% endapi-method-headers %}
+
+{% api-method-body-parameters %}
+{% api-method-parameter name="name" type="string" required=true %}
+The survey name
+{% endapi-method-parameter %}
+
+{% api-method-parameter name="tasks.$n.id" type="string" required=false %}
+A frontend generated ID to identify it while its being created. Example interim\_id\_2
+{% endapi-method-parameter %}
+
+{% api-method-parameter name="tasks.$n.is\_public" type="boolean" required=false %}
+Is the task open to everyone? Default: true
+{% endapi-method-parameter %}
+
+{% api-method-parameter name="tasks.$n.attributes" type="array" required=false %}
+A list of attributes for the task. Takes the same options as form attributes for each. 
+{% endapi-method-parameter %}
+
+{% api-method-parameter name="tasks.$n.task\_is\_internal\_only" type="boolean" required=false %}
+Default: false
+{% endapi-method-parameter %}
+
+{% api-method-parameter name="tasks.$n.show\_when\_published" type="boolean" required=false %}
+Default: true
+{% endapi-method-parameter %}
+
+{% api-method-parameter name="tasks.$n.type" type="string" required=false %}
+post
+{% endapi-method-parameter %}
+
+{% api-method-parameter name="tasks.$n.required" type="boolean" required=false %}
+Default: false
+{% endapi-method-parameter %}
+
+{% api-method-parameter name="tasks.$n.priority" type="number" required=false %}
+The order of the task in the form
+{% endapi-method-parameter %}
+
+{% api-method-parameter name="tasks.$n.label" type="string" required=false %}
+The stage label
+{% endapi-method-parameter %}
+
+{% api-method-parameter name="tasks" type="array" required=false %}
+Array of stages \(tasks\) with options. Look for tasks.$n.$x in this list of params to see the attributes available for tasks
+{% endapi-method-parameter %}
+
+{% api-method-parameter name="everyone\_can\_create" type="string" required=false %}
+Can any user create posts? Default: true
+{% endapi-method-parameter %}
+
+{% api-method-parameter name="require\_approvel" type="boolean" required=false %}
+Does the data in this survey auto-publish or is it saved as draft \(default: false\)
+{% endapi-method-parameter %}
+
+{% api-method-parameter name="color" type="string" required=false %}
+The survey color \(shown in map and data view\)
+{% endapi-method-parameter %}
+{% endapi-method-body-parameters %}
+{% endapi-method-request %}
+
+{% api-method-response %}
+{% api-method-response-example httpCode=200 %}
+{% api-method-response-example-description %}
+
+{% endapi-method-response-example-description %}
+
+```
+{
+    "id": 11,
+    "url": "https:\/\/ushahididocs.api.ushahidi.io\/api\/v3\/forms\/11",
+    "parent_id": null,
+    "name": "The survey name",
+    "description": null,
+    "color": null,
+    "type": "report",
+    "disabled": false,
+    "created": "2018-12-10T12:52:05+00:00",
+    "updated": null,
+    "hide_author": false,
+    "hide_time": false,
+    "hide_location": false,
+    "require_approval": true,
+    "everyone_can_create": true,
+    "targeted_survey": false,
+    "can_create": [],
+    "tags": [],
+    "allowed_privileges": [
+        "read",
+        "create",
+        "update",
+        "delete",
+        "search"
+    ]
+}
+```
+{% endapi-method-response-example %}
+{% endapi-method-response %}
+{% endapi-method-spec %}
+{% endapi-method %}
+
+
+
+{% api-method method="delete" host="https://ushahididocs.api.ushahidi.io" path="/api/v3/forms/:form\_id" %}
+{% api-method-summary %}
+Delete a survey
+{% endapi-method-summary %}
+
+{% api-method-description %}
+
+{% endapi-method-description %}
+
+{% api-method-spec %}
+{% api-method-request %}
+{% api-method-path-parameters %}
+{% api-method-parameter name="form\_id" type="number" required=true %}
+The survey id.
+{% endapi-method-parameter %}
+{% endapi-method-path-parameters %}
+
+{% api-method-headers %}
+{% api-method-parameter name="Authorization" type="string" required=true %}
+Bearer: &lt;your-auth-token&gt;
+{% endapi-method-parameter %}
+{% endapi-method-headers %}
+{% endapi-method-request %}
+
+{% api-method-response %}
+{% api-method-response-example httpCode=200 %}
+{% api-method-response-example-description %}
+
+{% endapi-method-response-example-description %}
+
+```
+{
+    "id": 11,
+    "url": "https:\/\/ushahididocs.api.ushahidi.io\/api\/v3\/forms\/11",
+    "parent_id": null,
+    "name": "A survey created to delete it",
+    "description": null,
+    "color": null,
+    "type": "report",
+    "disabled": false,
+    "created": "2018-12-17T21:29:13+00:00",
+    "updated": null,
+    "hide_author": false,
+    "hide_time": false,
+    "hide_location": false,
+    "require_approval": true,
+    "everyone_can_create": true,
+    "targeted_survey": false,
+    "can_create": [],
+    "tags": [],
+    "allowed_privileges": [
+        "read",
+        "create",
+        "update",
+        "delete",
+        "search"
+    ]
+}
+```
+{% endapi-method-response-example %}
+{% endapi-method-response %}
+{% endapi-method-spec %}
+{% endapi-method %}
+
+
+
+{% api-method method="post" host="https://ushahididocs.api.ushahidi.io" path="/api/v3/messages" %}
+{% api-method-summary %}
+Respond to datasource messages
+{% endapi-method-summary %}
+
+{% api-method-description %}
+Used in the "Conversation with author" UX in the platform.
+{% endapi-method-description %}
+
+{% api-method-spec %}
+{% api-method-request %}
+{% api-method-headers %}
+{% api-method-parameter name="Authorization" type="string" required=true %}
+Bearer: &lt;your-auth-token&gt;
+{% endapi-method-parameter %}
+{% endapi-method-headers %}
+
+{% api-method-body-parameters %}
+{% api-method-parameter name="parent\_id" type="number" required=true %}
+The id of the message you are responding to.
+{% endapi-method-parameter %}
+
+{% api-method-parameter name="contact\_id" type="number" required=true %}
+The contact id of the person you want to send a message to. You can get this in the "Get messages for a post contact" endpoint below this one.
+{% endapi-method-parameter %}
+
+{% api-method-parameter name="direction" type="string" required=true %}
+Use "outgoing" for sending messages. We use "incoming" when a datasource fetches a message.
+{% endapi-method-parameter %}
+
+{% api-method-parameter name="message" type="string" required=true %}
+The message you want to send
+{% endapi-method-parameter %}
+{% endapi-method-body-parameters %}
+{% endapi-method-request %}
+
+{% api-method-response %}
+{% api-method-response-example httpCode=200 %}
+{% api-method-response-example-description %}
+
+{% endapi-method-response-example-description %}
+
+```
+
+```
+{% endapi-method-response-example %}
+{% endapi-method-response %}
+{% endapi-method-spec %}
+{% endapi-method %}
+
+
+
+{% api-method method="get" host="https://ushahididocs.api.ushahidi.io" path="/api/v3/messages" %}
+{% api-method-summary %}
+Get all messages for a post's contact
+{% endapi-method-summary %}
+
+{% api-method-description %}
+Used in the "Conversation with author" UX in the platform.
+{% endapi-method-description %}
+
+{% api-method-spec %}
+{% api-method-request %}
+{% api-method-headers %}
+{% api-method-parameter name="Authorization" type="string" required=true %}
+Bearer: &lt;your-auth-token&gt;
+{% endapi-method-parameter %}
+{% endapi-method-headers %}
+
+{% api-method-query-parameters %}
+{% api-method-parameter name="orderby" type="string" required=false %}
+Options: "created", "updated"
+{% endapi-method-parameter %}
+
+{% api-method-parameter name="order" type="string" required=false %}
+Options: "desc", "asc"
+{% endapi-method-parameter %}
+
+{% api-method-parameter name="limit" type="number" required=false %}
+Pagination limit
+{% endapi-method-parameter %}
+
+{% api-method-parameter name="offset" type="number" required=false %}
+Pagination offset
+{% endapi-method-parameter %}
+
+{% api-method-parameter name="contact" type="number" required=true %}
+The contact id. You can get it from the post the message is linked to.
+{% endapi-method-parameter %}
+{% endapi-method-query-parameters %}
+{% endapi-method-request %}
+
+{% api-method-response %}
+{% api-method-response-example httpCode=200 %}
+{% api-method-response-example-description %}
+
+{% endapi-method-response-example-description %}
+
+```
+
+```
+{% endapi-method-response-example %}
+{% endapi-method-response %}
+{% endapi-method-spec %}
+{% endapi-method %}
+
+
+
+{% api-method method="get" host="https://ushahididocs.api.ushahidi.io" path="/api/v3/messages/:messageId/post" %}
+{% api-method-summary %}
+Get the post for a message
+{% endapi-method-summary %}
+
+{% api-method-description %}
+Used in the "Conversation with author" UX in the platform.
+{% endapi-method-description %}
+
+{% api-method-spec %}
+{% api-method-request %}
+{% api-method-headers %}
+{% api-method-parameter name="Authorization" type="string" required=true %}
+Bearer: &lt;your-auth-token&gt;
+{% endapi-method-parameter %}
+{% endapi-method-headers %}
+
+{% api-method-query-parameters %}
+{% api-method-parameter name="orderby" type="string" required=false %}
+Options: "created", "updated"
+{% endapi-method-parameter %}
+
+{% api-method-parameter name="order" type="string" required=false %}
+Options: "desc", "asc"
+{% endapi-method-parameter %}
+
+{% api-method-parameter name="limit" type="number" required=false %}
+Pagination limit
+{% endapi-method-parameter %}
+
+{% api-method-parameter name="offset" type="number" required=false %}
+Pagination offset
+{% endapi-method-parameter %}
+
+{% api-method-parameter name="contact" type="number" required=true %}
+The contact id. You can get it from the post the message is linked to.
+{% endapi-method-parameter %}
+{% endapi-method-query-parameters %}
+{% endapi-method-request %}
+
+{% api-method-response %}
+{% api-method-response-example httpCode=200 %}
+{% api-method-response-example-description %}
+
+{% endapi-method-response-example-description %}
+
+```
+
 ```
 {% endapi-method-response-example %}
 {% endapi-method-response %}
