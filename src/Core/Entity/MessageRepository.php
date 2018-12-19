@@ -13,12 +13,16 @@ namespace Ushahidi\Core\Entity;
 
 use Ushahidi\Core\Entity\Repository\EntityGet;
 use Ushahidi\Core\Entity\Repository\EntityExists;
+use Ushahidi\Core\Entity\Repository\EntityCreate;
+use Ushahidi\Core\Entity\Repository\EntityCreateMany;
 use Ushahidi\Core\Usecase\CreateRepository;
 use Ushahidi\Core\Usecase\UpdateRepository;
 
 interface MessageRepository extends
     EntityGet,
     EntityExists,
+    EntityCreate,
+    EntityCreateMany,
     CreateRepository,
     UpdateRepository
 {

@@ -18,6 +18,8 @@ use Ohanzee\Database;
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\Entity\User;
 use Ushahidi\Core\Entity\UserRepository as UserRepositoryContract;
+use Ushahidi\Core\Entity\Contact;
+use Ushahidi\Core\Entity\ContactRepository;
 use Ushahidi\Core\SearchData;
 use Ushahidi\Core\Tool\Hasher;
 use Ushahidi\Core\Usecase\User\RegisterRepository;
@@ -139,8 +141,22 @@ class UserRepository extends OhanzeeRepository implements
         call_user_func_array([$query, 'values'], $values);
 
         list($insertId, $created) = $query->execute($this->db());
+        $newIds = range($insertId, $insertId + $created - 1);
 
-        return range($insertId, $insertId + $created - 1);
+        $contacts = collect($newIds)
+            ->combine($collection)
+            ->map(function ($entity, $id) {
+                return collect($entity->contacts)->map(function ($data) use ($id) {
+                    return new Contact($data + ['user_id' => $id]);
+                })->all();
+            })
+            ->flatten(1);
+
+        if ($contacts->isNotEmpty()) {
+            service('repository.contact')->createMany($contacts);
+        }
+
+        return $newIds;
     }
 
     // UpdateRepository
