@@ -57,11 +57,7 @@ You'll need to know again which user your web server is running as. We'll assume
 
 ```text
 MAILTO=<your email address for system alerts>
-*/5 * * * * cd <your document root>/platform && ./bin/ushahidi dataprovider outgoing >> /dev/null
-*/5 * * * * cd <your document root>/platform && ./bin/ushahidi dataprovider incoming >> /dev/null
-*/5 * * * * cd <your document root>/platform && ./bin/ushahidi savedsearch >> /dev/null
-*/5 * * * * cd <your document root>/platform && ./bin/ushahidi notification queue >> /dev/null
-*/5 * * * * cd <your document root>/platform && ./bin/ushahidi webhook send >> /dev/null
+* * * * * cd /var/www/platform && php artisan schedule:run >> /dev/null 2>&1
 ```
 
 * Restart your apache web server and access your virtual host. You should see your website and be able to login with the credentials user name admin and password admin

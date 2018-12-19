@@ -164,12 +164,9 @@ Add the following lines to the crontab
 {% code-tabs %}
 {% code-tabs-item title="crontab" %}
 ```bash
-MAILTO=admin@example.com #ensure a valid email for system notifications
-*/5 * * * * cd /var/www/platform && php artisan datasource:outgoing
-*/5 * * * * cd /var/www/platform && php artisan datasource:incoming
-*/5 * * * * cd /var/www/platform && php artisan savedsearch:sync
-*/5 * * * * cd /var/www/platform && php artisan notification:queue
-*/5 * * * * cd /var/www/platform && php artisan webhook:send
+MAILTO=admin@example.com
+ #ensure a valid email for system notifications
+* * * * * cd /var/www/platform && php artisan schedule:run >> /dev/null 2>&1
 ```
 {% endcode-tabs-item %}
 {% endcode-tabs %}
