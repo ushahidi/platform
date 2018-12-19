@@ -13,7 +13,7 @@ class FormMapper implements Mapper
         return new Form([
             'name' => $input['form_title'],
             'description' => $input['form_description'],
-            'disabled' => $input['form_active'],
+            'disabled' => !$input['form_active'],
             'name' => $input['form_title'],
             'require_approval' => true,
             'everyone_can_create' => true,
