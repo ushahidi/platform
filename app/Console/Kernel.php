@@ -51,6 +51,10 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        //
+        $schedule->command('datasource:outgoing')->everyFiveMinutes()->withoutOverlapping(60);
+        $schedule->command('datasource:incoming')->everyFiveMinutes()->withoutOverlapping(60);
+        $schedule->command('savedsearch:sync')->everyFiveMinutes()->withoutOverlapping(60);
+        $schedule->command('notification:queue')->everyFiveMinutes()->withoutOverlapping(60);
+        $schedule->command('webhook:send')->everyFiveMinutes()->withoutOverlapping(60);
     }
 }
