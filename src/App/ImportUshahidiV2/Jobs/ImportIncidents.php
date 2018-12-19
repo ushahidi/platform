@@ -91,9 +91,24 @@ class ImportIncidents extends Job
                 // Group returned collection by incident id
                 ->groupBy('incident_id');
 
-            // Merge the media into the incidents
-            $sourceData->each(function ($incident) use ($mediaData) {
+            // Fetch media for incidents
+            $formResponseData = $this->getConnection()
+                ->table('form_response')
+                ->select(
+                    'form_response.*'
+                )
+                // Load all form responses for this batch of incidents
+                ->whereIn('incident_id', $sourceData->pluck('id')->all())
+                ->orderBy('incident_id', 'asc')
+                ->orderBy('id', 'asc')
+                ->get()
+                // Group returned collection by incident id
+                ->groupBy('incident_id');
+
+            // Merge the media and form responses into the incidents
+            $sourceData->each(function ($incident) use ($mediaData, $formResponseData) {
                 $incident->media = $mediaData->get($incident->id);
+                $incident->form_responses = $formResponseData->get($incident->id);
             });
 
             $created = $importer->run($this->importId, $sourceData);

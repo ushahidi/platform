@@ -36,7 +36,8 @@ class PostMapperTest extends TestCase
             'longitude' => $faker->longitude,
             'categories' => '1,4,5',
             'incident_verified' => 1,
-            'media' => []
+            'media' => [],
+            'form_responses' => [],
         ];
 
         $mappingRepo = M::mock(ImportMappingRepository::class);
@@ -162,7 +163,8 @@ class PostMapperTest extends TestCase
                     'media_title' => null,
                     'media_link' => 'http://junk.com/something'
                 ]
-            ]
+            ],
+            'form_responses' => [],
         ];
 
         $mappingRepo = M::mock(ImportMappingRepository::class);
@@ -254,6 +256,151 @@ class PostMapperTest extends TestCase
                 'http://junk.com/something',
             ],
             $post->values['news-key']
+        );
+    }
+
+    public function testMapWithFormResponses()
+    {
+        $importId = 1;
+        $faker = Faker\Factory::create();
+        $input = [
+            'incident_title' => $faker->sentence(3),
+            'incident_description' => $faker->paragraph,
+            'form_id' => 30,
+            'user_id' => 77,
+            'incident_active' => 1,
+            'person_email' => $faker->email,
+            'person_first' => $faker->firstName,
+            'person_last' => $faker->lastName,
+            'incident_date' => $faker->date,
+            'location_name' => $faker->address,
+            'latitude' => $faker->latitude,
+            'longitude' => $faker->longitude,
+            'categories' => '1,4,5',
+            'incident_verified' => 1,
+            'media' => [],
+            'form_responses' => [
+                (object)[
+                    'form_field_id' => 6,
+                    'form_response' => 'Something'
+                ],
+                (object)[
+                    'form_field_id' => 7,
+                    'form_response' => 'Again'
+                ],
+                (object)[
+                    'form_field_id' => 8,
+                    'form_response' => 'Things'
+                ],
+                (object)[
+                    'form_field_id' => 8,
+                    'form_response' => 'Things2'
+                ]
+            ],
+        ];
+
+        $mappingRepo = M::mock(ImportMappingRepository::class);
+        $mappingRepo->shouldReceive('getDestId')
+            ->with($importId, 'form', 30)
+            ->andReturn(3);
+        $mappingRepo->shouldReceive('getDestId')
+            ->with($importId, 'user', 77)
+            ->andReturn(7);
+        $mappingRepo->shouldReceive('getDestId')
+            ->with($importId, 'incident_column', '30-location_name')
+            ->andReturn(1);
+        $mappingRepo->shouldReceive('getDestId')
+            ->with($importId, 'incident_column', '30-location')
+            ->andReturn(2);
+        $mappingRepo->shouldReceive('getDestId')
+            ->with($importId, 'incident_column', '30-verified')
+            ->andReturn(3);
+        $mappingRepo->shouldReceive('getDestId')
+            ->with($importId, 'incident_column', '30-categories')
+            ->andReturn(4);
+        $mappingRepo->shouldReceive('getDestId')
+            ->with($importId, 'incident_column', '30-news_source_link')
+            ->andReturn(5);
+        $mappingRepo->shouldReceive('getDestId')
+            ->with($importId, 'incident_column', '30-video_link')
+            ->andReturn(6);
+        $mappingRepo->shouldReceive('getDestId')
+            ->with($importId, 'incident_column', '30-photos')
+            ->andReturn(7);
+        $mappingRepo->shouldReceive('getDestId')
+            ->with($importId, 'category', '1')
+            ->andReturn(11);
+        $mappingRepo->shouldReceive('getDestId')
+            ->with($importId, 'category', '4')
+            ->andReturn(44);
+        $mappingRepo->shouldReceive('getDestId')
+            ->with($importId, 'category', '5')
+            ->andReturn(55);
+        $mappingRepo->shouldReceive('getDestId')
+            ->with($importId, 'form_field', 6)
+            ->andReturn(66);
+        $mappingRepo->shouldReceive('getDestId')
+            ->with($importId, 'form_field', 7)
+            ->andReturn(77);
+        $mappingRepo->shouldReceive('getDestId')
+            ->with($importId, 'form_field', 8)
+            ->andReturn(88);
+
+        $attrRepo = M::mock(FormAttributeRepository::class);
+        $attrRepo->shouldReceive('get')
+            ->with(1)
+            ->andReturn(new FormAttribute(['key' => 'location-name-key']));
+        $attrRepo->shouldReceive('get')
+            ->with(2)
+            ->andReturn(new FormAttribute(['key' => 'location-key']));
+        $attrRepo->shouldReceive('get')
+            ->with(3)
+            ->andReturn(new FormAttribute(['key' => 'verified-key']));
+        $attrRepo->shouldReceive('get')
+            ->with(4)
+            ->andReturn(new FormAttribute(['key' => 'categories-key']));
+        $attrRepo->shouldReceive('get')
+            ->with(5)
+            ->andReturn(new FormAttribute(['key' => 'news-key']));
+        $attrRepo->shouldReceive('get')
+            ->with(6)
+            ->andReturn(new FormAttribute(['key' => 'videos-key']));
+        $attrRepo->shouldReceive('get')
+            ->with(7)
+            ->andReturn(new FormAttribute(['key' => 'photos-key']));
+        $attrRepo->shouldReceive('get')
+            ->with(66)
+            ->andReturn(new FormAttribute(['key' => 'custom6-key']));
+        $attrRepo->shouldReceive('get')
+            ->with(77)
+            ->andReturn(new FormAttribute(['key' => 'custom7-key']));
+        $attrRepo->shouldReceive('get')
+            ->with(88)
+            ->andReturn(new FormAttribute(['key' => 'custom8-key']));
+
+        $mapper = new IncidentPostMapper($mappingRepo, $attrRepo);
+
+        $post = $mapper($importId, $input);
+
+        $this->assertInstanceOf(Post::class, $post);
+        $this->assertEquals(
+            [
+                'Something'
+            ],
+            $post->values['custom6-key']
+        );
+        $this->assertEquals(
+            [
+                'Again',
+            ],
+            $post->values['custom7-key']
+        );
+        $this->assertEquals(
+            [
+                'Things',
+                'Things2',
+            ],
+            $post->values['custom8-key']
         );
     }
 }
