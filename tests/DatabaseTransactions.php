@@ -82,4 +82,36 @@ trait DatabaseTransactions
             json_encode($data)
         ));
     }
+
+    /**
+     * Assert that a given where condition exists in the database.
+     *
+     * We have to use a custom version because the transaction is isolated
+     * to the individual connection
+     *
+     * @param  string  $table
+     * @param  array  $data
+     * @param  string|null $onConnection
+     * @return $this
+     */
+    protected function seeCountInOhanzeeDatabase($table, array $data, $assertCount)
+    {
+        $query = DB::select([DB::expr('COUNT(*)'), 'total'])
+            ->from($table);
+
+        foreach ($data as $column => $value) {
+            $predicate = is_array($value) ? 'IN' : '=';
+            $query->where($column, $predicate, $value);
+        }
+
+        $count = (int) $query
+            ->execute($this->database)
+            ->get('total', 0);
+
+        $this->assertEquals($assertCount, $count, sprintf(
+            'Count in database table [%s] doesnt match for attributes [%s].',
+            $table,
+            json_encode($data)
+        ));
+    }
 }
