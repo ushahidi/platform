@@ -52,7 +52,6 @@ class ImportCategories extends Job
 
     protected function importParents($importer)
     {
-        $imported = 0;
         $batch = 0;
         // While there are data left
         while (true) {
@@ -75,16 +74,12 @@ class ImportCategories extends Job
             $created = $importer->run($this->importId, $sourceCats);
 
             // Add to count
-            $imported += $created;
             $batch++;
         }
-
-        return $imported;
     }
 
     protected function importChildren($importer)
     {
-        $imported = 0;
         $batch = 0;
         // While there are data left
         while (true) {
@@ -106,11 +101,7 @@ class ImportCategories extends Job
 
             $created = $importer->run($this->importId, $sourceCats);
 
-            // Add to count
-            $imported += $created;
             $batch++;
         }
-
-        return $imported;
     }
 }

@@ -47,7 +47,6 @@ class ImportUsers extends Job
             $destRepo
         );
 
-        $imported = 0;
         $batch = 0;
         // While there are users left
         while (true) {
@@ -71,8 +70,6 @@ class ImportUsers extends Job
 
             $created = $importer->run($this->importId, $sourceUsers);
 
-            // Add to count
-            $imported += $created;
             $batch++;
         }
     }

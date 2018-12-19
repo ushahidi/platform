@@ -87,8 +87,12 @@ class ImportUshahidiV2Command extends Command
         $this->dispatcher->dispatchNow(new ImportUshahidiV2\Jobs\CopyRawTables($importId, $dbConfig));
 
         // Create default survey
-        $this->info('Create default survey');
-        $this->dispatcher->dispatchNow(new ImportUshahidiV2\Jobs\CreateDefaultSurvey($importId, $dbConfig));
+        // $this->info('Create default survey');
+        // $this->dispatcher->dispatchNow(new ImportUshahidiV2\Jobs\CreateDefaultSurvey($importId, $dbConfig));
+
+        // Import forms
+        $this->info('Import forms to surveys');
+        $this->dispatcher->dispatchNow(new ImportUshahidiV2\Jobs\ImportForms($importId, $dbConfig));
 
         // Import users
         $this->info('Importing users');

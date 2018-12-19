@@ -81,12 +81,8 @@ class ImportMessages extends Job
 
             $created = $importer->run($this->importId, $sourceData);
 
-            // Add to count
-            $imported += $created;
             $batch++;
         }
-
-        return $imported;
     }
 
     protected function importChildren($importer)
@@ -119,11 +115,7 @@ class ImportMessages extends Job
 
             $created = $importer->run($this->importId, $sourceData);
 
-            // Add to count
-            $imported += $created;
             $batch++;
         }
-
-        return $imported;
     }
 }
