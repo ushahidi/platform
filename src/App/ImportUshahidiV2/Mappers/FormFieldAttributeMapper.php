@@ -61,7 +61,7 @@ class FormFieldAttributeMapper implements Mapper
             'input' => $attrInput,
             'options' => $options,
             'cardinality' => in_array($attrInput, ['checkboxes', 'select']) ? 0 : 1,
-            'response_private' => $input['field_ispublic_visible'],
+            'response_private' => !$input['field_ispublic_visible'],
             // We can't map field_ispublic_submit to anything right now
             // Ideally we should group those fields in a stage w/ task_is_internal_only = 1
         ]);
