@@ -115,6 +115,7 @@ class IncidentPostMapper implements Mapper
                 return $value;
             })
             ->filter()
+            ->values()
             ->all();
     }
 }
