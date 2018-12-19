@@ -163,7 +163,8 @@ class PostMapperTest extends TestCase
                     'media_title' => null,
                     'media_link' => 'http://junk.com/something'
                 ]
-            ]
+            ],
+            'form_responses' => [],
         ];
 
         $mappingRepo = M::mock(ImportMappingRepository::class);
