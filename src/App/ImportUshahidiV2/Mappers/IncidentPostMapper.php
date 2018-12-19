@@ -107,16 +107,18 @@ class IncidentPostMapper implements Mapper
                 => $this->getMedia($input['media'], self::MEDIA_PHOTO, $userId),
         ];
 
-        foreach ($input['form_responses'] as $response) {
-            $key = $this->getAttributeKeyForField($importId, $input['form_id'], $response->form_field_id);
+        if ($input['form_responses']) {
+            foreach ($input['form_responses'] as $response) {
+                $key = $this->getAttributeKeyForField($importId, $input['form_id'], $response->form_field_id);
 
-            // Add key to values array if not set
-            if (!isset($values[$key])) {
-                $values[$key] = [];
+                // Add key to values array if not set
+                if (!isset($values[$key])) {
+                    $values[$key] = [];
+                }
+
+                // Append the value
+                $values[$key][] = $response->form_response;
             }
-
-            // Append the value
-            $values[$key][] = $response->form_response;
         }
 
         return $values;
