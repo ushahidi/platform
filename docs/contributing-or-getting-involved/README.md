@@ -39,3 +39,7 @@ Feature development is generally driven by our product and engineering team memb
 
 If you think you have found a security issue, please follow [this link where we explain our disclosure and reporting policies](https://www.ushahidi.com/security).
 
+## Adding Code
+
+If you would like to add code to the Ushahidi platform, please follow this [link](https://ushahidi.gitbook.io/platform-developer-documentation/~/edit/drafts/-LU5nkFJSs_7xNJgdakg/contributing-or-getting-involved/workflow-for-adding-code) to get a detailed workflow of how to get this done.
+

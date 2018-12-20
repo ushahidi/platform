@@ -36,7 +36,7 @@ All the documentation on using the platform is here
 
 ### Changing the UI styles for the platform. An introduction to our Pattern Library.
 
-{% page-ref page="changing-ui-styles-introduction-to-the-pattern-library.md" %}
+{% page-ref page="changing-ui-styles-introduction-to-the-pattern-library/" %}
 
 ## Useful Links
 
