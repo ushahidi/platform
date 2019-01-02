@@ -1,12 +1,6 @@
----
-description: 'TODO: Check and change links to gitbook, check relevance, update.'
----
+# Add code to Ushahidi
 
-# Workflow for adding code
-
-#### 
-
-###  Technical Dependencies <a id="technical-dependencies"></a>
+###  Technical Dependencies
 
 You will need these on your development machine
 
@@ -44,7 +38,7 @@ Thats all! Now you have your very own fork of the original repository.
 If you hadn't yet cloned \(and installed\) the platform code, you can just go ahead an clone your fork:
 
 ```text
-
+git clone git@github.com:yourusername/platform.git
 ```
 
 #### Add your fork as a remote
@@ -52,7 +46,8 @@ If you hadn't yet cloned \(and installed\) the platform code, you can just go ah
 If you already cloned and installed the platform, you can add your new fork as a "remote" repository:
 
 ```text
-
+git remote rename origin upstream
+git remote add origin git@github.com:yourusername/platform.git
 ```
 
 When you clone a repository, the URL you clone is always created as the "origin" remote repository. The commands above rename the "origin" to "upstream", and create a new "origin" that points to your fork. This will allow you to pull in new versions of the platform, but push your own branches to your fork.
@@ -80,9 +75,9 @@ Where “some-task” is a short description _without spaces_ of what this task 
 
 #### Write Code
 
-Now write your code. Make sure you meet the [Ushahidi coding standards](https://wiki.ushahidi.com/pages/viewpage.action?pageId=8359652) and use the [Ushahidi pattern library](https://github.com/ushahidi/platform-pattern-library) if you’re writing front-end code.
+Now write your code. Make sure you meet the [Ushahidi coding standards](https://ushahidi.gitbook.io/platform-developer-documentation/development-process/coding-standards) and use the [Ushahidi pattern library](https://ushahidi.gitbook.io/platform-developer-documentation/getting-started/setting-up-the-pattern-library-for-development) if you’re writing front-end code.
 
-If you get stuck, or want to talk through ideas, you can contact other Ushahidi developers on the [hipchat, IRC or Gitter](http://docs.ushahidi.org/get-involved.html).
+If you get stuck, or want to talk through ideas, you can contact other Ushahidi developers on the [hipchat, IRC or Gitter](https://ushahidi.gitbook.io/platform-developer-documentation/get-in-touch).
 
 #### Submit your code
 
@@ -91,7 +86,9 @@ When you’re ready to submit your code for approval, do this:
 1. Commit and push your code
 
    ```text
-
+   git add .
+   git commit -m “message about this commit”
+   git push origin some-task
    ```
 
 2. Then, open your fork on github, ie. [https://www.github.com/yourusername/platform](https://www.github.com/yourusername/platform). You’ll see a banner indicating that you’ve recently pushed a new branch, and that you can submit this branch “upstream,” to the original repository:![](https://github-images.s3.amazonaws.com/help/pull_requests/recently_pushed_branch.png)
@@ -102,7 +99,9 @@ The first time you submit code you may be asked to sign Ushahidi’s [contributo
 The Ushahidi admins will then review and comment on your code, and will either accept your code or ask you to make changes to it. If you are asked to make changes to your code, make those changes then resubmit your code using:
 
 ```text
-
+it add .
+git commit -m “message about this commit”
+git push origin some-task
 ```
 
 If your code is accepted, then the admin will merge your pull request. Your code will then appear in the Ushahidi Platform github repository, with you credited for it.

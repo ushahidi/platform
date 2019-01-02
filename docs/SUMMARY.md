@@ -5,7 +5,7 @@
 * [Contributing \| Getting Involved](contributing-or-getting-involved/README.md)
   * [Documentation](contributing-or-getting-involved/contributing-documentation/README.md)
     * [Contributing docs via GitHub](contributing-or-getting-involved/contributing-documentation/contributing-docs-via-github.md)
-  * [Workflow for adding code](contributing-or-getting-involved/workflow-for-adding-code.md)
+  * [Add code to Ushahidi](contributing-or-getting-involved/workflow-for-adding-code.md)
 * [Getting started](getting-started/README.md)
   * [Setting up the Pattern Library for development](getting-started/setting-up-the-pattern-library-for-development.md)
   * [Setting up your development environment](getting-started/setting-up-your-development-environment.md)
