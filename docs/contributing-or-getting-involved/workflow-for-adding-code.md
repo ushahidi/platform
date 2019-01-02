@@ -12,7 +12,7 @@ You will need these on your development machine
 
 #### Get a github account
 
-Ushahidi code development is happening in [Github](https://github.com/ushahidi/platform/issues).
+Ushahidi code development is happening in [Github](https://github.com/ushahidi). We track all our tasks, both front-end and back-end, in issues connected to the repo [Platform API](https://github.com/ushahidi/platform/issues)
 
 First, [create a github account](https://github.com/join).
 
@@ -77,7 +77,7 @@ Where “some-task” is a short description _without spaces_ of what this task 
 
 Now write your code. Make sure you meet the [Ushahidi coding standards](https://ushahidi.gitbook.io/platform-developer-documentation/development-process/coding-standards) and use the [Ushahidi pattern library](https://ushahidi.gitbook.io/platform-developer-documentation/getting-started/setting-up-the-pattern-library-for-development) if you’re writing front-end code.
 
-If you get stuck, or want to talk through ideas, you can contact other Ushahidi developers on the [hipchat, IRC or Gitter](https://ushahidi.gitbook.io/platform-developer-documentation/get-in-touch).
+If you get stuck, or want to talk through ideas, you can contact other Ushahidi developers on the [hipchat, IRC or Gitter](https://ushahidi.gitbook.io/platform-developer-documentation/contributing-or-getting-involved/workflow-for-adding-code#join-the-community).
 
 #### Submit your code
 
@@ -91,7 +91,7 @@ When you’re ready to submit your code for approval, do this:
    git push origin some-task
    ```
 
-2. Then, open your fork on github, ie. [https://www.github.com/yourusername/platform](https://www.github.com/yourusername/platform). You’ll see a banner indicating that you’ve recently pushed a new branch, and that you can submit this branch “upstream,” to the original repository:![](https://github-images.s3.amazonaws.com/help/pull_requests/recently_pushed_branch.png)
+2. Then, open your fork on github, ie. _"https://www.github.com/yourusername/platform"_. You’ll see a banner indicating that you’ve recently pushed a new branch, and that you can submit this branch “upstream,” to the original repository:![](https://github-images.s3.amazonaws.com/help/pull_requests/recently_pushed_branch.png)
 3. Click on "Compare and Pull Request" to create a pull request. Enter a title and description, then click "Create pull request"![](https://github-images.s3.amazonaws.com/help/pull_requests/pullrequest-send.png)
 
 The first time you submit code you may be asked to sign Ushahidi’s [contributor agreement](https://phabricator.ushahidi.com/L2).
@@ -99,7 +99,7 @@ The first time you submit code you may be asked to sign Ushahidi’s [contributo
 The Ushahidi admins will then review and comment on your code, and will either accept your code or ask you to make changes to it. If you are asked to make changes to your code, make those changes then resubmit your code using:
 
 ```text
-it add .
+git add .
 git commit -m “message about this commit”
 git push origin some-task
 ```
