@@ -32,7 +32,7 @@ All the documentation on using the platform is here
 
 ### How to install and run the Ushahidi Platform
 
-{% page-ref page="setup\_alternatives/" %}
+{% page-ref page="getting-started/setup\_alternatives/" %}
 
 ### Changing the UI styles for the platform. An introduction to our Pattern Library.
 

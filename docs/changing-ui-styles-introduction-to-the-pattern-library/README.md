@@ -32,7 +32,7 @@ We recommend you review the different structures in the pattern library, and fol
 
 Find the setup guide in 
 
-{% page-ref page="../getting-started/setting-up-the-pattern-library-for-development.md" %}
+{% page-ref page="../getting-started/setup\_alternatives/setting-up-the-pattern-library-for-development.md" %}
 
 
 

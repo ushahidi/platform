@@ -1,4 +1,4 @@
-# Platform Client installation
+# Setting up the Platform Client for development
 
 ### What is the platform client?
 
