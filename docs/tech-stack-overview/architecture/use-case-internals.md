@@ -64,7 +64,7 @@ Most of our use cases follow 5 high level patterns for Create, Read, Update, Del
 
 ![Create Usecase](../../.gitbook/assets/create-usecase%20%281%29.png)
 
-\[create\]\([http://www.nomnoml.com/\#view/%23title%3A Create UseCase  
+\(create\)\[[http://www.nomnoml.com/\#view/%23title%3A Create UseCase  
 \[&lt;state&gt;request\]-&gt;\[Create Usecase\]  
 \[Create Usecase\]-&gt;\[&lt;state&gt;response\]  
 \[&lt;state&gt;response\]-&gt;\[OutputFormatter\]  
@@ -108,7 +108,7 @@ filters]
 %20%20%20%20%20[<choice>%20Can%20Read%3F]->[<end>%20return]
 ]
 
-%23direction%3A%20right)\)
+%23direction%3A%20right)\]
 
 ![Create Usecase - Collaborators](../../.gitbook/assets/create-usecase-collab.png)
 
