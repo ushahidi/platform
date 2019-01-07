@@ -96,6 +96,12 @@ When you’re ready to submit your code for approval, do this:
 
 The first time you submit code you may be asked to sign Ushahidi’s [contributor agreement](https://phabricator.ushahidi.com/L2).
 
+{% hint style="warning" %}
+TODO: Add correct link to contributors agreement
+{% endhint %}
+
+
+
 The Ushahidi admins will then review and comment on your code, and will either accept your code or ask you to make changes to it. If you are asked to make changes to your code, make those changes then resubmit your code using:
 
 ```text
