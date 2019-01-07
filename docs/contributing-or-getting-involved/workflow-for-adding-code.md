@@ -75,7 +75,7 @@ Where “some-task” is a short description _without spaces_ of what this task 
 
 #### Write Code
 
-Now write your code. Make sure you meet the [Ushahidi coding standards](https://ushahidi.gitbook.io/platform-developer-documentation/development-process/coding-standards) and use the [Ushahidi pattern library](https://ushahidi.gitbook.io/platform-developer-documentation/getting-started/setting-up-the-pattern-library-for-development) if you’re writing front-end code.
+Now write your code. Make sure you meet the [Ushahidi coding standards](https://ushahidi.gitbook.io/platform-developer-documentation/development-process/coding-standards) and use the [Ushahidi pattern library](https://ushahidi.gitbook.io/platform-developer-documentation/changing-ui-styles-introduction-to-the-pattern-library) if you’re writing front-end code.
 
 If you get stuck, or want to talk through ideas, you can contact other Ushahidi developers on the [hipchat, IRC or Gitter](https://ushahidi.gitbook.io/platform-developer-documentation/contributing-or-getting-involved/workflow-for-adding-code#join-the-community).
 
