@@ -64,7 +64,7 @@ Most of our use cases follow 5 high level patterns for Create, Read, Update, Del
 
 ![Create Usecase](../../.gitbook/assets/create-usecase%20%281%29.png)
 
-\(create\)\[[http://www.nomnoml.com/\#view/%23title%3A Create UseCase  
+\(create\)[http://www.nomnoml.com/\#view/%23title%3A Create UseCase  
 \[&lt;state&gt;request\]-&gt;\[Create Usecase\]  
 \[Create Usecase\]-&gt;\[&lt;state&gt;response\]  
 \[&lt;state&gt;response\]-&gt;\[OutputFormatter\]  

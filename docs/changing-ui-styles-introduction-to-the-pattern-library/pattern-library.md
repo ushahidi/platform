@@ -6,8 +6,6 @@ description: >-
 
 # File-structure
 
-
-
 ## File Structure
 
 The Ushahidi Platform front-end is served via the [assets folder](https://github.com/ushahidi/platform-pattern-library/tree/master/assets). Production files are compiled via [gulpfile.js](https://github.com/ushahidi/platform-pattern-library/blob/master/gulpfile.js). 
@@ -26,7 +24,7 @@ The CSS is then compiled from [assets/sass/style.scss](https://github.com/ushahi
 
 Each Javascript pattern gets it's own .js file within the [custom](https://github.com/ushahidi/platform-pattern-library/tree/master/assets/js/custom) directory.
 
-The Javascript is then compiled from [assets/js/custom](https://github.com/ushahidi/platform-pattern-library/tree/master/assets/js/custom) to [assets/js/app.js](https://github.com/ushahidi/platform-pattern-library/tree/master/assets/js/app.js).
+The Javascript is then compiled from [assets/js/custom](https://github.com/ushahidi/platform-pattern-library/tree/master/assets/js/custom) to assets/js/app.js.
 
 PL specfic javascript follows the same pattern but originates from [assets/js/pattern-library](https://github.com/ushahidi/platform-pattern-library/tree/master/assets/js/pattern-library)
 

@@ -87,7 +87,6 @@ border-right: 3px solid #000 // RTL
 #background-position-center {
     @include background-position(center 100px);
 }
-
 #background-1 {
     @include background(url(../img/ushahidi-logo-black.svg) no-repeat 20px center);
 }

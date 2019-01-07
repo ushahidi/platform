@@ -56,9 +56,9 @@ In your server, you should clone the “platform” and “platform-client” re
 Once your MySQL database servers are up and running, you should:
 
 * Create a new database. 
-  * For the rest of this guide, we will assume the database name is "platform-db"
-* Create a new database user with a password, this user should have access to the platform-db database. 
-  * For the rest of this guide, we will assume the database user is named "platform-user", with a password "yourpassword"
+  * For the rest of this guide, we will assume the database name is "_platform-db_"
+* Create a new database user with a password, this user should have access to the _platform-db_ database. 
+  * For the rest of this guide, we will assume the database user is named "_platform-user_", with a password "_yourpassword_"
 
 Example MySQL statements for the above
 

@@ -72,11 +72,10 @@ Our vagrant box is built on top of Laravel's Homestead, a pre-packaged Vagrant b
 
 {% hint style="info" %}
 If you see an error like "Vagrant was unable to mount VirtualBox shared folders...", try upgrading VirtualBox or edit Homestead.yaml and change the folders to NFS as shown below, then re-run "vagrant" up.
-
-
+{% endhint %}
 
 ```text
-  -
+ -
       map: "./"
       to: /vagrant
       type: "nfs"
@@ -85,7 +84,6 @@ If you see an error like "Vagrant was unable to mount VirtualBox shared folders.
       to: /home/vagrant/Code/platform-api
       type: "nfs"
 ```
-{% endhint %}
 
 You will have to ssh into your vagrant machine to finish installing the dependencies.
 
@@ -107,14 +105,12 @@ composer install
 
 {% hint style="warning" %}
 **Important:** If you didn't setup vagrant-hostupdater, you will need to add the following lines to /etc/hosts in your host machine.
-
-
+{% endhint %}
 
 ```text
 192.168.33.110  platform-api
 192.168.33.110  api.ushahidi.test
 ```
-{% endhint %}
 
 
 
@@ -142,7 +138,7 @@ Example JSON
 {"now":"2018-11-06T19:18:23+00:00","version":"3","user":{"id":null,"email":null,"realname":null}}
 ```
 
-### `Installing the client`
+### Installing the client
 
 The latest install instructions for the client are always [in the platform-client README, at this url](https://github.com/ushahidi/platform-client/blob/develop/README.md).
 

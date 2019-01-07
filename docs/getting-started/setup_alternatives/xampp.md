@@ -24,65 +24,62 @@
   * run `composer migrate` to run the database migrations. This will create all the necessary tables and a default `admin` user with password `administrator`
 * at this point you have the API ready to run, but need to setup some apache rules to be able to access it correctly.
 * Add the api url to your hosts file \(127.0.0.1 api.ushahidi.test\)
-* Add this file platform/httpdocs/.htaccess:
-
-  \`\`\`
-
-  **Turn on URL rewriting**
-
-  RewriteEngine On
-
-## Set base directory
-
-RewriteBase /httpdocs RewriteCond %{HTTP:Authorization} . RewriteRule .\* - \[E=HTTP\_AUTHORIZATION:%{HTTP:Authorization}\]
-
-## Protect hidden files from being viewed
-
- Order Deny,Allow Deny From All
-
-## Uncomment to force redirection to https site.
-
-## RewriteCond %{HTTP:X-Forwarded-Proto} =http
-
-## RewriteRule ^\(.\*\)$ [https://%{HTTP\_HOST}%{ENV:REWRITEBASE}$1](https://%{HTTP_HOST}%{ENV:REWRITEBASE}$1) \[R=301,L\]
-
-## Allow any files or directories that exist to be displayed directly
-
-RewriteCond %{REQUEST\_FILENAME} !-f RewriteCond %{REQUEST\_FILENAME} !-d
-
-## Rewrite all other URLs to index.php/URL
-
-RewriteRule .\* index.php/$0 \[PT\]
+* Add this to file platform/httpdocs/.htaccess:
 
 ```text
-- Add this file platform/.htaccess
-```
-
-## Turn on URL rewriting
-
+#Turn on URL rewriting
 RewriteEngine On
 
-## Set base directory
+#Set base directory
+RewriteBase /httpdocs RewriteCond %{HTTP:Authorization} . RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
 
-## RewriteBase /platform
+#Protect hidden files from being viewed
+Order Deny,Allow Deny From All
 
-## Protect hidden files from being viewed
+#Uncomment to force redirection to https site.
+#RewriteCond %{HTTP:X-Forwarded-Proto} =http
+#RewriteRule ^(.*)$ https://%{HTTP_HOST}%{ENV:REWRITEBASE}$1 [R=301,L]
 
- Order Deny,Allow Deny From All
+#Allow any files or directories that exist to be displayed directly
+RewriteCond %{REQUEST_FILENAME} !-f RewriteCond %{REQUEST_FILENAME} !-d
 
-## Rewrite all other URLs to httpdocs
-
-RewriteRule .\* httpdocs/$0 \[PT\]
-
-```text
-- In your httpd.conf file (open xampp => config -> httpd.conf) , add this virtualhost
+#Rewrite all other URLs to index.php/URL
+RewriteRule .* index.php/$0 [PT]
 ```
 
- ServerAdmin webmaster@localhost DocumentRoot "C:/newxamp/htdocs/platform" ServerName ushahidi.api.test
 
- AllowOverride all &lt;/VirtualHost&gt;
 
-\`\`\`
+* Add this to file platform/.htaccess:
 
-* You're all done. You should be able to access api.ushahidi.test now and see the default API response
+
+
+```text
+#Turn on URL rewriting
+RewriteEngine On
+
+#Set base directory
+RewriteBase /platform
+
+#Protect hidden files from being viewed
+Order Deny,Allow Deny From All
+
+#Rewrite all other URLs to httpdocs
+RewriteRule .* httpdocs/$0 [PT]
+```
+
+* In your httpd.conf file \(open xampp =&gt; config -&gt; httpd.conf\) , add this virtualhost:
+
+{% hint style="warning" %}
+TODO: Check with Romina, in an old example, DocumentRoot is wrapped in &lt;&gt;, should they be added here as well?
+{% endhint %}
+
+
+
+```
+<VirtualHost *:80>
+ServerAdmin webmaster@localhost DocumentRoot "C:/newxamp/htdocs/platform" ServerName ushahidi.api.test
+ AllowOverride all </VirtualHost>
+```
+
+You're all done. You should be able to access api.ushahidi.test now and see the default API response.
 

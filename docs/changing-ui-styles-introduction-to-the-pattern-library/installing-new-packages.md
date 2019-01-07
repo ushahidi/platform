@@ -4,7 +4,7 @@ Third party packages, libraries and/or plugins can easily be added to the patter
 
 ### Installing New Packages
 
-New packages can be added to your project by running npm install example-package --save-dev.
+New packages can be added to your project by running npm install _example-package_ --save-dev.
 
 This command does the following:
 

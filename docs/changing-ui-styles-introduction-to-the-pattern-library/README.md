@@ -10,7 +10,7 @@ The Pattern Library runs as a dependency of the web client, it's included in the
 
 To add new views in the Platform Client, we recommend you first check if you can compose those views with pre-existing patterns from our pattern library. 
 
-You can see the available patterns and more documentation specific to the pattern library here.
+You can see the available patterns here:
 
 {% embed url="http://preview.ushahidi.com/platform-pattern-library/master/" %}
 
@@ -24,7 +24,7 @@ To change the color palette, you will need to modify the pattern library's color
 
 When you need completely new layouts with new styles, you will need to add or modify the pattern library. 
 
-We recommend you review the different structures in the pattern library, and follow the instructions and documentation to use it here 
+We recommend you review the different structures in the pattern library before starting:
 
 {% embed url="http://preview.ushahidi.com/platform-pattern-library/master/index.html" %}
 
@@ -34,5 +34,8 @@ Find the setup guide in
 
 {% page-ref page="../getting-started/setup\_alternatives/setting-up-the-pattern-library-for-development.md" %}
 
+### Working with the pattern library
+
+Continue reading in this chapter  to get a full introduction to the pattern library.  
 
 

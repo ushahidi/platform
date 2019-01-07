@@ -12,7 +12,7 @@ So the first thing that needs to be determined is where the new UI fits withing 
 
 ### HTML
 
-Each UI component exists in either [**Basics**](http://preview.ushahidi.com/platform-pattern-library/assets/html/1_basics/), [**Fragments**](http://preview.ushahidi.com/platform-pattern-library/assets/html/2_fragments/), [**Modules**](http://preview.ushahidi.com/platform-pattern-library/assets/html/3_modules/), or [**Blocks**](http://preview.ushahidi.com/platform-pattern-library/assets/html/4_blocks/) with each having their own [index.html file](https://github.com/ushahidi/platform-pattern-library/tree/master/pattern-library/1_basics) _\(links to basic's index.html\)_.
+Each UI component exists in either [**Basics**](http://preview.ushahidi.com/platform-pattern-library/master/assets/html/1_basics/), [**Fragments**](http://preview.ushahidi.com/platform-pattern-library/master/assets/html/2_fragments/), [**Modules**](http://preview.ushahidi.com/platform-pattern-library/master/assets/html/3_modules/), or [**Blocks**](http://preview.ushahidi.com/platform-pattern-library/master/assets/html/4_blocks/) with each having their own [index.html file](https://github.com/ushahidi/platform-pattern-library/tree/master/pattern-library/1_basics) _\(links to basic's index.html\)_.
 
 #### Creating the HTML for a new component
 
@@ -22,7 +22,7 @@ Each UI component exists in either [**Basics**](http://preview.ushahidi.com/plat
 
 #### Creating a new layout template.
 
-[**Layouts**](http://preview.ushahidi.com/platform-pattern-library/assets/html/5_layouts/) are compiled via [Handlebars](https://handlebarsjs.com/).
+[**Layouts**](http://preview.ushahidi.com/platform-pattern-library/master/assets/html/5_layouts/) are compiled via [Handlebars](https://handlebarsjs.com/).
 
 * create a new file [here](https://github.com/ushahidi/platform-pattern-library/tree/master/pattern-library/5_layouts). _\(use existing html files as a guide\)_
 * create a handlebars file [here](https://github.com/ushahidi/platform-pattern-library/tree/master/assets/templates). 
@@ -38,7 +38,9 @@ The Platform Pattern Library uses [Sass](https://sass-lang.com/) to compile Css.
 Sass files are structured using the same methodology as above.
 
 * create a new .scss file in the[ Sass directory](https://github.com/ushahidi/platform-pattern-library/blob/master/assets/sass).
-* @import that file [here](https://github.com/ushahidi/platform-pattern-library/blob/master/assets/sass/style.scss).
+* @import that file to [/assets/sass/**style.scss**](https://github.com/ushahidi/platform-pattern-library/blob/master/assets/sass/style.scss)\*\*\*\*
+
+
 
 
 
