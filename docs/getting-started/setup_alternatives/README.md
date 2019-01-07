@@ -28,7 +28,7 @@ Deploy-ready versions from the platform-release repository, which contains produ
 
 {% page-ref page="setting-up-the-platform-client.md" %}
 
-## Platform Pattern Library \(CSS\) install guide
+## Platform Pattern Library \(HTML/CSS\) install guide
 
 If you plan to change the css for the Platform Client, follow this guide.
 
