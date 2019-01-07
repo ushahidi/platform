@@ -22,7 +22,7 @@ This option is only recommended for local development, in particular for situati
 
 Deploy-ready versions from the platform-release repository, which contains production-ready tags of the platform. Ready to use with docker.
 
-{% page-ref page="./" %}
+{% page-ref page="platform\_release\_install.md" %}
 
 ## Platform Client \(Frontend\) install guides
 
