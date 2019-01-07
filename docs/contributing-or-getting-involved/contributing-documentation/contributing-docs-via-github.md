@@ -4,9 +4,7 @@ Ushahidi Platform's documentation is kept in GitHub and GitBook. Both of these d
 
 For most of the users, the preference will be to browse the documentation via GitBook. It tends to look prettier and easier to navigate.
 
-However, at the moment of this writing, GitBook doesn't have a system that can accept contributions from any reader. 
-
-However, as of this writing, GitBook doesn't have a system to openly accept contributions from readers. Contributions are accepted from anyone via GitHub. This document walks you through the steps of contributing via GitHub.
+However, at the moment of this writing, GitBook doesn't have a system that can accept contributions from any reader. However, contributions are accepted from anyone via GitHub. This document walks you through the steps of contributing via GitHub.
 
 The only requirement to start is to have a user account in GitHub.
 
