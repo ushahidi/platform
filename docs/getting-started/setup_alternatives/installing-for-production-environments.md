@@ -35,8 +35,8 @@
 
 To run the Ushahidi Platform successfully in production, please ensure you have two hostnames available:
 
-* A hostname for accessing the web client from a browser. This is the name that is most publicly visible, and appears in the browser address bar. For example, we use: yourdeploymentname.ushahidi.io
-* A hostname for accessing the backend application. For example: yourdeploymentname.api.ushahidi.io . 
+* A hostname for accessing the web client from a browser. This is the name that is most publicly visible, and appears in the browser address bar. As an example, we use: _yourdeploymentname.ushahidi.io_
+* A hostname for accessing the backend application. As an example, we use: _yourdeploymentname.api.ushahidi.io_ . 
 
 {% hint style="warning" %}
 Ensure you have valid SSL certificates for both host names.
