@@ -64,7 +64,9 @@ Most of our use cases follow 5 high level patterns for Create, Read, Update, Del
 
 ![Create Usecase](../../.gitbook/assets/create-usecase%20%281%29.png)
 
-[create] ([http://www.nomnoml.com/#view/%23title%3A Create UseCase  
+[create] (http://www.nomnoml.com/#view/%23title%3A
+
+[Create UseCase|
 [&lt;state&gt;request]-&gt;[Create Usecase]  
 [Create Usecase]-&gt;[&lt;state&gt;response]  
 [&lt;state&gt;response\]-&gt;[OutputFormatter]  
@@ -112,18 +114,18 @@ filters]
 
 ![Create Usecase - Collaborators](../../.gitbook/assets/create-usecase-collab.png)
 
- \[collaborators\]\([http://www.nomnoml.com/\#view/%23title%3A Create UseCase Collaborators  
+ [collaborators]([http://www.nomnoml.com/\#view/%23title%3A Create UseCase Collaborators  
   
-\[CreateUsecase\|\|  
-interact\(\)  
-setPayload\(\)\]  
+[CreateUsecase||  
+interact()  
+setPayload()]  
   
-\[Validator\]&lt;-%2B\[CreateUsecase\]  
-\[Authorizer\]&lt;-%2B\[CreateUsecase\]  
-\[Formatter\]&lt;-%2B\[CreateUsecase\]  
-\[Repository\]&lt;-%2B\[CreateUsecase\]  
+[Validator]&lt;-%2B[CreateUsecase]  
+[Authorizer]&lt;-%2B[CreateUsecase]  
+[Formatter]&lt;-%2B[CreateUsecase]  
+[Repository]&lt;-%2B[CreateUsecase]  
   
-\[CreateUsecase\]-&gt;\[&lt;input&gt; payload\]  
+[CreateUsecase]-&gt;[&lt;input&gt; payload]
   
 %23direction%3A right](http://www.nomnoml.com/#view/%23title%3A%20Create%20UseCase%20Collaborators
 
@@ -138,28 +140,28 @@ setPayload%28%29]
 
 [CreateUsecase]->[<input>%20payload]
 
-%23direction%3A%20right)\)
+%23direction%3A%20right)
 
 #### Read
 
 ![Read Usecase](../../.gitbook/assets/read-usecase%20%282%29.png)
 
-\[read\]\([http://www.nomnoml.com/\#view/%23title%3A Read UseCase  
-\[&lt;state&gt;request\]-&gt;\[Read Usecase\]  
-\[Read Usecase\]-&gt;\[&lt;state&gt;response\]  
-\[&lt;state&gt;response\]-&gt;\[OutputFormatter\]  
+[read]([http://www.nomnoml.com/\#view/%23title%3A Read UseCase  
+[&lt;state&gt;request]-&gt;[Read Usecase]
+[Read Usecase]-&gt;[&lt;state&gt;response]
+[&lt;state&gt;response]-&gt;[OutputFormatter]
   
-\[&lt;state&gt;request\|  
-payload%3B  
-identifier%3B  
-filters\]  
+[&lt;state&gt;request|
+payload%3B
+identifier%3B
+filters]
   
-\[Read Usecase\|  
-     \[&lt;start&gt; interact\(\)\]-&gt;\[Get Entity\]  
-     \[Get Entity\]-&gt;\[Verify Read Auth\]  
-     \[Verify Read Auth\]-&gt;\[Format Entity\]  
-     \[Format Entity\]-&gt;\[&lt;end&gt; return\]  
-\]  
+[Read Usecase|
+     [&lt;start&gt; interact()]-&gt;[Get Entity]
+     [Get Entity]-&gt;[Verify Read Auth]
+     [Verify Read Auth]-&gt;[Format Entity]
+     [Format Entity]-&gt;[&lt;end&gt; return]
+]
   
 %23direction%3A right](http://www.nomnoml.com/#view/%23title%3A%20Read%20UseCase
 [<state>request]->[Read%20Usecase]
@@ -178,33 +180,33 @@ filters]
 %20%20%20%20%20[Format%20Entity]->[<end>%20return]
 ]
 
-%23direction%3A%20right)\)
+%23direction%3A%20right))
 
 #### Update
 
 ![Update Usecase](../../.gitbook/assets/update-usecase%20%282%29.png)
 
-\[update\]\([http://www.nomnoml.com/\#view/%23title%3A Update UseCase  
-\[&lt;state&gt;request\]-&gt;\[Update Usecase\]  
-\[Update Usecase\]-&gt;\[&lt;state&gt;response\]  
-\[&lt;state&gt;response\]-&gt;\[OutputFormatter\]  
-  
-\[&lt;state&gt;request\|  
-payload%3B  
-identifier%3B  
-filters\]  
-  
-\[Update Usecase\|  
-     \[&lt;start&gt; interact\(\)\]-&gt;\[Get Entity\]  
-     \[Get Entity\]-&gt;\[Update State\]  
-     \[Update State\]-&gt;\[Verify Update Auth\]  
-     \[Verify Update Auth\]-&gt;\[Verify Valid\]  
-     \[Verify Valid\]-&gt;\[Update Entity\]  
-     \[Update Entity\]-&gt;\[&lt;choice&gt; Can Read%3F\]  
-     \[&lt;choice&gt; Can Read%3F\]-&gt;\[Format Entity\]  
-     \[Format Entity\]-&gt;\[&lt;end&gt; return\]  
-     \[&lt;choice&gt; Can Read%3F\]-&gt;\[&lt;end&gt; return\]  
-\]  
+[update]([http://www.nomnoml.com/#view/%23title%3A Update UseCase  
+[&lt;state&gt;request]-&gt;[Update Usecase]
+[Update Usecase]-&gt;[&lt;state&gt;response]
+[&lt;state&gt;response]-&gt;[OutputFormatter]
+
+[&lt;state&gt;request|
+payload%3B
+identifier%3B
+filters]
+
+[Update Usecase|
+     [&lt;start&gt; interact()]-&gt;[Get Entity] 
+     [Get Entity]-&gt;[Update State]
+     [Update State]-&gt;[Verify Update Auth]
+     [Verify Update Auth]-&gt;[Verify Valid]
+     [Verify Valid]-&gt;[Update Entity]  
+     [Update Entity]-&gt;[&lt;choice&gt; Can Read%3F]
+     [&lt;choice&gt; Can Read%3F]-&gt;[Format Entity]
+     [Format Entity]-&gt;[&lt;end&gt; return]  
+     [&lt;choice&gt; Can Read%3F]-&gt;[&lt;end&gt; return]
+]
   
 %23direction%3A right](http://www.nomnoml.com/#view/%23title%3A%20Update%20UseCase
 [<state>request]->[Update%20Usecase]
@@ -228,30 +230,30 @@ filters]
 %20%20%20%20%20[<choice>%20Can%20Read%3F]->[<end>%20return]
 ]
 
-%23direction%3A%20right)\)
+%23direction%3A%20right))
 
 #### Delete
 
 ![Delete Usecase](../../.gitbook/assets/delete-usecase%20%281%29.png)
 
-\[delete\]\([http://www.nomnoml.com/\#view/%23title%3A Delete UseCase  
-\[&lt;state&gt;request\]-&gt;\[Delete Usecase\]  
-\[Delete Usecase\]-&gt;\[&lt;state&gt;response\]  
-\[&lt;state&gt;response\]-&gt;\[OutputFormatter\]  
+[delete]([http://www.nomnoml.com/#view/%23title%3A Delete UseCase  
+[&lt;state&gt;request]-&gt;[Delete Usecase]
+[Delete Usecase]-&gt;[&lt;state&gt;response]
+[&lt;state&gt;response]-&gt;[OutputFormatter]
   
-\[&lt;state&gt;request\|  
-payload%3B  
-identifier%3B  
-filters\]  
-  
-\[Delete Usecase\|  
-     \[&lt;start&gt; interact\(\)\]-&gt;\[Get Entity\]  
-     \[Get Entity\]-&gt;\[Verify Delete Auth\]  
-     \[Verify Delete Auth\]-&gt;\[Delete Entity\]  
-     \[Delete Entity\]-&gt;\[Verify Read Auth\]  
-     \[Verify Read Auth\]-&gt;\[Format Entity\]  
-     \[Format Entity\]-&gt;\[&lt;end&gt; return\]  
-\]  
+[&lt;state&gt;request|
+payload%3B
+identifier%3B
+filters]
+
+[Delete Usecase|
+     [&lt;start&gt; interact()]-&gt;[Get Entity]
+     [Get Entity]-&gt;[Verify Delete Auth]
+     [Verify Delete Auth]-&gt;[Delete Entity]
+     [Delete Entity]-&gt;[Verify Read Auth]
+     [Verify Read Auth]-&gt;[Format Entity]
+     [Format Entity]-&gt;[&lt;end&gt; return]
+]
   
 %23direction%3A right](http://www.nomnoml.com/#view/%23title%3A%20Delete%20UseCase
 [<state>request]->[Delete%20Usecase]
@@ -272,37 +274,37 @@ filters]
 %20%20%20%20%20[Format%20Entity]->[<end>%20return]
 ]
 
-%23direction%3A%20right)\)
+%23direction%3A%20right))
 
 #### Search
 
 ![Search Usecase](../../.gitbook/assets/search-usecase.png)
 
-\[search\]\([http://www.nomnoml.com/\#view/%23title%3A Search UseCase  
-\[&lt;state&gt;request\]-&gt;\[Search Usecase\]  
-\[Search Usecase\]-&gt;\[&lt;state&gt;response\]  
-\[&lt;state&gt;response\]-&gt;\[OutputFormatter\]  
-  
-\[&lt;state&gt;request\|  
-payload%3B  
-identifier%3B  
-filters\]  
-  
-\[Search Usecase\|  
-     \[&lt;start&gt; interact\(\)\]-&gt;\[Get Entity\]  
-     \[Get Entity\]-&gt;\[Verify Search Auth\]  
-     \[Verify Search Auth\]-&gt;\[Set Search Params\]  
-     \[Set Search Params\]-&gt;\[Get Search Sesults\]  
-     \[Get Search Sesults\]-&gt;\[Verify Read Auth\|  
-        \[&lt;start&gt; foreach\]-&gt;\[&lt;choice&gt;while results%3F\]  
-        \[&lt;choice&gt;while results%3F\]-&gt;\[check auth\]  
-        \[check auth\]-&gt;\[&lt;choice&gt;while results%3F\]  
-        \[&lt;choice&gt;while results%3F\]-&gt;\[&lt;end&gt;\]  
-     \]  
-     \[Verify Read Auth\]-&gt;\[Format Results\]  
-     \[Format Results\]-&gt;\[&lt;end&gt; return\]  
-\]  
-  
+[search]([http://www.nomnoml.com/#view/%23title%3A Search UseCase
+[&lt;state&gt;request]-&gt;[Search Usecase]
+[Search Usecase]-&gt;[&lt;state&gt;response]
+[&lt;state&gt;response]-&gt;[OutputFormatter]
+
+[&lt;state&gt;request|
+payload%3B
+identifier%3B
+filters]
+
+[Search Usecase|
+     [&lt;start&gt; interact()]-&gt;[Get Entity]
+     [Get Entity]-&gt;[Verify Search Auth]
+     [Verify Search Auth]-&gt;[Set Search Params]
+     [Set Search Params]-&gt;[Get Search Sesults]
+     [Get Search Sesults]-&gt;[Verify Read Auth|
+     [&lt;start&gt; foreach]-&gt;[&lt;choice&gt;while results%3F]
+     [&lt;choice&gt;while results%3F]-&gt;[check auth]
+     [check auth]-&gt;[&lt;choice&gt;while results%3F]
+     [&lt;choice&gt;while results%3F]-&gt;[&lt;end&gt;]
+     ]
+     [Verify Read Auth]-&gt;[Format Results]
+     [Format Results]-&gt;[&lt;end&gt; return]
+]  
+
 %23direction%3A right](http://www.nomnoml.com/#view/%23title%3A%20Search%20UseCase
 [<state>request]->[Search%20Usecase]
 [Search%20Usecase]->[<state>response]
@@ -328,5 +330,5 @@ filters]
 %20%20%20%20%20[Format%20Results]->[<end>%20return]
 ]
 
-%23direction%3A%20right)\)
+%23direction%3A%20right))
 
