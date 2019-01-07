@@ -64,28 +64,28 @@ Most of our use cases follow 5 high level patterns for Create, Read, Update, Del
 
 ![Create Usecase](../../.gitbook/assets/create-usecase%20%281%29.png)
 
-\[create\] \([http://www.nomnoml.com/\#view/%23title%3A Create UseCase  
-\[&lt;state&gt;request\]-&gt;\[Create Usecase\]  
-\[Create Usecase\]-&gt;\[&lt;state&gt;response\]  
-\[&lt;state&gt;response\]-&gt;\[OutputFormatter\]  
+[create] ([http://www.nomnoml.com/#view/%23title%3A Create UseCase  
+[&lt;state&gt;request]-&gt;[Create Usecase]  
+[Create Usecase]-&gt;[&lt;state&gt;response]  
+[&lt;state&gt;response\]-&gt;[OutputFormatter]  
   
-\[&lt;state&gt;request\|  
+[&lt;state&gt;request|
 payload%3B  
 identifier%3B  
-filters\]  
+filters]  
   
-\[Create Usecase\|  
-     \[&lt;start&gt; interact\(\)\]-&gt;\[Get Entity\]  
-     \[Get Entity\]-&gt;\[Verify Create Auth\]  
-     \[Verify Create Auth\]-&gt;\[Verify Valid\]  
-     \[Verify Valid\]-&gt;\[Create Entity\]  
-     \[Create Entity\]-&gt;\[Get Created\]  
-     \[Get Created\]-&gt;\[&lt;choice&gt; Can Read%3F\]  
-     \[&lt;choice&gt; Can Read%3F\]-&gt;\[Format Entity\]  
-     \[Format Entity\]-&gt;\[&lt;end&gt; return\]  
-     \[&lt;choice&gt; Can Read%3F\]-&gt;\[&lt;end&gt; return\]  
-\]  
-  
+[Create Usecase|  
+     [&lt;start&gt; interact()]-&gt;[Get Entity]
+     [Get Entity]-&gt;[Verify Create Auth]
+     [Verify Create Auth]-&gt;[Verify Valid]
+     [Verify Valid]-&gt;[Create Entity]
+     [Create Entity]-&gt;[Get Created]
+     [Get Created]-&gt;[&lt;choice&gt; Can Read%3F]
+     [&lt;choice&gt; Can Read%3F]-&gt;[Format Entity]  
+     [Format Entity]-&gt;[&lt;end&gt; return]
+     [&lt;choice&gt; Can Read%3F]-&gt;[&lt;end&gt; return]  
+]
+ 
 %23direction%3A right](http://www.nomnoml.com/#view/%23title%3A%20Create%20UseCase
 [<state>request]->[Create%20Usecase]
 [Create%20Usecase]->[<state>response]
@@ -108,7 +108,7 @@ filters]
 %20%20%20%20%20[<choice>%20Can%20Read%3F]->[<end>%20return]
 ]
 
-%23direction%3A%20right)\)
+%23direction%3A%20right)
 
 ![Create Usecase - Collaborators](../../.gitbook/assets/create-usecase-collab.png)
 
