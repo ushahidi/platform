@@ -1,9 +1,3 @@
----
-description: >-
-  If you have made own changes to the css you need to follow this procedure when
-  updating the web client. If you have not, you can skip this section.
----
-
 # Using the changed styles in platform-client
 
 Make the changes you need in the css in the Pattern Library.

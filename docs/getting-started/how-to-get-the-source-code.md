@@ -1,7 +1,3 @@
----
-description: 'The code for Ushahidi lives on Github, in three different repos.'
----
-
 # How to get the source code
 
 Note, to set up the code **for your specific purpose**, please follow our **setup guides:**

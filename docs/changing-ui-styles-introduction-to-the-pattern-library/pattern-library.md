@@ -1,9 +1,3 @@
----
-description: >-
-  If you decide to change the UI-styles, this guide will help you work with the
-  Pattern Library
----
-
 # File-structure
 
 ## File Structure

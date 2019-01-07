@@ -1,7 +1,3 @@
----
-description: Find out how to help write documentation for the project
----
-
 # Documentation
 
 ## Contributing via GitHub
