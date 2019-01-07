@@ -41,5 +41,5 @@ If you think you have found a security issue, please follow [this link where we 
 
 ## Adding Code
 
-If you would like to add code to the Ushahidi platform, please follow this [link](https://ushahidi.gitbook.io/platform-developer-documentation/~/edit/drafts/-LU5nkFJSs_7xNJgdakg/contributing-or-getting-involved/workflow-for-adding-code) to get a detailed workflow of how to get this done.
+If you would like to add code to the Ushahidi platform, please follow this [link](https://ushahidi.gitbook.io/platform-developer-documentation/contributing-or-getting-involved/workflow-for-adding-code) to get a detailed workflow of how to get this done.
 
