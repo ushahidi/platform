@@ -77,7 +77,7 @@ Where “some-task” is a short description _without spaces_ of what this task 
 
 Now write your code. Make sure you meet the [Ushahidi coding standards](https://ushahidi.gitbook.io/platform-developer-documentation/development-process/coding-standards) and use the [Ushahidi pattern library](https://ushahidi.gitbook.io/platform-developer-documentation/changing-ui-styles-introduction-to-the-pattern-library) if you’re writing front-end code.
 
-If you get stuck, or want to talk through ideas, you can contact other Ushahidi developers on the [hipchat, IRC or Gitter](https://ushahidi.gitbook.io/platform-developer-documentation/contributing-or-getting-involved/workflow-for-adding-code#join-the-community).
+If you get stuck, or want to talk through ideas, you can [contact other Ushahidi developers](https://ushahidi.gitbook.io/platform-developer-documentation/~/drafts/-LViX3U4FJ1kFJdaqWBT/primary/contributing-or-getting-involved/workflow-for-adding-code#join-the-community).
 
 #### Submit your code
 
@@ -126,10 +126,7 @@ Connect with the wider Ushahidi community:
 * [ ] Chat with us on:
   * IRC at [\#ushahidi on Freenode](https://webchat.freenode.net)
   * Gitter at [ushahidi/Community](https://gitter.im/ushahidi/community)
-  * Hipchat [Platform v3 room](https://www.hipchat.com/g9I7z8M9a)
   * Messages to any of these channels should show up on all of them!
 
-{% hint style="danger" %}
-To correct: forum link has an error. Hipchat room link has an error
-{% endhint %}
+
 
