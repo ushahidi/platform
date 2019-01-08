@@ -4,9 +4,13 @@
 
 The Ushahidi Platform front-end is served via the [assets folder](https://github.com/ushahidi/platform-pattern-library/tree/master/assets). Production files are compiled via [gulpfile.js](https://github.com/ushahidi/platform-pattern-library/blob/master/gulpfile.js). 
 
-### HTML/Handlebars
+### HTML/Handlebars 
 
 HTML templates are compiled via Handlebars. A .html template must be created in the [pattern-library/\_layouts](https://github.com/ushahidi/platform-pattern-library/tree/master/pattern-library/5_layouts) directory, then a .hbs template must be created in the [assets/templates](https://github.com/ushahidi/platform-pattern-library/tree/master/assets/templates) directory. Handlebars will then compile the production html into the [assets/html](https://github.com/ushahidi/platform-pattern-library/tree/master/assets/html) directory.
+
+{% hint style="danger" %}
+Warning: Assets/html displaying "page not found" error
+{% endhint %}
 
 ### Sass/CSS
 
