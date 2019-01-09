@@ -26,8 +26,6 @@ If you are not a developer, or just don't want to set it up yourself, you can st
 
 All the documentation on using the platform is here
 
-{% page-ref page="using-the-ushahidi-platform-v3-v4/untitled.md" %}
-
 ## Technical documentation
 
 ### How to install and run the Ushahidi Platform
