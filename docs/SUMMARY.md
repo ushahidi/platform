@@ -44,5 +44,11 @@
   * [Database](tech-stack-overview/database.md)
   * [Architecture](tech-stack-overview/architecture/README.md)
     * [Use case internals](tech-stack-overview/architecture/use-case-internals.md)
+
+## The Ushahidi Platform Facebook bot
+
+* [The Facebook bot](the-ushahidi-platform-facebook-bot/the-facebook-bot/README.md)
+  * [Installing the bot](the-ushahidi-platform-facebook-bot/the-facebook-bot/installing-the-bot-for-development-and-testing.md)
+  * [The bot script](the-ushahidi-platform-facebook-bot/the-facebook-bot/the-bot-script.md)
 * [Frequently Asked Questions](frequently-asked-questions.md)
 

@@ -10,6 +10,8 @@ Ushahidi is an open source web application for information collection, visualiza
 
 If you are starting a deployment for a grassroots organization, you can apply for a free social-impact responder account [here](https://www.ushahidi.com/plans/apply-for-free) after verifying that you meet the criteria.
 
+[test](the-ushahidi-platform-facebook-bot/the-facebook-bot/)
+
 ## Required reading: Code of Conduct. 
 
 We love having you here. To ensure everyone has a good experience, we ask **everyone** that interacts with our community and staff to read our code of conduct.
