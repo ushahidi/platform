@@ -1,8 +1,4 @@
-# Upgrading from V3.x.x to V4.x.x
-
-{% hint style="warning" %}
-TODO: Do we need to add more specific instructions for v3-v4?
-{% endhint %}
+# Upgrading to latest release
 
 ### Updating your deployment to the latest version <a id="updating-your-deployment-to-the-latest-version"></a>
 
