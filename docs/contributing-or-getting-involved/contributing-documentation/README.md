@@ -17,11 +17,7 @@ For instance, if your intention is to edit a lot of pages or to create new compl
 In order to obtain permission to edit via GitBook, you will need two things:
 
 1. A github account
-2. Send us a message
-
-{% hint style="warning" %}
-**TODO:** who/how should be contacted in order to sign up to gitbook?
-{% endhint %}
+2. Send us a message on [techdocs@ushahidi.com](mailto:techdocs@ushahidi.com)
 
 ## Style considerations
 

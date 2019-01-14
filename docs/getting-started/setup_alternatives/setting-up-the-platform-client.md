@@ -1,4 +1,4 @@
-# Setting up the Platform Client for development
+# \[Client\] Setting up the Platform Client for development
 
 ### What is the platform client?
 

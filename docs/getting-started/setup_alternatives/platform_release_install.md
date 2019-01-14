@@ -1,4 +1,4 @@
-# PLATFORM\_RELEASE\_INSTALL
+# \[API  & Client\] Bundled release install
 
 ## Installation Overview
 

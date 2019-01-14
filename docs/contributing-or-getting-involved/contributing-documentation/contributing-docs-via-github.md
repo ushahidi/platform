@@ -8,11 +8,7 @@ However, at the moment of this writing, GitBook doesn't have a system that can a
 
 The only requirement to start is to have a user account in GitHub.
 
-Further down the road, once you have proposed some changes, we will ask you to agree to a contributors agreement.
-
-{% hint style="warning" %}
-TODO: Add link to contributors agreement.
-{% endhint %}
+Further down the road, once you have proposed some changes, we will ask you to agree to a [contributors agreement](https://docs.google.com/forms/d/e/1FAIpQLScqz_EQbz_CYlSHffnGx7p2GdqP23FmbACwocIWejEHYLyzdg/viewform).
 
 ## Finding edit on GitHub button
 

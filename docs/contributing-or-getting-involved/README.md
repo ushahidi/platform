@@ -7,11 +7,13 @@ description: >-
 
 # Contributing \| Getting Involved
 
-There are many ways to get involved with Ushahidi, and we're some of them are great for first time contributors. If you never contributed to Open Source Software before, or need more guidance doing it, please jump in our [gitter](https://gitter.im/ushahidi/Community) channel or [open an issue](https://github.com/ushahidi/platform/issues/new/choose) with a clear description of what you are trying to do, and someone in there will try to help you. These are some ways to get involved:
+There are many ways to get involved with Ushahidi, and some of them are great for first time contributors. If you never contributed to Open Source Software before, or need more guidance doing it, please jump in our [gitter](https://gitter.im/ushahidi/Community) channel or [open an issue](https://github.com/ushahidi/platform/issues/new/choose) with a clear description of what you are trying to do, and someone in there will try to help you.
+
+These are some ways to get involved:
 
 ## **Required reading: Code Of Conduct**
 
-We love having you here. To ensure everyone has a good experience, we ask **everyone** that interacts with our community and staff to read our code of conduct.
+We love having you here. But before you start, to ensure everyone has a good experience, we ask **everyone** that interacts with our community and staff to read our code of conduct.
 
 {% page-ref page="../code-of-conduct.md" %}
 
@@ -41,5 +43,7 @@ If you think you have found a security issue, please follow [this link where we 
 
 ## Adding Code
 
-If you would like to add code to the Ushahidi platform, please follow this [link](https://ushahidi.gitbook.io/platform-developer-documentation/contributing-or-getting-involved/workflow-for-adding-code) to get a detailed workflow of how to get this done.
+If you would like to add code to the Ushahidi platform, please follow this [link](workflow-for-adding-code.md) to get a detailed workflow of how to get this done.
+
+
 

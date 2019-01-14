@@ -15,10 +15,10 @@
 * Copy `.env.example` to a new file called `.env` to create the default .env file
 * open .env with your IDE or text editor. 
   * Change the CACHE\_DRIVER to be `file` instead of `memcache` \(you can also set it up with memcache, but for simplicity we use file\)
-  * Change the DATABASE HOST to `127.0.0.1`
-  * Change the DATABASE USER to your mysql user  \(`root` in the default XAMPP install\)
-  * Change the DB PASSWORD  \(empty by default with XAMPP\)
-  * Change the DB name to `platform`
+  * Change the DB\_HOST to `127.0.0.1`
+  * Change the DB\_USER to your mysql user  \(`root` in the default XAMPP install\)
+  * Change the DB\_PASSWORD  \(empty by default with XAMPP\)
+  * Change the DB\_DATABASE to `platform`
 * A note on composer: if you didn't setup composer globally, you should use `php composer.phar {command}` instead of `composer {command}` in the next two steps 
   * run `composer install`. Wait while composer installs all the dependencies
   * run `composer migrate` to run the database migrations. This will create all the necessary tables and a default `admin` user with password `administrator`
@@ -77,8 +77,11 @@ TODO: Check with Romina, in an old example, DocumentRoot is wrapped in &lt;&gt;,
 
 ```
 <VirtualHost *:80>
-ServerAdmin webmaster@localhost DocumentRoot "C:/newxamp/htdocs/platform" ServerName ushahidi.api.test
- AllowOverride all </VirtualHost>
+  ServerAdmin webmaster@localhost
+  DocumentRoot "C:/newxamp/htdocs/platform"
+  ServerName ushahidi.api.test
+  AllowOverride all
+</VirtualHost>
 ```
 
 You're all done. You should be able to access api.ushahidi.test now and see the default API response.

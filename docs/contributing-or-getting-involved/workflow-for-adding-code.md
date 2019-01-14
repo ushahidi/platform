@@ -5,8 +5,10 @@
 You will need these on your development machine
 
 * git
-* PHP version 5.6 or greater
+* PHP version &gt;= 7.0, &lt; 7.2
 * Node.js version 6 or greater
+
+In order to learn how to setup your environment to get the project working, please check out our [setup guides](../getting-started/setup_alternatives/).
 
 ### Workflow for Adding Code <a id="workflow-for-adding-code"></a>
 
@@ -94,13 +96,7 @@ When you’re ready to submit your code for approval, do this:
 2. Then, open your fork on github, ie. _"https://www.github.com/yourusername/platform"_. You’ll see a banner indicating that you’ve recently pushed a new branch, and that you can submit this branch “upstream,” to the original repository:![](https://github-images.s3.amazonaws.com/help/pull_requests/recently_pushed_branch.png)
 3. Click on "Compare and Pull Request" to create a pull request. Enter a title and description, then click "Create pull request"![](https://github-images.s3.amazonaws.com/help/pull_requests/pullrequest-send.png)
 
-The first time you submit code you may be asked to sign Ushahidi’s [contributor agreement](https://phabricator.ushahidi.com/L2).
-
-{% hint style="warning" %}
-TODO: Add correct link to contributors agreement
-{% endhint %}
-
-
+The first time you submit code you may be asked to sign Ushahidi’s [contributor agreement](https://docs.google.com/forms/d/e/1FAIpQLScqz_EQbz_CYlSHffnGx7p2GdqP23FmbACwocIWejEHYLyzdg/viewform).
 
 The Ushahidi admins will then review and comment on your code, and will either accept your code or ask you to make changes to it. If you are asked to make changes to your code, make those changes then resubmit your code using:
 
@@ -121,9 +117,9 @@ If your code is accepted, then the admin will merge your pull request. Your code
 
 Connect with the wider Ushahidi community:
 
-* [ ] Join the discussion on [our forum](http://forums.ushahidi.com/)
-* [ ] Sign up on the [mailing list](http://list.ushahidi.com/)
-* [ ] Chat with us on:
+* Join the discussion on [our forum](http://forums.ushahidi.com/)
+* Sign up on the [mailing list](http://list.ushahidi.com/)
+* Chat with us on:
   * IRC at [\#ushahidi on Freenode](https://webchat.freenode.net)
   * Gitter at [ushahidi/Community](https://gitter.im/ushahidi/community)
   * Messages to any of these channels should show up on all of them!

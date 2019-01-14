@@ -140,7 +140,7 @@ Example JSON
 
 ### Installing the client
 
-The latest install instructions for the client are always [in the platform-client README, at this url](https://github.com/ushahidi/platform-client/blob/develop/README.md).
+Congratulations! You have set up the API. You may want now to [build and install the web client](setting-up-the-platform-client.md) for a full experience.
 
 ### 
 
