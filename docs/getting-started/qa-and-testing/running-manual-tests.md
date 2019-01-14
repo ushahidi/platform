@@ -1,4 +1,0 @@
-# Running \(manual\) test suites
-
-
-

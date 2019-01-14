@@ -1,4 +1,0 @@
-# QA & Testing
-
-
-
