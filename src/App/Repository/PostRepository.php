@@ -159,6 +159,7 @@ class PostRepository extends OhanzeeRepository implements
             }
 
             if (!$this->postPermissions->canUserSeeAuthor($user, new Post($data), $this->form_repo)
+                && !($user->id === $data['user_id'])
                 && ($data['author_realname'] || $data['user_id'] || $data['author_email'])) {
                 // @todo move to formatter. That where this normally happens
                 unset($data['author_realname']);
