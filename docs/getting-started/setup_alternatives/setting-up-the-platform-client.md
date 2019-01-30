@@ -52,18 +52,12 @@ The client needs to point to the hostname where the backend expects to receive H
 
 {% code-tabs %}
 {% code-tabs-item title=".ENV" %}
-```text
+```bash
 BACKEND_URL=http://192.168.33.110/
 PORT=8000
 APP_LANGUAGES=en
 OAUTH_CLIENT_ID=ushahidiui
 OAUTH_CLIENT_SECRET=35e7f0bca957836d05ca0492211b0ac707671261
-```
-{% endcode-tabs-item %}
-
-{% code-tabs-item title=undefined %}
-```
-
 ```
 {% endcode-tabs-item %}
 {% endcode-tabs %}
@@ -92,7 +86,7 @@ This will start the watcher for local development, and any changes you make to t
 
 Run:
 
-```text
+```bash
 gulp build
 ```
 

@@ -8,8 +8,8 @@
 
 ## Required software:
 
-* A linux-based system. We recommend using Ubuntu 16.4.
-* PHP: 7.1.x, running with php-fpm \(PHP 7.2.x is not supported at the time\)
+* A linux-based system. We recommend using Ubuntu 16.04 or 18.04.
+* PHP: 7.1.x, running with php-fpm  \(PHP 7.2.x is not supported at the time\)
   * Make sure the same version of PHP is used in the CLI and FPM
 * PHP Extensions:
   * curl

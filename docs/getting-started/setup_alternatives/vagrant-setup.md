@@ -1,4 +1,4 @@
-# \[API\] Vagrant setup
+# Development environment setup with Vagrant
 
 ### Installing the API
 

@@ -6,6 +6,12 @@
 
 Ushahidi is an open source web application for information collection, visualization and interactive mapping. It helps you to collect info from: SMS, Twitter, RSS feeds, Email. It helps you to process that information, categorize it, geo-locate it and publish it on a map.
 
+## Requirements
+
+* PHP 7.0 or 7.1
+* MySQL 5.5 or newer
+* A web server such as Apache or nginx
+
 ## A note for grassroots organizations
 
 If you are starting a deployment for a grassroots organization, you can apply for a free social-impact responder account [here](https://www.ushahidi.com/plans/apply-for-free) after verifying that you meet the criteria.
