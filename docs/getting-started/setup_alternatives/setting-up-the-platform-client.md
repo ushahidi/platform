@@ -64,14 +64,14 @@ npm install
 
 #### Configuring the client build
 
-There are a few quite important variables that are looked at the point when the client code is built into a browser web app.
+There are a few quite important variables that are looked at the point when the client code is built into a browser web app. These variables are picked up from a file named `.env` , located in the `platform-client` folder that you have recently cloned from github.
 
-These variables are picked up from a file named `.env` , located in the `platform-client` folder that you have recently cloned from github. This file doesn't exist, you must create it.
+* Create a file named `.env` in your `platform-client` folder.  This `.env` file is required and it doesn't exist by default. Therefore, you must create it. In the following sections we'll let you know about the contents that you should put in that file.
 
 {% hint style="info" %}
 In Windows environments, you may find yourself struggling to create this file with the right name. This may be because your text editor insists on appending ".txt" or because it is confused by the leading dot.
 
-In that case, an easy way to create the file is by running the following command in your `platform-client` folder:
+In that case, an easy way to create the file is by running the following command in the command prompt, when inside your `platform-client` folder:
 
 ```text
 type nul > .env
@@ -84,28 +84,45 @@ Mac/Linux users may use the `touch .env` command to the same end.
 
 #### Required build configuration variables
 
-Let's do a quick run-through the different variables that may be specified in this `.env` file that we just mentioned.
+There is only one required variable that must be defined in your `.env` file, and its name is `BACKEND_URL`. Its purpose is to configure the client with the URL to use, in order to send HTTP network requests to the Platform API. If this variable is wrong, nothing works. This variable usually takes different values for different users.
 
-The most important variable is `BACKEND_URL`. Its purpose is to configure the client with the URL to use, in order to send HTTP network requests to the Platform API. If this variable is wrong, nothing works. This variable usually takes different values for different users, so it's almost always set.
+As such, the minimal working `.env` file consists of just this variable.
 
-As such, the minimal working `.env` file consists of just this variable. This is an example of what it could look like:
+* In your `.env` file write the `BACKEND_URL` variable, corresponding to your Platform API URL address. This is an example, showing the format used, \(**don't** just copy & paste it to your file!\):
 
 {% code-tabs %}
 {% code-tabs-item title=".env" %}
 ```bash
-BACKEND_URL=http://test.api.server.com
+BACKEND_URL=http://dont.copy.this.name.com
 ```
 {% endcode-tabs-item %}
 {% endcode-tabs %}
 
-Of course, as mentioned above,  you will have to provide your own value.
+{% hint style="info" %}
+If you have used one of our guides for setting up the API locally, check back the relevant section in that guide. Here are some direct links that should take you back there.
+
+* XAMPP setup, click [here](xampp.md#installation)
+* Vagrant setup, click TODO
+{% endhint %}
+
+{% hint style="success" %}
+Take a minute here to make sure you have entered the proper URL and the API is working.
+
+From your `.env` file, copy the variable value \(the part starting with "http://"\) and paste it in your browser's address bar, then hit enter. As a result you should see something similar to this:
+
+```text
+{"now":"2019-02-04T10:52:25+00:00","version":"3","user":{"id":null,"email":null,"realname":null}}
+```
+
+If you get an error, please make sure that your API server is up \(i.e. Apache and MySQL\), and go back to your Platform API installation notes to make sure you had the correct URL. 
+{% endhint %}
 
 #### Advanced: other configuration variables
 
 All the other variables are often not required to specify, as they have sensible defaults.
 
-{% hint style="info" %}
-You can safely skip this section if it's your first time setting up the client, and you just want to get it done.
+{% hint style="danger" %}
+You can **safely skip this section** if it's your first time setting up the client, and you just want to get it done. Getting into these details may be too much work for a first run.
 {% endhint %}
 
 * The `PORT` variable specifies at which port the local development server should listen. The default for this variable is `3000`.
@@ -117,7 +134,7 @@ You can safely skip this section if it's your first time setting up the client, 
 
 The `gulp` command, although a bit funny-sounding, is key for all development tasks on the platform client.
 
-By default, this command is hidden within the `node_modules/.bin` directory of your platform-client folder. Which makes it a bit awkward to invoke:
+By default, this command is hidden within the `node_modules/.bin` directory of your platform-client folder. This makes it a bit awkward to invoke, see these examples:
 
 ```bash
 # Windows users would run:
@@ -126,7 +143,9 @@ node_modules\.bin\gulp
 node_modules/.bin/gulp
 ```
 
-To make it easy to call \`gulp\` when building and developing in the app, there a couple approaches:
+That's too much typing.
+
+To make it easy to call `gulp` when building and developing in the app, there are a couple approaches:
 
 * On any operating system, you can choose to install `gulp` globally. You would do it with his command:
 
@@ -134,7 +153,7 @@ To make it easy to call \`gulp\` when building and developing in the app, there 
 npm install -g gulp
 ```
 
-* On Linux and Mac, you may edit the `.bashrc` file in your home directory, and append the following line:
+* Alternatively, on Linux and Mac, you may edit the `.bashrc` file in your home directory, and append the following line:
 
 {% code-tabs %}
 {% code-tabs-item title=".bashrc" %}
@@ -148,13 +167,13 @@ export PATH=$HOME/bin:/usr/local/bin:node_modules/.bin:$PATH
 
 The local development server is a web server that makes the platform client available to your browser locally. Additionally, it will watch the `platform-client` folder for changes, and rebuild the application as needed.
 
-Just run `gulp`:
+* Just run `gulp`:
 
 ```text
 gulp
 ```
 
-and wait until you see this message in the screen:
+* And then wait until you see this message in the screen:
 
 ```text
 webpack: Compiled successfully.
@@ -162,9 +181,11 @@ webpack: Compiled successfully.
 
 At that point the client should be available to the browser on the address [http://localhost:3000](http://localhost:3000) \(unless you specified a `PORT` on your `.env` file\).
 
+{% hint style="success" %}
 You are all set for developing, happy hacking!
+{% endhint %}
 
-### Building for publication
+### Appendix: Building for publication
 
 Sometimes you want to host your Platform instance so that other devices on the network or the internet can access it.
 
