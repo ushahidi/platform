@@ -4,7 +4,7 @@
 
 The web client is the component that end users interact with when opening the Platform website with a web browser. The client interacts with the API in order to perform operations on the system \(i.e. submit posts, query posts\).
 
-### Installation steps 
+### Installation steps
 
 {% hint style="warning" %}
 Pre-requisite: Install the platform API by following one of the API setup guides 
@@ -13,92 +13,174 @@ Pre-requisite: Install the platform API by following one of the API setup guides
 {% endhint %}
 
 {% hint style="warning" %}
-Pre-requisite: Install Node V6.x \(you might want to use NVM for this\) before continuing.
+Pre-requisite: Install Node V6.x or 8.x \(you might want to use NVM for this\) before continuing.
 {% endhint %}
 
 #### **Getting the platform-client code**
 
-Clone the repository \(this will create a directory named _platform-client\)_
+* In a terminal window or command prompt, clone the repository.
 
 ```bash
 git clone https://github.com/ushahidi/platform-client.git
 ```
 
-Go into the platform directory
+{% hint style="success" %}
+Mind your directories. The command above will create a directory named _platform-client_ in the current active directory of your terminal/command prompt. Make sure you know on which directory you are setting **before** running the command. 
+{% endhint %}
+
+* Go into the platform directory
 
 ```bash
 cd platform-client
 ```
 
-Switch to the _develop_ branch
+* Ensure you are in the _develop_ branch, with the latest, bleeding edge, code.
 
 ```bash
 git checkout develop
 ```
 
 {% hint style="info" %}
+Alternatively you may run the command
+
+```bash
+git checkout master
+```
+
+for working on the `master`branch, with more stable code.
+{% endhint %}
+
+{% hint style="info" %}
 If you haven't used git before or need help with git specific issues, make sure to check out their docs here [https://git-scm.com/doc](https://git-scm.com/doc)
 {% endhint %}
 
-Install the platform-client dependencies.
+#### Installing dependencies
+
+* Install the platform-client dependencies.
 
 ```text
 npm install
 ```
 
-The client needs to point to the hostname where the backend expects to receive HTTP requests. This has to be set before building the client.
+#### Configuring the client build
 
-**In order to set up all that, create a file at the location /var/www/platform-client/.env . Use the following contents as an example:**
+There are a few quite important variables that are looked at the point when the client code is built into a browser web app.
+
+These variables are picked up from a file named `.env` , located in the `platform-client` folder that you have recently cloned from github. This file doesn't exist, you must create it.
+
+{% hint style="info" %}
+In Windows environments, you may find yourself struggling to create this file with the right name. This may be because your text editor insists on appending ".txt" or because it is confused by the leading dot.
+
+In that case, an easy way to create the file is by running the following command in your `platform-client` folder:
+
+```text
+type nul > .env
+```
+
+This will create an empty file, but with the right name. File Explorer may present this file as a file with empty name and of type "ENV file".
+
+Mac/Linux users may use the `touch .env` command to the same end.
+{% endhint %}
+
+#### Required build configuration variables
+
+Let's do a quick run-through the different variables that may be specified in this `.env` file that we just mentioned.
+
+The most important variable is `BACKEND_URL`. Its purpose is to configure the client with the URL to use, in order to send HTTP network requests to the Platform API. If this variable is wrong, nothing works. This variable usually takes different values for different users, so it's almost always set.
+
+As such, the minimal working `.env` file consists of just this variable. This is an example of what it could look like:
 
 {% code-tabs %}
-{% code-tabs-item title=".ENV" %}
+{% code-tabs-item title=".env" %}
 ```bash
-BACKEND_URL=http://192.168.33.110/
-PORT=8000
-APP_LANGUAGES=en
-OAUTH_CLIENT_ID=ushahidiui
-OAUTH_CLIENT_SECRET=35e7f0bca957836d05ca0492211b0ac707671261
+BACKEND_URL=http://test.api.server.com
 ```
 {% endcode-tabs-item %}
 {% endcode-tabs %}
 
-To make it easy to call \`gulp\` when building and developing in the app, add **node\_modules/.bin** to your PATH in ~/_.bashrc_. Example PATH \(relevant part in bold\):
+Of course, as mentioned above,  you will have to provide your own value.
 
-export PATH=$HOME/bin:/usr/local/bin:**node\_modules/.bin**:$PATH
+#### Advanced: other configuration variables
+
+All the other variables are often not required to specify, as they have sensible defaults.
+
+{% hint style="info" %}
+You can safely skip this section if it's your first time setting up the client, and you just want to get it done.
+{% endhint %}
+
+* The `PORT` variable specifies at which port the local development server should listen. The default for this variable is `3000`.
+* `TX_USERNAME` and `TX_PASSWORD`  are variables for configuring the credentials to the [Transifex](https://www.transifex.com/) service, which stores multi-lingual versions of the Platform client text displayed on the screen. These are only required if you are going to develop on languages other than English.
+* `APP_LANGUAGES` is a list of language codes \(in ISO-639-1 format\) to download from Transifex. For example `APP_LANGUAGES=sw,en,es` would enable the client to appear in Swahili, English and Spanish.
+* `OAUTH_CLIENT_ID` and `OAUTH_CLIENT_SECRET` are variables used during the process of authentication of a user against the API. You can ignore these 99% of the times. Also, these are not particularly secret nor provide much security. They just have to exist, and they do by default. \(If  you must know, their values default to `ushahidiui` and `35e7f0bca957836d05ca0492211b0ac707671261` respectively\)
+
+#### Making \`gulp\` command available
+
+The `gulp` command, although a bit funny-sounding, is key for all development tasks on the platform client.
+
+By default, this command is hidden within the `node_modules/.bin` directory of your platform-client folder. Which makes it a bit awkward to invoke:
+
+```bash
+# Windows users would run:
+node_modules\.bin\gulp
+# Mac/Linux users:
+node_modules/.bin/gulp
+```
+
+To make it easy to call \`gulp\` when building and developing in the app, there a couple approaches:
+
+* On any operating system, you can choose to install `gulp` globally. You would do it with his command:
+
+```bash
+npm install -g gulp
+```
+
+* On Linux and Mac, you may edit the `.bashrc` file in your home directory, and append the following line:
+
+{% code-tabs %}
+{% code-tabs-item title=".bashrc" %}
+```bash
+export PATH=$HOME/bin:/usr/local/bin:node_modules/.bin:$PATH
+```
+{% endcode-tabs-item %}
+{% endcode-tabs %}
+
+### Running a local development server
+
+The local development server is a web server that makes the platform client available to your browser locally. Additionally, it will watch the `platform-client` folder for changes, and rebuild the application as needed.
+
+Just run `gulp`:
 
 ```text
 gulp
 ```
 
-alternatively, if you haven't setup node\_modules in your PATH, run:
-
-### Running a local development server
-
-Run:
+and wait until you see this message in the screen:
 
 ```text
-node_modules/gulp/bin/gulp.js
+webpack: Compiled successfully.
 ```
 
-This will start the watcher for local development, and any changes you make to the code will be reflected in the application.
+At that point the client should be available to the browser on the address [http://localhost:3000](http://localhost:3000) \(unless you specified a `PORT` on your `.env` file\).
 
-### Building for production deployments
+You are all set for developing, happy hacking!
 
-Run:
+### Building for publication
+
+Sometimes you want to host your Platform instance so that other devices on the network or the internet can access it.
+
+For the Platform client this means placing the application files in a disk location configured as a static site, where your web server can find them and send them to those other devices. 
+
+In order to build the files for publication, run:
 
 ```bash
 gulp build
 ```
 
-alternatively, if you haven't setup node\_modules in your PATH, run:
+This will start the process of generating the static site. Once the files are generated, you will find the files in the **server/www** directory. Depending on your work flow, you may copy these files to your server, or you may choose to point your web server directly to this directory.
 
-```text
-node_modules/gulp/bin/gulp.js build
-```
+In the **server** directory you will also find an example nginx and an example apache2 file to help you with some of the web server configurations.
 
-This will start the process of generating the static site. Once the files are generated, you can host the **server/www** directory and load the site.
-
-In the **server** directory you will also find an example nginx and an example apache2 file to get you started on hosting the client.
+Please note that you will also need to publish the Platform API, so those other devices can actually make any use of the Platform.
 
 
 
