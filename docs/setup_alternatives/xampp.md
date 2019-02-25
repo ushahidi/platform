@@ -82,7 +82,7 @@ RewriteRule .\* httpdocs/$0 \[PT\]
 ```
 ServerAdmin webmaster@localhost DocumentRoot "C:/newxamp/htdocs/platform" ServerName ushahidi.api.test
 
-AllowOverride all &lt;/VirtualHost&gt;
+AllowOverride all </VirtualHost>
 
 ```
 
