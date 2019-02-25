@@ -26,9 +26,9 @@
 * Add the api url to your hosts file \(127.0.0.1 api.ushahidi.test\)
 * Add this file platform/httpdocs/.htaccess:
 
-  \`\`\`
+ ```
 
-  **Turn on URL rewriting**
+## Turn on URL rewriting
 
   RewriteEngine On
 
@@ -54,10 +54,11 @@ RewriteCond %{REQUEST\_FILENAME} !-f RewriteCond %{REQUEST\_FILENAME} !-d
 
 RewriteRule .\* index.php/$0 \[PT\]
 
-```text
-- Add this file platform/.htaccess
 ```
 
+* Add this file platform/.htaccess
+
+```
 ## Turn on URL rewriting
 
 RewriteEngine On
@@ -74,15 +75,16 @@ Order Deny,Allow Deny From All
 
 RewriteRule .\* httpdocs/$0 \[PT\]
 
-```text
-- In your httpd.conf file (open xampp => config -> httpd.conf) , add this virtualhost
 ```
 
+* In your httpd.conf file (open xampp => config -> httpd.conf) , add this virtualhost
+
+```
 ServerAdmin webmaster@localhost DocumentRoot "C:/newxamp/htdocs/platform" ServerName ushahidi.api.test
 
 AllowOverride all &lt;/VirtualHost&gt;
 
-\`\`\`
+```
 
 * You're all done. You should be able to access api.ushahidi.test now and see the default API response
 
