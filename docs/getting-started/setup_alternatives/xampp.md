@@ -30,7 +30,7 @@ Ensure that you download the XAMPP package containing the **appropriate PHP vers
 {% endhint %}
 
 * _Mac:_
-  * Open a terminal window and run the following command. Close the terminal window after it's done.
+  * Open a terminal window and run the following command. **Close the terminal window after it's done.**
 
 ```bash
 echo 'export PATH="/Applications/XAMPP/xamppfiles/bin:$PATH"' >> ~/.bash_profile
@@ -40,7 +40,7 @@ curl -sS https://getcomposer.org/installer | \
 ```
 
 * _Linux:_
-  * Open a terminal window and run the following command. Log out and log back in after done.
+  * Open a terminal window and run the following command. **Log out and log back in after done.**
 
 ```bash
 echo 'export PATH="/opt/lampp/bin:$PATH"' >> ~/.bash_profile

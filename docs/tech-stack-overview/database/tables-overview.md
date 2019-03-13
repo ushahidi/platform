@@ -18,7 +18,7 @@ description: This is a list of all tables used for the Ushahidi Platform.
       <td style="text-align:left">apikeys</td>
       <td style="text-align:left">Generate API keys for external services that connect with the platform
         API</td>
-      <td style="text-align:left">Setting -> General (it shows your API Key).</td>
+      <td style="text-align:left">Setting -&gt; General (it shows your API Key).</td>
       <td style="text-align:left">-</td>
     </tr>
     <tr>
@@ -37,7 +37,7 @@ description: This is a list of all tables used for the Ushahidi Platform.
     <tr>
       <td style="text-align:left">country_codes</td>
       <td style="text-align:left">Stores countrycodes for targeted surveys</td>
-      <td style="text-align:left">Settings -> Surveys -> Create targeted survey</td>
+      <td style="text-align:left">Settings -&gt; Surveys -&gt; Create targeted survey</td>
       <td style="text-align:left">This feature needs the targeted survey feature-flag to be turned on.</td>
     </tr>
     <tr>
@@ -47,21 +47,21 @@ description: This is a list of all tables used for the Ushahidi Platform.
         <p>Used by the UI to check on CSV export status (done, in progress ,etc)
           and get the url to download the file generated.</p>
         <p>
-          <br />Settings -> Export data</p>
+          <br />Settings -&gt; Export data</p>
       </td>
       <td style="text-align:left">-</td>
     </tr>
     <tr>
       <td style="text-align:left">export_batches</td>
       <td style="text-align:left">Used to separate a large export in chunks to be processed.</td>
-      <td style="text-align:left">Settings -> Export data</td>
+      <td style="text-align:left">Settings -&gt; Export data</td>
       <td style="text-align:left">-</td>
     </tr>
     <tr>
       <td style="text-align:left">export_job</td>
       <td style="text-align:left">Used to store data about the exports requested by the user in the csv
         endpoint.</td>
-      <td style="text-align:left">Settings->Export data</td>
+      <td style="text-align:left">Settings-&gt;Export data</td>
       <td style="text-align:left">-</td>
     </tr>
     <tr>
@@ -71,23 +71,24 @@ description: This is a list of all tables used for the Ushahidi Platform.
           For instance the match of a</p>
         <p>#meta tag</p>
         <p>+value attribute</p>
-        <p>with a "description" field</p>
+        <p>with a &quot;description&quot; field</p>
       </td>
-      <td style="text-align:left">Settings-> Export data</td>
+      <td style="text-align:left">Settings-&gt; Export data</td>
       <td style="text-align:left">HDX Feature - available only in some deployments through the Export UI</td>
     </tr>
     <tr>
       <td style="text-align:left">form_attributes</td>
       <td style="text-align:left">Stores information about each field (question) in a survey.</td>
-      <td style="text-align:left">Settings -> Surveys -> Create/Edit survey</td>
+      <td style="text-align:left">Settings -&gt; Surveys -&gt; Create/Edit survey</td>
       <td style="text-align:left">-</td>
     </tr>
     <tr>
       <td style="text-align:left">form_roles</td>
       <td style="text-align:left">Stores information if a survey is restricted to specific roles only.</td>
       <td
-      style="text-align:left">Settings -> Surveys -> Create/Edit survey -> Configuration-
-        <br />
+      style="text-align:left">Settings -&gt; Surveys -&gt; Create/Edit survey -&gt; Configuration-
+        <br
+        />
         </td>
         <td style="text-align:left">-</td>
     </tr>
@@ -97,7 +98,7 @@ description: This is a list of all tables used for the Ushahidi Platform.
         tasks.</td>
       <td style="text-align:left">
         <p>Settings</p>
-        <p>-> Surveys -> Create/Edit survey</p>
+        <p>-&gt; Surveys -&gt; Create/Edit survey</p>
       </td>
       <td style="text-align:left">-</td>
     </tr>
@@ -106,7 +107,7 @@ description: This is a list of all tables used for the Ushahidi Platform.
       <td style="text-align:left">Stores relations between posts and forms_stages and if a task is completed
         in a post.</td>
       <td style="text-align:left">
-        <p>Settings -> Surveys -> Create/Edit survey</p>
+        <p>Settings -&gt; Surveys -&gt; Create/Edit survey</p>
         <p></p>
         <p>Add post</p>
         <p></p>
@@ -120,7 +121,7 @@ description: This is a list of all tables used for the Ushahidi Platform.
       <td style="text-align:left">forms</td>
       <td style="text-align:left">Stores basic information about each survey</td>
       <td style="text-align:left">
-        <p>Settings -> Surveys</p>
+        <p>Settings -&gt; Surveys</p>
         <p>
           <br />Add post
           <br />
@@ -138,7 +139,7 @@ description: This is a list of all tables used for the Ushahidi Platform.
       <td style="text-align:left">Stores the types of attributes that can be matched with each HXL attribute.
         For instance you can only match #geo (+lat + lon) to location fields.</td>
       <td
-      style="text-align:left">Settings -> Export data</td>
+      style="text-align:left">Settings -&gt; Export data</td>
         <td style="text-align:left">
           <p>HDX feature - only available in some deployments through export UI.</p>
           <p>Uses this field to show the list of available tags for each field</p>
@@ -147,20 +148,20 @@ description: This is a list of all tables used for the Ushahidi Platform.
     <tr>
       <td style="text-align:left">hxl_attributes</td>
       <td style="text-align:left">All the available HXL attributes</td>
-      <td style="text-align:left">Settings -> Export data</td>
+      <td style="text-align:left">Settings -&gt; Export data</td>
       <td style="text-align:left">HDX feature only available in some deployments.</td>
     </tr>
     <tr>
       <td style="text-align:left">hxl_license</td>
       <td style="text-align:left">All the available HDX licenses</td>
-      <td style="text-align:left">Settings -> Export data</td>
+      <td style="text-align:left">Settings -&gt; Export data</td>
       <td style="text-align:left">HDX feature only available in some deployments.</td>
     </tr>
     <tr>
       <td style="text-align:left">hxl_meta_data</td>
       <td style="text-align:left">Information required to save a dataset into HDX (humdata.org) such as
         license selected, name, and privacy settings</td>
-      <td style="text-align:left">Settings -> Export data</td>
+      <td style="text-align:left">Settings -&gt; Export data</td>
       <td style="text-align:left">HDX feature only available in some deployments.</td>
     </tr>
     <tr>
@@ -170,20 +171,20 @@ description: This is a list of all tables used for the Ushahidi Platform.
       <td style="text-align:left">
         <p>This field is used to show the correct attributes when you select a tag</p>
         <p>
-          <br />Settings -> Export data</p>
+          <br />Settings -&gt; Export data</p>
       </td>
       <td style="text-align:left">HDX feature only available in some deployments.</td>
     </tr>
     <tr>
       <td style="text-align:left">hxl_tags</td>
       <td style="text-align:left">Stores all the available HXL tags</td>
-      <td style="text-align:left">Settings -> Export data</td>
+      <td style="text-align:left">Settings -&gt; Export data</td>
       <td style="text-align:left">HDX feature only available in some deployments.</td>
     </tr>
     <tr>
       <td style="text-align:left">layers</td>
       <td style="text-align:left">Used to determine which map layers wee have available.</td>
-      <td style="text-align:left">Settings -> General contains the list of layers</td>
+      <td style="text-align:left">Settings -&gt; General contains the list of layers</td>
       <td style="text-align:left">-</td>
     </tr>
     <tr>
@@ -207,7 +208,7 @@ description: This is a list of all tables used for the Ushahidi Platform.
         <p>
           <br />View post</p>
         <p>
-          <br />Settings -> Data Sources</p>
+          <br />Settings -&gt; Data Sources</p>
         </td>
         <td style="text-align:left">-</td>
     </tr>
@@ -243,8 +244,8 @@ description: This is a list of all tables used for the Ushahidi Platform.
       <td style="text-align:left">All available clients. Used by the platform UI to get authorization to
         perform actions. We currently use 2 grants, the client_credentials one
         for anon requests which uses the oauth_clients data, and the password grant
-        which uses oauth_clients and the user's login details to authenticate a
-        user</td>
+        which uses oauth_clients and the user&apos;s login details to authenticate
+        a user</td>
       <td style="text-align:left">-</td>
       <td style="text-align:left">-</td>
     </tr>
@@ -263,7 +264,7 @@ description: This is a list of all tables used for the Ushahidi Platform.
     <tr>
       <td style="text-align:left">permissions</td>
       <td style="text-align:left">Stores the permissions availble in the platform.</td>
-      <td style="text-align:left">Settings -> Roles</td>
+      <td style="text-align:left">Settings -&gt; Roles</td>
       <td style="text-align:left">-</td>
     </tr>
     <tr>
@@ -281,7 +282,7 @@ description: This is a list of all tables used for the Ushahidi Platform.
     </tr>
     <tr>
       <td style="text-align:left">post_datetime</td>
-      <td style="text-align:left">Stores post-values for form-attributes "Date" and "Date&Time".</td>
+      <td style="text-align:left">Stores post-values for form-attributes &quot;Date&quot; and &quot;Date&amp;Time&quot;.</td>
       <td
       style="text-align:left">
         <p>Add Posts</p>
@@ -294,15 +295,16 @@ description: This is a list of all tables used for the Ushahidi Platform.
     </tr>
     <tr>
       <td style="text-align:left">post_decimal</td>
-      <td style="text-align:left">Stores post-values for form-attribute "Number(decimal)".</td>
-      <td style="text-align:left">
+      <td style="text-align:left">Stores post-values for form-attribute &quot;Number(decimal)&quot;.</td>
+      <td
+      style="text-align:left">
         <p>Add Posts</p>
         <p>
           <br />View Posts</p>
         <p>
           <br />Edit Posts</p>
-      </td>
-      <td style="text-align:left">-</td>
+        </td>
+        <td style="text-align:left">-</td>
     </tr>
     <tr>
       <td style="text-align:left">post_geometry</td>
@@ -318,15 +320,16 @@ description: This is a list of all tables used for the Ushahidi Platform.
     </tr>
     <tr>
       <td style="text-align:left">post_int</td>
-      <td style="text-align:left">Stores post-values for form-attribute "Number(integer)"</td>
-      <td style="text-align:left">
+      <td style="text-align:left">Stores post-values for form-attribute &quot;Number(integer)&quot;</td>
+      <td
+      style="text-align:left">
         <p>Add Posts</p>
         <p>
           <br />View Posts</p>
         <p>
           <br />Edit Posts</p>
-      </td>
-      <td style="text-align:left">-</td>
+        </td>
+        <td style="text-align:left">-</td>
     </tr>
     <tr>
       <td style="text-align:left">post_locks</td>
@@ -343,7 +346,7 @@ description: This is a list of all tables used for the Ushahidi Platform.
     </tr>
     <tr>
       <td style="text-align:left">post_markdown</td>
-      <td style="text-align:left">Stores post-values for form-attribute "Markdown"</td>
+      <td style="text-align:left">Stores post-values for form-attribute &quot;Markdown&quot;</td>
       <td style="text-align:left">
         <p>Add Posts</p>
         <p>
@@ -355,7 +358,7 @@ description: This is a list of all tables used for the Ushahidi Platform.
     </tr>
     <tr>
       <td style="text-align:left">post_media</td>
-      <td style="text-align:left">Stores id for media-files uploaded in a post (form-attribute type "Image").</td>
+      <td style="text-align:left">Stores id for media-files uploaded in a post (form-attribute type &quot;Image&quot;).</td>
       <td
       style="text-align:left">
         <p>Add Posts</p>
@@ -368,7 +371,7 @@ description: This is a list of all tables used for the Ushahidi Platform.
     </tr>
     <tr>
       <td style="text-align:left">post_point</td>
-      <td style="text-align:left">Stores post-values for form-attribute "Location".</td>
+      <td style="text-align:left">Stores post-values for form-attribute &quot;Location&quot;.</td>
       <td style="text-align:left">
         <p>Add Posts</p>
         <p>
@@ -380,19 +383,20 @@ description: This is a list of all tables used for the Ushahidi Platform.
     </tr>
     <tr>
       <td style="text-align:left">post_relation</td>
-      <td style="text-align:left">Stores post-values for form-attribute "Related posts".</td>
-      <td style="text-align:left">
+      <td style="text-align:left">Stores post-values for form-attribute &quot;Related posts&quot;.</td>
+      <td
+      style="text-align:left">
         <p>Add Posts</p>
         <p>
           <br />View Posts</p>
         <p>
           <br />Edit Posts</p>
-      </td>
-      <td style="text-align:left">-</td>
+        </td>
+        <td style="text-align:left">-</td>
     </tr>
     <tr>
       <td style="text-align:left">post_text</td>
-      <td style="text-align:left">Stores post-values for form-attribute "Long Text".</td>
+      <td style="text-align:left">Stores post-values for form-attribute &quot;Long Text&quot;.</td>
       <td style="text-align:left">
         <p>Add Posts</p>
         <p>
@@ -404,8 +408,9 @@ description: This is a list of all tables used for the Ushahidi Platform.
     </tr>
     <tr>
       <td style="text-align:left">post_varchar</td>
-      <td style="text-align:left">Stores post-values for form-attributes "Short text", "Select (dropdowns)",
-        "Radio buttons", "Checkboxes" and "Embed video"</td>
+      <td style="text-align:left">Stores post-values for form-attributes &quot;Short text&quot;, &quot;Select
+        (dropdowns)&quot;, &quot;Radio buttons&quot;, &quot;Checkboxes&quot; and
+        &quot;Embed video&quot;</td>
       <td style="text-align:left">
         <p>Add Posts</p>
         <p>
@@ -443,11 +448,11 @@ description: This is a list of all tables used for the Ushahidi Platform.
       <td style="text-align:left">posts_sets</td>
       <td style="text-align:left">Holds information about saved searches.</td>
       <td style="text-align:left">
-        <p>Sort & Filter -> filter by Saved Search</p>
+        <p>Sort &amp; Filter -&gt; filter by Saved Search</p>
         <p>
-          <br />Sort & Filter -> Save search</p>
+          <br />Sort &amp; Filter -&gt; Save search</p>
         <p>
-          <br />Sort & Filter -> Update search</p>
+          <br />Sort &amp; Filter -&gt; Update search</p>
       </td>
       <td style="text-align:left">-</td>
     </tr>
@@ -461,7 +466,7 @@ description: This is a list of all tables used for the Ushahidi Platform.
         <p>
           <br />Edit posts</p>
         <p>
-          <br />Setting -> Categories</p>
+          <br />Setting -&gt; Categories</p>
       </td>
       <td style="text-align:left">-</td>
     </tr>
@@ -472,32 +477,32 @@ description: This is a list of all tables used for the Ushahidi Platform.
         <p>defined roles.</p>
       </td>
       <td style="text-align:left">
-        <p>Settings -> Roles</p>
+        <p>Settings -&gt; Roles</p>
         <p>
-          <br />Settings -> Users</p>
+          <br />Settings -&gt; Users</p>
       </td>
       <td style="text-align:left">-</td>
     </tr>
     <tr>
       <td style="text-align:left">roles_permissions</td>
       <td style="text-align:left">Stores relations between roles and permissions</td>
-      <td style="text-align:left">Settings -> Roles</td>
+      <td style="text-align:left">Settings -&gt; Roles</td>
       <td style="text-align:left">-</td>
     </tr>
     <tr>
       <td style="text-align:left">sets</td>
       <td style="text-align:left">Stores all saved searches available.</td>
-      <td style="text-align:left">Sort & Filter -> Saved searches</td>
+      <td style="text-align:left">Sort &amp; Filter -&gt; Saved searches</td>
       <td style="text-align:left">-</td>
     </tr>
     <tr>
       <td style="text-align:left">tags</td>
       <td style="text-align:left">All categories created</td>
       <td style="text-align:left">
-        <p>Settings -> Categories</p>
+        <p>Settings -&gt; Categories</p>
         <p>
-          <br />Settings ->
-          <br />Surveys -> Create/Edit survey</p>
+          <br />Settings -&gt;
+          <br />Surveys -&gt; Create/Edit survey</p>
         <p>
           <br />Add post</p>
         <p>
@@ -511,7 +516,7 @@ description: This is a list of all tables used for the Ushahidi Platform.
       <td style="text-align:left">targeted_survey_state</td>
       <td style="text-align:left">This is used to save the status of a targeted survey (which was the last
         survey question sent out to each user)</td>
-      <td style="text-align:left">Settings -> Surveys</td>
+      <td style="text-align:left">Settings -&gt; Surveys</td>
       <td style="text-align:left">Only available to deployments in some custom enterprise plans.</td>
     </tr>
     <tr>
@@ -526,7 +531,7 @@ description: This is a list of all tables used for the Ushahidi Platform.
     <tr>
       <td style="text-align:left">user_reset_tokens</td>
       <td style="text-align:left">used to store password reset tokens</td>
-      <td style="text-align:left">Login -> Forgot Your Password?</td>
+      <td style="text-align:left">Login -&gt; Forgot Your Password?</td>
       <td style="text-align:left">-</td>
     </tr>
     <tr>
@@ -538,20 +543,20 @@ description: This is a list of all tables used for the Ushahidi Platform.
     <tr>
       <td style="text-align:left">users</td>
       <td style="text-align:left">Store users</td>
-      <td style="text-align:left">Settings -> Users</td>
+      <td style="text-align:left">Settings -&gt; Users</td>
       <td style="text-align:left">-</td>
     </tr>
     <tr>
       <td style="text-align:left">webhook_job</td>
       <td style="text-align:left">Stores jobs generated by the system (used by the webhooks jobs queue).</td>
       <td
-      style="text-align:left">Settings -> Webhooks</td>
+      style="text-align:left">Settings -&gt; Webhooks</td>
         <td style="text-align:left">-</td>
     </tr>
     <tr>
       <td style="text-align:left">webhooks</td>
       <td style="text-align:left">Stores information of each webhook such as url, method, etc</td>
-      <td style="text-align:left">Settings -> Webhooks</td>
+      <td style="text-align:left">Settings -&gt; Webhooks</td>
       <td style="text-align:left">-</td>
     </tr>
   </tbody>
