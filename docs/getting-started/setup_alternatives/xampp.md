@@ -23,7 +23,25 @@ The two main components of the Ushahidi Platform are the API and the Client. We 
 * Install a Git client
   * A way to check if you have a Git client, is to open a terminal window and type the command `git` . If you receive an answer saying that the command is not found, you need to install.
   * There are several installation options suggested [here](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git).
+* Make sure you have PHP 7.1.x, running with php-fpm  \(PHP 7.2.x is not supported at the time\). 
+  * The following PHP Extensions are needed:
+  * * curl
+    * json
+    * mbstring
+    * mcrypt
+    * bcmath
+    * mysql
+    * imap
+    * gd
+    * xml
+    * zip
+* Composer for PHP package management \( [https://getcomposer.org](https://getcomposer.org) \)
 * Install XAMPP by downloading it from the [project website](https://www.apachefriends.org).
+
+**Some useful tutorials and links to get the prerequisites set up:**
+
+* Downgrading from php7.2 =&gt; php7.1 in Ubuntu \(added to this list 18/3-2019\): [https://gist.github.com/dosjota/9666a7274b4036588b92987b84267245](https://gist.github.com/dosjota/9666a7274b4036588b92987b84267245)
+* Installing Composer on Ubuntu \(added to this list 18/3-2019\): [https://www.digitalocean.com/community/tutorials/how-to-install-and-use-composer-on-ubuntu-18-04](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-composer-on-ubuntu-18-04)
 
 {% hint style="warning" %}
 Ensure that you download the XAMPP package containing the **appropriate PHP version**.  Check the [README](../../) for finding which one it is.
@@ -58,13 +76,16 @@ curl -sS https://getcomposer.org/installer | \
 * Open the XAMPP Control Panel and make sure that both MySQL and Apache are running.
   * _Windows_: click the "Start" button next to MySQL and Apache modules
   * _Linux and Mac_:
+    * Search for the application XAMPP \(usually in the applications-window, but you can also search for it, a seach-window appears  by pressing \(usually\) cmd=&gt;space on Mac and  Super=&gt;A on Linux\).
     * Access the "Manage Servers" tab
     * Select "MySQL Database" and click the "Start" button on the right side
     * Select "Apache Web Server" and click the "Start" button on the right side
     * if the "Start" button is disabled, that's because the servers are already running
+      * In Linux, there sometimes already is a Apache webserver running and this will prevent the XAMPP to run the server. In that case, open up a terminal-window and run `sudo service apache2 stop`
+      * Try pressing Start button again for "Apace Web Server, it should now start.
 * Go to [http://localhost](http://localhost) and verify that you see the XAMPP welcome page.
 * Open a terminal window
-  * Run `php -v` you should get a message with the installed PHP version
+  * Run `php -v` you should get a message with the installed PHP version, make sure this is the same version as you see in the XAMPP dashboard. If not, you need to switch php-version in the terminal. There are different ways of doing that depending on your setup, look for how to do it in your environment.
   * Run `composer -V` you should get a message with the installed Composer version
 
 #### Set up the database
@@ -84,7 +105,7 @@ curl -sS https://getcomposer.org/installer | \
   * _Windows_: In the XAMPP control panel, click on "Shell" 
     * This usually opens a terminal with `C:\xampp` being the active folder
     * Run `cd htdocs`
-  * _Linux_ and _Mac_: open your Terminal program, with the active folder being your home directory.
+  * _Linux_ and _Mac_: open your Terminal program, the active folder should be `home/dev`.
 * Run `git clone https://github.com/ushahidi/platform.git platform` . This will download the Ushahidi Platform API code repository inside a folder named `platform` .
 
 {% hint style="success" %}
@@ -93,7 +114,7 @@ It's **very important** that you have a clear idea of the location of your platf
 * _Windows_: `C:\xampp\htdocs\platform`
   * This may be different only if you chose a different path for XAMPP during its installation process.
 * _Linux_ and _Mac_: `platform` , inside your home folder
-  * To know your home folder full path, open a new Terminal window and type the command `pwd`.
+  * To know your destination folder full path, open a new Terminal window and type the command `pwd`.
 {% endhint %}
 
 #### Configuring the API
@@ -104,7 +125,13 @@ We will configure the API now. We will do this continuing working on the same te
 * Run the appropriate command depending on your operating system: 
   * Windows: run `copy .env.example .env`
   * Linux and Mac: run `cp .env.example .env`
-* Open `.env` with your IDE or text editor. This file is located inside your platform folder.
+* Open `.env` with your IDE or text editor. This file is located inside your platform folder. 
+
+
+
+{% hint style="info" %}
+Hint on Linux and Mac: You can run `sudo nano .env` to open up the nano text-editor in the terminal. When you are finished editing, press ctrl-x and then Y when asked if you want to save.
+{% endhint %}
 
 {% hint style="warning" %}
 On Windows File Explorer, the default is to hide the extension of the files \(the characters after the dot\). For that reason, the `.env` file may appear in your File Explorer window as a file with an empty name and of type "ENV file"
@@ -153,7 +180,7 @@ At this point you have the API ready to run, but need to setup your system and t
   * Linux / Mac :
     * Open the `/etc/hosts` file in an editor with administrator privileges \(i.e. with the terminal command `sudo nano /etc/hosts`\)
     * Update the file, appending a line with these contents: `127.0.0.1 api.ushahidi.test`
-* In your platform folder, inside the folder `httpdocs`, edit the file `.htaccess`. Edit the contents of the file to match **exactly** these:
+* In your platform folder, inside the folder `httpdocs`, edit the file `.htaccess`. Edit the contents of the file to match **exactly** these \(you can open the file to edit through `sudo nano .htaccess`\):
 
 ```text
 # Turn on URL rewriting
@@ -178,7 +205,7 @@ RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule .* index.php/$0 [PT]
 ```
 
-* In your platform folder, edit the file `.htaccess` . The contents should match these, again, **exactly**:
+* In your platform folder, edit the file `.htaccess`\(as before, you can open the file to edit it through `sudo nano .htaccess`\). The contents should match these, again, **exactly**:
 
 ```text
 # Turn on URL rewriting
@@ -200,7 +227,7 @@ We are going to need some extra concentration here, so read carefully.
 
 * We are setting ourselves to edit the web server's configuration file. So first thing, we need to know how to open it in an editor.
   * _Windows_: In the XAMPP control panel, click the "Config" button next to Apache and select "Apache \(httpd.conf\)". This will open an editor with the file.
-  * _Linux_: ...
+  * _Linux_: go to XAMPP and select the tab "Manage Servers". Click on Apache Web Server and click the "Configure"-button to the right. Click on "Open Conf File" to open the configuration-file. A question if you really want to manually edit the file may appear. Click Yes in that case.
   * _Mac: ..._
 * Now that we have the configuration file ready to edit, we are going to add a few lines at the bottom of that file. Those lines look like this:
 
