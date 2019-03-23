@@ -79,6 +79,13 @@ If you get a warning like "In MemcachedConnector.php line 69:  Class 'Memcached'
 
    `vagrant up`
 
+ If you get an SSL error then run 
+
+   ```vagrant box add --insecure laravel/homestead```
+
+and retry with 
+
+   `vagrant up`
 Our vagrant box is built on top of Laravel's Homestead, a pre-packaged Vagrant box that provides a pre-built development environment. Homestead includes the Nginx web server, PHP 7.1, MySQL, Postgres, Redis, Memcached, Node, and all of the other goodies you might need.
 
 If you see an error like "Vagrant was unable to mount VirtualBox shared folders...", try upgrading VirtualBox or edit Homestead.yaml and change the folders to NFS as shown below, then re-run "vagrant" up.
