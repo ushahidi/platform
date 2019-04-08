@@ -122,7 +122,7 @@ At this point you should have a running web server, but your deployment isn't se
 - Go to http://192.168.33.110 in your browser to check the API is up and running. You should see some JSON with an API version, endpoints and user info. 
 
 ## With XAMPP
-Follow the instructions [here](docs/setup_alternatives/XAMPP.md)
+Follow the instructions [here](docs/setup_alternatives/xampp.md)
 
 # Installing the client
 
