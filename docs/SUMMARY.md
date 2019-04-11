@@ -54,3 +54,7 @@
   * [Installing the bot](the-ushahidi-platform-facebook-bot/the-facebook-bot/installing-the-bot-for-development-and-testing.md)
   * [The bot script](the-ushahidi-platform-facebook-bot/the-facebook-bot/the-bot-script.md)
 
+## Hackathon and events
+
+* [Installathon, May 2019](hackathon-and-events/installathon-may-2019.md)
+
