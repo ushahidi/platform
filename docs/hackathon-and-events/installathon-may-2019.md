@@ -6,6 +6,8 @@ description: >-
 
 # Installathon, May 2019
 
+![](../.gitbook/assets/facebok-shared-post-size.png)
+
 Many of you got stuck during the installation and we suspect many leave after that, not looking back. Therefore we have worked hard on improving our docs and in May we will host our first Installathon, an online Hackathon over one week where the main focus is to help our users to install the Ushahidi Platform. 
 
 If you want to dig deeper and contribute there are also options to contribute to issues on the front-end or back-end and if you are interested, there are also options to learn how to install the Pattern Library and customise the appearance of the Platform.
