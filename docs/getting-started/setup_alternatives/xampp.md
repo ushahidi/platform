@@ -238,6 +238,7 @@ We are going to need some extra concentration here, so read carefully.
   ServerName api.ushahidi.test
   <Directory "<your platform folder here>">
     AllowOverride all
+    Require all granted
   </Directory>
 </VirtualHost>
 ```
