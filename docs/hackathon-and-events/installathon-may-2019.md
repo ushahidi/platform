@@ -20,6 +20,8 @@ If you want to dig deeper and contribute there are also options to contribute to
 
 **How do I join?** [Sign up on](https://forms.gle/kjpjcxRxDoGJDDUh9) this link and we will keep you posted and send you more details as we come closer to the Hackathon week!
 
+**How can I chat with Ushahidi staff about the installathon?** Visit [http://bit.ly/chatwithushahidi](http://bit.ly/chatwithushahidi) to chat with the Ushahidi development team on getting up and running with the Ushahidi OSS repo from 2-7 of May 2019.
+
 
 
 
