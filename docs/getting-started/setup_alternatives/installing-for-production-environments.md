@@ -123,7 +123,7 @@ composer install
 This will create all the tables and seed data required to run the API
 
 ```bash
-./bin/phinx migrate -c application/phinx.php
+php artisan migrate
 ```
 
 #### Verify the directory permissions and ownership are correct

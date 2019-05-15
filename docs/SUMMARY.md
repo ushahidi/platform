@@ -59,3 +59,8 @@
 * [Installathon, May 2019](hackathon-and-events/installathon-may-2019/README.md)
   * [Welcome to the hackathon!](hackathon-and-events/installathon-may-2019/welcome-to-the-hackathon.md)
 
+## Enhancement Proposals
+
+* [Exchange Format](enhancement-proposals/exchange-format.md)
+* [Installation Helper](enhancement-proposals/installation-helper.md)
+

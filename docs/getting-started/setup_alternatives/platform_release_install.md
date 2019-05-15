@@ -47,10 +47,10 @@ The instructions and example commands are written specifically for Debian Linux 
 
 * Run the database migrations, execute this command from the platform folder:
 
-`./bin/phinx migrate -c application/phinx.php`
+`php artisan migrate`
 
 * Ensure that the folders logs, cache and media/uploads under platform/application are all owned by the user that the web server is running as.
-  * i.e. in Debian derived Linux distributions, this user is www-data, belonging to group www-data, so you would run: `chown -R www-data:www-data platform/application/{logs,cache,media/uploads}`
+  * i.e. in Debian derived Linux distributions, this user is www-data, belonging to group www-data, so you would run: `chown -R www-data:www-data platform/storage/{logs,app,framework}`
 * Set up the cron jobs for tasks like receiving reports and sending e-mail messages.
 
 You'll need to know again which user your web server is running as. We'll assume the Debian standard www-data here. Run the command crontab -u www-data -e and ensure the following lines are present in the crontab:
