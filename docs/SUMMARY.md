@@ -7,6 +7,8 @@
   * [Get in touch](contributing-or-getting-involved/get-in-touch.md)
   * [Documentation](contributing-or-getting-involved/contributing-documentation/README.md)
     * [Contributing docs via GitHub](contributing-or-getting-involved/contributing-documentation/contributing-docs-via-github.md)
+    * [Encouraging contribution from non-developers](contributing-or-getting-involved/contributing-documentation/encouraging-contribution-from-non-developers.md)
+    * [Open Source Design](contributing-or-getting-involved/contributing-documentation/open-source-design.md)
 * [Getting started](getting-started/README.md)
   * [How to get the source code](getting-started/how-to-get-the-source-code.md)
   * [Setting up your development environment](getting-started/setting-up-your-development-environment.md)
