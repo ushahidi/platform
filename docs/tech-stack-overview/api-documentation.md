@@ -2691,5 +2691,58 @@ The contact id. You can get it from the post the message is linked to.
 {% endapi-method-spec %}
 {% endapi-method %}
 
+{% api-method method="get" host="https://ushahididocs.api.ushahidi.io" path="/api/v3/posts" %}
+{% api-method-summary %}
+Create a new post
+{% endapi-method-summary %}
 
+{% api-method-description %}
+Create a new post in the ushahidi platform. This method works with a user's password\_grant token or with a client\_credentials token generated with the client id and secret.  
+{% endapi-method-description %}
+
+{% api-method-spec %}
+{% api-method-request %}
+{% api-method-headers %}
+{% api-method-parameter name="Authorization" type="string" required=true %}
+Bearer: &lt;your-auth-token&gt;
+{% endapi-method-parameter %}
+{% endapi-method-headers %}
+
+{% api-method-body-parameters %}
+{% api-method-parameter name="form" type="object" required=true %}
+Format: {id: &lt;formId&gt;}  . Sending the id of the form we want to add posts to is required.
+{% endapi-method-parameter %}
+
+{% api-method-parameter name="values" type="object" required=true %}
+a key:value map of fields and their content. This is used for all fields other than content and title and follows the format fieldKey: value.  You can get a field's get by requesting all attributes of a form. Can be an empty object literal if a form has no other fields.
+{% endapi-method-parameter %}
+
+{% api-method-parameter name="content" type="string" required=true %}
+The post's description field
+{% endapi-method-parameter %}
+
+{% api-method-parameter name="title" type="string" required=true %}
+The post's title field  
+  
+{% endapi-method-parameter %}
+{% endapi-method-body-parameters %}
+{% endapi-method-request %}
+
+{% api-method-response %}
+{% api-method-response-example httpCode=204 %}
+{% api-method-response-example-description %}
+
+{% endapi-method-response-example-description %}
+
+```
+Success
+```
+{% endapi-method-response-example %}
+{% endapi-method-response %}
+{% endapi-method-spec %}
+{% endapi-method %}
+
+Example payload: 
+
+{"title":"My title","content":"My content","values":{},"form":{"id":4}}
 
