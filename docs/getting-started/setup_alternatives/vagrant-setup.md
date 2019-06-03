@@ -71,8 +71,21 @@ vagrant up
 Our vagrant box is built on top of Laravel's Homestead, a pre-packaged Vagrant box that provides a pre-built development environment. Homestead includes the Nginx web server, PHP 7.1, MySQL, Postgres, Redis, Memcached, Node, and all of the other goodies you might need.
 
 {% hint style="info" %}
-If you see an error like "Vagrant was unable to mount VirtualBox shared folders...", try upgrading VirtualBox or edit Homestead.yaml and change the folders to NFS as shown below, then re-run "vagrant" up.
+If you see an error like "Vagrant was unable to mount VirtualBox shared folders..."
 {% endhint %}
+
+* [ ] Verify that Vagrant and VirtualBox are up to date.
+* [ ] Verify that the VirtualBox Guest Additions were installed \(and fix it if they weren't\)
+  * [ ] `vagrant ssh` \(to ssh into the machine\)
+  * [ ] `lsmod | grep vboxguest`
+  * [ ] If this command doesn't return anything, VB Guest additions are likely not installed correctly. A fix for this is to install the vbguest vagrant plugin.
+    * [ ] if you are in the vagrant box, type `exit` and hit the return key to exit it
+    * [ ] run `vagrant plugin install vagrant-vbguest`
+    * [ ] run `vagrant up --provision` to continue
+* [ ] If that doesn't work, and you are in a linux or MacOS environment \(this is not compatible with Windows!\):
+* [ ] open the Homestead.yml file
+* [ ] Add `type: "nfs"` to the two directory mappings as shown below
+* [ ] run `vagrant up`
 
 ```text
  -
@@ -85,7 +98,9 @@ If you see an error like "Vagrant was unable to mount VirtualBox shared folders.
       type: "nfs"
 ```
 
-You will have to ssh into your vagrant machine to finish installing the dependencies.
+{% hint style="success" %}
+Now that you \(hopefully\) have a working vagrant machine, you will have to ssh into it to finish installing the dependencies.
+{% endhint %}
 
 ```bash
 vagrant ssh
@@ -104,7 +119,7 @@ composer install
 ```
 
 {% hint style="warning" %}
-**Important:** If you didn't setup vagrant-hostupdater, you will need to add the following lines to /etc/hosts in your host machine.
+**Important:** If you didn't setup vagrant-hostupdater, or if it failed for any reason, you will need to add the following lines to /etc/hosts in your host machine.
 {% endhint %}
 
 ```text
