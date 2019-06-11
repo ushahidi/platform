@@ -69,7 +69,7 @@ Support this project by becoming a sponsor. Your logo will show up here with a l
 
 
 ## Useful Links
-
+- [Code of Conduct](https://docs.ushahidi.com/platform-developer-documentation/code-of-conduct)
 - [Download][download]
 - [Other Installation Guides][other-install-guides]
 - [User Documentation][docs]
