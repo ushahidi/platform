@@ -14,7 +14,7 @@ Ushahidi is an open source web application for information collection, visualiza
 
 ## A note for grassroots organizations
 
-If you are starting a deployment for a grassroots organization, you can apply for a free social-impact responder account [here](https://www.ushahidi.com/plans/apply-for-free) after verifying that you meet the criteria.
+If you are starting a deployment for a grassroots organization, you can apply for a free social-impact responder account [here](https://www.ushahidi.com/pricing/apply-for-free) afte verifying that you meet the criteria.
 
 ## Required reading: Code of Conduct. 
 
@@ -30,8 +30,6 @@ We love having you here. To ensure everyone has a good experience, we ask **ever
 
 If you are not a developer, or just don't want to set it up yourself, you can start a hosted deployment [here](https://www.ushahidi.com/pricing).
 
-All the documentation on using the platform is here
-
 ## Technical documentation
 
 ### How to install and run the Ushahidi Platform
@@ -44,11 +42,9 @@ All the documentation on using the platform is here
 
 ## Useful Links
 
-* [Download](https://github.com/ushahidi/platform-release/releases)
-* [Other Installation Guides](https://github.com/ushahidi/platform/tree/adff3c2af479788bfdea05fa4a198e08080a98f0/docs/docs/setup_alternatives/README.md)
+* [Installation Guides](getting-started/setup_alternatives/)
 * [User Documentation](https://www.ushahidi.com/support)
-* [Technical Documentation](https://github.com/ushahidi/platform/tree/adff3c2af479788bfdea05fa4a198e08080a98f0/docs/docs/README.md)
-* [Get Involved](https://www.ushahidi.com/support/get-involved)
+* [Get Involved](contributing-or-getting-involved/)
 * [Bug tracker](https://github.com/ushahidi/platform/issues)
 * [Ushahidi](http://ushahidi.com)
 * [Ushahidi Platform v2](https://github.com/ushahidi/Ushahidi_Web)
