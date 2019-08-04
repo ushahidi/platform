@@ -141,6 +141,9 @@
         "bootstrap:passport": [
             "php artisan passport:keys",
             "chmod 660 storage/passport/*.key"
+        ],
+        "verify": [
+            "\\Ushahidi\\App\\PlatformVerifier\\Env::verifyRequirements"
         ]
     }
 }

@@ -85,7 +85,7 @@ $app->routeMiddleware([
 | totally optional, so you are not required to uncomment this line.
 |
 */
-
+$app->register(Ushahidi\App\PlatformVerifier\Env::class);
 $app->register(Illuminate\Redis\RedisServiceProvider::class);
 $app->register(Ushahidi\App\Providers\AppServiceProvider::class);
 $app->register(Ushahidi\App\Providers\AuthServiceProvider::class);
