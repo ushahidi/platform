@@ -2790,3 +2790,150 @@ Example payload:
 
 {"title":"My title","content":"My content","values":{},"form":{"id":4}}
 
+
+
+{% api-method method="get" host="https://ushahididocs.api.ushahidi.io" path="/api/v3/posts" %}
+{% api-method-summary %}
+Get Posts 
+{% endapi-method-summary %}
+
+{% api-method-description %}
+
+{% endapi-method-description %}
+
+{% api-method-spec %}
+{% api-method-request %}
+{% api-method-headers %}
+{% api-method-parameter name="Authorization" type="string" required=true %}
+Bearer &lt;your-auth-token&gt;
+{% endapi-method-parameter %}
+{% endapi-method-headers %}
+
+{% api-method-query-parameters %}
+{% api-method-parameter name="orderby" type="string" required=false %}
+Options: desc, asc
+{% endapi-method-parameter %}
+
+{% api-method-parameter name="limit" type="string" required=false %}
+:number
+{% endapi-method-parameter %}
+{% endapi-method-query-parameters %}
+{% endapi-method-request %}
+
+{% api-method-response %}
+{% api-method-response-example httpCode=200 %}
+{% api-method-response-example-description %}
+
+{% endapi-method-response-example-description %}
+
+```javascript
+{
+    "count": 2,
+    "results": [
+        {
+            "id": 18100,
+            "url": "https://ushahididocs.api.ushahidi.io\/api\/v3\/posts\/18100",
+            "parent_id": null,
+            "form": {
+                "id": 2,
+                "url": "https://ushahididocs.api.ushahidi.io\/api\/v3\/forms\/2"
+            },
+            "user_id": null,
+            "message": null,
+            "color": null,
+            "type": "report",
+            "title": "401 edits",
+            "slug": "401-5bfd5fce5eba2",
+            "content": "Tests",
+            "status": "published",
+            "created": "2018-11-27T15:16:33+00:00",
+            "updated": "2018-11-27T15:47:13+00:00",
+            "locale": "en_us",
+            "values": {
+                "fc81397d-b73d-43a6-b1da-7614534563be": [
+                    "2018-11-22 05:31:00"
+                ],
+                "cc0cb71a-c0af-4e0a-94ac-be6b21f4b796": [
+                    "2018-11-27 15:46:50"
+                ],
+                "9b65d16f-023d-4c1c-9284-8a3d57c8ae0a": [
+                    {
+                        "lon": 9.563599,
+                        "lat": 7.710992
+                    }
+                ]
+            },
+            "post_date": "2018-11-27T15:16:33+00:00",
+            "tags": [],
+            "published_to": [],
+            "completed_stages": [],
+            "lock": null,
+            "source": null,
+            "contact": null,
+            "data_source_message_id": null,
+            "allowed_privileges": [
+                "read",
+                "create",
+                "search"
+            ]
+        },
+        {
+            "id": 8328,
+            "url": "https://ushahididocs.api.ushahidi.io\/api\/v3\/posts\/8328",
+            "parent_id": null,
+            "form": {
+                "id": 1,
+                "url": "https://ushahididocs.api.ushahidi.io\/api\/v3\/forms\/1"
+            },
+            "user_id": null,
+            "message": {
+                "id": 23462,
+                "url": "https://ushahididocs.api.ushahidi.io\/api\/v3\/messages\/23462"
+            },
+            "color": null,
+            "type": "report",
+            "title": "Test 2.",
+            "slug": "-58fdc11e54991",
+            "content": "Some content",
+            "status": "published",
+            "created": "2017-04-24T09:10:54+00:00",
+            "updated": "2017-04-24T13:10:19+00:00",
+            "locale": "en_us",
+            "values": [],
+            "post_date": "2017-04-24T09:10:54+00:00",
+            "tags": [],
+            "published_to": [],
+            "completed_stages": [
+                1
+            ],
+            "lock": null,
+            "source": "sms",
+            "contact": {
+                "id": 2693,
+                "url": "https://ushahididocs.api.ushahidi.io\/api\/v3\/contact\/2693"
+            },
+            "data_source_message_id": null,
+            "allowed_privileges": [
+                "read",
+                "create",
+                "search"
+            ]
+        }
+    ],
+    "limit": "20",
+    "offset": 0,
+    "order": "desc",
+    "orderby": "created",
+    "curr": "https://ushahididocs.api.ushahidi.io\/api\/v3\/posts?orderby=created&order=desc&limit=20&offset=0",
+    "next": "https://ushahididocs.api.ushahidi.io\/api\/v3\/posts?orderby=created&order=desc&limit=20&offset=20",
+    "prev": "https://ushahididocs.api.ushahidi.io\/api\/v3\/posts?orderby=created&order=desc&limit=20&offset=0",
+    "total_count": 2
+}
+```
+{% endapi-method-response-example %}
+{% endapi-method-response %}
+{% endapi-method-spec %}
+{% endapi-method %}
+
+
+
