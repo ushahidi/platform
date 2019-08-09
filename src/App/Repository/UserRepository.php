@@ -147,7 +147,7 @@ class UserRepository extends OhanzeeRepository implements
             $query->and_where_close();
 
             // Adding search contacts
-            $query->join('contacts')->on("$table.id", '=', 'contacts.user_id')
+            $query->join('contacts', 'left')->on("$table.id", '=', 'contacts.user_id')
             ->or_where('contacts.contact', 'like', '%' . $search->q . '%');
         }
 
@@ -160,6 +160,7 @@ class UserRepository extends OhanzeeRepository implements
             $query->where('role', 'IN', $role);
         }
 
+    
         return $query;
     }
 
