@@ -15,7 +15,16 @@
         }
     ],
     "require": {
-        "php": ">=7.0 <=7.3",
+        "php": ">=7.0 <7.2",
+        "ext-curl": "*",
+        "ext-gd": "*",
+        "ext-json": "*",
+        "ext-mbstring": "*",
+        "ext-mcrypt": "*",
+        "ext-bcmath": "*",
+        "ext-pdo_mysql": "*",
+        "ext-xml": "*",
+        "ext-zip": "*",
         "aura/di": "~3.4",
         "league/flysystem-aws-s3-v3": "~1.0",
         "league/flysystem-rackspace": "~1.0",
@@ -27,10 +36,6 @@
         "robmorgan/phinx": "~0.8.0",
         "symm/gisconverter": "~1.0.5",
         "vlucas/phpdotenv": "~2.2",
-        "ext-curl": "*",
-        "ext-gd": "*",
-        "ext-json": "*",
-        "ext-mbstring": "*",
         "league/csv": "~7.1@dev",
         "laravel/lumen-framework": "5.5.*",
         "league/event": "^2.2@dev",
@@ -68,7 +73,9 @@
         "sebastianfeldmann/captainhook": "^2.0"
     },
     "suggest" : {
-        "ext-imap": "Needed for email data source"
+        "ext-imap": "Needed for email data source",
+        "ext-redis": "Needed for Redis based queues or cache",
+        "ext-memcached": "Needed for Memcache based cache"
     },
     "config": {
         "bin-dir": "bin/",
