@@ -15,10 +15,10 @@ services:
       ENABLE_PHPFPM: "true"
       ENABLE_PLATFORM_TASKS: "false"
       RUN_PLATFORM_MIGRATIONS: "true"
-      DB_NAME: ushahidi
+      DB_DATABASE: ushahidi
       DB_HOST: mysql
-      DB_USER: ushahidi
-      DB_PASS: ushahidi
+      DB_USERNAME: ushahidi
+      DB_PASSWORD: ushahidi
     command: start
     ports:
       - "80:8080"
@@ -30,8 +30,8 @@ services:
       ENABLE_PHPFPM: "false"
       ENABLE_PLATFORM_TASKS: "true"
       RUN_PLATFORM_MIGRATIONS: "false"
-      DB_NAME: ushahidi
+      DB_DATABASE: ushahidi
       DB_HOST: mysql
-      DB_USER: ushahidi
-      DB_PASS: ushahidi
+      DB_USERNAME: ushahidi
+      DB_PASSWORD: ushahidi
     command: start
