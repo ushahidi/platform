@@ -1,3 +1,7 @@
+apikeys:
+  -
+    id: 2
+    api_key: "thisisatestapikeystring"
 roles:
   -
     name: "user"
@@ -10,6 +14,10 @@ roles:
   -
     name: "manager"
     display_name: "Manager"
+    protected: 0
+  -
+    name: "sets"
+    display_name: "Sets"
     protected: 0
   -
     name: "importer"
@@ -68,6 +76,38 @@ users:
     realname: CannotEditor
     email: "cannoteditor@ushahidi.com"
     role: "noedit"
+  -
+    id: 9
+    password: "$2y$15$iWANGZn.DomLWU.YtjUcX.HEq1hoMGauzXFRubKgar/BRaAj9zQ9q"
+    realname: Sets
+    email: "sets@ushahidi.com"
+    role: "sets"
+user_settings:
+ -
+   id: 1
+   config_key: "api some key"
+   config_value: "some value"
+   created: 1893477600
+   updated: 1893477600
+   user_id: 2
+ -
+   id: 2
+   config_key: "some key2"
+   config_value: "some value"
+   created: 1893477600
+   updated: 1893477600
+   user_id: 1
+user_reset_tokens:
+  -
+    id: 1
+    user_id: 5
+    reset_token: testresettoken
+    created: 1893477600
+  -
+    id: 2
+    user_id: 5
+    reset_token: testresettoken2
+    created: 1893477600
 forms:
   -
     id: 1
@@ -76,7 +116,10 @@ forms:
     description: "Testing form"
     require_approval: 0
     hide_author: 0
+    hide_time: 0
+    hide_location: 0
     everyone_can_create: 1
+    targeted_survey: 0
   -
     id: 2
     name: "Missing people"
@@ -84,7 +127,10 @@ forms:
     description: "Missing persons"
     require_approval: 0
     hide_author: 0
+    hide_time: 0
+    hide_location: 0
     everyone_can_create: 0
+    targeted_survey: 0
   -
     id: 3
     name: "Video Embed"
@@ -92,7 +138,10 @@ forms:
     description: "Test video embed"
     require_approval: 0
     hide_author: 0
+    hide_time: 0
+    hide_location: 0
     everyone_can_create: 0
+    targeted_survey: 0
   -
     id: 4
     name: "Role Restriction"
@@ -100,7 +149,55 @@ forms:
     description: "Test role restriction and private responses"
     require_approval: 1
     hide_author: 1
+    hide_time: 1
+    hide_location: 1
     everyone_can_create: 0
+    targeted_survey: 0
+  -
+    id: 5
+    name: "Targeted survey"
+    type: "report"
+    description: "Testing Targeted survey"
+    require_approval: 0
+    hide_author: 0
+    hide_time: 0
+    hide_location: 0
+    everyone_can_create: 0
+    targeted_survey: 1
+  -
+    id: 6
+    name: "Targeted survey - no responses"
+    type: "report"
+    description: "Testing Targeted survey"
+    require_approval: 0
+    hide_author: 0
+    hide_time: 0
+    hide_location: 0
+    everyone_can_create: 0
+    targeted_survey: 1
+  -
+    id: 7
+    name: "Targeted survey - with invalidated"
+    type: "report"
+    description: "Testing Targeted survey"
+    require_approval: 0
+    hide_author: 0
+    hide_time: 0
+    hide_location: 0
+    everyone_can_create: 0
+    targeted_survey: 1
+  -
+    id: 8
+    name: "Targeted survey - with responses"
+    type: "report"
+    description: "Testing Targeted survey"
+    require_approval: 0
+    hide_author: 0
+    hide_time: 0
+    hide_location: 0
+    everyone_can_create: 0
+    targeted_survey: 1
+
 form_roles:
   -
     id: 1
@@ -114,48 +211,87 @@ form_roles:
     id: 3
     form_id: 4
     role_id: 3
+  -
+    id: 4
+    form_id: 5
+    role_id: 2
 form_stages:
   -
     id: 1
     form_id: 1
     label: "Main"
     show_when_published: 1
+    task_is_internal_only: 0
     type: "post"
   -
     id: 2
     form_id: 1
     label: "2nd step"
     show_when_published: 1
+    task_is_internal_only: 0
     type: "task"
   -
     id: 3
     form_id: 1
     label: "3rd step"
     show_when_published: 1
+    task_is_internal_only: 0
     type: "task"
   -
     id: 4
     form_id: 2
     label: "Main"
     show_when_published: 1
+    task_is_internal_only: 0
     type: "post"
   -
     id: 5
     form_id: 3
     label: "Post"
     show_when_published: 1
+    task_is_internal_only: 0
     type: "post"
   -
     id: 6
     form_id: 4
     label: "restricted"
     show_when_published: 0
+    task_is_internal_only: 0
     type: "task"
   -
     id: 7
     form_id: 4
     label: "Post"
     show_when_published: 1
+    task_is_internal_only: 0
+    type: "post"
+  -
+    id: 8
+    form_id: 5
+    label: "Post"
+    show_when_published: 0
+    task_is_internal_only: 0
+    type: "post"
+  -
+    id: 9
+    form_id: 7
+    label: "Post"
+    show_when_published: 0
+    task_is_internal_only: 0
+    type: "post"
+  -
+    id: 10
+    form_id: 6
+    label: "Post"
+    show_when_published: 0
+    task_is_internal_only: 0
+    type: "post"
+  -
+    id: 11
+    form_id: 8
+    label: "Post"
+    show_when_published: 0
+    task_is_internal_only: 0
     type: "post"
 form_attributes:
   -
@@ -436,7 +572,7 @@ form_attributes:
     form_stage_id: 7
   -
     id: 24
-    label: "Test Field Level Locking 7"
+    label: "A Test Field Level Locking 7"
     key: "test_field_locking_visible_4"
     type: "varchar"
     input: "text"
@@ -504,6 +640,102 @@ form_attributes:
     required: 0
     priority: 3
     options: '["1","2","3","4","5","6","7"]'
+    cardinality: 0
+    form_stage_id: 7
+  -
+    id: 30
+    label: "Test varchar Targeted Survey"
+    key: "test_varchar_targeted_survey_1"
+    type: "varchar"
+    input: "text"
+    response_private: 1
+    required: 1
+    priority: 1
+    options: ""
+    cardinality: 1
+    form_stage_id: 8
+  -
+    id: 31
+    label: "Test varchar Targeted Survey"
+    key: "test_varchar_targeted_survey_2"
+    type: "varchar"
+    input: "text"
+    response_private: 1
+    required: 1
+    priority: 1
+    options: ""
+    cardinality: 1
+    form_stage_id: 9
+  -
+    id: 32
+    label: "Test varchar Targeted Survey 3"
+    key: "test_varchar_targeted_survey_3"
+    type: "varchar"
+    input: "text"
+    response_private: 0
+    required: 0
+    priority: 1
+    options: ""
+    cardinality: 1
+    form_stage_id: 10
+  -
+    id: 33
+    label: "A Test Field Form Stage 9"
+    key: "test_field_stage_9"
+    type: "varchar"
+    input: "text"
+    response_private: 0
+    required: 0
+    priority: 3
+    options: ""
+    cardinality: 1
+    form_stage_id: 9
+  -
+    id: 34
+    label: "Test varchar responses"
+    key: "test_varchar_targeted_survey_responses"
+    type: "varchar"
+    input: "text"
+    response_private: 1
+    required: 1
+    priority: 1
+    options: ""
+    cardinality: 1
+    form_stage_id: 11
+  -
+    id: 35
+    label: "Test varchar responses 2"
+    key: "test_varchar_targeted_survey_responses_2"
+    type: "varchar"
+    input: "text"
+    response_private: 1
+    required: 1
+    priority: 1
+    options: ""
+    cardinality: 1
+    form_stage_id: 11
+  -
+    id: 36
+    label: "Location"
+    key: "location_restrictions"
+    type: "point"
+    input: "location"
+    response_private: 0
+    required: 0
+    priority: 5
+    options: ""
+    cardinality: 0
+    form_stage_id: 7
+  -
+    id: 37
+    label: "Datetime"
+    key: "datetime_restrictions"
+    type: "datetime"
+    input: "datetime"
+    response_private: 0
+    required: 0
+    priority: 5
+    options: ""
     cardinality: 0
     form_stage_id: 7
 posts:
@@ -588,9 +820,9 @@ posts:
   -
     id: 101
     form_id: 1
-    parent_id: 99
+    parent_id:
     user_id:
-    title: "Child dummy report"
+    title: "Not a child report anymore"
     type: "report"
     content: "Some description"
     status: "published"
@@ -601,9 +833,9 @@ posts:
   -
     id: 102
     form_id: 2
-    parent_id: 99
+    parent_id:
     user_id:
-    title: "Child missing person report"
+    title: "Missing person report"
     type: "report"
     content: "Some description"
     status: "published"
@@ -744,9 +976,9 @@ posts:
   -
     id: 114
     form_id: 1
-    parent_id: 111
+    parent_id:
     user_id:
-    title: "Update for draft"
+    title: "Just another post now!"
     type: "report"
     content: "Update for draft"
     status: "published"
@@ -783,9 +1015,9 @@ posts:
   -
     id: 117
     form_id: 1
-    parent_id: 110
+    parent_id:
     user_id:
-    title: "Update for draft"
+    title: "And another draft"
     type: "report"
     content: "Update for draft"
     status: "draft"
@@ -851,7 +1083,193 @@ posts:
     created: 1412025016
     published_to: '[]'
     post_date: "2014-09-29 14:10:16"
+  -
+    id: 1690
+    form_id: 4
+    parent_id:
+    user_id: 3
+    author_email: "test@ushahidi.com"
+    author_realname: "Test Name"
+    title: "Post published to members"
+    type: "report"
+    content: "Post published to members"
+    status: "published"
+    locale: "en_us"
+    created: 1412025016
+    published_to: '["user"]'
+    post_date: "2014-09-29 14:10:16"
+  -
+    id: 1691
+    form_id: 4
+    parent_id:
+    user_id: 3
+    author_email: "test@ushahidi.com"
+    author_realname: "Test Name"
+    title: "Post published to members"
+    type: "report"
+    content: "Post published to members"
+    status: "published"
+    locale: "en_us"
+    created: 1412025016
+    published_to: '["user"]'
+    post_date: "2014-09-29 14:10:16"
+  -
+    id: 1692
+    form_id: 4
+    parent_id:
+    user_id: 3
+    author_email: "test@ushahidi.com"
+    author_realname: "Test Name"
+    title: "Post locking test"
+    type: "report"
+    content: "Post to test locking"
+    status: "published"
+    locale: "en_us"
+    created: 1412025016
+    published_to: '["user"]'
+    post_date: "2014-09-29 14:10:16"
+  -
+    id: 452
+    form_id: 6
+    parent_id:
+    user_id: 3
+    author_email: "test@ushahidi.com"
+    author_realname: "Test Name"
+    title: "SMS Stats Count"
+    type: "report"
+    content: "Testing SMS Stats"
+    status: "published"
+    locale: "en_us"
+    created: 1412025016
+    published_to: '["user"]'
+    post_date: "2018-01-29 14:10:16"
+  -
+    id: 1693
+    form_id: 1
+    parent_id:
+    user_id: 1
+    author_email: ""
+    author_realname: ""
+    title: "Test inbound message"
+    type: "report"
+    content: "Post to test inbound messages"
+    status: "draft"
+    locale: "en_us"
+    created: 1412025016
+    published_to: '[]'
+    post_date: "2014-09-29 14:10:16"
+  -
+    id: 1694
+    form_id: 7
+    parent_id:
+    author_email: ""
+    author_realname: ""
+    title: "Test inbound message"
+    type: "report"
+    content: "Post to test received message count in targeted survey"
+    status: "draft"
+    locale: "en_us"
+    created: 1412025016
+    published_to: '[]'
+    post_date: "2014-09-29 14:10:16"
+  -
+    id: 1695
+    form_id: 7
+    parent_id:
+    author_email: ""
+    author_realname: ""
+    title: "Test inbound message"
+    type: "report"
+    content: "Second Post to test received message count in targeted survey"
+    status: "draft"
+    locale: "en_us"
+    created: 1412025016
+    published_to: '[]'
+    post_date: "2014-09-29 14:10:16"
+  -
+    id: 1696
+    form_id: 7
+    parent_id:
+    author_email: ""
+    author_realname: ""
+    title: "Test outbound message"
+    type: "report"
+    content: "Second Post to test that we count sent messages in recipients"
+    status: "draft"
+    locale: "en_us"
+    created: 1412025016
+    published_to: '[]'
+    post_date: "2014-09-29 14:10:16"
+  -
+    id: 1697
+    form_id: 8
+    parent_id:
+    author_email: ""
+    author_realname: ""
+    title: "Test message"
+    type: "report"
+    content: "Post to test form id 8 with 2 contacts 1 response"
+    status: "draft"
+    locale: "en_us"
+    created: 1412025016
+    published_to: '[]'
+    post_date: "2014-09-29 14:10:16"
+  -
+    id: 1698
+    form_id: 8
+    parent_id:
+    author_email: ""
+    author_realname: ""
+    title: "Test message"
+    type: "report"
+    content: "2nd Post to test form id 8 with 2 contacts 1 response"
+    status: "draft"
+    locale: "en_us"
+    created: 1412025016
+    published_to: '[]'
+    post_date: "2014-09-29 14:10:16"
+  -
+    id: 1699
+    form_id: 1
+    parent_id:
+    user_id: 1
+    author_email: ""
+    author_realname: ""
+    title: "Testing email count for form stats"
+    type: "report"
+    content: "this is an email test"
+    status: "draft"
+    locale: "en_us"
+    created: 1534342200
+    published_to: '[]'
+    post_date: "2018-08-12 14:10:16"
+  -
+    id: 1700
+    form_id: 1
+    parent_id:
+    user_id: 1
+    author_email: ""
+    author_realname: ""
+    title: "Testing twitter count for form stats"
+    type: "report"
+    content: "this is an twitter test"
+    status: "draft"
+    locale: "en_us"
+    created: 1534342200
+    published_to: '[]'
+    post_date: "2018-08-12 14:10:16"
+post_locks:
+  -
+    id: 1
+    post_id: 1692
+    expires: 1412007022
+    user_id: 1
 post_datetime:
+  -
+    id: 1
+    post_id: 1690
+    value: "2014-09-29 15:11:46"
+    form_attribute_id: 37
 post_decimal:
 post_geometry:
 post_int:
@@ -974,6 +1392,31 @@ post_varchar:
     post_id: 122
     form_attribute_id: 24
     value: "arabic string"
+  -
+    id: 23
+    post_id: 105
+    form_attribute_id: 7
+    value: "Atlantis"
+  -
+    id: 24
+    post_id: 110
+    form_attribute_id: 7
+    value: "Trisolaris"
+  -
+    id: 25
+    post_id: 200
+    form_attribute_id: 7
+    value: "Auckland"
+  -
+    id: 26
+    post_id: 111
+    form_attribute_id: 7
+    value: "Hamilton"
+  -
+    id: 27
+    post_id: 95
+    form_attribute_id: 7
+    value: "Wellington"
 post_comments:
 tags:
   -
@@ -983,6 +1426,7 @@ tags:
     slug: "test-tag"
     priority: 0
     type: 'category'
+    role: '["admin", "user"]'
   -
     id: 2
     parent_id:
@@ -1026,6 +1470,38 @@ tags:
     priority: 0
     type: "category"
     role: '["admin"]'
+  -
+    id: 8
+    parent_id:
+    role: 'admin'
+    tag: "Test tag - no children"
+    slug: "test-tag-no-children"
+    priority: 0
+    type: 'category'
+  -
+    id: 9
+    parent_id:
+    role: 'admin'
+    tag: "Test tag - with children"
+    slug: "test-tag-with-children"
+    priority: 0
+    type: 'category'
+  -
+    id: 10
+    role: 'admin'
+    parent_id: 9
+    tag: "Child 1"
+    slug: "child-one"
+    priority: 0
+    type: 'category'
+  -
+    id: 11
+    role: 'admin'
+    parent_id: 9
+    tag: "Child 2"
+    slug: "child-two"
+    priority: 0
+    type: 'category'
 posts_tags:
   -
     post_id: 1
@@ -1084,6 +1560,11 @@ sets:
     search: 1
     filter: '{"q":"junk"}'
     role: '["admin"]'
+  -
+    id: 7
+    name: Manage Collections
+    search: 0
+    user_id: 9
 posts_sets:
   -
     set_id: 1
@@ -1103,554 +1584,101 @@ posts_sets:
   -
     set_id: 1
     post_id: 112
+  -
+    set_id: 5
+    post_id: 113
+  -
+    set_id: 5
+    post_id: 112
+  -
+    set_id: 5
+    post_id: 114
 # OAuth Tables
 oauth_clients:
   -
     id: "demoapp"
     secret: "demopass"
-    name: ""
-    auto_approve: 0
+    name: "demoapp"
+    password_client: 1
+    redirect: "/user/oauth"
   -
     id: "restricted_app"
     secret: "demopass"
-    name: ""
-    auto_approve: 0
+    name: "restricted"
+    password_client: 1
+    redirect: "/"
   -
     id: "ushahidiui"
     secret: "35e7f0bca957836d05ca0492211b0ac707671261"
-    name: ""
-    auto_approve: 1
-oauth_client_endpoints:
+    name: "Web client"
+    password_client: 1
+    redirect: "/"
+oauth_access_tokens:
   -
-    id: 1
-    client_id: "ushahidiui"
-    redirect_uri: "/user/oauth"
+    id: testanon
+    client_id: demoapp
+    user_id: null
+    scopes: '["*"]'
+    expires_at: "2031-01-01"
   -
-    id: 2
-    client_id: "demoapp"
-    redirect_uri: "/"
+    id: testingtoken
+    client_id: demoapp
+    user_id: 2
+    scopes: '["posts","api"]'
+    expires_at: "2031-01-01"
   -
-    id: 3
-    client_id: "restricted_app"
-    redirect_uri: "/"
-oauth_sessions:
+    id: defaulttoken
+    client_id: demoapp
+    user_id: 2
+    scopes: '["*"]'
+    expires_at: "2031-01-01"
   -
-    id: 1
-    client_id: "demoapp"
-    owner_type: "client"
-    owner_id: "demoapp"
+    id: testadminuser
+    client_id: demoapp
+    user_id: 2
+    scopes: '["*"]'
+    expires_at: "2031-01-01"
   -
-    id: 2
-    client_id: "demoapp"
-    owner_type: "user"
-    owner_id: 2
+    id: testbasicuser
+    client_id: demoapp
+    user_id: 1
+    scopes: '["*"]'
+    expires_at: "2031-01-01"
   -
-    id: 3
-    client_id: "demoapp"
-    owner_type: "user"
-    owner_id: 1
+    id: testbasicuser2
+    client_id: demoapp
+    user_id: 3
+    scopes: '["*"]'
+    expires_at: "2031-01-01"
   -
-    id: 4
-    client_id: "demoapp"
-    owner_type: "user"
-    owner_id: 3
+    id: testmanager
+    client_id: demoapp
+    user_id: 6
+    scopes: '["*"]'
+    expires_at: "2031-01-01"
+  -
+    id: testimporter
+    client_id: demoapp
+    user_id: 7
+    scopes: '["*"]'
+    expires_at: "2031-01-01"
+  -
+    id: testnoedit
+    client_id: demoapp
+    user_id: 8
+    scopes: '["*"]'
+    expires_at: "2031-01-01"
+  -
+    id: testsets
+    client_id: demoapp
+    user_id: 9
+    scopes: '["*"]'
+    expires_at: "2031-01-01"
 
-# Test roles
-  -
-    id: 5
-    client_id: "demoapp"
-    owner_type: "user"
-    owner_id: 6
-  -
-    id: 6
-    client_id: "demoapp"
-    owner_type: "user"
-    owner_id: 7
-  -
-    id: 7
-    client_id: "demoapp"
-    owner_type: "user"
-    owner_id: 8
+oauth_refresh_tokens:
+oauth_personal_access_clients:
+oauth_auth_codes:
 
-oauth_session_redirects:
-  -
-    session_id: 1
-    redirect_uri: "/"
-  -
-    session_id: 2
-    redirect_uri: "/"
-oauth_session_access_tokens:
-  -
-    id: 1
-    session_id: 2
-    access_token: "testingtoken"
-    access_token_expires: 1893477600
-  -
-    id: 2
-    session_id: 2
-    access_token: "defaulttoken"
-    access_token_expires: 1893477600
-  -
-    id: 3
-    session_id: 3
-    access_token: "testbasicuser"
-    access_token_expires: 1893477600
-  -
-    id: 4
-    session_id: 2
-    access_token: "testadminuser"
-    access_token_expires: 1893477600
-  -
-    id: 5
-    session_id: 4
-    access_token: "testbasicuser2"
-    access_token_expires: 1893477600
-  -
-    id: 6
-    session_id: 1
-    access_token: "testanon"
-    access_token_expires: 1893477600
-
-# Test roles
-  -
-    id: 7
-    session_id: 5
-    access_token: "testmanager"
-    access_token_expires: 1893477600
-  -
-    id: 8
-    session_id: 6
-    access_token: "testimporter"
-    access_token_expires: 1893477600
-  -
-    id: 9
-    session_id: 7
-    access_token: "testnoedit"
-    access_token_expires: 1893477600
-
-oauth_scopes:
-  -
-    id: 1
-    scope: api
-    name: api
-  -
-    id: 2
-    scope: posts
-    name: posts
-  -
-    id: 3
-    scope: forms
-    name: forms
-  -
-    id: 4
-    scope: sets
-    name: set
-  -
-    id: 5
-    scope: tags
-    name: tags
-  -
-    id: 6
-    scope: users
-    name: users
-  -
-    id: 7
-    scope: media
-    name: media
-  -
-    id: 8
-    scope: config
-    name: config
-  -
-    id: 9
-    scope: messages
-    name: messages
-  -
-    id: 10
-    scope: dataproviders
-    name: dataproviders
-  -
-    id: 11
-    scope: stats
-    name: stats
-  -
-    id: 12
-    scope: layers
-    name: layers
-  -
-    id: 13
-    scope: savedsearches
-    name: savedsearches
-  -
-    id: 14
-    scope: notifications
-    name: notifications
-  -
-    id: 15
-    scope: contacts
-    name: contacts
-  -
-    id: 16
-    scope: csv
-    name: csv
-  -
-    id: 17
-    scope: roles
-    name: roles
-  -
-    id: 18
-    scope: permissions
-    name: permissions
-  -
-    id: 19
-    scope: migrate
-    name: migrate
-  -
-    id: 20
-    scope: webhooks
-    name: webhooks
-
-oauth_session_token_scopes:
-  # for testingtoken
-  -
-    session_access_token_id: 1
-    scope_id: 1
-  -
-    session_access_token_id: 1
-    scope_id: 2
-  -
-    session_access_token_id: 1
-    scope_id: 11
-
-  # for defaulttoken
-  -
-    session_access_token_id: 2
-    scope_id: 1
-  -
-    session_access_token_id: 2
-    scope_id: 2
-  -
-    session_access_token_id: 2
-    scope_id: 3
-  -
-    session_access_token_id: 2
-    scope_id: 4
-  -
-    session_access_token_id: 2
-    scope_id: 5
-  -
-    session_access_token_id: 2
-    scope_id: 6
-  -
-    session_access_token_id: 2
-    scope_id: 7
-  -
-    session_access_token_id: 2
-    scope_id: 8
-  -
-    session_access_token_id: 2
-    scope_id: 9
-  -
-    session_access_token_id: 2
-    scope_id: 10
-  -
-    session_access_token_id: 2
-    scope_id: 11
-  -
-    session_access_token_id: 2
-    scope_id: 12
-  -
-    session_access_token_id: 2
-    scope_id: 13
-  -
-    session_access_token_id: 2
-    scope_id: 14
-  -
-    session_access_token_id: 2
-    scope_id: 15
-  -
-    session_access_token_id: 2
-    scope_id: 16
-  -
-    session_access_token_id: 2
-    scope_id: 20
-
-  # for testbasicuser
-  -
-    session_access_token_id: 3
-    scope_id: 1
-  -
-    session_access_token_id: 3
-    scope_id: 2
-  -
-    session_access_token_id: 3
-    scope_id: 3
-  -
-    session_access_token_id: 3
-    scope_id: 4
-  -
-    session_access_token_id: 3
-    scope_id: 5
-  -
-    session_access_token_id: 3
-    scope_id: 6
-  -
-    session_access_token_id: 3
-    scope_id: 7
-  -
-    session_access_token_id: 3
-    scope_id: 8
-  -
-    session_access_token_id: 3
-    scope_id: 9
-  -
-    session_access_token_id: 3
-    scope_id: 10
-  -
-    session_access_token_id: 3
-    scope_id: 13
-  -
-    session_access_token_id: 3
-    scope_id: 14
-  -
-    session_access_token_id: 3
-    scope_id: 15
-  -
-    session_access_token_id: 3
-    scope_id: 16
-
-  # for testadminuser
-  -
-    session_access_token_id: 4
-    scope_id: 1
-  -
-    session_access_token_id: 4
-    scope_id: 2
-  -
-    session_access_token_id: 4
-    scope_id: 3
-  -
-    session_access_token_id: 4
-    scope_id: 4
-  -
-    session_access_token_id: 4
-    scope_id: 5
-  -
-    session_access_token_id: 4
-    scope_id: 6
-  -
-    session_access_token_id: 4
-    scope_id: 7
-  -
-    session_access_token_id: 4
-    scope_id: 8
-  -
-    session_access_token_id: 4
-    scope_id: 9
-  -
-    session_access_token_id: 4
-    scope_id: 10
-  -
-    session_access_token_id: 4
-    scope_id: 11
-  -
-    session_access_token_id: 4
-    scope_id: 13
-  -
-    session_access_token_id: 4
-    scope_id: 17
-  -
-    session_access_token_id: 4
-    scope_id: 18
-  -
-    session_access_token_id: 4
-    scope_id: 19
-  -
-    session_access_token_id: 4
-    scope_id: 20
-
-  # for testbasicuser2
-  -
-    session_access_token_id: 5
-    scope_id: 1
-  -
-    session_access_token_id: 5
-    scope_id: 2
-  -
-    session_access_token_id: 5
-    scope_id: 3
-  -
-    session_access_token_id: 5
-    scope_id: 4
-  -
-    session_access_token_id: 5
-    scope_id: 5
-  -
-    session_access_token_id: 5
-    scope_id: 6
-  -
-    session_access_token_id: 5
-    scope_id: 7
-  -
-    session_access_token_id: 5
-    scope_id: 8
-  -
-    session_access_token_id: 5
-    scope_id: 9
-  -
-    session_access_token_id: 5
-    scope_id: 10
-  -
-    session_access_token_id: 5
-    scope_id: 13
-  -
-    session_access_token_id: 5
-    scope_id: 14
-  -
-    session_access_token_id: 5
-    scope_id: 15
-  -
-    session_access_token_id: 5
-    scope_id: 16
-
-  # for testanon
-  -
-    session_access_token_id: 6
-    scope_id: 1
-  -
-    session_access_token_id: 6
-    scope_id: 2
-  -
-    session_access_token_id: 6
-    scope_id: 3
-  -
-    session_access_token_id: 6
-    scope_id: 4
-  -
-    session_access_token_id: 6
-    scope_id: 5
-  -
-    session_access_token_id: 6
-    scope_id: 6
-  -
-    session_access_token_id: 6
-    scope_id: 7
-  -
-    session_access_token_id: 6
-    scope_id: 8
-  -
-    session_access_token_id: 6
-    scope_id: 9
-  -
-    session_access_token_id: 6
-    scope_id: 10
-  -
-    session_access_token_id: 6
-    scope_id: 13
-
-# Test roles
-# for testmanager
-  -
-    session_access_token_id: 7
-    scope_id: 1
-  -
-    session_access_token_id: 7
-    scope_id: 2
-  -
-    session_access_token_id: 7
-    scope_id: 3
-  -
-    session_access_token_id: 7
-    scope_id: 4
-  -
-    session_access_token_id: 7
-    scope_id: 5
-  -
-    session_access_token_id: 7
-    scope_id: 6
-  -
-    session_access_token_id: 7
-    scope_id: 7
-  -
-    session_access_token_id: 7
-    scope_id: 8
-  -
-    session_access_token_id: 7
-    scope_id: 9
-  -
-    session_access_token_id: 7
-    scope_id: 10
-  -
-    session_access_token_id: 7
-    scope_id: 11
-  -
-    session_access_token_id: 7
-    scope_id: 13
-  -
-    session_access_token_id: 7
-    scope_id: 17
-  -
-    session_access_token_id: 7
-    scope_id: 18
-
-# for testimporter
-  -
-    session_access_token_id: 8
-    scope_id: 1
-  -
-    session_access_token_id: 8
-    scope_id: 2
-  -
-    session_access_token_id: 8
-    scope_id: 3
-  -
-    session_access_token_id: 8
-    scope_id: 4
-  -
-    session_access_token_id: 8
-    scope_id: 5
-  -
-    session_access_token_id: 8
-    scope_id: 6
-  -
-    session_access_token_id: 8
-    scope_id: 7
-  -
-    session_access_token_id: 8
-    scope_id: 8
-  -
-    session_access_token_id: 8
-    scope_id: 9
-  -
-    session_access_token_id: 8
-    scope_id: 10
-  -
-    session_access_token_id: 8
-    scope_id: 11
-  -
-    session_access_token_id: 8
-    scope_id: 13
-  -
-    session_access_token_id: 8
-    scope_id: 16
-  -
-    session_access_token_id: 8
-    scope_id: 17
-  -
-    session_access_token_id: 8
-    scope_id: 18
-# testnoedit scopes
-  -
-    session_access_token_id: 9
-    scope_id: 2
-  -
-    session_access_token_id: 9
-    scope_id: 1
-
-# include other oauth tables to ensure a blank slate for test runs
-oauth_session_refresh_tokens:
-oauth_session_authcodes:
-oauth_session_authcode_scopes:
 # media
 media:
   -
@@ -1735,12 +1763,52 @@ config:
     config_key: cluster_radius
     config_value: '50'
   -
+    group_name: map
+    config_key: location_precision
+    config_value: '2'
+  -
     group_name: test
     config_key: testkey
     config_value: '"testval"'
   -
     group_name: features
     config_key: roles
+    config_value: '{"enabled":true}'
+  -
+    group_name: features
+    config_key: user-settings
+    config_value: '{"enabled":true}'
+  -
+    group_name: "data-provider"
+    config_key: default_providers
+    config_value: '{"sms":"smssync","ivr":false,"email":"email","twitter":"twitter"}'
+  -
+    group_name: "data-provider"
+    config_key: providers
+    config_value: '{"smssync":true,"frontlinesms":true,"nexmo":true,"email":false,"twilio":true}'
+  -
+    group_name: "data-provider"
+    config_key: nexmo
+    config_value: '{"from":"","api_key":"","api_secret":""}'
+  -
+    group_name: "data-provider"
+    config_key: smssync
+    config_value: '{"from":"12345","secret":"1234"}'
+  -
+    group_name: "data-provider"
+    config_key: twilio
+    config_value: '{"account_sid":"1234", "sms_auto_response": "Thanks!"}'
+  -
+    group_name: "data-provider"
+    config_key: email
+    config_value: '{"incoming_type":"","incoming_server":"","incoming_port":"","incoming_security":"","incoming_username":"","incoming_password":""}'
+  -
+    group_name: "data-provider"
+    config_key: frontlinesms
+    config_value: '{"f":"12345","key":"1234","frontlinecloud_api_url":"http:\/\/frontlinesms.com:8130\/api\/1\/webconnection\/11","secret":"abc123"}'
+  -
+    group_name: features
+    config_key: hxl
     config_value: '{"enabled":true}'
 contacts:
   -
@@ -1763,17 +1831,47 @@ contacts:
     user_id: 1
     contact: robbie@ushahidi.com
     type: "email"
+  -
+    id: 5
+    type: "phone"
+    contact: 099999999
+    user_id:
+  -
+    id: 6
+    type: "phone"
+    contact: 99999991
+    user_id:
+  -
+    id: 7
+    type: "phone"
+    contact: 99999992
+    user_id:
+  -
+    id: 8
+    type: "phone"
+    contact: 59891333224
+    user_id:
+  -
+    id: 9
+    type: "phone"
+    contact: 59891333225
+    user_id:
+  -
+    id: 10
+    type: "phone"
+    contact: 59891333226
+    user_id:
 messages:
   -
     id: 1
-    title: "abc"
+    title: "Test inbound message"
     message: "A test message"
     type: "sms"
     direction: "incoming"
     status: "received"
     contact_id: 1
     datetime:
-    data_provider:
+    data_source:
   -
     id: 2
     title: ""
@@ -1784,7 +1882,7 @@ messages:
     contact_id: 3
     datetime:
     post_id:
-    data_provider:
+    data_source:
   -
     id: 3
     title: "Test email"
@@ -1795,7 +1893,7 @@ messages:
     contact_id: 2
     datetime: "2013-01-02 07:07"
     post_id:
-    data_provider:
+    data_source:
   -
     id: 4
     title: ""
@@ -1806,7 +1904,7 @@ messages:
     contact_id: 3
     datetime:
     post_id: 110
-    data_provider:
+    data_source:
   -
     id: 5
     title: ""
@@ -1816,7 +1914,7 @@ messages:
     status: "received"
     contact_id: 1
     datetime:
-    data_provider: "smssync"
+    data_source: "smssync"
   -
     id: 6
     title: ""
@@ -1827,7 +1925,7 @@ messages:
     contact_id: 3
     datetime:
     post_id:
-    data_provider:
+    data_source:
   -
     id: 7
     title: ""
@@ -1838,7 +1936,7 @@ messages:
     contact_id: 3
     datetime:
     post_id:
-    data_provider:
+    data_source:
   -
     id: 8
     title: ""
@@ -1849,7 +1947,7 @@ messages:
     contact_id: 3
     datetime:
     post_id:
-    data_provider:
+    data_source:
   -
     id: 9
     title: ""
@@ -1860,7 +1958,127 @@ messages:
     contact_id: 3
     datetime:
     post_id: 9999
-    data_provider: "smssync"
+    data_source: "smssync"
+  -
+    id: 10
+    title: "Test inbound message"
+    message: "A test message"
+    type: "sms"
+    direction: "incoming"
+    status: "received"
+    contact_id: 1
+    post_id: 1693
+    user_id:
+    datetime:
+    data_source:
+  -
+    id: 11
+    title: "Test inbound message"
+    message: "A test message"
+    type: "sms"
+    direction: "outgoing"
+    status: "sent"
+    contact_id: 6
+    post_id: 1694
+    user_id:
+    datetime:
+    data_source:
+  -
+    id: 12
+    title: "Test inbound message"
+    message: "A test message"
+    type: "sms"
+    direction: "outgoing"
+    status: "sent"
+    contact_id: 7
+    post_id: 1695
+    user_id:
+    datetime:
+    data_source:
+  -
+    id: 13
+    title: "Test outbound message"
+    message: "A test message"
+    type: "sms"
+    direction: "outgoing"
+    status: "sent"
+    contact_id: 8
+    post_id: 1696
+    user_id:
+    datetime:
+    data_source:
+  -
+    id: 14
+    title: "Test outbound message"
+    message: "A test message"
+    type: "sms"
+    direction: "outgoing"
+    status: "sent"
+    contact_id: 9
+    post_id: 1697
+    user_id:
+    datetime:
+    data_source:
+  -
+    id: 15
+    title: "Test outbound message"
+    message: "A test message"
+    type: "sms"
+    direction: "outgoing"
+    status: "sent"
+    contact_id: 10
+    post_id: 1698
+    user_id:
+    datetime:
+    data_source:
+  -
+    id: 16
+    title: "Test incoming message"
+    message: "A test message"
+    type: "sms"
+    direction: "incoming"
+    status: "received"
+    contact_id: 10
+    post_id: 1698
+    user_id:
+    datetime:
+    data_source:
+  -
+    id: 17
+    title: "Test incoming message"
+    message: "A test message"
+    type: "sms"
+    direction: "outgoing"
+    status: "sent"
+    contact_id: 10
+    post_id: 1698
+    user_id:
+    datetime:
+    data_source:
+  -
+    id: 18
+    title: "Testing email count for form stats"
+    message: "this is an email test"
+    type: "email"
+    direction: "incoming"
+    status: "received"
+    contact_id: 1
+    post_id: 1699
+    user_id:
+    datetime:
+    data_source:
+  -
+    id: 19
+    title: "Testing twitter count for form stats"
+    message: "this is an twitter test"
+    type: "twitter"
+    direction: "incoming"
+    status: "received"
+    contact_id: 1
+    post_id: 1700
+    user_id:
+    datetime:
+    data_source:
 layers:
   -
     id: 1
@@ -1913,6 +2131,7 @@ webhooks:
   -
     id: 2
     user_id: 1
+    webhook_uuid: "test-test-test"
     name: "test"
     shared_secret: "testestest"
     url: "https://test.test"
@@ -1921,6 +2140,7 @@ webhooks:
   -
     id: 3
     user_id: 1
+    webhook_uuid: "test-test-test"
     name: "test"
     shared_secret: "testestest"
     url: "https://test.test"
@@ -1929,6 +2149,7 @@ webhooks:
   -
     id: 4
     user_id: 1
+    webhook_uuid: "test-test-test"
     name: "test"
     shared_secret: "testestest"
     url: "https://test.test"
@@ -1937,12 +2158,82 @@ webhooks:
   -
     id: 5
     user_id: 1
+    webhook_uuid: "test-test-test"
     name: "test"
     shared_secret: "testestest"
     url: "https://test.test"
     entity_type: "post"
     event_type: "search"
 csv:
+hxl_meta_data:
+  -
+    id: 1
+    license_id: 1
+    organisation_name: "ushahidi"
+    organisation_id: "ushahidi-org-id"
+    dataset_title: "ushahidi-dataset"
+    source: "other"
+    private: true
+    user_id: 2
+  -
+    id: 2
+    license_id: 1
+    organisation_name: "ushahidi"
+    organisation_id: "ushahidi-org-id"
+    dataset_title: "ushahidi-dataset"
+    source: "other"
+    private: true
+    user_id: 2
+  -
+    id: 3
+    license_id: 1
+    organisation_name: "ushahidi"
+    organisation_id: "ushahidi-org-id"
+    dataset_title: "ushahidi-dataset"
+    source: "other"
+    private: true
+    user_id: 2
+  -
+    id: 4
+    license_id: 1
+    organisation_name: "ushahidi"
+    organisation_id: "ushahidi-org-id"
+    dataset_title: "ushahidi-dataset"
+    source: "other"
+    private: true
+    user_id: 2
+export_batches:
+export_job:
+  -
+    id: 1
+    entity_type: "post"
+    user_id: 2
+    hxl_meta_data_id: 1
+  -
+    id: 2
+    entity_type: "post"
+    user_id: 2
+  -
+    id: 3
+    entity_type: "post"
+    user_id: 6
+  -
+    id: 4
+    entity_type: "post"
+    user_id: 2
+permissions:
+  -
+    name: Manage Users
+  -
+    name: Manage Posts
+  -
+    name: Manage Settings
+  -
+    name: Bulk Data Import and Export
+  -
+    name: Edit their own posts
+  -
+    name: Manage Collections and Saved Searches
 roles_permissions:
   -
     role: manager
@@ -1954,8 +2245,14 @@ roles_permissions:
     role: manager
     permission: Manage Settings
   -
+    role: sets
+    permission: Manage Collections and Saved Searches
+  -
     role: importer
-    permission: Bulk Data Import
+    permission: Bulk Data Import and Export
+  -
+    role: manager
+    permission: Bulk Data Import and Export
   -
     role: user
     permission: Edit their own posts
@@ -1965,3 +2262,43 @@ roles_permissions:
   -
     role: importer
     permission: Edit their own posts
+targeted_survey_state:
+  -
+    post_id: 452
+    contact_id: 5
+    survey_status: 'PENDING RESPONSE'
+    form_id: 6
+    form_attribute_id: 32
+  -
+    post_id: 1694
+    contact_id: 6
+    survey_status: 'PENDING RESPONSE'
+    form_id: 7
+    form_attribute_id: 31
+  -
+    post_id: 1695
+    contact_id: 7
+    survey_status: 'PENDING RESPONSE'
+    form_id: 7
+    form_attribute_id: 31
+  -
+    post_id: 1696
+    contact_id: 8
+    survey_status: 'ACTIVE CONTACT IN SURVEY 6'
+    form_id: 7
+    message_id: 13
+    form_attribute_id: 31
+  -
+    post_id: 1697
+    contact_id: 9
+    survey_status: 'PENDING RESPONSE'
+    form_id: 8
+    message_id: 14
+    form_attribute_id: 35
+  -
+    post_id: 1698
+    contact_id: 10
+    survey_status: 'PENDING RESPONSE'
+    form_id: 8
+    message_id: 17
+    form_attribute_id: 35

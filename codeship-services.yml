@@ -8,6 +8,13 @@ build:
   cached: true
   default_cache_branch: develop
 
+dockerimg:
+  build:
+    image: ushahidi-platform/dockerimg
+    dockerfile_path: Dockerfile
+  cached: true
+  command: noop
+
 release:
   build:
     image: release
@@ -21,6 +28,15 @@ release:
 deploy:
   image: ushahidi/engineering-deployer:latest
   encrypted_env_file: deployment.env.encrypted
+  depends_on:
+    - dockerimg
+  add_docker: true
+  environment:
+    AWS_REGION: us-east-1
+    DOCKER_PUSH_IMAGE_SRC: ushahidi-platform/dockerimg
+    DEPLOYMENT_RULES_REPO: deployment-rules
+    DEPLOYMENT_RULES_VERSION: master
+    DEPLOYMENT_RULES_FILE: platform.yml
 
 test:
   build:
@@ -28,7 +44,7 @@ test:
     dockerfile_path: docker/test.Dockerfile
   volumes:
     - .:/vols/src
-  links:
+  depends_on:
     - mysql
   environment:
     - DB_HOST=mysql
@@ -43,7 +59,7 @@ test:
   default_cache_branch: develop
 
 mysql:
-  image: mysql:5.6
+  image: mysql:5.7
   environment:
     - MYSQL_DATABASE=ushahidi
     - MYSQL_USER=ushahidi
@@ -63,4 +79,3 @@ awscli:
     - .:/vols/src
   encrypted_env_file: deployment.env.encrypted
   cached: true
-

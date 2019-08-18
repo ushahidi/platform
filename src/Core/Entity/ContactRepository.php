@@ -13,24 +13,27 @@ namespace Ushahidi\Core\Entity;
 
 use Ushahidi\Core\Entity\Repository\EntityGet;
 use Ushahidi\Core\Entity\Repository\EntityExists;
+use Ushahidi\Core\Usecase\CreateRepository;
+use Ushahidi\Core\Usecase\UpdateRepository;
 
 interface ContactRepository extends
-	EntityGet,
-	EntityExists
+    EntityGet,
+    EntityExists,
+    CreateRepository
 {
 
-	/**
-	 * @param string  $contact
-	 * @param string  $type
-	 * @return boolean
-	 */
-	public function getByContact($contact, $type);
+    /**
+     * @param string  $contact
+     * @param string  $type
+     * @return boolean
+     */
+    public function getByContact($contact, $type);
 
-	/**
-	 * Get all contacts that can be notified and filter by collection or saved search.
-	 * @param int $set_id collection or saved search id to filter by
-	 * @param bool|int $limit false to fetch all contacts
-	 * @param int offset
-	 */
-	public function getNotificationContacts($set_id, $limit = false, $offset = 0);
+    /**
+     * Get all contacts that can be notified and filter by collection or saved search.
+     * @param int $set_id collection or saved search id to filter by
+     * @param bool|int $limit false to fetch all contacts
+     * @param int offset
+     */
+    public function getNotificationContacts($set_id, $limit = false, $offset = 0);
 }

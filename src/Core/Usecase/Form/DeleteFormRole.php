@@ -15,6 +15,6 @@ use Ushahidi\Core\Usecase\DeleteUsecase;
 
 class DeleteFormRole extends DeleteUsecase
 {
-	// - VerifyFormLoaded for checking that the form exists
-	use VerifyFormLoaded;
+    // - VerifyFormLoaded for checking that the form exists
+    use VerifyFormLoaded;
 }

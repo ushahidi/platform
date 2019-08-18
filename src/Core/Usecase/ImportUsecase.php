@@ -13,155 +13,158 @@ namespace Ushahidi\Core\Usecase;
 
 use Traversable;
 use Ushahidi\Core\Entity;
+use Ushahidi\Core\Entity\CSV;
 use Ushahidi\Core\Usecase;
 use Ushahidi\Core\Tool\AuthorizerTrait;
 use Ushahidi\Core\Tool\FormatterTrait;
 use Ushahidi\Core\Tool\ValidatorTrait;
 use Ushahidi\Core\Tool\Transformer;
-use Ushahidi\Core\Traits\ModifyRecords;
+
+use League\Event\ListenerInterface;
+use Ushahidi\Core\Traits\Event;
 
 class ImportUsecase implements Usecase
 {
-	// Uses several traits to assign tools. Each of these traits provides a
-	// setter method for the tool. For example, the AuthorizerTrait provides
-	// a `setAuthorizer` method which only accepts `Authorizer` instances.
-	use AuthorizerTrait,
-		FormatterTrait,
-		ValidatorTrait;
+    // Uses several traits to assign tools. Each of these traits provides a
+    // setter method for the tool. For example, the AuthorizerTrait provides
+    // a `setAuthorizer` method which only accepts `Authorizer` instances.
+    use AuthorizerTrait,
+        FormatterTrait,
+        ValidatorTrait;
 
-	/**
-	 * @var ImportRepository
-	 */
-	protected $repo;
+    // Use Event trait to trigger events
+    use Event;
 
-	/**
-	 * Inject a repository that can create entities.
-	 *
-	 * @param  $repo ImportRepository
-	 * @return $this
-	 */
-	public function setRepository(ImportRepository $repo)
-	{
-		$this->repo = $repo;
-		return $this;
-	}
+    /**
+     * @var ImportRepository
+     */
+    protected $repo;
 
-	/**
-	 * @var Traversable
-	 */
-	protected $payload;
+    /**
+     * Inject a repository that can create entities.
+     *
+     * @param  $repo ImportRepository
+     * @return $this
+     */
+    public function setRepository(ImportRepository $repo)
+    {
+        $this->repo = $repo;
+        return $this;
+    }
 
-	/**
-	 * Inject a repository that can create entities.
-	 *
-	 * @todo  setPayload doesn't match signature for other usecases
-	 *
-	 * @param  $repo Iterator
-	 * @return $this
-	 */
-	public function setPayload(Traversable $payload)
-	{
-		$this->payload = $payload;
-		return $this;
-	}
+    /**
+     * @var Traversable
+     */
+    protected $payload;
 
-	/**
-	 * @var Transformer
-	 */
-	protected $transformer;
+    /**
+     * Inject a repository that can create entities.
+     *
+     * @todo  setPayload doesn't match signature for other usecases
+     *
+     * @param  $repo Iterator
+     * @return $this
+     */
+    public function setPayload(Traversable $payload)
+    {
+        $this->payload = $payload;
+        return $this;
+    }
 
-	/**
-	 * Inject a repository that can create entities.
-	 *
-	 * @param  $repo Iterator
-	 * @return $this
-	 */
-	public function setTransformer(Transformer $transformer)
-	{
-		$this->transformer = $transformer;
-		return $this;
-	}
+    /**
+     * @var Transformer
+     */
+    protected $transformer;
 
-	// Usecase
-	public function isWrite()
-	{
-		return true;
-	}
+    /**
+     * Inject a repository that can create entities.
+     *
+     * @param  $repo Iterator
+     * @return $this
+     */
+    public function setTransformer(Transformer $transformer)
+    {
+        $this->transformer = $transformer;
+        return $this;
+    }
 
-	// Usecase
-	public function isSearch()
-	{
-		return false;
-	}
+    protected $csv;
+    
+    public function setCSV(CSV $csv)
+    {
+        $this->csv = $csv;
+        return $this;
+    }
 
-	// Usecase
-	public function interact()
-	{
-		// Start count of records processed, and errors
-		$processed = $errors = 0;
+    // Usecase
+    public function isWrite()
+    {
+        return true;
+    }
 
-		// Fetch an empty entity..
-		$entity = $this->getEntity();
+    // Usecase
+    public function isSearch()
+    {
+        return false;
+    }
 
-		// ... verify that the entity can be created by the current user
-		$this->verifyImportAuth($entity);
+    // Usecase
+    public function interact()
+    {
+        // Start count of records processed, and errors
+        $processed = $errors = 0;
 
-	 	$created_entities = array();
-		// Fetch a record
-		foreach ($this->payload as $index => $record) {
-			// ... transform record
-			$entity = $this->transform($record);
+        // Fetch an empty entity..
+        $entity = $this->getEntity();
 
-			// Ensure that under review is correctly mapped to draft
-			if (strcasecmp($entity->status, 'under review')== 0) {
-				$entity->setState(['status' => 'draft']);
-			}
-			// ... verify that the entity can be created by the current user
-			$this->verifyCreateAuth($entity);
+        // ... verify that the entity can be created by the current user
+        $this->verifyImportAuth($entity);
 
-			// ... verify that the entity is in a valid state
-			$this->verifyValid($entity);
+        $new_status = 'PENDING';
+        $this->csv->setState([
+            'status' => $new_status
+        ]);
 
-			// ... persist the new entity
-			$id = $this->repo->create($entity);
-			$created_entities[] = $id;
-			$processed++;
-		}
+        service('repository.csv')->update($this->csv);
 
-		// ... and return the formatted entity
-		return [
-			'created_ids' => $created_entities,
-			'processed' => $processed,
-			'errors' => $errors
-		];
-	}
+        $this->emit(
+            $this->event,
+            $this->payload,
+            $this->csv,
+            $this->transformer,
+            $this->repo,
+            $this
+        );
+        // ... and return the formatted entity
+        return [
+            'status' => $new_status
+        ];
+    }
+    
+    public function verify($entity)
+    {
+        // ... verify that the entity can be created by the current user
+        $this->verifyCreateAuth($entity);
 
-	// ValidatorTrait
-	protected function verifyValid(Entity $entity)
-	{
-		if (!$this->validator->check($entity->asArray())) {
-			$this->validatorError($entity);
-		}
-	}
+        // ... verify that the entity is in a valid state
+        $this->verifyValid($entity);
+    }
 
-	/**
-	 * Get an empty entity
-	 *
-	 * @return Entity
-	 */
-	protected function getEntity()
-	{
-		return $this->repo->getEntity();
-	}
+    // ValidatorTrait
+    protected function verifyValid(Entity $entity)
+    {
+        if (!$this->validator->check($entity->asArray())) {
+            $this->validatorError($entity);
+        }
+    }
 
-	/**
-	 * [transform description]
-	 * @return [type] [description]
-	 */
-	protected function transform($record)
-	{
-		$record = $this->transformer->interact($record);
-
-		return $this->repo->getEntity()->setState($record);
-	}
+    /**
+     * Get an empty entity
+     *
+     * @return Entity
+     */
+    protected function getEntity()
+    {
+        return $this->repo->getEntity();
+    }
 }

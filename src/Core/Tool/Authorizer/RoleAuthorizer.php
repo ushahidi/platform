@@ -19,37 +19,37 @@ use Ushahidi\Core\Traits\PrivAccess;
 
 class RoleAuthorizer implements Authorizer
 {
-	use UserContext;
+    use UserContext;
 
-	// It uses `PrivAccess` to provide the `getAllowedPrivs` method.
-	use PrivAccess;
-	
-	// Check if user has Admin access
-	use AdminAccess;
+    // It uses `PrivAccess` to provide the `getAllowedPrivs` method.
+    use PrivAccess;
+    
+    // Check if user has Admin access
+    use AdminAccess;
 
-	/* Authorizer */
-	public function isAllowed(Entity $entity, $privilege)
-	{
-		// These checks are run within the user context.
-		$user = $this->getUser();
-		
+    /* Authorizer */
+    public function isAllowed(Entity $entity, $privilege)
+    {
+        // These checks are run within the user context.
+        $user = $this->getUser();
+        
         if ($privilege === 'delete' && $entity->protected === true) {
             return false;
         }
-		
-		// Only allow admin access
-		if ($this->isUserAdmin($user)) {
-			return true;
-		}
+        
+        // Only allow admin access
+        if ($this->isUserAdmin($user)) {
+            return true;
+        }
 
-        if ($privilege === 'read') {
+        if ($user->getId() and $privilege === 'read') {
             return true;
         }
         // All users are allowed to search forms.
-        if ($privilege === 'search') {
+        if ($user->getId() and $privilege === 'search') {
             return true;
         }
 
-		return false;
-	}
+        return false;
+    }
 }

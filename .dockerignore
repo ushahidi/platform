@@ -1,2 +1,4 @@
 .git
-
+codeship-*.yml
+deployment.env
+deployment.env.encrypted

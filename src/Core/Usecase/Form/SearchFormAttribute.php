@@ -12,25 +12,25 @@
 namespace Ushahidi\Core\Usecase\Form;
 
 use Ushahidi\Core\Usecase\SearchUsecase;
-use Ushahidi\Core\Traits\IdentifyRecords;
-use Ushahidi\Core\Traits\VerifyEntityLoaded;
+use Ushahidi\Core\Usecase\Concerns\IdentifyRecords;
+use Ushahidi\Core\Usecase\Concerns\VerifyEntityLoaded;
 
 class SearchFormAttribute extends SearchUsecase
 {
-	// - VerifyFormLoaded for checking that the form exists
-	use VerifyFormLoaded;
+    // - VerifyFormLoaded for checking that the form exists
+    use VerifyFormLoaded;
 
-	// For form check:
-	// - IdentifyRecords
-	// - VerifyEntityLoaded
-	use IdentifyRecords,
-		VerifyEntityLoaded;
+    // For form check:
+    // - IdentifyRecords
+    // - VerifyEntityLoaded
+    use IdentifyRecords,
+        VerifyEntityLoaded;
 
-	protected function verifyFormExists()
-	{
-		if ($identifier = $this->getIdentifier('form_id')) {
-			$form = $this->form_repo->get($identifier);
-			$this->verifyEntityLoaded($form, $this->identifiers);
-		}
-	}
+    protected function verifyFormExists()
+    {
+        if ($identifier = $this->getIdentifier('form_id')) {
+            $form = $this->form_repo->get($identifier);
+            $this->verifyEntityLoaded($form, $this->identifiers);
+        }
+    }
 }

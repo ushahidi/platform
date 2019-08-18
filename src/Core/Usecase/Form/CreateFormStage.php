@@ -12,25 +12,25 @@
 namespace Ushahidi\Core\Usecase\Form;
 
 use Ushahidi\Core\Usecase\CreateUsecase;
-use Ushahidi\Core\Traits\IdentifyRecords;
-use Ushahidi\Core\Traits\VerifyEntityLoaded;
+use Ushahidi\Core\Usecase\Concerns\IdentifyRecords;
+use Ushahidi\Core\Usecase\Concerns\VerifyEntityLoaded;
 
 class CreateFormStage extends CreateUsecase
 {
-	// - VerifyFormLoaded for checking that the form exists
-	use VerifyFormLoaded;
+    // - VerifyFormLoaded for checking that the form exists
+    use VerifyFormLoaded;
 
-	// For form check:
-	// - IdentifyRecords
-	// - VerifyEntityLoaded
-	use IdentifyRecords,
-		VerifyEntityLoaded;
+    // For form check:
+    // - IdentifyRecords
+    // - VerifyEntityLoaded
+    use IdentifyRecords,
+        VerifyEntityLoaded;
 
-	// CreateUsecase
-	protected function getEntity()
-	{
-		return parent::getEntity()->setState([
-			'form_id' => $this->getRequiredIdentifier('form_id'),
-		]);
-	}
+    // CreateUsecase
+    protected function getEntity()
+    {
+        return parent::getEntity()->setState([
+            'form_id' => $this->getRequiredIdentifier('form_id'),
+        ]);
+    }
 }

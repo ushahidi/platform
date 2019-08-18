@@ -11,65 +11,88 @@
 
 namespace Ushahidi\Console\Command;
 
-use Ushahidi\Core\Usecase;
-use Ushahidi\Console\Command;
+use Illuminate\Console\Command;
 
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Helper\TableHelper;
+use Ushahidi\Core\Usecase;
+use \Ushahidi\Factory\UsecaseFactory;
 
 class ConfigGet extends Command
 {
+    /**
+     * The console command name.
+     *
+     * @var string
+     */
+    protected $name = 'config:get';
 
-	/**
-	 * @var Ushahidi\Core\Usecase\Usecase
-	 * @todo  support multiple entity types
-	 */
-	protected $usecase;
+    /**
+     * The console command signature.
+     *
+     * @var string
+     */
+    protected $signature = 'config:get {group}';
 
-	public function setUsecase(Usecase $usecase)
-	{
-		$this->usecase = $usecase;
-	}
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Get config params';
 
-	protected function configure()
-	{
-		$this
-			->setName('config:get')
-			->setDescription('Get config')
-			->addArgument('group', InputArgument::REQUIRED, 'group')
-			;
-	}
+    /**
+     * @var Ushahidi\Core\Usecase\Usecase
+     * @todo  support multiple entity types
+     */
+    protected $usecase;
 
-	// Execution router takes the action argument and uses it to reroute execution.
-	protected function execute(InputInterface $input, OutputInterface $output)
-	{
-		$group = $input->getArgument('group');
+    public function __construct()
+    {
+        parent::__construct();
+    }
 
-		$this->usecase->setIdentifiers([ 'id' => $group ]);
+    protected function getUsecase()
+    {
+        if (!$this->usecase) {
+            // @todo inject
+            $this->usecase = service('factory.usecase')
+                ->get('config', 'read')
+                // Override authorizer for console
+                ->setAuthorizer(service('authorizer.console'))
+                // Override formatter for console
+                ->setFormatter(service('formatter.entity.console'));
+        }
 
-		$response = $this->usecase->interact();
+        return $this->usecase;
+    }
 
-		// Format the response and output
-		$this->handleResponse($response, $output);
-	}
+    public function handle()
+    {
+        $group = $this->argument('group');
 
-	/**
-	 * Override response handler to flatten array
-	 */
-	protected function handleResponse($response, OutputInterface $output)
-	{
-		$iterator = new \RecursiveIteratorIterator(new \RecursiveArrayIterator($response));
-		$result = [];
-		foreach ($iterator as $leafValue) {
-			$keys = [];
-			foreach (range(0, $iterator->getDepth()) as $depth) {
-				$keys[] = $iterator->getSubIterator($depth)->key();
-			}
-			$result[ join('.', $keys) ] = $leafValue;
-		}
-		return parent::handleResponse($result, $output);
-	}
+        $this->getUsecase()->setIdentifiers([ 'id' => $group ]);
+
+        $response = $this->getUsecase()->interact();
+
+        // Format the response and output
+        $this->handleResponse($response);
+    }
+
+    /**
+     * Override response handler to flatten array
+     */
+    protected function handleResponse($response)
+    {
+        $iterator = new \RecursiveIteratorIterator(new \RecursiveArrayIterator($response));
+        $result = [];
+        foreach ($iterator as $leafValue) {
+            $keys = [];
+            foreach (range(0, $iterator->getDepth()) as $depth) {
+                $keys[] = $iterator->getSubIterator($depth)->key();
+            }
+            $result[ join('.', $keys) ] = $leafValue;
+        }
+
+        // Format as table
+        $this->table(array_keys($result), [$result]);
+    }
 }

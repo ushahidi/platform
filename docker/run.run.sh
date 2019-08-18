@@ -1,12 +1,28 @@
 #!/bin/bash
 
+## "noop" command -- holds the execution so nothing gets done
+if [ "${@: -1}" == "noop" ]; then
+  sleep infinity
+  exit 0
+fi
+
+## Perform container initialisation
+
 . /common.sh
 
 set -e
 
 run_composer_install
-wait_for_mysql
-bin/phinx migrate -c application/phinx.php
-php -S localhost:8000 -t httpdocs httpdocs/index.php &
 
-exec $*
+if [ "${RUN_PLATFORM_MIGRATIONS}" == "true" ]; then
+	run_migrations
+else
+	echo 'Waiting for database migrations to be done'
+	while check_migrations_pending; do
+		echo -n '.'
+		sleep 5
+	done
+	echo
+fi
+
+exec "$@"

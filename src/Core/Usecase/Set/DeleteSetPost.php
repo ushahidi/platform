@@ -14,32 +14,31 @@ namespace Ushahidi\Core\Usecase\Set;
 use Ushahidi\Core\Usecase\DeleteUsecase;
 use Ushahidi\Core\Data;
 use Ushahidi\Core\Tool\ValidatorTrait;
-use Ushahidi_Repository;
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\Entity\SetRepository;
 
 class DeleteSetPost extends DeleteUsecase
 {
-	use SetRepositoryTrait,
-		GetSet,
-		AuthorizeSet;
+    use SetRepositoryTrait,
+        GetSet,
+        AuthorizeSet;
 
-	// Usecase
-	public function interact()
-	{
-		// Fetch the post, using provided identifiers...
-		$post = $this->getEntity();
+    // Usecase
+    public function interact()
+    {
+        // Fetch the post, using provided identifiers...
+        $post = $this->getEntity();
 
-		// ... fetch the set entity
-		$set = $this->getSetEntity();
+        // ... fetch the set entity
+        $set = $this->getSetEntity();
 
-		// ... and that the set can be edited by the current user
-		$this->verifySetUpdateAuth($set);
+        // ... and that the set can be edited by the current user
+        $this->verifySetUpdateAuth($set);
 
-		// ... remove the post from the set
-		$this->setRepo->deleteSetPost($set->id, $post->id);
+        // ... remove the post from the set
+        $this->setRepo->deleteSetPost($set->id, $post->id);
 
-		// ... and return the formatted entity
-		return $this->formatter->__invoke($post);
-	}
+        // ... and return the formatted entity
+        return $this->formatter->__invoke($post);
+    }
 }

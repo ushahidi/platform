@@ -15,28 +15,28 @@ use Ushahidi\Core\Data;
 
 class FileData extends Data
 {
-	/**
-	 * @var String $file filesystem path
-	 */
-	public $file;
+    /**
+     * @var String $file filesystem path
+     */
+    public $file;
 
-	/**
-	 * @var String $type MIME type
-	 */
-	public $type;
+    /**
+     * @var String $type MIME type
+     */
+    public $type;
 
-	/**
-	 * @var Integer $size in bytes
-	 */
-	public $size;
+    /**
+     * @var Integer $size in bytes
+     */
+    public $size;
 
-	/**
-	 * @var Integer $width image width (if image)
-	 */
-	public $width;
+    /**
+     * @var Integer $width image width (if image)
+     */
+    public $width;
 
-	/**
-	 * @var Integer $height image height (if image)
-	 */
-	public $height;
+    /**
+     * @var Integer $height image height (if image)
+     */
+    public $height;
 }

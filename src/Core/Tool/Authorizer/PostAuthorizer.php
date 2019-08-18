@@ -114,7 +114,7 @@ class PostAuthorizer implements Authorizer
         }
 
         // Non-admin users are not allowed to create posts for forms that have restricted access.
-        if (in_array($privilege, ['create', 'update'])
+        if (in_array($privilege, ['create', 'update', 'lock'])
             && $this->isFormRestricted($entity, $user)
             ) {
             return false;
@@ -149,7 +149,7 @@ class PostAuthorizer implements Authorizer
         // they are allowed to edit or delete the post. They can't change the post status or
         // ownership but those are already checked above
         if ($this->isUserOwner($entity, $user)
-            && in_array($privilege, ['update', 'delete'])
+            && in_array($privilege, ['update', 'delete', 'lock'])
             && $this->acl->hasPermission($user, Permission::EDIT_OWN_POSTS)) {
             return true;
         }

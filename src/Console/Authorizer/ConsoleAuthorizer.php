@@ -19,17 +19,17 @@ use Ushahidi\Core\Traits\UserContext;
 // The `ConsoleAuthorizer` class is responsible for access checks for console tasks
 class ConsoleAuthorizer implements Authorizer
 {
-	// The access checks are run under the context of a specific user
-	// @todo refactor to avoid including this. CLI doesn't have a user context
-	use UserContext;
+    // The access checks are run under the context of a specific user
+    // @todo refactor to avoid including this. CLI doesn't have a user context
+    use UserContext;
 
-	// It uses `PrivAccess` to provide the `getAllowedPrivs` method.
-	use PrivAccess;
+    // It uses `PrivAccess` to provide the `getAllowedPrivs` method.
+    use PrivAccess;
 
-	/* Authorizer */
-	public function isAllowed(Entity $entity, $privilege)
-	{
-		// All console requests are authorized
-		return true;
-	}
+    /* Authorizer */
+    public function isAllowed(Entity $entity, $privilege)
+    {
+        // All console requests are authorized
+        return true;
+    }
 }

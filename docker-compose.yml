@@ -10,10 +10,28 @@ services:
   platform:
     build: .
     environment:
-      DB_NAME: ushahidi
+      DOCKERIZE_WAIT_FOR_mysql: tcp://mysql:3306
+      ENABLE_NGINX: "true"
+      ENABLE_PHPFPM: "true"
+      ENABLE_PLATFORM_TASKS: "false"
+      RUN_PLATFORM_MIGRATIONS: "true"
+      DB_DATABASE: ushahidi
       DB_HOST: mysql
-      DB_USER: ushahidi
-      DB_PASS: ushahidi
-    command: supervisord --nodaemon
+      DB_USERNAME: ushahidi
+      DB_PASSWORD: ushahidi
+    command: start
     ports:
-      - "80:80"
+      - "80:8080"
+  platform_tasks:
+    build: .
+    environment:
+      DOCKERIZE_WAIT_FOR_mysql: tcp://mysql:3306
+      ENABLE_NGINX: "false"
+      ENABLE_PHPFPM: "false"
+      ENABLE_PLATFORM_TASKS: "true"
+      RUN_PLATFORM_MIGRATIONS: "false"
+      DB_DATABASE: ushahidi
+      DB_HOST: mysql
+      DB_USERNAME: ushahidi
+      DB_PASSWORD: ushahidi
+    command: start

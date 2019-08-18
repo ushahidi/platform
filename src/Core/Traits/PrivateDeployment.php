@@ -14,36 +14,38 @@
 namespace Ushahidi\Core\Traits;
 
 use Ushahidi\Core\Entity\User;
+use Ushahidi\App\Multisite\UsesSiteInfo;
+use Ushahidi\App\Facades\Features;
 
 trait PrivateDeployment
 {
-	protected $private;
+    use UsesSiteInfo;
 
-	public function setPrivate($private)
-	{
-		$this->private = $private;
-	}
+    /**
+     * Check if the deployment is private
+     * @return boolean
+     */
+    public function isPrivate()
+    {
+        // if feature enabled and site set private in config
+        if (Features::isEnabled('private') && $this->getSite()->getSiteConfig('private', false)) {
+            return true;
+        }
 
-	/**
-	 * Check if the deployment is private
-	 * @return boolean
-	 */
-	public function isPrivate()
-	{
-		return (bool) $this->private;
-	}
+        return false;
+    }
 
-	/**
-	 * Check if user can access deployment
-	 * @return boolean
-	 */
-	public function canAccessDeployment(User $user)
-	{
-		// Only logged in users have access if the deployment is private
-		if ($this->isPrivate() and !$this->user->id) {
-			return false;
-		}
+    /**
+     * Check if user can access deployment
+     * @return boolean
+     */
+    public function canAccessDeployment(User $user)
+    {
+        // Only logged in users have access if the deployment is private
+        if ($this->isPrivate() and !$user->id) {
+            return false;
+        }
 
-		return true;
-	}
+        return true;
+    }
 }

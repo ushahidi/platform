@@ -10,7 +10,7 @@ class AddNotificationsOauthScope extends AbstractMigration
      */
     public function up()
     {
-		$this->execute("INSERT INTO oauth_scopes (scope, name) VALUES ('notifications', 'notifications')");
+        $this->execute("INSERT INTO oauth_scopes (scope, name) VALUES ('notifications', 'notifications')");
     }
 
     /**
@@ -18,6 +18,6 @@ class AddNotificationsOauthScope extends AbstractMigration
      */
     public function down()
     {
-		$this->execute("DELETE FROM oauth_scopes WHERE scope = 'notifications'");
+        $this->execute("DELETE FROM oauth_scopes WHERE scope = 'notifications'");
     }
 }

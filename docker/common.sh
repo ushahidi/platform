@@ -8,6 +8,15 @@ check_vols_src() {
   fi
 }
 
+check_migrations_pending() {
+  local n_pending=$(./bin/phinx status --no-ansi -c phinx.php | grep -E '^[[:space:]]+down[[:space:]]+' | wc -l)
+  [ $n_pending -gt 0 ]
+}
+
+run_migrations() {
+  composer migrate
+}
+
 function sync {
   check_vols_src
   {
@@ -26,7 +35,7 @@ function sync {
 }
 
 function run_composer_install {
-  composer install --no-interaction
+  composer install --no-interaction "$@"
 }
 
 function wait_for_mysql {

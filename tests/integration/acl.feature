@@ -3,7 +3,7 @@ Feature: API Access Control Layer
 
     Scenario: Anonymous users can create posts
         Given that I want to make a new "Post"
-        And that the request "Authorization" header is "Bearer testanon"
+        And that the oauth token is "testanon"
         And that the request "data" is:
         """
         {
@@ -22,7 +22,7 @@ Feature: API Access Control Layer
 
     Scenario: Anonymous user can not see restricted fields of public posts
         Given that I want to find a "Post"
-        And that the request "Authorization" header is "Bearer testanon"
+        And that the oauth token is "testanon"
         And that its "id" is "121"
         When I request "/posts"
         Then the response is JSON
@@ -33,7 +33,6 @@ Feature: API Access Control Layer
 
     Scenario: Anonymous user can not see hidden tasks of public posts
         Given that I want to find a "Post"
-        And that the request "Authorization" header is "Bearer testanon"
         And that its "id" is "121"
         When I request "/posts"
         Then the response is JSON
@@ -45,7 +44,6 @@ Feature: API Access Control Layer
     #FIXME
     Scenario: Anonymous user can not see hidden author field of public posts
         Given that I want to find a "Post"
-        And that the request "Authorization" header is "Bearer testanon"
         And that its "id" is "121"
         When I request "/posts"
         Then the response is JSON
@@ -56,7 +54,7 @@ Feature: API Access Control Layer
 
     Scenario: User can not see hidden tasks of public posts
         Given that I want to find a "Post"
-        And that the request "Authorization" header is "Bearer testbasicuser"
+        And that the oauth token is "testbasicuser"
         And that its "id" is "121"
         When I request "/posts"
         Then the response is JSON
@@ -67,7 +65,7 @@ Feature: API Access Control Layer
 
     Scenario: User can not see restricted fields of public posts
         Given that I want to find a "Post"
-        And that the request "Authorization" header is "Bearer testbasicuser"
+        And that the oauth token is "testbasicuser"
         And that its "id" is "121"
         When I request "/posts"
         Then the response is JSON
@@ -79,7 +77,6 @@ Feature: API Access Control Layer
     #FIXME
     Scenario: User can not see hidden author field of public posts
         Given that I want to find a "Post"
-        And that the request "Authorization" header is "Bearer testanon"
         And that its "id" is "121"
         When I request "/posts"
         Then the response is JSON
@@ -90,7 +87,7 @@ Feature: API Access Control Layer
 
     Scenario: User can see restricted fields of posts published to their role when survey restricted to their role
         Given that I want to find a "Post"
-        And that the request "Authorization" header is "Bearer testmanager"
+        And that the oauth token is "testmanager"
         And that its "id" is "121"
         When I request "/posts"
         Then the response is JSON
@@ -101,7 +98,7 @@ Feature: API Access Control Layer
 
     Scenario: User can see hidden author field of posts published to their role when survey restricted to their role
         Given that I want to find a "Post"
-        And that the request "Authorization" header is "Bearer testmanager"
+        And that the oauth token is "testmanager"
         And that its "id" is "121"
         When I request "/posts"
         Then the response is JSON
@@ -112,7 +109,7 @@ Feature: API Access Control Layer
 
     Scenario: User can not see hidden tasks of posts published to their role
         Given that I want to find a "Post"
-        And that the request "Authorization" header is "Bearer testbasicuser"
+        And that the oauth token is "testbasicuser"
         And that its "id" is "122"
         When I request "/posts"
         Then the response is JSON
@@ -123,7 +120,7 @@ Feature: API Access Control Layer
 
     Scenario: User can see restricted fields of posts published to their role
         Given that I want to find a "Post"
-        And that the request "Authorization" header is "Bearer testbasicuser"
+        And that the oauth token is "testbasicuser"
         And that its "id" is "122"
         When I request "/posts"
         Then the response is JSON
@@ -134,7 +131,7 @@ Feature: API Access Control Layer
 
     Scenario: User can not see hidden author field of posts published to their role
         Given that I want to find a "Post"
-        And that the request "Authorization" header is "Bearer testbasicuser"
+        And that the oauth token is "testbasicuser"
         And that its "id" is "122"
         When I request "/posts"
         Then the response is JSON
@@ -145,7 +142,7 @@ Feature: API Access Control Layer
 
     Scenario: Listing All Stages for a form with hidden stages
         Given that I want to get all "Stages"
-        And that the request "Authorization" header is "Bearer testbasicuser"
+        And that the oauth token is "testbasicuser"
         When I request "/forms/4/stages"
         Then the response is JSON
         And the response has a "count" property
@@ -155,7 +152,7 @@ Feature: API Access Control Layer
 
     Scenario: Listing All Stages for a form with hidden stages with edit permission
         Given that I want to get all "Stages"
-        And that the request "Authorization" header is "Bearer testmanager"
+        And that the oauth token is "testmanager"
         When I request "/forms/4/stages"
         Then the response is JSON
         And the response has a "count" property
@@ -165,27 +162,27 @@ Feature: API Access Control Layer
 
     Scenario: Listing All Attributes for a form with hidden stages
         Given that I want to get all "Stages"
-        And that the request "Authorization" header is "Bearer testbasicuser"
+        And that the oauth token is "testbasicuser"
         When I request "/forms/4/attributes"
         Then the response is JSON
         And the response has a "count" property
         And the type of the "count" property is "numeric"
-        And the "count" property equals "8"
+        And the "count" property equals "5"
         Then the guzzle status code should be 200
 
     Scenario: Listing All Attributes for a form with hidden stages with edit permission
         Given that I want to get all "Stages"
-        And that the request "Authorization" header is "Bearer testmanager"
+        And that the oauth token is "testmanager"
         When I request "/forms/4/attributes"
         Then the response is JSON
         And the response has a "count" property
         And the type of the "count" property is "numeric"
-        And the "count" property equals "8"
+        And the "count" property equals "10"
         Then the guzzle status code should be 200
 
     Scenario: User can see hidden tasks of posts published when survey restricted to their role
         Given that I want to find a "Post"
-        And that the request "Authorization" header is "Bearer testmanager"
+        And that the oauth token is "testmanager"
         And that its "id" is "121"
         When I request "/posts"
         Then the response is JSON
@@ -196,43 +193,43 @@ Feature: API Access Control Layer
 
     Scenario: Anonymous user can access public posts
         Given that I want to get all "Posts"
-        And that the request "Authorization" header is "Bearer testanon"
         When I request "/posts"
         Then the guzzle status code should be 200
         And the response is JSON
-        And the "count" property equals "12"
+        And the "count" property equals "13"
 
     Scenario: All users can view public posts
         Given that I want to get all "Posts"
-        And that the request "Authorization" header is "Bearer testbasicuser2"
+        And that the oauth token is "testbasicuser2"
         And that the request "query string" is "status=all"
         When I request "/posts"
         Then the guzzle status code should be 200
         And the response is JSON
-        And the "count" property equals "14"
+        And the "count" property equals "19"
 
     Scenario: User can view public and own private posts in collection
         Given that I want to get all "Posts"
-        And that the request "Authorization" header is "Bearer testbasicuser"
+        And that the oauth token is "testbasicuser"
         And that the request "query string" is "status=all"
         When I request "/posts"
         Then the guzzle status code should be 200
         And the response is JSON
-        And the "count" property equals "16"
+        And the "count" property equals "23"
 
+    @resetFixture
     Scenario: Admin can view all posts in collection
         Given that I want to get all "Posts"
-        And that the request "Authorization" header is "Bearer testadminuser"
+        And that the oauth token is "testadminuser"
         And that the request "query string" is "status=all"
         When I request "/posts"
         Then the guzzle status code should be 200
         And the response is JSON
-        And the "count" property equals "20"
+        And the "count" property equals "31"
 
     Scenario: Admin user can view private posts
         Given that I want to find a "Post"
         And that its "id" is "111"
-        And that the request "Authorization" header is "Bearer testadminuser"
+        And that the oauth token is "testadminuser"
         When I request "/posts"
         Then the guzzle status code should be 200
         And the response is JSON
@@ -241,7 +238,7 @@ Feature: API Access Control Layer
     Scenario: User can view their own private posts
         Given that I want to find a "Post"
         And that its "id" is "111"
-        And that the request "Authorization" header is "Bearer testbasicuser"
+        And that the oauth token is "testbasicuser"
         When I request "/posts"
         Then the guzzle status code should be 200
         And the response is JSON
@@ -250,7 +247,7 @@ Feature: API Access Control Layer
     Scenario: Users can not view private posts
         Given that I want to find a "Post"
         And that its "id" is "111"
-        And that the request "Authorization" header is "Bearer testbasicuser2"
+        And that the oauth token is "testbasicuser2"
         When I request "/posts"
         Then the guzzle status code should be 403
         And the response is JSON
@@ -258,89 +255,42 @@ Feature: API Access Control Layer
 
     Scenario: Anonymous users can not view draft posts
         Given that I want to find a "Post"
-        And that the request "Authorization" header is "Bearer testanon"
         And that its "id" is "111"
         When I request "/posts"
-        Then the guzzle status code should be 403
+        Then the guzzle status code should be 401
 
     Scenario: Anonymous users can view public post
         Given that I want to find a "Post"
-        And that the request "Authorization" header is "Bearer testanon"
         And that its "id" is "110"
         When I request "/posts"
         Then the guzzle status code should be 200
         And the response has an "id" property
 
-    Scenario: Anonymous user can not access updates with private parent post
-        Given that I want to get all "Updates"
-        And that the request "Authorization" header is "Bearer testanon"
-        When I request "/posts/111/updates"
-        Then the guzzle status code should be 403
-
-    Scenario: Anonymous user can not access update with private parent post
-        Given that I want to find an "Update"
-        And that the request "Authorization" header is "Bearer testanon"
-        And that its "id" is "114"
-        When I request "/posts/111/updates"
-        Then the guzzle status code should be 403
-
-    Scenario: User user can access update to their own private parent post
-        Given that I want to find an "Update"
-        And that the request "Authorization" header is "Bearer testbasicuser"
-        And that its "id" is "114"
-        When I request "/posts/111/updates"
-        Then the guzzle status code should be 200
-
-    Scenario: User user can not access update with private parent post
-        Given that I want to find an "Update"
-        And that the request "Authorization" header is "Bearer testbasicuser2"
-        And that its "id" is "114"
-        When I request "/posts/111/updates"
-        Then the guzzle status code should be 403
-
     Scenario: Anonymous user can not access translations with private parent post
         Given that I want to get all "Translations"
-        And that the request "Authorization" header is "Bearer testanon"
         When I request "/posts/111/translations"
-        Then the guzzle status code should be 403
+        Then the guzzle status code should be 401
 
     Scenario: Anonymous user can not access translation with private parent post
         Given that I want to find a "Translation"
-        And that the request "Authorization" header is "Bearer testanon"
         And that its "id" is "115"
         When I request "/posts/111/translations"
-        Then the guzzle status code should be 403
+        Then the guzzle status code should be 401
 
     Scenario: Anonymous user can not access revisions with private parent post
         Given that I want to get all "Revisions"
-        And that the request "Authorization" header is "Bearer testanon"
         When I request "/posts/111/revisions"
-        Then the guzzle status code should be 403
+        Then the guzzle status code should be 401
 
     Scenario: Anonymous user can not access revision with private parent post
         Given that I want to find a "Revision"
-        And that the request "Authorization" header is "Bearer testanon"
         And that its "id" is "116"
         When I request "/posts/111/revisions"
-        Then the guzzle status code should be 403
-
-    Scenario: Anonymous user can not access private update in listing
-        Given that I want to get all "Updates"
-        And that the request "Authorization" header is "Bearer testanon"
-        When I request "/posts/110/updates"
-        Then the guzzle status code should be 200
-        And the "count" property equals "0"
-
-    Scenario: Anonymous user can not access private update
-        Given that I want to find an "Update"
-        And that the request "Authorization" header is "Bearer testanon"
-        And that its "id" is "117"
-        When I request "/posts/110/updates"
-        Then the guzzle status code should be 403
+        Then the guzzle status code should be 401
 
     Scenario: Anonymous users cannot edit public post
         Given that I want to update a "Post"
-        And that the request "Authorization" header is "Bearer testanon"
+        And that the oauth token is "testanon"
         And that the request "data" is:
             """
             {
@@ -368,7 +318,6 @@ Feature: API Access Control Layer
 
     Scenario: Anonymous users can view site config
         Given that I want to find a "Config"
-        And that the request "Authorization" header is "Bearer testanon"
         And that its "id" is "site"
         When I request "/config"
         Then the guzzle status code should be 200
@@ -377,7 +326,6 @@ Feature: API Access Control Layer
 
     Scenario: Anonymous users can view map config
         Given that I want to find a "Config"
-        And that the request "Authorization" header is "Bearer testanon"
         And that its "id" is "map"
         When I request "/config"
         Then the guzzle status code should be 200
@@ -386,15 +334,14 @@ Feature: API Access Control Layer
 
     Scenario: Anonymous user can not access data provider config
         Given that I want to find an "Update"
-        And that the request "Authorization" header is "Bearer testanon"
         And that its "id" is "data-provider"
         When I request "/config"
-        Then the guzzle status code should be 403
+        Then the guzzle status code should be 401
 
     @resetFixture
     Scenario: Listing All Configs as admin
         Given that I want to get all "Configs"
-        And that the request "Authorization" header is "Bearer testadminuser"
+        And that the oauth token is "testadminuser"
         When I request "/config"
         Then the response is JSON
         And the "count" property equals "6"
@@ -402,7 +349,6 @@ Feature: API Access Control Layer
 
     Scenario: Listing All Configs as anonymous user
         Given that I want to get all "Configs"
-        And that the request "Authorization" header is "Bearer testanon"
         When I request "/config"
         Then the response is JSON
         And the "count" property equals "3"
@@ -411,14 +357,14 @@ Feature: API Access Control Layer
     @resetFixture
     Scenario: Basic user cannot access admin-only tag
         Given that I want to find a "Tag"
-        And that the request "Authorization" header is "Bearer testbasicuser"
+        And that the oauth token is "testbasicuser"
         And that its "id" is "7"
         When I request "/tags"
         Then the guzzle status code should be 403
 
     Scenario: Admin user can access protected tag
         Given that I want to find a "Tag"
-        And that the request "Authorization" header is "Bearer testadminuser"
+        And that the oauth token is "testadminuser"
         And that its "id" is "7"
         When I request "/tags"
         Then the guzzle status code should be 200
@@ -428,7 +374,7 @@ Feature: API Access Control Layer
     @resetFixture
     Scenario: Deleting a Media that I own
         Given that I want to delete a "Media"
-        And that the request "Authorization" header is "Bearer testbasicuser"
+        And that the oauth token is "testbasicuser"
         And that its "id" is "1"
         When I request "/media"
         Then the response is JSON
@@ -437,7 +383,7 @@ Feature: API Access Control Layer
 
     Scenario: Fail to delete a Media that I do not own
         Given that I want to delete a "Media"
-        And that the request "Authorization" header is "Bearer testbasicuser"
+        And that the oauth token is "testbasicuser"
         And that its "id" is "2"
         When I request "/media"
         Then the response is JSON
@@ -446,7 +392,7 @@ Feature: API Access Control Layer
 
     Scenario: Fail to delete a Media that is anonymous
         Given that I want to delete a "Media"
-        And that the request "Authorization" header is "Bearer testbasicuser"
+        And that the oauth token is "testbasicuser"
         And that its "id" is "2"
         When I request "/media"
         Then the response is JSON
@@ -455,7 +401,7 @@ Feature: API Access Control Layer
 
     Scenario: Deleting an anonymous Media with admin
         Given that I want to delete a "Media"
-        And that the request "Authorization" header is "Bearer testadminuser"
+        And that the oauth token is "testadminuser"
         And that its "id" is "2"
         When I request "/media"
         Then the response is JSON
@@ -464,17 +410,26 @@ Feature: API Access Control Layer
 
     Scenario: Fail to access resources without corresponding scope
         Given that I want to find a "User"
-        And that the request "Authorization" header is "Bearer testingtoken"
+        And that the oauth token is "testingtoken"
         And that its "id" is "1"
         When I request "/users"
         Then the response is JSON
         And the response has a "errors" property
-        Then the guzzle status code should be 400
+        Then the guzzle status code should be 403
+
+    Scenario: Fail to access resources without corresponding scope
+        Given that I want to find a "User Setting"
+        And that the oauth token is "testingtoken"
+        And that its "id" is "1"
+        When I request "/users/1/settings"
+        Then the response is JSON
+        And the response has a "errors" property
+        Then the guzzle status code should be 403
 
     @resetFixture
     Scenario: User can view post published to members
         Given that I want to find a "Post"
-        And that the request "Authorization" header is "Bearer testbasicuser"
+        And that the oauth token is "testbasicuser"
         And that its "id" is "120"
         When I request "/posts"
         Then the guzzle status code should be 200
@@ -484,7 +439,6 @@ Feature: API Access Control Layer
     @resetFixture
     Scenario: Anonymous can not view private responses
         Given that I want to find a "Post"
-        And that the request "Authorization" header is "Bearer testanon"
         And that its "id" is "121"
         When I request "/posts"
         Then the guzzle status code should be 200
@@ -494,16 +448,15 @@ Feature: API Access Control Layer
     @resetFixture
     Scenario: Anonymous can not view post published to members
         Given that I want to find a "Post"
-        And that the request "Authorization" header is "Bearer testanon"
         And that its "id" is "120"
         When I request "/posts"
-        Then the guzzle status code should be 403
+        Then the guzzle status code should be 401
         And the response is JSON
 
     @private
     Scenario: Registering as a user when a deployment is private
         Given that I want to make a new "user"
-        And that the request "Authorization" header is "Bearer testanon"
+        And that the oauth token is "testanon"
         And that the request "data" is:
         """
         {
@@ -520,14 +473,13 @@ Feature: API Access Control Layer
     @private
     Scenario: Anonymous user cannot access public posts when deployment is private
         Given that I want to get all "Posts"
-        And that the request "Authorization" header is "Bearer testanon"
         When I request "/posts"
-        Then the guzzle status code should be 403
+        Then the guzzle status code should be 401
 
     @private
     Scenario: Anonymous users cannot create posts when a deployment is private
         Given that I want to make a new "Post"
-        And that the request "Authorization" header is "Bearer testanon"
+        And that the oauth token is "testanon"
         And that the request "data" is:
         """
         {
@@ -547,35 +499,34 @@ Feature: API Access Control Layer
     @private
     Scenario: Anonymous users cannot view public posts when a deployment is private
         Given that I want to find a "Post"
-        And that the request "Authorization" header is "Bearer testanon"
         And that its "id" is "110"
         When I request "/posts"
-        Then the guzzle status code should be 403
+        Then the guzzle status code should be 401
 
     @rolesEnabled
     Scenario: User with Manage Posts permission can view all posts in collection
         Given that I want to get all "Posts"
-        And that the request "Authorization" header is "Bearer testmanager"
+        And that the oauth token is "testmanager"
         And that the request "query string" is "status=all"
         When I request "/posts"
         Then the guzzle status code should be 200
         And the response is JSON
-        And the "count" property equals "19"
+        And the "count" property equals "31"
 
     @rolesEnabled
     Scenario: User with Manage Posts permission can view private posts
         Given that I want to find a "Post"
         And that its "id" is "111"
-        And that the request "Authorization" header is "Bearer testmanager"
+        And that the oauth token is "testmanager"
         When I request "/posts"
         Then the guzzle status code should be 200
         And the response is JSON
         And the response has an "id" property
 
     @rolesEnabled
-    Scenario: User with Manage Posts permission can make a SavedSearch featured
+    Scenario: User with Manage Posts permission is not allowed to make a SavedSearch featured
         Given that I want to update a "SavedSearch"
-        And that the request "Authorization" header is "Bearer testmanager"
+        And that the oauth token is "testmanager"
         And that the request "data" is:
         """
         {
@@ -587,12 +538,12 @@ Feature: API Access Control Layer
         And that its "id" is "5"
         When I request "/savedsearches"
         Then the response is JSON
-        Then the guzzle status code should be 200
+        Then the guzzle status code should be 403
 
     @rolesEnabled
     Scenario: User with with Manage Settings permission can update a config
         Given that I want to update a "Config"
-        And that the request "Authorization" header is "Bearer testmanager"
+        And that the oauth token is "testmanager"
         And that the request "data" is:
             """
             {
@@ -608,7 +559,7 @@ Feature: API Access Control Layer
     @rolesEnabled
     Scenario: User with Manage Settings permissions can list Data Providers
         Given that I want to get all "Dataproviders"
-        And that the request "Authorization" header is "Bearer testmanager"
+        And that the oauth token is "testmanager"
         When I request "/dataproviders"
         Then the response is JSON
         And the response has a "count" property
@@ -619,18 +570,18 @@ Feature: API Access Control Layer
     @rolesEnabled
     Scenario: User with Manage Settings permissions can see all Tags
         Given that I want to get all "Tags"
-        And that the request "Authorization" header is "Bearer testmanager"
+        And that the oauth token is "testmanager"
         When I request "/tags"
         Then the response is JSON
         And the response has a "count" property
         And the type of the "count" property is "numeric"
-        And the "count" property equals "7"
+        And the "count" property equals "11"
         Then the guzzle status code should be 200
 
     @rolesEnabled
     Scenario: User with Manage Settings permission can create a new form
         Given that I want to make a new "Form"
-        And that the request "Authorization" header is "Bearer testmanager"
+        And that the oauth token is "testmanager"
         And that the request "data" is:
             """
             {
@@ -650,7 +601,7 @@ Feature: API Access Control Layer
     @rolesEnabled
     Scenario: User with Manage Users permission can create a user
         Given that I want to make a new "user"
-        And that the request "Authorization" header is "Bearer testmanager"
+        And that the oauth token is "testmanager"
         And that the request "data" is:
         """
         {
@@ -670,10 +621,45 @@ Feature: API Access Control Layer
         And the response does not have a "password" property
         Then the guzzle status code should be 200
 
+    @rolesEnabled
+    Scenario: User with Manage Collections and Saved Searches can update a Collection
+		Given that I want to update a "collection"
+        And that the oauth token is "testsets"
+		And that the request "data" is:
+			"""
+			{
+				"name":"Updated Set One"
+			}
+			"""
+		And that its "id" is "7"
+		When I request "/collections"
+		Then the response is JSON
+		And the response has a "id" property
+		And the type of the "id" property is "numeric"
+		And the "id" property equals "7"
+		And the response has a "name" property
+		And the "name" property equals "Updated Set One"
+		Then the guzzle status code should be 200
+
+
+    @rolesEnabled
+    Scenario: User without Manage Collections and Saved Searches can not update a Collection
+		Given that I want to update a "collection"
+        And that the oauth token is "testanon"
+		And that the request "data" is:
+			"""
+			{
+				"name":"Updated Set One"
+			}
+			"""
+		And that its "id" is "7"
+		When I request "/collections"
+		Then the guzzle status code should be 403
+
     @rolesEnabled @dataImportEnabled
     Scenario: Uploading a CSV file with the Importer role
         Given that I want to make a new "CSV"
-        And that the request "Authorization" header is "Bearer testimporter"
+        And that the oauth token is "testimporter"
         And that the post file "file" is "tests/datasets/ushahidi/sample.csv"
         When I request "/csv"
         Then the response is JSON

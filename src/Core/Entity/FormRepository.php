@@ -18,5 +18,5 @@ interface FormRepository extends
     EntityGet,
     EntityExists
 {
-
+    public function isTypeHidden($form_id, $type);
 }

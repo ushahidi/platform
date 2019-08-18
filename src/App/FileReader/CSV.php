@@ -12,47 +12,63 @@
 namespace Ushahidi\App\FileReader;
 
 use League\Csv\Reader;
+use Ushahidi\Core\Exception\ValidatorException;
 use Ushahidi\Core\Tool\FileReader;
 use Ushahidi\Core\Tool\ReaderFactory;
 
 class CSV implements FileReader
 {
 
-	protected $limit;
-	public function setLimit($limit)
-	{
-		$this->limit = $limit;
-	}
+    protected $limit;
+    public function setLimit($limit)
+    {
+        $this->limit = $limit;
+    }
 
-	protected $offset;
-	public function setOffset($offset)
-	{
-		$this->offset = $offset;
-	}
+    protected $offset;
+    public function setOffset($offset)
+    {
+        $this->offset = $offset;
+    }
 
-	protected $reader_factory;
-	public function setReaderFactory(ReaderFactory $reader_factory)
-	{
-		$this->reader_factory = $reader_factory;
-	}
+    protected $reader_factory;
+    public function setReaderFactory(ReaderFactory $reader_factory)
+    {
+        $this->reader_factory = $reader_factory;
+    }
 
-	public function process($file)
-	{
-		$reader = $this->reader_factory->createReader($file);
+    public function process($file)
+    {
+        $reader = $this->reader_factory->createReader($file);
 
-		// Filter out empty rows
-		$nbColumns = count($reader->fetchOne());
-		$reader->addFilter(function ($row) use ($nbColumns) {
-		    return count($row) == $nbColumns;
-		});
+        // Filter out empty rows
+        $nbColumns = count($reader->fetchOne());
+        $reader->addFilter(function ($row) use ($nbColumns) {
+            return count($row) == $nbColumns;
+        });
 
-		if ($this->offset) {
-			$reader->setOffset($this->offset);
-		}
-		if ($this->limit) {
-			$reader->setLimit($this->limit);
-		}
-
-		return new \ArrayIterator($reader->fetchAssoc());
-	}
+        if ($this->offset) {
+            $reader->setOffset($this->offset);
+        }
+        if ($this->limit) {
+            $reader->setLimit($this->limit);
+        }
+        try {
+            return new \ArrayIterator($reader->fetchAssoc());
+        } catch (\InvalidArgumentException $invalidArgumentException) {
+            if ($invalidArgumentException->getMessage() === 'The array must contain unique values') {
+                throw new ValidatorException(
+                    'CSV column names must be unique. Please rename any duplicate columns and try again.',
+                    []
+                );
+            } elseif ($invalidArgumentException->getMessage() === 'The array can not be empty') {
+                throw new ValidatorException(
+                    'The CSV file you uploaded is empty. Please check your CSV file and try again.',
+                    []
+                );
+            } else {
+                throw $invalidArgumentException;
+            }
+        }
+    }
 }

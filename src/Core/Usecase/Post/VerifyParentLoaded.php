@@ -13,39 +13,39 @@ namespace Ushahidi\Core\Usecase\Post;
 
 use Ushahidi\Core\Data;
 use Ushahidi\Core\Entity;
-use Ushahidi\Core\Traits\IdentifyRecords;
-use Ushahidi\Core\Traits\VerifyEntityLoaded;
+use Ushahidi\Core\Usecase\Concerns\IdentifyRecords;
+use Ushahidi\Core\Usecase\Concerns\VerifyEntityLoaded;
 
 use Ushahidi\Core\Exception\NotFoundException;
 
 trait VerifyParentLoaded
 {
-	// For parent check:
-	// - IdentifyRecords
-	// - VerifyEntityLoaded
-	use IdentifyRecords,
-		VerifyEntityLoaded;
+    // For parent check:
+    // - IdentifyRecords
+    // - VerifyEntityLoaded
+    use IdentifyRecords,
+        VerifyEntityLoaded;
 
-	/**
-	 * Checks that the parent exists.
-	 * @param  Data $input
-	 * @return void
-	 */
-	protected function verifyParentExists()
-	{
-		if ($parent_id = $this->getIdentifier('parent_id')) {
-			// Ensure that the parent exists.
-			$parent = $this->repo->get($parent_id);
-			$this->verifyEntityLoaded($parent, $this->identifiers);
-			// Ensure that we are allowed to access the parent
-			$this->verifyReadAuth($parent);
-		}
-	}
+    /**
+     * Checks that the parent exists.
+     * @param  Data $input
+     * @return void
+     */
+    protected function verifyParentExists()
+    {
+        if ($parent_id = $this->getIdentifier('parent_id')) {
+            // Ensure that the parent exists.
+            $parent = $this->repo->get($parent_id);
+            $this->verifyEntityLoaded($parent, $this->identifiers);
+            // Ensure that we are allowed to access the parent
+            $this->verifyReadAuth($parent);
+        }
+    }
 
-	// Usecase
-	public function interact()
-	{
-		$this->verifyParentExists();
-		return parent::interact();
-	}
+    // Usecase
+    public function interact()
+    {
+        $this->verifyParentExists();
+        return parent::interact();
+    }
 }

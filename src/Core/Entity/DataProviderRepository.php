@@ -14,12 +14,6 @@ namespace Ushahidi\Core\Entity;
 use Ushahidi\Core\Entity\Repository\EntityGet;
 
 interface DataProviderRepository extends
-	EntityGet
+    EntityGet
 {
-	/**
-	 * Get all data providers.
-	 * @param  Boolean $enabled only return providers that are enabled
-	 * @return Array [Ushahidi\Core\Entity\DataProvider, ...]
-	 */
-	public function all($enabled = false);
 }

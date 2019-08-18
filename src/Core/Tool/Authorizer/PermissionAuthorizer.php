@@ -19,26 +19,26 @@ use Ushahidi\Core\Traits\PrivAccess;
 
 class PermissionAuthorizer implements Authorizer
 {
-	use UserContext;
+    use UserContext;
 
-	// It uses `PrivAccess` to provide the `getAllowedPrivs` method.
-	use PrivAccess;
-	
-	// Check if user has Admin access
-	use AdminAccess;
+    // It uses `PrivAccess` to provide the `getAllowedPrivs` method.
+    use PrivAccess;
+    
+    // Check if user has Admin access
+    use AdminAccess;
 
-	/* Authorizer */
-	public function isAllowed(Entity $entity, $privilege)
-	{
-		// These checks are run within the user context.
-		$user = $this->getUser();
-		
-		// Only allow admin access
-		if ($this->isUserAdmin($user)
-			and in_array($privilege, ['search', 'read'])) {
-			return true;
-		}
+    /* Authorizer */
+    public function isAllowed(Entity $entity, $privilege)
+    {
+        // These checks are run within the user context.
+        $user = $this->getUser();
+        
+        // Only allow admin access
+        if ($this->isUserAdmin($user)
+            and in_array($privilege, ['search', 'read'])) {
+            return true;
+        }
 
-		return false;
-	}
+        return false;
+    }
 }

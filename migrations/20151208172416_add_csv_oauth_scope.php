@@ -4,12 +4,12 @@ use Phinx\Migration\AbstractMigration;
 
 class AddCsvOauthScope extends AbstractMigration
 {
-	/**
+    /**
      * Migrate Up.
      */
     public function up()
     {
-		$this->execute("INSERT INTO oauth_scopes (scope, name) VALUES ('csv', 'csv')");
+        $this->execute("INSERT INTO oauth_scopes (scope, name) VALUES ('csv', 'csv')");
     }
 
     /**
@@ -17,6 +17,6 @@ class AddCsvOauthScope extends AbstractMigration
      */
     public function down()
     {
-		$this->execute("DELETE FROM oauth_scopes WHERE scope = 'csv'");
+        $this->execute("DELETE FROM oauth_scopes WHERE scope = 'csv'");
     }
 }
