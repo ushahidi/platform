@@ -53,8 +53,10 @@ class VerifyController extends RESTController
 
     public function db(\Illuminate\Http\Request $request)
     {
+        $connectTo = getenv('MULTISITE_DOMAIN') ? 'multisite' : 'mysql';
+
         try {
-            $connection = \DB::connection('mysql')->getPdo();
+            $connection = \DB::connection($connectTo)->getPdo();
             return [
                 'code' => 'DB_OK',
                 'message' => 'We were able to connect to the DB. Well done!',
