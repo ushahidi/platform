@@ -22,8 +22,12 @@ class Env
                 "See https://laravel.com/docs/5.8/queues for more information on queue drivers.",
     ];
 
-    public static function verifyRequirements()
+    public static function verifyRequirements($console = true)
     {
+        $ok = "Good job! you have configured your .ENV file with all the required keys.";
+        $info = "We will check the database connectivity next.";
+        $errors = [];
+        $success = [];
         // load DotEnv for this script
         (new \Dotenv\Dotenv(__DIR__."/../../"))->load();
 
@@ -31,16 +35,33 @@ class Env
             echo OutputText::error(self::$NO_ENV);
             die;
         }
+
         $failures = false;
         foreach (self::$REQUIRED_ENV_KEYS as $key => $value) {
             if (!getenv($key)) {
                 $failures = true;
-                echo OutputText::error("$key is missing from your .env file." . PHP_EOL . $value);
+                $message = "$key is missing from your .env file." . PHP_EOL . $value;
+                $errors = [$message];
             }
         }
+
+        if ($console) {
+            foreach ($errors as $message) {
+                OutputText::error($message);
+            }
+        }
+
         if (!$failures) {
-            echo OutputText::success("Good job! you have configured your .ENV file with all the required keys.");
-            echo OutputText::info("We will check the database connectivity next.");
+            $success = [$ok, $info];
+        }
+
+        if (!$failures && $console) {
+            echo OutputText::success($ok);
+            echo OutputText::info($info);
+        }
+
+        if (!$console) {
+            return ['errors' => $errors, 'success' => $success];
         }
     }
 }
