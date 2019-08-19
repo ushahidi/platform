@@ -11,7 +11,7 @@ description: >-
 
 ## **Contributions**
 
-Credits to [Jessica Weber](https://github.com/jessicaweberdev) for adding a new description in the Ushahidi settings page, making it much more clear what the user is going to achieve by making a deployment private. &lt;3
+Credits to Jessica Weber for adding a new description in the Ushahidi settings page, making it much more clear what the user is going to achieve by making a deployment private. &lt;3
 
 \*\*\*\*[**https://github.com/ushahidi/platform-client/pull/1320** ](https://github.com/ushahidi/platform/issues/2716) ****
 
