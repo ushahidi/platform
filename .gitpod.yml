@@ -1,5 +1,6 @@
 image:
-  file: Dockerfile
+  file: .gitpod/Dockerfile
+  context: .
 ports:
 - port: 80
 - port: 8000
