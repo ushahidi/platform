@@ -22,3 +22,4 @@ ENV ENABLE_PLATFORM_TASKS=true \
     VHOST_INDEX=index.php \
     PHP_EXEC_TIME_LIMIT=3600
 
+ENTRYPOINT [ "/bin/bash" ]
