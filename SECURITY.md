@@ -27,8 +27,10 @@ Ushahidi would like to thank the following individuals for disclosing security i
 - Dennison Williams
 - George Chamales
 - Kees Cook
+- Mohammed Israil
 - Timothy D. Morgan
 - postmodern
+- Rayen Messaoudi
 - Rob Munro
 - Victor Angelier
 - Wil Clouser
