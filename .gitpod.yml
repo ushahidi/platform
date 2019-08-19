@@ -3,3 +3,6 @@ image:
 ports:
 - port: 80
 - port: 8000
+tasks:
+- init: composer install --ignore-platform-reqs
+# command: composer migrate
