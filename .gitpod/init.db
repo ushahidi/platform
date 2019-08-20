@@ -1,0 +1,3 @@
+# Ushahidi specific user setup
+mysql -e 'grant all on ushahidi.* to `homestead`@`localhost` identified by "secret"; flush privileges;' -u root &&
+mysql -e 'create database ushahidi;' -u root

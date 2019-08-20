@@ -5,5 +5,9 @@ ports:
 - port: 80
 - port: 8000
 tasks:
-- init: composer install --ignore-platform-reqs
-# command: composer migrate
+- init: >
+    composer install --ignore-platform-reqs &&
+    cp .env.gitpod .env &&
+    .gitpod/start-db.sh && .gitpod/init-db.sh &&
+    composer migrate
+  command: .gitpod/start-db.sh
