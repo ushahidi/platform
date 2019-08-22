@@ -47,7 +47,7 @@ class Env
 
         if ($console) {
             foreach ($errors as $message) {
-                OutputText::error($message);
+                echo OutputText::error($message);
             }
         }
 
