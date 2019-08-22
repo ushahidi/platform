@@ -58,28 +58,29 @@ class VerifyController extends RESTController
         try {
             $connection = \DB::connection($connectTo)->getPdo();
             return [
-                'code' => 'DB_OK',
-                'message' => 'We were able to connect to the DB. Well done!',
-                'explainer' => null
+                'success' => [
+                    [
+                        'message' => 'We were able to connect to the DB. Well done!',
+                        'explainer' => null
+                    ]
+                ]
             ];
         } catch (\Exception $e) {
             $code = $e->getCode();
             $explainer = isset($this->errors[$code]) ? $this->errors[$code] : '';
-            return ['code' => $code, 'message' => $e->getMessage(), 'explainer' => $explainer ];
+            return [
+                'errors' => [
+                    [
+                        'message' => $e->getMessage(), 'explainer' => $explainer
+                    ]
+                    
+                ]
+            ];
         }
     }
     public function conf(\Illuminate\Http\Request $request)
     {
-
         $output = \Ushahidi\App\PlatformVerifier\Env::verifyRequirements(false);
-        if (!empty($output['errors'])) {
-            return ['code' => 'ENV_ERROR', 'errors' => $output['errors'], 'success' => []];
-        } else {
-            return [
-                'code' => 'ENV_OK',
-                'errors' => [],
-                'success' => isset($output['success']) ? $output['success']: []
-            ];
-        }
+        return $output;
     }
 }

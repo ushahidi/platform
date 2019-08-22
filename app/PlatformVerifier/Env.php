@@ -40,28 +40,33 @@ class Env
         foreach (self::$REQUIRED_ENV_KEYS as $key => $value) {
             if (!getenv($key)) {
                 $failures = true;
-                $message = "$key is missing from your .env file." . PHP_EOL . $value;
-                $errors = [$message];
+                $message = [
+                    "message" => "$key is missing from your .env file.",
+                    "explainer" => $value
+                ];
+                array_push($errors, $message);
             }
         }
+        return $failures ? self::errorResponse($errors, $console) : self::successResponse($ok, $info, $console);
+    }
 
+    private static function successResponse($ok, $info, $console)
+    {
         if ($console) {
-            foreach ($errors as $message) {
-                echo OutputText::error($message);
-            }
-        }
-
-        if (!$failures) {
-            $success = [$ok, $info];
-        }
-
-        if (!$failures && $console) {
             echo OutputText::success($ok);
             echo OutputText::info($info);
         }
+        return [["message" => $ok, "explainer" => null]];
+    }
 
-        if (!$console) {
-            return ['errors' => $errors, 'success' => $success];
+    private static function errorResponse($errors, $console)
+    {
+        if ($console) {
+            foreach ($errors as $error) {
+                echo OutputText::error($error["message"]);
+                echo OutputText::error($error["explainer"]);
+            }
         }
+        return ["errors" => $errors];
     }
 }
