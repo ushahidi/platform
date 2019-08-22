@@ -10,6 +10,7 @@ services:
   platform:
     build: .
     environment:
+      APP_KEY: SomeRandomKey!!!SomeRandomKey!!!
       DOCKERIZE_WAIT_FOR_mysql: tcp://mysql:3306
       ENABLE_NGINX: "true"
       ENABLE_PHPFPM: "true"
@@ -25,6 +26,7 @@ services:
   platform_tasks:
     build: .
     environment:
+      APP_KEY: SomeRandomKey!!!SomeRandomKey!!!
       DOCKERIZE_WAIT_FOR_mysql: tcp://mysql:3306
       ENABLE_NGINX: "false"
       ENABLE_PHPFPM: "false"

@@ -2,3 +2,8 @@
 codeship-*.yml
 deployment.env
 deployment.env.encrypted
+vendor/*
+!vendor/autoload.php
+storage/*
+!storage/passport
+storage/passport/*

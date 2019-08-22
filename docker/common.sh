@@ -1,20 +1,34 @@
 #!/bin/bash
 set -e
 
-check_vols_src() {
+function check_vols_src() {
   if [ ! -d /vols/src ]; then
     echo "No /vols/src with code"
     exit 1
   fi
 }
 
-check_migrations_pending() {
+function check_migrations_pending() {
   local n_pending=$(./bin/phinx status --no-ansi -c phinx.php | grep -E '^[[:space:]]+down[[:space:]]+' | wc -l)
   [ $n_pending -gt 0 ]
 }
 
-run_migrations() {
-  composer migrate
+function as_www_data() {
+  su -s /bin/sh www-data -c "$*"
+}
+
+function run_migrations() {
+  as_www_data composer migrate
+}
+
+function provision_passport_keys() {
+  if [ ! -f storage/passport/oauth-private ]; then
+    composer bootstrap:passport
+  fi
+}
+
+function set_storage_permissions() {
+  chown -R www-data storage/
 }
 
 function sync {
@@ -28,6 +42,7 @@ function sync {
     done
     echo "- .git"
     echo "- vendor"
+    echo "- storage"
     echo "- tmp"
   } > /tmp/rsync_exclude
   rsync -ar --exclude-from=/tmp/rsync_exclude --delete-during /vols/src/ ./
@@ -46,4 +61,3 @@ function wait_for_mysql {
     sleep 1
   done
 }
-
