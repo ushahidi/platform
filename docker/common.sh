@@ -22,6 +22,9 @@ function run_migrations() {
 }
 
 function provision_passport_keys() {
+  if [ ! -d storage/passport ]; then
+    mkdir -p storage/passport
+  fi
   if [ ! -f storage/passport/oauth-private ]; then
     composer bootstrap:passport
   fi
@@ -42,7 +45,13 @@ function sync {
     done
     echo "- .git"
     echo "- vendor"
-    echo "- storage"
+    echo "- storage/app/public/**"
+    echo "- storage/app/temp/**"
+    echo "- storage/framework/cache/**"
+    echo "- storage/framework/testing/**"
+    echo "- storage/framework/views/**"
+    echo "- storage/logs/**"
+    echo "- storage/passport/**"
     echo "- tmp"
   } > /tmp/rsync_exclude
   rsync -ar --exclude-from=/tmp/rsync_exclude --delete-during /vols/src/ ./
