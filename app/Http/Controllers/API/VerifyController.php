@@ -23,16 +23,6 @@ use Ushahidi\App\Multisite\MultisiteManager;
 class VerifyController extends RESTController
 {
 
-    private $errors = [
-        // SQLSTATE[HY000] [2002] Connection refused
-        '2002' => 'Check that your MySQL server is installed and running, ' .
-                    'and that the right DB_HOST and DB_PORT are set up in the .env file',
-        '1049' => 'Check that the database in the .env file variable DB_DATABASE exists' .
-                    'and that the database user in DB_USERNAME has permissions to access it.',
-        '1045' => 'Check that DB_USERNAME, DB_PASSWORD and DB_USERNAME are correct in the .env file. ' .
-                    'Verify that accessing mysql through a CLI with `mysql -u YOUR_DB_USERNAME -p ' .
-                    'YOUR_DB_NAME and entering the password on prompt results in a successful connection to mysql.'
-    ];
     protected function getResource()
     {
         return 'verifier';
