@@ -53,30 +53,8 @@ class VerifyController extends RESTController
 
     public function db(\Illuminate\Http\Request $request)
     {
-        $connectTo = getenv('MULTISITE_DOMAIN') ? 'multisite' : 'mysql';
-
-        try {
-            $connection = \DB::connection($connectTo)->getPdo();
-            return [
-                'success' => [
-                    [
-                        'message' => 'We were able to connect to the DB. Well done!',
-                        'explainer' => null
-                    ]
-                ]
-            ];
-        } catch (\Exception $e) {
-            $code = $e->getCode();
-            $explainer = isset($this->errors[$code]) ? $this->errors[$code] : '';
-            return [
-                'errors' => [
-                    [
-                        'message' => $e->getMessage(), 'explainer' => $explainer
-                    ]
-                    
-                ]
-            ];
-        }
+        $output = \Ushahidi\App\PlatformVerifier\Database::verifyRequirements(false);
+        return $output;
     }
     public function conf(\Illuminate\Http\Request $request)
     {

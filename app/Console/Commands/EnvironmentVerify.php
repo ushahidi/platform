@@ -1,13 +1,31 @@
 <?php
 
-namespace Ushahidi\App\PlatformVerifier;
+namespace Ushahidi\App\Console\Commands;
+
+use Illuminate\Console\Command;
 
 use Ushahidi\App\Tools\OutputText;
 use Composer\Script\Event;
 use Composer\Installer\PackageEvent;
 
-class Env
+class EnvironmentVerify extends Command
 {
+
+    /**
+     * The console command name.
+     *
+     * @var string
+     */
+    protected $name = 'environment:verify';
+
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Verify the environment setup.';
+    protected $signature = 'environment:verify';
+
     private static $NO_ENV = "No environment file found. Please copy the .env.example file to create a new .env file.";
     private static $REQUIRED_ENV_KEYS = [
         "DB_CONNECTION" => "Please set `DB_CONNECTION=mysql` in the .env file.",
@@ -24,29 +42,26 @@ class Env
 
     public static function verifyRequirements($console = true)
     {
-        $ok = "Good job! you have configured your .ENV file with all the required keys.";
-        $info = "We will check the database connectivity next.";
-        $errors = [];
-        $success = [];
-        // load DotEnv for this script
-        (new \Dotenv\Dotenv(__DIR__."/../../"))->load();
+        return \Ushahidi\App\PlatformVerifier\Env::verifyRequirements(true);
+    }
 
-        if (!file_exists(__DIR__ . "/../../.env")) {
-            echo OutputText::error(self::$NO_ENV);
-            die;
-        }
+    public function verifyDB()
+    {
+        return \Ushahidi\App\PlatformVerifier\Database::verifyRequirements(true);
+    }
+    /**
+     * Execute the console command.
+     *
+     * @return void
+     */
+    public function handle()
+    {
+        echo OutputText::info("Running ENV configuration checks");
 
-        $failures = false;
-        foreach (self::$REQUIRED_ENV_KEYS as $key => $value) {
-            if (!getenv($key)) {
-                $failures = true;
-                $message = [
-                    "message" => "$key is missing from your .env file.",
-                    "explainer" => $value
-                ];
-                array_push($errors, $message);
-            }
-        }
-        return $failures ? Respond::errorResponse($errors, $console) : Respond::successResponse($ok, $info, $console);
+        $this->verifyRequirements(true);
+
+        echo OutputText::info("Running DB connectivity verification");
+
+        $response = $this->verifyDB(true);
     }
 }

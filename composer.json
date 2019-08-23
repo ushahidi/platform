@@ -129,6 +129,7 @@
             "phpspec run --no-code-generation"
         ],
         "migrate" : [
+            "@verify",
             "phinx migrate -c phinx.php"
         ],
         "pre-test" : [
@@ -150,7 +151,7 @@
             "chmod 660 storage/passport/*.key"
         ],
         "verify": [
-            "\\Ushahidi\\App\\PlatformVerifier\\Env::verifyRequirements"
+            "php artisan environment:verify"
         ]
     }
 }
