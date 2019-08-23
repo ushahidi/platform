@@ -151,6 +151,12 @@
         ],
         "verify": [
             "\\Ushahidi\\App\\PlatformVerifier\\Env::verifyRequirements"
+        ],
+        "gwcheck:enable": [
+            "\\Ushahidi\\App\\GWCheck\\Switcher::enable"
+        ],
+        "gwcheck:disable": [
+            "\\Ushahidi\\App\\GWCheck\\Switcher::disable"
         ]
     }
 }
