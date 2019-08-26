@@ -12,7 +12,7 @@ class Respond
             echo OutputText::success($ok);
             echo OutputText::info($info);
         }
-        return [["message" => $ok, "explainer" => null]];
+        return ["success" => [["message" => $ok, "explainer" => null]]];
     }
 
     public static function errorResponse($errors, $console)
