@@ -42,12 +42,14 @@ class EnvironmentVerify extends Command
 
     public static function verifyRequirements($console = true)
     {
-        return \Ushahidi\App\PlatformVerifier\Env::verifyRequirements(true);
+        $env = new \Ushahidi\App\PlatformVerifier\Env();
+        return $env->verifyRequirements(true);
     }
 
     public function verifyDB()
     {
-        return \Ushahidi\App\PlatformVerifier\Database::verifyRequirements(true);
+        $db = new \Ushahidi\App\PlatformVerifier\Database();
+        return $db->verifyRequirements(true);
     }
     /**
      * Execute the console command.

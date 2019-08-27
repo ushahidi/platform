@@ -11,7 +11,6 @@ use Ushahidi\App\Facades\Features;
 
 class Database
 {
-
     private static $errors = [
         // SQLSTATE[HY000] [2002] Connection refused
         '2002' => 'Check that your MySQL server is installed and running, ' .
@@ -23,12 +22,18 @@ class Database
                     'YOUR_DB_NAME and entering the password on prompt results in a successful connection to mysql.'
     ];
 
-    public static function verifyRequirements($console = true)
+    public function verifyRequirements(bool $console = true, \Illuminate\Database\MySqlConnection $connection = null)
     {
-        $connectTo = getenv('MULTISITE_DOMAIN') ? 'multisite' : 'mysql';
-        
+        /*
+        * Enable calling this with a mocked connection from unit tests, or using the regular class.
+        * We can't inject it always because not everything that calls this has access to Illuminate\Support\Facades\DB
+        */
+        if (!$connection) {
+            $connectTo = getenv('MULTISITE_DOMAIN') ? 'multisite' : 'mysql';
+            $connection = \Illuminate\Support\Facades\DB::connection($connectTo);
+        }
         try {
-            $connection = \Illuminate\Support\Facades\DB::connection($connectTo)->getPdo();
+            $connection = $connection->getPdo();
             return Respond::successResponse('We were able to connect to the DB. Well done!', '', $console);
         } catch (\Exception $e) {
             $code = $e->getCode();

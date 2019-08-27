@@ -22,23 +22,32 @@ class Env
                 "See https://laravel.com/docs/5.8/queues for more information on queue drivers.",
     ];
 
-    public static function verifyRequirements($console = true)
+    public function envExists()
+    {
+        return file_exists(__DIR__ . "/../../.env");
+    }
+
+    public function isMissingEnvKey($key)
+    {
+        return !getenv($key);
+    }
+    public function verifyRequirements($console = true)
     {
         $ok = "Good job! you have configured your .ENV file with all the required keys.";
         $info = "We will check the database connectivity next.";
         $errors = [];
         $success = [];
+
+        if (!$this->envExists()) {
+            return Respond::errorResponse([["message" => self::$NO_ENV, "explainer" => null]], $console);
+        }
+
         // load DotEnv for this script
         (new \Dotenv\Dotenv(__DIR__."/../../"))->load();
 
-        if (!file_exists(__DIR__ . "/../../.env")) {
-            echo OutputText::error(self::$NO_ENV);
-            die;
-        }
-
         $failures = false;
         foreach (self::$REQUIRED_ENV_KEYS as $key => $value) {
-            if (!getenv($key)) {
+            if ($this->isMissingEnvKey($key)) {
                 $failures = true;
                 $message = [
                     "message" => "$key is missing from your .env file.",

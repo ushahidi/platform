@@ -43,12 +43,12 @@ class VerifyController extends RESTController
 
     public function db(\Illuminate\Http\Request $request)
     {
-        $output = \Ushahidi\App\PlatformVerifier\Database::verifyRequirements(false);
-        return $output;
+        $output = new \Ushahidi\App\PlatformVerifier\Database();
+        return $output->verifyRequirements(false);
     }
     public function conf(\Illuminate\Http\Request $request)
     {
-        $output = \Ushahidi\App\PlatformVerifier\Env::verifyRequirements(false);
-        return $output;
+        $output = new \Ushahidi\App\PlatformVerifier\Env();
+        return $output->verifyRequirements(false);
     }
 }
