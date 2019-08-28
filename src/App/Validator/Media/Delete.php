@@ -12,9 +12,9 @@
 namespace Ushahidi\App\Validator\Media;
 
 use Ushahidi\Core\Data;
-use Ushahidi\Core\Tool\Validator;
+use Ushahidi\App\Validator\LegacyValidator;
 
-class Delete extends Validator
+class Delete extends LegacyValidator
 {
     protected $default_error_source = 'media';
 

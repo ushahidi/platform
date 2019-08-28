@@ -12,10 +12,10 @@
 namespace Ushahidi\App\Validator\User;
 
 use Ushahidi\Core\Data;
-use Ushahidi\Core\Tool\Validator;
+use Ushahidi\App\Validator\LegacyValidator;
 use Ushahidi\Core\Usecase\User\LoginRepository;
 
-class Login extends Validator
+class Login extends LegacyValidator
 {
     protected $default_error_source = 'user';
 

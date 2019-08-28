@@ -13,11 +13,11 @@ namespace Ushahidi\App\Validator\Form\Attribute;
 
 use Kohana\Validation\Validation;
 use Ushahidi\Core\Entity;
-use Ushahidi\Core\Tool\Validator;
+use Ushahidi\App\Validator\LegacyValidator;
 use Ushahidi\Core\Entity\FormAttributeRepository;
 use Ushahidi\Core\Entity\FormStageRepository;
 
-class Update extends Validator
+class Update extends LegacyValidator
 {
     protected $default_error_source = 'form_attribute';
     protected $valid;

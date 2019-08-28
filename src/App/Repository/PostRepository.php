@@ -129,7 +129,7 @@ class PostRepository extends OhanzeeRepository implements
             )
         );
 
-        if ($data['form_id']) {
+        if (!empty($data['form_id'])) {
             // Get Hidden Stage Ids to be excluded from results
             $excludeStages = $this->form_stage_repo->getHiddenStageIds(
                 $data['form_id'],

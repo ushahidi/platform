@@ -12,10 +12,10 @@
 namespace Ushahidi\App\Validator\Layer;
 
 use Ushahidi\Core\Entity;
-use Ushahidi\Core\Tool\Validator;
+use Ushahidi\App\Validator\LegacyValidator;
 use Ushahidi\Core\Entity\MediaRepository;
 
-class Update extends Validator
+class Update extends LegacyValidator
 {
     protected $media_repo;
     protected $default_error_source = 'layer';

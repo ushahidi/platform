@@ -24,6 +24,7 @@ use Ushahidi\Core\Traits\UserContext;
 use Ushahidi\App\Repository\OhanzeeRepository;
 use Ushahidi\App\Repository\JsonTranscodeRepository;
 use Ushahidi\App\Repository\FormsTagsTrait;
+use Ushahidi\App\Repository\Concerns\CachesData;
 
 use Ushahidi\Core\Tool\Permissions\InteractsWithFormPermissions;
 
@@ -47,6 +48,7 @@ class AttributeRepository extends OhanzeeRepository implements
     // Use the JSON transcoder to encode properties
     use JsonTranscodeRepository;
     use FormsTagsTrait;
+    use CachesData;
 
     /**
      * Construct
@@ -86,7 +88,7 @@ class AttributeRepository extends OhanzeeRepository implements
         $query = parent::selectQuery($where);
 
         if (!$form_id && $form_stage_id) {
-            $form_id = $this->getFormId();
+            $form_id = $this->getFormId($form_stage_id);
         }
 
         // Restrict returned attributes based on User rights

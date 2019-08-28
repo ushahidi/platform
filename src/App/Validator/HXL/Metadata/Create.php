@@ -15,9 +15,9 @@ use Ushahidi\Core\Entity\ExportJobRepository;
 use Ushahidi\Core\Entity\HXL\HXLLicenseRepository;
 use Ushahidi\Core\Entity\HXL\HXLMetadataRepository;
 use Ushahidi\Core\Entity\UserRepository;
-use Ushahidi\Core\Tool\Validator;
+use Ushahidi\App\Validator\LegacyValidator;
 
-class Create extends Validator
+class Create extends LegacyValidator
 {
     protected $default_error_source = 'hxl_metadata';
 
@@ -47,25 +47,25 @@ class Create extends Validator
                 ['not_empty'],
                 ['min_length', [':value', 2]],
                 ['max_length', [':value', 255]],
-                ['regex', [':value', Validator::REGEX_STANDARD_TEXT]], // alpha, number, punctuation, space
+                ['regex', [':value', self::REGEX_STANDARD_TEXT]], // alpha, number, punctuation, space
             ],
             'organisation_id' => [
                 ['not_empty'],
                 ['min_length', [':value', 1]],
                 ['max_length', [':value', 255]],
-                ['regex', [':value', Validator::REGEX_STANDARD_TEXT]], // alpha, number, punctuation, space
+                ['regex', [':value', self::REGEX_STANDARD_TEXT]], // alpha, number, punctuation, space
             ],
             'organisation_name' => [
                 ['not_empty'],
                 ['min_length', [':value', 1]],
                 ['max_length', [':value', 255]],
-                ['regex', [':value', Validator::REGEX_STANDARD_TEXT]], // alpha, number, punctuation, space
+                ['regex', [':value', self::REGEX_STANDARD_TEXT]], // alpha, number, punctuation, space
             ],
             'source' => [
                 ['not_empty'],
                 ['min_length', [':value', 2]],
                 ['max_length', [':value', 255]],
-                ['regex', [':value', Validator::REGEX_STANDARD_TEXT]], // alpha, number, punctuation, space
+                ['regex', [':value', self::REGEX_STANDARD_TEXT]], // alpha, number, punctuation, space
             ]
         ], $this->getForeignKeyRules());
     }

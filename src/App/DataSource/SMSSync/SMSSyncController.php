@@ -78,7 +78,7 @@ class SMSSyncController extends DataSourceController
         // Allow for Alphanumeric sender
         $from = preg_replace("/[^0-9A-Za-z+ ]/", "", $from);
 
-        $date = $request->input('sent_timestamp');
+        $date = $request->input('sent_timestamp') / 1000;
 
         $this->save([
             'type' => MessageType::SMS,
@@ -86,7 +86,7 @@ class SMSSyncController extends DataSourceController
             'contact_type' => Contact::PHONE,
             'message' => $message_text,
             'title' => null,
-            'datetime' => $date,
+            'datetime' => date_create_from_format('U', $date),
             'data_source' => 'smssync'
         ]);
 
