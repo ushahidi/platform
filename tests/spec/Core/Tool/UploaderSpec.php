@@ -5,15 +5,17 @@ namespace spec\Ushahidi\Core\Tool;
 use League\Flysystem\Filesystem;
 use Ushahidi\Core\Tool\FileData;
 use Ushahidi\Core\Tool\UploadData;
+use Ushahidi\App\Multisite\MultisiteManager;
+use Ushahidi\App\Multisite\Site;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
 class UploaderSpec extends ObjectBehavior
 {
-    function let(Filesystem $fs)
+    function let(Filesystem $fs, MultisiteManager $multisite)
     {
-        $this->beConstructedWith($fs);
+        $this->beConstructedWith($fs, $multisite);
     }
 
     function it_is_initializable()
@@ -21,12 +23,12 @@ class UploaderSpec extends ObjectBehavior
         $this->shouldHaveType('Ushahidi\Core\Tool\Uploader');
     }
 
-    function it_does_convert_uploads_to_files(UploadData $input, $fs)
+    function it_does_convert_uploads_to_files(UploadData $input, Site $site, $fs, $multisite)
     {
         // define the filename to avoid the unique prefix being added, making the
         // filepath consistently testable
         $filename = 'test-file.png';
-        $filepath = 't/e/' . $filename;
+        $filepath = 'deployment.domain.com/t/e/' . $filename;
 
         // Create a temporary file, for a fake upload.
         $tmpfile = tempnam(sys_get_temp_dir(), 'spec');
@@ -47,6 +49,10 @@ class UploaderSpec extends ObjectBehavior
         // ... and maintain the same size and mime type
         $fs->getSize($filepath)->willReturn(1024);
         $fs->getMimetype($filepath)->willReturn('image/png');
+
+        $multisite->getSite()->shouldBeCalled()->willReturn($site);
+
+        $site->getCdnPrefix()->shouldBeCalled()->willReturn('deployment.domain.com');
 
         // ... resulting a file.
         $this->upload($input, $filename)->shouldReturnAnInstanceOf('Ushahidi\Core\Tool\FileData');

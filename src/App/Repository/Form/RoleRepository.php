@@ -74,7 +74,7 @@ class RoleRepository extends OhanzeeRepository implements
             $query->values($entity->asArray());
         }
 
-        $query->execute($this->db);
+        $query->execute($this->db());
 
         return $entities;
     }
@@ -83,7 +83,7 @@ class RoleRepository extends OhanzeeRepository implements
     public function getByForm($form_id)
     {
         $query = $this->selectQuery(compact($form_id));
-        $results = $query->execute($this->db);
+        $results = $query->execute($this->db());
 
         return $this->getCollection($results->as_array());
     }

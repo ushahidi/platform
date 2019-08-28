@@ -89,6 +89,11 @@ class Twilio implements CallbackDataSource, OutgoingAPIDataSource
         ];
     }
 
+    public function isUserConfigurable()
+    {
+        return true;
+    }
+
     /**
      * @return mixed
      */
@@ -126,7 +131,7 @@ class Twilio implements CallbackDataSource, OutgoingAPIDataSource
         return [MessageStatus::FAILED, false];
     }
 
-    public function registerRoutes(\Laravel\Lumen\Routing\Router $router)
+    public static function registerRoutes(\Laravel\Lumen\Routing\Router $router)
     {
         $router->post('sms/twilio[/]', 'Ushahidi\App\DataSource\Twilio\TwilioController@handleRequest');
         $router->post('sms/twilio/reply[/]', 'Ushahidi\App\DataSource\Twilio\TwilioController@handleRequest');

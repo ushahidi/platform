@@ -26,15 +26,14 @@ class Kernel extends ConsoleKernel
         \Ushahidi\Console\Command\ApikeySet::class,
         \Ushahidi\Console\Command\ConfigSet::class,
         \Ushahidi\Console\Command\ConfigGet::class,
-        \Ushahidi\Console\Command\Import::class,
         \Ushahidi\Console\Command\UserCreate::class,
         \Ushahidi\Console\Command\UserDelete::class,
         \Ushahidi\Console\Command\Notification::class,
         \Ushahidi\Console\Command\PostExporter::class,
-        \Ushahidi\Console\Command\SendExport::class,
         \Ushahidi\Console\Command\SavedSearch::class,
         \Ushahidi\Console\Command\Webhook::class,
         \Ushahidi\Console\Command\ObfuscateData::class,
+        Commands\TestMultisiteJob::class,
     ];
 
     /**

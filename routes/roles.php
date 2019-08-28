@@ -3,7 +3,7 @@
 // Roles
 $router->group([
     'prefix' => 'roles',
-    'middleware' => ['scope:roles']
+    'middleware' => ['scope:roles', 'expiration']
 ], function () use ($router) {
     // Public access
     resource($router, '/', 'RolesController', [

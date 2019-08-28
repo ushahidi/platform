@@ -5,6 +5,7 @@ namespace Ushahidi\App;
 use Illuminate\Contracts\Events\Dispatcher;
 use Ushahidi\App\Listener\CreatePostFromMessage;
 use Ushahidi\App\Listener\HandleTargetedSurveyResponse;
+use Ushahidi\App\Listener\QueueExportJob;
 
 class Subscriber
 {
@@ -24,6 +25,11 @@ class Subscriber
         $events->listen(
             'message.receive',
             CreatePostFromMessage::class
+        );
+
+        $events->listen(
+            'export_job.create',
+            QueueExportJob::class
         );
     }
 }

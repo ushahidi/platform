@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\App\Listener;
+namespace Tests\Unit\App\Repository;
 
 use Ushahidi\App\Repository\UserRepository;
 use Ushahidi\Core\Entity\User;
@@ -17,8 +17,12 @@ class UserRepositoryTest extends TestCase
     public function testGetResetToken()
     {
         $db = M::mock(\Ohanzee\Database::class);
-        $repo = new UserRepository($db);
+        $resolver = M::mock(\Ushahidi\App\Multisite\OhanzeeResolver::class);
+        $resolver->shouldReceive('connection')->andReturn($db);
+
+        $repo = new UserRepository($resolver);
         $user = new User(['id' => 1]);
+
 
         $db->shouldReceive('quote_table')->with('user_reset_tokens')->andReturn('`user_reset_tokens`');
         $db->shouldReceive('quote_column')->with('reset_token')->andReturn('`reset_token`');

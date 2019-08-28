@@ -61,7 +61,7 @@ class JobRepository extends OhanzeeRepository implements WebhookJobRepositoryCon
                       ->limit($limit)
                       ->order_by('created', 'ASC');
 
-        $results = $query->execute($this->db);
+        $results = $query->execute($this->db());
 
         return $this->getCollection($results->as_array());
     }

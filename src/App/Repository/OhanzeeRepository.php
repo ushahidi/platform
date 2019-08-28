@@ -17,6 +17,7 @@ use Ushahidi\Core\Entity;
 use Ushahidi\Core\SearchData;
 use Ushahidi\Core\Usecase;
 use Ushahidi\Core\Traits\CollectionLoader;
+use Ushahidi\App\Multisite\OhanzeeResolver;
 
 abstract class OhanzeeRepository implements
     Usecase\CreateRepository,
@@ -24,18 +25,27 @@ abstract class OhanzeeRepository implements
     Usecase\UpdateRepository,
     Usecase\DeleteRepository,
     Usecase\SearchRepository,
-    Usecase\ImportRepository,
-    Usecase\LockRepository
+    Usecase\ImportRepository
 {
 
     use CollectionLoader;
 
-    protected $db;
     protected $search_query;
+    protected $resolver;
 
-    public function __construct(Database $db)
+    public function __construct(OhanzeeResolver $resolver)
     {
-        $this->db = $db;
+        $this->resolver = $resolver;
+    }
+
+    /**
+     * Get current connection
+     *
+     * @return Ohanzee\Database;
+     */
+    protected function db()
+    {
+        return $this->resolver->connection();
     }
 
     /**
@@ -110,7 +120,6 @@ abstract class OhanzeeRepository implements
         if (!empty($sorting['offset'])) {
             $this->search_query->offset(intval($sorting['offset']));
         }
-
         if (!empty($sorting['limit'])) {
             $this->search_query->limit(intval($sorting['limit']));
         }
@@ -124,7 +133,7 @@ abstract class OhanzeeRepository implements
     {
         $query = $this->getSearchQuery();
 
-        $results = $query->distinct(true)->execute($this->db);
+        $results = $query->distinct(true)->execute($this->db());
 
         return $this->getCollection($results->as_array());
     }
@@ -137,7 +146,7 @@ abstract class OhanzeeRepository implements
             ->resetSelect()
             ->select([DB::expr('COUNT(*)'), 'total']);
         // Fetch the result and...
-        $result = $query->execute($this->db);
+        $result = $query->execute($this->db());
 
         // ... return the total.
         return (int) $result->get('total', 0);
@@ -192,7 +201,7 @@ abstract class OhanzeeRepository implements
     {
         $result = $this->selectQuery($where)
             ->limit(1)
-            ->execute($this->db);
+            ->execute($this->db());
         return $result->current();
     }
 
@@ -206,7 +215,7 @@ abstract class OhanzeeRepository implements
         $result = $this->selectQuery($where)
             ->resetSelect()
             ->select([DB::expr('COUNT(*)'), 'total'])
-            ->execute($this->db);
+            ->execute($this->db());
         return $result->get('total') ?: 0;
     }
 
@@ -244,7 +253,7 @@ abstract class OhanzeeRepository implements
             ->values(array_values($input))
             ;
 
-        list($id) = $query->execute($this->db);
+        list($id) = $query->execute($this->db());
         return $id;
     }
 
@@ -278,7 +287,7 @@ abstract class OhanzeeRepository implements
             $query->where($column, '=', $value);
         }
 
-        $count = $query->execute($this->db);
+        $count = $query->execute($this->db());
         return $count;
     }
 
@@ -303,7 +312,7 @@ abstract class OhanzeeRepository implements
             $query->where($column, $predicate, $value);
         }
 
-        $count = $query->execute($this->db);
+        $count = $query->execute($this->db());
 
         return $count;
     }

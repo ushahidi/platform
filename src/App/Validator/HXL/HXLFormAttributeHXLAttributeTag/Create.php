@@ -20,9 +20,9 @@ use Ushahidi\Core\Entity\HXL\HXLAttribute;
 use Ushahidi\Core\Entity\HXL\HXLFormAttributeHXLAttributeTag;
 use Ushahidi\Core\Entity\HXL\HXLTag;
 use Ushahidi\Core\Entity\UserRepository;
-use Ushahidi\Core\Tool\Validator;
+use Ushahidi\App\Validator\LegacyValidator;
 
-class Create extends Validator
+class Create extends LegacyValidator
 {
     protected $repo;
     protected $hxl_attribute_repo;

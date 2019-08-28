@@ -11,9 +11,9 @@
 
 namespace Ushahidi\App\Validator\Form\Contact;
 
-use Ushahidi\Core\Tool\Validator;
+use Ushahidi\App\Validator\LegacyValidator;
 
-class Update extends Validator
+class Update extends LegacyValidator
 {
     protected $default_error_source = 'form_contact';
     protected $form_repo;

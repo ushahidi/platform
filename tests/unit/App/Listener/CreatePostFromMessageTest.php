@@ -147,9 +147,6 @@ class CreatePostFromMessageTest extends TestCase
         $this->assertEquals($inbound_form_id, $post->form_id, 'Post form id was not set');
         //var_dump($post->values);
         $this->assertEquals([
-            'message_location' => [
-                ['lon' => 2.3, 'lat' => -1.4]
-            ],
             'put-title-here' => ['A title'],
             'date-field' => ['2018-01-04 00:01:02'],
             'location-field' => [

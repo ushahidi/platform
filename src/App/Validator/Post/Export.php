@@ -11,7 +11,9 @@
 
 namespace Ushahidi\App\Validator\Post;
 
-class Export extends Create
+use Ushahidi\App\Validator\LegacyValidator;
+
+class Export extends LegacyValidator
 {
     protected function getRules()
     {

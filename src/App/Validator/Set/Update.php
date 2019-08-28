@@ -11,12 +11,12 @@
 
 namespace Ushahidi\App\Validator\Set;
 
-use Ushahidi\Core\Tool\Validator;
+use Ushahidi\App\Validator\LegacyValidator;
 use Ushahidi\Core\Entity\UserRepository;
 use Ushahidi\Core\Entity\RoleRepository;
 use Ushahidi\Core\Traits\UserContext;
 
-class Update extends Validator
+class Update extends LegacyValidator
 {
 
     use UserContext;

@@ -3,8 +3,6 @@
 namespace Ushahidi\App\Listeners;
 
 use Ushahidi\App\Events\ExampleEvent;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 class ExampleListener
 {

@@ -13,10 +13,15 @@ namespace Ushahidi\Core\Entity;
 
 use Ushahidi\Core\Entity\Repository\EntityGet;
 use Ushahidi\Core\Entity\Repository\EntityExists;
+use Ushahidi\Core\Usecase\CreateRepository;
+use Ushahidi\Core\Usecase\ReadRepository;
+use Ushahidi\Core\Usecase\UpdateRepository;
 
 interface ExportJobRepository extends
-    EntityGet,
-    EntityExists
+    EntityExists,
+    CreateRepository,
+    ReadRepository,
+    UpdateRepository
 {
     /**
      * Get new webhooks
@@ -25,4 +30,18 @@ interface ExportJobRepository extends
      * @return array
      */
     public function getJobs($limit);
+
+    /**
+     * Check if job batches are finished?
+     *
+     * @param  Int  $jobId
+     * @return boolean
+     */
+    public function areBatchesFinished($jobId);
+
+    /**
+     * @param  int $job_id
+     * @return int
+     */
+    public function getPostCount($job_id);
 }

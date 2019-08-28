@@ -159,9 +159,11 @@ class ExportTest extends TestCase
         $jobRepoSpy->shouldReceive('update')
             ->with($exportJobEntity)
             ->andReturn($this->jobId);
-        $this->usecase
+        $results = $this->usecase
             ->setFilters($payload)
             ->setIdentifiers(['job_id' => $this->jobId])
             ->interact();
+
+        $this->assertArrayHasKey('filename', $results);
     }
 }

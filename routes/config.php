@@ -14,7 +14,7 @@ $router->group([
     $router->options('/', ['uses' => 'ConfigController@indexOptions']);
 
     // Restricted access
-    $router->group(['middleware' => ['auth:api', 'scope:config']], function () use ($router) {
+    $router->group(['middleware' => ['auth:api', 'scope:config', 'expiration']], function () use ($router) {
         $router->put('/{id}', ['uses' => 'ConfigController@update']);
     });
 });

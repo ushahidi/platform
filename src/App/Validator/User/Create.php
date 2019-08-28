@@ -12,7 +12,6 @@
 namespace Ushahidi\App\Validator\User;
 
 use Ushahidi\Core\Entity;
-use Ushahidi\Core\Tool\Validator;
 use Ushahidi\Core\Entity\UserRepository;
 use Ushahidi\Core\Entity\RoleRepository;
 

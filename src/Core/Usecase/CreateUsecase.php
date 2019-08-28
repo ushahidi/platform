@@ -16,6 +16,7 @@ use Ushahidi\Core\Usecase;
 use Ushahidi\Core\Tool\AuthorizerTrait;
 use Ushahidi\Core\Tool\FormatterTrait;
 use Ushahidi\Core\Tool\ValidatorTrait;
+use Ushahidi\Core\Traits\Events\DispatchesEvents;
 
 class CreateUsecase implements Usecase
 {
@@ -28,6 +29,9 @@ class CreateUsecase implements Usecase
 
     // - ModifyRecords for setting entity modification parameters
     use Concerns\ModifyRecords;
+
+    // - Provides dispatch()
+    use DispatchesEvents;
 
     /**
      * @var CreateRepository
@@ -76,6 +80,12 @@ class CreateUsecase implements Usecase
         // ... get the newly created entity
         $entity = $this->getCreatedEntity($id);
 
+        // ... dispatch an event and let other services know
+        $this->dispatch($entity->getResource(). '.create', [
+            'id' => $id,
+            'entity' => $entity,
+        ]);
+
         // ... check that the entity can be read by the current user
         if ($this->auth->isAllowed($entity, 'read')) {
             // ... and either return the formatted entity
@@ -101,7 +111,7 @@ class CreateUsecase implements Usecase
      */
     protected function getEntity()
     {
-        return $this->repo->getEntity()->setState($this->payload);
+        return $this->repo->getEntity($this->payload);
     }
 
     /**

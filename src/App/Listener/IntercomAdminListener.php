@@ -15,19 +15,19 @@ namespace Ushahidi\App\Listener;
 
 use League\Event\AbstractListener;
 use League\Event\EventInterface;
-
 use Intercom\IntercomClient;
-
 use GuzzleHttp\Exception\ClientException;
+use Ushahidi\App\Multisite\UsesSiteInfo;
 
 class IntercomAdminListener extends AbstractListener
 {
+    use UsesSiteInfo;
 
     public function handle(EventInterface $event, $user = null)
     {
         if ($user && $user->role === 'admin') {
             $intercomAppToken = getenv('INTERCOM_APP_TOKEN');
-            $domain = service('site');
+            $domain = $this->getSite()->getBaseUri();
             $company = [
                 "company_id" => $domain
             ];

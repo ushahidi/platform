@@ -29,6 +29,7 @@ return [
         'twitter' => true,
         'frontlinesms' => true,
         'email' => true,
+        'outgoingemail' => true,
         'twilio' => true,
         'nexmo' => true,
         'testservice' => false
@@ -62,21 +63,8 @@ return [
         'enabled' => true,
     ],
 
-    // Post locking
-    'post-locking' => [
-        'enabled' => true,
-    ],
-
     // Targeted Surveys
     'targeted-surveys' => [
-        'enabled' => false,
-    ],
-
-    // Post locking
-    // Defaults to False, tests will fail if set to TRUE
-    // without complete Redis setup
-    // see TODO <docs link>
-    'redis' => [
         'enabled' => false,
     ],
 
@@ -94,7 +82,7 @@ return [
     'user-settings' => [
         'enabled' => false,
     ],
-    
+
     // Enable or disable the Anonymisation of Reporters
     // Controls whether users can set obfuscation of location, redaction of date/time
     // and reporter info

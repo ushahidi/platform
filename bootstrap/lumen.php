@@ -59,6 +59,7 @@ $app->singleton(
 */
 
 $app->middleware([
+    Ushahidi\App\Multisite\DetectSiteMiddleware::class,
     Barryvdh\Cors\HandleCors::class,
     Ushahidi\App\Http\Middleware\MaintenanceMode::class
 ]);
@@ -69,8 +70,7 @@ $app->routeMiddleware([
     // Customised scope middleware
     'scopes' => Ushahidi\App\Http\Middleware\CheckScopes::class,
     'scope'  => Ushahidi\App\Http\Middleware\CheckForAnyScope::class,
-    //'scopes' => Laravel\Passport\Http\Middleware\CheckScopes::class,
-    //'scope'  => Laravel\Passport\Http\Middleware\CheckForAnyScope::class,
+    'expiration' => Ushahidi\App\Http\Middleware\CheckDemoExpiration::class,
     'signature' => Ushahidi\App\Http\Middleware\SignatureAuth::class,
     'feature' => Ushahidi\App\Http\Middleware\CheckFeature::class,
 ]);
@@ -86,6 +86,7 @@ $app->routeMiddleware([
 |
 */
 
+$app->register(Illuminate\Redis\RedisServiceProvider::class);
 $app->register(Ushahidi\App\Providers\AppServiceProvider::class);
 $app->register(Ushahidi\App\Providers\AuthServiceProvider::class);
 $app->register(Ushahidi\App\Providers\EventServiceProvider::class);

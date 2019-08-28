@@ -3,7 +3,7 @@
 // Media
 $router->group([
     'prefix' => 'media',
-    'middleware' => ['scope:media']
+    'middleware' => ['scope:media', 'expiration']
 ], function () use ($router) {
     // Public access
     $router->get('/', 'MediaController@index');

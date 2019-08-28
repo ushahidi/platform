@@ -17,10 +17,11 @@ use Ushahidi\Core\Tool\Signer;
 use Ushahidi\Core\Entity\PostRepository;
 use Ushahidi\Core\Entity\WebhookJobRepository;
 use Ushahidi\Core\Entity\WebhookRepository;
+use Ushahidi\App\Multisite\OhanzeeResolver;
 
 class Webhook extends Command
 {
-    private $db;
+    protected $resolver;
     private $postRepository;
     private $webhookRepository;
     private $webhookJobRepository;
@@ -47,14 +48,24 @@ class Webhook extends Command
      */
     protected $description = 'Send webhook requests';
 
-    public function __construct()
+    public function __construct(OhanzeeResolver $resolver)
     {
         parent::__construct();
+        $this->resolver = $resolver;
     }
 
-    public function handle()
+    /**
+     * Get current connection
+     *
+     * @return Ohanzee\Database;
+     */
+    protected function db()
     {
-        $this->db = service('kohana.db');
+        return $this->resolver->connection();
+    }
+
+    public function handle(OhanzeeResolver $resolver)
+    {
         $this->webhookRepository = service('repository.webhook');
         $this->postRepository = service('repository.post');
         $this->webhookJobRepository = service('repository.webhook.job');
@@ -69,7 +80,7 @@ class Webhook extends Command
         $webhook_requests = $this->webhookJobRepository->getJobs($limit);
 
         // Start transaction
-        $this->db->begin();
+        $this->db()->begin();
 
         foreach ($webhook_requests as $webhook_request) {
             $this->generateRequest($webhook_request);
@@ -78,24 +89,29 @@ class Webhook extends Command
         }
 
         // Finally commit changes
-        $this->db->commit();
+        $this->db()->commit();
 
         $this->info("{$count} webhook requests sent");
     }
-
+    /**
+     * Generates a POST request with the modified/created post data
+     *
+     * @param [type] $webhook_request
+     * @return void
+     */
     private function generateRequest($webhook_request)
     {
-        // Delete queued webhook request
+        // Delete queued webhook job so we don't continue processing it
         $this->webhookJobRepository->delete($webhook_request);
 
-        // Get post data
+        // Get post data. This is the entity that was changed or created, triggering a new webhook request.
         $post = $this->postRepository->get($webhook_request->post_id);
 
-        // Get webhook data
+        // Get webhook configuration entries (where we save each webhook setup)
         $webhooks = $this->webhookRepository->getAllByEventType($webhook_request->event_type);
 
         foreach ($webhooks as $webhook) {
-            if ($post->form_id == $webhook['form_id']) {
+            if (!$webhook['form_id'] || ($post && $post->form_id == $webhook['form_id'])) {
                 $this->signer = new Signer($webhook['shared_secret']);
 
                 $data = $post->asArray();

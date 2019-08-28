@@ -13,9 +13,10 @@ namespace Ushahidi\App\Validator\Form;
 
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\Entity\FormRepository;
-use Ushahidi\Core\Tool\Validator;
+use Ushahidi\App\Validator\LegacyValidator;
+use Ushahidi\App\Facades\Features;
 
-class Update extends Validator
+class Update extends LegacyValidator
 {
     protected $default_error_source = 'form';
     protected $repo;
@@ -26,10 +27,9 @@ class Update extends Validator
      *
      * @param FormRepository  $repo
      */
-    public function __construct(FormRepository $repo, array $limits)
+    public function __construct(FormRepository $repo)
     {
         $this->repo = $repo;
-        $this->limits = $limits;
     }
 
     protected function getRules()
@@ -47,7 +47,7 @@ class Update extends Validator
             'name' => [
                 ['not_empty'],
                 ['min_length', [':value', 2]],
-                ['regex', [':value', Validator::REGEX_STANDARD_TEXT]], // alpha, number, punctuation, space
+                ['regex', [':value', self::REGEX_STANDARD_TEXT]], // alpha, number, punctuation, space
             ],
             'description' => [['is_string']],
             'color' => [['color']],
@@ -61,10 +61,11 @@ class Update extends Validator
 
     public function checkPostTypeLimit(\Kohana\Validation\Validation $validation)
     {
-        if ($this->limits['forms'] !== true) {
+        $limit = Features::getLimit('forms');
+        if ($limit !== INF) {
             $total_forms = $this->repo->getTotalCount();
 
-            if ($total_forms >= $this->limits['forms']) {
+            if ($total_forms >= $limit) {
                 $validation->error('name', 'postTypeLimitReached');
             }
         }

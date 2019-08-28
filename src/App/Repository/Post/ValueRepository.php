@@ -80,7 +80,7 @@ abstract class ValueRepository extends OhanzeeRepository implements
             }
         }
 
-        $results = $query->execute($this->db);
+        $results = $query->execute($this->db());
 
         return $this->getCollection($results->as_array());
     }
@@ -136,6 +136,6 @@ abstract class ValueRepository extends OhanzeeRepository implements
         DB::delete($this->getTable())
             ->where('post_id', '=', $post_id)
             ->where('id', 'NOT IN', $ids)
-            ->execute($this->db);
+            ->execute($this->db());
     }
 }

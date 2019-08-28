@@ -63,7 +63,20 @@ class ReceiveMessageTest extends TestCase
             ->setDispatcher($events);
 
         // Ensure smssync is enabled
-        app('datasources')->setEnabledSources(['smssync' => true]);
+        // Mock the config repo
+        $configRepo = M::mock(\Ushahidi\Core\Entity\ConfigRepository::class);
+        // Return email in config
+        $configRepo->shouldReceive('get')->with('data-provider')->andReturn(new \Ushahidi\Core\Entity\Config([
+            'providers' => [
+                'smssync' => true,
+            ]
+        ]));
+        $configRepo->shouldReceive('get')->with('features')->andReturn(new \Ushahidi\Core\Entity\Config([
+            'data-providers' => [
+                'smssync' => true,
+            ]
+        ]));
+        $this->app->instance(\Ushahidi\Core\Entity\ConfigRepository::class, $configRepo);
     }
 
     public function tearDown()

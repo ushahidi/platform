@@ -1,6 +1,6 @@
 ---
 name: Bug report
-about: Report something that is broken or not working as intended.
+about: Report something that is broken or not working as intended. ⚠️ For security issues email us at security at ushahidi.com
 
 ---
 

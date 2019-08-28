@@ -63,15 +63,15 @@ class OutgoingCommand extends Command
     protected function getSources()
     {
         if ($source = $this->option('source')) {
-            $sources = array_filter([$source => $this->sources->getSource($source)]);
+            $sources = [$source];
         } elseif ($this->option('all')) {
-            $sources = $this->sources->getSource();
+            $sources = $this->sources->getSources();
         } else {
             $sources = $this->sources->getEnabledSources();
 
-            // Hack: always include email no matter what!
-            if (!isset($sources['email'])) {
-                $sources['email'] = $this->sources->getSource('email');
+            // Always include outgoingemail
+            if (!in_array('email', $sources) && !in_array('outgoingemail', $sources)) {
+                $sources[] = 'outgoingemail';
             }
         }
         return $sources;
@@ -83,7 +83,8 @@ class OutgoingCommand extends Command
 
         $totals = [];
 
-        foreach ($sources as $id => $source) {
+        foreach ($sources as $id) {
+            $source = $this->sources->getSource($id);
             if (!($source instanceof OutgoingAPIDataSource)) {
                 // Data source doesn't have an API we can push messages to
                 continue;

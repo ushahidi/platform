@@ -4,7 +4,7 @@
 $router->group([
     'namespace' => 'Forms',
     'prefix' => 'forms',
-    'middleware' => ['scope:forms']
+    'middleware' => ['scope:forms', 'expiration']
 ], function () use ($router) {
     // Public access
     $router->get('/', 'FormsController@index');

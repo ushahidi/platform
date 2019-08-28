@@ -4,7 +4,7 @@
 $router->group([
         'namespace' => 'Collections',
         'prefix' => 'collections',
-        'middleware' => ['scope:collections,sets']
+        'middleware' => ['scope:collections,sets', 'expiration']
 ], function () use ($router) {
     // Public access
     resource($router, '/', 'CollectionsController', [

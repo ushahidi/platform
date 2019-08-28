@@ -12,13 +12,14 @@
 namespace Ushahidi\App\Validator\User;
 
 use Ushahidi\Core\Entity;
-use Ushahidi\Core\Tool\Validator;
+use Ushahidi\App\Validator\LegacyValidator;
 use Ushahidi\Core\Entity\UserRepository;
 use Ushahidi\Core\Entity\User;
 use Ushahidi\Core\Entity\RoleRepository;
 use Ushahidi\Core\Traits\UserContext;
+use Ushahidi\App\Facades\Features;
 
-class Update extends Validator
+class Update extends LegacyValidator
 {
     use UserContext;
 
@@ -27,11 +28,10 @@ class Update extends Validator
     protected $role_repo;
     protected $valid;
 
-    public function __construct(UserRepository $repo, RoleRepository $role_repo, array $limits)
+    public function __construct(UserRepository $repo, RoleRepository $role_repo)
     {
         $this->repo = $repo;
         $this->role_repo = $role_repo;
-        $this->limits = $limits;
     }
 
     protected function getRules()
@@ -58,10 +58,11 @@ class Update extends Validator
 
     public function checkAdminRoleLimit(\Kohana\Validation\Validation $validation, $role)
     {
-        if ($this->limits['admin_users'] !== true && $role == 'admin') {
+        $limit = Features::getLimit('admin_users');
+        if ($limit !== INF && $role == 'admin') {
             $total = $this->repo->getTotalCount(['role' => 'admin']);
 
-            if ($total >= $this->limits['admin_users']) {
+            if ($total >= $limit) {
                 $validation->error('role', 'adminUserLimitReached');
             }
         }
