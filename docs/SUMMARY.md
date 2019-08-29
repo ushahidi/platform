@@ -19,7 +19,7 @@
     * [\[Client\] Setting up the Platform Client for development](getting-started/setup_alternatives/setting-up-the-platform-client.md)
     * [Setting up the Pattern Library for development](getting-started/setup_alternatives/setting-up-the-pattern-library-for-development.md)
     * [\[API  & Client\] Bundled release install](getting-started/setup_alternatives/platform_release_install.md)
-  * [Design Process](getting-started/design-process.md)
+  * [🎨 Design Process](getting-started/design-process.md)
   * [Development process](getting-started/development-process/README.md)
     * [Issue tracking](getting-started/development-process/issue-tracking.md)
     * [Coding Standards](getting-started/development-process/coding-standards.md)

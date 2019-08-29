@@ -1,6 +1,6 @@
 # Welcome to the hackathon!
 
-We are so excited that you are here joining our hackathon!
+❤️We are so excited that you are here joining our hackathon!
 
 The hackathon runs between the 2nd of May to the 7th of May and you are welcome to participate whenever you can during that time. The chatter and support will happen on our gitter-channel: [https://gitter.im/ushahidi/installfest-2019](https://gitter.im/ushahidi/installfest-2019). We have tried to schedule our time so there will be someone online at least between 7am CET to 11 pm CET, sometimes longer than that. If you will participate outside these hours, don't worry, we will answer your questions as soon as we get online!
 
