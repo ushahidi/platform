@@ -1,17 +1,20 @@
 version: "2"
 services:
   mysql:
-    image: mysql:5.6
+    image: mysql:5.7
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: ushahidi
       MYSQL_USER: ushahidi
       MYSQL_PASSWORD: ushahidi
+  redis:
+    image: redis:4-alpine
   platform:
     build: .
     environment:
       APP_KEY: SomeRandomKey!!!SomeRandomKey!!!
       DOCKERIZE_WAIT_FOR_mysql: tcp://mysql:3306
+      DOCKERIZE_WAIT_FOR_redis: tcp://redis:6379
       ENABLE_NGINX: "true"
       ENABLE_PHPFPM: "true"
       ENABLE_PLATFORM_TASKS: "false"
@@ -20,20 +23,36 @@ services:
       DB_HOST: mysql
       DB_USERNAME: ushahidi
       DB_PASSWORD: ushahidi
+      REDIS_HOST: redis
+      CACHE_DRIVER: redis
+      QUEUE_DRIVER: redis
     command: start
     ports:
       - "80:8080"
+    volumes:
+      - storage-app-public:/var/www/storage/app/public
   platform_tasks:
     build: .
     environment:
       APP_KEY: SomeRandomKey!!!SomeRandomKey!!!
       DOCKERIZE_WAIT_FOR_mysql: tcp://mysql:3306
+      DOCKERIZE_WAIT_FOR_redis: tcp://redis:6379
       ENABLE_NGINX: "false"
       ENABLE_PHPFPM: "false"
       ENABLE_PLATFORM_TASKS: "true"
+      ENABLE_QUEUE_LISTEN: "true"
       RUN_PLATFORM_MIGRATIONS: "false"
       DB_DATABASE: ushahidi
       DB_HOST: mysql
       DB_USERNAME: ushahidi
       DB_PASSWORD: ushahidi
+      REDIS_HOST: redis
+      CACHE_DRIVER: redis
+      QUEUE_DRIVER: redis
     command: start
+    volumes:
+      - storage-app-public:/var/www/storage/app/public
+
+volumes:
+  # share storage/app/public between platform containers
+  storage-app-public:
