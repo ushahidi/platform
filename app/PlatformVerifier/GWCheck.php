@@ -1,6 +1,6 @@
 <?php
 
-namespace Ushahidi\App\GWCheck;
+namespace Ushahidi\App\PlatformVerifier;
 
 use Ushahidi\App\Tools\OutputText;
 use Composer\Script\Event;
@@ -10,7 +10,7 @@ use Composer\Installer\PackageEvent;
 #
 # This would be a nice as just commands in the composer.json file,
 # but that wouldn't be portable across platforms
-class Switcher
+class GWCheck
 {
     private static $SWITCH_FILE = "bootstrap/gwcheck.enabled";
     private static $SWITCH_FILE_PATH = __DIR__ . "/../../bootstrap/gwcheck.enabled";
