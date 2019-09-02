@@ -93,20 +93,25 @@ class Webhook extends Command
 
         $this->info("{$count} webhook requests sent");
     }
-
+    /**
+     * Generates a POST request with the modified/created post data
+     *
+     * @param [type] $webhook_request
+     * @return void
+     */
     private function generateRequest($webhook_request)
     {
-        // Delete queued webhook request
+        // Delete queued webhook job so we don't continue processing it
         $this->webhookJobRepository->delete($webhook_request);
 
-        // Get post data
+        // Get post data. This is the entity that was changed or created, triggering a new webhook request.
         $post = $this->postRepository->get($webhook_request->post_id);
 
-        // Get webhook data
+        // Get webhook configuration entries (where we save each webhook setup)
         $webhooks = $this->webhookRepository->getAllByEventType($webhook_request->event_type);
 
         foreach ($webhooks as $webhook) {
-            if ($post->form_id == $webhook['form_id']) {
+            if (!$webhook['form_id'] || ($post && $post->form_id == $webhook['form_id'])) {
                 $this->signer = new Signer($webhook['shared_secret']);
 
                 $data = $post->asArray();

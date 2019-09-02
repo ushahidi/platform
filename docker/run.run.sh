@@ -13,6 +13,7 @@ fi
 set -e
 
 run_composer_install
+provision_passport_keys
 
 if [ "${RUN_PLATFORM_MIGRATIONS}" == "true" ]; then
 	run_migrations
@@ -24,5 +25,7 @@ else
 	done
 	echo
 fi
+
+set_storage_permissions
 
 exec "$@"
