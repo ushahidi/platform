@@ -30,7 +30,7 @@ $origin = $_SERVER['HTTP_ORIGIN'] ?? null;
 if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
     # Check required headers
     $acr_method = $_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD'] ?? null;
-    $acr_headers = $_SERVER['HTTP_ACCESS_CONTOL_REQUEST_HEADERS'] ?? null;
+    $acr_headers = $_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS'] ?? null;
     if ($origin && $acr_method && $acr_headers) {
         header("Access-Control-Allow-Origin: " . $origin);
         header("Access-Control-Allow-Methods: POST, GET, OPTIONS, PUT, DELETE");
