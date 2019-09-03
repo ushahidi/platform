@@ -63,10 +63,10 @@ function run_composer_install {
 }
 
 function wait_for_mysql {
-  local db_host=${DB_HOST:-mysql}
+  local db_host=${DB_HOST}
   local db_port=${DB_PORT:-3306}
   until nc -z $db_host $db_port; do
-    >&2 echo "Mysql is unavailable - sleeping"
+    >&2 echo "Mysql ($db_host:$db_port) is unavailable - sleeping"
     sleep 1
   done
 }
