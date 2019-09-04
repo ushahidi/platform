@@ -102,7 +102,7 @@ CACHE_DRIVER=memcached
 # Queues 
 # This section will be particularly important once we launch release 4.2.x+ and later 
 # since we will start providing access to queues for CSV exports then)
-QUEUE_DRIVER=redis #
+QUEUE_DRIVER=sync
 REDIS_HOST=127.0.0.1 # IP or hostname where redis is running
 REDIS_PORT=6379 # Redis port
 
@@ -138,11 +138,11 @@ ps aux \| grep 'ngnix'
 
 Run the following command to ensure permissions are correctly set \(assuming www-data for both the user and group\)
 
- chown -R www-data:www-data storage/logs
-
+```text
  chown -R www-data:www-data storage/app
-
+ chown -R www-data:www-data storage/logs
  chown -R www-data:www-data storage/framework
+```
 
 #### Setting up cronjobs to run recurring tasks
 
@@ -172,6 +172,10 @@ At this point, the backend is almost ready, but we still need to configure the w
 ### Preparing the client to be served
 
 Follow the instructions in the Platform Client installation steps for your /var/www/platform-client directory to setup the client. Make sure that you follow the production environment steps at the end \(\`gulp build\` instead of \`gulp\`\) .
+
+{% hint style="warning" %}
+Any updates the the platform client code or configuration will require a rebuild of the client. To do so, you can run "gulp build" like you did when installing the client in the server.
+{% endhint %}
 
 {% page-ref page="setting-up-the-platform-client.md" %}
 
@@ -294,6 +298,14 @@ Ensuring that the API backend is configured and operational can be achieved by a
 
 You should also check the  /api/v3/config resource , like this : https://_your-site.api.example.com_/api/v3/config and ensure it outputs a JSON document.
 
+### Adjusting your queue configuration
+
+Some features of the Ushahidi Platform can be set up to run in the background using a queue system. This may be specially important for high traffic scenarios or to be able to run heavy tasks.
+
+{% hint style="warning" %}
+Please see [the section covering queue drivers](platform_release_install.md#queue-drivers-and-sync-driver-issues) in the bundled release install document.
+{% endhint %}
+
 ### Verifying the client is running and connected
 
 {% hint style="info" %}
@@ -305,10 +317,6 @@ Once you have verified the API, you should verify the client by accessing the UR
 You should also logging in as an administrator to verify that the authentication system works. This can be achieved by using the username "admin" with the password "administrator" in v4, or the password "admin" in V3.
 
 As an extra safety check, try creating a post in the platform by clicking the yellow + plus in the /views/data path or the /views/map path. 
-
-{% hint style="warning" %}
-Any updates the the platform client code or configuration will require a rebuild of the client. To do so, you can run "gulp build" like you did when installing the client in the server.
-{% endhint %}
 
 ## Deploying Ushahidi for multiple languages
 
@@ -330,6 +338,4 @@ After modifying the .ENV file, make sure to rebuild the client so the changes ar
 {% hint style="warning" %}
 Any updates the the platform client code or configuration will require a rebuild of the client. To do so, you can run "gulp build" like you did when installing the client in the server.
 {% endhint %}
-
-
 
