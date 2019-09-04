@@ -22,5 +22,7 @@ Big changes that we think may break the app in unexpected ways that cannot be ve
 
 We store our tests in Testpad, if you want to contribute by doing QA and testing, please contact us on [techdocs@ushahidi.com](mailto:techdocs@ushahidi.com) to get access to the test suits.
 
+* [ ] Testing
+* [ ] 
 
 
