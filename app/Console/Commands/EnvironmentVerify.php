@@ -60,10 +60,13 @@ class EnvironmentVerify extends Command
     {
         echo OutputText::info("Running ENV configuration checks");
 
-        $this->verifyRequirements(true);
+        $env = $this->verifyRequirements(true);
 
         echo OutputText::info("Running DB connectivity verification");
 
-        $response = $this->verifyDB(true);
+        $db = $this->verifyDB(true);
+        if (isset($db['errors'])||isset($env['errors'])) {
+            throw new \Exception("Verification Failed.");
+        }
     }
 }
