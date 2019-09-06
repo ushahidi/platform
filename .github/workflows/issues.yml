@@ -1,0 +1,16 @@
+on: issues
+name: New workflow
+jobs:
+  gitHubActionForSlack:
+    name: GitHub Action for Slack
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: GitHub Action for Slack
+      uses: Ilshidur/action-slack@6aeb2acb39f91da283faf4c76898a723a03b2264
+      env:
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+      with:
+        args: Issue "{{ EVENT_PAYLOAD.issue.title }}" was {{ EVENT_PAYLOAD.action
+          }} by {{ EVENT_PAYLOAD.sender.login }} - {{ EVENT_PAYLOAD.issue.html_url
+          }}

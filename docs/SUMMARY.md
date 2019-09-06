@@ -19,7 +19,7 @@
     * [\[Client\] Setting up the Platform Client for development](getting-started/setup_alternatives/setting-up-the-platform-client.md)
     * [Setting up the Pattern Library for development](getting-started/setup_alternatives/setting-up-the-pattern-library-for-development.md)
     * [\[API  & Client\] Bundled release install](getting-started/setup_alternatives/platform_release_install.md)
-  * [Design Process](getting-started/design-process.md)
+  * [🎨 Design Process](getting-started/design-process.md)
   * [Development process](getting-started/development-process/README.md)
     * [Issue tracking](getting-started/development-process/issue-tracking.md)
     * [Coding Standards](getting-started/development-process/coding-standards.md)
@@ -59,6 +59,7 @@
 ## Hackathon and events
 
 * [Installathon, May 2019](hackathon-and-events/installathon-may-2019/README.md)
+  * [Write/Speak/Code 2019](hackathon-and-events/installathon-may-2019/write-speak-code-2019.md)
   * [Welcome to the hackathon!](hackathon-and-events/installathon-may-2019/welcome-to-the-hackathon.md)
 
 ## Enhancement Proposals
