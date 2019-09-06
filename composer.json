@@ -27,10 +27,6 @@
         "robmorgan/phinx": "~0.8.0",
         "symm/gisconverter": "~1.0.5",
         "vlucas/phpdotenv": "~2.2",
-        "ext-curl": "*",
-        "ext-gd": "*",
-        "ext-json": "*",
-        "ext-mbstring": "*",
         "league/csv": "~7.1@dev",
         "laravel/lumen-framework": "5.5.*",
         "league/event": "^2.2@dev",
@@ -147,6 +143,13 @@
         ],
         "verify": [
             "php artisan environment:verify"
+            "\\Ushahidi\\App\\PlatformVerifier\\Env::verifyRequirements"
+        ],
+        "gwcheck:enable": [
+            "\\Ushahidi\\App\\PlatformVerifier\\GWCheck::enable"
+        ],
+        "gwcheck:disable": [
+            "\\Ushahidi\\App\\PlatformVerifier\\GWCheck::disable"
         ]
     }
 }
