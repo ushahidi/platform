@@ -143,7 +143,6 @@
         ],
         "verify": [
             "php artisan environment:verify"
-            "\\Ushahidi\\App\\PlatformVerifier\\Env::verifyRequirements"
         ],
         "gwcheck:enable": [
             "\\Ushahidi\\App\\PlatformVerifier\\GWCheck::enable"
