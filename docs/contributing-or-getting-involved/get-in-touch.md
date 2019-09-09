@@ -6,15 +6,11 @@
 
 Connect with the wider Ushahidi community:
 
-* Join the discussion on [our forum](http://forums.ushahidi.com/)
-* Sign up on the [mailing list](http://list.ushahidi.com/)
-* Chat with us on:
-
+* * Chat with us on \(messages show up in all of them at the same time\)
   * IRC at [\#ushahidi on Freenode](http://irc//irc.freenode.net/#ushahidi)
   * Gitter at [ushahidi/Community](https://gitter.im/ushahidi/community)
   * [Skype](https://join.skype.com/S9t68IVKzwo8)
-
-  Messages to any of these channels should show up on all of them!
+* Add an [issue in GitHub ](https://github.com/ushahidi/platform)
 
 ### Contribute code
 
