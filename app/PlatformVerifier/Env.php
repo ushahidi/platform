@@ -38,6 +38,10 @@ class Env
         $errors = [];
         $success = [];
 
+        if (getenv('USH_PLATFORM_ENVFILE_CHECK_DISABLED') ?? false) {
+            return Respond::successResponse(".env file checks disabled in the environment.", "This was done by setting the USH_PLATFORM_ENVFILE_CHECK_DISABLED environment variable.", $console);
+        }
+
         if (!$this->envExists()) {
             return Respond::errorResponse([["message" => self::$NO_ENV, "explainer" => null]], $console);
         }
