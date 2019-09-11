@@ -18,6 +18,17 @@
         "tutorial",
         "ideas"
       ]
+    },
+    {
+      "login": "rowasc",
+      "name": "Romina Suarez",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/2434401?v=4",
+      "profile": "https://github.com/rowasc",
+      "contributions": [
+        "code",
+        "doc",
+        "ideas"
+      ]
     }
   ],
   "contributorsPerLine": 7,
