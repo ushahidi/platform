@@ -3,7 +3,6 @@
 * [👋 Welcome \| README](README.md)
 * [Code of Conduct](code-of-conduct.md)
 * [Contributing \| Getting Involved](contributing-or-getting-involved/README.md)
-  * [Add code to Ushahidi](development-and-code/workflow-for-adding-code.md)
   * [Encouraging contribution from non-developers](contributing-or-getting-involved/encouraging-contribution-from-non-developers.md)
 * [Frequently Asked Questions](frequently-asked-questions.md)
 * [Join the Ushahidi community](get-in-touch.md)
@@ -13,7 +12,6 @@
 ## Development & Code
 
 * [Development: Overview](development-and-code/getting-started.md)
-* [Add code to Ushahidi](development-and-code/workflow-for-adding-code.md)
 * [How to get the source code](development-and-code/how-to-get-the-source-code.md)
 * [Setup Guides](development-and-code/setup_alternatives/README.md)
   * [Installing for production environments](development-and-code/setup_alternatives/installing-for-production-environments.md)
