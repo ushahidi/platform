@@ -29,6 +29,17 @@
         "doc",
         "ideas"
       ]
+    },
+    {
+      "login": "rjmackay",
+      "name": "Robbie Mackay",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/7965?v=4",
+      "profile": "http://robbiemackay.com",
+      "contributions": [
+        "code",
+        "security",
+        "review"
+      ]
     }
   ],
   "contributorsPerLine": 7,
