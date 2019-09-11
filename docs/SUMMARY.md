@@ -1,64 +1,94 @@
 # Table of contents
 
-* [README](README.md)
+* [👋 Welcome \| README](README.md)
 * [Code of Conduct](code-of-conduct.md)
 * [Contributing \| Getting Involved](contributing-or-getting-involved/README.md)
-  * [Add code to Ushahidi](contributing-or-getting-involved/workflow-for-adding-code.md)
-  * [Get in touch](contributing-or-getting-involved/get-in-touch.md)
-  * [Documentation](contributing-or-getting-involved/contributing-documentation/README.md)
-    * [Contributing docs via GitHub](contributing-or-getting-involved/contributing-documentation/contributing-docs-via-github.md)
-    * [Encouraging contribution from non-developers](contributing-or-getting-involved/contributing-documentation/encouraging-contribution-from-non-developers.md)
-* [Getting started](getting-started/README.md)
-  * [How to get the source code](getting-started/how-to-get-the-source-code.md)
-  * [Setting up your development environment](getting-started/setting-up-your-development-environment.md)
-  * [Setup Guides](getting-started/setup_alternatives/README.md)
-    * [Installing for production environments](getting-started/setup_alternatives/installing-for-production-environments.md)
-    * [Development environment with XAMPP](getting-started/setup_alternatives/xampp.md)
-    * [Development environment setup with Vagrant](getting-started/setup_alternatives/vagrant-setup.md)
-    * [\[Client\] Setting up the Platform Client for development](getting-started/setup_alternatives/setting-up-the-platform-client.md)
-    * [Setting up the Pattern Library for development](getting-started/setup_alternatives/setting-up-the-pattern-library-for-development.md)
-    * [\[API  & Client\] Bundled release install](getting-started/setup_alternatives/platform_release_install.md)
-  * [🎨 Design process & documentation](getting-started/design-process/README.md)
-    * [Open Source Design](getting-started/design-process/open-source-design.md)
-    * ['Best practice' design](getting-started/design-process/best-practice-design.md)
-    * [Ushahidi Platform 'Sticker Sheet'](getting-started/design-process/ushahidi-platform-sticker-sheet.md)
-    * [User testing process](getting-started/design-process/user-testing-process.md)
-    * [User testing script examples](getting-started/design-process/user-testing-script-examples.md)
-    * [Synthesising user testing results examples](getting-started/design-process/synthesising-user-testing-results-examples/README.md)
-      * [Synthesis example 1](getting-started/design-process/synthesising-user-testing-results-examples/synthesis-example-1.md)
-      * [Synthesis example 2](getting-started/design-process/synthesising-user-testing-results-examples/synthesis-example-2.md)
-      * [Synthesis example 3](getting-started/design-process/synthesising-user-testing-results-examples/synthesis-example-3.md)
-      * [Synthesis recommendations example 1](getting-started/design-process/synthesising-user-testing-results-examples/synthesis-recommendations-example-1.md)
-      * [Synthesis recommendations example 2](getting-started/design-process/synthesising-user-testing-results-examples/synthesis-recommendations-example-2.md)
-  * [Development process](getting-started/development-process/README.md)
-    * [Issue tracking](getting-started/development-process/issue-tracking.md)
-    * [Coding Standards](getting-started/development-process/coding-standards.md)
-  * [QA & Testing](getting-started/qa-and-testing.md)
-* [Upgrading Ushahidi](upgrading-ushahidi/README.md)
-  * [Upgrading to latest release](upgrading-ushahidi/upgrading-to-latest-release.md)
-  * [Upgrading from V3.x.x to V4.x.x](upgrading-ushahidi/upgrading-from-v3.x.x-to-v4.x.x.md)
-* [Changing UI styles: introduction to the pattern library](changing-ui-styles-introduction-to-the-pattern-library/README.md)
-  * [File-structure](changing-ui-styles-introduction-to-the-pattern-library/pattern-library.md)
-  * [Installing new packages](changing-ui-styles-introduction-to-the-pattern-library/installing-new-packages.md)
-  * [How to Apply to the Platform](changing-ui-styles-introduction-to-the-pattern-library/how-to-apply-to-the-platform/README.md)
-    * [Using the changed styles in platform-client](changing-ui-styles-introduction-to-the-pattern-library/how-to-apply-to-the-platform/using-the-changed-styles-in-platform-client.md)
-  * [Syntax and Formatting](changing-ui-styles-introduction-to-the-pattern-library/syntax-and-formatting.md)
-  * [Grid, Breakpoints, & Media Queries](changing-ui-styles-introduction-to-the-pattern-library/grid-breakpoints-and-media-queries.md)
-  * [Variables](changing-ui-styles-introduction-to-the-pattern-library/variables.md)
-  * [Mixins](changing-ui-styles-introduction-to-the-pattern-library/mixins.md)
-  * [Helpers](changing-ui-styles-introduction-to-the-pattern-library/helpers.md)
-  * [Icons](changing-ui-styles-introduction-to-the-pattern-library/icons.md)
-  * [Create a New Component from Scratch](changing-ui-styles-introduction-to-the-pattern-library/create-a-new-component-from-scratch.md)
-  * [Read Direction](changing-ui-styles-introduction-to-the-pattern-library/read-direction.md)
-* [Tech stack overview](tech-stack-overview/README.md)
-  * [API Documentation](tech-stack-overview/api-documentation.md)
-  * [Database](tech-stack-overview/database/README.md)
-    * [Tables overview](tech-stack-overview/database/tables-overview.md)
-    * [Database Schema Diagram](tech-stack-overview/database/database-schema-diagram.md)
-    * [Table details](tech-stack-overview/database/table-details.md)
-  * [Architecture](tech-stack-overview/architecture/README.md)
-    * [Use case internals](tech-stack-overview/architecture/use-case-internals.md)
+  * [Add code to Ushahidi](development-and-code/workflow-for-adding-code.md)
+  * [Encouraging contribution from non-developers](contributing-or-getting-involved/encouraging-contribution-from-non-developers.md)
 * [Frequently Asked Questions](frequently-asked-questions.md)
+* [Join the Ushahidi community](get-in-touch.md)
+* [Contributors ✨](contributors-to-ushahidi.md)
+* [🛣️ The Ushahidi Platform Roadmap](roadmap.md)
+* [Privacy and security best practices](privacy-and-security-best-practices/README.md)
+  * [Security as a user](privacy-and-security-best-practices/security-as-a-user.md)
+  * [Security for deployment admins](privacy-and-security-best-practices/security-for-deployment-admins.md)
+  * [Security for deployment hosts](privacy-and-security-best-practices/security-for-deployment-hosts.md)
+
+## Development & Code
+
+* [Development: Overview](development-and-code/getting-started.md)
+* [Add code to Ushahidi](development-and-code/workflow-for-adding-code.md)
+* [How to get the source code](development-and-code/how-to-get-the-source-code.md)
+* [Setup Guides](development-and-code/setup_alternatives/README.md)
+  * [Installing for production environments](development-and-code/setup_alternatives/installing-for-production-environments.md)
+  * [Development environment with XAMPP](development-and-code/setup_alternatives/xampp.md)
+  * [Development environment setup with Vagrant](development-and-code/setup_alternatives/vagrant-setup.md)
+  * [\[Client\] Setting up the Platform Client for development](development-and-code/setup_alternatives/setting-up-the-platform-client.md)
+  * [Setting up the Pattern Library for development](development-and-code/setup_alternatives/setting-up-the-pattern-library-for-development.md)
+  * [\[API  & Client\] Bundled release install](development-and-code/setup_alternatives/platform_release_install.md)
+* [Development process](development-and-code/development-process.md)
+* [Coding Standards](development-and-code/coding-standards.md)
+* [Track and submit issues in Github](development-and-code/issue-tracking.md)
+* [Upgrading Ushahidi](development-and-code/upgrading-ushahidi/README.md)
+  * [Upgrading to latest release](development-and-code/upgrading-ushahidi/upgrading-to-latest-release.md)
+  * [Upgrading from V3.x.x to V4.x.x](development-and-code/upgrading-ushahidi/upgrading-from-v3.x.x-to-v4.x.x.md)
+* [⚙️ Installation-helper](development-and-code/wip-installation-helper.md)
+
+## Tech Stack
+
+* [API Documentation](tech-stack/api-documentation.md)
+* [Database \| Tables overview](tech-stack/tables-overview.md)
+* [Database \| Database Schema Diagram](tech-stack/database-schema-diagram.md)
+* [Database \| Table details](tech-stack/table-details.md)
+* [📐 Architecture](tech-stack/architecture.md)
+* [Use case internals](tech-stack/use-case-internals.md)
+
+## QA & Testing
+
+* [The QA process](qa-and-testing/the-qa-process.md)
+* [How to run QA tests](qa-and-testing/how-to-run-qa-tests.md)
+* [Defect Management](qa-and-testing/defect-management.md)
+* [How to write QA test scripts](qa-and-testing/how-to-write-qa-test-scripts.md)
+
+## Front-end development
+
+* [Changing UI styles: introduction to the pattern library](front-end-development/changing-ui-styles-introduction-to-the-pattern-library/README.md)
+  * [File-structure](front-end-development/changing-ui-styles-introduction-to-the-pattern-library/pattern-library.md)
+  * [Installing new packages](front-end-development/changing-ui-styles-introduction-to-the-pattern-library/installing-new-packages.md)
+  * [How to Apply to the Platform](front-end-development/changing-ui-styles-introduction-to-the-pattern-library/how-to-apply-to-the-platform.md)
+  * [Using the changed styles in platform-client](front-end-development/changing-ui-styles-introduction-to-the-pattern-library/using-the-changed-styles-in-platform-client.md)
+  * [Syntax and Formatting](front-end-development/changing-ui-styles-introduction-to-the-pattern-library/syntax-and-formatting.md)
+  * [Grid, Breakpoints, & Media Queries](front-end-development/changing-ui-styles-introduction-to-the-pattern-library/grid-breakpoints-and-media-queries.md)
+  * [Variables](front-end-development/changing-ui-styles-introduction-to-the-pattern-library/variables.md)
+  * [Mixins](front-end-development/changing-ui-styles-introduction-to-the-pattern-library/mixins.md)
+  * [Helpers](front-end-development/changing-ui-styles-introduction-to-the-pattern-library/helpers.md)
+  * [Icons](front-end-development/changing-ui-styles-introduction-to-the-pattern-library/icons.md)
+  * [Create a New Component from Scratch](front-end-development/changing-ui-styles-introduction-to-the-pattern-library/create-a-new-component-from-scratch.md)
+  * [Read Direction](front-end-development/changing-ui-styles-introduction-to-the-pattern-library/read-direction.md)
+
+## Design
+
+* [🎨 Design: overview](design/design-process.md)
+* ['Best practice' design](design/best-practice-design.md)
+* [Ushahidi Platform 'Sticker Sheet'](design/ushahidi-platform-sticker-sheet.md)
+* [User testing process](design/user-testing-process.md)
+* [User testing script examples](design/user-testing-script-examples.md)
+* [Synthesising user testing results examples](design/synthesising-user-testing-results-examples/README.md)
+  * [Synthesis example 1](design/synthesising-user-testing-results-examples/synthesis-example-1.md)
+  * [Synthesis example 2](design/synthesising-user-testing-results-examples/synthesis-example-2.md)
+  * [Synthesis example 3](design/synthesising-user-testing-results-examples/synthesis-example-3.md)
+  * [Synthesis recommendations example 1](design/synthesising-user-testing-results-examples/synthesis-recommendations-example-1.md)
+  * [Synthesis recommendations example 2](design/synthesising-user-testing-results-examples/synthesis-recommendations-example-2.md)
+* [Open Source Design](design/open-source-design.md)
+
+## Documentation
+
+* [Documentation](documentation/contributing-documentation.md)
+* [Contributing docs via GitHub](documentation/contributing-docs-via-github.md)
+
+## Translation
+
+* [Localization and Translation](translation/software-localization-and-translation.md)
 
 ## The Ushahidi Platform Facebook bot
 
@@ -75,5 +105,4 @@
 ## Enhancement Proposals
 
 * [Exchange Format](enhancement-proposals/exchange-format.md)
-* [Installation Helper](enhancement-proposals/installation-helper.md)
 

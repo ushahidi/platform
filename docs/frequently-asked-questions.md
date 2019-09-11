@@ -12,7 +12,7 @@
 
 [Mobile Application](frequently-asked-questions.md#mobile-application)
 
-[Contributing to Ushahidi](frequently-asked-questions.md#contributing)
+[General](frequently-asked-questions.md#general)
 
 ## Installation
 
@@ -156,7 +156,7 @@ To change the color or appearance of platform, you will need to fork and modify 
 
 Please follow the step by step guide on how to connect to the Ushahidi mobile application [here](https://www.ushahidi.com/support/connecting-to-ushahidi-mobile-app).
 
-## Contributing
+## General
 
 ### How can I start contributing code to the platform?
 
@@ -164,7 +164,7 @@ TO contribute code to the Ushahidi platform, please follow the guidelines here: 
 
 ### How can I contribute to translations?
 
-You can help us translate the platform into as many languages as possible allowing everyone access. Please follow the instructions to start translating here: [Instructions on how to start translating](https://wiki.ushahidi.com/display/WIKI/Localization+and+Translation+-+How+to)
+You can help us translate the platform into as many languages as possible allowing everyone access. Please follow the instructions to start translating here: [Instructions on how to start translating](translation/software-localization-and-translation.md)
 
 ### How  can I join the Ushahidi Community?
 
@@ -177,4 +177,8 @@ Connect with the wider Ushahidi community:
   * Gitter at [ushahidi/Community](https://gitter.im/ushahidi/community)
   * [Skype](https://join.skype.com/S9t68IVKzwo8)
 * Messages to any of these channels should show up on all of them!
+
+### How to get help in a different language?
+
+The Ushahidi community is global. If you need assistance in a different language, please [contact us](http://ushahidi.com/contact-us) and we will try connect you to a wonderful helper.
 

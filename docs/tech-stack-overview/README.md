@@ -1,4 +1,0 @@
-# Tech stack overview
-
-
-
