@@ -8,7 +8,7 @@ Like Ushahidi's staff base, Ushahidi's community is incredibly diverse. Ushahidi
 
 We are constantly evolving this document for the ever changing world. We strive to become more inclusive in how we support the community and contributions are very welcome.
 
-For background research See: Draft from [Volunteer Technical Community \(also referred to as VTC\) Summit](https://hackpad.com/kQV90ro5Q7W) \([Original Document](https://hackpad.com/Code-of-Conduct...-Code-of-Collaboration-yTDqqHdu46l) from VTC Summit hosted by Geeks without Bounds and the Wilson Center\).
+For background research see draft from [Volunteer Technical Community \(also referred to as VTC\) Summit](https://hackpad.com/kQV90ro5Q7W) \([Original Document](https://hackpad.com/Code-of-Conduct...-Code-of-Collaboration-yTDqqHdu46l) from VTC Summit hosted by Geeks without Bounds and the Wilson Center\).
 
 ### Code of Collaboration <a id="CodeofConduct-CodeofCollaboration"></a>
 
