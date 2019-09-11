@@ -29,6 +29,17 @@
         "doc",
         "ideas"
       ]
+    },
+    {
+      "login": "willdoran",
+      "name": "will",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/2694405?v=4",
+      "profile": "https://github.com/willdoran",
+      "contributions": [
+        "code",
+        "security",
+        "review"
+      ]
     }
   ],
   "contributorsPerLine": 7,
