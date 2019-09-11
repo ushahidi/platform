@@ -9,10 +9,6 @@
 * [Join the Ushahidi community](get-in-touch.md)
 * [Contributors ✨](contributors-to-ushahidi.md)
 * [🛣️ The Ushahidi Platform Roadmap](roadmap.md)
-* [Privacy and security best practices](privacy-and-security-best-practices/README.md)
-  * [Security as a user](privacy-and-security-best-practices/security-as-a-user.md)
-  * [Security for deployment admins](privacy-and-security-best-practices/security-for-deployment-admins.md)
-  * [Security for deployment hosts](privacy-and-security-best-practices/security-for-deployment-hosts.md)
 
 ## Development & Code
 
@@ -32,7 +28,6 @@
 * [Upgrading Ushahidi](development-and-code/upgrading-ushahidi/README.md)
   * [Upgrading to latest release](development-and-code/upgrading-ushahidi/upgrading-to-latest-release.md)
   * [Upgrading from V3.x.x to V4.x.x](development-and-code/upgrading-ushahidi/upgrading-from-v3.x.x-to-v4.x.x.md)
-* [⚙️ Installation-helper](development-and-code/wip-installation-helper.md)
 
 ## Tech Stack
 

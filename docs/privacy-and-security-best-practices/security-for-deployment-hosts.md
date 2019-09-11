@@ -1,2 +1,0 @@
-# Security for deployment hosts
-
