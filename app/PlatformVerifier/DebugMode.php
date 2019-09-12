@@ -6,14 +6,15 @@ use Ushahidi\App\Tools\OutputText;
 use Composer\Script\Event;
 use Composer\Installer\PackageEvent;
 
-# Commands to create and delete the file that enables the gateway check mode
+# Methods to check whether the installation debug mode is enabled , as well
+# to create and delete the file that enables it
 #
 # This would be a nice as just commands in the composer.json file,
 # but that wouldn't be portable across platforms
-class GWCheck
+class DebugMode
 {
-    private static $SWITCH_FILE = "bootstrap/gwcheck.enabled";
-    private static $SWITCH_FILE_PATH = __DIR__ . "/../../bootstrap/gwcheck.enabled";
+    private static $SWITCH_FILE = "bootstrap/install_debug_mode.enabled";
+    private static $SWITCH_FILE_PATH = __DIR__ . "/../../bootstrap/install_debug_mode.enabled";
 
     private static function getLastErrorMessage()
     {
@@ -23,6 +24,12 @@ class GWCheck
         } else {
             return $error['message'];
         }
+    }
+
+    public static function isEnabled()
+    {
+        return file_exists(self::$SWITCH_FILE_PATH) ||
+            ($_ENV['USH_PLATFORM_INSTALL_DEBUG_MODE_ENABLED'] ?? null);
     }
 
     public static function enable()

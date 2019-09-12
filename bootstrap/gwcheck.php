@@ -9,18 +9,16 @@
 # * Mode enabling flag
 # Check for flags that enable the operation of this mode
 #  file: gwcheck.enabled , in the same folder along this file
-#  environment: USH_PLATFORM_GWCHECK_ENABLED variable
+#  environment: USH_PLATFORM_INSTALL_DEBUG_MODE_ENABLED variable
 #    (NOTE that the .env file in the base folder is NOT parsed for this script!)
 $enabled =
-    file_exists(__DIR__ . '/gwcheck.enabled') ||
-    ($_ENV['USH_PLATFORM_GWCHECK_ENABLED'] ?? null);
+    file_exists(__DIR__ . '/install_debug_mode.enabled') ||
+    ($_ENV['USH_PLATFORM_INSTALL_DEBUG_MODE_ENABLED'] ?? null);
 if (!$enabled) {
     # While disabled, we indicate that in a special header
-    header("X-Ushahidi-Platform-GWCheck: off");
+    header("X-Ushahidi-Platform-Install-Debug-Mode: off");
     http_response_code(204);
     exit();   # -- END request processing
-} else {
-    header("X-Ushahidi-Platform-GWCheck: on");
 }
 
 # make the origin header handy

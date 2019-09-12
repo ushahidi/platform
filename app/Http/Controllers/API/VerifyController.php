@@ -15,6 +15,7 @@ use Ushahidi\App\Http\Controllers\RESTController;
 
 use Ushahidi\Factory\UsecaseFactory;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use League\OAuth2\Server\Exception\OAuth2Exception;
 use League\OAuth2\Server\Exception\MissingAccessTokenException;
 use Ushahidi\App\Exceptions\ValidationException;
@@ -43,11 +44,22 @@ class VerifyController extends RESTController
 
     public function db(\Illuminate\Http\Request $request)
     {
+        if (!\Ushahidi\App\PlatformVerifier\DebugMode::isEnabled()) {
+            return (new Response(null, 204))
+                    ->header('X-Ushahidi-Platform-Install-Debug-Mode', 'off');
+        }
+
         $output = new \Ushahidi\App\PlatformVerifier\Database();
         return $output->verifyRequirements(false);
     }
+    
     public function conf(\Illuminate\Http\Request $request)
     {
+        if (!\Ushahidi\App\PlatformVerifier\DebugMode::isEnabled()) {
+            return (new Response(null, 204))
+                    ->header('X-Ushahidi-Platform-Install-Debug-Mode', 'off');
+        }
+
         $output = new \Ushahidi\App\PlatformVerifier\Env();
         return $output->verifyRequirements(false);
     }

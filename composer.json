@@ -144,11 +144,11 @@
         "verify": [
             "php artisan environment:verify"
         ],
-        "gwcheck:enable": [
-            "\\Ushahidi\\App\\PlatformVerifier\\GWCheck::enable"
+        "installdebug:enable": [
+            "\\Ushahidi\\App\\PlatformVerifier\\DebugMode::enable"
         ],
-        "gwcheck:disable": [
-            "\\Ushahidi\\App\\PlatformVerifier\\GWCheck::disable"
+        "installdebug:disable": [
+            "\\Ushahidi\\App\\PlatformVerifier\\DebugMode::disable"
         ]
     }
 }
