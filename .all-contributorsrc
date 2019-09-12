@@ -315,6 +315,15 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "jcbashdown",
+      "name": "Jacob Ashdown",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/677893?v=4",
+      "profile": "http://www.coherent.technology",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
