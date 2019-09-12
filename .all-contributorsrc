@@ -37,8 +37,56 @@
       "profile": "http://robbiemackay.com",
       "contributions": [
         "code",
+        "review",
+        "ideas",
+        "security",
+        "bug"
+      ]
+    },
+    {
+      "login": "jasonmule",
+      "name": "Jason Mule",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/150815?v=4",
+      "profile": "https://github.com/jasonmule",
+      "contributions": [
+        "code",
+        "bug",
+        "review"
+      ]
+    },
+    {
+      "login": "willdoran",
+      "name": "will",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/2694405?v=4",
+      "profile": "https://github.com/willdoran",
+      "contributions": [
+        "code",
         "security",
         "review"
+      ]
+    },
+    {
+      "login": "tuxpiper",
+      "name": "David Losada",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/467393?v=4",
+      "profile": "http://tuxpiper.com",
+      "contributions": [
+        "code",
+        "review",
+        "ideas",
+        "security",
+        "bug"
+      ]
+    },
+    {
+      "login": "Erioldoesdesign",
+      "name": "Eriol Fox",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/11681324?v=4",
+      "profile": "http://www.erioldoesdesign.com",
+      "contributions": [
+        "design",
+        "doc",
+        "ideas"
       ]
     }
   ],
