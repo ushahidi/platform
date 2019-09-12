@@ -251,6 +251,15 @@
         "bug",
         "question"
       ]
+    },
+    {
+      "login": "aitorres",
+      "name": "Andrés Ignacio Torres",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/26191851?v=4",
+      "profile": "http://aitorres.com.ve",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,
