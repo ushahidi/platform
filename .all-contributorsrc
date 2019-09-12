@@ -220,6 +220,16 @@
         "code",
         "review"
       ]
+    },
+    {
+      "login": "shadowhand",
+      "name": "Woody Gilk",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/38203?v=4",
+      "profile": "https://www.shadowhand.com/",
+      "contributions": [
+        "code",
+        "review"
+      ]
     }
   ],
   "contributorsPerLine": 7,
