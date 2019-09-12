@@ -431,6 +431,17 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "braughtg",
+      "name": "Grant Braught",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/16962482?v=4",
+      "profile": "http://users.dickinson.edu/~braught/",
+      "contributions": [
+        "code",
+        "bug",
+        "example"
+      ]
     }
   ],
   "contributorsPerLine": 7,
