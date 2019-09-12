@@ -333,6 +333,17 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "evansims",
+      "name": "Evan Sims",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/3093?v=4",
+      "profile": "https://keybase.io/evansims",
+      "contributions": [
+        "code",
+        "bug",
+        "review"
+      ]
     }
   ],
   "contributorsPerLine": 7,
