@@ -411,6 +411,17 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "brandonrosage",
+      "name": "Brandon Rosage",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/1136279?v=4",
+      "profile": "http://brandonrosage.com",
+      "contributions": [
+        "design",
+        "bug",
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,

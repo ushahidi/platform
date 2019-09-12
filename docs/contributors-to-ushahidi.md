@@ -52,9 +52,15 @@
   <tr>
     <td align="center"><a href="https://github.com/RAbraham"><img src="https://avatars3.githubusercontent.com/u/214189?v=4" width="100px;" alt="Rajiv Abraham"/><br /><sub><b>Rajiv Abraham</b></sub></a><br /><a href="https://github.com/ushahidi/platform/commits?author=RAbraham" title="Documentation">📖</a></td>
     <td align="center"><a href="https://github.com/MigDinny"><img src="https://avatars0.githubusercontent.com/u/6632800?v=4" width="100px;" alt="Miguel Dinis"/><br /><sub><b>Miguel Dinis</b></sub></a><br /><a href="https://github.com/ushahidi/platform/commits?author=MigDinny" title="Documentation">📖</a></td>
+    <!-- FIXME: right now we have to manually link to platform-client repo for this section so the code link works -->
     <td align="center"><a href="https://github.com/spaudanjo"><img src="https://avatars1.githubusercontent.com/u/249210?v=4" width="100px;" alt="Daniel Spaude"/><br /><sub><b>Daniel Spaude</b></sub></a><br /><a href="https://github.com/ushahidi/platform/commits?author=spaudanjo" title="Code">💻</a></td>
     <td align="center"><a href="http://recombine.net"><img src="https://avatars0.githubusercontent.com/u/863674?v=4" width="100px;" alt="Vaibhav"/><br /><sub><b>Vaibhav</b></sub></a><br /><a href="https://github.com/ushahidi/platform/commits?author=vbhv" title="Code">💻</a> <a href="#design-vbhv" title="Design">🎨</a></td>
     <td align="center"><a href="http://www.jessicaweber.io"><img src="https://avatars0.githubusercontent.com/u/28212184?v=4" width="100px;" alt="J. Weber"/><br /><sub><b>J. Weber</b></sub></a><br /><a href="https://github.com/ushahidi/platform/commits?author=jessicaweberdev" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/spaudanjo"><img src="https://avatars1.githubusercontent.com/u/249210?v=4" width="100px;" alt="Daniel Spaude"/><br /><sub><b>Daniel Spaude</b></sub></a><br /><a href="https://github.com/ushahidi/platform-client/commits?author=spaudanjo" title="Code">💻</a></td>
+    <td align="center"><a href="http://recombine.net"><img src="https://avatars0.githubusercontent.com/u/863674?v=4" width="100px;" alt="Vaibhav"/><br /><sub><b>Vaibhav</b></sub></a><br /><a href="https://github.com/ushahidi/platform-client/commits?author=vbhv" title="Code">💻</a> <a href="#design-vbhv" title="Design">🎨</a></td>
+  </tr>
+  <tr>
+    <td align="center"><a href="http://brandonrosage.com"><img src="https://avatars3.githubusercontent.com/u/1136279?v=4" width="100px;" alt="Brandon Rosage"/><br /><sub><b>Brandon Rosage</b></sub></a><br /><a href="#design-brandonrosage" title="Design">🎨</a> <a href="https://github.com/ushahidi/platform/issues?q=author%3Abrandonrosage" title="Bug reports">🐛</a> <a href="https://github.com/ushahidi/platform-client/commits?author=brandonrosage" title="Code">💻</a></td>
   </tr>
 </table>
 
