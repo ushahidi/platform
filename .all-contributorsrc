@@ -392,6 +392,16 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "vbhv",
+      "name": "Vaibhav",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/863674?v=4",
+      "profile": "http://recombine.net",
+      "contributions": [
+        "code",
+        "design"
+      ]
     }
   ],
   "contributorsPerLine": 7,
