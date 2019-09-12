@@ -22,6 +22,9 @@
     <td align="center"><a href="http://www.kobia.net"><img src="https://avatars3.githubusercontent.com/u/184092?v=4" width="100px;" alt="David Kobia"/><br /><sub><b>David Kobia</b></sub></a><br /><a href="#review-dkobia" title="Reviewed Pull Requests">👀</a> <a href="https://github.com/ushahidi/platform/commits?author=dkobia" title="Code">💻</a> <a href="#ideas-dkobia" title="Ideas, Planning, & Feedback">🤔</a></td>
     <td align="center"><a href="https://github.com/jrtricafort"><img src="https://avatars1.githubusercontent.com/u/37776843?v=4" width="100px;" alt="Juan Ricafort"/><br /><sub><b>Juan Ricafort</b></sub></a><br /><a href="#ideas-jrtricafort" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/ushahidi/platform/issues?q=author%3Ajrtricafort" title="Bug reports">🐛</a> <a href="#business-jrtricafort" title="Business development">💼</a></td>
   </tr>
+  <tr>
+    <td align="center"><a href="http://jessachandler.com"><img src="https://avatars3.githubusercontent.com/u/7316730?v=4" width="100px;" alt="jess"/><br /><sub><b>jess</b></sub></a><br /><a href="https://github.com/ushahidi/platform/commits?author=monkeywithacupcake" title="Documentation">📖</a></td>
+  </tr>
 </table>
 
 <!-- ALL-CONTRIBUTORS-LIST:END -->
