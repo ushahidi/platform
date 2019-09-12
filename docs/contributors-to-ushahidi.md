@@ -58,6 +58,9 @@
     <td align="center"><a href="http://brandonrosage.com"><img src="https://avatars3.githubusercontent.com/u/1136279?v=4" width="100px;" alt="Brandon Rosage"/><br /><sub><b>Brandon Rosage</b></sub></a><br /><a href="#design-brandonrosage" title="Design">🎨</a> <a href="https://github.com/ushahidi/platform/issues?q=author%3Abrandonrosage" title="Bug reports">🐛</a> <a href="https://github.com/ushahidi/platform/commits?author=brandonrosage" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/wanjar"><img src="https://avatars0.githubusercontent.com/u/8712110?v=4" width="100px;" alt="wanjar"/><br /><sub><b>wanjar</b></sub></a><br /><a href="https://github.com/ushahidi/platform/commits?author=wanjar" title="Code">💻</a></td>
   </tr>
+  <tr>
+    <td align="center"><a href="http://users.dickinson.edu/~braught/"><img src="https://avatars3.githubusercontent.com/u/16962482?v=4" width="100px;" alt="Grant Braught"/><br /><sub><b>Grant Braught</b></sub></a><br /><a href="https://github.com/ushahidi/platform/commits?author=braughtg" title="Code">💻</a> <a href="https://github.com/ushahidi/platform/issues?q=author%3Abraughtg" title="Bug reports">🐛</a> <a href="#example-braughtg" title="Examples">💡</a></td>
+  </tr>
 </table>
 
 <!-- ALL-CONTRIBUTORS-LIST:END -->
