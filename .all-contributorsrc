@@ -324,6 +324,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "gvarisco",
+      "name": "Gianluca Varisco",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/945486?v=4",
+      "profile": "https://github.com/gvarisco",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,
