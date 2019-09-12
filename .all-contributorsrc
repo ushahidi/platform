@@ -31,6 +31,19 @@
       ]
     },
     {
+      "login": "rjmackay",
+      "name": "Robbie Mackay",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/7965?v=4",
+      "profile": "http://robbiemackay.com",
+      "contributions": [
+        "code",
+        "review",
+        "ideas",
+        "security",
+        "bug"
+      ]
+    },
+    {
       "login": "jasonmule",
       "name": "Jason Mule",
       "avatar_url": "https://avatars0.githubusercontent.com/u/150815?v=4",
