@@ -210,6 +210,16 @@
         "doc",
         "question"
       ]
+    },
+    {
+      "login": "ymohii",
+      "name": "Yassin Mohii",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/6831661?v=4",
+      "profile": "https://github.com/ymohii",
+      "contributions": [
+        "code",
+        "review"
+      ]
     }
   ],
   "contributorsPerLine": 7,
