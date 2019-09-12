@@ -31,6 +31,9 @@
     <td align="center"><a href="https://github.com/ymohii"><img src="https://avatars0.githubusercontent.com/u/6831661?v=4" width="100px;" alt="Yassin Mohii"/><br /><sub><b>Yassin Mohii</b></sub></a><br /><a href="https://github.com/ushahidi/platform/commits?author=ymohii" title="Code">💻</a> <a href="#review-ymohii" title="Reviewed Pull Requests">👀</a></td>
     <td align="center"><a href="https://www.shadowhand.com/"><img src="https://avatars3.githubusercontent.com/u/38203?v=4" width="100px;" alt="Woody Gilk"/><br /><sub><b>Woody Gilk</b></sub></a><br /><a href="https://github.com/ushahidi/platform/commits?author=shadowhand" title="Code">💻</a> <a href="#review-shadowhand" title="Reviewed Pull Requests">👀</a></td>
   </tr>
+  <tr>
+    <td align="center"><a href="https://github.com/samtheson"><img src="https://avatars0.githubusercontent.com/u/958800?v=4" width="100px;" alt="Sam"/><br /><sub><b>Sam</b></sub></a><br /><a href="https://github.com/ushahidi/platform/commits?author=samtheson" title="Documentation">📖</a></td>
+  </tr>
 </table>
 
 <!-- ALL-CONTRIBUTORS-LIST:END -->

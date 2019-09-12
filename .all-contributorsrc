@@ -230,6 +230,15 @@
         "code",
         "review"
       ]
+    },
+    {
+      "login": "samtheson",
+      "name": "Sam",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/958800?v=4",
+      "profile": "https://github.com/samtheson",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,
