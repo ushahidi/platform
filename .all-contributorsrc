@@ -278,6 +278,15 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "tobiasziegler",
+      "name": "David Mallard",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/3615012?v=4",
+      "profile": "https://davidmallard.id.au/",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
