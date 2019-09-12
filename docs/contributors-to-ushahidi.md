@@ -63,6 +63,7 @@
     <td align="center"><a href="http://nidhikjha.github.io"><img src="https://avatars3.githubusercontent.com/u/39872794?v=4" width="100px;" alt="Nidhi Kumari"/><br /><sub><b>Nidhi Kumari</b></sub></a><br /><a href="https://github.com/ushahidi/platform/commits?author=NidhiKJha" title="Code">💻</a> <a href="#blog-NidhiKJha" title="Blogposts">📝</a></td>
     <td align="center"><a href="https://github.com/jtechera"><img src="https://avatars1.githubusercontent.com/u/1594608?v=4" width="100px;" alt="Juan Techera"/><br /><sub><b>Juan Techera</b></sub></a><br /><a href="https://github.com/ushahidi/platform/commits?author=jtechera" title="Documentation">📖</a></td>
     <td align="center"><a href="http://brianherbert.com"><img src="https://avatars2.githubusercontent.com/u/106068?v=4" width="100px;" alt="Brian Herbert"/><br /><sub><b>Brian Herbert</b></sub></a><br /><a href="https://github.com/ushahidi/platform/commits?author=brianherbert" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/gitudaniel"><img src="https://avatars1.githubusercontent.com/u/17337808?v=4" width="100px;" alt=" Daniel Gitu"/><br /><sub><b> Daniel Gitu</b></sub></a><br /><a href="https://github.com/ushahidi/platform/commits?author=gitudaniel" title="Code">💻</a></td>
   </tr>
 </table>
 
