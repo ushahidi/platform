@@ -287,6 +287,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "ryanchristo",
+      "name": "Ryan Christoffersen",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/12519942?v=4",
+      "profile": "https://ryanchristo.com/",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,

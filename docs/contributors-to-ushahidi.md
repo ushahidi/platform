@@ -38,6 +38,7 @@
     <td align="center"><a href="http://aitorres.com.ve"><img src="https://avatars3.githubusercontent.com/u/26191851?v=4" width="100px;" alt="Andrés Ignacio Torres"/><br /><sub><b>Andrés Ignacio Torres</b></sub></a><br /><a href="https://github.com/ushahidi/platform/commits?author=aitorres" title="Documentation">📖</a></td>
     <td align="center"><a href="https://github.com/virgilio"><img src="https://avatars0.githubusercontent.com/u/276746?v=4" width="100px;" alt="Virgílio N Santos"/><br /><sub><b>Virgílio N Santos</b></sub></a><br /><a href="https://github.com/ushahidi/platform/commits?author=virgilio" title="Documentation">📖</a></td>
     <td align="center"><a href="https://davidmallard.id.au/"><img src="https://avatars3.githubusercontent.com/u/3615012?v=4" width="100px;" alt="David Mallard"/><br /><sub><b>David Mallard</b></sub></a><br /><a href="https://github.com/ushahidi/platform/commits?author=tobiasziegler" title="Code">💻</a></td>
+    <td align="center"><a href="https://ryanchristo.com/"><img src="https://avatars3.githubusercontent.com/u/12519942?v=4" width="100px;" alt="Ryan Christoffersen"/><br /><sub><b>Ryan Christoffersen</b></sub></a><br /><a href="https://github.com/ushahidi/platform/commits?author=ryanchristo" title="Code">💻</a></td>
   </tr>
 </table>
 
