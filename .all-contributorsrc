@@ -172,6 +172,15 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "zhalloran",
+      "name": "Zack Halloran",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/446225?v=4",
+      "profile": "https://github.com/zhalloran",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
