@@ -52,6 +52,7 @@
   <tr>
     <td align="center"><a href="https://github.com/RAbraham"><img src="https://avatars3.githubusercontent.com/u/214189?v=4" width="100px;" alt="Rajiv Abraham"/><br /><sub><b>Rajiv Abraham</b></sub></a><br /><a href="https://github.com/ushahidi/platform/commits?author=RAbraham" title="Documentation">📖</a></td>
     <td align="center"><a href="https://github.com/MigDinny"><img src="https://avatars0.githubusercontent.com/u/6632800?v=4" width="100px;" alt="Miguel Dinis"/><br /><sub><b>Miguel Dinis</b></sub></a><br /><a href="https://github.com/ushahidi/platform/commits?author=MigDinny" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/spaudanjo"><img src="https://avatars1.githubusercontent.com/u/249210?v=4" width="100px;" alt="Daniel Spaude"/><br /><sub><b>Daniel Spaude</b></sub></a><br /><a href="https://github.com/ushahidi/platform/commits?author=spaudanjo" title="Code">💻</a></td>
   </tr>
 </table>
 
