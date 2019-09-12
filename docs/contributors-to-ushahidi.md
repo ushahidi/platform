@@ -26,6 +26,7 @@
     <td align="center"><a href="http://jessachandler.com"><img src="https://avatars3.githubusercontent.com/u/7316730?v=4" width="100px;" alt="jess"/><br /><sub><b>jess</b></sub></a><br /><a href="https://github.com/ushahidi/platform/commits?author=monkeywithacupcake" title="Documentation">📖</a></td>
     <td align="center"><a href="https://github.com/zhalloran"><img src="https://avatars0.githubusercontent.com/u/446225?v=4" width="100px;" alt="Zack Halloran"/><br /><sub><b>Zack Halloran</b></sub></a><br /><a href="https://github.com/ushahidi/platform/commits?author=zhalloran" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/hollycorbett"><img src="https://avatars2.githubusercontent.com/u/849131?v=4" width="100px;" alt="hollycorbett"/><br /><sub><b>hollycorbett</b></sub></a><br /><a href="https://github.com/ushahidi/platform/commits?author=hollycorbett" title="Code">💻</a></td>
+    <td align="center"><a href="http://ferdinand.rs"><img src="https://avatars1.githubusercontent.com/u/644800?v=4" width="100px;" alt="Vladimir Cvetic"/><br /><sub><b>Vladimir Cvetic</b></sub></a><br /><a href="https://github.com/ushahidi/platform/commits?author=cvele" title="Code">💻</a></td>
   </tr>
 </table>
 
