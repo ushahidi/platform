@@ -1,5 +1,4 @@
 [download]: https://github.com/ushahidi/platform-release/releases
-[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors)
 [install-development]: https://github.com/ushahidi/platform/blob/develop/README.md#Installing-for-development-vagrant
 [other-install-guides]: docs/setup_alternatives
 [docs]: https://www.ushahidi.com/support
