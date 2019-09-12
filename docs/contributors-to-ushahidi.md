@@ -42,6 +42,7 @@
   </tr>
   <tr>
     <td align="center"><a href="https://ozdemirburak.com"><img src="https://avatars3.githubusercontent.com/u/5355510?v=4" width="100px;" alt="Burak Özdemir"/><br /><sub><b>Burak Özdemir</b></sub></a><br /><a href="https://github.com/ushahidi/platform/commits?author=ozdemirburak" title="Code">💻</a> <a href="https://github.com/ushahidi/platform/issues?q=author%3Aozdemirburak" title="Bug reports">🐛</a></td>
+    <td align="center"><a href="http://m-sameer.github.io"><img src="https://avatars1.githubusercontent.com/u/28915865?v=4" width="100px;" alt="Mohammad Sameer"/><br /><sub><b>Mohammad Sameer</b></sub></a><br /><a href="https://github.com/ushahidi/platform/commits?author=m-sameer" title="Documentation">📖</a></td>
   </tr>
 </table>
 
