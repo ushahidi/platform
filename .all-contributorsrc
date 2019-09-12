@@ -29,6 +29,19 @@
         "doc",
         "ideas"
       ]
+    },
+    {
+      "login": "tuxpiper",
+      "name": "David Losada",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/467393?v=4",
+      "profile": "http://tuxpiper.com",
+      "contributions": [
+        "code",
+        "review",
+        "ideas",
+        "security",
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,
