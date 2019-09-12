@@ -48,11 +48,10 @@ Ushahidi OSS Home
 
 ## Credits
 
-### Contributors
+## Contributors ✨
 
-This project exists thanks to all the people who contribute. [[Contribute](CONTRIBUTING.md)].
-
-<a href="https://github.com/ushahidi/platform/graphs/contributors"><img src="https://opencollective.com/platform/contributors.svg?width=890&button=false" /></a>
+Thanks goes to the wonderful people who [[Contribute](CONTRIBUTING.md)]! See the list of contributors at [all-contributors](docs/contributors-to-ushahidi.md)
+This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
 
 ### Backers
 
