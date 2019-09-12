@@ -119,6 +119,17 @@
         "code",
         "ideas"
       ]
+    },
+    {
+      "login": "kamaulynder",
+      "name": "Linda Kamau",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/155218?v=4",
+      "profile": "http://www.codediva.co.ke",
+      "contributions": [
+        "review",
+        "code",
+        "ideas"
+      ]
     }
   ],
   "contributorsPerLine": 7,
