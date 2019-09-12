@@ -49,6 +49,9 @@
     <td align="center"><a href="https://github.com/caharding"><img src="https://avatars0.githubusercontent.com/u/1618793?v=4" width="100px;" alt="Charlie"/><br /><sub><b>Charlie</b></sub></a><br /><a href="https://github.com/ushahidi/platform/commits?author=caharding" title="Documentation">📖</a> <a href="#ideas-caharding" title="Ideas, Planning, & Feedback">🤔</a> <a href="#business-caharding" title="Business development">💼</a></td>
     <td align="center"><a href="https://bryliechristopheroxley.info"><img src="https://avatars1.githubusercontent.com/u/17307?v=4" width="100px;" alt="Brylie Christopher Oxley"/><br /><sub><b>Brylie Christopher Oxley</b></sub></a><br /><a href="https://github.com/ushahidi/platform/commits?author=brylie" title="Documentation">📖</a></td>
   </tr>
+  <tr>
+    <td align="center"><a href="https://github.com/RAbraham"><img src="https://avatars3.githubusercontent.com/u/214189?v=4" width="100px;" alt="Rajiv Abraham"/><br /><sub><b>Rajiv Abraham</b></sub></a><br /><a href="https://github.com/ushahidi/platform/commits?author=RAbraham" title="Documentation">📖</a></td>
+  </tr>
 </table>
 
 <!-- ALL-CONTRIBUTORS-LIST:END -->
