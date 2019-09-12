@@ -306,6 +306,15 @@
         "code",
         "bug"
       ]
+    },
+    {
+      "login": "m-sameer",
+      "name": "Mohammad Sameer",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/28915865?v=4",
+      "profile": "http://m-sameer.github.io",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,
