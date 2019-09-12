@@ -97,6 +97,16 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "aMoniker",
+      "name": "James Greenleaf",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/915878?v=4",
+      "profile": "https://james.greenle.af",
+      "contributions": [
+        "code",
+        "review"
+      ]
     }
   ],
   "contributorsPerLine": 7,
