@@ -16,7 +16,7 @@
   <tr>
     <td align="center"><a href="http://www.addhen.org"><img src="https://avatars0.githubusercontent.com/u/73175?v=4" width="100px;" alt="Henry Addo"/><br /><sub><b>Henry Addo</b></sub></a><br /><a href="https://github.com/ushahidi/platform/commits?author=eyedol" title="Code">💻</a> <a href="#review-eyedol" title="Reviewed Pull Requests">👀</a></td>
     <td align="center"><a href="https://james.greenle.af"><img src="https://avatars0.githubusercontent.com/u/915878?v=4" width="100px;" alt="James Greenleaf"/><br /><sub><b>James Greenleaf</b></sub></a><br /><a href="https://github.com/ushahidi/platform/commits?author=aMoniker" title="Code">💻</a> <a href="#review-aMoniker" title="Reviewed Pull Requests">👀</a></td>
-    <td align="center"><a href="https://github.com/crcommons"><img src="https://avatars0.githubusercontent.com/u/8941223?v=4" width="100px;" alt="Carolyn Commons"/><br /><sub><b>Carolyn Commons</b></sub></a><br /><a href="#review-crcommons" title="Reviewed Pull Requests">👀</a></td>
+    <td align="center"><a href="https://github.com/crcommons"><img src="https://avatars0.githubusercontent.com/u/8941223?v=4" width="100px;" alt="Carolyn Commons"/><br /><sub><b>Carolyn Commons</b></sub></a><br /><a href="#review-crcommons" title="Reviewed Pull Requests">👀</a> <a href="https://github.com/ushahidi/platform/commits?author=crcommons" title="Code">💻</a> <a href="#ideas-crcommons" title="Ideas, Planning, & Feedback">🤔</a></td>
   </tr>
 </table>
 
