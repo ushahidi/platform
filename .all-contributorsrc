@@ -452,6 +452,15 @@
         "code",
         "blog"
       ]
+    },
+    {
+      "login": "jtechera",
+      "name": "Juan Techera",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/1594608?v=4",
+      "profile": "https://github.com/jtechera",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,

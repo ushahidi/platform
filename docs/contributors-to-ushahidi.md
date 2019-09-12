@@ -61,6 +61,7 @@
   <tr>
     <td align="center"><a href="http://users.dickinson.edu/~braught/"><img src="https://avatars3.githubusercontent.com/u/16962482?v=4" width="100px;" alt="Grant Braught"/><br /><sub><b>Grant Braught</b></sub></a><br /><a href="https://github.com/ushahidi/platform/commits?author=braughtg" title="Code">💻</a> <a href="https://github.com/ushahidi/platform/issues?q=author%3Abraughtg" title="Bug reports">🐛</a> <a href="#example-braughtg" title="Examples">💡</a></td>
     <td align="center"><a href="http://nidhikjha.github.io"><img src="https://avatars3.githubusercontent.com/u/39872794?v=4" width="100px;" alt="Nidhi Kumari"/><br /><sub><b>Nidhi Kumari</b></sub></a><br /><a href="https://github.com/ushahidi/platform/commits?author=NidhiKJha" title="Code">💻</a> <a href="#blog-NidhiKJha" title="Blogposts">📝</a></td>
+    <td align="center"><a href="https://github.com/jtechera"><img src="https://avatars1.githubusercontent.com/u/1594608?v=4" width="100px;" alt="Juan Techera"/><br /><sub><b>Juan Techera</b></sub></a><br /><a href="https://github.com/ushahidi/platform/commits?author=jtechera" title="Documentation">📖</a></td>
   </tr>
 </table>
 
