@@ -422,6 +422,15 @@
         "bug",
         "code"
       ]
+    },
+    {
+      "login": "wanjar",
+      "name": "wanjar",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/8712110?v=4",
+      "profile": "https://github.com/wanjar",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
