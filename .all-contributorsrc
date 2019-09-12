@@ -296,6 +296,16 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "ozdemirburak",
+      "name": "Burak Özdemir",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/5355510?v=4",
+      "profile": "https://ozdemirburak.com",
+      "contributions": [
+        "code",
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,

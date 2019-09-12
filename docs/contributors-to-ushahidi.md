@@ -40,6 +40,9 @@
     <td align="center"><a href="https://davidmallard.id.au/"><img src="https://avatars3.githubusercontent.com/u/3615012?v=4" width="100px;" alt="David Mallard"/><br /><sub><b>David Mallard</b></sub></a><br /><a href="https://github.com/ushahidi/platform/commits?author=tobiasziegler" title="Code">💻</a></td>
     <td align="center"><a href="https://ryanchristo.com/"><img src="https://avatars3.githubusercontent.com/u/12519942?v=4" width="100px;" alt="Ryan Christoffersen"/><br /><sub><b>Ryan Christoffersen</b></sub></a><br /><a href="https://github.com/ushahidi/platform/commits?author=ryanchristo" title="Code">💻</a></td>
   </tr>
+  <tr>
+    <td align="center"><a href="https://ozdemirburak.com"><img src="https://avatars3.githubusercontent.com/u/5355510?v=4" width="100px;" alt="Burak Özdemir"/><br /><sub><b>Burak Özdemir</b></sub></a><br /><a href="https://github.com/ushahidi/platform/commits?author=ozdemirburak" title="Code">💻</a> <a href="https://github.com/ushahidi/platform/issues?q=author%3Aozdemirburak" title="Bug reports">🐛</a></td>
+  </tr>
 </table>
 
 <!-- ALL-CONTRIBUTORS-LIST:END -->
