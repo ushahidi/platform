@@ -442,6 +442,16 @@
         "bug",
         "example"
       ]
+    },
+    {
+      "login": "NidhiKJha",
+      "name": "Nidhi Kumari",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/39872794?v=4",
+      "profile": "http://nidhikjha.github.io",
+      "contributions": [
+        "code",
+        "blog"
+      ]
     }
   ],
   "contributorsPerLine": 7,
