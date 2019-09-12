@@ -130,6 +130,17 @@
         "code",
         "ideas"
       ]
+    },
+    {
+      "login": "kinstelli",
+      "name": "Mark Kinsella",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/6600708?v=4",
+      "profile": "https://github.com/kinstelli",
+      "contributions": [
+        "review",
+        "code",
+        "ideas"
+      ]
     }
   ],
   "contributorsPerLine": 7,
