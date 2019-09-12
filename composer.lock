@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "1710899c3bbd9eb2a49a2722a0b951e7",
+    "content-hash": "eca2cd64cb0d4b76f7e9015a80b48a00",
     "packages": [
         {
             "name": "abraham/twitteroauth",
@@ -389,78 +389,6 @@
             "description": "Promoting the interoperability of container objects (DIC, SL, etc.)",
             "homepage": "https://github.com/container-interop/container-interop",
             "time": "2017-02-14T19:40:03+00:00"
-        },
-        {
-            "name": "ddeboer/data-import",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/ddeboer/data-import.git",
-                "reference": "1b8f2e6f5731a21206cb8656334574b9be71d30a"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/ddeboer/data-import/zipball/1b8f2e6f5731a21206cb8656334574b9be71d30a",
-                "reference": "1b8f2e6f5731a21206cb8656334574b9be71d30a",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.4.0",
-                "psr/log": "~1.0"
-            },
-            "require-dev": {
-                "doctrine/dbal": "~2.4",
-                "doctrine/orm": "~2.4",
-                "ext-iconv": "*",
-                "ext-mbstring": "*",
-                "ext-sqlite3": "*",
-                "henrikbjorn/phpspec-code-coverage": "~1.0",
-                "phpoffice/phpexcel": "*",
-                "phpspec/phpspec": "~2.1",
-                "symfony/console": "~2.8|~3.0",
-                "symfony/property-access": "~2.5",
-                "symfony/validator": "~2.8|~3.0"
-            },
-            "suggest": {
-                "doctrine/dbal": "If you want to use the DbalReader",
-                "ext-iconv": "For the CharsetValueConverter",
-                "ext-mbstring": "For the CharsetValueConverter",
-                "phpoffice/phpexcel": "If you want to use the ExcelReader",
-                "symfony/console": "If you want to use the ConsoleProgressWriter",
-                "symfony/property-access": "If you want to use the ObjectConverter",
-                "symfony/validator": "to use the ValidatorFilter"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Ddeboer\\DataImport\\": "src/",
-                    "Ddeboer\\DataImport\\Tests\\": "tests/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "The community",
-                    "homepage": "https://github.com/ddeboer/data-import/graphs/contributors"
-                },
-                {
-                    "name": "David de Boer",
-                    "email": "david@ddeboer.nl"
-                }
-            ],
-            "description": "Import data from, and export data to, a range of file formats and media",
-            "keywords": [
-                "csv",
-                "data",
-                "doctrine",
-                "excel",
-                "export",
-                "import"
-            ],
-            "time": "2017-08-31T09:18:10+00:00"
         },
         {
             "name": "defuse/php-encryption",
@@ -4926,7 +4854,7 @@
         },
         {
             "name": "symfony/polyfill-ctype",
-            "version": "v1.9.0",
+            "version": "v1.10.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-ctype.git",
@@ -5148,67 +5076,6 @@
             "description": "Symfony Process Component",
             "homepage": "https://symfony.com",
             "time": "2018-07-26T11:19:56+00:00"
-        },
-        {
-            "name": "symfony/property-access",
-            "version": "v2.8.44",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/property-access.git",
-                "reference": "6951dc7a6b9aef1cd8387ac4d9e8d3e78a2b8aa5"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/property-access/zipball/6951dc7a6b9aef1cd8387ac4d9e8d3e78a2b8aa5",
-                "reference": "6951dc7a6b9aef1cd8387ac4d9e8d3e78a2b8aa5",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.9",
-                "symfony/polyfill-ctype": "~1.8"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.8-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Symfony\\Component\\PropertyAccess\\": ""
-                },
-                "exclude-from-classmap": [
-                    "/Tests/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
-                }
-            ],
-            "description": "Symfony PropertyAccess Component",
-            "homepage": "https://symfony.com",
-            "keywords": [
-                "access",
-                "array",
-                "extraction",
-                "index",
-                "injection",
-                "object",
-                "property",
-                "property path",
-                "reflection"
-            ],
-            "time": "2018-07-26T09:03:18+00:00"
         },
         {
             "name": "symfony/psr-http-message-bridge",
@@ -8179,6 +8046,7 @@
                 "pre-commit",
                 "pre-push"
             ],
+            "abandoned": "captainhook/captainhook",
             "time": "2018-05-03T12:04:10+00:00"
         },
         {
@@ -8661,7 +8529,6 @@
     "stability-flags": {
         "ohanzee/database": 20,
         "league/csv": 20,
-        "ddeboer/data-import": 20,
         "league/event": 20,
         "beheh/flaps": 20,
         "ushahidi/kohana-validation": 20,
@@ -8671,7 +8538,7 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=7.0 <=7.3",
+        "php": ">=7.0 <7.4",
         "ext-curl": "*",
         "ext-gd": "*",
         "ext-json": "*",

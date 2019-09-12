@@ -14,9 +14,9 @@ namespace Ushahidi\App\Validator\Form\Role;
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\Entity\FormRepository;
 use Ushahidi\Core\Entity\RoleRepository;
-use Ushahidi\Core\Tool\Validator;
+use Ushahidi\App\Validator\LegacyValidator;
 
-class Update extends Validator
+class Update extends LegacyValidator
 {
     protected $form_repo;
     protected $role_repo;

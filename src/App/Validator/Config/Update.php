@@ -12,10 +12,10 @@
 namespace Ushahidi\App\Validator\Config;
 
 use Ushahidi\Core\Entity;
-use Ushahidi\Core\Tool\Validator;
+use Ushahidi\App\Validator\LegacyValidator;
 use Ushahidi\Core\Entity\ConfigRepository;
 
-class Update extends Validator
+class Update extends LegacyValidator
 {
     protected $default_error_source = 'config';
 

@@ -35,6 +35,8 @@ class AddUsersRoleForeignKey extends AbstractMigration
      */
     public function down()
     {
+        $this->execute('UPDATE users SET role = "user" WHERE role IS NULL');
+
         // Remove foreign keys from users table
         $this->table('users')
             ->dropForeignKey('role')

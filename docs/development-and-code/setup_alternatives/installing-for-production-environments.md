@@ -70,7 +70,7 @@ GRANT ALL ON `platform-db`.* TO ‘platform-user’@’%’ IDENTIFIED BY ‘you
 ### API installation
 
 {% hint style="info" %}
-This steps need to be executed in the directory where the platform codebase was cloned \(ie /var/www/platform\) 
+This steps need to be executed in the directory where the platform codebase was cloned \(ie /var/www/platform\)
 {% endhint %}
 
 #### .ENV file configuration
@@ -128,7 +128,7 @@ php artisan migrate
 
 #### Verify the directory permissions and ownership are correct
 
-Ensure that the folders logs, cache and media/uploads under platform/application are all owned by the user that the web server is running as  \(for example, www-data\).
+Ensure that the folders logs, cache and media/uploads under platform/application are all owned by the user that the web server is running as \(for example, www-data\).
 
 {% hint style="info" %}
 You can check the user nginx is running with by running
@@ -157,12 +157,14 @@ Add the following lines to the crontab
 {% code-tabs %}
 {% code-tabs-item title="crontab" %}
 ```bash
-MAILTO=admin@example.com #ensure a valid email for system notifications
+MAILTO=admin@example.com
+ #ensure a valid email for system notifications
 */5 * * * * cd /var/www/platform && php artisan datasource:outgoing
 */5 * * * * cd /var/www/platform && php artisan datasource:incoming
 */5 * * * * cd /var/www/platform && php artisan savedsearch:sync
 */5 * * * * cd /var/www/platform && php artisan notification:queue
-*/5 * * * * cd /var/www/platform && php artisan webhook:send
+
+*/5 * * * * cd /var/www/platform && php artisan webhook:send
 ```
 {% endcode-tabs-item %}
 {% endcode-tabs %}
@@ -179,7 +181,7 @@ Any updates the the platform client code or configuration will require a rebuild
 
 {% page-ref page="setting-up-the-platform-client.md" %}
 
-After you finished the set up, you should have a /var/www/platform-client/server/www directory with the generated files ready to be served by nginx. 
+After you finished the set up, you should have a /var/www/platform-client/server/www directory with the generated files ready to be served by nginx.
 
 ### Serving the API and client \(Nginx and PHP FPM setup\)
 
@@ -189,27 +191,36 @@ Create the /etc/nginx/sites-available/platform.conf file, referencing the httpdo
 {% code-tabs-item title="/etc/nginx/sites-available/platform.conf" %}
 ```text
 server {
-    listen 80 ;
+
+listen 80 ;
     listen [::]:80 ;
     server_name your-site.api.example.com;
     charset UTF-8;
     root /var/www/platform/httpdocs;
     index index.php;
     # pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
-    location / {
-        try_files $uri $uri/ /index.php$uri?$args;
+
+location / {
+
+    try_files $uri $uri/ /index.php$uri?$args;
     }
-    # NOTE: You should have "cgi.fix_pathinfo = 0;" in php.ini
+
+# NOTE: You should have "cgi.fix_pathinfo = 0;" in php.ini
     location ^~ /index.php {
-        fastcgi_split_path_info ^(.+\.php)(/.+)$;
-        fastcgi_pass unix:/var/run/php7.0-fpm.sock;
-        fastcgi_index index.php;
+
+fastcgi_split_path_info ^(.+\.php)(/.+)$;
+
+fastcgi_pass unix:/var/run/php7.0-fpm.sock;
+
+fastcgi_index index.php;
         client_max_body_size 10m;
         fastcgi_read_timeout 600;
         include fastcgi_params;
-        break;
+
+break;
     }
-}
+
+}
 ```
 {% endcode-tabs-item %}
 {% endcode-tabs %}
@@ -221,47 +232,70 @@ Create the /etc/nginx/sites-available/platform-client.conf file, referencing the
 ```text
 server {
     listen 80 default_server;
-    listen [::]:80 ;
+
+listen [::]:80 ;
     server_name your-site.example.com;
     charset UTF-8;
     root /var/www/platform-client/server/www;
-    index index.html;
+
+index index.html;
     location / {
-        try_files $uri $uri/ @missing;
+
+try_files $uri $uri/ @missing;
     }
-    location /config.json {
-        if ($request_method = 'OPTIONS') {
+
+location /config.json {
+
+if ($request_method = 'OPTIONS') {
             add_header 'Access-Control-Allow-Origin' '*';
             add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS';
-            add_header 'Access-Control-Allow-Headers''DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Content-Range,Range';
+            add_header 'Access-Control-Allow-Headers'
+'DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Co
+ntrol,Content-Type,Content-Range,Range';
             add_header 'Access-Control-Max-Age' 1728000;
             add_header 'Content-Type' 'text/plain charset=UTF-8';
-            add_header 'Content-Length' 0;return 204;
+
+add_header 'Content-Length' 0;
+return 204;
         }
-        if ($request_method = 'GET') {
-            add_header 'Access-Control-Allow-Origin' '*';
+
+if ($request_method = 'GET') {
+
+add_header 'Access-Control-Allow-Origin' '*';
             add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS';
-            add_header 'Access-Control-Allow-Headers''DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Content-Range,Range';
-            add_header 'Access-Control-Expose-Headers''DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Content-Range,Range';
-        }
-    }
-    location @missing {
+
+add_header 'Access-Control-Allow-Headers'
+'DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Co
+ntrol,Content-Type,Content-Range,Range';
+
+add_header 'Access-Control-Expose-Headers'
+'DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Co
+ntrol,Content-Type,Content-Range,Range';
+
+}
+
+}
+
+location @missing {
         rewrite ^ /index.html last;
     }
-}
+
+}
 ```
 {% endcode-tabs-item %}
 {% endcode-tabs %}
 
-
-
-Run the following commands 
+Run the following commands
 
 ```bash
-rm /etc/nginx/sites-enabled/default;
-ln -s /etc/nginx/sites-available/platform.conf /etc/nginx/sites-enabled/platform.conf;
+rm /etc/nginx/sites-enabled/default
+;
+ln -s /etc/nginx/sites-available/platform.conf /etc/nginx/sites-enabled/platform.conf
+;
 ln -s /etc/nginx/sites-available/platform-client.conf /etc/nginx/sites-enabled/platform-client.conf;
-systemctl restart nginx.service;
+
+systemctl restart nginx.service
+;
 systemctl restart php7.0-fpm.service;
 ```
 
@@ -273,30 +307,37 @@ Example contents for the file /etc/php/7.1/fpm/pool.d/www.conf
 {% code-tabs-item title="/etc/php/7.1/fpm/pool.d/www.conf" %}
 ```text
 [www]
-user = www-data
-group = www-data
-listen = /run/php/php7.0-fpm.sock
-listen.owner = www-data
-listen.group = www-datapm = dynamic
+
+user = www-data
+
+group = www-data
+
+listen = /run/php/php7.0-fpm.sock
+
+listen.owner = www-data
+
+listen.group = www-data
+pm = dynamic
 pm.max_children = 8
 pm.start_servers = 4
 pm.min_spare_servers = 1
-pm.max_spare_servers = 4
-pm.process_idle_timeout = 30s
+
+pm.max_spare_servers = 4
+
+pm.process_idle_timeout = 30s
 ```
 {% endcode-tabs-item %}
 {% endcode-tabs %}
 
 ### Verifying the API is running
 
-  
-Ensuring that the API backend is configured and operational can be achieved by accessing the base URL of the API. Example, if your API is hosted in https://_your-site.api.example.com_/, accessing that URL should output JSON like this:
+Ensuring that the API backend is configured and operational can be achieved by accessing the base URL of the API. Example, if your API is hosted in [https://\_your-site.api.example.com\_/](https://_your-site.api.example.com_/), accessing that URL should output JSON like this:
 
 ```text
 {"now":"2018-11-07T14:37:32+00:00","version":"3","user":{"id":null,"email":null,"realname":null}}
 ```
 
-You should also check the  /api/v3/config resource , like this : https://_your-site.api.example.com_/api/v3/config and ensure it outputs a JSON document.
+You should also check the /api/v3/config resource , like this : [https://\_your-site.api.example.com\_/api/v3/config](https://_your-site.api.example.com_/api/v3/config) and ensure it outputs a JSON document.
 
 ### Adjusting your queue configuration
 
@@ -312,11 +353,11 @@ Please see [the section covering queue drivers](platform_release_install.md#queu
 The client will only work if the API is operational.
 {% endhint %}
 
-Once you have verified the API, you should verify the client by accessing the URL where you hosted the client \(i.e. https://your-site.example.com \).
+Once you have verified the API, you should verify the client by accessing the URL where you hosted the client \(i.e. [https://your-site.example.com](https://your-site.example.com) \).
 
 You should also logging in as an administrator to verify that the authentication system works. This can be achieved by using the username "admin" with the password "administrator" in v4, or the password "admin" in V3.
 
-As an extra safety check, try creating a post in the platform by clicking the yellow + plus in the /views/data path or the /views/map path. 
+As an extra safety check, try creating a post in the platform by clicking the yellow + plus in the /views/data path or the /views/map path.
 
 ## Deploying Ushahidi for multiple languages
 
@@ -333,7 +374,7 @@ After Ushahidi grants access, modify the .ENV file in the platform-client to req
 APP_LANGUAGES=en,es
 ```
 
-After modifying the .ENV file, make sure to rebuild the client so the changes are reflected in the application. 
+After modifying the .ENV file, make sure to rebuild the client so the changes are reflected in the application.
 
 {% hint style="warning" %}
 Any updates the the platform client code or configuration will require a rebuild of the client. To do so, you can run "gulp build" like you did when installing the client in the server.

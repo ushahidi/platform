@@ -12,7 +12,7 @@
 namespace Ushahidi\App\Validator\User\Setting;
 
 use Ushahidi\Core\Entity;
-use Ushahidi\Core\Tool\Validator;
+use Ushahidi\App\Validator\LegacyValidator;
 use Ushahidi\Core\Entity\UserRepository;
 
 class Create extends Update

@@ -1,0 +1,39 @@
+{
+  "files": [
+    "docs/contributors-to-ushahidi.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "Angamanga",
+      "name": "Anna Iosif",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/8624777?v=4",
+      "profile": "https://github.com/Angamanga",
+      "contributions": [
+        "doc",
+        "code",
+        "bug",
+        "review",
+        "tutorial",
+        "ideas"
+      ]
+    },
+    {
+      "login": "rowasc",
+      "name": "Romina Suarez",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/2434401?v=4",
+      "profile": "https://github.com/rowasc",
+      "contributions": [
+        "code",
+        "doc",
+        "ideas"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "platform",
+  "projectOwner": "ushahidi",
+  "repoType": "github",
+  "repoHost": "https://github.com"
+}

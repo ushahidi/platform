@@ -15,7 +15,7 @@
         }
     ],
     "require": {
-        "php": ">=7.0 <=7.3",
+        "php": ">=7.0 <7.4",
         "aura/di": "~3.4",
         "league/flysystem-aws-s3-v3": "~1.0",
         "league/flysystem-rackspace": "~1.0",
@@ -33,8 +33,6 @@
         "ext-mbstring": "*",
         "league/csv": "~7.1@dev",
         "laravel/lumen-framework": "5.5.*",
-        "ddeboer/data-import": "dev-master",
-        "symfony/property-access": "~2.5",
         "league/event": "^2.2@dev",
         "beheh/flaps": "dev-master",
         "doctrine/cache": "^1.6.2",

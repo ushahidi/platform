@@ -12,27 +12,15 @@ The Platform is split into 3 layers: Presentation \(Client / Web interface\), Se
 
 ![Application tiers](../.gitbook/assets/app-tiers%20%281%29.png) [source](http://www.nomnoml.com/#view/%23title%3A%20Application%20Tiers
 
-[Presentation|
-%20%20%20%20[AngularJS]
-%20%20%20%20[Endpoints]
-]
+\[Presentation\| %20%20%20%20\[AngularJS\] %20%20%20%20\[Endpoints\] \]
 
-[Services|
-%20%20%20%20[API]o->[Kohana]%20
-%20%20%20%20[API]o->[Ushahidi%20Core]
-%20%20%20%20[Kohana]-->[PHP]
-%20%20%20%20[Ushahidi%20Core]-->[PHP]%20%20%20
-]
+\[Services\| %20%20%20%20\[API\]o-&gt;\[Kohana\]%20 %20%20%20%20\[API\]o-&gt;\[Ushahidi%20Core\] %20%20%20%20\[Kohana\]--&gt;\[PHP\] %20%20%20%20\[Ushahidi%20Core\]--&gt;\[PHP\]%20%20%20 \]
 
-[Data|
-%20%20%20%20[MySQL]
-]
+\[Data\| %20%20%20%20\[MySQL\] \]
 
-[Presentation]<->[Services]
-[Services]<->[Data]
+\[Presentation\]&lt;-&gt;\[Services\] \[Services\]&lt;-&gt;\[Data\]
 
-
-%23direction%3A%20right)
+%23direction%3A%20right\)
 
 ### API
 
