@@ -33,6 +33,7 @@
   </tr>
   <tr>
     <td align="center"><a href="https://github.com/samtheson"><img src="https://avatars0.githubusercontent.com/u/958800?v=4" width="100px;" alt="Sam"/><br /><sub><b>Sam</b></sub></a><br /><a href="https://github.com/ushahidi/platform/commits?author=samtheson" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/aoduor"><img src="https://avatars1.githubusercontent.com/u/721918?v=4" width="100px;" alt="Angela Oduor Lungati"/><br /><sub><b>Angela Oduor Lungati</b></sub></a><br /><a href="https://github.com/ushahidi/platform/commits?author=aoduor" title="Documentation">📖</a> <a href="#ideas-aoduor" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/ushahidi/platform/issues?q=author%3Aaoduor" title="Bug reports">🐛</a> <a href="#question-aoduor" title="Answering Questions">💬</a></td>
   </tr>
 </table>
 
