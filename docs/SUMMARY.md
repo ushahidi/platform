@@ -42,6 +42,7 @@
 * [How to run QA tests](qa-and-testing/how-to-run-qa-tests.md)
 * [Defect Management](qa-and-testing/defect-management.md)
 * [How to write QA test scripts](qa-and-testing/how-to-write-qa-test-scripts.md)
+* [Hotfixes](qa-and-testing/hotfixes.md)
 
 ## Front-end development
 

@@ -8,7 +8,7 @@ The following information is captured in the report.
 * Title - short description of what the issue is. Anyone reading the title should be able to tell what the issue is.
 * Describe the bug - more details on what the issue is.
 * Expected Behavior - what should have happened.
-* Actual behavior - what actually happened. This needs to be a very accurate and detailed description of the behavior experienced. \[Walter to add link to a really good "Actual behavior" example" \] 
+* Actual behavior - what actually happened. This needs to be a very accurate and detailed description of the behavior experienced.
 * Steps to reproduce - actions followed when bug was discovered.
 * Environment - Client used, version number
 * Operating System
