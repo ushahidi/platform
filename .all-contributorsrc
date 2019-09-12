@@ -190,6 +190,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "cvele",
+      "name": "Vladimir Cvetic",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/644800?v=4",
+      "profile": "http://ferdinand.rs",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
