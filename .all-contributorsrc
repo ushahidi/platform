@@ -248,6 +248,36 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "aoduor",
+      "name": "Angela Oduor Lungati",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/721918?v=4",
+      "profile": "https://github.com/aoduor",
+      "contributions": [
+        "doc",
+        "ideas",
+        "bug",
+        "question"
+      ]
+    },
+    {
+      "login": "aitorres",
+      "name": "Andrés Ignacio Torres",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/26191851?v=4",
+      "profile": "http://aitorres.com.ve",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "virgilio",
+      "name": "Virgílio N Santos",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/276746?v=4",
+      "profile": "https://github.com/virgilio",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,
