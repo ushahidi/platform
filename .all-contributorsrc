@@ -29,7 +29,8 @@
       "contributions": [
         "code",
         "doc",
-        "ideas"
+        "ideas",
+        "review"
       ]
     },
     {
@@ -492,7 +493,6 @@
       ]
     }
   ],
-  "contributorsPerLine": 7,
   "projectName": "platform",
   "projectOwner": "ushahidi",
   "repoType": "github",
