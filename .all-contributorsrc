@@ -5,6 +5,7 @@
   ],
   "imageSize": 50,
   "commit": false,
+  "contributorsPerLine": 2,
   "contributors": [
     {
       "login": "Angamanga",
