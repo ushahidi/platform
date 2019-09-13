@@ -35,14 +35,19 @@ class EnvTest extends TestCase
         $envCheckerMock->shouldReceive('envExists')
             ->andReturn(false);
 
+        $envCheckerMock->shouldReceive('isMissingEnvKey')
+            ->with('DB_CONNECTION')
+            ->andReturn(true);
+
         $result = $envCheckerMock->verifyRequirements(false);
 
-        $this->assertEquals(['errors' => [
-            [
-                'message' => 'No environment file found. Please copy the .env.example file to create a new .env file.',
-                'explainer' => ''
-            ]
-        ]], $result);
+        $this->assertArrayHasKey('errors', $result);
+        $errors = $result['errors'];
+        $this->assertGreaterThanOrEqual(2, count($errors));
+        $this->assertContains([
+            'message' => 'Required environment variables missing and no environment file found.',
+            'explainer' => "Please copy the '.env.example' file into a file named '.env' and set your missing variables."
+        ], $errors);
     }
 
     public function testSuccessEnvKeys()
@@ -57,7 +62,7 @@ class EnvTest extends TestCase
 
         $this->assertEquals(['success' => [
             [
-                'message' => 'Good job! you have configured your .ENV file with all the required keys.',
+                'message' => 'Good job! you have configured your system environment and/or .env file with all the required keys.',
                 'explainer' => null
             ]
         ]], $result);
@@ -78,8 +83,8 @@ class EnvTest extends TestCase
 
         $this->assertEquals(['errors' => [
             [
-                'message' => 'DB_CONNECTION is missing from your .env file.',
-                'explainer' => 'Please set `DB_CONNECTION=mysql` in the .env file.'
+                'message' => 'DB_CONNECTION is missing in the environment or .env file.',
+                'explainer' => 'Please set `DB_CONNECTION=mysql` in the environment or .env file.'
             ]
         ]], $result);
     }
@@ -102,11 +107,11 @@ class EnvTest extends TestCase
         $result = $envCheckerMock->verifyRequirements(false);
         $this->assertEquals(['errors' => [
             [
-                'message' => 'DB_CONNECTION is missing from your .env file.',
-                'explainer' => 'Please set `DB_CONNECTION=mysql` in the .env file.'
+                'message' => 'DB_CONNECTION is missing in the environment or .env file.',
+                'explainer' => 'Please set `DB_CONNECTION=mysql` in the environment or .env file.'
             ],
             [
-                'message' => 'DB_USERNAME is missing from your .env file.',
+                'message' => 'DB_USERNAME is missing in the environment or .env file.',
                 'explainer' => 'Please set the username to connect to your database in the DB_USERNAME key'
             ]
         ]], $result);

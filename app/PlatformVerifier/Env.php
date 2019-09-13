@@ -9,10 +9,9 @@ use Composer\Installer\PackageEvent;
 class Env
 {
     private static $NO_ENV = "Required environment variables missing and no environment file found.";
-    private static $NO_ENV_EXPLAINER = "Configure your environment or create .env file with the missing variables.";
-
+    private static $NO_ENV_EXPLAINER = "Please copy the '.env.example' file into a file named '.env' and set your missing variables.";
     private static $REQUIRED_ENV_KEYS = [
-        "DB_CONNECTION" => "Please set `DB_CONNECTION=mysql` in the .env file. or your environment",
+        "DB_CONNECTION" => "Please set `DB_CONNECTION=mysql` in the environment or .env file.",
         "DB_HOST" => "Please set the address of your database in the DB_HOST key",
         "DB_PORT" => "Please set the port of your database in the DB_PORT key",
         "DB_DATABASE" => "Please set the name of your database in the DB_DATABASE key",
@@ -35,7 +34,7 @@ class Env
     }
     public function verifyRequirements($console = true)
     {
-        $ok = "Good job! you have configured your environment with all the required keys.";
+        $ok = "Good job! you have configured your system environment and/or .env file with all the required keys.";
         $info = "We will check the database connectivity next.";
         $errors = [];
         $success = [];
@@ -50,7 +49,7 @@ class Env
             if ($this->isMissingEnvKey($key)) {
                 $failures = true;
                 $message = [
-                    "message" => "$key is missing in the environment.",
+                    "message" => "$key is missing in the environment or .env file.",
                     "explainer" => $value
                 ];
                 array_push($errors, $message);
