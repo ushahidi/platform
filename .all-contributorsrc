@@ -1,8 +1,9 @@
 {
+  "skipCi": true,
   "files": [
     "docs/contributors-to-ushahidi.md"
   ],
-  "imageSize": 100,
+  "imageSize": 50,
   "commit": false,
   "contributors": [
     {
