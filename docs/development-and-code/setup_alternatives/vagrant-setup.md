@@ -1,5 +1,11 @@
 # Development environment setup with Vagrant
 
+### Video-tutorials
+
+The setup in this guide is demonstrated in below video as well if you want to watch and follow the guide at the same time!
+
+{% embed url="https://youtu.be/7ZshCFUM9j0" caption="Setting up Platform backend, recorded in Mac OS" %}
+
 ## Installing the API
 
 This guide relies heavily on Vagrant and assumes some previous knowledge of how to use and/or troubleshoot vagrant.
@@ -79,9 +85,9 @@ If you see an error like "Vagrant was unable to mount VirtualBox shared folders.
   * [ ] `vagrant ssh` \(to ssh into the machine\)
   * [ ] `lsmod | grep vboxguest`
   * [ ] If this command doesn't return anything, VB Guest additions are likely not installed correctly. A fix for this is to install the vbguest vagrant plugin.
-    * [ ] if you are in the vagrant box, type `exit` and hit the return key to exit it
-    * [ ] run `vagrant plugin install vagrant-vbguest`
-    * [ ] run `vagrant up --provision` to continue
+  * [ ] if you are in the vagrant box, type `exit` and hit the return key to exit it
+  * [ ] run `vagrant plugin install vagrant-vbguest`
+  * [ ] run `vagrant up --provision` to continue
 * [ ] If that doesn't work, and you are in a linux or MacOS environment \(this is not compatible with Windows!\):
 * [ ] open the Homestead.yml file
 * [ ] Add `type: "nfs"` to the two directory mappings as shown below
