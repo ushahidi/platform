@@ -4,6 +4,14 @@
 
 The web client is the component that end users interact with when opening the Platform website with a web browser. The client interacts with the API in order to perform operations on the system \(i.e. submit posts, query posts\).
 
+### Video-tutorials
+
+The setup in this guide is demonstrated in below videos as well if you want to watch and follow the guide at the same time!
+
+{% embed url="https://www.youtube.com/watch?v=-GZBJtUQqoQ&feature=youtu.be" caption="Setting up Ushahidi client for local development, recorded in MacOS." %}
+
+{% embed url="https://youtu.be/jPa4oB4XPZw" caption="Setting up Ushahidi client for local development, recorded in Linux." %}
+
 ### Installation steps
 
 {% hint style="warning" %}

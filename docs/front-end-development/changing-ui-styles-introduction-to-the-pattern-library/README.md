@@ -30,12 +30,11 @@ We recommend you review the different structures in the pattern library before s
 
 ## Setting up the pattern library for development
 
-Find the setup guide in 
+Find the setup guide in
 
 {% page-ref page="../../development-and-code/setup\_alternatives/setting-up-the-pattern-library-for-development.md" %}
 
 ### Working with the pattern library
 
-Continue reading in this chapter  to get a full introduction to the pattern library.  
-
+Continue reading in this chapter to get a full introduction to the pattern library.
 
