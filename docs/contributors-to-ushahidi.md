@@ -6,7 +6,17 @@ This is a list of people who have contributed to Ushahidi. Not everyone in this 
 
 Notice: when looking at the "code" contribution links that some folks have, be aware that not all the code lives in this repository and may not appear to have committed here, but they may have commited in the platform-client repository. 
 
-***All contributors are valued by Ushahidi. Thank you to everyone who contributed and continues to contribute over the years.***
+***All contributors to the Ushahidi Platform are valued by Ushahidi. Thank you to everyone who contributed and continues to contribute over the years.***
+
+### Note: adding yourself to this list
+
+If you have contributed to Ushahidi Platform V3 or V4 and don't see your name in this list, please reach out to us in https://gitter.im/ushahidi/Community or use the "all contributors" bot in your contribution (ie in the ticket) to ask the bot to add you. 
+
+Usage example `@all-contributors add @username for code` 
+Usage example `@all-contributors add @username for design` 
+Usage example `@all-contributors add @username for bug, ideas, design` 
+
+See all available contribution types here https://allcontributors.org/docs/en/emoji-key
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore -->
@@ -76,4 +86,5 @@ Notice: when looking at the "code" contribution links that some folks have, be a
 </table>
 
 <!-- ALL-CONTRIBUTORS-LIST:END -->
+
 
