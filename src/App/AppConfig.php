@@ -446,6 +446,10 @@ class AppConfig extends ContainerConfig
             'resolver' => $di->lazyGet('db.ohanzee.resolver'),
         ];
 
+        // Config
+        $di->params[\Ushahidi\App\PlatformVerifier\Database::class] = [
+            'resolver' => $di->lazyGet('db.ohanzee.resolver'),
+        ];
         // Set up Json Transcode Repository Trait
         $di->setters[\Ushahidi\App\Repository\JsonTranscodeRepository::class]['setTranscoder'] =
             $di->lazyGet('tool.jsontranscode');
