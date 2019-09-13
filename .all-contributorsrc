@@ -5,7 +5,7 @@
   ],
   "imageSize": 50,
   "commit": false,
-  "contributorsPerLine": 2,
+  "contributorsPerLine": 7,
   "contributors": [
     {
       "login": "Angamanga",
@@ -29,7 +29,8 @@
       "contributions": [
         "code",
         "doc",
-        "ideas"
+        "ideas",
+        "review"
       ]
     },
     {
@@ -492,7 +493,6 @@
       ]
     }
   ],
-  "contributorsPerLine": 7,
   "projectName": "platform",
   "projectOwner": "ushahidi",
   "repoType": "github",
