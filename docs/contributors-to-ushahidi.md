@@ -1,5 +1,12 @@
 # Contributors ✨
 
+There are many ways to get involved with Ushahidi. You can read about how to contribute in [our docs](https://docs.ushahidi.com/platform-developer-documentation/contributing-or-getting-involved).
+
+This is a list of people who have contributed to Ushahidi. Not everyone in this list contributed code. Some folks here are designers, and they designed different components of the Ushahidi platform to make it better. Some did things that improved the organization and enabled others to thrive, like writing docs, blog posts, or perform business functions for our non profit. Many developed code and reviewed other people's code. A lot of people opened new bug tickets or provided ideas. 
+
+Notice: when looking at the "code" contribution links that some folks have, be aware that not all the code lives in this repository and may not appear to have committed here, but they may have commited in the platform-client repository. 
+
+***All contributors are valued by Ushahidi. Thank you to everyone who contributed and continues to contribute over the years.***
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore -->
