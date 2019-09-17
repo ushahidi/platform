@@ -117,6 +117,9 @@ See all available contribution types here https://allcontributors.org/docs/en/em
     <td align="center"><a href="https://github.com/gitudaniel"><img src="https://avatars1.githubusercontent.com/u/17337808?v=4" width="50px;" alt=" Daniel Gitu"/><br /><sub><b> Daniel Gitu</b></sub></a><br /><a href="https://github.com/ushahidi/platform/commits?author=gitudaniel" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/Philomenahhfl"><img src="https://avatars0.githubusercontent.com/u/25051453?v=4" width="50px;" alt="Philomenahhfl"/><br /><sub><b>Philomenahhfl</b></sub></a><br /><a href="https://github.com/ushahidi/platform/commits?author=Philomenahhfl" title="Code">💻</a></td>
   </tr>
+  <tr>
+    <td align="center"><a href="https://www.linkedin.com/in/walterobadha/"><img src="https://avatars1.githubusercontent.com/u/38259840?v=4" width="50px;" alt="Obadha2"/><br /><sub><b>Obadha2</b></sub></a><br /><a href="https://github.com/ushahidi/platform/issues?q=author%3AObadha2" title="Bug reports">🐛</a></td>
+  </tr>
 </table>
 
 <!-- ALL-CONTRIBUTORS-LIST:END -->
