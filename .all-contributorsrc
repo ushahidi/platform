@@ -491,6 +491,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "Obadha2",
+      "name": "Obadha2",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/38259840?v=4",
+      "profile": "https://www.linkedin.com/in/walterobadha/",
+      "contributions": [
+        "bug"
+      ]
     }
   ],
   "projectName": "platform",
