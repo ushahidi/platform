@@ -268,6 +268,15 @@ The Platform API doesn't provide any sort of clickable user interface, that is e
 Jump on to the next section to see about setting up the Platform client.
 {% endhint %}
 
+### If something seems wrong
+
+In case you are not getting the API response as suggested above, it's probable that something is not quite right.
+
+Do not despair! There's a couple things you can try to see what's wrong:
+
+1. Run the `composer verify` command. This will run some quick checks and may give you useful insights.
+2. Carry on with installation and set up the Platform client. Bundled with the Platform client code there's a little tool called [Installation Helper](../installation-helper.md) that can run more checks and possibly help you out.
+
 ### Setting up the Platform client
 
 The platform client comes with its own web server for development purposes. This means that we don't need to add or alter anything to the Apache and MySQL setup that we have done for the API. Both components will be running separately from each other.
