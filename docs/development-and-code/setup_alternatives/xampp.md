@@ -6,6 +6,14 @@ description: >-
 
 # Development environment with XAMPP
 
+### Video-tutorials
+
+The setup in this guide is demonstrated in below videos as well if you want to watch and follow the guide at the same time!
+
+{% embed url="https://www.youtube.com/watch?v=zY80QpptKk0&feature=youtu.be" caption="Download the Platform code with GitHub Desktop, recorded in Windows" %}
+
+{% embed url="https://www.youtube.com/watch?v=2byASqRp9hQ&feature=youtu.be" caption="Install XAMPP and Composer to setup the Ushahidi Platform Backend, recorded in Windows." %}
+
 ## Introduction
 
 XAMPP is a bundle of server programs including three of the requirements for running the Ushahidi Platform API: Apache, MySQL and PHP.
