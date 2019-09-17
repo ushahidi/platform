@@ -500,6 +500,17 @@
       "contributions": [
         "bug"
       ]
+    },
+    {
+      "login": "justinscherer",
+      "name": "Justin Scherer",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/29209303?v=4",
+      "profile": "https://www.justinscherer.xyz",
+      "contributions": [
+        "design",
+        "ideas",
+        "userTesting"
+      ]
     }
   ],
   "projectName": "platform",
