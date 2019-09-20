@@ -52,8 +52,11 @@ class API implements Formatter
             }
 
             $method = 'format' . Str::studly($field);
+            $methodWithFields = 'format' . Str::studly($field) . 'WithFields';
             if (method_exists($this, $method)) {
                 $data[$name] = $this->$method($value);
+            } elseif (method_exists($this, $methodWithFields)) {
+                $data[$name] = $this->$methodWithFields($value, $fields);
             } else {
                 $data[$name] = $value;
             }

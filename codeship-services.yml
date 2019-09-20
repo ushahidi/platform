@@ -38,33 +38,77 @@ deploy:
     DEPLOYMENT_RULES_VERSION: master
     DEPLOYMENT_RULES_FILE: platform.yml
 
-test:
-  build:
-    image: test
-    dockerfile_path: docker/test.Dockerfile
-  volumes:
-    - .:/vols/src
-  depends_on:
-    - mysql
-  environment:
-    - DB_HOST=mysql
-    - DB_PORT=3306
-    - DB_DATABASE=ushahidi
-    - DB_USERNAME=ushahidi
-    - DB_PASSWORD=ushahidi
-    - KOHANA_ENV=testing
-  extra_hosts:
-    - "ushahidi.dev:127.0.0.1"
-  cached: true
-  default_cache_branch: develop
 
-mysql:
-  image: mysql:5.6
+mysql/base: &_mysql_base
+  image: mysql:5.7
   environment:
     - MYSQL_DATABASE=ushahidi
     - MYSQL_USER=ushahidi
     - MYSQL_PASSWORD=ushahidi
     - MYSQL_ROOT_PASSWORD=root
+mysql-7.1:
+  <<: *_mysql_base
+mysql-7.2:
+  <<: *_mysql_base
+mysql-7.3:
+  <<: *_mysql_base
+
+
+test/base: &_test_defaults
+  build: &_test_build_defaults
+    dockerfile_path: docker/test.Dockerfile
+  volumes:
+    - .:/vols/src
+  environment: &_test_env_defaults
+    DB_PORT: 3306
+    DB_DATABASE: ushahidi
+    DB_USERNAME: ushahidi
+    DB_PASSWORD: ushahidi
+    KOHANA_ENV: testing
+  extra_hosts:
+    - "ushahidi.dev:127.0.0.1"
+  cached: true
+  default_cache_branch: develop
+
+test/php-7.1:
+  <<: *_test_defaults
+  build:
+    <<: *_test_build_defaults
+    image: test-7.1
+    args:
+      PHP_MAJOR_VERSION: "7.1"
+  environment:
+    <<: *_test_env_defaults
+    DB_HOST: mysql-7.1
+  depends_on:
+    - mysql-7.1
+
+test/php-7.2:
+  <<: *_test_defaults
+  build:
+    <<: *_test_build_defaults
+    image: test-7.2
+    args:
+      PHP_MAJOR_VERSION: "7.2"
+  environment:
+    <<: *_test_env_defaults
+    DB_HOST: mysql-7.2
+  depends_on:
+    - mysql-7.2
+
+test/php-7.3:
+  <<: *_test_defaults
+  build:
+    <<: *_test_build_defaults
+    image: test-7.3
+    args:
+      PHP_MAJOR_VERSION: "7.3"
+  depends_on:
+    - mysql-7.3
+  environment:
+    <<: *_test_env_defaults
+    DB_HOST: mysql-7.3
+
 
 aglio:
   image: humangeo/aglio

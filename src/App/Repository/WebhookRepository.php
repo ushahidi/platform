@@ -69,7 +69,7 @@ class WebhookRepository extends OhanzeeRepository implements WebhookRepositoryCo
     {
         $query = $this->selectQuery(compact('event_type'));
 
-        $results = $query->execute($this->db);
+        $results = $query->execute($this->db());
         return $results->as_array();
     }
 

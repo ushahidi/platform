@@ -51,26 +51,26 @@ class Nexmo implements CallbackDataSource, OutgoingAPIDataSource
 
     public function getOptions()
     {
-        return array(
-            'from' => array(
+        return [
+            'from' => [
                 'label' => 'From',
                 'input' => 'text',
                 'description' => 'The from number',
-                'rules' => array('required')
-            ),
-            'api_key' => array(
+                'rules' => ['required']
+            ],
+            'api_key' => [
                 'label' => 'API Key',
                 'input' => 'text',
                 'description' => 'The API key',
-                'rules' => array('required')
-            ),
-            'api_secret' => array(
+                'rules' => ['required']
+            ],
+            'api_secret' => [
                 'label' => 'API secret',
                 'input' => 'text',
                 'description' => 'The API secret',
-                'rules' => array('required')
-            )
-        );
+                'rules' => ['required']
+            ]
+        ];
     }
 
     public function getInboundFields()
@@ -78,6 +78,11 @@ class Nexmo implements CallbackDataSource, OutgoingAPIDataSource
         return [
             'Message' => 'text'
         ];
+    }
+
+    public function isUserConfigurable()
+    {
+        return true;
     }
 
     /**
@@ -95,7 +100,7 @@ class Nexmo implements CallbackDataSource, OutgoingAPIDataSource
         // Check we have the required config
         if (!isset($this->config['api_key']) || !isset($this->config['api_secret'])) {
             app('log')->warning('Could not send message with Nexmo, incomplete config');
-            return array(MessageStatus::FAILED, false);
+            return [MessageStatus::FAILED, false];
         }
 
         // Make twilio client
@@ -115,15 +120,15 @@ class Nexmo implements CallbackDataSource, OutgoingAPIDataSource
                 'text' => $message
             ]);
 
-            return array(MessageStatus::SENT, $message->getMessageId());
+            return [MessageStatus::SENT, $message->getMessageId()];
         } catch (\Nexmo\Client\Exception\Exception $e) {
             app('log')->warning($e->getMessage());
         }
 
-        return array(MessageStatus::FAILED, false);
+        return [MessageStatus::FAILED, false];
     }
 
-    public function registerRoutes(\Laravel\Lumen\Routing\Router $router)
+    public static function registerRoutes(\Laravel\Lumen\Routing\Router $router)
     {
         $router->post('sms/nexmo', 'Ushahidi\App\DataSource\Nexmo\NexmoController@handleRequest');
         $router->get('sms/nexmo', 'Ushahidi\App\DataSource\Nexmo\NexmoController@handleRequest');

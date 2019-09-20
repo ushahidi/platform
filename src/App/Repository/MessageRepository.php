@@ -136,7 +136,7 @@ class MessageRepository extends OhanzeeRepository implements
             $query->where('messages.data_source', '=', $data_source);
         }
 
-        $results = $query->execute($this->db);
+        $results = $query->execute($this->db());
 
         return $this->getCollection($results->as_array());
     }
@@ -160,7 +160,7 @@ class MessageRepository extends OhanzeeRepository implements
             $query->where('messages.type', '=', $type);
         }
 
-        $results = $query->execute($this->db);
+        $results = $query->execute($this->db());
 
         return $this->getCollection($results->as_array());
     }
@@ -185,9 +185,28 @@ class MessageRepository extends OhanzeeRepository implements
     // CreateRepository
     public function create(Entity $entity)
     {
-        return parent::create($entity->setState([
-            'created'   => time(),
-        ]));
+
+        $message = $entity->asArray();
+        // Set default value for post_date
+        if (!empty($message['datetime'])) {
+            $message['datetime'] = $message['datetime']->format("Y-m-d H:i:s");
+        }
+        $message['created'] = time();
+        // Create the post
+        return $this->executeInsert($this->removeNullValues($message));
+    }
+
+    // Update Repository
+    public function update(Entity $entity)
+    {
+
+        $message = $entity->asArray();
+        // Set default value for post_date
+        if (!empty($message['datetime'])) {
+            $message['datetime'] = $message['datetime']->format("Y-m-d H:i:s");
+        }
+        // Create the post
+        return $this->executeUpdate(['id' => $message['id']], $this->removeNullValues($message));
     }
 
     // UpdateMessageRepository
@@ -220,7 +239,7 @@ class MessageRepository extends OhanzeeRepository implements
                 'desc'
             )
             ->limit(1);
-        $result =   $query->execute($this->db);
+        $result =   $query->execute($this->db());
 
         $last_uid = $result->get('uid', 0) ? $result->get('uid', 0) : null;
 

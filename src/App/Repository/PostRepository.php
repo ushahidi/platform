@@ -29,16 +29,11 @@ use Ushahidi\Core\Usecase\Post\StatsPostRepository;
 use Ushahidi\Core\Usecase\Post\UpdatePostRepository;
 use Ushahidi\Core\Usecase\Set\SetPostRepository;
 use Ushahidi\Core\Traits\UserContext;
-use Ushahidi\Core\Traits\Permissions\ManagePosts;
-use Ushahidi\Core\Tool\Permissions\AclTrait;
-use Ushahidi\Core\Traits\AdminAccess;
-use Ushahidi\Core\Tool\Permissions\Permissionable;
-use Ushahidi\Core\Traits\PostValueRestrictions;
 use Ushahidi\Core\Entity\ContactRepository;
 use Ushahidi\App\Repository\Post\ValueFactory as PostValueFactory;
 use Ushahidi\App\Util\BoundingBox;
-
-use Aura\DI\InstanceFactory;
+use Ushahidi\App\Multisite\OhanzeeResolver;
+use Ushahidi\Core\Tool\Permissions\InteractsWithPostPermissions;
 
 use League\Event\ListenerInterface;
 use Ushahidi\Core\Traits\Event;
@@ -56,15 +51,8 @@ class PostRepository extends OhanzeeRepository implements
     // Use the JSON transcoder to encode properties
     use JsonTranscodeRepository;
 
-    // Provides `acl`
-    use AclTrait;
-
-    // Checks if user is Admin
-    use AdminAccess;
-
-    // Check for value restrictions
-    // provides canUserReadPostsValues
-    use PostValueRestrictions;
+    // Provides `postPermissions`
+    use InteractsWithPostPermissions;
 
     protected $form_attribute_repo;
     protected $form_stage_repo;
@@ -91,17 +79,17 @@ class PostRepository extends OhanzeeRepository implements
      * @param Aura\DI\InstanceFactory               $bounding_box_factory
      */
     public function __construct(
-        Database $db,
+        OhanzeeResolver $resolver,
         FormAttributeRepositoryContract $form_attribute_repo,
         FormStageRepositoryContract $form_stage_repo,
         FormRepositoryContract $form_repo,
         PostLockRepository $post_lock_repo,
         ContactRepository $contact_repo,
         PostValueFactory $post_value_factory,
-        InstanceFactory $bounding_box_factory
+        \Aura\Di\Injection\Factory $bounding_box_factory
     ) {
 
-        parent::__construct($db);
+        parent::__construct($resolver);
 
         $this->form_attribute_repo = $form_attribute_repo;
         $this->form_stage_repo = $form_stage_repo;
@@ -124,38 +112,76 @@ class PostRepository extends OhanzeeRepository implements
         // Ensure we are dealing with a structured Post
 
         $user = $this->getUser();
-        if ($data['form_id']) {
-            if ($this->canUserReadPostsValues(new Post($data), $user, $this->form_repo)) {
-                $this->restricted = false;
-            }
+        $excludePrivateValues = true;
+        $excludeStages = [];
+
+        // Check post permissions
+        // @todo move or double up in formatter. That should enforce what users can see
+        $excludePrivateValues = !$this->postPermissions->canUserReadPrivateValues(
+            $user
+        );
+
+        $this->post_value_factory->getRepo('point')->hideLocation(
+            !$this->postPermissions->canUserSeeLocation(
+                $user,
+                new Post($data),
+                $this->form_repo
+            )
+        );
+
+        if (!empty($data['form_id'])) {
             // Get Hidden Stage Ids to be excluded from results
-            $status = $data['status'] ? $data['status'] : '';
-            $this->exclude_stages = $this->form_stage_repo->getHiddenStageIds($data['form_id'], $data['status']);
+            $excludeStages = $this->form_stage_repo->getHiddenStageIds(
+                $data['form_id'],
+                $data['status']
+            );
         }
 
         if (!empty($data['id'])) {
-            $data += [
-                'values' => $this->getPostValues($data['id']),
-                // Continued for legacy
-                'tags'   => $this->getTagsForPost($data['id'], $data['form_id']),
-                'sets' => $this->getSetsForPost($data['id']),
-                'completed_stages' => $this->getCompletedStagesForPost($data['id']),
-                'lock' => null,
-            ];
+            // NOTE: This and the restriction above belong somewhere else,
+            // ideally in their own step
+            // Check if time info should be returned
+            if (!$this->postPermissions->canUserSeeTime($user, new Post($data), $this->form_repo)) {
+                // Hide time on survey fields
+                $this->post_value_factory->getRepo('datetime')->hideTime(true);
 
-
-            if ($this->canUserSeePostLock(new Post($data), $user)) {
-                $data['lock'] = $this->getHydratedLock($data['id']);
+                // @todo move to formatter. That where this normally happens
+                // Replace time with 00:00:00
+                if ($postDate = date_create($data['post_date'], new \DateTimeZone('UTC'))) {
+                    $data['post_date'] = $postDate->setTime(0, 0, 0)->format('Y-m-d H:i:s');
+                }
+                if ($created = date_create('@'.$data['created'], new \DateTimeZone('UTC'))) {
+                    $data['created'] = $created->setTime(0, 0, 0)->format('U');
+                }
+                if ($updated = date_create('@'.$data['updated'], new \DateTimeZone('UTC'))) {
+                    $data['updated'] = $updated->setTime(0, 0, 0)->format('U');
+                }
             }
-        }
-        // NOTE: This and the restriction above belong somewhere else,
-        // ideally in their own step
-        // Check if author information should be returned
-        if ($data['author_realname'] || $data['user_id'] || $data['author_email']) {
-            if (!$this->canUserSeeAuthor(new Post($data), $this->form_repo, $user)) {
+
+            if (!$this->postPermissions->canUserSeeAuthor($user, new Post($data), $this->form_repo)
+                && ($data['author_realname'] || $data['user_id'] || $data['author_email'])) {
+                // @todo move to formatter. That where this normally happens
                 unset($data['author_realname']);
                 unset($data['author_email']);
                 unset($data['user_id']);
+            }
+
+            $data += [
+                'values' => $this->getPostValues($data['id'], $excludePrivateValues, $excludeStages),
+                // Continued for legacy
+                'tags'   => $this->getTagsForPost($data['id'], $data['form_id']),
+                'sets' => $this->getSetsForPost($data['id']),
+                'completed_stages' => $this->getCompletedStagesForPost(
+                    $data['id'],
+                    $excludePrivateValues,
+                    $excludeStages
+                ),
+                'lock' => null,
+            ];
+
+            // @todo move or double up in formatter. That should enforce what users can see
+            if ($this->postPermissions->canUserSeePostLock($user, new Post($data))) {
+                $data['lock'] = $this->getHydratedLock($data['id']);
             }
         }
 
@@ -183,22 +209,58 @@ class PostRepository extends OhanzeeRepository implements
 
         // Join to messages and load message id
         $query->join('messages', 'LEFT')->on('posts.id', '=', 'messages.post_id')
-            ->select(['messages.id', 'message_id'], ['messages.type', 'source'], ['messages.contact_id', 'contact_id']);
+            ->select(
+                ['messages.id', 'message_id'],
+                ['messages.type', 'source'],
+                ['messages.contact_id', 'contact_id'],
+                ['messages.data_source_message_id', 'data_source_message_id']
+            );
 
         // Join to form
-        $query->join('forms', 'LEFT')->on('posts.form_id', '=', 'forms.id')
+        $query
+            ->join('forms', 'LEFT')
+            ->on('posts.form_id', '=', 'forms.id')
             ->select(['forms.color', 'color']);
 
         return $query;
     }
 
-    protected function getPostValues($id)
+    // SearchRepository
+    public function setSearchParams(SearchData $search)
+    {
+        $this->search_query = $this->selectQuery();
+
+        $sorting = $search->getSorting();
+
+        if (!empty($sorting['orderby'])) {
+            $order = isset($sorting['order']) ? strtoupper($sorting['order']) : 'ASC';
+            $this->search_query->order_by(
+                $this->getTable() . '.' . $sorting['orderby'],
+                ($order == 'DESC' ? 'DESC' : 'ASC')
+            );
+        }
+
+        if (!empty($sorting['offset'])) {
+            $this->search_query->offset(intval($sorting['offset']));
+        }
+
+        if (array_key_exists('limit', $sorting)
+            && $sorting['limit'] >= 0
+            && strlen($sorting['limit'])) {
+            $this->search_query->limit(intval($sorting['limit']));
+        }
+
+        // apply the unique conditions of the search
+        $this->setSearchConditions($search);
+    }
+
+    protected function getPostValues($id, $excludePrivateValues, $excludeStages)
     {
 
         // Get all the values for the post. These are the EAV values.
         $values = $this->post_value_factory
             ->proxy($this->include_value_types)
-            ->getAllForPost($id, $this->include_attributes, $this->exclude_stages, $this->restricted);
+            ->getAllForPost($id, $this->include_attributes, $excludeStages, $excludePrivateValues);
 
         $output = [];
         foreach ($values as $value) {
@@ -214,20 +276,18 @@ class PostRepository extends OhanzeeRepository implements
         return $output;
     }
 
-    protected function getCompletedStagesForPost($id)
+    protected function getCompletedStagesForPost($id, $excludePrivateValues, $excludeStages)
     {
         $query = DB::select('form_stage_id', 'completed')
             ->from('form_stages_posts')
             ->where('post_id', '=', $id)
             ->where('completed', '=', 1);
 
-        if ($this->restricted) {
-            if ($this->exclude_stages) {
-                $query->where('form_stage_id', 'NOT IN', $this->exclude_stages);
-            }
+        if (!$excludePrivateValues && $excludeStages) {
+            $query->where('form_stage_id', 'NOT IN', $excludeStages);
         }
 
-        $result = $query->execute($this->db);
+        $result = $query->execute($this->db());
 
         return $result->as_array(null, 'form_stage_id');
     }
@@ -239,6 +299,7 @@ class PostRepository extends OhanzeeRepository implements
             'status', 'type', 'locale', 'slug', 'user',
             'parent', 'form', 'set', 'q', /* LIKE title, content */
             'created_before', 'created_after',
+            'created_before_by_id', 'created_after_by_id',
             'updated_before', 'updated_after',
             'date_before', 'date_after',
             'bbox', 'tags', 'values',
@@ -340,6 +401,24 @@ class PostRepository extends OhanzeeRepository implements
             $query->where('id', '=', $search->id);
         }
 
+        if ($search->created_before_by_id) {
+            $comparison_post = $this->selectOne([
+                $this->getTable().'.id' => $search->created_before_by_id
+            ]);
+            $comparison_post_created = $comparison_post['created'];
+            $query->where("$table.created", '<=', $comparison_post_created);
+        }
+
+        if ($search->created_after_by_id) {
+            $comparison_post = $this->selectOne([
+                $this->getTable().'.id' => $search->created_after_by_id
+            ]);
+            // We're adding 1 second to the time to make sure the result is
+            // not inclusive of the query post
+            $comparison_post_created = (int)$comparison_post['created'] + 1;
+            $query->where("$table.created", '>=', $comparison_post_created);
+        }
+
         // date chcks
         if ($search->created_after) {
             $created_after = strtotime($search->created_after);
@@ -362,16 +441,16 @@ class PostRepository extends OhanzeeRepository implements
         }
 
         if ($search->date_after) {
-            $date_after = date_create($search->date_after, new DateTimeZone('UTC'));
+            $date_after = date_create($search->date_after, new \DateTimeZone('UTC'));
             // Convert to UTC (needed in case date came with a tz)
-            $date_after->setTimezone(new DateTimeZone('UTC'));
+            $date_after->setTimezone(new \DateTimeZone('UTC'));
             $query->where("$table.post_date", '>', $date_after->format('Y-m-d H:i:s'));
         }
 
         if ($search->date_before) {
-            $date_before = date_create($search->date_before, new DateTimeZone('UTC'));
+            $date_before = date_create($search->date_before, new \DateTimeZone('UTC'));
             // Convert to UTC (needed in case date came with a tz)
-            $date_before->setTimezone(new DateTimeZone('UTC'));
+            $date_before->setTimezone(new \DateTimeZone('UTC'));
             $query->where("$table.post_date", '<=', $date_before->format('Y-m-d H:i:s'));
         }
 
@@ -532,8 +611,7 @@ class PostRepository extends OhanzeeRepository implements
 
         if (!$user->id) {
             $query->where("$table.status", '=', 'published');
-        } elseif (!$this->isUserAdmin($user) and
-                !$this->acl->hasPermission($user, Permission::MANAGE_POSTS)) {
+        } elseif (!$this->postPermissions->canUserViewUnpublishedPosts($user)) {
             $query
                 ->and_where_open()
                 ->where("$table.status", '=', 'published')
@@ -551,7 +629,7 @@ class PostRepository extends OhanzeeRepository implements
             ->select([DB::expr('COUNT(DISTINCT posts.id)'), 'total']);
 
         // Fetch the result and...
-        $results = $query->execute($this->db);
+        $results = $query->execute($this->db());
         // ... return the total.
         $total = 0;
 
@@ -567,10 +645,10 @@ class PostRepository extends OhanzeeRepository implements
 
         $mapped = 0;
         $raw_sql = "select count(distinct post_id) as 'total' from (select post_geometry.post_id from post_geometry
-			union
-			select post_point.post_id from post_point) as sub;";
+            union
+            select post_point.post_id from post_point) as sub;";
         if ($total_posts > 0) {
-            $results = DB::query(Database::SELECT, $raw_sql)->execute($this->db);
+            $results = DB::query(Database::SELECT, $raw_sql)->execute($this->db());
 
             foreach ($results->as_array() as $result) {
                 $mapped = array_key_exists('total', $result) ? (int) $result['total'] : 0;
@@ -662,13 +740,13 @@ class PostRepository extends OhanzeeRepository implements
                     ->select(['Group_'.ucfirst($key).'.value', 'label'])
                     ->group_by('label');
             }
-        } // Group by status
-        elseif ($search->group_by === 'status') {
+        // Group by status
+        } elseif ($search->group_by === 'status') {
             $this->search_query
                 ->select(['posts.status', 'label'])
                 ->group_by('label');
-        } // Group by form
-        elseif ($search->group_by === 'form') {
+        // Group by form
+        } elseif ($search->group_by === 'form') {
             $this->search_query
                 ->join('forms', 'LEFT')->on('posts.form_id', '=', 'forms.id')
                 // Select Datasource
@@ -680,8 +758,8 @@ class PostRepository extends OhanzeeRepository implements
                 ->group_by('forms.id')
                 // ...and then by datasource
                 ->group_by('messages.type');
-        } // Group by tags
-        elseif ($search->group_by === 'tags') {
+        // Group by tags
+        } elseif ($search->group_by === 'tags') {
             /**
              * The output query looks something like
              * SELECT
@@ -728,8 +806,8 @@ class PostRepository extends OhanzeeRepository implements
                         ->and_where_close();
                 }
             }
-        } // If no group_by just count all posts
-        else {
+        // If no group_by just count all posts
+        } else {
             $this->search_query
                 ->select([DB::expr('"all"'), 'label']);
         }
@@ -746,7 +824,7 @@ class PostRepository extends OhanzeeRepository implements
         }
 
         // Fetch the results and...
-        $results = $this->search_query->execute($this->db);
+        $results = $this->search_query->execute($this->db());
         $results = $results->as_array();
         if ($search->include_unmapped) {
             // Append unmapped totals to stats
@@ -846,7 +924,7 @@ class PostRepository extends OhanzeeRepository implements
         $result = DB::select('tag_id')->from('posts_tags')
             ->where('post_id', '=', $id)
             ->where('form_attribute_id', '=', $attr_id)
-            ->execute($this->db);
+            ->execute($this->db());
         return $result->as_array(null, 'tag_id');
     }
 
@@ -859,7 +937,7 @@ class PostRepository extends OhanzeeRepository implements
     {
         $result = DB::select('set_id')->from('posts_sets')
             ->where('post_id', '=', $id)
-            ->execute($this->db);
+            ->execute($this->db());
         return $result->as_array(null, 'set_id');
     }
 
@@ -1088,7 +1166,7 @@ class PostRepository extends OhanzeeRepository implements
             ->where('form_attributes.type', '=', 'tags')
             ->order_by('form_attributes.priority', 'ASC')
             ->limit(1)
-            ->execute($this->db);
+            ->execute($this->db());
 
         return [$result->get('id'), $result->get('key')];
     }
@@ -1103,7 +1181,7 @@ class PostRepository extends OhanzeeRepository implements
         // Remove any existing entries
         DB::delete('form_stages_posts')
             ->where('post_id', '=', $post_id)
-            ->execute($this->db);
+            ->execute($this->db());
 
         $insert = DB::insert('form_stages_posts', ['form_stage_id', 'post_id', 'completed']);
         // Get all stages for form
@@ -1116,7 +1194,7 @@ class PostRepository extends OhanzeeRepository implements
             ]);
         }
         // Execute the insert
-        $insert->execute($this->db);
+        $insert->execute($this->db());
     }
 
     // SetPostRepository
@@ -1127,7 +1205,7 @@ class PostRepository extends OhanzeeRepository implements
             ->join('posts_sets', 'INNER')->on('posts.id', '=', 'posts_sets.post_id')
             ->where('posts_sets.set_id', '=', $set_id)
             ->limit(1)
-            ->execute($this->db)
+            ->execute($this->db())
             ->current();
 
         return $this->getEntity($result);

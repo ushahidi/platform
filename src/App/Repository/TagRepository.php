@@ -52,7 +52,7 @@ class TagRepository extends OhanzeeRepository implements
                 $data['children'] = DB::select('id')
                     ->from('tags')
                     ->where('parent_id', '=', $data['id'])
-                    ->execute($this->db)
+                    ->execute($this->db())
                     ->as_array(null, 'id');
             }
         }
@@ -99,7 +99,7 @@ class TagRepository extends OhanzeeRepository implements
     public function getSearchResults()
     {
         $query = $this->getSearchQuery();
-        $results = $query->distinct(true)->execute($this->db);
+        $results = $query->distinct(true)->execute($this->db());
         return $this->getCollection($results->as_array());
     }
 
@@ -138,7 +138,7 @@ class TagRepository extends OhanzeeRepository implements
             ->select([DB::expr('COUNT(*)'), 'total'])
             ->where('id', '=', $tag_or_id)
             ->or_where('tag', '=', $tag_or_id)
-            ->execute($this->db);
+            ->execute($this->db());
 
         return $query->get('total') > 0;
     }
@@ -206,10 +206,10 @@ class TagRepository extends OhanzeeRepository implements
      */
     public function getNamesByIds($tag_ids)
     {
-        $result = $this->selectQuery(array('id' => $tag_ids))
+        $result = $this->selectQuery(['id' => $tag_ids])
             ->resetSelect()
             ->select('tag')
-            ->execute($this->db);
+            ->execute($this->db());
         $result = $result->as_array(null, 'tag');
         return $result;
     }

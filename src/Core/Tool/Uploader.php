@@ -15,16 +15,16 @@ use League\Flysystem\Filesystem;
 use Ushahidi\Core\Tool\UploadData;
 use Ushahidi\Core\Tool\FileData;
 use League\Flysystem\Util\MimeType;
+use Ushahidi\App\Multisite\MultisiteManager;
 
 class Uploader
 {
     private $fs;
-    private $prefix;
 
-    public function __construct(Filesystem $fs, $directory_prefix = '')
+    public function __construct(Filesystem $fs, MultisiteManager $multisite)
     {
         $this->fs = $fs;
-        $this->prefix = trim($directory_prefix, '/');
+        $this->multisite = $multisite;
     }
 
     /**
@@ -44,15 +44,16 @@ class Uploader
             $filename = uniqid() . '-' . $file->name;
         }
 
-        // Avoid any possible issues with case sensitivity by forcing all files
-        // to be made lowercase.
-        $filename = strtolower($filename);
+        // Avoid possible issues with case sensitivity by forcing all files
+        // to be made lowercase. Also replace possibly invalid characters in filename
+        $filename = strtolower(preg_replace('/[^\pL\pN\-\_\s\.]+/u', '', $filename));
+
 
         // Add the first and second letters of filename to the directory path
         // to help segment the files, producing a more reasonable amount of
         // files per directory, eg: abc-myfile.png -> a/b/abc-myfile.png
         $filepath = implode('/', [
-            $this->prefix,
+            $this->multisite->getSite()->getCdnPrefix(),
             $filename[0],
             $filename[1],
             $filename,
@@ -66,9 +67,24 @@ class Uploader
         $extension = pathinfo($filepath, PATHINFO_EXTENSION);
         $mimeType = MimeType::detectByFileExtension($extension) ?: 'text/plain';
         $config = ['mimetype' => $mimeType];
-        $this->fs->putStream($filepath, $stream, $config);
-        if (is_resource($stream)) {
-            fclose($stream);
+
+        try {
+            $this->fs->putStream($filepath, $stream, $config);
+        } catch (\Guzzle\Http\Exception\ClientErrorResponseException $e) {
+            // Flysystem and FlysystemRackspace are very leaky abstractions
+            // so we have to manually catch guzzle errors here
+            $response = $e->getResponse();
+
+            throw new \InvalidArgumentException('Could not upload file: '. $response->getBody(true));
+        } catch (\Guzzle\Http\Exception\BadResponseException $e) {
+            // Flysystem and FlysystemRackspace are very leaky abstractions
+            // so we have to manually catch guzzle errors here
+
+            throw new \InvalidArgumentException('Could not upload file');
+        } finally {
+            if (is_resource($stream)) {
+                fclose($stream);
+            }
         }
 
         // Get meta information about the file.

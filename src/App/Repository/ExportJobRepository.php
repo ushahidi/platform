@@ -3,10 +3,10 @@
 /**
  * Ushahidi Export Job Repository
  *
- * @author     Ushahidi Team <team@ushahidi.com>
- * @package    Ushahidi\Application
- * @copyright  2018 Ushahidi
- * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
+ * @author    Ushahidi Team <team@ushahidi.com>
+ * @package   Ushahidi\Application
+ * @copyright 2018 Ushahidi
+ * @license   https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
 namespace Ushahidi\App\Repository;
@@ -14,6 +14,7 @@ namespace Ushahidi\App\Repository;
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\Entity\PostRepository;
 use Ushahidi\Core\SearchData;
+use Ushahidi\Core\Entity\ExportBatch;
 use Ushahidi\Core\Entity\ExportJob;
 use Ushahidi\Core\Entity\ExportJobRepository as ExportJobRepositoryContract;
 use Ushahidi\Core\Usecase\Concerns\FilterRecords;
@@ -21,6 +22,8 @@ use Ushahidi\Core\Traits\UserContext;
 use Ushahidi\Core\Traits\AdminAccess;
 use Ohanzee\DB;
 use Ohanzee\Database;
+
+use Log;
 
 class ExportJobRepository extends OhanzeeRepository implements ExportJobRepositoryContract
 {
@@ -39,9 +42,9 @@ class ExportJobRepository extends OhanzeeRepository implements ExportJobReposito
 
     protected $post_repo;
 
-    public function __construct(Database $db, PostRepository $post_repo)
+    public function __construct(\Ushahidi\App\Multisite\OhanzeeResolver $resolver, PostRepository $post_repo)
     {
-        parent::__construct($db);
+        parent::__construct($resolver);
 
         $this->post_repo = $post_repo;
     }
@@ -54,7 +57,7 @@ class ExportJobRepository extends OhanzeeRepository implements ExportJobReposito
     // Ushahidi_JsonTranscodeRepository
     protected function getJsonProperties()
     {
-        return ['fields', 'filters', 'header_row'];
+        return ['fields', 'filters', 'header_row', 'hxl_heading_row'];
     }
 
     // OhanzeeRepository
@@ -64,11 +67,16 @@ class ExportJobRepository extends OhanzeeRepository implements ExportJobReposito
 
         $user = $this->getUser();
 
-        // Limit search to user's records unless they are admin
-        // or if we get user=me as a search param
-        if (! $this->isUserAdmin($user) || $search->user === 'me') {
-            $search->user = $this->getUserId();
+
+        if ($search->hxl_meta_data_id) {
+            $query->where('hxl_meta_data_id', '=', $search->hxl_meta_data_id);
         }
+
+        // get user ID so that we only ever get jobs from that user
+        $search->user = $this->getUserId();
+
+        // Keeping this to filter our legacy URLs
+        // All new urls are generated on the fly instead, so their expiration=null
         if ($search->max_expiration) {
             $query->where("url_expiration", '>', intval($search->max_expiration));
             $query->or_where("url_expiration", 'IS', null);
@@ -101,21 +109,42 @@ class ExportJobRepository extends OhanzeeRepository implements ExportJobReposito
     {
         $state = [
             'created' => time(),
-            'status' => "pending",
+            'status' => ExportJob::STATUS_PENDING,
             'user_id' => $entity->user_id,
+            // Don't save this now, we need to generate it properly
+            'hxl_heading_row' => null
         ];
 
         return parent::create($entity->setState($state));
     }
 
-    // WebhookJobRepository
+    // Overriding the update method here to handle state transitions
+    public function update(Entity $entity)
+    {
+        // Run state transition handler
+        $entity->handleStateTransition();
+
+        return parent::update($entity);
+    }
+
+    public function getPendingJobs($limit = 10)
+    {
+        $query = $this->selectQuery()
+                      ->limit($limit)
+                      ->where('status', '=', ExportJob::STATUS_PENDING);
+
+        $results = $query->execute($this->db());
+
+        return $this->getCollection($results->as_array());
+    }
+
     public function getJobs($limit)
     {
         $query = $this->selectQuery()
                       ->limit($limit)
                       ->order_by('created', 'ASC');
 
-        $results = $query->execute($this->db);
+        $results = $query->execute($this->db());
 
         return $this->getCollection($results->as_array());
     }
@@ -127,7 +156,6 @@ class ExportJobRepository extends OhanzeeRepository implements ExportJobReposito
         if ($job->filters) {
             $this->setFilters($job->filters);
         }
-
 
         $fields = $this->post_repo->getSearchFields();
 
@@ -147,5 +175,28 @@ class ExportJobRepository extends OhanzeeRepository implements ExportJobReposito
         return [
             'entity_type', 'user', 'max_expiration'
         ];
+    }
+
+    /**
+     * Check if job's batches are finished?
+     *
+     * @param  Int  $jobId
+     * @return boolean
+     */
+    public function areBatchesFinished($jobId)
+    {
+        $query = $this->selectQuery([
+                'export_job.id' => $jobId,
+                'export_batches.status' => ExportBatch::STATUS_COMPLETED
+            ])
+            ->resetSelect()
+            ->select([DB::expr('COUNT(DISTINCT export_batches.id)'), 'completed_batches'], 'total_batches')
+            ->join('export_batches')
+                ->on('export_job_id', '=', 'export_job.id')
+            ->group_by(['export_job.id', 'total_batches']);
+
+        $result = $query->execute($this->db())->current();
+
+        return ($result['completed_batches'] == $result['total_batches']);
     }
 }

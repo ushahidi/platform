@@ -19,6 +19,7 @@ use Ushahidi\Core\Usecase\ReadRepository;
 use Ushahidi\Core\Usecase\SearchRepository;
 use Ushahidi\Core\Traits\CollectionLoader;
 use Ushahidi\Core\Exception\NotFoundException;
+use Illuminate\Support\Collection;
 
 class DataProviderRepository implements
     ReadRepository,
@@ -34,25 +35,24 @@ class DataProviderRepository implements
     // use CollectionLoader;
 
     /**
-     * Converts an array of results into an array of entities,
+     * Converts a laravel collection of data sources into an array of entities
      * indexed by the entity id.
-     * @param  Array $results
+     *
+     * @param  Collection $sources
      * @return Array
      */
-    protected function getCollection(array $results)
+    protected function getCollection(Collection $sources)
     {
-        $collection = [];
-        foreach ($results as $id => $row) {
+        return $sources->mapWithKeys(function ($source) {
             $entity = $this->getEntity([
-                'id' => $id,
-                'name' => $row->getName(),
-                'options' => $row->getOptions(),
-                'services' => $row->getServices(),
-                'inbound_fields' => $row->getInboundFields(),
+                'id' => $source->getId(),
+                'name' => $source->getName(),
+                'options' => $source->getOptions(),
+                'services' => $source->getServices(),
+                'inbound_fields' => $source->getInboundFields(),
             ]);
-            $collection[$entity->getId()] = $entity;
-        }
-        return $collection;
+            return [$source->getId() => $entity];
+        })->all();
     }
 
     // ReadRepository
@@ -61,45 +61,23 @@ class DataProviderRepository implements
         return new DataProviderEntity($data);
     }
 
-    /**
-     * Get all enabled providers, with their configuration data.
-     * @return Array
-     */
-    protected function getAllProviders($enabled = false)
-    {
-        if ($enabled) {
-            // Returns all *enabled* providers.
-            return $this->datasources->getEnabledSources();
-        } else {
-            // Returns all providers, even if they are disabled.
-            return $this->datasources->getSource();
-        }
-    }
-
-    // DataProviderRepository
-    public function all($enabled = false)
-    {
-        $providers = $this->getAllProviders($enabled);
-        return $this->getCollection($providers);
-    }
-
     // ReadRepository
     // DataProviderRepository
     public function get($provider)
     {
-        $source = $this->datasources->getSource($provider);
+        try {
+            $source = $this->datasources->getSource($provider);
 
-        if (!$source) {
+            return $this->getEntity([
+                'id' => $provider,
+                'name' => $source->getName(),
+                'options' => $source->getOptions(),
+                'services' => $source->getServices(),
+                'inbound_fields' => $source->getInboundFields(),
+            ]);
+        } catch (\InvalidArgumentException $e) {
             return $this->getEntity([]);
         }
-
-        return $this->getEntity([
-            'id' => $provider,
-            'name' => $source->getName(),
-            'options' => $source->getOptions(),
-            'services' => $source->getServices(),
-            'inbound_fields' => $source->getInboundFields(),
-        ]);
     }
 
     // SearchRepository
@@ -117,20 +95,26 @@ class DataProviderRepository implements
     // SearchRepository
     public function getSearchResults()
     {
-        $providers = $this->getAllProviders();
+        $sources = collect($this->datasources->getSources())
+            // Grab the actual source instances
+            ->map(function ($name) {
+                return $this->datasources->getSource($name);
+            })
+            // Only include user configurable
+            ->filter(function ($source) {
+                return $source->isUserConfigurable();
+            });
 
-        foreach ($providers as $name => $source) {
-            if ($this->search_params->type) {
-                if (!in_array($this->search_params->type, $source->getServices())) {
-                    // Provider does not offer this type of service, skip it.
-                    unset($providers[$name]);
-                }
-            }
+        // Filter by type
+        if ($this->search_params->type) {
+            $sources = $sources->filter(function ($source) {
+                return in_array($this->search_params->type, $source->getServices());
+            });
         }
 
-        $this->search_total = count($providers);
+        $this->search_total = $sources->count();
 
-        return $this->getCollection($providers);
+        return $this->getCollection($sources);
     }
 
     // SearchRepository

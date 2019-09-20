@@ -14,9 +14,9 @@ namespace Ushahidi\App\Repository\Post;
 class ValueFactory
 {
     // a map of value type to factory closures
-    protected $map = array();
+    protected $map = [];
 
-    public function __construct($map = array())
+    public function __construct($map = [])
     {
         $this->map = $map;
     }

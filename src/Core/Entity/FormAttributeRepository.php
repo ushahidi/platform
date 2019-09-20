@@ -22,7 +22,7 @@ interface FormAttributeRepository extends
     /**
      * @param  string $key
      * @param  int    $form_id
-     * @param  boolena $include_no_form  Include attributes with null form_id
+     * @param  boolean $include_no_form  Include attributes with null form_id
      * @return Ushahidi\Core\Entity\FormAttribute
      */
     public function getByKey($key, $form_id = null, $include_no_form = false);
@@ -37,7 +37,7 @@ interface FormAttributeRepository extends
      * @param  int $form_id
      * @return [Ushahidi\Core\Entity\FormAttribute, ...]
      */
-    public function getFirstByForm($form_id);
+    public function getFirstNonDefaultByForm($form_id);
 
     /**
      * @return [Ushahidi\Core\Entity\FormAttribute, ...]
@@ -57,12 +57,10 @@ interface FormAttributeRepository extends
     public function isKeyAvailable($key);
 
     /**
-     * @param  int $form_ids
      * @param  array $include_attributes
      * @return [Ushahidi\Core\Entity\FormAttribute, ...]
      */
-    public function getByForms($form_ids, array $include_attributes = null);
-
+    public function getExportAttributes(array $include_attributes = null);
 
     /**
      * @param int $form_id

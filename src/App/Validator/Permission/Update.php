@@ -11,9 +11,9 @@
 
 namespace Ushahidi\App\Validator\Permission;
 
-use Ushahidi\Core\Tool\Validator;
+use Ushahidi\App\Validator\LegacyValidator;
 
-class Update extends Validator
+class Update extends LegacyValidator
 {
     protected $default_error_source = 'permission';
 

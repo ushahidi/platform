@@ -14,6 +14,7 @@ namespace Tests\Unit\App\DataSource;
 use Tests\TestCase;
 use Mockery as M;
 use Ushahidi\App\DataSource\Email\Email;
+use Ushahidi\App\Multisite\Site;
 use phpmock\mockery\PHPMockery;
 
 /**
@@ -34,29 +35,38 @@ class EmailDataSourceTest extends TestCase
 
     public function testSend()
     {
+        // Mock site
+        $site = M::mock(Site::class);
+        $site->shouldReceive('getEmail')->andReturn('test@ushahidi.app');
+        $site->shouldReceive('getName')->andReturn('The Site');
+        $site->shouldReceive('getClientUri')->andReturn('ushahidi.app');
+        $site->shouldReceive('getDbConfig')->andReturn([
+            'host' => config('database.connections.mysql.host'),
+            'database' => config('database.connections.mysql.database'),
+            'username' => config('database.connections.mysql.username'),
+            'password' => config('database.connections.mysql.password'),
+        ]);
+        $site->shouldReceive('getId')->andReturn(1);
+        $this->app->make('multisite')->setSite($site);
+
         $mockMailer = M::mock(\Illuminate\Contracts\Mail\Mailer::class);
 
         $email = new Email(
             [],
-            $mockMailer,
-            [
-                'name' => 'TestDeploy',
-                'email' => 'test@ushahidi.app'
-            ],
-            'https://ushahidi.app/'
+            $mockMailer
         );
 
         $mockMailer->shouldReceive('send')->once()->with(
             'emails/outgoing-message',
             [
                 'message_text' => 'A message',
-                'site_url' => 'https://ushahidi.app/'
+                'site_url' => 'ushahidi.app'
             ],
             M::on(function (\Closure $closure) {
                 $mock = M::mock(\Illuminate\Mailer\Message::class);
                 $mock->shouldReceive('to')->once()->once()->with('test@ushahidi.com')
                      ->andReturn($mock); // simulate the chaining
-                $mock->shouldReceive('from')->once()->once()->with('test@ushahidi.app', 'TestDeploy')
+                $mock->shouldReceive('from')->once()->once()->with('test@ushahidi.app', 'The Site')
                      ->andReturn($mock); // simulate the chaining
                 $mock->shouldReceive('subject')->once()->once()->with('A title')
                      ->andReturn($mock); // simulate the chaining
@@ -90,11 +100,6 @@ class EmailDataSourceTest extends TestCase
                 'incoming_password' => 'mypassword',
             ],
             $mockMailer,
-            [
-                'name' => 'TestDeploy',
-                'email' => 'test@ushahidi.app'
-            ],
-            'https://ushahidi.app/',
             $mockMessageRepo
         );
 
@@ -109,6 +114,12 @@ class EmailDataSourceTest extends TestCase
             )
             ->once()
             ->andReturn('notreallyaconnection');
+
+        $mockImapOpen = PHPMockery::mock("Ushahidi\App\DataSource\Email", "imap_check");
+        $mockImapOpen
+            ->with('notreallyaconnection')
+            ->once()
+            ->andReturn((object)['Nmsgs' => 100]);
 
         $mockImapClose = PHPMockery::mock("Ushahidi\App\DataSource\Email", "imap_close");
         $mockImapClose

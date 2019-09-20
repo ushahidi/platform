@@ -30,7 +30,7 @@ class RoleRepository extends OhanzeeRepository implements
     {
         return DB::select('permission')->from('roles_permissions')
                 ->where('role', '=', $role)
-                ->execute($this->db)
+                ->execute($this->db())
                 ->as_array(null, 'permission');
     }
 
@@ -47,7 +47,7 @@ class RoleRepository extends OhanzeeRepository implements
         }
 
         if ($new_permissions) {
-            $insert_query->execute($this->db);
+            $insert_query->execute($this->db());
         }
 
         // Remove permissions that are no longer needed
@@ -57,7 +57,7 @@ class RoleRepository extends OhanzeeRepository implements
             DB::delete('roles_permissions')
                 ->where('permission', 'IN', $discarded_permissions)
                 ->where('role', '=', $role)
-                ->execute($this->db);
+                ->execute($this->db());
         }
     }
 

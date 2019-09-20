@@ -106,20 +106,21 @@ class FormRepository extends OhanzeeRepository implements
     }
 
     /**
-      * Get value of Form property hide_author
+      * Get value of Form property type
       * if no form is found return false
       * @param  $form_id
+      * @param $type, form property to check
       * @return Boolean
       */
-    public function isAuthorHidden($form_id)
+    public function isTypeHidden($form_id, $type)
     {
-        $query = DB::select('hide_author')
+        $query = DB::select($type)
             ->from('forms')
             ->where('id', '=', $form_id);
 
-        $results = $query->execute($this->db)->as_array();
+        $results = $query->execute($this->db())->as_array();
 
-        return count($results) > 0 ? $results[0]['hide_author'] : false;
+        return count($results) > 0 ? $results[0][$type] : false;
     }
 
     /**
@@ -138,7 +139,7 @@ class FormRepository extends OhanzeeRepository implements
             ->on('roles.id', '=', 'form_roles.role_id')
             ->where('forms.id', '=', $form_id);
 
-        $results =  $query->execute($this->db)->as_array();
+        $results =  $query->execute($this->db())->as_array();
 
         $everyone_can_create = (count($results) == 0 ? 1 : $results[0]['everyone_can_create']);
 

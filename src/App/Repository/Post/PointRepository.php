@@ -18,14 +18,15 @@ use Ushahidi\Core\Entity\PostValueRepository as PostValueRepositoryContract;
 use Symm\Gisconverter\Decoders\WKT;
 use Symm\Gisconverter\Geometry\Point;
 use Symm\Gisconverter\Exceptions\InvalidText;
+use Ushahidi\App\Multisite\OhanzeeResolver;
 
 class PointRepository extends ValueRepository
 {
     protected $decoder;
 
-    public function __construct(Database $db, WKT $decoder)
+    public function __construct(OhanzeeResolver $resolver, WKT $decoder)
     {
-        $this->db = $db;
+        parent::__construct($resolver);
         $this->decoder = $decoder;
     }
 
@@ -35,13 +36,26 @@ class PointRepository extends ValueRepository
         return 'post_point';
     }
 
+    protected $hideLocation = false;
+
+    public function hideLocation($hide = true)
+    {
+        $this->hideLocation = $hide;
+    }
+
     // OhanzeeRepository
     public function getEntity(array $data = null)
     {
+        $map_config = service('map.config');
         try {
             $geometry = $this->decoder->geomFromText($data['value']);
             if ($geometry instanceof Point) {
                 $data['value'] = ['lon' => $geometry->lon, 'lat' => $geometry->lat];
+                if ($this->hideLocation) {
+                    // Round to nearest 0.01 or roughly 500m
+                    $data['value']['lat'] = round($data['value']['lat'], $map_config['location_precision']);
+                    $data['value']['lon'] = round($data['value']['lon'], $map_config['location_precision']);
+                }
             }
         } catch (InvalidText $e) {
             $data['value'] = ['lon' => null, 'lat' => null];
@@ -61,7 +75,6 @@ class PointRepository extends ValueRepository
             // Fetch AsText(value) aliased to value
                 [DB::expr('AsText(value)'), 'value']
         );
-
         return $query;
     }
 

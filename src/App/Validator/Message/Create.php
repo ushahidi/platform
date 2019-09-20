@@ -12,14 +12,14 @@
 namespace Ushahidi\App\Validator\Message;
 
 use Ushahidi\Core\Entity;
-use Ushahidi\Core\Tool\Validator;
+use Ushahidi\App\Validator\LegacyValidator;
 use Ushahidi\Core\Usecase\Message\CreateMessageRepository;
 use Ushahidi\Core\Entity\UserRepository;
 use Ushahidi\App\DataSource\Message\Type as MessageType;
 use Ushahidi\App\DataSource\Message\Direction as MessageDirection;
 use Ushahidi\App\DataSource\Message\Status as MessageStatus;
 
-class Create extends Validator
+class Create extends LegacyValidator
 {
     protected $repo;
     protected $default_error_source = 'message';
@@ -44,7 +44,7 @@ class Create extends Validator
                 ['not_empty'],
             ],
             'datetime' => [
-                ['date'],
+                [[$this, 'validDate'], [':value']],
             ],
             'type' => [
                 ['not_empty'],
@@ -79,5 +79,13 @@ class Create extends Validator
                 [[$this->user_repo, 'exists'], [':value']]
             ],
         ];
+    }
+
+    public function validDate($str)
+    {
+        if ($str instanceof \DateTimeInterface) {
+            return true;
+        }
+        return (strtotime($str) !== false);
     }
 }

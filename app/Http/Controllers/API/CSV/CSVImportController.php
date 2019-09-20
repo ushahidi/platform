@@ -53,6 +53,7 @@ class CSVImportController extends RestController
         $this->usecase = $this->usecaseFactory
             ->get($this->getResource(), 'import')
             ->setPayload($records)
+            ->setCSV($csv)
             ->setTransformer($transformer);
 
         return $this->prepResponse($this->executeUsecase($request), $request);

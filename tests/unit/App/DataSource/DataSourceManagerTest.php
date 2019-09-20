@@ -19,6 +19,8 @@ use Ushahidi\App\DataSource\Email\Email;
 use Ushahidi\App\DataSource\Twitter\Twitter;
 use Ushahidi\App\DataSource\Nexmo\Nexmo;
 use Ushahidi\App\DataSource\SMSSync\SMSSync;
+use Ushahidi\Core\Entity\ConfigRepository;
+use Ushahidi\Core\Entity\Config;
 
 /**
  * @backupGlobals disabled
@@ -26,85 +28,108 @@ use Ushahidi\App\DataSource\SMSSync\SMSSync;
  */
 class DataSourceManagerTest extends TestCase
 {
-    public function testAddGetSource()
+    public function testGetSource()
     {
-        $manager = new DataSourceManager($this->app->router);
+        $configRepo = M::mock(ConfigRepository::class);
+        $manager = new DataSourceManager($configRepo);
 
-        $manager->addSource(new Email([]));
-        $manager->addSource(new Twitter([]));
+        $configRepo->shouldReceive('get')
+            ->with('data-provider')
+            ->andReturn(new Config([]));
 
         $this->assertInstanceOf(Twitter::class, $manager->getSource('twitter'));
         $this->assertInstanceOf(Email::class, $manager->getSource('email'));
 
-        $this->assertInternalType('array', $manager->getSource());
+        $this->assertInternalType('array', $manager->getSources());
     }
 
     public function testEnabledSources()
     {
-        $manager = new DataSourceManager($this->app->router);
+        $configRepo = M::mock(ConfigRepository::class);
+        $manager = new DataSourceManager($configRepo);
 
-        $manager->addSource(new Email([]));
-        $manager->addSource(new Twitter([]));
-        $manager->addSource(new Nexmo([]));
+        $configRepo->shouldReceive('get')
+            ->with('data-provider')
+            ->andReturn(new Config([
+                'providers' => [
+                    'nexmo' => true,
+                ]
+            ]));
 
-        $manager->setEnabledSources([
-            'nexmo' => true
-        ]);
-
-        $manager->setAvailableSources([
-            'nexmo' => true,
-            'twitter' => true,
-            'email' => true
-        ]);
+        $configRepo->shouldReceive('get')
+            ->with('features')
+            ->andReturn(new Config([
+                'data-providers' => [
+                    'nexmo' => true,
+                    'twitter' => true,
+                    'email' => true,
+                ]
+            ]));
 
         $this->assertCount(1, $manager->getEnabledSources());
-        $this->assertFalse($manager->getEnabledSources('twitter'));
+        $this->assertFalse($manager->isEnabledSource('twitter'));
+
+        $this->expectException(\InvalidArgumentException::class);
+        $manager->getEnabledSource('twitter');
     }
 
     public function testAvailableSources()
     {
-        $manager = new DataSourceManager($this->app->router);
 
-        $manager->addSource(new Email([]));
-        $manager->addSource(new Twitter([]));
-        $manager->addSource(new Nexmo([]));
+        $configRepo = M::mock(ConfigRepository::class);
+        $manager = new DataSourceManager($configRepo);
 
-        $manager->setEnabledSources([
-            'nexmo' => true,
-            'twitter' => true,
-            'email' => true
-        ]);
+        $configRepo->shouldReceive('get')
+            ->with('data-provider')
+            ->andReturn(new Config([
+                'providers' => [
+                    'nexmo' => true,
+                    'twitter' => true,
+                    'email' => true
+                ]
+            ]));
 
-        $manager->setAvailableSources([
-            'nexmo' => true
-        ]);
+        $configRepo->shouldReceive('get')
+            ->with('features')
+            ->andReturn(new Config([
+                'data-providers' => [
+                    'nexmo' => true
+                ]
+            ]));
 
         $this->assertCount(1, $manager->getEnabledSources());
-        $this->assertFalse($manager->getEnabledSources('twitter'));
+        $this->assertFalse($manager->isEnabledSource('twitter'));
+
+        $this->expectException(\InvalidArgumentException::class);
+        $manager->getEnabledSource('twitter');
     }
 
     public function testGetSourceForType()
     {
-        $manager = new DataSourceManager($this->app->router);
+        $configRepo = M::mock(ConfigRepository::class);
+        $manager = new DataSourceManager($configRepo);
 
-        $manager->addSource(new Email([]));
-        $manager->addSource(new Twitter([]));
-        $manager->addSource(new Nexmo([]));
-        $manager->addSource(new SMSSync([]));
+        $configRepo->shouldReceive('get')
+            ->with('data-provider')
+            ->andReturn(new Config([
+                'providers' => [
+                    'nexmo' => true,
+                    'twitter' => true,
+                    'email' => true,
+                    'smssync' => true
+                ]
+            ]));
 
-        $manager->setEnabledSources([
-            'nexmo' => true,
-            'twitter' => true,
-            'email' => true,
-            'smssync' => true
-        ]);
-
-        $manager->setAvailableSources([
-            'nexmo' => true,
-            'twitter' => true,
-            'email' => true,
-            'smssync' => true
-        ]);
+        $configRepo->shouldReceive('get')
+            ->with('features')
+            ->andReturn(new Config([
+                'data-providers' => [
+                    'nexmo' => true,
+                    'twitter' => true,
+                    'email' => true,
+                    'smssync' => true
+                ]
+            ]));
 
         $this->assertInstanceOf(Twitter::class, $manager->getSourceForType('twitter'));
         $this->assertInstanceOf(Nexmo::class, $manager->getSourceForType('sms'));

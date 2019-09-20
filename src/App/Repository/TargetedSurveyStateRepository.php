@@ -70,7 +70,7 @@ class TargetedSurveyStateRepository extends OhanzeeRepository implements
 
     public function setStatusByFormId($form_id, $status)
     {
-        return $this->executeUpdate(array('form_id' => $form_id), array('survey_status' => $status));
+        return $this->executeUpdate(['form_id' => $form_id], ['survey_status' => $status]);
     }
 
     /**
@@ -97,6 +97,6 @@ class TargetedSurveyStateRepository extends OhanzeeRepository implements
                 'outgoing'
             );
 
-        return ($query->execute($this->db)->count() > 0);
+        return ($query->execute($this->db())->count() > 0);
     }
 }

@@ -48,31 +48,31 @@ class SMSSync implements CallbackDataSource
 
     public function getOptions()
     {
-        return array(
-            'intro_step1' => array(
+        return [
+            'intro_step1' => [
                 'label' => 'Step 1: Download the "SMSSync" app from the Android Market.',
                 'input' => 'read-only-text',
                 'description' => function () {
                     return 'Scan this QR Code with your phone to download the app from the Android Market
 						<img src="'. url('/images/smssync.png') .'" width="150"/>';
                 }
-            ),
+            ],
             // @todo figure out how to inject link and fix base url
-            'intro_step2' => array(
+            'intro_step2' => [
                 'label' => 'Step 2: Android App Settings',
                 'input' => 'read-only-text',
                 'description' => function () {
                     return 'Turn on SMSSync and use the following link as the Sync URL: ' . url('sms/smssync');
                 }
-            ),
-            'secret' => array(
+            ],
+            'secret' => [
                 'label' => 'Secret',
                 'input' => 'text',
                 'description' => 'Set a secret so that only authorized SMSSync devices can send/recieve message.
 					You need to configure the same secret in the SMSSync App.',
-                'rules' => array('required')
-            )
-        );
+                'rules' => ['required']
+            ]
+        ];
     }
 
     public function getInboundFields()
@@ -83,12 +83,17 @@ class SMSSync implements CallbackDataSource
         ];
     }
 
+    public function isUserConfigurable()
+    {
+        return true;
+    }
+
     /**
      * Contact type user for this provider
      */
     public $contact_type = Contact::PHONE;
 
-    public function registerRoutes(\Laravel\Lumen\Routing\Router $router)
+    public static function registerRoutes(\Laravel\Lumen\Routing\Router $router)
     {
         $router->post('sms/smssync', 'Ushahidi\App\DataSource\SMSSync\SMSSyncController@handleRequest');
         $router->post('smssync', 'Ushahidi\App\DataSource\SMSSync\SMSSyncController@handleRequest');

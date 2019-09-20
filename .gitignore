@@ -16,10 +16,12 @@ build/*
 puppet/modules
 Puppetfile.lock
 .tmp/*
+*.vscode
 .env
 phpunit.xml
 phpspec.yml
 phinx.yml
+bootstrap/gwcheck.enabled
 
 # Homestead / Laravel files
 Homestead.json

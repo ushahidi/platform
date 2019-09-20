@@ -24,7 +24,7 @@ trait FormsTagsTrait
             ->join('forms')->on('form_id', '=', 'forms.id')
             ->where('form_id', '=', $id)
             ->where('form_attributes.type', '=', 'tags')
-            ->execute($this->db)
+            ->execute($this->db())
             ->as_array();
 
         $tags = [];
@@ -45,7 +45,7 @@ trait FormsTagsTrait
         $attr = DB::select('id', 'options')
             ->from('form_attributes')
             ->where('type', '=', 'tags')
-            ->execute($this->db)
+            ->execute($this->db())
             ->as_array('id', 'options');
 
         foreach ($attr as $attr_id => $options) {
@@ -58,9 +58,9 @@ trait FormsTagsTrait
 
                 // Save it
                 DB::update('form_attributes')
-                    ->set(array('options' => $options))
+                    ->set(['options' => $options])
                     ->where('id', '=', $attr_id)
-                    ->execute($this->db);
+                    ->execute($this->db());
             }
         }
     }

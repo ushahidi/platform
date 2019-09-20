@@ -22,7 +22,6 @@ use stdClass;
  */
 class RestContext implements Context
 {
-
     private $restObject        = null;
     private $restObjectType    = null;
     private $restObjectMethod  = 'get';
@@ -31,12 +30,12 @@ class RestContext implements Context
     private $requestUrl        = null;
     private $apiUrl            = 'api/v3';
 
-    private $parameters        = array();
+    private $parameters        = [];
     private $headers           = [
         'Accept' => 'application/json'
     ];
-    private $postFields        = array();
-    private $postFiles         = array();
+    private $postFields        = [];
+    private $postFiles         = [];
 
     /**
      * Initializes context.
@@ -279,9 +278,6 @@ class RestContext implements Context
 
         // Get response object
         $this->response = $response;
-        // $data = $this->response->getBody(true);
-        // $data = explode("\n", $data);
-        // \Log::info(print_r($data, true));
     }
 
     /**
@@ -413,6 +409,7 @@ class RestContext implements Context
      */
     public function theResponseHasAProperty($propertyName)
     {
+
         $data = json_decode($this->response->getBody(true), true);
         $this->theResponseIsJson();
 
@@ -607,12 +604,16 @@ class RestContext implements Context
         switch (strtolower($typeString)) {
             case 'numeric':
                 if (!is_numeric($actualPropertyValue)) {
-                    throw new \Exception("Property '".$propertyName."' is not of the correct type: ".$typeString."!\n");
+                    throw new \Exception(
+                        "Property '".$propertyName."' is not of the correct type: ".$typeString."!\n"
+                    );
                 }
                 break;
             case 'int':
                 if (!is_int($actualPropertyValue)) {
-                    throw new \Exception("Property '".$propertyName."' is not of the correct type: ".$typeString."!\n");
+                    throw new \Exception(
+                        "Property '".$propertyName."' is not of the correct type: ".$typeString."!\n"
+                    );
                 }
                 break;
         }
@@ -667,7 +668,7 @@ class RestContext implements Context
     }
 
 
-     /**
+    /**
      * @Then /^echo last response$/
      */
     public function echoLastResponse()
@@ -737,7 +738,8 @@ HTTP/{$this->response->getProtocolVersion()} {$this->response->getStatusCode()} 
         'testmanager' => 6,
         'testimporter' => 7,
         'missingtoken' => 99,
-        'testnoedit' => 8
+        'testnoedit' => 8,
+        'testsets' => 9,
     ];
 
     /**

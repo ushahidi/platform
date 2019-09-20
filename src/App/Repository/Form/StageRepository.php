@@ -18,11 +18,9 @@ use Ushahidi\Core\SearchData;
 use Ushahidi\Core\Entity\FormStage;
 use Ushahidi\Core\Entity\FormStageRepository as FormStageRepositoryContract;
 use Ushahidi\Core\Entity\FormRepository as FormRepositoryContract;
-use Ushahidi\Core\Traits\PostValueRestrictions;
-use Ushahidi\Core\Traits\UserContext;
 
-use Ushahidi\Core\Traits\AdminAccess;
-use Ushahidi\Core\Tool\Permissions\AclTrait;
+use Ushahidi\Core\Traits\UserContext;
+use Ushahidi\Core\Tool\Permissions\InteractsWithFormPermissions;
 
 use Ushahidi\App\Repository\OhanzeeRepository;
 use Ushahidi\App\Repository\JsonTranscodeRepository;
@@ -32,13 +30,7 @@ class StageRepository extends OhanzeeRepository implements
 {
     use UserContext;
 
-    // Provides `acl`
-    use AclTrait;
-
-    use PostValueRestrictions;
-
-    // Checks if user is Admin
-    use AdminAccess;
+    use InteractsWithFormPermissions;
 
     protected $form_id;
     protected $form_repo;
@@ -49,11 +41,11 @@ class StageRepository extends OhanzeeRepository implements
          * @param FormRepository                       $form_repo
          */
     public function __construct(
-        Database $db,
+        \Ushahidi\App\Multisite\OhanzeeResolver $resolver,
         FormRepositoryContract $form_repo
     ) {
 
-        parent::__construct($db);
+        parent::__construct($resolver);
 
         $this->form_repo = $form_repo;
     }
@@ -70,7 +62,7 @@ class StageRepository extends OhanzeeRepository implements
         $query = parent::selectQuery($where);
 
         $user = $this->getUser();
-        if (!$this->canUserEditForm($form_id, $user)) {
+        if (!$this->formPermissions->canUserEditForm($user, $form_id)) {
             $query->where('show_when_published', '=', "1");
 
             if ($post_status !== 'published') {
@@ -148,7 +140,7 @@ class StageRepository extends OhanzeeRepository implements
                 ->from('form_stages')
                 ->where('id', '=', $id);
 
-        $results = $query->execute($this->db);
+        $results = $query->execute($this->db());
 
         return count($results) > 0 ? $results[0]['form_id'] : false;
     }
@@ -157,7 +149,7 @@ class StageRepository extends OhanzeeRepository implements
     public function getByForm($form_id)
     {
         $query = $this->selectQuery(compact($form_id), $form_id);
-        $results = $query->execute($this->db);
+        $results = $query->execute($this->db());
 
         return $this->getCollection($results->as_array());
     }
@@ -185,7 +177,7 @@ class StageRepository extends OhanzeeRepository implements
             ->and_where_close();
         }
 
-            $results = $query->execute($this->db)->as_array();
+            $results = $query->execute($this->db())->as_array();
 
         foreach ($results as $stage) {
             array_push($stages, $stage['id']);
@@ -209,7 +201,7 @@ class StageRepository extends OhanzeeRepository implements
             ], $form_id)
             ->select('form_stages.*');
 
-        $results = $query->execute($this->db);
+        $results = $query->execute($this->db());
 
         return $this->getCollection($results->as_array());
     }

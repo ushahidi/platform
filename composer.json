@@ -15,8 +15,8 @@
         }
     ],
     "require": {
-        "php": ">=7.0",
-        "aura/di": "2.2",
+        "php": ">=7.0 <7.4",
+        "aura/di": "~3.4",
         "league/flysystem-aws-s3-v3": "~1.0",
         "league/flysystem-rackspace": "~1.0",
         "league/flysystem": "~1.0",
@@ -27,27 +27,23 @@
         "robmorgan/phinx": "~0.8.0",
         "symm/gisconverter": "~1.0.5",
         "vlucas/phpdotenv": "~2.2",
-        "ext-curl": "*",
-        "ext-gd": "*",
-        "ext-json": "*",
-        "ext-mbstring": "*",
-        "ext-mcrypt": "*",
         "league/csv": "~7.1@dev",
         "laravel/lumen-framework": "5.5.*",
-        "ddeboer/data-import": "dev-master",
-        "symfony/property-access": "~2.5",
         "league/event": "^2.2@dev",
         "beheh/flaps": "dev-master",
         "doctrine/cache": "^1.6.2",
         "ramsey/uuid": "^3.4.1",
-        "barryvdh/laravel-cors": "^0.9.2",
+        "barryvdh/laravel-cors": "^0.11.0",
         "ushahidi/kohana-validation": "dev-master",
         "illuminate/mail": "5.5.*",
         "twilio/sdk": "^5.15",
         "nexmo/client": "^1.1",
         "sentry/sentry-laravel": "^0.8.0",
         "laravel/passport": "^4.0",
-        "giggsey/libphonenumber-for-php": "^8.9"
+        "germanazo/laravel-ckan-api": "^1.0",
+        "asm89/stack-cors": "1.2.0",
+        "predis/predis": "~1.1",
+        "illuminate/redis": "5.5.*"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
@@ -68,7 +64,9 @@
         "sebastianfeldmann/captainhook": "^2.0"
     },
     "suggest" : {
-        "ext-imap": "Needed for email data source"
+        "ext-imap": "Needed for email data source",
+        "ext-redis": "Needed for Redis based queues or cache",
+        "ext-memcached": "Needed for Memcache based cache"
     },
     "config": {
         "bin-dir": "bin/",
@@ -83,7 +81,10 @@
         "psr-4": {
             "Ushahidi\\": "src/",
             "Ushahidi\\App\\": "app/"
-        }
+        },
+        "files": [
+            "app/helpers.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
@@ -116,10 +117,10 @@
         ],
         "coverage" : [
             "phpunit",
-            "phpspec run --no-code-generation",
-            "behat --strict --profile ci"
+            "phpspec run --no-code-generation"
         ],
         "migrate" : [
+            "@verify",
             "phinx migrate -c phinx.php"
         ],
         "pre-test" : [
@@ -139,6 +140,15 @@
         "bootstrap:passport": [
             "php artisan passport:keys",
             "chmod 660 storage/passport/*.key"
+        ],
+        "verify": [
+            "php artisan environment:verify"
+        ],
+        "installdebug:enable": [
+            "\\Ushahidi\\App\\PlatformVerifier\\DebugMode::enable"
+        ],
+        "installdebug:disable": [
+            "\\Ushahidi\\App\\PlatformVerifier\\DebugMode::disable"
         ]
     }
 }

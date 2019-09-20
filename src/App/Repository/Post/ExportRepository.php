@@ -12,18 +12,20 @@
 namespace Ushahidi\App\Repository\Post;
 
 use Ohanzee\DB;
+use Ushahidi\Core\Entity\MessageRepository;
 use Ushahidi\Core\Entity\Post;
-use Ushahidi\Core\Entity\PostRepository;
 use Ushahidi\Core\Entity\PostExportRepository;
 use Ushahidi\Core\Entity\TagRepository;
 use Ushahidi\Core\Entity\SetRepository;
+use Ushahidi\App\Repository\PostRepository;
+use Ushahidi\Core\Traits\AdminAccess;
 
-use Ushahidi\App\Repository\CSVPostRepository;
-
-class ExportRepository extends CSVPostRepository implements PostExportRepository
+class ExportRepository extends PostRepository implements PostExportRepository
 {
+    use AdminAccess;
     protected $tag_repo;
     protected $set_repo;
+    protected $message_repo;
     /**
      * @param TagRepository $repo
      */
@@ -31,23 +33,17 @@ class ExportRepository extends CSVPostRepository implements PostExportRepository
     {
         $this->tag_repo = $repo;
     }
+    /**
+     * @param TagRepository $repo
+     */
+    public function setMessageRepo(MessageRepository $repo)
+    {
+        $this->message_repo = $repo;
+    }
 
     public function setSetRepo(SetRepository $repo)
     {
         $this->set_repo = $repo;
-    }
-
-    //fixme move to correct repo
-    public function getFormIdsForHeaders()
-    {
-        $searchQuery = $this->getSearchQuery();
-        $searchQuery->resetOrderBy();
-        $searchQuery->limit(null);
-        $searchQuery->offset(null);
-        $result = $searchQuery->resetSelect()
-            ->select([DB::expr('DISTINCT(posts.form_id)'), 'form_id'])->execute($this->db);
-        $result =  $result->as_array();
-        return array_column($result, 'form_id');
     }
 
     /**
@@ -73,14 +69,22 @@ class ExportRepository extends CSVPostRepository implements PostExportRepository
 
         // Get contact
         if (!empty($data['contact_id']) &&
-            (
-                $this->isUserAdmin($user) ||
-                $this->acl->hasPermission($user, \Ushahidi\Core\Entity\Permission::MANAGE_POSTS)
-            )
+                 $this->isUserAdmin($user) ||
+                 $this->postPermissions->canUserManagePosts($user)
         ) {
             $contact = $this->contact_repo->get($data['contact_id']);
             $data['contact_type'] = $contact->type;
             $data['contact'] = $contact->contact;
+        }
+
+        // Get datasource message id
+        if (!empty($data['data_source_message_id']) &&
+            $this->isUserAdmin($user) ||
+            $this->postPermissions->canUserManagePosts($user)
+        ) {
+            $message = $this->message_repo->get(['id' => $data['message_id']]);
+            $data['data_source_message_id'] = $message->data_source_message_id;
+            $data['data_source'] = $message->data_source;
         }
 
         // Set Form name
@@ -104,5 +108,27 @@ class ExportRepository extends CSVPostRepository implements PostExportRepository
             array_push($names, $stage->label);
         }
         return $names;
+    }
+
+    protected function getPostValues($id, $excludePrivateValues, $excludeStages)
+    {
+
+        // Get all the values for the post. These are the EAV values.
+        $values = $this->post_value_factory
+            ->proxy($this->include_value_types)
+            ->getAllForPost($id, $this->include_attributes, $excludeStages, $excludePrivateValues);
+
+        $output = [];
+        foreach ($values as $value) {
+            if (empty($output[$value->key])) {
+                $output[$value->key] = [];
+            }
+            if (is_array($value->value) && isset($value->value['o_filename'])) {
+                $output[$value->key][] = $value->value['o_filename'];
+            } elseif ($value->value !== null) {
+                $output[$value->key][] = $value->value;
+            }
+        }
+        return $output;
     }
 }

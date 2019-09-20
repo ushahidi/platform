@@ -13,10 +13,10 @@
 
 namespace Ushahidi\App\Validator\User;
 
-use Ushahidi\Core\Tool\Validator;
+use Ushahidi\App\Validator\LegacyValidator;
 use Ushahidi\Core\Usecase\User\RegisterRepository;
 
-class Register extends Validator
+class Register extends LegacyValidator
 {
     protected $default_error_source = 'user';
     private $repo;

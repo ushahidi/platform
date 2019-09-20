@@ -12,9 +12,9 @@
 namespace Ushahidi\App\Validator\Media;
 
 use Ushahidi\Core\Entity;
-use Ushahidi\Core\Tool\Validator;
+use Ushahidi\App\Validator\LegacyValidator;
 
-class Create extends Validator
+class Create extends LegacyValidator
 {
     protected $max_bytes = 0;
     protected $default_error_source = 'media';

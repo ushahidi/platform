@@ -14,9 +14,9 @@ namespace Ushahidi\App\Validator\Tag;
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\Entity\RoleRepository;
 use Ushahidi\Core\Usecase\Tag\UpdateTagRepository;
-use Ushahidi\Core\Tool\Validator;
+use Ushahidi\App\Validator\LegacyValidator;
 
-class Update extends Validator
+class Update extends LegacyValidator
 {
     protected $repo;
     protected $role_repo;
@@ -43,7 +43,6 @@ class Update extends Validator
             ],
             'slug' => [
                 ['min_length', [':value', 2]],
-                ['alpha_dash'],
                 [[$this->repo, 'isSlugAvailable'], [':value']],
             ],
             'description' => [

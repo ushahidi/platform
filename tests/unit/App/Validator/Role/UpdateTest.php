@@ -26,8 +26,12 @@ class RoleUpdateTest extends TestCase
 
     public function testRoleDisabled()
     {
+        $features = M::mock(\Ushahidi\App\Tools\Features::class);
+        $features->shouldReceive('isEnabled')->with('roles')->andReturn(false);
+        $this->app->instance('features', $features);
+
         $validationMock = M::mock(Validation::class);
-        $validator = new Update(M::mock(PermissionRepository::class), false);
+        $validator = new Update(M::mock(PermissionRepository::class));
         $validationMock->expects('error')->with(
             'name',
             'rolesNotEnabled'
@@ -37,8 +41,12 @@ class RoleUpdateTest extends TestCase
 
     public function testRoleEnabled()
     {
+        $features = M::mock(\Ushahidi\App\Tools\Features::class);
+        $features->shouldReceive('isEnabled')->with('roles')->andReturn(true);
+        $this->app->instance('features', $features);
+
         $validationMock = M::mock(Validation::class);
-        $validator = new Update(M::mock(PermissionRepository::class), true);
+        $validator = new Update(M::mock(PermissionRepository::class));
         $validationMock->shouldNotReceive('error')->with(
             'name',
             'rolesNotEnabled'

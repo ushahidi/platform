@@ -12,14 +12,14 @@
 namespace Ushahidi\App\Validator\Message;
 
 use Ushahidi\Core\Entity;
-use Ushahidi\Core\Tool\Validator;
+use Ushahidi\App\Validator\LegacyValidator;
 use Ushahidi\Core\Usecase\Message\CreateMessageRepository;
 use Ushahidi\App\DataSource\Message\Type as MessageType;
 use Ushahidi\App\DataSource\Message\Direction as MessageDirection;
 use Ushahidi\App\DataSource\Message\Status as MessageStatus;
 use Ushahidi\App\DataSource\DataSourceManager;
 
-class Receive extends Validator
+class Receive extends LegacyValidator
 {
     protected $repo;
     protected $default_error_source = 'message';
@@ -40,10 +40,10 @@ class Receive extends Validator
                 ['in_array', [':value', [MessageDirection::INCOMING]]],
             ],
             'message' => [
-                ['not_empty'],
+                [[$this, 'notEmptyIfTwitter'], [':value',':validation']],
             ],
             'datetime' => [
-                ['date'],
+                [[$this, 'validDate'], [':value']],
             ],
             'type' => [
                 ['not_empty'],
@@ -74,5 +74,23 @@ class Receive extends Validator
                 ['numeric'],
             ]
         ];
+    }
+    public function notEmptyIfTwitter($value, $validation)
+    {
+        if ($this->validation_engine->getFullData('data_source') === 'twitter') {
+            return true;
+        }
+        if (empty($value)) {
+            $validation->error('message', 'not_empty');
+            return false;
+        }
+        return true;
+    }
+    public function validDate($str)
+    {
+        if ($str instanceof \DateTimeInterface) {
+            return true;
+        }
+        return (strtotime($str) !== false);
     }
 }

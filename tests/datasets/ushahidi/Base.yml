@@ -16,6 +16,10 @@ roles:
     display_name: "Manager"
     protected: 0
   -
+    name: "sets"
+    display_name: "Sets"
+    protected: 0
+  -
     name: "importer"
     display_name: "Importer"
     protected: 0
@@ -72,6 +76,27 @@ users:
     realname: CannotEditor
     email: "cannoteditor@ushahidi.com"
     role: "noedit"
+  -
+    id: 9
+    password: "$2y$15$iWANGZn.DomLWU.YtjUcX.HEq1hoMGauzXFRubKgar/BRaAj9zQ9q"
+    realname: Sets
+    email: "sets@ushahidi.com"
+    role: "sets"
+user_settings:
+ -
+   id: 1
+   config_key: "api some key"
+   config_value: "some value"
+   created: 1893477600
+   updated: 1893477600
+   user_id: 2
+ -
+   id: 2
+   config_key: "some key2"
+   config_value: "some value"
+   created: 1893477600
+   updated: 1893477600
+   user_id: 1
 user_reset_tokens:
   -
     id: 1
@@ -82,7 +107,7 @@ user_reset_tokens:
     id: 2
     user_id: 5
     reset_token: testresettoken2
-    created: 1893477600    
+    created: 1893477600
 forms:
   -
     id: 1
@@ -91,6 +116,8 @@ forms:
     description: "Testing form"
     require_approval: 0
     hide_author: 0
+    hide_time: 0
+    hide_location: 0
     everyone_can_create: 1
     targeted_survey: 0
   -
@@ -100,6 +127,8 @@ forms:
     description: "Missing persons"
     require_approval: 0
     hide_author: 0
+    hide_time: 0
+    hide_location: 0
     everyone_can_create: 0
     targeted_survey: 0
   -
@@ -109,6 +138,8 @@ forms:
     description: "Test video embed"
     require_approval: 0
     hide_author: 0
+    hide_time: 0
+    hide_location: 0
     everyone_can_create: 0
     targeted_survey: 0
   -
@@ -118,6 +149,8 @@ forms:
     description: "Test role restriction and private responses"
     require_approval: 1
     hide_author: 1
+    hide_time: 1
+    hide_location: 1
     everyone_can_create: 0
     targeted_survey: 0
   -
@@ -127,6 +160,8 @@ forms:
     description: "Testing Targeted survey"
     require_approval: 0
     hide_author: 0
+    hide_time: 0
+    hide_location: 0
     everyone_can_create: 0
     targeted_survey: 1
   -
@@ -136,6 +171,8 @@ forms:
     description: "Testing Targeted survey"
     require_approval: 0
     hide_author: 0
+    hide_time: 0
+    hide_location: 0
     everyone_can_create: 0
     targeted_survey: 1
   -
@@ -145,6 +182,8 @@ forms:
     description: "Testing Targeted survey"
     require_approval: 0
     hide_author: 0
+    hide_time: 0
+    hide_location: 0
     everyone_can_create: 0
     targeted_survey: 1
   -
@@ -154,6 +193,8 @@ forms:
     description: "Testing Targeted survey"
     require_approval: 0
     hide_author: 0
+    hide_time: 0
+    hide_location: 0
     everyone_can_create: 0
     targeted_survey: 1
 
@@ -673,6 +714,30 @@ form_attributes:
     options: ""
     cardinality: 1
     form_stage_id: 11
+  -
+    id: 36
+    label: "Location"
+    key: "location_restrictions"
+    type: "point"
+    input: "location"
+    response_private: 0
+    required: 0
+    priority: 5
+    options: ""
+    cardinality: 0
+    form_stage_id: 7
+  -
+    id: 37
+    label: "Datetime"
+    key: "datetime_restrictions"
+    type: "datetime"
+    input: "datetime"
+    response_private: 0
+    required: 0
+    priority: 5
+    options: ""
+    cardinality: 0
+    form_stage_id: 7
 posts:
   -
     id: 1
@@ -1163,6 +1228,36 @@ posts:
     created: 1412025016
     published_to: '[]'
     post_date: "2014-09-29 14:10:16"
+  -
+    id: 1699
+    form_id: 1
+    parent_id:
+    user_id: 1
+    author_email: ""
+    author_realname: ""
+    title: "Testing email count for form stats"
+    type: "report"
+    content: "this is an email test"
+    status: "draft"
+    locale: "en_us"
+    created: 1534342200
+    published_to: '[]'
+    post_date: "2018-08-12 14:10:16"
+  -
+    id: 1700
+    form_id: 1
+    parent_id:
+    user_id: 1
+    author_email: ""
+    author_realname: ""
+    title: "Testing twitter count for form stats"
+    type: "report"
+    content: "this is an twitter test"
+    status: "draft"
+    locale: "en_us"
+    created: 1534342200
+    published_to: '[]'
+    post_date: "2018-08-12 14:10:16"
 post_locks:
   -
     id: 1
@@ -1170,6 +1265,11 @@ post_locks:
     expires: 1412007022
     user_id: 1
 post_datetime:
+  -
+    id: 1
+    post_id: 1690
+    value: "2014-09-29 15:11:46"
+    form_attribute_id: 37
 post_decimal:
 post_geometry:
 post_int:
@@ -1460,6 +1560,11 @@ sets:
     search: 1
     filter: '{"q":"junk"}'
     role: '["admin"]'
+  -
+    id: 7
+    name: Manage Collections
+    search: 0
+    user_id: 9
 posts_sets:
   -
     set_id: 1
@@ -1479,6 +1584,15 @@ posts_sets:
   -
     set_id: 1
     post_id: 112
+  -
+    set_id: 5
+    post_id: 113
+  -
+    set_id: 5
+    post_id: 112
+  -
+    set_id: 5
+    post_id: 114
 # OAuth Tables
 oauth_clients:
   -
@@ -1552,6 +1666,12 @@ oauth_access_tokens:
     id: testnoedit
     client_id: demoapp
     user_id: 8
+    scopes: '["*"]'
+    expires_at: "2031-01-01"
+  -
+    id: testsets
+    client_id: demoapp
+    user_id: 9
     scopes: '["*"]'
     expires_at: "2031-01-01"
 
@@ -1643,12 +1763,20 @@ config:
     config_key: cluster_radius
     config_value: '50'
   -
+    group_name: map
+    config_key: location_precision
+    config_value: '2'
+  -
     group_name: test
     config_key: testkey
     config_value: '"testval"'
   -
     group_name: features
     config_key: roles
+    config_value: '{"enabled":true}'
+  -
+    group_name: features
+    config_key: user-settings
     config_value: '{"enabled":true}'
   -
     group_name: "data-provider"
@@ -1678,6 +1806,10 @@ config:
     group_name: "data-provider"
     config_key: frontlinesms
     config_value: '{"f":"12345","key":"1234","frontlinecloud_api_url":"http:\/\/frontlinesms.com:8130\/api\/1\/webconnection\/11","secret":"abc123"}'
+  -
+    group_name: features
+    config_key: hxl
+    config_value: '{"enabled":true}'
 contacts:
   -
     id: 1
@@ -1691,7 +1823,7 @@ contacts:
     type: "email"
   -
     id: 3
-    user_id: 
+    user_id:
     contact: 773456789
     type: "phone"
   -
@@ -1923,6 +2055,30 @@ messages:
     user_id:
     datetime:
     data_source:
+  -
+    id: 18
+    title: "Testing email count for form stats"
+    message: "this is an email test"
+    type: "email"
+    direction: "incoming"
+    status: "received"
+    contact_id: 1
+    post_id: 1699
+    user_id:
+    datetime:
+    data_source:
+  -
+    id: 19
+    title: "Testing twitter count for form stats"
+    message: "this is an twitter test"
+    type: "twitter"
+    direction: "incoming"
+    status: "received"
+    contact_id: 1
+    post_id: 1700
+    user_id:
+    datetime:
+    data_source:
 layers:
   -
     id: 1
@@ -2009,11 +2165,75 @@ webhooks:
     entity_type: "post"
     event_type: "search"
 csv:
+hxl_meta_data:
+  -
+    id: 1
+    license_id: 1
+    organisation_name: "ushahidi"
+    organisation_id: "ushahidi-org-id"
+    dataset_title: "ushahidi-dataset"
+    source: "other"
+    private: true
+    user_id: 2
+  -
+    id: 2
+    license_id: 1
+    organisation_name: "ushahidi"
+    organisation_id: "ushahidi-org-id"
+    dataset_title: "ushahidi-dataset"
+    source: "other"
+    private: true
+    user_id: 2
+  -
+    id: 3
+    license_id: 1
+    organisation_name: "ushahidi"
+    organisation_id: "ushahidi-org-id"
+    dataset_title: "ushahidi-dataset"
+    source: "other"
+    private: true
+    user_id: 2
+  -
+    id: 4
+    license_id: 1
+    organisation_name: "ushahidi"
+    organisation_id: "ushahidi-org-id"
+    dataset_title: "ushahidi-dataset"
+    source: "other"
+    private: true
+    user_id: 2
+export_batches:
 export_job:
   -
     id: 1
     entity_type: "post"
     user_id: 2
+    hxl_meta_data_id: 1
+  -
+    id: 2
+    entity_type: "post"
+    user_id: 2
+  -
+    id: 3
+    entity_type: "post"
+    user_id: 6
+  -
+    id: 4
+    entity_type: "post"
+    user_id: 2
+permissions:
+  -
+    name: Manage Users
+  -
+    name: Manage Posts
+  -
+    name: Manage Settings
+  -
+    name: Bulk Data Import and Export
+  -
+    name: Edit their own posts
+  -
+    name: Manage Collections and Saved Searches
 roles_permissions:
   -
     role: manager
@@ -2025,8 +2245,14 @@ roles_permissions:
     role: manager
     permission: Manage Settings
   -
+    role: sets
+    permission: Manage Collections and Saved Searches
+  -
     role: importer
-    permission: Bulk Data Import
+    permission: Bulk Data Import and Export
+  -
+    role: manager
+    permission: Bulk Data Import and Export
   -
     role: user
     permission: Edit their own posts

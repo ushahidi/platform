@@ -12,10 +12,10 @@
 namespace Ushahidi\App\Validator\Config;
 
 use Ushahidi\Core\Entity;
-use Ushahidi\Core\Tool\Validator;
+use Ushahidi\App\Validator\LegacyValidator;
 use Ushahidi\Core\Entity\ConfigRepository;
 
-class Update extends Validator
+class Update extends LegacyValidator
 {
     protected $default_error_source = 'config';
 
@@ -69,6 +69,9 @@ class Update extends Validator
                     ],
                     'default_view' => [
                         ['is_array', [':value']]
+                    ],
+                    'location_precision' => [
+                        ['digit', [':value']]
                     ]
                 ];
                 break;
@@ -93,7 +96,7 @@ class Update extends Validator
     {
         if ($string) {
             try {
-                $check = new DateTimeZone($string);
+                $check = new \DateTimeZone($string);
             } catch (\Exception $e) {
                 $check = false;
             }

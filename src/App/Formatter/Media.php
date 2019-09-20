@@ -60,6 +60,19 @@ class Media extends API
         array_push($url_path, $filename);
         $path = implode("/", $url_path);
 
-        return url(Storage::url($path));
+        $adapter = Storage::getAdapter();
+        // Special handling for RS to get SSL URLs
+        if ($adapter instanceof \League\Flysystem\Rackspace\RackspaceAdapter) {
+            try {
+                return (string) $adapter
+                    ->getContainer()
+                    ->getObject($path)
+                    ->getPublicUrl(\OpenCloud\ObjectStore\Constants\UrlType::SSL);
+            } catch (\OpenCloud\ObjectStore\Exception\ObjectNotFoundException $e) {
+                return null;
+            }
+        } else {
+            return url(Storage::url($path));
+        }
     }
 }
