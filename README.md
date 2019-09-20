@@ -1,6 +1,5 @@
 [download]: https://github.com/ushahidi/platform-release/releases
-[install-development]: https://github.com/ushahidi/platform/blob/develop/README.md#Installing-for-development-vagrant
-[other-install-guides]: docs/setup_alternatives
+[setup-guides]: https://docs.ushahidi.com/platform-developer-documentation/development-and-code/setup_alternatives
 [docs]: https://www.ushahidi.com/support
 [tech-docs]: ./docs/README.md
 [getin]: https://www.ushahidi.com/support/get-involved
@@ -70,7 +69,7 @@ Support this project by becoming a sponsor. Your logo will show up here with a l
 ## Useful Links
 - [Code of Conduct](https://docs.ushahidi.com/platform-developer-documentation/code-of-conduct)
 - [Download][download]
-- [Other Installation Guides][other-install-guides]
+- [Installation guides][setup-guides]
 - [User Documentation][docs]
 - [Technical Documentation][tech-docs]
 - [Get Involved][getin]
