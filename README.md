@@ -1,7 +1,7 @@
 [download]: https://github.com/ushahidi/platform-release/releases
 [setup-guides]: https://docs.ushahidi.com/platform-developer-documentation/development-and-code/setup_alternatives
 [docs]: https://www.ushahidi.com/support
-[tech-docs]: ./docs/README.md
+[tech-docs]: https://docs.ushahidi.com/platform-developer-documentation/tech-stack/api-documentation
 [getin]: https://www.ushahidi.com/support/get-involved
 [issues]: https://github.com/ushahidi/platform/issues
 [ush2]: https://github.com/ushahidi/Ushahidi_Web
