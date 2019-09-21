@@ -91,7 +91,7 @@ class AttributeRepository extends OhanzeeRepository implements
         $query = parent::selectQuery($where);
 
         if (!$form_id && $form_stage_id) {
-            $form_id = $this->getFormId();
+            $form_id = $this->getFormId($form_stage_id);
         }
 
         // Restrict returned attributes based on User rights
