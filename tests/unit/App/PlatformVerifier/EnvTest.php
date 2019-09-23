@@ -46,8 +46,7 @@ class EnvTest extends TestCase
         $this->assertGreaterThanOrEqual(2, count($errors));
         $this->assertContains([
             'message' => 'Required environment variables missing and no environment file found.',
-            'explainer' => "Please copy the '.env.example' file into a file named '.env' " .
-                           "and set your missing variables."
+            'explainer' => "Please copy the '.env.example' file into a file named '.env' and set your missing variables."
         ], $errors);
     }
 
@@ -63,8 +62,7 @@ class EnvTest extends TestCase
 
         $this->assertEquals(['success' => [
             [
-                'message' => 'Good job! you have configured your system environment and/or .env file' .
-                             ' with all the required keys.',
+                'message' => 'Good job! you have configured your system environment and/or .env file with all the required keys.',
                 'explainer' => null
             ]
         ]], $result);
