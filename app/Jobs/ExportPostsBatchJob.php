@@ -7,10 +7,11 @@ use Ushahidi\Factory\UsecaseFactory;
 use Ushahidi\Core\Entity\ExportJob;
 use Ushahidi\Core\Entity\ExportJobRepository;
 use Ushahidi\Core\Usecase\Post\Export;
+use Ushahidi\App\Multisite\MultisiteAwareJob;
 
 class ExportPostsBatchJob extends Job
 {
-    use RecordsExportJobFailure;
+    use MultisiteAwareJob;
 
     protected $jobId;
     protected $batchNumber;
@@ -54,5 +55,12 @@ class ExportPostsBatchJob extends Job
         $batch = $usecase->interact();
 
         Log::debug('Batch completed', [$batch]);
+
+        // Check if batches are finished
+        if ($exportJobRepo->areBatchesFinished($this->jobId)) {
+            Log::debug('All batches finished', ['jobId' => $this->jobId]);
+            // if yes, queue combine job
+            dispatch(new CombineExportedPostBatchesJob($this->jobId));
+        }
     }
 }

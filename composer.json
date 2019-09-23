@@ -15,7 +15,7 @@
         }
     ],
     "require": {
-        "php": ">=7.0 <=7.3",
+        "php": ">=7.0 <7.4",
         "aura/di": "~3.4",
         "league/flysystem-aws-s3-v3": "~1.0",
         "league/flysystem-rackspace": "~1.0",
@@ -27,10 +27,6 @@
         "robmorgan/phinx": "~0.8.0",
         "symm/gisconverter": "~1.0.5",
         "vlucas/phpdotenv": "~2.2",
-        "ext-curl": "*",
-        "ext-gd": "*",
-        "ext-json": "*",
-        "ext-mbstring": "*",
         "league/csv": "~7.1@dev",
         "laravel/lumen-framework": "5.5.*",
         "league/event": "^2.2@dev",
@@ -68,7 +64,9 @@
         "sebastianfeldmann/captainhook": "^2.0"
     },
     "suggest" : {
-        "ext-imap": "Needed for email data source"
+        "ext-imap": "Needed for email data source",
+        "ext-redis": "Needed for Redis based queues or cache",
+        "ext-memcached": "Needed for Memcache based cache"
     },
     "config": {
         "bin-dir": "bin/",
@@ -122,6 +120,7 @@
             "phpspec run --no-code-generation"
         ],
         "migrate" : [
+            "@verify",
             "phinx migrate -c phinx.php"
         ],
         "pre-test" : [
@@ -141,6 +140,15 @@
         "bootstrap:passport": [
             "php artisan passport:keys",
             "chmod 660 storage/passport/*.key"
+        ],
+        "verify": [
+            "php artisan environment:verify"
+        ],
+        "installdebug:enable": [
+            "\\Ushahidi\\App\\PlatformVerifier\\DebugMode::enable"
+        ],
+        "installdebug:disable": [
+            "\\Ushahidi\\App\\PlatformVerifier\\DebugMode::disable"
         ]
     }
 }

@@ -23,6 +23,7 @@ class Kernel extends ConsoleKernel
         Commands\MigrateStatusCommand::class,
         Commands\SeedMakeCommand::class,
         Commands\SeedCommand::class,
+        Commands\EnvironmentVerify::class,
         \Ushahidi\Console\Command\ApikeySet::class,
         \Ushahidi\Console\Command\ConfigSet::class,
         \Ushahidi\Console\Command\ConfigGet::class,

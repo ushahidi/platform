@@ -6,7 +6,6 @@ use Ushahidi\Core\Usecase\Export\Job\PostCount;
 use Ushahidi\Core\Entity\ExportJob;
 use Ushahidi\Core\Entity\ExportJobRepository;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Carbon;
 
 class ExportPostsJob extends Job
 {
@@ -87,11 +86,5 @@ class ExportPostsJob extends Job
                 ($batchNumber === 0)
             ));
         }
-
-        // Queue combine job in 1 min
-        dispatch(
-            (new CombineExportedPostBatchesJob($this->jobId))
-                ->delay(Carbon::now()->addMinutes(1))
-        );
     }
 }
