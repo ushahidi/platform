@@ -220,7 +220,7 @@ class HDXInterface
             $createResult = ['error' => 'Unable to create resource on HDX server.'];
             Log::error(
                 'Unable to create resource on HDX server. Exception:  ' .
-                var_export($e, true) .
+                var_export($e->getMessage(), true) .
                 ' - Dataset: ' .
                 var_export($resource, true)
             );
