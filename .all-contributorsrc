@@ -491,6 +491,44 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "Obadha2",
+      "name": "Obadha2",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/38259840?v=4",
+      "profile": "https://www.linkedin.com/in/walterobadha/",
+      "contributions": [
+        "bug"
+      ]
+    },
+    {
+      "login": "justinscherer",
+      "name": "Justin Scherer",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/29209303?v=4",
+      "profile": "https://www.justinscherer.xyz",
+      "contributions": [
+        "design",
+        "ideas",
+        "userTesting"
+      ]
+    },
+    {
+      "login": "CeciliaHinga",
+      "name": "CeciliaHinga",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/20906968?v=4",
+      "profile": "https://github.com/CeciliaHinga",
+      "contributions": [
+        "blog"
+      ]
+    },
+    {
+      "login": "trendspotter",
+      "name": "trendspotter",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/15286128?v=4",
+      "profile": "https://github.com/trendspotter",
+      "contributions": [
+        "bug"
+      ]
     }
   ],
   "projectName": "platform",

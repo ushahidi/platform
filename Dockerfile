@@ -1,4 +1,4 @@
-FROM ushahidi/php-fpm-nginx:php-7.0
+FROM ushahidi/php-fpm-nginx:php-7.1
 
 WORKDIR /var/www
 COPY composer.json ./

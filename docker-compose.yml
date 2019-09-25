@@ -19,8 +19,10 @@ services:
       ENABLE_PHPFPM: "true"
       ENABLE_PLATFORM_TASKS: "false"
       RUN_PLATFORM_MIGRATIONS: "true"
+      DB_CONNECTION: mysql
       DB_DATABASE: ushahidi
       DB_HOST: mysql
+      DB_PORT: 3306
       DB_USERNAME: ushahidi
       DB_PASSWORD: ushahidi
       REDIS_HOST: redis
@@ -42,8 +44,10 @@ services:
       ENABLE_PLATFORM_TASKS: "true"
       ENABLE_QUEUE_LISTEN: "true"
       RUN_PLATFORM_MIGRATIONS: "false"
+      DB_CONNECTION: mysql
       DB_DATABASE: ushahidi
       DB_HOST: mysql
+      DB_PORT: 3306
       DB_USERNAME: ushahidi
       DB_PASSWORD: ushahidi
       REDIS_HOST: redis
