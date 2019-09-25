@@ -3,11 +3,16 @@
 * [👋 Welcome \| README](README.md)
 * [Code of Conduct](code-of-conduct.md)
 * [Contributing \| Getting Involved](contributing-or-getting-involved/README.md)
+  * [Add code to Ushahidi](contributing-or-getting-involved/workflow-for-adding-code.md)
   * [Encouraging contribution from non-developers](contributing-or-getting-involved/encouraging-contribution-from-non-developers.md)
 * [Frequently Asked Questions](frequently-asked-questions.md)
 * [Join the Ushahidi community](get-in-touch.md)
 * [Contributors ✨](contributors-to-ushahidi.md)
 * [🛣️ The Ushahidi Platform Roadmap](roadmap.md)
+* [Privacy and security best practices](untitled/README.md)
+  * [Security as a user](untitled/security-as-a-user.md)
+  * [Security for deployment admins](untitled/security-for-deployment-admins.md)
+  * [Security for deployment hosts](untitled/security-for-deployment-hosts.md)
 
 ## Development & Code
 
@@ -20,12 +25,14 @@
   * [\[Client\] Setting up the Platform Client for development](development-and-code/setup_alternatives/setting-up-the-platform-client.md)
   * [Setting up the Pattern Library for development](development-and-code/setup_alternatives/setting-up-the-pattern-library-for-development.md)
   * [\[API  & Client\] Bundled release install](development-and-code/setup_alternatives/platform_release_install.md)
+* [Add code to Ushahidi](development-and-code/add-code-to-ushahidi.md)
 * [Development process](development-and-code/development-process.md)
 * [Coding Standards](development-and-code/coding-standards.md)
 * [Track and submit issues in Github](development-and-code/issue-tracking.md)
 * [Upgrading Ushahidi](development-and-code/upgrading-ushahidi/README.md)
   * [Upgrading to latest release](development-and-code/upgrading-ushahidi/upgrading-to-latest-release.md)
   * [Upgrading from V3.x.x to V4.x.x](development-and-code/upgrading-ushahidi/upgrading-from-v3.x.x-to-v4.x.x.md)
+* [⚙️ Installation Helper‌](development-and-code/installation-helper.md)
 
 ## Tech Stack
 
