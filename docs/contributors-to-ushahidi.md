@@ -121,6 +121,10 @@ See all available contribution types here https://allcontributors.org/docs/en/em
     <td align="center"><a href="https://www.linkedin.com/in/walterobadha/"><img src="https://avatars1.githubusercontent.com/u/38259840?v=4" width="50px;" alt="Obadha2"/><br /><sub><b>Obadha2</b></sub></a><br /><a href="https://github.com/ushahidi/platform/issues?q=author%3AObadha2" title="Bug reports">🐛</a></td>
     <td align="center"><a href="https://www.justinscherer.xyz"><img src="https://avatars1.githubusercontent.com/u/29209303?v=4" width="50px;" alt="Justin Scherer"/><br /><sub><b>Justin Scherer</b></sub></a><br /><a href="#design-justinscherer" title="Design">🎨</a> <a href="#ideas-justinscherer" title="Ideas, Planning, & Feedback">🤔</a> <a href="#userTesting-justinscherer" title="User Testing">📓</a></td>
   </tr>
+  <tr>
+    <td align="center"><a href="https://github.com/CeciliaHinga"><img src="https://avatars1.githubusercontent.com/u/20906968?v=4" width="50px;" alt="CeciliaHinga"/><br /><sub><b>CeciliaHinga</b></sub></a><br /><a href="#blog-CeciliaHinga" title="Blogposts">📝</a></td>
+    <td align="center"><a href="https://github.com/trendspotter"><img src="https://avatars1.githubusercontent.com/u/15286128?v=4" width="50px;" alt="trendspotter"/><br /><sub><b>trendspotter</b></sub></a><br /><a href="https://github.com/ushahidi/platform/issues?q=author%3Atrendspotter" title="Bug reports">🐛</a></td>
+  </tr>
 </table>
 
 <!-- ALL-CONTRIBUTORS-LIST:END -->

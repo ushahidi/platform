@@ -98,12 +98,28 @@ The procedure is pretty similar to the one detailed for apache above, with the f
 
 ## Shared hosting \(Cpanel, Dreamhost, Bluehost, etc\)
 
-In general, the instructions for apache can be taken as a guideline. Each shared hosting provider comes with their own set of particularities, so we can only provide general directions here. In all cases, you'll need to ensure that:
+In general, the instructions for Apache can be taken as a guideline.
+
+Each shared hosting provider comes with their own set of particularities, so we can only provide general directions here.
+
+In all cases, you'll need to ensure that:
 
 * Decompress the release file and place the contents of the `html` folder in the webroot of your shared hosting domain or subdomain.
 * Create a database for your website and write the access details in the `platform/.env` file \(as per step 4 of Apache 2 instructions\).
 * Also, you must have command line access \(SSH\) in order to run the `php artisan migrate` and other `artisan` commands as outlined above.
 * Most importantly, a URL rewriting mechanism has to be in place so that requests to /platform/api/v3/ __are to be forwarded to the `index.php` script inside `platform/httpdocs`_._ When invoking that script, the "api/v3/\*" part of the url should be passed to the script into the a `$_SERVER` or environment variable. If your host uses Apache and supports _.htaccess_ files, most of this should be taken care of for you.
+
+## Something seems wrong?
+
+If something doesn't seem to work we suggest giving a try to open your deployment website address, but adding a "/verifier" at the end of it.
+
+{% hint style="info" %}
+For instance, if the address of your deployment is _https://ushahidi.example.com_ , we suggest you to try to open: _https://ushahidi.example.com**/verifier**_ 
+{% endhint %}
+
+The latest releases of the Ushahidi Platform come with a little handy tool called "[Installation Helper](../installation-helper.md)" which is started by accessing that specific address in the deployment.
+
+If something is wrong, this tool may provide you with useful information about what exactly seems to be the cause.
 
 ## Queue drivers \(and "sync" driver issues\)
 
@@ -172,7 +188,9 @@ stdout_logfile=<your document root>/platform/storage/logs/worker.log
 Then the following command makes sure workers are started if they haven't already:
 
 ```text
-supervisorctl start ushahidi-platform-workers:*
+sudo supervisorctl reread
+sudo supervisorctl update
+sudo supervisorctl start ushahidi-platform-workers:*
 ```
 
 If you check your running processes \(i.e. with the `ps -ef` \) you should see some processes with names similar to `artisan queue:work`

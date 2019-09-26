@@ -12,6 +12,10 @@ The setup in this guide is demonstrated in below videos as well if you want to w
 
 {% embed url="https://youtu.be/jPa4oB4XPZw" caption="Setting up Ushahidi client for local development, recorded in Linux." %}
 
+{% embed url="https://www.youtube.com/watch?v=zY80QpptKk0&feature=youtu.be" caption="Download the Platform code with Github-desktop, recorded in Windows" %}
+
+
+
 ### Installation steps
 
 {% hint style="warning" %}

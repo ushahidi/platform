@@ -6,6 +6,14 @@ description: >-
 
 # Development environment with XAMPP
 
+### Video-tutorials
+
+The setup in this guide is demonstrated in below videos as well if you want to watch and follow the guide at the same time!
+
+{% embed url="https://www.youtube.com/watch?v=zY80QpptKk0&feature=youtu.be" caption="Download the Platform code with GitHub Desktop, recorded in Windows" %}
+
+{% embed url="https://www.youtube.com/watch?v=2byASqRp9hQ&feature=youtu.be" caption="Install XAMPP and Composer to setup the Ushahidi Platform Backend, recorded in Windows." %}
+
 ## Introduction
 
 XAMPP is a bundle of server programs including three of the requirements for running the Ushahidi Platform API: Apache, MySQL and PHP.
@@ -267,6 +275,15 @@ The Platform API doesn't provide any sort of clickable user interface, that is e
 
 Jump on to the next section to see about setting up the Platform client.
 {% endhint %}
+
+### If something seems wrong
+
+In case you are not getting the API response as suggested above, it's probable that something is not quite right.
+
+Do not despair! There's a couple things you can try to see what's wrong:
+
+1. Run the `composer verify` command. This will run some quick checks and may give you useful insights.
+2. Carry on with installation and set up the Platform client. Bundled with the Platform client code there's a little tool called [Installation Helper](../installation-helper.md) that can run more checks and possibly help you out.
 
 ### Setting up the Platform client
 
