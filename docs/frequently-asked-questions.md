@@ -126,7 +126,7 @@ If after ensuring the crontab is correct and datasources run you don't see any n
 
 ### I am getting some sort of PHP error
 
-Please do ensure that you are using a supported version of PHP for the version of platform that you are running. v2 supports up to PHP 5.4 , v3 supports PHP 5.6 and 7.0 , v4 supports PHP 7.0 and 7.1  
+Please do ensure that you are using a supported version of PHP for the version of platform that you are running. v2 supports up to PHP 5.4 , v3 supports PHP 5.6 and 7.0 , v4 supports PHP 7.0 to 7.2, and v4.1.0+ supports PHP 7.1 to 7.3 (inclusive)
 
 ### I’m getting a database connection error
 
