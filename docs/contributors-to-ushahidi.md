@@ -125,6 +125,9 @@ See all available contribution types here https://allcontributors.org/docs/en/em
     <td align="center"><a href="https://github.com/CeciliaHinga"><img src="https://avatars1.githubusercontent.com/u/20906968?v=4" width="50px;" alt="CeciliaHinga"/><br /><sub><b>CeciliaHinga</b></sub></a><br /><a href="#blog-CeciliaHinga" title="Blogposts">📝</a></td>
     <td align="center"><a href="https://github.com/trendspotter"><img src="https://avatars1.githubusercontent.com/u/15286128?v=4" width="50px;" alt="trendspotter"/><br /><sub><b>trendspotter</b></sub></a><br /><a href="https://github.com/ushahidi/platform/issues?q=author%3Atrendspotter" title="Bug reports">🐛</a></td>
   </tr>
+  <tr>
+    <td align="center"><a href="https://timz.tech"><img src="https://avatars0.githubusercontent.com/u/11256481?v=4" width="50px;" alt="Timothy Olaleke"/><br /><sub><b>Timothy Olaleke</b></sub></a><br /><a href="https://github.com/ushahidi/platform/commits?author=Timtech4u" title="Documentation">📖</a> <a href="https://github.com/ushahidi/platform/issues?q=author%3ATimtech4u" title="Bug reports">🐛</a> <a href="https://github.com/ushahidi/platform/commits?author=Timtech4u" title="Code">💻</a></td>
+  </tr>
 </table>
 
 <!-- ALL-CONTRIBUTORS-LIST:END -->
