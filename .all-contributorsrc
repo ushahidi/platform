@@ -529,6 +529,17 @@
       "contributions": [
         "bug"
       ]
+    },
+    {
+      "login": "Timtech4u",
+      "name": "Timothy Olaleke",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/11256481?v=4",
+      "profile": "https://timz.tech",
+      "contributions": [
+        "doc",
+        "bug",
+        "code"
+      ]
     }
   ],
   "projectName": "platform",
