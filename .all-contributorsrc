@@ -540,6 +540,16 @@
         "bug",
         "code"
       ]
+    },
+    {
+      "login": "jlucianolzz",
+      "name": "jlucianolzz",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/26437703?v=4",
+      "profile": "https://github.com/jlucianolzz",
+      "contributions": [
+        "test",
+        "doc"
+      ]
     }
   ],
   "projectName": "platform",
