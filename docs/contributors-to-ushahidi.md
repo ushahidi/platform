@@ -127,6 +127,7 @@ See all available contribution types here https://allcontributors.org/docs/en/em
   </tr>
   <tr>
     <td align="center"><a href="https://timz.tech"><img src="https://avatars0.githubusercontent.com/u/11256481?v=4" width="50px;" alt="Timothy Olaleke"/><br /><sub><b>Timothy Olaleke</b></sub></a><br /><a href="https://github.com/ushahidi/platform/commits?author=Timtech4u" title="Documentation">📖</a> <a href="https://github.com/ushahidi/platform/issues?q=author%3ATimtech4u" title="Bug reports">🐛</a> <a href="https://github.com/ushahidi/platform/commits?author=Timtech4u" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/jlucianolzz"><img src="https://avatars0.githubusercontent.com/u/26437703?v=4" width="50px;" alt="jlucianolzz"/><br /><sub><b>jlucianolzz</b></sub></a><br /><a href="https://github.com/ushahidi/platform/commits?author=jlucianolzz" title="Tests">⚠️</a> <a href="https://github.com/ushahidi/platform/commits?author=jlucianolzz" title="Documentation">📖</a></td>
   </tr>
 </table>
 
