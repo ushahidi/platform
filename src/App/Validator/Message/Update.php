@@ -13,10 +13,10 @@ namespace Ushahidi\App\Validator\Message;
 
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\Entity\RoleRepository;
-use Ushahidi\Core\Tool\Validator;
+use Ushahidi\App\Validator\LegacyValidator;
 use Ushahidi\Core\Usecase\Message\UpdateMessageRepository;
 
-class Update extends Validator
+class Update extends LegacyValidator
 {
     protected $repo;
     protected $default_error_source = 'message';
@@ -30,7 +30,7 @@ class Update extends Validator
     {
         return [
             'status' => [
-                [[$this->repo, 'checkStatus'], [':value', $this->get('direction')]]
+                [[$this->repo, 'checkStatus'], [':value', $this->validation_engine->getFullData('direction')]]
             ]
         ];
     }

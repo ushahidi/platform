@@ -53,18 +53,19 @@ class MovePostUsersToPost extends AbstractMigration
     {
         // Get post author info
         $rows = $this->fetchAll(
-            "SELECT author_email, author_realname, id
+            "SELECT DISTINCT author_email, author_realname
             FROM posts
             WHERE
                 user_id IS NULL AND
-                (author_email IS NOT NULL OR author_email IS NOT NULL)"
+                author_email IS NOT NULL AND
+                author_email <> ''"
         );
 
         $pdo = $this->getAdapter()->getConnection();
 
         $insert_users = $pdo->prepare("INSERT INTO users (email, realname, role) VALUES (:email, :realname, :role)");
 
-        $update_posts = $pdo->prepare("UPDATE posts SET user_id = :user_id WHERE id = :id");
+        $update_posts = $pdo->prepare("UPDATE posts SET user_id = :user_id WHERE author_email = :email");
 
         foreach ($rows as $row) {
             // Create unregistered users for posts
@@ -82,7 +83,7 @@ class MovePostUsersToPost extends AbstractMigration
             $update_posts->execute(
                 [
                     ':user_id' => $user_id,
-                    ':id' => $row['id']
+                    ':email' => $row['author_email']
                 ]
             );
         }

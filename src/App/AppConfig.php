@@ -446,6 +446,10 @@ class AppConfig extends ContainerConfig
             'resolver' => $di->lazyGet('db.ohanzee.resolver'),
         ];
 
+        // Config
+        $di->params[\Ushahidi\App\PlatformVerifier\Database::class] = [
+            'resolver' => $di->lazyGet('db.ohanzee.resolver'),
+        ];
         // Set up Json Transcode Repository Trait
         $di->setters[\Ushahidi\App\Repository\JsonTranscodeRepository::class]['setTranscoder'] =
             $di->lazyGet('tool.jsontranscode');
@@ -753,7 +757,6 @@ class AppConfig extends ContainerConfig
             'repo' => $di->lazyGet('repository.post')
         ];
 
-        $di->set('transformer.mapping', $di->lazyNew(\Ushahidi\App\Transformer\MappingTransformer::class));
         $di->set('transformer.csv', $di->lazyNew(\Ushahidi\App\Transformer\CSVPostTransformer::class));
         // Post repo for mapping transformer
         $di->setters[\Ushahidi\App\Transformer\CSVPostTransformer::class]['setRepo'] =

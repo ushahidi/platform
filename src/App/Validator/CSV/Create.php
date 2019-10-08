@@ -11,10 +11,10 @@
 
 namespace Ushahidi\App\Validator\CSV;
 
-use Ushahidi\Core\Tool\Validator;
+use Ushahidi\App\Validator\LegacyValidator;
 use Ushahidi\Core\Entity\FormRepository;
 
-class Create extends Validator
+class Create extends LegacyValidator
 {
     protected $form_repo;
     protected $max_bytes = 0;

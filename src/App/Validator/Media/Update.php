@@ -12,7 +12,6 @@
 namespace Ushahidi\App\Validator\Media;
 
 use Ushahidi\Core\Entity;
-use Ushahidi\Core\Tool\Validator;
 
 class Update extends Create
 {

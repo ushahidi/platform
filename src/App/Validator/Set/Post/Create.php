@@ -11,10 +11,10 @@
 
 namespace Ushahidi\App\Validator\Set\Post;
 
-use Ushahidi\Core\Tool\Validator;
+use Ushahidi\App\Validator\LegacyValidator;
 use Ushahidi\Core\Entity\PostRepository;
 
-class Create extends Validator
+class Create extends LegacyValidator
 {
     protected $post_repo;
     protected $default_error_source = 'set';

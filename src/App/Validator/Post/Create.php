@@ -21,7 +21,7 @@ use Ushahidi\Core\Entity\Permission;
 use Ushahidi\Core\Entity\PostRepository;
 use Ushahidi\Core\Entity\RoleRepository;
 use Ushahidi\Core\Entity\PostLockRepository;
-use Ushahidi\Core\Tool\Validator;
+use Ushahidi\App\Validator\LegacyValidator;
 use Ushahidi\Core\Traits\UserContext;
 use Ushahidi\Core\Tool\Permissions\AclTrait;
 use Ushahidi\Core\Traits\AdminAccess;
@@ -31,7 +31,7 @@ use Ushahidi\Core\Usecase\Post\UpdatePostTagRepository;
 use Ushahidi\App\Repository\Post\ValueFactory as PostValueFactory;
 use Ushahidi\App\Facades\Features;
 
-class Create extends Validator
+class Create extends LegacyValidator
 {
     use UserContext;
 

@@ -11,11 +11,11 @@
 
 namespace Ushahidi\App\Validator\Notification;
 
-use Ushahidi\Core\Tool\Validator;
+use Ushahidi\App\Validator\LegacyValidator;
 use Ushahidi\Core\Entity\UserRepository;
 use Ushahidi\Core\Entity\SetRepository;
 
-class Update extends Validator
+class Update extends LegacyValidator
 {
     protected $user_repo;
     protected $collection_repo;
