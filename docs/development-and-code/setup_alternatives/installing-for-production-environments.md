@@ -9,7 +9,7 @@
 ## Required software:
 
 * A linux-based system. We recommend using Ubuntu 16.04 or 18.04.
-* PHP: 7.1.x, running with php-fpm  \(PHP 7.2.x is not supported at the time\)
+* PHP: 7.1.x, running with php-fpm  \(PHP 7.2.x and 7.3.x are not 100% supported at the time, but may work\)
   * Make sure the same version of PHP is used in the CLI and FPM
 * PHP Extensions:
   * curl
@@ -98,7 +98,7 @@ DB_USERNAME={your-database-user} # example: platform-user
 DB_PASSWORD={your-database-password} # example: yourpassword
 
 ## Cache
-CACHE_DRIVER=memcached
+CACHE_DRIVER=file
 # Queues 
 # This section will be particularly important once we launch release 4.2.x+ and later 
 # since we will start providing access to queues for CSV exports then)
@@ -163,7 +163,6 @@ MAILTO=admin@example.com
 */5 * * * * cd /var/www/platform && php artisan datasource:incoming
 */5 * * * * cd /var/www/platform && php artisan savedsearch:sync
 */5 * * * * cd /var/www/platform && php artisan notification:queue
-
 */5 * * * * cd /var/www/platform && php artisan webhook:send
 ```
 {% endcode-tabs-item %}
@@ -185,14 +184,14 @@ After you finished the set up, you should have a /var/www/platform-client/server
 
 ### Serving the API and client \(Nginx and PHP FPM setup\)
 
-Create the /etc/nginx/sites-available/platform.conf file, referencing the httpdocs directory in the platform-api. Example settings below:
+Create the `/etc/nginx/sites-available/platform.conf file`, referencing the httpdocs directory in the platform-api. Example settings below:
 
 {% code-tabs %}
 {% code-tabs-item title="/etc/nginx/sites-available/platform.conf" %}
 ```text
 server {
 
-listen 80 ;
+    listen 80 ;
     listen [::]:80 ;
     server_name your-site.api.example.com;
     charset UTF-8;
@@ -200,24 +199,19 @@ listen 80 ;
     index index.php;
     # pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
 
-location / {
-
+    location / {
     try_files $uri $uri/ /index.php$uri?$args;
     }
 
-# NOTE: You should have "cgi.fix_pathinfo = 0;" in php.ini
+    # NOTE: You should have "cgi.fix_pathinfo = 0;" in php.ini
     location ^~ /index.php {
-
-fastcgi_split_path_info ^(.+\.php)(/.+)$;
-
-fastcgi_pass unix:/var/run/php7.0-fpm.sock;
-
-fastcgi_index index.php;
+        fastcgi_split_path_info ^(.+\.php)(/.+)$;
+        fastcgi_pass unix:/var/run/php7.1-fpm.sock;
+        fastcgi_index index.php;
         client_max_body_size 10m;
         fastcgi_read_timeout 600;
         include fastcgi_params;
-
-break;
+        break;
     }
 
 }
@@ -225,61 +219,48 @@ break;
 {% endcode-tabs-item %}
 {% endcode-tabs %}
 
-Create the /etc/nginx/sites-available/platform-client.conf file, referencing the server/www directory in the platform-client.
+Create the `/etc/nginx/sites-available/platform-client.conf` file, referencing the server/www directory in the platform-client.
 
 {% code-tabs %}
 {% code-tabs-item title="/etc/nginx/sites-available/platform-client.conf" %}
 ```text
 server {
+    
     listen 80 default_server;
-
-listen [::]:80 ;
+    listen [::]:80 ;
     server_name your-site.example.com;
     charset UTF-8;
     root /var/www/platform-client/server/www;
-
-index index.html;
+    
+    index index.html;
     location / {
-
-try_files $uri $uri/ @missing;
+        try_files $uri $uri/ @missing;
     }
 
-location /config.json {
-
-if ($request_method = 'OPTIONS') {
-            add_header 'Access-Control-Allow-Origin' '*';
-            add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS';
-            add_header 'Access-Control-Allow-Headers'
-'DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Co
-ntrol,Content-Type,Content-Range,Range';
-            add_header 'Access-Control-Max-Age' 1728000;
-            add_header 'Content-Type' 'text/plain charset=UTF-8';
-
-add_header 'Content-Length' 0;
-return 204;
-        }
-
-if ($request_method = 'GET') {
-
-add_header 'Access-Control-Allow-Origin' '*';
-            add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS';
-
-add_header 'Access-Control-Allow-Headers'
-'DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Co
-ntrol,Content-Type,Content-Range,Range';
-
-add_header 'Access-Control-Expose-Headers'
-'DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Co
-ntrol,Content-Type,Content-Range,Range';
-
-}
-
-}
-
-location @missing {
+    location @missing {
         rewrite ^ /index.html last;
     }
 
+    ### THIS IS ONLY REQUIRED FOR OLD VERSIONS (until year 2019) OF THE ANDROID APP ###    
+    location /config.json {
+        if ($request_method = 'OPTIONS') {
+            add_header 'Access-Control-Allow-Origin' '*';
+            add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS';
+            add_header 'Access-Control-Allow-Headers' 'DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Content-Range,Range';
+            add_header 'Access-Control-Max-Age' 1728000;
+            add_header 'Content-Type' 'text/plain charset=UTF-8';
+            add_header 'Content-Length' 0;
+            return 204;
+        }
+
+        if ($request_method = 'GET') {
+            add_header 'Access-Control-Allow-Origin' '*';
+            add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS';
+            add_header 'Access-Control-Allow-Headers' 'DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Content-Range,Range';
+            add_header 'Access-Control-Expose-Headers' 'DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Content-Range,Range';
+        }
+    }
+    ### END OF OLD MOBILE APP SUPPORT ###
 }
 ```
 {% endcode-tabs-item %}
@@ -288,20 +269,18 @@ location @missing {
 Run the following commands
 
 ```bash
-rm /etc/nginx/sites-enabled/default
-;
-ln -s /etc/nginx/sites-available/platform.conf /etc/nginx/sites-enabled/platform.conf
-;
-ln -s /etc/nginx/sites-available/platform-client.conf /etc/nginx/sites-enabled/platform-client.conf;
-
-systemctl restart nginx.service
-;
-systemctl restart php7.0-fpm.service;
+rm /etc/nginx/sites-enabled/default;
+ln -s /etc/nginx/sites-available/platform.conf \
+      /etc/nginx/sites-enabled/platform.conf;
+ln -s /etc/nginx/sites-available/platform-client.conf \
+      /etc/nginx/sites-enabled/platform-client.conf;
+systemctl restart nginx.service;
+systemctl restart php7.1-fpm.service;
 ```
 
-Configure PHP-FPM
+#### Configure PHP-FPM
 
-Example contents for the file /etc/php/7.1/fpm/pool.d/www.conf
+Example contents for the file `/etc/php/7.1/fpm/pool.d/www.conf`
 
 {% code-tabs %}
 {% code-tabs-item title="/etc/php/7.1/fpm/pool.d/www.conf" %}
@@ -309,21 +288,15 @@ Example contents for the file /etc/php/7.1/fpm/pool.d/www.conf
 [www]
 
 user = www-data
-
 group = www-data
-
-listen = /run/php/php7.0-fpm.sock
-
+listen = /run/php/php7.1-fpm.sock
 listen.owner = www-data
-
 listen.group = www-data
 pm = dynamic
 pm.max_children = 8
 pm.start_servers = 4
 pm.min_spare_servers = 1
-
 pm.max_spare_servers = 4
-
 pm.process_idle_timeout = 30s
 ```
 {% endcode-tabs-item %}

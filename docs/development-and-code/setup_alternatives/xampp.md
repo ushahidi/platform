@@ -172,24 +172,42 @@ php composer.phar composer migrate
 ```
 {% endhint %}
 
-#### Configuring the web server
+### Configuring the web server
 
 At this point you have the API ready to run, but need to setup your system and the Apache web server rules, in order to make it properly accessible through its own server name \(we'll use the server name "api.ushahidi.test" in this example\)
 
-* Add the API virtual host name to your hosts file, by doing the following: appending a line with this content:`127.0.0.1 api.ushahidi.test`
-  * Windows:
-    * Open the Notepad application **as administrator**.
-      * Press the **Windows** key.
-      * Type Notepad in the search field.
-      * In the search results, right-click Notepad and select Run as administrator.
-    * Open the file: `C:\Windows\System32\Drivers\etc\hosts`
-      * When doing this from the Notepad "File" &gt; "Open" menu action,  you should make sure to change the default file filter from "Text Documents \(.txt\)" to "All Files"
-    * Update the file, add a line at the bottom with these contents: `127.0.0.1 api.ushahidi.test`
-  * Linux / Mac :
-    * Open the `/etc/hosts` file in an editor with administrator privileges \(i.e. with the terminal command `sudo nano /etc/hosts`\)
-    * Update the file, appending a line with these contents: `127.0.0.1 api.ushahidi.test`
-* In your platform folder, inside the folder `httpdocs`, edit the file `.htaccess`. Edit the contents of the file to match **exactly** these \(you can open the file to edit through `sudo nano .htaccess`\):
+#### Configure the hosts file
 
+{% hint style="info" %}
+Configure the hosts file to match your API virtual host name to 127.0.0.1
+{% endhint %}
+
+Add the API virtual host name to your hosts file, by doing the following: appending a line with this content:`127.0.0.1 api.ushahidi.test`
+
+* Windows:
+  * Open the Notepad application **as administrator**.
+    * Press the **Windows** key.
+    * Type Notepad in the search field.
+    * In the search results, right-click Notepad and select Run as administrator.
+  * Open the file: `C:\Windows\System32\Drivers\etc\hosts`
+    * When doing this from the Notepad "File" &gt; "Open" menu action,  you should make sure to change the default file filter from "Text Documents \(.txt\)" to "All Files"
+  * Update the file, add a line at the bottom with these contents: `127.0.0.1 api.ushahidi.test`
+* Linux / Mac :
+  * Open the `/etc/hosts` file in an editor with administrator privileges \(i.e. with the terminal command `sudo nano /etc/hosts`\)
+  * Update the file, appending a line with these contents: `127.0.0.1 api.ushahidi.test`
+
+#### Configure the platform/httpdocs/.htaccess file
+
+{% hint style="info" %}
+Check the path, there are two locations where we will add different .htaccess files
+{% endhint %}
+
+In your platform folder, inside the folder `httpdocs`, edit the file `.htaccess`. Edit the contents of the file to match **exactly** these \(you can open the file to edit through `sudo nano .htaccess`\):
+
+* File path: **platform/httpdocs/.htaccess**
+
+{% code-tabs %}
+{% code-tabs-item title="platform/httpdocs/.htaccess" %}
 ```text
 # Turn on URL rewriting
 RewriteEngine On
@@ -212,12 +230,25 @@ RewriteCond %{REQUEST_FILENAME} !-d
 # Rewrite all other URLs to index.php/URL
 RewriteRule .* index.php/$0 [PT]
 ```
+{% endcode-tabs-item %}
+{% endcode-tabs %}
 
-* In your platform folder, edit the file `.htaccess`\(as before, you can open the file to edit it through `sudo nano .htaccess`\). The contents should match these, again, **exactly**:
+#### Configure the platform/.htaccess file
 
+{% hint style="info" %}
+Check the path, there are two locations where we will add different .htaccess files
+{% endhint %}
+
+In your platform folder, edit the file `.htaccess`\(as before, you can open the file to edit it through `sudo nano .htaccess`\). The contents should match these, again, **exactly**:
+
+* path: **platform/.htaccess**
+
+{% code-tabs %}
+{% code-tabs-item title="platform/.htaccess" %}
 ```text
 # Turn on URL rewriting
 RewriteEngine On
+
 
 # Protect hidden files from being viewed under any circumstance
 <Files .*>
@@ -228,6 +259,8 @@ RewriteEngine On
 # Rewrite all URLs to httpdocs
 RewriteRule .* httpdocs/$0 [PT]
 ```
+{% endcode-tabs-item %}
+{% endcode-tabs %}
 
 Last, but not least, we are going to configure the web server to find your platform folder and link it to the "api.ushahidi.test" server name.
 
