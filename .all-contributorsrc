@@ -540,6 +540,15 @@
         "bug",
         "code"
       ]
+    },
+    {
+      "login": "Guzzler",
+      "name": "Sharang Pai",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/12707741?v=4",
+      "profile": "http://sharangpai.me",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "projectName": "platform",
