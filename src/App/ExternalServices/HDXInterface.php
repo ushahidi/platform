@@ -11,6 +11,10 @@ namespace Ushahidi\App\ExternalServices;
  * @license   http://www.gnu.org/copyleft/gpl.html GNU General Public License Version 3 (GPLv3)
  */
 
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Carbon;
+use Carbon\CarbonInterval;
+
 use Germanazo\CkanApi\Repositories\BaseRepository;
 use Ushahidi\Core\Exception\FormatterException;
 use Ushahidi\Core\Usecase\HXL\SendHXLUsecase;
@@ -195,6 +199,36 @@ class HDXInterface
         return $createResult;
     }
 
+    private function formatUrl($value)
+    {
+        if (empty($value)) {
+            return $value;
+        }
+
+        // If we already have a URL, just return it
+        if (filter_var($value, FILTER_VALIDATE_URL)) {
+            return $value;
+        }
+
+        // Removes path from image file name, encodes the filename, and joins the path and filename together
+        $url_path = explode("/", $value);
+        $filename = rawurlencode(array_pop($url_path));
+        array_push($url_path, $filename);
+        $path = implode("/", $url_path);
+
+        $expiration = Carbon::now()->add(CarbonInterval::fromString(config('media.temp_url_lifespan')));
+
+        // Try to get a temporary URL
+        try {
+            return Storage::temporaryUrl($path, $expiration);
+        } catch (\RuntimeException $e) {
+            // If it fails (some providers can't support it) fallback to a standard URL
+            return url(Storage::url($path));
+        } catch (\OpenCloud\ObjectStore\Exception\ObjectNotFoundException $e) {
+            // Catch ObjectNotFoundException from Rackspace
+            return null;
+        }
+    }
     /**
      * @param array $metadata
      * @param $license
@@ -203,14 +237,23 @@ class HDXInterface
      * Note: if error condition is the result, then we ignore it gracefully,
      * but the full error response array will be returned instead of a confirmation array
      */
-    public function createResourceForDataset($package_id, $job_url, $dataset_title)
+    public function createResourceForDataset($job_id, $package_id, $job_url, $dataset_title)
     {
+        $job_url = $this->formatUrl($job_url);
+
+        if (!$job_url) {
+            $createResult = ['error' => 'Unable to get a valid URL for the CSV file.'];
+            Log::error('Job: ' . $job_id . ' - Unable to get a valid URL for the CSV file.');
+            return $createResult;
+        }
+
         $resource = [
             'package_id' => $package_id,
-            'url' => $job_url,
+            'url' => $this->formatUrl($job_url),
             'resource_type' => 'csv',
             'name' => $dataset_title
         ];
+
         $apiClient = $this->getApiClient();
         $createResult = [];
         try {
@@ -219,10 +262,9 @@ class HDXInterface
             // @TODO: be graceful here
             $createResult = ['error' => 'Unable to create resource on HDX server.'];
             Log::error(
-                'Unable to create resource on HDX server. Exception:  ' .
-                var_export($e, true) .
-                ' - Dataset: ' .
-                var_export($resource, true)
+                'Unable to create resource on HDX server for job: ' . $job_id .
+                '. Exception:  ' . $e->getMessage() .
+                ' - Dataset: ' . var_export($resource, true)
             );
         }
         return $createResult;

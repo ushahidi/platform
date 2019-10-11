@@ -44,7 +44,9 @@ class CreateJob extends CreateUsecase
 
         // if there are items in `hxl_heading_row` and the entity was created,
         // create the hxl tags for each attribute
+        
         $hxl_heading_row = $this->getPayload('hxl_heading_row', false);
+        \Log::info('hxl_heading_row' . var_export($hxl_heading_row,true));
         if ($entity->getId() && is_array($hxl_heading_row)) {
             $this->createHxlHeadingTags($hxl_heading_row, $entity);
         }
