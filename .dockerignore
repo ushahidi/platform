@@ -2,3 +2,12 @@
 codeship-*.yml
 deployment.env
 deployment.env.encrypted
+vendor/**
+!vendor/autoload.php
+storage/app/public/**
+storage/app/temp/**
+storage/framework/cache/**
+storage/framework/testing/**
+storage/framework/views/**
+storage/logs/**
+storage/passport/**
