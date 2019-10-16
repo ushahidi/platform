@@ -1,6 +1,16 @@
 - name: "Test"
-  service: test
-  command: test_reporter composer run test --timeout 0
+  type: parallel
+  steps:
+    - name: "Test PHP 7.1"
+      service: test/php-7.1
+      command: test_reporter composer run test --timeout 0
+    - name: "Test PHP 7.2"
+      service: test/php-7.2
+      command: test_reporter composer run test --timeout 0
+    - name: "Test PHP 7.3"
+      service: test/php-7.3
+      command: test_reporter composer run test --timeout 0
+
 
 - type: parallel
   steps:
