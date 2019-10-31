@@ -558,6 +558,16 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "c3ho",
+      "name": "Calvin ",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/18711727?v=4",
+      "profile": "https://c3ho.blogspot.com/",
+      "contributions": [
+        "code",
+        "review"
+      ]
     }
   ],
   "projectName": "platform",
