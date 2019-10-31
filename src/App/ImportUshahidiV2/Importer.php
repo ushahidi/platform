@@ -43,6 +43,11 @@ class Importer
     {
         $mapper = $this->mapper;
 
+        /* Empty input -> empty output */
+        if ($source->count() == 0) {
+            return new Collection();
+        }
+
         // Transform objects
         $results = $source->map(function ($item) use ($importId, $mapper) {
             return (object) [
