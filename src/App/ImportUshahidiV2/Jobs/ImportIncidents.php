@@ -62,7 +62,18 @@ class ImportIncidents extends Job
                     'person_email'
                 )
                 ->leftJoin('incident_category', 'incident.id', '=', 'incident_category.incident_id')
-                ->leftJoin('incident_person', 'incident.id', '=', 'incident_person.incident_id')
+                ->leftJoin('incident_person', function($query){
+                    // ensure only one incident_person is taken,
+                    // as there are no constraints in v2 databases
+                    // to prevent multiple persons for the same incident
+                    $query->on('incident_person.id', '=', DB::RAW("(
+                        SELECT ip.id
+      	                FROM incident_person AS ip
+      	                WHERE incident.id = ip.incident_id
+      	                ORDER BY ip.id DESC
+      	                LIMIT 1
+                    )"));
+                })
                 ->leftJoin('location', 'incident.location_id', '=', 'location.id')
                 ->groupBy('incident.id')
                 ->groupBy('incident_person.id')
@@ -91,7 +102,7 @@ class ImportIncidents extends Job
                 // Group returned collection by incident id
                 ->groupBy('incident_id');
 
-            // Fetch media for incidents
+            // Fetch custom form responses for incidents
             $formResponseData = $this->getConnection()
                 ->table('form_response')
                 ->select(

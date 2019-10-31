@@ -19,6 +19,8 @@ class ImportForms extends Job
     protected $importId;
     protected $dbConfig;
 
+    protected $sourceForms = null;
+    protected $importedForms = null;
 
     // Add default attributes
     protected $defaultAttributes = [
@@ -127,6 +129,8 @@ class ImportForms extends Job
      * Create a new job instance.
      *
      * @return void
+     * 
+     * TODO1 - add placeholder for import parameters 
      */
     public function __construct(int $importId, array $dbConfig)
     {
@@ -160,34 +164,30 @@ class ImportForms extends Job
             $destRepo
         );
 
-        $imported = 0;
-        $batch = 0;
-        // While there are users left
-        while (true) {
-            // Fetch data
-            $sourceData = $this->getConnection()
-                ->table('form')
-                ->select('form.*')
-                ->limit(self::BATCH_SIZE)
-                ->offset($batch * self::BATCH_SIZE)
-                ->orderBy('id', 'asc')
-                ->get();
+        // Fetch data
+        $sourceData = $this->getConnection()
+            ->table('form')
+            ->select('form.*')
+            ->orderBy('id', 'asc')
+            ->get();
+        $this->sourceForms = $sourceData;
 
-            // If there are no more users
-            if ($sourceData->isEmpty()) {
-                // Break out of the loop
-                break;
-            }
+        $results = $importer->run($this->importId, $sourceData);
 
-            $forms = $importer->run($this->importId, $sourceData);
+        $this->importedForms = $results->map(function ($result) {
+            $import = (object) [
+                'v2_form' => $result->source,
+                'v3_form' => $result->target,
+                'v3_formId' => $result->targetId,
+            ];
+            $import->v3_stageId = $this->createDefaultStageForForm(
+                $import->v3_form, $import->v3_formId);
+            $this->createDefaultAttributes(
+                $import->v3_formId, $import->v3_stageId, $import->v2_form->id);
+            return $import;
+        });        
 
-            $this->createStagesForForms($forms);
-
-            $imported += $forms->count();
-            $batch++;
-        }
-
-        if ($imported === 0) {
+        if ($this->importedForms->count() === 0) {
             $this->createDefaultForm();
         }
     }
@@ -217,27 +217,30 @@ class ImportForms extends Job
         $this->createStagesForForms(collect([$formId => $form]));
     }
 
-    protected function createStagesForForms($forms)
+    protected function createDefaultStageForForm($form, $formId)
     {
         $stageRepo = app(Entity\FormStageRepository::class);
         $mappingRepo = app(ImportUshahidiV2\Contracts\ImportMappingRepository::class);
-        $forms->each(function ($form, $formId) use ($stageRepo, $mappingRepo) {
-            // Create a single stage for every form
-            $stageId = $stageRepo->create(new Entity\FormStage([
-                'form_id' => $formId,
-                'label' => 'Post',
-                'priority' => 0,
-                'required' => false,
-                'type' => 'post',
-                'show_when_published' => true,
-                'task_is_internal_only' => false,
-            ]));
 
-            $this->createDefaultAttributes($formId, $stageId);
-        });
+        $stageId = $stageRepo->create(new Entity\FormStage([
+            'form_id' => $formId,
+            'label' => 'Post',
+            'priority' => 0,
+            'required' => false,
+            'type' => 'post',
+            'show_when_published' => true,
+            'task_is_internal_only' => false,
+        ]));
+
+        Log::debug("Stage {stage_id} created for {form}", [
+            'stage_id' => $stageId,
+            'form' => $form
+        ]);
+
+        return $stageId;
     }
 
-    protected function createDefaultAttributes($formId, $stageId)
+    protected function createDefaultAttributes($v3_formId, $v3_stageId, $v2_formId)
     {
         $attrRepo = app(Entity\FormAttributeRepository::class);
         $mappingRepo = app(ImportUshahidiV2\Contracts\ImportMappingRepository::class);
@@ -246,18 +249,34 @@ class ImportForms extends Job
         foreach ($this->defaultAttributes as $attr) {
             // Create attribute
             $attrId = $attrRepo->create(new Entity\FormAttribute(
-                ['form_stage_id' => $stageId] + $attr
+                ['form_stage_id' => $v3_stageId] + $attr
             ));
+
+            Log::debug("Created v3 attribute {attrId} with def {attr}", [
+                "attrId" => $attrId,
+                "attr" => ['form_stage_id' => $v3_stageId] + $attr
+            ]);
 
             // Create a mapping from attribute to form attribute
             $mappingRepo->create(new ImportUshahidiV2\ImportMapping([
                 'import_id' => $this->importId,
                 'source_type' => 'incident_column',
                 // Combine form id + attribute id
-                'source_id' => $formId . '-' . $attr['source_id'],
+                'source_id' => $v2_formId . '-' . $attr['source_id'],
                 'dest_type' => 'form_attributes',
                 'dest_id' => $attrId,
             ]));
+
+            Log::debug("Created ImportMapping {import_mapping}", [
+                'import_mapping' => [
+                    'import_id' => $this->importId,
+                    'source_type' => 'incident_column',
+                    // Combine form id + attribute id
+                    'source_id' => $v2_formId . '-' . $attr['source_id'],
+                    'dest_type' => 'form_attributes',
+                    'dest_id' => $attrId,
+                ]
+            ]);
         }
     }
 
@@ -274,11 +293,13 @@ class ImportForms extends Job
             $destRepo
         );
 
-        $imported = 0;
-        $batch = 0;
-        // While there are users left
-        while (true) {
+        // While there are forms left
+        $this->sourceForms->each(function ($v2_form, $idx) use ($importer) {
             // Fetch data
+            Log::debug("Importing custom attributes for v2 form {form}", [
+                "form" => $v2_form
+            ]);
+
             $sourceData = $this->getConnection()
                 ->table('form_field')
                 ->select(
@@ -300,24 +321,27 @@ class ImportForms extends Job
                     $join->where('toggle.option_name', '=', 'field_toggle');
                 })
                 // Exclude divider fields
+                ->where('form_id', $v2_form->id)
                 ->whereNotIn('field_type', [8, 9])
-                ->limit(self::BATCH_SIZE)
-                ->offset($batch * self::BATCH_SIZE)
-                ->orderBy('form_id', 'asc')
+                ->orderBy('field_position', 'asc')
                 ->orderBy('id', 'asc')
                 ->get();
 
-            // If there are no more users
-            if ($sourceData->isEmpty()) {
-                // Break out of the loop
-                break;
-            }
+            Log::debug("Importing v2 form id {form_id} attributes, attributes follow", [
+                "form_id" => $v2_form->id
+            ]);
+            $sourceData->each(function ($v2_attr, $arrayId) {
+                Log::debug("including v2 attribute {}", [$v2_attr]);
+            });
 
             $created = $importer->run($this->importId, $sourceData);
 
-            // Add to count
-            $imported += $created->count();
-            $batch++;
-        }
+            $created->each(function ($v3_attr, $v3_id) {
+                Log::debug("Created v3 attribute {v3_id}:{v3_attr}", [
+                    'v3_id' => $v3_id,
+                    'v3_attr' => $v3_attr
+                ]);
+            });
+        });
     }
 }

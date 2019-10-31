@@ -7,7 +7,10 @@ use Ushahidi\Core\Entity\Post;
 use Ushahidi\Core\Entity\FormAttributeRepository;
 use Ushahidi\App\ImportUshahidiV2\Contracts\Mapper;
 use Ushahidi\App\ImportUshahidiV2\Contracts\ImportMappingRepository;
+
 use League\Flysystem\Util\MimeType;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Collection;
 
 class IncidentPostMapper implements Mapper
 {
@@ -21,25 +24,35 @@ class IncidentPostMapper implements Mapper
     protected $mappingRepo;
     protected $attrRepo;
 
+    protected $attributeKeyForColumnCache;
+    protected $attributeKeyForFieldCache;
+
     public function __construct(ImportMappingRepository $mappingRepo, FormAttributeRepository $attrRepo)
     {
         $this->mappingRepo = $mappingRepo;
         $this->attrRepo = $attrRepo;
+
+        $this->attributeKeyForColumnCache = new Collection();
+        $this->attributeKeyForFieldCache = new Collection();
     }
 
     public function __invoke(int $importId, array $input) : Entity
     {
-        $userId = $this->mappingRepo->getDestId($importId, 'user', $input['user_id']);
+        Log::debug('Importing incident {input}', [
+            'input' => $input
+        ]);
+        $v3FormId = $this->getFormId($importId, $input['form_id']);
+        $v3UserId = $this->mappingRepo->getDestId($importId, 'user', $input['user_id']);
         return new Post([
-            'form_id' => $this->getFormId($importId, $input['form_id']),
-            'user_id' => $userId,
+            'form_id' => $v3FormId,
+            'user_id' => $v3UserId,
             'title' => $input['incident_title'],
             'content' => $input['incident_description'],
             'status' => $input['incident_active'] ? 'published' : 'draft',
             'author_email' => $input['person_email'],
             'author_realname' => $input['person_first'] . ' ' . $input['person_last'],
             'post_date' => $input['incident_date'],
-            'values' => $this->getValues($importId, $input, $userId),
+            'values' => $this->getValues($importId, $input, $v3UserId),
             'locale' => 'en_US',
             'type' => 'report',
             'published_to' => [],
@@ -65,22 +78,36 @@ class IncidentPostMapper implements Mapper
 
     public function getAttributeKeyForColumn($importId, $formId, $column)
     {
-        // Get attribute map <formid>-<attribute>
-        $id = $this->mappingRepo->getDestId($importId, 'incident_column', $formId.'-'.$column);
-        // Load the actual attribute
-        $attribute = $this->attrRepo->get($id);
-        // Return the key
-        return $attribute->key ?? $column;
+        $cacheKey = serialize([$importId, $formId, $column]);
+        if (!$this->attributeKeyForColumnCache->contains($cacheKey)) {
+            // Get attribute map <formid>-<attribute>
+            $id = $this->mappingRepo->getDestId($importId, 'incident_column', $formId.'-'.$column);
+            // Load the actual attribute
+            $attribute = $this->attrRepo->get($id);
+            // Return the key
+            $result = $attribute->key ?? $column;
+            $this->attributeKeyForColumnCache->put($cacheKey, $result);
+        } else {
+            $result = $this->attributeKeyForColumnCache->get($cacheKey);
+        }
+        return $result;
     }
 
     public function getAttributeKeyForField($importId, $formId, $field)
     {
-        // Get attribute map <formid>-<attribute>
-        $id = $this->mappingRepo->getDestId($importId, 'form_field', $field);
-        // Load the actual attribute
-        $attribute = $this->attrRepo->get($id);
-        // Return the key
-        return $attribute->key ?? $column;
+        $cacheKey = serialize([$importId, $formId, $field]);
+        if (!$this->attributeKeyForFieldCache->contains($cacheKey)) {
+            // Get attribute map <formid>-<attribute>
+            $id = $this->mappingRepo->getDestId($importId, 'form_field', $field);
+            // Load the actual attribute
+            $attribute = $this->attrRepo->get($id);
+            // Return the key
+            $result = $attribute->key ?? $field;
+            $this->attributeKeyForFieldCache->put($cacheKey, $result);
+        } else {
+            $result = $this->attributeKeyForFieldCache->get($cacheKey);
+        }
+        return $result;
     }
 
     public function getValues($importId, $input, $userId)
@@ -110,6 +137,7 @@ class IncidentPostMapper implements Mapper
         if ($input['form_responses']) {
             foreach ($input['form_responses'] as $response) {
                 $key = $this->getAttributeKeyForField($importId, $input['form_id'], $response->form_field_id);
+                // look at field_type too!
 
                 // Add key to values array if not set
                 if (!isset($values[$key])) {
@@ -120,6 +148,10 @@ class IncidentPostMapper implements Mapper
                 $values[$key][] = $response->form_response;
             }
         }
+
+        Log::debug('Importing with values {values}', [
+            'values' => $values
+        ]);
 
         return $values;
     }

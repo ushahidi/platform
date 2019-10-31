@@ -12,11 +12,14 @@
 namespace Ushahidi\App\ImportUshahidiV2\Console;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Contracts\Bus\Dispatcher;
 use Ushahidi\App\ImportUshahidiV2;
 use Ushahidi\App\Multisite\OhanzeeResolver;
 use Ushahidi\Core\Entity\PostRepository;
+
+use Monolog\Handler\StreamHandler;
 
 class ImportUshahidiV2Command extends Command
 {
@@ -37,7 +40,8 @@ class ImportUshahidiV2Command extends Command
                             {database : The name of the database to import}
                             {--u|user= : The username to connect to the DB}
                             {--p|password= : The password to connect to the DB}
-                            {--host= : The database host to connect to}
+                            {--H|host= : The database host to connect to}
+                            {--P|port= : The password to connect to the DB}
                             {--rollback : Rollback import when finished (useful for testing)}';
 
     /**
@@ -62,6 +66,8 @@ class ImportUshahidiV2Command extends Command
         OhanzeeResolver $resolver
     ) {
         // Check we don't already have v3 data
+        // TODO: what is this assumption getting us?
+        //       is it worth not supporting the consolidation of multiplq
         if ($postRepo->getTotal() > 1) {
             $this->error('Deployment is not empty. Please import into an empty deployment');
             return 1;
@@ -82,7 +88,8 @@ class ImportUshahidiV2Command extends Command
         $importId = $importRepo->create($import);
 
         // Collect all table names
-        // Copy all data to current DB with v2_ prefix
+        // TODO: Copy all data to current DB with v2_ prefix, for archival purposes
+        //       Could we consolidate data better? ()
         $this->info('Copying raw data');
         $this->dispatcher->dispatchNow(new ImportUshahidiV2\Jobs\CopyRawTables($importId, $dbConfig));
 
@@ -106,11 +113,11 @@ class ImportUshahidiV2Command extends Command
         $this->info('Importing incidents to posts');
         $this->dispatcher->dispatchNow(new ImportUshahidiV2\Jobs\ImportIncidents($importId, $dbConfig));
 
-        $this->info('Importing reporters to users');
-        $this->dispatcher->dispatchNow(new ImportUshahidiV2\Jobs\ImportReporters($importId, $dbConfig));
+        // $this->info('Importing reporters to users');
+        // $this->dispatcher->dispatchNow(new ImportUshahidiV2\Jobs\ImportReporters($importId, $dbConfig));
 
-        $this->info('Importing messages');
-        $this->dispatcher->dispatchNow(new ImportUshahidiV2\Jobs\ImportMessages($importId, $dbConfig));
+        // $this->info('Importing messages');
+        // $this->dispatcher->dispatchNow(new ImportUshahidiV2\Jobs\ImportMessages($importId, $dbConfig));
 
         // Mark import complete?
         $importId = $importRepo->update(
@@ -143,6 +150,9 @@ class ImportUshahidiV2Command extends Command
         }
         if ($this->option('password')) {
             $config['password'] = $this->option('password');
+        }
+        if ($this->option('port')) {
+            $config['port'] = $this->option('port');
         }
 
         $defaults = config('database.connections.mysql');
