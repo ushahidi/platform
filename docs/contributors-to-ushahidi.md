@@ -132,6 +132,7 @@ See all available contribution types here https://allcontributors.org/docs/en/em
   </tr>
   <tr>
     <td align="center"><a href="https://github.com/TomC-Codes"><img src="https://avatars0.githubusercontent.com/u/48810834?v=4" width="50px;" alt="Tom Cole"/><br /><sub><b>Tom Cole</b></sub></a><br /><a href="https://github.com/ushahidi/platform/commits?author=TomC-Codes" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://c3ho.blogspot.com/"><img src="https://avatars3.githubusercontent.com/u/18711727?v=4" width="50px;" alt="Calvin "/><br /><sub><b>Calvin </b></sub></a><br /><a href="https://github.com/ushahidi/platform/commits?author=c3ho" title="Code">💻</a> <a href="#review-c3ho" title="Reviewed Pull Requests">👀</a></td>
   </tr>
 </table>
 
