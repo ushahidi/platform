@@ -77,8 +77,8 @@ This steps need to be executed in the directory where the platform codebase was 
 
 Create a new file named .ENV
 
-{% code-tabs %}
-{% code-tabs-item title=".ENV" %}
+{% tabs %}
+{% tab title=".ENV" %}
 ```php
 ## Laravel
 APP_ENV=production
@@ -109,8 +109,8 @@ REDIS_PORT=6379 # Redis port
 # Enabling or disabling the maintenance mode page
 MAINTENANCE_MODE=0
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endtab %}
+{% endtabs %}
 
 #### Install the platform API dependencies
 
@@ -154,8 +154,8 @@ crontab -u www-data -e
 
 Add the following lines to the crontab
 
-{% code-tabs %}
-{% code-tabs-item title="crontab" %}
+{% tabs %}
+{% tab title="crontab" %}
 ```bash
 MAILTO=admin@example.com
  #ensure a valid email for system notifications
@@ -165,8 +165,8 @@ MAILTO=admin@example.com
 */5 * * * * cd /var/www/platform && php artisan notification:queue
 */5 * * * * cd /var/www/platform && php artisan webhook:send
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endtab %}
+{% endtabs %}
 
 At this point, the backend is almost ready, but we still need to configure the web server and set up the client before we can see the application running.
 
@@ -186,8 +186,8 @@ After you finished the set up, you should have a /var/www/platform-client/server
 
 Create the `/etc/nginx/sites-available/platform.conf file`, referencing the httpdocs directory in the platform-api. Example settings below:
 
-{% code-tabs %}
-{% code-tabs-item title="/etc/nginx/sites-available/platform.conf" %}
+{% tabs %}
+{% tab title="/etc/nginx/sites-available/platform.conf" %}
 ```text
 server {
 
@@ -216,13 +216,13 @@ server {
 
 }
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endtab %}
+{% endtabs %}
 
 Create the `/etc/nginx/sites-available/platform-client.conf` file, referencing the server/www directory in the platform-client.
 
-{% code-tabs %}
-{% code-tabs-item title="/etc/nginx/sites-available/platform-client.conf" %}
+{% tabs %}
+{% tab title="/etc/nginx/sites-available/platform-client.conf" %}
 ```text
 server {
     
@@ -263,8 +263,8 @@ server {
     ### END OF OLD MOBILE APP SUPPORT ###
 }
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endtab %}
+{% endtabs %}
 
 Run the following commands
 
@@ -282,8 +282,8 @@ systemctl restart php7.1-fpm.service;
 
 Example contents for the file `/etc/php/7.1/fpm/pool.d/www.conf`
 
-{% code-tabs %}
-{% code-tabs-item title="/etc/php/7.1/fpm/pool.d/www.conf" %}
+{% tabs %}
+{% tab title="/etc/php/7.1/fpm/pool.d/www.conf" %}
 ```text
 [www]
 
@@ -299,8 +299,8 @@ pm.min_spare_servers = 1
 pm.max_spare_servers = 4
 pm.process_idle_timeout = 30s
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endtab %}
+{% endtabs %}
 
 ### Verifying the API is running
 
