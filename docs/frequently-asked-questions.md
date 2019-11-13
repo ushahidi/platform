@@ -107,8 +107,8 @@ If the incoming task worked, check if new posts are available. If they are, then
 
 Open your crontab \(with `crontab -e`\) and check that it looks like this \(the path to platform may be different, it should point to your platform API installation directory\):
 
-{% code-tabs %}
-{% code-tabs-item title="crontab" %}
+{% tabs %}
+{% tab title="crontab" %}
 ```bash
 MAILTO=admin@example.com
  #ensure a valid email for system notifications
@@ -119,14 +119,21 @@ MAILTO=admin@example.com
 
 */5 * * * * cd /var/www/platform && php artisan webhook:send
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endtab %}
+{% endtabs %}
 
 If after ensuring the crontab is correct and datasources run you don't see any new posts, please get in touch through[  the Ushahidi gitter](http://gitter.im/ushahidi/Community) channel with all the details about what you tried and what you have seen, and we'll be happy to help
 
 ### I am getting some sort of PHP error
 
-Please do ensure that you are using a supported version of PHP for the version of platform that you are running. v2 supports up to PHP 5.4 , v3 supports PHP 5.6 and 7.0 , v4 supports PHP 7.0 and 7.1  
+{% hint style="info" %}
+Please ensure that you are using a supported version of PHP for the version of platform that you are running.  
+{% endhint %}
+
+* **v2** supports up to PHP 5.4
+* **v3** supports PHP 5.6 and 7.0
+* **v4.0.0** supports PHP 7.0 to 7.2
+* **v4.1.0+** supports PHP 7.1 to 7.3 \(inclusive\). This change was made to ensure we support versions of PHP that are getting security fixes at the very least. See PHP maintainance schedules [here](https://www.php.net/supported-versions.php).
 
 ### I’m getting a database connection error
 
