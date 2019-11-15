@@ -26,9 +26,16 @@ class OAuth
         $success = [];
 
         if (!$this->oauthKeysExist()) {
-            array_push($errors, ["message" => self::$NO_OAUTH_KEYS, "explainer" => self::$NO_OAUTH_KEYS_EXPLIANER], $console);
+            array_push(
+                $errors,
+                ["message" => self::$NO_OAUTH_KEYS,
+                "explainer" => self::$NO_OAUTH_KEYS_EXPLIANER],
+                $console
+            );
         }
 
-        return !empty($errors) ? Respond::errorResponse($errors, $console) : Respond::successResponse($ok, $info, $console);
+        return !empty($errors) ?
+            Respond::errorResponse($errors, $console) :
+            Respond::successResponse($ok, $info, $console);
     }
 }

@@ -77,9 +77,9 @@ class EnvironmentVerify extends Command
 
         $db = $this->verifyDB(true);
 
-        if (   isset($db['errors'])
-        ||     isset($env['errors'])
-        ||     isset($oauth['errors'])
+        if (isset($db['errors'])
+        ||  isset($env['errors'])
+        ||  isset($oauth['errors'])
         ) {
             throw new \Exception("Verification Failed.");
         }
