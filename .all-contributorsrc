@@ -577,6 +577,15 @@
         "code",
         "review"
       ]
+    },
+    {
+      "login": "stewartweiss",
+      "name": "Stewart Weiss",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/39007707?v=4",
+      "profile": "http://www.compsci.hunter.cuny.edu/~sweiss/",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "projectName": "platform",
