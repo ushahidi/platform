@@ -123,3 +123,8 @@ awscli:
     - .:/vols/src
   encrypted_env_file: deployment.env.encrypted
   cached: true
+
+dockercfggen:
+  image: codeship/dockercfg-generator
+  add_docker: true
+  encrypted_env_file: docker.env.encrypted
