@@ -15,10 +15,13 @@ class CheckForInvalidJSON
      */
     public function handle($request, Closure $next)
     {
+        $request_method =  $_SERVER['REQUEST_METHOD'];
+        $put_or_post = $request_method === 'POST' || $request_method === 'PUT';
+
         $data = json_decode($request->getContent());
 
         // Check for NULL not empty - since [] and {} will be empty but valid
-        if ($data === null) {
+        if ($data === null && $put_or_post) {
             // Get further error info
             switch (json_last_error()) {
                 case JSON_ERROR_NONE:
@@ -42,12 +45,12 @@ class CheckForInvalidJSON
                 default:
                     $error = 'Unknown error';
                     break;
-                }
             }
-        
-        if (json_last_error() !== JSON_ERROR_NONE) {
+
+            if (json_last_error() !== JSON_ERROR_NONE) {
                 abort(422, $error);
             }
+        }
 
         return $next($request);
     }
