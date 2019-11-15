@@ -40,6 +40,12 @@ class EnvironmentVerify extends Command
                 "See https://laravel.com/docs/5.8/queues for more information on queue drivers.",
     ];
 
+    public static function verifyOauth($console = true)
+    {
+        $oauth = new \Ushahidi\App\PlatformVerifier\OAuth();
+        return $oauth->verifyRequirements(true);
+    }
+
     public static function verifyRequirements($console = true)
     {
         $env = new \Ushahidi\App\PlatformVerifier\Env();
@@ -51,6 +57,7 @@ class EnvironmentVerify extends Command
         $db = new \Ushahidi\App\PlatformVerifier\Database();
         return $db->verifyRequirements(true);
     }
+
     /**
      * Execute the console command.
      *
@@ -58,6 +65,10 @@ class EnvironmentVerify extends Command
      */
     public function handle()
     {
+        echo OutputText::info("Running OAuth key checks");
+
+        $oauth = $this->verifyOAuth(true);
+
         echo OutputText::info("Running ENV configuration checks");
 
         $env = $this->verifyRequirements(true);
@@ -65,7 +76,11 @@ class EnvironmentVerify extends Command
         echo OutputText::info("Running DB connectivity verification");
 
         $db = $this->verifyDB(true);
-        if (isset($db['errors'])||isset($env['errors'])) {
+
+        if (   isset($db['errors'])
+        ||     isset($env['errors'])
+        ||     isset($oauth['errors'])
+        ) {
             throw new \Exception("Verification Failed.");
         }
     }
