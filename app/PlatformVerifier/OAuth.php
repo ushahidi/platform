@@ -9,7 +9,7 @@ use Composer\Installer\PackageEvent;
 class OAuth
 {
     private static $NO_OAUTH_KEYS = "Required oAuth keys not found in storage/passport";
-    private static $NO_OAUTH_KEYS_EXPLIANER = "Please run 'php artisan passport:keys' to create the keys";
+    private static $NO_OAUTH_KEYS_EXPLAINER = "Please run 'php artisan passport:keys' to create the keys";
 
     public function oauthKeysExist()
     {
@@ -29,7 +29,7 @@ class OAuth
             array_push(
                 $errors,
                 ["message" => self::$NO_OAUTH_KEYS,
-                "explainer" => self::$NO_OAUTH_KEYS_EXPLIANER],
+                "explainer" => self::$NO_OAUTH_KEYS_EXPLAINER],
                 $console
             );
         }
