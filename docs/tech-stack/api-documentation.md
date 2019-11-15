@@ -2799,7 +2799,7 @@ The contact id. You can get it from the post the message is linked to.
 {% endapi-method-spec %}
 {% endapi-method %}
 
-{% api-method method="get" host="https://ushahididocs.api.ushahidi.io" path="/api/v3/posts" %}
+{% api-method method="post" host="https://ushahididocs.api.ushahidi.io" path="/api/v3/posts" %}
 {% api-method-summary %}
 Create a new post
 {% endapi-method-summary %}
