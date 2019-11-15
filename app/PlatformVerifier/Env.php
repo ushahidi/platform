@@ -9,7 +9,8 @@ use Composer\Installer\PackageEvent;
 class Env
 {
     private static $NO_ENV = "Required environment variables missing and no environment file found.";
-    private static $NO_ENV_EXPLAINER = "Please copy the '.env.example' file into a file named '.env' and set your missing variables.";
+    private static $NO_ENV_EXPLAINER = "Please copy the '.env.example' file into a file named '.env' " .
+                                       "and set your missing variables.";
     private static $REQUIRED_ENV_KEYS = [
         "DB_CONNECTION" => "Please set `DB_CONNECTION=mysql` in the environment or .env file.",
         "DB_HOST" => "Please set the address of your database in the DB_HOST key",
