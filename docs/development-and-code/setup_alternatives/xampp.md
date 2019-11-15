@@ -206,8 +206,8 @@ In your platform folder, inside the folder `httpdocs`, edit the file `.htaccess`
 
 * File path: **platform/httpdocs/.htaccess**
 
-{% code-tabs %}
-{% code-tabs-item title="platform/httpdocs/.htaccess" %}
+{% tabs %}
+{% tab title="platform/httpdocs/.htaccess" %}
 ```text
 # Turn on URL rewriting
 RewriteEngine On
@@ -230,8 +230,8 @@ RewriteCond %{REQUEST_FILENAME} !-d
 # Rewrite all other URLs to index.php/URL
 RewriteRule .* index.php/$0 [PT]
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endtab %}
+{% endtabs %}
 
 #### Configure the platform/.htaccess file
 
@@ -243,8 +243,8 @@ In your platform folder, edit the file `.htaccess`\(as before, you can open the 
 
 * path: **platform/.htaccess**
 
-{% code-tabs %}
-{% code-tabs-item title="platform/.htaccess" %}
+{% tabs %}
+{% tab title="platform/.htaccess" %}
 ```text
 # Turn on URL rewriting
 RewriteEngine On
@@ -259,8 +259,8 @@ RewriteEngine On
 # Rewrite all URLs to httpdocs
 RewriteRule .* httpdocs/$0 [PT]
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endtab %}
+{% endtabs %}
 
 Last, but not least, we are going to configure the web server to find your platform folder and link it to the "api.ushahidi.test" server name.
 
