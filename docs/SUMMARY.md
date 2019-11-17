@@ -8,7 +8,8 @@
 * [Frequently Asked Questions](frequently-asked-questions.md)
 * [Join the Ushahidi community](get-in-touch.md)
 * [Contributors ✨](contributors-to-ushahidi.md)
-* [🛣️ The Ushahidi Platform Roadmap](roadmap.md)
+* [🛣️ The Ushahidi Platform Roadmap](roadmap/README.md)
+  * [V2-V3+ Migration tool](roadmap/v2-v3+-migration-tool.md)
 * [Privacy and security best practices](untitled/README.md)
   * [Security as a user](untitled/security-as-a-user.md)
   * [Security for deployment admins](untitled/security-for-deployment-admins.md)
@@ -102,6 +103,7 @@
 * [Installathon, May 2019](hackathon-and-events/installathon-may-2019/README.md)
   * [Welcome to the hackathon!](hackathon-and-events/installathon-may-2019/welcome-to-the-hackathon.md)
 * [Write/Speak/Code 2019](hackathon-and-events/write-speak-code-2019.md)
+* [Open Design: Bangalore](hackathon-and-events/open-design-bangalore.md)
 
 ## Enhancement Proposals
 

@@ -542,6 +542,15 @@
       ]
     },
     {
+      "login": "jlucianolzz",
+      "name": "jlucianolzz",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/26437703?v=4",
+      "profile": "https://github.com/jlucianolzz",
+      "contributions": [
+        "test"
+      ]
+    },
+    {
       "login": "Guzzler",
       "name": "Sharang Pai",
       "avatar_url": "https://avatars2.githubusercontent.com/u/12707741?v=4",
@@ -555,6 +564,25 @@
       "name": "Tom Cole",
       "avatar_url": "https://avatars0.githubusercontent.com/u/48810834?v=4",
       "profile": "https://github.com/TomC-Codes",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "c3ho",
+      "name": "Calvin ",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/18711727?v=4",
+      "profile": "https://c3ho.blogspot.com/",
+      "contributions": [
+        "code",
+        "review"
+      ]
+    },
+    {
+      "login": "stewartweiss",
+      "name": "Stewart Weiss",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/39007707?v=4",
+      "profile": "http://www.compsci.hunter.cuny.edu/~sweiss/",
       "contributions": [
         "doc"
       ]
