@@ -5,6 +5,8 @@ namespace Ushahidi\App\ImportUshahidiV2;
 use Illuminate\Support\Collection;
 use Ushahidi\Core\Entity\Repository\EntityCreateMany;
 use Ushahidi\App\ImportUshahidiV2;
+use Illuminate\Support\Facades\Log;
+
 
 class Importer
 {
@@ -56,17 +58,35 @@ class Importer
             ];
         });
 
-        // Get the resource type from the first model
-        $destType = $results->first()->target->getResource();
+        // Filter out objects that didn't map successfully (obj->target == null)
+        list($failed, $mapped) = $results->partition(function ($v) { return $v->target == null; });
 
-        // Save objects
-        $inserted = $this->destRepo->createMany($results->pluck('target'));
+        if ($failed->count() > 0) {
+            Log::debug('[Import] The following mappings failed {failed}', [
+                'failed' => $failed
+            ]);
+        }
+
+        // If no successful mappings, return empty collection
+        if ($mapped->count() == 0) {
+            return $mapped;
+        }
+
+        // Rebuild source list from successful transformation objects
+        // ( so they position-match when we create $map_resource_ids a few lines down )
+        $source = $mapped->pluck('source');
+
+        // Get the resource type from the first model
+        $destType = $mapped->first()->target->getResource();
+
+        // Save successfully mapped objects
+        $inserted = $this->destRepo->createMany($mapped->pluck('target'));
 
         // Match source and destination ids
         // results in collection source_id -> target_id
         $map_resource_ids = $source->pluck('id')->combine($inserted);
         // Create and save mapping entities 
-        $results->each(function ($result) use ($map_resource_ids, $importId, $destType) {
+        $mapped->each(function ($result) use ($map_resource_ids, $importId, $destType) {
             $sourceId = $result->source->id;
             $result->targetId = $map_resource_ids->get($sourceId);
             $mapping = new ImportUshahidiV2\ImportMapping([
@@ -79,10 +99,10 @@ class Importer
             $result->mapping = $mapping;
         });
 
-        // Save mappings
-        $this->mappingRepo->createMany($results->pluck('mapping'));
+        // Save successful mappings
+        $this->mappingRepo->createMany($mapped->pluck('mapping'));
 
         // Return collection of entities with new ids
-        return $results;
+        return $mapped;
     }
 }

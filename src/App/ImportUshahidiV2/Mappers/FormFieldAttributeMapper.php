@@ -67,7 +67,7 @@ class FormFieldAttributeMapper implements Mapper
         ]);
     }
 
-    protected function getInputAndType($fieldType, $fieldDataType, $isDate)
+    public static function getInputAndType($fieldType, $fieldDataType, $isDate)
     {
         $type = ($fieldDataType && isset(self::DATATYPE_TYPE_MAP[$fieldDataType])) ?
             self::DATATYPE_TYPE_MAP[$fieldDataType] : 'varchar';

@@ -26,6 +26,7 @@ class IncidentPostMapper implements Mapper
 
     protected $attributeKeyForColumnCache;
     protected $attributeKeyForFieldCache;
+    protected $categoryIdCache;
 
     public function __construct(ImportMappingRepository $mappingRepo, FormAttributeRepository $attrRepo)
     {
@@ -34,16 +35,28 @@ class IncidentPostMapper implements Mapper
 
         $this->attributeKeyForColumnCache = new Collection();
         $this->attributeKeyForFieldCache = new Collection();
+        $this->categoryIdCache = new Collection();
     }
 
-    public function __invoke(int $importId, array $input) : Entity
+    public function __invoke(int $importId, array $input) : ?Entity
     {
-        Log::debug('Importing incident {input}', [
+        Log::debug('[IncidentPostMapper] Importing incident {input}', [
             'input' => $input
         ]);
+        
         $v3FormId = $this->getFormId($importId, $input['form_id']);
+        Log::debug('[IncidentPostMapper] Input form {input_form_id} mapped to {v3_form_id}', [
+            'input_form_id' => $input['form_id'],
+            'v3_form_id' => $v3FormId
+        ]);
+        if ($v3FormId == null) {
+            /* input form id didn't actually exist */
+            return null;
+        }
+
         $v3UserId = $this->mappingRepo->getDestId($importId, 'user', $input['user_id']);
-        return new Post([
+
+        $postContents = [
             'form_id' => $v3FormId,
             'user_id' => $v3UserId,
             'title' => $input['incident_title'],
@@ -56,7 +69,11 @@ class IncidentPostMapper implements Mapper
             'locale' => 'en_US',
             'type' => 'report',
             'published_to' => [],
+        ];
+        Log::debug('[IncidentPostMapper] Creating post with contents {postContents}', [
+            'postContents' => $postContents
         ]);
+        return new Post($postContents);
 
         // NB: We don't map some data ie:
         // - Custom form fields
@@ -78,8 +95,14 @@ class IncidentPostMapper implements Mapper
 
     public function getAttributeKeyForColumn($importId, $formId, $column)
     {
+        Log::debug('[IncidentPostMapper:getAttributeKeyForColumn] Finding attribute key for column {importId},{formId},{column}', [
+            'importId' => $importId,
+            'formId' => $formId,
+            'column' => $column
+        ]);
+
         $cacheKey = serialize([$importId, $formId, $column]);
-        if (!$this->attributeKeyForColumnCache->contains($cacheKey)) {
+        if (!$this->attributeKeyForColumnCache->has($cacheKey)) {
             // Get attribute map <formid>-<attribute>
             $id = $this->mappingRepo->getDestId($importId, 'incident_column', $formId.'-'.$column);
             // Load the actual attribute
@@ -90,6 +113,11 @@ class IncidentPostMapper implements Mapper
         } else {
             $result = $this->attributeKeyForColumnCache->get($cacheKey);
         }
+
+        Log::debug('[IncidentPostMapper:getAttributeKeyForColumn] Finding attribute key result {result}', [
+            'result' => $result
+        ]);
+
         return $result;
     }
 
@@ -137,15 +165,31 @@ class IncidentPostMapper implements Mapper
         if ($input['form_responses']) {
             foreach ($input['form_responses'] as $response) {
                 $key = $this->getAttributeKeyForField($importId, $input['form_id'], $response->form_field_id);
-                // look at field_type too!
 
                 // Add key to values array if not set
                 if (!isset($values[$key])) {
                     $values[$key] = [];
                 }
 
+                // Convert data type
+                list($v3AttrInput, $v3Type) = FormFieldAttributeMapper::getInputAndType(
+                    $response->field_type,
+                    $response->field_datatype,
+                    $response->field_isdate
+                );
+
+                Log::debug('Response {id} to {form_field_id} is of type {field_type} -> mapped to {v3AttrInput} and {v3Type}', [
+                    'id' => $response->id,
+                    'form_field_id' => $response->form_field_id,
+                    'field_type' => $response->field_type,
+                    'v3AttrInput' => $v3AttrInput,
+                    'v3Type' => $v3Type
+                ]);
+
+                $value = $this->stringToDatatype($response->form_response, $v3Type);
+
                 // Append the value
-                $values[$key][] = $response->form_response;
+                $values[$key][] = $value;
             }
         }
 
@@ -159,10 +203,30 @@ class IncidentPostMapper implements Mapper
     public function getCategories($importId, $categories)
     {
         $categories = explode(',', $categories);
+        Log::debug('[IncidentPostMapper:getCategories] Starting mapping of categories {categories}', [
+            'categories' => $categories
+        ]);
 
-        return collect($categories)->map(function ($item) use ($importId) {
-            return $this->mappingRepo->getDestId($importId, 'category', $item);
+        $result = collect($categories)->map(function ($item) use ($importId) {
+            return $this->getCategory($importId, $item);
         })->all();
+        Log::debug('[IncidentPostMapper:getCategories] Result of category mapping {result}', [
+            'result' => $result
+        ]);
+
+        return $result;
+    }
+
+    public function getCategory($importId, $v2Category)
+    {
+        $cacheKey = serialize([$importId, $v2Category]);
+        if (!$this->categoryIdCache->has($cacheKey)) {
+            $result = $this->mappingRepo->getDestId($importId, 'category', $v2Category);
+            $this->categoryIdCache->put($cacheKey, $result);
+        } else {
+            $result = $this->categoryIdCache->get($cacheKey);
+        }
+        return $result;
     }
 
     public function getMedia($media, $type, $userId)
@@ -194,5 +258,20 @@ class IncidentPostMapper implements Mapper
             ->filter()
             ->values()
             ->all();
+    }
+
+    protected function stringToDatatype($data, $type) {
+        switch ($type) {
+            case 'text':
+            case 'varchar':
+                return $data;
+            case 'datetime':
+                $x = date_parse_from_format("m/d/Y", $data);
+                if ($x['error_count'] > 0) {
+                    // now what?
+                    return "1000-01-01";
+                }
+                return "{$x['year']}-{$x['month']}-{$x['day']}";
+        }
     }
 }

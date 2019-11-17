@@ -11,7 +11,7 @@ interface Mapper
      *
      * @param  int    $importId Import ID used to scope any relation mappings
      * @param  array  $input    Source data
-     * @return Entity
+     * @return Entity or null if the mapping is not possible
      */
-    public function __invoke(int $importId, array $input) : Entity;
+    public function __invoke(int $importId, array $input) : ?Entity;
 }

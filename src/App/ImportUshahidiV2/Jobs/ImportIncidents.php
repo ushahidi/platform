@@ -106,10 +106,18 @@ class ImportIncidents extends Job
             $formResponseData = $this->getConnection()
                 ->table('form_response')
                 ->select(
-                    'form_response.*'
+                    'form_response.*',
+                    'form_field.field_type',
+                    'form_field.field_isdate',
+                    'datatype.option_value AS field_datatype'
                 )
                 // Load all form responses for this batch of incidents
                 ->whereIn('incident_id', $sourceData->pluck('id')->all())
+                ->leftJoin('form_field', 'form_response.form_field_id', '=', 'form_field.id')
+                ->leftJoin('form_field_option as datatype', function ($join) {
+                    $join->on('datatype.form_field_id', '=', 'form_field.id');
+                    $join->where('datatype.option_name', '=', 'field_datatype');
+                })
                 ->orderBy('incident_id', 'asc')
                 ->orderBy('id', 'asc')
                 ->get()
