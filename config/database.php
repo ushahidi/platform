@@ -57,6 +57,7 @@ return [
             'prefix'   => env('DB_PREFIX', ''),
         ],
         'mysql' => [
+            'host'      => env('DB_HOST', 'localhost'),
             'read' => [
                 'host' => env('DB_HOST_REPLICA', 'localhost'),
             ],
