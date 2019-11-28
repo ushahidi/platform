@@ -59,7 +59,7 @@ return [
         'mysql' => [
             'host'      => env('DB_HOST', 'localhost'),
             'read' => [
-                'host' => env('DB_HOST_REPLICA', 'localhost'),
+                'host' => env('DB_HOST_REPLICA', env('DB_HOST', 'localhost')),
             ],
             'write' => [
                 'host' => env('DB_HOST', 'localhost'),
@@ -101,8 +101,9 @@ return [
 
         'multisite' => [
             'driver'    => 'mysql',
+            'host'      => env('DB_HOST', 'localhost'),
             'read' => [
-                'host' => env('DB_HOST_REPLICA', 'localhost'),
+                'host' => env('DB_HOST_REPLICA', env('DB_HOST', 'localhost')),
             ],
             'write' => [
                 'host' => env('DB_HOST', 'localhost'),
