@@ -586,6 +586,15 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "ritesh-pandey",
+      "name": "Ritesh Pandey",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/1433681?v=4",
+      "profile": "http://riteshwrote.blogspot.com",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "projectName": "platform",
