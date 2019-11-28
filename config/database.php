@@ -59,7 +59,7 @@ return [
         'mysql' => [
             'host'      => env('DB_HOST', 'localhost'),
             'read' => [
-                'host' => env('DB_HOST_REPLICA', env('DB_HOST', 'localhost')),
+                'host' => !empty(env('DB_HOST_REPLICA')) ? env('DB_HOST_REPLICA') : env('DB_HOST', 'localhost'),
             ],
             'write' => [
                 'host' => env('DB_HOST', 'localhost'),
@@ -103,7 +103,7 @@ return [
             'driver'    => 'mysql',
             'host'      => env('DB_HOST', 'localhost'),
             'read' => [
-                'host' => env('DB_HOST_REPLICA', env('DB_HOST', 'localhost')),
+                'host' => !empty(env('DB_HOST_REPLICA')) ? env('DB_HOST_REPLICA') : env('DB_HOST', 'localhost'),
             ],
             'write' => [
                 'host' => env('DB_HOST', 'localhost'),
