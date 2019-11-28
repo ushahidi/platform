@@ -107,8 +107,7 @@ If the incoming task worked, check if new posts are available. If they are, then
 
 Open your crontab \(with `crontab -e`\) and check that it looks like this \(the path to platform may be different, it should point to your platform API installation directory\):
 
-{% tabs %}
-{% tab title="crontab" %}
+{% code title="crontab" %}
 ```bash
 MAILTO=admin@example.com
  #ensure a valid email for system notifications
@@ -119,8 +118,7 @@ MAILTO=admin@example.com
 
 */5 * * * * cd /var/www/platform && php artisan webhook:send
 ```
-{% endtab %}
-{% endtabs %}
+{% endcode %}
 
 If after ensuring the crontab is correct and datasources run you don't see any new posts, please get in touch through[  the Ushahidi gitter](http://gitter.im/ushahidi/Community) channel with all the details about what you tried and what you have seen, and we'll be happy to help
 
