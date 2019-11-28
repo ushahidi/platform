@@ -192,7 +192,7 @@ class Site
                 'host' => $this->db_host,
             ],
             'read'    => [
-                'host' => $this->db_host_replica ?? $this->db_host
+                'host' => !empty($this->db_host_replica) ? $this->db_host_replica : $this->db_host
             ],
             'database' => $this->db_name,
             'username' => $this->db_username,
