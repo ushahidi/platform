@@ -56,10 +56,15 @@ return [
             'database' => env('DB_DATABASE', base_path('database/database.sqlite')),
             'prefix'   => env('DB_PREFIX', ''),
         ],
-
         'mysql' => [
+            'read' => [
+                'host' => env('DB_HOST_REPLICA', 'localhost'),
+            ],
+            'write' => [
+                'host' => env('DB_HOST', 'localhost'),
+            ],
+            'sticky' => true,
             'driver'    => 'mysql',
-            'host'      => env('DB_HOST', 'localhost'),
             'port'      => env('DB_PORT', 3306),
             'database'  => env('DB_DATABASE', 'forge'),
             'username'  => env('DB_USERNAME', 'forge'),
@@ -95,7 +100,13 @@ return [
 
         'multisite' => [
             'driver'    => 'mysql',
-            'host'      => env('DB_HOST', 'localhost'),
+            'read' => [
+                'host' => env('DB_HOST_REPLICA', 'localhost'),
+            ],
+            'write' => [
+                'host' => env('DB_HOST', 'localhost'),
+            ],
+            'sticky' => true,
             'port'      => env('DB_PORT', 3306),
             'database'  => env('DB_DATABASE', 'forge'),
             'username'  => env('DB_USERNAME', 'forge'),
