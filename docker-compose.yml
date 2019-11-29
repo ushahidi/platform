@@ -7,6 +7,9 @@ services:
       MYSQL_DATABASE: ushahidi
       MYSQL_USER: ushahidi
       MYSQL_PASSWORD: ushahidi
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
     ports:
       - "33061:3306"
   redis:

@@ -28,6 +28,36 @@ class ImportIncidents extends Job
     }
 
     /**
+     * Create temporary clone of incident_person table on the v2 db server.
+     * The purpose is ensuring that there are no repetitions in the incident_id
+     * column, which was supposed to be unique but didn't have a unique index on it.
+     */
+    private function dealiase_incident_person_table()
+    {
+        $this->getConnection()->insert(
+            DB::RAW("
+                CREATE TEMPORARY TABLE incident_person_clean 
+                (UNIQUE ipc_incident_id (incident_id))
+                select ip.*
+                from incident_person as ip
+                inner join (
+                    select max(id) as max_id, incident_id
+                    from incident_person
+                    group by incident_id
+                ) ipd
+                ON ip.id = ipd.max_id
+            ")
+        );
+    }
+
+    private function cleanup()
+    {
+        $this->getConnection()->unprepared(
+            DB::RAW("DROP TEMPORARY TABLE incident_person_clean")
+        );
+    }
+
+    /**
      * Execute the job.
      *
      * @return void
@@ -45,6 +75,9 @@ class ImportIncidents extends Job
             $destRepo
         );
 
+        // Set up temporal clean incident_person table
+        $this->dealiase_incident_person_table();
+
         $batch = 0;
         // While there are data left
         while (true) {
@@ -57,26 +90,18 @@ class ImportIncidents extends Job
                     'location_name',
                     'latitude',
                     'longitude',
-                    'person_first',
-                    'person_last',
-                    'person_email'
+                    'incident_person_clean.person_first',
+                    'incident_person_clean.person_last',
+                    'incident_person_clean.person_email'
                 )
                 ->leftJoin('incident_category', 'incident.id', '=', 'incident_category.incident_id')
-                ->leftJoin('incident_person', function($query){
-                    // ensure only one incident_person is taken,
-                    // as there are no constraints in v2 databases
-                    // to prevent multiple persons for the same incident
-                    $query->on('incident_person.id', '=', DB::RAW("(
-                        SELECT ip.id
-      	                FROM incident_person AS ip
-      	                WHERE incident.id = ip.incident_id
-      	                ORDER BY ip.id DESC
-      	                LIMIT 1
-                    )"));
-                })
+                ->leftJoin('incident_person_clean', 'incident.id', '=', 'incident_person_clean.incident_id')
                 ->leftJoin('location', 'incident.location_id', '=', 'location.id')
                 ->groupBy('incident.id')
-                ->groupBy('incident_person.id')
+                ->groupBy('incident_person_clean.id')
+                ->groupBy('incident_person_clean.person_first')
+                ->groupBy('incident_person_clean.person_last')
+                ->groupBy('incident_person_clean.person_email')
                 ->limit(self::BATCH_SIZE)
                 ->offset($batch * self::BATCH_SIZE)
                 ->orderBy('id', 'asc')
@@ -134,5 +159,7 @@ class ImportIncidents extends Job
 
             $batch++;
         }
+
+        $this->cleanup();
     }
 }

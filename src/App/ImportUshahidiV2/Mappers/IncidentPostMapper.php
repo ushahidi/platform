@@ -60,7 +60,7 @@ class IncidentPostMapper implements Mapper
             'form_id' => $v3FormId,
             'user_id' => $v3UserId,
             'title' => $input['incident_title'],
-            'content' => $input['incident_description'],
+            'content' => mb_strcut($input['incident_description'], 0, 60000, "UTF-8"),
             'status' => $input['incident_active'] ? 'published' : 'draft',
             'author_email' => $input['person_email'],
             'author_realname' => $input['person_first'] . ' ' . $input['person_last'],
@@ -202,7 +202,7 @@ class IncidentPostMapper implements Mapper
 
     public function getCategories($importId, $categories)
     {
-        $categories = explode(',', $categories);
+        $categories = array_filter(explode(',', $categories));
         Log::debug('[IncidentPostMapper:getCategories] Starting mapping of categories {categories}', [
             'categories' => $categories
         ]);
