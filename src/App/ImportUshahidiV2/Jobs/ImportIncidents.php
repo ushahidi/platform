@@ -50,10 +50,30 @@ class ImportIncidents extends Job
         );
     }
 
+    /**
+     * Create temporary table for joining. The purpose is to simplify and speed up
+     * the main query for this class.
+     */
+    private function collect_incident_to_categorylist_table()
+    {
+        $this->getConnection()->insert(
+            DB::RAW("
+                CREATE TEMPORARY TABLE incident_to_categorylist 
+                (UNIQUE incident_id (incident_id))
+                select incident_id, GROUP_CONCAT(category_id) AS categories
+                from incident_category
+                group by incident_id;
+            ")
+        );
+    }
+
     private function cleanup()
     {
         $this->getConnection()->unprepared(
             DB::RAW("DROP TEMPORARY TABLE incident_person_clean")
+        );
+        $this->getConnection()->unprepared(
+            DB::RAW("DROP TEMPORARY TABLE incident_to_categorylist")
         );
     }
 
@@ -75,8 +95,9 @@ class ImportIncidents extends Job
             $destRepo
         );
 
-        // Set up temporal clean incident_person table
+        // Set up temporary tables to aid/optimise querying
         $this->dealiase_incident_person_table();
+        $this->collect_incident_to_categorylist_table();
 
         $batch = 0;
         // While there are data left
@@ -86,7 +107,7 @@ class ImportIncidents extends Job
                 ->table('incident')
                 ->select(
                     'incident.*',
-                    DB::raw('GROUP_CONCAT(`category_id`) AS categories'),
+                    'incident_to_categorylist.categories',
                     'location_name',
                     'latitude',
                     'longitude',
@@ -94,14 +115,9 @@ class ImportIncidents extends Job
                     'incident_person_clean.person_last',
                     'incident_person_clean.person_email'
                 )
-                ->leftJoin('incident_category', 'incident.id', '=', 'incident_category.incident_id')
+                ->leftJoin('incident_to_categorylist', 'incident.id', '=', 'incident_to_categorylist.incident_id')
                 ->leftJoin('incident_person_clean', 'incident.id', '=', 'incident_person_clean.incident_id')
                 ->leftJoin('location', 'incident.location_id', '=', 'location.id')
-                ->groupBy('incident.id')
-                ->groupBy('incident_person_clean.id')
-                ->groupBy('incident_person_clean.person_first')
-                ->groupBy('incident_person_clean.person_last')
-                ->groupBy('incident_person_clean.person_email')
                 ->limit(self::BATCH_SIZE)
                 ->offset($batch * self::BATCH_SIZE)
                 ->orderBy('id', 'asc')

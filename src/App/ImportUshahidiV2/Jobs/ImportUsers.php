@@ -30,6 +30,31 @@ class ImportUsers extends Job
     }
 
     /**
+     * Create temporary table for joining. The purpose is to simplify and speed up
+     * the main query for this class.
+     */
+    private function collect_user_to_rolelist_table()
+    {
+        $this->getConnection()->insert(
+            DB::RAW("
+                CREATE TEMPORARY TABLE user_to_rolelist 
+                (UNIQUE user_id (user_id))
+                select roles_users.`user_id` as user_id, GROUP_CONCAT(roles.name) AS role_names
+                from roles_users
+                join roles on roles_users.role_id = roles.id
+                group by roles_users.user_id;
+            ")
+        );
+    }
+
+    private function cleanup()
+    {
+        $this->getConnection()->unprepared(
+            DB::RAW("DROP TEMPORARY TABLE user_to_rolelist")
+        );
+    }
+
+    /**
      * Execute the job.
      *
      * @return void
@@ -47,16 +72,16 @@ class ImportUsers extends Job
             $destRepo
         );
 
+        // Set up temporal clean incident_person table
+        $this->collect_user_to_rolelist_table();
+
         $batch = 0;
         // While there are users left
         while (true) {
-            // Fetch users
             $sourceUsers = $this->getConnection()
                 ->table('users')
-                ->select('users.*', DB::raw('GROUP_CONCAT(`roles`.`name`) AS role'))
-                ->join('roles_users', 'users.id', '=', 'roles_users.user_id')
-                ->join('roles', 'roles.id', '=', 'roles_users.role_id')
-                ->groupBy('users.id')
+                ->select('users.*', 'user_to_rolelist.role_names as role')
+                ->leftJoin('user_to_rolelist', 'users.id', '=', 'user_to_rolelist.user_id')
                 ->limit(self::BATCH_SIZE)
                 ->offset($batch * self::BATCH_SIZE)
                 ->orderBy('id', 'asc')
@@ -72,5 +97,7 @@ class ImportUsers extends Job
 
             $batch++;
         }
+
+        $this->cleanup();
     }
 }

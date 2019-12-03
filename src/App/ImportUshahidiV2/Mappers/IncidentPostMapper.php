@@ -202,6 +202,10 @@ class IncidentPostMapper implements Mapper
 
     public function getCategories($importId, $categories)
     {
+        if ($categories == null) {
+            return [];
+        }
+        
         $categories = array_filter(explode(',', $categories));
         Log::debug('[IncidentPostMapper:getCategories] Starting mapping of categories {categories}', [
             'categories' => $categories
