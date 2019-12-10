@@ -1,6 +1,6 @@
 # ⚙️ Installation Helper‌
 
-To make it easier for users to identify and solve common problems during the installation process, Platform bundles an installation helper utility that can be used in case of need. 
+We are introducing a new feature to make it easier for open source deployers to identify and solve common problems during the installation process. To achieve this goal, the Ushahidi Platform now bundles an installation helper utility that can be used to gain information about the state of the installation.
 
 ## Overview
 
