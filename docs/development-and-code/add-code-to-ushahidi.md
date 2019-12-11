@@ -67,7 +67,7 @@ Where “some-task” is a short description _without spaces_ of what this task 
 
 ### 7. Write Code
 
-Now write your code. Make sure you meet the [Ushahidi coding standards](https://ushahidi.gitbook.io/platform-developer-documentation/development-process/coding-standards) and use the [Ushahidi pattern library](https://ushahidi.gitbook.io/platform-developer-documentation/changing-ui-styles-introduction-to-the-pattern-library) if you need to change the css.
+Now write your code. Make sure you meet the [Ushahidi coding standards](https://ushahidi.gitbook.io/platform-developer-documentation/development-process/coding-standards) and use the [Ushahidi pattern library](setup_alternatives/setting-up-the-pattern-library-for-development.md) if you need to change the css.
 
 If you get stuck, or want to talk through ideas, you can contact [other Ushahidi developers](../get-in-touch.md).
 
@@ -83,12 +83,14 @@ When you’re ready to submit your code for approval, do this:
    git push origin some-task
    ```
 
-2. Then, open your fork on github, ie. _"https://www.github.com/yourusername/platform"_. You’ll see a banner indicating that you’ve recently pushed a new branch, and that you can submit this branch “upstream,” to the original repository:![](https://github-images.s3.amazonaws.com/help/pull_requests/recently_pushed_branch.png)
-3. Click on "Compare and Pull Request" to create a pull request. Enter a title and description, then click "Create pull request". 
+2. Then, open your fork on github, ie. _"_[https://www.github.com/yourusername/platform](https://www.github.com/yourusername/platform)_"_. You’ll see a banner indicating that you’ve recently pushed a new branch, and that you can submit this branch “upstream,” to the original repository:![](https://github-images.s3.amazonaws.com/help/pull_requests/recently_pushed_branch.png)
+3. Click on "Compare and Pull Request" to create a pull request. Enter a title and description, then click "Create pull request".
 
-        ![](https://github-images.s3.amazonaws.com/help/pull_requests/pullrequest-send.png)
+   ```text
+    ![](https://github-images.s3.amazonaws.com/help/pull_requests/pullrequest-send.png)
+   ```
 
-In order to make it easy for someone to review your pull request, please write a checklist for how to test and evaluate your submission. You can read more about 
+In order to make it easy for someone to review your pull request, please write a checklist for how to test and evaluate your submission. You can read more about
 
 The first time you submit code you may be asked to sign Ushahidi’s [contributor agreement](https://docs.google.com/forms/d/e/1FAIpQLScqz_EQbz_CYlSHffnGx7p2GdqP23FmbACwocIWejEHYLyzdg/viewform).
 
@@ -106,6 +108,4 @@ If your code is accepted, then the admin will merge your pull request. Your code
 
 * [Contributing to open source](https://guides.github.com/activities/contributing-to-open-source/)
 * [Forking projects](https://guides.github.com/activities/forking/)
-
-
 
