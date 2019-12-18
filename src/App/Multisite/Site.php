@@ -31,6 +31,7 @@ class Site
     public $expiration_date;
     public $extension_date;
     public $db_host;
+    public $db_host_replica;
     public $db_name;
     public $db_username;
     public $db_password;
@@ -187,6 +188,12 @@ class Site
     {
         return [
             'host'     => $this->db_host,
+            'write'     => [
+                'host' => $this->db_host,
+            ],
+            'read'    => [
+                'host' => !empty($this->db_host_replica) ? $this->db_host_replica : $this->db_host
+            ],
             'database' => $this->db_name,
             'username' => $this->db_username,
             'password' => $this->db_password,
