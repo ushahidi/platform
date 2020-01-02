@@ -19,13 +19,19 @@ cd platform-pattern-library;
 npm install;
 ```
 
+Run `gulp build` to generate the fonts and compile the sass the first time. 
+
+```text
+gulp build
+```
+
 Start the pattern library in http://localhost:8000 by running:
 
 ```text
 gulp
 ```
 
-Once the pattern-library is running, the front-end guidelines and a guide on how to work with the pattern-library and its structure can be found on http://localhost:8000/assets/html/front-end-guidelines/introduction.html  
+Once the pattern-library is running, the front-end guidelines and a guide on how to work with the pattern-library and its structure can be found on [http://localhost:8000/assets/html/front-end-guidelines/introduction.html](http://localhost:8000/assets/html/front-end-guidelines/introduction.html)  
 
 
 ## Further reading
