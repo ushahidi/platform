@@ -102,13 +102,11 @@ As such, the minimal working `.env` file consists of just this variable.
 
 * In your `.env` file write the `BACKEND_URL` variable, corresponding to your Platform API URL address. This is an example, showing the format used, \(**don't** just copy & paste it to your file!\):
 
-{% tabs %}
-{% tab title=".env" %}
+{% code title=".env" %}
 ```bash
 BACKEND_URL=http://dont.copy.this.name.com
 ```
-{% endtab %}
-{% endtabs %}
+{% endcode %}
 
 {% hint style="info" %}
 If you have used one of our guides for setting up the API locally, check back the relevant section in that guide. Here are some direct links that should take you back there.
@@ -167,13 +165,11 @@ npm install -g gulp
 
 * Alternatively, on Linux and Mac, you may edit the `.bashrc` file in your home directory, and append the following line:
 
-{% tabs %}
-{% tab title=".bashrc" %}
+{% code title=".bashrc" %}
 ```bash
 export PATH=$HOME/bin:/usr/local/bin:node_modules/.bin:$PATH
 ```
-{% endtab %}
-{% endtabs %}
+{% endcode %}
 
 ### Running a local development server
 

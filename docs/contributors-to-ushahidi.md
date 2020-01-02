@@ -137,6 +137,9 @@ See all available contribution types here https://allcontributors.org/docs/en/em
     <td align="center"><a href="https://c3ho.blogspot.com/"><img src="https://avatars3.githubusercontent.com/u/18711727?v=4" width="50px;" alt="Calvin "/><br /><sub><b>Calvin </b></sub></a><br /><a href="https://github.com/ushahidi/platform/commits?author=c3ho" title="Code">💻</a> <a href="#review-c3ho" title="Reviewed Pull Requests">👀</a></td>
     <td align="center"><a href="http://www.compsci.hunter.cuny.edu/~sweiss/"><img src="https://avatars2.githubusercontent.com/u/39007707?v=4" width="50px;" alt="Stewart Weiss"/><br /><sub><b>Stewart Weiss</b></sub></a><br /><a href="https://github.com/ushahidi/platform/commits?author=stewartweiss" title="Documentation">📖</a></td>
   </tr>
+  <tr>
+    <td align="center"><a href="http://riteshwrote.blogspot.com"><img src="https://avatars0.githubusercontent.com/u/1433681?v=4" width="50px;" alt="Ritesh Pandey"/><br /><sub><b>Ritesh Pandey</b></sub></a><br /><a href="https://github.com/ushahidi/platform/commits?author=ritesh-pandey" title="Code">💻</a></td>
+  </tr>
 </table>
 
 <!-- ALL-CONTRIBUTORS-LIST:END -->
