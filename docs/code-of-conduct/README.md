@@ -35,6 +35,10 @@ The Ushahidi team is committed to providing a welcoming and safe environment for
 * **No exclusionary language:** Be careful with the words that you choose, even if it’s as small as choosing “Hey, everyone” over [“Hey, guys”](https://open.buffer.com/diversity-mistakes/). Sexist, racist, ableist, and other exclusionary jokes are not appropriate and will not be tolerated under any circumstances. 
 * **No subtle -isms:** Much exclusionary behavior takes the form of subtle -isms, or [microaggressions](https://open.buffer.com/inclusive-language-tech/) – things that make others feel unwelcome. For example, saying [“It’s so easy my grandmother could do it”](https://open.buffer.com/diversity-mistakes/) is a subtle -ism with tones of both sexism and ageism.
 * **Do not expose people's personal details**: Never share a persons personal details without their consent.
+* **No False claims:** Knowingly making harmful false claims about a person is not acceptable.
+* No posting sexually explicit or violent material on any of our socials or online platforms.
+* No inappropriate disruption during talks.
+* Deliberate intimidation, inappropriate physical contact and unwelcome sexual attention will not be tolerated.
 
 ## Where does the Code of Conduct apply?
 
