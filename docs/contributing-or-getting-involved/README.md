@@ -11,7 +11,7 @@ description: >-
 
 We love having you here. But before you start, to ensure everyone has a good experience, we ask **everyone** that interacts with our community and staff to read our code of conduct.
 
-{% page-ref page="../code-of-conduct.md" %}
+{% page-ref page="../code-of-conduct/" %}
 
 ## **Ways of contributing**
 
