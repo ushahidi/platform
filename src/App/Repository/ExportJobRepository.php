@@ -136,7 +136,7 @@ class ExportJobRepository extends OhanzeeRepository implements ExportJobReposito
             } else {
                 // if sending to HDX is not required, (or send_to_hdx does not exist)
                 // then simply update the status to SUCCESS
-                $this->setState([ 'status' => ExportJob::STATUS_SUCCESS]);
+                $entity->setState([ 'status' => ExportJob::STATUS_SUCCESS]);
             }
         }
         $return = parent::update($entity);
