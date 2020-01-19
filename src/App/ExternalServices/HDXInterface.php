@@ -20,10 +20,12 @@ use Ushahidi\Core\Exception\FormatterException;
 use Ushahidi\Core\Usecase\HXL\SendHXLUsecase;
 use Germanazo\CkanApi\CkanApiClient;
 use GuzzleHttp\Client;
+use Ushahidi\Core\Traits\FormatRackspaceURL;
 use Log;
 
 class HDXInterface
 {
+    use FormatRackspaceURL;
     protected $ckanClient;
     protected $userAPIKey;
     protected $hdx_maintainer_id;
@@ -199,36 +201,6 @@ class HDXInterface
         return $createResult;
     }
 
-    private function formatUrl($value)
-    {
-        if (empty($value)) {
-            return $value;
-        }
-
-        // If we already have a URL, just return it
-        if (filter_var($value, FILTER_VALIDATE_URL)) {
-            return $value;
-        }
-
-        // Removes path from image file name, encodes the filename, and joins the path and filename together
-        $url_path = explode("/", $value);
-        $filename = rawurlencode(array_pop($url_path));
-        array_push($url_path, $filename);
-        $path = implode("/", $url_path);
-
-        $expiration = Carbon::now()->add(CarbonInterval::fromString(config('media.temp_url_lifespan')));
-
-        // Try to get a temporary URL
-        try {
-            return Storage::temporaryUrl($path, $expiration);
-        } catch (\RuntimeException $e) {
-            // If it fails (some providers can't support it) fallback to a standard URL
-            return url(Storage::url($path));
-        } catch (\OpenCloud\ObjectStore\Exception\ObjectNotFoundException $e) {
-            // Catch ObjectNotFoundException from Rackspace
-            return null;
-        }
-    }
     /**
      * @param array $metadata
      * @param $license
