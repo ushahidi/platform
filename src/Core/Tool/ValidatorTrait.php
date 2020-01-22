@@ -50,8 +50,9 @@ trait ValidatorTrait
      */
     protected function validatorError(Entity $entity)
     {
+        
         throw new ValidatorException(sprintf(
-            'Failed to validate %s entity',
+            app('translator')->trans('validation.failedToValidate'),
             $entity->getResource()
         ), $this->validator->errors());
     }

@@ -1,4 +1,5 @@
 <?php
+// @codingStandardsIgnoreFile
 
 return array(
   'alpha'         => ':field must contain only letters',
@@ -24,4 +25,6 @@ return array(
   'range'         => ':field must be within the range of :param2 to :param3',
   'regex'         => ':field does not match the required format',
   'url'           => ':field must be a url',
+  'failedToValidate' => 'Failed to validate %s entity',
+  'failedToCreateContact' => 'Could not create contacts. Result:  %s',
 );
