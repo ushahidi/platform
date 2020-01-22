@@ -6,7 +6,8 @@ $router->group([
     'middleware' => ['scope:media', 'expiration']
 ], function () use ($router) {
     // Public access
-    $router->get('/', 'MediaController@index');
+    // Disabled since there is no use for it and it brings rackspace down when we get the real filename of an image
+    // $router->get('/', 'MediaController@index');
     $router->get('/{id}', 'MediaController@show');
     // Public can upload media
     $router->post('/', 'MediaController@store');
