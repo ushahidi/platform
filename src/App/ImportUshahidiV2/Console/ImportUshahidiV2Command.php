@@ -113,11 +113,11 @@ class ImportUshahidiV2Command extends Command
         $this->info('Importing incidents to posts');
         $this->dispatcher->dispatchNow(new ImportUshahidiV2\Jobs\ImportIncidents($importId, $dbConfig));
 
-        // $this->info('Importing reporters to users');
-        // $this->dispatcher->dispatchNow(new ImportUshahidiV2\Jobs\ImportReporters($importId, $dbConfig));
+        $this->info('Importing reporters to contacts');
+        $this->dispatcher->dispatchNow(new ImportUshahidiV2\Jobs\ImportReporters($importId, $dbConfig));
 
-        // $this->info('Importing messages');
-        // $this->dispatcher->dispatchNow(new ImportUshahidiV2\Jobs\ImportMessages($importId, $dbConfig));
+        $this->info('Importing messages');
+        $this->dispatcher->dispatchNow(new ImportUshahidiV2\Jobs\ImportMessages($importId, $dbConfig));
 
         // Mark import complete?
         $importId = $importRepo->update(
@@ -157,7 +157,16 @@ class ImportUshahidiV2Command extends Command
 
         $defaults = config('database.connections.mysql');
 
-        return $config + $defaults;
+        $v2_config = $config + $defaults ;
+        // Deal with read / write settings if provided
+        if (array_key_exists('read', $v2_config)) {
+            unset($v2_config['read']);
+        }
+        if (array_key_exists('write', $v2_config)) {
+            unset($v2_config['write']);
+        }
+
+        return $v2_config;
     }
 
     protected function verifyCanConnectToDb($dbConfig)

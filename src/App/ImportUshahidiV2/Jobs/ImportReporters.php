@@ -34,7 +34,7 @@ class ImportReporters extends Job
      */
     public function handle(
         ImportUshahidiV2\Contracts\ImportMappingRepository $mappingRepo,
-        Entity\UserRepository $destRepo,
+        Entity\ContactRepository $destRepo,
         ImportUshahidiV2\Mappers\ReporterUserMapper $mapper
     ) {
         // Set up importer
@@ -62,8 +62,11 @@ class ImportReporters extends Job
                 ->leftJoin('service', 'reporter.service_id', '=', 'service.id')
                 ->leftJoin('level', 'reporter.level_id', '=', 'level.id')
                 ->leftJoin('location', 'reporter.location_id', '=', 'location.id')
-                // @todo match contact to user for reporters that are excluded
-                ->where('service_account', 'not in', $this->getConnection()->table('users')->select('email'))
+                // match contact to user for reporters that are excluded
+                // note by @davidlosada: not sure what this is supposed to be doing
+                // ->where('service_account',
+                //         'not in',
+                //         $this->getConnection()->table('users')->select('email'))
                 ->limit(self::BATCH_SIZE)
                 ->offset($batch * self::BATCH_SIZE)
                 ->orderBy('id', 'asc')

@@ -8,15 +8,37 @@ use Ushahidi\Core\Entity\ContactRepository;
 use Ushahidi\App\ImportUshahidiV2\Contracts\Mapper;
 use Ushahidi\App\ImportUshahidiV2\Contracts\ImportMappingRepository;
 
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
+
 class MessageMapper implements Mapper
 {
     protected $mappingRepo;
     protected $contactRepo;
 
+    protected $mappingsCache;
+
+    protected function _loadMappings(int $importId, string $type) : Collection
+    {
+        $importCache = $this->mappingsCache->get($type);
+        
+        if (!$importCache->has($importId)) {
+            $mappings = $this->mappingRepo->getAllMappingIDs($importId, $type);
+            $importCache->put($importId, $mappings);
+        }
+        return $importCache->get($importId);
+    }
+
     public function __construct(ImportMappingRepository $mappingRepo, ContactRepository $contactRepo)
     {
         $this->mappingRepo = $mappingRepo;
         $this->contactRepo = $contactRepo;
+        $this->mappingsCache = new Collection([
+            'reporter' => new Collection(),
+            'user' => new Collection(),
+            'incident' => new Collection(),
+            'message' => new Collection()
+        ]);
     }
 
     public function __invoke(int $importId, array $input) : Entity
@@ -28,7 +50,7 @@ class MessageMapper implements Mapper
         // - message_to
 
         return new Message([
-            'contact_id' => $this->getContactId($input['service_account'], $this->getType($input['service_name'])),
+            'contact_id' => $this->getContactId($importId, $input['reporter_id']),
             'parent_id' => $this->getParentId($importId, $input['parent_id']),
             'post_id' => $this->getPostId($importId, $input['incident_id']),
             'user_id' => $this->getUserId($importId, $input['user_id']),
@@ -54,7 +76,7 @@ class MessageMapper implements Mapper
     protected function getDataSource($serviceName)
     {
         if ($serviceName === 'SMS') {
-            // Could be many sources
+            // Could be many sources, v2 didn't track the specific source
             return null;
         } else {
             // This handles twitter, email and other not yet supporter services
@@ -72,27 +94,24 @@ class MessageMapper implements Mapper
         return $this->getDirection($type) == 'incoming' ? 'received' : 'sent';
     }
 
-    protected function getContactId($reporterServiceAccount, $type)
+    protected function getContactId($importId, $contact_id)
     {
-        // Rather than use the mapping repo, just search by the contact info itself
-        $contact = $this->contactRepo->getByContact($reporterServiceAccount, $type);
-
-        return $contact->id;
+        return $this->_loadMappings($importId, 'reporter')->get(strval($contact_id));
     }
 
     protected function getParentId($importId, $parentId)
     {
-        return $this->mappingRepo->getDestId($importId, 'message', $parentId);
+        return $this->_loadMappings($importId, 'message')->get(strval($parentId));
     }
 
     protected function getUserId($importId, $userId)
     {
-        return $this->mappingRepo->getDestId($importId, 'user', $userId);
+        return $this->_loadMappings($importId, 'user')->get(strval($userId));
     }
 
     protected function getPostId($importId, $incidentId)
     {
-        return $this->mappingRepo->getDestId($importId, 'incident', $incidentId);
+        return $this->_loadMappings($importId, 'incident')->get(strval($incidentId));
     }
 
     protected function getAdditionalData($input)

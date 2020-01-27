@@ -71,4 +71,15 @@ class ImportMappingRepository /*extends EloquentRepository*/ implements ImportMa
             }
         );
     }
+
+    public function getAllMappingIDs(int $importId, string $sourceType) {
+        $rawMappings = ImportMapping::where([
+            'import_id' => $importId,
+            'source_type' => $sourceType
+        ])->get();
+
+        return $rawMappings->mapWithKeys(function ($m) {
+            return [$m['source_id'] => $m['dest_id']];
+        });
+    }
 }
