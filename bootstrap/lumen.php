@@ -88,7 +88,6 @@ $app->routeMiddleware([
 */
 
 $app->register(Illuminate\Redis\RedisServiceProvider::class);
-$app->register(Illuminate\Translation\TranslationServiceProvider::class);
 $app->register(Ushahidi\App\Providers\AppServiceProvider::class);
 $app->register(Ushahidi\App\Providers\AuthServiceProvider::class);
 $app->register(Ushahidi\App\Providers\EventServiceProvider::class);
