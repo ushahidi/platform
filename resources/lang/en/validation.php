@@ -26,5 +26,4 @@ return array(
   'regex'         => ':field does not match the required format',
   'url'           => ':field must be a url',
   'failedToValidate' => 'Failed to validate %s entity',
-  'failedToCreateContact' => 'Could not create contacts. Result:  %s',
 );

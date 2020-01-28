@@ -154,7 +154,7 @@ class ContactRepository extends OhanzeeRepository implements
         if (!isset($result[0])) {
             throw new HTTP_Exception_500(
                 sprintf(
-                    app('translator')->trans('validation.failedToCreateContact'),
+                    app('translator')->trans('contacts.failedToCreateContact'),
                     var_export($entity, true)
                 )
             );

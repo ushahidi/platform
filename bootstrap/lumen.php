@@ -25,7 +25,7 @@ $app->withEloquent();
 // The exception handler class relies on this configuration to be loaded
 // in order to provide CORS headers for requests that fail before the middleware stage
 $app->configure('cors');
-
+$app->configure('language');
 /*
 |--------------------------------------------------------------------------
 | Register Container Bindings
