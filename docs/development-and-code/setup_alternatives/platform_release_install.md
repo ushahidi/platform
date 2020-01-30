@@ -51,7 +51,7 @@ The instructions and example commands are written specifically for Debian Linux 
   # This is only relevant for debug level stuff like timestamps in log messages
   APP_TIMEZONE=UTC
 
-  CACHE_DRIVER=file
+  CACHE_DRIVER=array
   # See comments down in the doc for other options
   QUEUE_DRIVER=sync
   ```
