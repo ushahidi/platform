@@ -17,6 +17,7 @@ use Ushahidi\Core\Entity;
 use Ushahidi\Core\Tool\AuthorizerTrait;
 use Ushahidi\Core\Tool\FormatterTrait;
 use Ushahidi\Core\Usecase\Concerns\ModifyRecords;
+use Ushahidi\Core\Tool\TranslatorTrait;
 
 class GetResetToken implements Usecase
 {
@@ -24,7 +25,8 @@ class GetResetToken implements Usecase
     // setter method for the tool. For example, the AuthorizerTrait provides
     // a `setAuthorizer` method which only accepts `Authorizer` instances.
     use AuthorizerTrait,
-        FormatterTrait;
+        FormatterTrait,
+        TranslatorTrait;
 
     // - ModifyRecords for setting entity modification parameters
     use ModifyRecords;

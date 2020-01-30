@@ -23,6 +23,8 @@ use Ushahidi\Core\Traits\UserContext;
 use Ushahidi\Core\Entity\ExportBatch;
 use Ushahidi\Core\Entity\ExportBatchRepository;
 use Ushahidi\Core\Usecase\Concerns\FilterRecords;
+use Ushahidi\Core\Tool\TranslatorTrait;
+
 use Log;
 
 class Export implements Usecase
@@ -33,7 +35,8 @@ class Export implements Usecase
     // setter method for the tool. For example, the AuthorizerTrait provides
     // a `setAuthorizer` method which only accepts `Authorizer` instances.
     use AuthorizerTrait,
-        FormatterTrait;
+        FormatterTrait,
+        TranslatorTrait;
 
     // - FilterRecords for setting search parameters
     use FilterRecords;
