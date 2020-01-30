@@ -15,6 +15,7 @@ namespace Ushahidi\Core\Tool;
 
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\Exception\ValidatorException;
+use Ushahidi\Core\Tool\TranslatorTrait;
 
 trait ValidatorTrait
 {
@@ -50,9 +51,10 @@ trait ValidatorTrait
      */
     protected function validatorError(Entity $entity)
     {
-        $trans = app('translator')->trans('validation.failedToValidate');
+        
+        $trans = $this->translator->trans('validation.failedToValidate');
         throw new ValidatorException(sprintf(
-            app('translator')->trans('validation.failedToValidate'),
+            $this->translator->trans('validation.failedToValidate'),
             $entity->getResource()
         ), $this->validator->errors());
     }

@@ -16,6 +16,7 @@ use Ushahidi\Core\Usecase;
 use Ushahidi\Core\Tool\AuthorizerTrait;
 use Ushahidi\Core\Tool\FormatterTrait;
 use Ushahidi\Core\Tool\ValidatorTrait;
+use Ushahidi\Core\Tool\TranslatorTrait;
 
 class UpdateUsecase implements Usecase
 {
@@ -24,6 +25,7 @@ class UpdateUsecase implements Usecase
     // a `setAuthorizer` method which only accepts `Authorizer` instances.
     use AuthorizerTrait,
         FormatterTrait,
+        TranslatorTrait,
         ValidatorTrait;
 
     // - IdentifyRecords for setting entity lookup parameters
