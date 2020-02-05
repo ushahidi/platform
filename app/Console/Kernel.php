@@ -23,6 +23,7 @@ class Kernel extends ConsoleKernel
         Commands\MigrateStatusCommand::class,
         Commands\SeedMakeCommand::class,
         Commands\SeedCommand::class,
+        Commands\EnvironmentVerify::class,
         \Ushahidi\Console\Command\ApikeySet::class,
         \Ushahidi\Console\Command\ConfigSet::class,
         \Ushahidi\Console\Command\ConfigGet::class,
@@ -34,6 +35,7 @@ class Kernel extends ConsoleKernel
         \Ushahidi\Console\Command\Webhook::class,
         \Ushahidi\Console\Command\ObfuscateData::class,
         Commands\TestMultisiteJob::class,
+        
     ];
 
     /**

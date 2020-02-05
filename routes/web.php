@@ -29,6 +29,7 @@ $router->group([
     require __DIR__.'/apikeys.php';
     require __DIR__.'/collections.php';
     require __DIR__.'/config.php';
+    require __DIR__.'/verifier.php';
     require __DIR__.'/contacts.php';
     require __DIR__.'/csv.php';
     require __DIR__.'/country-codes.php';

@@ -21,6 +21,7 @@ Puppetfile.lock
 phpunit.xml
 phpspec.yml
 phinx.yml
+bootstrap/gwcheck.enabled
 
 # Homestead / Laravel files
 Homestead.json
