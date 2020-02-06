@@ -4,7 +4,7 @@
 
 Connect with the wider Ushahidi community:
 
-* * Chat with us on \(messages show up in all of them at the same time\)
+* Chat with us on \(messages show up in all of them at the same time\)
   * IRC at [\#ushahidi on Freenode](https://webchat.freenode.net/)
   * Gitter at [ushahidi/Community](https://gitter.im/ushahidi/community)
   * [Skype](https://join.skype.com/S9t68IVKzwo8)
