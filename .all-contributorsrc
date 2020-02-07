@@ -604,6 +604,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "johnmurray4",
+      "name": "johnmurray4",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/54542562?v=4",
+      "profile": "https://github.com/johnmurray4",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "projectName": "platform",
