@@ -142,6 +142,9 @@ See all available contribution types here https://allcontributors.org/docs/en/em
     <td align="center"><a href="http://riteshwrote.blogspot.com"><img src="https://avatars0.githubusercontent.com/u/1433681?v=4" width="50px;" alt=""/><br /><sub><b>Ritesh Pandey</b></sub></a><br /><a href="https://github.com/ushahidi/platform/commits?author=ritesh-pandey" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/himil-vasava"><img src="https://avatars3.githubusercontent.com/u/55590415?v=4" width="50px;" alt=""/><br /><sub><b>Himil Vasava</b></sub></a><br /><a href="https://github.com/ushahidi/platform/commits?author=himil-vasava" title="Code">💻</a></td>
   </tr>
+  <tr>
+    <td align="center"><a href="https://github.com/johnmurray4"><img src="https://avatars1.githubusercontent.com/u/54542562?v=4" width="50px;" alt=""/><br /><sub><b>johnmurray4</b></sub></a><br /><a href="https://github.com/ushahidi/platform/commits?author=johnmurray4" title="Documentation">📖</a></td>
+  </tr>
 </table>
 
 <!-- markdownlint-enable -->
