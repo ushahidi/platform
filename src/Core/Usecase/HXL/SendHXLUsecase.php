@@ -72,7 +72,6 @@ class SendHXLUsecase implements Usecase
     {
         // get job by job_id
         $job = $this->exportJobRepository->get($this->getIdentifier('job_id'));
-
         // get user settings by user id
         $user_settings_key = $this->userSettingRepository->getConfigKeyByUser($job->user_id, 'hdx_api_key');
         $user_settings_user = $this->userSettingRepository->getConfigKeyByUser($job->user_id, 'hdx_maintainer_id');
@@ -146,7 +145,6 @@ class SendHXLUsecase implements Usecase
             $job = $this->setJobStatusAndUpdate($job, 'FAILED');
             return $job;
         }
-
         return $this->createResourceAndUpdateJob($dataset_result['result']['id'], $job, $metadata);
     }
 
@@ -159,6 +157,7 @@ class SendHXLUsecase implements Usecase
     private function createResourceAndUpdateJob($dataset_id, $job, $metadata)
     {
         $resource_result = $this->hdxInterface->createResourceForDataset(
+            $job->id,
             $dataset_id,
             $job->url,
             $metadata->dataset_title
