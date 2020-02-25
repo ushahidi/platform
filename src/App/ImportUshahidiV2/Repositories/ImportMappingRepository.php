@@ -13,8 +13,14 @@ namespace Ushahidi\App\ImportUshahidiV2\Repositories;
 
 use Ushahidi\App\ImportUshahidiV2\ImportMapping;
 use Ushahidi\App\ImportUshahidiV2\Contracts\ImportMappingRepository as ImportMappingRepositoryContract;
+use Ushahidi\App\ImportUshahidiV2\ManifestSchemas\Mappings as ManifestMappings;
+use Ushahidi\Core\Entity\TagRespository;
+use Ushahidi\Core\Entity\FormRepository;
+use Ushahidi\Core\Entity\FormAttributeRepository;
+
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 
 class ImportMappingRepository /*extends EloquentRepository*/ implements ImportMappingRepositoryContract
 {
@@ -55,6 +61,16 @@ class ImportMappingRepository /*extends EloquentRepository*/ implements ImportMa
         return range($insertId, $insertId + $collection->count() - 1);
     }
 
+    public function hasMapping(int $importId, string $sourceType, $sourceId)
+    {
+        $match = ImportMapping::where([
+            'import_id' => $importId,
+            'source_type' => $sourceType,
+            'source_id' => $sourceId,
+        ])->first();
+        return ($match != null);
+    }
+
     public function getDestId(int $importId, string $sourceType, $sourceId)
     {
         $key = "mapping.$importId.$sourceType.$sourceId";
@@ -72,7 +88,8 @@ class ImportMappingRepository /*extends EloquentRepository*/ implements ImportMa
         );
     }
 
-    public function getAllMappingIDs(int $importId, string $sourceType) {
+    public function getAllMappingIDs(int $importId, string $sourceType)
+    {
         $rawMappings = ImportMapping::where([
             'import_id' => $importId,
             'source_type' => $sourceType

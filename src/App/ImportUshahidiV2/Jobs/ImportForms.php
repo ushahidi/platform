@@ -6,9 +6,11 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Collection;
 use Illuminate\Contracts\Container\Container;
+
 use Ushahidi\App\Jobs\Job;
 use Ushahidi\Core\Entity;
 use Ushahidi\App\ImportUshahidiV2;
+use Ushahidi\App\ImportUshahidiV2\ManifestSchemas\ImportParameters;
 
 class ImportForms extends Job
 {
@@ -18,6 +20,9 @@ class ImportForms extends Job
 
     protected $importId;
     protected $dbConfig;
+    protected $mappingRepo;
+    protected $formAttributeRepo;
+    protected $extraParams;
 
     protected $sourceForms = null;
     protected $importedForms = null;
@@ -129,13 +134,114 @@ class ImportForms extends Job
      * Create a new job instance.
      *
      * @return void
-     * 
-     * TODO1 - add placeholder for import parameters 
      */
-    public function __construct(int $importId, array $dbConfig)
+    public function __construct(int $importId, array $dbConfig, ImportParameters $extraParams)
     {
         $this->importId = $importId;
         $this->dbConfig = $dbConfig;
+        $this->extraParams = $extraParams;
+    }
+
+    protected function lookupAttributeByKey($key)
+    {
+        /* Look up attribute by key */
+        Log::debug("looking up attribute by key: {}", [$key]);
+        $attr = $this->formAttributeRepo->getByKey($key);
+        if (!$attr) {
+            throw new Exception("Attribute with key {$am->from->key} not found");
+        }
+        Log::debug("found attribute: {}", [$attr]);
+        return $attr->id;
+    }
+
+    /**
+     * Process the extra parameters that may have been provided for the import job
+     */
+    protected function processExtraParams()
+    {
+        /* Gather configured mappings */
+        $formMaps = $this->extraParams->getFormMappings();
+
+        Log::debug("form mappings preview: {}", [$formMaps]);
+
+        /* Resolve the mappings */
+        $importMappings = (new Collection($formMaps))->map(function ($m) {
+            Log::debug("processing form mapping: {}", [$m]);
+            if (!$m->from->id || !$m->to->id) {
+                throw new Exception("Category mapping is from or to id");
+            }
+
+            // Incident column mappings
+            $incidentColumns = new Collection($m->incidentColumns->asImportMappings($m->from->id));
+            $columnMappings = $incidentColumns->map(function ($to, $from) {
+                if ($to != null && $to->key && !$to->id) {
+                    $to->id = $this->lookupAttributeByKey($to->key);
+                }
+                Log::debug("new incident column mapping: {} -> {}", [$from, $to]);
+                if ($to != null && $to->id) {
+                    // Create mapping
+                    return new ImportUshahidiV2\ImportMapping([
+                        'import_id' => $this->importId,
+                        'source_type' => 'incident_column',
+                        'source_id' => $from,
+                        'dest_type' => 'form_attributes',
+                        'dest_id' => $to->id,
+                        'established_by' => 'import-config',
+                    ]);
+                }
+            })->filter(function ($v) {
+                return $v != null;
+            });
+
+            // Custom form fields
+            $attrMappings = (new Collection($m->attributes))->map(function ($am) {
+                Log::debug("procesing attribute mapping: {}", [$am]);
+                if ($am->from->key && !$am->from->id) {
+                    $am->from->id = $this->lookupAttributeByKey($am->from->key);
+                }
+                if ($am->to->key && !$am->to->id) {
+                    $am->to->id = $this->lookupAttributeByKey($am->to->key);
+                }
+                Log::debug("new attribute mapping: {}", [$am]);
+                if ($am->from->id && $am->to->id) {
+                    // Create mapping
+                    return new ImportUshahidiV2\ImportMapping([
+                        'import_id' => $this->importId,
+                        'source_type' => 'form_field',
+                        'source_id' => $am->from->id,
+                        'dest_type' => 'form_attributes',
+                        'dest_id' => $am->to->id,
+                        'established_by' => 'import-config',
+                    ]);
+                }
+            })->filter(function ($v) {
+                return $v != null;
+            });
+
+            // Create mapping
+            $formMapping = new ImportUshahidiV2\ImportMapping([
+                'import_id' => $this->importId,
+                'source_type' => 'form',
+                'source_id' => $m->from->id,
+                'dest_type' => 'form',
+                'dest_id' => $m->to->id,
+                'established_by' => 'import-config',
+            ]);
+
+            return $columnMappings->merge($attrMappings)->merge([$formMapping]);
+        });
+
+        $importMappings = $importMappings->reduce(function ($carry, $item) {
+            return $carry->merge($item);
+        }, new Collection());
+
+        /* Create mappings */
+        Log::debug("create mappings preview:");
+        $importMappings->each(function ($m) {
+            Log::debug("{}", [$m->toArray()]);
+        });
+
+        $this->mappingRepo->createMany($importMappings);
     }
 
     /**
@@ -146,6 +252,13 @@ class ImportForms extends Job
     public function handle(
         Container $container
     ) {
+
+        $this->formAttributeRepo = $container->make('Ushahidi\Core\Entity\FormAttributeRepository');
+        $this->mappingRepo = $container->make('Ushahidi\App\ImportUshahidiV2\Contracts\ImportMappingRepository');
+
+        // Process provided extra parameters
+        $this->processExtraParams();
+
         // Use container->call to inject each method
         $container->call([$this, 'importForms']);
         $container->call([$this, 'importFields']);
@@ -154,6 +267,7 @@ class ImportForms extends Job
     public function importForms(
         ImportUshahidiV2\Contracts\ImportMappingRepository $mappingRepo,
         Entity\FormRepository $destRepo,
+        Entity\FormAttributeRepository $formAttributeRepo,
         ImportUshahidiV2\Mappers\FormMapper $mapper
     ) {
         // Set up importer
@@ -170,6 +284,12 @@ class ImportForms extends Job
             ->select('form.*')
             ->orderBy('id', 'asc')
             ->get();
+
+        // Exclude from the list form mappings that are already present (i.e. because they have been configured)
+        $sourceData = $sourceData->filter(function ($v2_form) use ($mappingRepo) {
+            return !($mappingRepo->hasMapping($this->importId, 'form', $v2_form->id));
+        });
+
         $this->sourceForms = $sourceData;
 
         $results = $importer->run($this->importId, $sourceData);
@@ -181,15 +301,23 @@ class ImportForms extends Job
                 'v3_formId' => $result->targetId,
             ];
             $import->v3_stageId = $this->createDefaultStageForForm(
-                $import->v3_form, $import->v3_formId);
+                $import->v3_form,
+                $import->v3_formId
+            );
             $this->createDefaultAttributes(
-                $import->v3_formId, $import->v3_stageId, $import->v2_form->id);
+                $import->v3_formId,
+                $import->v3_stageId,
+                $import->v2_form->id
+            );
             return $import;
-        });        
+        });
 
-        if ($this->importedForms->count() === 0) {
-            $this->createDefaultForm();
-        }
+        // davidlosada: Not entirely clear why this is needed
+        // .. commenting out as it interferes in the scenario when
+        // .. existing forms have been pre-mapped
+        // if ($this->importedForms->count() === 0) {
+        //     $this->createDefaultForm();
+        // }
     }
 
     protected function createDefaultForm()
@@ -210,7 +338,7 @@ class ImportForms extends Job
             'import_id' => $this->importId,
             'source_type' => 'form',
             'source_id' => 0,
-            'dest_type' => 'form',
+            'dest_type' => 'forms',
             'dest_id' => $formId,
         ]));
 

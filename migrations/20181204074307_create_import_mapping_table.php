@@ -12,6 +12,7 @@ class CreateImportMappingTable extends AbstractMigration
             ->addColumn('source_id', 'string')
             ->addColumn('dest_type', 'string')
             ->addColumn('dest_id', 'integer')
+            ->addColumn('established_by', 'string')
             ->addForeignKey(
                 'import_id',
                 'imports',
