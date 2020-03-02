@@ -71,7 +71,7 @@ class Twitter implements IncomingAPIDataSource, OutgoingAPIDataSource
     {
         return [
             'intro_step1' => [
-                'label' => 'Step 1: Create a new Twitter application.',
+                'label' => 'Step 1: Create a new Twitter application',
                 'input' => 'read-only-text',
                 'description' => function () {
                     return 'Twitter applications may take some time to be approved by Twitter.
