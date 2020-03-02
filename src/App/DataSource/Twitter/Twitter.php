@@ -71,13 +71,13 @@ class Twitter implements IncomingAPIDataSource, OutgoingAPIDataSource
     {
         return [
             'intro_step1' => [
-                'label' => 'Step 1: Create a new Twitter application.
-                Twitter applications may take some time to be approved by Twitter. 
-                Please be aware of this if you need this data quickly.',
+                'label' => 'Step 1: Create a new Twitter application.',
                 'input' => 'read-only-text',
                 'description' => function () {
-                    
-                    return 'Create a <a href="https://apps.twitter.com/app/new">new twitter application</a>';
+                    return 'Twitter applications may take some time to be approved by Twitter.
+                     Please be aware of this if you need this data quickly.
+                    <br><br>Create your <a href="https://apps.twitter.com/app/new" target="_blank">
+                    Twitter application here</a>.';
                 }
             ],
             // @todo figure out how to inject link and fix base url
