@@ -19,6 +19,7 @@ use Ushahidi\Core\Tool\FormatterTrait;
 use Ushahidi\Core\Usecase\Concerns\ModifyRecords;
 use Ushahidi\Core\Exception\ValidatorException;
 use Ushahidi\Core\Tool\ValidatorTrait;
+use Ushahidi\Core\Tool\TranslatorTrait;
 
 class ResetUserPassword implements Usecase
 {
@@ -27,7 +28,8 @@ class ResetUserPassword implements Usecase
     // a `setAuthorizer` method which only accepts `Authorizer` instances.
     use AuthorizerTrait,
         FormatterTrait,
-        ValidatorTrait;
+        ValidatorTrait,
+        TranslatorTrait;
 
     // - ModifyRecords for setting search parameters
     use ModifyRecords;

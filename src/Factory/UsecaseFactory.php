@@ -107,11 +107,13 @@ class UsecaseFactory
             ->setAuthorizer($this->authorizers->get($resource))
             ->setRepository($this->repositories->get($resource))
             ->setFormatter($this->formatters->get($resource, $action))
+            ->setTranslator(app('translator'))
             ;
 
         if ($usecase->isWrite()) {
             $usecase->setValidator($this->validators->get($resource, $action));
         }
+        
 
         if ($usecase->isSearch()) {
             $usecase->setData($this->data->get($action));

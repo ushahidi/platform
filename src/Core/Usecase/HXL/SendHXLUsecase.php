@@ -19,6 +19,7 @@ use Ushahidi\Core\Entity\UserSettingRepository;
 use Ushahidi\Core\Tool\AuthorizerTrait;
 use Ushahidi\App\ExternalServices\HDXInterface;
 use Ushahidi\Core\Tool\FormatterTrait;
+use Ushahidi\Core\Tool\TranslatorTrait;
 use Ushahidi\Core\Usecase;
 use Log;
 
@@ -27,6 +28,7 @@ class SendHXLUsecase implements Usecase
     use Usecase\Concerns\IdentifyRecords;
     use AuthorizerTrait; // ? do we need this here?
     use FormatterTrait;
+    use TranslatorTrait;
     protected $metadataRepository;
     protected $userSettingRepository;
     protected $exportJobRepository;
