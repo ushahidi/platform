@@ -300,6 +300,7 @@ class CoreConfig extends ContainerConfig
         $di->params['Ushahidi\Factory\UsecaseFactory']['map']['users'] = [
             'login'    => $di->lazyNew('Ushahidi\Core\Usecase\User\LoginUser'),
             'register' => $di->lazyNew('Ushahidi\Core\Usecase\User\RegisterUser'),
+            'update'   => $di->lazyNew('Ushahidi\Core\Usecase\User\UpdateUser'),
             'getresettoken' => $di->lazyNew('Ushahidi\Core\Usecase\User\GetResetToken'),
             'passwordreset' => $di->lazyNew('Ushahidi\Core\Usecase\User\ResetUserPassword'),
         ];
