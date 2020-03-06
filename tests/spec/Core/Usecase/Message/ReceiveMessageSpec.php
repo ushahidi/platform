@@ -39,7 +39,6 @@ class ReceiveMessageSpec extends ObjectBehavior
         $this->setContactValidator($contactValid);
         $this->setDispatcher($dispatcher);
         $this->setTranslator($translator);
-
     }
 
     function it_is_initializable()
