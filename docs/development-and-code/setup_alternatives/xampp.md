@@ -146,7 +146,7 @@ On Windows File Explorer, the default is to hide the extension of the files \(th
 {% endhint %}
 
 * Modify the file in the following way:
-  * Change the `CACHE_DRIVER` to be `file` instead of `memcache` \(it's feasible set it up with memcache at some point, but for simplicity we use `file`\)
+  * Change the `CACHE_DRIVER` to be `array` instead of `memcache` \(it's feasible set it up with memcache at some point, but for simplicity we use `array`\)
   * Change the `DB_HOST` to `127.0.0.1`
   * Change the `DB_USER` to `root` 
   * Change the `DB_PASSWORD` to be empty, so literally: `DB_PASSWORD=`
