@@ -38,7 +38,7 @@ A step by step guide on how to install Ushahidi can be found [here](https://www.
 
 ### Can I install the Platform API?
 
-Yes you can. You can follow this link for more resources on how to install: [here](https://ushahidi.gitbook.io/platform-developer-documentation/~/edit/drafts/-LU01pd_YH9N3j-BhwFw/tech-stack-overview/api-documentation).
+Yes you can. You can follow this link for more resources on how to install: [here](https://docs.ushahidi.com/platform-developer-documentation/tech-stack/api-documentation).
 
 ### Do you support Windows installations?
 
@@ -71,7 +71,7 @@ First, let's identify your stack.
   The most common reasons for this error:
 
   * You have used the wrong url in the BACKEND\_URL key of your platform-client .ENV file. Check that when you access the URL in the browser + /api/v3/config it returns a valid json. It should look like this when you call the /api/v3/config endpoint for your API: [https://qa.api.ushahidi.io/api/v3/config](https://qa.api.ushahidi.io/api/v3/config) 
-  *  The server is failing for some reason. If the server is failing, it will likely show an error either in the browser when you call the API URL or in the server logs, which you can see in files contained within {the\_platform\_install\_dir}/storage/logs. Check the errors in the log-- often you will see that there is a permissions error somewhere, or a directory is missing, which you can solve yourself.  
+  *  The server is failing for some reason. If the server is failing, it will likely show an error either in the browser when you call the API URL or in the server logs, which you can see in files contained within {the\_platform\_install\_dir}/storage/logs. Check the errors in the log, as often you will see that there is a permissions error somewhere, or a directory is missing, which you can solve yourself.
 
   When reporting issues, please note that we will need as much information as you can provide to be able to help you, so please start by checking all of the above, and then contact us with the information you found through[  the Ushahidi gitter](http://gitter.im/ushahidi/Community) channel. Including details about your development environment, what you have tried doing to solve it, what you were doing when this error occured, and your log files are critical in order for us to help you get set up. 
 
@@ -137,7 +137,7 @@ Please ensure that you are using a supported version of PHP for the version of p
 
  Please verify that you have created your MySQL database, know the correct credentials for the API to connect to it and that your “.env” file is created with the expected format and at the expected location
 
-### How do I update Ushahidi?
+### How do I upgrade Ushahidi?
 
 Please follow the step by step guide on how to update your deployment to the latest Ushahidi version [here](https://www.ushahidi.com/support/upgrading-ushahidi).
 
