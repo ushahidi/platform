@@ -622,6 +622,16 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "rohit645",
+      "name": "Rohit Kumar",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/33249010?v=4",
+      "profile": "http://rohit645.github.io",
+      "contributions": [
+        "bug",
+        "code"
+      ]
     }
   ],
   "projectName": "platform",
