@@ -18,19 +18,19 @@ While browsing GitBook, you will find a "Edit on GitHub" button
 
 This will take you to github.com , where you will see the same document, along with some action buttons. You would want to click the one looking like a pencil, as illustrated below:
 
-![](../.gitbook/assets/github-2%20%281%29.png)
+![](../.gitbook/assets/github-2.png)
 
 Clicking on this will take you to an editing view, where you will be able to apply your changes. Please bear in mind that this is a plain text editor. Formatting \(headers, links, lists, highlighted text, etc..\) is achieved by following the Markdown rules. If you are not familiar with this, please take a look at [this guide](https://guides.github.com/features/mastering-markdown/) first.
 
-![](../.gitbook/assets/github-3%20%281%29.png)
+![](../.gitbook/assets/github-3.png)
 
 In this guide, as an example, we are going to make a \(rather silly\) addition to the document. At any point, we can click the "Preview changes" button.
 
-![](../.gitbook/assets/github-4%20%281%29.png)
+![](../.gitbook/assets/github-4.png)
 
 In the preview mode, we can see the formatted result of our changes. In the left margin, we'll see that the blocks of text we have modified are marked with red and green lines. Red lines mean deletion and green lines mean addition.
 
-![](../.gitbook/assets/github-5%20%281%29.png)
+![](../.gitbook/assets/github-5.png)
 
 Once we are happy with our modifications, we _scroll back to the bottom of the window_. We will find a "**Propose file change**" section, with two boxes below it.
 
@@ -54,7 +54,7 @@ The pull request window will show by default the title and description that you 
 
 Click on the "Create pull request" button once you agree with what you see on the screen.
 
-![](../.gitbook/assets/github-8%20%281%29.png)
+![](../.gitbook/assets/github-8.png)
 
 Once you click that button, your pull request will be submitted and available for project administrators to review. The administrators may be getting back to you with questions or suggestions.
 
@@ -64,7 +64,7 @@ At some point they will also take the decision to accept \(or more unlikely, rej
 
 In case this is your **first contribution**, you will be requested to sign the CLA \(Contributor License Agreement\). You will find a comment in the pull request, with the necessary instructions:
 
-![](../.gitbook/assets/github-10%20%281%29.png)
+![](../.gitbook/assets/github-10.png)
 
 And this is it, at this point your documentation changes have been submitted and visible to administrators. Thank you very much!
 
