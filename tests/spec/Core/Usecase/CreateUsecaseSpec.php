@@ -15,8 +15,14 @@ use Prophecy\Argument;
 
 class CreateUsecaseSpec extends ObjectBehavior
 {
-    function let(Authorizer $auth, Formatter $format, Validator $valid, CreateRepository $repo, Dispatcher $dispatcher, Translator $translator)
-    {
+    function let(
+        Authorizer $auth,
+        Formatter $format,
+        Validator $valid,
+        CreateRepository $repo,
+        Dispatcher $dispatcher,
+        Translator $translator
+    ) {
         $this->setAuthorizer($auth);
         $this->setFormatter($format);
         $this->setRepository($repo);
