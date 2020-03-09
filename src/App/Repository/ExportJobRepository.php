@@ -121,10 +121,30 @@ class ExportJobRepository extends OhanzeeRepository implements ExportJobReposito
     // Overriding the update method here to handle state transitions
     public function update(Entity $entity)
     {
-        // Run state transition handler
-        $entity->handleStateTransition();
+        // // Run state transition handler
+        // $entity->handleStateTransition();
+        $fireHDX = false;
+        \Log::info("Handle state transition");
+        // Check for new status of 'EXPORTED_TO_CDN'
+        if ($entity->hasChanged('status') && $entity->status == ExportJob::STATUS_EXPORTED_TO_CDN) {
+            \Log::info("THE URL IS: " . $entity->url);
+            \Log::info("THE send_to_hdx IS: " . $entity->send_to_hdx);
+            if ($entity->send_to_hdx) {
+                // Jump to next state PENDING_HDX
+                $entity->setState(['status' => ExportJob::STATUS_PENDING_HDX]);
+                $fireHDX = true;
+            } else {
+                // if sending to HDX is not required, (or send_to_hdx does not exist)
+                // then simply update the status to SUCCESS
+                $entity->setState([ 'status' => ExportJob::STATUS_SUCCESS]);
+            }
+        }
+        $return = parent::update($entity);
 
-        return parent::update($entity);
+        if ($fireHDX) {
+            $entity->startHDX();
+        }
+        return $return;
     }
 
     public function getPendingJobs($limit = 10)

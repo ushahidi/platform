@@ -310,7 +310,7 @@ abstract class RESTController extends Controller
         if (! in_array($request->method(), $this->cacheableMethods)) {
             $response->headers->set('Cache-Control', 'no-cache, no-store, max-age=0, must-revalidate');
         }
-
+        $response->headers->set('Content-language', app('translator')->getLocale());
         return $response;
     }
 }

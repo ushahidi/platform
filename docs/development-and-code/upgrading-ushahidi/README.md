@@ -12,5 +12,3 @@ When you are done reading above, or you already are on V4.x.x and want to upgrad
 
 {% page-ref page="upgrading-to-latest-release.md" %}
 
-
-

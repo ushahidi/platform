@@ -1,8 +1,6 @@
 # How to Apply to the Platform
 
-
-
-### Make changes
+## Make changes
 
 After the [initial installation and setup](https://ushahidi.gitbook.io/platform-developer-documentation/getting-started/setup_alternatives/setting-up-the-pattern-library-for-development) follow these instructions:
 
@@ -11,7 +9,7 @@ After the [initial installation and setup](https://ushahidi.gitbook.io/platform-
 * View your changes locally on localhost:8000 to see your styles in action.
 * Commit your changes.
 
-### Push changes to NPM
+## Push changes to NPM
 
 * _Assuming you have already committed your changes_
 * Bump and tag a new version using npm version prerelease for a test release or npm version release for a production release
@@ -20,7 +18,7 @@ After the [initial installation and setup](https://ushahidi.gitbook.io/platform-
 
 Note: The "version": "\#\#\#" in pattern library package.json should stay in sync with the client package.json.
 
-### Test your changes on a local client
+## Test your changes on a local client
 
 * From within your platform-client installation run npm install ../platform-pattern-library/
 * Run gulp in your platform-client install

@@ -51,7 +51,7 @@ The instructions and example commands are written specifically for Debian Linux 
   # This is only relevant for debug level stuff like timestamps in log messages
   APP_TIMEZONE=UTC
 
-  CACHE_DRIVER=file
+  CACHE_DRIVER=array
   # See comments down in the doc for other options
   QUEUE_DRIVER=sync
   ```
@@ -82,7 +82,7 @@ MAILTO=<your email address for system alerts>
 {% hint style="warning" %}
 Make sure to try to log in at least once. The system will ask you right away to provide a valid e-mail address \(that will override the "admin" user name\).
 
-That's also a great chance to set a more secure password. 🔐👍 
+That's also a great chance to set a more secure password. 🔐👍
 {% endhint %}
 
 ## nginx with php-fpm
@@ -107,14 +107,14 @@ In all cases, you'll need to ensure that:
 * Decompress the release file and place the contents of the `html` folder in the webroot of your shared hosting domain or subdomain.
 * Create a database for your website and write the access details in the `platform/.env` file \(as per step 4 of Apache 2 instructions\).
 * Also, you must have command line access \(SSH\) in order to run the `php artisan migrate` and other `artisan` commands as outlined above.
-* Most importantly, a URL rewriting mechanism has to be in place so that requests to /platform/api/v3/ __are to be forwarded to the `index.php` script inside `platform/httpdocs`_._ When invoking that script, the "api/v3/\*" part of the url should be passed to the script into the a `$_SERVER` or environment variable. If your host uses Apache and supports _.htaccess_ files, most of this should be taken care of for you.
+* Most importantly, a URL rewriting mechanism has to be in place so that requests to /platform/api/v3/ _\_are to be forwarded to the `index.php` script inside `platform/httpdocs`_. _When invoking that script, the "api/v3/\*" part of the url should be passed to the script into the a `$_SERVER` or environment variable. If your host uses Apache and supports_ .htaccess\_ files, most of this should be taken care of for you.
 
 ## Something seems wrong?
 
 If something doesn't seem to work we suggest giving a try to open your deployment website address, but adding a "/verifier" at the end of it.
 
 {% hint style="info" %}
-For instance, if the address of your deployment is _https://ushahidi.example.com_ , we suggest you to try to open: _https://ushahidi.example.com**/verifier**_ 
+For instance, if the address of your deployment is [https://ushahidi.example.com](https://ushahidi.example.com) , we suggest you to try to open: [https://ushahidi.example.com\*\*/verifier\*\*](https://ushahidi.example.com**/verifier**)
 {% endhint %}
 
 The latest releases of the Ushahidi Platform come with a little handy tool called "[Installation Helper](../installation-helper.md)" which is started by accessing that specific address in the deployment.
@@ -169,7 +169,7 @@ And, as with many a labor collective, the main challenge is to keep them working
 
 #### You can install / configure a system process supervisor
 
-Examples of process supervisors are systemd, upstart, pm2 , supervisord or chaperone. 
+Examples of process supervisors are systemd, upstart, pm2 , supervisord or chaperone.
 
 Here we'll document how to configure [supervisord](http://supervisord.org/) , which is one of the popular options. You would need to add the following block to your supervisord configurations \(usually found under `/etc/supervisor` and `/etc/supervisor/conf.d`
 

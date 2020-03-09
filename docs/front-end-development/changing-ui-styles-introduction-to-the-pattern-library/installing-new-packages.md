@@ -2,7 +2,7 @@
 
 Third party packages, libraries and/or plugins can easily be added to the pattern library for additional features and functionality.
 
-### Installing New Packages
+## Installing New Packages
 
 New packages can be added to your project by running npm install _example-package_ --save-dev.
 

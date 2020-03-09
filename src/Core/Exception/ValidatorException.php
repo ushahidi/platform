@@ -13,6 +13,7 @@ namespace Ushahidi\Core\Exception;
 
 use RecursiveIteratorIterator;
 use RecursiveArrayIterator;
+use Ushahidi\Core\Tool\TranslatorTrait;
 
 class ValidatorException extends \InvalidArgumentException
 {

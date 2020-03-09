@@ -110,4 +110,5 @@
 ## Enhancement Proposals
 
 * [Exchange Format](enhancement-proposals/exchange-format.md)
+* [Importing data from previous versions](enhancement-proposals/importing-data-from-previous-versions.md)
 
