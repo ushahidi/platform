@@ -2,7 +2,7 @@
 
 Variables are defined in [\_settings.scss](https://github.com/ushahidi/platform-pattern-library/blob/gh-pages/assets/sass/_settings.scss). A few common variables are breakpoints, color, z-index and spacing, but other variables are available.
 
-### Example use
+## Example use
 
 When using a color more than once, store it in a variable with a meaningful name representing the color.
 
@@ -26,6 +26,4 @@ $blue: #2274b4;
     background-color: $blue;
 }
 ```
-
-
 

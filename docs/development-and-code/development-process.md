@@ -43,7 +43,7 @@ In short: The development phase is when we go from zero to demo in each ticket.
 
 Cumulative Burndown Charts are generated every 2 days so we can easily see the trends in our cycle.
 
-#### DONE Reviews: 
+#### DONE Reviews:
 
 For each ticket, the devs share a video with the PM demonstrating the work, or get on a demo call. This work either gets accepted \(goes into final testing phase\), or rejected \(goes back to Development\).
 
@@ -51,13 +51,5 @@ For each ticket, the devs share a video with the PM demonstrating the work, or g
 
 Open source contributors does not need to join and follow the cycles, you can do it in your own pace. We have marked issues that are up for grabs by community devs "​[Community task](https://github.com/ushahidi/platform/labels/Community%20Task)" in github.
 
-Other tasks that we haven’t labeled yet may be suitable for work. Feel free to [contact](mailto:techdocs@ushahidi.com) the team if you intend to work on something that grabs your attention. 
-
-  
-
-
-  
-  
-  
-****
+Other tasks that we haven’t labeled yet may be suitable for work. Feel free to [contact](mailto:techdocs@ushahidi.com) the team if you intend to work on something that grabs your attention.
 

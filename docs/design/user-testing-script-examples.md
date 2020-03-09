@@ -14,7 +14,6 @@ Ushahidi typically structure a user testing session as follows:
 
 **Tasks -** Observe the participant completing a set of tasks, usually about 3-5 of them.
 
-  
 **General questions and closing -** Any non-usability related things you want to know and a last chance to ask/answer questions.
 
 The industry standard for task-based user testing with a clickable prototype is 5-8 people. You’ll know you have tested enough people when participants start to point out the same issues.

@@ -4,8 +4,6 @@ Ushahidi's user interface displays LTR \(left-to-right\) by default, but Ushahid
 
 When building this feature, it was important to maintain one code base that supported both LTR and RTL read direction. In order to accomplish this we decided to use a library of Sass mixins and functions to automatically flip the CSS styles for RTL \(right-to-left\) read direction when needed. We decided to go with [RTL-Sass](https://github.com/jamesl1001/RTL-Sass) open-source library, which supports the following properties:
 
-
-
 * background
 * background-position
 * border
@@ -250,6 +248,4 @@ border-right: 3px solid #000 // RTL
     text-align: left;
 }
 ```
-
-
 

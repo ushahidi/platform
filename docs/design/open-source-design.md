@@ -14,5 +14,3 @@ We started this work during the Mozilla Open Leaders program 6 with the project 
 
 If you're looking to contribute and participate in this effort you can contact the Ushahidi design team at Design@ushahidi.com or through the [Get in Touch](https://ushahidi.gitbook.io/platform-developer-documentation/contributing-or-getting-involved/get-in-touch) section of these docs.
 
-
-

@@ -218,13 +218,13 @@ Create the `/etc/nginx/sites-available/platform-client.conf` file, referencing t
 {% code title="/etc/nginx/sites-available/platform-client.conf" %}
 ```text
 server {
-    
+
     listen 80 default_server;
     listen [::]:80 ;
     server_name your-site.example.com;
     charset UTF-8;
     root /var/www/platform-client/server/www;
-    
+
     index index.html;
     location / {
         try_files $uri $uri/ @missing;

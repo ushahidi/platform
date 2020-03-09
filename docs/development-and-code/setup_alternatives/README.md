@@ -36,5 +36,3 @@ If you plan to change the css for the Platform Client, follow this guide.
 
 {% page-ref page="setting-up-the-pattern-library-for-development.md" %}
 
-
-
