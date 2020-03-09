@@ -101,8 +101,7 @@ class ImportIncidents extends Job
 
         $batch = 0;
         // While there are data left
-        //while (true) {
-        while ($batch < 1) {
+        while (true) {
             // Fetch data
             $sourceData = $this->getConnection()
                 ->table('incident')
