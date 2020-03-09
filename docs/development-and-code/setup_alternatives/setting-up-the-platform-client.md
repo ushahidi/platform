@@ -25,7 +25,7 @@ Pre-requisite: Install the platform API by following one of the API setup guides
 {% endhint %}
 
 {% hint style="warning" %}
-Pre-requisite: Install Node V6.x or 8.x \(you might want to use NVM for this\) before continuing.
+Pre-requisite: Install Node V10.x or higher \(you might want to use NVM for this\) before continuing.
 {% endhint %}
 
 #### **Getting the platform-client code**

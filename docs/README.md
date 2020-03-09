@@ -12,7 +12,7 @@ Ushahidi is an open source web application for information collection, visualiza
 
 We love having you here. To ensure everyone has a good experience, we ask **everyone** that interacts with our community and staff to read our code of conduct.
 
-{% page-ref page="code-of-conduct.md" %}
+{% page-ref page="code-of-conduct/" %}
 
 ![](.gitbook/assets/oss-ushahidi-project.png)
 

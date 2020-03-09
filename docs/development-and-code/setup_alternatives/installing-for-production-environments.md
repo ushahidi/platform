@@ -25,7 +25,7 @@
 * Composer for PHP package management \( [https://getcomposer.org](https://getcomposer.org) \)
 * Nginx version 1.10.x **\(Note: you can technically use apache, but this instructions will provide specific steps for Nginx only\)**
 * MySQL server 5.7.x
-* Node.js v6.x
+* Node.js v10.x or higher
 * Redis v3.2
 * Cron daemon
 * Local e-mail forwarding setup \(mail command should be functional\)
