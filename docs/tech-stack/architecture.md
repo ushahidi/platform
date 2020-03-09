@@ -10,7 +10,7 @@ At a high level Ushahidi consumes messages from various channels \(SMS, Email, T
 
 The Platform is split into 3 layers: Presentation \(Client / Web interface\), Services \(API\), and Data.
 
-![Application tiers](../.gitbook/assets/app-tiers-1.png) \[source\]\([http://www.nomnoml.com/\#view/%23title%3A Application Tiers](http://www.nomnoml.com/#view/%23title%3A%20Application%20Tiers)
+![Application tiers](../.gitbook/assets/app-tiers-1%20%281%29.png) \[source\]\([http://www.nomnoml.com/\#view/%23title%3A Application Tiers](http://www.nomnoml.com/#view/%23title%3A%20Application%20Tiers)
 
 \[Presentation\| %20%20%20%20\[AngularJS\] %20%20%20%20\[Endpoints\] \]
 
@@ -54,7 +54,7 @@ Within the core application, we use generally follow the [Clean Architecture](ht
 
 In order to bring user input to the use cases, we pass simple data structures from the delivery layer into the use case. The request structure is a simple array and contains all of the inputs for that specific use case. Once the usecase is complete it returns another simple data structure \(response\) back to the delivery layer for conversion via a Formatter. Data flow within the platform can be visualized as:
 
-![API Request Flow](../.gitbook/assets/api-request-flow-1.png) \[source\]\([http://www.nomnoml.com/\#view/%23title%3A General API request flow](http://www.nomnoml.com/#view/%23title%3A%20General%20API%20request%20flow)
+![API Request Flow](../.gitbook/assets/api-request-flow-1%20%281%29.png) \[source\]\([http://www.nomnoml.com/\#view/%23title%3A General API request flow](http://www.nomnoml.com/#view/%23title%3A%20General%20API%20request%20flow)
 
 \[app\]-&gt;\[Kohana\] \[Kohana\]-&gt;\[Controller\] \[Controller\]-&gt;\[request\] \[request\]-&gt;\[Usecase\] \[Usecase\]-&gt;\[response\] \[response\]-&gt;\[OutputFormatter\] \[OutputFormatter\]-&gt;\[json\]
 

@@ -18,15 +18,15 @@
 
 ### Which installation option should I choose?
 
-As with many things, it depends. 
+As with many things, it depends.
 
-__Are you are planning on developing new code for Ushahidi, or testing the platform?__ Use one of the development setups. 
+**Are you are planning on developing new code for Ushahidi, or testing the platform?** Use one of the development setups.
 
 * If you are already familiar with XAMPP and want to avoid using Vagrant for performance or familiarity issues, then go with the [XAMPP Install guide](https://docs.ushahidi.com/platform-developer-documentation/getting-started/setup_alternatives/xampp). 
 * If you are familiar with Vagrant, or willing to learn how to setup Vagrant + Homestead and you have a machine capable of running a virtual machine and vagrant, then go with [the vagrant based setup](https://docs.ushahidi.com/platform-developer-documentation/getting-started/setup_alternatives/vagrant-setup) \(This is the setup Ushahidi staff uses on a daily basis!\)
 * If you are a frontend developer that wants to contribute without setting up the backend, then try [setting up the platform client](https://docs.ushahidi.com/platform-developer-documentation/getting-started/setup_alternatives/setting-up-the-platform-client) only, and using the API route of an ushahidi.io deployment.  This the fastest way to get started.
 
-__Are you ready to deploy Ushahidi for others to use?__
+**Are you ready to deploy Ushahidi for others to use?**
 
 * if you plan to modify the code in some way, follow the [Installing for production environments setup guide.](https://docs.ushahidi.com/platform-developer-documentation/getting-started/setup_alternatives/installing-for-production-environments)
 * If you want to deploy Ushahidi without worrying about upgrading, monitoring services, or hosting it yourself, start a new deployment in [http://ushahidi.io/create](http://ushahidi.io/create) and we will manage all the tech for you.
@@ -42,7 +42,7 @@ Yes you can. You can follow this link for more resources on how to install: [her
 
 ### Do you support Windows installations?
 
-Some folks have been successful in getting the platform set up for development in a windows environment. If you are not familiar with Vagrant or Vagrant is not working correctly for you in Windows, we recommend you try following the [XAMPP installation guide here](https://docs.ushahidi.com/platform-developer-documentation/getting-started/setup_alternatives/xampp) and let us know if you run into any issues. 
+Some folks have been successful in getting the platform set up for development in a windows environment. If you are not familiar with Vagrant or Vagrant is not working correctly for you in Windows, we recommend you try following the [XAMPP installation guide here](https://docs.ushahidi.com/platform-developer-documentation/getting-started/setup_alternatives/xampp) and let us know if you run into any issues.
 
 For production environments, we strongly recommend you use a Linux based environment instead, since most of our development and all our production setup is done in either Mac OS or a Linux based distribution like Ubuntu, RedHat OS, Fedora, etc.
 
@@ -55,7 +55,7 @@ For production environments, we strongly recommend you use a Linux based environ
 
 You have installed only the API. Unless you are installing the bundle that contains both client and API, you would need to set up both separately. This also requires you to set up two different virtual hosts under different subdomains or ports. If this sounds too complicated, please look at the simplified install of the bundle.
 
-### When I open a URL with a path other than / \(i.e. /views/map \) I get a "404 not found" error. 
+### When I open a URL with a path other than / \(i.e. /views/map \) I get a "404 not found" error.
 
 Your web server setup is not handling the URLs as designed. There can be different reasons for this. If you are using Apache, please make sure that you have the directive “AllowOverride All” configured for the folder where you made your installation. If you are using nginx, please make sure that you are using our recommended configuration file.
 
@@ -66,42 +66,40 @@ Your web server setup is not handling the URLs as designed. There can be differe
 First, let's identify your stack.
 
 * Are you using ushahidi.io and running a deployment there? If YES, please contact our team through one of these channels: [https://www.ushahidi.com/contact\#](https://www.ushahidi.com/contact#)
-* Are you a developer, setting up Ushahidi yourself? Start by checking the network tab in your development browser of choice and identifying any network errors. Look at the response for each and check what you see. 
+* Are you a developer, setting up Ushahidi yourself? Start by checking the network tab in your development browser of choice and identifying any network errors. Look at the response for each and check what you see.
 
   The most common reasons for this error:
 
   * You have used the wrong url in the BACKEND\_URL key of your platform-client .ENV file. Check that when you access the URL in the browser + /api/v3/config it returns a valid json. It should look like this when you call the /api/v3/config endpoint for your API: [https://qa.api.ushahidi.io/api/v3/config](https://qa.api.ushahidi.io/api/v3/config) 
-  *  The server is failing for some reason. If the server is failing, it will likely show an error either in the browser when you call the API URL or in the server logs, which you can see in files contained within {the\_platform\_install\_dir}/storage/logs. Check the errors in the log, as often you will see that there is a permissions error somewhere, or a directory is missing, which you can solve yourself.
+  * The server is failing for some reason. If the server is failing, it will likely show an error either in the browser when you call the API URL or in the server logs, which you can see in files contained within {the\_platform\_install\_dir}/storage/logs. Check the errors in the log, as often you will see that there is a permissions error somewhere, or a directory is missing, which you can solve yourself.
 
-  When reporting issues, please note that we will need as much information as you can provide to be able to help you, so please start by checking all of the above, and then contact us with the information you found through[  the Ushahidi gitter](http://gitter.im/ushahidi/Community) channel. Including details about your development environment, what you have tried doing to solve it, what you were doing when this error occured, and your log files are critical in order for us to help you get set up. 
+  When reporting issues, please note that we will need as much information as you can provide to be able to help you, so please start by checking all of the above, and then contact us with the information you found through[ the Ushahidi gitter](http://gitter.im/ushahidi/Community) channel. Including details about your development environment, what you have tried doing to solve it, what you were doing when this error occured, and your log files are critical in order for us to help you get set up.
 
-* Are you a developer who is only setting up the client and using ushahidi.io for the API? This is most likely an error in your .ENV file, check that your BACKEND\_URL looks like this [http://DEPLOYMENTNAME.api.ushahidi.io](http://test.api.ushahidi.io) \(notice the .api after your deployment's name -- it's important!\) 
+* Are you a developer who is only setting up the client and using ushahidi.io for the API? This is most likely an error in your .ENV file, check that your BACKEND\_URL looks like this [http://DEPLOYMENTNAME.api.ushahidi.io](http://test.api.ushahidi.io) \(notice the .api after your deployment's name -- it's important!\)
 
 ### I have configured the datasources but I'm not getting any posts from them. What could be wrong?
 
-#### Are you referring to an Ushahidi.io deployment? 
+#### Are you referring to an Ushahidi.io deployment?
 
-Please verify that all the fields have the correct values and that you have enabled the "Accept survey submissions from this source" toggle \(it should be green/on!\) 
+Please verify that all the fields have the correct values and that you have enabled the "Accept survey submissions from this source" toggle \(it should be green/on!\)
 
-![Example with disabled &quot;Twitter&quot; datasource.](.gitbook/assets/screen-shot-2019-08-03-at-11.08.49.png)
+![Example with disabled &quot;Twitter&quot; datasource.](.gitbook/assets/screen-shot-2019-08-03-at-11.08.49%20%282%29.png)
 
-If you think your configuration is correct, please get in touch with your deploment name and details, and someone from the support team will be able to help. 
+If you think your configuration is correct, please get in touch with your deploment name and details, and someone from the support team will be able to help.
 
-#### Are you hosting Ushahidi yourself? 
+#### Are you hosting Ushahidi yourself?
 
-Please verify that all the fields have the correct values and that you have enabled the "Accept survey submissions from this source" toggle \(it should be green/on!\) 
+Please verify that all the fields have the correct values and that you have enabled the "Accept survey submissions from this source" toggle \(it should be green/on!\)
 
 ![Example with disabled &quot;Twitter&quot; datasource.](.gitbook/assets/screen-shot-2019-08-03-at-11.08.49.png)
 
 If the configuration values are correct, then proceed to check the following in the platform API.
 
-
-
 ```text
 php artisan datasource:incoming
 ```
 
-Run the datasource:incoming task manually in the platform API directory \(as the example above\). It should succeed and not show any errors. If there are errors, check the logs under storage/logs to review what looks wrong. If nothing else, this will help you contact the team through[  the Ushahidi gitter](http://gitter.im/ushahidi/Community) channel with details. 
+Run the datasource:incoming task manually in the platform API directory \(as the example above\). It should succeed and not show any errors. If there are errors, check the logs under storage/logs to review what looks wrong. If nothing else, this will help you contact the team through[ the Ushahidi gitter](http://gitter.im/ushahidi/Community) channel with details.
 
 If the incoming task worked, check if new posts are available. If they are, then this means that the problem is that the datasources work but are not being automatically fetched. Check that you have a crontab running periodically for your datasources and other tasks.
 
@@ -120,12 +118,12 @@ MAILTO=admin@example.com
 ```
 {% endcode %}
 
-If after ensuring the crontab is correct and datasources run, you don't see any new posts, please get in touch through[  the Ushahidi gitter](http://gitter.im/ushahidi/Community) channel with all the details about what you tried and what you have seen, and we'll be happy to help.
+If after ensuring the crontab is correct and datasources run, you don't see any new posts, please get in touch through[ the Ushahidi gitter](http://gitter.im/ushahidi/Community) channel with all the details about what you tried and what you have seen, and we'll be happy to help.
 
 ### I am getting some sort of PHP error.
 
 {% hint style="info" %}
-Please ensure that you are using a supported version of PHP for the version of platform that you are running.  
+Please ensure that you are using a supported version of PHP for the version of platform that you are running.
 {% endhint %}
 
 * **v2** supports up to PHP 5.4
@@ -135,7 +133,7 @@ Please ensure that you are using a supported version of PHP for the version of p
 
 ### I’m getting a database connection error.
 
- Please verify that you have created your MySQL database, know the correct credentials for the API to connect to it and that your “.env” file is created with the expected format and at the expected location
+Please verify that you have created your MySQL database, know the correct credentials for the API to connect to it and that your “.env” file is created with the expected format and at the expected location
 
 ### How do I upgrade Ushahidi?
 
@@ -147,7 +145,7 @@ Please follow the step by step guide on how to update your deployment to the lat
 
 Yes, you can. You will need to fork and modify the Ushahidi platform API repository to do so. New datasource types need to be coded into the platform. Check out the `src/App/DataSource/` directory in the platform API codebase to learn how the current datasources are created.
 
-If you are planning to add a new data source, please get in touch! The Ushahidi development team will be more than happy to help answer any questions or provide guidance. 
+If you are planning to add a new data source, please get in touch! The Ushahidi development team will be more than happy to help answer any questions or provide guidance.
 
 ## Platform Client
 
