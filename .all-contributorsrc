@@ -641,6 +641,15 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "individual-it",
+      "name": "Artur Neumann",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/2425577?v=4",
+      "profile": "https://www.jankaritech.com",
+      "contributions": [
+        "infra"
+      ]
     }
   ],
   "projectName": "platform",
