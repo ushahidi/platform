@@ -32,7 +32,7 @@ class ImportIncidents extends Job
      * The purpose is ensuring that there are no repetitions in the incident_id
      * column, which was supposed to be unique but didn't have a unique index on it.
      */
-    private function dealiase_incident_person_table()
+    private function dealiaseIncidentPersonTable()
     {
         $this->getConnection()->insert(
             DB::RAW("
@@ -54,7 +54,7 @@ class ImportIncidents extends Job
      * Create temporary table for joining. The purpose is to simplify and speed up
      * the main query for this class.
      */
-    private function collect_incident_to_categorylist_table()
+    private function collectIncidentToCategorylistTable()
     {
         $this->getConnection()->insert(
             DB::RAW("
@@ -96,8 +96,8 @@ class ImportIncidents extends Job
         );
 
         // Set up temporary tables to aid/optimise querying
-        $this->dealiase_incident_person_table();
-        $this->collect_incident_to_categorylist_table();
+        $this->dealiaseIncidentPersonTable();
+        $this->collectIncidentToCategorylistTable();
 
         $batch = 0;
         // While there are data left

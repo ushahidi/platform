@@ -15,6 +15,7 @@ use Ushahidi\Core\Usecase;
 use Ushahidi\Core\SearchData;
 use Ushahidi\Core\Tool\AuthorizerTrait;
 use Ushahidi\Core\Tool\FormatterTrait;
+use Ushahidi\Core\Tool\TranslatorTrait;
 
 class SearchUsecase implements Usecase
 {
@@ -22,7 +23,8 @@ class SearchUsecase implements Usecase
     // setter method for the tool. For example, the AuthorizerTrait provides
     // a `setAuthorizer` method which only accepts `Authorizer` instances.
     use AuthorizerTrait,
-        FormatterTrait;
+        FormatterTrait,
+        TranslatorTrait;
 
     // - FilterRecords for setting search parameters
     use Concerns\FilterRecords;

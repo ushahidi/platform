@@ -12,6 +12,8 @@
 namespace Ushahidi\App\ImportUshahidiV2\Contracts;
 
 use Ushahidi\App\ImportUshahidiV2\ImportMapping;
+use Ushahidi\App\ImportUshahidiV2\ManifestSchemas\Mappings as ManifestMappings;
+
 use Illuminate\Support\Collection;
 
 interface ImportMappingRepository
@@ -20,5 +22,9 @@ interface ImportMappingRepository
 
     public function createMany(Collection $collection) : array;
 
+    public function hasMapping(int $importId, string $sourceType, $sourceId);
+
     public function getDestId(int $importId, string $sourceType, $sourceId);
+
+    public function getAllMappingIDs(int $importId, string $sourceType);
 }

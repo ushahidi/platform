@@ -35,7 +35,7 @@ The database configuration vars have been renamed.
 
 | Var | Comments |
 | :--- | :--- |
-| `CACHE_DRIVER` | Supported options are `file`, `redis` and `memcached`. Read more about Lumen's cache configuration and options here [https://lumen.laravel.com/docs/5.4/cache](https://lumen.laravel.com/docs/5.4/cache) |
+| `CACHE_DRIVER` | Supported options are `array`, `redis` and `memcached`. Read more about Lumen's cache configuration and options here [https://lumen.laravel.com/docs/5.4/cache](https://lumen.laravel.com/docs/5.4/cache) |
 
 ### Artisan
 

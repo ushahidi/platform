@@ -15,11 +15,11 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Contracts\Bus\Dispatcher;
+
 use Ushahidi\App\ImportUshahidiV2;
 use Ushahidi\App\Multisite\OhanzeeResolver;
 use Ushahidi\Core\Entity\PostRepository;
-
-use Monolog\Handler\StreamHandler;
+use Ushahidi\Core\Tool\ManifestLoader;
 
 class ImportUshahidiV2Command extends Command
 {
@@ -42,6 +42,8 @@ class ImportUshahidiV2Command extends Command
                             {--p|password= : The password to connect to the DB}
                             {--H|host= : The database host to connect to}
                             {--P|port= : The password to connect to the DB}
+                            {--f|force : Proceed even if there are posts in the V3+ DB}
+                            {--X|params= : A file with extra parameters for the import job}
                             {--rollback : Rollback import when finished (useful for testing)}';
 
     /**
@@ -52,6 +54,8 @@ class ImportUshahidiV2Command extends Command
     protected $description = 'Import Ushahidi V2 database';
 
     protected $dispatcher;
+
+    protected $extraParams;
 
     public function __construct(Dispatcher $dispatcher)
     {
@@ -65,10 +69,18 @@ class ImportUshahidiV2Command extends Command
         PostRepository $postRepo,
         OhanzeeResolver $resolver
     ) {
+        // Check if we have a file with extra parameters for the import job
+        if ($this->option('params')) {
+            $loader = new ManifestLoader();
+            $this->extraParams = $loader->loadManifestFromFile($this->option('params'));
+            $this->info("Loaded extended parameters:");
+            $this->info("  With mappings?: {$this->extraParams->hasMappings()}");
+        } else {
+            $this->extraParams = new ImportUshahidiV2\ManifestSchemas\ImportParameters();
+        }
+
         // Check we don't already have v3 data
-        // TODO: what is this assumption getting us?
-        //       is it worth not supporting the consolidation of multiplq
-        if ($postRepo->getTotal() > 1) {
+        if ($postRepo->getTotal() > 1 && !$this->option('force')) {
             $this->error('Deployment is not empty. Please import into an empty deployment');
             return 1;
         }
@@ -99,7 +111,7 @@ class ImportUshahidiV2Command extends Command
 
         // Import forms
         $this->info('Import forms to surveys');
-        $this->dispatcher->dispatchNow(new ImportUshahidiV2\Jobs\ImportForms($importId, $dbConfig));
+        $this->dispatcher->dispatchNow(new ImportUshahidiV2\Jobs\ImportForms($importId, $dbConfig, $this->extraParams));
 
         // Import users
         $this->info('Importing users');
@@ -107,7 +119,9 @@ class ImportUshahidiV2Command extends Command
 
         // Import categories
         $this->info('Importing categories');
-        $this->dispatcher->dispatchNow(new ImportUshahidiV2\Jobs\ImportCategories($importId, $dbConfig));
+        $this->dispatcher->dispatchNow(
+            new ImportUshahidiV2\Jobs\ImportCategories($importId, $dbConfig, $this->extraParams)
+        );
 
         // Import incidents to posts
         $this->info('Importing incidents to posts');

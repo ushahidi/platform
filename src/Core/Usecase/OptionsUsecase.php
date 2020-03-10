@@ -14,6 +14,7 @@ namespace Ushahidi\Core\Usecase;
 use Ushahidi\Core\Usecase;
 use Ushahidi\Core\Tool\AuthorizerTrait;
 use Ushahidi\Core\Tool\FormatterTrait;
+use Ushahidi\Core\Tool\TranslatorTrait;
 
 class OptionsUsecase implements Usecase
 {
@@ -21,7 +22,8 @@ class OptionsUsecase implements Usecase
     // setter method for the tool. For example, the AuthorizerTrait provides
     // a `setAuthorizer` method which only accepts `Authorizer` instances.
     use AuthorizerTrait,
-        FormatterTrait;
+        FormatterTrait,
+        TranslatorTrait;
 
     // - IdentifyRecords for setting entity lookup parameters
     use Concerns\IdentifyRecords;

@@ -74,9 +74,6 @@ class IncidentPostMapper implements Mapper
             'postContents' => $postContents
         ]);
         return new Post($postContents);
-
-        // NB: We don't map some data ie:
-        // - Custom form fields
     }
 
     public function getFormId($importId, $formId)
@@ -95,11 +92,15 @@ class IncidentPostMapper implements Mapper
 
     public function getAttributeKeyForColumn($importId, $formId, $column)
     {
-        Log::debug('[IncidentPostMapper:getAttributeKeyForColumn] Finding attribute key for column {importId},{formId},{column}', [
-            'importId' => $importId,
-            'formId' => $formId,
-            'column' => $column
-        ]);
+        Log::debug(
+            '[IncidentPostMapper:getAttributeKeyForColumn] '.
+            'Finding attribute key for column {importId},{formId},{column}',
+            [
+                'importId' => $importId,
+                'formId' => $formId,
+                'column' => $column
+            ]
+        );
 
         $cacheKey = serialize([$importId, $formId, $column]);
         if (!$this->attributeKeyForColumnCache->has($cacheKey)) {
@@ -135,6 +136,12 @@ class IncidentPostMapper implements Mapper
         } else {
             $result = $this->attributeKeyForFieldCache->get($cacheKey);
         }
+
+        Log::debug('Mapping v2 attribute field with id {v2FieldId} with result {result}', [
+            'v2FieldId' => $field,
+            'result' => $result
+        ]);
+
         return $result;
     }
 
@@ -178,13 +185,18 @@ class IncidentPostMapper implements Mapper
                     $response->field_isdate
                 );
 
-                Log::debug('Response {id} to {form_field_id} is of type {field_type} -> mapped to {v3AttrInput} and {v3Type}', [
-                    'id' => $response->id,
-                    'form_field_id' => $response->form_field_id,
-                    'field_type' => $response->field_type,
-                    'v3AttrInput' => $v3AttrInput,
-                    'v3Type' => $v3Type
-                ]);
+                Log::debug(
+                    'Response {id} to {form_field_id} is of type {field_type} -> '.
+                    'mapped to {v3AttrInput} and {v3Type} with key {v3Key}',
+                    [
+                        'id' => $response->id,
+                        'form_field_id' => $response->form_field_id,
+                        'field_type' => $response->field_type,
+                        'v3AttrInput' => $v3AttrInput,
+                        'v3Type' => $v3Type,
+                        'v3Key' => $key
+                    ]
+                );
 
                 $value = $this->stringToDatatype($response->form_response, $v3Type);
 
@@ -213,7 +225,7 @@ class IncidentPostMapper implements Mapper
 
         $result = collect($categories)->map(function ($item) use ($importId) {
             return $this->getCategory($importId, $item);
-        })->all();
+        })->unique()->all();
         Log::debug('[IncidentPostMapper:getCategories] Result of category mapping {result}', [
             'result' => $result
         ]);
@@ -264,7 +276,8 @@ class IncidentPostMapper implements Mapper
             ->all();
     }
 
-    protected function stringToDatatype($data, $type) {
+    protected function stringToDatatype($data, $type)
+    {
         switch ($type) {
             case 'text':
             case 'varchar':

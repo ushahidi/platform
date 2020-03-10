@@ -15,6 +15,7 @@ use Illuminate\Contracts\Events\Dispatcher;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
+use Illuminate\Contracts\Translation\Translator;
 
 class ReceiveMessageSpec extends ObjectBehavior
 {
@@ -25,7 +26,8 @@ class ReceiveMessageSpec extends ObjectBehavior
         CreateRepository $repo,
         ContactRepository $contactRepo,
         Validator $contactValid,
-        Dispatcher $dispatcher
+        Dispatcher $dispatcher,
+        Translator $translator
     ) {
         $contactRepo->beADoubleOf('Ushahidi\Core\Usecase\CreateRepository');
 
@@ -36,6 +38,8 @@ class ReceiveMessageSpec extends ObjectBehavior
         $this->setValidator($valid);
         $this->setContactValidator($contactValid);
         $this->setDispatcher($dispatcher);
+        $this->setTranslator($translator);
+
     }
 
     function it_is_initializable()

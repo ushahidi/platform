@@ -17,6 +17,8 @@ class ImportUsers extends Job
 
     protected $importId;
     protected $dbConfig;
+    protected $mappingRepo;
+    protected $destRepo;
 
     /**
      * Create a new job instance.
@@ -33,7 +35,7 @@ class ImportUsers extends Job
      * Create temporary table for joining. The purpose is to simplify and speed up
      * the main query for this class.
      */
-    private function collect_user_to_rolelist_table()
+    private function collectUserToRolelistTable()
     {
         $this->getConnection()->insert(
             DB::RAW("
@@ -54,6 +56,42 @@ class ImportUsers extends Job
         );
     }
 
+    protected function handleExisting(Collection $sourceData)
+    {
+        //
+        $grouped = $sourceData->mapToGroups(function ($item) {
+            Log::debug("Processing user {}", [$item]);
+            $match = $this->destRepo->getByEmail($item->email);
+            if ($match->id) {
+                Log::debug("Matched to {}", [$match]);
+                return [
+                    'existing' => new ImportUshahidiV2\ImportMapping([
+                        'import_id' => $this->importId,
+                        'source_type' => 'user',
+                        'source_id' => $item->id,
+                        'dest_type' => 'users',
+                        'dest_id' => $match->id,
+                        'established_by' => 'duplicate-detection',
+                    ])
+                ];
+            } else {
+                return [ 'new' => $item ];
+            }
+        });
+
+        // Create mapping entries for the matched emails
+        if ($grouped->has('existing')) {
+            $this->mappingRepo->createMany($grouped['existing']);
+        }
+
+        // Return the new data to continue the import process with it
+        if ($grouped->has('new')) {
+            return $grouped['new'];
+        } else {
+            return new Collection();
+        }
+    }
+
     /**
      * Execute the job.
      *
@@ -72,8 +110,11 @@ class ImportUsers extends Job
             $destRepo
         );
 
+        $this->mappingRepo = $mappingRepo;
+        $this->destRepo = $destRepo;
+
         // Set up temporal clean incident_person table
-        $this->collect_user_to_rolelist_table();
+        $this->collectUserToRolelistTable();
 
         $batch = 0;
         // While there are users left
@@ -92,6 +133,8 @@ class ImportUsers extends Job
                 // Break out of the loop
                 break;
             }
+
+            $sourceUsers = $this->handleExisting($sourceUsers);
 
             $created = $importer->run($this->importId, $sourceUsers);
 
