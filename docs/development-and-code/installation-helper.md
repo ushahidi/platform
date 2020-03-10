@@ -1,6 +1,6 @@
 # ⚙️ Installation Helper‌
 
-To make it easier for users to identify and solve common problems during the installation process, Platform bundles an installation helper utility that can be used in case of need. 
+We are introducing a new feature to make it easier for open source deployers to identify and solve common problems during the installation process. To achieve this goal, the Ushahidi Platform now bundles an installation helper utility that can be used to gain information about the state of the installation.
 
 ## Overview
 
@@ -23,15 +23,15 @@ To access the verifier:
 gulp dev:verifier
 ```
 
-5. then add `/verifier` after the main URL address of your deployment.
+1. then add `/verifier` after the main URL address of your deployment.
 
 {% hint style="info" %}
- For instance, if the address of your deployment is _https://ushahidi.example.com_ , the helper will be available at this address: _https://ushahidi.example.com**/verifier**_ 
+For instance, if the address of your deployment is [https://ushahidi.example.com](https://ushahidi.example.com) , the helper will be available at this address: [https://ushahidi.example.com\*\*/verifier\*\*](https://ushahidi.example.com**/verifier**)
 {% endhint %}
 
-![](../.gitbook/assets/screenshot-2019-09-17-at-08.05.51.png)
+![](../.gitbook/assets/screenshot-2019-09-17-at-08.05.51-1.png)
 
-### For developers 
+### For developers
 
 Developers and advanced users that work with the source code, have an additional method for invoking the helper.
 
@@ -59,7 +59,7 @@ Although the installation helper is a client-side utility, it is able to direct 
 
 Some of those API-side tests may reveal security sensitive information about the internals of the service, and for that reason are not enabled by default. On your first run of the helper, you will probably see messages similar to this one:
 
-![The Installation Helper reporting some checks are disabled in the API](../.gitbook/assets/screenshot-2019-09-13-at-14.16.23.png)
+![The Installation Helper reporting some checks are disabled in the API](../.gitbook/assets/screenshot-2019-09-13-at-14.16.23-1.png)
 
 What this means is that in order for the helper to run those tests, the "Installation Debug" mode needs to be enabled on the API-side. In order to do that, you'd need to
 

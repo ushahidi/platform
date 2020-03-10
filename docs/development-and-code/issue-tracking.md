@@ -4,11 +4,11 @@ description: All tasks are filed as issues in github.
 
 # Track and submit issues in Github
 
-### Track issues in Github
+## Track issues in Github
 
-We log all our issues concerning development and documentation for the Ushahidi Platform in the [Platform-repository](https://github.com/ushahidi/platform/issues).  Issues marked with [Community-task](https://github.com/ushahidi/platform/labels/Community%20Task) are issues that are up for grabs for any community-member.
+We log all our issues concerning development and documentation for the Ushahidi Platform in the [Platform-repository](https://github.com/ushahidi/platform/issues). Issues marked with [Community-task](https://github.com/ushahidi/platform/labels/Community%20Task) are issues that are up for grabs for any community-member.
 
-### Submit issues in GitHub
+## Submit issues in GitHub
 
 To submit issues in GitHub for the Ushahidi Platform, please go to [https://github.com/ushahidi/platform/issues](https://github.com/ushahidi/platform/issues) and click on the "New Issue" button, _or_ follow [this link](https://github.com/ushahidi/platform/issues/new/choose).
 

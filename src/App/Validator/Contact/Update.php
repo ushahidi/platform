@@ -65,12 +65,12 @@ class Update extends LegacyValidator
         // Valid Email?
         if (isset($data['type']) and
             $data['type'] == Contact::EMAIL and
-             ! \Kohana\Validation\Valid::email($contact) ) {
+             ! \Kohana\Validation\Valid::email($contact)) {
             return $validation->error('contact', 'invalid_email', [$contact]);
         // Valid Phone?
         // @todo Look at using libphonenumber to validate international numbers
         } elseif (isset($data['type']) and
-            $data['type'] == Contact::PHONE ) {
+            $data['type'] == Contact::PHONE) {
             // Remove all non-digit characters from the number
             $number = preg_replace('/\D+/', '', $contact);
 

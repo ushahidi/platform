@@ -36,7 +36,7 @@ All allowed scopes for this type: "posts country\_codes media forms api tags sav
 
 {% endapi-method-response-example-description %}
 
-```
+```text
 
 ```
 {% endapi-method-response-example %}
@@ -68,8 +68,8 @@ The client secret you added for your deployment in the database. Default value: 
 
 {% endapi-method-response-example-description %}
 
-```
-    
+```text
+
 ```
 {% endapi-method-response-example %}
 {% endapi-method-response %}
@@ -100,7 +100,7 @@ The client secret you added for your deployment in the database. Default value: 
 
 {% endapi-method-response-example-description %}
 
-```
+```text
 
 ```
 {% endapi-method-response-example %}
@@ -208,7 +208,7 @@ example: youremail@example.com
 
 {% endapi-method-response-example-description %}
 
-```
+```text
 This response is sent when the password reset email is going to be sent (as long as the email exists)
 ```
 {% endapi-method-response-example %}
@@ -261,7 +261,7 @@ The reset token sent by email
 
 {% endapi-method-response-example-description %}
 
-```
+```text
 
 ```
 {% endapi-method-response-example %}
@@ -275,7 +275,7 @@ Register a new user
 {% endapi-method-summary %}
 
 {% api-method-description %}
-Register your Ushahidi platform users with this endpoint. 
+Register your Ushahidi platform users with this endpoint.
 {% endapi-method-description %}
 
 {% api-method-spec %}
@@ -293,7 +293,7 @@ Register your Ushahidi platform users with this endpoint.
 
 {% endapi-method-response-example-description %}
 
-```
+```text
 
 ```
 {% endapi-method-response-example %}
@@ -307,7 +307,7 @@ Get Collections
 {% endapi-method-summary %}
 
 {% api-method-description %}
-  
+
 {% endapi-method-description %}
 
 {% api-method-spec %}
@@ -384,8 +384,6 @@ Bearer &lt;your-auth-token&gt;
 {% endapi-method-response %}
 {% endapi-method-spec %}
 {% endapi-method %}
-
-
 
 {% api-method method="get" host="https://ushahididocs.api.ushahidi.io" path="/api/v3/posts?order=desc&orderby=created&set=15" %}
 {% api-method-summary %}
@@ -540,8 +538,6 @@ Options: desc, asc
 {% endapi-method-response %}
 {% endapi-method-spec %}
 {% endapi-method %}
-
-
 
 {% api-method method="post" host="https://ushahididocs.api.ushahidi.io" path="/api/v3/collections" %}
 {% api-method-summary %}
@@ -741,7 +737,7 @@ Bearer &lt;your-auth-token&gt;
 
 {% endapi-method-response-example-description %}
 
-```
+```text
 Success
 ```
 {% endapi-method-response-example %}
@@ -751,7 +747,7 @@ Success
 
 {% endapi-method-response-example-description %}
 
-```
+```text
 The Collection id is incorrect
 ```
 {% endapi-method-response-example %}
@@ -760,136 +756,10 @@ The Collection id is incorrect
 {% endapi-method %}
 
 {% api-method method="get" host="https://ushahididocs.api.ushahidi.io" path="/api/v3/config" %}
-{% api-method-summary %}
-Get site configuration  
-{% endapi-method-summary %}
-
-{% api-method-description %}
-
-{% endapi-method-description %}
-
-{% api-method-spec %}
-{% api-method-request %}
-
-{% api-method-response %}
-{% api-method-response-example httpCode=200 %}
-{% api-method-response-example-description %}
-
-{% endapi-method-response-example-description %}
-
-```javascript
-{
-    "count": 3,
-    "results": [
-        {
-            "id": "features",
-            "url": "https:\/\/ushahididocs.api.ushahidi.io\/api\/v3\/config\/features",
-            "views": {
-                "data": true,
-                "map": true,
-                "list": true,
-                "chart": true,
-                "timeline": true,
-                "activity": true,
-                "plan": true
-            },
-            "data-providers": {
-                "smssync": true,
-                "twitter": true,
-                "frontlinesms": true,
-                "email": true,
-                "outgoingemail": true,
-                "twilio": true,
-                "nexmo": true,
-                "testservice": false
-            },
-            "limits": {
-                "posts": true,
-                "forms": true,
-                "admin_users": true
-            },
-            "private": {
-                "enabled": true
-            },
-            "roles": {
-                "enabled": true
-            },
-            "webhooks": {
-                "enabled": true
-            },
-            "data-import": {
-                "enabled": true
-            },
-            "targeted-surveys": {
-                "enabled": false
-            },
-            "csv-speedup": {
-                "enabled": false
-            },
-            "hxl": {
-                "enabled": false
-            },
-            "user-settings": {
-                "enabled": false
-            },
-            "anonymise-reporters": {
-                "enabled": true
-            },
-            "allowed_privileges": [
-                "read",
-                "search"
-            ]
-        },
-        {
-            "id": "site",
-            "url": "https:\/\/ushahididocs.api.ushahidi.io\/api\/v3\/config\/site",
-            "name": "ushahididocs",
-            "description": "",
-            "email": "",
-            "timezone": "UTC",
-            "language": "en-US",
-            "date_format": "n\/j\/Y",
-            "client_url": false,
-            "first_login": true,
-            "tier": "demo_1",
-            "private": false,
-            "expiration_date": "2018-12-22 04:12:53",
-            "allowed_privileges": [
-                "read",
-                "search"
-            ]
-        },
-        {
-            "id": "map",
-            "url": "https:\/\/ushahididocs.api.ushahidi.io\/api\/v3\/config\/map",
-            "clustering": true,
-            "cluster_radius": 50,
-            "location_precision": 2,
-            "default_view": {
-                "lat": -1.3048035,
-                "lon": 36.8473969,
-                "zoom": 2,
-                "baselayer": "MapQuest",
-                "fit_map_boundaries": true,
-                "icon": "map-marker",
-                "color": "blue"
-            },
-            "allowed_privileges": [
-                "read",
-                "search"
-            ]
-        }
-    ]
-}
-```
-{% endapi-method-response-example %}
-{% endapi-method-response %}
-{% endapi-method-spec %}
-{% endapi-method %}
 
 {% api-method method="get" host="https://ushahididocs.api.ushahidi.io" path="/api/v3/contacts/:contactId" %}
 {% api-method-summary %}
-Get contacts 
+
 {% endapi-method-summary %}
 
 {% api-method-description %}
@@ -945,7 +815,7 @@ Bearer: &lt;your-auth-token&gt;
 
 {% endapi-method-response-example-description %}
 
-```
+```text
 Incorrect contact id
 ```
 {% endapi-method-response-example %}
@@ -959,7 +829,7 @@ Get country codes
 {% endapi-method-summary %}
 
 {% api-method-description %}
-This is only used to get a list of country codes that we can use for the UI of targeted surveys, a SaaS platform feature for sending surveys in steps to groups of people that they can respond to from their phones.  
+This is only used to get a list of country codes that we can use for the UI of targeted surveys, a SaaS platform feature for sending surveys in steps to groups of people that they can respond to from their phones.
 {% endapi-method-description %}
 
 {% api-method-spec %}
@@ -983,7 +853,7 @@ Bearer &lt;your-auth-token&gt;
 Example response with 5 countries and their code
 {% endapi-method-response-example-description %}
 
-```
+```text
 {
     "count": 246,
     "results": [
@@ -1058,7 +928,7 @@ Example response with 5 countries and their code
 {% endapi-method-spec %}
 {% endapi-method %}
 
-### CSV Exports and Imports
+## CSV Exports and Imports
 
 {% api-method method="get" host="https://ushahididocs.api.ushahidi.io" path="/api/v3/exports/jobs?user=me" %}
 {% api-method-summary %}
@@ -1096,15 +966,13 @@ Value: me
 
 {% endapi-method-response-example-description %}
 
-```
+```text
 
 ```
 {% endapi-method-response-example %}
 {% endapi-method-response %}
 {% endapi-method-spec %}
 {% endapi-method %}
-
-
 
 {% api-method method="put" host="https://ushahididocs.api.ushahidi.io" path="/api/v3/csv/:id/import" %}
 {% api-method-summary %}
@@ -1136,7 +1004,7 @@ Value: me
 
 {% endapi-method-response-example-description %}
 
-```
+```text
 {
     "id": 19,
     "url": "https:\/\/ushahididocs.api.ushahidi.io\/api\/v3\/csv\/19",
@@ -1182,7 +1050,7 @@ Value: me
 {% endapi-method-spec %}
 {% endapi-method %}
 
-### Dataproviders \(Datasources in the UI, read only config\)
+## Dataproviders \(Datasources in the UI, read only config\)
 
 {% api-method method="get" host="https://ushahididocs.api.ushahidi.io" path="/api/v3/dataproviders/\[:id\]" %}
 {% api-method-summary %}
@@ -1561,7 +1429,7 @@ Bearer: &lt;your-auth-token&gt;
 {% endapi-method-spec %}
 {% endapi-method %}
 
-### Forms \(Surveys\)
+## Forms \(Surveys\)
 
 {% api-method method="get" host="https://ushahididocs.api.ushahidi.io" path="/api/v3/forms" %}
 {% api-method-summary %}
@@ -1781,7 +1649,7 @@ Bearer: &lt;your-auth-token&gt;
 
 {% api-method method="get" host="https://ushahididocs.api.ushahidi.io" path="/api/v3/forms/:id" %}
 {% api-method-summary %}
-Get all  options for one survey
+Get all options for one survey
 {% endapi-method-summary %}
 
 {% api-method-description %}
@@ -1870,15 +1738,13 @@ Bearer: &lt;your-auth-token&gt;
 
 {% endapi-method-response-example-description %}
 
-```
+```text
 If the survey does not exist, a 404 will be raised
 ```
 {% endapi-method-response-example %}
 {% endapi-method-response %}
 {% endapi-method-spec %}
 {% endapi-method %}
-
-
 
 {% api-method method="get" host="https://ushahididocs.api.ushahidi.io" path="/api/v3/forms/:id/attributes" %}
 {% api-method-summary %}
@@ -2060,15 +1926,13 @@ Bearer: &lt;your-auth-token&gt;
 
 {% endapi-method-response-example-description %}
 
-```
+```text
 If the survey does not exist, a 404 will be raised
 ```
 {% endapi-method-response-example %}
 {% endapi-method-response %}
 {% endapi-method-spec %}
 {% endapi-method %}
-
-
 
 {% api-method method="get" host="https://ushahididocs.api.ushahidi.io" path="/api/v3/forms/:id/stages" %}
 {% api-method-summary %}
@@ -2162,15 +2026,13 @@ Bearer: &lt;your-auth-token&gt;
 
 {% endapi-method-response-example-description %}
 
-```
+```text
 If the survey does not exist, a 404 will be raised
 ```
 {% endapi-method-response-example %}
 {% endapi-method-response %}
 {% endapi-method-spec %}
 {% endapi-method %}
-
-
 
 {% api-method method="get" host="https://ushahididocs.api.ushahidi.io" path="/api/v3/forms/:id/stats" %}
 {% api-method-summary %}
@@ -2234,15 +2096,13 @@ Bearer: &lt;your-auth-token&gt;
 
 {% endapi-method-response-example-description %}
 
-```
+```text
 If the survey does not exist, a 404 will be raised
 ```
 {% endapi-method-response-example %}
 {% endapi-method-response %}
 {% endapi-method-spec %}
 {% endapi-method %}
-
-
 
 {% api-method method="get" host="https://ushahididocs.api.ushahidi.io" path="/api/v3/forms/:id/roles" %}
 {% api-method-summary %}
@@ -2309,7 +2169,7 @@ Bearer: &lt;your-auth-token&gt;
 
 {% endapi-method-response-example-description %}
 
-```
+```text
 If the survey does not exist, a 404 will be raised
 ```
 {% endapi-method-response-example %}
@@ -2317,17 +2177,13 @@ If the survey does not exist, a 404 will be raised
 {% endapi-method-spec %}
 {% endapi-method %}
 
-
-
 {% api-method method="post" host="https://ushahididocs.api.ushahidi.io" path="/api/v3/forms" %}
 {% api-method-summary %}
 Create a survey
 {% endapi-method-summary %}
 
 {% api-method-description %}
-Create a survey in the backend.   
-- when using \`tasks.$n.id\` substitute $n for the task number.   
-- when setting the task id, use a naming scheme like "interim\_id\_$n for consistency.  
+Create a survey in the backend.
 {% endapi-method-description %}
 
 {% api-method-spec %}
@@ -2358,7 +2214,7 @@ Is the task open to everyone? Default: true
 {% endapi-method-parameter %}
 
 {% api-method-parameter name="tasks.$n.attributes" type="array" required=false %}
-A list of attributes for the task. Takes the same options as form attributes for each. 
+A list of attributes for the task. Takes the same options as form attributes for each.
 {% endapi-method-parameter %}
 
 {% api-method-parameter name="tasks.$n.task\_is\_internal\_only" type="boolean" required=false %}
@@ -2409,7 +2265,7 @@ The survey color \(shown in map and data view\)
 
 {% endapi-method-response-example-description %}
 
-```
+```text
 {
     "id": 11,
     "url": "https:\/\/ushahididocs.api.ushahidi.io\/api\/v3\/forms\/11",
@@ -2443,17 +2299,13 @@ The survey color \(shown in map and data view\)
 {% endapi-method-spec %}
 {% endapi-method %}
 
-
-
 {% api-method method="put" host="https://ushahididocs.api.ushahidi.io" path="/api/v3/forms/:form\_id" %}
 {% api-method-summary %}
 Update a survey \(example adding a new field\)
 {% endapi-method-summary %}
 
 {% api-method-description %}
-Create a survey in the backend.   
-- when using \`tasks.$n.id\` substitute $n for the task number.   
-- when setting the task id, use a naming scheme like "interim\_id\_$n for consistency.  
+Create a survey in the backend.
 {% endapi-method-description %}
 
 {% api-method-spec %}
@@ -2484,7 +2336,7 @@ Is the task open to everyone? Default: true
 {% endapi-method-parameter %}
 
 {% api-method-parameter name="tasks.$n.attributes" type="array" required=false %}
-A list of attributes for the task. Takes the same options as form attributes for each. 
+A list of attributes for the task. Takes the same options as form attributes for each.
 {% endapi-method-parameter %}
 
 {% api-method-parameter name="tasks.$n.task\_is\_internal\_only" type="boolean" required=false %}
@@ -2535,7 +2387,7 @@ The survey color \(shown in map and data view\)
 
 {% endapi-method-response-example-description %}
 
-```
+```text
 {
     "id": 11,
     "url": "https:\/\/ushahididocs.api.ushahidi.io\/api\/v3\/forms\/11",
@@ -2568,8 +2420,6 @@ The survey color \(shown in map and data view\)
 {% endapi-method-response %}
 {% endapi-method-spec %}
 {% endapi-method %}
-
-
 
 {% api-method method="delete" host="https://ushahididocs.api.ushahidi.io" path="/api/v3/forms/:form\_id" %}
 {% api-method-summary %}
@@ -2601,7 +2451,7 @@ Bearer: &lt;your-auth-token&gt;
 
 {% endapi-method-response-example-description %}
 
-```
+```text
 {
     "id": 11,
     "url": "https:\/\/ushahididocs.api.ushahidi.io\/api\/v3\/forms\/11",
@@ -2634,8 +2484,6 @@ Bearer: &lt;your-auth-token&gt;
 {% endapi-method-response %}
 {% endapi-method-spec %}
 {% endapi-method %}
-
-
 
 {% api-method method="post" host="https://ushahididocs.api.ushahidi.io" path="/api/v3/messages" %}
 {% api-method-summary %}
@@ -2679,15 +2527,13 @@ The message you want to send
 
 {% endapi-method-response-example-description %}
 
-```
+```text
 
 ```
 {% endapi-method-response-example %}
 {% endapi-method-response %}
 {% endapi-method-spec %}
 {% endapi-method %}
-
-
 
 {% api-method method="get" host="https://ushahididocs.api.ushahidi.io" path="/api/v3/messages" %}
 {% api-method-summary %}
@@ -2735,15 +2581,13 @@ The contact id. You can get it from the post the message is linked to.
 
 {% endapi-method-response-example-description %}
 
-```
+```text
 
 ```
 {% endapi-method-response-example %}
 {% endapi-method-response %}
 {% endapi-method-spec %}
 {% endapi-method %}
-
-
 
 {% api-method method="get" host="https://ushahididocs.api.ushahidi.io" path="/api/v3/messages/:messageId/post" %}
 {% api-method-summary %}
@@ -2791,7 +2635,7 @@ The contact id. You can get it from the post the message is linked to.
 
 {% endapi-method-response-example-description %}
 
-```
+```text
 
 ```
 {% endapi-method-response-example %}
@@ -2805,7 +2649,7 @@ Create a new post
 {% endapi-method-summary %}
 
 {% api-method-description %}
-Create a new post in the ushahidi platform. This method works with a user's password\_grant token or with a client\_credentials token generated with the client id and secret.  
+Create a new post in the ushahidi platform. This method works with a user's password\_grant token or with a client\_credentials token generated with the client id and secret.
 {% endapi-method-description %}
 
 {% api-method-spec %}
@@ -2818,11 +2662,11 @@ Bearer: &lt;your-auth-token&gt;
 
 {% api-method-body-parameters %}
 {% api-method-parameter name="form" type="object" required=true %}
-Format: {id: &lt;formId&gt;}  . Sending the id of the form we want to add posts to is required.
+Format: {id: &lt;formId&gt;} . Sending the id of the form we want to add posts to is required.
 {% endapi-method-parameter %}
 
 {% api-method-parameter name="values" type="object" required=true %}
-a key:value map of fields and their content. This is used for all fields other than content and title and follows the format fieldKey: value.  You can get a field's get by requesting all attributes of a form. Can be an empty object literal if a form has no other fields.
+a key:value map of fields and their content. This is used for all fields other than content and title and follows the format fieldKey: value. You can get a field's get by requesting all attributes of a form. Can be an empty object literal if a form has no other fields.
 {% endapi-method-parameter %}
 
 {% api-method-parameter name="content" type="string" required=true %}
@@ -2830,8 +2674,7 @@ The post's description field
 {% endapi-method-parameter %}
 
 {% api-method-parameter name="title" type="string" required=true %}
-The post's title field  
-  
+The post's title field
 {% endapi-method-parameter %}
 {% endapi-method-body-parameters %}
 {% endapi-method-request %}
@@ -2842,7 +2685,7 @@ The post's title field
 
 {% endapi-method-response-example-description %}
 
-```
+```text
 Success
 ```
 {% endapi-method-response-example %}
@@ -2850,15 +2693,13 @@ Success
 {% endapi-method-spec %}
 {% endapi-method %}
 
-Example payload: 
+Example payload:
 
 {"title":"My title","content":"My content","values":{},"form":{"id":4}}
 
-
-
 {% api-method method="get" host="https://ushahididocs.api.ushahidi.io" path="/api/v3/posts" %}
 {% api-method-summary %}
-Get Posts 
+Get Posts
 {% endapi-method-summary %}
 
 {% api-method-description %}
@@ -2998,6 +2839,4 @@ Options: desc, asc
 {% endapi-method-response %}
 {% endapi-method-spec %}
 {% endapi-method %}
-
-
 
