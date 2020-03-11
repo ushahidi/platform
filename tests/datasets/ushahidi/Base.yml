@@ -16,10 +16,6 @@ roles:
     display_name: "Manager"
     protected: 0
   -
-    name: "settingsmanager"
-    display_name: "Settings Manager"
-    protected: 0
-  -
     name: "sets"
     display_name: "Sets"
     protected: 0
@@ -30,6 +26,10 @@ roles:
   -
     name: "noedit"
     display_name: "User cant edit posts"
+    protected: 0
+  -
+    name: "settingsmanager"
+    display_name: "Settings Manager"
     protected: 0
 users:
   -
