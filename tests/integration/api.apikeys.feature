@@ -55,3 +55,14 @@ Feature: Testing the ApiKey API
         And the type of the "count" property is "numeric"
         And the "count" property equals "1"
         Then the guzzle status code should be 200
+
+    @rolesEnabled
+    Scenario: User with Manage Settings permissions can list Apikeys
+        Given that I want to get all "Apikeys"
+        And that the oauth token is "testmanager"
+        When I request "/apikeys"
+        Then the response is JSON
+        And the response has a "count" property
+        And the type of the "count" property is "numeric"
+        And the "count" property equals "1"
+        Then the guzzle status code should be 200
