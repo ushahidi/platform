@@ -57,9 +57,9 @@ Feature: Testing the ApiKey API
         Then the guzzle status code should be 200
 
     @rolesEnabled
-    Scenario: User with Manage Settings permissions can list Apikeys
+    Scenario: User with only Manage Settings permission can list Apikeys
         Given that I want to get all "Apikeys"
-        And that the oauth token is "testmanager"
+        And that the oauth token is "testsettingsmanager"
         When I request "/apikeys"
         Then the response is JSON
         And the response has a "count" property

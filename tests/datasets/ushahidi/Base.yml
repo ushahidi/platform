@@ -16,6 +16,10 @@ roles:
     display_name: "Manager"
     protected: 0
   -
+    name: "settings-manager"
+    display_name: "Settings Manager"
+    protected: 0
+  -
     name: "sets"
     display_name: "Sets"
     protected: 0
@@ -82,6 +86,12 @@ users:
     realname: Sets
     email: "sets@ushahidi.com"
     role: "sets"
+  -
+    id: 10
+    password: "$2y$15$iWANGZn.DomLWU.YtjUcX.HEq1hoMGauzXFRubKgar/BRaAj9zQ9q"
+    realname: Settings Manager
+    email: "s.manager@ushahidi.com"
+    role: "settings-manager"
 user_settings:
  -
    id: 1
@@ -1674,6 +1684,12 @@ oauth_access_tokens:
     user_id: 9
     scopes: '["*"]'
     expires_at: "2031-01-01"
+  -
+    id: testsettingsmanager
+    client_id: demoapp
+    user_id: 10
+    scopes: '["*"]'
+    expires_at: "2031-01-01"
 
 oauth_refresh_tokens:
 oauth_personal_access_clients:
@@ -2243,6 +2259,9 @@ roles_permissions:
     permission: Manage Posts
   -
     role: manager
+    permission: Manage Settings
+  -
+    role: settings-manager
     permission: Manage Settings
   -
     role: sets
