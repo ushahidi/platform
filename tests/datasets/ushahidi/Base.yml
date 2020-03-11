@@ -16,7 +16,7 @@ roles:
     display_name: "Manager"
     protected: 0
   -
-    name: "settings-manager"
+    name: "settingsmanager"
     display_name: "Settings Manager"
     protected: 0
   -
@@ -90,8 +90,8 @@ users:
     id: 10
     password: "$2y$15$iWANGZn.DomLWU.YtjUcX.HEq1hoMGauzXFRubKgar/BRaAj9zQ9q"
     realname: Settings Manager
-    email: "s.manager@ushahidi.com"
-    role: "settings-manager"
+    email: "settingsmanager@ushahidi.com"
+    role: "settingsmanager"
 user_settings:
  -
    id: 1
@@ -2261,7 +2261,7 @@ roles_permissions:
     role: manager
     permission: Manage Settings
   -
-    role: settings-manager
+    role: settingsmanager
     permission: Manage Settings
   -
     role: sets
