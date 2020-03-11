@@ -14,7 +14,7 @@ If you are in a shared hosting solution and not sure if it supports Ushahidi, yo
 
 The installation procedure will vary depending on your setup, but the requirements in all cases are
 
-* PHP &gt;=7.0 &lt;=7.1.
+* PHP 7.2 or 7.3.
 * A web server that supports PHP. This can be apache 2 or nginx.
 * PHP invokable from command line
 * The following PHP modules installed:
