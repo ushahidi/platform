@@ -1,28 +1,17 @@
-sudo: false
-dist: precise
 #notifications:
 #  slack:
 #    secure: NxhzhKGYnZYZiWVZM4w1PlZpTy9bbmNlvbqjL+9d4PvK4hFzPwQU12CchhBPeXNGLWBHg/ti6Scn/t5XIS3YJrkk4ydWmJBht5UId8uFZ1A7GCUnNNPTt2RG55lbJJdZSj01rOGZjEQbE5RyckEjgRzhZjdZ+HsjoPaRzWIBrvE=
 language: php
 php:
-- '7.0'
-- '7.1'
 - '7.2'
-- 'nightly'
+- '7.3'
 env:
 - coverage="--coverage"
 - coverage=""
 matrix:
   exclude:
-  - php: '7.1'
+  - php: '7.3'
     env: coverage="--coverage"
-  - php: '7.2'
-    env: coverage="--coverage"
-  - php: 'nightly'
-    env: coverage="--coverage"
-  allow_failures:
-  - env: coverage="--coverage"
-  - php: 'nightly'
   fast_finish: true
 cache:
   directories:
@@ -31,6 +20,7 @@ services:
 - mysql
 before_install:
 - mysql -e 'CREATE DATABASE ushahidi;'
+- mysql -e "SET PASSWORD FOR travis@localhost = PASSWORD('password')";
 - mysql -e "select version();"
 - mysql -e "SET GLOBAL sql_mode = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'"
 - cp .env.travis .env

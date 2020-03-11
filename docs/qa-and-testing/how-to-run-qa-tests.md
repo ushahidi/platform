@@ -16,13 +16,9 @@ TestPad houses a comprehensive test suite that cover most parts of the platform 
 
 [Regression tests](https://ushahidi.ontestpad.com/script/27#//) are more detailed and cover the application in its entirety.
 
-Tests in TestPad are structured in a checklist format. As you run the tests,you mark off every  item as either passing or failing. 
+Tests in TestPad are structured in a checklist format. As you run the tests,you mark off every item as either passing or failing.
 
 ![](https://lh6.googleusercontent.com/fnppiTQR_KbfZ231wPL9xR2qUhMbDcb2SZDE-kHm7HWaD_N7A5yzE9BU23HtvSX1hxXPROYP79eX6ZGPI_v0q8qg5JU9WE5Fjm6-Ani6AtRKFmWuZ24hr5aPS6off2agz5flE8GC)
 
-TestPad also allows for more details on a test including when the test was run, who run it, and relevant statistics i.e passing tests and failing tests as percentages.  
-  
-  
-  
-****
+TestPad also allows for more details on a test including when the test was run, who run it, and relevant statistics i.e passing tests and failing tests as percentages.
 

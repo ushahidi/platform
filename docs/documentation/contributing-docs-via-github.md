@@ -14,7 +14,7 @@ Further down the road, once you have proposed some changes, we will ask you to a
 
 While browsing GitBook, you will find a "Edit on GitHub" button
 
-![](../.gitbook/assets/github-1.png)
+![](../.gitbook/assets/github-1%20%281%29.png)
 
 This will take you to github.com , where you will see the same document, along with some action buttons. You would want to click the one looking like a pencil, as illustrated below:
 
@@ -42,11 +42,11 @@ This information provided in these two boxes is useful for the administrators so
 
 Once you are happy with your changes and proposal details. You would click the "Propose file change" button.
 
-![](../.gitbook/assets/github-6.png)
+![](../.gitbook/assets/github-6%20%281%29.png)
 
 You will be dropped into yet another summary view of your changes. There's really not much else you should review here, if you have reviewed your changes in previous steps. We suggest just to locate and click the "Create pull request" button.
 
-![](../.gitbook/assets/github-7.png)
+![](../.gitbook/assets/github-7%20%281%29.png)
 
 You will be dropped into the pull request opening screen. A pull request is the way developers refer to the petition of someone to apply changes to files in the repository. A pull request wraps together the whole process of requesting the changes, discussing them, and finally approving or rejecting the petition.
 
@@ -60,13 +60,11 @@ Once you click that button, your pull request will be submitted and available fo
 
 At some point they will also take the decision to accept \(or more unlikely, reject\) your contribution.
 
-![](../.gitbook/assets/github-9.png)
+![](../.gitbook/assets/github-9%20%281%29.png)
 
 In case this is your **first contribution**, you will be requested to sign the CLA \(Contributor License Agreement\). You will find a comment in the pull request, with the necessary instructions:
 
 ![](../.gitbook/assets/github-10.png)
 
 And this is it, at this point your documentation changes have been submitted and visible to administrators. Thank you very much!
-
-
 

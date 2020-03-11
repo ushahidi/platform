@@ -42,11 +42,11 @@ p {
 }
 ```
 
-### Nesting
+## Nesting
 
 Nesting is one of the best features in Sass, but it can be overused and create unwanted CSS. A best practice is to nest no more than 3 levels deep and to only nest classes when that relationship is absolutely necessary to declare in order to achieve the desired style. Nesting for the sake of organizing the stylesheet is discouraged.
 
-#### Sass
+### Sass
 
 ```text
 .unordered-list {
@@ -69,7 +69,7 @@ Nesting is one of the best features in Sass, but it can be overused and create u
 }
 ```
 
-#### Compiled CSS Output
+### Compiled CSS Output
 
 ```text
 .unordered-list {
@@ -86,11 +86,11 @@ Nesting is one of the best features in Sass, but it can be overused and create u
 }
 ```
 
-### Color Formats
+## Color Formats
 
 Hex is the default color format with RGBA being used when opacity is needed.
 
-#### Hex
+### Hex
 
 Hex values should be written in all caps.
 
@@ -106,7 +106,7 @@ Hex values should be written in all caps.
 }
 ```
 
-#### RGB
+### RGB
 
 When using RGB, single space after commas and no spaces after parentheses.
 
@@ -122,11 +122,11 @@ When using RGB, single space after commas and no spaces after parentheses.
 }
 ```
 
-### Numbers
+## Numbers
 
 Numbers should display leading zeros before a decimal value less than one and never display trailing zeros.
 
-#### Zeros:
+### Zeros:
 
 ```text
 // Yes
@@ -142,7 +142,7 @@ Numbers should display leading zeros before a decimal value less than one and ne
 }
 ```
 
-#### Units:
+### Units:
 
 ```text
 // Yes
@@ -152,7 +152,7 @@ $length: 2em;
 $length: 2;
 ```
 
-#### Calculations
+### Calculations
 
 ```text
 // Yes
@@ -166,11 +166,11 @@ $length: 2;
 }
 ```
 
-### Strings
+## Strings
 
 Single quotes should be used with strings.
 
-#### Font Stack Example:
+### Font Stack Example:
 
 ```text
 // Yes
@@ -183,7 +183,7 @@ $font-stack: "Helvetica Neue Light", "Helvetica", "Arial", sans-serif;
 $font-stack: Helvetica Neue Light, Helvetica, Arial, sans-serif;
 ```
 
-#### Image URL Example:
+### Image URL Example:
 
 ```text
 // Yes
@@ -197,7 +197,7 @@ $font-stack: Helvetica Neue Light, Helvetica, Arial, sans-serif;
 }
 ```
 
-### Commenting
+## Commenting
 
 Commenting is CSS is an essential practice that can help explain why and how code is written. Ushahidi's CSS commenting is simple.
 
@@ -208,9 +208,7 @@ Commenting is CSS is an essential practice that can help explain why and how cod
 }
 ```
 
-
-
-### Css Rulesets
+## Css Rulesets
 
 * related selectors on the same line; unrelated selectors on new lines;
 * the opening brace \({\) spaced from the last selector by a single space;
@@ -237,7 +235,7 @@ Commenting is CSS is an essential practice that can help explain why and how cod
     margin: 0 auto }
 ```
 
-### Letter Case Usage & Naming Conventions
+## Letter Case Usage & Naming Conventions
 
 When naming classes use lower case letters and a hypen between words.
 

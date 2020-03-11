@@ -14,8 +14,13 @@ use Prophecy\Argument;
 
 class SearchUsecaseSpec extends ObjectBehavior
 {
-    function let(Authorizer $auth, SearchData $search, Formatter $format, SearchRepository $repo, Translator $translator)
-    {
+    function let(
+        Authorizer $auth,
+        SearchData $search,
+        Formatter $format,
+        SearchRepository $repo,
+        Translator $translator
+    ) {
         $format->beADoubleOf('Ushahidi\Core\Tool\Formatter\CollectionFormatter');
 
         $this->setAuthorizer($auth);
@@ -23,7 +28,6 @@ class SearchUsecaseSpec extends ObjectBehavior
         $this->setFormatter($format);
         $this->setRepository($repo);
         $this->setTranslator($translator);
-
     }
 
     function it_is_initializable()
