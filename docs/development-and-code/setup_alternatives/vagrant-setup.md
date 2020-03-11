@@ -26,6 +26,7 @@ Please make sure you install everything in this list before you proceed with the
 * [Composer](https://getcomposer.org/doc/00-intro.md#system-requirements)
 * PHP &gt;=7.0 &lt;7.2 - if you are using Platform V4.0.0
 * PHP &gt;=7.1 &lt;7.4 - if you are using Platform V4.1.0 or later
+* PHP &gt;=7.2 &lt;7.4 - if you are using Platform V4.4.0 or later
 
 ### Getting the API Code
 

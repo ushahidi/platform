@@ -9,7 +9,7 @@
 ## Required software:
 
 * A linux-based system. We recommend using Ubuntu 16.04 or 18.04.
-* PHP: 7.1.x, running with php-fpm  \(PHP 7.2.x and 7.3.x are not 100% supported at the time, but may work\)
+* PHP: 7.2.x or 7.3.x, running with php-fpm
   * Make sure the same version of PHP is used in the CLI and FPM
 * PHP Extensions:
   * curl
