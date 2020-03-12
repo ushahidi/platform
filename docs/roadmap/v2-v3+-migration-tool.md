@@ -12,7 +12,7 @@ The initial version of the migration tool will be a CLI. It will be a tool that 
 
 After launching the first version, which we are committed to doing already, we will gather level of interest, do more research, and then re-bet if there is an appetite for it and strong interest of deployments who actually try and use it.
 
-We will be offering 10 courtesy migrations to Crowdmap SaaS or self-hosted deployments to enable us to understand the limitations of the tool with a wide array of datasets and to be able to gather how much  real interest there is in migrating to V3+.
+We will be offering 10 courtesy migrations to Crowdmap SaaS or self-hosted deployments to enable us to understand the limitations of the tool with a wide array of datasets and to be able to gather how much real interest there is in migrating to V3+.
 
 ### Tool requirements
 
@@ -42,10 +42,4 @@ We will be offering 10 courtesy migrations to Crowdmap SaaS or self-hosted deplo
 * New comments system
 * Claim system, Crowdmap ID 
 * Old V2 versions. A deployment should be in the latest V2 to be migrated.
-
-
-
-  
-  
-
 

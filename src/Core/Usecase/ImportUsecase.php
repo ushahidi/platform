@@ -19,7 +19,7 @@ use Ushahidi\Core\Tool\AuthorizerTrait;
 use Ushahidi\Core\Tool\FormatterTrait;
 use Ushahidi\Core\Tool\ValidatorTrait;
 use Ushahidi\Core\Tool\Transformer;
-
+use Ushahidi\Core\Tool\TranslatorTrait;
 use League\Event\ListenerInterface;
 use Ushahidi\Core\Traits\Event;
 
@@ -30,6 +30,7 @@ class ImportUsecase implements Usecase
     // a `setAuthorizer` method which only accepts `Authorizer` instances.
     use AuthorizerTrait,
         FormatterTrait,
+        TranslatorTrait,
         ValidatorTrait;
 
     // Use Event trait to trigger events

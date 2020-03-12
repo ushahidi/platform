@@ -9,9 +9,9 @@ description: >-
 
 If you feel adventurous you can go to the file [database/seeds/**AnswersTableSeeder.php**](https://github.com/ushahidi/platform-facebook-bot/blob/master/database/seeds/AnswersTableSeeder.php) **before** running the database seeds and migrations and change the wording of the questions. Please note, removing questions might cause the bot to break. You can change the wording of the questions, but not removing them.
 
-### The script
+## The script
 
-**When the user start  talking to the bot:**
+**When the user start talking to the bot:**
 
 * Hello! Welcome to {TITLE}
 * {NAME}  is creating an open‐source resilience platform help communities reconnect, respond to, and recover from crisis situations.
@@ -32,7 +32,7 @@ If you feel adventurous you can go to the file [database/seeds/**AnswersTableSee
 
 \[Add a location\] ← this is a button the user can click on
 
-**User selects option  “add an image”:**
+**User selects option “add an image”:**
 
 * Ok great! Just add a photo here like a normal chat, and I'll attach it to your report
 
@@ -56,7 +56,7 @@ If you feel adventurous you can go to the file [database/seeds/**AnswersTableSee
 
 * Ok, got it. Do you want to add an image to your report?
 
-**Or  \( if image is previously added\) :**
+**Or \( if image is previously added\) :**
 
 * Perfect! Do you want to send your report to us?
 
@@ -66,9 +66,7 @@ If you feel adventurous you can go to the file [database/seeds/**AnswersTableSee
 * A moderator will check your report before it is published to {NAME}
 * What do you want to do next?
 
- \[Send another report \] ← this is a button the user can click on \(report-flow starts again\)
+  \[Send another report \] ← this is a button the user can click on \(report-flow starts again\)
 
-\[Go to {NAME}\]← this is a button the user can click on \(link to the deployment\)  
-  
-
+\[Go to {NAME}\]← this is a button the user can click on \(link to the deployment\)
 

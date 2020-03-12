@@ -31,7 +31,7 @@ The two main components of the Ushahidi Platform are the API and the Client. We 
 * Install a Git client
   * A way to check if you have a Git client, is to open a terminal window and type the command `git` . If you receive an answer saying that the command is not found, you need to install.
   * There are several installation options suggested [here](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git).
-* Make sure you have PHP 7.1.x, running with php-fpm  \(PHP 7.2.x is not supported at the time\). 
+* Make sure you have PHP 7.2.x or 7.3.x, running with php-fpm
   * The following PHP Extensions are needed:
   * * curl
     * json
@@ -48,11 +48,10 @@ The two main components of the Ushahidi Platform are the API and the Client. We 
 
 **Some useful tutorials and links to get the prerequisites set up:**
 
-* Downgrading from php7.2 =&gt; php7.1 in Ubuntu \(added to this list 18/3-2019\): [https://gist.github.com/dosjota/9666a7274b4036588b92987b84267245](https://gist.github.com/dosjota/9666a7274b4036588b92987b84267245)
 * Installing Composer on Ubuntu \(added to this list 18/3-2019\): [https://www.digitalocean.com/community/tutorials/how-to-install-and-use-composer-on-ubuntu-18-04](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-composer-on-ubuntu-18-04)
 
 {% hint style="warning" %}
-Ensure that you download the XAMPP package containing the **appropriate PHP version**.  Check the [README](../../) for finding which one it is.
+Ensure that you download the XAMPP package containing the **appropriate PHP version**. Check the [README](../../) for finding which one it is.
 {% endhint %}
 
 * _Mac:_
@@ -135,8 +134,6 @@ We will configure the API now. We will do this continuing working on the same te
   * Linux and Mac: run `cp .env.example .env`
 * Open `.env` with your IDE or text editor. This file is located inside your platform folder. 
 
-
-
 {% hint style="info" %}
 Hint on Linux and Mac: You can run `sudo nano .env` to open up the nano text-editor in the terminal. When you are finished editing, press ctrl-x and then Y when asked if you want to save.
 {% endhint %}
@@ -156,7 +153,7 @@ On Windows File Explorer, the default is to hide the extension of the files \(th
   * This will create all the necessary tables and a default `admin` user with password `administrator`
 
 {% hint style="info" %}
-In the event your system is telling you that `composer` is not a known command,  you can try the following setup in the command line: 
+In the event your system is telling you that `composer` is not a known command, you can try the following setup in the command line:
 
 ```bash
 php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
@@ -268,7 +265,7 @@ We are going to need some extra concentration here, so read carefully.
   * _Mac: ..._
 * Now that we have the configuration file ready to edit, we are going to add a few lines at the bottom of that file. Those lines look like this:
 
-```
+```text
 <VirtualHost *:80>
   ServerAdmin webmaster@localhost
   DocumentRoot "<your platform folder here>"
@@ -338,7 +335,7 @@ We have a separate document just for setting up the client. But, before you jump
 
 At some point during the client set up, you will be asked to adjust the value of the variable `BACKEND_URL` . This is a variable that configures the client to send API requests to the right API backend.
 
-As a result of the steps followed in this guide, the URL for the API backend is http://api.ushahidi.test . So remember that your backend configuration line would be: `BACKEND_URL=http://api.ushahidi.test`
+As a result of the steps followed in this guide, the URL for the API backend is [http://api.ushahidi.test](http://api.ushahidi.test) . So remember that your backend configuration line would be: `BACKEND_URL=http://api.ushahidi.test`
 
 With that clarified, please find below the link to the client set up guide.
 

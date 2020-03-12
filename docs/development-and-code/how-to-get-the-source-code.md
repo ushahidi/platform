@@ -20,7 +20,7 @@ The Platform soure-code is found in the[ Platform Client repository](https://git
 
 To get the source-code, clone the code with:
 
-```
+```text
 git clone https://github.com/ushahidi/platform-client.git
 ```
 
@@ -33,8 +33,4 @@ To get the source-code, clone the code with:
 ```text
 git clone https://github.com/ushahidi/platform-pattern-library.git;
 ```
-
-
-
-
 

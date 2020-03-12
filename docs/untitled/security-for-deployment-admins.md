@@ -36,7 +36,7 @@ Some very direct examples of PII items are telephone numbers and e-mail addresse
 
 One other example is the combination of location data and date of the report. In an urban setting with surveillance, someone with access to the surveillance and both data items could identify who issued a report.
 
-In general, the more data items an attacker may collect that bear relationship with a person's traits, possessions or circumstances, the more likely the attacker is to successfully break anonymity. 
+In general, the more data items an attacker may collect that bear relationship with a person's traits, possessions or circumstances, the more likely the attacker is to successfully break anonymity.
 
 The Ushahidi Platform offers settings to protect some of these information items, without completely hiding them, by making them fuzzier. This is important for data that is valuable to show aggregated \(i.e. incidents in a geographic area\), and thus is not desired to make completely private.
 
@@ -46,13 +46,13 @@ Not all the data sources that can feed data into a Platform deployment have the 
 
 Even if your surveys and your server are well protected, your adversaries may be tapping on your data while it's being sent to you. Here are a few words about the different data sources:
 
-### GSM protocols: SMS or USSD 
+### GSM protocols: SMS or USSD
 
-These protocols don't make much of an effort to apply encryption to the information sent over them. The barrier to be able to collect GSM data has always been laid down in terms of access: being able to access the GSM network management hubs, or having the sophisticated equipment to gather data "from the air" locally.  
-  
-Many governments will most definitely be able to leverage their power in order to obtain access. And, unfortunately, individuals may nowadays acquire relatively affordable equipment to capture this data "from the air".  
-  
-The consensus is that these are not data sources that can be relied on for keeping  secrecy, and thus, shouldn't be used in high-stakes risky situations.
+These protocols don't make much of an effort to apply encryption to the information sent over them. The barrier to be able to collect GSM data has always been laid down in terms of access: being able to access the GSM network management hubs, or having the sophisticated equipment to gather data "from the air" locally.
+
+Many governments will most definitely be able to leverage their power in order to obtain access. And, unfortunately, individuals may nowadays acquire relatively affordable equipment to capture this data "from the air".
+
+The consensus is that these are not data sources that can be relied on for keeping secrecy, and thus, shouldn't be used in high-stakes risky situations.
 
 ### Web and mobile application
 
