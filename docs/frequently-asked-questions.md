@@ -130,6 +130,7 @@ Please ensure that you are using a supported version of PHP for the version of p
 * **v3** supports PHP 5.6 and 7.0
 * **v4.0.0** supports PHP 7.0 to 7.2
 * **v4.1.0+** supports PHP 7.1 to 7.3 \(inclusive\). This change was made to ensure we support versions of PHP that are getting security fixes at the very least. See PHP maintainance schedules [here](https://www.php.net/supported-versions.php).
+* **v4.4.0+** supports PHP 7.2 and 7.3 \(inclusive\). This is, again, according to PHP 7.1 scheduled End-Of-Life
 
 ### I’m getting a database connection error.
 

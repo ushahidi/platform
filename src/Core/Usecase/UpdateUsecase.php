@@ -80,6 +80,9 @@ class UpdateUsecase implements Usecase
         // ... persist the changes
         $this->repo->update($entity);
 
+        // ... send notifications for changes made
+        $this->sendNotifications($entity);
+
         // ... check that the entity can be read by the current user
         if ($this->auth->isAllowed($entity, 'read')) {
             // ... and either load the updated entity from the storage layer
@@ -91,6 +94,12 @@ class UpdateUsecase implements Usecase
             // ... or just return nothing
             return;
         }
+    }
+
+    // Notification
+    protected function sendNotifications(Entity $entity)
+    {
+        // Logic to send notifications
     }
 
     // ValidatorTrait
