@@ -740,6 +740,7 @@ HTTP/{$this->response->getProtocolVersion()} {$this->response->getStatusCode()} 
         'missingtoken' => 99,
         'testnoedit' => 8,
         'testsets' => 9,
+        'testsettingsmanager' => 10,
     ];
 
     /**
