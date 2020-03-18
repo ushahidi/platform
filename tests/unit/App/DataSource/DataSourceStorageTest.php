@@ -79,10 +79,45 @@ class DataSourceStorageTest extends TestCase
         $this->assertEquals(['id' => 1], $result);
     }
 
+
+    public function receiveExceptionsProvider()
+    {
+        return [
+            [
+                "\Ushahidi\Core\Exception\NotFoundException",
+                "Symfony\Component\HttpKernel\Exception\NotFoundHttpException",
+                404,
+                ""
+            ],
+            [
+                "\Ushahidi\Core\Exception\AuthorizerException",
+                "Symfony\Component\HttpKernel\Exception\HttpException",
+                403,
+                ""
+            ],
+            [
+                "\Ushahidi\Core\Exception\ValidatorException",
+                "Symfony\Component\HttpKernel\Exception\HttpException",
+                422,
+                "Validation Error: ; sorry my fault, but you are also not perfect"
+            ],
+            [
+                "\InvalidArgumentException",
+                "Symfony\Component\HttpKernel\Exception\HttpException",
+                400,
+                "Bad request: ; sorry my fault, but you are also not perfect"
+            ]
+        ];
+    }
+
     /**
-     * @expectedException Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     * @dataProvider receiveExceptionsProvider
+     * @param $thrownE string exception name to be thrown by interact()
+     * @param $expectedE string exception that is expected to be thrown by receive()
+     * @param $expectedStatusCode int status code of the exception thrown by receive()
+     * @param $expectedMessage string message of the exception thrown by receive()
      */
-    public function testFailedReceive()
+    public function testFailedReceive($thrownE, $expectedE, $expectedStatusCode, $expectedMessage)
     {
         $storage = new DataSourceStorage($this->usecase, $this->messageRepo);
 
@@ -105,31 +140,34 @@ class DataSourceStorageTest extends TestCase
             ])
             ->andReturn($this->usecase);
 
-        $e = M::spy(\Ushahidi\Core\Exception\NotFoundException::class);
+        $e = M::mock($thrownE);
+        $e->allows()->getErrors()->andReturns(["sorry my fault", "but you are also not perfect"]);
 
         $this->usecase
             ->shouldReceive('interact')
             ->once()
             ->andThrow($e);
 
-        $storage->receive(
-            'smssync',
-            'sms',
-            'phone',
-            123456,
-            'Yo dawg I heard you like messages, so I put some messages in your messages',
-            "YOU!",
-            null,
-            null,
-            null,
-            null,
-            1,
-            ['Title' => 'somekey']
-        );
-
-        $e->shouldHaveReceived('getMessage')->once();
-
-        // @todo test other errors and validate error message
+        try {
+            $storage->receive(
+                'smssync',
+                'sms',
+                'phone',
+                123456,
+                'Yo dawg I heard you like messages, so I put some messages in your messages',
+                "YOU!",
+                null,
+                null,
+                null,
+                null,
+                1,
+                ['Title' => 'somekey']
+            );
+        } catch (\Symfony\Component\HttpKernel\Exception\HttpException $exception) {
+            $this->assertSame($expectedStatusCode, $exception->getStatusCode());
+            $this->assertSame($expectedE, get_class($exception));
+            $this->assertSame($expectedMessage, $exception->getMessage());
+        }
     }
 
     public function testGetPendingMessages()
