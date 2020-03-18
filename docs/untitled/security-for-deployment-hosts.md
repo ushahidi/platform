@@ -16,5 +16,3 @@ The purpose of this guide is not so much providing complete cyber-security train
   * PHP, Web server and MySQL services
   * Ushahidi Platform
 
-
-

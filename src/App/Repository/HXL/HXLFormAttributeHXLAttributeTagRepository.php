@@ -50,10 +50,13 @@ class HXLFormAttributeHXLAttributeTagRepository extends OhanzeeRepository implem
 
     public function getHxlWithFormAttributes($job)
     {
-        // select form_attribute_hxl_attribute_tag.*, hxl_tags.tag_name, hxl_attributes.attribute
+        // Generated query is:
+        // SELECT form_attribute_hxl_attribute_tag.*, hxl_tags.tag_name, hxl_attributes.attribute
         // FROM form_attribute_hxl_attribute_tag
         // INNER JOIN hxl_tags ON form_attribute_hxl_attribute_tag.hxl_tag_id = hxl_tags.id
-        // INNER JOIN hxl_attributes ON form_attribute_hxl_attribute_tag.hxl_attribute_id = hxl_attributes.id ;
+        // LEFT JOIN hxl_attributes ON form_attribute_hxl_attribute_tag.hxl_attribute_id = hxl_attributes.id
+        // INNER JOIN form_attributes ON form_attribute_hxl_attribute_tag.form_attribute_id = form_attributes.id
+        // WHERE form_attribute_hxl_attribute_tag.export_job_id = $job->id;
 
         $result = DB::select(
             'form_attribute_hxl_attribute_tag.*',
@@ -65,7 +68,7 @@ class HXLFormAttributeHXLAttributeTagRepository extends OhanzeeRepository implem
         )
             ->from($this->getTable())
             ->join('hxl_tags')->on('form_attribute_hxl_attribute_tag.hxl_tag_id', '=', 'hxl_tags.id')
-            ->join('hxl_attributes')
+            ->join('hxl_attributes', 'left')
             ->on('form_attribute_hxl_attribute_tag.hxl_attribute_id', '=', 'hxl_attributes.id')
             ->join('form_attributes')
             ->on('form_attribute_hxl_attribute_tag.form_attribute_id', '=', 'form_attributes.id')

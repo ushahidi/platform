@@ -8,7 +8,7 @@ See on the Open Design website here: [https://opendesign.ushahidi.com/bangalore-
 
 The Open Design team has been accepted and invited to the excellent [DesignUP! conference in Bangalore 2019](https://designup.io/blr2019/) to deliver a [masterclass workshop on the 14th of November](https://designup.io/blr2019/masterclasses/#tab-eriol-fox-creating-impact-with-open-source-and-humanitarian-tech-257).
 
-[DesignUp](https://designup.io/blr2019/) is an annual design conference focused on design in, and for, tech. The aim is to encourage conversations and work that make Tech and Businesses more human and humane as well as more impactful to people and the ecosystem in general. 
+[DesignUp](https://designup.io/blr2019/) is an annual design conference focused on design in, and for, tech. The aim is to encourage conversations and work that make Tech and Businesses more human and humane as well as more impactful to people and the ecosystem in general.
 
 Open Design Team will be hosting a full-day masterclass workshop on **Creating impact with open source and humanitarian tech** at DesignUp.
 

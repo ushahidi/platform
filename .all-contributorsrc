@@ -595,6 +595,61 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "himil-vasava",
+      "name": "Himil Vasava",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/55590415?v=4",
+      "profile": "https://github.com/himil-vasava",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "johnmurray4",
+      "name": "johnmurray4",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/54542562?v=4",
+      "profile": "https://github.com/johnmurray4",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "Jenniline",
+      "name": "Jenniline ",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/39647995?v=4",
+      "profile": "https://github.com/Jenniline",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "rohit645",
+      "name": "Rohit Kumar",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/33249010?v=4",
+      "profile": "http://rohit645.github.io",
+      "contributions": [
+        "bug",
+        "code"
+      ]
+    },
+    {
+      "login": "ljvargh",
+      "name": "ljvargh",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/47359729?v=4",
+      "profile": "https://github.com/ljvargh",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "individual-it",
+      "name": "Artur Neumann",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/2425577?v=4",
+      "profile": "https://www.jankaritech.com",
+      "contributions": [
+        "infra"
+      ]
     }
   ],
   "projectName": "platform",

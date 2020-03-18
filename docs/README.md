@@ -8,7 +8,7 @@
 
 Ushahidi is an open source web application for information collection, visualization and interactive mapping. It helps you to collect info from: SMS, Twitter, RSS feeds, Email. It helps you to process that information, categorize it, geo-locate it and publish it on a map.
 
-## Required reading: Code of Conduct. 
+## Required reading: Code of Conduct.
 
 We love having you here. To ensure everyone has a good experience, we ask **everyone** that interacts with our community and staff to read our code of conduct.
 

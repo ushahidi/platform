@@ -7,20 +7,27 @@ use Ushahidi\Core\SearchData;
 use Ushahidi\Core\Tool\Authorizer;
 use Ushahidi\Core\Tool\Formatter;
 use Ushahidi\Core\Usecase\SearchRepository;
+use Illuminate\Contracts\Translation\Translator;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
 class SearchUsecaseSpec extends ObjectBehavior
 {
-    function let(Authorizer $auth, SearchData $search, Formatter $format, SearchRepository $repo)
-    {
+    function let(
+        Authorizer $auth,
+        SearchData $search,
+        Formatter $format,
+        SearchRepository $repo,
+        Translator $translator
+    ) {
         $format->beADoubleOf('Ushahidi\Core\Tool\Formatter\CollectionFormatter');
 
         $this->setAuthorizer($auth);
         $this->setData($search);
         $this->setFormatter($format);
         $this->setRepository($repo);
+        $this->setTranslator($translator);
     }
 
     function it_is_initializable()

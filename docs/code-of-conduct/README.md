@@ -78,7 +78,7 @@ If you feel unsafe reporting in person, you may choose someone to represent you.
 
 ## What can happen if the CoC is violated?
 
-When we receive a report of a violation, we notify the reporter that we have received the report and the Code of Conduct team will meet to review the report. The team may decide on action to take based on the information given, or, if we want more information, we will contact the reporter. 
+When we receive a report of a violation, we notify the reporter that we have received the report and the Code of Conduct team will meet to review the report. The team may decide on action to take based on the information given, or, if we want more information, we will contact the reporter.
 
 In case of a Code of Conduct violation, the actions we may take are:
 
@@ -97,9 +97,5 @@ In case of a Code of Conduct violation, the actions we may take are:
 
 ### **Conflict of interest**
 
-If we believe that there is a conflict of interest, for example, one member of the team was involved in the incident, are friends with, or have any other relationship with the person violating the CoC, that could affect the ability to stay neutral, then this member will not be participating in handling the request. 
-
-
-
-
+If we believe that there is a conflict of interest, for example, one member of the team was involved in the incident, are friends with, or have any other relationship with the person violating the CoC, that could affect the ability to stay neutral, then this member will not be participating in handling the request.
 
