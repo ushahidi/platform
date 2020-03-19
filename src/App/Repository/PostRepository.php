@@ -209,12 +209,31 @@ class PostRepository extends OhanzeeRepository implements
         $query = parent::selectQuery($where);
 
         // Join to messages and load message id
-        $query->join('messages', 'LEFT')->on('posts.id', '=', 'messages.post_id')
+        $query
+            ->join('messages', 'LEFT')
+            ->on('posts.id', '=', 'messages.post_id')
             ->select(
                 ['messages.id', 'message_id'],
-                ['messages.type', 'source'],
-                ['messages.contact_id', 'contact_id'],
-                ['messages.data_source_message_id', 'data_source_message_id']
+                ['messages.type', 'source']
+            );
+        
+        /*
+         * The above join is optimized by the (post_id,type) index on messages.
+         *
+         * Add now a separate join into same table, to retrieve more message details.
+         *
+         * Compared to having all the details come from a single join, this will speed
+         * things up *very* considerably, *IF* there are many messages, *BUT* rather
+         * few matches of posts to messages.
+         * (This easily happens when twitter searches have few usable results,
+         *  spam filled e-mail inboxes are being imported, etc)
+         */
+        $query
+            ->join(['messages', 'msgs2'], 'LEFT')
+            ->on('msgs2.id', '=', 'messages.id')
+            ->select(
+                ['msgs2.contact_id', 'contact_id'],
+                ['msgs2.data_source_message_id', 'data_source_message_id']
             );
 
         // Join to form
