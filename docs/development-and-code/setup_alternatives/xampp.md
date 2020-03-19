@@ -31,7 +31,7 @@ The two main components of the Ushahidi Platform are the API and the Client. We 
 * Install a Git client
   * A way to check if you have a Git client, is to open a terminal window and type the command `git` . If you receive an answer saying that the command is not found, you need to install.
   * There are several installation options suggested [here](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git).
-* Make sure you have PHP 7.1.x, running with php-fpm  \(PHP 7.2.x is not supported at the time\). 
+* Make sure you have PHP 7.2.x or 7.3.x, running with php-fpm
   * The following PHP Extensions are needed:
   * * curl
     * json
@@ -48,7 +48,6 @@ The two main components of the Ushahidi Platform are the API and the Client. We 
 
 **Some useful tutorials and links to get the prerequisites set up:**
 
-* Downgrading from php7.2 =&gt; php7.1 in Ubuntu \(added to this list 18/3-2019\): [https://gist.github.com/dosjota/9666a7274b4036588b92987b84267245](https://gist.github.com/dosjota/9666a7274b4036588b92987b84267245)
 * Installing Composer on Ubuntu \(added to this list 18/3-2019\): [https://www.digitalocean.com/community/tutorials/how-to-install-and-use-composer-on-ubuntu-18-04](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-composer-on-ubuntu-18-04)
 
 {% hint style="warning" %}
