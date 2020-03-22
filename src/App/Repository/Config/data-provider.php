@@ -12,13 +12,13 @@
 return [
     'providers' => [
         // List of data providers key=provider value=enabled
-        'smssync' => false,
-        'email' => false,
+        'smssync' => true,
+        'email' => true,
         'outgoingemail' => false,
-        'twilio' => false,
+        'twilio' => true,
         'nexmo' => false,
-        'twitter' => false,
-        'frontlinesms' => false
+        'twitter' => true,
+        'frontlinesms' => true
     ],
 
     // Config params for individual providers
