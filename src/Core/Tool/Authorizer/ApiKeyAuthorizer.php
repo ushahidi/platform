@@ -12,11 +12,13 @@
 namespace Ushahidi\Core\Tool\Authorizer;
 
 use Ushahidi\Core\Entity;
+use Ushahidi\Core\Entity\Permission;
 use Ushahidi\Core\Tool\Authorizer;
 use Ushahidi\Core\Traits\AdminAccess;
 use Ushahidi\Core\Traits\UserContext;
 use Ushahidi\Core\Traits\PrivAccess;
 use Ushahidi\Core\Traits\PrivateDeployment;
+use Ushahidi\Core\Tool\Permissions\AclTrait;
 
 class ApiKeyAuthorizer implements Authorizer
 {
@@ -32,6 +34,9 @@ class ApiKeyAuthorizer implements Authorizer
     // It uses `PrivateDeployment` to check whether a deployment is private
     use PrivateDeployment;
 
+    // Check that the user has the necessary permissions
+    use AclTrait;
+
     /* Authorizer */
     public function isAllowed(Entity $entity, $privilege)
     {
@@ -42,6 +47,11 @@ class ApiKeyAuthorizer implements Authorizer
         // Only logged in users have access if the deployment is private
         if (!$this->canAccessDeployment($user)) {
             return false;
+        }
+
+        // Role with the Manage Settings permission can have access
+        if ($this->acl->hasPermission($user, Permission::MANAGE_SETTINGS)) {
+            return true;
         }
 
         // Admin is allowed access to everything

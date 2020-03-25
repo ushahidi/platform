@@ -26,6 +26,9 @@ class RestContext implements Context
     private $restObjectType    = null;
     private $restObjectMethod  = 'get';
     private $client            = null;
+    /**
+     * @var \GuzzleHttp\Psr7\Response
+     */
     private $response          = null;
     private $requestUrl        = null;
     private $apiUrl            = 'api/v3';
@@ -36,6 +39,8 @@ class RestContext implements Context
     ];
     private $postFields        = [];
     private $postFiles         = [];
+
+    const DEBUG_MODE_SWITCH_FILE_PATH = __DIR__ . "/../../../bootstrap/install_debug_mode.enabled";
 
     /**
      * Initializes context.
@@ -202,6 +207,24 @@ class RestContext implements Context
     }
 
     /**
+     * @Given /^that I have enabled debug mode$/
+     */
+    public function thatIHaveEnabledDebugMode()
+    {
+        fopen(self::DEBUG_MODE_SWITCH_FILE_PATH, "w");
+    }
+
+    /**
+     * @AfterScenario
+     * @Given /^that I have disabled debug mode$/
+     */
+    public function disableDebugModeAfterScenario()
+    {
+        if (file_exists(self::DEBUG_MODE_SWITCH_FILE_PATH)) {
+            unlink(self::DEBUG_MODE_SWITCH_FILE_PATH);
+        }
+    }
+    /**
      * @When /^I request "([^"]*)"$/
      */
     public function iRequest($pageUrl)
@@ -211,9 +234,9 @@ class RestContext implements Context
         switch (strtoupper($this->restObjectMethod)) {
             case 'GET':
                 $request = (array)$this->restObject;
-                $id = ( isset($request['id']) ) ? $request['id'] : '';
+                $idAttachment = ( isset($request['id']) ) ? "/" . $request['id'] : '';
                 $response = $this->client
-                    ->get($this->requestUrl.'/'.$id, [
+                    ->get($this->requestUrl.$idAttachment, [
                         'query' => isset($request['query string']) ? trim($request['query string']) : null,
                         'headers' => $this->headers
                     ]);
@@ -403,6 +426,13 @@ class RestContext implements Context
         }
     }
 
+    /**
+     * @Then /^the response is empty/
+     */
+    public function theResponseIsEmpty()
+    {
+        \PHPUnit_Framework_Assert::assertEquals(0, $this->response->getBody()->getSize());
+    }
     /**
      * @Given /^the response has a "([^"]*)" property$/
      * @Given /^the response has an "([^"]*)" property$/
@@ -631,7 +661,7 @@ class RestContext implements Context
         $actualPropertyValue = array_get($data, $propertyName);
 
         if (!empty($actualPropertyValue)) {
-            throw new \Exception("Property '{$propertyName}' is not empty!\n");
+            throw new \Exception("Property '{$propertyName}' is not empty but '{$actualPropertyValue}'\n");
         }
     }
 
@@ -740,6 +770,7 @@ HTTP/{$this->response->getProtocolVersion()} {$this->response->getStatusCode()} 
         'missingtoken' => 99,
         'testnoedit' => 8,
         'testsets' => 9,
+        'testsettingsmanager' => 10,
     ];
 
     /**

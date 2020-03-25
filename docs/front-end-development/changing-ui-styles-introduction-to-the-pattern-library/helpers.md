@@ -2,11 +2,11 @@
 
 The assets/sass/utils/\_helpers.scss file provides a handful of helper classes.
 
-### Example
+## Example
 
 The .divider helper class provides a quick way to display a page/section divider.
 
-#### Sass
+### Sass
 
 ```text
 .divider  {
@@ -26,13 +26,11 @@ The .divider helper class provides a quick way to display a page/section divider
 }
 ```
 
-#### In HTML
+### In HTML
 
 class="divider"\(default\)
 
 class="divider padded"\(with padding\)
 
-class="divider white"\(to be used over a dark background\)  
-  
-
+class="divider white"\(to be used over a dark background\)
 

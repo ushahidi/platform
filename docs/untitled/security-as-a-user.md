@@ -35,7 +35,7 @@ When clicking links from e-mails or other sources, that direct you to log in or 
 1. Check the domain name \(the part before the first "/" character\). Your opponent may be tricking to share the personal information you keep in secure-bank.com by directing you to a fake website named similarly, i.e.: secure-banking.com .
 2. Check the authenticity and security of the connection. Never send data through a web browser tab that is not showing anything other than a glorious fully green padlock next to the website address.
 
-If in doubt, contact back directly the apparent source of the information \(i.e. call your bank phone support, reach out to your boss, friend or relative\). Or, in more general disinformation propaganda scenarios, run your own research. If the information received still seems true after running 2 or 3 of your own checks, then you may most probably rely on it. 
+If in doubt, contact back directly the apparent source of the information \(i.e. call your bank phone support, reach out to your boss, friend or relative\). Or, in more general disinformation propaganda scenarios, run your own research. If the information received still seems true after running 2 or 3 of your own checks, then you may most probably rely on it.
 
 ## A few other quick pointers
 
@@ -44,6 +44,4 @@ If in doubt, contact back directly the apparent source of the information \(i.e.
 * Use different passwords for different accounts, and use a password manager to store them.
 * Use as much encryption as is possible, prefer applications and services that offer strong encryption.
 * Update your device and applications regularly. If you have a device you are not able to update \(i.e. an Android phone that is out of support by the vendor\), double up your guard and limit your actions and the sensitivity of the data that you store on that device. 
-
-
 

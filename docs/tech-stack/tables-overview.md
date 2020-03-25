@@ -108,11 +108,8 @@ description: This is a list of all tables used for the Ushahidi Platform.
         in a post.</td>
       <td style="text-align:left">
         <p>Settings -&gt; Surveys -&gt; Create/Edit survey</p>
-        <p></p>
         <p>Add post</p>
-        <p></p>
         <p>Edit post</p>
-        <p></p>
         <p>View post</p>
       </td>
       <td style="text-align:left">-</td>
@@ -127,10 +124,7 @@ description: This is a list of all tables used for the Ushahidi Platform.
           <br />
         </p>
         <p>View post</p>
-        <p></p>
         <p>Edit/Structure post</p>
-        <p></p>
-        <p></p>
       </td>
       <td style="text-align:left">-</td>
     </tr>
@@ -521,12 +515,10 @@ description: This is a list of all tables used for the Ushahidi Platform.
     </tr>
     <tr>
       <td style="text-align:left">tos</td>
-      <td style="text-align:left">
-        <p>Stores info of when and if each has signed the terms and conditions</p>
-        <p></p>
-      </td>
-      <td style="text-align:left">-</td>
-      <td style="text-align:left">-</td>
+      <td style="text-align:left">Stores info of when and if each has signed the terms and conditions</td>
+      <td
+      style="text-align:left">-</td>
+        <td style="text-align:left">-</td>
     </tr>
     <tr>
       <td style="text-align:left">user_reset_tokens</td>

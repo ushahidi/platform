@@ -1,6 +1,6 @@
 # Upgrading to latest release
 
-### Updating your deployment to the latest version <a id="updating-your-deployment-to-the-latest-version"></a>
+## Updating your deployment to the latest version <a id="updating-your-deployment-to-the-latest-version"></a>
 
 Instructions on how to upgrade your Ushahidi deployment.
 
@@ -14,7 +14,7 @@ Instructions on how to upgrade your Ushahidi deployment.
    1. Running database migrations
    2. Ensuring that log, cache and media/uploads under platform/application are owned by the proper user
 
-### Updating the client \(for developers\) <a id="updating-the-client-for-developers"></a>
+## Updating the client \(for developers\) <a id="updating-the-client-for-developers"></a>
 
 From your local repository fetch the latest code and run \`npm install\` to update your modules:
 
@@ -32,7 +32,7 @@ gulp build
 
 The updated version should load when you reload your browser.
 
-### Updating the API \(for developers\) <a id="updating-the-api-for-developers"></a>
+## Updating the API \(for developers\) <a id="updating-the-api-for-developers"></a>
 
 From your local repository fetch the latest code and run \`bin/update\` or \`bin/update --production\` if you are running on a production environment:
 

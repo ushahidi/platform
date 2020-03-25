@@ -11,7 +11,7 @@ description: >-
 
 We love having you here. But before you start, to ensure everyone has a good experience, we ask **everyone** that interacts with our community and staff to read our code of conduct.
 
-{% page-ref page="../code-of-conduct.md" %}
+{% page-ref page="../code-of-conduct/" %}
 
 ## **Ways of contributing**
 
@@ -29,7 +29,7 @@ If you think you have found a security issue, please follow [this link where we 
 
 ### ⌨️ **I want to fix a bug**
 
-If you want to contribute a fix for a bug you or someone else found, we will be happy to review your PR and provide support**.** You can find our issues here: 
+If you want to contribute a fix for a bug you or someone else found, we will be happy to review your PR and provide support**.** You can find our issues here:
 
 * [All issues available for the community](https://github.com/ushahidi/platform/issues?q=is%3Aopen+is%3Aissue+label%3A%22Community+Task%22)
 * [First-timers-only-issues](https://github.com/ushahidi/platform/issues?q=is%3Aopen+is%3Aissue+label%3Afirst-timers-only)
@@ -63,8 +63,4 @@ You are welcome and encouraged to jump in and help other members of the communit
 ### 👨‍💻 I want to help out in a project as a volunteer
 
 We encourage community development workers, international development workers, activists and volunteers to join in and contribute with their knowledge and experience. Check out the section [Encouraging contribution from non-developers](encouraging-contribution-from-non-developers.md) to learn more how you can get involved.
-
-### 
-
-
 

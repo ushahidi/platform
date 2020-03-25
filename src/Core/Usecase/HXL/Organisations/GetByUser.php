@@ -15,13 +15,15 @@ use Ushahidi\Core\Tool\AuthorizerTrait;
 use Ushahidi\App\ExternalServices\HDXInterface;
 use Ushahidi\Core\Tool\FormatterTrait;
 use Ushahidi\Core\Usecase;
+use Ushahidi\Core\Tool\TranslatorTrait;
 use Log;
 
 class GetByUser implements Usecase
 {
 
     use AuthorizerTrait,
-        FormatterTrait;
+        FormatterTrait,
+        TranslatorTrait;
     protected $userSettingRepository;
 
     /**
