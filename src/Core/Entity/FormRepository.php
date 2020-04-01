@@ -19,4 +19,12 @@ interface FormRepository extends
     EntityExists
 {
     public function isTypeHidden($form_id, $type);
+
+    /**
+     * Get all form attributes and stages for the given forms
+     *
+     * @param $form_ids
+     * @return Collection
+     */
+    public function getAllFormStagesAttributes(array $form_ids = []);
 }
