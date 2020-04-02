@@ -11,9 +11,8 @@ endif
 # #######
 # Basics
 platform-onboarded:
-	make migrate-docker
-	docker exec -it platform_platform_1 /bin/bash
-	docker exec -it platform_platform_1 npm run dev
+	docker-compose exec platform /bin/bash
+	composer migrate
 
 platform-exec:
 	@docker exec -it platform_platform_1 bash
@@ -21,36 +20,19 @@ exec:platform-exec
 
 # ######
 # DB
-
-
 seed-docker:
 	docker exec -it platform_platform_1 /bin/bash
 	composer migrate
 
-seed:
-	make seed-docker
-
-
 migrate:
 	make migrate-docker
-
-
-migrate-docker:
-	docker exec -it platform_platform_1 php artisan migrate:refresh -vvv
 
 db-total-reset:
 	@echo "🔥 Resetting DB"
 	docker exec -it platform_platform_1 composer dump-autoload
 	make migrate-docker
-	make seed-docker
+	composer migrate
 dbtr:db-total-reset
-
-###
-tinker:
-	php artisan tinker
-
-tinker-docker:
-	docker exec -it platform_platform_1 php artisan tinker
 
 # ######
 # CLIs
@@ -64,11 +46,8 @@ mysql-cli:
 # ###########
 # TESTING
 test:
-	vendor/bin/phpunit
-
-test-docker:
-	docker exec -it platform vendor/bin/phpunit
-
+	@docker exec -it platform_platform_1 bash
+	composer run test
 
 # Listing commands in the .PHONY section ensures that the command is recognized when
 # running `make [command]`
@@ -82,7 +61,6 @@ test-docker:
 	db-total-reset \
 	dbtr \
 	drop-db \
-	tinker \
 	redis-cli \
 	mysql-cli \
 	test \
