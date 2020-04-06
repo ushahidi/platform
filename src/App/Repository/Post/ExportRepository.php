@@ -110,7 +110,7 @@ class ExportRepository extends PostRepository implements PostExportRepository
         return $names;
     }
 
-    protected function getPostValues($id, $excludePrivateValues, $excludeStages, $includeTypesOverride = null)
+    protected function getPostValues($id, $excludePrivateValues, $excludeStages, $includeTypesOverride = null): array
     {
 
         // Get all the values for the post. These are the EAV values.
