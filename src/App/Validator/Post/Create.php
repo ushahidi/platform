@@ -105,6 +105,10 @@ class Create extends LegacyValidator
         return [
             'title' => [
                 ['max_length', [':value', 150]],
+                ['not_empty'],
+            ],
+            'content' => [
+                ['not_empty'],
             ],
             'slug' => [
                 ['min_length', [':value', 2]],
@@ -124,6 +128,7 @@ class Create extends LegacyValidator
             ],
             'form_id' => [
                 ['numeric'],
+                ['not_empty'],
                 [[$this->form_repo, 'exists'], [':value']],
             ],
             'values' => [
