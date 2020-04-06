@@ -128,7 +128,7 @@ class PostRepository extends OhanzeeRepository implements
         return 'posts';
     }
 
-    protected function fetchFormAttributes($form_ids = [])
+    protected function fetchFormAttributes($form_ids = []): void
     {
         $form_ids = is_array($form_ids) ? $form_ids : [ $form_ids ];
 
@@ -139,7 +139,7 @@ class PostRepository extends OhanzeeRepository implements
     }
 
     // OhanzeeRepository
-    public function getEntity(array $data = null)
+    public function getEntity(array $data = null): Post
     {
         // Ensure we are dealing with a structured Post
 
@@ -203,10 +203,10 @@ class PostRepository extends OhanzeeRepository implements
             
             /* handle values already carried in in the $data object */
             $already_obtained_types = [];
-            foreach ($this->data_to_entity_value_mappings as $m) {
+            foreach ($this->data_to_entity_value_mappings as $mapping) {
                 // Check if value should be visible
-                $attribute_key = $data[$m['attribute_key']] ?? null;
-                $attribute_value = $data[$m['value']] ?? null;
+                $attribute_key = $data[$mapping['attribute_key']] ?? null;
+                $attribute_value = $data[$mapping['value']] ?? null;
 
                 // Skip if data not provided
                 if (!$attribute_key || !$attribute_value) {
@@ -230,15 +230,15 @@ class PostRepository extends OhanzeeRepository implements
 
                 // Build and set values
                 $value = $this->post_value_factory
-                    ->getRepo($m['repo'])
+                    ->getRepo($mapping['repo'])
                     ->getEntity(['value' => $attribute_value]);
                 $values[$attribute_key] = [ $value->value ];
 
-                $already_obtained_types = array_merge($already_obtained_types, [ $m['obtained_type'] ]);
+                $already_obtained_types = array_merge($already_obtained_types, [ $mapping['obtained_type'] ]);
 
                 // Unset original values
-                unset($data[$m['attribute_key']]);
-                unset($data[$m['value']]);
+                unset($data[$mapping['attribute_key']]);
+                unset($data[$mapping['value']]);
             }
             
             // Obtain the rest of the requested values
@@ -428,7 +428,7 @@ class PostRepository extends OhanzeeRepository implements
         }
     }
 
-    protected function getPostValues($id, $excludePrivateValues, $excludeStages, $includeTypesOverride = null)
+    protected function getPostValues($id, $excludePrivateValues, $excludeStages, $includeTypesOverride = null): array
     {
         if ($includeTypesOverride) {
             $includeTypes = $includeTypesOverride;

@@ -159,12 +159,9 @@ class FormRepository extends OhanzeeRepository implements
     }
 
     /**
-     * Get all form attributes and stages for the given forms
-     *
-     * @param $form_ids
-     * @return Collection
+     * {@inheritdoc}
      */
-    public function getAllFormStagesAttributes(array $form_ids = [])
+    public function getAllFormStagesAttributes(array $form_ids = []): Collection
     {
         $query = DB::select(
             ['forms.id', 'form_id'],
