@@ -1,11 +1,12 @@
 <?php
+
 namespace Ushahidi\App\Validator\Post;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Ushahidi Post Video Validator
+ * Ushahidi VideoUpload
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Application
@@ -18,6 +19,4 @@ class VideoUpload extends Model
     use SoftDeletes;
 
     protected $fillable = ['name'];
-
-
 }
