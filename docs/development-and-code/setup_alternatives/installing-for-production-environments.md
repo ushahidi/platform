@@ -83,7 +83,8 @@ Create a new file named .ENV
 APP_ENV=production
 APP_DEBUG=false
 
-# generate this APP_KEY with `php artisan key:generate`
+# generate this APP_KEY with:
+# php -r "require 'vendor/autoload.php'; echo str_random(32).PHP_EOL;"
 APP_KEY={32characterkey}
 
 APP_TIMEZONE=UTC
