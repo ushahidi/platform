@@ -31,8 +31,6 @@ class RewriteTwitterUrls extends AbstractMigration
                 INNER JOIN contacts on contacts.id = messages.contact_id
                 SET messages.message = REPLACE(messages.message, concat('https://twitter.com/statuses/', messages.data_source_message_id), concat('https://twitter.com/', contacts.contact, '/status/', messages.data_source_message_id))
                 WHERE `messages`.`type` = 'twitter'";
-        $pdo = $this->getAdapter()->getConnection();
-        $update = $pdo->prepare($sql);
-        $update->execute();
+        $this->execute($sql);
     }
 }
