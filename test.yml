@@ -1,0 +1,45 @@
+name: Test
+
+on:
+- push
+- pull_request
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        php_version:
+          - 7.2
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@master
+      with:
+        php-version: ${{ matrix.php_version }}
+        
+    - run: echo ;
+        mysql -e "SELECT version();" ;
+        mysql -e "SET GLOBAL sql_mode = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'" ;
+        cp .env.testing .env ;
+        
+        composer install --no-interaction ;
+        
+        composer pre-test;
+        mysql -e 'SET @@GLOBAL.wait_timeout=1800';
+        ( cd httpdocs/; php -S localhost:8000 -t . index.php &)
+        composer test ;
+
+    services:
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_DATABASE: ushahidi
+          MYSQL_USER: ushahidi
+          MYSQL_PASSWORD: ushahidi
+          MYSQL_ROOT_PASSWORD: root
+        ports:
+        - 3306:3306
