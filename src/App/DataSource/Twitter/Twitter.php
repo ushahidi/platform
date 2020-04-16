@@ -194,7 +194,7 @@ class Twitter implements IncomingAPIDataSource, OutgoingAPIDataSource
                     'contact_type' => Contact::TWITTER,
                     'from' => $user_id,
                     'to' => null,
-                    /** 
+                    /**
                      * Best compromise I could find was just make the proper urls with user_id rather than only
                      * tweet id (for which there is an unofficial formula)...
                      * since there doesn't seem to be a way to grab the URL from the
