@@ -27,18 +27,21 @@ class RewriteTwitterUrls extends AbstractMigration
      */
     public function up()
     {
-        $sql = "UPDATE messages 
-                INNER JOIN contacts on contacts.id = messages.contact_id
-                SET messages.message = REPLACE(messages.message, concat('https://twitter.com/statuses/', messages.data_source_message_id), concat('https://twitter.com/', contacts.contact, '/status/', messages.data_source_message_id))
-                WHERE `messages`.`type` = 'twitter'";
+        $sql = "UPDATE messages INNER JOIN contacts on contacts.id = messages.contact_id " .
+                "SET messages.message = " .
+                "REPLACE(messages.message, concat('https://twitter.com/statuses/', messages.data_source_message_id), " .
+                "concat('https://twitter.com/', contacts.contact, '/status/', messages.data_source_message_id)) " .
+                "WHERE `messages`.`type` = 'twitter'";
         $this->execute($sql);
     }
 
     public function down() {
-        $sql = "UPDATE messages 
-                INNER JOIN contacts on contacts.id = messages.contact_id
-                SET messages.message = REPLACE(messages.message, concat('https://twitter.com/', contacts.contact, '/status/', messages.data_source_message_id), concat('https://twitter.com/statuses/', messages.data_source_message_id))
-                WHERE `messages`.`type` = 'twitter'";
+        // phpcs:ignore
+        $sql = "UPDATE messages INNER JOIN contacts on contacts.id = messages.contact_id " .
+                "SET messages.message = REPLACE(messages.message, " .
+                "concat('https://twitter.com/', contacts.contact, '/status/', messages.data_source_message_id), " .
+                "concat('https://twitter.com/statuses/', messages.data_source_message_id)) " .
+                "WHERE `messages`.`type` = 'twitter'";
         $this->execute($sql);
     }
 }
