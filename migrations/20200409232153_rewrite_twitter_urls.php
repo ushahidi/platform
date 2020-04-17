@@ -35,7 +35,8 @@ class RewriteTwitterUrls extends AbstractMigration
         $this->execute($sql);
     }
 
-    public function down() {
+    public function down()
+    {
         // phpcs:ignore
         $sql = "UPDATE messages INNER JOIN contacts on contacts.id = messages.contact_id " .
                 "SET messages.message = REPLACE(messages.message, " .
