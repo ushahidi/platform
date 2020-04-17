@@ -114,8 +114,9 @@ trait DataTransformer
     /**
      * Transforms a date(time) string to a PHP Date
      *
-     * @param  String|DateTimeInterface $value
+     * @param String|DateTimeInterface $value
      * @return DateTimeInterface
+     * @throws \Exception
      */
     protected function transformDate($value)
     {
@@ -129,6 +130,9 @@ trait DataTransformer
             $trialValue = date_create($value, new \DateTimeZone('UTC'));
             // If that didn't work, try assuming treating the value as a
             $value = $trialValue ?: date_create('@'.$value, new \DateTimeZone('UTC'));
+        }
+        if ($value === false) {
+            throw new \Exception('cannot convert date');
         }
         // Always use UTC
         $value->setTimezone(new \DateTimeZone('UTC'));
