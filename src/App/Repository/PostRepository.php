@@ -63,6 +63,9 @@ class PostRepository extends OhanzeeRepository implements
     // By default remove all private responses
     protected $restricted = true;
 
+    /**
+     * @var \Illuminate\Support\Collection
+     */
     protected $form_attributes_by_form;
     protected $form_attributes_by_key;
 
@@ -200,7 +203,7 @@ class PostRepository extends OhanzeeRepository implements
             }
 
             /* -- VALUES HANDLING -- */
-            
+
             /* handle values already carried in in the $data object */
             $already_obtained_types = [];
             foreach ($this->data_to_entity_value_mappings as $mapping) {
@@ -240,7 +243,7 @@ class PostRepository extends OhanzeeRepository implements
                 unset($data[$mapping['attribute_key']]);
                 unset($data[$mapping['value']]);
             }
-            
+
             // Obtain the rest of the requested values
             $other_values = [];
             $types_to_fetch = null;
@@ -321,7 +324,7 @@ class PostRepository extends OhanzeeRepository implements
                 ['messages.id', 'message_id'],
                 ['messages.type', 'source']
             );
-        
+
         /*
          * The above join is optimized by the (post_id,type) index on messages.
          *
@@ -1097,7 +1100,7 @@ class PostRepository extends OhanzeeRepository implements
      * @param  int   $id  post id
      * @return array      tag ids for post
      */
-    private function getTagsForPost($id, $form_id)
+    protected function getTagsForPost($id, $form_id)
     {
         list($attr_id, $attr_key) = $this->getFirstTagAttr($form_id);
 
@@ -1113,7 +1116,7 @@ class PostRepository extends OhanzeeRepository implements
      * @param  int   $id  post id
      * @return array      set ids for post
      */
-    private function getSetsForPost($id)
+    protected function getSetsForPost($id)
     {
         $result = DB::select('set_id')->from('posts_sets')
             ->where('post_id', '=', $id)
