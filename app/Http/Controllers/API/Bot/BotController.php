@@ -15,7 +15,6 @@ class BotController extends Controller
 
     public function index()
     {
-           
     }
     //
 }

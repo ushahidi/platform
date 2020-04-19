@@ -51,7 +51,6 @@ $router->group([
     require __DIR__.'/users.php';
     require __DIR__.'/webhooks.php';
     require __DIR__.'/bot.php';
-
 });
 
 // Migration
