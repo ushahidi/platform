@@ -74,6 +74,7 @@ $app->routeMiddleware([
     'expiration' => Ushahidi\App\Http\Middleware\CheckDemoExpiration::class,
     'signature' => Ushahidi\App\Http\Middleware\SignatureAuth::class,
     'feature' => Ushahidi\App\Http\Middleware\CheckFeature::class,
+    'verifybot' => Ushahidi\App\Http\Middleware\VerifyBot::class,
 ]);
 
 /*
