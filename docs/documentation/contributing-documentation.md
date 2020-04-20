@@ -25,7 +25,7 @@ Our intention is to make our documentation available to as many people as possib
 
 We use the English language as it is the most widely spread language for global communication. While making this choice, we must be mindful of the diversity of our audience. Not all our readers may be comfortable with English. We must not add to their burden with confused explanations, complicated structure or obscure wording.
 
-Here are a few things to keep in mind. 
+Here are a few things to keep in mind.
 
 * **Keep your pages short**. If you have to scroll down more than two or three times so as to review the content of your newly created page, it may be worth splitting that content up into two or several different pages.
 * **Keep your text to the point**. Avoid at all costs quickly rambling through different ideas or adding to the same page concepts that are not directly connected.
@@ -33,6 +33,4 @@ Here are a few things to keep in mind.
 * **Use paragraphs effectively**. Try to keep your paragraphs short. Avoid mixing ideas in the same paragraph. A new idea, perspective or concept is a great opportunity to start a new paragraph. Complex ideas can take several paragraphs. If your paragraph contains more than 8 lines or sentences, this is a strong signal for you to consider splitting that paragraph up.
 * **Don't use sophisticated language**. Our documentation is not intended only for native or advanced English speakers. Any person with a beginner to intermediate level should be able to read this without giving up.
 * **Use short sentences and neutral, standard vocabulary.** Please try to write in short sentences. Avoid long sentences with multiple conjunctions. Also use vocabulary as plain as possible. Avoid obscure words and local, excessively colloquial or elaborate expressions.  If you feel it's absolutely necessary to use a specific, not widely used term, please consider linking to its definition.
-
-
 

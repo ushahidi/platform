@@ -1,10 +1,10 @@
 # \[Client\] Setting up the Platform Client for development
 
-### What is the platform client?
+## What is the platform client?
 
 The web client is the component that end users interact with when opening the Platform website with a web browser. The client interacts with the API in order to perform operations on the system \(i.e. submit posts, query posts\).
 
-### Video-tutorials
+## Video-tutorials
 
 The setup in this guide is demonstrated in below videos as well if you want to watch and follow the guide at the same time!
 
@@ -14,21 +14,19 @@ The setup in this guide is demonstrated in below videos as well if you want to w
 
 {% embed url="https://www.youtube.com/watch?v=zY80QpptKk0&feature=youtu.be" caption="Download the Platform code with Github-desktop, recorded in Windows" %}
 
-
-
-### Installation steps
+## Installation steps
 
 {% hint style="warning" %}
-Pre-requisite: Install the platform API by following one of the API setup guides 
+
+Pre-requisite: Install the platform API by following one of the API setup guides
 
 {% page-ref page="./" %}
-{% endhint %}
 
 {% hint style="warning" %}
-Pre-requisite: Install Node V6.x or 8.x \(you might want to use NVM for this\) before continuing.
+Pre-requisite: Install Node V10.x or higher \(you might want to use NVM for this\) before continuing.
 {% endhint %}
 
-#### **Getting the platform-client code**
+### **Getting the platform-client code**
 
 * In a terminal window or command prompt, clone the repository.
 
@@ -37,7 +35,7 @@ git clone https://github.com/ushahidi/platform-client.git
 ```
 
 {% hint style="success" %}
-Mind your directories. The command above will create a directory named _platform-client_ in the current active directory of your terminal/command prompt. Make sure you know on which directory you are setting **before** running the command. 
+Mind your directories. The command above will create a directory named _platform-client_ in the current active directory of your terminal/command prompt. Make sure you know on which directory you are setting **before** running the command.
 {% endhint %}
 
 * Go into the platform directory
@@ -66,7 +64,7 @@ for working on the `master`branch, with more stable code.
 If you haven't used git before or need help with git specific issues, make sure to check out their docs here [https://git-scm.com/doc](https://git-scm.com/doc)
 {% endhint %}
 
-#### Installing dependencies
+### Installing dependencies
 
 * Install the platform-client dependencies.
 
@@ -74,7 +72,7 @@ If you haven't used git before or need help with git specific issues, make sure 
 npm install
 ```
 
-#### Configuring the client build
+### Configuring the client build
 
 There are a few quite important variables that are looked at the point when the client code is built into a browser web app. These variables are picked up from a file named `.env` , located in the `platform-client` folder that you have recently cloned from github.
 
@@ -94,7 +92,7 @@ This will create an empty file, but with the right name. File Explorer may prese
 Mac/Linux users may use the `touch .env` command to the same end.
 {% endhint %}
 
-#### Required build configuration variables
+### Required build configuration variables
 
 There is only one required variable that must be defined in your `.env` file, and its name is `BACKEND_URL`. Its purpose is to configure the client with the URL to use, in order to send HTTP network requests to the Platform API. If this variable is wrong, nothing works. This variable usually takes different values for different users.
 
@@ -118,16 +116,16 @@ If you have used one of our guides for setting up the API locally, check back th
 {% hint style="success" %}
 Take a minute here to make sure you have entered the proper URL and the API is working.
 
-From your `.env` file, copy the variable value \(the part starting with "http://"\) and paste it in your browser's address bar, then hit enter. As a result you should see something similar to this:
+From your `.env` file, copy the variable value \(the part starting with "[http://"\](http://"\)\) and paste it in your browser's address bar, then hit enter. As a result you should see something similar to this:
 
 ```text
 {"now":"2019-02-04T10:52:25+00:00","version":"3","user":{"id":null,"email":null,"realname":null}}
 ```
 
-If you get an error, please make sure that your API server is up \(i.e. Apache and MySQL\), and go back to your Platform API installation notes to make sure you had the correct URL. 
+If you get an error, please make sure that your API server is up \(i.e. Apache and MySQL\), and go back to your Platform API installation notes to make sure you had the correct URL.
 {% endhint %}
 
-#### Advanced: other configuration variables
+### Advanced: other configuration variables
 
 All the other variables are often not required to specify, as they have sensible defaults.
 
@@ -140,7 +138,7 @@ You can **safely skip this section** if it's your first time setting up the clie
 * `APP_LANGUAGES` is a list of language codes \(in ISO-639-1 format\) to download from Transifex. For example `APP_LANGUAGES=sw,en,es` would enable the client to appear in Swahili, English and Spanish.
 * `OAUTH_CLIENT_ID` and `OAUTH_CLIENT_SECRET` are variables used during the process of authentication of a user against the API. You can ignore these 99% of the times. Also, these are not particularly secret nor provide much security. They just have to exist, and they do by default. \(If  you must know, their values default to `ushahidiui` and `35e7f0bca957836d05ca0492211b0ac707671261` respectively\)
 
-#### Making \`gulp\` command available
+### Making \`gulp\` command available
 
 The `gulp` command, although a bit funny-sounding, is key for all development tasks on the platform client.
 
@@ -171,7 +169,7 @@ export PATH=$HOME/bin:/usr/local/bin:node_modules/.bin:$PATH
 ```
 {% endcode %}
 
-### Running a local development server
+## Running a local development server
 
 The local development server is a web server that makes the platform client available to your browser locally. Additionally, it will watch the `platform-client` folder for changes, and rebuild the application as needed.
 
@@ -193,11 +191,11 @@ At that point the client should be available to the browser on the address [http
 You are all set for developing, happy hacking!
 {% endhint %}
 
-### Appendix: Building for publication
+## Appendix: Building for publication
 
 Sometimes you want to host your Platform instance so that other devices on the network or the internet can access it.
 
-For the Platform client this means placing the application files in a disk location configured as a static site, where your web server can find them and send them to those other devices. 
+For the Platform client this means placing the application files in a disk location configured as a static site, where your web server can find them and send them to those other devices.
 
 In order to build the files for publication, run:
 
@@ -210,8 +208,4 @@ This will start the process of generating the static site. Once the files are ge
 In the **server** directory you will also find an example nginx and an example apache2 file to help you with some of the web server configurations.
 
 Please note that you will also need to publish the Platform API, so those other devices can actually make any use of the Platform.
-
-
-
-
 

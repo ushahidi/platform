@@ -101,20 +101,9 @@ class ExportJob extends StaticEntity
     /**
      * Handle state transitions
      */
-    public function handleStateTransition()
+    public function startHDX()
     {
-        // Check for new status of 'EXPORTED_TO_CDN'
-        if ($this->hasChanged('status') && $this->status == ExportJob::STATUS_EXPORTED_TO_CDN) {
-            if ($this->send_to_hdx) {
-                // Jump to next state PENDING_HDX
-                $this->setState(['status' => ExportJob::STATUS_PENDING_HDX]);
-                // if sending to HXL is required, then we spawn an event to do that
-                Event::fire(new SendToHDXEvent($this->getId()));
-            } else {
-                // if sending to HDX is not required, (or send_to_hdx does not exist)
-                // then simply update the status to SUCCESS
-                $this->setState([ 'status' => ExportJob::STATUS_SUCCESS]);
-            }
-        }
+        // if sending to HXL is required, then we spawn an event to do that
+        Event::fire(new SendToHDXEvent($this->getId()));
     }
 }

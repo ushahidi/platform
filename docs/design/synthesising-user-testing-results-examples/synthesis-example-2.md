@@ -4,43 +4,35 @@
 
 **Test Date:** 20th April 2018
 
-**User:** General user, works as a web designer, relatively new to the platform. 
-
-----------------------------------------------------------------------------------
+**User:** General user, works as a web designer, relatively new to the platform.
 
 **Task 1:** Previous experience with ‘tagging’ \(no screen required\)
 
-**Scenarios:** 
+**Scenarios:**
 
 1. Ask the users to describe what they think when they here the term ‘tagging’ or ‘labelling’ means in relation to websites, digital products, software etc.
 2. Ask users when they have previously had experience of ‘tagging’. What was the nature of the content? Was there any extraction of data afterwards? Whether there was anything they wish they could have done that they couldn’t do. 
 
+| Scenario | Observation | Category |
+| :--- | :--- | :--- |
+
+
 <table>
   <thead>
     <tr>
-      <th style="text-align:left">Scenario</th>
-      <th style="text-align:left">Observation</th>
-      <th style="text-align:left">Category</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align:left">1</td>
-      <td style="text-align:left">
+      <th style="text-align:left">1</th>
+      <th style="text-align:left">
         <p>Labelling people and/or pictures.</p>
         <p>Keywords.</p>
         <p>Anchors for making data easier/better to search.</p>
-      </td>
-      <td style="text-align:left">#Activity</td>
+      </th>
+      <th style="text-align:left">#Activity</th>
     </tr>
-    <tr>
-      <td style="text-align:left">2</td>
-      <td style="text-align:left">Blog posts, facebook, wordpress, Evernote (used for personal notes and
-        research for projects)</td>
-      <td style="text-align:left">#Activity</td>
-    </tr>
-  </tbody>
-</table>**Task 2:** Locating in the information architecture \(Prototype needed - [https://adobe.ly/2vmIZJo](https://adobe.ly/2vmIZJo)\) 
+  </thead>
+  <tbody></tbody>
+</table>| 2 | Blog posts, facebook, wordpress, Evernote \(used for personal notes and research for projects\) | \#Activity |
+| :--- | :--- | :--- |
+
 
 The prototype \(URL\) opens on Settings view.
 
@@ -57,31 +49,25 @@ The prototype \(URL\) opens on Settings view.
 9. If you haven't already, please click the back button \(you may need to click a few times on a ‘real’ website.
 10. Imagine you want your volunteer data to include hxl tags. 
 
-\(We can briefly explain here that hxl tags are a way of ‘assigning’ a ‘term’ to a piece of information. Use Justin’s analogy of Instagram/Twitter hashtags!\)  
+\(We can briefly explain here that hxl tags are a way of ‘assigning’ a ‘term’ to a piece of information. Use Justin’s analogy of Instagram/Twitter hashtags!\)
 
-
-Which option would you choose? \(they can click at this point\)  
-
+Which option would you choose? \(they can click at this point\)
 
 1. As you choose this option, what are you thinking? What is your first impression of this page? \(Should be on the first view of the export table\)
+
+| Scenario | Observation | Category |
+| :--- | :--- | :--- |
+
+
+| 1 | Export data - easily found in settings page | \#Activity |
+| :--- | :--- | :--- |
+
 
 <table>
   <thead>
     <tr>
-      <th style="text-align:left">Scenario</th>
-      <th style="text-align:left">Observation</th>
-      <th style="text-align:left">Category</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align:left">1</td>
-      <td style="text-align:left">Export data - easily found in settings page</td>
-      <td style="text-align:left">#Activity</td>
-    </tr>
-    <tr>
-      <td style="text-align:left">2</td>
-      <td style="text-align:left">
+      <th style="text-align:left">2</th>
+      <th style="text-align:left">
         <p>User looks at top paragraph of text but only &#x2018;sees&#x2019; the
           blue links. Is irritated because they &#x2018;will take them away for the
           page&#x2019; and they don&#x2019;t want to.</p>
@@ -106,8 +92,8 @@ Which option would you choose? \(they can click at this point\)
           <br
           />
         </p>
-      </td>
-      <td style="text-align:left">
+      </th>
+      <th style="text-align:left">
         <p>#Activity
           <br />
           <br />
@@ -126,11 +112,15 @@ Which option would you choose? \(they can click at this point\)
           <br />
         </p>
         <p>#Quote</p>
-      </td>
+      </th>
     </tr>
+  </thead>
+  <tbody></tbody>
+</table><table>
+  <thead>
     <tr>
-      <td style="text-align:left">3&amp;4</td>
-      <td style="text-align:left">
+      <th style="text-align:left">3&amp;4</th>
+      <th style="text-align:left">
         <p>Assume hxl means = sort data and search pre-tagged data.</p>
         <p>List of best tags or official list of tags.</p>
         <p>No idea what attributes means in this context. User says they need more
@@ -144,8 +134,8 @@ Which option would you choose? \(they can click at this point\)
         <p>User makes a comment on the placement of buttons being odd. Assumes that
           &#x2018;Export all&#x2019; and &#x2018;Export with hxl&#x2026;&#x2019;
           should be closer together.</p>
-      </td>
-      <td style="text-align:left">
+      </th>
+      <th style="text-align:left">
         <p>#Activity
           <br />
           <br />
@@ -157,11 +147,15 @@ Which option would you choose? \(they can click at this point\)
           <br />
         </p>
         <p>#Activity</p>
-      </td>
+      </th>
     </tr>
+  </thead>
+  <tbody></tbody>
+</table><table>
+  <thead>
     <tr>
-      <td style="text-align:left">5, 6, 7, 8, 9</td>
-      <td style="text-align:left">
+      <th style="text-align:left">5, 6, 7, 8, 9</th>
+      <th style="text-align:left">
         <p>(Clicking on a blue link and exploring the HDX documentation)
           <br />
         </p>
@@ -187,8 +181,8 @@ Which option would you choose? \(they can click at this point\)
         </p>
         <p>User described feeling &#x2018;down&#x2019; and this info being &#x2018;beyond
           them&#x2019; and &#x2018;disempowered&#x2019;</p>
-      </td>
-      <td style="text-align:left">
+      </th>
+      <th style="text-align:left">
         <p>#Activity
           <br />
           <br />
@@ -213,16 +207,19 @@ Which option would you choose? \(they can click at this point\)
           <br />
         </p>
         <p>#Quote</p>
-      </td>
+      </th>
     </tr>
+  </thead>
+  <tbody></tbody>
+</table>| 10 | Would choose the hxl option | \#Activity |
+| :--- | :--- | :--- |
+
+
+<table>
+  <thead>
     <tr>
-      <td style="text-align:left">10</td>
-      <td style="text-align:left">Would choose the hxl option</td>
-      <td style="text-align:left">#Activity</td>
-    </tr>
-    <tr>
-      <td style="text-align:left">11</td>
-      <td style="text-align:left">
+      <th style="text-align:left">11</th>
+      <th style="text-align:left">
         <p>This looks well sorted. &#x201C;I like tables!&#x201D;
           <br />
         </p>
@@ -231,8 +228,8 @@ Which option would you choose? \(they can click at this point\)
         </p>
         <p>User said the checkboxes are too small for them to click.</p>
         <p>Red stars are also too small.</p>
-      </td>
-      <td style="text-align:left">
+      </th>
+      <th style="text-align:left">
         <p>#Quote
           <br />
         </p>
@@ -240,14 +237,11 @@ Which option would you choose? \(they can click at this point\)
           <br />
         </p>
         <p>#Activity</p>
-      </td>
+      </th>
     </tr>
-  </tbody>
-</table>  
-**Task 3:** Going through assigning hxl tags in the table   
-screen required - prototype: [https://adobe.ly/2HecW3O](https://adobe.ly/2HecW3O)
-
-**Scenarios:**
+  </thead>
+  <tbody></tbody>
+</table>**Scenarios:**
 
 1. Is it clear how you progress? What are the steps you would take to start this section?
 2. Can you show me how you would know if a certain section was going to be included in the eventual CSV download?
@@ -257,8 +251,7 @@ screen required - prototype: [https://adobe.ly/2HecW3O](https://adobe.ly/2HecW3O
 6. Can you show me \(without clicking\) how you might add a hxl attribute?
 7. \(If they click on the ‘Leave empty’ attribute drop down\) What do you think of the options presented in this section? What kinds of information does it give you in relation to the tags? 
 
-\(Is the difference between tags and attributes clearer for the user at this point?\)  
-
+\(Is the difference between tags and attributes clearer for the user at this point?\)
 
 1. Can you now show me how you would add a custom hxl attribute? \(Encourage clicking now\)
 2. \(on the ‘please type an attribute’ field\) What do you expect to be able to do here? \(Go through the clicks in order to add the custom attribute\)
@@ -270,31 +263,27 @@ screen required - prototype: [https://adobe.ly/2HecW3O](https://adobe.ly/2HecW3O
 8. Please continue with the section ‘Location’ and add a tag ‘geo’
 9. \(Pause - see if they notice the list is less populated\) Why do you think this list has less options?
 
-Q: \(if they don’t notice\) Is there anything you notice about the drop down list? Why do you think this list has less options?  
-
+Q: \(if they don’t notice\) Is there anything you notice about the drop down list? Why do you think this list has less options?
 
 1. Can you now add two hxl attributes ‘longitude’ and ‘latitude’. \(these are the last tags/attributes to add during the test the ‘export to CSV and HDX buttons should be clickable\)
 2. Take a moment to pause, Can you take a look at this screen and explain what you have just completed.
 
- Can you point out the HXL tags and attributes?
+   Can you point out the HXL tags and attributes?
 
- Do you remember what they mean? If not can you give a good guess?
+   Do you remember what they mean? If not can you give a good guess?
 
-1. Can you now show me how you would get a CSV file? What would you expect to see happen next?
-2. Can you tell me what you think ‘Export to HDX’ means? \(Do people assume this is a file extension type? Do they understand it’s a whole system?\) Go ahead and click ‘Export to HDX’. Take me through your impressions of this message.
+3. Can you now show me how you would get a CSV file? What would you expect to see happen next?
+4. Can you tell me what you think ‘Export to HDX’ means? \(Do people assume this is a file extension type? Do they understand it’s a whole system?\) Go ahead and click ‘Export to HDX’. Take me through your impressions of this message.
+
+| Scenario | Observation | Category |
+| :--- | :--- | :--- |
+
 
 <table>
   <thead>
     <tr>
-      <th style="text-align:left">Scenario</th>
-      <th style="text-align:left">Observation</th>
-      <th style="text-align:left">Category</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align:left">1</td>
-      <td style="text-align:left">
+      <th style="text-align:left">1</th>
+      <th style="text-align:left">
         <p>User looks at which fields to include.</p>
         <p>Wants to click checkbox first (prototype error won&#x2019;t allow this)
           <br
@@ -302,23 +291,24 @@ Q: \(if they don’t notice\) Is there anything you notice about the drop down l
         </p>
         <p>User describes working from left to right. Doesn&#x2019;t read any top
           text (or say they did)</p>
-      </td>
-      <td style="text-align:left">#Activity</td>
+      </th>
+      <th style="text-align:left">#Activity</th>
     </tr>
+  </thead>
+  <tbody></tbody>
+</table>| 2 | Easy - gestures to the checkbox | \#Activity |
+| :--- | :--- | :--- |
+
+
+| 3 | Easy - finds the drop down and interacts to look at the list. | \#Activity |
+| :--- | :--- | :--- |
+
+
+<table>
+  <thead>
     <tr>
-      <td style="text-align:left">2</td>
-      <td style="text-align:left">Easy - gestures to the checkbox</td>
-      <td style="text-align:left">#Activity</td>
-    </tr>
-    <tr>
-      <td style="text-align:left">3</td>
-      <td style="text-align:left">Easy - finds the drop down and interacts to look at the list.</td>
-      <td
-      style="text-align:left">#Activity</td>
-    </tr>
-    <tr>
-      <td style="text-align:left">4</td>
-      <td style="text-align:left">
+      <th style="text-align:left">4</th>
+      <th style="text-align:left">
         <p>Describes the list content as clear until &#x2018;impact&#x2019;
           <br />
         </p>
@@ -331,8 +321,8 @@ Q: \(if they don’t notice\) Is there anything you notice about the drop down l
         <p>Descriptive tags are fine but some are unclear
           <br />
         </p>
-      </td>
-      <td style="text-align:left">
+      </th>
+      <th style="text-align:left">
         <p>#Activity
           <br />
           <br />
@@ -343,21 +333,23 @@ Q: \(if they don’t notice\) Is there anything you notice about the drop down l
           <br />
         </p>
         <p>#Activity</p>
-      </td>
+      </th>
     </tr>
+  </thead>
+  <tbody></tbody>
+</table>| 5 | Easy - finds. | \#Activity |
+| :--- | :--- | :--- |
+
+
+| 6 | Easy - interacts with the attribute drop down | \#Activity |
+| :--- | :--- | :--- |
+
+
+<table>
+  <thead>
     <tr>
-      <td style="text-align:left">5</td>
-      <td style="text-align:left">Easy - finds.</td>
-      <td style="text-align:left">#Activity</td>
-    </tr>
-    <tr>
-      <td style="text-align:left">6</td>
-      <td style="text-align:left">Easy - interacts with the attribute drop down</td>
-      <td style="text-align:left">#Activity</td>
-    </tr>
-    <tr>
-      <td style="text-align:left">7</td>
-      <td style="text-align:left">
+      <th style="text-align:left">7</th>
+      <th style="text-align:left">
         <p>User is unclear why there are +&#x2019;s instead of a # here.
           <br />
         </p>
@@ -365,8 +357,8 @@ Q: \(if they don’t notice\) Is there anything you notice about the drop down l
           <br />
         </p>
         <p>Expecting maybe an underscore or a hyphen.</p>
-      </td>
-      <td style="text-align:left">
+      </th>
+      <th style="text-align:left">
         <p>#Activity
           <br />
         </p>
@@ -374,16 +366,19 @@ Q: \(if they don’t notice\) Is there anything you notice about the drop down l
           <br />
         </p>
         <p>#Activity</p>
-      </td>
+      </th>
     </tr>
+  </thead>
+  <tbody></tbody>
+</table>| 8 | Easily finds the way to add a custom tag | \#Activity |
+| :--- | :--- | :--- |
+
+
+<table>
+  <thead>
     <tr>
-      <td style="text-align:left">8</td>
-      <td style="text-align:left">Easily finds the way to add a custom tag</td>
-      <td style="text-align:left">#Activity</td>
-    </tr>
-    <tr>
-      <td style="text-align:left">9</td>
-      <td style="text-align:left">
+      <th style="text-align:left">9</th>
+      <th style="text-align:left">
         <p>User describes typing in the field and then clicking on the plus to add
           a custom attribute.
           <br />
@@ -391,18 +386,22 @@ Q: \(if they don’t notice\) Is there anything you notice about the drop down l
         <p>&#x201C;It&#x2019;s weird because there&#x2019;s a double plus. The plus
           in the &#x2018;attributes&#x2019; and the plus button. Plus has already
           been used&#x201D;</p>
-      </td>
-      <td style="text-align:left">
+      </th>
+      <th style="text-align:left">
         <p>#Activity
           <br />
           <br />
         </p>
         <p>#Quote</p>
-      </td>
+      </th>
     </tr>
+  </thead>
+  <tbody></tbody>
+</table><table>
+  <thead>
     <tr>
-      <td style="text-align:left">10</td>
-      <td style="text-align:left">
+      <th style="text-align:left">10</th>
+      <th style="text-align:left">
         <p>Tag preview = user says its not clear how this relates to what&#x2019;s
           been completed.
           <br />
@@ -415,8 +414,8 @@ Q: \(if they don’t notice\) Is there anything you notice about the drop down l
         </p>
         <p>User describes the kind of type ahead text fields that add tags as a user
           types and brings up a list. Describes this as more widely used.</p>
-      </td>
-      <td style="text-align:left">
+      </th>
+      <th style="text-align:left">
         <p>#Activity
           <br />
           <br />
@@ -427,39 +426,35 @@ Q: \(if they don’t notice\) Is there anything you notice about the drop down l
           <br />
         </p>
         <p>#Activity</p>
-      </td>
+      </th>
     </tr>
+  </thead>
+  <tbody></tbody>
+</table>| 11 | User says they might choose ‘activity’ or ‘output’ but wants the ability to add multiple tags to be sure. | \#Activity |
+| :--- | :--- | :--- |
+
+
+| 12 | Easy action | \#Activity |
+| :--- | :--- | :--- |
+
+
+| 13 | Easy - talks about tag preview still being too small | \#Activity |
+| :--- | :--- | :--- |
+
+
+| 14 | Skipped question |  |
+| :--- | :--- | :--- |
+
+
+| 15 | Easy to add tags and attribute now. User is used to process.  | \#Activity |
+| :--- | :--- | :--- |
+
+
+<table>
+  <thead>
     <tr>
-      <td style="text-align:left">11</td>
-      <td style="text-align:left">User says they might choose &#x2018;activity&#x2019; or &#x2018;output&#x2019;
-        but wants the ability to add multiple tags to be sure.</td>
-      <td style="text-align:left">#Activity</td>
-    </tr>
-    <tr>
-      <td style="text-align:left">12</td>
-      <td style="text-align:left">Easy action</td>
-      <td style="text-align:left">#Activity</td>
-    </tr>
-    <tr>
-      <td style="text-align:left">13</td>
-      <td style="text-align:left">Easy - talks about tag preview still being too small</td>
-      <td style="text-align:left">#Activity</td>
-    </tr>
-    <tr>
-      <td style="text-align:left">14</td>
-      <td style="text-align:left">Skipped question</td>
-      <td style="text-align:left"></td>
-    </tr>
-    <tr>
-      <td style="text-align:left">15</td>
-      <td style="text-align:left">Easy to add tags and attribute now. User is used to process.
-        <br />
-      </td>
-      <td style="text-align:left">#Activity</td>
-    </tr>
-    <tr>
-      <td style="text-align:left">16</td>
-      <td style="text-align:left">
+      <th style="text-align:left">16</th>
+      <th style="text-align:left">
         <p>User suspects that less tags to choose from suggests a &#x2018;more precise&#x2019;
           type of data.
           <br />
@@ -468,8 +463,8 @@ Q: \(if they don’t notice\) Is there anything you notice about the drop down l
           <br />
         </p>
         <p>&#x201C;Why custom? I don&#x2019;t need this&#x201D;</p>
-      </td>
-      <td style="text-align:left">
+      </th>
+      <th style="text-align:left">
         <p>#Activity
           <br />
           <br />
@@ -478,17 +473,19 @@ Q: \(if they don’t notice\) Is there anything you notice about the drop down l
           <br />
         </p>
         <p>#Quote</p>
-      </td>
+      </th>
     </tr>
+  </thead>
+  <tbody></tbody>
+</table>| 17 | “Why is it not the full word? \(longitude\) there's enough space!” | \#Quote |
+| :--- | :--- | :--- |
+
+
+<table>
+  <thead>
     <tr>
-      <td style="text-align:left">17</td>
-      <td style="text-align:left">&#x201C;Why is it not the full word? (longitude) there&apos;s enough space!&#x201D;</td>
-      <td
-      style="text-align:left">#Quote</td>
-    </tr>
-    <tr>
-      <td style="text-align:left">18</td>
-      <td style="text-align:left">
+      <th style="text-align:left">18</th>
+      <th style="text-align:left">
         <p>User is able to point out tags and attributes that they have completed.
           Described fields they have interacted with.
           <br />
@@ -498,8 +495,8 @@ Q: \(if they don’t notice\) Is there anything you notice about the drop down l
           />
         </p>
         <p>&#x201C;I understand real words&#x201D;</p>
-      </td>
-      <td style="text-align:left">
+      </th>
+      <th style="text-align:left">
         <p>#Activity
           <br />
           <br />
@@ -509,16 +506,19 @@ Q: \(if they don’t notice\) Is there anything you notice about the drop down l
           <br />
         </p>
         <p>#Quote</p>
-      </td>
+      </th>
     </tr>
+  </thead>
+  <tbody></tbody>
+</table>| 19 | Export to CSV would bring up a download pop up | \#Activity |
+| :--- | :--- | :--- |
+
+
+<table>
+  <thead>
     <tr>
-      <td style="text-align:left">19</td>
-      <td style="text-align:left">Export to CSV would bring up a download pop up</td>
-      <td style="text-align:left">#Activity</td>
-    </tr>
-    <tr>
-      <td style="text-align:left">20</td>
-      <td style="text-align:left">
+      <th style="text-align:left">20</th>
+      <th style="text-align:left">
         <p>&#x201C;I don&#x2019;t know (in relation to HDX) I would guess it&#x2019;s
           a file format that is specific to this dataset&#x201D;
           <br />
@@ -532,8 +532,8 @@ Q: \(if they don’t notice\) Is there anything you notice about the drop down l
           <br />
         </p>
         <p>I&#x2019;m not ready - creates nervousness</p>
-      </td>
-      <td style="text-align:left">
+      </th>
+      <th style="text-align:left">
         <p>#Quote
           <br />
           <br />
@@ -546,12 +546,11 @@ Q: \(if they don’t notice\) Is there anything you notice about the drop down l
           <br />
         </p>
         <p>#Activity</p>
-      </td>
+      </th>
     </tr>
-  </tbody>
-</table>**General Feedback**
-
-1.  Any final thoughts?
+  </thead>
+  <tbody></tbody>
+</table>1. Any final thoughts?
 
 UI was easy and familiar.
 
@@ -563,7 +562,5 @@ User didn’t understand the term ‘deployment’
 
 User wants a progress bar in certain areas.
 
-Wants more illustrations or diagrams to help them along like a clock when the ‘export’ is happening.  
-  
-
+Wants more illustrations or diagrams to help them along like a clock when the ‘export’ is happening.
 

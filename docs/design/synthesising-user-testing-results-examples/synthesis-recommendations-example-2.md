@@ -57,34 +57,34 @@ Key findings:
 
 ### _Quick wins_
 
-*  Remove report user from chat and keep in a users profile only.
-*  Add back buttons &lt;- into the profile page and any pages where they are absent
-*  Payment info not top of list in profile
-*  Remove any onboarding pop-ups.
-*  Better contrast of icons on map
-*  Chat is primary action
-*  Add in a closing quote mark on quote graphic
-*  test a different piece of photography
+* Remove report user from chat and keep in a users profile only.
+* Add back buttons &lt;- into the profile page and any pages where they are absent
+* Payment info not top of list in profile
+* Remove any onboarding pop-ups.
+* Better contrast of icons on map
+* Chat is primary action
+* Add in a closing quote mark on quote graphic
+* test a different piece of photography
 
 ### _Re-working - longer term work_
 
-*  Text and buttons bigger
-*  Plain, natural language for any text
-*  Repeat requests, bigger headings and more explanation
-*  Add in a bio on profile
-*  investigate something other than stars for rating
-*  We need a review template for people to add in a minimum amount of detail
-*  Food list deeply confusing via request. Needs clarity that these items are ready and available
-*  User needs to be able to add in custom images
-*  Users really interested in other ways of helping but appreciate the 3 there already
-*  Need a way to politely decline an offer of help and introduce element of choice
-*  We need to deeply investigate safety concerns
-*  Conversational tone in a familiar language \(depends on input from Monica & Angie\)
-*  Scheduling and timings for tasks \(Time slots? Leave out? dropboxes?\)
-*  Pickup location coordination \(chat? Options? Third party point?\)
-*  Clarify and repeat perspective in conversational language: who is helping who with what again?
-*  Simplify to two options: Give Help and Get Help -&gt; Then simplify to two more options: Items and Skills\(or Actions\)
-*  Type-ahead label generation, or free text \(this is a new way of organizing info-- something we haven’t really tried yet\)
+* Text and buttons bigger
+* Plain, natural language for any text
+* Repeat requests, bigger headings and more explanation
+* Add in a bio on profile
+* investigate something other than stars for rating
+* We need a review template for people to add in a minimum amount of detail
+* Food list deeply confusing via request. Needs clarity that these items are ready and available
+* User needs to be able to add in custom images
+* Users really interested in other ways of helping but appreciate the 3 there already
+* Need a way to politely decline an offer of help and introduce element of choice
+* We need to deeply investigate safety concerns
+* Conversational tone in a familiar language \(depends on input from Monica & Angie\)
+* Scheduling and timings for tasks \(Time slots? Leave out? dropboxes?\)
+* Pickup location coordination \(chat? Options? Third party point?\)
+* Clarify and repeat perspective in conversational language: who is helping who with what again?
+* Simplify to two options: Give Help and Get Help -&gt; Then simplify to two more options: Items and Skills\(or Actions\)
+* Type-ahead label generation, or free text \(this is a new way of organizing info-- something we haven’t really tried yet\)
 
 ## Via Voting the top issues to investigate are:
 

@@ -529,6 +529,137 @@
       "contributions": [
         "bug"
       ]
+    },
+    {
+      "login": "Timtech4u",
+      "name": "Timothy Olaleke",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/11256481?v=4",
+      "profile": "https://timz.tech",
+      "contributions": [
+        "doc",
+        "bug",
+        "code"
+      ]
+    },
+    {
+      "login": "jlucianolzz",
+      "name": "jlucianolzz",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/26437703?v=4",
+      "profile": "https://github.com/jlucianolzz",
+      "contributions": [
+        "test"
+      ]
+    },
+    {
+      "login": "Guzzler",
+      "name": "Sharang Pai",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/12707741?v=4",
+      "profile": "http://sharangpai.me",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "TomC-Codes",
+      "name": "Tom Cole",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/48810834?v=4",
+      "profile": "https://github.com/TomC-Codes",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "c3ho",
+      "name": "Calvin ",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/18711727?v=4",
+      "profile": "https://c3ho.blogspot.com/",
+      "contributions": [
+        "code",
+        "review"
+      ]
+    },
+    {
+      "login": "stewartweiss",
+      "name": "Stewart Weiss",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/39007707?v=4",
+      "profile": "http://www.compsci.hunter.cuny.edu/~sweiss/",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "ritesh-pandey",
+      "name": "Ritesh Pandey",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/1433681?v=4",
+      "profile": "http://riteshwrote.blogspot.com",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "himil-vasava",
+      "name": "Himil Vasava",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/55590415?v=4",
+      "profile": "https://github.com/himil-vasava",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "johnmurray4",
+      "name": "johnmurray4",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/54542562?v=4",
+      "profile": "https://github.com/johnmurray4",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "Jenniline",
+      "name": "Jenniline ",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/39647995?v=4",
+      "profile": "https://github.com/Jenniline",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "rohit645",
+      "name": "Rohit Kumar",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/33249010?v=4",
+      "profile": "http://rohit645.github.io",
+      "contributions": [
+        "bug",
+        "code"
+      ]
+    },
+    {
+      "login": "ljvargh",
+      "name": "ljvargh",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/47359729?v=4",
+      "profile": "https://github.com/ljvargh",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "individual-it",
+      "name": "Artur Neumann",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/2425577?v=4",
+      "profile": "https://www.jankaritech.com",
+      "contributions": [
+        "infra",
+        "code"
+      ]
+    },
+    {
+      "login": "webong",
+      "name": "Wisdom Anthony Ebong",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/30173059?v=4",
+      "profile": "http://webong.dev",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "projectName": "platform",

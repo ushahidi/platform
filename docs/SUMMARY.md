@@ -1,8 +1,10 @@
 # Table of contents
 
 * [👋 Welcome \| README](README.md)
-* [Code of Conduct](code-of-conduct.md)
+* [Code of Conduct](code-of-conduct/README.md)
+  * [Values](code-of-conduct/values.md)
 * [Contributing \| Getting Involved](contributing-or-getting-involved/README.md)
+  * [Specific tasks needed for COVID19-support](contributing-or-getting-involved/covid.md)
   * [Add code to Ushahidi](contributing-or-getting-involved/workflow-for-adding-code.md)
   * [Encouraging contribution from non-developers](contributing-or-getting-involved/encouraging-contribution-from-non-developers.md)
 * [Frequently Asked Questions](frequently-asked-questions.md)
@@ -109,4 +111,5 @@
 ## Enhancement Proposals
 
 * [Exchange Format](enhancement-proposals/exchange-format.md)
+* [Importing data from previous versions](enhancement-proposals/importing-data-from-previous-versions.md)
 

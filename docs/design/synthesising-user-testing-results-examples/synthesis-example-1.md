@@ -4,10 +4,9 @@
 
 **Date conducted:** 12 November
 
-**Date sent to Design:** 12 November  
+**Date sent to Design:** 12 November
 
-
-**Who is the user?** 
+**Who is the user?**
 
 * Name: Jo Doe
   * Forced to flee out of ethiopia 6 months ago — journalist
@@ -21,7 +20,7 @@
 * Size of organization \(number of employees\): 1, with 3 potential volunteers
 * Est. budget of org: $0
 
-**What problem are they trying to solve?** 
+**What problem are they trying to solve?**
 
 * Overall mission of the organization
   * bring to light abuses about human rights in ethiopia
@@ -37,7 +36,7 @@
 * What are those roles’ responsibilities?
   * Find data sources, manage incoming data and bring awareness to project
 
-**What is the current process for solving this problem?** 
+**What is the current process for solving this problem?**
 
 * at the moment, just using an online news website \(blog\) where he aggregates the news from all over the country and all over the world about this
 * never been exposed to a platform like this
