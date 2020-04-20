@@ -28,8 +28,8 @@ Feature: Gateway checker
         #the following line might fail when running tests on Apache
         And the "data._SERVER.PATH_INFO" property equals "/api/v3/<endpoint>"
         And the "data._SERVER.HTTP_USER_AGENT" property contains "GuzzleHttp"
-        And the "data._SERVER.DOCUMENT_ROOT" property contains "/platform"
-        And the "data._SERVER.SCRIPT_FILENAME" property contains "/platform/httpdocs/index.php"
+        And the "data._SERVER.DOCUMENT_ROOT" property contains "/httpdocs"
+        And the "data._SERVER.SCRIPT_FILENAME" property contains "/httpdocs/index.php"
         And the "data._SERVER.HTTP_ACCEPT_CHARSET" property is empty
         And the "data._SERVER.HTTP_ACCEPT_ENCODING" property is empty
         And the "data._SERVER.HTTP_ACCEPT_LANGUAGE" property is empty

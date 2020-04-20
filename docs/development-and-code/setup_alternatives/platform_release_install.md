@@ -121,6 +121,14 @@ The latest releases of the Ushahidi Platform come with a little handy tool calle
 
 If something is wrong, this tool may provide you with useful information about what exactly seems to be the cause.
 
+## Connecting the mobile app
+
+Please note that the mobile app relies on the contents of the "config.json" file in order to connect to the API backend.
+
+In order to help the app find the backend, ensure that the key `backend_url` in the JSON file is set appropriately to the absolute public URL of your deployment \(i.e. `"backend_url": "https://example.deployment.com"` \)
+
+If you are running the Docker container, you may set this variable using the `SITE_URL` environment variable. \(In the default install the site URL **is** the backend URL\).
+
 ## Queue drivers \(and "sync" driver issues\)
 
 The Ushahidi Platform API uses a queue system for running some end-user requested operations in the background. At the moment of this writing, such operations are CSV importing and exporting. More may come up in the future.
