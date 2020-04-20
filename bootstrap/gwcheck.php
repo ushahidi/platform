@@ -8,7 +8,7 @@
 
 # * Mode enabling flag
 # Check for flags that enable the operation of this mode
-#  file: gwcheck.enabled , in the same folder along this file
+#  file: install_debug_mode.enabled , in the same folder along this file
 #  environment: USH_PLATFORM_INSTALL_DEBUG_MODE_ENABLED variable
 #    (NOTE that the .env file in the base folder is NOT parsed for this script!)
 $enabled =

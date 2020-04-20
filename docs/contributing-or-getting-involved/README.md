@@ -17,6 +17,10 @@ We love having you here. But before you start, to ensure everyone has a good exp
 
 There are many ways to get involved with Ushahidi, and some of them are great for first time contributors. If you never contributed to Open Source Software before, or need more guidance doing it, please join the community in one of the channels listed [here](../get-in-touch.md).
 
+### 🦠 I want to contribute to your work on COVID-19 response
+
+Ushahidi is open source software created for the benefit of a large global community improving the world for themselves and others, holding governments accountable, and raising their voices to be more powerful together.  As we see the COVID-19 pandemic wreak havoc globally, we have also seen a large interest and use of our tools. Today, we are reaching out to technologists everywhere to ask for your help to make Ushahidi Platform better. Head over to our [COVID-19 specific page](covid.md) to learn more on how you can support us helping our users.
+
 ### 📝 **I am interested in writing documentation**
 
 **I**f you find an area of the Ushahidi platform that could use better docs, we would love to hear from you in an [issue](https://github.com/ushahidi/platform/issues/new/choose), and would be seriously excited if you send a [Pull Request](https://github.com/ushahidi/platform/compare). **This is a great way to get involved,** and one of the highest impact changes you can make at the moment. You can choose to work on user documentation, fix typos, or add new sections for discussion and collaboration with the community. Every little bit helps.
