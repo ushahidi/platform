@@ -50,4 +50,5 @@ modules/orm
 # Docker Deployment Specifics
 *.aes
 deployment.env
+docker.env
 vault.txt
