@@ -35,7 +35,9 @@ use Ushahidi\App\Util\BoundingBox;
 use Ushahidi\App\Multisite\OhanzeeResolver;
 use Ushahidi\Core\Tool\Permissions\InteractsWithPostPermissions;
 
+use Illuminate\Support\Collection;
 use League\Event\ListenerInterface;
+
 use Ushahidi\Core\Traits\Event;
 
 class PostRepository extends OhanzeeRepository implements
@@ -249,13 +251,30 @@ class PostRepository extends OhanzeeRepository implements
                 /* Check which types are used in the form */
                 $form_attributes = $this->form_attributes_by_form->get(intval($data['form_id']));
                 if ($form_attributes) {
-                    $types_to_fetch = $form_attributes
-                        ->pluck('type')
-                        ->unique()
-                        ->toArray();
+                    /* Count how many of each form attribute type we have */
+                    $types_to_fetch_with_attribute_count = $form_attributes
+                        ->groupBy('type')
+                        ->map(function ($attrs) {
+                            return $attrs->count();
+                        });
 
-                    /* Intersect with requested types, subtract types already provided in $data */
-                    $types_to_fetch = array_intersect($types_to_fetch, $this->include_value_types);
+                    $types_to_fetch = $types_to_fetch_with_attribute_count->keys()->toArray();
+
+                    /* Intersect with requested types */
+                    if (count($this->include_value_types) > 0) {
+                        $types_to_fetch = array_intersect($types_to_fetch, $this->include_value_types);
+                    }
+
+                    /* drop types that we have already fetched
+                       BUT only if there is a SINGLE attribute of that type in the form,
+                       since the SQL JOINs that we have run previously are only good for fetching
+                       a SINGLE value of each type for each post.
+                       If we don't do this, we would be leaving out the values of the second
+                       and subsequent attributes defined with that type */
+                    $already_obtained_types = collect($already_obtained_types)
+                        ->filter(function ($type) use ($types_to_fetch_with_attribute_count) {
+                            return $types_to_fetch_with_attribute_count->get($type) < 2;
+                        })->toArray();
                     $types_to_fetch = array_diff($types_to_fetch, $already_obtained_types);
                 }
             }
