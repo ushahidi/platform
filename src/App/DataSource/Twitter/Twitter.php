@@ -76,7 +76,7 @@ class Twitter implements IncomingAPIDataSource, OutgoingAPIDataSource
                 'description' => function () {
                     return 'Twitter applications may take some time to be approved by Twitter.
                      Please be aware of this if you need this data quickly.
-                    <br><br>Create your <a href="https://apps.twitter.com/app/new" target="_blank">
+                    <br><br>Create your <a href="https://developer.twitter.com/en/apps/create" target="_blank">
                     Twitter application here</a>.';
                 }
             ],
