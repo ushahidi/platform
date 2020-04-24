@@ -47,12 +47,10 @@ class RewriteTwitterUrls extends AbstractMigration
     {
         $sql = "UPDATE posts INNER JOIN messages on messages.post_id = posts.id INNER JOIN contacts on messages.contact_id=contacts.id " .
                "SET posts.content=" .
-               "REPLACE(messages.message, concat('https://twitter.com/', contacts.contact, '/status/', messages.data_source_message_id)), " .
-               "concat('https://twitter.com/statuses/', messages.data_source_message_id) " .
-               "WHERE `messages`.`type` = 'twitter'
-               AND messages.message=posts.content";
+               "REPLACE(messages.message, concat('https://twitter.com/', contacts.contact, '/status/', messages.data_source_message_id), " .
+               "concat('https://twitter.com/statuses/', messages.data_source_message_id)) " .
+               "WHERE `messages`.`type` = 'twitter' AND messages.message=posts.content";
         $this->execute($sql);
-        
         $sql = "UPDATE messages INNER JOIN contacts on contacts.id = messages.contact_id " .
                 "SET messages.message = REPLACE(messages.message, " .
                 "concat('https://twitter.com/', contacts.contact, '/status/', messages.data_source_message_id), " .
