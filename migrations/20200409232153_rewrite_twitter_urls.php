@@ -27,6 +27,7 @@ class RewriteTwitterUrls extends AbstractMigration
      */
     public function up()
     {
+        // phpcs:disable
         $sql = "UPDATE posts INNER JOIN messages on messages.post_id = posts.id INNER JOIN contacts on messages.contact_id=contacts.id " .
                "SET posts.content=" .
                "REPLACE(posts.content, concat('https://twitter.com/statuses/', messages.data_source_message_id), " .
@@ -45,6 +46,7 @@ class RewriteTwitterUrls extends AbstractMigration
 
     public function down()
     {
+        // phpcs:disable
         $sql = "UPDATE posts INNER JOIN messages on messages.post_id = posts.id INNER JOIN contacts on messages.contact_id=contacts.id " .
                "SET posts.content=" .
                "REPLACE(messages.message, concat('https://twitter.com/', contacts.contact, '/status/', messages.data_source_message_id), " .
