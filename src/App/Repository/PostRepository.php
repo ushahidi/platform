@@ -481,9 +481,9 @@ class PostRepository extends OhanzeeRepository implements
             ->where('post_id', '=', $id)
             ->where('completed', '=', 1);
 
-        if (!$excludePrivateValues && $excludeStages) {
-            $query->where('form_stage_id', 'NOT IN', $excludeStages);
-        }
+        // if (!$excludePrivateValues && $excludeStages) {
+        //     $query->where('form_stage_id', 'NOT IN', $excludeStages);
+        // }
 
         $result = $query->execute($this->db());
 
