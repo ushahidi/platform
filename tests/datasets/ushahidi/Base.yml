@@ -1826,6 +1826,10 @@ config:
     group_name: features
     config_key: hxl
     config_value: '{"enabled":true}'
+  -
+    group_name: site
+    config_key: enabled_languages
+    config_value: '{default: "en-US", available: ["es-ES", "pt-BR"]}'
 contacts:
   -
     id: 1

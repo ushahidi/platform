@@ -354,6 +354,9 @@ class CoreConfig extends ContainerConfig
         $di->params['Ushahidi\Core\Tool\Authorizer\FormAuthorizer'] = [
             'form_repo' => $di->lazyGet('repository.form'),
         ];
+        $di->params['v4\Policies\SurveyPolicy'] = [
+            'form_repo' => $di->lazyGet('repository.form'),
+        ];
         $di->set('authorizer.form_attribute', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\FormAttributeAuthorizer'));
         $di->params['Ushahidi\Core\Tool\Authorizer\FormAttributeAuthorizer'] = [
             'stage_repo' => $di->lazyGet('repository.form_stage'),
