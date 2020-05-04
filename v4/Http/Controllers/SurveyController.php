@@ -24,11 +24,11 @@ class SurveyController extends V4Controller
      * Display the specified resource.
      *
      * @param  \Modules\Block  $block
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
-    {        
+    {
         $this->authorize('index', Survey::class);
-        return Survey::all();
+        return response()->json(['results' => Survey::all()]);
     }
 }

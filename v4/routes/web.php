@@ -12,7 +12,7 @@ $router->group([
     $router->group([
         // 'namespace' => 'Forms',
         'prefix' => 'surveys',
-         'middleware' => ['scope:forms', 'expiration']
+        'middleware' => ['scope:forms', 'expiration']
     ], function () use ($router) {
         // Public access
         $router->get('/', 'SurveyController@index');

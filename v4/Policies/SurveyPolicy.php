@@ -47,7 +47,7 @@ class SurveyPolicy
     public function index(User $user)
     {
         $this->user = $user;
-        return $this->isAllowed(null, 'read');
+        return $this->isAllowed(null, 'search');
     }
 
     public function isAllowed($entity, $privilege){
