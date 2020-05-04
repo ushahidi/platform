@@ -33,10 +33,12 @@ class SurveyPolicy
 
     // Check that the user has the necessary permissions
     use AclTrait;
+
     protected $user;
 
     // It requires a `FormRepository` to load parent posts too.
     protected $form_repo;
+
     /**
      *
      * @param  \App\User  $user
@@ -45,21 +47,22 @@ class SurveyPolicy
     public function index(User $user)
     {
         $this->user = $user;
-        $this->isAllowed(null, 'read');
-        return false;
+        return $this->isAllowed(null, 'read');
     }
+
     public function isAllowed($entity, $privilege){
         $authorizer = service('authorizer.form');
-        
+
         // These checks are run within the user context.
-        $user = $this->user;
+        $user = $authorizer->getUser();
+
         // Only logged in users have access if the deployment is private
         if (!$this->canAccessDeployment($user)) {
             return false;
         }
 
         // Allow role with the right permissions
-        if ($this->acl->hasPermission($user, Permission::MANAGE_SETTINGS)) {
+        if ($authorizer->acl->hasPermission($user, Permission::MANAGE_SETTINGS)) {
             return true;
         }
 
@@ -67,26 +70,26 @@ class SurveyPolicy
             return true;
         }
 
-        // We check if the user has access to a parent form. This check has to be run
-        // before public access is granted!
-        // @CHECK: what is a parent form?????
+        // Before /v4 we would check if the user has access to a parent form. This check has to be run
+        // before public access is granted... but parent forms aren't a thing
+        // @IMPORTANT : parent forms are not a thing, they don't do anything, they don't exist.
+        // I leave this here because it can be confusing otherwise.
         // if (!$this->isAllowedParent($entity, $privilege, $user)) {
         //     return false;
         // }
 
         // If a form is not disabled, then *anyone* can view it.
-        // @TODO  how to do this for a index policy?
-        // if ($privilege === 'read' && !$this->isFormDisabled($entity)) {
-        //     return true;
-        // }
-
+         if ($privilege === 'read' && !$this->isFormDisabled($entity)) {
+             return true;
+         }
 
         // All users are allowed to search forms.
         // @TODO should only do 'search' here. Do 'read' above in the isFormDisabled check
-        if ($privilege === 'search' || $privilege === 'read') {
+        if ($privilege === 'search') {
             return true;
         }
 
+        return false;
     }
     protected function getParent(Entity $entity){}
 }
