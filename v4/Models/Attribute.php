@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Attribute extends Model
 {
+    public $timestamps = FALSE;
 
     protected $table = 'form_attributes';
     /**
@@ -20,20 +21,24 @@ class Attribute extends Model
     * @var array
     */
     protected $fillable = [
-        'parent_id',
-        'name',
-        'description',
+        'key',
+        'label',
+        'instructions',
+        'input',
         'type',
-        'disabled',
-        'require_approval',
-        'everyone_can_create',
-        'color',
-        'hide_author',
-        'hide_time',
-        'hide_location',
-        'targeted_survey'
+        'required',
+        'default',
+        'priority',
+        'options',
+        'cardinality',
+        'config',
+        'response_private',
+        'form_stage_id'
     ];
-
+    protected $casts = [
+        'config' => 'json',
+        'options' => 'json',
+    ];
     public function stage () {
         return $this->belongsTo('v4\Models\Stage', 'form_stage_id');
     }

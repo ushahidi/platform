@@ -7,6 +7,8 @@ use Ushahidi\Core\Entity\Permission;
 
 class Stage extends Model
 {
+    public $timestamps = FALSE;
+
     protected $table = 'form_stages';
     /**
      * The attributes that should be mutated to dates.

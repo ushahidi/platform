@@ -18,4 +18,12 @@ $router->group([
         $router->get('/', 'SurveyController@index');
         $router->get('/{id}', 'SurveyController@show');
     });
+
+    // Restricted access
+    $router->group([
+        'prefix' => 'surveys',
+        'middleware' => ['auth:api', 'scope:forms']
+    ], function () use ($router) {
+        $router->post('/', 'SurveyController@store');
+    });
 });

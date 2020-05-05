@@ -11,7 +11,7 @@ class Survey extends Model
     use InteractsWithFormPermissions;
     protected $table = 'forms';
     protected $with = ['stages'];
-
+    public $timestamps = FALSE;
     /**
      * The attributes that should be hidden for serialization.
      * @note this should be changed so that we either use the fractal transformer
