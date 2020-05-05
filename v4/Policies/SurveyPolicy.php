@@ -2,11 +2,9 @@
 
 namespace v4\Policies;
 
+use Ushahidi\Core\Entity;
 use v4\Models\Survey;
-use Ushahidi\App\Auth\GenericUser as User;
-
 use Ushahidi\Core\Entity\Permission;
-use Ushahidi\Core\Tool\Authorizer;
 use Ushahidi\Core\Traits\AdminAccess;
 use Ushahidi\Core\Traits\UserContext;
 use Ushahidi\Core\Traits\ParentAccess;
@@ -21,9 +19,8 @@ class SurveyPolicy
     use UserContext;
 
     // It uses methods from several traits to check access:
-    // - `ParentAccess` to check if the user can access the parent,
     // - `AdminAccess` to check if the user has admin access
-    use AdminAccess, ParentAccess;
+    use AdminAccess;
 
     // It uses `PrivAccess` to provide the `getAllowedPrivs` method.
     use PrivAccess;
@@ -44,12 +41,27 @@ class SurveyPolicy
      * @param  \App\User  $user
      * @return bool
      */
-    public function index(User $user)
+    public function index()
     {
-        $this->user = $user;
-        return $this->isAllowed(null, 'search');
+        $empty_form = new Entity\Form();
+        return $this->isAllowed($empty_form, 'search');
     }
 
+    /**
+     * @param Survey $survey
+     * @return bool
+     */
+    public function update(Survey $survey) {
+        // we convert to a form entity to be able to continue using the old authorizers and classes.
+        $form = new Entity\Form($survey->toArray());
+        return $this->isAllowed($form, 'update');
+    }
+
+    /**
+     * @param $entity
+     * @param string $privilege
+     * @return bool
+     */
     public function isAllowed($entity, $privilege){
         $authorizer = service('authorizer.form');
 
@@ -91,5 +103,15 @@ class SurveyPolicy
 
         return false;
     }
-    protected function getParent(Entity $entity){}
+
+    /**
+     * Check if a form is disabled.
+     * @param  Entity $entity
+     * @return Boolean
+     */
+    protected function isFormDisabled(Entity\Form $entity)
+    {
+        return (bool) $entity->disabled;
+    }
+
 }

@@ -3,6 +3,7 @@
 namespace v4\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Ushahidi\Core\Entity\Permission;
 
 class Stage extends Model
 {

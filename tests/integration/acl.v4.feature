@@ -20,7 +20,7 @@ Feature: V4 API Access Control Layer
         And the "results.0.stages" property count is "3"
         And the "results.0.stages.0.attributes" property count is "17"
         Then the guzzle status code should be 200
-    Scenario: Listing All Stages and attributes for a form with hidden stages as admin
+    Scenario: Listing All Stages for a form with hidden stages as admin
         Given that I want to get all "Surveys"
         And that the oauth token is "testadminuser"
         And that the api_url is "api/v4"
