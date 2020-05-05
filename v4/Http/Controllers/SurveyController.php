@@ -40,6 +40,7 @@ class SurveyController extends V4Controller
     }
 
     public function store(Request $request) {
+        $this->authorize('store', Survey::class);
         $validator = $this->getValidationFactory()->make($request->input(), [
             'name' => [
                 'required',

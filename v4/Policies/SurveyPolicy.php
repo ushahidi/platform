@@ -70,6 +70,16 @@ class SurveyPolicy
         return $this->isAllowed($form, 'update');
     }
 
+
+    /**
+     * @param Survey $survey
+     * @return bool
+     */
+    public function store() {
+        // we convert to a form entity to be able to continue using the old authorizers and classes.
+        $form = new Entity\Form();
+        return $this->isAllowed($form, 'create');
+    }
     /**
      * @param $entity
      * @param string $privilege
