@@ -16,5 +16,6 @@ $router->group([
     ], function () use ($router) {
         // Public access
         $router->get('/', 'SurveyController@index');
+        $router->get('/{id}', 'SurveyController@show');
     });
 });

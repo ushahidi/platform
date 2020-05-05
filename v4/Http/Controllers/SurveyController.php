@@ -12,19 +12,22 @@ class SurveyController extends V4Controller
     /**
      * Display the specified resource.
      *
-     * @param  \Modules\Block  $block
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function show(Survey $survey)
+    public function show(int $id)
     {
-        //
+        $survey = Survey::find($id);
+        $this->authorize('show', $survey);
+        return response()->json(['survey' => $survey]);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \Modules\Block  $block
      * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function index()
     {

@@ -1,7 +1,8 @@
 <?php
 
 namespace v4\Policies;
-
+use Ushahidi\App\Auth\GenericUser;
+use Ushahidi\App\Auth\GenericUser as User;
 use Ushahidi\Core\Entity;
 use v4\Models\Survey;
 use Ushahidi\Core\Entity\Permission;
@@ -45,6 +46,18 @@ class SurveyPolicy
     {
         $empty_form = new Entity\Form();
         return $this->isAllowed($empty_form, 'search');
+    }
+
+    /**
+     *
+     * @param GenericUser $user
+     * @param Survey $survey
+     * @return bool
+     */
+    public function show(User $user, Survey $survey)
+    {
+        $form = new Entity\Form($survey->toArray());
+        return $this->isAllowed($form, 'read');
     }
 
     /**
