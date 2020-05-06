@@ -35,12 +35,23 @@ class Attribute extends Model
         'response_private',
         'form_stage_id'
     ];
+    protected $with = ['translations'];
+
     protected $casts = [
         'config' => 'json',
         'options' => 'json',
     ];
+
     public function stage () {
         return $this->belongsTo('v4\Models\Stage', 'form_stage_id');
     }
 
+
+    /**
+     * Get the attribute's translation.
+     */
+    public function translations()
+    {
+        return $this->morphMany('v4\Models\Translation', 'translatable');
+    }
 }

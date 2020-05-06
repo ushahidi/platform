@@ -3,6 +3,7 @@
 namespace v4\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Ushahidi\App\Repository\FormRepository;
 use Ushahidi\Core\Entity\Permission;
 use Ushahidi\Core\Tool\Permissions\InteractsWithFormPermissions;
 
@@ -47,6 +48,54 @@ class Survey extends Model
     ];
 
     /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = ['can_create'];
+    /**
+     * The model's default values for attributes.
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'type' => 'report',
+        'require_approval' => true,
+        'everyone_can_create' => true,
+        'hide_author' => false,
+        'hide_time' => false,
+        'hide_location' => false,
+        'targeted_survey' => false
+    ];
+
+    /**
+     * This is what makes can_create possible
+     * @return mixed
+     */
+    public function getCanCreateAttribute() {
+        $can_create = $this->getCanCreateRoles($this->id);
+        return $can_create['roles'];
+    }
+//
+//    /**
+//     * This is what makes can_create possible
+//     * @return mixed
+//     */
+//    public function getTranslationsAttribute() {
+//        return $this->translations;
+//    }
+
+    private function getCanCreateRoles($form_id) {
+        /**
+         * @NOTE: to lower changes of a regression I'm using some helpers from
+         * repositories and traits we already have
+         * @NOTE: during origami and later stages of sunny buffers, we will fold this
+         * all together in more performant and friendly ways
+        */
+        $form_repo = service('repository.form');
+        return $form_repo->getRolesThatCanCreatePosts($form_id);
+    }
+    /**
      * We check for relationship permissions here, to avoid hydrating anything that should not be hydrated.
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
@@ -65,4 +114,14 @@ class Survey extends Model
             ->where('form_stages.task_is_internal_only', '=', '0');
     }
 
+
+
+
+    /**
+     * Get the survey's translation.
+     */
+    public function translations()
+    {
+        return $this->morphMany('v4\Models\Translation', 'translatable');
+    }
 }

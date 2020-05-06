@@ -35,19 +35,19 @@ Feature: V4 API Access Control Layer
         And that the api_url is "api/v4"
         When I request "/surveys/8"
         Then the response is JSON
-        And the response has a "survey.stages" property
-        And the "survey.stages" property count is "4"
-        And the "survey.stages.0.attributes" property count is "2"
-        And the "survey.stages.2.attributes" property count is "0"
+        And the response has a "result.stages" property
+        And the "result.stages" property count is "4"
+        And the "result.stages.0.attributes" property count is "2"
+        And the "result.stages.2.attributes" property count is "0"
     Scenario: Listing All Stages for a form with hidden stages as a normal user
         Given that I want to find a "Survey"
         And that the oauth token is "testbasicuser"
         And that the api_url is "api/v4"
         When I request "/surveys/8"
         Then the response is JSON
-        And the response has a "survey.stages" property
-        And the "survey.stages" property count is "1"
-        And the "survey.stages.0.attributes" property count is "0"
+        And the response has a "result.stages" property
+        And the "result.stages" property count is "1"
+        And the "result.stages.0.attributes" property count is "0"
     @rolesEnabled
     Scenario: User with Manage Settings permission can create a hydrated form
         Given that I want to make a new "Survey"
@@ -101,14 +101,14 @@ Feature: V4 API Access Control Layer
             """
         When I request "/surveys"
         Then the response is JSON
-        And the response has a "survey" property
-        And the response has a "survey.id" property
-        And the type of the "survey.id" property is "numeric"
-        And the response has a "survey.stages" property
-        And the type of the "survey.stages" property is "array"
-        And the response has a "survey.stages.0.attributes" property
-        And the "survey.stages.0.attributes" property count is "2"
-        And the "survey.name" property equals "new"
+        And the response has a "result" property
+        And the response has a "result.id" property
+        And the type of the "result.id" property is "numeric"
+        And the response has a "result.stages" property
+        And the type of the "result.stages" property is "array"
+        And the response has a "result.stages.0.attributes" property
+        And the "result.stages.0.attributes" property count is "2"
+        And the "result.name" property equals "new"
         Then the guzzle status code should be 200
     @rolesEnabled
     Scenario: Basic user CANNOT create a hydrated form

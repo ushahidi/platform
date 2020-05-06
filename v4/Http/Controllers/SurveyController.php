@@ -13,35 +13,8 @@ use Illuminate\Validation\Rule;
 
 class SurveyController extends V4Controller
 {
-    /**
-     * Display the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Illuminate\Auth\Access\AuthorizationException
-     */
-    public function show(int $id)
-    {
-        $survey = Survey::find($id);
-        $this->authorize('show', $survey);
-        return response()->json(['survey' => $survey]);
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Illuminate\Auth\Access\AuthorizationException
-     */
-    public function index()
-    {
-        $this->authorize('index', Survey::class);
-        return response()->json(['results' => Survey::all()]);
-    }
-
-    public function store(Request $request) {
-        $this->authorize('store', Survey::class);
-        $validator = $this->getValidationFactory()->make($request->input(), [
+    protected static function getRules() {
+        return [
             'name' => [
                 'required',
                 'min:2',
@@ -156,28 +129,121 @@ class SurveyController extends V4Controller
             // Before merge, validate with Angela if we
             // should be removing that arbitrary limit since it's pretty rare
             // for it to be needed
-        ]);
+        ];
+    }
+    /**
+     * Display the specified resource.
+     *
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
+    public function show(int $id)
+    {
+        $survey = Survey::with('translations')->find($id);
+        $not_found = !$survey;
+        if ($not_found) {
+            $survey = new Survey();
+        }
+        // we try to authorize even if we don't find a survey
+        // this allows us to return a 404 to users who would
+        // be allowed to read surveys and a 403 to those who wouldn't
+        // obfuscating the existence of particular unauthorized surveys
+        // or non-existent ones to users without any permissions to see them
+        $this->authorize('show', $survey);
+        if ($not_found) {
+            abort(404);
+        }
+        return response()->json(['result' => $survey]);
+    }
+
+    /**
+     * Display the specified resource.
+     * @TODO add translation keys to each object =)
+     * @TODO add enabled_languages (the ones that we have translations for)
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
+    public function index()
+    {
+        $this->authorize('index', Survey::class);
+        return response()->json(['results' => Survey::all()]);
+    }
+
+    /**
+     * Display the specified resource.
+     * @TODO add translation keys to each object =)
+     * @TODO add enabled_languages (the ones that we have translations for)
+     * @TODO transactions =)
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
+    public function store(Request $request) {
+        $this->authorize('store', Survey::class);
+        $this->getValidationFactory()->make($request->input(), self::getRules());
         $survey = Survey::create(
             array_merge(
                 $request->input(),[ 'updated' => time(), 'created' => time()]
             )
         );
-        foreach ($request->input('stages') as $stage) {
-            $stage_model = $survey->stages()->create(
-                array_merge(
-                    $stage, [ 'updated' => time(), 'created' => time()]
-                )
-            );
-            foreach ($stage['attributes'] as $attribute) {
-                $uuid = Uuid::uuid4();
-                $attribute['key'] = $uuid->toString();
-                $stage_model->attributes()->create(
+        if ($request->input('stages')) {
+            foreach ($request->input('stages') as $stage) {
+                $stage_model = $survey->stages()->create(
                     array_merge(
-                        $attribute, [ 'updated' => time(), 'created' => time()]
+                        $stage, [ 'updated' => time(), 'created' => time()]
                     )
                 );
+                foreach ($stage['attributes'] as $attribute) {
+                    $uuid = Uuid::uuid4();
+                    $attribute['key'] = $uuid->toString();
+                    $stage_model->attributes()->create(
+                        array_merge(
+                            $attribute, [ 'updated' => time(), 'created' => time()]
+                        )
+                    );
+                }
             }
         }
-        return response()->json(['survey' => $survey->load('stages')]);
+        return response()->json(['result' => $survey->load('stages')]);
+    }
+
+    /**
+     * Display the specified resource.
+     * @TODO add translation keys to each object =)
+     * @TODO add enabled_languages (the ones that we have translations for)
+     * @TODO transactions =)
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
+    public function update(int $id, Request $request) {
+        $survey = Survey::find($id);
+        $this->authorize('update', $survey);
+        $this->getValidationFactory()->make($request->input(), self::getRules());
+        $survey = Survey::create(
+            array_merge(
+                $request->input(),[ 'updated' => time(), 'created' => time()]
+            )
+        );
+        if ($request->input('stages')) {
+            foreach ($request->input('stages') as $stage) {
+                $stage_model = $survey->stages()->create(
+                    array_merge(
+                        $stage, [ 'updated' => time(), 'created' => time()]
+                    )
+                );
+                foreach ($stage['attributes'] as $attribute) {
+                    $uuid = Uuid::uuid4();
+                    $attribute['key'] = $uuid->toString();
+                    $stage_model->attributes()->create(
+                        array_merge(
+                            $attribute, [ 'updated' => time(), 'created' => time()]
+                        )
+                    );
+                }
+            }
+        }
+        return response()->json(['result' => $survey->load('stages')]);
     }
 }

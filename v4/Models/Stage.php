@@ -15,7 +15,7 @@ class Stage extends Model
      * @var array
     */
     protected $dates = ['created', 'updated'];
-    protected $with = ['attributes'];
+    protected $with = ['attributes', 'translations'];
     /**
     * The attributes that are mass assignable.
     *
@@ -40,6 +40,14 @@ class Stage extends Model
 
     public function survey() {
         return $this->belongsTo('v4\Models\Survey', 'form_id');
+    }
+
+    /**
+     * Get the stage's translation.
+     */
+    public function translations()
+    {
+        return $this->morphMany('v4\Models\Translation', 'translatable');
     }
 
 }
