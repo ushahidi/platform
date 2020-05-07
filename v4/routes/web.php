@@ -26,4 +26,11 @@ $router->group([
     ], function () use ($router) {
         $router->post('/', 'SurveyController@store');
     });
+
+    // Restricted access
+    $router->group([
+        'prefix' => '',
+    ], function () use ($router) {
+        $router->get('/languages', 'LanguagesController@index');
+    });
 });
