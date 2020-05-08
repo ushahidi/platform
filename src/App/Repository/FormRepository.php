@@ -16,9 +16,9 @@ use Ushahidi\Core\Entity;
 use Ushahidi\Core\Entity\Form;
 use Ushahidi\Core\Entity\FormRepository as FormRepositoryContract;
 use Ushahidi\Core\SearchData;
+use Ushahidi\Core\Traits\Event;
 
 use League\Event\ListenerInterface;
-use Ushahidi\Core\Traits\Event;
 use Illuminate\Support\Collection;
 
 class FormRepository extends OhanzeeRepository implements
@@ -185,5 +185,33 @@ class FormRepository extends OhanzeeRepository implements
             'everyone_can_create' => $everyone_can_create,
             'roles' => $roles,
             ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getAllFormStagesAttributes(array $form_ids = []): Collection
+    {
+        $query = DB::select(
+            ['forms.id', 'form_id'],
+            ['form_stages.id', 'form_stage_id'],
+            'form_attributes.*'
+        )
+            ->from('forms')
+            ->join('form_stages')
+            ->on('forms.id', '=', 'form_stages.form_id')
+            ->join('form_attributes')
+            ->on('form_stages.id', '=', 'form_attributes.form_stage_id')
+            ->order_by('form_stages.id')
+            ->order_by('form_stages.priority')
+            ->order_by('form_attributes.priority');
+        
+        if (!empty($form_ids)) {
+            $query->where('forms.id', 'IN', $form_ids);
+        }
+
+        $results = $query->execute($this->db())->as_array();
+
+        return new Collection($results);
     }
 }

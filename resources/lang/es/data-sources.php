@@ -58,8 +58,8 @@ return [
     'Auth Token' => 'Token de Autenticación',
     'SMS Auto response' => 'Respuesta automática de SMS',
     'Step 1: Create a new Twitter application' => 'Paso 1: Cree una nueva aplicación de Twitter',
-    'Create a <a href="https://apps.twitter.com/app/new">new twitter application</a>'
-        => 'Cree una <a href="https://apps.twitter.com/app/new">nueva aplicación de twitter</a>',
+    'Create a <a href="https://developer.twitter.com/en/apps/create">new twitter application</a>'
+        => 'Cree una <a href="https://developer.twitter.com/en/apps/create">nueva aplicación de twitter</a>',
     'Step 2: Generate a consumer key and secret' => 'Paso 2: Genere una clave de consumidor y código secreto',
     'Once you\'ve created the application click on "Keys and Access Tokens".<br /> Then click "Generate Consumer Key and Secret".<br /> Copy keys, tokens and secrets into the fields below.'
         => 'Una vez que haya creado la aplicación, haga clic en "Tokens Clave y de Acceso".<br /> Luego haga clic en "Generar clave de consumidor y código secreto".<br /> Copie las claves, los tokens y los códigos secretos en los campos de abajo.',

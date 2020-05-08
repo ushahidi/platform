@@ -14,7 +14,7 @@ If you are in a shared hosting solution and not sure if it supports Ushahidi, yo
 
 The installation procedure will vary depending on your setup, but the requirements in all cases are
 
-* PHP &gt;=7.0 &lt;=7.1.
+* PHP 7.2 or 7.3.
 * A web server that supports PHP. This can be apache 2 or nginx.
 * PHP invokable from command line
 * The following PHP modules installed:
@@ -120,6 +120,14 @@ For instance, if the address of your deployment is [https://ushahidi.example.com
 The latest releases of the Ushahidi Platform come with a little handy tool called "[Installation Helper](../installation-helper.md)" which is started by accessing that specific address in the deployment.
 
 If something is wrong, this tool may provide you with useful information about what exactly seems to be the cause.
+
+## Connecting the mobile app
+
+Please note that the mobile app relies on the contents of the "config.json" file in order to connect to the API backend.
+
+In order to help the app find the backend, ensure that the key `backend_url` in the JSON file is set appropriately to the absolute public URL of your deployment \(i.e. `"backend_url": "https://example.deployment.com"` \)
+
+If you are running the Docker container, you may set this variable using the `SITE_URL` environment variable. \(In the default install the site URL **is** the backend URL\).
 
 ## Queue drivers \(and "sync" driver issues\)
 

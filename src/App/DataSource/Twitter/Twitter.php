@@ -76,7 +76,7 @@ class Twitter implements IncomingAPIDataSource, OutgoingAPIDataSource
                 'description' => function () {
                     return 'Twitter applications may take some time to be approved by Twitter.
                      Please be aware of this if you need this data quickly.
-                    <br><br>Create your <a href="https://apps.twitter.com/app/new" target="_blank">
+                    <br><br>Create your <a href="https://developer.twitter.com/en/apps/create" target="_blank">
                     Twitter application here</a>.';
                 }
             ],
@@ -187,13 +187,23 @@ class Twitter implements IncomingAPIDataSource, OutgoingAPIDataSource
                 ) {
                     continue;
                 }
+                $user_id = $user['id_str'];
                 // @todo Check for similar messages in the database before saving
+                /*** 
+                 * Twitter links note: (message field)
+                 * Best compromise I could find was just make the proper urls with user_id rather than only
+                 * tweet id (for which there is an unofficial formula)...
+                 * since there doesn't seem to be a way to grab the URL from the
+                 * API itself in the v1.1 search endpoint.
+                 * Fun fact: if the user id is wrong, twitter
+                 * still takes you to the correct Tweet... they just use the tweet id
+                **/
                 $messages[] = [
                     'type' => MessageType::TWITTER,
                     'contact_type' => Contact::TWITTER,
-                    'from' => $user['id_str'],
+                    'from' => $user_id,
                     'to' => null,
-                    'message' => 'https://twitter.com/statuses/' . $id,
+                    'message' => "https://twitter.com/$user_id/status/$id", 
                     'title' => 'From twitter on ' .  $date,
                     'datetime' => $date,
                     'data_source_message_id' => $id,

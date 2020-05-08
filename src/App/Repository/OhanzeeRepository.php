@@ -243,7 +243,7 @@ abstract class OhanzeeRepository implements
     protected function executeInsert(array $input)
     {
         if (!$input) {
-            throw new RuntimeException(sprintf(
+            throw new \RuntimeException(sprintf(
                 'Cannot create an empty record in table "%s"',
                 $this->getTable()
             ));
