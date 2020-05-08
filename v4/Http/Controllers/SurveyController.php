@@ -47,30 +47,30 @@ class SurveyController extends V4Controller
             'targeted_survey' => [
                 Rule::in([false]),
             ],
-            'stages.*.label' => [
+            'tasks.*.label' => [
                 'required',
                 'regex:' . LegacyValidator::REGEX_STANDARD_TEXT
             ],
-            'stages.*.type' => [
+            'tasks.*.type' => [
                 Rule::in(['post', 'task'])
             ],
-            'stages.*.priority' => [
+            'tasks.*.priority' => [
                 'numeric',
             ],
-            'stages.*.icon' => [
+            'tasks.*.icon' => [
                 'alpha',
             ],
-            'stages.*.attributes.*.label' => [
+            'tasks.*.fields.*.label' => [
                 'required',
                 'max:150'
             ],
-            'stages.*.attributes.*.key' => [
+            'tasks.*.fields.*.key' => [
                 'max:150',
                 'alpha_dash'
                 // @TODO: add this validation for keys
                 //[[$this->repo, 'isKeyAvailable'], [':value']]
             ],
-            'stages.*.attributes.*.input' => [
+            'tasks.*.fields.*.input' => [
                 'required',
                 Rule::in([
                     'text',
@@ -90,7 +90,7 @@ class SurveyController extends V4Controller
                     'tags',
                 ])
             ],
-            'stages.*.attributes.*.type' => [
+            'tasks.*.fields.*.type' => [
                 'required',
                 Rule::in([
                     'decimal',
@@ -111,16 +111,16 @@ class SurveyController extends V4Controller
                 // @TODO: add this validation for duplicates in type?
                 //[[$this, 'checkForDuplicates'], [':validation', ':value']],
             ],
-            'stages.*.attributes.*.type' => [
+            'tasks.*.fields.*.type' => [
                 'boolean'
             ],
-            'stages.*.attributes.*.priority' => [
+            'tasks.*.fields.*.priority' => [
                 'numeric',
             ],
-            'stages.*.attributes.*.cardinality' => [
+            'tasks.*.fields.*.cardinality' => [
                 'numeric',
             ],
-            'stages.*.attributes.*.response_private' => [
+            'tasks.*.fields.*.response_private' => [
                 'boolean'
                 // @TODO add this custom validator for canMakePrivate
                 // [[$this, 'canMakePrivate'], [':value', $type]]
@@ -187,17 +187,17 @@ class SurveyController extends V4Controller
                 $request->input(),[ 'updated' => time(), 'created' => time()]
             )
         );
-        if ($request->input('stages')) {
-            foreach ($request->input('stages') as $stage) {
-                $stage_model = $survey->stages()->create(
+        if ($request->input('tasks')) {
+            foreach ($request->input('tasks') as $stage) {
+                $stage_model = $survey->tasks()->create(
                     array_merge(
                         $stage, [ 'updated' => time(), 'created' => time()]
                     )
                 );
-                foreach ($stage['attributes'] as $attribute) {
+                foreach ($stage['fields'] as $attribute) {
                     $uuid = Uuid::uuid4();
                     $attribute['key'] = $uuid->toString();
-                    $stage_model->attributes()->create(
+                    $stage_model->fields()->create(
                         array_merge(
                             $attribute, [ 'updated' => time(), 'created' => time()]
                         )
@@ -205,7 +205,7 @@ class SurveyController extends V4Controller
                 }
             }
         }
-        return response()->json(['result' => $survey->load('stages')]);
+        return response()->json(['result' => $survey->load('tasks')]);
     }
 
     /**
@@ -226,17 +226,17 @@ class SurveyController extends V4Controller
                 $request->input(),[ 'updated' => time(), 'created' => time()]
             )
         );
-        if ($request->input('stages')) {
-            foreach ($request->input('stages') as $stage) {
-                $stage_model = $survey->stages()->create(
+        if ($request->input('tasks')) {
+            foreach ($request->input('tasks') as $stage) {
+                $stage_model = $survey->tasks()->create(
                     array_merge(
                         $stage, [ 'updated' => time(), 'created' => time()]
                     )
                 );
-                foreach ($stage['attributes'] as $attribute) {
+                foreach ($stage['fields'] as $attribute) {
                     $uuid = Uuid::uuid4();
                     $attribute['key'] = $uuid->toString();
-                    $stage_model->attributes()->create(
+                    $stage_model->fields()->create(
                         array_merge(
                             $attribute, [ 'updated' => time(), 'created' => time()]
                         )
@@ -244,6 +244,6 @@ class SurveyController extends V4Controller
                 }
             }
         }
-        return response()->json(['result' => $survey->load('stages')]);
+        return response()->json(['result' => $survey->load('tasks')]);
     }
 }

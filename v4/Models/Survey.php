@@ -11,7 +11,7 @@ class Survey extends Model
 {
     use InteractsWithFormPermissions;
     protected $table = 'forms';
-    protected $with = ['stages'];
+    protected $with = ['tasks'];
     public $timestamps = FALSE;
     /**
      * The attributes that should be hidden for serialization.
@@ -99,7 +99,7 @@ class Survey extends Model
      * We check for relationship permissions here, to avoid hydrating anything that should not be hydrated.
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function stages()
+    public function tasks()
     {
         $authorizer = service('authorizer.form');
         $user = $authorizer->getUser();

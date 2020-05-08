@@ -15,7 +15,7 @@ class Stage extends Model
      * @var array
     */
     protected $dates = ['created', 'updated'];
-    protected $with = ['attributes', 'translations'];
+    protected $with = ['fields', 'translations'];
     /**
     * The attributes that are mass assignable.
     *
@@ -33,7 +33,7 @@ class Stage extends Model
         'task_is_internal_only'
     ];
 
-    public function attributes()
+    public function fields()
     {
         return $this->hasMany('v4\Models\Attribute', 'form_stage_id');
     }
