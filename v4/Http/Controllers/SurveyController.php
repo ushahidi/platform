@@ -1,10 +1,15 @@
 <?php
 
 namespace v4\Http\Controllers;
+use Illuminate\Auth\Access\Gate;
+use Illuminate\Http\Resources\Json\Resource;
 use Ramsey\Uuid\Uuid;
+use Ushahidi\App\Validator\LegacyValidator;
+use v4\Models\Attribute;
 use v4\Models\Survey;
 use Illuminate\Http\Request;
 use v4\Models\Translation;
+
 
 class SurveyController extends V4Controller
 {
@@ -19,6 +24,9 @@ class SurveyController extends V4Controller
     public function show(int $id)
     {
         $survey = Survey::with('translations')->find($id);
+        if (!$survey) {
+            abort(404);
+        }
         return new \v4\Http\Resources\SurveyResource($survey);
     }
 
@@ -42,6 +50,16 @@ class SurveyController extends V4Controller
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function store(Request $request) {
+        $authorizer = service('authorizer.form');
+        // if there's no user the guards will kick them off already, but if there
+        // is one we need to check the authorizer to ensure we don't let
+        // users without admin perms create forms etc
+        // this is an unfortunate problem with using an old version of lumen
+        // that doesn't let me do guest user checks without adding more risk.
+        $user = $authorizer->getUser();
+        if ($user) {
+            $this->authorize('store', Survey::class);
+        }
         $this->getValidationFactory()->make($request->input(), Survey::getRules());
         $survey = Survey::create(
             array_merge(
