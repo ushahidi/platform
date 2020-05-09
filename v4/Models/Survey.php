@@ -78,14 +78,6 @@ class Survey extends Model
         $can_create = $this->getCanCreateRoles($this->id);
         return $can_create['roles'];
     }
-//
-//    /**
-//     * This is what makes can_create possible
-//     * @return mixed
-//     */
-//    public function getTranslationsAttribute() {
-//        return $this->translations;
-//    }
 
     private function getCanCreateRoles($form_id) {
         /**

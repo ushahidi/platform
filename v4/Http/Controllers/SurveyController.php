@@ -1,19 +1,18 @@
 <?php
 
 namespace v4\Http\Controllers;
+use Illuminate\Http\Resources\Json\Resource;
 use Ramsey\Uuid\Uuid;
 use Ushahidi\App\Validator\LegacyValidator;
 use v4\Models\Attribute;
 use v4\Models\Survey;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Validator;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\Rule;
 use v4\Models\Translation;
 
 
 class SurveyController extends V4Controller
 {
+
     /**
      * Display the specified resource.
      *
@@ -37,7 +36,7 @@ class SurveyController extends V4Controller
         if ($not_found) {
             abort(404);
         }
-        return response()->json(['result' => $survey]);
+        return new \v4\Http\Resources\SurveyResource($survey);
     }
 
     /**
@@ -62,7 +61,6 @@ class SurveyController extends V4Controller
      */
     public function store(Request $request) {
         $this->authorize('store', Survey::class);
-        $input = $request->all();
         $this->getValidationFactory()->make($request->input(), Survey::getRules());
         $survey = Survey::create(
             array_merge(
@@ -91,10 +89,16 @@ class SurveyController extends V4Controller
                 }
             }
         }
-        return response()->json(['result' => $survey->load('tasks')]);
+        return new \v4\Http\Resources\SurveyResource($survey);
     }
 
-    private function saveTranslations($input, $translatable_id, $type) {
+    /**
+     * @param $input
+     * @param $translatable_id
+     * @param $type
+     * @return bool
+     */
+    private function saveTranslations($input, int $translatable_id, string $type) {
         if (!is_array($input)) {
             return true;
         }
@@ -115,7 +119,6 @@ class SurveyController extends V4Controller
     }
     /**
      * Display the specified resource.
-     * @TODO add translation keys to each object =)
      * @TODO add enabled_languages (the ones that we have translations for)
      * @TODO transactions =)
      * @param int $id

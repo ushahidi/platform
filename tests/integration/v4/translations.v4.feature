@@ -18,7 +18,7 @@ Feature: Testing translations
                 "targeted_survey": false,
                 "translations": {
                     "es": {
-                            "name": "nombre"
+                         "name": "nombre"
                     }
                 },
                 "tasks": [
@@ -88,7 +88,9 @@ Feature: Testing translations
         And the type of the "result.tasks" property is "array"
         And the response has a "result.tasks.0.fields" property
         And the "result.tasks.0.fields" property count is "2"
-        And the "result.translations.es.0.name" property equals "label"
+        And the "result.translations.es.name" property equals "nombre"
+        And the "result.tasks.0.translations.es.description" property equals "Una descripcion"
         And the "result.tasks.0.translations.es.label" property equals "Reporte"
+        And the "result.tasks.0.fields.0.translations.es.instructions" property equals "Instrucciones"
         And the "result.name" property equals "new"
-        Then the guzzle status code should be 200
+        Then the guzzle status code should be 201
