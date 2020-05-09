@@ -21,15 +21,15 @@ class Translation extends Model
     * @var array
     */
     protected $fillable = [
-        'entity_type',
-        'entity_id',
+        'translatable_id',
         'translated_key',
+        'translatable_type',
         'translation',
         'language',
     ];
 
     /**
-     * Get the owning imageable model.
+     * Get the owning translatable model.
      */
     public function translatable()
     {

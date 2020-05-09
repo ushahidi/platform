@@ -11,8 +11,8 @@ class MorphServiceProvider extends ServiceProvider
     public function boot() {
         Relation::morphMap([
             'survey' => 'v4\Models\Survey',
-            'stage' => 'v4\Models\Stage',
-            'attribute' => 'v4\Models\Attribute',
+            'task' => 'v4\Models\Stage',
+            'field' => 'v4\Models\Attribute',
         ]);
     }
 }

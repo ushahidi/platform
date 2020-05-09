@@ -9,128 +9,11 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Validator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
+use v4\Models\Translation;
 
 
 class SurveyController extends V4Controller
 {
-    protected static function getRules() {
-        return [
-            'name' => [
-                'required',
-                'min:2',
-                'max:255',
-                'regex:' . LegacyValidator::REGEX_STANDARD_TEXT
-            ],
-            'description' => [
-                'string',
-                'nullable'
-            ],
-            //@TODO find out where this color validator is implemented
-            //[['color']],
-            'color' => [
-                'string',
-                'nullable'
-            ],
-            'disabled' => [
-                'boolean'
-            ],
-            'hide_author' => [
-                'boolean'
-            ],
-            'hide_location' => [
-                'boolean'
-            ],
-            'hide_time' => [
-                'boolean'
-            ],
-            // @FIXME: disabled targeted survey creation for v4 forms, need to check
-            'targeted_survey' => [
-                Rule::in([false]),
-            ],
-            'tasks.*.label' => [
-                'required',
-                'regex:' . LegacyValidator::REGEX_STANDARD_TEXT
-            ],
-            'tasks.*.type' => [
-                Rule::in(['post', 'task'])
-            ],
-            'tasks.*.priority' => [
-                'numeric',
-            ],
-            'tasks.*.icon' => [
-                'alpha',
-            ],
-            'tasks.*.fields.*.label' => [
-                'required',
-                'max:150'
-            ],
-            'tasks.*.fields.*.key' => [
-                'max:150',
-                'alpha_dash'
-                // @TODO: add this validation for keys
-                //[[$this->repo, 'isKeyAvailable'], [':value']]
-            ],
-            'tasks.*.fields.*.input' => [
-                'required',
-                Rule::in([
-                    'text',
-                    'textarea',
-                    'select',
-                    'radio',
-                    'checkbox',
-                    'checkboxes',
-                    'date',
-                    'datetime',
-                    'location',
-                    'number',
-                    'relation',
-                    'upload',
-                    'video',
-                    'markdown',
-                    'tags',
-                ])
-            ],
-            'tasks.*.fields.*.type' => [
-                'required',
-                Rule::in([
-                    'decimal',
-                    'int',
-                    'geometry',
-                    'text',
-                    'varchar',
-                    'markdown',
-                    'point',
-                    'datetime',
-                    'link',
-                    'relation',
-                    'media',
-                    'title',
-                    'description',
-                    'tags',
-                ])
-                // @TODO: add this validation for duplicates in type?
-                //[[$this, 'checkForDuplicates'], [':validation', ':value']],
-            ],
-            'tasks.*.fields.*.type' => [
-                'boolean'
-            ],
-            'tasks.*.fields.*.priority' => [
-                'numeric',
-            ],
-            'tasks.*.fields.*.cardinality' => [
-                'numeric',
-            ],
-            'tasks.*.fields.*.response_private' => [
-                'boolean'
-                // @TODO add this custom validator for canMakePrivate
-                // [[$this, 'canMakePrivate'], [':value', $type]]
-            ]
-            // @NOTE: checkPostTypeLimit is not used here.
-            // Before merge, validate with Angela if we
-            // should be removing that arbitrary limit since it's pretty rare
-            // for it to be needed
-        ];
-    }
     /**
      * Display the specified resource.
      *
@@ -159,7 +42,6 @@ class SurveyController extends V4Controller
 
     /**
      * Display the specified resource.
-     * @TODO add translation keys to each object =)
      * @TODO add enabled_languages (the ones that we have translations for)
      * @return \Illuminate\Http\JsonResponse
      * @throws \Illuminate\Auth\Access\AuthorizationException
@@ -172,7 +54,6 @@ class SurveyController extends V4Controller
 
     /**
      * Display the specified resource.
-     * @TODO add translation keys to each object =)
      * @TODO add enabled_languages (the ones that we have translations for)
      * @TODO transactions =)
      * @param Request $request
@@ -181,12 +62,14 @@ class SurveyController extends V4Controller
      */
     public function store(Request $request) {
         $this->authorize('store', Survey::class);
-        $this->getValidationFactory()->make($request->input(), self::getRules());
+        $input = $request->all();
+        $this->getValidationFactory()->make($request->input(), Survey::getRules());
         $survey = Survey::create(
             array_merge(
                 $request->input(),[ 'updated' => time(), 'created' => time()]
             )
         );
+        $this->saveTranslations($request->input('translations'), $survey->id, 'survey');
         if ($request->input('tasks')) {
             foreach ($request->input('tasks') as $stage) {
                 $stage_model = $survey->tasks()->create(
@@ -194,25 +77,48 @@ class SurveyController extends V4Controller
                         $stage, [ 'updated' => time(), 'created' => time()]
                     )
                 );
+                $this->saveTranslations($stage['translations'], $stage_model->id, 'task');
                 foreach ($stage['fields'] as $attribute) {
                     $uuid = Uuid::uuid4();
                     $attribute['key'] = $uuid->toString();
-                    $stage_model->fields()->create(
+                    $field_model = $stage_model->fields()->create(
                         array_merge(
                             $attribute, [ 'updated' => time(), 'created' => time()]
                         )
                     );
+                    $this->saveTranslations($attribute['translations'], $field_model->id, 'field');
+
                 }
             }
         }
         return response()->json(['result' => $survey->load('tasks')]);
     }
 
+    private function saveTranslations($input, $translatable_id, $type) {
+        if (!is_array($input)) {
+            return true;
+        }
+        foreach ($input as $language => $translations) {
+            foreach ($translations as $key => $translated) {
+                if (is_array($translated)){
+                    $translated = json_encode($translated);
+                }
+                Translation::create([
+                    'translatable_type' => $type,
+                    'translatable_id' => $translatable_id,
+                    'translated_key' => $key,
+                    'translation' => $translated,
+                    'language' => $language
+                ]);
+            }
+        }
+    }
     /**
      * Display the specified resource.
      * @TODO add translation keys to each object =)
      * @TODO add enabled_languages (the ones that we have translations for)
      * @TODO transactions =)
+     * @param int $id
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      * @throws \Illuminate\Auth\Access\AuthorizationException
@@ -220,7 +126,7 @@ class SurveyController extends V4Controller
     public function update(int $id, Request $request) {
         $survey = Survey::find($id);
         $this->authorize('update', $survey);
-        $this->getValidationFactory()->make($request->input(), self::getRules());
+        $this->getValidationFactory()->make($request->input(), Survey::getRules());
         $survey = Survey::create(
             array_merge(
                 $request->input(),[ 'updated' => time(), 'created' => time()]
