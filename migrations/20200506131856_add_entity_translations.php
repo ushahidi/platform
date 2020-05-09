@@ -5,7 +5,7 @@ use Phinx\Migration\AbstractMigration;
 class AddEntityTranslations extends AbstractMigration
 {
 
-    public function change()
+    public function up()
     {
         $this->table('translations')
             ->addColumn('translatable_type', 'string', ['null' => false]) //form, attribute,stage,category
@@ -15,5 +15,8 @@ class AddEntityTranslations extends AbstractMigration
             ->addColumn('language', 'string', ['null' => false]) //name, title, keys
             ->addTimestamps()
             ->create();
+    }
+    public function down() {
+        $this->dropTable('translations');
     }
 }

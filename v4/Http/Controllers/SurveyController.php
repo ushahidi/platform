@@ -5,6 +5,8 @@ use Illuminate\Auth\Access\Gate;
 use Illuminate\Http\Resources\Json\Resource;
 use Ramsey\Uuid\Uuid;
 use Ushahidi\App\Validator\LegacyValidator;
+use v4\Http\Resources\SurveyCollection;
+use v4\Http\Resources\SurveyResource;
 use v4\Models\Attribute;
 use v4\Models\Survey;
 use Illuminate\Http\Request;
@@ -18,7 +20,7 @@ class SurveyController extends V4Controller
      * Display the specified resource.
      *
      * @param int $id
-     * @return \Illuminate\Http\JsonResponse
+     * @return SurveyResource
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function show(int $id)
@@ -27,18 +29,18 @@ class SurveyController extends V4Controller
         if (!$survey) {
             abort(404);
         }
-        return new \v4\Http\Resources\SurveyResource($survey);
+        return new SurveyResource($survey);
     }
 
     /**
      * Display the specified resource.
      * @TODO add enabled_languages (the ones that we have translations for)
-     * @return \Illuminate\Http\JsonResponse
+     * @return SurveyCollection
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function index()
     {
-        return new \v4\Http\Resources\SurveyCollection(Survey::all());
+        return new SurveyCollection(Survey::all());
     }
 
     /**
@@ -46,7 +48,7 @@ class SurveyController extends V4Controller
      * @TODO add enabled_languages (the ones that we have translations for)
      * @TODO transactions =)
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return SurveyResource
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function store(Request $request) {
@@ -88,7 +90,7 @@ class SurveyController extends V4Controller
                 }
             }
         }
-        return new \v4\Http\Resources\SurveyResource($survey);
+        return new SurveyResource($survey);
     }
 
     /**

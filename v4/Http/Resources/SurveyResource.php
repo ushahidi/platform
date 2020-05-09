@@ -30,7 +30,11 @@ class SurveyResource extends Resource
             'targeted_survey' => $this->targeted_survey,
             'translations' => new TranslationCollection($this->translations),
             'tasks' => new TaskCollection($this->tasks),
-            'can_create' => $this->can_create
+            'can_create' => $this->can_create,
+            'enabled_languages' => [
+                'default'=> $this->base_language,
+                'available' => $this->translations->groupBy('language')->keys()
+            ]
         ];
     }
 }
