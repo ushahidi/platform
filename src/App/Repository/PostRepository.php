@@ -35,7 +35,9 @@ use Ushahidi\App\Util\BoundingBox;
 use Ushahidi\App\Multisite\OhanzeeResolver;
 use Ushahidi\Core\Tool\Permissions\InteractsWithPostPermissions;
 
+use Illuminate\Support\Collection;
 use League\Event\ListenerInterface;
+
 use Ushahidi\Core\Traits\Event;
 
 class PostRepository extends OhanzeeRepository implements
@@ -63,9 +65,31 @@ class PostRepository extends OhanzeeRepository implements
     // By default remove all private responses
     protected $restricted = true;
 
+    protected $form_attributes_by_form;
+    protected $form_attributes_by_key;
+
     protected $include_value_types = [];
     protected $include_attributes = [];
     protected $exclude_stages = [];
+
+    protected $search_output_type = 'full';
+
+    // Map of values that can be provided as $data to getEntity(),
+    // in order to save time looking them up in their corresponding value repo
+    protected $data_to_entity_value_mappings = [
+        [
+            'repo' => 'point',
+            'attribute_key' => 'point_attribute_key',
+            'value' => 'point_value',
+            'obtained_type' => 'point'
+        ],
+        [
+            'repo' => 'geometry',
+            'attribute_key' => 'geometry_attribute_key',
+            'value' => 'geometry_value',
+            'obtained_type' => 'geometry'
+        ]
+    ];
 
     protected $listener;
 
@@ -106,14 +130,25 @@ class PostRepository extends OhanzeeRepository implements
         return 'posts';
     }
 
+    protected function fetchFormAttributes($form_ids = []): void
+    {
+        $form_ids = is_array($form_ids) ? $form_ids : [ $form_ids ];
+
+        $attrs = $this->form_repo->getAllFormStagesAttributes($form_ids);
+
+        $this->form_attributes_by_form = $attrs->groupBy('form_id');
+        $this->form_attributes_by_key = $attrs->keyBy('key');
+    }
+
     // OhanzeeRepository
-    public function getEntity(array $data = null)
+    public function getEntity(array $data = null): Post
     {
         // Ensure we are dealing with a structured Post
 
         $user = $this->getUser();
         $excludePrivateValues = true;
         $excludeStages = [];
+        $values = $data['values'] ?? [];
 
         // Check post permissions
         // @todo move or double up in formatter. That should enforce what users can see
@@ -166,22 +201,112 @@ class PostRepository extends OhanzeeRepository implements
                 unset($data['user_id']);
             }
 
-            $data += [
-                'values' => $this->getPostValues($data['id'], $excludePrivateValues, $excludeStages),
+            /* -- VALUES HANDLING -- */
+            
+            /* handle values already carried in in the $data object */
+            $already_obtained_types = [];
+            foreach ($this->data_to_entity_value_mappings as $mapping) {
+                // Check if value should be visible
+                $attribute_key = $data[$mapping['attribute_key']] ?? null;
+                $attribute_value = $data[$mapping['value']] ?? null;
+
+                // Skip if data not provided
+                if (!$attribute_key || !$attribute_value) {
+                    continue;
+                }
+
+                // Check visibility
+                $attribute = $this->form_attributes_by_key->get($attribute_key);
+                // .. exclude values marked as private
+                if ($excludePrivateValues && $attribute['response_private']) {
+                    continue;
+                }
+                // .. exclude stages
+                if ($excludeStages && in_array($attribute['form_stage_id'], $excludeStages)) {
+                    continue;
+                }
+                // .. exclude non-mentioned attributes
+                if ($this->include_attributes && !in_array($attribute_key, $this->include_attributes)) {
+                    continue;
+                }
+
+                // Build and set values
+                $value = $this->post_value_factory
+                    ->getRepo($mapping['repo'])
+                    ->getEntity(['value' => $attribute_value]);
+                $values[$attribute_key] = [ $value->value ];
+
+                $already_obtained_types = array_merge($already_obtained_types, [ $mapping['obtained_type'] ]);
+
+                // Unset original values
+                unset($data[$mapping['attribute_key']]);
+                unset($data[$mapping['value']]);
+            }
+            
+            // Obtain the rest of the requested values
+            $other_values = [];
+            $types_to_fetch = null;
+
+            if ($this->form_attributes_by_form) {
+                /* Check which types are used in the form */
+                $form_attributes = $this->form_attributes_by_form->get(intval($data['form_id']));
+                if ($form_attributes) {
+                    /* Count how many of each form attribute type we have */
+                    $types_to_fetch_with_attribute_count = $form_attributes
+                        ->groupBy('type')
+                        ->map(function ($attrs) {
+                            return $attrs->count();
+                        });
+
+                    $types_to_fetch = $types_to_fetch_with_attribute_count->keys()->toArray();
+
+                    /* Intersect with requested types */
+                    if (count($this->include_value_types) > 0) {
+                        $types_to_fetch = array_intersect($types_to_fetch, $this->include_value_types);
+                    }
+
+                    /* drop types that we have already fetched
+                       BUT only if there is a SINGLE attribute of that type in the form,
+                       since the SQL JOINs that we have run previously are only good for fetching
+                       a SINGLE value of each type for each post.
+                       If we don't do this, we would be leaving out the values of the second
+                       and subsequent attributes defined with that type */
+                    $already_obtained_types = collect($already_obtained_types)
+                        ->filter(function ($type) use ($types_to_fetch_with_attribute_count) {
+                            return $types_to_fetch_with_attribute_count->get($type) < 2;
+                        })->toArray();
+                    $types_to_fetch = array_diff($types_to_fetch, $already_obtained_types);
+                }
+            }
+
+            if ($types_to_fetch === null || !empty($types_to_fetch)) {
+                $other_values = $this->getPostValues(
+                    $data['id'],
+                    $excludePrivateValues,
+                    $excludeStages,
+                    $types_to_fetch ?? $this->include_value_types
+                );
+            }
+
+            //
+            $data['values'] = $other_values + $values;
+
+            // If we are not limiting ourselves to the most basic core properites
+            if ($this->search_output_type !== 'core') {
                 // Continued for legacy
-                'tags'   => $this->getTagsForPost($data['id'], $data['form_id']),
-                'sets' => $this->getSetsForPost($data['id']),
-                'completed_stages' => $this->getCompletedStagesForPost(
+                $data['tags'] = $this->getTagsForPost($data['id'], $data['form_id']);
+                $data['sets'] = $this->getSetsForPost($data['id']);
+                $data['completed_stages'] = $this->getCompletedStagesForPost(
                     $data['id'],
                     $excludePrivateValues,
                     $excludeStages
-                ),
-                'lock' => null,
-            ];
+                );
+                $data['lock'] = null;
 
-            // @todo move or double up in formatter. That should enforce what users can see
-            if ($this->postPermissions->canUserSeePostLock($user, new Post($data))) {
-                $data['lock'] = $this->getHydratedLock($data['id']);
+                // @todo move or double up in formatter. That should enforce what users can see
+                if ($this->postPermissions->canUserSeePostLock($user, new Post($data))) {
+                    $data['lock'] = $this->getHydratedLock($data['id']);
+                }
             }
         }
 
@@ -271,14 +396,68 @@ class PostRepository extends OhanzeeRepository implements
 
         // apply the unique conditions of the search
         $this->setSearchConditions($search);
+
+        // pre-fetch map of form attributes for later use
+        $this->fetchFormAttributes($search->form ?? []);
+
+        // optimize results by adding some values coming from other tables right
+        // onto the search query
+        $this->addSearchResultValues();
+
+        // remember the desired output
+        $this->search_output_type = $search->output_core_post ? 'core' : 'full';
     }
 
-    protected function getPostValues($id, $excludePrivateValues, $excludeStages)
+    /**
+     * Pre-fetch some values right on the search result
+     * (instead of doing it in a loop calling getEntity())
+     *
+     * NOTE: This must not be done on queries that do grouping
+     */
+    protected function addSearchResultValues()
     {
+        // Point columns
+        if (!$this->include_value_types || in_array('point', $this->include_value_types)) {
+            // Add 'point_value' and 'point_attribute_key' columns with
+            // point data type data
+            $this->search_query
+                ->join('post_point', 'LEFT')
+                ->on('posts.id', '=', 'post_point.post_id')
+                ->join(['form_attributes', 'point_attribute'], 'LEFT')
+                ->on('post_point.form_attribute_id', '=', 'point_attribute.id')
+                ->select(
+                    [DB::expr('AsText(post_point.value)'), 'point_value'],
+                    ['point_attribute.key', 'point_attribute_key']
+                );
+        }
+
+        // Geometry columns
+        if (!$this->include_value_types || in_array('geometry', $this->include_value_types)) {
+            // Add 'geometry_value' and 'geometry_attribute_key' columns with
+            // point data type data
+            $this->search_query
+                ->join('post_geometry', 'LEFT')
+                ->on('posts.id', '=', 'post_geometry.post_id')
+                ->join(['form_attributes', 'geometry_attribute'], 'LEFT')
+                ->on('post_geometry.form_attribute_id', '=', 'geometry_attribute.id')
+                ->select(
+                    [DB::expr('AsText(post_geometry.value)'), 'geometry_value'],
+                    ['geometry_attribute.key', 'geometry_attribute_key']
+                );
+        }
+    }
+
+    protected function getPostValues($id, $excludePrivateValues, $excludeStages, $includeTypesOverride = null): array
+    {
+        if ($includeTypesOverride) {
+            $includeTypes = $includeTypesOverride;
+        } else {
+            $includeTypes = $this->include_value_types;
+        }
 
         // Get all the values for the post. These are the EAV values.
         $values = $this->post_value_factory
-            ->proxy($this->include_value_types)
+            ->proxy($includeTypes)
             ->getAllForPost($id, $this->include_attributes, $excludeStages, $excludePrivateValues);
 
         $output = [];
@@ -329,7 +508,8 @@ class PostRepository extends OhanzeeRepository implements
             'include_unmapped',
             'group_by', 'group_by_tags', 'group_by_attribute_key', // Group results
             'timeline', 'timeline_interval', 'timeline_attribute', // Timeline params
-            'has_location' //contains a location or not
+            'has_location', //contains a location or not
+            'output_core_post',     // only fetch post table data and locations (TBD: tags)
         ];
     }
 
