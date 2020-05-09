@@ -25,7 +25,7 @@ Feature: Testing the Surveys API
         And the "result.everyone_can_create" property is true
         And the response has a "result.can_create" property
         And the "result.can_create" property is empty
-        Then the guzzle status code should be 200
+        Then the guzzle status code should be 201
 #
 #    Scenario: Updating a Survey
 #        Given that I want to update a "Survey"

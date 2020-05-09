@@ -109,7 +109,7 @@ Feature: V4 API Access Control Layer
         And the response has a "result.tasks.0.fields" property
         And the "result.tasks.0.fields" property count is "2"
         And the "result.name" property equals "new"
-        Then the guzzle status code should be 200
+        Then the guzzle status code should be 201
     @rolesEnabled
     Scenario: Basic user CANNOT create a hydrated form
         Given that I want to make a new "Survey"

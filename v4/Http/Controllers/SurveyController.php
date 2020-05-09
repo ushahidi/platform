@@ -48,7 +48,7 @@ class SurveyController extends V4Controller
     public function index()
     {
         $this->authorize('index', Survey::class);
-        return response()->json(['results' => Survey::all()]);
+        return new \v4\Http\Resources\SurveyCollection(Survey::all());
     }
 
     /**
@@ -75,7 +75,7 @@ class SurveyController extends V4Controller
                         $stage, [ 'updated' => time(), 'created' => time()]
                     )
                 );
-                $this->saveTranslations($stage['translations'], $stage_model->id, 'task');
+                $this->saveTranslations($stage['translations'] ?? [], $stage_model->id, 'task');
                 foreach ($stage['fields'] as $attribute) {
                     $uuid = Uuid::uuid4();
                     $attribute['key'] = $uuid->toString();
@@ -84,7 +84,7 @@ class SurveyController extends V4Controller
                             $attribute, [ 'updated' => time(), 'created' => time()]
                         )
                     );
-                    $this->saveTranslations($attribute['translations'], $field_model->id, 'field');
+                    $this->saveTranslations($attribute['translations'] ?? [], $field_model->id, 'field');
 
                 }
             }

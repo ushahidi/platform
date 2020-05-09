@@ -29,7 +29,8 @@ class SurveyResource extends Resource
             'hide_location' => $this->hide_location,
             'targeted_survey' => $this->targeted_survey,
             'translations' => new TranslationCollection($this->translations),
-            'tasks' => new TaskCollection($this->tasks)
+            'tasks' => new TaskCollection($this->tasks),
+            'can_create' => $this->can_create
         ];
     }
 }
