@@ -86,7 +86,6 @@ class SurveyController extends V4Controller
                         )
                     );
                     $this->saveTranslations($attribute['translations'] ?? [], $field_model->id, 'field');
-
                 }
             }
         }

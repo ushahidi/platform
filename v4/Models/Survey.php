@@ -46,7 +46,8 @@ class Survey extends Model
         'hide_author',
         'hide_time',
         'hide_location',
-        'targeted_survey'
+        'targeted_survey',
+        'base_language'
     ];
 
     /**
