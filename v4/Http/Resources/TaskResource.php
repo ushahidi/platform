@@ -15,6 +15,7 @@ class TaskResource extends Resource
     public function toArray($request)
     {
         return [
+            'id' => $this->id,
             'form_id' => $this->form_id,
             'label' => $this->label,
             'priority' => $this->priority,
@@ -24,7 +25,6 @@ class TaskResource extends Resource
             'description' => $this->description,
             'show_when_published' => $this->show_when_published,
             'task_is_internal_only' => $this->task_is_internal_only,
-            'id' => $this->id,
             'fields' => new FieldCollection($this->fields),
             'translations' => new TranslationCollection($this->translations)
         ];

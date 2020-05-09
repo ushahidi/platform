@@ -1,14 +1,10 @@
 <?php
 
 namespace v4\Http\Controllers;
-use Illuminate\Http\Resources\Json\Resource;
 use Ramsey\Uuid\Uuid;
-use Ushahidi\App\Validator\LegacyValidator;
-use v4\Models\Attribute;
 use v4\Models\Survey;
 use Illuminate\Http\Request;
 use v4\Models\Translation;
-
 
 class SurveyController extends V4Controller
 {
@@ -23,19 +19,6 @@ class SurveyController extends V4Controller
     public function show(int $id)
     {
         $survey = Survey::with('translations')->find($id);
-        $not_found = !$survey;
-        if ($not_found) {
-            $survey = new Survey();
-        }
-        // we try to authorize even if we don't find a survey
-        // this allows us to return a 404 to users who would
-        // be allowed to read surveys and a 403 to those who wouldn't
-        // obfuscating the existence of particular unauthorized surveys
-        // or non-existent ones to users without any permissions to see them
-        $this->authorize('show', $survey);
-        if ($not_found) {
-            abort(404);
-        }
         return new \v4\Http\Resources\SurveyResource($survey);
     }
 
@@ -47,7 +30,6 @@ class SurveyController extends V4Controller
      */
     public function index()
     {
-        $this->authorize('index', Survey::class);
         return new \v4\Http\Resources\SurveyCollection(Survey::all());
     }
 
@@ -60,7 +42,6 @@ class SurveyController extends V4Controller
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function store(Request $request) {
-        $this->authorize('store', Survey::class);
         $this->getValidationFactory()->make($request->input(), Survey::getRules());
         $survey = Survey::create(
             array_merge(

@@ -15,6 +15,7 @@ class FieldResource extends Resource
     public function toArray($request)
     {
         return [
+            'id' => $this->id,
             'key' => $this->key,
             'label' => $this->label,
             'instructions' => $this->instructions,
