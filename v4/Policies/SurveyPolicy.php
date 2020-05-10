@@ -1,7 +1,6 @@
 <?php
 
 namespace v4\Policies;
-use Ushahidi\App\Auth\GenericUser;
 use Ushahidi\App\Auth\GenericUser as User;
 use Ushahidi\Core\Entity;
 use v4\Models\Survey;
@@ -61,10 +60,21 @@ class SurveyPolicy
     }
 
     /**
+     *
+     * @param GenericUser $user
      * @param Survey $survey
      * @return bool
      */
-    public function update(Survey $survey) {
+    public function delete(User $user, Survey $survey)
+    {
+        $form = new Entity\Form($survey->toArray());
+        return $this->isAllowed($form, 'delete');
+    }
+    /**
+     * @param Survey $survey
+     * @return bool
+     */
+    public function update(User $user, Survey $survey) {
         // we convert to a form entity to be able to continue using the old authorizers and classes.
         $form = new Entity\Form($survey->toArray());
         return $this->isAllowed($form, 'update');

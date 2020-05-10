@@ -67,6 +67,7 @@ class Survey extends Model
         'everyone_can_create' => true,
         'hide_author' => false,
         'hide_time' => false,
+        'disabled' => false,
         'hide_location' => false,
         'targeted_survey' => false
     ];
@@ -130,6 +131,9 @@ class Survey extends Model
             'disabled' => [
                 'boolean'
             ],
+            'everyone_can_create' => [
+                'boolean'
+            ],
             'hide_author' => [
                 'boolean'
             ],
@@ -139,9 +143,8 @@ class Survey extends Model
             'hide_time' => [
                 'boolean'
             ],
-            // @FIXME: disabled targeted survey creation for v4 forms, need to check
             'targeted_survey' => [
-                Rule::in([false]),
+                'boolean'
             ],
             'tasks.*.label' => [
                 'required',
@@ -208,7 +211,7 @@ class Survey extends Model
                 //[[$this, 'checkForDuplicates'], [':validation', ':value']],
             ],
             'tasks.*.fields.*.type' => [
-                'boolean'
+                'string'
             ],
             'tasks.*.fields.*.priority' => [
                 'numeric',
@@ -235,4 +238,15 @@ class Survey extends Model
     {
         return $this->morphMany('v4\Models\Translation', 'translatable');
     }
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'everyone_can_create' => 'boolean',
+        'hide_author' => 'boolean',
+        'require_approval' => 'boolean',
+        'disabled' => 'boolean'
+    ];
 }

@@ -25,6 +25,8 @@ $router->group([
         'middleware' => ['auth:api', 'scope:forms']
     ], function () use ($router) {
         $router->post('/', 'SurveyController@store');
+        $router->put('/{id}', 'SurveyController@update');
+        $router->delete('/{id}', 'SurveyController@delete');
     });
 
     // Restricted access
