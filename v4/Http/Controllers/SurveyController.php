@@ -68,7 +68,7 @@ class SurveyController extends V4Controller
         if ($user) {
             $this->authorize('store', Survey::class);
         }
-        $this->validate($request, Survey::getRules());
+        $this->validate($request, Survey::getRules(), Survey::validationMessages());
         $survey = Survey::create(
             array_merge(
                 $request->input(),[ 'updated' => time(), 'created' => time()]
@@ -171,7 +171,7 @@ class SurveyController extends V4Controller
                 ],
                 404);
         }
-        $this->validate($request, Survey::getRules());
+        $this->validate($request, Survey::getRules(), Survey::validationMessages());
         $survey->update(
             array_merge(
                 $request->input(),[ 'updated' => time()]

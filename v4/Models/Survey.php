@@ -230,7 +230,48 @@ class Survey extends Model
             // for it to be needed
         ];
     }
-
+    /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array
+     */
+    public static function validationMessages()
+    {
+        return [
+            'name.required' => trans('validation.not_empty', ['field' => trans('fields.name')]),
+            'name.min' => trans('validation.min_length', ['param2' => 2]),
+            'name.max' => trans('validation.max_length', ['param2' => 255]),
+            'name.regex' => trans('validation.regex', ['field' => trans('fields.name')]),
+            //description.string
+            //color.string
+            'disabled.boolean'  => trans('validation.regex', ['field' => trans('fields.disabled')]),
+            'everyone_can_create.boolean' => trans('validation.regex', ['field' => trans('fields.everyone_can_create')]),
+            'hide_author.boolean' => trans('validation.regex', ['field' => trans('fields.hide_author')]),
+            'hide_location.boolean' => trans('validation.regex', ['field' => trans('fields.hide_location')]),
+            'hide_time.boolean' => trans('validation.regex', ['field' => trans('fields.hide_time')]),
+            'targeted_survey.boolean' => trans('validation.regex', ['field' => trans('fields.targeted_survey')]),
+            'tasks.*.label.required' => trans('validation.not_empty', ['field' => trans('fields.tasks.label')]),
+            'tasks.*.label.boolean' => trans('validation.regex', ['field' => trans('fields.tasks.label')]),
+            'tasks.*.type.in' => trans('validation.in_array', ['field' => trans('fields.tasks.type')]),
+            'tasks.*.priority.numeric' =>  trans('validation.numeric', ['field' => trans('fields.tasks.priority')]),
+            'tasks.*.icon.alpha' =>  trans('validation.alpha', ['field' => trans('fields.tasks.icon')]),
+            'tasks.*.fields.*.label.required' => trans('validation.not_empty', ['field' => trans('fields.tasks.fields.label')]),
+            'tasks.*.fields.*.label.max' => trans('validation.max_length', ['param2' => trans('fields.tasks.fields.label')]),
+            'tasks.*.fields.*.key.alpha_dash' => trans('validation.alpha_dash', ['field' => trans('fields.tasks.fields.key')]),
+            'tasks.*.fields.*.key.max' => trans('validation.max_length', ['param2' => trans('fields.tasks.fields.key')]),
+            'tasks.*.fields.*.input.required' => trans('validation.not_empty', ['param2' => trans('fields.tasks.fields.input')]),
+            'tasks.*.fields.*.input.in' => trans('validation.in_array', ['param2' => trans('fields.tasks.fields.input')]),
+            'tasks.*.fields.*.type.required' => trans('validation.not_empty', ['param2' => trans('fields.tasks.fields.type')]),
+            'tasks.*.fields.*.type.in' => trans('validation.in_array', ['param2' => trans('fields.tasks.fields.type')]),
+            'tasks.*.fields.*.priority.numeric' => trans('validation.numeric', ['param2' => trans('fields.tasks.fields.priority')]),
+            'tasks.*.fields.*.cardinality.numeric' => trans('validation.numeric', ['param2' => trans('fields.tasks.fields.cardinality')]),
+            'tasks.*.fields.*.response_private.boolean' => trans('validation.regex', ['field' => trans('fields.tasks.fields.response_private')]),
+            //'tasks.*.fields.*.response_private' => [
+            //// @TODO add this custom validator for canMakePrivate
+            // [[$this, 'canMakePrivate'], [':value', $type]]
+            //]
+        ];
+    }
     /**
      * Get the survey's translation.
      */
