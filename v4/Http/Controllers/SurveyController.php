@@ -160,6 +160,13 @@ class SurveyController extends V4Controller
      */
     public function update(int $id, Request $request) {
         $survey = Survey::find($id);
+        if (!$survey) {
+            return response()->json(
+                [
+                    'errors' => [ 'error' => 404, 'message' => 'Not found' ]
+                ],
+                404);
+        }
         $this->authorize('update', $survey);
         if (!$survey) {
             return response()->json(
