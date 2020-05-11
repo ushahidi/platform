@@ -11,6 +11,7 @@
 
 namespace Ushahidi\Core\Usecase\Post;
 
+use Illuminate\Support\Facades\Log;
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\Usecase\UpdateUsecase;
 
@@ -33,9 +34,11 @@ class UpdatePost extends UpdateUsecase
     protected function verifyValid(Entity $entity)
     {
         $changed = $entity->getChanged();
+        // Always pass form_id, values to validation
 
-        // Always pass values to validation
-
+        if (isset($entity->form_id)) {
+            $changed['form_id'] = $entity->form_id;
+        }
         if (isset($entity->values)) {
             $changed['values'] = $entity->values;
         }
