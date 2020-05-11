@@ -26,7 +26,7 @@ Feature: Testing the Surveys API
         And the response has a "result.can_create" property
         And the "result.can_create" property is empty
         Then the guzzle status code should be 201
-#
+
     Scenario: Updating a Survey
         Given that I want to update a "Survey"
         And that the api_url is "api/v4"
@@ -533,7 +533,7 @@ Feature: Testing the Surveys API
         And the "result.tasks.0.fields.0.label" property equals "Test varchar"
         And the "result.tasks.0.fields.0.translations.es.label" property equals "ES Test varchar"
         Then the guzzle status code should be 200
-#
+
     Scenario: Updating a Survey to clear name should fail
         Given that I want to update a "Survey"
         And that the api_url is "api/v4"
@@ -552,25 +552,25 @@ Feature: Testing the Surveys API
         When I request "/surveys"
         Then the response is JSON
         Then the guzzle status code should be 422
-#
-#    Scenario: Update a non-existent Survey
-#        Given that I want to update a "Survey"
-#        And that the api_url is "api/v4"
-#        And that the request "data" is:
-#            """
-#            {
-#                "name":"Updated Test Survey",
-#                "type":"report",
-#                "description":"This is a test form updated by BDD testing",
-#                "disabled":false
-#            }
-#            """
-#        And that its "id" is "40"
-#        When I request "/surveys"
-#        Then the response is JSON
-#        And the response has a "errors" property
-#        Then the guzzle status code should be 404
-#
+
+    Scenario: Update a non-existent Survey
+        Given that I want to update a "Survey"
+        And that the api_url is "api/v4"
+        And that the request "data" is:
+            """
+            {
+                "name":"Updated Test Survey",
+                "type":"report",
+                "description":"This is a test form updated by BDD testing",
+                "disabled":false
+            }
+            """
+        And that its "id" is "440"
+        When I request "/surveys"
+        Then the response is JSON
+        And the response has a "errors" property
+        Then the guzzle status code should be 404
+
     Scenario: Listing All Surveys
         Given that I want to get all "Surveys"
         And that the api_url is "api/v4"

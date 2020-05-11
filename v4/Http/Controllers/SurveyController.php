@@ -40,7 +40,6 @@ class SurveyController extends V4Controller
 
     /**
      * Display the specified resource.
-     * @TODO add enabled_languages (the ones that we have translations for)
      * @return SurveyCollection
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
@@ -51,7 +50,6 @@ class SurveyController extends V4Controller
 
     /**
      * Display the specified resource.
-     * @TODO add enabled_languages (the ones that we have translations for)
      * @TODO transactions =)
      * @param Request $request
      * @return SurveyResource
@@ -154,7 +152,6 @@ class SurveyController extends V4Controller
     }
     /**
      * Display the specified resource.
-     * @TODO add enabled_languages (the ones that we have translations for)
      * @TODO transactions =)
      * @param int $id
      * @param Request $request

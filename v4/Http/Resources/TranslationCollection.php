@@ -22,8 +22,15 @@ class TranslationCollection extends ResourceCollection
      */
     public function toArray($request)
     {
-
+        // translate options
+        // use key "options" for type "field" to do json_decode
         $grouped = $this->collection->mapToGroups(function ($item, $key) {
+            if (
+                $item->translated_key === 'options' &&
+                $item->translatable_type==='field'
+            ) {
+                $item->translation = json_decode($item->translation);
+            }
             return [$item->language => $item];
         });
         $combined = $grouped->map(function ($item, $key) {
