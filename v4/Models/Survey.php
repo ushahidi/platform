@@ -42,7 +42,10 @@ class Survey extends Model
      * OR a policy authorizer which is a more or less accepted method to do it
      * (which uses the same $hidden type thing but it's much nicer obviously)
      */
-    protected $hidden = ['description', 'icon'];
+    protected $hidden = [
+        'description',
+        'icon',
+    ];
 
     /**
      * The attributes that should be mutated to dates.
@@ -125,11 +128,17 @@ class Survey extends Model
             ),
             'name.min'                                  => trans(
                 'validation.min_length',
-                ['param2' => 2]
+                [
+                    'param2' => 2,
+                    'field'  => trans('fields.name'),
+                ]
             ),
             'name.max'                                  => trans(
                 'validation.max_length',
-                ['param2' => 255]
+                [
+                    'param2' => 255,
+                    'field'  => trans('fields.name'),
+                ]
             ),
             'name.regex'                                => trans(
                 'validation.regex',
@@ -187,7 +196,10 @@ class Survey extends Model
             ),
             'tasks.*.fields.*.label.max'                => trans(
                 'validation.max_length',
-                ['param2' => trans('fields.tasks.fields.label')]
+                [
+                    'param2' => 150,
+                    'field'  => trans('fields.tasks.fields.label'),
+                ]
             ),
             'tasks.*.fields.*.key.alpha_dash'           => trans(
                 'validation.alpha_dash',
@@ -195,7 +207,10 @@ class Survey extends Model
             ),
             'tasks.*.fields.*.key.max'                  => trans(
                 'validation.max_length',
-                ['param2' => trans('fields.tasks.fields.key')]
+                [
+                    'param2' => 150,
+                    'field'  => trans('fields.tasks.fields.key'),
+                ]
             ),
             'tasks.*.fields.*.input.required'           => trans(
                 'validation.not_empty',
@@ -207,19 +222,19 @@ class Survey extends Model
             ),
             'tasks.*.fields.*.type.required'            => trans(
                 'validation.not_empty',
-                ['param2' => trans('fields.tasks.fields.type')]
+                ['field' => trans('fields.tasks.fields.type')]
             ),
             'tasks.*.fields.*.type.in'                  => trans(
                 'validation.in_array',
-                ['param2' => trans('fields.tasks.fields.type')]
+                ['field' => trans('fields.tasks.fields.type')]
             ),
             'tasks.*.fields.*.priority.numeric'         => trans(
                 'validation.numeric',
-                ['param2' => trans('fields.tasks.fields.priority')]
+                ['field' => trans('fields.tasks.fields.priority')]
             ),
             'tasks.*.fields.*.cardinality.numeric'      => trans(
                 'validation.numeric',
-                ['param2' => trans('fields.tasks.fields.cardinality')]
+                ['field' => trans('fields.tasks.fields.cardinality')]
             ),
             'tasks.*.fields.*.response_private.boolean' => trans(
                 'validation.regex',
@@ -230,6 +245,7 @@ class Survey extends Model
             // [[$this, 'canMakePrivate'], [':value', $type]]
             // ]
         ];
+
     }//end validationMessages()
 
 
@@ -245,7 +261,7 @@ class Survey extends Model
                 'required',
                 'min:2',
                 'max:255',
-                'regex:' . LegacyValidator::REGEX_STANDARD_TEXT,
+                'regex:'.LegacyValidator::REGEX_STANDARD_TEXT,
             ],
             'description'                       => [
                 'string',
@@ -265,16 +281,14 @@ class Survey extends Model
             'targeted_survey'                   => ['boolean'],
             'tasks.*.label'                     => [
                 'required',
-                'regex:' . LegacyValidator::REGEX_STANDARD_TEXT,
+                'regex:'.LegacyValidator::REGEX_STANDARD_TEXT,
             ],
-            'tasks.*.type'                      => [
-                Rule::in(
-                    [
-                        'post',
-                        'task',
-                    ]
-                )
-            ],
+            'tasks.*.type'                      => [Rule::in(
+                [
+                    'post',
+                    'task',
+                ]
+            )],
             'tasks.*.priority'                  => ['numeric'],
             'tasks.*.icon'                      => ['alpha'],
             'tasks.*.fields.*.label'            => [
@@ -345,6 +359,7 @@ class Survey extends Model
             // should be removing that arbitrary limit since it's pretty rare
             // for it to be needed
         ];
+
     }//end getRules()
 
 
@@ -357,6 +372,7 @@ class Survey extends Model
     {
         $can_create = $this->getCanCreateRoles($this->id);
         return $can_create['roles'];
+
     }//end getCanCreateAttribute()
 
 
@@ -370,6 +386,7 @@ class Survey extends Model
          */
         $form_repo = service('repository.form');
         return $form_repo->getRolesThatCanCreatePosts($form_id);
+
     }//end getCanCreateRoles()
 
 
@@ -381,7 +398,7 @@ class Survey extends Model
     public function tasks()
     {
         $authorizer = service('authorizer.form');
-        $user = $authorizer->getUser();
+        $user       = $authorizer->getUser();
         // NOTE: this acl->hasPermission check is all `canUserEditForm` does, so we're doing that directly
         // to avoid an hydration issue with InteractsWithFormPermissions
         if ($authorizer->acl->hasPermission($user, Permission::MANAGE_POSTS)) {
@@ -392,9 +409,8 @@ class Survey extends Model
         return $this->hasMany(
             'v4\Models\Stage',
             'form_id'
-        )
-            ->where('form_stages.show_when_published', '=', '1')
-            ->where('form_stages.task_is_internal_only', '=', '0');
+        )->where('form_stages.show_when_published', '=', '1')->where('form_stages.task_is_internal_only', '=', '0');
+
     }//end tasks()
 
 
@@ -404,5 +420,8 @@ class Survey extends Model
     public function translations()
     {
         return $this->morphMany('v4\Models\Translation', 'translatable');
+
     }//end translations()
+
+
 }//end class
