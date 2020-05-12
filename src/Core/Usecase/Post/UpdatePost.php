@@ -33,10 +33,14 @@ class UpdatePost extends UpdateUsecase
     protected function verifyValid(Entity $entity)
     {
         $changed = $entity->getChanged();
-        // Always pass form_id, content values to validation
+        // Always pass form_id, title, content and values to validation
 
         if (isset($entity->form_id) && !$entity->hasChanged('form_id')) {
             $changed['form_id'] = $entity->form_id;
+        }
+
+        if (isset($entity->title) && !$entity->hasChanged('title')) {
+            $changed['title'] = $entity->title;
         }
 
         if (isset($entity->content) && !$entity->hasChanged('content')) {
