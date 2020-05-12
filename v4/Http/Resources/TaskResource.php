@@ -20,7 +20,6 @@ class TaskResource extends Resource
             'form_id' => $this->form_id,
             'label' => $this->label,
             'priority' => $this->priority,
-            'icon' => $this->icon,
             'required' => $this->required,
             'type' => $this->type,
             'description' => $this->description,

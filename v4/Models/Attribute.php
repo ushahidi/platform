@@ -41,6 +41,7 @@ class Attribute extends Model
         'config' => 'json',
         'options' => 'json',
     ];
+    protected $hidden = ['icon'];
 
     public function stage()
     {

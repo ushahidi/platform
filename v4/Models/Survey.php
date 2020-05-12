@@ -42,7 +42,7 @@ class Survey extends Model
      * OR a policy authorizer which is a more or less accepted method to do it
      * (which uses the same $hidden type thing but it's much nicer obviously)
      */
-    protected $hidden = ['description'];
+    protected $hidden = ['description', 'icon'];
 
     /**
      * The attributes that should be mutated to dates.

@@ -32,6 +32,7 @@ class Stage extends Model
         'show_when_published',
         'task_is_internal_only'
     ];
+    protected $hidden = ['icon'];
 
     public function fields()
     {
