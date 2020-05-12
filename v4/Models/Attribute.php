@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Attribute extends Model
 {
-    public $timestamps = FALSE;
+    public $timestamps = false;
 
     protected $table = 'form_attributes';
     /**
@@ -42,7 +42,8 @@ class Attribute extends Model
         'options' => 'json',
     ];
 
-    public function stage () {
+    public function stage()
+    {
         return $this->belongsTo('v4\Models\Stage', 'form_stage_id');
     }
 

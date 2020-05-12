@@ -1,6 +1,7 @@
 <?php
 
 namespace v4\Policies;
+
 use Ushahidi\App\Auth\GenericUser as User;
 use Ushahidi\Core\Entity;
 use v4\Models\Survey;
@@ -74,7 +75,8 @@ class SurveyPolicy
      * @param Survey $survey
      * @return bool
      */
-    public function update(User $user, Survey $survey) {
+    public function update(User $user, Survey $survey)
+    {
         // we convert to a form entity to be able to continue using the old authorizers and classes.
         $form = new Entity\Form($survey->toArray());
         return $this->isAllowed($form, 'update');
@@ -85,7 +87,8 @@ class SurveyPolicy
      * @param Survey $survey
      * @return bool
      */
-    public function store() {
+    public function store()
+    {
         // we convert to a form entity to be able to continue using the old authorizers and classes.
         $form = new Entity\Form();
         return $this->isAllowed($form, 'create');
@@ -95,7 +98,8 @@ class SurveyPolicy
      * @param string $privilege
      * @return bool
      */
-    public function isAllowed($entity, $privilege){
+    public function isAllowed($entity, $privilege)
+    {
         $authorizer = service('authorizer.form');
 
         // These checks are run within the user context.
@@ -124,9 +128,9 @@ class SurveyPolicy
         // }
 
         // If a form is not disabled, then *anyone* can view it.
-         if ($privilege === 'read' && !$this->isFormDisabled($entity)) {
-             return true;
-         }
+        if ($privilege === 'read' && !$this->isFormDisabled($entity)) {
+            return true;
+        }
 
         // All users are allowed to search forms.
         // @TODO should only do 'search' here. Do 'read' above in the isFormDisabled check
@@ -146,5 +150,4 @@ class SurveyPolicy
     {
         return (bool) $entity->disabled;
     }
-
 }

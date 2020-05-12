@@ -17,7 +17,8 @@ class AddLanguageToSurvey extends AbstractMigration
             ->update();
     }
 
-    public function down() {
+    public function down()
+    {
         $this->table('forms')->removeColumn('base_language');
     }
 }

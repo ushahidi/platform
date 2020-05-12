@@ -1,5 +1,6 @@
 <?php
 namespace v4\Http\Resources;
+
 use Illuminate\Http\Resources\Json\Resource;
 
 class SurveyResource extends Resource

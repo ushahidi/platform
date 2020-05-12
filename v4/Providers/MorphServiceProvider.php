@@ -8,7 +8,8 @@ use Illuminate\Support\ServiceProvider;
 
 class MorphServiceProvider extends ServiceProvider
 {
-    public function boot() {
+    public function boot()
+    {
         Relation::morphMap([
             'survey' => 'v4\Models\Survey',
             'task' => 'v4\Models\Stage',

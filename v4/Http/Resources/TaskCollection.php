@@ -3,7 +3,6 @@
 
 namespace v4\Http\Resources;
 
-
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class TaskCollection extends ResourceCollection

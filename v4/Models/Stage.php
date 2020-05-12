@@ -7,7 +7,7 @@ use Ushahidi\Core\Entity\Permission;
 
 class Stage extends Model
 {
-    public $timestamps = FALSE;
+    public $timestamps = false;
 
     protected $table = 'form_stages';
     /**
@@ -38,7 +38,8 @@ class Stage extends Model
         return $this->hasMany('v4\Models\Attribute', 'form_stage_id');
     }
 
-    public function survey() {
+    public function survey()
+    {
         return $this->belongsTo('v4\Models\Survey', 'form_id');
     }
 
@@ -49,5 +50,4 @@ class Stage extends Model
     {
         return $this->morphMany('v4\Models\Translation', 'translatable');
     }
-
 }

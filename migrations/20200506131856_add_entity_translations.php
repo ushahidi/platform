@@ -16,7 +16,8 @@ class AddEntityTranslations extends AbstractMigration
             ->addTimestamps()
             ->create();
     }
-    public function down() {
+    public function down()
+    {
         $this->dropTable('translations');
     }
 }

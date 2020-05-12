@@ -7,7 +7,7 @@ use Ushahidi\Core\Entity\Permission;
 
 class Translation extends Model
 {
-    public $timestamps = FALSE;
+    public $timestamps = false;
 
     protected $table = 'translations';
     /**
