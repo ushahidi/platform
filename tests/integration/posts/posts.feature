@@ -1369,6 +1369,7 @@ Feature: Testing the Posts API
 			{
 				"form":1,
 				"title":"SUMMARY REPORT (تقرير ملخص)",
+				"content": "A test content",
 				"type":"report",
 				"status":"draft",
 				"locale":"en_US",
