@@ -18,10 +18,11 @@ use v4\Models\Translation;
 class SurveyController extends V4Controller
 {
 
+
     /**
      * Display the specified resource.
      *
-     * @param int $id
+     * @param integer $id
      * @return mixed
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
@@ -31,27 +32,35 @@ class SurveyController extends V4Controller
         if (!$survey) {
             return response()->json(
                 [
-                    'errors' => [ 'error' => 404, 'message' => 'Not found' ]
+                    'errors' => [
+                        'error'   => 404,
+                        'message' => 'Not found',
+                    ],
                 ],
                 404
             );
         }
+
         return new SurveyResource($survey);
-    }
+    }//end show()
+
 
     /**
      * Display the specified resource.
+     *
      * @return SurveyCollection
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function index()
     {
         return new SurveyCollection(Survey::all());
-    }
+    }//end index()
+
 
     /**
      * Display the specified resource.
-     * @TODO transactions =)
+     *
+     * @TODO   transactions =)
      * @param Request $request
      * @return SurveyResource
      * @throws \Illuminate\Auth\Access\AuthorizationException
@@ -68,11 +77,15 @@ class SurveyController extends V4Controller
         if ($user) {
             $this->authorize('store', Survey::class);
         }
+
         $this->validate($request, Survey::getRules(), Survey::validationMessages());
         $survey = Survey::create(
             array_merge(
                 $request->input(),
-                [ 'updated' => time(), 'created' => time()]
+                [
+                    'updated' => time(),
+                    'created' => time(),
+                ]
             )
         );
         $this->saveTranslations($request->input('translations'), $survey->id, 'survey');
@@ -81,86 +94,71 @@ class SurveyController extends V4Controller
                 $stage_model = $survey->tasks()->create(
                     array_merge(
                         $stage,
-                        [ 'updated' => time(), 'created' => time()]
+                        [
+                            'updated' => time(),
+                            'created' => time(),
+                        ]
                     )
                 );
-                $this->saveTranslations($stage['translations'] ?? [], $stage_model->id, 'task');
+                $this->saveTranslations(($stage['translations'] ?? []), $stage_model->id, 'task');
                 foreach ($stage['fields'] as $attribute) {
                     $uuid = Uuid::uuid4();
                     $attribute['key'] = $uuid->toString();
                     $field_model = $stage_model->fields()->create(
                         array_merge(
                             $attribute,
-                            [ 'updated' => time(), 'created' => time()]
+                            [
+                                'updated' => time(),
+                                'created' => time(),
+                            ]
                         )
                     );
-                    $this->saveTranslations($attribute['translations'] ?? [], $field_model->id, 'field');
+                    $this->saveTranslations(($attribute['translations'] ?? []), $field_model->id, 'field');
                 }
-            }
-        }
+            }//end foreach
+        }//end if
+
         return new SurveyResource($survey);
-    }
+    }//end store()
+
 
     /**
-     * @param $input
-     * @param $translatable_id
-     * @param $type
-     * @return bool
+     * @param  $input
+     * @param  $translatable_id
+     * @param  $type
+     * @return boolean
      */
     private function saveTranslations($input, int $translatable_id, string $type)
     {
         if (!is_array($input)) {
             return true;
         }
+
         foreach ($input as $language => $translations) {
             foreach ($translations as $key => $translated) {
                 if (is_array($translated)) {
                     $translated = json_encode($translated);
                 }
-                Translation::create([
-                    'translatable_type' => $type,
-                    'translatable_id' => $translatable_id,
-                    'translated_key' => $key,
-                    'translation' => $translated,
-                    'language' => $language
-                ]);
+
+                Translation::create(
+                    [
+                        'translatable_type' => $type,
+                        'translatable_id'   => $translatable_id,
+                        'translated_key'    => $key,
+                        'translation'       => $translated,
+                        'language'          => $language,
+                    ]
+                );
             }
         }
-    }
+    }//end saveTranslations()
+
 
     /**
-     * @param $input
-     * @param $translatable_id
-     * @param $type
-     * @return bool
-     */
-    private function updateTranslations($input, int $translatable_id, string $type)
-    {
-        if (!is_array($input)) {
-            return true;
-        }
-        Translation::where('translatable_id', $translatable_id)
-                                ->where('translatable_type', $type)
-                                ->delete();
-        foreach ($input as $language => $translations) {
-            foreach ($translations as $key => $translated) {
-                if (is_array($translated)) {
-                    $translated = json_encode($translated);
-                }
-                Translation::create([
-                    'translatable_type' => $type,
-                    'translatable_id' => $translatable_id,
-                    'translated_key' => $key,
-                    'translation' => $translated,
-                    'language' => $language
-                ]);
-            }
-        }
-    }
-    /**
      * Display the specified resource.
-     * @TODO transactions =)
-     * @param int $id
+     *
+     * @TODO   transactions =)
+     * @param integer $id
      * @param Request $request
      * @return mixed
      * @throws \Illuminate\Auth\Access\AuthorizationException
@@ -171,31 +169,73 @@ class SurveyController extends V4Controller
         if (!$survey) {
             return response()->json(
                 [
-                    'errors' => [ 'error' => 404, 'message' => 'Not found' ]
+                    'errors' => [
+                        'error'   => 404,
+                        'message' => 'Not found',
+                    ],
                 ],
                 404
             );
         }
+
         $this->authorize('update', $survey);
         if (!$survey) {
             return response()->json(
                 [
-                    'errors' => [ 'error' => 404, 'message' => 'Not found' ]
+                    'errors' => [
+                        'error'   => 404,
+                        'message' => 'Not found',
+                    ],
                 ],
                 404
             );
         }
+
         $this->validate($request, Survey::getRules(), Survey::validationMessages());
         $survey->update(
             array_merge(
                 $request->input(),
-                [ 'updated' => time()]
+                ['updated' => time()]
             )
         );
         $this->updateTranslations($request->input('translations'), $survey->id, 'survey');
-        $this->updateTasks($request->input('tasks') ?? [], $survey);
+        $this->updateTasks(($request->input('tasks') ?? []), $survey);
         return new SurveyResource($survey);
-    }
+    }//end update()
+
+
+    /**
+     * @param  $input
+     * @param  $translatable_id
+     * @param  $type
+     * @return boolean
+     */
+    private function updateTranslations($input, int $translatable_id, string $type)
+    {
+        if (!is_array($input)) {
+            return true;
+        }
+
+        Translation::where('translatable_id', $translatable_id)->where('translatable_type', $type)->delete();
+        foreach ($input as $language => $translations) {
+            foreach ($translations as $key => $translated) {
+                if (is_array($translated)) {
+                    $translated = json_encode($translated);
+                }
+
+                Translation::create(
+                    [
+                        'translatable_type' => $type,
+                        'translatable_id'   => $translatable_id,
+                        'translated_key'    => $key,
+                        'translation'       => $translated,
+                        'language'          => $language,
+                    ]
+                );
+            }
+        }
+    }//end updateTranslations()
+
 
     /**
      * @param array $input_tasks
@@ -210,18 +250,23 @@ class SurveyController extends V4Controller
                 if (!$stage_model) {
                     continue;
                 }
+
                 $stage_model->update($stage);
                 $stage_model = Stage::find($stage['id']);
             } else {
-                $stage_model = $survey->tasks()->create(array_merge(
-                    $stage,
-                    [ 'updated' => time()]
-                ));
+                $stage_model = $survey->tasks()->create(
+                    array_merge(
+                        $stage,
+                        ['updated' => time()]
+                    )
+                );
                 $added_tasks[] = $stage_model->id;
             }
-            $this->updateTranslations($stage['translations'] ?? [], $stage_model->id, 'task');
-            $this->updateFields($stage['fields'] ?? [], $stage_model);
-        }
+
+            $this->updateTranslations(($stage['translations'] ?? []), $stage_model->id, 'task');
+            $this->updateFields(($stage['fields'] ?? []), $stage_model);
+        }//end foreach
+
         $input_tasks_collection = new Collection($input_tasks);
         $survey->load('tasks');
 
@@ -232,7 +277,8 @@ class SurveyController extends V4Controller
         foreach ($tasks_to_delete as $task_to_delete) {
             Stage::where('id', $task_to_delete->id)->delete();
         }
-    }
+    }//end updateTasks()
+
 
     /**
      * @param array $input_fields
@@ -248,18 +294,26 @@ class SurveyController extends V4Controller
                 if (!$field_model) {
                     continue;
                 }
+
                 $field_model->update($field);
                 $field_model = Attribute::find($field['id']);
             } else {
                 $uuid = Uuid::uuid4();
-                $field_model = $stage->fields()->create(array_merge(
-                    $field,
-                    [ 'updated' => time(), 'key' => $uuid->toString()]
-                ));
+                $field_model = $stage->fields()->create(
+                    array_merge(
+                        $field,
+                        [
+                            'updated' => time(),
+                            'key'     => $uuid->toString(),
+                        ]
+                    )
+                );
                 $added_fields[] = $field_model->id;
-            }
-            $this->updateTranslations($field['translations'] ?? [], $field_model->id, 'field');
-        }
+            }//end if
+
+            $this->updateTranslations(($field['translations'] ?? []), $field_model->id, 'field');
+        }//end foreach
+
         $input_fields_collection = new Collection($input_fields);
         $stage->load('fields');
 
@@ -270,14 +324,33 @@ class SurveyController extends V4Controller
         foreach ($fields_to_delete as $field_to_delete) {
             Attribute::where('id', $field_to_delete->id)->delete();
         }
-    }
+    }//end updateFields()
+
+
     /**
-     * @param int $id
+     * @param integer $id
      */
     public function delete(int $id, Request $request)
     {
         $survey = Survey::find($id);
         $this->authorize('delete', $survey);
+        $task_ids = $survey->tasks->modelKeys();
+
+        $field_ids = $survey->tasks->map(function ($task, $key) use (&$field_ids) {
+            return $task->fields->modelKeys();
+        })->flatten();
+
+        Translation::whereIn('translatable_id', $task_ids)
+            ->where('translatable_type', 'task')
+            ->delete();
+
+        Translation::whereIn('translatable_id', $field_ids)
+            ->where('translatable_type', 'field')
+            ->delete();
+
+        $survey->translations()->delete();
+        $survey->delete();
+
         return response()->json(['result' => ['deleted' => $id]]);
-    }
-}
+    }//end delete()
+}//end class

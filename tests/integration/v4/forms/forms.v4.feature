@@ -602,7 +602,7 @@ Feature: Testing the Surveys API
     Scenario: Finding a non-existent Survey
         Given that I want to find a "Survey"
         And that the api_url is "api/v4"
-        And that its "id" is "1332"
+        And that its "id" is "1"
         When I request "/surveys"
         Then the response is JSON
         And the response has a "errors" property
