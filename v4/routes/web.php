@@ -19,6 +19,15 @@ $router->group([
         $router->get('/{id}', 'SurveyController@show');
     });
 
+    $router->group([
+        'prefix' => 'categories',
+        'middleware' => ['scope:tags', 'expiration']
+    ], function () use ($router) {
+        // Public access
+        $router->get('/', 'CategoryController@index');
+        $router->get('/{id}', 'CategoryController@show');
+    });
+
     // Restricted access
     $router->group([
         'prefix' => 'surveys',

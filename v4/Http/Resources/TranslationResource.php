@@ -19,7 +19,6 @@ class TranslationResource extends Resource
             'key' => $this->translated_key,
             'translation' => $this->translation,
             'language' => $this->language
-
         ];
     }
 }

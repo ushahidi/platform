@@ -17,8 +17,6 @@ use v4\Models\Translation;
 
 class SurveyController extends V4Controller
 {
-
-
     /**
      * Display the specified resource.
      *

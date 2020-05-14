@@ -163,3 +163,56 @@ Feature: V4 API Access Control Layer
             """
         When I request "/surveys"
         Then the guzzle status code should be 403
+    @rolesEnabled
+    Scenario: Import-Export user CANNOT create a hydrated form
+        Given that I want to make a new "Survey"
+        And that the oauth token is "testimporter"
+        And that the api_url is "api/v4"
+        And that the request "data" is:
+            """
+            {
+                "enabled_languages": {
+                    "default": "en-EN"
+                },
+                "color": null,
+                "require_approval": true,
+                "everyone_can_create": false,
+                "targeted_survey": false,
+                "tasks": [
+                    {
+                        "label": "Post",
+                        "priority": 0,
+                        "required": false,
+                        "type": "post",
+                        "show_when_published": true,
+                        "task_is_internal_only": false,
+                        "fields": [
+                            {
+                                "cardinality": 0,
+                                "input": "text",
+                                "label": "Title",
+                                "priority": 1,
+                                "required": true,
+                                "type": "title",
+                                "options": [],
+                                "config": {}
+                            },
+                            {
+                                "cardinality": 0,
+                                "input": "text",
+                                "label": "Description",
+                                "priority": 2,
+                                "required": true,
+                                "type": "description",
+                                "options": [],
+                                "config": {}
+                            }
+                        ],
+                        "is_public": true
+                    }
+                ],
+                "name": "new"
+            }
+            """
+        When I request "/surveys"
+        Then the guzzle status code should be 403

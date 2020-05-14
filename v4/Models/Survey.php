@@ -218,7 +218,7 @@ class Survey extends Model
             ),
             'tasks.*.fields.*.input.in'                 => trans(
                 'validation.in_array',
-                ['param2' => trans('fields.tasks.fields.input')]
+                ['field' => trans('fields.tasks.fields.input')]
             ),
             'tasks.*.fields.*.type.required'            => trans(
                 'validation.not_empty',
@@ -245,7 +245,6 @@ class Survey extends Model
             // [[$this, 'canMakePrivate'], [':value', $type]]
             // ]
         ];
-
     }//end validationMessages()
 
 
@@ -359,7 +358,6 @@ class Survey extends Model
             // should be removing that arbitrary limit since it's pretty rare
             // for it to be needed
         ];
-
     }//end getRules()
 
 
@@ -372,7 +370,6 @@ class Survey extends Model
     {
         $can_create = $this->getCanCreateRoles($this->id);
         return $can_create['roles'];
-
     }//end getCanCreateAttribute()
 
 
@@ -386,7 +383,6 @@ class Survey extends Model
          */
         $form_repo = service('repository.form');
         return $form_repo->getRolesThatCanCreatePosts($form_id);
-
     }//end getCanCreateRoles()
 
 
@@ -409,8 +405,9 @@ class Survey extends Model
         return $this->hasMany(
             'v4\Models\Stage',
             'form_id'
-        )->where('form_stages.show_when_published', '=', '1')->where('form_stages.task_is_internal_only', '=', '0');
-
+        )
+        ->where('form_stages.show_when_published', '=', '1')
+        ->where('form_stages.task_is_internal_only', '=', '0');
     }//end tasks()
 
 
@@ -420,8 +417,5 @@ class Survey extends Model
     public function translations()
     {
         return $this->morphMany('v4\Models\Translation', 'translatable');
-
     }//end translations()
-
-
 }//end class
