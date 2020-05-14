@@ -216,12 +216,57 @@ class Category extends Model
 
         if ($user->role) {
             // couldn't think of a better way to deal with our JSON-but-not-json fields
-            return $query->where(function ($query) use ($user) {
+            // get categories that are available for users with this role or NULL role
+            // taking care NOT to bring any child categories that belong
+            // to parents with other role restrictions
+            $q = $query->where(function ($query) use ($user) {
                 return $query
                     ->whereNull('role')
-                    ->orWhere('role', 'LIKE', '%\"' . $user->role . '\"%');
+                    ->orWhere('role', 'LIKE', '%\"' . $user->role . '\"%')
+                    ;
             });
+            $q->where(function ($query) use ($user) {
+                return $query
+                    ->whereNotIn('parent_id', function ($query) use ($user) {
+                        $query
+                            ->select('id')
+                            ->from('tags')
+                            ->where('role', 'NOT LIKE', '%\"' . $user->role . '\"%')
+                            ->whereNull('parent_id');
+                    })
+                    ->orWhereNull('parent_id');
+            });
+            // generates a query like like this
+            // select * from `tags` where (`role` is null or `role` LIKE ?)
+            // AND (`parent_id` not in
+            // (
+            //  select `id` from `tags` where `role` NOT LIKE ? and `parent_id` is null
+            // )
+            // or `parent_id` is null)
+            return $q;
         }
-        return $query->whereNull('role');
+        // get categories that are available for non logged in users
+        // taking care NOT to bring any child categories that belong
+        // to parents with admin/user/other role restrictions
+        $q = $query->whereNull('role')->where(function ($query) use ($user) {
+            return $query
+                ->whereNotIn('parent_id', function ($query) use ($user) {
+                    $query
+                        ->select('id')
+                        ->from('tags')
+                        ->whereNotNull('role')
+                        ->whereNull('parent_id');
+                })
+                ->orWhereNull('parent_id');
+        });
+        // generates a query like this:
+        // select * from `tags` where `role` is null
+        // AND (`parent_id` not in
+        // (
+        //  select `id` from `tags` where `role` is not null and `parent_id` is null
+        // )
+        // or `parent_id` is null)
+
+        return $q;
     }
 }//end class
