@@ -207,11 +207,28 @@ Feature: Testing the Categories API
 #        Then the guzzle status code should be 200
 #
     @resetFixture
-    Scenario: Listing All Tags
+    Scenario: Listing All Tags available to admins
         Given that I want to get all "Categories"
+        And that the oauth token is "testadminuser"
+        And that the api_url is "api/v4"
         When I request "/categories"
         Then the response is JSON
-        And the "results" property count is "11"
+        And the "results" property count is "7"
+        Then the guzzle status code should be 200
+    Scenario: Listing All Tags available to regular users
+        Given that I want to get all "Categories"
+        And that the oauth token is "testbasicuser"
+        And that the api_url is "api/v4"
+        When I request "/categories"
+        Then the response is JSON
+        And the "results" property count is "6"
+        Then the guzzle status code should be 200
+    Scenario: Listing All Tags available to non-users
+        Given that I want to get all "Categories"
+        And that the api_url is "api/v4"
+        When I request "/categories"
+        Then the response is JSON
+        And the "results" property count is "5"
         Then the guzzle status code should be 200
 
 #    @resetFixture
