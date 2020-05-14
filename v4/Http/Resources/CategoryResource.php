@@ -26,6 +26,8 @@ class CategoryResource extends Resource
             'description' => $this->description,
             'role' => $this->role,
             'priority' => $this->priority,
+            'children' => $this->children,
+            'parent' => $this->parent,
             'translations' => new TranslationCollection($this->translations),
         ];
     }

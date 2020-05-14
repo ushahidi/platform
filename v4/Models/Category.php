@@ -156,9 +156,6 @@ class Category extends Model
                 'required',
                 'min:2',
                 // [[$this->repo, 'isSlugAvailable'], [':value']],
-                // 'min:2',
-                // 'max:255',
-                // 'regex:'.LegacyValidator::REGEX_STANDARD_TEXT,
             ],
             'type'        => [
                 'required',
@@ -199,6 +196,15 @@ class Category extends Model
     {
         return $this->morphMany('v4\Models\Translation', 'translatable');
     }//end getRules()
+
+    public function parent()
+    {
+        return $this->hasOne('v4\Models\Category', 'id', 'parent_id');
+    }
+    public function children()
+    {
+        return $this->hasMany('v4\Models\Category', 'parent_id', 'id');
+    }
 
     /**
      * Scope helper to only pull tags we are allowed to get from the db
