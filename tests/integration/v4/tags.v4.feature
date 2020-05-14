@@ -208,7 +208,7 @@ Feature: Testing the Categories API
 #
     @resetFixture
     Scenario: Listing All Tags
-        Given that I want to get all "Tags"
+        Given that I want to get all "Categories"
         When I request "/categories"
         Then the response is JSON
         And the "results" property count is "11"

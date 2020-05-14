@@ -7,6 +7,8 @@ use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class CategoryCollection extends ResourceCollection
 {
+    public static $wrap = 'results';
+
     /**
      * The resource that this resource collects.
      *
