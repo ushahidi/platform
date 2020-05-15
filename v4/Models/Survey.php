@@ -418,4 +418,27 @@ class Survey extends Model
     {
         return $this->morphMany('v4\Models\Translation', 'translatable');
     }//end translations()
+
+    /**
+     * Set the user's first name.
+     *
+     * @param  string  $value
+     * @return void
+     */
+    public function getColorAttribute($value)
+    {
+        return $value ? "#" . $value : $value;
+    }
+    /**
+     * Set the user's first name.
+     *
+     * @param  string  $value
+     * @return void
+     */
+    public function setColorAttribute($value)
+    {
+        if (isset($value)) {
+            $this->attributes['color'] = ltrim($value, '#');
+        }
+    }
 }//end class

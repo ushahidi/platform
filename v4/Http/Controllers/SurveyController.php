@@ -54,7 +54,6 @@ class SurveyController extends V4Controller
         return new SurveyCollection(Survey::all());
     }//end index()
 
-
     /**
      * Display the specified resource.
      *

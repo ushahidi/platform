@@ -10,7 +10,8 @@ Feature: Testing the Surveys API
                 "name":"Test Survey",
                 "type":"report",
                 "description":"This is a test form from BDD testing",
-                "disabled":false
+                "disabled":false,
+                "color": "#A51A1A"
             }
             """
         When I request "/surveys"
@@ -18,6 +19,7 @@ Feature: Testing the Surveys API
         And the response has a "result" property
         And the response has a "result.id" property
         And the type of the "result.id" property is "numeric"
+        And the "result.color" property equals "#A51A1A"
         And the "result.disabled" property is false
         And the "result.require_approval" property is true
         And the "result.require_approval" property is true
@@ -42,7 +44,7 @@ Feature: Testing the Surveys API
                 "disabled": 0,
                 "require_approval": 0,
                 "everyone_can_create": 0,
-                "color": null,
+                "color": "#A51A1A",
                 "hide_author": 0,
                 "hide_time": 0,
                 "hide_location": 0,
@@ -528,6 +530,7 @@ Feature: Testing the Surveys API
         And the "result.disabled" property is false
         And the "result.require_approval" property is false
         And the "result.everyone_can_create" property is false
+        And the "result.color" property equals "#A51A1A"
         And the "result.translations.es.name" property equals "ES Test Form has been updated name"
         And the "result.tasks.0.label" property equals "Main task 1 updated"
         And the "result.tasks.0.translations.es.label" property equals "ES Main task 1"
