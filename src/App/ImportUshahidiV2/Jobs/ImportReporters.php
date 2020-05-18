@@ -11,7 +11,7 @@ class ImportReporters extends Job
 {
     use Concerns\ConnectsToV2DB;
 
-    const BATCH_SIZE = 50;
+    const BATCH_SIZE = 1000;
 
     protected $importId;
     protected $dbConfig;
@@ -46,6 +46,14 @@ class ImportReporters extends Job
         );
 
         $batch = 0;
+        $last_id = -1;
+
+        // Know the max id
+        $max_id = $this->getConnection()
+            ->table('reporter')
+            ->select(DB::raw('max(id) as max_id'))
+            ->get()->first()->max_id;
+
         // While there are data left
         while (true) {
             // Fetch data
@@ -59,6 +67,7 @@ class ImportReporters extends Job
                     'service_name',
                     'level_title'
                 )
+                ->whereBetween('reporter.id', [$last_id+1, ($last_id+1) + self::BATCH_SIZE])
                 ->leftJoin('service', 'reporter.service_id', '=', 'service.id')
                 ->leftJoin('level', 'reporter.level_id', '=', 'level.id')
                 ->leftJoin('location', 'reporter.location_id', '=', 'location.id')
@@ -67,18 +76,18 @@ class ImportReporters extends Job
                 // ->where('service_account',
                 //         'not in',
                 //         $this->getConnection()->table('users')->select('email'))
-                ->limit(self::BATCH_SIZE)
-                ->offset($batch * self::BATCH_SIZE)
-                ->orderBy('id', 'asc')
                 ->get();
 
-            // If there is no more data
-            if ($sourceData->isEmpty()) {
+            if (!$sourceData->isEmpty()) {
+                $created = $importer->run($this->importId, $sourceData);
+            }
+
+            // jump to the next id batch
+            $last_id = ($last_id+1) + self::BATCH_SIZE;
+            if ($last_id > $max_id) {
                 // Break out of the loop
                 break;
             }
-
-            $created = $importer->run($this->importId, $sourceData);
 
             $batch++;
         }

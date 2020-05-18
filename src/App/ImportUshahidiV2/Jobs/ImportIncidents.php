@@ -11,7 +11,7 @@ class ImportIncidents extends Job
 {
     use Concerns\ConnectsToV2DB;
 
-    const BATCH_SIZE = 200;
+    const BATCH_SIZE = 1000;
 
     protected $importId;
     protected $dbConfig;

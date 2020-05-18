@@ -13,7 +13,7 @@ class ImportUsers extends Job
 {
     use Concerns\ConnectsToV2DB;
 
-    const BATCH_SIZE = 50;
+    const BATCH_SIZE = 1000;
 
     protected $importId;
     protected $dbConfig;

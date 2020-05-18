@@ -44,6 +44,7 @@ class ImportUshahidiV2Command extends Command
                             {--P|port= : The password to connect to the DB}
                             {--f|force : Proceed even if there are posts in the V3+ DB}
                             {--X|params= : A file with extra parameters for the import job}
+                            {--no-xact : Don\'t wrap the whole operation in a transaction (incompatible with rollback)}
                             {--rollback : Rollback import when finished (useful for testing)}';
 
     /**
@@ -69,6 +70,12 @@ class ImportUshahidiV2Command extends Command
         PostRepository $postRepo,
         OhanzeeResolver $resolver
     ) {
+        // Check options
+        if ($this->option('rollback') && $this->option('no-xact')) {
+            $this->error('Options "rollback" and "no-xact" are not compatible');
+            return 1;
+        }
+
         // Check if we have a file with extra parameters for the import job
         if ($this->option('params')) {
             $loader = new ManifestLoader();
@@ -92,8 +99,10 @@ class ImportUshahidiV2Command extends Command
         $this->verifyCanConnectToDb($dbConfig);
 
         // Begin transaction
-        DB::beginTransaction();
-        $resolver->connection()->begin();
+        if (!$this->option('no-xact')) {
+            DB::beginTransaction();
+            $resolver->connection()->begin();
+        }
 
         // Create import record
         $import = new ImportUshahidiV2\Import();
@@ -144,7 +153,7 @@ class ImportUshahidiV2Command extends Command
             $this->info('Rolling back');
             DB::rollback();
             $resolver->connection()->rollback();
-        } else {
+        } elseif (!$this->option('no-xact')) {
             DB::commit();
             $resolver->connection()->commit();
         }
