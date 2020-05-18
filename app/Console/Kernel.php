@@ -35,6 +35,7 @@ class Kernel extends ConsoleKernel
         \Ushahidi\Console\Command\Webhook::class,
         \Ushahidi\Console\Command\ObfuscateData::class,
         Commands\TestMultisiteJob::class,
+        Commands\ImportMediaCommand::class,
         \Ushahidi\App\ImportUshahidiV2\Console\ImportUshahidiV2Command::class,
     ];
 

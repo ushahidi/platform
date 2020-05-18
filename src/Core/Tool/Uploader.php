@@ -65,7 +65,7 @@ class Uploader
         // Stream the temporary file into the filesystem, creating or overwriting.
         $stream = fopen($file->tmp_name, 'r+');
         $extension = pathinfo($filepath, PATHINFO_EXTENSION);
-        $mimeType = MimeType::detectByFileExtension($extension) ?: 'text/plain';
+        $mimeType = MimeType::detectByFileExtension(strtolower($extension)) ?: 'text/plain';
         $config = ['mimetype' => $mimeType];
 
         try {

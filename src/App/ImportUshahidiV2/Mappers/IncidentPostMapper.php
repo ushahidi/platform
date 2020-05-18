@@ -257,7 +257,7 @@ class IncidentPostMapper implements Mapper
                 // If this is a photo, save caption too
                 if ($type === self::MEDIA_PHOTO) {
                     $extension = pathinfo($value, PATHINFO_EXTENSION);
-                    $mimeType = MimeType::detectByFileExtension($extension) ?: 'text/plain';
+                    $mimeType = MimeType::detectByFileExtension(strtolower($extension)) ?: 'text/plain';
 
                     return [
                         'o_filename' => $value,

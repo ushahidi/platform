@@ -84,6 +84,11 @@ class AppServiceProvider extends ServiceProvider
             return service('repository.post');
         });
 
+        $this->app->singleton(\Ushahidi\Core\Entity\MediaRepository::class, function ($app) {
+            // Just return it from AuraDI
+            return service('repository.media');
+        });
+
         $this->app->singleton(\Ushahidi\Core\Entity\ExportJobRepository::class, function ($app) {
             // Just return it from AuraDI
             return service('repository.export_job');
