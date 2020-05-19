@@ -108,9 +108,7 @@ class ImportUshahidiV2Command extends Command
         $import = new ImportUshahidiV2\Import();
         $importId = $importRepo->create($import);
 
-        // Collect all table names
-        // TODO: Copy all data to current DB with v2_ prefix, for archival purposes
-        //       Could we consolidate data better? ()
+        // Collect all tables data
         $this->info('Copying raw data');
         $this->dispatcher->dispatchNow(new ImportUshahidiV2\Jobs\CopyRawTables($importId, $dbConfig));
 
