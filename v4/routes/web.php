@@ -30,6 +30,16 @@ $router->group([
 
     // Restricted access
     $router->group([
+        'prefix' => 'categories',
+        'middleware' => ['auth:api', 'scope:tags']
+    ], function () use ($router) {
+        $router->post('/', 'CategoryController@store');
+        $router->put('/{id}', 'CategoryController@update');
+        $router->delete('/{id}', 'CategoryController@delete');
+    });
+
+    // Restricted access
+    $router->group([
         'prefix' => 'surveys',
         'middleware' => ['auth:api', 'scope:forms']
     ], function () use ($router) {

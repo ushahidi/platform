@@ -72,11 +72,16 @@ class CategoryController extends V4Controller
         if ($user) {
             $this->authorize('store', Category::class);
         }
+        $input = $request->input();
+        $input['slug'] = Category::makeSlug($input['slug'] ?? $input['tag']);
+        $category = new Category();
+        if (!$category->validate($input)) {
+            return response()->json($category->errors, 422);
+        }
 
-        $this->validate($request, Category::getRules(), Category::validationMessages());
         $category = Category::create(
             array_merge(
-                $request->input(),
+                $input,
                 [
                     'created' => time(),
                 ]
@@ -131,6 +136,8 @@ class CategoryController extends V4Controller
     public function update(int $id, Request $request)
     {
         $category = Category::find($id);
+
+
         if (!$category) {
             return response()->json(
                 [
@@ -142,21 +149,13 @@ class CategoryController extends V4Controller
                 404
             );
         }
-
         $this->authorize('update', $category);
-        if (!$category) {
-            return response()->json(
-                [
-                    'errors' => [
-                        'error'   => 404,
-                        'message' => 'Not found',
-                    ],
-                ],
-                404
-            );
+
+        $input = $request->input();
+        if (!$category->validate($input)) {
+            return response()->json($category->errors, 422);
         }
 
-        $this->validate($request, Category::getRules(), Category::validationMessages());
         $category->update($request->input());
         $this->updateTranslations($request->input('translations'), $category->id, 'category');
         return new CategoryResource($category);

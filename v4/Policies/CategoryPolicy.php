@@ -111,7 +111,7 @@ class CategoryPolicy
         }
 
         // First check whether there is a role with the right permissions
-        if ($this->acl->hasPermission($user, Permission::MANAGE_SETTINGS)) {
+        if ($authorizer->acl->hasPermission($user, Permission::MANAGE_SETTINGS)) {
             return true;
         }
 

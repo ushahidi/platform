@@ -1,211 +1,261 @@
 @tagsFixture @rolesEnabled
 Feature: Testing the Categories API
-#    Scenario: Creating a new Tag
-#        Given that I want to make a new "Category"
-#        And that the api_url is "api/v4"
-#        And that the request "data" is:
-#            """
-#            {
-#                "parent_id":1,
-#                "tag":"Boxes",
-#                "slug":"boxes",
-#                "description":"Is this a box? Awesome",
-#                "type":"category",
-#                "priority":1,
-#                "color":"00ff00",
-#                "role": ["admin", "user"]
-#            }
-#            """
-#        When I request "/categories"
-#        Then the response is JSON
-#        And the response has a "result.id" property
-#        And the type of the "result.id" property is "numeric"
-#        And the "result.tag" property equals "Boxes"
-#        And the "result.slug" property equals "boxes"
-#        And the "result.description" property equals "Is this a box? Awesome"
-#        And the "result.color" property equals "#00ff00"
-#        And the "result.priority" property equals "1"
-#        And the "result.type" property equals "category"
-#        And the response has a "role" property
-#        And the "result.parent.id" property equals "1"
-#        Then the guzzle status code should be 200
-#
-#    Scenario: Creating a duplicate tag
-#        Given that I want to make a new "Tag"
-#        And that the request "data" is:
-#            """
-#            {
-#                "tag":"Duplicate",
-#                "type":"category",
-#                "priority":1
-#            }
-#            """
-#        When I request "/tags"
-#        Then the response is JSON
-#        And the response has a "errors" property
-#        Then the guzzle status code should be 422
-#
-#    Scenario: Creating a tag with a duplicate slug
-#        Given that I want to make a new "Tag"
-#        And that the request "data" is:
-#            """
-#            {
-#                "tag":"Something",
-#                "slug":"duplicate",
-#                "type":"category",
-#                "priority":1
-#            }
-#            """
-#        When I request "/tags"
-#        Then the response is JSON
-#        And the response has a "errors" property
-#        Then the guzzle status code should be 422
-#
-#    Scenario: Creating a tag with a long name fails
-#        Given that I want to make a new "Tag"
-#        And that the request "data" is:
-#            """
-#            {
-#                "tag":"Really really really really really long, Really really really really really long, Really really really really really long, Really really really really really long, Really really really really really long, Really really really really really long, Really really really really really long, Really really really really really long, Really really really really really long, Really really really really really long, Really really really really really long, Really really really really really long",
-#                "type":"category"
-#            }
-#            """
-#        When I request "/tags"
-#        Then the response is JSON
-#        And the response has a "errors" property
-#        Then the guzzle status code should be 422
-#
-#    Scenario: Check slug is generated on new tag
-#        Given that I want to make a new "Tag"
-#        And that the request "data" is:
-#            """
-#            {
-#                "tag":"My magical tag",
-#                "type":"category",
-#                "priority":1
-#            }
-#            """
-#        When I request "/tags"
-#        Then the response is JSON
-#        And the response has a "id" property
-#        And the type of the "id" property is "numeric"
-#        And the response has a "slug" property
-#        And the "slug" property equals "my-magical-tag"
-#        Then the guzzle status code should be 200
-#
-#    Scenario: Check hash on color input has no effect when creating tag
-#        Given that I want to make a new "Tag"
-#        And that the request "data" is:
-#            """
-#            {
-#                "tag":"Another tag",
-#                "type":"category",
-#                "priority":1,
-#                "color":"#00ff00"
-#            }
-#            """
-#        When I request "/tags"
-#        Then the response is JSON
-#        And the response has a "id" property
-#        And the type of the "id" property is "numeric"
-#        And the "color" property equals "#00ff00"
-#        Then the guzzle status code should be 200
-#
-#    Scenario: Creating a tag with non-existent parent fails
-#        Given that I want to make a new "Tag"
-#        And that the request "data" is:
-#            """
-#            {
-#                "tag":"Superduper tag",
-#                "type":"category",
-#                "priority":1,
-#                "parent_id":10001
-#            }
-#            """
-#        When I request "/tags"
-#        Then the response is JSON
-#        And the response has a "errors" property
-#        Then the guzzle status code should be 422
-#
-#    Scenario: Updating a Tag
-#        Given that I want to update a "Tag"
-#        And that the request "data" is:
-#            """
-#            {
-#                "tag":"Updated",
-#                "slug":"updated",
-#                "type":"status",
-#                "priority":1
-#            }
-#            """
-#        And that its "id" is "1"
-#        When I request "/tags"
-#        Then the response is JSON
-#        And the response has a "id" property
-#        And the type of the "id" property is "numeric"
-#        And the "id" property equals "1"
-#        And the response has a "tag" property
-#        And the "tag" property equals "Updated"
-#        Then the guzzle status code should be 200
-#
-#    Scenario: Updating a non-existent Tag
-#        Given that I want to update a "Tag"
-#        And that the request "data" is:
-#            """
-#            {
-#                "tag":"Updated",
-#                "slug":"updated",
-#                "type":"varchar",
-#                "priority":1
-#            }
-#            """
-#        And that its "id" is "40"
-#        When I request "/tags"
-#        Then the response is JSON
-#        And the response has a "errors" property
-#        Then the guzzle status code should be 404
-#
-#    @resetFixture
-#    Scenario: Updating Tag Role Restrictions
-#        Given that I want to update a "Tag"
-#        And that the request "data" is:
-#            """
-#            {
-#                "tag":"Change Role",
-#                "slug":"change-role",
-#                "type":"status",
-#                "role":["user"]
-#            }
-#            """
-#        And that its "id" is "1"
-#        When I request "/tags"
-#        Then the response is JSON
-#        And the response has a "id" property
-#        And the "id" property equals "1"
-#        And the response has a "role" property
-#        And the "role.0" property equals "user"
-#        Then the guzzle status code should be 200
-#
-#    Scenario: Removing Tag Role Restrictions
-#        Given that I want to update a "Tag"
-#        And that the request "data" is:
-#            """
-#            {
-#                "tag":"Change Role",
-#                "slug":"change-role",
-#                "type":"status",
-#                "role":[]
-#            }
-#            """
-#        And that its "id" is "1"
-#        When I request "/tags"
-#        Then the response is JSON
-#        And the response has a "id" property
-#        And the "id" property equals "1"
-#        And the response has a "role" property
-#        And the "role" property is empty
-#        Then the guzzle status code should be 200
-#
+    Scenario: Creating a new Tag
+        Given that I want to make a new "Category"
+        And that the oauth token is "testadminuser"
+        And that the api_url is "api/v4"
+        And that the request "data" is:
+            """
+            {
+                "parent_id":1,
+                "tag":"Boxes",
+                "slug":"boxes",
+                "description":"Is this a box? Awesome",
+                "type":"category",
+                "priority":1,
+                "color":"00ff00",
+                "role": ["admin", "user"]
+            }
+            """
+        When I request "/categories"
+        Then the response is JSON
+        And the response has a "result.id" property
+        And the type of the "result.id" property is "numeric"
+        And the "result.tag" property equals "Boxes"
+        And the "result.slug" property equals "boxes"
+        And the "result.description" property equals "Is this a box? Awesome"
+        And the "result.color" property equals "#00ff00"
+        And the "result.priority" property equals "1"
+        And the "result.type" property equals "category"
+        And the response has a "result.role" property
+        And the "result.parent.id" property equals "1"
+        Then the guzzle status code should be 201
+
+    Scenario: Creating a duplicate tag
+        Given that I want to make a new "Category"
+        And that the oauth token is "testadminuser"
+        And that the api_url is "api/v4"
+        And that the request "data" is:
+            """
+            {
+                "parent_id":1,
+                "tag":"Boxes",
+                "description":"Is this a box? Awesome",
+                "type":"category",
+                "priority":1,
+                "color":"00ff00",
+                "role": ["admin", "user"]
+            }
+            """
+        When I request "/categories"
+        Then the response is JSON
+        And the response has a "slug" property
+        And the "slug.0" property equals "Slug must be unique"
+        And the response has a "tag" property
+        And the "tag.0" property equals "Tag must be unique"
+        Then the guzzle status code should be 422
+
+    Scenario: Creating a tag with a duplicate slug
+        Given that I want to make a new "Category"
+        And that the oauth token is "testadminuser"
+        And that the api_url is "api/v4"
+        And that the request "data" is:
+            """
+            {
+                "parent_id":1,
+                "tag":"Boxes are fun",
+                "slug": "boxes",
+                "description":"Is this a box? Awesome",
+                "type":"category",
+                "priority":1,
+                "color":"00ff00",
+                "role": ["admin", "user"]
+            }
+            """
+        When I request "/categories"
+        Then the response is JSON
+        And the response has a "slug" property
+        And the "slug.0" property equals "Slug must be unique"
+        Then the guzzle status code should be 422
+    Scenario: Creating a tag with a long name fails
+        Given that I want to make a new "Category"
+        And that the oauth token is "testadminuser"
+        And that the api_url is "api/v4"
+        And that the request "data" is:
+            """
+            {
+                "parent_id":1,
+                "tag":"Is this a box? Awesome Is this a box? Awesome Is this a box? Awesome Is this a box? Awesome Is this a box? Awesome Is this a box? Awesome Is this a box? Awesome Is this a box? Awesome Is this a box? Awesome Is this a box? Awesome Is this a box? Awesome Is this a box? Awesome Is this a box? Awesome Is this a box? Awesome",
+                "description":"Is this a box? Awesome",
+                "type":"category",
+                "priority":1,
+                "color":"00ff00",
+                "role": ["admin", "user"]
+            }
+            """
+        When I request "/categories"
+        Then the response is JSON
+        And the response has a "tag" property
+        And the "tag.0" property equals "Tag must not exceed 255 characters long"
+        Then the guzzle status code should be 422
+
+    Scenario: Check slug is generated on new tag
+        Given that I want to make a new "Category"
+        And that the oauth token is "testadminuser"
+        And that the api_url is "api/v4"
+        And that the request "data" is:
+            """
+            {
+                "parent_id":1,
+                "tag":"I expect tags",
+                "description":"Is this a box? Awesome",
+                "type":"category",
+                "priority":1,
+                "color":"00ff00",
+                "role": ["admin", "user"]
+            }
+            """
+        When I request "/categories"
+        Then the response is JSON
+        And the response has a "result.id" property
+        And the type of the "result.id" property is "numeric"
+        And the response has a "result.slug" property
+        And the "result.slug" property equals "i-expect-tags"
+        Then the guzzle status code should be 201
+
+    Scenario: Check hash on color input has no effect when creating tag
+        Given that I want to make a new "Category"
+        And that the oauth token is "testadminuser"
+        And that the api_url is "api/v4"
+        And that the request "data" is:
+            """
+            {
+                "parent_id":1,
+                "tag":"I expect tags oo",
+                "description":"Is this a box? Awesome",
+                "type":"category",
+                "priority":1,
+                "color":"#00ff00",
+                "role": ["admin", "user"]
+            }
+            """
+        When I request "/categories"
+        Then the response is JSON
+        And the response has a "result.id" property
+        And the type of the "result.id" property is "numeric"
+        And the "result.color" property equals "#00ff00"
+        Then the guzzle status code should be 201
+
+    Scenario: Creating a tag with non-existent parent fails
+        Given that I want to make a new "Category"
+        And that the oauth token is "testadminuser"
+        And that the api_url is "api/v4"
+        And that the request "data" is:
+            """
+            {
+                "parent_id":123456,
+                "tag":"I expect tags",
+                "description":"Is this a box? Awesome",
+                "type":"category",
+                "priority":1,
+                "color":"#00ff00",
+                "role": ["admin", "user"]
+            }
+            """
+        When I request "/categories"
+        Then the response is JSON
+        And the response has a "parent_id" property
+        And the "parent_id.0" property equals "Parent category must exist"
+        Then the guzzle status code should be 422
+
+    Scenario: Updating a Tag
+        Given that I want to update a "Category"
+        And that the oauth token is "testadminuser"
+        And that the api_url is "api/v4"
+        And that the request "data" is:
+            """
+            {
+                "tag":"Updated",
+                "slug":"updated",
+                "type":"status",
+                "priority":1
+            }
+            """
+        And that its "id" is "1"
+        When I request "/categories"
+        Then the response is JSON
+        And the response has a "result.id" property
+        And the type of the "result.id" property is "numeric"
+        And the "result.id" property equals "1"
+        And the response has a "result.tag" property
+        And the "result.tag" property equals "Updated"
+        Then the guzzle status code should be 200
+
+    Scenario: Updating a non-existent Tag
+        Given that I want to update a "Category"
+        And that the oauth token is "testadminuser"
+        And that the api_url is "api/v4"
+        And that the request "data" is:
+            """
+            {
+                "tag":"Updated",
+                "slug":"updated",
+                "type":"varchar",
+                "priority":1
+            }
+            """
+        And that its "id" is "40"
+        When I request "/categories"
+        Then the response is JSON
+        And the response has a "errors" property
+        Then the guzzle status code should be 404
+
+    @resetFixture
+    Scenario: Updating Tag Role Restrictions
+        Given that I want to update a "Category"
+        And that the oauth token is "testadminuser"
+        And that the api_url is "api/v4"
+        And that the request "data" is:
+            """
+            {
+                "tag":"Change Role",
+                "slug":"change-role",
+                "type":"status",
+                "role":["user"]
+            }
+            """
+        And that its "id" is "1"
+        When I request "/categories"
+        Then the response is JSON
+        And the response has a "result.id" property
+        And the "result.id" property equals "1"
+        And the response has a "result.role" property
+        And the "result.role" property count is "1"
+        And the "result.role.0" property equals "user"
+        Then the guzzle status code should be 200
+
+    Scenario: Removing Tag Role Restrictions
+        Given that I want to update a "Category"
+        And that the oauth token is "testadminuser"
+        And that the api_url is "api/v4"
+        And that the request "data" is:
+            """
+            {
+                "tag":"Change Role",
+                "slug":"change-role",
+                "type":"status",
+                "role":[]
+            }
+            """
+        And that its "id" is "1"
+        When I request "/categories"
+        Then the response is JSON
+        And the response has a "result.id" property
+        And the "result.id" property equals "1"
+        And the response has a "result.role" property
+        And the "result.role" property is empty
+        Then the guzzle status code should be 200
+
     @resetFixture
     Scenario: Listing All Tags available to admins
         Given that I want to get all "Categories"
@@ -268,29 +318,35 @@ Feature: Testing the Categories API
 #        And the "count" property equals "1"
 #        Then the guzzle status code should be 200
 #
-#    Scenario: Finding a Tag
-#        Given that I want to find a "Tag"
-#        And that its "id" is "1"
-#        When I request "/tags"
-#        Then the response is JSON
-#        And the response has a "id" property
-#        And the type of the "id" property is "numeric"
-#        Then the guzzle status code should be 200
-#
-#    Scenario: Finding a non-existent Tag
-#        Given that I want to find a "Tag"
-#        And that its "id" is "35"
-#        When I request "/tags"
-#        Then the response is JSON
-#        And the response has a "errors" property
-#        Then the guzzle status code should be 404
-#
-#    Scenario: Deleting a Tag
-#        Given that I want to delete a "Tag"
-#        And that its "id" is "1"
-#        When I request "/tags"
-#        Then the guzzle status code should be 200
-#
+    Scenario: Finding a Tag
+        Given that I want to find a "Category"
+        And that the oauth token is "testbasicuser"
+        And that the api_url is "api/v4"
+        And that its "id" is "1"
+        When I request "/categories"
+        Then the response is JSON
+        And the response has a "result.id" property
+        And the type of the "result.id" property is "numeric"
+        Then the guzzle status code should be 200
+
+    Scenario: Finding a non-existent Tag
+        Given that I want to find a "Category"
+        And that the oauth token is "testbasicuser"
+        And that the api_url is "api/v4"
+        And that its "id" is "1333"
+        When I request "/categories"
+        Then the response is JSON
+        And the response has a "errors" property
+        Then the guzzle status code should be 404
+
+    Scenario: Deleting a Tag
+        Given that I want to delete a "Category"
+        And that the oauth token is "testadminuser"
+        And that the api_url is "api/v4"
+        And that its "id" is "1"
+        When I request "/categories"
+        Then the guzzle status code should be 200
+
 #    @resetFixture
 #    Scenario: Deleting a tag removes it from attribute options
 #        Given that I want to delete a "Tag"

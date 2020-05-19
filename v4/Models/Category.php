@@ -4,10 +4,12 @@ namespace v4\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Validator;
 use Ushahidi\Core\Entity\Permission;
 
 class Category extends Model
 {
+    public $errors;
     /**
      * Add eloquent style timestamps
      *
@@ -80,8 +82,16 @@ class Category extends Model
     public static function validationMessages()
     {
         return [
+            'parent_id.exists' => trans(
+                'validation.exists',
+                ['field' => trans('fields.parent_id')]
+            ),
             'tag.required'      => trans(
                 'validation.not_empty',
+                ['field' => trans('fields.tag')]
+            ),
+            'tag.unique'      => trans(
+                'validation.unique',
                 ['field' => trans('fields.tag')]
             ),
             'tag.min'           => trans(
@@ -113,6 +123,10 @@ class Category extends Model
                     'field'  => trans('fields.slug'),
                 ]
             ),
+            'slug.unique'      => trans(
+                'validation.unique',
+                ['field' => trans('fields.slug')]
+            ),
             'type.required'     => trans(
                 'validation.not_empty',
                 ['field' => trans('fields.type')]
@@ -140,24 +154,25 @@ class Category extends Model
      * Return all validation rules
      * @return array
      */
-    protected static function getRules()
+    public function getRules()
     {
         return [
-            // 'parent_id' = [
-            // [[$this->repo, 'doesTagExist'], [':value']],
-            // ]
-            'tag'         => [
+             'parent_id' => [
+                 'exists:tags,id'
+             ],
+             'tag'         => [
                 'required',
                 'min:2',
                 'max:255',
-                'regex:/^[\pL\pN\pP ]++$/uD'
-            ],
-            'slug'        => [
+                'regex:/^[\pL\pN\pP ]++$/uD',
+                Rule::unique('tags')->ignore($this->id)
+             ],
+             'slug'        => [
                 'required',
                 'min:2',
-                // [[$this->repo, 'isSlugAvailable'], [':value']],
-            ],
-            'type'        => [
+                Rule::unique('tags')->ignore($this->id)
+             ],
+             'type'        => [
                 'required',
                 Rule::in([
                     'category',
@@ -166,22 +181,22 @@ class Category extends Model
                 // 'min:2',
                 // 'max:255',
                 // 'regex:'.LegacyValidator::REGEX_STANDARD_TEXT,
-            ],
-            'description' => [
+             ],
+             'description' => [
                 'regex:/^[\pL\pN\pP ]++$/uD'
                 // 'min:2',
                 // 'max:255',
                 // 'regex:'.LegacyValidator::REGEX_STANDARD_TEXT,
-            ],
+             ],
             // 'color' => [
             // ['color'],
             // ]
-            'icon'        => [
+             'icon'        => [
                 'regex:/^[\pL\s\_\-]++$/uD'
-            ],
-            'priority'    => [
+             ],
+             'priority'    => [
                 'numeric'
-            ],
+             ],
             // 'role' => [
             // [[$this->role_repo, 'exists'], [':value']],
             // [[$this->repo, 'isRoleValid'], [':validation', ':fulldata']]
@@ -274,5 +289,84 @@ class Category extends Model
         // or `parent_id` is null)
 
         return $q;
+    }
+
+    /**
+     * Get the category's color format
+     *
+     * @param  string  $value
+     * @return void
+     */
+    public function getColorAttribute($value)
+    {
+        return $value ? "#" . $value : $value;
+    }
+    /**
+     * Set the category's color format
+     *
+     * @param  string  $value
+     * @return void
+     */
+    public function setColorAttribute($value)
+    {
+        if (isset($value)) {
+            $this->attributes['color'] = ltrim($value, '#');
+        }
+    }
+
+    /**
+     * Get the category's slug
+     *
+     * @param  string  $value
+     * @return void
+     */
+    public function getSlugAttribute($value)
+    {
+        return $value;
+    }
+    /**
+     * Set the category's slug format
+     *
+     * @param  string  $value
+     * @return void
+     */
+    public function setSlugAttribute($value)
+    {
+        if (isset($value) && (!isset($this->attributes['slug']))) {
+            $value = self::makeSlug($value);
+            $this->attributes['slug'] = $value;
+        }
+    }
+    public static function makeSlug($value)
+    {
+        // Make it lowercase
+        $value = mb_strtolower($value, 'utf-8');
+
+        // .. anything not the separator, letters, numbers or whitespace is replaced
+        $value = preg_replace('/[^\pL\pN\-\s]+/u', '', $value);
+
+        // .. replace whitespace and multiple separator chars with a single separator
+        $value = preg_replace('/[\-\s]+/u', '-', $value);
+
+        // ... and replace spaces with hypens
+        $value = str_replace(' ', '-', $value);
+        return $value;
+    }
+
+    public function validate($data)
+    {
+        $v = Validator::make($data, $this->getRules(), self::validationMessages());
+        // check for failure
+        if (!$v->fails()) {
+            return true;
+        }
+        // set errors and return false
+        $this->errors = $v->errors();
+        return false;
+    }
+
+    public function errors()
+    {
+        return $this->errors;
     }
 }//end class

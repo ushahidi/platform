@@ -27,4 +27,6 @@ return array(
   'url'           => ':field debe ser una URL',
   'failedToValidate' => 'Falla al validar la entidad %s',
   'failedToCreateContact' => 'No se logró crear el contacto. Resultado:  %s',
+  'exists'        => ':field debe existir',
+  'unique'        => ':field debe ser un valor único',
 );

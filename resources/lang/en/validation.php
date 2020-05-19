@@ -26,4 +26,6 @@ return array(
   'regex'         => ':field does not match the required format',
   'url'           => ':field must be a url',
   'failedToValidate' => 'Failed to validate %s entity',
+  'exists'        => ':field must exist',
+  'unique'        => ':field must be unique',
 );
