@@ -197,6 +197,8 @@ class SurveyController extends V4Controller
         );
         $this->updateTranslations($request->input('translations'), $survey->id, 'survey');
         $this->updateTasks(($request->input('tasks') ?? []), $survey);
+        $survey->load('tasks');
+
         return new SurveyResource($survey);
     }//end update()
 
