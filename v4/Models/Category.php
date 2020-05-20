@@ -157,9 +157,7 @@ class Category extends Model
     public function getRules()
     {
         return [
-             'parent_id' => [
-                 'exists:tags,id'
-             ],
+             'parent_id' => 'sometimes|exists:tags,id',
              'tag'         => [
                 'required',
                 'min:2',
