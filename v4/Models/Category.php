@@ -58,7 +58,8 @@ class Category extends Model
         'icon',
         'description',
         'role',
-        'priority'
+        'priority',
+        'base_language'
     ];
 
     /**

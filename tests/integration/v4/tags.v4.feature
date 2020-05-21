@@ -1,6 +1,6 @@
 @tagsFixture @rolesEnabled
 Feature: Testing the Categories API
-    Scenario: Creating a new Tag
+    Scenario: Creating a new Tag with a base language
         Given that I want to make a new "Category"
         And that the oauth token is "testadminuser"
         And that the api_url is "api/v4"
@@ -14,6 +14,7 @@ Feature: Testing the Categories API
                 "type":"category",
                 "priority":1,
                 "color":"00ff00",
+                "base_language": "en",
                 "role": ["admin", "user"]
             }
             """
@@ -27,10 +28,47 @@ Feature: Testing the Categories API
         And the "result.color" property equals "#00ff00"
         And the "result.priority" property equals "1"
         And the "result.type" property equals "category"
+        And the "result.enabled_languages.default" property equals "en"
         And the response has a "result.role" property
         And the "result.parent.id" property equals "1"
         Then the guzzle status code should be 201
-
+    Scenario: Creating a new Tag with a base language and translation
+        Given that I want to make a new "Category"
+        And that the oauth token is "testadminuser"
+        And that the api_url is "api/v4"
+        And that the request "data" is:
+            """
+            {
+                "parent_id":1,
+                "tag":"Boxes with a translation",
+                "description":"Is this a box? Awesome",
+                "type":"category",
+                "priority":1,
+                "color":"00ff00",
+                "base_language": "en",
+                "role": ["admin", "user"],
+                "translations": {
+                    "es": {
+                        "tag": "Cajas"
+                    }
+                }
+            }
+            """
+        When I request "/categories"
+        Then the response is JSON
+        And the response has a "result.id" property
+        And the type of the "result.id" property is "numeric"
+        And the "result.tag" property equals "Boxes with a translation"
+        And the "result.slug" property equals "boxes-with-a-translation"
+        And the "result.description" property equals "Is this a box? Awesome"
+        And the "result.color" property equals "#00ff00"
+        And the "result.priority" property equals "1"
+        And the "result.type" property equals "category"
+        And the "result.enabled_languages.default" property equals "en"
+        And the "result.enabled_languages.available.0" property equals "es"
+        And the response has a "result.role" property
+        And the "result.parent.id" property equals "1"
+        Then the guzzle status code should be 201
     Scenario: Creating a duplicate tag
         Given that I want to make a new "Category"
         And that the oauth token is "testadminuser"

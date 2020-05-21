@@ -29,6 +29,10 @@ class CategoryResource extends Resource
             'children' => $this->children,
             'parent' => $this->parent,
             'translations' => new TranslationCollection($this->translations),
+            'enabled_languages' => [
+                'default'=> $this->base_language,
+                'available' => $this->translations->groupBy('language')->keys()
+            ]
         ];
     }
 }
