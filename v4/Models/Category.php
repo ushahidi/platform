@@ -140,6 +140,16 @@ class Category extends Model
                 'validation.regex',
                 ['field' => trans('fields.description')]
             ),
+
+            'description.min' => trans(
+                'validation.min_length',
+                ['field' => trans('fields.description')]
+            ),
+
+            'description.max' => trans(
+                'validation.max_length',
+                ['field' => trans('fields.description')]
+            ),
             'icon.regex'        => trans(
                 'validation.regex',
                 ['field' => trans('fields.icon')]
@@ -182,10 +192,9 @@ class Category extends Model
                 // 'regex:'.LegacyValidator::REGEX_STANDARD_TEXT,
              ],
              'description' => [
-                'regex:/^[\pL\pN\pP ]++$/uD'
-                // 'min:2',
-                // 'max:255',
-                // 'regex:'.LegacyValidator::REGEX_STANDARD_TEXT,
+                'regex:/^[\pL\pN\pP ]++$/uD',
+                'min:2',
+                'max:255',
              ],
             // 'color' => [
             // ['color'],
