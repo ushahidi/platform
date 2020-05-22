@@ -206,7 +206,7 @@ Feature: Testing the Categories API
         And the "parent_id.0" property equals "Parent category must exist"
         Then the guzzle status code should be 422
 
-    Scenario: Creating a tag with empty parent_id works
+    Scenario: Creating a tag with no parent_id works
         Given that I want to make a new "Category"
         And that the oauth token is "testadminuser"
         And that the api_url is "api/v4"
@@ -225,6 +225,25 @@ Feature: Testing the Categories API
         Then the response is JSON
         Then the guzzle status code should be 201
 
+    Scenario: Creating a tag with empty parent_id works
+        Given that I want to make a new "Category"
+        And that the oauth token is "testadminuser"
+        And that the api_url is "api/v4"
+        And that the request "data" is:
+            """
+            {
+                "parent_id": null,
+                "tag":"I expect a tag to be here",
+                "description":"Is this a box? Awesome",
+                "type":"category",
+                "priority":1,
+                "color":"#00ff00",
+                "role": ["admin", "user"]
+            }
+            """
+        When I request "/categories"
+        Then the response is JSON
+        Then the guzzle status code should be 201
     Scenario: Updating a Tag
         Given that I want to update a "Category"
         And that the oauth token is "testadminuser"
