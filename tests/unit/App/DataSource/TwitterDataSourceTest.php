@@ -271,7 +271,7 @@ class TwitterDataSourceTest extends TestCase
                 'type' => 'twitter',
                 'contact_type' => 'twitter',
                 'from' => '1112222223', // twitter user id
-                'message' => 'https://twitter.com/statuses/abc123',
+                'message' => 'https://twitter.com/1112222223/status/abc123',
                 'to' => null,
                 'title' => 'From twitter on Thu Apr 06 15:24:15 +0000 2017',
                 'data_source_message_id' => 'abc123',
@@ -282,7 +282,7 @@ class TwitterDataSourceTest extends TestCase
                 'type' => 'twitter',
                 'contact_type' => 'twitter',
                 'from' => '1112222225', // twitter user id
-                'message' => 'https://twitter.com/statuses/abc125',
+                'message' => 'https://twitter.com/1112222225/status/abc125', 
                 'to' => null,
                 'title' => 'From twitter on Thu Apr 06 15:24:15 +0000 2017',
                 'data_source_message_id' => 'abc125',
@@ -293,7 +293,7 @@ class TwitterDataSourceTest extends TestCase
                 'type' => 'twitter',
                 'contact_type' => 'twitter',
                 'from' => '12344494949', //twitter user id
-                'message' => 'https://twitter.com/statuses/abc126',
+                'message' => 'https://twitter.com/12344494949/status/abc126',
                 'to' => null,
                 'title' => 'From twitter on Thu Apr 06 15:24:15 +0000 2017',
                 'data_source_message_id' => 'abc126',

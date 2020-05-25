@@ -46,70 +46,6 @@ All allowed scopes for this type: "posts country\_codes media forms api tags sav
 
 {% api-method method="post" host="https://ushahididocs.api.ushahidi.io" path="/oauth/token" %}
 {% api-method-summary %}
-
-{% endapi-method-summary %}
-
-{% api-method-description %}
-
-{% endapi-method-description %}
-
-{% api-method-spec %}
-{% api-method-request %}
-{% api-method-body-parameters %}
-{% api-method-parameter name="client\_secret" type="string" required=true %}
-The client secret you added for your deployment in the database. Default value: "35e7f0bca957836d05ca0492211b0ac707671261"
-{% endapi-method-parameter %}
-{% endapi-method-body-parameters %}
-{% endapi-method-request %}
-
-{% api-method-response %}
-{% api-method-response-example httpCode=200 %}
-{% api-method-response-example-description %}
-
-{% endapi-method-response-example-description %}
-
-```text
-
-```
-{% endapi-method-response-example %}
-{% endapi-method-response %}
-{% endapi-method-spec %}
-{% endapi-method %}
-
-{% api-method method="post" host="https://ushahididocs.api.ushahidi.io" path="/oauth/token" %}
-{% api-method-summary %}
-
-{% endapi-method-summary %}
-
-{% api-method-description %}
-
-{% endapi-method-description %}
-
-{% api-method-spec %}
-{% api-method-request %}
-{% api-method-body-parameters %}
-{% api-method-parameter name="client\_secret" type="string" required=true %}
-The client secret you added for your deployment in the database. Default value: "35e7f0bca957836d05ca0492211b0ac707671261"
-{% endapi-method-parameter %}
-{% endapi-method-body-parameters %}
-{% endapi-method-request %}
-
-{% api-method-response %}
-{% api-method-response-example httpCode=200 %}
-{% api-method-response-example-description %}
-
-{% endapi-method-response-example-description %}
-
-```text
-
-```
-{% endapi-method-response-example %}
-{% endapi-method-response %}
-{% endapi-method-spec %}
-{% endapi-method %}
-
-{% api-method method="post" host="https://ushahididocs.api.ushahidi.io" path="/oauth/token" %}
-{% api-method-summary %}
 Get an authorization code for a user
 {% endapi-method-summary %}
 
@@ -119,12 +55,6 @@ This endpoint allows you to get an authentication token. All fields are required
 
 {% api-method-spec %}
 {% api-method-request %}
-{% api-method-headers %}
-{% api-method-parameter name="Authentication" type="string" required=true %}
-Authentication token to track down who is emptying our stocks.
-{% endapi-method-parameter %}
-{% endapi-method-headers %}
-
 {% api-method-body-parameters %}
 {% api-method-parameter name="scope" type="string" required=true %}
 Default value: \*
