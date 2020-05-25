@@ -20,7 +20,7 @@ class CSVPostTransformer implements MappingTransformer
     protected $fixedValues;
     protected $repo;
     protected $unmapped;
-    protected $multipleValuesAttributes;
+    protected $multipleValuesAttributes = [];
 
     public function setRepo(PostRepository $repo)
     {
@@ -39,9 +39,9 @@ class CSVPostTransformer implements MappingTransformer
         $this->fixedValues = $fixedValues;
     }
 
-    public function setMultipleValuesAttributes(array $multipleValuesAttributes = []): void
+    public function setMultipleValuesAttributes(?array $multipleValuesAttributes): void
     {
-        $this->multipleValuesAttributes = $multipleValuesAttributes;
+        $this->multipleValuesAttributes = $multipleValuesAttributes ?? [];
     }
 
     // Transformer

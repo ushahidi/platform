@@ -20,5 +20,5 @@ interface MappingTransformer extends Transformer
 
     public function setFixedValues(array $fixedValues);
 
-    public function setMultipleValuesAttributes(array $multipleValuesAttributes = []): void;
+    public function setMultipleValuesAttributes(?array $multipleValuesAttributes): void;
 }
