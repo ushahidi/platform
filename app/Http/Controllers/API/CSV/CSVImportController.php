@@ -2,18 +2,16 @@
 
 namespace Ushahidi\App\Http\Controllers\API\CSV;
 
-use Ushahidi\App\Http\Controllers\RESTController;
 use Illuminate\Http\Request;
+use Ushahidi\App\Http\Controllers\RESTController;
 
 /**
- * Ushahidi API CSV Import
+ * Ushahidi API CSV Import.
  *
  * @author     Ushahidi Team <team@ushahidi.com>
- * @package    Ushahidi\Application\Controllers
  * @copyright  2013 Ushahidi
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
-
 class CSVImportController extends RestController
 {
     protected function getResource()
@@ -23,7 +21,7 @@ class CSVImportController extends RestController
 
     public function store(Request $request, $id = null)
     {
-        /**
+        /*
          * Step two of import.
          * Support all line endings without manually specifying it
          * (primarily added because of OS9 line endings which do not work by default )
@@ -49,6 +47,7 @@ class CSVImportController extends RestController
         // Set map and fixed values for transformer
         $transformer->setMap($csv->maps_to);
         $transformer->setFixedValues($csv->fixed);
+        $transformer->setMultipleValuesAttributes($csv->multiple_values_attributes);
 
         $this->usecase = $this->usecaseFactory
             ->get($this->getResource(), 'import')

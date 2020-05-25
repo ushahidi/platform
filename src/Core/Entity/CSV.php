@@ -1,10 +1,9 @@
 <?php
 
 /**
- * Ushahidi CSV Entity
+ * Ushahidi CSV Entity.
  *
  * @author     Ushahidi Team <team@ushahidi.com>
- * @package    Ushahidi\Platform
  * @copyright  2014 Ushahidi
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
@@ -15,7 +14,6 @@ use Ushahidi\Core\StaticEntity;
 
 class CSV extends StaticEntity
 {
-
     protected $id;
     protected $columns;
     protected $maps_to;
@@ -30,6 +28,7 @@ class CSV extends StaticEntity
     protected $errors;
     protected $processed;
     protected $collection_id;
+    protected $multiple_values_attributes;
 
     // DataTransformer
     public function getDefinition()
@@ -50,6 +49,7 @@ class CSV extends StaticEntity
             'created'      => 'int',
             'updated'      => 'int',
             'completed'    => 'bool',
+            'multiple_values_attributes' => '*json',
         ];
     }
 
