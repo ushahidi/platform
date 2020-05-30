@@ -69,6 +69,15 @@ Feature: Testing the Categories API
         And the response has a "result.role" property
         And the "result.parent.id" property equals "1"
         Then the guzzle status code should be 201
+    Scenario: Listing Tag 1 and checking children have translations
+        Given that I want to find a "Category"
+        And that its "id" is "1"
+        And that the oauth token is "testadminuser"
+        And that the api_url is "api/v4"
+        When I request "/categories"
+        Then the response is JSON
+        And the "result.children.1.translations.es.tag" property equals "Cajas"
+        Then the guzzle status code should be 200
     Scenario: Creating a duplicate tag
         Given that I want to make a new "Category"
         And that the oauth token is "testadminuser"
