@@ -2,6 +2,7 @@
 
 namespace Ushahidi\App\DataSource;
 
+use Closure;
 use Illuminate\Support\Facades\Cache;
 use Laravel\Lumen\Routing\Router;
 use Ushahidi\Core\Entity\ConfigRepository;
@@ -37,6 +38,14 @@ class DataSourceManager
         'twilio' => Twilio\Twilio::class,
         'twitter' => Twitter\Twitter::class,
     ];
+
+    /**
+     * The registered custom data sources.
+     *
+     * @var array
+     */
+    protected $customSources = [];
+
 
     /**
      * The array of data sources.
@@ -202,6 +211,10 @@ class DataSourceManager
     {
         $config = $this->getConfig($name);
 
+        if (isset($this->customSources[$name])) {
+            return $this->loadedSources[$name] = call_user_func($this->customSources[$name], $config);
+        }
+
         $driverMethod = 'create'.ucfirst($name).'Source';
 
         if (method_exists($this, $driverMethod)) {
@@ -274,5 +287,19 @@ class DataSourceManager
                 );
             }
         );
+    }
+
+    /**
+     * Register a custom data source Closure.
+     *
+     * @param  string    $source
+     * @param  Closure  $callback
+     * @return $this
+     */
+    public function extend(string $source, Closure $callback)
+    {
+        $this->customSources[$source] = $callback;
+
+        return $this;
     }
 }
