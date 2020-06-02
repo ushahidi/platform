@@ -128,31 +128,54 @@ class DataSourceManagerTest extends TestCase
                 ],
             ]));
 
-        $customSource = new class($config) extends IncomingAPIDataSource
-        {
-            protected $config;
-
-            public function __construct($prop)
+        $customSource = function ($config = []) {
+            return new class($config) implements IncomingAPIDataSource
             {
-                $this->config = $config;
-            }
+                protected $config;
 
-            public function fetch()
-            {
-                return [];
-            }
+                public function __construct($config)
+                {
+                    $this->config = $config;
+                }
+
+                public function fetch($limit = false)
+                {
+                }
+                public function getName()
+                {
+                }
+                public function getId()
+                {
+                }
+                public function getServices()
+                {
+                }
+                public function getOptions()
+                {
+                }
+                public function getInboundFields()
+                {
+                }
+                public function getInboundFormId()
+                {
+                }
+                public function getInboundFieldMappings()
+                {
+                }
+                public function isUserConfigurable()
+                {
+                }
+            };
         };
 
-        $manager->extend('custom-provider', function ($config) {
-            return $customSource($config);
-        });
+        $manager->extend('custom-provider', $customSource);
 
         $this->assertCount(2, $manager->getEnabledSources());
         $this->assertFalse($manager->isEnabledSource('twitter'));
         $this->assertTrue($manager->isEnabledSource('custom-provider'));
 
-        $this->expectException(\InvalidArgumentException::class);
-        $manager->getEnabledSource('custom-provider');
+        $class = call_user_func($customSource);
+        $this->assertInstanceOf(get_class($class), $manager->getSource('custom-provider'));
     }
 
     public function testGetSourceForType()

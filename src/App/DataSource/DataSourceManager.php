@@ -46,7 +46,6 @@ class DataSourceManager
      */
     protected $customSources = [];
 
-
     /**
      * The array of data sources.
      *
@@ -73,7 +72,7 @@ class DataSourceManager
 
     public function getSources() : array
     {
-        return array_keys($this->sources);
+        return array_keys(array_merge($this->sources, $this->customSources));
     }
 
     /**
@@ -94,8 +93,10 @@ class DataSourceManager
                 $this->configRepo->get('features')->asArray()['data-providers']
             );
 
+            $allSources = array_merge($this->sources, $this->customSources);
+
             $sources = array_intersect_key(
-                $this->sources,
+                $allSources,
                 $enabledSources,
                 $availableSources
             );

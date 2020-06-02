@@ -189,7 +189,7 @@ class Twitter implements IncomingAPIDataSource, OutgoingAPIDataSource
                 }
                 $user_id = $user['id_str'];
                 // @todo Check for similar messages in the database before saving
-                /*** 
+                /***
                  * Twitter links note: (message field)
                  * Best compromise I could find was just make the proper urls with user_id rather than only
                  * tweet id (for which there is an unofficial formula)...
@@ -203,7 +203,7 @@ class Twitter implements IncomingAPIDataSource, OutgoingAPIDataSource
                     'contact_type' => Contact::TWITTER,
                     'from' => $user_id,
                     'to' => null,
-                    'message' => "https://twitter.com/$user_id/status/$id", 
+                    'message' => "https://twitter.com/$user_id/status/$id",
                     'title' => 'From twitter on ' .  $date,
                     'datetime' => $date,
                     'data_source_message_id' => $id,
