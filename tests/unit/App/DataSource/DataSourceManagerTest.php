@@ -11,16 +11,17 @@
 
 namespace Tests\Unit\App\DataSource;
 
-use Tests\TestCase;
 use Mockery as M;
+use Tests\TestCase;
 
-use Ushahidi\App\DataSource\DataSourceManager;
-use Ushahidi\App\DataSource\Email\Email;
-use Ushahidi\App\DataSource\Twitter\Twitter;
-use Ushahidi\App\DataSource\Nexmo\Nexmo;
-use Ushahidi\App\DataSource\SMSSync\SMSSync;
-use Ushahidi\Core\Entity\ConfigRepository;
 use Ushahidi\Core\Entity\Config;
+use Ushahidi\App\DataSource\Email\Email;
+use Ushahidi\App\DataSource\Nexmo\Nexmo;
+use Ushahidi\Core\Entity\ConfigRepository;
+use Ushahidi\App\DataSource\SMSSync\SMSSync;
+use Ushahidi\App\DataSource\Twitter\Twitter;
+use Ushahidi\App\DataSource\DataSourceManager;
+use Ushahidi\App\DataSource\IncomingAPIDataSource;
 
 /**
  * @backupGlobals disabled
@@ -102,6 +103,58 @@ class DataSourceManagerTest extends TestCase
 
         $this->expectException(\InvalidArgumentException::class);
         $manager->getEnabledSource('twitter');
+    }
+
+    public function testCustomSources()
+    {
+        $configRepo = M::mock(ConfigRepository::class);
+        $manager = new DataSourceManager($configRepo);
+
+        $configRepo->shouldReceive('get')
+            ->with('data-provider')
+            ->andReturn(new Config([
+                'providers' => [
+                    'nexmo' => true,
+                    'twitter' => true,
+                    'email' => true,
+                    'custom-provider' => true,
+                ]
+            ]));
+
+        $configRepo->shouldReceive('get')
+            ->with('features')
+            ->andReturn(new Config([
+                'data-providers' => [
+                    'email' => true,
+                    'custom-provider' => true,
+                ]
+            ]));
+
+        $customSource = new class($config) extends IncomingAPIDataSource 
+        {
+            protected $config;
+
+            public function __construct($prop)
+            {
+                $this->config = $config;
+            }
+
+            public function fetch()
+            {
+                return [];
+            }
+        };
+
+        $manager->extend('custom-provider', function ($config) {
+            return $customSource($config);
+        });
+
+        $this->assertCount(2, $manager->getEnabledSources());
+        $this->assertFalse($manager->isEnabledSource('twitter'));
+        $this->assertTrue($manager->isEnabledSource('custom-provider'));
+
+        $this->expectException(\InvalidArgumentException::class);
+        $manager->getEnabledSource('custom-provider');
     }
 
     public function testGetSourceForType()
