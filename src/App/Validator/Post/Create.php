@@ -127,7 +127,6 @@ class Create extends LegacyValidator
                 ]],
             ],
             'form_id' => [
-                ['not_empty'],
                 ['numeric'],
                 [[$this->form_repo, 'exists'], [':value']],
             ],
