@@ -34,7 +34,11 @@ class UpdatePost extends UpdateUsecase
     {
         $changed = $entity->getChanged();
 
-        // Always pass values to validation
+        // Always pass form_id, values to validation
+
+        if (isset($entity->form_id)) {
+            $changed['form_id'] = $entity->form_id;
+        }
 
         if (isset($entity->values)) {
             $changed['values'] = $entity->values;
