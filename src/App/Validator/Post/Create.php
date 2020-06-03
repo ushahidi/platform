@@ -108,7 +108,7 @@ class Create extends LegacyValidator
                 ['max_length', [':value', 150]],
             ],
             'content' => [
-                ['not_empty']
+                ['max_length', [':value', 250]],
             ],
             'slug' => [
                 ['min_length', [':value', 2]],
