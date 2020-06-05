@@ -11,6 +11,7 @@ use v4\Http\Resources\CategoryResource;
 use Illuminate\Http\Request;
 use v4\Models\Category;
 use v4\Models\Translation;
+use Illuminate\Support\Facades\DB;
 
 class CategoryController extends V4Controller
 {
@@ -57,7 +58,7 @@ class CategoryController extends V4Controller
      *
      * @TODO   transactions =)
      * @param Request $request
-     * @return SurveyResource
+     * @return CategoryResource
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function store(Request $request)
@@ -75,19 +76,24 @@ class CategoryController extends V4Controller
         $input = $request->input();
         $input['slug'] = Category::makeSlug($input['slug'] ?? $input['tag']);
         $category = new Category();
+        $id = null;
         if (!$category->validate($input)) {
             return response()->json($category->errors, 422);
         }
 
-        $category = Category::create(
-            array_merge(
-                $input,
-                [
-                    'created' => time(),
-                ]
-            )
-        );
-        $this->saveTranslations($request->input('translations'), $category->id, 'category');
+        $category = DB::transaction(function() use ($id, $input, $request, $category) {
+            $category = Category::create(
+                array_merge(
+                    $input,
+                    [
+                        'created' => time(),
+                    ]
+                )
+            );
+            $this->saveTranslations($request->input('translations'), $category->id, 'category');
+            return $category;
+        });
+
         return new CategoryResource($category);
     }//end store()
 
@@ -137,7 +143,6 @@ class CategoryController extends V4Controller
     {
         $category = Category::find($id);
 
-
         if (!$category) {
             return response()->json(
                 [
@@ -155,9 +160,11 @@ class CategoryController extends V4Controller
         if (!$category->validate($input)) {
             return response()->json($category->errors, 422);
         }
-
-        $category->update($request->input());
-        $this->updateTranslations($request->input('translations'), $category->id, 'category');
+        $category = DB::transaction(function() use ($id, $input, $request, $category) {
+            $category->update($request->input());
+            $this->updateTranslations($request->input('translations'), $category->id, 'category');
+            return $category;
+        });
         return new CategoryResource($category);
     }//end update()
 
@@ -202,8 +209,24 @@ class CategoryController extends V4Controller
     {
         $category = Category::find($id);
         $this->authorize('delete', $category);
-        $category->translations()->delete();
-        $category->delete();
-        return response()->json(['result' => ['deleted' => $id]]);
+        $success = DB::transaction(function() use ($id, $request, $category) {
+            $category->translations()->delete();
+            $success = $category->delete();
+            return $success;
+        });
+        if ($success) {
+            return response()->json(['result' => ['deleted' => $id]]);
+        } else {
+            return response()->json(
+                [
+                    'errors' => [
+                        'error'   => 500,
+                        'message' => 'Could not delete model',
+                    ],
+                ],
+                500
+            );
+        }
+
     }//end delete()
 }//end class

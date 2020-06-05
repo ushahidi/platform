@@ -28,4 +28,5 @@ return array(
   'failedToValidate' => 'Failed to validate %s entity',
   'exists'        => ':field must exist',
   'unique'        => ':field must be unique',
+  'child_parent_role_match' => 'The child category :attribute must be the same as the parent role.'
 );

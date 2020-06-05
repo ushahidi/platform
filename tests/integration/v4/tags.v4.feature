@@ -101,7 +101,27 @@ Feature: Testing the Categories API
         And the response has a "tag" property
         And the "tag.0" property equals "Tag must be unique"
         Then the guzzle status code should be 422
-
+    Scenario: Creating a child tag with the wrong role for its parent
+        Given that I want to make a new "Category"
+        And that the oauth token is "testadminuser"
+        And that the api_url is "api/v4"
+        And that the request "data" is:
+            """
+            {
+                "parent_id":1,
+                "tag":"Boxes wrong role",
+                "description":"Is this a box? Awesome",
+                "type":"category",
+                "priority":1,
+                "color":"00ff00",
+                "role": ["user"]
+            }
+            """
+        When I request "/categories"
+        Then the response is JSON
+        And the response has a "role" property
+        And the "role.0" property equals "The child category role must be the same as the parent role."
+        Then the guzzle status code should be 422
     Scenario: Creating a tag with a duplicate slug
         Given that I want to make a new "Category"
         And that the oauth token is "testadminuser"

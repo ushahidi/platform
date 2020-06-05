@@ -266,8 +266,6 @@ class Survey extends Model
                 'string',
                 'nullable',
             ],
-            // @TODO find out where this color validator is implemented
-            // [['color']],
             'color'                             => [
                 'string',
                 'nullable',

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Validator;
 use Ushahidi\Core\Entity\Permission;
-
+use Illuminate\Support\Facades\Input;
 class Category extends Model
 {
     public $errors;
@@ -28,9 +28,6 @@ class Category extends Model
      * The attributes that should be hidden for serialization.
      *
      * @var  array
-     * @note this should be changed so that we either use the fractal transformer
-     * OR a policy authorizer which is a more or less accepted method to do it
-     * (which uses the same $hidden type thing but it's much nicer obviously)
      */
     protected $hidden = [
         'description',
@@ -187,28 +184,34 @@ class Category extends Model
                     'category',
                     'status'
                 ])
-                // 'min:2',
-                // 'max:255',
-                // 'regex:'.LegacyValidator::REGEX_STANDARD_TEXT,
              ],
              'description' => [
                 'regex:/^[\pL\pN\pP ]++$/uD',
                 'min:2',
                 'max:255',
              ],
-            // 'color' => [
-            // ['color'],
-            // ]
+             'color'                             => [
+                 'string',
+                 'nullable',
+             ],
              'icon'        => [
                 'regex:/^[\pL\s\_\-]++$/uD'
              ],
              'priority'    => [
                 'numeric'
              ],
-            // 'role' => [
-            // [[$this->role_repo, 'exists'], [':value']],
-            // [[$this->repo, 'isRoleValid'], [':validation', ':fulldata']]
-            // ]
+             'role' => [
+                 Rule::exists('roles', 'name'),
+                 function($attribute, $value, $fail) {
+                     $has_parent = Input::get('parent_id'); // Retrieve status
+
+                     $parent = $has_parent ? Category::find(Input::get('parent_id')) : null;
+                     // ... and check if the role matches its parent
+                     if ($parent && $parent->role != $value) {
+                         return $fail(trans('validation.child_parent_role_match'));
+                     }
+                 }
+             ]
         ];
     }//end validationMessages()
 

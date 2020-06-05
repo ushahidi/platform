@@ -133,7 +133,6 @@ class SurveyPolicy
         }
 
         // All users are allowed to search forms.
-        // @TODO should only do 'search' here. Do 'read' above in the isFormDisabled check
         if ($privilege === 'search') {
             return true;
         }
