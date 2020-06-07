@@ -29,5 +29,6 @@ return array(
   'failedToCreateContact' => 'No se logró crear el contacto. Resultado:  %s',
   'exists'        => ':field debe existir',
   'unique'        => ':field debe ser un valor único',
-  'child_parent_role_match' => 'El :attribute de la categoría debe ser igual al del rol padre.'
+  'child_parent_role_match' => 'El :attribute de la categoría debe ser igual al del rol padre.',
+  'tag_field_type_cannot_be_private' => 'Los campos de categoría no pueden ser privados.'
 );

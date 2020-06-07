@@ -3,6 +3,7 @@
 namespace v4\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Input;
 use Illuminate\Validation\Rule;
 use Ushahidi\App\Repository\FormRepository;
 use Ushahidi\App\Validator\LegacyValidator;
@@ -247,7 +248,6 @@ class Survey extends Model
         ];
     }//end validationMessages()
 
-
     /**
      * Return all validation rules
      *
@@ -347,9 +347,13 @@ class Survey extends Model
             'tasks.*.fields.*.priority'         => ['numeric'],
             'tasks.*.fields.*.cardinality'      => ['numeric'],
             'tasks.*.fields.*.response_private' => [
-                'boolean'
-                // @TODO add this custom validator for canMakePrivate
-                // [[$this, 'canMakePrivate'], [':value', $type]]
+                'boolean',
+                function ($attribute, $value, $fail) {
+                    $type_field = array_get(Input::get(), str_replace('response_private', 'type', $attribute));
+                    if ($type_field === 'tags' && $value != false) {
+                        return $fail(trans('validation.tag_field_type_cannot_be_private'));
+                    }
+                }
             ],
             // @NOTE: checkPostTypeLimit is not used here.
             // Before merge, validate with Angela if we
@@ -358,6 +362,15 @@ class Survey extends Model
         ];
     }//end getRules()
 
+    public function canMakePrivate($value, $type)
+    {
+        // If input type is tags, then attribute cannot be private
+        if ($type === 'tags' && $value !== false) {
+            return false;
+        }
+
+        return true;
+    }
 
     /**
      * This is what makes can_create possible
