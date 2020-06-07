@@ -339,9 +339,7 @@ class Survey extends Model
                         'description',
                         'tags',
                     ]
-                ),
-                // @TODO: add this validation for duplicates in type?
-                // [[$this, 'checkForDuplicates'], [':validation', ':value']],
+                )
             ],
             'tasks.*.fields.*.type'             => ['string'],
             'tasks.*.fields.*.priority'         => ['numeric'],
