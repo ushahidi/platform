@@ -54,4 +54,23 @@ $router->group([
     ], function () use ($router) {
         $router->get('/languages', 'LanguagesController@index');
     });
+
+    // Posts
+    $router->group([
+        'prefix' => 'posts',
+        'middleware' => ['scope:posts', 'expiration']
+    ], function () use ($router) {
+        // Public access
+        $router->get('/', 'PostController@index');
+        $router->get('/{id}', 'PostController@show');
+    });
+    // Restricted access
+    $router->group([
+        'prefix' => 'posts',
+        'middleware' => ['auth:api', 'scope:posts']
+    ], function () use ($router) {
+        $router->post('/', 'PostController@store');
+        $router->put('/{id}', 'PostController@update');
+        $router->delete('/{id}', 'PostController@delete');
+    });
 });

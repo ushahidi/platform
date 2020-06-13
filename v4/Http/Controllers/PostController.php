@@ -9,11 +9,16 @@ use Ushahidi\App\Validator\LegacyValidator;
 use v4\Http\Resources\CategoryCollection;
 use v4\Http\Resources\CategoryResource;
 use Illuminate\Http\Request;
+use v4\Http\Resources\PostCollection;
+use v4\Http\Resources\PostResource;
+use v4\Models\Attribute;
 use v4\Models\Category;
+use v4\Models\Post;
+use v4\Models\PostValues\PostValue;
 use v4\Models\Translation;
 use Illuminate\Support\Facades\DB;
 
-class CategoryController extends V4Controller
+class PostController extends V4Controller
 {
     /**
      * Display the specified resource.
@@ -24,8 +29,8 @@ class CategoryController extends V4Controller
      */
     public function show(int $id)
     {
-        $category = Category::allowed()->with('translations')->find($id);
-        if (!$category) {
+        $post = Post::allowed()->with('translations')->find($id);
+        if (!$post) {
             return response()->json(
                 [
                     'errors' => [
@@ -36,18 +41,20 @@ class CategoryController extends V4Controller
                 404
             );
         }
-        return new CategoryResource($category);
+
+        return new PostResource($post);
     }//end show()
+
 
     /**
      * Display the specified resource.
      *
-     * @return CategoryCollection
+     * @return PostCollection
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function index()
     {
-        return new CategoryCollection(Category::allowed()->get());
+        return new PostCollection(Post::allowed()->get());
     }//end index()
 
 
@@ -61,7 +68,7 @@ class CategoryController extends V4Controller
      */
     public function store(Request $request)
     {
-        $authorizer = service('authorizer.form');
+        $authorizer = service('authorizer.post');
         // if there's no user the guards will kick them off already, but if there
         // is one we need to check the authorizer to ensure we don't let
         // users without admin perms create forms etc
@@ -69,33 +76,59 @@ class CategoryController extends V4Controller
         // that doesn't let me do guest user checks without adding more risk.
         $user = $authorizer->getUser();
         if ($user) {
-            $this->authorize('store', Category::class);
+            $this->authorize('store', Post::class);
         }
         $input = $request->input();
-        $input['slug'] = Category::makeSlug($input['slug'] ?? $input['tag']);
-        $category = new Category();
+        $post_values = $input['post_content'];
+
+        $input['slug'] = Post::makeSlug($input['slug'] ?? $input['title']);
+        $post = new Post();
         $id = null;
-        if (!$category->validate($input)) {
-            return response()->json($category->errors, 422);
+        if (!$post->validate($input)) {
+            return response()->json($post->errors, 422);
         }
 
-        $category = DB::transaction(function () use ($id, $input, $request, $category) {
-            $category = Category::create(
+        $post = DB::transaction(function () use ($id, $input, $request, $post, $post_values) {
+            $post = Post::create(
                 array_merge(
                     $input,
                     [
-                        'created' => time(),
+                        'created' => time()
                     ]
                 )
             );
-            $this->saveTranslations($request->input('translations'), $category->id, 'category');
-            return $category;
+            $this->savePostValues($post_values, $post->id);
+            $this->saveTranslations($request->input('translations'), $post->id, 'post');
+            return $post;
         });
 
-        return new CategoryResource($category);
+        return new PostResource($post);
     }//end store()
 
-
+    protected function savePostValues(array $post_content, int $post_id)
+    {
+        foreach ($post_content as $stage) {
+            foreach ($stage['fields'] as $field) {
+                $value = $field['value'];
+                $type = $field['type'];
+                $class_name = "v4\Models\PostValues\Post" . ucfirst($type);
+                $post_value = new $class_name();
+                $data = [
+                    'post_id' => $post_id,
+                    'form_attribute_id' => $field['id'],
+                    'value' => $value
+                ];
+                $validation = $post_value->validate([
+                    'post_id' => $post_id,
+                    'form_attribute_id' => $field['id'],
+                    'value' => $value
+                ]);
+                if ($validation) {
+                    get_class($post_value)::create($data);
+                }
+            }
+        }
+    }
     /**
      * @param  $input
      * @param  $translatable_id
@@ -139,9 +172,9 @@ class CategoryController extends V4Controller
      */
     public function update(int $id, Request $request)
     {
-        $category = Category::find($id);
+        $post = Post::find($id);
 
-        if (!$category) {
+        if (!$post) {
             return response()->json(
                 [
                     'errors' => [
@@ -152,18 +185,18 @@ class CategoryController extends V4Controller
                 404
             );
         }
-        $this->authorize('update', $category);
+        $this->authorize('update', $post);
 
         $input = $request->input();
-        if (!$category->validate($input)) {
-            return response()->json($category->errors, 422);
+        if (!$post->validate($input)) {
+            return response()->json($post->errors, 422);
         }
-        $category = DB::transaction(function () use ($id, $input, $request, $category) {
-            $category->update($request->input());
-            $this->updateTranslations($request->input('translations'), $category->id, 'category');
-            return $category;
+        $post = DB::transaction(function () use ($id, $input, $request, $post) {
+            $post->update($request->input());
+            $this->updateTranslations($request->input('translations'), $post->id, 'post');
+            return $post;
         });
-        return new CategoryResource($category);
+        return new PostResource($post);
     }//end update()
 
 
@@ -205,11 +238,11 @@ class CategoryController extends V4Controller
      */
     public function delete(int $id, Request $request)
     {
-        $category = Category::find($id);
-        $this->authorize('delete', $category);
-        $success = DB::transaction(function () use ($id, $request, $category) {
-            $category->translations()->delete();
-            $success = $category->delete();
+        $post = Post::find($id);
+        $this->authorize('delete', $post);
+        $success = DB::transaction(function () use ($id, $request, $post) {
+            $post->translations()->delete();
+            $success = $post->delete();
             return $success;
         });
         if ($success) {

@@ -14,7 +14,8 @@ class MorphServiceProvider extends ServiceProvider
             'survey' => 'v4\Models\Survey',
             'task' => 'v4\Models\Stage',
             'field' => 'v4\Models\Attribute',
-            'category' => 'v4\Models\Category'
+            'category' => 'v4\Models\Category',
+            'post' => 'v4\Models\Post'
         ]);
     }
 }
