@@ -3,6 +3,7 @@
 namespace v4\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
@@ -13,7 +14,7 @@ use Ushahidi\Core\Entity\Permission;
 use Ushahidi\Core\Tool\Permissions\InteractsWithFormPermissions;
 use Ushahidi\Core\Tool\Permissions\InteractsWithPostPermissions;
 
-class Post extends Model
+class Post extends ResourceModel
 {
     use InteractsWithPostPermissions;
 
@@ -37,7 +38,7 @@ class Post extends Model
      * @var string[]
      */
     protected $with = ['survey', 'categories'];
-
+    protected $translations;
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -168,8 +169,7 @@ class Post extends Model
                 )
             ],
             'locale',
-            'post_date',
-            'base_language',
+            'post_date'
         ];
     }//end getRules()
 
@@ -196,44 +196,6 @@ class Post extends Model
             $value = date_create($value)->format("Y-m-d H:i:s");
         }
         $this->attributes['post_date'] = $value;
-    }
-//
-//    /**
-//     * Get the post's slug
-//     *
-//     * @param  string  $value
-//     * @return void
-//     */
-//    public function getSlugAttribute($value)
-//    {
-//        return $value;
-//    }
-//    /**
-//     * Set the post's slug format
-//     *
-//     * @param  string  $value
-//     * @return void
-//     */
-//    public function setSlugAttribute($value)
-//    {
-//        if (isset($value) && (!isset($this->attributes['slug']))) {
-//            $value = self::makeSlug($value);
-//            $this->attributes['slug'] = $value;
-//        }
-//    }
-
-    public static function makeSlug($value)
-    {
-        // produce a slug based on the value
-        $slug = Str::slug($value);
-
-        // check to see if any other slugs exist that are the same & count them
-        $count = static::whereRaw("slug RLIKE '^{$value}(-[0-9]+)?$'")->count() +1 ;
-
-        // if other slugs exist that are the same, append the count to the slug
-        $value = $count ? "{$slug}-{$count}" : $slug;
-
-        return $value;
     }
 
     public function validate($data)
@@ -289,7 +251,7 @@ class Post extends Model
         foreach ($value_types as $type) {
             $values[] = $this->{"values$type"};
         }
-        return array_flatten($values);
+        return Collection::make(array_flatten($values));
     }
     /**
      * Post values relationships

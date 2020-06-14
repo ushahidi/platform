@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Validator;
 class PostVarchar extends PostValue
 {
     public $table = 'post_varchar';
+    public $with = ['translations'];
     /**
      * Scope helper to only pull tags we are allowed to get from the db
      * @param $query
@@ -41,4 +42,13 @@ class PostVarchar extends PostValue
         ];
         return [parent::getRules(), $rules];
     }//end getRules()
+
+
+    /**
+     * Get the post's translation.
+     */
+    public function translations()
+    {
+        return $this->morphMany('v4\Models\Translation', 'translatable');
+    }//end translations()
 }//end class

@@ -3,12 +3,13 @@
 namespace v4\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Validator;
 use Ushahidi\Core\Entity\Permission;
 use Illuminate\Support\Facades\Input;
 
-class Category extends Model
+class Category extends ResourceModel
 {
     public $errors;
     /**
@@ -325,46 +326,6 @@ class Category extends Model
             $this->attributes['color'] = ltrim($value, '#');
         }
     }
-
-    /**
-     * Get the category's slug
-     *
-     * @param  string  $value
-     * @return void
-     */
-    public function getSlugAttribute($value)
-    {
-        return $value;
-    }
-    /**
-     * Set the category's slug format
-     *
-     * @param  string  $value
-     * @return void
-     */
-    public function setSlugAttribute($value)
-    {
-        if (isset($value) && (!isset($this->attributes['slug']))) {
-            $value = self::makeSlug($value);
-            $this->attributes['slug'] = $value;
-        }
-    }
-    public static function makeSlug($value)
-    {
-        // Make it lowercase
-        $value = mb_strtolower($value, 'utf-8');
-
-        // .. anything not the separator, letters, numbers or whitespace is replaced
-        $value = preg_replace('/[^\pL\pN\-\s]+/u', '', $value);
-
-        // .. replace whitespace and multiple separator chars with a single separator
-        $value = preg_replace('/[\-\s]+/u', '-', $value);
-
-        // ... and replace spaces with hypens
-        $value = str_replace(' ', '-', $value);
-        return $value;
-    }
-
     public function validate($data)
     {
         $v = Validator::make($data, $this->getRules(), self::validationMessages());

@@ -124,7 +124,8 @@ class PostController extends V4Controller
                     'value' => $value
                 ]);
                 if ($validation) {
-                    get_class($post_value)::create($data);
+                    $field_value = get_class($post_value)::create($data);
+                    $this->saveTranslations($field['translations'], $field_value->id, "post_value_$type");
                 }
             }
         }
