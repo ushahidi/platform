@@ -3,7 +3,10 @@
 namespace v4\Models\PostValues;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
+use v4\Models\Category;
 
 class PostMarkdown extends PostValue
 {
@@ -37,13 +40,7 @@ class PostMarkdown extends PostValue
     protected function getRules()
     {
         $rules = [
-            'value' => [
-                function ($attribute, $value, $fail) {
-                    if (!is_scalar($value)) {
-                        return $fail(trans('validation.post_values.markdown'));
-                    }
-                }
-            ],
+            'value' => 'string'
         ];
         return [parent::getRules(), $rules];
     }//end getRules()

@@ -113,6 +113,14 @@ class PostController extends V4Controller
                 $type = $field['type'];
                 $class_name = "v4\Models\PostValues\Post" . ucfirst($type);
                 $post_value = new $class_name();
+                if ($type === 'point') {
+                    $value = \DB::raw("GeomFromText('POINT({$value['lat']} {$value['lon']})')");
+                }
+
+                if ($type === 'geometry') {
+                    $value = \DB::raw("GeomFromText('$value')");
+                }
+
                 $data = [
                     'post_id' => $post_id,
                     'form_attribute_id' => $field['id'],
