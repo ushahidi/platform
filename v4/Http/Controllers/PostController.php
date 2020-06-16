@@ -78,6 +78,8 @@ class PostController extends V4Controller
         if ($user) {
             $this->authorize('store', Post::class);
         }
+
+        // Check post permissions
         $input = $request->input();
         $post_values = $input['post_content'];
 

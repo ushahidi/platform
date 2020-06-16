@@ -28,6 +28,7 @@ class PostPoint extends PostValue
 
 
     public $table = 'post_point';
+    protected $hideLocation = false;
 
     /**
      * Get a new query builder for the model's table.
@@ -44,6 +45,11 @@ class PostPoint extends PostValue
             return parent::newQuery()->addSelect('*', DB::raw($raw));
         }
         return parent::newQuery();
+    }
+
+    public function hideLocation($hide = true)
+    {
+        $this->hideLocation = $hide;
     }
     public function getValueAttribute($value)
     {
@@ -63,15 +69,6 @@ class PostPoint extends PostValue
             $value = ['lon' => null, 'lat' => null];
         }
         return $value;
-    }
-    /**
-     * Scope helper to only pull tags we are allowed to get from the db
-     * @param $query
-     * @return mixed
-     */
-    public function scopeAllowed($query)
-    {
-        return $query;
     }
 
     /**

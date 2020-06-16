@@ -109,7 +109,194 @@ class Post extends ResourceModel
      */
     public function scopeAllowed($query)
     {
+        $authorizer = service('authorizer.post');
+        // if there's no user the guards will kick them off already, but if there
+        // is one we need to check the authorizer to ensure we don't let
+        // users without admin perms create forms etc
+        // this is an unfortunate problem with using an old version of lumen
+        // that doesn't let me do guest user checks without adding more risk.
+        $user = $authorizer->getUser();
+
+        $postPermissions = new \Ushahidi\Core\Tool\Permissions\PostPermissions();
+        $postPermissions->setAcl($authorizer->acl);
+        $excludePrivateValues = !$postPermissions->canUserReadPrivateValues(
+            $user
+        );
+
         return $query;
+    }
+
+    // OhanzeeRepository
+    public function getEntity(array $data = null): Post
+    {
+        // Ensure we are dealing with a structured Post
+
+        $user = $this->getUser();
+        $excludePrivateValues = true;
+        $excludeStages = [];
+        $values = $data['values'] ?? [];
+
+        // Check post permissions
+        // @todo move or double up in formatter. That should enforce what users can see
+        $excludePrivateValues = !$this->postPermissions->canUserReadPrivateValues(
+            $user
+        );
+
+        $this->post_value_factory->getRepo('point')->hideLocation(
+            !$this->postPermissions->canUserSeeLocation(
+                $user,
+                new Post($data),
+                $this->form_repo
+            )
+        );
+
+        if (!empty($data['form_id'])) {
+            // Get Hidden Stage Ids to be excluded from results
+            $excludeStages = $this->form_stage_repo->getHiddenStageIds(
+                $data['form_id'],
+                $data['status']
+            );
+        }
+
+        if (!empty($data['id'])) {
+            // NOTE: This and the restriction above belong somewhere else,
+            // ideally in their own step
+            // Check if time info should be returned
+            if (!$this->postPermissions->canUserSeeTime($user, new Post($data), $this->form_repo)) {
+                // Hide time on survey fields
+                $this->post_value_factory->getRepo('datetime')->hideTime(true);
+
+                // @todo move to formatter. That where this normally happens
+                // Replace time with 00:00:00
+                if ($postDate = date_create($data['post_date'], new \DateTimeZone('UTC'))) {
+                    $data['post_date'] = $postDate->setTime(0, 0, 0)->format('Y-m-d H:i:s');
+                }
+                if ($created = date_create('@'.$data['created'], new \DateTimeZone('UTC'))) {
+                    $data['created'] = $created->setTime(0, 0, 0)->format('U');
+                }
+                if ($updated = date_create('@'.$data['updated'], new \DateTimeZone('UTC'))) {
+                    $data['updated'] = $updated->setTime(0, 0, 0)->format('U');
+                }
+            }
+
+            if (!$this->postPermissions->canUserSeeAuthor($user, new Post($data), $this->form_repo)
+                && ($data['author_realname'] || $data['user_id'] || $data['author_email'])) {
+                // @todo move to formatter. That where this normally happens
+                unset($data['author_realname']);
+                unset($data['author_email']);
+                unset($data['user_id']);
+            }
+
+            /* -- VALUES HANDLING -- */
+
+            /* handle values already carried in in the $data object */
+            $already_obtained_types = [];
+            foreach ($this->data_to_entity_value_mappings as $mapping) {
+                // Check if value should be visible
+                $attribute_key = $data[$mapping['attribute_key']] ?? null;
+                $attribute_value = $data[$mapping['value']] ?? null;
+
+                // Skip if data not provided
+                if (!$attribute_key || !$attribute_value) {
+                    continue;
+                }
+
+                // Check visibility
+                $attribute = $this->form_attributes_by_key->get($attribute_key);
+                // .. exclude values marked as private
+                if ($excludePrivateValues && $attribute['response_private']) {
+                    continue;
+                }
+                // .. exclude stages
+                if ($excludeStages && in_array($attribute['form_stage_id'], $excludeStages)) {
+                    continue;
+                }
+                // .. exclude non-mentioned attributes
+                if ($this->include_attributes && !in_array($attribute_key, $this->include_attributes)) {
+                    continue;
+                }
+
+                // Build and set values
+                $value = $this->post_value_factory
+                    ->getRepo($mapping['repo'])
+                    ->getEntity(['value' => $attribute_value]);
+                $values[$attribute_key] = [ $value->value ];
+
+                $already_obtained_types = array_merge($already_obtained_types, [ $mapping['obtained_type'] ]);
+
+                // Unset original values
+                unset($data[$mapping['attribute_key']]);
+                unset($data[$mapping['value']]);
+            }
+
+            // Obtain the rest of the requested values
+            $other_values = [];
+            $types_to_fetch = null;
+
+            if ($this->form_attributes_by_form) {
+                /* Check which types are used in the form */
+                $form_attributes = $this->form_attributes_by_form->get(intval($data['form_id']));
+                if ($form_attributes) {
+                    /* Count how many of each form attribute type we have */
+                    $types_to_fetch_with_attribute_count = $form_attributes
+                        ->groupBy('type')
+                        ->map(function ($attrs) {
+                            return $attrs->count();
+                        });
+
+                    $types_to_fetch = $types_to_fetch_with_attribute_count->keys()->toArray();
+
+                    /* Intersect with requested types */
+                    if (count($this->include_value_types) > 0) {
+                        $types_to_fetch = array_intersect($types_to_fetch, $this->include_value_types);
+                    }
+
+                    /* drop types that we have already fetched
+                       BUT only if there is a SINGLE attribute of that type in the form,
+                       since the SQL JOINs that we have run previously are only good for fetching
+                       a SINGLE value of each type for each post.
+                       If we don't do this, we would be leaving out the values of the second
+                       and subsequent attributes defined with that type */
+                    $already_obtained_types = collect($already_obtained_types)
+                        ->filter(function ($type) use ($types_to_fetch_with_attribute_count) {
+                            return $types_to_fetch_with_attribute_count->get($type) < 2;
+                        })->toArray();
+                    $types_to_fetch = array_diff($types_to_fetch, $already_obtained_types);
+                }
+            }
+
+            if ($types_to_fetch === null || !empty($types_to_fetch)) {
+                $other_values = $this->getPostValues(
+                    $data['id'],
+                    $excludePrivateValues,
+                    $excludeStages,
+                    $types_to_fetch ?? $this->include_value_types
+                );
+            }
+
+            //
+            $data['values'] = $other_values + $values;
+
+            // If we are not limiting ourselves to the most basic core properites
+            if ($this->search_output_type !== 'core') {
+                // Continued for legacy
+                $data['tags'] = $this->getTagsForPost($data['id'], $data['form_id']);
+                $data['sets'] = $this->getSetsForPost($data['id']);
+                $data['completed_stages'] = $this->getCompletedStagesForPost(
+                    $data['id'],
+                    $excludePrivateValues,
+                    $excludeStages
+                );
+                $data['lock'] = null;
+
+                // @todo move or double up in formatter. That should enforce what users can see
+                if ($this->postPermissions->canUserSeePostLock($user, new Post($data))) {
+                    $data['lock'] = $this->getHydratedLock($data['id']);
+                }
+            }
+        }
+
+        return new Post($data);
     }
 
     /**
