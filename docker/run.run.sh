@@ -12,6 +12,11 @@ fi
 
 set -e
 
+touch_logs
+
+# Dump lumen disk logs if something fails
+trap dump_logs EXIT
+
 run_composer_install
 provision_passport_keys
 set_storage_permissions
@@ -26,5 +31,9 @@ else
 	done
 	echo
 fi
+
+# Show logs so far , untrap exit
+trap - EXIT
+dump_logs
 
 exec "$@"
