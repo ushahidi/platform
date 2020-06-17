@@ -7,6 +7,7 @@ use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Validator;
 use Ushahidi\Core\Entity\Permission;
 use Illuminate\Support\Facades\Input;
+
 class Category extends Model
 {
     public $errors;
@@ -201,16 +202,15 @@ class Category extends Model
                 'numeric'
              ],
              'role' => [
-                 Rule::exists('roles', 'name'),
-                 function($attribute, $value, $fail) {
-                     $has_parent = Input::get('parent_id'); // Retrieve status
+                    function ($attribute, $value, $fail) {
+                        $has_parent = Input::get('parent_id'); // Retrieve status
 
-                     $parent = $has_parent ? Category::find(Input::get('parent_id')) : null;
-                     // ... and check if the role matches its parent
-                     if ($parent && $parent->role != $value) {
-                         return $fail(trans('validation.child_parent_role_match'));
-                     }
-                 }
+                        $parent = $has_parent ? Category::find(Input::get('parent_id')) : null;
+                        // ... and check if the role matches its parent
+                        if ($parent && $parent->role != $value) {
+                            return $fail(trans('validation.child_parent_role_match'));
+                        }
+                    }
              ]
         ];
     }//end validationMessages()
@@ -367,6 +367,9 @@ class Category extends Model
     public function validate($data)
     {
         $v = Validator::make($data, $this->getRules(), self::validationMessages());
+        $v->sometimes('role', 'exists:roles,name', function ($input) {
+            return !!$input;
+        });
         // check for failure
         if (!$v->fails()) {
             return true;

@@ -81,7 +81,7 @@ class CategoryController extends V4Controller
             return response()->json($category->errors, 422);
         }
 
-        $category = DB::transaction(function() use ($id, $input, $request, $category) {
+        $category = DB::transaction(function () use ($id, $input, $request, $category) {
             $category = Category::create(
                 array_merge(
                     $input,
@@ -160,7 +160,7 @@ class CategoryController extends V4Controller
         if (!$category->validate($input)) {
             return response()->json($category->errors, 422);
         }
-        $category = DB::transaction(function() use ($id, $input, $request, $category) {
+        $category = DB::transaction(function () use ($id, $input, $request, $category) {
             $category->update($request->input());
             $this->updateTranslations($request->input('translations'), $category->id, 'category');
             return $category;
@@ -209,7 +209,7 @@ class CategoryController extends V4Controller
     {
         $category = Category::find($id);
         $this->authorize('delete', $category);
-        $success = DB::transaction(function() use ($id, $request, $category) {
+        $success = DB::transaction(function () use ($id, $request, $category) {
             $category->translations()->delete();
             $success = $category->delete();
             return $success;
@@ -227,6 +227,5 @@ class CategoryController extends V4Controller
                 500
             );
         }
-
     }//end delete()
 }//end class
