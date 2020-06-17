@@ -32,17 +32,51 @@ class PostValueAllowed implements Scope
 
         $postPermissions = new \Ushahidi\Core\Tool\Permissions\PostPermissions();
         $postPermissions->setAcl($authorizer->acl);
+        /**
+         * post value's response_private field
+         */
         $excludePrivateValues = !$postPermissions->canUserReadPrivateValues(
             $user
         );
-
-        $q = $builder
-            ->join('form_attributes', $model->table.'.form_attribute_id', '=', 'form_attributes.id');
+        /**
+         * $model->table here refers to the post_value type table. For instance
+         * post_int or post_geometry , this is needed because we save most values in
+         * different tables with the same structure :|
+         */
+        $builder
+            ->join('form_attributes', $model->table.'.form_attribute_id', '=', 'form_attributes.id')
+            ->join('form_stages', 'form_attributes.form_stage_id', 'form_stages.id')
+            ->join('forms', 'form_stages.form_id', 'forms.id')
+        ;
 
         if ($excludePrivateValues) {
-            $q = $builder->where('form_attributes.response_private', '=', 0);
+            $builder->where('form_attributes.response_private', '=', 0);
         }
+        $formAuthorizer = service('authorizer.form');
 
-        return $q;
+        $formPermissions = new \Ushahidi\Core\Tool\Permissions\FormPermissions();
+        $formPermissions->setAcl($formAuthorizer->acl);
+        /**
+         * With scopes and the $builder, we check for basic permissions right on our initial
+         * queries rather than process them after the fact.
+         * Are you wondering "why do we send a null form_id to canUserEditForm?"
+         * well dear reader that's because that method doesn't use a $form id at all
+         * but *it likes to pretend it does* and I don't want to refactor /v3 today.
+         */
+        if (!$formPermissions->canUserEditForm($user, null)) {
+            $builder->where(function ($builder) use ($user) {
+                return $builder
+                    ->whereNotIn('parent_id', function ($builder) use ($user) {
+                        $builder
+                            ->select('id')
+                            ->from('tags')
+                            ->where('role', 'NOT LIKE', '%\"' . $user->role . '\"%')
+                            ->whereNull('parent_id');
+                    })
+                    ->orWhereNull('parent_id');
+            });
+            $builder->where('form_stages.show_when_published', '=', '1');
+            $builder->where('form_stages.task_is_internal_only', '=', '0');
+        }
     }
 }

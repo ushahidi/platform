@@ -53,7 +53,6 @@ class PostPoint extends PostValue
     }
     public function getValueAttribute($value)
     {
-
         $map_config = service('map.config');
         try {
             $geometry = WKT::geomFromText($value);

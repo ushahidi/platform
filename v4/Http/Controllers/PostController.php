@@ -54,7 +54,7 @@ class PostController extends V4Controller
      */
     public function index()
     {
-        return new PostCollection(Post::allowed()->get());
+        return new PostCollection(Post::get());
     }//end index()
 
 
@@ -253,8 +253,7 @@ class PostController extends V4Controller
         $this->authorize('delete', $post);
         $success = DB::transaction(function () use ($id, $request, $post) {
             $post->translations()->delete();
-            $success = $post->delete();
-            return $success;
+            return $post->delete();
         });
         if ($success) {
             return response()->json(['result' => ['deleted' => $id]]);

@@ -236,6 +236,7 @@ class Category extends ResourceModel
 
     /**
      * Scope helper to only pull tags we are allowed to get from the db
+     *
      * @param $query
      * @return mixed
      */

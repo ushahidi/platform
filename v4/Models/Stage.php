@@ -4,6 +4,7 @@ namespace v4\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Ushahidi\Core\Entity\Permission;
+use v4\Models\Scopes\StageAllowed;
 
 class Stage extends Model
 {
@@ -50,5 +51,16 @@ class Stage extends Model
     public function translations()
     {
         return $this->morphMany('v4\Models\Translation', 'translatable');
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+        /**
+         * This is cool because we don't have to worry about calling ::allowed
+         * each time to be safe that we are only getting authorized data. It's saving us
+         * from ourselves :)
+         */
+        static::addGlobalScope(new StageAllowed);
     }
 }
