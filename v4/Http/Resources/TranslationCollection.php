@@ -24,9 +24,11 @@ class TranslationCollection extends ResourceCollection
         // translate options
         // use key "options" for type "field" to do json_decode
         $grouped = $this->collection->mapToGroups(function ($item, $key) {
-            if ($item->translated_key === 'options' &&
-                $item->translatable_type==='field'
-            ) {
+            $is_json_field = $item->translated_key === 'options' &&
+                $item->translatable_type==='field';
+            $is_point_field = $item->translated_key === 'value' &&
+                $item->translatable_type==='post_value_point';
+            if ($is_json_field || $is_point_field) {
                 $item->translation = json_decode($item->translation);
             }
             return [$item->language => $item];

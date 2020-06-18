@@ -19,7 +19,7 @@ class PostValueResource extends Resource
             'id' => $this->id,
             'post_id' => $this->post_id,
             'value' => $this->value,
-            'form_attribute_id' => $this->slug,
+            'form_attribute_id' => $this->form_attribute_id,
             'created' => $this->created,
             'translations' => $this->translations ? new TranslationCollection($this->translations) : []
         ];

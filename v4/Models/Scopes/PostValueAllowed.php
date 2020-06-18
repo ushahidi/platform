@@ -15,6 +15,7 @@ namespace v4\Models\Scopes;
 use Illuminate\Database\Eloquent\Scope;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Ushahidi\Core\Entity\Permission;
 
 class PostValueAllowed implements Scope
 {
@@ -52,8 +53,14 @@ class PostValueAllowed implements Scope
         if ($excludePrivateValues) {
             $builder->where('form_attributes.response_private', '=', 0);
         }
-        $formAuthorizer = service('authorizer.form');
 
+        if ($model->getTable() === 'post_datetime' &&
+            !$postPermissions->acl->hasPermission($user, Permission::MANAGE_POSTS)
+        ) {
+            $builder->where('forms.hide_time', '=', 0);
+        }
+
+        $formAuthorizer = service('authorizer.form');
         $formPermissions = new \Ushahidi\Core\Tool\Permissions\FormPermissions();
         $formPermissions->setAcl($formAuthorizer->acl);
         /**
@@ -66,14 +73,14 @@ class PostValueAllowed implements Scope
         if (!$formPermissions->canUserEditForm($user, null)) {
             $builder->where(function ($builder) use ($user) {
                 return $builder
-                    ->whereNotIn('parent_id', function ($builder) use ($user) {
+                    ->whereNotIn('tags.parent_id', function ($builder) use ($user) {
                         $builder
-                            ->select('id')
+                            ->select('tags.id')
                             ->from('tags')
-                            ->where('role', 'NOT LIKE', '%\"' . $user->role . '\"%')
-                            ->whereNull('parent_id');
+                            ->where('tags.role', 'NOT LIKE', '%\"' . $user->role . '\"%')
+                            ->whereNull('tags.parent_id');
                     })
-                    ->orWhereNull('parent_id');
+                    ->orWhereNull('tags.parent_id');
             });
             $builder->where('form_stages.show_when_published', '=', '1');
             $builder->where('form_stages.task_is_internal_only', '=', '0');

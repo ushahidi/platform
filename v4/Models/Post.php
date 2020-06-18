@@ -46,6 +46,13 @@ class Post extends ResourceModel
      * @var  array
      */
     protected $hidden = [
+        /**
+         * @TODO this needs to be checked and flipped for admins who can see everything
+         * and flipped when author and date info isn't private
+         */
+        'author',
+        'created',
+        'updated'
     ];
 
     /**
@@ -261,22 +268,26 @@ class Post extends ResourceModel
      */
     public function valuesVarchar()
     {
-        return $this->hasMany('v4\Models\PostValues\PostVarchar', 'post_id', 'id');
+        return $this->hasMany('v4\Models\PostValues\PostVarchar', 'post_id', 'id')
+            ->select('post_varchar.*');
     }
 
     public function valuesText()
     {
-        return $this->hasMany('v4\Models\PostValues\PostText', 'post_id', 'id');
+        return $this->hasMany('v4\Models\PostValues\PostText', 'post_id', 'id')
+            ->select('post_text.*');
     }
 
     public function valuesDatetime()
     {
-        return $this->hasMany('v4\Models\PostValues\PostDatetime', 'post_id', 'id');
+        return $this->hasMany('v4\Models\PostValues\PostDatetime', 'post_id', 'id')
+            ->select('post_datetime.*');
     }
 
     public function valuesDecimal()
     {
-        return $this->hasMany('v4\Models\PostValues\PostDecimal', 'post_id', 'id');
+        return $this->hasMany('v4\Models\PostValues\PostDecimal', 'post_id', 'id')
+            ->select('post_decimal.*');
     }
 
     public function valuesGeometry()
@@ -286,41 +297,49 @@ class Post extends ResourceModel
 
     public function valuesInt()
     {
-        return $this->hasMany('v4\Models\PostValues\PostInt', 'post_id', 'id');
+        return $this->hasMany('v4\Models\PostValues\PostInt', 'post_id', 'id')
+            ->select('post_int.*');
     }
 
     public function valuesMarkdown()
     {
-        return $this->hasMany('v4\Models\PostValues\PostMarkdown', 'post_id', 'id');
+        return $this->hasMany('v4\Models\PostValues\PostMarkdown', 'post_id', 'id')
+            ->select('post_markdown.*');
     }
 
     public function valuesMedia()
     {
-        return $this->hasMany('v4\Models\PostValues\PostMedia', 'post_id', 'id');
+        return $this->hasMany('v4\Models\PostValues\PostMedia', 'post_id', 'id')
+            ->select('post_media.*');
     }
 
     public function valuesPoint()
     {
         return $this->hasMany('v4\Models\PostValues\PostPoint', 'post_id', 'id');
+        ;
     }
 
     public function valuesRelation()
     {
-        return $this->hasMany('v4\Models\PostValues\PostRelation', 'post_id', 'id');
+        return $this->hasMany('v4\Models\PostValues\PostRelation', 'post_id', 'id')
+            ->select('post_relation.*');
     }
 
     public function valuesPostsMedia()
     {
-        return $this->hasMany('v4\Models\PostValues\PostsMedia', 'post_id', 'id');
+        return $this->hasMany('v4\Models\PostValues\PostsMedia', 'post_id', 'id')
+            ->select('posts_media.*');
     }
 
     public function valuesPostsSet()
     {
-        return $this->hasMany('v4\Models\PostValues\PostsSet', 'post_id', 'id');
+        return $this->hasMany('v4\Models\PostValues\PostsSet', 'post_id', 'id')
+            ->select('posts_sets.*');
     }
 
     public function valuesPostsTag()
     {
-        return $this->hasMany('v4\Models\PostValues\PostsTag', 'post_id', 'id');
+        return $this->hasMany('v4\Models\PostValues\PostsTag', 'post_id', 'id')
+            ->select('posts_tags.*');
     }
 }//end class

@@ -2,12 +2,6 @@
 
 namespace v4\Models\PostValues;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
-use v4\Models\Category;
-
 class PostMarkdown extends PostValue
 {
     public $table = 'post_markdown';

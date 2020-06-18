@@ -2,9 +2,6 @@
 
 namespace v4\Models\PostValues;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Validator;
-
 class PostText extends PostValue
 {
     public $table = 'post_text';

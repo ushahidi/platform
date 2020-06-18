@@ -29,7 +29,7 @@ class PostController extends V4Controller
      */
     public function show(int $id)
     {
-        $post = Post::allowed()->with('translations')->find($id);
+        $post = Post::with('translations')->find($id);
         if (!$post) {
             return response()->json(
                 [
@@ -158,7 +158,7 @@ class PostController extends V4Controller
                     $translated = json_encode($translated);
                 }
 
-                Translation::create(
+                $result = Translation::create(
                     [
                         'translatable_type' => $type,
                         'translatable_id'   => $translatable_id,

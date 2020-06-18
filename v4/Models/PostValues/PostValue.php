@@ -34,34 +34,18 @@ class PostValue extends Model
     ];
 
     /**
+     * Get the post value's translation.
+     */
+    public function translations()
+    {
+        return $this->morphMany('v4\Models\Translation', 'translatable', null, 'translatable_id', 'id');
+    }//end translations()
+
+    /**
      * Scope helper to only pull tags we are allowed to get from the db
      * @param $query
      * @return mixed
      */
-//    public function scopeAllowed($query)
-//    {
-//        /**
-//         * If no roles are selected, the Tag is considered
-//         * completely public.
-//         */
-//        $authorizer = service('authorizer.post');
-//        $user = $authorizer->getUser();
-//
-//        $postPermissions = new \Ushahidi\Core\Tool\Permissions\PostPermissions();
-//        $postPermissions->setAcl($authorizer->acl);
-//        $excludePrivateValues = !$postPermissions->canUserReadPrivateValues(
-//            $user
-//        );
-//
-//        $q = $query
-//            ->join('form_attributes', $this->table.'.form_attribute_id', '=', 'form_attributes.id');
-//
-//        if ($excludePrivateValues) {
-//            $q = $q->where('form_attributes.response_private', '=', 0);
-//        }
-//
-//        return $q;
-//    }
     protected static function boot()
     {
         parent::boot();
@@ -103,32 +87,6 @@ class PostValue extends Model
         // set errors and return false
         $this->errors = $v->errors();
         return false;
-    }
-
-
-    // ValuesForPostRepository
-    public function getAllForPost(
-        $post_id,
-        array $include_attributes = [],
-        array $exclude_stages = [],
-        $excludePrivateValues = true
-    ) {
-        $query = $this->selectQuery(compact('post_id'));
-
-        if ($include_attributes) {
-            $query->where('form_attributes.key', 'IN', $include_attributes);
-        }
-
-        if ($excludePrivateValues) {
-            $query->where('form_attributes.response_private', '!=', '1');
-            if ($exclude_stages) {
-                $query->where('form_attributes.form_stage_id', 'NOT IN', $exclude_stages);
-            }
-        }
-
-        $results = $query->execute($this->db());
-
-        return $this->getCollection($results->as_array());
     }
 
     public function attribute()
