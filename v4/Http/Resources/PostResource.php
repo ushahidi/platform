@@ -33,7 +33,7 @@ class PostResource extends Resource
             'post_date' => $this->post_date,
             'base_language' => $this->base_language,
             'categories' => $this->categories,
-            'survey' => $this->survey,
+//            'survey' => $this->survey,
             'post_content' => new PostValueCollection($this->values()),
             'translations' => new TranslationCollection($this->translations),
             'enabled_languages' => [
