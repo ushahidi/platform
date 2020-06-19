@@ -3,6 +3,7 @@
 namespace v4\Http\Controllers;
 
 use Illuminate\Auth\Access\Gate;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\Resource;
 use Illuminate\Support\Collection;
 use Ushahidi\App\Validator\LegacyValidator;
@@ -63,7 +64,7 @@ class PostController extends V4Controller
      *
      * @TODO   transactions =)
      * @param Request $request
-     * @return CategoryResource
+     * @return PostResource|JsonResponse
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function store(Request $request)
@@ -89,8 +90,8 @@ class PostController extends V4Controller
         if (!$post->validate($input)) {
             return response()->json($post->errors, 422);
         }
-
-        $post = DB::transaction(function () use ($id, $input, $request, $post, $post_values) {
+        DB::beginTransaction();
+        try {
             $post = Post::create(
                 array_merge(
                     $input,
@@ -101,20 +102,41 @@ class PostController extends V4Controller
             );
             $this->savePostValues($post_values, $post->id);
             $this->saveTranslations($request->input('translations'), $post->id, 'post');
-            return $post;
-        });
-
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
+            return response()->json(
+                [
+                    'errors' => [
+                        'error'   => 500,
+                        'message' => $e->getMessage(),
+                    ],
+                ],
+                500
+            );
+        }
         return new PostResource($post);
     }//end store()
 
     protected function savePostValues(array $post_content, int $post_id)
     {
         foreach ($post_content as $stage) {
+            if (!isset($stage['fields'])) {
+                continue;
+            }
             foreach ($stage['fields'] as $field) {
+                if (!isset($field['value'])) {
+                    continue;
+                }
                 $value = $field['value'];
                 $type = $field['type'];
+
                 $class_name = "v4\Models\PostValues\Post" . ucfirst($type);
+                if (!class_exists($class_name)) {
+                    throw new \Exception("Type '$type' is invalid.");
+                }
                 $post_value = new $class_name();
+
                 if ($type === 'point') {
                     $value = \DB::raw("GeomFromText('POINT({$value['lat']} {$value['lon']})')");
                 }
