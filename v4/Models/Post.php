@@ -342,4 +342,9 @@ class Post extends ResourceModel
         return $this->hasMany('v4\Models\PostValues\PostsTag', 'post_id', 'id')
             ->select('posts_tags.*');
     }
+
+    public function postStages()
+    {
+        return $this->hasMany('v4\Models\PostStages', 'post_id', 'id');
+    }
 }//end class

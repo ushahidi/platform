@@ -100,6 +100,9 @@ class PostController extends V4Controller
                     ]
                 )
             );
+            if (isset($input['completed_stages'])) {
+                $this->savePostStages($post, $input['completed_stages']);
+            }
             $this->savePostValues($post_values, $post->id);
             $this->saveTranslations($request->input('translations'), $post->id, 'post');
             DB::commit();
@@ -118,6 +121,13 @@ class PostController extends V4Controller
         return new PostResource($post);
     }//end store()
 
+    protected function savePostStages($post, $completed)
+    {
+        $post->postStages()->delete();
+        foreach ($completed as $stage_id) {
+            $post->postStages()->create(['post_id' => $post, 'form_stage_id' => $stage_id, 'completed' => 1]);
+        }
+    }
     protected function savePostValues(array $post_content, int $post_id)
     {
         foreach ($post_content as $stage) {
@@ -162,6 +172,7 @@ class PostController extends V4Controller
             }
         }
     }
+
     /**
      * @param  $input
      * @param  $translatable_id
