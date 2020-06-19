@@ -23,6 +23,14 @@ class PostCollection extends ResourceCollection
      */
     public function toArray($request)
     {
-        return $this->collection;
+        return [
+            'results' => $this->collection,
+            'count' => $this->count()
+        ];
+    }
+
+    public function count()
+    {
+        return count($this->collection);
     }
 }

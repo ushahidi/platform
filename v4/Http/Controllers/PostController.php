@@ -54,7 +54,7 @@ class PostController extends V4Controller
      */
     public function index()
     {
-        return new PostCollection(Post::get());
+        return new PostCollection(Post::paginate(20));
     }//end index()
 
 
