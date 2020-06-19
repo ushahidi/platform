@@ -20,6 +20,8 @@ use Ushahidi\App\Formatter\API;
 
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
 
 class CSV extends API
 {
@@ -347,6 +349,13 @@ class CSV extends API
             $date = new \DateTime($recordValue[$headingKey][$key]);
             $recordValue[$headingKey][$key] = $date->format('Y-m-d');
         }
+
+        // handle values that are URLs of uploaded media to have proper naming
+        $isUploadedMediaField = $recordAttributes['input'] === 'upload' && $recordAttributes['type'] === 'media';
+        if ($isUploadedMediaField && isset($recordValue[$headingKey])) {
+            $recordValue[$headingKey][$key] = Storage::url($recordValue[$headingKey][$key]);
+        }
+
         /**
          * We have 3 formats. A single value array is only a lat/lon right now but would be usable
          * for other formats where we have a specific way to separate their fields in columns

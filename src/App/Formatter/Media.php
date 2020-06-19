@@ -14,12 +14,10 @@ namespace Ushahidi\App\Formatter;
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\Traits\FormatterAuthorizerMetadata;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Cache;
 
 class Media extends API
 {
-    // This is rather long, because what we cache here rarely (if ever) changes
-    const CACHE_LIFETIME = 24 * 3600 ;       # in seconds
+    
 
     use FormatterAuthorizerMetadata;
 
@@ -64,30 +62,6 @@ class Media extends API
         array_push($url_path, $filename);
         $path = implode("/", $url_path);
 
-        return Cache::remember(
-            'Ushahidi\App\Formatter\Media.publicUrl[' . $path . ']',
-            self::CACHE_LIFETIME,
-            function () use ($path) {
-                return $this->getStorageObjectPublicUrl($path);
-            }
-        );
-    }
-
-    protected function getStorageObjectPublicUrl(string $path) : string
-    {
-        $adapter = Storage::getAdapter();
-        // Special handling for RS to get SSL URLs
-        if ($adapter instanceof \League\Flysystem\Rackspace\RackspaceAdapter) {
-            try {
-                return (string) $adapter
-                    ->getContainer()
-                    ->getObject($path)
-                    ->getPublicUrl(\OpenCloud\ObjectStore\Constants\UrlType::SSL);
-            } catch (\OpenCloud\ObjectStore\Exception\ObjectNotFoundException $e) {
-                return null;
-            }
-        } else {
-            return url(Storage::url($path));
-        }
+        return Storage::url($path);
     }
 }
