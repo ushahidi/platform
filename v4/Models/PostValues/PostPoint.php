@@ -54,15 +54,34 @@ class PostPoint extends PostValue
     public function getValueAttribute($value)
     {
         $map_config = service('map.config');
+        $authorizer = service('authorizer.post');
+        $user = $authorizer->getUser();
+
+        $postPermissions = new \Ushahidi\Core\Tool\Permissions\PostPermissions();
+        $postPermissions->setAcl($authorizer->acl);
+        /**
+         * if the user cannot read private values then they also can't see hide_time
+         */
+        $excludePrivateValues = !$postPermissions->canUserReadPrivateValues(
+            $user
+        );
+        $hide_location = true;
+        if (!$this->post->survey->hide_location) {
+            $hide_location = false;
+        }
+
+        if (!$excludePrivateValues) {
+            $hide_location = false;
+        }
         try {
             $geometry = WKT::geomFromText($value);
             if ($geometry instanceof Point) {
                 $value = ['lon' => $geometry->lon, 'lat' => $geometry->lat];
-//                @TODO if ($this->hideLocation) {
+                if ($hide_location) {
                     // Round to nearest 0.01 or roughly 500m
-                    $data['value']['lat'] = round($value['lat'], $map_config['location_precision']);
-                    $data['value']['lon'] = round($value['lon'], $map_config['location_precision']);
-//                }
+                    $value['lat'] = round($value['lat'], $map_config['location_precision']);
+                    $value['lon'] = round($value['lon'], $map_config['location_precision']);
+                }
             }
         } catch (InvalidText $e) {
             $value = ['lon' => null, 'lat' => null];
