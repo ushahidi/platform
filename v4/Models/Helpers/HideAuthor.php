@@ -1,9 +1,9 @@
 <?php
 namespace v4\Models\Helpers;
 
-class HideTime
+class HideAuthor
 {
-    public static function hideTime($value, $hide_time)
+    public static function hideAuthor($value, $hide_author)
     {
         if (!$value) {
             return null;
@@ -21,7 +21,7 @@ class HideTime
             $user
         );
 
-        if (!$hide_time) {
+        if (!$hide_author) {
             return $value;
         }
 
@@ -29,7 +29,6 @@ class HideTime
             return $value;
         }
 
-        $d = new \DateTime($value);
-        return $d->setTime(0, 0, 0)->format('Y-m-d H:i:s');
+        return null;
     }
 }

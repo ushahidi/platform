@@ -105,19 +105,13 @@ class PostValue extends Model
      */
     public function getUpdatedAttribute($value)
     {
-        if (!$this->post->survey->hide_time) {
-            return $value;
-        }
-        return HideTime::hideTime($value);
+        return HideTime::hideTime($value, $this->post->survey->hide_time);
     }
     /**
      * @return bool
      */
     public function getCreatedAttribute($value)
     {
-        if (!$this->post->survey->hide_time) {
-            return $value;
-        }
-        return HideTime::hideTime($value);
+        return HideTime::hideTime($value, $this->post->survey->hide_time);
     }
 }//end class

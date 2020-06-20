@@ -13,6 +13,7 @@ use Ushahidi\App\Validator\LegacyValidator;
 use Ushahidi\Core\Entity\Permission;
 use Ushahidi\Core\Tool\Permissions\InteractsWithFormPermissions;
 use Ushahidi\Core\Tool\Permissions\InteractsWithPostPermissions;
+use v4\Models\Helpers\HideAuthor;
 use v4\Models\Helpers\HideTime;
 use v4\Models\Scopes\PostAllowed;
 
@@ -191,15 +192,26 @@ class Post extends ResourceModel
     }//end translations()
 
 
+    public function getUserIdAttribute($value)
+    {
+        return HideAuthor::hideAuthor($value, $this->survey->hide_author);
+    }
+
+    public function getAuthorEmailAttribute($value)
+    {
+        return HideAuthor::hideAuthor($value, $this->survey->hide_author);
+    }
+
+    public function getAuthorRealnameAttribute($value)
+    {
+        return HideAuthor::hideAuthor($value, $this->survey->hide_author);
+    }
     /**
      * @return bool
      */
     public function getPostDateAttribute($value)
     {
-        if (!$this->survey->hide_time) {
-            return $value;
-        }
-        return HideTime::hideTime($value);
+        return HideTime::hideTime($value, $this->survey->hide_time);
     }
 
     /**
@@ -207,20 +219,14 @@ class Post extends ResourceModel
      */
     public function getUpdatedAttribute($value)
     {
-        if (!$this->survey->hide_time) {
-            return $value;
-        }
-        return HideTime::hideTime($value);
+        return HideTime::hideTime($value, $this->survey->hide_time);
     }
     /**
      * @return bool
      */
     public function getCreatedAttribute($value)
     {
-        if (!$this->survey->hide_time) {
-            return $value;
-        }
-        return HideTime::hideTime($value);
+        return HideTime::hideTime($value, $this->survey->hide_time);
     }
 
     public function setPostDateAttribute($value)

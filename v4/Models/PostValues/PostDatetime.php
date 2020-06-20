@@ -39,9 +39,6 @@ class PostDatetime extends PostValue
      */
     public function getValueAttribute($value)
     {
-        if (!$this->post->survey->hide_time) {
-            return $value;
-        }
-        return HideTime::hideTime($value);
+        return HideTime::hideTime($value, $this->post->survey->hide_time);
     }
 }//end class
