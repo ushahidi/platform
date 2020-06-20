@@ -29,4 +29,12 @@ class PostVarchar extends PostValue
         ];
         return [parent::getRules(), $rules];
     }//end getRules()
+
+    /**
+     * @return bool
+     */
+    public function getValueAttribute($value)
+    {
+        return $value;
+    }
 }//end class

@@ -53,12 +53,12 @@ class PostValueAllowed implements Scope
         if ($excludePrivateValues) {
             $builder->where('form_attributes.response_private', '=', 0);
         }
-
-        if ($model->getTable() === 'post_datetime' &&
-            !$postPermissions->acl->hasPermission($user, Permission::MANAGE_POSTS)
-        ) {
-            $builder->where('forms.hide_time', '=', 0);
-        }
+//
+//        if ($model->getTable() === 'post_datetime' &&
+//            !$postPermissions->acl->hasPermission($user, Permission::MANAGE_POSTS)
+//        ) {
+//            $builder->where('forms.hide_time', '=', 0);
+//        }
 
         $formAuthorizer = service('authorizer.form');
         $formPermissions = new \Ushahidi\Core\Tool\Permissions\FormPermissions();
@@ -71,17 +71,6 @@ class PostValueAllowed implements Scope
          * but *it likes to pretend it does* and I don't want to refactor /v3 today.
          */
         if (!$formPermissions->canUserEditForm($user, null)) {
-            $builder->where(function ($builder) use ($user) {
-                return $builder
-                    ->whereNotIn('tags.parent_id', function ($builder) use ($user) {
-                        $builder
-                            ->select('tags.id')
-                            ->from('tags')
-                            ->where('tags.role', 'NOT LIKE', '%\"' . $user->role . '\"%')
-                            ->whereNull('tags.parent_id');
-                    })
-                    ->orWhereNull('tags.parent_id');
-            });
             $builder->where('form_stages.show_when_published', '=', '1');
             $builder->where('form_stages.task_is_internal_only', '=', '0');
         }

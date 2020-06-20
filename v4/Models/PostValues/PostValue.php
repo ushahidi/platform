@@ -2,6 +2,7 @@
 
 namespace v4\Models\PostValues;
 
+use v4\Models\Helpers\HideTime;
 use v4\Models\Scopes\PostValueAllowed;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Validator;
@@ -97,5 +98,26 @@ class PostValue extends Model
     public function post()
     {
         return $this->hasOne('v4\Models\Post', 'id', 'post_id');
+    }
+
+    /**
+     * @return bool
+     */
+    public function getUpdatedAttribute($value)
+    {
+        if (!$this->post->survey->hide_time) {
+            return $value;
+        }
+        return HideTime::hideTime($value);
+    }
+    /**
+     * @return bool
+     */
+    public function getCreatedAttribute($value)
+    {
+        if (!$this->post->survey->hide_time) {
+            return $value;
+        }
+        return HideTime::hideTime($value);
     }
 }//end class

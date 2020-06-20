@@ -13,6 +13,7 @@ use Ushahidi\App\Validator\LegacyValidator;
 use Ushahidi\Core\Entity\Permission;
 use Ushahidi\Core\Tool\Permissions\InteractsWithFormPermissions;
 use Ushahidi\Core\Tool\Permissions\InteractsWithPostPermissions;
+use v4\Models\Helpers\HideTime;
 use v4\Models\Scopes\PostAllowed;
 
 class Post extends ResourceModel
@@ -189,9 +190,37 @@ class Post extends ResourceModel
         return $this->morphMany('v4\Models\Translation', 'translatable');
     }//end translations()
 
+
+    /**
+     * @return bool
+     */
     public function getPostDateAttribute($value)
     {
-        return $value;
+        if (!$this->survey->hide_time) {
+            return $value;
+        }
+        return HideTime::hideTime($value);
+    }
+
+    /**
+     * @return bool
+     */
+    public function getUpdatedAttribute($value)
+    {
+        if (!$this->survey->hide_time) {
+            return $value;
+        }
+        return HideTime::hideTime($value);
+    }
+    /**
+     * @return bool
+     */
+    public function getCreatedAttribute($value)
+    {
+        if (!$this->survey->hide_time) {
+            return $value;
+        }
+        return HideTime::hideTime($value);
     }
 
     public function setPostDateAttribute($value)
@@ -262,6 +291,7 @@ class Post extends ResourceModel
         }
         return Collection::make(array_flatten($values));
     }
+
     /**
      * Post values relationships
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

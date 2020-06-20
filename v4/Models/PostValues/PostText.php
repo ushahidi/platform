@@ -29,4 +29,13 @@ class PostText extends PostValue
         ];
         return [parent::getRules(), $rules];
     }//end getRules()
+
+    /**
+     * @return bool
+     */
+    public function getValueAttribute($value)
+    {
+        $s =$this->post->survey;
+        return $value;
+    }
 }//end class
