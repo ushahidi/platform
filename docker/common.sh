@@ -1,6 +1,15 @@
 #!/bin/bash
 set -e
 
+function copy_dot_env() {
+  if [ -n "$DOTENV_PATH" ] && [ -f "$DOTENV_PATH" ]; then
+    if [ -f .env ]; then
+      echo "NOTICE: replacing .env file with contents from $DOTENV_PATH"
+    fi
+    cat $DOTENV_PATH > .env
+  fi
+}
+
 function check_vols_src() {
   if [ ! -d /vols/src ]; then
     echo "No /vols/src with code"
