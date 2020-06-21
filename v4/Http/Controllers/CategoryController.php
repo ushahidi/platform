@@ -26,15 +26,7 @@ class CategoryController extends V4Controller
     {
         $category = Category::allowed()->with('translations')->find($id);
         if (!$category) {
-            return response()->json(
-                [
-                    'errors' => [
-                        'error'   => 404,
-                        'message' => 'Not found',
-                    ],
-                ],
-                404
-            );
+            return self::make404();
         }
         return new CategoryResource($category);
     }//end show()
@@ -56,7 +48,7 @@ class CategoryController extends V4Controller
      *
      * @TODO   transactions =)
      * @param Request $request
-     * @return CategoryResource
+     * @return \Illuminate\Http\JsonResponse|CategoryResource
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function store(Request $request)
@@ -76,10 +68,10 @@ class CategoryController extends V4Controller
         $category = new Category();
         $id = null;
         if (!$category->validate($input)) {
-            return response()->json($category->errors, 422);
+            return self::make422($category->errors);
         }
-
-        $category = DB::transaction(function () use ($id, $input, $request, $category) {
+        DB::beginTransaction();
+        try {
             $category = Category::create(
                 array_merge(
                     $input,
@@ -88,44 +80,22 @@ class CategoryController extends V4Controller
                     ]
                 )
             );
-            $this->saveTranslations($request->input('translations'), $category->id, 'category');
-            return $category;
-        });
-
-        return new CategoryResource($category);
-    }//end store()
-
-
-    /**
-     * @param  $input
-     * @param  $translatable_id
-     * @param  $type
-     * @return boolean
-     */
-    private function saveTranslations($input, int $translatable_id, string $type)
-    {
-        if (!is_array($input)) {
-            return true;
-        }
-
-        foreach ($input as $language => $translations) {
-            foreach ($translations as $key => $translated) {
-                if (is_array($translated)) {
-                    $translated = json_encode($translated);
-                }
-
-                Translation::create(
-                    [
-                        'translatable_type' => $type,
-                        'translatable_id'   => $translatable_id,
-                        'translated_key'    => $key,
-                        'translation'       => $translated,
-                        'language'          => $language,
-                    ]
-                );
+            $errors = $this->saveTranslations(
+                $category->toArray(),
+                $request->input('translations'),
+                $category->id,
+                'category'
+            );
+            if (!empty($errors)) {
+                return self::make422($errors, 'translation');
             }
+            DB::commit();
+            return new CategoryResource($category);
+        } catch (\Exception $e) {
+            DB::rollback();
+            return self::make500($e->getMessage());
         }
-    }//end saveTranslations()
+    }//end store()
 
 
     /**
@@ -142,45 +112,56 @@ class CategoryController extends V4Controller
         $category = Category::find($id);
 
         if (!$category) {
-            return response()->json(
-                [
-                    'errors' => [
-                        'error'   => 404,
-                        'message' => 'Not found',
-                    ],
-                ],
-                404
-            );
+            return self::make404();
         }
         $this->authorize('update', $category);
 
         $input = $request->input();
         if (!$category->validate($input)) {
-            return response()->json($category->errors, 422);
+            return self::make422($category->errors);
         }
-        $category = DB::transaction(function () use ($id, $input, $request, $category) {
+        DB::beginTransaction();
+        try {
             $category->update($request->input());
-            $this->updateTranslations($request->input('translations'), $category->id, 'category');
-            return $category;
-        });
-        return new CategoryResource($category);
+
+            $errors = $this->updateTranslations(
+                $category->toArray(),
+                $request->input('translations'),
+                $category->id,
+                'category'
+            );
+            if (!empty($errors)) {
+                return self::make422($errors, 'translation');
+            }
+            DB::commit();
+            return new CategoryResource($category);
+        } catch (\Exception $e) {
+            DB::rollback();
+            return self::make500($e->getMessage());
+        }
     }//end update()
 
 
     /**
-     * @param  $input
-     * @param  $translatable_id
-     * @param  $type
-     * @return boolean
+     * @param array $entity_array
+     * @param array $translation_input
+     * @param int $translatable_id
+     * @param string $type
+     * @return array
      */
-    private function updateTranslations($input, int $translatable_id, string $type)
+    private function saveTranslations(array $entity_array, array $translation_input, int $translatable_id, string $type)
     {
-        if (!is_array($input)) {
-            return true;
+        if (!is_array($translation_input)) {
+            return [];
         }
-
-        Translation::where('translatable_id', $translatable_id)->where('translatable_type', $type)->delete();
-        foreach ($input as $language => $translations) {
+        $category = new Category();
+        $errors = [];
+        foreach ($translation_input as $language => $translations) {
+            $validation_errors = $this->validateTranslations($category, $entity_array, $translations);
+            if (!empty($validation_errors)) {
+                $errors[$language] = $validation_errors;
+                continue;
+            }
             foreach ($translations as $key => $translated) {
                 if (is_array($translated)) {
                     $translated = json_encode($translated);
@@ -197,6 +178,41 @@ class CategoryController extends V4Controller
                 );
             }
         }
+        return $errors;
+    }//end saveTranslations()
+
+    /**
+     * @param array $entity_array
+     * @param array $translation_input
+     */
+    private function validateTranslations(Category $category, $entity_array, array $translations)
+    {
+        $entity_array = array_merge($entity_array, $translations);
+        $entity_array['slug'] = Category::makeSlug($entity_array['slug']);
+        if (!$category->validate($entity_array)) {
+            return $category->errors->toArray();
+        }
+        return [];
+    }
+
+    /**
+     * @param array $entity_array
+     * @param array $translation_input
+     * @param int $translatable_id
+     * @param string $type
+     * @return array
+     */
+    private function updateTranslations(
+        array $entity_array,
+        array $translation_input,
+        int $translatable_id,
+        string $type
+    ) {
+        if (!is_array($translation_input)) {
+            return [];
+        }
+        Translation::where('translatable_id', $translatable_id)->where('translatable_type', $type)->delete();
+        return $this->saveTranslations($entity_array, $translation_input, $translatable_id, $type);
     }//end updateTranslations()
 
 
@@ -215,15 +231,7 @@ class CategoryController extends V4Controller
         if ($success) {
             return response()->json(['result' => ['deleted' => $id]]);
         } else {
-            return response()->json(
-                [
-                    'errors' => [
-                        'error'   => 500,
-                        'message' => 'Could not delete model',
-                    ],
-                ],
-                500
-            );
+            return self::make500('Could not delete model');
         }
     }//end delete()
 }//end class
