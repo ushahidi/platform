@@ -28,7 +28,7 @@ class MorphServiceProvider extends ServiceProvider
             'post_value_relation' => 'v4\Models\PostValues\PostRelation',
             'post_value_posts_media' => 'v4\Models\PostValues\PostsMedia',
             'post_value_posts_set' => 'v4\Models\PostValues\PostsSet',
-            'post_value_posts_tag' => 'v4\Models\PostValues\PostsTag'
+            'post_value_posts_tag' => 'v4\Models\PostValues\PostTag'
         ]);
     }
 }

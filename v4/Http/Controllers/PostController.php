@@ -103,7 +103,7 @@ class PostController extends V4Controller
             if (isset($input['completed_stages'])) {
                 $this->savePostStages($post, $input['completed_stages']);
             }
-            $this->savePostValues($post_values, $post->id);
+            $this->savePostValues($post, $post_values, $post->id);
             $this->saveTranslations($request->input('translations'), $post->id, 'post');
             DB::commit();
         } catch (\Exception $e) {
@@ -128,7 +128,7 @@ class PostController extends V4Controller
             $post->postStages()->create(['post_id' => $post, 'form_stage_id' => $stage_id, 'completed' => 1]);
         }
     }
-    protected function savePostValues(array $post_content, int $post_id)
+    protected function savePostValues(Post $post, array $post_content, int $post_id)
     {
         foreach ($post_content as $stage) {
             if (!isset($stage['fields'])) {
@@ -141,35 +141,53 @@ class PostController extends V4Controller
                 $value = $field['value'];
                 $type = $field['type'];
 
-                $class_name = "v4\Models\PostValues\Post" . ucfirst($type);
-                if (!class_exists($class_name)) {
-                    throw new \Exception("Type '$type' is invalid.");
-                }
-                $post_value = new $class_name();
+                if ($type === 'tags') {
+                    $type = $type === 'tags' ? 'tag' : $type;
+                    $this->savePostTags($post, $field['id'], $field['value']);
+                } else {
+                    $class_name = "v4\Models\PostValues\Post" . ucfirst($type);
+                    if (!class_exists($class_name)) {
+                        throw new \Exception("Type '$type' is invalid.");
+                    }
+                    $post_value = new $class_name();
 
-                if ($type === 'point') {
-                    $value = \DB::raw("GeomFromText('POINT({$value['lat']} {$value['lon']})')");
-                }
+                    if ($type === 'point') {
+                        $value = \DB::raw("GeomFromText('POINT({$value['lat']} {$value['lon']})')");
+                    }
 
-                if ($type === 'geometry') {
-                    $value = \DB::raw("GeomFromText('$value')");
-                }
+                    if ($type === 'geometry') {
+                        $value = \DB::raw("GeomFromText('$value')");
+                    }
 
-                $data = [
-                    'post_id' => $post_id,
-                    'form_attribute_id' => $field['id'],
-                    'value' => $value
-                ];
-                $validation = $post_value->validate([
-                    'post_id' => $post_id,
-                    'form_attribute_id' => $field['id'],
-                    'value' => $value
-                ]);
-                if ($validation) {
-                    $field_value = get_class($post_value)::create($data);
-                    $this->saveTranslations($field['translations'], $field_value->id, "post_value_$type");
+                    $data = [
+                        'post_id' => $post_id,
+                        'form_attribute_id' => $field['id'],
+                        'value' => $value
+                    ];
+                    $validation = $post_value->validate([
+                        'post_id' => $post_id,
+                        'form_attribute_id' => $field['id'],
+                        'value' => $value
+                    ]);
+                    if ($validation) {
+                        $field_value = get_class($post_value)::create($data);
+                        $this->saveTranslations($field['translations'], $field_value->id, "post_value_$type");
+                    }
                 }
             }
+        }
+    }
+    protected function savePostTags($post, $attr_id, $tags)
+    {
+        $post->valuesPostTag()->delete();
+        foreach ($tags as $tag_id) {
+            $post->valuesPostTag()->create(
+                [
+                    'post_id' => $post->id,
+                    'form_attribute_id' => $attr_id->id,
+                    'tag_id' => $tag_id
+                ]
+            );
         }
     }
 

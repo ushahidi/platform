@@ -39,6 +39,12 @@ class PostDatetime extends PostValue
      */
     public function getValueAttribute($value)
     {
-        return HideTime::hideTime($value, $this->post->survey->hide_time);
+        return HideTime::hideTime($value, $this->post->survey ? $this->post->survey->hide_time : true);
+    }
+    public function setValueAttribute($value)
+    {
+        if (isset($value)) {
+            $this->attributes['value'] =  date("Y-m-d H:i:s", strtotime($value));
+        }
     }
 }//end class

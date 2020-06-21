@@ -109,6 +109,7 @@ class Post extends ResourceModel
         'hide_author'         => 'boolean',
         'require_approval'    => 'boolean',
         'disabled'            => 'boolean',
+        'published_to'        => 'json'
     ];
 
 
@@ -194,24 +195,24 @@ class Post extends ResourceModel
 
     public function getUserIdAttribute($value)
     {
-        return HideAuthor::hideAuthor($value, $this->survey->hide_author);
+        return HideAuthor::hideAuthor($value, $this->survey ? $this->survey->hide_author : true);
     }
 
     public function getAuthorEmailAttribute($value)
     {
-        return HideAuthor::hideAuthor($value, $this->survey->hide_author);
+        return HideAuthor::hideAuthor($value, $this->survey ? $this->survey->hide_author : true);
     }
 
     public function getAuthorRealnameAttribute($value)
     {
-        return HideAuthor::hideAuthor($value, $this->survey->hide_author);
+        return HideAuthor::hideAuthor($value, $this->survey ? $this->survey->hide_author : true);
     }
     /**
      * @return bool
      */
     public function getPostDateAttribute($value)
     {
-        return HideTime::hideTime($value, $this->survey->hide_time);
+        return HideTime::hideTime($value, $this->survey ? $this->survey->hide_time : true);
     }
 
     /**
@@ -219,14 +220,14 @@ class Post extends ResourceModel
      */
     public function getUpdatedAttribute($value)
     {
-        return HideTime::hideTime($value, $this->survey->hide_time);
+        return HideTime::hideTime($value, $this->survey ? $this->survey->hide_time : true);
     }
     /**
      * @return bool
      */
     public function getCreatedAttribute($value)
     {
-        return HideTime::hideTime($value, $this->survey->hide_time);
+        return HideTime::hideTime($value, $this->survey ? $this->survey->hide_time : true);
     }
 
     public function setPostDateAttribute($value)
@@ -289,7 +290,7 @@ class Post extends ResourceModel
             'Relation',
             'PostsMedia',
             'PostsSet',
-            'PostsTag'
+            'PostTag'
         ];
         $values = [];
         foreach ($value_types as $type) {
@@ -373,9 +374,9 @@ class Post extends ResourceModel
             ->select('posts_sets.*');
     }
 
-    public function valuesPostsTag()
+    public function valuesPostTag()
     {
-        return $this->hasMany('v4\Models\PostValues\PostsTag', 'post_id', 'id')
+        return $this->hasMany('v4\Models\PostValues\PostTag', 'post_id', 'id')
             ->select('posts_tags.*');
     }
 

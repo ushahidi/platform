@@ -66,7 +66,7 @@ class PostPoint extends PostValue
             $user
         );
         $hide_location = true;
-        if (!$this->post->survey->hide_location) {
+        if ($this->post->survey && !$this->post->survey->hide_location) {
             $hide_location = false;
         }
 
