@@ -27,7 +27,9 @@ class PostValueCollection extends ResourceCollection
     {
         $tasks = new Collection();
         $this->collection->each(function ($item, $key) use ($tasks) {
-            $tasks->push($item->attribute->stage);
+            if ($item->attribute) {
+                $tasks->push($item->attribute->stage);
+            }
         });
         $tasks = $tasks->unique()->sortBy('priority')->values();
 
@@ -35,7 +37,6 @@ class PostValueCollection extends ResourceCollection
             return [$item->attribute->form_stage_id => $item];
         });
         $tasks = $tasks->map(function ($task, $key) use ($grouped) {
-
             $fields = $task->fields->sortBy('priority')->values();
             $values_by_task = $grouped->get($task->id);
             $task = $task->toArray();

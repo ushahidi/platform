@@ -28,8 +28,14 @@ class HideTime
         if (!$excludePrivateValues) {
             return $value;
         }
-
-        $d = new \DateTime($value);
+        $d = new \DateTime();
+        try {
+            $d = new \DateTime($value);
+        } catch (\Exception $e) {
+            if (is_numeric($value)) {
+                $d->setTimestamp($value);
+            }
+        }
         return $d->setTime(0, 0, 0)->format('Y-m-d H:i:s');
     }
 }

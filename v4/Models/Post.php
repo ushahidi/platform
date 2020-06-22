@@ -289,7 +289,7 @@ class Post extends ResourceModel
             'Point',
             'Relation',
             'PostsMedia',
-            'PostsSet',
+//            'PostsSet',
             'PostTag'
         ];
         $values = [];
