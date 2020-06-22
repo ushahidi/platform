@@ -199,7 +199,7 @@ class PostController extends V4Controller
             $post->valuesPostTag()->create(
                 [
                     'post_id' => $post->id,
-                    'form_attribute_id' => $attr_id->id,
+                    'form_attribute_id' => $attr_id,
                     'tag_id' => $tag_id
                 ]
             );
