@@ -41,9 +41,10 @@ class PostValueCollection extends ResourceCollection
             $task = $task->toArray();
 
             $task['fields'] = $fields->map(function ($field, $key) use ($values_by_task) {
-                $field->content = $values_by_task->filter(function ($value, $key) use ($field) {
-                    return $value->form_attribute_id == $field->id;
-                })->values();
+                $field = $field->toArray();
+                $field['value'] = $values_by_task->filter(function ($value, $key) use ($field) {
+                    return $value->form_attribute_id == $field['id'];
+                })->values()->first();
                 return $field;
             });
             return $task;
