@@ -28,15 +28,7 @@ class SurveyController extends V4Controller
     {
         $survey = Survey::with('translations')->find($id);
         if (!$survey) {
-            return response()->json(
-                [
-                    'errors' => [
-                        'error'   => 404,
-                        'message' => 'Not found',
-                    ],
-                ],
-                404
-            );
+            return self::make404();
         }
 
         return new SurveyResource($survey);
@@ -164,28 +156,12 @@ class SurveyController extends V4Controller
     {
         $survey = Survey::find($id);
         if (!$survey) {
-            return response()->json(
-                [
-                    'errors' => [
-                        'error'   => 404,
-                        'message' => 'Not found',
-                    ],
-                ],
-                404
-            );
+            return self::make404();
         }
 
         $this->authorize('update', $survey);
         if (!$survey) {
-            return response()->json(
-                [
-                    'errors' => [
-                        'error'   => 404,
-                        'message' => 'Not found',
-                    ],
-                ],
-                404
-            );
+            return self::make404();
         }
 
         $this->validate($request, Survey::getRules(), Survey::validationMessages());

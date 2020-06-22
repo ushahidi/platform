@@ -135,7 +135,7 @@ Feature: Testing the Surveys API
         And that its "id" is "440"
         When I request "/surveys"
         Then the response is JSON
-        And the response has a "errors" property
+        And the response has a "error" property
         Then the guzzle status code should be 404
 
     Scenario: Listing All Surveys
@@ -176,5 +176,5 @@ Feature: Testing the Surveys API
         And that its "id" is "1"
         When I request "/surveys"
         Then the response is JSON
-        And the response has a "errors" property
+        And the response has a "error" property
         Then the guzzle status code should be 404

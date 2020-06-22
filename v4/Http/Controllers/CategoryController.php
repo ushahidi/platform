@@ -64,6 +64,9 @@ class CategoryController extends V4Controller
             $this->authorize('store', Category::class);
         }
         $input = $request->input();
+        if (empty($input)) {
+            return self::make500('POST body cannot be empty');
+        }
         $input['slug'] = Category::makeSlug($input['slug'] ?? $input['tag']);
         $category = new Category();
         $id = null;
@@ -117,9 +120,15 @@ class CategoryController extends V4Controller
         $this->authorize('update', $category);
 
         $input = $request->input();
+
+        if (empty($input)) {
+            return self::make500('POST body cannot be empty');
+        }
+
         if (!$category->validate($input)) {
             return self::make422($category->errors);
         }
+
         DB::beginTransaction();
         try {
             $category->update($request->input());

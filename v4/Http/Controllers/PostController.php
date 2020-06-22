@@ -32,15 +32,7 @@ class PostController extends V4Controller
     {
         $post = Post::with('translations')->find($id);
         if (!$post) {
-            return response()->json(
-                [
-                    'errors' => [
-                        'error'   => 404,
-                        'message' => 'Not found',
-                    ],
-                ],
-                404
-            );
+            return self::make404();
         }
 
         return new PostResource($post);
@@ -88,7 +80,7 @@ class PostController extends V4Controller
         $post = new Post();
         $id = null;
         if (!$post->validate($input)) {
-            return response()->json($post->errors, 422);
+            return self::make422($post->errors);
         }
         DB::beginTransaction();
         try {
@@ -108,15 +100,7 @@ class PostController extends V4Controller
             DB::commit();
         } catch (\Exception $e) {
             DB::rollback();
-            return response()->json(
-                [
-                    'errors' => [
-                        'error'   => 500,
-                        'message' => $e->getMessage(),
-                    ],
-                ],
-                500
-            );
+            return self::make500($e->getMessage());
         }
         return new PostResource($post);
     }//end store()
@@ -237,21 +221,13 @@ class PostController extends V4Controller
         $post = Post::find($id);
 
         if (!$post) {
-            return response()->json(
-                [
-                    'errors' => [
-                        'error'   => 404,
-                        'message' => 'Not found',
-                    ],
-                ],
-                404
-            );
+            return self::make404();
         }
         $this->authorize('update', $post);
 
         $input = $request->input();
         if (!$post->validate($input)) {
-            return response()->json($post->errors, 422);
+            return self::make422($post->errors);
         }
         $post = DB::transaction(function () use ($id, $input, $request, $post) {
             $post->update($request->input());
@@ -309,15 +285,7 @@ class PostController extends V4Controller
         if ($success) {
             return response()->json(['result' => ['deleted' => $id]]);
         } else {
-            return response()->json(
-                [
-                    'errors' => [
-                        'error'   => 500,
-                        'message' => 'Could not delete model',
-                    ],
-                ],
-                500
-            );
+            return self::make500('Could not delete model');
         }
     }//end delete()
 }//end class

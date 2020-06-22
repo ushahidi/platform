@@ -17,7 +17,7 @@ class V4Controller extends BaseController
     {
         return response()->json(
             [
-                'error'   => 404,
+                'error'   => 500,
                 'message' => $message ?? 'Not found',
             ],
             500
