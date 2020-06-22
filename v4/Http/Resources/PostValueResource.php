@@ -15,10 +15,14 @@ class PostValueResource extends Resource
      */
     public function toArray($request)
     {
+        $value = $this->value;
+        if ($this->tag_id) {
+            $value = $this->tag_id;
+        }
         return [
             'id' => $this->id,
             'post_id' => $this->post_id,
-            'value' => $this->value,
+            'value' => $value,
             'form_attribute_id' => $this->form_attribute_id,
 //            'stage' => $this->attribute->stage,
             'created' => $this->created,

@@ -157,7 +157,7 @@ class PostController extends V4Controller
                 $type = $field['type'];
 
                 if ($type === 'tags') {
-                    $type = $type === 'tags' ? 'tag' : $type;
+                    $type === 'tags' ? 'tag' : $type;
                     $this->savePostTags($post, $field['id'], $field['value']);
                 } else {
                     $class_name = "v4\Models\PostValues\Post" . ucfirst($type);

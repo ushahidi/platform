@@ -46,7 +46,10 @@ class PostValueCollection extends ResourceCollection
                 $field = $field->toArray();
                 $field['value'] = $values_by_task->filter(function ($value, $key) use ($field) {
                     return $value->form_attribute_id == $field['id'];
-                })->values()->first();
+                })->values();
+                if ($field['type'] !== 'tags') {
+                    $field['value'] = $field['value']->first();
+                }
                 return $field;
             });
             return $task;
