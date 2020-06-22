@@ -54,7 +54,6 @@ class PostController extends V4Controller
     /**
      * Display the specified resource.
      *
-     * @TODO   transactions =)
      * @param Request $request
      * @return PostResource|JsonResponse
      * @throws \Illuminate\Auth\Access\AuthorizationException
@@ -86,10 +85,7 @@ class PostController extends V4Controller
         try {
             $post = Post::create(
                 array_merge(
-                    $input,
-                    [
-                        'created' => time()
-                    ]
+                    $input
                 )
             );
             if (isset($input['completed_stages'])) {
@@ -105,6 +101,40 @@ class PostController extends V4Controller
         return new PostResource($post);
     }//end store()
 
+    /**
+     * Display the specified resource.
+     *
+     * @TODO   transactions =)
+     * @param integer $id
+     * @param Request $request
+     * @return mixed
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
+    public function update(int $id, Request $request)
+    {
+        $post = Post::find($id);
+
+        if (!$post) {
+            return self::make404();
+        }
+        $this->authorize('update', $post);
+
+        $input = $request->input();
+        if (!$post->validate($input)) {
+            return self::make422($post->errors);
+        }
+        DB::beginTransaction();
+        try {
+            $post->update($request->input());
+            $this->updateTranslations($request->input('translations'), $post->id, 'post');
+            DB::commit();
+            return new PostResource($post);
+        } catch (\Exception $e) {
+            DB::rollback();
+            return self::make500($e->getMessage());
+        }
+    }//end update()
+
     protected function savePostStages($post, $completed)
     {
         $post->postStages()->delete();
@@ -112,6 +142,7 @@ class PostController extends V4Controller
             $post->postStages()->create(['post_id' => $post, 'form_stage_id' => $stage_id, 'completed' => 1]);
         }
     }
+
     protected function savePostValues(Post $post, array $post_content, int $post_id)
     {
         foreach ($post_content as $stage) {
@@ -205,37 +236,6 @@ class PostController extends V4Controller
             }
         }
     }//end saveTranslations()
-
-
-    /**
-     * Display the specified resource.
-     *
-     * @TODO   transactions =)
-     * @param integer $id
-     * @param Request $request
-     * @return mixed
-     * @throws \Illuminate\Auth\Access\AuthorizationException
-     */
-    public function update(int $id, Request $request)
-    {
-        $post = Post::find($id);
-
-        if (!$post) {
-            return self::make404();
-        }
-        $this->authorize('update', $post);
-
-        $input = $request->input();
-        if (!$post->validate($input)) {
-            return self::make422($post->errors);
-        }
-        $post = DB::transaction(function () use ($id, $input, $request, $post) {
-            $post->update($request->input());
-            $this->updateTranslations($request->input('translations'), $post->id, 'post');
-            return $post;
-        });
-        return new PostResource($post);
-    }//end update()
 
 
     /**

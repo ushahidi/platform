@@ -49,4 +49,17 @@ class ResourceModel extends Model
 
         return $value;
     }
+
+    /**
+     * @param $time timestamp
+     */
+    protected static function makeDate($time)
+    {
+        if (is_numeric($time) && !!$time) {
+            $d = new \DateTime();
+            $d->setTimestamp($time);
+            return $d->setTime(0, 0, 0)->format('Y-m-d H:i:s');
+        }
+        return $time;
+    }
 }

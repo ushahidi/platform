@@ -36,6 +36,7 @@ class PostValueCollection extends ResourceCollection
         $grouped = $this->collection->mapToGroups(function ($item) {
             return [$item->attribute->form_stage_id => $item];
         });
+
         $tasks = $tasks->map(function ($task, $key) use ($grouped) {
             $fields = $task->fields->sortBy('priority')->values();
             $values_by_task = $grouped->get($task->id);

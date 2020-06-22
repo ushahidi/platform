@@ -20,13 +20,15 @@ use v4\Models\Scopes\PostAllowed;
 class Post extends ResourceModel
 {
     use InteractsWithPostPermissions;
-
+    const CREATED_AT = 'created';
+    const UPDATED_AT = 'updated';
+    protected $dateFormat = 'U';
     /**
      * Add eloquent style timestamps
      *
      * @var boolean
      */
-    public $timestamps = false;
+    public $timestamps = true;
 
     /**
      * Specify the table to load with Survey
@@ -48,13 +50,6 @@ class Post extends ResourceModel
      * @var  array
      */
     protected $hidden = [
-        /**
-         * @TODO this needs to be checked and flipped for admins who can see everything
-         * and flipped when author and date info isn't private
-         */
-        'author',
-        'created',
-        'updated'
     ];
 
     /**
@@ -84,7 +79,7 @@ class Post extends ResourceModel
         'published_to',
         'locale',
         'post_date',
-        'base_language',
+        'base_language'
     ];
 
     /**
@@ -220,14 +215,16 @@ class Post extends ResourceModel
      */
     public function getUpdatedAttribute($value)
     {
-        return HideTime::hideTime($value, $this->survey ? $this->survey->hide_time : true);
+        $time = HideTime::hideTime($value, $this->survey ? $this->survey->hide_time : true);
+        return self::makeDate($time);
     }
     /**
      * @return bool
      */
     public function getCreatedAttribute($value)
     {
-        return HideTime::hideTime($value, $this->survey ? $this->survey->hide_time : true);
+        $time = HideTime::hideTime($value, $this->survey ? $this->survey->hide_time : true);
+        return self::makeDate($time);
     }
 
     public function setPostDateAttribute($value)
