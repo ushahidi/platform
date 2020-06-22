@@ -42,7 +42,7 @@ class ResourceModel extends Model
         $slug = Str::slug($value);
 
         // check to see if any other slugs exist that are the same & count them
-        $count = static::whereRaw("slug RLIKE '^{$slug}(-[0-9]+)?$'")->count() +1 ;
+        $count = static::whereRaw("slug RLIKE '^{$slug}(-[0-9]+)?$'")->count();
 
         // if other slugs exist that are the same, append the count to the slug
         $value = $count ? "{$slug}-{$count}" : $slug;

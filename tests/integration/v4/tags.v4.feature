@@ -96,10 +96,8 @@ Feature: Testing the Categories API
             """
         When I request "/categories"
         Then the response is JSON
-        And the response has a "slug" property
-        And the "slug.0" property equals "Slug must be unique"
-        And the response has a "tag" property
-        And the "tag.0" property equals "Tag must be unique"
+        And the response has a "messages.tag" property
+        And the "messages.tag.0" property equals "Tag must be unique"
         Then the guzzle status code should be 422
     Scenario: Creating a child tag with the wrong role for its parent
         Given that I want to make a new "Category"
@@ -119,10 +117,10 @@ Feature: Testing the Categories API
             """
         When I request "/categories"
         Then the response is JSON
-        And the response has a "role" property
-        And the "role.0" property equals "The child category role must be the same as the parent role."
+        And the response has a "messages.role" property
+        And the "messages.role.0" property equals "The child category role must be the same as the parent role."
         Then the guzzle status code should be 422
-    Scenario: Creating a tag with a duplicate slug
+    Scenario: Creating a tag with a duplicate slug is not possible
         Given that I want to make a new "Category"
         And that the oauth token is "testadminuser"
         And that the api_url is "api/v4"
@@ -141,9 +139,9 @@ Feature: Testing the Categories API
             """
         When I request "/categories"
         Then the response is JSON
-        And the response has a "slug" property
-        And the "slug.0" property equals "Slug must be unique"
-        Then the guzzle status code should be 422
+        And the response has a "result.slug" property
+        And the "result.slug" property equals "boxes-1"
+        Then the guzzle status code should be 201
     Scenario: Creating a tag with a long name fails
         Given that I want to make a new "Category"
         And that the oauth token is "testadminuser"
@@ -162,8 +160,8 @@ Feature: Testing the Categories API
             """
         When I request "/categories"
         Then the response is JSON
-        And the response has a "tag" property
-        And the "tag.0" property equals "Tag must not exceed 255 characters long"
+        And the response has a "messages.tag" property
+        And the "messages.tag.0" property equals "Tag must not exceed 255 characters long"
         Then the guzzle status code should be 422
 
     Scenario: Check slug is generated on new tag
@@ -231,8 +229,8 @@ Feature: Testing the Categories API
             """
         When I request "/categories"
         Then the response is JSON
-        And the response has a "parent_id" property
-        And the "parent_id.0" property equals "Parent category must exist"
+        And the response has a "messages.parent_id" property
+        And the "messages.parent_id.0" property equals "Parent category must exist"
         Then the guzzle status code should be 422
 
     Scenario: Creating a tag with no parent_id works
@@ -312,7 +310,7 @@ Feature: Testing the Categories API
         And that its "id" is "40"
         When I request "/categories"
         Then the response is JSON
-        And the response has a "errors" property
+        And the response has a "error" property
         Then the guzzle status code should be 404
 
     @resetFixture
@@ -441,7 +439,7 @@ Feature: Testing the Categories API
         And that its "id" is "1333"
         When I request "/categories"
         Then the response is JSON
-        And the response has a "errors" property
+        And the response has a "error" property
         Then the guzzle status code should be 404
 
     Scenario: Deleting a Tag

@@ -30,6 +30,30 @@ function provision_passport_keys() {
   fi
 }
 
+function touch_logs() {
+  # Archive previous logs , start with new files for current run
+  for f in lumen.log worker.log; do
+    if [ -f "storage/logs/${f}" ]; then
+      cat "storage/logs/${f}" >> storage/logs/${f}.archive
+    fi
+    truncate -s 0 storage/logs/${f}
+  done
+}
+
+function dump_logs() {
+  echo
+  echo "---> [i] Dump of lumen logs"
+  echo
+  for f in lumen.log worker.log; do
+    if [ -f "storage/logs/${f}" ] && [ `stat -c %s "storage/logs/${f}"` -gt 0 ]; then
+      echo "---- ${f} ----"
+      cat storage/logs/${f}
+    fi
+  done
+  echo "---------------------------"
+  echo
+}
+
 function set_storage_permissions() {
   chown -R www-data storage/
 }

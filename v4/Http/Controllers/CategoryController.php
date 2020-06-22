@@ -82,7 +82,7 @@ class CategoryController extends V4Controller
             );
             $errors = $this->saveTranslations(
                 $category->toArray(),
-                $request->input('translations'),
+                $request->input('translations') ?? [],
                 $category->id,
                 'category'
             );
@@ -126,7 +126,7 @@ class CategoryController extends V4Controller
 
             $errors = $this->updateTranslations(
                 $category->toArray(),
-                $request->input('translations'),
+                $request->input('translations') ?? [],
                 $category->id,
                 'category'
             );
