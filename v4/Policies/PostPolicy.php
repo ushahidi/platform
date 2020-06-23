@@ -5,6 +5,8 @@ namespace v4\Policies;
 use Ushahidi\App\Auth\GenericUser as User;
 use Ushahidi\Core\Entity;
 use v4\Models\Survey;
+use v4\Models\Post;
+
 use Ushahidi\Core\Entity\Permission;
 use Ushahidi\Core\Traits\AdminAccess;
 use Ushahidi\Core\Traits\UserContext;
@@ -75,11 +77,11 @@ class PostPolicy
      * @param Survey $survey
      * @return bool
      */
-    public function update(User $user, Survey $survey)
+    public function update(User $user, Post $post)
     {
+        $post = new Entity\Post($post->toArray());
         // we convert to a form entity to be able to continue using the old authorizers and classes.
-        $form = new Entity\Form($survey->toArray());
-        return $this->isAllowed($form, 'update');
+        return $this->isAllowed($post, 'update');
     }
 
 

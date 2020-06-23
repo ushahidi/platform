@@ -20,15 +20,12 @@ use v4\Models\Scopes\PostAllowed;
 class Post extends ResourceModel
 {
     use InteractsWithPostPermissions;
-    const CREATED_AT = 'created';
-    const UPDATED_AT = 'updated';
-    protected $dateFormat = 'U';
     /**
      * Add eloquent style timestamps
      *
      * @var boolean
      */
-    public $timestamps = true;
+    public $timestamps = false;
 
     /**
      * Specify the table to load with Survey
@@ -53,17 +50,6 @@ class Post extends ResourceModel
     ];
 
     /**
-     * The attributes that should be mutated to dates.
-     *
-     * @var array
-     */
-    protected $dates = [
-        'created',
-        'updated',
-        'post_date'
-    ];
-
-    /**
      * @var array
     */
     protected $fillable = [
@@ -79,7 +65,9 @@ class Post extends ResourceModel
         'published_to',
         'locale',
         'post_date',
-        'base_language'
+        'base_language',
+        'created',
+        'updated'
     ];
 
     /**
@@ -162,8 +150,8 @@ class Post extends ResourceModel
             'content' => [
                 'string'
             ],
-            'author_email' => ['email', 'max:150'],
-            'author_realname' => ['string', 'max:150'],
+            'author_email' => 'nullable|sometimes|email|max:150',
+            'author_realname' => 'nullable|sometimes|max:150',
             'status' => [
                 'required',
                 Rule::in(

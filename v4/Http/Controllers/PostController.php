@@ -76,6 +76,9 @@ class PostController extends V4Controller
         $post_values = $input['post_content'];
 
         $input['slug'] = Post::makeSlug($input['slug'] ?? $input['title']);
+        $input['user_id'] = $input['user_id'] ?? $user->getId();
+        $input['author_email'] = $input['author_email'] ?? $user->email;
+        $input['author_realname'] = $input['author_realname'] ?? $user->realname;
         $post = new Post();
         $id = null;
         if (!$post->validate($input)) {
@@ -85,7 +88,8 @@ class PostController extends V4Controller
         try {
             $post = Post::create(
                 array_merge(
-                    $input
+                    $input,
+                    ['created' => time()]
                 )
             );
             if (isset($input['completed_stages'])) {
@@ -101,6 +105,28 @@ class PostController extends V4Controller
         return new PostResource($post);
     }//end store()
 
+    /**
+     * Not all fields are things we want to allow on the body of requests
+     * an author won't change after the fact so we limit that change
+     * to avoid issues from the frontend.
+     * @return string[]
+     */
+    private function ignoreInput()
+    {
+        return ['author_email', 'user_id', 'author_realname', 'created', 'updated'];
+    }
+
+    private function ignoreFields($input)
+    {
+        $return = $input;
+        $ignore = $this->ignoreInput();
+        foreach ($input as $key => $item) {
+            if (in_array($key, $ignore)) {
+                unset($return[$key]);
+            }
+        }
+        return $return;
+    }
     /**
      * Display the specified resource.
      *
@@ -118,14 +144,13 @@ class PostController extends V4Controller
             return self::make404();
         }
         $this->authorize('update', $post);
-
-        $input = $request->input();
+        $input = $this->ignoreFields($request->input());
         if (!$post->validate($input)) {
             return self::make422($post->errors);
         }
         DB::beginTransaction();
         try {
-            $post->update($request->input());
+            $post->update(array_merge($input, ['updated' => time()]));
             $this->updateTranslations($request->input('translations'), $post->id, 'post');
             DB::commit();
             return new PostResource($post);
