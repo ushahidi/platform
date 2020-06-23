@@ -175,15 +175,15 @@ class PostController extends V4Controller
                 continue;
             }
             foreach ($stage['fields'] as $field) {
-                if (!isset($field['value'])) {
+                if (!isset($field['value']) || !isset($field['value']['value'])) {
                     continue;
                 }
-                $value = $field['value'];
+                $value = $field['value']['value'];
                 $type = $field['type'];
 
                 if ($type === 'tags') {
                     $type === 'tags' ? 'tag' : $type;
-                    $this->savePostTags($post, $field['id'], $field['value']);
+                    $this->savePostTags($post, $field['id'], $value);
                 } else {
                     $class_name = "v4\Models\PostValues\Post" . ucfirst($type);
                     if (!class_exists($class_name)) {
