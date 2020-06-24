@@ -191,9 +191,9 @@ class PostController extends V4Controller
                 if (!isset($field['value']) || !isset($field['value']['value'])) {
                     continue;
                 }
-                $update_id = isset($field['value']['id']) ?? null;
+                $update_id = isset($field['value']['id']) ? $field['value']['id'] : null;
                 $value = $field['value']['value'];
-                $value_translations = isset($field['value']['translations']) ?? null;
+                $value_translations = isset($field['value']['translations']) ? $field['value']['translations'] : null;
                 $type = $field['type'];
 
                 if ($type === 'tags') {
