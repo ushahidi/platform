@@ -15,6 +15,7 @@ class PostValue extends Model
      * @var boolean
      */
     public $timestamps = false;
+    public $with = ['translations'];
 
     /**
      * The attributes that should be mutated to dates.

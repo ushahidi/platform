@@ -16,6 +16,8 @@ class PostValueResource extends Resource
     public function toArray($request)
     {
         $value = $this->value;
+        $value_translations = $this->translations;
+
         if ($this->tag_id) {
             $value = $this->tag_id;
         }
@@ -24,10 +26,8 @@ class PostValueResource extends Resource
             'post_id' => $this->post_id,
             'value' => $value,
             'form_attribute_id' => $this->form_attribute_id,
-//            'stage' => $this->attribute->stage,
             'created' => $this->created,
-//            'attribute' => $this->attribute,
-            'translations' => $this->translations ? new TranslationCollection($this->translations) : []
+            'translations' => $this->translations ? new TranslationCollection($value_translations) : []
         ];
     }
 }

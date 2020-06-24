@@ -260,7 +260,7 @@ class Post extends ResourceModel
         return $this->hasMany('v4\Models\Comment', 'post_id', 'id');
     }
 
-    public function values()
+    public function getPostValues()
     {
         $value_types = [
             'Varchar',

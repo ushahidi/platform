@@ -6,7 +6,10 @@ use Illuminate\Auth\Access\Gate;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\Resource;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
+use Ushahidi\App\Auth\GenericUser;
 use Ushahidi\App\Validator\LegacyValidator;
+use Ushahidi\Core\Entity\User;
 use v4\Http\Resources\CategoryCollection;
 use v4\Http\Resources\CategoryResource;
 use Illuminate\Http\Request;
@@ -51,6 +54,11 @@ class PostController extends V4Controller
     }//end index()
 
 
+    public function authorizeAnyone($ability, $arguments = [])
+    {
+        list($ability, $arguments) = $this->parseAbilityAndArguments($ability, $arguments);
+        return $this->authorizeForUser(Auth::user() ?? new GenericUser(), $ability, $arguments);
+    }
     /**
      * Display the specified resource.
      *
@@ -67,12 +75,14 @@ class PostController extends V4Controller
         // this is an unfortunate problem with using an old version of lumen
         // that doesn't let me do guest user checks without adding more risk.
         $user = $authorizer->getUser();
+        $input = $this->ignoreFields($request->input());
+
         if ($user) {
-            $this->authorize('store', Post::class);
+            $this->authorizeAnyone('store', [Post::class, $input['form_id']]);
+//            $this->authorize('store', Post::class);
         }
 
         // Check post permissions
-        $input = $request->input();
         $post_values = $input['post_content'];
 
         $input['slug'] = Post::makeSlug($input['slug'] ?? $input['title']);
@@ -145,12 +155,15 @@ class PostController extends V4Controller
         }
         $this->authorize('update', $post);
         $input = $this->ignoreFields($request->input());
+        $post_values = $input['post_content'];
+
         if (!$post->validate($input)) {
             return self::make422($post->errors);
         }
         DB::beginTransaction();
         try {
             $post->update(array_merge($input, ['updated' => time()]));
+            $this->savePostValues($post, $post_values, $post->id);
             $this->updateTranslations($request->input('translations'), $post->id, 'post');
             DB::commit();
             return new PostResource($post);
@@ -178,45 +191,60 @@ class PostController extends V4Controller
                 if (!isset($field['value']) || !isset($field['value']['value'])) {
                     continue;
                 }
+                $update_id = isset($field['value']['id']) ?? null;
                 $value = $field['value']['value'];
+                $value_translations = isset($field['value']['translations']) ?? null;
                 $type = $field['type'];
 
                 if ($type === 'tags') {
                     $type === 'tags' ? 'tag' : $type;
                     $this->savePostTags($post, $field['id'], $value);
-                } else {
-                    $class_name = "v4\Models\PostValues\Post" . ucfirst($type);
-                    if (!class_exists($class_name)) {
-                        throw new \Exception("Type '$type' is invalid.");
-                    }
-                    $post_value = new $class_name();
+                    continue;
+                }
 
-                    if ($type === 'point') {
-                        $value = \DB::raw("GeomFromText('POINT({$value['lat']} {$value['lon']})')");
-                    }
+                $class_name = "v4\Models\PostValues\Post" . ucfirst($type);
+                if (!class_exists($class_name)) {
+                    throw new \Exception("Type '$type' is invalid.");
+                }
+                $post_value = new $class_name();
+                if ($update_id) {
+                    $post_value = $class_name::select('post_'.$type.'.*')
+                                    ->where('post_'.$type.'.id', $update_id)
+                                    ->get()
+                                    ->first();
+                }
 
-                    if ($type === 'geometry') {
-                        $value = \DB::raw("GeomFromText('$value')");
-                    }
+                if ($type === 'point') {
+                    $value = \DB::raw("GeomFromText('POINT({$value['lat']} {$value['lon']})')");
+                }
 
-                    $data = [
-                        'post_id' => $post_id,
-                        'form_attribute_id' => $field['id'],
-                        'value' => $value
-                    ];
-                    $validation = $post_value->validate([
-                        'post_id' => $post_id,
-                        'form_attribute_id' => $field['id'],
-                        'value' => $value
-                    ]);
-                    if ($validation) {
+                if ($type === 'geometry') {
+                    $value = \DB::raw("GeomFromText('$value')");
+                }
+
+                $data = [
+                    'post_id' => $post_id,
+                    'form_attribute_id' => $field['id'],
+                    'value' => $value
+                ];
+                $validation = $post_value->validate([
+                    'post_id' => $post_id,
+                    'form_attribute_id' => $field['id'],
+                    'value' => $value
+                ]);
+                if ($validation) {
+                    if ($update_id) {
+                        $post_value->update($data);
+                        $this->updateTranslations($value_translations, $update_id, "post_value_$type");
+                    } else {
                         $field_value = get_class($post_value)::create($data);
-                        $this->saveTranslations($field['translations'], $field_value->id, "post_value_$type");
+                        $this->saveTranslations($value_translations, $field_value->id, "post_value_$type");
                     }
                 }
             }
         }
     }
+
     protected function savePostTags($post, $attr_id, $tags)
     {
         $post->valuesPostTag()->delete();

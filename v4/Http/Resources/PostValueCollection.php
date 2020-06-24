@@ -43,12 +43,19 @@ class PostValueCollection extends ResourceCollection
             $task = $task->toArray();
 
             $task['fields'] = $fields->map(function ($field, $key) use ($values_by_task) {
+                $field->load('translations');
+                $trans = new TranslationCollection($field->translations);
                 $field = $field->toArray();
+                $field['translations'] = $trans;
                 $field['value'] = $values_by_task->filter(function ($value, $key) use ($field) {
                     return $value->form_attribute_id == $field['id'];
                 })->values();
                 if ($field['type'] !== 'tags') {
                     $field['value'] = $field['value']->first();
+                }
+                if (!empty($field['value'])) {
+                    $field['value']->load('translations');
+                    $field['value'] = $field['value']->toArray($field['value']);
                 }
                 return $field;
             });

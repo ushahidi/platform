@@ -5,7 +5,6 @@ namespace v4\Models\PostValues;
 class PostVarchar extends PostValue
 {
     public $table = 'post_varchar';
-
     /**
      * Get the error messages for the defined validation rules.
      *

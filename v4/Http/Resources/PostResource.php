@@ -16,6 +16,13 @@ class PostResource extends Resource
      */
     public function toArray($request)
     {
+        $values = $this->getPostValues();
+        $no_values = false;
+        if ($values->count() === 0) {
+            $no_values = true;
+            return $this->survey->tasks;
+        }
+
         return [
             'id' => $this->id,
             'form_id' => $this->form_id,
@@ -35,51 +42,13 @@ class PostResource extends Resource
             'base_language' => $this->base_language,
             'categories' => $this->categories,
             'completed_stages' => $this->postStages,
-            'survey' => $this->survey,
-            'post_content' => $this->postValues($this->values()),
+            'survey' => new SurveyResource($this->survey),
+            'post_content' => $no_values ? $this->survey->tasks : new PostValueCollection($values),
             'translations' => new TranslationCollection($this->translations),
             'enabled_languages' => [
                 'default'=> $this->base_language,
                 'available' => $this->translations->groupBy('language')->keys()
             ]
         ];
-    }
-
-    public function postValues($values)
-    {
-        if ($values->count() === 0) {
-            return $this->survey->tasks;
-        }
-        $tasks = new Collection();
-        $values->each(function ($item, $key) use ($tasks) {
-            if ($item->attribute) {
-                $tasks->push($item->attribute->stage);
-            }
-        });
-        $tasks = $tasks->unique()->sortBy('priority')->values();
-
-        $grouped = $values->mapToGroups(function ($item) {
-            return [$item->attribute->form_stage_id => $item];
-        });
-
-        $tasks = $tasks->map(function ($task, $key) use ($grouped) {
-            $fields = $task->fields->sortBy('priority')->values();
-            $values_by_task = $grouped->get($task->id);
-            $task = $task->toArray();
-
-            $task['fields'] = $fields->map(function ($field, $key) use ($values_by_task) {
-                $field = $field->toArray();
-                $field['value'] = $values_by_task->filter(function ($value, $key) use ($field) {
-                    return $value->form_attribute_id == $field['id'];
-                })->values();
-                if ($field['type'] !== 'tags') {
-                    $field['value'] = $field['value']->first();
-                }
-                return $field;
-            });
-            return $task;
-        });
-
-        return $tasks->values();
     }
 }

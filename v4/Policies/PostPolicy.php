@@ -4,6 +4,7 @@ namespace v4\Policies;
 
 use Ushahidi\App\Auth\GenericUser as User;
 use Ushahidi\Core\Entity;
+use Ushahidi\Core\Traits\OwnerAccess;
 use v4\Models\Survey;
 use v4\Models\Post;
 
@@ -33,11 +34,16 @@ class PostPolicy
 
     // Check that the user has the necessary permissions
     use AclTrait;
+    use ParentAccess;
+    use OwnerAccess;
 
     protected $user;
 
     // It requires a `FormRepository` to load parent posts too.
     protected $form_repo;
+
+    // It requires a `FormRepository` to load parent posts too.
+    protected $post_repo;
 
     /**
      *
@@ -89,11 +95,11 @@ class PostPolicy
      * @param Survey $survey
      * @return bool
      */
-    public function store()
+    public function store(User $user, $form_id)
     {
         // we convert to a form entity to be able to continue using the old authorizers and classes.
-        $form = new Entity\Form();
-        return $this->isAllowed($form, 'create');
+        $post = new Entity\Post(['form_id' => $form_id]);
+        return $this->isAllowed($post, 'create');
     }
     /**
      * @param $entity
@@ -198,5 +204,38 @@ class PostPolicy
     protected function isFormDisabled(Entity\Post $entity)
     {
         return (bool) $entity->disabled;
+    }
+
+    protected function getParent(Entity $entity)
+    {
+        // If the post has a parent_id, we attempt to load it from the `PostRepository`
+        if ($entity->parent_id) {
+            $parent = Post::find($entity->parent_id);
+            return new Entity\Post($parent->toArray());
+        }
+
+        return false;
+    }
+
+    /* FormRole */
+    protected function isFormRestricted(Entity $entity, $user)
+    {
+        // If the $entity->form_id exists and the $form->everyone_can_create is False
+        // we check to see if the Form & Role Join exists in the `FormRoleRepository`
+
+        if ($entity->form_id) {
+            $form_repo = service('repository.form');
+            $roles = $form_repo->getRolesThatCanCreatePosts($entity->form_id);
+
+            if ($roles['everyone_can_create'] > 0) {
+                return false;
+            }
+
+            if (is_array($roles['roles']) && in_array($user->role, $roles['roles'])) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }
