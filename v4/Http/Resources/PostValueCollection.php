@@ -54,7 +54,14 @@ class PostValueCollection extends ResourceCollection
                     $field['value'] = $field['value']->first();
                 }
                 if (!empty($field['value'])) {
-                    $field['value']->load('translations');
+                    if (get_class($field['value']) === 'v4\Http\Resources\PostValueResource') {
+                        $field['value']->load('translations');
+                    } else {//a collection Illuminate\Support\Collection
+                        $field['value']  = $field['value']->map(function ($val) {
+                            $val->load('translations');
+                            return $val;
+                        });
+                    }
                     $field['value'] = $field['value']->toArray($field['value']);
                 }
                 return $field;

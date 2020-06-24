@@ -215,7 +215,7 @@ class PostController extends V4Controller
                 }
 
                 if ($type === 'point') {
-                    $value = \DB::raw("GeomFromText('POINT({$value['lat']} {$value['lon']})')");
+                    $value = \DB::raw("GeomFromText('POINT({$value['lon']} {$value['lat']})')");
                 }
 
                 if ($type === 'geometry') {
