@@ -34,6 +34,9 @@ class PostVarchar extends PostValue
      */
     public function getValueAttribute($value)
     {
+        if (isset($value) && $this->attribute->input === 'checkbox') {
+            return json_decode($value);
+        }
         return $value;
     }
 

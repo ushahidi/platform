@@ -20,7 +20,6 @@ class PostResource extends Resource
         $no_values = false;
         if ($values->count() === 0) {
             $no_values = true;
-            return $this->survey->tasks;
         }
 
         return [

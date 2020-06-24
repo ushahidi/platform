@@ -114,6 +114,62 @@ class Post extends ResourceModel
     public static function validationMessages()
     {
         return [
+            'form_id.exists'                             => trans(
+                'validation.exists',
+                ['field' => trans('fields.form_id')]
+            ),
+            'user_id.exists'                             => trans(
+                'validation.exists',
+                ['field' => trans('fields.user_id')]
+            ),
+            'type.required'                             => trans(
+                'validation.required',
+                ['field' => trans('fields.type')]
+            ),
+            'type.in'                             => trans(
+                'validation.in_array',
+                ['field' => trans('fields.type')]
+            ),
+            'title.required'                             => trans(
+                'validation.required',
+                ['field' => trans('fields.title')]
+            ),
+            'title.max'                             => trans(
+                'validation.max',
+                [
+                    'param2' => 150,
+                    'field'  => trans('fields.title'),
+                ]
+            ),
+            'title.regex'                             => trans(
+                'validation.regex',
+                [
+                    'field'  => trans('fields.title'),
+                ]
+            ),
+            'slug.required'                             => trans(
+                'validation.required',
+                ['field' => trans('fields.slug')]
+            ),
+            'slug.min'                             => trans(
+                'validation.min',
+                [
+                    'param2' => 2,
+                    'field'  => trans('fields.slug'),
+                ]
+            ),
+            'slug.unique'                             => trans(
+                'validation.unique',
+                [
+                    'field'  => trans('fields.slug'),
+                ]
+            ),
+            'content.string'                             => trans(
+                'validation.string',
+                [
+                    'field'  => trans('fields.content'),
+                ]
+            )
         ];
     }//end validationMessages()
 
