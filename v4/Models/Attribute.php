@@ -48,7 +48,13 @@ class Attribute extends Model
         return $this->belongsTo('v4\Models\Stage', 'form_stage_id');
     }
 
-
+    public function getOptionsAttribute($value)
+    {
+        if ($this->type === 'tags') {
+            return Category::all()->whereIn('id', json_decode($value));
+        }
+        return json_decode($value);
+    }
     /**
      * Get the attribute's translation.
      */
