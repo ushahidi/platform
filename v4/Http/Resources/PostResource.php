@@ -42,7 +42,6 @@ class PostResource extends Resource
             'base_language' => $this->base_language,
             'categories' => $this->categories,
             'completed_stages' => $this->postStages,
-            'survey' => new SurveyResource($this->survey),
             'post_content' => $no_values ? $this->survey->tasks : new PostValueCollection($values),
             'translations' => new TranslationCollection($this->translations),
             'enabled_languages' => [
