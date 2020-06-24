@@ -123,7 +123,7 @@ class PostController extends V4Controller
      */
     private function ignoreInput()
     {
-        return ['author_email', 'user_id', 'author_realname', 'created', 'updated'];
+        return ['author_email', 'slug', 'user_id', 'author_realname', 'created', 'updated'];
     }
 
     private function ignoreFields($input)
@@ -156,7 +156,9 @@ class PostController extends V4Controller
         $this->authorize('update', $post);
         $input = $this->ignoreFields($request->input());
         $post_values = $input['post_content'];
-
+        if (!$post->slug) {
+            $input['slug'] = Post::makeSlug($input['slug'] ?? $input['title']);
+        }
         if (!$post->validate($input)) {
             return self::make422($post->errors);
         }
