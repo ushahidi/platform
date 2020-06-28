@@ -10,7 +10,7 @@ use Ushahidi\App\Validator\LegacyValidator;
 use Ushahidi\Core\Entity\Permission;
 use Ushahidi\Core\Tool\Permissions\InteractsWithFormPermissions;
 
-class Survey extends Model
+class Survey extends BaseModel
 {
     use InteractsWithFormPermissions;
 
@@ -107,7 +107,7 @@ class Survey extends Model
      *
      * @return array
      */
-    public static function validationMessages()
+    public function validationMessages()
     {
         return [
             'name.required'                             => trans(
@@ -240,7 +240,7 @@ class Survey extends Model
      *
      * @return array
      */
-    protected static function getRules()
+    public function getRules()
     {
         return [
             'name'                              => [

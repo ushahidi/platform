@@ -63,11 +63,12 @@ class SurveyController extends V4Controller
         // this is an unfortunate problem with using an old version of lumen
         // that doesn't let me do guest user checks without adding more risk.
         $user = $authorizer->getUser();
+        $survey = new Survey();
         if ($user) {
             $this->authorize('store', Survey::class);
         }
 
-        $this->validate($request, Survey::getRules(), Survey::validationMessages());
+        $this->validate($request, $survey->getRules(), $survey->validationMessages());
         $survey = Survey::create(
             array_merge(
                 $request->input(),
@@ -77,7 +78,13 @@ class SurveyController extends V4Controller
                 ]
             )
         );
-        $this->saveTranslations($request->input('translations'), $survey->id, 'survey');
+        $this->saveTranslations(
+            new Survey(),
+            $survey->toArray(),
+            $request->input('translations') ?? [],
+            $survey->id,
+            'survey'
+        );
         if ($request->input('tasks')) {
             foreach ($request->input('tasks') as $stage) {
                 $stage_model = $survey->tasks()->create(
@@ -89,7 +96,13 @@ class SurveyController extends V4Controller
                         ]
                     )
                 );
-                $this->saveTranslations(($stage['translations'] ?? []), $stage_model->id, 'task');
+                $this->saveTranslations(
+                    new Stage(),
+                    $stage_model->toArray(),
+                    ($stage['translations'] ?? []),
+                    $stage_model->id,
+                    'task'
+                );
                 foreach ($stage['fields'] as $attribute) {
                     $uuid = Uuid::uuid4();
                     $attribute['key'] = $uuid->toString();
@@ -102,46 +115,19 @@ class SurveyController extends V4Controller
                             ]
                         )
                     );
-                    $this->saveTranslations(($attribute['translations'] ?? []), $field_model->id, 'field');
+                    $this->saveTranslations(
+                        new Attribute(),
+                        $field_model->toArray(),
+                        ($attribute['translations'] ?? []),
+                        $field_model->id,
+                        'field'
+                    );
                 }
             }//end foreach
         }//end if
 
         return new SurveyResource($survey);
     }//end store()
-
-
-    /**
-     * @param  $input
-     * @param  $translatable_id
-     * @param  $type
-     * @return boolean
-     */
-    private function saveTranslations($input, int $translatable_id, string $type)
-    {
-        if (!is_array($input)) {
-            return true;
-        }
-
-        foreach ($input as $language => $translations) {
-            foreach ($translations as $key => $translated) {
-                if (is_array($translated)) {
-                    $translated = json_encode($translated);
-                }
-
-                Translation::create(
-                    [
-                        'translatable_type' => $type,
-                        'translatable_id'   => $translatable_id,
-                        'translated_key'    => $key,
-                        'translation'       => $translated,
-                        'language'          => $language,
-                    ]
-                );
-            }
-        }
-    }//end saveTranslations()
-
 
     /**
      * Display the specified resource.
@@ -163,54 +149,27 @@ class SurveyController extends V4Controller
         if (!$survey) {
             return self::make404();
         }
+        $this->validate($request, $survey->getRules(), $survey->validationMessages());
 
-        $this->validate($request, Survey::getRules(), Survey::validationMessages());
         $survey->update(
             array_merge(
                 $request->input(),
                 ['updated' => time()]
             )
         );
-        $this->updateTranslations($request->input('translations'), $survey->id, 'survey');
+        $this->updateTranslations(
+            $survey,
+            $survey->toArray(),
+            $request->input('translations'),
+            $survey->id,
+            'survey'
+        );
+
         $this->updateTasks(($request->input('tasks') ?? []), $survey);
         $survey->load('tasks');
 
         return new SurveyResource($survey);
     }//end update()
-
-
-    /**
-     * @param  $input
-     * @param  $translatable_id
-     * @param  $type
-     * @return boolean
-     */
-    private function updateTranslations($input, int $translatable_id, string $type)
-    {
-        if (!is_array($input)) {
-            return true;
-        }
-
-        Translation::where('translatable_id', $translatable_id)->where('translatable_type', $type)->delete();
-        foreach ($input as $language => $translations) {
-            foreach ($translations as $key => $translated) {
-                if (is_array($translated)) {
-                    $translated = json_encode($translated);
-                }
-
-                Translation::create(
-                    [
-                        'translatable_type' => $type,
-                        'translatable_id'   => $translatable_id,
-                        'translated_key'    => $key,
-                        'translation'       => $translated,
-                        'language'          => $language,
-                    ]
-                );
-            }
-        }
-    }//end updateTranslations()
-
 
     /**
      * @param array $input_tasks
@@ -237,8 +196,13 @@ class SurveyController extends V4Controller
                 );
                 $added_tasks[] = $stage_model->id;
             }
-
-            $this->updateTranslations(($stage['translations'] ?? []), $stage_model->id, 'task');
+            $this->updateTranslations(
+                $stage_model,
+                $stage_model->toArray(),
+                $stage['translations'] ?? [],
+                $stage_model->id,
+                'task'
+            );
             $this->updateFields(($stage['fields'] ?? []), $stage_model);
         }//end foreach
 
@@ -286,7 +250,13 @@ class SurveyController extends V4Controller
                 $added_fields[] = $field_model->id;
             }//end if
 
-            $this->updateTranslations(($field['translations'] ?? []), $field_model->id, 'field');
+            $this->updateTranslations(
+                $field_model,
+                $field_model->toArray(),
+                ($field['translations'] ?? []),
+                $field_model->id,
+                'field'
+            );
         }//end foreach
 
         $input_fields_collection = new Collection($input_fields);

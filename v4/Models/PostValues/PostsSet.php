@@ -37,7 +37,7 @@ class PostsSet extends Model
      *
      * @return array
      */
-    public static function validationMessages()
+    public function validationMessages()
     {
         return [
         ];
@@ -48,7 +48,7 @@ class PostsSet extends Model
      *
      * @return array
      */
-    protected function getRules()
+    public function getRules()
     {
         return [
             'post_id' => 'nullable|sometimes|exists:posts,id',
@@ -56,17 +56,6 @@ class PostsSet extends Model
         ];
     }//end getRules()
 
-    public function validate($data)
-    {
-        $v = Validator::make($data, $this->getRules(), self::validationMessages());
-        // check for failure
-        if (!$v->fails()) {
-            return true;
-        }
-        // set errors and return false
-        $this->errors = $v->errors();
-        return false;
-    }
 
     public function set()
     {

@@ -4,14 +4,18 @@ namespace v4\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Validator;
 
 /**
  * Class ResourceModel
  * Base class for models that are exposed as HTTP resources
  * @package v4\Models
  */
-class ResourceModel extends Model
+class BaseModel extends Model
 {
+
+    protected $validationRules = [];
+
     /**
      * Get the model's slug
      *
@@ -61,5 +65,37 @@ class ResourceModel extends Model
             return $d->setTime(0, 0, 0)->format('Y-m-d H:i:s');
         }
         return $time;
+    }
+    public function validationMessages()
+    {
+        return [];
+    }
+    public function getRules()
+    {
+        return [];
+    }
+
+    public function validate($data)
+    {
+        $input = array_merge($this->attributes, $data);
+        $v = Validator::make($input, $this->getRules(), $this->validationMessages());
+        // check for failure
+        if (!$v->fails()) {
+            return true;
+        }
+        // set errors and return false
+        $this->errors = $v->errors();
+        return false;
+    }
+    /**
+     * Attempt to validate input, if successful fill this object
+     * @param array $inputArray associative array of values for this object to validate against and fill this object
+     * @throws ValidationException if validation fails. Used for displaying errors in view
+     */
+    public function validateAndFill($inputArray)
+    {
+        // must validate input before injecting into model
+        $this->validate($inputArray);
+        $this->fill($inputArray);
     }
 }

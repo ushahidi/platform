@@ -10,7 +10,7 @@ class PostVarchar extends PostValue
      *
      * @return array
      */
-    public static function validationMessages()
+    public function validationMessages()
     {
         return [
         ];
@@ -21,7 +21,7 @@ class PostVarchar extends PostValue
      *
      * @return array
      */
-    protected function getRules()
+    public function getRules()
     {
         $rules = [
             'value' => ['string', 'max:255'],

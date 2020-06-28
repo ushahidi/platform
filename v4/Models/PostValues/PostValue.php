@@ -2,12 +2,13 @@
 
 namespace v4\Models\PostValues;
 
+use v4\Models\BaseModel;
 use v4\Models\Helpers\HideTime;
 use v4\Models\Scopes\PostValueAllowed;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Validator;
 
-class PostValue extends Model
+class PostValue extends BaseModel
 {
     /**
      * Add eloquent style timestamps
@@ -60,7 +61,7 @@ class PostValue extends Model
      *
      * @return array
      */
-    public static function validationMessages()
+    public function validationMessages()
     {
         return [
         ];
@@ -71,25 +72,13 @@ class PostValue extends Model
      *
      * @return array
      */
-    protected function getRules()
+    public function getRules()
     {
         return [
             'post_id' => 'nullable|sometimes|exists:posts,id',
             'form_attribute_id' => 'nullable|sometimes|exists:form_attributes,id',
         ];
     }//end getRules()
-
-    public function validate($data)
-    {
-        $v = Validator::make($data, $this->getRules(), self::validationMessages());
-        // check for failure
-        if (!$v->fails()) {
-            return true;
-        }
-        // set errors and return false
-        $this->errors = $v->errors();
-        return false;
-    }
 
     public function attribute()
     {

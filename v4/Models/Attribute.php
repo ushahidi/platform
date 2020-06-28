@@ -4,7 +4,7 @@ namespace v4\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Attribute extends Model
+class Attribute extends BaseModel
 {
     public $timestamps = false;
 

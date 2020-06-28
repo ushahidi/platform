@@ -11,7 +11,7 @@ class PostText extends PostValue
      *
      * @return array
      */
-    public static function validationMessages()
+    public function validationMessages()
     {
         return [
         ];
@@ -22,7 +22,7 @@ class PostText extends PostValue
      *
      * @return array
      */
-    protected function getRules()
+    public function getRules()
     {
         $rules = [
             'value' => ['string'],
@@ -35,7 +35,6 @@ class PostText extends PostValue
      */
     public function getValueAttribute($value)
     {
-        $s =$this->post->survey;
         return $value;
     }
 }//end class

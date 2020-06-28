@@ -15,6 +15,40 @@ use Illuminate\Support\Facades\DB;
 
 class CategoryController extends V4Controller
 {
+
+    /**
+     * Not all fields are things we want to allow on the body of requests
+     * an author won't change after the fact so we limit that change
+     * to avoid issues from the frontend.
+     * @return string[]
+     */
+    protected function ignoreInput()
+    {
+        return ['author_email', 'slug', 'user_id', 'author_realname', 'created', 'updated'];
+    }
+
+    private function runAuthorizer($ability, $object)
+    {
+        $authorizer = service('authorizer.form');
+        // if there's no user the guards will kick them off already, but if there
+        // is one we need to check the authorizer to ensure we don't let
+        // users without admin perms create forms etc
+        // this is an unfortunate problem with using an old version of lumen
+        // that doesn't let me do guest user checks without adding more risk.
+        $user = $authorizer->getUser();
+        if ($user) {
+            $this->authorize($ability, $object);
+        }
+        return $user;
+    }
+
+    private function setInputDefaults($input, $action)
+    {
+        if ($action === 'store') {
+            $input['slug'] = Category::makeSlug($input['slug'] ?? $input['tag']);
+        }
+        return $input;
+    }
     /**
      * Display the specified resource.
      *
@@ -24,7 +58,7 @@ class CategoryController extends V4Controller
      */
     public function show(int $id)
     {
-        $category = Category::with('translations')->find($id);
+        $category = Category::find($id);
         if (!$category) {
             return self::make404();
         }
@@ -42,7 +76,6 @@ class CategoryController extends V4Controller
         return new CategoryCollection(Category::get());
     }//end index()
 
-
     /**
      * Display the specified resource.
      *
@@ -53,23 +86,15 @@ class CategoryController extends V4Controller
      */
     public function store(Request $request)
     {
-        $authorizer = service('authorizer.form');
-        // if there's no user the guards will kick them off already, but if there
-        // is one we need to check the authorizer to ensure we don't let
-        // users without admin perms create forms etc
-        // this is an unfortunate problem with using an old version of lumen
-        // that doesn't let me do guest user checks without adding more risk.
-        $user = $authorizer->getUser();
-        if ($user) {
-            $this->authorize('store', Category::class);
-        }
-        $input = $request->input();
+        $input = $this->getFields($request->input());
         if (empty($input)) {
             return self::make500('POST body cannot be empty');
         }
-        $input['slug'] = Category::makeSlug($input['slug'] ?? $input['tag']);
+        $this->runAuthorizer('store', Category::class);
+
+        $input = $this->setInputDefaults($input, 'store');
+
         $category = new Category();
-        $id = null;
         if (!$category->validate($input)) {
             return self::make422($category->errors);
         }
@@ -84,12 +109,14 @@ class CategoryController extends V4Controller
                 )
             );
             $errors = $this->saveTranslations(
+                $category,
                 $category->toArray(),
                 $request->input('translations') ?? [],
                 $category->id,
                 'category'
             );
             if (!empty($errors)) {
+                DB::rollback();
                 return self::make422($errors, 'translation');
             }
             DB::commit();
@@ -99,7 +126,6 @@ class CategoryController extends V4Controller
             return self::make500($e->getMessage());
         }
     }//end store()
-
 
     /**
      * Display the specified resource.
@@ -132,14 +158,15 @@ class CategoryController extends V4Controller
         DB::beginTransaction();
         try {
             $category->update($request->input());
-
             $errors = $this->updateTranslations(
+                new Category(),
                 $category->toArray(),
                 $request->input('translations') ?? [],
                 $category->id,
                 'category'
             );
             if (!empty($errors)) {
+                DB::rollback();
                 return self::make422($errors, 'translation');
             }
             DB::commit();
@@ -150,51 +177,13 @@ class CategoryController extends V4Controller
         }
     }//end update()
 
-
     /**
+     * @param Category $category
      * @param array $entity_array
-     * @param array $translation_input
-     * @param int $translatable_id
-     * @param string $type
+     * @param array $translations
      * @return array
      */
-    private function saveTranslations(array $entity_array, array $translation_input, int $translatable_id, string $type)
-    {
-        if (!is_array($translation_input)) {
-            return [];
-        }
-        $category = new Category();
-        $errors = [];
-        foreach ($translation_input as $language => $translations) {
-            $validation_errors = $this->validateTranslations($category, $entity_array, $translations);
-            if (!empty($validation_errors)) {
-                $errors[$language] = $validation_errors;
-                continue;
-            }
-            foreach ($translations as $key => $translated) {
-                if (is_array($translated)) {
-                    $translated = json_encode($translated);
-                }
-
-                Translation::create(
-                    [
-                        'translatable_type' => $type,
-                        'translatable_id'   => $translatable_id,
-                        'translated_key'    => $key,
-                        'translation'       => $translated,
-                        'language'          => $language,
-                    ]
-                );
-            }
-        }
-        return $errors;
-    }//end saveTranslations()
-
-    /**
-     * @param array $entity_array
-     * @param array $translation_input
-     */
-    private function validateTranslations(Category $category, $entity_array, array $translations)
+    protected function validateTranslations(Category $category, $entity_array, array $translations)
     {
         $entity_array = array_merge($entity_array, $translations);
         $entity_array['slug'] = Category::makeSlug($entity_array['slug']);
@@ -203,27 +192,6 @@ class CategoryController extends V4Controller
         }
         return [];
     }
-
-    /**
-     * @param array $entity_array
-     * @param array $translation_input
-     * @param int $translatable_id
-     * @param string $type
-     * @return array
-     */
-    private function updateTranslations(
-        array $entity_array,
-        array $translation_input,
-        int $translatable_id,
-        string $type
-    ) {
-        if (!is_array($translation_input)) {
-            return [];
-        }
-        Translation::where('translatable_id', $translatable_id)->where('translatable_type', $type)->delete();
-        return $this->saveTranslations($entity_array, $translation_input, $translatable_id, $type);
-    }//end updateTranslations()
-
 
     /**
      * @param integer $id

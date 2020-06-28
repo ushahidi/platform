@@ -5,7 +5,7 @@ namespace v4\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Validator;
 
-class Lock extends Model
+class Lock extends BaseModel
 {
 
     /**
@@ -48,7 +48,7 @@ class Lock extends Model
      *
      * @return array
      */
-    public static function validationMessages()
+    public function validationMessages()
     {
         return [
         ];
@@ -59,7 +59,7 @@ class Lock extends Model
      *
      * @return array
      */
-    protected function getRules()
+    public function getRules()
     {
         return [
             'post_id' => 'exists:posts,id',
@@ -67,19 +67,6 @@ class Lock extends Model
             'expires' => 'date',
         ];
     }//end getRules()
-
-    public function validate($data)
-    {
-        $v = Validator::make($data, $this->getRules(), self::validationMessages());
-        // check for failure
-        if (!$v->fails()) {
-            return true;
-        }
-        // set errors and return false
-        $this->errors = $v->errors();
-        return false;
-    }
-
 
     public function post()
     {

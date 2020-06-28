@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Validator;
 use Ushahidi\Core\Entity\Permission;
 use Illuminate\Support\Facades\Input;
 
-class Set extends Model
+class Set extends BaseModel
 {
     public $errors;
     /**
@@ -50,17 +50,6 @@ class Set extends Model
         'search',
         'featured'
     ];
-
-    /**
-     * Get the error messages for the defined validation rules.
-     *
-     * @return array
-     */
-//    public static function validationMessages()
-//    {
-//        return [
-//        ];
-//    }//end validationMessages()
 
     /**
      * Return all validation rules
@@ -105,18 +94,6 @@ class Set extends Model
     public function scopeAllowed($query)
     {
         return $query;
-    }
-
-    public function validate($data)
-    {
-        $v = Validator::make($data, $this->getRules(), self::validationMessages());
-        // check for failure
-        if (!$v->fails()) {
-            return true;
-        }
-        // set errors and return false
-        $this->errors = $v->errors();
-        return false;
     }
 
     public function errors()

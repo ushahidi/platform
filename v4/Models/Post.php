@@ -17,9 +17,11 @@ use v4\Models\Helpers\HideAuthor;
 use v4\Models\Helpers\HideTime;
 use v4\Models\Scopes\PostAllowed;
 
-class Post extends ResourceModel
+class Post extends BaseModel
 {
     use InteractsWithPostPermissions;
+
+    public $errors;
     /**
      * Add eloquent style timestamps
      *
@@ -39,7 +41,7 @@ class Post extends ResourceModel
      *
      * @var string[]
      */
-    protected $with = ['survey', 'categories'];
+    protected $with = ['translations'];
     protected $translations;
     /**
      * The attributes that should be hidden for serialization.
@@ -111,7 +113,7 @@ class Post extends ResourceModel
      *
      * @return array
      */
-    public static function validationMessages()
+    public function validationMessages()
     {
         return [
             'form_id.exists'                             => trans(
@@ -178,7 +180,7 @@ class Post extends ResourceModel
      *
      * @return array
      */
-    protected function getRules()
+    public function getRules()
     {
         return [
             'form_id' => 'nullable|sometimes|exists:forms,id',
@@ -281,19 +283,6 @@ class Post extends ResourceModel
             $value = date_create($value)->format("Y-m-d H:i:s");
         }
         $this->attributes['post_date'] = $value;
-    }
-
-    public function validate($data)
-    {
-        $input = array_merge($this->attributes, $data);
-        $v = Validator::make($input, $this->getRules(), self::validationMessages());
-        // check for failure
-        if (!$v->fails()) {
-            return true;
-        }
-        // set errors and return false
-        $this->errors = $v->errors();
-        return false;
     }
 
     public function survey()

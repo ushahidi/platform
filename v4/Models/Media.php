@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Validator;
 use Ushahidi\Core\Entity\Permission;
 use Illuminate\Support\Facades\Input;
 
-class Media extends Model
+class Media extends BaseModel
 {
     public $errors;
     /**
@@ -115,18 +115,6 @@ class Media extends Model
     public function scopeAllowed($query)
     {
         return $query;
-    }
-
-    public function validate($data)
-    {
-        $v = Validator::make($data, $this->getRules(), self::validationMessages());
-        // check for failure
-        if (!$v->fails()) {
-            return true;
-        }
-        // set errors and return false
-        $this->errors = $v->errors();
-        return false;
     }
 
     public function errors()

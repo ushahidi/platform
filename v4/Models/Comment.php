@@ -2,8 +2,7 @@
 
 namespace v4\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Validator;
+use v4\Models\PostValues\PostValue;
 
 class Comment extends PostValue
 {
@@ -23,7 +22,7 @@ class Comment extends PostValue
      *
      * @return array
      */
-    public static function validationMessages()
+    public function validationMessages()
     {
         return [
         ];
@@ -34,7 +33,7 @@ class Comment extends PostValue
      *
      * @return array
      */
-    protected function getRules()
+    public function getRules()
     {
         $rules = [
             'value' => ['string'],

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Ushahidi\Core\Entity\Permission;
 use v4\Models\Scopes\StageAllowed;
 
-class Stage extends Model
+class Stage extends BaseModel
 {
     public $timestamps = false;
 

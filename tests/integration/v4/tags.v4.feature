@@ -128,7 +128,7 @@ Feature: Testing the Categories API
             """
             {
                 "parent_id":1,
-                "tag":"Boxes are fun",
+                "tag":"My boxes",
                 "slug": "boxes",
                 "description":"Is this a box? Awesome",
                 "type":"category",
@@ -140,7 +140,7 @@ Feature: Testing the Categories API
         When I request "/categories"
         Then the response is JSON
         And the response has a "result.slug" property
-        And the "result.slug" property equals "boxes-1"
+        And the "result.slug" property equals "my-boxes"
         Then the guzzle status code should be 201
     Scenario: Creating a tag with a long name fails
         Given that I want to make a new "Category"

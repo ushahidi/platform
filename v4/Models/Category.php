@@ -10,7 +10,7 @@ use Ushahidi\Core\Entity\Permission;
 use Illuminate\Support\Facades\Input;
 use v4\Models\Scopes\CategoryAllowed;
 
-class Category extends ResourceModel
+class Category extends BaseModel
 {
     public $errors;
     /**
@@ -76,11 +76,18 @@ class Category extends ResourceModel
     ];
 
     /**
+     * Add relations to eager load
+     *
+     * @var string[]
+     */
+    protected $with = ['translations'];
+    protected $translations;
+    /**
      * Get the error messages for the defined validation rules.
      *
      * @return array
      */
-    public static function validationMessages()
+    public function validationMessages()
     {
         return [
             'parent_id.exists' => trans(
@@ -259,7 +266,7 @@ class Category extends ResourceModel
     }
     public function validate($data)
     {
-        $v = Validator::make($data, $this->getRules(), self::validationMessages());
+        $v = Validator::make($data, $this->getRules(), $this->validationMessages());
         $v->sometimes('role', 'exists:roles,name', function ($input) {
             return !!$input;
         });

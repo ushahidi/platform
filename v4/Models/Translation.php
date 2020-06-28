@@ -5,7 +5,7 @@ namespace v4\Models;
 use Illuminate\Database\Eloquent\Model;
 use Ushahidi\Core\Entity\Permission;
 
-class Translation extends Model
+class Translation extends BaseModel
 {
     public $timestamps = false;
 

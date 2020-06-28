@@ -15,7 +15,7 @@ class PostMedia extends PostValue
      *
      * @return array
      */
-    public static function validationMessages()
+    public function validationMessages()
     {
         return [
         ];
@@ -26,7 +26,7 @@ class PostMedia extends PostValue
      *
      * @return array
      */
-    protected function getRules()
+    public function getRules()
     {
         $rules = [
             'value' => [Rule::exists('media', 'id')],
