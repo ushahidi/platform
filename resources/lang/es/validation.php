@@ -2,6 +2,7 @@
 // @codingStandardsIgnoreFile
 
 return array(
+  'string'        => ':field debe ser un texto',
   'alpha'         => ':field debe contener solo letras',
   'alpha_dash'    => ':field debe contener solo números, letras y guiones',
   'alpha_numeric' => ':field debe contener solo letras y números',

@@ -2,6 +2,7 @@
 // @codingStandardsIgnoreFile
 
 return array(
+  'string'         => ':field must be text',
   'alpha'         => ':field must contain only letters',
   'alpha_dash'    => ':field must contain only numbers, letters and dashes',
   'alpha_numeric' => ':field must contain only letters and numbers',
