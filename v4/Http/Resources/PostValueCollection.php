@@ -21,16 +21,18 @@ class PostValueCollection extends ResourceCollection
      * Transform the resource collection into an array.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return array
+     * @return Collection
      */
     public function toArray($request)
     {
         $tasks = new Collection();
+
         $this->collection->each(function ($item, $key) use ($tasks) {
             if ($item->attribute) {
                 $tasks->push($item->attribute->stage);
             }
         });
+
         $tasks = $tasks->unique()->sortBy('priority')->values();
 
         $grouped = $this->collection->mapToGroups(function ($item) {

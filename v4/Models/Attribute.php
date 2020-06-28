@@ -51,7 +51,13 @@ class Attribute extends Model
     public function getOptionsAttribute($value)
     {
         if ($this->type === 'tags') {
-            return Category::all()->whereIn('id', json_decode($value));
+            $values = array_map(function ($v) {
+                if (is_object($v)) {
+                    return $v->id;
+                }
+                return $v;
+            }, json_decode($value));
+            return Category::all()->whereIn('id', $values);
         }
         return json_decode($value);
     }

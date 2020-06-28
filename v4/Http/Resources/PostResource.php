@@ -18,6 +18,7 @@ class PostResource extends Resource
     {
         $values = $this->getPostValues();
         $no_values = false;
+
         if ($values->count() === 0) {
             $no_values = true;
         }

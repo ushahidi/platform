@@ -185,6 +185,7 @@ class PostController extends V4Controller
 
     protected function savePostValues(Post $post, array $post_content, int $post_id)
     {
+        $post->valuesPostTag()->delete();
         foreach ($post_content as $stage) {
             if (!isset($stage['fields'])) {
                 continue;
@@ -249,7 +250,6 @@ class PostController extends V4Controller
 
     protected function savePostTags($post, $attr_id, $tags)
     {
-        $post->valuesPostTag()->delete();
         foreach ($tags as $tag_id) {
             $post->valuesPostTag()->create(
                 [
