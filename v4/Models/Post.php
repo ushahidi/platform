@@ -220,6 +220,9 @@ class Post extends BaseModel
                     ]
                 )
             ],
+            'post_content.*.form_id'                   => [
+                'same:form_id'
+            ],
             'locale',
             'post_date'
         ];
