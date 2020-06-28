@@ -36,19 +36,6 @@ class Survey extends Model
     protected $with = ['tasks'];
 
     /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var  array
-     * @note this should be changed so that we either use the fractal transformer
-     * OR a policy authorizer which is a more or less accepted method to do it
-     * (which uses the same $hidden type thing but it's much nicer obviously)
-     */
-    protected $hidden = [
-        'description',
-        'icon',
-    ];
-
-    /**
      * The attributes that should be mutated to dates.
      *
      * @var array

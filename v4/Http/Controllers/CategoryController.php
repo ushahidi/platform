@@ -24,7 +24,7 @@ class CategoryController extends V4Controller
      */
     public function show(int $id)
     {
-        $category = Category::allowed()->with('translations')->find($id);
+        $category = Category::with('translations')->find($id);
         if (!$category) {
             return self::make404();
         }
@@ -39,7 +39,7 @@ class CategoryController extends V4Controller
      */
     public function index()
     {
-        return new CategoryCollection(Category::allowed()->get());
+        return new CategoryCollection(Category::get());
     }//end index()
 
 
@@ -112,7 +112,7 @@ class CategoryController extends V4Controller
      */
     public function update(int $id, Request $request)
     {
-        $category = Category::find($id);
+        $category = Category::withoutGlobalScopes()->find($id);
 
         if (!$category) {
             return self::make404();
@@ -230,7 +230,7 @@ class CategoryController extends V4Controller
      */
     public function delete(int $id, Request $request)
     {
-        $category = Category::find($id);
+        $category = Category::withoutGlobalScopes()->find($id);
         $this->authorize('delete', $category);
         $success = DB::transaction(function () use ($id, $request, $category) {
             $category->translations()->delete();

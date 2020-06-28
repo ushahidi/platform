@@ -8,6 +8,7 @@ use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Validator;
 use Ushahidi\Core\Entity\Permission;
 use Illuminate\Support\Facades\Input;
+use v4\Models\Scopes\CategoryAllowed;
 
 class Category extends ResourceModel
 {
@@ -233,76 +234,6 @@ class Category extends ResourceModel
         return $this->hasMany('v4\Models\Category', 'parent_id', 'id');
     }
 
-    /**
-     * Scope helper to only pull tags we are allowed to get from the db
-     *
-     * @param $query
-     * @return mixed
-     */
-    public function scopeAllowed($query)
-    {
-        /**
-         * If no roles are selected, the Tag is considered
-         * completely public.
-         */
-        $authorizer = service('authorizer.tag');
-        $user = $authorizer->getUser();
-
-        if ($user->role) {
-            // couldn't think of a better way to deal with our JSON-but-not-json fields
-            // get categories that are available for users with this role or NULL role
-            // taking care NOT to bring any child categories that belong
-            // to parents with other role restrictions
-            $q = $query->where(function ($query) use ($user) {
-                return $query
-                    ->whereNull('role')
-                    ->orWhere('role', 'LIKE', '%\"' . $user->role . '\"%')
-                    ;
-            });
-            $q->where(function ($query) use ($user) {
-                return $query
-                    ->whereNotIn('parent_id', function ($query) use ($user) {
-                        $query
-                            ->select('id')
-                            ->from('tags')
-                            ->where('role', 'NOT LIKE', '%\"' . $user->role . '\"%')
-                            ->whereNull('parent_id');
-                    })
-                    ->orWhereNull('parent_id');
-            });
-            // generates a query like like this
-            // select * from `tags` where (`role` is null or `role` LIKE ?)
-            // AND (`parent_id` not in
-            // (
-            //  select `id` from `tags` where `role` NOT LIKE ? and `parent_id` is null
-            // )
-            // or `parent_id` is null)
-            return $q;
-        }
-        // get categories that are available for non logged in users
-        // taking care NOT to bring any child categories that belong
-        // to parents with admin/user/other role restrictions
-        $q = $query->whereNull('role')->where(function ($query) use ($user) {
-            return $query
-                ->whereNotIn('parent_id', function ($query) use ($user) {
-                    $query
-                        ->select('id')
-                        ->from('tags')
-                        ->whereNotNull('role')
-                        ->whereNull('parent_id');
-                })
-                ->orWhereNull('parent_id');
-        });
-        // generates a query like this:
-        // select * from `tags` where `role` is null
-        // AND (`parent_id` not in
-        // (
-        //  select `id` from `tags` where `role` is not null and `parent_id` is null
-        // )
-        // or `parent_id` is null)
-
-        return $q;
-    }
 
     /**
      * Get the category's color format
@@ -344,5 +275,16 @@ class Category extends ResourceModel
     public function errors()
     {
         return $this->errors;
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+        /**
+         * This is cool because we don't have to worry about calling ::allowed
+         * each time to be safe that we are only getting authorized data. It's saving us
+         * from ourselves :)
+         */
+        static::addGlobalScope(new CategoryAllowed);
     }
 }//end class
