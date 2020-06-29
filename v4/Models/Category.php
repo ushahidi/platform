@@ -197,8 +197,7 @@ class Category extends BaseModel
              ],
              'description' => [
                  'min:2',
-                 'max:255',
-                 'regex:/^[\pL\pN\pP ]++$/uD',
+                 'max:255'
              ],
              'color'                             => [
                  'string',

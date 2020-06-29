@@ -276,7 +276,9 @@ class PostController extends V4Controller
     public function validateTranslations($post, $entity_array, array $translations)
     {
         $entity_array = array_merge($entity_array, $translations);
-        $entity_array['slug'] = Post::makeSlug($entity_array['slug']);
+        if (isset($entity_array['slug'])) {
+            $entity_array['slug'] = Post::makeSlug($entity_array['slug']);
+        }
         if (!$post->validate($entity_array)) {
             return $post->errors->toArray();
         }

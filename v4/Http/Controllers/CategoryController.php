@@ -186,7 +186,9 @@ class CategoryController extends V4Controller
     public function validateTranslations($category, $entity_array, array $translations)
     {
         $entity_array = array_merge($entity_array, $translations);
-        $entity_array['slug'] = Category::makeSlug($entity_array['slug']);
+        if (isset($entity_array['slug'])) {
+            $entity_array['slug'] = Category::makeSlug($entity_array['slug']);
+        }
         if (!$category->validate($entity_array)) {
             return $category->errors->toArray();
         }
