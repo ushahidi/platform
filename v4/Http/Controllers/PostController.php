@@ -273,7 +273,7 @@ class PostController extends V4Controller
      * @param array $translations
      * @return array
      */
-    protected function validateTranslations(Post $post, $entity_array, array $translations)
+    public function validateTranslations($post, $entity_array, array $translations)
     {
         $entity_array = array_merge($entity_array, $translations);
         $entity_array['slug'] = Post::makeSlug($entity_array['slug']);
