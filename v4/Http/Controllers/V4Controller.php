@@ -99,7 +99,7 @@ class V4Controller extends BaseController
      * @param array $translations
      * @return array
      */
-    private function validateTranslations($entity, $entity_array, array $translations)
+    public function validateTranslations($entity, $entity_array, array $translations)
     {
         $entity_array = array_merge($entity_array, $translations);
         if (!$entity->validate($entity_array)) {

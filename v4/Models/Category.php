@@ -196,9 +196,9 @@ class Category extends BaseModel
                 ])
              ],
              'description' => [
-                'regex:/^[\pL\pN\pP ]++$/uD',
-                'min:2',
-                'max:255',
+                 'min:2',
+                 'max:255',
+                 'regex:/^[\pL\pN\pP ]++$/uD',
              ],
              'color'                             => [
                  'string',
@@ -268,7 +268,7 @@ class Category extends BaseModel
     {
         $v = Validator::make($data, $this->getRules(), $this->validationMessages());
         $v->sometimes('role', 'exists:roles,name', function ($input) {
-            return !!$input;
+            return !!$input->get('role');
         });
         // check for failure
         if (!$v->fails()) {
