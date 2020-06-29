@@ -25,7 +25,7 @@ class FieldResource extends Resource
             'required' => $this->required,
             'default' => $this->default,
             'priority' => $this->priority,
-            'options' => $this->options,
+            'options' => ($this->type === 'tags') ? new CategoryCollection($this->options) : $this->options,
             'cardinality' => $this->cardinality,
             'config' => $this->config,
             'response_private' => $this->response_private,

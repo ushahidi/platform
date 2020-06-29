@@ -263,6 +263,7 @@ class Category extends BaseModel
             $this->attributes['color'] = ltrim($value, '#');
         }
     }
+
     public function validate($data)
     {
         $v = Validator::make($data, $this->getRules(), $this->validationMessages());

@@ -46,6 +46,7 @@ class PostValueCollection extends ResourceCollection
 
             $task['fields'] = $fields->map(function ($field, $key) use ($values_by_task) {
                 $field->load('translations');
+                $field_obj = $field;
                 $trans = new TranslationCollection($field->translations);
                 $field = $field->toArray();
                 $field['translations'] = $trans;
@@ -54,6 +55,10 @@ class PostValueCollection extends ResourceCollection
                 })->values();
                 if ($field['type'] !== 'tags') {
                     $field['value'] = $field['value']->first();
+                } else {
+                    $field['options'] =
+                        $field['options'] ? new CategoryCollection($field_obj->options) :
+                        $field['options'];
                 }
                 if (!empty($field['value'])) {
                     if (get_class($field['value']) === 'v4\Http\Resources\PostValueResource') {
