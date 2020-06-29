@@ -3,6 +3,7 @@ namespace v4\Http\Resources;
 
 use Illuminate\Http\Resources\Json\Resource;
 use Illuminate\Support\Collection;
+use Ushahidi\Core\Entity\Post;
 
 class PostResource extends Resource
 {
@@ -22,6 +23,14 @@ class PostResource extends Resource
         if ($values->count() === 0) {
             $no_values = true;
         }
+        $authorizer = service('authorizer.post');
+        $entity = new Post($this->resource->toArray);
+        // if there's no user the guards will kick them off already, but if there
+        // is one we need to check the authorizer to ensure we don't let
+        // users without admin perms create forms etc
+        // this is an unfortunate problem with using an old version of lumen
+        // that doesn't let me do guest user checks without adding more risk.
+        $privileges = $authorizer->getAllowedPrivs($entity);
 
         return [
             'id' => $this->id,
@@ -47,7 +56,8 @@ class PostResource extends Resource
             'enabled_languages' => [
                 'default'=> $this->base_language,
                 'available' => $this->translations->groupBy('language')->keys()
-            ]
+            ],
+            'allowed_privileges' => $privileges
         ];
     }
 }
