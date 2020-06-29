@@ -1,12 +1,18 @@
 #!/bin/bash
 set -e
 
-function copy_dot_env() {
+function copy_external_config() {
   if [ -n "$DOTENV_PATH" ] && [ -f "$DOTENV_PATH" ]; then
     if [ -f .env ]; then
       echo "NOTICE: replacing .env file with contents from $DOTENV_PATH"
     fi
     cat $DOTENV_PATH > .env
+  fi
+  if [ -n "$PASSPORT_KEYS_PATH" ] && [ -d "$PASSPORT_KEYS_PATH" ] && [ -e "$PASSPORT_KEYS_PATH/oauth-private.key" ] ; then
+    if [ -e ./storage/passport/oauth-private.key ]; then
+      echo "NOTICE: replacing passport key files with those from $PASSPORT_KEYS_PATH"
+    fi
+    cp -f $PASSPORT_KEYS_PATH/*.key ./storage/passport/
   fi
 }
 

@@ -12,7 +12,7 @@ fi
 
 set -e
 
-copy_dot_env
+copy_external_config
 touch_logs
 
 # Dump lumen disk logs if something fails
