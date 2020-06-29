@@ -34,7 +34,7 @@ function provision_passport_keys() {
   if [ ! -d storage/passport ]; then
     mkdir -p storage/passport
   fi
-  if [ ! -f storage/passport/oauth-private ]; then
+  if [ ! -f storage/passport/oauth-private.key ]; then
     composer bootstrap:passport
   fi
 }
