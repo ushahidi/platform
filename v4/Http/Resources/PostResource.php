@@ -17,7 +17,9 @@ class PostResource extends Resource
      */
     public function toArray($request)
     {
+
         $values = $this->getPostValues();
+        $col = new Collection(['values' => $values, 'tasks' => $this->survey->tasks]);
         $no_values = false;
 
         if ($values->count() === 0) {
@@ -51,7 +53,7 @@ class PostResource extends Resource
             'base_language' => $this->base_language,
             'categories' => $this->categories,
             'completed_stages' => $this->postStages,
-            'post_content' => $no_values ? $this->survey->tasks : new PostValueCollection($values),
+            'post_content' => $no_values ? $this->survey->tasks : new PostValueCollection($col),
             'translations' => new TranslationCollection($this->translations),
             'enabled_languages' => [
                 'default'=> $this->base_language,
