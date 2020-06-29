@@ -63,8 +63,17 @@ class PostValueCollection extends ResourceCollection
                 if (!empty($field['value'])) {
                     if (get_class($field['value']) === 'v4\Http\Resources\PostValueResource') {
                         $field['value']->load('translations');
+                        $field['value'] = $field['value']->toArray($field['value']);
+                    } elseif (get_class($field['value']) === 'Illuminate\Support\Collection') {
+                        if ($field['type'] === 'tags') {
+                            $cats = $field['value']->map(function ($f) {
+                                return CategoryResource::make($f->tag);
+                            });
+                            $field['value'] = $cats;
+                        }
+                    } else {
+                        $field['value'] = $field['value']->toArray($field['value']);
                     }
-                    $field['value'] = $field['value']->toArray($field['value']);
                 }
                 return $field;
             });

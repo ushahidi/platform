@@ -18,9 +18,6 @@ class PostValueResource extends Resource
         $value = $this->value;
         $value_translations = $this->translations;
 
-        if ($this->tag_id) {
-            $value = $this->tag_id;
-        }
         return [
             'id' => $this->id,
             'post_id' => $this->post_id,
