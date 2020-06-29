@@ -57,7 +57,7 @@ class Attribute extends BaseModel
                 }
                 return $v;
             }, json_decode($value));
-            return Category::all()->whereIn('id', $values);
+            return Category::whereIn('id', $values)->with('children')->get();
         }
         return json_decode($value);
     }
