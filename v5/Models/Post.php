@@ -1,6 +1,6 @@
 <?php
 
-namespace v4\Models;
+namespace v5\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
@@ -13,9 +13,9 @@ use Ushahidi\App\Validator\LegacyValidator;
 use Ushahidi\Core\Entity\Permission;
 use Ushahidi\Core\Tool\Permissions\InteractsWithFormPermissions;
 use Ushahidi\Core\Tool\Permissions\InteractsWithPostPermissions;
-use v4\Models\Helpers\HideAuthor;
-use v4\Models\Helpers\HideTime;
-use v4\Models\Scopes\PostAllowed;
+use v5\Models\Helpers\HideAuthor;
+use v5\Models\Helpers\HideTime;
+use v5\Models\Scopes\PostAllowed;
 
 class Post extends BaseModel
 {
@@ -233,7 +233,7 @@ class Post extends BaseModel
      */
     public function translations()
     {
-        return $this->morphMany('v4\Models\Translation', 'translatable');
+        return $this->morphMany('v5\Models\Translation', 'translatable');
     }//end translations()
 
 
@@ -290,22 +290,22 @@ class Post extends BaseModel
 
     public function survey()
     {
-        return $this->hasOne('v4\Models\Survey', 'id', 'form_id');
+        return $this->hasOne('v5\Models\Survey', 'id', 'form_id');
     }
 
     public function locks()
     {
-        return $this->hasMany('v4\Models\PostValues\PostLock', 'post_id', 'id');
+        return $this->hasMany('v5\Models\PostValues\PostLock', 'post_id', 'id');
     }
 
     public function categories()
     {
-        return $this->belongsToMany('v4\Models\Category', 'posts_tags', 'post_id', 'tag_id');
+        return $this->belongsToMany('v5\Models\Category', 'posts_tags', 'post_id', 'tag_id');
     }
 
     public function comments()
     {
-        return $this->hasMany('v4\Models\Comment', 'post_id', 'id');
+        return $this->hasMany('v5\Models\Comment', 'post_id', 'id');
     }
 
     public function getPostValues()
@@ -338,83 +338,83 @@ class Post extends BaseModel
      */
     public function valuesVarchar()
     {
-        return $this->hasMany('v4\Models\PostValues\PostVarchar', 'post_id', 'id')
+        return $this->hasMany('v5\Models\PostValues\PostVarchar', 'post_id', 'id')
             ->select('post_varchar.*');
     }
 
     public function valuesText()
     {
-        return $this->hasMany('v4\Models\PostValues\PostText', 'post_id', 'id')
+        return $this->hasMany('v5\Models\PostValues\PostText', 'post_id', 'id')
             ->select('post_text.*');
     }
 
     public function valuesDatetime()
     {
-        return $this->hasMany('v4\Models\PostValues\PostDatetime', 'post_id', 'id')
+        return $this->hasMany('v5\Models\PostValues\PostDatetime', 'post_id', 'id')
             ->select('post_datetime.*');
     }
 
     public function valuesDecimal()
     {
-        return $this->hasMany('v4\Models\PostValues\PostDecimal', 'post_id', 'id')
+        return $this->hasMany('v5\Models\PostValues\PostDecimal', 'post_id', 'id')
             ->select('post_decimal.*');
     }
 
     public function valuesGeometry()
     {
-        return $this->hasMany('v4\Models\PostValues\PostGeometry', 'post_id', 'id');
+        return $this->hasMany('v5\Models\PostValues\PostGeometry', 'post_id', 'id');
     }
 
     public function valuesInt()
     {
-        return $this->hasMany('v4\Models\PostValues\PostInt', 'post_id', 'id')
+        return $this->hasMany('v5\Models\PostValues\PostInt', 'post_id', 'id')
             ->select('post_int.*');
     }
 
     public function valuesMarkdown()
     {
-        return $this->hasMany('v4\Models\PostValues\PostMarkdown', 'post_id', 'id')
+        return $this->hasMany('v5\Models\PostValues\PostMarkdown', 'post_id', 'id')
             ->select('post_markdown.*');
     }
 
     public function valuesMedia()
     {
-        return $this->hasMany('v4\Models\PostValues\PostMedia', 'post_id', 'id')
+        return $this->hasMany('v5\Models\PostValues\PostMedia', 'post_id', 'id')
             ->select('post_media.*');
     }
 
     public function valuesPoint()
     {
-        return $this->hasMany('v4\Models\PostValues\PostPoint', 'post_id', 'id');
+        return $this->hasMany('v5\Models\PostValues\PostPoint', 'post_id', 'id');
         ;
     }
 
     public function valuesRelation()
     {
-        return $this->hasMany('v4\Models\PostValues\PostRelation', 'post_id', 'id')
+        return $this->hasMany('v5\Models\PostValues\PostRelation', 'post_id', 'id')
             ->select('post_relation.*');
     }
 
     public function valuesPostsMedia()
     {
-        return $this->hasMany('v4\Models\PostValues\PostsMedia', 'post_id', 'id')
+        return $this->hasMany('v5\Models\PostValues\PostsMedia', 'post_id', 'id')
             ->select('posts_media.*');
     }
 
     public function valuesPostsSet()
     {
-        return $this->hasMany('v4\Models\PostValues\PostsSet', 'post_id', 'id')
+        return $this->hasMany('v5\Models\PostValues\PostsSet', 'post_id', 'id')
             ->select('posts_sets.*');
     }
 
     public function valuesPostTag()
     {
-        return $this->hasMany('v4\Models\PostValues\PostTag', 'post_id', 'id')
+        return $this->hasMany('v5\Models\PostValues\PostTag', 'post_id', 'id')
             ->select('posts_tags.*');
     }
 
     public function postStages()
     {
-        return $this->hasMany('v4\Models\PostStages', 'post_id', 'id');
+        return $this->hasMany('v5\Models\PostStages', 'post_id', 'id');
     }
 }//end class

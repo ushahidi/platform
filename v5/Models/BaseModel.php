@@ -1,6 +1,6 @@
 <?php
 
-namespace v4\Models;
+namespace v5\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Validator;
 /**
  * Class ResourceModel
  * Base class for models that are exposed as HTTP resources
- * @package v4\Models
+ * @package v5\Models
  */
 class BaseModel extends Model
 {

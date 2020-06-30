@@ -1,7 +1,7 @@
 <?php
 
 
-namespace v4\Http\Resources;
+namespace v5\Http\Resources;
 
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
@@ -14,7 +14,7 @@ class PostCollection extends ResourceCollection
      *
      * @var string
      */
-    public $collects = 'v4\Http\Resources\PostResource';
+    public $collects = 'v5\Http\Resources\PostResource';
     /**
      * Transform the resource collection into an array.
      *

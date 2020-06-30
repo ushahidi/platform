@@ -1,10 +1,10 @@
 <?php
 
-namespace v4\Policies;
+namespace v5\Policies;
 
 use Ushahidi\App\Auth\GenericUser as User;
 use Ushahidi\Core\Entity;
-use v4\Models\Survey;
+use v5\Models\Survey;
 use Ushahidi\Core\Entity\Permission;
 use Ushahidi\Core\Traits\AdminAccess;
 use Ushahidi\Core\Traits\UserContext;
@@ -119,7 +119,7 @@ class SurveyPolicy
             return true;
         }
 
-        // Before /v4 we would check if the user has access to a parent form. This check has to be run
+        // Before /v5 we would check if the user has access to a parent form. This check has to be run
         // before public access is granted... but parent forms aren't a thing
         // @IMPORTANT : parent forms are not a thing, they don't do anything, they don't exist.
         // I leave this here because it can be confusing otherwise.

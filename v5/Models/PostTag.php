@@ -1,6 +1,6 @@
 <?php
 
-namespace v4\Models;
+namespace v5\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Input;
@@ -101,16 +101,16 @@ class PostTag extends BaseModel
 
     public function category()
     {
-        return $this->hasOne('v4\Models\Category', 'id', 'tag_id');
+        return $this->hasOne('v5\Models\Category', 'id', 'tag_id');
     }
 
     public function attribute()
     {
-        return $this->hasOne('v4\Models\Attribute', 'id', 'form_attribute_id');
+        return $this->hasOne('v5\Models\Attribute', 'id', 'form_attribute_id');
     }
 
     public function post()
     {
-        return $this->hasOne('v4\Models\Post', 'id', 'post_id');
+        return $this->hasOne('v5\Models\Post', 'id', 'post_id');
     }
 }//end class

@@ -1,6 +1,6 @@
 <?php
 
-namespace v4\Models;
+namespace v5\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Input;
@@ -395,11 +395,11 @@ class Survey extends BaseModel
         // to avoid an hydration issue with InteractsWithFormPermissions
         if ($authorizer->acl->hasPermission($user, Permission::MANAGE_POSTS)) {
             // if this permission is set we can go ahead and hydrate all the stages
-            return $this->hasMany('v4\Models\Stage', 'form_id');
+            return $this->hasMany('v5\Models\Stage', 'form_id');
         }
 
         return $this->hasMany(
-            'v4\Models\Stage',
+            'v5\Models\Stage',
             'form_id'
         )
         ->where('form_stages.show_when_published', '=', '1')
@@ -412,7 +412,7 @@ class Survey extends BaseModel
      */
     public function translations()
     {
-        return $this->morphMany('v4\Models\Translation', 'translatable');
+        return $this->morphMany('v5\Models\Translation', 'translatable');
     }//end translations()
 
     /**

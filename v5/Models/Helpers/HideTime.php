@@ -1,5 +1,5 @@
 <?php
-namespace v4\Models\Helpers;
+namespace v5\Models\Helpers;
 
 class HideTime
 {

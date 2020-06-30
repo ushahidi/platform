@@ -1,7 +1,7 @@
 <?php
 
 
-namespace v4\Http\Resources;
+namespace v5\Http\Resources;
 
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
@@ -12,7 +12,7 @@ class TranslationCollection extends ResourceCollection
      *
      * @var string
      */
-    public $collects = 'v4\Http\Resources\TranslationResource';
+    public $collects = 'v5\Http\Resources\TranslationResource';
     /**
      * Transform the resource collection into an array.
      *

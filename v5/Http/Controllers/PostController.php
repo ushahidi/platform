@@ -1,15 +1,15 @@
 <?php
 
-namespace v4\Http\Controllers;
+namespace v5\Http\Controllers;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Ushahidi\App\Auth\GenericUser;
 use Illuminate\Http\Request;
-use v4\Http\Resources\PostCollection;
-use v4\Http\Resources\PostResource;
-use v4\Models\Post;
-use v4\Models\Translation;
+use v5\Http\Resources\PostCollection;
+use v5\Http\Resources\PostResource;
+use v5\Models\Post;
+use v5\Models\Translation;
 use Illuminate\Support\Facades\DB;
 
 class PostController extends V4Controller
@@ -199,7 +199,7 @@ class PostController extends V4Controller
                     continue;
                 }
 
-                $class_name = "v4\Models\PostValues\Post" . ucfirst($type);
+                $class_name = "v5\Models\PostValues\Post" . ucfirst($type);
                 if (!class_exists($class_name)) {
                     throw new \Exception("Type '$type' is invalid.");
                 }

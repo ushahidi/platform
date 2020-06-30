@@ -1,6 +1,6 @@
 <?php
 
-namespace v4\Models;
+namespace v5\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Validator;
@@ -70,6 +70,6 @@ class Lock extends BaseModel
 
     public function post()
     {
-        return $this->hasOne('v4\Models\Post', 'id', 'post_id');
+        return $this->hasOne('v5\Models\Post', 'id', 'post_id');
     }
 }//end class

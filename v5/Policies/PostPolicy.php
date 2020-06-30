@@ -1,12 +1,12 @@
 <?php
 
-namespace v4\Policies;
+namespace v5\Policies;
 
 use Ushahidi\App\Auth\GenericUser as User;
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\Traits\OwnerAccess;
-use v4\Models\Survey;
-use v4\Models\Post;
+use v5\Models\Survey;
+use v5\Models\Post;
 
 use Ushahidi\Core\Entity\Permission;
 use Ushahidi\Core\Traits\AdminAccess;

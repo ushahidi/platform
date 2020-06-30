@@ -1,10 +1,10 @@
 <?php
 
-namespace v4\Models\PostValues;
+namespace v5\Models\PostValues;
 
-use v4\Models\BaseModel;
-use v4\Models\Helpers\HideTime;
-use v4\Models\Scopes\PostValueAllowed;
+use v5\Models\BaseModel;
+use v5\Models\Helpers\HideTime;
+use v5\Models\Scopes\PostValueAllowed;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Validator;
 
@@ -41,7 +41,7 @@ class PostValue extends BaseModel
      */
     public function translations()
     {
-        return $this->morphMany('v4\Models\Translation', 'translatable', null, 'translatable_id', 'id');
+        return $this->morphMany('v5\Models\Translation', 'translatable', null, 'translatable_id', 'id');
     }//end translations()
 
     /**
@@ -82,12 +82,12 @@ class PostValue extends BaseModel
 
     public function attribute()
     {
-        return $this->hasOne('v4\Models\Attribute', 'id', 'form_attribute_id');
+        return $this->hasOne('v5\Models\Attribute', 'id', 'form_attribute_id');
     }
 
     public function post()
     {
-        return $this->hasOne('v4\Models\Post', 'id', 'post_id');
+        return $this->hasOne('v5\Models\Post', 'id', 'post_id');
     }
 
     /**

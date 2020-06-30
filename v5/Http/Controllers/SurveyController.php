@@ -1,19 +1,19 @@
 <?php
 
-namespace v4\Http\Controllers;
+namespace v5\Http\Controllers;
 
 use Illuminate\Auth\Access\Gate;
 use Illuminate\Http\Resources\Json\Resource;
 use Illuminate\Support\Collection;
 use Ramsey\Uuid\Uuid;
 use Ushahidi\App\Validator\LegacyValidator;
-use v4\Http\Resources\SurveyCollection;
-use v4\Http\Resources\SurveyResource;
-use v4\Models\Attribute;
-use v4\Models\Stage;
-use v4\Models\Survey;
+use v5\Http\Resources\SurveyCollection;
+use v5\Http\Resources\SurveyResource;
+use v5\Models\Attribute;
+use v5\Models\Stage;
+use v5\Models\Survey;
 use Illuminate\Http\Request;
-use v4\Models\Translation;
+use v5\Models\Translation;
 
 class SurveyController extends V4Controller
 {

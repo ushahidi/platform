@@ -2,7 +2,7 @@
 /**
  * API version number
  */
-$apiVersion = '4';
+$apiVersion = '5';
 $apiBase = 'api/v' . $apiVersion;
 
 $router->group([

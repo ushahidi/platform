@@ -1,16 +1,16 @@
 <?php
 
-namespace v4\Http\Controllers;
+namespace v5\Http\Controllers;
 
 use Illuminate\Auth\Access\Gate;
 use Illuminate\Http\Resources\Json\Resource;
 use Illuminate\Support\Collection;
 use Ushahidi\App\Validator\LegacyValidator;
-use v4\Http\Resources\CategoryCollection;
-use v4\Http\Resources\CategoryResource;
+use v5\Http\Resources\CategoryCollection;
+use v5\Http\Resources\CategoryResource;
 use Illuminate\Http\Request;
-use v4\Models\Category;
-use v4\Models\Translation;
+use v5\Models\Category;
+use v5\Models\Translation;
 use Illuminate\Support\Facades\DB;
 
 class CategoryController extends V4Controller

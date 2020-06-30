@@ -1,6 +1,6 @@
 <?php
 
-namespace v4\Models;
+namespace v5\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -45,7 +45,7 @@ class Attribute extends BaseModel
 
     public function stage()
     {
-        return $this->belongsTo('v4\Models\Stage', 'form_stage_id');
+        return $this->belongsTo('v5\Models\Stage', 'form_stage_id');
     }
 
     public function getOptionsAttribute($value)
@@ -66,6 +66,6 @@ class Attribute extends BaseModel
      */
     public function translations()
     {
-        return $this->morphMany('v4\Models\Translation', 'translatable');
+        return $this->morphMany('v5\Models\Translation', 'translatable');
     }
 }

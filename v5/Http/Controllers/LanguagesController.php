@@ -9,7 +9,7 @@
  * @copyright 2020 Ushahidi
  */
 
-namespace v4\Http\Controllers;
+namespace v5\Http\Controllers;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;

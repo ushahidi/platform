@@ -1,10 +1,10 @@
 <?php
 
-namespace v4\Models\PostValues;
+namespace v5\Models\PostValues;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Validator;
-use v4\Models\BaseModel;
+use v5\Models\BaseModel;
 
 class PostsMedia extends BaseModel
 {
@@ -60,11 +60,11 @@ class PostsMedia extends BaseModel
 
     public function media()
     {
-        return $this->hasOne('v4\Models\Media', 'id', 'media_id');
+        return $this->hasOne('v5\Models\Media', 'id', 'media_id');
     }
 
     public function post()
     {
-        return $this->hasOne('v4\Models\Post', 'id', 'post_id');
+        return $this->hasOne('v5\Models\Post', 'id', 'post_id');
     }
 }//end class

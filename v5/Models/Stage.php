@@ -1,10 +1,10 @@
 <?php
 
-namespace v4\Models;
+namespace v5\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Ushahidi\Core\Entity\Permission;
-use v4\Models\Scopes\StageAllowed;
+use v5\Models\Scopes\StageAllowed;
 
 class Stage extends BaseModel
 {
@@ -37,12 +37,12 @@ class Stage extends BaseModel
 
     public function fields()
     {
-        return $this->hasMany('v4\Models\Attribute', 'form_stage_id');
+        return $this->hasMany('v5\Models\Attribute', 'form_stage_id');
     }
 
     public function survey()
     {
-        return $this->belongsTo('v4\Models\Survey', 'form_id');
+        return $this->belongsTo('v5\Models\Survey', 'form_id');
     }
 
     /**
@@ -50,7 +50,7 @@ class Stage extends BaseModel
      */
     public function translations()
     {
-        return $this->morphMany('v4\Models\Translation', 'translatable');
+        return $this->morphMany('v5\Models\Translation', 'translatable');
     }
 
     protected static function boot()

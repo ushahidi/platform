@@ -1,10 +1,10 @@
 <?php
 
-namespace v4\Models\PostValues;
+namespace v5\Models\PostValues;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Validator;
-use v4\Models\Helpers\HideTime;
+use v5\Models\Helpers\HideTime;
 
 class PostDatetime extends PostValue
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace v4\Models\PostValues;
+namespace v5\Models\PostValues;
 
 class PostVarchar extends PostValue
 {

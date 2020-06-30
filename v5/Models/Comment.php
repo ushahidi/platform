@@ -1,8 +1,8 @@
 <?php
 
-namespace v4\Models;
+namespace v5\Models;
 
-use v4\Models\PostValues\PostValue;
+use v5\Models\PostValues\PostValue;
 
 class Comment extends PostValue
 {

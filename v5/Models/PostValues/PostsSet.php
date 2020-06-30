@@ -1,6 +1,6 @@
 <?php
 
-namespace v4\Models\PostValues;
+namespace v5\Models\PostValues;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Validator;
@@ -59,11 +59,11 @@ class PostsSet extends Model
 
     public function set()
     {
-        return $this->hasOne('v4\Models\Set', 'id', 'set_id');
+        return $this->hasOne('v5\Models\Set', 'id', 'set_id');
     }
 
     public function post()
     {
-        return $this->hasOne('v4\Models\Post', 'id', 'post_id');
+        return $this->hasOne('v5\Models\Post', 'id', 'post_id');
     }
 }//end class

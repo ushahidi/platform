@@ -1,10 +1,10 @@
 <?php
 
-namespace v4\Policies;
+namespace v5\Policies;
 
 use Ushahidi\App\Auth\GenericUser as User;
 use Ushahidi\Core\Entity;
-use v4\Models\Category;
+use v5\Models\Category;
 use Ushahidi\Core\Entity\Permission;
 use Ushahidi\Core\Traits\AdminAccess;
 use Ushahidi\Core\Traits\UserContext;

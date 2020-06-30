@@ -1,7 +1,7 @@
 <?php
 
 
-namespace v4\Http\Resources;
+namespace v5\Http\Resources;
 
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
@@ -12,7 +12,7 @@ class FieldCollection extends ResourceCollection
      *
      * @var string
      */
-    public $collects = 'v4\Http\Resources\FieldResource';
+    public $collects = 'v5\Http\Resources\FieldResource';
     /**
      * Transform the resource collection into an array.
      *

@@ -1,7 +1,7 @@
 <?php
 
 
-namespace v4\Http\Resources;
+namespace v5\Http\Resources;
 
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
@@ -14,7 +14,7 @@ class SurveyCollection extends ResourceCollection
      *
      * @var string
      */
-    public $collects = 'v4\Http\Resources\SurveyResource';
+    public $collects = 'v5\Http\Resources\SurveyResource';
     /**
      * Transform the resource collection into an array.
      *

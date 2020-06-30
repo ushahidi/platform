@@ -1,10 +1,10 @@
 <?php
 
-namespace v4\Models\PostValues;
+namespace v5\Models\PostValues;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Validator;
-use v4\Models\Helpers\HideTime;
+use v5\Models\Helpers\HideTime;
 
 class PostTag extends Model
 {
@@ -61,17 +61,17 @@ class PostTag extends Model
 
     public function attribute()
     {
-        return $this->hasOne('v4\Models\Attribute', 'id', 'form_attribute_id');
+        return $this->hasOne('v5\Models\Attribute', 'id', 'form_attribute_id');
     }
 
     public function tag()
     {
-        return $this->hasOne('v4\Models\Category', 'id', 'tag_id');
+        return $this->hasOne('v5\Models\Category', 'id', 'tag_id');
     }
 
     public function post()
     {
-        return $this->hasOne('v4\Models\Post', 'id', 'post_id');
+        return $this->hasOne('v5\Models\Post', 'id', 'post_id');
     }
 
     /**

@@ -1,7 +1,7 @@
 <?php
 
 
-namespace v4\Http\Resources;
+namespace v5\Http\Resources;
 
 use Illuminate\Http\Resources\Json\Resource;
 use Illuminate\Http\Resources\Json\ResourceCollection;
@@ -16,7 +16,7 @@ class PostValueCollection extends ResourceCollection
      *
      * @var string
      */
-    public $collects = 'v4\Http\Resources\PostValueResource';
+    public $collects = 'v5\Http\Resources\PostValueResource';
     /**
      * Transform the resource collection into an array.
      *
@@ -61,7 +61,7 @@ class PostValueCollection extends ResourceCollection
                         $field['options'];
                 }
                 if (!empty($field['value'])) {
-                    if (get_class($field['value']) === 'v4\Http\Resources\PostValueResource') {
+                    if (get_class($field['value']) === 'v5\Http\Resources\PostValueResource') {
                         $field['value']->load('translations');
                         $field['value'] = $field['value']->toArray($field['value']);
                     } elseif (get_class($field['value']) === 'Illuminate\Support\Collection') {

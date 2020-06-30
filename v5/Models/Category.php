@@ -1,6 +1,6 @@
 <?php
 
-namespace v4\Models;
+namespace v5\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
@@ -8,7 +8,7 @@ use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Validator;
 use Ushahidi\Core\Entity\Permission;
 use Illuminate\Support\Facades\Input;
-use v4\Models\Scopes\CategoryAllowed;
+use v5\Models\Scopes\CategoryAllowed;
 
 class Category extends BaseModel
 {
@@ -228,16 +228,16 @@ class Category extends BaseModel
      */
     public function translations()
     {
-        return $this->morphMany('v4\Models\Translation', 'translatable');
+        return $this->morphMany('v5\Models\Translation', 'translatable');
     }//end getRules()
 
     public function parent()
     {
-        return $this->hasOne('v4\Models\Category', 'id', 'parent_id');
+        return $this->hasOne('v5\Models\Category', 'id', 'parent_id');
     }
     public function children()
     {
-        return $this->hasMany('v4\Models\Category', 'parent_id', 'id');
+        return $this->hasMany('v5\Models\Category', 'parent_id', 'id');
     }
 
 
