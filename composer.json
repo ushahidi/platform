@@ -82,7 +82,7 @@
         "psr-4": {
             "Ushahidi\\": "src/",
             "Ushahidi\\App\\": "app/",
-            "v4\\": "v4/"
+            "v5\\": "v5/"
         },
         "files": [
             "app/helpers.php"

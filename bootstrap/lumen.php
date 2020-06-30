@@ -94,7 +94,7 @@ $app->register(Ushahidi\App\Providers\EventServiceProvider::class);
 $app->register(Ushahidi\App\Providers\PassportServiceProvider::class);
 $app->register(Barryvdh\Cors\ServiceProvider::class);
 $app->register(Sentry\SentryLaravel\SentryLumenServiceProvider::class);
-$app->register(v4\Providers\MorphServiceProvider::class);
+$app->register(v5\Providers\MorphServiceProvider::class);
 
 
 /*
@@ -116,6 +116,6 @@ $app->router->group([
 $app->router->group([
     'namespace' => 'v4\Http\Controllers',
 ], function ($router) {
-    require __DIR__.'/../v4/routes/web.php';
+    require __DIR__ . '/../v5/routes/web.php';
 });
 return $app;
