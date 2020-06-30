@@ -4,7 +4,7 @@ Feature: Testing translations
     Scenario: User with Manage Settings permission can create a hydrated form
         Given that I want to make a new "Survey"
         And that the oauth token is "testmanager"
-        And that the api_url is "api/v4"
+        And that the api_url is "api/v5"
         And that the request "data" is:
         """
         {

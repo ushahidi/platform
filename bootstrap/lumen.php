@@ -114,7 +114,7 @@ $app->router->group([
     require __DIR__.'/../routes/web.php';
 });
 $app->router->group([
-    'namespace' => 'v4\Http\Controllers',
+    'namespace' => 'v5\Http\Controllers',
 ], function ($router) {
     require __DIR__ . '/../v5/routes/web.php';
 });

@@ -3,7 +3,7 @@ Feature: Testing the Surveys API
   Scenario: Updating a Survey
     Given that I want to update a "Survey"
     And that the oauth token is "testmanager"
-    And that the api_url is "api/v4"
+    And that the api_url is "api/v5"
     And that the request "data" is:
     """
                 {
@@ -517,7 +517,7 @@ Feature: Testing the Surveys API
   Scenario: Update survey including removing one task and a field from another task
     Given that I want to update a "Survey"
     And that the oauth token is "testmanager"
-    And that the api_url is "api/v4"
+    And that the api_url is "api/v5"
     And that the request "data" is:
     """
                 {

@@ -3,7 +3,7 @@ Feature: Testing the Surveys API
     Scenario: Creating a new Survey
         Given that I want to make a new "Survey"
         And that the oauth token is "testmanager"
-        And that the api_url is "api/v4"
+        And that the api_url is "api/v5"
         And that the request "data" is:
             """
             {
@@ -31,7 +31,7 @@ Feature: Testing the Surveys API
     Scenario: A tag field with a response_private true value should fail
         Given that I want to make a new "Survey"
         And that the oauth token is "testmanager"
-        And that the api_url is "api/v4"
+        And that the api_url is "api/v5"
         And that the request "data" is:
             """
             {
@@ -101,7 +101,7 @@ Feature: Testing the Surveys API
 
     Scenario: Updating a Survey to clear name should fail
         Given that I want to update a "Survey"
-        And that the api_url is "api/v4"
+        And that the api_url is "api/v5"
         And that the oauth token is "testmanager"
         And that the request "data" is:
             """
@@ -121,7 +121,7 @@ Feature: Testing the Surveys API
 
     Scenario: Update a non-existent Survey
         Given that I want to update a "Survey"
-        And that the api_url is "api/v4"
+        And that the api_url is "api/v5"
         And that the oauth token is "testmanager"
         And that the request "data" is:
             """
@@ -140,7 +140,7 @@ Feature: Testing the Surveys API
 
     Scenario: Listing All Surveys
         Given that I want to get all "Surveys"
-        And that the api_url is "api/v4"
+        And that the api_url is "api/v5"
         And that the oauth token is "testmanager"
         When I request "/surveys"
         Then the response is JSON
@@ -150,7 +150,7 @@ Feature: Testing the Surveys API
     Scenario: Finding a Survey
         Given that I want to find a "Survey"
         And that its "id" is "1"
-        And that the api_url is "api/v4"
+        And that the api_url is "api/v5"
         And that the oauth token is "testmanager"
         When I request "/surveys"
         Then the response is JSON
@@ -161,7 +161,7 @@ Feature: Testing the Surveys API
     Scenario: Deleting a Survey
         Given that I want to delete a "Survey"
         And that its "id" is "1"
-        And that the api_url is "api/v4"
+        And that the api_url is "api/v5"
         And that the oauth token is "testmanager"
         When I request "/surveys"
         Then the response is JSON
@@ -171,7 +171,7 @@ Feature: Testing the Surveys API
         Then the guzzle status code should be 200
     Scenario: Finding a non-existent Survey
         Given that I want to find a "Survey"
-        And that the api_url is "api/v4"
+        And that the api_url is "api/v5"
         And that the oauth token is "testmanager"
         And that its "id" is "1"
         When I request "/surveys"

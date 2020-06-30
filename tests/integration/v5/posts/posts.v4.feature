@@ -4,7 +4,7 @@ Feature: Testing the Posts API
   Scenario: Creating a new Post
     Given that I want to make a new "Post"
     And that the oauth token is "testmanager"
-    And that the api_url is "api/v4"
+    And that the api_url is "api/v5"
     And that the request "data" is:
 			"""
 			{
@@ -467,7 +467,7 @@ Feature: Testing the Posts API
   Scenario: Creating a new Post
     Given that I want to update a "Post"
     And that the oauth token is "testmanager"
-    And that the api_url is "api/v4"
+    And that the api_url is "api/v5"
     And that the request "data" is:
         """
           {

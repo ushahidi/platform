@@ -4,7 +4,7 @@ Feature: Testing the Posts API
 	Scenario: Creating a new Post
 		Given that I want to make a new "Post"
 		And that the oauth token is "testmanager"
-		And that the api_url is "api/v4"
+		And that the api_url is "api/v5"
 		And that the request "data" is:
 			"""
 			{
@@ -57,7 +57,7 @@ Feature: Testing the Posts API
 	Scenario: Creating a new Post with JSON date format
 		Given that I want to make a new "Post"
 		And that the oauth token is "testmanager"
-		And that the api_url is "api/v4"
+		And that the api_url is "api/v5"
 		And that the request "data" is:
 			"""
 			{
@@ -106,7 +106,7 @@ Feature: Testing the Posts API
 	Scenario: Creating a Post anonymously with no form
 		Given that I want to make a new "Post"
 		And that the oauth token is "testmanager"
-		And that the api_url is "api/v4"
+		And that the api_url is "api/v5"
 		And that the request "data" is:
 			"""
 			{
@@ -133,7 +133,7 @@ Feature: Testing the Posts API
 	@create
 	Scenario: Creating a Post with a restricted Form with an Admin User
 		Given that I want to make a new "Post"
-		And that the api_url is "api/v4"
+		And that the api_url is "api/v5"
 		And that the oauth token is "testadminuser"
 		And that the request "data" is:
 			"""
@@ -160,7 +160,7 @@ Feature: Testing the Posts API
 	@create
 	Scenario: Creating a Post with a form that does not require approval
 		Given that I want to make a new "Post"
-		And that the api_url is "api/v4"
+		And that the api_url is "api/v5"
 		And that the oauth token is "testbasicuser"
 		And that the request "data" is:
 			"""
@@ -188,7 +188,7 @@ Feature: Testing the Posts API
 	@create
 	Scenario: Creating a Post with a form that does not require approval but try to set status should pass
 		Given that I want to make a new "Post"
-		And that the api_url is "api/v4"
+		And that the api_url is "api/v5"
 		And that the oauth token is "testbasicuser"
 		And that the request "data" is:
 			"""
@@ -213,7 +213,7 @@ Feature: Testing the Posts API
 	@create
 	Scenario: Creating an Post with invalid data returns an error
 		Given that I want to make a new "Post"
-		And that the api_url is "api/v4"
+		And that the api_url is "api/v5"
 		And that the oauth token is "testbasicuser"
 		And that the request "data" is:
 			"""
@@ -238,7 +238,7 @@ Feature: Testing the Posts API
 	@create
 	Scenario: Creating a new Post with too many values for attribute returns an error
 		Given that I want to make a new "Post"
-		And that the api_url is "api/v4"
+		And that the api_url is "api/v5"
 		And that the oauth token is "testbasicuser"
 		And that the request "data" is:
 			"""
@@ -266,7 +266,7 @@ Feature: Testing the Posts API
 	@create
 	Scenario: Creating an Post without required fields returns an error
 		Given that I want to make a new "Post"
-		And that the api_url is "api/v4"
+		And that the api_url is "api/v5"
 		And that the oauth token is "testbasicuser"
 		And that the request "data" is:
 			"""
@@ -295,7 +295,7 @@ Feature: Testing the Posts API
 	@create
 	Scenario: Creating an Post with existing user returns an error
 		Given that I want to make a new "Post"
-		And that the api_url is "api/v4"
+		And that the api_url is "api/v5"
 		And that the oauth token is "testbasicuser"
 		And that the request "data" is:
 			"""
@@ -326,7 +326,7 @@ Feature: Testing the Posts API
 	@create
 	Scenario: Creating a Post with a restricted Form returns an error
 		Given that I want to make a new "Post"
-		And that the api_url is "api/v4"
+		And that the api_url is "api/v5"
 		And that the oauth token is "testimporter"
 		And that the request "data" is:
 			"""
@@ -352,7 +352,7 @@ Feature: Testing the Posts API
 	@create
 	Scenario: Creating a Post with existing user by ID (authorized as admin user)
 		Given that I want to make a new "Post"
-		And that the api_url is "api/v4"
+		And that the api_url is "api/v5"
 		And that the oauth token is "testbasicuser"
 		And that the request "data" is:
 			"""
@@ -385,7 +385,7 @@ Feature: Testing the Posts API
 	@create
 	Scenario: A normal user creates a Post with different user as author, should get permission error
 		Given that I want to make a new "Post"
-		And that the api_url is "api/v4"
+		And that the api_url is "api/v5"
 		And that the oauth token is "testbasicuser2"
 		And that the request "data" is:
 			"""
@@ -417,7 +417,7 @@ Feature: Testing the Posts API
 	@create
 	Scenario: Creating a Post with no user gets current uid
 		Given that I want to make a new "Post"
-		And that the api_url is "api/v4"
+		And that the api_url is "api/v5"
 		And that the oauth token is "testbasicuser"
 		And that the request "data" is:
 			"""
@@ -448,7 +448,7 @@ Feature: Testing the Posts API
 	@create
 	Scenario: Creating a new Post with Title And Description values silently ignore them
 		Given that I want to make a new "Post"
-		And that the api_url is "api/v4"
+		And that the api_url is "api/v5"
 		And that the oauth token is "testbasicuser"
 		And that the request "data" is:
 			"""
@@ -498,7 +498,7 @@ Feature: Testing the Posts API
 	@update
 	Scenario: Updating a Post
 		Given that I want to update a "Post"
-		And that the api_url is "api/v4"
+		And that the api_url is "api/v5"
 		And that the oauth token is "testbasicuser"
 		And that the request "data" is:
 			"""
@@ -542,7 +542,7 @@ Feature: Testing the Posts API
 	@update
 	Scenario: Updating a post and remove some values
 		Given that I want to update a "Post"
-		And that the api_url is "api/v4"
+		And that the api_url is "api/v5"
 		And that the oauth token is "testbasicuser"
 		And that the request "data" is:
 			"""
@@ -617,7 +617,7 @@ Feature: Testing the Posts API
 	@update
 	Scenario: Updating a Post to update tags
 		Given that I want to update a "Post"
-		And that the api_url is "api/v4"
+		And that the api_url is "api/v5"
 		And that the oauth token is "testbasicuser"
 		And that the request "data" is:
 			"""
@@ -662,7 +662,7 @@ Feature: Testing the Posts API
 	@update
 	Scenario: Updating a Post to remove all tags
 		Given that I want to update a "Post"
-		And that the api_url is "api/v4"
+		And that the api_url is "api/v5"
 		And that the oauth token is "testbasicuser"
 		And that the request "data" is:
 			"""
@@ -707,7 +707,7 @@ Feature: Testing the Posts API
 	@update
 	Scenario: Updating a Post using JSON date formate
 		Given that I want to update a "Post"
-		And that the api_url is "api/v4"
+		And that the api_url is "api/v5"
 		And that the oauth token is "testbasicuser"
 		And that the request "data" is:
 			"""
@@ -752,7 +752,7 @@ Feature: Testing the Posts API
 	@update
 	Scenario: Updating a non-existent Post
 		Given that I want to update a "Post"
-		And that the api_url is "api/v4"
+		And that the api_url is "api/v5"
 		And that the oauth token is "testbasicuser"
 		And that the request "data" is:
 			"""
@@ -783,7 +783,7 @@ Feature: Testing the Posts API
 	@resetFixture @update
 	Scenario: Updating user info on a Post (as admin)
 		Given that I want to update a "Post"
-		And that the api_url is "api/v4"
+		And that the api_url is "api/v5"
 		And that the oauth token is "testbasicuser"
 		And that the request "data" is:
 			"""
@@ -826,7 +826,7 @@ Feature: Testing the Posts API
 	@update @resetFixture
 	Scenario: Updating author info on a Post (as admin)
 		Given that I want to update a "Post"
-		And that the api_url is "api/v4"
+		And that the api_url is "api/v5"
 		And that the oauth token is "testbasicuser"
 		And that the request "data" is:
 			"""
@@ -869,7 +869,7 @@ Feature: Testing the Posts API
 	@update @resetFixture
 	Scenario: Update a post with user id and author info should fail
 		Given that I want to update a "Post"
-		And that the api_url is "api/v4"
+		And that the api_url is "api/v5"
 		And that the oauth token is "testbasicuser"
 		And that the request "data" is:
 			"""
@@ -911,7 +911,7 @@ Feature: Testing the Posts API
 	@resetFixture @update
 	Scenario: A normal user updating a post with a new user id should get access denied
 		Given that I want to update a "Post"
-		And that the api_url is "api/v4"
+		And that the api_url is "api/v5"
 		And that the oauth token is "testbasicuser"
 		And that the request "data" is:
 			"""
@@ -951,7 +951,7 @@ Feature: Testing the Posts API
 	@resetFixture @update
 	Scenario: Updating a Post with partial data
 		Given that I want to update a "Post"
-		And that the api_url is "api/v4"
+		And that the api_url is "api/v5"
 		And that the oauth token is "testbasicuser"
 		And that the request "data" is:
 			"""
@@ -981,7 +981,7 @@ Feature: Testing the Posts API
 	@resetFixture @update
 	Scenario: Extra params passed when updating a post get ignored
 		Given that I want to update a "Post"
-		And that the api_url is "api/v4"
+		And that the api_url is "api/v5"
 		And that the oauth token is "testbasicuser"
 		And that the request "data" is:
 			"""
@@ -1009,7 +1009,7 @@ Feature: Testing the Posts API
 	@resetFixture @create
 	Scenario: Creating a Post with non-existent Form
 		Given that I want to make a new "Post"
-		And that the api_url is "api/v4"
+		And that the api_url is "api/v5"
 		And that the oauth token is "testbasicuser"
 		And that the request "data" is:
 			"""
@@ -1040,7 +1040,7 @@ Feature: Testing the Posts API
 	@resetFixture @search
 	Scenario: Listing All Posts
 		Given that I want to get all "Posts"
-		And that the api_url is "api/v4"
+		And that the api_url is "api/v5"
 		And that the oauth token is "testbasicuser"
 		When I request "/posts"
 		Then the response is JSON
@@ -1053,7 +1053,7 @@ Feature: Testing the Posts API
 	@resetFixture @search
 	Scenario: Listing all posts with limit 1 and offset 1 should return 1 post
 		Given that I want to get all "Posts"
-		And that the api_url is "api/v4"
+		And that the api_url is "api/v5"
 		And that the oauth token is "testbasicuser"
 		And that the request "query string" is:
 			"""
@@ -1072,7 +1072,7 @@ Feature: Testing the Posts API
 	@resetFixture @search
 	Scenario: Listing posts should default to sorting by post date (asc)
 		Given that I want to get all "Posts"
-		And that the api_url is "api/v4"
+		And that the api_url is "api/v5"
 		And that the oauth token is "testbasicuser"
 		When I request "/posts"
 		Then the response is JSON
@@ -1083,7 +1083,7 @@ Feature: Testing the Posts API
 	@resetFixture @search
 	Scenario: Listing All Posts with different sort
 		Given that I want to get all "Posts"
-		And that the api_url is "api/v4"
+		And that the api_url is "api/v5"
 		And that the oauth token is "testbasicuser"
 		And that the request "query string" is:
 			"""
@@ -1099,7 +1099,7 @@ Feature: Testing the Posts API
 	@resetFixture @search
 	Scenario: Listing All Posts owned by me
 		Given that I want to get all "Posts"
-		And that the api_url is "api/v4"
+		And that the api_url is "api/v5"
         And that the oauth token is "testbasicuser2"
 		And that the request "query string" is:
 			"""
@@ -1116,7 +1116,7 @@ Feature: Testing the Posts API
 	@resetFixture @search
 	Scenario: Listing All Posts w/o form
 		Given that I want to get all "Posts"
-		And that the api_url is "api/v4"
+		And that the api_url is "api/v5"
 		And that the oauth token is "testbasicuser"
 		And that the request "query string" is:
 			"""
@@ -1133,7 +1133,7 @@ Feature: Testing the Posts API
 	@resetFixture @search
 	Scenario: Listing All Posts by sms
 		Given that I want to get all "Posts"
-		And that the api_url is "api/v4"
+		And that the api_url is "api/v5"
 		And that the oauth token is "testbasicuser"
 		And that the request "query string" is:
 			"""
@@ -1147,7 +1147,7 @@ Feature: Testing the Posts API
 	@resetFixture @search
 	Scenario: Listing All Posts from web
 		Given that I want to get all "Posts"
-		And that the api_url is "api/v4"
+		And that the api_url is "api/v5"
 		And that the oauth token is "testbasicuser"
 		And that the request "query string" is:
 			"""
@@ -1162,7 +1162,7 @@ Feature: Testing the Posts API
 	@search
 	Scenario: Listing All Posts as JSONP
 		Given that I want to get all "Posts"
-		And that the api_url is "api/v4"
+		And that the api_url is "api/v5"
 		And that the oauth token is "testbasicuser"
 		And that the request "query string" is:
 			"""
@@ -1175,7 +1175,7 @@ Feature: Testing the Posts API
 	@resetFixture @search
 	Scenario: Search All Posts
 		Given that I want to get all "Posts"
-		And that the api_url is "api/v4"
+		And that the api_url is "api/v5"
 		And that the oauth token is "testbasicuser"
 		And that the request "query string" is:
 			"""
@@ -1191,7 +1191,7 @@ Feature: Testing the Posts API
 	@resetFixture @search
 	Scenario: Search All Posts by locale
 		Given that I want to get all "Posts"
-		And that the api_url is "api/v4"
+		And that the api_url is "api/v5"
 		And that the oauth token is "testbasicuser"
 		And that the request "query string" is:
 			"""
@@ -1208,7 +1208,7 @@ Feature: Testing the Posts API
 	@resetFixture @search
 	Scenario: Search All Posts with query and locale
 		Given that I want to get all "Posts"
-		And that the api_url is "api/v4"
+		And that the api_url is "api/v5"
 		And that the oauth token is "testbasicuser"
 		And that the request "query string" is:
 			"""
@@ -1224,7 +1224,7 @@ Feature: Testing the Posts API
 	@resetFixture @search
 	Scenario: Search All Posts by attribute
 		Given that I want to get all "Posts"
-		And that the api_url is "api/v4"
+		And that the api_url is "api/v5"
 		And that the oauth token is "testbasicuser"
 		And that the request "query string" is:
 			"""
@@ -1240,7 +1240,7 @@ Feature: Testing the Posts API
 	@resetFixture @search
 	Scenario: Search All Posts by attribute
 		Given that I want to get all "Posts"
-		And that the api_url is "api/v4"
+		And that the api_url is "api/v5"
 		And that the oauth token is "testbasicuser"
 		And that the request "query string" is:
 			"""
@@ -1256,7 +1256,7 @@ Feature: Testing the Posts API
 	@resetFixture @search
 	Scenario: Search All Posts by single tag
 		Given that I want to get all "Posts"
-		And that the api_url is "api/v4"
+		And that the api_url is "api/v5"
 		And that the oauth token is "testbasicuser"
 		And that the request "query string" is:
 			"""
@@ -1272,7 +1272,7 @@ Feature: Testing the Posts API
 	@resetFixture @search
 	Scenario: Search for posts with tag 3 AND 4
 		Given that I want to get all "Posts"
-		And that the api_url is "api/v4"
+		And that the api_url is "api/v5"
 		And that the oauth token is "testbasicuser"
 		And that the request "query string" is:
 			"""
@@ -1288,7 +1288,7 @@ Feature: Testing the Posts API
 	@resetFixture @search
 	Scenario: Search for posts with tag 3 OR 4
 		Given that I want to get all "Posts"
-		And that the api_url is "api/v4"
+		And that the api_url is "api/v5"
 		And that the oauth token is "testbasicuser"
 		And that the request "query string" is:
 			"""
@@ -1304,7 +1304,7 @@ Feature: Testing the Posts API
 	@resetFixture @search
 	Scenario: Filter All Posts by multiple collections
 		Given that I want to get all "Posts"
-		And that the api_url is "api/v4"
+		And that the api_url is "api/v5"
 		And that the oauth token is "testbasicuser"
 		And that the request "query string" is:
 			"""
@@ -1320,7 +1320,7 @@ Feature: Testing the Posts API
 	@resetFixture @search
 	Scenario: Filter All Posts by multiple collections
 		Given that I want to get all "Posts"
-		And that the api_url is "api/v4"
+		And that the api_url is "api/v5"
 		And that the oauth token is "testbasicuser"
 		And that the request "query string" is:
 			"""
@@ -1336,7 +1336,7 @@ Feature: Testing the Posts API
 	@resetFixture @search
 	Scenario: Get all posts created before a selected post
 		Given that I want to get all "Posts"
-		And that the api_url is "api/v4"
+		And that the api_url is "api/v5"
 		And that the oauth token is "testbasicuser"
 		And that the request "query string" is:
 			"""
@@ -1352,7 +1352,7 @@ Feature: Testing the Posts API
 	@resetFixture @search
 	Scenario: Get 0 posts created after a selected post (which is latest post)
 		Given that I want to get all "Posts"
-		And that the api_url is "api/v4"
+		And that the api_url is "api/v5"
 		And that the oauth token is "testbasicuser"
 		And that the request "query string" is:
 			"""
@@ -1368,7 +1368,7 @@ Feature: Testing the Posts API
 	@resetFixture @search1
 	Scenario: Get posts created after a selected post
 		Given that I want to get all "Posts"
-		And that the api_url is "api/v4"
+		And that the api_url is "api/v5"
 		And that the oauth token is "testbasicuser"
 		And that the request "query string" is:
 			"""
@@ -1384,7 +1384,7 @@ Feature: Testing the Posts API
 	@get
 	Scenario: Finding a Post
 		Given that I want to find a "Post"
-		And that the api_url is "api/v4"
+		And that the api_url is "api/v5"
 		And that the oauth token is "testbasicuser"
 		And that its "id" is "1"
 		When I request "/posts"
@@ -1406,7 +1406,7 @@ Feature: Testing the Posts API
 	@get
 	Scenario: Finding a non-existent Post
 		Given that I want to find a "Post"
-		And that the api_url is "api/v4"
+		And that the api_url is "api/v5"
 		And that the oauth token is "testbasicuser"
 		And that its "id" is "35"
 		When I request "/posts"
@@ -1417,7 +1417,7 @@ Feature: Testing the Posts API
 	@delete
 	Scenario: Deleting a Post
 		Given that I want to delete a "Post"
-		And that the api_url is "api/v4"
+		And that the api_url is "api/v5"
 		And that the oauth token is "testbasicuser"
 		And that its "id" is "1"
 		When I request "/posts"
@@ -1428,7 +1428,7 @@ Feature: Testing the Posts API
 	@delete
 	Scenario: Fail to delete a non existent Post
 		Given that I want to delete a "Post"
-		And that the api_url is "api/v4"
+		And that the api_url is "api/v5"
 		And that the oauth token is "testbasicuser"
 		And that its "id" is "35"
 		When I request "/posts"
@@ -1439,7 +1439,7 @@ Feature: Testing the Posts API
 	@create
 	Scenario: Creating a new Post with UTF-8 title
 		Given that I want to make a new "Post"
-		And that the api_url is "api/v4"
+		And that the api_url is "api/v5"
 		And that the oauth token is "testbasicuser"
 		And that the request "data" is:
 			"""
@@ -1475,7 +1475,7 @@ Feature: Testing the Posts API
 	@create @media
 	Scenario: Creating a Post with media
 		Given that I want to make a new "Post"
-		And that the api_url is "api/v4"
+		And that the api_url is "api/v5"
 		And that the oauth token is "testbasicuser"
 		And that the request "data" is:
 			"""
@@ -1510,7 +1510,7 @@ Feature: Testing the Posts API
 	@resetFixture @search
 	Scenario: Search All Posts by link attribute
 		Given that I want to get all "Posts"
-		And that the api_url is "api/v4"
+		And that the api_url is "api/v5"
 		And that the oauth token is "testbasicuser"
 		And that the request "query string" is:
 			"""
@@ -1526,7 +1526,7 @@ Feature: Testing the Posts API
   @update
   Scenario: Users can assign roles to restrict publication of their posts
       Given that I want to update a "Post"
-	  And that the api_url is "api/v4"
+	  And that the api_url is "api/v5"
 	  And that the oauth token is "testbasicuser"
       And that its "id" is "105"
       And that the request "data" is:
@@ -1544,7 +1544,7 @@ Feature: Testing the Posts API
 	@create
 	Scenario: Creating a new Post with invalid location latitude
 		Given that I want to make a new "Post"
-		And that the api_url is "api/v4"
+		And that the api_url is "api/v5"
 		And that the oauth token is "testbasicuser"
 		And that the request "data" is:
 			"""
@@ -1588,7 +1588,7 @@ Feature: Testing the Posts API
 	@create
 	Scenario: Creating a new Post with invalid location longitude
 		Given that I want to make a new "Post"
-		And that the api_url is "api/v4"
+		And that the api_url is "api/v5"
 		And that the oauth token is "testbasicuser"
 		And that the request "data" is:
 			"""
@@ -1632,7 +1632,7 @@ Feature: Testing the Posts API
 		@create
 		Scenario: Creating a new Post with invalid video field type
 			Given that I want to make a new "Post"
-			And that the api_url is "api/v4"
+			And that the api_url is "api/v5"
 			And that the oauth token is "testbasicuser"
 			And that the request "data" is:
 				"""
@@ -1660,7 +1660,7 @@ Feature: Testing the Posts API
 		@create
 		Scenario: Creating a new Post with invalid video url
 			Given that I want to make a new "Post"
-			And that the api_url is "api/v4"
+			And that the api_url is "api/v5"
 			And that the oauth token is "testbasicuser"
 			And that the request "data" is:
 				"""
@@ -1688,7 +1688,7 @@ Feature: Testing the Posts API
 	@update
 	Scenario: Updating a Post with invalid latitude
 		Given that I want to update a "Post"
-		And that the api_url is "api/v4"
+		And that the api_url is "api/v5"
 		And that the oauth token is "testbasicuser"
 		And that the request "data" is:
 			"""
@@ -1728,7 +1728,7 @@ Feature: Testing the Posts API
 	@update
 	Scenario: Updating a Post with invalid longitude
 		Given that I want to update a "Post"
-		And that the api_url is "api/v4"
+		And that the api_url is "api/v5"
 		And that the oauth token is "testbasicuser"
 		And that the request "data" is:
 			"""
@@ -1768,7 +1768,7 @@ Feature: Testing the Posts API
 	@resetFixture @search
 	Scenario: Filtering by post_id and other filters works
 		Given that I want to get all "Posts"
-		And that the api_url is "api/v4"
+		And that the api_url is "api/v5"
 		And that the oauth token is "testbasicuser"
 		And that the request "query string" is:
 			"""
@@ -1789,7 +1789,7 @@ Feature: Testing the Posts API
 	@resetFixture @search
 	Scenario: Filtering by post_id and other filters returns an empty set if the post doesn't match
 		Given that I want to get all "Posts"
-		And that the api_url is "api/v4"
+		And that the api_url is "api/v5"
 		And that the oauth token is "testbasicuser"
 		And that the request "query string" is:
 			"""
@@ -1808,7 +1808,7 @@ Feature: Testing the Posts API
 	@get @postsAnon
 	Scenario: View post with restricted data as normal users limits info
 		Given that I want to find a "Post"
-		And that the api_url is "api/v4"
+		And that the api_url is "api/v5"
 		And that the oauth token is "testbasicuser"
 		And that its "id" is "1690"
 		When I request "/posts"
@@ -1834,7 +1834,7 @@ Feature: Testing the Posts API
 	@get
 	Scenario: View post with restricted data as admin gets full info
 		Given that I want to find a "Post"
-		And that the api_url is "api/v4"
+		And that the api_url is "api/v5"
 		And that the oauth token is "testbasicuser"
 		And that its "id" is "1690"
 		When I request "/posts"

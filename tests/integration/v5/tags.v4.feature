@@ -3,7 +3,7 @@ Feature: Testing the Categories API
     Scenario: Creating a new Tag with a base language
         Given that I want to make a new "Category"
         And that the oauth token is "testadminuser"
-        And that the api_url is "api/v4"
+        And that the api_url is "api/v5"
         And that the request "data" is:
             """
             {
@@ -35,7 +35,7 @@ Feature: Testing the Categories API
     Scenario: Creating a new Tag with a base language and translation
         Given that I want to make a new "Category"
         And that the oauth token is "testadminuser"
-        And that the api_url is "api/v4"
+        And that the api_url is "api/v5"
         And that the request "data" is:
             """
             {
@@ -73,7 +73,7 @@ Feature: Testing the Categories API
         Given that I want to find a "Category"
         And that its "id" is "1"
         And that the oauth token is "testadminuser"
-        And that the api_url is "api/v4"
+        And that the api_url is "api/v5"
         When I request "/categories"
         Then the response is JSON
         And the "result.children.1.translations.es.tag" property equals "Cajas"
@@ -81,7 +81,7 @@ Feature: Testing the Categories API
     Scenario: Creating a duplicate tag
         Given that I want to make a new "Category"
         And that the oauth token is "testadminuser"
-        And that the api_url is "api/v4"
+        And that the api_url is "api/v5"
         And that the request "data" is:
             """
             {
@@ -102,7 +102,7 @@ Feature: Testing the Categories API
     Scenario: Creating a child tag with the wrong role for its parent
         Given that I want to make a new "Category"
         And that the oauth token is "testadminuser"
-        And that the api_url is "api/v4"
+        And that the api_url is "api/v5"
         And that the request "data" is:
             """
             {
@@ -123,7 +123,7 @@ Feature: Testing the Categories API
     Scenario: Creating a tag with a duplicate slug is not possible
         Given that I want to make a new "Category"
         And that the oauth token is "testadminuser"
-        And that the api_url is "api/v4"
+        And that the api_url is "api/v5"
         And that the request "data" is:
             """
             {
@@ -145,7 +145,7 @@ Feature: Testing the Categories API
     Scenario: Creating a tag with a long name fails
         Given that I want to make a new "Category"
         And that the oauth token is "testadminuser"
-        And that the api_url is "api/v4"
+        And that the api_url is "api/v5"
         And that the request "data" is:
             """
             {
@@ -167,7 +167,7 @@ Feature: Testing the Categories API
     Scenario: Check slug is generated on new tag
         Given that I want to make a new "Category"
         And that the oauth token is "testadminuser"
-        And that the api_url is "api/v4"
+        And that the api_url is "api/v5"
         And that the request "data" is:
             """
             {
@@ -191,7 +191,7 @@ Feature: Testing the Categories API
     Scenario: Check hash on color input has no effect when creating tag
         Given that I want to make a new "Category"
         And that the oauth token is "testadminuser"
-        And that the api_url is "api/v4"
+        And that the api_url is "api/v5"
         And that the request "data" is:
             """
             {
@@ -214,7 +214,7 @@ Feature: Testing the Categories API
     Scenario: Creating a tag with non-existent parent fails
         Given that I want to make a new "Category"
         And that the oauth token is "testadminuser"
-        And that the api_url is "api/v4"
+        And that the api_url is "api/v5"
         And that the request "data" is:
             """
             {
@@ -236,7 +236,7 @@ Feature: Testing the Categories API
     Scenario: Creating a tag with no parent_id works
         Given that I want to make a new "Category"
         And that the oauth token is "testadminuser"
-        And that the api_url is "api/v4"
+        And that the api_url is "api/v5"
         And that the request "data" is:
             """
             {
@@ -255,7 +255,7 @@ Feature: Testing the Categories API
     Scenario: Creating a tag with empty parent_id works
         Given that I want to make a new "Category"
         And that the oauth token is "testadminuser"
-        And that the api_url is "api/v4"
+        And that the api_url is "api/v5"
         And that the request "data" is:
             """
             {
@@ -274,7 +274,7 @@ Feature: Testing the Categories API
     Scenario: Updating a Tag
         Given that I want to update a "Category"
         And that the oauth token is "testadminuser"
-        And that the api_url is "api/v4"
+        And that the api_url is "api/v5"
         And that the request "data" is:
             """
             {
@@ -297,7 +297,7 @@ Feature: Testing the Categories API
     Scenario: Updating a non-existent Tag
         Given that I want to update a "Category"
         And that the oauth token is "testadminuser"
-        And that the api_url is "api/v4"
+        And that the api_url is "api/v5"
         And that the request "data" is:
             """
             {
@@ -317,7 +317,7 @@ Feature: Testing the Categories API
     Scenario: Updating Tag Role Restrictions
         Given that I want to update a "Category"
         And that the oauth token is "testadminuser"
-        And that the api_url is "api/v4"
+        And that the api_url is "api/v5"
         And that the request "data" is:
             """
             {
@@ -340,7 +340,7 @@ Feature: Testing the Categories API
     Scenario: Removing Tag Role Restrictions
         Given that I want to update a "Category"
         And that the oauth token is "testadminuser"
-        And that the api_url is "api/v4"
+        And that the api_url is "api/v5"
         And that the request "data" is:
             """
             {
@@ -363,7 +363,7 @@ Feature: Testing the Categories API
     Scenario: Listing All Tags available to admins
         Given that I want to get all "Categories"
         And that the oauth token is "testadminuser"
-        And that the api_url is "api/v4"
+        And that the api_url is "api/v5"
         When I request "/categories"
         Then the response is JSON
         And the "results" property count is "7"
@@ -371,14 +371,14 @@ Feature: Testing the Categories API
     Scenario: Listing All Tags available to regular users
         Given that I want to get all "Categories"
         And that the oauth token is "testbasicuser"
-        And that the api_url is "api/v4"
+        And that the api_url is "api/v5"
         When I request "/categories"
         Then the response is JSON
         And the "results" property count is "6"
         Then the guzzle status code should be 200
     Scenario: Listing All Tags available to non-users
         Given that I want to get all "Categories"
-        And that the api_url is "api/v4"
+        And that the api_url is "api/v5"
         When I request "/categories"
         Then the response is JSON
         And the "results" property count is "5"
@@ -424,7 +424,7 @@ Feature: Testing the Categories API
     Scenario: Finding a Tag
         Given that I want to find a "Category"
         And that the oauth token is "testbasicuser"
-        And that the api_url is "api/v4"
+        And that the api_url is "api/v5"
         And that its "id" is "1"
         When I request "/categories"
         Then the response is JSON
@@ -435,7 +435,7 @@ Feature: Testing the Categories API
     Scenario: Finding a non-existent Tag
         Given that I want to find a "Category"
         And that the oauth token is "testbasicuser"
-        And that the api_url is "api/v4"
+        And that the api_url is "api/v5"
         And that its "id" is "1333"
         When I request "/categories"
         Then the response is JSON
@@ -445,7 +445,7 @@ Feature: Testing the Categories API
     Scenario: Deleting a Tag
         Given that I want to delete a "Category"
         And that the oauth token is "testadminuser"
-        And that the api_url is "api/v4"
+        And that the api_url is "api/v5"
         And that its "id" is "1"
         When I request "/categories"
         Then the guzzle status code should be 200

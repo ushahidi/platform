@@ -1,9 +1,9 @@
 @acl
-Feature: V4 API Access Control Layer
+Feature: v5 API Access Control Layer
     Scenario: Listing All Stages for all forms with hidden tasks
         Given that I want to get all "Surveys"
         And that the oauth token is "testbasicuser"
-        And that the api_url is "api/v4"
+        And that the api_url is "api/v5"
         When I request "/surveys"
         Then the response is JSON
         And the response has a "results.7.tasks" property
@@ -13,7 +13,7 @@ Feature: V4 API Access Control Layer
     Scenario: Listing All fields for a stage in an array of forms with a multi-stage form
         Given that I want to get all "Surveys"
         And that the oauth token is "testbasicuser"
-        And that the api_url is "api/v4"
+        And that the api_url is "api/v5"
         When I request "/surveys"
         Then the response is JSON
         And the response has a "results.0.tasks" property
@@ -23,7 +23,7 @@ Feature: V4 API Access Control Layer
     Scenario: Listing All Stages for a form in an array of forms with hidden tasks as admin
         Given that I want to get all "Surveys"
         And that the oauth token is "testadminuser"
-        And that the api_url is "api/v4"
+        And that the api_url is "api/v5"
         When I request "/surveys"
         Then the response is JSON
         And the response has a "results.7.tasks" property
@@ -32,7 +32,7 @@ Feature: V4 API Access Control Layer
     Scenario: Listing All Stages for a form with hidden tasks as admin
         Given that I want to find a "Survey"
         And that the oauth token is "testadminuser"
-        And that the api_url is "api/v4"
+        And that the api_url is "api/v5"
         When I request "/surveys/8"
         Then the response is JSON
         And the response has a "result.tasks" property
@@ -42,7 +42,7 @@ Feature: V4 API Access Control Layer
     Scenario: Listing All Stages for a form with hidden tasks as a normal user
         Given that I want to find a "Survey"
         And that the oauth token is "testbasicuser"
-        And that the api_url is "api/v4"
+        And that the api_url is "api/v5"
         When I request "/surveys/8"
         Then the response is JSON
         And the response has a "result.tasks" property
@@ -52,7 +52,7 @@ Feature: V4 API Access Control Layer
     Scenario: User with Manage Settings permission can create a hydrated form
         Given that I want to make a new "Survey"
         And that the oauth token is "testmanager"
-        And that the api_url is "api/v4"
+        And that the api_url is "api/v5"
         And that the request "data" is:
             """
             {
@@ -114,7 +114,7 @@ Feature: V4 API Access Control Layer
     Scenario: Basic user CANNOT create a hydrated form
         Given that I want to make a new "Survey"
         And that the oauth token is "testbasicuser"
-        And that the api_url is "api/v4"
+        And that the api_url is "api/v5"
         And that the request "data" is:
             """
             {
@@ -167,7 +167,7 @@ Feature: V4 API Access Control Layer
     Scenario: Import-Export user CANNOT create a hydrated form
         Given that I want to make a new "Survey"
         And that the oauth token is "testimporter"
-        And that the api_url is "api/v4"
+        And that the api_url is "api/v5"
         And that the request "data" is:
             """
             {
