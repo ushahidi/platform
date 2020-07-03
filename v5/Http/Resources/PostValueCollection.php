@@ -25,32 +25,34 @@ class PostValueCollection extends ResourceCollection
      */
     public function toArray($request)
     {
-        $tasks = $this->collection->get('tasks');
+        $tasks = $this->collection
+                    ->get('tasks')
+                    ->unique()
+                    ->sortBy('priority')
+                    ->values();
 
-        $tasks = $tasks->unique()->sortBy('priority')->values();
-
-        $grouped = $this->collection->get('values')->mapToGroups(function ($item) {
+        $fields_by_task = $this->collection->get('values')->mapToGroups(function ($item) {
             return [$item->attribute->form_stage_id => $item];
         });
 
-        $tasks = $tasks->map(function ($task, $key) use ($grouped) {
+        $tasks = $tasks->map(function ($task, $key) use ($fields_by_task) {
             $fields = $task->fields->sortBy('priority')->values();
-            $values_by_task = $grouped->get($task->id);
+            $values = $fields_by_task->get($task->id);
             $task_trans = new TranslationCollection($task->translations);
             $task = $task->toArray();
             $task['translations'] = $task_trans;
-            $task['fields'] = $fields->map(function ($field, $key) use ($values_by_task) {
+            $task['fields'] = $fields->map(function ($field, $key) use ($values) {
                 $field->load('translations');
                 $field_obj = $field;
                 $trans = new TranslationCollection($field->translations);
                 $field = $field->toArray();
                 $field['translations'] = $trans;
                 $field['value'] = null;
-                if (!$values_by_task) {
+                if (!$values) {
                     return $field;
                 }
 
-                $field['value'] = $values_by_task->filter(function ($value, $key) use ($field) {
+                $field['value'] = $values->filter(function ($value, $key) use ($field) {
                     return $value->form_attribute_id == $field['id'];
                 })->values();
                 if ($field['type'] !== 'tags') {
@@ -72,7 +74,9 @@ class PostValueCollection extends ResourceCollection
                             $field['value'] = $cats;
                         }
                     } else {
+                        $value_trans = new TranslationCollection($field['value']['translations']);
                         $field['value'] = $field['value']->toArray($field['value']);
+                        $field['value']['translations'] = $value_trans;
                     }
                 }
                 return $field;
@@ -81,5 +85,15 @@ class PostValueCollection extends ResourceCollection
         });
 
         return $tasks->values();
+    }
+
+    private function makeCategoryItem()
+    {
+    }
+    private function makeCollectionItem()
+    {
+    }
+    private function makeTask()
+    {
     }
 }

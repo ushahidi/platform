@@ -464,7 +464,7 @@ Feature: Testing the Posts API
 #    And the "result.post_date" property equals "2016-10-14T23:18:27+00:00"
     Then the guzzle status code should be 201
   @create @rolesEnabled
-  Scenario: Creating a new Post
+  Scenario: Updating a Post
     Given that I want to update a "Post"
     And that the oauth token is "testmanager"
     And that the api_url is "api/v5"
