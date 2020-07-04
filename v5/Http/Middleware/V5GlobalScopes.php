@@ -19,7 +19,7 @@ class V5GlobalScopes
     {
 
         $isSaving = $request->isMethod('post');
-        $isPosts = $request->path('api/v5/posts');
+        $isPosts = $request->path() === 'api/v5/posts';
         if (!$isSaving && !$isPosts) {
             Category::addGlobalScope(new CategoryAllowed);
             Post::addGlobalScope(new PostAllowed);
