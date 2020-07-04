@@ -124,11 +124,11 @@ class PostController extends V4Controller
                 return self::make422($errors, 'translation');
             }
             DB::commit();
-            return new PostResource($post);
         } catch (\Exception $e) {
             DB::rollback();
-            return self::make500($e->getMessage());
+            return self::make500($e->getTraceAsString());
         }
+        return new PostResource($post);
     }//end store()
 
     /**
@@ -177,6 +177,14 @@ class PostController extends V4Controller
         }
     }
 
+    /**
+     * @param Post $post
+     * @param array $post_content
+     * @param int $post_id
+     * @throws \Exception
+     * Stage: fields
+     * Fields: value, type, id
+     */
     protected function savePostValues(Post $post, array $post_content, int $post_id)
     {
         $post->valuesPostTag()->delete();

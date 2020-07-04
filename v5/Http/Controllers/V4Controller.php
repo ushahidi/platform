@@ -62,7 +62,7 @@ class V4Controller extends BaseController
     public function authorizeAnyone($ability, $arguments = [])
     {
         list($ability, $arguments) = $this->parseAbilityAndArguments($ability, $arguments);
-        return $this->authorizeForUser(Auth::user() ?? new GenericUser(), $ability, $arguments);
+        return $this->authorizeForUser(Auth::user() ?? new GenericUser(['role' => 'guest']), $ability, $arguments);
     }
 
     /**

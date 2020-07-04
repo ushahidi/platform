@@ -4,6 +4,7 @@ namespace v5\Models\PostValues;
 
 use v5\Models\BaseModel;
 use v5\Models\Helpers\HideTime;
+use v5\Models\Scopes\PostAllowed;
 use v5\Models\Scopes\PostValueAllowed;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Validator;
@@ -43,18 +44,6 @@ class PostValue extends BaseModel
     {
         return $this->morphMany('v5\Models\Translation', 'translatable', null, 'translatable_id', 'id');
     }//end translations()
-
-    /**
-     * Scope helper to only pull tags we are allowed to get from the db
-     * @param $query
-     * @return mixed
-     */
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::addGlobalScope(new PostValueAllowed);
-    }
 
     /**
      * Get the error messages for the defined validation rules.

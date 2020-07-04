@@ -283,15 +283,4 @@ class Category extends BaseModel
     {
         return $this->errors;
     }
-
-    protected static function boot()
-    {
-        parent::boot();
-        /**
-         * This is cool because we don't have to worry about calling ::allowed
-         * each time to be safe that we are only getting authorized data. It's saving us
-         * from ourselves :)
-         */
-        static::addGlobalScope(new CategoryAllowed);
-    }
 }//end class

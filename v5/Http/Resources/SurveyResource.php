@@ -15,6 +15,21 @@ class SurveyResource extends Resource
      */
     public function toArray($request)
     {
+        /**
+         * @TODO
+         * Replace with an includes=? and format=? system
+         */
+        if ($request->query('format') === 'minimal') {
+            return [
+                'id' => $this->id,
+                'name' => $this->name,
+                'description' => $this->description,
+                'enabled_languages' => [
+                    'default'=> $this->base_language,
+                    'available' => $this->translations->groupBy('language')->keys()
+                ]
+            ];
+        }
         return [
             'id' => $this->id,
             'name' => $this->name,

@@ -97,17 +97,6 @@ class Post extends BaseModel
         'published_to'        => 'json'
     ];
 
-
-    protected static function boot()
-    {
-        parent::boot();
-        /**
-         * This is cool because we don't have to worry about calling ::allowed
-         * each time to be safe that we are only getting authorized data. It's saving us
-         * from ourselves :)
-         */
-        static::addGlobalScope(new PostAllowed);
-    }
     /**
      * Get the error messages for the defined validation rules.
      *

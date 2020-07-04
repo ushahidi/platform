@@ -62,7 +62,8 @@ $app->middleware([
     Ushahidi\App\Multisite\DetectSiteMiddleware::class,
     Barryvdh\Cors\HandleCors::class,
     Ushahidi\App\Http\Middleware\MaintenanceMode::class,
-    Ushahidi\App\Http\Middleware\SetLocale::class
+    Ushahidi\App\Http\Middleware\SetLocale::class,
+    v5\Http\Middleware\V5GlobalScopes::class,
 ]);
 
 $app->routeMiddleware([
@@ -73,7 +74,7 @@ $app->routeMiddleware([
     'scope'  => Ushahidi\App\Http\Middleware\CheckForAnyScope::class,
     'expiration' => Ushahidi\App\Http\Middleware\CheckDemoExpiration::class,
     'signature' => Ushahidi\App\Http\Middleware\SignatureAuth::class,
-    'feature' => Ushahidi\App\Http\Middleware\CheckFeature::class,
+    'feature' => Ushahidi\App\Http\Middleware\CheckFeature::class
 ]);
 
 /*
