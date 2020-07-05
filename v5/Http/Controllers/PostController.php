@@ -162,6 +162,7 @@ class PostController extends V4Controller
             $this->savePostValues($post, $post_values, $post->id);
             $this->updateTranslations(new Post(), $post->toArray(), $request->input('translations'), $post->id, 'post');
             DB::commit();
+            $post->load('translations');
             return new PostResource($post);
         } catch (\Exception $e) {
             DB::rollback();
