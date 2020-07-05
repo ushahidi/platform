@@ -51,7 +51,6 @@ class PostValueCollection extends ResourceCollection
                 if (!$values) {
                     return $field;
                 }
-
                 $field['value'] = $values->filter(function ($value, $key) use ($field) {
                     return $value->form_attribute_id == $field['id'];
                 })->values();
@@ -66,17 +65,10 @@ class PostValueCollection extends ResourceCollection
                     if (get_class($field['value']) === 'v5\Http\Resources\PostValueResource') {
                         $field['value']->load('translations');
                         $field['value'] = $field['value']->toArray($field['value']);
-                    } elseif (get_class($field['value']) === 'Illuminate\Support\Collection') {
-                        if ($field['type'] === 'tags') {
-                            $cats = $field['value']->map(function ($f) {
-                                return CategoryResource::make($f->tag);
-                            });
-                            $field['value'] = $cats;
-                        }
+                    } elseif ($field['type'] === 'tags') {
+                        $field['value'] = $this->makeCategoryValue($field['value']);
                     } else {
-                        $value_trans = new TranslationCollection($field['value']['translations']);
-                        $field['value'] = $field['value']->toArray($field['value']);
-                        $field['value']['translations'] = $value_trans;
+                        $field['value'] = $this->makeValue($field['value']);
                     }
                 }
                 return $field;
@@ -87,8 +79,18 @@ class PostValueCollection extends ResourceCollection
         return $tasks->values();
     }
 
-    private function makeCategoryItem()
+    private function makeValue($value)
     {
+        $value_trans = new TranslationCollection($value['translations']);
+        $value = $value->makeHidden('attribute')->makeHidden('post')->toArray();
+        $value['translations'] = $value_trans;
+        return $value;
+    }
+    private function makeCategoryValue($value)
+    {
+        return $value->map(function ($f) {
+            return CategoryResource::make($f->tag);
+        });
     }
     private function makeCollectionItem()
     {

@@ -19,7 +19,6 @@ Feature: Testing the Posts API
                         {
                             "id": 1,
                             "type": "varchar",
-                            "form_stage_id": 1,
                             "translations": [],
                             "value": {
                                 "value": "MY VARCHAR"
@@ -28,7 +27,6 @@ Feature: Testing the Posts API
                         {
                             "id": 2,
                             "type": "point",
-                            "form_stage_id": 1,
                             "value": {
                                 "value": {
                                     "lat": -18.892817463050697,
@@ -39,7 +37,6 @@ Feature: Testing the Posts API
                         {
                             "id": 3,
                             "type": "varchar",
-                            "form_stage_id": 1,
                             "translations": [],
                             "value": {
                                 "value": "A full name"
@@ -48,19 +45,16 @@ Feature: Testing the Posts API
                         {
                             "id": 5,
                             "type": "datetime",
-                            "form_stage_id": 1,
                             "value": "2020-06-01T07:04:10.921Z"
                         },
                         {
                             "id": 6,
                             "type": "datetime",
-                            "form_stage_id": 1,
                             "value": "2020-06-02T07:04:10.921Z"
                         },
                         {
                             "id": 7,
                             "type": "varchar",
-                            "form_stage_id": 1,
                             "value": {
                                 "value": "Uruguay"
                             }
@@ -68,7 +62,6 @@ Feature: Testing the Posts API
                         {
                             "id": 8,
                             "type": "point",
-                            "form_stage_id": 1,
                             "value": {
                                 "value": {
                                     "lat": -22.03321543231222,
@@ -79,7 +72,6 @@ Feature: Testing the Posts API
                         {
                             "id": 10,
                             "type": "varchar",
-                            "form_stage_id": 1,
                             "value": {
                                 "value": "information_sought"
                             }
@@ -87,7 +79,6 @@ Feature: Testing the Posts API
                         {
                             "id": 11,
                             "type": "varchar",
-                            "form_stage_id": 1,
                             "value": {
                                 "value": "https://google.com"
                             }
@@ -95,7 +86,6 @@ Feature: Testing the Posts API
                         {
                             "id": 12,
                             "type": "point",
-                            "form_stage_id": 1,
                             "value": {
                                 "value": {
                                     "lat": -57.544489720135516,
@@ -106,7 +96,6 @@ Feature: Testing the Posts API
                         {
                             "id": 14,
                             "type": "media",
-                            "form_stage_id": 1,
                             "value": {
                                 "value": null
                             }
@@ -114,7 +103,6 @@ Feature: Testing the Posts API
                         {
                             "id": 15,
                             "type": "varchar",
-                            "form_stage_id": 1,
                             "value": {
                                 "value": [
                                     "medical_evacuation"
@@ -124,7 +112,6 @@ Feature: Testing the Posts API
                         {
                             "id": 25,
                             "type": "markdown",
-                            "form_stage_id": 1,
                             "value": {
                                 "value": "#markdowny"
                             }
@@ -132,7 +119,6 @@ Feature: Testing the Posts API
                         {
                             "id": 26,
                             "type": "tags",
-                            "form_stage_id": 1,
                             "value": {
                                 "value": [1,2]
                             }
@@ -148,7 +134,6 @@ Feature: Testing the Posts API
                         {
                             "id": 13,
                             "type": "varchar",
-                            "form_stage_id": 2,
                             "value": {
                                 "value": "is_note_author"
                             }
@@ -203,7 +188,7 @@ Feature: Testing the Posts API
   @create @rolesEnabled
   Scenario: Updating a Post
     Given that I want to update a "Post"
-    And that the oauth token is "testmanager"
+    And that the oauth token is "testadminuser"
     And that the api_url is "api/v5"
     And that the request "data" is:
         """
@@ -230,229 +215,92 @@ Feature: Testing the Posts API
                   {
                       "id": 1,
                       "form_id": 1,
-                      "label": "Main",
-                      "priority": 1,
-                      "required": 0,
-                      "type": "post",
-                      "description": null,
-                      "show_when_published": 1,
-                      "task_is_internal_only": 0,
                       "fields": [
                           {
                               "id": 4,
-                              "key": "description",
-                              "label": "Description",
-                              "instructions": null,
-                              "input": "textarea",
                               "type": "description",
-                              "required": 0,
-                              "default": null,
-                              "priority": 0,
-                              "options": null,
-                              "cardinality": 1,
-                              "config": null,
-                              "form_stage_id": 1,
-                              "response_private": 0,
-                              "description": null,
-                              "translations": [],
                               "value": null
                           },
                           {
                               "id": 25,
-                              "key": "markdown",
-                              "label": "Test markdown",
-                              "instructions": null,
-                              "input": "text",
                               "type": "markdown",
-                              "required": 0,
-                              "default": null,
-                              "priority": 0,
-                              "options": null,
-                              "cardinality": 1,
-                              "config": null,
-                              "form_stage_id": 1,
-                              "response_private": 0,
-                              "description": null,
-                              "translations": [],
-                              "value": null
+                              "value": {
+                                "value": "A markdown content",
+                                "translations": {
+                                  "es": {
+                                    "value": "A markdown content ES"
+                                  }
+                                }
+                              }
                           },
                           {
                               "id": 17,
-                              "key": "title",
-                              "label": "Title",
-                              "instructions": null,
-                              "input": "text",
                               "type": "title",
-                              "required": 0,
-                              "default": null,
-                              "priority": 0,
-                              "options": null,
-                              "cardinality": 1,
-                              "config": null,
-                              "form_stage_id": 1,
-                              "response_private": 0,
-                              "description": null,
-                              "translations": [],
                               "value": null
                           },
                           {
                               "id": 1,
-                              "key": "test_varchar",
-                              "label": "Test varchar",
-                              "instructions": null,
-                              "input": "text",
                               "type": "varchar",
-                              "required": 0,
-                              "default": null,
-                              "priority": 1,
-                              "options": null,
-                              "cardinality": 1,
-                              "config": null,
-                              "form_stage_id": 1,
-                              "response_private": 0,
-                              "description": null,
-                              "translations": [],
-                              "value": null
+                              "value": {
+                                "value": "A varchar content",
+                                "translations": {
+                                  "es": {
+                                    "value": "A varchar content ES"
+                                  }
+                                }
+                              }
                           },
                           {
                               "id": 2,
-                              "key": "test_point",
-                              "label": "Test point",
-                              "instructions": null,
-                              "input": "location",
                               "type": "point",
-                              "required": 0,
-                              "default": null,
-                              "priority": 1,
-                              "options": null,
-                              "cardinality": 1,
-                              "config": null,
-                              "form_stage_id": 1,
-                              "response_private": 0,
-                              "description": null,
-                              "translations": [],
-                              "value": null
+                              "value": {
+                                "value": {
+                                    "lat": -18.892817463050697,
+                                    "lon": 22.840418464728486
+                                }
+                              }
                           },
                           {
                               "id": 3,
-                              "key": "full_name",
-                              "label": "Full Name",
-                              "instructions": null,
-                              "input": "text",
                               "type": "varchar",
-                              "required": 0,
-                              "default": null,
-                              "priority": 1,
-                              "options": null,
-                              "cardinality": 1,
-                              "config": null,
-                              "form_stage_id": 1,
-                              "response_private": 0,
-                              "description": null,
-                              "translations": [],
-                              "value": null
+                              "value": {
+                                "value": "Full name",
+                                "translations": {
+                                  "es": {
+                                    "value": "Full name ES"
+                                  }
+                                }
+                              }
                           },
                           {
                               "id": 26,
-                              "key": "tags1",
-                              "label": "Categories",
-                              "instructions": null,
-                              "input": "tags",
                               "type": "tags",
-                              "required": 0,
-                              "default": null,
-                              "priority": 3,
-                              "options": [
-                                  "1",
-                                  "2",
-                                  "3",
-                                  "4",
-                                  "5",
-                                  "6",
-                                  "7"
-                              ],
-                              "cardinality": 0,
-                              "config": null,
-                              "form_stage_id": 1,
-                              "response_private": 0,
-                              "description": null,
-                              "translations": [],
-                              "value": []
+                              "value": {
+                                "value": [1]
+                              }
                           },
                           {
                               "id": 5,
-                              "key": "date_of_birth",
-                              "label": "Date of birth",
-                              "instructions": null,
-                              "input": "date",
                               "type": "datetime",
-                              "required": 0,
-                              "default": null,
-                              "priority": 3,
-                              "options": null,
-                              "cardinality": 1,
-                              "config": null,
-                              "form_stage_id": 1,
-                              "response_private": 0,
-                              "description": null,
-                              "translations": [],
-                              "value": null
+                              "value": {
+                                "value": "2019-02-02"
+                              }
                           },
                           {
                               "id": 6,
-                              "key": "missing_date",
-                              "label": "Missing date",
-                              "instructions": null,
-                              "input": "date",
                               "type": "datetime",
-                              "required": 0,
-                              "default": null,
-                              "priority": 4,
-                              "options": null,
-                              "cardinality": 1,
-                              "config": null,
-                              "form_stage_id": 1,
-                              "response_private": 0,
-                              "description": null,
-                              "translations": [],
-                              "value": null
+                              "value": {
+                                "value": "2019-02-03"
+                              }
                           },
                           {
                               "id": 8,
-                              "key": "last_location_point",
-                              "label": "Last Location (point)",
-                              "instructions": null,
-                              "input": "location",
                               "type": "point",
-                              "required": 0,
-                              "default": null,
-                              "priority": 5,
-                              "options": null,
-                              "cardinality": 0,
-                              "config": null,
-                              "form_stage_id": 1,
-                              "response_private": 0,
-                              "description": null,
-                              "translations": [],
                               "value": null
                           },
                           {
                               "id": 7,
-                              "key": "last_location",
-                              "label": "Last Location",
-                              "instructions": null,
-                              "input": "text",
                               "type": "varchar",
-                              "required": 1,
-                              "default": null,
-                              "priority": 5,
-                              "options": null,
-                              "cardinality": 1,
-                              "config": null,
-                              "form_stage_id": 1,
-                              "response_private": 0,
-                              "description": null,
-                              "translations": [],
                               "value": {
                                   "id": 23,
                                   "post_id": 105,
@@ -464,70 +312,19 @@ Feature: Testing the Posts API
                           },
                           {
                               "id": 10,
-                              "key": "missing_status",
-                              "label": "Status",
-                              "instructions": null,
-                              "input": "select",
                               "type": "varchar",
-                              "required": 0,
-                              "default": null,
-                              "priority": 5,
-                              "options": [
-                                  "information_sought",
-                                  "is_note_author",
-                                  "believed_alive",
-                                  "believed_missing",
-                                  "believed_dead"
-                              ],
-                              "cardinality": 0,
-                              "config": null,
-                              "form_stage_id": 1,
-                              "response_private": 0,
-                              "description": null,
-                              "translations": [],
                               "value": {
                                   "value": "information_sought"
                               }
                           },
                           {
                               "id": 12,
-                              "key": "second_point",
-                              "label": "Second Point",
-                              "instructions": null,
-                              "input": "location",
                               "type": "point",
-                              "required": 0,
-                              "default": null,
-                              "priority": 5,
-                              "options": null,
-                              "cardinality": 1,
-                              "config": null,
-                              "form_stage_id": 1,
-                              "response_private": 0,
-                              "description": null,
-                              "translations": [],
                               "value": null
                           },
                           {
                               "id": 15,
-                              "key": "possible_actions",
-                              "label": "Possible actions",
-                              "instructions": null,
-                              "input": "checkbox",
                               "type": "varchar",
-                              "required": 0,
-                              "default": null,
-                              "priority": 5,
-                              "options": [
-                                  "ground_search",
-                                  "medical_evacuation"
-                              ],
-                              "cardinality": 0,
-                              "config": [],
-                              "form_stage_id": 1,
-                              "response_private": 0,
-                              "description": null,
-                              "translations": [],
                               "value": {
                                   "value": [
                                       "medical_evacuation"
@@ -536,61 +333,24 @@ Feature: Testing the Posts API
                           },
                           {
                               "id": 9,
-                              "key": "geometry_test",
-                              "label": "Geometry test",
-                              "instructions": null,
-                              "input": "text",
                               "type": "geometry",
-                              "required": 0,
-                              "default": null,
-                              "priority": 5,
-                              "options": null,
-                              "cardinality": 1,
-                              "config": null,
-                              "form_stage_id": 1,
-                              "response_private": 0,
-                              "description": null,
-                              "translations": [],
                               "value": null
                           },
                           {
                               "id": 11,
-                              "key": "links",
-                              "label": "Links",
-                              "instructions": null,
-                              "input": "text",
                               "type": "varchar",
-                              "required": 0,
-                              "default": null,
-                              "priority": 7,
-                              "options": null,
-                              "cardinality": 0,
-                              "config": null,
-                              "form_stage_id": 1,
-                              "response_private": 0,
-                              "description": null,
-                              "translations": [],
                               "value": {
-                                  "value": "https://google2.com"
+                                  "value": "https://google-modified.com",
+                                  "translations": {
+                                    "es": {
+                                      "value": "https://google-modified-es.com"
+                                    }
+                                  }
                               }
                           },
                           {
                               "id": 14,
-                              "key": "media_test",
-                              "label": "Media Test",
-                              "instructions": null,
-                              "input": "upload",
                               "type": "media",
-                              "required": 0,
-                              "default": null,
-                              "priority": 7,
-                              "options": null,
-                              "cardinality": 1,
-                              "config": null,
-                              "form_stage_id": 1,
-                              "response_private": 0,
-                              "description": null,
-                              "translations": [],
                               "value": {
                                   "value": null
                               }
@@ -599,10 +359,15 @@ Feature: Testing the Posts API
                       "translations": []
                   }
               ],
-              "translations": {},
+              "translations": {
+                "es": {
+                  "title": "Original post ES",
+                  "content": "Some description ES"
+                }
+              },
               "enabled_languages": {
-                  "default": "",
-                  "available": []
+                  "default": "en",
+                  "available": ["es"]
               }
           }
         """
@@ -612,15 +377,40 @@ Feature: Testing the Posts API
     And the response has a "result.id" property
     And the type of the "result.id" property is "numeric"
     And the "result.id" property equals "105"
-#    And the response has a "result.title" property
-#    And the "result.title" property equals "A title"
-#    And the "result.post_content.0.fields.9.type" property equals "point"
-#    And the "result.post_content.0.fields.9.value.value.lon" property equals "27.935730246117"
-#    And the "result.post_content.0.fields.15.key" property equals "links"
-#    And the "result.post_content.0.fields.15.type" property equals "varchar"
-#    And the "result.post_content.0.fields.15.value.value" property equals "https://google.com"
-#    And the type of the "result.completed_stages.0.form_stage_id" property is "int"
-#    And the "result.completed_stages.0.form_stage_id" property equals "2"
-#    And the "result.completed_stages.1.form_stage_id" property equals "3"
-#    And the "result.post_date" property equals "2016-10-14T23:18:27+00:00"
+    And the response has a "result.title" property
+    And the "result.title" property equals "Original post"
+    And the "result.translations.es.title" property equals "Original post ES"
+    And the "result.content" property equals "Some description"
+    And the "result.translations.es.content" property equals "Some description ES"
+    And the "result.post_content.0.id" property equals "1"
+    And the "result.post_content.0.fields" property count is "17"
+    And the "result.post_content.0.fields.1.type" property equals "markdown"
+    And the "result.post_content.0.fields.1.value.value" property equals "A markdown content"
+    And the "result.post_content.0.fields.1.value.translations.es.value" property equals "A markdown content ES"
+    And the "result.post_content.0.fields.3.type" property equals "varchar"
+    And the "result.post_content.0.fields.3.value.value" property equals "A varchar content"
+    And the "result.post_content.0.fields.3.value.translations.es.value" property equals "A varchar content ES"
+    And the "result.post_content.0.fields.4.type" property equals "point"
+    And the "result.post_content.0.fields.4.value.value.lon" property equals "22.840418464728"
+    And the "result.post_content.0.fields.4.value.value.lat" property equals "-18.892817463051"
+    And the "result.post_content.0.fields.5.type" property equals "varchar"
+    And the "result.post_content.0.fields.5.value.value" property equals "Full name"
+    And the "result.post_content.0.fields.5.value.translations.es.value" property equals "Full name ES"
+    And the "result.post_content.0.fields.6.type" property equals "tags"
+    And the "result.post_content.0.fields.6.value.0.id" property equals "1"
+    And the "result.post_content.0.fields.6.value.0.tag" property equals "Test tag"
+    And the "result.post_content.0.fields.7.type" property equals "datetime"
+    And the "result.post_content.0.fields.7.value.value" property equals "2019-02-02 00:00:00"
+    And the "result.post_content.0.fields.10.type" property equals "varchar"
+    And the "result.post_content.0.fields.10.key" property equals "last_location"
+    And the "result.post_content.0.fields.10.value.value" property equals "Atlantis"
+    And the "result.post_content.0.fields.11.type" property equals "varchar"
+    And the "result.post_content.0.fields.11.key" property equals "missing_status"
+    And the "result.post_content.0.fields.11.value.value" property equals "information_sought"
+    And the "result.post_content.0.fields.13.type" property equals "varchar"
+    And the "result.post_content.0.fields.13.key" property equals "possible_actions"
+    And the "result.post_content.0.fields.13.value.value.0" property equals "medical_evacuation"
+    And the "result.post_content.0.fields.15.type" property equals "varchar"
+    And the "result.post_content.0.fields.15.value.value" property equals "https://google-modified.com"
+    And the "result.post_content.0.fields.15.value.translations.es.value" property equals "https://google-modified-es.com"
     Then the guzzle status code should be 200
