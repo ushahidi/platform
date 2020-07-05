@@ -124,11 +124,11 @@ class PostController extends V4Controller
                 return self::make422($errors, 'translation');
             }
             DB::commit();
+            return new PostResource($post);
         } catch (\Exception $e) {
             DB::rollback();
             return self::make500($e->getTraceAsString());
         }
-        return new PostResource($post);
     }//end store()
 
     /**
