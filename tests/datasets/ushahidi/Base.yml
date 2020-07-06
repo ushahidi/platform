@@ -233,6 +233,7 @@ form_stages:
     show_when_published: 1
     task_is_internal_only: 0
     type: "post"
+    priority: 1
   -
     id: 2
     form_id: 1
@@ -240,6 +241,7 @@ form_stages:
     show_when_published: 1
     task_is_internal_only: 0
     type: "task"
+    priority: 2
   -
     id: 3
     form_id: 1
@@ -247,6 +249,7 @@ form_stages:
     show_when_published: 1
     task_is_internal_only: 0
     type: "task"
+    priority: 3
   -
     id: 4
     form_id: 2
@@ -254,6 +257,7 @@ form_stages:
     show_when_published: 1
     task_is_internal_only: 0
     type: "post"
+    priority: 1
   -
     id: 5
     form_id: 3
@@ -261,6 +265,7 @@ form_stages:
     show_when_published: 1
     task_is_internal_only: 0
     type: "post"
+    priority: 1
   -
     id: 6
     form_id: 4
@@ -268,6 +273,7 @@ form_stages:
     show_when_published: 0
     task_is_internal_only: 0
     type: "task"
+    priority: 1
   -
     id: 7
     form_id: 4
@@ -275,6 +281,7 @@ form_stages:
     show_when_published: 1
     task_is_internal_only: 0
     type: "post"
+    priority: 2
   -
     id: 8
     form_id: 5
@@ -282,6 +289,7 @@ form_stages:
     show_when_published: 0
     task_is_internal_only: 0
     type: "post"
+    priority: 1
   -
     id: 9
     form_id: 7
@@ -289,6 +297,7 @@ form_stages:
     show_when_published: 0
     task_is_internal_only: 0
     type: "post"
+    priority: 1
   -
     id: 10
     form_id: 6
@@ -296,6 +305,7 @@ form_stages:
     show_when_published: 0
     task_is_internal_only: 0
     type: "post"
+    priority: 1
   -
     id: 11
     form_id: 8
@@ -303,6 +313,31 @@ form_stages:
     show_when_published: 0
     task_is_internal_only: 0
     type: "post"
+    priority: 1
+  -
+    id: 12
+    form_id: 8
+    label: "Post"
+    show_when_published: 0
+    task_is_internal_only: 1
+    type: "task"
+    priority: 2
+  -
+    id: 13
+    form_id: 8
+    label: "Post"
+    show_when_published: 0
+    task_is_internal_only: 0
+    type: "task"
+    priority: 3
+  -
+    id: 14
+    form_id: 8
+    label: "Public task"
+    show_when_published: 1
+    task_is_internal_only: 0
+    type: "post"
+    priority: 4
 form_attributes:
   -
     id: 1

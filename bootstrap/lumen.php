@@ -62,7 +62,8 @@ $app->middleware([
     Ushahidi\App\Multisite\DetectSiteMiddleware::class,
     Barryvdh\Cors\HandleCors::class,
     Ushahidi\App\Http\Middleware\MaintenanceMode::class,
-    Ushahidi\App\Http\Middleware\SetLocale::class
+    Ushahidi\App\Http\Middleware\SetLocale::class,
+    v5\Http\Middleware\V5GlobalScopes::class,
 ]);
 
 $app->routeMiddleware([
@@ -73,7 +74,7 @@ $app->routeMiddleware([
     'scope'  => Ushahidi\App\Http\Middleware\CheckForAnyScope::class,
     'expiration' => Ushahidi\App\Http\Middleware\CheckDemoExpiration::class,
     'signature' => Ushahidi\App\Http\Middleware\SignatureAuth::class,
-    'feature' => Ushahidi\App\Http\Middleware\CheckFeature::class,
+    'feature' => Ushahidi\App\Http\Middleware\CheckFeature::class
 ]);
 
 /*
@@ -94,6 +95,8 @@ $app->register(Ushahidi\App\Providers\EventServiceProvider::class);
 $app->register(Ushahidi\App\Providers\PassportServiceProvider::class);
 $app->register(Barryvdh\Cors\ServiceProvider::class);
 $app->register(Sentry\SentryLaravel\SentryLumenServiceProvider::class);
+$app->register(v5\Providers\MorphServiceProvider::class);
+
 
 /*
 |--------------------------------------------------------------------------
@@ -111,5 +114,9 @@ $app->router->group([
 ], function ($router) {
     require __DIR__.'/../routes/web.php';
 });
-
+$app->router->group([
+    'namespace' => 'v5\Http\Controllers',
+], function ($router) {
+    require __DIR__ . '/../v5/routes/web.php';
+});
 return $app;
