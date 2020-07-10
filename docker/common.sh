@@ -1,6 +1,21 @@
 #!/bin/bash
 set -e
 
+function copy_external_config() {
+  if [ -n "$DOTENV_PATH" ] && [ -f "$DOTENV_PATH" ]; then
+    if [ -f .env ]; then
+      echo "NOTICE: replacing .env file with contents from $DOTENV_PATH"
+    fi
+    cat $DOTENV_PATH > .env
+  fi
+  if [ -n "$PASSPORT_KEYS_PATH" ] && [ -d "$PASSPORT_KEYS_PATH" ] && [ -e "$PASSPORT_KEYS_PATH/oauth-private.key" ] ; then
+    if [ -e ./storage/passport/oauth-private.key ]; then
+      echo "NOTICE: replacing passport key files with those from $PASSPORT_KEYS_PATH"
+    fi
+    cp -f $PASSPORT_KEYS_PATH/*.key ./storage/passport/
+  fi
+}
+
 function check_vols_src() {
   if [ ! -d /vols/src ]; then
     echo "No /vols/src with code"
@@ -25,9 +40,33 @@ function provision_passport_keys() {
   if [ ! -d storage/passport ]; then
     mkdir -p storage/passport
   fi
-  if [ ! -f storage/passport/oauth-private ]; then
+  if [ ! -f storage/passport/oauth-private.key ]; then
     composer bootstrap:passport
   fi
+}
+
+function touch_logs() {
+  # Archive previous logs , start with new files for current run
+  for f in lumen.log worker.log; do
+    if [ -f "storage/logs/${f}" ]; then
+      cat "storage/logs/${f}" >> storage/logs/${f}.archive
+    fi
+    truncate -s 0 storage/logs/${f}
+  done
+}
+
+function dump_logs() {
+  echo
+  echo "---> [i] Dump of lumen logs"
+  echo
+  for f in lumen.log worker.log; do
+    if [ -f "storage/logs/${f}" ] && [ `stat -c %s "storage/logs/${f}"` -gt 0 ]; then
+      echo "---- ${f} ----"
+      cat storage/logs/${f}
+    fi
+  done
+  echo "---------------------------"
+  echo
 }
 
 function set_storage_permissions() {
