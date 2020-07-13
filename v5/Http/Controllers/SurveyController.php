@@ -106,6 +106,9 @@ class SurveyController extends V4Controller
                 foreach ($stage['fields'] as $attribute) {
                     $uuid = Uuid::uuid4();
                     $attribute['key'] = $uuid->toString();
+                    if ($attribute['type'] === 'tags') {
+                        $attribute['options'] = array_flatten(array_pluck($attribute['options'], 'id'));
+                    }
                     $field_model = $stage_model->fields()->create(
                         array_merge(
                             $attribute,
@@ -233,11 +236,16 @@ class SurveyController extends V4Controller
                 if (!$field_model) {
                     continue;
                 }
-
+                if ($field['type'] === 'tags') {
+                    $field['options'] = array_flatten(array_pluck($field['options'], 'id'));
+                }
                 $field_model->update($field);
                 $field_model = Attribute::find($field['id']);
             } else {
                 $uuid = Uuid::uuid4();
+                if ($field['type'] === 'tags') {
+                    $field['options'] = array_flatten(array_pluck($field['options'], 'id'));
+                }
                 $field_model = $stage->fields()->create(
                     array_merge(
                         $field,

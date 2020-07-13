@@ -127,7 +127,7 @@ class PostController extends V4Controller
             return new PostResource($post);
         } catch (\Exception $e) {
             DB::rollback();
-            return self::make500($e->getTraceAsString());
+            return self::make500($e->getMessage());
         }
     }//end store()
 
