@@ -8,16 +8,6 @@ $apiBase = 'api/v' . $apiVersion;
 $router->group([
     'prefix' => $apiBase,
 ], function () use ($router) {
-    $router->group([
-	'prefix' => 'ohnoes'
-    ],
-	function () use ($router) {
-		$router->get('/', function () {
-		return 'OHNO DID YOU BREAK THE API';
-
-		});
-	}
-    );
     // Forms
     $router->group([
         // 'namespace' => 'Forms',
