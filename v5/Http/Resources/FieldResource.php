@@ -22,7 +22,7 @@ class FieldResource extends Resource
             'instructions' => $this->instructions,
             'input' => $this->input,
             'type' => $this->type,
-            'required' => $this->required,
+            'required' => (boolean) $this->required,
             'default' => $this->default,
             'priority' => $this->priority,
             'options' => ($this->type === 'tags') ? new CategoryCollection($this->options) : $this->options,

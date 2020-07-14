@@ -20,7 +20,7 @@ class TaskResource extends Resource
             'form_id' => $this->form_id,
             'label' => $this->label,
             'priority' => $this->priority,
-            'required' => $this->required,
+            'required' => (boolean) $this->required,
             'type' => $this->type,
             'description' => $this->description,
             'show_when_published' => $this->show_when_published,
