@@ -29,8 +29,11 @@ class PostMedia extends PostValue
     public function getRules()
     {
         $rules = [
-            'value' => [Rule::exists('media', 'id')],
+            'value' => [
+                'numeric',
+                Rule::exists('media', 'id')
+            ],
         ];
-        return [parent::getRules(), $rules];
+        return array_merge(parent::getRules(), $rules);
     }//end getRules()
 }//end class

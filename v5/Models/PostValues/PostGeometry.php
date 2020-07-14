@@ -61,6 +61,6 @@ class PostGeometry extends PostValue
     {
         $rules = [
         ];
-        return [parent::getRules(), $rules];
+        return array_merge(parent::getRules(), $rules);
     }//end getRules()
 }//end class

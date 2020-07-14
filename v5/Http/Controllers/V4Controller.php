@@ -139,7 +139,7 @@ class V4Controller extends BaseController
                     $translated = json_encode($translated);
                 }
 
-                Translation::create(
+                $t = Translation::create(
                     [
                         'translatable_type' => $type,
                         'translatable_id'   => $translatable_id,

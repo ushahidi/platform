@@ -75,7 +75,7 @@ class BaseModel extends Model
         return [];
     }
 
-    public function validate($data)
+    public function validate($data = [])
     {
         $input = array_merge($this->attributes, $data);
         $v = Validator::make($input, $this->getRules(), $this->validationMessages());

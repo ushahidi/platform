@@ -29,6 +29,6 @@ class PostInt extends PostValue
         $rules = [
             'value' => ['integer'],
         ];
-        return [parent::getRules(), $rules];
+        return array_merge(parent::getRules(), $rules);
     }//end getRules()
 }//end class

@@ -108,6 +108,8 @@ class PostPoint extends PostValue
     public function getRules()
     {
         $rules = [
+            'post_id' => 'nullable|sometimes|exists:posts,id',
+            'form_attribute_id' => 'nullable|sometimes|exists:form_attributes,id',
             'value' => [
                 'array',
                 function ($attribute, $value, $fail) {
@@ -124,7 +126,7 @@ class PostPoint extends PostValue
                 }
             ],
         ];
-        return [parent::getRules(), $rules];
+        return $rules;
     }//end getRules()
 
     private function checkLon($lon)
