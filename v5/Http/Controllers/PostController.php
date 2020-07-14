@@ -212,8 +212,7 @@ class PostController extends V4Controller
                 }
 
                 $class_name = "v5\Models\PostValues\Post" . ucfirst($type);
-                if (
-                    !class_exists($class_name) &&
+                if (!class_exists($class_name) &&
                     in_array(
                         $class_name,
                         [
@@ -223,8 +222,7 @@ class PostController extends V4Controller
                     )
                 ) {
                     continue;
-
-                } else if (!class_exists($class_name)) {
+                } elseif (!class_exists($class_name)) {
                     throw new \Exception("Type '$type' is invalid.");
                 }
 
