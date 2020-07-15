@@ -106,7 +106,7 @@ class SurveyController extends V4Controller
                 foreach ($stage['fields'] as $attribute) {
                     $uuid = Uuid::uuid4();
                     $attribute['key'] = $uuid->toString();
-                    if ($attribute['type'] === 'tags') {
+                    if ($attribute['type'] === 'tags' && $this->isAssoc($attribute['options'])) {
                         $attribute['options'] = array_flatten(array_pluck($attribute['options'], 'id'));
                     }
                     $field_model = $stage_model->fields()->create(
@@ -221,6 +221,13 @@ class SurveyController extends V4Controller
         }
     }//end updateTasks()
 
+    private function isAssoc(array $arr)
+    {
+        if ([] === $arr) {
+            return false;
+        }
+        return array_keys($arr) !== range(0, count($arr) - 1);
+    }
 
     /**
      * @param array $input_fields
@@ -236,14 +243,14 @@ class SurveyController extends V4Controller
                 if (!$field_model) {
                     continue;
                 }
-                if ($field['type'] === 'tags') {
+                if ($field['type'] === 'tags' && $this->isAssoc($field['options'])) {
                     $field['options'] = array_flatten(array_pluck($field['options'], 'id'));
                 }
                 $field_model->update($field);
                 $field_model = Attribute::find($field['id']);
             } else {
                 $uuid = Uuid::uuid4();
-                if ($field['type'] === 'tags') {
+                if ($field['type'] === 'tags' && $this->isAssoc($field['options'])) {
                     $field['options'] = array_flatten(array_pluck($field['options'], 'id'));
                 }
                 $field_model = $stage->fields()->create(
