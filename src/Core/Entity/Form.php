@@ -89,7 +89,7 @@ class Form extends StaticEntity
         return array_merge(parent::getImmutable(), ['tags', 'can_create']);
     }
 
-    public function __toString() 
+    public function __toString()
     {
         return json_encode([
             'id' => $this->id,

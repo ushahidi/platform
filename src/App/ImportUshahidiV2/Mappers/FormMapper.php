@@ -21,11 +21,10 @@ class FormMapper implements Mapper
             'everyone_can_create' => true,
         ]);
 
-        Log::debug("Mapping v2 form {input} to {form}", 
-            [ 
-                'input' => $input,
-                'form' => $form
-            ]);
+        Log::debug(
+            "Mapping v2 form {input} to {form}",
+            ['input' => $input, 'form' => $form]
+        );
 
         return $form;
     }

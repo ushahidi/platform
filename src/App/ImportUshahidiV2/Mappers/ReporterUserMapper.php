@@ -11,14 +11,13 @@ use Ushahidi\App\ImportUshahidiV2\Contracts\ImportMappingRepository;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 
-
 class ReporterUserMapper implements Mapper
 {
 
     protected $mappingRepo;
     protected $userMappingsCache;
 
-    protected function _loadUserMappings(int $importId) : Collection
+    protected function loadUserMappings(int $importId) : Collection
     {
         if (!$this->userMappingsCache->has($importId)) {
             $mappings = $this->mappingRepo->getAllMappingIDs($importId, "user");
@@ -43,7 +42,7 @@ class ReporterUserMapper implements Mapper
         // NB:
         // - We're not mapping level to anything
         // - We're not mapping reporter location to anything
-        $userIdMap = $this->_loadUserMappings($importId);
+        $userIdMap = $this->loadUserMappings($importId);
 
         $contacts = $this->getContacts($input, $userIdMap);
 

@@ -66,7 +66,7 @@ class FormAttribute extends StaticEntity
         return 'form_attributes';
     }
 
-    public function __toString() 
+    public function __toString()
     {
         return json_encode([
             'id' => $this->id,
@@ -78,7 +78,7 @@ class FormAttribute extends StaticEntity
             'required' => $this->required,
             'default' => $this->default,
             'priority' => $this->priority,
-            'options' => $this->options,      
+            'options' => $this->options,
         ]);
     }
 }

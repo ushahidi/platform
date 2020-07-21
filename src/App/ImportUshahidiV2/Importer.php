@@ -7,7 +7,6 @@ use Ushahidi\Core\Entity\Repository\EntityCreateMany;
 use Ushahidi\App\ImportUshahidiV2;
 use Illuminate\Support\Facades\Log;
 
-
 class Importer
 {
     protected $sourceType;
@@ -59,7 +58,9 @@ class Importer
         });
 
         // Filter out objects that didn't map successfully (obj->target == null)
-        list($failed, $mapped) = $results->partition(function ($v) { return $v->target == null; });
+        list($failed, $mapped) = $results->partition(function ($v) {
+            return $v->target == null;
+        });
 
         if ($failed->count() > 0) {
             Log::debug('[Import] The following mappings failed {failed}', [
@@ -85,7 +86,7 @@ class Importer
         // Match source and destination ids
         // results in collection source_id -> target_id
         $map_resource_ids = $source->pluck('id')->combine($inserted);
-        // Create and save mapping entities 
+        // Create and save mapping entities
         $mapped->each(function ($result) use ($map_resource_ids, $importId, $destType) {
             $sourceId = $result->source->id;
             $result->targetId = $map_resource_ids->get($sourceId);

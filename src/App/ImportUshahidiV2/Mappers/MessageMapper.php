@@ -18,7 +18,7 @@ class MessageMapper implements Mapper
 
     protected $mappingsCache;
 
-    protected function _loadMappings(int $importId, string $type) : Collection
+    protected function loadMappings(int $importId, string $type) : Collection
     {
         $importCache = $this->mappingsCache->get($type);
         
@@ -96,22 +96,22 @@ class MessageMapper implements Mapper
 
     protected function getContactId($importId, $contact_id)
     {
-        return $this->_loadMappings($importId, 'reporter')->get(strval($contact_id));
+        return $this->loadMappings($importId, 'reporter')->get(strval($contact_id));
     }
 
     protected function getParentId($importId, $parentId)
     {
-        return $this->_loadMappings($importId, 'message')->get(strval($parentId));
+        return $this->loadMappings($importId, 'message')->get(strval($parentId));
     }
 
     protected function getUserId($importId, $userId)
     {
-        return $this->_loadMappings($importId, 'user')->get(strval($userId));
+        return $this->loadMappings($importId, 'user')->get(strval($userId));
     }
 
     protected function getPostId($importId, $incidentId)
     {
-        return $this->_loadMappings($importId, 'incident')->get(strval($incidentId));
+        return $this->loadMappings($importId, 'incident')->get(strval($incidentId));
     }
 
     protected function getAdditionalData($input)
