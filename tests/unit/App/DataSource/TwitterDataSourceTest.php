@@ -282,7 +282,7 @@ class TwitterDataSourceTest extends TestCase
                 'type' => 'twitter',
                 'contact_type' => 'twitter',
                 'from' => '1112222225', // twitter user id
-                'message' => 'https://twitter.com/1112222225/status/abc125', 
+                'message' => 'https://twitter.com/1112222225/status/abc125',
                 'to' => null,
                 'title' => 'From twitter on Thu Apr 06 15:24:15 +0000 2017',
                 'data_source_message_id' => 'abc125',

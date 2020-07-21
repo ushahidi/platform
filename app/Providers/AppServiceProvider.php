@@ -164,7 +164,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton('filesystem', function ($app) {
             return $app->loadComponent(
                 'filesystems',
-                \Illuminate\Filesystem\FilesystemServiceProvider::class,
+                \Ushahidi\App\Providers\FilesystemServiceProvider::class,
                 'filesystem'
             );
         });
