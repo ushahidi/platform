@@ -24,6 +24,7 @@ class SurveyResource extends Resource
                 'id' => $this->id,
                 'name' => $this->name,
                 'description' => $this->description,
+                'translations' => new TranslationCollection($this->translations),
                 'enabled_languages' => [
                     'default'=> $this->base_language,
                     'available' => $this->translations->groupBy('language')->keys()
