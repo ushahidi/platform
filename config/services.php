@@ -34,5 +34,11 @@ return [
         'key' => env('STRIPE_KEY'),
         'secret' => env('STRIPE_SECRET'),
     ],
+    
+    'gmail' => [
+        'client_id' => env('GMAIL_ID'),
+        'client_secret' => env('GMAIL_SECRET',
+        'redirect_uri' => env('GMAIL_REDIRECT_URI', 'urn:ietf:wg:oauth:2.0:oob'),
+    ]
 
 ];
