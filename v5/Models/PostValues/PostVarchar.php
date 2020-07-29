@@ -26,7 +26,7 @@ class PostVarchar extends PostValue
         $rules = [
             'value' => ['string', 'max:255'],
         ];
-        return [parent::getRules(), $rules];
+        return array_merge(parent::getRules(), $rules);
     }//end getRules()
 
     /**

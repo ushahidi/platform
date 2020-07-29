@@ -127,7 +127,7 @@ class PostController extends V4Controller
             return new PostResource($post);
         } catch (\Exception $e) {
             DB::rollback();
-            return self::make500($e->getTraceAsString());
+            return self::make500($e->getMessage());
         }
     }//end store()
 
@@ -159,7 +159,10 @@ class PostController extends V4Controller
         DB::beginTransaction();
         try {
             $post->update(array_merge($input, ['updated' => time()]));
-            $this->savePostValues($post, $post_values, $post->id);
+            $errors = $this->savePostValues($post, $post_values, $post->id);
+            if (is_array($errors)) {
+                return self::make422($errors);
+            }
             $this->updateTranslations(new Post(), $post->toArray(), $request->input('translations'), $post->id, 'post');
             DB::commit();
             $post->load('translations');
@@ -188,6 +191,7 @@ class PostController extends V4Controller
      */
     protected function savePostValues(Post $post, array $post_content, int $post_id)
     {
+        $errors = [];
         $post->valuesPostTag()->delete();
         foreach ($post_content as $stage) {
             if (!isset($stage['fields'])) {
@@ -197,7 +201,6 @@ class PostController extends V4Controller
                 if (!isset($field['value']) || !isset($field['value']['value'])) {
                     continue;
                 }
-                $update_id = isset($field['value']['id']) ? $field['value']['id'] : null;
                 $value = $field['value']['value'];
                 $value_translations = isset($field['value']['translations']) ? $field['value']['translations'] : [];
                 $type = $field['type'];
@@ -209,21 +212,29 @@ class PostController extends V4Controller
                 }
 
                 $class_name = "v5\Models\PostValues\Post" . ucfirst($type);
-                if (!class_exists($class_name)) {
+                if (!class_exists($class_name) &&
+                    in_array(
+                        $class_name,
+                        [
+                            'v5\Models\PostValues\PostTitle',
+                            'v5\Models\PostValues\PostDescription'
+                        ]
+                    )
+                ) {
+                    continue;
+                } elseif (!class_exists($class_name)) {
                     throw new \Exception("Type '$type' is invalid.");
                 }
-                $post_value = new $class_name();
-                if ($update_id) {
-                    $post_value = $class_name::select('post_'.$type.'.*')
-                                    ->where('post_'.$type.'.id', $update_id)
+
+                $post_value = $class_name::select('post_'.$type.'.*')
+                                    ->where('post_'.$type.'.form_attribute_id', $field['id'])
+                                    ->where('post_'.$type.'.post_id', $post_id)
                                     ->get()
                                     ->first();
+                $update_id = $post_value ? $post_value->id : null;
+                if (!$update_id) {
+                    $post_value = new $class_name;
                 }
-
-                if ($type === 'point') {
-                    $value = \DB::raw("GeomFromText('POINT({$value['lon']} {$value['lat']})')");
-                }
-
                 if ($type === 'geometry') {
                     $value = \DB::raw("GeomFromText('$value')");
                 }
@@ -233,11 +244,15 @@ class PostController extends V4Controller
                     'form_attribute_id' => $field['id'],
                     'value' => $value
                 ];
-                $validation = $post_value->validate([
-                    'post_id' => $post_id,
-                    'form_attribute_id' => $field['id'],
-                    'value' => $value
-                ]);
+                foreach ($data as $k => $v) {
+                    $post_value->setAttribute($k, $v);
+                }
+
+                $validation = $post_value->validate();
+
+                if ($type === 'point') {
+                    $data['value'] = \DB::raw("GeomFromText('POINT({$value['lon']} {$value['lat']})')");
+                }
                 if ($validation) {
                     if ($update_id) {
                         $post_value->update($data);
@@ -258,9 +273,15 @@ class PostController extends V4Controller
                             "post_value_$type"
                         );
                     }
+                } else {
+                    $errors['task_id.' . $stage['id'] . '.field_id.' . $field['id']] = $post_value->errors->toArray();
                 }
             }
         }
+        if (!empty($errors)) {
+            return $errors;
+        }
+        return true;
     }
 
     protected function savePostTags($post, $attr_id, $tags)

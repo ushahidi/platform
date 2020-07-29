@@ -264,7 +264,7 @@ class Category extends BaseModel
         }
     }
 
-    public function validate($data)
+    public function validate($data = [])
     {
         $v = Validator::make($data, $this->getRules(), $this->validationMessages());
         $v->sometimes('role', 'exists:roles,name', function ($input) {

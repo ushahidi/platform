@@ -19,12 +19,24 @@ class V5GlobalScopes
     {
 
         $isSaving = $request->isMethod('post');
+
         $isPosts = $request->path() === 'api/v5/posts';
         if (!$isSaving && !$isPosts) {
             Category::addGlobalScope(new CategoryAllowed);
             Post::addGlobalScope(new PostAllowed);
             Stage::addGlobalScope(new StageAllowed);
             PostValue::addGlobalScope(new PostValueAllowed);
+            \v5\Models\PostValues\PostDatetime::addGlobalScope(new PostValueAllowed);
+            \v5\Models\PostValues\PostDecimal::addGlobalScope(new PostValueAllowed);
+            \v5\Models\PostValues\PostGeometry::addGlobalScope(new PostValueAllowed);
+            \v5\Models\PostValues\PostInt::addGlobalScope(new PostValueAllowed);
+            \v5\Models\PostValues\PostMarkdown::addGlobalScope(new PostValueAllowed);
+            \v5\Models\PostValues\PostMedia::addGlobalScope(new PostValueAllowed);
+            \v5\Models\PostValues\PostPoint::addGlobalScope(new PostValueAllowed);
+            \v5\Models\PostValues\PostRelation::addGlobalScope(new PostValueAllowed);
+            \v5\Models\PostValues\PostTag::addGlobalScope(new PostValueAllowed);
+            \v5\Models\PostValues\PostText::addGlobalScope(new PostValueAllowed);
+            \v5\Models\PostValues\PostVarchar::addGlobalScope(new PostValueAllowed);
         }
         return $next($request);
     }

@@ -35,7 +35,7 @@ class PostRelation extends PostValue
 
             ],
         ];
-        return [parent::getRules(), $rules];
+        return array_merge(parent::getRules(), $rules);
     }//end getRules()
     // there is a validator in Relation (kohana verfsions) that I don't think ever happens?
     //    $post = $this->repo->get($value);
