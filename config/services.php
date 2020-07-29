@@ -36,8 +36,8 @@ return [
     ],
     
     'gmail' => [
-        'client_id' => env('GMAIL_ID'),
-        'client_secret' => env('GMAIL_SECRET',
+        'client_id' => env('GMAIL_CLIENT_ID'),
+        'client_secret' => env('GMAIL_CLIENT_SECRET'),
         'redirect_uri' => env('GMAIL_REDIRECT_URI', 'urn:ietf:wg:oauth:2.0:oob'),
     ]
 
