@@ -191,12 +191,14 @@ class Twitter implements IncomingAPIDataSource, OutgoingAPIDataSource
                 // @todo Check for similar messages in the database before saving
                 /***
                  * Twitter links note: (message field)
-                 * Best compromise I could find was just make the proper urls with user_id rather than only
+                 * Best compromise I could find was just make the
+                 * proper urls with user_id rather than only
                  * tweet id (for which there is an unofficial formula)...
                  * since there doesn't seem to be a way to grab the URL from the
                  * API itself in the v1.1 search endpoint.
                  * Fun fact: if the user id is wrong, twitter
-                 * still takes you to the correct Tweet... they just use the tweet id
+                 * still takes you to the correct Tweet...
+                 * they just use the tweet id
                 **/
                 $messages[] = [
                     'type' => MessageType::TWITTER,
