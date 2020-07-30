@@ -106,8 +106,9 @@ class SurveyController extends V4Controller
                 foreach ($stage['fields'] as $attribute) {
                     $uuid = Uuid::uuid4();
                     $attribute['key'] = $uuid->toString();
-                    if ($attribute['type'] === 'tags' && $this->isAssoc($attribute['options'])) {
-                        $attribute['options'] = array_flatten(array_pluck($attribute['options'], 'id'));
+
+                    if ($attribute['type'] === 'tags') {
+                        $attribute['options'] = $this->normalizeCategoryOptions($attribute['options']);
                     }
                     $field_model = $stage_model->fields()->create(
                         array_merge(
@@ -221,14 +222,18 @@ class SurveyController extends V4Controller
         }
     }//end updateTasks()
 
-    private function isAssoc(array $arr)
+    private function isArrayOfNumbers(array $arr)
     {
-        if ([] === $arr) {
-            return false;
-        }
-        return array_keys($arr) !== range(0, count($arr) - 1);
+        return $arr === array_filter($arr, 'is_numeric');
     }
 
+    private function normalizeCategoryOptions(array $options)
+    {
+        if (!$this->isArrayOfNumbers($options)) {
+            return array_flatten(array_pluck($options, 'id'));
+        }
+        return $options;
+    }
     /**
      * @param array $input_fields
      * @param Survey $survey
@@ -243,15 +248,15 @@ class SurveyController extends V4Controller
                 if (!$field_model) {
                     continue;
                 }
-                if ($field['type'] === 'tags' && $this->isAssoc($field['options'])) {
-                    $field['options'] = array_flatten(array_pluck($field['options'], 'id'));
+                if ($field['type'] === 'tags') {
+                    $field['options'] = $this->normalizeCategoryOptions($field['options']);
                 }
                 $field_model->update($field);
                 $field_model = Attribute::find($field['id']);
             } else {
                 $uuid = Uuid::uuid4();
-                if ($field['type'] === 'tags' && $this->isAssoc($field['options'])) {
-                    $field['options'] = array_flatten(array_pluck($field['options'], 'id'));
+                if ($field['type'] === 'tags') {
+                    $field['options'] = $this->normalizeCategoryOptions($field['options']);
                 }
                 $field_model = $stage->fields()->create(
                     array_merge(
