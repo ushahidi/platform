@@ -1,10 +1,11 @@
 #!/bin/bash
 
-. /common.sh
+. $(dirname $0)/common.sh
 
 set -e
 
-sync
+##sync
+
 cp .env.testing .env
 run_composer_install
 wait_for_mysql
