@@ -11,6 +11,8 @@ use Tests\TestCase;
 use Mockery as M;
 use Faker;
 
+use Illuminate\Support\Collection;
+
 /**
  * @backupGlobals disabled
  * @preserveGlobalState disabled
@@ -25,15 +27,18 @@ class MessageMapperTest extends TestCase
         $importId = 1;
 
         $mappingRepo = M::mock(ImportMappingRepository::class);
-        $mappingRepo->shouldReceive('getDestId')
-            ->with($importId, 'incident', $mockCalls['incident'][0])
-            ->andReturn($mockCalls['incident'][1]);
-        $mappingRepo->shouldReceive('getDestId')
-            ->with($importId, 'user', $mockCalls['user'][0])
-            ->andReturn($mockCalls['user'][1]);
-        $mappingRepo->shouldReceive('getDestId')
-            ->with($importId, 'message', $mockCalls['parent'][0])
-            ->andReturn($mockCalls['parent'][1]);
+        $mappingRepo->shouldReceive('getAllMappingIDs')
+            ->with($importId, 'reporter')
+            ->andReturn(collect($mockCalls['reporter']));
+        $mappingRepo->shouldReceive('getAllMappingIDs')
+            ->with($importId, 'message')
+            ->andReturn(collect($mockCalls['parent']));
+        $mappingRepo->shouldReceive('getAllMappingIDs')
+            ->with($importId, 'user')
+            ->andReturn(collect($mockCalls['user']));
+        $mappingRepo->shouldReceive('getAllMappingIDs')
+            ->with($importId, 'incident')
+            ->andReturn(collect($mockCalls['incident']));
 
         $contactRepo = M::mock(ContactRepository::class);
         $contactRepo->shouldReceive('getByContact')
@@ -64,6 +69,7 @@ class MessageMapperTest extends TestCase
                     'service_name' => 'Email',
                     'incident_id' => '5',
                     'user_id' => '7',
+                    'reporter_id' => '9',
                     'service_messageid' => 'absdflkajsdf',
                     'message_detail' => 'A message',
                     'message' => 'Some subject',
@@ -73,10 +79,11 @@ class MessageMapperTest extends TestCase
                     'longitude' => null
                 ],
                 'mockCalls' => [
-                    'incident' => [5, 55],
-                    'user' => [7, 77],
+                    'incident' => ['5' => 55],
+                    'user' => ['7' => 77],
+                    'reporter' => ['9' => 99],
                     'contact' =>  ['jim@jimssite.test', 'email', 99],
-                    'parent' => [null, null],
+                    'parent' => [],
                 ],
                 'expected' => [
                     'parent_id' => null,
@@ -101,6 +108,7 @@ class MessageMapperTest extends TestCase
                     'service_name' => 'SMS',
                     'incident_id' => null,
                     'user_id' => '50',
+                    'reporter_id' => '5',
                     'service_messageid' => '1',
                     'message_detail' => null,
                     'message' => 'An SMS',
@@ -110,10 +118,11 @@ class MessageMapperTest extends TestCase
                     'longitude' => null
                 ],
                 'mockCalls' => [
-                    'incident' => [null, null],
-                    'user' => [50, 75],
+                    'incident' => [],
+                    'user' => ['50' => 75],
+                    'reporter' => ['5' => 95],
                     'contact' =>  ['123456', 'sms', 95],
-                    'parent' => [10, 100],
+                    'parent' => ['10' => 100],
                 ],
                 'expected' => [
                     'parent_id' => 100,
@@ -138,6 +147,7 @@ class MessageMapperTest extends TestCase
                     'service_name' => 'SMS',
                     'incident_id' => null,
                     'user_id' => '50',
+                    'reporter_id' => '5',
                     'service_messageid' => '1',
                     'message_detail' => null,
                     'message' => 'An SMS',
@@ -147,10 +157,11 @@ class MessageMapperTest extends TestCase
                     'longitude' => '2.756'
                 ],
                 'mockCalls' => [
-                    'incident' => [null, null],
-                    'user' => [50, 75],
+                    'incident' => [],
+                    'user' => ['50' => 75],
+                    'reporter' => ['5' => 95],
                     'contact' =>  ['123456', 'sms', 95],
-                    'parent' => [10, 100],
+                    'parent' => ['10' => 100],
                 ],
                 'expected' => [
                     'parent_id' => 100,

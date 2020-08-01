@@ -51,8 +51,9 @@ class ImporterTest extends TestCase
 
         // Build some junk data
         $source = collect(array_fill(0, 20, null))
-            ->map(function () use ($faker) {
-                return [
+            ->map(function ($id) use ($faker) {
+                return (object) [
+                    'id' => $id,
                     'field1' => $faker->word,
                     'field2' => $faker->sentence,
                 ];

@@ -3,10 +3,13 @@
 namespace Tests\Unit\App\ImportUshahidiV2\Mappers;
 
 use Ushahidi\App\ImportUshahidiV2\Mappers\ReporterUserMapper;
-use Ushahidi\Core\Entity\User;
+use Ushahidi\App\ImportUshahidiV2\Contracts\ImportMappingRepository;
+use Ushahidi\Core\Entity\Contact;
 use Tests\TestCase;
 use Mockery as M;
 use Faker;
+
+use Illuminate\Support\Collection;
 
 /**
  * @backupGlobals disabled
@@ -19,16 +22,21 @@ class ReporterUserMapperTest extends TestCase
      */
     public function testMap($input, $expected)
     {
-        $mapper = new ReporterUserMapper();
+        $mappingRepo = M::mock(ImportMappingRepository::class);
+        $mappingRepo->shouldReceive('getAllMappingIDs')
+            ->with(1, 'user')
+            ->andReturn(collect([ ($input['user_id']) => ($expected['user_id']) ]));
 
-        $user = $mapper(1, $input);
+        $mapper = new ReporterUserMapper($mappingRepo);
 
-        $this->assertInstanceOf(User::class, $user);
+        $contact = $mapper(1, $input);
+
+        $this->assertInstanceOf(Contact::class, $contact);
         $this->assertArraySubset(
             $expected,
-            $user->asArray(),
+            $contact->asArray(),
             true,
-            "User didn't match. Actual user was: ". var_export($user->asArray(), true)
+            "User didn't match. Actual user was: ". var_export($contact->asArray(), true)
         );
     }
 
@@ -37,6 +45,7 @@ class ReporterUserMapperTest extends TestCase
         return [
             'email-reporter' => [
                 'input' => [
+                    'user_id' => '1',
                     'reporter_email' => 'jimmy@jimssite.test',
                     'service_account' => 'jim@jimssite.test',
                     'reporter_first' => 'Jim',
@@ -44,22 +53,16 @@ class ReporterUserMapperTest extends TestCase
                     'service_name' => 'Email',
                 ],
                 'expected' => [
-                    'email' => 'jim@jimssite.test',
-                    'realname' => 'Jim Hanks',
-                    'role' => null,
-                    'password' => null,
-                    'contacts' => [
-                        [
-                            'type' => 'email',
-                            'data_source' => 'email',
-                            'contact' => 'jim@jimssite.test',
-                            'can_notify' => true
-                        ],
-                    ],
+                    'user_id' => 2,
+                    'contact' => 'jim@jimssite.test',
+                    'data_source' => 'email',
+                    'type' => 'email',
+                    'can_notify' => true
                 ],
             ],
             'sms-reporter' => [
                 'input' => [
+                    'user_id' => '3',
                     'reporter_email' => 'a@abc.test',
                     'service_account' => '123456',
                     'reporter_first' => 'John',
@@ -67,22 +70,15 @@ class ReporterUserMapperTest extends TestCase
                     'service_name' => 'SMS',
                 ],
                 'expected' => [
-                    'email' => 'a@abc.test',
-                    'realname' => 'John Jack',
-                    'role' => null,
-                    'password' => null,
-                    'contacts' => [
-                        [
-                            'type' => 'phone',
-                            'data_source' => null,
-                            'contact' => '123456',
-                            'can_notify' => true
-                        ],
-                    ],
+                    'user_id' => 4,
+                    'contact' => '123456',
+                    'type' => 'phone',
+                    'can_notify' => true
                 ],
             ],
             'twitter-reporter' => [
                 'input' => [
+                    'user_id' => '5',
                     'reporter_email' => 'admin@ushahidi.com',
                     'service_account' => 'ushahidi',
                     'reporter_first' => 'Ushahidi',
@@ -90,22 +86,16 @@ class ReporterUserMapperTest extends TestCase
                     'service_name' => 'Twitter',
                 ],
                 'expected' => [
-                    'email' => 'admin@ushahidi.com',
-                    'realname' => 'Ushahidi',
-                    'role' => null,
-                    'password' => null,
-                    'contacts' => [
-                        [
-                            'type' => 'twitter',
-                            'data_source' => 'twitter',
-                            'contact' => 'ushahidi',
-                            'can_notify' => true
-                        ],
-                    ],
+                    'user_id' => 6,
+                    'type' => 'twitter',
+                    'data_source' => 'twitter',
+                    'contact' => 'ushahidi',
+                    'can_notify' => true
                 ],
             ],
             'other-reporter' => [
                 'input' => [
+                    'user_id' => '7',
                     'reporter_email' => 'whatever@ushahidi.com',
                     'service_account' => 'whatever',
                     'reporter_first' => '',
@@ -113,18 +103,11 @@ class ReporterUserMapperTest extends TestCase
                     'service_name' => 'Insta',
                 ],
                 'expected' => [
-                    'email' => 'whatever@ushahidi.com',
-                    'realname' => 'Whatever',
-                    'role' => null,
-                    'password' => null,
-                    'contacts' => [
-                        [
-                            'type' => 'insta',
-                            'data_source' => 'insta',
-                            'contact' => 'whatever',
-                            'can_notify' => true
-                        ],
-                    ],
+                    'user_id' => 8,
+                    'type' => 'insta',
+                    'data_source' => 'insta',
+                    'contact' => 'whatever',
+                    'can_notify' => true
                 ],
             ],
         ];

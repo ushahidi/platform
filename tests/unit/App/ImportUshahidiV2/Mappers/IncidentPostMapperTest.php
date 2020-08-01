@@ -281,20 +281,36 @@ class PostMapperTest extends TestCase
             'media' => [],
             'form_responses' => [
                 (object)[
+                    'id' => 1,
                     'form_field_id' => 6,
-                    'form_response' => 'Something'
+                    'form_response' => 'Something',
+                    'field_type' => 1,
+                    'field_datatype' => 'text',
+                    'field_isdate' => 0
                 ],
                 (object)[
+                    'id' => 2,
                     'form_field_id' => 7,
-                    'form_response' => 'Again'
+                    'form_response' => 'Again',
+                    'field_type' => 1,
+                    'field_datatype' => 'text',
+                    'field_isdate' => 0
                 ],
                 (object)[
+                    'id' => 3,
                     'form_field_id' => 8,
-                    'form_response' => 'Things'
+                    'form_response' => 'Things',
+                    'field_type' => 1,
+                    'field_datatype' => 'text',
+                    'field_isdate' => 0
                 ],
                 (object)[
+                    'id' => 4,
                     'form_field_id' => 8,
-                    'form_response' => 'Things2'
+                    'form_response' => 'Things2',
+                    'field_type' => 1,
+                    'field_datatype' => 'text',
+                    'field_isdate' => 0
                 ]
             ],
         ];
