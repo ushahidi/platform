@@ -1,4 +1,4 @@
-FROM golang:1.7.6
+FROM golang:1.14
 
 RUN go get github.com/ushahidi/github-release
 
