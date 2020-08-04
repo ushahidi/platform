@@ -32,7 +32,8 @@ return [
         'outgoingemail' => true,
         'twilio' => true,
         'nexmo' => true,
-        'testservice' => false
+        'testservice' => false,
+        'gmail' => true
     ],
 
     // Client limits
@@ -89,4 +90,10 @@ return [
     'anonymise-reporters' => [
         'enabled' => true,
     ],
+
+    // Enable or disable Gmail Support
+    // Controls whether the users can set gmail credentials
+    'gmail-support' => [
+        'enabled' => false
+    ]
 ];

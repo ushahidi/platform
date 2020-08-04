@@ -31,7 +31,7 @@ class PostDatetime extends PostValue
         $rules = [
             'value' => ['date'],
         ];
-        return [parent::getRules(), $rules];
+        return array_merge(parent::getRules(), $rules);
     }//end getRules()
 
     /**

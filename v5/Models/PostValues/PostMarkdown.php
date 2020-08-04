@@ -27,6 +27,6 @@ class PostMarkdown extends PostValue
         $rules = [
             'value' => 'string'
         ];
-        return [parent::getRules(), $rules];
+        return array_merge(parent::getRules(), $rules);
     }//end getRules()
 }//end class

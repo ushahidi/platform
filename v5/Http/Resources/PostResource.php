@@ -26,7 +26,7 @@ class PostResource extends Resource
             $no_values = true;
         }
         $authorizer = service('authorizer.post');
-        $entity = new Post($this->resource->toArray);
+        $entity = new Post($this->resource->toArray());
         // if there's no user the guards will kick them off already, but if there
         // is one we need to check the authorizer to ensure we don't let
         // users without admin perms create forms etc
