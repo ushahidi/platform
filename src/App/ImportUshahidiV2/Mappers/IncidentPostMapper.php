@@ -106,10 +106,14 @@ class IncidentPostMapper implements Mapper
         if (!$this->attributeKeyForColumnCache->has($cacheKey)) {
             // Get attribute map <formid>-<attribute>
             $id = $this->mappingRepo->getDestId($importId, 'incident_column', $formId.'-'.$column);
-            // Load the actual attribute
-            $attribute = $this->attrRepo->get($id);
-            // Return the key
-            $result = $attribute->key ?? $column;
+            if ($id) {
+                // Load the actual attribute
+                $attribute = $this->attrRepo->get($id);
+                // Return the key
+                $result = $attribute->key ?? $column;
+            } else {
+                $result = null;
+            }
             $this->attributeKeyForColumnCache->put($cacheKey, $result);
         } else {
             $result = $this->attributeKeyForColumnCache->get($cacheKey);
@@ -168,6 +172,12 @@ class IncidentPostMapper implements Mapper
             $this->getAttributeKeyForColumn($importId, $input['form_id'], 'photos')
                 => $this->getMedia($input['media'], self::MEDIA_PHOTO, $userId),
         ];
+
+        if ($this->getAttributeKeyForColumn($importId, $input['form_id'], 'geometry')) {
+            // What kind of processing needs to be done here? not sure yet
+            $values[$this->getAttributeKeyForColumn($importId, $input['form_id'], 'geometry')] =
+                $input['geometries'] ? $this->getGeometries($input['geometries']) : [];
+        }
 
         if ($input['form_responses']) {
             foreach ($input['form_responses'] as $response) {
@@ -274,6 +284,18 @@ class IncidentPostMapper implements Mapper
             ->filter()
             ->values()
             ->all();
+    }
+
+    public function getGeometries(Collection $geometries)
+    {
+        Log::debug('[IncidentPostMapper] Processing geometries {$geometries}', [
+            'geometries' => $geometries
+        ]);
+        $the_texts = collect($geometries)->pluck('geometry_astext')->all();
+        Log::debug('[IncidentPostMapper] Processing geometries result: {$text}', [
+            'text' => $the_texts,
+        ]);
+        return $the_texts;
     }
 
     protected function stringToDatatype($data, $type)

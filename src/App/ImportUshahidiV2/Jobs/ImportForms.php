@@ -130,6 +130,18 @@ class ImportForms extends Job
         ],
     ];
 
+    protected $geometryAttribute = [
+        'source_id' => 'geometry',
+        'label' => 'Geometry',
+        'required' => 0,
+        'priority' => 0,
+        'default' => 0,
+        'type' => 'geometry',
+        'input' => 'geometry',      // TODO: check this with the client
+        'options' => [],
+        'cardinality' => 0,
+    ];
+
     /**
      * Create a new job instance.
      *
@@ -152,6 +164,14 @@ class ImportForms extends Job
         }
         Log::debug("found attribute: {}", [$attr]);
         return $attr->id;
+    }
+
+    protected function sourceHasGeometries()
+    {
+        $count = $this->getConnection()
+            ->table('geometry')
+            ->count();
+        return $count > 0;
     }
 
     /**
@@ -401,6 +421,41 @@ class ImportForms extends Job
                     'source_type' => 'incident_column',
                     // Combine form id + attribute id
                     'source_id' => $v2_formId . '-' . $attr['source_id'],
+                    'dest_type' => 'form_attributes',
+                    'dest_id' => $attrId,
+                ]
+            ]);
+        }
+
+        // Create geometry attribute
+        // but only if there are geometries created
+        if ($this->sourceHasGeometries()) {
+            // Create attribute
+            $attrId = $attrRepo->create(new Entity\FormAttribute(
+                ['form_stage_id' => $v3_stageId] + $this->geometryAttribute
+            ));
+
+            Log::debug("Created v3 attribute {attrId} with def {attr}", [
+                "attrId" => $attrId,
+                "attr" => ['form_stage_id' => $v3_stageId] + $this->geometryAttribute
+            ]);
+
+            // Create a mapping from attribute to form attribute
+            $mappingRepo->create(new ImportUshahidiV2\ImportMapping([
+                'import_id' => $this->importId,
+                'source_type' => 'incident_column',
+                // Combine form id + attribute id
+                'source_id' => $v2_formId . '-' . $this->geometryAttribute['source_id'],
+                'dest_type' => 'form_attributes',
+                'dest_id' => $attrId,
+            ]));
+
+            Log::debug("Created ImportMapping {import_mapping}", [
+                'import_mapping' => [
+                    'import_id' => $this->importId,
+                    'source_type' => 'incident_column',
+                    // Combine form id + attribute id
+                    'source_id' => $v2_formId . '-' . $this->geometryAttribute['source_id'],
                     'dest_type' => 'form_attributes',
                     'dest_id' => $attrId,
                 ]

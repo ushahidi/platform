@@ -69,6 +69,9 @@ class PostMapperTest extends TestCase
             ->with($importId, 'incident_column', '30-photos')
             ->andReturn(7);
         $mappingRepo->shouldReceive('getDestId')
+            ->with($importId, 'incident_column', '30-geometry')
+            ->andReturn(null);
+        $mappingRepo->shouldReceive('getDestId')
             ->with($importId, 'category', '1')
             ->andReturn(11);
         $mappingRepo->shouldReceive('getDestId')
@@ -195,6 +198,9 @@ class PostMapperTest extends TestCase
         $mappingRepo->shouldReceive('getDestId')
             ->with($importId, 'incident_column', '30-photos')
             ->andReturn(7);
+        $mappingRepo->shouldReceive('getDestId')
+            ->with($importId, 'incident_column', '30-geometry')
+            ->andReturn(null);
         $mappingRepo->shouldReceive('getDestId')
             ->with($importId, 'category', '1')
             ->andReturn(11);
@@ -343,6 +349,9 @@ class PostMapperTest extends TestCase
         $mappingRepo->shouldReceive('getDestId')
             ->with($importId, 'incident_column', '30-photos')
             ->andReturn(7);
+        $mappingRepo->shouldReceive('getDestId')
+            ->with($importId, 'incident_column', '30-geometry')
+            ->andReturn(null);
         $mappingRepo->shouldReceive('getDestId')
             ->with($importId, 'category', '1')
             ->andReturn(11);

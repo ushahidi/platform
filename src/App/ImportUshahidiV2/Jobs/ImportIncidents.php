@@ -143,6 +143,17 @@ class ImportIncidents extends Job
                 // Group returned collection by incident id
                 ->groupBy('incident_id');
 
+            // Fetch geometry data for incidents
+            $geometryData = $this->getConnection()
+                ->table('geometry')
+                ->select('geometry.*', DB::RAW('AsText(`geometry`.geometry) as geometry_astext'))
+                ->whereIn('incident_id', $sourceData->pluck('id')->all())
+                ->orderBy('incident_id', 'asc')
+                ->orderBy('id', 'asc')
+                ->get()
+                // Group returned collection by incident id
+                ->groupBy('incident_id');
+
             // Fetch custom form responses for incidents
             $formResponseData = $this->getConnection()
                 ->table('form_response')
@@ -166,9 +177,10 @@ class ImportIncidents extends Job
                 ->groupBy('incident_id');
 
             // Merge the media and form responses into the incidents
-            $sourceData->each(function ($incident) use ($mediaData, $formResponseData) {
+            $sourceData->each(function ($incident) use ($mediaData, $formResponseData, $geometryData) {
                 $incident->media = $mediaData->get($incident->id);
                 $incident->form_responses = $formResponseData->get($incident->id);
+                $incident->geometries = $geometryData->get($incident->id);
             });
 
             $created = $importer->run($this->importId, $sourceData);
