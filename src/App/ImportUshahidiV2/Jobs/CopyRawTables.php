@@ -81,10 +81,10 @@ class CopyRawTables extends Job
                 'data' => $json_row
             ];
 
-            Log::debug("Saving db row", [
-                'row' => $row,
-                'as' => $sourceData
-            ]);
+            // Log::debug("Saving db row", [
+            //     'row' => $row,
+            //     'as' => $sourceData
+            // ]);
 
             $insertChunk[] = $sourceData;
             if (count($insertChunk) >= self::INSERT_CHUNK_SIZE) {

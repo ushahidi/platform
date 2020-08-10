@@ -4,6 +4,7 @@ namespace Tests\Unit\App\ImportUshahidiV2\Mappers;
 
 use Ushahidi\App\ImportUshahidiV2\Mappers\FormFieldAttributeMapper;
 use Ushahidi\App\ImportUshahidiV2\Contracts\ImportMappingRepository;
+use Ushahidi\App\ImportUshahidiV2\Contracts\ImportDataInspectionTools;
 use Ushahidi\Core\Entity\FormAttribute;
 use Ushahidi\Core\Entity\FormStage;
 use Ushahidi\Core\Entity\FormStageRepository;
@@ -32,10 +33,15 @@ class FormFieldAttributeMapperTest extends TestCase
             ->with(11)
             ->andReturn(new FormStage(['id' => 110]));
 
+        $dataInspection = M::mock(ImportDataInspectionTools::class);
+        $dataInspection->shouldReceive('suggestNumberStorage')
+            ->with(3)
+            ->andReturn('int');
 
         $mapper = new FormFieldAttributeMapper(
             $mappingRepo,
-            $stageRepo
+            $stageRepo,
+            $dataInspection
         );
 
         $attr = $mapper(1, $input);
@@ -55,6 +61,7 @@ class FormFieldAttributeMapperTest extends TestCase
         return [
             'datefield' => [
                 'input' => [
+                    'id' => 1,
                     'form_id' => 1,
                     'field_type' => 1,
                     'field_datatype' => 3,
@@ -82,6 +89,7 @@ class FormFieldAttributeMapperTest extends TestCase
             ],
             'textfield' => [
                 'input' => [
+                    'id' => 2,
                     'form_id' => 1,
                     'field_type' => 1,
                     'field_datatype' => 'text',
@@ -109,6 +117,7 @@ class FormFieldAttributeMapperTest extends TestCase
             ],
             'checkboxfield' => [
                 'input' => [
+                    'id' => 3,
                     'form_id' => 1,
                     'field_type' => 6,
                     'field_datatype' => 'numeric',
@@ -123,7 +132,7 @@ class FormFieldAttributeMapperTest extends TestCase
                     'label' => 'A field',
                     'instructions' => null,
                     'input' => 'checkboxes',
-                    'type' => 'decimal',
+                    'type' => 'int',
                     'required' => true,
                     'default' => '2',
                     'priority' => 77,
@@ -136,6 +145,7 @@ class FormFieldAttributeMapperTest extends TestCase
             ],
             'radio' => [
                 'input' => [
+                    'id' => 4,
                     'form_id' => 1,
                     'field_type' => 5,
                     'field_datatype' => 'text',
@@ -163,6 +173,7 @@ class FormFieldAttributeMapperTest extends TestCase
             ],
             'unknown' => [
                 'input' => [
+                    'id' => 5,
                     'form_id' => 1,
                     'field_type' => 55,
                     'field_datatype' => 'junk',

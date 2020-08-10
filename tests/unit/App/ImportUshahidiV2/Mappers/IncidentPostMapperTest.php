@@ -374,34 +374,74 @@ class PostMapperTest extends TestCase
         $attrRepo = M::mock(FormAttributeRepository::class);
         $attrRepo->shouldReceive('get')
             ->with(1)
-            ->andReturn(new FormAttribute(['key' => 'location-name-key']));
+            ->andReturn(new FormAttribute([
+                'key' => 'location-name-key',
+                'input' => 'text',
+                'type' => 'varchar'
+            ]));
         $attrRepo->shouldReceive('get')
             ->with(2)
-            ->andReturn(new FormAttribute(['key' => 'location-key']));
+            ->andReturn(new FormAttribute([
+                'key' => 'location-key',
+                'input' => 'location',
+                'type' => 'point'
+            ]));
         $attrRepo->shouldReceive('get')
             ->with(3)
-            ->andReturn(new FormAttribute(['key' => 'verified-key']));
+            ->andReturn(new FormAttribute([
+                'key' => 'verified-key',
+                'input' => 'checkbox',
+                'type' => 'int'
+            ]));
         $attrRepo->shouldReceive('get')
             ->with(4)
-            ->andReturn(new FormAttribute(['key' => 'categories-key']));
+            ->andReturn(new FormAttribute([
+                'key' => 'categories-key',
+                'input' => 'tags',
+                'type' => 'tags'
+            ]));
         $attrRepo->shouldReceive('get')
             ->with(5)
-            ->andReturn(new FormAttribute(['key' => 'news-key']));
+            ->andReturn(new FormAttribute([
+                'key' => 'news-key',
+                'input' => 'text',
+                'type' => 'varchar'
+            ]));
         $attrRepo->shouldReceive('get')
             ->with(6)
-            ->andReturn(new FormAttribute(['key' => 'videos-key']));
+            ->andReturn(new FormAttribute([
+                'key' => 'videos-key',
+                'input' => 'video',
+                'type' => 'varchar'
+            ]));
         $attrRepo->shouldReceive('get')
             ->with(7)
-            ->andReturn(new FormAttribute(['key' => 'photos-key']));
+            ->andReturn(new FormAttribute([
+                'key' => 'photos-key',
+                'input' => 'upload',
+                'type' => 'media'
+            ]));
         $attrRepo->shouldReceive('get')
             ->with(66)
-            ->andReturn(new FormAttribute(['key' => 'custom6-key']));
+            ->andReturn(new FormAttribute([
+                'key' => 'custom6-key',
+                'input' => 'text',
+                'type' => 'varchar'
+            ]));
         $attrRepo->shouldReceive('get')
             ->with(77)
-            ->andReturn(new FormAttribute(['key' => 'custom7-key']));
+            ->andReturn(new FormAttribute([
+                'key' => 'custom7-key',
+                'input' => 'text',
+                'type' => 'varchar'
+            ]));
         $attrRepo->shouldReceive('get')
             ->with(88)
-            ->andReturn(new FormAttribute(['key' => 'custom8-key']));
+            ->andReturn(new FormAttribute([
+                'key' => 'custom8-key',
+                'input' => 'text',
+                'type' => 'varchar'
+            ]));
 
         $mapper = new IncidentPostMapper($mappingRepo, $attrRepo);
 

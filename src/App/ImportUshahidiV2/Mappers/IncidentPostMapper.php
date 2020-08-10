@@ -126,7 +126,7 @@ class IncidentPostMapper implements Mapper
         return $result;
     }
 
-    public function getAttributeKeyForField($importId, $formId, $field)
+    public function getAttributeForField($importId, $formId, $field)
     {
         $cacheKey = serialize([$importId, $formId, $field]);
         if (!$this->attributeKeyForFieldCache->contains($cacheKey)) {
@@ -134,8 +134,8 @@ class IncidentPostMapper implements Mapper
             $id = $this->mappingRepo->getDestId($importId, 'form_field', $field);
             // Load the actual attribute
             $attribute = $this->attrRepo->get($id);
-            // Return the key
-            $result = $attribute->key ?? $field;
+            // Return the info
+            $result = $attribute;
             $this->attributeKeyForFieldCache->put($cacheKey, $result);
         } else {
             $result = $this->attributeKeyForFieldCache->get($cacheKey);
@@ -181,19 +181,22 @@ class IncidentPostMapper implements Mapper
 
         if ($input['form_responses']) {
             foreach ($input['form_responses'] as $response) {
-                $key = $this->getAttributeKeyForField($importId, $input['form_id'], $response->form_field_id);
+                $attr = $this->getAttributeForField($importId, $input['form_id'], $response->form_field_id);
+                $key = $attr->key;
+                // Convert data type
+                $v3AttrInput = $attr->input;
+                $v3Type = $attr->type;
 
                 // Add key to values array if not set
                 if (!isset($values[$key])) {
                     $values[$key] = [];
                 }
 
-                // Convert data type
-                list($v3AttrInput, $v3Type) = FormFieldAttributeMapper::getInputAndType(
-                    $response->field_type,
-                    $response->field_datatype,
-                    $response->field_isdate
-                );
+                // list($v3AttrInput, $v3Type) = FormFieldAttributeMapper::getInputAndType(
+                //     $response->field_type,
+                //     $response->field_datatype,
+                //     $response->field_isdate
+                // );
 
                 Log::debug(
                     'Response {id} to {form_field_id} is of type {field_type} -> '.
@@ -304,11 +307,26 @@ class IncidentPostMapper implements Mapper
             case 'text':
             case 'varchar':
                 return $data;
+            case 'integer':
+                if (is_numeric(trim($data))) {
+                    return intval(trim($data));
+                } else {
+                    return null;
+                }
+            case 'decimal':
+                if (is_numeric(trim($data))) {
+                    return floatval(trim($data));
+                } else {
+                    return null;
+                }
             case 'datetime':
-                $x = date_parse_from_format("m/d/Y", $data);
+                if (trim($data) === '') {
+                    return '';
+                }
+                $x = date_parse_from_format("d/m/Y", trim($data));
                 if ($x['error_count'] > 0) {
-                    // now what?
-                    return "1000-01-01";
+                    Log::error("Unparseable date string: ", [$x]);
+                    return '';
                 }
                 return "{$x['year']}-{$x['month']}-{$x['day']}";
         }
