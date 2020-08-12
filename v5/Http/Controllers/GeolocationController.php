@@ -41,7 +41,7 @@ class GeolocationController extends V4Controller
         // qid will be used for querycache once we have that.
         $query_id = (integer) $request->get('qid');
         // should we group results by country/???
-        $grouped = (boolean) $request->get('group') ?? true;
+        $group_by = (boolean) $request->get('group_by') ?? true;
         $limit = (integer) $request->get('limit');
         $offset = (integer) $request->get('offset');
         $locale = (integer) $request->get('locale') ?? 'en';
