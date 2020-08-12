@@ -8,6 +8,13 @@ $apiBase = 'api/v' . $apiVersion;
 $router->group([
     'prefix' => $apiBase,
 ], function () use ($router) {
+    // @TODO should close it down?
+    // Restricted access
+    $router->group([
+        'prefix' => 'geolocation',
+    ], function () use ($router) {
+        $router->get('/query', 'GeolocationController@query');
+    });
     // Forms
     $router->group([
         // 'namespace' => 'Forms',
