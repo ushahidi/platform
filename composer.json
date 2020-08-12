@@ -44,7 +44,10 @@
         "asm89/stack-cors": "1.2.0",
         "predis/predis": "~1.1",
         "illuminate/redis": "5.5.*",
-        "willdurand/negotiation": "^2.3"
+        "willdurand/negotiation": "^2.3",
+        "geocoder-php/common-http": "^4.3",
+        "geocoder-php/nominatim-provider": "^5.2",
+        "php-http/message": "^1.8"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
