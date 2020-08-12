@@ -20,9 +20,9 @@ return array(
   ),
   'stageDoesNotExist' => 'Stage ":param1" does not exist',
   'stageRequired' => 'Stage ":param1" is required before publishing',
-  'postNeedsApprovalBeforePublishing' => "Post needs approval by an administrator before it can be published",
-  'postCanOnlyBeUnpublishedByAdmin' => "Post can only be unpublished by an administrator",
-  'alreadyLockedByDifferentUser' => "Post is currently locked by a different user and can not be updated.",
+  'postNeedsApprovalBeforePublishing' => "المنشور في حاجة الى موافقة المسؤول قبل أن يتم نشره",
+  'postCanOnlyBeUnpublishedByAdmin' => "يتم إزالة المنشور بواسطة الأدمن فقط",
+  'alreadyLockedByDifferentUser' => "المنشور مغلق من قبل عضو اخر  ولايمكنك التعديل عليه",
   'values' => array(
       'date'          => 'يجب أن يكون الحقل :param1 تاريخاً، Given: :param2',
       'decimal'       => 'يجب أن يكون الحقل :param1 عدداً عُشرياً بخانتين، Given: :param2',
