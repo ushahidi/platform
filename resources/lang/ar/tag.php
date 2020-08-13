@@ -1,11 +1,11 @@
 <?php
 
 return array(
-    'isSlugAvailable' => ':field :value is already in use',
+    'isSlugAvailable' => ':field :value مستخدم بالفعل',
     'role' => array(
         'isRoleValid' => 'يجب أن يطابق الدور الفئة الأساسية',
         'exists' => 'الدور :value غير موجود'
     ),
-    'description.regex' => 'The description must contain only letters, numbers, spaces and punctuation',
-    'regex' => 'The category name must contain only letters, numbers, spaces and punctuation'
+    'description.regex' => 'الوصف يجب ان يحتوي فقط على حروف، أرقام، مسافات، علامات ترقيم',
+    'regex' => 'اسم الصنف يجب ان يحتوي فقط على حروف، أرقام، مسافات، علامات ترقيم '
 );
