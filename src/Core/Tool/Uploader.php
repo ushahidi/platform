@@ -48,16 +48,16 @@ class Uploader
         // to be made lowercase. Also replace possibly invalid characters in filename
         $filename = strtolower(preg_replace('/[^\pL\pN\-\_\s\.]+/u', '', $filename));
 
-
         // Add the first and second letters of filename to the directory path
         // to help segment the files, producing a more reasonable amount of
         // files per directory, eg: abc-myfile.png -> a/b/abc-myfile.png
-        $filepath = implode('/', [
+        $filepath = implode('/', array_filter([
+            getenv('CDN_PREFIX'),
             $this->multisite->getSite()->getCdnPrefix(),
             $filename[0],
             $filename[1],
             $filename,
-            ]);
+            ]));
 
         // Remove any leading slashes on the filename, path is always relative.
         $filepath = ltrim($filepath, '/');
