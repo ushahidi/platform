@@ -52,9 +52,3 @@ modules/orm
 deployment.env
 docker.env
 vault.txt
-
-
-#
-.garden
-error.log
-

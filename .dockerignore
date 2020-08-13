@@ -11,8 +11,3 @@ storage/framework/testing/**
 storage/framework/views/**
 storage/logs/**
 storage/passport/**
-
-.garden
-garden_modules
-garden.yaml
-error.log
