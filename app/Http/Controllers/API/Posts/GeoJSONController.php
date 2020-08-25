@@ -40,7 +40,8 @@ class GeoJSONController extends PostsController
     protected function getFilters(Request $request)
     {
         return parent::getFilters($request) + [
-            'include_types' => ['point', 'geometry']
+            'include_types' => ['point', 'geometry'],
+            'output_core_post' => true
         ];
     }
 
