@@ -669,6 +669,15 @@
       "contributions": [
         "bug"
       ]
+    },
+    {
+      "login": "kiranzack",
+      "name": "kiranzack",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/22133936?v=4",
+      "profile": "https://github.com/kiranzack",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "projectName": "platform",
