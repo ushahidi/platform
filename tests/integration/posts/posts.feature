@@ -9,6 +9,7 @@ Feature: Testing the Posts API
 			{
 				"form":1,
 				"title":"Test post",
+				"content": "A test content",
 				"author_realname": "Robbie Mackay",
 				"author_email": "someotherrobbie@test.com",
 				"type":"report",
@@ -60,6 +61,7 @@ Feature: Testing the Posts API
 			{
 				"form":1,
 				"title":"Test post",
+				"content": "A test content",
 				"author_realname": "Robbie Mackay",
 				"author_email": "someotherrobbie@test.com",
 				"type":"report",
@@ -106,6 +108,7 @@ Feature: Testing the Posts API
 			"""
 			{
 				"title":"Anonymous Post",
+				"content": "An anonymous content",
 				"type":"report",
 				"status":"draft",
 				"locale":"en_US",
@@ -134,6 +137,7 @@ Feature: Testing the Posts API
 			{
 				"form":2,
 				"title":"Test post",
+				"content": "A test content",
 				"type":"report",
 				"status":"draft",
 				"locale":"en_US",
@@ -160,6 +164,7 @@ Feature: Testing the Posts API
 			{
 				"form":2,
 				"title":"Test post",
+				"content": "A test content",
 				"type":"report",
 				"locale":"en_US",
 				"values":
@@ -187,6 +192,7 @@ Feature: Testing the Posts API
 			{
 				"form":2,
 				"title":"Test post",
+				"content": "A test content",
 				"type":"report",
 				"status":"draft",
 				"locale":"en_US",
@@ -210,6 +216,7 @@ Feature: Testing the Posts API
 			{
 				"form":1,
 				"title":"Invalid post",
+				"content": "An invalid content",
 				"type":"report",
 				"status":"draft",
 				"locale":"en_US",
@@ -233,6 +240,7 @@ Feature: Testing the Posts API
 			{
 				"form":1,
 				"title":"Test post",
+				"content": "A test content",
 				"type":"report",
 				"status":"draft",
 				"locale":"en_US",
@@ -286,6 +294,7 @@ Feature: Testing the Posts API
 			{
 				"form":1,
 				"title":"Invalid author",
+				"content": "A test content",
 				"type":"report",
 				"status":"draft",
 				"locale":"en_US",
@@ -316,6 +325,7 @@ Feature: Testing the Posts API
 			{
 				"form":2,
 				"title":"Test post",
+				"content": "A test content",
 				"type":"report",
 				"status":"draft",
 				"locale":"en_US",
@@ -340,6 +350,7 @@ Feature: Testing the Posts API
 			{
 				"form":1,
 				"title":"Author id 1",
+				"content": "A test content",
 				"type":"report",
 				"status":"draft",
 				"locale":"en_US",
@@ -372,6 +383,7 @@ Feature: Testing the Posts API
 			{
 				"form":1,
 				"title":"Author id 1",
+				"content": "A test content",
 				"type":"report",
 				"status":"draft",
 				"locale":"en_US",
@@ -402,6 +414,7 @@ Feature: Testing the Posts API
 			{
 				"form":1,
 				"title":"Invalid author",
+				"content": "An invalid content",
 				"type":"report",
 				"status":"draft",
 				"locale":"en_US",
@@ -431,6 +444,7 @@ Feature: Testing the Posts API
 			{
 				"form":1,
 				"title":"Test post",
+				"content": "A test content",
 				"author_realname": "Robbie Mackay",
 				"author_email": "someotherrobbie@test.com",
 				"type":"report",
@@ -479,6 +493,7 @@ Feature: Testing the Posts API
 			{
 				"form":1,
 				"title":"Updated Test Post",
+				"content": "An updated test content",
 				"type":"report",
 				"status":"published",
 				"locale":"en_US",
@@ -1344,6 +1359,7 @@ Feature: Testing the Posts API
 			{
 				"form":1,
 				"title":"SUMMARY REPORT (تقرير ملخص)",
+				"content": "A test content",
 				"type":"report",
 				"status":"draft",
 				"locale":"en_US",
@@ -1378,6 +1394,7 @@ Feature: Testing the Posts API
 			{
 				"form":1,
 				"title":"Author id 1",
+				"content": "A test content",
 				"type":"report",
 				"status":"draft",
 				"locale":"en_US",
@@ -1442,6 +1459,7 @@ Feature: Testing the Posts API
 			{
 				"form":1,
 				"title":"Test post",
+				"content": "A test content",
 				"author_realname": "Robbie Mackay",
 				"author_email": "someotherrobbie@test.com",
 				"type":"report",
@@ -1484,6 +1502,7 @@ Feature: Testing the Posts API
 			{
 				"form":1,
 				"title":"Test post",
+				"content": "A test content",
 				"author_realname": "Robbie Mackay",
 				"author_email": "someotherrobbie@test.com",
 				"type":"report",
@@ -1526,6 +1545,7 @@ Feature: Testing the Posts API
 				{
 					"form":3,
 					"title":"Test video post",
+					"content": "A test content",
 					"author_realname": "Robbie Mackay",
 					"author_email": "someotherrobbie@test.com",
 					"type":"report",
@@ -1552,6 +1572,7 @@ Feature: Testing the Posts API
 				{
 					"form":3,
 					"title":"Test video post",
+					"content": "A test content",
 					"author_realname": "Robbie Mackay",
 					"author_email": "someotherrobbie@test.com",
 					"type":"report",
