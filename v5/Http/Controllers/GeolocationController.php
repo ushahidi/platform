@@ -44,7 +44,7 @@ class GeolocationController extends V4Controller
         $group_by = (boolean) $request->get('group_by') ?? true;
         $limit = (integer) $request->get('limit');
         $offset = (integer) $request->get('offset');
-        $locale = (integer) $request->get('locale') ?? 'en';
+        $locale = $request->get('locale') ?: app('translator')->getLocale();
         // TODO call service to grab zoom,x,y from config
 //        $viewbox = Tile::tileToBoundingBox($zoom, $x, $y);
         $httpClient = new \Http\Adapter\Guzzle6\Client();
