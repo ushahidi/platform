@@ -51,7 +51,7 @@ If you are a designer and want to contribute to Ushahidi, please contact the Ush
 
 ### 🔍 I want to do QA and testing
 
-If you are interested in helping us QA and test new releases, please send an email to [techdocs@ushahidi.com](mailto:techdocs@ushahidi.com) or through the [Get in Touch](https://ushahidi.gitbook.io/platform-developer-documentation/contributing-or-getting-involved/get-in-touch) section of these docs to request access to the test environment. While you are waiting for us to reply, start reading trough the [QA & Testing](../qa-and-testing/the-qa-process.md) docs.
+If you are interested in helping us QA and test new releases, please send an email to [techdocs@ushahidi.com](mailto:techdocs@ushahidi.com) or through the [Get in Touch](https://docs.ushahidi.com/platform-developer-documentation/get-in-touch) section of these docs to request access to the test environment. While you are waiting for us to reply, start reading trough the [QA & Testing](../qa-and-testing/the-qa-process.md) docs.
 
 ### 🌍 I want to contribute to translations
 
