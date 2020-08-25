@@ -660,6 +660,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "anje123",
+      "name": "Anjorin Olufemi Benjamin ",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/31329500?v=4",
+      "profile": "https://github.com/anje123",
+      "contributions": [
+        "bug"
+      ]
     }
   ],
   "projectName": "platform",
