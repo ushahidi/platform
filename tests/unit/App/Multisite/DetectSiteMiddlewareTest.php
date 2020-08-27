@@ -61,7 +61,7 @@ class DetectSiteMiddlewareTest extends TestCase
         $site->shouldReceive('getName')->andReturn('A deployment');
 
         $this->expectException(\Symfony\Component\HttpKernel\Exception\HttpException::class);
-        $this->expectExceptionMessage('A deployment is not ready');
+        $this->expectExceptionMessage('Your deployment is not ready yet. Please try again later.');
 
         $middleware->handle($request, function () {
         });
@@ -84,7 +84,7 @@ class DetectSiteMiddlewareTest extends TestCase
         $site->shouldReceive('getName')->andReturn('A deployment');
 
         $this->expectException(\Symfony\Component\HttpKernel\Exception\HttpException::class);
-        $this->expectExceptionMessage('A deployment is down for maintenance');
+        $this->expectExceptionMessage('The deployment is down for maintenance.');
 
         $middleware->handle($request, function () {
         });
@@ -108,7 +108,7 @@ class DetectSiteMiddlewareTest extends TestCase
         $site->shouldReceive('isDbReady')->andReturn(false);
 
         $this->expectException(\Symfony\Component\HttpKernel\Exception\HttpException::class);
-        $this->expectExceptionMessage('A deployment is not ready');
+        $this->expectExceptionMessage('Your deployment is not ready yet. Please try again later.');
 
         $middleware->handle($request, function () {
         });
