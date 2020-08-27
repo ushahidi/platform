@@ -55,6 +55,11 @@ class PostController extends V4Controller
         return new PostCollection(Post::paginate(20));
     }//end index()
 
+    private function getUser()
+    {
+        $authorizer = service('authorizer.post');
+        return $authorizer->getUser();
+    }
 
     private function runAuthorizer($ability, $object)
     {
@@ -79,7 +84,6 @@ class PostController extends V4Controller
         }
         return $input;
     }
-
     /**
      * Display the specified resource.
      *
@@ -93,8 +97,9 @@ class PostController extends V4Controller
         if (empty($input)) {
             return self::make500('POST body cannot be empty');
         }
+
         // Check post permissions
-        $user = $this->runAuthorizer('store', [Post::class, $input['form_id']]);
+        $user = $this->runAuthorizer('store', [Post::class, $input['form_id'], $this->getUser()->getId()]);
         $input = $this->setInputDefaults($input, $user, 'store');
         $post = new Post();
         if (!$post->validate($input)) {

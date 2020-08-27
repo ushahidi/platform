@@ -44,7 +44,7 @@ class PostAllowed implements Scope
         if (!$postPermissions->canUserViewUnpublishedPosts(
             $user
         )) {
-            $builder->where('posts.status', '=', 'published');
+            $builder->where('posts.status', '=', 'published')->orWhere('posts.user_id', '=', $user->getId());
         }
     }
 }

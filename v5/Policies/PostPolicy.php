@@ -95,10 +95,10 @@ class PostPolicy
      * @param Survey $survey
      * @return bool
      */
-    public function store(User $user, $form_id)
+    public function store(User $user, $form_id, $user_id)
     {
         // we convert to a form entity to be able to continue using the old authorizers and classes.
-        $post = new Entity\Post(['form_id' => $form_id]);
+        $post = new Entity\Post(['form_id' => $form_id, 'user_id' => $user_id]);
         return $this->isAllowed($post, 'create');
     }
     /**
@@ -182,7 +182,7 @@ class PostPolicy
         // ownership but those are already checked above
         if ($this->isUserOwner($entity, $user)
             && in_array($privilege, ['update', 'delete', 'lock'])
-            && $this->acl->hasPermission($user, Permission::EDIT_OWN_POSTS)) {
+            && $authorizer->acl->hasPermission($user, Permission::EDIT_OWN_POSTS)) {
             return true;
         }
 
