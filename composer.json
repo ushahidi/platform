@@ -12,10 +12,6 @@
         {
             "type": "vcs",
             "url": "https://github.com/ushahidi/kohana-validation"
-        },
-        {
-            "type": "vcs",
-            "url": "https://github.com/ushahidi/gmail-datasource"
         }
     ],
     "require": {
@@ -49,7 +45,7 @@
         "predis/predis": "~1.1",
         "illuminate/redis": "5.5.*",
         "willdurand/negotiation": "^2.3",
-        "ushahidi/gmail-support": "^3.0@dev"
+        "ushahidi/gmail-support": "^0.1"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
