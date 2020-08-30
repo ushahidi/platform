@@ -11,8 +11,13 @@ namespace Ushahidi\App\DataSource;
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-use Ushahidi\Core\Entity\MessageRepository;
+use InvalidArgumentException;
+use Ushahidi\Core\Exception\NotFoundException;
+use Ushahidi\Core\Exception\AuthorizerException;
+use Ushahidi\Core\Exception\ValidatorException;
 use Illuminate\Support\Facades\Log;
+
+use Ushahidi\Core\Entity\MessageRepository;
 
 use Ushahidi\Core\Usecase;
 
@@ -76,14 +81,10 @@ class DataSourceStorage
         try {
             return $this->receiveUsecase->setPayload($payload)
                 ->interact();
-        // } catch (\Ushahidi\Core\Exception\NotFoundException $e) {
-        //     Log::error($e->getMessage(), $payload);
-        // } catch (\Ushahidi\Core\Exception\AuthorizerException $e) {
-        //     Log::error($e->getMessage(), $payload);
-        } catch (\Ushahidi\Core\Exception\ValidatorException $e) {
+        } catch (ValidatorException $e) {
             $payload['errors'] = $e->getErrors();
             Log::error($e->getMessage(), $payload);
-        } catch (\InvalidArgumentException $e) {
+        } catch (NotFoundException | AuthorizerException | InvalidArgumentException $e) {
             Log::error($e->getMessage(), $payload);
         }
     }
