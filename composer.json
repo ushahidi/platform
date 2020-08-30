@@ -136,11 +136,11 @@
             "phpspec run --no-code-generation",
             "behat --strict --profile ci"
         ],
-	"test-dev": [
-            "phpunit --stop-on-failure",
-            "phpspec run",
-            "behat --strict"
-	],
+        "test-dev": [
+                "phpunit --stop-on-failure",
+                "phpspec run",
+                "behat --strict"
+        ],
         "post-install-cmd": [
             "\\SebastianFeldmann\\CaptainHook\\Composer\\Cmd::install",
             "php artisan passport:keys || php -r \"return 0;\""
