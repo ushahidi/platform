@@ -11,10 +11,6 @@ namespace Ushahidi\App\DataSource;
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-use InvalidArgumentException;
-use Ushahidi\Core\Exception\NotFoundException;
-use Ushahidi\Core\Exception\AuthorizerException;
-use Ushahidi\Core\Exception\ValidatorException;
 use Illuminate\Support\Facades\Log;
 
 use Ushahidi\Core\Entity\MessageRepository;
@@ -81,11 +77,27 @@ class DataSourceStorage
         try {
             return $this->receiveUsecase->setPayload($payload)
                 ->interact();
-        } catch (ValidatorException $e) {
+        } catch (\Ushahidi\Core\Exception\NotFoundException $e) {
+            Log::error($e->getMessage(), $payload);
+            if (!app()->runningInConsole()) {
+                abort(404, $e->getMessage());
+            }
+        } catch (\Ushahidi\Core\Exception\AuthorizerException $e) {
+            Log::error($e->getMessage(), $payload);
+            if (!app()->runningInConsole()) {
+                abort(403, $e->getMessage());
+            }
+        } catch (\Ushahidi\Core\Exception\ValidatorException $e) {
             $payload['errors'] = $e->getErrors();
             Log::error($e->getMessage(), $payload);
-        } catch (NotFoundException | AuthorizerException | InvalidArgumentException $e) {
+            if (!app()->runningInConsole()) {
+                abort(422, 'Validation Error: ' . $e->getMessage() . '; ' .  implode(', ', $e->getErrors()));
+            }
+        } catch (\InvalidArgumentException $e) {
             Log::error($e->getMessage(), $payload);
+            if (!app()->runningInConsole()) {
+                abort(400, 'Bad request: ' . $e->getMessage());
+            }
         }
     }
 
