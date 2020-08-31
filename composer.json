@@ -137,9 +137,9 @@
             "behat --strict --profile ci"
         ],
         "test-dev": [
-                "phpunit --stop-on-failure",
-                "phpspec run",
-                "behat --strict"
+            "phpunit --stop-on-failure",
+            "phpspec run",
+            "behat --strict"
         ],
         "post-install-cmd": [
             "\\SebastianFeldmann\\CaptainHook\\Composer\\Cmd::install",
