@@ -24,7 +24,11 @@ interface ImportMappingRepository
 
     public function hasMapping(int $importId, string $sourceType, $sourceId);
 
+    public function getMapping(int $importId, string $sourceType, $sourceId);
+
     public function getDestId(int $importId, string $sourceType, $sourceId);
+
+    public function getMetadata(int $importId, string $sourceType, $sourceId);
 
     public function getAllMappingIDs(int $importId, string $sourceType);
 }

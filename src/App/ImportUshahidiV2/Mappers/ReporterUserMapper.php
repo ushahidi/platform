@@ -37,7 +37,7 @@ class ReporterUserMapper implements Mapper
         $this->userMappingsCache = new Collection();
     }
 
-    public function __invoke(int $importId, array $input) : Entity
+    public function __invoke(int $importId, array $input) : array
     {
         // NB:
         // - We're not mapping level to anything
@@ -46,7 +46,9 @@ class ReporterUserMapper implements Mapper
 
         $contacts = $this->getContacts($input, $userIdMap);
 
-        return new Contact($contacts);
+        return [
+            'result' => new Contact($contacts)
+        ];
     }
 
     protected function getContacts($input, $userIdMap) : array

@@ -13,5 +13,5 @@ interface Mapper
      * @param  array  $input    Source data
      * @return Entity or null if the mapping is not possible
      */
-    public function __invoke(int $importId, array $input) : ?Entity;
+    public function __invoke(int $importId, array $input) : ?array;
 }

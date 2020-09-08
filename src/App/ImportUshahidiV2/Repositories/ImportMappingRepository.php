@@ -63,12 +63,17 @@ class ImportMappingRepository /*extends EloquentRepository*/ implements ImportMa
 
     public function hasMapping(int $importId, string $sourceType, $sourceId)
     {
-        $match = ImportMapping::where([
+        $match = $this->getMapping($importId, $sourceType, $sourceId);
+        return ($match != null);
+    }
+
+    public function getMapping(int $importId, string $sourceType, $sourceId)
+    {
+        return ImportMapping::where([
             'import_id' => $importId,
             'source_type' => $sourceType,
             'source_id' => $sourceId,
         ])->first();
-        return ($match != null);
     }
 
     public function getDestId(int $importId, string $sourceType, $sourceId)
@@ -86,6 +91,22 @@ class ImportMappingRepository /*extends EloquentRepository*/ implements ImportMa
                 ])->value('dest_id');
             }
         );
+    }
+
+    public function getMetadata(int $importId, string $sourceType, $sourceId)
+    {
+        $result = $this->getMapping($importId, $sourceType, $sourceId);
+        if ($result === null) {
+            return null;
+        }
+
+        $result = $result->value('metadata');
+
+        if ($result === null) {
+            return null;
+        } else {
+            return json_decode($result, true);
+        }
     }
 
     public function getAllMappingIDs(int $importId, string $sourceType)

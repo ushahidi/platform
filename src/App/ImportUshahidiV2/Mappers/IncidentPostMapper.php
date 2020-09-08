@@ -38,7 +38,7 @@ class IncidentPostMapper implements Mapper
         $this->categoryIdCache = new Collection();
     }
 
-    public function __invoke(int $importId, array $input) : ?Entity
+    public function __invoke(int $importId, array $input) : ?array
     {
         Log::debug('[IncidentPostMapper] Importing incident {input}', [
             'input' => $input
@@ -73,7 +73,9 @@ class IncidentPostMapper implements Mapper
         Log::debug('[IncidentPostMapper] Creating post with contents {postContents}', [
             'postContents' => $postContents
         ]);
-        return new Post($postContents);
+        return [
+            'result' => new Post($postContents)
+        ];
     }
 
     public function getFormId($importId, $formId)
@@ -132,10 +134,14 @@ class IncidentPostMapper implements Mapper
         if (!$this->attributeKeyForFieldCache->contains($cacheKey)) {
             // Get attribute map <formid>-<attribute>
             $id = $this->mappingRepo->getDestId($importId, 'form_field', $field);
+            $mappingMeta = $this->mappingRepo->getMetadata($importId, 'form_field', $field);
             // Load the actual attribute
             $attribute = $this->attrRepo->get($id);
             // Return the info
-            $result = $attribute;
+            $result = (object) [
+                'attribute' => $this->attrRepo->get($id),
+                'mapping_metadata' => $mappingMeta,
+            ];
             $this->attributeKeyForFieldCache->put($cacheKey, $result);
         } else {
             $result = $this->attributeKeyForFieldCache->get($cacheKey);
@@ -181,7 +187,8 @@ class IncidentPostMapper implements Mapper
 
         if ($input['form_responses']) {
             foreach ($input['form_responses'] as $response) {
-                $attr = $this->getAttributeForField($importId, $input['form_id'], $response->form_field_id);
+                $mapping = $this->getAttributeForField($importId, $input['form_id'], $response->form_field_id);
+                $attr = $mapping->attribute;
                 $key = $attr->key;
                 // Convert data type
                 $v3AttrInput = $attr->input;
@@ -191,13 +198,7 @@ class IncidentPostMapper implements Mapper
                 if (!isset($values[$key])) {
                     $values[$key] = [];
                 }
-
-                // list($v3AttrInput, $v3Type) = FormFieldAttributeMapper::getInputAndType(
-                //     $response->field_type,
-                //     $response->field_datatype,
-                //     $response->field_isdate
-                // );
-
+                
                 Log::debug(
                     'Response {id} to {form_field_id} is of type {field_type} -> '.
                     'mapped to {v3AttrInput} and {v3Type} with key {v3Key}',
@@ -211,10 +212,12 @@ class IncidentPostMapper implements Mapper
                     ]
                 );
 
-                $value = $this->stringToDatatype($response->form_response, $v3Type);
+                $value = $this->stringToDatatype($response->form_response, $v3Type, $mapping->mapping_metadata);
 
                 // Append the value
-                $values[$key][] = $value;
+                if ($value !== '') {
+                    $values[$key][] = $value;
+                }
             }
         }
 
@@ -301,7 +304,7 @@ class IncidentPostMapper implements Mapper
         return $the_texts;
     }
 
-    protected function stringToDatatype($data, $type)
+    protected function stringToDatatype($data, $type, $mappingMeta = [])
     {
         switch ($type) {
             case 'text':
@@ -323,12 +326,28 @@ class IncidentPostMapper implements Mapper
                 if (trim($data) === '') {
                     return '';
                 }
-                $x = date_parse_from_format("d/m/Y", trim($data));
-                if ($x['error_count'] > 0) {
-                    Log::error("Unparseable date string: ", [$x]);
-                    return '';
-                }
-                return "{$x['year']}-{$x['month']}-{$x['day']}";
+                return $this->stringToDate($data, $mappingMeta);
         }
+    }
+
+    protected function stringToDate($data, $mappingMeta)
+    {
+        if ($mappingMeta['decode']['datetime']['format_study'] ?? false) {
+            $formats = $mappingMeta['decode']['datetime']['format_study'];
+            // expecting array of [ 'format' => ... , 'score' => ... ] sub-arrays
+            $formats = array_map(function ($f) {
+                return $f['format'];
+            }, $formats);
+        } else {
+            $formats = ["d#m#Y", "m#d#Y"];
+        }
+        foreach ($formats as $f) {
+            $x = date_parse_from_format($f, trim($data));
+            if (($x['error_count'] + $x['warning_count']) == 0) {
+                return "{$x['year']}-{$x['month']}-{$x['day']}";
+            }
+        }
+        Log::error("Unparseable date string: ", [$data]);
+        return '';
     }
 }

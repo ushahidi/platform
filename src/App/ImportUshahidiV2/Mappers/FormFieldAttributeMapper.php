@@ -9,6 +9,8 @@ use Ushahidi\App\ImportUshahidiV2\Contracts\Mapper;
 use Ushahidi\App\ImportUshahidiV2\Contracts\ImportMappingRepository;
 use Ushahidi\App\ImportUshahidiV2\Contracts\ImportDataInspectionTools;
 
+use Illuminate\Support\Facades\Log;
+
 class FormFieldAttributeMapper implements Mapper
 {
     protected $mappingRepo;
@@ -45,9 +47,9 @@ class FormFieldAttributeMapper implements Mapper
         $this->inspectionTools = $inspectionTools;
     }
 
-    public function __invoke(int $importId, array $input) : Entity
+    public function __invoke(int $importId, array $input) : array
     {
-        list($attrInput, $type) = $this->getInputAndType(
+        list($attrInput, $type, $meta) = $this->getInputAndType(
             $input['id'],
             $input['field_type'],
             $input['field_datatype'],
@@ -58,7 +60,7 @@ class FormFieldAttributeMapper implements Mapper
             $input['field_default']
         );
 
-        return new FormAttribute([
+        $result = new FormAttribute([
             'form_stage_id' => $this->getFormStageId($importId, $input['form_id']),
             'label' => $input['field_name'],
             'required' => $input['field_required'],
@@ -72,6 +74,11 @@ class FormFieldAttributeMapper implements Mapper
             // We can't map field_ispublic_submit to anything right now
             // Ideally we should group those fields in a stage w/ task_is_internal_only = 1
         ]);
+
+        return [
+            'result' => $result,
+            'metadata' => $meta
+        ];
     }
 
     public function getInputAndType($fieldId, $fieldType, $fieldDataType, $isDate)
@@ -80,24 +87,36 @@ class FormFieldAttributeMapper implements Mapper
             self::DATATYPE_TYPE_MAP[$fieldDataType] : 'varchar';
         $attrInput = ($fieldType && isset(self::TYPE_INPUT_MAP[$fieldType])) ?
             self::TYPE_INPUT_MAP[$fieldType] : 'text';
+        $meta = null;
 
         // if field datatype is 'numeric', study which is the best corresponding type
         if ($fieldDataType == 'numeric') {
             $type = $this->inspectionTools->suggestNumberStorage($fieldId);
+            $meta = (object) ['encode' => [ 'type' => $type ]];
         }
 
         // if input is date, use datetime storage type
         if ($attrInput == 'date') {
             $type = 'datetime';
-        }
-
-        // check field_isdate -> makes it a date field
-        if ($isDate == 1) {
-            $type = 'datetime';
             $attrInput = 'date';
+            $formats = $this->inspectionTools->tryDateDecodeFormats($fieldId);
+            $meta = (object) ['decode' => [ 'datetime' => [ 'format_study' => $formats ]]];
         }
 
-        return [$attrInput, $type];
+        // // check field_isdate -> makes it a date field
+        // davidlosada: haven't seen an option to create date time fields on v2
+        // if ($isDate == 1) {
+        //     $type = 'datetime';
+        //     $attrInput = 'date';
+        //     $formats = $this->inspectionTools->tryDateDecodeFormats($fieldId);
+        //     $meta = ['decode' => [ 'datetime' => [ 'format_study' => $formats ]]];
+        //     Log::info("Datetime decode formats study result", [
+        //         'fieldId' => $fieldId,
+        //         'formats' => $formats
+        //     ]);
+        // }
+
+        return [$attrInput, $type, $meta];
     }
 
     protected function getDefaultAndOptions($attrInput, $fieldDefault)

@@ -3,6 +3,7 @@
 namespace Ushahidi\App\ImportUshahidiV2;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Log;
 
 class ImportMapping extends Model
 {
@@ -19,7 +20,10 @@ class ImportMapping extends Model
         'source_id' => 'string',
         'dest_type' => 'string',
         'dest_id' => 'integer',
-        'established_by' => 'string'
+        'established_by' => 'string',
+        // on insert getting :
+        //   " of class stdClass could not be converted to string "
+        // 'metadata' => 'object',
     ];
 
     protected $fillable = [
@@ -28,7 +32,8 @@ class ImportMapping extends Model
         'source_id',
         'dest_type',
         'dest_id',
-        'established_by'
+        'established_by',
+        'metadata',
     ];
 
     private static $established_by_allowed_values = [ 'import-mapper', 'import-config', 'duplicate-detection' ];
@@ -36,6 +41,22 @@ class ImportMapping extends Model
     public function import()
     {
         return $this->belongsTo(Import::class);
+    }
+
+    // on insert getting :
+    //   " of class stdClass could not be converted to string "
+    // public function getMetadataAttribute($value)
+    // {
+    //     return json_decode($value);
+    // }
+
+    public function setMetadataAttribute($value)
+    {
+        if ($value === null) {
+            $this->attributes['metadata'] = null;
+        } else {
+            $this->attributes['metadata'] = json_encode($value);
+        }
     }
 
     public function setEstablishedByAttribute($value)

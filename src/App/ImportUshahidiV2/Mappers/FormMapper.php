@@ -10,7 +10,7 @@ use Ushahidi\App\ImportUshahidiV2\Contracts\Mapper;
 
 class FormMapper implements Mapper
 {
-    public function __invoke(int $importId, array $input) : Entity
+    public function __invoke(int $importId, array $input) : array
     {
         $form = new Form([
             'name' => $input['form_title'],
@@ -26,6 +26,8 @@ class FormMapper implements Mapper
             ['input' => $input, 'form' => $form]
         );
 
-        return $form;
+        return [
+            'result' => $form,
+        ];
     }
 }

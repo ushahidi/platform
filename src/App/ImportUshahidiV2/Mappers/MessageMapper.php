@@ -41,7 +41,7 @@ class MessageMapper implements Mapper
         ]);
     }
 
-    public function __invoke(int $importId, array $input) : Entity
+    public function __invoke(int $importId, array $input) : array
     {
         // We are not mapping some fields
         // - message_level
@@ -49,7 +49,7 @@ class MessageMapper implements Mapper
         // - message_from
         // - message_to
 
-        return new Message([
+        $result = new Message([
             'contact_id' => $this->getContactId($importId, $input['reporter_id']),
             'parent_id' => $this->getParentId($importId, $input['parent_id']),
             'post_id' => $this->getPostId($importId, $input['incident_id']),
@@ -65,6 +65,10 @@ class MessageMapper implements Mapper
             'direction' => $this->getDirection($input['message_type']),
             'additional_data' => $this->getAdditionalData($input),
         ]);
+
+        return [
+            'result' => $result
+        ];
     }
 
     protected function getType($serviceName)

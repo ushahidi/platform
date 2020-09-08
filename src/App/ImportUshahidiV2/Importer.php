@@ -51,9 +51,11 @@ class Importer
 
         // Transform objects
         $results = $source->map(function ($item) use ($importId, $mapper) {
+            $mapped = $mapper($importId, (array) $item);
             return (object) [
                 'source' => $item,
-                'target' => $mapper($importId, (array) $item)
+                'target' => $mapped['result'],
+                'metadata' => $mapped['metadata'] ?? null,
             ];
         });
 
@@ -96,6 +98,7 @@ class Importer
                 'source_id' => $sourceId,
                 'dest_type' => $destType,
                 'dest_id' => $result->targetId,
+                'metadata' => $result->metadata //json_encode($result->metadata)
             ]);
             $result->mapping = $mapping;
         });

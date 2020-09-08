@@ -16,9 +16,9 @@ class CategoryTagMapper implements Mapper
         $this->mappingRepo = $mappingRepo;
     }
 
-    public function __invoke(int $importId, array $input) : Entity
+    public function __invoke(int $importId, array $input) : array
     {
-        return new Tag([
+        $result = new Tag([
             'tag' => $input['category_title'],
             'description' => $input['category_description'] ?? '',
             'color' => $input['category_color'] ?? '',
@@ -26,6 +26,10 @@ class CategoryTagMapper implements Mapper
             'role' => $this->getRole($input['category_visible'] ?? 1),
             'priority' => $input['category_position'] ?? 99,
         ]);
+
+        return [
+            'result' => $result
+        ];
 
         // NB: We don't map some data ie:
         // - trusted categoried

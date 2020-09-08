@@ -15,13 +15,17 @@ class UserMapper implements Mapper
         'member'     => 'user'
     ];
 
-    public function __invoke(int $importId, array $input) : Entity
+    public function __invoke(int $importId, array $input) : array
     {
-        return new User([
+        $result = new User([
             'email' => $input['email'],
             'realname' => $input['name'] ?? '',
             'role' => $this->getRole($input['role']),
         ]);
+
+        return [
+            'result' => $result
+        ];
     }
 
     protected function getRole($role)
