@@ -46,8 +46,6 @@ mysql/base: &_mysql_base
     - MYSQL_USER=ushahidi
     - MYSQL_PASSWORD=ushahidi
     - MYSQL_ROOT_PASSWORD=root
-mysql-7.1:
-  <<: *_mysql_base
 mysql-7.2:
   <<: *_mysql_base
 mysql-7.3:
@@ -69,19 +67,6 @@ test/base: &_test_defaults
     - "ushahidi.dev:127.0.0.1"
   cached: true
   default_cache_branch: develop
-
-test/php-7.1:
-  <<: *_test_defaults
-  build:
-    <<: *_test_build_defaults
-    image: test-7.1
-    args:
-      PHP_MAJOR_VERSION: "7.1"
-  environment:
-    <<: *_test_env_defaults
-    DB_HOST: mysql-7.1
-  depends_on:
-    - mysql-7.1
 
 test/php-7.2:
   <<: *_test_defaults
@@ -123,3 +108,8 @@ awscli:
     - .:/vols/src
   encrypted_env_file: deployment.env.encrypted
   cached: true
+
+dockercfggen:
+  image: codeship/dockercfg-generator
+  add_docker: true
+  encrypted_env_file: docker.env.encrypted

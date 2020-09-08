@@ -16,6 +16,7 @@ use Ushahidi\Core\Usecase;
 use Ushahidi\Core\Tool\AuthorizerTrait;
 use Ushahidi\Core\Tool\FormatterTrait;
 use Ushahidi\Core\Tool\ValidatorTrait;
+use Ushahidi\Core\Tool\TranslatorTrait;
 
 class UpdateUsecase implements Usecase
 {
@@ -24,6 +25,7 @@ class UpdateUsecase implements Usecase
     // a `setAuthorizer` method which only accepts `Authorizer` instances.
     use AuthorizerTrait,
         FormatterTrait,
+        TranslatorTrait,
         ValidatorTrait;
 
     // - IdentifyRecords for setting entity lookup parameters
@@ -78,6 +80,9 @@ class UpdateUsecase implements Usecase
         // ... persist the changes
         $this->repo->update($entity);
 
+        // ... send notifications for changes made
+        $this->sendNotifications($entity);
+
         // ... check that the entity can be read by the current user
         if ($this->auth->isAllowed($entity, 'read')) {
             // ... and either load the updated entity from the storage layer
@@ -89,6 +94,12 @@ class UpdateUsecase implements Usecase
             // ... or just return nothing
             return;
         }
+    }
+
+    // Notification
+    protected function sendNotifications(Entity $entity)
+    {
+        // Logic to send notifications
     }
 
     // ValidatorTrait

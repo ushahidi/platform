@@ -7,18 +7,20 @@ use Ushahidi\Core\Tool\Authorizer;
 use Ushahidi\Core\Tool\Formatter;
 use Ushahidi\Core\Tool\Validator;
 use Ushahidi\Core\Usecase\UpdateRepository;
+use Illuminate\Contracts\Translation\Translator;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
 class UpdateUsecaseSpec extends ObjectBehavior
 {
-    function let(Authorizer $auth, Formatter $format, Validator $valid, UpdateRepository $repo)
+    function let(Authorizer $auth, Formatter $format, Validator $valid, UpdateRepository $repo, Translator $translator)
     {
         $this->setAuthorizer($auth);
         $this->setFormatter($format);
         $this->setValidator($valid);
         $this->setRepository($repo);
+        $this->setTranslator($translator);
     }
 
     function it_is_initializable()

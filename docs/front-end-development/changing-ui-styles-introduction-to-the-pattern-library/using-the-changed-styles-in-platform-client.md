@@ -7,7 +7,7 @@ Make the changes you need in the css in the Pattern Library.
 3. In the directory where you cloned the **platform-client** repository for local development, go to **package.json**.
 4. Find the entry for **ushahidi-pattern-library**
 5. Change to the url to the new repository + the new pattern library commit id  in this format: _"ushahidi-platform-pattern-library":"git://github.com/{your-own org}/ushahidi-platform-pattern-library-sivico.git\#{commit}"_
-6.  Do **npm install** in the platform-client
+6. Do **npm install** in the platform-client
 7. Go to **platform-client/node\_modules/ushahidi-pattern-library**
 8. Run **npm install** there too \(this step is normally made by npm when using the Ushahidi-release so you need to do it yourself when using your own code\)
 9. Now the Pattern Library is available in the platform-client development environment. To make the changes visible in your development environment, run **gulp build** in the platform-client again.
@@ -15,8 +15,7 @@ Make the changes you need in the css in the Pattern Library.
 
 **Pattern Library: publishing a new version in your npm account and using it in the platform web client**
 
-**Please note, the complete, most up to date information on how to publish and use npm is available in the npm documentation,** [**https://docs.npmjs.com**](https://docs.npmjs.com/) **.**  
-
+**Please note, the complete, most up to date information on how to publish and use npm is available in the npm documentation,** [**https://docs.npmjs.com**](https://docs.npmjs.com/) **.**
 
 1. Go to **package.json** in your version of the Pattern Library
 2. Change the name of the package to something else \(for example "YourProjectName-Pattern-Library"\)

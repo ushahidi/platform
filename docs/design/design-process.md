@@ -10,7 +10,7 @@ description: >-
 
 Ushahidi has a design process that aims to **include user voices as the key component for design insight.** As such, all design work relating to a Ushahidi product must have sound user rationale or direct user voices. The ultimate aim of design within Ushahidi is to listen, interpret, facilitate and raise voices of users directly operating the software with the direct responsibility in improving the usability, accessibility, visual design, brand recognition, interaction and purpose of that feature through the medium of design.
 
-Designs and prototypes created in design software tools are by nature not always 100% accurate to the coded experience. The prototyped design should strive to be as accurate  to the live coded experience as possible within reasonable time constraints. As such, there is a likelihood that some pixels may shift, some colours may be a hex code out or a form element may have a slight difference. Unless explicitly detailed as a design decision, the patterns existing in the Ushahidi \(and other Ushahidi related properties\) Pattern libraries are to be the true and accurate construction elements of an Ushahidi interface.
+Designs and prototypes created in design software tools are by nature not always 100% accurate to the coded experience. The prototyped design should strive to be as accurate to the live coded experience as possible within reasonable time constraints. As such, there is a likelihood that some pixels may shift, some colours may be a hex code out or a form element may have a slight difference. Unless explicitly detailed as a design decision, the patterns existing in the Ushahidi \(and other Ushahidi related properties\) Pattern libraries are to be the true and accurate construction elements of an Ushahidi interface.
 
 [Ushahidi Pattern library](http://preview.ushahidi.com/platform-pattern-library/develop/index.html)
 
@@ -42,9 +42,9 @@ The developers at Ushahidi should be empowered to make appropriate design choice
 
 Developers should be able to find everything they need in the [Ushahidi Pattern library](http://preview.ushahidi.com/platform-pattern-library/develop/index.html).
 
-![This design has been re-used by devs for various screens for messages.](../.gitbook/assets/pattern-library-snackbar.png)
+![This design has been re-used by devs for various screens for messages.](../.gitbook/assets/pattern-library-snackbar%20%281%29.png)
 
-![Ionic has &apos;out of the box&apos; UI that works for a &apos;dev design&apos;](../.gitbook/assets/ionic.png)
+![Ionic has &apos;out of the box&apos; UI that works for a &apos;dev design&apos;](../.gitbook/assets/ionic%20%281%29.png)
 
 ### 2. Light design
 

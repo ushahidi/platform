@@ -9,7 +9,7 @@
 ## Required software:
 
 * A linux-based system. We recommend using Ubuntu 16.04 or 18.04.
-* PHP: 7.1.x, running with php-fpm  \(PHP 7.2.x and 7.3.x are not 100% supported at the time, but may work\)
+* PHP: 7.2.x or 7.3.x, running with php-fpm
   * Make sure the same version of PHP is used in the CLI and FPM
 * PHP Extensions:
   * curl
@@ -25,7 +25,7 @@
 * Composer for PHP package management \( [https://getcomposer.org](https://getcomposer.org) \)
 * Nginx version 1.10.x **\(Note: you can technically use apache, but this instructions will provide specific steps for Nginx only\)**
 * MySQL server 5.7.x
-* Node.js v6.x
+* Node.js v10.x or higher
 * Redis v3.2
 * Cron daemon
 * Local e-mail forwarding setup \(mail command should be functional\)
@@ -83,7 +83,8 @@ Create a new file named .ENV
 APP_ENV=production
 APP_DEBUG=false
 
-# generate this APP_KEY with `php artisan key:generate`
+# generate this APP_KEY with:
+# php -r "require 'vendor/autoload.php'; echo str_random(32).PHP_EOL;"
 APP_KEY={32characterkey}
 
 APP_TIMEZONE=UTC
@@ -96,8 +97,8 @@ DB_DATABASE={your-database-name} # example: platform-db
 DB_USERNAME={your-database-user} # example: platform-user
 DB_PASSWORD={your-database-password} # example: yourpassword
 
-## Cache
-CACHE_DRIVER=file
+## Cache (you can use array if testing, and memcache or redis for production)
+CACHE_DRIVER=redis
 # Queues 
 # This section will be particularly important once we launch release 4.2.x+ and later 
 # since we will start providing access to queues for CSV exports then)
@@ -218,13 +219,13 @@ Create the `/etc/nginx/sites-available/platform-client.conf` file, referencing t
 {% code title="/etc/nginx/sites-available/platform-client.conf" %}
 ```text
 server {
-    
+
     listen 80 default_server;
     listen [::]:80 ;
     server_name your-site.example.com;
     charset UTF-8;
     root /var/www/platform-client/server/www;
-    
+
     index index.html;
     location / {
         try_files $uri $uri/ @missing;

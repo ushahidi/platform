@@ -4,34 +4,32 @@ description: Details for all tables in the Platform database
 
 # Database \| Table details
 
-### apikeys
+## apikeys
 
 | Field | Type | Null | Key | Default | Extra |
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | id | int\(11\) | NO | PRI | NULL | auto\_increment |
-| api\_key  | text | NO |  | NULL |  |
+| api\_key | text | NO |  | NULL |  |
 | client\_id | text | YES |  | NULL |  |
 | client\_secret | text | YES |  | NULL |  |
 | created | int\(11\) | NO |  | 0 |  |
 | updated | int\(11\) | YES |  | NULL |  |
 
-
-
-### config
+## config
 
 | Field | Type | Null | Key | Default | Extra |
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | id | int\(11\) | NO | PRI | NULL | auto\_increment |
 | group\_name | varchar\(50\) | NO | MUL | NULL |  |
 | config\_key | varchar\(50\) | NO |  | NULL |  |
-| config\_value | text  | YES |  | NULL |  |
-| updated |  timestamp | NO | MUL | CURRENT\_TIMESTAMP | on update CURRENT\_TIMESTAMP |
+| config\_value | text | YES |  | NULL |  |
+| updated | timestamp | NO | MUL | CURRENT\_TIMESTAMP | on update CURRENT\_TIMESTAMP |
 
-### contacts
+## contacts
 
 | Field | Type | Null | Key | Default | Extra |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| id | int\(11\)      | NO | PRI | NULL | auto\_increment |
+| id | int\(11\) | NO | PRI | NULL | auto\_increment |
 | user\_id | int\(11\) | YES | MUL | NULL |  |
 | data\_source | varchar\(150\) | YES | MUL | NULL |  |
 | type | varchar\(20\) | YES |  | NULL |  |
@@ -40,24 +38,20 @@ description: Details for all tables in the Platform database
 | updated | int\(11\) | YES | MUL | NULL |  |
 | can\_notify | tinyint\(1\) | NO |  | 0 |  |
 
-
-
-### country\_codes
+## country\_codes
 
 | Field | Type | Null | Key | Default | Extra |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| id | int\(11\)      | NO | PRI | NULL | auto\_increment |
+| id | int\(11\) | NO | PRI | NULL | auto\_increment |
 | country\_name | varchar\(255\) | NO |  | 0 |  |
 | dial\_code | varchar\(255\) | NO |  | 0 |  |
 | country\_code | varchar\(255\) | NO | MUL | 0 |  |
 
-
-
-### csv
+## csv
 
 | Field | Type | Null | Key | Default | Extra |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| id | int\(11\)      | NO | PRI | NULL | auto\_increment |
+| id | int\(11\) | NO | PRI | NULL | auto\_increment |
 | columns | text | NO |  | NULL |  |
 | maps\_to | text | YES |  | NULL |  |
 | fixed | text | YES |  | NULL |  |
@@ -71,13 +65,11 @@ description: Details for all tables in the Platform database
 | processed | varchar\(255\) | YES |  | NULL |  |
 | collection\_id | int\(11\) | YES |  | NULL |  |
 
-
-
-### export\_batches
+## export\_batches
 
 | Field | Type | Null | Key | Default | Extra |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| id | int\(11\)      | NO | PRI | NULL | auto\_increment |
+| id | int\(11\) | NO | PRI | NULL | auto\_increment |
 | export\_job\_id | int\(11\) | NO | MUL | NULL |  |
 | status | varchar\(255\) | NO |  | pending |  |
 | batch\_number | int\(11\) | NO |  | 0 |  |
@@ -87,13 +79,11 @@ description: Details for all tables in the Platform database
 | created | int\(11\) | NO |  | 0 |  |
 | updated | int\(11\) | YES |  | 0 |  |
 
-
-
-### export\_job
+## export\_job
 
 | Field | Type | Null | Key | Default | Extra |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| id | int\(11\)      | NO | PRI | NULL | auto\_increment |
+| id | int\(11\) | NO | PRI | NULL | auto\_increment |
 | user\_id | int\(11\) | NO | MUL | NULL |  |
 | entity\_type | varchar\(255\) | NO |  | NULL |  |
 | fields | mediumtext | YES |  | NULL |  |
@@ -113,24 +103,22 @@ description: Details for all tables in the Platform database
 | total\_rows | int\(11\) | YES |  | NULL |  |
 | total\_batches | int\(11\) | YES |  | NULL |  |
 
-
-
-### form\_attribute\_hxl\_attribute\_tag 
+## form\_attribute\_hxl\_attribute\_tag
 
 | Field | Type | Null | Key | Default | Extra |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| id | int\(11\)      | NO | PRI | NULL | auto\_increment |
-| form\_attribute\_id | int\(11\)  | NO | MUL | 0 |  |
-| hxl\_attribute\_id | int\(11\)  | YES | MUL | NULL |  |
-| hxl\_tag\_id | int\(11\)  | NO | MUL | 0 |  |
-| export\_job\_id | int\(11\)  | NO | MUL | 0 |  |
+| id | int\(11\) | NO | PRI | NULL | auto\_increment |
+| form\_attribute\_id | int\(11\) | NO | MUL | 0 |  |
+| hxl\_attribute\_id | int\(11\) | YES | MUL | NULL |  |
+| hxl\_tag\_id | int\(11\) | NO | MUL | 0 |  |
+| export\_job\_id | int\(11\) | NO | MUL | 0 |  |
 
-### form\_attribute
+## form\_attribute
 
 | Field | Type | Null | Key | Default | Extra |
 | :--- | :--- | :--- | :--- | :--- | :--- |
 |  |  |  |  |  |  |
-| id | int\(11\) | NO | PRI | NULL |  auto\_increment |
+| id | int\(11\) | NO | PRI | NULL | auto\_increment |
 | key | varchar\(150\) | NO | UNI | NULL |  |
 | label | varchar\(150\) | NO |  | NULL |  |
 | instructions | text | YES |  | NULL |  |
@@ -146,23 +134,19 @@ description: Details for all tables in the Platform database
 | response\_private | tinyint\(1\) | NO |  | 0 |  |
 | description | varchar\(255\) | YES |  | NULL |  |
 
-
-
-### form\_roles
+## form\_roles
 
 | Field | Type | Null | Key | Default | Extra |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| id | int\(11\) | NO | PRI | NULL |  auto\_increment |
+| id | int\(11\) | NO | PRI | NULL | auto\_increment |
 | form\_id | int\(11\) | NO | MUL | NULL |  |
 | role\_id | int\(11\) | NO | MUL | NULL |  |
 
-
-
-### form\_stages
+## form\_stages
 
 | Field | Type | Null | Key | Default | Extra |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| id | int\(11\) | NO | PRI | NULL |  auto\_increment |
+| id | int\(11\) | NO | PRI | NULL | auto\_increment |
 | form\_id | int\(11\) | NO | MUL | NULL |  |
 | label | varchar\(150\) | NO |  | NULL |  |
 | priority | int\(11\) | NO |  | 99 |  |
@@ -173,19 +157,15 @@ description: Details for all tables in the Platform database
 | show\_when\_published | tinyint\(1\) | NO |  | 1 |  |
 | task\_is\_internal\_only | tinyint\(1\) | NO |  | 1 |  |
 
-
-
-### form\_stages\_posts
+## form\_stages\_posts
 
 | Field | Type | Null | Key | Default | Extra |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| form\_stage\_id | int\(11\) | NO | PRI | NULL |   |
+| form\_stage\_id | int\(11\) | NO | PRI | NULL |  |
 | post\_id | int\(11\) | NO | PRI | NULL |  |
 | completed | tinyint\(1\) | NO |  | 0 |  |
 
-
-
-### forms
+## forms
 
 | Field | Type | Null | Key | Default | Extra |
 | :--- | :--- | :--- | :--- | :--- | :--- |
@@ -205,9 +185,7 @@ description: Details for all tables in the Platform database
 | hide\_location | tinyint\(1\) | NO |  | 0 |  |
 | targeted\_survey | tinyint\(1\) | NO |  | 0 |  |
 
-
-
-### hxl\_attribute\_type\_tag  
+## hxl\_attribute\_type\_tag
 
 | Field | Type | Null | Key | Default | Extra |
 | :--- | :--- | :--- | :--- | :--- | :--- |
@@ -215,9 +193,7 @@ description: Details for all tables in the Platform database
 | form\_attribute\_type | varchar\(255\) | NO |  | 0 |  |
 | hxl\_tag\_id | int\(11\) | NO | MUL | 0 |  |
 
-
-
-### hxl\_attributes  
+## hxl\_attributes
 
 | Field | Type | Null | Key | Default | Extra |
 | :--- | :--- | :--- | :--- | :--- | :--- |
@@ -225,9 +201,7 @@ description: Details for all tables in the Platform database
 | attribute | varchar\(255\) | NO | UNI | 0 |  |
 | description | varchar\(255\) | NO |  | 0 |  |
 
-
-
-### hxl\_license  
+## hxl\_license
 
 | Field | Type | Null | Key | Default | Extra |
 | :--- | :--- | :--- | :--- | :--- | :--- |
@@ -236,9 +210,7 @@ description: Details for all tables in the Platform database
 | link | varchar\(255\) | NO |  | 0 |  |
 | code | varchar\(255\) | NO | UNI | 0 |  |
 
-
-
-### hxl\_meta\_data  
+## hxl\_meta\_data
 
 | Field | Type | Null | Key | Default | Extra |
 | :--- | :--- | :--- | :--- | :--- | :--- |
@@ -253,18 +225,14 @@ description: Details for all tables in the Platform database
 | updated | int\(11\) | YES |  | NULL |  |
 | organisation\_name | varchar\(255\) | YES |  | NULL |  |
 
-
-
-### hxl\_tag\_attributes  
+## hxl\_tag\_attributes
 
 | Field | Type | Null | Key | Default | Extra |
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | tag\_id | int\(11\) | NO | PRI | 0 |  |
 | attribute\_id | int\(11\) | NO | PRI | 0 |  |
 
-
-
-### hxl\_tags  
+## hxl\_tags
 
 | Field | Type | Null | Key | Default | Extra |
 | :--- | :--- | :--- | :--- | :--- | :--- |
@@ -272,9 +240,7 @@ description: Details for all tables in the Platform database
 | tag\_name | varchar\(255\) | NO | UNI | 0 |  |
 | description | varchar\(255\) | NO |  | 0 |  |
 
-
-
-### layers  
+## layers
 
 | Field | Type | Null | Key | Default | Extra |
 | :--- | :--- | :--- | :--- | :--- | :--- |
@@ -289,9 +255,7 @@ description: Details for all tables in the Platform database
 | created | int\(11\) | NO | MUL | 0 |  |
 | updated | int\(11\) | NO | MUL | 0 |  |
 
-
-
-### media  
+## media
 
 | Field | Type | Null | Key | Default | Extra |
 | :--- | :--- | :--- | :--- | :--- | :--- |
@@ -306,9 +270,7 @@ description: Details for all tables in the Platform database
 | created | int\(11\) | NO | MUL | 0 |  |
 | updated | int\(11\) | YES | MUL | NULL |  |
 
-
-
-### messages
+## messages
 
 | Field | Type | Null | Key | Default | Extra |
 | :--- | :--- | :--- | :--- | :--- | :--- |
@@ -329,9 +291,7 @@ description: Details for all tables in the Platform database
 | additional\_data | text | YES |  | NULL |  |
 | notification\_post\_id | int\(11\) | YES | MUL | NULL |  |
 
-
-
-### notification\_queue
+## notification\_queue
 
 | Field | Type | Null | Key | Default | Extra |
 | :--- | :--- | :--- | :--- | :--- | :--- |
