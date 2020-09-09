@@ -51,6 +51,7 @@ services:
       ENABLE_PHPFPM: "false"
       ENABLE_PLATFORM_TASKS: "true"
       ENABLE_QUEUE_LISTEN: "true"
+      TASK_RUN_PERIOD_SECS: "30"
       RUN_PLATFORM_MIGRATIONS: "false"
       DB_CONNECTION: mysql
       DB_DATABASE: ushahidi
