@@ -37,6 +37,8 @@ class FormFieldAttributeMapperTest extends TestCase
         $dataInspection->shouldReceive('suggestNumberStorage')
             ->with(3)
             ->andReturn('int');
+        $dataInspection->shouldReceive('tryDateDecodeFormats')
+            ->andReturn([ 'd#m#Y' => 1.0 , 'm#d#Y' => 0.9 ]);
 
         $mapper = new FormFieldAttributeMapper(
             $mappingRepo,
@@ -44,8 +46,12 @@ class FormFieldAttributeMapperTest extends TestCase
             $dataInspection
         );
 
-        $attr = $mapper(1, $input);
+        $result = $mapper(1, $input);
 
+        $this->assertInternalType('array', $result);
+        $this->assertArrayHasKey('result', $result);
+        $attr = $result['result'];
+        
         $this->assertInstanceOf(FormAttribute::class, $attr);
         $this->assertArraySubset(
             $expected,

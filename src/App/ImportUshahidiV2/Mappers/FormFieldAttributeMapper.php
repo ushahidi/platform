@@ -96,25 +96,12 @@ class FormFieldAttributeMapper implements Mapper
         }
 
         // if input is date, use datetime storage type
-        if ($attrInput == 'date') {
+        if ($attrInput == 'date' || $isDate == 1) {
             $type = 'datetime';
             $attrInput = 'date';
             $formats = $this->inspectionTools->tryDateDecodeFormats($fieldId);
             $meta = (object) ['decode' => [ 'datetime' => [ 'format_study' => $formats ]]];
         }
-
-        // // check field_isdate -> makes it a date field
-        // davidlosada: haven't seen an option to create date time fields on v2
-        // if ($isDate == 1) {
-        //     $type = 'datetime';
-        //     $attrInput = 'date';
-        //     $formats = $this->inspectionTools->tryDateDecodeFormats($fieldId);
-        //     $meta = ['decode' => [ 'datetime' => [ 'format_study' => $formats ]]];
-        //     Log::info("Datetime decode formats study result", [
-        //         'fieldId' => $fieldId,
-        //         'formats' => $formats
-        //     ]);
-        // }
 
         return [$attrInput, $type, $meta];
     }

@@ -28,8 +28,11 @@ class ReporterUserMapperTest extends TestCase
             ->andReturn(collect([ ($input['user_id']) => ($expected['user_id']) ]));
 
         $mapper = new ReporterUserMapper($mappingRepo);
+        $result = $mapper(1, $input);
 
-        $contact = $mapper(1, $input);
+        $this->assertInternalType('array', $result);
+        $this->assertArrayHasKey('result', $result);
+        $contact = $result['result'];
 
         $this->assertInstanceOf(Contact::class, $contact);
         $this->assertArraySubset(

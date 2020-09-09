@@ -31,8 +31,11 @@ class TagMapperTest extends TestCase
             ->andReturn(null);
 
         $mapper = new CategoryTagMapper($repo);
+        $result = $mapper(1, $input);
 
-        $tag = $mapper(1, $input);
+        $this->assertInternalType('array', $result);
+        $this->assertArrayHasKey('result', $result);
+        $tag = $result['result'];
 
         $this->assertInstanceOf(Tag::class, $tag);
         $this->assertEquals($input['category_title'], $tag->tag);
@@ -58,8 +61,11 @@ class TagMapperTest extends TestCase
             ->andReturn(110);
 
         $mapper = new CategoryTagMapper($repo);
+        $result = $mapper(1, $input);
 
-        $tag = $mapper(1, $input);
+        $this->assertInternalType('array', $result);
+        $this->assertArrayHasKey('result', $result);
+        $tag = $result['result'];
 
         $this->assertInstanceOf(Tag::class, $tag);
         $this->assertEquals($input['category_title'], $tag->tag);
@@ -87,7 +93,11 @@ class TagMapperTest extends TestCase
             'parent_id' => 0
         ];
 
-        $tag = $mapper(1, $input);
+        $result = $mapper(1, $input);
+
+        $this->assertInternalType('array', $result);
+        $this->assertArrayHasKey('result', $result);
+        $tag = $result['result'];
 
         $this->assertInstanceOf(Tag::class, $tag);
         $this->assertEquals(['admin'], $tag->role);
@@ -100,8 +110,12 @@ class TagMapperTest extends TestCase
             'parent_id' => 0
         ];
 
-        $tag = $mapper(1, $input);
+        $result = $mapper(1, $input);
 
+        $this->assertInternalType('array', $result);
+        $this->assertArrayHasKey('result', $result);
+        $tag = $result['result'];
+        
         $this->assertInstanceOf(Tag::class, $tag);
         $this->assertEquals([], $tag->role);
     }

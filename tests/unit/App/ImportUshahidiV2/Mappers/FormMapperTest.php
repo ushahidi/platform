@@ -3,7 +3,7 @@
 namespace Tests\Unit\App\ImportUshahidiV2\Mappers;
 
 use Ushahidi\App\ImportUshahidiV2\Mappers\FormMapper;
-use Ushahidi\Core\Entity\FOrm;
+use Ushahidi\Core\Entity\Form;
 use Tests\TestCase;
 use Mockery as M;
 use Faker;
@@ -24,8 +24,11 @@ class FormMapperTest extends TestCase
         ];
 
         $mapper = new FormMapper();
+        $result = $mapper(1, $input);
 
-        $form = $mapper(1, $input);
+        $this->assertInternalType('array', $result);
+        $this->assertArrayHasKey('result', $result);
+        $form = $result['result'];
 
         $this->assertInstanceOf(Form::class, $form);
         $this->assertEquals('Special form', $form->name);
@@ -43,8 +46,11 @@ class FormMapperTest extends TestCase
         ];
 
         $mapper = new FormMapper();
+        $result = $mapper(1, $input);
 
-        $form = $mapper(1, $input);
+        $this->assertInternalType('array', $result);
+        $this->assertArrayHasKey('result', $result);
+        $form = $result['result'];
 
         $this->assertInstanceOf(Form::class, $form);
         $this->assertEquals('Special form', $form->name);

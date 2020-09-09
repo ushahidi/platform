@@ -80,6 +80,9 @@ class PostMapperTest extends TestCase
         $mappingRepo->shouldReceive('getDestId')
             ->with($importId, 'category', '5')
             ->andReturn(55);
+        $mappingRepo->shouldReceive('getMetadata')
+            ->with($importId, M::any(), M::any())
+            ->andReturn(null);
 
         $attrRepo = M::mock(FormAttributeRepository::class);
         $attrRepo->shouldReceive('get')
@@ -105,8 +108,11 @@ class PostMapperTest extends TestCase
             ->andReturn(new FormAttribute(['key' => 'photos-key']));
 
         $mapper = new IncidentPostMapper($mappingRepo, $attrRepo);
+        $result = $mapper($importId, $input);
 
-        $post = $mapper($importId, $input);
+        $this->assertInternalType('array', $result);
+        $this->assertArrayHasKey('result', $result);
+        $post = $result['result'];
 
         $this->assertInstanceOf(Post::class, $post);
         $this->assertInstanceOf(\DateTime::class, $post->post_date);
@@ -210,6 +216,9 @@ class PostMapperTest extends TestCase
         $mappingRepo->shouldReceive('getDestId')
             ->with($importId, 'category', '5')
             ->andReturn(55);
+        $mappingRepo->shouldReceive('getMetadata')
+            ->with($importId, M::any(), M::any())
+            ->andReturn(null);
 
         $attrRepo = M::mock(FormAttributeRepository::class);
         $attrRepo->shouldReceive('get')
@@ -235,8 +244,11 @@ class PostMapperTest extends TestCase
             ->andReturn(new FormAttribute(['key' => 'photos-key']));
 
         $mapper = new IncidentPostMapper($mappingRepo, $attrRepo);
+        $result = $mapper($importId, $input);
 
-        $post = $mapper($importId, $input);
+        $this->assertInternalType('array', $result);
+        $this->assertArrayHasKey('result', $result);
+        $post = $result['result'];
 
         $this->assertInstanceOf(Post::class, $post);
         $this->assertEquals(
@@ -370,6 +382,9 @@ class PostMapperTest extends TestCase
         $mappingRepo->shouldReceive('getDestId')
             ->with($importId, 'form_field', 8)
             ->andReturn(88);
+        $mappingRepo->shouldReceive('getMetadata')
+            ->with($importId, M::any(), M::any())
+            ->andReturn(null);
 
         $attrRepo = M::mock(FormAttributeRepository::class);
         $attrRepo->shouldReceive('get')
@@ -444,8 +459,11 @@ class PostMapperTest extends TestCase
             ]));
 
         $mapper = new IncidentPostMapper($mappingRepo, $attrRepo);
+        $result = $mapper($importId, $input);
 
-        $post = $mapper($importId, $input);
+        $this->assertInternalType('array', $result);
+        $this->assertArrayHasKey('result', $result);
+        $post = $result['result'];
 
         $this->assertInstanceOf(Post::class, $post);
         $this->assertEquals(

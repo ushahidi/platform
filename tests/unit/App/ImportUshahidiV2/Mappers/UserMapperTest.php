@@ -24,8 +24,11 @@ class UserMapperTest extends TestCase
         ];
 
         $mapper = new UserMapper();
+        $result = $mapper(1, $input);
 
-        $user = $mapper(1, $input);
+        $this->assertInternalType('array', $result);
+        $this->assertArrayHasKey('result', $result);
+        $user = $result['result'];
 
         $this->assertInstanceOf(User::class, $user);
         $this->assertEquals('admin', $user->role);
@@ -43,8 +46,11 @@ class UserMapperTest extends TestCase
         ];
 
         $mapper = new UserMapper();
+        $result = $mapper(1, $input);
 
-        $user = $mapper(1, $input);
+        $this->assertInternalType('array', $result);
+        $this->assertArrayHasKey('result', $result);
+        $user = $result['result'];
 
         $this->assertInstanceOf(User::class, $user);
         $this->assertEquals('admin', $user->role);
@@ -63,8 +69,11 @@ class UserMapperTest extends TestCase
         ];
 
         $mapper = new UserMapper();
+        $result = $mapper(1, $input);
 
-        $user = $mapper(1, $input);
+        $this->assertInternalType('array', $result);
+        $this->assertArrayHasKey('result', $result);
+        $user = $result['result'];
 
         $this->assertInstanceOf(User::class, $user);
         $this->assertEquals('user', $user->role);

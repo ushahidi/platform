@@ -46,8 +46,11 @@ class MessageMapperTest extends TestCase
             ->andReturn(new Contact(['id' => $mockCalls['contact'][2]]));
 
         $mapper = new MessageMapper($mappingRepo, $contactRepo);
+        $result = $mapper($importId, $input);
 
-        $message = $mapper($importId, $input);
+        $this->assertInternalType('array', $result);
+        $this->assertArrayHasKey('result', $result);
+        $message = $result['result'];
 
         $this->assertInstanceOf(Message::class, $message);
         $this->assertArraySubset(

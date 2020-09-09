@@ -31,7 +31,9 @@ class ImporterTest extends TestCase
 
         $mapper->shouldReceive('__invoke')
             ->times(20)
-            ->andReturn($entity);
+            ->andReturn([
+                'result' => $entity
+            ]);
 
         $destRepo->shouldReceive('createMany')
             ->once()
