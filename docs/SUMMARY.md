@@ -40,6 +40,8 @@
 ## Tech Stack
 
 * [API Documentation](tech-stack/api-documentation.md)
+* [Third party app development](tech-stack/connected-app-development/README.md)
+  * [Web hooks](tech-stack/connected-app-development/web-hooks.md)
 * [Database \| Tables overview](tech-stack/tables-overview.md)
 * [Database \| Database Schema Diagram](tech-stack/database-schema-diagram.md)
 * [Database \| Table details](tech-stack/table-details.md)

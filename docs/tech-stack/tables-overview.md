@@ -553,3 +553,4 @@ description: This is a list of all tables used for the Ushahidi Platform.
     </tr>
   </tbody>
 </table>
+
