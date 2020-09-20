@@ -7,13 +7,12 @@ use Ushahidi\App\Jobs\Job;
 use Ushahidi\Core\Entity;
 use Ushahidi\App\ImportUshahidiV2;
 
-class ImportReporters extends Job
+class ImportReporters extends ImportUshahidiV2Job
 {
     use Concerns\ConnectsToV2DB;
 
     const BATCH_SIZE = 1000;
 
-    protected $importId;
     protected $dbConfig;
 
     /**
@@ -23,7 +22,7 @@ class ImportReporters extends Job
      */
     public function __construct(int $importId, array $dbConfig)
     {
-        $this->importId = $importId;
+        parent::__construct($importId);
         $this->dbConfig = $dbConfig;
     }
 
@@ -79,7 +78,7 @@ class ImportReporters extends Job
                 ->get();
 
             if (!$sourceData->isEmpty()) {
-                $created = $importer->run($this->importId, $sourceData);
+                $created = $importer->run($this->getImport(), $sourceData);
             }
 
             // jump to the next id batch

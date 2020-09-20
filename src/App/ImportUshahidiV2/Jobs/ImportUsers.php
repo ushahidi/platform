@@ -9,13 +9,12 @@ use Ushahidi\App\Jobs\Job;
 use Ushahidi\Core\Entity;
 use Ushahidi\App\ImportUshahidiV2;
 
-class ImportUsers extends Job
+class ImportUsers extends ImportUshahidiV2Job
 {
     use Concerns\ConnectsToV2DB;
 
     const BATCH_SIZE = 1000;
 
-    protected $importId;
     protected $dbConfig;
     protected $mappingRepo;
     protected $destRepo;
@@ -27,7 +26,7 @@ class ImportUsers extends Job
      */
     public function __construct(int $importId, array $dbConfig)
     {
-        $this->importId = $importId;
+        parent::__construct($importId);
         $this->dbConfig = $dbConfig;
     }
 
@@ -136,7 +135,7 @@ class ImportUsers extends Job
 
             $sourceUsers = $this->handleExisting($sourceUsers);
 
-            $created = $importer->run($this->importId, $sourceUsers);
+            $created = $importer->run($this->getImport(), $sourceUsers);
 
             $batch++;
         }

@@ -5,6 +5,7 @@ namespace Tests\Unit\App\ImportUshahidiV2\Mappers;
 use Ushahidi\App\ImportUshahidiV2\Mappers\CategoryTagMapper;
 use Ushahidi\App\ImportUshahidiV2\Contracts\ImportMappingRepository;
 use Ushahidi\Core\Entity\Tag;
+use Tests\Unit\App\ImportUshahidiV2\ImportMock;
 use Tests\TestCase;
 use Mockery as M;
 use Faker;
@@ -31,7 +32,8 @@ class TagMapperTest extends TestCase
             ->andReturn(null);
 
         $mapper = new CategoryTagMapper($repo);
-        $result = $mapper(1, $input);
+        $import = ImportMock::forId(1);
+        $result = $mapper($import, $input);
 
         $this->assertInternalType('array', $result);
         $this->assertArrayHasKey('result', $result);
@@ -61,7 +63,8 @@ class TagMapperTest extends TestCase
             ->andReturn(110);
 
         $mapper = new CategoryTagMapper($repo);
-        $result = $mapper(1, $input);
+        $import = ImportMock::forId(1);
+        $result = $mapper($import, $input);
 
         $this->assertInternalType('array', $result);
         $this->assertArrayHasKey('result', $result);
@@ -93,7 +96,8 @@ class TagMapperTest extends TestCase
             'parent_id' => 0
         ];
 
-        $result = $mapper(1, $input);
+        $import = ImportMock::forId(1);
+        $result = $mapper($import, $input);
 
         $this->assertInternalType('array', $result);
         $this->assertArrayHasKey('result', $result);
@@ -110,7 +114,7 @@ class TagMapperTest extends TestCase
             'parent_id' => 0
         ];
 
-        $result = $mapper(1, $input);
+        $result = $mapper($import, $input);
 
         $this->assertInternalType('array', $result);
         $this->assertArrayHasKey('result', $result);

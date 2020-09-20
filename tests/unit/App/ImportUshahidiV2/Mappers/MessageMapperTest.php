@@ -7,6 +7,7 @@ use Ushahidi\App\ImportUshahidiV2\Contracts\ImportMappingRepository;
 use Ushahidi\Core\Entity\Message;
 use Ushahidi\Core\Entity\Contact;
 use Ushahidi\Core\Entity\ContactRepository;
+use Tests\Unit\App\ImportUshahidiV2\ImportMock;
 use Tests\TestCase;
 use Mockery as M;
 use Faker;
@@ -25,6 +26,7 @@ class MessageMapperTest extends TestCase
     public function testMap($input, $mockCalls, $expected, $expectedDate)
     {
         $importId = 1;
+        $import = ImportMock::forId($importId);
 
         $mappingRepo = M::mock(ImportMappingRepository::class);
         $mappingRepo->shouldReceive('getAllMappingIDs')
@@ -46,7 +48,7 @@ class MessageMapperTest extends TestCase
             ->andReturn(new Contact(['id' => $mockCalls['contact'][2]]));
 
         $mapper = new MessageMapper($mappingRepo, $contactRepo);
-        $result = $mapper($importId, $input);
+        $result = $mapper($import, $input);
 
         $this->assertInternalType('array', $result);
         $this->assertArrayHasKey('result', $result);

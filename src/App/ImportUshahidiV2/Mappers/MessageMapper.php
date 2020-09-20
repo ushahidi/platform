@@ -5,6 +5,7 @@ namespace Ushahidi\App\ImportUshahidiV2\Mappers;
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\Entity\Message;
 use Ushahidi\Core\Entity\ContactRepository;
+use Ushahidi\App\ImportUshahidiV2\Import;
 use Ushahidi\App\ImportUshahidiV2\Contracts\Mapper;
 use Ushahidi\App\ImportUshahidiV2\Contracts\ImportMappingRepository;
 
@@ -41,14 +42,14 @@ class MessageMapper implements Mapper
         ]);
     }
 
-    public function __invoke(int $importId, array $input) : array
+    public function __invoke(Import $import, array $input) : array
     {
         // We are not mapping some fields
         // - message_level
         // - message_type = 3 (DELETED)
         // - message_from
         // - message_to
-
+        $importId = $import->id;
         $result = new Message([
             'contact_id' => $this->getContactId($importId, $input['reporter_id']),
             'parent_id' => $this->getParentId($importId, $input['parent_id']),

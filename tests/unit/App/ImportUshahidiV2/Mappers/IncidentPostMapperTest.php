@@ -7,6 +7,7 @@ use Ushahidi\App\ImportUshahidiV2\Contracts\ImportMappingRepository;
 use Ushahidi\Core\Entity\Post;
 use Ushahidi\Core\Entity\FormAttribute;
 use Ushahidi\Core\Entity\FormAttributeRepository;
+use Tests\Unit\App\ImportUshahidiV2\ImportMock;
 use Tests\TestCase;
 use Mockery as M;
 use Faker;
@@ -20,6 +21,8 @@ class PostMapperTest extends TestCase
     public function testMap()
     {
         $importId = 1;
+        $import = ImportMock::forId($importId);
+        ImportMock::mockImportTimezone($import, 'UTC');
         $faker = Faker\Factory::create();
         $input = [
             'incident_title' => $faker->sentence(3),
@@ -108,7 +111,7 @@ class PostMapperTest extends TestCase
             ->andReturn(new FormAttribute(['key' => 'photos-key']));
 
         $mapper = new IncidentPostMapper($mappingRepo, $attrRepo);
-        $result = $mapper($importId, $input);
+        $result = $mapper($import, $input);
 
         $this->assertInternalType('array', $result);
         $this->assertArrayHasKey('result', $result);
@@ -135,6 +138,8 @@ class PostMapperTest extends TestCase
     public function testMapWithMedia()
     {
         $importId = 1;
+        $import = ImportMock::forId($importId);
+        ImportMock::mockImportTimezone($import, 'UTC');
         $faker = Faker\Factory::create();
         $input = [
             'incident_title' => $faker->sentence(3),
@@ -155,7 +160,7 @@ class PostMapperTest extends TestCase
                 (object)[
                     'media_type' => 2,
                     'media_title' => null,
-                    'media_link' => 'http://youtube.com/something'
+                    'media_link' => 'http://youtube.com/watch?v=some-vidId'
                 ],
                 (object)[
                     'media_type' => 1,
@@ -244,7 +249,7 @@ class PostMapperTest extends TestCase
             ->andReturn(new FormAttribute(['key' => 'photos-key']));
 
         $mapper = new IncidentPostMapper($mappingRepo, $attrRepo);
-        $result = $mapper($importId, $input);
+        $result = $mapper($import, $input);
 
         $this->assertInternalType('array', $result);
         $this->assertArrayHasKey('result', $result);
@@ -264,7 +269,7 @@ class PostMapperTest extends TestCase
         );
         $this->assertEquals(
             [
-                'http://youtube.com/something',
+                'https://www.youtube.com/embed/some-vidId',
             ],
             $post->values['videos-key']
         );
@@ -280,6 +285,8 @@ class PostMapperTest extends TestCase
     public function testMapWithFormResponses()
     {
         $importId = 1;
+        $import = ImportMock::forId($importId);
+        ImportMock::mockImportTimezone($import, 'UTC');
         $faker = Faker\Factory::create();
         $input = [
             'incident_title' => $faker->sentence(3),
@@ -459,7 +466,7 @@ class PostMapperTest extends TestCase
             ]));
 
         $mapper = new IncidentPostMapper($mappingRepo, $attrRepo);
-        $result = $mapper($importId, $input);
+        $result = $mapper($import, $input);
 
         $this->assertInternalType('array', $result);
         $this->assertArrayHasKey('result', $result);

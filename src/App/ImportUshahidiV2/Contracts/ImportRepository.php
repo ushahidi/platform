@@ -18,4 +18,6 @@ interface ImportRepository
     public function create(Import $model) : int;
 
     public function update(Import $model) : bool;
+
+    public function find(int $id) : ?Import;
 }

@@ -1183,7 +1183,10 @@ class PostRepository extends OhanzeeRepository implements
     public function create(Entity $entity)
     {
         $post = $entity->asArray();
-        $post['created'] = time();
+
+        if (!array_key_exists('created', $post) || $post['created'] === null) {
+            $post['created'] = time();
+        }
 
         // Remove attribute values and tags
         unset(
@@ -1260,7 +1263,9 @@ class PostRepository extends OhanzeeRepository implements
         $values = $collection->map(function ($entity) {
             $data = $entity->asArray();
 
-            $data['created'] = time();
+            if (!array_key_exists('created', $data) || $data['created'] === null) {
+                $data['created'] = time();
+            }
 
             unset(
                 $data['values'],

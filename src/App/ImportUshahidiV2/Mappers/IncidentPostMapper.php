@@ -5,12 +5,14 @@ namespace Ushahidi\App\ImportUshahidiV2\Mappers;
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\Entity\Post;
 use Ushahidi\Core\Entity\FormAttributeRepository;
+use Ushahidi\App\ImportUshahidiV2\Import;
 use Ushahidi\App\ImportUshahidiV2\Contracts\Mapper;
 use Ushahidi\App\ImportUshahidiV2\Contracts\ImportMappingRepository;
 
 use League\Flysystem\Util\MimeType;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Collection;
+use Carbon\Carbon;
 
 class IncidentPostMapper implements Mapper
 {
@@ -27,6 +29,9 @@ class IncidentPostMapper implements Mapper
     protected $attributeKeyForColumnCache;
     protected $attributeKeyForFieldCache;
     protected $categoryIdCache;
+    
+    protected $import;
+    protected $importTz;
 
     public function __construct(ImportMappingRepository $mappingRepo, FormAttributeRepository $attrRepo)
     {
@@ -38,12 +43,14 @@ class IncidentPostMapper implements Mapper
         $this->categoryIdCache = new Collection();
     }
 
-    public function __invoke(int $importId, array $input) : ?array
+    public function __invoke(Import $import, array $input) : ?array
     {
         Log::debug('[IncidentPostMapper] Importing incident {input}', [
             'input' => $input
         ]);
-        
+     
+        $this->import = $import;
+        $importId = $this->import->id;
         $v3FormId = $this->getFormId($importId, $input['form_id']);
         Log::debug('[IncidentPostMapper] Input form {input_form_id} mapped to {v3_form_id}', [
             'input_form_id' => $input['form_id'],
@@ -54,28 +61,75 @@ class IncidentPostMapper implements Mapper
             return null;
         }
 
+        // Pull the timezone the import has been configured with
+        $this->importTz = $import->getImportTimezone();
+        if (!$this->importTz) {
+            $this->importTz = date_default_timezone_get();
+            Log::warning('Using host\'s default timezone to read datetime columns (' . $this->importTz .'). '.
+              'This may alter the incident creation/update times.');
+        }
+        Log::info('Converting datetimes to timestamps assuming timezone: ' . $this->importTz);
+
         $v3UserId = $this->mappingRepo->getDestId($importId, 'user', $input['user_id']);
 
         $postContents = [
             'form_id' => $v3FormId,
             'user_id' => $v3UserId,
             'title' => $input['incident_title'],
+            // V3+ uses TEXT instead of LONGTEXT , so we need to truncate long content
+            // TODO: maybe issue a truncation warning when/if it happens?
             'content' => mb_strcut($input['incident_description'], 0, 60000, "UTF-8"),
             'status' => $input['incident_active'] ? 'published' : 'draft',
             'author_email' => $input['person_email'],
             'author_realname' => $input['person_first'] . ' ' . $input['person_last'],
-            'post_date' => $input['incident_date'],
-            'values' => $this->getValues($importId, $input, $v3UserId),
             'locale' => 'en_US',
             'type' => 'report',
             'published_to' => [],
         ];
+        $postContents = array_merge($postContents, $this->getPostDateAttributes($input));
+        $postContents = array_merge($postContents, [
+            'values' => $this->getValues($importId, $input, $v3UserId)
+        ]);
+
         Log::debug('[IncidentPostMapper] Creating post with contents {postContents}', [
             'postContents' => $postContents
         ]);
         return [
             'result' => new Post($postContents)
         ];
+    }
+
+    protected function getMysqlDateTimeAsTimestamp($datetime)
+    {
+        if ($datetime == null) {
+            return null;
+        }
+        try {
+            $c = Carbon::createFromFormat('Y-m-d H:i:s', $datetime, $this->importTz);
+            return $c->getTimestamp();
+        } catch (\Exception $e) {
+            Log::info("Expected mysql date, parsing as null", [$datetime]);
+            Log::info($e->getMessage());
+            return null;
+        }
+    }
+
+    protected function getPostDateAttributes($input)
+    {
+        if (array_key_exists('incident_dateadd', $input)) {
+            $created = $this->getMysqlDateTimeAsTimestamp($input['incident_dateadd']);
+        } else {
+            $created = time();
+        }
+
+        $dates = [
+            'post_date' => $input['incident_date'], // timezone handling?
+            'created' => $created,
+            'updated' => $this->getMysqlDateTimeAsTimestamp($input['incident_datemodify'] ?? null),
+        ];
+
+        Log::info("[IncidentPostMapper] using dates: ", [$dates]);
+        return $dates;
     }
 
     public function getFormId($importId, $formId)
@@ -266,26 +320,36 @@ class IncidentPostMapper implements Mapper
         return collect($media)
             ->where('media_type', $type)
             ->map(function ($media) use ($type, $userId) {
-                // Not sure what to do with non URL values yet, so just saving them as-is
-                // But we probably need to download them based on UrL
-                $value = $media->media_link;
-
                 // If this is a photo, save caption too
                 if ($type === self::MEDIA_PHOTO) {
-                    $extension = pathinfo($value, PATHINFO_EXTENSION);
+                    $extension = pathinfo($media->media_link, PATHINFO_EXTENSION);
                     $mimeType = MimeType::detectByFileExtension(strtolower($extension)) ?: 'text/plain';
 
                     return [
-                        'o_filename' => $value,
+                        'o_filename' => $media->media_link,
                         'caption' => $media->media_title,
                         'mime' => $mimeType,
                         // Save with same user id as the post
                         'user_id' => $userId,
                         // Ignoring media_description as I think it's always null
                     ];
+                } elseif ($type === self::MEDIA_VIDEO) {
+                    // Normalize youtube URLs
+                    $youtube_matches = [
+                        '/^https?:\/\/((www|m)\.)?youtube.com(\/)?\?(.*&)?vi?=(?P<vid>[a-zA-Z0-9_\-]+)/',
+                        '/^https?:\/\/((www|m)\.)?youtube.com\/' .
+                            '(watch|ytscreeningroom)\?(.*&)?vi?=(?P<vid>[a-zA-Z0-9_\-]+)/',
+                        '/^https?:\/\/((www|m)\.)?youtube.com\/(v|e|vi|embed)\/(?P<vid>[a-zA-Z0-9_\-]+)/',
+                        '/^https?:\/\/youtu.be\/(?P<vid>[a-zA-Z0-9_\-]+)/',
+                    ];
+                    foreach ($youtube_matches as $re) {
+                        $matches = [];
+                        if (preg_match($re, $media->media_link, $matches)) {
+                            return "https://www.youtube.com/embed/" . $matches['vid'];
+                        }
+                    }
                 }
-
-                return $value;
+                return $media->media_link;
             })
             ->filter()
             ->values()

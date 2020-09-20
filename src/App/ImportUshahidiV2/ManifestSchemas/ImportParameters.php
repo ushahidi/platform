@@ -11,6 +11,11 @@ class ImportParameters
     public $mappings;
 
     /**
+     * @var Timezones|null
+     */
+    public $timezones;
+
+    /**
      *  Check whether mappings were provided as part of the import parameters
      */
     public function hasMappings()

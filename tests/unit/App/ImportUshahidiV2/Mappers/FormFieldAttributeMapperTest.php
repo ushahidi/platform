@@ -8,6 +8,7 @@ use Ushahidi\App\ImportUshahidiV2\Contracts\ImportDataInspectionTools;
 use Ushahidi\Core\Entity\FormAttribute;
 use Ushahidi\Core\Entity\FormStage;
 use Ushahidi\Core\Entity\FormStageRepository;
+use Tests\Unit\App\ImportUshahidiV2\ImportMock;
 use Tests\TestCase;
 use Mockery as M;
 use Faker;
@@ -46,7 +47,8 @@ class FormFieldAttributeMapperTest extends TestCase
             $dataInspection
         );
 
-        $result = $mapper(1, $input);
+        $import = ImportMock::forId(1);
+        $result = $mapper($import, $input);
 
         $this->assertInternalType('array', $result);
         $this->assertArrayHasKey('result', $result);

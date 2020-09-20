@@ -7,13 +7,10 @@ use Ushahidi\App\Jobs\Job;
 use Ushahidi\Core\Entity;
 use Ushahidi\App\ImportUshahidiV2;
 
-class ImportIncidents extends Job
+class ImportIncidents extends ImportUshahidiV2Job
 {
-    use Concerns\ConnectsToV2DB;
-
     const BATCH_SIZE = 1000;
 
-    protected $importId;
     protected $dbConfig;
 
     /**
@@ -23,7 +20,7 @@ class ImportIncidents extends Job
      */
     public function __construct(int $importId, array $dbConfig)
     {
-        $this->importId = $importId;
+        parent::__construct($importId);
         $this->dbConfig = $dbConfig;
     }
 
@@ -183,7 +180,7 @@ class ImportIncidents extends Job
                 $incident->geometries = $geometryData->get($incident->id);
             });
 
-            $created = $importer->run($this->importId, $sourceData);
+            $created = $importer->run($this->getImport(), $sourceData);
 
             $batch++;
         }

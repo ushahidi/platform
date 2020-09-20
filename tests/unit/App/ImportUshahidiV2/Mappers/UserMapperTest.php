@@ -4,6 +4,7 @@ namespace Tests\Unit\App\ImportUshahidiV2\Mappers;
 
 use Ushahidi\App\ImportUshahidiV2\Mappers\UserMapper;
 use Ushahidi\Core\Entity\User;
+use Tests\Unit\App\ImportUshahidiV2\ImportMock;
 use Tests\TestCase;
 use Mockery as M;
 use Faker;
@@ -24,7 +25,8 @@ class UserMapperTest extends TestCase
         ];
 
         $mapper = new UserMapper();
-        $result = $mapper(1, $input);
+        $import = ImportMock::forId(1);
+        $result = $mapper($import, $input);
 
         $this->assertInternalType('array', $result);
         $this->assertArrayHasKey('result', $result);
@@ -46,7 +48,8 @@ class UserMapperTest extends TestCase
         ];
 
         $mapper = new UserMapper();
-        $result = $mapper(1, $input);
+        $import = ImportMock::forId(1);
+        $result = $mapper($import, $input);
 
         $this->assertInternalType('array', $result);
         $this->assertArrayHasKey('result', $result);
@@ -69,7 +72,8 @@ class UserMapperTest extends TestCase
         ];
 
         $mapper = new UserMapper();
-        $result = $mapper(1, $input);
+        $import = ImportMock::forId(1);
+        $result = $mapper($import, $input);
 
         $this->assertInternalType('array', $result);
         $this->assertArrayHasKey('result', $result);

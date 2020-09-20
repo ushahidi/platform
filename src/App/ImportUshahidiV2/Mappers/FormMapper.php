@@ -6,11 +6,12 @@ use Illuminate\Support\Facades\Log;
 
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\Entity\Form;
+use Ushahidi\App\ImportUshahidiV2\Import;
 use Ushahidi\App\ImportUshahidiV2\Contracts\Mapper;
 
 class FormMapper implements Mapper
 {
-    public function __invoke(int $importId, array $input) : array
+    public function __invoke(Import $import, array $input) : array
     {
         $form = new Form([
             'name' => $input['form_title'],

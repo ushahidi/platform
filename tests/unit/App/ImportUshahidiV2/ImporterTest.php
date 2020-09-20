@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\App\ImportUshahidiV2\Mappers;
+namespace Tests\Unit\App\ImportUshahidiV2;
 
 use Ushahidi\App\ImportUshahidiV2\Importer;
 use Ushahidi\App\ImportUshahidiV2\Contracts\ImportMappingRepository;
@@ -61,7 +61,8 @@ class ImporterTest extends TestCase
                 ];
             });
 
-        $imported = $importer->run(1, $source);
+        $import = ImportMock::forId(1);
+        $imported = $importer->run($import, $source);
         $this->assertInstanceOf(Collection::class, $imported);
         $this->assertEquals(20, $imported->count());
     }

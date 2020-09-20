@@ -12,13 +12,12 @@ use Ushahidi\Core\Entity;
 use Ushahidi\App\ImportUshahidiV2;
 use Ushahidi\App\ImportUshahidiV2\ManifestSchemas\ImportParameters;
 
-class ImportForms extends Job
+class ImportForms extends ImportUshahidiV2Job
 {
     use Concerns\ConnectsToV2DB;
 
     const BATCH_SIZE = 50;
 
-    protected $importId;
     protected $dbConfig;
     protected $mappingRepo;
     protected $formAttributeRepo;
@@ -149,7 +148,7 @@ class ImportForms extends Job
      */
     public function __construct(int $importId, array $dbConfig, ImportParameters $extraParams)
     {
-        $this->importId = $importId;
+        parent::__construct($importId);
         $this->dbConfig = $dbConfig;
         $this->extraParams = $extraParams;
     }
@@ -312,7 +311,7 @@ class ImportForms extends Job
 
         $this->sourceForms = $sourceData;
 
-        $results = $importer->run($this->importId, $sourceData);
+        $results = $importer->run($this->getImport(), $sourceData);
 
         $this->importedForms = $results->map(function ($result) {
             $import = (object) [
@@ -517,7 +516,7 @@ class ImportForms extends Job
                 Log::debug("including v2 attribute {}", [$v2_attr]);
             });
 
-            $created = $importer->run($this->importId, $sourceData);
+            $created = $importer->run($this->getImport(), $sourceData);
 
             $created->each(function ($v3_attr, $v3_id) {
                 Log::debug("Created v3 attribute {v3_id}:{v3_attr}", [

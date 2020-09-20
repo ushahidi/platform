@@ -5,6 +5,7 @@ namespace Ushahidi\App\ImportUshahidiV2\Mappers;
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\Entity\User;
 use Ushahidi\Core\Entity\Contact;
+use Ushahidi\App\ImportUshahidiV2\Import;
 use Ushahidi\App\ImportUshahidiV2\Contracts\Mapper;
 use Ushahidi\App\ImportUshahidiV2\Contracts\ImportMappingRepository;
 
@@ -37,12 +38,12 @@ class ReporterUserMapper implements Mapper
         $this->userMappingsCache = new Collection();
     }
 
-    public function __invoke(int $importId, array $input) : array
+    public function __invoke(Import $import, array $input) : array
     {
         // NB:
         // - We're not mapping level to anything
         // - We're not mapping reporter location to anything
-        $userIdMap = $this->loadUserMappings($importId);
+        $userIdMap = $this->loadUserMappings($import->id);
 
         $contacts = $this->getContacts($input, $userIdMap);
 

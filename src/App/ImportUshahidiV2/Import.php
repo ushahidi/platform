@@ -22,11 +22,13 @@ class Import extends Model
     protected $casts = [
         'status' => 'string',
         'type' => 'string',
+        'metadata' => 'json',
     ];
 
     protected $fillable = [
         'status',
-        'type'
+        'type',
+        'metadata',
     ];
 
     public function mappings()
@@ -39,5 +41,59 @@ class Import extends Model
         $this->status = self::STATUS_COMPLETE;
 
         return $this;
+    }
+
+    /**
+     * Gets the value for a provided v2 setting, from the metadata
+     */
+    public function getV2Setting(string $key)
+    {
+        if ($this->metadata === null) {
+            return null;
+        }
+        if (!array_key_exists('v2_settings', $this->metadata)) {
+            return null;
+        }
+        if (!array_key_exists($key, $this->metadata['v2_settings'])) {
+            return null;
+        }
+        return $this->metadata['v2_settings'][$key];
+    }
+
+    /**
+     * Gets the value for a provided import parameter, from the metadata
+     */
+    public function getParameter(string $key, string ...$keys)
+    {
+        if ($this->metadata === null) {
+            return null;
+        }
+        if (!array_key_exists('parameters', $this->metadata)) {
+            return null;
+        }
+
+        if (!array_key_exists($key, $this->metadata['parameters'])) {
+            return null;
+        }
+        
+        $ret = $this->metadata['parameters'][$key];
+
+        foreach ($keys as $k) {
+            if (gettype($ret) !== "array" || !array_key_exists($k, $ret)) {
+                return null;
+            }
+            $ret = $ret[$k];
+        }
+        return $ret;
+    }
+
+    public function getImportTimezone()
+    {
+        // 1. fixed (forced) timezone (from parameters file)
+        // 2. v2 site configured timezone
+        // 3. default timezone (from parameters file)
+        return $this->getParameter('timezones', 'force') ??
+                $this->getV2Setting('site_timezone') ??
+                $this->getParameter('timezones', 'default');
     }
 }

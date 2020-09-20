@@ -5,6 +5,7 @@ namespace Tests\Unit\App\ImportUshahidiV2\Mappers;
 use Ushahidi\App\ImportUshahidiV2\Mappers\ReporterUserMapper;
 use Ushahidi\App\ImportUshahidiV2\Contracts\ImportMappingRepository;
 use Ushahidi\Core\Entity\Contact;
+use Tests\Unit\App\ImportUshahidiV2\ImportMock;
 use Tests\TestCase;
 use Mockery as M;
 use Faker;
@@ -28,7 +29,8 @@ class ReporterUserMapperTest extends TestCase
             ->andReturn(collect([ ($input['user_id']) => ($expected['user_id']) ]));
 
         $mapper = new ReporterUserMapper($mappingRepo);
-        $result = $mapper(1, $input);
+        $import = ImportMock::forId(1);
+        $result = $mapper($import, $input);
 
         $this->assertInternalType('array', $result);
         $this->assertArrayHasKey('result', $result);

@@ -5,6 +5,7 @@ namespace Ushahidi\App\ImportUshahidiV2\Mappers;
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\Entity\FormAttribute;
 use Ushahidi\Core\Entity\FormStageRepository;
+use Ushahidi\App\ImportUshahidiV2\Import;
 use Ushahidi\App\ImportUshahidiV2\Contracts\Mapper;
 use Ushahidi\App\ImportUshahidiV2\Contracts\ImportMappingRepository;
 use Ushahidi\App\ImportUshahidiV2\Contracts\ImportDataInspectionTools;
@@ -47,8 +48,9 @@ class FormFieldAttributeMapper implements Mapper
         $this->inspectionTools = $inspectionTools;
     }
 
-    public function __invoke(int $importId, array $input) : array
+    public function __invoke(Import $import, array $input) : array
     {
+        $importId = $import->id;
         list($attrInput, $type, $meta) = $this->getInputAndType(
             $input['id'],
             $input['field_type'],

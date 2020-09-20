@@ -10,13 +10,12 @@ use Ushahidi\App\ImportUshahidiV2\ManifestSchemas\ImportParameters;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 
-class ImportCategories extends Job
+class ImportCategories extends ImportUshahidiV2Job
 {
     use Concerns\ConnectsToV2DB;
 
     const BATCH_SIZE = 50;
 
-    protected $importId;
     protected $dbConfig;
     protected $mappingRepo;
     protected $extraParams;
@@ -28,7 +27,7 @@ class ImportCategories extends Job
      */
     public function __construct(int $importId, array $dbConfig, ImportParameters $extraParams)
     {
-        $this->importId = $importId;
+        parent::__construct($importId);
         $this->dbConfig = $dbConfig;
         $this->extraParams = $extraParams;
     }
@@ -125,7 +124,7 @@ class ImportCategories extends Job
                 return !($this->mappingRepo->hasMapping($this->importId, 'category', $v2_cat->id));
             });
 
-            $created = $importer->run($this->importId, $sourceCats);
+            $created = $importer->run($this->getImport(), $sourceCats);
 
             // Add to count
             $batch++;
@@ -159,7 +158,7 @@ class ImportCategories extends Job
                 return !($this->mappingRepo->hasMapping($this->importId, 'category', $v2_cat->id));
             });
 
-            $created = $importer->run($this->importId, $sourceCats);
+            $created = $importer->run($this->getImport(), $sourceCats);
 
             $batch++;
         }

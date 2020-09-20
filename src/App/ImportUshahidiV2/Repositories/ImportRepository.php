@@ -26,4 +26,9 @@ class ImportRepository /*extends EloquentRepository*/ implements ImportRepositor
     {
         return $model->save();
     }
+
+    public function find(int $id) : ?Import
+    {
+        return Import::find($id);
+    }
 }

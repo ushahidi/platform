@@ -40,8 +40,9 @@ class Importer
      *              target          the newly created data item
      *              mapping         an ImportMappingEntity
      */
-    public function run(int $importId, Collection $source) : Collection
+    public function run(Import $import, Collection $source) : Collection
     {
+        $importId = $import->id;
         $mapper = $this->mapper;
 
         /* Empty input -> empty output */
@@ -50,8 +51,8 @@ class Importer
         }
 
         // Transform objects
-        $results = $source->map(function ($item) use ($importId, $mapper) {
-            $mapped = $mapper($importId, (array) $item);
+        $results = $source->map(function ($item) use ($import, $mapper) {
+            $mapped = $mapper($import, (array) $item);
             return (object) [
                 'source' => $item,
                 'target' => $mapped['result'],

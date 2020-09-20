@@ -107,7 +107,10 @@ class ImportUshahidiV2Command extends Command
         // Create import record
         $import = new ImportUshahidiV2\Import();
         $importId = $importRepo->create($import);
-
+        // + extract and save needed settings
+        $this->info('Initializing import');
+        $this->dispatcher->dispatchNow(new ImportUshahidiV2\Jobs\SetupImport($importId, $dbConfig, $this->extraParams));
+        
         // Collect all tables data
         $this->info('Copying raw data');
         $this->dispatcher->dispatchNow(new ImportUshahidiV2\Jobs\CopyRawTables($importId, $dbConfig));
