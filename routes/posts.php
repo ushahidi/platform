@@ -4,7 +4,7 @@
 $router->group([
     'namespace' => 'Posts',
     'prefix' => 'posts',
-    'middleware' => ['scope:posts', 'expiration']
+    'middleware' => ['scope:posts', 'expiration', 'invalidJSON']
 ], function () use ($router) {
     // Public access
     $router->get('/', 'PostsController@index');
