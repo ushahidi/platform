@@ -62,11 +62,11 @@ Most of our use cases follow 5 high level patterns for Create, Read, Update, Del
 
 #### Create
 
-![Create Usecase](../.gitbook/assets/create-usecase-1.png)
+![Create Usecase](../.gitbook/assets/create-usecase-1%20%281%29.png)
 
 [create](http://www.nomnoml.com/#view/%23title%3ACreate%20Usecase%0A%0A%5B%3Cstate%3Erequest%7C%0Apayload%0Aidentifier%0Afilters%5D%0A%0A%5BCreate%20Usecase%7C%0A%5B%3Cstart%3E%20interact%5D-%3E%5BGet%20Entity%5D%0A%5BGet%20Entity%5D-%3E%5BVerify%20Create%20Auth%5D%0A%5BVerify%20Create%20Auth%5D-%3E%5BVerify%20Valid%5D%0A%5BVerify%20Valid%5D-%3E%5BCreate%20Entity%5D%0A%5BCreate%20Entity%5D-%3E%5BGet%20Created%5D%0A%5BGet%20Created%5D-%3E%5B%3Cchoice%3E%20Can%20Read%3F%5D%0A%5B%3Cchoice%3E%20Can%20Read%3F%5D-%3E%5BFormat%20Entity%5D%0A%5B%3Cchoice%3E%20Can%20Read%3F%5D-%3E%5B%3Cend%3E%20return%5D%0A%5BFormat%20Entity%5D-%3E%5B%3Cend%3E%20return%5D%0A%5D%0A%0A%0A%5B%3Cstate%3Erequest%5D-%3E%5BCreate%20Usecase%5D%0A%5BCreate%20Usecase%5D-%3E%5B%3Cstate%3Eresponse%5D%0A%5B%3Cstate%3Eresponse%5D-%3E%5BOutputFormatter%5D%0A%0A%23direction%3A%20right%0A)
 
-![Create Usecase - Collaborators](../.gitbook/assets/create-usecase-collab%20%283%29.png)
+![Create Usecase - Collaborators](../.gitbook/assets/create-usecase-collab%20%284%29.png)
 
 [collaborators](http://www.nomnoml.com/#view/%23title%3A%20Create%20UseCase%20Collaborators%0A%0A%5BCreateUsecase%7C%7C%0Ainteract%28%29%0AsetPayload%28%29%5D%0A%0A%5BValidator%5D%3C-%2B%5BCreateUsecase%5D%0A%5BAuthorizer%5D%3C-%2B%5BCreateUsecase%5D%0A%5BFormatter%5D%3C-%2B%5BCreateUsecase%5D%0A%5BRepository%5D%3C-%2B%5BCreateUsecase%5D%0A%0A%5BCreateUsecase%5D-%3E%5B%3Cinput%3E%20payload%5D%0A%0A%23direction%3A%20right)
 
@@ -90,7 +90,7 @@ Most of our use cases follow 5 high level patterns for Create, Read, Update, Del
 
 #### Search
 
-![Search Usecase](../.gitbook/assets/search-usecase-3.png)
+![Search Usecase](../.gitbook/assets/search-usecase%20%283%29%20%281%29.png)
 
 [search](http://www.nomnoml.com/#view/%23title%3ASearch%20UseCase%0A%0A%5B%3Cstate%3Erequest%5D-%3E%5BSearch%20Usecase%5D%0A%5BSearch%20Usecase%5D-%3E%5B%3Cstate%3Eresponse%5D%0A%5B%3Cstate%3Eresponse%5D-%3E%5BOutputFormatter%5D%0A%0A%5B%3Cstate%3Erequest%7C%0Apayload%0Aidentifier%0Afilters%5D%0A%0A%5BSearch%20Usecase%7C%0A%5B%3Cstart%3E%20interact%28%29%5D-%3E%5BGet%20Entity%5D%0A%5BGet%20Entity%5D-%3E%5BVerify%20Search%20Auth%5D%0A%5BVerify%20Search%20Auth%5D-%3E%5BSet%20Search%20Params%5D%0A%5BSet%20Search%20Params%5D-%3E%5BGet%20Search%20Sesults%5D%0A%5BGet%20Search%20Sesults%5D-%3E%5BVerify%20Read%20Auth%7C%0A%5B%3Cstart%3E%20foreach%5D-%3E%5B%3Cchoice%3Ewhile%20results%3F%5D%0A%5B%3Cchoice%3Ewhile%20results%3F%5D-%3E%5Bcheck%20auth%5D%0A%5Bcheck%20auth%5D-%3E%5B%3Cchoice%3Ewhile%20results%3F%5D%0A%5B%3Cchoice%3Ewhile%20results%3F%5D-%3E%5B%3Cend%3E%5D%0A%5D%0A%5BVerify%20Read%20Auth%5D-%3E%5BFormat%20Results%5D%0A%5BFormat%20Results%5D-%3E%5B%3Cend%3E%20return%5D%0A%5D%0A%0A%23direction%3A%20right)
 
