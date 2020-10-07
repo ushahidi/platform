@@ -678,6 +678,24 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "Akshansh99",
+      "name": "Akshansh Rewariya",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/44085790?v=4",
+      "profile": "https://github.com/Akshansh99",
+      "contributions": [
+        "a11y"
+      ]
+     },
+     {
+      "login": "niksseif",
+      "name": "NikSeif",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/24830759?v=4",
+      "profile": "https://github.com/niksseif",
+      "contributions": [
+        "a11y"
+      ]
     }
   ],
   "projectName": "platform",
