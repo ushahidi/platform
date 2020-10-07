@@ -4,7 +4,7 @@ namespace Ushahidi\App\ImportUshahidiV2\Contracts;
 
 use Illuminate\Support\Collection;
 
-interface ImportDataInspectionTools
+interface ImportDataTools
 {
     /**
      * Obtain estimation of how well each of the possible date
@@ -22,4 +22,10 @@ interface ImportDataInspectionTools
      * Returns "varchar", "decimal" or "int"
      */
     public function suggestNumberStorage(int $fieldId): string;
+
+    /**
+     * Applies union operation on geometries given (WKT format).
+     * Returns another array with a single geometry in it.
+     */
+    public function mergeGeometries(array $geometries): array;
 }

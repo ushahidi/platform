@@ -8,6 +8,7 @@ use Ushahidi\Core\Entity\FormAttributeRepository;
 use Ushahidi\App\ImportUshahidiV2\Import;
 use Ushahidi\App\ImportUshahidiV2\Contracts\Mapper;
 use Ushahidi\App\ImportUshahidiV2\Contracts\ImportMappingRepository;
+use Ushahidi\App\ImportUshahidiV2\Contracts\ImportDataTools;
 
 use League\Flysystem\Util\MimeType;
 use Illuminate\Support\Facades\Log;
@@ -25,6 +26,7 @@ class IncidentPostMapper implements Mapper
 
     protected $mappingRepo;
     protected $attrRepo;
+    protected $dataTools;
 
     protected $attributeKeyForColumnCache;
     protected $attributeKeyForFieldCache;
@@ -33,10 +35,14 @@ class IncidentPostMapper implements Mapper
     protected $import;
     protected $importTz;
 
-    public function __construct(ImportMappingRepository $mappingRepo, FormAttributeRepository $attrRepo)
-    {
+    public function __construct(
+        ImportMappingRepository $mappingRepo,
+        FormAttributeRepository $attrRepo,
+        ImportDataTools $dataTools
+    ) {
         $this->mappingRepo = $mappingRepo;
         $this->attrRepo = $attrRepo;
+        $this->dataTools = $dataTools;
 
         $this->attributeKeyForColumnCache = new Collection();
         $this->attributeKeyForFieldCache = new Collection();
@@ -134,16 +140,11 @@ class IncidentPostMapper implements Mapper
 
     public function getFormId($importId, $formId)
     {
-        if ($formId == 0) {
-            // Try form id 1 first
-            $id = $this->mappingRepo->getDestId($importId, 'form', 1);
-            if (!$id) {
-                $id = $this->mappingRepo->getDestId($importId, 'form', 0);
-            }
-            return $id;
+        $id = $this->mappingRepo->getDestId($importId, 'form', $formId);
+        if (!$id) {
+            throw new \Exception("Could not find mapping for v2 form {$formId}");
         }
-
-        return $this->mappingRepo->getDestId($importId, 'form', $formId);
+        return $id;
     }
 
     public function getAttributeKeyForColumn($importId, $formId, $column)
@@ -234,9 +235,8 @@ class IncidentPostMapper implements Mapper
         ];
 
         if ($this->getAttributeKeyForColumn($importId, $input['form_id'], 'geometry')) {
-            // What kind of processing needs to be done here? not sure yet
-            $values[$this->getAttributeKeyForColumn($importId, $input['form_id'], 'geometry')] =
-                $input['geometries'] ? $this->getGeometries($input['geometries']) : [];
+            $geometries = $input['geometries'] ? $this->getGeometries($input['geometries']) : [];
+            $values[$this->getAttributeKeyForColumn($importId, $input['form_id'], 'geometry')] = $geometries;
         }
 
         if ($input['form_responses']) {
@@ -362,6 +362,7 @@ class IncidentPostMapper implements Mapper
             'geometries' => $geometries
         ]);
         $the_texts = collect($geometries)->pluck('geometry_astext')->all();
+        
         Log::debug('[IncidentPostMapper] Processing geometries result: {$text}', [
             'text' => $the_texts,
         ]);

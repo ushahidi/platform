@@ -2,13 +2,14 @@
 
 namespace Ushahidi\App\ImportUshahidiV2\Utils;
 
-use Ushahidi\App\ImportUshahidiV2\Contracts\ImportDataInspectionTools as ImportDataInspectionToolsContract;
+use Ushahidi\App\ImportUshahidiV2\Contracts\ImportDataTools as ImportDataToolsContract;
 use Ushahidi\App\ImportUshahidiV2\Jobs\Concerns\ConnectsToV2DB;
 
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
 
-class ImportDataInspectionTools implements ImportDataInspectionToolsContract
+class ImportDataTools implements ImportDataToolsContract
 {
 
     use ConnectsToV2DB;
@@ -72,26 +73,6 @@ class ImportDataInspectionTools implements ImportDataInspectionToolsContract
         return $results;
     }
 
-    // public function tryDateTimeDecodeFormats(int $fieldId) : Array
-    // {
-    //     /* Obtain values for the given field */
-    //     $samples = $this->getFieldSamples($fieldId);
-    //     $results = $this->doDateFormatStudy($samples, $this->combineDateAndTimeFormats());
-
-    //     return $results;
-    // }
-
-    // protected function combineDateAndTimeFormats()
-    // {
-    //     $combinedFormats = [];
-    //     foreach ($this->knownDateFormats as $df) {
-    //         foreach ($this->knownTimeFormats as $tf) {
-    //         $combinedFormats[] = $df . " " . $tf;
-    //         }
-    //     }
-    //     return $combinedFormats;
-    // }
-
     protected function doDateFormatStudy($samples, $formats)
     {
         $results = [];
@@ -151,5 +132,31 @@ class ImportDataInspectionTools implements ImportDataInspectionToolsContract
             strval($date_arr['second']) .
             strval($date_arr['fraction'])
         );
+    }
+
+    public function mergeGeometries(array $geometries): array
+    {
+        // If there are multiple geometries, reduce them to a single one
+        // In order to avoid introducing extra dependencies here, we are going to
+        // use a SQL function (ST_Union)
+        if (sizeof($geometries) > 1) {
+            $t1 = array_pop($geometries);
+            $t2 = array_pop($geometries);
+            $sql = "ST_Union(ST_GeomFromText(\"{$t1}\"), ST_GeomFromText(\"{$t2}\"))";
+            $sql = array_reduce(
+                $geometries,
+                function ($carry, $item) {
+                    return "ST_Union({$carry}, ST_GeomFromText(\"{$item}\"))";
+                },
+                $sql
+            );
+            $sql = "ST_AsText({$sql})";
+            //
+            Log::debug("Geometries union query: ", [$sql]);
+            $union_result = DB::select("SELECT " . $sql . "as geom");
+            Log::debug("Geometries union result: ", [$union_result]);
+            $geometries = [ $union_result[0]->geom ];
+        }
+        return $geometries;
     }
 }

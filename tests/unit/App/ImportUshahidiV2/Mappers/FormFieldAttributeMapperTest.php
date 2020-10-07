@@ -4,7 +4,7 @@ namespace Tests\Unit\App\ImportUshahidiV2\Mappers;
 
 use Ushahidi\App\ImportUshahidiV2\Mappers\FormFieldAttributeMapper;
 use Ushahidi\App\ImportUshahidiV2\Contracts\ImportMappingRepository;
-use Ushahidi\App\ImportUshahidiV2\Contracts\ImportDataInspectionTools;
+use Ushahidi\App\ImportUshahidiV2\Contracts\ImportDataTools;
 use Ushahidi\Core\Entity\FormAttribute;
 use Ushahidi\Core\Entity\FormStage;
 use Ushahidi\Core\Entity\FormStageRepository;
@@ -34,17 +34,17 @@ class FormFieldAttributeMapperTest extends TestCase
             ->with(11)
             ->andReturn(new FormStage(['id' => 110]));
 
-        $dataInspection = M::mock(ImportDataInspectionTools::class);
-        $dataInspection->shouldReceive('suggestNumberStorage')
+        $dataTools = M::mock(ImportDataTools::class);
+        $dataTools->shouldReceive('suggestNumberStorage')
             ->with(3)
             ->andReturn('int');
-        $dataInspection->shouldReceive('tryDateDecodeFormats')
+        $dataTools->shouldReceive('tryDateDecodeFormats')
             ->andReturn([ 'd#m#Y' => 1.0 , 'm#d#Y' => 0.9 ]);
 
         $mapper = new FormFieldAttributeMapper(
             $mappingRepo,
             $stageRepo,
-            $dataInspection
+            $dataTools
         );
 
         $import = ImportMock::forId(1);

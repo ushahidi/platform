@@ -92,8 +92,12 @@ class Import extends Model
         // 1. fixed (forced) timezone (from parameters file)
         // 2. v2 site configured timezone
         // 3. default timezone (from parameters file)
-        return $this->getParameter('timezones', 'force') ??
-                $this->getV2Setting('site_timezone') ??
-                $this->getParameter('timezones', 'default');
+        if ($this->getParameter('timezones', 'force')) {
+            return $this->getParameter('timezones', 'force');
+        }
+        if ($this->getV2Setting('site_timezone')) {
+            return $this->getV2Setting('site_timezone');
+        }
+        return $this->getParameter('timezones', 'default');
     }
 }

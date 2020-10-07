@@ -44,6 +44,10 @@ class CopyRawTables extends Job
 
         foreach (array_values($tables) as $table) {
             $table = array_values(get_object_vars($table))[0];
+            // skip tables suffixed with '__backup'
+            if (preg_match('/__backup$/', $table)) {
+                continue;
+            }
             $this->dumpTable($table);
         }
     }

@@ -159,7 +159,7 @@ class ImportForms extends ImportUshahidiV2Job
         Log::debug("looking up attribute by key: {}", [$key]);
         $attr = $this->formAttributeRepo->getByKey($key);
         if (!$attr) {
-            throw new Exception("Attribute with key {$am->from->key} not found");
+            throw new \Exception("Attribute with key {$key} not found");
         }
         Log::debug("found attribute: {}", [$attr]);
         return $attr->id;
@@ -187,7 +187,7 @@ class ImportForms extends ImportUshahidiV2Job
         $importMappings = (new Collection($formMaps))->map(function ($m) {
             Log::debug("processing form mapping: {}", [$m]);
             if (!$m->from->id || !$m->to->id) {
-                throw new Exception("Category mapping is from or to id");
+                throw new \Exception("Category mapping is from or to id");
             }
 
             // Incident column mappings
@@ -297,12 +297,29 @@ class ImportForms extends ImportUshahidiV2Job
             $destRepo
         );
 
+        // Handle default form
+        $formlessIncidents = $this->getConnection()
+            ->table('incident')
+            ->select('incident.*')
+            ->where('form_id', 0);
+        // ... if there are formless incidents
+        if ($formlessIncidents->count() > 0) {
+            /* create a v3 survey that maps to form_id 0 */
+            $this->createDefaultForm();
+        }
+
         // Fetch data
         $sourceData = $this->getConnection()
             ->table('form')
             ->select('form.*')
             ->orderBy('id', 'asc')
             ->get();
+
+        // If the v2 site defines no forms
+        if ($sourceData->count() === 0) {
+            // Early return since the rest of the method doesn't have much else to do
+            $this->importedForms = new Collection();
+        }
 
         // Exclude from the list form mappings that are already present (i.e. because they have been configured)
         $sourceData = $sourceData->filter(function ($v2_form) use ($mappingRepo) {
@@ -330,13 +347,6 @@ class ImportForms extends ImportUshahidiV2Job
             );
             return $import;
         });
-
-        // davidlosada: Not entirely clear why this is needed
-        // .. commenting out as it interferes in the scenario when
-        // .. existing forms have been pre-mapped
-        // if ($this->importedForms->count() === 0) {
-        //     $this->createDefaultForm();
-        // }
     }
 
     protected function createDefaultForm()
@@ -350,7 +360,7 @@ class ImportForms extends ImportUshahidiV2Job
             'everyone_can_create' => true,
         ]);
         // Create form
-        $formId = $formRepo->create($form);
+        $v3_formId = $formRepo->create($form);
 
         // Save form --> survey mapping
         $mappingRepo->create(new ImportUshahidiV2\ImportMapping([
@@ -358,10 +368,11 @@ class ImportForms extends ImportUshahidiV2Job
             'source_type' => 'form',
             'source_id' => 0,
             'dest_type' => 'forms',
-            'dest_id' => $formId,
+            'dest_id' => $v3_formId,
         ]));
 
-        $this->createStagesForForms(collect([$formId => $form]));
+        $v3_stageId = $this->createDefaultStageForForm($form, $v3_formId);
+        $this->createDefaultAttributes($v3_formId, $v3_stageId, 0);
     }
 
     protected function createDefaultStageForForm($form, $formId)

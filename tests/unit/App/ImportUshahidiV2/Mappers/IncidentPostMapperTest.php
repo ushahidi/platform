@@ -4,6 +4,7 @@ namespace Tests\Unit\App\ImportUshahidiV2\Mappers;
 
 use Ushahidi\App\ImportUshahidiV2\Mappers\IncidentPostMapper;
 use Ushahidi\App\ImportUshahidiV2\Contracts\ImportMappingRepository;
+use Ushahidi\App\ImportUshahidiV2\Contracts\ImportDataTools;
 use Ushahidi\Core\Entity\Post;
 use Ushahidi\Core\Entity\FormAttribute;
 use Ushahidi\Core\Entity\FormAttributeRepository;
@@ -110,7 +111,9 @@ class PostMapperTest extends TestCase
             ->with(7)
             ->andReturn(new FormAttribute(['key' => 'photos-key']));
 
-        $mapper = new IncidentPostMapper($mappingRepo, $attrRepo);
+        $dataTools = M::mock(ImportDataTools::class);
+
+        $mapper = new IncidentPostMapper($mappingRepo, $attrRepo, $dataTools);
         $result = $mapper($import, $input);
 
         $this->assertInternalType('array', $result);
@@ -248,7 +251,9 @@ class PostMapperTest extends TestCase
             ->with(7)
             ->andReturn(new FormAttribute(['key' => 'photos-key']));
 
-        $mapper = new IncidentPostMapper($mappingRepo, $attrRepo);
+        $dataTools = M::mock(ImportDataTools::class);
+
+        $mapper = new IncidentPostMapper($mappingRepo, $attrRepo, $dataTools);
         $result = $mapper($import, $input);
 
         $this->assertInternalType('array', $result);
@@ -465,7 +470,9 @@ class PostMapperTest extends TestCase
                 'type' => 'varchar'
             ]));
 
-        $mapper = new IncidentPostMapper($mappingRepo, $attrRepo);
+        $dataTools = M::mock(ImportDataTools::class);
+
+        $mapper = new IncidentPostMapper($mappingRepo, $attrRepo, $dataTools);
         $result = $mapper($import, $input);
 
         $this->assertInternalType('array', $result);

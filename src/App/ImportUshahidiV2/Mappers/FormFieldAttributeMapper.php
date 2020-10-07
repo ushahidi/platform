@@ -8,7 +8,7 @@ use Ushahidi\Core\Entity\FormStageRepository;
 use Ushahidi\App\ImportUshahidiV2\Import;
 use Ushahidi\App\ImportUshahidiV2\Contracts\Mapper;
 use Ushahidi\App\ImportUshahidiV2\Contracts\ImportMappingRepository;
-use Ushahidi\App\ImportUshahidiV2\Contracts\ImportDataInspectionTools;
+use Ushahidi\App\ImportUshahidiV2\Contracts\ImportDataTools;
 
 use Illuminate\Support\Facades\Log;
 
@@ -16,7 +16,7 @@ class FormFieldAttributeMapper implements Mapper
 {
     protected $mappingRepo;
     protected $stageRepo;
-    protected $inspectionTools;
+    protected $dataTools;
 
     // field_type -> attribute input map
     const TYPE_INPUT_MAP = [
@@ -41,11 +41,11 @@ class FormFieldAttributeMapper implements Mapper
     public function __construct(
         ImportMappingRepository $mappingRepo,
         FormStageRepository $stageRepo,
-        ImportDataInspectionTools $inspectionTools
+        ImportDataTools $dataTools
     ) {
         $this->mappingRepo = $mappingRepo;
         $this->stageRepo = $stageRepo;
-        $this->inspectionTools = $inspectionTools;
+        $this->dataTools = $dataTools;
     }
 
     public function __invoke(Import $import, array $input) : array
@@ -93,7 +93,7 @@ class FormFieldAttributeMapper implements Mapper
 
         // if field datatype is 'numeric', study which is the best corresponding type
         if ($fieldDataType == 'numeric') {
-            $type = $this->inspectionTools->suggestNumberStorage($fieldId);
+            $type = $this->dataTools->suggestNumberStorage($fieldId);
             $meta = (object) ['encode' => [ 'type' => $type ]];
         }
 
@@ -101,7 +101,7 @@ class FormFieldAttributeMapper implements Mapper
         if ($attrInput == 'date' || $isDate == 1) {
             $type = 'datetime';
             $attrInput = 'date';
-            $formats = $this->inspectionTools->tryDateDecodeFormats($fieldId);
+            $formats = $this->dataTools->tryDateDecodeFormats($fieldId);
             $meta = (object) ['decode' => [ 'datetime' => [ 'format_study' => $formats ]]];
         }
 
