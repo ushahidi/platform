@@ -48,7 +48,13 @@ class CheckForInvalidJSON
             }
 
             if (json_last_error() !== JSON_ERROR_NONE) {
-                abort(422, $error);
+                return response()->json(
+                    [
+                        'error'   => 422,
+                        'messages' => $error
+                    ],
+                    422
+                );
             }
         }
 
