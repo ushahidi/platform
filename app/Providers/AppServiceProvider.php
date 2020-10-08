@@ -47,8 +47,8 @@ class AppServiceProvider extends ServiceProvider
         );
 
         $this->app->singleton(
-            \Ushahidi\App\ImportUshahidiV2\Contracts\ImportDataInspectionTools::class,
-            \Ushahidi\App\ImportUshahidiV2\Utils\ImportDataInspectionTools::class
+            \Ushahidi\App\ImportUshahidiV2\Contracts\ImportDataTools::class,
+            \Ushahidi\App\ImportUshahidiV2\Utils\ImportDataTools::class
         );
     }
 
