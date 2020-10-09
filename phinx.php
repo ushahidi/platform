@@ -22,6 +22,7 @@ return [
             'name' => getenv('DB_DATABASE'),
             'user' => getenv('DB_USERNAME'),
             'pass' => getenv('DB_PASSWORD'),
+            'unix_socket' => getenv('DB_SOCKET'),
             'charset' => 'utf8',
         ],
     ]
