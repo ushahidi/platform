@@ -49,17 +49,17 @@ class DetectSiteMiddleware
 
         // If the deployment hasn't been deployed yet
         if ($site->getStatus() === 'pending') {
-            abort(503, $site->getName() . " is not ready");
+            abort(503, "Your deployment is not ready yet. Please try again later.");
         }
 
         // If the site is down for maintenance
         if ($site->getStatus() === 'maintenance') {
-            abort(503, $site->getName() . " is down for maintenance");
+            abort(503, "The deployment is down for maintenance.");
         }
 
         // Finally, confirm the db is ready
         if (!$site->isDbReady()) {
-            abort(503, $site->getName() . " is not ready");
+            abort(503, "Your deployment is not ready yet. Please try again later.");
         }
 
         // Otherwise just continue with the request

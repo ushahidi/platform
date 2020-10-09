@@ -23,7 +23,7 @@ trait ValidationEngineTrait
     protected $validation_engine;
 
     /**
-     * @param  $validation_engine
+     * @param  $validation_factory
      * @return void
      */
     public function setValidation(ValidationEngine $validation_engine)

@@ -15,7 +15,7 @@ Credits to [Jessica Weber](https://github.com/jessicaweberdev) for adding a new 
 
 \*\*\*\*[**https://github.com/ushahidi/platform-client/pull/1320** ](https://github.com/ushahidi/platform/issues/2716) _\*\*_
 
-![](../.gitbook/assets/63230917-e5879a00-c1c8-11e9-8f6e-e62c83dd1d85.png)
+![](../.gitbook/assets/63230917-e5879a00-c1c8-11e9-8f6e-e62c83dd1d85%20%281%29.png)
 
 \*\*\*\*
 
