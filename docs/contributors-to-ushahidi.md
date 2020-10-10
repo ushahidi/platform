@@ -2,7 +2,7 @@
 
 There are many ways to get involved with Ushahidi. You can read about how to contribute in [our docs](https://docs.ushahidi.com/platform-developer-documentation/contributing-or-getting-involved).
 
-This is a list of people who have contributed to Ushahidi. Not everyone in this list contributed in code. Some folks here are designers, and they designed different components of the Ushahidi platform to make it better. Some did things that improved the organization and enabled others to thrive, like writing docs, blog posts, or perform business functions for our non profit. Many developed codes and reviewed other people's code. A lot of people opened new bug tickets or provided ideas.
+This is a list of people who have contributed to Ushahidi. Not everyone in this list contributed in code. Some folks here are designers, and they designed different components of the Ushahidi platform to make it better. Some did things that improved the organization and enabled others to thrive, like writing docs, blog posts, or perform business functions for our non profit. Many developed code and reviewed other people's code. A lot of people opened new bug tickets or provided ideas.
 
 Notice: when looking at the "code" contribution links of some contributors, be aware that not all the code lives in this repository and may not appear to have been committed here, but they may have been committed in the platform-client repository.
 
