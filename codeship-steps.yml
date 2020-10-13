@@ -1,4 +1,5 @@
-
+# run 'jet test/php-7.2 test_reporter composer run test --timeout 0' to run tests on php 7.2
+# run 'jet test/php-7.3 test_reporter composer run test --timeout 0' to run tests on php 7.2
 
 - type: parallel
   steps:
