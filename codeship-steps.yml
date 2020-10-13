@@ -1,12 +1,3 @@
-- name: "Test"
-  type: parallel
-  steps:
-    - name: "Test PHP 7.2"
-      service: test/php-7.2
-      command: test_reporter composer run test --timeout 0
-    - name: "Test PHP 7.3"
-      service: test/php-7.3
-      command: test_reporter composer run test --timeout 0
 
 
 - type: parallel
@@ -32,5 +23,5 @@
 
   - name: "Deployment director"
     service: deploy
-    command: ush-deployment-director.sh
+    command: CI_NAME=codeship ush-deployment-director.sh
 

@@ -28,12 +28,9 @@ release:
 deploy:
   image: ushahidi/engineering-deployer:latest
   encrypted_env_file: deployment.env.encrypted
-  depends_on:
-    - dockerimg
   add_docker: true
   environment:
     AWS_REGION: us-east-1
-    DOCKER_PUSH_IMAGE_SRC: ushahidi-platform/dockerimg
     DEPLOYMENT_RULES_REPO: deployment-rules
     DEPLOYMENT_RULES_VERSION: master
     DEPLOYMENT_RULES_FILE: platform.yml
