@@ -22,7 +22,7 @@ class Collection extends CollectionFormatter
     public function getPaging()
     {
         // Get paging parameters, ensuring all values are set
-        $params = $this->search->getSorting(true);
+        $params = array_merge($this->search->getSorting(true), $this->search->getSearchFilters());
 
         $prev_params = $next_params = $params;
         $next_params['offset'] = $params['offset'] + $params['limit'];

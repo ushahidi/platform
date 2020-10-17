@@ -96,4 +96,20 @@ class SearchData
     {
         return $this->getFilters($this->sorting, $force);
     }
+
+    /**
+     * Get an array of the search filters, without the sort filters, with their values.
+     *
+     * @return array
+     */
+    public function getSearchFilters()
+    {
+        $search_filters = [];
+        foreach ($this->filters as $filter => $filter_value) {
+            if (array_search($filter, $this->sorting) === false) {
+                $search_filters[$filter] = $filter_value;
+            }
+        }
+        return $search_filters;
+    }
 }
