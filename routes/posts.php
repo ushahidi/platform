@@ -14,11 +14,7 @@ $router->group([
 
     // GeoJSON
     $router->get('/geojson', [
-        'middleware' => [
-            // These are parsed bottom first, so the default is to cache
-            'cache.headers.ifAuth:api,no_store',
-            'cache.headers.ifAuth:,public;max_age=600',
-        ],
+        'middleware' => add_cache_control('minimal'),
         'uses' => 'GeoJSONController@index'
     ]);
     $router->get('/geojson/{zoom}/{x}/{y}', 'GeoJSONController@index');
