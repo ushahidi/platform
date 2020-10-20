@@ -145,9 +145,14 @@ On Windows File Explorer, the default is to hide the extension of the files \(th
 * Modify the file in the following way:
   * Change the `CACHE_DRIVER` to be `array` instead of `memcache` \(it's feasible set it up with memcache at some point, but for simplicity we use `array`\)
   * Change the `DB_HOST` to `127.0.0.1`
-  * Change the `DB_USER` to `root` 
+  * Change the `DB_USERNAME` to `root` 
   * Change the `DB_PASSWORD` to be empty, so literally: `DB_PASSWORD=`
   * Change the `DB_DATABASE` to `platform`
+
+{% hint style="info" %}
+Hint: If you are running MySQL in a non-default port (different to 3306, the default one), you may also want to change `DB_PORT` to the port you are using. Also, if you need to specify a certain socket for db connection, you can do it by adding `DB_SOCKET` with the corresponding socket path.
+{% endhint %}
+
 * Run `composer install`. Wait while composer installs all the dependencies
 * Run `composer migrate` to run the database migrations.
   * This will create all the necessary tables and a default `admin` user with password `administrator`
