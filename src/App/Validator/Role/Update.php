@@ -18,7 +18,6 @@ use Ushahidi\App\Facades\Features;
 class Update extends LegacyValidator
 {
     protected $permission_repo;
-    protected $feature_enabled;
     protected $default_error_source = 'role';
 
     public function __construct(PermissionRepository $permission_repo)
