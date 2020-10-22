@@ -26,7 +26,7 @@
         "intercom/intercom-php": "^3.1.2",
         "abraham/twitteroauth": "^0.5.3",
         "ohanzee/database": "dev-namespaces",
-        "robmorgan/phinx": "~0.8.0",
+        "robmorgan/phinx": "~0.10.0",
         "symm/gisconverter": "~1.0.5",
         "vlucas/phpdotenv": "~2.2",
         "beheh/flaps": "dev-master",
@@ -48,10 +48,9 @@
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
-        "guzzlehttp/guzzle": "~6.3.2",
         "phpunit/phpunit": "^7.0",
         "phpunit/dbunit": "~4.0.0",
-        "phpspec/phpspec": "~3.0",
+        "phpspec/phpspec": "~5.0",
         "heroku/heroku-buildpack-php": "dev-master",
         "behat/behat": "^3.3",
         "behat/mink-extension": "^2.2",
@@ -61,7 +60,7 @@
         "php-mock/php-mock-mockery": "^1.2",
         "mockery/mockery": "^1.0",
         "sebastianfeldmann/captainhook": "^2.0",
-        "laravel/homestead": "v7.0.0"
+        "laravel/homestead": "~7.0"
     },
     "suggest" : {
         "ext-imap": "Needed for email data source",
