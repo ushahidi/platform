@@ -74,7 +74,9 @@ $app->routeMiddleware([
     'scope'  => Ushahidi\App\Http\Middleware\CheckForAnyScope::class,
     'expiration' => Ushahidi\App\Http\Middleware\CheckDemoExpiration::class,
     'signature' => Ushahidi\App\Http\Middleware\SignatureAuth::class,
-    'feature' => Ushahidi\App\Http\Middleware\CheckFeature::class
+    'feature' => Ushahidi\App\Http\Middleware\CheckFeature::class,
+    'invalidJSON' => Ushahidi\App\Http\Middleware\CheckForInvalidJSON::class,
+    'cache.headers.ifAuth' => Ushahidi\App\Http\Middleware\SetCacheHeadersIfAuth::class
 ]);
 
 /*

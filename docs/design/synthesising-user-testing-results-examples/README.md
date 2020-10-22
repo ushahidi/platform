@@ -6,7 +6,7 @@ You can capture notes either physically in a notebook or digitally. The main thi
 
 After you've captured written notes in a notebook you should photograph the notebook and add to the user testing issue in the repository. We upload these for accountability and transparency. e.g.
 
-![A photo of a page of handwritten notes from a usertesting session. ](../../.gitbook/assets/notebook.png)
+![A photo of a page of handwritten notes from a usertesting session. ](../../.gitbook/assets/notebook%20%281%29.png)
 
 \*Note that there are multiple pages and there should be a photo of each page in sequence.
 

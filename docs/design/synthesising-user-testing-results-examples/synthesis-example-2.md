@@ -30,7 +30,9 @@
     </tr>
   </thead>
   <tbody></tbody>
-</table>| 2 | Blog posts, facebook, wordpress, Evernote \(used for personal notes and research for projects\) | \#Activity |
+</table>
+
+| 2 | Blog posts, facebook, wordpress, Evernote \(used for personal notes and research for projects\) | \#Activity |
 | :--- | :--- | :--- |
 
 
@@ -116,7 +118,9 @@ Which option would you choose? \(they can click at this point\)
     </tr>
   </thead>
   <tbody></tbody>
-</table><table>
+</table>
+
+<table>
   <thead>
     <tr>
       <th style="text-align:left">3&amp;4</th>
@@ -151,7 +155,9 @@ Which option would you choose? \(they can click at this point\)
     </tr>
   </thead>
   <tbody></tbody>
-</table><table>
+</table>
+
+<table>
   <thead>
     <tr>
       <th style="text-align:left">5, 6, 7, 8, 9</th>
@@ -211,7 +217,9 @@ Which option would you choose? \(they can click at this point\)
     </tr>
   </thead>
   <tbody></tbody>
-</table>| 10 | Would choose the hxl option | \#Activity |
+</table>
+
+| 10 | Would choose the hxl option | \#Activity |
 | :--- | :--- | :--- |
 
 
@@ -241,7 +249,9 @@ Which option would you choose? \(they can click at this point\)
     </tr>
   </thead>
   <tbody></tbody>
-</table>**Scenarios:**
+</table>
+
+**Scenarios:**
 
 1. Is it clear how you progress? What are the steps you would take to start this section?
 2. Can you show me how you would know if a certain section was going to be included in the eventual CSV download?
@@ -296,7 +306,9 @@ Q: \(if they don’t notice\) Is there anything you notice about the drop down l
     </tr>
   </thead>
   <tbody></tbody>
-</table>| 2 | Easy - gestures to the checkbox | \#Activity |
+</table>
+
+| 2 | Easy - gestures to the checkbox | \#Activity |
 | :--- | :--- | :--- |
 
 
@@ -337,7 +349,9 @@ Q: \(if they don’t notice\) Is there anything you notice about the drop down l
     </tr>
   </thead>
   <tbody></tbody>
-</table>| 5 | Easy - finds. | \#Activity |
+</table>
+
+| 5 | Easy - finds. | \#Activity |
 | :--- | :--- | :--- |
 
 
@@ -370,7 +384,9 @@ Q: \(if they don’t notice\) Is there anything you notice about the drop down l
     </tr>
   </thead>
   <tbody></tbody>
-</table>| 8 | Easily finds the way to add a custom tag | \#Activity |
+</table>
+
+| 8 | Easily finds the way to add a custom tag | \#Activity |
 | :--- | :--- | :--- |
 
 
@@ -397,7 +413,9 @@ Q: \(if they don’t notice\) Is there anything you notice about the drop down l
     </tr>
   </thead>
   <tbody></tbody>
-</table><table>
+</table>
+
+<table>
   <thead>
     <tr>
       <th style="text-align:left">10</th>
@@ -430,7 +448,9 @@ Q: \(if they don’t notice\) Is there anything you notice about the drop down l
     </tr>
   </thead>
   <tbody></tbody>
-</table>| 11 | User says they might choose ‘activity’ or ‘output’ but wants the ability to add multiple tags to be sure. | \#Activity |
+</table>
+
+| 11 | User says they might choose ‘activity’ or ‘output’ but wants the ability to add multiple tags to be sure. | \#Activity |
 | :--- | :--- | :--- |
 
 
@@ -477,7 +497,9 @@ Q: \(if they don’t notice\) Is there anything you notice about the drop down l
     </tr>
   </thead>
   <tbody></tbody>
-</table>| 17 | “Why is it not the full word? \(longitude\) there's enough space!” | \#Quote |
+</table>
+
+| 17 | “Why is it not the full word? \(longitude\) there's enough space!” | \#Quote |
 | :--- | :--- | :--- |
 
 
@@ -510,7 +532,9 @@ Q: \(if they don’t notice\) Is there anything you notice about the drop down l
     </tr>
   </thead>
   <tbody></tbody>
-</table>| 19 | Export to CSV would bring up a download pop up | \#Activity |
+</table>
+
+| 19 | Export to CSV would bring up a download pop up | \#Activity |
 | :--- | :--- | :--- |
 
 
@@ -550,7 +574,9 @@ Q: \(if they don’t notice\) Is there anything you notice about the drop down l
     </tr>
   </thead>
   <tbody></tbody>
-</table>1. Any final thoughts?
+</table>
+
+1. Any final thoughts?
 
 UI was easy and familiar.
 

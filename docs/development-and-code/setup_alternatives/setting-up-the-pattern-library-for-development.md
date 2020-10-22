@@ -33,6 +33,18 @@ gulp
 
 Once the pattern-library is running, the front-end guidelines and a guide on how to work with the pattern-library and its structure can be found on [http://localhost:8000/assets/html/front-end-guidelines/introduction.html](http://localhost:8000/assets/html/front-end-guidelines/introduction.html)
 
+### But how do I test my new styles in the Platform?
+
+The pattern-library is installed as a npm-package in the Platform Client. For development, it is not suitable to publish a package for each change, and luckily, there is hack you can do to test the styles locally instead.
+
+1. Make sure the Pattern-library is built through running `gulp build` in the terminal
+2. Copy all contents in the "assets" folder
+3. Go to your Platform-client folder
+4. Navigate to node\_modules/ushahidi-platform-pattern-library folder
+5. Remove the contents in the "assets" folder
+6. Paste the contents you copied from the assets-folder in the pattern-library 
+7. Done! Now you should be able to see the changes in the Platform Client
+
 ## Further reading
 
 After setup, please read the [Platform Pattern Library](../../front-end-development/changing-ui-styles-introduction-to-the-pattern-library/) guidelines when working with the Platform Pattern Library.
