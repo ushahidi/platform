@@ -2,6 +2,7 @@
 // @codingStandardsIgnoreFile
 
 return array(
+  'string'        => ':field debe ser un texto',
   'alpha'         => ':field debe contener solo letras',
   'alpha_dash'    => ':field debe contener solo números, letras y guiones',
   'alpha_numeric' => ':field debe contener solo letras y números',
@@ -27,4 +28,8 @@ return array(
   'url'           => ':field debe ser una URL',
   'failedToValidate' => 'Falla al validar la entidad %s',
   'failedToCreateContact' => 'No se logró crear el contacto. Resultado:  %s',
+  'exists'        => ':field debe existir',
+  'unique'        => ':field debe ser un valor único',
+  'child_parent_role_match' => 'El :attribute de la categoría debe ser igual al del rol padre.',
+  'tag_field_type_cannot_be_private' => 'Los campos de categoría no pueden ser privados.'
 );

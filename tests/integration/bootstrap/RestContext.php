@@ -14,6 +14,8 @@ namespace Tests\Integration\Bootstrap;
 use Aura\Di\Exception;
 use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\PyStringNode;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Log;
 use Symfony\Component\Yaml\Yaml;
 use stdClass;
 
@@ -69,6 +71,30 @@ class RestContext implements Context
     public function setDefaultBearerAuth()
     {
         $this->thatTheOauthTokenIs('defaulttoken');
+    }
+
+    /**
+     * @Given /^that cache control level is set to "([^"]*)"$/
+     */
+    public function thatCacheControlLevelIs($levelStr)
+    {
+        /*
+         * FIXME: somehow this is not working effectively. The middleware
+         *        still gets the old values, even when calling config()
+         *        *after* this function runs.
+         */
+        // Set config flag
+        Config::set('routes.cache_control.level', strtolower($levelStr));
+    }
+
+    /**
+     * @AfterScenario
+     * @Given ^that cache control level is set to "([^"]*)"$/
+     */
+    public function disableCacheControlAfterScenario()
+    {
+        // Reset config flag to the "off" default
+        Config::set('routes.cache_control.level', 'off');
     }
 
     /**
@@ -697,6 +723,17 @@ class RestContext implements Context
         }
     }
 
+    /**
+     * @Then /^the "([^"]*)" header should contain "([^"]*)"$/
+     */
+    public function theRestHeaderShouldContain($header, $contents)
+    {
+        $header_val = $this->response->getHeaderLine(strtolower($header));
+        if (!stripos($header_val, $contents)) {
+            throw new \Exception('HTTP header ' . $header . ' does not contain '.$contents.
+                ' (actual: '.$header_val.')');
+        }
+    }
 
     /**
      * @Then /^echo last response$/

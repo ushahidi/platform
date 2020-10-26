@@ -39,7 +39,7 @@ trait PrivateDeployment
      * Check if user can access deployment
      * @return boolean
      */
-    public function canAccessDeployment(User $user)
+    public function canAccessDeployment($user)
     {
         // Only logged in users have access if the deployment is private
         if ($this->isPrivate() and !$user->id) {

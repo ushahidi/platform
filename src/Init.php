@@ -38,6 +38,7 @@ function service($what = null)
             'Ushahidi\App\Providers\LumenAuraConfig',
             'Ushahidi\Console\ConsoleConfig',
         ]);
+
     }
     if ($what) {
         return $di->get($what);
