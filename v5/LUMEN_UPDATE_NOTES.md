@@ -67,3 +67,4 @@
     ```
 
 - Updated `bootstrap/app.php` to use new syntax of `Dotenv` library.
+- Updated the `setUp` method in `ushahidi/platform/tests/unit/App/DataSource/Console/IncomingCommandTest.php` so that it returns void.
