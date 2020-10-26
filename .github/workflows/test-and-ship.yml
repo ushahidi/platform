@@ -25,7 +25,7 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: Setup PHP
-      uses: shivammathur/setup-php@master
+      uses: shivammathur/setup-php@v2
       with:
         php-version: ${{ matrix.php_version }}
 
@@ -60,23 +60,31 @@ jobs:
 
         mysql -e "SELECT version();" ;
         mysql -e "SET GLOBAL sql_mode = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'" ;
+
+        # !!! composer 2.0 (now stable) clashes with lumen 5.5
+        # installing our own composer as a stop-gap measure
+        php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+        php -r "if (hash_file('sha384', 'composer-setup.php') === 'c31c1e292ad7be5f49291169c0ac8f683499edddcfd4e42232982d0fd193004208a58ff6f353fde0012d35fdd72bc394') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
+        php composer-setup.php --install-dir=bin --version=1.10.16
+        php -r "unlink('composer-setup.php');"
         
-        composer install --no-interaction ;
+        php bin/composer.phar install --no-interaction ;
+
 
     - name: Check linting
       run: |
         set -e;
 
-        composer lint
+        php bin/composer.phar lint
         
     - name: Run tests
       run: |
         set -e;
 
-        composer pre-test;
+        php bin/composer.phar pre-test;
         mysql -e 'SET @@GLOBAL.wait_timeout=1800';
         ( cd httpdocs/; php -S localhost:8000 -t . index.php &)
-        composer test ;
+        php bin/composer.phar test ;
 
     services:
       mysql:
