@@ -30,7 +30,7 @@ class CheckDemoExpirationTest extends TestCase
         parent::setUp();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         parent::tearDown();
     }

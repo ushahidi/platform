@@ -30,7 +30,7 @@ class CSVTest extends TestCase
         $this->formatter->setFilesystem($this->fs);
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         parent::tearDown();
     }

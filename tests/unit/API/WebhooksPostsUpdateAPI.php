@@ -32,7 +32,7 @@ class WebhooksPostsUpdateAPI extends TestCase
         ]));
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         service('repository.post')->delete(new \Ushahidi\Core\Entity\Post(['id' => $this->postId]));
 

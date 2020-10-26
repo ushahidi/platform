@@ -79,7 +79,7 @@ class ReceiveMessageTest extends TestCase
         $this->app->instance(\Ushahidi\Core\Entity\ConfigRepository::class, $configRepo);
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         parent::tearDown();
     }

@@ -33,7 +33,7 @@ class SignatureAuthTest extends TestCase
         putenv('PLATFORM_SHARED_SECRET=asharedsecret');
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         putenv('PLATFORM_SHARED_SECRET=' . $this->originalSecret);
 

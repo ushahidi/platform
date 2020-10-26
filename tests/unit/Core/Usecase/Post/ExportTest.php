@@ -74,7 +74,7 @@ class ExportTest extends TestCase
         $this->usecase->setPostExportRepository($this->postExportRepository);
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         parent::tearDown();
         service('repository.hxl_license')->delete(

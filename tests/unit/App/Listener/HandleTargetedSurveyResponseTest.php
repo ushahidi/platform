@@ -35,7 +35,7 @@ class HandleTargetedSurveyResponseTest extends TestCase
         );
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         parent::tearDown();
     }
