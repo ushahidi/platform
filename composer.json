@@ -51,6 +51,7 @@
         "phpunit/phpunit": "^7.0",
         "phpunit/dbunit": "~4.0.0",
         "phpspec/phpspec": "~5.0",
+        "guzzlehttp/guzzle": "~6.3.2",
         "heroku/heroku-buildpack-php": "dev-master",
         "behat/behat": "^3.3",
         "behat/mink-extension": "^2.2",
