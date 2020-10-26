@@ -18,7 +18,7 @@ class CSVTest extends TestCase
     protected $formatter;
     protected $fs;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setup();
         $this->fs = \Mockery::mock(\League\Flysystem\Filesystem::class);

@@ -20,7 +20,7 @@ class WebhooksPostsUpdateAPI extends TestCase
      * override this setup in the test for authorization
      * @param $user_role
      */
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

@@ -31,7 +31,7 @@ use Mockery as M;
 class ReceiveMessageTest extends TestCase
 {
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setup();
 

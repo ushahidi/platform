@@ -26,7 +26,7 @@ class ExportTest extends TestCase
     protected $hxlMetaDataId;
     protected $hxlLicenseId;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setup();
         $this->withoutMiddleware();

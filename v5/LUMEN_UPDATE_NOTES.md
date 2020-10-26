@@ -67,7 +67,4 @@
     ```
 
 - Updated `bootstrap/app.php` to use new syntax of `Dotenv` library.
-- Updated the `setUp` method so that its return type is `void`.
-    - `OutgoingCommandTest`
-    - `ListCommandTest`
-    - `IncomingCommandTest`
+- Updated the `setUp` method so that its return type is `void` in the `ushahidi/platform/tests/unit` directory.

@@ -25,7 +25,7 @@ use Mockery as M;
 class CheckDemoExpirationTest extends TestCase
 {
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
     }

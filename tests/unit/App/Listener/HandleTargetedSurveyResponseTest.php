@@ -20,7 +20,7 @@ use Mockery as M;
 class HandleTargetedSurveyResponseTest extends TestCase
 {
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setup();
 
