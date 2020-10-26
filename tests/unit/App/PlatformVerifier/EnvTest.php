@@ -11,6 +11,7 @@
 
 namespace Tests\Unit\App\PlatformVerifier;
 
+use Dotenv\Dotenv;
 use Tests\TestCase;
 use Mockery as M;
 use Ushahidi\App\PlatformVerifier\Env as EnvironmentVerifier;
@@ -54,6 +55,7 @@ class EnvTest extends TestCase
     public function testSuccessEnvKeys()
     {
         parent::setUp();
+
         $envCheckerMock = M::mock('\Ushahidi\App\PlatformVerifier\Env[envExists,isMissingEnvKey]')->makePartial();
 
         $envCheckerMock->shouldReceive('envExists')

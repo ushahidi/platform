@@ -66,6 +66,6 @@
     }
     ```
 
-- Updated `bootstrap/app.php` to use new syntax of `Dotenv` library.
+- Updated `bootstrap/app.php`, `phinx.php` and `app/PlatformVerifier/Env.php` to use new syntax of `Dotenv` library: `Dotenv::create()`.
 - Updated the `setUp` method so that its return type is `void` in the `ushahidi/platform/tests/unit` directory.
 - Updated the `tearDown` method so that its return type is `void` in the `ushahidi/platform/tests/unit` directory.

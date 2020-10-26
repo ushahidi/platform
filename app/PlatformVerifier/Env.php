@@ -2,6 +2,7 @@
 
 namespace Ushahidi\App\PlatformVerifier;
 
+use Dotenv\Dotenv;
 use Ushahidi\App\Tools\OutputText;
 use Composer\Script\Event;
 use Composer\Installer\PackageEvent;
@@ -42,7 +43,7 @@ class Env
 
         if ($this->envExists()) {
             // load DotEnv for this script
-            (new \Dotenv\Dotenv(__DIR__."/../../"))->load();
+            (Dotenv::create(__DIR__."/../../"))->load();
         }
 
         $failures = false;
