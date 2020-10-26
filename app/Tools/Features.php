@@ -8,9 +8,9 @@ use Illuminate\Support\Facades\Cache;
 class Features
 {
     /**
-     * Cache lifetime in minutes
+     * Cache lifetime in seconds
      */
-    const CACHE_LIFETIME = 1;
+    const CACHE_LIFETIME = 60;
 
     /**
      * @param array $configRepo

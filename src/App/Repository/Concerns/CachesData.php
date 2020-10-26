@@ -9,9 +9,9 @@ trait CachesData
 {
 
     /**
-     * Cache lifetime in minutes
+     * Cache lifetime in seconds
      */
-    protected $cache_lifetime = 1;
+    protected $cache_lifetime = 60;
 
     // CreateRepository
     // ReadRepository

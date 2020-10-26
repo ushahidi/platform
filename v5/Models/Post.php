@@ -4,6 +4,7 @@ namespace v5\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
@@ -318,7 +319,7 @@ class Post extends BaseModel
         foreach ($value_types as $type) {
             $values[] = $this->{"values$type"};
         }
-        return Collection::make(array_flatten($values));
+        return Collection::make(Arr::flatten($values));
     }
 
     /**

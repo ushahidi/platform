@@ -20,9 +20,9 @@ use Log;
 class Site
 {
     /**
-     * Cache lifetime in minutes
+     * Cache lifetime in seconds
      */
-    const CACHE_LIFETIME = 1;
+    const CACHE_LIFETIME = 60;
 
     public $id;
     public $subdomain;

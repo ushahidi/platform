@@ -16,6 +16,7 @@ use Illuminate\Support\Carbon;
 use Carbon\CarbonInterval;
 
 use Germanazo\CkanApi\Repositories\BaseRepository;
+use Illuminate\Support\Str;
 use Ushahidi\Core\Exception\FormatterException;
 use Ushahidi\Core\Usecase\HXL\SendHXLUsecase;
 use Germanazo\CkanApi\CkanApiClient;
@@ -145,7 +146,7 @@ class HDXInterface
         if (!$title || !$organisation_name) {
             throw new \Exception("Cannot create a slug without an organisation name and dataset title");
         }
-        return str_slug("$organisation_name $title");
+        return Str::slug("$organisation_name $title");
     }
 
     /** Note: if error condition is the result, then we ignore it gracefully,

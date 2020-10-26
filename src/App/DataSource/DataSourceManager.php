@@ -10,9 +10,9 @@ use InvalidArgumentException;
 class DataSourceManager
 {
     /**
-     * Cache lifetime in minutes
+     * Cache lifetime in seconds
      */
-    const CACHE_LIFETIME = 1;
+    const CACHE_LIFETIME = 60;
 
     /**
      * Config repo instance
