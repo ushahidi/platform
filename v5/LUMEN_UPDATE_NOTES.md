@@ -24,9 +24,9 @@
 
 - `public/svg` directory must exist.
 - `storage/framework/cache/data` must exist.
-- Removed workaround in `app/helpers.php` file added in 5.6 upgrade.
 - `Call to undefined method Laravel\Lumen\Application::configurationIsCached()` issue [Passport issue in github](https://github.com/dusterio/lumen-passport/issues/106), fixed by setting `laravel/passport` to `7.3.1`
 
 # 5.7 to 5.8
 [Lumen doc](https://lumen.laravel.com/docs/5.8/upgrade#upgrade-5.8.0)
+
 - In progress.
