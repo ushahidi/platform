@@ -96,8 +96,14 @@ class SetCacheHeadersIfAuth
             return $response;
         }
 
-        // If the cache settings are guarded by auth, check if the auth satisfies
+        // Add Vary: Authorization header
+        // In general, in our app, responses will vary depending on
+        // the authentication status of the user
+        $response->setVary('Authorization', false);
+
+        // If the cache settings are guarded by auth
         if ($ifAuth != null) {
+            // Check if the auth satisfies, bail out if not
             if ($this->auth->guard($ifAuth)->guest()) {
                 return $response;
             }
@@ -145,7 +151,6 @@ class SetCacheHeadersIfAuth
             unset($options['no_store']);
         }
         $response->setCache($options);
-        $response->setVary('Authorization', false);
         $response->isNotModified($request);
 
         return $response;

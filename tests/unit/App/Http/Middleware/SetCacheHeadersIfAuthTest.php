@@ -75,6 +75,12 @@ class SetCacheHeadersIfAuthTest extends TestCase
         $cache_control = $return->headers->get('cache-control') ?? '';
         $this->assertRegExp("/max-age/i", $cache_control);
         $this->assertRegExp("/public/i", $cache_control);
+
+        // Ensure that authentication variance is added
+        $this->assertRegExp(
+            "/Authorization/i",
+            $return->headers->get('vary')
+        );
     }
 
     /**
@@ -140,6 +146,55 @@ class SetCacheHeadersIfAuthTest extends TestCase
         $this->assertRegExp(
             "/no-store/i",
             $return->headers->get('cache-control')
+        );
+        // Ensure that authentication variance is added
+        $this->assertRegExp(
+            "/Authorization/i",
+            $return->headers->get('vary')
+        );
+    }
+
+    /**
+     * Test the middleware when :
+     *   - caching is enabled in the app
+     *   - a check is made on the auth status of the request
+     *   - the user making the request is a guest
+     *
+     * As a result:
+     *   - there should be no changes in the cache-control header
+     *   - the response should indicate variation on Authorization headers
+     */
+    public function testAuthVary()
+    {
+        // Enable minimal caching
+        config(['routes.cache_control.level' => 'minimal']);
+
+        // Mock a guest user
+        $middleware = new SetCacheHeadersIfAuth($this->mockAuth(false));
+
+        $request = new Request();
+        $pre_cache_control = null;
+        $return = $middleware->handle(
+            $request,
+            function ($r) use ($request, &$pre_cache_control) {
+                $resp = response()->json(['done' => 'yes']);
+                $pre_cache_control = $resp->headers->get('cache-control');
+                return $resp;
+            },
+            'minimal',              /* threshold level for caching the route */
+            'api',                  /* auth guard */
+            'preset/dont-cache'
+        );
+
+        // Ensure that cache-control header is not modified
+        $this->assertEquals(
+            $pre_cache_control,
+            $return->headers->get('cache-control') ?? ""
+        );
+        // Ensure that authentication variance is added
+        $this->assertRegExp(
+            "/Authorization/i",
+            $return->headers->get('vary')
         );
     }
 }
