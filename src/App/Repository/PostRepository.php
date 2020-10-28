@@ -1338,7 +1338,9 @@ class PostRepository extends OhanzeeRepository implements
             $repo = $this->post_value_factory->getRepo($attribute->type);
 
             // Bulk insert the post values in the post_... table
-            $repo->createManyValues($values->all(), $attribute->id);
+            if ($values->count() > 0) {
+                $repo->createManyValues($values->all(), $attribute->id);
+            }
         });
 
         // Save completed stages
