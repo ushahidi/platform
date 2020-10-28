@@ -687,14 +687,50 @@
       "contributions": [
         "a11y"
       ]
-     },
-     {
+    },
+    {
       "login": "niksseif",
       "name": "NikSeif",
       "avatar_url": "https://avatars0.githubusercontent.com/u/24830759?v=4",
       "profile": "https://github.com/niksseif",
       "contributions": [
         "a11y"
+      ]
+    },
+    {
+      "login": "dariatsvetkova",
+      "name": "dariatsvetkova",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/68360696?v=4",
+      "profile": "https://github.com/dariatsvetkova",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "UdokaVrede",
+      "name": "Udokaku Ugochukwu",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/63649352?v=4",
+      "profile": "https://udoka.hashnode.dev/",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "muchirijane",
+      "name": "Jane Tracy Muthoni",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/54930887?v=4",
+      "profile": "https://muchirijane.github.io/100-days-website/",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "renujain31",
+      "name": "Renu Jain",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/70752431?v=4",
+      "profile": "https://github.com/renujain31",
+      "contributions": [
+        "doc"
       ]
     }
   ],
