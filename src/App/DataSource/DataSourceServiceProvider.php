@@ -38,7 +38,6 @@ class DataSourceServiceProvider extends ServiceProvider
     {
         $this->app->singleton('datasources', function ($app) {
             $configRepo = $this->app->make(\Ushahidi\Core\Entity\ConfigRepository::class);
-
             $manager = new DataSourceManager($configRepo);
             $manager->setStorage($app->make(DataSourceStorage::class));
 
@@ -62,7 +61,9 @@ class DataSourceServiceProvider extends ServiceProvider
     {
         $receiveUsecase = $this->app->make(\Ushahidi\Factory\UsecaseFactory::class)
             ->get('messages', 'receive');
+        $receiveUsecase->setAuthorizer(service('authorizer.console'));
         $messageRepo = $this->app->make(\Ushahidi\Core\Entity\MessageRepository::class);
+
         return new DataSourceStorage($receiveUsecase, $messageRepo);
     }
 
