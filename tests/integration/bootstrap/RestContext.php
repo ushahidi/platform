@@ -373,6 +373,22 @@ class RestContext implements Context
     {
         $data = json_decode($this->response->getBody(true), true);
 
+        // The response should have appropriate headers
+        $content_type = $this->response->getHeaderLine('Content-Type') ?? "";
+        $content_length = $this->response->getHeaderLine('Content-Length');
+        if (!$content_type) {
+            throw new \Exception('HTTP header Content-Type missing');
+        }
+        if (stripos($content_type, 'application/json') === false) {
+            throw new \Exception('HTTP header Content-Type is not "application/json", instead: '.$content_type);
+        }
+        if (!$content_length) {
+            throw new \Exception('HTTP header Content-Length is missing');
+        }
+        if (intval($content_length) != mb_strlen($this->response->getBody(), '8bit')) {
+            throw new \Exception('HTTP header Content-Length doesn\'t match content size');
+        }
+
         // Check for NULL not empty - since [] and {} will be empty but valid
         if ($data === null) {
             // Get further error info
