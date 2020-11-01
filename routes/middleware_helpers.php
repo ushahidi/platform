@@ -11,6 +11,15 @@ if (!function_exists('add_cache_control')) {
 
     function add_cache_control(string $route_level)
     {
+        /*
+         * We are choosing not to cache responses to authenticated requests for the moment,
+         * focusing only on guest requests.
+         *
+         * In order to implement this, two middleware instantiations of cache headers are layered.
+         * The first one (bottom first) adds the default caching headers. The second middleware
+         * (top in the list) applies only to logged in users and sets cache forbidding values in
+         * the cache-control header.
+         */
         return [
             // These are parsed bottom first, so the default is to cache (if the config allows it)
             "cache.headers.ifAuth:{$route_level},api,preset/dont-cache",    # applies to api-authenticated requests
