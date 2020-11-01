@@ -732,6 +732,15 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "Somaru-chan",
+      "name": "Salma Taha",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/42027331?v=4",
+      "profile": "https://github.com/Somaru-chan",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "projectName": "platform",
