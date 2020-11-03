@@ -67,7 +67,7 @@ Where “some-task” is a short description _without spaces_ of what this task 
 
 ### 7. Write Code
 
-Now write your code. Make sure you meet the [Ushahidi coding standards](https://ushahidi.gitbook.io/platform-developer-documentation/development-process/coding-standards) and use the [Ushahidi pattern library](https://ushahidi.gitbook.io/platform-developer-documentation/changing-ui-styles-introduction-to-the-pattern-library) if you need to change the css.
+Now write your code. Make sure you meet the [Ushahidi coding standards](https://docs.ushahidi.com/platform-developer-documentation/development-and-code/coding-standards) and use the [Ushahidi pattern library](https://docs.ushahidi.com/platform-developer-documentation/front-end-development/changing-ui-styles-introduction-to-the-pattern-library) if you need to change the css.
 
 If you get stuck, or want to talk through ideas, you can contact [other Ushahidi developers](../get-in-touch.md).
 

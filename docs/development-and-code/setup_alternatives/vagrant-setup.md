@@ -119,7 +119,7 @@ cd ~/Code/platform-api
 ```
 
 ```bash
-sudo update-alternatives --set php /usr/bin/php7.1
+sudo update-alternatives --set php /usr/bin/php7.3
 ```
 
 ```bash

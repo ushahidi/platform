@@ -687,14 +687,104 @@
       "contributions": [
         "a11y"
       ]
-     },
-     {
+    },
+    {
       "login": "niksseif",
       "name": "NikSeif",
       "avatar_url": "https://avatars0.githubusercontent.com/u/24830759?v=4",
       "profile": "https://github.com/niksseif",
       "contributions": [
         "a11y"
+      ]
+    },
+    {
+      "login": "dariatsvetkova",
+      "name": "dariatsvetkova",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/68360696?v=4",
+      "profile": "https://github.com/dariatsvetkova",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "UdokaVrede",
+      "name": "Udokaku Ugochukwu",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/63649352?v=4",
+      "profile": "https://udoka.hashnode.dev/",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "muchirijane",
+      "name": "Jane Tracy Muthoni",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/54930887?v=4",
+      "profile": "https://muchirijane.github.io/100-days-website/",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "renujain31",
+      "name": "Renu Jain",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/70752431?v=4",
+      "profile": "https://github.com/renujain31",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "Somaru-chan",
+      "name": "Salma Taha",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/42027331?v=4",
+      "profile": "https://github.com/Somaru-chan",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "onyeepeace",
+      "name": "Onyee Peace",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/53520853?v=4",
+      "profile": "http://onyeepeace.com",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "helen-ndip",
+      "name": "helen-ndip",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/72542706?v=4",
+      "profile": "https://github.com/helen-ndip",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "Sunairaa",
+      "name": "Sunairaa",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/66335481?v=4",
+      "profile": "https://github.com/Sunairaa",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "AngadSethi",
+      "name": "Angad Sethi",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/58678541?v=4",
+      "profile": "https://github.com/AngadSethi",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "gausam",
+      "name": "Sam",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/958800?v=4",
+      "profile": "https://github.com/gausam",
+      "contributions": [
+        "bug"
       ]
     }
   ],
