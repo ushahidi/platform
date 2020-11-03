@@ -56,8 +56,6 @@ class PostRepository extends OhanzeeRepository implements
     // Provides `postPermissions`
     use InteractsWithPostPermissions;
 
-    const UNPRIVILEGED_REQUEST_LIMIT = 20;
-
     protected $form_attribute_repo;
     protected $form_stage_repo;
     protected $form_repo;
@@ -391,11 +389,21 @@ class PostRepository extends OhanzeeRepository implements
             $this->search_query->offset(intval($sorting['offset']));
         }
 
-        if ($search->getFilter('limitUnprivileged')) {
+        if ($search->getFilter('limitPosts')) {
+            // the post management permission is associated with bigger limits
+            // we would like to do this with API scopes in the future
             $isUnprivileged = !$this->postPermissions->canUserManagePosts($this->getUser());
             $requestedLimit = $sorting['limit'] ?? 0;
-            if ($isUnprivileged && (!$requestedLimit || $requestedLimit > self::UNPRIVILEGED_REQUEST_LIMIT)) {
-                $sorting['limit'] = self::UNPRIVILEGED_REQUEST_LIMIT;
+            if ($isUnprivileged) {
+                $unprivilegedLimit = config('posts.unprivileged_request_limit');
+                if (!$requestedLimit || $requestedLimit > $unprivilegedLimit) {
+                    $sorting['limit'] = $unprivilegedLimit;
+                }
+            } else {
+                $privilegedLimit = config('posts.privileged_request_limit');
+                if (!$requestedLimit || $requestedLimit > $privilegedLimit) {
+                    $sorting['limit'] = $privilegedLimit;
+                }
             }
         }
         if (array_key_exists('limit', $sorting)

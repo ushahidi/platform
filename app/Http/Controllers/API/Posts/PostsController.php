@@ -85,7 +85,7 @@ class PostsController extends RESTController
     public function index(Request $request)
     {
         $filters = $this->demoCheck($this->getFilters($request));
-        $filters['limitUnprivileged'] = 1;
+        $filters['limitPosts'] = 1;
         $this->usecase = $this->usecaseFactory
             ->get($this->getResource(), 'search')
             ->setFilters($filters)

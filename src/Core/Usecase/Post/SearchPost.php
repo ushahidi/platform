@@ -30,7 +30,7 @@ class SearchPost extends SearchUsecase
             'order'   => 'desc',
             'limit'   => null,
             'offset'  => 0,
-            'limitUnprivileged'  => 0
+            'limitPosts'  => 0
         ];
     }
 }
