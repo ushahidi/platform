@@ -10,6 +10,27 @@ Feature: Testing the Posts API
 		And the "features" property count is "6"
 		Then the guzzle status code should be 200
 
+# FIXME:
+#   Commenting this while figuring out how to set the cache control level
+#   to 'minimal'. This entails changing the Lumen config on the fly, but
+#   the approach I have tried hasn't worked out yet.
+#
+#   see RestContext.php:thatCacheControlLevelIs()
+#
+# --
+# 	Scenario: Listing All Posts as GeoJSON with cache-control enabled
+# 		Given that cache control level is set to "minimal"
+# 		Given that I want to get all "Posts"
+# 		When I request "/posts/geojson"
+# 		Then the response is JSON
+# 		And the response has a "type" property
+# 		And the response has a "features" property
+# 		And the "features" property count is "6"
+# 		Then the guzzle status code should be 200
+# 		And the "cache-control" header should exist
+# 		And the "cache-control" header should contain "public"
+# 		And the "cache-control" header should contain "max-age"
+
 	Scenario: Find a Post as GeoJSON
 		Given that I want to find a "Post"
 		When I request "/posts/1/geojson"

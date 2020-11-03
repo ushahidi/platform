@@ -59,10 +59,11 @@ $app->singleton(
 */
 
 $app->middleware([
+    Ushahidi\App\Http\Middleware\AddContentLength::class,
     Ushahidi\App\Multisite\DetectSiteMiddleware::class,
     Barryvdh\Cors\HandleCors::class,
     Ushahidi\App\Http\Middleware\MaintenanceMode::class,
-    Ushahidi\App\Http\Middleware\SetLocale::class
+    Ushahidi\App\Http\Middleware\SetLocale::class,
 ]);
 
 $app->routeMiddleware([
@@ -75,6 +76,7 @@ $app->routeMiddleware([
     'signature' => Ushahidi\App\Http\Middleware\SignatureAuth::class,
     'feature' => Ushahidi\App\Http\Middleware\CheckFeature::class,
     'invalidJSON' => Ushahidi\App\Http\Middleware\CheckForInvalidJSON::class,
+    'cache.headers.ifAuth' => Ushahidi\App\Http\Middleware\SetCacheHeadersIfAuth::class
 ]);
 
 /*
