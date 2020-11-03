@@ -424,6 +424,9 @@ class PostRepository extends OhanzeeRepository implements
 
         // remember the desired output
         $this->search_output_type = $search->output_core_post ? 'core' : 'full';
+
+        // for use in tests
+        return $this->search_query;
     }
 
     /**
