@@ -14,12 +14,12 @@ class PostRepositoryTest extends TestCase
 {
     public function testSetSearchParamsLimitedUnprivileged()
     {
-        $this->doTestSetSearchParams(0, 1, config('posts.unprivileged_request_limit'));
+        $this->doTestSetSearchParams(0, 1, config('posts.list_max_limit'));
     }
 
     public function testSetSearchParamsLimitedPrivileged()
     {
-        $this->doTestSetSearchParams(1, 1, config('posts.privileged_request_limit'));
+        $this->doTestSetSearchParams(1, 1, config('posts.list_admin_max_limit'));
     }
 
     public function testSetSearchParamsNonlimitedUnprivileged()
