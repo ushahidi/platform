@@ -96,7 +96,7 @@ $app->register(Ushahidi\App\Providers\AuthServiceProvider::class);
 $app->register(Ushahidi\App\Providers\EventServiceProvider::class);
 $app->register(Ushahidi\App\Providers\PassportServiceProvider::class);
 $app->register(Barryvdh\Cors\ServiceProvider::class);
-$app->register(Sentry\SentryLaravel\SentryLumenServiceProvider::class);
+$app->register(Sentry\Laravel\ServiceProvider::class);
 $app->register(v5\Providers\MorphServiceProvider::class);
 
 

@@ -69,3 +69,23 @@
 - Updated `bootstrap/app.php`, `phinx.php` and `app/PlatformVerifier/Env.php` to use new syntax of `Dotenv` library: `Dotenv::create()`.
 - Updated the `setUp` method so that its return type is `void` in the `ushahidi/platform/tests/unit` directory.
 - Updated the `tearDown` method so that its return type is `void` in the `ushahidi/platform/tests/unit` directory.
+
+# 5.8 to 6.0
+
+```
+    "illuminate/redis": "6.0.*"
+    "illuminate/mail": "6.0.*"
+    "laravel/lumen-framework": "^6.0"
+    "sentry/sentry-laravel": "^1.2.0"
+    "laravel/passport": "^9.3.2"
+```
+
+- Replaced `translator->trans()` method in `KohanaValidationEngine`, `ValidatorTrait` and `ContactRepository` by translator->get()` method as `Illuminate\Contracts\Translation\Translator` changed.
+- Replaced `Input::get` by `Request::get` in `Category.php` and `Survey.php` as the `Illuminate\Support\Facades\Input` facade has been removed.
+- Updated `create` method in `platform/app/Passport/ClientRepository.php` to be compatible with new Passport version. It now matches `platform/vendor/laravel/passport/src/ClientRepository.php`
+- Updated `createPasswordGrantClient` method in `platform/app/Passport/ClientRepository.php` to be compatible with new Passport version. It now matches `platform/vendor/laravel/passport/src/ClientRepository.php`
+- TODO: The default Redis client has changed from `predis` to `phpredis`. In order to keep using `predis`, ensure the redis.client configuration option is set to predis in `config/database.php` configuration file.
+- TODO: germanazo/laravel-ckan-api does not support laravel 6.0, we need to fork it or replace the library. By now, the dependency was removed.
+- TODO: Check sentry configuration, sentry-laravel version was updated and config is no longer compatible. Opened issue in sentry-laravel repo: https://github.com/getsentry/sentry-laravel/issues/409
+
+

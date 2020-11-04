@@ -7,7 +7,7 @@ use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Validator;
 use Ushahidi\Core\Entity\Permission;
-use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Request;
 use v5\Models\Scopes\CategoryAllowed;
 
 class Category extends BaseModel
@@ -211,9 +211,9 @@ class Category extends BaseModel
              ],
              'role' => [
                 function ($attribute, $value, $fail) {
-                    $has_parent = Input::get('parent_id'); // Retrieve status
+                    $has_parent = Request::get('parent_id'); // Retrieve status
 
-                    $parent = $has_parent ? Category::find(Input::get('parent_id')) : null;
+                    $parent = $has_parent ? Category::find(Request::get('parent_id')) : null;
                     // ... and check if the role matches its parent
                     if ($parent && $parent->role != $value) {
                         return $fail(trans('validation.child_parent_role_match'));

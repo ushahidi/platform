@@ -38,12 +38,11 @@
         "asm89/stack-cors": "1.2.0",
         "predis/predis": "~1.1",
         "willdurand/negotiation": "^2.3",
-        "illuminate/redis": "5.8.*",
-        "illuminate/mail": "5.8.*",
-        "laravel/lumen-framework": "5.8.*",
-        "sentry/sentry-laravel": "^0.8.0",
-        "laravel/passport": "7.3.1",
-        "germanazo/laravel-ckan-api": "^1.0",
+        "illuminate/redis": "6.0.*",
+        "illuminate/mail": "6.0.*",
+        "laravel/lumen-framework": "^6.0",
+        "sentry/sentry-laravel": "^1.2.0",
+        "laravel/passport": "^9.3.2",
         "barryvdh/laravel-cors": "^0.11.0"
     },
     "require-dev": {

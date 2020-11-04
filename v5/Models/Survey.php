@@ -4,7 +4,7 @@ namespace v5\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Validation\Rule;
 use Ushahidi\App\Repository\FormRepository;
 use Ushahidi\App\Validator\LegacyValidator;
@@ -335,7 +335,7 @@ class Survey extends BaseModel
             'tasks.*.fields.*.response_private' => [
                 'boolean',
                 function ($attribute, $value, $fail) {
-                    $type_field = Arr::get(Input::get(), str_replace('response_private', 'type', $attribute));
+                    $type_field = Arr::get(Request::get(), str_replace('response_private', 'type', $attribute));
                     if ($type_field === 'tags' && $value != false) {
                         return $fail(trans('validation.tag_field_type_cannot_be_private'));
                     }

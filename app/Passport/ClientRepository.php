@@ -5,6 +5,7 @@ namespace Ushahidi\App\Passport;
 use Laravel\Passport\ClientRepository as LaravelPassportClientRepository;
 use Laravel\Passport\Client as LaravelPassportClient;
 use Ramsey\Uuid\Uuid as UUID;
+use Illuminate\Support\Str;
 
 class ClientRepository extends LaravelPassportClientRepository
 {
@@ -93,16 +94,26 @@ class ClientRepository extends LaravelPassportClientRepository
      * @param  int  $userId
      * @param  string  $name
      * @param  string  $redirect
+     * @param  string|null  $provider
      * @param  bool  $personalAccess
      * @param  bool  $password
-     * @return Client
+     * @param  bool  $confidential
+     * @return \Laravel\Passport\Client
      */
-    public function create($userId, $name, $redirect, $personalAccess = false, $password = false)
-    {
+    public function create(
+        $userId,
+        $name,
+        $redirect,
+        $provider = null,
+        $personalAccess = false,
+        $password = false,
+        $confidential = true
+    ) {
         $client = (new Client)->forceFill([
             'user_id' => $userId,
             'name' => $name,
-            'secret' => str_random(40),
+            'secret' => ($confidential || $personalAccess) ? Str::random(40) : null,
+            'provider' => $provider,
             'redirect' => $redirect,
             'personal_access_client' => $personalAccess,
             'password_client' => $password,
@@ -135,11 +146,12 @@ class ClientRepository extends LaravelPassportClientRepository
      * @param  int  $userId
      * @param  string  $name
      * @param  string  $redirect
-     * @return Client
+     * @param  string|null  $provider
+     * @return \Laravel\Passport\Client
      */
-    public function createPasswordGrantClient($userId, $name, $redirect)
+    public function createPasswordGrantClient($userId, $name, $redirect, $provider = null)
     {
-        return $this->create($userId, $name, $redirect, false, true);
+        return $this->create($userId, $name, $redirect, $provider, false, true);
     }
 
     /**

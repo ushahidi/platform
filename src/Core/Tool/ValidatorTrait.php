@@ -52,9 +52,9 @@ trait ValidatorTrait
     protected function validatorError(Entity $entity)
     {
         
-        $trans = $this->translator->trans('validation.failedToValidate');
+        $trans = $this->translator->get('validation.failedToValidate');
         throw new ValidatorException(sprintf(
-            $this->translator->trans('validation.failedToValidate'),
+            $this->translator->get('validation.failedToValidate'),
             $entity->getResource()
         ), $this->validator->errors());
     }
