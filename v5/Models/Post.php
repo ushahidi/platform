@@ -228,17 +228,17 @@ class Post extends BaseModel
 
     public function getUserIdAttribute($value)
     {
-        return HideAuthor::hideAuthor($value, $this->survey ? $this->survey->hide_author : true);
+        return HideAuthor::hideAuthor($value, $this->survey ? $this->survey->hide_author : true, $this->user_id);
     }
 
     public function getAuthorEmailAttribute($value)
     {
-        return HideAuthor::hideAuthor($value, $this->survey ? $this->survey->hide_author : true);
+        return HideAuthor::hideAuthor($value, $this->survey ? $this->survey->hide_author : true, $this->user_id);
     }
 
     public function getAuthorRealnameAttribute($value)
     {
-        return HideAuthor::hideAuthor($value, $this->survey ? $this->survey->hide_author : true);
+        return HideAuthor::hideAuthor($value, $this->survey ? $this->survey->hide_author : true, $this->user_id);
     }
     /**
      * @return bool
