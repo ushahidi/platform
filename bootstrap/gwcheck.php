@@ -86,7 +86,9 @@ header('Content-type: application/json');
 if ($origin) {
     header('Access-Control-Allow-origin: ' . $origin);
 }
-echo json_encode($response, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+$body = json_encode($response, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+header('Content-length: ' . mb_strlen($body, '8bit'));
+echo $body;
 
 # END request processing
 exit();
