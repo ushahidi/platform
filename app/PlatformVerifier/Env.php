@@ -43,7 +43,8 @@ class Env
 
         if ($this->envExists()) {
             // load DotEnv for this script
-            (Dotenv::create(__DIR__."/../../"))->load();
+            $dotenv = Dotenv::createImmutable(__DIR__ . "/../../");
+            $dotenv->load();
         }
 
         $failures = false;

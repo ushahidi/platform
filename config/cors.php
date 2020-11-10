@@ -1,19 +1,26 @@
 <?php
 
 return [
+
     /*
-     |--------------------------------------------------------------------------
-     | Laravel CORS
-     |--------------------------------------------------------------------------
-     |
-     | allowedOrigins, allowedHeaders and allowedMethods can be set to array('*')
-     | to accept any value.
-     |
-     */
-    'supportsCredentials' => false,
-    'allowedOrigins' => ['*'],
-    'allowedHeaders' => ['Authorization', 'Content-type', 'Accept'],
-    'allowedMethods' => ['*'],
-    'exposedHeaders' => [],
-    'maxAge' => 0,
+    |--------------------------------------------------------------------------
+    | Laravel CORS Options
+    |--------------------------------------------------------------------------
+    |
+    | The allowed_methods and allowed_headers options are case-insensitive.
+    |
+    | You don't need to provide both allowed_origins and allowed_origins_patterns.
+    | If one of the strings passed matches, it is considered a valid origin.
+    |
+    | If ['*'] is provided to allowed_methods, allowed_origins or allowed_headers
+    | all methods / origins / headers are allowed.
+    |
+    */
+
+    'supports_credentials' => false,
+    'allowed_origins' => ['*'],
+    'allowed_headers' => ['Authorization', 'Content-type', 'Accept'],
+    'allowed_methods' => ['*'],
+    'exposed_headers' => [],
+    'max_age' => 0,
 ];

@@ -3,14 +3,14 @@
         "enabled": true,
         "actions": [
             {
-                "action": "\\SebastianFeldmann\\CaptainHook\\Hook\\Message\\Action\\Rules",
+                "action": "\\CaptainHook\\App\\Hook\\Message\\Action\\Rules",
                 "options": [
-                    "\\SebastianFeldmann\\CaptainHook\\Hook\\Message\\Rule\\MsgNotEmpty",
-                    "\\SebastianFeldmann\\CaptainHook\\Hook\\Message\\Rule\\NoPeriodOnSubjectEnd"
+                    "\\CaptainHook\\App\\Hook\\Message\\Rule\\MsgNotEmpty",
+                    "\\CaptainHook\\App\\Hook\\Message\\Rule\\NoPeriodOnSubjectEnd"
                 ]
             },
             {
-                "action": "\\SebastianFeldmann\\CaptainHook\\Hook\\Message\\Action\\Regex",
+                "action": "\\CaptainHook\\App\\Hook\\Message\\Action\\Regex",
                 "options": {
                     "regex": "#^(Merge|(feat|fix|docs|style|refactor|test|chore|perf|build|ci|revert)(\\(.*\\))?:) .*#i"
                 }
@@ -21,11 +21,11 @@
         "enabled": true,
         "actions": [
             {
-                "action": "\\SebastianFeldmann\\CaptainHook\\Hook\\Composer\\Action\\CheckLockFile",
+                "action": "\\CaptainHook\\App\\Hook\\Composer\\Action\\CheckLockFile",
                 "options": []
             },
             {
-                "action": "\\SebastianFeldmann\\CaptainHook\\Hook\\PHP\\Action\\Linting",
+                "action": "\\CaptainHook\\App\\Hook\\PHP\\Action\\Linting",
                 "options": []
             },
             {
