@@ -71,6 +71,7 @@
 - Updated the `tearDown` method so that its return type is `void` in the `ushahidi/platform/tests/unit` directory.
 
 # 5.8 to 6.0
+[Lumen doc](https://lumen.laravel.com/docs/5.8/upgrade#upgrade-5.8.0)
 
 ```
     "illuminate/redis": "6.0.*"
@@ -98,6 +99,7 @@
 - TODO: Check [Passport credentials hashing and update env files](https://github.com/laravel/passport/blob/master/UPGRADE.md#client-credentials-secret-hashing)
 
 # 6.0 to 7.0
+[Lumen doc](https://lumen.laravel.com/docs/7.x/upgrade#upgrade-6.x)
 
 ```
 "illuminate/redis": "7.0.*"
@@ -122,6 +124,8 @@
 - Removed `"behat/mink-extension": "^2.2",` dependency, as it no longer supports symfony 5 (required by Lumen 7), it was replaced by
 `"friends-of-behat/mink-extension": "^2.4"` which is a fork of the last one but with symfony 5 support
 - Replaced `"sebastianfeldmann/captainhook"` by `"captainhook/captainhook"`
+- Updated `tests/CaptainHook/PHPCS.php` and `captainhook.json` to be compatible with new captainhook version
+- Make sure hooks are installed by running `bin/captainhook install`
 - Updated `report` and `render` methods in `app/Exceptions/Handler.php` so that they take `Throwable` instead of `Exception` as parameters
 - Updated `(Dotenv::create(...))->load();` by
 ```
