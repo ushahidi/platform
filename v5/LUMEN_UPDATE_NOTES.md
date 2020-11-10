@@ -73,6 +73,8 @@
 # 5.8 to 6.0
 [Lumen doc](https://lumen.laravel.com/docs/5.8/upgrade#upgrade-5.8.0)
 
+- Dependencies changes:
+
 ```
     "illuminate/redis": "6.0.*"
     "illuminate/mail": "6.0.*"
@@ -100,6 +102,8 @@
 
 # 6.0 to 7.0
 [Lumen doc](https://lumen.laravel.com/docs/7.x/upgrade#upgrade-6.x)
+
+- Dependencies changes:
 
 ```
 "illuminate/redis": "7.0.*"
