@@ -68,5 +68,6 @@ class PostExporter extends Command
             ->setIdentifiers(['job_id' => $this->argument('job')])
             ->interact();
         $this->line("Export generated in file: {$file['results'][0]['file']}");
+        return 0;
     }
 }

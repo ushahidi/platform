@@ -84,5 +84,6 @@ class UserCreate extends Command
         }
 
         $this->info("Account was created successfully, id: {$id}");
+        return 0;
     }
 }

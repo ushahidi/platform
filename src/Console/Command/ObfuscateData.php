@@ -130,6 +130,7 @@ class ObfuscateData extends Command
             return;
         }
         $this->info('Data scrubbing complete.');
+        return 0;
     }
 
     protected function isThisAMultisiteInstall()

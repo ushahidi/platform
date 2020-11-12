@@ -66,5 +66,6 @@ class UserDelete extends Command
         $id = $this->repo->delete($entity);
 
         $this->info("Account was deleted successfully, id: {$id}");
+        return 0;
     }
 }

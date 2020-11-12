@@ -92,6 +92,7 @@ class Webhook extends Command
         $this->db()->commit();
 
         $this->info("{$count} webhook requests sent");
+        return 0;
     }
     /**
      * Generates a POST request with the modified/created post data

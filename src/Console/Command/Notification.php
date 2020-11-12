@@ -97,6 +97,7 @@ class Notification extends Command
         $this->db()->commit();
 
         $this->info("{$count} messages queued for sending");
+        return 0;
     }
 
     private function generateMessages($notification)

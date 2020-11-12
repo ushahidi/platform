@@ -92,5 +92,6 @@ class SavedSearch extends Command
         }
 
         $this->info("{$count} posts were added");
+        return 0;
     }
 }

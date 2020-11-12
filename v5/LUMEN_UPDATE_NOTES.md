@@ -140,6 +140,7 @@ in the files: `app/PlatformVerifier/Env.php`, `bootstrap/app.php`, and `phinx.ph
 - Changed `config/cors.php` properties casing to snake_case due to [Laravel cors dependency update](https://github.com/fruitcake/laravel-cors#upgrading-from-0x--barryvdh-laravel-cors)
 - Added: `$this->setName('migrate');` to `app/Console/Commands/MigrateCommand.php`
 - Removed `syntaxCheck="false"` from `/Users/arelsirin/dev/ushahidi/platform/phpunit.xml.dist` due to phpunit update
+- Added `return 0;` to `handle()` methods in `src/Console/Command` classes to be compliant with symfony 5 console.
 - TODO: Check more about [Laravel Cors update doc](https://github.com/fruitcake/laravel-cors#upgrading-from-0x--barryvdh-laravel-cors)
 
 # To review (abandoned packages)

@@ -60,6 +60,7 @@ class ApikeySet extends Command
 
         // Format the response and output
         $this->handleResponse($response);
+        return 0;
     }
 
     /**
