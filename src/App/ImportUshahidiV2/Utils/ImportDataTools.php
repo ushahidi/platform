@@ -52,6 +52,7 @@ class ImportDataTools implements ImportDataToolsContract
                 }
             }
         }
+        return $suggestion;
     }
 
     protected $knownDateFormats = [

@@ -128,8 +128,14 @@ class IncidentPostMapper implements Mapper
             $created = time();
         }
 
+        if (array_key_exists('incident_date', $input) && $input['incident_date'] != null) {
+            $incident_date = Carbon::createFromFormat('Y-m-d H:i:s', $input['incident_date'], $this->importTz);
+        } else {
+            $incident_date = null;
+        }
+
         $dates = [
-            'post_date' => $input['incident_date'], // timezone handling?
+            'post_date' => $incident_date,
             'created' => $created,
             'updated' => $this->getMysqlDateTimeAsTimestamp($input['incident_datemodify'] ?? null),
         ];
@@ -142,7 +148,8 @@ class IncidentPostMapper implements Mapper
     {
         $id = $this->mappingRepo->getDestId($importId, 'form', $formId);
         if (!$id) {
-            throw new \Exception("Could not find mapping for v2 form {$formId}");
+            Log::error("Could not find mapping for v2 form: ", [$formId]);
+            return null;
         }
         return $id;
     }
