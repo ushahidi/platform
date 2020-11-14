@@ -1,0 +1,327 @@
+# Group Surveys
+Surveys are used to group fields and tasks into a form that can be answered by end users.
+
+## Surveys [/api/v5/surveys]
+
+
+## What's new?
+- Surveys can be translated to multiple languages.
+- Surveys bring their tasks and fields by default.
+
+## Get a Survey [GET /{id}]
+
+- You will only be able to get the survey if you are allowed to see it based on the user permissions you have and
+the restrictions set by the deployment owner. 
+- An invalid Authorization token will result in a 401.
+ 
++ Request With Valid token
+
+    + Headers
+            
+            Authorization: Bearer validToken
+            Accept: application/json
+            Content-type: application/json
+
++ Response 200 (application/json)
+    + Attributes (Survey)
+
++ Request With Invalid or Expired token
+    + Headers
+
+            Authorization: Bearer invalidOrExpireToken
++ Response 401 (application/json)
+    + Attributes (Server error response)
+
++ Request Get non existent survey
+
+    + Parameters
+        + id: `non-existent`
+
++ Response 404 (application/json)
+
+    + Attributes (Not Found error response)
+
+## List All Surveys [GET /api/v5/surveys]
+ 
++ Request With Valid token
+
+    + Headers
+        
+            Authorization: Bearer validToken
+            Accept: application/json
+            Content-type: application/json
+
++ Response 200 (application/json)
+
+    + Attributes
+        + results (array[Survey])
+
+## Create a survey [POST /api/v5/surveys]
+ 
+- You will only be able to create surveys using a user's token that is authorized for that action. 
+- Permissions used by this: MANAGE POSTS, or ADMIN.
+
++ Request With Valid token
+
+    + Headers
+            
+            Authorization: Bearer validToken
+            Accept: application/json
+            Content-type: application/json
++ Request (application/json)
+
+    + Attributes (NewSurvey)
+
++ Response 200 (application/json)
+
+    + Attributes (Survey)
+
++ Request With Invalid or Expired token
+    + Headers
+
+            Authorization: Bearer invalidOrExpireToken
++ Response 401 (application/json)
+    + Attributes (Server error response)
+
++ Request With invalid data (application/json)
+
+    + Attributes (NewSurvey)
+
++ Response 422 (application/json)
+
+    + Attributes (Validation error response)
+
+## Update a survey [PUT /api/v5/surveys/{id}]
+
++ Parameters
+
+    + id: 1 (number) - ID of the Survey
+
++ Request (application/json)
+
+    + Attributes (Survey)
+
++ Response 200 (application/json)
+
+    + Attributes (Survey)
+
++ Request With Invalid or Expired token
+
+    + Headers
+            
+            Authorization: Bearer invalidOrExpireToken
++ Response 401 (application/json)
+    + Attributes (Server error response)
+
++ Request With invalid data (application/json)
+
+    + Attributes (Survey)
+
++ Response 422 (application/json)
+
+    + Attributes (Validation error response)
+
+
++ Request Update non existent survey
+
+    + Parameters
+        + id: `non-existent`
+
++ Response 404 (application/json)
+
+    + Attributes (Not Found error response)
+
+
+## Delete a Survey [DELETE /api/v5/surveys/{id}]
+
++ Parameters
+
+    + id: 1 (number) - ID of the Survey
+
++ Request Delete a survey
+
+    + Parameters
+        + id: 123
+
++ Response 200 (application/json)
+
+    + Attributes (DeletedObject)
+
+
++ Request With Invalid or Expired token
+
+    + Headers
+            
+            Authorization: Bearer invalidOrExpireToken
+
++ Response 401 (application/json)
+    + Attributes (Server error response)
+
++ Request Delete non existent survey
+
+    + Parameters
+        + id: `non-existent`
+
++ Response 404 (application/json)
+
+    + Attributes (Not Found error response)
+
+## Data Structures
+
+### Survey (object)
+#### Properties
++ id: 1 (number, required)
++ name: `Learning more about Ushahidi` (string, required)
++ description: `A survey to learn more about Ushahidi tools` (string, optional)
++ type: `report` (enum[string])
+    + Members
+        + report
++ disabled: false (boolean)
++ require_approval: true (boolean)
++ everyone_can_create: true (boolean)
++ color: #ffffff (string)
++ hide_author: false (boolean)
++ hide_time: false (boolean)
++ hide_location: false (boolean)
++ targeted_survey: false (boolean)
++ can_create: ["admin"] (array[string])
++ translations (TranslationValues)
++ tasks (array[NewTask], required, fixed-type) 
++ enabled_languages (object)
+    + default (string)
+    + available (array)
+
+### NewSurvey (object)
+#### Properties
++ name: `Learning more about Ushahidi` (string, required)
++ description: `A survey to learn more about Ushahidi tools` (string, optional)
++ type: `report` (enum[string])
+    + Members
+        + report
++ disabled: false (boolean)
++ require_approval: true (boolean)
++ everyone_can_create: true (boolean)
++ color: #ffffff (string)
++ hide_author: false (boolean)
++ hide_time: false (boolean)
++ hide_location: false (boolean)
++ targeted_survey: false (boolean)
++ can_create (array[string])
++ translations (TranslationValues)
++ tasks (array[NewTask], required, fixed-type) 
++ enabled_languages (object)
+    + default (string)
+    + available (array)
+
+### Task (object)
+#### Properties
++ id (number, required)
++ form_id (number, required)
++ label: `Structure task` (string, required)
++ priority: 0 (number, required)
++ required: true (boolean)
++ type (enum[string])
+    + Members
+        + post
+        + task
++ description: `The description of a task` (string, optional)
++ show_when_published (enum[number])
+    + Members
+        + 0
+        + 1
++ task_is_internal_only (enum[number])
+    + Members
+        + 0
+        + 1
++ fields (array[NewField], required, fixed-type)
++ translations (TranslationValues)
+
+### NewTask (object)
+#### Properties
++ label: `Structure task` (string, required)
++ priority: 0 (number, required)
++ required: true (boolean)
++ type (enum[string])
+    + Members
+        + post
+        + task
++ description: `The description of a task` (string, optional)
++ show_when_published (enum[number])
+    + Members
+        + 0
+        + 1
++ task_is_internal_only (enum[number])
+    + Members
+        + 0
+        + 1
++ fields (array[NewField], required, fixed-type)
++ translations (TranslationValues)
+
+### Field (object)
+#### Properties
++ id (number, required)
++ key (string, required)
++ form_stage_id (number, required)
++ label: `A title field` (string, required)
++ instructions: `How to fill up this field` (string, nullable)
++ input: `text` (enum[string])
+    + Members
+        + text
+        + textarea
+        + select
+        + radio
+        + checkbox
+        + file
+        + date
+        + location
++ type: `description` (enum[string])
+    + Members
+        + decimal
+        + int
+        + geometry
+        + text
+        + varchar
+        + point
+        + description
+        + title
++ required: false (boolean)
++ default: `a value` (nullable)
++ priority: 0 (number, required)
++ options (array)
++ cardinality: 1 (number, required)
++ config (array)
++ response_private: false (boolean)
++ translations (TranslationValues)
+
+### NewField (object)
+#### Properties
++ label: `A title field` (string, required)
++ instructions: `How to fill up this field` (string, nullable)
++ input: `text` (enum[string])
+    + Members
+        + text
+        + textarea
+        + select
+        + radio
+        + checkbox
+        + file
+        + date
+        + location
++ type: `description` (enum[string])
+    + Members
+        + decimal
+        + int
+        + geometry
+        + text
+        + varchar
+        + point
+        + description
+        + title
++ required: false (boolean)
++ default: `a value` (nullable)
++ priority: 0 (number, required)
++ options (array)
++ cardinality: 1 (number, required)
++ config (array)
++ response_private: false (boolean)
++ translations (TranslationValues)

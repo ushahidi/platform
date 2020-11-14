@@ -1,13 +1,13 @@
 # Group Categories
 
 Categories can be used to organize, group, and quickly reference related content within the Ushahidi Platform. 
-
+## Categories [/api/v5/categories]
 ## What's new?
 - Categories can be translated to multiple languages.
 - Categories bring their parent and child relationships with them by default
 
 
-## Get a Category [GET /api/v5/categories/1]
+## Get a Category [GET /api/v5/categories/{id}]
 
 - You will only be able to get the categories that you are allowed to see based on the user permissions you have and
 the restrictions set by the deployment owner. 
@@ -16,16 +16,18 @@ the restrictions set by the deployment owner.
 + Request With Valid token
 
     + Headers
-        Authorization: Bearer validToken
-        Accept: application/json
-        Content-type: application/json
+            
+            Authorization: Bearer validToken
+            Accept: application/json
+            Content-type: application/json
 
 + Response 200 (application/json)
     + Attributes (Category)
 
 + Request With Invalid or Expired token
-    + Headers
 
+    + Headers
+            
             Authorization: Bearer invalidOrExpireToken
 + Response 401 (application/json)
     + Attributes (Server error response)
@@ -44,9 +46,10 @@ the restrictions set by the deployment owner.
 + Request With Valid token
 
     + Headers
-        Authorization: Bearer validToken
-        Accept: application/json
-        Content-type: application/json
+        
+            Authorization: Bearer validToken
+            Accept: application/json
+            Content-type: application/json
 + Response 200 (application/json)
 
     + Attributes
@@ -60,9 +63,10 @@ the restrictions set by the deployment owner.
 + Request With Valid token
 
     + Headers
-        Authorization: Bearer validToken
-        Accept: application/json
-        Content-type: application/json
+        
+            Authorization: Bearer validToken
+            Accept: application/json
+            Content-type: application/json
 + Request (application/json)
 
     + Attributes (NewCategory)
@@ -72,8 +76,9 @@ the restrictions set by the deployment owner.
     + Attributes (Category)
 
 + Request With Invalid or Expired token
-    + Headers
 
+    + Headers
+            
             Authorization: Bearer invalidOrExpireToken
 + Response 401 (application/json)
     + Attributes (Server error response)
@@ -142,8 +147,9 @@ the restrictions set by the deployment owner.
     + Attributes (DeletedObject)
 
 + Request With Invalid or Expired token
-    + Headers
 
+    + Headers
+            
             Authorization: Bearer invalidOrExpireToken
 + Response 401 (application/json)
     + Attributes (Server error response)
