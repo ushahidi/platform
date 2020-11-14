@@ -1,0 +1,42 @@
+FORMAT: 1A
+HOST: http://demo.api.ushahidi.io/v5
+
+# Ushahidi Platform API - v5 
+Ushahidi is a tool to collect and manage citizen reports. This describes the resources that make up the Ushahidi Platform API v3. If you have any problems or requests please contact [support](mailto:support@ushahidi.com).
+
+<!-- include(overview.apib) --> 
+<!-- include(entity-translations.apib) -->
+<!-- include(auth.apib) --> 
+<!-- include(categories.apib) --> 
+
+## Data Structures
+
+### Server error response (object)
++ errors (array, required)
+    + (object)
+        + status (number, required)
+        + title (string, required)
+
+### Not Found error response (object)
++ error: 404 (number, required)
++ message: Not found (string, required)
+
+## Validation error response (object)
++ errors (array, required)
+    + (object)
+        + status: 422 (number, required)
+        + title: Validation Error (string, required)
+    + (object)
+        + status: 422 (number, required)
+        + title: Field is required (string, required)
+        + source (object)
+            + pointer: /field (string)
+
+### AllowedPrivileges
++ allowed_privileges (array) - Allowed privileges on this resource
+    + read
+    + create
+    + update
+    + delete
+    + search
+
