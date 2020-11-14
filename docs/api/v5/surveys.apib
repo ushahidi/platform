@@ -186,7 +186,7 @@ the restrictions set by the deployment owner.
 + targeted_survey: false (boolean)
 + can_create: ["admin"] (array[string])
 + translations (TranslationValues)
-+ tasks (array[NewTask], required, fixed-type) 
++ tasks (array[Task], required, fixed-type) 
 + enabled_languages (object)
     + default (string)
     + available (array)
@@ -233,7 +233,7 @@ the restrictions set by the deployment owner.
     + Members
         + 0
         + 1
-+ fields (array[NewField], required, fixed-type)
++ fields (array[Field], required, fixed-type)
 + translations (TranslationValues)
 
 ### NewTask (object)
