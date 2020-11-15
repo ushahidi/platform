@@ -786,6 +786,15 @@
       "contributions": [
         "bug"
       ]
+    },
+    {
+      "login": "Ifycode",
+      "name": "Obiagba Mary Ifeoma",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/45185388?v=4",
+      "profile": "https://medium.com/@obiagba.mary.ifeoma/understanding-regular-function-converting-to-arrow-function-3121446a663?source=friends_link&sk=2761da115a7f911084d34d3256815cbf",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "projectName": "platform",
