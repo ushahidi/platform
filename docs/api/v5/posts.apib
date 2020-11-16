@@ -172,29 +172,29 @@ the restrictions set by the deployment owner.
 + id: 1 (number, required)
 + form_id: 23 (number, optional)
 + user_id: 33 (number, nullable)
-+ type: "report" (enum[string])
++ type:  report  (enum[string])
     + Members
         + report
-+ title: "Post title" (string, required)
-+ slug: "post-slug" (string, optional)
-+ content: "Post description field" (string, optional)
-+ author_email: "author@example.com" (string, optional)
-+ author_realname: "Author Name" (string, optional)
-+ status: "published" (enum[string])
++ title:  Post title  (string, required)
++ slug:  post-slug  (string, optional)
++ content:  Post description field  (string, optional)
++ author_email:  author@example.com  (string, optional)
++ author_realname:  Author Name  (string, optional)
++ status:  published  (enum[string])
     + Members
         + published
         + draft
         + archived
-+ published_to: ["admin"] (array[string])   
-+ locale: "en_US" (string)
-+ base_language: "en" (string)
++ published_to: [admin] (array[string])   
++ locale:  en_US  (string)
++ base_language:  en  (string)
 + categories: [1, 2, 3] (array)
 + completed_stages: [3,4] (array)
-+ created:"2020-07-30 00:00:00" (string, optional)
-+ updated:"2020-07-30 00:00:00" (string, optional)
-+ post_date:"2020-07-30 07:07:04" (string, optional)
++ created: 2020-07-30 00:00:00 (string, optional)
++ updated: 2020-07-30 00:00:00  (string, optional)
++ post_date: 2020-07-30 07:07:04  (string, optional)
 + post_content: array(PostTask)
-+ allowed_privileges: ["read", "create", "update", "delete", "search", "change_status", "read_full"] (array)
++ `allowed_privileges`: [read, create, update, delete, search, change_status, read_full] (array)
 + translations (TranslationValues) 
 + enabled_languages (object)
     + default (string)
@@ -204,17 +204,17 @@ the restrictions set by the deployment owner.
 #### Properties
 + id: 8 (number)
 + form_id: 5 (number)
-+ label: "A task wrapping fields" (string)
++ label:  A task wrapping fields  (string)
 + priority: 0 (number)
 + required: 0 (enum[number])
     + Members
         + 0
         + 1
-+ type: "post" (enum[string])
++ type:  post  (enum[string])
     + Members
         + post
         + task
-+ description: "Description of the task" (string, nullable)
++ description:  Description of the task  (string, nullable)
 + show_when_published: 1 (enum[number])
     + Members
         + 0
@@ -229,21 +229,21 @@ the restrictions set by the deployment owner.
 ### PostField (object)
 #### Properties
 + id :60 (number)
-+ key:"9c30e7c9-c26a-492d-a499-1c2e5052a554" (string)
-+ label: "Title" (string)
-+ instructions": "Fill this field like this" (string, nullable)
-+ input: "text" (string)
-+ type: "title" (string)
++ key: 9c30e7c9-c26a-492d-a499-1c2e5052a554  (string)
++ label:  Title  (string)
++ instructions :  Fill this field like this  (string, nullable)
++ input:  text  (string)
++ type:  title  (string)
 + required: 1 (number)
-+ default: "A default value" (nullable)
++ default:  A default value  (nullable)
 + priority: 1 (number)
 + options (array, nullable)
 + cardinality: 0 (number)
 + config (array)
 + form_stage_id: 3 (number, required)
 + response_private: 0 (number, required)
-+ description: "A description for the field" (string, nullable)
-+ value: "The value of the user response to the survey field" (required)
++ description:  A description for the field  (string, nullable)
++ value:  The value of the user response to the survey field  (required)
 + translations (TranslationValues) 
 
 
@@ -252,29 +252,29 @@ the restrictions set by the deployment owner.
 #### Properties
 + form_id: 23 (number, optional)
 + user_id: 33 (number, nullable)
-+ type: "report" (enum[string])
++ type:  report  (enum[string])
     + Members
         + report
-+ title: "Post title" (string, required)
-+ slug: "post-slug" (string, optional)
-+ content: "Post description field" (string, optional)
-+ author_email: "author@example.com" (string, optional)
-+ author_realname: "Author Name" (string, optional)
-+ status: "published" (enum[string])
++ title:  Post title  (string, required)
++ slug:  post-slug  (string, optional)
++ content:  Post description field  (string, optional)
++ author_email:  author@example.com  (string, optional)
++ author_realname:  Author Name  (string, optional)
++ status:  published  (enum[string])
     + Members
         + published
         + draft
         + archived
-+ published_to: ["admin"] (array[string])   
-+ locale: "en_US" (string)
-+ base_language: "en" (string)
++ published_to: [admin] (array[string])   
++ locale:  en_US  (string)
++ base_language:  en  (string)
 + categories: [1, 2, 3] (array)
 + completed_stages: [3,4] (array)
-+ created:"2020-07-30 00:00:00" (string, optional)
-+ updated:"2020-07-30 00:00:00" (string, optional)
-+ post_date:"2020-07-30 07:07:04" (string, optional)
++ created: 2020-07-30 00:00:00  (string, optional)
++ updated: 2020-07-30 00:00:00  (string, optional)
++ post_date: 2020-07-30 07:07:04  (string, optional)
 + post_content: array(NewPostTask)
-+ allowed_privileges: ["read", "create", "update", "delete", "search", "change_status", "read_full"] (array)
++ `allowed_privileges`: [read, create, update, delete, search, change_status, read_full] (array)
 + translations (TranslationValues) 
 + enabled_languages (object)
     + default (string)
@@ -283,17 +283,17 @@ the restrictions set by the deployment owner.
 ### NewPostTask (object)
 #### Properties
 + form_id: 5 (number)
-+ label: "A task wrapping fields" (string)
++ label:  A task wrapping fields  (string)
 + priority: 0 (number)
 + required: 0 (enum[number])
     + Members
         + 0
         + 1
-+ type: "post" (enum[string])
++ type:  post  (enum[string])
     + Members
         + post
         + task
-+ description: "Description of the task" (string, nullable)
++ description:  Description of the task  (string, nullable)
 + show_when_published: 1 (enum[number])
     + Members
         + 0
@@ -307,21 +307,21 @@ the restrictions set by the deployment owner.
 
 ### NewPostField (object)
 #### Properties
-+ key:"9c30e7c9-c26a-492d-a499-1c2e5052a554" (string)
-+ label: "Title" (string)
-+ instructions": "Fill this field like this" (string, nullable)
-+ input: "text" (string)
-+ type: "title" (string)
++ key: 9c30e7c9-c26a-492d-a499-1c2e5052a554  (string)
++ label:  Title  (string)
++ instructions :  Fill this field like this  (string, nullable)
++ input:  text  (string)
++ type:  title  (string)
 + required: 1 (number)
-+ default: "A default value" (nullable)
++ default:  A default value  (nullable)
 + priority: 1 (number)
 + options (array, nullable)
 + cardinality: 0 (number)
 + config (array)
 + form_stage_id: 3 (number, required)
 + response_private: 0 (number, required)
-+ description: "A description for the field" (string, nullable)
-+ value: "The value of the user response to the survey field" (required)
++ description:  A description for the field  (string, nullable)
++ value:  The value of the user response to the survey field  (required)
 + translations (TranslationValues) 
 
 
