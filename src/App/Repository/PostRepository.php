@@ -395,12 +395,12 @@ class PostRepository extends OhanzeeRepository implements
             $isUnprivileged = !$this->postPermissions->canUserManagePosts($this->getUser());
             $requestedLimit = $sorting['limit'] ?? 0;
             if ($isUnprivileged) {
-                $unprivilegedLimit = env('API_POST_LIST_MAX_LIMIT', config('posts.list_max_limit'));
+                $unprivilegedLimit = config('posts.list_max_limit');
                 if (!$requestedLimit || $requestedLimit > $unprivilegedLimit) {
                     $sorting['limit'] = $unprivilegedLimit;
                 }
             } else {
-                $privilegedLimit = env('API_POST_LIST_ADMIN_MAX_LIMIT', config('posts.list_admin_max_limit'));
+                $privilegedLimit = config('posts.list_admin_max_limit');
                 if (!$requestedLimit || $requestedLimit > $privilegedLimit) {
                     $sorting['limit'] = $privilegedLimit;
                 }
