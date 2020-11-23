@@ -59,10 +59,11 @@ $app->singleton(
 */
 
 $app->middleware([
+    Ushahidi\App\Http\Middleware\AddContentLength::class,
     Ushahidi\App\Multisite\DetectSiteMiddleware::class,
     Barryvdh\Cors\HandleCors::class,
     Ushahidi\App\Http\Middleware\MaintenanceMode::class,
-    Ushahidi\App\Http\Middleware\SetLocale::class
+    Ushahidi\App\Http\Middleware\SetLocale::class,
 ]);
 
 $app->routeMiddleware([
