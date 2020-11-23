@@ -822,6 +822,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "siggrid",
+      "name": "Natalia",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/52042098?v=4",
+      "profile": "https://github.com/siggrid",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "projectName": "platform",
