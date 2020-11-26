@@ -2,6 +2,7 @@
 namespace v5\Http\Resources;
 
 use Illuminate\Http\Resources\Json\Resource;
+use v5\Models\PostValues\PostValue;
 
 class PostValueResource extends Resource
 {
@@ -24,7 +25,8 @@ class PostValueResource extends Resource
             'value' => $value,
             'form_attribute_id' => $this->form_attribute_id,
             'created' => $this->created,
-            'translations' => $this->translations ? new TranslationCollection($value_translations) : []
+            'translations' => $this->translations ? new TranslationCollection($value_translations) : [],
+            'translatable_fields' => PostValue::translatableAttributes()
         ];
     }
 }

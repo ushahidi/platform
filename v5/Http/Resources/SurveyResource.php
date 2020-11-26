@@ -2,6 +2,7 @@
 namespace v5\Http\Resources;
 
 use Illuminate\Http\Resources\Json\Resource;
+use v5\Models\Survey;
 
 class SurveyResource extends Resource
 {
@@ -28,7 +29,8 @@ class SurveyResource extends Resource
                 'enabled_languages' => [
                     'default'=> $this->base_language,
                     'available' => $this->translations->groupBy('language')->keys()
-                ]
+                ],
+                'translatable_fields' => Survey::translatableAttributes()
             ];
         }
         return [

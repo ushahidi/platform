@@ -2,6 +2,7 @@
 namespace v5\Http\Resources;
 
 use Illuminate\Http\Resources\Json\Resource;
+use v5\Models\Attribute;
 
 class FieldResource extends Resource
 {
@@ -31,6 +32,7 @@ class FieldResource extends Resource
             'response_private' => (boolean) $this->response_private,
             'form_stage_id' => $this->form_stage_id,
             'translations' => new TranslationCollection($this->translations),
+            'translatable_fields' => Attribute::translatableAttributes()
         ];
     }
 }

@@ -81,26 +81,30 @@ class GenerateEntityTranslationsJson extends Command
         $surveys = $surveys->map(function ($survey) {
             $survey->output_type = 'survey';
             return $survey;
-        })->groupBy('base_language');
+        });
 
         $stages = $stages_by_survey->map(function ($stage) use ($surveys) {
                 /**
                  * attaching an attribute to the model to mark the original language for the future
                  */
                 $stage->output_type = 'stage';
-                $stage->base_language = $surveys->find($stage->form_id)->base_language;
+                $stage->base_language = $surveys->where('id', '=', $stage->form_id)->first()->base_language;
                 return $stage;
-        })->groupBy('base_language');
+        });
 
         $attributes = $attributes->map(function ($attribute) use ($stages) {
                 /**
                  * attaching an attribute to the model to mark the original language for the future
                  */
                 $attribute->output_type = 'attribute';
-                $attribute->base_language = $stages->find($attribute->form_stage_id)->base_language;
+                $attribute->base_language = $stages
+                                                ->where('id', '=', $attribute->form_stage_id)
+                                                ->first()
+                                                ->base_language;
                 return $attribute;
         })->groupBy('base_language');
-
+        $surveys = $surveys->groupBy('base_language');
+        $stages = $stages->groupBy('base_language');
         $languages = $stages
                         ->keys()
                         ->concat($surveys->keys())

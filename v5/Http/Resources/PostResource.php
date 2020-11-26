@@ -59,7 +59,8 @@ class PostResource extends Resource
                 'default'=> $this->base_language,
                 'available' => $this->translations->groupBy('language')->keys()
             ],
-            'allowed_privileges' => $privileges
+            'allowed_privileges' => $privileges,
+            'translatable_fields' => \v5\Models\Post::translatableAttributes()
         ];
     }
 }
