@@ -437,4 +437,16 @@ class Survey extends BaseModel
             $this->attributes['color'] = ltrim($value, '#');
         }
     }
+
+    /**
+     * Returns the attributes that can be translated for this model
+     * @return string[]
+     */
+    public static function translatableAttributes():array
+    {
+        return [
+            'name',
+            'description'
+        ];
+    }
 }//end class

@@ -26,6 +26,7 @@ class BaseModel extends Model
     {
         return $value;
     }
+
     /**
      * Set the model's slug format
      *
@@ -97,5 +98,14 @@ class BaseModel extends Model
         // must validate input before injecting into model
         $this->validate($inputArray);
         $this->fill($inputArray);
+    }
+
+    /**
+     * Returns the attributes that can be translated for this model
+     * @return string[]
+     */
+    public static function translatableAttributes():array
+    {
+        return [];
     }
 }

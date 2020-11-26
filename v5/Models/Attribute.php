@@ -68,4 +68,19 @@ class Attribute extends BaseModel
     {
         return $this->morphMany('v5\Models\Translation', 'translatable');
     }
+
+    /**
+     * Returns the attributes that can be translated for this model
+     * @return string[]
+     */
+    public static function translatableAttributes():array
+    {
+        return [
+            'label',
+            'instructions',
+            'default',
+            'options',
+            'config'
+        ];
+    }
 }

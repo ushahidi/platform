@@ -414,4 +414,16 @@ class Post extends BaseModel
     {
         return $this->hasMany('v5\Models\PostStages', 'post_id', 'id');
     }
+
+    /**
+     * Returns the attributes that can be translated for this model
+     * @return string[]
+     */
+    public static function translatableAttributes():array
+    {
+        return [
+            'title',
+            'content'
+        ];
+    }
 }//end class

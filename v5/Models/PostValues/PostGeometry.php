@@ -24,6 +24,15 @@ class PostGeometry extends PostValue
 
     public $table = 'post_geometry';
 
+
+    /**
+     * Returns the attributes that can be translated for this model
+     * @return string[]
+     */
+    public static function translatableAttributes():array
+    {
+        return [];
+    }
     /**
      * Get a new query builder for the model's table.
      * Manipulate in case we need to convert geometrical fields to text.

@@ -67,4 +67,12 @@ class PostsMedia extends BaseModel
     {
         return $this->hasOne('v5\Models\Post', 'id', 'post_id');
     }
+    /**
+     * Returns the attributes that can be translated for this model
+     * @return string[]
+     */
+    public static function translatableAttributes():array
+    {
+        return [];
+    }
 }//end class

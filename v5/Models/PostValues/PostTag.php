@@ -35,6 +35,15 @@ class PostTag extends Model
     ];
 
     /**
+     * Returns the attributes that can be translated for this model
+     * @return string[]
+     */
+    public static function translatableAttributes():array
+    {
+        return [];
+    }
+
+    /**
      * Get the error messages for the defined validation rules.
      *
      * @return array

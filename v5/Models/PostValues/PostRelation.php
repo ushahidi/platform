@@ -22,6 +22,14 @@ class PostRelation extends PostValue
     }//end validationMessages()
 
     /**
+     * Returns the attributes that can be translated for this model
+     * @return string[]
+     */
+    public static function translatableAttributes():array
+    {
+        return [];
+    }
+    /**
      * Return all validation rules
      *
      * @return array

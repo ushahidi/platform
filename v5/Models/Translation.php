@@ -35,4 +35,13 @@ class Translation extends BaseModel
     {
         return $this->morphTo();
     }
+
+    /**
+     * Returns the attributes that can be translated for this model
+     * @return string[]
+     */
+    public static function translatableAttributes():array
+    {
+        return [];
+    }
 }

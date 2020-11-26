@@ -20,6 +20,16 @@ class PostValue extends BaseModel
     public $with = ['translations'];
 
     /**
+     * Returns the attributes that can be translated for this model
+     * @return string[]
+     */
+    public static function translatableAttributes():array
+    {
+        return [
+            'value'
+        ];
+    }
+    /**
      * The attributes that should be mutated to dates.
      *
      * @var array

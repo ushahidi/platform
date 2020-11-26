@@ -100,4 +100,15 @@ class Set extends BaseModel
     {
         return $this->errors;
     }
+    /**
+     * Returns the attributes that can be translated for this model
+     * @return string[]
+     */
+    public static function translatableAttributes():array
+    {
+        return [
+            'description',
+            'name'
+        ];
+    }
 }//end class

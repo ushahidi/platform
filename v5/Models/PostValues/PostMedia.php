@@ -11,6 +11,14 @@ class PostMedia extends PostValue
     public $table = 'post_media';
 
     /**
+     * Returns the attributes that can be translated for this model
+     * @return string[]
+     */
+    public static function translatableAttributes():array
+    {
+        return ['value'];
+    }
+    /**
      * Get the error messages for the defined validation rules.
      *
      * @return array

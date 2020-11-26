@@ -18,4 +18,5 @@ return [
     'csv_batch_prefix' => 'csv/batches',
     // csv batch size
     'csv_batch_size' => env('MEDIA_CSV_BATCH_SIZE', 200),
+    'language_batch_prefix' => env('LANGUAGE_BATCH_PREFIX', 'lang')
 ];

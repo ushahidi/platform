@@ -35,7 +35,8 @@ class Kernel extends ConsoleKernel
         \Ushahidi\Console\Command\Webhook::class,
         \Ushahidi\Console\Command\ObfuscateData::class,
         Commands\TestMultisiteJob::class,
-        
+        \v5\Console\Commands\GenerateEntityTranslationsJson::class,
+
     ];
 
     /**

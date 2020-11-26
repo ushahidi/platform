@@ -40,4 +40,15 @@ class Comment extends PostValue
         ];
         return [parent::getRules(), $rules];
     }//end getRules()
+
+    /**
+     * Returns the attributes that can be translated for this model
+     * @return string[]
+     */
+    public static function translatableAttributes():array
+    {
+        return [
+            'value'
+        ];
+    }
 }//end class
