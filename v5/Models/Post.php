@@ -328,6 +328,26 @@ class Post extends BaseModel
         }
         return Collection::make(array_flatten($values));
     }
+    public function getTranslatablePostValues()
+    {
+
+        $value_types = [
+            'Varchar',
+            'Text',
+            'Markdown',
+            'Media',
+        ];
+        $values = [];
+        foreach ($value_types as $type) {
+            $value = $this->{"values$type"};
+            $value = $value->filter(function ($val) {
+                return array_search($val->attribute->input, ['text', 'textarea', 'upload', 'tags']) !== false;
+            });
+            $values[] = $value;
+        }
+
+        return Collection::make(array_flatten($values));
+    }
 
     /**
      * Post values relationships

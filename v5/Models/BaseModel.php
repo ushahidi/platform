@@ -108,4 +108,12 @@ class BaseModel extends Model
     {
         return [];
     }
+
+    public function bulkMakeHidden(array $hide)
+    {
+        foreach ($hide as $h) {
+            $this->makeHidden($h);
+        }
+        return $this;
+    }
 }
