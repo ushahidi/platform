@@ -143,7 +143,9 @@ in the files: `app/PlatformVerifier/Env.php`, `bootstrap/app.php`, and `phinx.ph
 - Added `return 0;` to `handle()` methods in `src/Console/Command` classes to be compliant with symfony 5 console.
 - TODO: Check more about [Laravel Cors update doc](https://github.com/fruitcake/laravel-cors#upgrading-from-0x--barryvdh-laravel-cors)
 
-# To review (abandoned packages)
+# Abandoned packages review
+
+After 7.0 migration, the remaining abandoned packages are:
 
 ```
 Package container-interop/container-interop is abandoned, you should avoid using it. Use psr/container instead.
@@ -154,3 +156,6 @@ Package phpunit/php-token-stream is abandoned, you should avoid using it. No rep
 Package satooshi/php-coveralls is abandoned, you should avoid using it. Use php-coveralls/php-coveralls instead.
 
 ```
+
+- `satooshi/php-coveralls` was replaced by `php-coveralls/php-coveralls`
+- The rest are dependencies of other non-abandoned dependencies so we are not replaceing them yet.
