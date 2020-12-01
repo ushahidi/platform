@@ -53,9 +53,9 @@ class GenerateEntityTranslationsJson extends Command
      */
     public function handle()
     {
-        $this->generateSurveyEntities();
-        $this->generateCategoryEntities();
-        $this->generatePostEntities();
+        $this->makeSurveyEntities();die;
+        $this->generatePostEntities();die;
+        $this->generateCategoryEntities();die;
     }
 
     /**
@@ -64,14 +64,49 @@ class GenerateEntityTranslationsJson extends Command
     private function getCategories()
     {
         return
-            $this->attachProperties(
-                Category::all(
-                    array_merge(['id', 'base_language'], Category::translatableAttributes())
-                ),
-                ['output_type' => 'category']
+            Category::all(
+                array_merge(['id', 'base_language'], Category::translatableAttributes())
             )
                 ->makeHidden(['role', 'parent', 'translations'])
                 ->groupBy('base_language');
+    }
+
+    /**
+     * Translatable items are the basic structure of each row to translate.
+     * For each object's translatable attribute, we get its structure to use when creating the JSON output.
+     * @param $item
+     * @param $output_type
+     * @param $context
+     * @param $translatable_field
+     * @return array|void
+     */
+    private function makeTranslatableItem($item, $output_type, $context, $translatable_field) {
+        $toTranslate = $item->$translatable_field;
+
+        if ($toTranslate === null) {
+            return false;
+        }
+        if (is_array($toTranslate) || is_object($toTranslate)) {
+            $toTranslate = json_encode($toTranslate);
+        }
+        if (!is_string($toTranslate))
+            dd($toTranslate);
+        return [
+            // the item id, to be used when importing
+            "id" => $item->id,
+            // the language we are translating from
+            "base_language" => $item->base_language,
+            // the field name we want to translate
+            "attribute_name" => $translatable_field,
+            // the content of the field we want to translate
+            "to_translate" => $toTranslate,
+            // this field remains empty since it's what the translator will use to create a translation
+            "translation" => "",
+            // output_type is used when importing to know what we need to save
+            "output_type"=> $output_type,
+            // context is just there to help translators understand more of what they are doing
+            "context"   => $context
+        ];
     }
 
     /**
@@ -79,28 +114,25 @@ class GenerateEntityTranslationsJson extends Command
      */
     protected function generateCategoryEntities()
     {
-
         echo OutputText::info("Gathering translatable Category entities.");
-        /**
-         * Getting all the base text for the context first sorted by either language in the case of category,
-         * or their relationship in the case of stages and attributes
-         * We are also hiding can_create and tasks for $survey,
-         * and other relationships and appends from models that come loaded
-         * by default otherwise. The same principle is applied to $stages and $attributes.
-         */
-        $categories = $this->getCategories();
-
-        $languages = $this->getLanguages($categories);
-        $languages->each(function ($lang) use ($categories) {
-            $values = $categories
-                    ->get($lang)
-                    ->flatten()
-                    ->toJson();
+        $attributes = Collection::make(Category::translatableAttributes());
+        $categoriesByLang = $this->getCategories();
+        $categoriesByLang->each(function ($categories, $language) use ($attributes) {
+            $items = Collection::make([]);
+            $categories->each(function ($category) use ($attributes, $language, &$items) {
+                $attributes->each(function ($tr) use ($category, &$items) {
+                    $toSave = $this->makeTranslatableItem($category, 'category', "Category", $tr);
+                    if ($toSave) {
+                        $items->push($toSave);
+                    }
+                });
+            });
             /**
              * Generates a file per each language containing
              * all the survey related entities base text
              */
-            $this->generateFile($values, $lang, 'categories');
+            $this->generateFile($items->toJson(), $language, 'categories');
+            echo OutputText::info("Created file for categories - based on language: $language.");
         });
     }
 
@@ -128,52 +160,53 @@ class GenerateEntityTranslationsJson extends Command
             })->groupBy('base_language');
     }
 
+    private function getTranslatableItems($entity) {
+
+    }
+
+
     /**
      * Creates JSON file with the entities relating to Posts, to be used by translators in their systems
      */
     protected function generatePostEntities()
     {
-
         echo OutputText::info("Gathering translatable Post entities.");
-        /**
-         * Getting all the base text for the context first sorted by either language in the case of category,
-         * or their relationship in the case of stages and attributes
-         * We are also hiding can_create and tasks for $survey,
-         * and other relationships and appends from models that come loaded
-         * by default otherwise. The same principle is applied to $stages and $attributes.
-         */
-        $posts = $this->getPosts();
+        $attributes = Collection::make(Post::translatableAttributes());
+        $postsByLang = $this->getPosts();
+        $postsByLang->each(function ($posts, $language) use ($attributes) {
+            if (!$language) {
+                return;
+            }
+            $items = Collection::make([]);
+            $posts->each(function ($post) use ($attributes, $language, &$items) {
+                $attributes->each(function ($tr) use ($post, &$items, $language) {
+                    $toSave = $this->makeTranslatableItem($post, 'post', "Post", $tr);
+                    if ($toSave) {
+                        $items->push($toSave);
+                    }
 
-        $this
-            ->getLanguages($posts)
-            ->each(function ($lang) use ($posts) {
-                if (!$lang) {
-                    return;
-                }
-                $json = Collection::make([]);
-                $posts = $posts
-                    ->get($lang);
-                $posts->each(function ($post) use (&$json) {
-                    $fieldValues = $post->fieldValues->flatten();
-                    $post = $post->makeHidden(
-                        [
-                            'fieldValues',
-                            'valuesVarchar',
-                            'valuesMedia',
-                            'valuesMarkdown',
-                            'valuesText'
-                        ]
-                    );
-                    $json = $json->push($post)->concat($fieldValues);
+                    $post->fieldValues->flatten()->each(function ($fieldValue) use (&$items, $language) {
+                        $fieldValue->base_language = $language;
+                        $toSave = $this->makeTranslatableItem(
+                            $fieldValue,
+                            'post_value_' . $fieldValue->attribute->type,
+                            $fieldValue->attribute->label,
+                            "value"
+                        );
+                        if ($toSave) {
+                            $items->push($toSave);
+                        }
+                    });
                 });
-                /**
-                 * Generates a file per each language containing
-                 * all the survey related entities base text
-                 */
-                $this->generateFile($json->toJson(), $lang, 'posts');
             });
+            /**
+             * Generates a file per each language containing
+             * all the post related entities base text
+             */
+            $this->generateFile($items->toJson(), $language, 'posts');
+            echo OutputText::info("Created file for posts - based on language: $language.");
+        });
     }
-
     /**
      * @return Collection
      */
@@ -183,7 +216,8 @@ class GenerateEntityTranslationsJson extends Command
         $surveys = Survey::all(
             array_merge(['id', 'base_language'], Survey::translatableAttributes())
         )->makeHidden(['can_create', 'tasks']);
-        $surveys = $this->attachProperties($surveys, ['output_type' => 'survey']);
+        $surveys = $this->attachProperties($surveys, ['output_type' => 'survey'])
+            ->groupBy('base_language');
         return $surveys;
     }
 
@@ -227,6 +261,62 @@ class GenerateEntityTranslationsJson extends Command
         });
     }
 
+    /**
+     * Creates JSON file with the entities relating to Surveys, to be used by translators in their systems
+     */
+    protected function makeSurveyEntities()
+    {
+        echo OutputText::info("Gathering translatable Surveys entities.");
+        $surveyAttributes = Collection::make(Survey::translatableAttributes());
+
+        $surveysByLang = $this->getSurveys();
+        $surveysByLang->each(function ($surveys, $language) use ($surveyAttributes) {
+            if (!$language) {
+                return;
+            }
+            $items = Collection::make([]);
+            $surveys->each(function ($survey) use ($surveyAttributes, $language, &$items) {
+                $surveyAttributes->each(function ($sAttr) use ($survey, &$items, $language) {
+                    $toSave = $this->makeTranslatableItem($survey, 'survey', "Survey", $sAttr);
+                    if ($toSave) {
+                        $items->push($toSave);
+                    }
+                    $stageAttributes = Collection::make(Stage::translatableAttributes());
+                    $survey->tasks->each(function ($task) use (&$items, $language, $stageAttributes) {
+                        $task->base_language = $language;
+                        $stageAttributes->each(function ($stgAttr) use (&$items, $task) {
+                            $toSave = $items->push($this->makeTranslatableItem($task, 'task', "Task", $stgAttr));
+                            if ($toSave) {
+                                $items->push($toSave);
+                            }
+                        });
+                        $attrAttributes = Collection::make(Attribute::translatableAttributes());
+                        $task->fields->each(function ($attribute) use (&$items, $task, $language, $attrAttributes) {
+                            $attribute->base_language = $language;
+                            $attrAttributes->each(function ($attrAttr) use ($attribute, &$items, $task) {
+                                if ($attribute->type === 'tags' )
+                                {
+                                    return;
+                                }
+                                $toSave = $this->makeTranslatableItem(
+                                    $attribute, 'field', "Field in task $task->id, in survey $task->form_id", $attrAttr
+                                );
+                                if ($toSave) {
+                                    $items->push($toSave);
+                                }
+                            });
+                        });
+                    });
+                });
+            });
+            /**
+             * Generates a file per each language containing
+             * all the post related entities base text
+             */
+            $this->generateFile($items->toJson(), $language, 'surveys');
+            echo OutputText::info("Created file for surveys - based on language: $language.");
+        });
+    }
     /**
      * Creates JSON file with the entities relating to Surveys, to be used by translators in their systems
      */

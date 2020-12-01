@@ -36,6 +36,8 @@ class Kernel extends ConsoleKernel
         \Ushahidi\Console\Command\ObfuscateData::class,
         Commands\TestMultisiteJob::class,
         \v5\Console\Commands\GenerateEntityTranslationsJson::class,
+        \v5\Console\Commands\ImportEntityTranslationsJson::class,
+
 
     ];
 
