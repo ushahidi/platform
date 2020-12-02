@@ -503,6 +503,22 @@ Feature: API Access Control Layer
         When I request "/posts"
         Then the guzzle status code should be 401
 
+    @disableRegistration
+    Scenario: Registering as a user when a deployment has registration disabled
+        Given that I want to make a new "user"
+        And that the request "data" is:
+        """
+        {
+            "email":"john@ushahidi.com",
+            "realname":"John Tae",
+            "password":"testing",
+            "role":"admin"
+        }
+        """
+        When I request "/register"
+        Then the response is JSON
+        Then the guzzle status code should be 403
+
     @rolesEnabled
     Scenario: User with Manage Posts permission can view all posts in collection
         Given that I want to get all "Posts"
