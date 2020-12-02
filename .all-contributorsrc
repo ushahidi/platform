@@ -858,6 +858,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "error404-sp",
+      "name": "Shreyasi Patil",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/53648200?v=4",
+      "profile": "https://shreyasi.netlify.app/",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "projectName": "platform",
