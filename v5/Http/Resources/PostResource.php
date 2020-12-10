@@ -19,7 +19,7 @@ class PostResource extends Resource
     {
 
         $values = $this->getPostValues();
-        $col = new Collection(['values' => $values, 'tasks' => $this->survey->tasks]);
+        $col = new Collection(['values' => $values, 'tasks' => $this->survey ? $this->survey->tasks : []]);
         $no_values = false;
 
         if ($values->count() === 0) {
@@ -53,7 +53,8 @@ class PostResource extends Resource
             'base_language' => $this->base_language,
             'categories' => $this->categories,
             'completed_stages' => $this->postStages,
-            'post_content' => $no_values ? new TaskCollection($this->survey->tasks) : new PostValueCollection($col),
+            'post_content' => $no_values ? new TaskCollection($this->survey ? $this->survey->tasks : []) :
+                                           new PostValueCollection($col),
             'translations' => new TranslationCollection($this->translations),
             'enabled_languages' => [
                 'default'=> $this->base_language,
