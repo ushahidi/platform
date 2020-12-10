@@ -53,6 +53,11 @@ class GenerateEntityTranslationsJson extends Command
      */
     public function handle()
     {
+        if (!$this->confirm("[Warning] This is an ALPHA Cli feature. Do you want to continue?")) {
+            $this->info("Export process cancelled");
+            return;
+        }
+
         $this->makeSurveyEntities();
         $this->generatePostEntities();
         $this->generateCategoryEntities();

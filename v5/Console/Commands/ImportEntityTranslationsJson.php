@@ -58,6 +58,11 @@ class ImportEntityTranslationsJson extends Command
      */
     public function handle()
     {
+        if (!$this->confirm("[Warning-IMPORT] This is an ALPHA Cli feature to import data into an environment. 
+                                     Do you want to continue?")) {
+            $this->info("IMPORT process cancelled");
+            return;
+        }
         $target_language = $this->argument('target-language');
         $file_path = $this->argument('file-path');
         $file_exists = Storage::disk('local')->exists($file_path);
