@@ -331,6 +331,7 @@ class GenerateEntityTranslationsJson extends Command
 
         $size = $fs->getSize($filepath);
         $type = $fs->getMimetype($filepath);
+        echo OutputText::info("Created file $filepath");
 
         return new FileData([
             'file' => $filepath,
