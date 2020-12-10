@@ -19,7 +19,7 @@ class PostResource extends Resource
     {
 
         $values = $this->getPostValues();
-        $col = new Collection(['values' => $values, 'tasks' => $this->survey->tasks]);
+        $col = new Collection(['values' => $values, 'tasks' => $this->survey ? $this->survey->tasks : []]);
         $no_values = false;
 
         if ($values->count() === 0) {
@@ -33,6 +33,13 @@ class PostResource extends Resource
         // this is an unfortunate problem with using an old version of lumen
         // that doesn't let me do guest user checks without adding more risk.
         $privileges = $authorizer->getAllowedPrivs($entity);
+        $post_content =  Collection::make([]);
+
+        if ($no_values && $this->survey) {
+            $post_content = new TaskCollection($this->survey->tasks);
+        } elseif ($this->survey) {
+            $post_content = new PostValueCollection($col);
+        }
 
         return [
             'id' => $this->id,
@@ -53,7 +60,7 @@ class PostResource extends Resource
             'base_language' => $this->base_language,
             'categories' => $this->categories,
             'completed_stages' => $this->postStages,
-            'post_content' => $no_values ? new TaskCollection($this->survey->tasks) : new PostValueCollection($col),
+            'post_content' => $post_content,
             'translations' => new TranslationCollection($this->translations),
             'enabled_languages' => [
                 'default'=> $this->base_language,
