@@ -29,9 +29,9 @@ use v5\Models\Attribute;
 use v5\Models\Category;
 use v5\Models\Post;
 use v5\Models\Stage;
-use v5\Models\Survey;use Illuminate\Support\Facades\File as LocalFilesystem;
+use v5\Models\Survey;
+use Illuminate\Support\Facades\File as LocalFilesystem;
 use v5\Models\Translation;
-
 
 class ImportEntityTranslationsJson extends Command
 {
@@ -62,14 +62,15 @@ class ImportEntityTranslationsJson extends Command
         $file_path = $this->argument('file-path');
         $file_exists = Storage::disk('local')->exists($file_path);
         if (!$file_exists) {
-            echo OutputText::error("File does not exist " . Storage::disk('local')->url($file_path) );
+            echo OutputText::error("File does not exist " . Storage::disk('local')->url($file_path));
             return;
         }
 
         $json = json_decode(Storage::disk('local')->get($file_path));
         if (json_last_error()) {
             echo OutputText::error(
-                "The JSON content in $file_path is invalid. Please check the format. Error reported: " . json_last_error_msg()
+                "The JSON content in $file_path is invalid. Please check the format. Error reported: " .
+                json_last_error_msg()
             );
             return;
         }
@@ -86,7 +87,8 @@ class ImportEntityTranslationsJson extends Command
         }
     }
 
-    private function saveTranslations($json, $target_language, $file_name) {
+    private function saveTranslations($json, $target_language, $file_name)
+    {
         $collection = Collection::make($json);
         $last = null;
         try {
@@ -95,11 +97,14 @@ class ImportEntityTranslationsJson extends Command
             $collection->each(function ($item) use ($target_language, &$last, &$count) {
                 $last = $item;
                 if (!$this->isValidItem($item)) {
-                    throw new \Exception("Some items are missing required fields. First error found in : " . json_encode($item));
+                    throw new \Exception(
+                        "Some items are missing required fields. First error found in : " . json_encode($item)
+                    );
                 }
                 if (!$item->translation) {
                     echo OutputText::warn(
-                        "Item with id:'$item->id', output_type:'$item->output_type', attribute_name: '$item->attribute_name' " .
+                        "Item with id:'$item->id', output_type:'$item->output_type" .
+                        "', attribute_name: '$item->attribute_name' " .
                         "does not have a translation. Ignoring."
                     );
                     return;
@@ -128,15 +133,16 @@ class ImportEntityTranslationsJson extends Command
             ];
             if ($last && $this->isValidItem($last)) {
                 array_push(
-                $errors,
-                "The error happened while processing the item with id: $last->id and output_type: $last->output_type."
+                    $errors,
+                    "Error happened while processing the item with id: $last->id and output_type: $last->output_type."
                 );
             }
             array_push($errors, "Exception message: {$e->getMessage()}");
             return ["errors" => $errors];
         }
     }
-    private function isValidItem($item) {
+    private function isValidItem($item)
+    {
         return isset($item->id) && isset($item->output_type);
     }
 }
