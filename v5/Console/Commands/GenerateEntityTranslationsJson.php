@@ -14,8 +14,10 @@
 namespace v5\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Http\File;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use League\Flysystem\Util\MimeType;
 use Ushahidi\App\Tools\OutputText;
@@ -303,6 +305,8 @@ class GenerateEntityTranslationsJson extends Command
         $fprefix = config('media.language_batch_prefix', 'lang');
         $fname = $language . '-' . $type. Carbon::now()->format('Ymd') .'-'. Str::random(40) . '.json';
         $filepath = implode(DIRECTORY_SEPARATOR, [
+            getenv('CDN_PREFIX'),
+            app('multisite')->getSite()->getCdnPrefix(),
             $fprefix,
             $fname,
         ]);
