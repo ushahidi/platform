@@ -90,7 +90,10 @@ class GenerateEntityTranslationsJson extends Command
     private function makeTranslatableItem($item, $output_type, $context, $translatable_field)
     {
         $toTranslate = $item->$translatable_field;
-        if ($toTranslate === null) {
+        if ($toTranslate === null || $toTranslate === "") {
+            return false;
+        }
+        if (is_array($toTranslate) && count($toTranslate) === 0) {
             return false;
         }
         if (is_array($toTranslate) || is_object($toTranslate)) {
