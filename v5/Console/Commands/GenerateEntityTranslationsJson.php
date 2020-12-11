@@ -183,17 +183,17 @@ class GenerateEntityTranslationsJson extends Command
             $items = Collection::make([]);
             $posts->each(function ($post) use ($attributes, $language, &$items) {
                 $attributes->each(function ($tr) use ($post, &$items, $language) {
-                    $toSave = $this->makeTranslatableItem($post, 'post', "Post", $tr);
+                    $toSave = $this->makeTranslatableItem($post, 'post', "Post $tr", $tr);
                     if ($toSave) {
                         $items->push($toSave);
                     }
 
-                    $post->fieldValues->flatten()->each(function ($fieldValue) use (&$items, $language) {
+                    $post->fieldValues->flatten()->each(function ($fieldValue) use (&$items, $language, $post) {
                         $fieldValue->base_language = $language;
                         $toSave = $this->makeTranslatableItem(
                             $fieldValue,
                             'post_value_' . $fieldValue->attribute->type,
-                            $fieldValue->attribute->label,
+                            "Field '{$fieldValue->attribute->label}' in post {$post->id}",
                             "value"
                         );
                         if ($toSave) {
@@ -248,7 +248,12 @@ class GenerateEntityTranslationsJson extends Command
                     $survey->tasks->each(function ($task) use (&$items, $language, $stageAttributes) {
                         $task->base_language = $language;
                         $stageAttributes->each(function ($stgAttr) use (&$items, $task) {
-                            $toSave = $this->makeTranslatableItem($task, 'task', "Task", $stgAttr);
+                            $toSave = $this->makeTranslatableItem(
+                                $task,
+                                'task',
+                                "Task in survey $task->form_id",
+                                $stgAttr
+                            );
                             if ($toSave) {
                                 $items->push($toSave);
                             }
@@ -306,11 +311,14 @@ class GenerateEntityTranslationsJson extends Command
     protected function generateFile($json, $language, $type)
     {
         $fprefix = config('media.language_batch_prefix', 'lang');
-        $fname = $language . '-' . $type. Carbon::now()->format('Ymd') .'-'. Str::random(40) . '.json';
+        $carbonprefix = Carbon::now()->format('Ymdhms');
+        $batchprefix = 'batch' . $carbonprefix;
+        $fname = $language . '-' . $type. $carbonprefix .'-'. Str::random(40) . '.json';
         $filepath = implode(DIRECTORY_SEPARATOR, [
             getenv('CDN_PREFIX'),
             app('multisite')->getSite()->getCdnPrefix(),
             $fprefix,
+            $batchprefix,
             $fname,
         ]);
 
