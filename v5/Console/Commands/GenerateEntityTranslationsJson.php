@@ -47,6 +47,8 @@ class GenerateEntityTranslationsJson extends Command
      */
     protected $description = 'Create a JSON file per language with all entity source texts.';
     protected $signature = 'entitytranslations:out';
+    protected $batchStamp;
+
 
     /**
      * Execute the console command.
@@ -59,7 +61,7 @@ class GenerateEntityTranslationsJson extends Command
             $this->info("Export process cancelled");
             return;
         }
-
+        $this->batchStamp = Carbon::now()->format('Ymdhms');
         $this->makeSurveyEntities();
         $this->generatePostEntities();
         $this->generateCategoryEntities();
@@ -311,9 +313,8 @@ class GenerateEntityTranslationsJson extends Command
     protected function generateFile($json, $language, $type)
     {
         $fprefix = config('media.language_batch_prefix', 'lang');
-        $carbonprefix = Carbon::now()->format('Ymdhms');
-        $batchprefix = 'batch' . $carbonprefix;
-        $fname = $language . '-' . $type. $carbonprefix .'-'. Str::random(40) . '.json';
+        $batchprefix = 'batch' . $this->batchStamp;
+        $fname = $language . '-' . $type. $this->batchStamp .'-'. Str::random(40) . '.json';
         $filepath = implode(DIRECTORY_SEPARATOR, [
             getenv('CDN_PREFIX'),
             app('multisite')->getSite()->getCdnPrefix(),
