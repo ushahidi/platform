@@ -48,7 +48,8 @@ class GenerateEntityTranslationsJson extends Command
     protected $description = 'Create a JSON file per language with all entity source texts.';
     protected $signature = 'entitytranslations:out';
     protected $batchStamp;
-    protected $addPrivate = false;
+    protected $addPrivateResponses = false;
+    protected $addUnpublishedPosts = false;
 
 
     /**
@@ -62,9 +63,15 @@ class GenerateEntityTranslationsJson extends Command
             $this->info("Export process cancelled");
             return;
         }
-        if ($this->confirm("Should we add private responses? Private responses may contain sensitive data.")) {
-            $this->addPrivate = true;
+        $warn = "[Data warning] Should we add private responses? Private responses may contain sensitive data.";
+        if ($this->confirm($warn)) {
+            $this->addPrivateResponses = true;
         }
+        $warn = "[Data warning] Should we add non-public posts? This includes in-review and archived posts.";
+        if ($this->confirm($warn)) {
+            $this->addUnpublishedPosts = true;
+        }
+
         $this->batchStamp = Carbon::now()->format('Ymdhms');
         $this->makeSurveyEntities();
         $this->generatePostEntities();
@@ -156,7 +163,7 @@ class GenerateEntityTranslationsJson extends Command
     private function getPosts()
     {
         return Post::all(
-            array_merge(['id', 'base_language'], Post::translatableAttributes())
+            array_merge(['id', 'base_language', 'status'], Post::translatableAttributes())
         )
             ->makeHidden(['values', 'translations'])
             ->map(function ($post) {
@@ -188,6 +195,9 @@ class GenerateEntityTranslationsJson extends Command
             }
             $items = Collection::make([]);
             $posts->each(function ($post) use ($attributes, $language, &$items) {
+                if (!$this->addUnpublishedPosts && $post->status !== 'published') {
+                    return;
+                }
                 $attributes->each(function ($tr) use ($post, &$items, $language) {
                     $toSave = $this->makeTranslatableItem($post, 'post', "Post $tr", $tr);
                     if ($toSave) {
@@ -197,7 +207,7 @@ class GenerateEntityTranslationsJson extends Command
                     $post->fieldValues->flatten()->each(function ($fieldValue) use (&$items, $language, $post) {
                         $fieldValue->base_language = $language;
                         // if the response isn't private OR we explicitly want private responses
-                        if ($this->addPrivate || !$fieldValue->attribute->response_private) {
+                        if ($this->addPrivateResponses || !$fieldValue->attribute->response_private) {
                             $toSave = $this->makeTranslatableItem(
                                 $fieldValue,
                                 'post_value_' . $fieldValue->attribute->type,
