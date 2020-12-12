@@ -162,18 +162,27 @@ class GenerateEntityTranslationsJson extends Command
      */
     private function getPosts()
     {
-        return Post::all(
+        $posts = null;
+
+        $posts =  Post::query();
+        if (!$this->addUnpublishedPosts) {
+            $posts = $posts->where('status', '=', 'published');
+        }
+        $posts = $posts->get(
             array_merge(['id', 'base_language', 'status'], Post::translatableAttributes())
-        )
+        );
+        return $posts
             ->makeHidden(['values', 'translations'])
             ->map(function ($post) {
-                $values = $post->getTranslatablePostValues()->map(function ($value) use ($post) {
-                    return $this->attachProperties($value, [
-                        'output_type' => 'post_value',
-                        'post_id' => $post->id,
-                        'attribute_name' => $value->attribute->label
-                    ])->makeHidden(['post', 'translations' , 'attribute']);
-                });
+                $values = $post->getTranslatablePostValues($this->addPrivateResponses)
+                    ->map(function ($value) use ($post) {
+                        return $this->attachProperties($value, [
+                            'output_type' => 'post_value',
+                            'post_id' => $post->id,
+                            'attribute_name' => $value->attribute->label
+                        ])
+                                ->makeHidden(['post', 'translations' , 'attribute']);
+                    });
                 return $this->attachProperties($post, [
                     'output_type' => 'post',
                     'fieldValues' => $values
@@ -189,34 +198,30 @@ class GenerateEntityTranslationsJson extends Command
         echo OutputText::info("Gathering translatable Post entities.");
         $attributes = Collection::make(Post::translatableAttributes());
         $postsByLang = $this->getPosts();
+        if (!$postsByLang) {
+            return;
+        }
         $postsByLang->each(function ($posts, $language) use ($attributes) {
             if (!$language) {
                 return;
             }
             $items = Collection::make([]);
             $posts->each(function ($post) use ($attributes, $language, &$items) {
-                if (!$this->addUnpublishedPosts && $post->status !== 'published') {
-                    return;
-                }
                 $attributes->each(function ($tr) use ($post, &$items, $language) {
                     $toSave = $this->makeTranslatableItem($post, 'post', "Post $tr", $tr);
                     if ($toSave) {
                         $items->push($toSave);
                     }
-
                     $post->fieldValues->flatten()->each(function ($fieldValue) use (&$items, $language, $post) {
                         $fieldValue->base_language = $language;
-                        // if the response isn't private OR we explicitly want private responses
-                        if ($this->addPrivateResponses || !$fieldValue->attribute->response_private) {
-                            $toSave = $this->makeTranslatableItem(
-                                $fieldValue,
-                                'post_value_' . $fieldValue->attribute->type,
-                                "Field '{$fieldValue->attribute->label}' in post {$post->id}",
-                                "value"
-                            );
-                            if ($toSave) {
-                                $items->push($toSave);
-                            }
+                        $toSave = $this->makeTranslatableItem(
+                            $fieldValue,
+                            'post_value_' . $fieldValue->attribute->type,
+                            "Field '{$fieldValue->attribute->label}' in post {$post->id}",
+                            "value"
+                        );
+                        if ($toSave) {
+                            $items->push($toSave);
                         }
                     });
                 });
