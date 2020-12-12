@@ -48,6 +48,7 @@ class GenerateEntityTranslationsJson extends Command
     protected $description = 'Create a JSON file per language with all entity source texts.';
     protected $signature = 'entitytranslations:out';
     protected $batchStamp;
+    protected $addPrivate = false;
 
 
     /**
@@ -60,6 +61,9 @@ class GenerateEntityTranslationsJson extends Command
         if (!$this->confirm("[Warning] This is an ALPHA Cli feature. Do you want to continue?")) {
             $this->info("Export process cancelled");
             return;
+        }
+        if ($this->confirm("Should we add private responses? Private responses may contain sensitive data.")) {
+            $this->addPrivate = true;
         }
         $this->batchStamp = Carbon::now()->format('Ymdhms');
         $this->makeSurveyEntities();
@@ -192,14 +196,17 @@ class GenerateEntityTranslationsJson extends Command
 
                     $post->fieldValues->flatten()->each(function ($fieldValue) use (&$items, $language, $post) {
                         $fieldValue->base_language = $language;
-                        $toSave = $this->makeTranslatableItem(
-                            $fieldValue,
-                            'post_value_' . $fieldValue->attribute->type,
-                            "Field '{$fieldValue->attribute->label}' in post {$post->id}",
-                            "value"
-                        );
-                        if ($toSave) {
-                            $items->push($toSave);
+                        // if the response isn't private OR we explicitly want private responses
+                        if ($this->addPrivate || !$fieldValue->attribute->response_private) {
+                            $toSave = $this->makeTranslatableItem(
+                                $fieldValue,
+                                'post_value_' . $fieldValue->attribute->type,
+                                "Field '{$fieldValue->attribute->label}' in post {$post->id}",
+                                "value"
+                            );
+                            if ($toSave) {
+                                $items->push($toSave);
+                            }
                         }
                     });
                 });
