@@ -328,7 +328,7 @@ class Post extends BaseModel
         }
         return Collection::make(array_flatten($values));
     }
-    public function getTranslatablePostValues()
+    public function getTranslatablePostValues($include_private = false)
     {
 
         $value_types = [
@@ -340,8 +340,12 @@ class Post extends BaseModel
         $values = [];
         foreach ($value_types as $type) {
             $value = $this->{"values$type"};
-            $value = $value->filter(function ($val) {
-                return array_search($val->attribute->input, ['text', 'textarea', 'upload', 'tags']) !== false;
+            $value = $value->filter(function ($val) use ($include_private) {
+                $type = array_search($val->attribute->input, ['text', 'textarea', 'upload', 'tags']) !== false;
+                if (!$include_private && $val->attribute->response_private) {
+                    return false;
+                }
+                return $type;
             });
             $values[] = $value;
         }
