@@ -43,7 +43,7 @@ class SurveyController extends V4Controller
      */
     public function index()
     {
-        return new SurveyCollection(Survey::all());
+        return SurveyResource::collection(Survey::all());
     }//end index()
 
     /**

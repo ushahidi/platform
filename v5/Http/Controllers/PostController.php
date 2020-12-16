@@ -52,7 +52,7 @@ class PostController extends V4Controller
      */
     public function index()
     {
-        return new PostCollection(Post::paginate(20));
+        return PostResource::collection(Post::paginate(20));
     }//end index()
 
     private function getUser()
