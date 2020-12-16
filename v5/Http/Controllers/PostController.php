@@ -97,7 +97,9 @@ class PostController extends V4Controller
         if (empty($input)) {
             return self::make500('POST body cannot be empty');
         }
-
+        if (empty($input['form_id'])) {
+            return self::make422("The V5 API requires a form_id for post creation.");
+        }
         // Check post permissions
         $user = $this->runAuthorizer('store', [Post::class, $input['form_id'], $this->getUser()->getId()]);
         $input = $this->setInputDefaults($input, $user, 'store');
@@ -116,7 +118,12 @@ class PostController extends V4Controller
             if (isset($input['completed_stages'])) {
                 $this->savePostStages($post, $input['completed_stages']);
             }
-            $this->savePostValues($post, $input['post_content'], $post->id);
+            $errors = $this->savePostValues($post, $input['post_content'], $post->id);
+
+            if (!empty($errors)) {
+                DB::rollback();
+                return self::make422($errors, 'fields');
+            }
             $errors = $this->saveTranslations(
                 $post,
                 $post->toArray(),
@@ -165,10 +172,11 @@ class PostController extends V4Controller
         try {
             $post->update(array_merge($input, ['updated' => time()]));
             $errors = $this->savePostValues($post, $post_values, $post->id);
-            if (is_array($errors)) {
+            if (!empty($errors)) {
                 return self::make422($errors);
             }
-            $this->updateTranslations(new Post(), $post->toArray(), $request->input('translations'), $post->id, 'post');
+            $translations_input = $request->input('translations') ? $request->input('translations') : [];
+            $this->updateTranslations(new Post(), $post->toArray(), $translations_input, $post->id, 'post');
             DB::commit();
             $post->load('translations');
             return new PostResource($post);
@@ -283,14 +291,14 @@ class PostController extends V4Controller
                 }
             }
         }
-        if (!empty($errors)) {
-            return $errors;
-        }
-        return true;
+        return $errors;
     }
 
     protected function savePostTags($post, $attr_id, $tags)
     {
+        if (!is_array($tags)) {
+            throw new \Exception("$attr_id: tag format is invalid.");
+        }
         foreach ($tags as $tag_id) {
             $post->valuesPostTag()->create(
                 [

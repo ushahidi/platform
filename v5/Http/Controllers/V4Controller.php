@@ -168,7 +168,7 @@ class V4Controller extends BaseController
         int $translatable_id,
         string $type
     ) {
-        if (!is_array($translation_input)) {
+        if (empty($translation_input)) {
             return [];
         }
         Translation::where('translatable_id', $translatable_id)->where('translatable_type', $type)->delete();

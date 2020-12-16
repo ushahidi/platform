@@ -154,6 +154,6 @@ class PostPermissions
      */
     public function canUserViewUnpublishedPosts(User $user)
     {
-        return $this->acl->hasPermission($user, Permission::MANAGE_POSTS);
+        return $user && $this->acl->hasPermission($user, Permission::MANAGE_POSTS);
     }
 }
