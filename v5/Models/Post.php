@@ -219,7 +219,9 @@ class Post extends BaseModel
                 function ($attribute, $value, $fail) {
                     if (!!$value) {
                         $get_value = Input::get(str_replace('.required', '.value.value', $attribute));
-                        if (!$get_value) {
+                        $is_title = Input::get(str_replace('.required', '.type', $attribute)) === 'title';
+                        $is_desc = Input::get(str_replace('.required', '.type', $attribute)) === 'description';
+                        if (!$get_value && !$is_desc && !$is_title) {
                             return $fail(trans('validation.field_required'));
                         }
                     }
