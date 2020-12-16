@@ -17,11 +17,15 @@ class V5GlobalScopes
 {
     public function handle($request, Closure $next)
     {
+        /**
+         * The ONLY scenario where we don't attach this scopes out of the box
+         * has to be on post saving. This is because during post saving we are not deciding
+         * if we need or don't need to show post values, we are deciding only if we can save them
+         * and the response is valid to show to that particular POST request.
+         */
+        $isSavingPost = $request->path() === 'api/v5/posts' &&  $request->isMethod('post');
 
-        $isSaving = $request->isMethod('post');
-
-        $isPosts = $request->path() === 'api/v5/posts';
-        if (!$isSaving && !$isPosts) {
+        if (!$isSavingPost) {
             Category::addGlobalScope(new CategoryAllowed);
             Post::addGlobalScope(new PostAllowed);
             Stage::addGlobalScope(new StageAllowed);

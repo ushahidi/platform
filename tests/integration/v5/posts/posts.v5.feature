@@ -414,3 +414,206 @@ Feature: Testing the Posts API
     And the "result.post_content.0.fields.15.value.value" property equals "https://google-modified.com"
     And the "result.post_content.0.fields.15.value.translations.es.value" property equals "https://google-modified-es.com"
     Then the guzzle status code should be 200
+  @create @rolesEnabled
+  Scenario: Updating a Post to remove markdown field (id:25) and tags (id: 26)
+    Given that I want to update a "Post"
+    And that the oauth token is "testadminuser"
+    And that the api_url is "api/v5"
+    And that the request "data" is:
+        """
+          {
+              "id": 105,
+              "form_id": 1,
+              "user_id": 3,
+              "type": "report",
+              "title": "Original post",
+              "slug": null,
+              "content": "Some description",
+              "author_email": null,
+              "author_realname": null,
+              "status": "published",
+              "published_to": [],
+              "locale": "en_us",
+              "created": "2013-07-05 00:00:00",
+              "updated": null,
+              "post_date": "2013-07-04 23:36:05",
+              "base_language": "",
+              "categories": [],
+              "completed_stages": [],
+              "post_content": [
+                  {
+                      "id": 1,
+                      "form_id": 1,
+                      "fields": [
+                          {
+                              "id": 4,
+                              "type": "description",
+                              "value": null
+                          },
+                          {
+                              "id": 25,
+                              "type": "markdown",
+                              "value": {
+                                "value": "",
+                                "translations": {
+                                  "es": {}
+                                }
+                              }
+                          },
+                          {
+                              "id": 17,
+                              "type": "title",
+                              "value": null
+                          },
+                          {
+                              "id": 1,
+                              "type": "varchar",
+                              "value": {
+                                "value": "A varchar content",
+                                "translations": {
+                                  "es": {
+                                    "value": "A varchar content ES"
+                                  }
+                                }
+                              }
+                          },
+                          {
+                              "id": 2,
+                              "type": "point",
+                              "value": {
+                                "value": {
+                                    "lat": -18.892817463050697,
+                                    "lon": 22.840418464728486
+                                }
+                              }
+                          },
+                          {
+                              "id": 3,
+                              "type": "varchar",
+                              "value": {
+                                "value": "Full name",
+                                "translations": {
+                                  "es": {
+                                    "value": "Full name ES"
+                                  }
+                                }
+                              }
+                          },
+                          {
+                              "id": 26,
+                              "type": "tags",
+                              "value": {
+                                "value": []
+                              }
+                          },
+                          {
+                              "id": 5,
+                              "type": "datetime",
+                              "value": {
+                                "value": "2019-02-02"
+                              }
+                          },
+                          {
+                              "id": 6,
+                              "type": "datetime",
+                              "value": {
+                                "value": "2019-02-03"
+                              }
+                          },
+                          {
+                              "id": 8,
+                              "type": "point",
+                              "value": null
+                          },
+                          {
+                              "id": 7,
+                              "type": "varchar",
+                              "value": {
+                                  "id": 23,
+                                  "post_id": 105,
+                                  "value": "Atlantis",
+                                  "form_attribute_id": 7,
+                                  "created": null,
+                                  "translations": []
+                              }
+                          },
+                          {
+                              "id": 10,
+                              "type": "varchar",
+                              "value": {
+                                  "value": "information_sought"
+                              }
+                          },
+                          {
+                              "id": 12,
+                              "type": "point",
+                              "value": null
+                          },
+                          {
+                              "id": 15,
+                              "type": "varchar",
+                              "value": {
+                                  "value": [
+                                      "medical_evacuation"
+                                  ]
+                              }
+                          },
+                          {
+                              "id": 9,
+                              "type": "geometry",
+                              "value": null
+                          },
+                          {
+                              "id": 11,
+                              "type": "varchar",
+                              "value": {
+                                  "value": "https://google-modified.com",
+                                  "translations": {
+                                    "es": {
+                                      "value": "https://google-modified-es.com"
+                                    }
+                                  }
+                              }
+                          },
+                          {
+                              "id": 14,
+                              "type": "media",
+                              "value": {
+                                  "value": null
+                              }
+                          }
+                      ],
+                      "translations": []
+                  }
+              ],
+              "translations": {
+                "es": {
+                  "title": "Original post ES",
+                  "content": "Some description ES"
+                }
+              },
+              "enabled_languages": {
+                  "default": "en",
+                  "available": ["es"]
+              }
+          }
+        """
+    And that its "id" is "105"
+    When I request "/posts"
+    Then the response is JSON
+    And the response has a "result.id" property
+    And the type of the "result.id" property is "numeric"
+    And the "result.id" property equals "105"
+    And the response has a "result.title" property
+    And the "result.title" property equals "Original post"
+    And the "result.translations.es.title" property equals "Original post ES"
+    And the "result.content" property equals "Some description"
+    And the "result.translations.es.content" property equals "Some description ES"
+    And the "result.post_content.0.id" property equals "1"
+    And the "result.post_content.0.fields" property count is "17"
+    And the "result.post_content.0.fields.1.type" property equals "markdown"
+    And the "result.post_content.0.fields.1.value.value" property is empty
+    And the "result.post_content.0.fields.1.value.translations.es.value" property is empty
+    And the "result.post_content.0.fields.6.type" property equals "tags"
+    And the "result.post_content.0.fields.6.value.value" property is empty
+    Then the guzzle status code should be 200

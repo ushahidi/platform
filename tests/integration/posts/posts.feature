@@ -305,6 +305,7 @@ Feature: Testing the Posts API
 		When I request "/posts"
 		Then the response is JSON
 		And the response has a "errors" property
+		And the "errors" property equal "hello"
 		Then the guzzle status code should be 422
 
 	@create

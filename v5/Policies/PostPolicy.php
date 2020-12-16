@@ -74,10 +74,10 @@ class PostPolicy
      * @param Survey $survey
      * @return bool
      */
-    public function delete(User $user, Survey $survey)
+    public function delete(User $user, Post $post)
     {
-        $form = new Entity\Form($survey->toArray());
-        return $this->isAllowed($form, 'delete');
+        $post = new Entity\Post($post->toArray());
+        return $this->isAllowed($post, 'delete');
     }
     /**
      * @param Survey $survey

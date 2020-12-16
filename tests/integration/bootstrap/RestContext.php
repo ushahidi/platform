@@ -516,6 +516,7 @@ class RestContext implements Context
         $actualPropertyValue = array_get($data, $propertyName);
 
         if ($actualPropertyValue === null) {
+            var_dump($data['result']['post_content']);
             throw new \Exception("Property '".$propertyName."' is not set!\n");
         }
         // Check the value - note this has to use != since $propertValue
@@ -713,6 +714,9 @@ class RestContext implements Context
     public function theRestResponseStatusCodeShouldBe($httpStatus)
     {
         if ((string)$this->response->getStatusCode() !== $httpStatus) {
+            $data = json_decode($this->response->getBody(true), true);
+            var_dump($data);
+
             throw new \Exception('HTTP code does not match '.$httpStatus.
                 ' (actual: '.$this->response->getStatusCode().')');
         }

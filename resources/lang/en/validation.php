@@ -30,5 +30,8 @@ return array(
   'exists'        => ':field must exist',
   'unique'        => ':field must be unique',
   'child_parent_role_match' => 'The child category :attribute must be the same as the parent role.',
-  'tag_field_type_cannot_be_private' => 'Tag fields cannot be private.'
+  'tag_field_type_cannot_be_private' => 'Tag fields cannot be private.',
+  'tag_field_must_be_array' => 'Incorrect format for tags property.',
+  'field_required'         => ':field is required',
+
 );

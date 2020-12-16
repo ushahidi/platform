@@ -212,6 +212,27 @@ class Post extends BaseModel
             'post_content.*.form_id'                   => [
                 'same:form_id'
             ],
+            'post_content.*.fields'                   => [
+                'present'
+            ],
+            'post_content.*.fields.*.required' => [
+                function ($attribute, $value, $fail) {
+                    if (!!$value) {
+                        $get_value = Input::get(str_replace('.required', '.value.value', $attribute));
+                        if (!$get_value) {
+                            return $fail(trans('validation.field_required'));
+                        }
+                    }
+                }
+            ],
+            'post_content.*.fields.*.type' => [
+                function ($attribute, $value, $fail) {
+                    $get_value = Input::get(str_replace('.type', '.value.value', $attribute));
+                    if ($value === 'tags' && !is_array($get_value)) {
+                        return $fail(trans('validation.tag_field_must_be_array'));
+                    }
+                }
+            ],
             'locale',
             'post_date'
         ];
