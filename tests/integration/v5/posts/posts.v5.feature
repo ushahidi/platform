@@ -415,7 +415,7 @@ Feature: Testing the Posts API
     And the "result.post_content.0.fields.15.value.translations.es.value" property equals "https://google-modified-es.com"
     Then the guzzle status code should be 200
   @create @rolesEnabled
-  Scenario: Updating a Post to remove markdown field (id:4) and tags (id: 26)
+  Scenario: Updating a Post to remove markdown field (id:25) and tags (id: 26)
     Given that I want to update a "Post"
     And that the oauth token is "testadminuser"
     And that the api_url is "api/v5"
@@ -454,7 +454,10 @@ Feature: Testing the Posts API
                               "id": 25,
                               "type": "markdown",
                               "value": {
-                                "value": ""
+                                "value": "",
+                                "translations": {
+                                  "es": {}
+                                }
                               }
                           },
                           {

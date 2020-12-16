@@ -213,7 +213,7 @@ class Post extends BaseModel
                 'same:form_id'
             ],
             'post_content.*.fields'                   => [
-                'required'
+                'present'
             ],
             'post_content.*.fields.*.required' => [
                 function ($attribute, $value, $fail) {
