@@ -73,7 +73,7 @@ class CategoryController extends V4Controller
      */
     public function index()
     {
-        return CategoryResource::collection(Category::get());
+        return new CategoryCollection(Category::get());
     }//end index()
 
     /**
