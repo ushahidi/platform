@@ -171,8 +171,14 @@ class PostController extends V4Controller
         DB::beginTransaction();
         try {
             $post->update(array_merge($input, ['updated' => time()]));
+
+            if (isset($input['completed_stages'])) {
+                $this->savePostStages($post, $input['completed_stages']);
+            }
+
             $errors = $this->savePostValues($post, $post_values, $post->id);
             if (!empty($errors)) {
+                DB::rollback();
                 return self::make422($errors);
             }
             $translations_input = $request->input('translations') ? $request->input('translations') : [];
