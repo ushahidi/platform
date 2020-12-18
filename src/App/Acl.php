@@ -52,6 +52,7 @@ class Acl implements AclInterface
         }
     }
 
+
     protected function customRoleHasPermission(User $user, $permission)
     {
         $role = $this->role_repo->getByName($user->role);

@@ -15,7 +15,7 @@ namespace Ushahidi\Core\Tool\Permissions;
 
 trait AclTrait
 {
-    protected $acl;
+    public $acl;
 
     public function setAcl(Acl $acl)
     {

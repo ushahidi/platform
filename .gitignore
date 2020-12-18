@@ -56,3 +56,5 @@ vault.txt
 # garden.io
 .garden
 error.log
+# Snowboard
+dist/*
