@@ -102,15 +102,15 @@ class GenerateEntityTranslationsJson extends Command
      */
     private function makeTranslatableItem($item, $output_type, $context, $translatable_field)
     {
-        $toTranslate = $item->$translatable_field;
-        if ($toTranslate === null || $toTranslate === "") {
+        $to_translate = $item->$translatable_field;
+        if ($to_translate === null || $to_translate === "") {
             return false;
         }
-        if (is_array($toTranslate) && count($toTranslate) === 0) {
+        if (is_array($to_translate) && count($to_translate) === 0) {
             return false;
         }
-        if (is_array($toTranslate) || is_object($toTranslate)) {
-            $toTranslate = json_encode($toTranslate);
+        if (is_array($to_translate) || is_object($to_translate)) {
+            $to_translate = json_encode($to_translate);
         }
         return [
             // the item id, to be used when importing
@@ -120,9 +120,9 @@ class GenerateEntityTranslationsJson extends Command
             // the field name we want to translate
             "attribute_name" => $translatable_field,
             // the content of the field we want to translate
-            "to_translate" => $toTranslate,
+            "to_translate" => $to_translate,
             // this field remains empty since it's what the translator will use to create a translation
-            "translation" => "",
+            "translation" => $to_translate,
             // output_type is used when importing to know what we need to save
             "output_type"=> $output_type,
             // context is just there to help translators understand more of what they are doing
@@ -135,7 +135,6 @@ class GenerateEntityTranslationsJson extends Command
      */
     protected function generateCategoryEntities()
     {
-        echo OutputText::info("Gathering translatable Category entities.");
         $attributes = Collection::make(Category::translatableAttributes());
         $categoriesByLang = $this->getCategories();
         $categoriesByLang->each(function ($categories, $language) use ($attributes) {
@@ -153,7 +152,8 @@ class GenerateEntityTranslationsJson extends Command
              * all the survey related entities base text
              */
             $this->generateFile($items->toJson(), $language, 'categories');
-            echo OutputText::info("Created file for categories - based on language: $language.");
+            echo OutputText::success("Created file for categories - based on language: $language.");
+            echo OutputText::info("Total entities to translate: " . $items->count());
         });
     }
 
@@ -195,7 +195,6 @@ class GenerateEntityTranslationsJson extends Command
      */
     protected function generatePostEntities()
     {
-        echo OutputText::info("Gathering translatable Post entities.");
         $attributes = Collection::make(Post::translatableAttributes());
         $postsByLang = $this->getPosts();
         if (!$postsByLang) {
@@ -231,7 +230,8 @@ class GenerateEntityTranslationsJson extends Command
              * all the post related entities base text
              */
             $this->generateFile($items->toJson(), $language, 'posts');
-            echo OutputText::info("Created file for posts - based on language: $language.");
+            echo OutputText::success("Created file for posts - based on language: $language.");
+            echo OutputText::info("Total entities to translate: " . $items->count());
         });
     }
     /**
@@ -253,7 +253,6 @@ class GenerateEntityTranslationsJson extends Command
      */
     protected function makeSurveyEntities()
     {
-        echo OutputText::info("Gathering translatable Surveys entities.");
         $surveyAttributes = Collection::make(Survey::translatableAttributes());
 
         $surveysByLang = $this->getSurveys();
@@ -303,13 +302,13 @@ class GenerateEntityTranslationsJson extends Command
                     });
                 });
             });
-            OutputText::info("Count" . $items->count());
             /**
              * Generates a file per each language containing
              * all the post related entities base text
              */
             $this->generateFile($items->toJson(), $language, 'surveys');
-            echo OutputText::info("Created file for surveys - based on language: $language.");
+            echo OutputText::success("Created file for surveys - based on language: $language.");
+            echo OutputText::info("Total entities to translate: " . $items->count());
         });
     }
     /**

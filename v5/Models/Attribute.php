@@ -79,8 +79,7 @@ class Attribute extends BaseModel
             'label',
             'instructions',
             'default',
-            'options',
-            'config'
+            'options'
         ];
     }
 }
