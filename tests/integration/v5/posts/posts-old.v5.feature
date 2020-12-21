@@ -626,6 +626,16 @@ Feature: Testing the Posts API
 		Then the response is JSON
 		And the response has a "result.deleted" property
 		Then the guzzle status code should be 200
+	Scenario: Checking only that post got deleted
+		Given that I want to get all "Posts"
+		And that the api_url is "api/v5"
+		When I request "/posts"
+		Then the response is JSON
+		And the response has a "count" property
+		And the type of the "count" property is "numeric"
+		And the "count" property equals "18"
+		And the "meta.total" property equals "18"
+		Then the guzzle status code should be 200
 
 	@delete
 	Scenario: Failing to delete a Post (lack of ownership for regular user)
@@ -670,6 +680,43 @@ Feature: Testing the Posts API
 		#And the "result.slug" property contains "summary-report-تقرير-ملخص"
 		Then the guzzle status code should be 201
 
+  @update
+  Scenario: Admins can assign status to a post without sending a full post body
+  	  Given that I want to update a "Post"
+	  And that the api_url is "api/v5"
+	  And that the oauth token is "testadminuser"
+	  And that its "id" is "1"
+	  And that the request "data" is:
+		  """
+			{
+				"status": "archived"
+			}
+		  """
+	  When I request "/posts/1/status"
+	  Then the response is JSON
+	  And the response has a "result.id" property
+	  And the type of the "result.id" property is "numeric"
+	  And the response has a "result.status" property
+	  And the "result.status" property equals "archived"
+	  Then the guzzle status code should be 200
+
+	@update
+	Scenario: Members cannot assign status to a post
+		Given that I want to update a "Post"
+		And that the api_url is "api/v5"
+		And that the oauth token is "testadminuser"
+		And that its "id" is "1"
+		And that the request "data" is:
+			"""
+				{
+					"status": "published"
+				}
+			"""
+		When I request "/posts/1/status"
+		Then the response is JSON
+		And the response has a "error" property
+		And the response has a "messages" property
+		Then the guzzle status code should be 403
   @update
   Scenario: Users can assign roles to restrict publication of their posts
       Given that I want to update a "Post"

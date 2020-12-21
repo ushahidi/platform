@@ -146,6 +146,33 @@ class PostController extends V4Controller
     /**
      * Display the specified resource.
      *
+     * @param Request $request
+     * @return PostResource|JsonResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
+    public function patchStatus(int $id, Request $request) {
+        $post = Post::find($id);
+        echo $id;die;
+        $input = $this->getFields($request->input());
+        if (!$post) {
+            return self::make404();
+        }
+        if (!isset($input['status'])) {
+            return self::make422("The V5 API requires a status for post status updates.");
+        }
+        $post->setAttribute('status', $input['status']);
+        $this->authorize('changeStatus', $post);
+        $validation = $post->validate();
+        if ($validation) {
+            $post->save();
+            return new PostResource($post);
+        } else {
+            return self::make422($post->errors);
+        }
+    }
+    /**
+     * Display the specified resource.
+     *
      * @TODO   transactions =)
      * @param integer $id
      * @param Request $request

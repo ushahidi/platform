@@ -90,6 +90,16 @@ class PostPolicy
         return $this->isAllowed($post, 'update');
     }
 
+    /**
+     * @param Survey $survey
+     * @return bool
+     */
+    public function changeStatus(User $user, Post $post)
+    {
+        $post = new Entity\Post($post->toArray());
+        // we convert to a form entity to be able to continue using the old authorizers and classes.
+        return $this->isAllowed($post, 'update');
+    }
 
     /**
      * @param Survey $survey

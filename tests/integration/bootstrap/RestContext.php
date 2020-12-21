@@ -301,6 +301,8 @@ class RestContext implements Context
             case 'PUT':
                 $request = (array)$this->restObject;
                 $id = ( isset($request['id']) ) ? $request['id'] : '';
+
+                echo 'CLIENTURL' . $this->requestUrl.'/'.$id;
                 $response = $this->client
                     ->put($this->requestUrl.'/'.$id, [
                         'headers' =>  $this->headers + ['Content-Type' => 'application/json'],
@@ -486,6 +488,8 @@ class RestContext implements Context
         $this->theResponseIsJson();
 
         if (array_get($data, $propertyName) === null) {
+            echo $this->requestUrl;
+            echo($this->response->getBody(true));
             throw new \Exception("Property '".$propertyName."' is not set!\n");
         }
     }
