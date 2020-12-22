@@ -51,7 +51,7 @@ class GenerateEntityTranslationsJson extends Command
     protected $addPrivateResponses = false;
     protected $addUnpublishedPosts = false;
 
-
+    protected $exportSurveys = [];
     /**
      * Execute the console command.
      *
@@ -59,6 +59,7 @@ class GenerateEntityTranslationsJson extends Command
      */
     public function handle()
     {
+
         if (!$this->confirm("[Warning] This is an ALPHA Cli feature. Do you want to continue?")) {
             $this->info("Export process cancelled");
             return;
@@ -70,6 +71,20 @@ class GenerateEntityTranslationsJson extends Command
         $warn = "[Data warning] Should we add non-public posts? This includes in-review and archived posts.";
         if ($this->confirm($warn)) {
             $this->addUnpublishedPosts = true;
+        }
+
+        $survey = Survey::all(["id", "name"])->mapWithKeys(function ($item) {
+            return [$item["id"] => $item["name"] . ":" . $item["id"]];
+        })->toArray();
+        $all = $this->confirm("Do you want to export ALL surveys?");
+
+        if (!$all) {
+            $response = $this->choice("Which surveys should we include?", $survey, null, null, true);
+            $this->exportSurveys = array_map(function ($item) {
+                $del = ":";
+                $exp = explode($del, $item);
+                return trim(array_pop($exp));
+            }, $response);
         }
 
         $this->batchStamp = Carbon::now()->format('Ymdhms');
@@ -168,6 +183,10 @@ class GenerateEntityTranslationsJson extends Command
         if (!$this->addUnpublishedPosts) {
             $posts = $posts->where('status', '=', 'published');
         }
+        if (!empty($this->exportSurveys)) {
+            $posts = $posts->whereIn('form_id', $this->exportSurveys);
+        }
+        //@NOTE: UTF8 support is flaky for post values. Check arabic.
         $posts = $posts->get(
             array_merge(['id', 'base_language', 'status'], Post::translatableAttributes())
         );
@@ -239,10 +258,13 @@ class GenerateEntityTranslationsJson extends Command
      */
     private function getSurveys()
     {
-
-        $surveys = Survey::all(
-            array_merge(['id', 'base_language'], Survey::translatableAttributes())
-        )->makeHidden(['can_create', 'tasks']);
+        $attributes = array_merge(['id', 'base_language'], Survey::translatableAttributes());
+        if (!empty($this->exportSurveys)) {
+            $surveys = Survey::query()->findMany($this->exportSurveys, $attributes);
+        } else {
+            $surveys = Survey::all($attributes);
+        }
+        $surveys = $surveys->makeHidden(['can_create', 'tasks']);
         $surveys = $this->attachProperties($surveys, ['output_type' => 'survey'])
             ->groupBy('base_language');
         return $surveys;
