@@ -177,6 +177,8 @@ class GenerateEntityTranslationsJson extends Command
      */
     private function getPosts()
     {
+        echo OutputText::info("Gathering posts");
+
         $posts = null;
 
         $posts =  Post::query();
@@ -187,15 +189,19 @@ class GenerateEntityTranslationsJson extends Command
             $posts = $posts->whereIn('form_id', $this->exportSurveys);
         }
         //@NOTE: UTF8 support is flaky for post values. Check arabic.
+        //@NOTE: this is an alpha override
         $posts = $posts->get(
-            array_merge(['id', 'base_language', 'status'], Post::translatableAttributes())
-        );
+            array_merge(['id', 'base_language', 'status', 'form_id'], Post::translatableAttributes())
+        )->load('survey');
+
         return $posts
             ->makeHidden(['values', 'translations'])
             ->map(function ($post) {
+
                 $values = $post->getTranslatablePostValues($this->addPrivateResponses)
                     ->map(function ($value) use ($post) {
                         return $this->attachProperties($value, [
+                            'base_language' => $post->survey ? $post->survey->base_language : $post->base_language,
                             'output_type' => 'post_value',
                             'post_id' => $post->id,
                             'attribute_name' => $value->attribute->label
@@ -203,6 +209,7 @@ class GenerateEntityTranslationsJson extends Command
                                 ->makeHidden(['post', 'translations' , 'attribute']);
                     });
                 return $this->attachProperties($post, [
+                    'base_language' => $post->survey ? $post->survey->base_language : $post->base_language,
                     'output_type' => 'post',
                     'fieldValues' => $values
                 ]);
