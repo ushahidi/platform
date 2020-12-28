@@ -44,7 +44,8 @@
         "laravel/lumen-framework": "^7.0",
         "sentry/sentry-laravel": "~2.1.0",
         "laravel/passport": "^9.3.2",
-        "fruitcake/laravel-cors": "^2.0"
+        "fruitcake/laravel-cors": "^2.0",
+        "symfony/psr-http-message-bridge": "^2.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

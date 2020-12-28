@@ -53,7 +53,7 @@ class PHPCS implements Action
         );
 
         if (!$result->isSuccessful()) {
-            throw ActionFailed::withMessage($result->getStdOut() . PHP_EOL . $result->getStdErr());
+            throw new ActionFailed($result->getStdOut() . PHP_EOL . $result->getStdErr());
         }
 
         $io->write($result->getStdOut());

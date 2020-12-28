@@ -119,9 +119,11 @@
 "phpspec/phpspec": "~7.0"
 "friends-of-behat/mink-extension": "^2.4"
 "captainhook/captainhook": "^5.0"
+"symfony/psr-http-message-bridge": "^2.0"
 ```
 
 - The big deal here is that lumen now relies on symfony 5, so we had to check in all the dependencies how it was affected.
+- Added `"symfony/psr-http-message-bridge": "^2.0"` as dependency (needed to add it manually for login to work), and modified `TokenGuard` to use `PsrHttpFactory` instead of `DiactorosFactory` (deprecated). More info [here](https://symfony.com/doc/current/components/psr7.html#converting-from-httpfoundation-objects-to-psr-7)
 - Replaced `"barryvdh/laravel-cors"` by `"fruitcake/laravel-cors"`
 - Replaced `Barryvdh\Cors\HandleCors::class` by ` Fruitcake\Cors\HandleCors::class` in `bootstrap/lumen.php`
 - Removed `""phpunit/dbunit": "~4.0.0"` depedency there is no compatible version with `"phpunit/phpunit": "^8.5"`

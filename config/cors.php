@@ -18,6 +18,7 @@ return [
     */
 
     'supports_credentials' => false,
+    'paths' => ['api/*', 'oauth/*'],
     'allowed_origins' => ['*'],
     'allowed_headers' => ['Authorization', 'Content-type', 'Accept'],
     'allowed_methods' => ['*'],
