@@ -66,23 +66,23 @@ jobs:
         php composer-setup.php
         php -r "unlink('composer-setup.php');"
         php composer --version
-        php composer.phar install --no-interaction ;
+        php composer install --no-interaction ;
 
 
     - name: Check linting
       run: |
         set -e;
 
-        php composer.phar lint
+        php composer lint
         
     - name: Run tests
       run: |
         set -e;
 
-        php composer.phar pre-test;
+        php composer pre-test;
         mysql -e 'SET @@GLOBAL.wait_timeout=1800';
         ( cd httpdocs/; php -S localhost:8000 -t . index.php &)
-        php composer.phar test ;
+        php composer test ;
 
     services:
       mysql:
