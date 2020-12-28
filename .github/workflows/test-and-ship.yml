@@ -19,7 +19,6 @@ jobs:
       matrix:
         php_version:
           - 7.3
-          - 7.4
 
     steps:
     - uses: actions/checkout@v2
