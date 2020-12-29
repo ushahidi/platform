@@ -11,10 +11,10 @@ class GenerateApiKey extends AbstractMigration
         $row = $this->fetchRow('SELECT * FROM apikeys LIMIT 1');
 
         if (!$row) {
-            $this->insert('apikeys', [
+            $this->table('apikeys')->insert([
                 'created' => time(),
                 'api_key' => Uuid::uuid4()->toString()
-            ]);
+            ])->save();
         }
     }
 
