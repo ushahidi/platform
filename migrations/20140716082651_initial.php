@@ -351,20 +351,5 @@ class Initial extends AbstractMigration
             ->addIndex(['email'], ['unique' => true])
             ->create();
     }
-
-    /**
-     * Migrate Up.
-     */
-    public function up()
-    {
-        // noop, uses change()
-    }
-
-    /**
-     * Migrate Down.
-     */
-    public function down()
-    {
-        // noop, uses change()
-    }
+    
 }

@@ -25,6 +25,6 @@ class AddTosTable extends AbstractMigration
      */
     public function down()
     {
-        $this->dropTable('tos');
+        $this->table('tos')->drop()->save();
     }
 }

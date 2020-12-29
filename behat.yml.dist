@@ -7,7 +7,7 @@ default:
     suites:
         default:
             paths:
-                - %paths.base%/tests/integration
+                - '%paths.base%/tests/integration'
             contexts:
                 - Tests\Integration\Bootstrap\KohanaContext
                 - Tests\Integration\Bootstrap\FeatureContext

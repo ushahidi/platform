@@ -1,8 +1,6 @@
 <?php
 
 use Phinx\Migration\AbstractMigration;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
 
 class UpdateOauthClientsTableSecret extends AbstractMigration
 {
@@ -13,9 +11,7 @@ class UpdateOauthClientsTableSecret extends AbstractMigration
      */
     public function up()
     {
-        Schema::table('oauth_clients', function (Blueprint $table) {
-            $table->string('secret', 100)->nullable()->change();
-        });
+        $this->table('oauth_clients')->changeColumn('secret', 'string', ['limit' => 100, 'null' => true])->save();
     }
 
     /**
@@ -25,8 +21,6 @@ class UpdateOauthClientsTableSecret extends AbstractMigration
      */
     public function down()
     {
-        Schema::table('oauth_clients', function (Blueprint $table) {
-            $table->string('secret', 100)->change();
-        });
+        $this->table('oauth_clients')->changeColumn('secret', 'string', ['limit' => 100])->save();
     }
 }
