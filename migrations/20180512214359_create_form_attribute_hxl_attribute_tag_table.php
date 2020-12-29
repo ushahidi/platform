@@ -6,11 +6,10 @@ class CreateFormAttributeHxlAttributeTagTable extends AbstractMigration
 {
     public function up()
     {
-        $this->table('form_attribute_hxl_attribute_tag',
-                [
-                    'comment' => 'The link between the form attributes and tags assigned to an export job. 
-                    This lets us set the hxl header correctly and search for the assigned values'
-                ])
+        $this->table('form_attribute_hxl_attribute_tag', [
+                'comment' => 'The link between the form attributes and tags assigned to an export job. 
+                This lets us set the hxl header correctly and search for the assigned values'
+        ])
             ->addColumn('form_attribute_id', 'integer', [
                 'null' => false,
                 'default' => false

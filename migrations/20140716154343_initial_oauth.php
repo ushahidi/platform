@@ -93,5 +93,4 @@ class InitialOauth extends AbstractMigration
             ->addColumn('scope_id', 'integer')
             ->create();
     }
-    
 }

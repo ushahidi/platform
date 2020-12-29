@@ -35,5 +35,4 @@ class AddLayers extends AbstractMigration
                 ])
             ->create();
     }
-    
 }
