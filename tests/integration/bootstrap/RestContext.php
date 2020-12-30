@@ -515,8 +515,7 @@ class RestContext implements Context
 
         $actualPropertyValue = array_get($data, $propertyName);
 
-        if ($actualPropertyValue === null) {            echo json_encode($data);
-
+        if ($actualPropertyValue === null) {
             throw new \Exception("Property '".$propertyName."' is not set!\n");
         }
         // Check the value - note this has to use != since $propertValue
