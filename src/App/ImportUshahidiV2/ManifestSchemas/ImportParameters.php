@@ -16,6 +16,11 @@ class ImportParameters
     public $timezones;
 
     /**
+     * @var Settings|null
+     */
+    public $settings;
+
+    /**
      *  Check whether mappings were provided as part of the import parameters
      */
     public function hasMappings()
@@ -40,6 +45,18 @@ class ImportParameters
     {
         if ($this->hasMappings()) {
             return $this->mappings->forms;
+        }
+    }
+
+    /**
+     * Return settings
+     */
+    public function getSettings()
+    {
+        if ($this->settings != null) {
+            return $this->settings;
+        } else {
+            return Settings::getDefaults();
         }
     }
 }

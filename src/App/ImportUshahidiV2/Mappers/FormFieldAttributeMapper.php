@@ -6,6 +6,7 @@ use Ushahidi\Core\Entity;
 use Ushahidi\Core\Entity\FormAttribute;
 use Ushahidi\Core\Entity\FormStageRepository;
 use Ushahidi\App\ImportUshahidiV2\Import;
+use Ushahidi\App\ImportUshahidiV2\Jobs\ImportForms;
 use Ushahidi\App\ImportUshahidiV2\Contracts\Mapper;
 use Ushahidi\App\ImportUshahidiV2\Contracts\ImportMappingRepository;
 use Ushahidi\App\ImportUshahidiV2\Contracts\ImportDataTools;
@@ -66,7 +67,8 @@ class FormFieldAttributeMapper implements Mapper
             'form_stage_id' => $this->getFormStageId($importId, $input['form_id']),
             'label' => $input['field_name'],
             'required' => $input['field_required'],
-            'priority' => $input['field_position'],
+            # these custom attributes should be rendered after the default ones
+            'priority' => $input['field_position'] + ImportForms::DEAFULT_ATTRIBUTES_LAST_PRIORITY,
             'default' => $default,
             'type' => $type,
             'input' => $attrInput,

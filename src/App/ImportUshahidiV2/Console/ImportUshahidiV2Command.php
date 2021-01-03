@@ -119,6 +119,12 @@ class ImportUshahidiV2Command extends Command
         // $this->info('Create default survey');
         // $this->dispatcher->dispatchNow(new ImportUshahidiV2\Jobs\CreateDefaultSurvey($importId, $dbConfig));
 
+        // Import categories
+        $this->info('Importing categories');
+        $this->dispatcher->dispatchNow(
+            new ImportUshahidiV2\Jobs\ImportCategories($importId, $dbConfig, $this->extraParams)
+        );
+
         // Import forms
         $this->info('Import forms to surveys');
         $this->dispatcher->dispatchNow(new ImportUshahidiV2\Jobs\ImportForms($importId, $dbConfig, $this->extraParams));
@@ -126,12 +132,6 @@ class ImportUshahidiV2Command extends Command
         // Import users
         $this->info('Importing users');
         $this->dispatcher->dispatchNow(new ImportUshahidiV2\Jobs\ImportUsers($importId, $dbConfig));
-
-        // Import categories
-        $this->info('Importing categories');
-        $this->dispatcher->dispatchNow(
-            new ImportUshahidiV2\Jobs\ImportCategories($importId, $dbConfig, $this->extraParams)
-        );
 
         // Import incidents to posts
         $this->info('Importing incidents to posts');

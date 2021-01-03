@@ -94,21 +94,23 @@ services:
 
 tasks:
 - name: import-v2
+  artifacts:
+    - source: /tmp/task-log/*
   command:
     - /bin/bash
     - -c
-    - |-
-      set -x
-      set
-      composer install
-      ./artisan import:ushahidiv2 \
-        --host ${local.env.V2_DB_HOST || var.v2_db_host || "mysql"} \
-        --port ${local.env.V2_DB_PORT || var.v2_db_port || "3306"} \
-        --user ${local.env.V2_DB_USER || var.v2_db_user || "ushahidi"} \
-        --password ${local.env.V2_DB_PASS || var.v2_db_pass || "ushahidi"} \
-        --no-xact \
-        ${local.env.V2_DB_DB || var.v2_db_db || "ush_v2"}
-#       -X /v2_import_params.yaml \
+    - >-
+      set -x;
+      set;
+      composer install;
+      mkdir -p /tmp/task-log;
+      { ./artisan import:ushahidiv2 
+      --host ${local.env.V2_DB_HOST || var.v2_db_host || "mysql"}
+      --port ${local.env.V2_DB_PORT || var.v2_db_port || "3306"}
+      --user ${local.env.V2_DB_USER || var.v2_db_user || "ushahidi"}
+      --password ${local.env.V2_DB_PASS || var.v2_db_pass || "ushahidi"}
+      ${local.env.V2_DB_DB || var.v2_db_db || "ush_v2"}
+      2>&1 | tee /tmp/task-log/import-v2.log ;}
   env:
     <<: *api_env
     ARTISAN_LOG_CONSOLE: 1

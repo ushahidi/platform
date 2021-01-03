@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\App\ImportUshahidiV2\Mappers;
 
+use Ushahidi\App\ImportUshahidiV2\Jobs\ImportForms;
 use Ushahidi\App\ImportUshahidiV2\Mappers\FormFieldAttributeMapper;
 use Ushahidi\App\ImportUshahidiV2\Contracts\ImportMappingRepository;
 use Ushahidi\App\ImportUshahidiV2\Contracts\ImportDataTools;
@@ -87,7 +88,7 @@ class FormFieldAttributeMapperTest extends TestCase
                     'type' => 'datetime',
                     'required' => true,
                     'default' => '',
-                    'priority' => 77,
+                    'priority' => ImportForms::DEAFULT_ATTRIBUTES_LAST_PRIORITY + 77,
                     'options' => null,
                     'cardinality' => 1,
                     'config' => [],
@@ -115,7 +116,7 @@ class FormFieldAttributeMapperTest extends TestCase
                     'type' => 'text',
                     'required' => false,
                     'default' => '',
-                    'priority' => 66,
+                    'priority' => ImportForms::DEAFULT_ATTRIBUTES_LAST_PRIORITY + 66,
                     'options' => null,
                     'cardinality' => 1,
                     'config' => [],
@@ -143,7 +144,7 @@ class FormFieldAttributeMapperTest extends TestCase
                     'type' => 'int',
                     'required' => true,
                     'default' => '2',
-                    'priority' => 77,
+                    'priority' => ImportForms::DEAFULT_ATTRIBUTES_LAST_PRIORITY + 77,
                     'options' => ['1','2','3'],
                     'cardinality' => 0,
                     'config' => [],
@@ -171,7 +172,7 @@ class FormFieldAttributeMapperTest extends TestCase
                     'type' => 'text',
                     'required' => true,
                     'default' => 'two',
-                    'priority' => 77,
+                    'priority' => ImportForms::DEAFULT_ATTRIBUTES_LAST_PRIORITY + 77,
                     'options' => ['one','two','three'],
                     'cardinality' => 1,
                     'config' => [],
@@ -199,7 +200,7 @@ class FormFieldAttributeMapperTest extends TestCase
                     'type' => 'varchar',
                     'required' => true,
                     'default' => 'test',
-                    'priority' => 77,
+                    'priority' => ImportForms::DEAFULT_ATTRIBUTES_LAST_PRIORITY + 77,
                     'options' => null,
                     'cardinality' => 1,
                     'config' => [],

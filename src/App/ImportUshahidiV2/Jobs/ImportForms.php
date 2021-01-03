@@ -9,6 +9,7 @@ use Illuminate\Contracts\Container\Container;
 
 use Ushahidi\App\Jobs\Job;
 use Ushahidi\Core\Entity;
+use Ushahidi\Core\SearchData;
 use Ushahidi\App\ImportUshahidiV2;
 use Ushahidi\App\ImportUshahidiV2\ManifestSchemas\ImportParameters;
 
@@ -17,6 +18,7 @@ class ImportForms extends ImportUshahidiV2Job
     use Concerns\ConnectsToV2DB;
 
     const BATCH_SIZE = 50;
+    const DEAFULT_ATTRIBUTES_LAST_PRIORITY = 10;
 
     protected $dbConfig;
     protected $mappingRepo;
@@ -54,8 +56,8 @@ class ImportForms extends ImportUshahidiV2Job
             'source_id' => 'location_name',
             'label' => 'Location Name',
             'required' => 0,
-            'priority' => 0,
-            'default' => 0,
+            'priority' => 3,
+            'default' => null,
             'type' => 'varchar',
             'input' => 'text',
             'options' => [],
@@ -65,8 +67,8 @@ class ImportForms extends ImportUshahidiV2Job
             'source_id' => 'location',
             'label' => 'Location',
             'required' => 0,
-            'priority' => 0,
-            'default' => 0,
+            'priority' => 4,
+            'default' => null,
             'type' => 'point',
             'input' => 'location',
             'options' => [],
@@ -76,8 +78,8 @@ class ImportForms extends ImportUshahidiV2Job
             'source_id' => 'verified',
             'label' => 'Verified',
             'required' => 0,
-            'priority' => 0,
-            'default' => 0,
+            'priority' => 5,
+            'default' => null,
             'type' => 'int',
             'input' => 'checkbox',
             'options' => [],
@@ -87,8 +89,8 @@ class ImportForms extends ImportUshahidiV2Job
             'source_id' => 'news_source_link',
             'label' => 'News Source Link',
             'required' => 0,
-            'priority' => 0,
-            'default' => 0,
+            'priority' => 6,
+            'default' => null,
             'type' => 'varchar',
             'input' => 'text',
             'options' => [],
@@ -98,8 +100,8 @@ class ImportForms extends ImportUshahidiV2Job
             'source_id' => 'video_link',
             'label' => 'External Video Link',
             'required' => 0,
-            'priority' => 0,
-            'default' => 0,
+            'priority' => 7,
+            'default' => null,
             'type' => 'varchar',
             'input' => 'video',
             'options' => [],
@@ -109,8 +111,8 @@ class ImportForms extends ImportUshahidiV2Job
             'source_id' => 'photos',
             'label' => 'Photos',
             'required' => 0,
-            'priority' => 0,
-            'default' => 0,
+            'priority' => 8,
+            'default' => null,
             'type' => 'media',
             'input' => 'upload',
             'options' => [],
@@ -120,8 +122,8 @@ class ImportForms extends ImportUshahidiV2Job
             'source_id' => 'categories',
             'label' => 'Categories',
             'required' => 0,
-            'priority' => 0,
-            'default' => 0,
+            'priority' => 9,
+            'default' => null,
             'type' => 'tags',
             'input' => 'tags',
             'options' => [],
@@ -133,8 +135,9 @@ class ImportForms extends ImportUshahidiV2Job
         'source_id' => 'geometry',
         'label' => 'Geometry',
         'required' => 0,
-        'priority' => 0,
-        'default' => 0,
+        'priority' => 10,   // IMPORTANT: as the last possible attribute, this is the same as
+                            //            the DEAFULT_ATTRIBUTES_LAST_PRIORITY const
+        'default' => null,
         'type' => 'geometry',
         'input' => 'geometry',      // TODO: check this with the client
         'options' => [],
@@ -146,8 +149,11 @@ class ImportForms extends ImportUshahidiV2Job
      *
      * @return void
      */
-    public function __construct(int $importId, array $dbConfig, ImportParameters $extraParams)
-    {
+    public function __construct(
+        int $importId,
+        array $dbConfig,
+        ImportParameters $extraParams
+    ) {
         parent::__construct($importId);
         $this->dbConfig = $dbConfig;
         $this->extraParams = $extraParams;
@@ -287,6 +293,7 @@ class ImportForms extends ImportUshahidiV2Job
         ImportUshahidiV2\Contracts\ImportMappingRepository $mappingRepo,
         Entity\FormRepository $destRepo,
         Entity\FormAttributeRepository $formAttributeRepo,
+        Entity\TagRepository $tagRepo,
         ImportUshahidiV2\Mappers\FormMapper $mapper
     ) {
         // Set up importer
@@ -296,6 +303,20 @@ class ImportForms extends ImportUshahidiV2Job
             $mappingRepo,
             $destRepo
         );
+
+        if ($this->extraParams->getSettings()->fields->explicitCategoryBind) {
+            /* Prefetch tag ids, so as to assign them as category attribute options */
+            $tagRepo->setSearchParams(new SearchData());
+            $results = $tagRepo->getSearchResults();
+
+            $this->allTagIds = array_map(function ($tag) {
+                return $tag->id;
+            }, $results);
+            $this->allTagIds = array_values($this->allTagIds);
+            Log::debug('Fetched all tag ids', [$this->allTagIds]);
+        } else {
+            $this->allTagIds = null;
+        }
 
         // Handle default form
         $formlessIncidents = $this->getConnection()
@@ -405,6 +426,11 @@ class ImportForms extends ImportUshahidiV2Job
 
         // Create attributes
         foreach ($this->defaultAttributes as $attr) {
+            // For the categories attribute, assign all the tag IDs as the available options
+            if ($this->allTagIds && $attr['type'] == 'tags') {
+                $attr['options'] = json_encode($this->allTagIds);
+            }
+
             // Create attribute
             $attrId = $attrRepo->create(new Entity\FormAttribute(
                 ['form_stage_id' => $v3_stageId] + $attr
