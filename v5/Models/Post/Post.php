@@ -112,8 +112,21 @@ class Post extends BaseModel
     {
         // our rules
         return [
-            'bulk' => 'array',
-            'bulk.*.status' => 'required, string',
+            'bulk' => [
+                'array',
+                'required',
+            ],
+            'bulk.*.status' => [
+                'required',
+                'string',
+                Rule::in(PostStatus::all())
+            ],
+            'bulk.*.id' => [
+                'required',
+                'integer',
+                'exists:posts,id',
+                'distinct'
+            ]
         ];
     }
 
@@ -194,6 +207,53 @@ class Post extends BaseModel
             )
         ];
     }//end validationMessages()
+
+    /**
+     * Get the error messages for the defined *bulk* validation rules.
+     *
+     * @return array
+     */
+    public function bulkValidationMessages()
+    {
+        return [
+            'bulk.array'                             => trans(
+                'validation.array',
+                ['field' => trans('bulk.body')]
+            ),
+            'bulk.required'                          => trans(
+                'validation.not_empty',
+                ['field' => trans('bulk.body')]
+            ),
+            'bulk.*.status.required'                 => trans(
+                'validation.exists',
+                ['field' => 'status']
+            ),
+            'bulk.*.status.string'                  => trans(
+                'validation.string',
+                ['field' => 'status']
+            ),
+            'bulk.*.status.in'                      => trans(
+                'validation.in_array',
+                ['field' => 'id']
+            ),
+            'bulk.*.id.required'                 => trans(
+                'validation.exists',
+                ['field' => 'id']
+            ),
+            'bulk.*.id.integer'                  => trans(
+                'validation.integer',
+                ['field' => 'id']
+            ),
+            'bulk.*.id.exists'                      => trans(
+                'validation.ref_exists',
+                ['field' => 'id', 'model' => trans('post')]
+            ),
+            'bulk.*.id.distinct'                      => trans(
+                'bulk.distinct',
+                ['field' => 'id']
+            ),
+        ];
+    }//end bulkValidationMessages()
 
     /**
      * Return all validation rules

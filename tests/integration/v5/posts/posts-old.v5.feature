@@ -1,3 +1,5 @@
+# These are v3 tests ported over to v5
+
 @post @rolesEnabled
 Feature: Testing the Posts API
 

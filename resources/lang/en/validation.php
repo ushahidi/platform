@@ -33,5 +33,8 @@ return array(
   'tag_field_type_cannot_be_private' => 'Tag fields cannot be private.',
   'tag_field_must_be_array' => 'Incorrect format for tags property.',
   'field_required'         => ':field is required',
-
+  'array'         => ':field must be an array',
+  'integer'       => ':field must be an integer',
+  'required'      => ':field is required',
+  'ref_exists'    => ':field must point at an existing :model',
 );

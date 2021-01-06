@@ -37,14 +37,14 @@ Feature: Testing the Posts status API!
         And that the request "data" is:
         """
           {
-            "patch": [
+            "bulk": [
                 {
                       "status": "archived",
                       "id": 1
                 },
                 {
                       "status": "published",
-                      "id": 2
+                      "id": 99
                 }
             ]
           }
@@ -53,21 +53,21 @@ Feature: Testing the Posts status API!
         Then the response is JSON
         Then the guzzle status code should be 200
     @update
-    Scenario: Admins can assign status to posts in bulk
+    Scenario: Bulk status update fails on missing post
         Given that I want to bulk patch "Posts"
         And that the api_url is "api/v5"
         And that the oauth token is "testadminuser"
         And that the request "data" is:
         """
           {
-            "patch": [
+            "bulk": [
                 {
                       "status": "archived",
                       "id": 1
                 },
                 {
                       "status": "published",
-                      "id": 2
+                      "id": 99999 
                 }
             ]
           }

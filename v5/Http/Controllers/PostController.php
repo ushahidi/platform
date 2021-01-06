@@ -181,12 +181,12 @@ class PostController extends V5Controller
      * @NOTE: only supports status updates
      * @return JsonResponse|PostResource
      * @throws \Illuminate\Auth\Access\AuthorizationException
-     * // one of the ids is a 404
-     * // duplicated ids in the list
-     * // statuses that are invalid
-     * // empty list
-     * // empty items within list
-     * // missing id or status fields within items
+     * // one of the ids is a 404 -- (done)
+     * // duplicated ids in the list - (done)
+     * // statuses that are invalid (done)
+     * // empty list (done)
+     * // empty items within list (done)
+     * // missing id or status fields within items (done)
      * // randomness ? things going wrong and we don't know why
      */
     public function bulkPatch(Request $request)
@@ -194,7 +194,14 @@ class PostController extends V5Controller
         // @QUESTION: do we NEED the wrapper? we don't, I don't think so
             // David notes "it makes sense to be an object"
             // maybe indicate it's a bulk rather than patch
-        $posts = Post::whereIn('id', $this->bulkGetIds($request->input('bulk')))->get();
+        $v = new Post();
+        $validation = $v->bulkPatchValidation($request->input());
+        if (!$validation) {
+            return self::make422($v->errors);
+        }
+        //
+        $bulk_ids = $this->bulkGetIds($request->input('bulk'));
+        $posts = Post::whereIn('id', $bulk_ids)->get();
         DB::beginTransaction();
         try {
             $data = $this->bulkGetFields($request->input('bulk'), ['id', 'status']);
@@ -213,10 +220,10 @@ class PostController extends V5Controller
             }
             DB::commit();
         } catch (\Exception $e) {
-            throw $e;
             DB:rollback();
+            return self::make500($e->getMessage());
         }
-        return new PostCollection(Post::whereIn('id', $this->bulkGetIds($request->input('patch')))->get());
+        return new PostCollection(Post::whereIn('id', $bulk_ids)->get());
     }
     /**
      * Display the specified resource.
