@@ -5,12 +5,14 @@ namespace v5\Http\Controllers;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Lumen\Routing\Controller as BaseController;
 use Ushahidi\App\Auth\GenericUser;
+use Ushahidi\App\Formatter\Collection;
 use v5\Models\Translation;
 
-class V4Controller extends BaseController
+class V5Controller extends BaseController
 {
     /**
      * @param null $message
@@ -90,6 +92,38 @@ class V4Controller extends BaseController
             }
         }
         return $return;
+    }
+    /**
+     * @param $input
+     * @return array
+     */
+    protected function bulkGetIds(array $input)
+    {
+        return \Illuminate\Support\Collection::make($input)
+            ->pluck('id')->toArray();
+    }
+    /**
+     * @param $input
+     * @return \Illuminate\Support\Collection
+     */
+    protected function bulkGetFields(array $input, array $fields)
+    {
+        return \Illuminate\Support\Collection::make($input)->map(function ($item) use ($fields) {
+            return Arr::only($item, $fields);
+        });
+    }
+
+    /**
+     * @param $key
+     * @param $inputValue
+     * @return array
+     */
+    protected function getField($key, $inputValue)
+    {
+        if (in_array($key, $this->ignoreInput())) {
+            return null;
+        }
+        return $inputValue;
     }
 
 

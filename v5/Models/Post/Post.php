@@ -1,7 +1,19 @@
 <?php
+/**
+ * *
+ *  * Ushahidi Acl
+ *  *
+ *  * @author     Ushahidi Team <team@ushahidi.com>
+ *  * @package    Ushahidi\Application
+ *  * @copyright  2020 Ushahidi
+ *  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
+ *
+ *
+ */
 
-namespace v5\Models;
+namespace v5\Models\Post;
 
+use v5\Models\BaseModel;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Input;
@@ -71,7 +83,6 @@ class Post extends BaseModel
         'created',
         'updated'
     ];
-
     /**
      * The model's default values for attributes.
      *
@@ -81,7 +92,7 @@ class Post extends BaseModel
         'type'                => 'report',
         'locale'              => 'en_US',
         'published_to'        => '',
-        'status'              => 'draft'
+        'status'              => PostStatus::DRAFT
     ];
 
     /**
@@ -97,6 +108,26 @@ class Post extends BaseModel
         'published_to'        => 'json'
     ];
 
+    public function getBulkPatchRules()
+    {
+        // our rules
+        return [
+            'bulk' => 'array',
+            'bulk.*.status' => 'required, string',
+        ];
+    }
+
+    public function bulkPatchValidation($data)
+    {
+        $v = Validator::make($data, $this->getBulkPatchRules(), $this->validationMessages());
+        // check for failure
+        if (!$v->fails()) {
+            return true;
+        }
+        // set errors and return false
+        $this->errors = $v->errors();
+        return false;
+    }
     /**
      * Get the error messages for the defined validation rules.
      *
@@ -202,11 +233,7 @@ class Post extends BaseModel
             'status' => [
                 'required',
                 Rule::in(
-                    [
-                        'draft',
-                        'archived',
-                        'published'
-                    ]
+                    PostStatus::all()
                 )
             ],
             'post_content.*.form_id'                   => [

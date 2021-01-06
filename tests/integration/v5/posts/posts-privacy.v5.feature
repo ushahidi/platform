@@ -10,7 +10,7 @@ Feature: Testing the Posts API
     And the response has a "count" property
     And the type of the "count" property is "numeric"
     And the "count" property equals "20"
-    And the "meta.total" property equals "23"
+    And the "meta.total" property equals "25"
     Then the guzzle status code should be 200
   @resetFixture @search
   Scenario: Listing all posts page=2 should return 3 posts for user 1
@@ -25,7 +25,7 @@ Feature: Testing the Posts API
     Then the response is JSON
     And the response has a "count" property
     And the type of the "count" property is "numeric"
-    And the "count" property equals "3"
+    And the "count" property equals "5"
     Then the guzzle status code should be 200
 
   @get

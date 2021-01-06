@@ -3,16 +3,20 @@
 namespace v5\Http\Controllers;
 
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
+use mysql_xdevapi\Exception;
 use Ushahidi\App\Auth\GenericUser;
 use Illuminate\Http\Request;
 use v5\Http\Resources\PostCollection;
 use v5\Http\Resources\PostResource;
-use v5\Models\Post;
+use v5\Models\Post\Post;
+use v5\Models\Post\PostStatus;
 use v5\Models\Translation;
 use Illuminate\Support\Facades\DB;
 
-class PostController extends V4Controller
+class PostController extends V5Controller
 {
 
     /**
@@ -144,31 +148,75 @@ class PostController extends V4Controller
     }//end store()
 
     /**
-     * Display the specified resource.
-     *
+     * Patch the status of a post
+     * @TODO: add all patch features. Right now we cover status only
+     * @param int $id
      * @param Request $request
      * @return PostResource|JsonResponse
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function patchStatus(int $id, Request $request) {
+    public function patch(int $id, Request $request)
+    {
         $post = Post::find($id);
-        echo $id;die;
-        $input = $this->getFields($request->input());
+        $status = $this->getField('status', $request->input('status'));
         if (!$post) {
             return self::make404();
         }
-        if (!isset($input['status'])) {
+        if (!$status) {
             return self::make422("The V5 API requires a status for post status updates.");
         }
-        $post->setAttribute('status', $input['status']);
+
+        $post->setAttribute('status', $status);
         $this->authorize('changeStatus', $post);
-        $validation = $post->validate();
-        if ($validation) {
-            $post->save();
+
+        if ($post->save()) {
             return new PostResource($post);
         } else {
             return self::make422($post->errors);
         }
+    } // end patchStatus
+
+    /**
+     * @param Request $request
+     * @NOTE: only supports status updates
+     * @return JsonResponse|PostResource
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * // one of the ids is a 404
+     * // duplicated ids in the list
+     * // statuses that are invalid
+     * // empty list
+     * // empty items within list
+     * // missing id or status fields within items
+     * // randomness ? things going wrong and we don't know why
+     */
+    public function bulkPatch(Request $request)
+    {
+        // @QUESTION: do we NEED the wrapper? we don't, I don't think so
+            // David notes "it makes sense to be an object"
+            // maybe indicate it's a bulk rather than patch
+        $posts = Post::whereIn('id', $this->bulkGetIds($request->input('bulk')))->get();
+        DB::beginTransaction();
+        try {
+            $data = $this->bulkGetFields($request->input('bulk'), ['id', 'status']);
+            foreach ($posts as $post) {
+                $this->authorize('changeStatus', $post);
+                $status = PostStatus::normalize(Arr::get($data->firstWhere('id', $post->id), 'status'));
+                $saved = false;
+                if ($status) {
+                    $post->setAttribute('status', $status);
+                    $saved = $post->save();
+                }
+
+                if (!$saved) {
+                    throw new \Exception("Could not save post status update - unknown error");
+                }
+            }
+            DB::commit();
+        } catch (\Exception $e) {
+            throw $e;
+            DB:rollback();
+        }
+        return new PostCollection(Post::whereIn('id', $this->bulkGetIds($request->input('patch')))->get());
     }
     /**
      * Display the specified resource.
@@ -182,7 +230,6 @@ class PostController extends V4Controller
     public function update(int $id, Request $request)
     {
         $post = Post::find($id);
-
         if (!$post) {
             return self::make404();
         }

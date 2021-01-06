@@ -41,7 +41,7 @@ class RestContext implements Context
     ];
     private $postFields        = [];
     private $postFiles         = [];
-
+    private $isBulk            = false;
     const DEBUG_MODE_SWITCH_FILE_PATH = __DIR__ . "/../../../bootstrap/install_debug_mode.enabled";
 
     /**
@@ -121,7 +121,29 @@ class RestContext implements Context
         $this->restObjectMethod = 'post';
     }
 
+    /**
+     * @Given /^that I want to patch a "([^"]*)"$/
+     * @Given /^that I want to patch an "([^"]*)"$/
+     */
+    public function thatIWantToPatchA($objectType)
+    {
+        // Reset restObject
+        $this->restObject = new stdClass();
+        $this->restObjectType   = ucwords(strtolower($objectType));
+        $this->restObjectMethod = 'patch';
+    }
 
+    /**
+     * @Given /^that I want to bulk patch "([^"]*)"$/
+     */
+    public function thatIWantToBulkPatch($objectType)
+    {
+        // Reset restObject
+        $this->restObject = new stdClass();
+        $this->restObjectType   = ucwords(strtolower($objectType));
+        $this->restObjectMethod = 'patch';
+        $this->isBulk = true;
+    }
     /**
      * @Given /^that I want to submit a new "([^"]*)"$/
      */
@@ -256,7 +278,6 @@ class RestContext implements Context
     public function iRequest($pageUrl)
     {
         $this->requestUrl   = $this->apiUrl.$pageUrl;
-
         switch (strtoupper($this->restObjectMethod)) {
             case 'GET':
                 $request = (array)$this->restObject;
@@ -301,10 +322,19 @@ class RestContext implements Context
             case 'PUT':
                 $request = (array)$this->restObject;
                 $id = ( isset($request['id']) ) ? $request['id'] : '';
-
-                echo 'CLIENTURL' . $this->requestUrl.'/'.$id;
                 $response = $this->client
                     ->put($this->requestUrl.'/'.$id, [
+                        'headers' =>  $this->headers + ['Content-Type' => 'application/json'],
+                        'body' => $request['data']
+                    ]);
+                break;
+            case 'PATCH':
+                $request = (array)$this->restObject;
+                $this->requestUrl = $this->isBulk ? $this->requestUrl . '/bulk' : $this->requestUrl;
+                $id = ( isset($request['id']) && !$this->isBulk) ? $request['id'] : '';
+
+                $response = $this->client
+                    ->patch($this->requestUrl.'/'.$id, [
                         'headers' =>  $this->headers + ['Content-Type' => 'application/json'],
                         'body' => $request['data']
                     ]);
@@ -488,8 +518,6 @@ class RestContext implements Context
         $this->theResponseIsJson();
 
         if (array_get($data, $propertyName) === null) {
-            echo $this->requestUrl;
-            echo($this->response->getBody(true));
             throw new \Exception("Property '".$propertyName."' is not set!\n");
         }
     }
@@ -777,6 +805,14 @@ HTTP/{$this->response->getProtocolVersion()} {$this->response->getStatusCode()} 
     public function thatTheApiUrlIs($api_url)
     {
         $this->apiUrl = $api_url;
+    }
+
+    /**
+     * @Given /^that the operation is in bulk$/
+     */
+    public function thatTheOperationIsInBulk()
+    {
+        $this->isBulk = true;
     }
 
     /**

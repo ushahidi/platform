@@ -80,8 +80,8 @@ $router->group([
         'middleware' => ['auth:api', 'scope:posts']
     ], function () use ($router) {
         $router->put('/{id}', 'PostController@update');
-        $router->put('/{id}/status', 'PostController@patchStatus');
-
+        $router->patch('/bulk', 'PostController@bulkPatch');
+        $router->patch('/{id}', 'PostController@patch');
         $router->delete('/{id}', 'PostController@delete');
     });
 });
