@@ -14,6 +14,7 @@ use v5\Http\Resources\PostResource;
 use v5\Models\Post\Post;
 use v5\Models\Post\PostStatus;
 use v5\Models\Translation;
+use v5\Exceptions\V5Exception;
 use Illuminate\Support\Facades\DB;
 
 class PostController extends V5Controller
@@ -189,42 +190,117 @@ class PostController extends V5Controller
      * // missing id or status fields within items (done)
      * // randomness ? things going wrong and we don't know why
      */
-    public function bulkPatch(Request $request)
+    public function bulkOperation(Request $request)
     {
         // @QUESTION: do we NEED the wrapper? we don't, I don't think so
             // David notes "it makes sense to be an object"
             // maybe indicate it's a bulk rather than patch
-        $v = new Post();
-        $validation = $v->bulkPatchValidation($request->input());
-        if (!$validation) {
+
+        // sanity check bulk envelope
+        $v = $this->bulkValidateEnvelope($request->input());
+        if (!$v['ok']) {
             return self::make422($v->errors);
         }
+        
+        $operation = $request->input('operation');
+        $items = $request->input('items');
+        switch ($operation) {
+            case 'patch':
+                return $this->bulkPatchOperation($items);
+            case 'delete':
+                return $this->bulkDeleteOperation($items);
+        }
+    }
+
+    private function bulkPatchOperation($items)
+    {
         //
-        $bulk_ids = $this->bulkGetIds($request->input('bulk'));
+        $p = new Post();
+        $v = ValidatorRunner::runValidation(
+            $items,
+            $p->getBulkPatchRules(),
+            $p->bulkPatchValidationMessages()
+        );
+        if (!$v) {
+            return self::make422($p->errors);
+        }
+
+        //
+        $bulk_ids = $this->bulkGetIds($items);
         $posts = Post::whereIn('id', $bulk_ids)->get();
         DB::beginTransaction();
         try {
-            $data = $this->bulkGetFields($request->input('bulk'), ['id', 'status']);
+            $data = $this->bulkGetFields($items, ['id', 'status']);
             foreach ($posts as $post) {
-                $this->authorize('changeStatus', $post);
+                $this->authorize('update', $post);
                 $status = PostStatus::normalize(Arr::get($data->firstWhere('id', $post->id), 'status'));
                 $saved = false;
-                if ($status) {
-                    $post->setAttribute('status', $status);
-                    $saved = $post->save();
-                }
+                $post->setAttribute('status', $status);
+                $saved = $post->save();
 
                 if (!$saved) {
-                    throw new \Exception("Could not save post status update - unknown error");
+                    throw new V5Exception("Could not save post status update - unknown error");
                 }
             }
             DB::commit();
-        } catch (\Exception $e) {
-            DB:rollback();
+        } catch (V5Exception $e) {
+            DB::rollback();
             return self::make500($e->getMessage());
+        } catch (\Exception $e) {
+            DB::rollback();
+            return self::make500();
         }
-        return new PostCollection(Post::whereIn('id', $bulk_ids)->get());
+        return response()->json([ 'status' => 'completed' ], 200);
     }
+
+    private function bulkDeleteOperation($items)
+    {
+        //
+        $p = new Post();
+        $v = ValidatorRunner::runValidation(
+            $items,
+            $p->getBulkDeleteRules(),
+            $p->bulkDeleteValidationMessages()
+        );
+        if (!$v) {
+            return self::make422($p->errors);
+        }
+
+        $bulk_ids = $this->bulkGetIds($items);
+        $posts = Post::whereIn('id', $bulk_ids)->get();
+        DB::beginTransaction();
+        try {
+            foreach ($posts as $post) {
+                $this->authorize('delete', $post);
+                if (!$post->translations()->delete()) {
+                    throw new V5Exception(
+                        trans('delete_failed', [
+                            'model' => 'translations for post',
+                            'id' => $post->id
+                        ])
+                    );
+                }
+                if (!$post->delete()) {
+                    throw new V5Exception(
+                        trans('delete_failed', [
+                            'model' => 'post',
+                            'id' => $post->id
+                        ])
+                    );
+                }
+            }
+            DB:commit();
+        } catch (V5Exception $e) {
+            DB::rollback();
+            return self::make500($e->getMessage());
+        } catch (\Exception $e) {
+            DB::rollback();
+            return self::make500();
+        }
+
+        return response()->json([ 'status' => 'completed' ], 200);
+    }
+
     /**
      * Display the specified resource.
      *

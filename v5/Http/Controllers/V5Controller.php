@@ -23,7 +23,7 @@ class V5Controller extends BaseController
         return response()->json(
             [
                 'error'   => 500,
-                'message' => $message ?? 'Not found',
+                'message' => $message ?? trans('errors.generic500'),
             ],
             500
         );
@@ -111,6 +111,57 @@ class V5Controller extends BaseController
         return \Illuminate\Support\Collection::make($input)->map(function ($item) use ($fields) {
             return Arr::only($item, $fields);
         });
+    }
+
+    protected function bulkValidateEnvelope($data)
+    {
+        return ValidatorRunner::runValidation(
+            $data,
+            $this->getBulkEnvelopeValidationRules(),
+            $this->getBulkEnvelopeValidationMessages()
+        );
+    }
+
+    protected function getBulkEnvelopeValidationRules()
+    {
+        // our rules
+        return [
+            'operation' => [
+                'required',
+                'string',
+                Rule::in('patch', 'delete')
+            ],
+            'items' => [
+                'array',
+                'required'
+            ]
+        ];
+    }
+
+    protected function getBulkEnvelopeValidationMessages()
+    {
+        return [
+            'operation.required'                      => trans(
+                'validation.required',
+                ['field' => trans('bulk.operation')]
+            ),
+            'operation.string'                      => trans(
+                'validation.string',
+                ['field' => trans('bulk.operation')]
+            ),
+            'operation.in'                      => trans(
+                'validation.in_array',
+                ['field' => trans('bulk.operation')]
+            ),
+            'items.array'                             => trans(
+                'validation.array',
+                ['field' => trans('bulk.items')]
+            ),
+            'items.required'                          => trans(
+                'validation.not_empty',
+                ['field' => trans('bulk.items')]
+            ),
+        ];
     }
 
     /**

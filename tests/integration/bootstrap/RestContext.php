@@ -134,14 +134,14 @@ class RestContext implements Context
     }
 
     /**
-     * @Given /^that I want to bulk patch "([^"]*)"$/
+     * @Given /^that I want to bulk operate on "([^"]*)"$/
      */
-    public function thatIWantToBulkPatch($objectType)
+    public function thatIWantToBulkOperate($objectType)
     {
         // Reset restObject
         $this->restObject = new stdClass();
         $this->restObjectType   = ucwords(strtolower($objectType));
-        $this->restObjectMethod = 'patch';
+        $this->restObjectMethod = 'post';
         $this->isBulk = true;
     }
     /**
@@ -290,6 +290,7 @@ class RestContext implements Context
                 break;
             case 'POST':
                 $request = (array)$this->restObject;
+                $this->requestUrl = $this->isBulk ? $this->requestUrl . '/bulk' : $this->requestUrl;
                 // If post fields or files are set assume this is a 'normal' POST request
                 if ($this->postFiles) {
                     $response = $this->client
@@ -330,7 +331,6 @@ class RestContext implements Context
                 break;
             case 'PATCH':
                 $request = (array)$this->restObject;
-                $this->requestUrl = $this->isBulk ? $this->requestUrl . '/bulk' : $this->requestUrl;
                 $id = ( isset($request['id']) && !$this->isBulk) ? $request['id'] : '';
 
                 $response = $this->client

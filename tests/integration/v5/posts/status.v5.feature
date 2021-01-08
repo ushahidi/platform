@@ -31,13 +31,14 @@ Feature: Testing the Posts status API!
         Then the guzzle status code should be 200
     @update
     Scenario: Admins can assign status to posts in bulk
-        Given that I want to bulk patch "Posts"
+        Given that I want to bulk operate on "Posts"
         And that the api_url is "api/v5"
         And that the oauth token is "testadminuser"
         And that the request "data" is:
         """
           {
-            "bulk": [
+            "operation": "patch",
+            "items": [
                 {
                       "status": "archived",
                       "id": 1
@@ -46,7 +47,7 @@ Feature: Testing the Posts status API!
                       "status": "published",
                       "id": 99
                 }
-            ]
+            ],
           }
         """
         When I request "/posts"
@@ -54,13 +55,14 @@ Feature: Testing the Posts status API!
         Then the guzzle status code should be 200
     @update
     Scenario: Bulk status update fails on missing post
-        Given that I want to bulk patch "Posts"
+        Given that I want to bulk operate on "Posts"
         And that the api_url is "api/v5"
         And that the oauth token is "testadminuser"
         And that the request "data" is:
         """
           {
-            "bulk": [
+            "operation": "patch",
+            "items": [
                 {
                       "status": "archived",
                       "id": 1
@@ -75,6 +77,45 @@ Feature: Testing the Posts status API!
         When I request "/posts"
         Then the response is JSON
         Then the guzzle status code should be 422
+
+    @update
+    Scenario: Admins can bulk delete posts
+        Given that I want to bulk operate on "Posts"
+        And that the api_url is "api/v5"
+        And that the oauth token is "testadminuser"
+        And that the request "data" is:
+        """
+          {
+            "operation": "delete",
+            "items": [
+                { "id": 1 },
+                { "id": 99 }
+            ]
+          }
+        """
+        When I request "/posts"
+        Then the response is JSON
+        Then the guzzle status code should be 200
+
+    @update
+    Scenario: Bulk delete posts fails on missing post
+        Given that I want to bulk operate on "Posts"
+        And that the api_url is "api/v5"
+        And that the oauth token is "testadminuser"
+        And that the request "data" is:
+        """
+          {
+            "operation": "delete",
+            "items": [
+                { "id": 1 },
+                { "id": 99999 }
+            ]
+          }
+        """
+        When I request "/posts"
+        Then the response is JSON
+        Then the guzzle status code should be 422
+
 #
 #    @update
 #    Scenario: Members cannot assign status to a post

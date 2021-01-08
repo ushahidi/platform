@@ -108,20 +108,10 @@ class Post extends BaseModel
         'published_to'        => 'json'
     ];
 
-    public function getBulkPatchRules()
+    private function getBulkRules()
     {
-        // our rules
         return [
-            'bulk' => [
-                'array',
-                'required',
-            ],
-            'bulk.*.status' => [
-                'required',
-                'string',
-                Rule::in(PostStatus::all())
-            ],
-            'bulk.*.id' => [
+            'items.*.id' => [
                 'required',
                 'integer',
                 'exists:posts,id',
@@ -130,17 +120,25 @@ class Post extends BaseModel
         ];
     }
 
-    public function bulkPatchValidation($data)
+    public function getBulkPatchRules()
     {
-        $v = Validator::make($data, $this->getBulkPatchRules(), $this->validationMessages());
-        // check for failure
-        if (!$v->fails()) {
-            return true;
-        }
-        // set errors and return false
-        $this->errors = $v->errors();
-        return false;
+        return array_merge(
+            $this->getBulkRules(),
+            [
+                'items.*.status' => [
+                    'required',
+                    'string',
+                    Rule::in(PostStatus::all())
+                ],
+            ]
+        );
     }
+
+    public function getBulkDeleteRules()
+    {
+        return $this->getBulkRules();
+    }
+
     /**
      * Get the error messages for the defined validation rules.
      *
@@ -213,29 +211,9 @@ class Post extends BaseModel
      *
      * @return array
      */
-    public function bulkValidationMessages()
+    private function bulkValidationMessages()
     {
         return [
-            'bulk.array'                             => trans(
-                'validation.array',
-                ['field' => trans('bulk.body')]
-            ),
-            'bulk.required'                          => trans(
-                'validation.not_empty',
-                ['field' => trans('bulk.body')]
-            ),
-            'bulk.*.status.required'                 => trans(
-                'validation.exists',
-                ['field' => 'status']
-            ),
-            'bulk.*.status.string'                  => trans(
-                'validation.string',
-                ['field' => 'status']
-            ),
-            'bulk.*.status.in'                      => trans(
-                'validation.in_array',
-                ['field' => 'id']
-            ),
             'bulk.*.id.required'                 => trans(
                 'validation.exists',
                 ['field' => 'id']
@@ -254,6 +232,42 @@ class Post extends BaseModel
             ),
         ];
     }//end bulkValidationMessages()
+
+    /**
+     * Get the error messages for the defined *bulk* validation rules.
+     *
+     * @return array
+     */
+    public function bulkPatchValidationMessages()
+    {
+        return array_merge(
+            $this->bulkValidationMessages(),
+            [
+                'bulk.*.status.required'                 => trans(
+                    'validation.exists',
+                    ['field' => 'status']
+                ),
+                'bulk.*.status.string'                  => trans(
+                    'validation.string',
+                    ['field' => 'status']
+                ),
+                'bulk.*.status.in'                      => trans(
+                    'validation.in_array',
+                    ['field' => 'id']
+                )
+            ]
+        );
+    }//end bulkValidationMessages()
+
+    /**
+     * Get the error messages for the defined *bulk* validation rules.
+     *
+     * @return array
+     */
+    public function bulkDeleteValidationMessages()
+    {
+        return $this->bulkValidationMessages();
+    }
 
     /**
      * Return all validation rules

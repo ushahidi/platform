@@ -79,8 +79,8 @@ $router->group([
         'prefix' => 'posts',
         'middleware' => ['auth:api', 'scope:posts']
     ], function () use ($router) {
+        $router->post('/bulk', 'PostController@bulkOperation');
         $router->put('/{id}', 'PostController@update');
-        $router->patch('/bulk', 'PostController@bulkPatch');
         $router->patch('/{id}', 'PostController@patch');
         $router->delete('/{id}', 'PostController@delete');
     });
