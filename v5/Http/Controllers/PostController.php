@@ -2,6 +2,8 @@
 
 namespace v5\Http\Controllers;
 
+use http\Env\Response;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
@@ -16,6 +18,7 @@ use v5\Models\Post\PostStatus;
 use v5\Models\Translation;
 use v5\Exceptions\V5Exception;
 use Illuminate\Support\Facades\DB;
+use v5\Common\ValidatorRunner;
 
 class PostController extends V5Controller
 {
@@ -192,16 +195,13 @@ class PostController extends V5Controller
      */
     public function bulkOperation(Request $request)
     {
-        // @QUESTION: do we NEED the wrapper? we don't, I don't think so
-            // David notes "it makes sense to be an object"
-            // maybe indicate it's a bulk rather than patch
-
+        $input = $request->input();
         // sanity check bulk envelope
-        $v = $this->bulkValidateEnvelope($request->input());
-        if (!$v['ok']) {
+        $v = $this->bulkValidateEnvelope($input);
+        if (!$v->success()) {
             return self::make422($v->errors);
         }
-        
+
         $operation = $request->input('operation');
         $items = $request->input('items');
         switch ($operation) {
@@ -214,14 +214,13 @@ class PostController extends V5Controller
 
     private function bulkPatchOperation($items)
     {
-        //
         $p = new Post();
-        $v = ValidatorRunner::runValidation(
-            $items,
+        $validation = ValidatorRunner::runValidation(
+            ['items' => $items],
             $p->getBulkPatchRules(),
             $p->bulkPatchValidationMessages()
         );
-        if (!$v) {
+        if (!$validation->success()) {
             return self::make422($p->errors);
         }
 
@@ -234,7 +233,6 @@ class PostController extends V5Controller
             foreach ($posts as $post) {
                 $this->authorize('update', $post);
                 $status = PostStatus::normalize(Arr::get($data->firstWhere('id', $post->id), 'status'));
-                $saved = false;
                 $post->setAttribute('status', $status);
                 $saved = $post->save();
 
@@ -246,6 +244,9 @@ class PostController extends V5Controller
         } catch (V5Exception $e) {
             DB::rollback();
             return self::make500($e->getMessage());
+        } catch (AuthorizationException $e) {
+            DB::rollback();
+            return self::make403($e->getMessage());
         } catch (\Exception $e) {
             DB::rollback();
             return self::make500();
@@ -255,14 +256,13 @@ class PostController extends V5Controller
 
     private function bulkDeleteOperation($items)
     {
-        //
         $p = new Post();
         $v = ValidatorRunner::runValidation(
-            $items,
+            ['items' => $items],
             $p->getBulkDeleteRules(),
             $p->bulkDeleteValidationMessages()
         );
-        if (!$v) {
+        if ($v->fails()) {
             return self::make422($p->errors);
         }
 
@@ -272,27 +272,25 @@ class PostController extends V5Controller
         try {
             foreach ($posts as $post) {
                 $this->authorize('delete', $post);
-                if (!$post->translations()->delete()) {
+                // translations delete can find 0 records, so we don't throw here
+                // if something goes wrong we'll get a query exception which will result in a generic issue
+                $post->translations()->delete();
+                if ($post->delete() < 1) {
                     throw new V5Exception(
-                        trans('delete_failed', [
-                            'model' => 'translations for post',
-                            'id' => $post->id
-                        ])
-                    );
-                }
-                if (!$post->delete()) {
-                    throw new V5Exception(
-                        trans('delete_failed', [
+                        trans('errors.delete_failed', [
                             'model' => 'post',
                             'id' => $post->id
                         ])
                     );
                 }
             }
-            DB:commit();
+            DB::commit();
         } catch (V5Exception $e) {
             DB::rollback();
             return self::make500($e->getMessage());
+        } catch (AuthorizationException $e) {
+            DB::rollback();
+            return self::make403($e->getMessage());
         } catch (\Exception $e) {
             DB::rollback();
             return self::make500();

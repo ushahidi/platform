@@ -9,11 +9,11 @@ class PostStatus
 
     public static function all()
     {
-        return [self::ARCHIVED, self::DRAFT, self::PUBLISHED];
+        return [PostStatus::ARCHIVED, PostStatus::DRAFT, PostStatus::PUBLISHED];
     }
 
     public static function normalize(string $status)
     {
-        return in_array(strtolower($status), self::all()) ? strtolower($status) : null;
+        return in_array(strtolower($status), PostStatus::all()) ? strtolower($status) : null;
     }
 }

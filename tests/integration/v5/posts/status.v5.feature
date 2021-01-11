@@ -47,7 +47,7 @@ Feature: Testing the Posts status API!
                       "status": "published",
                       "id": 99
                 }
-            ],
+            ]
           }
         """
         When I request "/posts"
@@ -69,7 +69,7 @@ Feature: Testing the Posts status API!
                 },
                 {
                       "status": "published",
-                      "id": 99999 
+                      "id": 99999
                 }
             ]
           }
@@ -116,21 +116,70 @@ Feature: Testing the Posts status API!
         Then the response is JSON
         Then the guzzle status code should be 422
 
-#
-#    @update
-#    Scenario: Members cannot assign status to a post
-#        Given that I want to patch a "Post"
-#        And that the api_url is "api/v5"
-#        And that the oauth token is "testadminuser"
-#        And that its "id" is "1"
-#        And that the request "data" is:
-#        """
-#          {
-#              "status": "published"
-#          }
-#        """
-#        When I request "/posts/1/status"
-#        Then the response is JSON
-#        And the response has a "error" property
-#        And the response has a "messages" property
-#        Then the guzzle status code should be 403
+    @resetFixture @update
+    Scenario: Members cannot assign status to a post
+        Given that I want to patch a "Post"
+        And that the api_url is "api/v5"
+        And that the oauth token is "testbasicuser"
+        And that its "id" is "1"
+        And that the request "data" is:
+        """
+          {
+              "status": "archived"
+          }
+        """
+        When I request "/posts/1/status"
+        Then the response is JSON
+        Then the guzzle status code should be 404
+    @get
+    Scenario: Checking that post did not get its status updated
+        Given that I want to find a "Post"
+        And that the api_url is "api/v5"
+        And that the oauth token is "testadminuser"
+        And that its "id" is "1"
+        When I request "/posts"
+        Then the response is JSON
+        And the "result.status" property equals "published"
+        Then the guzzle status code should be 200
+    @update
+    Scenario: Members cannot assign status to posts in bulk
+        Given that I want to bulk operate on "Posts"
+        And that the api_url is "api/v5"
+        And that the oauth token is "testbasicuser"
+        And that the request "data" is:
+        """
+          {
+            "operation": "patch",
+            "items": [
+                {
+                      "status": "draft",
+                      "id": 1
+                },
+                {
+                      "status": "draft",
+                      "id": 99
+                }
+            ]
+          }
+        """
+        When I request "/posts"
+        Then the response is JSON
+        Then the guzzle status code should be 403
+    @update
+    Scenario: Members cannot bulk delete posts
+        Given that I want to bulk operate on "Posts"
+        And that the api_url is "api/v5"
+        And that the oauth token is "testbasicuser"
+        And that the request "data" is:
+        """
+          {
+            "operation": "delete",
+            "items": [
+                { "id": 1 },
+                { "id": 99 }
+            ]
+          }
+        """
+        When I request "/posts"
+        Then the response is JSON
+        Then the guzzle status code should be 403

@@ -65,15 +65,6 @@ $router->group([
         $router->get('/{id}', 'PostController@show');
     });
 
-    $router->group([
-        'prefix' => 'posts',
-        'middleware' => ['scope:posts']
-    ], function () use ($router) {
-        // Public access
-        $router->post('/', 'PostController@store');
-    });
-
-
     // Restricted access
     $router->group([
         'prefix' => 'posts',
@@ -83,5 +74,13 @@ $router->group([
         $router->put('/{id}', 'PostController@update');
         $router->patch('/{id}', 'PostController@patch');
         $router->delete('/{id}', 'PostController@delete');
+    });
+
+    $router->group([
+        'prefix' => 'posts',
+        'middleware' => ['scope:posts']
+    ], function () use ($router) {
+        // Public access
+        $router->post('/', 'PostController@store');
     });
 });

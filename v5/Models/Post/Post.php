@@ -122,7 +122,7 @@ class Post extends BaseModel
 
     public function getBulkPatchRules()
     {
-        return array_merge(
+        return array_merge_recursive(
             $this->getBulkRules(),
             [
                 'items.*.status' => [
@@ -214,19 +214,19 @@ class Post extends BaseModel
     private function bulkValidationMessages()
     {
         return [
-            'bulk.*.id.required'                 => trans(
+            'items.*.id.required'                 => trans(
                 'validation.exists',
                 ['field' => 'id']
             ),
-            'bulk.*.id.integer'                  => trans(
+            'items.*.id.integer'                  => trans(
                 'validation.integer',
                 ['field' => 'id']
             ),
-            'bulk.*.id.exists'                      => trans(
+            'items.*.id.exists'                      => trans(
                 'validation.ref_exists',
-                ['field' => 'id', 'model' => trans('post')]
+                ['field' => 'id', 'model' => 'post']
             ),
-            'bulk.*.id.distinct'                      => trans(
+            'items.*.id.distinct'                      => trans(
                 'bulk.distinct',
                 ['field' => 'id']
             ),
@@ -243,15 +243,15 @@ class Post extends BaseModel
         return array_merge(
             $this->bulkValidationMessages(),
             [
-                'bulk.*.status.required'                 => trans(
+                'items.*.status.required'                 => trans(
                     'validation.exists',
                     ['field' => 'status']
                 ),
-                'bulk.*.status.string'                  => trans(
+                'items.*.status.string'                  => trans(
                     'validation.string',
                     ['field' => 'status']
                 ),
-                'bulk.*.status.in'                      => trans(
+                'items.*.status.in'                      => trans(
                     'validation.in_array',
                     ['field' => 'id']
                 )

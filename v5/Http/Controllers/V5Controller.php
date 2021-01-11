@@ -7,13 +7,29 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 use Laravel\Lumen\Routing\Controller as BaseController;
 use Ushahidi\App\Auth\GenericUser;
 use Ushahidi\App\Formatter\Collection;
 use v5\Models\Translation;
+use v5\Common\ValidatorRunner;
 
 class V5Controller extends BaseController
 {
+    /**
+     * @param null $message
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public static function make403($message = null)
+    {
+        return response()->json(
+            [
+                'error'   => 403,
+                'message' => $message ?? trans('errors.generic403'),
+            ],
+            403
+        );
+    }
     /**
      * @param null $message
      * @return \Illuminate\Http\JsonResponse
@@ -129,7 +145,7 @@ class V5Controller extends BaseController
             'operation' => [
                 'required',
                 'string',
-                Rule::in('patch', 'delete')
+                Rule::in(['patch', 'delete'])
             ],
             'items' => [
                 'array',
