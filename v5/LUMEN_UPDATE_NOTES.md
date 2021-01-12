@@ -126,7 +126,7 @@
 - Added `"symfony/psr-http-message-bridge": "^2.0"` as dependency (needed to add it manually for login to work), and modified `TokenGuard` to use `PsrHttpFactory` instead of `DiactorosFactory` (deprecated). More info [here](https://symfony.com/doc/current/components/psr7.html#converting-from-httpfoundation-objects-to-psr-7)
 - Replaced `"barryvdh/laravel-cors"` by `"fruitcake/laravel-cors"`
 - Replaced `Barryvdh\Cors\HandleCors::class` by ` Fruitcake\Cors\HandleCors::class` in `bootstrap/lumen.php`
-- Removed `"phpunit/dbunit": "~4.0.0"` depedency there is no compatible version with `"phpunit/phpunit": "^8.5"`
+- Removed `"phpunit/dbunit": "~4.0.0"` depedency there is no compatible version with `"phpunit/phpunit": "^8.5"`. More on `dbunit` deprecation can be found [here](https://github.com/sebastianbergmann/dbunit/issues/217) and [here](https://www.reddit.com/r/PHP/comments/cbmzhw/has_dbunit_been_abandoned_what_are_you_guys_using/).
 - Removed `"behat/mink-extension": "^2.2",` dependency, as it no longer supports symfony 5 (required by Lumen 7), it was replaced by
 `"friends-of-behat/mink-extension": "^2.4"` which is a fork of the last one but with symfony 5 support
 - Replaced `"sebastianfeldmann/captainhook"` by `"captainhook/captainhook"`

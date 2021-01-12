@@ -815,16 +815,17 @@ HTTP/{$this->response->getProtocolVersion()} {$this->response->getStatusCode()} 
      */
     public function thatTheOauthTokenIs($tokenId)
     {
-        $key = new \League\OAuth2\Server\CryptKey("file://".\Laravel\Passport\Passport::keyPath('oauth-private.key'));
+        $key = new \League\OAuth2\Server\CryptKey('file://' . \Laravel\Passport\Passport::keyPath('passport/oauth-private.key'));
         $scope = new \Laravel\Passport\Bridge\Scope('*');
         $client = new \Laravel\Passport\Bridge\Client('demoapp', 'demoapp', '/');
 
-        $accessToken = new \Laravel\Passport\Bridge\AccessToken($this->tokenUserMap[$tokenId], [$scope]);
+        $accessToken = new \Laravel\Passport\Bridge\AccessToken($this->tokenUserMap[$tokenId], [$scope], $client);
+        $accessToken->setPrivateKey($key);
         $accessToken->setIdentifier($tokenId);
-        $accessToken->setExpiryDateTime((new \DateTime())->add(new \DateInterval('P1D')));
-        $accessToken->setClient($client);
-        $token = $accessToken->convertToJwt($key);
+        $accessToken->setExpiryDateTime((new \DateTimeImmutable())->add(new \DateInterval('P1D')));
+//        $accessToken->setClient($client);
+        $token = $accessToken->__toString();
 
-        $this->headers['Authorization'] = "Bearer $token";
+        $this->headers['Authorization'] = 'Bearer ' . $token;
     }
 }
