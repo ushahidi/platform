@@ -1266,7 +1266,7 @@ Feature: Testing the Posts API
 		Given that I want to get all "Posts"
 		And that the request "query string" is:
 			"""
-			created_after_by_id=1697
+			created_after_by_id=1801
 			"""
 		When I request "/posts"
 		Then the response is JSON
