@@ -8,7 +8,7 @@ if (!function_exists('resource')) {
         $id = isset($options['id']) ? $options['id'] : 'id:[0-9]+';
 
         // Build list of methods to register routes for
-        $methods = $defaults = ['index', 'store', 'show', 'update', 'destroy', 'patch'];
+        $methods = $defaults = ['index', 'store', 'show', 'update', 'destroy'];
         if (isset($options['only'])) {
             $methods = array_intersect($defaults, (array) $options['only']);
         } elseif (isset($options['except'])) {
@@ -35,9 +35,6 @@ if (!function_exists('resource')) {
                 $router->put('/{'.$id.'}', $controller.'@update');
             }
 
-            if (in_array('patch', $methods)) {
-                $router->put('/{'.$id.'}', $controller.'@patch');
-            }
             if (in_array('destroy', $methods)) {
                 $router->delete('/{'.$id.'}', $controller.'@destroy');
             }
