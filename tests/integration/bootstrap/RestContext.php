@@ -815,7 +815,8 @@ HTTP/{$this->response->getProtocolVersion()} {$this->response->getStatusCode()} 
      */
     public function thatTheOauthTokenIs($tokenId)
     {
-        $key = new \League\OAuth2\Server\CryptKey('file://' . \Laravel\Passport\Passport::keyPath('passport/oauth-private.key'));
+        $keyPath = 'file://' . \Laravel\Passport\Passport::keyPath('passport/oauth-private.key');
+        $key = new \League\OAuth2\Server\CryptKey($keyPath);
         $scope = new \Laravel\Passport\Bridge\Scope('*');
         $client = new \Laravel\Passport\Bridge\Client('demoapp', 'demoapp', '/');
 
