@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
     $acr_headers = $_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS'] ?? null;
     if ($origin && $acr_method && $acr_headers) {
         header("Access-Control-Allow-Origin: " . $origin);
-        header("Access-Control-Allow-Methods: POST, GET, OPTIONS, PUT, DELETE");
+        header("Access-Control-Allow-Methods: POST, GET, OPTIONS, PUT, PATCH, DELETE");
         header("Access-Control-Allow-Headers: Authorization, Content-Type, Accept");
     }
     http_response_code(204);
