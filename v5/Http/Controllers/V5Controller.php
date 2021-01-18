@@ -5,13 +5,31 @@ namespace v5\Http\Controllers;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 use Laravel\Lumen\Routing\Controller as BaseController;
 use Ushahidi\App\Auth\GenericUser;
+use Ushahidi\App\Formatter\Collection;
 use v5\Models\Translation;
+use v5\Common\ValidatorRunner;
 
-class V4Controller extends BaseController
+class V5Controller extends BaseController
 {
+    /**
+     * @param null $message
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public static function make403($message = null)
+    {
+        return response()->json(
+            [
+                'error'   => 403,
+                'message' => $message ?? trans('errors.generic403'),
+            ],
+            403
+        );
+    }
     /**
      * @param null $message
      * @return \Illuminate\Http\JsonResponse
@@ -21,7 +39,7 @@ class V4Controller extends BaseController
         return response()->json(
             [
                 'error'   => 500,
-                'message' => $message ?? 'Not found',
+                'message' => $message ?? trans('errors.generic500'),
             ],
             500
         );
@@ -90,6 +108,89 @@ class V4Controller extends BaseController
             }
         }
         return $return;
+    }
+    /**
+     * @param $input
+     * @return array
+     */
+    protected function bulkGetIds(array $input)
+    {
+        return \Illuminate\Support\Collection::make($input)
+            ->pluck('id')->toArray();
+    }
+    /**
+     * @param $input
+     * @return \Illuminate\Support\Collection
+     */
+    protected function bulkGetFields(array $input, array $fields)
+    {
+        return \Illuminate\Support\Collection::make($input)->map(function ($item) use ($fields) {
+            return Arr::only($item, $fields);
+        });
+    }
+
+    protected function bulkValidateEnvelope($data)
+    {
+        return ValidatorRunner::runValidation(
+            $data,
+            $this->getBulkEnvelopeValidationRules(),
+            $this->getBulkEnvelopeValidationMessages()
+        );
+    }
+
+    protected function getBulkEnvelopeValidationRules()
+    {
+        // our rules
+        return [
+            'operation' => [
+                'required',
+                'string',
+                Rule::in(['patch', 'delete'])
+            ],
+            'items' => [
+                'array',
+                'required'
+            ]
+        ];
+    }
+
+    protected function getBulkEnvelopeValidationMessages()
+    {
+        return [
+            'operation.required'                      => trans(
+                'validation.required',
+                ['field' => trans('bulk.operation')]
+            ),
+            'operation.string'                      => trans(
+                'validation.string',
+                ['field' => trans('bulk.operation')]
+            ),
+            'operation.in'                      => trans(
+                'validation.in_array',
+                ['field' => trans('bulk.operation')]
+            ),
+            'items.array'                             => trans(
+                'validation.array',
+                ['field' => trans('bulk.items')]
+            ),
+            'items.required'                          => trans(
+                'validation.not_empty',
+                ['field' => trans('bulk.items')]
+            ),
+        ];
+    }
+
+    /**
+     * @param $key
+     * @param $inputValue
+     * @return array
+     */
+    protected function getField($key, $inputValue)
+    {
+        if (in_array($key, $this->ignoreInput())) {
+            return null;
+        }
+        return $inputValue;
     }
 
 

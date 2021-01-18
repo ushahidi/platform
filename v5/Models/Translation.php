@@ -21,11 +21,11 @@ class Translation extends BaseModel
     * @var array
     */
     protected $fillable = [
-        'translatable_id',
-        'translated_key',
-        'translatable_type',
-        'translation',
-        'language',
+        'translatable_id', // the id of the object we are translating
+        'translated_key', // the database key we are translating, like `label` or `value`
+        'translatable_type', // the object type. This has to be a relationship name. Example: post_value_markdown.
+        'translation', // the translation itself
+        'language', // the language we are translating to
     ];
 
     /**

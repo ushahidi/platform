@@ -1,0 +1,136 @@
+---
+kind: Project
+name: platform
+environments:
+- name: ush-staging
+  variables:
+    ingress-hostname: platform-dev-${local.username}-api.staging.ush.zone
+    v2_db_host: mysql.v2-sample-db
+    v2_db_user: ushahidi
+    v2_db_pass: ushahidi
+    v2_db_db: ush_v2
+  providers:
+  - name: kubernetes
+    context: ush-staging-arare
+    namespace: platform-dev-${local.username}
+    buildMode: cluster-docker
+    clusterDocker:
+      enableBuildKit: true
+    setupIngressController: false
+    storage:
+      builder:
+        size: 10240
+      registry:
+        size: 5120
+      sync:
+        size: 5120
+      nfs:
+        storageClass: gp2
+
+
+---
+kind: Module
+name: platform
+type: container
+dockerfile: Dockerfile
+exclude:
+  - public
+  - httpdocs/storage
+  - vendor/**
+  - storage/passport/**
+  - garden_modules/**
+  - bin/**
+  - .garden/**
+  - garden.yaml
+# include:
+#   - bin/release
+#   - bin/update
+#   - bin/ushahidi
+hotReload:
+  sync:
+  - source: ./app/
+    target: /var/www/app/
+  - source: ./src/
+    target: /var/www/src/
+
+services:
+- name: api
+  ports:
+  - name: http
+    containerPort: 8080
+  command:
+  - /bin/bash
+  - /entrypoint.CES.sh
+  - start
+  ingresses:
+    - hostname: ${var.ingress-hostname}
+      path: /
+      port: http
+  env: &api_env
+    APP_KEY: SomeRandomKey!!!SomeRandomKey!!!
+    DOCKERIZE_TIMEOUT: 180s
+    DOCKERIZE_WAIT_FOR_mysql: tcp://mysql:3306
+    DOCKERIZE_WAIT_FOR_redis: tcp://redis:6379
+    ENABLE_NGINX: "true"
+    ENABLE_PHPFPM: "true"
+    ENABLE_PLATFORM_TASKS: "false"
+    RUN_PLATFORM_MIGRATIONS: "true"
+    DB_CONNECTION: mysql
+    DB_DATABASE: ushahidi
+    DB_HOST: mysql
+    DB_PORT: 3306
+    DB_USERNAME: ushahidi
+    DB_PASSWORD: ushahidi
+    REDIS_HOST: redis
+    REDIS_PORT: 6379
+    CACHE_DRIVER: redis
+    QUEUE_DRIVER: redis
+  healthCheck:
+    httpGet:
+      path: /api/v3/config
+      port: http
+  dependencies:
+  - mysql
+  - redis
+
+tasks:
+- name: test-integration
+  # optional variables:
+  #   flags: handy examples -> --stop-on-failure, ...
+  #   spec_filename: spec file to run tests from   
+  artifacts:
+    - source: /tmp/task-log/*
+  env:
+    <<: *api_env
+  command:
+    - /bin/bash
+    - -c
+    - >-
+      . docker/common.sh ;
+      run_composer_install ;
+      (cd httpdocs/; php -S localhost:8000 -t . index.php &) ;
+      ./bin/behat --strict --profile ci ${var.flags || ''} ${var.spec_filename || ''}
+
+- name: import-v2
+  artifacts:
+    - source: /tmp/task-log/*
+  command:
+    - /bin/bash
+    - -c
+    - >-
+      set -x;
+      set;
+      composer install;
+      mkdir -p /tmp/task-log;
+      { ./artisan import:ushahidiv2 
+      --host ${local.env.V2_DB_HOST || var.v2_db_host || "mysql"}
+      --port ${local.env.V2_DB_PORT || var.v2_db_port || "3306"}
+      --user ${local.env.V2_DB_USER || var.v2_db_user || "ushahidi"}
+      --password ${local.env.V2_DB_PASS || var.v2_db_pass || "ushahidi"}
+      ${local.env.V2_DB_DB || var.v2_db_db || "ush_v2"}
+      2>&1 | tee /tmp/task-log/import-v2.log ;}
+  env:
+    <<: *api_env
+    ARTISAN_LOG_CONSOLE: 1
+  timeout: 7200
+

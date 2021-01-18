@@ -384,7 +384,6 @@ class Survey extends BaseModel
 
     /**
      * We check for relationship permissions here, to avoid hydrating anything that should not be hydrated.
-     *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function tasks()

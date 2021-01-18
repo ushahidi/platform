@@ -1,0 +1,83 @@
+---
+kind: Module
+name: mysql
+description: mysql container
+type: container
+image: mysql:5.7
+
+services:
+- name: mysql
+  command:
+  - docker-entrypoint.sh
+  - --character-set-server=utf8mb4
+  - --collation-server=utf8mb4_unicode_ci
+  - --general-log=1
+  - --general-log-file=/tmp/queries.log
+  ports:
+  - name: mysql
+    containerPort: 3306
+  env: &mysql_env
+    MYSQL_ROOT_PASSWORD: root
+    MYSQL_DATABASE: ushahidi
+    MYSQL_USER: ushahidi
+    MYSQL_PASSWORD: ushahidi
+
+tasks:
+- name: db-dump
+  command:
+  - /bin/bash
+  - "-c"
+  - "export MYSQL_PWD=$MYSQL_PASSWORD ; mysqldump -h mysql --default-character-set=utf8mb4 --no-tablespaces --skip-add-locks -u $MYSQL_USER $MYSQL_DATABASE | gzip -c > /tmp/dump.sql.gz"
+  artifacts:
+  - source: /tmp/dump.sql.gz
+    target: mysql/dump.${local.env.LABEL || "default"}
+  env:
+    <<: *mysql_env
+
+- name: migration-dump
+  command:
+  - /bin/bash
+  - "-c"
+  - |
+    export MYSQL_PWD=$MYSQL_PASSWORD ;
+    tables_to_include() {
+      echo "SHOW TABLES LIKE \'form%\';" | mysql -N -h mysql -u $MYSQL_USER $MYSQL_DATABASE ;
+      echo "SHOW TABLES LIKE \'post_%\';" | mysql -N -h mysql -u $MYSQL_USER $MYSQL_DATABASE ;
+      echo "import_mappings import_source_datas media messages tags users" ;
+    }
+
+    {
+      echo "DELETE FROM users;";
+      echo "DELETE FROM contacts;";
+      echo "DELETE FROM forms;";
+      echo "DELETE FROM csv;";
+      echo "DELETE FROM media;";
+      echo "DELETE FROM messages;";
+      echo "DELETE FROM notification_queue;";
+      echo "DELETE FROM tags;";
+  
+      tables_to_include | \
+        xargs mysqldump -h mysql \
+          --default-character-set=utf8mb4 \
+          --no-tablespaces \
+          --skip-add-locks \
+          -u $MYSQL_USER \
+          $MYSQL_DATABASE ;
+    } | gzip -c > /tmp/dump.sql.gz
+  artifacts:
+  - source: /tmp/migration-dump.sql.gz
+    target: mysql/migration-dump.${local.env.LABEL || "default"}
+  env:
+    <<: *mysql_env
+
+---
+kind: Module
+name: redis
+description: redis container
+type: container
+image: redis:4-alpine
+services:
+- name: redis
+  ports:
+  - name: redis
+    containerPort: 6379

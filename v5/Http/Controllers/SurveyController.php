@@ -15,7 +15,7 @@ use v5\Models\Survey;
 use Illuminate\Http\Request;
 use v5\Models\Translation;
 
-class SurveyController extends V4Controller
+class SurveyController extends V5Controller
 {
     /**
      * Display the specified resource.

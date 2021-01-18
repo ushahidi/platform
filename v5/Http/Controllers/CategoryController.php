@@ -13,7 +13,7 @@ use v5\Models\Category;
 use v5\Models\Translation;
 use Illuminate\Support\Facades\DB;
 
-class CategoryController extends V4Controller
+class CategoryController extends V5Controller
 {
 
     /**

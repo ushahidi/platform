@@ -15,6 +15,7 @@ namespace v5\Models\Scopes;
 use Illuminate\Database\Eloquent\Scope;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use v5\Models\Category;
 
 class CategoryAllowed implements Scope
 {
@@ -59,6 +60,7 @@ class CategoryAllowed implements Scope
                         $query
                             ->select('id')
                             ->from('tags')
+                            //@note what's a nicer way to bind this ????
                             ->where('role', 'NOT LIKE', '%\"' . $user->role . '\"%')
                             ->whereNull('parent_id');
                     })
