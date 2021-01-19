@@ -824,7 +824,6 @@ HTTP/{$this->response->getProtocolVersion()} {$this->response->getStatusCode()} 
         $accessToken->setPrivateKey($key);
         $accessToken->setIdentifier($tokenId);
         $accessToken->setExpiryDateTime((new \DateTimeImmutable())->add(new \DateInterval('P1D')));
-//        $accessToken->setClient($client);
         $token = $accessToken->__toString();
 
         $this->headers['Authorization'] = 'Bearer ' . $token;
