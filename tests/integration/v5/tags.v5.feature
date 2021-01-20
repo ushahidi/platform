@@ -347,7 +347,7 @@ Feature: Testing the Categories API
                 "tag":"Change Role",
                 "slug":"change-role",
                 "type":"status",
-                "role":[]
+                "role":null
             }
             """
         And that its "id" is "1"
