@@ -1798,6 +1798,10 @@ posts_tags:
     post_id: 99
     tag_id: 3
     form_attribute_id: 26
+  -
+    post_id: 99
+    tag_id: 7
+    form_attribute_id: 26
 form_stages_posts:
   -
     form_stage_id: 1
