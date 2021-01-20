@@ -68,7 +68,7 @@ class SurveyController extends V5Controller
             $this->authorize('store', Survey::class);
         }
 
-        $this->validate($request, $survey->getRules(), $survey->validationMessages());
+        $this->validate($request, $survey->getRules($request->input()), $survey->validationMessages());
         $survey = Survey::create(
             array_merge(
                 $request->input(),
@@ -153,7 +153,7 @@ class SurveyController extends V5Controller
         if (!$survey) {
             return self::make404();
         }
-        $this->validate($request, $survey->getRules(), $survey->validationMessages());
+        $this->validate($request, $survey->getRules($request->input()), $survey->validationMessages());
 
         $survey->update(
             array_merge(

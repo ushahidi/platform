@@ -9,6 +9,7 @@ return array(
     'hide_time' => 'Hide time',
     'slug' => 'Slug',
     'tag' => 'Tag',
+    'description' => 'Description',
     'targeted_survey' => 'Targeted survey',
     'parent_id' => 'Parent category',
     'tasks.label' => 'Task label',
