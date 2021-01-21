@@ -15,6 +15,7 @@ namespace v5\Models\Scopes;
 use Illuminate\Database\Eloquent\Scope;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Ushahidi\Core\Entity\Permission;
 use v5\Models\Category;
 
 class CategoryAllowed implements Scope
@@ -33,8 +34,12 @@ class CategoryAllowed implements Scope
          * If no roles are selected, the Tag is considered
          * completely public.
          */
-        $authorizer = service('authorizer.tag');
+        $authorizer = service('authorizer.post');
         $user = $authorizer->getUser();
+        if ($authorizer->acl->hasPermission($user, Permission::MANAGE_SETTINGS)) {
+            // we don't need extra queries to let an admin do things to categories
+            return;
+        }
         if ($user->role) {
             // couldn't think of a better way to deal with our JSON-but-not-json fields
             // get categories that are available for users with this role or NULL role
@@ -51,8 +56,11 @@ class CategoryAllowed implements Scope
             $builder->where(function ($query) use ($user) {
                 return $query
                     ->whereNull('role')
-                    ->orWhere('role', 'LIKE', '%\"' . $user->role . '\"%')
-                    ;
+                        // this little horror is due to horrors that preexist in our database
+                        // the role may be an array [], the string 'null', or a real NULL value
+                        // and in all those cases, it means "Everyone can see it"
+                    ->orWhereIn('role', ['[]', 'null'])
+                    ->orWhere('role', 'LIKE', "%$user->role%");
             });
             $builder->where(function ($query) use ($user) {
                 return $query
@@ -60,8 +68,12 @@ class CategoryAllowed implements Scope
                         $query
                             ->select('id')
                             ->from('tags')
+                            // this little horror is due to horrors that preexist in our database
+                            // the role may be an array [], the string 'null', or a real NULL value
+                            // and in all those cases, it means "Everyone can see it"
+                            ->orWhereIn('role', ['[]', 'null'])
                             //@note what's a nicer way to bind this ????
-                            ->where('role', 'NOT LIKE', '%\"' . $user->role . '\"%')
+                            ->where('role', 'NOT LIKE', "%$user->role%")
                             ->whereNull('parent_id');
                     })
                     ->orWhereNull('parent_id');

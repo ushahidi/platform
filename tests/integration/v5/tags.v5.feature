@@ -338,9 +338,8 @@ Feature: Testing the Categories API
         Then the guzzle status code should be 200
 
     Scenario: Removing Tag Role Restrictions
-        Given that I want to update a "Category"
+        Given that I want to update a "Tag"
         And that the oauth token is "testadminuser"
-        And that the api_url is "api/v5"
         And that the request "data" is:
             """
             {
@@ -351,12 +350,12 @@ Feature: Testing the Categories API
             }
             """
         And that its "id" is "1"
-        When I request "/categories"
+        When I request "/tags"
         Then the response is JSON
-        And the response has a "result.id" property
-        And the "result.id" property equals "1"
-        And the response has a "result.role" property
-        And the "result.role" property is empty
+        And the response has a "id" property
+        And the "id" property equals "1"
+        And the response has a "role" property
+        And the "role" property is empty
         Then the guzzle status code should be 200
 
     @resetFixture
@@ -366,7 +365,7 @@ Feature: Testing the Categories API
         And that the api_url is "api/v5"
         When I request "/categories"
         Then the response is JSON
-        And the "results" property count is "7"
+        And the "results" property count is "11"
         Then the guzzle status code should be 200
     Scenario: Listing All Tags available to regular users
         Given that I want to get all "Categories"
