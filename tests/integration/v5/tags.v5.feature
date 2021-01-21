@@ -472,8 +472,8 @@ Feature: Testing the Categories API
         When I request "/categories"
         And the response has a "error" property
         Then the guzzle status code should be 404
-#
-    Scenario: Creating a new child for a tag with role=admin
+
+    Scenario: Creating a new child for a tag with role=null
         Given that I want to make a new "Category"
         And that the api_url is "api/v5"
         And that the oauth token is "testadminuser"
@@ -487,7 +487,7 @@ Feature: Testing the Categories API
                 "type":"category",
                 "priority":1,
                 "color":"00ff00",
-                "role": "admin"
+                "role": null
             }
             """
         When I request "/categories"
@@ -501,7 +501,7 @@ Feature: Testing the Categories API
         And the "result.priority" property equals "1"
         And the "result.type" property equals "category"
         And the response has a "role" property
-        And the type of the "result.role" property is "array"
+        And the "result.role" property equals "null"
         And the "result.parent.id" property equals "9"
         Then the guzzle status code should be 200
 #
