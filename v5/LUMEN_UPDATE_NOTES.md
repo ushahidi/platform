@@ -85,7 +85,7 @@
 ```
 
 - Replaced `translator->trans()` method in `KohanaValidationEngine`, `ValidatorTrait` and `ContactRepository` by translator->get()` method as `Illuminate\Contracts\Translation\Translator` changed.
-- Replaced `Input::get` by `Request::get` in `Category.php` and `Survey.php` as the `Illuminate\Support\Facades\Input` facade has been removed.
+- Replaced `Input::get` by `Request::input` in `Category.php` and `Survey.php` as the `Illuminate\Support\Facades\Input` facade has been removed.
 - Updated `create` method in `platform/app/Passport/ClientRepository.php` to be compatible with new Passport version. It now matches `platform/vendor/laravel/passport/src/ClientRepository.php`
 - Updated `createPasswordGrantClient` method in `platform/app/Passport/ClientRepository.php` to be compatible with new Passport version. It now matches `platform/vendor/laravel/passport/src/ClientRepository.php`
 - Replaced `League\OAuth2\Server\Exception\OAuthServerException` by `Laravel\Passport\Exceptions\OAuthServerException` in:

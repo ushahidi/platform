@@ -211,9 +211,9 @@ class Category extends BaseModel
              ],
              'role' => [
                 function ($attribute, $value, $fail) {
-                    $has_parent = Request::get('parent_id'); // Retrieve status
+                    $has_parent = Request::input('parent_id'); // Retrieve status
 
-                    $parent = $has_parent ? Category::find(Request::get('parent_id')) : null;
+                    $parent = $has_parent ? Category::find(Request::input('parent_id')) : null;
                     // ... and check if the role matches its parent
                     if ($parent && $parent->role != $value) {
                         return $fail(trans('validation.child_parent_role_match'));
