@@ -82,24 +82,26 @@ class CategoryAllowed implements Scope
             // get categories that are available for non logged in users
             // taking care NOT to bring any child categories that belong
             // to parents with admin/user/other role restrictions
-            $builder->whereNull('role')->where(function ($query) use ($user) {
-                // generates a query like this:
-                // select * from `tags` where `role` is null
-                // AND (`parent_id` not in
-                // (
-                //  select `id` from `tags` where `role` is not null and `parent_id` is null
-                // )
-                // or `parent_id` is null)
-                return $query
-                    ->whereNotIn('parent_id', function ($query) use ($user) {
-                        $query
-                            ->select('id')
-                            ->from('tags')
-                            ->whereNotNull('role')
-                            ->whereNull('parent_id');
-                    })
-                    ->orWhereNull('parent_id');
-            });
+            $builder->whereNull('role')
+                    ->orWhereIn('role', ['[]', 'null'])
+                    ->where(function ($query) use ($user) {
+                    // generates a query like this:
+                    // select * from `tags` where `role` is null
+                    // AND (`parent_id` not in
+                    // (
+                    //  select `id` from `tags` where `role` is not null and `parent_id` is null
+                    // )
+                    // or `parent_id` is null)
+                        return $query
+                        ->whereNotIn('parent_id', function ($query) use ($user) {
+                            $query
+                                ->select('id')
+                                ->from('tags')
+                                ->whereNotNull('role')
+                                ->whereNull('parent_id');
+                        })
+                        ->orWhereNull('parent_id');
+                    });
         }
     }
 }
