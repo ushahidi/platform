@@ -449,9 +449,10 @@ Feature: Testing the Categories API
         When I request "/categories"
         Then the guzzle status code should be 200
 
-#    @resetFixture
+    @resetFixture
 #    Scenario: Deleting a tag removes it from attribute options
 #        Given that I want to delete a "Tag"
+#        And that the api_url is "api/v5"
 #        And that its "id" is "1"
 #        When I request "/tags"
 #        Then the guzzle status code should be 200
@@ -463,42 +464,46 @@ Feature: Testing the Categories API
 #        And the "options" property does not contain "1"
 #        Then the guzzle status code should be 200
 #
-#    Scenario: Deleting a non-existent Tag
-#        Given that I want to delete a "Tag"
-#        And that its "id" is "35"
-#        When I request "/tags"
-#        And the response has a "errors" property
-#        Then the guzzle status code should be 404
+    Scenario: Deleting a non-existent Category
+        Given that I want to delete a "Category"
+        And that the api_url is "api/v5"
+        And that the oauth token is "testadminuser"
+        And that its "id" is "353"
+        When I request "/categories"
+        And the response has a "error" property
+        Then the guzzle status code should be 404
 #
-#    Scenario: Creating a new child for a tag with role=admin
-#        Given that I want to make a new "Tag"
-#        And that the request "data" is:
-#            """
-#            {
-#                "parent_id":9,
-#                "tag":"Valid child",
-#                "slug":"valid-child",
-#                "description":"I am a valid tag",
-#                "type":"category",
-#                "priority":1,
-#                "color":"00ff00",
-#                "role": "admin"
-#            }
-#            """
-#        When I request "/tags"
-#        Then the response is JSON
-#        And the response has a "id" property
-#        And the type of the "id" property is "numeric"
-#        And the "tag" property equals "Valid child"
-#        And the "slug" property equals "valid-child"
-#        And the "description" property equals "I am a valid tag"
-#        And the "color" property equals "#00ff00"
-#        And the "priority" property equals "1"
-#        And the "type" property equals "category"
-#        And the response has a "role" property
-#        And the type of the "role" property is "array"
-#        And the "parent.id" property equals "9"
-#        Then the guzzle status code should be 200
+    Scenario: Creating a new child for a tag with role=admin
+        Given that I want to make a new "Category"
+        And that the api_url is "api/v5"
+        And that the oauth token is "testadminuser"
+        And that the request "data" is:
+            """
+            {
+                "parent_id":9,
+                "tag":"Valid child",
+                "slug":"valid-child",
+                "description":"I am a valid tag",
+                "type":"category",
+                "priority":1,
+                "color":"00ff00",
+                "role": "admin"
+            }
+            """
+        When I request "/categories"
+        Then the response is JSON
+        And the response has a "result.id" property
+        And the type of the "result.id" property is "numeric"
+        And the "result.tag" property equals "Valid child"
+        And the "result.slug" property equals "valid-child"
+        And the "result.description" property equals "I am a valid tag"
+        And the "result.color" property equals "#00ff00"
+        And the "result.priority" property equals "1"
+        And the "result.type" property equals "category"
+        And the response has a "role" property
+        And the type of the "result.role" property is "array"
+        And the "result.parent.id" property equals "9"
+        Then the guzzle status code should be 200
 #
 #    Scenario: Creating a new invalid child for a tag with role=admin
 #        Given that I want to make a new "Tag"
