@@ -248,7 +248,7 @@ class Category extends BaseModel
     }
     public function children()
     {
-        return $this->hasMany('v5\Models\Category', 'parent_id', 'id');
+        return $this->hasMany('v5\Models\Category', 'parent_id', 'id')->withoutGlobalScopes();
     }
 
 
