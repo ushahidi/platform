@@ -36,7 +36,7 @@ class CategoryAllowed implements Scope
          */
         $authorizer = service('authorizer.post');
         $user = $authorizer->getUser();
-        if ($authorizer->acl->hasPermission($user, Permission::MANAGE_SETTINGS)) {
+        if ($user->role === 'admin') {
             // we don't need extra queries to let an admin do things to categories
             return;
         }
