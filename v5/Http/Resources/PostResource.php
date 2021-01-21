@@ -1,11 +1,11 @@
 <?php
 namespace v5\Http\Resources;
 
-use Illuminate\Http\Resources\Json\Resource;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Collection;
 use Ushahidi\Core\Entity\Post;
 
-class PostResource extends Resource
+class PostResource extends JsonResource
 {
     public static $wrap = 'result';
 

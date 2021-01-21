@@ -3,7 +3,6 @@
 
 namespace v5\Http\Resources;
 
-use Illuminate\Http\Resources\Json\Resource;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Support\Collection;
 

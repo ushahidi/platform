@@ -260,7 +260,7 @@ class PHPUnitFixtureContext implements Context
         //return PHPUnit_Extensions_Database_Operation_Factory::CLEAN_INSERT();
         $cascadeTruncates = true;
         return new Composite([
-            new Truncate($cascadeTruncates),
+            Factory::TRUNCATE($cascadeTruncates),
             Factory::INSERT()
         ]);
     }
@@ -283,7 +283,7 @@ class PHPUnitFixtureContext implements Context
      * @param string $schema
      * @return PHPUnit_Extensions_Database_DB_DefaultDatabaseConnection
      */
-    protected function createDefaultDBConnection(\PDO $connection, $schema = '')
+    protected function createDefaultDBConnection($connection, $schema = '')
     {
         return new DefaultConnection($connection, $schema);
     }

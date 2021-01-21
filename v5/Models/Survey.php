@@ -335,6 +335,7 @@ class Survey extends BaseModel
             'tasks.*.fields.*.response_private' => [
                 'boolean',
                 function ($attribute, $value, $fail) {
+                    // @TODO - FIX - change Request::get by proper implementation
                     $type_field = Arr::get(Request::get(), str_replace('response_private', 'type', $attribute));
                     if ($type_field === 'tags' && $value != false) {
                         return $fail(trans('validation.tag_field_type_cannot_be_private'));

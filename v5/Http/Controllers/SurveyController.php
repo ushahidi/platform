@@ -3,7 +3,7 @@
 namespace v5\Http\Controllers;
 
 use Illuminate\Auth\Access\Gate;
-use Illuminate\Http\Resources\Json\Resource;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Arr;
 use Ramsey\Uuid\Uuid;

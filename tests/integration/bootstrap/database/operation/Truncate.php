@@ -1,22 +1,10 @@
 <?php
-/*
- * This file is part of DbUnit.
- *
- * (c) Sebastian Bergmann <sebastian@phpunit.de>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
 
 namespace Tests\Integration\Bootstrap\Database\Operation;
-
 
 use PDO;
 use PDOException;
 
-/**
- * Executes a truncate against all tables in a dataset.
- */
 class Truncate implements Operation
 {
     protected $useCascade = false;
@@ -28,8 +16,9 @@ class Truncate implements Operation
 
     public function execute($connection, $dataSet): void
     {
-        foreach ($dataSet->getReverseIterator() as $table) {
-            /* @var $table ITable */
+        $iterator = $dataSet->getReverseIterator();
+        while ($iterator->valid()) {
+            $table = $iterator->current();
             $query = "
                 {$connection->getTruncateCommand()} {$connection->quoteSchemaObject($table->getTableMetaData()->getTableName())}
             ";
@@ -46,11 +35,12 @@ class Truncate implements Operation
                 $this->enableForeignKeyChecksForMysql($connection);
 
                 if ($e instanceof PDOException) {
-                    throw new Exception('TRUNCATE', $query, [], $table, $e->getMessage());
+                    throw new \Exception('TRUNCATE', $query, [], $table, $e->getMessage());
                 }
 
                 throw $e;
             }
+            $iterator->next();
         }
     }
 

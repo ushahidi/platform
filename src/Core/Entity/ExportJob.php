@@ -104,6 +104,6 @@ class ExportJob extends StaticEntity
     public function startHDX()
     {
         // if sending to HXL is required, then we spawn an event to do that
-        Event::fire(new SendToHDXEvent($this->getId()));
+        Event::dispatch(new SendToHDXEvent($this->getId()));
     }
 }

@@ -1,9 +1,9 @@
 <?php
 namespace v5\Http\Resources;
 
-use Illuminate\Http\Resources\Json\Resource;
+use Illuminate\Http\Resources\Json\JsonResource;
 
-class SurveyResource extends Resource
+class SurveyResource extends JsonResource
 {
     public static $wrap = 'result';
 
