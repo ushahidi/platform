@@ -500,7 +500,7 @@ Feature: Testing the Categories API
         And the "result.color" property equals "#00ff00"
         And the "result.priority" property equals "1"
         And the "result.type" property equals "category"
-        And the response has a "role" property
+        And the response has a "result.role" property
         And the "result.role" property equals "null"
         And the "result.parent.id" property equals "9"
         Then the guzzle status code should be 200
