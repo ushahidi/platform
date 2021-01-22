@@ -218,7 +218,17 @@ forms:
     hide_location: 0
     everyone_can_create: 1
     targeted_survey: 0
-
+  -
+    id: 10
+    name: "Survey with a category field"
+    type: "report"
+    description: "Survey with a category field to test permissions"
+    require_approval: 0
+    hide_author: 0
+    hide_time: 0
+    hide_location: 0
+    everyone_can_create: 1
+    targeted_survey: 0
 form_roles:
   -
     id: 1
@@ -374,7 +384,14 @@ form_stages:
     task_is_internal_only: 1
     type: "task"
     priority: 3
-
+  -
+    id: 18
+    form_id: 10
+    label: "First"
+    show_when_published: 1
+    task_is_internal_only: 0
+    type: "post"
+    priority: 0
 form_attributes:
   -
     id: 1
@@ -987,7 +1004,18 @@ form_attributes:
     options: ""
     cardinality: 1
     form_stage_id: 15
-
+  -
+    id: 52
+    label: "Categories52"
+    key: "categories52"
+    type: "tags"
+    input: "tags"
+    response_private: 0
+    required: 0
+    priority: 3
+    options: '["12","13","14","15","16","17","18"]'
+    cardinality: 0
+    form_stage_id: 18
 posts:
   -
     id: 1
@@ -1783,6 +1811,62 @@ tags:
     parent_id: 9
     tag: "Child 2"
     slug: "child-two"
+    priority: 0
+    type: 'category'
+  -
+    id: 12
+    role: 'broken'
+    tag: "This has a broken role and wont appear"
+    slug: "this-has-a-broken-role"
+    priority: 0
+    type: 'category'
+  -
+    id: 13
+    role: 'null'
+    tag: "This has a null broken role, it will appear"
+    slug: "this-has-a-null-broken-role"
+    priority: 0
+    type: 'category'
+  -
+    id: 14
+    role: 'null'
+    parent_id: 13
+    tag: "Child of the null broken 13, it will appear"
+    slug: "child-of-13-null-broken-role"
+    priority: 0
+    type: 'category'
+  -
+    id: 15
+    role: '[]'
+    tag: "Broken string of json array, it will appear"
+    slug: "broken-json-array-will-appear"
+    priority: 0
+    type: 'category'
+  -
+    id: 16
+    role: '["admin"]'
+    tag: "A role for admin users only"
+    slug: "for-admins-only"
+    priority: 0
+    type: 'category'
+  -
+    id: 17
+    role: '["user", "admin"]'
+    tag: "Only admins will see this due to parent permissions"
+    slug: "for-admins-only-child"
+    priority: 0
+    type: 'category'
+  -
+    id: 18
+    tag: "Everyone can see this one"
+    slug: "for-everyone-to-see"
+    priority: 0
+    type: 'category'
+  -
+    id: 19
+    parent_id: 18
+    tag: "Everyone can see this child category"
+    slug: "for-everyone-to-see-child"
     priority: 0
     type: 'category'
 posts_tags:

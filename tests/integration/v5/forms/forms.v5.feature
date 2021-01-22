@@ -144,7 +144,7 @@ Feature: Testing the Surveys API
         And that the oauth token is "testmanager"
         When I request "/surveys"
         Then the response is JSON
-        And the "results" property count is "10"
+        And the "results" property count is "11"
         Then the guzzle status code should be 200
 
     Scenario: Finding a Survey

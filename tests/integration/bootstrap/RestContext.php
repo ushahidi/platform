@@ -538,6 +538,20 @@ class RestContext implements Context
     }
 
     /**
+     * @Then /^the "([^"]*)" property is null$/
+     */
+    public function thePropertyIsNull ($propertyName) {
+
+        $data = json_decode($this->response->getBody(true), true);
+        $actualPropertyValue = array_has($data, $propertyName);
+
+        if ($actualPropertyValue !== null) {
+            throw new \Exception(
+                "Property $propertyName should was expected to be null."
+            );
+        }
+    }
+    /**
      * @Then /^the "([^"]*)" property equals "([^"]*)"$/
      */
     public function thePropertyEquals($propertyName, $propertyValue)
