@@ -28,7 +28,8 @@ class ImportMediaCommand extends Command
      */
     protected $signature = 'import:media
                             {--d|detached : Run media import in the background with queue workers}
-                            {--s|source= : Source storage driver to read files from}';
+                            {--s|source= : Source storage driver to read files from}
+                            {--r|regex= : Only import media addresses matching regex}';
 
     /**
      * The console command description.
@@ -52,6 +53,18 @@ class ImportMediaCommand extends Command
         // Find all media rows
         $mediaRepo->setSearchParams(new SearchData());
         $results = $mediaRepo->getSearchResults();
+
+        // Filter out results by regex
+        if ($this->option('regex')) {
+            // process the pattern
+            $p = $this->option('regex');
+            if ($p[0] !== '/') {
+                $p = '/' . $p . '/';
+            }
+            $results = array_filter($results, function ($media) use ($p) {
+                return ( preg_match($p, $media->o_filename) == 1 );
+            });
+        }
 
         // Launch import media jobs
         if (!$this->option('detached')) {
