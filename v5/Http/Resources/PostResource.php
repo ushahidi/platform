@@ -59,7 +59,7 @@ class PostResource extends BaseResource
         return $post_content;
     }
 
-    private function _getPrivileges()
+    private function getResourcePrivileges()
     {
         $authorizer = service('authorizer.post');
         $entity = new Post($this->resource->toArray());
@@ -100,7 +100,7 @@ class PostResource extends BaseResource
         $fields = $this->includeResourceFields($request);
         $result = $this->setResourceFields($fields);
         $hydrated = $this->hydrateResourceRelationships($request);
-        $allowed_privs = ['allowed_privileges' => $this->_getPrivileges()];
+        $allowed_privs = ['allowed_privileges' => $this->getResourcePrivileges()];
         return array_merge($result, $hydrated, $allowed_privs, [
             'translations' => new TranslationCollection($this->translations),
             'enabled_languages' => [
