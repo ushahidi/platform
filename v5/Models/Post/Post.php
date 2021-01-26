@@ -33,6 +33,13 @@ class Post extends BaseModel
 {
     use InteractsWithPostPermissions;
 
+    /**
+     * This relationships aren't real, they are fabricated
+     * with the intention of using them in Resource objects
+     * Which is why you see 'post_content' rather than postValueVarchar
+     * @var string[]
+     */
+    public static $relationships = ['survey', 'locks', 'categories', 'comments', 'post_content', 'completed_stages'];
     public $errors;
     /**
      * Add eloquent style timestamps
@@ -411,7 +418,7 @@ class Post extends BaseModel
 
     public function survey()
     {
-        return $this->hasOne('v5\Models\Survey', 'id', 'form_id');
+        return $this->hasOne('v5\Models\Survey', 'id', 'form_id')->setEagerLoads([]);
     }
 
     public function locks()

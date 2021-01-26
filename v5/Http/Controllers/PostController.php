@@ -410,7 +410,11 @@ class PostController extends V5Controller
                     $post_value = new $class_name;
                 }
                 if ($type === 'geometry') {
-                    $value = \DB::raw("GeomFromText('$value')");
+                    if (is_string($value) && $value === '') {
+                        $value = null;
+                    } else {
+                        $value = \DB::raw("GeomFromText('$value')");
+                    }
                 }
 
                 $data = [

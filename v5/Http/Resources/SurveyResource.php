@@ -2,11 +2,47 @@
 namespace v5\Http\Resources;
 
 use Illuminate\Http\Resources\Json\Resource;
+use v5\Http\Controllers\SurveyController;
+use v5\Models\Survey;
 
-class SurveyResource extends Resource
+class SurveyResource extends BaseResource
 {
     public static $wrap = 'result';
-
+    /*
+     * @param  \Illuminate\Http\Request  $request
+     * @return array
+     */
+    private function includeResourceFields($request)
+    {
+        return self::includeFields($request, [
+            'id',
+            'name',
+            'description',
+            'type',
+            'disabled',
+            'require_approval',
+            'everyone_can_create',
+            'color',
+            'hide_author',
+            'hide_time',
+            'hide_location',
+            'targeted_survey',
+            'can_create'
+        ]);
+    }
+    private function hydrateResourceRelationships($request)
+    {
+        $hydrate = $this->getHydrate(Survey::$relationships, $request);
+        $result = [];
+        foreach ($hydrate as $relation) {
+            switch ($relation) {
+                case 'tasks':
+                    $result['tasks'] = new TaskCollection($this->tasks);
+                    break;
+            }
+        }
+        return $result;
+    }
     /**
      * Transform the resource into an array.
      *
@@ -15,42 +51,15 @@ class SurveyResource extends Resource
      */
     public function toArray($request)
     {
-        /**
-         * @TODO
-         * Replace with an includes=? and format=? system
-         */
-        if ($request->query('format') === 'minimal') {
-            return [
-                'id' => $this->id,
-                'name' => $this->name,
-                'description' => $this->description,
-                'translations' => new TranslationCollection($this->translations),
-                'enabled_languages' => [
-                    'default'=> $this->base_language,
-                    'available' => $this->translations->groupBy('language')->keys()
-                ]
-            ];
-        }
-        return [
-            'id' => $this->id,
-            'name' => $this->name,
-            'description' => $this->description,
-            'type'  => $this->type,
-            'disabled' => $this->disabled,
-            'require_approval' => (boolean) $this->require_approval,
-            'everyone_can_create' => (boolean) $this->everyone_can_create,
-            'color'  => $this->color,
-            'hide_author' => (boolean) $this->hide_author,
-            'hide_time' => (boolean) $this->hide_time,
-            'hide_location' => (boolean) $this->hide_location,
-            'targeted_survey' => (boolean) $this->targeted_survey,
+        $fields = $this->includeResourceFields($request);
+        $result = $this->setResourceFields($fields);
+        $hydrated = $this->hydrateResourceRelationships($request);
+        return array_merge($result, $hydrated, [
             'translations' => new TranslationCollection($this->translations),
-            'tasks' => new TaskCollection($this->tasks),
-            'can_create' => $this->can_create,
             'enabled_languages' => [
                 'default'=> $this->base_language,
                 'available' => $this->translations->groupBy('language')->keys()
             ]
-        ];
+        ]);
     }
 }

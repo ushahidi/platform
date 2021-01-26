@@ -13,7 +13,7 @@ use Ushahidi\Core\Tool\Permissions\InteractsWithFormPermissions;
 class Survey extends BaseModel
 {
     use InteractsWithFormPermissions;
-
+    public static $relationships = ['tasks', 'translations'];
     /**
      * Add eloquent style timestamps
      *
@@ -33,7 +33,7 @@ class Survey extends BaseModel
      *
      * @var string[]
      */
-    protected $with = ['tasks'];
+    protected $with = [];
 
     /**
      * The attributes that should be mutated to dates.
@@ -97,6 +97,9 @@ class Survey extends BaseModel
     protected $casts = [
         'everyone_can_create' => 'boolean',
         'hide_author'         => 'boolean',
+        'hide_time'           => 'boolean',
+        'hide_location'       => 'boolean',
+        'targeted_survey'     => 'boolean',
         'require_approval'    => 'boolean',
         'disabled'            => 'boolean',
     ];
@@ -415,7 +418,7 @@ class Survey extends BaseModel
     }//end translations()
 
     /**
-     * Set the user's first name.
+     * Get the survey color.
      *
      * @param  string  $value
      * @return void
@@ -425,7 +428,7 @@ class Survey extends BaseModel
         return $value ? "#" . $value : $value;
     }
     /**
-     * Set the user's first name.
+     * Set the survey color
      *
      * @param  string  $value
      * @return void

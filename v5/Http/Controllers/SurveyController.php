@@ -26,11 +26,10 @@ class SurveyController extends V5Controller
      */
     public function show(int $id)
     {
-        $survey = Survey::with('translations')->find($id);
+        $survey = Survey::find($id);
         if (!$survey) {
             return self::make404();
         }
-
         return new SurveyResource($survey);
     }//end show()
 
