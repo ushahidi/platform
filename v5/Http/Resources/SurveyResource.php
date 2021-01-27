@@ -39,6 +39,15 @@ class SurveyResource extends BaseResource
                 case 'tasks':
                     $result['tasks'] = new TaskCollection($this->tasks);
                     break;
+                case 'translations':
+                    $result['translations'] = new TranslationCollection($this->translations);
+                    break;
+                case 'enabled_languages':
+                    $result['enabled_languages'] = [
+                        'default'=> $this->base_language,
+                        'available' => $this->translations->groupBy('language')->keys()
+                    ];
+                    break;
             }
         }
         return $result;
@@ -51,15 +60,11 @@ class SurveyResource extends BaseResource
      */
     public function toArray($request)
     {
+        // @TODO-jan27 make translations and enabled_languages optional
+        // @TODO-jan27 make id required
         $fields = $this->includeResourceFields($request);
         $result = $this->setResourceFields($fields);
         $hydrated = $this->hydrateResourceRelationships($request);
-        return array_merge($result, $hydrated, [
-            'translations' => new TranslationCollection($this->translations),
-            'enabled_languages' => [
-                'default'=> $this->base_language,
-                'available' => $this->translations->groupBy('language')->keys()
-            ]
-        ]);
+        return array_merge($result, $hydrated);
     }
 }

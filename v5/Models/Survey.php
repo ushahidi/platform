@@ -13,7 +13,7 @@ use Ushahidi\Core\Tool\Permissions\InteractsWithFormPermissions;
 class Survey extends BaseModel
 {
     use InteractsWithFormPermissions;
-    public static $relationships = ['tasks', 'translations'];
+    public static $relationships = ['tasks', 'translations', 'enabled_languages'];
     /**
      * Add eloquent style timestamps
      *

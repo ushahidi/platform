@@ -39,7 +39,16 @@ class Post extends BaseModel
      * Which is why you see 'post_content' rather than postValueVarchar
      * @var string[]
      */
-    public static $relationships = ['survey', 'locks', 'categories', 'comments', 'post_content', 'completed_stages'];
+    public static $relationships = [
+        'survey',
+        'locks',
+        'categories',
+        'comments',
+        'post_content',
+        'completed_stages',
+        'translations',
+        'enabled_languages'
+    ];
     public $errors;
     /**
      * Add eloquent style timestamps

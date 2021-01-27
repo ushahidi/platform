@@ -85,6 +85,15 @@ class PostResource extends BaseResource
                 case 'post_content':
                     $result['post_content'] = $this->getResourcePostContent();
                     break;
+                case 'translations':
+                    $result['translations'] = new TranslationCollection($this->translations);
+                    break;
+                case 'enabled_languages':
+                    $result['enabled_languages'] = [
+                        'default'=> $this->base_language,
+                        'available' => $this->translations->groupBy('language')->keys()
+                    ];
+                    break;
             }
         }
         return $result;
@@ -97,16 +106,12 @@ class PostResource extends BaseResource
      */
     public function toArray($request)
     {
+        // @TODO-jan27 make translations and enabled_languages optional
+        // @TODO-jan27 make id required
         $fields = $this->includeResourceFields($request);
         $result = $this->setResourceFields($fields);
         $hydrated = $this->hydrateResourceRelationships($request);
         $allowed_privs = ['allowed_privileges' => $this->getResourcePrivileges()];
-        return array_merge($result, $hydrated, $allowed_privs, [
-            'translations' => new TranslationCollection($this->translations),
-            'enabled_languages' => [
-                'default'=> $this->base_language,
-                'available' => $this->translations->groupBy('language')->keys()
-            ]
-        ]);
+        return array_merge($result, $hydrated, $allowed_privs);
     }
 }
