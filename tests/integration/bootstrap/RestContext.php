@@ -522,6 +522,24 @@ class RestContext implements Context
         }
     }
 
+
+    /**
+     * @Given /^the JSON response contains "([^"]*)"/
+     */
+    public function theJsonResponseContains($propertyPathPattern)
+    {
+        //$propertyPathPattern uses dot notation and asterisks to denote arrays
+
+        $data = json_decode($this->response->getBody(true), true);
+        $paths = explode('*', $propertyPathPattern);
+
+        foreach ($paths as $path) {
+//            *.items.*.fields
+            if (array_get($data, $path) === null) {
+                throw new \Exception("Property $path in '".$propertyPathPattern."' is not set\n");
+            }
+        }
+    }
     /**
      * @Given /^the response does not have a "([^"]*)" property$/
      * @Given /^the response does not have an "([^"]*)" property$/

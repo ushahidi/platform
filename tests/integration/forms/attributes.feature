@@ -185,7 +185,7 @@ Feature: Testing the Form Attributes API
         Then the response is JSON
         And the response has a "count" property
         And the type of the "count" property is "numeric"
-        And the "count" property equals "51"
+        And the "count" property equals "52"
         Then the guzzle status code should be 200
 
     Scenario: Search for point attributes
