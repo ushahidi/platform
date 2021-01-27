@@ -9,6 +9,7 @@ return array(
     'hide_time' => 'Hide time',
     'slug' => 'Slug',
     'tag' => 'Tag',
+    'description' => 'Description',
     'targeted_survey' => 'Targeted survey',
     'parent_id' => 'Parent category',
     'tasks.label' => 'Task label',
@@ -22,4 +23,6 @@ return array(
     'tasks.fields.priority' => 'Field priority',
     'tasks.fields.cardinality' => 'Field cardinality',
     'tasks.fields.response_private' => 'Should responses be private?',
+    'status' => 'Post status',
+    'id' => 'Id'
 );

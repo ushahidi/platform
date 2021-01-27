@@ -65,21 +65,22 @@ $router->group([
         $router->get('/{id}', 'PostController@show');
     });
 
+    // Restricted access
+    $router->group([
+        'prefix' => 'posts',
+        'middleware' => ['auth:api', 'scope:posts']
+    ], function () use ($router) {
+        $router->post('/bulk', 'PostController@bulkOperation');
+        $router->put('/{id}', 'PostController@update');
+        $router->patch('/{id}', 'PostController@patch');
+        $router->delete('/{id}', 'PostController@delete');
+    });
+
     $router->group([
         'prefix' => 'posts',
         'middleware' => ['scope:posts']
     ], function () use ($router) {
         // Public access
         $router->post('/', 'PostController@store');
-    });
-
-
-    // Restricted access
-    $router->group([
-        'prefix' => 'posts',
-        'middleware' => ['auth:api', 'scope:posts']
-    ], function () use ($router) {
-        $router->put('/{id}', 'PostController@update');
-        $router->delete('/{id}', 'PostController@delete');
     });
 });

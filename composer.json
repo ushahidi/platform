@@ -157,6 +157,12 @@
         ],
         "installdebug:disable": [
             "\\Ushahidi\\App\\PlatformVerifier\\DebugMode::disable"
+        ],
+        "snowboard-v3-serve" : [
+            "snowboard http docs/api/index.apib"
+        ],
+        "snowboard-v5-serve" : [
+            "snowboard http docs/api/v5/index.apib"
         ]
     }
 }

@@ -97,6 +97,20 @@ class PHPUnitFixtureContext implements Context
         $this->setConfig('feature', 'private', '{"enabled":false}');
     }
 
+    /** @BeforeScenario @disableRegistration */
+    public function enableDisableRegistration()
+    {
+        $this->setConfig('site', 'disable_registration', 'true');
+        $this->setConfig('feature', 'disable_registration', '{"enabled":true}');
+    }
+
+    /** @AfterScenario @disableRegistration */
+    public function disableDisableRegistration()
+    {
+        $this->setConfig('site', 'disable_registration', 'false');
+        $this->setConfig('feature', 'disable_registration', '{"enabled":false}');
+    }
+
     /**
      * @BeforeScenario @rolesEnabled
      **/

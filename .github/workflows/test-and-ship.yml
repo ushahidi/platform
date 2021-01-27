@@ -14,7 +14,7 @@ jobs:
 
     env:
       COMPOSER_PROCESS_TIMEOUT: 0
-    
+
     strategy:
       matrix:
         php_version:
@@ -38,7 +38,7 @@ jobs:
         key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
         restore-keys: |
           ${{ runner.os }}-composer-
-        
+
     - name: Setup environment
       run: |
         set -e;
@@ -73,7 +73,7 @@ jobs:
         set -e;
 
         php composer.phar lint
-        
+
     - name: Run tests
       run: |
         set -e;
@@ -96,13 +96,13 @@ jobs:
         options: --health-cmd "mysqladmin ping -h localhost"
           --health-interval 10s --health-timeout 5s
           --health-retries 60
-  
+
   ship:
     needs: [ test ]
     if: github.event_name == 'push'   # not on PRs
     runs-on: ubuntu-latest
     timeout-minutes: 15
-    
+
     steps:
     - uses: actions/checkout@v2
 
