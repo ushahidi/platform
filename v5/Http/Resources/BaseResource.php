@@ -14,9 +14,9 @@
 namespace v5\Http\Resources;
 
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\Resource;
+use Illuminate\Http\Resources\Json\JsonResource;
 
-class BaseResource extends Resource
+class BaseResource extends JsonResource
 {
     public static $wrap = 'result';
 
