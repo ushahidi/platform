@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Auth;
 use mysql_xdevapi\Exception;
 use Ushahidi\App\Auth\GenericUser;
 use Illuminate\Http\Request;
+use v5\Events\PostCreatedEvent;
+use v5\Events\PostUpdatedEvent;
 use v5\Http\Resources\PostCollection;
 use v5\Http\Resources\PostResource;
 use v5\Models\Post\Post;
@@ -144,6 +146,7 @@ class PostController extends V5Controller
                 return self::make422($errors, 'translation');
             }
             DB::commit();
+            event(new PostCreatedEvent($post));
             return new PostResource($post);
         } catch (\Exception $e) {
             DB::rollback();
@@ -174,6 +177,7 @@ class PostController extends V5Controller
         $this->authorize('changeStatus', $post);
 
         if ($post->save()) {
+            event(new PostUpdatedEvent($post));
             return new PostResource($post);
         } else {
             return self::make422($post->errors);
@@ -250,6 +254,9 @@ class PostController extends V5Controller
         } catch (\Exception $e) {
             DB::rollback();
             return self::make500();
+        }
+        foreach ($posts as $post) {
+            event(new PostUpdatedEvent($post));
         }
         return response()->json([ 'status' => 'completed' ], 200);
     }
@@ -339,6 +346,8 @@ class PostController extends V5Controller
             $translations_input = $request->input('translations') ? $request->input('translations') : [];
             $this->updateTranslations(new Post(), $post->toArray(), $translations_input, $post->id, 'post');
             DB::commit();
+
+            event(new PostUpdatedEvent($post));
             $post->load('translations');
             return new PostResource($post);
         } catch (\Exception $e) {
