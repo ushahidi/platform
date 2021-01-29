@@ -99,7 +99,7 @@ $app->register(Ushahidi\App\Providers\PassportServiceProvider::class);
 $app->register(Barryvdh\Cors\ServiceProvider::class);
 $app->register(Sentry\SentryLaravel\SentryLumenServiceProvider::class);
 $app->register(v5\Providers\MorphServiceProvider::class);
-
+$app->register(v5\Providers\EventServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------

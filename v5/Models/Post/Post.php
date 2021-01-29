@@ -13,6 +13,7 @@
 
 namespace v5\Models\Post;
 
+use Illuminate\Notifications\Notifiable;
 use v5\Models\BaseModel;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
