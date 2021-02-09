@@ -35,7 +35,14 @@ class Attribute extends BaseModel
         'response_private',
         'form_stage_id'
     ];
-    protected $with = ['translations'];
+    /*
+     * Query optimizations 2021.02.09:
+     *   translations are generally only needed when rendering the response.
+     *   Thus, it seems more adequate to ensure these are loaded by calling
+     *   load() or loadMissing() from Resource::toArray().
+     *   Doing this has resulted in far less queries when rendering JSON.
+     */
+    // protected $with = ['translations'];
 
     protected $casts = [
         'config' => 'json',
@@ -57,7 +64,7 @@ class Attribute extends BaseModel
                 }
                 return $v;
             }, json_decode($value));
-            return Category::whereIn('id', $values)->with('children')->get();
+            return Category::whereIn('id', $values)->with(['parent', 'children', 'translations'])->get();
         }
         return json_decode($value);
     }

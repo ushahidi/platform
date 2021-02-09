@@ -446,7 +446,7 @@ class Post extends BaseModel
         return $this->hasMany('v5\Models\Comment', 'post_id', 'id');
     }
 
-    public function getPostValues()
+    protected static function valueTypesRelationships()
     {
         $value_types = [
             'Varchar',
@@ -463,9 +463,29 @@ class Post extends BaseModel
 //            'PostsSet',
             'PostTag'
         ];
+        return array_map(function ($t) {
+            return "values${t}";
+        }, $value_types);
+    }
+
+    /*
+     * Convenience accessor to fetch posts along with their values
+     */
+    public static function withPostValues()
+    {
+        return Post::with(Post::valueTypesRelationships());
+    }
+
+    public function getPostValues()
+    {
         $values = [];
-        foreach ($value_types as $type) {
-            $values[] = $this->{"values$type"};
+        foreach ($this->valueTypesRelationships() as $rel) {
+            if ($rel == 'valuesPostTag') {
+                // For categories, preload the categories key relations
+                $values[] = $this->valuesPostTag()->with(['tag.parent', 'tag.children', 'tag.translations'])->get();
+            } else {
+                $values[] = $this->{"$rel"};
+            }
         }
         return Collection::make(array_flatten($values));
     }

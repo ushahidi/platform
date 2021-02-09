@@ -45,7 +45,8 @@ class PostController extends V5Controller
      */
     public function show(int $id)
     {
-        $post = Post::find($id);
+        $post = Post::withPostValues()->where('id', $id)->first();
+
         if (!$post) {
             return self::make404();
         }
@@ -62,7 +63,7 @@ class PostController extends V5Controller
      */
     public function index()
     {
-        return new PostCollection(Post::paginate(20));
+        return new PostCollection(Post::withPostValues()->paginate(20));
     }//end index()
 
     private function getUser()
