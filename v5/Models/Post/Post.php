@@ -336,11 +336,18 @@ class Post extends BaseModel
             'post_content.*.fields.*.required' => [
                 function ($attribute, $value, $fail) {
                     if (!!$value) {
+                        $field_content = Input::get(str_replace('.required', '', $attribute));
+                        $label = $field_content['label'] ?: $field_content['id'];
                         $get_value = Input::get(str_replace('.required', '.value.value', $attribute));
+                        $is_empty = (is_null($get_value) || $get_value === '');
                         $is_title = Input::get(str_replace('.required', '.type', $attribute)) === 'title';
                         $is_desc = Input::get(str_replace('.required', '.type', $attribute)) === 'description';
-                        if (!$get_value && !$is_desc && !$is_title) {
-                            return $fail(trans('validation.field_required'));
+                        if ($is_empty && !$is_desc && !$is_title) {
+                            return $fail(
+                                trans('validation.required_by_label', [
+                                    'label' => $label
+                                ])
+                            );
                         }
                     }
                 }

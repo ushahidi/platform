@@ -37,5 +37,6 @@ return array(
   'array'         => ':field must be an array',
   'integer'       => ':field must be an integer',
   'required'      => ':field is required',
+  'required_by_label' => 'Field ":label" is required',
   'ref_exists'    => ':field must point at an existing :model',
 );
