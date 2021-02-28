@@ -6,7 +6,7 @@ use Ushahidi\App\Auth\GenericUser as User;
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\Traits\OwnerAccess;
 use v5\Models\Survey;
-use v5\Models\Post;
+use v5\Models\Post\Post;
 
 use Ushahidi\Core\Entity\Permission;
 use Ushahidi\Core\Traits\AdminAccess;
@@ -89,7 +89,27 @@ class PostPolicy
         // we convert to a form entity to be able to continue using the old authorizers and classes.
         return $this->isAllowed($post, 'update');
     }
-
+    /**
+     * @param Survey $survey
+     * @return bool
+     */
+    public function patch(User $user, Post $post)
+    {
+        dd('hell');
+        $post = new Entity\Post($post->toArray());
+        // we convert to a form entity to be able to continue using the old authorizers and classes.
+        return $this->isAllowed($post, 'update');
+    }
+    /**
+     * @param Survey $survey
+     * @return bool
+     */
+    public function changeStatus(User $user, Post $post)
+    {
+        $post = new Entity\Post($post->toArray());
+        // we convert to a form entity to be able to continue using the old authorizers and classes.
+        return $this->isAllowed($post, 'update');
+    }
 
     /**
      * @param Survey $survey

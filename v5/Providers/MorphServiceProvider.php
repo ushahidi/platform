@@ -15,7 +15,7 @@ class MorphServiceProvider extends ServiceProvider
             'task' => 'v5\Models\Stage',
             'field' => 'v5\Models\Attribute',
             'category' => 'v5\Models\Category',
-            'post' => 'v5\Models\Post',
+            'post' => 'v5\Models\Post\Post',
             'post_value_varchar' => 'v5\Models\PostValues\PostVarchar',
             'post_value_text' => 'v5\Models\PostValues\PostText',
             'post_value_datetime' => 'v5\Models\PostValues\PostDatetime',

@@ -58,3 +58,6 @@ vault.txt
 error.log
 # Snowboard
 dist/*
+
+# Garden
+.garden

@@ -37,6 +37,7 @@ exclude:
   - public
   - httpdocs/storage
   - vendor/**
+  - storage/passport/**
   - garden_modules/**
   - bin/**
   - .garden/**
@@ -93,6 +94,23 @@ services:
   - redis
 
 tasks:
+- name: test-integration
+  # optional variables:
+  #   flags: handy examples -> --stop-on-failure, ...
+  #   spec_filename: spec file to run tests from   
+  artifacts:
+    - source: /tmp/task-log/*
+  env:
+    <<: *api_env
+  command:
+    - /bin/bash
+    - -c
+    - >-
+      . docker/common.sh ;
+      run_composer_install ;
+      (cd httpdocs/; php -S localhost:8000 -t . index.php &) ;
+      ./bin/behat --strict --profile ci ${var.flags || ''} ${var.spec_filename || ''}
+
 - name: import-v2
   artifacts:
     - source: /tmp/task-log/*

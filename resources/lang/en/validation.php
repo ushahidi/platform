@@ -30,8 +30,12 @@ return array(
   'exists'        => ':field must exist',
   'unique'        => ':field must be unique',
   'child_parent_role_match' => 'The child category :attribute must be the same as the parent role.',
+  'role_cannot_be_empty' => 'The role list must be NULL or an array with at least 1 role',
   'tag_field_type_cannot_be_private' => 'Tag fields cannot be private.',
   'tag_field_must_be_array' => 'Incorrect format for tags property.',
   'field_required'         => ':field is required',
-
+  'array'         => ':field must be an array',
+  'integer'       => ':field must be an integer',
+  'required'      => ':field is required',
+  'ref_exists'    => ':field must point at an existing :model',
 );

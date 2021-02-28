@@ -15,7 +15,7 @@ use v5\Models\Survey;
 use Illuminate\Http\Request;
 use v5\Models\Translation;
 
-class SurveyController extends V4Controller
+class SurveyController extends V5Controller
 {
     /**
      * Display the specified resource.
@@ -26,11 +26,10 @@ class SurveyController extends V4Controller
      */
     public function show(int $id)
     {
-        $survey = Survey::with('translations')->find($id);
+        $survey = Survey::find($id);
         if (!$survey) {
             return self::make404();
         }
-
         return new SurveyResource($survey);
     }//end show()
 
@@ -68,7 +67,7 @@ class SurveyController extends V4Controller
             $this->authorize('store', Survey::class);
         }
 
-        $this->validate($request, $survey->getRules(), $survey->validationMessages());
+        $this->validate($request, $survey->getRules($request->input()), $survey->validationMessages());
         $survey = Survey::create(
             array_merge(
                 $request->input(),
@@ -153,7 +152,7 @@ class SurveyController extends V4Controller
         if (!$survey) {
             return self::make404();
         }
-        $this->validate($request, $survey->getRules(), $survey->validationMessages());
+        $this->validate($request, $survey->getRules($request->input()), $survey->validationMessages());
 
         $survey->update(
             array_merge(

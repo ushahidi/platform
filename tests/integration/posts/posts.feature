@@ -995,8 +995,8 @@ Feature: Testing the Posts API
 		Then the response is JSON
 		And the response has a "count" property
 		And the type of the "count" property is "numeric"
-		And the "count" property equals "19"
-		And the "total_count" property equals "19"
+		And the "count" property equals "20"
+		And the "total_count" property equals "20"
 		Then the guzzle status code should be 200
 
 	@resetFixture @search
@@ -1266,7 +1266,7 @@ Feature: Testing the Posts API
 		Given that I want to get all "Posts"
 		And that the request "query string" is:
 			"""
-			created_after_by_id=1697
+			created_after_by_id=1801
 			"""
 		When I request "/posts"
 		Then the response is JSON
@@ -1286,7 +1286,7 @@ Feature: Testing the Posts API
 		Then the response is JSON
 		And the response has a "count" property
 		And the type of the "count" property is "numeric"
-		And the "count" property equals "9"
+		And the "count" property equals "10"
 		Then the guzzle status code should be 200
 
 	@get

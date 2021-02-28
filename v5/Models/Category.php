@@ -150,12 +150,18 @@ class Category extends BaseModel
 
             'description.min' => trans(
                 'validation.min_length',
-                ['field' => trans('fields.description')]
+                [
+                    'param2' => 2,
+                    'field' => trans('fields.description')
+                ]
             ),
 
             'description.max' => trans(
                 'validation.max_length',
-                ['field' => trans('fields.description')]
+                [
+                    'param2' => 255,
+                    'field' => trans('fields.description')
+                ]
             ),
             'icon.regex'        => trans(
                 'validation.regex',
@@ -170,10 +176,13 @@ class Category extends BaseModel
 
     /**
      * Return all validation rules
+     * @param null $data
      * @return array
      */
-    public function getRules()
+    public function getRules($data = null)
     {
+        $id = isset($data['id']) ? $data['id'] : $this->id;
+        $parent_id = isset($data['parent_id']) ? ($data['parent_id']) : $this->parent_id;
         return [
              'parent_id' => 'nullable|sometimes|exists:tags,id',
              'tag'         => [
@@ -181,12 +190,12 @@ class Category extends BaseModel
                 'min:2',
                 'max:255',
                 'regex:/^[\pL\pN\pP ]++$/uD',
-                Rule::unique('tags')->ignore($this->id)
+                Rule::unique('tags', 'tag')->ignore($id)
              ],
              'slug'        => [
                 'required',
                 'min:2',
-                Rule::unique('tags')->ignore($this->id)
+                Rule::unique('tags', 'slug')->ignore($id)
              ],
              'type'        => [
                 'required',
@@ -196,6 +205,7 @@ class Category extends BaseModel
                 ])
              ],
              'description' => [
+                 'nullable',
                  'min:2',
                  'max:255'
              ],
@@ -210,13 +220,14 @@ class Category extends BaseModel
                 'numeric'
              ],
              'role' => [
-                function ($attribute, $value, $fail) {
-                    $has_parent = Input::get('parent_id'); // Retrieve status
-
-                    $parent = $has_parent ? Category::find(Input::get('parent_id')) : null;
+                function ($attribute, $value, $fail) use ($parent_id) {
+                    $parent = $parent_id ? Category::find($parent_id) : null;
                     // ... and check if the role matches its parent
                     if ($parent && $parent->role != $value) {
                         return $fail(trans('validation.child_parent_role_match'));
+                    }
+                    if (is_array($value) && empty($value)) {
+                        return $fail(trans('validation.role_cannot_be_empty'));
                     }
                 }
              ]
@@ -237,7 +248,7 @@ class Category extends BaseModel
     }
     public function children()
     {
-        return $this->hasMany('v5\Models\Category', 'parent_id', 'id');
+        return $this->hasMany('v5\Models\Category', 'parent_id', 'id')->withoutGlobalScopes();
     }
 
 
@@ -266,7 +277,8 @@ class Category extends BaseModel
 
     public function validate($data = [])
     {
-        $v = Validator::make($data, $this->getRules(), $this->validationMessages());
+        $v = Validator::make($data, $this->getRules($data), $this->validationMessages());
+
         $v->sometimes('role', 'exists:roles,name', function ($input) {
             return !!$input->get('role');
         });

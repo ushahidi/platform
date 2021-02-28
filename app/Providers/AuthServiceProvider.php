@@ -62,7 +62,7 @@ class AuthServiceProvider extends ServiceProvider
         // need to use a string here or laravel goes wild and doesn't authorize anything
         Gate::policy('v5\Models\Survey', 'v5\Policies\SurveyPolicy');
         Gate::policy('v5\Models\Category', 'v5\Policies\CategoryPolicy');
-        Gate::policy('v5\Models\Post', 'v5\Policies\PostPolicy');
+        Gate::policy('v5\Models\Post\Post', 'v5\Policies\PostPolicy');
     }
 
     protected function defineScopes()

@@ -1,7 +1,20 @@
 <?php
+/**
+ * *
+ *  * Ushahidi Acl
+ *  *
+ *  * @author     Ushahidi Team <team@ushahidi.com>
+ *  * @package    Ushahidi\Application
+ *  * @copyright  2020 Ushahidi
+ *  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
+ *
+ *
+ */
 
-namespace v5\Models;
+namespace v5\Models\Post;
 
+use Illuminate\Notifications\Notifiable;
+use v5\Models\BaseModel;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Input;
@@ -21,6 +34,22 @@ class Post extends BaseModel
 {
     use InteractsWithPostPermissions;
 
+    /**
+     * This relationships aren't real, they are fabricated
+     * with the intention of using them in Resource objects
+     * Which is why you see 'post_content' rather than postValueVarchar
+     * @var string[]
+     */
+    public static $relationships = [
+        'survey',
+        'locks',
+        'categories',
+        'comments',
+        'post_content',
+        'completed_stages',
+        'translations',
+        'enabled_languages'
+    ];
     public $errors;
     /**
      * Add eloquent style timestamps
@@ -71,7 +100,6 @@ class Post extends BaseModel
         'created',
         'updated'
     ];
-
     /**
      * The model's default values for attributes.
      *
@@ -81,7 +109,7 @@ class Post extends BaseModel
         'type'                => 'report',
         'locale'              => 'en_US',
         'published_to'        => '',
-        'status'              => 'draft'
+        'status'              => PostStatus::DRAFT
     ];
 
     /**
@@ -96,6 +124,37 @@ class Post extends BaseModel
         'disabled'            => 'boolean',
         'published_to'        => 'json'
     ];
+
+    private function getBulkRules()
+    {
+        return [
+            'items.*.id' => [
+                'required',
+                'integer',
+                'exists:posts,id',
+                'distinct'
+            ]
+        ];
+    }
+
+    public function getBulkPatchRules()
+    {
+        return array_merge_recursive(
+            $this->getBulkRules(),
+            [
+                'items.*.status' => [
+                    'required',
+                    'string',
+                    Rule::in(PostStatus::all())
+                ],
+            ]
+        );
+    }
+
+    public function getBulkDeleteRules()
+    {
+        return $this->getBulkRules();
+    }
 
     /**
      * Get the error messages for the defined validation rules.
@@ -165,6 +224,69 @@ class Post extends BaseModel
     }//end validationMessages()
 
     /**
+     * Get the error messages for the defined *bulk* validation rules.
+     *
+     * @return array
+     */
+    private function bulkValidationMessages()
+    {
+        return [
+            'items.*.id.required'                 => trans(
+                'validation.exists',
+                ['field' => 'id']
+            ),
+            'items.*.id.integer'                  => trans(
+                'validation.integer',
+                ['field' => 'id']
+            ),
+            'items.*.id.exists'                      => trans(
+                'validation.ref_exists',
+                ['field' => 'id', 'model' => 'post']
+            ),
+            'items.*.id.distinct'                      => trans(
+                'bulk.distinct',
+                ['field' => 'id']
+            ),
+        ];
+    }//end bulkValidationMessages()
+
+    /**
+     * Get the error messages for the defined *bulk* validation rules.
+     *
+     * @return array
+     */
+    public function bulkPatchValidationMessages()
+    {
+        return array_merge(
+            $this->bulkValidationMessages(),
+            [
+                'items.*.status.required'                 => trans(
+                    'validation.exists',
+                    ['field' => 'status']
+                ),
+                'items.*.status.string'                  => trans(
+                    'validation.string',
+                    ['field' => 'status']
+                ),
+                'items.*.status.in'                      => trans(
+                    'validation.in_array',
+                    ['field' => 'id']
+                )
+            ]
+        );
+    }//end bulkValidationMessages()
+
+    /**
+     * Get the error messages for the defined *bulk* validation rules.
+     *
+     * @return array
+     */
+    public function bulkDeleteValidationMessages()
+    {
+        return $this->bulkValidationMessages();
+    }
+
+    /**
      * Return all validation rules
      *
      * @return array
@@ -202,11 +324,7 @@ class Post extends BaseModel
             'status' => [
                 'required',
                 Rule::in(
-                    [
-                        'draft',
-                        'archived',
-                        'published'
-                    ]
+                    PostStatus::all()
                 )
             ],
             'post_content.*.form_id'                   => [
@@ -310,7 +428,7 @@ class Post extends BaseModel
 
     public function survey()
     {
-        return $this->hasOne('v5\Models\Survey', 'id', 'form_id');
+        return $this->hasOne('v5\Models\Survey', 'id', 'form_id')->setEagerLoads([]);
     }
 
     public function locks()

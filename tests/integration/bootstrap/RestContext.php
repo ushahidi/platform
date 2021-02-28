@@ -41,7 +41,7 @@ class RestContext implements Context
     ];
     private $postFields        = [];
     private $postFiles         = [];
-
+    private $isBulk            = false;
     const DEBUG_MODE_SWITCH_FILE_PATH = __DIR__ . "/../../../bootstrap/install_debug_mode.enabled";
 
     /**
@@ -121,7 +121,29 @@ class RestContext implements Context
         $this->restObjectMethod = 'post';
     }
 
+    /**
+     * @Given /^that I want to patch a "([^"]*)"$/
+     * @Given /^that I want to patch an "([^"]*)"$/
+     */
+    public function thatIWantToPatchA($objectType)
+    {
+        // Reset restObject
+        $this->restObject = new stdClass();
+        $this->restObjectType   = ucwords(strtolower($objectType));
+        $this->restObjectMethod = 'patch';
+    }
 
+    /**
+     * @Given /^that I want to bulk operate on "([^"]*)"$/
+     */
+    public function thatIWantToBulkOperate($objectType)
+    {
+        // Reset restObject
+        $this->restObject = new stdClass();
+        $this->restObjectType   = ucwords(strtolower($objectType));
+        $this->restObjectMethod = 'post';
+        $this->isBulk = true;
+    }
     /**
      * @Given /^that I want to submit a new "([^"]*)"$/
      */
@@ -256,7 +278,6 @@ class RestContext implements Context
     public function iRequest($pageUrl)
     {
         $this->requestUrl   = $this->apiUrl.$pageUrl;
-
         switch (strtoupper($this->restObjectMethod)) {
             case 'GET':
                 $request = (array)$this->restObject;
@@ -269,6 +290,7 @@ class RestContext implements Context
                 break;
             case 'POST':
                 $request = (array)$this->restObject;
+                $this->requestUrl = $this->isBulk ? $this->requestUrl . '/bulk' : $this->requestUrl;
                 // If post fields or files are set assume this is a 'normal' POST request
                 if ($this->postFiles) {
                     $response = $this->client
@@ -303,6 +325,16 @@ class RestContext implements Context
                 $id = ( isset($request['id']) ) ? $request['id'] : '';
                 $response = $this->client
                     ->put($this->requestUrl.'/'.$id, [
+                        'headers' =>  $this->headers + ['Content-Type' => 'application/json'],
+                        'body' => $request['data']
+                    ]);
+                break;
+            case 'PATCH':
+                $request = (array)$this->restObject;
+                $id = ( isset($request['id']) && !$this->isBulk) ? $request['id'] : '';
+
+                $response = $this->client
+                    ->patch($this->requestUrl.'/'.$id, [
                         'headers' =>  $this->headers + ['Content-Type' => 'application/json'],
                         'body' => $request['data']
                     ]);
@@ -490,6 +522,24 @@ class RestContext implements Context
         }
     }
 
+
+    /**
+     * @Given /^the JSON response contains "([^"]*)"/
+     */
+    public function theJsonResponseContains($propertyPathPattern)
+    {
+        //$propertyPathPattern uses dot notation and asterisks to denote arrays
+
+        $data = json_decode($this->response->getBody(true), true);
+        $paths = explode('*', $propertyPathPattern);
+
+        foreach ($paths as $path) {
+//            *.items.*.fields
+            if (array_get($data, $path) === null) {
+                throw new \Exception("Property $path in '".$propertyPathPattern."' is not set\n");
+            }
+        }
+    }
     /**
      * @Given /^the response does not have a "([^"]*)" property$/
      * @Given /^the response does not have an "([^"]*)" property$/
@@ -505,6 +555,21 @@ class RestContext implements Context
         }
     }
 
+    /**
+     * @Then /^the "([^"]*)" property is null$/
+     */
+    public function thePropertyIsNull($propertyName)
+    {
+
+        $data = json_decode($this->response->getBody(true), true);
+        $actualPropertyValue = array_has($data, $propertyName);
+
+        if ($actualPropertyValue !== null) {
+            throw new \Exception(
+                "Property $propertyName should was expected to be null."
+            );
+        }
+    }
     /**
      * @Then /^the "([^"]*)" property equals "([^"]*)"$/
      */
@@ -773,6 +838,14 @@ HTTP/{$this->response->getProtocolVersion()} {$this->response->getStatusCode()} 
     public function thatTheApiUrlIs($api_url)
     {
         $this->apiUrl = $api_url;
+    }
+
+    /**
+     * @Given /^that the operation is in bulk$/
+     */
+    public function thatTheOperationIsInBulk()
+    {
+        $this->isBulk = true;
     }
 
     /**

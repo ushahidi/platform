@@ -6,6 +6,7 @@ namespace v5\Http\Resources;
 use Illuminate\Http\Resources\Json\Resource;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Support\Collection;
+use v5\Models\Category;
 
 class PostValueCollection extends ResourceCollection
 {
@@ -54,6 +55,7 @@ class PostValueCollection extends ResourceCollection
                 $field['value'] = $values->filter(function ($value, $key) use ($field) {
                     return $value->form_attribute_id == $field['id'];
                 })->values();
+
                 if ($field['type'] !== 'tags') {
                     $field['value'] = $field['value']->first();
                 } else {
@@ -89,7 +91,12 @@ class PostValueCollection extends ResourceCollection
     private function makeCategoryValue($value)
     {
         return $value->map(function ($f) {
-            return CategoryResource::make($f->tag);
+            if ($f->tag) {
+                return CategoryResource::make($f->tag);
+            }
+            $c = new Category();
+            $c->setAttribute('id', $f->tag_id);
+            return ForbiddenCategoryResource::make($c);
         });
     }
     private function makeCollectionItem()
