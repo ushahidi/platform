@@ -97,7 +97,7 @@ class Twilio implements CallbackDataSource, OutgoingAPIDataSource
     /**
      * @return mixed
      */
-    public function send($to, $message, $title = "")
+    public function send($to, $message, $title = "", $contact_type = null)
     {
         // Check we have the required config
         if (!isset($this->config['account_sid']) || !isset($this->config['auth_token'])) {
@@ -113,6 +113,12 @@ class Twilio implements CallbackDataSource, OutgoingAPIDataSource
         }
 
         $from = isset($this->config['from']) ? $this->config['from'] : 'Ushahidi';
+
+        // WhatsApp contacts need 'whatsapp:' before from and to number
+        if ($contact_type === Contact::WHATSAPP) {
+            $from = "whatsapp:${from}";
+            $to = "whatsapp:${to}";
+        }
 
         // Send!
         try {
