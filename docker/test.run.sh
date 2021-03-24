@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. /common.sh
+. `dirname $0`/common.sh
 
 set -e
 

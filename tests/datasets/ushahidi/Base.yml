@@ -207,7 +207,28 @@ forms:
     hide_location: 0
     everyone_can_create: 0
     targeted_survey: 1
-
+  -
+    id: 9
+    name: "Translated test form"
+    type: "report"
+    description: "Translated form for testing"
+    require_approval: 0
+    hide_author: 0
+    hide_time: 0
+    hide_location: 0
+    everyone_can_create: 1
+    targeted_survey: 0
+  -
+    id: 10
+    name: "Survey with a category field"
+    type: "report"
+    description: "Survey with a category field to test permissions"
+    require_approval: 0
+    hide_author: 0
+    hide_time: 0
+    hide_location: 0
+    everyone_can_create: 1
+    targeted_survey: 0
 form_roles:
   -
     id: 1
@@ -225,6 +246,7 @@ form_roles:
     id: 4
     form_id: 5
     role_id: 2
+
 form_stages:
   -
     id: 1
@@ -233,6 +255,7 @@ form_stages:
     show_when_published: 1
     task_is_internal_only: 0
     type: "post"
+    priority: 1
   -
     id: 2
     form_id: 1
@@ -240,6 +263,7 @@ form_stages:
     show_when_published: 1
     task_is_internal_only: 0
     type: "task"
+    priority: 2
   -
     id: 3
     form_id: 1
@@ -247,6 +271,7 @@ form_stages:
     show_when_published: 1
     task_is_internal_only: 0
     type: "task"
+    priority: 3
   -
     id: 4
     form_id: 2
@@ -254,6 +279,7 @@ form_stages:
     show_when_published: 1
     task_is_internal_only: 0
     type: "post"
+    priority: 1
   -
     id: 5
     form_id: 3
@@ -261,6 +287,7 @@ form_stages:
     show_when_published: 1
     task_is_internal_only: 0
     type: "post"
+    priority: 1
   -
     id: 6
     form_id: 4
@@ -268,6 +295,7 @@ form_stages:
     show_when_published: 0
     task_is_internal_only: 0
     type: "task"
+    priority: 1
   -
     id: 7
     form_id: 4
@@ -275,6 +303,7 @@ form_stages:
     show_when_published: 1
     task_is_internal_only: 0
     type: "post"
+    priority: 2
   -
     id: 8
     form_id: 5
@@ -282,6 +311,7 @@ form_stages:
     show_when_published: 0
     task_is_internal_only: 0
     type: "post"
+    priority: 1
   -
     id: 9
     form_id: 7
@@ -289,6 +319,7 @@ form_stages:
     show_when_published: 0
     task_is_internal_only: 0
     type: "post"
+    priority: 1
   -
     id: 10
     form_id: 6
@@ -296,6 +327,7 @@ form_stages:
     show_when_published: 0
     task_is_internal_only: 0
     type: "post"
+    priority: 1
   -
     id: 11
     form_id: 8
@@ -303,6 +335,63 @@ form_stages:
     show_when_published: 0
     task_is_internal_only: 0
     type: "post"
+    priority: 1
+  -
+    id: 12
+    form_id: 8
+    label: "Post"
+    show_when_published: 0
+    task_is_internal_only: 1
+    type: "task"
+    priority: 2
+  -
+    id: 13
+    form_id: 8
+    label: "Post"
+    show_when_published: 0
+    task_is_internal_only: 0
+    type: "task"
+    priority: 3
+  -
+    id: 14
+    form_id: 8
+    label: "Public task"
+    show_when_published: 1
+    task_is_internal_only: 0
+    type: "post"
+    priority: 4
+  -
+    id: 15
+    form_id: 9
+    label: "Main - translated form - show when published"
+    show_when_published: 1
+    task_is_internal_only: 0
+    type: "post"
+    priority: 1
+  -
+    id: 16
+    form_id: 9
+    label: "2nd step - show when published"
+    show_when_published: 1
+    task_is_internal_only: 0
+    type: "task"
+    priority: 2
+  -
+    id: 17
+    form_id: 9
+    label: "3nd step - show when published, is internal only"
+    show_when_published: 1
+    task_is_internal_only: 1
+    type: "task"
+    priority: 3
+  -
+    id: 18
+    form_id: 10
+    label: "First"
+    show_when_published: 1
+    task_is_internal_only: 0
+    type: "post"
+    priority: 0
 form_attributes:
   -
     id: 1
@@ -748,6 +837,185 @@ form_attributes:
     options: ""
     cardinality: 0
     form_stage_id: 7
+  -
+    id: 38
+    label: "Test varchar"
+    key: "test_varchar_ft"
+    type: "varchar"
+    input: "text"
+    response_private: 0
+    required: 0
+    priority: 1
+    options: ""
+    cardinality: 1
+    form_stage_id: 15
+  -
+    id: 39
+    label: "Test point"
+    key: "test_point_ft"
+    type: "point"
+    input: "location"
+    response_private: 0
+    required: 0
+    priority: 1
+    options: ""
+    cardinality: 1
+    form_stage_id: 15
+  -
+    id: 40
+    label: "Full Name"
+    key: "full_name_ft"
+    type: "varchar"
+    input: "text"
+    response_private: 0
+    required: 0
+    priority: 1
+    options: ""
+    cardinality: 1
+    form_stage_id: 15
+  -
+    id: 41
+    label: "Description"
+    key: "description_ft"
+    type: "description"
+    input: "textarea"
+    response_private: 0
+    required: 0
+    priority: 0
+    options: ""
+    cardinality: 1
+    form_stage_id: 15
+  -
+    id: 42
+    label: "Date of birth"
+    key: "date_of_birth_ft"
+    type: "datetime"
+    input: "date"
+    response_private: 0
+    required: 0
+    priority: 3
+    options: ""
+    cardinality: 1
+    form_stage_id: 15
+  -
+    id: 43
+    label: "Missing date"
+    key: "missing_date_ft"
+    type: "datetime"
+    input: "date"
+    response_private: 0
+    required: 0
+    priority: 4
+    options: ""
+    cardinality: 1
+    form_stage_id: 15
+  -
+    id: 44
+    label: "Last Location"
+    key: "last_location_ft"
+    type: "varchar"
+    input: "text"
+    response_private: 0
+    required: 1
+    priority: 5
+    options: ""
+    cardinality: 1
+    form_stage_id: 15
+  -
+    id: 45
+    label: "Last Location (point)"
+    key: "last_location_point_ft"
+    type: "point"
+    input: "location"
+    response_private: 0
+    required: 0
+    priority: 5
+    options: ""
+    cardinality: 0
+    form_stage_id: 15
+  -
+    id: 46
+    label: "Status"
+    key: "missing_status_ft"
+    type: "varchar"
+    input: "select"
+    response_private: 0
+    required: 0
+    options: '["information_sought","is_note_author","believed_alive","believed_missing","believed_dead"]'
+    priority: 5
+    cardinality: 0
+    form_stage_id: 15
+  -
+    id: 47
+    label: "Links"
+    key: "links_ft"
+    type: "varchar"
+    input: "text"
+    response_private: 0
+    required: 0
+    priority: 7
+    cardinality: 0
+    form_stage_id: 15
+  -
+    id: 48
+    label: "Person Status"
+    key: "person_status_ft"
+    type: "varchar"
+    input: "select"
+    response_private: 0
+    required: 0
+    options: '["information_sought_ft","is_note_author_ft","believed_alive_ft","believed_missing_ft","believed_dead_ft"]'
+    priority: 5
+    cardinality: 0
+    form_stage_id: 16
+  -
+    id: 49
+    label: "Media Test"
+    key: "media_test_ft"
+    type: "media"
+    input: "upload"
+    response_private: 0
+    required: 0
+    priority: 7
+    cardinality: 1
+    form_stage_id: 16
+  -
+    id: 50
+    label: "Possible actions"
+    key: "possible_actions_ft"
+    type: "varchar"
+    input: "checkbox"
+    response_private: 1
+    required: 0
+    options: '["ground_search_ft","medical_evacuation_ft"]'
+    priority: 5
+    cardinality: 0
+    config: '[]'
+    form_stage_id: 17
+  -
+    id: 51
+    label: "Title"
+    key: "title_ft"
+    type: "title"
+    input: "text"
+    response_private: 0
+    required: 0
+    priority: 0
+    options: ""
+    cardinality: 1
+    form_stage_id: 15
+  -
+    id: 52
+    label: "Categories52"
+    key: "categories52"
+    type: "tags"
+    input: "tags"
+    response_private: 0
+    required: 0
+    priority: 3
+    options: '["12","13","14","15","16","17","18"]'
+    cardinality: 0
+    form_stage_id: 18
 posts:
   -
     id: 1
@@ -1268,6 +1536,34 @@ posts:
     created: 1534342200
     published_to: '[]'
     post_date: "2018-08-12 14:10:16"
+  - id: 1800
+    form_id: 9
+    parent_id:
+    user_id: 1
+    author_email: ""
+    author_realname: ""
+    title: "Testing DRAFT translated post"
+    type: "report"
+    content: "This is a DRAFT translated post"
+    status: "draft"
+    locale: "en_us"
+    created: 1534342200
+    published_to: '[]'
+    post_date: "2020-12-11 14:10:16"
+  - id: 1801
+    form_id: 9
+    parent_id:
+    user_id: 1
+    author_email: ""
+    author_realname: ""
+    title: "Testing PUBLISHED translated post"
+    type: "report"
+    content: "This is PUBLISHED a translated post"
+    status: "published"
+    locale: "en_us"
+    created: 1534342200
+    published_to: '[]'
+    post_date: "2020-12-11 14:10:16"
 post_locks:
   -
     id: 1
@@ -1427,6 +1723,11 @@ post_varchar:
     post_id: 95
     form_attribute_id: 7
     value: "Wellington"
+  -
+    id: 28
+    post_id: 1801
+    form_attribute_id: 50
+    value: '["ground_search_ft"]'
 post_comments:
 tags:
   -
@@ -1512,6 +1813,62 @@ tags:
     slug: "child-two"
     priority: 0
     type: 'category'
+  -
+    id: 12
+    role: 'broken'
+    tag: "This has a broken role and wont appear"
+    slug: "this-has-a-broken-role"
+    priority: 0
+    type: 'category'
+  -
+    id: 13
+    role: 'null'
+    tag: "This has a null broken role, it will appear"
+    slug: "this-has-a-null-broken-role"
+    priority: 0
+    type: 'category'
+  -
+    id: 14
+    role: 'null'
+    parent_id: 13
+    tag: "Child of the null broken 13, it will appear"
+    slug: "child-of-13-null-broken-role"
+    priority: 0
+    type: 'category'
+  -
+    id: 15
+    role: '[]'
+    tag: "Broken string of json array, it will appear"
+    slug: "broken-json-array-will-appear"
+    priority: 0
+    type: 'category'
+  -
+    id: 16
+    role: '["admin"]'
+    tag: "A role for admin users only"
+    slug: "for-admins-only"
+    priority: 0
+    type: 'category'
+  -
+    id: 17
+    role: '["user", "admin"]'
+    tag: "Only admins will see this due to parent permissions"
+    slug: "for-admins-only-child"
+    priority: 0
+    type: 'category'
+  -
+    id: 18
+    tag: "Everyone can see this one"
+    slug: "for-everyone-to-see"
+    priority: 0
+    type: 'category'
+  -
+    id: 19
+    parent_id: 18
+    tag: "Everyone can see this child category"
+    slug: "for-everyone-to-see-child"
+    priority: 0
+    type: 'category'
 posts_tags:
   -
     post_id: 1
@@ -1524,6 +1881,10 @@ posts_tags:
   -
     post_id: 99
     tag_id: 3
+    form_attribute_id: 26
+  -
+    post_id: 99
+    tag_id: 7
     form_attribute_id: 26
 form_stages_posts:
   -
@@ -2321,3 +2682,250 @@ targeted_survey_state:
     form_id: 8
     message_id: 17
     form_attribute_id: 35
+
+translations:
+  -
+    id: 1
+    translatable_type: 'survey'
+    translatable_id: 9
+    translated_key: 'name'
+    translation: 'Translated test form - ES'
+    language: 'es'
+  -
+    id: 2
+    translatable_type: 'survey'
+    translatable_id: 9
+    translated_key: 'description'
+    translation: 'Translated form for testing - ES'
+    language: 'es'
+  -
+    id: 3
+    translatable_type: 'task'
+    translatable_id: 15
+    translated_key: 'label'
+    translation: 'Main - translated form - show when published - ES'
+    language: 'es'
+  -
+    id: 4
+    translatable_type: 'task'
+    translatable_id: 16
+    translated_key: 'label'
+    translation: '2nd step - show when published - ES'
+    language: 'es'
+  -
+    id: 5
+    translatable_type: 'task'
+    translatable_id: 17
+    translated_key: 'label'
+    translation: '3nd step - show when published, is internal only - ES'
+    language: 'es'
+  -
+    id: 6
+    translatable_type: 'field'
+    translatable_id: 38
+    translated_key: 'label'
+    translation: 'Test varchar - ES'
+    language: 'es'
+  -
+    id: 7
+    translatable_type: 'field'
+    translatable_id: 39
+    translated_key: 'label'
+    translation: 'Test point - ES'
+    language: 'es'
+  -
+    id: 8
+    translatable_type: 'field'
+    translatable_id: 40
+    translated_key: 'label'
+    translation: 'Full Name - ES'
+    language: 'es'
+  -
+    id: 9
+    translatable_type: 'field'
+    translatable_id: 41
+    translated_key: 'label'
+    translation: 'Description - ES'
+    language: 'es'
+  -
+    id: 10
+    translatable_type: 'field'
+    translatable_id: 42
+    translated_key: 'label'
+    translation: 'Date of birth - ES'
+    language: 'es'
+  -
+    id: 11
+    translatable_type: 'field'
+    translatable_id: 43
+    translated_key: 'label'
+    translation: 'Missing date - ES'
+    language: 'es'
+  -
+    id: 12
+    translatable_type: 'field'
+    translatable_id: 44
+    translated_key: 'label'
+    translation: 'Last Location - ES'
+    language: 'es'
+  -
+    id: 13
+    translatable_type: 'field'
+    translatable_id: 45
+    translated_key: 'label'
+    translation: 'Last Location (point) - ES'
+    language: 'es'
+  -
+    id: 14
+    translatable_type: 'field'
+    translatable_id: 46
+    translated_key: 'label'
+    translation: 'Status - ES'
+    language: 'es'
+  -
+    id: 15
+    translatable_type: 'field'
+    translatable_id: 47
+    translated_key: 'label'
+    translation: 'Links - ES'
+    language: 'es'
+  -
+    id: 16
+    translatable_type: 'field'
+    translatable_id: 48
+    translated_key: 'label'
+    translation: 'Person Status - ES'
+    language: 'es'
+  -
+    id: 17
+    translatable_type: 'field'
+    translatable_id: 49
+    translated_key: 'label'
+    translation: 'Media Test - ES'
+    language: 'es'
+  -
+    id: 18
+    translatable_type: 'field'
+    translatable_id: 50
+    translated_key: 'label'
+    translation: 'Possible actions - ES'
+    language: 'es'
+  -
+    id: 19
+    translatable_type: 'category'
+    translatable_id: 1
+    translated_key: 'tag'
+    translation: 'Test tag - ES'
+    language: 'es'
+  -
+    id: 20
+    translatable_type: 'category'
+    translatable_id: 2
+    translated_key: 'tag'
+    translation: 'Duplicate - ES'
+    language: 'es'
+  -
+    id: 21
+    translatable_type: 'category'
+    translatable_id: 3
+    translated_key: 'tag'
+    translation: 'Disaster - ES'
+    language: 'es'
+  -
+    id: 22
+    translatable_type: 'category'
+    translatable_id: 4
+    translated_key: 'tag'
+    translation: 'Explosion - ES'
+    language: 'es'
+  -
+    id: 23
+    translatable_type: 'category'
+    translatable_id: 5
+    translated_key: 'tag'
+    translation: 'Todo - ES'
+    language: 'es'
+  -
+    id: 24
+    translatable_type: 'category'
+    translatable_id: 6
+    translated_key: 'tag'
+    translation: 'Done - ES'
+    language: 'es'
+  -
+    id: 25
+    translatable_type: 'category'
+    translatable_id: 7
+    translated_key: 'tag'
+    translation: 'Role Control - ES'
+    language: 'es'
+  -
+    id: 26
+    translatable_type: 'category'
+    translatable_id: 8
+    translated_key: 'tag'
+    translation: 'Test tag - no children - ES'
+    language: 'es'
+  -
+    id: 27
+    translatable_type: 'category'
+    translatable_id: 9
+    translated_key: 'tag'
+    translation: 'Test tag - with children - ES'
+    language: 'es'
+  -
+    id: 28
+    translatable_type: 'category'
+    translatable_id: 10
+    translated_key: 'tag'
+    translation: 'Child 1 - ES'
+    language: 'es'
+  -
+    id: 29
+    translatable_type: 'category'
+    translatable_id: 11
+    translated_key: 'tag'
+    translation: 'Child 2 - ES'
+    language: 'es'
+  -
+    id: 30
+    translatable_type: 'field'
+    translatable_id: 51
+    translated_key: 'label'
+    translation: 'Title - ES'
+    language: 'es'
+  -
+    id: 31
+    translatable_type: 'post'
+    translatable_id: 1800
+    translated_key: 'content'
+    translation: 'DRAFT Content field translated - ES'
+    language: 'es'
+  -
+    id: 32
+    translatable_type: 'post'
+    translatable_id: 1800
+    translated_key: 'title'
+    translation: 'DRAFT Title field translated - ES'
+    language: 'es'
+  -
+    id: 33
+    translatable_type: 'post'
+    translatable_id: 1801
+    translated_key: 'content'
+    translation: 'PUBLISHED Content field translated - ES'
+    language: 'es'
+  -
+    id: 34
+    translatable_type: 'post'
+    translatable_id: 1801
+    translated_key: 'title'
+    translation: 'PUBLISHED Title field translated - ES'
+    language: 'es'
+  -
+    id: 35
+    translatable_type: 'field'
+    translatable_id: 50
+    translated_key: 'options'
+    translation: '["ground_search_spanish","medical_evacuation_spanish"]'
+    language: 'es'
