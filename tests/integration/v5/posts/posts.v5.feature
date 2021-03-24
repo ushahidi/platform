@@ -9,7 +9,7 @@ Feature: Testing the Posts API
       """
         {
             "title": "A title",
-            "description": "",
+            "description": "A description",
             "locale": "en_US",
             "post_content": [
                 {

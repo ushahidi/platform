@@ -361,6 +361,16 @@ class Survey extends BaseModel
     }
 
     /**
+     * Returns survey required tasks that are NOT in the provided set
+     * of complete tasks
+     */
+    public function getMissingRequiredTasks($complete_tasks)
+    {
+        // TODO: write logic and enable proper tests
+        return [];
+    }
+
+    /**
      * This is what makes can_create possible
      *
      * @return mixed

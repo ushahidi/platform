@@ -433,6 +433,86 @@ class Post extends BaseModel
         $this->attributes['post_date'] = $value;
     }
 
+    /* -- Post status management methods -- */
+
+    /**
+     * Can the post be made public?
+     *
+     * Returns:
+     *   - Null if already public
+     *   - True if possible
+     *   - Error message if not
+     */
+    protected function canBePublished()
+    {
+        if ($this->status === PostStatus::PUBLISHED) {
+            return;
+        }
+
+        // Is the post in a publishable status?
+        if (!PostStatus::isValidTransition($this->status, PostStatus::PUBLISHED)) {
+            return trans('post.invalidStatusTransition');
+        }
+
+        // Are there stages/tasks that require completion AND are not completed?
+        $pending_tasks = $this->survey->getMissingRequiredTasks($this->completed_stages);
+        if (count($pending_tasks) > 0) {
+            // TODO: translate the label as necessary
+            return trans('post.stageRequired', ['param1' => $pending_tasks[0]->label]);
+        }
+
+        return true;
+    }
+
+    /**
+     *
+     */
+    public function tryAutoPublish()
+    {
+        // Is automatic publishing enabled in the survey? ( require_approval: false )
+        if ($this->survey->require_approval) {
+            return false;
+        }
+
+        // Can it be published? Otherwise, give up
+        if ($this->canBePublished() === false) {
+            return false;
+        }
+
+        // Publish
+        $this->setAttribute('status', PostStatus::PUBLISHED);
+        return true;
+    }
+
+    /**
+     * Perform user-requested status change
+     * Note that this is different from just setting the status in the model,
+     * this actually performs flow checks.
+     */
+    public function doStatusTransition($new_status)
+    {
+        if ($this->status === $new_status) {
+            return;
+        }
+
+        // Is the post in a publishable status?
+        if (!PostStatus::isValidTransition($this->status, $new_status)) {
+            return trans('post.invalidStatusTransition');
+        }
+
+        if ($new_status === PostStatus::PUBLISHED) {
+            $pending_tasks = $this->survey->getMissingRequiredTasks($this->completed_stages);
+            if (count($pending_tasks) > 0) {
+                // TODO: translate the label as necessary
+                return trans('post.stageRequired', ['param1' => $pending_tasks[0]->label]);
+            }
+        }
+
+        $this->setAttribute('status', $new_status);
+    }
+
+    /* -- Relations accessors -- */
+
     public function survey()
     {
         return $this->hasOne('v5\Models\Survey', 'id', 'form_id')->setEagerLoads([]);
