@@ -36,7 +36,7 @@ class PostUpdatedListener
     /**
      * Handle the event.
      *
-     * @param  OrderShipped  $event
+     * @param  PostUpdatedEvent  $event
      * @return void
      */
     public function handle(PostUpdatedEvent $event)

@@ -16,4 +16,14 @@ class PostStatus
     {
         return in_array(strtolower($status), PostStatus::all()) ? strtolower($status) : null;
     }
+
+    public static function isValidTransition(string $from_status, string $to_status)
+    {
+        if ($from_status === $to_status) {
+            return null;
+        } else {
+            // We don't have any restrictions really (yet?)
+            return true;
+        }
+    }
 }
