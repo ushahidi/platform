@@ -9,7 +9,7 @@ Feature: Testing the Posts API
       """
         {
             "title": "A title",
-            "description": "A description",
+            "content": "A description",
             "locale": "en_US",
             "post_content": [
                 {
@@ -148,7 +148,6 @@ Feature: Testing the Posts API
             "published_to": [],
             "post_date": "2020-06-24T07:04:07.897Z",
             "enabled_languages": {},
-            "content": "A description",
             "base_language": "",
             "type": "report",
             "form_id": 1
@@ -164,6 +163,7 @@ Feature: Testing the Posts API
     And the "result.user_id" property equals "2"
     And the "result.categories" property count is "2"
     And the "result.completed_stages" property count is "2"
+    And the "result.status" property equals "published"
     And the type of the "result.completed_stages.0.form_stage_id" property is "int"
     And the "result.completed_stages.0.form_stage_id" property equals "2"
     And the "result.completed_stages.1.form_stage_id" property equals "3"
