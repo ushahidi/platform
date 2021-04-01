@@ -22,7 +22,7 @@ This will take you to github.com , where you will see the same document, along w
 
 Clicking on this will take you to an editing view, where you will be able to apply your changes. Please bear in mind that this is a plain text editor. Formatting \(headers, links, lists, highlighted text, etc..\) is achieved by following the Markdown rules. If you are not familiar with this, please take a look at [this guide](https://guides.github.com/features/mastering-markdown/) first.
 
-![](../.gitbook/assets/github-3%20%282%29.png)
+![](../.gitbook/assets/github-3%20%281%29%20%281%29.png)
 
 In this guide, as an example, we are going to make a \(rather silly\) addition to the document. At any point, we can click the "Preview changes" button.
 
@@ -46,7 +46,7 @@ Once you are happy with your changes and proposal details. You would click the "
 
 You will be dropped into yet another summary view of your changes. There's really not much else you should review here, if you have reviewed your changes in previous steps. We suggest just to locate and click the "Create pull request" button.
 
-![](../.gitbook/assets/github-7%20%283%29.png)
+![](../.gitbook/assets/github-7%20%281%29.png)
 
 You will be dropped into the pull request opening screen. A pull request is the way developers refer to the petition of someone to apply changes to files in the repository. A pull request wraps together the whole process of requesting the changes, discussing them, and finally approving or rejecting the petition.
 
