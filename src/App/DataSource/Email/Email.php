@@ -12,9 +12,7 @@ namespace Ushahidi\App\DataSource\Email;
  */
 
 use Ushahidi\App\DataSource\IncomingAPIDataSource;
-use Ushahidi\App\DataSource\OutgoingAPIDataSource;
 use Ushahidi\App\DataSource\Message\Type as MessageType;
-use Ushahidi\App\DataSource\Message\Status as MessageStatus;
 use Ushahidi\App\DataSource\Concerns\MapsInboundFields;
 use Ushahidi\Core\Entity\MessageRepository;
 use Illuminate\Contracts\Mail\Mailer;
@@ -31,6 +29,9 @@ class Email extends OutgoingEmail implements IncomingAPIDataSource
 
     /**
      * Constructor function for DataSource
+     * @param array $config
+     * @param Mailer|null $mailer
+     * @param MessageRepository|null $messageRepo
      */
     public function __construct(
         array $config,
