@@ -49,6 +49,11 @@ return [
         'enabled' => true,
     ],
 
+    // Disable Registration
+    'disable_registration' => [
+        'enabled' => true,
+    ],
+
     // Roles
     'roles' => [
         'enabled' => true,

@@ -218,7 +218,17 @@ forms:
     hide_location: 0
     everyone_can_create: 1
     targeted_survey: 0
-
+  -
+    id: 10
+    name: "Survey with a category field"
+    type: "report"
+    description: "Survey with a category field to test permissions"
+    require_approval: 0
+    hide_author: 0
+    hide_time: 0
+    hide_location: 0
+    everyone_can_create: 1
+    targeted_survey: 0
 form_roles:
   -
     id: 1
@@ -242,6 +252,9 @@ form_stages:
     id: 1
     form_id: 1
     label: "Main"
+    # TODO: add required form stages and test restrictions on
+    #       transition to publish status with them
+    # required: 0
     show_when_published: 1
     task_is_internal_only: 0
     type: "post"
@@ -250,6 +263,7 @@ form_stages:
     id: 2
     form_id: 1
     label: "2nd step"
+    # required: 0
     show_when_published: 1
     task_is_internal_only: 0
     type: "task"
@@ -258,6 +272,7 @@ form_stages:
     id: 3
     form_id: 1
     label: "3rd step"
+    # required: 0
     show_when_published: 1
     task_is_internal_only: 0
     type: "task"
@@ -266,6 +281,7 @@ form_stages:
     id: 4
     form_id: 2
     label: "Main"
+    # required: 0
     show_when_published: 1
     task_is_internal_only: 0
     type: "post"
@@ -274,6 +290,7 @@ form_stages:
     id: 5
     form_id: 3
     label: "Post"
+    # required: 0
     show_when_published: 1
     task_is_internal_only: 0
     type: "post"
@@ -282,6 +299,7 @@ form_stages:
     id: 6
     form_id: 4
     label: "restricted"
+    # required: 0
     show_when_published: 0
     task_is_internal_only: 0
     type: "task"
@@ -290,6 +308,7 @@ form_stages:
     id: 7
     form_id: 4
     label: "Post"
+    # required: 0
     show_when_published: 1
     task_is_internal_only: 0
     type: "post"
@@ -298,6 +317,7 @@ form_stages:
     id: 8
     form_id: 5
     label: "Post"
+    # required: 0
     show_when_published: 0
     task_is_internal_only: 0
     type: "post"
@@ -306,6 +326,7 @@ form_stages:
     id: 9
     form_id: 7
     label: "Post"
+    # required: 0
     show_when_published: 0
     task_is_internal_only: 0
     type: "post"
@@ -314,6 +335,7 @@ form_stages:
     id: 10
     form_id: 6
     label: "Post"
+    # required: 0
     show_when_published: 0
     task_is_internal_only: 0
     type: "post"
@@ -322,6 +344,7 @@ form_stages:
     id: 11
     form_id: 8
     label: "Post"
+    # required: 0
     show_when_published: 0
     task_is_internal_only: 0
     type: "post"
@@ -330,6 +353,7 @@ form_stages:
     id: 12
     form_id: 8
     label: "Post"
+    # required: 0
     show_when_published: 0
     task_is_internal_only: 1
     type: "task"
@@ -338,6 +362,7 @@ form_stages:
     id: 13
     form_id: 8
     label: "Post"
+    # required: 0
     show_when_published: 0
     task_is_internal_only: 0
     type: "task"
@@ -346,6 +371,7 @@ form_stages:
     id: 14
     form_id: 8
     label: "Public task"
+    # required: 0
     show_when_published: 1
     task_is_internal_only: 0
     type: "post"
@@ -354,6 +380,7 @@ form_stages:
     id: 15
     form_id: 9
     label: "Main - translated form - show when published"
+    # required: 0
     show_when_published: 1
     task_is_internal_only: 0
     type: "post"
@@ -362,6 +389,7 @@ form_stages:
     id: 16
     form_id: 9
     label: "2nd step - show when published"
+    # required: 0
     show_when_published: 1
     task_is_internal_only: 0
     type: "task"
@@ -370,11 +398,20 @@ form_stages:
     id: 17
     form_id: 9
     label: "3nd step - show when published, is internal only"
+    # required: 0
     show_when_published: 1
     task_is_internal_only: 1
     type: "task"
     priority: 3
-
+  -
+    id: 18
+    form_id: 10
+    label: "First"
+    # required: 0
+    show_when_published: 1
+    task_is_internal_only: 0
+    type: "post"
+    priority: 0
 form_attributes:
   -
     id: 1
@@ -968,7 +1005,7 @@ form_attributes:
     key: "possible_actions_ft"
     type: "varchar"
     input: "checkbox"
-    response_private: 0
+    response_private: 1
     required: 0
     options: '["ground_search_ft","medical_evacuation_ft"]'
     priority: 5
@@ -987,7 +1024,18 @@ form_attributes:
     options: ""
     cardinality: 1
     form_stage_id: 15
-
+  -
+    id: 52
+    label: "Categories52"
+    key: "categories52"
+    type: "tags"
+    input: "tags"
+    response_private: 0
+    required: 0
+    priority: 3
+    options: '["12","13","14","15","16","17","18"]'
+    cardinality: 0
+    form_stage_id: 18
 posts:
   -
     id: 1
@@ -1508,6 +1556,34 @@ posts:
     created: 1534342200
     published_to: '[]'
     post_date: "2018-08-12 14:10:16"
+  - id: 1800
+    form_id: 9
+    parent_id:
+    user_id: 1
+    author_email: ""
+    author_realname: ""
+    title: "Testing DRAFT translated post"
+    type: "report"
+    content: "This is a DRAFT translated post"
+    status: "draft"
+    locale: "en_us"
+    created: 1534342200
+    published_to: '[]'
+    post_date: "2020-12-11 14:10:16"
+  - id: 1801
+    form_id: 9
+    parent_id:
+    user_id: 1
+    author_email: ""
+    author_realname: ""
+    title: "Testing PUBLISHED translated post"
+    type: "report"
+    content: "This is PUBLISHED a translated post"
+    status: "published"
+    locale: "en_us"
+    created: 1534342200
+    published_to: '[]'
+    post_date: "2020-12-11 14:10:16"
 post_locks:
   -
     id: 1
@@ -1667,6 +1743,11 @@ post_varchar:
     post_id: 95
     form_attribute_id: 7
     value: "Wellington"
+  -
+    id: 28
+    post_id: 1801
+    form_attribute_id: 50
+    value: '["ground_search_ft"]'
 post_comments:
 tags:
   -
@@ -1752,6 +1833,62 @@ tags:
     slug: "child-two"
     priority: 0
     type: 'category'
+  -
+    id: 12
+    role: 'broken'
+    tag: "This has a broken role and wont appear"
+    slug: "this-has-a-broken-role"
+    priority: 0
+    type: 'category'
+  -
+    id: 13
+    role: 'null'
+    tag: "This has a null broken role, it will appear"
+    slug: "this-has-a-null-broken-role"
+    priority: 0
+    type: 'category'
+  -
+    id: 14
+    role: 'null'
+    parent_id: 13
+    tag: "Child of the null broken 13, it will appear"
+    slug: "child-of-13-null-broken-role"
+    priority: 0
+    type: 'category'
+  -
+    id: 15
+    role: '[]'
+    tag: "Broken string of json array, it will appear"
+    slug: "broken-json-array-will-appear"
+    priority: 0
+    type: 'category'
+  -
+    id: 16
+    role: '["admin"]'
+    tag: "A role for admin users only"
+    slug: "for-admins-only"
+    priority: 0
+    type: 'category'
+  -
+    id: 17
+    role: '["user", "admin"]'
+    tag: "Only admins will see this due to parent permissions"
+    slug: "for-admins-only-child"
+    priority: 0
+    type: 'category'
+  -
+    id: 18
+    tag: "Everyone can see this one"
+    slug: "for-everyone-to-see"
+    priority: 0
+    type: 'category'
+  -
+    id: 19
+    parent_id: 18
+    tag: "Everyone can see this child category"
+    slug: "for-everyone-to-see-child"
+    priority: 0
+    type: 'category'
 posts_tags:
   -
     post_id: 1
@@ -1764,6 +1901,10 @@ posts_tags:
   -
     post_id: 99
     tag_id: 3
+    form_attribute_id: 26
+  -
+    post_id: 99
+    tag_id: 7
     form_attribute_id: 26
 form_stages_posts:
   -
@@ -2772,4 +2913,39 @@ translations:
     translatable_id: 51
     translated_key: 'label'
     translation: 'Title - ES'
+    language: 'es'
+  -
+    id: 31
+    translatable_type: 'post'
+    translatable_id: 1800
+    translated_key: 'content'
+    translation: 'DRAFT Content field translated - ES'
+    language: 'es'
+  -
+    id: 32
+    translatable_type: 'post'
+    translatable_id: 1800
+    translated_key: 'title'
+    translation: 'DRAFT Title field translated - ES'
+    language: 'es'
+  -
+    id: 33
+    translatable_type: 'post'
+    translatable_id: 1801
+    translated_key: 'content'
+    translation: 'PUBLISHED Content field translated - ES'
+    language: 'es'
+  -
+    id: 34
+    translatable_type: 'post'
+    translatable_id: 1801
+    translated_key: 'title'
+    translation: 'PUBLISHED Title field translated - ES'
+    language: 'es'
+  -
+    id: 35
+    translatable_type: 'field'
+    translatable_id: 50
+    translated_key: 'options'
+    translation: '["ground_search_spanish","medical_evacuation_spanish"]'
     language: 'es'

@@ -13,7 +13,7 @@ use v5\Models\Category;
 use v5\Models\Translation;
 use Illuminate\Support\Facades\DB;
 
-class CategoryController extends V4Controller
+class CategoryController extends V5Controller
 {
 
     /**
@@ -201,6 +201,9 @@ class CategoryController extends V4Controller
     public function delete(int $id, Request $request)
     {
         $category = Category::withoutGlobalScopes()->find($id);
+        if (!$category) {
+            return self::make404();
+        }
         $this->authorize('delete', $category);
         $success = DB::transaction(function () use ($id, $request, $category) {
             $category->translations()->delete();

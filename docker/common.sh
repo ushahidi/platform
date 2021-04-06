@@ -98,7 +98,11 @@ function sync {
 }
 
 function run_composer_install {
+  if [ ! -d storage/passport ]; then
+    mkdir -p storage/passport
+  fi
   composer install --no-interaction "$@"
+  chmod 0600 storage/passport/*
 }
 
 function wait_for_mysql {

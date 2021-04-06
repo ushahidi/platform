@@ -83,7 +83,7 @@ First, let's identify your stack.
 
 Please verify that all the fields have the correct values and that you have enabled the "Accept survey submissions from this source" toggle \(it should be green/on!\)
 
-![Example with disabled &quot;Twitter&quot; datasource.](.gitbook/assets/screen-shot-2019-08-03-at-11.08.49.png)
+![Example with disabled &quot;Twitter&quot; datasource.](.gitbook/assets/screen-shot-2019-08-03-at-11.08.49%20%281%29%20%282%29.png)
 
 If you think your configuration is correct, please get in touch with your deploment name and details, and someone from the support team will be able to help.
 
@@ -91,7 +91,7 @@ If you think your configuration is correct, please get in touch with your deplom
 
 Please verify that all the fields have the correct values and that you have enabled the "Accept survey submissions from this source" toggle \(it should be green/on!\)
 
-![Example with disabled &quot;Twitter&quot; datasource.](.gitbook/assets/screen-shot-2019-08-03-at-11.08.49.png)
+![Example with disabled &quot;Twitter&quot; datasource.](.gitbook/assets/screen-shot-2019-08-03-at-11.08.49%20%281%29%20%282%29.png)
 
 If the configuration values are correct, then proceed to check the following in the platform API.
 

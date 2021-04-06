@@ -64,6 +64,6 @@ class PostsSet extends Model
 
     public function post()
     {
-        return $this->hasOne('v5\Models\Post', 'id', 'post_id');
+        return $this->hasOne('v5\Models\Post\Post', 'id', 'post_id');
     }
 }//end class

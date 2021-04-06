@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
     $acr_headers = $_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS'] ?? null;
     if ($origin && $acr_method && $acr_headers) {
         header("Access-Control-Allow-Origin: " . $origin);
-        header("Access-Control-Allow-Methods: POST, GET, OPTIONS, PUT, DELETE");
+        header("Access-Control-Allow-Methods: POST, GET, OPTIONS, PUT, PATCH, DELETE");
         header("Access-Control-Allow-Headers: Authorization, Content-Type, Accept");
     }
     http_response_code(204);
@@ -86,7 +86,9 @@ header('Content-type: application/json');
 if ($origin) {
     header('Access-Control-Allow-origin: ' . $origin);
 }
-echo json_encode($response, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+$body = json_encode($response, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+header('Content-length: ' . mb_strlen($body, '8bit'));
+echo $body;
 
 # END request processing
 exit();

@@ -136,11 +136,11 @@
             "phpspec run --no-code-generation",
             "behat --strict --profile ci"
         ],
-	"test-dev": [
-            "phpunit --stop-on-failure",
-            "phpspec run",
-            "behat --strict"
-	],
+        "test-dev": [
+                "phpunit --stop-on-failure",
+                "phpspec run",
+                "behat --strict"
+        ],
         "post-install-cmd": [
             "\\SebastianFeldmann\\CaptainHook\\Composer\\Cmd::install",
             "php artisan passport:keys || php -r \"return 0;\""
@@ -157,6 +157,12 @@
         ],
         "installdebug:disable": [
             "\\Ushahidi\\App\\PlatformVerifier\\DebugMode::disable"
+        ],
+        "snowboard-v3-serve" : [
+            "snowboard http docs/api/index.apib"
+        ],
+        "snowboard-v5-serve" : [
+            "snowboard http docs/api/v5/index.apib"
         ]
     }
 }

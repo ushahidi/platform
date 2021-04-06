@@ -22,12 +22,17 @@ class HideTime
         );
 
         if (!$hide_time) {
-            return $value;
+            return self::createDateTime($value)->format(\DateTimeInterface::ISO8601);
         }
 
         if (!$excludePrivateValues) {
-            return $value;
+            return self::createDateTime($value)->format(\DateTimeInterface::ISO8601);
         }
+        return self::createDateTime($value)->setTime(0, 0, 0)->format(\DateTimeInterface::ISO8601);
+    }
+
+    private static function createDateTime($value)
+    {
         $d = new \DateTime();
         try {
             $d = new \DateTime($value);
@@ -36,6 +41,6 @@ class HideTime
                 $d->setTimestamp($value);
             }
         }
-        return $d->setTime(0, 0, 0)->format('Y-m-d H:i:s');
+        return $d;
     }
 }

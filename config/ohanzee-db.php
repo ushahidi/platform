@@ -27,6 +27,7 @@ $config = [
         'database'   => getenv('DB_DATABASE'),
         'username'   => getenv('DB_USERNAME'),
         'password'   => getenv('DB_PASSWORD'),
+        'port'       => getenv('DB_PORT'),
         'persistent' => false,
     ],
     'table_prefix' => '',

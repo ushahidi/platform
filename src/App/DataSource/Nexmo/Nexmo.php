@@ -95,7 +95,7 @@ class Nexmo implements CallbackDataSource, OutgoingAPIDataSource
     /**
      * @return mixed
      */
-    public function send($to, $message, $title = "")
+    public function send($to, $message, $title = "", $contact_type = null)
     {
         // Check we have the required config
         if (!isset($this->config['api_key']) || !isset($this->config['api_secret'])) {

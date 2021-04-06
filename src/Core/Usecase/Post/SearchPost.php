@@ -29,7 +29,8 @@ class SearchPost extends SearchUsecase
             'orderby' => 'post_date',
             'order'   => 'desc',
             'limit'   => null,
-            'offset'  => 0
+            'offset'  => 0,
+            'limitPosts'  => 0
         ];
     }
 }

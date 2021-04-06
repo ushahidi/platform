@@ -130,6 +130,7 @@ class MessageRepository extends OhanzeeRepository implements
             // Include contact in same query
             ->join('contacts', 'LEFT')->on('contacts.id', '=', 'messages.contact_id')
             ->select('contacts.contact')
+            ->select(['contacts.type', 'contact_type'])
             ;
 
         if ($data_source) {
@@ -152,6 +153,7 @@ class MessageRepository extends OhanzeeRepository implements
             // Include contact in same query
             ->join('contacts', 'LEFT')->on('contacts.id', '=', 'messages.contact_id')
             ->select('contacts.contact')
+            ->select(['contacts.type', 'contact_type'])
             // Only return messages without a specified provider
             ->where('messages.data_source', 'IS', null)
             ;
@@ -192,6 +194,8 @@ class MessageRepository extends OhanzeeRepository implements
             $message['datetime'] = $message['datetime']->format("Y-m-d H:i:s");
         }
         $message['created'] = time();
+        // Unset related properties
+        unset($message['contact_type']);
         // Create the post
         return $this->executeInsert($this->removeNullValues($message));
     }
@@ -205,6 +209,8 @@ class MessageRepository extends OhanzeeRepository implements
         if (!empty($message['datetime'])) {
             $message['datetime'] = $message['datetime']->format("Y-m-d H:i:s");
         }
+        // Unset related properties
+        unset($message['contact_type']);
         // Create the post
         return $this->executeUpdate(['id' => $message['id']], $this->removeNullValues($message));
     }

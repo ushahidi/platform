@@ -34,7 +34,10 @@ class Stage extends BaseModel
         'task_is_internal_only'
     ];
     protected $hidden = ['icon'];
-
+    protected $casts = [
+        'show_when_published' => 'boolean',
+        'task_is_internal_only' => 'boolean',
+    ];
     public function fields()
     {
         return $this->hasMany('v5\Models\Attribute', 'form_stage_id');

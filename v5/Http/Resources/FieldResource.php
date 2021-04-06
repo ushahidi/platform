@@ -5,6 +5,8 @@ use Illuminate\Http\Resources\Json\Resource;
 
 class FieldResource extends Resource
 {
+    use RequestCachedResource;
+
     public static $wrap = 'result';
 
     /**
@@ -15,6 +17,8 @@ class FieldResource extends Resource
      */
     public function toArray($request)
     {
+        // Preload key relations
+        $this->resource->loadMissing(['translations']);
         return [
             'id' => $this->id,
             'key' => $this->key,

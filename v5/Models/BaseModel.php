@@ -5,6 +5,7 @@ namespace v5\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Class ResourceModel
@@ -40,16 +41,45 @@ class BaseModel extends Model
         }
     }
 
+    /**
+     * Convenience method for getting the model's table name statically
+     */
+    public static function getTableName()
+    {
+        return (new static)->getTable();
+    }
+
     public static function makeSlug($value)
     {
+        // TBD: this function gets called *twice* when a post is created
+        //      figure out why
+
         // produce a slug based on the value
+        // (note this gives us a regex-safe string)
         $slug = Str::slug($value);
 
-        // check to see if any other slugs exist that are the same & count them
-        $count = static::whereRaw("slug RLIKE '^{$slug}(-[0-9]+)?$'")->count();
+        // allowing there may already be several slugs with the same prefix, i.e.:
+        //    popular-title, popular-title-1, .... , popular-title-99
+        // query for the last one of them
+        $last = DB::table(static::getTableName())
+            ->select(['slug'])
+            ->whereRaw("slug RLIKE '^{$slug}(-[0-9]+)?$'")
+            ->orderByRaw('LENGTH(slug) DESC')
+            ->orderBy('slug', 'DESC')
+            ->limit(1)
+            ->first();
 
-        // if other slugs exist that are the same, append the count to the slug
-        $value = $count ? "{$slug}-{$count}" : $slug;
+        // no matches results in a last_count of null, otherwise we numerically
+        // interpret anything after "${slug}-" (0 if empty)
+        $last_count = null;
+        if ($last) {
+            $last_n = substr($last->slug, strlen($slug)+1);
+            if (strlen($last_n) > 0) {
+                $last_count = intval($last_n);
+            }
+        }
+        // just the $slug if no similar slug found is null, start/keep counting otherwise
+        $value = $last ? "{$slug}-" . ($last_count+1) : $slug;
 
         return $value;
     }
@@ -78,7 +108,7 @@ class BaseModel extends Model
     public function validate($data = [])
     {
         $input = array_merge($this->attributes, $data);
-        $v = Validator::make($input, $this->getRules(), $this->validationMessages());
+        $v = Validator::make($input, $this->getRules($data), $this->validationMessages());
         // check for failure
         if (!$v->fails()) {
             return true;

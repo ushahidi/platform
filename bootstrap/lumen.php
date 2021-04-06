@@ -59,6 +59,7 @@ $app->singleton(
 */
 
 $app->middleware([
+    Ushahidi\App\Http\Middleware\AddContentLength::class,
     Ushahidi\App\Multisite\DetectSiteMiddleware::class,
     Barryvdh\Cors\HandleCors::class,
     Ushahidi\App\Http\Middleware\MaintenanceMode::class,
@@ -74,7 +75,9 @@ $app->routeMiddleware([
     'scope'  => Ushahidi\App\Http\Middleware\CheckForAnyScope::class,
     'expiration' => Ushahidi\App\Http\Middleware\CheckDemoExpiration::class,
     'signature' => Ushahidi\App\Http\Middleware\SignatureAuth::class,
-    'feature' => Ushahidi\App\Http\Middleware\CheckFeature::class
+    'feature' => Ushahidi\App\Http\Middleware\CheckFeature::class,
+    'invalidJSON' => Ushahidi\App\Http\Middleware\CheckForInvalidJSON::class,
+    'cache.headers.ifAuth' => Ushahidi\App\Http\Middleware\SetCacheHeadersIfAuth::class
 ]);
 
 /*
@@ -96,6 +99,7 @@ $app->register(Ushahidi\App\Providers\PassportServiceProvider::class);
 $app->register(Barryvdh\Cors\ServiceProvider::class);
 $app->register(Sentry\SentryLaravel\SentryLumenServiceProvider::class);
 $app->register(v5\Providers\MorphServiceProvider::class);
+$app->register(v5\Providers\EventServiceProvider::class);
 $app->register(Ushahidi\Gmail\GmailServiceProvider::class);
 
 /*

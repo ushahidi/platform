@@ -24,8 +24,10 @@ $router->group([
     'namespace' => 'API'
 ], function () use ($router) {
 
-    require __DIR__.'/auth.php';
+    // Load some middleware definitions
+    require __DIR__.'/middleware_helpers.php';
 
+    require __DIR__.'/auth.php';
     require __DIR__.'/apikeys.php';
     require __DIR__.'/collections.php';
     require __DIR__.'/config.php';

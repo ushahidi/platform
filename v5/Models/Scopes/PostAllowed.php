@@ -37,6 +37,7 @@ class PostAllowed implements Scope
 
         $postPermissions = new \Ushahidi\Core\Tool\Permissions\PostPermissions();
         $postPermissions->setAcl($authorizer->acl);
+        $builder->where('posts.type', '=', 'report');
         /**
          * With scopes and the $builder, we check for basic permissions right on our initial
          * queries rather than process them after the fact
@@ -44,7 +45,13 @@ class PostAllowed implements Scope
         if (!$postPermissions->canUserViewUnpublishedPosts(
             $user
         )) {
-            $builder->where('posts.status', '=', 'published')->orWhere('posts.user_id', '=', $user->getId());
+            $builder->where(function ($query) use ($user) {
+                $query->where('posts.status', '=', 'published');
+                if ($user->getId()) {
+                    $query->orWhere('posts.user_id', '=', $user->getId());
+                }
+                return $query;
+            });
         }
     }
 }
