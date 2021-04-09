@@ -113,7 +113,12 @@ class OutgoingCommand extends Command
         $messages = $this->storage->getPendingMessages($this->option('limit'), $source->getId());
 
         foreach ($messages as $message) {
-            list($new_status, $tracking_id) = $source->send($message->contact, $message->message, $message->title);
+            list($new_status, $tracking_id) = $source->send(
+                $message->contact,
+                $message->message,
+                $message->title,
+                $message->contact_type
+            );
 
             $this->storage->updateMessageStatus($message->id, $new_status, $tracking_id);
 
@@ -139,7 +144,12 @@ class OutgoingCommand extends Command
             $messages = $this->storage->getPendingMessagesByType($this->option('limit'), $type);
 
             foreach ($messages as $message) {
-                list($new_status, $tracking_id) = $source->send($message->contact, $message->message, $message->title);
+                list($new_status, $tracking_id) = $source->send(
+                    $message->contact,
+                    $message->message,
+                    $message->title,
+                    $message->contact_type
+                );
 
                 $this->storage->updateMessageStatus($message->id, $new_status, $tracking_id);
 

@@ -45,7 +45,8 @@ class PostController extends V5Controller
      */
     public function show(int $id)
     {
-        $post = Post::find($id);
+        $post = Post::withPostValues()->where('id', $id)->first();
+
         if (!$post) {
             return self::make404();
         }
@@ -62,7 +63,7 @@ class PostController extends V5Controller
      */
     public function index()
     {
-        return new PostCollection(Post::paginate(20));
+        return new PostCollection(Post::withPostValues()->paginate(20));
     }//end index()
 
     private function getUser()
@@ -128,6 +129,12 @@ class PostController extends V5Controller
             if (isset($input['completed_stages'])) {
                 $this->savePostStages($post, $input['completed_stages']);
             }
+
+            // Attempt auto-publishing post on creation
+            if ($post->tryAutoPublish()) {
+                $post->save();
+            }
+                        
             $errors = $this->savePostValues($post, $input['post_content'], $post->id);
 
             if (!empty($errors)) {
@@ -146,6 +153,8 @@ class PostController extends V5Controller
                 return self::make422($errors, 'translation');
             }
             DB::commit();
+            // note: done after commit to avoid deadlock in the db
+            // see comment in bulkPatchOperation() below
             event(new PostCreatedEvent($post));
             return new PostResource($post);
         } catch (\Exception $e) {
@@ -173,14 +182,25 @@ class PostController extends V5Controller
             return self::make422("The V5 API requires a status for post status updates.");
         }
 
-        $post->setAttribute('status', $status);
-        $this->authorize('changeStatus', $post);
+        DB::beginTransaction();
+        try {
+            // TODO: $post->doStatusTransition($status);
+            $post->setAttribute('status', $status);
+            $this->authorize('changeStatus', $post);
 
-        if ($post->save()) {
-            event(new PostUpdatedEvent($post));
-            return new PostResource($post);
-        } else {
-            return self::make422($post->errors);
+            if ($post->save()) {
+                DB::commit();
+                // note: done after commit to avoid deadlock in the db
+                // see comment in bulkPatchOperation() below
+                event(new PostUpdatedEvent($post));
+                return new PostResource($post);
+            } else {
+                DB::rollback();
+                return self::make422($post->errors);
+            }
+        } catch (\Exception $e) {
+            DB::rollback();
+            return self::make500($e->getMessage());
         }
     } // end patchStatus
 
@@ -238,6 +258,7 @@ class PostController extends V5Controller
                 $this->authorize('update', $post);
                 $status = PostStatus::normalize(Arr::get($data->firstWhere('id', $post->id), 'status'));
                 $post->setAttribute('status', $status);
+                // TODO: $post->doStatusTransition($status);
                 $saved = $post->save();
 
                 if (!$saved) {
@@ -255,6 +276,12 @@ class PostController extends V5Controller
             DB::rollback();
             return self::make500();
         }
+        // Note: DB transactions
+        // This is done outside the try{} block so that it happens
+        // after the DB::commit above. The reason is that this will
+        // trigger v3/Kohana code, which will try to open its own
+        // database connection. Both transactions cannot be open at
+        // the same time, as they hold exclusive locks.
         foreach ($posts as $post) {
             event(new PostUpdatedEvent($post));
         }
@@ -338,6 +365,8 @@ class PostController extends V5Controller
                 $this->savePostStages($post, $input['completed_stages']);
             }
 
+            // TODO: handle status update?
+
             $errors = $this->savePostValues($post, $post_values, $post->id);
             if (!empty($errors)) {
                 DB::rollback();
@@ -347,6 +376,8 @@ class PostController extends V5Controller
             $this->updateTranslations(new Post(), $post->toArray(), $translations_input, $post->id, 'post');
             DB::commit();
 
+            // note: done after commit to avoid deadlock in the db
+            // see comment in bulkPatchOperation()
             event(new PostUpdatedEvent($post));
             $post->load('translations');
             return new PostResource($post);

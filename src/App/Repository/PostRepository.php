@@ -392,6 +392,23 @@ class PostRepository extends OhanzeeRepository implements
             $this->search_query->offset(intval($sorting['offset']));
         }
 
+        if ($search->getFilter('limitPosts')) {
+            // the post management permission is associated with bigger limits
+            // we would like to do this with API scopes in the future
+            $isUnprivileged = !$this->postPermissions->canUserManagePosts($this->getUser());
+            $requestedLimit = $sorting['limit'] ?? 0;
+            if ($isUnprivileged) {
+                $unprivilegedLimit = config('posts.list_max_limit');
+                if (!$requestedLimit || $requestedLimit > $unprivilegedLimit) {
+                    $sorting['limit'] = $unprivilegedLimit;
+                }
+            } else {
+                $privilegedLimit = config('posts.list_admin_max_limit');
+                if (!$requestedLimit || $requestedLimit > $privilegedLimit) {
+                    $sorting['limit'] = $privilegedLimit;
+                }
+            }
+        }
         if (array_key_exists('limit', $sorting)
             && $sorting['limit'] >= 0
             && strlen($sorting['limit'])) {
@@ -410,6 +427,9 @@ class PostRepository extends OhanzeeRepository implements
 
         // remember the desired output
         $this->search_output_type = $search->output_core_post ? 'core' : 'full';
+
+        // for use in tests
+        return $this->search_query;
     }
 
     /**

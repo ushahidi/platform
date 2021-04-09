@@ -19,6 +19,7 @@ class Contact extends StaticEntity
     const EMAIL    = 'email';
     const PHONE    = 'phone';
     const TWITTER  = 'twitter';
+    const WHATSAPP = 'whatsapp';
 
     protected $id;
     protected $user_id;
