@@ -35,9 +35,23 @@ class PostVarchar extends PostValue
     public function getValueAttribute($value)
     {
         if (isset($value) && $this->attribute->input === 'checkbox') {
-            return json_decode($value);
+            return $this->decodeCheckboxValue($value);
         }
         return $value;
+    }
+
+    protected function decodeCheckboxValue($value)
+    {
+        // Our current approach here is to store the checkbox array value
+        // encoded as JSON
+        if ($value[0] === '[' && ($v = json_decode($value)) != null) {
+            return $v;
+        }
+
+        // However, that wasn't always the case and some datasets may have
+        // this encodded as comma separated values. Note that this didn't
+        // support having commas in the checkbox labels.
+        return explode(",", $value);
     }
 
     public function setValueAttribute($value)
