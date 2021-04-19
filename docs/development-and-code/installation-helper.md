@@ -29,7 +29,7 @@ gulp dev:verifier
 For instance, if the address of your deployment is [https://ushahidi.example.com](https://ushahidi.example.com) , the helper will be available at this address: [https://ushahidi.example.com\*\*/verifier\*\*](https://ushahidi.example.com**/verifier**)
 {% endhint %}
 
-![](../.gitbook/assets/screenshot-2019-09-17-at-08.05.51%20%281%29%20%281%29.png)
+![](../.gitbook/assets/screenshot-2019-09-17-at-08.05.51.png)
 
 ### For developers
 
@@ -59,7 +59,7 @@ Although the installation helper is a client-side utility, it is able to direct 
 
 Some of those API-side tests may reveal security sensitive information about the internals of the service, and for that reason are not enabled by default. On your first run of the helper, you will probably see messages similar to this one:
 
-![The Installation Helper reporting some checks are disabled in the API](../.gitbook/assets/screenshot-2019-09-13-at-14.16.23%20%281%29%20%281%29.png)
+![The Installation Helper reporting some checks are disabled in the API](../.gitbook/assets/screenshot-2019-09-13-at-14.16.23%20%284%29.png)
 
 What this means is that in order for the helper to run those tests, the "Installation Debug" mode needs to be enabled on the API-side. In order to do that, you'd need to
 

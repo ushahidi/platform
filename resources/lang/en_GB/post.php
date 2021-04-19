@@ -23,6 +23,7 @@ return array(
   'postNeedsApprovalBeforePublishing' => "Post needs approval by an administrator before it can be published",
   'postCanOnlyBeUnpublishedByAdmin' => "Post can only be unpublished by an administrator",
   'alreadyLockedByDifferentUser' => "Post is currently locked by a different user and can not be updated.",
+  'invalidStatusTransition' => "Post cannot be transitioned to the requested status",
   'values' => array(
       'date'          => 'The field :param1 must be a date, Given: :param2',
       'decimal'       => 'The field :param1 must be a decimal with 2 places, Given: :param2',
