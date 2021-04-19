@@ -35,4 +35,11 @@
     'first_login'   => true,
     'tier'          => 'free',
     'private'       => false,
+    'donation'      => [
+       'enabled'      => false,
+       'title'        => '',
+       'description'  => '',
+       'wallet'       => '',
+       'images'       => []
+    ],
   ];
