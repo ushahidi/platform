@@ -96,6 +96,11 @@ return [
         'enabled' => true,
     ],
 
+    // Enable or disable donations via web monetizations
+    'donation' => [
+        'enabled' => true
+    ],
+
     // Enable or disable Gmail Support
     // Controls whether the users can set gmail credentials
     'gmail-support' => [
