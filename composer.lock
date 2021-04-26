@@ -42,9 +42,9 @@
             "authors": [
                 {
                     "name": "Abraham Williams",
+                    "role": "Developer",
                     "email": "abraham@abrah.am",
-                    "homepage": "https://abrah.am",
-                    "role": "Developer"
+                    "homepage": "https://abrah.am"
                 }
             ],
             "description": "The most popular PHP library for use with the Twitter OAuth REST API.",
@@ -351,9 +351,9 @@
             "authors": [
                 {
                     "name": "Benedict Etzel",
+                    "role": "Developer",
                     "email": "developer@beheh.de",
-                    "homepage": "https://beheh.de",
-                    "role": "Developer"
+                    "homepage": "https://beheh.de"
                 }
             ],
             "description": "Modular library for rate limiting requests in applications",
@@ -914,9 +914,9 @@
             "authors": [
                 {
                     "name": "German Bortoli",
+                    "role": "Developer",
                     "email": "germanazo@gmail.com",
-                    "homepage": "https://github.com/Germanaz0",
-                    "role": "Developer"
+                    "homepage": "https://github.com/Germanaz0"
                 }
             ],
             "description": "Laravel 5 client for CKAN Api",
@@ -2927,9 +2927,9 @@
             "authors": [
                 {
                     "name": "Ignace Nyamagana Butera",
+                    "role": "Developer",
                     "email": "nyamsprod@gmail.com",
-                    "homepage": "https://github.com/nyamsprod/",
-                    "role": "Developer"
+                    "homepage": "https://github.com/nyamsprod/"
                 }
             ],
             "description": "Csv data manipulation made easy in PHP",
@@ -3356,9 +3356,9 @@
             "authors": [
                 {
                     "name": "Alex Bilbie",
+                    "role": "Developer",
                     "email": "hello@alexbilbie.com",
-                    "homepage": "http://www.alexbilbie.com",
-                    "role": "Developer"
+                    "homepage": "http://www.alexbilbie.com"
                 }
             ],
             "description": "A lightweight and powerful OAuth 2.0 authorization and resource server library with support for all the core specification grants. This library will allow you to secure your API with OAuth and allow your applications users to approve apps that want to access their data from your API.",
@@ -4736,20 +4736,20 @@
             "authors": [
                 {
                     "name": "Woody Gilk",
+                    "role": "Developer",
                     "email": "woody.gilk@gmail.com",
-                    "homepage": "http://shadowhand.me",
-                    "role": "Developer"
+                    "homepage": "http://shadowhand.me"
                 },
                 {
                     "name": "Rob Morgan",
+                    "role": "Lead Developer",
                     "email": "robbym@gmail.com",
-                    "homepage": "https://robmorgan.id.au",
-                    "role": "Lead Developer"
+                    "homepage": "https://robmorgan.id.au"
                 },
                 {
                     "name": "Richard Quadling",
-                    "email": "rquadling@gmail.com",
-                    "role": "Developer"
+                    "role": "Developer",
+                    "email": "rquadling@gmail.com"
                 }
             ],
             "description": "Phinx makes it ridiculously easy to manage the database migrations for your PHP app.",
@@ -6821,23 +6821,23 @@
         },
         {
             "name": "ushahidi/gmail-support",
-            "version": "0.1.0",
+            "version": "0.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ushahidi/gmail-support.git",
-                "reference": "7e1cb989dedb7970486266f3595831ba73a0431f"
+                "reference": "015bccaed27b7e5d8acebad1b959f2bc6a53256a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ushahidi/gmail-support/zipball/7e1cb989dedb7970486266f3595831ba73a0431f",
-                "reference": "7e1cb989dedb7970486266f3595831ba73a0431f",
+                "url": "https://api.github.com/repos/ushahidi/gmail-support/zipball/015bccaed27b7e5d8acebad1b959f2bc6a53256a",
+                "reference": "015bccaed27b7e5d8acebad1b959f2bc6a53256a",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
                 "google/apiclient": "^2.0",
-                "illuminate/mail": "^5.5 || ^6.0 || ^7.0",
-                "illuminate/support": "^5.5 || ^6.0 || ^7.0",
+                "illuminate/mail": "^5.5 || ^6.0 || ^7.0 || ^8.0",
+                "illuminate/support": "^5.5 || ^6.0 || ^7.0 || ^8.0",
                 "league/html-to-markdown": "^4.10",
                 "nesbot/carbon": "^1.3 || ^2.3",
                 "zbateson/mail-mime-parser": "^1.2"
@@ -6873,7 +6873,7 @@
                 }
             ],
             "description": "Support Gmail as Data Provider",
-            "time": "2020-08-21T13:31:23+00:00"
+            "time": "2021-04-25T08:00:38+00:00"
         },
         {
             "name": "ushahidi/kohana-validation",
@@ -8351,9 +8351,9 @@
             "authors": [
                 {
                     "name": "Markus Malkusch",
+                    "role": "Developer",
                     "email": "markus@malkusch.de",
-                    "homepage": "http://markus.malkusch.de",
-                    "role": "Developer"
+                    "homepage": "http://markus.malkusch.de"
                 }
             ],
             "description": "Mock built-in PHP functions (e.g. time()) with Mockery. This package relies on PHP's namespace fallback policy. No further extension is needed.",
@@ -8809,8 +8809,8 @@
             "authors": [
                 {
                     "name": "Sebastian Bergmann",
-                    "email": "sb@sebastian-bergmann.de",
-                    "role": "lead"
+                    "role": "lead",
+                    "email": "sb@sebastian-bergmann.de"
                 }
             ],
             "description": "Library that provides collection, processing, and rendering functionality for PHP code coverage information.",
@@ -8857,8 +8857,8 @@
             "authors": [
                 {
                     "name": "Sebastian Bergmann",
-                    "email": "sb@sebastian-bergmann.de",
-                    "role": "lead"
+                    "role": "lead",
+                    "email": "sb@sebastian-bergmann.de"
                 }
             ],
             "description": "FilterIterator implementation that filters files based on a list of suffixes.",
@@ -8899,8 +8899,8 @@
             "authors": [
                 {
                     "name": "Sebastian Bergmann",
-                    "email": "sebastian@phpunit.de",
-                    "role": "lead"
+                    "role": "lead",
+                    "email": "sebastian@phpunit.de"
                 }
             ],
             "description": "Simple template engine.",
@@ -8948,8 +8948,8 @@
             "authors": [
                 {
                     "name": "Sebastian Bergmann",
-                    "email": "sb@sebastian-bergmann.de",
-                    "role": "lead"
+                    "role": "lead",
+                    "email": "sb@sebastian-bergmann.de"
                 }
             ],
             "description": "Utility class for timing",
@@ -9006,7 +9006,6 @@
             "keywords": [
                 "tokenizer"
             ],
-            "abandoned": true,
             "time": "2017-11-27T05:48:46+00:00"
         },
         {
@@ -9078,8 +9077,8 @@
             "authors": [
                 {
                     "name": "Sebastian Bergmann",
-                    "email": "sebastian@phpunit.de",
-                    "role": "lead"
+                    "role": "lead",
+                    "email": "sebastian@phpunit.de"
                 }
             ],
             "description": "The PHP Unit Testing framework.",
@@ -9740,8 +9739,8 @@
             "authors": [
                 {
                     "name": "Sebastian Bergmann",
-                    "email": "sebastian@phpunit.de",
-                    "role": "lead"
+                    "role": "lead",
+                    "email": "sebastian@phpunit.de"
                 }
             ],
             "description": "Library that helps with managing the version number of Git-hosted PHP projects",
