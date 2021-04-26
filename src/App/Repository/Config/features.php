@@ -94,4 +94,9 @@ return [
     'anonymise-reporters' => [
         'enabled' => true,
     ],
+
+    // Enable or disable donations via web monetizations
+    'donation' => [
+        'enabled' => true
+    ]
 ];
