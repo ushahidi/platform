@@ -80,7 +80,14 @@ class Category extends BaseModel
      *
      * @var string[]
      */
-    protected $with = ['translations'];
+    /*
+     * Query optimizations 2021.02.09:
+     *   translations are generally only needed when rendering the response.
+     *   Thus, it seems more adequate to ensure these are loaded by calling
+     *   load() or loadMissing() from Resource::toArray().
+     *   Doing this has resulted in far less queries when rendering JSON.
+     */
+    // protected $with = ['translations'];
     protected $translations;
     /**
      * Get the error messages for the defined validation rules.

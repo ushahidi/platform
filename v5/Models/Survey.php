@@ -14,7 +14,7 @@ use Ushahidi\Core\Tool\Permissions\InteractsWithFormPermissions;
 class Survey extends BaseModel
 {
     use InteractsWithFormPermissions;
-    public static $relationships = ['tasks', 'translations'];
+    public static $relationships = ['tasks', 'translations', 'enabled_languages'];
     /**
      * Add eloquent style timestamps
      *
@@ -359,6 +359,16 @@ class Survey extends BaseModel
         }
 
         return true;
+    }
+
+    /**
+     * Returns survey required tasks that are NOT in the provided set
+     * of complete tasks
+     */
+    public function getMissingRequiredTasks($complete_tasks)
+    {
+        // TODO: write logic and enable proper tests
+        return [];
     }
 
     /**

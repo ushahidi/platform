@@ -2,11 +2,15 @@
 
 ## What is the platform client?
 
-The web client is the component that end users interact with when opening the Platform website with a web browser. The client interacts with the API in order to perform operations on the system \(i.e. submit posts, query posts\).
+The web client is the component that end-users interact with when opening the Platform website with a web browser. The client interacts with the API in order to perform operations on the system \(i.e. submit posts, query posts\).
 
 ## Video-tutorials
 
-The setup in this guide is demonstrated in below videos as well if you want to watch and follow the guide at the same time!
+The setup in this guide is demonstrated in the below videos as well if you want to watch and follow the guide at the same time!
+
+**Please note before watching the videos**
+
+In the videos below the API-url "[https://wsc2019.api.ushahidi.io/](https://wsc2019.api.ushahidi.io/)" is used. This if for demo-purposes only, you will need to set up your own API, see guides here: [https://docs.ushahidi.com/platform-developer-documentation/development-and-code/setup\_alternatives\#platform-api-backend-install-guides](https://docs.ushahidi.com/platform-developer-documentation/development-and-code/setup_alternatives#platform-api-backend-install-guides)
 
 {% embed url="https://www.youtube.com/watch?v=-GZBJtUQqoQ&feature=youtu.be" caption="Setting up Ushahidi client for local development, recorded in MacOS." %}
 
@@ -17,8 +21,6 @@ The setup in this guide is demonstrated in below videos as well if you want to w
 ## Installation steps
 
 {% hint style="warning" %}
-
-Pre-requisite: Install the platform API by following one of the API setup guides
 
 {% page-ref page="./" %}
 

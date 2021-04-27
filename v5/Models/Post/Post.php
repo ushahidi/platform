@@ -13,6 +13,7 @@
 
 namespace v5\Models\Post;
 
+use Illuminate\Notifications\Notifiable;
 use v5\Models\BaseModel;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
@@ -40,7 +41,16 @@ class Post extends BaseModel
      * Which is why you see 'post_content' rather than postValueVarchar
      * @var string[]
      */
-    public static $relationships = ['survey', 'locks', 'categories', 'comments', 'post_content', 'completed_stages'];
+    public static $relationships = [
+        'survey',
+        'locks',
+        'categories',
+        'comments',
+        'post_content',
+        'completed_stages',
+        'translations',
+        'enabled_languages'
+    ];
     public $errors;
     /**
      * Add eloquent style timestamps
@@ -327,11 +337,18 @@ class Post extends BaseModel
             'post_content.*.fields.*.required' => [
                 function ($attribute, $value, $fail) {
                     if (!!$value) {
+                        $field_content = Input::get(str_replace('.required', '', $attribute));
+                        $label = $field_content['label'] ?: $field_content['id'];
                         $get_value = Input::get(str_replace('.required', '.value.value', $attribute));
+                        $is_empty = (is_null($get_value) || $get_value === '');
                         $is_title = Input::get(str_replace('.required', '.type', $attribute)) === 'title';
                         $is_desc = Input::get(str_replace('.required', '.type', $attribute)) === 'description';
-                        if (!$get_value && !$is_desc && !$is_title) {
-                            return $fail(trans('validation.field_required'));
+                        if ($is_empty && !$is_desc && !$is_title) {
+                            return $fail(
+                                trans('validation.required_by_label', [
+                                    'label' => $label
+                                ])
+                            );
                         }
                     }
                 }
@@ -417,6 +434,86 @@ class Post extends BaseModel
         $this->attributes['post_date'] = $value;
     }
 
+    /* -- Post status management methods -- */
+
+    /**
+     * Can the post be made public?
+     *
+     * Returns:
+     *   - Null if already public
+     *   - True if possible
+     *   - Error message if not
+     */
+    protected function canBePublished()
+    {
+        if ($this->status === PostStatus::PUBLISHED) {
+            return;
+        }
+
+        // Is the post in a publishable status?
+        if (!PostStatus::isValidTransition($this->status, PostStatus::PUBLISHED)) {
+            return trans('post.invalidStatusTransition');
+        }
+
+        // Are there stages/tasks that require completion AND are not completed?
+        $pending_tasks = $this->survey->getMissingRequiredTasks($this->completed_stages);
+        if (count($pending_tasks) > 0) {
+            // TODO: translate the label as necessary
+            return trans('post.stageRequired', ['param1' => $pending_tasks[0]->label]);
+        }
+
+        return true;
+    }
+
+    /**
+     *
+     */
+    public function tryAutoPublish()
+    {
+        // Is automatic publishing enabled in the survey? ( require_approval: false )
+        if ($this->survey->require_approval) {
+            return false;
+        }
+
+        // Can it be published? Otherwise, give up
+        if ($this->canBePublished() === false) {
+            return false;
+        }
+
+        // Publish
+        $this->setAttribute('status', PostStatus::PUBLISHED);
+        return true;
+    }
+
+    /**
+     * Perform user-requested status change
+     * Note that this is different from just setting the status in the model,
+     * this actually performs flow checks.
+     */
+    public function doStatusTransition($new_status)
+    {
+        if ($this->status === $new_status) {
+            return;
+        }
+
+        // Is the post in a publishable status?
+        if (!PostStatus::isValidTransition($this->status, $new_status)) {
+            return trans('post.invalidStatusTransition');
+        }
+
+        if ($new_status === PostStatus::PUBLISHED) {
+            $pending_tasks = $this->survey->getMissingRequiredTasks($this->completed_stages);
+            if (count($pending_tasks) > 0) {
+                // TODO: translate the label as necessary
+                return trans('post.stageRequired', ['param1' => $pending_tasks[0]->label]);
+            }
+        }
+
+        $this->setAttribute('status', $new_status);
+    }
+
+    /* -- Relations accessors -- */
+
     public function survey()
     {
         return $this->hasOne('v5\Models\Survey', 'id', 'form_id')->setEagerLoads([]);
@@ -437,7 +534,7 @@ class Post extends BaseModel
         return $this->hasMany('v5\Models\Comment', 'post_id', 'id');
     }
 
-    public function getPostValues()
+    protected static function valueTypesRelationships()
     {
         $value_types = [
             'Varchar',
@@ -454,9 +551,29 @@ class Post extends BaseModel
 //            'PostsSet',
             'PostTag'
         ];
+        return array_map(function ($t) {
+            return "values${t}";
+        }, $value_types);
+    }
+
+    /*
+     * Convenience accessor to fetch posts along with their values
+     */
+    public static function withPostValues()
+    {
+        return Post::with(Post::valueTypesRelationships());
+    }
+
+    public function getPostValues()
+    {
         $values = [];
-        foreach ($value_types as $type) {
-            $values[] = $this->{"values$type"};
+        foreach ($this->valueTypesRelationships() as $rel) {
+            if ($rel == 'valuesPostTag') {
+                // For categories, preload the categories key relations
+                $values[] = $this->valuesPostTag()->with(['tag.parent', 'tag.children', 'tag.translations'])->get();
+            } else {
+                $values[] = $this->{"$rel"};
+            }
         }
         return Collection::make(Arr::flatten($values));
     }

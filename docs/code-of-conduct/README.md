@@ -56,7 +56,6 @@ This Code of Conduct applies to all spaces, physical and online, managed by Usha
 
 If a Code of Conduct incidents happens to you or if you witness it happening to someone else, please contact codeofconduct@ushahidi.com immediately. An email to codeofconduct@ushahidi.com is received by the members of the Code of Conduct working group at Ushahidi who are:
 
-* Romina Suarez
 * Cecilia Hinga
 * Anna Iosif
 

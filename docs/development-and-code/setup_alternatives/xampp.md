@@ -150,7 +150,7 @@ On Windows File Explorer, the default is to hide the extension of the files \(th
   * Change the `DB_DATABASE` to `platform`
 
 {% hint style="info" %}
-Hint: If you are running MySQL in a non-default port (different to 3306, the default one), you may also want to change `DB_PORT` to the port you are using. Also, if you need to specify a certain socket for db connection, you can do it by adding `DB_SOCKET` with the corresponding socket path.
+Hint: If you are running MySQL in a non-default port \(different to 3306, the default one\), you may also want to change `DB_PORT` to the port you are using. Also, if you need to specify a certain socket for db connection, you can do it by adding `DB_SOCKET` with the corresponding socket path.
 {% endhint %}
 
 * Run `composer install`. Wait while composer installs all the dependencies

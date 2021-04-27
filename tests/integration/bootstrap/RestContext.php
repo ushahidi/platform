@@ -832,6 +832,7 @@ HTTP/{$this->response->getProtocolVersion()} {$this->response->getStatusCode()} 
 {$this->response->getBody()}
 "
         );
+        ob_flush();
     }
 
     /**

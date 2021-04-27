@@ -66,31 +66,31 @@ Most of our use cases follow 5 high level patterns for Create, Read, Update, Del
 
 [create](http://www.nomnoml.com/#view/%23title%3ACreate%20Usecase%0A%0A%5B%3Cstate%3Erequest%7C%0Apayload%0Aidentifier%0Afilters%5D%0A%0A%5BCreate%20Usecase%7C%0A%5B%3Cstart%3E%20interact%5D-%3E%5BGet%20Entity%5D%0A%5BGet%20Entity%5D-%3E%5BVerify%20Create%20Auth%5D%0A%5BVerify%20Create%20Auth%5D-%3E%5BVerify%20Valid%5D%0A%5BVerify%20Valid%5D-%3E%5BCreate%20Entity%5D%0A%5BCreate%20Entity%5D-%3E%5BGet%20Created%5D%0A%5BGet%20Created%5D-%3E%5B%3Cchoice%3E%20Can%20Read%3F%5D%0A%5B%3Cchoice%3E%20Can%20Read%3F%5D-%3E%5BFormat%20Entity%5D%0A%5B%3Cchoice%3E%20Can%20Read%3F%5D-%3E%5B%3Cend%3E%20return%5D%0A%5BFormat%20Entity%5D-%3E%5B%3Cend%3E%20return%5D%0A%5D%0A%0A%0A%5B%3Cstate%3Erequest%5D-%3E%5BCreate%20Usecase%5D%0A%5BCreate%20Usecase%5D-%3E%5B%3Cstate%3Eresponse%5D%0A%5B%3Cstate%3Eresponse%5D-%3E%5BOutputFormatter%5D%0A%0A%23direction%3A%20right%0A)
 
-![Create Usecase - Collaborators](../.gitbook/assets/create-usecase-collab%20%284%29.png)
+![Create Usecase - Collaborators](../.gitbook/assets/create-usecase-collab%20%284%29%20%286%29.png)
 
 [collaborators](http://www.nomnoml.com/#view/%23title%3A%20Create%20UseCase%20Collaborators%0A%0A%5BCreateUsecase%7C%7C%0Ainteract%28%29%0AsetPayload%28%29%5D%0A%0A%5BValidator%5D%3C-%2B%5BCreateUsecase%5D%0A%5BAuthorizer%5D%3C-%2B%5BCreateUsecase%5D%0A%5BFormatter%5D%3C-%2B%5BCreateUsecase%5D%0A%5BRepository%5D%3C-%2B%5BCreateUsecase%5D%0A%0A%5BCreateUsecase%5D-%3E%5B%3Cinput%3E%20payload%5D%0A%0A%23direction%3A%20right)
 
 #### Read
 
-![Read Usecase](../.gitbook/assets/read-usecase-2%20%281%29.png)
+![Read Usecase](../.gitbook/assets/read-usecase%20%285%29.png)
 
 [read](http://www.nomnoml.com/#view/%23title%3A%20%20Read%20UseCase%0A%5B%3Cstate%3Erequest%5D-%3E%5BRead%20Usecase%5D%0A%5BRead%20Usecase%5D-%3E%5B%3Cstate%3Eresponse%5D%0A%5B%3Cstate%3Eresponse%5D-%3E%5BOutputFormatter%5D%0A%0A%5B%3Cstate%3Erequest%7C%0Apayload%0Aidentifier%0Afilters%5D%0A%0A%5BRead%20Usecase%7C%0A%5B%3Cstart%3E%20interact%28%29%5D-%3E%5BGet%20Entity%5D%0A%5BGet%20Entity%5D-%3E%5BVerify%20Read%20Auth%5D%0A%5BVerify%20Read%20Auth%5D-%3E%5BFormat%20Entity%5D%0A%5BFormat%20Entity%5D-%3E%5B%3Cend%3E%20return%5D%0A%5D%0A%0A%23direction%3A%20right)
 
 **Update**
 
-![Update Usecase](../.gitbook/assets/update-usecase-2%20%281%29.png)
+![Update Usecase](../.gitbook/assets/update-usecase%20%285%29.png)
 
 [update](http://www.nomnoml.com/#view/%23title%3AUpdate%20UseCase%0A%0A%5B%3Cstate%3Erequest%5D-%3E%5BUpdate%20Usecase%5D%0A%5BUpdate%20Usecase%5D-%3E%5B%3Cstate%3Eresponse%5D%0A%5B%3Cstate%3Eresponse%5D-%3E%5BOutputFormatter%5D%0A%0A%5B%3Cstate%3Erequest%7C%20payload%20identifier%20filters%5D%0A%5BUpdate%20Usecase%7C%20%0A%0A%5B%3Cstart%3E%20interact%28%29%5D-%3E%5BGet%20Entity%5D%0A%5BGet%20Entity%5D-%3E%5BUpdate%20State%5D%0A%5BUpdate%20State%5D-%3E%5BVerify%20Update%20Auth%5D%0A%5BVerify%20Update%20Auth%5D-%3E%5BVerify%20Valid%5D%0A%5BVerify%20Valid%5D-%3E%5BUpdate%20Entity%5D%0A%5BUpdate%20Entity%5D-%3E%5B%3Cchoice%3E%20Can%20Read%3F%5D%0A%5B%3Cchoice%3E%20Can%20Read%3F%5D-%3E%5BFormat%20Entity%5D%0A%5BFormat%20Entity%5D-%3E%5B%3Cend%3E%20return%5D%0A%5B%3Cchoice%3E%20Can%20Read%3F%5D-%3E%5B%3Cend%3E%20return%5D%20%0A%5D%0A%0A%23direction%3A%20right%0A%0A)
 
 #### Delete
 
-![Delete Usecase](../.gitbook/assets/delete-usecase-1%20%281%29.png)
+![Delete Usecase](../.gitbook/assets/delete-usecase%20%286%29.png)
 
 [delete](http://www.nomnoml.com/#view/%23title%3ADelete%20UseCase%0A%0A%5B%3Cstate%3Erequest%5D-%3E%5BDelete%20Usecase%5D%0A%5BDelete%20Usecase%5D-%3E%5B%3Cstate%3Eresponse%5D%0A%5B%3Cstate%3Eresponse%5D-%3E%5BOutputFormatter%5D%0A%0A%5B%3Cstate%3Erequest%7C%0Apayload%0Aidentifier%0Afilters%5D%0A%0A%5BDelete%20Usecase%7C%0A%5B%3Cstart%3E%20interact%28%29%5D-%3E%5BGet%20Entity%5D%0A%5BGet%20Entity%5D-%3E%5BVerify%20Delete%20Auth%5D%0A%5BVerify%20Delete%20Auth%5D-%3E%5BDelete%20Entity%5D%0A%5BDelete%20Entity%5D-%3E%5BVerify%20Read%20Auth%5D%0A%5BVerify%20Read%20Auth%5D-%3E%5BFormat%20Entity%5D%0A%5BFormat%20Entity%5D-%3E%5B%3Cend%3E%20return%5D%0A%5D%0A%0A%23direction%3A%20right)
 
 #### Search
 
-![Search Usecase](../.gitbook/assets/search-usecase%20%283%29%20%281%29.png)
+![Search Usecase](../.gitbook/assets/search-usecase%20%281%29.png)
 
 [search](http://www.nomnoml.com/#view/%23title%3ASearch%20UseCase%0A%0A%5B%3Cstate%3Erequest%5D-%3E%5BSearch%20Usecase%5D%0A%5BSearch%20Usecase%5D-%3E%5B%3Cstate%3Eresponse%5D%0A%5B%3Cstate%3Eresponse%5D-%3E%5BOutputFormatter%5D%0A%0A%5B%3Cstate%3Erequest%7C%0Apayload%0Aidentifier%0Afilters%5D%0A%0A%5BSearch%20Usecase%7C%0A%5B%3Cstart%3E%20interact%28%29%5D-%3E%5BGet%20Entity%5D%0A%5BGet%20Entity%5D-%3E%5BVerify%20Search%20Auth%5D%0A%5BVerify%20Search%20Auth%5D-%3E%5BSet%20Search%20Params%5D%0A%5BSet%20Search%20Params%5D-%3E%5BGet%20Search%20Sesults%5D%0A%5BGet%20Search%20Sesults%5D-%3E%5BVerify%20Read%20Auth%7C%0A%5B%3Cstart%3E%20foreach%5D-%3E%5B%3Cchoice%3Ewhile%20results%3F%5D%0A%5B%3Cchoice%3Ewhile%20results%3F%5D-%3E%5Bcheck%20auth%5D%0A%5Bcheck%20auth%5D-%3E%5B%3Cchoice%3Ewhile%20results%3F%5D%0A%5B%3Cchoice%3Ewhile%20results%3F%5D-%3E%5B%3Cend%3E%5D%0A%5D%0A%5BVerify%20Read%20Auth%5D-%3E%5BFormat%20Results%5D%0A%5BFormat%20Results%5D-%3E%5B%3Cend%3E%20return%5D%0A%5D%0A%0A%23direction%3A%20right)
 
