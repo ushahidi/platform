@@ -41,28 +41,28 @@ class TileTest extends \PHPUnit\Framework\TestCase
     public function testTileToBoundingBox()
     {
         $bb = Tile::tileToBoundingBox(0, 0, 0);
-        $this->assertAttributeEquals(85.051100, 'north', $bb, '', 0.0002);
-        $this->assertAttributeEquals(-85.051100, 'south', $bb, '', 0.0002);
-        $this->assertAttributeEquals(-180, 'west', $bb, '', 0.0002);
-        $this->assertAttributeEquals(180, 'east', $bb, '', 0.0002);
+        $this->assertEqualsWithDelta(85.051100, $bb->north, 0.0002);
+        $this->assertEqualsWithDelta(-85.051100, $bb->south, 0.0002);
+        $this->assertEqualsWithDelta(-180, $bb->west, 0.0002);
+        $this->assertEqualsWithDelta(180, $bb->east, 0.0002);
 
         $bb = Tile::tileToBoundingBox(1, 1, 1);
-        $this->assertAttributeEquals(0, 'north', $bb, '', 0.0002);
-        $this->assertAttributeEquals(-85.051100, 'south', $bb, '', 0.0002);
-        $this->assertAttributeEquals(0, 'west', $bb, '', 0.0002);
-        $this->assertAttributeEquals(180, 'east', $bb, '', 0.0002);
+        $this->assertEqualsWithDelta(0, $bb->north, 0.0002);
+        $this->assertEqualsWithDelta(-85.051100, $bb->south, 0.0002);
+        $this->assertEqualsWithDelta(0, $bb->west, 0.0002);
+        $this->assertEqualsWithDelta(180, $bb->east, 0.0002);
 
         $bb = Tile::tileToBoundingBox(2, 2, 1);
-        $this->assertAttributeEquals(66.5131, 'north', $bb, '', 0.0002);
-        $this->assertAttributeEquals(0, 'south', $bb, '', 0.0002);
-        $this->assertAttributeEquals(0, 'west', $bb, '', 0.0002);
-        $this->assertAttributeEquals(90, 'east', $bb, '', 0.0002);
+        $this->assertEqualsWithDelta(66.5131, $bb->north, 0.0002);
+        $this->assertEqualsWithDelta(0, $bb->south, 0.0002);
+        $this->assertEqualsWithDelta(0, $bb->west, 0.0002);
+        $this->assertEqualsWithDelta(90, $bb->east, 0.0002);
 
         $bb = Tile::tileToBoundingBox(8, 13, 14);
-        $this->assertAttributeEquals(83.026183, 'north', $bb, '', 0.0002);
-        $this->assertAttributeEquals(82.853346, 'south', $bb, '', 0.0002);
-        $this->assertAttributeEquals(-161.718750, 'west', $bb, '', 0.0002);
-        $this->assertAttributeEquals(-160.312500, 'east', $bb, '', 0.0002);
+        $this->assertEqualsWithDelta(83.026183, $bb->north, 0.0002);
+        $this->assertEqualsWithDelta(82.853346, $bb->south, 0.0002);
+        $this->assertEqualsWithDelta(-161.718750, $bb->west, 0.0002);
+        $this->assertEqualsWithDelta(-160.312500, $bb->east, 0.0002);
     }
 
     /**
@@ -72,10 +72,10 @@ class TileTest extends \PHPUnit\Framework\TestCase
      */
     public function testTileToLon()
     {
-        $this->assertEquals(-180, Tile::tileToLon(0, 0), '', 0.0002);
-        $this->assertEquals(0, Tile::tileToLon(1, 1), '', 0.0002);
-        $this->assertEquals(0, Tile::tileToLon(2, 2), '', 0.0002);
-        $this->assertEquals(-163.125000, Tile::tileToLon(12, 8), '', 0.0002);
+        $this->assertEqualsWithDelta(-180, Tile::tileToLon(0, 0), 0.0002);
+        $this->assertEqualsWithDelta(0, Tile::tileToLon(1, 1), 0.0002);
+        $this->assertEqualsWithDelta(0, Tile::tileToLon(2, 2), 0.0002);
+        $this->assertEqualsWithDelta(-163.125000, Tile::tileToLon(12, 8), 0.0002);
     }
 
     /**
@@ -85,9 +85,9 @@ class TileTest extends \PHPUnit\Framework\TestCase
      */
     public function testTileToLat()
     {
-        $this->assertEquals(85.05112, Tile::tileToLat(0, 0), '', 0.0002);
-        $this->assertEquals(0, Tile::tileToLat(1, 1), '', 0.0002);
-        $this->assertEquals(0, Tile::tileToLat(2, 2), '', 0.0002);
-        $this->assertEquals(83.026183, Tile::tileToLat(14, 8), '', 0.0002);
+        $this->assertEqualsWithDelta(85.05112, Tile::tileToLat(0, 0), 0.0002);
+        $this->assertEqualsWithDelta(0, Tile::tileToLat(1, 1), 0.0002);
+        $this->assertEqualsWithDelta(0, Tile::tileToLat(2, 2), 0.0002);
+        $this->assertEqualsWithDelta(83.026183, Tile::tileToLat(14, 8), 0.0002);
     }
 }

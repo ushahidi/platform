@@ -39,7 +39,7 @@ class TwitterDataSourceTest extends TestCase
 
         $response = $twitter->send('ushahidi', "A message");
 
-        $this->assertInternalType('array', $response);
+        $this->assertIsArray($response);
         $this->assertEquals('failed', $response[0]);
         $this->assertEquals(false, $response[1]);
     }
@@ -77,7 +77,7 @@ class TwitterDataSourceTest extends TestCase
 
         $response = $twitter->send('ushahidi', "A message");
 
-        $this->assertInternalType('array', $response);
+        $this->assertIsArray($response);
         $this->assertEquals('sent', $response[0]);
         $this->assertEquals('1234564', $response[1]);
     }
@@ -115,7 +115,7 @@ class TwitterDataSourceTest extends TestCase
 
         $response = $twitter->send('ushahidi', "A message");
 
-        $this->assertInternalType('array', $response);
+        $this->assertIsArray($response);
         $this->assertEquals('failed', $response[0]);
         $this->assertEquals(false, $response[1]);
 
@@ -132,7 +132,7 @@ class TwitterDataSourceTest extends TestCase
 
         $response = $twitter->send('ushahidi', "A message");
 
-        $this->assertInternalType('array', $response);
+        $this->assertIsArray($response);
         $this->assertEquals('failed', $response[0]);
         $this->assertEquals(false, $response[1]);
     }

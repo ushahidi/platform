@@ -135,9 +135,9 @@
             "behat --strict --profile ci"
         ],
         "test-dev": [
-                "phpunit --stop-on-failure",
-                "phpspec run",
-                "behat --strict"
+            "phpunit --stop-on-failure",
+            "phpspec run",
+            "behat --strict"
         ],
         "post-autoload-dump": [
             "captainhook install -f -s"

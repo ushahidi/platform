@@ -79,11 +79,10 @@ class DataSourceStorageTest extends TestCase
         $this->assertEquals(['id' => 1], $result);
     }
 
-    /**
-     * @expectedException Symfony\Component\HttpKernel\Exception\NotFoundHttpException
-     */
     public function testFailedReceive()
     {
+        $this->expectException('Symfony\Component\HttpKernel\Exception\NotFoundHttpException');
+
         $storage = new DataSourceStorage($this->usecase, $this->messageRepo);
 
         $this->usecase

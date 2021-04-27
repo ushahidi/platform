@@ -40,7 +40,7 @@ class DataSourceManagerTest extends TestCase
         $this->assertInstanceOf(Twitter::class, $manager->getSource('twitter'));
         $this->assertInstanceOf(Email::class, $manager->getSource('email'));
 
-        $this->assertInternalType('array', $manager->getSources());
+        $this->assertIsArray($manager->getSources());
     }
 
     public function testEnabledSources()
