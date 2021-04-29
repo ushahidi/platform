@@ -64,6 +64,7 @@ $app->middleware([
     Barryvdh\Cors\HandleCors::class,
     Ushahidi\App\Http\Middleware\MaintenanceMode::class,
     Ushahidi\App\Http\Middleware\SetLocale::class,
+    v5\Http\Middleware\V5GlobalScopes::class,
 ]);
 
 $app->routeMiddleware([
@@ -97,6 +98,8 @@ $app->register(Ushahidi\App\Providers\EventServiceProvider::class);
 $app->register(Ushahidi\App\Providers\PassportServiceProvider::class);
 $app->register(Barryvdh\Cors\ServiceProvider::class);
 $app->register(Sentry\SentryLaravel\SentryLumenServiceProvider::class);
+$app->register(v5\Providers\MorphServiceProvider::class);
+$app->register(v5\Providers\EventServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------
@@ -114,5 +117,9 @@ $app->router->group([
 ], function ($router) {
     require __DIR__.'/../routes/web.php';
 });
-
+$app->router->group([
+    'namespace' => 'v5\Http\Controllers',
+], function ($router) {
+    require __DIR__ . '/../v5/routes/web.php';
+});
 return $app;

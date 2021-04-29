@@ -32,9 +32,26 @@ class TwilioController extends DataSourceController
             abort(403, 'Incorrect or missing AccountSid');
         }
 
+        // Detect contact type
+        $to = $request->input('To');
+        $from = $request->input('From');
+        if (strpos($from, ':')) {
+            $channel = (explode(':', $from))[0];
+            switch ($channel) {
+                case 'whatsapp':
+                    $contact_type = Contact::WHATSAPP;
+                    break;
+                default:
+                    $contact_type = Contact::PHONE;
+                    break;
+            }
+        } else {
+            $contact_type = Contact::PHONE;
+        }
+
         // Remove Non-Numeric characters because that's what the DB has
-        $to = preg_replace("/[^0-9,+.]/", "", $request->input('To'));
-        $from  = preg_replace("/[^0-9,+.]/", "", $request->input('From'));
+        $to = preg_replace("/[^0-9,+.]/", "", $to);
+        $from  = preg_replace("/[^0-9,+.]/", "", $from);
 
         $message_text = $request->input('Body');
         $message_sid  = $request->input('MessageSid');
@@ -45,7 +62,7 @@ class TwilioController extends DataSourceController
             'type' => MessageType::SMS,
             'from' => $from,
             'to' => $to,
-            'contact_type' => Contact::PHONE,
+            'contact_type' => $contact_type,
             'message' => $message_text,
             'title' => null,
             'data_source_message_id' => $message_sid,

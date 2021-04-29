@@ -197,19 +197,17 @@ The API supports Cross Origin Resource Sharing (CORS) for AJAX requests from any
 
 Here is what the CORS preflight request looks like
 
-```
-curl -i https://demo.api.ushahidi.io/api/v3/posts -H "Origin: http://example.com" -X OPTIONS
-HTTP/1.1 200 OK
-Access-Control-Allow-Origin: *
-Access-Control-Allow-Headers: Authorization, Content-type
-Allow: POST, GET, PUT, DELETE, OPTIONS
-Access-Control-Allow-Methods: POST, GET, PUT, DELETE, OPTIONS
-
-{
-    "allowed_privileges": [
-        "read",
-        "create",
-        "search"
-    ]
-}
-```
+    curl -i https://demo.api.ushahidi.io/api/v3/posts -H "Origin: http://example.com" -X OPTIONS
+    HTTP/1.1 200 OK
+    Access-Control-Allow-Origin: *
+    Access-Control-Allow-Headers: Authorization, Content-type
+    Allow: POST, GET, PUT, DELETE, OPTIONS
+    Access-Control-Allow-Methods: POST, GET, PUT, DELETE, OPTIONS
+    
+    {
+        "allowed_privileges": [
+            "read",
+            "create",
+            "search"
+        ]
+    }

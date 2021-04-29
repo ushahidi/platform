@@ -226,7 +226,7 @@ class Twitter implements IncomingAPIDataSource, OutgoingAPIDataSource
     }
 
     // DataSource
-    public function send($to, $message, $title = '')
+    public function send($to, $message, $title = '', $contact_type = null)
     {
         $connection = $this->connect();
 
