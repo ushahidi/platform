@@ -1,5 +1,7 @@
 <?php
 
+// TODO: maybe we should swap this for the standard Route::resource()
+//       (not clear yet what it does differently)
 if (!function_exists('resource')) {
     // Helper to generate routes similar to laravels Route::resource()
     function resource($router, $uri, $controller, array $options = [])
@@ -15,28 +17,31 @@ if (!function_exists('resource')) {
             $methods = array_diff($defaults, (array) $options['except']);
         }
 
+        // prefix for the routes
+        $options['as'] = $options['as'] ?? str_replace('/', '.', trim($uri, ' ./'));
+
         // Finally register the routes
         $router->group([
             'prefix' => $uri
         ] + $options, function () use ($router, $id, $methods, $controller) {
             if (in_array('index', $methods)) {
-                $router->get('/', $controller.'@index');
+                $router->get('/', [ 'as' => "index", 'uses' => $controller.'@index' ]);
             }
 
             if (in_array('store', $methods)) {
-                $router->post('/', $controller.'@store');
+                $router->post('/', [ 'as' => "store", 'uses' => $controller.'@store' ]);
             }
 
             if (in_array('show', $methods)) {
-                $router->get('/{'.$id.'}', $controller.'@show');
+                $router->get('/{'.$id.'}', [ 'as' => "show", 'uses' => $controller.'@show' ]);
             }
 
             if (in_array('update', $methods)) {
-                $router->put('/{'.$id.'}', $controller.'@update');
+                $router->put('/{'.$id.'}', [ 'as' => "update", 'uses' => $controller.'@update' ]);
             }
 
             if (in_array('destroy', $methods)) {
-                $router->delete('/{'.$id.'}', $controller.'@destroy');
+                $router->delete('/{'.$id.'}', [ 'as' => "destroy", 'uses' => $controller.'@destroy' ]);
             }
         });
     }
