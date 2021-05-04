@@ -92,6 +92,21 @@ class PostResource extends BaseResource
                 case 'translations':
                     $result['translations'] = new TranslationCollection($this->translations);
                     break;
+                case 'contact':
+                    $message = $this->message;
+                    if ($message) {
+                        $contact = $message->contact;
+                        if ($contact) {
+                            $result['contact'] = new ContactPointerResource($message->contact);
+                        }
+                    }
+                    break;
+                case 'message':
+                    $message = $this->message;
+                    if ($message) {
+                        $result['message'] = new MessagePointerResource($message);
+                    }
+                    break;
                 case 'enabled_languages':
                     $result['enabled_languages'] = [
                         'default'=> $this->base_language,
