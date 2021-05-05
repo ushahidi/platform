@@ -781,7 +781,6 @@ class RestContext implements Context
     {
         if ((string)$this->response->getStatusCode() !== $httpStatus) {
             $data = json_decode($this->response->getBody(true), true);
-            var_dump($data);
 
             throw new \Exception('HTTP code does not match '.$httpStatus.
                 ' (actual: '.$this->response->getStatusCode().')');

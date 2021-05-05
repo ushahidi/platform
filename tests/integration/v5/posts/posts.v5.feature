@@ -1,5 +1,6 @@
 @post @rolesEnabled
 Feature: Testing the Posts API
+
   @create @rolesEnabled
   Scenario: Creating a new Post
     Given that I want to make a new "Post"
@@ -185,6 +186,7 @@ Feature: Testing the Posts API
     And the "result.post_content.0.fields.15.value.value" property equals "https://google.com"
 #    And the "result.post_date" property equals "2016-10-14T23:18:27+00:00"
     Then the guzzle status code should be 201
+
   @create @rolesEnabled
   Scenario: Updating a Post
     Given that I want to update a "Post"
@@ -414,6 +416,7 @@ Feature: Testing the Posts API
     And the "result.post_content.0.fields.15.value.value" property equals "https://google-modified.com"
     And the "result.post_content.0.fields.15.value.translations.es.value" property equals "https://google-modified-es.com"
     Then the guzzle status code should be 200
+
   @create @rolesEnabled
   Scenario: Updating a Post to remove markdown field (id:25) and tags (id: 26)
     Given that I want to update a "Post"

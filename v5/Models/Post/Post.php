@@ -13,23 +13,22 @@
 
 namespace v5\Models\Post;
 
-use Illuminate\Notifications\Notifiable;
 use v5\Models\BaseModel;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
+use v5\Models\Helpers\HideTime;
+use v5\Models\Helpers\HideAuthor;
+use v5\Models\Scopes\PostAllowed;
+use Illuminate\Support\Collection;
+use Ushahidi\Core\Entity\Permission;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Validator;
 use Ushahidi\App\Repository\FormRepository;
 use Ushahidi\App\Validator\LegacyValidator;
-use Ushahidi\Core\Entity\Permission;
 use Ushahidi\Core\Tool\Permissions\InteractsWithFormPermissions;
 use Ushahidi\Core\Tool\Permissions\InteractsWithPostPermissions;
-use v5\Models\Helpers\HideAuthor;
-use v5\Models\Helpers\HideTime;
-use v5\Models\Scopes\PostAllowed;
 
 class Post extends BaseModel
 {
@@ -337,12 +336,12 @@ class Post extends BaseModel
             'post_content.*.fields.*.required' => [
                 function ($attribute, $value, $fail) {
                     if (!!$value) {
-                        $field_content = Input::get(str_replace('.required', '', $attribute));
+                        $field_content = request()->input(str_replace('.required', '', $attribute));
                         $label = $field_content['label'] ?: $field_content['id'];
-                        $get_value = Input::get(str_replace('.required', '.value.value', $attribute));
+                        $get_value = request()->input(str_replace('.required', '.value.value', $attribute));
                         $is_empty = (is_null($get_value) || $get_value === '');
-                        $is_title = Input::get(str_replace('.required', '.type', $attribute)) === 'title';
-                        $is_desc = Input::get(str_replace('.required', '.type', $attribute)) === 'description';
+                        $is_title = request()->input(str_replace('.required', '.type', $attribute)) === 'title';
+                        $is_desc = request()->input(str_replace('.required', '.type', $attribute)) === 'description';
                         if ($is_empty && !$is_desc && !$is_title) {
                             return $fail(
                                 trans('validation.required_by_label', [
@@ -355,7 +354,7 @@ class Post extends BaseModel
             ],
             'post_content.*.fields.*.type' => [
                 function ($attribute, $value, $fail) {
-                    $get_value = Input::get(str_replace('.type', '.value.value', $attribute));
+                    $get_value = request()->input(str_replace('.type', '.value.value', $attribute));
                     if ($value === 'tags' && !is_array($get_value)) {
                         return $fail(trans('validation.tag_field_must_be_array'));
                     }
