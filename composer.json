@@ -45,7 +45,7 @@
         "predis/predis": "~1.1",
         "illuminate/redis": "5.5.*",
         "willdurand/negotiation": "^2.3",
-        "ushahidi/gmail-support": "^0.1"
+        "ushahidi/gmail-support": "^0.2"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
