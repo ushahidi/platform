@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0871e1e344b04868b46c5d918bdbc4f4",
+    "content-hash": "5a96dd9df35916dcb3070034f67ab695",
     "packages": [
         {
             "name": "abraham/twitteroauth",
@@ -6821,16 +6821,16 @@
         },
         {
             "name": "ushahidi/gmail-support",
-            "version": "0.1.1",
+            "version": "0.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ushahidi/gmail-support.git",
-                "reference": "015bccaed27b7e5d8acebad1b959f2bc6a53256a"
+                "reference": "a06ad13d3c97fe36693587165325869100935b03"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ushahidi/gmail-support/zipball/015bccaed27b7e5d8acebad1b959f2bc6a53256a",
-                "reference": "015bccaed27b7e5d8acebad1b959f2bc6a53256a",
+                "url": "https://api.github.com/repos/ushahidi/gmail-support/zipball/a06ad13d3c97fe36693587165325869100935b03",
+                "reference": "a06ad13d3c97fe36693587165325869100935b03",
                 "shasum": ""
             },
             "require": {
@@ -6873,7 +6873,12 @@
                 }
             ],
             "description": "Support Gmail as Data Provider",
-            "time": "2021-04-25T08:00:38+00:00"
+            "support": {
+                "chat": "https://gitter.im/ushahidi/Community",
+                "issues": "https://github.com/ushahidi/gmail-support",
+                "source": "https://github.com/ushahidi/gmail-support"
+            },
+            "time": "2021-05-10T09:39:05+00:00"
         },
         {
             "name": "ushahidi/kohana-validation",
@@ -10381,5 +10386,5 @@
         "php": ">=7.2 <7.4"
     },
     "platform-dev": [],
-    "plugin-api-version": "1.1.0"
+    "plugin-api-version": "2.0.0"
 }
