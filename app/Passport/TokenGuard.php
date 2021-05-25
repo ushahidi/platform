@@ -164,8 +164,6 @@ class TokenGuard //implements Guard
             );
 
             return;
-        } catch (\Exception $e) {
-            throw $e;
         }
     }
 
