@@ -479,7 +479,7 @@ Feature: API Access Control Layer
     @private
     Scenario: Anonymous users cannot create posts when a deployment is private
         Given that I want to make a new "Post"
-        And that the oauth token is "testanon"
+        # And that the oauth token is "testanon"
         And that the request "data" is:
         """
         {

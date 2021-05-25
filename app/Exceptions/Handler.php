@@ -4,18 +4,14 @@ namespace Ushahidi\App\Exceptions;
 
 use Exception;
 use Throwable;
-use Illuminate\Validation\ValidationException as IlluminateValidationException;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Laravel\Lumen\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
-use Illuminate\Http\Exceptions\HttpResponseException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Laravel\Passport\Exceptions\OAuthServerException;
-use Illuminate\Auth\AuthenticationException;
-use Asm89\Stack\CorsService;
-use Illuminate\Http\Request;
+use Laravel\Passport\Exceptions\OAuthServerException as LaravelOAuthServerException;
+use League\OAuth2\Server\Exception\OAuthServerException as LeagueOAuthServerException;
 
 class Handler extends ExceptionHandler
 {
@@ -30,7 +26,7 @@ class Handler extends ExceptionHandler
         HttpException::class,
         ModelNotFoundException::class,
         IlluminateValidationException::class,
-        OAuthServerException::class,
+        LaravelOAuthServerException::class,
     ];
 
     /**
@@ -59,84 +55,59 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Throwable $e)
     {
-        // @todo we should try app('request') first but we can't guarantee its been created
-        $request = Request::capture();
-        
-        // First handle some special cases
-        if ($e instanceof HttpResponseException) {
-            // @todo check if we should still reformat this for json
-            return $e->getResponse();
-        } elseif ($e instanceof ModelNotFoundException) {
-            $e = new NotFoundHttpException($e->getMessage(), $e);
-        } elseif ($e instanceof AuthorizationException) {
-            $e = new HttpException(403, $e->getMessage());
-        } elseif ($e instanceof AuthenticationException) {
-            $e = new HttpException(401, $e->getMessage());
-        } elseif ($e instanceof IlluminateValidationException && $e->getResponse()) {
-            // @todo check if we should still reformat this for json
-            return $e->getResponse();
-        }
-
-        // If request asks for JSON then we return the error as JSON
-        if ($request->ajax() || $request->wantsJson()) {
-            $statusCode = 500;
-            $headers = [];
-
-            if ($e instanceof HttpExceptionInterface) {
-                $statusCode = $e->getStatusCode();
-                $headers = $e->getHeaders();
-            }
-
-            $defaultError = [
-                'status' => $statusCode
-            ];
-
-            $message = $e->getMessage();
-            if ($message) {
-                if (is_object($message)) {
-                    $message = $message->toArray();
-                }
-                $defaultError['message'] = $message;
-            }
-
-            $errors = [];
-            $errors[] = $defaultError;
-            if ($e instanceof ValidationException) {
-                foreach ($e->getErrors() as $key => $value) {
-                    $errors[] = [
-                        'status' => $statusCode,
-                        'title' => $value,
-                        'message' => $value,
-                        'source' => [
-                            'pointer' => "/" . $key
-                        ]
-                    ];
-                }
-            }
-
-            $response = response()->json([
-                'errors' => $errors
-            ], $statusCode, $headers);
-
-            // In the circumstance where an exception is raised
-            // before the lumen request cycle reaches the middleware stage,
-            // it is necessary to force the inclusion of the CORS headers.
-
-            // This uses the app's CORS config.
-            // This config must be loaded in the bootstrap process
-            // before exception handlers are expected to be used.
-            $options = config('cors');
-
-            if (! $response->headers->has('Access-Control-Allow-Origin')) {
-                // This CorsService relies on Asm89\Stack
-                $cors = new CorsService($options);
-                $response = $cors->addActualRequestHeaders($response, $request);
-            }
-
-
-            return $response;
-        }
-
         return parent::render($request, $e);
+    }
+
+    /**
+     * Prepare a JSON response for the given exception.
+     * If request asks for JSON then we return the error as JSON
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Throwable  $e
+     * @return \Illuminate\Http\JsonResponse
+     */
+    protected function prepareJsonResponse($request, Throwable $e)
+    {
+        if ($e instanceof HttpExceptionInterface) {
+            $headers = $e->getHeaders();
+            $statusCode = $e->getStatusCode();
+        } elseif ($e instanceof LeagueOAuthServerException) {
+            $headers = $e->getHttpHeaders();
+            // $authScheme = \strpos($request->header('Authorization')[0], 'Bearer') === 0 ? 'Bearer' : 'Basic';
+            // $headers['WWW-Authenticate'] = $authScheme . ' realm="OAuth"';
+            $statusCode = $e->getHttpStatusCode();
+        } else {
+            $headers = [];
+            $statusCode = 500;
+        }
+
+        $defaultError = [
+            'status' => $statusCode
+        ];
+
+        if ($message = $e->getMessage()) {
+            $defaultError['message'] = is_object($message) ? $message->toArray() : $message;
+        }
+
+        $errors[] = $defaultError;
+
+        if ($e instanceof ValidationException) {
+            foreach ($e->getErrors() as $key => $value) {
+                $errors[] = [
+                    'status' => $statusCode,
+                    'title' => $value,
+                    'message' => $value,
+                    'source' => [
+                        'pointer' => "/" . $key
+                    ]
+                ];
+            }
+        }
+
+        $response = response()->json([
+            'errors' => $errors
+        ], $statusCode, $headers);
+
+        return $response;
     }
 }

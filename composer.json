@@ -36,7 +36,6 @@
         "ushahidi/kohana-validation": "dev-master",
         "twilio/sdk": "^5.15",
         "nexmo/client": "^1.1",
-        "asm89/stack-cors": "~2.0",
         "predis/predis": "~1.1",
         "willdurand/negotiation": "^2.3",
         "illuminate/redis": "7.0.*",
@@ -135,9 +134,10 @@
             "behat --strict --profile ci"
         ],
         "test-dev": [
+            "@putenv XDEBUG_MODE=coverage",
             "phpunit --stop-on-failure",
             "phpspec run",
-            "behat --strict"
+            "behat --strict --verbose"
         ],
         "post-autoload-dump": [
             "captainhook install -f -s"

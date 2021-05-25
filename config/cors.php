@@ -17,7 +17,7 @@ return [
     |
     */
 
-    'supports_credentials' => false,
+    'supports_credentials' => true,
     'paths' => ['api/*', 'oauth/*'],
     'allowed_origins' => ['*'],
     'allowed_headers' => ['Authorization', 'Content-type', 'Accept'],

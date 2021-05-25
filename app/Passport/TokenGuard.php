@@ -17,7 +17,8 @@ use League\OAuth2\Server\ResourceServer;
 //use Illuminate\Contracts\Auth\UserProvider;
 use Illuminate\Contracts\Encryption\Encrypter;
 use Illuminate\Contracts\Debug\ExceptionHandler;
-use Laravel\Passport\Exceptions\OAuthServerException;
+use Laravel\Passport\Exceptions\OAuthServerException as LaravelOAuthServerException;
+use League\OAuth2\Server\Exception\OAuthServerException as LeagueOAuthServerException;
 use Symfony\Bridge\PsrHttpMessage\Factory\PsrHttpFactory;
 use Nyholm\Psr7\Factory\Psr17Factory;
 
@@ -148,7 +149,7 @@ class TokenGuard //implements Guard
             $user = new \Ushahidi\App\Auth\GenericUser($user->asArray());
 
             return $token ? $user->withAccessToken($token) : null;
-        } catch (OAuthServerException $e) {
+        } catch (LaravelOAuthServerException | LeagueOAuthServerException $e) {
             // Log the error
             Container::getInstance()->make(
                 ExceptionHandler::class
@@ -163,6 +164,8 @@ class TokenGuard //implements Guard
             );
 
             return;
+        } catch (\Exception $e) {
+            throw $e;
         }
     }
 

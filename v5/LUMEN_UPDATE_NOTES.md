@@ -161,3 +161,8 @@ Package satooshi/php-coveralls is abandoned, you should avoid using it. Use php-
 
 - `satooshi/php-coveralls` was replaced by `php-coveralls/php-coveralls`
 - The rest are dependencies of other non-abandoned dependencies so we are not replaceing them yet.
+
+- Removed repeat code snippets from `app/Exceptions/Handler.php` that exists already Lumen Exception Handler class
+- Set `supports_credentials` value to true in cors.php
+- Notes on changes to Passport https://jianjye.medium.com/how-to-fix-invalid-grant-error-with-laravel-passport-607ec923c8b3
+- Update `authenticateViaBearerToken` method on App\Passport\TokenGuard to catch League OAuthServerException
