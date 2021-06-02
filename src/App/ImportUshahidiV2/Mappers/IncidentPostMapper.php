@@ -273,7 +273,12 @@ class IncidentPostMapper implements Mapper
                     ]
                 );
 
-                $value = $this->stringToDatatype($response->form_response, $v3Type, $mapping->mapping_metadata);
+                $value = $this->stringToDatatype(
+                    $response->form_response,
+                    $v3Type,
+                    $v3AttrInput,
+                    $mapping->mapping_metadata
+                );
 
                 // Append the value
                 if ($value !== '') {
@@ -376,12 +381,17 @@ class IncidentPostMapper implements Mapper
         return $the_texts;
     }
 
-    protected function stringToDatatype($data, $type, $mappingMeta = [])
+    protected function stringToDatatype($data, $type, $attrInput, $mappingMeta = [])
     {
         switch ($type) {
             case 'text':
             case 'varchar':
-                return $data;
+                if ($attrInput == "checkboxes") {
+                    // v3+ now JSON-encodes the selected checkbox values
+                    return json_encode(array_filter(array_map("trim", explode(",", $data))));
+                } else {
+                    return $data;
+                }
             case 'integer':
                 if (is_numeric(trim($data))) {
                     return intval(trim($data));
