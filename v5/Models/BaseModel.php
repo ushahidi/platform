@@ -58,6 +58,18 @@ class BaseModel extends Model
         // (note this gives us a regex-safe string)
         $slug = Str::slug($value);
 
+        // since it's required for the models, make sure we've got some sort of slug
+        // (fallback if Str::slug fails to parse language)
+        if (!$slug) {
+            # "generated-" prefix, followed by three seven random character groups joined by hyphens
+            $slug = "generated-" . implode(
+                '-',
+                array_map(function () {
+                    return Str::random(7);
+                }, [1,2,3])
+            );
+        }
+
         // allowing there may already be several slugs with the same prefix, i.e.:
         //    popular-title, popular-title-1, .... , popular-title-99
         // query for the last one of them
