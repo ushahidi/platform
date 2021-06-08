@@ -47,6 +47,7 @@ class CSVImportController extends RestController
         $records = $reader->process($file);
 
         // Set map and fixed values for transformer
+        $transformer->setColumnNames($csv->columns);
         $transformer->setMap($csv->maps_to);
         $transformer->setFixedValues($csv->fixed);
 
