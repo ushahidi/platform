@@ -14,8 +14,14 @@
 namespace v5\Models\Post;
 
 use v5\Models\BaseModel;
-use Illuminate\Support\Arr;
+use v5\Models\Message;
+use v5\Models\Contact;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Illuminate\Support\Arr;
 use Illuminate\Validation\Rule;
 use v5\Models\Helpers\HideTime;
 use v5\Models\Helpers\HideAuthor;
@@ -45,6 +51,8 @@ class Post extends BaseModel
         'locks',
         'categories',
         'comments',
+        'message',
+        'contact',
         'post_content',
         'completed_stages',
         'translations',
@@ -70,7 +78,7 @@ class Post extends BaseModel
      *
      * @var string[]
      */
-    protected $with = ['translations'];
+    protected $with = ['message', 'translations'];
     protected $translations;
     /**
      * The attributes that should be hidden for serialization.
@@ -532,6 +540,17 @@ class Post extends BaseModel
     {
         return $this->hasMany('v5\Models\Comment', 'post_id', 'id');
     }
+
+    public function message()
+    {
+        return $this->hasOne(Message::class);
+    }
+
+    // public function contact()
+    // {
+    //     // Lumen 5.8+:
+    //     // return $this->hasOneThrough(Message::class, Contact::class);
+    // }
 
     protected static function valueTypesRelationships()
     {
