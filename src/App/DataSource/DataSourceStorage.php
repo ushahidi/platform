@@ -11,7 +11,10 @@ namespace Ushahidi\App\DataSource;
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
+use Illuminate\Support\Facades\Log;
+
 use Ushahidi\Core\Entity\MessageRepository;
+
 use Ushahidi\Core\Usecase;
 
 class DataSourceStorage
@@ -55,32 +58,46 @@ class DataSourceStorage
     ) {
         $data_source = $source_id;
 
+        $payload = compact([
+            'type',
+            'from',
+            'message',
+            'to',
+            'title',
+            'datetime',
+            'data_source_message_id',
+            'data_source',
+            'contact_type',
+            'additional_data',
+            // Pass data for mapping inbound fields
+            // @todo these could come directly from the source but it ended up in a circular dependency
+            'inbound_form_id',
+            'inbound_fields'
+        ]);
         try {
-            return $this->receiveUsecase->setPayload(compact([
-                    'type',
-                    'from',
-                    'message',
-                    'to',
-                    'title',
-                    'datetime',
-                    'data_source_message_id',
-                    'data_source',
-                    'contact_type',
-                    'additional_data',
-                    // Pass data for mapping inbound fields
-                    // @todo these could come directly from the source but it ended up in a circular dependency
-                    'inbound_form_id',
-                    'inbound_fields'
-                ]))
+            return $this->receiveUsecase->setPayload($payload)
                 ->interact();
         } catch (\Ushahidi\Core\Exception\NotFoundException $e) {
-            abort(404, $e->getMessage());
+            Log::error($e->getMessage(), $payload);
+            if (!app()->runningInConsole()) {
+                abort(404, $e->getMessage());
+            }
         } catch (\Ushahidi\Core\Exception\AuthorizerException $e) {
-            abort(403, $e->getMessage());
+            Log::error($e->getMessage(), $payload);
+            if (!app()->runningInConsole()) {
+                abort(403, $e->getMessage());
+            }
         } catch (\Ushahidi\Core\Exception\ValidatorException $e) {
-            abort(422, 'Validation Error: ' . $e->getMessage() . '; ' .  implode(', ', $e->getErrors()));
+            $payload['errors'] = $e->getErrors();
+            Log::error($e->getMessage(), $payload);
+            if (!app()->runningInConsole()) {
+                abort(422, 'Validation Error: ' . $e->getMessage() . '; ' .  implode(', ', $e->getErrors()));
+            }
         } catch (\InvalidArgumentException $e) {
-            abort(400, 'Bad request: ' . $e->getMessage() . '; ' . implode(', ', $e->getErrors()));
+            Log::error($e->getMessage(), $payload);
+            if (!app()->runningInConsole()) {
+                abort(400, 'Bad request: ' . $e->getMessage());
+            }
         }
     }
 

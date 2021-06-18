@@ -11,6 +11,7 @@
 
 namespace Tests\Unit\App\DataSource;
 
+use Illuminate\Support\Facades\Log;
 use Tests\TestCase;
 use Mockery as M;
 
@@ -79,9 +80,6 @@ class DataSourceStorageTest extends TestCase
         $this->assertEquals(['id' => 1], $result);
     }
 
-    /**
-     * @expectedException Symfony\Component\HttpKernel\Exception\NotFoundHttpException
-     */
     public function testFailedReceive()
     {
         $storage = new DataSourceStorage($this->usecase, $this->messageRepo);
@@ -105,12 +103,12 @@ class DataSourceStorageTest extends TestCase
             ])
             ->andReturn($this->usecase);
 
-        $e = M::spy(\Ushahidi\Core\Exception\NotFoundException::class);
+        Log::spy();
 
         $this->usecase
             ->shouldReceive('interact')
             ->once()
-            ->andThrow($e);
+            ->andThrow(\Ushahidi\Core\Exception\NotFoundException::class);
 
         $storage->receive(
             'smssync',
@@ -127,8 +125,7 @@ class DataSourceStorageTest extends TestCase
             ['Title' => 'somekey']
         );
 
-        $e->shouldHaveReceived('getMessage')->once();
-
+        Log::shouldHaveReceived('error')->once();
         // @todo test other errors and validate error message
     }
 
