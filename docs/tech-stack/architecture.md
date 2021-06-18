@@ -4,13 +4,13 @@
 
 At a high level Ushahidi consumes messages from various channels \(SMS, Email, Twitter, our own web interface\), transforms these into posts. Ushahidi core stores and exposes this data in a REST API. The primary consumers of the REST API are our web client and mobile app.
 
-![Data Flow](../.gitbook/assets/data-flow-1%20%282%29.png) [source](https://www.planttext.com/?text=RP71Ri8m38RlVWehf-sGDq0LQ6CI1n2YJ3jKFGIQKaiXGOsd7YRU7RTgkmKj1ylvVyVvd2mZcvQ_hmw0YPt5pzYOXYh2TyC6Frpe08fZHyosBQ78jxd4zTMGAm5yg2ogwOZ27q1PBw-u3v6dN1tM-H5N-ur24x7VI3wRky1Kqzam1H_L80-Xc47UGcjBk0l6Dfn845Utcp1ysHDkl53LvYp-BwHkwTAmpWQ64JNL-Y4I1VeuASytmuYyqCxM__d5M50kvXPFS7ygidIAj9UkGkTrbhm9mDBwIdxe0G00)
+![Data Flow](../.gitbook/assets/data-flow%20%286%29.png) [source](https://www.planttext.com/?text=RP71Ri8m38RlVWehf-sGDq0LQ6CI1n2YJ3jKFGIQKaiXGOsd7YRU7RTgkmKj1ylvVyVvd2mZcvQ_hmw0YPt5pzYOXYh2TyC6Frpe08fZHyosBQ78jxd4zTMGAm5yg2ogwOZ27q1PBw-u3v6dN1tM-H5N-ur24x7VI3wRky1Kqzam1H_L80-Xc47UGcjBk0l6Dfn845Utcp1ysHDkl53LvYp-BwHkwTAmpWQ64JNL-Y4I1VeuASytmuYyqCxM__d5M50kvXPFS7ygidIAj9UkGkTrbhm9mDBwIdxe0G00)
 
 ## Application tiers
 
 The Platform is split into 3 layers: Presentation \(Client / Web interface\), Services \(API\), and Data.
 
-![Application tiers](../.gitbook/assets/app-tiers-1.png) \[source\]\([http://www.nomnoml.com/\#view/%23title%3A Application Tiers](http://www.nomnoml.com/#view/%23title%3A%20Application%20Tiers)
+![Application tiers](../.gitbook/assets/app-tiers%20%281%29.png) \[source\]\([http://www.nomnoml.com/\#view/%23title%3A Application Tiers](http://www.nomnoml.com/#view/%23title%3A%20Application%20Tiers)
 
 \[Presentation\| %20%20%20%20\[AngularJS\] %20%20%20%20\[Endpoints\] \]
 
@@ -50,11 +50,11 @@ Within the API there are two layers: the delivery and the business logic \(core 
 
 Within the core application, we use generally follow the [Clean Architecture](http://blog.8thlight.com/uncle-bob/2012/08/13/the-clean-architecture.html). The central part of the business logic is defined as use cases and entities. All dependencies flow inwards towards the entities, which have no dependencies.
 
-![Software architecture layers](../.gitbook/assets/arch-layers-1%20%281%29.png)
+![Software architecture layers](../.gitbook/assets/arch-layers%20%285%29.png)
 
 In order to bring user input to the use cases, we pass simple data structures from the delivery layer into the use case. The request structure is a simple array and contains all of the inputs for that specific use case. Once the usecase is complete it returns another simple data structure \(response\) back to the delivery layer for conversion via a Formatter. Data flow within the platform can be visualized as:
 
-![API Request Flow](../.gitbook/assets/api-request-flow-1.png) \[source\]\([http://www.nomnoml.com/\#view/%23title%3A General API request flow](http://www.nomnoml.com/#view/%23title%3A%20General%20API%20request%20flow)
+![API Request Flow](../.gitbook/assets/api-request-flow.png) \[source\]\([http://www.nomnoml.com/\#view/%23title%3A General API request flow](http://www.nomnoml.com/#view/%23title%3A%20General%20API%20request%20flow)
 
 \[app\]-&gt;\[Kohana\] \[Kohana\]-&gt;\[Controller\] \[Controller\]-&gt;\[request\] \[request\]-&gt;\[Usecase\] \[Usecase\]-&gt;\[response\] \[response\]-&gt;\[OutputFormatter\] \[OutputFormatter\]-&gt;\[json\]
 

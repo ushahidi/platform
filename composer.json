@@ -81,7 +81,8 @@
     "autoload": {
         "psr-4": {
             "Ushahidi\\": "src/",
-            "Ushahidi\\App\\": "app/"
+            "Ushahidi\\App\\": "app/",
+            "v5\\": "v5/"
         },
         "files": [
             "app/helpers.php"
@@ -135,9 +136,9 @@
             "behat --strict --profile ci"
         ],
         "test-dev": [
-            "phpunit --stop-on-failure",
-            "phpspec run",
-            "behat --strict"
+                "phpunit --stop-on-failure",
+                "phpspec run",
+                "behat --strict"
         ],
         "post-install-cmd": [
             "\\SebastianFeldmann\\CaptainHook\\Composer\\Cmd::install",
@@ -155,6 +156,12 @@
         ],
         "installdebug:disable": [
             "\\Ushahidi\\App\\PlatformVerifier\\DebugMode::disable"
+        ],
+        "snowboard-v3-serve" : [
+            "snowboard http docs/api/index.apib"
+        ],
+        "snowboard-v5-serve" : [
+            "snowboard http docs/api/v5/index.apib"
         ]
     }
 }

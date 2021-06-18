@@ -11,7 +11,7 @@ The setup in this guide is demonstrated in below video as well if you want to wa
 This guide relies heavily on Vagrant and assumes some previous knowledge of how to use and/or troubleshoot vagrant.
 
 {% hint style="info" %}
-If you want to learn more about vagrant, please refer to their docs here [https://www.vagrantup.com/intro/getting-started/index.html](https://www.vagrantup.com/intro/getting-started/index.html)
+If you want to learn more about vagrant, please refer to their docs here [https://learn.hashicorp.com/vagrant](https://learn.hashicorp.com/vagrant)
 {% endhint %}
 
 ## Prerequisites
@@ -119,7 +119,7 @@ cd ~/Code/platform-api
 ```
 
 ```bash
-sudo update-alternatives --set php /usr/bin/php7.1
+sudo update-alternatives --set php /usr/bin/php7.3
 ```
 
 ```bash

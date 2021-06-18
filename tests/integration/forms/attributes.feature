@@ -162,7 +162,7 @@ Feature: Testing the Form Attributes API
                 "priority":1
             }
             """
-        And that its "id" is "40"
+        And that its "id" is "450"
         When I request "/forms/1/attributes"
         Then the response is JSON
         And the response has a "errors" property
@@ -185,7 +185,7 @@ Feature: Testing the Form Attributes API
         Then the response is JSON
         And the response has a "count" property
         And the type of the "count" property is "numeric"
-        And the "count" property equals "37"
+        And the "count" property equals "52"
         Then the guzzle status code should be 200
 
     Scenario: Search for point attributes

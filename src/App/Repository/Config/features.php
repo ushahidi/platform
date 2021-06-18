@@ -48,6 +48,11 @@ return [
         'enabled' => true,
     ],
 
+    // Disable Registration
+    'disable_registration' => [
+        'enabled' => true,
+    ],
+
     // Roles
     'roles' => [
         'enabled' => true,
@@ -89,4 +94,9 @@ return [
     'anonymise-reporters' => [
         'enabled' => true,
     ],
+
+    // Enable or disable donations via web monetizations
+    'donation' => [
+        'enabled' => false
+    ]
 ];

@@ -75,6 +75,7 @@ return [
             'prefix'    => env('DB_PREFIX', ''),
             'timezone'  => env('DB_TIMEZONE', '+00:00'),
             'strict'    => env('DB_STRICT_MODE', true),
+            'socket'    => env('DB_SOCKET', '')
         ],
 
         'pgsql' => [

@@ -19,7 +19,7 @@ There are many ways to get involved with Ushahidi, and some of them are great fo
 
 ### 🦠 I want to contribute to your work on COVID-19 response
 
-Ushahidi is open source software created for the benefit of a large global community improving the world for themselves and others, holding governments accountable, and raising their voices to be more powerful together.  As we see the COVID-19 pandemic wreak havoc globally, we have also seen a large interest and use of our tools. Today, we are reaching out to technologists everywhere to ask for your help to make Ushahidi Platform better. Head over to our [COVID-19 specific page](covid.md) to learn more on how you can support us helping our users.
+Ushahidi is open source software created for the benefit of a large global community improving the world for themselves and others, holding governments accountable, and raising their voices to be more powerful together. As we see the COVID-19 pandemic wreak havoc globally, we have also seen a large interest and use of our tools. Today, we are reaching out to technologists everywhere to ask for your help to make Ushahidi Platform better. Head over to our [COVID-19 specific page](covid.md) to learn more on how you can support us helping our users.
 
 ### 📝 **I am interested in writing documentation**
 
