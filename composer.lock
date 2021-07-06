@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5a96dd9df35916dcb3070034f67ab695",
+    "content-hash": "ba496f0bc5d1a7fff0aa58a51ec8c749",
     "packages": [
         {
             "name": "abraham/twitteroauth",
@@ -6821,16 +6821,16 @@
         },
         {
             "name": "ushahidi/gmail-support",
-            "version": "0.2.0",
+            "version": "0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ushahidi/gmail-support.git",
-                "reference": "a06ad13d3c97fe36693587165325869100935b03"
+                "reference": "a09abbed44affe92ad7a2ae8757fbb0caec52186"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ushahidi/gmail-support/zipball/a06ad13d3c97fe36693587165325869100935b03",
-                "reference": "a06ad13d3c97fe36693587165325869100935b03",
+                "url": "https://api.github.com/repos/ushahidi/gmail-support/zipball/a09abbed44affe92ad7a2ae8757fbb0caec52186",
+                "reference": "a09abbed44affe92ad7a2ae8757fbb0caec52186",
                 "shasum": ""
             },
             "require": {
@@ -6878,7 +6878,7 @@
                 "issues": "https://github.com/ushahidi/gmail-support",
                 "source": "https://github.com/ushahidi/gmail-support"
             },
-            "time": "2021-05-10T09:39:05+00:00"
+            "time": "2021-07-05T09:11:08+00:00"
         },
         {
             "name": "ushahidi/kohana-validation",
@@ -10386,5 +10386,5 @@
         "php": ">=7.2 <7.4"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.0.0"
+    "plugin-api-version": "2.1.0"
 }
