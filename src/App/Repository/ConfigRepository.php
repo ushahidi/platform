@@ -177,7 +177,8 @@ class ConfigRepository implements
             'test',
             'data-provider',
             'map',
-            'twitter'
+            'twitter',
+            'gmail'
         ];
     }
 

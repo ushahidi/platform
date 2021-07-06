@@ -32,7 +32,8 @@ return [
         'outgoingemail' => true,
         'twilio' => true,
         'nexmo' => true,
-        'testservice' => false
+        'testservice' => false,
+        'gmail' => true
     ],
 
     // Client limits
@@ -97,6 +98,12 @@ return [
 
     // Enable or disable donations via web monetizations
     'donation' => [
+        'enabled' => true
+    ],
+
+    // Enable or disable Gmail Support
+    // Controls whether the users can set gmail credentials
+    'gmail-support' => [
         'enabled' => false
     ]
 ];

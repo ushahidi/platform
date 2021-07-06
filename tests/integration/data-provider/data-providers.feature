@@ -7,7 +7,7 @@ Feature: Testing the DataProviders API
 		Then the response is JSON
 		And the response has a "count" property
 		And the type of the "count" property is "numeric"
-		And the "count" property equals "6"
+		And the "count" property equals "7"
 		Then the guzzle status code should be 200
 
 	Scenario: Get A Particular Data Provider

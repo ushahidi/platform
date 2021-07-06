@@ -18,7 +18,12 @@ return [
         'twilio' => false,
         'nexmo' => false,
         'twitter' => false,
-        'frontlinesms' => false
+        'frontlinesms' => false,
+        'gmail' => false
+    ],
+
+    'authenticable-providers' => [
+        'gmail' => true
     ],
 
     // Config params for individual providers
@@ -57,4 +62,8 @@ return [
     'twitter'      => [],
     'nexmo'        => [],
     'frontlinesms' => [],
+    'gmail'        => [
+        'redirect_uri' => 'urn:ietf:wg:oauth:2.0:oob',
+        'authenticated' => false
+    ],
 ];
