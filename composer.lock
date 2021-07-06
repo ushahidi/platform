@@ -6821,16 +6821,16 @@
         },
         {
             "name": "ushahidi/gmail-support",
-            "version": "0.3",
+            "version": "0.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ushahidi/gmail-support.git",
-                "reference": "a09abbed44affe92ad7a2ae8757fbb0caec52186"
+                "reference": "7cdc30bdf945c2662c108770fdddd18a3e7cf366"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ushahidi/gmail-support/zipball/a09abbed44affe92ad7a2ae8757fbb0caec52186",
-                "reference": "a09abbed44affe92ad7a2ae8757fbb0caec52186",
+                "url": "https://api.github.com/repos/ushahidi/gmail-support/zipball/7cdc30bdf945c2662c108770fdddd18a3e7cf366",
+                "reference": "7cdc30bdf945c2662c108770fdddd18a3e7cf366",
                 "shasum": ""
             },
             "require": {
@@ -6878,7 +6878,7 @@
                 "issues": "https://github.com/ushahidi/gmail-support",
                 "source": "https://github.com/ushahidi/gmail-support"
             },
-            "time": "2021-07-05T09:11:08+00:00"
+            "time": "2021-07-06T13:37:44+00:00"
         },
         {
             "name": "ushahidi/kohana-validation",
