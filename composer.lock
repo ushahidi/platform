@@ -6821,16 +6821,16 @@
         },
         {
             "name": "ushahidi/gmail-support",
-            "version": "0.3.1",
+            "version": "0.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ushahidi/gmail-support.git",
-                "reference": "7cdc30bdf945c2662c108770fdddd18a3e7cf366"
+                "reference": "d8fc3477287ee4f915eb8c11d25b5b7c808828b1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ushahidi/gmail-support/zipball/7cdc30bdf945c2662c108770fdddd18a3e7cf366",
-                "reference": "7cdc30bdf945c2662c108770fdddd18a3e7cf366",
+                "url": "https://api.github.com/repos/ushahidi/gmail-support/zipball/d8fc3477287ee4f915eb8c11d25b5b7c808828b1",
+                "reference": "d8fc3477287ee4f915eb8c11d25b5b7c808828b1",
                 "shasum": ""
             },
             "require": {
@@ -6873,12 +6873,7 @@
                 }
             ],
             "description": "Support Gmail as Data Provider",
-            "support": {
-                "chat": "https://gitter.im/ushahidi/Community",
-                "issues": "https://github.com/ushahidi/gmail-support",
-                "source": "https://github.com/ushahidi/gmail-support"
-            },
-            "time": "2021-07-06T13:37:44+00:00"
+            "time": "2021-07-19T09:13:53+00:00"
         },
         {
             "name": "ushahidi/kohana-validation",
@@ -7872,6 +7867,7 @@
                 "faker",
                 "fixtures"
             ],
+            "abandoned": true,
             "time": "2019-12-12T13:22:17+00:00"
         },
         {
@@ -9011,6 +9007,7 @@
             "keywords": [
                 "tokenizer"
             ],
+            "abandoned": true,
             "time": "2017-11-27T05:48:46+00:00"
         },
         {
@@ -10324,12 +10321,12 @@
             "version": "1.9.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/webmozart/assert.git",
+                "url": "https://github.com/webmozarts/assert.git",
                 "reference": "bafc69caeb4d49c39fd0779086c03a3738cbb389"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webmozart/assert/zipball/bafc69caeb4d49c39fd0779086c03a3738cbb389",
+                "url": "https://api.github.com/repos/webmozarts/assert/zipball/bafc69caeb4d49c39fd0779086c03a3738cbb389",
                 "reference": "bafc69caeb4d49c39fd0779086c03a3738cbb389",
                 "shasum": ""
             },
@@ -10386,5 +10383,5 @@
         "php": ">=7.2 <7.4"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.1.0"
+    "plugin-api-version": "1.1.0"
 }
