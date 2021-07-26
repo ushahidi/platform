@@ -6821,16 +6821,16 @@
         },
         {
             "name": "ushahidi/gmail-support",
-            "version": "0.3.2",
+            "version": "0.3.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ushahidi/gmail-support.git",
-                "reference": "d8fc3477287ee4f915eb8c11d25b5b7c808828b1"
+                "reference": "f0c38546228a5cbe90ff3b508743097369c7f773"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ushahidi/gmail-support/zipball/d8fc3477287ee4f915eb8c11d25b5b7c808828b1",
-                "reference": "d8fc3477287ee4f915eb8c11d25b5b7c808828b1",
+                "url": "https://api.github.com/repos/ushahidi/gmail-support/zipball/f0c38546228a5cbe90ff3b508743097369c7f773",
+                "reference": "f0c38546228a5cbe90ff3b508743097369c7f773",
                 "shasum": ""
             },
             "require": {
@@ -6873,7 +6873,7 @@
                 }
             ],
             "description": "Support Gmail as Data Provider",
-            "time": "2021-07-19T09:13:53+00:00"
+            "time": "2021-07-22T08:22:08+00:00"
         },
         {
             "name": "ushahidi/kohana-validation",
