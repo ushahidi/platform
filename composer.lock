@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ba496f0bc5d1a7fff0aa58a51ec8c749",
+    "content-hash": "e98f799369f59ebc933bed58bc89b7ea",
     "packages": [
         {
             "name": "abraham/twitteroauth",
@@ -6821,7 +6821,7 @@
         },
         {
             "name": "ushahidi/gmail-support",
-            "version": "0.3.3",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ushahidi/gmail-support.git",
@@ -10374,6 +10374,7 @@
         "league/event": 20,
         "beheh/flaps": 20,
         "ushahidi/kohana-validation": 20,
+        "ushahidi/gmail-support": 20,
         "heroku/heroku-buildpack-php": 20,
         "satooshi/php-coveralls": 20
     },
