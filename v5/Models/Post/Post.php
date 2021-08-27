@@ -1,4 +1,5 @@
 <?php
+
 /**
  * *
  *  * Ushahidi Acl
@@ -14,26 +15,13 @@
 namespace v5\Models\Post;
 
 use v5\Models\BaseModel;
-use v5\Models\Message;
-use v5\Models\Contact;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Str;
 use Illuminate\Support\Arr;
+use v5\Models\Post\PostStatus;
 use Illuminate\Validation\Rule;
 use v5\Models\Helpers\HideTime;
 use v5\Models\Helpers\HideAuthor;
-use v5\Models\Scopes\PostAllowed;
 use Illuminate\Support\Collection;
-use Ushahidi\Core\Entity\Permission;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\Validator;
-use Ushahidi\App\Repository\FormRepository;
 use Ushahidi\App\Validator\LegacyValidator;
-use Ushahidi\Core\Tool\Permissions\InteractsWithFormPermissions;
 use Ushahidi\Core\Tool\Permissions\InteractsWithPostPermissions;
 
 class Post extends BaseModel
@@ -58,7 +46,9 @@ class Post extends BaseModel
         'translations',
         'enabled_languages'
     ];
+
     public $errors;
+
     /**
      * Add eloquent style timestamps
      *
@@ -79,18 +69,19 @@ class Post extends BaseModel
      * @var string[]
      */
     protected $with = ['message', 'translations'];
+
     protected $translations;
+
     /**
      * The attributes that should be hidden for serialization.
      *
      * @var  array
      */
-    protected $hidden = [
-    ];
+    protected $hidden = [];
 
     /**
      * @var array
-    */
+     */
     protected $fillable = [
         'form_id',
         'user_id',
@@ -108,11 +99,12 @@ class Post extends BaseModel
         'created',
         'updated'
     ];
+
     /**
      * The model's default values for attributes.
      *
      * @var array
-    */
+     */
     protected $attributes = [
         'type'                => 'report',
         'locale'              => 'en_US',
@@ -229,7 +221,7 @@ class Post extends BaseModel
                 ]
             )
         ];
-    }//end validationMessages()
+    } //end validationMessages()
 
     /**
      * Get the error messages for the defined *bulk* validation rules.
@@ -256,7 +248,7 @@ class Post extends BaseModel
                 ['field' => 'id']
             ),
         ];
-    }//end bulkValidationMessages()
+    } //end bulkValidationMessages()
 
     /**
      * Get the error messages for the defined *bulk* validation rules.
@@ -282,7 +274,7 @@ class Post extends BaseModel
                 )
             ]
         );
-    }//end bulkValidationMessages()
+    } //end bulkValidationMessages()
 
     /**
      * Get the error messages for the defined *bulk* validation rules.
@@ -317,7 +309,7 @@ class Post extends BaseModel
             'title'            => [
                 'required',
                 'max:150',
-                'regex:'.LegacyValidator::REGEX_STANDARD_TEXT,
+                'regex:' . LegacyValidator::REGEX_STANDARD_TEXT,
             ],
             'slug'        => [
                 'required',
@@ -371,7 +363,7 @@ class Post extends BaseModel
             'locale',
             'post_date'
         ];
-    }//end getRules()
+    } //end getRules()
 
     /**
      * Get the post's translation.
@@ -379,8 +371,7 @@ class Post extends BaseModel
     public function translations()
     {
         return $this->morphMany('v5\Models\Translation', 'translatable');
-    }//end translations()
-
+    } //end translations()
 
     public function getUserIdAttribute($value)
     {
@@ -404,6 +395,7 @@ class Post extends BaseModel
             $this->getAttributeValue('user_id')
         );
     }
+
     /**
      * @return bool
      */
@@ -420,6 +412,7 @@ class Post extends BaseModel
         $time = HideTime::hideTime($value, $this->survey ? $this->survey->hide_time : true);
         return self::makeDate($time);
     }
+
     /**
      * @return bool
      */
@@ -543,7 +536,7 @@ class Post extends BaseModel
 
     public function message()
     {
-        return $this->hasOne(Message::class);
+        return $this->hasOne('v5\Models\Message');
     }
 
     // public function contact()
@@ -566,7 +559,7 @@ class Post extends BaseModel
             'Point',
             'Relation',
             'PostsMedia',
-//            'PostsSet',
+            //            'PostsSet',
             'PostTag'
         ];
         return array_map(function ($t) {
@@ -649,8 +642,7 @@ class Post extends BaseModel
 
     public function valuesPoint()
     {
-        return $this->hasMany('v5\Models\PostValues\PostPoint', 'post_id', 'id');
-        ;
+        return $this->hasMany('v5\Models\PostValues\PostPoint', 'post_id', 'id');;
     }
 
     public function valuesRelation()

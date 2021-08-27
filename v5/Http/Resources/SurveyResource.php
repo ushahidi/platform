@@ -1,13 +1,13 @@
 <?php
+
 namespace v5\Http\Resources;
 
-use Illuminate\Http\Resources\Json\Resource;
-use v5\Http\Controllers\SurveyController;
 use v5\Models\Survey;
 
 class SurveyResource extends BaseResource
 {
     public static $wrap = 'result';
+
     /*
      * @param  \Illuminate\Http\Request  $request
      * @return array
@@ -30,6 +30,7 @@ class SurveyResource extends BaseResource
             'can_create'
         ]);
     }
+
     private function hydrateResourceRelationships($request)
     {
         $hydrate = $this->getHydrate(Survey::$relationships, $request);
@@ -44,7 +45,7 @@ class SurveyResource extends BaseResource
                     break;
                 case 'enabled_languages':
                     $result['enabled_languages'] = [
-                        'default'=> $this->base_language,
+                        'default' => $this->base_language,
                         'available' => $this->translations->groupBy('language')->keys()
                     ];
                     break;
@@ -52,6 +53,7 @@ class SurveyResource extends BaseResource
         }
         return $result;
     }
+
     /**
      * Transform the resource into an array.
      *

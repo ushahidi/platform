@@ -1,8 +1,6 @@
 <?php
 namespace v5\Http\Resources;
 
-use Illuminate\Http\Resources\Json\Resource;
-
 class ForbiddenCategoryResource extends CategoryResource
 {
     public static $wrap = 'result';

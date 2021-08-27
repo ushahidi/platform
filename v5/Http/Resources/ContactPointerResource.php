@@ -1,9 +1,7 @@
 <?php
 namespace v5\Http\Resources;
 
-use Illuminate\Http\Resources\Json\Resource;
-
-class ContactPointerResource extends Resource
+class ContactPointerResource extends BaseResource
 {
     public function toArray($request)
     {

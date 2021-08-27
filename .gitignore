@@ -12,6 +12,7 @@ bin/*
 .floo
 .flooignore
 .sublime-project
+.phpunit.result.cache
 build/*
 puppet/modules
 Puppetfile.lock
