@@ -97,6 +97,6 @@ return [
 
     // Enable or disable donations via web monetizations
     'donation' => [
-        'enabled' => true
+        'enabled' => false
     ]
 ];
