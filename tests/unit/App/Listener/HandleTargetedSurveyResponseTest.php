@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\App\Listeners;
+namespace Tests\Unit\App\Listener;
 
 use Ushahidi\App\Listener\HandleTargetedSurveyResponse;
 use Ushahidi\Core\Entity\Message;

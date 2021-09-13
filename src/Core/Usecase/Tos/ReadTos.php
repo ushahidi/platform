@@ -11,7 +11,7 @@
 
 namespace Ushahidi\Core\Usecase\Tos;
 
-interface ReadTosRepository
+interface ReadTos
 {
     /**
      * @param  int $id
