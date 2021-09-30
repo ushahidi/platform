@@ -24,7 +24,7 @@ class AuthServiceProvider extends ServiceProvider
         Passport::ignoreMigrations();
 
         // Set token expiries
-        Passport::tokensExpireIn(Carbon::now()->addDays(1));
+        Passport::tokensExpireIn(Carbon::now()->addHours(15));
         Passport::refreshTokensExpireIn(Carbon::now()->addDays(7));
 
         // Register routes
