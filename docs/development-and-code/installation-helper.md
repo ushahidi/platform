@@ -37,7 +37,7 @@ Developers and advanced users that work with the source code, have an additional
 
 The requirements for this are having the Platform client source code downloaded, as well as the associated necessary development tools installed. The following guide can walk you through how to do that:
 
-{% page-ref page="setup\_alternatives/setting-up-the-platform-client.md" %}
+{% page-ref page="setup\_alternatives/setting-up-the-platform-client/" %}
 
 Once you are set up with this, the installer helper becomes available to you, both as the method described above and in the command-line:
 

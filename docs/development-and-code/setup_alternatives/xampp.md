@@ -344,5 +344,5 @@ As a result of the steps followed in this guide, the URL for the API backend is 
 
 With that clarified, please find below the link to the client set up guide.
 
-{% page-ref page="setting-up-the-platform-client.md" %}
+{% page-ref page="setting-up-the-platform-client/" %}
 

@@ -28,7 +28,7 @@ Deploy-ready versions from the platform-release repository, which contains produ
 
 ## Platform Client \(Frontend\) install guides
 
-{% page-ref page="setting-up-the-platform-client.md" %}
+{% page-ref page="setting-up-the-platform-client/" %}
 
 ## Platform Pattern Library \(HTML/CSS\) install guide
 

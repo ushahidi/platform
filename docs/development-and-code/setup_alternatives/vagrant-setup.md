@@ -161,5 +161,5 @@ Example JSON
 
 ### Installing the client
 
-Congratulations! You have set up the API. You may want now to [build and install the web client](setting-up-the-platform-client.md) for a full experience.
+Congratulations! You have set up the API. You may want now to [build and install the web client](setting-up-the-platform-client/) for a full experience.
 
