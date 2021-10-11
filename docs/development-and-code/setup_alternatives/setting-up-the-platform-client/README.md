@@ -1,19 +1,23 @@
-# \[Client\] Setting up the Platform Client for development
+# \[Client] Setting up the Platform Client for development
 
 ## What is the platform client?
 
-The web client is the component that end-users interact with when opening the Platform website with a web browser. The client interacts with the API in order to perform operations on the system \(i.e. submit posts, query posts\).
+The web client is the component that end-users interact with when opening the Platform website with a web browser. The client interacts with the API in order to perform operations on the system (i.e. submit posts, query posts).
 
-The Platform Client is currently using Angular JS 1.5.6 but since March 2021, we have started an incremental migration to another framework \(yet to be decided which\). We are using a micro frontend architecture and the code will be split up into different micro frontends, based on functionality. More information about the migration project can be found on the page [Migration from AngularJS](migration-from-angularjs.md).
+The Platform Client is currently using Angular JS 1.5.6 but since March 2021, we have started an incremental migration to another framework (yet to be decided which). We are using a micro frontend architecture and the code will be split up into different micro frontends, based on functionality. More information about the migration project can be found on the page [Migration from AngularJS](migration-from-angularjs.md).
 
 ## Installation steps
 
 {% hint style="warning" %}
+Pre-requisite: Install the platform API by following one of the API setup guides
+{% endhint %}
 
-{% page-ref page="../" %}
+{% content-ref url="../" %}
+[..](../)
+{% endcontent-ref %}
 
 {% hint style="warning" %}
-Pre-requisite: Install Node V10.x or higher \(you might want to use NVM for this\) before continuing.
+Pre-requisite: Install Node V10.x or higher (you might want to use NVM for this) before continuing.
 {% endhint %}
 
 ### **Getting the platform-client code**
@@ -58,8 +62,8 @@ If you haven't used git before or need help with git specific issues, make sure 
 
 * Install the platform-client dependencies.
 
-```text
-npm run install
+```
+npm run install:dev
 ```
 
 ### Configuring the client build
@@ -73,7 +77,7 @@ In Windows environments, you may find yourself struggling to create this file wi
 
 In that case, an easy way to create the file is by running the following command in the command prompt, when inside your `platform-client` folder:
 
-```text
+```
 type nul > .env
 ```
 
@@ -88,7 +92,7 @@ There is only one required variable that must be defined in your `.env` file, an
 
 As such, the minimal working `.env` file consists of just this variable.
 
-* In your `.env` file write the `BACKEND_URL` variable, corresponding to your Platform API URL address. This is an example, showing the format used, \(**don't** just copy & paste it to your file!\):
+* In your `.env` file write the `BACKEND_URL` variable, corresponding to your Platform API URL address. This is an example, showing the format used, (**don't** just copy & paste it to your file!):
 
 {% code title=".env" %}
 ```bash
@@ -106,13 +110,13 @@ If you have used one of our guides for setting up the API locally, check back th
 {% hint style="success" %}
 Take a minute here to make sure you have entered the proper URL and the API is working.
 
-From your `.env` file, copy the variable value \(the part starting with "[http://"\](http://"\)\) and paste it in your browser's address bar, then hit enter. As a result you should see something similar to this:
+From your `.env` file, copy the variable value (the part starting with "[http://"\\](http://")) and paste it in your browser's address bar, then hit enter. As a result you should see something similar to this:
 
-```text
+```
 {"now":"2019-02-04T10:52:25+00:00","version":"3","user":{"id":null,"email":null,"realname":null}}
 ```
 
-If you get an error, please make sure that your API server is up \(i.e. Apache and MySQL\), and go back to your Platform API installation notes to make sure you had the correct URL.
+If you get an error, please make sure that your API server is up (i.e. Apache and MySQL), and go back to your Platform API installation notes to make sure you had the correct URL.
 {% endhint %}
 
 ### Advanced: other configuration variables
@@ -124,9 +128,9 @@ You can **safely skip this section** if it's your first time setting up the clie
 {% endhint %}
 
 * The `PORT` variable specifies at which port the local development server should listen. The default for this variable is `3000`.
-* `TX_USERNAME` and `TX_PASSWORD`  are variables for configuring the credentials to the [Transifex](https://www.transifex.com/) service, which stores multi-lingual versions of the Platform client text displayed on the screen. These are only required if you are going to develop in languages other than English.
-* `APP_LANGUAGES` is a list of language codes \(in ISO-639-1 format\) to download from Transifex. For example `APP_LANGUAGES=sw,en,es` would enable the client to appear in Swahili, English and Spanish.
-* `OAUTH_CLIENT_ID` and `OAUTH_CLIENT_SECRET` are variables used during the process of authentication of a user against the API. You can ignore these 99% of the times. Also, these are not particularly secret nor provide much security. They just have to exist, and they do by default. \(If  you must know, their values default to `ushahidiui` and `35e7f0bca957836d05ca0492211b0ac707671261` respectively\)
+* `TX_USERNAME` and `TX_PASSWORD`  are variables for configuring the credentials to the [Transifex](https://www.transifex.com) service, which stores multi-lingual versions of the Platform client text displayed on the screen. These are only required if you are going to develop in languages other than English.
+* `APP_LANGUAGES` is a list of language codes (in ISO-639-1 format) to download from Transifex. For example `APP_LANGUAGES=sw,en,es` would enable the client to appear in Swahili, English and Spanish.
+* `OAUTH_CLIENT_ID` and `OAUTH_CLIENT_SECRET` are variables used during the process of authentication of a user against the API. You can ignore these 99% of the times. Also, these are not particularly secret nor provide much security. They just have to exist, and they do by default. (If  you must know, their values default to `ushahidiui` and `35e7f0bca957836d05ca0492211b0ac707671261` respectively)
 
 ## Running a local development server
 
@@ -134,18 +138,18 @@ The local development server is a web server that makes the platform client avai
 
 * Just run `npm run serve`:
 
-```text
+```
 npm run serve
 ```
 
 * And then wait until you see this message on the screen:
 
-```text
+```
  All clients have loaded.
  Ushahidi client is ready to be viewed at http://192.168.68.104:3000
 ```
 
-At that point, the client should be available to the browser on the address [http://localhost:3000](http://localhost:3000) \(unless you specified a`PORT` on your`.env`file\).
+At that point, the client should be available to the browser on the address [http://localhost:3000](http://localhost:3000) (unless you specified a`PORT` on your`.env`file).
 
 {% hint style="success" %}
 You are all set for developing, happy hacking!
@@ -182,7 +186,7 @@ export PATH=$HOME/bin:/usr/local/bin:node_modules/.bin:$PATH
 ```
 {% endcode %}
 
-## 
+##
 
 ## Appendix: Building for publication
 
@@ -201,4 +205,3 @@ This will start the process of generating the static site. Once the files are ge
 In the **server** directory you will also find an example nginx and an example apache2 file to help you with some of the web server configurations.
 
 Please note that you will also need to publish the Platform API, so those other devices can actually make any use of the Platform.
-
