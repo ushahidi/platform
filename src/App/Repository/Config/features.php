@@ -33,7 +33,7 @@ return [
         'twilio' => true,
         'nexmo' => true,
         'testservice' => false,
-        'gmail' => true
+        'gmail' => false
     ],
 
     // Client limits
