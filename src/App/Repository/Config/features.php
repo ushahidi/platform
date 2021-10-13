@@ -104,7 +104,7 @@ return [
     // Enable or disable Gmail Support
     // Controls whether the users can set gmail credentials through the datasource config
     //   true: Gmail API credentials are provided via system environment (GMAIL_CLIENT_ID and GMAIL_CLIENT_SECRET)
-    //   false: Credentials expected via the datasource configuration API 
+    //   false: Credentials expected via the datasource configuration API
     'gmail-support' => [
         'enabled' => filter_var(getenv('GMAIL_SUPPORT_PROVIDED'), FILTER_VALIDATE_BOOLEAN) ?? false
     ]
