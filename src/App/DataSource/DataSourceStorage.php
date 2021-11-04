@@ -98,6 +98,11 @@ class DataSourceStorage
             if (!app()->runningInConsole()) {
                 abort(400, 'Bad request: ' . $e->getMessage());
             }
+        } catch (\Exception $e) {
+            Log::error($e->getMessage(), $payload);
+            if (!app()->runningInConsole()) {
+                abort(500, 'Internal Server Error: ' . $e->getMessage());
+            }
         }
     }
 

@@ -6822,12 +6822,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ushahidi/gmail-support.git",
-                "reference": "b810695fbcadbde13ef9c0a39ef6fd54418706fe"
+                "reference": "57f23cd039d0c76021fbd5f94dfe2aeb9240e83c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ushahidi/gmail-support/zipball/b810695fbcadbde13ef9c0a39ef6fd54418706fe",
-                "reference": "b810695fbcadbde13ef9c0a39ef6fd54418706fe",
+                "url": "https://api.github.com/repos/ushahidi/gmail-support/zipball/57f23cd039d0c76021fbd5f94dfe2aeb9240e83c",
+                "reference": "57f23cd039d0c76021fbd5f94dfe2aeb9240e83c",
                 "shasum": ""
             },
             "require": {
@@ -6843,6 +6843,7 @@
                 "orchestra/testbench": "^3.5 || ^4.0 || ^5.0",
                 "phpunit/phpunit": "^5.0 || ^6.0 || ^7.0 || ^8.0 || ^9.0"
             },
+            "default-branch": true,
             "type": "library",
             "extra": {
                 "laravel": {
@@ -6870,7 +6871,12 @@
                 }
             ],
             "description": "Support Gmail as Data Provider",
-            "time": "2021-08-23T15:43:44+00:00"
+            "support": {
+                "chat": "https://gitter.im/ushahidi/Community",
+                "issues": "https://github.com/ushahidi/gmail-support",
+                "source": "https://github.com/ushahidi/gmail-support"
+            },
+            "time": "2021-11-04T14:23:16+00:00"
         },
         {
             "name": "ushahidi/kohana-validation",
@@ -10389,5 +10395,5 @@
         "php": ">=7.2 <7.4"
     },
     "platform-dev": [],
-    "plugin-api-version": "1.1.0"
+    "plugin-api-version": "2.1.0"
 }
