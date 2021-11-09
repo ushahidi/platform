@@ -1,6 +1,0 @@
-{
-  "phabricator.uri" : "https://phabricator.ushahidi.com/",
-  "repository.callsign" : "USH",
-  "unit.engine": "PhpunitTestEngine",
-  "unit.phpunit.binary": "bin/phpunit"
-}
