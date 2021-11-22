@@ -2,25 +2,19 @@
 
 namespace v5\Http\Controllers;
 
-use http\Env\Response;
-use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Http\JsonResponse;
+use v5\Models\Post\Post;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Auth;
-use mysql_xdevapi\Exception;
-use Ushahidi\App\Auth\GenericUser;
 use Illuminate\Http\Request;
+use v5\Common\ValidatorRunner;
+use v5\Exceptions\V5Exception;
+use v5\Models\Post\PostStatus;
 use v5\Events\PostCreatedEvent;
 use v5\Events\PostUpdatedEvent;
-use v5\Http\Resources\PostCollection;
-use v5\Http\Resources\PostResource;
-use v5\Models\Post\Post;
-use v5\Models\Post\PostStatus;
-use v5\Models\Translation;
-use v5\Exceptions\V5Exception;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
-use v5\Common\ValidatorRunner;
+use v5\Http\Resources\PostResource;
+use v5\Http\Resources\PostCollection;
+use Illuminate\Auth\Access\AuthorizationException;
 
 class PostController extends V5Controller
 {
@@ -134,7 +128,7 @@ class PostController extends V5Controller
             if ($post->tryAutoPublish()) {
                 $post->save();
             }
-                        
+
             $errors = $this->savePostValues($post, $input['post_content'], $post->id);
 
             if (!empty($errors)) {
