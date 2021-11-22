@@ -539,7 +539,12 @@ class Post extends BaseModel
 
     public function message()
     {
-        return $this->hasOne(Message::class);
+        return $this->hasOne('v5\Models\Message');
+    }
+
+    public function responses()
+    {
+        return $this->hasMany('v5\Models\Message', 'post_id', 'id');
     }
 
     // public function contact()

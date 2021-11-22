@@ -74,10 +74,12 @@ class PostResource extends BaseResource
         // that doesn't let me do guest user checks without adding more risk.
         return $authorizer->getAllowedPrivs($entity);
     }
+
     private function hydrateResourceRelationships($request)
     {
         $hydrate = $this->getHydrate(v5Post::$relationships, $request);
         $result = [];
+
         foreach ($hydrate as $relation) {
             switch ($relation) {
                 case 'categories':
@@ -104,6 +106,8 @@ class PostResource extends BaseResource
                 case 'message':
                     $message = $this->message;
                     if ($message) {
+                        $result['source'] = $this->message->type;
+                        $result['data_source_message_id'] = $this->message->data_source_message_id;
                         $result['message'] = new MessagePointerResource($message);
                     }
                     break;
