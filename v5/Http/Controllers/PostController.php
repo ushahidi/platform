@@ -407,10 +407,12 @@ class PostController extends V5Controller
             }
             foreach ($stage['fields'] as $field) {
                 $type = $field['type'];
-                $value = $field['value']['value'] ?? $field['value'];
+                $value = is_array($field['value']) && array_key_exists('value', $field['value'])
+                    ? $field['value']['value']
+                    : $field['value']; // Fall back to the field value if "value" key doesn't exist
                 if (!isset($value)) {
                     continue;
-                }
+                };
                 $value_translations = $field['value']['translations'] ?? [];
 
                 if ($type === 'tags') {
@@ -478,7 +480,7 @@ class PostController extends V5Controller
                 $validation = $post_value->validate();
 
                 if ($validation) {
-                    if ($update_id) {
+                    if ($update_id) { // If post value is an update
                         $post_value->update($data);
                         $this->updateTranslations(
                             new $class_name(),
