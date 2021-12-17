@@ -45,12 +45,16 @@ Feature: Testing the Posts API
                         {
                             "id": 5,
                             "type": "datetime",
-                            "value": "2020-06-01T07:04:10.921Z"
+                            "value": {
+                                "value": "2020-06-01T07:04:10.921Z"
+                            }
                         },
                         {
                             "id": 6,
                             "type": "datetime",
-                            "value": "2020-06-02T07:04:10.921Z"
+                            "value": {
+                                "value": "2020-06-02T07:04:10.921Z"
+                            }
                         },
                         {
                             "id": 7,
@@ -183,7 +187,7 @@ Feature: Testing the Posts API
     And the "result.post_content.0.fields.15.key" property equals "links"
     And the "result.post_content.0.fields.15.type" property equals "varchar"
     And the "result.post_content.0.fields.15.value.value" property equals "https://google.com"
-#    And the "result.post_date" property equals "2016-10-14T23:18:27+00:00"
+    #And the "result.post_date" property equals "2016-10-14T23:18:27+00:00"
     Then the guzzle status code should be 201
   @create @rolesEnabled
   Scenario: Updating a Post

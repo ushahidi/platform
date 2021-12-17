@@ -39,6 +39,7 @@ class PostResource extends BaseResource
 //            ],
         ]);
     }
+
     private function getResourcePostContent()
     {
 
@@ -74,6 +75,7 @@ class PostResource extends BaseResource
         // that doesn't let me do guest user checks without adding more risk.
         return $authorizer->getAllowedPrivs($entity);
     }
+
     private function hydrateResourceRelationships($request)
     {
         $hydrate = $this->getHydrate(v5Post::$relationships, $request);
