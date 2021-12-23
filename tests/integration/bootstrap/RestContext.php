@@ -359,6 +359,10 @@ class RestContext implements Context
 
         // Get response object
         $this->response = $response;
+
+        $data = json_decode($this->response->getBody(true), true);
+
+        var_dump($data);
     }
 
     /**

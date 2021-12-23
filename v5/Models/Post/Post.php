@@ -45,7 +45,9 @@ class Post extends BaseModel
         'translations',
         'enabled_languages'
     ];
+
     public $errors;
+    
     /**
      * Add eloquent style timestamps
      *
