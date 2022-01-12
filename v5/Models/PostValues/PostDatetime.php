@@ -25,6 +25,7 @@ class PostDatetime extends PostValue
      */
     protected $casts = [
         'metadata' => 'array',
+        'value' => 'date',
     ];
 
     /**
@@ -56,6 +57,10 @@ class PostDatetime extends PostValue
      */
     public function getValueAttribute($value)
     {
+        if ($this->metadata['is_date']) {
+            $this->casts['value'] = 'date';
+        }
+
         return HideTime::hideTime($value, $this->post->survey ? $this->post->survey->hide_time : true);
     }
 
