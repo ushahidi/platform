@@ -46,14 +46,18 @@ Feature: Testing the Posts API
                             "id": 5,
                             "type": "datetime",
                             "value": {
-                                "value": "2020-06-01T07:04:10.921Z"
+                                "value": "2020-06-01T07:04:10.921Z",
+                                "value_meta": {
+                                    "from_tz": "Africa/Nairobi",
+                                    "from_dst": false
+                                }
                             }
                         },
                         {
                             "id": 6,
                             "type": "datetime",
                             "value": {
-                                "value": "2020-06-02T07:04:10.921Z"
+                                "value": "2020-06-02"
                             }
                         },
                         {

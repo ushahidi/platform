@@ -27,10 +27,6 @@ class PostValueResource extends Resource
             'translations' => $this->translations ? new TranslationCollection($value_translations) : []
         ];
 
-        if (isset($this->metadata)) {
-            $data['value_meta'] = $this->metadata;
-        }
-
         return $data;
     }
 }

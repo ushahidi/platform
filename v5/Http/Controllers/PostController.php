@@ -413,6 +413,7 @@ class PostController extends V5Controller
                 if (!isset($value)) {
                     continue;
                 };
+                $value_meta = $field['value']['value_meta'] ?? [];
                 $value_translations = $field['value']['translations'] ?? [];
 
                 if ($type === 'tags') {
@@ -462,11 +463,15 @@ class PostController extends V5Controller
                 ];
 
                 if ($type === 'datetime') {
-                    if (strlen($value) === 10) { // it's a timestamp
-                        $data['metadata']['is_date'] = false;
+                    // We intend to save the request value as a datetime, we intend to know
+                    // what format the request value is either a date or timestamp
+                    if (strlen($value) == 10) {
+                        $data['metadata']['is_date'] = true; // it's a date
                     } else {
-                        $data['metadata']['is_date'] = true;
+                        $data['metadata']['is_date'] = false; // it's a timestamp
                     }
+
+                    $data['metadata'] = array_merge($data['metadata'], $value_meta);
                 }
 
                 foreach ($data as $k => $v) {
