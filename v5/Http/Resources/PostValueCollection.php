@@ -89,7 +89,7 @@ class PostValueCollection extends ResourceCollection
         $value_trans = new TranslationCollection($value['translations']);
         $value = $value->makeHidden('attribute')->makeHidden('post')->toArray();
         $value['translations'] = $value_trans;
-        if (isset($value['metatada'])) {
+        if (isset($value['metadata'])) {
             $value['value_meta'] = $value['metadata'];
             unset($value['metadata']);
         }
