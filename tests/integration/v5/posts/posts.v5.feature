@@ -408,7 +408,7 @@ Feature: Testing the Posts API
     And the "result.post_content.0.fields.6.value.0.id" property equals "1"
     And the "result.post_content.0.fields.6.value.0.tag" property equals "Test tag"
     And the "result.post_content.0.fields.7.type" property equals "datetime"
-    And the "result.post_content.0.fields.7.value.value" property equals "2019-02-02T00:00:00+0000"
+    And the "result.post_content.0.fields.7.value.value" property equals "2019-02-02"
     And the "result.post_content.0.fields.10.type" property equals "varchar"
     And the "result.post_content.0.fields.10.key" property equals "last_location"
     And the "result.post_content.0.fields.10.value.value" property equals "Atlantis"
