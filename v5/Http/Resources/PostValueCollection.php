@@ -91,6 +91,9 @@ class PostValueCollection extends ResourceCollection
         $value['translations'] = $value_trans;
         if (isset($value['metadata'])) {
             $value['value_meta'] = $value['metadata'];
+            if (isset($value['value_meta']['is_date']) && $value['value_meta']['is_date'] == true) {
+                $value['value'] = date("Y-m-d", strtotime($value['value']));
+            }
             unset($value['metadata']);
         }
         return $value;
