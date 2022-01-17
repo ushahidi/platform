@@ -21,7 +21,7 @@ Please make sure you install everything in this list before you proceed with the
 {% endhint %}
 
 * [Vagrant](https://www.vagrantup.com/downloads.html)
-* Recommended: [Vagrant host-updater plugin](https://github.com/cogitatio/vagrant-hostsupdater) - this is useful to avoid having to update /etc/hosts by hand
+* Recommended: [Vagrant host-updater plugin](https://github.com/cogitatio/vagrant-hostsupdater) - this is useful to avoid having to update /etc/hosts by hand (Note: The plugin homepage says that this plugin is not maintained anymore. For now, it still seems to work fine, so you can ignore this warning.)
 * [VirtualBox](https://www.virtualbox.org/wiki/Downloads) - Note: Windows users may be required to Enable VT-X \(Intel Virtualization Technology\) in the computer's bios settings, disable Hyper-V on program and features page in the control panel, and install the VirtualBox Extension Pack \(installation instructions here.\)
 * [Composer](https://getcomposer.org/doc/00-intro.md#system-requirements)
 * PHP &gt;=7.0 &lt;7.2 - if you are using Platform V4.0.0
@@ -114,12 +114,22 @@ Now that you \(hopefully\) have a working vagrant machine, you will have to ssh 
 vagrant ssh
 ```
 
+Change to the project directory. This is shared by Vagrant / VirtualBox between your virtual server and your machine for
+easy updating during development:
+
 ```bash
 cd ~/Code/platform-api
 ```
 
+Set required php version. For current version of Ushahidi this should be 7.3:
+
 ```bash
 sudo update-alternatives --set php /usr/bin/php7.3
+sudo systemctl stop php7.1-fpm.service
+sudo systemctl disable php7.1-fpm.service
+sudo systemctl enable php7.3-fpm.service
+sudo systemctl start php7.3-fpm.service
+sudo sed --in-place=.php7.1.bak "s/php7.1-fpm/php7.3-fpm/g" /etc/nginx/sites-available/*
 ```
 
 ```bash
@@ -135,11 +145,15 @@ composer install
 192.168.33.110  api.ushahidi.test
 ```
 
+{% hint style="info" %}
+Don't be surprised: This IP address is automatically set up by Vagrant, see `Homestead.yaml` and used in a couple of places.
+{% endhint %}
+
 At this point you should have a running web server, but your deployment isn't set up yet. We still need to configure the database and run the migrations.
 
 ### **Setting up the deployment's database**
 
-* Copy the configuration file `.env.example` to make sure the platform can connect to the database. 
+* Copy the configuration file `.env.example` to make sure the platform can connect to the database.
 
 ```bash
 cp .env.example .env
@@ -155,11 +169,10 @@ composer migrate
 
 Example JSON
 
-```javascript
+```json
 {"now":"2018-11-06T19:18:23+00:00","version":"3","user":{"id":null,"email":null,"realname":null}}
 ```
 
 ### Installing the client
 
 Congratulations! You have set up the API. You may want now to [build and install the web client](setting-up-the-platform-client/) for a full experience.
-
