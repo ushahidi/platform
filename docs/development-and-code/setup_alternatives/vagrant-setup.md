@@ -20,7 +20,7 @@ If you want to learn more about vagrant, please refer to their docs here [https:
 Please make sure you install everything in this list before you proceed with the platform setup.
 {% endhint %}
 
-* [Vagrant](https://www.vagrantup.com/downloads.html)
+* [Vagrant](https://www.vagrantup.com/downloads.html) and [Laravel Homestead](https://laravel.com/docs/homestead)
 * Recommended: [Vagrant host-updater plugin](https://github.com/cogitatio/vagrant-hostsupdater) - this is useful to avoid having to update /etc/hosts by hand (Note: The plugin homepage says that this plugin is not maintained anymore. For now, it still seems to work fine, so you can ignore this warning.)
 * [VirtualBox](https://www.virtualbox.org/wiki/Downloads) - Note: Windows users may be required to Enable VT-X \(Intel Virtualization Technology\) in the computer's bios settings, disable Hyper-V on program and features page in the control panel, and install the VirtualBox Extension Pack \(installation instructions here.\)
 * [Composer](https://getcomposer.org/doc/00-intro.md#system-requirements)
