@@ -134,7 +134,7 @@ class PostController extends V5Controller
             if ($post->tryAutoPublish()) {
                 $post->save();
             }
-                        
+
             $errors = $this->savePostValues($post, $input['post_content'], $post->id);
 
             if (!empty($errors)) {
@@ -453,7 +453,7 @@ class PostController extends V5Controller
                     if (is_string($value) && $value === '') {
                         $value = null;
                     } else {
-                        $value = \DB::raw("GeomFromText('$value')");
+                        $value = \DB::raw("ST_GeomFromText('$value')");
                     }
                 }
 
@@ -469,7 +469,7 @@ class PostController extends V5Controller
                 $validation = $post_value->validate();
 
                 if ($type === 'point') {
-                    $data['value'] = \DB::raw("GeomFromText('POINT({$value['lon']} {$value['lat']})')");
+                    $data['value'] = \DB::raw("ST_GeomFromText('POINT({$value['lon']} {$value['lat']})')");
                 }
                 if ($validation) {
                     if ($update_id) {

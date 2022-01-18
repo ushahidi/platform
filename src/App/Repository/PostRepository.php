@@ -203,7 +203,7 @@ class PostRepository extends OhanzeeRepository implements
             }
 
             /* -- VALUES HANDLING -- */
-            
+
             /* handle values already carried in in the $data object */
             $already_obtained_types = [];
             foreach ($this->data_to_entity_value_mappings as $mapping) {
@@ -243,7 +243,7 @@ class PostRepository extends OhanzeeRepository implements
                 unset($data[$mapping['attribute_key']]);
                 unset($data[$mapping['value']]);
             }
-            
+
             // Obtain the rest of the requested values
             $other_values = [];
             $types_to_fetch = null;
@@ -341,7 +341,7 @@ class PostRepository extends OhanzeeRepository implements
                 ['messages.id', 'message_id'],
                 ['messages.type', 'source']
             );
-        
+
         /*
          * The above join is optimized by the (post_id,type) index on messages.
          *
@@ -447,7 +447,7 @@ class PostRepository extends OhanzeeRepository implements
                 ->join(['form_attributes', 'point_attribute'], 'LEFT')
                 ->on('post_point.form_attribute_id', '=', 'point_attribute.id')
                 ->select(
-                    [DB::expr('AsText(post_point.value)'), 'point_value'],
+                    [DB::expr('ST_AsText(post_point.value)'), 'point_value'],
                     ['point_attribute.key', 'point_attribute_key']
                 );
         }
@@ -462,7 +462,7 @@ class PostRepository extends OhanzeeRepository implements
                 ->join(['form_attributes', 'geometry_attribute'], 'LEFT')
                 ->on('post_geometry.form_attribute_id', '=', 'geometry_attribute.id')
                 ->select(
-                    [DB::expr('AsText(post_geometry.value)'), 'geometry_value'],
+                    [DB::expr('ST_AsText(post_geometry.value)'), 'geometry_value'],
                     ['geometry_attribute.key', 'geometry_attribute_key']
                 );
         }
@@ -1124,7 +1124,7 @@ class PostRepository extends OhanzeeRepository implements
             ->from('post_point')
             ->where(
                 DB::expr(
-                    'CONTAINS(GeomFromText(:bounds), value)',
+                    'CONTAINS(ST_GeomFromText(:bounds), value)',
                     [':bounds' => $bounding_box->toWKT()]
                 ),
                 '=',

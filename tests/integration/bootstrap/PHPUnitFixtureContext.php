@@ -62,7 +62,7 @@ class PHPUnitFixtureContext implements Context
 
         $pdo_connection->query("INSERT INTO `post_geometry` (`id`, `post_id`, `form_attribute_id`, `value`)
             VALUES (1, 1, 9,
-                GeomFromText('MULTIPOLYGON (((40 40, 20 45, 45 30, 40 40)),
+                ST_GeomFromText('MULTIPOLYGON (((40 40, 20 45, 45 30, 40 40)),
                     ((20 35, 45 20, 30 5, 10 10, 10 30, 20 35),
                     (30 20, 20 25, 20 15, 30 20)))'));");
     }
