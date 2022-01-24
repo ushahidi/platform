@@ -11,13 +11,11 @@ namespace Tests\Integration\Bootstrap;
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
+use stdClass;
 use Aura\Di\Exception;
 use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\PyStringNode;
 use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Log;
-use Symfony\Component\Yaml\Yaml;
-use stdClass;
 
 /**
  * Rest context.

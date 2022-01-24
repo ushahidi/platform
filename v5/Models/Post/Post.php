@@ -13,24 +13,15 @@
 
 namespace v5\Models\Post;
 
-use Illuminate\Notifications\Notifiable;
-use v5\Models\BaseModel;
 use v5\Models\Message;
-use v5\Models\Contact;
-use Illuminate\Database\Eloquent\Model;
+use v5\Models\BaseModel;
+use Illuminate\Validation\Rule;
+use v5\Models\Helpers\HideTime;
+use v5\Models\Helpers\HideAuthor;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Str;
-use Illuminate\Validation\Rule;
-use Ushahidi\App\Repository\FormRepository;
 use Ushahidi\App\Validator\LegacyValidator;
-use Ushahidi\Core\Entity\Permission;
-use Ushahidi\Core\Tool\Permissions\InteractsWithFormPermissions;
 use Ushahidi\Core\Tool\Permissions\InteractsWithPostPermissions;
-use v5\Models\Helpers\HideAuthor;
-use v5\Models\Helpers\HideTime;
-use v5\Models\Scopes\PostAllowed;
 
 class Post extends BaseModel
 {
@@ -54,7 +45,9 @@ class Post extends BaseModel
         'translations',
         'enabled_languages'
     ];
+
     public $errors;
+    
     /**
      * Add eloquent style timestamps
      *
@@ -75,6 +68,7 @@ class Post extends BaseModel
      * @var string[]
      */
     protected $with = ['message', 'translations'];
+
     protected $translations;
     /**
      * The attributes that should be hidden for serialization.
@@ -104,6 +98,7 @@ class Post extends BaseModel
         'created',
         'updated'
     ];
+
     /**
      * The model's default values for attributes.
      *
@@ -416,6 +411,7 @@ class Post extends BaseModel
         $time = HideTime::hideTime($value, $this->survey ? $this->survey->hide_time : true);
         return self::makeDate($time);
     }
+
     /**
      * @return bool
      */
