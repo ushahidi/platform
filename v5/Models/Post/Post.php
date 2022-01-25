@@ -47,7 +47,7 @@ class Post extends BaseModel
     ];
 
     public $errors;
-    
+
     /**
      * Add eloquent style timestamps
      *
