@@ -163,7 +163,7 @@ Please follow the step by step guide on how to connect to the Ushahidi mobile ap
 
 ### How can I start contributing code to the platform?
 
-TO contribute code to the Ushahidi platform, please follow the guidelines here: [step-by-step guide to adding code to the platform](https://www.ushahidi.com/support/add-code-to-ushahidi)
+TO contribute code to the Ushahidi platform, please follow the guidelines [here](contributing-or-getting-involved/).
 
 ### How can I contribute to translations?
 
