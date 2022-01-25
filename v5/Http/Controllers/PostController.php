@@ -410,9 +410,9 @@ class PostController extends V5Controller
                 $value = is_array($field['value']) && array_key_exists('value', $field['value'])
                     ? $field['value']['value']
                     : $field['value']; // Fall back to the field value if "value" key doesn't exist
-                if (!isset($value)) {
+                if (!isset($value) || empty($value)) {
                     continue;
-                };
+                }
                 $value_meta = $field['value']['value_meta'] ?? [];
                 $value_translations = $field['value']['translations'] ?? [];
 
