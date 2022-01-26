@@ -4,10 +4,6 @@ namespace v5\Models\PostValues;
 
 use v5\Models\BaseModel;
 use v5\Models\Helpers\HideTime;
-use v5\Models\Scopes\PostAllowed;
-use v5\Models\Scopes\PostValueAllowed;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Validator;
 
 class PostValue extends BaseModel
 {

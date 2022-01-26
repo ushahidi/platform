@@ -17,8 +17,7 @@ class PostMedia extends PostValue
      */
     public function validationMessages()
     {
-        return [
-        ];
+        return [];
     }//end validationMessages()
 
     /**
