@@ -22,13 +22,13 @@ As with many things, it depends.
 
 **Are you are planning on developing new code for Ushahidi, or testing the platform?** Use one of the development setups.
 
-* If you are already familiar with XAMPP and want to avoid using Vagrant for performance or familiarity issues, then go with the [XAMPP Install guide](https://docs.ushahidi.com/platform-developer-documentation/getting-started/setup\_alternatives/xampp).&#x20;
-* If you are familiar with Vagrant, or willing to learn how to setup Vagrant + Homestead and you have a machine capable of running a virtual machine and vagrant, then go with [the vagrant based setup](https://docs.ushahidi.com/platform-developer-documentation/getting-started/setup\_alternatives/vagrant-setup) (This is the setup Ushahidi staff uses on a daily basis!)
-* If you are a frontend developer that wants to contribute without setting up the backend, then try [setting up the platform client](https://docs.ushahidi.com/platform-developer-documentation/getting-started/setup\_alternatives/setting-up-the-platform-client) only, and using the API route of an ushahidi.io deployment.  This the fastest way to get started.
+* If you are already familiar with XAMPP and want to avoid using Vagrant for performance or familiarity issues, then go with the [XAMPP Install guide](development-and-code/setup\_alternatives/xampp.md).
+* If you are familiar with Vagrant, or willing to learn how to setup Vagrant + Homestead and you have a machine capable of running a virtual machine and vagrant, then go with [the vagrant based setup](development-and-code/setup\_alternatives/vagrant-setup.md) (This is the setup Ushahidi staff uses on a daily basis!)
+* If you are a frontend developer that wants to contribute without setting up the backend, then try [setting up the platform client](development-and-code/setup\_alternatives/setting-up-the-platform-client/) only, and using the API route of an ushahidi.io deployment.  This the fastest way to get started.
 
 **Are you ready to deploy Ushahidi for others to use?**
 
-* if you plan to modify the code in some way, follow the [Installing for production environments setup guide.](https://docs.ushahidi.com/platform-developer-documentation/getting-started/setup\_alternatives/installing-for-production-environments)
+* if you plan to modify the code in some way, follow the [Installing for production environments setup guide](development-and-code/setup\_alternatives/installing-for-production-environments.md).
 * If you want to deploy Ushahidi without worrying about upgrading, monitoring services, or hosting it yourself, start a new deployment in [http://ushahidi.io/create](http://ushahidi.io/create) and we will manage all the tech for you.
 * If you're looking for something in between, [Contact the Ushahidi team ](http://gitter.im/ushahidi/Community)and we'll figure it out! We're always happy to chat.
 
@@ -42,7 +42,7 @@ Yes you can. You can follow this link for more resources on how to install: [her
 
 ### Do you support Windows installations?
 
-Some folks have been successful in getting the platform set up for development in a windows environment. If you are not familiar with Vagrant or Vagrant is not working correctly for you in Windows, we recommend you try following the [XAMPP installation guide here](https://docs.ushahidi.com/platform-developer-documentation/getting-started/setup\_alternatives/xampp) and let us know if you run into any issues.
+Some folks have been successful in getting the platform set up for development in a windows environment. If you are not familiar with Vagrant or Vagrant is not working correctly for you in Windows, we recommend you try following the [XAMPP installation guide here](development-and-code/setup\_alternatives/xampp.md) and let us know if you run into any issues.
 
 For production environments, we strongly recommend you use a Linux based environment instead, since most of our development and all our production setup is done in either Mac OS or a Linux based distribution like Ubuntu, RedHat OS, Fedora, etc.
 
@@ -151,7 +151,7 @@ If you are planning to add a new data source, please get in touch! The Ushahidi 
 
 ### How do I change the colours or appearance of the platform?
 
-To change the color or appearance of platform, you will need to fork and modify the Ushahidi Pattern Library, and host Ushahidi in your own servers for the changes to be available. [Please follow this guide about our pattern library to learn more.](https://docs.ushahidi.com/platform-developer-documentation/changing-ui-styles-introduction-to-the-pattern-library)
+To change the color or appearance of platform, you will need to fork and modify the Ushahidi Pattern Library, and host Ushahidi in your own servers for the changes to be available. [Please follow this guide about our pattern library to learn more.](front-end-development/changing-ui-styles-introduction-to-the-pattern-library/)
 
 ## Mobile application
 
@@ -163,7 +163,7 @@ Please follow the step by step guide on how to connect to the Ushahidi mobile ap
 
 ### How can I start contributing code to the platform?
 
-TO contribute code to the Ushahidi platform, please follow the guidelines [here](contributing-or-getting-involved/).
+To contribute code to the Ushahidi platform, please follow the guidelines [here](contributing-or-getting-involved/).
 
 ### How can I contribute to translations?
 
