@@ -109,7 +109,7 @@ curl -sS https://getcomposer.org/installer | \
 #### Obtain the code
 
 * We need to do some work from a terminal window, let's open one.
-  * _Windows_: In the XAMPP control panel, click on "Shell" 
+  * _Windows_: In the XAMPP control panel, click on "Shell"
     * This usually opens a terminal with `C:\xampp` being the active folder
     * Run `cd htdocs`
   * _Linux_ and _Mac_: open your Terminal program, the active folder should be `home/dev`.
@@ -128,11 +128,11 @@ It's **very important** that you have a clear idea of the location of your platf
 
 We will configure the API now. We will do this continuing working on the same terminal window that was opened in the previous steps.
 
-* Run `cd platform` 
-* Run the appropriate command depending on your operating system: 
+* Run `cd platform`
+* Run the appropriate command depending on your operating system:
   * Windows: run `copy .env.example .env`
   * Linux and Mac: run `cp .env.example .env`
-* Open `.env` with your IDE or text editor. This file is located inside your platform folder. 
+* Open `.env` with your IDE or text editor. This file is located inside your platform folder.
 
 {% hint style="info" %}
 Hint on Linux and Mac: You can run `sudo nano .env` to open up the nano text-editor in the terminal. When you are finished editing, press ctrl-x and then Y when asked if you want to save.
@@ -145,7 +145,7 @@ On Windows File Explorer, the default is to hide the extension of the files \(th
 * Modify the file in the following way:
   * Change the `CACHE_DRIVER` to be `array` instead of `memcache` \(it's feasible set it up with memcache at some point, but for simplicity we use `array`\)
   * Change the `DB_HOST` to `127.0.0.1`
-  * Change the `DB_USERNAME` to `root` 
+  * Change the `DB_USERNAME` to `root`
   * Change the `DB_PASSWORD` to be empty, so literally: `DB_PASSWORD=`
   * Change the `DB_DATABASE` to `platform`
 
@@ -331,7 +331,9 @@ For Windows, look for the file with a name ended in "-x86.msi"
 {% endhint %}
 
 {% hint style="info" %}
-For Linux and Mac OS X , probably the easiest way to control which version of node.js you are installing, is by using the "nvm" tool. There are several tutorials available that walk you through its set up. A good one can be found [here](https://nodesource.com/blog/installing-node-js-tutorial-using-nvm-on-mac-os-x-and-ubuntu/).
+For Linux and Mac OS X, probably the easiest way to control which version of node.js you are installing, is by using the "nvm" tool. There are several tutorials available that walk you through its set up. A good one can be found [here](https://nodesource.com/blog/installing-node-js-tutorial-using-nvm-on-mac-os-x-and-ubuntu/).
+
+For windows, you can try using [nvm-windows](https://github.com/coreybutler/nvm-windows) to manage node versions.
 {% endhint %}
 
 #### Installation
@@ -345,4 +347,3 @@ As a result of the steps followed in this guide, the URL for the API backend is 
 With that clarified, please find below the link to the client set up guide.
 
 {% page-ref page="setting-up-the-platform-client/" %}
-
