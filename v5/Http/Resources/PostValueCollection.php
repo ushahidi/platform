@@ -3,7 +3,6 @@
 
 namespace v5\Http\Resources;
 
-use Illuminate\Http\Resources\Json\Resource;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Support\Collection;
 use v5\Models\Category;
@@ -18,6 +17,7 @@ class PostValueCollection extends ResourceCollection
      * @var string
      */
     public $collects = 'v5\Http\Resources\PostValueResource';
+
     /**
      * Transform the resource collection into an array.
      *
@@ -27,10 +27,10 @@ class PostValueCollection extends ResourceCollection
     public function toArray($request)
     {
         $tasks = $this->collection
-                    ->get('tasks')
-                    ->unique()
-                    ->sortBy('priority')
-                    ->values();
+            ->get('tasks')
+            ->unique()
+            ->sortBy('priority')
+            ->values();
 
         $fields_by_task = $this->collection->get('values')->mapToGroups(function ($item) {
             return [$item->attribute->form_stage_id => $item];
@@ -59,10 +59,11 @@ class PostValueCollection extends ResourceCollection
                 if ($field['type'] !== 'tags') {
                     $field['value'] = $field['value']->first();
                 } else {
-                    $field['options'] =
-                        $field['options'] ? new CategoryCollection($field_obj->options) :
-                        $field['options'];
+                    $field['options'] = $field['options'] ?
+                                        new CategoryCollection($field_obj->options) :
+                                        $field['options'];
                 }
+
                 if (!empty($field['value'])) {
                     if (get_class($field['value']) === 'v5\Http\Resources\PostValueResource') {
                         $field['value']->load('translations');
@@ -73,8 +74,10 @@ class PostValueCollection extends ResourceCollection
                         $field['value'] = $this->makeValue($field['value']);
                     }
                 }
+
                 return $field;
             });
+
             return $task;
         });
 
@@ -86,8 +89,16 @@ class PostValueCollection extends ResourceCollection
         $value_trans = new TranslationCollection($value['translations']);
         $value = $value->makeHidden('attribute')->makeHidden('post')->toArray();
         $value['translations'] = $value_trans;
+        if (isset($value['metadata'])) {
+            $value['value_meta'] = $value['metadata'];
+            if (isset($value['value_meta']['is_date']) && $value['value_meta']['is_date'] == true) {
+                $value['value'] = date("Y-m-d", strtotime($value['value']));
+            }
+            unset($value['metadata']);
+        }
         return $value;
     }
+
     private function makeCategoryValue($value)
     {
         return $value->map(function ($f) {
@@ -99,9 +110,11 @@ class PostValueCollection extends ResourceCollection
             return ForbiddenCategoryResource::make($c);
         });
     }
+
     private function makeCollectionItem()
     {
     }
+
     private function makeTask()
     {
     }

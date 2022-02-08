@@ -18,7 +18,7 @@ class PostValueResource extends Resource
         $value = $this->value;
         $value_translations = $this->translations;
 
-        return [
+        $data = [
             'id' => $this->id,
             'post_id' => $this->post_id,
             'value' => $value,
@@ -26,5 +26,7 @@ class PostValueResource extends Resource
             'created' => $this->created,
             'translations' => $this->translations ? new TranslationCollection($value_translations) : []
         ];
+
+        return $data;
     }
 }
