@@ -4885,6 +4885,10 @@
                 "logging",
                 "sentry"
             ],
+            "support": {
+                "issues": "https://github.com/getsentry/sentry-laravel/issues",
+                "source": "https://github.com/getsentry/sentry-laravel/tree/0.8.2"
+            },
             "funding": [
                 {
                     "url": "https://sentry.io/",
