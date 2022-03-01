@@ -71,8 +71,17 @@ class ReceiveMessage extends CreateUsecase
         // Fetch and hydrate the message entity...
         $entity = $this->getEntity();
 
-        // ... verify that the message entity can be created by the current user
-        $this->verifyReceiveAuth($entity);
+        /*
+         * re: github.com/ushahidi/platform/issues/2111
+         * Message reception is not something that happens under the usual
+         * authentication / authorization conditions. Each data provider
+         * is responsible for them and the platform authorizer doesn't
+         * have any data for making this decision.
+         * Ergo, commenting this out:
+         *
+         * ... verify that the message entity can be created by the current user
+         */
+        // $this->verifyReceiveAuth($entity);
 
         // ... verify that the message entity is in a valid state
         $this->verifyValid($entity);
