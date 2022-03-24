@@ -1,9 +1,9 @@
 # Table of contents
 
-* [👋 Welcome \| README](README.md)
+* [👋 Welcome | README](README.md)
 * [Code of Conduct](code-of-conduct/README.md)
   * [Values](code-of-conduct/values.md)
-* [Contributing \| Getting Involved](contributing-or-getting-involved/README.md)
+* [Contributing | Getting Involved](contributing-or-getting-involved/README.md)
   * [Specific tasks needed for COVID19-support](contributing-or-getting-involved/covid.md)
   * [Add code to Ushahidi](contributing-or-getting-involved/workflow-for-adding-code.md)
   * [Encouraging contribution from non-developers](contributing-or-getting-involved/encouraging-contribution-from-non-developers.md)
@@ -21,14 +21,14 @@
 
 * [Development: Overview](development-and-code/getting-started.md)
 * [How to get the source code](development-and-code/how-to-get-the-source-code.md)
-* [Setup Guides](development-and-code/setup_alternatives/README.md)
-  * [Installing for production environments](development-and-code/setup_alternatives/installing-for-production-environments.md)
-  * [Development environment with XAMPP](development-and-code/setup_alternatives/xampp.md)
-  * [Development environment setup with Vagrant](development-and-code/setup_alternatives/vagrant-setup.md)
-  * [\[Client\] Setting up the Platform Client for development](development-and-code/setup_alternatives/setting-up-the-platform-client/README.md)
-    * [Migration from AngularJS](development-and-code/setup_alternatives/setting-up-the-platform-client/migration-from-angularjs.md)
-  * [Setting up the Pattern Library for development](development-and-code/setup_alternatives/setting-up-the-pattern-library-for-development.md)
-  * [\[API  & Client\] Bundled release install](development-and-code/setup_alternatives/platform_release_install.md)
+* [Setup Guides](development-and-code/setup\_alternatives/README.md)
+  * [Installing for production environments](development-and-code/setup\_alternatives/installing-for-production-environments.md)
+  * [Development environment with XAMPP](development-and-code/setup\_alternatives/xampp.md)
+  * [Development environment setup with Vagrant](development-and-code/setup\_alternatives/vagrant-setup.md)
+  * [\[Client\] Setting up the Platform Client for development](development-and-code/setup\_alternatives/setting-up-the-platform-client/README.md)
+    * [Migration from AngularJS](development-and-code/setup\_alternatives/setting-up-the-platform-client/migration-from-angularjs.md)
+  * [Setting up the Pattern Library for development](development-and-code/setup\_alternatives/setting-up-the-pattern-library-for-development.md)
+  * [\[API & Client\] Bundled release install](development-and-code/setup\_alternatives/platform\_release\_install.md)
 * [Add code to Ushahidi](development-and-code/add-code-to-ushahidi.md)
 * [Development process](development-and-code/development-process.md)
 * [Coding Standards](development-and-code/coding-standards.md)
@@ -43,9 +43,9 @@
 * [API Documentation](tech-stack/api-documentation.md)
 * [Third party app development](tech-stack/connected-app-development/README.md)
   * [Web hooks](tech-stack/connected-app-development/web-hooks.md)
-* [Database \| Tables overview](tech-stack/tables-overview.md)
-* [Database \| Database Schema Diagram](tech-stack/database-schema-diagram.md)
-* [Database \| Table details](tech-stack/table-details.md)
+* [Database | Tables overview](tech-stack/tables-overview.md)
+* [Database | Database Schema Diagram](tech-stack/database-schema-diagram.md)
+* [Database | Table details](tech-stack/table-details.md)
 * [📐 Architecture](tech-stack/architecture.md)
 * [Use case internals](tech-stack/use-case-internals.md)
 
@@ -110,9 +110,9 @@
 * [Write/Speak/Code 2019](hackathon-and-events/write-speak-code-2019.md)
 * [Open Design: Bangalore](hackathon-and-events/open-design-bangalore.md)
 * [Open Design: Taipei](hackathon-and-events/open-design-taipei.md)
+* [Google season of docs](hackathon-and-events/google-season-of-docs.md)
 
 ## Enhancement Proposals
 
 * [Exchange Format](enhancement-proposals/exchange-format.md)
 * [Importing data from previous versions](enhancement-proposals/importing-data-from-previous-versions.md)
-
