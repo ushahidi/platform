@@ -2,19 +2,17 @@
 description: Project idea
 ---
 
-# Google season of docs
+# 📑 Google season of docs
 
-Update the technical documentation for our API endpoints
+## Update the technical documentation for The Ushahidi platform API
 
-About Ushahidi
+### About Ushahidi
 
 Ushahidi is a non-profit whose mission is to build and use open source technology to help marginalized groups raise their voices and the organizations that serve them to listen and respond better. In doing so, we build capacity in marginalized communities to leverage technology for social change. We believe that if marginalized people are able to easily communicate to those who aim to serve them via the communication channels they already use about their issues, needs, and eyewitness reports, then those organizations who aim to help them can more effectively and efficiently respond to their immediate and direct needs, while simultaneously bringing global attention to their plight through the aggregation of their voices.
 
-About the project
+### About the project
 
-Problem to solve
-
-
+#### Problem to solve
 
 The Ushahidi Platform is an open source tool and we have contributors working on our code as well as organisations that wants to extend the tool for their purposes.
 
@@ -27,9 +25,7 @@ This project aims to update and create new documentation for the Ushahidi platfo
 * Make it easier for users to access help and support without having to wait for a team member to reply
 * Encourage innovation that involves using the API
 
-Scope of the project
-
-
+#### Scope of the project
 
 The scope of the project is to update and create new documentation of the endpoints that are available in version 3 and version 5 of the Ushahidi Platform API. The platform API has more than 100 endpoints. The scope of this work is to complete documentation for all endpoints dealing with posts and surveys and at least 75% of the other endpoints.
 
@@ -48,7 +44,7 @@ Work that is out-of-scope for this project:
 
 * Any other technical documentation, such as setting up the environment locally, deployment, hosting etc.
 
-Measuring success
+#### Measuring success
 
 The goal is to:
 
@@ -56,7 +52,7 @@ The goal is to:
 * Have at least 75% of the other endpoints documented.
 * The number of technical support-questions goes down by 30% after new docs are published
 
-Timeline
+#### Timeline
 
 | Period       | Task                                                                                                                                                                                                          |   |
 | ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | - |
@@ -67,7 +63,7 @@ Timeline
 
 
 
-Budget
+#### Budget
 
 | Budget item                             | Amount (USD) | Running total (USD) | Notes                                                                                                                                                                                                          |
 | --------------------------------------- | ------------ | ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -76,11 +72,7 @@ Budget
 | T-shirt and schwag for technical writer | 200          | 14640               |                                                                                                                                                                                                                |
 |                                         |              |                     |                                                                                                                                                                                                                |
 
-Additional information
-
-
-
-**Previous experience with technical writers or documentation:**
+#### **Additional information**
 
 In 2018 we got funding from Digital Impact Alliance to improve and collect our documentation in one place.
 
@@ -93,14 +85,13 @@ During the project we:
 
 One of the mentors participating in this project was participating in a large part of the DIAL project and writing a lot of the documentation.
 
-TO ADD
+**Review processes**
 
-* Experience working with documentation
-* Review processes
+We review our documentation via testing it ourselves and we also make sure to learn and improve the documentation from the experiences our interns and contributors have when setting up the platform from scratch. This gives us insights we would not get otherwise, since they are new to the project and see things in a different light than us who are working with it everyday.
 
-TO ADD:
+**Previous participation in Season of Docs, Google Summer of Code or others**&#x20;
 
-Previous participation in Season of Docs, Google Summer of Code or others:&#x20;
+Ushahidi has previously participated in Google Summer of Code and Outreachy. Since 2018 we have had at least one intern per year.
 
 
 
