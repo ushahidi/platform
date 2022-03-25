@@ -110,7 +110,7 @@
 * [Write/Speak/Code 2019](hackathon-and-events/write-speak-code-2019.md)
 * [Open Design: Bangalore](hackathon-and-events/open-design-bangalore.md)
 * [Open Design: Taipei](hackathon-and-events/open-design-taipei.md)
-* [Google season of docs](hackathon-and-events/google-season-of-docs.md)
+* [📑 Google season of docs](hackathon-and-events/google-season-of-docs.md)
 
 ## Enhancement Proposals
 
