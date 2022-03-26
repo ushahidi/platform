@@ -40,4 +40,4 @@ Map Data
 ========
 
 The default map data used comes from OpenStreetMap - <http://osm.org/copyright>
-The default imagery comes from MapQuest and is subject to the following terms: <http://developer.mapquest.com/web/info/terms-of-use> and <http://info.mapquest.com/terms-of-use/>
+The default imagery comes from MapQuest and is subject to the following terms: <https://developer.mapquest.com/legal> and <https://hello.mapquest.com/terms-of-use>
