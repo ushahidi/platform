@@ -406,15 +406,22 @@ class PostController extends V5Controller
                 continue;
             }
             foreach ($stage['fields'] as $field) {
-                $type = $field['type'];
-                $value = is_array($field['value']) && array_key_exists('value', $field['value'])
-                    ? $field['value']['value']
-                    : $field['value']; // Fall back to the field value if "value" key doesn't exist
-                if (!isset($value)) {
+                if (!isset($field['value'])) {
                     continue;
-                };
+                }
+
+                // We only want to check if a field input value is set, not if it's empty
+                // The reason is when a field value input is updated and then left empty (as long it's not required)
+                // the user wants to override the existing input value with an empty value.
+                if (!isset($field['value']['value'])) {
+                    continue;
+                }
+
+                $value =  $field['value']['value']; // field value input
                 $value_meta = $field['value']['value_meta'] ?? [];
                 $value_translations = $field['value']['translations'] ?? [];
+
+                $type = $field['type'];
 
                 if ($type === 'tags') {
                     $type === 'tags' ? 'tag' : $type;

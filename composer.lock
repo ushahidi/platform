@@ -4885,6 +4885,10 @@
                 "logging",
                 "sentry"
             ],
+            "support": {
+                "issues": "https://github.com/getsentry/sentry-laravel/issues",
+                "source": "https://github.com/getsentry/sentry-laravel/tree/0.8.2"
+            },
             "funding": [
                 {
                     "url": "https://sentry.io/",
@@ -6822,12 +6826,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ushahidi/gmail-support.git",
-                "reference": "57f23cd039d0c76021fbd5f94dfe2aeb9240e83c"
+                "reference": "b47d2e00a36b073660840ef752606161b4597293"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ushahidi/gmail-support/zipball/57f23cd039d0c76021fbd5f94dfe2aeb9240e83c",
-                "reference": "57f23cd039d0c76021fbd5f94dfe2aeb9240e83c",
+                "url": "https://api.github.com/repos/ushahidi/gmail-support/zipball/b47d2e00a36b073660840ef752606161b4597293",
+                "reference": "b47d2e00a36b073660840ef752606161b4597293",
                 "shasum": ""
             },
             "require": {
@@ -6876,7 +6880,7 @@
                 "issues": "https://github.com/ushahidi/gmail-support",
                 "source": "https://github.com/ushahidi/gmail-support"
             },
-            "time": "2021-11-04T14:23:16+00:00"
+            "time": "2021-11-29T10:07:30+00:00"
         },
         {
             "name": "ushahidi/kohana-validation",
