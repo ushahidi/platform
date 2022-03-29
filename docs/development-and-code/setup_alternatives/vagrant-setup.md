@@ -136,6 +136,7 @@ sudo systemctl disable php7.1-fpm.service
 sudo systemctl enable php7.3-fpm.service
 sudo systemctl start php7.3-fpm.service
 sudo sed --in-place=.php7.1.bak "s/php7.1-fpm/php7.3-fpm/g" /etc/nginx/sites-available/*
+sudo systemctl restart nginx.service
 ```
 
 ```bash
