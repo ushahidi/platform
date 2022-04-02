@@ -129,7 +129,6 @@ class USSDController extends PostController
              * This is not ideal performance-wise, but we'll take the hit
              * for now.
              */
-            // $post_model = Post::withPostValues()->where('id', $post['id'])->first();
             return new PostResource($post->resource);
         } catch (\Exception $e) {
             DB::rollback();

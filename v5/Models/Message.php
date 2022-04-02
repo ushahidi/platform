@@ -7,6 +7,9 @@ class Message extends BaseModel
     public static $relationships = [
         'contact'
     ];
+    # --> and relationship to Post?
+
+    const CREATED_AT = 'created';
 
     /**
      * Add eloquent style timestamps

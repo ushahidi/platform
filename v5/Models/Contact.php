@@ -8,6 +8,9 @@ class Contact extends BaseModel
         'messages'
     ];
 
+    const CREATED_AT = 'created';
+    const UPDATED_AT = 'updated';
+
     /**
      * Add eloquent style timestamps
      *
