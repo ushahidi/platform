@@ -82,5 +82,6 @@ $router->group([
     ], function () use ($router) {
         // Public access
         $router->post('/', 'PostController@store');
+        $router->post('/_ussd', 'USSDController@store');
     });
 });

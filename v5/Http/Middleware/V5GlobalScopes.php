@@ -25,7 +25,11 @@ class V5GlobalScopes
          * @TODO more tests maybe????????
          * @TODO remove the need for isSavingPost
          */
-        $isSavingPost = $request->path() === 'api/v5/posts' &&  $request->isMethod('post');
+        $isSavingPost = $request->isMethod('post') && \
+            in_array($request->path(), [
+                'api/v5/posts',
+                'api/v5/posts/_ussd'
+            ]);
 
         if (!$isSavingPost) {
             Category::addGlobalScope(new CategoryAllowed);
