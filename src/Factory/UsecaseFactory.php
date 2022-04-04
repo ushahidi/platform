@@ -11,6 +11,8 @@
 
 namespace Ushahidi\Factory;
 
+use Ushahidi\Contracts\Usecase;
+
 class UsecaseFactory
 {
     // Array of common use cases, mapped by action:
@@ -85,13 +87,14 @@ class UsecaseFactory
      * Gets a usecase from the map by action. Loads the tools for the usecase
      * from the factories by resource and action.
      *
-     *     $read_post = $usecases->get('posts', 'read');
+     *  $read_post = $usecases->get('posts', 'read');
      *
-     * @param  String $resource
-     * @param  String $action
-     * @return Ushahidi\Core\Usecase
+     * @param  string $resource
+     * @param  string $action
+     *
+     * @return Ushahidi\Contracts\Usecase
      */
-    public function get($resource, $action)
+    public function get($resource, $action) : Usecase
     {
         if (isset($this->map[$resource][$action])) {
             $factory = $this->map[$resource][$action];
@@ -113,7 +116,6 @@ class UsecaseFactory
         if ($usecase->isWrite()) {
             $usecase->setValidator($this->validators->get($resource, $action));
         }
-        
 
         if ($usecase->isSearch()) {
             $usecase->setData($this->data->get($action));
