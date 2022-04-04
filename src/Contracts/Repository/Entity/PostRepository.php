@@ -24,7 +24,7 @@ interface PostRepository extends
      * @param  int $id
      * @param  int $parent_id
      * @param  string $type
-     * @return \Ushahidi\Contracts\Repository\Entity\Post
+     * @return \Ushahidi\Contracts\Entity
      */
     public function getByIdAndParent($id, $parent_id, $type);
 
@@ -32,7 +32,7 @@ interface PostRepository extends
      * @param  string $locale
      * @param  int $parent_id
      * @param  string $type
-     * @return \Ushahidi\Contracts\Repository\Entity\Post
+     * @return \Ushahidi\Contracts\Entity
      */
     public function getByLocale($locale, $parent_id, $type);
 

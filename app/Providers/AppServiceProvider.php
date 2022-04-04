@@ -11,6 +11,7 @@ use Ushahidi\Core\Usecase\Export\Job\PostCount;
 use Ushahidi\App\Multisite\MultisiteServiceProvider;
 use Ushahidi\App\Providers\FilesystemServiceProvider;
 use Ushahidi\App\DataSource\DataSourceServiceProvider;
+use Ushahidi\Contracts\Repository\Entity\PostRepository;
 use Ushahidi\Contracts\Repository\Entity\UserRepository;
 use Ushahidi\Contracts\Repository\Entity\ConfigRepository;
 use Ushahidi\Contracts\Repository\Entity\ContactRepository;
