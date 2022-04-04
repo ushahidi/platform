@@ -12,13 +12,12 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Ushahidi\App\Repository;
+namespace Ushahidi\App\Repository\Concerns;
 
-use Ushahidi\Core\Tool\JsonTranscode;
+use Ushahidi\Core\Tool\JsonTranscode as Transcoder;
 
-trait JsonTranscodeRepository
+trait JsonTranscode
 {
-
     protected $json_transcoder;
 
     /**
@@ -27,7 +26,7 @@ trait JsonTranscodeRepository
      */
     abstract protected function getJsonProperties();
 
-    public function setTranscoder(JsonTranscode $transcoder)
+    public function setTranscoder(Transcoder $transcoder)
     {
         $this->json_transcoder = $transcoder;
     }

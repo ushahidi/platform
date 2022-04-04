@@ -12,15 +12,15 @@
 namespace Ushahidi\App\Repository;
 
 use Ohanzee\DB;
-use Ushahidi\Core\SearchData;
-use Ushahidi\Core\Entity;
+use Ushahidi\Core\Tool\SearchData;
+use Ushahidi\Contracts\Entity;
 use Ushahidi\Core\Entity\Contact;
-use Ushahidi\Core\Entity\ContactRepository as ContactRepositoryContract;
-use Ushahidi\Core\Usecase\CreateRepository;
-use Ushahidi\Core\Usecase\UpdateRepository;
-use Ushahidi\Core\Usecase\SearchRepository;
-use Ushahidi\Core\Traits\UserContext;
-use Ushahidi\Core\Traits\AdminAccess;
+use Ushahidi\Core\Concerns\AdminAccess;
+use Ushahidi\Core\Concerns\UserContext;
+use Ushahidi\Contracts\Repository\CreateRepository;
+use Ushahidi\Contracts\Repository\SearchRepository;
+use Ushahidi\Contracts\Repository\UpdateRepository;
+use Ushahidi\Contracts\Repository\Entity\ContactRepository as ContactRepositoryContract;
 
 class ContactRepository extends OhanzeeRepository implements
     ContactRepositoryContract,
@@ -31,7 +31,7 @@ class ContactRepository extends OhanzeeRepository implements
     use UserContext;
     use AdminAccess;
     // Use Event trait to trigger events
-    // use \Ushahidi\Core\Traits\Event;
+    // use \Ushahidi\Core\Concerns\Event;
 
     protected function getId(Entity $entity)
     {

@@ -11,26 +11,23 @@
 
 namespace Ushahidi\App\Repository;
 
-use Ushahidi\Core\Data;
-use Ushahidi\Core\SearchData;
-use Ushahidi\Core\Entity;
+use Ushahidi\Core\Tool\SearchData;
+use Ushahidi\Contracts\Entity;
 use Ushahidi\Core\Entity\CSV;
-use Ushahidi\Core\Entity\CSVRepository as CSVRepositoryContract;
-
-use League\Event\ListenerInterface;
-use Ushahidi\Core\Traits\Event;
+use Ushahidi\Contracts\Repository\Entity\CSVRepository as CSVRepositoryContract;
+use Ushahidi\Core\Concerns\Event;
 
 class CSVRepository extends OhanzeeRepository implements
     CSVRepositoryContract
 {
 
     // Use the JSON transcoder to encode properties
-    use JsonTranscodeRepository;
+    use Concerns\JsonTranscode;
 
     // Use Event trait to trigger events
     use Event;
 
-    // JsonTranscodeRepository
+    // Concerns\JsonTranscode
     protected function getJsonProperties()
     {
         return ['columns', 'maps_to', 'fixed'];

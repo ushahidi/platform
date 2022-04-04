@@ -14,7 +14,6 @@ namespace Ushahidi\App\Repository\Post;
 use Ohanzee\DB;
 use Ohanzee\Database;
 use Ushahidi\Core\Entity\PostValue;
-use Ushahidi\Core\Entity\PostValueRepository as PostValueRepositoryContract;
 use Symm\Gisconverter\Decoders\WKT;
 use Symm\Gisconverter\Geometry\Point;
 use Symm\Gisconverter\Exceptions\InvalidText;

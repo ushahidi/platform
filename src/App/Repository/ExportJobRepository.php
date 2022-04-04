@@ -11,24 +11,22 @@
 
 namespace Ushahidi\App\Repository;
 
-use Ushahidi\Core\Entity;
-use Ushahidi\Core\Entity\PostRepository;
-use Ushahidi\Core\SearchData;
-use Ushahidi\Core\Entity\ExportBatch;
-use Ushahidi\Core\Entity\ExportJob;
-use Ushahidi\Core\Entity\ExportJobRepository as ExportJobRepositoryContract;
-use Ushahidi\Core\Usecase\Concerns\FilterRecords;
-use Ushahidi\Core\Traits\UserContext;
-use Ushahidi\Core\Traits\AdminAccess;
 use Ohanzee\DB;
-use Ohanzee\Database;
-
-use Log;
+use Ushahidi\Core\Tool\SearchData;
+use Ushahidi\Contracts\Entity;
+use Illuminate\Support\Facades\Log;
+use Ushahidi\Core\Entity\ExportJob;
+use Ushahidi\Core\Entity\ExportBatch;
+use Ushahidi\Core\Concerns\AdminAccess;
+use Ushahidi\Core\Concerns\UserContext;
+use Ushahidi\Core\Concerns\FilterRecords;
+use Ushahidi\Contracts\Repository\Entity\PostRepository;
+use Ushahidi\Contracts\Repository\Entity\ExportJobRepository as ExportJobRepositoryContract;
 
 class ExportJobRepository extends OhanzeeRepository implements ExportJobRepositoryContract
 {
     // Use the JSON transcoder to encode properties
-    use JsonTranscodeRepository;
+    use Concerns\JsonTranscode;
 
     // - FilterRecords for setting search parameters
     use FilterRecords;
@@ -54,7 +52,7 @@ class ExportJobRepository extends OhanzeeRepository implements ExportJobReposito
         return 'export_job';
     }
 
-    // Ushahidi_JsonTranscodeRepository
+    // Ushahidi_Concerns\JsonTranscode
     protected function getJsonProperties()
     {
         return ['fields', 'filters', 'header_row', 'hxl_heading_row'];
@@ -124,11 +122,11 @@ class ExportJobRepository extends OhanzeeRepository implements ExportJobReposito
         // // Run state transition handler
         // $entity->handleStateTransition();
         $fireHDX = false;
-        \Log::info("Handle state transition");
+        Log::info("Handle state transition");
         // Check for new status of 'EXPORTED_TO_CDN'
         if ($entity->hasChanged('status') && $entity->status == ExportJob::STATUS_EXPORTED_TO_CDN) {
-            \Log::info("THE URL IS: " . $entity->url);
-            \Log::info("THE send_to_hdx IS: " . $entity->send_to_hdx);
+            Log::info("THE URL IS: " . $entity->url);
+            Log::info("THE send_to_hdx IS: " . $entity->send_to_hdx);
             if ($entity->send_to_hdx) {
                 // Jump to next state PENDING_HDX
                 $entity->setState(['status' => ExportJob::STATUS_PENDING_HDX]);

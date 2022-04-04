@@ -12,13 +12,16 @@
 namespace Ushahidi\App\Repository;
 
 use Ohanzee\DB;
-use Ushahidi\Core\Entity;
-use Ushahidi\Core\SearchData;
 use Ushahidi\Core\Entity\Tag;
-use Ushahidi\Core\Entity\TagRepository as TagRepositoryContract;
-use Ushahidi\Core\Usecase\Tag\UpdateTagRepository;
-use Ushahidi\Core\Usecase\Tag\DeleteTagRepository;
-use Ushahidi\Core\Usecase\Post\UpdatePostTagRepository;
+use Ushahidi\Core\Tool\SearchData;
+use Ushahidi\Contracts\Entity;
+use Ushahidi\Contracts\Validation;
+use Ushahidi\App\Repository\OhanzeeRepository;
+use Ushahidi\App\Repository\Concerns;
+use Ushahidi\Contracts\Repository\Usecase\DeleteTagRepository;
+use Ushahidi\Contracts\Repository\Usecase\UpdateTagRepository;
+use Ushahidi\Contracts\Repository\Usecase\UpdatePostTagRepository;
+use Ushahidi\Contracts\Repository\Entity\TagRepository as TagRepositoryContract;
 
 class TagRepository extends OhanzeeRepository implements
     UpdateTagRepository,
@@ -27,9 +30,10 @@ class TagRepository extends OhanzeeRepository implements
     TagRepositoryContract
 {
     // Use the JSON transcoder to encode properties
-    use JsonTranscodeRepository;
+    use Concerns\JsonTranscode;
     // Use trait to for updating forms_tags-table
-    use FormsTagsTrait;
+    use Concerns\FormsTags;
+
     private $created_id;
     private $created_ts;
 
@@ -60,7 +64,7 @@ class TagRepository extends OhanzeeRepository implements
         return new Tag($data);
     }
 
-    // JsonTranscodeRepository
+    // Concerns\JsonTranscode
     protected function getJsonProperties()
     {
         return ['role'];
@@ -174,7 +178,7 @@ class TagRepository extends OhanzeeRepository implements
      * @param $fullData
      * @return bool
      */
-    public function isRoleValid(\Ushahidi\Core\Tool\ValidationEngine $validation, $tag)
+    public function isRoleValid(Validation $validation, $tag)
     {
         $isChild = !!$tag['parent_id'];
         $parent = $isChild ? $this->selectOne(['id' => $tag['parent_id']]) : null;

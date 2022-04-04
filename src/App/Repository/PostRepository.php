@@ -13,32 +13,25 @@ namespace Ushahidi\App\Repository;
 
 use Ohanzee\DB;
 use Ohanzee\Database;
-use Ushahidi\Core\Entity;
-use Ushahidi\Core\Entity\FormRepository as FormRepositoryContract;
-use Ushahidi\Core\Entity\FormAttributeRepository as FormAttributeRepositoryContract;
-use Ushahidi\Core\Entity\FormStageRepository as FormStageRepositoryContract;
-use Ushahidi\Core\Entity\Permission;
+use Ushahidi\Core\Tool\SearchData;
+use Ushahidi\Contracts\Entity;
 use Ushahidi\Core\Entity\Post;
+use Ushahidi\Core\Concerns\Event;
+use Ushahidi\Core\Tool\BoundingBox;
 use Ushahidi\Core\Entity\PostLock;
-use Ushahidi\Core\Entity\PostLockRepository;
-use Ushahidi\Core\Entity\PostValueContainer;
-use Ushahidi\Core\Entity\PostRepository as PostRepositoryContract;
-use Ushahidi\Core\Entity\UserRepository as UserRepositoryContract;
-use Ushahidi\Core\SearchData;
-use Ushahidi\Core\Usecase\Post\StatsPostRepository;
-use Ushahidi\Core\Usecase\Post\UpdatePostRepository;
-use Ushahidi\Core\Usecase\Set\SetPostRepository;
-use Ushahidi\Core\Traits\UserContext;
-use Ushahidi\Core\Entity\ContactRepository;
-use Ushahidi\App\Repository\Post\ValueFactory as PostValueFactory;
-use Ushahidi\App\Util\BoundingBox;
+use Ushahidi\Core\Concerns\UserContext;
 use Ushahidi\App\Multisite\OhanzeeResolver;
+use Ushahidi\Contracts\Repository\Entity\ContactRepository;
+use Ushahidi\Contracts\Repository\Entity\PostLockRepository;
+use Ushahidi\Contracts\Repository\Usecase\SetPostRepository;
+use Ushahidi\Contracts\Repository\Usecase\UpdatePostRepository;
 use Ushahidi\Core\Tool\Permissions\InteractsWithPostPermissions;
-
-use Illuminate\Support\Collection;
-use League\Event\ListenerInterface;
-
-use Ushahidi\Core\Traits\Event;
+use Ushahidi\App\Repository\Post\ValueFactory as PostValueFactory;
+use Ushahidi\Contracts\Repository\Entity\FormRepository as FormRepositoryContract;
+use Ushahidi\Contracts\Repository\Entity\PostRepository as PostRepositoryContract;
+use Ushahidi\Contracts\Repository\Entity\FormStageRepository as FormStageRepositoryContract;
+use Ushahidi\Contracts\Repository\Entity\FormAttributeRepository as FormAttributeRepositoryContract;
+use Ushahidi\Core\DynamicEntity;
 
 class PostRepository extends OhanzeeRepository implements
     PostRepositoryContract,
@@ -51,7 +44,7 @@ class PostRepository extends OhanzeeRepository implements
     use Event;
 
     // Use the JSON transcoder to encode properties
-    use JsonTranscodeRepository;
+    use Concerns\JsonTranscode;
 
     // Provides `postPermissions`
     use InteractsWithPostPermissions;
@@ -203,7 +196,7 @@ class PostRepository extends OhanzeeRepository implements
             }
 
             /* -- VALUES HANDLING -- */
-            
+
             /* handle values already carried in in the $data object */
             $already_obtained_types = [];
             foreach ($this->data_to_entity_value_mappings as $mapping) {
@@ -243,7 +236,7 @@ class PostRepository extends OhanzeeRepository implements
                 unset($data[$mapping['attribute_key']]);
                 unset($data[$mapping['value']]);
             }
-            
+
             // Obtain the rest of the requested values
             $other_values = [];
             $types_to_fetch = null;
@@ -322,7 +315,7 @@ class PostRepository extends OhanzeeRepository implements
     }
 
 
-    // JsonTranscodeRepository
+    // Concerns\JsonTranscode
     protected function getJsonProperties()
     {
         return ['published_to'];
@@ -341,7 +334,7 @@ class PostRepository extends OhanzeeRepository implements
                 ['messages.id', 'message_id'],
                 ['messages.type', 'source']
             );
-        
+
         /*
          * The above join is optimized by the (post_id,type) index on messages.
          *
@@ -1309,7 +1302,7 @@ class PostRepository extends OhanzeeRepository implements
     }
 
     // UpdateRepository
-    public function updateFromService(Entity $entity)
+    public function updateFromService(DynamicEntity $entity)
     {
         $post = $entity->getChanged();
         $post['updated'] = time();

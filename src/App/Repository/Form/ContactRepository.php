@@ -12,14 +12,16 @@
 namespace Ushahidi\App\Repository\Form;
 
 use Ohanzee\DB;
-use Ohanzee\Database;
-use Ushahidi\App\Repository\OhanzeeRepository;
-
 use Ushahidi\Core\Entity;
-use Ushahidi\Core\SearchData;
-use Ushahidi\Core\Entity\FormContactRepository;
-use Ushahidi\Core\Usecase\SearchRepository;
-use Ushahidi\Core\Traits\Event;
+use Ushahidi\Core\Tool\SearchData;
+use Ushahidi\Core\Concerns\Event;
+use Ushahidi\App\Multisite\OhanzeeResolver;
+use Ushahidi\App\Repository\OhanzeeRepository;
+use Ushahidi\Contracts\Repository\SearchRepository;
+use Ushahidi\Contracts\Repository\Entity\FormRepository;
+use Ushahidi\Contracts\Repository\Entity\MessageRepository;
+use Ushahidi\Contracts\Repository\Entity\FormContactRepository;
+use Ushahidi\Contracts\Repository\Entity\TargetedSurveyStateRepository;
 
 class ContactRepository extends OhanzeeRepository implements
     FormContactRepository,
@@ -36,10 +38,10 @@ class ContactRepository extends OhanzeeRepository implements
      * @param FormRepository $form_repo
      */
     public function __construct(
-        \Ushahidi\App\Multisite\OhanzeeResolver $resolver,
-        Entity\FormRepository $form_repo,
-        Entity\TargetedSurveyStateRepository $targeted_survey_state_repo,
-        Entity\MessageRepository $message_repo
+        OhanzeeResolver $resolver,
+        FormRepository $form_repo,
+        TargetedSurveyStateRepository $targeted_survey_state_repo,
+        MessageRepository $message_repo
     ) {
         parent::__construct($resolver);
         $this->form_repo = $form_repo;
@@ -163,7 +165,7 @@ class ContactRepository extends OhanzeeRepository implements
     }
     /**
      * @param int $form_id
-     * @return Entity|Entity\Contact
+     * @return Entity[]|Entity\Contact[]
      * Returns all
      */
     public function getByForm($form_id)

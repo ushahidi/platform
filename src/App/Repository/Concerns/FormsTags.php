@@ -9,11 +9,11 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
 */
 
-namespace Ushahidi\App\Repository;
+namespace Ushahidi\App\Repository\Concerns;
 
 use Ohanzee\DB;
 
-trait FormsTagsTrait
+trait FormsTags
 {
     //returning tags for a specific Form-id
     private function getTagsForForm($id)

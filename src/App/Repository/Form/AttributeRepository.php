@@ -11,25 +11,21 @@
 
 namespace Ushahidi\App\Repository\Form;
 
-use Illuminate\Support\Facades\App;
 use Ohanzee\DB;
 use Ohanzee\Database;
-use Ushahidi\Core\Entity;
-use Ushahidi\Core\SearchData;
-use Ushahidi\Core\Entity\FormAttribute;
-use Ushahidi\Core\Entity\FormAttributeRepository as FormAttributeRepositoryContract;
-use Ushahidi\Core\Entity\FormStageRepository as FormStageRepositoryContract;
-use Ushahidi\Core\Entity\FormRepository as FormRepositoryContract;
-use Ushahidi\Core\Traits\UserContext;
-use Ushahidi\App\Repository\OhanzeeRepository;
-use Ushahidi\App\Repository\JsonTranscodeRepository;
-use Ushahidi\App\Repository\FormsTagsTrait;
-use Ushahidi\App\Repository\Concerns\CachesData;
-
-use Ushahidi\Core\Tool\Permissions\InteractsWithFormPermissions;
-
 use Ramsey\Uuid\Uuid;
-use Ramsey\Uuid\Exception\UnsatisfiedDependencyException;
+use Ushahidi\Core\Tool\SearchData;
+use Ushahidi\Contracts\Entity;
+use Ushahidi\Core\Concerns\UserContext;
+use Ushahidi\Core\Entity\FormAttribute;
+use Ushahidi\App\Repository\OhanzeeRepository;
+use Ushahidi\App\Repository\Concerns\FormsTags;
+use Ushahidi\App\Repository\Concerns\CachesData;
+use Ushahidi\App\Repository\Concerns\JsonTranscode;
+use Ushahidi\Core\Tool\Permissions\InteractsWithFormPermissions;
+use Ushahidi\Contracts\Repository\Entity\FormRepository as FormRepositoryContract;
+use Ushahidi\Contracts\Repository\Entity\FormStageRepository as FormStageRepositoryContract;
+use Ushahidi\Contracts\Repository\Entity\FormAttributeRepository as FormAttributeRepositoryContract;
 
 class AttributeRepository extends OhanzeeRepository implements
     FormAttributeRepositoryContract
@@ -46,8 +42,8 @@ class AttributeRepository extends OhanzeeRepository implements
     protected $form_id;
 
     // Use the JSON transcoder to encode properties
-    use JsonTranscodeRepository;
-    use FormsTagsTrait;
+    use JsonTranscode;
+    use FormsTags;
     use CachesData;
 
     /**
@@ -67,7 +63,7 @@ class AttributeRepository extends OhanzeeRepository implements
         $this->form_repo = $form_repo;
     }
 
-    // JsonTranscodeRepository
+    // Concerns\JsonTranscode
     protected function getJsonProperties()
     {
         return ['options', 'config'];

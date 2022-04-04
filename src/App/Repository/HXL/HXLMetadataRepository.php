@@ -10,10 +10,9 @@
  */
 namespace Ushahidi\App\Repository\HXL;
 
-use Ohanzee\DB;
-use Ushahidi\Core\SearchData;
+use Ushahidi\Core\Tool\SearchData;
 use Ushahidi\Core\Entity\HXL\HXLMetadata;
-use Ushahidi\Core\Entity\HXL\HXLMetadataRepository as HXLMetadataRepositoryContract;
+use Ushahidi\Contracts\Repository\Entity\HXLMetadataRepository as HXLMetadataRepositoryContract;
 use Ushahidi\App\Repository\OhanzeeRepository;
 
 class HXLMetadataRepository extends OhanzeeRepository implements

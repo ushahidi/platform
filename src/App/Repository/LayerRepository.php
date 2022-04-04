@@ -11,14 +11,14 @@
 
 namespace Ushahidi\App\Repository;
 
-use Ushahidi\Core\Entity;
+use Ushahidi\Contracts\Entity;
 use Ushahidi\Core\Entity\Layer;
-use Ushahidi\Core\SearchData;
+use Ushahidi\Core\Tool\SearchData;
 
 class LayerRepository extends OhanzeeRepository
 {
     // Use the JSON transcoder to encode properties
-    use JsonTranscodeRepository;
+    use Concerns\JsonTranscode;
 
     // OhanzeeRepository
     protected function getTable()
@@ -32,7 +32,7 @@ class LayerRepository extends OhanzeeRepository
         return new Layer($data);
     }
 
-    // JsonTranscodeRepository
+    // Concerns\JsonTranscode
     protected function getJsonProperties()
     {
         return ['options'];

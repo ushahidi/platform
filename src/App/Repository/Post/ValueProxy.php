@@ -11,7 +11,7 @@
 
 namespace Ushahidi\App\Repository\Post;
 
-use Ushahidi\Core\Usecase\Post\ValuesForPostRepository;
+use Ushahidi\Contracts\Repository\Usecase\ValuesForPostRepository;
 
 class ValueProxy implements ValuesForPostRepository
 {

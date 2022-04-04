@@ -13,16 +13,17 @@ namespace Ushahidi\App\Repository\Form;
 
 use Ohanzee\DB;
 use Ohanzee\Database;
-use Ushahidi\App\Repository\OhanzeeRepository;
-
+use Ushahidi\Core\Tool\SearchData;
 use Ushahidi\Core\Entity;
-use Ushahidi\Core\SearchData;
-use Ushahidi\Core\Entity\FormContactRepository;
-use Ushahidi\Core\Usecase\SearchRepository;
-use Ushahidi\Core\Traits\Event;
+use Ushahidi\Core\Concerns\Event;
+use Ushahidi\App\Multisite\OhanzeeResolver;
+use Ushahidi\App\Repository\FormRepository;
+use Ushahidi\App\Repository\OhanzeeRepository;
+use Ushahidi\Contracts\Repository\SearchRepository;
+use Ushahidi\Contracts\Repository\Entity\FormStatsRepository;
 
 class StatsRepository extends OhanzeeRepository implements
-    Entity\FormStatsRepository,
+    FormStatsRepository,
     SearchRepository
 {
     use Event;
@@ -36,8 +37,8 @@ class StatsRepository extends OhanzeeRepository implements
      * @param FormRepository                       $form_repo
      */
     public function __construct(
-        \Ushahidi\App\Multisite\OhanzeeResolver $resolver,
-        Entity\FormRepository $form_repo
+        OhanzeeResolver $resolver,
+        FormRepository $form_repo
     ) {
         parent::__construct($resolver);
 

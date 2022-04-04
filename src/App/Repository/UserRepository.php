@@ -14,23 +14,21 @@
 namespace Ushahidi\App\Repository;
 
 use Ohanzee\DB;
-use Ushahidi\Core\Entity;
-use Ushahidi\Core\Entity\User;
-use Ushahidi\Core\Entity\UserRepository as UserRepositoryContract;
-use Ushahidi\Core\SearchData;
-use Ushahidi\Core\Tool\Hasher;
-use Ushahidi\Core\Usecase\User\RegisterRepository;
-use Ushahidi\Core\Usecase\User\ResetPasswordRepository;
-
-use League\Event\ListenerInterface;
-use Ushahidi\Core\Traits\Event;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Ushahidi\Core\Tool\SearchData;
+use Ushahidi\Contracts\Entity;
+use Ushahidi\Contracts\Hasher;
+use Ushahidi\Core\Entity\User;
+use Ushahidi\Core\Concerns\Event;
+use Illuminate\Support\Facades\Hash;
+use Ushahidi\Contracts\Repository\Usecase\UserRegisterRepository;
+use Ushahidi\Contracts\Repository\Usecase\UserResetPasswordRepository;
+use Ushahidi\Contracts\Repository\Entity\UserRepository as UserRepositoryContract;
 
 class UserRepository extends OhanzeeRepository implements
     UserRepositoryContract,
-    RegisterRepository,
-    ResetPasswordRepository
+    UserRegisterRepository,
+    UserResetPasswordRepository
 {
     /**
      * @var Hasher
@@ -160,7 +158,6 @@ class UserRepository extends OhanzeeRepository implements
             $query->where('role', 'IN', $role);
         }
 
-    
         return $query;
     }
 
@@ -209,15 +206,13 @@ class UserRepository extends OhanzeeRepository implements
     }
 
     // ResetPasswordRepository
-    public function isValidResetToken($token)
+    public function isValidResetToken($token): bool
     {
         $result = DB::select([DB::expr('COUNT(*)'), 'total'])
             ->from('user_reset_tokens')
             ->where('reset_token', '=', $token)
             ->where('created', '>', time() - 1800) // Expire tokens after less than 30 mins
             ->execute($this->db());
-
-
 
         $count = $result->get('total') ?: 0;
 
@@ -246,7 +241,8 @@ class UserRepository extends OhanzeeRepository implements
 
     /**
      * Get total count of entities
-     * @param  Array $where
+     * @param  array $where
+     *
      * @return int
      */
     public function getTotalCount(array $where = [])

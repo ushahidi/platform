@@ -12,19 +12,17 @@
 namespace Ushahidi\App\Repository;
 
 use Ohanzee\DB;
-use Ushahidi\Core\Entity;
 use Ushahidi\Core\Entity\Set;
+use Ushahidi\Core\Tool\SearchData;
+use Ushahidi\Contracts\Entity;
+use Ushahidi\Core\Concerns\Event;
 use Ushahidi\Core\Entity\SavedSearch;
-use Ushahidi\Core\Entity\SetRepository as SetRepositoryContract;
-use Ushahidi\Core\SearchData;
-
-use League\Event\ListenerInterface;
-use Ushahidi\Core\Traits\Event;
+use Ushahidi\Contracts\Repository\Entity\SetRepository as SetRepositoryContract;
 
 class SetRepository extends OhanzeeRepository implements SetRepositoryContract
 {
     // Use the JSON transcoder to encode properties
-    use JsonTranscodeRepository;
+    use Concerns\JsonTranscode;
 
     // Use Event trait to trigger events
     use Event;
@@ -53,7 +51,7 @@ class SetRepository extends OhanzeeRepository implements SetRepositoryContract
         return $this->savedSearch ? new SavedSearch($data) : new Set($data);
     }
 
-    // JsonTranscodeRepository
+    // Concerns\JsonTranscode
     protected function getJsonProperties()
     {
         return ['filter', 'view_options', 'role'];
