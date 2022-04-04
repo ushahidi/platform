@@ -2,20 +2,19 @@
 
 namespace spec\Ushahidi\Core\Usecase\Message;
 
-use Ushahidi\Core\Entity;
-use Ushahidi\Core\Entity\Contact;
-use Ushahidi\Core\Entity\Message;
-use Ushahidi\Core\Tool\Authorizer;
-use Ushahidi\Core\Tool\Formatter;
-use Ushahidi\Core\Tool\Validator;
-use Ushahidi\Core\Usecase\CreateRepository;
-use Ushahidi\Core\Entity\ContactRepository;
-use Illuminate\Contracts\Events\Dispatcher;
-
-
-use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
+use PhpSpec\ObjectBehavior;
+use Ushahidi\Contracts\Entity;
+use Ushahidi\Contracts\Formatter;
+use Ushahidi\Contracts\Validator;
+use Ushahidi\Core\Entity\Contact;
+use Ushahidi\Contracts\Authorizer;
+use Illuminate\Contracts\Events\Dispatcher;
+use Ushahidi\Core\Exception\ValidatorException;
 use Illuminate\Contracts\Translation\Translator;
+use Ushahidi\Core\Usecase\Message\ReceiveMessage;
+use Ushahidi\Contracts\Repository\CreateRepository;
+use Ushahidi\Contracts\Repository\Entity\ContactRepository;
 
 class ReceiveMessageSpec extends ObjectBehavior
 {
@@ -29,7 +28,7 @@ class ReceiveMessageSpec extends ObjectBehavior
         Dispatcher $dispatcher,
         Translator $translator
     ) {
-        $contactRepo->beADoubleOf('Ushahidi\Core\Usecase\CreateRepository');
+        $contactRepo->beADoubleOf(CreateRepository::class);
 
         $this->setAuthorizer($auth);
         $this->setFormatter($format);
@@ -43,7 +42,7 @@ class ReceiveMessageSpec extends ObjectBehavior
 
     function it_is_initializable()
     {
-        $this->shouldHaveType('Ushahidi\Core\Usecase\Message\ReceiveMessage');
+        $this->shouldHaveType(ReceiveMessage::class);
     }
 
     private function getPayload()
@@ -176,7 +175,7 @@ class ReceiveMessageSpec extends ObjectBehavior
         // ... the exception requests the errors for the contact
         $contact->getResource()->willReturn('contacts');
         $contactValid->errors()->willReturn([]);
-        $this->shouldThrow('Ushahidi\Core\Exception\ValidatorException')->duringInteract();
+        $this->shouldThrow(ValidatorException::class)->duringInteract();
     }
 
     function it_creates_a_new_record(

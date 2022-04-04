@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Core\Entity;
 
-use Ushahidi\Core\Entity;
+use Ushahidi\Contracts\Entity;
 
 /**
  * Ushahidi Export Job
@@ -15,7 +15,7 @@ use Ushahidi\Core\Entity;
 class MockExportJobEntity implements Entity
 {
 
-    use \Ushahidi\Core\Traits\StatefulData;
+    use \Ushahidi\Core\Concerns\StatefulData;
 
     public $id;
     public $entity_type;

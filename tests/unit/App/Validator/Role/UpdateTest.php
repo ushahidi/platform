@@ -11,11 +11,11 @@
 
 namespace Tests\Unit\Core\Tool;
 
+use Mockery as M;
+use Tests\TestCase;
 use Kohana\Validation\Validation;
 use Ushahidi\App\Validator\Role\Update;
-use Tests\TestCase;
-use Mockery as M;
-use Ushahidi\Core\Entity\PermissionRepository;
+use Ushahidi\Contracts\Repository\Entity\PermissionRepository;
 
 /**
  * @backupGlobals disabled
@@ -23,6 +23,7 @@ use Ushahidi\Core\Entity\PermissionRepository;
  */
 class RoleUpdateTest extends TestCase
 {
+    protected $permissonRepoMock;
 
     public function testRoleDisabled()
     {
@@ -31,7 +32,9 @@ class RoleUpdateTest extends TestCase
         $this->app->instance('features', $features);
 
         $validationMock = M::mock(Validation::class);
-        $validator = new Update(M::mock(PermissionRepository::class));
+        /** @var PermissionRepository */
+        $permissonRepoMock = M::mock(PermissionRepository::class);
+        $validator = new Update($permissonRepoMock);
         $validationMock->expects('error')->with(
             'name',
             'rolesNotEnabled'
@@ -46,7 +49,9 @@ class RoleUpdateTest extends TestCase
         $this->app->instance('features', $features);
 
         $validationMock = M::mock(Validation::class);
-        $validator = new Update(M::mock(PermissionRepository::class));
+        /** @var PermissionRepository */
+        $permissonRepoMock = M::mock(PermissionRepository::class);
+        $validator = new Update($permissonRepoMock);
         $validationMock->shouldNotReceive('error')->with(
             'name',
             'rolesNotEnabled'

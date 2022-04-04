@@ -13,13 +13,13 @@ namespace Tests\Unit\App\DataSource;
 
 use Mockery as M;
 use Tests\TestCase;
-use Ushahidi\App\DataSource\DataSourceManager;
+use Ushahidi\Core\Entity\Config;
 use Ushahidi\App\DataSource\Email\Email;
-use Ushahidi\App\DataSource\IncomingAPIDataSource;
 use Ushahidi\App\DataSource\Nexmo\Nexmo;
 use Ushahidi\App\DataSource\Twitter\Twitter;
-use Ushahidi\Core\Entity\Config;
-use Ushahidi\Core\Entity\ConfigRepository;
+use Ushahidi\App\DataSource\DataSourceManager;
+use Ushahidi\Contracts\DataSource\IncomingDataSource;
+use Ushahidi\Contracts\Repository\Entity\ConfigRepository;
 
 /**
  * @backupGlobals disabled
@@ -129,7 +129,7 @@ class DataSourceManagerTest extends TestCase
             ]));
 
         $customSource = function ($config = []) {
-            return new class($config) implements IncomingAPIDataSource
+            return new class($config) implements IncomingDataSource
             {
                 protected $config;
 

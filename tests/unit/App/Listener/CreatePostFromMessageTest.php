@@ -2,14 +2,14 @@
 
 namespace Tests\Unit\App\Listener;
 
-use Ushahidi\App\Listener\CreatePostFromMessage;
-use Ushahidi\Core\Entity\Message;
-use Ushahidi\Core\Entity\MessageRepository;
-use Ushahidi\Core\Entity\Post;
-use Ushahidi\Core\Entity\PostRepository;
-use Ushahidi\Core\Entity\TargetedSurveyStateRepository;
-use Tests\TestCase;
 use Mockery as M;
+use Tests\TestCase;
+use Ushahidi\Core\Entity\Post;
+use Ushahidi\Core\Entity\Message;
+use Ushahidi\App\Listener\CreatePostFromMessage;
+use Ushahidi\Contracts\Repository\Entity\PostRepository;
+use Ushahidi\Contracts\Repository\Entity\MessageRepository;
+use Ushahidi\Contracts\Repository\Entity\TargetedSurveyStateRepository;
 
 /**
  * @backupGlobals disabled

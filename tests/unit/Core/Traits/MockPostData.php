@@ -4,8 +4,8 @@ namespace Tests\Unit\Core\Traits;
 
 class MockPostData
 {
-    use \Ushahidi\Core\Traits\StatefulData;
-    
+    use \Ushahidi\Core\Concerns\StatefulData;
+
     protected $id;
     protected $parent_id;
     protected $form_id;

@@ -568,6 +568,7 @@ class RestContext implements Context
             );
         }
     }
+
     /**
      * @Then /^the "([^"]*)" property equals "([^"]*)"$/
      */
@@ -587,6 +588,29 @@ class RestContext implements Context
             throw new \Exception(
                 "Property value mismatch on '" . $propertyName . "'! ".
                 "(given: " . $propertyValue . ", match: " . $actualPropertyValue . ")"
+            );
+        }
+    }
+
+    /**
+     * @Then /^the "([^"]*)" property is greater than or equal to "([^"]*)"$/
+     */
+    public function thePropertyIsGreaterThanOrEqualTo($propertyName, $propertyValue)
+    {
+        $data = json_decode($this->response->getBody(true), true);
+
+        $this->theResponseIsJson();
+
+        $actualPropertyValue = array_get($data, $propertyName);
+
+        if ($actualPropertyValue === null) {
+            throw new \Exception("Property '".$propertyName."' is not set!\n");
+        }
+
+        if (! $actualPropertyValue >= $propertyValue) {
+            throw new \Exception(
+                "Property '" . $propertyName . "'! ".
+                "is not greater than or equal to: " . $propertyValue . ", (match: " . $actualPropertyValue . ")"
             );
         }
     }

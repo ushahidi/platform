@@ -11,6 +11,9 @@
 
 namespace Tests\Unit\App\Repository;
 
+use Ushahidi\Core\Entity\PostValue;
+use Ushahidi\App\Repository\Post\ValueRepository;
+
 /**
  * @backupGlobals disabled
  * @preserveGlobalState disabled
@@ -24,12 +27,12 @@ class PostValueRepositoryTest extends \PHPUnit\Framework\TestCase
     {
         parent::setUp();
 
-        $this->repository = $this->getMockBuilder(\Ushahidi\App\Repository\Post\ValueRepository::class)
+        $this->repository = $this->getMockBuilder(ValueRepository::class)
             ->setMethods(['selectOne', 'selectQuery', 'getTable', 'db'])
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->postvalue = $this->createMock(\Ushahidi\Core\Entity\PostValue::class);
+        $this->postvalue = $this->createMock(PostValue::class);
     }
 
     /**
@@ -45,7 +48,7 @@ class PostValueRepositoryTest extends \PHPUnit\Framework\TestCase
             ]));
 
         // Check that get() returns a PostValue Entity
-        $this->assertInstanceOf('Ushahidi\Core\Entity\PostValue', $this->repository->get(1));
+        $this->assertInstanceOf(PostValue::class, $this->repository->get(1));
 
         // Check entity returned by get() has expected values
         $entity = $this->repository->get(1);
@@ -98,6 +101,6 @@ class PostValueRepositoryTest extends \PHPUnit\Framework\TestCase
         // Check that getAllForPost() returns an array of PostValue's
         $values = $this->repository->getAllForPost(1);
         $this->assertCount(3, $values);
-        $this->assertInstanceOf('Ushahidi\Core\Entity\PostValue', current($values));
+        $this->assertInstanceOf(PostValue::class, current($values));
     }
 }

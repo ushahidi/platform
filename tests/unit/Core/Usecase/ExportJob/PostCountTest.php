@@ -2,15 +2,14 @@
 
 namespace Tests\Unit\Core\Usecase\ExportJob;
 
-use Tests\TestCase;
 use Faker;
 use Mockery as M;
+use Tests\TestCase;
 
-use Ushahidi\Core\Usecase\Export\Job\PostCount;
+use Ushahidi\Contracts\Session;
 use Ushahidi\Core\Entity\ExportJob;
-use Ushahidi\Core\Entity\ExportJobRepository;
-use Ushahidi\Core\Usecase\ReadRepository;
-use Ushahidi\Core\Session;
+use Ushahidi\Core\Usecase\Export\Job\PostCount;
+use Ushahidi\Contracts\Repository\Entity\ExportJobRepository;
 
 /**
  * @group api

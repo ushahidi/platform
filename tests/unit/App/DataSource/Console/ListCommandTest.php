@@ -11,11 +11,13 @@
 
 namespace Tests\Unit\App\DataSource\Console;
 
-use Tests\TestCase;
 use Mockery as M;
-use Ushahidi\App\DataSource\Console\ListCommand;
-use Ushahidi\App\DataSource\DataSourceManager;
+use Tests\TestCase;
+use Ushahidi\Core\Entity\Config;
 use Illuminate\Console\Application as Artisan;
+use Ushahidi\App\DataSource\DataSourceManager;
+use Ushahidi\App\DataSource\Console\ListCommand;
+use Ushahidi\Contracts\Repository\Entity\ConfigRepository;
 
 /**
  * @backupGlobals disabled
@@ -30,8 +32,8 @@ class ListCommandTest extends TestCase
 
         // Ensure enabled providers is in a known state
         // Mock the config repo
-        $configRepo = M::mock(\Ushahidi\Core\Entity\ConfigRepository::class);
-        $configRepo->shouldReceive('get')->with('data-provider')->andReturn(new \Ushahidi\Core\Entity\Config([
+        $configRepo = M::mock(ConfigRepository::class);
+        $configRepo->shouldReceive('get')->with('data-provider')->andReturn(new Config([
             'providers' => [
                 'email' => false,
                 'frontlinesms' => true,
@@ -41,7 +43,7 @@ class ListCommandTest extends TestCase
                 'smssync' => true,
             ]
         ]));
-        $configRepo->shouldReceive('get')->with('features')->andReturn(new \Ushahidi\Core\Entity\Config([
+        $configRepo->shouldReceive('get')->with('features')->andReturn(new Config([
             'data-providers' => [
                 'email' => false,
                 'frontlinesms' => true,

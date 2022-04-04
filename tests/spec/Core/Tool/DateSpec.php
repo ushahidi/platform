@@ -2,11 +2,10 @@
 
 namespace spec\Ushahidi\Core\Tool;
 
-use Ushahidi\Core\Entity\ConfigRepository;
-use Ushahidi\Core\Entity;
-
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
+use Ushahidi\Contracts\Entity;
+use Ushahidi\Contracts\Repository\Entity\ConfigRepository;
+use Ushahidi\Core\Tool\Date;
 
 class DateSpec extends ObjectBehavior
 {
@@ -21,7 +20,7 @@ class DateSpec extends ObjectBehavior
 
     function it_is_initializable()
     {
-        $this->shouldHaveType('Ushahidi\Core\Tool\Date');
+        $this->shouldHaveType(Date::class);
     }
 
     function it_fetches_the_date_format_from_site_settings($repo, Entity $config)

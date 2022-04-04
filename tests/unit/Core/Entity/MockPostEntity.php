@@ -10,7 +10,7 @@ namespace Tests\Unit\Core\Entity;
 
 class MockPostEntity
 {
-    use \Ushahidi\Core\Traits\StatefulData;
+    use \Ushahidi\Core\Concerns\StatefulData;
     protected $id;
     protected $parent_id;
     protected $form_id;

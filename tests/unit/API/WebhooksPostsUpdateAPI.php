@@ -2,9 +2,11 @@
 
 namespace Tests\Unit\API;
 
-use Laravel\Lumen\Testing\DatabaseTransactions;
-use Tests\TestCase;
 use Faker;
+use Tests\TestCase;
+use Ushahidi\Core\Entity\Post;
+use Ushahidi\Core\Entity\ApiKey;
+use Laravel\Lumen\Testing\DatabaseTransactions;
 
 /**
  * @group api
@@ -26,7 +28,7 @@ class WebhooksPostsUpdateAPI extends TestCase
 
         $faker = Faker\Factory::create();
 
-        $this->postId = service('repository.post')->create(new \Ushahidi\Core\Entity\Post([
+        $this->postId = service('repository.post')->create(new Post([
             'title' => $faker->word,
             'content' => $faker->text
         ]));
@@ -34,7 +36,7 @@ class WebhooksPostsUpdateAPI extends TestCase
 
     public function tearDown()
     {
-        service('repository.post')->delete(new \Ushahidi\Core\Entity\Post(['id' => $this->postId]));
+        service('repository.post')->delete(new Post(['id' => $this->postId]));
 
         parent::tearDown();
     }
@@ -77,7 +79,7 @@ class WebhooksPostsUpdateAPI extends TestCase
 
         // Make an API key
         $apiKeys = service('repository.apikey');
-        $apiKeyId = $apiKeys->create(new \Ushahidi\Core\Entity\ApiKey([]));
+        $apiKeyId = $apiKeys->create(new ApiKey([]));
         $apiKey = $apiKeys->get($apiKeyId);
 
         // Make a signature

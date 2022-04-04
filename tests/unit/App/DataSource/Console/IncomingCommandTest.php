@@ -11,13 +11,15 @@
 
 namespace Tests\Unit\App\DataSource\Console;
 
-use Tests\TestCase;
 use Mockery as M;
+use Tests\TestCase;
 use phpmock\mockery\PHPMockery;
-use Ushahidi\App\DataSource\Console\IncomingCommand;
+use Ushahidi\Core\Entity\Config;
+use Illuminate\Console\Application as Artisan;
 use Ushahidi\App\DataSource\DataSourceManager;
 use Ushahidi\App\DataSource\DataSourceStorage;
-use Illuminate\Console\Application as Artisan;
+use Ushahidi\App\DataSource\Console\IncomingCommand;
+use Ushahidi\Contracts\Repository\Entity\ConfigRepository;
 
 /**
  * @backupGlobals disabled
@@ -31,9 +33,9 @@ class IncomingCommandTest extends TestCase
         parent::setUp();
         // Ensure enabled providers is in a known state
         // Mock the config repo
-        unset($this->app->availableBindings['Ushahidi\Core\Entity\ConfigRepository']);
-        $configRepo = M::mock(\Ushahidi\Core\Entity\ConfigRepository::class);
-        $configRepo->shouldReceive('get')->with('data-provider')->andReturn(new \Ushahidi\Core\Entity\Config([
+        unset($this->app->availableBindings[ConfigRepository::class]);
+        $configRepo = M::mock(ConfigRepository::class);
+        $configRepo->shouldReceive('get')->with('data-provider')->andReturn(new Config([
             'providers' => [
                 'email' => false,
                 'frontlinesms' => true,
@@ -43,7 +45,7 @@ class IncomingCommandTest extends TestCase
                 'smssync' => true,
             ]
         ]));
-        $configRepo->shouldReceive('get')->with('features')->andReturn(new \Ushahidi\Core\Entity\Config([
+        $configRepo->shouldReceive('get')->with('features')->andReturn(new Config([
             'data-providers' => [
                 'email' => false,
                 'frontlinesms' => true,
@@ -53,8 +55,8 @@ class IncomingCommandTest extends TestCase
                 'smssync' => true,
             ]
         ]));
-        $configRepo->shouldReceive('get')->with('twitter')->andReturn(new \Ushahidi\Core\Entity\Config([]));
-        $this->app->instance(\Ushahidi\Core\Entity\ConfigRepository::class, $configRepo);
+        $configRepo->shouldReceive('get')->with('twitter')->andReturn(new Config([]));
+        $this->app->instance(ConfigRepository::class, $configRepo);
 
         // Reinsert command with mocks
         $commands = new IncomingCommand(new DataSourceManager($configRepo), $this->app->make(DataSourceStorage::class));

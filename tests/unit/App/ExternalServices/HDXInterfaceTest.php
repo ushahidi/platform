@@ -1,19 +1,14 @@
 <?php
 namespace Tests\Unit\App\ExternalServices;
 
-use Germanazo\CkanApi\Repositories\LicenseRepository;
-use Ushahidi\App\ExternalServices\HDXInterface;
-
 use Tests\TestCase;
-use GuzzleHttp\Client;
-use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
-use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\Request;
-use GuzzleHttp\Except\ClientException;
-use GuzzleHttp\Exception\RequestException;
-use Ushahidi\App\Repository\HXL\HXLLicenseRepository;
+use GuzzleHttp\Psr7\Response;
+use GuzzleHttp\Handler\MockHandler;
 use Ushahidi\Core\Entity\HXL\HXLLicense;
+use GuzzleHttp\Exception\RequestException;
+use Ushahidi\Core\Tool\ExternalServices\HDXInterface;
 
 class HDXInterfaceTest extends TestCase
 {
@@ -68,7 +63,7 @@ class HDXInterfaceTest extends TestCase
         $tags = [
             ["name" => "coordinates"]
         ];
-        $license = new \Ushahidi\Core\Entity\HXL\HXLLicense([
+        $license = new HXLLicense([
             'code' => "ushahidi".rand(),
             'name' => "ushahidi-dataset",
             'link' => "other",

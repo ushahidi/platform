@@ -2,16 +2,15 @@
 
 namespace spec\Ushahidi\Core\Usecase;
 
-use Ushahidi\Core\Entity;
-use Ushahidi\Core\Tool\Authorizer;
-use Ushahidi\Core\Tool\Formatter;
-use Ushahidi\Core\Tool\Validator;
-use Ushahidi\Core\Usecase\CreateRepository;
+use Prophecy\Argument;
+use PhpSpec\ObjectBehavior;
+use Ushahidi\Contracts\Entity;
+use Ushahidi\Contracts\Formatter;
+use Ushahidi\Contracts\Validator;
+use Ushahidi\Contracts\Authorizer;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Contracts\Translation\Translator;
-
-use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
+use Ushahidi\Contracts\Repository\CreateRepository;
 
 class CreateUsecaseSpec extends ObjectBehavior
 {

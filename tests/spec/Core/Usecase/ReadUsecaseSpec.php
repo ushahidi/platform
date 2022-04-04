@@ -2,13 +2,12 @@
 
 namespace spec\Ushahidi\Core\Usecase;
 
-use Ushahidi\Core\Entity;
-use Ushahidi\Core\Tool\Authorizer;
-use Ushahidi\Core\Tool\Formatter;
-use Ushahidi\Core\Usecase\ReadRepository;
-
-use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
+use PhpSpec\ObjectBehavior;
+use Ushahidi\Contracts\Entity;
+use Ushahidi\Contracts\Formatter;
+use Ushahidi\Contracts\Authorizer;
+use Ushahidi\Contracts\Repository\ReadRepository;
 
 class ReadUsecaseSpec extends ObjectBehavior
 {

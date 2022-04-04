@@ -2,14 +2,14 @@
 
 namespace spec\Ushahidi\Core\Usecase\User;
 
-use Ushahidi\Core\Entity;
-use Ushahidi\Core\Entity\UserRepository;
-use Ushahidi\Core\Tool\Authorizer;
-use Ushahidi\Core\Tool\Formatter;
-use Ushahidi\Core\Tool\PasswordAuthenticator;
-use Ushahidi\Core\Tool\RateLimiter;
-
 use PhpSpec\ObjectBehavior;
+use Ushahidi\Contracts\Entity;
+use Ushahidi\Contracts\Formatter;
+use Ushahidi\Contracts\Authorizer;
+use Ushahidi\Contracts\RateLimiter;
+use Ushahidi\Core\Tool\PasswordAuthenticator;
+use Ushahidi\Contracts\Repository\ReadRepository;
+use Ushahidi\Contracts\Repository\Entity\UserRepository;
 
 class LoginUserSpec extends ObjectBehavior
 {
@@ -20,7 +20,7 @@ class LoginUserSpec extends ObjectBehavior
         PasswordAuthenticator $authenticator,
         RateLimiter $rateLimiter
     ) {
-        $repo->beADoubleOf('Ushahidi\Core\Usecase\ReadRepository');
+        $repo->beADoubleOf(ReadRepository::class);
 
         $this->setAuthorizer($auth);
         $this->setFormatter($format);

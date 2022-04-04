@@ -11,11 +11,14 @@
 
 namespace Tests\Unit\App\DataSource;
 
-use Tests\TestCase;
 use Mockery as M;
-use Ushahidi\App\DataSource\Email\Email;
-use Ushahidi\App\Multisite\Site;
+use Tests\TestCase;
 use phpmock\mockery\PHPMockery;
+use Ushahidi\App\Multisite\Site;
+use Illuminate\Contracts\Mail\Mailer;
+use Illuminate\Mailer\Message;
+use Ushahidi\App\DataSource\Email\Email;
+use Ushahidi\Contracts\Repository\Entity\MessageRepository;
 
 /**
  * @backupGlobals disabled
@@ -63,7 +66,7 @@ class EmailDataSourceTest extends TestCase
                 'site_url' => 'ushahidi.app'
             ],
             M::on(function (\Closure $closure) {
-                $mock = M::mock(\Illuminate\Mailer\Message::class);
+                $mock = M::mock(Message::class);
                 $mock->shouldReceive('to')->once()->once()->with('test@ushahidi.com')
                      ->andReturn($mock); // simulate the chaining
                 $mock->shouldReceive('from')->once()->once()->with('test@ushahidi.app', 'The Site')
@@ -85,8 +88,8 @@ class EmailDataSourceTest extends TestCase
 
     public function testFetch()
     {
-        $mockMailer = M::mock(\Illuminate\Contracts\Mail\Mailer::class);
-        $mockMessageRepo = M::mock(\Ushahidi\Core\Entity\MessageRepository::class);
+        $mockMailer = M::mock(Mailer::class);
+        $mockMessageRepo = M::mock(MessageRepository::class);
 
         $mockMessageRepo->shouldReceive('getLastUID')->once()->andReturn(712);
 

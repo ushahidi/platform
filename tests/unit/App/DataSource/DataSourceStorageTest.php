@@ -11,14 +11,14 @@
 
 namespace Tests\Unit\App\DataSource;
 
-use Illuminate\Support\Facades\Log;
-use Tests\TestCase;
 use Mockery as M;
-
-use Ushahidi\App\DataSource\DataSourceStorage;
-use Ushahidi\Core\Entity\MessageRepository;
-use Ushahidi\Core\Usecase;
+use Tests\TestCase;
+use Ushahidi\Contracts\Usecase;
 use Ushahidi\Core\Entity\Message;
+use Illuminate\Support\Facades\Log;
+use Ushahidi\App\DataSource\DataSourceStorage;
+use Ushahidi\Core\Exception\NotFoundException;
+use Ushahidi\Contracts\Repository\Entity\MessageRepository;
 
 /**
  * @backupGlobals disabled
@@ -108,7 +108,7 @@ class DataSourceStorageTest extends TestCase
         $this->usecase
             ->shouldReceive('interact')
             ->once()
-            ->andThrow(\Ushahidi\Core\Exception\NotFoundException::class);
+            ->andThrow(NotFoundException::class);
 
         $storage->receive(
             'smssync',

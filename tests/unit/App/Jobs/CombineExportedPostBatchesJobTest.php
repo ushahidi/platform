@@ -2,17 +2,14 @@
 
 namespace Tests\Unit\App\Jobs;
 
-use Laravel\Lumen\Testing\DatabaseTransactions;
-use Tests\TestCase;
-use Faker;
 use Mockery as M;
-
-use Ushahidi\App\Jobs\CombineExportedPostBatchesJob;
+use Tests\TestCase;
 use Ushahidi\Core\Entity\ExportJob;
-use Ushahidi\Core\Entity\ExportJobRepository;
 use Ushahidi\Core\Entity\ExportBatch;
-use Ushahidi\Core\Entity\ExportBatchRepository;
 use Illuminate\Support\Facades\Storage;
+use Ushahidi\App\Jobs\CombineExportedPostBatchesJob;
+use Ushahidi\Contracts\Repository\Entity\ExportJobRepository;
+use Ushahidi\Contracts\Repository\Entity\ExportBatchRepository;
 
 /**
  * @group api

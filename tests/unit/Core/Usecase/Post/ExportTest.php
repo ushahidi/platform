@@ -8,15 +8,18 @@
 
 namespace Tests\Unit\Core\Usecase\Post;
 
-use Tests\TestCase;
-use Mockery as M;
-use Ushahidi\App\Repository\ExportJobRepository;
-use Ushahidi\App\Repository\Form\AttributeRepository;
-use Ushahidi\App\Repository\Post\ExportRepository;
-use Ushahidi\Core\Entity\ExportJob;
-use Ushahidi\Core\Entity\Post;
-use Ushahidi\Core\SearchData;
 use Faker;
+use Mockery as M;
+use Tests\TestCase;
+use Ushahidi\Core\Tool\SearchData;
+use Ushahidi\Core\Entity\Post;
+use Ushahidi\Core\Entity\User;
+use Ushahidi\Core\Entity\ExportJob;
+use Ushahidi\Core\Entity\HXL\HXLLicense;
+use Ushahidi\Core\Entity\HXL\HXLMetadata;
+use Ushahidi\App\Repository\ExportJobRepository;
+use Ushahidi\App\Repository\Post\ExportRepository;
+use Ushahidi\App\Repository\Form\AttributeRepository;
 
 class ExportTest extends TestCase
 {
@@ -33,7 +36,7 @@ class ExportTest extends TestCase
 
         $faker = Faker\Factory::create();
 
-        $this->userId = service('repository.user')->create(new \Ushahidi\Core\Entity\User([
+        $this->userId = service('repository.user')->create(new User([
             'email' => $faker->email,
             'password' => $faker->password(10),
             'realname' => $faker->name,
@@ -44,13 +47,13 @@ class ExportTest extends TestCase
         $this->exportJobRepository = M::mock(ExportJobRepository::class);
         $this->formAttributeRepository = M::mock(AttributeRepository::class);
 
-        $this->hxlLicenseId = service('repository.hxl_license')->create(new \Ushahidi\Core\Entity\HXL\HXLLicense([
+        $this->hxlLicenseId = service('repository.hxl_license')->create(new HXLLicense([
             'code' => "ushahidi".rand(),
             'name' => "ushahidi-dataset",
             'link' => "other",
         ]));
 
-        $this->hxlMetaDataId = service('repository.hxl_meta_data')->create(new \Ushahidi\Core\Entity\HXL\HXLMetadata([
+        $this->hxlMetaDataId = service('repository.hxl_meta_data')->create(new HXLMetadata([
             "license_id" => $this->hxlLicenseId,
             "organisation_id" => "org-id-here",
             "organisation_name" => "ushahidi",
@@ -60,7 +63,7 @@ class ExportTest extends TestCase
             'user_id' => $this->userId,
         ]));
         $this->usecase = service('factory.usecase')->get('posts_export', 'export');
-        $this->jobId = service('repository.export_job')->create(new \Ushahidi\Core\Entity\ExportJob([
+        $this->jobId = service('repository.export_job')->create(new ExportJob([
             'user_id' => $this->userId,
             'entity_type' => 'post',
             'hxl_meta_data_id' => $this->hxlMetaDataId
@@ -78,13 +81,13 @@ class ExportTest extends TestCase
     {
         parent::tearDown();
         service('repository.hxl_license')->delete(
-            new \Ushahidi\Core\Entity\HXL\HXLLicense(['id' => $this->hxlLicenseId])
+            new HXLLicense(['id' => $this->hxlLicenseId])
         );
         service('repository.hxl_meta_data')->delete(
-            new \Ushahidi\Core\Entity\HXL\HXLMetadata(['id' => $this->hxlMetaDataId])
+            new HXLMetadata(['id' => $this->hxlMetaDataId])
         );
-        service('repository.user')->delete(new \Ushahidi\Core\Entity\User(['id' => $this->userId]));
-        service('repository.export_job')->delete(new \Ushahidi\Core\Entity\ExportJob(['id' => $this->jobId]));
+        service('repository.user')->delete(new User(['id' => $this->userId]));
+        service('repository.export_job')->delete(new ExportJob(['id' => $this->jobId]));
     }
 
     public function testJobIsUpdated()

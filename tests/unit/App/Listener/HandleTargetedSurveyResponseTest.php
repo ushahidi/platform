@@ -2,16 +2,15 @@
 
 namespace Tests\Unit\App\Listeners;
 
-use Ushahidi\App\Listener\HandleTargetedSurveyResponse;
-use Ushahidi\Core\Entity\Message;
-use Ushahidi\Core\Entity\MessageRepository;
-use Ushahidi\Core\Entity\TargetedSurveyState;
-use Ushahidi\Core\Entity\TargetedSurveyStateRepository;
-use Ushahidi\Core\Entity\FormAttribute;
-use Ushahidi\Core\Entity\FormAttributeRepository;
-
-use Tests\TestCase;
 use Mockery as M;
+use Tests\TestCase;
+use Ushahidi\Core\Entity\Message;
+use Ushahidi\Core\Entity\FormAttribute;
+use Ushahidi\Core\Entity\TargetedSurveyState;
+use Ushahidi\App\Listener\HandleTargetedSurveyResponse;
+use Ushahidi\Contracts\Repository\Entity\MessageRepository;
+use Ushahidi\Contracts\Repository\Entity\FormAttributeRepository;
+use Ushahidi\Contracts\Repository\Entity\TargetedSurveyStateRepository;
 
 /**
  * @backupGlobals disabled

@@ -11,10 +11,10 @@
 
 namespace Tests\Unit\Core\Tool;
 
-use Ushahidi\Core\Tool\Verifier;
-use Ushahidi\Core\Entity\ApiKeyRepository;
-use Tests\TestCase;
 use Mockery as M;
+use Tests\TestCase;
+use Ushahidi\Core\Tool\Verifier;
+use Ushahidi\Contracts\Repository\Entity\ApiKeyRepository;
 
 /**
  * @backupGlobals disabled
