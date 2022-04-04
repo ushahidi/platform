@@ -14,7 +14,8 @@
 
 namespace Ushahidi\Core;
 
-use Ushahidi\Core\Traits\StatefulData;
+use Ushahidi\Contracts\Entity;
+use Ushahidi\Core\Concerns\StatefulData;
 
 abstract class DynamicEntity implements Entity
 {
