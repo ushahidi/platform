@@ -12,16 +12,12 @@
 namespace Ushahidi\App\DataSource\Console;
 
 use Illuminate\Console\Command;
-
-use Ushahidi\Core\Usecase;
-use Ushahidi\Factory\UsecaseFactory;
 use Ushahidi\App\DataSource\DataSourceManager;
 use Ushahidi\App\DataSource\DataSourceStorage;
-use Ushahidi\App\DataSource\IncomingAPIDataSource;
+use Ushahidi\Contracts\DataSource\IncomingDataSource;
 
 class IncomingCommand extends Command
 {
-
     /**
      * The console command name.
      *
@@ -81,7 +77,7 @@ class IncomingCommand extends Command
 
         foreach ($sources as $sourceId) {
             $source = $this->sources->getSource($sourceId);
-            if (!($source instanceof IncomingAPIDataSource)) {
+            if (!($source instanceof IncomingDataSource)) {
                 // Data source doesn't have an API we can pull messages from
                 continue;
             }

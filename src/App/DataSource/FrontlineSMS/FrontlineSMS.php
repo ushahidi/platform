@@ -11,15 +11,15 @@ namespace Ushahidi\App\DataSource\FrontlineSMS;
  * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License Version 3 (GPLv3)
  */
 
-use Ushahidi\App\DataSource\CallbackDataSource;
-use Ushahidi\App\DataSource\OutgoingAPIDataSource;
-use Ushahidi\App\DataSource\Message\Type as MessageType;
-use Ushahidi\App\DataSource\Message\Status as MessageStatus;
-use Ushahidi\App\DataSource\Concerns\MapsInboundFields;
-use Ushahidi\Core\Entity\Contact;
 use Log;
+use Ushahidi\Core\Entity\Contact;
+use Ushahidi\Contracts\DataSource\CallbackDataSource;
+use Ushahidi\Contracts\DataSource\OutgoingDataSource;
+use Ushahidi\App\DataSource\Concerns\MapsInboundFields;
+use Ushahidi\Contracts\DataSource\MessageType as MessageType;
+use Ushahidi\Contracts\DataSource\MessageStatus as MessageStatus;
 
-class FrontlineSMS implements CallbackDataSource, OutgoingAPIDataSource
+class FrontlineSMS implements CallbackDataSource, OutgoingDataSource
 {
     use MapsInboundFields;
 

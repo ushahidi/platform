@@ -13,8 +13,8 @@ namespace Ushahidi\App\DataSource\SMSSync;
 
 use Ushahidi\App\DataSource\DataSourceController;
 use Illuminate\Http\Request;
-use Ushahidi\App\DataSource\Message\Type as MessageType;
-use Ushahidi\App\DataSource\Message\Status as MessageStatus;
+use Ushahidi\Contracts\DataSource\MessageType as MessageType;
+use Ushahidi\Contracts\DataSource\MessageStatus as MessageStatus;
 use Ushahidi\Core\Entity\Contact;
 
 class SMSSyncController extends DataSourceController

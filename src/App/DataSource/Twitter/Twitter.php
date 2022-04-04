@@ -11,23 +11,20 @@ namespace Ushahidi\App\DataSource\Twitter;
  * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License Version 3 (GPLv3)
  */
 
-use Ushahidi\App\DataSource\IncomingAPIDataSource;
-use Ushahidi\App\DataSource\OutgoingAPIDataSource;
-use Ushahidi\App\DataSource\Message\Type as MessageType;
-use Ushahidi\App\DataSource\Message\Status as MessageStatus;
-use Ushahidi\App\DataSource\Concerns\MapsInboundFields;
-use Abraham\TwitterOAuth\TwitterOAuth;
-use Abraham\TwitterOAuth\TwitterOAuthException;
-use Symm\Gisconverter\Decoders\WKT;
-use Symm\Gisconverter\Decoders\GeoJSON;
-use Log;
-
-use Ohanzee\DB;
-
 use Ushahidi\Core\Entity\Contact;
-use Ushahidi\Core\Entity\ConfigRepository;
+use Illuminate\Support\Facades\Log;
+use Symm\Gisconverter\Decoders\WKT;
+use Abraham\TwitterOAuth\TwitterOAuth;
+use Symm\Gisconverter\Decoders\GeoJSON;
+use Ushahidi\Contracts\DataSource\MessageType;
+use Abraham\TwitterOAuth\TwitterOAuthException;
+use Ushahidi\Contracts\DataSource\MessageStatus;
+use Ushahidi\Contracts\DataSource\IncomingDataSource;
+use Ushahidi\Contracts\DataSource\OutgoingDataSource;
+use Ushahidi\App\DataSource\Concerns\MapsInboundFields;
+use Ushahidi\Contracts\Repository\Entity\ConfigRepository;
 
-class Twitter implements IncomingAPIDataSource, OutgoingAPIDataSource
+class Twitter implements IncomingDataSource, OutgoingDataSource
 {
     use MapsInboundFields;
 
@@ -216,9 +213,9 @@ class Twitter implements IncomingAPIDataSource, OutgoingAPIDataSource
             $this->request_count++; //Increment for successful request
 
             $this->update();
-        } catch (\TwitterOAuthException $toe) {
+        } catch (TwitterOAuthException $toe) {
             app('log')->error($toe->getMessage());
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             app('log')->error($e->getMessage());
         }
 
@@ -247,7 +244,7 @@ class Twitter implements IncomingAPIDataSource, OutgoingAPIDataSource
         } catch (TwitterOAuthException $e) {
             app('log')->error($e->getMessage());
             return [MessageStatus::FAILED, false];
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             app('log')->error($e->getMessage());
             return [MessageStatus::FAILED, false];
         }

@@ -13,21 +13,18 @@ namespace Ushahidi\App\DataSource\Nexmo;
 
 use Ushahidi\App\DataSource\DataSourceController;
 use Ushahidi\Core\Entity\Contact;
-use Ushahidi\App\DataSource\Message\Type as MessageType;
-use Ushahidi\App\DataSource\Message\Status as MessageStatus;
-use Ushahidi\App\Http\Controllers\Controller;
+use Ushahidi\Contracts\DataSource\MessageType;
 use Illuminate\Http\Request;
 
 class NexmoController extends DataSourceController
 {
-
     protected $source = 'nexmo';
 
     public function handleRequest(Request $request)
     {
         $message = \Nexmo\Message\InboundMessage::createFromGlobals();
         if (!$message->isValid() || !$message->getBody() || !$message->getFrom()) {
-            throw abort(400, "Invalid message");
+            abort(400, "Invalid message");
         }
 
         // Remove Non-Numeric characters because that's what the DB has

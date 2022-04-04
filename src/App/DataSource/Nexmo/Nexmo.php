@@ -11,19 +11,24 @@ namespace Ushahidi\App\DataSource\Nexmo;
  * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License Version 3 (GPLv3)
  */
 
-use Ushahidi\App\DataSource\CallbackDataSource;
-use Ushahidi\App\DataSource\OutgoingAPIDataSource;
-use Ushahidi\App\DataSource\Message\Type as MessageType;
-use Ushahidi\App\DataSource\Message\Status as MessageStatus;
+use Ushahidi\Contracts\DataSource\MessageType;
+use Ushahidi\Contracts\DataSource\MessageStatus;
+use Ushahidi\Contracts\DataSource\CallbackDataSource;
+use Ushahidi\Contracts\DataSource\OutgoingDataSource;
 use Ushahidi\App\DataSource\Concerns\MapsInboundFields;
-use Ushahidi\Core\Entity\Contact;
-use Log;
 
-class Nexmo implements CallbackDataSource, OutgoingAPIDataSource
+class Nexmo implements CallbackDataSource, OutgoingDataSource
 {
     use MapsInboundFields;
 
     protected $config;
+
+    /**
+     * Client to talk to the Nexmo API
+     *
+     * @var \Nexmo\Message\Client
+     */
+    private $client;
 
     /**
      * Constructor function for DataSource
@@ -84,13 +89,6 @@ class Nexmo implements CallbackDataSource, OutgoingAPIDataSource
     {
         return true;
     }
-
-    /**
-     * Client to talk to the Nexmo API
-     *
-     * @var NexmoMessage
-     */
-    private $client;
 
     /**
      * @return mixed

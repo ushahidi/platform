@@ -12,12 +12,9 @@
 namespace Ushahidi\App\DataSource\Console;
 
 use Illuminate\Console\Command;
-
-use Ushahidi\Core\Usecase;
-use \Ushahidi\Factory\UsecaseFactory;
 use Ushahidi\App\DataSource\DataSourceManager;
 use Ushahidi\App\DataSource\DataSourceStorage;
-use Ushahidi\App\DataSource\OutgoingAPIDataSource;
+use Ushahidi\Contracts\DataSource\OutgoingDataSource;
 
 class OutgoingCommand extends Command
 {
@@ -85,7 +82,7 @@ class OutgoingCommand extends Command
 
         foreach ($sources as $id) {
             $source = $this->sources->getSource($id);
-            if (!($source instanceof OutgoingAPIDataSource)) {
+            if (!($source instanceof OutgoingDataSource)) {
                 // Data source doesn't have an API we can push messages to
                 continue;
             }
@@ -136,7 +133,7 @@ class OutgoingCommand extends Command
             $source = $this->sources->getSourceForType($type);
 
             // @todo what if the only outgoing source is SMSSync
-            if (!($source instanceof OutgoingAPIDataSource)) {
+            if (!($source instanceof OutgoingDataSource)) {
                 // Data source doesn't have an API we can push messages to
                 continue;
             }
