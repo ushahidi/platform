@@ -7,134 +7,18 @@ use Aura\Di\ContainerConfig;
 
 class AppConfig extends ContainerConfig
 {
-    public function define(Container $di)
+    /**
+     *
+     * Define params, setters, and services before the Container is locked.
+     *
+     * @param Container $di The DI container.
+     *
+     */
+    public function define(Container $di): void
     {
         // All services set in the container should follow a `prefix.name` format,
-        // such as `repository.user` or `validate.user.login` or `tool.hash.password`.
+        // such as `repository.user` or `validate.user.login`.
         //
-        // When adding services that are private to a plugin, define them with a
-        // `namespace.`, such as `acme.tool.hash.magic`.
-
-        // Helpers, tools, etc
-        $di->set('tool.acl', $di->lazyNew(\Ushahidi\App\Acl::class));
-        $di->setters[\Ushahidi\App\Acl::class]['setRoleRepo'] = $di->lazyGet('repository.role');
-
-        $di->set('tool.hasher.password', $di->lazyNew(\Ushahidi\App\Hasher\Password::class));
-        $di->set('tool.authenticator.password', $di->lazyNew(\Ushahidi\App\Authenticator\Password::class));
-
-        $di->set('filereader.csv', $di->lazyNew(\Ushahidi\App\FileReader\CSV::class));
-        $di->setters[\Ushahidi\App\FileReader\CSV::class]['setReaderFactory'] =
-            $di->lazyGet('csv.reader_factory');
-
-        $di->set('csv.reader_factory', $di->lazyNew(\Ushahidi\App\FileReader\CSVReaderFactory::class));
-
-        // Register filesystem adapter types
-
-        // Validation Trait
-        // We're injecting via lazy so that we get a separate ValidationEngine for every validator
-        // Rather than a shared engine as we would if we used lazyNew->set->lazyGet->
-        $di->setters['Ushahidi\Core\Tool\ValidationEngineTrait']['setValidation'] = $di->lazy(function () {
-            // Create a new ValidationEngine
-            return new \Ushahidi\App\Validator\KohanaValidationEngine(app('translator'));
-        });
-
-        // Set up register rate limiter
-        $di->set('ratelimiter.register.flap', $di->lazyNew(
-            'BehEh\Flaps\Flap',
-            [
-                'storage' => $di->lazyNew(
-                    'BehEh\Flaps\Storage\DoctrineCacheAdapter',
-                    [
-                        'cache' => $di->lazyGet('ratelimiter.cache')
-                    ]
-                ),
-                'name' => 'register'
-            ]
-        ));
-
-        $di->set('ratelimiter.register.strategy', $di->lazyNew(
-            'BehEh\Flaps\Throttling\LeakyBucketStrategy',
-            [
-                'requests' => 3,
-                'timeSpan' => '1m'
-            ]
-        ));
-
-        $di->set('ratelimiter.register', $di->lazyNew(
-            \Ushahidi\App\RateLimiter::class,
-            [
-                'flap' => $di->lazyGet('ratelimiter.register.flap'),
-                'throttlingStrategy' => $di->lazyGet('ratelimiter.register.strategy'),
-            ]
-        ));
-
-        // Set up login rate limiter
-        $di->set('ratelimiter.login.flap', $di->lazyNew(
-            'BehEh\Flaps\Flap',
-            [
-                'storage' => $di->lazyNew(
-                    'BehEh\Flaps\Storage\DoctrineCacheAdapter',
-                    [
-                        'cache' => $di->lazyGet('ratelimiter.cache')
-                    ]
-                ),
-                'name' => 'login'
-            ]
-        ));
-
-
-        $di->set('ratelimiter.login.strategy', $di->lazyNew(
-            'BehEh\Flaps\Throttling\LeakyBucketStrategy',
-            [
-                'requests' => 3,
-                'timeSpan' => '1m'
-            ]
-        ));
-
-        $di->set('ratelimiter.login', $di->lazyNew(
-            \Ushahidi\App\RateLimiter::class,
-            [
-                'flap' => $di->lazyGet('ratelimiter.login.flap'),
-                'throttlingStrategy' => $di->lazyGet('ratelimiter.login.strategy'),
-            ]
-        ));
-
-        // Defined memcached
-        $di->set('memcached', $di->lazy(function () use ($di) {
-            $config = $di->get('ratelimiter.config');
-
-            $memcached = new \Memcached();
-            $memcached->addServer($config['memcached']['host'], $config['memcached']['port']);
-
-            return $memcached;
-        }));
-
-        $di->setters['Doctrine\Common\Cache\MemcachedCache']['setMemcached'] = $di->lazyGet('memcached');
-        $di->params['Doctrine\Common\Cache\FilesystemCache']['directory'] = $di->lazy(function () use ($di) {
-            $config = $di->get('ratelimiter.config');
-
-            return $config['filesystem']['directory'];
-        });
-
-        // Rate limit storage cache
-        $di->set('ratelimiter.cache', function () use ($di) {
-            $config = $di->get('ratelimiter.config');
-            $cache = $config['cache'];
-
-            // @todo we can't reconfigure this here. Need to move it elsewhere
-            if ($cache === 'memcached') {
-                return $di->newInstance('Doctrine\Common\Cache\MemcachedCache');
-            } elseif ($cache === 'filesystem') {
-                return $di->newInstance('Doctrine\Common\Cache\FilesystemCache');
-            }
-
-            // Fall back to using in-memory cache if none is configured
-            return $di->newInstance('Doctrine\Common\Cache\ArrayCache');
-        });
-
-        // Rate limiter violation handler
-        $di->setters['BehEh\Flaps\Flap']['setViolationHandler'] =
-            $di->lazyNew(\Ushahidi\App\ThrottlingViolationHandler::class);
 
         // Validator mapping
         $di->params['Ushahidi\Factory\ValidatorFactory']['map']['apikeys'] = [
@@ -327,7 +211,7 @@ class AppConfig extends ContainerConfig
             = $di->newFactory(\Ushahidi\App\Formatter\Collection::class);
 
 
-        $di->set('tool.jsontranscode', $di->lazyNew('Ushahidi\Core\Tool\JsonTranscode'));
+        $di->set('tool.jsontranscode', $di->lazyNew(\Ushahidi\Core\Tool\JsonTranscode::class));
 
         // Formatters
         $di->set('formatter.entity.api', $di->lazyNew(\Ushahidi\App\Formatter\API::class));
@@ -451,7 +335,7 @@ class AppConfig extends ContainerConfig
             'resolver' => $di->lazyGet('db.ohanzee.resolver'),
         ];
         // Set up Json Transcode Repository Trait
-        $di->setters[\Ushahidi\App\Repository\JsonTranscodeRepository::class]['setTranscoder'] =
+        $di->setters[\Ushahidi\App\Repository\Concerns\JsonTranscode::class]['setTranscoder'] =
             $di->lazyGet('tool.jsontranscode');
 
         // Media repository parameters
@@ -524,7 +408,7 @@ class AppConfig extends ContainerConfig
             'post_lock_repo' => $di->lazyGet('repository.post_lock'),
             'contact_repo' => $di->lazyGet('repository.contact'),
             'post_value_factory' => $di->lazyGet('repository.post_value_factory'),
-            'bounding_box_factory' => $di->newFactory(\Ushahidi\App\Util\BoundingBox::class)
+            'bounding_box_factory' => $di->newFactory(\Ushahidi\Core\Tool\BoundingBox::class)
         ];
 
         $di->set('repository.post.datetime', $di->lazyNew(\Ushahidi\App\Repository\Post\DatetimeRepository::class));
@@ -811,7 +695,7 @@ class AppConfig extends ContainerConfig
          */
 
         // generic authorizer for hxl
-        $di->set('authorizer.hxl', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\HXLAuthorizer'));
+        $di->set('authorizer.hxl', $di->lazyNew('Ushahidi\App\Authorizer\HXLAuthorizer'));
 
         $di->params['Ushahidi\Factory\AuthorizerFactory']['map']['hxl'] =
             $di->lazyGet('authorizer.hxl');
@@ -819,7 +703,7 @@ class AppConfig extends ContainerConfig
         // hxl meta_data
         $di->set('repository.hxl_meta_data', $di->lazyNew(\Ushahidi\App\Repository\HXL\HXLMetadataRepository::class));
         $di->set('formatter.entity.hxl_meta_data', $di->lazyNew(\Ushahidi\App\Formatter\HXL\HXLMetadata::class));
-        $di->set('authorizer.hxl.meta_data', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\HXLMetadataAuthorizer'));
+        $di->set('authorizer.hxl.meta_data', $di->lazyNew('Ushahidi\App\Authorizer\HXLMetadataAuthorizer'));
 
         $di->setters[\Ushahidi\App\Formatter\HXL\HXLMetadata::class]['setAuth']
             = $di->lazyGet("authorizer.hxl.meta_data");
@@ -854,7 +738,7 @@ class AppConfig extends ContainerConfig
         );
         $di->set(
             'authorizer.hxl.form_attribute_hxl_attribute_tag',
-            $di->lazyNew('Ushahidi\Core\Tool\Authorizer\HXLAuthorizer')
+            $di->lazyNew('Ushahidi\App\Authorizer\HXLAuthorizer')
         );
         $di->setters[\Ushahidi\App\Formatter\HXL\HXLFormAttributeHXLAttributeTagFormatter::class]['setAuth']
             = $di->lazyGet("authorizer.hxl");
@@ -874,7 +758,7 @@ class AppConfig extends ContainerConfig
         $di->params[\Ushahidi\App\Validator\HXL\HXLFormAttributeHXLAttributeTag\Create::class] = [
             'repo' => $di->lazyGet('repository.form_attribute_hxl_attribute_tag'),
             'export_job_repo' => $di->lazyGet('repository.export_job'),
-            'hxl_attribute_repo' => $di->lazyGet('repository.hxl_attribute'),//todo
+            'hxl_attribute_repo' => $di->lazyGet('repository.hxl_attribute'), //todo
             'hxl_tag_repo' => $di->lazyGet('repository.hxl_tag'),
             'form_attribute_repo' => $di->lazyGet('repository.form_attribute'),
         ];
@@ -937,7 +821,7 @@ class AppConfig extends ContainerConfig
         // Add usecase for hxl_send
 
         $di->params['Ushahidi\Factory\RepositoryFactory']['map']['hxl_send'] =
-            $di->lazyGet('repository.hxl_tag');//FIXME
+            $di->lazyGet('repository.hxl_tag'); //FIXME
         $di->params['Ushahidi\Factory\UsecaseFactory']['map']['hxl_send'] = [
             'send' => $di->lazyNew('Ushahidi\Core\Usecase\HXL\SendHXLUsecase'),
         ];
@@ -963,7 +847,64 @@ class AppConfig extends ContainerConfig
         $di->setters['Ushahidi\Core\Usecase\HXL\Organisations\GetByUser']['setRepository'] =
             null;
         $di->params['Ushahidi\Factory\RepositoryFactory']['map']['hxl_organisations'] =
-            $di->lazyGet('repository.hxl_tag');//FIXME
+            $di->lazyGet('repository.hxl_tag'); //FIXME
+
+        // Authorizer
+        $di->set('authorizer.config', $di->lazyNew('Ushahidi\App\Authorizer\ConfigAuthorizer'));
+        $di->set('authorizer.console', $di->lazyNew('Ushahidi\App\Authorizer\ConsoleAuthorizer'));
+        $di->set('authorizer.dataprovider', $di->lazyNew('Ushahidi\App\Authorizer\DataProviderAuthorizer'));
+        $di->set('authorizer.form', $di->lazyNew('Ushahidi\App\Authorizer\FormAuthorizer', [
+            'form_repo' => $di->lazyGet('repository.form'),
+        ]));
+        $di->params['v5\Policies\SurveyPolicy'] = [
+            'form_repo' => $di->lazyGet('repository.form'),
+        ];
+        $di->set('authorizer.form_attribute', $di->lazyNew('Ushahidi\App\Authorizer\FormAttributeAuthorizer', [
+            'stage_repo' => $di->lazyGet('repository.form_stage'),
+            'stage_auth' => $di->lazyGet('authorizer.form_stage'),
+        ]));
+        $di->set('authorizer.form_role', $di->lazyNew('Ushahidi\App\Authorizer\FormRoleAuthorizer', [
+            'form_repo' => $di->lazyGet('repository.form'),
+            'form_auth' => $di->lazyGet('authorizer.form'),
+        ]));
+        $di->set('authorizer.form_stage', $di->lazyNew('Ushahidi\App\Authorizer\FormStageAuthorizer', [
+            'form_repo' => $di->lazyGet('repository.form'),
+            'form_auth' => $di->lazyGet('authorizer.form'),
+        ]));
+        $di->set('authorizer.form_contact', $di->lazyNew('Ushahidi\App\Authorizer\FormContactAuthorizer', [
+            'form_repo' => $di->lazyGet('repository.form'),
+            'form_auth' => $di->lazyGet('authorizer.form'),
+        ]));
+        $di->set('authorizer.form_stats', $di->lazyNew('Ushahidi\App\Authorizer\FormStatsAuthorizer'));
+        $di->set('authorizer.user', $di->lazyNew('Ushahidi\App\Authorizer\UserAuthorizer'));
+        $di->set('authorizer.user_setting', $di->lazyNew('Ushahidi\App\Authorizer\UserSettingAuthorizer'));
+        $di->set('authorizer.layer', $di->lazyNew('Ushahidi\App\Authorizer\LayerAuthorizer'));
+        $di->set('authorizer.media', $di->lazyNew('Ushahidi\App\Authorizer\MediaAuthorizer'));
+        $di->set('authorizer.message', $di->lazyNew('Ushahidi\App\Authorizer\MessageAuthorizer'));
+        $di->set('authorizer.tag', $di->lazyNew('Ushahidi\App\Authorizer\TagAuthorizer'));
+        $di->set('authorizer.savedsearch', $di->lazyNew('Ushahidi\App\Authorizer\SetAuthorizer'));
+        $di->set('authorizer.set', $di->lazyNew('Ushahidi\App\Authorizer\SetAuthorizer'));
+        $di->set('authorizer.notification', $di->lazyNew('Ushahidi\App\Authorizer\NotificationAuthorizer'));
+        $di->set('authorizer.webhook', $di->lazyNew('Ushahidi\App\Authorizer\WebhookAuthorizer'));
+        $di->set('authorizer.apikey', $di->lazyNew('Ushahidi\App\Authorizer\ApiKeyAuthorizer'));
+        $di->set('authorizer.contact', $di->lazyNew('Ushahidi\App\Authorizer\ContactAuthorizer'));
+        $di->set('authorizer.csv', $di->lazyNew('Ushahidi\App\Authorizer\CSVAuthorizer'));
+        $di->set('authorizer.role', $di->lazyNew('Ushahidi\App\Authorizer\RoleAuthorizer'));
+        $di->set('authorizer.permission', $di->lazyNew('Ushahidi\App\Authorizer\PermissionAuthorizer'));
+        $di->set('authorizer.post', $di->lazyNew('Ushahidi\App\Authorizer\PostAuthorizer'));
+        $di->set('authorizer.post_lock', $di->lazyNew('Ushahidi\App\Authorizer\PostAuthorizer'));
+        $di->set('authorizer.tos', $di->lazyNew('Ushahidi\App\Authorizer\TosAuthorizer'));
+        $di->set('authorizer.external_auth', $di->lazyNew('Ushahidi\App\Authorizer\ExternalAuthorizer'));
+        $di->set('authorizer.export_job', $di->lazyNew('Ushahidi\App\Authorizer\ExportJobAuthorizer'));
+        $di->params['Ushahidi\App\Authorizer\PostAuthorizer'] = [
+            'post_repo' => $di->lazyGet('repository.post'),
+            'form_repo' => $di->lazyGet('repository.form'),
+        ];
+        $di->params['Ushahidi\App\Authorizer\TagAuthorizer'] = [
+            'tag_repo' => $di->lazyGet('repository.tag'),
+        ];
+
+        $di->set('authorizer.country_code', $di->lazyNew('Ushahidi\App\Authorizer\CountryCodeAuthorizer'));
 
         //FIXME
         $di->set('repository.hxl_organisations', $di->lazyNew(\Ushahidi\App\Repository\HXL\HXLTagRepository::class));
@@ -972,15 +913,24 @@ class AppConfig extends ContainerConfig
 
         // Map
         // Site config
-        $di->set('map.config', function () use ($di) {
-            return $di->get('repository.config')->get('map')->asArray();
-        });
+        $di->values['map.config'] = $di->lazy(
+            function ($repo) {
+                return $repo->get('map')->asArray();
+            },
+            $di->lazyGet('repository.config')
+        );
+
+        $di->set('map.config', $di->lazyValue('map.config'));
 
         // Dataprovider feature config
-        $di->set('features.data-providers', function () use ($di) {
-            $config = $di->get('repository.config')->get('features')->asArray();
+        $di->values['features.data-providers'] = $di->lazy(
+            function ($repo) {
+                $config = $repo->get('features')->asArray();
+                return array_filter($config['data-providers']);
+            },
+            $di->lazyGet('repository.config')
+        );
 
-            return array_filter($config['data-providers']);
-        });
+        $di->set('features.data-providers', $di->lazyValue('features.data-providers'));
     }
 }
