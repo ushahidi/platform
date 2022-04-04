@@ -11,9 +11,8 @@
 
 namespace Ushahidi\Core\Usecase\Set;
 
-use Ushahidi\Core\Entity;
-use Ushahidi\Core\Entity\SetRepository;
-use Ushahidi\Core\Usecase\Concerns\IdentifyRecords;
+use Ushahidi\Contracts\Entity;
+use Ushahidi\Core\Concerns\IdentifyRecords;
 use Ushahidi\Core\Usecase\Concerns\VerifyEntityLoaded;
 use Ushahidi\Core\Usecase\CreateUsecase;
 
@@ -22,7 +21,7 @@ class CreateSetPost extends CreateUsecase
     use IdentifyRecords,
         VerifyEntityLoaded,
         SetRepositoryTrait,
-        GetSet,
+        GetSetEntityTrait,
         AuthorizeSet;
 
     // Usecase

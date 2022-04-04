@@ -11,13 +11,13 @@
 
 namespace Ushahidi\Core\Usecase\Config;
 
-use Ushahidi\Core\Data;
-use Ushahidi\Core\Entity\ConfigRepository;
-use Ushahidi\Core\Tool\AuthorizerTrait;
+use Ushahidi\Contracts\Entity;
+use Ushahidi\Contracts\Usecase;
 use Ushahidi\Core\Tool\FormatterTrait;
-use Ushahidi\Core\Usecase\Concerns\FilterRecords;
-use Ushahidi\Core\Usecase;
+use Ushahidi\Core\Tool\AuthorizerTrait;
 use Ushahidi\Core\Tool\TranslatorTrait;
+use Ushahidi\Core\Concerns\FilterRecords;
+use Ushahidi\Contracts\Repository\Entity\ConfigRepository;
 
 class SearchConfig implements Usecase
 {

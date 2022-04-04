@@ -16,16 +16,13 @@
 
 namespace Ushahidi\Core\Usecase\Message;
 
-use Ushahidi\Core\Entity;
+use Ushahidi\Contracts\Entity;
+use Ushahidi\Contracts\Validator;
 use Ushahidi\Core\Entity\Message;
-use Ushahidi\Core\Entity\Contact;
-use Ushahidi\Core\Entity\Post;
-use Ushahidi\Core\Tool\Validator;
 use Ushahidi\Core\Usecase\CreateUsecase;
-use Ushahidi\Core\Usecase\CreateRepository;
-use Ushahidi\Core\Traits\Events\DispatchesEvents;
-
 use Ushahidi\Core\Exception\ValidatorException;
+use Ushahidi\Core\Concerns\Events\DispatchesEvents;
+use Ushahidi\Contracts\Repository\CreateRepository;
 
 class ReceiveMessage extends CreateUsecase
 {

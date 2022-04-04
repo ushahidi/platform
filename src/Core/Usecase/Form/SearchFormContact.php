@@ -11,7 +11,7 @@
 
 namespace Ushahidi\Core\Usecase\Form;
 
-use Ushahidi\Core\Usecase\Concerns\IdentifyRecords;
+use Ushahidi\Core\Concerns\IdentifyRecords;
 use Ushahidi\Core\Usecase\SearchUsecase;
 
 class SearchFormContact extends SearchUsecase

@@ -12,9 +12,9 @@ namespace Ushahidi\Core\Usecase\HXL\Organisations;
 
 use Ushahidi\Core\Entity\UserSettingRepository;
 use Ushahidi\Core\Tool\AuthorizerTrait;
-use Ushahidi\App\ExternalServices\HDXInterface;
+use Ushahidi\Core\Tool\ExternalServices\HDXInterface;
 use Ushahidi\Core\Tool\FormatterTrait;
-use Ushahidi\Core\Usecase;
+use Ushahidi\Contracts\Usecase;
 use Ushahidi\Core\Tool\TranslatorTrait;
 use Log;
 

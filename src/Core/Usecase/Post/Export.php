@@ -11,21 +11,20 @@
 
 namespace Ushahidi\Core\Usecase\Post;
 
-use Ushahidi\App\Repository\ExportJobRepository;
-use Ushahidi\App\Repository\Form\AttributeRepository;
-use Ushahidi\App\Repository\HXL\HXLFormAttributeHXLAttributeTagRepository;
-use Ushahidi\App\Repository\Post\ExportRepository;
-use Ushahidi\Core\Tool\AuthorizerTrait;
-use Ushahidi\Core\Tool\FormatterTrait;
-use Ushahidi\Core\Usecase;
-use Ushahidi\Core\SearchData;
-use Ushahidi\Core\Traits\UserContext;
+use Illuminate\Support\Facades\Log;
+use Ushahidi\Core\Tool\SearchData;
+use Ushahidi\Contracts\Usecase;
 use Ushahidi\Core\Entity\ExportBatch;
-use Ushahidi\Core\Entity\ExportBatchRepository;
-use Ushahidi\Core\Usecase\Concerns\FilterRecords;
+use Ushahidi\Core\Concerns\UserContext;
+use Ushahidi\Core\Tool\FormatterTrait;
+use Ushahidi\Core\Tool\AuthorizerTrait;
 use Ushahidi\Core\Tool\TranslatorTrait;
-
-use Log;
+use Ushahidi\App\Repository\ExportJobRepository;
+use Ushahidi\Core\Concerns\FilterRecords;
+use Ushahidi\App\Repository\Post\ExportRepository;
+use Ushahidi\App\Repository\Form\AttributeRepository;
+use Ushahidi\Contracts\Repository\Entity\ExportBatchRepository;
+use Ushahidi\App\Repository\HXL\HXLFormAttributeHXLAttributeTagRepository;
 
 class Export implements Usecase
 {

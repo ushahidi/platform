@@ -12,9 +12,9 @@
 namespace Ushahidi\Core\Usecase\Post;
 
 use Ushahidi\Core\Usecase\DeleteUsecase;
-use Ushahidi\Core\Data;
+use Ushahidi\Core\Usecase\Post\Concerns\FindPost;
 
 class DeletePost extends DeleteUsecase
 {
-    use FindPostEntity;
+    use FindPost;
 }

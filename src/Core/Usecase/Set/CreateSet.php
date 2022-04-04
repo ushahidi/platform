@@ -11,17 +11,13 @@
 
 namespace Ushahidi\Core\Usecase\Set;
 
-use Ushahidi\Core\Entity;
-use Ushahidi\Core\Entity\SetRepository;
-use Ushahidi\Core\Usecase\Concerns\IdentifyRecords;
-use Ushahidi\Core\Usecase\Concerns\VerifyEntityLoaded;
+use Ushahidi\Contracts\Entity;
 use Ushahidi\Core\Usecase\CreateUsecase;
+use Ushahidi\Core\Usecase\Concerns\VerifyEntityLoaded;
 
 class CreateSet extends CreateUsecase
 {
-    use
-        VerifyEntityLoaded,
-        AuthorizeSet;
+    use AuthorizeSet, VerifyEntityLoaded;
 
     /**
      * Find entity based on identifying parameters.

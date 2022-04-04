@@ -12,6 +12,7 @@
 namespace Ushahidi\Core\Usecase\Form;
 
 use Ushahidi\Core\Usecase\ReadUsecase;
+use Ushahidi\Core\Usecase\Concerns\VerifyFormLoaded;
 
 class ReadFormAttribute extends ReadUsecase
 {

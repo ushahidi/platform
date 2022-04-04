@@ -11,12 +11,15 @@
 
 namespace Ushahidi\Core\Usecase;
 
-use Ushahidi\Core\Entity;
-use Ushahidi\Core\Usecase;
-use Ushahidi\Core\Tool\AuthorizerTrait;
+use Ushahidi\Contracts\Entity;
+use Ushahidi\Contracts\Usecase;
 use Ushahidi\Core\Tool\FormatterTrait;
 use Ushahidi\Core\Tool\ValidatorTrait;
+use Ushahidi\Core\Tool\AuthorizerTrait;
 use Ushahidi\Core\Tool\TranslatorTrait;
+use Ushahidi\Core\Concerns\ModifyRecords;
+use Ushahidi\Core\Concerns\IdentifyRecords;
+use Ushahidi\Contracts\Repository\UpdateRepository;
 
 class UpdateUsecase implements Usecase
 {
@@ -30,8 +33,8 @@ class UpdateUsecase implements Usecase
 
     // - IdentifyRecords for setting entity lookup parameters
     // - ModifyRecords for setting entity modification parameters
-    use Concerns\IdentifyRecords,
-        Concerns\ModifyRecords;
+    use IdentifyRecords,
+        ModifyRecords;
 
     // - VerifyEntityLoaded for checking that an entity is found
     use Concerns\VerifyEntityLoaded;

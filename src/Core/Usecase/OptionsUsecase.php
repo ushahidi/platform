@@ -11,10 +11,13 @@
 
 namespace Ushahidi\Core\Usecase;
 
-use Ushahidi\Core\Usecase;
-use Ushahidi\Core\Tool\AuthorizerTrait;
+use Ushahidi\Contracts\Entity;
+use Ushahidi\Contracts\Usecase;
 use Ushahidi\Core\Tool\FormatterTrait;
+use Ushahidi\Core\Tool\AuthorizerTrait;
 use Ushahidi\Core\Tool\TranslatorTrait;
+use Ushahidi\Core\Concerns\IdentifyRecords;
+use Ushahidi\Contracts\Repository\ReadRepository;
 
 class OptionsUsecase implements Usecase
 {
@@ -26,7 +29,7 @@ class OptionsUsecase implements Usecase
         TranslatorTrait;
 
     // - IdentifyRecords for setting entity lookup parameters
-    use Concerns\IdentifyRecords;
+    use IdentifyRecords;
 
     /**
      * @var SearchRepository

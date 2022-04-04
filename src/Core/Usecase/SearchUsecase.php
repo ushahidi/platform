@@ -11,11 +11,14 @@
 
 namespace Ushahidi\Core\Usecase;
 
-use Ushahidi\Core\Usecase;
-use Ushahidi\Core\SearchData;
-use Ushahidi\Core\Tool\AuthorizerTrait;
+use Ushahidi\Contracts\Entity;
+use Ushahidi\Contracts\Usecase;
+use Ushahidi\Core\Tool\SearchData;
 use Ushahidi\Core\Tool\FormatterTrait;
+use Ushahidi\Core\Tool\AuthorizerTrait;
 use Ushahidi\Core\Tool\TranslatorTrait;
+use Ushahidi\Core\Concerns\FilterRecords;
+use Ushahidi\Contracts\Repository\SearchRepository;
 
 class SearchUsecase implements Usecase
 {
@@ -27,7 +30,7 @@ class SearchUsecase implements Usecase
         TranslatorTrait;
 
     // - FilterRecords for setting search parameters
-    use Concerns\FilterRecords;
+    use FilterRecords;
 
     /**
      * @var SearchData
@@ -120,7 +123,7 @@ class SearchUsecase implements Usecase
     /**
      * Get filter parameters and default values that are used for paging.
      *
-     * @return Array
+     * @return array
      */
     protected function getPagingFields()
     {

@@ -9,13 +9,11 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Ushahidi\Core\Usecase\Form;
+namespace Ushahidi\Core\Usecase\Concerns;
 
-use Ushahidi\Core\Entity;
+use Ushahidi\Contracts\Entity;
 use Ushahidi\Core\Entity\FormAttribute;
-use Ushahidi\Core\Entity\FormStageRepository;
-
-use Ushahidi\Core\Exception\NotFoundException;
+use Ushahidi\Contracts\Repository\Entity\FormStageRepository;
 
 trait VerifyStageLoaded
 {

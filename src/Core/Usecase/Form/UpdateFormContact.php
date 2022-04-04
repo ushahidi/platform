@@ -11,11 +11,11 @@
 
 namespace Ushahidi\Core\Usecase\Form;
 
-use Ushahidi\Core\Usecase\CreateUsecase;
-use Ushahidi\Core\Usecase\Concerns\IdentifyRecords;
-use Ushahidi\Core\Usecase\Concerns\VerifyEntityLoaded;
-use Ushahidi\Core\Entity\FormContact;
+use Ushahidi\Contracts\Entity;
 use Ushahidi\Core\Usecase\UpdateUsecase;
+use Ushahidi\Core\Concerns\IdentifyRecords;
+use Ushahidi\Core\Usecase\Concerns\VerifyFormLoaded;
+use Ushahidi\Core\Usecase\Concerns\VerifyEntityLoaded;
 
 class UpdateFormContact extends UpdateUsecase
 {
@@ -52,7 +52,6 @@ class UpdateFormContact extends UpdateUsecase
 
         // ... verify the current user has have permissions
         $this->verifyCreateAuth($entity);
-
 
         // Get each item in the collection
         $entities = [];

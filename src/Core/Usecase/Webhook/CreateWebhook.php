@@ -11,7 +11,6 @@
 
 namespace Ushahidi\Core\Usecase\Webhook;
 
-use Ushahidi\Core\Entity;
 use Ushahidi\Core\Usecase\CreateUsecase;
 
 class CreateWebhook extends CreateUsecase

@@ -16,7 +16,7 @@ use Ushahidi\Core\Usecase\Post\SearchPost;
 class SearchSetPost extends SearchPost
 {
     use SetRepositoryTrait,
-        VerifySetExists;
+        VerifySetExistsTrait;
 
     /**
      * Get filter parameters as search data.

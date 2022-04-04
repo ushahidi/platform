@@ -11,11 +11,10 @@
 
 namespace Ushahidi\Core\Usecase\Set;
 
-use Ushahidi\Core\Entity;
+use Ushahidi\Contracts\Entity;
 
-trait VerifySetExists
+trait VerifySetExistsTrait
 {
-
     /**
      * Checks that the set exists.
      * @param  Data $input

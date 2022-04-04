@@ -11,14 +11,12 @@
 
 namespace Ushahidi\Core\Usecase\Export\Job;
 
-use Ushahidi\Core\Entity\HXL\HXLFormAttributeHXLAttributeTag;
-use Ushahidi\Core\Entity\HXL\HXLFormAttributeHXLAttributeTagRepository;
 use Ushahidi\Core\Usecase\CreateUsecase;
-use Ushahidi\Core\Usecase\Export\Job\CreateHXLHeadingRow;
 
 class CreateJob extends CreateUsecase
 {
     protected $create_hxl_heading_row;
+
     public function setCreateHXLHeadingRowUsecase(CreateUsecase $usecase)
     {
         $this->create_hxl_heading_row = $usecase;
@@ -44,7 +42,7 @@ class CreateJob extends CreateUsecase
 
         // if there are items in `hxl_heading_row` and the entity was created,
         // create the hxl tags for each attribute
-        
+
         $hxl_heading_row = $this->getPayload('hxl_heading_row', false);
 
         if ($entity->getId() && is_array($hxl_heading_row)) {
@@ -84,9 +82,6 @@ class CreateJob extends CreateUsecase
         }
     }
 
-    /**
-     * @return \Ushahidi\Core\Entity
-     */
     protected function getEntity()
     {
         $entity = parent::getEntity();

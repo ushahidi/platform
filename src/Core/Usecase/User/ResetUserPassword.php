@@ -11,15 +11,13 @@
 
 namespace Ushahidi\Core\Usecase\User;
 
-use Ushahidi\Core\Usecase;
-use Ushahidi\Core\Tool\Mailer;
-use Ushahidi\Core\Entity;
-use Ushahidi\Core\Tool\AuthorizerTrait;
+use Ushahidi\Contracts\Usecase;
 use Ushahidi\Core\Tool\FormatterTrait;
-use Ushahidi\Core\Usecase\Concerns\ModifyRecords;
-use Ushahidi\Core\Exception\ValidatorException;
 use Ushahidi\Core\Tool\ValidatorTrait;
+use Ushahidi\Core\Tool\AuthorizerTrait;
 use Ushahidi\Core\Tool\TranslatorTrait;
+use Ushahidi\Core\Concerns\ModifyRecords;
+use Ushahidi\Contracts\Repository\Usecase\UserResetPasswordRepository;
 
 class ResetUserPassword implements Usecase
 {
@@ -57,7 +55,7 @@ class ResetUserPassword implements Usecase
      * @param  $repo ResetPasswordRepository
      * @return $this
      */
-    public function setRepository(ResetPasswordRepository $repo)
+    public function setRepository(UserResetPasswordRepository $repo)
     {
         $this->repo = $repo;
         return $this;
@@ -73,7 +71,7 @@ class ResetUserPassword implements Usecase
         ];
 
         $this->verifyValid($entity_array);
-            
+
         $this->repo->setPassword($token, $password);
 
         // And delete the token

@@ -9,16 +9,17 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Ushahidi\Core\Usecase\Post;
+namespace Ushahidi\Core\Usecase\Post\Concerns;
 
-use Ushahidi\Core\Entity;
-use Ushahidi\Core\Entity\PostRepository;
+use Ushahidi\Contracts\Entity;
+use Ushahidi\Contracts\Repository\Entity\PostRepository;
 
-trait FindPostEntity
+trait FindPost
 {
     /**
      * Find post entity based on
-     * @return Entity\Post
+     *
+     * @return Entity
      */
     protected function getEntity()
     {
@@ -44,7 +45,9 @@ trait FindPostEntity
 
     /**
      * Use type hinting to ensure that the argument is a PostRepository.
+     *
      * @param  PostRepository $repo
+     *
      * @return boolean
      */
     protected function verifyPostRepo(PostRepository $repo)

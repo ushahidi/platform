@@ -11,12 +11,9 @@
 
 namespace Ushahidi\Core\Usecase\Set;
 
-use Ushahidi\Core\Data;
-use Ushahidi\Core\Entity;
+use Ushahidi\Contracts\Entity;
 
-use Ushahidi\Core\Exception\NotFoundException;
-
-trait GetSet
+trait GetSetEntityTrait
 {
     /**
      * Find entity based on identifying parameters.

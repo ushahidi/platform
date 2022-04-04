@@ -9,11 +9,12 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Ushahidi\Core\Usecase\Form;
+namespace Ushahidi\Core\Usecase\Concerns;
 
-use Ushahidi\Core\Entity;
-use Ushahidi\Core\Entity\FormRepository;
+use Ushahidi\Contracts\Entity;
 use Ushahidi\Core\Exception\ValidatorException;
+use Ushahidi\Contracts\Repository\Entity\FormRepository;
+use Ushahidi\Contracts\Repository\Entity\FormContactRepository;
 
 trait VerifyFormLoaded
 {
@@ -21,6 +22,10 @@ trait VerifyFormLoaded
      * @var FormRepository
      */
     protected $form_repo;
+
+    /**
+     * @var FormContactRepository
+     */
     protected $form_contact_repo;
 
     /**
@@ -32,19 +37,18 @@ trait VerifyFormLoaded
         $this->form_repo = $repo;
     }
 
-
     /**
      * @param  FormRepository $repo
      * @return void
      */
-    public function setFormContactRepository(Entity\FormContactRepository $repo)
+    public function setFormContactRepository(FormContactRepository $repo)
     {
         $this->form_contact_repo = $repo;
     }
 
     /**
      * Checks that the form exists.
-     * @param  Data $input
+     *
      * @return void
      */
     protected function verifyFormExists()
@@ -93,6 +97,7 @@ trait VerifyFormLoaded
     public function interact()
     {
         $this->verifyFormExists();
+
         return parent::interact();
     }
 

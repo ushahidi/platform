@@ -11,12 +11,8 @@
 
 namespace Ushahidi\Core\Usecase\Post;
 
-use Ushahidi\Core\Data;
-use Ushahidi\Core\Entity;
-use Ushahidi\Core\Usecase\Concerns\IdentifyRecords;
+use Ushahidi\Core\Concerns\IdentifyRecords;
 use Ushahidi\Core\Usecase\Concerns\VerifyEntityLoaded;
-
-use Ushahidi\Core\Exception\NotFoundException;
 
 trait VerifyParentLoaded
 {
@@ -28,7 +24,7 @@ trait VerifyParentLoaded
 
     /**
      * Checks that the parent exists.
-     * @param  Data $input
+     *
      * @return void
      */
     protected function verifyParentExists()

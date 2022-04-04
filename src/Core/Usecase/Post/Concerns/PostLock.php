@@ -9,11 +9,12 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Ushahidi\Core\Usecase\Post;
+namespace Ushahidi\Core\Usecase\Post\Concerns;
 
-use Ushahidi\Core\Entity\PostRepository;
+use Ushahidi\Contracts\Entity;
+use Ushahidi\Contracts\Repository\Entity\PostRepository;
 
-trait PostLockTrait
+trait PostLock
 {
     protected $post_repo;
 
@@ -30,12 +31,13 @@ trait PostLockTrait
 
     /**
      * Find lock entity based on id.
+     *
      * @param $id The Lock id
+     *
      * @return Entity
      */
     protected function getLockEntity($id)
     {
-
         // ... attempt to load the entity
         $entity = $this->repo->get($id);
 

@@ -12,7 +12,7 @@
 namespace Ushahidi\Core\Usecase\Export\Job;
 
 use Ushahidi\Core\Usecase\ReadUsecase;
-use Ushahidi\Core\Traits\UserContext;
+use Ushahidi\Core\Concerns\UserContext;
 
 class PostCount extends ReadUsecase
 {
