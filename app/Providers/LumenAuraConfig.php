@@ -4,11 +4,17 @@ namespace Ushahidi\App\Providers;
 
 use Aura\Di\Container;
 use Aura\Di\ContainerConfig;
-use Illuminate\Support\Facades\DB;
 
 class LumenAuraConfig extends ContainerConfig
 {
-    public function define(Container $di)
+    /**
+     *
+     * Define params, setters, and services before the Container is locked.
+     *
+     * @param Container $di The DI container.
+     *
+     */
+    public function define(Container $di): void
     {
         $this->configureAuraServices($di);
         $this->injectAuraConfig($di);
@@ -48,20 +54,25 @@ class LumenAuraConfig extends ContainerConfig
         }));
 
         // Configure dispatcher
-        $di->setters[\Ushahidi\Core\Traits\Events\DispatchesEvents::class]['setDispatcher']
+        $di->setters[\Ushahidi\Core\Concerns\Events\DispatchesEvents::class]['setDispatcher']
             = app('events');
     }
 
     protected function injectAuraConfig(Container $di)
     {
         // CDN Config settings
-        $di->set('cdn.config', function () use ($di) {
-            return config('cdn');
-        });
+        $di->values['cdn.config'] = config('cdn');
+
+        // $di->set('cdn.config', function () {
+        //     return config('cdn');
+        // });
+
 
         // Ratelimiter config settings
-        $di->set('ratelimiter.config', function () use ($di) {
-            return config('ratelimiter');
-        });
+        $di->values['ratelimiter.config'] = config('ratelimiter');
+
+        // $di->set('ratelimiter.config', function () use ($di) {
+        //     return config('ratelimiter');
+        // });
     }
 }

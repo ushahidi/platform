@@ -2,14 +2,11 @@
 
 namespace Ushahidi\App\Providers;
 
-use Ushahidi\App\Models\User;
-use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\ServiceProvider;
-use Ushahidi\App\Auth\UshahidiUserProvider;
-use Laravel\Passport\Passport;
 use Carbon\Carbon;
+use Laravel\Passport\Passport;
 use Illuminate\Database\Connection;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
 {

@@ -3,15 +3,15 @@
 namespace Ushahidi\App\Providers;
 
 use Laravel\Passport\Passport;
-use Laravel\Passport\PassportServiceProvider as LaravelPassportServiceProvider;
+use Illuminate\Auth\RequestGuard;
+use Laravel\Passport\TokenRepository;
+use Ushahidi\App\Passport\TokenGuard;
+use Laravel\Passport\ClientRepository;
 use League\OAuth2\Server\ResourceServer;
 use League\OAuth2\Server\Grant\PasswordGrant;
 use Laravel\Passport\Bridge\RefreshTokenRepository;
-use Laravel\Passport\TokenRepository;
-use Laravel\Passport\ClientRepository;
-use Ushahidi\App\Passport\TokenGuard;
-
-use Illuminate\Auth\RequestGuard;
+use Laravel\Passport\PassportServiceProvider as LaravelPassportServiceProvider;
+use Ushahidi\Contracts\Repository\Entity\UserRepository;
 
 // use Illuminate\Auth\Events\Logout;
 // use Illuminate\Support\Facades\Auth;
@@ -67,7 +67,7 @@ class PassportServiceProvider extends LaravelPassportServiceProvider
         return new RequestGuard(function ($request) use ($config) {
             return (new TokenGuard(
                 $this->app->make(ResourceServer::class),
-                service('repository.user'),
+                $this->app->make(UserRepository::class),
                 // Auth::createUserProvider($config['provider']),
                 $this->app->make(TokenRepository::class),
                 $this->app->make(ClientRepository::class),
