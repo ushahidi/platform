@@ -2,15 +2,14 @@
 
 namespace v5\Policies;
 
-use Ushahidi\App\Auth\GenericUser as User;
-use Ushahidi\Core\Entity;
 use v5\Models\Category;
+use Ushahidi\Core\Entity;
 use Ushahidi\Core\Entity\Permission;
-use Ushahidi\Core\Traits\AdminAccess;
-use Ushahidi\Core\Traits\UserContext;
-use Ushahidi\Core\Traits\ParentAccess;
-use Ushahidi\Core\Traits\PrivAccess;
-use Ushahidi\Core\Traits\PrivateDeployment;
+use Ushahidi\Core\Concerns\PrivAccess;
+use Ushahidi\Core\Concerns\AdminAccess;
+use Ushahidi\Core\Concerns\UserContext;
+use Ushahidi\App\Auth\GenericUser as User;
+use Ushahidi\Core\Concerns\PrivateDeployment;
 use Ushahidi\Core\Tool\Permissions\AclTrait;
 
 class CategoryPolicy
