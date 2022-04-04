@@ -163,6 +163,10 @@
                 "di",
                 "di container"
             ],
+            "support": {
+                "issues": "https://github.com/auraphp/Aura.Di/issues",
+                "source": "https://github.com/auraphp/Aura.Di/tree/3.x"
+            },
             "time": "2017-07-30T04:14:30+00:00"
         },
         {
@@ -394,6 +398,10 @@
             ],
             "description": "Promoting the interoperability of container objects (DIC, SL, etc.)",
             "homepage": "https://github.com/container-interop/container-interop",
+            "support": {
+                "issues": "https://github.com/container-interop/container-interop/issues",
+                "source": "https://github.com/container-interop/container-interop/tree/master"
+            },
             "abandoned": "psr/container",
             "time": "2017-02-14T19:40:03+00:00"
         },
@@ -10399,5 +10407,5 @@
         "php": ">=7.2 <7.4"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.1.0"
+    "plugin-api-version": "2.2.0"
 }

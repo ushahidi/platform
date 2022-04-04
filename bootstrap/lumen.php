@@ -100,7 +100,6 @@ $app->register(Barryvdh\Cors\ServiceProvider::class);
 $app->register(Sentry\SentryLaravel\SentryLumenServiceProvider::class);
 $app->register(v5\Providers\MorphServiceProvider::class);
 $app->register(v5\Providers\EventServiceProvider::class);
-$app->register(Ushahidi\Gmail\GmailServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------
