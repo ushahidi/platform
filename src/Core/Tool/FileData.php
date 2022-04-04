@@ -11,8 +11,6 @@
 
 namespace Ushahidi\Core\Tool;
 
-use Ushahidi\Core\Data;
-
 class FileData extends Data
 {
     /**

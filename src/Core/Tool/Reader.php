@@ -1,19 +1,20 @@
 <?php
 
 /**
- * Ushahidi Reader interface
- *
+ * Ushahidi Reader
  *
  * @author     Ushahidi Team <team@ushahidi.com>
- * @package    Ushahidi\Platform
+ * @package    Ushahidi\Application
  * @copyright  2014 Ushahidi
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
 namespace Ushahidi\Core\Tool;
 
-interface Reader
+use League\Csv\Reader as CSVReader;
+use Ushahidi\Contracts\Reader as ReaderInterface;
+
+class Reader extends CSVReader implements ReaderInterface
 {
-    public function fetchOne();
-    public function fetchAssoc();
+    // intentionally left blank
 }

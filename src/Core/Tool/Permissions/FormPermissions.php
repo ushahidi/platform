@@ -14,7 +14,7 @@ namespace Ushahidi\Core\Tool\Permissions;
 use Ushahidi\Core\Entity\User;
 use Ushahidi\Core\Entity\Permission;
 use Ushahidi\Core\Tool\Permissions\AclTrait;
-use Ushahidi\Core\Traits\AdminAccess;
+use Ushahidi\Core\Concerns\AdminAccess;
 
 class FormPermissions
 {

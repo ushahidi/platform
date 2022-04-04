@@ -13,8 +13,8 @@
 
 namespace Ushahidi\Core\Tool\Formatter;
 
-use Ushahidi\Core\SearchData;
-use Ushahidi\Core\Tool\Formatter;
+use Ushahidi\Core\Tool\SearchData;
+use Ushahidi\Contracts\Formatter;
 use Ushahidi\Core\Exception\FormatterException;
 
 abstract class CollectionFormatter implements Formatter

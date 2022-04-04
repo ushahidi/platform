@@ -11,10 +11,6 @@
 
 namespace Ushahidi\Core\Tool;
 
-use Ushahidi\Core\Tool\Signer;
-use Ushahidi\Core\Entity\ApiKeyRepository;
-use Log;
-
 class Verifier
 {
     protected $apiKeyRepo;

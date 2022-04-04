@@ -11,11 +11,10 @@
 
 namespace Ushahidi\Core\Tool;
 
-use Log;
-
 class Signer
 {
     protected $authToken;
+
     public function __construct($authToken)
     {
         $this->authToken = $authToken;

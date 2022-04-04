@@ -13,12 +13,12 @@
 
 namespace Ushahidi\Core\Tool;
 
-use Ushahidi\Core\Tool\Validation;
+use Ushahidi\Contracts\Validation as ValidationEngine;
 
 trait ValidationEngineTrait
 {
     /**
-     * @var Ushahidi\Core\Tool\Validation
+     * @var \Ushahidi\Contracts\Validation
      */
     protected $validation_engine;
 

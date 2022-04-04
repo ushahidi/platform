@@ -13,6 +13,8 @@
 
 namespace Ushahidi\Core\Tool;
 
+use Ushahidi\Contracts\Formatter;
+
 trait FormatterTrait
 {
     /**

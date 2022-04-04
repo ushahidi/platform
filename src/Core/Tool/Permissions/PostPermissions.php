@@ -11,12 +11,12 @@
 
 namespace Ushahidi\Core\Tool\Permissions;
 
-use Ushahidi\Core\Entity\User;
 use Ushahidi\Core\Entity\Post;
+use Ushahidi\Core\Entity\User;
 use Ushahidi\Core\Entity\Permission;
-use Ushahidi\Core\Entity\FormRepository;
+use Ushahidi\Core\Concerns\AdminAccess;
 use Ushahidi\Core\Tool\Permissions\AclTrait;
-use Ushahidi\Core\Traits\AdminAccess;
+use Ushahidi\Contracts\Repository\Entity\FormRepository;
 
 class PostPermissions
 {
