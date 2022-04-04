@@ -11,8 +11,6 @@
 
 namespace Ushahidi\App\Validator\Form\Stage;
 
-use Ushahidi\Core\Entity;
-
 class Create extends Update
 {
     protected $default_error_source = 'form_stage';

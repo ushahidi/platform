@@ -11,7 +11,7 @@
 namespace Ushahidi\App\Validator\TOS;
 
 use Ushahidi\App\Validator\LegacyValidator;
-use Ushahidi\Core\Entity\UserRepository;
+use Ushahidi\Contracts\Repository\Entity\UserRepository;
 
 class Create extends LegacyValidator
 {

@@ -12,24 +12,21 @@
 namespace Ushahidi\App\Validator\Post;
 
 use Kohana\Validation\Validation;
-use Ushahidi\Core\Entity;
-use Ushahidi\Core\Entity\FormAttributeRepository;
-use Ushahidi\Core\Entity\FormStageRepository;
-use Ushahidi\Core\Entity\UserRepository;
-use Ushahidi\Core\Entity\FormRepository;
-use Ushahidi\Core\Entity\Permission;
-use Ushahidi\Core\Entity\PostRepository;
-use Ushahidi\Core\Entity\RoleRepository;
-use Ushahidi\Core\Entity\PostLockRepository;
-use Ushahidi\App\Validator\LegacyValidator;
-use Ushahidi\Core\Traits\UserContext;
-use Ushahidi\Core\Tool\Permissions\AclTrait;
-use Ushahidi\Core\Traits\AdminAccess;
-use Ushahidi\Core\Traits\Permissions\ManagePosts;
-use Ushahidi\Core\Usecase\Post\UpdatePostRepository;
-use Ushahidi\Core\Usecase\Post\UpdatePostTagRepository;
-use Ushahidi\App\Repository\Post\ValueFactory as PostValueFactory;
 use Ushahidi\App\Facades\Features;
+use Ushahidi\Core\Entity\Permission;
+use Ushahidi\Core\Concerns\AdminAccess;
+use Ushahidi\Core\Concerns\UserContext;
+use Ushahidi\App\Validator\LegacyValidator;
+use Ushahidi\Core\Tool\Permissions\AclTrait;
+use Ushahidi\Contracts\Repository\Entity\FormRepository;
+use Ushahidi\Contracts\Repository\Entity\RoleRepository;
+use Ushahidi\Contracts\Repository\Entity\UserRepository;
+use Ushahidi\Contracts\Repository\Entity\PostLockRepository;
+use Ushahidi\Contracts\Repository\Entity\FormStageRepository;
+use Ushahidi\Contracts\Repository\Usecase\UpdatePostRepository;
+use Ushahidi\Contracts\Repository\Entity\FormAttributeRepository;
+use Ushahidi\Contracts\Repository\Usecase\UpdatePostTagRepository;
+use Ushahidi\App\Repository\Post\ValueFactory as PostValueFactory;
 
 class Create extends LegacyValidator
 {

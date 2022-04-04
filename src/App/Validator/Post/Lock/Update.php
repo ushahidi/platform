@@ -11,8 +11,8 @@
 
 namespace Ushahidi\App\Validator\Post\Lock;
 
-use Ushahidi\Core\Entity\PostRepository;
 use Ushahidi\App\Validator\LegacyValidator;
+use Ushahidi\Contracts\Repository\Entity\PostRepository;
 
 class Update extends LegacyValidator
 {

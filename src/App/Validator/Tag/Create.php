@@ -11,8 +11,6 @@
 
 namespace Ushahidi\App\Validator\Tag;
 
-use Ushahidi\Core\Entity;
-
 class Create extends Update
 {
     protected function getRules()

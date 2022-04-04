@@ -12,8 +12,8 @@
 namespace Ushahidi\App\Validator\Notification;
 
 use Ushahidi\App\Validator\LegacyValidator;
-use Ushahidi\Core\Entity\UserRepository;
-use Ushahidi\Core\Entity\SetRepository;
+use Ushahidi\Contracts\Repository\Entity\SetRepository;
+use Ushahidi\Contracts\Repository\Entity\UserRepository;
 
 class Update extends LegacyValidator
 {

@@ -12,7 +12,7 @@
 namespace Ushahidi\App\Validator\CSV;
 
 use Ushahidi\App\Validator\LegacyValidator;
-use Ushahidi\Core\Entity\FormRepository;
+use Ushahidi\Contracts\Repository\Entity\FormRepository;
 
 class Create extends LegacyValidator
 {

@@ -11,9 +11,6 @@
 
 namespace Ushahidi\App\Validator\Form;
 
-use Ushahidi\Core\Entity;
-use Ushahidi\Core\Entity\FormRepository;
-
 class Create extends Update
 {
     protected function getRules()

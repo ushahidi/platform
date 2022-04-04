@@ -11,10 +11,6 @@
 
 namespace Ushahidi\App\Validator\User;
 
-use Ushahidi\Core\Entity;
-use Ushahidi\Core\Entity\UserRepository;
-use Ushahidi\Core\Entity\RoleRepository;
-
 class Create extends Update
 {
     protected $default_error_source = 'user';

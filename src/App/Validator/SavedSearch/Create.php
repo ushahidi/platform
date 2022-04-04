@@ -19,10 +19,10 @@ class Create extends Set\Create
     {
         $rules = parent::getRules();
         return array_merge_recursive($rules, [
-        'name' => [
-            ['not_empty'],
-        ],
-        'filter' => [
+            'name' => [
+                ['not_empty'],
+            ],
+            'filter' => [
                 ['not_empty'],
             ]
         ]);

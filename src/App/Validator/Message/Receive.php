@@ -11,13 +11,10 @@
 
 namespace Ushahidi\App\Validator\Message;
 
-use Ushahidi\Core\Entity;
 use Ushahidi\App\Validator\LegacyValidator;
-use Ushahidi\Core\Usecase\Message\CreateMessageRepository;
-use Ushahidi\App\DataSource\Message\Type as MessageType;
-use Ushahidi\App\DataSource\Message\Direction as MessageDirection;
-use Ushahidi\App\DataSource\Message\Status as MessageStatus;
-use Ushahidi\App\DataSource\DataSourceManager;
+use Ushahidi\Contracts\DataSource\MessageStatus;
+use Ushahidi\Contracts\DataSource\MessageDirection;
+use Ushahidi\Contracts\Repository\Usecase\CreateMessageRepository;
 
 class Receive extends LegacyValidator
 {
