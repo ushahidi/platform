@@ -1,10 +1,10 @@
 <?php
 namespace Ushahidi\App\Listener;
 
-use Ushahidi\Core\Entity\PostRepository;
 use Ushahidi\Core\Entity\Message;
-use Ushahidi\Core\Entity\MessageRepository;
-use Ushahidi\Core\Entity\TargetedSurveyStateRepository;
+use Ushahidi\Contracts\Repository\Entity\PostRepository;
+use Ushahidi\Contracts\Repository\Entity\MessageRepository;
+use Ushahidi\Contracts\Repository\Entity\TargetedSurveyStateRepository;
 
 class CreatePostFromMessage
 {

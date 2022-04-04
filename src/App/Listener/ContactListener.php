@@ -13,17 +13,16 @@
 
 namespace Ushahidi\App\Listener;
 
-use Log;
-use League\Event\AbstractListener;
 use League\Event\EventInterface;
-use \Ushahidi\Core\Entity\FormRepository;
-use \Ushahidi\Core\Entity\ContactRepository;
-use Ushahidi\Core\Entity\Message;
-use \Ushahidi\Core\Entity\PostRepository;
-use \Ushahidi\Core\Entity\MessageRepository;
-use \Ushahidi\Core\Entity\FormAttributeRepository;
-use \Ushahidi\Core\Entity\TargetedSurveyStateRepository;
-use Ushahidi\App\DataSource\Message\Type as MessageType;
+use League\Event\AbstractListener;
+use Illuminate\Support\Facades\Log;
+use Ushahidi\Contracts\Repository\Entity\FormRepository;
+use Ushahidi\Contracts\Repository\Entity\PostRepository;
+use Ushahidi\Contracts\Repository\Entity\ContactRepository;
+use Ushahidi\Contracts\Repository\Entity\MessageRepository;
+use Ushahidi\Contracts\DataSource\MessageType as MessageType;
+use Ushahidi\Contracts\Repository\Entity\FormAttributeRepository;
+use Ushahidi\Contracts\Repository\Entity\TargetedSurveyStateRepository;
 
 class ContactListener extends AbstractListener
 {
@@ -38,7 +37,6 @@ class ContactListener extends AbstractListener
     {
         $this->repo = $repo;
     }
-
 
     public function setPostRepo(PostRepository $repo)
     {
@@ -71,16 +69,16 @@ class ContactListener extends AbstractListener
         $title_id = $contact_id;
         try {
             $title_id = random_int(1, 999999);
-        } catch (TypeError $e) {
+        } catch (\TypeError $e) {
             // This is okay, so long as `Error` is caught before `Exception`.
-            throw new Exception('Please enter a number!');
-        } catch (Error $e) {
+            throw new \Exception('Please enter a number!');
+        } catch (\Error $e) {
             // This is required, if you do not need to do anything just rethrow.
             Log::info(
                 'Could not generate a random number for form :form and contact :contact. Exception:' . $e->getMessage(),
                 [':form' => $form_name, ':contact' => $contact_id]
             );
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             Log::info(
                 'Could not generate a random number for form :form and contact :contact. Exception:' . $e->getMessage(),
                 [':form' => $form_name, ':contact' => $contact_id]
@@ -122,7 +120,7 @@ class ContactListener extends AbstractListener
 					Messages for contact :contact in this form will not be sent',
                     [':form' => $form_id, ':contact' => $contactId]
                 );
-                throw new Exception(
+                throw new \Exception(
                     sprintf(
                         'Could not find attributes in form id %s.
 						Messages for contact %s in this form will not be sent',

@@ -2,7 +2,7 @@
 
 namespace Ushahidi\App\Listener;
 
-use Ushahidi\Core\Entity;
+use Ushahidi\Contracts\Entity;
 use Ushahidi\App\Jobs\ExportPostsJob;
 
 class QueueExportJob

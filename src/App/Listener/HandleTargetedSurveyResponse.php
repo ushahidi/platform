@@ -2,14 +2,14 @@
 namespace Ushahidi\App\Listener;
 
 use Ushahidi\Core\Entity\Message;
-use Ushahidi\Core\Entity\MessageRepository;
+use Illuminate\Support\Facades\Log;
 use Ushahidi\Core\Entity\TargetedSurveyState;
-use Ushahidi\Core\Entity\TargetedSurveyStateRepository;
-use Ushahidi\Core\Entity\FormAttributeRepository;
+use Ushahidi\Contracts\Repository\Entity\MessageRepository;
+use Ushahidi\Contracts\Repository\Entity\FormAttributeRepository;
+use Ushahidi\Contracts\Repository\Entity\TargetedSurveyStateRepository;
 
 class HandleTargetedSurveyResponse
 {
-
     protected $messageRepo;
     protected $contactRepo;
     protected $formAttrRepo;
@@ -81,7 +81,7 @@ class HandleTargetedSurveyResponse
 
             // If this for some unknown reason fails, log it
             if (!$outgoingMessageId) {
-                \Log::error(
+                Log::error(
                     'Could not create new outgoing message',
                     compact('contact_id')
                 );
