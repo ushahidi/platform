@@ -3,12 +3,9 @@
 namespace Ushahidi\App\Console\Commands;
 
 use Illuminate\Console\Command;
-
 use Ushahidi\App\Tools\OutputText;
-use Composer\Script\Event;
-use Composer\Installer\PackageEvent;
 
-class EnvironmentVerify extends Command
+class EnvironmentVerifyCommand extends Command
 {
 
     /**

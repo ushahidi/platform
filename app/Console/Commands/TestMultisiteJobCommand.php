@@ -4,7 +4,7 @@ namespace Ushahidi\App\Console\Commands;
 
 use Illuminate\Console\Command;
 
-class TestMultisiteJob extends Command
+class TestMultisiteJobCommand extends Command
 {
     /**
      * The console command name.
