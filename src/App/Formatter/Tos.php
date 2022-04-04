@@ -12,7 +12,7 @@
 namespace Ushahidi\App\Formatter;
 
 use DateTime;
-use Ushahidi\Core\Traits\FormatterAuthorizerMetadata;
+use Ushahidi\Core\Concerns\FormatterAuthorizerMetadata;
 
 class Tos extends API
 {

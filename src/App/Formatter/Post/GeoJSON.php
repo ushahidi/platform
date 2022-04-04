@@ -11,7 +11,8 @@
 
 namespace Ushahidi\App\Formatter\Post;
 
-use Ushahidi\Core\Tool\Formatter;
+use Ushahidi\Contracts\Entity;
+use Ushahidi\Contracts\Formatter;
 use Ushahidi\Core\Tool\Formatter\GeoJSONFormatter;
 
 class GeoJSON implements Formatter
@@ -19,7 +20,7 @@ class GeoJSON implements Formatter
     use GeoJSONFormatter;
 
     // Formatter
-    public function __invoke($entity)
+    public function __invoke(Entity $entity)
     {
         $features = [];
         foreach ($entity->values as $attribute => $values) {

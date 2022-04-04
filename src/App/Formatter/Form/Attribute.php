@@ -12,7 +12,7 @@
 namespace Ushahidi\App\Formatter\Form;
 
 use Ushahidi\App\Formatter\API;
-use Ushahidi\Core\Traits\FormatterAuthorizerMetadata;
+use Ushahidi\Core\Concerns\FormatterAuthorizerMetadata;
 
 class Attribute extends API
 {

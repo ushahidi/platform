@@ -11,10 +11,11 @@
 
 namespace Ushahidi\App\Formatter\Post;
 
-use Ushahidi\Core\Tool\Formatter;
-use Ushahidi\Core\Tool\Formatter\GeoJSONFormatter;
-use Ushahidi\Core\SearchData;
+use Ushahidi\Core\Tool\SearchData;
+use Ushahidi\Contracts\Formatter;
+use Ushahidi\Core\Exception\FormatterException;
 use Ushahidi\App\Http\Controllers\RESTController;
+use Ushahidi\Core\Tool\Formatter\GeoJSONFormatter;
 
 class GeoJSONCollection implements Formatter
 {

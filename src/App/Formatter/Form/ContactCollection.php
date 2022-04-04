@@ -12,8 +12,8 @@
 namespace Ushahidi\App\Formatter\Form;
 
 use Ushahidi\App\Formatter\API;
-use Ushahidi\Core\Traits\FormatterAuthorizerMetadata;
-use Ushahidi\Core\SearchData;
+use Ushahidi\Core\Concerns\FormatterAuthorizerMetadata;
+use Ushahidi\Core\Tool\SearchData;
 
 class ContactCollection extends API
 {

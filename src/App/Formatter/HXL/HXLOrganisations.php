@@ -13,8 +13,8 @@ namespace Ushahidi\App\Formatter\HXL;
 
 use Ushahidi\App\Formatter\API;
 use Ushahidi\App\Formatter\Collection;
-use Ushahidi\Core\Tool\Formatter;
-use Ushahidi\Core\Traits\FormatterAuthorizerMetadata;
+use Ushahidi\Contracts\Formatter;
+use Ushahidi\Core\Concerns\FormatterAuthorizerMetadata;
 
 class HXLOrganisations implements Formatter
 {

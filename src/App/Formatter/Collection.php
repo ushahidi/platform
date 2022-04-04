@@ -14,7 +14,6 @@
 namespace Ushahidi\App\Formatter;
 
 use Ushahidi\Core\Tool\Formatter\CollectionFormatter;
-use Ushahidi\Core\SearchData;
 
 class Collection extends CollectionFormatter
 {

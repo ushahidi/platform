@@ -13,7 +13,7 @@ namespace Ushahidi\App\Formatter\HXL;
 
 use Ushahidi\App\Formatter\API;
 use Ushahidi\App\Formatter\Collection;
-use Ushahidi\Core\Traits\FormatterAuthorizerMetadata;
+use Ushahidi\Core\Concerns\FormatterAuthorizerMetadata;
 
 class HXLTagAttributes extends API
 {

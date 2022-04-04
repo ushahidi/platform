@@ -13,7 +13,7 @@
 
 namespace Ushahidi\App\Formatter\Post;
 
-use Ushahidi\Core\Traits\FormatterAuthorizerMetadata;
+use Ushahidi\Core\Concerns\FormatterAuthorizerMetadata;
 use Ushahidi\App\Formatter\API;
 
 class Lock extends API
