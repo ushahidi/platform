@@ -21,12 +21,12 @@ class MessagesController extends RESTController
 {
 
     /**
-     * @var Ushahidi\Factory\UsecaseFactory
+     * @var \Ushahidi\Factory\UsecaseFactory
      */
     protected $usecaseFactory;
 
     /**
-     * @var Ushahidi\Contracts\Usecase
+     * @var \Ushahidi\Contracts\Usecase
      */
     protected $usecase;
 
@@ -56,7 +56,7 @@ class MessagesController extends RESTController
         $message = $this->messages->get($id);
 
         if ($message->post_id === null) {
-            throw abort(404, 'Post does not exist for this message');
+            abort(404, 'Post does not exist for this message');
         }
 
         $this->usecase = $this->usecaseFactory

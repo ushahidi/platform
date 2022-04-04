@@ -27,7 +27,6 @@ class PostsController extends RestController
      *
      * POST /api/v3/collections/:id/posts
      *
-     * @return void
      */
     public function store(Request $request)
     {
@@ -45,7 +44,6 @@ class PostsController extends RestController
      *
      * GET /api/v3/collections/:id/posts
      *
-     * @return void
      */
     public function index(Request $request)
     {
