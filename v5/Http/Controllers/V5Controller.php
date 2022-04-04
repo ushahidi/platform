@@ -2,15 +2,11 @@
 
 namespace v5\Http\Controllers;
 
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Foundation\Bus\DispatchesJobs;
-use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use Laravel\Lumen\Routing\Controller as BaseController;
 use Ushahidi\App\Auth\GenericUser;
-use Ushahidi\App\Formatter\Collection;
 use v5\Models\Translation;
 use v5\Common\ValidatorRunner;
 
