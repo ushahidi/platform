@@ -34,9 +34,8 @@ function service($what = null)
         $builder = new Aura\Di\ContainerBuilder();
         $di = $builder->newConfiguredInstance([
             'Ushahidi\Core\CoreConfig',
-            'Ushahidi\App\AppConfig',
             'Ushahidi\App\Providers\LumenAuraConfig',
-            'Ushahidi\Console\ConsoleConfig',
+            'Ushahidi\App\AppConfig',
         ]);
 
     }
