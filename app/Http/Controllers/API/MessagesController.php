@@ -2,11 +2,11 @@
 
 namespace Ushahidi\App\Http\Controllers\API;
 
-use Ushahidi\App\Http\Controllers\RESTController;
-use Ushahidi\Factory\UsecaseFactory;
-use Ushahidi\Core\Entity\MessageRepository;
 use Illuminate\Http\Request;
+use Ushahidi\Factory\UsecaseFactory;
 use Ushahidi\App\Multisite\MultisiteManager;
+use Ushahidi\App\Http\Controllers\RESTController;
+use Ushahidi\Contracts\Repository\Entity\MessageRepository;
 
 /**
  * Ushahidi API Messages Controller
@@ -26,7 +26,7 @@ class MessagesController extends RESTController
     protected $usecaseFactory;
 
     /**
-     * @var Ushahidi\Core\Usecase
+     * @var Ushahidi\Contracts\Usecase
      */
     protected $usecase;
 

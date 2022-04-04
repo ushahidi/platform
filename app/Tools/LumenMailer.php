@@ -11,7 +11,7 @@
 
 namespace Ushahidi\App\Tools;
 
-use Ushahidi\Core\Tool\Mailer as MailerContract;
+use Ushahidi\Contracts\Mailer as MailerContract;
 use Illuminate\Contracts\Mail\Mailer;
 use Illuminate\Support\Str;
 use Ushahidi\App\Multisite\UsesSiteInfo;

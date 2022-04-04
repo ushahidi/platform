@@ -2,8 +2,8 @@
 
 namespace Ushahidi\App\Listeners;
 
+use Illuminate\Support\Facades\Log;
 use Ushahidi\App\Events\SendToHDXEvent;
-use Log;
 
 class SendToHDXEventListener
 {

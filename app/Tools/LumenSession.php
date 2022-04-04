@@ -11,8 +11,9 @@
 
 namespace Ushahidi\App\Tools;
 
-use Ushahidi\Core\Session;
+use Ushahidi\Contracts\Session;
 use Ushahidi\Core\Entity\User;
+use Ushahidi\Contracts\Repository\Entity\UserRepository;
 
 class LumenSession implements Session
 {
@@ -20,7 +21,7 @@ class LumenSession implements Session
     protected $overrideUserId = false;
     protected $cachedUser = false;
 
-    public function __construct($userRepo)
+    public function __construct(UserRepository $userRepo)
     {
         $this->userRepo = $userRepo;
     }

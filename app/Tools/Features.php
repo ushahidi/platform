@@ -2,8 +2,8 @@
 
 namespace Ushahidi\App\Tools;
 
-use Ushahidi\Core\Entity\ConfigRepository;
 use Illuminate\Support\Facades\Cache;
+use Ushahidi\Contracts\Repository\Entity\ConfigRepository;
 
 class Features
 {

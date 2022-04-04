@@ -4,7 +4,6 @@ namespace Ushahidi\App\Http\Controllers\API\Posts;
 
 use Ushahidi\App\Http\Controllers\RESTController;
 use Illuminate\Http\Request;
-use Ushahidi\Core\Usecase;
 
 /**
  * Ushahidi API Posts Controller

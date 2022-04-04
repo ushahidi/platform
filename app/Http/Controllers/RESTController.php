@@ -13,8 +13,6 @@ namespace Ushahidi\App\Http\Controllers;
 
 use Ushahidi\Factory\UsecaseFactory;
 use Illuminate\Http\Request;
-use League\OAuth2\Server\Exception\OAuth2Exception;
-use League\OAuth2\Server\Exception\MissingAccessTokenException;
 use Ushahidi\App\Exceptions\ValidationException;
 use Ushahidi\App\Multisite\MultisiteManager;
 
@@ -38,7 +36,7 @@ abstract class RESTController extends Controller
     protected $multisite;
 
     /**
-     * @var Ushahidi\Core\Usecase
+     * @var Ushahidi\Contracts\Usecase
      */
     protected $usecase;
 
@@ -238,7 +236,8 @@ abstract class RESTController extends Controller
      * @throws HTTP_Exception_400
      * @throws HTTP_Exception_403
      * @throws HTTP_Exception_404
-     * @return void
+     *
+     * @return array|void
      */
     protected function executeUsecase(Request $request)
     {

@@ -4,7 +4,7 @@ namespace Ushahidi\App\Jobs;
 
 use Exception;
 use Ushahidi\Core\Entity\ExportJob;
-use Ushahidi\Core\Entity\ExportJobRepository;
+use Ushahidi\Contracts\Repository\Entity\ExportJobRepository;
 
 trait RecordsExportJobFailure
 {

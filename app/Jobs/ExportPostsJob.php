@@ -2,11 +2,11 @@
 
 namespace Ushahidi\App\Jobs;
 
-use Ushahidi\Core\Usecase\Export\Job\PostCount;
-use Ushahidi\Core\Entity\ExportJob;
-use Ushahidi\Core\Entity\ExportJobRepository;
-use Ushahidi\App\Multisite\MultisiteAwareJob;
 use Illuminate\Support\Facades\Log;
+use Ushahidi\Core\Entity\ExportJob;
+use Ushahidi\App\Multisite\MultisiteAwareJob;
+use Ushahidi\Core\Usecase\Export\Job\PostCount;
+use Ushahidi\Contracts\Repository\Entity\ExportJobRepository;
 
 class ExportPostsJob extends Job
 {

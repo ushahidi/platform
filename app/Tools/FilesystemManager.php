@@ -2,7 +2,11 @@
 
 namespace Ushahidi\App\Tools;
 
-class FilesystemManager extends \Illuminate\Filesystem\FilesystemManager
+use League\Flysystem\Rackspace\RackspaceAdapter;
+use OpenCloud\ObjectStore\Exception\ObjectNotFoundException;
+use Illuminate\Filesystem\FilesystemManager as LaravelFilesystemManager;
+
+class FilesystemManager extends LaravelFilesystemManager
 {
     // This is rather long, because what we cache here rarely (if ever) changes
     const CACHE_LIFETIME = 24 * 3600 ;       # in seconds
@@ -12,7 +16,7 @@ class FilesystemManager extends \Illuminate\Filesystem\FilesystemManager
     {
         try {
             return $this->app['cache']->remember(
-                'Ushahidi\App\Tools\FilesystemManager.rackspaceUrl[' . $path . ']',
+                \Ushahidi\App\Tools\FilesystemManager::class . "rackspaceUrl[$path]",
                 self::CACHE_LIFETIME,
                 function () use ($path) {
                     return (string) $this->getAdapter()
@@ -21,7 +25,7 @@ class FilesystemManager extends \Illuminate\Filesystem\FilesystemManager
                         ->getPublicUrl(\OpenCloud\ObjectStore\Constants\UrlType::SSL);
                 }
             );
-        } catch (\OpenCloud\ObjectStore\Exception\ObjectNotFoundException $e) {
+        } catch (ObjectNotFoundException $e) {
             return "";
         }
     }
@@ -29,7 +33,7 @@ class FilesystemManager extends \Illuminate\Filesystem\FilesystemManager
     public function url(string $path) : string
     {
         // Special handling for Rackspace Cloudfiles to get SSL URLs
-        if ($this->getAdapter() instanceof \League\Flysystem\Rackspace\RackspaceAdapter) {
+        if ($this->getAdapter() instanceof RackspaceAdapter) {
             return $this->rackspaceUrl($path);
         } else {
             return url(parent::url($path));

@@ -3,7 +3,7 @@
 namespace Ushahidi\App\Exceptions;
 
 use Exception;
-use Illuminate\Validation\ValidationException as IlluminateValidationException;
+use Illuminate\Validation\ValidationException as LaravelValidationException;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Laravel\Lumen\Exceptions\Handler as ExceptionHandler;
@@ -28,7 +28,7 @@ class Handler extends ExceptionHandler
         AuthenticationException::class,
         HttpException::class,
         ModelNotFoundException::class,
-        IlluminateValidationException::class,
+        LaravelValidationException::class,
         OAuthServerException::class,
     ];
 
@@ -60,7 +60,7 @@ class Handler extends ExceptionHandler
     {
         // @todo we should try app('request') first but we can't guarantee its been created
         $request = Request::capture();
-        
+
         // First handle some special cases
         if ($e instanceof HttpResponseException) {
             // @todo check if we should still reformat this for json
@@ -71,7 +71,7 @@ class Handler extends ExceptionHandler
             $e = new HttpException(403, $e->getMessage());
         } elseif ($e instanceof AuthenticationException) {
             $e = new HttpException(401, $e->getMessage());
-        } elseif ($e instanceof IlluminateValidationException && $e->getResponse()) {
+        } elseif ($e instanceof LaravelValidationException && $e->getResponse()) {
             // @todo check if we should still reformat this for json
             return $e->getResponse();
         }
