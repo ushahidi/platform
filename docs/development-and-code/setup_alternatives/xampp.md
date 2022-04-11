@@ -106,6 +106,17 @@ curl -sS https://getcomposer.org/installer | \
       * Right next to it you will find a drop down to select the character encoding and collation. Scroll near to the bottom of the list and select "utf8mb4\_unicode\_ci"
       * Click "Create"
 
+Next, create a new user and password for the `platform` database. The username and password
+can be anything; we will use `ushahidi` for both in this example.  Select the `platform` database and execute the query below:
+
+```
+CREATE USER 'ushahidi'@'127.0.0.1' IDENTIFIED BY 'ushahidi';
+```
+Now, grant all priviledges on the `plaform` database to this user by running the below command: 
+```
+GRANT ALL PRIVILEGES ON plaform.* TO 'ushahidi'@'127.0.0.1';
+```
+
 #### Obtain the code
 
 * We need to do some work from a terminal window, let's open one.
@@ -145,8 +156,8 @@ On Windows File Explorer, the default is to hide the extension of the files \(th
 * Modify the file in the following way:
   * Change the `CACHE_DRIVER` to be `array` instead of `memcache` \(it's feasible set it up with memcache at some point, but for simplicity we use `array`\)
   * Change the `DB_HOST` to `127.0.0.1`
-  * Change the `DB_USERNAME` to `root` 
-  * Change the `DB_PASSWORD` to be empty, so literally: `DB_PASSWORD=`
+  * Change the `DB_USERNAME` to `ushahidi` 
+  * Change the `DB_PASSWORD` to `ushahidi`
   * Change the `DB_DATABASE` to `platform`
 
 {% hint style="info" %}
