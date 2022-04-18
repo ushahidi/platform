@@ -13,7 +13,7 @@ return [
     'providers' => [
         // List of data providers key=provider value=enabled
         'smssync' => false,
-        'email' => false,
+        'email' => true,
         'outgoingemail' => false,
         'twilio' => false,
         'nexmo' => false,
