@@ -1,8 +1,12 @@
----
-description: Project idea
----
-
 # 📑 Google season of docs
+
+## We are participating in Google Season of Docs 2022!
+
+### Application
+
+Ushahidi is participating in Google Season of Docs 2022. We are therefore contracting a technical writer for 20 hours/week between June - November 2022.
+
+If you have experience documenting APIs and is familiar with the PHP programming language, please apply through filling in this [form](https://docs.google.com/forms/d/e/1FAIpQLScaXbUoTY7xyeuI69pGn4Z\_\_j9q3dOYbmCs632uL49IYTRP4A/viewform?usp=sf\_link).
 
 ## Update the technical documentation for The Ushahidi platform API
 
