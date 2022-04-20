@@ -4,9 +4,9 @@
 
 ### Application
 
-Ushahidi is participating in Google Season of Docs 2022. We are therefore contracting a technical writer for 20 hours/week between June - November 2022.
+Ushahidi is participating in Google Season of Docs 2022. We are therefore contracting a technical writer for 20 hours/week between mid May - November 2022. The hourly rate is based on location and experience.
 
-If you have experience documenting APIs and is familiar with the PHP programming language, please apply through filling in this [form](https://docs.google.com/forms/d/e/1FAIpQLScaXbUoTY7xyeuI69pGn4Z\_\_j9q3dOYbmCs632uL49IYTRP4A/viewform?usp=sf\_link).
+If you have experience documenting APIs and is familiar with the PHP programming language, please apply through filling in this [form](https://docs.google.com/forms/d/e/1FAIpQLScaXbUoTY7xyeuI69pGn4Z\_\_j9q3dOYbmCs632uL49IYTRP4A/viewform?usp=sf\_link). Please submit your application before 10th of May 2022, 6pm UTC.
 
 ## Update the technical documentation for The Ushahidi platform API
 
