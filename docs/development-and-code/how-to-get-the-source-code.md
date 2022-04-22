@@ -2,7 +2,9 @@
 
 Note, this page contains shortcuts to each repository. If you are setting up the Platform for the first time, please follow our **setup guides** to set up the code **for your specific purpose:**
 
-{% page-ref page="setup\_alternatives/" %}
+{% content-ref url="setup_alternatives/" %}
+[setup\_alternatives](setup\_alternatives/)
+{% endcontent-ref %}
 
 ## Platform API
 
@@ -10,7 +12,7 @@ The API-source-code is found in the [Platform API repository.](https://github.co
 
 To get the source-code, clone the code with:
 
-```text
+```
 git clone https://github.com/ushahidi/platform.git
 ```
 
@@ -20,7 +22,7 @@ The Platform soure-code is found in the[ Platform Client repository](https://git
 
 To get the source-code, clone the code with:
 
-```text
+```
 git clone https://github.com/ushahidi/platform-client.git
 ```
 
@@ -30,7 +32,6 @@ The source-code for the Pattern Library is found in the [Platform Pattern Librar
 
 To get the source-code, clone the code with:
 
-```text
+```
 git clone https://github.com/ushahidi/platform-pattern-library.git;
 ```
-
