@@ -21,7 +21,7 @@ class DataFactory
      *         ...
      *     ];
      *
-     * @var Array
+     * @var array
      */
     protected $actions = [];
 
@@ -38,11 +38,9 @@ class DataFactory
      *
      *     $search = $data->get('search', $params);
      *
-     * @param  String $action
-     *
-     * @param  Array  $params
-     *
-     * @return Ushahidi\Core\Data
+     * @param  string $action
+     * @param  array  $params
+     * @return \Ushahidi\Core\Tool\Data
      */
     public function get($action, array $params = null)
     {
