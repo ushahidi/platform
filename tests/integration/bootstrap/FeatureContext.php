@@ -4,19 +4,30 @@
  * Ushahidi Feature Context
  *
  * @author     Ushahidi Team <team@ushahidi.com>
- * @package    Ushahidi\Application\Tests
  * @copyright  2013 Ushahidi
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
+// Load bootstrap to hook into Laravel
+// require_once __DIR__.'/../../bootstrap.php';
+
+
 namespace Tests\Integration\Bootstrap;
 
-use Behat\Behat\Context\Context;
+use Tests\TestCase;
 use Behat\Behat\Context\SnippetAcceptingContext;
-use Behat\Gherkin\Node\PyStringNode;
-use Behat\Gherkin\Node\TableNode;
 
-class FeatureContext implements SnippetAcceptingContext
+class FeatureContext extends TestCase implements SnippetAcceptingContext
 {
-
+    /**
+     * Initializes context.
+     *
+     * Every scenario gets its own context instance.
+     * You can also pass arbitrary arguments to the
+     * context constructor through behat.yml.
+     */
+    public function __construct()
+    {
+        parent::setUp();
+    }
 }
