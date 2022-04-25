@@ -1,9 +1,13 @@
 <?php
 
+/**
+ *  @var $router \Illuminate\Routing\Router
+ */
+
 // Migration
 $router->group([
     'middleware' => ['auth:api', 'scope:migrate'],
-    'prefix' => 'migration'
+    'prefix' => 'migration',
 ], function () use ($router) {
     $router->get('/', 'MigrationController@index');
     $router->get('/status', 'MigrationController@status');

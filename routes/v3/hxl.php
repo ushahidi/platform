@@ -1,12 +1,16 @@
 <?php
 
+/**
+ *  @var $router \Illuminate\Routing\Router
+ */
+
 // HXL
 $router->group([
     'prefix' => 'hxl',
     'middleware' => ['auth:api', 'feature:hxl'],
-    'namespace' => 'HXL'
+    'namespace' => 'HXL',
 ], function () use ($router) {
-    $router->get('/', "HXLController@index");
+    $router->get('/', 'HXLController@index');
     $router->get('/licenses', 'HXLLicensesController@index');
     $router->get('/tags', 'HXLTagsController@index');
     $router->post('/metadata', 'HXLMetadataController@store');
