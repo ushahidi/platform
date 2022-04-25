@@ -2,19 +2,19 @@
 
 namespace spec\Ushahidi\Core\Usecase;
 
-use Prophecy\Argument;
-use PhpSpec\ObjectBehavior;
-use Ushahidi\Contracts\Entity;
-use Ushahidi\Contracts\Formatter;
-use Ushahidi\Contracts\Validator;
-use Ushahidi\Contracts\Authorizer;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Contracts\Translation\Translator;
+use PhpSpec\ObjectBehavior;
+use Prophecy\Argument;
+use Ushahidi\Contracts\Authorizer;
+use Ushahidi\Contracts\Entity;
+use Ushahidi\Contracts\Formatter;
 use Ushahidi\Contracts\Repository\CreateRepository;
+use Ushahidi\Contracts\Validator;
 
 class CreateUsecaseSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         Authorizer $auth,
         Formatter $format,
         Validator $valid,
@@ -30,7 +30,7 @@ class CreateUsecaseSpec extends ObjectBehavior
         $this->setTranslator($translator);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType('Ushahidi\Core\Usecase\CreateUsecase');
     }
@@ -45,7 +45,7 @@ class CreateUsecaseSpec extends ObjectBehavior
         $repo->getEntity($payload)->willReturn($entity);
     }
 
-    function it_fails_when_authorization_is_denied($auth, $repo, Entity $entity)
+    public function it_fails_when_authorization_is_denied($auth, $repo, Entity $entity)
     {
         // ... fetch a new entity
         $this->tryGetEntity($repo, $entity);
@@ -61,7 +61,7 @@ class CreateUsecaseSpec extends ObjectBehavior
         $this->shouldThrow('Ushahidi\Core\Exception\AuthorizerException')->duringInteract();
     }
 
-    function it_fails_when_validation_fails($auth, $repo, $valid, Entity $entity)
+    public function it_fails_when_validation_fails($auth, $repo, $valid, Entity $entity)
     {
         // ... fetch a new entity
         $this->tryGetEntity($repo, $entity);
@@ -81,7 +81,7 @@ class CreateUsecaseSpec extends ObjectBehavior
         $this->shouldThrow('Ushahidi\Core\Exception\ValidatorException')->duringInteract();
     }
 
-    function it_creates_a_new_record($auth, $repo, $valid, $format, Entity $entity, Entity $created)
+    public function it_creates_a_new_record($auth, $repo, $valid, $format, Entity $entity, Entity $created)
     {
         // ... fetch a new entity
         $this->tryGetEntity($repo, $entity);

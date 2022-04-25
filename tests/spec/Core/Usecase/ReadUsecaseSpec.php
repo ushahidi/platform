@@ -2,28 +2,28 @@
 
 namespace spec\Ushahidi\Core\Usecase;
 
-use Prophecy\Argument;
 use PhpSpec\ObjectBehavior;
+use Prophecy\Argument;
+use Ushahidi\Contracts\Authorizer;
 use Ushahidi\Contracts\Entity;
 use Ushahidi\Contracts\Formatter;
-use Ushahidi\Contracts\Authorizer;
 use Ushahidi\Contracts\Repository\ReadRepository;
 
 class ReadUsecaseSpec extends ObjectBehavior
 {
-    function let(Authorizer $auth, Formatter $format, ReadRepository $repo)
+    public function let(Authorizer $auth, Formatter $format, ReadRepository $repo)
     {
         $this->setAuthorizer($auth);
         $this->setFormatter($format);
         $this->setRepository($repo);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType('Ushahidi\Core\Usecase\ReadUsecase');
     }
 
-    function it_fails_when_no_identifer_exists()
+    public function it_fails_when_no_identifer_exists()
     {
         $this->shouldThrow('InvalidArgumentException')->duringInteract();
     }
@@ -41,7 +41,7 @@ class ReadUsecaseSpec extends ObjectBehavior
         $entity->getResource()->willReturn('widgets');
     }
 
-    function it_fails_when_the_entity_is_not_found($repo, Entity $entity)
+    public function it_fails_when_the_entity_is_not_found($repo, Entity $entity)
     {
         $id = 0;
 
@@ -52,7 +52,7 @@ class ReadUsecaseSpec extends ObjectBehavior
         $this->shouldThrow('Ushahidi\Core\Exception\NotFoundException')->duringInteract();
     }
 
-    function it_fails_when_authorization_is_denied($auth, $repo, Entity $entity)
+    public function it_fails_when_authorization_is_denied($auth, $repo, Entity $entity)
     {
         $id = 1;
 
@@ -68,7 +68,7 @@ class ReadUsecaseSpec extends ObjectBehavior
         $this->shouldThrow('Ushahidi\Core\Exception\AuthorizerException')->duringInteract();
     }
 
-    function it_reads_and_formats_a_record($auth, $repo, $format, Entity $entity)
+    public function it_reads_and_formats_a_record($auth, $repo, $format, Entity $entity)
     {
         $id = 2;
 

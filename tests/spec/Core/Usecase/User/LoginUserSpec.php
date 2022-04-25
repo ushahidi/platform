@@ -3,17 +3,17 @@
 namespace spec\Ushahidi\Core\Usecase\User;
 
 use PhpSpec\ObjectBehavior;
+use Ushahidi\Contracts\Authorizer;
 use Ushahidi\Contracts\Entity;
 use Ushahidi\Contracts\Formatter;
-use Ushahidi\Contracts\Authorizer;
 use Ushahidi\Contracts\RateLimiter;
-use Ushahidi\Core\Tool\PasswordAuthenticator;
-use Ushahidi\Contracts\Repository\ReadRepository;
 use Ushahidi\Contracts\Repository\Entity\UserRepository;
+use Ushahidi\Contracts\Repository\ReadRepository;
+use Ushahidi\Core\Tool\PasswordAuthenticator;
 
 class LoginUserSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         Authorizer $auth,
         Formatter $format,
         UserRepository $repo,
@@ -29,12 +29,12 @@ class LoginUserSpec extends ObjectBehavior
         $this->setRateLimiter($rateLimiter);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType('Ushahidi\Core\Usecase\User\LoginUser');
     }
 
-    function it_does_interact_with_the_repository_and_authenticator($repo, $authenticator, $format, Entity $user)
+    public function it_does_interact_with_the_repository_and_authenticator($repo, $authenticator, $format, Entity $user)
     {
         $email = 'test@ushahidi.com';
         $password = 'secret';

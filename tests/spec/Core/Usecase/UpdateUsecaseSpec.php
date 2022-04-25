@@ -2,18 +2,18 @@
 
 namespace spec\Ushahidi\Core\Usecase;
 
-use Prophecy\Argument;
+use Illuminate\Contracts\Translation\Translator;
 use PhpSpec\ObjectBehavior;
+use Prophecy\Argument;
+use Ushahidi\Contracts\Authorizer;
 use Ushahidi\Contracts\Entity;
 use Ushahidi\Contracts\Formatter;
-use Ushahidi\Contracts\Validator;
-use Ushahidi\Contracts\Authorizer;
-use Illuminate\Contracts\Translation\Translator;
 use Ushahidi\Contracts\Repository\UpdateRepository;
+use Ushahidi\Contracts\Validator;
 
 class UpdateUsecaseSpec extends ObjectBehavior
 {
-    function let(Authorizer $auth, Formatter $format, Validator $valid, UpdateRepository $repo, Translator $translator)
+    public function let(Authorizer $auth, Formatter $format, Validator $valid, UpdateRepository $repo, Translator $translator)
     {
         $this->setAuthorizer($auth);
         $this->setFormatter($format);
@@ -22,7 +22,7 @@ class UpdateUsecaseSpec extends ObjectBehavior
         $this->setTranslator($translator);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType('Ushahidi\Core\Usecase\UpdateUsecase');
     }
@@ -43,7 +43,7 @@ class UpdateUsecaseSpec extends ObjectBehavior
         $entity->getId()->willReturn($id);
     }
 
-    function it_fails_when_the_entity_is_not_found($repo, Entity $entity)
+    public function it_fails_when_the_entity_is_not_found($repo, Entity $entity)
     {
         $id = 0;
 
@@ -55,7 +55,7 @@ class UpdateUsecaseSpec extends ObjectBehavior
         $this->shouldThrow('Ushahidi\Core\Exception\NotFoundException')->duringInteract();
     }
 
-    function it_fails_when_authorization_is_denied($auth, $repo, Entity $entity)
+    public function it_fails_when_authorization_is_denied($auth, $repo, Entity $entity)
     {
         $id = 1;
 
@@ -73,7 +73,7 @@ class UpdateUsecaseSpec extends ObjectBehavior
         $this->shouldThrow('Ushahidi\Core\Exception\AuthorizerException')->duringInteract();
     }
 
-    function it_fails_when_validation_fails($auth, $repo, $valid, Entity $entity)
+    public function it_fails_when_validation_fails($auth, $repo, $valid, Entity $entity)
     {
         $id = 2;
 
@@ -96,7 +96,7 @@ class UpdateUsecaseSpec extends ObjectBehavior
         $this->shouldThrow('Ushahidi\Core\Exception\ValidatorException')->duringInteract();
     }
 
-    function it_updates_the_record($auth, $valid, $repo, $format, Entity $entity, Entity $updated)
+    public function it_updates_the_record($auth, $valid, $repo, $format, Entity $entity, Entity $updated)
     {
         $id = 3;
 

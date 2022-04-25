@@ -2,23 +2,23 @@
 
 namespace spec\Ushahidi\Core\Usecase\Message;
 
-use Prophecy\Argument;
+use Illuminate\Contracts\Events\Dispatcher;
+use Illuminate\Contracts\Translation\Translator;
 use PhpSpec\ObjectBehavior;
+use Prophecy\Argument;
+use Ushahidi\Contracts\Authorizer;
 use Ushahidi\Contracts\Entity;
 use Ushahidi\Contracts\Formatter;
-use Ushahidi\Contracts\Validator;
-use Ushahidi\Core\Entity\Contact;
-use Ushahidi\Contracts\Authorizer;
-use Illuminate\Contracts\Events\Dispatcher;
-use Ushahidi\Core\Exception\ValidatorException;
-use Illuminate\Contracts\Translation\Translator;
-use Ushahidi\Core\Usecase\Message\ReceiveMessage;
 use Ushahidi\Contracts\Repository\CreateRepository;
 use Ushahidi\Contracts\Repository\Entity\ContactRepository;
+use Ushahidi\Contracts\Validator;
+use Ushahidi\Core\Entity\Contact;
+use Ushahidi\Core\Exception\ValidatorException;
+use Ushahidi\Core\Usecase\Message\ReceiveMessage;
 
 class ReceiveMessageSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         Authorizer $auth,
         Formatter $format,
         Validator $valid,
@@ -40,7 +40,7 @@ class ReceiveMessageSpec extends ObjectBehavior
         $this->setTranslator($translator);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(ReceiveMessage::class);
     }
@@ -54,7 +54,7 @@ class ReceiveMessageSpec extends ObjectBehavior
             'from' => 1234,
             'message' => 'Some message',
             'title' => 'msgtitle',
-            'data_source' => 'smssync'
+            'data_source' => 'smssync',
         ];
     }
 
@@ -69,7 +69,7 @@ class ReceiveMessageSpec extends ObjectBehavior
 
         // Get a new message entity and set its state
         $repo->getEntity()->willReturn($entity);
-        $entity->setState($payload + ["status" => "received", "direction" => "incoming"])->willReturn($entity);
+        $entity->setState($payload + ['status' => 'received', 'direction' => 'incoming'])->willReturn($entity);
     }
 
     private function tryLoadContactEntity($payload, $contact_id, $contactRepo, $contact)
@@ -108,7 +108,7 @@ class ReceiveMessageSpec extends ObjectBehavior
     }
     */
 
-    function it_fails_when_validation_fails(
+    public function it_fails_when_validation_fails(
         $auth,
         $repo,
         $contactRepo,
@@ -140,7 +140,7 @@ class ReceiveMessageSpec extends ObjectBehavior
         $this->shouldThrow('Ushahidi\Core\Exception\ValidatorException')->duringInteract();
     }
 
-    function it_fails_when_contact_validation_fails(
+    public function it_fails_when_contact_validation_fails(
         $auth,
         $repo,
         $contactRepo,
@@ -178,7 +178,7 @@ class ReceiveMessageSpec extends ObjectBehavior
         $this->shouldThrow(ValidatorException::class)->duringInteract();
     }
 
-    function it_creates_a_new_record(
+    public function it_creates_a_new_record(
         $auth,
         $repo,
         $contactRepo,
@@ -223,7 +223,7 @@ class ReceiveMessageSpec extends ObjectBehavior
         $this->interact()->shouldReturn($id);
     }
 
-    function it_creates_a_new_message_and_contact(
+    public function it_creates_a_new_message_and_contact(
         $auth,
         $repo,
         $contactRepo,

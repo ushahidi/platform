@@ -2,18 +2,18 @@
 
 namespace spec\Ushahidi\Core\Usecase;
 
-use Prophecy\Argument;
+use Illuminate\Contracts\Translation\Translator;
 use PhpSpec\ObjectBehavior;
-use Ushahidi\Core\Tool\SearchData;
+use Prophecy\Argument;
+use Ushahidi\Contracts\Authorizer;
 use Ushahidi\Contracts\Entity;
 use Ushahidi\Contracts\Formatter;
-use Ushahidi\Contracts\Authorizer;
-use Illuminate\Contracts\Translation\Translator;
 use Ushahidi\Contracts\Repository\SearchRepository;
+use Ushahidi\Core\Tool\SearchData;
 
 class SearchUsecaseSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         Authorizer $auth,
         SearchData $search,
         Formatter $format,
@@ -29,7 +29,7 @@ class SearchUsecaseSpec extends ObjectBehavior
         $this->setTranslator($translator);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType('Ushahidi\Core\Usecase\SearchUsecase');
     }
@@ -44,7 +44,7 @@ class SearchUsecaseSpec extends ObjectBehavior
         $entity->getResource()->willReturn('widgets');
     }
 
-    function it_fails_when_authorization_is_denied($auth, $repo, Entity $entity)
+    public function it_fails_when_authorization_is_denied($auth, $repo, Entity $entity)
     {
         // ... fetch an empty entity
         $this->tryGetEntity($repo, $entity);
@@ -58,7 +58,7 @@ class SearchUsecaseSpec extends ObjectBehavior
         $this->shouldThrow('Ushahidi\Core\Exception\AuthorizerException')->duringInteract();
     }
 
-    function it_searchs_for_multiple_records($auth, $repo, $format, $search, Entity $entity, Entity $result)
+    public function it_searchs_for_multiple_records($auth, $repo, $format, $search, Entity $entity, Entity $result)
     {
         // ... fetch an empty entity
         $this->tryGetEntity($repo, $entity);

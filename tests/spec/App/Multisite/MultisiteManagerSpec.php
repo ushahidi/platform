@@ -2,32 +2,32 @@
 
 namespace spec\Ushahidi\App\Multisite;
 
-use Ushahidi\App\Multisite\MultisiteManager;
-use Ushahidi\App\Multisite\Site;
-use Ushahidi\App\Multisite\SiteRepository;
-use Ushahidi\App\Multisite\SiteNotFoundException;
+use Illuminate\Contracts\Events\Dispatcher;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-use Illuminate\Contracts\Events\Dispatcher;
+use Ushahidi\App\Multisite\MultisiteManager;
+use Ushahidi\App\Multisite\Site;
+use Ushahidi\App\Multisite\SiteNotFoundException;
+use Ushahidi\App\Multisite\SiteRepository;
 
 class MultisiteManagerSpec extends ObjectBehavior
 {
-    function let(SiteRepository $repo, Dispatcher $events)
+    public function let(SiteRepository $repo, Dispatcher $events)
     {
         $config = [
             'enabled' => true,
-            'domain'  => 'myushahidi.com'
+            'domain'  => 'myushahidi.com',
         ];
 
         $this->beConstructedWith($config, $repo, $events);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(MultisiteManager::class);
     }
 
-    function it_can_parse_a_known_subdomain(Site $site, $repo)
+    public function it_can_parse_a_known_subdomain(Site $site, $repo)
     {
         $repo->getByDomain('abc', 'myushahidi.com')->willReturn($site);
 
@@ -36,7 +36,7 @@ class MultisiteManagerSpec extends ObjectBehavior
         $site = $this->getSite()->shouldReturnAnInstanceOf(Site::class);
     }
 
-    function it_can_parse_a_known_domain(Site $site, $repo)
+    public function it_can_parse_a_known_domain(Site $site, $repo)
     {
         $repo->getByDomain('', 'customushahidi.com')->willReturn($site);
 
@@ -45,14 +45,14 @@ class MultisiteManagerSpec extends ObjectBehavior
         $site = $this->getSite()->shouldReturnAnInstanceOf(Site::class);
     }
 
-    function it_can_parse_an_unknown_subdomain(Site $site, $repo)
+    public function it_can_parse_an_unknown_subdomain(Site $site, $repo)
     {
         $repo->getByDomain('unknown', 'myushahidi.com')->willReturn(false);
 
         $this->shouldThrow(SiteNotFoundException::class)->during('setSiteFromHost', ['unknown.myushahidi.com']);
     }
 
-    function it_can_set_site_by_id(Site $site, $repo)
+    public function it_can_set_site_by_id(Site $site, $repo)
     {
         $repo->getById(33)->willReturn($site);
 
@@ -61,7 +61,7 @@ class MultisiteManagerSpec extends ObjectBehavior
         $this->getSite()->shouldReturnAnInstanceOf(Site::class);
     }
 
-    function it_return_false_when_no_site()
+    public function it_return_false_when_no_site()
     {
         $this->getSite()->shouldReturn(false);
 
