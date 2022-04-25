@@ -1,7 +1,7 @@
 <?php
 
-return array(
+return [
     'not_empty' => ':campo no debe estar vacío',
     'isKeyAvailable' => 'La tecla ":value" no está disponible',
-    'duplicateTypes' => 'No puede haber más de un campo de tipo :type'
-);
+    'duplicateTypes' => 'No puede haber más de un campo de tipo :type',
+];

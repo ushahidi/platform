@@ -1,6 +1,6 @@
 <?php
 
-return array(
+return [
     'name' => 'Name',
     'disabled' => 'Disabled',
     'everyone_can_create' => 'Who can add to this survey?',
@@ -24,5 +24,5 @@ return array(
     'tasks.fields.cardinality' => 'Field cardinality',
     'tasks.fields.response_private' => 'Should responses be private?',
     'status' => 'Post status',
-    'id' => 'Id'
-);
+    'id' => 'Id',
+];

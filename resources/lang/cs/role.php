@@ -1,5 +1,5 @@
 <?php
 
-return array(
-  'rolesNotEnabled'    => 'Funkce rolí není pro vaše nasazení povolena.'
-);
+return [
+    'rolesNotEnabled'    => 'Funkce rolí není pro vaše nasazení povolena.',
+];

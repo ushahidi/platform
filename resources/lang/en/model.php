@@ -1,6 +1,7 @@
 <?php
+
 // @codingStandardsIgnoreFile
 
-return array(
-  'Post' => 'post',
-);
+return [
+    'Post' => 'post',
+];

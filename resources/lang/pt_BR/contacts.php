@@ -1,6 +1,7 @@
 <?php
+
 // @codingStandardsIgnoreFile
 
-return array(
+return [
     'failedToCreateContact' => 'Não foi possível criar contatos. Resultado: 1%s',
-);
+];

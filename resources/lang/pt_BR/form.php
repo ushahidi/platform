@@ -1,6 +1,6 @@
 <?php
 
-return array(
+return [
     'invalidFormStageId' => 'formulário_estágio_id: valor não existe',
     'postTypeLimitReached' => 'limite: pós tipos',
-);
+];

@@ -1,6 +1,6 @@
 <?php
 
-return array(
+return [
     'name' => 'Nombre',
     'disabled' => 'Deshabilitado',
     'everyone_can_create' => 'Quién puede agregar a esta encuesta?',
@@ -22,4 +22,4 @@ return array(
     'tasks.fields.priority' => 'Prioridad de campo',
     'tasks.fields.cardinality' => 'Cardinalidad de campo',
     'tasks.fields.response_private' => 'Deberian las respuestas ser privadas?',
-);
+];

@@ -1,12 +1,12 @@
 <?php
 
-return array(
-    'email' => array(
+return [
+    'email' => [
         'title' => '[:sitename] New post: :title',
-        'message' => "New post on :sitename\n\n:title\n\n:content\n\nView post: :url"
-    ),
-    'sms' => array(
+        'message' => "New post on :sitename\n\n:title\n\n:content\n\nView post: :url",
+    ],
+    'sms' => [
         'title' => '',
         'message' => '[:sitename] New post: :title',
-    )
-);
+    ],
+];

@@ -1,7 +1,7 @@
 <?php
 
-return array(
-    'roles' => array(
+return [
+    'roles' => [
         'roleDoesNotExist' => 'papel_id: valor não existe',
-    )
-);
+    ],
+];

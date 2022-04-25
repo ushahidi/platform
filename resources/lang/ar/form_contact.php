@@ -1,5 +1,5 @@
 <?php
 
-return array(
+return [
     'contactIsValid' => 'رقم الهاتف غير صالح',
-);
+];

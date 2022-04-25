@@ -1,12 +1,12 @@
 <?php
 
-return array(
-    'email' => array(
+return [
+    'email' => [
         'title' => '[:sitename] منشور جديد: :title',
-        'message' => "منشور جديد على :sitename\n\n:title\n\n:content\n\nعرض المنشور: :url"
-    ),
-    'sms' => array(
+        'message' => "منشور جديد على :sitename\n\n:title\n\n:content\n\nعرض المنشور: :url",
+    ],
+    'sms' => [
         'title' => '',
         'message' => 'منشور جديد على :sitename\n\n:title\n\n:content\n\nعرض المنشور: :url',
-    )
-);
+    ],
+];
