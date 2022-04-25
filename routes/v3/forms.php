@@ -10,7 +10,8 @@ $router->group(
     'namespace' => 'Forms',
     'prefix' => 'forms',
     'middleware' => ['scope:forms', 'expiration'],
-    ], function () use ($router) {
+    ],
+    function () use ($router) {
         // Public access
         $router->get('/', 'FormsController@index');
         $router->get('/{id}', 'FormsController@show')->where('id', '[0-9]+');
@@ -20,10 +21,12 @@ $router->group(
 
         // Sub-form routes
         $router->group(
-            ['prefix' => '/{form_id}', 'where' => ['form_id' => '[0-9]+']], function () use ($router) {
+            ['prefix' => '/{form_id}', 'where' => ['form_id' => '[0-9]+']],
+            function () use ($router) {
                 // Attributes
                 $router->group(
-                    ['prefix' => 'attributes'], function () use ($router) {
+                    ['prefix' => 'attributes'],
+                    function () use ($router) {
                         $router->get('/', 'AttributesController@index');
                         $router->get('/{id}', 'AttributesController@show');
                     }
@@ -31,7 +34,8 @@ $router->group(
 
                 // Contacts
                 $router->group(
-                    ['prefix' => 'contacts'], function () use ($router) {
+                    ['prefix' => 'contacts'],
+                    function () use ($router) {
                         $router->get('/', 'ContactsController@index');
                         $router->get('/{id}', 'ContactsController@show');
                         $router->post('/', 'ContactsController@store');
@@ -42,7 +46,8 @@ $router->group(
 
                 // Stages
                 $router->group(
-                    ['prefix' => 'stages'], function () use ($router) {
+                    ['prefix' => 'stages'],
+                    function () use ($router) {
                         $router->get('/', 'StagesController@index');
                         $router->get('/{id}', 'StagesController@show');
                     }
@@ -50,14 +55,16 @@ $router->group(
 
                 // Stats
                 $router->group(
-                    ['prefix' => 'stats'], function () use ($router) {
+                    ['prefix' => 'stats'],
+                    function () use ($router) {
                         $router->get('/', 'StatsController@index');
                     }
                 );
 
                 // Roles
                 $router->group(
-                    ['prefix' => 'roles'], function () use ($router) {
+                    ['prefix' => 'roles'],
+                    function () use ($router) {
                         $router->get('/', 'RolesController@index');
                     }
                 );
@@ -68,7 +75,8 @@ $router->group(
         $router->group(
             [
             'middleware' => ['auth:api', 'scope:forms'],
-            ], function () use ($router) {
+            ],
+            function () use ($router) {
                 $router->post('/', 'FormsController@store');
                 $router->put('/{id}', 'FormsController@update')->where('id', '[0-9]+');
                 $router->delete('/{id}', 'FormsController@destroy')->where('id', '[0-9]+');
@@ -82,7 +90,8 @@ $router->group(
                     function () use ($router) {
                         // Attributes
                         $router->group(
-                            ['prefix' => 'attributes'], function () use ($router) {
+                            ['prefix' => 'attributes'],
+                            function () use ($router) {
                                 $router->post('/', 'AttributesController@store');
                                 $router->put('/{id}', 'AttributesController@update');
                                 $router->delete('/{id}', 'AttributesController@destroy');
@@ -91,7 +100,8 @@ $router->group(
 
                         // Stages
                         $router->group(
-                            ['prefix' => 'stages'], function () use ($router) {
+                            ['prefix' => 'stages'],
+                            function () use ($router) {
                                 $router->post('/', 'StagesController@store');
                                 $router->put('/{id}', 'StagesController@update');
                                 $router->delete('/{id}', 'StagesController@destroy');
@@ -100,7 +110,8 @@ $router->group(
 
                         // Roles
                         $router->group(
-                            ['prefix' => 'roles'], function () use ($router) {
+                            ['prefix' => 'roles'],
+                            function () use ($router) {
                                 $router->put('/', 'RolesController@replace');
                             }
                         );

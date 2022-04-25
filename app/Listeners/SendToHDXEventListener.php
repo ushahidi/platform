@@ -16,9 +16,11 @@ class SendToHDXEventListener
     {
         //
     }
+
     protected function getUsecase()
     {
     }
+
     /**
      * Handle the event.
      *

@@ -3,10 +3,10 @@
 namespace Ushahidi\App\Jobs;
 
 use Illuminate\Support\Facades\Log;
-use Ushahidi\Core\Entity\ExportJob;
-use Ushahidi\App\Multisite\MultisiteAwareJob;
-use Ushahidi\Core\Usecase\Export\Job\PostCount;
 use Ushahidi\Contracts\Repository\Entity\ExportJobRepository;
+use Ushahidi\Core\Entity\ExportJob;
+use Ushahidi\Core\Usecase\Export\Job\PostCount;
+use Ushahidi\App\Multisite\MultisiteAwareJob;
 
 class ExportPostsJob extends Job
 {
@@ -78,7 +78,7 @@ class ExportPostsJob extends Job
                 'jobId' => $this->jobId,
                 'batchNumber' => $batchNumber,
                 'offset' => $batchNumber * $this->batchSize,
-                'limit' => $this->batchSize
+                'limit' => $this->batchSize,
             ]);
             dispatch(new ExportPostsBatchJob(
                 $this->jobId,

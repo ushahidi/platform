@@ -3,8 +3,8 @@
 namespace Ushahidi\App\Jobs;
 
 use Exception;
-use Ushahidi\Core\Entity\ExportJob;
 use Ushahidi\Contracts\Repository\Entity\ExportJobRepository;
+use Ushahidi\Core\Entity\ExportJob;
 
 trait RecordsExportJobFailure
 {
@@ -22,7 +22,7 @@ trait RecordsExportJobFailure
         // Set status failed
         $job = $exportJobRepo->get($this->jobId);
         $job->setState([
-            'status' => ExportJob::STATUS_FAILED
+            'status' => ExportJob::STATUS_FAILED,
         ]);
         $exportJobRepo->update($job);
     }

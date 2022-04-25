@@ -3,18 +3,22 @@
 namespace Ushahidi\App\Jobs;
 
 use Log;
+use Ushahidi\Contracts\Repository\Entity\ExportJobRepository;
 use Ushahidi\Core\Usecase\Post\Export;
 use Ushahidi\App\Multisite\MultisiteAwareJob;
-use Ushahidi\Contracts\Repository\Entity\ExportJobRepository;
 
 class ExportPostsBatchJob extends Job
 {
     use MultisiteAwareJob;
 
     protected $jobId;
+
     protected $batchNumber;
+
     protected $offset;
+
     protected $limit;
+
     protected $includeHeader;
 
     /**
@@ -43,11 +47,11 @@ class ExportPostsBatchJob extends Job
             ->setFilters([
                 'limit' => $this->limit,
                 'offset' => $this->offset,
-                'add_header' => $this->includeHeader
+                'add_header' => $this->includeHeader,
             ])
             ->setIdentifiers([
                 'job_id' => $this->jobId,
-                'batch_number' => $this->batchNumber
+                'batch_number' => $this->batchNumber,
             ]);
 
         $batch = $usecase->interact();
