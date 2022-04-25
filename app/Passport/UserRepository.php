@@ -2,12 +2,11 @@
 
 namespace Ushahidi\App\Passport;
 
-use RuntimeException;
 use Illuminate\Contracts\Hashing\Hasher;
+use Laravel\Passport\Bridge\User;
 use League\OAuth2\Server\Entities\ClientEntityInterface;
 use League\OAuth2\Server\Repositories\UserRepositoryInterface;
-use Laravel\Passport\Bridge\User;
-
+use RuntimeException;
 use Ushahidi\Factory\UsecaseFactory;
 
 class UserRepository implements UserRepositoryInterface
@@ -29,7 +28,7 @@ class UserRepository implements UserRepositoryInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getUserEntityByUserCredentials(
         $username,
@@ -40,11 +39,12 @@ class UserRepository implements UserRepositoryInterface
         $usecase = $this->usecaseFactory->get('users', 'login')
             ->setIdentifiers([
                 'email' => $username,
-                'password' => $password
+                'password' => $password,
             ]);
 
         try {
             $data = $usecase->interact();
+
             return new User($data['id']);
         } catch (\Exception $e) {
             return false;

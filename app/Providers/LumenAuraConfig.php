@@ -4,15 +4,14 @@ namespace Ushahidi\App\Providers;
 
 use Aura\Di\Container;
 use Aura\Di\ContainerConfig;
+use Illuminate\Support\Facades\Storage;
 
 class LumenAuraConfig extends ContainerConfig
 {
     /**
-     *
      * Define params, setters, and services before the Container is locked.
      *
      * @param Container $di The DI container.
-     *
      */
     public function define(Container $di): void
     {
@@ -23,8 +22,8 @@ class LumenAuraConfig extends ContainerConfig
     protected function configureAuraServices(Container $di)
     {
         // Configure mailer
-        $di->set('tool.mailer', $di->lazyNew('Ushahidi\App\Tools\LumenMailer', [
-            'mailer' => app('mailer')
+        $di->set('tool.mailer', $di->lazyNew(\Ushahidi\App\Tools\LumenMailer::class, [
+            'mailer' => app('mailer'),
         ]));
 
         // Configure filesystem
@@ -32,7 +31,7 @@ class LumenAuraConfig extends ContainerConfig
         // cdn type based on the provided configuration
         $di->set('tool.filesystem', function () {
             // Get the underlying League\Flysystem\Filesystem instance
-            return app('filesystem')->disk()->getDriver();
+            return Storage::disk()->getDriver();
         });
 
         $di->set('multisite', function () {
@@ -41,7 +40,7 @@ class LumenAuraConfig extends ContainerConfig
 
         // Setup user session service
         $di->set('session', $di->lazyNew(\Ushahidi\App\Tools\LumenSession::class, [
-            'userRepo' => $di->lazyGet('repository.user')
+            'userRepo' => $di->lazyGet('repository.user'),
         ]));
 
         $di->set('db.eloquent.resolver', $di->lazy(function () {
@@ -66,7 +65,6 @@ class LumenAuraConfig extends ContainerConfig
         // $di->set('cdn.config', function () {
         //     return config('cdn');
         // });
-
 
         // Ratelimiter config settings
         $di->values['ratelimiter.config'] = config('ratelimiter');

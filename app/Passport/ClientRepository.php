@@ -2,14 +2,14 @@
 
 namespace Ushahidi\App\Passport;
 
-use Laravel\Passport\ClientRepository as LaravelPassportClientRepository;
-use Laravel\Passport\Client as LaravelPassportClient;
 use Ramsey\Uuid\Uuid as UUID;
+use Laravel\Passport\Passport;
+use Laravel\Passport\PersonalAccessClient;
+use Laravel\Passport\Client as LaravelPassportClient;
+use Laravel\Passport\ClientRepository as LaravelPassportClientRepository;
 
 class ClientRepository extends LaravelPassportClientRepository
 {
-
-
     /**
      * Get a client by the given ID.
      *
@@ -108,7 +108,7 @@ class ClientRepository extends LaravelPassportClientRepository
             'password_client' => $password,
             'revoked' => false,
             // Set id to UUID
-            'id' => UUID::uuid4()->toString()
+            'id' => UUID::uuid4()->toString(),
         ]);
 
         $client->save();

@@ -2,27 +2,37 @@
 
 namespace Ushahidi\App\Providers;
 
-use Ushahidi\App\Tools\Features;
-use Ushahidi\Core\Tool\Verifier;
-use Ushahidi\Factory\UsecaseFactory;
-use Ushahidi\Core\Usecase\Post\Export;
 use Illuminate\Support\ServiceProvider;
-use Ushahidi\Core\Usecase\Export\Job\PostCount;
+use Ushahidi\App\DataSource\DataSourceServiceProvider;
 use Ushahidi\App\Multisite\MultisiteServiceProvider;
 use Ushahidi\App\Providers\FilesystemServiceProvider;
-use Ushahidi\App\DataSource\DataSourceServiceProvider;
-use Ushahidi\Contracts\Repository\Entity\PostRepository;
-use Ushahidi\Contracts\Repository\Entity\UserRepository;
+use Ushahidi\App\Tools\Features;
 use Ushahidi\Contracts\Repository\Entity\ConfigRepository;
 use Ushahidi\Contracts\Repository\Entity\ContactRepository;
-use Ushahidi\Contracts\Repository\Entity\MessageRepository;
-use Ushahidi\Contracts\Repository\Entity\ExportJobRepository;
 use Ushahidi\Contracts\Repository\Entity\ExportBatchRepository;
+use Ushahidi\Contracts\Repository\Entity\ExportJobRepository;
 use Ushahidi\Contracts\Repository\Entity\FormAttributeRepository;
+use Ushahidi\Contracts\Repository\Entity\MessageRepository;
+use Ushahidi\Contracts\Repository\Entity\PostRepository;
 use Ushahidi\Contracts\Repository\Entity\TargetedSurveyStateRepository;
+use Ushahidi\Contracts\Repository\Entity\UserRepository;
+use Ushahidi\Core\Tool\Verifier;
+use Ushahidi\Core\Usecase\Export\Job\PostCount;
+use Ushahidi\Core\Usecase\Post\Export;
+use Ushahidi\Factory\UsecaseFactory;
 
 class AppServiceProvider extends ServiceProvider
 {
+    /**
+     * Bootstrap any application services.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        //
+    }
+
     /**
      * Register any application services.
      *
@@ -30,20 +40,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->configure('cdn');
-        $this->app->configure('filesystems');
-        $this->app->configure('media');
-        $this->app->configure('ratelimiter');
-        $this->app->configure('multisite');
-        $this->app->configure('ohanzee-db');
-        $this->app->configure('posts');
-        $this->app->configure('routes');
-        $this->app->configure('services');
-
         $this->registerServicesFromAura();
 
-        $this->registerFilesystem();
-        $this->registerMailer();
+        // $this->registerFilesystem();
+        // $this->registerMailer();
 
         $this->registerMultisite();
         $this->registerDataSources();
@@ -62,7 +62,6 @@ class AppServiceProvider extends ServiceProvider
             // Just return it from AuraDI
             return service('repository.user');
         });
-
 
         $this->app->singleton(MessageRepository::class, function ($app) {
             // Just return it from AuraDI
@@ -120,8 +119,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(Export::class, function ($app) {
             return service('factory.usecase')
                     ->get('posts_export', 'export')
-                    ->setAuthorizer(service('authorizer.export_job'))
-                    ;
+                    ->setAuthorizer(service('authorizer.export_job'));
         });
     }
 
@@ -129,7 +127,7 @@ class AppServiceProvider extends ServiceProvider
     {
         // Add mailer
         $this->app->singleton('mailer', function ($app) {
-            return $app->loadComponent(
+            return $app->make(
                 'mail',
                 \Illuminate\Mail\MailServiceProvider::class,
                 'mailer'
@@ -141,7 +139,7 @@ class AppServiceProvider extends ServiceProvider
     {
         // Add filesystem
         $this->app->singleton('filesystem', function ($app) {
-            return $app->loadComponent(
+            return $app->make(
                 'filesystems',
                 FilesystemServiceProvider::class,
                 'filesystem'

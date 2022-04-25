@@ -3,14 +3,24 @@
 namespace Ushahidi\App\Providers;
 
 use Carbon\Carbon;
-use Laravel\Passport\Passport;
+use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Database\Connection;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\ServiceProvider;
+use Laravel\Passport\Passport;
 
 class AuthServiceProvider extends ServiceProvider
 {
     /**
+     * The policy mappings for the application.
+     *
+     * @var array
+     */
+    protected $policies = [
+        'Ushahidi\App\Model' => 'Ushahidi\App\Policies\ModelPolicy',
+    ];
+
+
+        /**
      * Register any application services.
      *
      * @return void
@@ -34,12 +44,14 @@ class AuthServiceProvider extends ServiceProvider
     }
 
     /**
-     * Boot the authentication services for the application.
+     * Register any authentication / authorization services.
      *
      * @return void
      */
     public function boot()
     {
+        $this->registerPolicies();
+
         // Here you may define how you wish users to be authenticated for your Lumen
         // application. The callback which receives the incoming request instance
         // should return either a User instance or null. You're free to obtain
@@ -90,7 +102,7 @@ class AuthServiceProvider extends ServiceProvider
             'permissions' => 'Access permissions',
             'migrate' => 'Access migrate',
             'webhooks' => 'Access webhooks',
-            'hxl' => 'Access HDX & HXL features'
+            'hxl' => 'Access HDX & HXL features',
         ]);
     }
 
@@ -101,7 +113,7 @@ class AuthServiceProvider extends ServiceProvider
             'namespace' => '\Laravel\Passport\Http\Controllers',
         ], function ($router) {
             $router->post('/token', [
-                'uses' => 'AccessTokenController@issueToken'
+                'uses' => 'AccessTokenController@issueToken',
             ]);
         });
     }
