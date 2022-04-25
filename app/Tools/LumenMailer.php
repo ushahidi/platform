@@ -4,16 +4,15 @@
  * Ushahidi Mailer
  *
  * @author     Ushahidi Team <team@ushahidi.com>
- * @package    Ushahidi\Application
  * @copyright  2014 Ushahidi
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
 namespace Ushahidi\App\Tools;
 
-use Ushahidi\Contracts\Mailer as MailerContract;
 use Illuminate\Contracts\Mail\Mailer;
 use Illuminate\Support\Str;
+use Ushahidi\Contracts\Mailer as MailerContract;
 use Ushahidi\App\Multisite\UsesSiteInfo;
 
 class LumenMailer implements MailerContract
@@ -28,7 +27,7 @@ class LumenMailer implements MailerContract
     public function send($to, $type, array $params = null)
     {
         // Only available type right now is 'resetpassword'
-        $method = "send" . Str::ucfirst($type);
+        $method = 'send'.Str::ucfirst($type);
         if (method_exists($this, $method)) {
             $this->$method($to, $params);
         } else {
@@ -45,10 +44,10 @@ class LumenMailer implements MailerContract
         $data = [
             'site_name' => $site_name,
             'token' => $params['token'],
-            'client_url' => $this->getSite()->getClientUri()
+            'client_url' => $this->getSite()->getClientUri(),
         ];
 
-        $subject = $site_name . ': Password reset';
+        $subject = $site_name.': Password reset';
 
         $this->mailer->send(
             'emails/forgot-password',

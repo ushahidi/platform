@@ -30,19 +30,19 @@ class Features
     /**
      * Check if a feature is enabled
      * @param  string  $feature
-     * @return boolean
+     * @return bool
      */
     public function isEnabled($feature)
     {
         $config = $this->getFeatureConfig();
 
         if (isset($config->$feature)) {
-            if (!is_array($config->$feature)) {
-                return !!$config->$feature;
+            if (! is_array($config->$feature)) {
+                return (bool) $config->$feature;
             }
 
             if (isset($config->$feature['enabled'])) {
-                return !!$config->$feature['enabled'];
+                return (bool) $config->$feature['enabled'];
             }
         }
 
