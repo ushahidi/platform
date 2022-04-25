@@ -3,7 +3,7 @@
  * API version number
  */
 $apiVersion = '5';
-$apiBase = 'api/v' . $apiVersion;
+$apiBase = '/v' . $apiVersion;
 
 $router->group([
     'prefix' => $apiBase,
