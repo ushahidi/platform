@@ -16,54 +16,53 @@
     ],
     "require": {
         "php": ">=7.2 <7.4",
-        "aura/di": "~3.4",
-        "league/flysystem-aws-s3-v3": "~1.0",
-        "league/flysystem-rackspace": "~1.0",
-        "league/flysystem": "~1.0",
-        "ircmaxell/password-compat": "^1.0.4",
-        "intercom/intercom-php": "^3.1.2",
         "abraham/twitteroauth": "^0.5.3",
-        "ohanzee/database": "dev-namespaces",
-        "robmorgan/phinx": "~0.8.0",
-        "symm/gisconverter": "~1.0.5",
-        "vlucas/phpdotenv": "~2.2",
-        "league/csv": "~7.1@dev",
-        "laravel/lumen-framework": "5.5.*",
-        "league/event": "^2.2@dev",
+        "asm89/stack-cors": "1.2.0",
+        "aura/di": "~3.4",
+        "barryvdh/laravel-cors": "^0.11.0",
         "beheh/flaps": "dev-master",
         "doctrine/cache": "^1.6.2",
-        "ramsey/uuid": "^3.4.1",
-        "barryvdh/laravel-cors": "^0.11.0",
-        "ushahidi/kohana-validation": "dev-master",
-        "illuminate/mail": "5.5.*",
-        "twilio/sdk": "^5.15",
-        "nexmo/client": "^1.1",
-        "sentry/sentry-laravel": "^0.8.0",
-        "laravel/passport": "^4.0",
+        "fideloper/proxy": "~3.3",
         "germanazo/laravel-ckan-api": "^1.0",
-        "asm89/stack-cors": "1.2.0",
+        "intercom/intercom-php": "^3.1.2",
+        "ircmaxell/password-compat": "^1.0.4",
+        "laravel/framework": "5.5.*",
+        "laravel/passport": "^4.0",
+        "laravel/tinker": "~1.0",
+        "lcobucci/jwt": "3.3.1",
+        "league/csv": "~7.1@dev",
+        "league/event": "^2.2@dev",
+        "league/flysystem": "~1.0",
+        "league/flysystem-aws-s3-v3": "~1.0",
+        "league/flysystem-rackspace": "~1.0",
+        "nexmo/client": "^1.1",
+        "ohanzee/database": "dev-namespaces",
         "predis/predis": "~1.1",
-        "illuminate/redis": "5.5.*",
-        "willdurand/negotiation": "^2.3",
-        "ushahidi/gmail-support": "dev-master"
+        "ramsey/uuid": "^3.4.1",
+        "robmorgan/phinx": "~0.8.0",
+        "sentry/sentry-laravel": "^0.8.0",
+        "symm/gisconverter": "~1.0.5",
+        "twilio/sdk": "^5.15",
+        "ushahidi/kohana-validation": "dev-master",
+        "willdurand/negotiation": "^2.3"
     },
     "require-dev": {
+        "behat/behat": "^3.3",
+        "filp/whoops": "~2.0",
         "fzaninotto/faker": "~1.4",
         "guzzlehttp/guzzle": "~6.3.2",
-        "phpunit/phpunit": "^5.7",
-        "phpunit/dbunit": "~1.4",
-        "phpspec/phpspec": "~3.0",
         "heroku/heroku-buildpack-php": "dev-master",
-        "behat/behat": "^3.3",
-        "behat/mink-extension": "^2.2",
-        "behat/mink-goutte-driver": "^1.2",
-        "satooshi/php-coveralls": "^2.0@dev",
-        "leanphp/phpspec-code-coverage": "~3.1",
         "laravel/homestead": "^5.2",
-        "squizlabs/php_codesniffer": "~3.0",
-        "php-mock/php-mock-mockery": "^1.2",
+        "leanphp/phpspec-code-coverage": "~3.1",
         "mockery/mockery": "^1.0",
-        "sebastianfeldmann/captainhook": "^2.0"
+        "php-mock/php-mock-mockery": "^1.2",
+        "phpspec/phpspec": "~3.0",
+        "phpunit/dbunit": "^1.4",
+        "phpunit/phpunit": "^5.7|^6.0",
+        "satooshi/php-coveralls": "^2.0@dev",
+        "sebastianfeldmann/captainhook": "^2.0",
+        "squizlabs/php_codesniffer": "~3.0",
+        "symfony/thanks": "^1.0"
     },
     "suggest": {
         "ext-imap": "Needed for email data source",
@@ -77,12 +76,19 @@
             "http",
             "git"
         ],
+        "optimize-autoloader": true,
         "preferred-install": "dist",
+        "sort-packages": true,
         "allow-plugins": {
-            "kylekatarnls/update-helper": true
+            "kylekatarnls/update-helper": true,
+            "symfony/thanks": true
         }
     },
     "autoload": {
+        "classmap": [
+            "database/seeds",
+            "database/factories"
+        ],
         "psr-4": {
             "Ushahidi\\": "src/",
             "Ushahidi\\App\\": "app/",
@@ -94,17 +100,28 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Tests\\": "tests",
-            "Tests\\Unit\\": "tests/unit",
-            "Tests\\Integration\\Bootstrap\\": "tests/integration/bootstrap"
-        },
-        "classmap": [
-            "database/"
-        ]
+            "Tests\\": "tests/",
+            "Tests\\Unit\\": "tests/unit/",
+            "Tests\\Integration\\Bootstrap\\": "tests/integration/boostrap/"
+        }
     },
-    "minimum-stability": "dev",
-    "prefer-stable": true,
+    "extra": {
+        "laravel": {
+            "dont-discover": [
+            ]
+        }
+    },
     "scripts": {
+        "post-root-package-install": [
+            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+        ],
+        "post-create-project-cmd": [
+            "@php artisan key:generate"
+        ],
+        "post-autoload-dump": [
+            "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
+            "@php artisan package:discover"
+        ],
         "compile": [
             "@migrate"
         ],
@@ -168,5 +185,7 @@
         "snowboard-v5-serve": [
             "snowboard http docs/api/v5/index.apib"
         ]
-    }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }

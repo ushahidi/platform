@@ -52,59 +52,62 @@ return [
         ],
 
         'sqlite' => [
-            'driver'   => 'sqlite',
-            'database' => env('DB_DATABASE', base_path('database/database.sqlite')),
-            'prefix'   => env('DB_PREFIX', ''),
+            'driver' => 'sqlite',
+            'database' => env('DB_DATABASE', database_path('database.sqlite')),
+            'prefix' => '',
         ],
+
         'mysql' => [
-            'host'      => env('DB_HOST', 'localhost'),
+            'driver' => 'mysql',
+            'host' => env('DB_HOST', '127.0.0.1'),
             'read' => [
-                'host' => !empty(env('DB_HOST_REPLICA')) ? env('DB_HOST_REPLICA') : env('DB_HOST', 'localhost'),
+                'host' => ! empty(env('DB_HOST_REPLICA')) ? env('DB_HOST_REPLICA') : env('DB_HOST', 'localhost'),
             ],
             'write' => [
                 'host' => env('DB_HOST', 'localhost'),
             ],
+            'port' => env('DB_PORT', '3306'),
+            'database' => env('DB_DATABASE', 'forge'),
+            'username' => env('DB_USERNAME', 'forge'),
+            'password' => env('DB_PASSWORD', ''),
+            'unix_socket' => env('DB_SOCKET', ''),
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
+            'prefix' => '',
             'sticky' => true,
-            'driver'    => 'mysql',
-            'port'      => env('DB_PORT', 3306),
-            'database'  => env('DB_DATABASE', 'forge'),
-            'username'  => env('DB_USERNAME', 'forge'),
-            'password'  => env('DB_PASSWORD', ''),
-            'charset'   => env('DB_CHARSET', 'utf8'),
-            'collation' => env('DB_COLLATION', 'utf8_unicode_ci'),
-            'prefix'    => env('DB_PREFIX', ''),
-            'timezone'  => env('DB_TIMEZONE', '+00:00'),
-            'strict'    => env('DB_STRICT_MODE', true),
-            'socket'    => env('DB_SOCKET', '')
+            'strict' => true,
+            'engine' => null,
         ],
 
         'pgsql' => [
-            'driver'   => 'pgsql',
-            'host'     => env('DB_HOST', 'localhost'),
-            'port'     => env('DB_PORT', 5432),
+            'driver' => 'pgsql',
+            'host' => env('DB_HOST', '127.0.0.1'),
+            'port' => env('DB_PORT', '5432'),
             'database' => env('DB_DATABASE', 'forge'),
             'username' => env('DB_USERNAME', 'forge'),
             'password' => env('DB_PASSWORD', ''),
-            'charset'  => env('DB_CHARSET', 'utf8'),
-            'prefix'   => env('DB_PREFIX', ''),
-            'schema'   => env('DB_SCHEMA', 'public'),
+            'charset' => 'utf8',
+            'prefix' => '',
+            'schema' => 'public',
+            'sslmode' => 'prefer',
         ],
 
         'sqlsrv' => [
-            'driver'   => 'sqlsrv',
-            'host'     => env('DB_HOST', 'localhost'),
+            'driver' => 'sqlsrv',
+            'host' => env('DB_HOST', 'localhost'),
+            'port' => env('DB_PORT', '1433'),
             'database' => env('DB_DATABASE', 'forge'),
             'username' => env('DB_USERNAME', 'forge'),
             'password' => env('DB_PASSWORD', ''),
-            'charset'  => env('DB_CHARSET', 'utf8'),
-            'prefix'   => env('DB_PREFIX', ''),
+            'charset' => 'utf8',
+            'prefix' => '',
         ],
 
         'multisite' => [
             'driver'    => 'mysql',
             'host'      => env('DB_HOST', 'localhost'),
             'read' => [
-                'host' => !empty(env('DB_HOST_REPLICA')) ? env('DB_HOST_REPLICA') : env('DB_HOST', 'localhost'),
+                'host' => ! empty(env('DB_HOST_REPLICA')) ? env('DB_HOST_REPLICA') : env('DB_HOST', 'localhost'),
             ],
             'write' => [
                 'host' => env('DB_HOST', 'localhost'),
@@ -148,6 +151,8 @@ return [
     */
 
     'redis' => [
+
+        'client' => 'predis',
 
         'cluster' => env('REDIS_CLUSTER', false),
 
