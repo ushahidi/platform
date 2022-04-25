@@ -139,7 +139,7 @@ class Twitter implements IncomingDataSource, OutgoingDataSource
         $this->initialize();
         // Check we have the required config
         if (!isset($this->config['twitter_search_terms'])) {
-            app('log')->warning('Could not fetch messages from twitter, incomplete config');
+            Log::warning('Could not fetch messages from twitter, incomplete config');
             return [];
         }
 
@@ -214,9 +214,9 @@ class Twitter implements IncomingDataSource, OutgoingDataSource
 
             $this->update();
         } catch (TwitterOAuthException $toe) {
-            app('log')->error($toe->getMessage());
+            Log::error($toe->getMessage());
         } catch (\Exception $e) {
-            app('log')->error($e->getMessage());
+            Log::error($e->getMessage());
         }
 
         return $messages;
@@ -237,15 +237,15 @@ class Twitter implements IncomingDataSource, OutgoingDataSource
             ]);
 
             if (!isset($response->id)) {
-                app('log')->error("Twitter: Send failed", ['response' => $response]);
+                Log::error("Twitter: Send failed", ['response' => $response]);
                 return [MessageStatus::FAILED, false];
             }
             return [MessageStatus::SENT, $response->id];
         } catch (TwitterOAuthException $e) {
-            app('log')->error($e->getMessage());
+            Log::error($e->getMessage());
             return [MessageStatus::FAILED, false];
         } catch (\Exception $e) {
-            app('log')->error($e->getMessage());
+            Log::error($e->getMessage());
             return [MessageStatus::FAILED, false];
         }
     }
@@ -313,7 +313,7 @@ class Twitter implements IncomingDataSource, OutgoingDataSource
     {
         // check if we have reached our rate limit
         if (!$this->canMakeRequest()) {
-            app('log')->warning('You have reached your rate limit for this window');
+            Log::warning('You have reached your rate limit for this window');
             return;
         }
             // Check we have the required config
@@ -322,7 +322,7 @@ class Twitter implements IncomingDataSource, OutgoingDataSource
              !isset($this->config['oauth_access_token']) ||
              !isset($this->config['oauth_access_token_secret'])
         ) {
-            app('log')->warning('Could not connect to twitter, incomplete config');
+            Log::warning('Could not connect to twitter, incomplete config');
             return;
         }
 

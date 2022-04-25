@@ -7,7 +7,7 @@ use Ushahidi\App\Listener\CreatePostFromMessage;
 use Ushahidi\App\Listener\HandleTargetedSurveyResponse;
 use Ushahidi\App\Listener\QueueExportJob;
 
-class Subscriber
+class EventSubscriber
 {
 
     /**

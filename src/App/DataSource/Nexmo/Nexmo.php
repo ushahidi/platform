@@ -11,6 +11,8 @@ namespace Ushahidi\App\DataSource\Nexmo;
  * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License Version 3 (GPLv3)
  */
 
+use Illuminate\Routing\Router;
+use Illuminate\Support\Facades\Log;
 use Ushahidi\Contracts\DataSource\MessageType;
 use Ushahidi\Contracts\DataSource\MessageStatus;
 use Ushahidi\Contracts\DataSource\CallbackDataSource;
@@ -97,7 +99,7 @@ class Nexmo implements CallbackDataSource, OutgoingDataSource
     {
         // Check we have the required config
         if (!isset($this->config['api_key']) || !isset($this->config['api_secret'])) {
-            app('log')->warning('Could not send message with Nexmo, incomplete config');
+            Log::warning('Could not send message with Nexmo, incomplete config');
             return [MessageStatus::FAILED, false];
         }
 
@@ -120,13 +122,13 @@ class Nexmo implements CallbackDataSource, OutgoingDataSource
 
             return [MessageStatus::SENT, $message->getMessageId()];
         } catch (\Nexmo\Client\Exception\Exception $e) {
-            app('log')->warning($e->getMessage());
+            Log::warning($e->getMessage());
         }
 
         return [MessageStatus::FAILED, false];
     }
 
-    public static function registerRoutes(\Laravel\Lumen\Routing\Router $router)
+    public static function registerRoutes(Router $router)
     {
         $router->post('sms/nexmo', 'Ushahidi\App\DataSource\Nexmo\NexmoController@handleRequest');
         $router->get('sms/nexmo', 'Ushahidi\App\DataSource\Nexmo\NexmoController@handleRequest');

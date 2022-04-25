@@ -141,7 +141,7 @@ class Email extends OutgoingEmail implements IncomingDataSource
     {
         // Return if no imap extension
         if (! function_exists('imap_open') && ! function_exists(__NAMESPACE__ . '\imap_open')) {
-            app('log')->error("imap extension not enabled");
+            Log::error("imap extension not enabled");
             return [];
         }
 

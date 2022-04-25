@@ -63,7 +63,7 @@ class MultisiteServiceProvider extends ServiceProvider
             // @todo save db config into config
             $defaults = config('database.connections.mysql'); // @todo use actual default config
             config(['database.connections.'.$connectionName => $dbConfig + $defaults]);
-            $this->app->make(ConnectionResolverInterface::class)->setDefaultConnection($connectionName);
+            $this->app['db']->setDefaultConnection($connectionName);
 
             // Set cache prefix
             if (method_exists(Cache::store()->getStore(), 'setPrefix')) {

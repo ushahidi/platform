@@ -4,7 +4,7 @@ namespace Ushahidi\App\DataSource;
 
 use Closure;
 use InvalidArgumentException;
-use Laravel\Lumen\Routing\Router;
+use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Cache;
 use Ushahidi\Contracts\DataSource\DataSource;
 use Ushahidi\Contracts\DataSource\CallbackDataSource;

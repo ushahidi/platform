@@ -11,10 +11,11 @@ namespace Ushahidi\App\DataSource\SMSSync;
  * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License Version 3 (GPLv3)
  */
 
+use Illuminate\Routing\Router;
 use Ushahidi\Core\Entity\Contact;
+use Ushahidi\Contracts\DataSource\MessageType;
 use Ushahidi\Contracts\DataSource\CallbackDataSource;
 use Ushahidi\App\DataSource\Concerns\MapsInboundFields;
-use Ushahidi\Contracts\DataSource\MessageType;
 
 class SMSSync implements CallbackDataSource
 {
@@ -92,7 +93,7 @@ class SMSSync implements CallbackDataSource
      */
     public $contact_type = Contact::PHONE;
 
-    public static function registerRoutes(\Laravel\Lumen\Routing\Router $router)
+    public static function registerRoutes(Router $router)
     {
         $router->post('sms/smssync', 'Ushahidi\App\DataSource\SMSSync\SMSSyncController@handleRequest');
         $router->post('smssync', 'Ushahidi\App\DataSource\SMSSync\SMSSyncController@handleRequest');
