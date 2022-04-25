@@ -139,7 +139,7 @@ class AppConfig extends ContainerConfig
         ];
 
         // Formatter mapping
-        $di->params[Ushahidi\Factory\FormatterFactory::class]['map'] = [
+        $di->params[\Ushahidi\Factory\FormatterFactory::class]['map'] = [
             'apikeys'              => $di->lazyNew(\Ushahidi\App\Formatter\ApiKey::class),
             'config'               => $di->lazyNew(\Ushahidi\App\Formatter\Config::class),
             'dataproviders'        => $di->lazyNew(\Ushahidi\App\Formatter\Dataprovider::class),
@@ -207,7 +207,7 @@ class AppConfig extends ContainerConfig
 
 
         // Set Formatter factory
-        $di->params[Ushahidi\Factory\FormatterFactory::class]['factory']
+        $di->params[\Ushahidi\Factory\FormatterFactory::class]['factory']
             = $di->newFactory(\Ushahidi\App\Formatter\Collection::class);
 
 
@@ -711,7 +711,7 @@ class AppConfig extends ContainerConfig
             $di->lazyGet('authorizer.hxl.meta_data');
         $di->params[\Ushahidi\Factory\RepositoryFactory::class]['map']['hxl_meta_data'] =
             $di->lazyGet('repository.hxl_meta_data');
-        $di->params[Ushahidi\Factory\FormatterFactory::class]['map']['hxl_meta_data'] =
+        $di->params[\Ushahidi\Factory\FormatterFactory::class]['map']['hxl_meta_data'] =
             $di->lazyNew(\Ushahidi\App\Formatter\HXL\HXLMetadata::class);
         $di->params[\Ushahidi\Factory\ValidatorFactory::class]['map']['hxl_meta_data'] = [
             'create' => $di->lazyNew(\Ushahidi\App\Validator\HXL\Metadata\Create::class),
@@ -743,7 +743,7 @@ class AppConfig extends ContainerConfig
             $di->lazyGet('authorizer.hxl.form_attribute_hxl_attribute_tag');
         $di->params[\Ushahidi\Factory\RepositoryFactory::class]['map']['form_attribute_hxl_attribute_tag'] =
             $di->lazyGet('repository.form_attribute_hxl_attribute_tag');
-        $di->params[Ushahidi\Factory\FormatterFactory::class]['map']['form_attribute_hxl_attribute_tag'] =
+        $di->params[\Ushahidi\Factory\FormatterFactory::class]['map']['form_attribute_hxl_attribute_tag'] =
             $di->lazyNew(\Ushahidi\App\Formatter\HXL\HXLFormAttributeHXLAttributeTagFormatter::class);
         $di->setters[\Ushahidi\App\Formatter\HXL\HXLFormAttributeHXLAttributeTagFormatter::class]['setAuth'] =
             $di->lazyGet("authorizer.hxl");
@@ -786,7 +786,7 @@ class AppConfig extends ContainerConfig
             $di->lazyGet('authorizer.hxl');
         $di->params[\Ushahidi\Factory\RepositoryFactory::class]['map']['hxl_licenses'] =
             $di->lazyGet('repository.hxl_license');
-        $di->params[Ushahidi\Factory\FormatterFactory::class]['map']['hxl_licenses'] =
+        $di->params[\Ushahidi\Factory\FormatterFactory::class]['map']['hxl_licenses'] =
             $di->lazyNew(\Ushahidi\App\Formatter\HXL\HXLLicense::class);
         $di->setters[\Ushahidi\App\Formatter\HXL\HXLLicense::class]['setAuth'] =
             $di->lazyGet("authorizer.hxl");
@@ -798,7 +798,7 @@ class AppConfig extends ContainerConfig
             $di->lazyGet('authorizer.hxl');
         $di->params[\Ushahidi\Factory\RepositoryFactory::class]['map']['hxl_tags'] =
             $di->lazyGet('repository.hxl_tag');
-        $di->params[Ushahidi\Factory\FormatterFactory::class]['map']['hxl_tags'] =
+        $di->params[\Ushahidi\Factory\FormatterFactory::class]['map']['hxl_tags'] =
             $di->lazyNew(\Ushahidi\App\Formatter\HXL\HXLTag::class);
         $di->setters[\Ushahidi\App\Formatter\HXL\HXLTag::class]['setAuth'] =
             $di->lazyGet("authorizer.hxl");
@@ -823,7 +823,7 @@ class AppConfig extends ContainerConfig
             'send' => $di->lazyNew(\Ushahidi\Core\Usecase\HXL\SendHXLUsecase::class),
         ];
 
-        $di->params[Ushahidi\Factory\FormatterFactory::class]['map']['hxl_send'] =
+        $di->params[\Ushahidi\Factory\FormatterFactory::class]['map']['hxl_send'] =
             $di->lazyNew(\Ushahidi\App\Formatter\HXL\HXLSend::class);
         $di->params[\Ushahidi\Factory\AuthorizerFactory::class]['map']['hxl_send'] =
             $di->lazyGet('authorizer.hxl');
@@ -831,7 +831,7 @@ class AppConfig extends ContainerConfig
         $di->params[\Ushahidi\Factory\UsecaseFactory::class]['map']['hxl_organisations'] = [
             'search' => $di->newFactory(\Ushahidi\Core\Usecase\HXL\Organisations\GetByUser::class),
         ];
-        $di->params[Ushahidi\Factory\FormatterFactory::class]['map']['hxl_organisations'] =
+        $di->params[\Ushahidi\Factory\FormatterFactory::class]['map']['hxl_organisations'] =
             $di->lazyNew(\Ushahidi\App\Formatter\HXL\HXLOrganisations::class);
         $di->params[\Ushahidi\Factory\AuthorizerFactory::class]['map']['hxl_organisations'] =
             $di->lazyGet('authorizer.hxl');
