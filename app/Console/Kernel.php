@@ -3,7 +3,7 @@
 namespace Ushahidi\App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
-use Laravel\Lumen\Console\Kernel as ConsoleKernel;
+use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
 class Kernel extends ConsoleKernel
 {
@@ -13,36 +13,8 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        Commands\RoutesCommand::class,
-        Commands\MigrateCommand::class,
-        Commands\MigrateInstallCommand::class,
-        Commands\MigrateMakeCommand::class,
-        Commands\MigrateRefreshCommand::class,
-        Commands\MigrateResetCommand::class,
-        Commands\MigrateRollbackCommand::class,
-        Commands\MigrateStatusCommand::class,
-        Commands\SeedMakeCommand::class,
-        Commands\SeedCommand::class,
-        Commands\EnvironmentVerifyCommand::class,
-        Commands\ApikeySetCommand::class,
-        Commands\ConfigSetCommand::class,
-        Commands\ConfigGetCommand::class,
-        Commands\UserCreateCommand::class,
-        Commands\UserDeleteCommand::class,
-        Commands\NotificationCommand::class,
-        Commands\PostExporterCommand::class,
-        Commands\SavedSearchCommand::class,
-        Commands\WebhookCommand::class,
-        Commands\ObfuscateDataCommand::class,
-        Commands\TestMultisiteJobCommand::class,
+        //
     ];
-
-    /**
-     * Indicates if facade aliases are enabled for the console.
-     *
-     * @var bool
-     */
-    protected $aliases = false;
 
     /**
      * Define the application's command schedule.
@@ -52,6 +24,19 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        //
+        // $schedule->command('inspire')
+        //          ->hourly();
+    }
+
+    /**
+     * Register the commands for the application.
+     *
+     * @return void
+     */
+    protected function commands()
+    {
+        $this->load(__DIR__.'/Commands');
+
+        require base_path('routes/console.php');
     }
 }

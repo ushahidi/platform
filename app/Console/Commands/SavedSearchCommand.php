@@ -5,7 +5,6 @@
  * Discover and queue new posts from Saved Searches
  *
  * @author     Ushahidi Team <team@ushahidi.com>
- * @package    Ushahidi\Console
  * @copyright  2014 Ushahidi
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
@@ -17,11 +16,15 @@ use Illuminate\Console\Command;
 class SavedSearchCommand extends Command
 {
     private $data;
+
     private $postSearchData;
 
     private $contactRepository;
+
     private $setRepository;
+
     private $postRepository;
+
     private $messageRepository;
 
     /**

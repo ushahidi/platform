@@ -4,7 +4,6 @@
  * Ushahidi Webhook Console Command
  *
  * @author     Ushahidi Team <team@ushahidi.com>
- * @package    Ushahidi\Console
  * @copyright  2014 Ushahidi
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
@@ -18,9 +17,13 @@ use Ushahidi\App\Multisite\OhanzeeResolver;
 class WebhookCommand extends Command
 {
     protected $resolver;
+
     private $postRepository;
+
     private $webhookRepository;
+
     private $webhookJobRepository;
+
     private $client;
 
     /**
@@ -89,6 +92,7 @@ class WebhookCommand extends Command
 
         $this->info("{$count} webhook requests sent");
     }
+
     /**
      * Generates a POST request with the modified/created post data
      *
@@ -107,7 +111,7 @@ class WebhookCommand extends Command
         $webhooks = $this->webhookRepository->getAllByEventType($webhook_request->event_type);
 
         foreach ($webhooks as $webhook) {
-            if (!$webhook['form_id'] || ($post && $post->form_id == $webhook['form_id'])) {
+            if (! $webhook['form_id'] || ($post && $post->form_id == $webhook['form_id'])) {
                 $this->signer = new Signer($webhook['shared_secret']);
 
                 $data = $post->asArray();
@@ -131,9 +135,9 @@ class WebhookCommand extends Command
                 $promise = $this->client->request('POST', $webhook['url'], [
                     'headers' => [
                         'X-Ushahidi-Signature' => $signature,
-                        'Accept'               => 'application/json'
+                        'Accept'               => 'application/json',
                     ],
-                    'json' => $data
+                    'json' => $data,
                 ]);
             }
         }

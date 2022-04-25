@@ -4,7 +4,6 @@
  * Ushahidi Config Console Command
  *
  * @author     Ushahidi Team <team@ushahidi.com>
- * @package    Ushahidi\Console
  * @copyright  2014 Ushahidi
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
@@ -49,7 +48,7 @@ class ConfigSetCommand extends Command
 
     protected function getUsecase()
     {
-        if (!$this->usecase) {
+        if (! $this->usecase) {
             // @todo inject
             $this->usecase = service('factory.usecase')
                 ->get('config', 'update')
@@ -70,22 +69,22 @@ class ConfigSetCommand extends Command
     public function handle()
     {
         $group = $this->argument('group');
-        $key   = $this->option('key');
-        $is_json   = $this->option('json');
+        $key = $this->option('key');
+        $is_json = $this->option('json');
         $value = $this->argument('value');
 
         if ($key) {
             $value = [
-                $key => $is_json ? json_decode($value, true) : $value
+                $key => $is_json ? json_decode($value, true) : $value,
             ];
         } else {
             $value = json_decode($value, true);
-            if (!is_array($value)) {
+            if (! is_array($value)) {
                 $value = [];
             }
         }
 
-        $this->getUsecase()->setIdentifiers([ 'id' => $group ])
+        $this->getUsecase()->setIdentifiers(['id' => $group])
             ->setPayload($value);
 
         $response = $this->getUsecase()->interact();
@@ -106,7 +105,7 @@ class ConfigSetCommand extends Command
             foreach (range(0, $iterator->getDepth()) as $depth) {
                 $keys[] = $iterator->getSubIterator($depth)->key();
             }
-            $result[ join('.', $keys) ] = $leafValue;
+            $result[implode('.', $keys)] = $leafValue;
         }
 
         // Format as table

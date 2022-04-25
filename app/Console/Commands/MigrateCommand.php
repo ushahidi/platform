@@ -8,7 +8,7 @@ use Symfony\Component\Console\Input\InputOption;
 class MigrateCommand extends PhinxMigrateCommand
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function configure()
     {

@@ -28,7 +28,7 @@ class MigrateResetCommand extends Command
     public function handle()
     {
         $this->call('migrate:rollback', [
-            '--target' => 0
+            '--target' => 0,
         ]);
     }
 }

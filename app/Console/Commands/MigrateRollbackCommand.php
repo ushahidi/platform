@@ -8,7 +8,7 @@ use Phinx\Console\Command\Rollback as PhinxRollbackCommand;
 class MigrateRollbackCommand extends PhinxRollbackCommand
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function configure()
     {

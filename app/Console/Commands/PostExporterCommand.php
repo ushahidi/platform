@@ -4,7 +4,6 @@
  * Ushahidi Webhook Console Command
  *
  * @author     Ushahidi Team <team@ushahidi.com>
- * @package    Ushahidi\Console
  * @copyright  2014 Ushahidi
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
@@ -15,9 +14,7 @@ use Illuminate\Console\Command;
 
 class PostExporterCommand extends Command
 {
-
     /**
-     *
      * @var \Ushahidi\Contracts\Usecase
      */
     private $usecase;
@@ -45,13 +42,14 @@ class PostExporterCommand extends Command
 
     protected function getUsecase()
     {
-        if (!$this->usecase) {
+        if (! $this->usecase) {
             // @todo inject
             $this->usecase = service('factory.usecase')
                 ->get('posts_export', 'export')
                 ->setAuthorizer(service('authorizer.export_job'))
                 ->setFormatter(service('formatter.entity.post.csv'));
         }
+
         return $this->usecase;
     }
 

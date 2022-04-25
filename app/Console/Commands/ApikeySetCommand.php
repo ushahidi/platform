@@ -4,7 +4,6 @@
  * Ushahidi Config Console Command
  *
  * @author     Ushahidi Team <team@ushahidi.com>
- * @package    Ushahidi\Console
  * @copyright  2014 Ushahidi
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
@@ -37,7 +36,7 @@ class ApikeySetCommand extends Command
 
     protected function getUsecase()
     {
-        if (!$this->usecase) {
+        if (! $this->usecase) {
             // @todo inject
             $this->usecase = service('factory.usecase')
                 ->get('apikeys', 'create')
@@ -71,7 +70,7 @@ class ApikeySetCommand extends Command
             foreach (range(0, $iterator->getDepth()) as $depth) {
                 $keys[] = $iterator->getSubIterator($depth)->key();
             }
-            $result[ join('.', $keys) ] = $leafValue;
+            $result[implode('.', $keys)] = $leafValue;
         }
 
         // Format as table

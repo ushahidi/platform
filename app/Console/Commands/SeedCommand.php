@@ -8,7 +8,7 @@ use Phinx\Console\Command\SeedRun as PhinxSeedRunCommand;
 class SeedCommand extends PhinxSeedRunCommand
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function configure()
     {

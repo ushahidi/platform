@@ -4,7 +4,6 @@
  * Ushahidi Notifications Console Command
  *
  * @author     Ushahidi Team <team@ushahidi.com>
- * @package    Ushahidi\Console
  * @copyright  2014 Ushahidi
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
@@ -12,7 +11,6 @@
 namespace Ushahidi\App\Console\Commands;
 
 use Illuminate\Console\Command;
-
 use Ushahidi\Core\Entity\Message;
 use Ushahidi\App\DataSource\DataSourceManager;
 use Ushahidi\App\Multisite\OhanzeeResolver;
@@ -23,9 +21,13 @@ class NotificationCommand extends Command
     use UsesSiteInfo;
 
     private $postRepository;
+
     private $contactRepository;
+
     private $messageRepository;
+
     private $notificationQueueRepository;
+
     protected $resolver;
 
     /**
@@ -86,7 +88,7 @@ class NotificationCommand extends Command
 
         foreach ($notifications as $notification) {
             // Get contacts and generate messages from new notification
-            $count+=$this->generateMessages($notification);
+            $count += $this->generateMessages($notification);
         }
 
         // Finally commit changes
@@ -132,7 +134,7 @@ class NotificationCommand extends Command
                     'sitename' => $site_name,
                     'title' => $post->title,
                     'content' => $post->content,
-                    'url' => $client_url . '/posts/' . $post->id
+                    'url' => $client_url.'/posts/'.$post->id,
                 ];
 
                 $messageType = $this->mapContactToMessageType($contact->type);
@@ -146,11 +148,11 @@ class NotificationCommand extends Command
                 $state = [
                     'contact_id' => $contact->id,
                     'notification_post_id' => $post->id,
-                    'title' => trans('notifications.' . $messageType . '.title', $subs),
-                    'message' => trans('notifications.' . $messageType . '.message', $subs),
+                    'title' => trans('notifications.'.$messageType.'.title', $subs),
+                    'message' => trans('notifications.'.$messageType.'.message', $subs),
                     'type' => $messageType,
                     'data_source' => $data_source,
-                    'direction' => Message::OUTGOING
+                    'direction' => Message::OUTGOING,
                 ];
 
                 $entity = $this->messageRepository->getEntity();
@@ -166,12 +168,11 @@ class NotificationCommand extends Command
                 break;
             }
 
-            $offset+=$limit;
+            $offset += $limit;
         }
 
         return $count;
     }
-
 
     private $contactToMessageTypeMap = [
         'phone' => 'sms',

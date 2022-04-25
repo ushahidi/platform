@@ -4,7 +4,6 @@
  * Ushahidi User Console Command
  *
  * @author     Ushahidi Team <team@ushahidi.com>
- * @package    Ushahidi\Console
  * @copyright  2014 Ushahidi
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
@@ -38,6 +37,7 @@ class UserCreateCommand extends Command
     protected $description = 'Create a user';
 
     protected $validator;
+
     protected $repo;
 
     public function __construct()
@@ -59,7 +59,7 @@ class UserCreateCommand extends Command
             'password' => $this->option('password'),
         ];
 
-        if (!$this->validator->check($state)) {
+        if (! $this->validator->check($state)) {
             throw new ValidatorException('Failed to validate user', $this->validator->errors());
         }
 
@@ -69,14 +69,14 @@ class UserCreateCommand extends Command
 
         $acceptTos = $this->option('tos');
         if ($acceptTos) {
-                $tos = $this->tosRepo->getEntity([
-                        'user_id' => $id,
-                        'tos_version_date' => getenv('TOS_RELEASE_DATE')
-                        ? date_create(getenv('TOS_RELEASE_DATE'), new \DateTimeZone('UTC'))
-                        : date_create()
-                ]);
+            $tos = $this->tosRepo->getEntity([
+                'user_id' => $id,
+                'tos_version_date' => getenv('TOS_RELEASE_DATE')
+                ? date_create(getenv('TOS_RELEASE_DATE'), new \DateTimeZone('UTC'))
+                : date_create(),
+            ]);
 
-                $this->tosRepo->create($tos);
+            $this->tosRepo->create($tos);
         }
 
         $this->info("Account was created successfully, id: {$id}");

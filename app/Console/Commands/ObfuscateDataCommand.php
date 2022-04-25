@@ -1,11 +1,12 @@
-<?php namespace Ushahidi\App\Console\Commands;
+<?php
+
+namespace Ushahidi\App\Console\Commands;
 
 /**
  * Ushahidi Obfuscate Data console command
  *  - This overwrites specific data within the current database
  *
  * @author     Ushahidi Team <team@ushahidi.com>
- * @package    Ushahidi\Console
  * @copyright  2018 Ushahidi
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
@@ -18,7 +19,9 @@ use Ushahidi\App\Multisite\OhanzeeResolver;
 class ObfuscateDataCommand extends Command
 {
     protected $resolver;
+
     private $postRepository;
+
     private $contactRepository;
 
     /**
@@ -46,9 +49,9 @@ class ObfuscateDataCommand extends Command
     protected $description = 'Obfuscates selected PII and removes various config keys from database';
 
     /**
-         * Allow environment patterns (matched using Str::is)
-         * @var [string...]
-         */
+     * Allow environment patterns (matched using Str::is)
+     * @var [string...]
+     */
     protected $allowedEnvironments = ['local', 'staging*', 'test*'];
 
     public function __construct(OhanzeeResolver $resolver)
@@ -75,27 +78,31 @@ class ObfuscateDataCommand extends Command
     {
         //check for sanity of admin-username
         if ($this->option('admin-username') && strlen($this->option('admin-username')) < 5) {
-            $this->alert("ERROR: usernames must be longer than 4 characters");
+            $this->alert('ERROR: usernames must be longer than 4 characters');
+
             return;
         }
 
         if ($this->isThisAMultisiteInstall()) {
-            if (!getenv('HOST') || strlen(getenv('HOST')) < 1) {
-                $this->alert("ERROR: A host must be specified for a multisite deployment.");
+            if (! getenv('HOST') || strlen(getenv('HOST')) < 1) {
+                $this->alert('ERROR: A host must be specified for a multisite deployment.');
+
                 return;
             }
         }
 
         if ($this->getLaravel()->environment($this->allowedEnvironments)) {
             //confirm acknowledgements
-            $this->alert("WARNING: This script will wipe user, contacts, post author and data source data.");
-            if (!$this->option('non-interactive')) {
-                if (!$this->confirm("Do you want to continue?")) {
-                    $this->info("Request canceled.");
+            $this->alert('WARNING: This script will wipe user, contacts, post author and data source data.');
+            if (! $this->option('non-interactive')) {
+                if (! $this->confirm('Do you want to continue?')) {
+                    $this->info('Request canceled.');
+
                     return;
                 }
-                if (!$this->confirm('Do you acknowledge that this data will still contain sensitive data?')) {
-                    $this->info("Request canceled.");
+                if (! $this->confirm('Do you acknowledge that this data will still contain sensitive data?')) {
+                    $this->info('Request canceled.');
+
                     return;
                 }
             }
@@ -118,7 +125,8 @@ class ObfuscateDataCommand extends Command
             $this->addAdminUser();
             $this->db()->commit();
         } else {
-            $this->info("This script will only run on test or staging deployments.");
+            $this->info('This script will only run on test or staging deployments.');
+
             return;
         }
         $this->info('Data scrubbing complete.');
@@ -144,12 +152,12 @@ class ObfuscateDataCommand extends Command
 
     protected function overwriteContacts()
     {
-        $this->info("Overwriting post author data...");
+        $this->info('Overwriting post author data...');
         // @codingStandardsIgnoreLine
         $randomEmailGenerator = DB::raw("CONCAT(lpad(conv(floor(rand()*pow(26,8)), 10, 36), 8, 0),'@',LEFT(UUID(), 8),'.example.com')");
         $randomPhoneGenerator = DB::raw("CONCAT('+', CAST(rand()*10000000000 as UNSIGNED) )");
         $randomTwitterGenerator = DB::raw("CONCAT('@',lpad(conv(floor(rand()*pow(26,12)), 10, 36), 12, 0))");
-        $randomTextGenerator = DB::raw("lpad(conv(floor(rand()*pow(26,12)), 10, 36), 12, 0)");
+        $randomTextGenerator = DB::raw('lpad(conv(floor(rand()*pow(26,12)), 10, 36), 12, 0)');
 
         $resultEmailCount = DB::table('contacts')
             ->where('type', 'email')
@@ -171,12 +179,12 @@ class ObfuscateDataCommand extends Command
 
         $totalChangedCount = ($resultEmailCount + $resultPhoneCount + $resultTwitterCount + $resultOtherCount);
 
-        $this->info("Updated ".$totalChangedCount." contact records.");
+        $this->info('Updated '.$totalChangedCount.' contact records.');
     }
 
     private function overwriteContactsWithFaker()
     {
-        $this->info("Overwriting contact data...");
+        $this->info('Overwriting contact data...');
         $faker = Faker\Factory::create();
         $query = DB::select('contacts.id', 'contacts.type', 'contacts.contact')
             ->distinct(true)
@@ -195,10 +203,10 @@ class ObfuscateDataCommand extends Command
                 $fakeEmail = $faker->safeEmail;
                 $contactEntity->setState(['contact'=> $fakeEmail]);
             } elseif ($row['type'] == 'twitter') {
-                $fakeTwitter = '@fake'.preg_replace("/[^A-Za-z0-9]/", '', $faker->realText(15));
+                $fakeTwitter = '@fake'.preg_replace('/[^A-Za-z0-9]/', '', $faker->realText(15));
                 $contactEntity->setState(['contact'=> $fakeTwitter]);
             } else {
-                $fakeText = preg_replace("/[^A-Za-z0-9]/", '', $faker->realText(20));
+                $fakeText = preg_replace('/[^A-Za-z0-9]/', '', $faker->realText(20));
                 $contactEntity->setState(['contact'=> $fakeText]);
             }
             $overwrittenCount += $this->contactRepository->update($contactEntity);
@@ -206,17 +214,19 @@ class ObfuscateDataCommand extends Command
 
         //checks if overwritten count matches results count
         if ($overwrittenCount == $resultsCount) {
-            $this->info("Updated ".$overwrittenCount." records.");
+            $this->info('Updated '.$overwrittenCount.' records.');
+
             return $overwrittenCount;
         } else {
-            $this->info("Failed to overwrite all records.");
+            $this->info('Failed to overwrite all records.');
+
             return false;
         }
     }
 
     protected function overwritePostAuthors()
     {
-        $this->info("Overwriting post author data...");
+        $this->info('Overwriting post author data...');
         // @codingStandardsIgnoreLine
         $randomEmail = DB::raw("CONCAT(lpad(conv(floor(rand()*pow(26,8)), 10, 36), 8, 0),'@',LEFT(UUID(), 8),'.example.com')");
         // @codingStandardsIgnoreLine
@@ -224,14 +234,14 @@ class ObfuscateDataCommand extends Command
         $resultCount = DB::table('posts')
             ->whereNotNull('author_email')
             ->update(['author_email' => $randomEmail,
-                        'author_realname' => $randomName]);
+                'author_realname' => $randomName, ]);
 
         $this->info("Updated $resultCount records.");
     }
 
     private function overwritePostAuthorsWithFaker()
     {
-        $this->info("Overwriting post author data...");
+        $this->info('Overwriting post author data...');
         $faker = Faker\Factory::create();
         $results = DB::select('posts.*')
             ->from('posts')
@@ -242,7 +252,7 @@ class ObfuscateDataCommand extends Command
         foreach ($results as $row) {
             $postEntity = $this->postRepository->getEntity($row);
             $fakeEmail = $faker->safeEmail;
-            $fakeName = $faker->firstName." ".$faker->lastName;
+            $fakeName = $faker->firstName.' '.$faker->lastName;
             $postEntity->setState([
                 'author_realname'=> $fakeName,
                 'author_email'=> $fakeEmail,
@@ -250,17 +260,19 @@ class ObfuscateDataCommand extends Command
             $overwrittenCount += $this->postRepository->update($postEntity);
         }
         if ($overwrittenCount == $resultsCount) {
-            $this->info("updated ".$overwrittenCount." records.");
+            $this->info('updated '.$overwrittenCount.' records.');
+
             return $overwrittenCount;
         } else {
-            $this->info("failed to overwrite all records.");
+            $this->info('failed to overwrite all records.');
+
             return false;
         }
     }
 
     private function overwriteSiteConfig()
     {
-        $this->info("Removing general settings data...");
+        $this->info('Removing general settings data...');
         $siteConfig = $this->configRepository->get('site');
 
         //prepend with OBFUSCATED if not already prepended
@@ -279,12 +291,12 @@ class ObfuscateDataCommand extends Command
             'email' => 'admin@ushahidi.com',
         ]);
         $this->configRepository->update($siteConfig);
-        $this->info("Done.");
+        $this->info('Done.');
     }
 
     private function removeDataProviderValues()
     {
-        $this->info("Removing dataProvider data...");
+        $this->info('Removing dataProvider data...');
         $dataProviderConfig = $this->configRepository->get('data-provider');
         //TODO: walk through each key instead?
         //TODO:  otherwise set them to defaults?
@@ -295,7 +307,7 @@ class ObfuscateDataCommand extends Command
                 'twilio' => false,
                 'nexmo' => false,
                 'twitter' => false,
-                'frontlinesms' => false
+                'frontlinesms' => false,
             ],
             'frontlinesms'=> [],
             'nexmo'=> [],
@@ -304,12 +316,12 @@ class ObfuscateDataCommand extends Command
             'email'=> [],
         ]);
         $this->configRepository->update($dataProviderConfig);
-        $this->info("Set all dataproviders to false.");
+        $this->info('Set all dataproviders to false.');
     }
 
     private function overwriteUsers()
     {
-        $this->info("Overwriting users...");
+        $this->info('Overwriting users...');
         $faker = Faker\Factory::create();
         $results = DB::select('users.*')
             ->from('users')
@@ -320,7 +332,7 @@ class ObfuscateDataCommand extends Command
         foreach ($results as $row) {
             $userEntity = $this->userRepository->getEntity($row);
             $fakeEmail = $faker->safeEmail;
-            $fakeName = $faker->firstName." ".$faker->lastName;
+            $fakeName = $faker->firstName.' '.$faker->lastName;
             $userEntity->setState([
                 'email'=> $fakeEmail,
                 'realname'=> $fakeName,
@@ -330,20 +342,23 @@ class ObfuscateDataCommand extends Command
             $overwrittenCount += $this->userRepository->update($userEntity);
         }
         if ($overwrittenCount == $resultsCount) {
-            $this->info("Updated ".$overwrittenCount." user records.");
+            $this->info('Updated '.$overwrittenCount.' user records.');
+
             return $overwrittenCount;
         } else {
-            $this->info("Failed to overwrite all user records.");
+            $this->info('Failed to overwrite all user records.');
+
             return false;
         }
     }
 
     private function deleteUsers()
     {
-        $this->info("Deleting users...");
+        $this->info('Deleting users...');
         $query = DB::delete('users');
         $count = $query->execute($this->db());
-        $this->info("Removed ".$count." records.");
+        $this->info('Removed '.$count.' records.');
+
         return $count;
     }
 
@@ -353,20 +368,21 @@ class ObfuscateDataCommand extends Command
         if ($this->option('admin-username')) { // checking length in fire()
             $adminEmail = $this->option('admin-username');
             $adminPassword = str_random(25);
-            $this->info("Generated password: ".$adminPassword);
+            $this->info('Generated password: '.$adminPassword);
             $id = $this->saveAdminUser($adminEmail, $adminPassword);
-            $this->info("Created admin user ".$adminEmail." with Id: ".$id);
+            $this->info('Created admin user '.$adminEmail.' with Id: '.$id);
         }
         //otherwise, if not in 'non-interactive' mode, we prompt for info
-        if (!$this->option('non-interactive')) {
-            if (!$this->confirm("Do you want to add an admin user?")) {
-                $this->info("Admin user skipped.");
+        if (! $this->option('non-interactive')) {
+            if (! $this->confirm('Do you want to add an admin user?')) {
+                $this->info('Admin user skipped.');
+
                 return;
             } else { // if we *do* want to create admin user
                 $adminEmail = $this->anticipate('Email address for admin user?', ['admin@ushahidi.com']);
                 $adminPassword = $this->secret('What should the password be?');
                 $id = $this->saveAdminUser($adminEmail, $adminPassword);
-                $this->info("Created admin user with Id: ".$id);
+                $this->info('Created admin user with Id: '.$id);
             }
         }
     }
@@ -378,7 +394,8 @@ class ObfuscateDataCommand extends Command
             'email' => $username,
             'realname' => 'Admin User',
             'role' => 'admin',
-            'password' => $password ]); // NOTE: pw is hashed via create
+            'password' => $password, ]); // NOTE: pw is hashed via create
+
         return $this->userRepository->create($newUserEntity);
     }
 }
