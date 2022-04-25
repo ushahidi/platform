@@ -2,11 +2,9 @@
 
 namespace Ushahidi\App\Passport;
 
-use Illuminate\Contracts\Hashing\Hasher;
 use Laravel\Passport\Bridge\User;
 use League\OAuth2\Server\Entities\ClientEntityInterface;
 use League\OAuth2\Server\Repositories\UserRepositoryInterface;
-use RuntimeException;
 use Ushahidi\Factory\UsecaseFactory;
 
 class UserRepository implements UserRepositoryInterface
