@@ -2,6 +2,8 @@
 
 namespace Ushahidi\Contracts\DataSource;
 
+use Illuminate\Routing\Router;
+
 /**
  * Data Source interface for data source that communicate via callbacks
  *
@@ -12,5 +14,10 @@ namespace Ushahidi\Contracts\DataSource;
  */
 interface CallbackDataSource extends DataSource
 {
-    public static function registerRoutes(\Laravel\Lumen\Routing\Router $router);
+
+    /**
+     * @param \Illuminate\Routing\Router $router
+     * @return void
+     */
+    public static function registerRoutes(Router $router);
 }

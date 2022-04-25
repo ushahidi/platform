@@ -9,13 +9,13 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Ushahidi\Core\Usecase\Tos;
+namespace Ushahidi\Contracts\Repository\Entity;
 
 interface ReadTosRepository
 {
     /**
      * @param  int $id
-     * @return Ushahidi\Core\Entity\Tag
+     * @return \Ushahidi\Contracts\Entity
      */
     public function get($id);
 }
