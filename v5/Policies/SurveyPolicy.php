@@ -38,7 +38,7 @@ class SurveyPolicy
 
     /**
      *
-     * @param  \App\User  $user
+     * @param  \Ushahidi\App\User  $user
      * @return bool
      */
     public function index()

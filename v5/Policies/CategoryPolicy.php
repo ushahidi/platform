@@ -2,15 +2,17 @@
 
 namespace v5\Policies;
 
+use v5\Models\Survey;
 use v5\Models\Category;
 use Ushahidi\Core\Entity;
+use Ushahidi\App\Auth\GenericUser;
 use Ushahidi\Core\Entity\Permission;
 use Ushahidi\Core\Concerns\PrivAccess;
 use Ushahidi\Core\Concerns\AdminAccess;
 use Ushahidi\Core\Concerns\UserContext;
 use Ushahidi\App\Auth\GenericUser as User;
-use Ushahidi\Core\Concerns\PrivateDeployment;
 use Ushahidi\Core\Tool\Permissions\AclTrait;
+use Ushahidi\Core\Concerns\PrivateDeployment;
 
 class CategoryPolicy
 {
@@ -38,7 +40,7 @@ class CategoryPolicy
 
     /**
      *
-     * @param  \App\User  $user
+     * @param  \Ushahidi\App\User  $user
      * @return bool
      */
     public function index()
