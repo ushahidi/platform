@@ -4,7 +4,6 @@
  * Unit tests for Signature Verifier
  *
  * @author     Ushahidi Team <team@ushahidi.com>
- * @package    Ushahidi\Application\Tests
  * @copyright  2013 Ushahidi
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
@@ -13,8 +12,8 @@ namespace Tests\Unit\Core\Tool;
 
 use Mockery as M;
 use Tests\TestCase;
-use Ushahidi\Core\Tool\Verifier;
 use Ushahidi\Contracts\Repository\Entity\ApiKeyRepository;
+use Ushahidi\Core\Tool\Verifier;
 
 /**
  * @backupGlobals disabled
@@ -22,14 +21,15 @@ use Ushahidi\Contracts\Repository\Entity\ApiKeyRepository;
  */
 class VerifierTest extends TestCase
 {
-    protected $apiKey = "eebc4a87-9267-4491-989c-690fd8f10466";
-    protected $sharedSecret = "iamasharedsecret";
+    protected $apiKey = 'eebc4a87-9267-4491-989c-690fd8f10466';
+
+    protected $sharedSecret = 'iamasharedsecret';
 
     protected function makeSig($sharedSecret, $url, $payload)
     {
-        $data = $url . $payload;
+        $data = $url.$payload;
 
-        return base64_encode(hash_hmac("sha256", $data, $sharedSecret, true));
+        return base64_encode(hash_hmac('sha256', $data, $sharedSecret, true));
     }
 
     public function testValidSignature()
@@ -52,12 +52,12 @@ class VerifierTest extends TestCase
         $repo = M::mock(ApiKeyRepository::class);
         $verifier = new Verifier($repo);
         $url = "http://localhost:8000/api/v3/exports/external/count/1?api_key={$this->apiKey}";
-        $payload = "";
-        $signature = $this->makeSig($this->sharedSecret, $url, "");
+        $payload = '';
+        $signature = $this->makeSig($this->sharedSecret, $url, '');
 
         $repo->shouldReceive('apiKeyExists')->with($this->apiKey)->andReturn(true);
 
-        $return = $verifier->verified($signature, $this->apiKey, $this->sharedSecret, $url, "");
+        $return = $verifier->verified($signature, $this->apiKey, $this->sharedSecret, $url, '');
 
         $this->assertTrue($return);
     }

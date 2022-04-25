@@ -11,22 +11,24 @@ namespace Tests\Unit\Core\Usecase\Post;
 use Faker;
 use Mockery as M;
 use Tests\TestCase;
-use Ushahidi\Core\Tool\SearchData;
-use Ushahidi\Core\Entity\Post;
-use Ushahidi\Core\Entity\User;
 use Ushahidi\Core\Entity\ExportJob;
 use Ushahidi\Core\Entity\HXL\HXLLicense;
 use Ushahidi\Core\Entity\HXL\HXLMetadata;
+use Ushahidi\Core\Entity\Post;
+use Ushahidi\Core\Entity\User;
+use Ushahidi\Core\Tool\SearchData;
 use Ushahidi\App\Repository\ExportJobRepository;
-use Ushahidi\App\Repository\Post\ExportRepository;
 use Ushahidi\App\Repository\Form\AttributeRepository;
+use Ushahidi\App\Repository\Post\ExportRepository;
 
 class ExportTest extends TestCase
 {
-
     protected $jobId;
+
     protected $userId;
+
     protected $hxlMetaDataId;
+
     protected $hxlLicenseId;
 
     public function setUp()
@@ -40,7 +42,7 @@ class ExportTest extends TestCase
             'email' => $faker->email,
             'password' => $faker->password(10),
             'realname' => $faker->name,
-            'role' => 'admin'
+            'role' => 'admin',
         ]));
 
         $this->postExportRepository = M::mock(ExportRepository::class);
@@ -48,17 +50,17 @@ class ExportTest extends TestCase
         $this->formAttributeRepository = M::mock(AttributeRepository::class);
 
         $this->hxlLicenseId = service('repository.hxl_license')->create(new HXLLicense([
-            'code' => "ushahidi".rand(),
-            'name' => "ushahidi-dataset",
-            'link' => "other",
+            'code' => 'ushahidi'.rand(),
+            'name' => 'ushahidi-dataset',
+            'link' => 'other',
         ]));
 
         $this->hxlMetaDataId = service('repository.hxl_meta_data')->create(new HXLMetadata([
-            "license_id" => $this->hxlLicenseId,
-            "organisation_id" => "org-id-here",
-            "organisation_name" => "ushahidi",
-            'dataset_title' => "ushahidi-dataset",
-            'source' => "other",
+            'license_id' => $this->hxlLicenseId,
+            'organisation_id' => 'org-id-here',
+            'organisation_name' => 'ushahidi',
+            'dataset_title' => 'ushahidi-dataset',
+            'source' => 'other',
             'private' => true,
             'user_id' => $this->userId,
         ]));
@@ -66,7 +68,7 @@ class ExportTest extends TestCase
         $this->jobId = service('repository.export_job')->create(new ExportJob([
             'user_id' => $this->userId,
             'entity_type' => 'post',
-            'hxl_meta_data_id' => $this->hxlMetaDataId
+            'hxl_meta_data_id' => $this->hxlMetaDataId,
         ]));
         // Get the usecase and pass in authorizer, payload and transformer
         $this->usecase = $this->usecase
@@ -102,12 +104,10 @@ class ExportTest extends TestCase
         $post1 = new Post();
         $post2 = new Post();
         $post1->setState([
-            'post_date' =>
-                '2017-02-22'
+            'post_date' => '2017-02-22',
         ]);
         $post2->setState([
-            'post_date' =>
-                '2017-02-22'
+            'post_date' => '2017-02-22',
         ]);
         $jobRepoSpy = \Mockery::mock(ExportJobRepository::class);
         $searchDataMock = M::type(SearchData::class);
@@ -143,8 +143,8 @@ class ExportTest extends TestCase
                     'form_id' => 0,
                     'form_stage_id' => 0,
                     'form_stage_priority' => 0,
-                    'priority' => 1
-                ]]);
+                    'priority' => 1,
+                ], ]);
 
         $this->usecase
             ->setExportJobRepository($jobRepoSpy);

@@ -8,19 +8,19 @@ namespace Tests\Unit\Core\Usecase;
 
 use Mockery as M;
 use Tests\TestCase;
-use Ushahidi\App\Subscriber;
-use Ushahidi\Core\Entity\Post;
+use Ushahidi\Contracts\Repository\Entity\ConfigRepository;
+use Ushahidi\Contracts\Repository\Entity\ContactRepository;
+use Ushahidi\Contracts\Repository\Entity\FormAttributeRepository;
+use Ushahidi\Contracts\Repository\Entity\MessageRepository;
+use Ushahidi\Contracts\Repository\Entity\PostRepository;
+use Ushahidi\Contracts\Repository\Entity\TargetedSurveyStateRepository;
 use Ushahidi\Core\Entity\Config;
 use Ushahidi\Core\Entity\Contact;
 use Ushahidi\Core\Entity\Message;
+use Ushahidi\Core\Entity\Post;
 use Ushahidi\App\Listener\CreatePostFromMessage;
 use Ushahidi\App\Listener\HandleTargetedSurveyResponse;
-use Ushahidi\Contracts\Repository\Entity\PostRepository;
-use Ushahidi\Contracts\Repository\Entity\ConfigRepository;
-use Ushahidi\Contracts\Repository\Entity\ContactRepository;
-use Ushahidi\Contracts\Repository\Entity\MessageRepository;
-use Ushahidi\Contracts\Repository\Entity\FormAttributeRepository;
-use Ushahidi\Contracts\Repository\Entity\TargetedSurveyStateRepository;
+use Ushahidi\App\Subscriber;
 
 /**
  * @backupGlobals disabled
@@ -28,7 +28,6 @@ use Ushahidi\Contracts\Repository\Entity\TargetedSurveyStateRepository;
  */
 class ReceiveMessageTest extends TestCase
 {
-
     public function setUp()
     {
         parent::setup();
@@ -67,12 +66,12 @@ class ReceiveMessageTest extends TestCase
         $configRepo->shouldReceive('get')->with('data-provider')->andReturn(new Config([
             'providers' => [
                 'smssync' => true,
-            ]
+            ],
         ]));
         $configRepo->shouldReceive('get')->with('features')->andReturn(new Config([
             'data-providers' => [
                 'smssync' => true,
-            ]
+            ],
         ]));
         $this->app->instance(ConfigRepository::class, $configRepo);
     }
@@ -100,7 +99,7 @@ class ReceiveMessageTest extends TestCase
             ->andReturn(new Contact([
                 'id' => 2,
                 'type' => 'phone',
-                'contact' => 1234
+                'contact' => 1234,
             ]));
 
         // First check the message is in a targeted survey
@@ -131,7 +130,7 @@ class ReceiveMessageTest extends TestCase
                 'type' => 'sms',
                 'from' => 1234,
                 'contact_type' => 'phone',
-                'data_source' => 'smssync'
+                'data_source' => 'smssync',
             ])
             ->interact();
     }

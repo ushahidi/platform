@@ -4,24 +4,23 @@
  * Unit tests for Signature Verifier
  *
  * @author     Ushahidi Team <team@ushahidi.com>
- * @package    Ushahidi\Application\Tests
  * @copyright  2013 Ushahidi
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
 namespace Tests\Unit\Core\Tool;
 
+use Kohana\Validation\Validation;
 use Mockery as M;
 use Tests\TestCase;
-use Kohana\Validation\Validation;
-use Ushahidi\App\Validator\Role\Update;
 use Ushahidi\Contracts\Repository\Entity\PermissionRepository;
+use Ushahidi\App\Validator\Role\Update;
 
 /**
  * @backupGlobals disabled
  * @preserveGlobalState disabled
  */
-class RoleUpdateTest extends TestCase
+class UpdateTest extends TestCase
 {
     protected $permissonRepoMock;
 

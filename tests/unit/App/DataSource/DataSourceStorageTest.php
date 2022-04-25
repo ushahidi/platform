@@ -4,21 +4,20 @@
  * Tests for DataSourceStorage class
  *
  * @author     Ushahidi Team <team@ushahidi.com>
- * @package    Ushahidi\Application\Tests
  * @copyright  2013 Ushahidi
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Tests\Unit\App\DataSource;
+namespace Tests\Unit\Ushahidi\App\DataSource;
 
+use Illuminate\Support\Facades\Log;
 use Mockery as M;
 use Tests\TestCase;
+use Ushahidi\Contracts\Repository\Entity\MessageRepository;
 use Ushahidi\Contracts\Usecase;
 use Ushahidi\Core\Entity\Message;
-use Illuminate\Support\Facades\Log;
-use Ushahidi\App\DataSource\DataSourceStorage;
 use Ushahidi\Core\Exception\NotFoundException;
-use Ushahidi\Contracts\Repository\Entity\MessageRepository;
+use Ushahidi\App\DataSource\DataSourceStorage;
 
 /**
  * @backupGlobals disabled
@@ -46,20 +45,20 @@ class DataSourceStorageTest extends TestCase
                 'contact_type' => 'phone',
                 'from' => 123456,
                 'message' => 'Yo dawg I heard you like messages, so I put some messages in your messages',
-                'to' => "YOU!",
+                'to' => 'YOU!',
                 'title' => null,
                 'datetime' => null,
                 'data_source_message_id' => null,
                 'additional_data' => null,
                 'inbound_form_id' => 1,
-                'inbound_fields' => ['Title' => 'somekey']
+                'inbound_fields' => ['Title' => 'somekey'],
             ])
             ->andReturn($this->usecase);
 
         $this->usecase
             ->shouldReceive('interact')->once()
             ->andReturn([
-                'id' => 1
+                'id' => 1,
             ]);
 
         $result = $storage->receive(
@@ -68,7 +67,7 @@ class DataSourceStorageTest extends TestCase
             'phone',
             123456,
             'Yo dawg I heard you like messages, so I put some messages in your messages',
-            "YOU!",
+            'YOU!',
             null,
             null,
             null,
@@ -93,13 +92,13 @@ class DataSourceStorageTest extends TestCase
                 'contact_type' => 'phone',
                 'from' => 123456,
                 'message' => 'Yo dawg I heard you like messages, so I put some messages in your messages',
-                'to' => "YOU!",
+                'to' => 'YOU!',
                 'title' => null,
                 'datetime' => null,
                 'data_source_message_id' => null,
                 'additional_data' => null,
                 'inbound_form_id' => 1,
-                'inbound_fields' => ['Title' => 'somekey']
+                'inbound_fields' => ['Title' => 'somekey'],
             ])
             ->andReturn($this->usecase);
 
@@ -116,7 +115,7 @@ class DataSourceStorageTest extends TestCase
             'phone',
             123456,
             'Yo dawg I heard you like messages, so I put some messages in your messages',
-            "YOU!",
+            'YOU!',
             null,
             null,
             null,

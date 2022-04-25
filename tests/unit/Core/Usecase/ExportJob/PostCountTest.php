@@ -5,11 +5,10 @@ namespace Tests\Unit\Core\Usecase\ExportJob;
 use Faker;
 use Mockery as M;
 use Tests\TestCase;
-
+use Ushahidi\Contracts\Repository\Entity\ExportJobRepository;
 use Ushahidi\Contracts\Session;
 use Ushahidi\Core\Entity\ExportJob;
 use Ushahidi\Core\Usecase\Export\Job\PostCount;
-use Ushahidi\Contracts\Repository\Entity\ExportJobRepository;
 
 /**
  * @group api
@@ -34,14 +33,14 @@ class PostCountTest extends TestCase
                 'entity_type' => 'post',
                 'send_to_hdx' => false,
                 'send_to_browser' => true,
-                'include_hxl' => false
+                'include_hxl' => false,
             ]));
         $jobRepo->shouldReceive('getPostCount')
             ->once()
             ->with($jobId)
             ->andReturn([[
                 'total' => 200,
-                'label' => 'all'
+                'label' => 'all',
             ]]);
 
         $session = M::mock(Session::class);
@@ -54,7 +53,7 @@ class PostCountTest extends TestCase
         $usecase->setSession($session);
 
         $usecase->setIdentifiers([
-            'id' => $jobId
+            'id' => $jobId,
         ]);
 
         $result = $usecase->interact();

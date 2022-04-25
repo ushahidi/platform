@@ -1,24 +1,24 @@
 <?php
 
-namespace Tests\Unit\App\Repository;
+namespace Tests\Unit\Ushahidi\App\Repository;
 
-use Mockery as M;
-use Tests\TestCase;
-use Ohanzee\Database;
-use Ushahidi\Core\Tool\SearchData;
 use Aura\Di\Injection\Factory;
-use Ushahidi\Core\Entity\User;
-use Ushahidi\Contracts\Session;
 use Illuminate\Support\Collection;
-use Ushahidi\App\Multisite\OhanzeeResolver;
-use Ushahidi\App\Repository\PostRepository;
-use Ushahidi\App\Repository\Post\ValueFactory;
-use Ushahidi\Core\Tool\Permissions\PostPermissions;
-use Ushahidi\Contracts\Repository\Entity\FormRepository;
+use Mockery as M;
+use Ohanzee\Database;
+use Tests\TestCase;
 use Ushahidi\Contracts\Repository\Entity\ContactRepository;
-use Ushahidi\Contracts\Repository\Entity\PostLockRepository;
-use Ushahidi\Contracts\Repository\Entity\FormStageRepository;
 use Ushahidi\Contracts\Repository\Entity\FormAttributeRepository;
+use Ushahidi\Contracts\Repository\Entity\FormRepository;
+use Ushahidi\Contracts\Repository\Entity\FormStageRepository;
+use Ushahidi\Contracts\Repository\Entity\PostLockRepository;
+use Ushahidi\Contracts\Session;
+use Ushahidi\Core\Entity\User;
+use Ushahidi\Core\Tool\Permissions\PostPermissions;
+use Ushahidi\Core\Tool\SearchData;
+use Ushahidi\App\Multisite\OhanzeeResolver;
+use Ushahidi\App\Repository\Post\ValueFactory;
+use Ushahidi\App\Repository\PostRepository;
 
 /**
  * @backupGlobals disabled
@@ -102,7 +102,7 @@ class PostRepositoryTest extends TestCase
         // grab the resulting SQL and pull off the LIMIT clause on the end
         $sql = $query->compile($db);
         $limitPos = strpos($sql, 'LIMIT ');
-        $limit = substr($sql, $limitPos+6);
+        $limit = substr($sql, $limitPos + 6);
         $expectedLimit = $expectedLimit ?? $fakeLimit;
         $this->assertEquals($expectedLimit, $limit);
     }

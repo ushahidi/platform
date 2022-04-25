@@ -1,15 +1,15 @@
 <?php
 
-namespace Tests\Unit\App\Listener;
+namespace Tests\Unit\Ushahidi\App\Listener;
 
 use Mockery as M;
 use Tests\TestCase;
-use Ushahidi\Core\Entity\Post;
-use Ushahidi\Core\Entity\Message;
-use Ushahidi\App\Listener\CreatePostFromMessage;
-use Ushahidi\Contracts\Repository\Entity\PostRepository;
 use Ushahidi\Contracts\Repository\Entity\MessageRepository;
+use Ushahidi\Contracts\Repository\Entity\PostRepository;
 use Ushahidi\Contracts\Repository\Entity\TargetedSurveyStateRepository;
+use Ushahidi\Core\Entity\Message;
+use Ushahidi\Core\Entity\Post;
+use Ushahidi\App\Listener\CreatePostFromMessage;
 
 /**
  * @backupGlobals disabled
@@ -112,7 +112,7 @@ class CreatePostFromMessageTest extends TestCase
         $inbound_fields = [
             'Title' => 'put-title-here',
             'Date' => 'date-field',
-            'Location' => 'location-field'
+            'Location' => 'location-field',
         ];
 
         $this->targetedSurveyStateRepo
@@ -150,7 +150,7 @@ class CreatePostFromMessageTest extends TestCase
             'put-title-here' => ['A title'],
             'date-field' => ['2018-01-04 00:01:02'],
             'location-field' => [
-                ['lon' => 2.3, 'lat' => -1.4]
+                ['lon' => 2.3, 'lat' => -1.4],
             ],
         ], $post->values, 'Message data is not mapped to post values');
         $this->assertEquals(new \DateTime('2018-01-04 00:01:02'), $post->post_date);

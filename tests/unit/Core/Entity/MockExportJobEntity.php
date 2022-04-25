@@ -8,25 +8,33 @@ use Ushahidi\Contracts\Entity;
  * Ushahidi Export Job
  *
  * @author     Ushahidi Team <team@ushahidi.com>
- * @package    Ushahidi\Platform
  * @copyright  2018 Ushahidi
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 class MockExportJobEntity implements Entity
 {
-
     use \Ushahidi\Core\Concerns\StatefulData;
 
     public $id;
+
     public $entity_type;
+
     public $user_id;
+
     public $fields;
+
     public $filters;
+
     public $status;
+
     public $url;
+
     public $header_row;
+
     public $created;
+
     public $updated;
+
     public $url_expiration;
 
     public function __get($key)
@@ -58,7 +66,7 @@ class MockExportJobEntity implements Entity
     {
         // Foreign key alias
         return [
-            'user_id' => ['user', 'user.id']
+            'user_id' => ['user', 'user.id'],
         ];
     }
 
@@ -76,7 +84,7 @@ class MockExportJobEntity implements Entity
             'header_row' => '*json',
             'created' => 'int',
             'updated' => 'int',
-            'url_expiration' => 'int'
+            'url_expiration' => 'int',
         ];
     }
 
@@ -95,7 +103,7 @@ class MockExportJobEntity implements Entity
     /**
      * Return the unique ID for the entity.
      *
-     * @return Mixed
+     * @return mixed
      */
     public function getId()
     {

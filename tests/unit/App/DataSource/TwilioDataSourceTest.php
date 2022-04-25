@@ -4,16 +4,14 @@
  * Tests for Twilio class
  *
  * @author     Ushahidi Team <team@ushahidi.com>
- * @package    Ushahidi\Application\Tests
  * @copyright  2013 Ushahidi
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Tests\Unit\App\DataSource;
+namespace Tests\Unit\Ushahidi\App\DataSource;
 
-use Tests\TestCase;
 use Mockery as M;
-
+use Tests\TestCase;
 use Ushahidi\App\DataSource\Twilio\Twilio;
 
 /**
@@ -31,7 +29,7 @@ class TwilioDataSourceTest extends TestCase
                 return M::mock(\Twilio\Rest\Client::class);
             }
         );
-        $response = $twilio->send(1234, "A message");
+        $response = $twilio->send(1234, 'A message');
 
         $this->assertInternalType('array', $response);
         $this->assertEquals('failed', $response[0]);
@@ -46,7 +44,7 @@ class TwilioDataSourceTest extends TestCase
 
         $twilio = new Twilio([
             'account_sid' => 'secret',
-            'auth_token' => ''
+            'auth_token' => '',
         ], function ($accountSid, $authToken) use ($mockTwilio) {
             return $mockTwilio;
         });
@@ -55,7 +53,7 @@ class TwilioDataSourceTest extends TestCase
         $mockMessages->shouldReceive('create')->once()->andReturn($mockMessage);
         $mockMessage->sid = 'test';
 
-        $response = $twilio->send(1234, "A message");
+        $response = $twilio->send(1234, 'A message');
 
         $this->assertInternalType('array', $response);
         $this->assertEquals('sent', $response[0]);
@@ -69,7 +67,7 @@ class TwilioDataSourceTest extends TestCase
 
         $twilio = new Twilio([
             'account_sid' => 'secret',
-            'auth_token' => ''
+            'auth_token' => '',
         ], function ($accountSid, $authToken) use ($mockTwilio) {
             return $mockTwilio;
         });
@@ -77,7 +75,7 @@ class TwilioDataSourceTest extends TestCase
         $mockTwilio->messages = $mockMessages;
         $mockMessages->shouldReceive('create')->once()->andThrow(M::mock(\Twilio\Exceptions\RestException::class));
 
-        $response = $twilio->send(1234, "A message");
+        $response = $twilio->send(1234, 'A message');
 
         $this->assertInternalType('array', $response);
         $this->assertEquals('failed', $response[0]);
@@ -87,15 +85,15 @@ class TwilioDataSourceTest extends TestCase
     public function testVerifySid()
     {
         $twilio = new Twilio([
-            'sms_auto_response' => "an auto response",
-            'account_sid' => 'secret'
+            'sms_auto_response' => 'an auto response',
+            'account_sid' => 'secret',
         ]);
 
         $this->assertTrue($twilio->verifySid('secret'));
         $this->assertFalse($twilio->verifySid('notsecret'));
 
         $twilio = new Twilio([
-            'sms_auto_response' => "an auto response"
+            'sms_auto_response' => 'an auto response',
         ]);
 
         $this->assertFalse($twilio->verifySid('secret'));
@@ -104,10 +102,10 @@ class TwilioDataSourceTest extends TestCase
     public function testGetSmsAutoResponse()
     {
         $twilio = new Twilio([
-            'sms_auto_response' => "an auto response",
+            'sms_auto_response' => 'an auto response',
         ]);
 
-        $this->assertEquals("an auto response", $twilio->getSmsAutoResponse());
+        $this->assertEquals('an auto response', $twilio->getSmsAutoResponse());
 
         $twilio = new Twilio([]);
         $this->assertFalse($twilio->getSmsAutoResponse());

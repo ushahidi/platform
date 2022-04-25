@@ -4,7 +4,6 @@
  * Unit tests for Ushahidi_Repository_PostValue
  *
  * @author     Ushahidi Team <team@ushahidi.com>
- * @package    Ushahidi\Application\Tests
  * @copyright  2014 Ushahidi
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
@@ -17,7 +16,6 @@ namespace Tests\Unit\Core\Traits;
  */
 class DataTransformerTest extends \PHPUnit\Framework\TestCase
 {
-
     /**
      * Test get method
      */

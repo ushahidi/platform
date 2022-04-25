@@ -4,12 +4,11 @@
  * Unit tests for Ushahidi\App\Repository\Post\ValueRepository
  *
  * @author     Ushahidi Team <team@ushahidi.com>
- * @package    Ushahidi\Application\Tests
  * @copyright  2014 Ushahidi
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Tests\Unit\App\Repository;
+namespace Tests\Unit\Ushahidi\App\Repository;
 
 use Ushahidi\Core\Entity\PostValue;
 use Ushahidi\App\Repository\Post\ValueRepository;
@@ -20,7 +19,6 @@ use Ushahidi\App\Repository\Post\ValueRepository;
  */
 class PostValueRepositoryTest extends \PHPUnit\Framework\TestCase
 {
-
     protected $repository;
 
     public function setUp()
@@ -44,7 +42,7 @@ class PostValueRepositoryTest extends \PHPUnit\Framework\TestCase
             ->method('selectOne')
             ->will($this->returnValue([
                 'id' => 1,
-                'value' => 'somevalue'
+                'value' => 'somevalue',
             ]));
 
         // Check that get() returns a PostValue Entity
@@ -84,19 +82,19 @@ class PostValueRepositoryTest extends \PHPUnit\Framework\TestCase
         $mockResult->expects($this->any())
             ->method('as_array')
             ->will($this->returnValue([
-                    [
-                        'id' => 1,
-                        'value' => 'one'
-                    ],
-                    [
-                        'id' => 2,
-                        'value' => 'two'
-                    ],
-                    [
-                        'id' => 3,
-                        'value' => 'three'
-                    ],
-                ]));
+                [
+                    'id' => 1,
+                    'value' => 'one',
+                ],
+                [
+                    'id' => 2,
+                    'value' => 'two',
+                ],
+                [
+                    'id' => 3,
+                    'value' => 'three',
+                ],
+            ]));
 
         // Check that getAllForPost() returns an array of PostValue's
         $values = $this->repository->getAllForPost(1);

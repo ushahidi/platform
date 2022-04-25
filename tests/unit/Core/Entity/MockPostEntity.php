@@ -11,35 +11,59 @@ namespace Tests\Unit\Core\Entity;
 class MockPostEntity
 {
     use \Ushahidi\Core\Concerns\StatefulData;
+
     protected $id;
+
     protected $parent_id;
+
     protected $form_id;
+
     protected $user_id;
+
     protected $message_id;
+
     // Color is taken from the asscoiated form entity
     protected $color;
+
     protected $type;
+
     protected $title;
+
     protected $slug;
+
     protected $content;
+
     protected $author_email;
+
     protected $author_realname;
+
     protected $status;
+
     protected $created;
+
     protected $updated;
+
     protected $locale;
+
     protected $values;
+
     protected $post_date;
+
     protected $tags;
+
     protected $published_to;
+
     protected $completed_stages;
+
     protected $sets;
+
     protected $lock;
+
     // Source when from external provider: SMS, Email, etc
     protected $source;
+
     // When originating in an SMS message
     protected $contact_id;
-
 
     public function __get($key)
     {
@@ -77,8 +101,10 @@ class MockPostEntity
                     if (strlen($slug) >= 137) {
                         $slug = substr($slug, 0, 136);
                     }
-                    return $slug . ' ' . uniqid();
+
+                    return $slug.' '.uniqid();
                 }
+
                 return false;
             },
             'form_id' => ['form', 'form.id'], /* alias */

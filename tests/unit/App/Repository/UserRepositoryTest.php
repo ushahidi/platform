@@ -1,11 +1,11 @@
 <?php
 
-namespace Tests\Unit\App\Repository;
+namespace Tests\Unit\Ushahidi\App\Repository;
 
-use Ushahidi\App\Repository\UserRepository;
-use Ushahidi\Core\Entity\User;
-use Tests\TestCase;
 use Mockery as M;
+use Tests\TestCase;
+use Ushahidi\Core\Entity\User;
+use Ushahidi\App\Repository\UserRepository;
 
 /**
  * @backupGlobals disabled
@@ -13,7 +13,6 @@ use Mockery as M;
  */
 class UserRepositoryTest extends TestCase
 {
-
     public function testGetResetToken()
     {
         $db = M::mock(\Ohanzee\Database::class);
@@ -22,7 +21,6 @@ class UserRepositoryTest extends TestCase
 
         $repo = new UserRepository($resolver);
         $user = new User(['id' => 1]);
-
 
         $db->shouldReceive('quote_table')->with('user_reset_tokens')->andReturn('`user_reset_tokens`');
         $db->shouldReceive('quote_column')->with('reset_token')->andReturn('`reset_token`');
@@ -34,6 +32,7 @@ class UserRepositoryTest extends TestCase
                 if (is_string($data)) {
                     return "\"$data\"";
                 }
+
                 return $data;
             });
         $db->shouldReceive('query')

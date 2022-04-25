@@ -4,7 +4,6 @@
  * Unit tests for StatefulData Trait
  *
  * @author     Ushahidi Team <team@ushahidi.com>
- * @package    Ushahidi\Application\Tests
  * @copyright  2017 Ushahidi
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
@@ -18,12 +17,14 @@ namespace Tests\Unit\Core\Traits;
 class StatefulDataTest extends \PHPUnit\Framework\TestCase
 {
     protected $test_post_data_current;
+
     protected $test_post_data_new;
+
     protected $changed_post_data;
 
     /**
-        * Test setState method against a Post entity
-        */
+     * Test setState method against a Post entity
+     */
     public function testSetStatePost()
     {
         $this->setPostTestData();
@@ -44,7 +45,7 @@ class StatefulDataTest extends \PHPUnit\Framework\TestCase
     // POST DATA SECTION
     protected function setPostTestData()
     {
-        $this->test_post_data_current =  [
+        $this->test_post_data_current = [
             'id' => '110',
             'parent_id' => null,
             'form_id' => '1',
@@ -65,10 +66,10 @@ class StatefulDataTest extends \PHPUnit\Framework\TestCase
             'source' => 'sms',
             'contact_id' => '3',
             'color' => null,
-            'completed_stages' => [1]
-        ] ;
+            'completed_stages' => [1],
+        ];
 
-        $this->test_post_data_new =  [
+        $this->test_post_data_new = [
             'id' => '110',
             'parent_id' => null,
             'form_id' => '1',
@@ -88,13 +89,12 @@ class StatefulDataTest extends \PHPUnit\Framework\TestCase
             'source' => 'sms',
             'contact_id' => '3',
             'color' => null,
-            'values' =>
-             [
+            'values' => [
                 'missing_date' =>  [
                     0 => '2012-09-25 00:00:00',
                 ],
                 'last_location_point' =>  [
-                0 =>  [
+                    0 =>  [
                         'lon' => -85.39,
                         'lat' => 33.755,
                     ],
@@ -103,7 +103,7 @@ class StatefulDataTest extends \PHPUnit\Framework\TestCase
                     0 => 'David Kobia',
                 ],
                 'last_location' =>  [
-                        0 => 'atlanta',
+                    0 => 'atlanta',
                 ],
                 'missing_status' =>  [
                     0 => 'believed_missing',
@@ -112,7 +112,7 @@ class StatefulDataTest extends \PHPUnit\Framework\TestCase
                     0 => '3',
                     1 => '4',
                 ],
-             ],
+            ],
             'tags' =>  [
                 0 => '3',
                 1 => '4',
@@ -123,13 +123,13 @@ class StatefulDataTest extends \PHPUnit\Framework\TestCase
             ],
         ];
 
-        $postDateTime =  date_create_from_format(
+        $postDateTime = date_create_from_format(
             'Y-m-d H:i:s.u',
             '2012-12-18 03:18:40.000000',
             new \DateTimeZone('UTC')
         );
 
-        $this->changed_post_data =  [
+        $this->changed_post_data = [
             'user_id' => 4,
             'title' => 'Updated Test Post',
             'slug' => 'updated-test-post-596fe1a454e54',
@@ -165,7 +165,7 @@ class StatefulDataTest extends \PHPUnit\Framework\TestCase
             'sets' =>  [
             ],
             'completed_stages' => [
-            ]
+            ],
         ];
     }
 

@@ -4,18 +4,17 @@
  * Unit tests for Lumen implementation of Ushahidi\Core\Tool\Mailer
  *
  * @author     Ushahidi Team <team@ushahidi.com>
- * @package    Ushahidi\Application\Tests
  * @copyright  2013 Ushahidi
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Tests\Unit\App\Tools;
+namespace Tests\Unit\Ushahidi\App\Tools;
 
-use Ushahidi\App\Tools\LumenMailer;
-use Ushahidi\App\Multisite\Site;
-// use Illuminate\Support\Facades\Mail;
-use Tests\TestCase;
 use Mockery as M;
+use Tests\TestCase;
+// use Illuminate\Support\Facades\Mail;
+use Ushahidi\App\Multisite\Site;
+use Ushahidi\App\Tools\LumenMailer;
 
 /**
  * @backupGlobals disabled
@@ -23,11 +22,10 @@ use Mockery as M;
  */
 class LumenMailerTest extends TestCase
 {
-
     public function testSend()
     {
         config([
-            'mail.pretend' => true
+            'mail.pretend' => true,
         ]);
 
         // Mock the current site
@@ -51,7 +49,7 @@ class LumenMailerTest extends TestCase
         );
 
         $mailer->send('noone@ushahidi.com', 'Resetpassword', [
-            'token' => 'abc123'
+            'token' => 'abc123',
         ]);
 
         $illuminateMailer->shouldHaveReceived('send')
@@ -75,6 +73,7 @@ class LumenMailerTest extends TestCase
                          ->andReturn($mock); // simulate the chaining
 
                     $closure($mock);
+
                     return true;
                 })
             );

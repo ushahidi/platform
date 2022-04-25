@@ -9,7 +9,7 @@ class MockDataTransformer
     protected function getDefinition()
     {
         return [
-            'date' => '*date'
+            'date' => '*date',
         ];
     }
 

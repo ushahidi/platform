@@ -4,21 +4,20 @@
  * Tests for datasource:outgoing command
  *
  * @author     Ushahidi Team <team@ushahidi.com>
- * @package    Ushahidi\Application\Tests
  * @copyright  2013 Ushahidi
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Tests\Unit\App\DataSource\Console;
+namespace Tests\Unit\Ushahidi\App\DataSource\Console;
 
+use Illuminate\Console\Application as Artisan;
 use Mockery as M;
 use Tests\TestCase;
+use Ushahidi\Contracts\Repository\Entity\ConfigRepository;
 use Ushahidi\Core\Entity\Config;
-use Illuminate\Console\Application as Artisan;
+use Ushahidi\App\DataSource\Console\OutgoingCommand;
 use Ushahidi\App\DataSource\DataSourceManager;
 use Ushahidi\App\DataSource\DataSourceStorage;
-use Ushahidi\App\DataSource\Console\OutgoingCommand;
-use Ushahidi\Contracts\Repository\Entity\ConfigRepository;
 
 /**
  * @backupGlobals disabled
@@ -26,7 +25,6 @@ use Ushahidi\Contracts\Repository\Entity\ConfigRepository;
  */
 class OutgoingCommandTest extends TestCase
 {
-
     public function setUp()
     {
         parent::setUp();
@@ -41,7 +39,7 @@ class OutgoingCommandTest extends TestCase
                 'twilio' => true,
                 'twitter' => false,
                 'smssync' => true,
-            ]
+            ],
         ]));
         $configRepo->shouldReceive('get')->with('features')->andReturn(new Config([
             'data-providers' => [
@@ -51,7 +49,7 @@ class OutgoingCommandTest extends TestCase
                 'twilio' => true,
                 'twitter' => false,
                 'smssync' => true,
-            ]
+            ],
         ]));
 
         $this->app->instance(ConfigRepository::class, $configRepo);
@@ -83,7 +81,7 @@ class OutgoingCommandTest extends TestCase
 
     public function testOutgoingAll()
     {
-        $value = $this->artisan('datasource:outgoing', ["--all" => true]);
+        $value = $this->artisan('datasource:outgoing', ['--all' => true]);
 
         $this->assertRegExp(
             "/\+--------------\+-------\+
@@ -103,7 +101,7 @@ class OutgoingCommandTest extends TestCase
 
     public function testOutgoingNexmo()
     {
-        $value = $this->artisan('datasource:outgoing', ["--source" => "nexmo"]);
+        $value = $this->artisan('datasource:outgoing', ['--source' => 'nexmo']);
 
         $this->assertRegExp(
             "/\+--------\+-------\+

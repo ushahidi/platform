@@ -1,16 +1,16 @@
 <?php
 
-namespace Tests\Unit\App\Listeners;
+namespace Tests\Unit\Ushahidi\App\Listeners;
 
 use Mockery as M;
 use Tests\TestCase;
-use Ushahidi\Core\Entity\Message;
+use Ushahidi\Contracts\Repository\Entity\FormAttributeRepository;
+use Ushahidi\Contracts\Repository\Entity\MessageRepository;
+use Ushahidi\Contracts\Repository\Entity\TargetedSurveyStateRepository;
 use Ushahidi\Core\Entity\FormAttribute;
+use Ushahidi\Core\Entity\Message;
 use Ushahidi\Core\Entity\TargetedSurveyState;
 use Ushahidi\App\Listener\HandleTargetedSurveyResponse;
-use Ushahidi\Contracts\Repository\Entity\MessageRepository;
-use Ushahidi\Contracts\Repository\Entity\FormAttributeRepository;
-use Ushahidi\Contracts\Repository\Entity\TargetedSurveyStateRepository;
 
 /**
  * @backupGlobals disabled
@@ -18,7 +18,6 @@ use Ushahidi\Contracts\Repository\Entity\TargetedSurveyStateRepository;
  */
 class HandleTargetedSurveyResponseTest extends TestCase
 {
-
     public function setUp()
     {
         parent::setup();
@@ -45,7 +44,7 @@ class HandleTargetedSurveyResponseTest extends TestCase
         $contact_id = 2;
         $message = new Message([
             'id' => $id,
-            'contact_id' => $contact_id
+            'contact_id' => $contact_id,
         ]);
         $inbound_form_id = null;
         $inbound_fields = [];
@@ -78,7 +77,7 @@ class HandleTargetedSurveyResponseTest extends TestCase
         // Load the next question
         $formAttribute = new FormAttribute([
             'id' => 33,
-            'label' => 'A question'
+            'label' => 'A question',
         ]);
         $this->formAttributeRepo
             ->shouldReceive('getNextByFormAttribute')
@@ -168,7 +167,7 @@ class HandleTargetedSurveyResponseTest extends TestCase
         $contact_id = 2;
         $message = new Message([
             'id' => $id,
-            'contact_id' => $contact_id
+            'contact_id' => $contact_id,
         ]);
         $inbound_form_id = null;
         $inbound_fields = [];
@@ -281,7 +280,7 @@ class HandleTargetedSurveyResponseTest extends TestCase
         $contact_id = 2;
         $message = new Message([
             'id' => $id,
-            'contact_id' => $contact_id
+            'contact_id' => $contact_id,
         ]);
         $inbound_form_id = null;
         $inbound_fields = [];
