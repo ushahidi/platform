@@ -2,9 +2,9 @@
 
 namespace Ushahidi\App\Http\Middleware;
 
-use Laravel\Passport\Http\Middleware\CheckScopes as PassportCheckScopes;
 use Illuminate\Auth\AuthenticationException;
 use Laravel\Passport\Exceptions\MissingScopeException;
+use Laravel\Passport\Http\Middleware\CheckScopes as PassportCheckScopes;
 
 class CheckScopes extends PassportCheckScopes
 {

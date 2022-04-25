@@ -4,21 +4,20 @@
  * Ushahidi REST Base Controller
  *
  * @author     Ushahidi Team <team@ushahidi.com>
- * @package    Ushahidi\Application\Controllers
  * @copyright  2013 Ushahidi
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
 namespace Ushahidi\App\Http\Controllers;
 
-use Ushahidi\Factory\UsecaseFactory;
 use Illuminate\Http\Request;
-use Ushahidi\App\Exceptions\ValidationException;
+use Illuminate\Support\Facades\Lang;
+use Ushahidi\Factory\UsecaseFactory;
 use Ushahidi\App\Multisite\MultisiteManager;
+use Ushahidi\App\Exceptions\ValidationException;
 
 abstract class RESTController extends Controller
 {
-
     /**
      * @var string Current API version
      * @todo  move to config?
@@ -75,7 +74,7 @@ abstract class RESTController extends Controller
             ) {
                 if ($filters['offset'] + $filters['limit'] > 25) {
                     $diff = 25 - $filters['offset'];
-                    $filters['limit'] =  $diff > 0 ? $diff : 0;
+                    $filters['limit'] = $diff > 0 ? $diff : 0;
                 }
             } else {
                 $limit = 25;
@@ -85,6 +84,7 @@ abstract class RESTController extends Controller
                 $filters['limit'] = $limit > 25 ? 25 : $limit;
             }
         }
+
         return $filters;
     }
 
@@ -99,9 +99,10 @@ abstract class RESTController extends Controller
     public static function url($resource, $id = null)
     {
         $template = 'api/v%d/%s';
-        if (!is_null($id)) {
+        if (! is_null($id)) {
             $template .= '/%s';
         }
+
         return rtrim(sprintf($template, static::version(), $resource, $id), '/');
     }
 
@@ -109,7 +110,6 @@ abstract class RESTController extends Controller
      * Get options for a resource collection.
      *
      * OPTIONS /api/foo
-     *
      */
     public function indexOptions(Request $request)
     {
@@ -123,7 +123,6 @@ abstract class RESTController extends Controller
      * Get options for a resource.
      *
      * OPTIONS /api/foo/:id
-     *
      */
     public function showOptions(Request $request)
     {
@@ -138,7 +137,6 @@ abstract class RESTController extends Controller
      * Create An Entity
      *
      * POST /api/foo
-     *
      */
     public function store(Request $request)
     {
@@ -155,7 +153,6 @@ abstract class RESTController extends Controller
      * Retrieve All Entities
      *
      * GET /api/foo
-     *
      */
     public function index(Request $request)
     {
@@ -172,7 +169,6 @@ abstract class RESTController extends Controller
      * Retrieve An Entity
      *
      * GET /api/foo/:id
-     *
      */
     public function show(Request $request)
     {
@@ -189,7 +185,6 @@ abstract class RESTController extends Controller
      * Update An Entity
      *
      * PUT /api/foo/:id
-     *
      */
     public function update(Request $request)
     {
@@ -207,7 +202,6 @@ abstract class RESTController extends Controller
      * Delete An Entity
      *
      * DELETE /api/foo/:id
-     *
      */
     public function destroy(Request $request)
     {
@@ -232,7 +226,7 @@ abstract class RESTController extends Controller
      */
     protected function getRouteParams(Request $request)
     {
-        return $request->route()[2];
+        return $request->route()->parameters();
     }
 
     /**
@@ -246,12 +240,13 @@ abstract class RESTController extends Controller
         try {
             // Attempt to execute the usecase to get the response
             $responsePayload = $this->usecase->interact();
+
             return $responsePayload;
         } catch (\Ushahidi\Core\Exception\NotFoundException $e) {
             abort(404, $e->getMessage());
         } catch (\Ushahidi\Core\Exception\AuthorizerException $e) {
             // If we don't have an Authorization header, return 401
-            if (!$request->headers->has('Authorization')) {
+            if (! $request->headers->has('Authorization')) {
                 abort(
                     401,
                     'The request is missing an access token in either the Authorization header.',
@@ -266,7 +261,7 @@ abstract class RESTController extends Controller
         } catch (\Ushahidi\Core\Exception\ValidatorException $e) {
             throw new ValidationException($e->getMessage(), $e);
         } catch (\InvalidArgumentException $e) {
-            abort(400, "Bad request: " . $e->getMessage());
+            abort(400, 'Bad request: '.$e->getMessage());
         }
     }
 
@@ -309,11 +304,11 @@ abstract class RESTController extends Controller
         }
 
         // Should we prevent this request from being cached?
-        if (!in_array($request->method(), $this->cacheableMethods)) {
+        if (! in_array($request->method(), $this->cacheableMethods)) {
             $response->headers->set('Cache-Control', 'no-cache, no-store, max-age=0, must-revalidate');
         }
 
-        $response->headers->set('Content-language', app('translator')->getLocale());
+        $response->headers->set('Content-language', Lang::getLocale());
 
         return $response;
     }

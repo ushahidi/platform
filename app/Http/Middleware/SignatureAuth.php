@@ -2,12 +2,11 @@
 
 namespace Ushahidi\App\Http\Middleware;
 
-use Ushahidi\Core\Tool\Verifier;
 use Closure;
+use Ushahidi\Core\Tool\Verifier;
 
 class SignatureAuth
 {
-
     protected $verifier;
 
     public function __construct(Verifier $verifier)
@@ -30,14 +29,14 @@ class SignatureAuth
         $shared_secret = getenv('PLATFORM_SHARED_SECRET');
         $fullURL = $request->fullUrl();
 
-        if (!$this->verifier->verified(
+        if (! $this->verifier->verified(
             $signature,
             $api_key,
             $shared_secret,
             $fullURL,
             $request->getContent()
         )) {
-            abort(403, "Forbidden.");
+            abort(403, 'Forbidden.');
         }
 
         return $next($request);

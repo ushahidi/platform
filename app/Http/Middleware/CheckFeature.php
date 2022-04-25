@@ -2,8 +2,8 @@
 
 namespace Ushahidi\App\Http\Middleware;
 
-use Ushahidi\App\Facades\Features;
 use Closure;
+use Ushahidi\App\Facades\Features;
 
 class CheckFeature
 {
@@ -18,7 +18,7 @@ class CheckFeature
     public function handle($request, Closure $next, ...$features)
     {
         foreach ($features as $feature) {
-            if (!Features::isEnabled($feature)) {
+            if (! Features::isEnabled($feature)) {
                 abort(404);
             }
         }

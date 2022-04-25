@@ -3,23 +3,20 @@
 namespace Ushahidi\App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
-use Ushahidi\Factory\UsecaseFactory;
-use Ushahidi\App\Multisite\MultisiteManager;
-use Ushahidi\App\Http\Controllers\RESTController;
 use Ushahidi\Contracts\Repository\Entity\MessageRepository;
+use Ushahidi\Factory\UsecaseFactory;
+use Ushahidi\App\Http\Controllers\RESTController;
+use Ushahidi\App\Multisite\MultisiteManager;
 
 /**
  * Ushahidi API Messages Controller
  *
  * @author     Ushahidi Team <team@ushahidi.com>
- * @package    Ushahidi\Application\Controllers
  * @copyright  2013 Ushahidi
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
-
 class MessagesController extends RESTController
 {
-
     /**
      * @var \Ushahidi\Factory\UsecaseFactory
      */
@@ -63,7 +60,7 @@ class MessagesController extends RESTController
             ->get('posts', 'read')
             ->setIdentifiers([
                 'id' => $message->post_id,
-                'type' => 'report'
+                'type' => 'report',
             ]);
 
         return $this->prepResponse($this->executeUsecase($request), $request);
