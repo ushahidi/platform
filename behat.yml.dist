@@ -14,7 +14,6 @@ default:
                     baseUrl: http://localhost:8000
                     # proxyUrl: localhost:8888
                 - Tests\Integration\Bootstrap\PHPUnitFixtureContext
-                - Tests\Integration\Bootstrap\MinkExtendedContext
             extensions:
                 Behat\MinkExtension:
                     default_session: laravel

@@ -20,7 +20,7 @@ use Ushahidi\Core\Entity\Message;
 use Ushahidi\Core\Entity\Post;
 use Ushahidi\App\Listener\CreatePostFromMessage;
 use Ushahidi\App\Listener\HandleTargetedSurveyResponse;
-use Ushahidi\App\Subscriber;
+use Ushahidi\App\EventSubscriber as Subscriber;
 
 /**
  * @backupGlobals disabled
