@@ -1,11 +1,11 @@
 <?php
 // @codingStandardsIgnoreFile
-
-// Load Aura
-require_once __DIR__.'/../bootstrap/init.php';
+use Illuminate\Contracts\Console\Kernel;
 
 // Bootstrap laravel
-require __DIR__.'/../bootstrap/app.php';
+$app = require __DIR__.'/../bootstrap/app.php';
+
+$app->make(Kernel::class)->bootstrap();
 
 // Disable output buffering
 if (($ob_len = ob_get_length()) !== false) {

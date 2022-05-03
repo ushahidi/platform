@@ -44,17 +44,6 @@ if ($_REQUEST['gwcheck'] ?? null) {
     exit();
 }
 
-/*
-|--------------------------------------------------------------------------
-| Turn On The Lights
-|--------------------------------------------------------------------------
-|
-| We need the Aura DI container, so let us turn on the lights.
-| This bootstraps the dependencies and gets it ready for use.
-|
-*/
-
-require_once __DIR__.'/../bootstrap/init.php';
 
 /*
 |--------------------------------------------------------------------------

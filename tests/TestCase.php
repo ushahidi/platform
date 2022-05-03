@@ -15,8 +15,6 @@ abstract class TestCase extends BaseTestCase
      */
     public function createApplication()
     {
-        require_once __DIR__.'/../bootstrap/init.php';
-
         $app = require __DIR__.'/../bootstrap/app.php';
 
         $app->make(Kernel::class)->bootstrap();

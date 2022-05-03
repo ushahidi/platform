@@ -17,7 +17,7 @@ class Kernel extends HttpKernel
         \Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode::class,
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \Ushahidi\App\Http\Middleware\TrimStrings::class,
-        \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
+        // \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
         \Ushahidi\App\Http\Middleware\TrustProxies::class,
         \Ushahidi\App\Http\Middleware\AddContentLength::class,
         \Ushahidi\App\Multisite\DetectSiteMiddleware::class,
