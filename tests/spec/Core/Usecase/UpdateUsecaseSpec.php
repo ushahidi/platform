@@ -13,8 +13,13 @@ use Ushahidi\Contracts\Validator;
 
 class UpdateUsecaseSpec extends ObjectBehavior
 {
-    public function let(Authorizer $auth, Formatter $format, Validator $valid, UpdateRepository $repo, Translator $translator)
-    {
+    public function let(
+        Authorizer $auth,
+        Formatter $format,
+        Validator $valid,
+        UpdateRepository $repo,
+        Translator $translator
+    ) {
         $this->setAuthorizer($auth);
         $this->setFormatter($format);
         $this->setValidator($valid);
