@@ -1,5 +1,5 @@
 <?php
 
-return [
-    'duplicateConfigKeyUser' => 'The user id, :param1, and config key, :param2, already exist',
-];
+return array(
+  'duplicateConfigKeyUser' => 'The user id, :param1, and config key, :param2, already exist'
+);

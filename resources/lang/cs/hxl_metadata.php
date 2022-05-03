@@ -1,7 +1,7 @@
 <?php
 
-return [
+return array(
     'uniqueMetadataByJob' => 'Nelze vytvořit entitu metadat pro úlohu, která ji již má',
-    'privateShouldNotBeEmpty' => 'Private should be a boolean. Received: NULL',
+    'privateShouldNotBeEmpty' => 'Private should be a boolean. Received: NULL'
 
-];
+);

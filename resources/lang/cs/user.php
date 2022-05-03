@@ -1,9 +1,9 @@
 <?php
 
-return [
+return array(
     'isUniqueEmail'    => ':field is already in use',
     'isUniqueUsername' => ':field is already in use',
     'isUserSelf'       => 'You cannot change your own role',
     'adminUserLimitReached' => 'limit::admin',
-    'invalidResetToken' => 'Neplatný nebo vypršený resetovací token',
-];
+    'invalidResetToken' => 'Neplatný nebo vypršený resetovací token'
+);

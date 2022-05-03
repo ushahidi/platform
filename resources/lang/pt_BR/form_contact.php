@@ -1,5 +1,5 @@
 <?php
 
-return [
+return array(
     'contactIsValid' => 'Número de telefone inválido',
-];
+);
