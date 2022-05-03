@@ -78,6 +78,8 @@ class SiteTest extends TestCase
             ])
         );
 
+        \Illuminate\Support\Facades\Request::swap($this->app->make(Request::class));
+
         $site = $this->app->make(Site::class, [
             'data' => []
         ]);
