@@ -126,12 +126,12 @@
             "@migrate"
         ],
         "lint": [
-            "phpcs --standard=src/ruleset.xml --ignore=./resources/lang/*,./bootstrap/cache/*,./httpdocs/index.php ./",
+            "phpcs --standard=src/ruleset.xml --ignore=./resources/lang/*,./bootstrap/cache/* ./",
             "phpcs --standard=tests/spec/ruleset.xml ./tests/spec/",
             "phpcs --standard=migrations/ruleset.xml ./migrations/ ./database"
         ],
         "fixlint": [
-            "phpcbf --standard=src/ruleset.xml --ignore=./resources/lang/*,./bootstrap/cache/*,./httpdocs/index.php ./",
+            "phpcbf --standard=src/ruleset.xml --ignore=./resources/lang/*,./bootstrap/cache/* ./",
             "phpcbf --standard=tests/spec/ruleset.xml ./tests/spec/",
             "phpcbf --standard=migrations/ruleset.xml ./migrations/ ./database"
         ],
