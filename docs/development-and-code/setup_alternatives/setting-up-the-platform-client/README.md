@@ -63,7 +63,7 @@ If you haven't used git before or need help with git specific issues, make sure 
 * Install the platform-client dependencies.
 
 ```
-npm run install:dev
+npm run install:all
 ```
 
 ### Configuring the client build
@@ -197,6 +197,7 @@ For the Platform client, this means placing the application files in a disk loca
 In order to build the files for publication, run:
 
 ```bash
+npm run install:all
 npm run build
 ```
 
