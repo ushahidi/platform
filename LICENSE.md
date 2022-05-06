@@ -12,7 +12,7 @@ but **WITHOUT ANY WARRANTY**; without even the implied warranty of
 
 You should have received a copy of the GNU Affero General Public
 License along with this program in the file LICENSE-AGPL.  If not,
-see [here](https://www.gnu.org/licenses/agpl-3.0.html)
+see [here](https://www.gnu.org/licenses/agpl-3.0.html).
 
 # Exceptions and Other Libraries
 
