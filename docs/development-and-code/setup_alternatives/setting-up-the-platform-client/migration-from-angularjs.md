@@ -19,7 +19,7 @@ The goals of this project are:
 
 _The first release, planned for October 2021_
 
-* Migrated Page settings and meta-tags __and general setup of single-spa
+* Migrated Page settings and meta-tags __ and general setup of single-spa
 * Restructured codebase, all views are divided into separate modules in the legacy app, which sets the foundation of the migration of the UI
 * Lazy loading separate views in the legacy-app
 * Updated documentation
@@ -40,8 +40,6 @@ Decisions to be made:
 **What does this mean for contributors to the Platform Client?**
 
 You can keep contributing as before but be aware that the structure of the code has changed and will change more in the upcoming months. There will be a lot of moving parts. Also be prepared to start working in a new framework eventually, once that decision has been made.
-
-
 
 
 
