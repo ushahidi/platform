@@ -12,10 +12,10 @@
 namespace Ushahidi\Core\Usecase\User;
 
 use Ushahidi\Contracts\Usecase;
-use Ushahidi\Core\Tool\FormatterTrait;
-use Ushahidi\Core\Tool\ValidatorTrait;
-use Ushahidi\Core\Tool\AuthorizerTrait;
-use Ushahidi\Core\Tool\TranslatorTrait;
+use Ushahidi\Core\Concerns\Formatter as FormatterTrait;
+use Ushahidi\Core\Concerns\Validator as ValidatorTrait;
+use Ushahidi\Core\Concerns\Authorizer as AuthorizerTrait;
+use Ushahidi\Core\Concerns\Translator as TranslatorTrait;
 use Ushahidi\Core\Concerns\ModifyRecords;
 use Ushahidi\Contracts\Repository\Usecase\UserResetPasswordRepository;
 

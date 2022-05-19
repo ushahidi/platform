@@ -13,9 +13,9 @@ namespace Ushahidi\Core\Usecase\HXL;
 
 use Illuminate\Support\Facades\Log;
 use Ushahidi\Contracts\Usecase;
-use Ushahidi\Core\Tool\FormatterTrait;
-use Ushahidi\Core\Tool\AuthorizerTrait;
-use Ushahidi\Core\Tool\TranslatorTrait;
+use Ushahidi\Core\Concerns\Formatter as FormatterTrait;
+use Ushahidi\Core\Concerns\Authorizer as AuthorizerTrait;
+use Ushahidi\Core\Concerns\Translator as TranslatorTrait;
 use Ushahidi\Core\Tool\ExternalServices\HDXInterface;
 use Ushahidi\Core\Concerns\IdentifyRecords;
 use Ushahidi\Contracts\Repository\Entity\ExportJobRepository;

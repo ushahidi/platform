@@ -15,12 +15,12 @@ use Ushahidi\Core\Entity\Post;
 use Ushahidi\Core\Entity\User;
 use Ushahidi\Core\Entity\Permission;
 use Ushahidi\Core\Concerns\AdminAccess;
-use Ushahidi\Core\Tool\Permissions\AclTrait;
+use Ushahidi\Core\Concerns\Acl as AccessControlList;
 use Ushahidi\Contracts\Repository\Entity\FormRepository;
 
 class PostPermissions
 {
-    use AclTrait;
+    use AccessControlList;
     use AdminAccess;
 
     /**

@@ -21,7 +21,7 @@ use Ushahidi\Contracts\Validator;
 use Ushahidi\Core\Entity\Message;
 use Ushahidi\Core\Usecase\CreateUsecase;
 use Ushahidi\Core\Exception\ValidatorException;
-use Ushahidi\Core\Concerns\Events\DispatchesEvents;
+use Ushahidi\Core\Concerns\DispatchesEvents;
 use Ushahidi\Contracts\Repository\CreateRepository;
 
 class ReceiveMessage extends CreateUsecase
