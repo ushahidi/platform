@@ -334,7 +334,7 @@ class CoreConfig extends ContainerConfig
 
         $di->setters['Ushahidi\Core\Concerns\Event']['setEmitter'] = $di->lazyNew('League\Event\Emitter');
         // Set ACL for ACL Trait
-        $di->setters['Ushahidi\Core\Tool\Permissions\AclTrait']['setAcl'] = $di->lazyGet('tool.acl');
+        $di->setters['Ushahidi\Core\Tool\Permissions\AccessControlList']['setAcl'] = $di->lazyGet('tool.acl');
 
         // Set post permissions instance
         $di->setters['Ushahidi\Core\Tool\Permissions\InteractsWithPostPermissions']['setPostPermissions']
@@ -345,7 +345,7 @@ class CoreConfig extends ContainerConfig
             = $di->lazyNew(\Ushahidi\Core\Tool\Permissions\FormPermissions::class);
 
         // Set ACL for ACL Trait
-        $di->setters['Ushahidi\Core\Tool\Permissions\AclTrait']['setAcl'] = $di->lazyGet('tool.acl');
+        $di->setters['Ushahidi\Core\Tool\Permissions\AccessControlList']['setAcl'] = $di->lazyGet('tool.acl');
 
         // Tools
         $di->set('tool.signer', $di->lazyNew('Ushahidi\Core\Tool\Signer'));

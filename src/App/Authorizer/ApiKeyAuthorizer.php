@@ -18,7 +18,7 @@ use Ushahidi\Core\Concerns\AdminAccess;
 use Ushahidi\Core\Concerns\UserContext;
 use Ushahidi\Core\Concerns\PrivAccess;
 use Ushahidi\Core\Concerns\PrivateDeployment;
-use Ushahidi\Core\Tool\Permissions\AclTrait;
+use Ushahidi\Core\Concerns\Acl as AccessControlList;
 
 class ApiKeyAuthorizer implements Authorizer
 {
@@ -35,7 +35,7 @@ class ApiKeyAuthorizer implements Authorizer
     use PrivateDeployment;
 
     // Check that the user has the necessary permissions
-    use AclTrait;
+    use AccessControlList;
 
     /* Authorizer */
     public function isAllowed(Entity $entity, $privilege)

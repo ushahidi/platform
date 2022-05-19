@@ -16,7 +16,7 @@ use Ushahidi\Core\Concerns\AdminAccess;
 use Ushahidi\Core\Concerns\OwnerAccess;
 use Ushahidi\Core\Concerns\UserContext;
 use Ushahidi\Core\Concerns\PrivAccess;
-use Ushahidi\Core\Tool\Permissions\AclTrait;
+use Ushahidi\Core\Concerns\Acl as AccessControlList;
 
 // The `HXLMetadataAuthorizer` class is responsible for access checks on `HXLMetadata` Entity
 class HXLMetadataAuthorizer extends HXLAuthorizer
@@ -32,7 +32,7 @@ class HXLMetadataAuthorizer extends HXLAuthorizer
 
     // Check that the user has the necessary permissions
     // if roles are available for this deployment.
-    use AclTrait;
+    use AccessControlList;
 
     use OwnerAccess;
 

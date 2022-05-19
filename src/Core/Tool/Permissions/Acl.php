@@ -14,7 +14,7 @@ namespace Ushahidi\Core\Tool\Permissions;
 use Ushahidi\Core\Entity\User;
 use Ushahidi\App\Facades\Features;
 use Ushahidi\Core\Entity\Permission;
-use Ushahidi\Core\Tool\Permissions\AclInterface;
+use Ushahidi\Contracts\Acl as AclInterface;
 use Ushahidi\Contracts\Repository\Entity\RoleRepository;
 
 class Acl implements AclInterface

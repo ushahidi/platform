@@ -19,7 +19,7 @@ use Ushahidi\Core\Concerns\UserContext;
 use Ushahidi\Core\Entity\Permission;
 use Ushahidi\Core\Concerns\PrivAccess;
 use Ushahidi\Core\Concerns\PrivateDeployment;
-use Ushahidi\Core\Tool\Permissions\AclTrait;
+use Ushahidi\Core\Concerns\Acl as AccessControlList;
 
 class ExportJobAuthorizer implements Authorizer
 {
@@ -40,7 +40,7 @@ class ExportJobAuthorizer implements Authorizer
 
     // Check that the user has the necessary permissions
     // if roles are available for this deployment.
-    use AclTrait;
+    use AccessControlList;
 
 
     /* Authorizer */

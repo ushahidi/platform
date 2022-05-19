@@ -13,7 +13,7 @@ use Ushahidi\Core\Concerns\OwnerAccess;
 use Ushahidi\Core\Concerns\UserContext;
 use Ushahidi\Core\Concerns\ParentAccess;
 use Ushahidi\App\Auth\GenericUser as User;
-use Ushahidi\Core\Tool\Permissions\AclTrait;
+use Ushahidi\Core\Concerns\Acl as AccessControlList;
 use Ushahidi\Core\Concerns\PrivateDeployment;
 use Ushahidi\Contracts\Entity as EntityContract;
 
@@ -34,7 +34,7 @@ class PostPolicy
     use PrivateDeployment;
 
     // Check that the user has the necessary permissions
-    use AclTrait;
+    use AccessControlList;
     use ParentAccess;
     use OwnerAccess;
 

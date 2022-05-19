@@ -17,7 +17,7 @@ use Ushahidi\Core\Entity\Permission;
 use Ushahidi\Core\Concerns\AdminAccess;
 use Ushahidi\Core\Concerns\UserContext;
 use Ushahidi\App\Validator\LegacyValidator;
-use Ushahidi\Core\Tool\Permissions\AclTrait;
+use Ushahidi\Core\Concerns\Acl as AccessControlList;
 use Ushahidi\Contracts\Repository\Entity\FormRepository;
 use Ushahidi\Contracts\Repository\Entity\RoleRepository;
 use Ushahidi\Contracts\Repository\Entity\UserRepository;
@@ -33,7 +33,7 @@ class Create extends LegacyValidator
     use UserContext;
 
     // Provides `acl`
-    use AclTrait;
+    use AccessControlList;
 
     // Checks if user is Admin
     use AdminAccess;

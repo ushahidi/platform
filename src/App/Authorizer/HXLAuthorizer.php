@@ -17,7 +17,7 @@ use Ushahidi\Contracts\Authorizer;
 use Ushahidi\Core\Concerns\AdminAccess;
 use Ushahidi\Core\Concerns\UserContext;
 use Ushahidi\Core\Concerns\PrivAccess;
-use Ushahidi\Core\Tool\Permissions\AclTrait;
+use Ushahidi\Core\Concerns\Acl as AccessControlList;
 
 // The `HXLAuthorizer` class is responsible for access checks on `HXL` Entities
 class HXLAuthorizer implements Authorizer
@@ -33,7 +33,7 @@ class HXLAuthorizer implements Authorizer
 
     // Check that the user has the necessary permissions
     // if roles are available for this deployment.
-    use AclTrait;
+    use AccessControlList;
 
 
     /* Authorizer */
