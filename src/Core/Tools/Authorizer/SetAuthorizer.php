@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Ushahidi Tag Authorizer
+ * Ushahidi Set Authorizer
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Application
@@ -9,31 +9,30 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Ushahidi\App\Authorizer;
+namespace Ushahidi\Core\Tools\Authorizer;
 
-use Ushahidi\Core\Entity\Tag;
 use Ushahidi\Contracts\Entity;
-use Ushahidi\Contracts\Authorizer;
+use Ushahidi\Core\Entity\User;
+use Ushahidi\Core\Entity\Set;
 use Ushahidi\Core\Entity\Permission;
-use Ushahidi\Core\Concerns\PrivAccess;
+use Ushahidi\Contracts\Authorizer;
 use Ushahidi\Core\Concerns\AdminAccess;
+use Ushahidi\Core\Concerns\OwnerAccess;
 use Ushahidi\Core\Concerns\UserContext;
-use Ushahidi\Core\Concerns\ParentAccess;
+use Ushahidi\Core\Concerns\PrivAccess;
 use Ushahidi\Core\Concerns\PrivateDeployment;
 use Ushahidi\Core\Concerns\Acl as AccessControlList;
-use Ushahidi\Contracts\Repository\Entity\TagRepository;
 
-// The `TagAuthorizer` class is responsible for access checks on `Tags`
-class TagAuthorizer implements Authorizer
+// The `SetAuthorizer` class is responsible for access checks on `Sets`
+class SetAuthorizer implements Authorizer
 {
     // The access checks are run under the context of a specific user
     use UserContext;
 
+    // It uses methods from several traits to check access:
+    // - `OwnerAccess` to check if a user owns the set
     // - `AdminAccess` to check if the user has admin access
-    use AdminAccess;
-
-    // Adds isAllowedParent() method
-    use ParentAccess;
+    use AdminAccess, OwnerAccess;
 
     // It uses `PrivAccess` to provide the `getAllowedPrivs` method.
     use PrivAccess;
@@ -45,35 +44,13 @@ class TagAuthorizer implements Authorizer
     // if roles are available for this deployment.
     use AccessControlList;
 
-    // It requires a `TagRepository` to load parents too.
-    protected $tag_repo;
-
-    /**
-     * @param TagRepository $tag_repo
-     */
-    public function __construct(TagRepository $tag_repo)
-    {
-        $this->tag_repo = $tag_repo;
-    }
-
-    /* ParentAccess */
-    protected function getParent(Entity $entity)
-    {
-        // If the post has a parent_id, we attempt to load it from the `PostRepository`
-        if ($entity->parent_id) {
-            return $this->tag_repo->get($entity->parent_id);
-        }
-
-        return false;
-    }
-
-    protected function isUserOfRole(Tag $entity, $user)
+    protected function isVisibleToUser(Set $entity, $user)
     {
         if ($entity->role) {
             return in_array($user->role, $entity->role);
         }
 
-        // If no roles are selected, the Tag is considered completely public.
+        // If no roles are selected, the Set is considered completely public.
         return true;
     }
 
@@ -89,7 +66,7 @@ class TagAuthorizer implements Authorizer
         }
 
         // First check whether there is a role with the right permissions
-        if ($this->acl->hasPermission($user, Permission::MANAGE_SETTINGS)) {
+        if ($this->acl->hasPermission($user, Permission::MANAGE_SETS)) {
             return true;
         }
 
@@ -99,18 +76,27 @@ class TagAuthorizer implements Authorizer
             return true;
         }
 
-        // We check if the user has access to a parent tag. This doesn't
-        // grant them access, but is used to deny access even if the child tag
-        // is public.
-        if (! $this->isAllowedParent($entity, $privilege, $user)) {
+        // Non-admin users are not allowed to make sets featured
+        if (in_array($privilege, ['create', 'update']) and $entity->hasChanged('featured')) {
             return false;
         }
 
-        // Finally, we check if the Tag is only visible to specific roles.
-        if ($privilege === 'read' && $this->isUserOfRole($entity, $user)) {
+        // If the user is the owner of this set, they can do anything
+        if ($this->isUserOwner($entity, $user)) {
             return true;
         }
 
+        // Check if the Set is only visible to specific roles.
+        if ($this->isVisibleToUser($entity, $user) and $privilege === 'read') {
+            return true;
+        }
+
+        // All *logged in* users can create sets
+        if ($user->getId() and $privilege === 'create') {
+            return true;
+        }
+
+        // Finally, all users can search sets
         if ($privilege === 'search') {
             return true;
         }

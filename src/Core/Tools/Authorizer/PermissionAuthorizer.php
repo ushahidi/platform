@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Ushahidi Role Authorizer
+ * Ushahidi Permission Authorizer
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Application
@@ -9,7 +9,7 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Ushahidi\App\Authorizer;
+namespace Ushahidi\Core\Tools\Authorizer;
 
 use Ushahidi\Contracts\Entity;
 use Ushahidi\Contracts\Authorizer;
@@ -17,7 +17,7 @@ use Ushahidi\Core\Concerns\AdminAccess;
 use Ushahidi\Core\Concerns\UserContext;
 use Ushahidi\Core\Concerns\PrivAccess;
 
-class RoleAuthorizer implements Authorizer
+class PermissionAuthorizer implements Authorizer
 {
     use UserContext;
 
@@ -33,20 +33,9 @@ class RoleAuthorizer implements Authorizer
         // These checks are run within the user context.
         $user = $this->getUser();
 
-        if ($privilege === 'delete' && $entity->protected === true) {
-            return false;
-        }
-
         // Only allow admin access
-        if ($this->isUserAdmin($user)) {
-            return true;
-        }
-
-        if ($user->getId() and $privilege === 'read') {
-            return true;
-        }
-        // All users are allowed to search forms.
-        if ($user->getId() and $privilege === 'search') {
+        if ($this->isUserAdmin($user)
+            and in_array($privilege, ['search', 'read'])) {
             return true;
         }
 

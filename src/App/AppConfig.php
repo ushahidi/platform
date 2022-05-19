@@ -692,7 +692,7 @@ class AppConfig extends ContainerConfig
          */
 
         // generic authorizer for hxl
-        $di->set('authorizer.hxl', $di->lazyNew('Ushahidi\App\Authorizer\HXLAuthorizer'));
+        $di->set('authorizer.hxl', $di->lazyNew('Ushahidi\Core\Tools\Authorizer\HXLAuthorizer'));
 
         $di->params[Ushahidi\Factory\AuthorizerFactory::class]['map']['hxl'] =
             $di->lazyGet('authorizer.hxl');
@@ -700,7 +700,10 @@ class AppConfig extends ContainerConfig
         // hxl meta_data
         $di->set('repository.hxl_meta_data', $di->lazyNew(\Ushahidi\App\Repository\HXL\HXLMetadataRepository::class));
         $di->set('formatter.entity.hxl_meta_data', $di->lazyNew(\Ushahidi\App\Formatter\HXL\HXLMetadata::class));
-        $di->set('authorizer.hxl.meta_data', $di->lazyNew(\Ushahidi\App\Authorizer\HXLMetadataAuthorizer::class));
+        $di->set(
+            'authorizer.hxl.meta_data',
+            $di->lazyNew(\Ushahidi\Core\Tools\Authorizer\HXLMetadataAuthorizer::class)
+        );
 
         $di->setters[\Ushahidi\App\Formatter\HXL\HXLMetadata::class]['setAuth']
             = $di->lazyGet("authorizer.hxl.meta_data");
@@ -735,7 +738,7 @@ class AppConfig extends ContainerConfig
         );
         $di->set(
             'authorizer.hxl.form_attribute_hxl_attribute_tag',
-            $di->lazyNew('Ushahidi\App\Authorizer\HXLAuthorizer')
+            $di->lazyNew('Ushahidi\Core\Tools\Authorizer\HXLAuthorizer')
         );
         $di->setters[\Ushahidi\App\Formatter\HXL\HXLFormAttributeHXLAttributeTagFormatter::class]['setAuth']
             = $di->lazyGet("authorizer.hxl");
@@ -847,13 +850,13 @@ class AppConfig extends ContainerConfig
             $di->lazyGet('repository.hxl_tag'); //FIXME
 
         // Authorizer
-        $di->set('authorizer.config', $di->lazyNew(\Ushahidi\App\Authorizer\ConfigAuthorizer::class));
-        $di->set('authorizer.console', $di->lazyNew(\Ushahidi\App\Authorizer\ConsoleAuthorizer::class));
+        $di->set('authorizer.config', $di->lazyNew(\Ushahidi\Core\Tools\Authorizer\ConfigAuthorizer::class));
+        $di->set('authorizer.console', $di->lazyNew(\Ushahidi\Core\Tools\Authorizer\ConsoleAuthorizer::class));
         $di->set(
             'authorizer.dataprovider',
-            $di->lazyNew(\Ushahidi\App\Authorizer\DataProviderAuthorizer::class)
+            $di->lazyNew(\Ushahidi\Core\Tools\Authorizer\DataProviderAuthorizer::class)
         );
-        $di->set('authorizer.form', $di->lazyNew(\Ushahidi\App\Authorizer\FormAuthorizer::class, [
+        $di->set('authorizer.form', $di->lazyNew(\Ushahidi\Core\Tools\Authorizer\FormAuthorizer::class, [
             'form_repo' => $di->lazyGet('repository.form'),
         ]));
         $di->params[\v5\Policies\SurveyPolicy::class] = [
@@ -862,7 +865,7 @@ class AppConfig extends ContainerConfig
         $di->set(
             'authorizer.form_attribute',
             $di->lazyNew(
-                \Ushahidi\App\Authorizer\FormAttributeAuthorizer::class,
+                \Ushahidi\Core\Tools\Authorizer\FormAttributeAuthorizer::class,
                 [
                 'stage_repo' => $di->lazyGet('repository.form_stage'),
                 'stage_auth' => $di->lazyGet('authorizer.form_stage'),
@@ -870,7 +873,7 @@ class AppConfig extends ContainerConfig
             )
         );
         $di->set('authorizer.form_role', $di->lazyNew(
-            \Ushahidi\App\Authorizer\FormRoleAuthorizer::class,
+            \Ushahidi\Core\Tools\Authorizer\FormRoleAuthorizer::class,
             [
                 'form_repo' => $di->lazyGet('repository.form'),
                 'form_auth' => $di->lazyGet('authorizer.form'),
@@ -878,45 +881,48 @@ class AppConfig extends ContainerConfig
         ));
         $di->set(
             'authorizer.form_stage',
-            $di->lazyNew(\Ushahidi\App\Authorizer\FormStageAuthorizer::class, [
+            $di->lazyNew(\Ushahidi\Core\Tools\Authorizer\FormStageAuthorizer::class, [
                 'form_repo' => $di->lazyGet('repository.form'),
                 'form_auth' => $di->lazyGet('authorizer.form'),
             ])
         );
-        $di->set('authorizer.form_contact', $di->lazyNew(\Ushahidi\App\Authorizer\FormContactAuthorizer::class, [
+        $di->set('authorizer.form_contact', $di->lazyNew(\Ushahidi\Core\Tools\Authorizer\FormContactAuthorizer::class, [
             'form_repo' => $di->lazyGet('repository.form'),
             'form_auth' => $di->lazyGet('authorizer.form'),
         ]));
-        $di->set('authorizer.form_stats', $di->lazyNew(\Ushahidi\App\Authorizer\FormStatsAuthorizer::class));
-        $di->set('authorizer.user', $di->lazyNew(\Ushahidi\App\Authorizer\UserAuthorizer::class));
-        $di->set('authorizer.user_setting', $di->lazyNew(\Ushahidi\App\Authorizer\UserSettingAuthorizer::class));
-        $di->set('authorizer.layer', $di->lazyNew(\Ushahidi\App\Authorizer\LayerAuthorizer::class));
-        $di->set('authorizer.media', $di->lazyNew(\Ushahidi\App\Authorizer\MediaAuthorizer::class));
-        $di->set('authorizer.message', $di->lazyNew(\Ushahidi\App\Authorizer\MessageAuthorizer::class));
-        $di->set('authorizer.tag', $di->lazyNew(\Ushahidi\App\Authorizer\TagAuthorizer::class));
-        $di->set('authorizer.savedsearch', $di->lazyNew(\Ushahidi\App\Authorizer\SetAuthorizer::class));
-        $di->set('authorizer.set', $di->lazyNew(\Ushahidi\App\Authorizer\SetAuthorizer::class));
-        $di->set('authorizer.notification', $di->lazyNew(\Ushahidi\App\Authorizer\NotificationAuthorizer::class));
-        $di->set('authorizer.webhook', $di->lazyNew(\Ushahidi\App\Authorizer\WebhookAuthorizer::class));
-        $di->set('authorizer.apikey', $di->lazyNew(\Ushahidi\App\Authorizer\ApiKeyAuthorizer::class));
-        $di->set('authorizer.contact', $di->lazyNew(\Ushahidi\App\Authorizer\ContactAuthorizer::class));
-        $di->set('authorizer.csv', $di->lazyNew(\Ushahidi\App\Authorizer\CSVAuthorizer::class));
-        $di->set('authorizer.role', $di->lazyNew(\Ushahidi\App\Authorizer\RoleAuthorizer::class));
-        $di->set('authorizer.permission', $di->lazyNew(\Ushahidi\App\Authorizer\PermissionAuthorizer::class));
-        $di->set('authorizer.post', $di->lazyNew(\Ushahidi\App\Authorizer\PostAuthorizer::class));
-        $di->set('authorizer.post_lock', $di->lazyNew(\Ushahidi\App\Authorizer\PostAuthorizer::class));
-        $di->set('authorizer.tos', $di->lazyNew(\Ushahidi\App\Authorizer\TosAuthorizer::class));
-        $di->set('authorizer.external_auth', $di->lazyNew(\Ushahidi\App\Authorizer\ExternalAuthorizer::class));
-        $di->set('authorizer.export_job', $di->lazyNew(\Ushahidi\App\Authorizer\ExportJobAuthorizer::class));
-        $di->params[\Ushahidi\App\Authorizer\PostAuthorizer::class] = [
+        $di->set('authorizer.form_stats', $di->lazyNew(\Ushahidi\Core\Tools\Authorizer\FormStatsAuthorizer::class));
+        $di->set('authorizer.user', $di->lazyNew(\Ushahidi\Core\Tools\Authorizer\UserAuthorizer::class));
+        $di->set('authorizer.user_setting', $di->lazyNew(\Ushahidi\Core\Tools\Authorizer\UserSettingAuthorizer::class));
+        $di->set('authorizer.layer', $di->lazyNew(\Ushahidi\Core\Tools\Authorizer\LayerAuthorizer::class));
+        $di->set('authorizer.media', $di->lazyNew(\Ushahidi\Core\Tools\Authorizer\MediaAuthorizer::class));
+        $di->set('authorizer.message', $di->lazyNew(\Ushahidi\Core\Tools\Authorizer\MessageAuthorizer::class));
+        $di->set('authorizer.tag', $di->lazyNew(\Ushahidi\Core\Tools\Authorizer\TagAuthorizer::class));
+        $di->set('authorizer.savedsearch', $di->lazyNew(\Ushahidi\Core\Tools\Authorizer\SetAuthorizer::class));
+        $di->set('authorizer.set', $di->lazyNew(\Ushahidi\Core\Tools\Authorizer\SetAuthorizer::class));
+        $di->set(
+            'authorizer.notification',
+            $di->lazyNew(\Ushahidi\Core\Tools\Authorizer\NotificationAuthorizer::class)
+        );
+        $di->set('authorizer.webhook', $di->lazyNew(\Ushahidi\Core\Tools\Authorizer\WebhookAuthorizer::class));
+        $di->set('authorizer.apikey', $di->lazyNew(\Ushahidi\Core\Tools\Authorizer\ApiKeyAuthorizer::class));
+        $di->set('authorizer.contact', $di->lazyNew(\Ushahidi\Core\Tools\Authorizer\ContactAuthorizer::class));
+        $di->set('authorizer.csv', $di->lazyNew(\Ushahidi\Core\Tools\Authorizer\CSVAuthorizer::class));
+        $di->set('authorizer.role', $di->lazyNew(\Ushahidi\Core\Tools\Authorizer\RoleAuthorizer::class));
+        $di->set('authorizer.permission', $di->lazyNew(\Ushahidi\Core\Tools\Authorizer\PermissionAuthorizer::class));
+        $di->set('authorizer.post', $di->lazyNew(\Ushahidi\Core\Tools\Authorizer\PostAuthorizer::class));
+        $di->set('authorizer.post_lock', $di->lazyNew(\Ushahidi\Core\Tools\Authorizer\PostAuthorizer::class));
+        $di->set('authorizer.tos', $di->lazyNew(\Ushahidi\Core\Tools\Authorizer\TosAuthorizer::class));
+        $di->set('authorizer.external_auth', $di->lazyNew(\Ushahidi\Core\Tools\Authorizer\ExternalAuthorizer::class));
+        $di->set('authorizer.export_job', $di->lazyNew(\Ushahidi\Core\Tools\Authorizer\ExportJobAuthorizer::class));
+        $di->params[\Ushahidi\Core\Tools\Authorizer\PostAuthorizer::class] = [
             'post_repo' => $di->lazyGet('repository.post'),
             'form_repo' => $di->lazyGet('repository.form'),
         ];
-        $di->params[\Ushahidi\App\Authorizer\TagAuthorizer::class] = [
+        $di->params[\Ushahidi\Core\Tools\Authorizer\TagAuthorizer::class] = [
             'tag_repo' => $di->lazyGet('repository.tag'),
         ];
 
-        $di->set('authorizer.country_code', $di->lazyNew(\Ushahidi\App\Authorizer\CountryCodeAuthorizer::class));
+        $di->set('authorizer.country_code', $di->lazyNew(\Ushahidi\Core\Tools\Authorizer\CountryCodeAuthorizer::class));
 
         //FIXME
         $di->set('repository.hxl_organisations', $di->lazyNew(\Ushahidi\App\Repository\HXL\HXLTagRepository::class));

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Ushahidi Set Authorizer
+ * Ushahidi Contact Authorizer
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Application
@@ -9,28 +9,23 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Ushahidi\App\Authorizer;
+namespace Ushahidi\Core\Tools\Authorizer;
 
 use Ushahidi\Contracts\Entity;
-use Ushahidi\Core\Entity\User;
-use Ushahidi\Core\Entity\Set;
-use Ushahidi\Core\Entity\Permission;
 use Ushahidi\Contracts\Authorizer;
 use Ushahidi\Core\Concerns\AdminAccess;
 use Ushahidi\Core\Concerns\OwnerAccess;
 use Ushahidi\Core\Concerns\UserContext;
 use Ushahidi\Core\Concerns\PrivAccess;
 use Ushahidi\Core\Concerns\PrivateDeployment;
-use Ushahidi\Core\Concerns\Acl as AccessControlList;
 
-// The `SetAuthorizer` class is responsible for access checks on `Sets`
-class SetAuthorizer implements Authorizer
+class ContactAuthorizer implements Authorizer
 {
     // The access checks are run under the context of a specific user
     use UserContext;
 
     // It uses methods from several traits to check access:
-    // - `OwnerAccess` to check if a user owns the set
+    // - `OwnerAccess` to check if a user owns the contact
     // - `AdminAccess` to check if the user has admin access
     use AdminAccess, OwnerAccess;
 
@@ -39,20 +34,6 @@ class SetAuthorizer implements Authorizer
 
     // It uses `PrivateDeployment` to check whether a deployment is private
     use PrivateDeployment;
-
-    // Check that the user has the necessary permissions
-    // if roles are available for this deployment.
-    use AccessControlList;
-
-    protected function isVisibleToUser(Set $entity, $user)
-    {
-        if ($entity->role) {
-            return in_array($user->role, $entity->role);
-        }
-
-        // If no roles are selected, the Set is considered completely public.
-        return true;
-    }
 
     /* Authorizer */
     public function isAllowed(Entity $entity, $privilege)
@@ -65,39 +46,21 @@ class SetAuthorizer implements Authorizer
             return false;
         }
 
-        // First check whether there is a role with the right permissions
-        if ($this->acl->hasPermission($user, Permission::MANAGE_SETS)) {
-            return true;
-        }
-
         // Then we check if a user has the 'admin' role. If they do they're
         // allowed access to everything (all entities and all privileges)
         if ($this->isUserAdmin($user)) {
             return true;
         }
 
-        // Non-admin users are not allowed to make sets featured
-        if (in_array($privilege, ['create', 'update']) and $entity->hasChanged('featured')) {
-            return false;
-        }
-
-        // If the user is the owner of this set, they can do anything
-        if ($this->isUserOwner($entity, $user)) {
+        // Allow create, read and update if owner.
+        // Contacts should not be deleted.
+        if ($this->isUserOwner($entity, $user)
+            and in_array($privilege, ['create', 'read', 'update'])) {
             return true;
         }
 
-        // Check if the Set is only visible to specific roles.
-        if ($this->isVisibleToUser($entity, $user) and $privilege === 'read') {
-            return true;
-        }
-
-        // All *logged in* users can create sets
-        if ($user->getId() and $privilege === 'create') {
-            return true;
-        }
-
-        // Finally, all users can search sets
-        if ($privilege === 'search') {
+        // Logged in users can search contacts
+        if ($user->getId() and in_array($privilege, ['search'])) {
             return true;
         }
 

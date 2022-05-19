@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Ushahidi ApiKey Authorizer
+ * Ushahidi CSV Authorizer
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Application
@@ -9,57 +9,54 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Ushahidi\App\Authorizer;
+namespace Ushahidi\Core\Tools\Authorizer;
 
 use Ushahidi\Contracts\Entity;
+use Ushahidi\Core\Entity\CSV;
 use Ushahidi\Core\Entity\Permission;
 use Ushahidi\Contracts\Authorizer;
 use Ushahidi\Core\Concerns\AdminAccess;
 use Ushahidi\Core\Concerns\UserContext;
 use Ushahidi\Core\Concerns\PrivAccess;
-use Ushahidi\Core\Concerns\PrivateDeployment;
 use Ushahidi\Core\Concerns\Acl as AccessControlList;
+use Ushahidi\App\Facades\Features;
 
-class ApiKeyAuthorizer implements Authorizer
+class CSVAuthorizer implements Authorizer
 {
-    // The access checks are run under the context of a specific user
     use UserContext;
-
-    // To check whether the user has admin access
-    use AdminAccess;
 
     // It uses `PrivAccess` to provide the `getAllowedPrivs` method.
     use PrivAccess;
 
-    // It uses `PrivateDeployment` to check whether a deployment is private
-    use PrivateDeployment;
+    // Check if user has Admin access
+    use AdminAccess;
 
     // Check that the user has the necessary permissions
+    // if roles are available for this deployment.
     use AccessControlList;
 
     /* Authorizer */
     public function isAllowed(Entity $entity, $privilege)
     {
+        // Check if the user can import data first
+        if (!Features::isEnabled('data-import')) {
+            return false;
+        }
 
         // These checks are run within the user context.
         $user = $this->getUser();
 
-        // Only logged in users have access if the deployment is private
-        if (!$this->canAccessDeployment($user)) {
-            return false;
-        }
-
-        // Role with the Manage Settings permission can have access
-        if ($this->acl->hasPermission($user, Permission::MANAGE_SETTINGS)) {
+        // Allow role with the right permissions
+        if ($this->acl->hasPermission($user, Permission::DATA_IMPORT_EXPORT) or
+            $this->acl->hasPermission($user, Permission::LEGACY_DATA_IMPORT)) {
             return true;
         }
 
-        // Admin is allowed access to everything
+        // Allow admin access
         if ($this->isUserAdmin($user)) {
             return true;
         }
 
-        // If no other access checks succeed, we default to denying access
         return false;
     }
 }

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Ushahidi Message Authorizer
+ * Ushahidi Notification Authorizer
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Application
@@ -9,7 +9,7 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Ushahidi\App\Authorizer;
+namespace Ushahidi\Core\Tools\Authorizer;
 
 use Ushahidi\Contracts\Entity;
 use Ushahidi\Contracts\Authorizer;
@@ -19,22 +19,23 @@ use Ushahidi\Core\Concerns\UserContext;
 use Ushahidi\Core\Concerns\PrivAccess;
 use Ushahidi\Core\Concerns\PrivateDeployment;
 
-// The `MessageAuthorizer` class is responsible for access checks on `Message`
-class MessageAuthorizer implements Authorizer
+class NotificationAuthorizer implements Authorizer
 {
     // The access checks are run under the context of a specific user
     use UserContext;
 
-    // It uses methods from several traits to check access:
-    // - `AdminAccess` to check if the user has admin access
-    // - `OwnerAccess` to check if a user owns the entity
-    use AdminAccess, OwnerAccess;
+    // To check whether the user has admin access
+    use AdminAccess;
+
+    // To check whether user owns the notification
+    use OwnerAccess;
 
     // It uses `PrivAccess` to provide the `getAllowedPrivs` method.
     use PrivAccess;
 
     // It uses `PrivateDeployment` to check whether a deployment is private
     use PrivateDeployment;
+
 
     /* Authorizer */
     public function isAllowed(Entity $entity, $privilege)
@@ -47,27 +48,23 @@ class MessageAuthorizer implements Authorizer
             return false;
         }
 
-        // Incoming messages cannot be updated
-        if ($privilege === 'update' && $this->isMessageIncoming($entity)) {
-            return false;
-        }
-
-        // Then we check if a user has the 'admin' role. If they do they're
-        // allowed access to everything (all entities and all privileges)
+        // Admin is allowed access to everything
         if ($this->isUserAdmin($user)) {
             return true;
         }
 
-        if ($privilege === 'receive') {
+        // Allow create, read, update and delete if owner.
+        if ($this->isUserOwner($entity, $user)
+            and in_array($privilege, ['create', 'read', 'update', 'delete'])) {
+            return true;
+        }
+
+        // Logged in users can subscribe to and search notifications
+        if ($user->getId() and in_array($privilege, ['search'])) {
             return true;
         }
 
         // If no other access checks succeed, we default to denying access
         return false;
-    }
-
-    protected function isMessageIncoming(Entity $entity)
-    {
-        return $entity->direction === 'incoming';
     }
 }

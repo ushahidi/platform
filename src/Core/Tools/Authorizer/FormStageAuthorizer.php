@@ -9,22 +9,18 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Ushahidi\App\Authorizer;
+namespace Ushahidi\Core\Tools\Authorizer;
 
 use Ushahidi\Contracts\Entity;
 use Ushahidi\Contracts\Authorizer;
-use Ushahidi\Core\Concerns\AdminAccess;
 use Ushahidi\Core\Concerns\UserContext;
 use Ushahidi\Contracts\Repository\Entity\FormRepository;
 
-/** The `FormContactAuthorizer` class is responsible
- for access checks on `Contacts` that are created for a targetted survey
-**/
-class FormContactAuthorizer implements Authorizer
+// The `FormStageAuthorizer` class is responsible for access checks on `Forms`
+class FormStageAuthorizer implements Authorizer
 {
     // The access checks are run under the context of a specific user
     use UserContext;
-    use AdminAccess;
 
     // It requires a `FormRepository` to load the owning form.
     protected $form_repo;
@@ -47,10 +43,7 @@ class FormContactAuthorizer implements Authorizer
         $form = $this->getForm($entity);
 
         // All access is based on the form itself, not the stage.
-        if (!$this->form_auth->isAllowed($form, $privilege)) {
-            return false;
-        }
-        return $this->isUserAdmin($this->getUser());
+        return $this->form_auth->isAllowed($form, $privilege);
     }
 
     /* Authorizer */
@@ -64,6 +57,7 @@ class FormContactAuthorizer implements Authorizer
 
     /**
      * Get the form associated with this stage.
+     *
      * @param  Entity $entity
      *
      * @return Entity

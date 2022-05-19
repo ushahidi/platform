@@ -1,15 +1,15 @@
 <?php
 
 /**
- * Ushahidi Webhook Authorizer
+ * Ushahidi Tos Authorizer
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Application
- * @copyright  2014 Ushahidi
+ * @copyright  2017 Ushahidi
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Ushahidi\App\Authorizer;
+namespace Ushahidi\Core\Tools\Authorizer;
 
 use Ushahidi\Contracts\Entity;
 use Ushahidi\Contracts\Authorizer;
@@ -18,11 +18,11 @@ use Ushahidi\Core\Concerns\OwnerAccess;
 use Ushahidi\Core\Concerns\UserContext;
 use Ushahidi\Core\Concerns\PrivAccess;
 use Ushahidi\Core\Concerns\PrivateDeployment;
-use Ushahidi\App\Facades\Features;
 
-class WebhookAuthorizer implements Authorizer
+// The `TosAuthorizer` class is responsible for access checks on `Tos`
+class TosAuthorizer implements Authorizer
 {
-    // The access checks are run under the context of a specific user
+// The access checks are run under the context of a specific user
     use UserContext;
 
     // To check whether the user has admin access
@@ -37,26 +37,32 @@ class WebhookAuthorizer implements Authorizer
     // It uses `PrivateDeployment` to check whether a deployment is private
     use PrivateDeployment;
 
-
     /* Authorizer */
     public function isAllowed(Entity $entity, $privilege)
     {
-
-        // Check if the webhooks feature enabled
-        if (!Features::isEnabled('webhooks')) {
-            return false;
-        }
-
         // These checks are run within the user context.
         $user = $this->getUser();
+
+        //if user is not actual user, but is in fact anonymous
+        if (($privilege === 'search' || $privilege === 'create')
+            && $this->isUserAndOwnerAnonymous($entity, $user)) {
+            return false;
+        }
 
         // Only logged in users have access if the deployment is private
         if (!$this->canAccessDeployment($user)) {
             return false;
         }
 
-        // Admin is allowed access to everything
-        if ($this->isUserAdmin($user)) {
+        if ($user->getId() and $privilege === 'create') {
+            return true;
+        }
+
+        if ($user->getId() and $privilege === 'search') {
+            return true;
+        }
+
+        if ($privilege === 'read' && $entity->user_id === $user->id) {
             return true;
         }
 

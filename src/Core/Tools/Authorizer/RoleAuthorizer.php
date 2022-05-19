@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Ushahidi CSV Authorizer
+ * Ushahidi Role Authorizer
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Application
@@ -9,19 +9,15 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Ushahidi\App\Authorizer;
+namespace Ushahidi\Core\Tools\Authorizer;
 
 use Ushahidi\Contracts\Entity;
-use Ushahidi\Core\Entity\CSV;
-use Ushahidi\Core\Entity\Permission;
 use Ushahidi\Contracts\Authorizer;
 use Ushahidi\Core\Concerns\AdminAccess;
 use Ushahidi\Core\Concerns\UserContext;
 use Ushahidi\Core\Concerns\PrivAccess;
-use Ushahidi\Core\Concerns\Acl as AccessControlList;
-use Ushahidi\App\Facades\Features;
 
-class CSVAuthorizer implements Authorizer
+class RoleAuthorizer implements Authorizer
 {
     use UserContext;
 
@@ -31,29 +27,26 @@ class CSVAuthorizer implements Authorizer
     // Check if user has Admin access
     use AdminAccess;
 
-    // Check that the user has the necessary permissions
-    // if roles are available for this deployment.
-    use AccessControlList;
-
     /* Authorizer */
     public function isAllowed(Entity $entity, $privilege)
     {
-        // Check if the user can import data first
-        if (!Features::isEnabled('data-import')) {
-            return false;
-        }
-
         // These checks are run within the user context.
         $user = $this->getUser();
 
-        // Allow role with the right permissions
-        if ($this->acl->hasPermission($user, Permission::DATA_IMPORT_EXPORT) or
-            $this->acl->hasPermission($user, Permission::LEGACY_DATA_IMPORT)) {
+        if ($privilege === 'delete' && $entity->protected === true) {
+            return false;
+        }
+
+        // Only allow admin access
+        if ($this->isUserAdmin($user)) {
             return true;
         }
 
-        // Allow admin access
-        if ($this->isUserAdmin($user)) {
+        if ($user->getId() and $privilege === 'read') {
+            return true;
+        }
+        // All users are allowed to search forms.
+        if ($user->getId() and $privilege === 'search') {
             return true;
         }
 

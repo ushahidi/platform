@@ -1,15 +1,15 @@
 <?php
 
 /**
- * Ushahidi User Setting Authorizer
+ * Ushahidi User Authorizer
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Application
- * @copyright  2018 Ushahidi
+ * @copyright  2014 Ushahidi
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Ushahidi\App\Authorizer;
+namespace Ushahidi\Core\Tools\Authorizer;
 
 use Ushahidi\Contracts\Entity;
 use Ushahidi\Core\Entity\User;
@@ -18,18 +18,17 @@ use Ushahidi\Contracts\Authorizer;
 use Ushahidi\Core\Concerns\AdminAccess;
 use Ushahidi\Core\Concerns\UserContext;
 use Ushahidi\Core\Concerns\PrivAccess;
-use Ushahidi\Core\Concerns\OwnerAccess;
 use Ushahidi\Core\Concerns\PrivateDeployment;
 use Ushahidi\Core\Concerns\Acl as AccessControlList;
 
 // The `UserAuthorizer` class is responsible for access checks on `Users`
-class UserSettingAuthorizer implements Authorizer
+class UserAuthorizer implements Authorizer
 {
     // The access checks are run under the context of a specific user
     use UserContext;
 
     // - `AdminAccess` to check if the user has admin access
-    use AdminAccess, OwnerAccess;
+    use AdminAccess;
 
     // It uses `PrivAccess` to provide the `getAllowedPrivs` method.
     use PrivAccess;
@@ -61,14 +60,33 @@ class UserSettingAuthorizer implements Authorizer
             return false;
         }
 
-        // Regular user should be able to perform all actions on their own settings
-        if ($this->isUserOwner($entity, $user)) {
+        // User should not be able to delete self
+        if ($privilege === 'delete' && $this->isUserSelf($entity)) {
+            return false;
+        }
+
+        // Role with the Manage Users permission can manage all users
+        if ($this->acl->hasPermission($user, Permission::MANAGE_USERS)) {
             return true;
         }
 
-        // Anyone can search, this is highly problematic because the results
-        // are loaded and then filtered out based on the read priv
-        if ($privilege === 'search') {
+        // Admin user should be able to do anything - short of deleting self
+        if ($this->isUserAdmin($user)) {
+            return true;
+        }
+
+        // User cannot change their own role
+        if ('update' === $privilege && $this->isUserSelf($entity) && $entity->hasChanged('role')) {
+            return false;
+        }
+
+        // Regular user should be able to update and read_full only self
+        if ($this->isUserSelf($entity) && in_array($privilege, ['update', 'read_full', 'read'])) {
+            return true;
+        }
+
+        // Users should always be allowed to register
+        if ($privilege === 'register') {
             return true;
         }
 
