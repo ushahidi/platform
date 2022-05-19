@@ -11,10 +11,9 @@
 
 namespace Ushahidi\Core\Tool\FileReader;
 
-use League\Csv\Reader;
-use Ushahidi\Core\Exception\ValidatorException;
 use Ushahidi\Contracts\FileReader;
 use Ushahidi\Contracts\ReaderFactory;
+use Ushahidi\Core\Exception\ValidatorException;
 
 class CSV implements FileReader
 {

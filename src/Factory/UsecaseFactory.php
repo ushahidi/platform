@@ -92,7 +92,7 @@ class UsecaseFactory
      * @param  string $resource
      * @param  string $action
      *
-     * @return Ushahidi\Contracts\Usecase
+     * @return \Ushahidi\Contracts\Usecase
      */
     public function get($resource, $action) : Usecase
     {

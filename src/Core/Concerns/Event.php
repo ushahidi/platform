@@ -51,7 +51,7 @@ trait Event
     /**
      * Add Event listener
      * @param  string   $event triggered event
-     * @param  Listener $listener
+     * @param  ListenerInterface $listener
      * @param  int      $priority
      * @return object   $this
      */

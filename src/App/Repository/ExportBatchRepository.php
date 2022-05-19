@@ -16,11 +16,10 @@ use Ushahidi\Contracts\Repository\Entity\ExportBatchRepository as ExportBatchRep
 
 class ExportBatchRepository extends EloquentRepository implements ExportBatchRepositoryContract
 {
-
     /**
      * Get the entity for this repository.
      * @param  Array  $data
-     * @return Ushahidi\Core\Entity
+     * @return \Ushahidi\Contracts\Entity
      */
     public function getEntity(array $data = null)
     {

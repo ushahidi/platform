@@ -40,7 +40,7 @@ class BoundingBox
     /**
      * Expand each wall of the bounding box outwardby the given number of kilometers.
      * @param  integer $km [description]
-     * @return [type]      [description]
+     * @return self
      */
     public function expandByKilometers($km = 0)
     {

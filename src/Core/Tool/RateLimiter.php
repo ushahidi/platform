@@ -19,14 +19,14 @@ use BehEh\Flaps\ThrottlingStrategyInterface;
 class RateLimiter implements RateLimiterInterface
 {
     /**
-     * @var BehEh\Flaps\Flap
+     * @var \BehEh\Flaps\Flap
      */
     protected $flap;
 
     /**
      * Sets up a rate limiter with a throttling strategy
-     * @param BehEh\Flaps\Flap $flap
-     * @param BehEh\Flaps\ThrottlingStrategyInterface $trottlingStrategy
+     * @param \BehEh\Flaps\Flap $flap
+     * @param \BehEh\Flaps\ThrottlingStrategyInterface $trottlingStrategy
      */
     public function __construct(Flap $flap, ThrottlingStrategyInterface $throttlingStrategy)
     {
