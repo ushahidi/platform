@@ -53,7 +53,7 @@ class LumenAuraConfig extends ContainerConfig
         }));
 
         // Configure dispatcher
-        $di->setters[\Ushahidi\Core\Concerns\Events\DispatchesEvents::class]['setDispatcher']
+        $di->setters[\Ushahidi\Core\Concerns\DispatchesEvents::class]['setDispatcher']
             = app('events');
     }
 

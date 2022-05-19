@@ -11,22 +11,22 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Ushahidi\Core\Tool;
+namespace Ushahidi\Core\Concerns;
 
-use Ushahidi\Contracts\Formatter;
+use Ushahidi\Contracts\Formatter as FormatterInterface;
 
-trait FormatterTrait
+trait Formatter
 {
     /**
-     * @var Formatter
+     * @var FormatterInterface
      */
     protected $formatter;
 
     /**
-     * @param  Formatter $formatter
-     * @return void
+     * @param  FormatterInterface $formatter
+     * @return self
      */
-    public function setFormatter(Formatter $formatter)
+    public function setFormatter(FormatterInterface $formatter)
     {
         $this->formatter = $formatter;
         return $this;

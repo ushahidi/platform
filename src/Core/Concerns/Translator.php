@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Ushahidi Formatter Tool Trait
+ * Ushahidi Translator Trait
  *
  * Gives objects a method for storing an formatter instance.
  *
@@ -11,22 +11,22 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Ushahidi\Core\Tool;
+namespace Ushahidi\Core\Concerns;
 
-use Illuminate\Contracts\Translation\Translator;
+use Illuminate\Contracts\Translation\Translator as TranslatorInterface;
 
-trait TranslatorTrait
+trait Translator
 {
     /**
-     * @var Translator
+     * @var TranslatorInterface
      */
     protected $translator;
 
     /**
-     * @param  Translator $translator
-     * @return void
+     * @param  TranslatorInterface $translator
+     * @return self
      */
-    public function setTranslator(Translator $translator)
+    public function setTranslator(TranslatorInterface $translator)
     {
         $this->translator = $translator;
         return $this;

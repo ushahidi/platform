@@ -11,13 +11,15 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Ushahidi\Core\Tool\Permissions;
+namespace Ushahidi\Core\Concerns;
 
-trait AclTrait
+use Ushahidi\Contracts\Acl as AclInterface;
+
+trait Acl
 {
     public $acl;
 
-    public function setAcl(Acl $acl)
+    public function setAcl(AclInterface $acl)
     {
         $this->acl = $acl;
     }

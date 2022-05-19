@@ -11,24 +11,24 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Ushahidi\Core\Tool;
+namespace Ushahidi\Core\Concerns;
 
 use Ushahidi\Contracts\Entity;
-use Ushahidi\Contracts\Validator;
+use Ushahidi\Contracts\Validator as ValidatorInterface;
 use Ushahidi\Core\Exception\ValidatorException;
 
-trait ValidatorTrait
+trait Validator
 {
     /**
-     * @var Validator
+     * @var ValidatorInterface
      */
     protected $validator;
 
     /**
-     * @param  Validator $valid
-     * @return void
+     * @param  ValidatorInterface $validator
+     * @return self
      */
-    public function setValidator(Validator $validator)
+    public function setValidator(ValidatorInterface $validator)
     {
         $this->validator = $validator;
         return $this;

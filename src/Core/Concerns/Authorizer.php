@@ -13,24 +13,24 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Ushahidi\Core\Tool;
+namespace Ushahidi\Core\Concerns;
 
 use Ushahidi\Contracts\Entity;
-use Ushahidi\Contracts\Authorizer;
+use Ushahidi\Contracts\Authorizer as AuthorizerInterface;
 use Ushahidi\Core\Exception\AuthorizerException;
 
-trait AuthorizerTrait
+trait Authorizer
 {
     /**
-     * @var Authorizer
+     * @var AuthorizerInterface
      */
     protected $auth;
 
     /**
-     * @param  Authorizer $auth
-     * @return void
+     * @param  AuthorizerInterface $auth
+     * @return self
      */
-    public function setAuthorizer(Authorizer $auth)
+    public function setAuthorizer(AuthorizerInterface $auth)
     {
         $this->auth = $auth;
         return $this;

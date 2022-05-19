@@ -9,7 +9,7 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Ushahidi\Core\Concerns\Events;
+namespace Ushahidi\Core\Concerns;
 
 use Illuminate\Contracts\Events\Dispatcher;
 

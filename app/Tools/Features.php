@@ -51,8 +51,8 @@ class Features
 
     /**
      * Get limit for feature
-     * @param  string $feature
-     * @return int|INF
+     * @param string $feature
+     * @return int|double
      */
     public function getLimit($feature)
     {
