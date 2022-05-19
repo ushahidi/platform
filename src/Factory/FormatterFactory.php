@@ -66,7 +66,7 @@ class FormatterFactory
      * as a `CollectionFormatter`.
      * @param  String $resource
      * @param  String $action
-     * @return Ushahidi\Core\Tool\Formatter
+     * @return \Ushahidi\Core\Concerns\Formatter
      * @return \Ushahidi\Core\Tool\Formatter\CollectionFormatter
      */
     public function get($resource, $action)

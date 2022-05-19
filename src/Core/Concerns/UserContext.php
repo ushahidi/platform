@@ -14,7 +14,7 @@
 namespace Ushahidi\Core\Concerns;
 
 use Ushahidi\Contracts\Session;
-use Ushahidi\Core\Entity\User;
+use Ushahidi\Contracts\Entity as User;
 
 trait UserContext
 {
