@@ -13,7 +13,7 @@ namespace Ushahidi\App\Formatter\Post;
 
 use Ushahidi\Contracts\Entity;
 use Ushahidi\Contracts\Formatter;
-use Ushahidi\Core\Tool\Formatter\GeoJSONFormatter;
+use Ushahidi\Core\Tools\Formatter\GeoJSONFormatter;
 
 class GeoJSON implements Formatter
 {

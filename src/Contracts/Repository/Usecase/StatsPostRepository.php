@@ -11,7 +11,7 @@
 
 namespace Ushahidi\Contracts\Repository\Usecase;
 
-use Ushahidi\Core\Tool\SearchData;
+use Ushahidi\Core\Tools\SearchData;
 
 interface StatsPostRepository
 {

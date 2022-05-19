@@ -11,7 +11,7 @@
 
 namespace Ushahidi\App\Repository\Webhook;
 
-use Ushahidi\Core\Tool\SearchData;
+use Ushahidi\Core\Tools\SearchData;
 use Ushahidi\Contracts\Entity;
 use Ushahidi\Core\Entity\WebhookJob;
 use Ushahidi\App\Repository\OhanzeeRepository;

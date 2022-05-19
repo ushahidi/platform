@@ -12,7 +12,7 @@
 namespace Ushahidi\App\Repository;
 
 use Ohanzee\DB;
-use Ushahidi\Core\Tool\SearchData;
+use Ushahidi\Core\Tools\SearchData;
 use Ushahidi\Contracts\Entity;
 use Ushahidi\Core\Entity\Contact;
 use Ushahidi\Core\Concerns\AdminAccess;

@@ -11,8 +11,8 @@
 
 namespace Ushahidi\Core\Usecase\Media;
 
-use Ushahidi\Core\Tool\Uploader;
-use Ushahidi\Core\Tool\UploadData;
+use Ushahidi\Core\Tools\Uploader;
+use Ushahidi\Core\Tools\UploadData;
 use Ushahidi\Core\Usecase\CreateUsecase;
 use Ushahidi\Core\Exception\ValidatorException;
 

@@ -13,7 +13,7 @@ namespace Ushahidi\App\Repository;
 
 use Ohanzee\DB;
 use Ushahidi\Core\Entity\Tag;
-use Ushahidi\Core\Tool\SearchData;
+use Ushahidi\Core\Tools\SearchData;
 use Ushahidi\Contracts\Entity;
 use Ushahidi\Contracts\Validation;
 use Ushahidi\App\Repository\OhanzeeRepository;

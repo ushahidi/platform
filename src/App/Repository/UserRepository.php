@@ -15,7 +15,7 @@ namespace Ushahidi\App\Repository;
 
 use Ohanzee\DB;
 use Illuminate\Support\Str;
-use Ushahidi\Core\Tool\SearchData;
+use Ushahidi\Core\Tools\SearchData;
 use Ushahidi\Contracts\Entity;
 use Ushahidi\Contracts\Hasher;
 use Ushahidi\Core\Entity\User;

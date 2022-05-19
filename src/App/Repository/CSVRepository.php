@@ -11,7 +11,7 @@
 
 namespace Ushahidi\App\Repository;
 
-use Ushahidi\Core\Tool\SearchData;
+use Ushahidi\Core\Tools\SearchData;
 use Ushahidi\Contracts\Entity;
 use Ushahidi\Core\Entity\CSV;
 use Ushahidi\Contracts\Repository\Entity\CSVRepository as CSVRepositoryContract;

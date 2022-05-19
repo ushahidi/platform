@@ -12,7 +12,7 @@
 namespace Ushahidi\App\Repository\Form;
 
 use Ohanzee\DB;
-use Ushahidi\Core\Tool\SearchData;
+use Ushahidi\Core\Tools\SearchData;
 use Ushahidi\Core\Entity\FormRole;
 use Ushahidi\Contracts\Repository\Entity\FormRoleRepository as FormRoleRepositoryContract;
 use Ushahidi\App\Repository\OhanzeeRepository;

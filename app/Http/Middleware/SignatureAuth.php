@@ -3,7 +3,7 @@
 namespace Ushahidi\App\Http\Middleware;
 
 use Closure;
-use Ushahidi\Core\Tool\Verifier;
+use Ushahidi\Core\Tools\Verifier;
 
 class SignatureAuth
 {

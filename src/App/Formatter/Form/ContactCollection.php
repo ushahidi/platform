@@ -13,7 +13,7 @@ namespace Ushahidi\App\Formatter\Form;
 
 use Ushahidi\App\Formatter\API;
 use Ushahidi\Core\Concerns\FormatterAuthorizerMetadata;
-use Ushahidi\Core\Tool\SearchData;
+use Ushahidi\Core\Tools\SearchData;
 
 class ContactCollection extends API
 {

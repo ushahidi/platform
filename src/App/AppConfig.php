@@ -211,7 +211,7 @@ class AppConfig extends ContainerConfig
             = $di->newFactory(\Ushahidi\App\Formatter\Collection::class);
 
 
-        $di->set('tool.jsontranscode', $di->lazyNew(\Ushahidi\Core\Tool\JsonTranscode::class));
+        $di->set('tool.jsontranscode', $di->lazyNew(\Ushahidi\Core\Tools\JsonTranscode::class));
 
         // Formatters
         $di->set('formatter.entity.api', $di->lazyNew(\Ushahidi\App\Formatter\API::class));
@@ -405,7 +405,7 @@ class AppConfig extends ContainerConfig
             'post_lock_repo' => $di->lazyGet('repository.post_lock'),
             'contact_repo' => $di->lazyGet('repository.contact'),
             'post_value_factory' => $di->lazyGet('repository.post_value_factory'),
-            'bounding_box_factory' => $di->newFactory(\Ushahidi\Core\Tool\BoundingBox::class)
+            'bounding_box_factory' => $di->newFactory(\Ushahidi\Core\Tools\BoundingBox::class)
         ];
 
         $di->set('repository.post.datetime', $di->lazyNew(\Ushahidi\App\Repository\Post\DatetimeRepository::class));

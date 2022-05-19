@@ -13,7 +13,7 @@ namespace Tests\Unit\Ushahidi\App\Http\Middleware;
 use Illuminate\Http\Request;
 use Mockery as M;
 use Tests\TestCase;
-use Ushahidi\Core\Tool\Verifier;
+use Ushahidi\Core\Tools\Verifier;
 use Ushahidi\App\Http\Middleware\SignatureAuth;
 
 /**

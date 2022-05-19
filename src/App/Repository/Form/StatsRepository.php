@@ -13,7 +13,7 @@ namespace Ushahidi\App\Repository\Form;
 
 use Ohanzee\DB;
 use Ohanzee\Database;
-use Ushahidi\Core\Tool\SearchData;
+use Ushahidi\Core\Tools\SearchData;
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\Concerns\Event;
 use Ushahidi\App\Multisite\OhanzeeResolver;

@@ -16,7 +16,7 @@ use Ushahidi\Contracts\Repository\Entity\MessageRepository;
 use Ushahidi\Contracts\Repository\Entity\PostRepository;
 use Ushahidi\Contracts\Repository\Entity\TargetedSurveyStateRepository;
 use Ushahidi\Contracts\Repository\Entity\UserRepository;
-use Ushahidi\Core\Tool\Verifier;
+use Ushahidi\Core\Tools\Verifier;
 use Ushahidi\Core\Usecase\Export\Job\PostCount;
 use Ushahidi\Core\Usecase\Post\Export;
 use Ushahidi\Factory\UsecaseFactory;

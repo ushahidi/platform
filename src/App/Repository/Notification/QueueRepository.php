@@ -12,7 +12,7 @@
 namespace Ushahidi\App\Repository\Notification;
 
 use Ushahidi\Contracts\Entity;
-use Ushahidi\Core\Tool\SearchData;
+use Ushahidi\Core\Tools\SearchData;
 use Ushahidi\Core\Entity\NotificationQueue;
 use Ushahidi\Contracts\Repository\Entity\NotificationQueueRepository as NotificationQueueRepositoryContract;
 use Ushahidi\App\Repository\OhanzeeRepository;

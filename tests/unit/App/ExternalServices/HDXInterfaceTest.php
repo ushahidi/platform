@@ -9,7 +9,7 @@ use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use Tests\TestCase;
 use Ushahidi\Core\Entity\HXL\HXLLicense;
-use Ushahidi\Core\Tool\ExternalServices\HDXInterface;
+use Ushahidi\Core\Tools\ExternalServices\HDXInterface;
 
 class HDXInterfaceTest extends TestCase
 {

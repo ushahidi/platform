@@ -13,7 +13,7 @@ namespace Ushahidi\App\Repository\HXL;
 
 use Ohanzee\DB;
 use Ushahidi\Core\Entity\HXL\HXLFormAttributeHXLAttributeTag;
-use Ushahidi\Core\Tool\SearchData;
+use Ushahidi\Core\Tools\SearchData;
 use Ushahidi\Contracts\Repository\Entity\HXLFormAttributeHXLAttributeTagRepository
     as HXLFormAttributeHXLAttributeTagRepositoryContract;
 use Ushahidi\Contracts\Repository\ReadRepository;

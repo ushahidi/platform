@@ -11,7 +11,7 @@ namespace Ushahidi\App\Http\Controllers\API;
  */
 
 use Illuminate\Http\Request;
-use Ushahidi\Core\Tool\Signer;
+use Ushahidi\Core\Tools\Signer;
 use Ushahidi\App\Http\Controllers\API\Posts\PostsController;
 
 class WebhookPostsController extends PostsController

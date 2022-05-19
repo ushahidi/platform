@@ -11,8 +11,8 @@ use Illuminate\Http\Request;
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-use Ushahidi\Core\Tool\BoundingBox;
-use Ushahidi\Core\Tool\Tile;
+use Ushahidi\Core\Tools\BoundingBox;
+use Ushahidi\Core\Tools\Tile;
 
 class GeoJSONController extends PostsController
 {

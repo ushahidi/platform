@@ -12,7 +12,7 @@
 namespace Ushahidi\Core\Usecase\CSV;
 
 use SplTempFileObject;
-use Ushahidi\Core\Tool\UploadData;
+use Ushahidi\Core\Tools\UploadData;
 use Ushahidi\Contracts\ReaderFactory;
 use Ddeboer\DataImport\Step\MappingStep;
 use Ushahidi\Core\Usecase\Media\CreateMedia;

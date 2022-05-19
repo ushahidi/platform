@@ -14,7 +14,7 @@
 
 namespace Ushahidi\App\Repository\Concerns;
 
-use Ushahidi\Core\Tool\JsonTranscode as Transcoder;
+use Ushahidi\Core\Tools\JsonTranscode as Transcoder;
 
 trait JsonTranscode
 {

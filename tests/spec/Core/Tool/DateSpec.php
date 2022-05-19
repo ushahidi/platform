@@ -1,11 +1,11 @@
 <?php
 
-namespace spec\Ushahidi\Core\Tool;
+namespace spec\Ushahidi\Core\Tools;
 
 use PhpSpec\ObjectBehavior;
 use Ushahidi\Contracts\Entity;
 use Ushahidi\Contracts\Repository\Entity\ConfigRepository;
-use Ushahidi\Core\Tool\Date;
+use Ushahidi\Core\Tools\Date;
 
 class DateSpec extends ObjectBehavior
 {

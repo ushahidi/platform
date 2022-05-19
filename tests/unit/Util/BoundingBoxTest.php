@@ -10,7 +10,7 @@
 
 namespace Tests\Unit\Util;
 
-use Ushahidi\Core\Tool\BoundingBox;
+use Ushahidi\Core\Tools\BoundingBox;
 
 /**
  * @backupGlobals disabled

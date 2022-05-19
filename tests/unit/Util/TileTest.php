@@ -10,7 +10,7 @@
 
 namespace Tests\Unit\Util;
 
-use Ushahidi\Core\Tool\Tile;
+use Ushahidi\Core\Tools\Tile;
 
 /**
  * @backupGlobals disabled

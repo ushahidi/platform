@@ -12,7 +12,7 @@
 namespace Ushahidi\App\Repository;
 
 use Ohanzee\DB;
-use Ushahidi\Core\Tool\SearchData;
+use Ushahidi\Core\Tools\SearchData;
 use Ushahidi\Contracts\Entity;
 use Illuminate\Support\Facades\Log;
 use Ushahidi\Core\Entity\ExportJob;

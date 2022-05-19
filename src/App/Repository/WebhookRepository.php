@@ -13,7 +13,7 @@ namespace Ushahidi\App\Repository;
 
 use Log;
 use Ramsey\Uuid\Uuid;
-use Ushahidi\Core\Tool\SearchData;
+use Ushahidi\Core\Tools\SearchData;
 use Ushahidi\Contracts\Entity;
 use Ushahidi\Core\Entity\Webhook;
 use Ushahidi\Core\Concerns\AdminAccess;

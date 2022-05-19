@@ -13,7 +13,7 @@ namespace Ushahidi\App\Formatter\Post;
 
 use Ushahidi\Core\Concerns\FormatterAuthorizerMetadata;
 use Ushahidi\Contracts\Entity;
-use Ushahidi\Core\Tool\SearchData;
+use Ushahidi\Core\Tools\SearchData;
 use Ushahidi\Contracts\Formatter;
 use Ushahidi\Core\Exception\FormatterException;
 

@@ -9,7 +9,7 @@ use Ushahidi\Contracts\Formatter;
 use Ushahidi\Contracts\RateLimiter;
 use Ushahidi\Contracts\Repository\Entity\UserRepository;
 use Ushahidi\Contracts\Repository\ReadRepository;
-use Ushahidi\Core\Tool\PasswordAuthenticator;
+use Ushahidi\Core\Tools\PasswordAuthenticator;
 
 class LoginUserSpec extends ObjectBehavior
 {

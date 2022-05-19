@@ -40,7 +40,7 @@ class DataFactory
      *
      * @param  string $action
      * @param  array  $params
-     * @return \Ushahidi\Core\Tool\Data
+     * @return \Ushahidi\Core\Tools\Data
      */
     public function get($action, array $params = null)
     {

@@ -13,7 +13,7 @@ namespace Ushahidi\Core\Usecase\User;
 
 use Ushahidi\Contracts\RateLimiter;
 use Ushahidi\Core\Usecase\ReadUsecase;
-use Ushahidi\Core\Tool\PasswordAuthenticator;
+use Ushahidi\Core\Tools\PasswordAuthenticator;
 use Ushahidi\Contracts\Repository\Entity\UserRepository;
 
 class LoginUser extends ReadUsecase

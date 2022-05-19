@@ -12,7 +12,7 @@
 namespace Ushahidi\App\Repository\User;
 
 use Ushahidi\Contracts\Entity;
-use Ushahidi\Core\Tool\SearchData;
+use Ushahidi\Core\Tools\SearchData;
 use Ushahidi\Core\Entity\UserSetting;
 use Ushahidi\Contracts\Repository\Entity\UserSettingRepository as UserSettingRepositoryContract;
 use Ushahidi\App\Repository\OhanzeeRepository;

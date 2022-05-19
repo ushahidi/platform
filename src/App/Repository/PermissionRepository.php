@@ -11,7 +11,7 @@
 
 namespace Ushahidi\App\Repository;
 
-use Ushahidi\Core\Tool\SearchData;
+use Ushahidi\Core\Tools\SearchData;
 use Ushahidi\Core\Entity\Permission;
 use Ushahidi\Contracts\Repository\Entity\PermissionRepository as PermissionRepositoryContract;
 
