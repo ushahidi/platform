@@ -23,10 +23,12 @@ use League\Event\ListenerInterface;
 use Ushahidi\Core\Traits\Event;
 use Ohanzee\DB;
 use Ohanzee\Database;
+use Ushahidi\Core\Usecase\DeleteRepository;
 
 class ConfigRepository implements
     ReadRepository,
     UpdateRepository,
+    DeleteRepository,
     ConfigRepositoryContract
 {
 
@@ -151,6 +153,14 @@ class ConfigRepository implements
         }
     }
 
+    // DeleteRepository
+    public function delete(Entity $entity)
+    {
+        $group = $entity->getId();
+
+        DB::delete('config')->where('group_name', '=', $group)->execute($this->db());
+    }
+
     private function insertOrUpdate($group, $key, $value)
     {
         $value = json_encode($value);
@@ -177,7 +187,8 @@ class ConfigRepository implements
             'test',
             'data-provider',
             'map',
-            'twitter'
+            'twitter',
+            'gmail'
         ];
     }
 

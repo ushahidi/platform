@@ -1,4 +1,5 @@
 <?php
+
 /**
  * *
  *  * Ushahidi Acl
@@ -50,6 +51,7 @@ class BaseResource extends Resource
         }
         return $only_original;
     }
+
     public static function includeFields($request, $approved_fields = [])
     {
         $fields = $approved_fields;

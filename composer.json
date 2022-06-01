@@ -46,7 +46,8 @@
         "illuminate/redis": "5.5.*",
         "netresearch/jsonmapper": "^1.6.0",
         "symfony/yaml": "~3.0",
-        "willdurand/negotiation": "^2.3"
+        "willdurand/negotiation": "^2.3",
+        "ushahidi/gmail-support": "dev-master"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
@@ -78,7 +79,10 @@
             "http",
             "git"
         ],
-        "preferred-install": "dist"
+        "preferred-install": "dist",
+        "allow-plugins": {
+            "kylekatarnls/update-helper": false
+        }
     },
     "autoload": {
         "psr-4": {
@@ -138,9 +142,10 @@
             "behat --strict --profile ci"
         ],
         "test-dev": [
-                "phpunit --stop-on-failure",
-                "phpspec run",
-                "behat --strict"
+            "@putenv XDEBUG_MODE=coverage",
+            "phpunit --stop-on-failure",
+            "phpspec run",
+            "behat --strict"
         ],
         "post-install-cmd": [
             "\\SebastianFeldmann\\CaptainHook\\Composer\\Cmd::install",

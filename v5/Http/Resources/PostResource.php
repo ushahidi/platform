@@ -1,7 +1,7 @@
 <?php
+
 namespace v5\Http\Resources;
 
-use Illuminate\Http\Resources\Json\Resource;
 use Illuminate\Support\Collection;
 use Ushahidi\Core\Entity\Post;
 use v5\Models\Post\Post as v5Post;
@@ -9,10 +9,12 @@ use v5\Models\Post\Post as v5Post;
 class PostResource extends BaseResource
 {
     public static $wrap = 'result';
-    /*
-         * @param  \Illuminate\Http\Request  $request
-         * @return array
-         */
+
+    /**
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return array
+     */
     private function includeResourceFields($request)
     {
         return self::includeFields($request, [
@@ -31,31 +33,32 @@ class PostResource extends BaseResource
             'created',
             'updated',
             'post_date',
-//            'base_language' => $this->base_language,
-//            'translations' => new TranslationCollection($this->translations),
-//            'enabled_languages' => [
-//                'default'=> $this->base_language,
-//                'available' => $this->translations->groupBy('language')->keys()
-//            ],
+            //            'base_language' => $this->base_language,
+            //            'translations' => new TranslationCollection($this->translations),
+            //            'enabled_languages' => [
+            //                'default'=> $this->base_language,
+            //                'available' => $this->translations->groupBy('language')->keys()
+            //            ],
         ]);
     }
+
     private function getResourcePostContent()
     {
-
-        $values = $this->getPostValues();
-        $col = new Collection(['values' => $values, 'tasks' => $this->survey ? $this->survey->tasks : []]);
-        $no_values = false;
-
-        if ($values->count() === 0) {
-            $no_values = true;
-        }
-        $post_content =  Collection::make([]);
+        $values = $this->getPostValues(); // Calling method on Post Model
+        $no_values = $values->count() === 0 ? true : false;
+        $col = new Collection([
+            'values' => $values,
+            'tasks' => $this->survey ? $this->survey->tasks : []
+        ]);
 
         if ($no_values && $this->survey) {
             $post_content = new TaskCollection($this->survey->tasks);
         } elseif ($this->survey) {
             $post_content = new PostValueCollection($col);
+        } else {
+            $post_content = Collection::make([]);
         }
+
         return $post_content;
     }
 
@@ -74,6 +77,7 @@ class PostResource extends BaseResource
         // that doesn't let me do guest user checks without adding more risk.
         return $authorizer->getAllowedPrivs($entity);
     }
+
     private function hydrateResourceRelationships($request)
     {
         $hydrate = $this->getHydrate(v5Post::$relationships, $request);
@@ -109,7 +113,7 @@ class PostResource extends BaseResource
                     break;
                 case 'enabled_languages':
                     $result['enabled_languages'] = [
-                        'default'=> $this->base_language,
+                        'default' => $this->base_language,
                         'available' => $this->translations->groupBy('language')->keys()
                     ];
                     break;
@@ -117,6 +121,7 @@ class PostResource extends BaseResource
         }
         return $result;
     }
+
     /**
      * Transform the resource into an array.
      *

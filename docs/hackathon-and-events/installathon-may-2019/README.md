@@ -6,7 +6,7 @@ description: >-
 
 # Installathon, May 2019
 
-![](../../.gitbook/assets/gitbook-graphic%20%281%29.png)
+![](<../../../.gitbook/assets/gitbook-graphic (1) (1) (1).png>)
 
 Many of you got stuck during the installation and we suspect many leave after that, not looking back. Therefore we have worked hard on improving our docs and in May we will host our first Installathon, an online Hackathon over one week where the main focus is to help our users to install the Ushahidi Platform.
 
@@ -16,9 +16,8 @@ If you want to dig deeper and contribute there are also options to contribute to
 
 **When is it?** The hackathon will take place between 2nd of May to the 7th of May 2019.
 
-**How does it work?** Focus of the hackathon is to help our community to install the platform and those who want can also get started with coding and contributing to issues. There will be starter-issues available for the backend \(PHP/Laravel\), the frontend \(JS/Angular\) and also in the Pattern Library \(HTML/SASS\).
+**How does it work?** Focus of the hackathon is to help our community to install the platform and those who want can also get started with coding and contributing to issues. There will be starter-issues available for the backend (PHP/Laravel), the frontend (JS/Angular) and also in the Pattern Library (HTML/SASS).
 
 **How do I join?** [Sign up on](https://forms.gle/kjpjcxRxDoGJDDUh9) this link and we will keep you posted and send you more details as we come closer to the Hackathon week!
 
 **How can I chat with Ushahidi staff about the installathon?** Visit [http://bit.ly/chatwithushahidi](http://bit.ly/chatwithushahidi) to chat with the Ushahidi development team on getting up and running with the Ushahidi OSS repo from 2-7 of May 2019.
-
