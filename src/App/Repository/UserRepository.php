@@ -14,9 +14,12 @@
 namespace Ushahidi\App\Repository;
 
 use Ohanzee\DB;
+use Ohanzee\Database;
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\Entity\User;
 use Ushahidi\Core\Entity\UserRepository as UserRepositoryContract;
+use Ushahidi\Core\Entity\Contact;
+use Ushahidi\Core\Entity\ContactRepository;
 use Ushahidi\Core\SearchData;
 use Ushahidi\Core\Tool\Hasher;
 use Ushahidi\Core\Usecase\User\RegisterRepository;
@@ -26,6 +29,7 @@ use League\Event\ListenerInterface;
 use Ushahidi\Core\Traits\Event;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Illuminate\Support\Collection;
 
 class UserRepository extends OhanzeeRepository implements
     UserRepositoryContract,
@@ -39,6 +43,8 @@ class UserRepository extends OhanzeeRepository implements
 
     // Use Event trait to trigger events
     use Event;
+
+    use Concerns\UsesBulkAutoIncrement;
 
     /**
      * @param  Hasher $hasher
@@ -106,6 +112,51 @@ class UserRepository extends OhanzeeRepository implements
         }
 
         return parent::create($entity);
+    }
+
+    public function createMany(Collection $collection) : array
+    {
+        $this->checkAutoIncMode();
+
+        $first = $collection->first()->asArray();
+        unset($first['contacts']);
+        $columns = array_keys($first);
+
+        $values = $collection->map(function ($entity) {
+            $data = $entity->asArray();
+
+            if ($data['password']) {
+                $data['password'] = $this->hasher->hash($data['password']);
+            }
+
+            unset($data['contacts']);
+            $data['created'] = time();
+
+            return $data;
+        })->all();
+
+        $query = DB::insert($this->getTable())
+            ->columns($columns);
+
+        call_user_func_array([$query, 'values'], $values);
+
+        list($insertId, $created) = $query->execute($this->db());
+        $newIds = range($insertId, $insertId + $created - 1);
+
+        $contacts = collect($newIds)
+            ->combine($collection)
+            ->map(function ($entity, $id) {
+                return collect($entity->contacts)->map(function ($data) use ($id) {
+                    return new Contact($data + ['user_id' => $id]);
+                })->all();
+            })
+            ->flatten(1);
+
+        if ($contacts->isNotEmpty()) {
+            service('repository.contact')->createMany($contacts);
+        }
+
+        return $newIds;
     }
 
     // UpdateRepository

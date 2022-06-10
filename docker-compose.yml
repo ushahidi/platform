@@ -7,12 +7,18 @@ services:
       MYSQL_DATABASE: ushahidi
       MYSQL_USER: ushahidi
       MYSQL_PASSWORD: ushahidi
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    ports:
+      - "33061:3306"
   redis:
     image: redis:4-alpine
   platform:
     build: .
     environment:
       APP_KEY: SomeRandomKey!!!SomeRandomKey!!!
+      DOCKERIZE_TIMEOUT: 180s
       DOCKERIZE_WAIT_FOR_mysql: tcp://mysql:3306
       DOCKERIZE_WAIT_FOR_redis: tcp://redis:6379
       ENABLE_NGINX: "true"
@@ -33,10 +39,12 @@ services:
       - "80:8080"
     volumes:
       - storage-app-public:/var/www/storage/app/public
+      - ./:/vols/src
   platform_tasks:
     build: .
     environment:
       APP_KEY: SomeRandomKey!!!SomeRandomKey!!!
+      DOCKERIZE_TIMEOUT: 180s
       DOCKERIZE_WAIT_FOR_mysql: tcp://mysql:3306
       DOCKERIZE_WAIT_FOR_redis: tcp://redis:6379
       ENABLE_NGINX: "false"

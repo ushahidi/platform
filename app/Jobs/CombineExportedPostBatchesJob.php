@@ -8,7 +8,6 @@ use Ushahidi\Core\Entity\ExportJob;
 use Ushahidi\Core\Entity\ExportJobRepository;
 use Ushahidi\Core\Entity\ExportBatch;
 use Ushahidi\Core\Entity\ExportBatchRepository;
-use Ushahidi\App\Multisite\MultisiteAwareJob;
 use Illuminate\Http\File;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
@@ -18,7 +17,6 @@ use Illuminate\Support\Facades\File as LocalFilesystem;
 
 class CombineExportedPostBatchesJob extends Job
 {
-    use MultisiteAwareJob;
     use RecordsExportJobFailure;
 
     protected $jobId;

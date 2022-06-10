@@ -44,6 +44,8 @@
         "asm89/stack-cors": "1.2.0",
         "predis/predis": "~1.1",
         "illuminate/redis": "5.5.*",
+        "netresearch/jsonmapper": "^1.6.0",
+        "symfony/yaml": "~3.0",
         "willdurand/negotiation": "^2.3",
         "ushahidi/gmail-support": "dev-master"
     },
@@ -77,7 +79,10 @@
             "http",
             "git"
         ],
-        "preferred-install": "dist"
+        "preferred-install": "dist",
+        "allow-plugins": {
+            "kylekatarnls/update-helper": false
+        }
     },
     "autoload": {
         "psr-4": {

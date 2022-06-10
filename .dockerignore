@@ -11,3 +11,9 @@ storage/framework/testing/**
 storage/framework/views/**
 storage/logs/**
 storage/passport/**
+
+# garden.io
+.garden
+garden_modules
+garden.yaml
+error.log

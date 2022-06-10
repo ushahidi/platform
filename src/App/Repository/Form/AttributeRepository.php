@@ -12,6 +12,7 @@
 namespace Ushahidi\App\Repository\Form;
 
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Collection;
 use Ohanzee\DB;
 use Ohanzee\Database;
 use Ushahidi\Core\Entity;
@@ -24,7 +25,7 @@ use Ushahidi\Core\Traits\UserContext;
 use Ushahidi\App\Repository\OhanzeeRepository;
 use Ushahidi\App\Repository\JsonTranscodeRepository;
 use Ushahidi\App\Repository\FormsTagsTrait;
-use Ushahidi\App\Repository\Concerns\CachesData;
+use Ushahidi\App\Repository\Concerns;
 
 use Ushahidi\Core\Tool\Permissions\InteractsWithFormPermissions;
 
@@ -48,7 +49,9 @@ class AttributeRepository extends OhanzeeRepository implements
     // Use the JSON transcoder to encode properties
     use JsonTranscodeRepository;
     use FormsTagsTrait;
-    use CachesData;
+
+    use Concerns\CachesData;
+    use Concerns\UsesBulkAutoIncrement;
 
     /**
      * Construct
@@ -111,6 +114,43 @@ class AttributeRepository extends OhanzeeRepository implements
         $record['key'] = $uuid->toString();
 
         return $this->executeInsertAttribute($this->removeNullValues($record));
+    }
+
+    /**
+     * @param  Collection $collection
+     * @return array      ids of rows created
+     */
+    public function createMany(Collection $collection) : array
+    {
+        $this->checkAutoIncMode();
+
+        $first = $collection->first()->asArray();
+        $columns = array_keys($first);
+
+        $values = $collection->map(function ($entity) {
+            $data = $entity->asArray();
+
+            // Generate key
+            $uuid = Uuid::uuid4();
+            $data['key'] = $uuid->toString();
+
+            // JSON encode values
+            $data = $this->json_transcoder->encode(
+                $data,
+                $this->getJsonProperties()
+            );
+
+            return $data;
+        })->all();
+
+        $query = DB::insert($this->getTable())
+            ->columns($columns);
+
+        call_user_func_array([$query, 'values'], $values);
+
+        list($insertId, $created) = $query->execute($this->db());
+
+        return range($insertId, $insertId + $created - 1);
     }
 
     // Override SearchRepository

@@ -24,7 +24,13 @@ class TitleRepository extends VarcharRepository
     ) {
         return [];
     }
+
     public function createValue($value, $form_attribute_id, $post_id)
+    {
+        return 0;
+    }
+
+    public function createManyValues(array $values, int $form_attribute_id)
     {
         return 0;
     }

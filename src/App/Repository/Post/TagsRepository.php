@@ -12,6 +12,7 @@
 namespace Ushahidi\App\Repository\Post;
 
 use Ohanzee\Database;
+use Ohanzee\DB;
 use Ushahidi\Core\Usecase\Post\UpdatePostTagRepository;
 
 class TagsRepository extends ValueRepository
@@ -75,6 +76,27 @@ class TagsRepository extends ValueRepository
         return $this->executeInsert($input);
     }
 
+    public function createManyValues(array $values, int $form_attribute_id)
+    {
+        $created = time();
+        $insertValues = [];
+
+        foreach ($values as $group) {
+            $id = $group['id'];
+            foreach ($group['value'] as $value) {
+                $tag_id = $this->parseTag($value);
+                $insertValues[] = [$id, $form_attribute_id, $tag_id, $created];
+            }
+        }
+
+        $query = DB::insert($this->getTable())
+            ->columns(['post_id', 'form_attribute_id', 'tag_id', 'created']);
+
+        call_user_func_array([$query, 'values'], $insertValues);
+
+        return $query->execute($this->db());
+    }
+
     // UpdatePostValueRepository
     public function updateValue($id, $value)
     {
@@ -88,16 +110,18 @@ class TagsRepository extends ValueRepository
     protected function parseTag($tag)
     {
         if (is_array($tag)) {
-            $tag = $tag['id'];
+            return $tag['id'];
+        }
+
+        if (is_numeric($tag)) {
+            return $tag;
         }
 
         // Find the tag by id or name
         // @todo this should happen before we even get here
         $tag_entity = $this->tag_repo->getByTag($tag);
-        if (! $tag_entity->id) {
-            $tag_entity = $this->tag_repo->get($tag);
-        }
 
-        return $tag_entity->id;
+        // If we didn't find it by tag, return the raw value
+        return $tag_entity->id ?? $tag;
     }
 }

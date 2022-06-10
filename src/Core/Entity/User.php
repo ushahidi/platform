@@ -19,8 +19,8 @@ class User extends StaticEntity
     protected $email;
     protected $realname;
     protected $password;
-    protected $logins;
-    protected $failed_attempts;
+    protected $logins = 0;
+    protected $failed_attempts = 0;
     protected $last_login;
     protected $last_attempt;
     protected $created;
