@@ -24,9 +24,9 @@ class SurveyController extends V5Controller
      * @return mixed
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function show(int $id)
+    public function show(Request $request,int $id)
     {
-        $survey = Survey::find($id);
+        $survey = Survey::find($id,Survey::SelectModelFields($request));
         if (!$survey) {
             return self::make404();
         }
@@ -40,9 +40,9 @@ class SurveyController extends V5Controller
      * @return SurveyCollection
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function index()
+    public function index(Request $request)
     {
-        return new SurveyCollection(Survey::all());
+        return new SurveyCollection(Survey::all(Survey::SelectModelFields($request)));
     }//end index()
 
     /**

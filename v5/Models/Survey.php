@@ -9,6 +9,8 @@ use Ushahidi\App\Repository\FormRepository;
 use Ushahidi\App\Validator\LegacyValidator;
 use Ushahidi\Core\Entity\Permission;
 use Ushahidi\Core\Tool\Permissions\InteractsWithFormPermissions;
+use Illuminate\Http\Request;
+
 
 class Survey extends BaseModel
 {
@@ -448,5 +450,18 @@ class Survey extends BaseModel
         if (isset($value)) {
             $this->attributes['color'] = ltrim($value, '#');
         }
+    }
+  /**
+     * get the  required columns . 
+     *
+     * @param  Request  $request
+     * @return array
+     */
+    public static function SelectModelFields(Request $request):array
+    {
+        return self::includeFields($request, (new Survey())->fillable,[
+            'id', 
+            'base_language',
+        ]);
     }
 }//end class

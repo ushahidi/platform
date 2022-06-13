@@ -22,6 +22,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Input;
 use Ushahidi\App\Validator\LegacyValidator;
 use Ushahidi\Core\Tool\Permissions\InteractsWithPostPermissions;
+use Illuminate\Http\Request;
 
 class Post extends BaseModel
 {
@@ -672,5 +673,23 @@ class Post extends BaseModel
     public function postStages()
     {
         return $this->hasMany('v5\Models\PostStages', 'post_id', 'id');
+    }
+    
+    /**
+     * get the required cloumns . 
+     *
+     * @param  Request  $request
+     * @return array
+     */
+    public static function SelectModelFields(Request $request):array
+    {
+        return self::includeFields($request, (new Post())->fillable,[
+            'id', 
+            'parent_id',
+            'base_language',
+            'form_id',
+            'status',
+            
+        ]);
     }
 }//end class
