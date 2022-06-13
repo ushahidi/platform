@@ -16,9 +16,14 @@ namespace v5\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\Resource;
+use v5\Traits\HasHydrate;
+use v5\Traits\HasOnlyParameters;
 
 class BaseResource extends Resource
 {
+    use HasOnlyParameters;
+    use HasHydrate;
+
     public static $wrap = 'result';
 
     public function getHydrate($relationships, Request $request)
