@@ -4,7 +4,6 @@ namespace v5\Traits;
 
 use Illuminate\Http\Request;
 
-
 trait HasHydrate
 {
     /**
@@ -23,7 +22,6 @@ trait HasHydrate
             $to_hydrate = [];
         }
         if ($request->get('hydrate')) {
-
             $to_hydrate = explode(',', $request->get('hydrate'));
         }
         return $to_hydrate;

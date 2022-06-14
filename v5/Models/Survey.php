@@ -11,7 +11,6 @@ use Ushahidi\Core\Entity\Permission;
 use Ushahidi\Core\Tool\Permissions\InteractsWithFormPermissions;
 use Illuminate\Http\Request;
 
-
 class Survey extends BaseModel
 {
     use InteractsWithFormPermissions;
@@ -452,7 +451,7 @@ class Survey extends BaseModel
         }
     }
     /**
-     * get the  required columns . 
+     * get the  required columns .
      *
      * @param  Request  $request
      * @return array

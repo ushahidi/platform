@@ -642,7 +642,7 @@ class Post extends BaseModel
 
     public function valuesPoint()
     {
-        return $this->hasMany('v5\Models\PostValues\PostPoint', 'post_id', 'id');;
+        return $this->hasMany('v5\Models\PostValues\PostPoint', 'post_id', 'id');
     }
 
     public function valuesRelation()
@@ -675,7 +675,7 @@ class Post extends BaseModel
     }
 
     /**
-     * get the required cloumns . 
+     * get the required cloumns .
      *
      * @param  Request  $request
      * @return array

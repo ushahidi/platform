@@ -430,8 +430,7 @@ class PostController extends V5Controller
                 }
 
                 $class_name = "v5\Models\PostValues\Post" . ucfirst($type);
-                if (
-                    !class_exists($class_name) &&
+                if (!class_exists($class_name) &&
                     in_array(
                         $class_name,
                         [

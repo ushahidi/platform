@@ -4,7 +4,6 @@ namespace v5\Traits;
 
 use Illuminate\Http\Request;
 
-
 trait HasOnlyParameters
 {
     /**
