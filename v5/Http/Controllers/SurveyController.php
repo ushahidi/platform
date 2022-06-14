@@ -24,14 +24,14 @@ class SurveyController extends V5Controller
      * @return mixed
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function show(Request $request,int $id)
+    public function show(Request $request, int $id)
     {
-        $survey = Survey::find($id,Survey::SelectModelFields($request));
+        $survey = Survey::find($id, Survey::selectModelFields($request));
         if (!$survey) {
             return self::make404();
         }
         return new SurveyResource($survey);
-    }//end show()
+    } //end show()
 
 
     /**
@@ -42,8 +42,8 @@ class SurveyController extends V5Controller
      */
     public function index(Request $request)
     {
-        return new SurveyCollection(Survey::all(Survey::SelectModelFields($request)));
-    }//end index()
+        return new SurveyCollection(Survey::all(Survey::selectModelFields($request)));
+    } //end index()
 
     /**
      * Display the specified resource.
@@ -126,11 +126,11 @@ class SurveyController extends V5Controller
                         'field'
                     );
                 }
-            }//end foreach
-        }//end if
+            } //end foreach
+        } //end if
 
         return new SurveyResource($survey);
-    }//end store()
+    } //end store()
 
     /**
      * Display the specified resource.
@@ -172,7 +172,7 @@ class SurveyController extends V5Controller
         $survey->load('tasks');
 
         return new SurveyResource($survey);
-    }//end update()
+    } //end update()
 
     /**
      * @param array $input_tasks
@@ -207,7 +207,7 @@ class SurveyController extends V5Controller
                 'task'
             );
             $this->updateFields(($stage['fields'] ?? []), $stage_model);
-        }//end foreach
+        } //end foreach
 
         $input_tasks_collection = new Collection($input_tasks);
         $survey->load('tasks');
@@ -219,7 +219,7 @@ class SurveyController extends V5Controller
         foreach ($tasks_to_delete as $task_to_delete) {
             Stage::where('id', $task_to_delete->id)->delete();
         }
-    }//end updateTasks()
+    } //end updateTasks()
 
     private function isArrayOfNumbers(array $arr)
     {
@@ -267,7 +267,7 @@ class SurveyController extends V5Controller
                     )
                 );
                 $added_fields[] = $field_model->id;
-            }//end if
+            } //end if
 
             $this->updateTranslations(
                 $field_model,
@@ -276,7 +276,7 @@ class SurveyController extends V5Controller
                 $field_model->id,
                 'field'
             );
-        }//end foreach
+        } //end foreach
 
         $input_fields_collection = new Collection($input_fields);
         $stage->load('fields');
@@ -288,7 +288,7 @@ class SurveyController extends V5Controller
         foreach ($fields_to_delete as $field_to_delete) {
             Attribute::where('id', $field_to_delete->id)->delete();
         }
-    }//end updateFields()
+    } //end updateFields()
 
 
     /**
@@ -316,5 +316,5 @@ class SurveyController extends V5Controller
         $survey->delete();
 
         return response()->json(['result' => ['deleted' => $id]]);
-    }//end delete()
+    } //end delete()
 }//end class

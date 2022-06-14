@@ -1,14 +1,19 @@
 <?php
 
 namespace v5\Traits;
+
 use Illuminate\Http\Request;
 
 
-Trait HasOnlyParameters {
+trait HasOnlyParameters
+{
     /**
-    * @return array<string>
-    */
-    public static function onlyOriginal(Request $request,array $approved_fields): Array
+     *  get only fields from the request
+     * @param Request $request
+     * @param array $approved_fields
+     * @return array
+     */
+    public static function onlyOriginal(Request $request, array $approved_fields): array
     {
         $only_original = $approved_fields;
         if ($request->query('format') === 'minimal') {
@@ -18,11 +23,15 @@ Trait HasOnlyParameters {
         }
         return $only_original;
     }
-    
+
     /**
-    * @return array<string>
-    */
-    public static function includeFields(Request $request, array $approved_fields = [],array $required_fields=[]):array
+     * get the approved only fields
+     * @param Request $request
+     * @param array $approved_fields
+     * @param array $required_fields
+     * @return array
+     */
+    public static function includeFields(Request $request, array $approved_fields = [], array $required_fields = []): array
     {
         $only_fields = $approved_fields;
         if ($request->has('only') && !$request->get('only')) {
@@ -34,7 +43,6 @@ Trait HasOnlyParameters {
                 return in_array($f, $approved_fields);
             });
         }
-        return array_merge($required_fields,$only_fields);
+        return array_merge($required_fields, $only_fields);
     }
-
 }

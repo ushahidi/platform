@@ -37,9 +37,9 @@ class PostController extends V5Controller
      * @return mixed
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function show(Request $request ,int $id)
+    public function show(Request $request, int $id)
     {
-        $post = Post::withPostValues()->where('id', $id)->first(POST::SelectModelFields($request));
+        $post = Post::withPostValues()->where('id', $id)->first(POST::selectModelFields($request));
 
         if (!$post) {
             return self::make404();
@@ -57,7 +57,7 @@ class PostController extends V5Controller
      */
     public function index(Request $request)
     {
-        return new PostCollection(Post::withPostValues()->paginate(20,POST::SelectModelFields($request)));
+        return new PostCollection(Post::withPostValues()->paginate(20, POST::selectModelFields($request)));
     } //end index()
 
     private function getUser()
@@ -430,7 +430,8 @@ class PostController extends V5Controller
                 }
 
                 $class_name = "v5\Models\PostValues\Post" . ucfirst($type);
-                if (!class_exists($class_name) &&
+                if (
+                    !class_exists($class_name) &&
                     in_array(
                         $class_name,
                         [

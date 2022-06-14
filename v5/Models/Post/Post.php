@@ -1,4 +1,5 @@
 <?php
+
 /**
  * *
  *  * Ushahidi Acl
@@ -76,12 +77,11 @@ class Post extends BaseModel
      *
      * @var  array
      */
-    protected $hidden = [
-    ];
+    protected $hidden = [];
 
     /**
      * @var array
-    */
+     */
     protected $fillable = [
         'form_id',
         'user_id',
@@ -104,7 +104,7 @@ class Post extends BaseModel
      * The model's default values for attributes.
      *
      * @var array
-    */
+     */
     protected $attributes = [
         'type'                => 'report',
         'locale'              => 'en_US',
@@ -221,7 +221,7 @@ class Post extends BaseModel
                 ]
             )
         ];
-    }//end validationMessages()
+    } //end validationMessages()
 
     /**
      * Get the error messages for the defined *bulk* validation rules.
@@ -248,7 +248,7 @@ class Post extends BaseModel
                 ['field' => 'id']
             ),
         ];
-    }//end bulkValidationMessages()
+    } //end bulkValidationMessages()
 
     /**
      * Get the error messages for the defined *bulk* validation rules.
@@ -274,7 +274,7 @@ class Post extends BaseModel
                 )
             ]
         );
-    }//end bulkValidationMessages()
+    } //end bulkValidationMessages()
 
     /**
      * Get the error messages for the defined *bulk* validation rules.
@@ -309,7 +309,7 @@ class Post extends BaseModel
             'title'            => [
                 'required',
                 'max:150',
-                'regex:'.LegacyValidator::REGEX_STANDARD_TEXT,
+                'regex:' . LegacyValidator::REGEX_STANDARD_TEXT,
             ],
             'slug'        => [
                 'required',
@@ -363,7 +363,7 @@ class Post extends BaseModel
             'locale',
             'post_date'
         ];
-    }//end getRules()
+    } //end getRules()
 
     /**
      * Get the post's translation.
@@ -371,7 +371,7 @@ class Post extends BaseModel
     public function translations()
     {
         return $this->morphMany('v5\Models\Translation', 'translatable');
-    }//end translations()
+    } //end translations()
 
 
     public function getUserIdAttribute($value)
@@ -559,7 +559,7 @@ class Post extends BaseModel
             'Point',
             'Relation',
             'PostsMedia',
-//            'PostsSet',
+            //            'PostsSet',
             'PostTag'
         ];
         return array_map(function ($t) {
@@ -642,8 +642,7 @@ class Post extends BaseModel
 
     public function valuesPoint()
     {
-        return $this->hasMany('v5\Models\PostValues\PostPoint', 'post_id', 'id');
-        ;
+        return $this->hasMany('v5\Models\PostValues\PostPoint', 'post_id', 'id');;
     }
 
     public function valuesRelation()
@@ -674,22 +673,22 @@ class Post extends BaseModel
     {
         return $this->hasMany('v5\Models\PostStages', 'post_id', 'id');
     }
-    
+
     /**
      * get the required cloumns . 
      *
      * @param  Request  $request
      * @return array
      */
-    public static function SelectModelFields(Request $request):array
+    public static function selectModelFields(Request $request): array
     {
-        return self::includeFields($request, (new Post())->fillable,[
-            'id', 
+        return self::includeFields($request, (new Post())->fillable, [
+            'id',
             'parent_id',
             'base_language',
             'form_id',
             'status',
-            
+
         ]);
     }
 }//end class
