@@ -31,8 +31,8 @@ class GeometryRepository extends ValueRepository
         // Get geometry value as text
         $query->select(
             $this->getTable().'.*',
-            // Fetch AsText(value) aliased to value
-                [DB::expr('AsText(value)'), 'value']
+            // Fetch ST_AsText(value) aliased to value
+                [DB::expr('ST_AsText(value)'), 'value']
         );
 
         return $query;
@@ -40,6 +40,6 @@ class GeometryRepository extends ValueRepository
 
     protected function prepareValue($value)
     {
-        return DB::expr('GeomFromText(:text)')->param(':text', $value);
+        return DB::expr('ST_GeomFromText(:text)')->param(':text', $value);
     }
 }
