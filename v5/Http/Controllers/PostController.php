@@ -459,7 +459,7 @@ class PostController extends V5Controller
                     if (is_string($value) && $value === '') {
                         $value = null;
                     } else {
-                        $value = DB::raw("GeomFromText('$value')");
+                        $value = DB::raw("ST_GeomFromText('$value')");
                     }
                 }
 
@@ -486,7 +486,7 @@ class PostController extends V5Controller
                 }
 
                 if ($type === 'point') {
-                    $data['value'] = DB::raw("GeomFromText('POINT({$value['lon']} {$value['lat']})')");
+                    $data['value'] = DB::raw("ST_GeomFromText('POINT({$value['lon']} {$value['lat']})')");
                 }
 
                 $validation = $post_value->validate();
