@@ -72,8 +72,8 @@ class PointRepository extends ValueRepository
         // Get geometry value as text
         $query->select(
             $this->getTable().'.*',
-            // Fetch AsText(value) aliased to value
-                [DB::expr('AsText(value)'), 'value']
+            // Fetch ST_AsText(value) aliased to value
+                [DB::expr('ST_AsText(value)'), 'value']
         );
         return $query;
     }
@@ -83,7 +83,7 @@ class PointRepository extends ValueRepository
     {
         if (is_array($value)) {
             $value = array_map('floatval', $value);
-            $value = DB::expr("GeomFromText('POINT(lon lat)')")->parameters($value);
+            $value = DB::expr("ST_GeomFromText('POINT(lon lat)')")->parameters($value);
         } else {
             $value = null;
         }
