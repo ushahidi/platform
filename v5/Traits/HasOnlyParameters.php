@@ -30,7 +30,7 @@ trait HasOnlyParameters
      * @param array $required_fields
      * @return array
      */
-    public static function includeFields(Request $request, array $approved_fields = [], array $required_fields = []): array
+    public static function includeFields(Request $request, array $approved_fields = [], array $required_fields = [])
     {
         $only_fields = $approved_fields;
         if ($request->has('only') && !$request->get('only')) {
