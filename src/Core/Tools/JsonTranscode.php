@@ -49,7 +49,7 @@ class JsonTranscode
      * according to the properties given
      * @param  mixed   $input          array or object
      * @param  array   $properties     property names or array keys to decode
-     * @param  Closure $transcode_func a function which returns the transcoded value
+     * @param  \Closure $transcode_func a function which returns the transcoded value
      * @return mixed                   returns $input with decoded/encoded properties
      */
     private function transcode($input, $properties, $transcode_func)

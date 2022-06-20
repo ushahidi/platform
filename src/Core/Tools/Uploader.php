@@ -33,11 +33,8 @@ class Uploader
      *
      * When manually setting the filename, be sure to include the unique prefix!
      *
-     * @param  Ushahidi\Core\Tools\UploadData $upload
-     * @param  String  $filename  file to overwrite or create
-     * @return Ushahidi\Core\Tools\FileData
      */
-    public function upload(UploadData $file, $filename = null)
+    public function upload(UploadData $file, string $filename = null)
     {
         if (!$filename) {
             // Use the upload filename, adding a unique prefix to prevent collisions.
@@ -110,7 +107,6 @@ class Uploader
 
     /**
      * Clean up file if upload failed
-     * @param  $file  filepath
      */
     public function delete($file)
     {

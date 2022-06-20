@@ -12,14 +12,14 @@ namespace Ushahidi\Core\Tools;
  *             GNU Affero General Public License Version 3 (AGPL3)
  */
 
-use Ushahidi\Contracts\Validation as ValidationEngine;
+use Ushahidi\Contracts\ValidationEngine;
 use Kohana\Validation\Validation as KohanaValidation;
 use Illuminate\Contracts\Translation\Translator;
 
 class KohanaValidationEngine extends KohanaValidation implements ValidationEngine
 {
     /**
-     * @var Translator
+     * @var \Illuminate\Translation\Translator
      */
     private $translator;
 

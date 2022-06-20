@@ -13,7 +13,7 @@ namespace Ushahidi\Core\Tools\Permissions;
 
 use Ushahidi\Core\Entity\Post;
 use Ushahidi\Core\Entity\User;
-use Ushahidi\Core\Entity\Permission;
+use Ushahidi\Contracts\Permission;
 use Ushahidi\Core\Concerns\AdminAccess;
 use Ushahidi\Core\Concerns\Acl as AccessControlList;
 use Ushahidi\Contracts\Repository\Entity\FormRepository;

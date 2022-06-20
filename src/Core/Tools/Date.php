@@ -11,17 +11,13 @@
 
 namespace Ushahidi\Core\Tools;
 
-use Ushahidi\Contracts\Repository\Entity\ConfigRepository;
+use Ushahidi\Contracts\EntityGet;
 
 class Date
 {
     protected $repo;
 
-    /**
-     * @param  ConfigRepository $repo
-     * @return void
-     */
-    public function __construct(ConfigRepository $repo)
+    public function __construct(EntityGet $repo)
     {
         $this->repo = $repo;
     }
@@ -31,7 +27,7 @@ class Date
      *
      * Format will be PHP native, see http://php.net/date
      *
-     * @return String
+     * @return string
      */
     public function getDateFormat()
     {
@@ -43,9 +39,9 @@ class Date
      * Converts a date string to a UNIX timestamp. If no format is given,
      * the configured date format will be used.
      *
-     * @param  String $time date/time string
-     * @param  String $format non-default format
-     * @return Integer
+     * @param  string $time date/time string
+     * @param  string $format non-default format
+     * @return integer
      */
     public function getTimestampFromString($time, $format = null)
     {
@@ -62,11 +58,11 @@ class Date
      * Adds a timestamp to every row in a set of results. Each row in the results
      * is expected to be an array. If $add is set to the same value as $key,
      * the date will be replaced with the timestamp.
-     * @param  Array  $results [arr, arr, ...]
-     * @param  String $key that contains the date string
-     * @param  String $add the new key for the timestamp
-     * @param  String $format non-default format
-     * @return Array
+     * @param  array  $results [arr, arr, ...]
+     * @param  string $key that contains the date string
+     * @param  string $add the new key for the timestamp
+     * @param  string $format non-default format
+     * @return array
      */
     public function addTimestampToResults(array $results, $key = 'date', $add = 'ts', $format = null)
     {

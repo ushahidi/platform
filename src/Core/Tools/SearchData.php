@@ -20,7 +20,7 @@ class SearchData
     use FilterRecords;
 
     /**
-     * @var Array
+     * @var array
      */
     protected $sorting = [
         'orderby',
@@ -32,7 +32,7 @@ class SearchData
     /**
      * Stores the given filters for later access.
      *
-     * @param  Array $filters
+     * @param array $filters
      */
     public function __construct(array $filters = null)
     {
@@ -44,8 +44,8 @@ class SearchData
     /**
      * Access search filters as if they are object properties.
      *
-     * @param  String $key
-     * @return Mixed
+     * @param  string $key
+     * @return mixed
      */
     public function __get($key)
     {
@@ -55,9 +55,9 @@ class SearchData
     /**
      * Set search filters as if they are object properties.
      *
-     * @param  String $key
-     * @param  Mixed  $value
-     * @return Mixed
+     * @param  string $key
+     * @param  mixed  $value
+     * @return mixed
      */
     public function __set($key, $value)
     {
@@ -67,7 +67,7 @@ class SearchData
     /**
      * Check if search filter exists
      *
-     * @param  String $key
+     * @param  string $key
      * @return boolean
      */
     public function __isset($key)
@@ -78,7 +78,7 @@ class SearchData
     /**
      * Change the filters used for sorting.
      *
-     * @param  Array $sorting
+     * @param  array $sorting
      * @return $this
      */
     public function setSortingKeys(array $sorting)
@@ -90,7 +90,7 @@ class SearchData
     /**
      * Get an array of the sorting filters, with their values.
      *
-     * @return Array [orderby, order, limit, offset]
+     * @return array [orderby, order, limit, offset]
      */
     public function getSorting($force = false)
     {

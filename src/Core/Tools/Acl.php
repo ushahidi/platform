@@ -9,11 +9,11 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Ushahidi\Core\Tools\Permissions;
+namespace Ushahidi\Core\Tools;
 
-use Ushahidi\Core\Entity\User;
+use Ushahidi\Contracts\Entity;
 use Ushahidi\App\Facades\Features;
-use Ushahidi\Core\Entity\Permission;
+use Ushahidi\Contracts\Permission;
 use Ushahidi\Contracts\Acl as AclInterface;
 use Ushahidi\Contracts\Repository\Entity\RoleRepository;
 
@@ -30,7 +30,7 @@ class Acl implements AclInterface
     }
 
     // Acl interface
-    public function hasPermission(User $user, $permission)
+    public function hasPermission(Entity $user, $permission)
     {
         // If the user has no role, they have no permissions
         if (!$user->role) {
@@ -51,9 +51,7 @@ class Acl implements AclInterface
             return $this->defaultHasPermission($user, $permission);
         }
     }
-
-
-    protected function customRoleHasPermission(User $user, $permission)
+    protected function customRoleHasPermission(Entity $user, $permission)
     {
         $role = $this->role_repo->getByName($user->role);
 
@@ -61,7 +59,7 @@ class Acl implements AclInterface
         return in_array($permission, $role->permissions);
     }
 
-    protected function defaultHasPermission(User $user, $permission)
+    protected function defaultHasPermission(Entity $user, $permission)
     {
         $defaultRoles = static::DEFAULT_ROLES;
         $rolePermissions = isset($defaultRoles[$user->role]) ? $defaultRoles[$user->role] : [];
