@@ -11,17 +11,16 @@
 
 namespace Ushahidi\Core\Tools\Authorizer;
 
-use Ushahidi\Core\Entity\Tag;
 use Ushahidi\Contracts\Entity;
 use Ushahidi\Contracts\Authorizer;
-use Ushahidi\Core\Entity\Permission;
+use Ushahidi\Contracts\EntityGet;
+use Ushahidi\Contracts\Permission;
 use Ushahidi\Core\Concerns\PrivAccess;
 use Ushahidi\Core\Concerns\AdminAccess;
 use Ushahidi\Core\Concerns\UserContext;
 use Ushahidi\Core\Concerns\ParentAccess;
 use Ushahidi\Core\Concerns\PrivateDeployment;
 use Ushahidi\Core\Concerns\Acl as AccessControlList;
-use Ushahidi\Contracts\Repository\Entity\TagRepository;
 
 // The `TagAuthorizer` class is responsible for access checks on `Tags`
 class TagAuthorizer implements Authorizer
@@ -48,10 +47,7 @@ class TagAuthorizer implements Authorizer
     // It requires a `TagRepository` to load parents too.
     protected $tag_repo;
 
-    /**
-     * @param TagRepository $tag_repo
-     */
-    public function __construct(TagRepository $tag_repo)
+    public function __construct(EntityGet $tag_repo)
     {
         $this->tag_repo = $tag_repo;
     }
@@ -67,7 +63,7 @@ class TagAuthorizer implements Authorizer
         return false;
     }
 
-    protected function isUserOfRole(Tag $entity, $user)
+    protected function isUserOfRole(Entity $entity, $user)
     {
         if ($entity->role) {
             return in_array($user->role, $entity->role);

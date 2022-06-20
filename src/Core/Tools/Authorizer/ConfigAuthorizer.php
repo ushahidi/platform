@@ -12,8 +12,7 @@
 namespace Ushahidi\Core\Tools\Authorizer;
 
 use Ushahidi\Contracts\Entity;
-use Ushahidi\Core\Entity\Config;
-use Ushahidi\Core\Entity\Permission;
+use Ushahidi\Contracts\Permission;
 use Ushahidi\Contracts\Authorizer;
 use Ushahidi\Core\Concerns\AdminAccess;
 use Ushahidi\Core\Concerns\UserContext;
@@ -83,7 +82,7 @@ class ConfigAuthorizer implements Authorizer
      * @param  Entity  $entity
      * @return boolean
      */
-    protected function isConfigPublic(Config $entity)
+    protected function isConfigPublic(Entity $entity)
     {
         // Config that is unloaded is treated as public.
         if (!$entity->getId()) {
@@ -102,7 +101,7 @@ class ConfigAuthorizer implements Authorizer
      * @param  Entity  $entity
      * @return boolean
      */
-    protected function isConfigReadOnly(Config $entity)
+    protected function isConfigReadOnly(Entity $entity)
     {
         // Config that is unloaded is treated as writable.
         if (!$entity->getId()) {

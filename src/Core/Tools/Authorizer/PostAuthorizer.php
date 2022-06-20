@@ -13,13 +13,12 @@ namespace Ushahidi\Core\Tools\Authorizer;
 
 use Ushahidi\Contracts\Entity;
 use Ushahidi\Contracts\Authorizer;
-use Ushahidi\Core\Entity\Permission;
+use Ushahidi\Contracts\Permission;
 use Ushahidi\Core\Concerns\PrivAccess;
 use Ushahidi\Core\Concerns\AdminAccess;
 use Ushahidi\Core\Concerns\OwnerAccess;
 use Ushahidi\Core\Concerns\UserContext;
 use Ushahidi\Core\Concerns\ParentAccess;
-use Ushahidi\Core\Entity\UserRepository;
 use Ushahidi\Core\Concerns\PrivateDeployment;
 use Ushahidi\Core\Concerns\Acl as AccessControlList;
 use Ushahidi\Contracts\Repository\Entity\FormRepository;
@@ -63,10 +62,6 @@ class PostAuthorizer implements Authorizer
     // It requires a `FormRepository` to determine create access.
     protected $form_repo;
 
-    /**
-     * @param UserRepository $user_repo
-     * @param PostRepository $post_repo
-     */
     public function __construct(PostRepository $post_repo, FormRepository $form_repo)
     {
         $this->post_repo = $post_repo;
