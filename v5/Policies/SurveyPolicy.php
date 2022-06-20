@@ -5,7 +5,7 @@ namespace v5\Policies;
 use Ushahidi\App\Auth\GenericUser as User;
 use Ushahidi\Core\Entity;
 use v5\Models\Survey;
-use Ushahidi\Core\Entity\Permission;
+use Ushahidi\Contracts\Permission;
 use Ushahidi\Core\Concerns\AdminAccess;
 use Ushahidi\Core\Concerns\UserContext;
 use Ushahidi\Core\Concerns\PrivAccess;

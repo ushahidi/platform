@@ -12,11 +12,11 @@
 namespace Ushahidi\App\Validator;
 
 use Ushahidi\Contracts\Validator;
-use Ushahidi\Core\Tools\ValidationEngineTrait;
+use Ushahidi\Core\Concerns\ValidationEngine;
 
 abstract class LegacyValidator implements Validator
 {
-    use ValidationEngineTrait;
+    use ValidationEngine;
 
     protected $default_error_source = null;
 

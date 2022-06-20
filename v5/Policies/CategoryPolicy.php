@@ -6,7 +6,7 @@ use v5\Models\Survey;
 use v5\Models\Category;
 use Ushahidi\Core\Entity;
 use Ushahidi\App\Auth\GenericUser;
-use Ushahidi\Core\Entity\Permission;
+use Ushahidi\Contracts\Permission;
 use Ushahidi\Core\Concerns\PrivAccess;
 use Ushahidi\Core\Concerns\AdminAccess;
 use Ushahidi\Core\Concerns\UserContext;

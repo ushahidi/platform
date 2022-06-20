@@ -13,7 +13,7 @@ namespace Ushahidi\App\Validator\Post;
 
 use Kohana\Validation\Validation;
 use Ushahidi\App\Facades\Features;
-use Ushahidi\Core\Entity\Permission;
+use Ushahidi\Contracts\Permission;
 use Ushahidi\Core\Concerns\AdminAccess;
 use Ushahidi\Core\Concerns\UserContext;
 use Ushahidi\App\Validator\LegacyValidator;
@@ -49,18 +49,6 @@ class Create extends LegacyValidator
 
     protected $default_error_source = 'post';
 
-    /**
-     * Construct
-     *
-     * @param UpdatePostRepository                  $repo
-     * @param FormAttributeRepository               $form_attribute_repo
-     * @param TagRepository                         $tag_repo
-     * @param UserRepository                        $user_repo
-     * @param FormRepository                        $form_repo
-     * @param RoleRepository                        $role_repo
-     * @param PostValueFactory  $post_value_factory
-     * @param ValueFactory  $post_value_validator_factory
-     */
     public function __construct(
         UpdatePostRepository $repo,
         FormAttributeRepository $attribute_repo,

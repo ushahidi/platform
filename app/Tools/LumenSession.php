@@ -10,12 +10,11 @@
 
 namespace Ushahidi\App\Tools;
 
-use Ushahidi\Core\Entity\User;
-use Ushahidi\Contracts\Session;
 use Illuminate\Support\Facades\Auth;
-use Ushahidi\Contracts\Repository\Entity\UserRepository;
+use Ushahidi\Contracts\EntityGet;
+use Ushahidi\Contracts\Session as SessionInterface;
 
-class LumenSession implements Session
+class LumenSession implements SessionInterface
 {
     protected $userRepo;
 
@@ -23,7 +22,7 @@ class LumenSession implements Session
 
     protected $cachedUser = false;
 
-    public function __construct(UserRepository $userRepo)
+    public function __construct(EntityGet $userRepo)
     {
         $this->userRepo = $userRepo;
     }
@@ -44,7 +43,7 @@ class LumenSession implements Session
         $this->overrideUserId = $userId;
     }
 
-    public function getUser(): User
+    public function getUser()
     {
         // If user override is set
         if ($this->overrideUserId) {

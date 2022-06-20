@@ -2,10 +2,10 @@
 
 namespace Ushahidi\App\Jobs;
 
-use Log;
-use Ushahidi\Contracts\Repository\Entity\ExportJobRepository;
+use Illuminate\Support\Facades\Log;
 use Ushahidi\Core\Usecase\Post\Export;
 use Ushahidi\App\Multisite\MultisiteAwareJob;
+use Ushahidi\Contracts\Repository\Entity\ExportJobRepository;
 
 class ExportPostsBatchJob extends Job
 {

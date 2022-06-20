@@ -333,8 +333,6 @@ class CoreConfig extends ContainerConfig
             = $di->lazyGet('repository.form_stage');
 
         $di->setters['Ushahidi\Core\Concerns\Event']['setEmitter'] = $di->lazyNew('League\Event\Emitter');
-        // Set ACL for ACL Trait
-        $di->setters['Ushahidi\Core\Tools\Permissions\AccessControlList']['setAcl'] = $di->lazyGet('tool.acl');
 
         // Set post permissions instance
         $di->setters['Ushahidi\Core\Tools\Permissions\InteractsWithPostPermissions']['setPostPermissions']
@@ -345,7 +343,7 @@ class CoreConfig extends ContainerConfig
             = $di->lazyNew(\Ushahidi\Core\Tools\Permissions\FormPermissions::class);
 
         // Set ACL for ACL Trait
-        $di->setters['Ushahidi\Core\Tools\Permissions\AccessControlList']['setAcl'] = $di->lazyGet('tool.acl');
+        $di->setters[\Ushahidi\Core\Concerns\Acl::class]['setAcl'] = $di->lazyGet('tool.acl');
 
         // Tools
         $di->set('tool.signer', $di->lazyNew('Ushahidi\Core\Tools\Signer'));
@@ -358,8 +356,8 @@ class CoreConfig extends ContainerConfig
             'multisite' => $di->lazyGet('multisite'),
         ];
 
-        $di->set('tool.acl', $di->lazyNew(\Ushahidi\Core\Tools\Permissions\Acl::class));
-        $di->setters[\Ushahidi\Core\Tools\Permissions\Acl::class]['setRoleRepo'] = $di->lazyGet('repository.role');
+        $di->set('tool.acl', $di->lazyNew(\Ushahidi\Core\Tools\Acl::class));
+        $di->setters[\Ushahidi\Core\Tools\Acl::class]['setRoleRepo'] = $di->lazyGet('repository.role');
 
         $di->set('tool.hasher.password', $di->lazyNew(\Ushahidi\Core\Tools\Hasher\Password::class));
         $di->set('tool.authenticator.password', $di->lazyNew(\Ushahidi\Core\Tools\Authenticator\Password::class));
@@ -467,7 +465,7 @@ class CoreConfig extends ContainerConfig
         // Validation Trait
         // We're injecting via lazy so that we get a separate ValidationEngine for every validator
         // Rather than a shared engine as we would if we used lazyNew->set->lazyGet->
-        $di->setters['Ushahidi\Core\Tools\ValidationEngineTrait']['setValidation'] = $di->lazy(function () {
+        $di->setters['Ushahidi\Core\Concerns\ValidationEngine']['setValidation'] = $di->lazy(function () {
             // Create a new ValidationEngine
             return new \Ushahidi\Core\Tools\KohanaValidationEngine(app('translator'));
         });
