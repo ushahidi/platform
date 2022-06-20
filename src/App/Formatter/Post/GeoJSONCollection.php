@@ -15,11 +15,11 @@ use Ushahidi\Core\Tools\SearchData;
 use Ushahidi\Contracts\Formatter;
 use Ushahidi\Core\Exception\FormatterException;
 use Ushahidi\App\Http\Controllers\RESTController;
-use Ushahidi\Core\Tools\Formatter\GeoJSONFormatter;
+use Ushahidi\Core\Concerns\GeometryConverter;
 
 class GeoJSONCollection implements Formatter
 {
-    use GeoJSONFormatter;
+    use GeometryConverter;
 
     // Formatter
     public function __invoke($entities)

@@ -12,9 +12,6 @@
 namespace Ushahidi\App\Formatter;
 
 use Ushahidi\Core\Concerns\FormatterAuthorizerMetadata;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Carbon;
-use Carbon\CarbonInterval;
 use Ushahidi\Core\Concerns\FormatRackspaceURL;
 
 class ExportJob extends API
