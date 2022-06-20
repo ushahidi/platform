@@ -17,16 +17,13 @@
 namespace Ushahidi\Core\Concerns;
 
 use Ushahidi\Contracts\Entity;
-use Ushahidi\Core\Entity\User;
 
 trait GuestAccess
 {
     /**
      * Check if $user is unloaded or has the "guest" role
-     * @param  User    $user
-     * @return boolean
      */
-    protected function isUserGuest(User $user)
+    protected function isUserGuest(Entity $user)
     {
         return (!$user->id || $user->role === 'guest');
     }

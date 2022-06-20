@@ -14,7 +14,7 @@ namespace Ushahidi\Contracts;
 interface Entity
 {
     /**
-     * Return the unique ID for the entity.
+     * Return the unique identity for the entity.
      *
      * @return mixed
      */
@@ -47,10 +47,10 @@ interface Entity
     /**
      * Check if a property has been changed.
      *
-     * @param  String $key
-     * @param  String $array_key the sub key we want to check, presently we
+     * @param  string $key
+     * @param  string $array_key the sub key we want to check, presently we
      *         only go one level deep within nested arrays
-     * @return Boolean
+     * @return boolean
      */
     public function hasChanged($key, $array_key = null);
 

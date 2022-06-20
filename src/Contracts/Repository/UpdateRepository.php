@@ -17,16 +17,16 @@ use Ushahidi\Contracts\EntityGet;
 interface UpdateRepository extends EntityGet
 {
     /**
-     * @param Entity $entity
+     * @param array|Entity $entity
      *
      * @return void
      */
     public function update(Entity $entity);
 
-    // /**
-    //  * @param Entity[] $entities
-    //  *
-    //  * @return void
-    //  */
+    /**
+     * @param array|Entity[] $entities
+     *
+     * @return void
+     */
     // public function updateCollection(array $entities);
 }

@@ -114,8 +114,8 @@ trait DataTransformer
     /**
      * Transforms a date(time) string to a PHP Date
      *
-     * @param  string|\DateTimeInterface $value
-     * @return DateTimeInterface
+     * @param  string|array|\DateTimeInterface $value
+     * @return \DateTimeInterface
      */
     protected function transformDate($value)
     {
@@ -138,8 +138,8 @@ trait DataTransformer
     /**
      * Transforms a string to a lowercase string.
      *
-     * @param  String $value
-     * @return Integer
+     * @param  string $value
+     * @return string
      */
     protected static function transformLowercasestring($value)
     {
@@ -151,7 +151,7 @@ trait DataTransformer
      * Transforms all values in an array to ints
      *
      * @param  array $value
-     * @return integer
+     * @return array
      */
     protected static function transformArrayInt($value)
     {
@@ -167,14 +167,16 @@ trait DataTransformer
      *
      * This example would call `static::transformCustom` on the `foo` value.
      *
-     * @param  String $type
-     * @return Boolean
+     * @param  string $type
+     * @return string|void
      */
     protected function getCustomTransformer($type)
     {
         if ('*' === $type[0]) {
             return 'transform' . ucfirst(substr($type, 1));
         }
+
+        return;
     }
 
     /**

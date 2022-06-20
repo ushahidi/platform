@@ -16,7 +16,7 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Ushahidi\Core\Concerns;
+namespace Ushahidi\Core\Usecase\Concerns;
 
 trait ModifyRecords
 {
@@ -55,11 +55,8 @@ trait ModifyRecords
      *     $age = $this->getPayload('age', false);
      *
      * @throws \InvalidArgumentException
-     * @param  String $name
-     * @param  Mixed  $default
-     * @return Mixed
      */
-    protected function getPayload($name, $default = null)
+    protected function getPayload(string $name, $default = null)
     {
         if (!isset($this->payload[$name])) {
             if (!isset($default)) {

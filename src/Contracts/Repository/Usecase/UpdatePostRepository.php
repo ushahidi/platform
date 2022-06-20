@@ -28,4 +28,18 @@ interface UpdatePostRepository
      * @return boolean
      */
     public function doesTranslationExist($locale, $parent_id, $type);
+
+    /**
+     * Checking if a post requires approval via the form it belongs too
+     *
+     * @param int|null $formId
+     * @return boolean
+     */
+    public function doesPostRequireApproval($formId);
+
+    /**
+     * Get total number of published posts
+     * @return int
+     */
+    public function getPublishedTotal();
 }

@@ -11,11 +11,6 @@
 
 namespace Ushahidi\Core\Concerns;
 
-use Ushahidi\Contracts\Entity;
-use Ushahidi\Core\Concerns\UserContext;
-use Ushahidi\Core\Concerns\AdminAccess;
-use Ushahidi\Core\Concerns\PrivAccess;
-
 trait AdminOnlyAccess
 {
     // The access checks are run under the context of a specific user
@@ -30,11 +25,9 @@ trait AdminOnlyAccess
     /**
      * Allows full access only if the user is an admin
      *
-     * @param  Entity  $entity
-     * @param  string  $privilege
      * @return boolean
      */
-    public function isAllowed(Entity $entity, $privilege)
+    public function isAllowed()
     {
         return $this->isUserAdmin($this->getUser());
     }

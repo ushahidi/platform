@@ -17,7 +17,6 @@ interface UpdatePostValueRepository
      * Create new post value
      * @param  mixed   $value
      * @param  int     $form_attribute_id
-     *
      * @param  int     $post_id
      */
     public function createValue($value, $form_attribute_id, $post_id);
@@ -26,8 +25,6 @@ interface UpdatePostValueRepository
      * Update an existing post value
      * @param  int     $id
      * @param  mixed   $value
-     *
-     * @param  void
      */
     public function updateValue($id, $value);
 

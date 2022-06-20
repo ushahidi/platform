@@ -79,7 +79,7 @@ trait StatefulData
      * @param  String $key
      * @param  Mixed  $value
      * @return void
-     * @throws RuntimeException
+     * @throws \RuntimeException
      */
     public function __set($key, $value)
     {

@@ -26,4 +26,6 @@ interface FormRepository extends
      * @param array $form_ids The array of form ids to filter by
      */
     public function getAllFormStagesAttributes(array $form_ids = []): \Illuminate\Support\Collection;
+
+    public function getRolesThatCanCreatePosts($form_id);
 }

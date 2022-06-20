@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Ushahidi Platform Acl interface
+ * Ushahidi Platform Password Authenticator Tool
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Platform
@@ -11,14 +11,13 @@
 
 namespace Ushahidi\Contracts;
 
-interface Acl
+interface PasswordAuthenticator
 {
     /**
-     * Check if user has permissions
-     *
-     * @param \Ushahidi\Contracts\Entity $user
-     * @param string $permission The permission to check for
+     * @param  string password in plain text
+     * @param  string stored password hash
      * @return boolean
+     * @throws \Ushahidi\Core\Exception\AuthenticatorException
      */
-    public function hasPermission(Entity $user, $permission);
+    public function checkPassword($plaintext, $hash);
 }

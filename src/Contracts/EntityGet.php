@@ -24,7 +24,7 @@ interface EntityGet
 
     /**
      * Converts an array of entity data into an object.
-     * @param  Array $data
+     * @param  array $data
      * @return Entity
      */
     public function getEntity(array $data = null);

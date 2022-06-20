@@ -17,16 +17,16 @@ trait CollectionLoader
 {
     /**
      * Get the entity for this repository.
-     * @param  Array  $data
-     * @return Ushahidi\Core\Entity
+     * @param  array  $data
+     * @return \Ushahidi\Contracts\Entity
      */
     abstract public function getEntity(array $data = null);
 
     /**
      * Converts an array of results into an array of entities,
      * indexed by the entity id.
-     * @param  Array $results
-     * @return Array
+     * @param  array $results
+     * @return array
      */
     protected function getCollection(array $results)
     {

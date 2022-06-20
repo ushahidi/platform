@@ -18,16 +18,12 @@
 namespace Ushahidi\Core\Concerns;
 
 use Ushahidi\Contracts\Entity;
-use Ushahidi\Core\Repository;
-use Ushahidi\Core\Entity\User;
 
 // The `ParentAccess` trait checks for access to a parent entity
 trait ParentAccess
 {
     /**
      * Check if $user has access to the parent of $entity
-     * @param  Entity  $entity
-     * @param  User    $user
      * @return boolean
      */
     protected function isAllowedParent(Entity $entity, $privilege)
@@ -46,7 +42,6 @@ trait ParentAccess
     // parent entities
     /**
      * Load the parent entity (if there is one)
-     * @param  Entity $entity
      * @return Entity|false
      */
     abstract protected function getParent(Entity $entity);

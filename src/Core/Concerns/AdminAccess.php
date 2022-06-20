@@ -16,14 +16,13 @@
 
 namespace Ushahidi\Core\Concerns;
 
-use Ushahidi\Core\Entity\User;
+use Ushahidi\Contracts\Entity as User;
 
 trait AdminAccess
 {
-
     /**
      * Check if the user has an Admin role
-     * @param  User    $user
+     * @param  \Ushahidi\Contracts\Entity  $user
      * @return boolean
      */
     protected function isUserAdmin(User $user)

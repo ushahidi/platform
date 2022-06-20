@@ -18,7 +18,7 @@ interface CreateRepository extends EntityGet
 {
     /**
      * Creates a new record and returns the created id.
-     * @param  Entity $entity
+     * @param  array|Entity $entity
      * @return Mixed
      */
     public function create(Entity $entity);

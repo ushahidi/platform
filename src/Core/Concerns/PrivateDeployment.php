@@ -13,7 +13,6 @@
 
 namespace Ushahidi\Core\Concerns;
 
-use Ushahidi\Core\Entity\User;
 use Ushahidi\App\Multisite\UsesSiteInfo;
 use Ushahidi\App\Facades\Features;
 

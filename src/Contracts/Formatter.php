@@ -14,11 +14,11 @@ namespace Ushahidi\Contracts;
 interface Formatter
 {
     /**
-     * @param  Entity|mixed $input
+     * @param  \Ushahidi\Contracts\Entity|\Ushahidi\Contracts\Entity[]|mixed $input
      *
      * @return mixed
      *
      * @throws \Ushahidi\Core\Exception\FormatterException
      */
-    public function __invoke(Entity $input);
+    public function __invoke($input);
 }

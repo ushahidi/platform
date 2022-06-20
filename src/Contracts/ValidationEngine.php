@@ -3,16 +3,16 @@
 /**
  * Ushahidi Core ValidationEngine Interface
  *
- * @author     Ushahidi Team <team@ushahidi.com>
- * @package    Ushahidi\Core
- * @copyright  2014 Ushahidi
- * @license    https://www.gnu.org/licenses/agpl-3.0.html
+ * @author    Ushahidi Team <team@ushahidi.com>
+ * @package   Ushahidi\Core
+ * @copyright 2014 Ushahidi
+ * @license   https://www.gnu.org/licenses/agpl-3.0.html
  *             GNU Affero General Public License Version 3 (AGPL3)
  */
 
 namespace Ushahidi\Contracts;
 
-interface Validation
+interface ValidationEngine
 {
     /**
      * Set or reset the data to be validated
@@ -23,6 +23,7 @@ interface Validation
 
     /**
      * Get data by its array key
+     *
      * @param  string $key
      * @return mixed
      */
@@ -37,6 +38,7 @@ interface Validation
 
     /**
      * Get full data by its array key
+     *
      * @param  string $key
      * @return mixed
      */
@@ -57,8 +59,18 @@ interface Validation
     public function check();
 
     /**
+     * Add an error to a field.
+     *
+     * @param  string $field  field name
+     * @param  string $error  error message
+     * @param  array  $params
+     * @return $this
+     */
+    public function error($field, $error, array $params = null);
+
+    /**
      * Get any errors that occurred during validation
-     * Optionally load messages from a $file
+     * optionally load messages from a $file
      * and $translate them into the default language (or a given language)
      *
      * @param  string $file      file containing custom error messages

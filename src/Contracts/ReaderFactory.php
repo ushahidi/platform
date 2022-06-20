@@ -15,7 +15,7 @@ namespace Ushahidi\Contracts;
 interface ReaderFactory
 {
     /**
-     * @param SplFileObject|string $file
+     * @param \SplFileObject|string $file
      */
     public function createReader($file);
 }

@@ -17,34 +17,28 @@
 namespace Ushahidi\Core\Concerns;
 
 use Ushahidi\Contracts\Entity;
-use Ushahidi\Core\Entity\User;
 
 trait OwnerAccess
 {
-
     /**
-     * Check if $user is the owner of $entity
+     * Check if $user is the owner of $ownable
      *
-     * @param  Entity  $entity
-     * @param  User    $user
      * @return boolean
      */
-    protected function isUserOwner(Entity $entity, User $user)
+    protected function isUserOwner(Entity $ownable, Entity $user)
     {
         // @todo ensure we always check the original user_id not the updated value!
-        return ($user->getId() && $entity->user_id === $user->getId());
+        return ($user->getId() && $ownable->user_id === $user->getId());
     }
 
     /**
-     * Check if $user and owner of $entity are anonymous (user id 0)
+     * Check if $user and owner of $ownable are anonymous (user id 0)
      *
-     * @param  Entity  $entity
-     * @param  User    $user
      * @return boolean
      */
-    protected function isUserAndOwnerAnonymous(Entity $entity, User $user)
+    protected function isUserAndOwnerAnonymous(Entity $ownable, Entity $user)
     {
         // @todo ensure we always check the original user_id not the updated value!
-        return (! $user->getId() && ! $entity->user_id);
+        return (! $user->getId() && ! $ownable->user_id);
     }
 }

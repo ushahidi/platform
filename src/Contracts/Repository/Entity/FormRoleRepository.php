@@ -21,20 +21,20 @@ interface FormRoleRepository extends
 
     /**
      * @param  int $form_id
-     * @return [Ushahidi\Contracts\Repository\Entity\FormRole, ...]
+     * @return \Ushahidi\Contracts\Entity[]
      */
-    public function getByForm($form_id);
+    public function getByForm(int $form_id);
 
     /**
      * @param  int $role_id
      * @param  int $form_id
-     * @return [Ushahidi\Contracts\Repository\Entity\FormRole, ...]
+     * @return boolean
      */
-    public function existsInFormRole($role_id, $form_id);
+    public function existsInFormRole(int $role_id, int $form_id);
 
     /**
-     * @param  [Ushahidi\Contracts\Repository\Entity\FormRole, ...]  $entities
-     * @return [Ushahidi\Contracts\Repository\Entity\FormRole, ...]
+     * @param  \Ushahidi\Contracts\Entity[]  $entities
+     * @return \Ushahidi\Contracts\Entity[]
      */
     public function updateCollection(array $entities);
 }

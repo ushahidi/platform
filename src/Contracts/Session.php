@@ -17,7 +17,7 @@ interface Session
     /**
      * Get the user entity
      *
-     * @return Entity
+     * @return \Ushahidi\Contracts\Entity
      */
     public function getUser();
 

@@ -16,7 +16,7 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Ushahidi\Core\Concerns;
+namespace Ushahidi\Core\Usecase\Concerns;
 
 trait IdentifyRecords
 {
@@ -61,7 +61,7 @@ trait IdentifyRecords
      * Get a required parameter by name. If the parameter does not exist,
      * an exception will be thrown.
      *
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      * @param  String $name
      * @return Mixed
      */
