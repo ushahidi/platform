@@ -31,7 +31,6 @@ use Ushahidi\Contracts\Repository\Entity\FormRepository as FormRepositoryContrac
 use Ushahidi\Contracts\Repository\Entity\PostRepository as PostRepositoryContract;
 use Ushahidi\Contracts\Repository\Entity\FormStageRepository as FormStageRepositoryContract;
 use Ushahidi\Contracts\Repository\Entity\FormAttributeRepository as FormAttributeRepositoryContract;
-use Ushahidi\Core\DynamicEntity;
 
 class PostRepository extends OhanzeeRepository implements
     PostRepositoryContract,
@@ -1302,7 +1301,7 @@ class PostRepository extends OhanzeeRepository implements
     }
 
     // UpdateRepository
-    public function updateFromService(DynamicEntity $entity)
+    public function updateFromService(Entity $entity)
     {
         $post = $entity->getChanged();
         $post['updated'] = time();

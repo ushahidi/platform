@@ -50,7 +50,7 @@ class HXLAttributeRepository extends OhanzeeRepository implements
 
     /**
      * @param array|null $data
-     * @return \Ushahidi\App\Repository\Ushahidi\Core\Entity|HXLTag|\Ushahidi\Contracts\Repository\Usecase\Entity
+     * @return \Ushahidi\Contracts\Entity
      */
     public function getEntity(array $data = null)
     {

@@ -15,7 +15,7 @@ use Ohanzee\DB;
 use Ushahidi\Core\Entity\Tag;
 use Ushahidi\Core\Tools\SearchData;
 use Ushahidi\Contracts\Entity;
-use Ushahidi\Contracts\Validation;
+use Ushahidi\Contracts\ValidationEngine;
 use Ushahidi\App\Repository\OhanzeeRepository;
 use Ushahidi\App\Repository\Concerns;
 use Ushahidi\Contracts\Repository\Usecase\DeleteTagRepository;
@@ -35,6 +35,7 @@ class TagRepository extends OhanzeeRepository implements
     use Concerns\FormsTags;
 
     private $created_id;
+
     private $created_ts;
 
     private $deleted_tag;
@@ -174,11 +175,9 @@ class TagRepository extends OhanzeeRepository implements
     /**
      * Checks if the assigned role is valid for this tag.
      * True if there is no role or if it's a parent with no children
-     * @param Validation $validation
-     * @param $fullData
      * @return bool
      */
-    public function isRoleValid(Validation $validation, $tag)
+    public function isRoleValid(ValidationEngine $validation, $tag)
     {
         $isChild = !!$tag['parent_id'];
         $parent = $isChild ? $this->selectOne(['id' => $tag['parent_id']]) : null;
