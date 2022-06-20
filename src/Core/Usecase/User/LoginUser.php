@@ -13,7 +13,7 @@ namespace Ushahidi\Core\Usecase\User;
 
 use Ushahidi\Contracts\RateLimiter;
 use Ushahidi\Core\Usecase\ReadUsecase;
-use Ushahidi\Core\Tools\PasswordAuthenticator;
+use Ushahidi\Contracts\PasswordAuthenticator;
 use Ushahidi\Contracts\Repository\Entity\UserRepository;
 
 class LoginUser extends ReadUsecase
@@ -28,10 +28,6 @@ class LoginUser extends ReadUsecase
      */
     protected $rateLimiter;
 
-    /**
-     * @param  Authenticator $authenticator
-     * @return void
-     */
     public function setAuthenticator(PasswordAuthenticator $authenticator)
     {
         $this->authenticator = $authenticator;

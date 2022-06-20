@@ -12,9 +12,9 @@
 namespace Ushahidi\Core\Usecase\CSV;
 
 use SplTempFileObject;
+use Ushahidi\Contracts\Entity;
 use Ushahidi\Core\Tools\UploadData;
 use Ushahidi\Contracts\ReaderFactory;
-use Ddeboer\DataImport\Step\MappingStep;
 use Ushahidi\Core\Usecase\Media\CreateMedia;
 
 class CreateCSVUsecase extends CreateMedia

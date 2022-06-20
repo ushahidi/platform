@@ -12,25 +12,27 @@
 namespace Ushahidi\Core\Usecase\User;
 
 use Ushahidi\Contracts\Usecase;
-use Ushahidi\Core\Concerns\Formatter as FormatterTrait;
-use Ushahidi\Core\Concerns\Validator as ValidatorTrait;
-use Ushahidi\Core\Concerns\Authorizer as AuthorizerTrait;
-use Ushahidi\Core\Concerns\Translator as TranslatorTrait;
-use Ushahidi\Core\Concerns\ModifyRecords;
+use Ushahidi\Core\Usecase\Concerns\ModifyRecords;
+use Ushahidi\Core\Usecase\Concerns\Formatter as FormatterTrait;
+use Ushahidi\Core\Usecase\Concerns\Validator as ValidatorTrait;
+use Ushahidi\Core\Usecase\Concerns\Authorizer as AuthorizerTrait;
+use Ushahidi\Core\Usecase\Concerns\Translator as TranslatorTrait;
 use Ushahidi\Contracts\Repository\Usecase\UserResetPasswordRepository;
 
 class ResetUserPassword implements Usecase
 {
-    // Uses several traits to assign tools. Each of these traits provides a
-    // setter method for the tool. For example, the AuthorizerTrait provides
+    // Uses several traits to assign tools. Each of these traits provides
+    // a setter method for the tool. For example, the AuthorizerTrait provides
     // a `setAuthorizer` method which only accepts `Authorizer` instances.
     use AuthorizerTrait,
         FormatterTrait,
         ValidatorTrait,
         TranslatorTrait;
 
-    // - ModifyRecords for setting search parameters
+    // ModifyRecords for setting search parameters
     use ModifyRecords;
+
+    protected $repo;
 
     // Usecase
     public function isWrite()
@@ -44,17 +46,6 @@ class ResetUserPassword implements Usecase
         return false;
     }
 
-    /**
-     * @var ResetPasswordRepository
-     */
-    protected $repo;
-
-    /**
-     * Inject a repository
-     *
-     * @param  $repo ResetPasswordRepository
-     * @return $this
-     */
     public function setRepository(UserResetPasswordRepository $repo)
     {
         $this->repo = $repo;
@@ -77,7 +68,7 @@ class ResetUserPassword implements Usecase
         // And delete the token
         $this->repo->deleteResetToken($token);
 
-        return;
+        return [];
     }
 
     // ValidatorTrait

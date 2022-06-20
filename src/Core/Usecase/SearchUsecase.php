@@ -14,9 +14,9 @@ namespace Ushahidi\Core\Usecase;
 use Ushahidi\Contracts\Entity;
 use Ushahidi\Contracts\Usecase;
 use Ushahidi\Core\Tools\SearchData;
-use Ushahidi\Core\Concerns\Formatter as FormatterTrait;
-use Ushahidi\Core\Concerns\Authorizer as AuthorizerTrait;
-use Ushahidi\Core\Concerns\Translator as TranslatorTrait;
+use Ushahidi\Core\Usecase\Concerns\Formatter as FormatterTrait;
+use Ushahidi\Core\Usecase\Concerns\Authorizer as AuthorizerTrait;
+use Ushahidi\Core\Usecase\Concerns\Translator as TranslatorTrait;
 use Ushahidi\Core\Concerns\FilterRecords;
 use Ushahidi\Contracts\Repository\SearchRepository;
 

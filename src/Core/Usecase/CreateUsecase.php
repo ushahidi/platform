@@ -13,13 +13,13 @@ namespace Ushahidi\Core\Usecase;
 
 use Ushahidi\Contracts\Entity;
 use Ushahidi\Contracts\Usecase;
-use Ushahidi\Core\Concerns\Formatter as FormatterTrait;
-use Ushahidi\Core\Concerns\Validator as ValidatorTrait;
-use Ushahidi\Core\Concerns\Authorizer as AuthorizerTrait;
-use Ushahidi\Core\Concerns\Translator as TranslatorTrait;
-use Ushahidi\Core\Concerns\ModifyRecords;
-use Ushahidi\Contracts\Repository\CreateRepository;
 use Ushahidi\Core\Concerns\DispatchesEvents;
+use Ushahidi\Core\Usecase\Concerns\ModifyRecords;
+use Ushahidi\Contracts\Repository\CreateRepository;
+use Ushahidi\Core\Usecase\Concerns\Formatter as FormatterTrait;
+use Ushahidi\Core\Usecase\Concerns\Validator as ValidatorTrait;
+use Ushahidi\Core\Usecase\Concerns\Authorizer as AuthorizerTrait;
+use Ushahidi\Core\Usecase\Concerns\Translator as TranslatorTrait;
 
 class CreateUsecase implements Usecase
 {
