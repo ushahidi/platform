@@ -4,6 +4,9 @@
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
+
 /*
 |--------------------------------------------------------------------------
 | Create The Application
@@ -16,6 +19,14 @@ use Symfony\Component\Console\Output\ConsoleOutput;
 */
 
 $app = require __DIR__.'/bootstrap/app.php';
+
+// Add logging to stderr (if enabled)
+if (getenv('ARTISAN_LOG_CONSOLE') != "") {
+    $app->configureMonologUsing(function ($logger) {
+        $logger->pushHandler(new StreamHandler('php://stderr'), Logger::DEBUG);
+        return $logger;
+    });
+}
 
 /*
 |--------------------------------------------------------------------------

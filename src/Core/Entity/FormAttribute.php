@@ -65,4 +65,20 @@ class FormAttribute extends StaticEntity
     {
         return 'form_attributes';
     }
+
+    public function __toString()
+    {
+        return json_encode([
+            'id' => $this->id,
+            'key' => $this->key,
+            'label' => $this->label,
+            'instructions' => $this->instructions,
+            'input' => $this->input,
+            'type' => $this->type,
+            'required' => $this->required,
+            'default' => $this->default,
+            'priority' => $this->priority,
+            'options' => $this->options,
+        ]);
+    }
 }

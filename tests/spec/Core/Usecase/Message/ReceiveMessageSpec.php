@@ -80,6 +80,10 @@ class ReceiveMessageSpec extends ObjectBehavior
         $contact->getId()->willReturn($contact_id);
     }
 
+    /*
+     * re: github.com/ushahidi/platform/issues/2111
+     * Removing this test according to removing irrelevant authorization
+     *
     function it_fails_when_authorization_is_denied(
         $auth,
         $repo,
@@ -103,6 +107,7 @@ class ReceiveMessageSpec extends ObjectBehavior
         $auth->getUserId()->willReturn(1);
         $this->shouldThrow('Ushahidi\Core\Exception\AuthorizerException')->duringInteract();
     }
+    */
 
     function it_fails_when_validation_fails(
         $auth,

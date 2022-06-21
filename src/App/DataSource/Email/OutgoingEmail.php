@@ -77,7 +77,7 @@ class OutgoingEmail implements OutgoingAPIDataSource
     /**
      * @return mixed
      */
-    public function send($to, $message, $title = "")
+    public function send($to, $message, $title = "", $contact_type = null)
     {
         $site_name = $this->getSite()->getName();
         $site_email = $this->getSite()->getEmail();

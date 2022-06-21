@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Unit tests for Ushahidi_Repository_PostValue
+ * Unit tests for ContactRepository
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Application\Tests
@@ -11,60 +11,60 @@
 
 namespace Tests\Unit\App\Repository;
 
-use Ushahidi_Repository_Contact;
-use Database_MySQLi;
+use Ushahidi\App\Repository\ContactRepository;
+use Ushahidi\Core\Entity\Contact;
+use Tests\TestCase;
+use Tests\DatabaseTransactions;
 
 /**
  * @backupGlobals disabled
  * @preserveGlobalState disabled
  */
-class ContactRepositoryTest extends \PHPUnit\Framework\TestCase
+class ContactRepositoryTest extends TestCase
 {
+    use DatabaseTransactions;
 
-    protected $repository;
-
-    public function setUp()
+    public function testCreateMany()
     {
-        parent::setUp();
-        /* @TODO:
-            Use a fixture / mock to setup some testable data.
+        // Generate contact data
+        $contact1 = new Contact([
+            'contact' => 'someone@ushahidi.com',
+            'type' => 'email',
+            'can_notify' => true,
+        ]);
+        $contact2 = new Contact([
+            'contact' => '1234567',
+            'type' => 'phone',
+            'can_notify' => true,
+        ]);
+        $contact3 = new Contact([
+            'contact' => 'twitterid',
+            'type' => 'twitter',
+            'can_notify' => false,
+        ]);
 
-        $dbconfig = [
-            'connection' => ['username' => 'homestead',
-            'hostname' => 'xxxxxxx',
-            'username' => 'xxxxxxx',
-            'database' => 'xxxxxxx',
-            'password' => 'xxxxxx',
-            'socket'   => '',
-            'port'     => 3306]];
-        $local_conn = '?';
+        $repo = service('repository.contact');
+        $inserted = $repo->createMany(collect([
+            $contact1,
+            $contact2,
+            $contact3,
+        ]));
 
-        $db = new Database_MySQLi($local_conn, $dbconfig);
-        $this->contactRepo = new Ushahidi_Repository_Contact($db); // not a mock!
-
-        @TODO: add known targeted contact data
-            e.g., $this->known_targeted_contact_phone = '2222222222';
-
-        @TODO: add known contact data thats not in a survey
-            e.g., $this->known_regular_contact_phone = '1111111111';
-
-        */
-    }
-
-
-    public function testIsInTargetedSurvey()
-    {
-        /*
-        $mock_payload = ['from'=> $this->known_targeted_contact_phone,
-                        'contact_type' => 'sms'];
-        $contact_mock = $this->contactRepo->getByContact($mock_payload['from'], $mock_payload['contact_type']);
-        $this->assertEquals($this->contactRepo->isInTargetedSurvey($contact_mock->getId()), true );
-
-        $mock_payload = ['from'=> $this->known_regular_contact_phone,
-                        'contact_type' => 'sms'];
-
-        $contact_mock = $this->contactRepo->getByContact($mock_payload['from'], $mock_payload['contact_type']);
-        $this->assertEquals($this->contactRepo->isInTargetedSurvey($contact_mock->getId()), false );
-        */
+        $this->assertCount(3, $inserted);
+        $this->seeInOhanzeeDatabase('contacts', [
+            'id' => $inserted[0],
+            'contact' => 'someone@ushahidi.com',
+            'can_notify' => 1,
+        ]);
+        $this->seeInOhanzeeDatabase('contacts', [
+            'id' => $inserted[1],
+            'contact' => '1234567',
+            'can_notify' => 1,
+        ]);
+        $this->seeInOhanzeeDatabase('contacts', [
+            'id' => $inserted[2],
+            'contact' => 'twitterid',
+            'can_notify' => 0,
+        ]);
     }
 }

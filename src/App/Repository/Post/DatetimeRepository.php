@@ -33,22 +33,9 @@ class DatetimeRepository extends ValueRepository
         return new PostValue($data);
     }
 
-    private function convertToMysqlFormat($value)
+    protected function prepareValue($value)
     {
-        $value = date("Y-m-d H:i:s", strtotime($value));
-        return $value;
-    }
-
-    public function createValue($value, $form_attribute_id, $post_id)
-    {
-        $value = $this->convertToMysqlFormat($value);
-        return parent::createValue($value, $form_attribute_id, $post_id);
-    }
-
-    public function updateValue($id, $value)
-    {
-        $value = $this->convertToMysqlFormat($value);
-        return parent::updateValue($id, $value);
+        return date("Y-m-d H:i:s", strtotime($value));
     }
 
     protected $hideTime = false;

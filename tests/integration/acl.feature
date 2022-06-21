@@ -196,7 +196,7 @@ Feature: API Access Control Layer
         When I request "/posts"
         Then the guzzle status code should be 200
         And the response is JSON
-        And the "count" property equals "14"
+        And the "count" property equals "12"
 
     Scenario: All users can view public posts
         Given that I want to get all "Posts"
@@ -205,7 +205,7 @@ Feature: API Access Control Layer
         When I request "/posts"
         Then the guzzle status code should be 200
         And the response is JSON
-        And the "count" property equals "20"
+        And the "count" property equals "18"
 
     Scenario: User can view public and own private posts in collection
         Given that I want to get all "Posts"
@@ -214,7 +214,7 @@ Feature: API Access Control Layer
         When I request "/posts"
         Then the guzzle status code should be 200
         And the response is JSON
-        And the "count" property equals "25"
+        And the "count" property equals "19"
 
     @resetFixture
     Scenario: Admin can view all posts in collection
@@ -344,14 +344,14 @@ Feature: API Access Control Layer
         And that the oauth token is "testadminuser"
         When I request "/config"
         Then the response is JSON
-        And the "count" property equals "6"
+        And the "count" property equals "8"
         Then the guzzle status code should be 200
 
     Scenario: Listing All Configs as anonymous user
         Given that I want to get all "Configs"
         When I request "/config"
         Then the response is JSON
-        And the "count" property equals "3"
+        And the "count" property equals "4"
         Then the guzzle status code should be 200
 
     @resetFixture
@@ -580,7 +580,7 @@ Feature: API Access Control Layer
         Then the response is JSON
         And the response has a "count" property
         And the type of the "count" property is "numeric"
-        And the "count" property equals "6"
+        And the "count" property equals "7"
         Then the guzzle status code should be 200
 
     @rolesEnabled

@@ -23,6 +23,7 @@ use Ushahidi\Core\Usecase\Message\MessageData;
 use Ushahidi\App\DataSource\Message\Type as MessageType;
 use Ushahidi\App\DataSource\Message\Direction as MessageDirection;
 use Ushahidi\App\DataSource\Message\Status as MessageStatus;
+use Illuminate\Support\Collection;
 
 class MessageRepository extends OhanzeeRepository implements
     MessageRepositoryContract,
@@ -31,6 +32,8 @@ class MessageRepository extends OhanzeeRepository implements
 {
     // Use the JSON transcoder to encode properties
     use JsonTranscodeRepository;
+
+    use Concerns\UsesBulkAutoIncrement;
 
     // OhanzeeRepository
     protected function getTable()
@@ -130,6 +133,7 @@ class MessageRepository extends OhanzeeRepository implements
             // Include contact in same query
             ->join('contacts', 'LEFT')->on('contacts.id', '=', 'messages.contact_id')
             ->select('contacts.contact')
+            ->select(['contacts.type', 'contact_type'])
             ;
 
         if ($data_source) {
@@ -152,6 +156,7 @@ class MessageRepository extends OhanzeeRepository implements
             // Include contact in same query
             ->join('contacts', 'LEFT')->on('contacts.id', '=', 'messages.contact_id')
             ->select('contacts.contact')
+            ->select(['contacts.type', 'contact_type'])
             // Only return messages without a specified provider
             ->where('messages.data_source', 'IS', null)
             ;
@@ -192,8 +197,52 @@ class MessageRepository extends OhanzeeRepository implements
             $message['datetime'] = $message['datetime']->format("Y-m-d H:i:s");
         }
         $message['created'] = time();
+        // Unset related properties
+        unset($message['contact_type']);
         // Create the post
         return $this->executeInsert($this->removeNullValues($message));
+    }
+
+    public function createMany(Collection $collection) : array
+    {
+        $this->checkAutoIncMode();
+
+        $first = $collection->first()->asArray();
+        // Unset related properties
+        unset($first['contact']);
+        unset($first['contact_type']);
+        $columns = array_keys($first);
+
+        $values = $collection->map(function ($entity) {
+            $data = $entity->asArray();
+            // Unset related properties
+            unset($data['contact']);
+            unset($data['contact_type']);
+
+            // Format date value
+            if (!empty($data['datetime'])) {
+                $data['datetime'] = $data['datetime']->format("Y-m-d H:i:s");
+            }
+            $data['created'] = time();
+
+
+            // JSON encode values
+            $data = $this->json_transcoder->encode(
+                $data,
+                $this->getJsonProperties()
+            );
+
+            return $data;
+        })->all();
+
+        $query = DB::insert($this->getTable())
+            ->columns($columns);
+
+        call_user_func_array([$query, 'values'], $values);
+
+        list($insertId, $created) = $query->execute($this->db());
+
+        return range($insertId, $insertId + $created - 1);
     }
 
     // Update Repository
@@ -205,6 +254,8 @@ class MessageRepository extends OhanzeeRepository implements
         if (!empty($message['datetime'])) {
             $message['datetime'] = $message['datetime']->format("Y-m-d H:i:s");
         }
+        // Unset related properties
+        unset($message['contact_type']);
         // Create the post
         return $this->executeUpdate(['id' => $message['id']], $this->removeNullValues($message));
     }

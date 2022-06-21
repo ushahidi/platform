@@ -2,14 +2,9 @@
 
 namespace v5\Http\Controllers;
 
-use http\Env\Response;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Auth;
-use mysql_xdevapi\Exception;
-use Ushahidi\App\Auth\GenericUser;
 use Illuminate\Http\Request;
 use v5\Events\PostCreatedEvent;
 use v5\Events\PostUpdatedEvent;
@@ -17,7 +12,6 @@ use v5\Http\Resources\PostCollection;
 use v5\Http\Resources\PostResource;
 use v5\Models\Post\Post;
 use v5\Models\Post\PostStatus;
-use v5\Models\Translation;
 use v5\Exceptions\V5Exception;
 use Illuminate\Support\Facades\DB;
 use v5\Common\ValidatorRunner;
@@ -52,7 +46,7 @@ class PostController extends V5Controller
         }
 
         return new PostResource($post);
-    }//end show()
+    } //end show()
 
 
     /**
@@ -64,7 +58,7 @@ class PostController extends V5Controller
     public function index()
     {
         return new PostCollection(Post::withPostValues()->paginate(20));
-    }//end index()
+    } //end index()
 
     private function getUser()
     {
@@ -129,6 +123,12 @@ class PostController extends V5Controller
             if (isset($input['completed_stages'])) {
                 $this->savePostStages($post, $input['completed_stages']);
             }
+
+            // Attempt auto-publishing post on creation
+            if ($post->tryAutoPublish()) {
+                $post->save();
+            }
+
             $errors = $this->savePostValues($post, $input['post_content'], $post->id);
 
             if (!empty($errors)) {
@@ -147,13 +147,15 @@ class PostController extends V5Controller
                 return self::make422($errors, 'translation');
             }
             DB::commit();
+            // note: done after commit to avoid deadlock in the db
+            // see comment in bulkPatchOperation() below
             event(new PostCreatedEvent($post));
             return new PostResource($post);
         } catch (\Exception $e) {
             DB::rollback();
             return self::make500($e->getMessage());
         }
-    }//end store()
+    } //end store()
 
     /**
      * Patch the status of a post
@@ -174,14 +176,25 @@ class PostController extends V5Controller
             return self::make422("The V5 API requires a status for post status updates.");
         }
 
-        $post->setAttribute('status', $status);
-        $this->authorize('changeStatus', $post);
+        DB::beginTransaction();
+        try {
+            // TODO: $post->doStatusTransition($status);
+            $post->setAttribute('status', $status);
+            $this->authorize('changeStatus', $post);
 
-        if ($post->save()) {
-            event(new PostUpdatedEvent($post));
-            return new PostResource($post);
-        } else {
-            return self::make422($post->errors);
+            if ($post->save()) {
+                DB::commit();
+                // note: done after commit to avoid deadlock in the db
+                // see comment in bulkPatchOperation() below
+                event(new PostUpdatedEvent($post));
+                return new PostResource($post);
+            } else {
+                DB::rollback();
+                return self::make422($post->errors);
+            }
+        } catch (\Exception $e) {
+            DB::rollback();
+            return self::make500($e->getMessage());
         }
     } // end patchStatus
 
@@ -239,6 +252,7 @@ class PostController extends V5Controller
                 $this->authorize('update', $post);
                 $status = PostStatus::normalize(Arr::get($data->firstWhere('id', $post->id), 'status'));
                 $post->setAttribute('status', $status);
+                // TODO: $post->doStatusTransition($status);
                 $saved = $post->save();
 
                 if (!$saved) {
@@ -256,10 +270,16 @@ class PostController extends V5Controller
             DB::rollback();
             return self::make500();
         }
+        // Note: DB transactions
+        // This is done outside the try{} block so that it happens
+        // after the DB::commit above. The reason is that this will
+        // trigger v3/Kohana code, which will try to open its own
+        // database connection. Both transactions cannot be open at
+        // the same time, as they hold exclusive locks.
         foreach ($posts as $post) {
             event(new PostUpdatedEvent($post));
         }
-        return response()->json([ 'status' => 'completed' ], 200);
+        return response()->json(['status' => 'completed'], 200);
     }
 
     private function bulkDeleteOperation($items)
@@ -304,7 +324,7 @@ class PostController extends V5Controller
             return self::make500();
         }
 
-        return response()->json([ 'status' => 'completed' ], 200);
+        return response()->json(['status' => 'completed'], 200);
     }
 
     /**
@@ -339,6 +359,8 @@ class PostController extends V5Controller
                 $this->savePostStages($post, $input['completed_stages']);
             }
 
+            // TODO: handle status update?
+
             $errors = $this->savePostValues($post, $post_values, $post->id);
             if (!empty($errors)) {
                 DB::rollback();
@@ -348,6 +370,8 @@ class PostController extends V5Controller
             $this->updateTranslations(new Post(), $post->toArray(), $translations_input, $post->id, 'post');
             DB::commit();
 
+            // note: done after commit to avoid deadlock in the db
+            // see comment in bulkPatchOperation()
             event(new PostUpdatedEvent($post));
             $post->load('translations');
             return new PostResource($post);
@@ -355,7 +379,7 @@ class PostController extends V5Controller
             DB::rollback();
             return self::make500($e->getMessage());
         }
-    }//end update()
+    } //end update()
 
     protected function savePostStages($post, $completed)
     {
@@ -382,11 +406,21 @@ class PostController extends V5Controller
                 continue;
             }
             foreach ($stage['fields'] as $field) {
-                if (!isset($field['value']) || !isset($field['value']['value'])) {
+                if (!isset($field['value'])) {
                     continue;
                 }
-                $value = $field['value']['value'];
-                $value_translations = isset($field['value']['translations']) ? $field['value']['translations'] : [];
+
+                // We only want to check if a field input value is set, not if it's empty
+                // The reason is when a field value input is updated and then left empty (as long it's not required)
+                // the user wants to override the existing input value with an empty value.
+                if (!isset($field['value']['value'])) {
+                    continue;
+                }
+
+                $value =  $field['value']['value']; // field value input
+                $value_meta = $field['value']['value_meta'] ?? [];
+                $value_translations = $field['value']['translations'] ?? [];
+
                 $type = $field['type'];
 
                 if ($type === 'tags') {
@@ -410,20 +444,22 @@ class PostController extends V5Controller
                     throw new \Exception("Type '$type' is invalid.");
                 }
 
-                $post_value = $class_name::select('post_'.$type.'.*')
-                                    ->where('post_'.$type.'.form_attribute_id', $field['id'])
-                                    ->where('post_'.$type.'.post_id', $post_id)
-                                    ->get()
-                                    ->first();
-                $update_id = $post_value ? $post_value->id : null;
+                $post_value = $class_name::select('post_' . $type . '.*')
+                    ->where('post_' . $type . '.form_attribute_id', $field['id'])
+                    ->where('post_' . $type . '.post_id', $post_id)
+                    ->get()
+                    ->first();
+
+                $update_id = $post_value->id ?? null; // use null coalescing operator
                 if (!$update_id) {
                     $post_value = new $class_name;
                 }
+
                 if ($type === 'geometry') {
                     if (is_string($value) && $value === '') {
                         $value = null;
                     } else {
-                        $value = \DB::raw("GeomFromText('$value')");
+                        $value = DB::raw("ST_GeomFromText('$value')");
                     }
                 }
 
@@ -432,17 +468,31 @@ class PostController extends V5Controller
                     'form_attribute_id' => $field['id'],
                     'value' => $value
                 ];
+
+                if ($type === 'datetime') {
+                    // We intend to save the request value as a datetime, we intend to know
+                    // what format the request value is either a date or timestamp
+                    if (strlen($value) == 10) {
+                        $data['metadata']['is_date'] = true; // it's a date
+                    } else {
+                        $data['metadata']['is_date'] = false; // it's a timestamp
+                    }
+
+                    $data['metadata'] = array_merge($data['metadata'], $value_meta);
+                }
+
                 foreach ($data as $k => $v) {
                     $post_value->setAttribute($k, $v);
                 }
 
+                if ($type === 'point') {
+                    $data['value'] = DB::raw("ST_GeomFromText('POINT({$value['lon']} {$value['lat']})')");
+                }
+
                 $validation = $post_value->validate();
 
-                if ($type === 'point') {
-                    $data['value'] = \DB::raw("GeomFromText('POINT({$value['lon']} {$value['lat']})')");
-                }
                 if ($validation) {
-                    if ($update_id) {
+                    if ($update_id) { // If post value is an update
                         $post_value->update($data);
                         $this->updateTranslations(
                             new $class_name(),
@@ -519,5 +569,5 @@ class PostController extends V5Controller
         } else {
             return self::make500('Could not delete model');
         }
-    }//end delete()
+    } //end delete()
 }//end class

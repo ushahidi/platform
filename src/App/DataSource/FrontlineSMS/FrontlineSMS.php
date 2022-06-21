@@ -52,6 +52,12 @@ class FrontlineSMS implements CallbackDataSource, OutgoingAPIDataSource
     public function getOptions()
     {
         return [
+            'server_url' => [
+                'label' => 'FrontlineSMS Server URL',
+                'input' => 'text',
+                'description' => 'The URL where the FrontlineSMS server is installed, i.e. https://server.url.com/',
+                'rules' => ['required']
+            ],
             'key' => [
                     'label' => 'Key',
                     'input' => 'text',
@@ -86,13 +92,21 @@ class FrontlineSMS implements CallbackDataSource, OutgoingAPIDataSource
     public $contact_type = Contact::PHONE;
 
     // FrontlineSms Cloud api url
-    protected $apiUrl = 'https://cloud.frontlinesms.com/api/1/webhook';
+    protected $apiUrl = 'api/1/webhook';
+
+    protected $defaultServer = 'https://cloud.frontlinesms.com/';
 
     /**
      * @return mixed
      */
-    public function send($to, $message, $title = "")
+    public function send($to, $message, $title = "", $contact_type = null)
     {
+        // Obtain server url, ensure it ends with '/'
+        $serverUrl = $this->config['server_url'] ?? $this->defaultServer;
+        if (substr($serverUrl, -1) != '/') {
+            $serverUrl = $serverUrl . '/';
+        }
+
         // Check we have the required config
         if (!isset($this->config['key'])) {
             app('log')->warning('Could not send message with FrontlineSMS, incomplete config');
@@ -116,7 +130,7 @@ class FrontlineSMS implements CallbackDataSource, OutgoingAPIDataSource
         // Make a POST request to send the data to frontline cloud
 
         try {
-            $response = $this->client->request('POST', $this->apiUrl, [
+            $response = $this->client->request('POST', $serverUrl . $this->apiUrl, [
                     'headers' => [
                         'Accept'               => 'application/json',
                         'Content-Type'         => 'application/json'

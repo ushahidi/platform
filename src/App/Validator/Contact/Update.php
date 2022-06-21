@@ -40,7 +40,7 @@ class Update extends LegacyValidator
             'type' => [
                 ['max_length', [':value', 255]],
                 // @todo this should be shared via repo or other means
-                ['in_array', [':value', [Contact::EMAIL, Contact::PHONE, Contact::TWITTER]]],
+                ['in_array', [':value', [Contact::EMAIL, Contact::PHONE, Contact::WHATSAPP, Contact::TWITTER]]],
             ],
             'data_source' => [
                 ['in_array', [':value', array_keys($sources->getEnabledSources())]],

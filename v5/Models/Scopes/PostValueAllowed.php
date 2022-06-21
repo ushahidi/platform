@@ -53,12 +53,13 @@ class PostValueAllowed implements Scope
         if ($excludePrivateValues) {
             $builder->where('form_attributes.response_private', '=', 0);
         }
-//
-//        if ($model->getTable() === 'post_datetime' &&
-//            !$postPermissions->acl->hasPermission($user, Permission::MANAGE_POSTS)
-//        ) {
-//            $builder->where('forms.hide_time', '=', 0);
-//        }
+
+        // if (
+        //     $model->getTable() === 'post_datetime' &&
+        //     !$postPermissions->acl->hasPermission($user, Permission::MANAGE_POSTS)
+        // ) {
+        //     $builder->where('forms.hide_time', '=', 0);
+        // }
 
         $formAuthorizer = service('authorizer.form');
         $formPermissions = new \Ushahidi\Core\Tool\Permissions\FormPermissions();

@@ -31,6 +31,11 @@ class DescriptionRepository extends TextRepository
         return 0;
     }
 
+    public function createManyValues(array $values, int $form_attribute_id)
+    {
+        return 0;
+    }
+
     public function updateValue($id, $value)
     {
         return 0;

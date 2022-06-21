@@ -12,11 +12,15 @@
 namespace Ushahidi\Core\Entity;
 
 use Ushahidi\Core\Entity\Repository\EntityGet;
+use Ushahidi\Core\Entity\Repository\EntityCreate;
+use Ushahidi\Core\Entity\Repository\EntityCreateMany;
 use Ushahidi\Core\Usecase\CreateRepository;
 use Ushahidi\Core\Usecase\UpdateRepository;
 
 interface PostRepository extends
     EntityGet,
+    EntityCreate,
+    EntityCreateMany,
     CreateRepository,
     UpdateRepository
 {
@@ -41,4 +45,10 @@ interface PostRepository extends
      * @return int
      */
     public function getPublishedTotal();
+
+    /**
+     * Get total number of posts
+     * @return int
+     */
+    public function getTotal();
 }

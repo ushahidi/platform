@@ -18,6 +18,7 @@ use Ushahidi\Core\SearchData;
 use Ushahidi\Core\Usecase;
 use Ushahidi\Core\Traits\CollectionLoader;
 use Ushahidi\App\Multisite\OhanzeeResolver;
+use RuntimeException;
 
 abstract class OhanzeeRepository implements
     Usecase\CreateRepository,

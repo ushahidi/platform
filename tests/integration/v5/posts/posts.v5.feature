@@ -9,7 +9,7 @@ Feature: Testing the Posts API
       """
         {
             "title": "A title",
-            "description": "",
+            "content": "A description",
             "locale": "en_US",
             "post_content": [
                 {
@@ -45,12 +45,20 @@ Feature: Testing the Posts API
                         {
                             "id": 5,
                             "type": "datetime",
-                            "value": "2020-06-01T07:04:10.921Z"
+                            "value": {
+                                "value": "2020-06-01T07:04:10.921Z",
+                                "value_meta": {
+                                    "from_tz": "Africa/Nairobi",
+                                    "from_dst": false
+                                }
+                            }
                         },
                         {
                             "id": 6,
                             "type": "datetime",
-                            "value": "2020-06-02T07:04:10.921Z"
+                            "value": {
+                                "value": "2020-06-02"
+                            }
                         },
                         {
                             "id": 7,
@@ -148,7 +156,6 @@ Feature: Testing the Posts API
             "published_to": [],
             "post_date": "2020-06-24T07:04:07.897Z",
             "enabled_languages": {},
-            "content": "A description",
             "base_language": "",
             "type": "report",
             "form_id": 1
@@ -164,6 +171,7 @@ Feature: Testing the Posts API
     And the "result.user_id" property equals "2"
     And the "result.categories" property count is "2"
     And the "result.completed_stages" property count is "2"
+    And the "result.status" property equals "published"
     And the type of the "result.completed_stages.0.form_stage_id" property is "int"
     And the "result.completed_stages.0.form_stage_id" property equals "2"
     And the "result.completed_stages.1.form_stage_id" property equals "3"
@@ -183,7 +191,7 @@ Feature: Testing the Posts API
     And the "result.post_content.0.fields.15.key" property equals "links"
     And the "result.post_content.0.fields.15.type" property equals "varchar"
     And the "result.post_content.0.fields.15.value.value" property equals "https://google.com"
-#    And the "result.post_date" property equals "2016-10-14T23:18:27+00:00"
+    #And the "result.post_date" property equals "2016-10-14T23:18:27+00:00"
     Then the guzzle status code should be 201
   @create @rolesEnabled
   Scenario: Updating a Post
@@ -400,7 +408,7 @@ Feature: Testing the Posts API
     And the "result.post_content.0.fields.6.value.0.id" property equals "1"
     And the "result.post_content.0.fields.6.value.0.tag" property equals "Test tag"
     And the "result.post_content.0.fields.7.type" property equals "datetime"
-    And the "result.post_content.0.fields.7.value.value" property equals "2019-02-02T00:00:00+0000"
+    And the "result.post_content.0.fields.7.value.value" property equals "2019-02-02"
     And the "result.post_content.0.fields.10.type" property equals "varchar"
     And the "result.post_content.0.fields.10.key" property equals "last_location"
     And the "result.post_content.0.fields.10.value.value" property equals "Atlantis"

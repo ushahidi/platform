@@ -13,22 +13,15 @@
 
 namespace v5\Models\Post;
 
-use Illuminate\Notifications\Notifiable;
+use v5\Models\Message;
 use v5\Models\BaseModel;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Validation\Rule;
+use v5\Models\Helpers\HideTime;
+use v5\Models\Helpers\HideAuthor;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Str;
-use Illuminate\Validation\Rule;
-use Ushahidi\App\Repository\FormRepository;
 use Ushahidi\App\Validator\LegacyValidator;
-use Ushahidi\Core\Entity\Permission;
-use Ushahidi\Core\Tool\Permissions\InteractsWithFormPermissions;
 use Ushahidi\Core\Tool\Permissions\InteractsWithPostPermissions;
-use v5\Models\Helpers\HideAuthor;
-use v5\Models\Helpers\HideTime;
-use v5\Models\Scopes\PostAllowed;
 
 class Post extends BaseModel
 {
@@ -45,12 +38,16 @@ class Post extends BaseModel
         'locks',
         'categories',
         'comments',
+        'message',
+        'contact',
         'post_content',
         'completed_stages',
         'translations',
         'enabled_languages'
     ];
+
     public $errors;
+
     /**
      * Add eloquent style timestamps
      *
@@ -70,7 +67,8 @@ class Post extends BaseModel
      *
      * @var string[]
      */
-    protected $with = ['translations'];
+    protected $with = ['message', 'translations'];
+
     protected $translations;
     /**
      * The attributes that should be hidden for serialization.
@@ -100,6 +98,7 @@ class Post extends BaseModel
         'created',
         'updated'
     ];
+
     /**
      * The model's default values for attributes.
      *
@@ -336,11 +335,18 @@ class Post extends BaseModel
             'post_content.*.fields.*.required' => [
                 function ($attribute, $value, $fail) {
                     if (!!$value) {
+                        $field_content = Input::get(str_replace('.required', '', $attribute));
+                        $label = $field_content['label'] ?: $field_content['id'];
                         $get_value = Input::get(str_replace('.required', '.value.value', $attribute));
+                        $is_empty = (is_null($get_value) || $get_value === '');
                         $is_title = Input::get(str_replace('.required', '.type', $attribute)) === 'title';
                         $is_desc = Input::get(str_replace('.required', '.type', $attribute)) === 'description';
-                        if (!$get_value && !$is_desc && !$is_title) {
-                            return $fail(trans('validation.field_required'));
+                        if ($is_empty && !$is_desc && !$is_title) {
+                            return $fail(
+                                trans('validation.required_by_label', [
+                                    'label' => $label
+                                ])
+                            );
                         }
                     }
                 }
@@ -405,6 +411,7 @@ class Post extends BaseModel
         $time = HideTime::hideTime($value, $this->survey ? $this->survey->hide_time : true);
         return self::makeDate($time);
     }
+
     /**
      * @return bool
      */
@@ -426,6 +433,86 @@ class Post extends BaseModel
         $this->attributes['post_date'] = $value;
     }
 
+    /* -- Post status management methods -- */
+
+    /**
+     * Can the post be made public?
+     *
+     * Returns:
+     *   - Null if already public
+     *   - True if possible
+     *   - Error message if not
+     */
+    protected function canBePublished()
+    {
+        if ($this->status === PostStatus::PUBLISHED) {
+            return;
+        }
+
+        // Is the post in a publishable status?
+        if (!PostStatus::isValidTransition($this->status, PostStatus::PUBLISHED)) {
+            return trans('post.invalidStatusTransition');
+        }
+
+        // Are there stages/tasks that require completion AND are not completed?
+        $pending_tasks = $this->survey->getMissingRequiredTasks($this->completed_stages);
+        if (count($pending_tasks) > 0) {
+            // TODO: translate the label as necessary
+            return trans('post.stageRequired', ['param1' => $pending_tasks[0]->label]);
+        }
+
+        return true;
+    }
+
+    /**
+     *
+     */
+    public function tryAutoPublish()
+    {
+        // Is automatic publishing enabled in the survey? ( require_approval: false )
+        if ($this->survey->require_approval) {
+            return false;
+        }
+
+        // Can it be published? Otherwise, give up
+        if ($this->canBePublished() === false) {
+            return false;
+        }
+
+        // Publish
+        $this->setAttribute('status', PostStatus::PUBLISHED);
+        return true;
+    }
+
+    /**
+     * Perform user-requested status change
+     * Note that this is different from just setting the status in the model,
+     * this actually performs flow checks.
+     */
+    public function doStatusTransition($new_status)
+    {
+        if ($this->status === $new_status) {
+            return;
+        }
+
+        // Is the post in a publishable status?
+        if (!PostStatus::isValidTransition($this->status, $new_status)) {
+            return trans('post.invalidStatusTransition');
+        }
+
+        if ($new_status === PostStatus::PUBLISHED) {
+            $pending_tasks = $this->survey->getMissingRequiredTasks($this->completed_stages);
+            if (count($pending_tasks) > 0) {
+                // TODO: translate the label as necessary
+                return trans('post.stageRequired', ['param1' => $pending_tasks[0]->label]);
+            }
+        }
+
+        $this->setAttribute('status', $new_status);
+    }
+
+    /* -- Relations accessors -- */
+
     public function survey()
     {
         return $this->hasOne('v5\Models\Survey', 'id', 'form_id')->setEagerLoads([]);
@@ -445,6 +532,17 @@ class Post extends BaseModel
     {
         return $this->hasMany('v5\Models\Comment', 'post_id', 'id');
     }
+
+    public function message()
+    {
+        return $this->hasOne(Message::class);
+    }
+
+    // public function contact()
+    // {
+    //     // Lumen 5.8+:
+    //     // return $this->hasOneThrough(Message::class, Contact::class);
+    // }
 
     protected static function valueTypesRelationships()
     {

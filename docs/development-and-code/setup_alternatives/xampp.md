@@ -10,9 +10,13 @@ description: >-
 
 The setup in this guide is demonstrated in below videos as well if you want to watch and follow the guide at the same time!
 
-{% embed url="https://www.youtube.com/watch?v=zY80QpptKk0&feature=youtu.be" caption="Download the Platform code with GitHub Desktop, recorded in Windows" %}
+{% embed url="https://www.youtube.com/watch?v=zY80QpptKk0&feature=youtu.be" %}
+Download the Platform code with GitHub Desktop, recorded in Windows
+{% endembed %}
 
-{% embed url="https://www.youtube.com/watch?v=2byASqRp9hQ&feature=youtu.be" caption="Install XAMPP and Composer to setup the Ushahidi Platform Backend, recorded in Windows." %}
+{% embed url="https://www.youtube.com/watch?v=2byASqRp9hQ&feature=youtu.be" %}
+Install XAMPP and Composer to setup the Ushahidi Platform Backend, recorded in Windows.
+{% endembed %}
 
 ## Introduction
 
@@ -20,7 +24,7 @@ XAMPP is a bundle of server programs including three of the requirements for run
 
 XAMPP is available for Linux, Mac OS X and Windows. We are doing our best to ensure these instructions are useful for all three operating systems. However, there are a lot of details involved in getting everything right. Also, each of those operating systems can be found running in several different versions and configurations.
 
-For this reason, you may find out that some instructions are missing or not working for you. If that's the case, please consider researching the solution \(you can [reach out for help](../../get-in-touch.md) too\), and contributing updates for this guide.
+For this reason, you may find out that some instructions are missing or not working for you. If that's the case, please consider researching the solution (you can [reach out for help](../../get-in-touch.md) too), and contributing updates for this guide.
 
 The two main components of the Ushahidi Platform are the API and the Client. We will cover each of them separately, starting with the API.
 
@@ -33,7 +37,8 @@ The two main components of the Ushahidi Platform are the API and the Client. We 
   * There are several installation options suggested [here](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git).
 * Make sure you have PHP 7.2.x or 7.3.x, running with php-fpm
   * The following PHP Extensions are needed:
-  * * curl
+  *
+    * curl
     * json
     * mbstring
     * mcrypt
@@ -43,12 +48,12 @@ The two main components of the Ushahidi Platform are the API and the Client. We 
     * gd
     * xml
     * zip
-* Composer for PHP package management \( [https://getcomposer.org](https://getcomposer.org) \)
+* Composer for PHP package management ( [https://getcomposer.org](https://getcomposer.org) )
 * Install XAMPP by downloading it from the [project website](https://www.apachefriends.org).
 
 **Some useful tutorials and links to get the prerequisites set up:**
 
-* Installing Composer on Ubuntu \(added to this list 18/3-2019\): [https://www.digitalocean.com/community/tutorials/how-to-install-and-use-composer-on-ubuntu-18-04](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-composer-on-ubuntu-18-04)
+* Installing Composer on Ubuntu (added to this list 18/3-2019): [https://www.digitalocean.com/community/tutorials/how-to-install-and-use-composer-on-ubuntu-18-04](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-composer-on-ubuntu-18-04)
 
 {% hint style="warning" %}
 Ensure that you download the XAMPP package containing the **appropriate PHP version**. Check the [README](../../) for finding which one it is.
@@ -75,7 +80,7 @@ curl -sS https://getcomposer.org/installer | \
 ```
 
 * _Windows:_
-  * Install Composer, the package manager for PHP. You may do that by following the instructions for your environment [in the project website](https://getcomposer.org/) .
+  * Install Composer, the package manager for PHP. You may do that by following the instructions for your environment [in the project website](https://getcomposer.org) .
   * If your XAMPP Control Panel was open, you may need to close it at this point.
 
 #### Verify the installation
@@ -83,7 +88,7 @@ curl -sS https://getcomposer.org/installer | \
 * Open the XAMPP Control Panel and make sure that both MySQL and Apache are running.
   * _Windows_: click the "Start" button next to MySQL and Apache modules
   * _Linux and Mac_:
-    * Search for the application XAMPP \(usually in the applications-window, but you can also search for it, a seach-window appears  by pressing \(usually\) cmd=&gt;space on Mac and  Super=&gt;A on Linux\).
+    * Search for the application XAMPP (usually in the applications-window, but you can also search for it, a seach-window appears  by pressing (usually) cmd=>space on Mac and  Super=>A on Linux).
     * Access the "Manage Servers" tab
     * Select "MySQL Database" and click the "Start" button on the right side
     * Select "Apache Web Server" and click the "Start" button on the right side
@@ -102,14 +107,25 @@ curl -sS https://getcomposer.org/installer | \
   * Create a database named "platform"
     * On the left hand side of the phpmyadmin interface, you will see a list of databases. Click the "New" label on top of it
     * On the right hand side:
-      * Provide the database name \("platform"\)
+      * Provide the database name ("platform")
       * Right next to it you will find a drop down to select the character encoding and collation. Scroll near to the bottom of the list and select "utf8mb4\_unicode\_ci"
       * Click "Create"
+
+Next, create a new user and password for the `platform` database. The username and password
+can be anything; we will use `ushahidi` for both in this example.  Select the `platform` database and execute the query below:
+
+```
+CREATE USER 'ushahidi'@'127.0.0.1' IDENTIFIED BY 'ushahidi';
+```
+Now, grant all priviledges on the `plaform` database to this user by running the below command: 
+```
+GRANT ALL PRIVILEGES ON plaform.* TO 'ushahidi'@'127.0.0.1';
+```
 
 #### Obtain the code
 
 * We need to do some work from a terminal window, let's open one.
-  * _Windows_: In the XAMPP control panel, click on "Shell" 
+  * _Windows_: In the XAMPP control panel, click on "Shell"
     * This usually opens a terminal with `C:\xampp` being the active folder
     * Run `cd htdocs`
   * _Linux_ and _Mac_: open your Terminal program, the active folder should be `home/dev`.
@@ -128,24 +144,24 @@ It's **very important** that you have a clear idea of the location of your platf
 
 We will configure the API now. We will do this continuing working on the same terminal window that was opened in the previous steps.
 
-* Run `cd platform` 
-* Run the appropriate command depending on your operating system: 
+* Run `cd platform`
+* Run the appropriate command depending on your operating system:
   * Windows: run `copy .env.example .env`
   * Linux and Mac: run `cp .env.example .env`
-* Open `.env` with your IDE or text editor. This file is located inside your platform folder. 
+* Open `.env` with your IDE or text editor. This file is located inside your platform folder.
 
 {% hint style="info" %}
 Hint on Linux and Mac: You can run `sudo nano .env` to open up the nano text-editor in the terminal. When you are finished editing, press ctrl-x and then Y when asked if you want to save.
 {% endhint %}
 
 {% hint style="warning" %}
-On Windows File Explorer, the default is to hide the extension of the files \(the characters after the dot\). For that reason, the `.env` file may appear in your File Explorer window as a file with an empty name and of type "ENV file"
+On Windows File Explorer, the default is to hide the extension of the files (the characters after the dot). For that reason, the `.env` file may appear in your File Explorer window as a file with an empty name and of type "ENV file"
 {% endhint %}
 
 * Modify the file in the following way:
-  * Change the `CACHE_DRIVER` to be `array` instead of `memcache` \(it's feasible set it up with memcache at some point, but for simplicity we use `array`\)
+  * Change the `CACHE_DRIVER` to be `array` instead of `memcache` (it's feasible set it up with memcache at some point, but for simplicity we use `array`)
   * Change the `DB_HOST` to `127.0.0.1`
-  * Change the `DB_USERNAME` to `root` 
+  * Change the `DB_USERNAME` to `root`
   * Change the `DB_PASSWORD` to be empty, so literally: `DB_PASSWORD=`
   * Change the `DB_DATABASE` to `platform`
 
@@ -176,7 +192,7 @@ php composer.phar composer migrate
 
 ### Configuring the web server
 
-At this point you have the API ready to run, but need to setup your system and the Apache web server rules, in order to make it properly accessible through its own server name \(we'll use the server name "api.ushahidi.test" in this example\)
+At this point you have the API ready to run, but need to setup your system and the Apache web server rules, in order to make it properly accessible through its own server name (we'll use the server name "api.ushahidi.test" in this example)
 
 #### Configure the hosts file
 
@@ -192,10 +208,10 @@ Add the API virtual host name to your hosts file, by doing the following: append
     * Type Notepad in the search field.
     * In the search results, right-click Notepad and select Run as administrator.
   * Open the file: `C:\Windows\System32\Drivers\etc\hosts`
-    * When doing this from the Notepad "File" &gt; "Open" menu action,  you should make sure to change the default file filter from "Text Documents \(.txt\)" to "All Files"
+    * When doing this from the Notepad "File" > "Open" menu action,  you should make sure to change the default file filter from "Text Documents (.txt)" to "All Files"
   * Update the file, add a line at the bottom with these contents: `127.0.0.1 api.ushahidi.test`
 * Linux / Mac :
-  * Open the `/etc/hosts` file in an editor with administrator privileges \(i.e. with the terminal command `sudo nano /etc/hosts`\)
+  * Open the `/etc/hosts` file in an editor with administrator privileges (i.e. with the terminal command `sudo nano /etc/hosts`)
   * Update the file, appending a line with these contents: `127.0.0.1 api.ushahidi.test`
 
 #### Configure the platform/httpdocs/.htaccess file
@@ -204,12 +220,12 @@ Add the API virtual host name to your hosts file, by doing the following: append
 Check the path, there are two locations where we will add different .htaccess files
 {% endhint %}
 
-In your platform folder, inside the folder `httpdocs`, edit the file `.htaccess`. Edit the contents of the file to match **exactly** these \(you can open the file to edit through `sudo nano .htaccess`\):
+In your platform folder, inside the folder `httpdocs`, edit the file `.htaccess`. Edit the contents of the file to match **exactly** these (you can open the file to edit through `sudo nano .htaccess`):
 
 * File path: **platform/httpdocs/.htaccess**
 
 {% code title="platform/httpdocs/.htaccess" %}
-```text
+```
 # Turn on URL rewriting
 RewriteEngine On
 
@@ -239,12 +255,12 @@ RewriteRule .* index.php/$0 [PT]
 Check the path, there are two locations where we will add different .htaccess files
 {% endhint %}
 
-In your platform folder, edit the file `.htaccess`\(as before, you can open the file to edit it through `sudo nano .htaccess`\). The contents should match these, again, **exactly**:
+In your platform folder, edit the file `.htaccess`(as before, you can open the file to edit it through `sudo nano .htaccess`). The contents should match these, again, **exactly**:
 
 * path: **platform/.htaccess**
 
 {% code title="platform/.htaccess" %}
-```text
+```
 # Turn on URL rewriting
 RewriteEngine On
 
@@ -265,12 +281,12 @@ Last, but not least, we are going to configure the web server to find your platf
 We are going to need some extra concentration here, so read carefully.
 
 * We are setting ourselves to edit the web server's configuration file. So first thing, we need to know how to open it in an editor.
-  * _Windows_: In the XAMPP control panel, click the "Config" button next to Apache and select "Apache \(httpd.conf\)". This will open an editor with the file.
+  * _Windows_: In the XAMPP control panel, click the "Config" button next to Apache and select "Apache (httpd.conf)". This will open an editor with the file.
   * _Linux_: go to XAMPP and select the tab "Manage Servers". Click on Apache Web Server and click the "Configure"-button to the right. Click on "Open Conf File" to open the configuration-file. A question if you really want to manually edit the file may appear. Click Yes in that case.
   * _Mac: ..._
 * Now that we have the configuration file ready to edit, we are going to add a few lines at the bottom of that file. Those lines look like this:
 
-```text
+```
 <VirtualHost *:80>
   ServerAdmin webmaster@localhost
   DocumentRoot "<your platform folder here>"
@@ -295,7 +311,7 @@ If you chose a server name different from api.ushahidi.test , you should modify 
 
 All set! You should be able to access [http://api.ushahidi.test](http://api.ushahidi.test) now and see the default API response. Something like this:
 
-```text
+```
 {"now":"2019-02-04T10:52:25+00:00","version":"3","user":{"id":null,"email":null,"realname":null}}
 ```
 
@@ -331,7 +347,9 @@ For Windows, look for the file with a name ended in "-x86.msi"
 {% endhint %}
 
 {% hint style="info" %}
-For Linux and Mac OS X , probably the easiest way to control which version of node.js you are installing, is by using the "nvm" tool. There are several tutorials available that walk you through its set up. A good one can be found [here](https://nodesource.com/blog/installing-node-js-tutorial-using-nvm-on-mac-os-x-and-ubuntu/).
+For Linux and Mac OS X, probably the easiest way to control which version of node.js you are installing, is by using the "nvm" tool. There are several tutorials available that walk you through its set up. A good one can be found [here](https://nodesource.com/blog/installing-node-js-tutorial-using-nvm-on-mac-os-x-and-ubuntu/).
+
+For windows, you can try using [nvm-windows](https://github.com/coreybutler/nvm-windows) to manage node versions.
 {% endhint %}
 
 #### Installation
@@ -344,5 +362,4 @@ As a result of the steps followed in this guide, the URL for the API backend is 
 
 With that clarified, please find below the link to the client set up guide.
 
-{% page-ref page="setting-up-the-platform-client.md" %}
-
+{% page-ref page="setting-up-the-platform-client/" %}

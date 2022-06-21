@@ -32,7 +32,8 @@ return [
         'outgoingemail' => true,
         'twilio' => true,
         'nexmo' => true,
-        'testservice' => false
+        'testservice' => false,
+        'gmail' => false
     ],
 
     // Client limits
@@ -94,4 +95,17 @@ return [
     'anonymise-reporters' => [
         'enabled' => true,
     ],
+
+    // Enable or disable donations via web monetizations
+    'donation' => [
+        'enabled' => true
+    ],
+
+    // Enable or disable Gmail Support
+    // Controls whether the users can set gmail credentials through the datasource config
+    //   true: Gmail API credentials are provided via system environment (GMAIL_CLIENT_ID and GMAIL_CLIENT_SECRET)
+    //   false: Credentials expected via the datasource configuration API
+    'gmail-support' => [
+        'enabled' => filter_var(getenv('GMAIL_SUPPORT_PROVIDED'), FILTER_VALIDATE_BOOLEAN) ?? false
+    ]
 ];

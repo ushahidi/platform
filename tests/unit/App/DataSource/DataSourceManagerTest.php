@@ -11,16 +11,15 @@
 
 namespace Tests\Unit\App\DataSource;
 
-use Tests\TestCase;
 use Mockery as M;
-
+use Tests\TestCase;
 use Ushahidi\App\DataSource\DataSourceManager;
 use Ushahidi\App\DataSource\Email\Email;
-use Ushahidi\App\DataSource\Twitter\Twitter;
+use Ushahidi\App\DataSource\IncomingAPIDataSource;
 use Ushahidi\App\DataSource\Nexmo\Nexmo;
-use Ushahidi\App\DataSource\SMSSync\SMSSync;
-use Ushahidi\Core\Entity\ConfigRepository;
+use Ushahidi\App\DataSource\Twitter\Twitter;
 use Ushahidi\Core\Entity\Config;
+use Ushahidi\Core\Entity\ConfigRepository;
 
 /**
  * @backupGlobals disabled
@@ -53,7 +52,7 @@ class DataSourceManagerTest extends TestCase
             ->andReturn(new Config([
                 'providers' => [
                     'nexmo' => true,
-                ]
+                ],
             ]));
 
         $configRepo->shouldReceive('get')
@@ -63,7 +62,7 @@ class DataSourceManagerTest extends TestCase
                     'nexmo' => true,
                     'twitter' => true,
                     'email' => true,
-                ]
+                ],
             ]));
 
         $this->assertCount(1, $manager->getEnabledSources());
@@ -85,16 +84,16 @@ class DataSourceManagerTest extends TestCase
                 'providers' => [
                     'nexmo' => true,
                     'twitter' => true,
-                    'email' => true
-                ]
+                    'email' => true,
+                ],
             ]));
 
         $configRepo->shouldReceive('get')
             ->with('features')
             ->andReturn(new Config([
                 'data-providers' => [
-                    'nexmo' => true
-                ]
+                    'nexmo' => true,
+                ],
             ]));
 
         $this->assertCount(1, $manager->getEnabledSources());
@@ -102,6 +101,81 @@ class DataSourceManagerTest extends TestCase
 
         $this->expectException(\InvalidArgumentException::class);
         $manager->getEnabledSource('twitter');
+    }
+
+    public function testCustomSources()
+    {
+        $configRepo = M::mock(ConfigRepository::class);
+        $manager = new DataSourceManager($configRepo);
+
+        $configRepo->shouldReceive('get')
+            ->with('data-provider')
+            ->andReturn(new Config([
+                'providers' => [
+                    'nexmo' => true,
+                    'twitter' => true,
+                    'email' => true,
+                    'custom-provider' => true,
+                ],
+            ]));
+
+        $configRepo->shouldReceive('get')
+            ->with('features')
+            ->andReturn(new Config([
+                'data-providers' => [
+                    'email' => true,
+                    'custom-provider' => true,
+                ],
+            ]));
+
+        $customSource = function ($config = []) {
+            return new class($config) implements IncomingAPIDataSource
+            {
+                protected $config;
+
+                public function __construct($config)
+                {
+                    $this->config = $config;
+                }
+
+                public function fetch($limit = false)
+                {
+                }
+                public function getName()
+                {
+                }
+                public function getId()
+                {
+                }
+                public function getServices()
+                {
+                }
+                public function getOptions()
+                {
+                }
+                public function getInboundFields()
+                {
+                }
+                public function getInboundFormId()
+                {
+                }
+                public function getInboundFieldMappings()
+                {
+                }
+                public function isUserConfigurable()
+                {
+                }
+            };
+        };
+
+        $manager->extend('custom-provider', $customSource);
+
+        $this->assertCount(2, $manager->getEnabledSources());
+        $this->assertFalse($manager->isEnabledSource('twitter'));
+        $this->assertTrue($manager->isEnabledSource('custom-provider'));
+
+        $class = call_user_func($customSource);
+        $this->assertInstanceOf(get_class($class), $manager->getSource('custom-provider'));
     }
 
     public function testGetSourceForType()
@@ -116,8 +190,8 @@ class DataSourceManagerTest extends TestCase
                     'nexmo' => true,
                     'twitter' => true,
                     'email' => true,
-                    'smssync' => true
-                ]
+                    'smssync' => true,
+                ],
             ]));
 
         $configRepo->shouldReceive('get')
@@ -127,8 +201,8 @@ class DataSourceManagerTest extends TestCase
                     'nexmo' => true,
                     'twitter' => true,
                     'email' => true,
-                    'smssync' => true
-                ]
+                    'smssync' => true,
+                ],
             ]));
 
         $this->assertInstanceOf(Twitter::class, $manager->getSourceForType('twitter'));

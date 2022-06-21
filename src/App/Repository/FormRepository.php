@@ -29,6 +29,8 @@ class FormRepository extends OhanzeeRepository implements
     // Use Event trait to trigger events
     use Event;
 
+    use Concerns\UsesBulkAutoIncrement;
+
     // OhanzeeRepository
     protected function getTable()
     {
@@ -75,6 +77,33 @@ class FormRepository extends OhanzeeRepository implements
         $id = parent::create($entity->setState(['created' => time()]));
         // todo ensure default group is created
         return $id;
+    }
+
+    public function createMany(Collection $collection) : array
+    {
+        $this->checkAutoIncMode();
+
+        $first = $collection->first()->asArray();
+        unset($first['can_create'], $first['tags']);
+        $columns = array_keys($first);
+
+        $values = $collection->map(function ($entity) {
+            $data = $entity->asArray();
+
+            unset($data['can_create'], $data['tags']);
+            $data['created'] = time();
+
+            return $data;
+        })->all();
+
+        $query = DB::insert($this->getTable())
+            ->columns($columns);
+
+        call_user_func_array([$query, 'values'], $values);
+
+        list($insertId, $created) = $query->execute($this->db());
+
+        return range($insertId, $insertId + $created - 1);
     }
 
     // UpdateRepository
