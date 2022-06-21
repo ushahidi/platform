@@ -7,6 +7,8 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
+use Ushahidi\App\Multisite\MultisiteAwareJob;
+
 abstract class Job implements ShouldQueue
 {
     /*
@@ -20,5 +22,11 @@ abstract class Job implements ShouldQueue
     |
     */
 
-    use InteractsWithQueue, Queueable, SerializesModels;
+    use InteractsWithQueue, Queueable;
+
+    // SerializesModels is included with MultisiteAwareJob to handle the clash
+    // of sleep/wakeup methods
+    // use SerializesModels;
+
+    use MultisiteAwareJob;
 }

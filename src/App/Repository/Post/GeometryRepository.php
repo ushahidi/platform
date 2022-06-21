@@ -31,26 +31,15 @@ class GeometryRepository extends ValueRepository
         // Get geometry value as text
         $query->select(
             $this->getTable().'.*',
-            // Fetch AsText(value) aliased to value
-                [DB::expr('AsText(value)'), 'value']
+            // Fetch ST_AsText(value) aliased to value
+                [DB::expr('ST_AsText(value)'), 'value']
         );
 
         return $query;
     }
 
-    // Override createValue to save 'value' using GeomFromText
-    public function createValue($value, $form_attribute_id, $post_id)
+    protected function prepareValue($value)
     {
-        $value = DB::expr('GeomFromText(:text)')->param(':text', $value);
-
-        return parent::createValue($value, $form_attribute_id, $post_id);
-    }
-
-    // Override updateValue to save 'value' using GeomFromText
-    public function updateValue($id, $value)
-    {
-        $value = DB::expr('GeomFromText(:text)')->param(':text', $value);
-
-        return parent::updateValue($id, $value);
+        return DB::expr('ST_GeomFromText(:text)')->param(':text', $value);
     }
 }

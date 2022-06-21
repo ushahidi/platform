@@ -28,14 +28,14 @@ class PostGeometry extends PostValue
      * Get a new query builder for the model's table.
      * Manipulate in case we need to convert geometrical fields to text.
      *
-     * @param  bool  $excludeDeleted
+     * @param bool $excludeDeleted
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function newQuery()
     {
         if (!empty($this->geometry_column) && $this->geometryAsText === true) {
-            $raw =
-                'AsText(`' . $this->table . '`.`' . $this->geometry_column . '`) as `' . $this->geometry_column . '`';
+            $raw = 'ST_AsText(`' . $this->table . '`.`' . $this->geometry_column . '`) as `' .
+                $this->geometry_column . '`';
             return parent::newQuery()->addSelect('post_geometry.*', DB::raw($raw));
         }
         return parent::newQuery();

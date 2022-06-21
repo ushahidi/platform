@@ -23,6 +23,7 @@ use Ushahidi\Core\Usecase\Message\MessageData;
 use Ushahidi\App\DataSource\Message\Type as MessageType;
 use Ushahidi\App\DataSource\Message\Direction as MessageDirection;
 use Ushahidi\App\DataSource\Message\Status as MessageStatus;
+use Illuminate\Support\Collection;
 
 class MessageRepository extends OhanzeeRepository implements
     MessageRepositoryContract,
@@ -31,6 +32,8 @@ class MessageRepository extends OhanzeeRepository implements
 {
     // Use the JSON transcoder to encode properties
     use JsonTranscodeRepository;
+
+    use Concerns\UsesBulkAutoIncrement;
 
     // OhanzeeRepository
     protected function getTable()
@@ -198,6 +201,48 @@ class MessageRepository extends OhanzeeRepository implements
         unset($message['contact_type']);
         // Create the post
         return $this->executeInsert($this->removeNullValues($message));
+    }
+
+    public function createMany(Collection $collection) : array
+    {
+        $this->checkAutoIncMode();
+
+        $first = $collection->first()->asArray();
+        // Unset related properties
+        unset($first['contact']);
+        unset($first['contact_type']);
+        $columns = array_keys($first);
+
+        $values = $collection->map(function ($entity) {
+            $data = $entity->asArray();
+            // Unset related properties
+            unset($data['contact']);
+            unset($data['contact_type']);
+
+            // Format date value
+            if (!empty($data['datetime'])) {
+                $data['datetime'] = $data['datetime']->format("Y-m-d H:i:s");
+            }
+            $data['created'] = time();
+
+
+            // JSON encode values
+            $data = $this->json_transcoder->encode(
+                $data,
+                $this->getJsonProperties()
+            );
+
+            return $data;
+        })->all();
+
+        $query = DB::insert($this->getTable())
+            ->columns($columns);
+
+        call_user_func_array([$query, 'values'], $values);
+
+        list($insertId, $created) = $query->execute($this->db());
+
+        return range($insertId, $insertId + $created - 1);
     }
 
     // Update Repository

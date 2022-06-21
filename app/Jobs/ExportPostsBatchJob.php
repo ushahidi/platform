@@ -6,12 +6,11 @@ use Log;
 use Ushahidi\Factory\UsecaseFactory;
 use Ushahidi\Core\Entity\ExportJob;
 use Ushahidi\Core\Entity\ExportJobRepository;
-use Ushahidi\App\Multisite\MultisiteAwareJob;
 use Ushahidi\Core\Usecase\Post\Export;
 
 class ExportPostsBatchJob extends Job
 {
-    use MultisiteAwareJob;
+    use RecordsExportJobFailure;
 
     protected $jobId;
     protected $batchNumber;

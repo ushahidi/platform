@@ -60,4 +60,11 @@ class Contact extends StaticEntity
     {
         return 'contacts';
     }
+
+    protected function getDefaultData()
+    {
+        return [
+            'can_notify' => 0,
+        ];
+    }
 }

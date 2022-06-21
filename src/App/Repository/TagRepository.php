@@ -12,6 +12,7 @@
 namespace Ushahidi\App\Repository;
 
 use Ohanzee\DB;
+use Ohanzee\Database;
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\SearchData;
 use Ushahidi\Core\Entity\Tag;
@@ -19,6 +20,7 @@ use Ushahidi\Core\Entity\TagRepository as TagRepositoryContract;
 use Ushahidi\Core\Usecase\Tag\UpdateTagRepository;
 use Ushahidi\Core\Usecase\Tag\DeleteTagRepository;
 use Ushahidi\Core\Usecase\Post\UpdatePostTagRepository;
+use Illuminate\Support\Collection;
 
 class TagRepository extends OhanzeeRepository implements
     UpdateTagRepository,
@@ -30,6 +32,8 @@ class TagRepository extends OhanzeeRepository implements
     use JsonTranscodeRepository;
     // Use trait to for updating forms_tags-table
     use FormsTagsTrait;
+    use Concerns\UsesBulkAutoIncrement;
+
     private $created_id;
     private $created_ts;
 
@@ -112,6 +116,39 @@ class TagRepository extends OhanzeeRepository implements
         $id = $this->executeInsert($this->removeNullValues($record));
 
         return $id;
+    }
+
+    public function createMany(Collection $collection) : array
+    {
+        $this->checkAutoIncMode();
+
+        $first = $collection->first()->asArray();
+        unset($first['children']);
+        $columns = array_keys($first);
+
+        $values = $collection->map(function ($entity) {
+            $data = $entity->asArray();
+
+            unset($data['children']);
+            $data['created'] = time();
+
+            // JSON encode values
+            $data = $this->json_transcoder->encode(
+                $data,
+                $this->getJsonProperties()
+            );
+
+            return $data;
+        })->all();
+
+        $query = DB::insert($this->getTable())
+            ->columns($columns);
+
+        call_user_func_array([$query, 'values'], $values);
+
+        list($insertId, $created) = $query->execute($this->db());
+
+        return range($insertId, $insertId + $created - 1);
     }
 
     public function update(Entity $entity)
