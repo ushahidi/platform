@@ -12,9 +12,10 @@
 namespace Ushahidi\App\Repository;
 
 use Ohanzee\DB;
-use Ushahidi\Core\Tools\SearchData;
 use Ushahidi\Contracts\Entity;
 use Ushahidi\Core\Entity\Contact;
+use Illuminate\Support\Collection;
+use Ushahidi\Core\Tools\SearchData;
 use Ushahidi\Core\Concerns\AdminAccess;
 use Ushahidi\Core\Concerns\UserContext;
 use Ushahidi\Contracts\Repository\CreateRepository;
@@ -32,6 +33,8 @@ class ContactRepository extends OhanzeeRepository implements
     use AdminAccess;
     // Use Event trait to trigger events
     // use \Ushahidi\Core\Concerns\Event;
+
+    use Concerns\UsesBulkAutoIncrement;
 
     protected function getId(Entity $entity)
     {
@@ -112,6 +115,33 @@ class ContactRepository extends OhanzeeRepository implements
         ];
 
         return parent::create($entity->setState($state));
+    }
+
+    public function createMany(Collection $collection) : array
+    {
+        $this->checkAutoIncMode();
+
+        $first = $collection->first()->asArray();
+        unset($first['country_code']);
+        $columns = array_keys($first);
+
+        $values = $collection->map(function ($entity) {
+            $data = $entity->asArray();
+            unset($data['country_code']);
+
+            $data['created'] = time();
+
+            return $data;
+        })->all();
+
+        $query = DB::insert($this->getTable())
+            ->columns($columns);
+
+        call_user_func_array([$query, 'values'], $values);
+
+        list($insertId, $created) = $query->execute($this->db());
+
+        return range($insertId, $insertId + $created - 1);
     }
 
     // UpdateRepository

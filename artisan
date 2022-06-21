@@ -3,6 +3,9 @@
 
 define('LARAVEL_START', microtime(true));
 
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
+
 /*
 |--------------------------------------------------------------------------
 | Register The Auto Loader
@@ -18,6 +21,14 @@ define('LARAVEL_START', microtime(true));
 require __DIR__.'/vendor/autoload.php';
 
 $app = require_once __DIR__.'/bootstrap/app.php';
+
+// Add logging to stderr (if enabled)
+if (getenv('ARTISAN_LOG_CONSOLE') != "") {
+    $app->configureMonologUsing(function ($logger) {
+        $logger->pushHandler(new StreamHandler('php://stderr'), Logger::DEBUG);
+        return $logger;
+    });
+}
 
 /*
 |--------------------------------------------------------------------------

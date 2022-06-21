@@ -11,12 +11,16 @@
 
 namespace Ushahidi\Contracts\Repository\Entity;
 
+use Ushahidi\Contracts\EntityCreate;
+use Ushahidi\Contracts\EntityCreateMany;
 use Ushahidi\Contracts\EntityGet;
 use Ushahidi\Contracts\EntityExists;
 
 interface FormRepository extends
     EntityGet,
-    EntityExists
+    EntityExists,
+    EntityCreate,
+    EntityCreateMany
 {
     public function isTypeHidden($form_id, $type);
 

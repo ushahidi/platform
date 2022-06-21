@@ -12,18 +12,23 @@
 
 namespace Ushahidi\Contracts\Repository\Entity;
 
+use Ushahidi\Contracts\Entity;
 use Ushahidi\Contracts\EntityGet;
+use Ushahidi\Contracts\EntityCreate;
 use Ushahidi\Contracts\EntityExists;
+use Ushahidi\Contracts\EntityCreateMany;
 
 interface FormAttributeRepository extends
     EntityGet,
-    EntityExists
+    EntityExists,
+    EntityCreate,
+    EntityCreateMany
 {
     /**
      * @param  string $key
      * @param  int    $form_id
      * @param  boolean $include_no_form  Include attributes with null form_id
-     * @return Ushahidi\Contracts\Repository\Entity\FormAttribute
+     * @return \Ushahidi\Contracts\Entity
      */
     public function getByKey($key, $form_id = null, $include_no_form = false);
 
@@ -64,7 +69,7 @@ interface FormAttributeRepository extends
 
     /**
      * @param int $form_id
-     * @return Entity|FormAttribute
+     * @return Entity
      */
     public function getNextByFormAttribute($last_attribute_id);
 }

@@ -44,7 +44,10 @@
         "symm/gisconverter": "~1.0.5",
         "twilio/sdk": "^5.15",
         "ushahidi/kohana-validation": "dev-master",
-        "willdurand/negotiation": "^2.3"
+        "willdurand/negotiation": "^2.3",
+        "netresearch/jsonmapper": "^1.6.0",
+        "symfony/yaml": "~3.0",
+        "ushahidi/gmail-support": "dev-master"
     },
     "require-dev": {
         "behat/behat": "^3.3",

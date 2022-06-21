@@ -11,6 +11,9 @@
 
 namespace Ushahidi\Contracts\Repository\Entity;
 
+use Ushahidi\Contracts\Entity;
+use Ushahidi\Contracts\EntityCreate;
+use Ushahidi\Contracts\EntityCreateMany;
 use Ushahidi\Contracts\EntityGet;
 use Ushahidi\Contracts\EntityExists;
 use Ushahidi\Contracts\Repository\CreateRepository;
@@ -19,6 +22,8 @@ use Ushahidi\Contracts\Repository\UpdateRepository;
 interface MessageRepository extends
     EntityGet,
     EntityExists,
+    EntityCreate,
+    EntityCreateMany,
     CreateRepository,
     UpdateRepository
 {

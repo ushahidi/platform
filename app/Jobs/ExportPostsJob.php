@@ -10,7 +10,6 @@ use Ushahidi\App\Multisite\MultisiteAwareJob;
 
 class ExportPostsJob extends Job
 {
-    use MultisiteAwareJob;
     use RecordsExportJobFailure;
 
     protected $batchSize;

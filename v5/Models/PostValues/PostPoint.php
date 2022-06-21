@@ -40,8 +40,8 @@ class PostPoint extends PostValue
     public function newQuery()
     {
         if (!empty($this->geometry_column) && $this->geometryAsText === true) {
-            $raw =
-                'AsText(`' . $this->table . '`.`' . $this->geometry_column . '`) as `' . $this->geometry_column . '`';
+            $raw = 'ST_AsText(`' . $this->table . '`.`' . $this->geometry_column . '`) as `' .
+                $this->geometry_column . '`';
             return parent::newQuery()->addSelect('post_point.*', DB::raw($raw));
         }
         return parent::newQuery();

@@ -115,19 +115,55 @@ abstract class ValueRepository extends OhanzeeRepository implements
     // UpdatePostValueRepository
     public function createValue($value, $form_attribute_id, $post_id)
     {
+        $value = $this->prepareValue($value);
         $input = compact('value', 'form_attribute_id', 'post_id');
         $input['created'] = time();
 
         return $this->executeInsert($input);
     }
 
+    public function createManyValues(array $values, int $form_attribute_id)
+    {
+        $created = time();
+        $insertValues = [];
+
+        foreach ($values as $group) {
+            $id = $group['id'];
+            foreach ($group['value'] as $value) {
+                $insertValues[] = [
+                    $id,
+                    $form_attribute_id,
+                    $this->prepareValue($value),
+                    $created
+                ];
+            }
+        }
+
+        if (empty($insertValues)) {
+            return;
+        }
+
+        $query = DB::insert($this->getTable())
+            ->columns(['post_id', 'form_attribute_id', 'value', 'created']);
+
+        call_user_func_array([$query, 'values'], $insertValues);
+
+        return $query->execute($this->db());
+    }
+
     // UpdatePostValueRepository
     public function updateValue($id, $value)
     {
+        $value = $this->prepareValue($value);
         $update = compact('value');
         if ($id && $update) {
             $this->executeUpdate(compact('id'), $update);
         }
+    }
+
+    protected function prepareValue($value)
+    {
+        return $value;
     }
 
     // UpdatePostValueRepository

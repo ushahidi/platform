@@ -29,6 +29,16 @@ class Tag extends StaticEntity
     protected $children;
 
     // StatefulData
+    protected function getDefaultData()
+    {
+        return [
+            'type' => 'category',
+            'icon' => 'tag',
+            'priority' => 99,
+        ];
+    }
+
+    // StatefulData
     protected function getDerived()
     {
         return [

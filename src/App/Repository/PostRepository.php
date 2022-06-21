@@ -13,20 +13,22 @@ namespace Ushahidi\App\Repository;
 
 use Ohanzee\DB;
 use Ohanzee\Database;
-use Ushahidi\Core\Tools\SearchData;
 use Ushahidi\Contracts\Entity;
 use Ushahidi\Core\Entity\Post;
+use Ushahidi\Core\Entity\Media;
 use Ushahidi\Core\Concerns\Event;
-use Ushahidi\Core\Tools\BoundingBox;
+use Illuminate\Support\Collection;
 use Ushahidi\Core\Entity\PostLock;
+use Ushahidi\Core\Tools\SearchData;
+use Ushahidi\Core\Tools\BoundingBox;
 use Ushahidi\Core\Concerns\UserContext;
 use Ushahidi\App\Multisite\OhanzeeResolver;
-use Ushahidi\Contracts\Repository\Entity\ContactRepository;
-use Ushahidi\Contracts\Repository\Entity\PostLockRepository;
-use Ushahidi\Contracts\Repository\Usecase\SetPostRepository;
-use Ushahidi\Contracts\Repository\Usecase\UpdatePostRepository;
 use Ushahidi\Core\Tools\Permissions\InteractsWithPostPermissions;
 use Ushahidi\App\Repository\Post\ValueFactory as PostValueFactory;
+use Ushahidi\Contracts\Repository\Usecase\SetPostRepository;
+use Ushahidi\Contracts\Repository\Usecase\UpdatePostRepository;
+use Ushahidi\Contracts\Repository\Entity\ContactRepository;
+use Ushahidi\Contracts\Repository\Entity\PostLockRepository;
 use Ushahidi\Contracts\Repository\Entity\FormRepository as FormRepositoryContract;
 use Ushahidi\Contracts\Repository\Entity\PostRepository as PostRepositoryContract;
 use Ushahidi\Contracts\Repository\Entity\FormStageRepository as FormStageRepositoryContract;
@@ -47,6 +49,8 @@ class PostRepository extends OhanzeeRepository implements
 
     // Provides `postPermissions`
     use InteractsWithPostPermissions;
+
+    use Concerns\UsesBulkAutoIncrement;
 
     protected $form_attribute_repo;
     protected $form_stage_repo;
@@ -85,15 +89,6 @@ class PostRepository extends OhanzeeRepository implements
 
     protected $listener;
 
-    /**
-     * Construct
-     * @param Database                              $db
-     * @param FormAttributeRepository               $form_attribute_repo
-     * @param FormStageRepository                   $form_stage_repo
-     * @param PostLockRepository                    $post_lock_repo
-     * @param PostValueFactory                      $post_value_factory
-     * @param Aura\DI\InstanceFactory               $bounding_box_factory
-     */
     public function __construct(
         OhanzeeResolver $resolver,
         FormAttributeRepositoryContract $form_attribute_repo,
@@ -439,7 +434,7 @@ class PostRepository extends OhanzeeRepository implements
                 ->join(['form_attributes', 'point_attribute'], 'LEFT')
                 ->on('post_point.form_attribute_id', '=', 'point_attribute.id')
                 ->select(
-                    [DB::expr('AsText(post_point.value)'), 'point_value'],
+                    [DB::expr('ST_AsText(post_point.value)'), 'point_value'],
                     ['point_attribute.key', 'point_attribute_key']
                 );
         }
@@ -454,7 +449,7 @@ class PostRepository extends OhanzeeRepository implements
                 ->join(['form_attributes', 'geometry_attribute'], 'LEFT')
                 ->on('post_geometry.form_attribute_id', '=', 'geometry_attribute.id')
                 ->select(
-                    [DB::expr('AsText(post_geometry.value)'), 'geometry_value'],
+                    [DB::expr('ST_AsText(post_geometry.value)'), 'geometry_value'],
                     ['geometry_attribute.key', 'geometry_attribute_key']
                 );
         }
@@ -875,6 +870,12 @@ class PostRepository extends OhanzeeRepository implements
         return (int) $this->selectCount(['posts.status' => 'published']);
     }
 
+    // PostRepository
+    public function getTotal()
+    {
+        return (int) $this->selectCount(['posts.type' => 'report']);
+    }
+
     // StatsPostRepository
     public function getGroupedTotals(SearchData $search)
     {
@@ -1116,7 +1117,7 @@ class PostRepository extends OhanzeeRepository implements
             ->from('post_point')
             ->where(
                 DB::expr(
-                    'CONTAINS(GeomFromText(:bounds), value)',
+                    'CONTAINS(ST_GeomFromText(:bounds), value)',
                     [':bounds' => $bounding_box->toWKT()]
                 ),
                 '=',
@@ -1186,7 +1187,10 @@ class PostRepository extends OhanzeeRepository implements
     public function create(Entity $entity)
     {
         $post = $entity->asArray();
-        $post['created'] = time();
+
+        if (!array_key_exists('created', $post) || $post['created'] === null) {
+            $post['created'] = time();
+        }
 
         // Remove attribute values and tags
         unset(
@@ -1200,6 +1204,7 @@ class PostRepository extends OhanzeeRepository implements
         );
 
         // Set default value for post_date
+        // @todo move to entity
         if (empty($post['post_date'])) {
             $post['post_date'] = date_create()->format("Y-m-d H:i:s");
         // Convert post_date to mysql format
@@ -1238,6 +1243,142 @@ class PostRepository extends OhanzeeRepository implements
         $this->emit($this->event, $id, 'create');
 
         return $id;
+    }
+
+    public function createMany(Collection $collection) : array
+    {
+        $this->checkAutoIncMode();
+
+        $first = $collection->first()->asArray();
+        unset(
+            $first['values'],
+            $first['tags'],
+            $first['completed_stages'],
+            $first['sets'],
+            $first['source'],
+            $first['color'],
+            $first['lock'],
+            $first['message_id'],
+            $first['data_source_message_id'],
+            $first['contact_id']
+        );
+        $columns = array_keys($first);
+
+        $values = $collection->map(function ($entity) {
+            $data = $entity->asArray();
+
+            if (!array_key_exists('created', $data) || $data['created'] === null) {
+                $data['created'] = time();
+            }
+
+            unset(
+                $data['values'],
+                $data['tags'],
+                $data['completed_stages'],
+                $data['sets'],
+                $data['source'],
+                $data['color'],
+                $data['lock'],
+                $data['message_id'],
+                $data['data_source_message_id'],
+                $data['contact_id']
+            );
+
+            // Set default value for post_date
+            // @todo move to entity
+            if (empty($data['post_date'])) {
+                $data['post_date'] = date_create()->format("Y-m-d H:i:s");
+            // Convert post_date to mysql format
+            } else {
+                $data['post_date'] = $data['post_date']->format("Y-m-d H:i:s");
+            }
+
+            // JSON encode values
+            $data = $this->json_transcoder->encode(
+                $data,
+                $this->getJsonProperties()
+            );
+
+            return $data;
+        })->all();
+
+        $query = DB::insert($this->getTable())
+            ->columns($columns);
+
+        call_user_func_array([$query, 'values'], $values);
+
+        list($insertId, $created) = $query->execute($this->db());
+        $newPostIds = range($insertId, $insertId + $created - 1);
+
+        // Loop over entities, and aggregate values by attribute
+        // Combine post ids with entities
+        $postsById = collect($newPostIds)->combine($collection);
+
+        // Grab values from post entities, combined with attribute key and post id
+        // Each set of values is still grouped by post id at this point
+        $postValues = $postsById->map(function ($entity, $id) {
+            return collect($entity->values)->map(function ($value, $key) use ($id) {
+                return compact('value', 'key', 'id');
+            })->all();
+        })
+        // Flatten post values to a single level
+        ->flatten(1)
+        // Group by attribute key
+        ->groupBy('key')
+        // For each group of post values...
+        ->each(function ($values, $key) {
+            // Get the form attribute
+            $attribute = $this->form_attribute_repo->getByKey($key);
+            if (!$attribute->id) {
+                return;
+            }
+
+            // Handle media items especially, to save the media entities first
+            if ($attribute->type === 'media') {
+                $values = $this->createManyMedia($values);
+            }
+
+            // Get the correct post value repo for the attribute
+            $repo = $this->post_value_factory->getRepo($attribute->type);
+
+            // Bulk insert the post values in the post_... table
+            if ($values->count() > 0) {
+                $repo->createManyValues($values->all(), $attribute->id);
+            }
+        });
+
+        // Save completed stages
+        // We're not bothering to batch insert this step because its not heavily used.
+        $postsById->each(function ($entity, $id) {
+            if ($entity->completed_stages) {
+                $this->updatePostStages($id, $entity->form_id, $entity->completed_stages);
+            }
+        });
+
+        // NB: We don't handle legacy post.tags during bulk insert
+
+        return $newPostIds;
+    }
+
+    public function createManyMedia($values)
+    {
+        // @todo inject this
+        $mediaRepo = service('repository.media');
+
+        // Loop over all media values
+        return $values->map(function ($group) use ($mediaRepo) {
+            $group['value'] = collect($group['value'])->map(function ($value) use ($mediaRepo) {
+                // If the value is an array, assume it's an unsaved media object
+                if (is_array($value)) {
+                    // Pass it to the media repo to save, and pass the ID back
+                    $value = $mediaRepo->create(new Media($value));
+                }
+
+                return $value;
+            })->all();
+
+            return $group;
+        });
     }
 
     // UpdateRepository

@@ -18,14 +18,14 @@ interface EntityGet
      * @param  mixed $id
      * @param  array $options
      *
-     * @return Entity
+     * @return \Ushahidi\Contracts\Entity
      */
     public function get($id);
 
     /**
      * Converts an array of entity data into an object.
      * @param  array $data
-     * @return Entity
+     * @return \Ushahidi\Contracts\Entity
      */
     public function getEntity(array $data = null);
 }

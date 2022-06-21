@@ -17,7 +17,6 @@ use Ushahidi\App\Multisite\MultisiteAwareJob;
 
 class CombineExportedPostBatchesJob extends Job
 {
-    use MultisiteAwareJob;
     use RecordsExportJobFailure;
 
     protected $jobId;

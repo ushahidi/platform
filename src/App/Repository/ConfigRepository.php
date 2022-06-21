@@ -77,6 +77,10 @@ class ConfigRepository implements
     {
         $this->verifyGroup($group);
 
+        if ($group == 'multisite') {
+            return $this->getMultisiteGroup();
+        }
+
         $config = [];
         try {
             $query = DB::select('config.*')
@@ -108,6 +112,22 @@ class ConfigRepository implements
         return $this->getEntity(['id' => $group] + $config);
     }
 
+    protected function getMultisiteGroup()
+    {
+        // The multisite group is special in that it's not persisted in the deployment's database.
+        if (app('multisite')->enabled()) {
+            $multi = app('multisite');
+            $config = [
+                'enabled' => true,
+                'site_id' => $multi->getSiteId(),
+                'site_fqdn' => $multi->site->getClientUri(),
+            ];
+        } else {
+            $config = [ 'enabled' => false ];
+        }
+        return $this->getEntity(['id' => 'multisite'] + $config);
+    }
+
     // UpdateRepository
     public function update(Entity $entity)
     {
@@ -115,6 +135,10 @@ class ConfigRepository implements
         $group = $entity->getId();
 
         $this->verifyGroup($group);
+
+        if ($group == 'multisite') {
+            return; /* noop */
+        }
 
         // Intercom count datasources
         if ($group === 'data-provider') {
@@ -181,6 +205,7 @@ class ConfigRepository implements
         return [
             'features',
             'site',
+            'multisite',
             'test',
             'data-provider',
             'map',

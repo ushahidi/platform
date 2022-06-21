@@ -11,12 +11,16 @@
 
 namespace Ushahidi\Contracts\Repository\Entity;
 
+use Ushahidi\Contracts\EntityCreate;
+use Ushahidi\Contracts\EntityCreateMany;
 use Ushahidi\Contracts\EntityGet;
 use Ushahidi\Contracts\EntityExists;
 use Ushahidi\Contracts\Repository\CreateRepository;
 
 interface ContactRepository extends
     EntityGet,
+    EntityCreate,
+    EntityCreateMany,
     EntityExists,
     CreateRepository
 {
@@ -24,7 +28,7 @@ interface ContactRepository extends
      * @param string  $contact
      * @param string  $type
      *
-     * @return boolean
+     * @return \Ushahidi\Contracts\Entity
      */
     public function getByContact($contact, $type);
 

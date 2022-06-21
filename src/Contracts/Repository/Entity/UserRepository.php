@@ -11,11 +11,15 @@
 
 namespace Ushahidi\Contracts\Repository\Entity;
 
+use Ushahidi\Contracts\EntityCreate;
+use Ushahidi\Contracts\EntityCreateMany;
 use Ushahidi\Contracts\EntityGet;
 use Ushahidi\Contracts\EntityExists;
 
 interface UserRepository extends
     EntityGet,
+    EntityCreate,
+    EntityCreateMany,
     EntityExists
 {
     /**

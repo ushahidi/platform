@@ -9,7 +9,7 @@ use Ushahidi\Contracts\Repository\Entity\ExportJobRepository;
 
 class ExportPostsBatchJob extends Job
 {
-    use MultisiteAwareJob;
+    use RecordsExportJobFailure;
 
     protected $jobId;
 

@@ -1,93 +1,62 @@
 # API Documentation
 
-{% api-method method="post" host="https://ushahididocs.api.ushahidi.io" path="/oauth/token" %}
-{% api-method-summary %}
-Get an authorization code for the client \(without a user login\)
-{% endapi-method-summary %}
-
-{% api-method-description %}
+{% swagger baseUrl="https://ushahididocs.api.ushahidi.io" path="/oauth/token" method="post" summary="Get an authorization code for the client (without a user login)" %}
+{% swagger-description %}
 This endpoint allows you to get an authorization token for the client without a user login. It allows you to execute the same actions as any non-logged in user.
-{% endapi-method-description %}
+{% endswagger-description %}
 
-{% api-method-spec %}
-{% api-method-request %}
-{% api-method-body-parameters %}
-{% api-method-parameter name="grant\_type" type="string" required=true %}
-Expected value for this type: "client\_credentials"
-{% endapi-method-parameter %}
+{% swagger-parameter in="body" name="grant_type" type="string" %}
+Expected value for this type: "client_credentials"
+{% endswagger-parameter %}
 
-{% api-method-parameter name="client\_secret" type="string" required=true %}
+{% swagger-parameter in="body" name="client_secret" type="string" %}
 The client secret you added for your deployment in the database. Default value: "35e7f0bca957836d05ca0492211b0ac707671261"
-{% endapi-method-parameter %}
+{% endswagger-parameter %}
 
-{% api-method-parameter name="client\_id" type="string" required=true %}
-The client\_id you created for your deployment. Default value: "ushahidiui"
-{% endapi-method-parameter %}
+{% swagger-parameter in="body" name="client_id" type="string" %}
+The client_id you created for your deployment. Default value: "ushahidiui"
+{% endswagger-parameter %}
 
-{% api-method-parameter name="scope" type="string" required=true %}
-All allowed scopes for this type: "posts country\_codes media forms api tags savedsearches sets users stats layers config messages notifications webhooks contacts permissions csv"
-{% endapi-method-parameter %}
-{% endapi-method-body-parameters %}
-{% endapi-method-request %}
+{% swagger-parameter in="body" name="scope" type="string" %}
+All allowed scopes for this type: "posts country_codes media forms api tags savedsearches sets users stats layers config messages notifications webhooks contacts permissions csv"
+{% endswagger-parameter %}
 
-{% api-method-response %}
-{% api-method-response-example httpCode=200 %}
-{% api-method-response-example-description %}
-
-{% endapi-method-response-example-description %}
-
-```text
-
+{% swagger-response status="200" description="" %}
 ```
-{% endapi-method-response-example %}
-{% endapi-method-response %}
-{% endapi-method-spec %}
-{% endapi-method %}
+```
+{% endswagger-response %}
+{% endswagger %}
 
-{% api-method method="post" host="https://ushahididocs.api.ushahidi.io" path="/oauth/token" %}
-{% api-method-summary %}
-Get an authorization code for a user
-{% endapi-method-summary %}
-
-{% api-method-description %}
+{% swagger baseUrl="https://ushahididocs.api.ushahidi.io" path="/oauth/token" method="post" summary="Get an authorization code for a user" %}
+{% swagger-description %}
 This endpoint allows you to get an authentication token. All fields are required.
-{% endapi-method-description %}
+{% endswagger-description %}
 
-{% api-method-spec %}
-{% api-method-request %}
-{% api-method-body-parameters %}
-{% api-method-parameter name="scope" type="string" required=true %}
-Default value: \*
-{% endapi-method-parameter %}
+{% swagger-parameter in="body" name="scope" type="string" %}
+Default value: *
+{% endswagger-parameter %}
 
-{% api-method-parameter name="client\_secret" type="string" required=true %}
+{% swagger-parameter in="body" name="client_secret" type="string" %}
 Your client secret. Default value: 35e7f0bca957836d05ca0492211b0ac707671261
-{% endapi-method-parameter %}
+{% endswagger-parameter %}
 
-{% api-method-parameter name="client\_id" type="string" required=true %}
+{% swagger-parameter in="body" name="client_id" type="string" %}
 Your client ID. Default value: ushahidiui
-{% endapi-method-parameter %}
+{% endswagger-parameter %}
 
-{% api-method-parameter name="grant\_type" type="string" required=true %}
+{% swagger-parameter in="body" name="grant_type" type="string" %}
 Fixed. Send value: password
-{% endapi-method-parameter %}
+{% endswagger-parameter %}
 
-{% api-method-parameter name="password" type="string" required=true %}
+{% swagger-parameter in="body" name="password" type="string" %}
 Your Ushahidi platform password
-{% endapi-method-parameter %}
+{% endswagger-parameter %}
 
-{% api-method-parameter name="username" type="string" required=true %}
+{% swagger-parameter in="body" name="username" type="string" %}
 Your Ushahidi platform username
-{% endapi-method-parameter %}
-{% endapi-method-body-parameters %}
-{% endapi-method-request %}
+{% endswagger-parameter %}
 
-{% api-method-response %}
-{% api-method-response-example httpCode=200 %}
-{% api-method-response-example-description %}
-Auth token created
-{% endapi-method-response-example-description %}
-
+{% swagger-response status="200" description="Auth token created" %}
 ```javascript
 {
     "token_type": "Bearer",
@@ -96,58 +65,34 @@ Auth token created
     "refresh_token": "anotherverylongstring"
 }
 ```
-{% endapi-method-response-example %}
+{% endswagger-response %}
 
-{% api-method-response-example httpCode=400 %}
-{% api-method-response-example-description %}
-Incorrect credentials
-{% endapi-method-response-example-description %}
-
+{% swagger-response status="400" description="Incorrect credentials" %}
 ```javascript
 {
     "error": "invalid_request",
     "error_description": "The user credentials were incorrect."
 }
 ```
-{% endapi-method-response-example %}
-{% endapi-method-response %}
-{% endapi-method-spec %}
-{% endapi-method %}
+{% endswagger-response %}
+{% endswagger %}
 
-{% api-method method="post" host="https://ushahididocs.api.ushahidi.io" path="/api/v3/passwordreset" %}
-{% api-method-summary %}
-Request a password reset token to be sent via email
-{% endapi-method-summary %}
+{% swagger baseUrl="https://ushahididocs.api.ushahidi.io" path="/api/v3/passwordreset" method="post" summary="Request a password reset token to be sent via email" %}
+{% swagger-description %}
 
-{% api-method-description %}
+{% endswagger-description %}
 
-{% endapi-method-description %}
-
-{% api-method-spec %}
-{% api-method-request %}
-{% api-method-body-parameters %}
-{% api-method-parameter name="email" type="string" required=true %}
+{% swagger-parameter in="body" name="email" type="string" %}
 example: youremail@example.com
-{% endapi-method-parameter %}
-{% endapi-method-body-parameters %}
-{% endapi-method-request %}
+{% endswagger-parameter %}
 
-{% api-method-response %}
-{% api-method-response-example httpCode=204 %}
-{% api-method-response-example-description %}
-
-{% endapi-method-response-example-description %}
-
-```text
+{% swagger-response status="204" description="" %}
+```
 This response is sent when the password reset email is going to be sent (as long as the email exists)
 ```
-{% endapi-method-response-example %}
+{% endswagger-response %}
 
-{% api-method-response-example httpCode=400 %}
-{% api-method-response-example-description %}
-Incorrect parameter name in the body \(emails, instead of email\)
-{% endapi-method-response-example-description %}
-
+{% swagger-response status="400" description="Incorrect parameter name in the body (emails, instead of email)" %}
 ```javascript
 {
     "errors": [
@@ -158,103 +103,53 @@ Incorrect parameter name in the body \(emails, instead of email\)
     ]
 }
 ```
-{% endapi-method-response-example %}
-{% endapi-method-response %}
-{% endapi-method-spec %}
-{% endapi-method %}
+{% endswagger-response %}
+{% endswagger %}
 
-{% api-method method="post" host="https://ushahididocs.api.ushahidi.io" path="/api/v3/passwordreset/confirm" %}
-{% api-method-summary %}
-Reset your password with the reset token
-{% endapi-method-summary %}
+{% swagger baseUrl="https://ushahididocs.api.ushahidi.io" path="/api/v3/passwordreset/confirm" method="post" summary="Reset your password with the reset token" %}
+{% swagger-description %}
 
-{% api-method-description %}
+{% endswagger-description %}
 
-{% endapi-method-description %}
-
-{% api-method-spec %}
-{% api-method-request %}
-{% api-method-body-parameters %}
-{% api-method-parameter name="password" type="string" required=true %}
+{% swagger-parameter in="body" name="password" type="string" %}
 The new password
-{% endapi-method-parameter %}
+{% endswagger-parameter %}
 
-{% api-method-parameter name="token" type="string" required=true %}
+{% swagger-parameter in="body" name="token" type="string" %}
 The reset token sent by email
-{% endapi-method-parameter %}
-{% endapi-method-body-parameters %}
-{% endapi-method-request %}
+{% endswagger-parameter %}
 
-{% api-method-response %}
-{% api-method-response-example httpCode=204 %}
-{% api-method-response-example-description %}
-
-{% endapi-method-response-example-description %}
-
-```text
-
+{% swagger-response status="204" description="" %}
 ```
-{% endapi-method-response-example %}
-{% endapi-method-response %}
-{% endapi-method-spec %}
-{% endapi-method %}
+```
+{% endswagger-response %}
+{% endswagger %}
 
-{% api-method method="post" host="https://ushahididocs.api.ushahidi.io" path="/api/v3/register" %}
-{% api-method-summary %}
-Register a new user
-{% endapi-method-summary %}
-
-{% api-method-description %}
+{% swagger baseUrl="https://ushahididocs.api.ushahidi.io" path="/api/v3/register" method="post" summary="Register a new user" %}
+{% swagger-description %}
 Register your Ushahidi platform users with this endpoint.
-{% endapi-method-description %}
+{% endswagger-description %}
 
-{% api-method-spec %}
-{% api-method-request %}
-{% api-method-path-parameters %}
-{% api-method-parameter name="" type="string" required=false %}
+{% swagger-parameter in="path" name="" type="string" %}
 
-{% endapi-method-parameter %}
-{% endapi-method-path-parameters %}
-{% endapi-method-request %}
+{% endswagger-parameter %}
 
-{% api-method-response %}
-{% api-method-response-example httpCode=200 %}
-{% api-method-response-example-description %}
-
-{% endapi-method-response-example-description %}
-
-```text
-
+{% swagger-response status="200" description="" %}
 ```
-{% endapi-method-response-example %}
-{% endapi-method-response %}
-{% endapi-method-spec %}
-{% endapi-method %}
+```
+{% endswagger-response %}
+{% endswagger %}
 
-{% api-method method="get" host="https://ushahididocs.api.ushahidi.io" path="/api/v3/collections" %}
-{% api-method-summary %}
-Get Collections
-{% endapi-method-summary %}
+{% swagger baseUrl="https://ushahididocs.api.ushahidi.io" path="/api/v3/collections" method="get" summary="Get Collections" %}
+{% swagger-description %}
 
-{% api-method-description %}
+{% endswagger-description %}
 
-{% endapi-method-description %}
+{% swagger-parameter in="header" name="Authorization" type="string" %}
+Bearer <your-auth-token>
+{% endswagger-parameter %}
 
-{% api-method-spec %}
-{% api-method-request %}
-{% api-method-headers %}
-{% api-method-parameter name="Authorization" type="string" required=true %}
-Bearer &lt;your-auth-token&gt;
-{% endapi-method-parameter %}
-{% endapi-method-headers %}
-{% endapi-method-request %}
-
-{% api-method-response %}
-{% api-method-response-example httpCode=200 %}
-{% api-method-response-example-description %}
-
-{% endapi-method-response-example-description %}
-
+{% swagger-response status="200" description="" %}
 ```javascript
 {
     "count": 2,
@@ -310,49 +205,31 @@ Bearer &lt;your-auth-token&gt;
     "total_count": 2
 }
 ```
-{% endapi-method-response-example %}
-{% endapi-method-response %}
-{% endapi-method-spec %}
-{% endapi-method %}
+{% endswagger-response %}
+{% endswagger %}
 
-{% api-method method="get" host="https://ushahididocs.api.ushahidi.io" path="/api/v3/posts?order=desc&orderby=created&set=15" %}
-{% api-method-summary %}
-Get Posts from a collection
-{% endapi-method-summary %}
+{% swagger baseUrl="https://ushahididocs.api.ushahidi.io" path="/api/v3/posts?order=desc&orderby=created&set=15" method="get" summary="Get Posts from a collection" %}
+{% swagger-description %}
 
-{% api-method-description %}
+{% endswagger-description %}
 
-{% endapi-method-description %}
+{% swagger-parameter in="header" name="Authorization" type="string" %}
+Bearer <your-auth-token>
+{% endswagger-parameter %}
 
-{% api-method-spec %}
-{% api-method-request %}
-{% api-method-headers %}
-{% api-method-parameter name="Authorization" type="string" required=true %}
-Bearer &lt;your-auth-token&gt;
-{% endapi-method-parameter %}
-{% endapi-method-headers %}
+{% swagger-parameter in="query" name="set" type="string" %}
+:collectionId (required to get posts from a collection)
+{% endswagger-parameter %}
 
-{% api-method-query-parameters %}
-{% api-method-parameter name="set" type="string" required=true %}
-:collectionId \(required to get posts from a collection\)
-{% endapi-method-parameter %}
-
-{% api-method-parameter name="orderby" type="string" required=false %}
+{% swagger-parameter in="query" name="orderby" type="string" %}
 Options: desc, asc
-{% endapi-method-parameter %}
+{% endswagger-parameter %}
 
-{% api-method-parameter name="limit" type="string" required=false %}
+{% swagger-parameter in="query" name="limit" type="string" %}
 :number
-{% endapi-method-parameter %}
-{% endapi-method-query-parameters %}
-{% endapi-method-request %}
+{% endswagger-parameter %}
 
-{% api-method-response %}
-{% api-method-response-example httpCode=200 %}
-{% api-method-response-example-description %}
-
-{% endapi-method-response-example-description %}
-
+{% swagger-response status="200" description="" %}
 ```javascript
 {
     "count": 2,
@@ -464,63 +341,43 @@ Options: desc, asc
     "total_count": 2
 }
 ```
-{% endapi-method-response-example %}
-{% endapi-method-response %}
-{% endapi-method-spec %}
-{% endapi-method %}
+{% endswagger-response %}
+{% endswagger %}
 
-{% api-method method="post" host="https://ushahididocs.api.ushahidi.io" path="/api/v3/collections" %}
-{% api-method-summary %}
-Create a collection
-{% endapi-method-summary %}
+{% swagger baseUrl="https://ushahididocs.api.ushahidi.io" path="/api/v3/collections" method="post" summary="Create a collection" %}
+{% swagger-description %}
 
-{% api-method-description %}
+{% endswagger-description %}
 
-{% endapi-method-description %}
+{% swagger-parameter in="header" name="Authorization" type="string" %}
+Bearer <your-auth-token>
+{% endswagger-parameter %}
 
-{% api-method-spec %}
-{% api-method-request %}
-{% api-method-headers %}
-{% api-method-parameter name="Authorization" type="string" required=true %}
-Bearer &lt;your-auth-token&gt;
-{% endapi-method-parameter %}
-{% endapi-method-headers %}
-
-{% api-method-query-parameters %}
-{% api-method-parameter name="orderby" type="string" required=false %}
+{% swagger-parameter in="query" name="orderby" type="string" %}
 Options: desc, asc
-{% endapi-method-parameter %}
+{% endswagger-parameter %}
 
-{% api-method-parameter name="limit" type="string" required=false %}
+{% swagger-parameter in="query" name="limit" type="string" %}
 :number
-{% endapi-method-parameter %}
-{% endapi-method-query-parameters %}
+{% endswagger-parameter %}
 
-{% api-method-body-parameters %}
-{% api-method-parameter name="user\_id" type="string" required=true %}
+{% swagger-parameter in="body" name="user_id" type="string" %}
 The owner of the collection
-{% endapi-method-parameter %}
+{% endswagger-parameter %}
 
-{% api-method-parameter name="name" type="string" required=true %}
+{% swagger-parameter in="body" name="name" type="string" %}
 Collection's name
-{% endapi-method-parameter %}
+{% endswagger-parameter %}
 
-{% api-method-parameter name="role" type="array" required=true %}
+{% swagger-parameter in="body" name="role" type="array" %}
 The role id that is allowed to see and use it
-{% endapi-method-parameter %}
+{% endswagger-parameter %}
 
-{% api-method-parameter name="view" type="string" required=true %}
+{% swagger-parameter in="body" name="view" type="string" %}
 Options: map,data
-{% endapi-method-parameter %}
-{% endapi-method-body-parameters %}
-{% endapi-method-request %}
+{% endswagger-parameter %}
 
-{% api-method-response %}
-{% api-method-response-example httpCode=200 %}
-{% api-method-response-example-description %}
-
-{% endapi-method-response-example-description %}
-
+{% swagger-response status="200" description="" %}
 ```javascript
 {
     "count": 2,
@@ -632,91 +489,64 @@ Options: map,data
     "total_count": 2
 }
 ```
-{% endapi-method-response-example %}
-{% endapi-method-response %}
-{% endapi-method-spec %}
-{% endapi-method %}
+{% endswagger-response %}
+{% endswagger %}
 
-{% api-method method="delete" host="https://ushahididocs.api.ushahidi.io" path="/api/v3/collections/:collectionId" %}
-{% api-method-summary %}
-Delete a collection
-{% endapi-method-summary %}
-
-{% api-method-description %}
+{% swagger baseUrl="https://ushahididocs.api.ushahidi.io" path="/api/v3/collections/:collectionId" method="delete" summary="Delete a collection" %}
+{% swagger-description %}
 Delete the collection by its id.
-{% endapi-method-description %}
+{% endswagger-description %}
 
-{% api-method-spec %}
-{% api-method-request %}
-{% api-method-path-parameters %}
-{% api-method-parameter name="collectionId" type="number" required=true %}
-The collection id.. can appear as set\_id in other places
-{% endapi-method-parameter %}
-{% endapi-method-path-parameters %}
+{% swagger-parameter in="path" name="collectionId" type="number" %}
+The collection id.. can appear as set_id in other places
+{% endswagger-parameter %}
 
-{% api-method-headers %}
-{% api-method-parameter name="Authorization" type="string" required=true %}
-Bearer &lt;your-auth-token&gt;
-{% endapi-method-parameter %}
-{% endapi-method-headers %}
-{% endapi-method-request %}
+{% swagger-parameter in="header" name="Authorization" type="string" %}
+Bearer <your-auth-token>
+{% endswagger-parameter %}
 
-{% api-method-response %}
-{% api-method-response-example httpCode=204 %}
-{% api-method-response-example-description %}
-
-{% endapi-method-response-example-description %}
-
-```text
+{% swagger-response status="204" description="" %}
+```
 Success
 ```
-{% endapi-method-response-example %}
+{% endswagger-response %}
 
-{% api-method-response-example httpCode=404 %}
-{% api-method-response-example-description %}
-
-{% endapi-method-response-example-description %}
-
-```text
+{% swagger-response status="404" description="" %}
+```
 The Collection id is incorrect
 ```
-{% endapi-method-response-example %}
-{% endapi-method-response %}
-{% endapi-method-spec %}
-{% endapi-method %}
+{% endswagger-response %}
+{% endswagger %}
 
-{% api-method method="get" host="https://ushahididocs.api.ushahidi.io" path="/api/v3/config" %}
+{% swagger baseUrl="https://ushahididocs.api.ushahidi.io" path="/api/v3/config" method="get" summary="" %}
+{% swagger-description %}
 
-{% api-method method="get" host="https://ushahididocs.api.ushahidi.io" path="/api/v3/contacts/:contactId" %}
-{% api-method-summary %}
+{% endswagger-description %}
 
-{% endapi-method-summary %}
+{% swagger-parameter in="path" name="" type="string" %}
 
-{% api-method-description %}
+{% endswagger-parameter %}
+
+{% swagger-response status="200" description="" %}
+```
+```
+{% endswagger-response %}
+{% endswagger %}
+
+{% swagger baseUrl="https://ushahididocs.api.ushahidi.io" path="/api/v3/contacts/:contactId" method="get" summary="" %}
+{% swagger-description %}
 Only used by deployments that require messaging capabilities such as receiving posts by SMS or Twitter.
-{% endapi-method-description %}
+{% endswagger-description %}
 
-{% api-method-spec %}
-{% api-method-request %}
-{% api-method-path-parameters %}
-{% api-method-parameter name="contact\_id" type="number" required=true %}
+{% swagger-parameter in="path" name="contact_id" type="number" %}
 The contact id that you want to retrieve
-{% endapi-method-parameter %}
-{% endapi-method-path-parameters %}
+{% endswagger-parameter %}
 
-{% api-method-headers %}
-{% api-method-parameter name="Authorization" type="string" required=true %}
-Bearer: &lt;your-auth-token&gt;
-{% endapi-method-parameter %}
-{% endapi-method-headers %}
-{% endapi-method-request %}
+{% swagger-parameter in="header" name="Authorization" type="string" %}
+Bearer: <your-auth-token>
+{% endswagger-parameter %}
 
-{% api-method-response %}
-{% api-method-response-example httpCode=200 %}
-{% api-method-response-example-description %}
-
-{% endapi-method-response-example-description %}
-
+{% swagger-response status="200" description="" %}
 ```javascript
 {
     "id": 1234,
@@ -738,52 +568,30 @@ Bearer: &lt;your-auth-token&gt;
     ]
 }
 ```
-{% endapi-method-response-example %}
+{% endswagger-response %}
 
-{% api-method-response-example httpCode=404 %}
-{% api-method-response-example-description %}
-
-{% endapi-method-response-example-description %}
-
-```text
+{% swagger-response status="404" description="" %}
+```
 Incorrect contact id
 ```
-{% endapi-method-response-example %}
-{% endapi-method-response %}
-{% endapi-method-spec %}
-{% endapi-method %}
+{% endswagger-response %}
+{% endswagger %}
 
-{% api-method method="get" host="https://ushahididocs.api.ushahidi.io" path="/api/v3/country-codes" %}
-{% api-method-summary %}
-Get country codes
-{% endapi-method-summary %}
-
-{% api-method-description %}
+{% swagger baseUrl="https://ushahididocs.api.ushahidi.io" path="/api/v3/country-codes" method="get" summary="Get country codes" %}
+{% swagger-description %}
 This is only used to get a list of country codes that we can use for the UI of targeted surveys, a SaaS platform feature for sending surveys in steps to groups of people that they can respond to from their phones.
-{% endapi-method-description %}
+{% endswagger-description %}
 
-{% api-method-spec %}
-{% api-method-request %}
-{% api-method-path-parameters %}
-{% api-method-parameter name="" type="string" required=false %}
+{% swagger-parameter in="path" name="" type="string" %}
 
-{% endapi-method-parameter %}
-{% endapi-method-path-parameters %}
+{% endswagger-parameter %}
 
-{% api-method-headers %}
-{% api-method-parameter name="Auth" type="string" required=true %}
-Bearer &lt;your-auth-token&gt;
-{% endapi-method-parameter %}
-{% endapi-method-headers %}
-{% endapi-method-request %}
+{% swagger-parameter in="header" name="Auth" type="string" %}
+Bearer <your-auth-token>
+{% endswagger-parameter %}
 
-{% api-method-response %}
-{% api-method-response-example httpCode=200 %}
-{% api-method-response-example-description %}
-Example response with 5 countries and their code
-{% endapi-method-response-example-description %}
-
-```text
+{% swagger-response status="200" description="Example response with 5 countries and their code" %}
+```
 {
     "count": 246,
     "results": [
@@ -853,88 +661,49 @@ Example response with 5 countries and their code
     "total_count": 246
 }
 ```
-{% endapi-method-response-example %}
-{% endapi-method-response %}
-{% endapi-method-spec %}
-{% endapi-method %}
+{% endswagger-response %}
+{% endswagger %}
 
 ## CSV Exports and Imports
 
-{% api-method method="get" host="https://ushahididocs.api.ushahidi.io" path="/api/v3/exports/jobs?user=me" %}
-{% api-method-summary %}
-Get a list of CSV exports jobs
-{% endapi-method-summary %}
-
-{% api-method-description %}
+{% swagger baseUrl="https://ushahididocs.api.ushahidi.io" path="/api/v3/exports/jobs?user=me" method="get" summary="Get a list of CSV exports jobs" %}
+{% swagger-description %}
 This returns all the metadata for exports of the current user
-{% endapi-method-description %}
+{% endswagger-description %}
 
-{% api-method-spec %}
-{% api-method-request %}
-{% api-method-path-parameters %}
-{% api-method-parameter name=":jobId" type="number" required=false %}
+{% swagger-parameter in="path" name=":jobId" type="number" %}
 Export ID
-{% endapi-method-parameter %}
-{% endapi-method-path-parameters %}
+{% endswagger-parameter %}
 
-{% api-method-headers %}
-{% api-method-parameter name="Authorization" type="string" required=false %}
-Bearer: &lt;your-auth-token&gt;
-{% endapi-method-parameter %}
-{% endapi-method-headers %}
+{% swagger-parameter in="header" name="Authorization" type="string" %}
+Bearer: <your-auth-token>
+{% endswagger-parameter %}
 
-{% api-method-query-parameters %}
-{% api-method-parameter name="user" type="string" required=true %}
+{% swagger-parameter in="query" name="user" type="string" %}
 Value: me
-{% endapi-method-parameter %}
-{% endapi-method-query-parameters %}
-{% endapi-method-request %}
+{% endswagger-parameter %}
 
-{% api-method-response %}
-{% api-method-response-example httpCode=200 %}
-{% api-method-response-example-description %}
-
-{% endapi-method-response-example-description %}
-
-```text
-
+{% swagger-response status="200" description="" %}
 ```
-{% endapi-method-response-example %}
-{% endapi-method-response %}
-{% endapi-method-spec %}
-{% endapi-method %}
+```
+{% endswagger-response %}
+{% endswagger %}
 
-{% api-method method="put" host="https://ushahididocs.api.ushahidi.io" path="/api/v3/csv/:id/import" %}
-{% api-method-summary %}
-\[WIP\]Create metadata to start a CSV Import
-{% endapi-method-summary %}
-
-{% api-method-description %}
+{% swagger baseUrl="https://ushahididocs.api.ushahidi.io" path="/api/v3/csv/:id/import" method="put" summary="[WIP]Create metadata to start a CSV Import" %}
+{% swagger-description %}
 This returns all the metadata for exports of the current user
-{% endapi-method-description %}
+{% endswagger-description %}
 
-{% api-method-spec %}
-{% api-method-request %}
-{% api-method-headers %}
-{% api-method-parameter name="Authorization" type="string" required=false %}
-Bearer: &lt;your-auth-token&gt;
-{% endapi-method-parameter %}
-{% endapi-method-headers %}
+{% swagger-parameter in="header" name="Authorization" type="string" %}
+Bearer: <your-auth-token>
+{% endswagger-parameter %}
 
-{% api-method-query-parameters %}
-{% api-method-parameter name="user" type="string" required=true %}
+{% swagger-parameter in="query" name="user" type="string" %}
 Value: me
-{% endapi-method-parameter %}
-{% endapi-method-query-parameters %}
-{% endapi-method-request %}
+{% endswagger-parameter %}
 
-{% api-method-response %}
-{% api-method-response-example httpCode=200 %}
-{% api-method-response-example-description %}
-
-{% endapi-method-response-example-description %}
-
-```text
+{% swagger-response status="200" description="" %}
+```
 {
     "id": 19,
     "url": "https:\/\/ushahididocs.api.ushahidi.io\/api\/v3\/csv\/19",
@@ -975,43 +744,25 @@ Value: me
     ]
 }
 ```
-{% endapi-method-response-example %}
-{% endapi-method-response %}
-{% endapi-method-spec %}
-{% endapi-method %}
+{% endswagger-response %}
+{% endswagger %}
 
-## Dataproviders \(Datasources in the UI, read only config\)
+## Dataproviders (Datasources in the UI, read only config)
 
-{% api-method method="get" host="https://ushahididocs.api.ushahidi.io" path="/api/v3/dataproviders/\[:id\]" %}
-{% api-method-summary %}
-Get data provider options
-{% endapi-method-summary %}
+{% swagger baseUrl="https://ushahididocs.api.ushahidi.io" path="/api/v3/dataproviders/[:id]" method="get" summary="Get data provider options" %}
+{% swagger-description %}
 
-{% api-method-description %}
+{% endswagger-description %}
 
-{% endapi-method-description %}
-
-{% api-method-spec %}
-{% api-method-request %}
-{% api-method-path-parameters %}
-{% api-method-parameter name="id" type="string" required=false %}
+{% swagger-parameter in="path" name="id" type="string" %}
 Dataprovider id
-{% endapi-method-parameter %}
-{% endapi-method-path-parameters %}
+{% endswagger-parameter %}
 
-{% api-method-headers %}
-{% api-method-parameter name="Authorization" type="string" required=false %}
-Bearer: &lt;your-auth-token&gt;
-{% endapi-method-parameter %}
-{% endapi-method-headers %}
-{% endapi-method-request %}
+{% swagger-parameter in="header" name="Authorization" type="string" %}
+Bearer: <your-auth-token>
+{% endswagger-parameter %}
 
-{% api-method-response %}
-{% api-method-response-example httpCode=200 %}
-{% api-method-response-example-description %}
-
-{% endapi-method-response-example-description %}
-
+{% swagger-response status="200" description="" %}
 ```javascript
 {
     "count": 6,
@@ -1354,37 +1105,21 @@ Bearer: &lt;your-auth-token&gt;
     "total_count": 6
 }
 ```
-{% endapi-method-response-example %}
-{% endapi-method-response %}
-{% endapi-method-spec %}
-{% endapi-method %}
+{% endswagger-response %}
+{% endswagger %}
 
-## Forms \(Surveys\)
+## Forms (Surveys)
 
-{% api-method method="get" host="https://ushahididocs.api.ushahidi.io" path="/api/v3/forms" %}
-{% api-method-summary %}
-Get all surveys
-{% endapi-method-summary %}
+{% swagger baseUrl="https://ushahididocs.api.ushahidi.io" path="/api/v3/forms" method="get" summary="Get all surveys" %}
+{% swagger-description %}
 
-{% api-method-description %}
+{% endswagger-description %}
 
-{% endapi-method-description %}
+{% swagger-parameter in="header" name="Authorization" type="string" %}
+Bearer: <your-auth-token>
+{% endswagger-parameter %}
 
-{% api-method-spec %}
-{% api-method-request %}
-{% api-method-headers %}
-{% api-method-parameter name="Authorization" type="string" required=false %}
-Bearer: &lt;your-auth-token&gt;
-{% endapi-method-parameter %}
-{% endapi-method-headers %}
-{% endapi-method-request %}
-
-{% api-method-response %}
-{% api-method-response-example httpCode=200 %}
-{% api-method-response-example-description %}
-
-{% endapi-method-response-example-description %}
-
+{% swagger-response status="200" description="" %}
 ```javascript
 {
     "count": 6,
@@ -1572,41 +1307,23 @@ Bearer: &lt;your-auth-token&gt;
     "total_count": 6
 }
 ```
-{% endapi-method-response-example %}
-{% endapi-method-response %}
-{% endapi-method-spec %}
-{% endapi-method %}
+{% endswagger-response %}
+{% endswagger %}
 
-{% api-method method="get" host="https://ushahididocs.api.ushahidi.io" path="/api/v3/forms/:id" %}
-{% api-method-summary %}
-Get all options for one survey
-{% endapi-method-summary %}
+{% swagger baseUrl="https://ushahididocs.api.ushahidi.io" path="/api/v3/forms/:id" method="get" summary="Get all options for one survey" %}
+{% swagger-description %}
 
-{% api-method-description %}
+{% endswagger-description %}
 
-{% endapi-method-description %}
-
-{% api-method-spec %}
-{% api-method-request %}
-{% api-method-path-parameters %}
-{% api-method-parameter name="id" type="number" required=true %}
+{% swagger-parameter in="path" name="id" type="number" %}
 The survey id
-{% endapi-method-parameter %}
-{% endapi-method-path-parameters %}
+{% endswagger-parameter %}
 
-{% api-method-headers %}
-{% api-method-parameter name="Authorization" type="string" required=false %}
-Bearer: &lt;your-auth-token&gt;
-{% endapi-method-parameter %}
-{% endapi-method-headers %}
-{% endapi-method-request %}
+{% swagger-parameter in="header" name="Authorization" type="string" %}
+Bearer: <your-auth-token>
+{% endswagger-parameter %}
 
-{% api-method-response %}
-{% api-method-response-example httpCode=200 %}
-{% api-method-response-example-description %}
-
-{% endapi-method-response-example-description %}
-
+{% swagger-response status="200" description="" %}
 ```javascript
 {
     "id": 1,
@@ -1661,51 +1378,29 @@ Bearer: &lt;your-auth-token&gt;
     ]
 }
 ```
-{% endapi-method-response-example %}
+{% endswagger-response %}
 
-{% api-method-response-example httpCode=404 %}
-{% api-method-response-example-description %}
-
-{% endapi-method-response-example-description %}
-
-```text
+{% swagger-response status="404" description="" %}
+```
 If the survey does not exist, a 404 will be raised
 ```
-{% endapi-method-response-example %}
-{% endapi-method-response %}
-{% endapi-method-spec %}
-{% endapi-method %}
+{% endswagger-response %}
+{% endswagger %}
 
-{% api-method method="get" host="https://ushahididocs.api.ushahidi.io" path="/api/v3/forms/:id/attributes" %}
-{% api-method-summary %}
-Get all attributes \(fields\) for one survey
-{% endapi-method-summary %}
+{% swagger baseUrl="https://ushahididocs.api.ushahidi.io" path="/api/v3/forms/:id/attributes" method="get" summary="Get all attributes (fields) for one survey" %}
+{% swagger-description %}
 
-{% api-method-description %}
+{% endswagger-description %}
 
-{% endapi-method-description %}
-
-{% api-method-spec %}
-{% api-method-request %}
-{% api-method-path-parameters %}
-{% api-method-parameter name="id" type="number" required=true %}
+{% swagger-parameter in="path" name="id" type="number" %}
 The form id
-{% endapi-method-parameter %}
-{% endapi-method-path-parameters %}
+{% endswagger-parameter %}
 
-{% api-method-headers %}
-{% api-method-parameter name="Authorization" type="string" required=false %}
-Bearer: &lt;your-auth-token&gt;
-{% endapi-method-parameter %}
-{% endapi-method-headers %}
-{% endapi-method-request %}
+{% swagger-parameter in="header" name="Authorization" type="string" %}
+Bearer: <your-auth-token>
+{% endswagger-parameter %}
 
-{% api-method-response %}
-{% api-method-response-example httpCode=200 %}
-{% api-method-response-example-description %}
-
-{% endapi-method-response-example-description %}
-
+{% swagger-response status="200" description="" %}
 ```javascript
 {
     "count": 5,
@@ -1849,51 +1544,29 @@ Bearer: &lt;your-auth-token&gt;
     "total_count": 5
 }
 ```
-{% endapi-method-response-example %}
+{% endswagger-response %}
 
-{% api-method-response-example httpCode=404 %}
-{% api-method-response-example-description %}
-
-{% endapi-method-response-example-description %}
-
-```text
+{% swagger-response status="404" description="" %}
+```
 If the survey does not exist, a 404 will be raised
 ```
-{% endapi-method-response-example %}
-{% endapi-method-response %}
-{% endapi-method-spec %}
-{% endapi-method %}
+{% endswagger-response %}
+{% endswagger %}
 
-{% api-method method="get" host="https://ushahididocs.api.ushahidi.io" path="/api/v3/forms/:id/stages" %}
-{% api-method-summary %}
-Get all stages \(groups of fields\) for one survey
-{% endapi-method-summary %}
+{% swagger baseUrl="https://ushahididocs.api.ushahidi.io" path="/api/v3/forms/:id/stages" method="get" summary="Get all stages (groups of fields) for one survey" %}
+{% swagger-description %}
 
-{% api-method-description %}
+{% endswagger-description %}
 
-{% endapi-method-description %}
-
-{% api-method-spec %}
-{% api-method-request %}
-{% api-method-path-parameters %}
-{% api-method-parameter name="id" type="number" required=true %}
+{% swagger-parameter in="path" name="id" type="number" %}
 The form id
-{% endapi-method-parameter %}
-{% endapi-method-path-parameters %}
+{% endswagger-parameter %}
 
-{% api-method-headers %}
-{% api-method-parameter name="Authorization" type="string" required=false %}
-Bearer: &lt;your-auth-token&gt;
-{% endapi-method-parameter %}
-{% endapi-method-headers %}
-{% endapi-method-request %}
+{% swagger-parameter in="header" name="Authorization" type="string" %}
+Bearer: <your-auth-token>
+{% endswagger-parameter %}
 
-{% api-method-response %}
-{% api-method-response-example httpCode=200 %}
-{% api-method-response-example-description %}
-
-{% endapi-method-response-example-description %}
-
+{% swagger-response status="200" description="" %}
 ```javascript
 {
     "count": 2,
@@ -1949,51 +1622,29 @@ Bearer: &lt;your-auth-token&gt;
     "total_count": 2
 }
 ```
-{% endapi-method-response-example %}
+{% endswagger-response %}
 
-{% api-method-response-example httpCode=404 %}
-{% api-method-response-example-description %}
-
-{% endapi-method-response-example-description %}
-
-```text
+{% swagger-response status="404" description="" %}
+```
 If the survey does not exist, a 404 will be raised
 ```
-{% endapi-method-response-example %}
-{% endapi-method-response %}
-{% endapi-method-spec %}
-{% endapi-method %}
+{% endswagger-response %}
+{% endswagger %}
 
-{% api-method method="get" host="https://ushahididocs.api.ushahidi.io" path="/api/v3/forms/:id/stats" %}
-{% api-method-summary %}
-Get stats \(usage data\) for one survey
-{% endapi-method-summary %}
+{% swagger baseUrl="https://ushahididocs.api.ushahidi.io" path="/api/v3/forms/:id/stats" method="get" summary="Get stats (usage data) for one survey" %}
+{% swagger-description %}
 
-{% api-method-description %}
+{% endswagger-description %}
 
-{% endapi-method-description %}
-
-{% api-method-spec %}
-{% api-method-request %}
-{% api-method-path-parameters %}
-{% api-method-parameter name="id" type="number" required=true %}
+{% swagger-parameter in="path" name="id" type="number" %}
 The form id
-{% endapi-method-parameter %}
-{% endapi-method-path-parameters %}
+{% endswagger-parameter %}
 
-{% api-method-headers %}
-{% api-method-parameter name="Authorization" type="string" required=false %}
-Bearer: &lt;your-auth-token&gt;
-{% endapi-method-parameter %}
-{% endapi-method-headers %}
-{% endapi-method-request %}
+{% swagger-parameter in="header" name="Authorization" type="string" %}
+Bearer: <your-auth-token>
+{% endswagger-parameter %}
 
-{% api-method-response %}
-{% api-method-response-example httpCode=200 %}
-{% api-method-response-example-description %}
-
-{% endapi-method-response-example-description %}
-
+{% swagger-response status="200" description="" %}
 ```javascript
 {
     "id": null,
@@ -2019,51 +1670,29 @@ Bearer: &lt;your-auth-token&gt;
     ]
 }
 ```
-{% endapi-method-response-example %}
+{% endswagger-response %}
 
-{% api-method-response-example httpCode=404 %}
-{% api-method-response-example-description %}
-
-{% endapi-method-response-example-description %}
-
-```text
+{% swagger-response status="404" description="" %}
+```
 If the survey does not exist, a 404 will be raised
 ```
-{% endapi-method-response-example %}
-{% endapi-method-response %}
-{% endapi-method-spec %}
-{% endapi-method %}
+{% endswagger-response %}
+{% endswagger %}
 
-{% api-method method="get" host="https://ushahididocs.api.ushahidi.io" path="/api/v3/forms/:id/roles" %}
-{% api-method-summary %}
-Get all roles assigned to one survey
-{% endapi-method-summary %}
+{% swagger baseUrl="https://ushahididocs.api.ushahidi.io" path="/api/v3/forms/:id/roles" method="get" summary="Get all roles assigned to one survey" %}
+{% swagger-description %}
 
-{% api-method-description %}
+{% endswagger-description %}
 
-{% endapi-method-description %}
-
-{% api-method-spec %}
-{% api-method-request %}
-{% api-method-path-parameters %}
-{% api-method-parameter name="id" type="number" required=true %}
+{% swagger-parameter in="path" name="id" type="number" %}
 The form id
-{% endapi-method-parameter %}
-{% endapi-method-path-parameters %}
+{% endswagger-parameter %}
 
-{% api-method-headers %}
-{% api-method-parameter name="Authorization" type="string" required=false %}
-Bearer: &lt;your-auth-token&gt;
-{% endapi-method-parameter %}
-{% endapi-method-headers %}
-{% endapi-method-request %}
+{% swagger-parameter in="header" name="Authorization" type="string" %}
+Bearer: <your-auth-token>
+{% endswagger-parameter %}
 
-{% api-method-response %}
-{% api-method-response-example httpCode=200 %}
-{% api-method-response-example-description %}
-
-{% endapi-method-response-example-description %}
-
+{% swagger-response status="200" description="" %}
 ```javascript
 {
     "count": 1,
@@ -2092,110 +1721,86 @@ Bearer: &lt;your-auth-token&gt;
     "total_count": 1
 }
 ```
-{% endapi-method-response-example %}
+{% endswagger-response %}
 
-{% api-method-response-example httpCode=404 %}
-{% api-method-response-example-description %}
-
-{% endapi-method-response-example-description %}
-
-```text
+{% swagger-response status="404" description="" %}
+```
 If the survey does not exist, a 404 will be raised
 ```
-{% endapi-method-response-example %}
-{% endapi-method-response %}
-{% endapi-method-spec %}
-{% endapi-method %}
+{% endswagger-response %}
+{% endswagger %}
 
-{% api-method method="post" host="https://ushahididocs.api.ushahidi.io" path="/api/v3/forms" %}
-{% api-method-summary %}
-Create a survey
-{% endapi-method-summary %}
-
-{% api-method-description %}
+{% swagger baseUrl="https://ushahididocs.api.ushahidi.io" path="/api/v3/forms" method="post" summary="Create a survey" %}
+{% swagger-description %}
 Create a survey in the backend.
-{% endapi-method-description %}
+{% endswagger-description %}
 
-{% api-method-spec %}
-{% api-method-request %}
-{% api-method-path-parameters %}
-{% api-method-parameter name="" type="string" required=false %}
+{% swagger-parameter in="path" name="" type="string" %}
 
-{% endapi-method-parameter %}
-{% endapi-method-path-parameters %}
+{% endswagger-parameter %}
 
-{% api-method-headers %}
-{% api-method-parameter name="Authorization" type="string" required=false %}
-Bearer: &lt;your-auth-token&gt;
-{% endapi-method-parameter %}
-{% endapi-method-headers %}
+{% swagger-parameter in="header" name="Authorization" type="string" %}
+Bearer: <your-auth-token>
+{% endswagger-parameter %}
 
-{% api-method-body-parameters %}
-{% api-method-parameter name="name" type="string" required=true %}
+{% swagger-parameter in="body" name="name" type="string" %}
 The survey name
-{% endapi-method-parameter %}
+{% endswagger-parameter %}
 
-{% api-method-parameter name="tasks.$n.id" type="string" required=false %}
-A frontend generated ID to identify it while its being created. Example interim\_id\_2
-{% endapi-method-parameter %}
+{% swagger-parameter in="body" name="tasks.$n.id" type="string" %}
+A frontend generated ID to identify it while its being created. Example interim_id_2
+{% endswagger-parameter %}
 
-{% api-method-parameter name="tasks.$n.is\_public" type="boolean" required=false %}
+{% swagger-parameter in="body" name="tasks.$n.is_public" type="boolean" %}
 Is the task open to everyone? Default: true
-{% endapi-method-parameter %}
+{% endswagger-parameter %}
 
-{% api-method-parameter name="tasks.$n.attributes" type="array" required=false %}
+{% swagger-parameter in="body" name="tasks.$n.attributes" type="array" %}
 A list of attributes for the task. Takes the same options as form attributes for each.
-{% endapi-method-parameter %}
+{% endswagger-parameter %}
 
-{% api-method-parameter name="tasks.$n.task\_is\_internal\_only" type="boolean" required=false %}
+{% swagger-parameter in="body" name="tasks.$n.task_is_internal_only" type="boolean" %}
 Default: false
-{% endapi-method-parameter %}
+{% endswagger-parameter %}
 
-{% api-method-parameter name="tasks.$n.show\_when\_published" type="boolean" required=false %}
+{% swagger-parameter in="body" name="tasks.$n.show_when_published" type="boolean" %}
 Default: true
-{% endapi-method-parameter %}
+{% endswagger-parameter %}
 
-{% api-method-parameter name="tasks.$n.type" type="string" required=false %}
+{% swagger-parameter in="body" name="tasks.$n.type" type="string" %}
 post
-{% endapi-method-parameter %}
+{% endswagger-parameter %}
 
-{% api-method-parameter name="tasks.$n.required" type="boolean" required=false %}
+{% swagger-parameter in="body" name="tasks.$n.required" type="boolean" %}
 Default: false
-{% endapi-method-parameter %}
+{% endswagger-parameter %}
 
-{% api-method-parameter name="tasks.$n.priority" type="number" required=false %}
+{% swagger-parameter in="body" name="tasks.$n.priority" type="number" %}
 The order of the task in the form
-{% endapi-method-parameter %}
+{% endswagger-parameter %}
 
-{% api-method-parameter name="tasks.$n.label" type="string" required=false %}
+{% swagger-parameter in="body" name="tasks.$n.label" type="string" %}
 The stage label
-{% endapi-method-parameter %}
+{% endswagger-parameter %}
 
-{% api-method-parameter name="tasks" type="array" required=false %}
-Array of stages \(tasks\) with options. Look for tasks.$n.$x in this list of params to see the attributes available for tasks
-{% endapi-method-parameter %}
+{% swagger-parameter in="body" name="tasks" type="array" %}
+Array of stages (tasks) with options. Look for tasks.$n.$x in this list of params to see the attributes available for tasks
+{% endswagger-parameter %}
 
-{% api-method-parameter name="everyone\_can\_create" type="string" required=false %}
+{% swagger-parameter in="body" name="everyone_can_create" type="string" %}
 Can any user create posts? Default: true
-{% endapi-method-parameter %}
+{% endswagger-parameter %}
 
-{% api-method-parameter name="require\_approvel" type="boolean" required=false %}
-Does the data in this survey auto-publish or is it saved as draft \(default: false\)
-{% endapi-method-parameter %}
+{% swagger-parameter in="body" name="require_approvel" type="boolean" %}
+Does the data in this survey auto-publish or is it saved as draft (default: false)
+{% endswagger-parameter %}
 
-{% api-method-parameter name="color" type="string" required=false %}
-The survey color \(shown in map and data view\)
-{% endapi-method-parameter %}
-{% endapi-method-body-parameters %}
-{% endapi-method-request %}
+{% swagger-parameter in="body" name="color" type="string" %}
+The survey color (shown in map and data view)
+{% endswagger-parameter %}
 
-{% api-method-response %}
-{% api-method-response-example httpCode=200 %}
-{% api-method-response-example-description %}
-
-{% endapi-method-response-example-description %}
-
-```text
+{% swagger-response status="200" description="" %}
+```
 {
     "id": 11,
     "url": "https:\/\/ushahididocs.api.ushahidi.io\/api\/v3\/forms\/11",
@@ -2224,100 +1829,80 @@ The survey color \(shown in map and data view\)
     ]
 }
 ```
-{% endapi-method-response-example %}
-{% endapi-method-response %}
-{% endapi-method-spec %}
-{% endapi-method %}
+{% endswagger-response %}
+{% endswagger %}
 
-{% api-method method="put" host="https://ushahididocs.api.ushahidi.io" path="/api/v3/forms/:form\_id" %}
-{% api-method-summary %}
-Update a survey \(example adding a new field\)
-{% endapi-method-summary %}
-
-{% api-method-description %}
+{% swagger baseUrl="https://ushahididocs.api.ushahidi.io" path="/api/v3/forms/:form_id" method="put" summary="Update a survey (example adding a new field)" %}
+{% swagger-description %}
 Create a survey in the backend.
-{% endapi-method-description %}
+{% endswagger-description %}
 
-{% api-method-spec %}
-{% api-method-request %}
-{% api-method-path-parameters %}
-{% api-method-parameter name="form\_id" type="number" required=true %}
+{% swagger-parameter in="path" name="form_id" type="number" %}
 The survey id.
-{% endapi-method-parameter %}
-{% endapi-method-path-parameters %}
+{% endswagger-parameter %}
 
-{% api-method-headers %}
-{% api-method-parameter name="Authorization" type="string" required=false %}
-Bearer: &lt;your-auth-token&gt;
-{% endapi-method-parameter %}
-{% endapi-method-headers %}
+{% swagger-parameter in="header" name="Authorization" type="string" %}
+Bearer: <your-auth-token>
+{% endswagger-parameter %}
 
-{% api-method-body-parameters %}
-{% api-method-parameter name="name" type="string" required=true %}
+{% swagger-parameter in="body" name="name" type="string" %}
 The survey name
-{% endapi-method-parameter %}
+{% endswagger-parameter %}
 
-{% api-method-parameter name="tasks.$n.id" type="string" required=false %}
-A frontend generated ID to identify it while its being created. Example interim\_id\_2
-{% endapi-method-parameter %}
+{% swagger-parameter in="body" name="tasks.$n.id" type="string" %}
+A frontend generated ID to identify it while its being created. Example interim_id_2
+{% endswagger-parameter %}
 
-{% api-method-parameter name="tasks.$n.is\_public" type="boolean" required=false %}
+{% swagger-parameter in="body" name="tasks.$n.is_public" type="boolean" %}
 Is the task open to everyone? Default: true
-{% endapi-method-parameter %}
+{% endswagger-parameter %}
 
-{% api-method-parameter name="tasks.$n.attributes" type="array" required=false %}
+{% swagger-parameter in="body" name="tasks.$n.attributes" type="array" %}
 A list of attributes for the task. Takes the same options as form attributes for each.
-{% endapi-method-parameter %}
+{% endswagger-parameter %}
 
-{% api-method-parameter name="tasks.$n.task\_is\_internal\_only" type="boolean" required=false %}
+{% swagger-parameter in="body" name="tasks.$n.task_is_internal_only" type="boolean" %}
 Default: false
-{% endapi-method-parameter %}
+{% endswagger-parameter %}
 
-{% api-method-parameter name="tasks.$n.show\_when\_published" type="boolean" required=false %}
+{% swagger-parameter in="body" name="tasks.$n.show_when_published" type="boolean" %}
 Default: true
-{% endapi-method-parameter %}
+{% endswagger-parameter %}
 
-{% api-method-parameter name="tasks.$n.type" type="string" required=false %}
+{% swagger-parameter in="body" name="tasks.$n.type" type="string" %}
 post
-{% endapi-method-parameter %}
+{% endswagger-parameter %}
 
-{% api-method-parameter name="tasks.$n.required" type="boolean" required=false %}
+{% swagger-parameter in="body" name="tasks.$n.required" type="boolean" %}
 Default: false
-{% endapi-method-parameter %}
+{% endswagger-parameter %}
 
-{% api-method-parameter name="tasks.$n.priority" type="number" required=false %}
+{% swagger-parameter in="body" name="tasks.$n.priority" type="number" %}
 The order of the task in the form
-{% endapi-method-parameter %}
+{% endswagger-parameter %}
 
-{% api-method-parameter name="tasks.$n.label" type="string" required=false %}
+{% swagger-parameter in="body" name="tasks.$n.label" type="string" %}
 The stage label
-{% endapi-method-parameter %}
+{% endswagger-parameter %}
 
-{% api-method-parameter name="tasks" type="array" required=false %}
-Array of stages \(tasks\) with options. Look for tasks.$n.$x in this list of params to see the attributes available for tasks
-{% endapi-method-parameter %}
+{% swagger-parameter in="body" name="tasks" type="array" %}
+Array of stages (tasks) with options. Look for tasks.$n.$x in this list of params to see the attributes available for tasks
+{% endswagger-parameter %}
 
-{% api-method-parameter name="everyone\_can\_create" type="string" required=false %}
+{% swagger-parameter in="body" name="everyone_can_create" type="string" %}
 Can any user create posts? Default: true
-{% endapi-method-parameter %}
+{% endswagger-parameter %}
 
-{% api-method-parameter name="require\_approvel" type="boolean" required=false %}
-Does the data in this survey auto-publish or is it saved as draft \(default: false\)
-{% endapi-method-parameter %}
+{% swagger-parameter in="body" name="require_approvel" type="boolean" %}
+Does the data in this survey auto-publish or is it saved as draft (default: false)
+{% endswagger-parameter %}
 
-{% api-method-parameter name="color" type="string" required=false %}
-The survey color \(shown in map and data view\)
-{% endapi-method-parameter %}
-{% endapi-method-body-parameters %}
-{% endapi-method-request %}
+{% swagger-parameter in="body" name="color" type="string" %}
+The survey color (shown in map and data view)
+{% endswagger-parameter %}
 
-{% api-method-response %}
-{% api-method-response-example httpCode=200 %}
-{% api-method-response-example-description %}
-
-{% endapi-method-response-example-description %}
-
-```text
+{% swagger-response status="200" description="" %}
+```
 {
     "id": 11,
     "url": "https:\/\/ushahididocs.api.ushahidi.io\/api\/v3\/forms\/11",
@@ -2346,42 +1931,24 @@ The survey color \(shown in map and data view\)
     ]
 }
 ```
-{% endapi-method-response-example %}
-{% endapi-method-response %}
-{% endapi-method-spec %}
-{% endapi-method %}
+{% endswagger-response %}
+{% endswagger %}
 
-{% api-method method="delete" host="https://ushahididocs.api.ushahidi.io" path="/api/v3/forms/:form\_id" %}
-{% api-method-summary %}
-Delete a survey
-{% endapi-method-summary %}
+{% swagger baseUrl="https://ushahididocs.api.ushahidi.io" path="/api/v3/forms/:form_id" method="delete" summary="Delete a survey" %}
+{% swagger-description %}
 
-{% api-method-description %}
+{% endswagger-description %}
 
-{% endapi-method-description %}
-
-{% api-method-spec %}
-{% api-method-request %}
-{% api-method-path-parameters %}
-{% api-method-parameter name="form\_id" type="number" required=true %}
+{% swagger-parameter in="path" name="form_id" type="number" %}
 The survey id.
-{% endapi-method-parameter %}
-{% endapi-method-path-parameters %}
+{% endswagger-parameter %}
 
-{% api-method-headers %}
-{% api-method-parameter name="Authorization" type="string" required=true %}
-Bearer: &lt;your-auth-token&gt;
-{% endapi-method-parameter %}
-{% endapi-method-headers %}
-{% endapi-method-request %}
+{% swagger-parameter in="header" name="Authorization" type="string" %}
+Bearer: <your-auth-token>
+{% endswagger-parameter %}
 
-{% api-method-response %}
-{% api-method-response-example httpCode=200 %}
-{% api-method-response-example-description %}
-
-{% endapi-method-response-example-description %}
-
-```text
+{% swagger-response status="200" description="" %}
+```
 {
     "id": 11,
     "url": "https:\/\/ushahididocs.api.ushahidi.io\/api\/v3\/forms\/11",
@@ -2410,257 +1977,164 @@ Bearer: &lt;your-auth-token&gt;
     ]
 }
 ```
-{% endapi-method-response-example %}
-{% endapi-method-response %}
-{% endapi-method-spec %}
-{% endapi-method %}
+{% endswagger-response %}
+{% endswagger %}
 
-{% api-method method="post" host="https://ushahididocs.api.ushahidi.io" path="/api/v3/messages" %}
-{% api-method-summary %}
-Respond to datasource messages
-{% endapi-method-summary %}
-
-{% api-method-description %}
+{% swagger baseUrl="https://ushahididocs.api.ushahidi.io" path="/api/v3/messages" method="post" summary="Respond to datasource messages" %}
+{% swagger-description %}
 Used in the "Conversation with author" UX in the platform.
-{% endapi-method-description %}
+{% endswagger-description %}
 
-{% api-method-spec %}
-{% api-method-request %}
-{% api-method-headers %}
-{% api-method-parameter name="Authorization" type="string" required=true %}
-Bearer: &lt;your-auth-token&gt;
-{% endapi-method-parameter %}
-{% endapi-method-headers %}
+{% swagger-parameter in="header" name="Authorization" type="string" %}
+Bearer: <your-auth-token>
+{% endswagger-parameter %}
 
-{% api-method-body-parameters %}
-{% api-method-parameter name="parent\_id" type="number" required=true %}
+{% swagger-parameter in="body" name="parent_id" type="number" %}
 The id of the message you are responding to.
-{% endapi-method-parameter %}
+{% endswagger-parameter %}
 
-{% api-method-parameter name="contact\_id" type="number" required=true %}
+{% swagger-parameter in="body" name="contact_id" type="number" %}
 The contact id of the person you want to send a message to. You can get this in the "Get messages for a post contact" endpoint below this one.
-{% endapi-method-parameter %}
+{% endswagger-parameter %}
 
-{% api-method-parameter name="direction" type="string" required=true %}
+{% swagger-parameter in="body" name="direction" type="string" %}
 Use "outgoing" for sending messages. We use "incoming" when a datasource fetches a message.
-{% endapi-method-parameter %}
+{% endswagger-parameter %}
 
-{% api-method-parameter name="message" type="string" required=true %}
+{% swagger-parameter in="body" name="message" type="string" %}
 The message you want to send
-{% endapi-method-parameter %}
-{% endapi-method-body-parameters %}
-{% endapi-method-request %}
+{% endswagger-parameter %}
 
-{% api-method-response %}
-{% api-method-response-example httpCode=200 %}
-{% api-method-response-example-description %}
-
-{% endapi-method-response-example-description %}
-
-```text
-
+{% swagger-response status="200" description="" %}
 ```
-{% endapi-method-response-example %}
-{% endapi-method-response %}
-{% endapi-method-spec %}
-{% endapi-method %}
+```
+{% endswagger-response %}
+{% endswagger %}
 
-{% api-method method="get" host="https://ushahididocs.api.ushahidi.io" path="/api/v3/messages" %}
-{% api-method-summary %}
-Get all messages for a post's contact
-{% endapi-method-summary %}
-
-{% api-method-description %}
+{% swagger baseUrl="https://ushahididocs.api.ushahidi.io" path="/api/v3/messages" method="get" summary="Get all messages for a post's contact" %}
+{% swagger-description %}
 Used in the "Conversation with author" UX in the platform.
-{% endapi-method-description %}
+{% endswagger-description %}
 
-{% api-method-spec %}
-{% api-method-request %}
-{% api-method-headers %}
-{% api-method-parameter name="Authorization" type="string" required=true %}
-Bearer: &lt;your-auth-token&gt;
-{% endapi-method-parameter %}
-{% endapi-method-headers %}
+{% swagger-parameter in="header" name="Authorization" type="string" %}
+Bearer: <your-auth-token>
+{% endswagger-parameter %}
 
-{% api-method-query-parameters %}
-{% api-method-parameter name="orderby" type="string" required=false %}
+{% swagger-parameter in="query" name="orderby" type="string" %}
 Options: "created", "updated"
-{% endapi-method-parameter %}
+{% endswagger-parameter %}
 
-{% api-method-parameter name="order" type="string" required=false %}
+{% swagger-parameter in="query" name="order" type="string" %}
 Options: "desc", "asc"
-{% endapi-method-parameter %}
+{% endswagger-parameter %}
 
-{% api-method-parameter name="limit" type="number" required=false %}
+{% swagger-parameter in="query" name="limit" type="number" %}
 Pagination limit
-{% endapi-method-parameter %}
+{% endswagger-parameter %}
 
-{% api-method-parameter name="offset" type="number" required=false %}
+{% swagger-parameter in="query" name="offset" type="number" %}
 Pagination offset
-{% endapi-method-parameter %}
+{% endswagger-parameter %}
 
-{% api-method-parameter name="contact" type="number" required=true %}
+{% swagger-parameter in="query" name="contact" type="number" %}
 The contact id. You can get it from the post the message is linked to.
-{% endapi-method-parameter %}
-{% endapi-method-query-parameters %}
-{% endapi-method-request %}
+{% endswagger-parameter %}
 
-{% api-method-response %}
-{% api-method-response-example httpCode=200 %}
-{% api-method-response-example-description %}
-
-{% endapi-method-response-example-description %}
-
-```text
-
+{% swagger-response status="200" description="" %}
 ```
-{% endapi-method-response-example %}
-{% endapi-method-response %}
-{% endapi-method-spec %}
-{% endapi-method %}
+```
+{% endswagger-response %}
+{% endswagger %}
 
-{% api-method method="get" host="https://ushahididocs.api.ushahidi.io" path="/api/v3/messages/:messageId/post" %}
-{% api-method-summary %}
-Get the post for a message
-{% endapi-method-summary %}
-
-{% api-method-description %}
+{% swagger baseUrl="https://ushahididocs.api.ushahidi.io" path="/api/v3/messages/:messageId/post" method="get" summary="Get the post for a message" %}
+{% swagger-description %}
 Used in the "Conversation with author" UX in the platform.
-{% endapi-method-description %}
+{% endswagger-description %}
 
-{% api-method-spec %}
-{% api-method-request %}
-{% api-method-headers %}
-{% api-method-parameter name="Authorization" type="string" required=true %}
-Bearer: &lt;your-auth-token&gt;
-{% endapi-method-parameter %}
-{% endapi-method-headers %}
+{% swagger-parameter in="header" name="Authorization" type="string" %}
+Bearer: <your-auth-token>
+{% endswagger-parameter %}
 
-{% api-method-query-parameters %}
-{% api-method-parameter name="orderby" type="string" required=false %}
+{% swagger-parameter in="query" name="orderby" type="string" %}
 Options: "created", "updated"
-{% endapi-method-parameter %}
+{% endswagger-parameter %}
 
-{% api-method-parameter name="order" type="string" required=false %}
+{% swagger-parameter in="query" name="order" type="string" %}
 Options: "desc", "asc"
-{% endapi-method-parameter %}
+{% endswagger-parameter %}
 
-{% api-method-parameter name="limit" type="number" required=false %}
+{% swagger-parameter in="query" name="limit" type="number" %}
 Pagination limit
-{% endapi-method-parameter %}
+{% endswagger-parameter %}
 
-{% api-method-parameter name="offset" type="number" required=false %}
+{% swagger-parameter in="query" name="offset" type="number" %}
 Pagination offset
-{% endapi-method-parameter %}
+{% endswagger-parameter %}
 
-{% api-method-parameter name="contact" type="number" required=true %}
+{% swagger-parameter in="query" name="contact" type="number" %}
 The contact id. You can get it from the post the message is linked to.
-{% endapi-method-parameter %}
-{% endapi-method-query-parameters %}
-{% endapi-method-request %}
+{% endswagger-parameter %}
 
-{% api-method-response %}
-{% api-method-response-example httpCode=200 %}
-{% api-method-response-example-description %}
-
-{% endapi-method-response-example-description %}
-
-```text
-
+{% swagger-response status="200" description="" %}
 ```
-{% endapi-method-response-example %}
-{% endapi-method-response %}
-{% endapi-method-spec %}
-{% endapi-method %}
+```
+{% endswagger-response %}
+{% endswagger %}
 
-{% api-method method="post" host="https://ushahididocs.api.ushahidi.io" path="/api/v3/posts" %}
-{% api-method-summary %}
-Create a new post
-{% endapi-method-summary %}
+{% swagger baseUrl="https://ushahididocs.api.ushahidi.io" path="/api/v3/posts" method="post" summary="Create a new post" %}
+{% swagger-description %}
+Create a new post in the ushahidi platform. This method works with a user's password_grant token or with a client_credentials token generated with the client id and secret.
+{% endswagger-description %}
 
-{% api-method-description %}
-Create a new post in the ushahidi platform. This method works with a user's password\_grant token or with a client\_credentials token generated with the client id and secret.
-{% endapi-method-description %}
+{% swagger-parameter in="header" name="Authorization" type="string" %}
+Bearer: <your-auth-token>
+{% endswagger-parameter %}
 
-{% api-method-spec %}
-{% api-method-request %}
-{% api-method-headers %}
-{% api-method-parameter name="Authorization" type="string" required=true %}
-Bearer: &lt;your-auth-token&gt;
-{% endapi-method-parameter %}
-{% endapi-method-headers %}
+{% swagger-parameter in="body" name="form" type="object" %}
+Format: {id: <formId>} . Sending the id of the form we want to add posts to is required.
+{% endswagger-parameter %}
 
-{% api-method-body-parameters %}
-{% api-method-parameter name="form" type="object" required=true %}
-Format: {id: &lt;formId&gt;} . Sending the id of the form we want to add posts to is required.
-{% endapi-method-parameter %}
-
-{% api-method-parameter name="values" type="object" required=true %}
+{% swagger-parameter in="body" name="values" type="object" %}
 a key:value map of fields and their content. This is used for all fields other than content and title and follows the format fieldKey: value. You can get a field's get by requesting all attributes of a form. Can be an empty object literal if a form has no other fields.
-{% endapi-method-parameter %}
+{% endswagger-parameter %}
 
-{% api-method-parameter name="content" type="string" required=true %}
+{% swagger-parameter in="body" name="content" type="string" %}
 The post's description field
-{% endapi-method-parameter %}
+{% endswagger-parameter %}
 
-{% api-method-parameter name="title" type="string" required=true %}
+{% swagger-parameter in="body" name="title" type="string" %}
 The post's title field
-{% endapi-method-parameter %}
-{% endapi-method-body-parameters %}
-{% endapi-method-request %}
+{% endswagger-parameter %}
 
-{% api-method-response %}
-{% api-method-response-example httpCode=204 %}
-{% api-method-response-example-description %}
-
-{% endapi-method-response-example-description %}
-
-```text
+{% swagger-response status="204" description="" %}
+```
 Success
 ```
-{% endapi-method-response-example %}
-{% endapi-method-response %}
-{% endapi-method-spec %}
-{% endapi-method %}
+{% endswagger-response %}
+{% endswagger %}
 
 Example payload:
 
-{"title":"My title","content":"My content","values":{},"form":{"id":4}}
+{"title":"My title","content":"My content","values":{},"form":{"id":4\}}
 
-{% api-method method="get" host="https://ushahididocs.api.ushahidi.io" path="/api/v3/posts" %}
-{% api-method-summary %}
-Get Posts
-{% endapi-method-summary %}
+{% swagger baseUrl="https://ushahididocs.api.ushahidi.io" path="/api/v3/posts" method="get" summary="Get Posts" %}
+{% swagger-description %}
 
-{% api-method-description %}
+{% endswagger-description %}
 
-{% endapi-method-description %}
+{% swagger-parameter in="header" name="Authorization" type="string" %}
+Bearer <your-auth-token>
+{% endswagger-parameter %}
 
-{% api-method-spec %}
-{% api-method-request %}
-{% api-method-headers %}
-{% api-method-parameter name="Authorization" type="string" required=true %}
-Bearer &lt;your-auth-token&gt;
-{% endapi-method-parameter %}
-{% endapi-method-headers %}
-
-{% api-method-query-parameters %}
-{% api-method-parameter name="orderby" type="string" required=false %}
+{% swagger-parameter in="query" name="orderby" type="string" %}
 Options: desc, asc
-{% endapi-method-parameter %}
+{% endswagger-parameter %}
 
-{% api-method-parameter name="limit" type="string" required=false %}
+{% swagger-parameter in="query" name="limit" type="string" %}
 :number
-{% endapi-method-parameter %}
-{% endapi-method-query-parameters %}
-{% endapi-method-request %}
+{% endswagger-parameter %}
 
-{% api-method-response %}
-{% api-method-response-example httpCode=200 %}
-{% api-method-response-example-description %}
-
-{% endapi-method-response-example-description %}
-
+{% swagger-response status="200" description="" %}
 ```javascript
 {
     "count": 2,
@@ -2765,8 +2239,5 @@ Options: desc, asc
     "total_count": 2
 }
 ```
-{% endapi-method-response-example %}
-{% endapi-method-response %}
-{% endapi-method-spec %}
-{% endapi-method %}
-
+{% endswagger-response %}
+{% endswagger %}

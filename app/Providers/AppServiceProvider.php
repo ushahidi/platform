@@ -49,6 +49,26 @@ class AppServiceProvider extends ServiceProvider
         $this->registerDataSources();
 
         $this->registerFeatures();
+
+        $this->app->singleton(
+            \Ushahidi\App\ImportUshahidiV2\Contracts\ImportMappingRepository::class,
+            \Ushahidi\App\ImportUshahidiV2\Repositories\ImportMappingRepository::class
+        );
+
+        $this->app->singleton(
+            \Ushahidi\App\ImportUshahidiV2\Contracts\ImportRepository::class,
+            \Ushahidi\App\ImportUshahidiV2\Repositories\ImportRepository::class
+        );
+
+        $this->app->singleton(
+            \Ushahidi\App\ImportUshahidiV2\Contracts\ImportSourceDataRepository::class,
+            \Ushahidi\App\ImportUshahidiV2\Repositories\ImportSourceDataRepository::class
+        );
+
+        $this->app->singleton(
+            \Ushahidi\App\ImportUshahidiV2\Contracts\ImportDataTools::class,
+            \Ushahidi\App\ImportUshahidiV2\Utils\ImportDataTools::class
+        );
     }
 
     public function registerServicesFromAura()

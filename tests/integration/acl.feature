@@ -344,14 +344,14 @@ Feature: API Access Control Layer
         And that the oauth token is "testadminuser"
         When I request "/config"
         Then the response is JSON
-        And the "count" property equals "7"
+        And the "count" property equals "8"
         Then the guzzle status code should be 200
 
     Scenario: Listing All Configs as anonymous user
         Given that I want to get all "Configs"
         When I request "/config"
         Then the response is JSON
-        And the "count" property equals "3"
+        And the "count" property equals "4"
         Then the guzzle status code should be 200
 
     @resetFixture

@@ -14,14 +14,16 @@ namespace Ushahidi\App\Repository\Form;
 use Ohanzee\DB;
 use Ohanzee\Database;
 use Ramsey\Uuid\Uuid;
-use Ushahidi\Core\Tools\SearchData;
 use Ushahidi\Contracts\Entity;
+use Illuminate\Support\Collection;
+use Ushahidi\Core\Tools\SearchData;
 use Ushahidi\Core\Concerns\UserContext;
 use Ushahidi\Core\Entity\FormAttribute;
 use Ushahidi\App\Repository\OhanzeeRepository;
 use Ushahidi\App\Repository\Concerns\FormsTags;
 use Ushahidi\App\Repository\Concerns\CachesData;
 use Ushahidi\App\Repository\Concerns\JsonTranscode;
+use Ushahidi\App\Repository\Concerns\UsesBulkAutoIncrement;
 use Ushahidi\Core\Tools\Permissions\InteractsWithFormPermissions;
 use Ushahidi\Contracts\Repository\Entity\FormRepository as FormRepositoryContract;
 use Ushahidi\Contracts\Repository\Entity\FormStageRepository as FormStageRepositoryContract;
@@ -30,10 +32,17 @@ use Ushahidi\Contracts\Repository\Entity\FormAttributeRepository as FormAttribut
 class AttributeRepository extends OhanzeeRepository implements
     FormAttributeRepositoryContract
 {
+    use FormsTags;
+    use CachesData;
     use UserContext;
-    // Checks if user is Admin
 
+    // Use the JSON transcoder to encode properties
+    use JsonTranscode;
+
+    // Checks if user is Admin
     use InteractsWithFormPermissions;
+
+    use UsesBulkAutoIncrement;
 
     protected $form_stage_repo;
 
@@ -41,17 +50,6 @@ class AttributeRepository extends OhanzeeRepository implements
 
     protected $form_id;
 
-    // Use the JSON transcoder to encode properties
-    use JsonTranscode;
-    use FormsTags;
-    use CachesData;
-
-    /**
-     * Construct
-     * @param Database                              $db
-     * @param FormStageRepository                   $form_stage_repo
-     * @param FormRepository                   $form_repo
-     */
     public function __construct(
         \Ushahidi\App\Multisite\OhanzeeResolver $resolver,
         FormStageRepositoryContract $form_stage_repo,
@@ -107,6 +105,43 @@ class AttributeRepository extends OhanzeeRepository implements
         $record['key'] = $uuid->toString();
 
         return $this->executeInsertAttribute($this->removeNullValues($record));
+    }
+
+    /**
+     * @param  Collection $collection
+     * @return array      ids of rows created
+     */
+    public function createMany(Collection $collection) : array
+    {
+        $this->checkAutoIncMode();
+
+        $first = $collection->first()->asArray();
+        $columns = array_keys($first);
+
+        $values = $collection->map(function ($entity) {
+            $data = $entity->asArray();
+
+            // Generate key
+            $uuid = Uuid::uuid4();
+            $data['key'] = $uuid->toString();
+
+            // JSON encode values
+            $data = $this->json_transcoder->encode(
+                $data,
+                $this->getJsonProperties()
+            );
+
+            return $data;
+        })->all();
+
+        $query = DB::insert($this->getTable())
+            ->columns($columns);
+
+        call_user_func_array([$query, 'values'], $values);
+
+        list($insertId, $created) = $query->execute($this->db());
+
+        return range($insertId, $insertId + $created - 1);
     }
 
     // Override SearchRepository

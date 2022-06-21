@@ -35,4 +35,25 @@ abstract class TestCase extends BaseTestCase
     {
         return $this->app[Kernel::class]->output();
     }
+
+        /**
+     * Assert that a given where condition exists in the database.
+     *
+     * @param  string  $table
+     * @param  array  $data
+     * @param  string|null $onConnection
+     * @return $this
+     */
+    protected function seeInDatabase($table, array $data, $onConnection = null)
+    {
+        $count = $this->app->make('db')->connection($onConnection)->table($table)->where($data)->count();
+
+        $this->assertGreaterThan(0, $count, sprintf(
+            'Unable to find row in database table [%s] that matched attributes [%s].',
+            $table,
+            json_encode($data)
+        ));
+
+        return $this;
+    }
 }
