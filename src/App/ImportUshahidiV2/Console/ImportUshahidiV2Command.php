@@ -12,14 +12,13 @@
 namespace Ushahidi\App\ImportUshahidiV2\Console;
 
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Contracts\Bus\Dispatcher;
-
 use Ushahidi\App\ImportUshahidiV2;
+use Ushahidi\Core\Tools\ManifestLoader;
+use Illuminate\Contracts\Bus\Dispatcher;
 use Ushahidi\App\Multisite\OhanzeeResolver;
-use Ushahidi\Core\Entity\PostRepository;
-use Ushahidi\Core\Tool\ManifestLoader;
+use Ushahidi\Contracts\Repository\Entity\PostRepository;
+use Ushahidi\App\ImportUshahidiV2\Contracts\ImportRepository;
 
 class ImportUshahidiV2Command extends Command
 {
@@ -66,7 +65,7 @@ class ImportUshahidiV2Command extends Command
     }
 
     public function handle(
-        ImportUshahidiV2\Contracts\ImportRepository $importRepo,
+        ImportRepository $importRepo,
         PostRepository $postRepo,
         OhanzeeResolver $resolver
     ) {
@@ -110,7 +109,7 @@ class ImportUshahidiV2Command extends Command
         // + extract and save needed settings
         $this->info('Initializing import');
         $this->dispatcher->dispatchNow(new ImportUshahidiV2\Jobs\SetupImport($importId, $dbConfig, $this->extraParams));
-        
+
         // Collect all tables data
         $this->info('Copying raw data');
         $this->dispatcher->dispatchNow(new ImportUshahidiV2\Jobs\CopyRawTables($importId, $dbConfig));

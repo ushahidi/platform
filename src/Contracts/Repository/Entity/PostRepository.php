@@ -39,4 +39,6 @@ interface PostRepository extends
      * @return \Ushahidi\Contracts\Entity
      */
     public function getByLocale($locale, $parent_id, $type);
+
+    public function getTotal();
 }
