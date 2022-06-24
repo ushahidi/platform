@@ -12,9 +12,9 @@ namespace Ushahidi\App\Tools;
 
 use Illuminate\Support\Facades\Auth;
 use Ushahidi\Contracts\EntityGet;
-use Ushahidi\Contracts\Session as SessionInterface;
+use Ushahidi\Contracts\Session as SessionContract;
 
-class LumenSession implements SessionInterface
+class Session implements SessionContract
 {
     protected $userRepo;
 

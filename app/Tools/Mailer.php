@@ -10,16 +10,16 @@
 
 namespace Ushahidi\App\Tools;
 
-use Illuminate\Contracts\Mail\Mailer;
 use Illuminate\Support\Str;
-use Ushahidi\Contracts\Mailer as MailerContract;
 use Ushahidi\App\Multisite\UsesSiteInfo;
+use Ushahidi\Contracts\Mailer as MailerContract;
+use Illuminate\Contracts\Mail\Mailer as LaravelMailer;
 
-class LumenMailer implements MailerContract
+class Mailer implements MailerContract
 {
     use UsesSiteInfo;
 
-    public function __construct(Mailer $mailer)
+    public function __construct(LaravelMailer $mailer)
     {
         $this->mailer = $mailer;
     }
@@ -32,7 +32,7 @@ class LumenMailer implements MailerContract
             $this->$method($to, $params);
         } else {
             // Exception
-            throw new Exception('Unsupported mail type: ' + $type);
+            throw new \Exception('Unsupported mail type: ' + $type);
         }
     }
 

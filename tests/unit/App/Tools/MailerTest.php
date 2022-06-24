@@ -14,13 +14,13 @@ use Mockery as M;
 use Tests\TestCase;
 // use Illuminate\Support\Facades\Mail;
 use Ushahidi\App\Multisite\Site;
-use Ushahidi\App\Tools\LumenMailer;
+use Ushahidi\App\Tools\Mailer;
 
 /**
  * @backupGlobals disabled
  * @preserveGlobalState disabled
  */
-class LumenMailerTest extends TestCase
+class MailerTest extends TestCase
 {
     public function testSend()
     {
@@ -44,7 +44,7 @@ class LumenMailerTest extends TestCase
 
         $illuminateMailer = M::spy(app('mailer'));
 
-        $mailer = new LumenMailer(
+        $mailer = new Mailer(
             $illuminateMailer
         );
 

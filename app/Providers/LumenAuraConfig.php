@@ -22,7 +22,7 @@ class LumenAuraConfig extends ContainerConfig
     protected function configureAuraServices(Container $di)
     {
         // Configure mailer
-        $di->set('tool.mailer', $di->lazyNew(\Ushahidi\App\Tools\LumenMailer::class, [
+        $di->set('tool.mailer', $di->lazyNew(\Ushahidi\App\Tools\Mailer::class, [
             'mailer' => app('mailer'),
         ]));
 
@@ -39,7 +39,7 @@ class LumenAuraConfig extends ContainerConfig
         });
 
         // Setup user session service
-        $di->set('session', $di->lazyNew(\Ushahidi\App\Tools\LumenSession::class, [
+        $di->set('session', $di->lazyNew(\Ushahidi\App\Tools\Session::class, [
             'userRepo' => $di->lazyGet('repository.user'),
         ]));
 
