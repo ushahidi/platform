@@ -11,9 +11,9 @@
 
 namespace Ushahidi\App\Validator\Role;
 
-use Ushahidi\App\Validator\LegacyValidator;
-use Ushahidi\Core\Entity\PermissionRepository;
 use Ushahidi\App\Facades\Features;
+use Ushahidi\App\Validator\LegacyValidator;
+use Ushahidi\Contracts\Repository\Entity\PermissionRepository;
 
 class Update extends LegacyValidator
 {

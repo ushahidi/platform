@@ -11,9 +11,7 @@
 
 namespace Ushahidi\App\Validator\User;
 
-use Ushahidi\Core\Data;
 use Ushahidi\App\Validator\LegacyValidator;
-use Ushahidi\Core\Usecase\User\LoginRepository;
 
 class Login extends LegacyValidator
 {

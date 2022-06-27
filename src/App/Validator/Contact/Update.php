@@ -13,7 +13,7 @@ namespace Ushahidi\App\Validator\Contact;
 
 use Ushahidi\Core\Entity\Contact;
 use Ushahidi\App\Validator\LegacyValidator;
-use Ushahidi\Core\Entity\UserRepository;
+use Ushahidi\Contracts\Repository\Entity\UserRepository;
 
 class Update extends LegacyValidator
 {

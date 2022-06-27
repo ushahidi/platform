@@ -2,11 +2,11 @@
 
 namespace Tests\Unit\App\Repository;
 
-use Ushahidi\App\Repository\TagRepository;
-use Ushahidi\Core\Entity\Tag;
-use Tests\TestCase;
-use Mockery as M;
 use Faker;
+use Mockery as M;
+use Tests\TestCase;
+use Ushahidi\Core\Entity\Tag;
+use Ushahidi\App\Repository\TagRepository;
 
 /**
  * @backupGlobals disabled

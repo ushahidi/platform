@@ -13,13 +13,7 @@
 
 namespace v5\Listeners;
 
-use v5\Events\PostCreatedEvent;
-
-use League\Event\EventInterface;
-use Ushahidi\App\Listener\PostListener;
-use Ushahidi\Core\Traits\Events\DispatchesEvents;
 use v5\Events\PostUpdatedEvent;
-use v5\Models\Post\Post;
 
 class PostUpdatedListener
 {

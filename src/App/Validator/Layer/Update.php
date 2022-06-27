@@ -11,9 +11,8 @@
 
 namespace Ushahidi\App\Validator\Layer;
 
-use Ushahidi\Core\Entity;
 use Ushahidi\App\Validator\LegacyValidator;
-use Ushahidi\Core\Entity\MediaRepository;
+use Ushahidi\Contracts\Repository\Entity\MediaRepository;
 
 class Update extends LegacyValidator
 {

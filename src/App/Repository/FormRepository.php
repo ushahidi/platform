@@ -12,19 +12,18 @@
 namespace Ushahidi\App\Repository;
 
 use Ohanzee\DB;
-use Ushahidi\Core\Entity;
+use Ushahidi\Core\Tools\SearchData;
 use Ushahidi\Core\Entity\Form;
-use Ushahidi\Core\Entity\FormRepository as FormRepositoryContract;
-use Ushahidi\Core\SearchData;
-use Ushahidi\Core\Traits\Event;
-
-use League\Event\ListenerInterface;
+use Ushahidi\Core\Concerns\Event;
 use Illuminate\Support\Collection;
+use Ushahidi\Contracts\Entity;
+use Ushahidi\App\Repository\Concerns\FormsTags;
+use Ushahidi\Contracts\Repository\Entity\FormRepository as FormRepositoryContract;
 
 class FormRepository extends OhanzeeRepository implements
     FormRepositoryContract
 {
-    use FormsTagsTrait;
+    use FormsTags;
 
     // Use Event trait to trigger events
     use Event;
@@ -205,7 +204,7 @@ class FormRepository extends OhanzeeRepository implements
             ->order_by('form_stages.id')
             ->order_by('form_stages.priority')
             ->order_by('form_attributes.priority');
-        
+
         if (!empty($form_ids)) {
             $query->where('forms.id', 'IN', $form_ids);
         }

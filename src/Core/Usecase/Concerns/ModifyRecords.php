@@ -34,7 +34,7 @@ trait ModifyRecords
      *         'age'       => 42,
      *     ]);
      *
-     * @param  Array $payload
+     * @param  array $payload
      * @return $this
      */
     public function setPayload(array $payload)
@@ -54,12 +54,9 @@ trait ModifyRecords
      *     // Get an optional parameter, with a default
      *     $age = $this->getPayload('age', false);
      *
-     * @throws InvalidArgumentException
-     * @param  String $name
-     * @param  Mixed  $default
-     * @return Mixed
+     * @throws \InvalidArgumentException
      */
-    protected function getPayload($name, $default = null)
+    protected function getPayload(string $name, $default = null)
     {
         if (!isset($this->payload[$name])) {
             if (!isset($default)) {

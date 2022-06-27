@@ -13,33 +13,26 @@ namespace Ushahidi\App\Repository;
 
 use Ohanzee\DB;
 use Ohanzee\Database;
-use Ushahidi\Core\Entity;
-use Ushahidi\Core\Entity\FormRepository as FormRepositoryContract;
-use Ushahidi\Core\Entity\FormAttributeRepository as FormAttributeRepositoryContract;
-use Ushahidi\Core\Entity\FormStageRepository as FormStageRepositoryContract;
-use Ushahidi\Core\Entity\Permission;
+use Ushahidi\Contracts\Entity;
 use Ushahidi\Core\Entity\Post;
-use Ushahidi\Core\Entity\PostLock;
-use Ushahidi\Core\Entity\PostLockRepository;
-use Ushahidi\Core\Entity\PostValueContainer;
-use Ushahidi\Core\Entity\PostRepository as PostRepositoryContract;
-use Ushahidi\Core\Entity\UserRepository as UserRepositoryContract;
-use Ushahidi\Core\SearchData;
-use Ushahidi\Core\Usecase\Post\StatsPostRepository;
-use Ushahidi\Core\Usecase\Post\UpdatePostRepository;
-use Ushahidi\Core\Usecase\Set\SetPostRepository;
-use Ushahidi\Core\Traits\UserContext;
-use Ushahidi\Core\Entity\ContactRepository;
-use Ushahidi\App\Repository\Post\ValueFactory as PostValueFactory;
-use Ushahidi\App\Util\BoundingBox;
-use Ushahidi\App\Multisite\OhanzeeResolver;
-use Ushahidi\Core\Tool\Permissions\InteractsWithPostPermissions;
-
+use Ushahidi\Core\Entity\Media;
+use Ushahidi\Core\Concerns\Event;
 use Illuminate\Support\Collection;
-use League\Event\ListenerInterface;
-
-use Ushahidi\Core\Traits\Event;
-use Log;
+use Ushahidi\Core\Entity\PostLock;
+use Ushahidi\Core\Tools\SearchData;
+use Ushahidi\Core\Tools\BoundingBox;
+use Ushahidi\Core\Concerns\UserContext;
+use Ushahidi\App\Multisite\OhanzeeResolver;
+use Ushahidi\Core\Tools\Permissions\InteractsWithPostPermissions;
+use Ushahidi\App\Repository\Post\ValueFactory as PostValueFactory;
+use Ushahidi\Contracts\Repository\Usecase\SetPostRepository;
+use Ushahidi\Contracts\Repository\Usecase\UpdatePostRepository;
+use Ushahidi\Contracts\Repository\Entity\ContactRepository;
+use Ushahidi\Contracts\Repository\Entity\PostLockRepository;
+use Ushahidi\Contracts\Repository\Entity\FormRepository as FormRepositoryContract;
+use Ushahidi\Contracts\Repository\Entity\PostRepository as PostRepositoryContract;
+use Ushahidi\Contracts\Repository\Entity\FormStageRepository as FormStageRepositoryContract;
+use Ushahidi\Contracts\Repository\Entity\FormAttributeRepository as FormAttributeRepositoryContract;
 
 class PostRepository extends OhanzeeRepository implements
     PostRepositoryContract,
@@ -52,7 +45,7 @@ class PostRepository extends OhanzeeRepository implements
     use Event;
 
     // Use the JSON transcoder to encode properties
-    use JsonTranscodeRepository;
+    use Concerns\JsonTranscode;
 
     // Provides `postPermissions`
     use InteractsWithPostPermissions;
@@ -96,15 +89,6 @@ class PostRepository extends OhanzeeRepository implements
 
     protected $listener;
 
-    /**
-     * Construct
-     * @param Database                              $db
-     * @param FormAttributeRepository               $form_attribute_repo
-     * @param FormStageRepository                   $form_stage_repo
-     * @param PostLockRepository                    $post_lock_repo
-     * @param PostValueFactory                      $post_value_factory
-     * @param Aura\DI\InstanceFactory               $bounding_box_factory
-     */
     public function __construct(
         OhanzeeResolver $resolver,
         FormAttributeRepositoryContract $form_attribute_repo,
@@ -325,7 +309,7 @@ class PostRepository extends OhanzeeRepository implements
     }
 
 
-    // JsonTranscodeRepository
+    // Concerns\JsonTranscode
     protected function getJsonProperties()
     {
         return ['published_to'];
@@ -1387,7 +1371,7 @@ class PostRepository extends OhanzeeRepository implements
                 // If the value is an array, assume it's an unsaved media object
                 if (is_array($value)) {
                     // Pass it to the media repo to save, and pass the ID back
-                    $value = $mediaRepo->create(new Entity\Media($value));
+                    $value = $mediaRepo->create(new Media($value));
                 }
 
                 return $value;

@@ -11,9 +11,8 @@
 
 namespace Ushahidi\Core\Usecase\Set;
 
-use Ushahidi\Core\Data;
-use Ushahidi\Core\Entity;
-use Ushahidi\Core\Tool\Authorizer;
+use Ushahidi\Contracts\Entity;
+use Ushahidi\Contracts\Authorizer;
 
 use Ushahidi\Core\Exception\AuthorizerException;
 
@@ -38,8 +37,10 @@ trait AuthorizeSet
      * Verifies the current user is allowed $privilege on $entity
      *
      * @param  Entity  $entity
-     * @param  String  $privilege
+     * @param  string  $privilege
+     *
      * @return void
+     *
      * @throws AuthorizerException
      */
     protected function verifySetAuth(Entity $entity, $privilege)
@@ -59,8 +60,9 @@ trait AuthorizeSet
      * Verifies the current user is allowed update access on $entity
      *
      * @param  Entity  $entity
-     * @param  Data    $input
+     *
      * @return void
+     *
      * @throws AuthorizerException
      */
     protected function verifySetUpdateAuth(Entity $entity)

@@ -3,13 +3,12 @@
 namespace Ushahidi\App\Jobs;
 
 use League\Flysystem\Filesystem;
+use Ushahidi\Core\Tools\Uploader;
 use Illuminate\Support\Facades\Log;
+use Ushahidi\Core\Tools\UploadData;
 use Illuminate\Support\Facades\Storage;
-
-use Ushahidi\Core\Entity\MediaRepository;
 use Ushahidi\App\Multisite\MultisiteManager;
-use Ushahidi\Core\Tool\Uploader;
-use Ushahidi\Core\Tool\UploadData;
+use Ushahidi\App\Repository\MediaRepository;
 
 class ImportMediaJob extends Job
 {
@@ -59,7 +58,7 @@ class ImportMediaJob extends Job
         if (!$media->getId()) {
             return;
         }
-        
+
         // Get and parse URL
         $url = $media->o_filename;
         $parsed_url = parse_url($url);
@@ -87,7 +86,7 @@ class ImportMediaJob extends Job
                 'size' => $media->o_size,
                 'tmp_name' => $tmppath
             ]);
-            
+
             $upload = $this->uploader->upload($data, $filename);
         } catch (\InvalidArgumentException $e) {
             Log::error("Error uploading upload ", [

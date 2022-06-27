@@ -11,13 +11,15 @@
 
 namespace Ushahidi\Core\Usecase;
 
-use Ushahidi\Core\Entity;
-use Ushahidi\Core\Usecase;
-use Ushahidi\Core\Tool\AuthorizerTrait;
-use Ushahidi\Core\Tool\FormatterTrait;
-use Ushahidi\Core\Tool\TranslatorTrait;
-use Ushahidi\Core\Tool\ValidatorTrait;
-use Ushahidi\Core\Traits\Events\DispatchesEvents;
+use Ushahidi\Contracts\Entity;
+use Ushahidi\Contracts\Usecase;
+use Ushahidi\Core\Concerns\DispatchesEvents;
+use Ushahidi\Core\Usecase\Concerns\ModifyRecords;
+use Ushahidi\Contracts\Repository\CreateRepository;
+use Ushahidi\Core\Usecase\Concerns\Formatter as FormatterTrait;
+use Ushahidi\Core\Usecase\Concerns\Validator as ValidatorTrait;
+use Ushahidi\Core\Usecase\Concerns\Authorizer as AuthorizerTrait;
+use Ushahidi\Core\Usecase\Concerns\Translator as TranslatorTrait;
 
 class CreateUsecase implements Usecase
 {
@@ -30,7 +32,7 @@ class CreateUsecase implements Usecase
         ValidatorTrait;
 
     // - ModifyRecords for setting entity modification parameters
-    use Concerns\ModifyRecords;
+    use ModifyRecords;
 
     // - Provides dispatch()
     use DispatchesEvents;

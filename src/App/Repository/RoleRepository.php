@@ -12,10 +12,10 @@
 namespace Ushahidi\App\Repository;
 
 use Ohanzee\DB;
-use Ushahidi\Core\Entity;
-use Ushahidi\Core\SearchData;
+use Ushahidi\Contracts\Entity;
+use Ushahidi\Core\Tools\SearchData;
 use Ushahidi\Core\Entity\Role;
-use Ushahidi\Core\Entity\RoleRepository as RoleRepositoryContract;
+use Ushahidi\Contracts\Repository\Entity\RoleRepository as RoleRepositoryContract;
 
 class RoleRepository extends OhanzeeRepository implements
     RoleRepositoryContract

@@ -11,9 +11,6 @@
 
 namespace Ushahidi\App\Validator\ExportJob;
 
-use Ushahidi\Core\Entity;
-use Ushahidi\App\Validator\LegacyValidator;
-
 class Create extends Update
 {
     protected function getRules()

@@ -2,18 +2,16 @@
 
 namespace Ushahidi\App\Http\Controllers\API\Collections;
 
-use Ushahidi\App\Http\Controllers\RESTController;
 use Illuminate\Http\Request;
+use Ushahidi\App\Http\Controllers\RESTController;
 
 /**
  * Ushahidi API Collections Posts Controller
  *
  * @author     Ushahidi Team <team@ushahidi.com>
- * @package    Ushahidi\Application\Controllers
  * @copyright  2013 Ushahidi
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
-
 class PostsController extends RestController
 {
     protected function getResource()
@@ -21,13 +19,10 @@ class PostsController extends RestController
         return 'sets_posts';
     }
 
-
     /**
      * Add a post to a collection
      *
      * POST /api/v3/collections/:id/posts
-     *
-     * @return void
      */
     public function store(Request $request)
     {
@@ -44,8 +39,6 @@ class PostsController extends RestController
      * Get posts in a collection
      *
      * GET /api/v3/collections/:id/posts
-     *
-     * @return void
      */
     public function index(Request $request)
     {
@@ -54,7 +47,7 @@ class PostsController extends RestController
             ->get($this->getResource(), 'search')
             // And add parent collection id to the filters
             ->setFilters($request->query() + [
-                'set_id' => isset($params['set_id']) ? $params['set_id'] : null
+                'set_id' => isset($params['set_id']) ? $params['set_id'] : null,
             ])
             // Send through parent collection id
             ->setIdentifiers($params);

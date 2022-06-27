@@ -11,14 +11,14 @@
 
 namespace Ushahidi\App\Validator\Tag;
 
-use Ushahidi\Core\Entity;
-use Ushahidi\Core\Entity\RoleRepository;
-use Ushahidi\Core\Usecase\Tag\UpdateTagRepository;
 use Ushahidi\App\Validator\LegacyValidator;
+use Ushahidi\Contracts\Repository\Entity\RoleRepository;
+use Ushahidi\Contracts\Repository\Usecase\UpdateTagRepository;
 
 class Update extends LegacyValidator
 {
     protected $repo;
+
     protected $role_repo;
 
     protected $default_error_source = 'tag';

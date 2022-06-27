@@ -11,16 +11,16 @@ namespace Ushahidi\App\DataSource\Email;
  * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License Version 3 (GPLv3)
  */
 
-use Ushahidi\App\DataSource\OutgoingAPIDataSource;
-use Ushahidi\App\DataSource\Message\Type as MessageType;
-use Ushahidi\App\DataSource\Message\Status as MessageStatus;
-use Ushahidi\App\DataSource\Concerns\MapsInboundFields;
-use Ushahidi\App\Multisite\UsesSiteInfo;
-use Illuminate\Contracts\Mail\Mailer;
 use Ushahidi\Core\Entity\Contact;
-use Log;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Contracts\Mail\Mailer;
+use Ushahidi\App\Multisite\UsesSiteInfo;
+use Ushahidi\Contracts\DataSource\OutgoingDataSource;
+use Ushahidi\App\DataSource\Concerns\MapsInboundFields;
+use Ushahidi\Contracts\DataSource\MessageType as MessageType;
+use Ushahidi\Contracts\DataSource\MessageStatus as MessageStatus;
 
-class OutgoingEmail implements OutgoingAPIDataSource
+class OutgoingEmail implements OutgoingDataSource
 {
     use MapsInboundFields, UsesSiteInfo;
 

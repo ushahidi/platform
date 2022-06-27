@@ -2,19 +2,20 @@
 
 namespace v5\Policies;
 
-use Ushahidi\App\Auth\GenericUser as User;
-use Ushahidi\Core\Entity;
-use Ushahidi\Core\Traits\OwnerAccess;
 use v5\Models\Survey;
 use v5\Models\Post\Post;
-
-use Ushahidi\Core\Entity\Permission;
-use Ushahidi\Core\Traits\AdminAccess;
-use Ushahidi\Core\Traits\UserContext;
-use Ushahidi\Core\Traits\ParentAccess;
-use Ushahidi\Core\Traits\PrivAccess;
-use Ushahidi\Core\Traits\PrivateDeployment;
-use Ushahidi\Core\Tool\Permissions\AclTrait;
+use Ushahidi\Core\Entity;
+use Ushahidi\App\Auth\GenericUser;
+use Ushahidi\Contracts\Permission;
+use Ushahidi\Core\Concerns\PrivAccess;
+use Ushahidi\Core\Concerns\AdminAccess;
+use Ushahidi\Core\Concerns\OwnerAccess;
+use Ushahidi\Core\Concerns\UserContext;
+use Ushahidi\Core\Concerns\ParentAccess;
+use Ushahidi\App\Auth\GenericUser as User;
+use Ushahidi\Core\Concerns\Acl as AccessControlList;
+use Ushahidi\Core\Concerns\PrivateDeployment;
+use Ushahidi\Contracts\Entity as EntityContract;
 
 class PostPolicy
 {
@@ -33,7 +34,7 @@ class PostPolicy
     use PrivateDeployment;
 
     // Check that the user has the necessary permissions
-    use AclTrait;
+    use AccessControlList;
     use ParentAccess;
     use OwnerAccess;
 
@@ -47,7 +48,7 @@ class PostPolicy
 
     /**
      *
-     * @param  \App\User  $user
+     * @param  \Ushahidi\App\User  $user
      * @return bool
      */
     public function index()
@@ -226,7 +227,7 @@ class PostPolicy
         return (bool) $entity->disabled;
     }
 
-    protected function getParent(Entity $entity)
+    protected function getParent(EntityContract $entity)
     {
         // If the post has a parent_id, we attempt to load it from the `PostRepository`
         if ($entity->parent_id) {
@@ -238,7 +239,7 @@ class PostPolicy
     }
 
     /* FormRole */
-    protected function isFormRestricted(Entity $entity, $user)
+    protected function isFormRestricted(EntityContract $entity, $user)
     {
         // If the $entity->form_id exists and the $form->everyone_can_create is False
         // we check to see if the Form & Role Join exists in the `FormRoleRepository`

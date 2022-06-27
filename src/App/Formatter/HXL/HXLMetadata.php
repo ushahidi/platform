@@ -12,7 +12,7 @@
 namespace Ushahidi\App\Formatter\HXL;
 
 use Ushahidi\App\Formatter\API;
-use Ushahidi\Core\Traits\FormatterAuthorizerMetadata;
+use Ushahidi\Core\Concerns\FormatterAuthorizerMetadata;
 
 class HXLMetadata extends API
 {

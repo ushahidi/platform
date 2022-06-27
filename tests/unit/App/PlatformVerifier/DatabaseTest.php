@@ -10,21 +10,19 @@
  * Tests for Database tester
  *
  * @author     Ushahidi Team <team@ushahidi.com>
- * @package    Ushahidi\Application\Tests
  * @copyright  2013 Ushahidi
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Tests\Unit\App\PlatformVerifier;
+namespace Tests\Unit\Ushahidi\App\PlatformVerifier;
 
-use Tests\TestCase;
-use Mockery as M;
-use Ushahidi\App\PlatformVerifier;
-
-use Ushahidi\App\Tools\OutputText;
-use Composer\Script\Event;
 use Composer\Installer\PackageEvent;
+use Composer\Script\Event;
 use Illuminate\Support\Facades\DB as DB;
+use Mockery as M;
+use Tests\TestCase;
+use Ushahidi\App\PlatformVerifier;
+use Ushahidi\App\Tools\OutputText;
 
 /**
  * @backupGlobals disabled
@@ -52,7 +50,6 @@ class StubExceptionUncovered extends \PDOException
 
 class DatabaseTest extends TestCase
 {
-
     public function testConnectionErrorHasExplainer()
     {
         $pdoException = new StubException();
@@ -64,16 +61,16 @@ class DatabaseTest extends TestCase
         $this->assertEquals(['errors' => [
             [
                 'message' => 'Error',
-                'explainer' => 'Check that your MySQL server is installed and running, ' .
-                             'and that the right DB_HOST and DB_PORT are set up in the .env file'
-            ]
+                'explainer' => 'Check that your MySQL server is installed and running, '.
+                             'and that the right DB_HOST and DB_PORT are set up in the .env file',
+            ],
         ]], $result);
     }
 
     /**
      * given an unexpected database error, check that the message is the one in the exception
      * and that the application responds with an array of errors as expected
-    */
+     */
     public function testUncoveredErrorsResponds()
     {
         // Ensure enabled providers is in a known state
@@ -87,8 +84,8 @@ class DatabaseTest extends TestCase
         $this->assertEquals(['errors' => [
             [
                 'message' => 'Error',
-                'explainer' => ''
-            ]
+                'explainer' => '',
+            ],
         ]], $result);
     }
 
@@ -105,8 +102,8 @@ class DatabaseTest extends TestCase
         $this->assertEquals(['success' => [
             [
                 'message' => 'We were able to connect to the DB. Well done!',
-                'explainer' => null
-            ]
+                'explainer' => null,
+            ],
         ]], $result);
     }
 }

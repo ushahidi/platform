@@ -11,17 +11,14 @@
 
 namespace Ushahidi\App\Repository;
 
-use Ushahidi\Core\Entity;
-use Ushahidi\Core\SearchData;
-use Ushahidi\Core\Entity\Webhook;
-use Ushahidi\Core\Entity\WebhookRepository as WebhookRepositoryContract;
-use Ushahidi\Core\Traits\UserContext;
-use Ushahidi\Core\Traits\AdminAccess;
-
-use Ramsey\Uuid\Uuid;
-use Ramsey\Uuid\Exception\UnsatisfiedDependencyException;
-
 use Log;
+use Ramsey\Uuid\Uuid;
+use Ushahidi\Core\Tools\SearchData;
+use Ushahidi\Contracts\Entity;
+use Ushahidi\Core\Entity\Webhook;
+use Ushahidi\Core\Concerns\AdminAccess;
+use Ushahidi\Core\Concerns\UserContext;
+use Ushahidi\Contracts\Repository\Entity\WebhookRepository as WebhookRepositoryContract;
 
 class WebhookRepository extends OhanzeeRepository implements WebhookRepositoryContract
 {

@@ -13,11 +13,12 @@
 
 namespace Ushahidi\App\Listener;
 
-use League\Event\AbstractListener;
-use League\Event\EventInterface;
 use Intercom\IntercomClient;
-use GuzzleHttp\Exception\ClientException;
+use League\Event\EventInterface;
+use League\Event\AbstractListener;
+use Illuminate\Support\Facades\Log;
 use Ushahidi\App\Multisite\UsesSiteInfo;
+use GuzzleHttp\Exception\ClientException;
 
 class IntercomAdminListener extends AbstractListener
 {
@@ -54,7 +55,7 @@ class IntercomAdminListener extends AbstractListener
 
                     $client->users->update($intercom_user);
                 } catch (ClientException $e) {
-                    \Log::info($e->getMessage());
+                    Log::info($e->getMessage());
                 }
             }
         }

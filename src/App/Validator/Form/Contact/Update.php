@@ -12,6 +12,9 @@
 namespace Ushahidi\App\Validator\Form\Contact;
 
 use Ushahidi\App\Validator\LegacyValidator;
+use Ushahidi\Contracts\Repository\Entity\FormRepository;
+use Ushahidi\Contracts\Repository\Entity\ContactRepository;
+use Ushahidi\Contracts\Repository\Entity\FormContactRepository;
 
 class Update extends LegacyValidator
 {
@@ -20,17 +23,17 @@ class Update extends LegacyValidator
     protected $contact_repo;
     protected $form_contact_repo;
 
-    public function setFormContactRepo(\Ushahidi\Core\Entity\FormContactRepository $form_contact_repo)
+    public function setFormContactRepo(FormContactRepository $form_contact_repo)
     {
         $this->form_contact_repo = $form_contact_repo;
     }
 
-    public function setFormRepo(\Ushahidi\Core\Entity\FormRepository $form_repo)
+    public function setFormRepo(FormRepository $form_repo)
     {
         $this->form_repo = $form_repo;
     }
 
-    public function setContactRepo(\Ushahidi\Core\Entity\ContactRepository $contact_repo)
+    public function setContactRepo(ContactRepository $contact_repo)
     {
         $this->contact_repo = $contact_repo;
     }

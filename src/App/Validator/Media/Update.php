@@ -11,8 +11,6 @@
 
 namespace Ushahidi\App\Validator\Media;
 
-use Ushahidi\Core\Entity;
-
 class Update extends Create
 {
     protected function getRules()

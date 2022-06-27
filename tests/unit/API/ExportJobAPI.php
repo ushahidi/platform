@@ -2,9 +2,9 @@
 
 namespace Tests\Unit\API;
 
+use Faker;
 use Laravel\Lumen\Testing\DatabaseTransactions;
 use Tests\TestCase;
-use Faker;
 
 /**
  * @group api
@@ -23,26 +23,26 @@ class ExportJobAPI extends TestCase
         $this
             ->actingAs(new \Ushahidi\App\Auth\GenericUser(['id' => 2]))
             ->json('POST', '/api/v3/exports/jobs', [
-            'fields' => 'test',
-            'filters' => [
-              'status' => ['published','draft']
-            ],
-            'entity_type' => 'post',
-            'send_to_browser' =>  true,
-            'send_to_hdx' =>  false,
-            'hxl_heading_row' => ['something']
+                'fields' => 'test',
+                'filters' => [
+                    'status' => ['published', 'draft'],
+                ],
+                'entity_type' => 'post',
+                'send_to_browser' =>  true,
+                'send_to_hdx' =>  false,
+                'hxl_heading_row' => ['something'],
             ]);
 
         $this->seeStatusCode('200')
             ->seeJson([
                 'fields' => ['test'],
                 'filters' => [
-                  'status' => ['published','draft']
+                    'status' => ['published', 'draft'],
                 ],
                 'entity_type' => 'post',
                 'send_to_browser' =>  true,
                 'send_to_hdx' =>  false,
-                'hxl_heading_row' => null
+                'hxl_heading_row' => null,
             ]);
     }
 
@@ -56,26 +56,26 @@ class ExportJobAPI extends TestCase
         $this
             ->actingAs(new \Ushahidi\App\Auth\GenericUser(['id' => 2]))
             ->json('POST', '/api/v3/exports/jobs', [
-            'fields' => 'test',
-            'filters' => [
-              'status' => ['published','draft']
-            ],
-            'entity_type' => 'post',
-            'send_to_browser' =>  true,
-            'send_to_hdx' =>  false,
-            'hxl_heading_row' => ['something']
+                'fields' => 'test',
+                'filters' => [
+                    'status' => ['published', 'draft'],
+                ],
+                'entity_type' => 'post',
+                'send_to_browser' =>  true,
+                'send_to_hdx' =>  false,
+                'hxl_heading_row' => ['something'],
             ]);
 
         $this->seeStatusCode('200')
             ->seeJson([
                 'fields' => ['test'],
                 'filters' => [
-                  'status' => ['published','draft']
+                    'status' => ['published', 'draft'],
                 ],
                 'entity_type' => 'post',
                 'send_to_browser' =>  true,
                 'send_to_hdx' =>  false,
-                'hxl_heading_row' => null
+                'hxl_heading_row' => null,
             ]);
     }
 }

@@ -1,22 +1,22 @@
 <?php
 
 /**
- * Unit tests for Lumen implementation of Ushahidi\Core\Tool\Mailer
+ * Unit tests for Lumen implementation of Ushahidi\Core\Tools\Mailer
  *
  * @author     Ushahidi Team <team@ushahidi.com>
- * @package    Ushahidi\Application\Tests
  * @copyright  2013 Ushahidi
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Tests\Unit\App\Multisite;
+namespace Tests\Unit\Ushahidi\App\Multisite;
 
+use Mockery as M;
+use Tests\TestCase;
+use Illuminate\Http\Request;
+// use Illuminate\Support\Facades\Mail;
 use Ushahidi\App\Multisite\Site;
 use Ushahidi\Core\Entity\Config;
-use Ushahidi\Core\Entity\ConfigRepository;
-// use Illuminate\Support\Facades\Mail;
-use Tests\TestCase;
-use Mockery as M;
+use Ushahidi\Contracts\Repository\Entity\ConfigRepository;
 
 /**
  * @backupGlobals disabled
@@ -24,12 +24,11 @@ use Mockery as M;
  */
 class SiteTest extends TestCase
 {
-
     public function testItShouldReturnMultisiteEmail()
     {
         config([
             'multisite.enabled' => true,
-            'multisite.email' => 'deploy@multisite.ushahidi.app'
+            'multisite.email' => 'deploy@multisite.ushahidi.app',
         ]);
 
         $site = new Site([]);
@@ -41,14 +40,14 @@ class SiteTest extends TestCase
     {
         config([
             'multisite.enabled' => false,
-            'multisite.email' => 'deploy@multisite.ushahidi.app'
+            'multisite.email' => 'deploy@multisite.ushahidi.app',
         ]);
 
         // Mock the config repo
         $configRepo = M::mock(ConfigRepository::class);
         // Return email in config
         $configRepo->shouldReceive('get')->with('site')->andReturn(new Config([
-            'email' => 'us@site.com'
+            'email' => 'us@site.com',
         ]));
         $this->app->instance(ConfigRepository::class, $configRepo);
 
@@ -61,7 +60,7 @@ class SiteTest extends TestCase
     {
         config([
             'multisite.enabled' => false,
-            'multisite.email' => 'deploy@multisite.ushahidi.app'
+            'multisite.email' => 'deploy@multisite.ushahidi.app',
         ]);
 
         // Mock the config repo
@@ -72,11 +71,18 @@ class SiteTest extends TestCase
 
         // Fake the request
         $this->app->instance(
-            \Illuminate\Http\Request::class,
-            new \Illuminate\Http\Request([], [], [], [], [], ['HTTP_HOST' => 'host.com'])
+            Request::class,
+            new Request([], [], [], [], [], [
+                'HTTP_HOST' => 'host.com',
+                'SERVER_NAME' => 'host.com'
+            ])
         );
 
-        $site = new Site([]);
+        \Illuminate\Support\Facades\Request::swap($this->app->make(Request::class));
+
+        $site = $this->app->make(Site::class, [
+            'data' => []
+        ]);
 
         $this->assertEquals('noreply@host.com', $site->getEmail());
     }

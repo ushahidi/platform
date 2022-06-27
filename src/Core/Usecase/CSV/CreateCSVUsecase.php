@@ -12,10 +12,10 @@
 namespace Ushahidi\Core\Usecase\CSV;
 
 use SplTempFileObject;
-use Ushahidi\Core\Tool\ReaderFactory;
+use Ushahidi\Contracts\Entity;
+use Ushahidi\Core\Tools\UploadData;
+use Ushahidi\Contracts\ReaderFactory;
 use Ushahidi\Core\Usecase\Media\CreateMedia;
-use Ushahidi\Core\Tool\UploadData;
-use Ddeboer\DataImport\Step\MappingStep;
 
 class CreateCSVUsecase extends CreateMedia
 {
@@ -49,13 +49,13 @@ class CreateCSVUsecase extends CreateMedia
         ini_set('auto_detect_line_endings', 1);
 
         $upload_data = new UploadData($this->getPayload('file'));
-        
+
         // Upload the file and get the file reference
         $this->upload = $this->uploader->upload($upload_data);
 
         // Get SplFileObject for the CSV Reader
         $file = new SplTempFileObject();
-        
+
         $stream = fopen($upload_data->tmp_name, 'r+');
         $file->fwrite(stream_get_contents($stream));
 
@@ -69,7 +69,7 @@ class CreateCSVUsecase extends CreateMedia
             'mime'       => $this->upload->type,
             'size'       => $this->upload->size,
         ];
-        
+
         return $this->repo->getEntity()->setState($payload);
     }
 }

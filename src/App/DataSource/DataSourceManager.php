@@ -3,10 +3,13 @@
 namespace Ushahidi\App\DataSource;
 
 use Closure;
-use Illuminate\Support\Facades\Cache;
-use Laravel\Lumen\Routing\Router;
-use Ushahidi\Core\Entity\ConfigRepository;
 use InvalidArgumentException;
+use Illuminate\Routing\Router;
+use Illuminate\Support\Facades\Cache;
+use Ushahidi\Contracts\DataSource\DataSource;
+use Ushahidi\Contracts\DataSource\CallbackDataSource;
+use Ushahidi\Contracts\Repository\Entity\ConfigRepository;
+use Ushahidi\Contracts\Repository\Entity\MessageRepository;
 
 class DataSourceManager
 {
@@ -18,7 +21,7 @@ class DataSourceManager
     /**
      * Config repo instance
      *
-     * @var \Ushahidi\Core\Entity\ConfigRepository;
+     * @var \Ushahidi\Contracts\Repository\Entity\ConfigRepository|null;
      */
     protected $configRepo;
 
@@ -49,7 +52,7 @@ class DataSourceManager
     /**
      * The array of data sources.
      *
-     * @var [Ushahidi\App\DataSource\DataSource, ...]
+     * @var \Ushahidi\Contracts\DataSource\DataSource[]
      */
     protected $loadedSources = [];
 
@@ -62,7 +65,7 @@ class DataSourceManager
     /**
      * Create a new datasource manager instance.
      *
-     * @param  Laravel\Lumen\Routing\Router  $router
+     * @param  \Ushahidi\Contracts\Repository\Entity\ConfigRepository  $configRepo
      * @return void
      */
     public function __construct(ConfigRepository $configRepo)
@@ -78,7 +81,7 @@ class DataSourceManager
     /**
      * Get an array of enabled source names
      *
-     * @return [string, ...]
+     * @return string[]
      */
     public function getEnabledSources() : array
     {
@@ -233,6 +236,20 @@ class DataSourceManager
         $this->loadedSources = [];
     }
 
+    /**
+     * Register a custom data source Closure.
+     *
+     * @param  string    $name
+     * @param  Closure  $callback
+     * @return $this
+     */
+    public function extend(string $name, Closure $callback)
+    {
+        $this->customSources[$name] = $callback;
+
+        return $this;
+    }
+
     protected function createSmssyncSource(array $config)
     {
         return new SMSSync\SMSSync($config);
@@ -243,7 +260,7 @@ class DataSourceManager
         return new Email\Email(
             $config,
             app('mailer'),
-            app(\Ushahidi\Core\Entity\MessageRepository::class)
+            app(MessageRepository::class)
         );
     }
 
@@ -288,19 +305,5 @@ class DataSourceManager
                 );
             }
         );
-    }
-
-    /**
-     * Register a custom data source Closure.
-     *
-     * @param  string    $source
-     * @param  Closure  $callback
-     * @return $this
-     */
-    public function extend(string $source, Closure $callback)
-    {
-        $this->customSources[$source] = $callback;
-
-        return $this;
     }
 }

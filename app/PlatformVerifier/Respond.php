@@ -12,17 +12,19 @@ class Respond
             echo OutputText::success($ok);
             echo OutputText::info($info);
         }
-        return ["success" => [["message" => $ok, "explainer" => null]]];
+
+        return ['success' => [['message' => $ok, 'explainer' => null]]];
     }
 
     public static function errorResponse($errors, $console)
     {
         if ($console) {
             foreach ($errors as $error) {
-                echo OutputText::error($error["message"]);
-                echo OutputText::error($error["explainer"]);
+                echo OutputText::error($error['message']);
+                echo OutputText::error($error['explainer']);
             }
         }
-        return ["errors" => $errors];
+
+        return ['errors' => $errors];
     }
 }

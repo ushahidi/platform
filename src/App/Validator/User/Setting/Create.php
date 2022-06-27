@@ -11,10 +11,6 @@
 
 namespace Ushahidi\App\Validator\User\Setting;
 
-use Ushahidi\Core\Entity;
-use Ushahidi\App\Validator\LegacyValidator;
-use Ushahidi\Core\Entity\UserRepository;
-
 class Create extends Update
 {
     protected function getRules()

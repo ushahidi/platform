@@ -4,14 +4,12 @@
  * Unit tests for ContactRepository
  *
  * @author     Ushahidi Team <team@ushahidi.com>
- * @package    Ushahidi\Application\Tests
  * @copyright  2014 Ushahidi
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Tests\Unit\App\Repository;
+namespace Tests\Unit\Ushahidi\App\Repository;
 
-use Ushahidi\App\Repository\ContactRepository;
 use Ushahidi\Core\Entity\Contact;
 use Tests\TestCase;
 use Tests\DatabaseTransactions;

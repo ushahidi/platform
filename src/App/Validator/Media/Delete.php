@@ -11,7 +11,6 @@
 
 namespace Ushahidi\App\Validator\Media;
 
-use Ushahidi\Core\Data;
 use Ushahidi\App\Validator\LegacyValidator;
 
 class Delete extends LegacyValidator

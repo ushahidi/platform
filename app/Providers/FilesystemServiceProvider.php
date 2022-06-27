@@ -2,12 +2,15 @@
 
 namespace Ushahidi\App\Providers;
 
-class FilesystemServiceProvider extends \Illuminate\Filesystem\FilesystemServiceProvider
+use Illuminate\Filesystem\FilesystemServiceProvider as LaravelFilesystemServiceProvider;
+use Ushahidi\App\Tools\FilesystemManager;
+
+class FilesystemServiceProvider extends LaravelFilesystemServiceProvider
 {
     protected function registerManager()
     {
         $this->app->singleton('filesystem', function () {
-            return new \Ushahidi\App\Tools\FilesystemManager($this->app);
+            return new FilesystemManager($this->app);
         });
     }
 }

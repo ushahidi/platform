@@ -4,12 +4,12 @@ namespace Tests\Unit\Core\Traits;
 
 class MockDataTransformer
 {
-    use \Ushahidi\Core\Traits\DataTransformer;
+    use \Ushahidi\Core\Concerns\DataTransformer;
 
     protected function getDefinition()
     {
         return [
-            'date' => '*date'
+            'date' => '*date',
         ];
     }
 

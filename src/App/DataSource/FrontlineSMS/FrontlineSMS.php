@@ -11,19 +11,30 @@ namespace Ushahidi\App\DataSource\FrontlineSMS;
  * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License Version 3 (GPLv3)
  */
 
-use Ushahidi\App\DataSource\CallbackDataSource;
-use Ushahidi\App\DataSource\OutgoingAPIDataSource;
-use Ushahidi\App\DataSource\Message\Type as MessageType;
-use Ushahidi\App\DataSource\Message\Status as MessageStatus;
-use Ushahidi\App\DataSource\Concerns\MapsInboundFields;
+use Illuminate\Routing\Router;
 use Ushahidi\Core\Entity\Contact;
-use Log;
+use Illuminate\Support\Facades\Log;
+use Ushahidi\Contracts\DataSource\CallbackDataSource;
+use Ushahidi\Contracts\DataSource\OutgoingDataSource;
+use Ushahidi\App\DataSource\Concerns\MapsInboundFields;
+use Ushahidi\Contracts\DataSource\MessageType as MessageType;
+use Ushahidi\Contracts\DataSource\MessageStatus as MessageStatus;
 
-class FrontlineSMS implements CallbackDataSource, OutgoingAPIDataSource
+class FrontlineSMS implements CallbackDataSource, OutgoingDataSource
 {
     use MapsInboundFields;
 
     protected $config;
+
+     /**
+     * Contact type user for this provider
+     */
+    public $contact_type = Contact::PHONE;
+
+    // FrontlineSms Cloud api url
+    protected $apiUrl = 'api/1/webhook';
+
+    protected $defaultServer = 'https://cloud.frontlinesms.com/';
 
     /**
      * Constructor function for DataSource
@@ -87,16 +98,6 @@ class FrontlineSMS implements CallbackDataSource, OutgoingAPIDataSource
     }
 
     /**
-     * Contact type user for this provider
-     */
-    public $contact_type = Contact::PHONE;
-
-    // FrontlineSms Cloud api url
-    protected $apiUrl = 'api/1/webhook';
-
-    protected $defaultServer = 'https://cloud.frontlinesms.com/';
-
-    /**
      * @return mixed
      */
     public function send($to, $message, $title = "", $contact_type = null)
@@ -109,7 +110,7 @@ class FrontlineSMS implements CallbackDataSource, OutgoingAPIDataSource
 
         // Check we have the required config
         if (!isset($this->config['key'])) {
-            app('log')->warning('Could not send message with FrontlineSMS, incomplete config');
+            Log::warning('Could not send message with FrontlineSMS, incomplete config');
             return [MessageStatus::FAILED, false];
         }
 
@@ -145,13 +146,13 @@ class FrontlineSMS implements CallbackDataSource, OutgoingAPIDataSource
 
             // Log warning to log file.
             $status = $response->getStatusCode();
-            app('log')->warning(
+            Log::warning(
                 'Could not make a successful POST request',
                 ['message' => $response->messages[$status], 'status' => $status]
             );
         } catch (\GuzzleHttp\Exception\ClientException $e) {
             // Log warning to log file.
-            app('log')->warning(
+            Log::warning(
                 'Could not make a successful POST request',
                 ['message' => $e->getMessage()]
             );
@@ -160,7 +161,7 @@ class FrontlineSMS implements CallbackDataSource, OutgoingAPIDataSource
         return [MessageStatus::FAILED, false];
     }
 
-    public static function registerRoutes(\Laravel\Lumen\Routing\Router $router)
+    public static function registerRoutes(Router $router)
     {
         $router->post('sms/frontlinesms', 'Ushahidi\App\DataSource\FrontlineSMS\FrontlineSMSController@handleRequest');
         $router->post('frontlinesms', 'Ushahidi\App\DataSource\FrontlineSMS\FrontlineSMSController@handleRequest');

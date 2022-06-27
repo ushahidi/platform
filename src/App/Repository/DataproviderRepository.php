@@ -11,15 +11,12 @@
 
 namespace Ushahidi\App\Repository;
 
-use Ushahidi\Core\SearchData;
-use Ushahidi\App\DataSource\DataSource;
-use Ushahidi\Core\Entity\DataProvider as DataProviderEntity;
-use Ushahidi\Core\Entity\DataProviderRepository as DataProviderRepositoryContract;
-use Ushahidi\Core\Usecase\ReadRepository;
-use Ushahidi\Core\Usecase\SearchRepository;
-use Ushahidi\Core\Traits\CollectionLoader;
-use Ushahidi\Core\Exception\NotFoundException;
+use Ushahidi\Core\Tools\SearchData;
 use Illuminate\Support\Collection;
+use Ushahidi\Contracts\Repository\ReadRepository;
+use Ushahidi\Contracts\Repository\SearchRepository;
+use Ushahidi\Core\Entity\DataProvider as DataProviderEntity;
+use Ushahidi\Contracts\Repository\Entity\DataProviderRepository as DataProviderRepositoryContract;
 
 class DataProviderRepository implements
     ReadRepository,

@@ -3,22 +3,19 @@
 namespace Ushahidi\App\Http\Controllers\API\Posts;
 
 use Illuminate\Http\Request;
-
 /**
  * Ushahidi API Posts Streams Controller
  *
  * @author     Ushahidi Team <team@ushahidi.com>
- * @package    Ushahidi\Application\Controllers
  * @copyright  2013 Ushahidi
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-use Ushahidi\App\Util\Tile;
-use Ushahidi\App\Util\BoundingBox;
+use Ushahidi\Core\Tools\BoundingBox;
+use Ushahidi\Core\Tools\Tile;
 
 class GeoJSONController extends PostsController
 {
-
     public function prepBoundingBox(Request $request)
     {
         $params = $this->getRouteParams($request);
@@ -41,7 +38,7 @@ class GeoJSONController extends PostsController
     {
         return parent::getFilters($request) + [
             'include_types' => ['point', 'geometry'],
-            'output_core_post' => true
+            'output_core_post' => true,
         ];
     }
 

@@ -2,8 +2,10 @@
 
 namespace Ushahidi\App\DataSource;
 
-use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\ServiceProvider;
+use Ushahidi\Contracts\Repository\Entity\ConfigRepository;
+use Ushahidi\Contracts\Repository\Entity\MessageRepository;
 
 class DataSourceServiceProvider extends ServiceProvider
 {
@@ -37,7 +39,7 @@ class DataSourceServiceProvider extends ServiceProvider
     protected function registerManager()
     {
         $this->app->singleton('datasources', function ($app) {
-            $configRepo = $this->app->make(\Ushahidi\Core\Entity\ConfigRepository::class);
+            $configRepo = $this->app->make(ConfigRepository::class);
 
             $manager = new DataSourceManager($configRepo);
             $manager->setStorage($app->make(DataSourceStorage::class));
@@ -62,7 +64,7 @@ class DataSourceServiceProvider extends ServiceProvider
     {
         $receiveUsecase = $this->app->make(\Ushahidi\Factory\UsecaseFactory::class)
             ->get('messages', 'receive');
-        $messageRepo = $this->app->make(\Ushahidi\Core\Entity\MessageRepository::class);
+        $messageRepo = $this->app->make(MessageRepository::class);
         return new DataSourceStorage($receiveUsecase, $messageRepo);
     }
 

@@ -4,18 +4,16 @@
  * Tests for Frontline class
  *
  * @author     Ushahidi Team <team@ushahidi.com>
- * @package    Ushahidi\Application\Tests
  * @copyright  2013 Ushahidi
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Tests\Unit\App\DataSource;
+namespace Tests\Unit\Ushahidi\App\DataSource;
 
-use Tests\TestCase;
-use Mockery as M;
-
-use Ushahidi\App\DataSource\FrontlineSMS\FrontlineSMS;
 use GuzzleHttp\Client as GuzzleClient;
+use Mockery as M;
+use Tests\TestCase;
+use Ushahidi\App\DataSource\FrontlineSMS\FrontlineSMS;
 
 /**
  * @backupGlobals disabled
@@ -30,7 +28,7 @@ class FrontlineSMSDataSourceTest extends TestCase
             [],
             M::mock(GuzzleClient::class)
         );
-        $response = $sms->send(1234, "A message");
+        $response = $sms->send(1234, 'A message');
 
         $this->assertInternalType('array', $response);
         $this->assertEquals('failed', $response[0]);
@@ -43,7 +41,7 @@ class FrontlineSMSDataSourceTest extends TestCase
         $mockResponse = M::mock(Psr\Http\Message\ResponseInterface::class);
 
         $sms = new FrontlineSMS([
-            'key' => 'secret'
+            'key' => 'secret',
         ], $mockGuzzle);
 
         $mockGuzzle->shouldReceive('request')->once()->with(
@@ -52,26 +50,26 @@ class FrontlineSMSDataSourceTest extends TestCase
             [
                 'headers' => [
                     'Accept'               => 'application/json',
-                    'Content-Type'         => 'application/json'
+                    'Content-Type'         => 'application/json',
                 ],
                 'json' => [
-                    "apiKey" => 'secret',
-                    "payload" => [
-                        "message" => 'A message',
-                        "recipients" => [
+                    'apiKey' => 'secret',
+                    'payload' => [
+                        'message' => 'A message',
+                        'recipients' => [
                             [
-                                "type" => "mobile",
-                                "value" => 1234
-                            ]
-                        ]
-                    ]
-                ]
+                                'type' => 'mobile',
+                                'value' => 1234,
+                            ],
+                        ],
+                    ],
+                ],
             ]
         )->andReturn($mockResponse);
 
         $mockResponse->shouldReceive('getStatusCode')->once()->andReturn(200);
 
-        $response = $sms->send(1234, "A message");
+        $response = $sms->send(1234, 'A message');
 
         $this->assertInternalType('array', $response);
         $this->assertEquals('sent', $response[0]);
@@ -84,12 +82,12 @@ class FrontlineSMSDataSourceTest extends TestCase
         $mockResponse = M::mock(Psr\Http\Message\ResponseInterface::class);
 
         $sms = new FrontlineSMS([
-            'key' => 'secret'
+            'key' => 'secret',
         ], $mockGuzzle);
 
         $mockGuzzle->shouldReceive('request')->once()->andThrow(M::mock(\GuzzleHttp\Exception\ClientException::class));
 
-        $response = $sms->send(1234, "A message");
+        $response = $sms->send(1234, 'A message');
 
         $this->assertInternalType('array', $response);
         $this->assertEquals('failed', $response[0]);
@@ -99,7 +97,7 @@ class FrontlineSMSDataSourceTest extends TestCase
     public function testVerifySecret()
     {
         $sms = new FrontlineSMS([
-            'secret' => "a secret",
+            'secret' => 'a secret',
         ]);
 
         $this->assertTrue($sms->verifySecret('a secret'));

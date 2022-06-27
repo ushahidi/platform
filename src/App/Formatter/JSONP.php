@@ -11,8 +11,8 @@
 
 namespace Ushahidi\App\Formatter;
 
-use Ushahidi\Core\Tool\Formatter;
-use Ushahidi\Core\Tool\OutputFormatter;
+use Ushahidi\Contracts\Formatter;
+use Ushahidi\Core\Tools\OutputFormatter;
 
 class JSONP extends JSON implements Formatter, OutputFormatter
 {

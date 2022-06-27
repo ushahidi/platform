@@ -4,25 +4,25 @@
  * Unit tests for Signature Verifier
  *
  * @author     Ushahidi Team <team@ushahidi.com>
- * @package    Ushahidi\Application\Tests
  * @copyright  2013 Ushahidi
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Tests\Unit\Core\Tool;
+namespace Tests\Unit\Core\Tools;
 
 use Kohana\Validation\Validation;
-use Ushahidi\App\Validator\Role\Update;
-use Tests\TestCase;
 use Mockery as M;
-use Ushahidi\Core\Entity\PermissionRepository;
+use Tests\TestCase;
+use Ushahidi\Contracts\Repository\Entity\PermissionRepository;
+use Ushahidi\App\Validator\Role\Update;
 
 /**
  * @backupGlobals disabled
  * @preserveGlobalState disabled
  */
-class RoleUpdateTest extends TestCase
+class UpdateTest extends TestCase
 {
+    protected $permissonRepoMock;
 
     public function testRoleDisabled()
     {
@@ -31,7 +31,9 @@ class RoleUpdateTest extends TestCase
         $this->app->instance('features', $features);
 
         $validationMock = M::mock(Validation::class);
-        $validator = new Update(M::mock(PermissionRepository::class));
+        /** @var PermissionRepository */
+        $permissonRepoMock = M::mock(PermissionRepository::class);
+        $validator = new Update($permissonRepoMock);
         $validationMock->expects('error')->with(
             'name',
             'rolesNotEnabled'
@@ -46,7 +48,9 @@ class RoleUpdateTest extends TestCase
         $this->app->instance('features', $features);
 
         $validationMock = M::mock(Validation::class);
-        $validator = new Update(M::mock(PermissionRepository::class));
+        /** @var PermissionRepository */
+        $permissonRepoMock = M::mock(PermissionRepository::class);
+        $validator = new Update($permissonRepoMock);
         $validationMock->shouldNotReceive('error')->with(
             'name',
             'rolesNotEnabled'

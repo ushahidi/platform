@@ -4,18 +4,16 @@
  * Tests for Twitter class
  *
  * @author     Ushahidi Team <team@ushahidi.com>
- * @package    Ushahidi\Application\Tests
  * @copyright  2013 Ushahidi
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Tests\Unit\App\DataSource;
+namespace Tests\Unit\Ushahidi\App\DataSource;
 
-use Tests\TestCase;
 use Mockery as M;
-
-use Ushahidi\App\DataSource\Twitter\Twitter;
+use Tests\TestCase;
 use Ushahidi\Core\Entity\Config;
+use Ushahidi\App\DataSource\Twitter\Twitter;
 
 /**
  * @backupGlobals disabled
@@ -37,7 +35,7 @@ class TwitterDataSourceTest extends TestCase
             }
         );
 
-        $response = $twitter->send('ushahidi', "A message");
+        $response = $twitter->send('ushahidi', 'A message');
 
         $this->assertInternalType('array', $response);
         $this->assertEquals('failed', $response[0]);
@@ -67,15 +65,15 @@ class TwitterDataSourceTest extends TestCase
         $mockTwitterOAuth
             ->shouldReceive('post')->once()
             ->with(
-                "statuses/update",
+                'statuses/update',
                 [
-                    "status" => '@ushahidi A message'
+                    'status' => '@ushahidi A message',
                 ]
             )
             ->andReturn($mockResponse);
         $mockResponse->id = 1234564;
 
-        $response = $twitter->send('ushahidi', "A message");
+        $response = $twitter->send('ushahidi', 'A message');
 
         $this->assertInternalType('array', $response);
         $this->assertEquals('sent', $response[0]);
@@ -105,15 +103,15 @@ class TwitterDataSourceTest extends TestCase
         $mockTwitterOAuth
             ->shouldReceive('post')->once()
             ->with(
-                "statuses/update",
+                'statuses/update',
                 [
-                    "status" => '@ushahidi A message'
+                    'status' => '@ushahidi A message',
                 ]
             )
             ->andReturn($mockResponse);
         $mockTwitterOAuth->shouldReceive('setTimeouts')->once();
 
-        $response = $twitter->send('ushahidi', "A message");
+        $response = $twitter->send('ushahidi', 'A message');
 
         $this->assertInternalType('array', $response);
         $this->assertEquals('failed', $response[0]);
@@ -122,15 +120,15 @@ class TwitterDataSourceTest extends TestCase
         $mockTwitterOAuth
             ->shouldReceive('post')
             ->with(
-                "statuses/update",
+                'statuses/update',
                 [
-                    "status" => '@ushahidi A message'
+                    'status' => '@ushahidi A message',
                 ]
             )
             ->once()
             ->andThrow(M::mock(\Abraham\TwitterOAuth\TwitterOAuthException::class));
 
-        $response = $twitter->send('ushahidi', "A message");
+        $response = $twitter->send('ushahidi', 'A message');
 
         $this->assertInternalType('array', $response);
         $this->assertEquals('failed', $response[0]);
@@ -139,7 +137,6 @@ class TwitterDataSourceTest extends TestCase
 
     public function testFetch()
     {
-
         $mockTwitterOAuth = M::mock(\Abraham\TwitterOAuth\TwitterOAuth::class);
         $mockTwitterOAuth->shouldReceive('setTimeouts')->once();
         $mockResponse = M::mock(\Abraham\TwitterOAuth\Response::class);
@@ -151,7 +148,7 @@ class TwitterDataSourceTest extends TestCase
                 'consumer_secret' => '',
                 'oauth_access_token' => '',
                 'oauth_access_token_secret' =>  '',
-                'twitter_search_terms' => '#ushahidi,#test'
+                'twitter_search_terms' => '#ushahidi,#test',
             ],
             $mockRepo,
             function ($a, $b, $c, $d) use ($mockTwitterOAuth) {
@@ -160,10 +157,10 @@ class TwitterDataSourceTest extends TestCase
         );
 
         $config = new Config([
-                'id' => 'twitter',
-                'since_id' => 1234,
-                'search_terms' => '#ushahidi,#test'
-            ]);
+            'id' => 'twitter',
+            'since_id' => 1234,
+            'search_terms' => '#ushahidi,#test',
+        ]);
 
         $mockRepo->shouldReceive('get')->atLeast()->once()
             ->with('twitter')
@@ -174,11 +171,11 @@ class TwitterDataSourceTest extends TestCase
         $mockTwitterOAuth->shouldReceive('setDecodeJsonAsArray')->once();
 
         $mockTwitterOAuth->shouldReceive('get')->once()
-            ->with("search/tweets", [
-                "q" => '#ushahidi OR #test',
-                "since_id" => 1234,
-                "count" => 50,
-                "result_type" => 'recent'
+            ->with('search/tweets', [
+                'q' => '#ushahidi OR #test',
+                'since_id' => 1234,
+                'count' => 50,
+                'result_type' => 'recent',
             ])
             ->andReturn([
                 'statuses' => [
@@ -186,15 +183,15 @@ class TwitterDataSourceTest extends TestCase
                         'id' => 'abc123',
                         'user' => [
                             'screen_name' => 'ushahidi',
-                            'id_str' => '1112222223'
+                            'id_str' => '1112222223',
                         ],
                         'text' => 'Test message',
                         'coordinates' => [
-                            "coordinates" => [
+                            'coordinates' => [
                                 -75.14310264,
-                                40.05701649
+                                40.05701649,
                             ],
-                            "type" => "Point"
+                            'type' => 'Point',
                         ],
                         'created_at' => 'Thu Apr 06 15:24:15 +0000 2017',
                     ],
@@ -202,11 +199,11 @@ class TwitterDataSourceTest extends TestCase
                         'id' => 'abc124',
                         'user' => [
                             'screen_name' => 'ushahidi',
-                            'id_str' => '1112222222'
+                            'id_str' => '1112222222',
                         ],
                         'text' => 'Test message 2',
                         'retweeted_status' => [
-                            'text' => 'notsurewhatthisnormallyis'
+                            'text' => 'notsurewhatthisnormallyis',
                         ],
                         'created_at' => 'Thu Apr 06 15:24:15 +0000 2017',
                     ],
@@ -214,7 +211,7 @@ class TwitterDataSourceTest extends TestCase
                         'id' => 'abc125',
                         'user' => [
                             'screen_name' => 'someone',
-                            'id_str' => '1112222225'
+                            'id_str' => '1112222225',
                         ],
                         'text' => 'Test message 3',
                         'created_at' => 'Thu Apr 06 15:24:15 +0000 2017',
@@ -223,45 +220,45 @@ class TwitterDataSourceTest extends TestCase
                         'id' => 'abc126',
                         'user' => [
                             'id_str' => '12344494949',
-                            'screen_name' => 'someone'
+                            'screen_name' => 'someone',
                         ],
                         'text' => 'Test message 4',
                         'place' => [
-                          'attributes' => [],
-                          'bounding_box' => [
-                            'coordinates' => [
-                                [
+                            'attributes' => [],
+                            'bounding_box' => [
+                                'coordinates' => [
                                     [
-                                      -77.119759000000002,
-                                      38.791645000000003,
-                                    ],
-                                    [
-                                      -76.909392999999994,
-                                      38.791645000000003,
-                                    ],
-                                    [
-                                      -76.909392999999994,
-                                      38.995547999999999,
-                                    ],
-                                    [
-                                      -77.119759000000002,
-                                      38.995547999999999,
+                                        [
+                                            -77.119759000000002,
+                                            38.791645000000003,
+                                        ],
+                                        [
+                                            -76.909392999999994,
+                                            38.791645000000003,
+                                        ],
+                                        [
+                                            -76.909392999999994,
+                                            38.995547999999999,
+                                        ],
+                                        [
+                                            -77.119759000000002,
+                                            38.995547999999999,
+                                        ],
                                     ],
                                 ],
+                                'type' => 'Polygon',
                             ],
-                            'type' => 'Polygon',
-                          ],
-                          'country' => 'United States',
-                          'country_code' => 'US',
-                          'full_name' => 'Washington, DC',
-                          'id' => '01fbe706f872cb32',
-                          'name' => 'Washington',
-                          'place_type' => 'city',
-                          'url' => 'http://api.twitter.com/1/geo/id/01fbe706f872cb32.json',
+                            'country' => 'United States',
+                            'country_code' => 'US',
+                            'full_name' => 'Washington, DC',
+                            'id' => '01fbe706f872cb32',
+                            'name' => 'Washington',
+                            'place_type' => 'city',
+                            'url' => 'http://api.twitter.com/1/geo/id/01fbe706f872cb32.json',
                         ],
                         'created_at' => 'Thu Apr 06 15:24:15 +0000 2017',
                     ],
-                ]
+                ],
             ]);
 
         $messages = $twitter->fetch();

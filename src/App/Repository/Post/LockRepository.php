@@ -13,14 +13,13 @@ namespace Ushahidi\App\Repository\Post;
 
 use Ohanzee\DB;
 use Ohanzee\Database;
-use Ushahidi\Core\Entity;
+use Ushahidi\Core\Concerns\Event;
 use Ushahidi\Core\Entity\PostLock;
-use Ushahidi\Core\Entity\PostLockRepository;
-use Ushahidi\Core\Traits\UserContext;
-use Ushahidi\App\Repository\OhanzeeRepository;
-
 use League\Event\ListenerInterface;
-use Ushahidi\Core\Traits\Event;
+use Ushahidi\Contracts\Entity;
+use Ushahidi\Core\Concerns\UserContext;
+use Ushahidi\App\Repository\OhanzeeRepository;
+use Ushahidi\Contracts\Repository\Entity\PostLockRepository;
 
 class LockRepository extends OhanzeeRepository implements PostLockRepository
 {

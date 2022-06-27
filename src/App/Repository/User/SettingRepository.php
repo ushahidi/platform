@@ -11,15 +11,11 @@
 
 namespace Ushahidi\App\Repository\User;
 
-use Ohanzee\DB;
-use Ushahidi\Core\Data;
-use Ushahidi\Core\Entity;
-use Ushahidi\Core\SearchData;
+use Ushahidi\Contracts\Entity;
+use Ushahidi\Core\Tools\SearchData;
 use Ushahidi\Core\Entity\UserSetting;
-use Ushahidi\Core\Entity\UserSettingRepository as UserSettingRepositoryContract;
+use Ushahidi\Contracts\Repository\Entity\UserSettingRepository as UserSettingRepositoryContract;
 use Ushahidi\App\Repository\OhanzeeRepository;
-use Ushahidi\App\Repository\JsonTranscodeRepository;
-use Log;
 
 class SettingRepository extends OhanzeeRepository implements
     UserSettingRepositoryContract

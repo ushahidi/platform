@@ -8,9 +8,9 @@
 
 namespace Ushahidi\Core\Usecase\HXL\Metadata;
 
-use Ushahidi\Core\Tool\AuthorizerTrait;
-use Ushahidi\Core\Tool\FormatterTrait;
-use Ushahidi\Core\Tool\ValidatorTrait;
+use Ushahidi\Core\Usecase\Concerns\Authorizer as AuthorizerTrait;
+use Ushahidi\Core\Usecase\Concerns\Formatter as FormatterTrait;
+use Ushahidi\Core\Usecase\Concerns\Validator as ValidatorTrait;
 use Ushahidi\Core\Usecase\CreateUsecase;
 
 class Create extends CreateUsecase

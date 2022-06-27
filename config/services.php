@@ -22,7 +22,7 @@ return [
     'ses' => [
         'key' => env('SES_KEY'),
         'secret' => env('SES_SECRET'),
-        'region' => env('SES_REGION', 'us-east-1'),
+        'region' => 'us-east-1',
     ],
 
     'sparkpost' => [
@@ -30,15 +30,9 @@ return [
     ],
 
     'stripe' => [
-        'model' => App\User::class,
+        'model' => Ushahidi\App\User::class,
         'key' => env('STRIPE_KEY'),
         'secret' => env('STRIPE_SECRET'),
     ],
-    
-    'gmail' => [
-        'client_id' => env('GMAIL_CLIENT_ID'),
-        'client_secret' => env('GMAIL_CLIENT_SECRET'),
-        'redirect_uri' => env('GMAIL_REDIRECT_URI', 'urn:ietf:wg:oauth:2.0:oob'),
-    ]
 
 ];

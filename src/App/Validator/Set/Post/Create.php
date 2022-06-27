@@ -12,7 +12,7 @@
 namespace Ushahidi\App\Validator\Set\Post;
 
 use Ushahidi\App\Validator\LegacyValidator;
-use Ushahidi\Core\Entity\PostRepository;
+use Ushahidi\Contracts\Repository\Entity\PostRepository;
 
 class Create extends LegacyValidator
 {

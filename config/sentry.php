@@ -15,7 +15,7 @@ return [
 
     'processors' => [
         'Raven_Processor_SanitizeHttpHeadersProcessor',
-        'Raven_Processor_SanitizeDataProcessor'
+        'Raven_Processor_SanitizeDataProcessor',
     ],
     'processorOptions' => [
         'Raven_Processor_SanitizeDataProcessor' => [
@@ -30,7 +30,7 @@ return [
                 'X-CSRFToken',
                 'X-XSRF-TOKEN',
                 'X-Ushahidi-Signature',
-            ]
-        ]
-    ]
+            ],
+        ],
+    ],
 ];

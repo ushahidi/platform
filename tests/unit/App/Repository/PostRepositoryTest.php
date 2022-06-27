@@ -1,15 +1,28 @@
 <?php
 
-namespace Tests\Unit\App\Repository;
+namespace Tests\Unit\Ushahidi\App\Repository;
 
-use Ushahidi\App\Repository\PostRepository;
-use Ushahidi\Core\Entity\Post;
-use Tests\TestCase;
-use Tests\DatabaseTransactions;
-use Mockery as M;
 use Faker;
-
 use Ohanzee\DB;
+use Mockery as M;
+use Tests\TestCase;
+use Ohanzee\Database;
+use Aura\Di\Injection\Factory;
+use Ushahidi\Core\Entity\Post;
+use Ushahidi\Core\Entity\User;
+use Tests\DatabaseTransactions;
+use Ushahidi\Contracts\Session;
+use Illuminate\Support\Collection;
+use Ushahidi\Core\Tools\SearchData;
+use Ushahidi\App\Multisite\OhanzeeResolver;
+use Ushahidi\App\Repository\PostRepository;
+use Ushahidi\App\Repository\Post\ValueFactory;
+use Ushahidi\Core\Tools\Permissions\PostPermissions;
+use Ushahidi\Contracts\Repository\Entity\FormRepository;
+use Ushahidi\Contracts\Repository\Entity\ContactRepository;
+use Ushahidi\Contracts\Repository\Entity\PostLockRepository;
+use Ushahidi\Contracts\Repository\Entity\FormStageRepository;
+use Ushahidi\Contracts\Repository\Entity\FormAttributeRepository;
 
 /**
  * @backupGlobals disabled
@@ -268,23 +281,23 @@ class PostRepositoryTest extends TestCase
     public function doTestSetSearchParams($canManagePosts, $limitPosts, $expectedLimit = null)
     {
         // we don't need to test anything but the LIMIT on the end of the sql so mock everything else in the db
-        $db = M::mock(\Ohanzee\Database::class);
+        $db = M::mock(Database::class);
         $db->shouldReceive('quote_column');
         $db->shouldReceive('quote_table');
         $db->shouldReceive('quote');
-        $resolver = M::mock(\Ushahidi\App\Multisite\OhanzeeResolver::class);
+        $resolver = M::mock(OhanzeeResolver::class);
         $resolver->shouldReceive('connection')->andReturn($db);
-        $form_attribute_repo = M::mock(\Ushahidi\Core\Entity\FormAttributeRepository::class);
-        $form_stage_repo = M::mock(\Ushahidi\Core\Entity\FormStageRepository::class);
-        $attrs = M::mock(\Illuminate\Support\Collection::class);
+        $form_attribute_repo = M::mock(FormAttributeRepository::class);
+        $form_stage_repo = M::mock(FormStageRepository::class);
+        $attrs = M::mock(Collection::class);
         $attrs->shouldReceive('groupBy');
         $attrs->shouldReceive('keyBy');
-        $form_repo = M::mock(\Ushahidi\Core\Entity\FormRepository::class);
+        $form_repo = M::mock(FormRepository::class);
         $form_repo->shouldReceive('getAllFormStagesAttributes')->andReturn($attrs);
-        $post_lock_repo = M::mock(\Ushahidi\Core\Entity\PostLockRepository::class);
-        $contact_repo = M::mock(\Ushahidi\Core\Entity\ContactRepository::class);
-        $post_value_factory = M::mock(\Ushahidi\App\Repository\Post\ValueFactory::class);
-        $bounding_box_factory = M::mock(\Aura\Di\Injection\Factory::class);
+        $post_lock_repo = M::mock(PostLockRepository::class);
+        $contact_repo = M::mock(ContactRepository::class);
+        $post_value_factory = M::mock(ValueFactory::class);
+        $bounding_box_factory = M::mock(Factory::class);
 
         $repo = new PostRepository(
             $resolver,
@@ -296,17 +309,17 @@ class PostRepositoryTest extends TestCase
             $post_value_factory,
             $bounding_box_factory
         );
-        $user = new \Ushahidi\Core\Entity\User();
-        $session = M::mock(\Ushahidi\Core\Session::class);
+        $user = new User();
+        $session = M::mock(Session::class);
         $session->shouldReceive('getUser')->andReturn($user);
         $repo->setSession($session);
 
-        $postPermissions = M::mock(\Ushahidi\Core\Tool\Permissions\PostPermissions::class);
+        $postPermissions = M::mock(PostPermissions::class);
         $postPermissions->shouldReceive('canUserManagePosts')->with($user)
             ->andReturn($canManagePosts)->times($limitPosts);
         $repo->setPostPermissions($postPermissions);
 
-        $search = M::Mock(\Ushahidi\Core\SearchData::class);
+        $search = M::Mock(SearchData::class);
         $fakeLimit = 10000; // this limit should be overridden if limitPosts
         $search->shouldReceive('getSorting')->andReturn(['limit' => $fakeLimit]);
         $search->shouldReceive('getFilter')->with('limitPosts')->andReturn($limitPosts)->once();
@@ -316,7 +329,7 @@ class PostRepositoryTest extends TestCase
         // grab the resulting SQL and pull off the LIMIT clause on the end
         $sql = $query->compile($db);
         $limitPos = strpos($sql, 'LIMIT ');
-        $limit = substr($sql, $limitPos+6);
+        $limit = substr($sql, $limitPos + 6);
         $expectedLimit = $expectedLimit ?? $fakeLimit;
         $this->assertEquals($expectedLimit, $limit);
     }

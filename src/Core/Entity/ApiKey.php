@@ -26,7 +26,7 @@ class ApiKey extends StaticEntity
     {
         return [
             'id'                => 'int',
-            'api_key'                   => 'string',
+            'api_key'           => 'string',
             'created'           => 'int',
             'updated'           => 'int',
         ];

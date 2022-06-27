@@ -11,9 +11,7 @@
 
 namespace Ushahidi\App\Validator\Config;
 
-use Ushahidi\Core\Entity;
 use Ushahidi\App\Validator\LegacyValidator;
-use Ushahidi\Core\Entity\ConfigRepository;
 
 class Update extends LegacyValidator
 {

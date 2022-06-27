@@ -1,17 +1,16 @@
 <?php
 
-namespace Tests\Unit\App\Multisite;
+namespace Tests\Unit\Ushahidi\App\Multisite;
 
+use Mockery as M;
+use Tests\TestCase;
 use Ushahidi\App\Multisite\DetectSiteMiddleware;
 use Ushahidi\App\Multisite\MultisiteManager;
-use Ushahidi\App\Multisite\SiteNotFoundException;
 use Ushahidi\App\Multisite\Site;
-use Tests\TestCase;
-use Mockery as M;
+use Ushahidi\App\Multisite\SiteNotFoundException;
 
 class DetectSiteMiddlewareTest extends TestCase
 {
-
     public function testNothingCalledWhenDisabled()
     {
         $multisite = M::mock(MultisiteManager::class);

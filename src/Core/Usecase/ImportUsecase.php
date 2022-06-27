@@ -12,16 +12,16 @@
 namespace Ushahidi\Core\Usecase;
 
 use Traversable;
-use Ushahidi\Core\Entity;
 use Ushahidi\Core\Entity\CSV;
-use Ushahidi\Core\Usecase;
-use Ushahidi\Core\Tool\AuthorizerTrait;
-use Ushahidi\Core\Tool\FormatterTrait;
-use Ushahidi\Core\Tool\ValidatorTrait;
-use Ushahidi\Core\Tool\Transformer;
-use Ushahidi\Core\Tool\TranslatorTrait;
-use League\Event\ListenerInterface;
-use Ushahidi\Core\Traits\Event;
+use Ushahidi\Contracts\Entity;
+use Ushahidi\Contracts\Usecase;
+use Ushahidi\Core\Concerns\Event;
+use Ushahidi\Contracts\Transformer;
+use Ushahidi\Core\Usecase\Concerns\Formatter as FormatterTrait;
+use Ushahidi\Core\Usecase\Concerns\Validator as ValidatorTrait;
+use Ushahidi\Core\Usecase\Concerns\Authorizer as AuthorizerTrait;
+use Ushahidi\Core\Usecase\Concerns\Translator as TranslatorTrait;
+use Ushahidi\Contracts\Repository\ImportRepository;
 
 class ImportUsecase implements Usecase
 {
@@ -90,7 +90,7 @@ class ImportUsecase implements Usecase
     }
 
     protected $csv;
-    
+
     public function setCSV(CSV $csv)
     {
         $this->csv = $csv;
@@ -141,7 +141,7 @@ class ImportUsecase implements Usecase
             'status' => $new_status
         ];
     }
-    
+
     public function verify($entity)
     {
         // ... verify that the entity can be created by the current user

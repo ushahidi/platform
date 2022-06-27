@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\App\Repository;
+namespace Tests\Unit\Ushahidi\App\Repository;
 
 use Ushahidi\App\Repository\UserRepository;
 use Ushahidi\Core\Entity\User;
@@ -26,7 +26,6 @@ class UserRepositoryTest extends TestCase
         $repo = new UserRepository($resolver);
         $user = new User(['id' => 1]);
 
-
         $db->shouldReceive('quote_table')->with('user_reset_tokens')->andReturn('`user_reset_tokens`');
         $db->shouldReceive('quote_column')->with('reset_token')->andReturn('`reset_token`');
         $db->shouldReceive('quote_column')->with('user_id')->andReturn('`user_id`');
@@ -37,6 +36,7 @@ class UserRepositoryTest extends TestCase
                 if (is_string($data)) {
                     return "\"$data\"";
                 }
+
                 return $data;
             });
         $db->shouldReceive('query')

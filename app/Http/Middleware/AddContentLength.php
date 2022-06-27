@@ -18,13 +18,14 @@ class AddContentLength
     {
         $response = $next($request);
 
-        if (!$response->isEmpty() && !$response->headers->get('Content-Length')) {
+        if (! $response->isEmpty() && ! $response->headers->get('Content-Length')) {
             $response->headers->set(
                 'Content-Length',
                 // ensure that we get byte count by using 8bit encoding
                 mb_strlen($response->getContent(), '8bit')
             );
         }
+
         return $response->prepare($request);
     }
 }

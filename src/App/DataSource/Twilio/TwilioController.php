@@ -14,7 +14,7 @@ namespace Ushahidi\App\DataSource\Twilio;
 use Ushahidi\App\DataSource\DataSourceController;
 use Ushahidi\App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Ushahidi\App\DataSource\Message\Type as MessageType;
+use Ushahidi\Contracts\DataSource\MessageType as MessageType;
 use Ushahidi\Core\Entity\Contact;
 
 class TwilioController extends DataSourceController

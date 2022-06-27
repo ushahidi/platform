@@ -13,10 +13,9 @@
 
 namespace Ushahidi\App\Listener;
 
-use League\Event\AbstractListener;
 use League\Event\EventInterface;
-
-use Ushahidi\Core\Entity\NotificationQueueRepository;
+use League\Event\AbstractListener;
+use Ushahidi\Contracts\Repository\Entity\NotificationQueueRepository;
 
 class PostSetListener extends AbstractListener
 {

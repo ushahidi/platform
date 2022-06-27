@@ -6,7 +6,7 @@
  * Time: 1:33 PM
  */
 
-namespace Tests\Unit\App\Formatter\Post;
+namespace Tests\Unit\Ushahidi\App\Formatter\Post;
 
 use Tests\TestCase;
 use Tests\Unit\Core\Entity\MockPostEntity;
@@ -15,7 +15,9 @@ use Ushahidi\App\Formatter\Post\CSV;
 class CSVTest extends TestCase
 {
     protected $headerRow;
+
     protected $formatter;
+
     protected $fs;
 
     public function setUp()
@@ -266,18 +268,18 @@ class CSVTest extends TestCase
             'status' => 'draft',
             'values' => [
                 'tags2' => [1, 2, 3],
-                'tags5' => [222],//will not appear in response since there is no attribute matching
+                'tags5' => [222], //will not appear in response since there is no attribute matching
                 'last_location' => [
                     [
                         'lon' => 8888,
-                        'lat' => 9999
+                        'lat' => 9999,
                     ],
                     [
                         'lon' => 8888,
-                        'lat' => 9999
+                        'lat' => 9999,
                     ],
-                ]
-            ]
+                ],
+            ],
         ], $keyAttributes);
         // check that the format matches what is expected from the attribute list
         $this->assertEquals([
@@ -289,13 +291,13 @@ class CSVTest extends TestCase
             '',
             123456,
             '',
-            'This is a description',//desc
-            'This title has content',//title
-            '',//markdown
-            '',//categories,
-            '',//tags2
-            '',//last_location_point.lat
-            ''//last_location_point.lot
+            'This is a description', //desc
+            'This title has content', //title
+            '', //markdown
+            '', //categories,
+            '', //tags2
+            '', //last_location_point.lat
+            '', //last_location_point.lot
         ], $values);
 
         // Test unstructured Post
@@ -308,7 +310,7 @@ class CSVTest extends TestCase
             'form_id' => null,
             'content' => 'This is a description',
             'contact' => 123456,
-            'status' => 'draft'
+            'status' => 'draft',
         ], $keyAttributes);
         // check that the format matches what is expected from the attribute list
         $this->assertEquals([
@@ -319,14 +321,14 @@ class CSVTest extends TestCase
             '2017-02-22',
             '',
             123456,
-            'This is a description',//desc
-            '',//desc
-            '',//title
-            '',//markdown
-            '',//categories,
-            '',//tags2
-            '',//last_location_point.lat
-            ''//last_location_point.lot
+            'This is a description', //desc
+            '', //desc
+            '', //title
+            '', //markdown
+            '', //categories,
+            '', //tags2
+            '', //last_location_point.lat
+            '', //last_location_point.lot
         ], $values);
     }
 }

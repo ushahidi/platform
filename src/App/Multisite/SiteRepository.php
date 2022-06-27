@@ -11,7 +11,6 @@
 
 namespace Ushahidi\App\Multisite;
 
-use Illuminate\Database\ConnectionResolverInterface;
 use Illuminate\Support\Facades\DB;
 
 class SiteRepository

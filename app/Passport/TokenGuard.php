@@ -2,25 +2,24 @@
 
 namespace Ushahidi\App\Passport;
 
-use Illuminate\Contracts\Auth\Guard;
-
 use Exception;
 use Firebase\JWT\JWT;
-use Laravel\Passport\Token;
-use Illuminate\Http\Request;
-use Laravel\Passport\Passport;
 use Illuminate\Container\Container;
-use Laravel\Passport\TransientToken;
-use Laravel\Passport\TokenRepository;
-use Laravel\Passport\ClientRepository as LaravelPassportClientRepository;
-use League\OAuth2\Server\ResourceServer;
-//use Illuminate\Contracts\Auth\UserProvider;
-use Illuminate\Contracts\Encryption\Encrypter;
+use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Debug\ExceptionHandler;
+use Illuminate\Contracts\Encryption\Encrypter;
+use Illuminate\Http\Request;
+use Laravel\Passport\ClientRepository as LaravelPassportClientRepository;
+use Laravel\Passport\Passport;
+use Laravel\Passport\Token;
+use Laravel\Passport\TokenRepository;
+//use Illuminate\Contracts\Auth\UserProvider;
+use Laravel\Passport\TransientToken;
 use League\OAuth2\Server\Exception\OAuthServerException;
+use League\OAuth2\Server\ResourceServer;
 use Symfony\Bridge\PsrHttpMessage\Factory\DiactorosFactory;
-
-use Ushahidi\Core\Entity\UserRepository as UshahidiUserRepository;
+use Ushahidi\Contracts\Repository\Entity\UserRepository;
+use Ushahidi\App\Auth\GenericUser;
 
 class TokenGuard //implements Guard
 {
@@ -72,7 +71,7 @@ class TokenGuard //implements Guard
     public function __construct(
         ResourceServer $server,
         //UserProvider $provider,
-        UshahidiUserRepository $repo,
+        UserRepository $repo,
         TokenRepository $tokens,
         LaravelPassportClientRepository $clients,
         Encrypter $encrypter
@@ -142,7 +141,7 @@ class TokenGuard //implements Guard
                 return;
             }
 
-            $user = new \Ushahidi\App\Auth\GenericUser($user->asArray());
+            $user = new GenericUser($user->asArray());
 
             return $token ? $user->withAccessToken($token) : null;
         } catch (OAuthServerException $e) {
@@ -192,7 +191,8 @@ class TokenGuard //implements Guard
         // the user model. The transient token assumes it has all scopes since the user
         // is physically logged into the application via the application's interface.
         if ($user = $this->repo->get($token['sub'])) {
-            $user = new \Ushahidi\App\Auth\GenericUser($user->asArray());
+            $user = new GenericUser($user->asArray());
+
             return $user->withAccessToken(new TransientToken);
         }
     }

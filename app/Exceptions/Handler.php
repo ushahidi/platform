@@ -3,18 +3,17 @@
 namespace Ushahidi\App\Exceptions;
 
 use Exception;
-use Illuminate\Validation\ValidationException as IlluminateValidationException;
-use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Laravel\Lumen\Exceptions\Handler as ExceptionHandler;
-use Symfony\Component\HttpKernel\Exception\HttpException;
-use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
-use Illuminate\Http\Exceptions\HttpResponseException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use League\OAuth2\Server\Exception\OAuthServerException;
-use Illuminate\Auth\AuthenticationException;
 use Asm89\Stack\CorsService;
-use Illuminate\Http\Request;
+use Illuminate\Auth\AuthenticationException;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use League\OAuth2\Server\Exception\OAuthServerException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
+use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
+use Illuminate\Validation\ValidationException as LaravelValidationException;
 
 class Handler extends ExceptionHandler
 {
@@ -28,8 +27,18 @@ class Handler extends ExceptionHandler
         AuthenticationException::class,
         HttpException::class,
         ModelNotFoundException::class,
-        IlluminateValidationException::class,
+        LaravelValidationException::class,
         OAuthServerException::class,
+    ];
+
+    /**
+     * A list of the inputs that are never flashed for validation exceptions.
+     *
+     * @var array
+     */
+    protected $dontFlash = [
+        'password',
+        'password_confirmation',
     ];
 
     /**
@@ -37,43 +46,40 @@ class Handler extends ExceptionHandler
      *
      * This is a great spot to send exceptions to Sentry, Bugsnag, etc.
      *
-     * @param  \Exception  $e
+     * @param  \Exception  $exception
      * @return void
      */
-    public function report(Exception $e)
+    public function report(Exception $exception)
     {
-        if (app()->bound('sentry') && $this->shouldReport($e)) {
-            app('sentry')->captureException($e);
+        if ($this->shouldReport($exception) && app()->bound('sentry')) {
+            app('sentry')->captureException($exception);
         }
 
-        parent::report($e);
+        parent::report($exception);
     }
 
     /**
      * Render an exception into an HTTP response.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \Exception  $e
+     * @param  \Exception  $exception
      * @return \Illuminate\Http\Response
      */
-    public function render($request, Exception $e)
+    public function render($request, Exception $exception)
     {
-        // @todo we should try app('request') first but we can't guarantee its been created
-        $request = Request::capture();
-        
         // First handle some special cases
-        if ($e instanceof HttpResponseException) {
+        if ($exception instanceof HttpResponseException) {
             // @todo check if we should still reformat this for json
-            return $e->getResponse();
-        } elseif ($e instanceof ModelNotFoundException) {
-            $e = new NotFoundHttpException($e->getMessage(), $e);
-        } elseif ($e instanceof AuthorizationException) {
-            $e = new HttpException(403, $e->getMessage());
-        } elseif ($e instanceof AuthenticationException) {
-            $e = new HttpException(401, $e->getMessage());
-        } elseif ($e instanceof IlluminateValidationException && $e->getResponse()) {
+            return $exception->getResponse();
+        } elseif ($exception instanceof ModelNotFoundException) {
+            $exception = new NotFoundHttpException($exception->getMessage(), $exception);
+        } elseif ($exception instanceof AuthorizationException) {
+            $exception = new HttpException(403, $exception->getMessage());
+        } elseif ($exception instanceof AuthenticationException) {
+            $exception = new HttpException(401, $exception->getMessage());
+        } elseif ($exception instanceof LaravelValidationException && $exception->getResponse()) {
             // @todo check if we should still reformat this for json
-            return $e->getResponse();
+            return $exception->getResponse();
         }
 
         // If request asks for JSON then we return the error as JSON
@@ -81,16 +87,16 @@ class Handler extends ExceptionHandler
             $statusCode = 500;
             $headers = [];
 
-            if ($e instanceof HttpExceptionInterface) {
-                $statusCode = $e->getStatusCode();
-                $headers = $e->getHeaders();
+            if ($exception instanceof HttpExceptionInterface) {
+                $statusCode = $exception->getStatusCode();
+                $headers = $exception->getHeaders();
             }
 
             $defaultError = [
-                'status' => $statusCode
+                'status' => $statusCode,
             ];
 
-            $message = $e->getMessage();
+            $message = $exception->getMessage();
             if ($message) {
                 if (is_object($message)) {
                     $message = $message->toArray();
@@ -100,21 +106,21 @@ class Handler extends ExceptionHandler
 
             $errors = [];
             $errors[] = $defaultError;
-            if ($e instanceof ValidationException) {
-                foreach ($e->getErrors() as $key => $value) {
+            if ($exception instanceof ValidationException) {
+                foreach ($exception->getErrors() as $key => $value) {
                     $errors[] = [
                         'status' => $statusCode,
                         'title' => $value,
                         'message' => $value,
                         'source' => [
-                            'pointer' => "/" . $key
-                        ]
+                            'pointer' => '/' . $key,
+                        ],
                     ];
                 }
             }
 
             $response = response()->json([
-                'errors' => $errors
+                'errors' => $errors,
             ], $statusCode, $headers);
 
             // In the circumstance where an exception is raised
@@ -126,16 +132,14 @@ class Handler extends ExceptionHandler
             // before exception handlers are expected to be used.
             $options = config('cors');
 
-            if (! $response->headers->has('Access-Control-Allow-Origin')) {
+            if (!$response->headers->has('Access-Control-Allow-Origin')) {
                 // This CorsService relies on Asm89\Stack
                 $cors = new CorsService($options);
                 $response = $cors->addActualRequestHeaders($response, $request);
             }
 
-
             return $response;
         }
-
-        return parent::render($request, $e);
+        return parent::render($request, $exception);
     }
 }

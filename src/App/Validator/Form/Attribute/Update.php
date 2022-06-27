@@ -12,10 +12,9 @@
 namespace Ushahidi\App\Validator\Form\Attribute;
 
 use Kohana\Validation\Validation;
-use Ushahidi\Core\Entity;
 use Ushahidi\App\Validator\LegacyValidator;
-use Ushahidi\Core\Entity\FormAttributeRepository;
-use Ushahidi\Core\Entity\FormStageRepository;
+use Ushahidi\Contracts\Repository\Entity\FormStageRepository;
+use Ushahidi\Contracts\Repository\Entity\FormAttributeRepository;
 
 class Update extends LegacyValidator
 {

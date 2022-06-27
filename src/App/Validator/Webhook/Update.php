@@ -12,7 +12,7 @@
 namespace Ushahidi\App\Validator\Webhook;
 
 use Ushahidi\App\Validator\LegacyValidator;
-use Ushahidi\Core\Entity\UserRepository;
+use Ushahidi\Contracts\Repository\Entity\UserRepository;
 
 class Update extends LegacyValidator
 {

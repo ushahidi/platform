@@ -2,21 +2,19 @@
 
 namespace Ushahidi\App\Http\Controllers\API;
 
-use Ushahidi\App\Http\Controllers\RESTController;
-use Ushahidi\App\Facades\Features;
 use Illuminate\Http\Request;
+use Ushahidi\App\Facades\Features;
+use Ushahidi\App\Http\Controllers\RESTController;
 
 /**
  * Ushahidi API Register Controller
  *
  * @author     Ushahidi Team <team@ushahidi.com>
- * @package    Ushahidi\Application\Controllers
  * @copyright  2015 Ushahidi
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 class RegisterController extends RESTController
 {
-
     protected function getResource()
     {
         return 'users';

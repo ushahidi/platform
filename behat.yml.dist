@@ -9,16 +9,16 @@ default:
             paths:
                 - %paths.base%/tests/integration
             contexts:
-                - Tests\Integration\Bootstrap\KohanaContext
                 - Tests\Integration\Bootstrap\FeatureContext
                 - Tests\Integration\Bootstrap\RestContext:
                     baseUrl: http://localhost:8000
                     # proxyUrl: localhost:8888
                 - Tests\Integration\Bootstrap\PHPUnitFixtureContext
-                - Tests\Integration\Bootstrap\MinkExtendedContext
             extensions:
                 Behat\MinkExtension:
+                    default_session: laravel
                     base_url:  http://localhost:8000
+                    laravel: ~
                     sessions:
                         default:
                             goutte: ~

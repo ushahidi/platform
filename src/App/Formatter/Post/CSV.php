@@ -11,17 +11,13 @@
 
 namespace Ushahidi\App\Formatter\Post;
 
-use Ushahidi\Core\SearchData;
-
-use Ushahidi\Core\Tool\Filesystem;
-use Ushahidi\Core\Tool\FileData;
+use Ushahidi\Core\Tools\SearchData;
+use Ushahidi\Core\Tools\FileData;
 use League\Flysystem\Util\MimeType;
 use Ushahidi\App\Formatter\API;
-
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Log;
 
 class CSV extends API
 {

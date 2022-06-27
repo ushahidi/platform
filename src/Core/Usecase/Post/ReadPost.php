@@ -12,8 +12,9 @@
 namespace Ushahidi\Core\Usecase\Post;
 
 use Ushahidi\Core\Usecase\ReadUsecase;
+use Ushahidi\Core\Usecase\Post\Concerns\FindPost as FindPostTrait;
 
 class ReadPost extends ReadUsecase
 {
-    use FindPostEntity;
+    use FindPostTrait;
 }

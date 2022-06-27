@@ -4,19 +4,20 @@
  * Tests for datasource:outgoing command
  *
  * @author     Ushahidi Team <team@ushahidi.com>
- * @package    Ushahidi\Application\Tests
  * @copyright  2013 Ushahidi
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Tests\Unit\App\DataSource\Console;
+namespace Tests\Unit\Ushahidi\App\DataSource\Console;
 
-use Tests\TestCase;
+use Illuminate\Console\Application as Artisan;
 use Mockery as M;
+use Tests\TestCase;
+use Ushahidi\Contracts\Repository\Entity\ConfigRepository;
+use Ushahidi\Core\Entity\Config;
 use Ushahidi\App\DataSource\Console\OutgoingCommand;
 use Ushahidi\App\DataSource\DataSourceManager;
 use Ushahidi\App\DataSource\DataSourceStorage;
-use Illuminate\Console\Application as Artisan;
 
 /**
  * @backupGlobals disabled
@@ -24,14 +25,13 @@ use Illuminate\Console\Application as Artisan;
  */
 class OutgoingCommandTest extends TestCase
 {
-
     public function setUp()
     {
         parent::setUp();
         // Ensure enabled providers is in a known state
         // Mock the config repo
-        $configRepo = M::mock(\Ushahidi\Core\Entity\ConfigRepository::class);
-        $configRepo->shouldReceive('get')->with('data-provider')->andReturn(new \Ushahidi\Core\Entity\Config([
+        $configRepo = M::mock(ConfigRepository::class);
+        $configRepo->shouldReceive('get')->with('data-provider')->andReturn(new Config([
             'providers' => [
                 'email' => false,
                 'frontlinesms' => true,
@@ -39,9 +39,9 @@ class OutgoingCommandTest extends TestCase
                 'twilio' => true,
                 'twitter' => false,
                 'smssync' => true,
-            ]
+            ],
         ]));
-        $configRepo->shouldReceive('get')->with('features')->andReturn(new \Ushahidi\Core\Entity\Config([
+        $configRepo->shouldReceive('get')->with('features')->andReturn(new Config([
             'data-providers' => [
                 'email' => false,
                 'frontlinesms' => true,
@@ -49,9 +49,10 @@ class OutgoingCommandTest extends TestCase
                 'twilio' => true,
                 'twitter' => false,
                 'smssync' => true,
-            ]
+            ],
         ]));
-        $this->app->instance(\Ushahidi\Core\Entity\ConfigRepository::class, $configRepo);
+
+        $this->app->instance(ConfigRepository::class, $configRepo);
 
         // Reinsert command with mocks
         $commands = new OutgoingCommand(new DataSourceManager($configRepo), $this->app->make(DataSourceStorage::class));
@@ -80,7 +81,7 @@ class OutgoingCommandTest extends TestCase
 
     public function testOutgoingAll()
     {
-        $value = $this->artisan('datasource:outgoing', ["--all" => true]);
+        $value = $this->artisan('datasource:outgoing', ['--all' => true]);
 
         $this->assertRegExp(
             "/\+--------------\+-------\+
@@ -100,7 +101,7 @@ class OutgoingCommandTest extends TestCase
 
     public function testOutgoingNexmo()
     {
-        $value = $this->artisan('datasource:outgoing', ["--source" => "nexmo"]);
+        $value = $this->artisan('datasource:outgoing', ['--source' => 'nexmo']);
 
         $this->assertRegExp(
             "/\+--------\+-------\+

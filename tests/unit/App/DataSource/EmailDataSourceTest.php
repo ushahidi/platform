@@ -4,18 +4,20 @@
  * Tests for DataSourceManager class
  *
  * @author     Ushahidi Team <team@ushahidi.com>
- * @package    Ushahidi\Application\Tests
  * @copyright  2013 Ushahidi
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Tests\Unit\App\DataSource;
+namespace Tests\Unit\Ushahidi\App\DataSource;
 
-use Tests\TestCase;
+use Illuminate\Contracts\Mail\Mailer;
+use Illuminate\Mailer\Message;
 use Mockery as M;
+use phpmock\mockery\PHPMockery;
+use Tests\TestCase;
+use Ushahidi\Contracts\Repository\Entity\MessageRepository;
 use Ushahidi\App\DataSource\Email\Email;
 use Ushahidi\App\Multisite\Site;
-use phpmock\mockery\PHPMockery;
 
 /**
  * @backupGlobals disabled
@@ -23,12 +25,11 @@ use phpmock\mockery\PHPMockery;
  */
 class EmailDataSourceTest extends TestCase
 {
-
     public function setUp()
     {
         parent::setUp();
 
-        if (!defined('FT_UID')) {
+        if (! defined('FT_UID')) {
             define('FT_UID', 0);
         }
     }
@@ -60,10 +61,10 @@ class EmailDataSourceTest extends TestCase
             'emails/outgoing-message',
             [
                 'message_text' => 'A message',
-                'site_url' => 'ushahidi.app'
+                'site_url' => 'ushahidi.app',
             ],
             M::on(function (\Closure $closure) {
-                $mock = M::mock(\Illuminate\Mailer\Message::class);
+                $mock = M::mock(Message::class);
                 $mock->shouldReceive('to')->once()->once()->with('test@ushahidi.com')
                      ->andReturn($mock); // simulate the chaining
                 $mock->shouldReceive('from')->once()->once()->with('test@ushahidi.app', 'The Site')
@@ -72,11 +73,12 @@ class EmailDataSourceTest extends TestCase
                      ->andReturn($mock); // simulate the chaining
 
                 $closure($mock);
+
                 return true;
             })
         );
 
-        $response = $email->send('test@ushahidi.com', "A message", "A title");
+        $response = $email->send('test@ushahidi.com', 'A message', 'A title');
 
         $this->assertInternalType('array', $response);
         $this->assertEquals('sent', $response[0]);
@@ -85,8 +87,8 @@ class EmailDataSourceTest extends TestCase
 
     public function testFetch()
     {
-        $mockMailer = M::mock(\Illuminate\Contracts\Mail\Mailer::class);
-        $mockMessageRepo = M::mock(\Ushahidi\Core\Entity\MessageRepository::class);
+        $mockMailer = M::mock(Mailer::class);
+        $mockMessageRepo = M::mock(MessageRepository::class);
 
         $mockMessageRepo->shouldReceive('getLastUID')->once()->andReturn(712);
 
@@ -103,7 +105,7 @@ class EmailDataSourceTest extends TestCase
             $mockMessageRepo
         );
 
-        $mockImapOpen = PHPMockery::mock("Ushahidi\App\DataSource\Email", "imap_open");
+        $mockImapOpen = PHPMockery::mock("Ushahidi\App\DataSource\Email", 'imap_open');
         $mockImapOpen
             ->with(
                 '{imap.somewhere.com:993/imap/ssl}INBOX',
@@ -115,56 +117,56 @@ class EmailDataSourceTest extends TestCase
             ->once()
             ->andReturn('notreallyaconnection');
 
-        $mockImapOpen = PHPMockery::mock("Ushahidi\App\DataSource\Email", "imap_check");
+        $mockImapOpen = PHPMockery::mock("Ushahidi\App\DataSource\Email", 'imap_check');
         $mockImapOpen
             ->with('notreallyaconnection')
             ->once()
-            ->andReturn((object)['Nmsgs' => 100]);
+            ->andReturn((object) ['Nmsgs' => 100]);
 
-        $mockImapClose = PHPMockery::mock("Ushahidi\App\DataSource\Email", "imap_close");
+        $mockImapClose = PHPMockery::mock("Ushahidi\App\DataSource\Email", 'imap_close');
         $mockImapClose
             ->with('notreallyaconnection')
             ->once();
-        $mockErrors = PHPMockery::mock("Ushahidi\App\DataSource\Email", "imap_errors");
-        $mockAlerts = PHPMockery::mock("Ushahidi\App\DataSource\Email", "imap_alerts");
+        $mockErrors = PHPMockery::mock("Ushahidi\App\DataSource\Email", 'imap_errors');
+        $mockAlerts = PHPMockery::mock("Ushahidi\App\DataSource\Email", 'imap_alerts');
 
-        $mockFetchOverview = PHPMockery::mock("Ushahidi\App\DataSource\Email", "imap_fetch_overview");
+        $mockFetchOverview = PHPMockery::mock("Ushahidi\App\DataSource\Email", 'imap_fetch_overview');
         $mockFetchOverview
             ->with('notreallyaconnection', '713:912', FT_UID)
             ->once()
             ->andReturn([
-                (object)[
+                (object) [
                     'uid' => 1,
                     'from' => 'from@ushahidi.app',
-                    'subject' => "Message 1"
+                    'subject' => 'Message 1',
                 ],
-                (object)[
+                (object) [
                     'uid' => 5,
                     'from' => 'from2@ushahidi.app',
-                    'subject' => "Message 5"
+                    'subject' => 'Message 5',
                 ],
-                (object)[
+                (object) [
                     'uid' => 7,
                     'from' => 'from3@ushahidi.app',
-                    'subject' => "Message 7"
-                ]
+                    'subject' => 'Message 7',
+                ],
             ]);
 
-        $mockFetchStructure = PHPMockery::mock("Ushahidi\App\DataSource\Email", "imap_fetchstructure");
+        $mockFetchStructure = PHPMockery::mock("Ushahidi\App\DataSource\Email", 'imap_fetchstructure');
         // Call for first email
         $mockFetchStructure
             ->with('notreallyaconnection', 1, FT_UID)
             ->once()
             ->andReturn(
-                (object)[
+                (object) [
                     'parts' => [
-                        11 => (object)[
-                            'subtype' => 'HTML'
+                        11 => (object) [
+                            'subtype' => 'HTML',
                         ],
-                        111 => (object)[
-                            'subtype' => 'PLAIN'
-                        ]
-                    ]
+                        111 => (object) [
+                            'subtype' => 'PLAIN',
+                        ],
+                    ],
                 ]
             );
         // Handle call for 2nd message
@@ -172,12 +174,12 @@ class EmailDataSourceTest extends TestCase
             ->once()
             ->with('notreallyaconnection', 5, FT_UID)
             ->andReturn(
-                (object)[
+                (object) [
                     'parts' => [
-                        55 => (object)[
-                            'subtype' => 'HTML'
-                        ]
-                    ]
+                        55 => (object) [
+                            'subtype' => 'HTML',
+                        ],
+                    ],
                 ]
             );
         // Handle call for 3rd message
@@ -185,16 +187,16 @@ class EmailDataSourceTest extends TestCase
             ->once()
             ->with('notreallyaconnection', 7, FT_UID)
             ->andReturn(
-                (object)[
+                (object) [
                     'parts' => [
-                        77 => (object)[
-                            'subtype' => 'PLAIN'
-                        ]
-                    ]
+                        77 => (object) [
+                            'subtype' => 'PLAIN',
+                        ],
+                    ],
                 ]
             );
 
-        $mockFetchBody = PHPMockery::mock("Ushahidi\App\DataSource\Email", "imap_fetchbody");
+        $mockFetchBody = PHPMockery::mock("Ushahidi\App\DataSource\Email", 'imap_fetchbody');
         // Handle first message HTML
         $mockFetchBody
             ->with('notreallyaconnection', 1, 11, FT_UID)
@@ -206,13 +208,11 @@ class EmailDataSourceTest extends TestCase
             ->with('notreallyaconnection', 1, 111, FT_UID)
             ->andReturn('Plain text');
 
-
         // Handle 2nd message HTML
         $mockFetchBody
             ->once()
             ->with('notreallyaconnection', 5, 55, FT_UID)
             ->andReturn('HTML 2');
-
 
         // Handle 3rd message plaintext
         $mockFetchBody
@@ -220,7 +220,7 @@ class EmailDataSourceTest extends TestCase
             ->with('notreallyaconnection', 7, 77, FT_UID)
             ->andReturn('Plain text 3');
 
-        $mockQPrint = PHPMockery::mock("Ushahidi\App\DataSource\Email", "imap_qprint");
+        $mockQPrint = PHPMockery::mock("Ushahidi\App\DataSource\Email", 'imap_qprint');
         $mockQPrint
             ->with('Some HTML')
             ->once()

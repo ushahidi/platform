@@ -11,8 +11,6 @@
 
 namespace Ushahidi\App\Validator\Form\Attribute;
 
-use Ushahidi\Core\Entity;
-
 class Create extends Update
 {
     public function getRules()

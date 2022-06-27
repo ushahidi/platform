@@ -11,7 +11,6 @@
 
 namespace Ushahidi\App\Validator\Post;
 
-use Ushahidi\Core\Entity;
 use Kohana\Validation\Validation;
 
 class Update extends Create

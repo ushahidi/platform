@@ -12,11 +12,11 @@
 namespace Ushahidi\App\Repository;
 
 use Ohanzee\DB;
-use Ushahidi\Core\Entity;
 use Ushahidi\Core\Entity\Tos;
-use Ushahidi\Core\Entity\TosRepository as TosRepositoryContract;
-use Ushahidi\Core\SearchData;
-use Ushahidi\Core\Traits\UserContext;
+use Ushahidi\Core\Tools\SearchData;
+use Ushahidi\Contracts\Entity;
+use Ushahidi\Core\Concerns\UserContext;
+use Ushahidi\Contracts\Repository\Entity\TosRepository as TosRepositoryContract;
 
 class TosRepository extends OhanzeeRepository implements
     TosRepositoryContract

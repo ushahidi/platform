@@ -8,7 +8,7 @@ use Phinx\Console\Command\Status as PhinxStatusCommand;
 class MigrateStatusCommand extends PhinxStatusCommand
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function configure()
     {

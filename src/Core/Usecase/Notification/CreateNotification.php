@@ -11,7 +11,6 @@
 
 namespace Ushahidi\Core\Usecase\Notification;
 
-use Ushahidi\Core\Entity;
 use Ushahidi\Core\Usecase\CreateUsecase;
 
 class CreateNotification extends CreateUsecase

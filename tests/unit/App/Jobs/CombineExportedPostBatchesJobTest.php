@@ -1,18 +1,15 @@
 <?php
 
-namespace Tests\Unit\App\Jobs;
+namespace Tests\Unit\Ushahidi\App\Jobs;
 
-use Laravel\Lumen\Testing\DatabaseTransactions;
-use Tests\TestCase;
-use Faker;
-use Mockery as M;
-
-use Ushahidi\App\Jobs\CombineExportedPostBatchesJob;
-use Ushahidi\Core\Entity\ExportJob;
-use Ushahidi\Core\Entity\ExportJobRepository;
-use Ushahidi\Core\Entity\ExportBatch;
-use Ushahidi\Core\Entity\ExportBatchRepository;
 use Illuminate\Support\Facades\Storage;
+use Mockery as M;
+use Tests\TestCase;
+use Ushahidi\Contracts\Repository\Entity\ExportBatchRepository;
+use Ushahidi\Contracts\Repository\Entity\ExportJobRepository;
+use Ushahidi\Core\Entity\ExportBatch;
+use Ushahidi\Core\Entity\ExportJob;
+use Ushahidi\App\Jobs\CombineExportedPostBatchesJob;
 
 /**
  * @group api
@@ -22,7 +19,6 @@ class CombineExportedPostBatchesJobTest extends TestCase
 {
     protected function mockDispatcher()
     {
-        unset($this->app->availableBindings['Illuminate\Contracts\Bus\Dispatcher']);
         $mock = M::mock('Illuminate\Bus\Dispatcher[dispatch]', [$this->app]);
         $this->app->instance(
             'Illuminate\Contracts\Bus\Dispatcher',
@@ -41,9 +37,9 @@ class CombineExportedPostBatchesJobTest extends TestCase
         $exportBatchRepo = M::mock(ExportBatchRepository::class);
 
         $exportJob = new ExportJob([
-                'id' => $jobId,
-                'status' => 'pending'
-            ]);
+            'id' => $jobId,
+            'status' => 'pending',
+        ]);
         // Loads jobs
         $exportJobRepo->shouldReceive('get')
             ->with($jobId)
@@ -63,17 +59,17 @@ class CombineExportedPostBatchesJobTest extends TestCase
                 new ExportBatch([
                     'filename' => 'batch2.csv',
                     'batch_number' => 2,
-                    'has_header' => 0
+                    'has_header' => 0,
                 ]),
                 new ExportBatch([
                     'filename' => 'batch0.csv',
                     'batch_number' => 0,
-                    'has_header' => 1
+                    'has_header' => 1,
                 ]),
                 new ExportBatch([
                     'filename' => 'batch1.csv',
                     'batch_number' => 1,
-                    'has_header' => 0
+                    'has_header' => 0,
                 ]),
             ]));
 
@@ -115,9 +111,9 @@ class CombineExportedPostBatchesJobTest extends TestCase
         $exportBatchRepo = M::mock(ExportBatchRepository::class);
 
         $exportJob = new ExportJob([
-                'id' => $jobId,
-                'status' => 'pending'
-            ]);
+            'id' => $jobId,
+            'status' => 'pending',
+        ]);
         // Loads jobs
         $exportJobRepo->shouldReceive('get')
             ->with($jobId)
@@ -146,9 +142,9 @@ class CombineExportedPostBatchesJobTest extends TestCase
         $exportBatchRepo = M::mock(ExportBatchRepository::class);
 
         $exportJob = new ExportJob([
-                'id' => $jobId,
-                'status' => 'SUCCESS'
-            ]);
+            'id' => $jobId,
+            'status' => 'SUCCESS',
+        ]);
         // Loads jobs
         $exportJobRepo->shouldReceive('get')
             ->with($jobId)

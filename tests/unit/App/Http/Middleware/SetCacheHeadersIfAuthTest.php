@@ -4,19 +4,18 @@
  * Unit tests for Signature Auth Middleware
  *
  * @author     Ushahidi Team <team@ushahidi.com>
- * @package    Ushahidi\Application\Tests
  * @copyright  2020 Ushahidi
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Tests\Unit\App\Http\Middleware;
+namespace Tests\Unit\Ushahidi\App\Http\Middleware;
 
-use Ushahidi\App\Http\Middleware\SetCacheHeadersIfAuth;
 use Illuminate\Contracts\Auth\Factory as AuthFactory;
 use Illuminate\Contracts\Auth\Guard as AuthGuard;
 use Illuminate\Http\Request;
-use Tests\TestCase;
 use Mockery as M;
+use Tests\TestCase;
+use Ushahidi\App\Http\Middleware\SetCacheHeadersIfAuth;
 
 /**
  * @backupGlobals disabled
@@ -39,7 +38,7 @@ class SetCacheHeadersIfAuthTest extends TestCase
         $auth = M::mock(AuthFactory::class);
 
         $guard = M::mock(AuthGuard::class);
-        $guard->shouldReceive('guest')->andReturn(!$isAuthenticated);
+        $guard->shouldReceive('guest')->andReturn(! $isAuthenticated);
         $auth->shouldReceive('guard')->andReturn($guard);
 
         return $auth;
@@ -73,12 +72,12 @@ class SetCacheHeadersIfAuthTest extends TestCase
 
         // Ensure we have max-age or public clauses in cache-control header
         $cache_control = $return->headers->get('cache-control') ?? '';
-        $this->assertRegExp("/max-age/i", $cache_control);
-        $this->assertRegExp("/public/i", $cache_control);
+        $this->assertRegExp('/max-age/i', $cache_control);
+        $this->assertRegExp('/public/i', $cache_control);
 
         // Ensure that authentication variance is added
         $this->assertRegExp(
-            "/Authorization/i",
+            '/Authorization/i',
             $return->headers->get('vary')
         );
     }
@@ -111,8 +110,8 @@ class SetCacheHeadersIfAuthTest extends TestCase
 
         // Ensure we don't have max-age or public clauses in cache-control header
         $cache_control = $return->headers->get('cache-control') ?? '';
-        $this->assertNotRegExp("/max-age/i", $cache_control);
-        $this->assertNotRegExp("/public/i", $cache_control);
+        $this->assertNotRegExp('/max-age/i', $cache_control);
+        $this->assertNotRegExp('/public/i', $cache_control);
     }
 
     /**
@@ -144,12 +143,12 @@ class SetCacheHeadersIfAuthTest extends TestCase
 
         // Ensure we got a no-store cache-control header
         $this->assertRegExp(
-            "/no-store/i",
+            '/no-store/i',
             $return->headers->get('cache-control')
         );
         // Ensure that authentication variance is added
         $this->assertRegExp(
-            "/Authorization/i",
+            '/Authorization/i',
             $return->headers->get('vary')
         );
     }
@@ -179,6 +178,7 @@ class SetCacheHeadersIfAuthTest extends TestCase
             function ($r) use ($request, &$pre_cache_control) {
                 $resp = response()->json(['done' => 'yes']);
                 $pre_cache_control = $resp->headers->get('cache-control');
+
                 return $resp;
             },
             'minimal',              /* threshold level for caching the route */
@@ -189,11 +189,11 @@ class SetCacheHeadersIfAuthTest extends TestCase
         // Ensure that cache-control header is not modified
         $this->assertEquals(
             $pre_cache_control,
-            $return->headers->get('cache-control') ?? ""
+            $return->headers->get('cache-control') ?? ''
         );
         // Ensure that authentication variance is added
         $this->assertRegExp(
-            "/Authorization/i",
+            '/Authorization/i',
             $return->headers->get('vary')
         );
     }

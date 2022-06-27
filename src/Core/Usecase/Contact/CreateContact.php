@@ -11,7 +11,6 @@
 
 namespace Ushahidi\Core\Usecase\Contact;
 
-use Ushahidi\Core\Entity;
 use Ushahidi\Core\Usecase\CreateUsecase;
 
 class CreateContact extends CreateUsecase
