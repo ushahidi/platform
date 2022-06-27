@@ -7,13 +7,24 @@ class Message extends BaseModel
     public static $relationships = [
         'contact'
     ];
+    # --> and relationship to Post?
+
+    const CREATED_AT = 'created';
+    const UPDATED_AT = null;
 
     /**
      * Add eloquent style timestamps
      *
      * @var boolean
      */
-    public $timestamps = false;
+    public $timestamps = true;
+
+    /**
+     * The storage format of the model's date columns.
+     *
+     * @var string
+     */
+    protected $dateFormat = 'U';
 
     /**
      * Specify the table to load with Survey
