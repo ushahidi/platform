@@ -6,7 +6,6 @@ use Illuminate\Validation\Rule;
 use Ushahidi\Contracts\Permission;
 use Illuminate\Support\Facades\Input;
 use Ushahidi\App\Validator\LegacyValidator;
-use Ushahidi\Core\Entity\Permission;
 use Ushahidi\Core\Tools\Permissions\InteractsWithFormPermissions;
 use Illuminate\Http\Request;
 
