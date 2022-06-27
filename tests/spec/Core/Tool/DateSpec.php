@@ -1,16 +1,15 @@
 <?php
 
-namespace spec\Ushahidi\Core\Tool;
-
-use Ushahidi\Core\Entity\ConfigRepository;
-use Ushahidi\Core\Entity;
+namespace spec\Ushahidi\Core\Tools;
 
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
+use Ushahidi\Contracts\Entity;
+use Ushahidi\Contracts\Repository\Entity\ConfigRepository;
+use Ushahidi\Core\Tools\Date;
 
 class DateSpec extends ObjectBehavior
 {
-    function let(ConfigRepository $repo)
+    public function let(ConfigRepository $repo)
     {
         // Normally this is handled by the application, but spec tests are run
         // outside of the application.
@@ -19,19 +18,19 @@ class DateSpec extends ObjectBehavior
         $this->beConstructedWith($repo);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
-        $this->shouldHaveType('Ushahidi\Core\Tool\Date');
+        $this->shouldHaveType(Date::class);
     }
 
-    function it_fetches_the_date_format_from_site_settings($repo, Entity $config)
+    public function it_fetches_the_date_format_from_site_settings($repo, Entity $config)
     {
         $config->date_format = 'Y/m/d';
         $repo->get('site')->willReturn($config);
         $this->getDateFormat()->shouldReturn($config->date_format);
     }
 
-    function it_converts_a_date_to_a_timestamp_with_defaults($repo, Entity $config)
+    public function it_converts_a_date_to_a_timestamp_with_defaults($repo, Entity $config)
     {
         $config->date_format = 'n/j/Y H:i'; // MM/DD/YYYY
         $repo->get('site')->willReturn($config);
@@ -39,13 +38,13 @@ class DateSpec extends ObjectBehavior
         $this->getTimestampFromString('12/01/2014 00:00')->shouldReturn(1417392000);
     }
 
-    function it_converts_a_european_date_to_a_timestamp()
+    public function it_converts_a_european_date_to_a_timestamp()
     {
         $euro = 'j/n/Y H:i'; // DD/MM/YYYY
         $this->getTimestampFromString('01/12/2014 00:00', $euro)->shouldReturn(1417392000);
     }
 
-    function it_adds_timestamps_to_results()
+    public function it_adds_timestamps_to_results()
     {
         $results = [
             ['date' => '13/12/2014 00:00'],

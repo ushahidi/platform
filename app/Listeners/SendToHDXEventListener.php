@@ -2,8 +2,8 @@
 
 namespace Ushahidi\App\Listeners;
 
+use Illuminate\Support\Facades\Log;
 use Ushahidi\App\Events\SendToHDXEvent;
-use Log;
 
 class SendToHDXEventListener
 {
@@ -16,9 +16,11 @@ class SendToHDXEventListener
     {
         //
     }
+
     protected function getUsecase()
     {
     }
+
     /**
      * Handle the event.
      *

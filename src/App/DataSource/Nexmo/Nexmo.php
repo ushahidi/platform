@@ -11,19 +11,26 @@ namespace Ushahidi\App\DataSource\Nexmo;
  * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License Version 3 (GPLv3)
  */
 
-use Ushahidi\App\DataSource\CallbackDataSource;
-use Ushahidi\App\DataSource\OutgoingAPIDataSource;
-use Ushahidi\App\DataSource\Message\Type as MessageType;
-use Ushahidi\App\DataSource\Message\Status as MessageStatus;
+use Illuminate\Routing\Router;
+use Illuminate\Support\Facades\Log;
+use Ushahidi\Contracts\DataSource\MessageType;
+use Ushahidi\Contracts\DataSource\MessageStatus;
+use Ushahidi\Contracts\DataSource\CallbackDataSource;
+use Ushahidi\Contracts\DataSource\OutgoingDataSource;
 use Ushahidi\App\DataSource\Concerns\MapsInboundFields;
-use Ushahidi\Core\Entity\Contact;
-use Log;
 
-class Nexmo implements CallbackDataSource, OutgoingAPIDataSource
+class Nexmo implements CallbackDataSource, OutgoingDataSource
 {
     use MapsInboundFields;
 
     protected $config;
+
+    /**
+     * Client to talk to the Nexmo API
+     *
+     * @var \Nexmo\Message\Client
+     */
+    private $client;
 
     /**
      * Constructor function for DataSource
@@ -86,20 +93,13 @@ class Nexmo implements CallbackDataSource, OutgoingAPIDataSource
     }
 
     /**
-     * Client to talk to the Nexmo API
-     *
-     * @var NexmoMessage
-     */
-    private $client;
-
-    /**
      * @return mixed
      */
     public function send($to, $message, $title = "", $contact_type = null)
     {
         // Check we have the required config
         if (!isset($this->config['api_key']) || !isset($this->config['api_secret'])) {
-            app('log')->warning('Could not send message with Nexmo, incomplete config');
+            Log::warning('Could not send message with Nexmo, incomplete config');
             return [MessageStatus::FAILED, false];
         }
 
@@ -122,13 +122,13 @@ class Nexmo implements CallbackDataSource, OutgoingAPIDataSource
 
             return [MessageStatus::SENT, $message->getMessageId()];
         } catch (\Nexmo\Client\Exception\Exception $e) {
-            app('log')->warning($e->getMessage());
+            Log::warning($e->getMessage());
         }
 
         return [MessageStatus::FAILED, false];
     }
 
-    public static function registerRoutes(\Laravel\Lumen\Routing\Router $router)
+    public static function registerRoutes(Router $router)
     {
         $router->post('sms/nexmo', 'Ushahidi\App\DataSource\Nexmo\NexmoController@handleRequest');
         $router->get('sms/nexmo', 'Ushahidi\App\DataSource\Nexmo\NexmoController@handleRequest');

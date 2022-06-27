@@ -11,12 +11,12 @@ return [
      * Please note that this only lasts the lifetime of the request.
      *
      */
-    'cache' => getenv('RATELIMITER_CACHE') ?: 'filesystem',
+    'cache' => env('RATELIMITER_CACHE') ?: 'filesystem',
     'filesystem' => [
         'directory' => '/tmp/ratelimitercache',
     ],
     'memcached' => [
         'host' => '127.0.0.1',
-        'port' => 11211
-    ]
+        'port' => 11211,
+    ],
 ];

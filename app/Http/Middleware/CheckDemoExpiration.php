@@ -7,8 +7,7 @@ use Ushahidi\App\Multisite\MultisiteManager;
 
 class CheckDemoExpiration
 {
-
-   /**
+    /**
      * @var \Ushahidi\App\Multisite\MultisiteManager;
      */
     protected $multisite;
@@ -24,17 +23,17 @@ class CheckDemoExpiration
         $this->multisite = $multisite;
     }
 
-   /**
-    * Handle an incoming request.
-    *
-    * @param  \Illuminate\Http\Request  $request
-    * @param  \Closure  $next
-    * @return mixed
-    */
+    /**
+     * Handle an incoming request.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Closure  $next
+     * @return mixed
+     */
     public function handle($request, Closure $next)
     {
         // If multisite is disabled, skip entirely
-        if (!$this->multisite->enabled()) {
+        if (! $this->multisite->enabled()) {
             return $next($request);
         }
 
@@ -51,11 +50,12 @@ class CheckDemoExpiration
             // Move time conversion to Site model
             $expiration_date = strtotime($site->expiration_date);
             $extension_date = strtotime($site->extension_date);
-                
-            if ($expiration_date < $now && (!$extension_date || $extension_date < $now)) {
+
+            if ($expiration_date < $now && (! $extension_date || $extension_date < $now)) {
                 abort(503, 'The demo period for this deployment has expired.');
             }
         }
+
         return $next($request);
     }
 }

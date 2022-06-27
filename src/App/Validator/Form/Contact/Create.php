@@ -13,6 +13,5 @@ namespace Ushahidi\App\Validator\Form\Contact;
 
 class Create extends Update
 {
-
     protected $default_error_source = 'form_contact';
 }

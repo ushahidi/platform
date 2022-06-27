@@ -11,8 +11,6 @@
 
 namespace Ushahidi\App\Validator\Layer;
 
-use Ushahidi\Core\Entity;
-
 class Create extends Update
 {
     protected $default_error_source = 'layer';

@@ -10,17 +10,12 @@
 
 namespace Ushahidi\App\Validator\HXL\HXLFormAttributeHXLAttributeTag;
 
-use Ushahidi\App\Repository\HXL\HXLAttributeRepository;
-use Ushahidi\App\Repository\HXL\HXLFormAttributeHXLAttributeTagRepository;
-use Ushahidi\App\Repository\HXL\HXLTagRepository;
-use Ushahidi\Core\Entity\ExportJobRepository;
-use Ushahidi\Core\Entity\FormAttribute;
-use Ushahidi\Core\Entity\FormAttributeRepository;
-use Ushahidi\Core\Entity\HXL\HXLAttribute;
-use Ushahidi\Core\Entity\HXL\HXLFormAttributeHXLAttributeTag;
-use Ushahidi\Core\Entity\HXL\HXLTag;
-use Ushahidi\Core\Entity\UserRepository;
 use Ushahidi\App\Validator\LegacyValidator;
+use Ushahidi\Contracts\Repository\Entity\HXLTagRepository;
+use Ushahidi\Contracts\Repository\Entity\ExportJobRepository;
+use Ushahidi\Contracts\Repository\Entity\HXLAttributeRepository;
+use Ushahidi\Contracts\Repository\Entity\FormAttributeRepository;
+use Ushahidi\Contracts\Repository\Entity\HXLFormAttributeHXLAttributeTagRepository;
 
 class Create extends LegacyValidator
 {
@@ -29,6 +24,7 @@ class Create extends LegacyValidator
     protected $hxl_tag_repo;
     protected $form_attribute_repo;
     protected $export_job_repo;
+
     public function __construct(
         HXLFormAttributeHXLAttributeTagRepository $repo,
         HXLTagRepository $hxl_tag_repo,
@@ -43,7 +39,7 @@ class Create extends LegacyValidator
         $this->export_job_repo = $export_job_repo;
     }
     /**
-     * @return array|\Ushahidi\Core\Tool\ArrayValidation
+     * @return array|\Ushahidi\Core\Tools\ArrayValidation
      */
     protected function getRules()
     {

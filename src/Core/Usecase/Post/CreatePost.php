@@ -11,7 +11,6 @@
 
 namespace Ushahidi\Core\Usecase\Post;
 
-use Ushahidi\Core\Entity;
 use Ushahidi\Core\Usecase\CreateUsecase;
 
 class CreatePost extends CreateUsecase

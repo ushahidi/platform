@@ -1,14 +1,14 @@
 <?php
 
-namespace Tests\Unit\App\Jobs;
+namespace Tests\Unit\Ushahidi\App\Jobs;
 
-use Laravel\Lumen\Testing\DatabaseTransactions;
-use Tests\TestCase;
-use Faker;
 use Mockery as M;
-
-use Ushahidi\App\Jobs\ExportPostsJob;
+use Tests\TestCase;
+use Ushahidi\Contracts\Repository\Entity\ExportJobRepository;
 use Ushahidi\Core\Entity\ExportJob;
+use Ushahidi\Core\Usecase\Export\Job\PostCount;
+use Ushahidi\App\Jobs\ExportPostsBatchJob;
+use Ushahidi\App\Jobs\ExportPostsJob;
 
 /**
  * @group api
@@ -18,7 +18,6 @@ class ExportPostsJobTest extends TestCase
 {
     protected function mockDispatcher()
     {
-        unset($this->app->availableBindings['Illuminate\Contracts\Bus\Dispatcher']);
         $mock = M::mock('Illuminate\Bus\Dispatcher[dispatch]', [$this->app]);
         $this->app->instance(
             'Illuminate\Contracts\Bus\Dispatcher',
@@ -35,26 +34,26 @@ class ExportPostsJobTest extends TestCase
 
         $dispatcher = $this->mockDispatcher();
         $dispatcher->shouldReceive('dispatch')->times(5)
-                ->with(M::type(\Ushahidi\App\Jobs\ExportPostsBatchJob::class));
+                ->with(M::type(ExportPostsBatchJob::class));
 
-        $usecase = M::mock(\Ushahidi\Core\Usecase\Export\Job\PostCount::class);
-        $exportJobRepo = M::mock(\Ushahidi\Core\Entity\ExportJobRepository::class);
+        $usecase = M::mock(PostCount::class);
+        $exportJobRepo = M::mock(ExportJobRepository::class);
 
         $usecase->shouldReceive('setIdentifiers')
             ->once()
             ->with([
-                'id' => $jobId
+                'id' => $jobId,
             ]);
 
         $usecase->shouldReceive('interact')
             ->once()
             ->andReturn([
-                ['total' => 830, 'label' => 'all']
+                ['total' => 830, 'label' => 'all'],
             ]);
 
         $exportJob = new ExportJob([
-                'id' => $jobId
-            ]);
+            'id' => $jobId,
+        ]);
         $exportJobRepo->shouldReceive('get')
             ->with($jobId)
             ->once()
@@ -74,11 +73,11 @@ class ExportPostsJobTest extends TestCase
     {
         $jobId = 33;
 
-        $exportJobRepo = M::mock(\Ushahidi\Core\Entity\ExportJobRepository::class);
+        $exportJobRepo = M::mock(ExportJobRepository::class);
 
         $exportJob = new ExportJob([
-                'id' => $jobId
-            ]);
+            'id' => $jobId,
+        ]);
         $exportJobRepo->shouldReceive('get')
             ->with($jobId)
             ->once()
@@ -89,9 +88,8 @@ class ExportPostsJobTest extends TestCase
             ->once();
 
         // Inject mocks into the app
-        unset($this->app->availableBindings[\Ushahidi\Core\Entity\ExportJobRepository::class]);
         $this->app->instance(
-            \Ushahidi\Core\Entity\ExportJobRepository::class,
+            ExportJobRepository::class,
             $exportJobRepo
         );
 

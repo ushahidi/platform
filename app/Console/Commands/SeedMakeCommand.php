@@ -8,7 +8,7 @@ use Phinx\Console\Command\SeedCreate as PhinxSeedCreateCommand;
 class SeedMakeCommand extends PhinxSeedCreateCommand
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function configure()
     {

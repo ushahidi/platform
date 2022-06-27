@@ -13,8 +13,8 @@
 
 namespace Ushahidi\App\Formatter;
 
-use Ushahidi\Core\Entity;
-use Ushahidi\Core\Tool\Formatter;
+use Ushahidi\Contracts\Entity;
+use Ushahidi\Contracts\Formatter;
 use Ushahidi\Core\Exception\FormatterException;
 use Illuminate\Support\Str;
 

@@ -12,16 +12,13 @@
 namespace Ushahidi\App\Repository\Form;
 
 use Ohanzee\DB;
-use Ushahidi\Core\Data;
-use Ushahidi\Core\Entity;
-use Ushahidi\Core\SearchData;
+use Ushahidi\Core\Tools\SearchData;
 use Ushahidi\Core\Entity\FormRole;
-use Ushahidi\Core\Entity\FormRoleRepository as FormRoleRepositoryContract;
+use Ushahidi\Contracts\Repository\Entity\FormRoleRepository;
 use Ushahidi\App\Repository\OhanzeeRepository;
-use Ushahidi\App\Repository\JsonTranscodeRepository;
 
 class RoleRepository extends OhanzeeRepository implements
-    FormRoleRepositoryContract
+    FormRoleRepository
 {
     // OhanzeeRepository
     protected function getTable()

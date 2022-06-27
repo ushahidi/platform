@@ -2,19 +2,16 @@
 
 namespace Ushahidi\App\Http\Controllers\API\Posts;
 
-use Ushahidi\App\Http\Controllers\RESTController;
 use Illuminate\Http\Request;
-use Ushahidi\Core\Usecase;
+use Ushahidi\App\Http\Controllers\RESTController;
 
 /**
  * Ushahidi API Posts Controller
  *
  * @author     Ushahidi Team <team@ushahidi.com>
- * @package    Ushahidi\Application\Controllers
  * @copyright  2013 Ushahidi
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
-
 class PostsController extends RESTController
 {
     /**
@@ -36,13 +33,14 @@ class PostsController extends RESTController
     protected function getIdentifiers(Request $request)
     {
         return $this->getRouteParams($request) + [
-            'type'      => $this->postType
+            'type'      => $this->postType,
         ];
     }
 
     protected function getFilters(Request $request)
     {
         $params = $this->getRouteParams($request);
+
         return $request->query() + [
             'type'      => $this->postType,
             'parent'    => isset($params['parent_id']) ? $params['parent_id'] : null,
@@ -52,6 +50,7 @@ class PostsController extends RESTController
     protected function getPayload(Request $request)
     {
         $params = $this->getRouteParams($request);
+
         return $request->json()->all() + [
             'type'      => $this->postType,
             'parent_id' => isset($params['parent_id']) ? $params['parent_id'] : null,

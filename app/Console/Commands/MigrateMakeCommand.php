@@ -8,7 +8,7 @@ use Phinx\Console\Command\Create as PhinxCreateCommand;
 class MigrateMakeCommand extends PhinxCreateCommand
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function configure()
     {

@@ -11,10 +11,8 @@
 
 namespace Ushahidi\App\Validator\Message;
 
-use Ushahidi\Core\Entity;
-use Ushahidi\Core\Entity\RoleRepository;
 use Ushahidi\App\Validator\LegacyValidator;
-use Ushahidi\Core\Usecase\Message\UpdateMessageRepository;
+use Ushahidi\Contracts\Repository\Usecase\UpdateMessageRepository;
 
 class Update extends LegacyValidator
 {

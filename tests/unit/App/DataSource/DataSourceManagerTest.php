@@ -4,22 +4,21 @@
  * Tests for DataSourceManager class
  *
  * @author     Ushahidi Team <team@ushahidi.com>
- * @package    Ushahidi\Application\Tests
  * @copyright  2013 Ushahidi
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Tests\Unit\App\DataSource;
+namespace Tests\Unit\Ushahidi\App\DataSource;
 
 use Mockery as M;
 use Tests\TestCase;
+use Ushahidi\Contracts\DataSource\IncomingDataSource;
+use Ushahidi\Contracts\Repository\Entity\ConfigRepository;
+use Ushahidi\Core\Entity\Config;
 use Ushahidi\App\DataSource\DataSourceManager;
 use Ushahidi\App\DataSource\Email\Email;
-use Ushahidi\App\DataSource\IncomingAPIDataSource;
 use Ushahidi\App\DataSource\Nexmo\Nexmo;
 use Ushahidi\App\DataSource\Twitter\Twitter;
-use Ushahidi\Core\Entity\Config;
-use Ushahidi\Core\Entity\ConfigRepository;
 
 /**
  * @backupGlobals disabled
@@ -74,7 +73,6 @@ class DataSourceManagerTest extends TestCase
 
     public function testAvailableSources()
     {
-
         $configRepo = M::mock(ConfigRepository::class);
         $manager = new DataSourceManager($configRepo);
 
@@ -129,8 +127,7 @@ class DataSourceManagerTest extends TestCase
             ]));
 
         $customSource = function ($config = []) {
-            return new class($config) implements IncomingAPIDataSource
-            {
+            return new class($config) implements IncomingDataSource {
                 protected $config;
 
                 public function __construct($config)
@@ -141,27 +138,35 @@ class DataSourceManagerTest extends TestCase
                 public function fetch($limit = false)
                 {
                 }
+
                 public function getName()
                 {
                 }
+
                 public function getId()
                 {
                 }
+
                 public function getServices()
                 {
                 }
+
                 public function getOptions()
                 {
                 }
+
                 public function getInboundFields()
                 {
                 }
+
                 public function getInboundFormId()
                 {
                 }
+
                 public function getInboundFieldMappings()
                 {
                 }
+
                 public function isUserConfigurable()
                 {
                 }

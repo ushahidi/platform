@@ -11,14 +11,13 @@
 
 namespace Ushahidi\App\Repository\HXL;
 
-use Ohanzee\Database;
 use Ohanzee\DB;
 use Ushahidi\Core\Entity\HXL\HXLFormAttributeHXLAttributeTag;
-use Ushahidi\Core\SearchData;
-use Ushahidi\Core\Entity\HXL\HXLFormAttributeHXLAttributeTagRepository
+use Ushahidi\Core\Tools\SearchData;
+use Ushahidi\Contracts\Repository\Entity\HXLFormAttributeHXLAttributeTagRepository
     as HXLFormAttributeHXLAttributeTagRepositoryContract;
-use Ushahidi\Core\Usecase\ReadRepository;
-use Ushahidi\Core\Usecase\SearchRepository;
+use Ushahidi\Contracts\Repository\ReadRepository;
+use Ushahidi\Contracts\Repository\SearchRepository;
 use Ushahidi\App\Repository\OhanzeeRepository;
 
 class HXLFormAttributeHXLAttributeTagRepository extends OhanzeeRepository implements
@@ -95,7 +94,7 @@ class HXLFormAttributeHXLAttributeTagRepository extends OhanzeeRepository implem
     }
     /**
      * @param array|null $data
-     * @return \Ushahidi\App\Repository\Ushahidi\Core\Entity|HXLTag|\Ushahidi\Core\Usecase\Entity
+     * @return \Ushahidi\App\Repository\Ushahidi\Core\Entity|HXLTag|\Ushahidi\Contracts\Repository\Usecase\Entity
      */
     public function getEntity(array $data = null)
     {

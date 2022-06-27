@@ -4,41 +4,38 @@
  * Ushahidi REST Base Controller
  *
  * @author     Ushahidi Team <team@ushahidi.com>
- * @package    Ushahidi\Application\Controllers
  * @copyright  2013 Ushahidi
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
 namespace Ushahidi\App\Http\Controllers;
 
-use Ushahidi\Factory\UsecaseFactory;
 use Illuminate\Http\Request;
-use League\OAuth2\Server\Exception\OAuth2Exception;
-use League\OAuth2\Server\Exception\MissingAccessTokenException;
-use Ushahidi\App\Exceptions\ValidationException;
+use Illuminate\Support\Facades\Lang;
+use Ushahidi\Factory\UsecaseFactory;
 use Ushahidi\App\Multisite\MultisiteManager;
+use Ushahidi\App\Exceptions\ValidationException;
 
 abstract class RESTController extends Controller
 {
-
     /**
-     * @var Current API version
+     * @var string Current API version
      * @todo  move to config?
      */
     protected static $version = '3';
 
     /**
-     * @var Ushahidi\Factory\UsecaseFactory
+     * @var \Ushahidi\Factory\UsecaseFactory
      */
     protected $usecaseFactory;
 
-   /**
+    /**
      * @var \Ushahidi\App\Multisite\MultisiteManager;
      */
     protected $multisite;
 
     /**
-     * @var Ushahidi\Core\Usecase
+     * @var \Ushahidi\Contracts\Usecase
      */
     protected $usecase;
 
@@ -49,7 +46,9 @@ abstract class RESTController extends Controller
     }
 
     /**
-     * @var array List of HTTP methods which may be cached
+     * List of HTTP methods which may be cached
+     *
+     * @var array
      */
     protected $cacheableMethods = [
         Request::METHOD_GET,
@@ -71,10 +70,11 @@ abstract class RESTController extends Controller
             // if any thing other more than that or a different offset is request
             // none will be returned
             if (array_key_exists('offset', $filters)
-                && array_key_exists('limit', $filters)) {
+                && array_key_exists('limit', $filters)
+            ) {
                 if ($filters['offset'] + $filters['limit'] > 25) {
                     $diff = 25 - $filters['offset'];
-                    $filters['limit'] =  $diff > 0 ? $diff : 0;
+                    $filters['limit'] = $diff > 0 ? $diff : 0;
                 }
             } else {
                 $limit = 25;
@@ -84,11 +84,13 @@ abstract class RESTController extends Controller
                 $filters['limit'] = $limit > 25 ? 25 : $limit;
             }
         }
+
         return $filters;
     }
 
     /**
      * Get an API URL for a resource.
+     *
      * @param  string  $resource
      * @param  mixed   $id
      * @return string
@@ -97,9 +99,10 @@ abstract class RESTController extends Controller
     public static function url($resource, $id = null)
     {
         $template = 'api/v%d/%s';
-        if (!is_null($id)) {
+        if (! is_null($id)) {
             $template .= '/%s';
         }
+
         return rtrim(sprintf($template, static::version(), $resource, $id), '/');
     }
 
@@ -107,8 +110,6 @@ abstract class RESTController extends Controller
      * Get options for a resource collection.
      *
      * OPTIONS /api/foo
-     *
-     * @return void
      */
     public function indexOptions(Request $request)
     {
@@ -122,8 +123,6 @@ abstract class RESTController extends Controller
      * Get options for a resource.
      *
      * OPTIONS /api/foo/:id
-     *
-     * @return void
      */
     public function showOptions(Request $request)
     {
@@ -138,8 +137,6 @@ abstract class RESTController extends Controller
      * Create An Entity
      *
      * POST /api/foo
-     *
-     * @return void
      */
     public function store(Request $request)
     {
@@ -147,15 +144,15 @@ abstract class RESTController extends Controller
             ->get($this->getResource(), 'create')
             ->setPayload($request->json()->all());
 
-        return $this->prepResponse($this->executeUsecase($request), $request);
+        $result = $this->executeUsecase($request);
+
+        return $this->prepResponse($result, $request);
     }
 
     /**
      * Retrieve All Entities
      *
      * GET /api/foo
-     *
-     * @return void
      */
     public function index(Request $request)
     {
@@ -163,15 +160,15 @@ abstract class RESTController extends Controller
             ->get($this->getResource(), 'search')
             ->setFilters($request->query());
 
-        return $this->prepResponse($this->executeUsecase($request), $request);
+        $result = $this->executeUsecase($request);
+
+        return $this->prepResponse($result, $request);
     }
 
     /**
      * Retrieve An Entity
      *
      * GET /api/foo/:id
-     *
-     * @return void
      */
     public function show(Request $request)
     {
@@ -179,15 +176,15 @@ abstract class RESTController extends Controller
             ->get($this->getResource(), 'read')
             ->setIdentifiers($this->getRouteParams($request));
 
-        return $this->prepResponse($this->executeUsecase($request), $request);
+        $result = $this->executeUsecase($request);
+
+        return $this->prepResponse($result, $request);
     }
 
     /**
      * Update An Entity
      *
      * PUT /api/foo/:id
-     *
-     * @return void
      */
     public function update(Request $request)
     {
@@ -196,15 +193,15 @@ abstract class RESTController extends Controller
             ->setIdentifiers($this->getRouteParams($request))
             ->setPayload($request->json()->all());
 
-        return $this->prepResponse($this->executeUsecase($request), $request);
+        $result = $this->executeUsecase($request);
+
+        return $this->prepResponse($result, $request);
     }
 
     /**
      * Delete An Entity
      *
      * DELETE /api/foo/:id
-     *
-     * @return void
      */
     public function destroy(Request $request)
     {
@@ -212,7 +209,9 @@ abstract class RESTController extends Controller
             ->get($this->getResource(), 'delete')
             ->setIdentifiers($this->getRouteParams($request));
 
-        return $this->prepResponse($this->executeUsecase($request), $request);
+        $result = $this->executeUsecase($request);
+
+        return $this->prepResponse($result, $request);
     }
 
     /**
@@ -227,31 +226,28 @@ abstract class RESTController extends Controller
      */
     protected function getRouteParams(Request $request)
     {
-        return $request->route()[2];
+        return $request->route()->parameters();
     }
 
     /**
      * Execute the usecase that the controller prepared.
      *
      * @todo  should this take Usecase as a param rather than use $this->usecase?
-     *
-     * @throws HTTP_Exception_400
-     * @throws HTTP_Exception_403
-     * @throws HTTP_Exception_404
-     * @return void
+     * @return array|void
      */
     protected function executeUsecase(Request $request)
     {
         try {
             // Attempt to execute the usecase to get the response
             $responsePayload = $this->usecase->interact();
+
             return $responsePayload;
         } catch (\Ushahidi\Core\Exception\NotFoundException $e) {
             abort(404, $e->getMessage());
         } catch (\Ushahidi\Core\Exception\AuthorizerException $e) {
             // If we don't have an Authorization header, return 401
-            if (!$request->headers->has('Authorization')) {
-                throw abort(
+            if (! $request->headers->has('Authorization')) {
+                abort(
                     401,
                     'The request is missing an access token in either the Authorization header.',
                     ['www-authenticate' => 'Bearer realm="OAuth"']
@@ -265,17 +261,18 @@ abstract class RESTController extends Controller
         } catch (\Ushahidi\Core\Exception\ValidatorException $e) {
             throw new ValidationException($e->getMessage(), $e);
         } catch (\InvalidArgumentException $e) {
-            abort(400, "Bad request: ". $e->getMessage());
+            abort(400, 'Bad request: '.$e->getMessage());
         }
     }
 
     /**
      * Prepare response headers and body, formatted based on user request.
-     * @throws HTTP_Exception_400
-     * @throws HTTP_Exception_500
-     * @return void
+     *
+     * @param  array|null   $result
+     * @param  \Illuminate\Http\Request  $request
+     * @todo This should be moved into a middleware
      */
-    protected function prepResponse(array $responsePayload = null, Request $request)
+    protected function prepResponse($result, Request $request)
     {
         // Use JSON if the request method is OPTIONS
         if ($request->method() === Request::METHOD_OPTIONS) {
@@ -286,13 +283,13 @@ abstract class RESTController extends Controller
             $type = strtolower($request->query('format')) ?: 'json';
         }
 
-        if (empty($responsePayload)) {
+        if (empty($result)) {
             // If the payload is empty, return a 204
             // https://tools.ietf.org/html/rfc7231#section-6.3.5
             $response = response('', 204);
         } else {
             $response = response()->json(
-                $responsePayload,
+                $result,
                 200,
                 [],
                 env('APP_DEBUG', false) ? JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES : null
@@ -310,7 +307,9 @@ abstract class RESTController extends Controller
         if (! in_array($request->method(), $this->cacheableMethods)) {
             $response->headers->set('Cache-Control', 'no-cache, no-store, max-age=0, must-revalidate');
         }
-        $response->headers->set('Content-language', app('translator')->getLocale());
+
+        $response->headers->set('Content-language', Lang::getLocale());
+
         return $response;
     }
 }

@@ -12,18 +12,15 @@
 namespace Ushahidi\App\Repository;
 
 use Ohanzee\DB;
-use Ushahidi\Core\Entity;
+use Ushahidi\Core\Tools\SearchData;
+use Ushahidi\Contracts\Entity;
 use Ushahidi\Core\Entity\Message;
-use Ushahidi\Core\SearchData;
-use Ushahidi\Core\Entity\MessageRepository as MessageRepositoryContract;
-use Ushahidi\Core\Usecase\Message\CreateMessageRepository;
-use Ushahidi\Core\Usecase\Message\UpdateMessageRepository;
-use Ushahidi\Core\Usecase\Message\DeleteMessageRepository;
-use Ushahidi\Core\Usecase\Message\MessageData;
-use Ushahidi\App\DataSource\Message\Type as MessageType;
-use Ushahidi\App\DataSource\Message\Direction as MessageDirection;
-use Ushahidi\App\DataSource\Message\Status as MessageStatus;
 use Illuminate\Support\Collection;
+use Ushahidi\Contracts\DataSource\MessageStatus;
+use Ushahidi\Contracts\DataSource\MessageDirection;
+use Ushahidi\Contracts\Repository\Usecase\CreateMessageRepository;
+use Ushahidi\Contracts\Repository\Usecase\UpdateMessageRepository;
+use Ushahidi\Contracts\Repository\Entity\MessageRepository as MessageRepositoryContract;
 
 class MessageRepository extends OhanzeeRepository implements
     MessageRepositoryContract,
@@ -31,7 +28,7 @@ class MessageRepository extends OhanzeeRepository implements
     CreateMessageRepository
 {
     // Use the JSON transcoder to encode properties
-    use JsonTranscodeRepository;
+    use Concerns\JsonTranscode;
 
     use Concerns\UsesBulkAutoIncrement;
 
@@ -57,7 +54,7 @@ class MessageRepository extends OhanzeeRepository implements
         ];
     }
 
-    // JsonTranscodeRepository
+    // Concerns\JsonTranscode
     protected function getJsonProperties()
     {
         return ['additional_data'];

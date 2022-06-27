@@ -2,23 +2,20 @@
 
 namespace Ushahidi\App\Http\Controllers\API;
 
-use Ushahidi\App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Phinx\Console\PhinxApplication;
 use Phinx\Wrapper\TextWrapper;
+use Ushahidi\App\Http\Controllers\Controller;
 
 /**
  * Ushahidi API Migration Controller
  *
  * @author     Ushahidi Team <team@ushahidi.com>
- * @package    Ushahidi\Application\Controllers
  * @copyright  2013 Ushahidi
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
-
 class MigrationController extends Controller
 {
-
     public function index(Request $request, $command = 'status')
     {
         $user = service('session')->getUser();
@@ -30,11 +27,11 @@ class MigrationController extends Controller
         $commands = [
             'status'   => 'getStatus',
             'rollback' => 'getRollback',
-            ];
+        ];
 
         // add return status if invalid command is selected
 
-        if (!array_key_exists($command, $commands)) {
+        if (! array_key_exists($command, $commands)) {
             $command = 'status';
         }
 
@@ -48,7 +45,7 @@ class MigrationController extends Controller
         $phinx_wrapper = new TextWrapper($phinx_app, $phinx_config);
 
         $migration_results = call_user_func([$phinx_wrapper, $commands[$command]], 'ushahidi', null);
-        $error  = $phinx_wrapper->getExitCode() > 0;
+        $error = $phinx_wrapper->getExitCode() > 0;
 
         return response()->json([
             'results'   => explode("\n", $migration_results, -1),

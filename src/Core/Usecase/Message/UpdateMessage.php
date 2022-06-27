@@ -11,8 +11,7 @@
 
 namespace Ushahidi\Core\Usecase\Message;
 
-use Ushahidi\Core\Data;
-use Ushahidi\Core\Entity;
+use Ushahidi\Contracts\Entity;
 use Ushahidi\Core\Usecase\UpdateUsecase;
 
 class UpdateMessage extends UpdateUsecase

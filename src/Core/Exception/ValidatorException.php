@@ -11,11 +11,11 @@
 
 namespace Ushahidi\Core\Exception;
 
-use RecursiveIteratorIterator;
 use RecursiveArrayIterator;
-use Ushahidi\Core\Tool\TranslatorTrait;
+use InvalidArgumentException;
+use RecursiveIteratorIterator;
 
-class ValidatorException extends \InvalidArgumentException
+class ValidatorException extends InvalidArgumentException
 {
     private $errors;
 

@@ -11,11 +11,11 @@
 
 namespace Ushahidi\App\Repository\Webhook;
 
-use Ushahidi\Core\Entity;
-use Ushahidi\Core\SearchData;
+use Ushahidi\Core\Tools\SearchData;
+use Ushahidi\Contracts\Entity;
 use Ushahidi\Core\Entity\WebhookJob;
-use Ushahidi\Core\Entity\WebhookJobRepository as WebhookJobRepositoryContract;
 use Ushahidi\App\Repository\OhanzeeRepository;
+use Ushahidi\Contracts\Repository\Entity\WebhookJobRepository as WebhookJobRepositoryContract;
 
 class JobRepository extends OhanzeeRepository implements WebhookJobRepositoryContract
 {

@@ -12,9 +12,9 @@
 namespace Ushahidi\Core\Usecase\Post;
 
 use Ushahidi\Core\Usecase\DeleteUsecase;
-use Ushahidi\Core\Data;
 use Ushahidi\Core\Entity\PostLock;
-use Ushahidi\Core\Traits\UserContext;
+use Ushahidi\Core\Usecase\Post\Concerns\PostLock as PostLockTrait;
+use Ushahidi\Core\Concerns\UserContext;
 
 class DeletePostLock extends DeleteUsecase
 {

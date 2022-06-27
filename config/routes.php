@@ -37,5 +37,5 @@ return [
         */
         'private_only' => env('CACHE_CONTROL_PRIVATE', false),
 
-    ]
+    ],
 ];

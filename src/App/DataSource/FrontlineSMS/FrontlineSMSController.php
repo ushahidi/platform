@@ -13,13 +13,11 @@ namespace Ushahidi\App\DataSource\FrontlineSMS;
 
 use Ushahidi\App\DataSource\DataSourceController;
 use Illuminate\Http\Request;
-use Ushahidi\App\DataSource\Message\Type as MessageType;
-use Ushahidi\App\DataSource\Message\Status as MessageStatus;
+use Ushahidi\Contracts\DataSource\MessageType;
 use Ushahidi\Core\Entity\Contact;
 
 class FrontlineSMSController extends DataSourceController
 {
-
     protected $source = 'frontlinesms';
 
     public function handleRequest(Request $request)

@@ -13,8 +13,7 @@
 
 namespace Ushahidi\App\Formatter;
 
-use Ushahidi\Core\Tool\Formatter\CollectionFormatter;
-use Ushahidi\Core\SearchData;
+use Ushahidi\Core\Tools\Formatter\CollectionFormatter;
 
 class Collection extends CollectionFormatter
 {

@@ -11,8 +11,8 @@
 
 namespace Ushahidi\App\Formatter;
 
-use Ushahidi\Core\Tool\Formatter;
-use Ushahidi\Core\Traits\FormatterAuthorizerMetadata;
+use Ushahidi\Contracts\Formatter;
+use Ushahidi\Core\Concerns\FormatterAuthorizerMetadata;
 
 class Post extends API
 {

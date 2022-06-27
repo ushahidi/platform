@@ -3,9 +3,9 @@
 namespace Ushahidi\App\Http\Middleware;
 
 use Closure;
+use Illuminate\Contracts\Auth\Factory as Auth;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Contracts\Auth\Factory as Auth;
 
 class SetCacheHeadersIfAuth
 {
@@ -34,7 +34,7 @@ class SetCacheHeadersIfAuth
     protected function checkConfig($route_level)
     {
         // caching levels that we recognize
-        $levels = [ 'off', 'minimal' ];
+        $levels = ['off', 'minimal'];
 
         // fetch config
         $cfg = [
@@ -111,16 +111,17 @@ class SetCacheHeadersIfAuth
 
         // Check if options is a preset
         if (is_string($options) && strpos(strtolower($options), 'preset/') === 0) {
-            $preset = strtolower(explode('/', $options)[1] ?? "");
+            $preset = strtolower(explode('/', $options)[1] ?? '');
             if ($preset === 'dont-cache') {
                 $options = 'no_store';
             } elseif ($preset === 'default') {
                 $viz = $cfg['private_only'] ? 'private' : 'public';
                 $maxage = $cfg['max_age'];
-                $options = [ $viz => true, 'max_age' => "${maxage}" ];
+                $options = [$viz => true, 'max_age' => "${maxage}"];
             } else {
                 // Unrecognized preset , don't cache
                 Log::warn('Unrecognized cache options preset', [$preset]);
+
                 return $response;
             }
         }

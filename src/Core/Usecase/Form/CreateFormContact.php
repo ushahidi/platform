@@ -14,6 +14,7 @@ namespace Ushahidi\Core\Usecase\Form;
 use Ushahidi\Core\Exception\ValidatorException;
 use Ushahidi\Core\Usecase\Contact\CreateContact;
 use Ushahidi\Core\Usecase\Concerns\IdentifyRecords;
+use Ushahidi\Core\Usecase\Concerns\VerifyFormLoaded;
 use Ushahidi\Core\Usecase\Concerns\VerifyEntityLoaded;
 
 class CreateFormContact extends CreateContact
@@ -23,6 +24,7 @@ class CreateFormContact extends CreateContact
     // For form check:
     use VerifyEntityLoaded;
     use IdentifyRecords;
+
     protected function getEntity()
     {
         $entity = parent::getEntity();

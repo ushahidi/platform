@@ -1,10 +1,10 @@
 <?php
 namespace Ushahidi\App\Listener;
 
-use Ushahidi\Core\Entity\PostRepository;
 use Ushahidi\Core\Entity\Message;
-use Ushahidi\Core\Entity\MessageRepository;
-use Ushahidi\Core\Entity\TargetedSurveyStateRepository;
+use Ushahidi\Contracts\Repository\Entity\PostRepository;
+use Ushahidi\Contracts\Repository\Entity\MessageRepository;
+use Ushahidi\Contracts\Repository\Entity\TargetedSurveyStateRepository;
 
 class CreatePostFromMessage
 {
@@ -30,7 +30,7 @@ class CreatePostFromMessage
     /**
      * Handle the event.
      *
-     * @return void
+     * @return bool|void
      */
     public function handle($id, $message, $inbound_form_id, $inbound_fields)
     {
@@ -57,8 +57,6 @@ class CreatePostFromMessage
     /**
      * Create post for message
      *
-     * @param  Entity $message
-     * @return Int
      */
     protected function createPost(Message $message, $form_id, $inbound_fields)
     {
@@ -100,6 +98,7 @@ class CreatePostFromMessage
                 'form_id'  => $form_id,
                 'post_date'=> $message->datetime,
             ]);
+
         return $this->postRepo->create($post);
     }
 }

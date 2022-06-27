@@ -2,7 +2,7 @@
 
 namespace Tests;
 
-use Laravel\Lumen\Testing\DatabaseTransactions as LumenDatabaseTransactions;
+use Illuminate\Foundation\Testing\DatabaseTransactions as LaravelDatabaseTransactions;
 use Ushahidi\App\Multisite\OhanzeeResolver;
 use Ohanzee\DB;
 
@@ -15,14 +15,14 @@ trait DatabaseTransactions
 {
 
     /**
-     * @param Ohanzee\Database
+     * @param \Ohanzee\Database
      */
     protected $database;
 
     protected $connectionsToTransact = ['mysql', 'multisite', 'deployment-0'];
 
-    use LumenDatabaseTransactions {
-        LumenDatabaseTransactions::beginDatabaseTransaction as parentBeginDatabaseTransaction;
+    use LaravelDatabaseTransactions {
+        LaravelDatabaseTransactions::beginDatabaseTransaction as parentBeginDatabaseTransaction;
     }
 
     /**

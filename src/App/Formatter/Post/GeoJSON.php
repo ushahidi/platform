@@ -11,12 +11,13 @@
 
 namespace Ushahidi\App\Formatter\Post;
 
-use Ushahidi\Core\Tool\Formatter;
-use Ushahidi\Core\Tool\Formatter\GeoJSONFormatter;
+use Ushahidi\Contracts\Entity;
+use Ushahidi\Contracts\Formatter;
+use Ushahidi\Core\Concerns\GeometryConverter;
 
 class GeoJSON implements Formatter
 {
-    use GeoJSONFormatter;
+    use GeometryConverter;
 
     // Formatter
     public function __invoke($entity)

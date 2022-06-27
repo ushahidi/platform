@@ -11,7 +11,6 @@
 
 namespace Ushahidi\Core\Usecase\Tos;
 
-use Ushahidi\Core\Entity;
 use Ushahidi\Core\Usecase\CreateUsecase;
 
 class CreateTos extends CreateUsecase

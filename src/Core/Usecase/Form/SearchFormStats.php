@@ -11,7 +11,6 @@
 
 namespace Ushahidi\Core\Usecase\Form;
 
-use Ushahidi\Core\Entity\FormStats;
 use Ushahidi\Core\Usecase\Concerns\IdentifyRecords;
 use Ushahidi\Core\Usecase\SearchUsecase;
 

@@ -16,7 +16,7 @@
 
 namespace Ushahidi\Core\Usecase\Concerns;
 
-use Ushahidi\Core\Entity;
+use Ushahidi\Contracts\Entity;
 use Ushahidi\Core\Exception\NotFoundException;
 
 trait VerifyEntityLoaded

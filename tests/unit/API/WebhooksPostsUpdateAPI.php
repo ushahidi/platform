@@ -2,9 +2,11 @@
 
 namespace Tests\Unit\API;
 
+use Faker;
 use Laravel\Lumen\Testing\DatabaseTransactions;
 use Tests\TestCase;
-use Faker;
+use Ushahidi\Core\Entity\ApiKey;
+use Ushahidi\Core\Entity\Post;
 
 /**
  * @group api
@@ -26,22 +28,22 @@ class WebhooksPostsUpdateAPI extends TestCase
 
         $faker = Faker\Factory::create();
 
-        $this->postId = service('repository.post')->create(new \Ushahidi\Core\Entity\Post([
+        $this->postId = service('repository.post')->create(new Post([
             'title' => $faker->word,
-            'content' => $faker->text
+            'content' => $faker->text,
         ]));
     }
 
     public function tearDown()
     {
-        service('repository.post')->delete(new \Ushahidi\Core\Entity\Post(['id' => $this->postId]));
+        service('repository.post')->delete(new Post(['id' => $this->postId]));
 
         parent::tearDown();
     }
 
     protected function makeSig($sharedSecret, $url, $payload)
     {
-        $data = $url . $payload;
+        $data = $url.$payload;
 
         return base64_encode(hash_hmac('sha256', $data, $sharedSecret, true));
     }
@@ -52,7 +54,7 @@ class WebhooksPostsUpdateAPI extends TestCase
     public function testUpdate()
     {
         $this->withoutMiddleware();
-        $this->json('PUT', '/api/v3/webhooks/posts/' . $this->postId, [
+        $this->json('PUT', '/api/v3/webhooks/posts/'.$this->postId, [
             'title' => 'Updated',
             'content' => 'Also updated',
         ]);
@@ -77,14 +79,14 @@ class WebhooksPostsUpdateAPI extends TestCase
 
         // Make an API key
         $apiKeys = service('repository.apikey');
-        $apiKeyId = $apiKeys->create(new \Ushahidi\Core\Entity\ApiKey([]));
+        $apiKeyId = $apiKeys->create(new ApiKey([]));
         $apiKey = $apiKeys->get($apiKeyId);
 
         // Make a signature
         $sig = $this->makeSig(
             'asharedsecret',
             $this->prepareUrlForRequest(
-                '/api/v3/webhooks/posts/' . $this->postId . '?api_key=' . $apiKey->api_key
+                '/api/v3/webhooks/posts/'.$this->postId.'?api_key='.$apiKey->api_key
             ),
             json_encode([
                 'title' => 'Updated w/sig',
@@ -94,13 +96,13 @@ class WebhooksPostsUpdateAPI extends TestCase
 
         $this->json(
             'PUT',
-            '/api/v3/webhooks/posts/' . $this->postId . '?api_key=' . $apiKey->api_key,
+            '/api/v3/webhooks/posts/'.$this->postId.'?api_key='.$apiKey->api_key,
             [
                 'title' => 'Updated w/sig',
                 'content' => 'Also updated',
             ],
             [
-                'X-Ushahidi-Signature' => $sig
+                'X-Ushahidi-Signature' => $sig,
             ]
         );
 
@@ -114,15 +116,15 @@ class WebhooksPostsUpdateAPI extends TestCase
                 'status',
                 'values',
                 'created',
-                'updated'
+                'updated',
             ])
             ->seeJson([
                 'title' => 'Updated w/sig',
-                'content' => 'Also updated'
+                'content' => 'Also updated',
             ]);
 
         // Clean up
         $apiKeys->delete($apiKey);
-        putenv('PLATFORM_SHARED_SECRET=' . $originalSecret);
+        putenv('PLATFORM_SHARED_SECRET='.$originalSecret);
     }
 }

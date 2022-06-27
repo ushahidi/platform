@@ -12,7 +12,7 @@ class HideTime
         $authorizer = service('authorizer.post');
         $user = $authorizer->getUser();
 
-        $postPermissions = new \Ushahidi\Core\Tool\Permissions\PostPermissions();
+        $postPermissions = new \Ushahidi\Core\Tools\Permissions\PostPermissions();
         $postPermissions->setAcl($authorizer->acl);
         /**
          * if the user cannot read private values then they also can't see hide_time

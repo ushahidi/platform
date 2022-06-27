@@ -13,8 +13,8 @@ namespace Ushahidi\Core\Usecase\Form;
 
 use Ushahidi\Core\Usecase\CreateUsecase;
 use Ushahidi\Core\Usecase\Concerns\IdentifyRecords;
+use Ushahidi\Core\Usecase\Concerns\VerifyFormLoaded;
 use Ushahidi\Core\Usecase\Concerns\VerifyEntityLoaded;
-use Ushahidi\Core\Entity\FormRole;
 
 class UpdateFormRole extends CreateUsecase
 {

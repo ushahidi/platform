@@ -61,7 +61,7 @@ trait IdentifyRecords
      * Get a required parameter by name. If the parameter does not exist,
      * an exception will be thrown.
      *
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      * @param  String $name
      * @return Mixed
      */

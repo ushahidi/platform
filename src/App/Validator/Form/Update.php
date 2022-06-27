@@ -11,10 +11,9 @@
 
 namespace Ushahidi\App\Validator\Form;
 
-use Ushahidi\Core\Entity;
-use Ushahidi\Core\Entity\FormRepository;
-use Ushahidi\App\Validator\LegacyValidator;
 use Ushahidi\App\Facades\Features;
+use Ushahidi\App\Validator\LegacyValidator;
+use Ushahidi\Contracts\Repository\Entity\FormRepository;
 
 class Update extends LegacyValidator
 {

@@ -11,10 +11,11 @@
 
 namespace Ushahidi\App\Multisite;
 
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
-use Ushahidi\Core\Entity\ConfigRepository;
-use Log;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Request;
+use Ushahidi\Contracts\Repository\Entity\ConfigRepository;
 
 // @todo consider just an Eloquent model? or ushahidi entity
 class Site
@@ -95,20 +96,17 @@ class Site
      */
     public function getEmail()
     {
-        // @todo can I avoid loading this from site?
-        $multisite_email = config('multisite.email');
-
         // If we're in multisite mode
-        if (config('multisite.enabled') && $multisite_email) {
+        if (config('multisite.enabled') && $multisite_email = config('multisite.email')) {
             // use multisite email
             return $multisite_email;
         } elseif ($site_email = $this->getSiteConfig('email')) {
             // Otherwise get email from site config
             return $site_email;
         } else {
-            // Get host from lumen
+            // Get host from app request
             // @todo handle missing request?
-            $host = app('request')->getHost();
+            $host = Request::getHost();
             return $host ? 'noreply@' . $host : false;
         }
     }
@@ -182,8 +180,8 @@ class Site
             // @todo confirm this can't use the wrong db
             return DB::connection('deployment-'.$this->id)->getSchemaBuilder()->hasTable('users');
         } catch (\Exception $e) {
-            \Log::warning($e->getMessage() . PHP_EOL . 'Database for deployment-'.$this->id.' is not ready.');
-            \Log::debug($e->getTraceAsString());
+            Log::warning($e->getMessage() . PHP_EOL . 'Database for deployment-'.$this->id.' is not ready.');
+            Log::debug($e->getTraceAsString());
             return false;
         }
     }

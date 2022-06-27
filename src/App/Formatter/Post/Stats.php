@@ -11,10 +11,10 @@
 
 namespace Ushahidi\App\Formatter\Post;
 
-use Ushahidi\Core\Traits\FormatterAuthorizerMetadata;
-use Ushahidi\Core\Entity;
-use Ushahidi\Core\SearchData;
-use Ushahidi\Core\Tool\Formatter;
+use Ushahidi\Core\Concerns\FormatterAuthorizerMetadata;
+use Ushahidi\Contracts\Entity;
+use Ushahidi\Core\Tools\SearchData;
+use Ushahidi\Contracts\Formatter;
 use Ushahidi\Core\Exception\FormatterException;
 
 class Stats implements Formatter

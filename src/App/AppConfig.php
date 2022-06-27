@@ -7,255 +7,139 @@ use Aura\Di\ContainerConfig;
 
 class AppConfig extends ContainerConfig
 {
-    public function define(Container $di)
+    /**
+     *
+     * Define params, setters, and services before the Container is locked.
+     *
+     * @param Container $di The DI container.
+     *
+     */
+    public function define(Container $di): void
     {
         // All services set in the container should follow a `prefix.name` format,
-        // such as `repository.user` or `validate.user.login` or `tool.hash.password`.
+        // such as `repository.user` or `validate.user.login`.
         //
-        // When adding services that are private to a plugin, define them with a
-        // `namespace.`, such as `acme.tool.hash.magic`.
-
-        // Helpers, tools, etc
-        $di->set('tool.acl', $di->lazyNew(\Ushahidi\App\Acl::class));
-        $di->setters[\Ushahidi\App\Acl::class]['setRoleRepo'] = $di->lazyGet('repository.role');
-
-        $di->set('tool.hasher.password', $di->lazyNew(\Ushahidi\App\Hasher\Password::class));
-        $di->set('tool.authenticator.password', $di->lazyNew(\Ushahidi\App\Authenticator\Password::class));
-
-        $di->set('filereader.csv', $di->lazyNew(\Ushahidi\App\FileReader\CSV::class));
-        $di->setters[\Ushahidi\App\FileReader\CSV::class]['setReaderFactory'] =
-            $di->lazyGet('csv.reader_factory');
-
-        $di->set('csv.reader_factory', $di->lazyNew(\Ushahidi\App\FileReader\CSVReaderFactory::class));
-
-        // Register filesystem adapter types
-
-        // Validation Trait
-        // We're injecting via lazy so that we get a separate ValidationEngine for every validator
-        // Rather than a shared engine as we would if we used lazyNew->set->lazyGet->
-        $di->setters['Ushahidi\Core\Tool\ValidationEngineTrait']['setValidation'] = $di->lazy(function () {
-            // Create a new ValidationEngine
-            return new \Ushahidi\App\Validator\KohanaValidationEngine(app('translator'));
-        });
-
-        // Set up register rate limiter
-        $di->set('ratelimiter.register.flap', $di->lazyNew(
-            'BehEh\Flaps\Flap',
-            [
-                'storage' => $di->lazyNew(
-                    'BehEh\Flaps\Storage\DoctrineCacheAdapter',
-                    [
-                        'cache' => $di->lazyGet('ratelimiter.cache')
-                    ]
-                ),
-                'name' => 'register'
-            ]
-        ));
-
-        $di->set('ratelimiter.register.strategy', $di->lazyNew(
-            'BehEh\Flaps\Throttling\LeakyBucketStrategy',
-            [
-                'requests' => 3,
-                'timeSpan' => '1m'
-            ]
-        ));
-
-        $di->set('ratelimiter.register', $di->lazyNew(
-            \Ushahidi\App\RateLimiter::class,
-            [
-                'flap' => $di->lazyGet('ratelimiter.register.flap'),
-                'throttlingStrategy' => $di->lazyGet('ratelimiter.register.strategy'),
-            ]
-        ));
-
-        // Set up login rate limiter
-        $di->set('ratelimiter.login.flap', $di->lazyNew(
-            'BehEh\Flaps\Flap',
-            [
-                'storage' => $di->lazyNew(
-                    'BehEh\Flaps\Storage\DoctrineCacheAdapter',
-                    [
-                        'cache' => $di->lazyGet('ratelimiter.cache')
-                    ]
-                ),
-                'name' => 'login'
-            ]
-        ));
-
-
-        $di->set('ratelimiter.login.strategy', $di->lazyNew(
-            'BehEh\Flaps\Throttling\LeakyBucketStrategy',
-            [
-                'requests' => 3,
-                'timeSpan' => '1m'
-            ]
-        ));
-
-        $di->set('ratelimiter.login', $di->lazyNew(
-            \Ushahidi\App\RateLimiter::class,
-            [
-                'flap' => $di->lazyGet('ratelimiter.login.flap'),
-                'throttlingStrategy' => $di->lazyGet('ratelimiter.login.strategy'),
-            ]
-        ));
-
-        // Defined memcached
-        $di->set('memcached', $di->lazy(function () use ($di) {
-            $config = $di->get('ratelimiter.config');
-
-            $memcached = new \Memcached();
-            $memcached->addServer($config['memcached']['host'], $config['memcached']['port']);
-
-            return $memcached;
-        }));
-
-        $di->setters['Doctrine\Common\Cache\MemcachedCache']['setMemcached'] = $di->lazyGet('memcached');
-        $di->params['Doctrine\Common\Cache\FilesystemCache']['directory'] = $di->lazy(function () use ($di) {
-            $config = $di->get('ratelimiter.config');
-
-            return $config['filesystem']['directory'];
-        });
-
-        // Rate limit storage cache
-        $di->set('ratelimiter.cache', function () use ($di) {
-            $config = $di->get('ratelimiter.config');
-            $cache = $config['cache'];
-
-            // @todo we can't reconfigure this here. Need to move it elsewhere
-            if ($cache === 'memcached') {
-                return $di->newInstance('Doctrine\Common\Cache\MemcachedCache');
-            } elseif ($cache === 'filesystem') {
-                return $di->newInstance('Doctrine\Common\Cache\FilesystemCache');
-            }
-
-            // Fall back to using in-memory cache if none is configured
-            return $di->newInstance('Doctrine\Common\Cache\ArrayCache');
-        });
-
-        // Rate limiter violation handler
-        $di->setters['BehEh\Flaps\Flap']['setViolationHandler'] =
-            $di->lazyNew(\Ushahidi\App\ThrottlingViolationHandler::class);
 
         // Validator mapping
-        $di->params['Ushahidi\Factory\ValidatorFactory']['map']['apikeys'] = [
+        $di->params[\Ushahidi\Factory\ValidatorFactory::class]['map']['apikeys'] = [
             'create' => $di->lazyNew(\Ushahidi\App\Validator\ApiKey\Create::class),
             'update' => $di->lazyNew(\Ushahidi\App\Validator\ApiKey\Update::class),
         ];
-        $di->params['Ushahidi\Factory\ValidatorFactory']['map']['config'] = [
+        $di->params[\Ushahidi\Factory\ValidatorFactory::class]['map']['config'] = [
             'update' => $di->lazyNew(\Ushahidi\App\Validator\Config\Update::class),
         ];
-        $di->params['Ushahidi\Factory\ValidatorFactory']['map']['forms'] = [
+        $di->params[\Ushahidi\Factory\ValidatorFactory::class]['map']['forms'] = [
             'create' => $di->lazyNew(\Ushahidi\App\Validator\Form\Create::class),
             'update' => $di->lazyNew(\Ushahidi\App\Validator\Form\Update::class),
             'delete' => $di->lazyNew(\Ushahidi\App\Validator\Form\Delete::class),
         ];
-        $di->params['Ushahidi\Factory\ValidatorFactory']['map']['form_attributes'] = [
+        $di->params[\Ushahidi\Factory\ValidatorFactory::class]['map']['form_attributes'] = [
             'create' => $di->lazyNew(\Ushahidi\App\Validator\Form\Attribute\Create::class),
             'update' => $di->lazyNew(\Ushahidi\App\Validator\Form\Attribute\Update::class),
         ];
-        $di->params['Ushahidi\Factory\ValidatorFactory']['map']['form_roles'] = [
+        $di->params[\Ushahidi\Factory\ValidatorFactory::class]['map']['form_roles'] = [
             'create' => $di->lazyNew(\Ushahidi\App\Validator\Form\Role\Create::class),
             'update_collection' => $di->lazyNew(\Ushahidi\App\Validator\Form\Role\Update::class),
         ];
-        $di->params['Ushahidi\Factory\ValidatorFactory']['map']['form_contacts'] = [
+        $di->params[\Ushahidi\Factory\ValidatorFactory::class]['map']['form_contacts'] = [
             'create' => $di->lazyNew(\Ushahidi\App\Validator\Form\Contact\Create::class),
             'update' => $di->lazyNew(\Ushahidi\App\Validator\Form\Contact\Update::class),
         ];
 
-        $di->params['Ushahidi\Factory\ValidatorFactory']['map']['form_stages'] = [
+        $di->params[\Ushahidi\Factory\ValidatorFactory::class]['map']['form_stages'] = [
             'create' => $di->lazyNew(\Ushahidi\App\Validator\Form\Stage\Create::class),
             'update' => $di->lazyNew(\Ushahidi\App\Validator\Form\Stage\Update::class),
             'delete' => $di->lazyNew(\Ushahidi\App\Validator\Form\Stage\Delete::class),
         ];
-        $di->params['Ushahidi\Factory\ValidatorFactory']['map']['layers'] = [
+        $di->params[\Ushahidi\Factory\ValidatorFactory::class]['map']['layers'] = [
             'create' => $di->lazyNew(\Ushahidi\App\Validator\Layer\Create::class),
             'update' => $di->lazyNew(\Ushahidi\App\Validator\Layer\Update::class),
         ];
-        $di->params['Ushahidi\Factory\ValidatorFactory']['map']['media'] = [
+        $di->params[\Ushahidi\Factory\ValidatorFactory::class]['map']['media'] = [
             'create' => $di->lazyNew(\Ushahidi\App\Validator\Media\Create::class),
             'delete' => $di->lazyNew(\Ushahidi\App\Validator\Media\Delete::class),
         ];
-        $di->params['Ushahidi\Factory\ValidatorFactory']['map']['posts'] = [
+        $di->params[\Ushahidi\Factory\ValidatorFactory::class]['map']['posts'] = [
             'create' => $di->lazyNew(\Ushahidi\App\Validator\Post\Create::class),
             'update' => $di->lazyNew(\Ushahidi\App\Validator\Post\Update::class),
             'import' => $di->lazyNew(\Ushahidi\App\Validator\Post\Import::class),
             'export' => $di->lazyNew(\Ushahidi\App\Validator\Post\Export::class),
             'webhook-update' => $di->lazyNew(\Ushahidi\App\Validator\Post\Create::class),
         ];
-        $di->params['Ushahidi\Factory\ValidatorFactory']['map']['export_jobs'] = [
+        $di->params[\Ushahidi\Factory\ValidatorFactory::class]['map']['export_jobs'] = [
             'create' => $di->lazyNew(\Ushahidi\App\Validator\ExportJob\Create::class),
             'update' => $di->lazyNew(\Ushahidi\App\Validator\ExportJob\Update::class),
         ];
 
-        $di->params['Ushahidi\Factory\ValidatorFactory']['map']['posts_lock'] = [
+        $di->params[\Ushahidi\Factory\ValidatorFactory::class]['map']['posts_lock'] = [
             'create' => $di->lazyNew(\Ushahidi\App\Validator\Post\Create::class),
             'update' => $di->lazyNew(\Ushahidi\App\Validator\Post\Update::class),
         ];
-        $di->params['Ushahidi\Factory\ValidatorFactory']['map']['tags'] = [
+        $di->params[\Ushahidi\Factory\ValidatorFactory::class]['map']['tags'] = [
             'create' => $di->lazyNew(\Ushahidi\App\Validator\Tag\Create::class),
             'update' => $di->lazyNew(\Ushahidi\App\Validator\Tag\Update::class),
             'delete' => $di->lazyNew(\Ushahidi\App\Validator\Tag\Delete::class),
         ];
-        $di->params['Ushahidi\Factory\ValidatorFactory']['map']['users'] = [
+        $di->params[\Ushahidi\Factory\ValidatorFactory::class]['map']['users'] = [
             'create' => $di->lazyNew(\Ushahidi\App\Validator\User\Create::class),
             'update' => $di->lazyNew(\Ushahidi\App\Validator\User\Update::class),
             'register' => $di->lazyNew(\Ushahidi\App\Validator\User\Register::class),
             'passwordreset' => $di->lazyNew(\Ushahidi\App\Validator\User\Reset::class)
         ];
-        $di->params['Ushahidi\Factory\ValidatorFactory']['map']['user_settings'] = [
+        $di->params[\Ushahidi\Factory\ValidatorFactory::class]['map']['user_settings'] = [
             'create' => $di->lazyNew(\Ushahidi\App\Validator\User\Setting\Create::class),
             'update' => $di->lazyNew(\Ushahidi\App\Validator\User\Setting\Update::class),
         ];
-        $di->params['Ushahidi\Factory\ValidatorFactory']['map']['messages'] = [
+        $di->params[\Ushahidi\Factory\ValidatorFactory::class]['map']['messages'] = [
             'create' => $di->lazyNew(\Ushahidi\App\Validator\Message\Create::class),
             'update' => $di->lazyNew(\Ushahidi\App\Validator\Message\Update::class),
             'receive' => $di->lazyNew(\Ushahidi\App\Validator\Message\Receive::class),
         ];
-        $di->params['Ushahidi\Factory\ValidatorFactory']['map']['savedsearches'] = [
+        $di->params[\Ushahidi\Factory\ValidatorFactory::class]['map']['savedsearches'] = [
             'create' => $di->lazyNew(\Ushahidi\App\Validator\SavedSearch\Create::class),
             'update' => $di->lazyNew(\Ushahidi\App\Validator\SavedSearch\Update::class),
         ];
-        $di->params['Ushahidi\Factory\ValidatorFactory']['map']['sets'] = [
+        $di->params[\Ushahidi\Factory\ValidatorFactory::class]['map']['sets'] = [
             'create' => $di->lazyNew(\Ushahidi\App\Validator\Set\Create::class),
             'update' => $di->lazyNew(\Ushahidi\App\Validator\Set\Update::class),
         ];
-        $di->params['Ushahidi\Factory\ValidatorFactory']['map']['notifications'] = [
+        $di->params[\Ushahidi\Factory\ValidatorFactory::class]['map']['notifications'] = [
             'create' => $di->lazyNew(\Ushahidi\App\Validator\Notification\Create::class),
             'update' => $di->lazyNew(\Ushahidi\App\Validator\Notification\Update::class),
         ];
-        $di->params['Ushahidi\Factory\ValidatorFactory']['map']['webhooks'] = [
+        $di->params[\Ushahidi\Factory\ValidatorFactory::class]['map']['webhooks'] = [
             'create' => $di->lazyNew(\Ushahidi\App\Validator\Webhook\Create::class),
             'update' => $di->lazyNew(\Ushahidi\App\Validator\Webhook\Update::class),
         ];
-        $di->params['Ushahidi\Factory\ValidatorFactory']['map']['contacts'] = [
+        $di->params[\Ushahidi\Factory\ValidatorFactory::class]['map']['contacts'] = [
             'create' => $di->lazyNew(\Ushahidi\App\Validator\Contact\Create::class),
             'update' => $di->lazyNew(\Ushahidi\App\Validator\Contact\Update::class),
         ];
-        $di->params['Ushahidi\Factory\ValidatorFactory']['map']['sets_posts'] = [
+        $di->params[\Ushahidi\Factory\ValidatorFactory::class]['map']['sets_posts'] = [
             'create' => $di->lazyNew(\Ushahidi\App\Validator\Set\Post\Create::class),
         ];
-        $di->params['Ushahidi\Factory\ValidatorFactory']['map']['csv'] = [
+        $di->params[\Ushahidi\Factory\ValidatorFactory::class]['map']['csv'] = [
             'create' => $di->lazyNew(\Ushahidi\App\Validator\CSV\Create::class),
             'update' => $di->lazyNew(\Ushahidi\App\Validator\CSV\Update::class),
         ];
-        $di->params['Ushahidi\Factory\ValidatorFactory']['map']['csv'] = [
+        $di->params[\Ushahidi\Factory\ValidatorFactory::class]['map']['csv'] = [
             'create' => $di->lazyNew(\Ushahidi\App\Validator\CSV\Create::class),
             'update' => $di->lazyNew(\Ushahidi\App\Validator\CSV\Update::class),
         ];
-        $di->params['Ushahidi\Factory\ValidatorFactory']['map']['roles'] = [
+        $di->params[\Ushahidi\Factory\ValidatorFactory::class]['map']['roles'] = [
             'create' => $di->lazyNew(\Ushahidi\App\Validator\Role\Create::class),
             'update' => $di->lazyNew(\Ushahidi\App\Validator\Role\Update::class),
         ];
-        $di->params['Ushahidi\Factory\ValidatorFactory']['map']['permissions'] = [
+        $di->params[\Ushahidi\Factory\ValidatorFactory::class]['map']['permissions'] = [
             'create' => $di->lazyNew(\Ushahidi\App\Validator\Permission\Create::class),
             'update' => $di->lazyNew(\Ushahidi\App\Validator\Permission\Update::class),
         ];
-        $di->params['Ushahidi\Factory\ValidatorFactory']['map']['tos'] = [
+        $di->params[\Ushahidi\Factory\ValidatorFactory::class]['map']['tos'] = [
             'create' => $di->lazyNew(\Ushahidi\App\Validator\Tos\Create::class),
         ];
 
         // Formatter mapping
-        $di->params['Ushahidi\Factory\FormatterFactory']['map'] = [
+        $di->params[\Ushahidi\Factory\FormatterFactory::class]['map'] = [
             'apikeys'              => $di->lazyNew(\Ushahidi\App\Formatter\ApiKey::class),
             'config'               => $di->lazyNew(\Ushahidi\App\Formatter\Config::class),
             'dataproviders'        => $di->lazyNew(\Ushahidi\App\Formatter\Dataprovider::class),
@@ -323,11 +207,11 @@ class AppConfig extends ContainerConfig
 
 
         // Set Formatter factory
-        $di->params['Ushahidi\Factory\FormatterFactory']['factory']
+        $di->params[\Ushahidi\Factory\FormatterFactory::class]['factory']
             = $di->newFactory(\Ushahidi\App\Formatter\Collection::class);
 
 
-        $di->set('tool.jsontranscode', $di->lazyNew('Ushahidi\Core\Tool\JsonTranscode'));
+        $di->set('tool.jsontranscode', $di->lazyNew(\Ushahidi\Core\Tools\JsonTranscode::class));
 
         // Formatters
         $di->set('formatter.entity.api', $di->lazyNew(\Ushahidi\App\Formatter\API::class));
@@ -412,9 +296,6 @@ class AppConfig extends ContainerConfig
         );
         $di->set('repository.webhook.job', $di->lazyNew(\Ushahidi\App\Repository\Webhook\JobRepository::class));
         $di->set('repository.permission', $di->lazyNew(\Ushahidi\App\Repository\PermissionRepository::class));
-        // $di->set('repository.oauth.client', $di->lazyNew('OAuth2_Storage_Client'));
-        // $di->set('repository.oauth.session', $di->lazyNew('OAuth2_Storage_Session'));
-        // $di->set('repository.oauth.scope', $di->lazyNew('OAuth2_Storage_Scope'));
         $di->set('repository.posts_export', $di->lazyNew(\Ushahidi\App\Repository\Post\ExportRepository::class));
         $di->set('repository.tos', $di->lazyNew(\Ushahidi\App\Repository\TosRepository::class));
         $di->set('repository.export_job', $di->lazyNew(\Ushahidi\App\Repository\ExportJobRepository::class));
@@ -451,7 +332,7 @@ class AppConfig extends ContainerConfig
             'resolver' => $di->lazyGet('db.ohanzee.resolver'),
         ];
         // Set up Json Transcode Repository Trait
-        $di->setters[\Ushahidi\App\Repository\JsonTranscodeRepository::class]['setTranscoder'] =
+        $di->setters[\Ushahidi\App\Repository\Concerns\JsonTranscode::class]['setTranscoder'] =
             $di->lazyGet('tool.jsontranscode');
 
         // Media repository parameters
@@ -524,7 +405,7 @@ class AppConfig extends ContainerConfig
             'post_lock_repo' => $di->lazyGet('repository.post_lock'),
             'contact_repo' => $di->lazyGet('repository.contact'),
             'post_value_factory' => $di->lazyGet('repository.post_value_factory'),
-            'bounding_box_factory' => $di->newFactory(\Ushahidi\App\Util\BoundingBox::class)
+            'bounding_box_factory' => $di->newFactory(\Ushahidi\Core\Tools\BoundingBox::class)
         ];
 
         $di->set('repository.post.datetime', $di->lazyNew(\Ushahidi\App\Repository\Post\DatetimeRepository::class));
@@ -811,28 +692,31 @@ class AppConfig extends ContainerConfig
          */
 
         // generic authorizer for hxl
-        $di->set('authorizer.hxl', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\HXLAuthorizer'));
+        $di->set('authorizer.hxl', $di->lazyNew('Ushahidi\Core\Tools\Authorizer\HXLAuthorizer'));
 
-        $di->params['Ushahidi\Factory\AuthorizerFactory']['map']['hxl'] =
+        $di->params[Ushahidi\Factory\AuthorizerFactory::class]['map']['hxl'] =
             $di->lazyGet('authorizer.hxl');
 
         // hxl meta_data
         $di->set('repository.hxl_meta_data', $di->lazyNew(\Ushahidi\App\Repository\HXL\HXLMetadataRepository::class));
         $di->set('formatter.entity.hxl_meta_data', $di->lazyNew(\Ushahidi\App\Formatter\HXL\HXLMetadata::class));
-        $di->set('authorizer.hxl.meta_data', $di->lazyNew('Ushahidi\Core\Tool\Authorizer\HXLMetadataAuthorizer'));
+        $di->set(
+            'authorizer.hxl.meta_data',
+            $di->lazyNew(\Ushahidi\Core\Tools\Authorizer\HXLMetadataAuthorizer::class)
+        );
 
         $di->setters[\Ushahidi\App\Formatter\HXL\HXLMetadata::class]['setAuth']
             = $di->lazyGet("authorizer.hxl.meta_data");
-        $di->params['Ushahidi\Factory\UsecaseFactory']['map']['hxl_meta_data'] = [
-            'create' => $di->newFactory('Ushahidi\Core\Usecase\HXL\Metadata\Create'),
+        $di->params[\Ushahidi\Factory\UsecaseFactory::class]['map']['hxl_meta_data'] = [
+            'create' => $di->newFactory(\Ushahidi\Core\Usecase\HXL\Metadata\Create::class),
         ];
-        $di->params['Ushahidi\Factory\AuthorizerFactory']['map']['hxl_meta_data'] =
+        $di->params[\Ushahidi\Factory\AuthorizerFactory::class]['map']['hxl_meta_data'] =
             $di->lazyGet('authorizer.hxl.meta_data');
-        $di->params['Ushahidi\Factory\RepositoryFactory']['map']['hxl_meta_data'] =
+        $di->params[\Ushahidi\Factory\RepositoryFactory::class]['map']['hxl_meta_data'] =
             $di->lazyGet('repository.hxl_meta_data');
-        $di->params['Ushahidi\Factory\FormatterFactory']['map']['hxl_meta_data'] =
+        $di->params[\Ushahidi\Factory\FormatterFactory::class]['map']['hxl_meta_data'] =
             $di->lazyNew(\Ushahidi\App\Formatter\HXL\HXLMetadata::class);
-        $di->params['Ushahidi\Factory\ValidatorFactory']['map']['hxl_meta_data'] = [
+        $di->params[\Ushahidi\Factory\ValidatorFactory::class]['map']['hxl_meta_data'] = [
             'create' => $di->lazyNew(\Ushahidi\App\Validator\HXL\Metadata\Create::class),
         ];
 
@@ -854,31 +738,31 @@ class AppConfig extends ContainerConfig
         );
         $di->set(
             'authorizer.hxl.form_attribute_hxl_attribute_tag',
-            $di->lazyNew('Ushahidi\Core\Tool\Authorizer\HXLAuthorizer')
+            $di->lazyNew('Ushahidi\Core\Tools\Authorizer\HXLAuthorizer')
         );
         $di->setters[\Ushahidi\App\Formatter\HXL\HXLFormAttributeHXLAttributeTagFormatter::class]['setAuth']
             = $di->lazyGet("authorizer.hxl");
-        $di->params['Ushahidi\Factory\AuthorizerFactory']['map']['form_attribute_hxl_attribute_tag'] =
+        $di->params[\Ushahidi\Factory\AuthorizerFactory::class]['map']['form_attribute_hxl_attribute_tag'] =
             $di->lazyGet('authorizer.hxl.form_attribute_hxl_attribute_tag');
-        $di->params['Ushahidi\Factory\RepositoryFactory']['map']['form_attribute_hxl_attribute_tag'] =
+        $di->params[\Ushahidi\Factory\RepositoryFactory::class]['map']['form_attribute_hxl_attribute_tag'] =
             $di->lazyGet('repository.form_attribute_hxl_attribute_tag');
-        $di->params['Ushahidi\Factory\FormatterFactory']['map']['form_attribute_hxl_attribute_tag'] =
+        $di->params[\Ushahidi\Factory\FormatterFactory::class]['map']['form_attribute_hxl_attribute_tag'] =
             $di->lazyNew(\Ushahidi\App\Formatter\HXL\HXLFormAttributeHXLAttributeTagFormatter::class);
         $di->setters[\Ushahidi\App\Formatter\HXL\HXLFormAttributeHXLAttributeTagFormatter::class]['setAuth'] =
             $di->lazyGet("authorizer.hxl");
 
-        $di->params['Ushahidi\Factory\ValidatorFactory']['map']['form_attribute_hxl_attribute_tag'] = [
+        $di->params[\Ushahidi\Factory\ValidatorFactory::class]['map']['form_attribute_hxl_attribute_tag'] = [
             'create' => $di->lazyNew(\Ushahidi\App\Validator\HXL\HXLFormAttributeHXLAttributeTag\Create::class),
         ];
 
         $di->params[\Ushahidi\App\Validator\HXL\HXLFormAttributeHXLAttributeTag\Create::class] = [
             'repo' => $di->lazyGet('repository.form_attribute_hxl_attribute_tag'),
             'export_job_repo' => $di->lazyGet('repository.export_job'),
-            'hxl_attribute_repo' => $di->lazyGet('repository.hxl_attribute'),//todo
+            'hxl_attribute_repo' => $di->lazyGet('repository.hxl_attribute'), //todo
             'hxl_tag_repo' => $di->lazyGet('repository.hxl_tag'),
             'form_attribute_repo' => $di->lazyGet('repository.form_attribute'),
         ];
-        $di->setters['Ushahidi\Core\Usecase\Export\Job\CreateJob']['setCreateHXLHeadingRowUsecase']
+        $di->setters[\Ushahidi\Core\Usecase\Export\Job\CreateJob::class]['setCreateHXLHeadingRowUsecase']
             = $di->lazy(function () {
                 return service('factory.usecase')->get('form_attribute_hxl_attribute_tag', 'create');
             });
@@ -887,12 +771,12 @@ class AppConfig extends ContainerConfig
             'repository.form_attribute_hxl_attribute_tag',
             $di->lazyNew(\Ushahidi\App\Repository\HXL\HXLFormAttributeHXLAttributeTagRepository::class)
         );
-        $di->setters['Ushahidi\Core\Usecase\Post\Export']['setFormAttributeRepository'] =
+        $di->setters[\Ushahidi\Core\Usecase\Post\Export::class]['setFormAttributeRepository'] =
             $di->lazyGet('repository.form_attribute');
 
         // hxl attributes
         $di->set('repository.hxl_attribute', $di->lazyNew(\Ushahidi\App\Repository\HXL\HXLAttributeRepository::class));
-        $di->params['Ushahidi\Factory\RepositoryFactory']['map']['hxl_attributess'] =
+        $di->params[\Ushahidi\Factory\RepositoryFactory::class]['map']['hxl_attributess'] =
             $di->lazyGet('repository.hxl_attribute');
 
 
@@ -901,11 +785,11 @@ class AppConfig extends ContainerConfig
 
         $di->set('formatter.entity.hxl_license', $di->lazyNew(\Ushahidi\App\Formatter\HXL\HXLLicense::class));
 
-        $di->params['Ushahidi\Factory\AuthorizerFactory']['map']['hxl_licenses'] =
+        $di->params[\Ushahidi\Factory\AuthorizerFactory::class]['map']['hxl_licenses'] =
             $di->lazyGet('authorizer.hxl');
-        $di->params['Ushahidi\Factory\RepositoryFactory']['map']['hxl_licenses'] =
+        $di->params[\Ushahidi\Factory\RepositoryFactory::class]['map']['hxl_licenses'] =
             $di->lazyGet('repository.hxl_license');
-        $di->params['Ushahidi\Factory\FormatterFactory']['map']['hxl_licenses'] =
+        $di->params[\Ushahidi\Factory\FormatterFactory::class]['map']['hxl_licenses'] =
             $di->lazyNew(\Ushahidi\App\Formatter\HXL\HXLLicense::class);
         $di->setters[\Ushahidi\App\Formatter\HXL\HXLLicense::class]['setAuth'] =
             $di->lazyGet("authorizer.hxl");
@@ -913,57 +797,132 @@ class AppConfig extends ContainerConfig
         // hxl tags
         $di->set('repository.hxl_tag', $di->lazyNew(\Ushahidi\App\Repository\HXL\HXLTagRepository::class));
         $di->set('formatter.entity.hxl_tag', $di->lazyNew(\Ushahidi\App\Formatter\HXL\HXLTag::class));
-        $di->params['Ushahidi\Factory\AuthorizerFactory']['map']['hxl_tags'] =
+        $di->params[\Ushahidi\Factory\AuthorizerFactory::class]['map']['hxl_tags'] =
             $di->lazyGet('authorizer.hxl');
-        $di->params['Ushahidi\Factory\RepositoryFactory']['map']['hxl_tags'] =
+        $di->params[\Ushahidi\Factory\RepositoryFactory::class]['map']['hxl_tags'] =
             $di->lazyGet('repository.hxl_tag');
-        $di->params['Ushahidi\Factory\FormatterFactory']['map']['hxl_tags'] =
+        $di->params[\Ushahidi\Factory\FormatterFactory::class]['map']['hxl_tags'] =
             $di->lazyNew(\Ushahidi\App\Formatter\HXL\HXLTag::class);
         $di->setters[\Ushahidi\App\Formatter\HXL\HXLTag::class]['setAuth'] =
             $di->lazyGet("authorizer.hxl");
 
         // repositories for Ushahidi\Core\Usecase\HXL\SendHXLUsecase
-        $di->setters['Ushahidi\Core\Usecase\HXL\SendHXLUsecase']['setExportJobRepository'] =
+        $di->setters[\Ushahidi\Core\Usecase\HXL\SendHXLUsecase::class]['setExportJobRepository'] =
             $di->lazyGet('repository.export_job');
-        $di->setters['Ushahidi\Core\Usecase\HXL\SendHXLUsecase']['setUserHXLSettingsRepository'] =
+        $di->setters[\Ushahidi\Core\Usecase\HXL\SendHXLUsecase::class]['setUserHXLSettingsRepository'] =
             $di->lazyGet('repository.user_setting');
-        $di->setters['Ushahidi\Core\Usecase\HXL\SendHXLUsecase']['setHXLMetadataRepository'] =
+        $di->setters[\Ushahidi\Core\Usecase\HXL\SendHXLUsecase::class]['setHXLMetadataRepository'] =
             $di->lazyGet('repository.hxl_meta_data');
-        $di->setters['Ushahidi\Core\Usecase\HXL\SendHXLUsecase']['setHXLLicenseRepository'] =
+        $di->setters[\Ushahidi\Core\Usecase\HXL\SendHXLUsecase::class]['setHXLLicenseRepository'] =
             $di->lazyGet('repository.hxl_license');
-        $di->setters['Ushahidi\Core\Usecase\HXL\SendHXLUsecase']['setHXLFormAttributeHXLAttributeTagRepository'] =
+        $di->setters[\Ushahidi\Core\Usecase\HXL\SendHXLUsecase::class]['setHXLFormAttributeHXLAttributeTagRepository'] =
             $di->lazyGet('repository.form_attribute_hxl_attribute_tag');
 
         // Add usecase for hxl_send
 
-        $di->params['Ushahidi\Factory\RepositoryFactory']['map']['hxl_send'] =
-            $di->lazyGet('repository.hxl_tag');//FIXME
-        $di->params['Ushahidi\Factory\UsecaseFactory']['map']['hxl_send'] = [
-            'send' => $di->lazyNew('Ushahidi\Core\Usecase\HXL\SendHXLUsecase'),
+        $di->params[\Ushahidi\Factory\RepositoryFactory::class]['map']['hxl_send'] =
+            $di->lazyGet('repository.hxl_tag'); //FIXME
+        $di->params[\Ushahidi\Factory\UsecaseFactory::class]['map']['hxl_send'] = [
+            'send' => $di->lazyNew(\Ushahidi\Core\Usecase\HXL\SendHXLUsecase::class),
         ];
 
-        $di->params['Ushahidi\Factory\FormatterFactory']['map']['hxl_send'] =
+        $di->params[\Ushahidi\Factory\FormatterFactory::class]['map']['hxl_send'] =
             $di->lazyNew(\Ushahidi\App\Formatter\HXL\HXLSend::class);
-        $di->params['Ushahidi\Factory\AuthorizerFactory']['map']['hxl_send'] =
+        $di->params[\Ushahidi\Factory\AuthorizerFactory::class]['map']['hxl_send'] =
             $di->lazyGet('authorizer.hxl');
         // add organisations
-        $di->params['Ushahidi\Factory\UsecaseFactory']['map']['hxl_organisations'] = [
-            'search' => $di->newFactory('Ushahidi\Core\Usecase\HXL\Organisations\GetByUser'),
+        $di->params[\Ushahidi\Factory\UsecaseFactory::class]['map']['hxl_organisations'] = [
+            'search' => $di->newFactory(\Ushahidi\Core\Usecase\HXL\Organisations\GetByUser::class),
         ];
-        $di->params['Ushahidi\Factory\FormatterFactory']['map']['hxl_organisations'] =
+        $di->params[\Ushahidi\Factory\FormatterFactory::class]['map']['hxl_organisations'] =
             $di->lazyNew(\Ushahidi\App\Formatter\HXL\HXLOrganisations::class);
-        $di->params['Ushahidi\Factory\AuthorizerFactory']['map']['hxl_organisations'] =
+        $di->params[\Ushahidi\Factory\AuthorizerFactory::class]['map']['hxl_organisations'] =
             $di->lazyGet('authorizer.hxl');
 
         $di->setters[\Ushahidi\App\Formatter\HXL\HXLOrganisations::class]['setAuth'] =
             $di->lazyGet("authorizer.hxl");
 
-        $di->setters['Ushahidi\Core\Usecase\HXL\Organisations\GetByUser']['setUserHXLSettingsRepository'] =
+        $di->setters[\Ushahidi\Core\Usecase\HXL\Organisations\GetByUser::class]['setUserHXLSettingsRepository'] =
             $di->lazyGet('repository.user_setting');
-        $di->setters['Ushahidi\Core\Usecase\HXL\Organisations\GetByUser']['setRepository'] =
+        $di->setters[\Ushahidi\Core\Usecase\HXL\Organisations\GetByUser::class]['setRepository'] =
             null;
-        $di->params['Ushahidi\Factory\RepositoryFactory']['map']['hxl_organisations'] =
-            $di->lazyGet('repository.hxl_tag');//FIXME
+        $di->params[\Ushahidi\Factory\RepositoryFactory::class]['map']['hxl_organisations'] =
+            $di->lazyGet('repository.hxl_tag'); //FIXME
+
+        // Authorizer
+        $di->set('authorizer.config', $di->lazyNew(\Ushahidi\Core\Tools\Authorizer\ConfigAuthorizer::class));
+        $di->set('authorizer.console', $di->lazyNew(\Ushahidi\Core\Tools\Authorizer\ConsoleAuthorizer::class));
+        $di->set(
+            'authorizer.dataprovider',
+            $di->lazyNew(\Ushahidi\Core\Tools\Authorizer\DataProviderAuthorizer::class)
+        );
+        $di->set('authorizer.form', $di->lazyNew(\Ushahidi\Core\Tools\Authorizer\FormAuthorizer::class, [
+            'form_repo' => $di->lazyGet('repository.form'),
+        ]));
+        $di->params[\v5\Policies\SurveyPolicy::class] = [
+            'form_repo' => $di->lazyGet('repository.form'),
+        ];
+        $di->set(
+            'authorizer.form_attribute',
+            $di->lazyNew(
+                \Ushahidi\Core\Tools\Authorizer\FormAttributeAuthorizer::class,
+                [
+                'stage_repo' => $di->lazyGet('repository.form_stage'),
+                'stage_auth' => $di->lazyGet('authorizer.form_stage'),
+                ]
+            )
+        );
+        $di->set('authorizer.form_role', $di->lazyNew(
+            \Ushahidi\Core\Tools\Authorizer\FormRoleAuthorizer::class,
+            [
+                'form_repo' => $di->lazyGet('repository.form'),
+                'form_auth' => $di->lazyGet('authorizer.form'),
+            ]
+        ));
+        $di->set(
+            'authorizer.form_stage',
+            $di->lazyNew(\Ushahidi\Core\Tools\Authorizer\FormStageAuthorizer::class, [
+                'form_repo' => $di->lazyGet('repository.form'),
+                'form_auth' => $di->lazyGet('authorizer.form'),
+            ])
+        );
+        $di->set('authorizer.form_contact', $di->lazyNew(\Ushahidi\Core\Tools\Authorizer\FormContactAuthorizer::class, [
+            'form_repo' => $di->lazyGet('repository.form'),
+            'form_auth' => $di->lazyGet('authorizer.form'),
+        ]));
+        $di->set('authorizer.form_stats', $di->lazyNew(\Ushahidi\Core\Tools\Authorizer\FormStatsAuthorizer::class));
+        $di->set('authorizer.user', $di->lazyNew(\Ushahidi\Core\Tools\Authorizer\UserAuthorizer::class));
+        $di->set('authorizer.user_setting', $di->lazyNew(\Ushahidi\Core\Tools\Authorizer\UserSettingAuthorizer::class));
+        $di->set('authorizer.layer', $di->lazyNew(\Ushahidi\Core\Tools\Authorizer\LayerAuthorizer::class));
+        $di->set('authorizer.media', $di->lazyNew(\Ushahidi\Core\Tools\Authorizer\MediaAuthorizer::class));
+        $di->set('authorizer.message', $di->lazyNew(\Ushahidi\Core\Tools\Authorizer\MessageAuthorizer::class));
+        $di->set('authorizer.tag', $di->lazyNew(\Ushahidi\Core\Tools\Authorizer\TagAuthorizer::class));
+        $di->set('authorizer.savedsearch', $di->lazyNew(\Ushahidi\Core\Tools\Authorizer\SetAuthorizer::class));
+        $di->set('authorizer.set', $di->lazyNew(\Ushahidi\Core\Tools\Authorizer\SetAuthorizer::class));
+        $di->set(
+            'authorizer.notification',
+            $di->lazyNew(\Ushahidi\Core\Tools\Authorizer\NotificationAuthorizer::class)
+        );
+        $di->set('authorizer.webhook', $di->lazyNew(\Ushahidi\Core\Tools\Authorizer\WebhookAuthorizer::class));
+        $di->set('authorizer.apikey', $di->lazyNew(\Ushahidi\Core\Tools\Authorizer\ApiKeyAuthorizer::class));
+        $di->set('authorizer.contact', $di->lazyNew(\Ushahidi\Core\Tools\Authorizer\ContactAuthorizer::class));
+        $di->set('authorizer.csv', $di->lazyNew(\Ushahidi\Core\Tools\Authorizer\CSVAuthorizer::class));
+        $di->set('authorizer.role', $di->lazyNew(\Ushahidi\Core\Tools\Authorizer\RoleAuthorizer::class));
+        $di->set('authorizer.permission', $di->lazyNew(\Ushahidi\Core\Tools\Authorizer\PermissionAuthorizer::class));
+        $di->set('authorizer.post', $di->lazyNew(\Ushahidi\Core\Tools\Authorizer\PostAuthorizer::class));
+        $di->set('authorizer.post_lock', $di->lazyNew(\Ushahidi\Core\Tools\Authorizer\PostAuthorizer::class));
+        $di->set('authorizer.tos', $di->lazyNew(\Ushahidi\Core\Tools\Authorizer\TosAuthorizer::class));
+        $di->set('authorizer.external_auth', $di->lazyNew(\Ushahidi\Core\Tools\Authorizer\ExternalAuthorizer::class));
+        $di->set('authorizer.export_job', $di->lazyNew(\Ushahidi\Core\Tools\Authorizer\ExportJobAuthorizer::class));
+        $di->params[\Ushahidi\Core\Tools\Authorizer\PostAuthorizer::class] = [
+            'post_repo' => $di->lazyGet('repository.post'),
+            'form_repo' => $di->lazyGet('repository.form'),
+        ];
+        $di->params[\Ushahidi\Core\Tools\Authorizer\TagAuthorizer::class] = [
+            'tag_repo' => $di->lazyGet('repository.tag'),
+        ];
+
+        $di->set('authorizer.country_code', $di->lazyNew(\Ushahidi\Core\Tools\Authorizer\CountryCodeAuthorizer::class));
 
         //FIXME
         $di->set('repository.hxl_organisations', $di->lazyNew(\Ushahidi\App\Repository\HXL\HXLTagRepository::class));
@@ -972,15 +931,24 @@ class AppConfig extends ContainerConfig
 
         // Map
         // Site config
-        $di->set('map.config', function () use ($di) {
-            return $di->get('repository.config')->get('map')->asArray();
-        });
+        $di->values['map.config'] = $di->lazy(
+            function ($repo) {
+                return $repo->get('map')->asArray();
+            },
+            $di->lazyGet('repository.config')
+        );
+
+        $di->set('map.config', $di->lazyValue('map.config'));
 
         // Dataprovider feature config
-        $di->set('features.data-providers', function () use ($di) {
-            $config = $di->get('repository.config')->get('features')->asArray();
+        $di->values['features.data-providers'] = $di->lazy(
+            function ($repo) {
+                $config = $repo->get('features')->asArray();
+                return array_filter($config['data-providers']);
+            },
+            $di->lazyGet('repository.config')
+        );
 
-            return array_filter($config['data-providers']);
-        });
+        $di->set('features.data-providers', $di->lazyValue('features.data-providers'));
     }
 }

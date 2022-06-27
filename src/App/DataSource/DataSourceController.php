@@ -11,18 +11,23 @@ namespace Ushahidi\App\DataSource;
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-use Ushahidi\Core\Entity\Contact;
-use Ushahidi\Core\Entity\Message;
-use Ushahidi\Core\Entity\Post;
 use Ushahidi\App\Http\Controllers\Controller;
+use Ramsey\Uuid\Exception\UnsatisfiedDependencyException;
 use Illuminate\Http\Request;
-use Ushahidi\App\DataSource\Message\Status as MessageStatus;
+use Ushahidi\Contracts\DataSource\MessageStatus;
 use Ramsey\Uuid\Uuid;
 
 abstract class DataSourceController extends Controller
 {
-
+    /**
+     * @var string | \Ushahidi\Contracts\DataSource\DataSource
+     */
     protected $source;
+
+    /**
+     * @var \Ushahidi\App\DataSource\DataSourceStorage
+     */
+    protected $storage;
 
     public function __construct(DataSourceManager $manager, DataSourceStorage $storage)
     {
@@ -31,7 +36,6 @@ abstract class DataSourceController extends Controller
         try {
             $this->source = $manager->getEnabledSource($this->source);
         } catch (\InvalidArgumentException $e) {
-            abort(404);
         }
     }
 

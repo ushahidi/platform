@@ -11,12 +11,9 @@
 
 namespace Ushahidi\Core\Usecase\User;
 
-use Ushahidi\Core\Entity\UserRepository;
-use Ushahidi\Core\Tool\PasswordAuthenticator;
 use Ushahidi\Core\Usecase\CreateUsecase;
-use Ushahidi\Core\Exception\AuthorizerException;
-use Ushahidi\Core\Entity;
-use Ushahidi\Core\Tool\RateLimiter;
+use Ushahidi\Contracts\Entity;
+use Ushahidi\Contracts\RateLimiter;
 
 class RegisterUser extends CreateUsecase
 {

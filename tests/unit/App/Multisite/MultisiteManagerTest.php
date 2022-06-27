@@ -1,14 +1,14 @@
 <?php
 
-namespace Tests\Unit\App\Multisite;
+namespace Tests\Unit\Ushahidi\App\Multisite;
 
+use Illuminate\Contracts\Events\Dispatcher;
+use Mockery as M;
+use Tests\TestCase;
 use Ushahidi\App\Multisite\MultisiteManager;
 use Ushahidi\App\Multisite\Site;
-use Ushahidi\App\Multisite\SiteRepository;
 use Ushahidi\App\Multisite\SiteNotFoundException;
-use Illuminate\Contracts\Events\Dispatcher;
-use Tests\TestCase;
-use Mockery as M;
+use Ushahidi\App\Multisite\SiteRepository;
 
 class MultisiteManagerTest extends TestCase
 {
@@ -18,7 +18,7 @@ class MultisiteManagerTest extends TestCase
 
         $config = [
             'enabled' => true,
-            'domain'  => 'myushahidi.com'
+            'domain'  => 'myushahidi.com',
         ];
         $this->repo = M::mock(SiteRepository::class);
         $this->events = M::spy(Dispatcher::class);

@@ -16,7 +16,7 @@ use Ushahidi\Core\Usecase\Post\ReadPost;
 class ReadSetPost extends ReadPost
 {
     use SetRepositoryTrait,
-        VerifySetExists;
+        VerifySetExistsTrait;
 
     protected function getEntity()
     {

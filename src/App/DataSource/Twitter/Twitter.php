@@ -11,23 +11,20 @@ namespace Ushahidi\App\DataSource\Twitter;
  * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License Version 3 (GPLv3)
  */
 
-use Ushahidi\App\DataSource\IncomingAPIDataSource;
-use Ushahidi\App\DataSource\OutgoingAPIDataSource;
-use Ushahidi\App\DataSource\Message\Type as MessageType;
-use Ushahidi\App\DataSource\Message\Status as MessageStatus;
-use Ushahidi\App\DataSource\Concerns\MapsInboundFields;
-use Abraham\TwitterOAuth\TwitterOAuth;
-use Abraham\TwitterOAuth\TwitterOAuthException;
-use Symm\Gisconverter\Decoders\WKT;
-use Symm\Gisconverter\Decoders\GeoJSON;
-use Log;
-
-use Ohanzee\DB;
-
 use Ushahidi\Core\Entity\Contact;
-use Ushahidi\Core\Entity\ConfigRepository;
+use Illuminate\Support\Facades\Log;
+use Symm\Gisconverter\Decoders\WKT;
+use Abraham\TwitterOAuth\TwitterOAuth;
+use Symm\Gisconverter\Decoders\GeoJSON;
+use Ushahidi\Contracts\DataSource\MessageType;
+use Abraham\TwitterOAuth\TwitterOAuthException;
+use Ushahidi\Contracts\DataSource\MessageStatus;
+use Ushahidi\Contracts\DataSource\IncomingDataSource;
+use Ushahidi\Contracts\DataSource\OutgoingDataSource;
+use Ushahidi\App\DataSource\Concerns\MapsInboundFields;
+use Ushahidi\Contracts\Repository\Entity\ConfigRepository;
 
-class Twitter implements IncomingAPIDataSource, OutgoingAPIDataSource
+class Twitter implements IncomingDataSource, OutgoingDataSource
 {
     use MapsInboundFields;
 
@@ -142,7 +139,7 @@ class Twitter implements IncomingAPIDataSource, OutgoingAPIDataSource
         $this->initialize();
         // Check we have the required config
         if (!isset($this->config['twitter_search_terms'])) {
-            app('log')->warning('Could not fetch messages from twitter, incomplete config');
+            Log::warning('Could not fetch messages from twitter, incomplete config');
             return [];
         }
 
@@ -216,10 +213,10 @@ class Twitter implements IncomingAPIDataSource, OutgoingAPIDataSource
             $this->request_count++; //Increment for successful request
 
             $this->update();
-        } catch (\TwitterOAuthException $toe) {
-            app('log')->error($toe->getMessage());
-        } catch (Exception $e) {
-            app('log')->error($e->getMessage());
+        } catch (TwitterOAuthException $toe) {
+            Log::error($toe->getMessage());
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
         }
 
         return $messages;
@@ -240,15 +237,15 @@ class Twitter implements IncomingAPIDataSource, OutgoingAPIDataSource
             ]);
 
             if (!isset($response->id)) {
-                app('log')->error("Twitter: Send failed", ['response' => $response]);
+                Log::error("Twitter: Send failed", ['response' => $response]);
                 return [MessageStatus::FAILED, false];
             }
             return [MessageStatus::SENT, $response->id];
         } catch (TwitterOAuthException $e) {
-            app('log')->error($e->getMessage());
+            Log::error($e->getMessage());
             return [MessageStatus::FAILED, false];
-        } catch (Exception $e) {
-            app('log')->error($e->getMessage());
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
             return [MessageStatus::FAILED, false];
         }
     }
@@ -316,7 +313,7 @@ class Twitter implements IncomingAPIDataSource, OutgoingAPIDataSource
     {
         // check if we have reached our rate limit
         if (!$this->canMakeRequest()) {
-            app('log')->warning('You have reached your rate limit for this window');
+            Log::warning('You have reached your rate limit for this window');
             return;
         }
             // Check we have the required config
@@ -325,7 +322,7 @@ class Twitter implements IncomingAPIDataSource, OutgoingAPIDataSource
              !isset($this->config['oauth_access_token']) ||
              !isset($this->config['oauth_access_token_secret'])
         ) {
-            app('log')->warning('Could not connect to twitter, incomplete config');
+            Log::warning('Could not connect to twitter, incomplete config');
             return;
         }
 

@@ -13,11 +13,12 @@
 
 namespace Ushahidi\App\Listener;
 
-use League\Event\AbstractListener;
-use League\Event\EventInterface;
 use Intercom\IntercomClient;
-use GuzzleHttp\Exception\ClientException;
+use League\Event\EventInterface;
+use League\Event\AbstractListener;
+use Illuminate\Support\Facades\Log;
 use Ushahidi\App\Multisite\UsesSiteInfo;
+use GuzzleHttp\Exception\ClientException;
 
 class IntercomCompanyListener extends AbstractListener
 {
@@ -39,7 +40,7 @@ class IntercomCompanyListener extends AbstractListener
                 // Update company
                 $client->companies->create($company);
             } catch (ClientException $e) {
-                \Log::info($e->getMessage());
+                Log::info($e->getMessage());
             }
         }
     }

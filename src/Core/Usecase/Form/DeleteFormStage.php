@@ -12,6 +12,7 @@
 namespace Ushahidi\Core\Usecase\Form;
 
 use Ushahidi\Core\Usecase\DeleteUsecase;
+use Ushahidi\Core\Usecase\Concerns\VerifyFormLoaded;
 
 class DeleteFormStage extends DeleteUsecase
 {

@@ -11,10 +11,10 @@
 
 namespace Ushahidi\App\Repository\Notification;
 
-use Ushahidi\Core\Entity;
-use Ushahidi\Core\SearchData;
+use Ushahidi\Contracts\Entity;
+use Ushahidi\Core\Tools\SearchData;
 use Ushahidi\Core\Entity\NotificationQueue;
-use Ushahidi\Core\Entity\NotificationQueueRepository as NotificationQueueRepositoryContract;
+use Ushahidi\Contracts\Repository\Entity\NotificationQueueRepository as NotificationQueueRepositoryContract;
 use Ushahidi\App\Repository\OhanzeeRepository;
 
 class QueueRepository extends OhanzeeRepository implements NotificationQueueRepositoryContract

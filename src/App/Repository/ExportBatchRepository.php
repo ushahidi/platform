@@ -12,15 +12,14 @@
 namespace Ushahidi\App\Repository;
 
 use Ushahidi\Core\Entity\ExportBatch;
-use Ushahidi\Core\Entity\ExportBatchRepository as ExportBatchRepositoryContract;
+use Ushahidi\Contracts\Repository\Entity\ExportBatchRepository as ExportBatchRepositoryContract;
 
 class ExportBatchRepository extends EloquentRepository implements ExportBatchRepositoryContract
 {
-
     /**
      * Get the entity for this repository.
      * @param  Array  $data
-     * @return Ushahidi\Core\Entity
+     * @return \Ushahidi\Contracts\Entity
      */
     public function getEntity(array $data = null)
     {

@@ -4,18 +4,19 @@
  * Tests for datasource:list command
  *
  * @author     Ushahidi Team <team@ushahidi.com>
- * @package    Ushahidi\Application\Tests
  * @copyright  2013 Ushahidi
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Tests\Unit\App\DataSource\Console;
+namespace Tests\Unit\Ushahidi\App\DataSource\Console;
 
-use Tests\TestCase;
+use Illuminate\Console\Application as Artisan;
 use Mockery as M;
+use Tests\TestCase;
+use Ushahidi\Contracts\Repository\Entity\ConfigRepository;
+use Ushahidi\Core\Entity\Config;
 use Ushahidi\App\DataSource\Console\ListCommand;
 use Ushahidi\App\DataSource\DataSourceManager;
-use Illuminate\Console\Application as Artisan;
 
 /**
  * @backupGlobals disabled
@@ -23,15 +24,14 @@ use Illuminate\Console\Application as Artisan;
  */
 class ListCommandTest extends TestCase
 {
-
     public function setUp()
     {
         parent::setUp();
 
         // Ensure enabled providers is in a known state
         // Mock the config repo
-        $configRepo = M::mock(\Ushahidi\Core\Entity\ConfigRepository::class);
-        $configRepo->shouldReceive('get')->with('data-provider')->andReturn(new \Ushahidi\Core\Entity\Config([
+        $configRepo = M::mock(ConfigRepository::class);
+        $configRepo->shouldReceive('get')->with('data-provider')->andReturn(new Config([
             'providers' => [
                 'email' => false,
                 'frontlinesms' => true,
@@ -39,9 +39,9 @@ class ListCommandTest extends TestCase
                 'twilio' => true,
                 'twitter' => false,
                 'smssync' => true,
-            ]
+            ],
         ]));
-        $configRepo->shouldReceive('get')->with('features')->andReturn(new \Ushahidi\Core\Entity\Config([
+        $configRepo->shouldReceive('get')->with('features')->andReturn(new Config([
             'data-providers' => [
                 'email' => false,
                 'frontlinesms' => true,
@@ -49,7 +49,7 @@ class ListCommandTest extends TestCase
                 'twilio' => true,
                 'twitter' => false,
                 'smssync' => true,
-            ]
+            ],
         ]));
 
         // Reinsert command with mocks
@@ -64,24 +64,24 @@ class ListCommandTest extends TestCase
         $value = $this->artisan('datasource:list', []);
 
         $this->assertEquals(
-            "+--------------+----------+
+            '+--------------+----------+
 | Name         | Services |
 +--------------+----------+
 | FrontlineSMS | sms      |
 | SMSSync      | sms      |
 | Twilio       | sms      |
 +--------------+----------+
-",
+',
             $this->artisanOutput()
         );
     }
 
     public function testListAll()
     {
-        $value = $this->artisan('datasource:list', ["--all" => true]);
+        $value = $this->artisan('datasource:list', ['--all' => true]);
 
         $this->assertEquals(
-            "+---------------+----------+
+            '+---------------+----------+
 | Name          | Services |
 +---------------+----------+
 | Email         | email    |
@@ -92,7 +92,7 @@ class ListCommandTest extends TestCase
 | Twilio        | sms      |
 | Twitter       | twitter  |
 +---------------+----------+
-",
+',
             $this->artisanOutput()
         );
     }

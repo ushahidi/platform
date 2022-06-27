@@ -12,11 +12,8 @@
 namespace Ushahidi\App\Repository;
 
 use Ohanzee\DB;
-use Ohanzee\Database;
-use Ushahidi\Core\Data;
 use Ushahidi\Core\Entity;
-use Ushahidi\Core\SearchData;
-use Ushahidi\Core\Entity\TargetedSurveyStateRepository as TargetedSurveyStateRepositoryContract;
+use Ushahidi\Contracts\Repository\Entity\TargetedSurveyStateRepository as TargetedSurveyStateRepositoryContract;
 
 class TargetedSurveyStateRepository extends OhanzeeRepository implements
     TargetedSurveyStateRepositoryContract

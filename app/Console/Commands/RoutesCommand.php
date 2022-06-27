@@ -11,7 +11,7 @@ class RoutesCommand extends Command
      *
      * @var string
      */
-    protected $name = 'route:list';
+    protected $name = 'routes:list';
 
     /**
      * The console command description.
@@ -27,27 +27,25 @@ class RoutesCommand extends Command
      */
     public function handle()
     {
-        global $app;
-        $routeCollection = $app->router->getRoutes();
+        $routeCollection = app('router')->getRoutes();
 
+        $headers = ['Verb', 'Path', 'Action'];
         $rows = [];
         $x = 0;
         foreach ($routeCollection as $route) {
-            if (!empty($route['action']['uses'])) {
-                $data = $route['action']['uses'];
-                if (($pos = strpos($data, "@")) !== false) {
-                    $action = substr($data, $pos+1);
-                }
+            $handler = $route->action['uses'];
+            if (! empty($handler) && ! ($handler instanceof \Closure)) {
+                $data = explode('@', $handler);
+                $action = $data[0];
             } else {
                 $action = 'Closure func';
             }
-            $rows[$x]['verb'] = $route['method'];
-            $rows[$x]['path'] = $route['uri'];
+            $rows[$x]['verb'] = $route->methods[0];
+            $rows[$x]['path'] = $route->uri;
             $rows[$x]['action'] = $action;
             $x++;
         }
 
-        $headers = [ 'Verb', 'Path', 'Action' ];
         $this->table($headers, $rows);
     }
 }

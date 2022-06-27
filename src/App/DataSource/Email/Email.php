@@ -11,15 +11,15 @@ namespace Ushahidi\App\DataSource\Email;
  * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License Version 3 (GPLv3)
  */
 
-use Ushahidi\App\DataSource\IncomingAPIDataSource;
-use Ushahidi\App\DataSource\Message\Type as MessageType;
-use Ushahidi\App\DataSource\Concerns\MapsInboundFields;
-use Ushahidi\Core\Entity\MessageRepository;
-use Illuminate\Contracts\Mail\Mailer;
 use Ushahidi\Core\Entity\Contact;
-use Log;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Contracts\Mail\Mailer;
+use Ushahidi\Contracts\DataSource\IncomingDataSource;
+use Ushahidi\App\DataSource\Concerns\MapsInboundFields;
+use Ushahidi\Contracts\Repository\Entity\MessageRepository;
+use Ushahidi\Contracts\DataSource\MessageType;
 
-class Email extends OutgoingEmail implements IncomingAPIDataSource
+class Email extends OutgoingEmail implements IncomingDataSource
 {
     use MapsInboundFields;
 
@@ -141,7 +141,7 @@ class Email extends OutgoingEmail implements IncomingAPIDataSource
     {
         // Return if no imap extension
         if (! function_exists('imap_open') && ! function_exists(__NAMESPACE__ . '\imap_open')) {
-            app('log')->error("imap extension not enabled");
+            Log::error("imap extension not enabled");
             return [];
         }
 

@@ -13,6 +13,7 @@ namespace Ushahidi\Core\Usecase\Form;
 
 use Ushahidi\Core\Usecase\CreateUsecase;
 use Ushahidi\Core\Usecase\Concerns\IdentifyRecords;
+use Ushahidi\Core\Usecase\Concerns\VerifyStageLoaded;
 use Ushahidi\Core\Usecase\Concerns\VerifyEntityLoaded;
 
 class CreateFormAttribute extends CreateUsecase

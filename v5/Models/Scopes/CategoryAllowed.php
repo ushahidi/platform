@@ -15,8 +15,6 @@ namespace v5\Models\Scopes;
 use Illuminate\Database\Eloquent\Scope;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
-use Ushahidi\Core\Entity\Permission;
-use v5\Models\Category;
 
 class CategoryAllowed implements Scope
 {

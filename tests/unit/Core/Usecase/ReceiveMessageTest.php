@@ -6,23 +6,21 @@
 
 namespace Tests\Unit\Core\Usecase;
 
-use Ushahidi\Core\Usecase\ReceiveMessage;
-
+use Mockery as M;
+use Tests\TestCase;
+use Ushahidi\Contracts\Repository\Entity\ConfigRepository;
+use Ushahidi\Contracts\Repository\Entity\ContactRepository;
+use Ushahidi\Contracts\Repository\Entity\FormAttributeRepository;
+use Ushahidi\Contracts\Repository\Entity\MessageRepository;
+use Ushahidi\Contracts\Repository\Entity\PostRepository;
+use Ushahidi\Contracts\Repository\Entity\TargetedSurveyStateRepository;
+use Ushahidi\Core\Entity\Config;
+use Ushahidi\Core\Entity\Contact;
+use Ushahidi\Core\Entity\Message;
+use Ushahidi\Core\Entity\Post;
 use Ushahidi\App\Listener\CreatePostFromMessage;
 use Ushahidi\App\Listener\HandleTargetedSurveyResponse;
-use Ushahidi\Core\Entity\Contact;
-use Ushahidi\Core\Entity\ContactRepository;
-use Ushahidi\Core\Entity\Message;
-use Ushahidi\Core\Entity\MessageRepository;
-use Ushahidi\Core\Entity\Post;
-use Ushahidi\Core\Entity\PostRepository;
-use Ushahidi\Core\Entity\TargetedSurveyState;
-use Ushahidi\Core\Entity\TargetedSurveyStateRepository;
-use Ushahidi\Core\Entity\FormAttribute;
-use Ushahidi\Core\Entity\FormAttributeRepository;
-
-use Tests\TestCase;
-use Mockery as M;
+use Ushahidi\App\EventSubscriber as Subscriber;
 
 /**
  * @backupGlobals disabled
@@ -30,7 +28,6 @@ use Mockery as M;
  */
 class ReceiveMessageTest extends TestCase
 {
-
     public function setUp()
     {
         parent::setup();
@@ -53,7 +50,7 @@ class ReceiveMessageTest extends TestCase
         ));
 
         $events = app('events');
-        $events->subscribe(\Ushahidi\App\Subscriber::class);
+        $events->subscribe(Subscriber::class);
 
         //$this->usecase = new ReceiveMessage();
         $this->usecase = service('factory.usecase')->get('messages', 'receive');
@@ -64,19 +61,19 @@ class ReceiveMessageTest extends TestCase
 
         // Ensure smssync is enabled
         // Mock the config repo
-        $configRepo = M::mock(\Ushahidi\Core\Entity\ConfigRepository::class);
+        $configRepo = M::mock(ConfigRepository::class);
         // Return email in config
-        $configRepo->shouldReceive('get')->with('data-provider')->andReturn(new \Ushahidi\Core\Entity\Config([
+        $configRepo->shouldReceive('get')->with('data-provider')->andReturn(new Config([
             'providers' => [
                 'smssync' => true,
-            ]
+            ],
         ]));
-        $configRepo->shouldReceive('get')->with('features')->andReturn(new \Ushahidi\Core\Entity\Config([
+        $configRepo->shouldReceive('get')->with('features')->andReturn(new Config([
             'data-providers' => [
                 'smssync' => true,
-            ]
+            ],
         ]));
-        $this->app->instance(\Ushahidi\Core\Entity\ConfigRepository::class, $configRepo);
+        $this->app->instance(ConfigRepository::class, $configRepo);
     }
 
     public function tearDown()
@@ -102,7 +99,7 @@ class ReceiveMessageTest extends TestCase
             ->andReturn(new Contact([
                 'id' => 2,
                 'type' => 'phone',
-                'contact' => 1234
+                'contact' => 1234,
             ]));
 
         // First check the message is in a targeted survey
@@ -133,7 +130,7 @@ class ReceiveMessageTest extends TestCase
                 'type' => 'sms',
                 'from' => 1234,
                 'contact_type' => 'phone',
-                'data_source' => 'smssync'
+                'data_source' => 'smssync',
             ])
             ->interact();
     }

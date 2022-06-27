@@ -11,13 +11,13 @@
 
 namespace Ushahidi\App\Formatter;
 
-use Ushahidi\Core\Entity;
-use Ushahidi\Core\Traits\FormatterAuthorizerMetadata;
+use Ushahidi\Contracts\Entity;
+use Ushahidi\Core\Concerns\FormatterAuthorizerMetadata;
 use Illuminate\Support\Facades\Storage;
 
 class Media extends API
 {
-    
+
 
     use FormatterAuthorizerMetadata;
 

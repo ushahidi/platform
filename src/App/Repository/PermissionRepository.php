@@ -11,9 +11,9 @@
 
 namespace Ushahidi\App\Repository;
 
-use Ushahidi\Core\SearchData;
+use Ushahidi\Core\Tools\SearchData;
 use Ushahidi\Core\Entity\Permission;
-use Ushahidi\Core\Entity\PermissionRepository as PermissionRepositoryContract;
+use Ushahidi\Contracts\Repository\Entity\PermissionRepository as PermissionRepositoryContract;
 
 class PermissionRepository extends OhanzeeRepository implements
     PermissionRepositoryContract

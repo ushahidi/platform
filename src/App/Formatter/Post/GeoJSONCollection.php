@@ -11,14 +11,15 @@
 
 namespace Ushahidi\App\Formatter\Post;
 
-use Ushahidi\Core\Tool\Formatter;
-use Ushahidi\Core\Tool\Formatter\GeoJSONFormatter;
-use Ushahidi\Core\SearchData;
+use Ushahidi\Core\Tools\SearchData;
+use Ushahidi\Contracts\Formatter;
+use Ushahidi\Core\Exception\FormatterException;
 use Ushahidi\App\Http\Controllers\RESTController;
+use Ushahidi\Core\Concerns\GeometryConverter;
 
 class GeoJSONCollection implements Formatter
 {
-    use GeoJSONFormatter;
+    use GeometryConverter;
 
     // Formatter
     public function __invoke($entities)

@@ -11,34 +11,38 @@
 
 namespace Ushahidi\App\Repository\Form;
 
-use Illuminate\Support\Facades\App;
-use Illuminate\Support\Collection;
 use Ohanzee\DB;
 use Ohanzee\Database;
-use Ushahidi\Core\Entity;
-use Ushahidi\Core\SearchData;
-use Ushahidi\Core\Entity\FormAttribute;
-use Ushahidi\Core\Entity\FormAttributeRepository as FormAttributeRepositoryContract;
-use Ushahidi\Core\Entity\FormStageRepository as FormStageRepositoryContract;
-use Ushahidi\Core\Entity\FormRepository as FormRepositoryContract;
-use Ushahidi\Core\Traits\UserContext;
-use Ushahidi\App\Repository\OhanzeeRepository;
-use Ushahidi\App\Repository\JsonTranscodeRepository;
-use Ushahidi\App\Repository\FormsTagsTrait;
-use Ushahidi\App\Repository\Concerns;
-
-use Ushahidi\Core\Tool\Permissions\InteractsWithFormPermissions;
-
 use Ramsey\Uuid\Uuid;
-use Ramsey\Uuid\Exception\UnsatisfiedDependencyException;
+use Ushahidi\Contracts\Entity;
+use Illuminate\Support\Collection;
+use Ushahidi\Core\Tools\SearchData;
+use Ushahidi\Core\Concerns\UserContext;
+use Ushahidi\Core\Entity\FormAttribute;
+use Ushahidi\App\Repository\OhanzeeRepository;
+use Ushahidi\App\Repository\Concerns\FormsTags;
+use Ushahidi\App\Repository\Concerns\CachesData;
+use Ushahidi\App\Repository\Concerns\JsonTranscode;
+use Ushahidi\App\Repository\Concerns\UsesBulkAutoIncrement;
+use Ushahidi\Core\Tools\Permissions\InteractsWithFormPermissions;
+use Ushahidi\Contracts\Repository\Entity\FormRepository as FormRepositoryContract;
+use Ushahidi\Contracts\Repository\Entity\FormStageRepository as FormStageRepositoryContract;
+use Ushahidi\Contracts\Repository\Entity\FormAttributeRepository as FormAttributeRepositoryContract;
 
 class AttributeRepository extends OhanzeeRepository implements
     FormAttributeRepositoryContract
 {
+    use FormsTags;
+    use CachesData;
     use UserContext;
-    // Checks if user is Admin
 
+    // Use the JSON transcoder to encode properties
+    use JsonTranscode;
+
+    // Checks if user is Admin
     use InteractsWithFormPermissions;
+
+    use UsesBulkAutoIncrement;
 
     protected $form_stage_repo;
 
@@ -46,19 +50,6 @@ class AttributeRepository extends OhanzeeRepository implements
 
     protected $form_id;
 
-    // Use the JSON transcoder to encode properties
-    use JsonTranscodeRepository;
-    use FormsTagsTrait;
-
-    use Concerns\CachesData;
-    use Concerns\UsesBulkAutoIncrement;
-
-    /**
-     * Construct
-     * @param Database                              $db
-     * @param FormStageRepository                   $form_stage_repo
-     * @param FormRepository                   $form_repo
-     */
     public function __construct(
         \Ushahidi\App\Multisite\OhanzeeResolver $resolver,
         FormStageRepositoryContract $form_stage_repo,
@@ -70,7 +61,7 @@ class AttributeRepository extends OhanzeeRepository implements
         $this->form_repo = $form_repo;
     }
 
-    // JsonTranscodeRepository
+    // Concerns\JsonTranscode
     protected function getJsonProperties()
     {
         return ['options', 'config'];

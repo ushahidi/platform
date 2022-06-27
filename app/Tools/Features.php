@@ -2,8 +2,8 @@
 
 namespace Ushahidi\App\Tools;
 
-use Ushahidi\Core\Entity\ConfigRepository;
 use Illuminate\Support\Facades\Cache;
+use Ushahidi\Contracts\Repository\Entity\ConfigRepository;
 
 class Features
 {
@@ -30,19 +30,19 @@ class Features
     /**
      * Check if a feature is enabled
      * @param  string  $feature
-     * @return boolean
+     * @return bool
      */
     public function isEnabled($feature)
     {
         $config = $this->getFeatureConfig();
 
         if (isset($config->$feature)) {
-            if (!is_array($config->$feature)) {
-                return !!$config->$feature;
+            if (! is_array($config->$feature)) {
+                return (bool) $config->$feature;
             }
 
             if (isset($config->$feature['enabled'])) {
-                return !!$config->$feature['enabled'];
+                return (bool) $config->$feature['enabled'];
             }
         }
 
@@ -51,8 +51,8 @@ class Features
 
     /**
      * Get limit for feature
-     * @param  string $feature
-     * @return int|INF
+     * @param string $feature
+     * @return int|double
      */
     public function getLimit($feature)
     {

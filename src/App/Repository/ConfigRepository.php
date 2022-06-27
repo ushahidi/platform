@@ -10,20 +10,17 @@
 
 namespace Ushahidi\App\Repository;
 
-use Ushahidi\Core\Data;
-use Ushahidi\Core\Entity;
-use Ushahidi\Core\Entity\Config as ConfigEntity;
-use Ushahidi\Core\Entity\ConfigRepository as ConfigRepositoryContract;
-use Ushahidi\Core\Usecase\ReadRepository;
-use Ushahidi\Core\Usecase\UpdateRepository;
-use Ushahidi\Core\Exception\NotFoundException;
-use Ushahidi\App\Multisite\OhanzeeResolver;
-
-use League\Event\ListenerInterface;
-use Ushahidi\Core\Traits\Event;
 use Ohanzee\DB;
 use Ohanzee\Database;
-use Ushahidi\Core\Usecase\DeleteRepository;
+use Ushahidi\Core\Concerns\Event;
+use Ushahidi\Contracts\Entity;
+use Ushahidi\App\Multisite\OhanzeeResolver;
+use Ushahidi\Core\Exception\NotFoundException;
+use Ushahidi\Core\Entity\Config as ConfigEntity;
+use Ushahidi\Contracts\Repository\ReadRepository;
+use Ushahidi\Contracts\Repository\DeleteRepository;
+use Ushahidi\Contracts\Repository\UpdateRepository;
+use Ushahidi\Contracts\Repository\Entity\ConfigRepository as ConfigRepositoryContract;
 
 class ConfigRepository implements
     ReadRepository,

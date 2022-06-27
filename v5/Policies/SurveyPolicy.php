@@ -5,13 +5,12 @@ namespace v5\Policies;
 use Ushahidi\App\Auth\GenericUser as User;
 use Ushahidi\Core\Entity;
 use v5\Models\Survey;
-use Ushahidi\Core\Entity\Permission;
-use Ushahidi\Core\Traits\AdminAccess;
-use Ushahidi\Core\Traits\UserContext;
-use Ushahidi\Core\Traits\ParentAccess;
-use Ushahidi\Core\Traits\PrivAccess;
-use Ushahidi\Core\Traits\PrivateDeployment;
-use Ushahidi\Core\Tool\Permissions\AclTrait;
+use Ushahidi\Contracts\Permission;
+use Ushahidi\Core\Concerns\AdminAccess;
+use Ushahidi\Core\Concerns\UserContext;
+use Ushahidi\Core\Concerns\PrivAccess;
+use Ushahidi\Core\Concerns\PrivateDeployment;
+use Ushahidi\Core\Concerns\Acl as AccessControlList;
 
 class SurveyPolicy
 {
@@ -30,7 +29,7 @@ class SurveyPolicy
     use PrivateDeployment;
 
     // Check that the user has the necessary permissions
-    use AclTrait;
+    use AccessControlList;
 
     protected $user;
 
@@ -39,7 +38,7 @@ class SurveyPolicy
 
     /**
      *
-     * @param  \App\User  $user
+     * @param  \Ushahidi\App\User  $user
      * @return bool
      */
     public function index()

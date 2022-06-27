@@ -11,7 +11,6 @@
 
 namespace Ushahidi\App\Validator\Media;
 
-use Ushahidi\Core\Entity;
 use Ushahidi\App\Validator\LegacyValidator;
 
 class Create extends LegacyValidator

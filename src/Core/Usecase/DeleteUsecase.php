@@ -11,10 +11,13 @@
 
 namespace Ushahidi\Core\Usecase;
 
-use Ushahidi\Core\Usecase;
-use Ushahidi\Core\Tool\AuthorizerTrait;
-use Ushahidi\Core\Tool\FormatterTrait;
-use Ushahidi\Core\Tool\TranslatorTrait;
+use Ushahidi\Contracts\Entity;
+use Ushahidi\Contracts\Usecase;
+use Ushahidi\Core\Usecase\Concerns\Formatter as FormatterTrait;
+use Ushahidi\Core\Usecase\Concerns\Authorizer as AuthorizerTrait;
+use Ushahidi\Core\Usecase\Concerns\Translator as TranslatorTrait;
+use Ushahidi\Core\Usecase\Concerns\IdentifyRecords;
+use Ushahidi\Contracts\Repository\DeleteRepository;
 
 class DeleteUsecase implements Usecase
 {
@@ -26,7 +29,7 @@ class DeleteUsecase implements Usecase
         TranslatorTrait;
 
     // - IdentifyRecords for setting entity lookup parameters
-    use Concerns\IdentifyRecords;
+    use IdentifyRecords;
 
     // - VerifyEntityLoaded for checking that an entity is found
     use Concerns\VerifyEntityLoaded;

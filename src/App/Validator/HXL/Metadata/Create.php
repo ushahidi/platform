@@ -11,11 +11,10 @@
 
 namespace Ushahidi\App\Validator\HXL\Metadata;
 
-use Ushahidi\Core\Entity\ExportJobRepository;
-use Ushahidi\Core\Entity\HXL\HXLLicenseRepository;
-use Ushahidi\Core\Entity\HXL\HXLMetadataRepository;
-use Ushahidi\Core\Entity\UserRepository;
 use Ushahidi\App\Validator\LegacyValidator;
+use Ushahidi\Contracts\Repository\Entity\UserRepository;
+use Ushahidi\Contracts\Repository\Entity\HXLLicenseRepository;
+use Ushahidi\Contracts\Repository\Entity\HXLMetadataRepository;
 
 class Create extends LegacyValidator
 {
@@ -35,7 +34,7 @@ class Create extends LegacyValidator
         $this->license_repo = $license_repo;
     }
     /**
-     * @return array|\Ushahidi\Core\Tool\ArrayValidation
+     * @return array|\Ushahidi\Core\Tools\ArrayValidation
      */
     protected function getRules()
     {

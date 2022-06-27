@@ -193,7 +193,7 @@
                                             <td align="center" style="padding: 25px 0 0 0;" class="padding-copy">
                                                 <table border="0" cellspacing="0" cellpadding="0" class="responsive-table">
                                                     <tr>
-                                                        <td align="center"><a href="<?php echo $client_url . '/forgotpassword/confirm/'.urlencode($token); ?>" target="_blank" style="font-size: 16px; font-family: Lato, Helvetica, Arial, sans-serif; font-weight: normal; color: #ffffff; text-decoration: none; background-color: #2274B4; border-top: 15px solid #2274B4; border-bottom: 15px solid #2274B4; border-left: 25px solid #2274B4; border-right: 25px solid #2274B4; border-radius: 3px; -webkit-border-radius: 3px; -moz-border-radius: 3px; display: inline-block;" class="mobile-button">Reset your password &rarr;</a></td>
+                                                        <td align="center"><a href="<?php echo $client_url.'/forgotpassword/confirm/'.urlencode($token); ?>" target="_blank" style="font-size: 16px; font-family: Lato, Helvetica, Arial, sans-serif; font-weight: normal; color: #ffffff; text-decoration: none; background-color: #2274B4; border-top: 15px solid #2274B4; border-bottom: 15px solid #2274B4; border-left: 25px solid #2274B4; border-right: 25px solid #2274B4; border-radius: 3px; -webkit-border-radius: 3px; -moz-border-radius: 3px; display: inline-block;" class="mobile-button">Reset your password &rarr;</a></td>
                                                     </tr>
                                                 </table>
                                             </td>

@@ -11,14 +11,15 @@
 
 namespace Ushahidi\App\Repository\HXL;
 
-use Ohanzee\Database;
-use Ushahidi\Core\SearchData;
-use Ushahidi\Core\Entity\HXL\HXLTag;
-use Ushahidi\Core\Entity\HXL\HXLTagRepository as HXLTagRepositoryContract;
-use Ushahidi\Core\Usecase\ReadRepository;
-use Ushahidi\Core\Usecase\SearchRepository;
-use Ushahidi\App\Repository\OhanzeeRepository;
 use Ohanzee\DB;
+use Ohanzee\Database;
+use Ushahidi\Core\Tools\SearchData;
+use Ushahidi\Core\Entity\HXL\HXLTag;
+use Ushahidi\App\Multisite\OhanzeeResolver;
+use Ushahidi\App\Repository\OhanzeeRepository;
+use Ushahidi\Contracts\Repository\ReadRepository;
+use Ushahidi\Contracts\Repository\SearchRepository;
+use Ushahidi\Contracts\Repository\Entity\HXLTagRepository as HXLTagRepositoryContract;
 
 class HXLTagRepository extends OhanzeeRepository implements
     HXLTagRepositoryContract,
@@ -27,7 +28,7 @@ class HXLTagRepository extends OhanzeeRepository implements
 {
     private $tags_attributes;
 
-    public function __construct(\Ushahidi\App\Multisite\OhanzeeResolver $resolver)
+    public function __construct(OhanzeeResolver $resolver)
     {
         parent::__construct($resolver);
     }
@@ -51,7 +52,7 @@ class HXLTagRepository extends OhanzeeRepository implements
 
     /**
      * @param array|null $data
-     * @return \Ushahidi\App\Repository\Ushahidi\Core\Entity|HXLTag|\Ushahidi\Core\Usecase\Entity
+     * @return \Ushahidi\App\Repository\Ushahidi\Core\Entity|HXLTag|\Ushahidi\Contracts\Repository\Usecase\Entity
      */
     public function getEntity(array $data = null)
     {

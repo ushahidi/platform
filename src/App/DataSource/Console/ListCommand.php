@@ -13,9 +13,6 @@ namespace Ushahidi\App\DataSource\Console;
 
 use Illuminate\Console\Command;
 
-use Ushahidi\Core\Usecase;
-use \Ushahidi\Factory\UsecaseFactory;
-
 class ListCommand extends Command
 {
 

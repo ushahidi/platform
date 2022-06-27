@@ -11,11 +11,11 @@
 
 namespace Ushahidi\App\Repository;
 
+use Ushahidi\Core\Tools\SearchData;
 use Ushahidi\Core\Entity\CountryCode;
-use Ushahidi\Core\Entity\CountryCodeRepository as CountryCodeRepositoryContract;
-use Ushahidi\Core\SearchData;
-use Ushahidi\Core\Usecase\ReadRepository;
-use Ushahidi\Core\Usecase\SearchRepository;
+use Ushahidi\Contracts\Repository\ReadRepository;
+use Ushahidi\Contracts\Repository\SearchRepository;
+use Ushahidi\Contracts\Repository\Entity\CountryCodeRepository as CountryCodeRepositoryContract;
 
 class CountryCodeRepository extends OhanzeeRepository implements
     CountryCodeRepositoryContract,

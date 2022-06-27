@@ -11,14 +11,12 @@
 
 namespace Ushahidi\App\Repository;
 
-use Ushahidi\Core\Entity;
-use Ushahidi\Core\SearchData;
-use Ushahidi\Core\Entity\ApiKey;
-use Ushahidi\Core\Entity\ApiKeyRepository as ApiKeyRepositoryContract;
-use Ushahidi\Core\Traits\AdminAccess;
-
 use Ramsey\Uuid\Uuid;
-use Ramsey\Uuid\Exception\UnsatisfiedDependencyException;
+use Ushahidi\Contracts\Entity;
+use Ushahidi\Core\Tools\SearchData;
+use Ushahidi\Core\Entity\ApiKey;
+use Ushahidi\Contracts\Repository\Entity\ApiKeyRepository as ApiKeyRepositoryContract;
+use Ushahidi\Core\Concerns\AdminAccess;
 
 class ApiKeyRepository extends OhanzeeRepository implements ApiKeyRepositoryContract
 {

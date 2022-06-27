@@ -12,13 +12,13 @@
 namespace Ushahidi\App\Repository\Post;
 
 use Ohanzee\DB;
-use Ushahidi\Core\Entity\MessageRepository;
 use Ushahidi\Core\Entity\Post;
-use Ushahidi\Core\Entity\PostExportRepository;
-use Ushahidi\Core\Entity\TagRepository;
-use Ushahidi\Core\Entity\SetRepository;
+use Ushahidi\Core\Concerns\AdminAccess;
 use Ushahidi\App\Repository\PostRepository;
-use Ushahidi\Core\Traits\AdminAccess;
+use Ushahidi\Contracts\Repository\Entity\SetRepository;
+use Ushahidi\Contracts\Repository\Entity\TagRepository;
+use Ushahidi\Contracts\Repository\Entity\MessageRepository;
+use Ushahidi\Contracts\Repository\Entity\PostExportRepository;
 
 class ExportRepository extends PostRepository implements PostExportRepository
 {

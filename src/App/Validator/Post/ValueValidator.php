@@ -11,14 +11,12 @@
 
 namespace Ushahidi\App\Validator\Post;
 
-use Ushahidi\Core\Tool\Validator;
-
 abstract class ValueValidator /* implements Validator */
 {
+    protected $config;
+
     protected $default_error_source = 'post';
 
-
-    protected $config;
     public function setConfig(array $config = null)
     {
         $this->config = $config;

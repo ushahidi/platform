@@ -11,17 +11,15 @@
 
 namespace Ushahidi\App\Validator\User\Setting;
 
-use Ushahidi\Core\Entity;
-use Ushahidi\Core\Entity\UserRepository;
-use Ushahidi\Core\Entity\UserSettingRepository;
 use Ushahidi\App\Validator\LegacyValidator;
+use Ushahidi\Contracts\Repository\Entity\UserRepository;
+use Ushahidi\Contracts\Repository\Entity\UserSettingRepository;
 
 class Update extends LegacyValidator
 {
     protected $user_repo;
     protected $user_setting_repo;
     protected $default_error_source = 'user_setting';
-
 
     public function __construct(UserRepository $user_repo, UserSettingRepository $user_setting_repo)
     {

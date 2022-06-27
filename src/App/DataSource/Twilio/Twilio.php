@@ -11,17 +11,16 @@ namespace Ushahidi\App\DataSource\Twilio;
  * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License Version 3 (GPLv3)
  */
 
-use Ushahidi\App\DataSource\CallbackDataSource;
-use Ushahidi\App\DataSource\OutgoingAPIDataSource;
-use Ushahidi\App\DataSource\Message\Type as MessageType;
-use Ushahidi\App\DataSource\Message\Status as MessageStatus;
-use Ushahidi\App\DataSource\Concerns\MapsInboundFields;
+use Illuminate\Routing\Router;
 use Ushahidi\Core\Entity\Contact;
-use Services_Twilio;
-use Services_Twilio_RestException;
-use Log;
+use Illuminate\Support\Facades\Log;
+use Ushahidi\Contracts\DataSource\MessageType;
+use Ushahidi\Contracts\DataSource\MessageStatus;
+use Ushahidi\Contracts\DataSource\CallbackDataSource;
+use Ushahidi\Contracts\DataSource\OutgoingDataSource;
+use Ushahidi\App\DataSource\Concerns\MapsInboundFields;
 
-class Twilio implements CallbackDataSource, OutgoingAPIDataSource
+class Twilio implements CallbackDataSource, OutgoingDataSource
 {
     use MapsInboundFields;
 
@@ -101,7 +100,7 @@ class Twilio implements CallbackDataSource, OutgoingAPIDataSource
     {
         // Check we have the required config
         if (!isset($this->config['account_sid']) || !isset($this->config['auth_token'])) {
-            app('log')->warning('Could not send message with Twilio, incomplete config');
+            Log::warning('Could not send message with Twilio, incomplete config');
             return [MessageStatus::FAILED, false];
         }
 
@@ -131,16 +130,16 @@ class Twilio implements CallbackDataSource, OutgoingAPIDataSource
             );
             return [MessageStatus::SENT, $message->sid];
         } catch (\Twilio\Exceptions\RestException $e) {
-            app('log')->error($e->getMessage());
+            Log::error($e->getMessage());
         }
 
         return [MessageStatus::FAILED, false];
     }
 
-    public static function registerRoutes(\Laravel\Lumen\Routing\Router $router)
+    public static function registerRoutes(Router $router)
     {
-        $router->post('sms/twilio[/]', 'Ushahidi\App\DataSource\Twilio\TwilioController@handleRequest');
-        $router->post('sms/twilio/reply[/]', 'Ushahidi\App\DataSource\Twilio\TwilioController@handleRequest');
+        $router->post('sms/twilio', 'Ushahidi\App\DataSource\Twilio\TwilioController@handleRequest');
+        $router->post('sms/twilio/reply', 'Ushahidi\App\DataSource\Twilio\TwilioController@handleRequest');
     }
 
     public function verifySid($sid)

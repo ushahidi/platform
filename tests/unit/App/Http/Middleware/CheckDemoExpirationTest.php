@@ -4,19 +4,18 @@
  * Unit tests for Signature Auth Middleware
  *
  * @author     Ushahidi Team <team@ushahidi.com>
- * @package    Ushahidi\Application\Tests
  * @copyright  2013 Ushahidi
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Tests\Unit\App\Http\Middleware;
+namespace Tests\Unit\Ushahidi\App\Http\Middleware;
 
+use Illuminate\Http\Request;
+use Mockery as M;
+use Tests\TestCase;
+use Ushahidi\App\Http\Middleware\CheckDemoExpiration;
 use Ushahidi\App\Multisite\MultisiteManager;
 use Ushahidi\App\Multisite\Site;
-use Ushahidi\App\Http\Middleware\CheckDemoExpiration;
-use Illuminate\Http\Request;
-use Tests\TestCase;
-use Mockery as M;
 
 /**
  * @backupGlobals disabled
@@ -24,7 +23,6 @@ use Mockery as M;
  */
 class CheckDemoExpirationTest extends TestCase
 {
-
     public function setUp()
     {
         parent::setUp();
@@ -74,7 +72,7 @@ class CheckDemoExpirationTest extends TestCase
         $multisite->shouldReceive('enabled')->andReturn(true);
         $request->shouldReceive('isMethod')->with('get')->andReturn(false);
         $multisite->shouldReceive('getSite')->andReturn(new Site([
-            'tier' => 'paid'
+            'tier' => 'paid',
         ]));
 
         $middleware = new CheckDemoExpiration($multisite);

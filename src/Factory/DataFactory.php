@@ -21,12 +21,12 @@ class DataFactory
      *         ...
      *     ];
      *
-     * @var Array
+     * @var array
      */
     protected $actions = [];
 
     /**
-     * @param  Array $actions
+     * @param array $actions
      */
     public function __construct(array $actions)
     {
@@ -38,9 +38,9 @@ class DataFactory
      *
      *     $search = $data->get('search', $params);
      *
-     * @param  String $action
-     * @param  Array  $params
-     * @return Ushahidi\Core\Data
+     * @param  string $action
+     * @param  array  $params
+     * @return \Ushahidi\Core\Tools\Data
      */
     public function get($action, array $params = null)
     {

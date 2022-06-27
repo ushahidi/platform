@@ -12,21 +12,20 @@
 namespace Ushahidi\App\Repository;
 
 use Ohanzee\DB;
-use Ohanzee\Database;
-use Ushahidi\Core\Entity;
-use Ushahidi\Core\SearchData;
-use Ushahidi\Core\Usecase;
-use Ushahidi\Core\Traits\CollectionLoader;
+use Ushahidi\Contracts\Entity;
+use Ushahidi\Core\Tools\SearchData;
+use Ushahidi\Contracts\Repository;
+use Ushahidi\Core\Concerns\CollectionLoader;
 use Ushahidi\App\Multisite\OhanzeeResolver;
 use RuntimeException;
 
 abstract class OhanzeeRepository implements
-    Usecase\CreateRepository,
-    Usecase\ReadRepository,
-    Usecase\UpdateRepository,
-    Usecase\DeleteRepository,
-    Usecase\SearchRepository,
-    Usecase\ImportRepository
+    Repository\CreateRepository,
+    Repository\ReadRepository,
+    Repository\UpdateRepository,
+    Repository\DeleteRepository,
+    Repository\SearchRepository,
+    Repository\ImportRepository
 {
 
     use CollectionLoader;
@@ -42,7 +41,7 @@ abstract class OhanzeeRepository implements
     /**
      * Get current connection
      *
-     * @return Ohanzee\Database;
+     * @return \Ohanzee\Database;
      */
     protected function db()
     {
@@ -51,13 +50,15 @@ abstract class OhanzeeRepository implements
 
     /**
      * Get the entity for this repository.
-     * @param  Array  $data
-     * @return Ushahidi\Core\Entity
+     *
+     * @param  array  $data
+     * @return \Ushahidi\Contracts\Entity
      */
     abstract public function getEntity(array $data = null);
 
     /**
      * Get the table name for this repository.
+     *
      * @return String
      */
     abstract protected function getTable();
@@ -65,6 +66,7 @@ abstract class OhanzeeRepository implements
     /**
      * Apply search conditions from input data.
      * Must be overloaded to enable searching.
+     *
      * @throws LogicException
      * @param  SearchData $search
      * @return void
@@ -81,7 +83,7 @@ abstract class OhanzeeRepository implements
     public function get($id)
     {
         return $this->getEntity($this->selectOne([
-            $this->getTable().'.id' => $id
+            $this->getTable() . '.id' => $id
         ]));
     }
 
@@ -251,8 +253,7 @@ abstract class OhanzeeRepository implements
 
         $query = DB::insert($this->getTable())
             ->columns(array_keys($input))
-            ->values(array_values($input))
-            ;
+            ->values(array_values($input));
 
         list($id) = $query->execute($this->db());
         return $id;
@@ -267,7 +268,7 @@ abstract class OhanzeeRepository implements
     protected function executeUpdate(array $where, array $input)
     {
         if (!$where) {
-            throw new RuntimeException(sprintf(
+            throw new \RuntimeException(sprintf(
                 'Cannot update every record in table "%s"',
                 $this->getTable()
             ));
@@ -301,7 +302,7 @@ abstract class OhanzeeRepository implements
     {
 
         if (!$where) {
-            throw new RuntimeException(sprintf(
+            throw new \RuntimeException(sprintf(
                 'Cannot delete every record in table "%s"',
                 $this->getTable()
             ));
@@ -327,7 +328,7 @@ abstract class OhanzeeRepository implements
     public function exists($id)
     {
         return (bool) $this->selectCount([
-            $this->getTable().'.id' => $id
+            $this->getTable() . '.id' => $id
         ]);
     }
 }

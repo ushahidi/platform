@@ -12,10 +12,10 @@
 namespace Ushahidi\App\Validator\ExportJob;
 
 use Ushahidi\App\Facades\Features;
-use Ushahidi\Core\Entity\ExportJobRepository;
-use Ushahidi\Core\Entity\HXL\HXLMetadataRepository;
-use Ushahidi\Core\Entity\UserRepository;
 use Ushahidi\App\Validator\LegacyValidator;
+use Ushahidi\Contracts\Repository\Entity\UserRepository;
+use Ushahidi\Contracts\Repository\Entity\ExportJobRepository;
+use Ushahidi\Contracts\Repository\Entity\HXLMetadataRepository;
 
 class Update extends LegacyValidator
 {

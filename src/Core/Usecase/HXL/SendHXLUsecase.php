@@ -11,21 +11,22 @@
 
 namespace Ushahidi\Core\Usecase\HXL;
 
-use Ushahidi\Core\Entity\ExportJobRepository;
-use Ushahidi\Core\Entity\HXL\HXLFormAttributeHXLAttributeTagRepository;
-use Ushahidi\Core\Entity\HXL\HXLLicenseRepository;
-use Ushahidi\Core\Entity\HXL\HXLMetadataRepository;
-use Ushahidi\Core\Entity\UserSettingRepository;
-use Ushahidi\Core\Tool\AuthorizerTrait;
-use Ushahidi\App\ExternalServices\HDXInterface;
-use Ushahidi\Core\Tool\FormatterTrait;
-use Ushahidi\Core\Tool\TranslatorTrait;
-use Ushahidi\Core\Usecase;
-use Log;
+use Illuminate\Support\Facades\Log;
+use Ushahidi\Contracts\Usecase;
+use Ushahidi\Core\Usecase\Concerns\Formatter as FormatterTrait;
+use Ushahidi\Core\Usecase\Concerns\Authorizer as AuthorizerTrait;
+use Ushahidi\Core\Usecase\Concerns\Translator as TranslatorTrait;
+use Ushahidi\Core\Tools\ExternalServices\HDXInterface;
+use Ushahidi\Core\Usecase\Concerns\IdentifyRecords;
+use Ushahidi\Contracts\Repository\Entity\ExportJobRepository;
+use Ushahidi\Contracts\Repository\Entity\HXLLicenseRepository;
+use Ushahidi\Contracts\Repository\Entity\HXLMetadataRepository;
+use Ushahidi\Contracts\Repository\Entity\UserSettingRepository;
+use Ushahidi\Contracts\Repository\Entity\HXLFormAttributeHXLAttributeTagRepository;
 
 class SendHXLUsecase implements Usecase
 {
-    use Usecase\Concerns\IdentifyRecords;
+    use IdentifyRecords;
     use AuthorizerTrait; // ? do we need this here?
     use FormatterTrait;
     use TranslatorTrait;
@@ -61,10 +62,12 @@ class SendHXLUsecase implements Usecase
     {
         $this->licenseRepository = $repo;
     }
+
     public function setHXLFormAttributeHXLAttributeTagRepository(HXLFormAttributeHXLAttributeTagRepository $repo)
     {
         $this->formAttributeHXLAttributeTagRepository = $repo;
     }
+
     public function setJobID($jobID)
     {
         $this->jobID = $jobID;

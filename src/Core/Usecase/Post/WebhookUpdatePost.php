@@ -11,14 +11,15 @@
 
 namespace Ushahidi\Core\Usecase\Post;
 
-use Ushahidi\Core\Entity;
+use Ushahidi\Contracts\Entity;
 use Ushahidi\Core\Usecase\UpdateUsecase;
+use Ushahidi\Core\Usecase\Post\Concerns\FindPost;
 
 class WebhookUpdatePost extends UpdateUsecase
 {
     // This replaces the default getEntity() logic to allow loading
     // posts by locale, parent id and id.
-    use FindPostEntity {
+    use FindPost {
         // In the case of updates, we have to apply the payload after fetch.
         getEntity as private getEntityWithoutPayload;
     }

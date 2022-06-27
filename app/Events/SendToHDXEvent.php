@@ -1,7 +1,6 @@
 <?php
-namespace Ushahidi\App\Events;
 
-use Log;
+namespace Ushahidi\App\Events;
 
 class SendToHDXEvent extends Event
 {

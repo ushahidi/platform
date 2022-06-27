@@ -11,7 +11,7 @@
 
 namespace Ushahidi\App\Formatter;
 
-use Ushahidi\Core\Traits\FormatterAuthorizerMetadata;
+use Ushahidi\Core\Concerns\FormatterAuthorizerMetadata;
 
 class Set extends API
 {

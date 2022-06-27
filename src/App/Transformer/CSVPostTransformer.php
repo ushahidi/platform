@@ -11,8 +11,8 @@
 
 namespace Ushahidi\App\Transformer;
 
-use Ushahidi\Core\Tool\MappingTransformer;
-use Ushahidi\Core\Entity\PostRepository;
+use Ushahidi\Contracts\MappingTransformer;
+use Ushahidi\Contracts\Repository\Entity\PostRepository;
 
 class CSVPostTransformer implements MappingTransformer
 {
@@ -84,7 +84,7 @@ class CSVPostTransformer implements MappingTransformer
         foreach ($record as $key => $val) {
             $record[$key] = trim($val);
         }
-        
+
         // Transform values according to specs in column names
         $this->transformValues($record);
 
@@ -114,7 +114,7 @@ class CSVPostTransformer implements MappingTransformer
                 );
             }
         }
-        
+
         // Merge multi-value columns
         $this->mergeMultiValueFields($record);
 

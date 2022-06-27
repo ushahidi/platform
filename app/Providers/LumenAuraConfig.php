@@ -4,11 +4,16 @@ namespace Ushahidi\App\Providers;
 
 use Aura\Di\Container;
 use Aura\Di\ContainerConfig;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class LumenAuraConfig extends ContainerConfig
 {
-    public function define(Container $di)
+    /**
+     * Define params, setters, and services before the Container is locked.
+     *
+     * @param Container $di The DI container.
+     */
+    public function define(Container $di): void
     {
         $this->configureAuraServices($di);
         $this->injectAuraConfig($di);
@@ -17,8 +22,8 @@ class LumenAuraConfig extends ContainerConfig
     protected function configureAuraServices(Container $di)
     {
         // Configure mailer
-        $di->set('tool.mailer', $di->lazyNew('Ushahidi\App\Tools\LumenMailer', [
-            'mailer' => app('mailer')
+        $di->set('tool.mailer', $di->lazyNew(\Ushahidi\App\Tools\Mailer::class, [
+            'mailer' => app('mailer'),
         ]));
 
         // Configure filesystem
@@ -26,7 +31,7 @@ class LumenAuraConfig extends ContainerConfig
         // cdn type based on the provided configuration
         $di->set('tool.filesystem', function () {
             // Get the underlying League\Flysystem\Filesystem instance
-            return app('filesystem')->disk()->getDriver();
+            return Storage::disk()->getDriver();
         });
 
         $di->set('multisite', function () {
@@ -34,8 +39,8 @@ class LumenAuraConfig extends ContainerConfig
         });
 
         // Setup user session service
-        $di->set('session', $di->lazyNew(\Ushahidi\App\Tools\LumenSession::class, [
-            'userRepo' => $di->lazyGet('repository.user')
+        $di->set('session', $di->lazyNew(\Ushahidi\App\Tools\Session::class, [
+            'userRepo' => $di->lazyGet('repository.user'),
         ]));
 
         $di->set('db.eloquent.resolver', $di->lazy(function () {
@@ -48,20 +53,24 @@ class LumenAuraConfig extends ContainerConfig
         }));
 
         // Configure dispatcher
-        $di->setters[\Ushahidi\Core\Traits\Events\DispatchesEvents::class]['setDispatcher']
-            = app('events');
+        $di->setters[\Ushahidi\Core\Concerns\DispatchesEvents::class]
+        ['setDispatcher'] = app('events');
     }
 
     protected function injectAuraConfig(Container $di)
     {
         // CDN Config settings
-        $di->set('cdn.config', function () use ($di) {
-            return config('cdn');
-        });
+        $di->values['cdn.config'] = config('cdn');
+
+        // $di->set('cdn.config', function () {
+        //     return config('cdn');
+        // });
 
         // Ratelimiter config settings
-        $di->set('ratelimiter.config', function () use ($di) {
-            return config('ratelimiter');
-        });
+        $di->values['ratelimiter.config'] = config('ratelimiter');
+
+        // $di->set('ratelimiter.config', function () use ($di) {
+        //     return config('ratelimiter');
+        // });
     }
 }

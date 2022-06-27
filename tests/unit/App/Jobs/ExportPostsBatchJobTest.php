@@ -1,15 +1,16 @@
 <?php
 
-namespace Tests\Unit\App\Jobs;
+namespace Tests\Unit\Ushahidi\App\Jobs;
 
-use Laravel\Lumen\Testing\DatabaseTransactions;
-use Tests\TestCase;
 use Faker;
+use Laravel\Lumen\Testing\DatabaseTransactions;
 use Mockery as M;
-
-use Ushahidi\App\Jobs\ExportPostsBatchJob;
-use Ushahidi\App\Jobs\CombineExportedPostBatchesJob;
+use Tests\TestCase;
+use Ushahidi\Contracts\Repository\Entity\ExportJobRepository;
 use Ushahidi\Core\Entity\ExportJob;
+use Ushahidi\Core\Usecase\Post\Export;
+use Ushahidi\App\Jobs\CombineExportedPostBatchesJob;
+use Ushahidi\App\Jobs\ExportPostsBatchJob;
 
 /**
  * @group api
@@ -19,7 +20,6 @@ class ExportPostsBatchJobTest extends TestCase
 {
     protected function mockDispatcher()
     {
-        unset($this->app->availableBindings['Illuminate\Contracts\Bus\Dispatcher']);
         $mock = M::mock('Illuminate\Bus\Dispatcher[dispatch]', [$this->app]);
         $this->app->instance(
             'Illuminate\Contracts\Bus\Dispatcher',
@@ -39,14 +39,14 @@ class ExportPostsBatchJobTest extends TestCase
         $job = new ExportPostsBatchJob($jobId, $batchNumber, $offset, $limit, $includeHeader);
 
         $usecase = M::mock(\Ushahidi\Core\Usecase\Post\Export::class);
-        $exportJobRepo = M::mock(\Ushahidi\Core\Entity\ExportJobRepository::class);
+        $exportJobRepo = M::mock(\Ushahidi\Contracts\Repository\Entity\ExportJobRepository::class);
 
         $usecase->shouldReceive('setFilters')
             ->once()
             ->with([
                 'limit' => $limit,
                 'offset' => $offset,
-                'add_header' => $includeHeader
+                'add_header' => $includeHeader,
             ])
             ->andReturn($usecase);
 
@@ -54,7 +54,7 @@ class ExportPostsBatchJobTest extends TestCase
             ->once()
             ->with([
                 'job_id' => $jobId,
-                'batch_number' => $batchNumber
+                'batch_number' => $batchNumber,
             ])
             ->andReturn($usecase);
 
@@ -65,8 +65,8 @@ class ExportPostsBatchJobTest extends TestCase
                     'filename' => 'filename.jpg',
                     'id' => 55,
                     'rows' => 200,
-                    'status' => 'completed'
-                ]
+                    'status' => 'completed',
+                ],
             ]);
 
         $exportJobRepo->shouldReceive('areBatchesFinished')
@@ -88,17 +88,17 @@ class ExportPostsBatchJobTest extends TestCase
 
         $dispatcher = $this->mockDispatcher();
         $dispatcher->shouldReceive('dispatch')->once()
-                ->with(M::type(\Ushahidi\App\Jobs\CombineExportedPostBatchesJob::class));
+                ->with(M::type(CombineExportedPostBatchesJob::class));
 
-        $usecase = M::mock(\Ushahidi\Core\Usecase\Post\Export::class);
-        $exportJobRepo = M::mock(\Ushahidi\Core\Entity\ExportJobRepository::class);
+        $usecase = M::mock(Export::class);
+        $exportJobRepo = M::mock(ExportJobRepository::class);
 
         $usecase->shouldReceive('setFilters')
             ->once()
             ->with([
                 'limit' => $limit,
                 'offset' => $offset,
-                'add_header' => $includeHeader
+                'add_header' => $includeHeader,
             ])
             ->andReturn($usecase);
 
@@ -106,7 +106,7 @@ class ExportPostsBatchJobTest extends TestCase
             ->once()
             ->with([
                 'job_id' => $jobId,
-                'batch_number' => $batchNumber
+                'batch_number' => $batchNumber,
             ])
             ->andReturn($usecase);
 
@@ -117,8 +117,8 @@ class ExportPostsBatchJobTest extends TestCase
                     'filename' => 'filename.jpg',
                     'id' => 55,
                     'rows' => 200,
-                    'status' => 'completed'
-                ]
+                    'status' => 'completed',
+                ],
             ]);
 
         $exportJobRepo->shouldReceive('areBatchesFinished')

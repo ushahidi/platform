@@ -12,10 +12,8 @@ namespace Ushahidi\App\DataSource;
  */
 
 use Illuminate\Support\Facades\Log;
-
-use Ushahidi\Core\Entity\MessageRepository;
-
-use Ushahidi\Core\Usecase;
+use Ushahidi\Contracts\Repository\Entity\MessageRepository;
+use Ushahidi\Contracts\Usecase;
 
 class DataSourceStorage
 {
