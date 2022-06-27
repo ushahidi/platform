@@ -77,8 +77,8 @@ class ConfigRepository implements
     {
         $this->verifyGroup($group);
 
-        if ($group == 'multisite') {
-            return $this->getMultisiteGroup();
+        if ($group == 'deployment_id') {
+            return $this->getDeploymentIdGroup();
         }
 
         $config = [];
@@ -112,20 +112,37 @@ class ConfigRepository implements
         return $this->getEntity(['id' => $group] + $config);
     }
 
-    protected function getMultisiteGroup()
+    protected function getDeploymentIdGroup()
     {
-        // The multisite group is special in that it's not persisted in the deployment's database.
+        // The Deployment Id group is special in that it's not persisted in the deployment's database.
+        $config = [];
+
+        // Multisite IDs
         if (app('multisite')->enabled()) {
             $multi = app('multisite');
-            $config = [
+            $config['multisite'] = [
                 'enabled' => true,
                 'site_id' => $multi->getSiteId(),
                 'site_fqdn' => $multi->site->getClientUri(),
             ];
         } else {
-            $config = [ 'enabled' => false ];
+            $config['multisite'] = [];
         }
-        return $this->getEntity(['id' => 'multisite'] + $config);
+
+        $analytics_prefix = env('USH_ANALYTICS_PREFIX', null);
+        $analytics_id =
+            $config['multisite']['site_id'] ??
+            env('USH_ANALYTICS_ID', null);
+        if ($analytics_prefix && $analytics_id) {
+            $config['analytics'] = [
+                'prefix' => $analytics_prefix,
+                'id' => $analytics_id,
+            ];
+        } else {
+            $config['analytics'] = [];
+        }
+
+        return $this->getEntity(['id' => 'deployment_id'] + $config);
     }
 
     // UpdateRepository
@@ -136,7 +153,7 @@ class ConfigRepository implements
 
         $this->verifyGroup($group);
 
-        if ($group == 'multisite') {
+        if ($group == 'deployment_id') {
             return; /* noop */
         }
 
@@ -205,7 +222,7 @@ class ConfigRepository implements
         return [
             'features',
             'site',
-            'multisite',
+            'deployment_id',
             'test',
             'data-provider',
             'map',
