@@ -18,7 +18,7 @@ Ushahidi 3
  [![Sponsors on Open Collective](https://opencollective.com/platform/sponsors/badge.svg)](#sponsors) 
 
 
-[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy?template=https://github.com/ushahidi/platform/tree/master)
+[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy?template=https://github.com/ushahidi/platform/tree/develop)
 
 ## What is Ushahidi?
 
