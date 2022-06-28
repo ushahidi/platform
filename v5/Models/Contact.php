@@ -8,12 +8,22 @@ class Contact extends BaseModel
         'messages'
     ];
 
+    const CREATED_AT = 'created';
+    const UPDATED_AT = 'updated';
+
     /**
      * Add eloquent style timestamps
      *
      * @var boolean
      */
-    public $timestamps = false;
+    public $timestamps = true;
+
+    /**
+     * The storage format of the model's date columns.
+     *
+     * @var string
+     */
+    protected $dateFormat = 'U';
 
     /**
      * Specify the table to load with Survey

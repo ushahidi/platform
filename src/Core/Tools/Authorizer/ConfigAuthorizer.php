@@ -39,13 +39,13 @@ class ConfigAuthorizer implements Authorizer
      * Public config groups
      * @var [string, ...]
      */
-    protected $public_groups = ['features', 'map', 'site', 'multisite'];
+    protected $public_groups = ['features', 'map', 'site', 'deployment_id'];
 
     /**
      * Public config groups
      * @var [string, ...]
      */
-    protected $readonly_groups = ['features', 'multisite'];
+    protected $readonly_groups = ['features', 'deployment_id'];
 
     /* Authorizer */
     public function isAllowed(Entity $entity, $privilege)
