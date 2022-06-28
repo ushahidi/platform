@@ -7,6 +7,7 @@ use Ushahidi\Contracts\Permission;
 use Illuminate\Support\Facades\Input;
 use Ushahidi\App\Validator\LegacyValidator;
 use Ushahidi\Core\Tools\Permissions\InteractsWithFormPermissions;
+use Illuminate\Http\Request;
 
 class Survey extends BaseModel
 {
@@ -235,7 +236,7 @@ class Survey extends BaseModel
             // [[$this, 'canMakePrivate'], [':value', $type]]
             // ]
         ];
-    }//end validationMessages()
+    } //end validationMessages()
 
     /**
      * Return all validation rules
@@ -249,7 +250,7 @@ class Survey extends BaseModel
                 'required',
                 'min:2',
                 'max:255',
-                'regex:'.LegacyValidator::REGEX_STANDARD_TEXT,
+                'regex:' . LegacyValidator::REGEX_STANDARD_TEXT,
             ],
             'description'                       => [
                 'string',
@@ -267,7 +268,7 @@ class Survey extends BaseModel
             'targeted_survey'                   => ['boolean'],
             'tasks.*.label'                     => [
                 'required',
-                'regex:'.LegacyValidator::REGEX_STANDARD_TEXT,
+                'regex:' . LegacyValidator::REGEX_STANDARD_TEXT,
             ],
             'tasks.*.type'                      => [Rule::in(
                 [
@@ -347,7 +348,7 @@ class Survey extends BaseModel
             // should be removing that arbitrary limit since it's pretty rare
             // for it to be needed
         ];
-    }//end getRules()
+    } //end getRules()
 
     public function canMakePrivate($value, $type)
     {
@@ -378,7 +379,7 @@ class Survey extends BaseModel
     {
         $can_create = $this->getCanCreateRoles($this->id);
         return $can_create['roles'];
-    }//end getCanCreateAttribute()
+    } //end getCanCreateAttribute()
 
 
     private function getCanCreateRoles($form_id)
@@ -391,7 +392,7 @@ class Survey extends BaseModel
          */
         $form_repo = service('repository.form');
         return $form_repo->getRolesThatCanCreatePosts($form_id);
-    }//end getCanCreateRoles()
+    } //end getCanCreateRoles()
 
 
     /**
@@ -413,9 +414,9 @@ class Survey extends BaseModel
             'v5\Models\Stage',
             'form_id'
         )
-        ->where('form_stages.show_when_published', '=', '1')
-        ->where('form_stages.task_is_internal_only', '=', '0');
-    }//end tasks()
+            ->where('form_stages.show_when_published', '=', '1')
+            ->where('form_stages.task_is_internal_only', '=', '0');
+    } //end tasks()
 
 
     /**
@@ -424,7 +425,7 @@ class Survey extends BaseModel
     public function translations()
     {
         return $this->morphMany('v5\Models\Translation', 'translatable');
-    }//end translations()
+    } //end translations()
 
     /**
      * Get the survey color.
@@ -447,5 +448,18 @@ class Survey extends BaseModel
         if (isset($value)) {
             $this->attributes['color'] = ltrim($value, '#');
         }
+    }
+    /**
+     * get the  required columns .
+     *
+     * @param  Request  $request
+     * @return array
+     */
+    public static function selectModelFields(Request $request): array
+    {
+        return self::includeFields($request, (new Survey())->fillable, [
+            'id',
+            'base_language',
+        ]);
     }
 }//end class

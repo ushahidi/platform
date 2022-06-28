@@ -37,9 +37,9 @@ class PostController extends V5Controller
      * @return mixed
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function show(int $id)
+    public function show(Request $request, int $id)
     {
-        $post = Post::withPostValues()->where('id', $id)->first();
+        $post = Post::withPostValues()->where('id', $id)->first(POST::selectModelFields($request));
 
         if (!$post) {
             return self::make404();
@@ -55,9 +55,9 @@ class PostController extends V5Controller
      * @return PostCollection
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function index()
+    public function index(Request $request)
     {
-        return new PostCollection(Post::withPostValues()->paginate(20));
+        return new PostCollection(Post::withPostValues()->paginate(20, POST::selectModelFields($request)));
     } //end index()
 
     private function getUser()

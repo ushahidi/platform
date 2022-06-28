@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
+use v5\Traits\HasOnlyParameters;
 
 /**
  * Class ResourceModel
@@ -14,7 +15,8 @@ use Illuminate\Support\Facades\DB;
  */
 class BaseModel extends Model
 {
-
+    use HasOnlyParameters;
+    
     protected $validationRules = [];
 
     /**
