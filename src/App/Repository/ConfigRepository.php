@@ -123,7 +123,7 @@ class ConfigRepository implements
             $config['multisite'] = [
                 'enabled' => true,
                 'site_id' => $multi->getSiteId(),
-                'site_fqdn' => $multi->site->getClientUri(),
+                'site_fqdn' => $multi->getSite()->getClientUri(),
             ];
         } else {
             $config['multisite'] = [];
