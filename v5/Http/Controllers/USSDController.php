@@ -24,14 +24,14 @@ use v5\Common\ValidatorRunner;
  */
 class USSDController extends PostController
 {
-    public function show(int $id)
+    public function show(Request $request, int $id)
     {
-        throw new Exception("Invalid controller method");
+        throw new \Exception("Invalid controller method");
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        throw new Exception("Invalid controller method");
+        throw new \Exception("Invalid controller method");
     }
 
     /**
@@ -138,16 +138,16 @@ class USSDController extends PostController
 
     public function patch(int $id, Request $request)
     {
-        throw new Exception("Invalid controller method");
+        throw new \Exception("Invalid controller method");
     }
     
     public function update(int $id, Request $request)
     {
-        throw new Exception("Invalid controller method");
+        throw new \Exception("Invalid controller method");
     }
 
     public function delete(int $id, Request $request)
     {
-        throw new Exception("Invalid controller method");
+        throw new \Exception("Invalid controller method");
     }
 }
