@@ -119,6 +119,7 @@ class PostResource extends BaseResource
                     break;
             }
         }
+        $result['locks'] = new LockCollection($this->locks);
         return $result;
     }
 
