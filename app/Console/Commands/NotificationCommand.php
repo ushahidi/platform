@@ -12,7 +12,7 @@ namespace Ushahidi\App\Console\Commands;
 
 use Illuminate\Console\Command;
 use Ushahidi\Core\Entity\Message;
-use Ushahidi\App\DataSource\DataSourceManager;
+use Ushahidi\DataSource\DataSourceManager;
 use Ushahidi\App\Multisite\OhanzeeResolver;
 use Ushahidi\App\Multisite\UsesSiteInfo;
 

@@ -3,7 +3,7 @@
 namespace Ushahidi\App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Ushahidi\App\DataSource\DataSourceServiceProvider;
+use Ushahidi\DataSource\DataSourceServiceProvider;
 use Ushahidi\App\Multisite\MultisiteServiceProvider;
 use Ushahidi\App\Providers\FilesystemServiceProvider;
 use Ushahidi\App\Tools\Features;
