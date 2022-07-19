@@ -125,7 +125,7 @@ class DataSourceManager
      * @param  string $name
      * @return DataSource
      */
-    public function getSource(string $name) : DataSource
+    public function getSource(string $name) : Datasource
     {
         return $this->loadedSources[$name] ?? $this->resolve($name);
     }
@@ -167,7 +167,11 @@ class DataSourceManager
      */
     public function registerRoutes(Router $router)
     {
-        foreach ($this->sources as $name => $class) {
+        foreach (array_merge($this->sources, $this->customSources) as $name => $class) {
+            if ($class instanceof Closure) {
+                /** @var \Ushahidi\Contracts\DataSource\CallbackDataSource */
+                $class = $this->getSource($name);
+            }
             if (in_array(CallbackDataSource::class, class_implements($class))) {
                 $class::registerRoutes($router);
             }

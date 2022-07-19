@@ -13,7 +13,6 @@ namespace Ushahidi\Contracts\DataSource;
  */
 interface MessageType
 {
-
     const SMS = 'sms';
     const TWITTER = 'twitter';
     const IVR = 'ivr';

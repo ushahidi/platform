@@ -2,24 +2,26 @@
 
 namespace Ushahidi\App\Providers;
 
+use Ushahidi\App\Tools\Features;
+use Ushahidi\Core\Tools\Verifier;
+use Ushahidi\Factory\UsecaseFactory;
+use Ushahidi\Addons\Mteja\MtejaSource;
+use Ushahidi\Core\Usecase\Post\Export;
 use Illuminate\Support\ServiceProvider;
+use Ushahidi\Core\Usecase\Export\Job\PostCount;
 use Ushahidi\DataSource\DataSourceServiceProvider;
 use Ushahidi\App\Multisite\MultisiteServiceProvider;
 use Ushahidi\App\Providers\FilesystemServiceProvider;
-use Ushahidi\App\Tools\Features;
+use Ushahidi\Addons\AfricasTalking\AfricasTalkingSource;
+use Ushahidi\Contracts\Repository\Entity\PostRepository;
+use Ushahidi\Contracts\Repository\Entity\UserRepository;
 use Ushahidi\Contracts\Repository\Entity\ConfigRepository;
 use Ushahidi\Contracts\Repository\Entity\ContactRepository;
-use Ushahidi\Contracts\Repository\Entity\ExportBatchRepository;
-use Ushahidi\Contracts\Repository\Entity\ExportJobRepository;
-use Ushahidi\Contracts\Repository\Entity\FormAttributeRepository;
 use Ushahidi\Contracts\Repository\Entity\MessageRepository;
-use Ushahidi\Contracts\Repository\Entity\PostRepository;
+use Ushahidi\Contracts\Repository\Entity\ExportJobRepository;
+use Ushahidi\Contracts\Repository\Entity\ExportBatchRepository;
+use Ushahidi\Contracts\Repository\Entity\FormAttributeRepository;
 use Ushahidi\Contracts\Repository\Entity\TargetedSurveyStateRepository;
-use Ushahidi\Contracts\Repository\Entity\UserRepository;
-use Ushahidi\Core\Tools\Verifier;
-use Ushahidi\Core\Usecase\Export\Job\PostCount;
-use Ushahidi\Core\Usecase\Post\Export;
-use Ushahidi\Factory\UsecaseFactory;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -30,7 +32,17 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        /**
+         * For now this configuration is temporary,
+         * should be moved to an isolated place within the addon directory
+         */
+        $this->app['datasources']->extend('africastalking', function ($config) {
+            return new AfricasTalkingSource($config);
+        });
+
+        $this->app['datasources']->extend('mteja', function ($config) {
+            return new MtejaSource($config);
+        });
     }
 
     /**
