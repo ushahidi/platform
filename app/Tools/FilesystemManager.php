@@ -4,6 +4,7 @@ namespace Ushahidi\App\Tools;
 
 use Illuminate\Filesystem\FilesystemManager as LaravelFilesystemManager;
 use League\Flysystem\Rackspace\RackspaceAdapter;
+use OpenCloud\ObjectStore\Constants\UrlType;
 use OpenCloud\ObjectStore\Exception\ObjectNotFoundException;
 
 class FilesystemManager extends LaravelFilesystemManager
@@ -16,13 +17,13 @@ class FilesystemManager extends LaravelFilesystemManager
     {
         try {
             return $this->app['cache']->remember(
-                self::class."rackspaceUrl[$path]",
+                self::class.".rackspaceUrl[$path]",
                 self::CACHE_LIFETIME,
                 function () use ($path) {
                     return (string) $this->getAdapter()
                         ->getContainer()
                         ->getObject($path)
-                        ->getPublicUrl(\OpenCloud\ObjectStore\Constants\UrlType::SSL);
+                        ->getPublicUrl(UrlType::SSL);
                 }
             );
         } catch (ObjectNotFoundException $e) {

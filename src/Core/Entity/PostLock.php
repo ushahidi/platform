@@ -18,6 +18,9 @@ class PostLock extends StaticEntity
     protected $user_id;
     protected $post_id;
     protected $expires;
+    protected $breakable;
+    protected $owner_name;
+
     // StatefulData
     protected function getDerived()
     {
@@ -37,6 +40,9 @@ class PostLock extends StaticEntity
             'post'              => false,
             'post_id'           => 'int',
             'expires'           => 'int',
+            'breakable'           => 'bool',
+            'owner_name'           => 'string',
+
         ];
     }
     // Entity
