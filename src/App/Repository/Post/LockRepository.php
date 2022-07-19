@@ -20,6 +20,8 @@ use Ushahidi\Contracts\Entity;
 use Ushahidi\Core\Concerns\UserContext;
 use Ushahidi\App\Repository\OhanzeeRepository;
 use Ushahidi\Contracts\Repository\Entity\PostLockRepository;
+use Ushahidi\App\Repository\UserRepository;
+use Ushahidi\App\Multisite\OhanzeeResolver;
 
 class LockRepository extends OhanzeeRepository implements PostLockRepository
 {
@@ -28,6 +30,13 @@ class LockRepository extends OhanzeeRepository implements PostLockRepository
 
     // Use Event trait to trigger events
     use Event;
+
+    public function __construct(
+        OhanzeeResolver $resolver
+    ) {
+        parent::__construct($resolver);
+        $this->user_repo = new UserRepository($resolver);
+    }
 
     // OhanzeeRepository
     protected function getTable()
@@ -116,11 +125,11 @@ class LockRepository extends OhanzeeRepository implements PostLockRepository
             ->execute($this->db());
 
         if ($result->get('expires')) {
-            $time = $result->get('expires');
+            $expire_time = $result->get('expires');
             $curtime = time();
             // Check if the lock has expired
             // Locks are active for a maximum of 5 minutes
-            if (($curtime - $time) > 300) {
+            if (($curtime - $expire_time) > 0) {
                 $release = $this->releaseLock($post_id);
                 return false;
             }
@@ -144,31 +153,35 @@ class LockRepository extends OhanzeeRepository implements PostLockRepository
 
         return true;
     }
+    private function createNewLock($post_id)
+    {
+        $expires = strtotime("+5 minutes");
+         $user = $this->getUser();
+         $lock = [
+             'user_id' => $user->id,
+             'post_id' => $post_id,
+             'expires' => $expires
+         ];
+
+         $query = DB::insert('post_locks')
+             ->columns(array_keys($lock))
+             ->values(array_values($lock));
+
+         list($id) = $query->execute($this->db());
+         return $id;
+    }
 
     public function getLock(Entity $entity)
     {
+        // if user can break the lock "has admin role" then release the old lock if it from other user
         // If the lock is inactive simply create a new
         // lock
         // If the user already owns a lock that is active
         // return that lock id
         // Otherwise we return null
-
-        if (!$this->isActive($entity->id)) {
-            $expires = strtotime("+5 minutes");
-            $user = $this->getUser();
-            $lock = [
-                'user_id' => $user->id,
-                'post_id' => $entity->id,
-                'expires' => $expires
-            ];
-
-            $query = DB::insert('post_locks')
-                ->columns(array_keys($lock))
-                ->values(array_values($lock));
-
-            list($id) = $query->execute($this->db());
-
-            return $id;
+        if ($this->lockIsBreakable()) {
+        }if (!$this->isActive($entity->id)) {
+            return $this->getAdminLock($entity->id);
         } elseif ($this->userOwnsLock($entity->id)) {
             $lock = $this->getPostLock($entity->id);
             return $lock['id'];
@@ -194,5 +207,49 @@ class LockRepository extends OhanzeeRepository implements PostLockRepository
             ->as_array();
 
         return count($result) > 0 ? $result[0] : null;
+    }
+
+    public function getNoneExpiredPostLock($entity_id)
+    {
+        $result = DB::select('id', 'post_id', 'user_id', 'expires')
+            ->from('post_locks')
+            ->where('post_id', '=', $entity_id)
+            ->where('expires', '>=', time())
+            ->limit(1)
+            ->execute($this->db())
+            ->as_array();
+
+        if (count($result) > 0) {
+            $owner =    $this->user_repo->selectOne(['id'=>$result[0]['user_id']]);
+            $result[0]["breakable"] = $this->lockIsBreakable();
+            $result[0]["owner_name"] = $owner["realname"];
+
+            return $result[0];
+        } else {
+            return null;
+        }
+    }
+
+    public function lockIsBreakable()
+    {
+        $user =$this->getUser();
+        return $user->role ===  "admin";
+    }
+
+    public function getAdminLock($post_id)
+    {
+        $result = DB::select('id', 'user_id')
+        ->from('post_locks')
+        ->where('post_id', '=', $post_id)
+        ->limit(1)
+        ->execute($this->db());
+        $user = $this->getUser();
+
+        if ($result->get('user_id') || ($result->get('user_id') != $user->id)) {
+            $this->releaseLock($post_id);
+            return $this->createNewLock($post_id);
+        } else {
+            return $result->get('id');
+        }
     }
 }

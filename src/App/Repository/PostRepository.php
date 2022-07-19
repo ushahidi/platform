@@ -303,7 +303,7 @@ class PostRepository extends OhanzeeRepository implements
 
     protected function getHydratedLock($post_id)
     {
-        $lock_array = $this->post_lock_repo->getPostLock($post_id);
+        $lock_array = $this->post_lock_repo->getNoneExpiredPostLock($post_id);
 
         return $lock_array ? service("formatter.entity.post.lock")->__invoke(new PostLock($lock_array)) : null;
     }
