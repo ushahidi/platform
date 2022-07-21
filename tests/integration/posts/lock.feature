@@ -63,18 +63,14 @@ Feature: Testing Post Lock
         Then the guzzle status code should be 200
 
      @resetFixture
-     Scenario: Updating locked Post breaks lock
+     Scenario: Updating locked Post breaks expired lock
         Given that I want to find a "Post"
 	    And that its "id" is "1692"
 		When I request "/posts"
 		Then the response is JSON
 		And the response has a "id" property
 		And the type of the "id" property is "numeric"
-        And the response has a "lock" property
-        And the response has a "lock.user" property
-        And the response has a "lock.user.id" property
-        And the type of the "lock.user.id" property is "numeric"
-        And the "lock.post_id" property equals "1692"
+        And the response does not have a "lock" property
         Then the guzzle status code should be 200
         Given that I want to update a "Post"
 		And that the request "data" is:

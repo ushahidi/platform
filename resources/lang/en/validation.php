@@ -39,4 +39,5 @@ return array(
   'required'      => ':field is required',
   'required_by_label' => 'Field ":label" is required',
   'ref_exists'    => ':field must point at an existing :model',
+  'post_locked'    => 'The post is locked by :user',
 );

@@ -521,7 +521,8 @@ class Post extends BaseModel
 
     public function locks()
     {
-        return $this->hasMany('v5\Models\PostValues\PostLock', 'post_id', 'id');
+        //return $this->hasMany('v5\Models\PostValues\PostLock', 'post_id', 'id');
+        return $this->hasMany('v5\Models\Lock', 'post_id', 'id')->where('post_locks.expires', '>=', time());
     }
 
     public function categories()
