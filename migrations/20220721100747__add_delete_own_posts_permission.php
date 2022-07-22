@@ -2,7 +2,6 @@
 
 use Phinx\Migration\AbstractMigration;
 
-
 class AddDeleteOwnPostsPermission extends AbstractMigration
 {
     /**
@@ -30,6 +29,5 @@ class AddDeleteOwnPostsPermission extends AbstractMigration
         $this->execute("DELETE FROM permissions WHERE name = 'Delete Their Own Posts'");
        
         $this->execute("DELETE FROM roles_permissions WHERE permission = 'Delete Their Own Posts'");
-
     }
 }
