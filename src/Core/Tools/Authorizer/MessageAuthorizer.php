@@ -18,6 +18,7 @@ use Ushahidi\Core\Concerns\OwnerAccess;
 use Ushahidi\Core\Concerns\UserContext;
 use Ushahidi\Core\Concerns\PrivAccess;
 use Ushahidi\Core\Concerns\PrivateDeployment;
+use Ushahidi\Contracts\Permission;
 
 // The `MessageAuthorizer` class is responsible for access checks on `Message`
 class MessageAuthorizer implements Authorizer
@@ -50,6 +51,11 @@ class MessageAuthorizer implements Authorizer
         // Incoming messages cannot be updated
         if ($privilege === 'update' && $this->isMessageIncoming($entity)) {
             return false;
+        }
+
+        // Check whether there is a role with the right permissions
+        if ($this->acl->hasPermission($user, Permission::MANAGE_POSTS)) {
+            return true;
         }
 
         // Then we check if a user has the 'admin' role. If they do they're
