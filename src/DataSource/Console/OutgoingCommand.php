@@ -114,7 +114,8 @@ class OutgoingCommand extends Command
                 $message->contact,
                 $message->message,
                 $message->title,
-                $message->contact_type
+                $message->contact_type,
+                $message->type
             );
 
             $this->storage->updateMessageStatus($message->id, $new_status, $tracking_id);
