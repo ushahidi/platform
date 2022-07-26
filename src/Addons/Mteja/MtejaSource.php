@@ -69,6 +69,6 @@ class MtejaSource implements CallbackDataSource
 
     public static function registerRoutes(Router $router)
     {
-        $router->post('sms/mteja', [ShortMessageController::class, 'handleRequest']);
+        $router->post('sms/mteja', ShortMessageController::class.'@handleRequest');
     }
 }

@@ -65,6 +65,6 @@ class AfricasTalkingSource implements CallbackDataSource
 
     public static function registerRoutes(Router $router)
     {
-        $router->post('sms/africas-talking', [ShortMessageController::class, 'handleRequest']);
+        $router->post('sms/africas-talking', ShortMessageController::class.'@handleRequest');
     }
 }
