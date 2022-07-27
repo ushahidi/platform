@@ -19,7 +19,9 @@ return [
         'nexmo' => false,
         'twitter' => false,
         'frontlinesms' => false,
-        'gmail' => false
+        'gmail' => false,
+        'mteja' => false,
+        'africastalking' => false,
     ],
 
     'authenticable-providers' => [

@@ -39,6 +39,10 @@ class RouteServiceProvider extends ServiceProvider
 
         $this->mapWebRoutes();
 
+        if ($this->app->has('datasources')) {
+            $this->app->make('datasources')->registerRoutes($this->app->router);
+        }
+
         //
     }
 
