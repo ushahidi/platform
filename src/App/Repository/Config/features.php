@@ -33,7 +33,9 @@ return [
         'twilio' => true,
         'nexmo' => true,
         'testservice' => false,
-        'gmail' => false
+        'gmail' => false,
+        'mteja' => true,
+        'africastalking' => true,
     ],
 
     // Client limits

@@ -88,8 +88,16 @@ abstract class DataSourceController extends Controller
      */
     protected function save($payload)
     {
+        $source_id =  $this->source;
+
+        if (!is_string($this->source)) {
+            $source_id = $this->source->getId();
+            $inbound_form_id = $this->source->getInboundFormId();
+            $inbound_field_mappings = $this->source->getInboundFieldMappings();
+        }
+
         $this->storage->receive(
-            $this->source->getId(),
+            $source_id,
             $payload['type'],
             $payload['contact_type'],
             $payload['from'],
@@ -99,8 +107,8 @@ abstract class DataSourceController extends Controller
             isset($payload['datetime']) ? $payload['datetime'] : null,
             isset($payload['data_source_message_id']) ? $payload['data_source_message_id'] : null,
             [],
-            $this->source->getInboundFormId(),
-            $this->source->getInboundFieldMappings()
+            $inbound_form_id ?? false,
+            $inbound_field_mappings ?? []
         );
     }
 }
