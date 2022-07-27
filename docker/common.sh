@@ -47,7 +47,7 @@ function provision_passport_keys() {
 
 function touch_logs() {
   # Archive previous logs , start with new files for current run
-  for f in lumen.log worker.log; do
+  for f in lumen.log laravel.log worker.log; do
     if [ -f "storage/logs/${f}" ]; then
       cat "storage/logs/${f}" >> storage/logs/${f}.archive
     fi
@@ -59,7 +59,7 @@ function dump_logs() {
   echo
   echo "---> [i] Dump of lumen logs"
   echo
-  for f in lumen.log worker.log; do
+  for f in lumen.log laravel.log worker.log; do
     if [ -f "storage/logs/${f}" ] && [ `stat -c %s "storage/logs/${f}"` -gt 0 ]; then
       echo "---- ${f} ----"
       cat storage/logs/${f}

@@ -59,8 +59,8 @@ class ContactAuthorizer implements Authorizer
             return true;
         }
 
-        // Logged in users can search contacts
-        if ($user->getId() and in_array($privilege, ['search'])) {
+        // Logged in users can read and search contacts
+        if ($user->getId() and in_array($privilege, ['read','search'])) {
             return true;
         }
 
