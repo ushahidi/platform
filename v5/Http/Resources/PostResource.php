@@ -123,6 +123,16 @@ class PostResource extends BaseResource
         return $result;
     }
 
+    private function getPostSource()
+    {
+        $source = "web";
+        $message = $this->message;
+        if ($message) {
+            $source = isset($message->type) ? $message->type : 'web';
+        }
+        return $source;
+    }
+
     /**
      * Transform the resource into an array.
      *
@@ -135,6 +145,7 @@ class PostResource extends BaseResource
         // @TODO-jan27 make id required
         $fields = $this->includeResourceFields($request);
         $result = $this->setResourceFields($fields);
+        $result['source'] = $this->getPostSource();
         $hydrated = $this->hydrateResourceRelationships($request);
         $allowed_privs = ['allowed_privileges' => $this->getResourcePrivileges()];
         return array_merge($result, $hydrated, $allowed_privs);
