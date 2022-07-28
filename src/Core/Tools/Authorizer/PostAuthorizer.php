@@ -80,7 +80,7 @@ class PostAuthorizer implements Authorizer
         }
 
         // First check whether there is a role with the right permissions
-        if (($privilege != "delete") && ($this->acl->hasPermission($user, Permission::MANAGE_POSTS))) {
+        if (($privilege !== "delete") && ($this->acl->hasPermission($user, Permission::MANAGE_POSTS))) {
             return true;
         }
         
