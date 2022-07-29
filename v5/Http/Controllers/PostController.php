@@ -15,6 +15,7 @@ use v5\Models\Post\PostStatus;
 use v5\Exceptions\V5Exception;
 use Illuminate\Support\Facades\DB;
 use v5\Common\ValidatorRunner;
+use v5\Models\Lock;
 
 class PostController extends V5Controller
 {
@@ -351,6 +352,11 @@ class PostController extends V5Controller
         if (!$post->validate($input)) {
             return self::make422($post->errors);
         }
+        if (!$this->validateLockState($id)) {
+            return self::make422(Lock::getPostLockedErrorMessage($id));
+        }
+        
+
         DB::beginTransaction();
         try {
             $post->update(array_merge($input, ['updated' => time()]));
@@ -368,6 +374,7 @@ class PostController extends V5Controller
             }
             $translations_input = $request->input('translations') ? $request->input('translations') : [];
             $this->updateTranslations(new Post(), $post->toArray(), $translations_input, $post->id, 'post');
+            Lock::releaseLock($id);
             DB::commit();
 
             // note: done after commit to avoid deadlock in the db
@@ -570,4 +577,12 @@ class PostController extends V5Controller
             return self::make500('Could not delete model');
         }
     } //end delete()
+
+    protected function validateLockState($post_id)
+    {
+        if (Lock::postIsLocked($post_id)) {
+            return false;
+        }
+        return true;
+    }
 }//end class

@@ -20,7 +20,6 @@ use Illuminate\Support\Facades\Route;
 $apiVersion = '3';
 $apiBase = '/v'.$apiVersion;
 
-Route::get('/', "API\IndexController@index");
 Route::get($apiBase, "API\IndexController@index");
 Route::group([
     'prefix' => $apiBase,
