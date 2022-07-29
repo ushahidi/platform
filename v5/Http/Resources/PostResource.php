@@ -9,6 +9,7 @@ use v5\Models\Post\Post as v5Post;
 class PostResource extends BaseResource
 {
     public static $wrap = 'result';
+    private const DEFAULT_SOURCE_TYPE = 'web';
 
     /**
      *
@@ -125,12 +126,10 @@ class PostResource extends BaseResource
 
     private function getPostSource()
     {
-        $source = "web";
         $message = $this->message;
-        if ($message) {
-            $source = isset($message->type) ? $message->type : 'web';
-        }
-        return $source;
+        return $message && isset($message->type)
+        ? $message->type
+        : self::DEFAULT_SOURCE_TYPE;
     }
 
     /**
