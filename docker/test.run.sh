@@ -17,7 +17,7 @@ test_reporter() {
   if [ $_ret -ne 0 ]; then
     echo -e "\n\n* Test run failed, output of logs in application/logs follows:"
     echo -e "-------------------- BEGIN LOG OUTPUT --------------------"
-    cat storage/logs/lumen.log
+    cat storage/logs/laravel.log
     echo -e "--------------------- END LOG OUTPUT ---------------------"
     return 1
   else
