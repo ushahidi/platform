@@ -17,8 +17,9 @@ use Ushahidi\Contracts\DataSource\MessageStatus;
 use Ushahidi\Addons\Mteja\ShortMessageController;
 use Ushahidi\DataSource\Concerns\MapsInboundFields;
 use Ushahidi\Contracts\DataSource\CallbackDataSource;
+use Ushahidi\Contracts\DataSource\OutgoingDataSource;
 
-class MtejaSource implements CallbackDataSource
+class MtejaSource implements CallbackDataSource, OutgoingDataSource
 {
     use MapsInboundFields;
 
