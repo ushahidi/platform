@@ -11,12 +11,14 @@
 
 namespace Ushahidi\Contracts\Repository\Entity;
 
+use Ushahidi\Contracts\EntityCreate;
 use Ushahidi\Contracts\EntityGet;
 use Ushahidi\Contracts\EntityExists;
 
 interface FormStageRepository extends
     EntityGet,
-    EntityExists
+    EntityExists,
+    EntityCreate
 {
 
     /**
@@ -44,7 +46,7 @@ interface FormStageRepository extends
      * Get 'post' type stage for form
      *
      * @param  int $form_id
-     * @return Ushahidi\Contracts\Repository\Entity\FormAttribute
+     * @return \Ushahidi\Contracts\Entity
      */
     public function getPostStage($form_id);
 }
