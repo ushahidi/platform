@@ -3,7 +3,7 @@
 namespace Tests;
 
 use Illuminate\Foundation\Testing\DatabaseTransactions as LaravelDatabaseTransactions;
-use Ushahidi\App\Multisite\OhanzeeResolver;
+use Ushahidi\Core\Tools\OhanzeeResolver;
 use Ohanzee\DB;
 
 /**

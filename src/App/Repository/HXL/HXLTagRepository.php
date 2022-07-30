@@ -15,7 +15,7 @@ use Ohanzee\DB;
 use Ohanzee\Database;
 use Ushahidi\Core\Tools\SearchData;
 use Ushahidi\Core\Entity\HXL\HXLTag;
-use Ushahidi\App\Multisite\OhanzeeResolver;
+use Ushahidi\Core\Tools\OhanzeeResolver;
 use Ushahidi\App\Repository\OhanzeeRepository;
 use Ushahidi\Contracts\Repository\ReadRepository;
 use Ushahidi\Contracts\Repository\SearchRepository;

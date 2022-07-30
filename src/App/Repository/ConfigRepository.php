@@ -14,7 +14,7 @@ use Ohanzee\DB;
 use Ohanzee\Database;
 use Ushahidi\Core\Concerns\Event;
 use Ushahidi\Contracts\Entity;
-use Ushahidi\App\Multisite\OhanzeeResolver;
+use Ushahidi\Core\Tools\OhanzeeResolver;
 use Ushahidi\Core\Exception\NotFoundException;
 use Ushahidi\Core\Entity\Config as ConfigEntity;
 use Ushahidi\Contracts\Repository\ReadRepository;

@@ -40,7 +40,7 @@ class ExportJobRepository extends OhanzeeRepository implements ExportJobReposito
 
     protected $post_repo;
 
-    public function __construct(\Ushahidi\App\Multisite\OhanzeeResolver $resolver, PostRepository $post_repo)
+    public function __construct(\Ushahidi\Core\Tools\OhanzeeResolver $resolver, PostRepository $post_repo)
     {
         parent::__construct($resolver);
 

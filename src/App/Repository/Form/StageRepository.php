@@ -37,7 +37,7 @@ class StageRepository extends OhanzeeRepository implements
          * @param FormRepository                       $form_repo
          */
     public function __construct(
-        \Ushahidi\App\Multisite\OhanzeeResolver $resolver,
+        \Ushahidi\Core\Tools\OhanzeeResolver $resolver,
         FormRepositoryContract $form_repo
     ) {
 

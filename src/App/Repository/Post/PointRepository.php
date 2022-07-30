@@ -17,7 +17,7 @@ use Ushahidi\Core\Entity\PostValue;
 use Symm\Gisconverter\Decoders\WKT;
 use Symm\Gisconverter\Geometry\Point;
 use Symm\Gisconverter\Exceptions\InvalidText;
-use Ushahidi\App\Multisite\OhanzeeResolver;
+use Ushahidi\Core\Tools\OhanzeeResolver;
 
 class PointRepository extends ValueRepository
 {

@@ -25,7 +25,7 @@ class HXLFormAttributeHXLAttributeTagRepository extends OhanzeeRepository implem
     SearchRepository,
     ReadRepository
 {
-    public function __construct(\Ushahidi\App\Multisite\OhanzeeResolver $resolver)
+    public function __construct(\Ushahidi\Core\Tools\OhanzeeResolver $resolver)
     {
         parent::__construct($resolver);
     }

@@ -16,7 +16,7 @@ use Ohanzee\Database;
 use Ushahidi\Core\Tools\SearchData;
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\Concerns\Event;
-use Ushahidi\App\Multisite\OhanzeeResolver;
+use Ushahidi\Core\Tools\OhanzeeResolver;
 use Ushahidi\App\Repository\FormRepository;
 use Ushahidi\App\Repository\OhanzeeRepository;
 use Ushahidi\Contracts\Repository\SearchRepository;

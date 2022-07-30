@@ -15,7 +15,7 @@ use Ohanzee\DB;
 use Ushahidi\Core\Entity;
 use Ushahidi\Core\Tools\SearchData;
 use Ushahidi\Core\Concerns\Event;
-use Ushahidi\App\Multisite\OhanzeeResolver;
+use Ushahidi\Core\Tools\OhanzeeResolver;
 use Ushahidi\App\Repository\OhanzeeRepository;
 use Ushahidi\Contracts\Repository\SearchRepository;
 use Ushahidi\Contracts\Repository\Entity\FormRepository;
@@ -34,7 +34,7 @@ class ContactRepository extends OhanzeeRepository implements
 
     /**
      * Construct
-     * @param \Ushahidi\App\Multisite\OhanzeeResolver $resolver
+     * @param \Ushahidi\Core\Tools\OhanzeeResolver $resolver
      * @param FormRepository $form_repo
      */
     public function __construct(

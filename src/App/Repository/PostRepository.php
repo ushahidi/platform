@@ -22,7 +22,7 @@ use Ushahidi\Core\Entity\PostLock;
 use Ushahidi\Core\Tools\SearchData;
 use Ushahidi\Core\Tools\BoundingBox;
 use Ushahidi\Core\Concerns\UserContext;
-use Ushahidi\App\Multisite\OhanzeeResolver;
+use Ushahidi\Core\Tools\OhanzeeResolver;
 use Ushahidi\Core\Tools\Permissions\InteractsWithPostPermissions;
 use Ushahidi\App\Repository\Post\ValueFactory as PostValueFactory;
 use Ushahidi\Contracts\Repository\Usecase\SetPostRepository;
