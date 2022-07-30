@@ -6,11 +6,11 @@
  * Time: 1:33 PM
  */
 
-namespace Tests\Unit\Ushahidi\App\Formatter\Post;
+namespace Tests\Unit\Ushahidi\App\V3\Formatter\Post;
 
 use Tests\TestCase;
 use Tests\Unit\Core\Entity\MockPostEntity;
-use Ushahidi\App\Formatter\Post\CSV;
+use Ushahidi\App\V3\Formatter\Post\CSV;
 
 class CSVTest extends TestCase
 {
