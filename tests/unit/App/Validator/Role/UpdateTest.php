@@ -14,7 +14,7 @@ use Kohana\Validation\Validation;
 use Mockery as M;
 use Tests\TestCase;
 use Ushahidi\Contracts\Repository\Entity\PermissionRepository;
-use Ushahidi\App\Validator\Role\Update;
+use Ushahidi\App\V3\Validator\Role\Update;
 
 /**
  * @backupGlobals disabled

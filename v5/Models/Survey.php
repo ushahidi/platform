@@ -5,7 +5,7 @@ namespace v5\Models;
 use Illuminate\Validation\Rule;
 use Ushahidi\Contracts\Permission;
 use Illuminate\Support\Facades\Input;
-use Ushahidi\App\Validator\LegacyValidator;
+use Ushahidi\App\V3\Validator\LegacyValidator;
 use Ushahidi\Core\Tools\Permissions\InteractsWithFormPermissions;
 use Illuminate\Http\Request;
 
@@ -13,7 +13,7 @@ class Survey extends BaseModel
 {
     use InteractsWithFormPermissions;
     public static $relationships = ['tasks', 'translations', 'enabled_languages'];
-    
+
     /**
      * Add eloquent style timestamps
      *

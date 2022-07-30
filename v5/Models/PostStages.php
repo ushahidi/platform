@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Ushahidi\App\V3\Repository\FormRepository;
-use Ushahidi\App\Validator\LegacyValidator;
+use Ushahidi\App\V3\Validator\LegacyValidator;
 use Ushahidi\Core\Entity\Permission;
 use Ushahidi\Core\Tools\Permissions\InteractsWithFormPermissions;
 use Ushahidi\Core\Tools\Permissions\InteractsWithPostPermissions;
