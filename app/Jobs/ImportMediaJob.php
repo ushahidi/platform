@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Log;
 use Ushahidi\Core\Tools\UploadData;
 use Illuminate\Support\Facades\Storage;
 use Ushahidi\App\Multisite\MultisiteManager;
-use Ushahidi\App\Repository\MediaRepository;
+use Ushahidi\App\V3\Repository\MediaRepository;
 
 class ImportMediaJob extends Job
 {

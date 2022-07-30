@@ -11,7 +11,7 @@
 
 namespace Ushahidi\App\Validator\CSV;
 
-use Ushahidi\App\Repository\FormRepository;
+use Ushahidi\App\V3\Repository\FormRepository;
 use Ushahidi\App\Validator\LegacyValidator;
 
 class Update extends LegacyValidator

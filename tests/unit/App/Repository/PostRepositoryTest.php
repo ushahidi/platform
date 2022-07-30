@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Ushahidi\App\Repository;
+namespace Tests\Unit\Ushahidi\App\V3\Repository;
 
 use Faker;
 use Ohanzee\DB;
@@ -15,8 +15,8 @@ use Ushahidi\Contracts\Session;
 use Illuminate\Support\Collection;
 use Ushahidi\Core\Tools\SearchData;
 use Ushahidi\App\Multisite\OhanzeeResolver;
-use Ushahidi\App\Repository\PostRepository;
-use Ushahidi\App\Repository\Post\ValueFactory;
+use Ushahidi\App\V3\Repository\PostRepository;
+use Ushahidi\App\V3\Repository\Post\ValueFactory;
 use Ushahidi\Core\Tools\Permissions\PostPermissions;
 use Ushahidi\Contracts\Repository\Entity\FormRepository;
 use Ushahidi\Contracts\Repository\Entity\ContactRepository;

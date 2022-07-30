@@ -1,8 +1,8 @@
 <?php
 
-namespace Tests\Unit\Ushahidi\App\Repository;
+namespace Tests\Unit\Ushahidi\App\V3\Repository;
 
-use Ushahidi\App\Repository\UserRepository;
+use Ushahidi\App\V3\Repository\UserRepository;
 use Ushahidi\Core\Entity\User;
 use Tests\TestCase;
 use Tests\DatabaseTransactions;

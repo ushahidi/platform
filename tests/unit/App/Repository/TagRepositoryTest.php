@@ -1,12 +1,12 @@
 <?php
 
-namespace Tests\Unit\App\Repository;
+namespace Tests\Unit\App\V3\Repository;
 
 use Faker;
 use Mockery as M;
 use Tests\TestCase;
 use Ushahidi\Core\Entity\Tag;
-use Ushahidi\App\Repository\TagRepository;
+use Ushahidi\App\V3\Repository\TagRepository;
 
 /**
  * @backupGlobals disabled

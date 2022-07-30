@@ -1,17 +1,17 @@
 <?php
 
 /**
- * Unit tests for Ushahidi\App\Repository\Post\ValueRepository
+ * Unit tests for Ushahidi\App\V3\Repository\Post\ValueRepository
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @copyright  2014 Ushahidi
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Tests\Unit\Ushahidi\App\Repository;
+namespace Tests\Unit\Ushahidi\App\V3\Repository;
 
 use Ushahidi\Core\Entity\PostValue;
-use Ushahidi\App\Repository\Post\ValueRepository;
+use Ushahidi\App\V3\Repository\Post\ValueRepository;
 
 /**
  * @backupGlobals disabled

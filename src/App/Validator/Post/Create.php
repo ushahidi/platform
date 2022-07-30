@@ -26,7 +26,7 @@ use Ushahidi\Contracts\Repository\Entity\FormStageRepository;
 use Ushahidi\Contracts\Repository\Usecase\UpdatePostRepository;
 use Ushahidi\Contracts\Repository\Entity\FormAttributeRepository;
 use Ushahidi\Contracts\Repository\Usecase\UpdatePostTagRepository;
-use Ushahidi\App\Repository\Post\ValueFactory as PostValueFactory;
+use Ushahidi\App\V3\Repository\Post\ValueFactory as PostValueFactory;
 
 class Create extends LegacyValidator
 {

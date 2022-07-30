@@ -8,7 +8,7 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Tests\Unit\Ushahidi\App\Repository;
+namespace Tests\Unit\Ushahidi\App\V3\Repository;
 
 use Ushahidi\Core\Entity\Contact;
 use Tests\TestCase;
