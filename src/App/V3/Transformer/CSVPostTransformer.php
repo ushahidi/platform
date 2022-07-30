@@ -9,7 +9,7 @@
  * @license   https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Ushahidi\App\Transformer;
+namespace Ushahidi\App\V3\Transformer;
 
 use Ushahidi\Contracts\MappingTransformer;
 use Ushahidi\Contracts\Repository\Entity\PostRepository;

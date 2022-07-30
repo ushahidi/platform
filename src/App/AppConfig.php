@@ -638,9 +638,9 @@ class AppConfig extends ContainerConfig
             'repo' => $di->lazyGet('repository.post')
         ];
 
-        $di->set('transformer.csv', $di->lazyNew(\Ushahidi\App\Transformer\CSVPostTransformer::class));
+        $di->set('transformer.csv', $di->lazyNew(\Ushahidi\App\V3\Transformer\CSVPostTransformer::class));
         // Post repo for mapping transformer
-        $di->setters[\Ushahidi\App\Transformer\CSVPostTransformer::class]['setRepo'] =
+        $di->setters[\Ushahidi\App\V3\Transformer\CSVPostTransformer::class]['setRepo'] =
             $di->lazyGet('repository.post');
 
         // Event listener for the Set repo
