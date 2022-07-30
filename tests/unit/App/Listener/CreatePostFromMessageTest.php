@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Ushahidi\App\Listener;
+namespace Tests\Unit\Ushahidi\App\V3\Listener;
 
 use Mockery as M;
 use Tests\TestCase;
@@ -9,7 +9,7 @@ use Ushahidi\Contracts\Repository\Entity\PostRepository;
 use Ushahidi\Contracts\Repository\Entity\TargetedSurveyStateRepository;
 use Ushahidi\Core\Entity\Message;
 use Ushahidi\Core\Entity\Post;
-use Ushahidi\App\Listener\CreatePostFromMessage;
+use Ushahidi\App\V3\Listener\CreatePostFromMessage;
 
 /**
  * @backupGlobals disabled

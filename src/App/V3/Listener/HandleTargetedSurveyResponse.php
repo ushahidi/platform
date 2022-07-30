@@ -1,5 +1,5 @@
 <?php
-namespace Ushahidi\App\Listener;
+namespace Ushahidi\App\V3\Listener;
 
 use Ushahidi\Core\Entity\Message;
 use Illuminate\Support\Facades\Log;

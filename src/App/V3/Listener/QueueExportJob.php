@@ -1,6 +1,6 @@
 <?php
 
-namespace Ushahidi\App\Listener;
+namespace Ushahidi\App\V3\Listener;
 
 use Ushahidi\Contracts\Entity;
 use Ushahidi\App\Jobs\ExportPostsJob;

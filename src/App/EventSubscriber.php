@@ -3,9 +3,9 @@
 namespace Ushahidi\App;
 
 use Illuminate\Contracts\Events\Dispatcher;
-use Ushahidi\App\Listener\CreatePostFromMessage;
-use Ushahidi\App\Listener\HandleTargetedSurveyResponse;
-use Ushahidi\App\Listener\QueueExportJob;
+use Ushahidi\App\V3\Listener\CreatePostFromMessage;
+use Ushahidi\App\V3\Listener\HandleTargetedSurveyResponse;
+use Ushahidi\App\V3\Listener\QueueExportJob;
 
 class EventSubscriber
 {

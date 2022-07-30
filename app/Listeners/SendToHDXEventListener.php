@@ -1,6 +1,6 @@
 <?php
 
-namespace Ushahidi\App\Listeners;
+namespace Ushahidi\App\V3\Listeners;
 
 use Illuminate\Support\Facades\Log;
 use Ushahidi\App\Events\SendToHDXEvent;

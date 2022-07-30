@@ -18,8 +18,8 @@ use Ushahidi\Core\Entity\Config;
 use Ushahidi\Core\Entity\Contact;
 use Ushahidi\Core\Entity\Message;
 use Ushahidi\Core\Entity\Post;
-use Ushahidi\App\Listener\CreatePostFromMessage;
-use Ushahidi\App\Listener\HandleTargetedSurveyResponse;
+use Ushahidi\App\V3\Listener\CreatePostFromMessage;
+use Ushahidi\App\V3\Listener\HandleTargetedSurveyResponse;
 use Ushahidi\App\EventSubscriber as Subscriber;
 
 /**

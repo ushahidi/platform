@@ -1,5 +1,5 @@
 <?php
-namespace Ushahidi\App\Listener;
+namespace Ushahidi\App\V3\Listener;
 
 /**
  * Ushahidi PostSet Listener

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Ushahidi\App\Listeners;
+namespace Tests\Unit\Ushahidi\App\V3\Listeners;
 
 use Mockery as M;
 use Tests\TestCase;
@@ -10,7 +10,7 @@ use Ushahidi\Contracts\Repository\Entity\TargetedSurveyStateRepository;
 use Ushahidi\Core\Entity\FormAttribute;
 use Ushahidi\Core\Entity\Message;
 use Ushahidi\Core\Entity\TargetedSurveyState;
-use Ushahidi\App\Listener\HandleTargetedSurveyResponse;
+use Ushahidi\App\V3\Listener\HandleTargetedSurveyResponse;
 
 /**
  * @backupGlobals disabled

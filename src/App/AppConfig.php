@@ -359,28 +359,28 @@ class AppConfig extends ContainerConfig
         ];
 
         // Webhook repo for Post listener
-        $di->setters[\Ushahidi\App\Listener\ContactListener::class]['setRepo'] =
+        $di->setters[\Ushahidi\App\V3\Listener\ContactListener::class]['setRepo'] =
             $di->lazyGet('repository.contact');
         // Webhook repo for Post listener
-        $di->setters[\Ushahidi\App\Listener\ContactListener::class]['setFormRepo'] =
+        $di->setters[\Ushahidi\App\V3\Listener\ContactListener::class]['setFormRepo'] =
             $di->lazyGet('repository.form');
         // Webhook repo for Post listener
-        $di->setters[\Ushahidi\App\Listener\ContactListener::class]['setFormAttributeRepo'] =
+        $di->setters[\Ushahidi\App\V3\Listener\ContactListener::class]['setFormAttributeRepo'] =
             $di->lazyGet('repository.form_attribute');
 
         // Webhook repo for Post listener
-        $di->setters[\Ushahidi\App\Listener\ContactListener::class]['setPostRepo'] =
+        $di->setters[\Ushahidi\App\V3\Listener\ContactListener::class]['setPostRepo'] =
             $di->lazyGet('repository.post');
 
         // Webhook repo for Post listener
-        $di->setters[\Ushahidi\App\Listener\ContactListener::class]['setMessageRepo'] =
+        $di->setters[\Ushahidi\App\V3\Listener\ContactListener::class]['setMessageRepo'] =
             $di->lazyGet('repository.message');
 
-        $di->setters[\Ushahidi\App\Listener\ContactListener::class]['setTargetedSurveyStateRepo'] =
+        $di->setters[\Ushahidi\App\V3\Listener\ContactListener::class]['setTargetedSurveyStateRepo'] =
             $di->lazyGet('repository.targeted_survey_state');
 
         $di->setters[\Ushahidi\App\Repository\Form\ContactRepository::class]['setListener'] =
-            $di->lazyNew(\Ushahidi\App\Listener\ContactListener::class);
+            $di->lazyNew(\Ushahidi\App\V3\Listener\ContactListener::class);
 
         $di->setters[\Ushahidi\App\Validator\Form\Contact\Create::class]['setFormRepo'] =
             $di->lazyGet('repository.form');
@@ -647,46 +647,46 @@ class AppConfig extends ContainerConfig
         $di->setters[\Ushahidi\App\Repository\SetRepository::class]['setEvent'] = 'PostSetEvent';
 
         $di->setters[\Ushahidi\App\Repository\SetRepository::class]['setListener'] =
-            $di->lazyNew(\Ushahidi\App\Listener\PostSetListener::class);
+            $di->lazyNew(\Ushahidi\App\V3\Listener\PostSetListener::class);
 
         // NotificationQueue repo for Set listener
-        $di->setters[\Ushahidi\App\Listener\PostSetListener::class]['setRepo'] =
+        $di->setters[\Ushahidi\App\V3\Listener\PostSetListener::class]['setRepo'] =
             $di->lazyGet('repository.notification.queue');
 
         // Event listener for the Post repo
         $di->setters[\Ushahidi\App\Repository\PostRepository::class]['setEvent'] = 'PostCreateEvent';
         $di->setters[\Ushahidi\App\Repository\PostRepository::class]['setListener'] =
-            $di->lazyNew(\Ushahidi\App\Listener\PostListener::class);
+            $di->lazyNew(\Ushahidi\App\V3\Listener\PostListener::class);
 
         // WebhookJob repo for Post listener
-        $di->setters[\Ushahidi\App\Listener\PostListener::class]['setRepo'] =
+        $di->setters[\Ushahidi\App\V3\Listener\PostListener::class]['setRepo'] =
             $di->lazyGet('repository.webhook.job');
 
         // Webhook repo for Post listener
-        $di->setters[\Ushahidi\App\Listener\PostListener::class]['setWebhookRepo'] =
+        $di->setters[\Ushahidi\App\V3\Listener\PostListener::class]['setWebhookRepo'] =
             $di->lazyGet('repository.webhook');
 
         // Add Intercom Listener to Config
         $di->setters[\Ushahidi\App\Repository\ConfigRepository::class]['setEvent'] = 'ConfigUpdateEvent';
         $di->setters[\Ushahidi\App\Repository\ConfigRepository::class]['setListener'] =
-            $di->lazyNew(\Ushahidi\App\Listener\IntercomCompanyListener::class);
+            $di->lazyNew(\Ushahidi\App\V3\Listener\IntercomCompanyListener::class);
 
         // Add Intercom Listener to Form
         $di->setters[\Ushahidi\App\Repository\FormRepository::class]['setEvent'] = 'FormUpdateEvent';
         $di->setters[\Ushahidi\App\Repository\FormRepository::class]['setListener'] =
-            $di->lazyNew(\Ushahidi\App\Listener\IntercomCompanyListener::class);
+            $di->lazyNew(\Ushahidi\App\V3\Listener\IntercomCompanyListener::class);
 
         // Add Intercom Listener to User
         $di->setters[\Ushahidi\App\Repository\UserRepository::class]['setEvent'] = 'UserGetAllEvent';
         $di->setters[\Ushahidi\App\Repository\UserRepository::class]['setListener'] =
-            $di->lazyNew(\Ushahidi\App\Listener\IntercomAdminListener::class);
+            $di->lazyNew(\Ushahidi\App\V3\Listener\IntercomAdminListener::class);
 
         // Add Lock Listener
         $di->setters[\Ushahidi\App\Repository\Post\LockRepository::class]['setEvent'] = 'LockBroken';
 
         $di->setters[\Ushahidi\Core\Usecase\ImportUsecase::class]['setEvent'] = 'ImportPosts';
         $di->setters[\Ushahidi\Core\Usecase\ImportUsecase::class]['setListener'] =
-            $di->lazyNew(\Ushahidi\App\Listener\Import::class);
+            $di->lazyNew(\Ushahidi\App\V3\Listener\Import::class);
         /**
          * HXL block
          */
