@@ -34,7 +34,7 @@ return [
         'nexmo' => true,
         'testservice' => false,
         'gmail' => false,
-        'mteja' => true,
+        'mteja' => false,
         'africastalking' => true,
     ],
 

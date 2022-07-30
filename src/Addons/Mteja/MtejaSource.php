@@ -92,12 +92,12 @@ class MtejaSource implements CallbackDataSource, OutgoingDataSource
         switch ($message_type) {
             case MessageType::SMS:
                 $response = $this->broadcastViaSms($appId, $apiKey, [
-                    'referenceId' => null, // My guess this should be the id from the message datasource
+                    'referenceId' => null,
                     'to' => $to,
                     'from' => $this->config['short_code'],
                     'text' => $message
                 ]);
-                $data = [MessageStatus::SENT, $response['requestId'] ?? false ];
+                $data = [MessageStatus::SENT, $response['requestId'] ?? false];
                 break;
             case MessageType::IVR:
                 $data = [MessageStatus::UNKNOWN, false]; // An IVR Prompt with a question to ask a question
@@ -111,16 +111,21 @@ class MtejaSource implements CallbackDataSource, OutgoingDataSource
 
     public static function registerRoutes(Router $router)
     {
-        $router->post('sms/mteja', ShortMessageController::class.'@handleRequest');
+        $router->post('sms/mteja', ShortMessageController::class . '@handleRequest');
     }
 
     protected function broadcastViaSms($appId, $apiKey, $payload)
     {
-        $response = (new MtejaService)->request('POST', 'sms', $payload, [
-            'X-API-Key' => $apiKey,
-            'X-APP-ID' => $appId,
-            'Accept'=> 'application/json',
-            'Content-Type' => 'application/json',
+        $response = (new MtejaService)->request('POST', 'sms', [
+            'json' => $payload,
+            'headers' => [
+                'X-API-Key' => $apiKey,
+                'X-APP-ID' => $appId,
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/json',
+            ]
         ]);
+
+        return $response;
     }
 }

@@ -6,8 +6,7 @@ use GuzzleHttp\Exception\RequestException;
 
 class MtejaService
 {
-    protected $apiUrl = 'https://api.sentry.mteja.io/api/';
-
+    protected $baseUrl = 'https://api.sentry.mteja.io/api/';
 
     public function __construct()
     {
@@ -18,12 +17,13 @@ class MtejaService
     }
 
 
-    public function request(string $method, $url, $body, $headers = [])
+    public function request(string $method, $url, $data)
     {
         try {
-            $response = $this->client->request($method, $url, [$body, $headers]);
+            $response = $this->client->request($method, $url, $data);
             return $this->formatResponse($response);
         } catch (RequestException $e) {
+            dump($e);
         }
     }
 
