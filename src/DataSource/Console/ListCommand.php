@@ -46,13 +46,14 @@ class ListCommand extends Command
     protected function getSources()
     {
         if ($source = $this->option('source')) {
-            $sources = [$source];
-        } elseif ($this->option('all')) {
-            $sources = $this->sources->getSources();
-        } else {
-            $sources = $this->sources->getEnabledSources();
+            return [$source];
+        } 
+        
+        if ($this->option('all')) {
+            return $this->sources->getSources();
         }
-        return $sources;
+
+        return $this->sources->getEnabledSources();
     }
 
     public function handle()
