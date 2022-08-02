@@ -8,7 +8,7 @@ use Mockery as M;
 use Tests\TestCase;
 use Ushahidi\Contracts\Repository\Entity\ExportJobRepository;
 use Ushahidi\Core\Entity\ExportJob;
-use Ushahidi\Core\Usecase\Post\Export;
+use Ushahidi\App\V3\Usecase\Post\Export;
 use Ushahidi\App\Jobs\CombineExportedPostBatchesJob;
 use Ushahidi\App\Jobs\ExportPostsBatchJob;
 
@@ -38,7 +38,7 @@ class ExportPostsBatchJobTest extends TestCase
         $includeHeader = true;
         $job = new ExportPostsBatchJob($jobId, $batchNumber, $offset, $limit, $includeHeader);
 
-        $usecase = M::mock(\Ushahidi\Core\Usecase\Post\Export::class);
+        $usecase = M::mock(\Ushahidi\App\V3\Usecase\Post\Export::class);
         $exportJobRepo = M::mock(\Ushahidi\Contracts\Repository\Entity\ExportJobRepository::class);
 
         $usecase->shouldReceive('setFilters')

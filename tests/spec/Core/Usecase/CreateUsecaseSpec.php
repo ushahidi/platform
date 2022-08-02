@@ -1,6 +1,6 @@
 <?php
 
-namespace spec\Ushahidi\Core\Usecase;
+namespace spec\Ushahidi\App\V3\Usecase;
 
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Contracts\Translation\Translator;
@@ -32,7 +32,7 @@ class CreateUsecaseSpec extends ObjectBehavior
 
     public function it_is_initializable()
     {
-        $this->shouldHaveType('Ushahidi\Core\Usecase\CreateUsecase');
+        $this->shouldHaveType('Ushahidi\App\V3\Usecase\CreateUsecase');
     }
 
     private function tryGetEntity($repo, $entity)

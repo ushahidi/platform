@@ -6,15 +6,14 @@ use Ushahidi\App\Tools\Features;
 use Ushahidi\Core\Tools\Verifier;
 use Ushahidi\Factory\UsecaseFactory;
 use Ushahidi\Addons\Mteja\MtejaSource;
-use Ushahidi\Core\Usecase\Post\Export;
 use Illuminate\Support\ServiceProvider;
-use Ushahidi\Core\Usecase\Export\Job\PostCount;
 use Ushahidi\DataSource\DataSourceServiceProvider;
 use Ushahidi\App\Multisite\MultisiteServiceProvider;
 use Ushahidi\App\Providers\FilesystemServiceProvider;
 use Ushahidi\Addons\AfricasTalking\AfricasTalkingSource;
 use Ushahidi\Contracts\Repository\Entity\PostRepository;
 use Ushahidi\Contracts\Repository\Entity\UserRepository;
+use Ushahidi\Contracts\Repository\Entity\MediaRepository;
 use Ushahidi\Contracts\Repository\Entity\ConfigRepository;
 use Ushahidi\Contracts\Repository\Entity\ContactRepository;
 use Ushahidi\Contracts\Repository\Entity\MessageRepository;
@@ -135,23 +134,14 @@ class AppServiceProvider extends ServiceProvider
             return service('repository.form_attribute');
         });
 
+        $this->app->singleton(MediaRepository::class, function ($app) {
+            // Just return it from AuraDI
+            return service('repository.media');
+        });
+
         $this->app->singleton(Verifier::class, function ($app) {
             // Just return it from AuraDI
             return service('tool.verifier');
-        });
-
-        $this->app->singleton(PostCount::class, function ($app) {
-            return service('factory.usecase')
-                    // Override action
-                    ->get('export_jobs', 'post-count')
-                    // Override authorizer
-                    ->setAuthorizer(service('authorizer.external_auth')); // @todo remove the need for this?
-        });
-
-        $this->app->singleton(Export::class, function ($app) {
-            return service('factory.usecase')
-                    ->get('posts_export', 'export')
-                    ->setAuthorizer(service('authorizer.export_job'));
         });
     }
 

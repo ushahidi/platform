@@ -6,7 +6,7 @@
  * Time: 1:36 PM
  */
 
-namespace Tests\Unit\Core\Usecase\Post;
+namespace Tests\Unit\App\V3\Usecase\Post;
 
 use Faker;
 use Mockery as M;

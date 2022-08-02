@@ -35,9 +35,9 @@ class FormatterFactory
     protected $collection_factory;
 
     /**
-     * @param  Array   $map
-     * @param  Array   $collections
-     * @param  Closure $factory
+     * @param  array   $map
+     * @param  array   $collections
+     * @param  \Closure $factory
      */
     public function __construct(
         array $map,
@@ -52,8 +52,9 @@ class FormatterFactory
 
     /**
      * Checks if the given action should be returned as a collection.
-     * @param  String $action
-     * @return Boolean
+     *
+     * @param  string $action
+     * @return boolean
      */
     public function isCollection($action)
     {
@@ -64,10 +65,10 @@ class FormatterFactory
      * Gets a formatter from the map by resource and action.
      * If the action is a collection action, the formatter will be returned
      * as a `CollectionFormatter`.
-     * @param  String $resource
-     * @param  String $action
-     * @return \Ushahidi\Core\Usecase\Concerns\Formatter
-     * @return \Ushahidi\Core\Tools\Formatter\CollectionFormatter
+     *
+     * @param  string $resource
+     * @param  string $action
+     * @return \Ushahidi\Core\Tools\Formatter\CollectionFormatter|\Ushahidi\Contracts\Formatter
      */
     public function get($resource, $action)
     {

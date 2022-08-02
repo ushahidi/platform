@@ -1,6 +1,6 @@
 <?php
 
-namespace spec\Ushahidi\Core\Usecase\User;
+namespace spec\Ushahidi\App\V3\Usecase\User;
 
 use PhpSpec\ObjectBehavior;
 use Ushahidi\Contracts\Authorizer;
@@ -31,7 +31,7 @@ class LoginUserSpec extends ObjectBehavior
 
     public function it_is_initializable()
     {
-        $this->shouldHaveType('Ushahidi\Core\Usecase\User\LoginUser');
+        $this->shouldHaveType('Ushahidi\App\V3\Usecase\User\LoginUser');
     }
 
     public function it_does_interact_with_the_repository_and_authenticator($repo, $authenticator, $format, Entity $user)
