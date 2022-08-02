@@ -19,6 +19,17 @@ use v5\Models\Lock;
 
 class PostController extends V5Controller
 {
+    private const DEFAULT_LIMIT = 20;
+
+    /**
+     * @var int
+     */
+    private $postsLimit = 15;
+
+    public function __construct(?int $postsLimit = null)
+    {
+        $this->postsLimit = $postsLimit ?? self::DEFAULT_LIMIT;
+    }
 
     /**
      * Not all fields are things we want to allow on the body of requests
@@ -42,12 +53,10 @@ class PostController extends V5Controller
     {
         $post = Post::withPostValues()->where('id', $id)->first(POST::selectModelFields($request));
 
-        if (!$post) {
-            return self::make404();
-        }
-
-        return new PostResource($post);
-    } //end show()
+        return $post
+            ? new PostResource($post)
+            : $this::make404();
+    }
 
 
     /**
@@ -58,8 +67,19 @@ class PostController extends V5Controller
      */
     public function index(Request $request)
     {
-        return new PostCollection(Post::withPostValues()->paginate(20, POST::selectModelFields($request)));
-    } //end index()
+        $post_query = Post::withPostValues();
+
+        if (!$request->user()) {
+            $post_query->limit($this->postsLimit);
+        }
+
+        return new PostCollection(
+            $post_query->paginate(
+                $this->postsLimit,
+                POST::selectModelFields($request)
+            )
+        );
+    }
 
     private function getUser()
     {
@@ -355,7 +375,7 @@ class PostController extends V5Controller
         if (!$this->validateLockState($id)) {
             return self::make422(Lock::getPostLockedErrorMessage($id));
         }
-        
+
 
         DB::beginTransaction();
         try {
@@ -554,14 +574,17 @@ class PostController extends V5Controller
         if (isset($entity_array['slug'])) {
             $entity_array['slug'] = Post::makeSlug($entity_array['slug']);
         }
-        if (!$post->validate($entity_array)) {
-            return $post->errors->toArray();
-        }
-        return [];
+
+        return !$post->validate($entity_array)
+            ? $post->errors->toArray()
+            : [];
     }
 
     /**
-     * @param integer $id
+     * @param int $id
+     * @param Request $request
+     * @return JsonResponse
+     * @throws AuthorizationException
      */
     public function delete(int $id, Request $request)
     {
@@ -571,18 +594,18 @@ class PostController extends V5Controller
             $post->translations()->delete();
             return $post->delete();
         });
-        if ($success) {
-            return response()->json(['result' => ['deleted' => $id]]);
-        } else {
-            return self::make500('Could not delete model');
-        }
-    } //end delete()
 
-    protected function validateLockState($post_id)
-    {
-        if (Lock::postIsLocked($post_id)) {
-            return false;
-        }
-        return true;
+        return $success
+            ? response()->json(['result' => ['deleted' => $id]])
+            : $this::make500('Could not delete model');
     }
-}//end class
+
+    /**
+     * @param int $post_id
+     * @return bool
+     */
+    protected function validateLockState(int $post_id)
+    {
+        return !Lock::postIsLocked($post_id);
+    }
+}
