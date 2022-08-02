@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', "API\IndexController@index");
+Route::get('/', "IndexController@index");
 
 // Migration
-Route::get('/migrate', 'MigrateController@migrate');
+// Route::get('/migrate', 'MigrateController@migrate');

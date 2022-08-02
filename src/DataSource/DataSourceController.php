@@ -11,9 +11,9 @@ namespace Ushahidi\DataSource;
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-use Ushahidi\App\Http\Controllers\Controller;
-use Ramsey\Uuid\Exception\UnsatisfiedDependencyException;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
+use Ramsey\Uuid\Exception\UnsatisfiedDependencyException;
 use Ushahidi\Contracts\DataSource\MessageStatus;
 use Ramsey\Uuid\Uuid;
 

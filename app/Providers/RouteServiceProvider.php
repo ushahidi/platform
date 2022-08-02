@@ -71,7 +71,7 @@ class RouteServiceProvider extends ServiceProvider
     {
         Route::prefix('api')
             ->middleware('api')
-            ->namespace($this->namespace)
+            ->namespace('Ushahidi\App\V3\Http\Controllers')
             ->group(base_path('routes/api.php'));
 
         Route::prefix('api')

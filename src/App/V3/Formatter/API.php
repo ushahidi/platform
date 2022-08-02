@@ -16,7 +16,7 @@ namespace Ushahidi\App\V3\Formatter;
 use Ushahidi\Contracts\Entity;
 use Ushahidi\Contracts\Formatter;
 use Ushahidi\Core\Exception\FormatterException;
-use Ushahidi\App\Http\Controllers\RESTController;
+use Ushahidi\App\V3\Http\Controllers\RESTController;
 use Illuminate\Support\Str;
 
 class API implements Formatter
