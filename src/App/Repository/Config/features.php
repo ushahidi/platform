@@ -35,7 +35,7 @@ return [
         'testservice' => false,
         'gmail' => false,
         'mteja' => false,
-        'africastalking' => true,
+        'africastalking' => false,
     ],
 
     // Client limits
