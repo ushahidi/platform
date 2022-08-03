@@ -4,6 +4,7 @@ namespace Ushahidi\Core;
 
 use Aura\Di\Container;
 use Aura\Di\ContainerConfig;
+use Ushahidi\Core\Usecase;
 
 class CoreConfig extends ContainerConfig
 {
@@ -138,12 +139,12 @@ class CoreConfig extends ContainerConfig
         // Each of the actions follows a standard sequence of events and is simply constructed
         // with a unique set of collaborators that follow specific interfaces.
         $di->params[\Ushahidi\Factory\UsecaseFactory::class]['actions'] = [
-            'create' => $di->newFactory(\Ushahidi\Core\Usecase\CreateUsecase::class),
-            'read'   => $di->newFactory(\Ushahidi\Core\Usecase\ReadUsecase::class),
-            'update' => $di->newFactory(\Ushahidi\Core\Usecase\UpdateUsecase::class),
-            'delete' => $di->newFactory(\Ushahidi\Core\Usecase\DeleteUsecase::class),
-            'search' => $di->newFactory(\Ushahidi\Core\Usecase\SearchUsecase::class),
-            'options' => $di->newFactory(\Ushahidi\Core\Usecase\OptionsUsecase::class),
+            'create' => $di->newFactory(Usecase\CreateUsecase::class),
+            'read'   => $di->newFactory(Usecase\ReadUsecase::class),
+            'update' => $di->newFactory(Usecase\UpdateUsecase::class),
+            'delete' => $di->newFactory(Usecase\DeleteUsecase::class),
+            'search' => $di->newFactory(Usecase\SearchUsecase::class),
+            'options' => $di->newFactory(Usecase\OptionsUsecase::class),
         ];
 
         // It is also possible to overload usecases by setting a specific resource and action.
@@ -152,206 +153,206 @@ class CoreConfig extends ContainerConfig
 
         // Config does not allow ordering or sorting, because of its simple key/value nature.
         $di->params[\Ushahidi\Factory\UsecaseFactory::class]['map']['config'] = [
-            'search' => $di->newFactory('Ushahidi\Core\Usecase\Config\SearchConfig'),
+            'search' => $di->newFactory(Usecase\Config\SearchConfig::class),
         ];
 
         // Form sub-endpoints must verify that the form exists before anything else.
         $di->params[\Ushahidi\Factory\UsecaseFactory::class]['map']['form_attributes'] = [
-            'create'  => $di->lazyNew('Ushahidi\Core\Usecase\Form\CreateFormAttribute'),
-            'read'    => $di->lazyNew('Ushahidi\Core\Usecase\Form\ReadFormAttribute'),
-            'update'  => $di->lazyNew('Ushahidi\Core\Usecase\Form\UpdateFormAttribute'),
-            'delete'  => $di->lazyNew('Ushahidi\Core\Usecase\Form\DeleteFormAttribute'),
-            'search'  => $di->lazyNew('Ushahidi\Core\Usecase\Form\SearchFormAttribute'),
+            'create'  => $di->lazyNew(Usecase\Form\CreateFormAttribute::class),
+            'read'    => $di->lazyNew(Usecase\Form\ReadFormAttribute::class),
+            'update'  => $di->lazyNew(Usecase\Form\UpdateFormAttribute::class),
+            'delete'  => $di->lazyNew(Usecase\Form\DeleteFormAttribute::class),
+            'search'  => $di->lazyNew(Usecase\Form\SearchFormAttribute::class),
         ];
         $di->params[\Ushahidi\Factory\UsecaseFactory::class]['map']['form_roles'] = [
-            'update_collection'  => $di->lazyNew('Ushahidi\Core\Usecase\Form\UpdateFormRole'),
-            'search'  => $di->lazyNew('Ushahidi\Core\Usecase\Form\SearchFormRole'),
+            'update_collection'  => $di->lazyNew(Usecase\Form\UpdateFormRole::class),
+            'search'  => $di->lazyNew(Usecase\Form\SearchFormRole::class),
         ];
 
         $di->params[\Ushahidi\Factory\UsecaseFactory::class]['map']['form_contacts'] = [
-            'create'  => $di->lazyNew('Ushahidi\Core\Usecase\Form\CreateFormContact'),
-            'read'    => $di->lazyNew('Ushahidi\Core\Usecase\Form\ReadFormContact'),
-            //'update'  => $di->lazyNew('Ushahidi\Core\Usecase\Form\UpdateFormContact'),
-            // 'delete'  => $di->lazyNew('Ushahidi\Core\Usecase\Form\DeleteFormContact'),
-            'search'  => $di->lazyNew('Ushahidi\Core\Usecase\Form\SearchFormContact'),
+            'create'  => $di->lazyNew(Usecase\Form\CreateFormContact::class),
+            'read'    => $di->lazyNew(Usecase\Form\ReadFormContact::class),
+            //'update'  => $di->lazyNew(Usecase\Form\UpdateFormContact::class),
+            // 'delete'  => $di->lazyNew(Usecase\Form\DeleteFormContact::class),
+            'search'  => $di->lazyNew(Usecase\Form\SearchFormContact::class),
         ];
 
         $di->params[\Ushahidi\Factory\UsecaseFactory::class]['map']['form_stats'] = [
-            'search'  => $di->lazyNew('Ushahidi\Core\Usecase\Form\SearchFormStats'),
+            'search'  => $di->lazyNew(Usecase\Form\SearchFormStats::class),
         ];
 
         $di->params[\Ushahidi\Factory\UsecaseFactory::class]['map']['form_stages'] = [
-            'create'  => $di->lazyNew('Ushahidi\Core\Usecase\Form\CreateFormStage'),
-            'read'    => $di->lazyNew('Ushahidi\Core\Usecase\Form\ReadFormStage'),
-            'update'  => $di->lazyNew('Ushahidi\Core\Usecase\Form\UpdateFormStage'),
-            'delete'  => $di->lazyNew('Ushahidi\Core\Usecase\Form\DeleteFormStage'),
-            'search'  => $di->lazyNew('Ushahidi\Core\Usecase\Form\SearchFormStage'),
+            'create'  => $di->lazyNew(Usecase\Form\CreateFormStage::class),
+            'read'    => $di->lazyNew(Usecase\Form\ReadFormStage::class),
+            'update'  => $di->lazyNew(Usecase\Form\UpdateFormStage::class),
+            'delete'  => $di->lazyNew(Usecase\Form\DeleteFormStage::class),
+            'search'  => $di->lazyNew(Usecase\Form\SearchFormStage::class),
         ];
 
         // Media create requires file uploading as part of the payload.
         $di->params[\Ushahidi\Factory\UsecaseFactory::class]['map']['media'] = [
-            'create' => $di->lazyNew('Ushahidi\Core\Usecase\Media\CreateMedia'),
+            'create' => $di->lazyNew(Usecase\Media\CreateMedia::class),
         ];
-        $di->setters['Ushahidi\Core\Usecase\Media\CreateMedia']['setUploader'] = $di->lazyGet('tool.uploader');
+        $di->setters[Usecase\Media\CreateMedia::class]['setUploader'] = $di->lazyGet('tool.uploader');
 
         // CSV requires file upload
         $di->params[\Ushahidi\Factory\UsecaseFactory::class]['map']['csv'] = [
-            'create' => $di->lazyNew('Ushahidi\Core\Usecase\CSV\CreateCSVUsecase'),
-            'read'    => $di->lazyNew('Ushahidi\Core\Usecase\ReadUsecase'),
-            'delete' => $di->lazyNew('Ushahidi\Core\Usecase\CSV\DeleteCSVUsecase'),
+            'create' => $di->lazyNew(Usecase\CSV\CreateCSVUsecase::class),
+            'read'    => $di->lazyNew(Usecase\ReadUsecase::class),
+            'delete' => $di->lazyNew(Usecase\CSV\DeleteCSVUsecase::class),
         ];
 
-        $di->setters['Ushahidi\Core\Usecase\CSV\CreateCSVUsecase']['setUploader'] = $di->lazyGet('tool.uploader');
-        $di->setters['Ushahidi\Core\Usecase\CSV\CreateCSVUsecase']['setReaderFactory']
+        $di->setters[Usecase\CSV\CreateCSVUsecase::class]['setUploader'] = $di->lazyGet('tool.uploader');
+        $di->setters[Usecase\CSV\CreateCSVUsecase::class]['setReaderFactory']
             = $di->lazyGet('csv.reader_factory');
-        $di->setters['Ushahidi\Core\Usecase\CSV\DeleteCSVUsecase']['setUploader'] = $di->lazyGet('tool.uploader');
+        $di->setters[Usecase\CSV\DeleteCSVUsecase::class]['setUploader'] = $di->lazyGet('tool.uploader');
 
         // Message update requires extra validation of message direction+status.
         $di->params[\Ushahidi\Factory\UsecaseFactory::class]['map']['messages'] = [
-            'create' => $di->lazyNew('Ushahidi\Core\Usecase\Message\CreateMessage'),
-            'update' => $di->lazyNew('Ushahidi\Core\Usecase\Message\UpdateMessage'),
-            'receive' => $di->newFactory('Ushahidi\Core\Usecase\Message\ReceiveMessage'),
+            'create' => $di->lazyNew(Usecase\Message\CreateMessage::class),
+            'update' => $di->lazyNew(Usecase\Message\UpdateMessage::class),
+            'receive' => $di->newFactory(Usecase\Message\ReceiveMessage::class),
         ];
         // Message receive requires extra repos
-        $di->setters['Ushahidi\Core\Usecase\Message\ReceiveMessage']['setContactRepository']
+        $di->setters[Usecase\Message\ReceiveMessage::class]['setContactRepository']
             = $di->lazyGet('repository.contact');
-        $di->setters['Ushahidi\Core\Usecase\Message\ReceiveMessage']['setContactValidator']
+        $di->setters[Usecase\Message\ReceiveMessage::class]['setContactValidator']
             = $di->lazyGet('validator.contact.receive');
 
         // Add custom usecases for posts
         $di->params[\Ushahidi\Factory\UsecaseFactory::class]['map']['posts'] = [
-            'create'          => $di->lazyNew('Ushahidi\Core\Usecase\Post\CreatePost'),
-            'read'            => $di->lazyNew('Ushahidi\Core\Usecase\Post\ReadPost'),
-            'update'          => $di->lazyNew('Ushahidi\Core\Usecase\Post\UpdatePost'),
-            'webhook-update'  => $di->lazyNew('Ushahidi\Core\Usecase\Post\WebhookUpdatePost'),
-            'delete'          => $di->lazyNew('Ushahidi\Core\Usecase\Post\DeletePost'),
-            'search'          => $di->lazyNew('Ushahidi\Core\Usecase\Post\SearchPost'),
-            'stats'           => $di->lazyNew('Ushahidi\Core\Usecase\Post\StatsPost'),
-            'import'          => $di->lazyNew('Ushahidi\Core\Usecase\ImportUsecase')
+            'create'          => $di->lazyNew(Usecase\Post\CreatePost::class),
+            'read'            => $di->lazyNew(Usecase\Post\ReadPost::class),
+            'update'          => $di->lazyNew(Usecase\Post\UpdatePost::class),
+            'webhook-update'  => $di->lazyNew(Usecase\Post\WebhookUpdatePost::class),
+            'delete'          => $di->lazyNew(Usecase\Post\DeletePost::class),
+            'search'          => $di->lazyNew(Usecase\Post\SearchPost::class),
+            'stats'           => $di->lazyNew(Usecase\Post\StatsPost::class),
+            'import'          => $di->lazyNew(Usecase\ImportUsecase::class)
         ];
         // Add custom create usecase for notifications
         $di->params[\Ushahidi\Factory\UsecaseFactory::class]['map']['notifications'] = [
-            'create'  => $di->lazyNew('Ushahidi\Core\Usecase\Notification\CreateNotification')
+            'create'  => $di->lazyNew(Usecase\Notification\CreateNotification::class)
         ];
 
         // Add custom create usecase for webhooks
         $di->params[\Ushahidi\Factory\UsecaseFactory::class]['map']['webhooks'] = [
-            'create'  => $di->lazyNew('Ushahidi\Core\Usecase\Webhook\CreateWebhook')
+            'create'  => $di->lazyNew(Usecase\Webhook\CreateWebhook::class)
         ];
 
         // Add custom create usecase for export jobs
         $di->params[\Ushahidi\Factory\UsecaseFactory::class]['map']['export_jobs'] = [
-            'create'  => $di->lazyNew('Ushahidi\Core\Usecase\Export\Job\CreateJob'),
-            'post-count'  => $di->lazyNew('Ushahidi\Core\Usecase\Export\Job\PostCount')
+            'create'  => $di->lazyNew(Usecase\Export\Job\CreateJob::class),
+            'post-count'  => $di->lazyNew(Usecase\Export\Job\PostCount::class)
         ];
         // Add custom create usecase for contacts
         $di->params[\Ushahidi\Factory\UsecaseFactory::class]['map']['contacts'] = [
-            'create'  => $di->lazyNew('Ushahidi\Core\Usecase\Contact\CreateContact')
+            'create'  => $di->lazyNew(Usecase\Contact\CreateContact::class)
         ];
 
         // Add custom create usecase for terms of service
         $di->params[\Ushahidi\Factory\UsecaseFactory::class]['map']['tos'] = [
-            'create' => $di->lazyNew('Ushahidi\Core\Usecase\Tos\CreateTos'),
-            'search' => $di->lazyNew('Ushahidi\Core\Usecase\Tos\SearchTos'),
+            'create' => $di->lazyNew(Usecase\Tos\CreateTos::class),
+            'search' => $di->lazyNew(Usecase\Tos\SearchTos::class),
         ];
 
         // Add custom usecases for sets_posts
         $di->params[\Ushahidi\Factory\UsecaseFactory::class]['map']['sets_posts'] = [
-            'search' => $di->lazyNew('Ushahidi\Core\Usecase\Set\SearchSetPost'),
-            'create' => $di->lazyNew('Ushahidi\Core\Usecase\Set\CreateSetPost'),
-            'delete' => $di->lazyNew('Ushahidi\Core\Usecase\Set\DeleteSetPost'),
-            'read'   => $di->lazyNew('Ushahidi\Core\Usecase\Set\ReadSetPost'),
+            'search' => $di->lazyNew(Usecase\Set\SearchSetPost::class),
+            'create' => $di->lazyNew(Usecase\Set\CreateSetPost::class),
+            'delete' => $di->lazyNew(Usecase\Set\DeleteSetPost::class),
+            'read'   => $di->lazyNew(Usecase\Set\ReadSetPost::class),
         ];
 
         // Add custom useses for post_lock
         // Add usecase for posts_lock
         $di->params[\Ushahidi\Factory\UsecaseFactory::class]['map']['posts_lock'] = [
-            'create' => $di->lazyNew('Ushahidi\Core\Usecase\Post\CreatePostLock'),
-            'delete' => $di->lazyNew('Ushahidi\Core\Usecase\Post\DeletePostLock'),
+            'create' => $di->lazyNew(Usecase\Post\CreatePostLock::class),
+            'delete' => $di->lazyNew(Usecase\Post\DeletePostLock::class),
         ];
 
-        $di->setters['Ushahidi\Core\Usecase\Post\Concerns\PostLock']
+        $di->setters[Usecase\Post\Concerns\PostLock::class]
             ['setPostRepository'] = $di->lazyGet('repository.post');
 
         // Add custom usecases for sets_posts
         $di->params[\Ushahidi\Factory\UsecaseFactory::class]['map']['savedsearches'] = [
-            'create' => $di->lazyNew('Ushahidi\Core\Usecase\Set\CreateSet'),
+            'create' => $di->lazyNew(Usecase\Set\CreateSet::class),
         ];
 
         // Add custom usecases for sets_posts
         $di->params[\Ushahidi\Factory\UsecaseFactory::class]['map']['sets'] = [
-            'create' => $di->lazyNew('Ushahidi\Core\Usecase\Set\CreateSet'),
+            'create' => $di->lazyNew(Usecase\Set\CreateSet::class),
         ];
 
         // Add usecase for posts_export
         $di->params[\Ushahidi\Factory\UsecaseFactory::class]['map']['posts_export'] = [
-            'export' => $di->lazyNew('Ushahidi\Core\Usecase\Post\Export'),
+            'export' => $di->lazyNew(Usecase\Post\Export::class),
         ];
 
 
         // Set up traits for SetsPosts Usecases
-        $di->setters['Ushahidi\Core\Usecase\Set\SetRepositoryTrait']['setSetRepository']
+        $di->setters[Usecase\Set\SetRepositoryTrait::class]['setSetRepository']
             = $di->lazyGet('repository.set');
-        $di->setters['Ushahidi\Core\Usecase\Set\AuthorizeSet']['setSetAuthorizer']
+        $di->setters[Usecase\Set\AuthorizeSet::class]['setSetAuthorizer']
             = $di->lazyGet('authorizer.set');
 
         // repositories for Ushahidi\Contracts\Repository\Usecase\Post\Export usecase
-        $di->setters['Ushahidi\Core\Usecase\Post\Export']['setExportJobRepository']
+        $di->setters[Usecase\Post\Export::class]['setExportJobRepository']
             = $di->lazyGet('repository.export_job');
-        $di->setters['Ushahidi\Core\Usecase\Post\Export']['setFormAttributeRepository']
+        $di->setters[Usecase\Post\Export::class]['setFormAttributeRepository']
             = $di->lazyGet('repository.form_attribute');
-        $di->setters['Ushahidi\Core\Usecase\Post\Export']['setPostExportRepository']
+        $di->setters[Usecase\Post\Export::class]['setPostExportRepository']
             = $di->lazyGet('repository.posts_export');
 
-        $di->setters['Ushahidi\Core\Usecase\Post\Export']['setHXLFromAttributeHxlAttributeTagRepo'] =
+        $di->setters[Usecase\Post\Export::class]['setHXLFromAttributeHxlAttributeTagRepo'] =
             $di->lazyGet('repository.form_attribute_hxl_attribute_tag');
 
         // User login is a custom read the uses authentication.
         $di->params[\Ushahidi\Factory\UsecaseFactory::class]['map']['users'] = [
-            'login'    => $di->lazyNew('Ushahidi\Core\Usecase\User\LoginUser'),
-            'register' => $di->lazyNew('Ushahidi\Core\Usecase\User\RegisterUser'),
-            'update'   => $di->lazyNew('Ushahidi\Core\Usecase\User\UpdateUser'),
-            'getresettoken' => $di->lazyNew('Ushahidi\Core\Usecase\User\GetResetToken'),
-            'passwordreset' => $di->lazyNew('Ushahidi\Core\Usecase\User\ResetUserPassword'),
+            'login'    => $di->lazyNew(Usecase\User\LoginUser::class),
+            'register' => $di->lazyNew(Usecase\User\RegisterUser::class),
+            'update'   => $di->lazyNew(Usecase\User\UpdateUser::class),
+            'getresettoken' => $di->lazyNew(Usecase\User\GetResetToken::class),
+            'passwordreset' => $di->lazyNew(Usecase\User\ResetUserPassword::class),
         ];
-        $di->setters['Ushahidi\Core\Usecase\User\LoginUser']['setAuthenticator']
+        $di->setters[Usecase\User\LoginUser::class]['setAuthenticator']
             = $di->lazyGet('tool.authenticator.password');
-        $di->setters['Ushahidi\Core\Usecase\User\LoginUser']['setRateLimiter'] = $di->lazyGet('ratelimiter.login');
+        $di->setters[Usecase\User\LoginUser::class]['setRateLimiter'] = $di->lazyGet('ratelimiter.login');
 
-        $di->setters['Ushahidi\Core\Usecase\User\RegisterUser']['setRateLimiter']
+        $di->setters[Usecase\User\RegisterUser::class]['setRateLimiter']
             = $di->lazyGet('ratelimiter.register');
 
-        $di->setters['Ushahidi\Core\Usecase\User\GetResetToken']['setMailer'] = $di->lazyGet('tool.mailer');
+        $di->setters[Usecase\User\GetResetToken::class]['setMailer'] = $di->lazyGet('tool.mailer');
 
         // Traits
-        $di->setters['Ushahidi\Core\Concerns\UserContext']['setSession'] = $di->lazyGet('session');
-        $di->setters['Ushahidi\Core\Usecase\Concerns\VerifyFormLoaded']['setFormRepository']
+        $di->setters[\Ushahidi\Core\Concerns\UserContext::class]['setSession'] = $di->lazyGet('session');
+        $di->setters[Usecase\Concerns\VerifyFormLoaded::class]['setFormRepository']
             = $di->lazyGet('repository.form');
-        $di->setters['Ushahidi\Core\Usecase\Concerns\VerifyFormLoaded']['setFormContactRepository']
+        $di->setters[Usecase\Concerns\VerifyFormLoaded::class]['setFormContactRepository']
             = $di->lazyGet('repository.form_contact');
-        $di->setters['Ushahidi\Core\Usecase\Concerns\VerifyStageLoaded']['setStageRepository']
+        $di->setters[Usecase\Concerns\VerifyStageLoaded::class]['setStageRepository']
             = $di->lazyGet('repository.form_stage');
 
-        $di->setters['Ushahidi\Core\Concerns\Event']['setEmitter'] = $di->lazyNew('League\Event\Emitter');
+        $di->setters[\Ushahidi\Core\Concerns\Event::class]['setEmitter'] = $di->lazyNew(\League\Event\Emitter::class);
 
         // Set post permissions instance
-        $di->setters['Ushahidi\Core\Tools\Permissions\InteractsWithPostPermissions']['setPostPermissions']
+        $di->setters[\Ushahidi\Core\Tools\Permissions\InteractsWithPostPermissions::class]['setPostPermissions']
             = $di->lazyNew(\Ushahidi\Core\Tools\Permissions\PostPermissions::class);
 
         // Set form permissions instance
-        $di->setters['Ushahidi\Core\Tools\Permissions\InteractsWithFormPermissions']['setFormPermissions']
+        $di->setters[\Ushahidi\Core\Tools\Permissions\InteractsWithFormPermissions::class]['setFormPermissions']
             = $di->lazyNew(\Ushahidi\Core\Tools\Permissions\FormPermissions::class);
 
         // Set ACL for ACL Trait
         $di->setters[\Ushahidi\Core\Concerns\Acl::class]['setAcl'] = $di->lazyGet('tool.acl');
 
         // Tools
-        $di->set('tool.signer', $di->lazyNew('Ushahidi\Core\Tools\Signer'));
-        $di->set('tool.verifier', $di->lazyNew('Ushahidi\Core\Tools\Verifier', [
+        $di->set('tool.signer', $di->lazyNew(\Ushahidi\Core\Tools\Signer::class));
+        $di->set('tool.verifier', $di->lazyNew(\Ushahidi\Core\Tools\Verifier::class, [
             'apiKeyRepo' => $di->lazyGet('repository.apikey')
         ]));
-        $di->set('tool.uploader', $di->lazyNew('Ushahidi\Core\Tools\Uploader'));
-        $di->params['Ushahidi\Core\Tools\Uploader'] = [
+        $di->set('tool.uploader', $di->lazyNew(\Ushahidi\Core\Tools\Uploader::class));
+        $di->params[\Ushahidi\Core\Tools\Uploader::class] = [
             'fs' => $di->lazyGet('tool.filesystem'),
             'multisite' => $di->lazyGet('multisite'),
         ];
@@ -372,10 +373,10 @@ class CoreConfig extends ContainerConfig
 
         // Set up register rate limiter
         $di->set('ratelimiter.register.flap', $di->lazyNew(
-            'BehEh\Flaps\Flap',
+            \BehEh\Flaps\Flap::class,
             [
                 'storage' => $di->lazyNew(
-                    'BehEh\Flaps\Storage\DoctrineCacheAdapter',
+                    \BehEh\Flaps\Storage\DoctrineCacheAdapter::class,
                     [
                         'cache' => $di->lazyGet('ratelimiter.cache')
                     ]
@@ -385,7 +386,7 @@ class CoreConfig extends ContainerConfig
         ));
 
         $di->set('ratelimiter.register.strategy', $di->lazyNew(
-            'BehEh\Flaps\Throttling\LeakyBucketStrategy',
+            \BehEh\Flaps\Throttling\LeakyBucketStrategy::class,
             [
                 'requests' => 3,
                 'timeSpan' => '1m'
@@ -402,10 +403,10 @@ class CoreConfig extends ContainerConfig
 
         // Set up login rate limiter
         $di->set('ratelimiter.login.flap', $di->lazyNew(
-            'BehEh\Flaps\Flap',
+            \BehEh\Flaps\Flap::class,
             [
                 'storage' => $di->lazyNew(
-                    'BehEh\Flaps\Storage\DoctrineCacheAdapter',
+                    \BehEh\Flaps\Storage\DoctrineCacheAdapter::class,
                     [
                         'cache' => $di->lazyGet('ratelimiter.cache')
                     ]
@@ -416,7 +417,7 @@ class CoreConfig extends ContainerConfig
 
 
         $di->set('ratelimiter.login.strategy', $di->lazyNew(
-            'BehEh\Flaps\Throttling\LeakyBucketStrategy',
+            \BehEh\Flaps\Throttling\LeakyBucketStrategy::class,
             [
                 'requests' => 3,
                 'timeSpan' => '1m'
@@ -438,8 +439,8 @@ class CoreConfig extends ContainerConfig
             return $memcached;
         }, $di->lazyValue('ratelimiter.config')));
 
-        $di->setters['Doctrine\Common\Cache\MemcachedCache']['setMemcached'] = $di->lazyGet('memcached');
-        $di->params['Doctrine\Common\Cache\FilesystemCache']['directory'] = $di->lazy(function ($config) {
+        $di->setters[\Doctrine\Common\Cache\MemcachedCache::class]['setMemcached'] = $di->lazyGet('memcached');
+        $di->params[\Doctrine\Common\Cache\FilesystemCache::class]['directory'] = $di->lazy(function ($config) {
             return $config['filesystem']['directory'];
         }, $di->lazyValue('ratelimiter.config'));
 
@@ -449,9 +450,9 @@ class CoreConfig extends ContainerConfig
 
             // @todo we can't reconfigure this here. Need to move it elsewhere
             if ($cache === 'memcached') {
-                return $di->newInstance('Doctrine\Common\Cache\MemcachedCache');
+                return $di->newInstance(\Doctrine\Common\Cache\MemcachedCache::class);
             } elseif ($cache === 'filesystem') {
-                return $di->newInstance('Doctrine\Common\Cache\FilesystemCache');
+                return $di->newInstance(\Doctrine\Common\Cache\FilesystemCache::class);
             }
 
             // Fall back to using in-memory cache if none is configured
@@ -459,13 +460,13 @@ class CoreConfig extends ContainerConfig
         }, $di->lazyValue('ratelimiter.config')));
 
         // Rate limiter violation handler
-        $di->setters['BehEh\Flaps\Flap']['setViolationHandler'] =
+        $di->setters[\BehEh\Flaps\Flap::class]['setViolationHandler'] =
             $di->lazyNew(\Ushahidi\Core\Tools\ThrottlingViolationHandler::class);
 
         // Validation Trait
         // We're injecting via lazy so that we get a separate ValidationEngine for every validator
         // Rather than a shared engine as we would if we used lazyNew->set->lazyGet->
-        $di->setters['Ushahidi\Core\Concerns\ValidationEngine']['setValidation'] = $di->lazy(function () {
+        $di->setters[\Ushahidi\Core\Concerns\ValidationEngine::class]['setValidation'] = $di->lazy(function () {
             // Create a new ValidationEngine
             return new \Ushahidi\Core\Tools\KohanaValidationEngine(app('translator'));
         });
