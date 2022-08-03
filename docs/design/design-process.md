@@ -42,9 +42,9 @@ The developers at Ushahidi should be empowered to make appropriate design choice
 
 Developers should be able to find everything they need in the [Ushahidi Pattern library](http://preview.ushahidi.com/platform-pattern-library/develop/index.html).
 
-![This design has been re-used by devs for various screens for messages.](<../../.gitbook/assets/pattern-library-snackbar (1) (2).png>)
+![This design has been re-used by devs for various screens for messages.](<../../.gitbook/assets/pattern-library-snackbar (1) (1) (1).png>)
 
-![Ionic has 'out of the box' UI that works for a 'dev design'](<../../.gitbook/assets/ionic (1) (1).png>)
+![Ionic has 'out of the box' UI that works for a 'dev design'](<../../.gitbook/assets/ionic (1) (1) (1).png>)
 
 ### 2. Light design
 

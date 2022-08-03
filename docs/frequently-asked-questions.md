@@ -65,7 +65,7 @@ Your web server setup is not handling the URLs as designed. There can be differe
 
 First, let's identify your stack.
 
-* Are you using ushahidi.io and running a deployment there? If YES, please contact our team through one of these channels: [https://www.ushahidi.com/contact#](https://www.ushahidi.com/contact#)
+* Are you using ushahidi.io and running a deployment there? If YES, please contact our team through one of these channels: [https://www.ushahidi.com/contact#](https://www.ushahidi.com/contact)
 *   Are you a developer, setting up Ushahidi yourself? Start by checking the network tab in your development browser of choice and identifying any network errors. Look at the response for each and check what you see.
 
     The most common reasons for this error:
@@ -82,7 +82,7 @@ First, let's identify your stack.
 
 Please verify that all the fields have the correct values and that you have enabled the "Accept survey submissions from this source" toggle (it should be green/on!)
 
-![Example with disabled "Twitter" datasource.](<../.gitbook/assets/screen-shot-2019-08-03-at-11.08.49 (1) (2) (1) (1).png>)
+![Example with disabled "Twitter" datasource.](<../.gitbook/assets/screen-shot-2019-08-03-at-11.08.49 (1) (2) (1) (2) (1).png>)
 
 If you think your configuration is correct, please get in touch with your deploment name and details, and someone from the support team will be able to help.
 
@@ -90,7 +90,7 @@ If you think your configuration is correct, please get in touch with your deplom
 
 Please verify that all the fields have the correct values and that you have enabled the "Accept survey submissions from this source" toggle (it should be green/on!)
 
-![Example with disabled "Twitter" datasource.](<../.gitbook/assets/screen-shot-2019-08-03-at-11.08.49 (1) (2) (1) (1).png>)
+![Example with disabled "Twitter" datasource.](<../.gitbook/assets/screen-shot-2019-08-03-at-11.08.49 (1) (2) (1) (2) (1).png>)
 
 If the configuration values are correct, then proceed to check the following in the platform API.
 
@@ -173,8 +173,8 @@ Translating the platform into different langauges helps us allow more people acc
 
 Connect with the wider Ushahidi community:
 
-* Join the discussion on [our forum](http://forums.ushahidi.com)
-* Sign up on the [mailing list](http://list.ushahidi.com)
+* Join the discussion on [our forum](http://forums.ushahidi.com/)
+* Sign up on the [mailing list](http://list.ushahidi.com/)
 * Chat with us on:
   * IRC at [#ushahidi on Freenode](http://irc/irc.freenode.net/#ushahidi)
   * Gitter at [ushahidi/Community](https://gitter.im/ushahidi/community)

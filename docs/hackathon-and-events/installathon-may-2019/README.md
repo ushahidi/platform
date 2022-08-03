@@ -6,7 +6,7 @@ description: >-
 
 # Installathon, May 2019
 
-![](<../../../.gitbook/assets/gitbook-graphic (1) (1) (1).png>)
+![](<../../../.gitbook/assets/gitbook-graphic (1) (1) (2).png>)
 
 Many of you got stuck during the installation and we suspect many leave after that, not looking back. Therefore we have worked hard on improving our docs and in May we will host our first Installathon, an online Hackathon over one week where the main focus is to help our users to install the Ushahidi Platform.
 
