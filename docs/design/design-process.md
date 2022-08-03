@@ -42,9 +42,9 @@ The developers at Ushahidi should be empowered to make appropriate design choice
 
 Developers should be able to find everything they need in the [Ushahidi Pattern library](http://preview.ushahidi.com/platform-pattern-library/develop/index.html).
 
-![This design has been re-used by devs for various screens for messages.](<../../.gitbook/assets/pattern-library-snackbar (1) (1) (1).png>)
+![This design has been re-used by devs for various screens for messages.](<../../.gitbook/assets/pattern-library-snackbar (1) (1) (2).png>)
 
-![Ionic has 'out of the box' UI that works for a 'dev design'](<../../.gitbook/assets/ionic (1) (1) (1).png>)
+![Ionic has 'out of the box' UI that works for a 'dev design'](<../../.gitbook/assets/ionic (1) (1) (2).png>)
 
 ### 2. Light design
 
@@ -85,7 +85,7 @@ Errors, mistakes, validation, accessibility and relevancy should all be consider
 It is one of design's responsibilities to **advocate for users** through facilitating their product needs and **subsequently visualising and communicating these needs clearly**.
 
 {% hint style="warning" %}
-#### Design can't solve everything at once
+**Design can't solve everything at once**
 
 Design has to be 'bounded', well defined and taken as an iterative, incremental improvement approach. Design is never 'done' and it is rarely possible to create 'entire' design solutions. The designer and the team are responsible early on in a design process decide what will be completed and what is out of scope for that design iteration and to be worked into the next one
 {% endhint %}
