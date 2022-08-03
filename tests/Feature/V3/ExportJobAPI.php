@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\API;
+namespace Tests\Feature\V3;
 
 use Faker;
 use Laravel\Lumen\Testing\DatabaseTransactions;

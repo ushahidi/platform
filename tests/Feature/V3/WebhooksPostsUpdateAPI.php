@@ -1,9 +1,7 @@
 <?php
-
-namespace Tests\Unit\API;
+namespace Tests\Feature\V3;
 
 use Faker;
-use Laravel\Lumen\Testing\DatabaseTransactions;
 use Tests\TestCase;
 use Ushahidi\Core\Entity\ApiKey;
 use Ushahidi\Core\Entity\Post;
