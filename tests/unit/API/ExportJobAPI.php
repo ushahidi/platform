@@ -18,7 +18,7 @@ class ExportJobAPI extends TestCase
     public function testCreateJob()
     {
         $this->withoutMiddleware();
-        $this->expectsJobs(\Ushahidi\App\Jobs\ExportPostsJob::class);
+        $this->expectsJobs(\Ushahidi\App\V3\Jobs\ExportPostsJob::class);
 
         $this
             ->actingAs(new \Ushahidi\App\Auth\GenericUser(['id' => 2]))
