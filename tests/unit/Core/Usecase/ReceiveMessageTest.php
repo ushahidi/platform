@@ -4,7 +4,7 @@
  * Integration test for ReceiveMessage usecase
  */
 
-namespace Tests\Unit\App\V3\Usecase;
+namespace Tests\Unit\Core\Usecase;
 
 use Mockery as M;
 use Tests\TestCase;

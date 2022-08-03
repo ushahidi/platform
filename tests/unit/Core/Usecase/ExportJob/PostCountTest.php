@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\App\V3\Usecase\ExportJob;
+namespace Tests\Unit\Core\Usecase\ExportJob;
 
 use Faker;
 use Mockery as M;
@@ -8,7 +8,7 @@ use Tests\TestCase;
 use Ushahidi\Contracts\Repository\Entity\ExportJobRepository;
 use Ushahidi\Contracts\Session;
 use Ushahidi\Core\Entity\ExportJob;
-use Ushahidi\App\V3\Usecase\Export\Job\PostCount;
+use Ushahidi\Core\Usecase\Export\Job\PostCount;
 
 /**
  * @group api

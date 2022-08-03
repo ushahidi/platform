@@ -1,6 +1,6 @@
 <?php
 
-namespace spec\Ushahidi\App\V3\Usecase;
+namespace spec\Ushahidi\Core\Usecase;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
@@ -20,7 +20,7 @@ class ReadUsecaseSpec extends ObjectBehavior
 
     public function it_is_initializable()
     {
-        $this->shouldHaveType('Ushahidi\App\V3\Usecase\ReadUsecase');
+        $this->shouldHaveType('Ushahidi\Core\Usecase\ReadUsecase');
     }
 
     public function it_fails_when_no_identifer_exists()

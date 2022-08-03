@@ -1,6 +1,6 @@
 <?php
 
-namespace spec\Ushahidi\App\V3\Usecase;
+namespace spec\Ushahidi\Core\Usecase;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
@@ -20,7 +20,7 @@ class DeleteUsecaseSpec extends ObjectBehavior
 
     public function it_is_initializable()
     {
-        $this->shouldHaveType('Ushahidi\App\V3\Usecase\DeleteUsecase');
+        $this->shouldHaveType('Ushahidi\Core\Usecase\DeleteUsecase');
     }
 
     public function it_fails_when_no_identifer_exists()

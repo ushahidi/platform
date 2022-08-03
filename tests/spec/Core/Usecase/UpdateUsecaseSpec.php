@@ -1,6 +1,6 @@
 <?php
 
-namespace spec\Ushahidi\App\V3\Usecase;
+namespace spec\Ushahidi\Core\Usecase;
 
 use Illuminate\Contracts\Translation\Translator;
 use PhpSpec\ObjectBehavior;
@@ -29,7 +29,7 @@ class UpdateUsecaseSpec extends ObjectBehavior
 
     public function it_is_initializable()
     {
-        $this->shouldHaveType('Ushahidi\App\V3\Usecase\UpdateUsecase');
+        $this->shouldHaveType('Ushahidi\Core\Usecase\UpdateUsecase');
     }
 
     private function tryGetEntity($repo, $entity, $id)

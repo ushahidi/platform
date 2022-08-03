@@ -1,6 +1,6 @@
 <?php
 
-namespace spec\Ushahidi\App\V3\Usecase\Message;
+namespace spec\Ushahidi\Core\Usecase\Message;
 
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Contracts\Translation\Translator;
@@ -14,7 +14,7 @@ use Ushahidi\Contracts\Repository\Entity\ContactRepository;
 use Ushahidi\Contracts\Validator;
 use Ushahidi\Core\Entity\Contact;
 use Ushahidi\Core\Exception\ValidatorException;
-use Ushahidi\App\V3\Usecase\Message\ReceiveMessage;
+use Ushahidi\Core\Usecase\Message\ReceiveMessage;
 
 class ReceiveMessageSpec extends ObjectBehavior
 {
