@@ -93,7 +93,7 @@
             "database/factories"
         ],
         "psr-4": {
-            "Ushahidi\\": "src/",
+            "Ushahidi\\": "src/Ushahidi",
             "App\\": "app/"
         },
         "files": [
