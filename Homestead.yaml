@@ -25,6 +25,9 @@ features:
     - postgresql: false
     - mysql: true
 services:
-    - "mysql"
+    - enabled:
+      - mysql
+    - disabled:
+      - postgresql
 name: platform-api
 hostname: platform-api

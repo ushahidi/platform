@@ -35,8 +35,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     # Patch around the pitfalls of the imho dreadful composer update script in Homestead
     config.vm.provision "shell", inline: "mkdir -p /home/vagrant/.composer"
 
-    Homestead.configure(config, settings)
-
     # Homestead before v11.4 has a problem with trying to initialise Postgres databases
     # even if the postgres server is not available. Here we short-circuit that.
     $hide_postgres = <<-'SCRIPT'
@@ -47,6 +45,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     fi
     SCRIPT
     config.vm.provision "shell", inline: $hide_postgres
+
+    Homestead.configure(config, settings)
 
     if File.exist? afterScriptPath then
         config.vm.provision "shell", path: afterScriptPath, privileged: false
