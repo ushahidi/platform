@@ -88,7 +88,7 @@ curl -sS https://getcomposer.org/installer | \
 * Open the XAMPP Control Panel and make sure that both MySQL and Apache are running.
   * _Windows_: click the "Start" button next to MySQL and Apache modules
   * _Linux and Mac_:
-    * Search for the application XAMPP (usually in the applications-window, but you can also search for it, a seach-window appears  by pressing (usually) cmd=>space on Mac and  Super=>A on Linux).
+    * Search for the application XAMPP (usually in the applications-window, but you can also search for it, a seach-window appears by pressing (usually) cmd=>space on Mac and Super=>A on Linux).
     * Access the "Manage Servers" tab
     * Select "MySQL Database" and click the "Start" button on the right side
     * Select "Apache Web Server" and click the "Start" button on the right side
@@ -111,13 +111,14 @@ curl -sS https://getcomposer.org/installer | \
       * Right next to it you will find a drop down to select the character encoding and collation. Scroll near to the bottom of the list and select "utf8mb4\_unicode\_ci"
       * Click "Create"
 
-Next, create a new user and password for the `platform` database. The username and password
-can be anything; we will use `ushahidi` for both in this example.  Select the `platform` database and execute the query below:
+Next, create a new user and password for the `platform` database. The username and password can be anything; we will use `ushahidi` for both in this example. Select the `platform` database and execute the query below:
 
 ```
 CREATE USER 'ushahidi'@'127.0.0.1' IDENTIFIED BY 'ushahidi';
 ```
-Now, grant all priviledges on the `plaform` database to this user by running the below command: 
+
+Now, grant all priviledges on the `plaform` database to this user by running the below command:
+
 ```
 GRANT ALL PRIVILEGES ON plaform.* TO 'ushahidi'@'127.0.0.1';
 ```
@@ -161,8 +162,8 @@ On Windows File Explorer, the default is to hide the extension of the files (the
 * Modify the file in the following way:
   * Change the `CACHE_DRIVER` to be `array` instead of `memcache` (it's feasible set it up with memcache at some point, but for simplicity we use `array`)
   * Change the `DB_HOST` to `127.0.0.1`
-  * Change the `DB_USERNAME` to `root`
-  * Change the `DB_PASSWORD` to be empty, so literally: `DB_PASSWORD=`
+  * Change the `DB_USERNAME` to `ushahidi`
+  * Change the `DB_PASSWORD` to `ushahidi`
   * Change the `DB_DATABASE` to `platform`
 
 {% hint style="info" %}
@@ -208,7 +209,7 @@ Add the API virtual host name to your hosts file, by doing the following: append
     * Type Notepad in the search field.
     * In the search results, right-click Notepad and select Run as administrator.
   * Open the file: `C:\Windows\System32\Drivers\etc\hosts`
-    * When doing this from the Notepad "File" > "Open" menu action,  you should make sure to change the default file filter from "Text Documents (.txt)" to "All Files"
+    * When doing this from the Notepad "File" > "Open" menu action, you should make sure to change the default file filter from "Text Documents (.txt)" to "All Files"
   * Update the file, add a line at the bottom with these contents: `127.0.0.1 api.ushahidi.test`
 * Linux / Mac :
   * Open the `/etc/hosts` file in an editor with administrator privileges (i.e. with the terminal command `sudo nano /etc/hosts`)
@@ -362,4 +363,6 @@ As a result of the steps followed in this guide, the URL for the API backend is 
 
 With that clarified, please find below the link to the client set up guide.
 
-{% page-ref page="setting-up-the-platform-client/" %}
+{% content-ref url="setting-up-the-platform-client/" %}
+[setting-up-the-platform-client](setting-up-the-platform-client/)
+{% endcontent-ref %}
