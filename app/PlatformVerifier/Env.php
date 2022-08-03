@@ -1,10 +1,10 @@
 <?php
 
-namespace Ushahidi\App\PlatformVerifier;
+namespace App\PlatformVerifier;
 
 use Composer\Installer\PackageEvent;
 use Composer\Script\Event;
-use Ushahidi\App\Tools\OutputText;
+use App\Tools\OutputText;
 
 class Env
 {

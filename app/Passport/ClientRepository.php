@@ -1,6 +1,6 @@
 <?php
 
-namespace Ushahidi\App\Passport;
+namespace App\Passport;
 
 use Ramsey\Uuid\Uuid as UUID;
 use Laravel\Passport\Passport;

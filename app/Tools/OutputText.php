@@ -1,6 +1,6 @@
 <?php
 
-namespace Ushahidi\App\Tools;
+namespace App\Tools;
 
 class OutputText
 {

@@ -8,10 +8,10 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Ushahidi\App\Tools;
+namespace App\Tools;
 
 use Illuminate\Support\Str;
-use Ushahidi\App\Multisite\UsesSiteInfo;
+use App\Multisite\UsesSiteInfo;
 use Ushahidi\Contracts\Mailer as MailerContract;
 use Illuminate\Contracts\Mail\Mailer as LaravelMailer;
 

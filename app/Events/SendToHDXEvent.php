@@ -1,6 +1,6 @@
 <?php
 
-namespace Ushahidi\App\Events;
+namespace App\Events;
 
 class SendToHDXEvent extends Event
 {

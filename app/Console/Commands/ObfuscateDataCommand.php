@@ -1,6 +1,6 @@
 <?php
 
-namespace Ushahidi\App\Console\Commands;
+namespace App\Console\Commands;
 
 /**
  * Ushahidi Obfuscate Data console command
@@ -14,7 +14,7 @@ namespace Ushahidi\App\Console\Commands;
 use Faker;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
-use Ushahidi\App\Multisite\OhanzeeResolver;
+use App\Multisite\OhanzeeResolver;
 
 class ObfuscateDataCommand extends Command
 {

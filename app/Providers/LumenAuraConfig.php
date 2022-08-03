@@ -1,6 +1,6 @@
 <?php
 
-namespace Ushahidi\App\Providers;
+namespace App\Providers;
 
 use Aura\Di\Container;
 use Aura\Di\ContainerConfig;
@@ -22,7 +22,7 @@ class LumenAuraConfig extends ContainerConfig
     protected function configureAuraServices(Container $di)
     {
         // Configure mailer
-        $di->set('tool.mailer', $di->lazyNew(\Ushahidi\App\Tools\Mailer::class, [
+        $di->set('tool.mailer', $di->lazyNew(\App\Tools\Mailer::class, [
             'mailer' => app('mailer'),
         ]));
 
@@ -39,7 +39,7 @@ class LumenAuraConfig extends ContainerConfig
         });
 
         // Setup user session service
-        $di->set('session', $di->lazyNew(\Ushahidi\App\Tools\Session::class, [
+        $di->set('session', $di->lazyNew(\App\Tools\Session::class, [
             'userRepo' => $di->lazyGet('repository.user'),
         ]));
 
@@ -49,7 +49,7 @@ class LumenAuraConfig extends ContainerConfig
 
         // Abstract repository parameters
         $di->set('db.ohanzee.resolver', $di->lazy(function () {
-            return app(\Ushahidi\App\Multisite\OhanzeeResolver::class);
+            return app(\App\Multisite\OhanzeeResolver::class);
         }));
 
         // Configure dispatcher

@@ -1,6 +1,6 @@
 <?php
 
-namespace Ushahidi\App\Console\Commands;
+namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Bus\Dispatcher;
@@ -8,7 +8,7 @@ use Illuminate\Support\Collection;
 
 use Ushahidi\Core\Entity\MediaRepository;
 use Ushahidi\Core\SearchData;
-use Ushahidi\App\Jobs\ImportMediaJob;
+use App\Jobs\ImportMediaJob;
 
 class ImportMediaCommand extends Command
 {

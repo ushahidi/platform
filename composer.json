@@ -94,7 +94,7 @@
         ],
         "psr-4": {
             "Ushahidi\\": "src/",
-            "Ushahidi\\App\\": "app/"
+            "App\\": "app/"
         },
         "files": [
             "app/helpers.php"
@@ -176,10 +176,10 @@
             "php artisan environment:verify"
         ],
         "installdebug:enable": [
-            "\\Ushahidi\\App\\PlatformVerifier\\DebugMode::enable"
+            "\\App\\PlatformVerifier\\DebugMode::enable"
         ],
         "installdebug:disable": [
-            "\\Ushahidi\\App\\PlatformVerifier\\DebugMode::disable"
+            "\\App\\PlatformVerifier\\DebugMode::disable"
         ],
         "snowboard-v3-serve": [
             "snowboard http docs/api/index.apib"

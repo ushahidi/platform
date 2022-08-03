@@ -1,14 +1,14 @@
 <?php
 
-namespace Ushahidi\App\Http\Middleware;
+namespace App\Http\Middleware;
 
 use Closure;
-use Ushahidi\App\Multisite\MultisiteManager;
+use App\Multisite\MultisiteManager;
 
 class CheckDemoExpiration
 {
     /**
-     * @var \Ushahidi\App\Multisite\MultisiteManager;
+     * @var \App\Multisite\MultisiteManager;
      */
     protected $multisite;
 

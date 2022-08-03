@@ -1,6 +1,6 @@
 <?php
 
-namespace Ushahidi\App\Auth;
+namespace App\Auth;
 
 use Illuminate\Contracts\Auth\Authenticatable as UserContract;
 use Laravel\Passport\HasApiTokens;

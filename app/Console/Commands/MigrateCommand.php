@@ -1,6 +1,6 @@
 <?php
 
-namespace Ushahidi\App\Console\Commands;
+namespace App\Console\Commands;
 
 use Phinx\Console\Command\Migrate as PhinxMigrateCommand;
 use Symfony\Component\Console\Input\InputOption;

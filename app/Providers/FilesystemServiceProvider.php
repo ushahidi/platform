@@ -1,9 +1,9 @@
 <?php
 
-namespace Ushahidi\App\Providers;
+namespace App\Providers;
 
 use Illuminate\Filesystem\FilesystemServiceProvider as LaravelFilesystemServiceProvider;
-use Ushahidi\App\Tools\FilesystemManager;
+use App\Tools\FilesystemManager;
 
 class FilesystemServiceProvider extends LaravelFilesystemServiceProvider
 {

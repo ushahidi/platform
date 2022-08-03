@@ -8,11 +8,11 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Ushahidi\App\Console\Commands;
+namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use Ushahidi\Core\Tool\Signer;
-use Ushahidi\App\Multisite\OhanzeeResolver;
+use App\Multisite\OhanzeeResolver;
 
 class WebhookCommand extends Command
 {

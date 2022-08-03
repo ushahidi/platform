@@ -1,6 +1,6 @@
 <?php
 
-namespace Ushahidi\App\Tools;
+namespace App\Tools;
 
 use Illuminate\Support\Facades\Cache;
 use Ushahidi\Contracts\Repository\Entity\ConfigRepository;

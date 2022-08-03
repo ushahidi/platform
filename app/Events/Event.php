@@ -1,6 +1,6 @@
 <?php
 
-namespace Ushahidi\App\Events;
+namespace App\Events;
 
 use Illuminate\Queue\SerializesModels;
 

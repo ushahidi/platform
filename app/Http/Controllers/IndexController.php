@@ -1,6 +1,6 @@
 <?php
 
-namespace Ushahidi\App\Http\Controllers;
+namespace App\Http\Controllers;
 
 use Illuminate\Routing\Controller;
 

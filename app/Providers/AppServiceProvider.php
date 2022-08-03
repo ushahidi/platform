@@ -1,15 +1,15 @@
 <?php
 
-namespace Ushahidi\App\Providers;
+namespace App\Providers;
 
-use Ushahidi\App\Tools\Features;
+use App\Tools\Features;
 use Ushahidi\Core\Tool\Verifier;
 use Ushahidi\Factory\UsecaseFactory;
 use Ushahidi\Addons\Mteja\MtejaSource;
 use Illuminate\Support\ServiceProvider;
 use Ushahidi\DataSource\DataSourceServiceProvider;
-use Ushahidi\App\Multisite\MultisiteServiceProvider;
-use Ushahidi\App\Providers\FilesystemServiceProvider;
+use App\Multisite\MultisiteServiceProvider;
+use App\Providers\FilesystemServiceProvider;
 use Ushahidi\Addons\AfricasTalking\AfricasTalkingSource;
 use Ushahidi\Contracts\Repository\Entity\PostRepository;
 use Ushahidi\Contracts\Repository\Entity\UserRepository;
@@ -62,23 +62,23 @@ class AppServiceProvider extends ServiceProvider
         $this->registerFeatures();
 
         $this->app->singleton(
-            \Ushahidi\App\V2\Contracts\ImportMappingRepository::class,
-            \Ushahidi\App\V2\Repositories\ImportMappingRepository::class
+            \App\V2\Contracts\ImportMappingRepository::class,
+            \App\V2\Repositories\ImportMappingRepository::class
         );
 
         $this->app->singleton(
-            \Ushahidi\App\V2\Contracts\ImportRepository::class,
-            \Ushahidi\App\V2\Repositories\ImportRepository::class
+            \App\V2\Contracts\ImportRepository::class,
+            \App\V2\Repositories\ImportRepository::class
         );
 
         $this->app->singleton(
-            \Ushahidi\App\V2\Contracts\ImportSourceDataRepository::class,
-            \Ushahidi\App\V2\Repositories\ImportSourceDataRepository::class
+            \App\V2\Contracts\ImportSourceDataRepository::class,
+            \App\V2\Repositories\ImportSourceDataRepository::class
         );
 
         $this->app->singleton(
-            \Ushahidi\App\V2\Contracts\ImportDataTools::class,
-            \Ushahidi\App\V2\Utils\ImportDataTools::class
+            \App\V2\Contracts\ImportDataTools::class,
+            \App\V2\Utils\ImportDataTools::class
         );
     }
 

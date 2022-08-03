@@ -1,6 +1,6 @@
 <?php
 
-namespace Ushahidi\App\Providers;
+namespace App\Providers;
 
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Route;
@@ -14,7 +14,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    protected $namespace = 'Ushahidi\App\Http\Controllers';
+    protected $namespace = 'App\Http\Controllers';
 
     /**
      * Define your route model bindings, pattern filters, etc.
@@ -76,12 +76,12 @@ class RouteServiceProvider extends ServiceProvider
 
         Route::prefix('api')
             ->middleware('api')
-            ->namespace('Ushahidi\App\V3\Http\Controllers')
+            ->namespace('App\V3\Http\Controllers')
             ->group(base_path('src/App/V3/routes/api.php'));
 
         Route::prefix('api')
             ->middleware('api')
-            ->namespace('Ushahidi\App\V5\Http\Controllers')
+            ->namespace('App\V5\Http\Controllers')
             ->group(base_path('src/App/V5/routes/api.php'));
     }
 }
