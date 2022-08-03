@@ -3,7 +3,7 @@
 namespace Ushahidi\App\Providers;
 
 use Ushahidi\App\Tools\Features;
-use Ushahidi\Core\Tools\Verifier;
+use Ushahidi\Core\Tool\Verifier;
 use Ushahidi\Factory\UsecaseFactory;
 use Ushahidi\Addons\Mteja\MtejaSource;
 use Illuminate\Support\ServiceProvider;

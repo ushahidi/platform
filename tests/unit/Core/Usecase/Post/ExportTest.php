@@ -16,7 +16,7 @@ use Ushahidi\Core\Entity\HXL\HXLLicense;
 use Ushahidi\Core\Entity\HXL\HXLMetadata;
 use Ushahidi\Core\Entity\Post;
 use Ushahidi\Core\Entity\User;
-use Ushahidi\Core\Tools\SearchData;
+use Ushahidi\Core\Tool\SearchData;
 use Ushahidi\App\V3\Repository\ExportJobRepository;
 use Ushahidi\App\V3\Repository\Form\AttributeRepository;
 use Ushahidi\App\V3\Repository\Post\ExportRepository;

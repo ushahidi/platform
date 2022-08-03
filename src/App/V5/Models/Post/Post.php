@@ -22,7 +22,7 @@ use Ushahidi\App\V5\Models\Helpers\HideAuthor;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Input;
 use Ushahidi\App\V3\Validator\LegacyValidator;
-use Ushahidi\Core\Tools\Permissions\InteractsWithPostPermissions;
+use Ushahidi\Core\Tool\Permissions\InteractsWithPostPermissions;
 use Illuminate\Http\Request;
 
 class Post extends BaseModel

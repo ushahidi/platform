@@ -13,7 +13,7 @@ namespace Ushahidi\App\V3\Repository\HXL;
 
 use Ohanzee\DB;
 use Ohanzee\Database;
-use Ushahidi\Core\Tools\SearchData;
+use Ushahidi\Core\Tool\SearchData;
 use Ushahidi\Core\Entity\HXL\HXLTag;
 use Ushahidi\App\Multisite\OhanzeeResolver;
 use Ushahidi\App\V3\Repository\OhanzeeRepository;

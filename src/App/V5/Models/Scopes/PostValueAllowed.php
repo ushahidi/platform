@@ -30,7 +30,7 @@ class PostValueAllowed implements Scope
         $authorizer = service('authorizer.post');
         $user = $authorizer->getUser();
 
-        $postPermissions = new \Ushahidi\Core\Tools\Permissions\PostPermissions();
+        $postPermissions = new \Ushahidi\Core\Tool\Permissions\PostPermissions();
         $postPermissions->setAcl($authorizer->acl);
         /**
          * post value's response_private field
@@ -61,7 +61,7 @@ class PostValueAllowed implements Scope
         // }
 
         $formAuthorizer = service('authorizer.form');
-        $formPermissions = new \Ushahidi\Core\Tools\Permissions\FormPermissions();
+        $formPermissions = new \Ushahidi\Core\Tool\Permissions\FormPermissions();
         $formPermissions->setAcl($formAuthorizer->acl);
         /**
          * With scopes and the $builder, we check for basic permissions right on our initial

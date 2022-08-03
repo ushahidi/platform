@@ -35,7 +35,7 @@ class StageAllowed implements Scope
         // that doesn't let me do guest user checks without adding more risk.
         $user = $authorizer->getUser();
 
-        $formPermissions = new \Ushahidi\Core\Tools\Permissions\FormPermissions();
+        $formPermissions = new \Ushahidi\Core\Tool\Permissions\FormPermissions();
         $formPermissions->setAcl($authorizer->acl);
         /**
          * With scopes and the $builder, we check for basic permissions right on our initial

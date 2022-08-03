@@ -12,7 +12,7 @@
 namespace Ushahidi\App\V3\Repository\HXL;
 
 use Ohanzee\Database;
-use Ushahidi\Core\Tools\SearchData;
+use Ushahidi\Core\Tool\SearchData;
 use Ushahidi\Core\Entity\HXL\HXLAttribute;
 use Ushahidi\App\V3\Repository\OhanzeeRepository;
 use Ushahidi\Contracts\Repository\ReadRepository;

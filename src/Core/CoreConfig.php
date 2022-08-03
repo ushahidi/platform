@@ -121,9 +121,9 @@ class CoreConfig extends ContainerConfig
 
         // Usecases that perform searches are the most typical usage of data objects.
         $di->params[\Ushahidi\Factory\DataFactory::class]['actions'] = [
-            'search' => $di->lazyNew(\Ushahidi\Core\Tools\SearchData::class),
-            'stats'  => $di->lazyNew(\Ushahidi\Core\Tools\SearchData::class),
-            'export'  => $di->lazyNew(\Ushahidi\Core\Tools\SearchData::class),
+            'search' => $di->lazyNew(\Ushahidi\Core\Tool\SearchData::class),
+            'stats'  => $di->lazyNew(\Ushahidi\Core\Tool\SearchData::class),
+            'export'  => $di->lazyNew(\Ushahidi\Core\Tool\SearchData::class),
         ];
 
         // Use cases are used to join multiple collaborators together for a single interaction.
@@ -336,38 +336,38 @@ class CoreConfig extends ContainerConfig
         $di->setters[\Ushahidi\Core\Concerns\Event::class]['setEmitter'] = $di->lazyNew(\League\Event\Emitter::class);
 
         // Set post permissions instance
-        $di->setters[\Ushahidi\Core\Tools\Permissions\InteractsWithPostPermissions::class]['setPostPermissions']
-            = $di->lazyNew(\Ushahidi\Core\Tools\Permissions\PostPermissions::class);
+        $di->setters[\Ushahidi\Core\Tool\Permissions\InteractsWithPostPermissions::class]['setPostPermissions']
+            = $di->lazyNew(\Ushahidi\Core\Tool\Permissions\PostPermissions::class);
 
         // Set form permissions instance
-        $di->setters[\Ushahidi\Core\Tools\Permissions\InteractsWithFormPermissions::class]['setFormPermissions']
-            = $di->lazyNew(\Ushahidi\Core\Tools\Permissions\FormPermissions::class);
+        $di->setters[\Ushahidi\Core\Tool\Permissions\InteractsWithFormPermissions::class]['setFormPermissions']
+            = $di->lazyNew(\Ushahidi\Core\Tool\Permissions\FormPermissions::class);
 
         // Set ACL for ACL Trait
         $di->setters[\Ushahidi\Core\Concerns\Acl::class]['setAcl'] = $di->lazyGet('tool.acl');
 
         // Tools
-        $di->set('tool.signer', $di->lazyNew(\Ushahidi\Core\Tools\Signer::class));
-        $di->set('tool.verifier', $di->lazyNew(\Ushahidi\Core\Tools\Verifier::class, [
+        $di->set('tool.signer', $di->lazyNew(\Ushahidi\Core\Tool\Signer::class));
+        $di->set('tool.verifier', $di->lazyNew(\Ushahidi\Core\Tool\Verifier::class, [
             'apiKeyRepo' => $di->lazyGet('repository.apikey')
         ]));
-        $di->set('tool.uploader', $di->lazyNew(\Ushahidi\Core\Tools\Uploader::class));
-        $di->params[\Ushahidi\Core\Tools\Uploader::class] = [
+        $di->set('tool.uploader', $di->lazyNew(\Ushahidi\Core\Tool\Uploader::class));
+        $di->params[\Ushahidi\Core\Tool\Uploader::class] = [
             'fs' => $di->lazyGet('tool.filesystem'),
             'multisite' => $di->lazyGet('multisite'),
         ];
 
-        $di->set('tool.acl', $di->lazyNew(\Ushahidi\Core\Tools\Acl::class));
-        $di->setters[\Ushahidi\Core\Tools\Acl::class]['setRoleRepo'] = $di->lazyGet('repository.role');
+        $di->set('tool.acl', $di->lazyNew(\Ushahidi\Core\Tool\Acl::class));
+        $di->setters[\Ushahidi\Core\Tool\Acl::class]['setRoleRepo'] = $di->lazyGet('repository.role');
 
-        $di->set('tool.hasher.password', $di->lazyNew(\Ushahidi\Core\Tools\Hasher\Password::class));
-        $di->set('tool.authenticator.password', $di->lazyNew(\Ushahidi\Core\Tools\Authenticator\Password::class));
+        $di->set('tool.hasher.password', $di->lazyNew(\Ushahidi\Core\Tool\Hasher\Password::class));
+        $di->set('tool.authenticator.password', $di->lazyNew(\Ushahidi\Core\Tool\Authenticator\Password::class));
 
-        $di->set('filereader.csv', $di->lazyNew(\Ushahidi\Core\Tools\FileReader\CSV::class));
-        $di->setters[\Ushahidi\Core\Tools\FileReader\CSV::class]['setReaderFactory'] =
+        $di->set('filereader.csv', $di->lazyNew(\Ushahidi\Core\Tool\FileReader\CSV::class));
+        $di->setters[\Ushahidi\Core\Tool\FileReader\CSV::class]['setReaderFactory'] =
             $di->lazyGet('csv.reader_factory');
 
-        $di->set('csv.reader_factory', $di->lazyNew(\Ushahidi\Core\Tools\FileReader\CSVReaderFactory::class));
+        $di->set('csv.reader_factory', $di->lazyNew(\Ushahidi\Core\Tool\FileReader\CSVReaderFactory::class));
 
         // Register filesystem adapter types
 
@@ -394,7 +394,7 @@ class CoreConfig extends ContainerConfig
         ));
 
         $di->set('ratelimiter.register', $di->lazyNew(
-            \Ushahidi\Core\Tools\RateLimiter::class,
+            \Ushahidi\Core\Tool\RateLimiter::class,
             [
                 'flap' => $di->lazyGet('ratelimiter.register.flap'),
                 'throttlingStrategy' => $di->lazyGet('ratelimiter.register.strategy'),
@@ -425,7 +425,7 @@ class CoreConfig extends ContainerConfig
         ));
 
         $di->set('ratelimiter.login', $di->lazyNew(
-            \Ushahidi\Core\Tools\RateLimiter::class,
+            \Ushahidi\Core\Tool\RateLimiter::class,
             [
                 'flap' => $di->lazyGet('ratelimiter.login.flap'),
                 'throttlingStrategy' => $di->lazyGet('ratelimiter.login.strategy'),
@@ -461,14 +461,14 @@ class CoreConfig extends ContainerConfig
 
         // Rate limiter violation handler
         $di->setters[\BehEh\Flaps\Flap::class]['setViolationHandler'] =
-            $di->lazyNew(\Ushahidi\Core\Tools\ThrottlingViolationHandler::class);
+            $di->lazyNew(\Ushahidi\Core\Tool\ThrottlingViolationHandler::class);
 
         // Validation Trait
         // We're injecting via lazy so that we get a separate ValidationEngine for every validator
         // Rather than a shared engine as we would if we used lazyNew->set->lazyGet->
         $di->setters[\Ushahidi\Core\Concerns\ValidationEngine::class]['setValidation'] = $di->lazy(function () {
             // Create a new ValidationEngine
-            return new \Ushahidi\Core\Tools\KohanaValidationEngine(app('translator'));
+            return new \Ushahidi\Core\Tool\KohanaValidationEngine(app('translator'));
         });
     }
 }

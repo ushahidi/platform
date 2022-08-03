@@ -5,7 +5,7 @@ namespace Ushahidi\App\V3\Jobs;
 use RuntimeException;
 use Illuminate\Http\File;
 use Illuminate\Support\Str;
-use Ushahidi\Core\Tools\Job;
+use Ushahidi\Core\Tool\Job;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Log;
 use Ushahidi\Core\Entity\ExportJob;

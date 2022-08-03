@@ -11,7 +11,7 @@
 
 namespace Ushahidi\App\V3\Formatter\Post;
 
-use Ushahidi\Core\Tools\SearchData;
+use Ushahidi\Core\Tool\SearchData;
 use Ushahidi\Contracts\Formatter;
 use Ushahidi\Core\Exception\FormatterException;
 use Ushahidi\App\V3\Http\Controllers\RESTController;

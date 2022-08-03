@@ -10,7 +10,7 @@
  */
 namespace Ushahidi\App\V3\Repository\HXL;
 
-use Ushahidi\Core\Tools\SearchData;
+use Ushahidi\Core\Tool\SearchData;
 use Ushahidi\Core\Entity\HXL\HXLMetadata;
 use Ushahidi\Contracts\Repository\Entity\HXLMetadataRepository as HXLMetadataRepositoryContract;
 use Ushahidi\App\V3\Repository\OhanzeeRepository;

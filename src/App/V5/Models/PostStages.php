@@ -10,8 +10,8 @@ use Illuminate\Validation\Rule;
 use Ushahidi\App\V3\Repository\FormRepository;
 use Ushahidi\App\V3\Validator\LegacyValidator;
 use Ushahidi\Core\Entity\Permission;
-use Ushahidi\Core\Tools\Permissions\InteractsWithFormPermissions;
-use Ushahidi\Core\Tools\Permissions\InteractsWithPostPermissions;
+use Ushahidi\Core\Tool\Permissions\InteractsWithFormPermissions;
+use Ushahidi\Core\Tool\Permissions\InteractsWithPostPermissions;
 
 class PostStages extends BaseModel
 {

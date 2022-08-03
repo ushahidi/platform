@@ -14,7 +14,7 @@ namespace Ushahidi\App\V3\Repository;
 use Ohanzee\DB;
 use Illuminate\Support\Collection;
 use Ushahidi\Core\Entity\Tag;
-use Ushahidi\Core\Tools\SearchData;
+use Ushahidi\Core\Tool\SearchData;
 use Ushahidi\Contracts\Entity;
 use Ushahidi\Contracts\ValidationEngine;
 use Ushahidi\App\V3\Repository\OhanzeeRepository;

@@ -6,7 +6,7 @@ use Illuminate\Validation\Rule;
 use Ushahidi\Contracts\Permission;
 use Illuminate\Support\Facades\Input;
 use Ushahidi\App\V3\Validator\LegacyValidator;
-use Ushahidi\Core\Tools\Permissions\InteractsWithFormPermissions;
+use Ushahidi\Core\Tool\Permissions\InteractsWithFormPermissions;
 use Illuminate\Http\Request;
 
 class Survey extends BaseModel

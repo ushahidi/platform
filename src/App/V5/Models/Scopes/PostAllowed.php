@@ -35,7 +35,7 @@ class PostAllowed implements Scope
         // that doesn't let me do guest user checks without adding more risk.
         $user = $authorizer->getUser();
 
-        $postPermissions = new \Ushahidi\Core\Tools\Permissions\PostPermissions();
+        $postPermissions = new \Ushahidi\Core\Tool\Permissions\PostPermissions();
         $postPermissions->setAcl($authorizer->acl);
         $builder->where('posts.type', '=', 'report');
         /**

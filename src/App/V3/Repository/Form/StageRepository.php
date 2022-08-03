@@ -13,12 +13,12 @@ namespace Ushahidi\App\V3\Repository\Form;
 
 use Ohanzee\DB;
 use Ohanzee\Database;
-use Ushahidi\Core\Tools\SearchData;
+use Ushahidi\Core\Tool\SearchData;
 use Ushahidi\Core\Entity\FormStage;
 use Ushahidi\Contracts\Repository\Entity\FormStageRepository as FormStageRepositoryContract;
 use Ushahidi\Contracts\Repository\Entity\FormRepository as FormRepositoryContract;
 use Ushahidi\Core\Concerns\UserContext;
-use Ushahidi\Core\Tools\Permissions\InteractsWithFormPermissions;
+use Ushahidi\Core\Tool\Permissions\InteractsWithFormPermissions;
 use Ushahidi\App\V3\Repository\OhanzeeRepository;
 
 class StageRepository extends OhanzeeRepository implements

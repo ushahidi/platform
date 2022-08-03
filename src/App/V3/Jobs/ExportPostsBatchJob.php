@@ -2,7 +2,7 @@
 
 namespace Ushahidi\App\V3\Jobs;
 
-use Ushahidi\Core\Tools\Job;
+use Ushahidi\Core\Tool\Job;
 use Illuminate\Support\Facades\Log;
 use Ushahidi\Factory\UsecaseFactory;
 use Ushahidi\Core\Concerns\RecordsExportJobFailure;

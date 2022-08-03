@@ -39,7 +39,7 @@ class Create extends LegacyValidator
         $this->export_job_repo = $export_job_repo;
     }
     /**
-     * @return array|\Ushahidi\Core\Tools\ArrayValidation
+     * @return array|\Ushahidi\Core\Tool\ArrayValidation
      */
     protected function getRules()
     {

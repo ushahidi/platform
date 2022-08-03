@@ -12,7 +12,7 @@
 namespace Ushahidi\Core\Usecase\Post;
 
 use Illuminate\Support\Facades\Log;
-use Ushahidi\Core\Tools\SearchData;
+use Ushahidi\Core\Tool\SearchData;
 use Ushahidi\Contracts\Usecase;
 use Ushahidi\Core\Entity\ExportBatch;
 use Ushahidi\Core\Concerns\UserContext;

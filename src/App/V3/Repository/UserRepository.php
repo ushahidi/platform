@@ -21,7 +21,7 @@ use Ushahidi\Core\Entity\User;
 use Ushahidi\Core\Concerns\Event;
 use Ushahidi\Core\Entity\Contact;
 use Illuminate\Support\Collection;
-use Ushahidi\Core\Tools\SearchData;
+use Ushahidi\Core\Tool\SearchData;
 use Illuminate\Support\Facades\Hash;
 use Ushahidi\Contracts\Repository\Usecase\UserRegisterRepository;
 use Ushahidi\Contracts\Repository\Usecase\UserResetPasswordRepository;

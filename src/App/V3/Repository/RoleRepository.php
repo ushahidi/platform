@@ -13,7 +13,7 @@ namespace Ushahidi\App\V3\Repository;
 
 use Ohanzee\DB;
 use Ushahidi\Contracts\Entity;
-use Ushahidi\Core\Tools\SearchData;
+use Ushahidi\Core\Tool\SearchData;
 use Ushahidi\Core\Entity\Role;
 use Ushahidi\Contracts\Repository\Entity\RoleRepository as RoleRepositoryContract;
 

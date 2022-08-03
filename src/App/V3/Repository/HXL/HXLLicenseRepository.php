@@ -11,7 +11,7 @@
 
 namespace Ushahidi\App\V3\Repository\HXL;
 
-use Ushahidi\Core\Tools\SearchData;
+use Ushahidi\Core\Tool\SearchData;
 use Ushahidi\Core\Entity\HXL\HXLLicense;
 use Ushahidi\Contracts\Repository\Entity\HXLLicenseRepository as HXLLicenseRepositoryContract;
 use Ushahidi\App\V3\Repository\OhanzeeRepository;

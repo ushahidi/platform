@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Unit tests for Lumen implementation of Ushahidi\Core\Tools\Mailer
+ * Unit tests for Lumen implementation of Ushahidi\Core\Tool\Mailer
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @copyright  2013 Ushahidi

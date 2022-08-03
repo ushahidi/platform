@@ -15,7 +15,7 @@ use Ohanzee\DB;
 use Ushahidi\Contracts\Entity;
 use Ushahidi\Core\Entity\Contact;
 use Illuminate\Support\Collection;
-use Ushahidi\Core\Tools\SearchData;
+use Ushahidi\Core\Tool\SearchData;
 use Ushahidi\Core\Concerns\AdminAccess;
 use Ushahidi\Core\Concerns\UserContext;
 use Ushahidi\Contracts\Repository\CreateRepository;

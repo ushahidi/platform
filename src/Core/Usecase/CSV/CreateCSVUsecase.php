@@ -13,7 +13,7 @@ namespace Ushahidi\Core\Usecase\CSV;
 
 use SplTempFileObject;
 use Ushahidi\Contracts\Entity;
-use Ushahidi\Core\Tools\UploadData;
+use Ushahidi\Core\Tool\UploadData;
 use Ushahidi\Contracts\ReaderFactory;
 use Ushahidi\Core\Usecase\Media\CreateMedia;
 

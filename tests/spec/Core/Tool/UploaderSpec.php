@@ -1,12 +1,12 @@
 <?php
 
-namespace spec\Ushahidi\Core\Tools;
+namespace spec\Ushahidi\Core\Tool;
 
 use League\Flysystem\Filesystem;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-use Ushahidi\Core\Tools\FileData;
-use Ushahidi\Core\Tools\UploadData;
+use Ushahidi\Core\Tool\FileData;
+use Ushahidi\Core\Tool\UploadData;
 use Ushahidi\App\Multisite\MultisiteManager;
 use Ushahidi\App\Multisite\Site;
 
@@ -19,7 +19,7 @@ class UploaderSpec extends ObjectBehavior
 
     public function it_is_initializable()
     {
-        $this->shouldHaveType('Ushahidi\Core\Tools\Uploader');
+        $this->shouldHaveType('Ushahidi\Core\Tool\Uploader');
     }
 
     public function it_does_convert_uploads_to_files(UploadData $input, Site $site, $fs, $multisite)
@@ -54,6 +54,6 @@ class UploaderSpec extends ObjectBehavior
         $site->getCdnPrefix()->shouldBeCalled()->willReturn('deployment.domain.com');
 
         // ... resulting a file.
-        $this->upload($input, $filename)->shouldReturnAnInstanceOf('Ushahidi\Core\Tools\FileData');
+        $this->upload($input, $filename)->shouldReturnAnInstanceOf('Ushahidi\Core\Tool\FileData');
     }
 }

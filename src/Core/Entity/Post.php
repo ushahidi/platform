@@ -13,7 +13,7 @@ namespace Ushahidi\Core\Entity;
 
 use Ushahidi\Core\StaticEntity;
 use Ushahidi\Core\Concerns\Permissions\ManagePosts;
-use Ushahidi\Core\Tools\Permissions\Permissionable;
+use Ushahidi\Core\Tool\Permissions\Permissionable;
 
 class Post extends StaticEntity
 {

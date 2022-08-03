@@ -36,7 +36,7 @@ class ValidatorFactory
      * Gets a validator from the map by resource and action.
      * @param  String $resource
      * @param  String $action
-     * @return \Ushahidi\Core\Tools\Validator
+     * @return \Ushahidi\Core\Tool\Validator
      */
     public function get($resource, $action)
     {

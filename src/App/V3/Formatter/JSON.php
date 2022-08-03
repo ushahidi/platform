@@ -12,7 +12,7 @@
 namespace Ushahidi\App\V3\Formatter;
 
 use Ushahidi\Contracts\Formatter;
-use Ushahidi\Core\Tools\OutputFormatter;
+use Ushahidi\Core\Tool\OutputFormatter;
 use Ushahidi\Core\Exception\FormatterException;
 
 class JSON implements Formatter, OutputFormatter

@@ -9,7 +9,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Ushahidi\Core\Entity\FormStage;
-use Ushahidi\Core\Tools\SearchData;
+use Ushahidi\Core\Tool\SearchData;
 use Ushahidi\Core\Entity\FormAttribute;
 use Illuminate\Contracts\Container\Container;
 use Ushahidi\App\V2\ManifestSchemas\ImportParameters;

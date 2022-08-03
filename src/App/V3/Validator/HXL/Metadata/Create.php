@@ -34,7 +34,7 @@ class Create extends LegacyValidator
         $this->license_repo = $license_repo;
     }
     /**
-     * @return array|\Ushahidi\Core\Tools\ArrayValidation
+     * @return array|\Ushahidi\Core\Tool\ArrayValidation
      */
     protected function getRules()
     {

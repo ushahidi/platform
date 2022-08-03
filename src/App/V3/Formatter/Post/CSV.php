@@ -11,8 +11,8 @@
 
 namespace Ushahidi\App\V3\Formatter\Post;
 
-use Ushahidi\Core\Tools\SearchData;
-use Ushahidi\Core\Tools\FileData;
+use Ushahidi\Core\Tool\SearchData;
+use Ushahidi\Core\Tool\FileData;
 use League\Flysystem\Util\MimeType;
 use Ushahidi\App\V3\Formatter\API;
 use Illuminate\Support\Carbon;

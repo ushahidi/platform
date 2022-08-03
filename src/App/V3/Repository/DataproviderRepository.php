@@ -11,7 +11,7 @@
 
 namespace Ushahidi\App\V3\Repository;
 
-use Ushahidi\Core\Tools\SearchData;
+use Ushahidi\Core\Tool\SearchData;
 use Illuminate\Support\Collection;
 use Ushahidi\Contracts\Repository\ReadRepository;
 use Ushahidi\Contracts\Repository\SearchRepository;

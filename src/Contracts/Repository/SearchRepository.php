@@ -11,7 +11,7 @@
 
 namespace Ushahidi\Contracts\Repository;
 
-use Ushahidi\Core\Tools\SearchData;
+use Ushahidi\Core\Tool\SearchData;
 
 interface SearchRepository
 {

@@ -11,7 +11,7 @@
 
 namespace Ushahidi\Core\Usecase\CSV;
 
-use Ushahidi\Core\Tools\Uploader;
+use Ushahidi\Core\Tool\Uploader;
 use Ushahidi\Core\Usecase\DeleteUsecase;
 
 class DeleteCSVUsecase extends DeleteUsecase

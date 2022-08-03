@@ -14,7 +14,7 @@ namespace Ushahidi\App\V2\Console;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Ushahidi\App\V2;
-use Ushahidi\Core\Tools\ManifestLoader;
+use Ushahidi\Core\Tool\ManifestLoader;
 use Illuminate\Contracts\Bus\Dispatcher;
 use Ushahidi\App\Multisite\OhanzeeResolver;
 use Ushahidi\Contracts\Repository\Entity\PostRepository;

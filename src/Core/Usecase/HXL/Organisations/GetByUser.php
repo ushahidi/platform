@@ -12,7 +12,7 @@ namespace Ushahidi\Core\Usecase\HXL\Organisations;
 
 use Ushahidi\Core\Entity\UserSettingRepository;
 use Ushahidi\Core\Usecase\Concerns\Authorizer as AuthorizerTrait;
-use Ushahidi\Core\Tools\ExternalServices\HDXInterface;
+use Ushahidi\Core\Tool\ExternalServices\HDXInterface;
 use Ushahidi\Core\Usecase\Concerns\Formatter as FormatterTrait;
 use Ushahidi\Contracts\Usecase;
 use Ushahidi\Core\Usecase\Concerns\Translator as TranslatorTrait;

@@ -3,9 +3,9 @@
 namespace Ushahidi\App\V3\Jobs;
 
 use Illuminate\Support\Facades\Log;
-use Ushahidi\Core\Tools\Job;
-use Ushahidi\Core\Tools\Uploader;
-use Ushahidi\Core\Tools\UploadData;
+use Ushahidi\Core\Tool\Job;
+use Ushahidi\Core\Tool\Uploader;
+use Ushahidi\Core\Tool\UploadData;
 use Illuminate\Support\Facades\Storage;
 use Ushahidi\App\Multisite\MultisiteManager;
 use Ushahidi\App\V3\Repository\MediaRepository;
