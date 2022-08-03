@@ -24,7 +24,7 @@ class Kernel extends HttpKernel
         \Barryvdh\Cors\HandleCors::class,
         \Ushahidi\App\Http\Middleware\MaintenanceMode::class,
         \Ushahidi\App\Http\Middleware\SetLocale::class,
-        \v5\Http\Middleware\V5GlobalScopes::class,
+        \Ushahidi\App\V5\Http\Middleware\V5GlobalScopes::class,
     ];
 
     /**

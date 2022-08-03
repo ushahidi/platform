@@ -94,9 +94,7 @@
         ],
         "psr-4": {
             "Ushahidi\\": "src/",
-            "Ushahidi\\App\\": "app/",
-            "Ushahidi\\Datasource\\": "src/DataSource",
-            "v5\\": "v5/"
+            "Ushahidi\\App\\": "app/"
         },
         "files": [
             "app/helpers.php"

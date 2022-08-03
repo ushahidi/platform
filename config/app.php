@@ -180,8 +180,8 @@ return [
         Ushahidi\App\Providers\FilesystemServiceProvider::class,
         Ushahidi\App\Providers\RouteServiceProvider::class,
         Ushahidi\App\Providers\PassportServiceProvider::class,
-        v5\Providers\MorphServiceProvider::class,
-        v5\Providers\EventServiceProvider::class,
+        Ushahidi\App\V5\Providers\MorphServiceProvider::class,
+        Ushahidi\App\V5\Providers\EventServiceProvider::class,
     ],
 
     /*
