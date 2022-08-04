@@ -76,12 +76,12 @@ class RouteServiceProvider extends ServiceProvider
 
         Route::prefix('api')
             ->middleware('api')
-            ->namespace('App\V3\Http\Controllers')
-            ->group(base_path('src/App/V3/routes/api.php'));
+            ->namespace('Ushahidi\App\V3\Http\Controllers')
+            ->group(base_path('src/Ushahidi/App/V3/routes/api.php'));
 
         Route::prefix('api')
             ->middleware('api')
-            ->namespace('App\V5\Http\Controllers')
-            ->group(base_path('src/App/V5/routes/api.php'));
+            ->namespace('Ushahidi\App\V5\Http\Controllers')
+            ->group(base_path('src/Ushahidi/App/V5/routes/api.php'));
     }
 }

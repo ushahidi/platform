@@ -1,6 +1,6 @@
 <?php
 
-namespace Ushahidi\App;
+namespace Ushahidi\App\V3;
 
 use Illuminate\Contracts\Events\Dispatcher;
 use Ushahidi\App\V3\Listener\CreatePostFromMessage;

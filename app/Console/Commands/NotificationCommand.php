@@ -13,8 +13,8 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use Ushahidi\Core\Entity\Message;
 use Ushahidi\DataSource\DataSourceManager;
-use App\Multisite\OhanzeeResolver;
-use App\Multisite\UsesSiteInfo;
+use Ushahidi\App\Multisite\OhanzeeResolver;
+use Ushahidi\App\Multisite\UsesSiteInfo;
 
 class NotificationCommand extends Command
 {

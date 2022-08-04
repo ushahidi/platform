@@ -34,8 +34,8 @@ function service($what = null)
         $builder = new Aura\Di\ContainerBuilder();
         $di = $builder->newConfiguredInstance([
             Ushahidi\Core\CoreConfig::class,
-            Ushahidi\App\Providers\LumenAuraConfig::class,
             Ushahidi\App\AppConfig::class,
+            App\Providers\LumenAuraConfig::class,
         ]);
     }
     if ($what) {

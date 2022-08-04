@@ -14,7 +14,7 @@ namespace App\Console\Commands;
 use Faker;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
-use App\Multisite\OhanzeeResolver;
+use Ushahidi\App\Multisite\OhanzeeResolver;
 
 class ObfuscateDataCommand extends Command
 {

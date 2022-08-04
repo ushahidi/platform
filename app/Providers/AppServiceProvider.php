@@ -62,23 +62,23 @@ class AppServiceProvider extends ServiceProvider
         $this->registerFeatures();
 
         $this->app->singleton(
-            \App\V2\Contracts\ImportMappingRepository::class,
-            \App\V2\Repositories\ImportMappingRepository::class
+            \Ushahidi\App\V2\Contracts\ImportMappingRepository::class,
+            \Ushahidi\App\V2\Repositories\ImportMappingRepository::class
         );
 
         $this->app->singleton(
-            \App\V2\Contracts\ImportRepository::class,
-            \App\V2\Repositories\ImportRepository::class
+            \Ushahidi\App\V2\Contracts\ImportRepository::class,
+            \Ushahidi\App\V2\Repositories\ImportRepository::class
         );
 
         $this->app->singleton(
-            \App\V2\Contracts\ImportSourceDataRepository::class,
-            \App\V2\Repositories\ImportSourceDataRepository::class
+            \Ushahidi\App\V2\Contracts\ImportSourceDataRepository::class,
+            \Ushahidi\App\V2\Repositories\ImportSourceDataRepository::class
         );
 
         $this->app->singleton(
-            \App\V2\Contracts\ImportDataTools::class,
-            \App\V2\Utils\ImportDataTools::class
+            \Ushahidi\App\V2\Contracts\ImportDataTools::class,
+            \Ushahidi\App\V2\Utils\ImportDataTools::class
         );
     }
 

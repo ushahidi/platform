@@ -11,7 +11,7 @@
 namespace App\Tools;
 
 use Illuminate\Support\Str;
-use App\Multisite\UsesSiteInfo;
+use Ushahidi\App\Multisite\UsesSiteInfo;
 use Ushahidi\Contracts\Mailer as MailerContract;
 use Illuminate\Contracts\Mail\Mailer as LaravelMailer;
 
