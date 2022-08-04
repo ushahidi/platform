@@ -12,7 +12,7 @@
 namespace Ushahidi\App\V3\Repository\Post;
 
 use Ohanzee\DB;
-use Ushahidi\App\Multisite\OhanzeeResolver;
+use Ushahidi\Core\Tool\OhanzeeResolver;
 use Ushahidi\Contracts\Repository\Usecase\UpdatePostTagRepository;
 
 class TagsRepository extends ValueRepository

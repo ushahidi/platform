@@ -2,10 +2,10 @@
 
 namespace Ushahidi\App\Multisite;
 
-use Illuminate\Support\ServiceProvider;
-use Illuminate\Database\ConnectionResolverInterface;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\ServiceProvider;
+use Ushahidi\Core\Tool\OhanzeeResolver;
 
 class MultisiteServiceProvider extends ServiceProvider
 {

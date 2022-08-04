@@ -16,7 +16,7 @@ use Ushahidi\Contracts\Entity;
 use Ushahidi\Core\Tool\SearchData;
 use Ushahidi\Contracts\Repository;
 use Ushahidi\Core\Concerns\CollectionLoader;
-use Ushahidi\App\Multisite\OhanzeeResolver;
+use Ushahidi\Core\Tool\OhanzeeResolver;
 use RuntimeException;
 
 abstract class OhanzeeRepository implements

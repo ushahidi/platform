@@ -14,7 +14,7 @@ use Ushahidi\Tests\DatabaseTransactions;
 use Ushahidi\Contracts\Session;
 use Illuminate\Support\Collection;
 use Ushahidi\Core\Tool\SearchData;
-use Ushahidi\App\Multisite\OhanzeeResolver;
+use Ushahidi\Core\Tool\OhanzeeResolver;
 use Ushahidi\App\V3\Repository\PostRepository;
 use Ushahidi\App\V3\Repository\Post\ValueFactory;
 use Ushahidi\Core\Tool\Permissions\PostPermissions;

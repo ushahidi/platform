@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\DB;
 use Ushahidi\App\V2;
 use Ushahidi\Core\Tool\ManifestLoader;
 use Illuminate\Contracts\Bus\Dispatcher;
-use Ushahidi\App\Multisite\OhanzeeResolver;
+use Ushahidi\Core\Tool\OhanzeeResolver;
 use Ushahidi\Contracts\Repository\Entity\PostRepository;
 use Ushahidi\App\V2\Contracts\ImportRepository;
 

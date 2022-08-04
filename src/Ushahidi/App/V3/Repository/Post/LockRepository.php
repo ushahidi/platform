@@ -21,7 +21,7 @@ use Ushahidi\Core\Concerns\UserContext;
 use Ushahidi\App\V3\Repository\OhanzeeRepository;
 use Ushahidi\Contracts\Repository\Entity\PostLockRepository;
 use Ushahidi\App\V3\Repository\UserRepository;
-use Ushahidi\App\Multisite\OhanzeeResolver;
+use Ushahidi\Core\Tool\OhanzeeResolver;
 
 class LockRepository extends OhanzeeRepository implements PostLockRepository
 {

@@ -51,7 +51,7 @@ class AttributeRepository extends OhanzeeRepository implements
     protected $form_id;
 
     public function __construct(
-        \Ushahidi\App\Multisite\OhanzeeResolver $resolver,
+        \Ushahidi\Core\Tool\OhanzeeResolver $resolver,
         FormStageRepositoryContract $form_stage_repo,
         FormRepositoryContract $form_repo
     ) {

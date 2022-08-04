@@ -52,7 +52,7 @@ class LumenAuraConfig extends ContainerConfig
 
         // Abstract repository parameters
         $di->set('db.ohanzee.resolver', $di->lazy(function () {
-            return app(OhanzeeResolver::class);
+            return app(\Ushahidi\Core\Tool\OhanzeeResolver::class);
         }));
 
         // Configure dispatcher

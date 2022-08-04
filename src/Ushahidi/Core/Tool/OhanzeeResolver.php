@@ -9,14 +9,14 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Ushahidi\App\Multisite;
+namespace Ushahidi\Core\Tool;
 
 use Ohanzee\Database;
 
 class OhanzeeResolver
 {
     /**
-     * @var Ohanzee\Database
+     * @var \Ohanzee\Database
      */
     protected $currentConnection;
 
