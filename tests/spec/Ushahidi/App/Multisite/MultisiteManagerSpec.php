@@ -1,14 +1,14 @@
 <?php
 
-namespace spec\Ushahidi\App\Multisite;
+namespace spec\Ushahidi\Multisite;
 
 use Illuminate\Contracts\Events\Dispatcher;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-use Ushahidi\App\Multisite\MultisiteManager;
-use Ushahidi\App\Multisite\Site;
-use Ushahidi\App\Multisite\SiteNotFoundException;
-use Ushahidi\App\Multisite\SiteRepository;
+use Ushahidi\Multisite\MultisiteManager;
+use Ushahidi\Multisite\Site;
+use Ushahidi\Multisite\SiteNotFoundException;
+use Ushahidi\Multisite\SiteRepository;
 
 class MultisiteManagerSpec extends ObjectBehavior
 {

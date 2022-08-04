@@ -14,7 +14,7 @@ namespace Ushahidi\DataSource\Email;
 use Ushahidi\Core\Entity\Contact;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Contracts\Mail\Mailer;
-use Ushahidi\App\Multisite\UsesSiteInfo;
+use Ushahidi\Multisite\UsesSiteInfo;
 use Ushahidi\Contracts\DataSource\OutgoingDataSource;
 use Ushahidi\DataSource\Concerns\MapsInboundFields;
 use Ushahidi\Contracts\DataSource\MessageType as MessageType;

@@ -15,7 +15,7 @@ use League\Flysystem\Filesystem;
 use Ushahidi\Core\Tool\UploadData;
 use Ushahidi\Core\Tool\FileData;
 use League\Flysystem\Util\MimeType;
-use Ushahidi\App\Multisite\MultisiteManager;
+use Ushahidi\Multisite\MultisiteManager;
 
 class Uploader
 {

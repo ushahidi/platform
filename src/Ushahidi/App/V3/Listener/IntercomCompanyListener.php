@@ -17,7 +17,7 @@ use Intercom\IntercomClient;
 use League\Event\EventInterface;
 use League\Event\AbstractListener;
 use Illuminate\Support\Facades\Log;
-use Ushahidi\App\Multisite\UsesSiteInfo;
+use Ushahidi\Multisite\UsesSiteInfo;
 use GuzzleHttp\Exception\ClientException;
 
 class IntercomCompanyListener extends AbstractListener

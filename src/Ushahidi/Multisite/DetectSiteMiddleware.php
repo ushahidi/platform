@@ -1,14 +1,13 @@
 <?php
 
-namespace Ushahidi\App\Multisite;
+namespace Ushahidi\Multisite;
 
 use Closure;
 
 class DetectSiteMiddleware
 {
-
     /**
-     * @var \Ushahidi\App\Multisite\MultisiteManager;
+     * @var \Ushahidi\Multisite\MultisiteManager;
      */
     protected $multisite;
 

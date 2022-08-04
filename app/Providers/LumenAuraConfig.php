@@ -7,7 +7,7 @@ use App\Tools\Session;
 use Aura\Di\Container;
 use Aura\Di\ContainerConfig;
 use Illuminate\Support\Facades\Storage;
-use Ushahidi\App\Multisite\OhanzeeResolver;
+use Ushahidi\Multisite\OhanzeeResolver;
 
 class LumenAuraConfig extends ContainerConfig
 {

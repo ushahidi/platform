@@ -14,7 +14,7 @@ use Mockery as M;
 use Ushahidi\Tests\TestCase;
 use Illuminate\Http\Request;
 // use Illuminate\Support\Facades\Mail;
-use Ushahidi\App\Multisite\Site;
+use Ushahidi\Multisite\Site;
 use Ushahidi\Core\Entity\Config;
 use Ushahidi\Contracts\Repository\Entity\ConfigRepository;
 

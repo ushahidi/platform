@@ -14,8 +14,8 @@ use Illuminate\Http\Request;
 use Mockery as M;
 use Ushahidi\Tests\TestCase;
 use App\Http\Middleware\CheckDemoExpiration;
-use Ushahidi\App\Multisite\MultisiteManager;
-use Ushahidi\App\Multisite\Site;
+use Ushahidi\Multisite\MultisiteManager;
+use Ushahidi\Multisite\Site;
 
 /**
  * @backupGlobals disabled

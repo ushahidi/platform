@@ -1,6 +1,6 @@
 <?php
 
-namespace Ushahidi\App\Multisite;
+namespace Ushahidi\Multisite;
 
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;

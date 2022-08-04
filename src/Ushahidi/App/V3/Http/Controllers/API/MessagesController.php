@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Ushahidi\Contracts\Repository\Entity\MessageRepository;
 use Ushahidi\Factory\UsecaseFactory;
 use Ushahidi\App\V3\Http\Controllers\RESTController;
-use Ushahidi\App\Multisite\MultisiteManager;
+use Ushahidi\Multisite\MultisiteManager;
 
 /**
  * Ushahidi API Messages Controller

@@ -5,7 +5,7 @@ namespace Ushahidi\Core\Tool;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
-use Ushahidi\App\Multisite\MultisiteAwareJob;
+use Ushahidi\Multisite\MultisiteAwareJob;
 
 abstract class Job implements ShouldQueue
 {

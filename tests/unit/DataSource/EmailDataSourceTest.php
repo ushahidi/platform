@@ -17,7 +17,7 @@ use phpmock\mockery\PHPMockery;
 use Ushahidi\Tests\TestCase;
 use Ushahidi\Contracts\Repository\Entity\MessageRepository;
 use Ushahidi\DataSource\Email\Email;
-use Ushahidi\App\Multisite\Site;
+use Ushahidi\Multisite\Site;
 
 /**
  * @backupGlobals disabled

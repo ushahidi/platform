@@ -5,10 +5,10 @@ namespace Ushahidi\Tests\Unit\App\Multisite;
 use Illuminate\Contracts\Events\Dispatcher;
 use Mockery as M;
 use Ushahidi\Tests\TestCase;
-use Ushahidi\App\Multisite\MultisiteManager;
-use Ushahidi\App\Multisite\Site;
-use Ushahidi\App\Multisite\SiteNotFoundException;
-use Ushahidi\App\Multisite\SiteRepository;
+use Ushahidi\Multisite\MultisiteManager;
+use Ushahidi\Multisite\Site;
+use Ushahidi\Multisite\SiteNotFoundException;
+use Ushahidi\Multisite\SiteRepository;
 
 class MultisiteManagerTest extends TestCase
 {

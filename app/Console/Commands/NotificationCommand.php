@@ -14,7 +14,7 @@ use Illuminate\Console\Command;
 use Ushahidi\Core\Entity\Message;
 use Ushahidi\DataSource\DataSourceManager;
 use Ushahidi\Core\Tool\OhanzeeResolver;
-use Ushahidi\App\Multisite\UsesSiteInfo;
+use Ushahidi\Multisite\UsesSiteInfo;
 
 class NotificationCommand extends Command
 {

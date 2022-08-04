@@ -9,7 +9,7 @@ use Ushahidi\Addons\Mteja\MtejaSource;
 use Illuminate\Support\ServiceProvider;
 use App\Providers\FilesystemServiceProvider;
 use Ushahidi\DataSource\DataSourceServiceProvider;
-use Ushahidi\App\Multisite\MultisiteServiceProvider;
+use Ushahidi\Multisite\MultisiteServiceProvider;
 use Ushahidi\Addons\AfricasTalking\AfricasTalkingSource;
 use Ushahidi\Contracts\Repository\Entity\PostRepository;
 use Ushahidi\Contracts\Repository\Entity\UserRepository;

@@ -7,8 +7,8 @@ use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Ushahidi\Core\Tool\FileData;
 use Ushahidi\Core\Tool\UploadData;
-use Ushahidi\App\Multisite\MultisiteManager;
-use Ushahidi\App\Multisite\Site;
+use Ushahidi\Multisite\MultisiteManager;
+use Ushahidi\Multisite\Site;
 
 class UploaderSpec extends ObjectBehavior
 {

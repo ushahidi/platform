@@ -1,6 +1,6 @@
 <?php
 
-namespace Ushahidi\App\Multisite;
+namespace Ushahidi\Multisite;
 
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Event;

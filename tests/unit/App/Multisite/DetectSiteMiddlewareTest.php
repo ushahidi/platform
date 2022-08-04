@@ -4,10 +4,10 @@ namespace Ushahidi\Tests\Unit\App\Multisite;
 
 use Mockery as M;
 use Ushahidi\Tests\TestCase;
-use Ushahidi\App\Multisite\DetectSiteMiddleware;
-use Ushahidi\App\Multisite\MultisiteManager;
-use Ushahidi\App\Multisite\Site;
-use Ushahidi\App\Multisite\SiteNotFoundException;
+use Ushahidi\Multisite\DetectSiteMiddleware;
+use Ushahidi\Multisite\MultisiteManager;
+use Ushahidi\Multisite\Site;
+use Ushahidi\Multisite\SiteNotFoundException;
 
 class DetectSiteMiddlewareTest extends TestCase
 {
