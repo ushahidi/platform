@@ -10,7 +10,7 @@
  */
 
 
-namespace Tests\Integration\Bootstrap;
+namespace Ushahidi\Tests\Integration\Bootstrap;
 
 // Load bootstrap to hook into Laravel
 require_once __DIR__ . '/../../bootstrap.php';

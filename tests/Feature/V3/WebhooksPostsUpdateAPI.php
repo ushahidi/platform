@@ -1,8 +1,8 @@
 <?php
-namespace Tests\Feature\V3;
+namespace Ushahidi\Tests\Feature\V3;
 
 use Faker;
-use Tests\TestCase;
+use Ushahidi\Tests\TestCase;
 use Ushahidi\Core\Entity\ApiKey;
 use Ushahidi\Core\Entity\Post;
 

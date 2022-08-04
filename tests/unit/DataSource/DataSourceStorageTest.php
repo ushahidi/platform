@@ -8,11 +8,11 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Tests\Unit\Ushahidi\DataSource;
+namespace Ushahidi\Tests\Unit\DataSource;
 
 use Illuminate\Support\Facades\Log;
 use Mockery as M;
-use Tests\TestCase;
+use Ushahidi\Tests\TestCase;
 use Ushahidi\Contracts\Repository\Entity\MessageRepository;
 use Ushahidi\Contracts\Usecase;
 use Ushahidi\Core\Entity\Message;

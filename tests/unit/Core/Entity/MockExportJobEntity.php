@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Core\Entity;
+namespace Ushahidi\Tests\Unit\Core\Entity;
 
 use Ushahidi\Contracts\Entity;
 

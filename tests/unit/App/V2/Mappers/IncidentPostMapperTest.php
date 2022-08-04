@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\App\V2\Mappers;
+namespace Ushahidi\Tests\Unit\App\V2\Mappers;
 
 use Ushahidi\App\V2\Mappers\IncidentPostMapper;
 use Ushahidi\App\V2\Contracts\ImportMappingRepository;
@@ -8,8 +8,8 @@ use Ushahidi\App\V2\Contracts\ImportDataTools;
 use Ushahidi\Core\Entity\Post;
 use Ushahidi\Core\Entity\FormAttribute;
 use Ushahidi\Contracts\Repository\Entity\FormAttributeRepository;
-use Tests\Unit\App\V2\ImportMock;
-use Tests\TestCase;
+use Ushahidi\Tests\Unit\App\V2\ImportMock;
+use Ushahidi\Tests\TestCase;
 use Mockery as M;
 use Faker;
 
@@ -17,7 +17,7 @@ use Faker;
  * @backupGlobals disabled
  * @preserveGlobalState disabled
  */
-class PostMapperTest extends TestCase
+class IncidentPostMapperTest extends TestCase
 {
     public function testMap()
     {

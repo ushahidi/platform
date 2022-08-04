@@ -8,11 +8,11 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Tests\Unit\Ushahidi\DataSource\Console;
+namespace Ushahidi\Tests\Unit\DataSource\Console;
 
 use Illuminate\Console\Application as Artisan;
 use Mockery as M;
-use Tests\TestCase;
+use Ushahidi\Tests\TestCase;
 use Ushahidi\Contracts\Repository\Entity\ConfigRepository;
 use Ushahidi\Core\Entity\Config;
 use Ushahidi\DataSource\Console\ListCommand;

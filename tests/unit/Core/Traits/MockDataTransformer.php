@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Core\Traits;
+namespace Ushahidi\Tests\Unit\Core\Traits;
 
 class MockDataTransformer
 {

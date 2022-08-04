@@ -6,7 +6,7 @@
  * Time: 10:23 AM
  */
 
-namespace Tests\Unit\Core\Entity;
+namespace Ushahidi\Tests\Unit\Core\Entity;
 
 class MockPostEntity
 {

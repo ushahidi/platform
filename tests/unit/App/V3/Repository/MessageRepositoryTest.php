@@ -9,12 +9,12 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Tests\Unit\App\V3\Repository;
+namespace Ushahidi\Tests\Unit\App\V3\Repository;
 
 use Ushahidi\App\V3\Repository\MessageRepository;
 use Ushahidi\Core\Entity\Message;
-use Tests\TestCase;
-use Tests\DatabaseTransactions;
+use Ushahidi\Tests\TestCase;
+use Ushahidi\Tests\DatabaseTransactions;
 
 /**
  * @backupGlobals disabled

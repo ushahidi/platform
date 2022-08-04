@@ -1,10 +1,10 @@
 <?php
 
-namespace Tests\Unit\Core\Usecase\ExportJob;
+namespace Ushahidi\Tests\Unit\Core\Usecase\ExportJob;
 
 use Faker;
 use Mockery as M;
-use Tests\TestCase;
+use Ushahidi\Tests\TestCase;
 use Ushahidi\Contracts\Repository\Entity\ExportJobRepository;
 use Ushahidi\Contracts\Session;
 use Ushahidi\Core\Entity\ExportJob;

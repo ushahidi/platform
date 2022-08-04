@@ -1,14 +1,14 @@
 <?php
 
-namespace Tests\Unit\App\V2\Mappers;
+namespace Ushahidi\Tests\Unit\App\V2\Mappers;
 
 use Ushahidi\App\V2\Mappers\MessageMapper;
 use Ushahidi\App\V2\Contracts\ImportMappingRepository;
 use Ushahidi\Core\Entity\Message;
 use Ushahidi\Core\Entity\Contact;
 use Ushahidi\Contracts\Repository\Entity\ContactRepository;
-use Tests\Unit\App\V2\ImportMock;
-use Tests\TestCase;
+use Ushahidi\Tests\Unit\App\V2\ImportMock;
+use Ushahidi\Tests\TestCase;
 use Mockery as M;
 use Faker;
 

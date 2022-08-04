@@ -1,11 +1,11 @@
 <?php
 
-namespace Tests\Unit\Ushahidi\App\V3\Repository;
+namespace Ushahidi\Tests\Unit\App\V3\Repository;
 
 use Ushahidi\App\V3\Repository\UserRepository;
 use Ushahidi\Core\Entity\User;
-use Tests\TestCase;
-use Tests\DatabaseTransactions;
+use Ushahidi\Tests\TestCase;
+use Ushahidi\Tests\DatabaseTransactions;
 use Mockery as M;
 use Faker;
 

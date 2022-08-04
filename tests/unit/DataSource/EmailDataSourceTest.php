@@ -8,13 +8,13 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Tests\Unit\Ushahidi\DataSource;
+namespace Ushahidi\Tests\Unit\DataSource;
 
 use Illuminate\Contracts\Mail\Mailer;
 use Illuminate\Mailer\Message;
 use Mockery as M;
 use phpmock\mockery\PHPMockery;
-use Tests\TestCase;
+use Ushahidi\Tests\TestCase;
 use Ushahidi\Contracts\Repository\Entity\MessageRepository;
 use Ushahidi\DataSource\Email\Email;
 use Ushahidi\App\Multisite\Site;

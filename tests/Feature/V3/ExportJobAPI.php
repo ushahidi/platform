@@ -1,10 +1,10 @@
 <?php
 
-namespace Tests\Feature\V3;
+namespace Ushahidi\Tests\Feature\V3;
 
 use Faker;
 use Laravel\Lumen\Testing\DatabaseTransactions;
-use Tests\TestCase;
+use Ushahidi\Tests\TestCase;
 
 /**
  * @group api

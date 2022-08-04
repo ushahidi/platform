@@ -1,10 +1,10 @@
 <?php
 
-namespace Tests\Unit\Ushahidi\App\Multisite;
+namespace Ushahidi\Tests\Unit\App\Multisite;
 
 use Illuminate\Contracts\Events\Dispatcher;
 use Mockery as M;
-use Tests\TestCase;
+use Ushahidi\Tests\TestCase;
 use Ushahidi\App\Multisite\MultisiteManager;
 use Ushahidi\App\Multisite\Site;
 use Ushahidi\App\Multisite\SiteNotFoundException;

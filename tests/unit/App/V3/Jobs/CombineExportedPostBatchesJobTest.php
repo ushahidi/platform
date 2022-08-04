@@ -1,15 +1,15 @@
 <?php
 
-namespace Tests\Unit\Ushahidi\App\Jobs;
+namespace Ushahidi\Tests\Unit\App\V3\Jobs;
 
-use Illuminate\Support\Facades\Storage;
 use Mockery as M;
-use Tests\TestCase;
-use Ushahidi\Contracts\Repository\Entity\ExportBatchRepository;
-use Ushahidi\Contracts\Repository\Entity\ExportJobRepository;
-use Ushahidi\Core\Entity\ExportBatch;
+use Ushahidi\Tests\TestCase;
 use Ushahidi\Core\Entity\ExportJob;
-use Ushahidi\App\Jobs\CombineExportedPostBatchesJob;
+use Ushahidi\Core\Entity\ExportBatch;
+use Illuminate\Support\Facades\Storage;
+use Ushahidi\App\V3\Jobs\CombineExportedPostBatchesJob;
+use Ushahidi\Contracts\Repository\Entity\ExportJobRepository;
+use Ushahidi\Contracts\Repository\Entity\ExportBatchRepository;
 
 /**
  * @group api

@@ -8,14 +8,14 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Tests\Unit\Ushahidi\App\Http\Middleware;
+namespace Ushahidi\Tests\Unit\App\Http\Middleware;
 
 use Illuminate\Contracts\Auth\Factory as AuthFactory;
 use Illuminate\Contracts\Auth\Guard as AuthGuard;
 use Illuminate\Http\Request;
 use Mockery as M;
-use Tests\TestCase;
-use Ushahidi\App\Http\Middleware\SetCacheHeadersIfAuth;
+use Ushahidi\Tests\TestCase;
+use App\Http\Middleware\SetCacheHeadersIfAuth;
 
 /**
  * @backupGlobals disabled

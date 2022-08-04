@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Integration\Bootstrap;
+namespace Ushahidi\Tests\Integration\Bootstrap;
 
 /**
  * Ushahidi Rest Context

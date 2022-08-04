@@ -1,14 +1,13 @@
 <?php
-
-namespace Tests\Unit\Ushahidi\App\Jobs;
+namespace Ushahidi\Tests\Unit\App\V3\Jobs;
 
 use Mockery as M;
-use Tests\TestCase;
-use Ushahidi\Contracts\Repository\Entity\ExportJobRepository;
+use Ushahidi\Tests\TestCase;
 use Ushahidi\Core\Entity\ExportJob;
+use Ushahidi\App\V3\Jobs\ExportPostsJob;
+use Ushahidi\App\V3\Jobs\ExportPostsBatchJob;
 use Ushahidi\Core\Usecase\Export\Job\PostCount;
-use Ushahidi\App\Jobs\ExportPostsBatchJob;
-use Ushahidi\App\Jobs\ExportPostsJob;
+use Ushahidi\Contracts\Repository\Entity\ExportJobRepository;
 
 /**
  * @group api

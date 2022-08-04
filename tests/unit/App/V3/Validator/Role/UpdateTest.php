@@ -8,13 +8,14 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Tests\Unit\Core\Tool;
+namespace Ushahidi\Tests\Unit\App\V3\Validator\Role;
 
-use Kohana\Validation\Validation;
 use Mockery as M;
-use Tests\TestCase;
-use Ushahidi\Contracts\Repository\Entity\PermissionRepository;
+use App\Tools\Features;
+use Ushahidi\Tests\TestCase;
+use Kohana\Validation\Validation;
 use Ushahidi\App\V3\Validator\Role\Update;
+use Ushahidi\Contracts\Repository\Entity\PermissionRepository;
 
 /**
  * @backupGlobals disabled
@@ -26,7 +27,7 @@ class UpdateTest extends TestCase
 
     public function testRoleDisabled()
     {
-        $features = M::mock(\Ushahidi\App\Tools\Features::class);
+        $features = M::mock(Features::class);
         $features->shouldReceive('isEnabled')->with('roles')->andReturn(false);
         $this->app->instance('features', $features);
 
@@ -43,7 +44,7 @@ class UpdateTest extends TestCase
 
     public function testRoleEnabled()
     {
-        $features = M::mock(\Ushahidi\App\Tools\Features::class);
+        $features = M::mock(Features::class);
         $features->shouldReceive('isEnabled')->with('roles')->andReturn(true);
         $this->app->instance('features', $features);
 

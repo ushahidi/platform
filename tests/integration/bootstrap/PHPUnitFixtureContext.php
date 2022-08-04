@@ -1,6 +1,6 @@
 <?php /** @noinspection ALL */
 
-namespace Tests\Integration\Bootstrap;
+namespace Ushahidi\Tests\Integration\Bootstrap;
 
 use Behat\Behat\Context\Context;
 

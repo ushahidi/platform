@@ -8,10 +8,10 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Tests\Unit\Ushahidi\DataSource;
+namespace Ushahidi\Tests\Unit\DataSource;
 
 use Mockery as M;
-use Tests\TestCase;
+use Ushahidi\Tests\TestCase;
 use Ushahidi\DataSource\Twilio\Twilio;
 
 /**

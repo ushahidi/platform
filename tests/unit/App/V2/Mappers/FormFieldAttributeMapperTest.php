@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\App\V2\Mappers;
+namespace Ushahidi\Tests\Unit\App\V2\Mappers;
 
 use Ushahidi\App\V2\Jobs\ImportForms;
 use Ushahidi\App\V2\Mappers\FormFieldAttributeMapper;
@@ -9,8 +9,8 @@ use Ushahidi\App\V2\Contracts\ImportDataTools;
 use Ushahidi\Core\Entity\FormAttribute;
 use Ushahidi\Core\Entity\FormStage;
 use Ushahidi\Contracts\Repository\Entity\FormStageRepository;
-use Tests\Unit\App\V2\ImportMock;
-use Tests\TestCase;
+use Ushahidi\Tests\Unit\App\V2\ImportMock;
+use Ushahidi\Tests\TestCase;
 use Mockery as M;
 use Faker;
 

@@ -1,11 +1,11 @@
 <?php
 
-namespace Tests\Unit\App\V2\Mappers;
+namespace Ushahidi\Tests\Unit\App\V2\Mappers;
 
 use Ushahidi\App\V2\Mappers\UserMapper;
 use Ushahidi\Core\Entity\User;
-use Tests\Unit\App\V2\ImportMock;
-use Tests\TestCase;
+use Ushahidi\Tests\Unit\App\V2\ImportMock;
+use Ushahidi\Tests\TestCase;
 use Mockery as M;
 use Faker;
 

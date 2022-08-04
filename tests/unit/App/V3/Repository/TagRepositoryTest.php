@@ -1,10 +1,10 @@
 <?php
 
-namespace Tests\Unit\App\V3\Repository;
+namespace Ushahidi\Tests\Unit\App\V3\Repository;
 
 use Faker;
 use Mockery as M;
-use Tests\TestCase;
+use Ushahidi\Tests\TestCase;
 use Ushahidi\Core\Entity\Tag;
 use Ushahidi\App\V3\Repository\TagRepository;
 

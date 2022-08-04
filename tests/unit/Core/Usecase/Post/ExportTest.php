@@ -6,11 +6,11 @@
  * Time: 1:36 PM
  */
 
-namespace Tests\Unit\Core\Usecase\Post;
+namespace Ushahidi\Tests\Unit\Core\Usecase\Post;
 
 use Faker;
 use Mockery as M;
-use Tests\TestCase;
+use Ushahidi\Tests\TestCase;
 use Ushahidi\Core\Entity\ExportJob;
 use Ushahidi\Core\Entity\HXL\HXLLicense;
 use Ushahidi\Core\Entity\HXL\HXLMetadata;

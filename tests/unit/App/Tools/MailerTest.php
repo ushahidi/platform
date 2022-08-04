@@ -8,10 +8,10 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Tests\Unit\Ushahidi\App\Tools;
+namespace Ushahidi\Tests\Unit\App\Tools;
 
 use Mockery as M;
-use Tests\TestCase;
+use Ushahidi\Tests\TestCase;
 // use Illuminate\Support\Facades\Mail;
 use Ushahidi\App\Multisite\Site;
 use Ushahidi\App\Tools\Mailer;

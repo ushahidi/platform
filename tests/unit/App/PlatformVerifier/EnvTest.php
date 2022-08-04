@@ -8,13 +8,13 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Tests\Unit\Ushahidi\App\PlatformVerifier;
+namespace Ushahidi\Tests\Unit\App\PlatformVerifier;
 
 use Composer\Installer\PackageEvent;
 use Composer\Script\Event;
 use Illuminate\Support\Facades\DB as DB;
 use Mockery as M;
-use Tests\TestCase;
+use Ushahidi\Tests\TestCase;
 use Ushahidi\App\PlatformVerifier\Env as EnvironmentVerifier;
 use Ushahidi\App\Tools\OutputText;
 

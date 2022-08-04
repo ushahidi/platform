@@ -1,16 +1,16 @@
 <?php
 
-namespace Tests\Unit\Ushahidi\App\V3\Repository;
+namespace Ushahidi\Tests\Unit\App\V3\Repository;
 
 use Faker;
 use Ohanzee\DB;
 use Mockery as M;
-use Tests\TestCase;
+use Ushahidi\Tests\TestCase;
 use Ohanzee\Database;
 use Aura\Di\Injection\Factory;
 use Ushahidi\Core\Entity\Post;
 use Ushahidi\Core\Entity\User;
-use Tests\DatabaseTransactions;
+use Ushahidi\Tests\DatabaseTransactions;
 use Ushahidi\Contracts\Session;
 use Illuminate\Support\Collection;
 use Ushahidi\Core\Tool\SearchData;

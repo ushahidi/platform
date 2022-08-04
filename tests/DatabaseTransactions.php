@@ -1,5 +1,5 @@
 <?php
-namespace Tests;
+namespace Ushahidi\Tests;
 
 use Illuminate\Foundation\Testing\DatabaseTransactions as LaravelDatabaseTransactions;
 use Ushahidi\App\Multisite\OhanzeeResolver;

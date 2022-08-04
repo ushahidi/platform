@@ -4,10 +4,10 @@
  * Integration test for ReceiveMessage usecase
  */
 
-namespace Tests\Unit\Core\Usecase;
+namespace Ushahidi\Tests\Unit\Core\Usecase;
 
 use Mockery as M;
-use Tests\TestCase;
+use Ushahidi\Tests\TestCase;
 use Ushahidi\Contracts\Repository\Entity\ConfigRepository;
 use Ushahidi\Contracts\Repository\Entity\ContactRepository;
 use Ushahidi\Contracts\Repository\Entity\FormAttributeRepository;

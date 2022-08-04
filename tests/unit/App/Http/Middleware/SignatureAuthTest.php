@@ -8,13 +8,13 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Tests\Unit\Ushahidi\App\Http\Middleware;
+namespace Ushahidi\Tests\Unit\App\Http\Middleware;
 
 use Illuminate\Http\Request;
 use Mockery as M;
-use Tests\TestCase;
+use Ushahidi\Tests\TestCase;
 use Ushahidi\Core\Tool\Verifier;
-use Ushahidi\App\Http\Middleware\SignatureAuth;
+use App\Http\Middleware\SignatureAuth;
 
 /**
  * @backupGlobals disabled

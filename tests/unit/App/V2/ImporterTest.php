@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\App\V2;
+namespace Ushahidi\Tests\Unit\App\V2;
 
 use Ushahidi\App\V2\Importer;
 use Ushahidi\App\V2\Contracts\ImportMappingRepository;
@@ -8,7 +8,7 @@ use Ushahidi\App\V2\Contracts\Mapper;
 use Ushahidi\Contracts\EntityCreateMany;
 use Ushahidi\Core\Entity;
 use Illuminate\Support\Collection;
-use Tests\TestCase;
+use Ushahidi\Tests\TestCase;
 use Mockery as M;
 use Faker;
 

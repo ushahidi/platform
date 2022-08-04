@@ -1,9 +1,9 @@
 <?php
 
-namespace Tests\Unit\Ushahidi\App\V3\Listener;
+namespace Ushahidi\Tests\Unit\App\V3\Listener;
 
 use Mockery as M;
-use Tests\TestCase;
+use Ushahidi\Tests\TestCase;
 use Ushahidi\Contracts\Repository\Entity\MessageRepository;
 use Ushahidi\Contracts\Repository\Entity\PostRepository;
 use Ushahidi\Contracts\Repository\Entity\TargetedSurveyStateRepository;

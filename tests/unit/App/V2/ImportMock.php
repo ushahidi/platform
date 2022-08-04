@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\App\V2;
+namespace Ushahidi\Tests\Unit\App\V2;
 
 use Ushahidi\App\V2\Import;
 use Mockery as M;

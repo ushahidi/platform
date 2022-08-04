@@ -1,16 +1,15 @@
 <?php
-
-namespace Tests\Unit\Ushahidi\App\Jobs;
+namespace Ushahidi\Tests\Unit\App\V3\Jobs;
 
 use Faker;
-use Laravel\Lumen\Testing\DatabaseTransactions;
 use Mockery as M;
-use Tests\TestCase;
-use Ushahidi\Contracts\Repository\Entity\ExportJobRepository;
+use Ushahidi\Tests\TestCase;
 use Ushahidi\Core\Entity\ExportJob;
 use Ushahidi\Core\Usecase\Post\Export;
+use Ushahidi\App\V3\Jobs\ExportPostsBatchJob;
+use Laravel\Lumen\Testing\DatabaseTransactions;
 use Ushahidi\App\Jobs\CombineExportedPostBatchesJob;
-use Ushahidi\App\Jobs\ExportPostsBatchJob;
+use Ushahidi\Contracts\Repository\Entity\ExportJobRepository;
 
 /**
  * @group api
@@ -38,8 +37,8 @@ class ExportPostsBatchJobTest extends TestCase
         $includeHeader = true;
         $job = new ExportPostsBatchJob($jobId, $batchNumber, $offset, $limit, $includeHeader);
 
-        $usecase = M::mock(\Ushahidi\Core\Usecase\Post\Export::class);
-        $exportJobRepo = M::mock(\Ushahidi\Contracts\Repository\Entity\ExportJobRepository::class);
+        $usecase = M::mock(Export::class);
+        $exportJobRepo = M::mock(ExportJobRepository::class);
 
         $usecase->shouldReceive('setFilters')
             ->once()

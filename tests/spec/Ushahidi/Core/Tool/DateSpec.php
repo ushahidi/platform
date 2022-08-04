@@ -1,5 +1,4 @@
 <?php
-
 namespace spec\Ushahidi\Core\Tool;
 
 use PhpSpec\ObjectBehavior;

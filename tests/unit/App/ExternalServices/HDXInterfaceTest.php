@@ -1,13 +1,13 @@
 <?php
 
-namespace Tests\Unit\Ushahidi\App\ExternalServices;
+namespace Ushahidi\Tests\Unit\App\ExternalServices;
 
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
-use Tests\TestCase;
+use Ushahidi\Tests\TestCase;
 use Ushahidi\Core\Entity\HXL\HXLLicense;
 use Ushahidi\Core\Tool\ExternalServices\HDXInterface;
 
