@@ -3,24 +3,9 @@
 namespace App\Providers;
 
 use Ushahidi\Core\Tool\Features;
-use Ushahidi\Core\Tool\Verifier;
-use Ushahidi\Factory\UsecaseFactory;
 use Ushahidi\Addons\Mteja\MtejaSource;
 use Illuminate\Support\ServiceProvider;
-use App\Providers\FilesystemServiceProvider;
-use Ushahidi\DataSource\DataSourceServiceProvider;
-use Ushahidi\Multisite\MultisiteServiceProvider;
 use Ushahidi\Addons\AfricasTalking\AfricasTalkingSource;
-use Ushahidi\Contracts\Repository\Entity\PostRepository;
-use Ushahidi\Contracts\Repository\Entity\UserRepository;
-use Ushahidi\Contracts\Repository\Entity\MediaRepository;
-use Ushahidi\Contracts\Repository\Entity\ConfigRepository;
-use Ushahidi\Contracts\Repository\Entity\ContactRepository;
-use Ushahidi\Contracts\Repository\Entity\MessageRepository;
-use Ushahidi\Contracts\Repository\Entity\ExportJobRepository;
-use Ushahidi\Contracts\Repository\Entity\ExportBatchRepository;
-use Ushahidi\Contracts\Repository\Entity\FormAttributeRepository;
-use Ushahidi\Contracts\Repository\Entity\TargetedSurveyStateRepository;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -42,6 +27,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app['datasources']->extend('mteja', function ($config) {
             return new MtejaSource($config);
         });
+
+        $this->app['datasources']->registerRoutes($this->app->router);
     }
 
     /**
@@ -50,136 +37,6 @@ class AppServiceProvider extends ServiceProvider
      * @return void
      */
     public function register()
-    {
-        $this->registerServicesFromAura();
-
-        // $this->registerFilesystem();
-        // $this->registerMailer();
-
-        $this->registerMultisite();
-        $this->registerDataSources();
-
-        $this->registerFeatures();
-
-        $this->app->singleton(
-            \Ushahidi\App\V2\Contracts\ImportMappingRepository::class,
-            \Ushahidi\App\V2\Repositories\ImportMappingRepository::class
-        );
-
-        $this->app->singleton(
-            \Ushahidi\App\V2\Contracts\ImportRepository::class,
-            \Ushahidi\App\V2\Repositories\ImportRepository::class
-        );
-
-        $this->app->singleton(
-            \Ushahidi\App\V2\Contracts\ImportSourceDataRepository::class,
-            \Ushahidi\App\V2\Repositories\ImportSourceDataRepository::class
-        );
-
-        $this->app->singleton(
-            \Ushahidi\App\V2\Contracts\ImportDataTools::class,
-            \Ushahidi\App\V2\Utils\ImportDataTools::class
-        );
-    }
-
-    public function registerServicesFromAura()
-    {
-        $this->app->singleton(UsecaseFactory::class, function ($app) {
-            // Just return it from AuraDI
-            return service('factory.usecase');
-        });
-
-        $this->app->singleton(UserRepository::class, function ($app) {
-            // Just return it from AuraDI
-            return service('repository.user');
-        });
-
-        $this->app->singleton(MessageRepository::class, function ($app) {
-            // Just return it from AuraDI
-            return service('repository.message');
-        });
-
-        $this->app->singleton(ConfigRepository::class, function ($app) {
-            // Just return it from AuraDI
-            return service('repository.config');
-        });
-
-        $this->app->singleton(ContactRepository::class, function ($app) {
-            // Just return it from AuraDI
-            return service('repository.contact');
-        });
-
-        $this->app->singleton(PostRepository::class, function ($app) {
-            // Just return it from AuraDI
-            return service('repository.post');
-        });
-
-        $this->app->singleton(ExportJobRepository::class, function ($app) {
-            // Just return it from AuraDI
-            return service('repository.export_job');
-        });
-
-        $this->app->singleton(ExportBatchRepository::class, function ($app) {
-            // Just return it from AuraDI
-            return service('repository.export_batch');
-        });
-
-        $this->app->singleton(TargetedSurveyStateRepository::class, function ($app) {
-            // Just return it from AuraDI
-            return service('repository.targeted_survey_state');
-        });
-
-        $this->app->singleton(FormAttributeRepository::class, function ($app) {
-            // Just return it from AuraDI
-            return service('repository.form_attribute');
-        });
-
-        $this->app->singleton(MediaRepository::class, function ($app) {
-            // Just return it from AuraDI
-            return service('repository.media');
-        });
-
-        $this->app->singleton(Verifier::class, function ($app) {
-            // Just return it from AuraDI
-            return service('tool.verifier');
-        });
-    }
-
-    public function registerMailer()
-    {
-        // Add mailer
-        $this->app->singleton('mailer', function ($app) {
-            return $app->make(
-                'mail',
-                \Illuminate\Mail\MailServiceProvider::class,
-                'mailer'
-            );
-        });
-    }
-
-    public function registerFilesystem()
-    {
-        // Add filesystem
-        $this->app->singleton('filesystem', function ($app) {
-            return $app->make(
-                'filesystems',
-                FilesystemServiceProvider::class,
-                'filesystem'
-            );
-        });
-    }
-
-    public function registerMultisite()
-    {
-        $this->app->register(MultisiteServiceProvider::class);
-    }
-
-    public function registerDataSources()
-    {
-        $this->app->register(DataSourceServiceProvider::class);
-    }
-
-    public function registerFeatures()
     {
         $this->app->singleton('features', function ($app) {
             return new Features($app[ConfigRepository::class]);

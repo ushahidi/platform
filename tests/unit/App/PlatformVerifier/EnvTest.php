@@ -10,13 +10,8 @@
 
 namespace Ushahidi\Tests\Unit\App\PlatformVerifier;
 
-use Composer\Installer\PackageEvent;
-use Composer\Script\Event;
-use Illuminate\Support\Facades\DB as DB;
 use Mockery as M;
 use Ushahidi\Tests\TestCase;
-use Ushahidi\App\PlatformVerifier\Env as EnvironmentVerifier;
-use Ushahidi\App\Tools\OutputText;
 
 /**
  * @backupGlobals disabled
@@ -27,7 +22,7 @@ class EnvTest extends TestCase
     public function testMissingEnvFileError()
     {
         parent::setUp();
-        $envCheckerMock = M::mock('\Ushahidi\App\PlatformVerifier\Env', 'envExists')->makePartial();
+        $envCheckerMock = M::mock('\App\PlatformVerifier\Env', 'envExists')->makePartial();
 
         $envCheckerMock->shouldReceive('envExists')
             ->andReturn(false);
@@ -51,7 +46,7 @@ class EnvTest extends TestCase
     public function testSuccessEnvKeys()
     {
         parent::setUp();
-        $envCheckerMock = M::mock('\Ushahidi\App\PlatformVerifier\Env[envExists,isMissingEnvKey]')->makePartial();
+        $envCheckerMock = M::mock('\App\PlatformVerifier\Env[envExists,isMissingEnvKey]')->makePartial();
 
         $envCheckerMock->shouldReceive('envExists')
             ->andReturn(true);
@@ -70,7 +65,7 @@ class EnvTest extends TestCase
     public function testMissingEnvVarsError()
     {
         parent::setUp();
-        $envCheckerMock = M::mock('\Ushahidi\App\PlatformVerifier\Env[envExists,isMissingEnvKey]')->makePartial();
+        $envCheckerMock = M::mock('\App\PlatformVerifier\Env[envExists,isMissingEnvKey]')->makePartial();
 
         $envCheckerMock->shouldReceive('envExists')
             ->andReturn(true);
@@ -92,7 +87,7 @@ class EnvTest extends TestCase
     public function testMultipleMissingEnvVarsError()
     {
         parent::setUp();
-        $envCheckerMock = M::mock('\Ushahidi\App\PlatformVerifier\Env[envExists,isMissingEnvKey]')->makePartial();
+        $envCheckerMock = M::mock('\App\PlatformVerifier\Env[envExists,isMissingEnvKey]')->makePartial();
 
         $envCheckerMock->shouldReceive('envExists')
             ->andReturn(true);

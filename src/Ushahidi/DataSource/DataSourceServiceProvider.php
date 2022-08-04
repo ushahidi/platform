@@ -9,12 +9,6 @@ use Ushahidi\Contracts\Repository\Entity\MessageRepository;
 
 class DataSourceServiceProvider extends ServiceProvider
 {
-
-    /**
-     * {@inheritdoc}
-     */
-    protected $defer = true;
-
     /**
      * Register any application services.
      *

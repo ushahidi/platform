@@ -11,7 +11,7 @@
 namespace Ushahidi\App\V3\Http\Controllers\API;
 
 use Illuminate\Http\Response;
-use Ushahidi\App\PlatformVerifier\DebugMode;
+use App\PlatformVerifier\DebugMode;
 use Ushahidi\App\V3\Http\Controllers\RESTController;
 
 class VerifyController extends RESTController
@@ -41,7 +41,7 @@ class VerifyController extends RESTController
                     ->header('X-Ushahidi-Platform-Install-Debug-Mode', 'off');
         }
 
-        $output = new \Ushahidi\App\PlatformVerifier\Database();
+        $output = new \App\PlatformVerifier\Database();
 
         return $output->verifyRequirements(false);
     }
@@ -53,7 +53,7 @@ class VerifyController extends RESTController
                     ->header('X-Ushahidi-Platform-Install-Debug-Mode', 'off');
         }
 
-        $output = new \Ushahidi\App\PlatformVerifier\Env();
+        $output = new \App\PlatformVerifier\Env();
 
         return $output->verifyRequirements(false);
     }

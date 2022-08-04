@@ -16,13 +16,8 @@
 
 namespace Ushahidi\Tests\Unit\App\PlatformVerifier;
 
-use Composer\Installer\PackageEvent;
-use Composer\Script\Event;
-use Illuminate\Support\Facades\DB as DB;
 use Mockery as M;
 use Ushahidi\Tests\TestCase;
-use Ushahidi\App\PlatformVerifier;
-use Ushahidi\App\Tools\OutputText;
 
 /**
  * @backupGlobals disabled
@@ -55,7 +50,7 @@ class DatabaseTest extends TestCase
         $pdoException = new StubException();
         $connection = M::mock(\Illuminate\Support\Facades\DB::connection('mysql'));
         $connection->shouldReceive('getPdo')->with()->andThrow($pdoException);
-        $dbCheck = new \Ushahidi\App\PlatformVerifier\Database();
+        $dbCheck = new \App\PlatformVerifier\Database();
         $result = $dbCheck->verifyRequirements(false, $connection);
         // Note that we are only checking the explainer for a code (2002), since the message is built in
         $this->assertEquals(['errors' => [
@@ -78,7 +73,7 @@ class DatabaseTest extends TestCase
         $pdoException = new StubExceptionUncovered();
         $connection = M::mock(\Illuminate\Support\Facades\DB::connection('mysql'));
         $connection->shouldReceive('getPdo')->with()->andThrow($pdoException);
-        $dbCheck = new \Ushahidi\App\PlatformVerifier\Database();
+        $dbCheck = new \App\PlatformVerifier\Database();
         $result = $dbCheck->verifyRequirements(false, $connection);
         // Message remains the same as the exception , explainer is empty due to not matching a known error
         $this->assertEquals(['errors' => [
@@ -96,7 +91,7 @@ class DatabaseTest extends TestCase
         $pdoException = new StubException();
         $connection = M::mock(\Illuminate\Support\Facades\DB::connection('mysql'));
         $connection->shouldReceive('getPdo');
-        $dbCheck = new \Ushahidi\App\PlatformVerifier\Database();
+        $dbCheck = new \App\PlatformVerifier\Database();
         $result = $dbCheck->verifyRequirements(false, $connection);
         // Note that we are only checking the explainer for a code (2002), since the message is built in
         $this->assertEquals(['success' => [
