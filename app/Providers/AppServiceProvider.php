@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Tools\Features;
+use Ushahidi\Core\Tool\Features;
 use Ushahidi\Core\Tool\Verifier;
 use Ushahidi\Factory\UsecaseFactory;
 use Ushahidi\Addons\Mteja\MtejaSource;

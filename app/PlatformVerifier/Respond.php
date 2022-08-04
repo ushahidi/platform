@@ -2,7 +2,7 @@
 
 namespace App\PlatformVerifier;
 
-use App\Tools\OutputText;
+use Ushahidi\Core\Tool\OutputText;
 
 class Respond
 {

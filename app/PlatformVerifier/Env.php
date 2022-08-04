@@ -2,10 +2,6 @@
 
 namespace App\PlatformVerifier;
 
-use Composer\Installer\PackageEvent;
-use Composer\Script\Event;
-use App\Tools\OutputText;
-
 class Env
 {
     private static $NO_ENV = 'Required environment variables missing and no environment file found.';

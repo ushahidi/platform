@@ -2,8 +2,8 @@
 
 namespace App\Console\Commands;
 
+use Ushahidi\Core\Tool\OutputText;
 use Illuminate\Console\Command;
-use App\Tools\OutputText;
 
 class EnvironmentVerifyCommand extends Command
 {
