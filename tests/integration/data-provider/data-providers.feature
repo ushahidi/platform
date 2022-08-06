@@ -27,7 +27,7 @@ Feature: Testing the DataProviders API
 		And that the request "query string" is "type=sms"
 		When I request "/dataproviders"
 		Then the response is JSON
-		And the "count" property equals "4"
+		And the "count" property equals "6"
 		Then the guzzle status code should be 200
 
 	Scenario: Geting A Non-Existent Data Provider Should Fail

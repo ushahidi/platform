@@ -128,7 +128,7 @@ You can **safely skip this section** if it's your first time setting up the clie
 {% endhint %}
 
 * The `PORT` variable specifies at which port the local development server should listen. The default for this variable is `3000`.
-* `TX_USERNAME` and `TX_PASSWORD`  are variables for configuring the credentials to the [Transifex](https://www.transifex.com) service, which stores multi-lingual versions of the Platform client text displayed on the screen. These are only required if you are going to develop in languages other than English.
+* `TX_USERNAME` and `TX_PASSWORD`  are variables for configuring the credentials to the [Transifex](https://www.transifex.com/) service, which stores multi-lingual versions of the Platform client text displayed on the screen. These are only required if you are going to develop in languages other than English.
 * `APP_LANGUAGES` is a list of language codes (in ISO-639-1 format) to download from Transifex. For example `APP_LANGUAGES=sw,en,es` would enable the client to appear in Swahili, English and Spanish.
 * `OAUTH_CLIENT_ID` and `OAUTH_CLIENT_SECRET` are variables used during the process of authentication of a user against the API. You can ignore these 99% of the times. Also, these are not particularly secret nor provide much security. They just have to exist, and they do by default. (If  you must know, their values default to `ushahidiui` and `35e7f0bca957836d05ca0492211b0ac707671261` respectively)
 

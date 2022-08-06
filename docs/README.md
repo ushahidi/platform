@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/ushahidi/platform.png)](https://travis-ci.org/ushahidi/platform) [![Coverage Status](https://coveralls.io/repos/github/ushahidi/platform/badge.svg)](https://coveralls.io/github/ushahidi/platform) [![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
 
-![](<../.gitbook/assets/oss-welcome-banner (1) (1).png>)
+![](<../.gitbook/assets/oss-welcome-banner (1) (1) (2) (2).png>)
 
 ## What is Ushahidi?
 
@@ -16,7 +16,7 @@ We love having you here. To ensure everyone has a good experience, we ask **ever
 [code-of-conduct](code-of-conduct/)
 {% endcontent-ref %}
 
-![](<../.gitbook/assets/oss-ushahidi-project (1) (1) (1).png>)
+![](<../.gitbook/assets/oss-ushahidi-project (1) (1) (2) (4).png>)
 
 If you are not a developer, or just don't want to set it up yourself, you can start a hosted deployment [here](https://www.ushahidi.com/pricing).
 

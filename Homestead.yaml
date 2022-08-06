@@ -21,5 +21,13 @@ sites:
         to: /home/vagrant/Code/platform-api/httpdocs
 databases:
     - ushahidi
+features:
+    - postgresql: false
+    - mysql: true
+services:
+    - enabled:
+      - mysql
+    - disabled:
+      - postgresql
 name: platform-api
 hostname: platform-api

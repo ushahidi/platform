@@ -28,7 +28,8 @@ class V5GlobalScopes
         $isSavingPost = $request->isMethod('post') && \
             in_array($request->path(), [
                 'api/v5/posts',
-                'api/v5/posts/_ussd'
+                'api/v5/posts/_ussd',
+                'api/v5/posts/_whatsapp'
             ]);
 
         if (!$isSavingPost) {
