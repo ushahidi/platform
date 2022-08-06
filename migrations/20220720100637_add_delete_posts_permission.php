@@ -15,7 +15,7 @@ class AddDeletePostsPermission extends AbstractMigration
             VALUES ('Delete Posts', 'Delete Posts')");
 
         $this->execute("INSERT INTO roles_permissions(`role`,`permission`) 
-            SELECT `role`,'Delete Posts' FROM roles_permissions WHERE `permission` = 'Manage Users'
+            SELECT `role`,'Delete Posts' FROM roles_permissions WHERE `permission` = 'Manage Posts'
         ");
     }
 
