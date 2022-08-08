@@ -94,7 +94,7 @@ class AfricasTalkingSource implements CallbackDataSource, OutgoingDataSource
 
         switch ($message_type) {
             case MessageType::SMS:
-            case 'ussd': 
+            case MessageType::USSD: 
                 $response = $client->sms()->send([
                     'to' => $to,
                     'from' => trim($this->config['short_code']),
