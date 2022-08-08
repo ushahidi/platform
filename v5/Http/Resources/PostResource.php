@@ -128,8 +128,8 @@ class PostResource extends BaseResource
     {
         $message = $this->message;
         return $message && isset($message->type)
-        ? $message->type
-        : self::DEFAULT_SOURCE_TYPE;
+            ? $message->type
+            : self::DEFAULT_SOURCE_TYPE;
     }
 
     /**
