@@ -69,9 +69,6 @@ class AuthServiceProvider extends ServiceProvider
         // Define passport scopes
         $this->defineScopes();
         // need to use a string here or laravel goes wild and doesn't authorize anything
-        Gate::policy('App\V5\Models\Survey', 'App\V5\Policies\SurveyPolicy');
-        Gate::policy('App\V5\Models\Category', 'App\V5\Policies\CategoryPolicy');
-        Gate::policy('App\V5\Models\Post\Post', 'App\V5\Policies\PostPolicy');
     }
 
     protected function defineScopes()

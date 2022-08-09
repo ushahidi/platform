@@ -3,7 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use App\Facades\Features;
+use Ushahidi\Core\Facade\Features;
 
 class CheckFeature
 {

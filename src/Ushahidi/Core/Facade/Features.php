@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Facades;
+namespace Ushahidi\Core\Facade;
 
 use Illuminate\Support\Facades\Facade;
 

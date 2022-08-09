@@ -19,7 +19,7 @@ use Ushahidi\Core\Concerns\AdminAccess;
 use Ushahidi\Core\Concerns\UserContext;
 use Ushahidi\Core\Concerns\PrivAccess;
 use Ushahidi\Core\Concerns\Acl as AccessControlList;
-use Ushahidi\App\Facades\Features;
+use Ushahidi\Core\Facade\Features;
 
 class CSVAuthorizer implements Authorizer
 {

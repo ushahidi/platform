@@ -6,6 +6,7 @@ use Ushahidi\Core\Tool\Features;
 use Ushahidi\Addons\Mteja\MtejaSource;
 use Illuminate\Support\ServiceProvider;
 use Ushahidi\Addons\AfricasTalking\AfricasTalkingSource;
+use Ushahidi\Contracts\Repository\Entity\ConfigRepository;
 
 class AppServiceProvider extends ServiceProvider
 {
