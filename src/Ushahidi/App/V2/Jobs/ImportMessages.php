@@ -4,7 +4,7 @@ namespace Ushahidi\App\V2\Jobs;
 
 use Ushahidi\App\V2;
 use Ushahidi\Core\Entity;
-use Ushahidi\App\Jobs\Job;
+use Ushahidi\Core\Tool\Job;
 use Illuminate\Support\Facades\DB;
 use Ushahidi\Contracts\Repository\Entity\MessageRepository;
 

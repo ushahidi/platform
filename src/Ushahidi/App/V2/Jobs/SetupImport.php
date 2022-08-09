@@ -3,7 +3,7 @@
 namespace Ushahidi\App\V2\Jobs;
 
 use Illuminate\Support\Facades\Log;
-use Ushahidi\App\Jobs\Job;
+use Ushahidi\Core\Tool\Job;
 use Ushahidi\App\V2\ManifestSchemas\ImportParameters;
 use Ushahidi\App\V2\Contracts\ImportRepository;
 

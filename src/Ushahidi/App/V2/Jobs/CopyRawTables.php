@@ -2,7 +2,7 @@
 
 namespace Ushahidi\App\V2\Jobs;
 
-use Ushahidi\App\Jobs\Job;
+use Ushahidi\Core\Tool\Job;
 use Ushahidi\App\V2\Contracts\ImportSourceDataRepository;
 use Illuminate\Support\Facades\DB;
 
