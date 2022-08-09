@@ -17,4 +17,5 @@ interface MessageType
     const TWITTER = 'twitter';
     const IVR = 'ivr';
     const EMAIL = 'email';
+    const USSD = 'ussd';
 }

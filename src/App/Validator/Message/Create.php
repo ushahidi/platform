@@ -48,7 +48,7 @@ class Create extends LegacyValidator
                 ['not_empty'],
                 ['max_length', [':value', 255]],
                 // @todo this should be shared via repo or other means
-                ['in_array', [':value', ['sms', 'ivr', 'email', 'twitter']]],
+                ['in_array', [':value', ['sms', 'ivr', 'email', 'twitter', 'ussd']]],
             ],
             'data_source' => [
                 ['in_array', [':value', array_keys($sources->getEnabledSources())]],
