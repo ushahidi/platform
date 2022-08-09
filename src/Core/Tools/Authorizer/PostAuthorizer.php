@@ -80,7 +80,11 @@ class PostAuthorizer implements Authorizer
         }
 
         // First check whether there is a role with the right permissions
-        if ($this->acl->hasPermission($user, Permission::MANAGE_POSTS)) {
+        if (($privilege !== "delete") && ($this->acl->hasPermission($user, Permission::MANAGE_POSTS))) {
+            return true;
+        }
+        
+        if (($privilege === "delete") && ($this->acl->hasPermission($user, Permission::DELETE_POSTS))) {
             return true;
         }
 
@@ -139,11 +143,19 @@ class PostAuthorizer implements Authorizer
         }
 
         // If the user is the owner of this post & they have edit own posts permission
-        // they are allowed to edit or delete the post. They can't change the post status or
+        // they are allowed to edit the post. They can't change the post status or
         // ownership but those are already checked above
         if ($this->isUserOwner($entity, $user)
-            && in_array($privilege, ['update', 'delete', 'lock'])
+            && in_array($privilege, ['update', 'lock'])
             && $this->acl->hasPermission($user, Permission::EDIT_OWN_POSTS)) {
+            return true;
+        }
+        
+        // If the user is the owner of this post & they have delete own posts permission
+        // they are allowed to edit or delete the post.
+        if ($this->isUserOwner($entity, $user)
+            &&($privilege === "delete")
+            && $this->acl->hasPermission($user, Permission::DELETE_OWN_POSTS)) {
             return true;
         }
 
