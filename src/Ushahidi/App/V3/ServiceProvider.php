@@ -5,6 +5,8 @@ namespace Ushahidi\App\V3;
 use Ushahidi\Core\Tool\Verifier;
 use Ushahidi\Factory\UsecaseFactory;
 use Illuminate\Support\Facades\Route;
+use Ushahidi\Core\Usecase\Post\Export;
+use Ushahidi\Core\Usecase\Export\Job\PostCount;
 use Ushahidi\Contracts\Repository\Entity\PostRepository;
 use Ushahidi\Contracts\Repository\Entity\UserRepository;
 use Ushahidi\Contracts\Repository\Entity\MediaRepository;
@@ -29,7 +31,7 @@ class ServiceProvider extends BaseServiceProvider
         Route::prefix('api')
             ->middleware('api')
             ->namespace('Ushahidi\App\V3\Http\Controllers')
-            ->group(base_path('src/Ushahidi/App/V3/routes/api.php'));
+            ->group(__DIR__.'/routes/api.php');
     }
 
     /**
@@ -102,6 +104,20 @@ class ServiceProvider extends BaseServiceProvider
         $this->app->singleton(Verifier::class, function ($app) {
             // Just return it from AuraDI
             return service('tool.verifier');
+        });
+
+        $this->app->singleton(PostCount::class, function ($app) {
+            return service('factory.usecase')
+                    // Override action
+                    ->get('export_jobs', 'post-count')
+                    // Override authorizer
+                    ->setAuthorizer(service('authorizer.external_auth')); // @todo remove the need for this?
+        });
+
+        $this->app->singleton(Export::class, function ($app) {
+            return service('factory.usecase')
+                    ->get('posts_export', 'export')
+                    ->setAuthorizer(service('authorizer.export_job'));
         });
     }
 }

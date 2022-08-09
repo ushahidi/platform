@@ -97,13 +97,4 @@ class ExportJob extends StaticEntity
             [self::STATUS_SUCCESS, self::STATUS_EXPORTED_TO_CDN, self::STATUS_PENDING_HDX]
         );
     }
-
-    /**
-     * Handle state transitions
-     */
-    public function startHDX()
-    {
-        // if sending to HXL is required, then we spawn an event to do that
-        Event::fire(new SendToHDXEvent($this->getId()));
-    }
 }

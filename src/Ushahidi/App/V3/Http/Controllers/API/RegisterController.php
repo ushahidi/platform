@@ -3,7 +3,7 @@
 namespace Ushahidi\App\V3\Http\Controllers\API;
 
 use Illuminate\Http\Request;
-use Ushahidi\App\Facades\Features;
+use Ushahidi\Core\Facade\Features;
 use Ushahidi\App\V3\Http\Controllers\RESTController;
 
 /**

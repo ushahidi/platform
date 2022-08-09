@@ -5,6 +5,7 @@ namespace Ushahidi\App\V3\Jobs;
 use Ushahidi\Core\Tool\Job;
 use Illuminate\Support\Facades\Log;
 use Ushahidi\Core\Entity\ExportJob;
+use Ushahidi\Core\Usecase\Export\Job\PostCount;
 use Ushahidi\Core\Concerns\RecordsExportJobFailure;
 use Ushahidi\Contracts\Repository\Entity\ExportJobRepository;
 
@@ -32,19 +33,14 @@ class ExportPostsJob extends Job
      *
      * @return void
      */
-    public function handle(ExportJobRepository $exportJobRepo)
+    public function handle(PostCount $usecase, ExportJobRepository $exportJobRepo)
     {
         // Load job
         $job = $exportJobRepo->get($this->jobId);
 
-        $usecase = service('factory.usecase')
-        // Override action
-        ->get('export_jobs', 'post-count')
-        // Override authorizer
-        ->setAuthorizer(service('authorizer.external_auth'))
         // Get total posts count
         // @todo this probably doesn't need its own usecase
-        ->setIdentifiers(['id' => $this->jobId]);
+        $usecase->setIdentifiers(['id' => $this->jobId]);
 
         $results = $usecase->interact();
         $totalRows = $results[0]['total'];

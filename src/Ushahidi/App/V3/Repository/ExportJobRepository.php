@@ -12,14 +12,16 @@
 namespace Ushahidi\App\V3\Repository;
 
 use Ohanzee\DB;
-use Ushahidi\Core\Tool\SearchData;
 use Ushahidi\Contracts\Entity;
+use Ushahidi\Core\Tool\SearchData;
 use Illuminate\Support\Facades\Log;
 use Ushahidi\Core\Entity\ExportJob;
+use Illuminate\Support\Facades\Event;
 use Ushahidi\Core\Entity\ExportBatch;
 use Ushahidi\Core\Concerns\AdminAccess;
 use Ushahidi\Core\Concerns\UserContext;
 use Ushahidi\Core\Concerns\FilterRecords;
+use Ushahidi\App\V3\Events\SendToHDXEvent;
 use Ushahidi\Contracts\Repository\Entity\PostRepository;
 use Ushahidi\Contracts\Repository\Entity\ExportJobRepository as ExportJobRepositoryContract;
 
@@ -140,7 +142,7 @@ class ExportJobRepository extends OhanzeeRepository implements ExportJobReposito
         $return = parent::update($entity);
 
         if ($fireHDX) {
-            $entity->startHDX();
+            Event::fire(new SendToHDXEvent($entity->getId()));
         }
         return $return;
     }

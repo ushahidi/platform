@@ -11,7 +11,7 @@
 
 namespace Ushahidi\App\V3\Validator\ExportJob;
 
-use Ushahidi\App\Facades\Features;
+use Ushahidi\Core\Facade\Features;
 use Ushahidi\App\V3\Validator\LegacyValidator;
 use Ushahidi\Contracts\Repository\Entity\UserRepository;
 use Ushahidi\Contracts\Repository\Entity\ExportJobRepository;

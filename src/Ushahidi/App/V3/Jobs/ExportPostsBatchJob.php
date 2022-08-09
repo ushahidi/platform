@@ -4,12 +4,14 @@ namespace Ushahidi\App\V3\Jobs;
 
 use Ushahidi\Core\Tool\Job;
 use Illuminate\Support\Facades\Log;
-use Ushahidi\Factory\UsecaseFactory;
+use Ushahidi\Core\Usecase\Post\Export;
+use Ushahidi\Multisite\MultisiteAwareJob;
 use Ushahidi\Core\Concerns\RecordsExportJobFailure;
 use Ushahidi\Contracts\Repository\Entity\ExportJobRepository;
 
 class ExportPostsBatchJob extends Job
 {
+    use MultisiteAwareJob;
     use RecordsExportJobFailure;
 
     protected $jobId;
@@ -41,16 +43,13 @@ class ExportPostsBatchJob extends Job
      *
      * @return void
      */
-    public function handle(UsecaseFactory $factory, ExportJobRepository $exportJobRepo)
+    public function handle(Export $usecase, ExportJobRepository $exportJobRepo)
     {
-        $usecase = $factory
-            ->get('posts_export', 'export')
-            ->setAuthorizer(service('authorizer.export_job'))
-            ->setFilters([
-                'limit' => $this->limit,
-                'offset' => $this->offset,
-                'add_header' => $this->includeHeader,
-            ])
+        $usecase->setFilters([
+            'limit' => $this->limit,
+            'offset' => $this->offset,
+            'add_header' => $this->includeHeader,
+        ])
             ->setIdentifiers([
                 'job_id' => $this->jobId,
                 'batch_number' => $this->batchNumber,
