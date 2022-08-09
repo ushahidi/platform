@@ -11,10 +11,9 @@
 namespace Ushahidi\Tests\Unit\App\Tools;
 
 use Mockery as M;
-use Ushahidi\Tests\TestCase;
-// use Illuminate\Support\Facades\Mail;
+use App\Tools\Mailer;
 use Ushahidi\Multisite\Site;
-use Ushahidi\App\Tools\Mailer;
+use Ushahidi\Tests\TestCase;
 
 /**
  * @backupGlobals disabled

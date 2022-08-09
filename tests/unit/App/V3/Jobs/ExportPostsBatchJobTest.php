@@ -8,7 +8,7 @@ use Ushahidi\Core\Entity\ExportJob;
 use Ushahidi\Core\Usecase\Post\Export;
 use Ushahidi\App\V3\Jobs\ExportPostsBatchJob;
 use Laravel\Lumen\Testing\DatabaseTransactions;
-use Ushahidi\App\Jobs\CombineExportedPostBatchesJob;
+use Ushahidi\App\V3\Jobs\CombineExportedPostBatchesJob;
 use Ushahidi\Contracts\Repository\Entity\ExportJobRepository;
 
 /**

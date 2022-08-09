@@ -128,7 +128,7 @@ class CombineExportedPostBatchesJobTest extends TestCase
 
         $dispatcher = $this->mockDispatcher();
         $dispatcher->shouldReceive('dispatch')->once()
-                ->with(M::type(\Ushahidi\App\Jobs\CombineExportedPostBatchesJob::class));
+                ->with(M::type(CombineExportedPostBatchesJob::class));
 
         $job->handle($exportJobRepo, $exportBatchRepo);
     }

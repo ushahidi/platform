@@ -9,11 +9,11 @@ default:
             paths:
                 - %paths.base%/tests/Integration
             contexts:
-                - Tests\Integration\Bootstrap\FeatureContext
-                - Tests\Integration\Bootstrap\RestContext:
+                - Ushahidi\Tests\Integration\Bootstrap\FeatureContext
+                - Ushahidi\Tests\Integration\Bootstrap\RestContext:
                     baseUrl: http://localhost:8000
                     # proxyUrl: localhost:8888
-                - Tests\Integration\Bootstrap\PHPUnitFixtureContext
+                - Ushahidi\Tests\Integration\Bootstrap\PHPUnitFixtureContext
             extensions:
                 Behat\MinkExtension:
                     default_session: laravel

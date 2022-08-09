@@ -11,7 +11,7 @@
 namespace Ushahidi\Tests\Unit\App\V3\Validator\Role;
 
 use Mockery as M;
-use App\Tools\Features;
+use Ushahidi\Core\Tool\Features;
 use Ushahidi\Tests\TestCase;
 use Kohana\Validation\Validation;
 use Ushahidi\App\V3\Validator\Role\Update;
