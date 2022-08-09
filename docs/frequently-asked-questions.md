@@ -24,7 +24,7 @@ As with many things, it depends.
 
 * If you are already familiar with XAMPP and want to avoid using Vagrant for performance or familiarity issues, then go with the [XAMPP Install guide](development-and-code/setup\_alternatives/xampp.md).
 * If you are familiar with Vagrant, or willing to learn how to setup Vagrant + Homestead and you have a machine capable of running a virtual machine and vagrant, then go with [the vagrant based setup](development-and-code/setup\_alternatives/vagrant-setup.md) (This is the setup Ushahidi staff uses on a daily basis!)
-* If you are a frontend developer that wants to contribute without setting up the backend, then try [setting up the platform client](development-and-code/setup\_alternatives/setting-up-the-platform-client/) only, and using the API route of an ushahidi.io deployment.  This the fastest way to get started.
+* If you are a frontend developer that wants to contribute without setting up the backend, then try [setting up the platform client](development-and-code/setup\_alternatives/setting-up-the-platform-client/) only, and using the API route of an ushahidi.io deployment. This the fastest way to get started.
 
 **Are you ready to deploy Ushahidi for others to use?**
 
@@ -48,8 +48,8 @@ For production environments, we strongly recommend you use a Linux based environ
 
 ### When I run this command: `./bin/phinx migrate -c application/phinx.php` I get an error of "application/phinx.php does not exist" How do I solve this?
 
-* First check if you in the root directory of the platform install. If not,  go inside the platform installation directory and try again.
-* Check which version of the platform you are running. When you run `ls application/phinx.php` do you see this file, or an error? If you don't have an `application` directory in the top level of your platform install directory, then you are likely in version 4 of platform and should be running `php artisan migrate` instead.&#x20;
+* First check if you in the root directory of the platform install. If not, go inside the platform installation directory and try again.
+* Check which version of the platform you are running. When you run `ls application/phinx.php` do you see this file, or an error? If you don't have an `application` directory in the top level of your platform install directory, then you are likely in version 4 of platform and should be running `php artisan migrate` instead.
 
 ### All I do is get an ugly page with text that looks like code. What do I do?
 
@@ -65,12 +65,12 @@ Your web server setup is not handling the URLs as designed. There can be differe
 
 First, let's identify your stack.
 
-* Are you using ushahidi.io and running a deployment there? If YES, please contact our team through one of these channels: [https://www.ushahidi.com/contact#](https://www.ushahidi.com/contact#)
+* Are you using ushahidi.io and running a deployment there? If YES, please contact our team through one of these channels: [https://www.ushahidi.com/contact#](https://www.ushahidi.com/contact)
 *   Are you a developer, setting up Ushahidi yourself? Start by checking the network tab in your development browser of choice and identifying any network errors. Look at the response for each and check what you see.
 
     The most common reasons for this error:
 
-    * You have used the wrong url in the BACKEND\_URL key of your platform-client .ENV file. Check that when you access the URL in the browser + /api/v3/config it returns a valid json. It should look like this when you call the /api/v3/config endpoint for your API: [https://qa.api.ushahidi.io/api/v3/config](https://qa.api.ushahidi.io/api/v3/config)&#x20;
+    * You have used the wrong url in the BACKEND\_URL key of your platform-client .ENV file. Check that when you access the URL in the browser + /api/v3/config it returns a valid json. It should look like this when you call the /api/v3/config endpoint for your API: [https://qa.api.ushahidi.io/api/v3/config](https://qa.api.ushahidi.io/api/v3/config)
     * The server is failing for some reason. If the server is failing, it will likely show an error either in the browser when you call the API URL or in the server logs, which you can see in files contained within {the\_platform\_install\_dir}/storage/logs. Check the errors in the log, as often you will see that there is a permissions error somewhere, or a directory is missing, which you can solve yourself.
 
     When reporting issues, please note that we will need as much information as you can provide to be able to help you, so please start by checking all of the above, and then contact us with the information you found through[ the Ushahidi gitter](http://gitter.im/ushahidi/Community) channel. Including details about your development environment, what you have tried doing to solve it, what you were doing when this error occured, and your log files are critical in order for us to help you get set up.
@@ -82,7 +82,7 @@ First, let's identify your stack.
 
 Please verify that all the fields have the correct values and that you have enabled the "Accept survey submissions from this source" toggle (it should be green/on!)
 
-![Example with disabled "Twitter" datasource.](<../.gitbook/assets/screen-shot-2019-08-03-at-11.08.49 (1) (2) (1) (1).png>)
+![Example with disabled "Twitter" datasource.](<../.gitbook/assets/screen-shot-2019-08-03-at-11.08.49 (1) (2) (1) (2) (1) (1).png>)
 
 If you think your configuration is correct, please get in touch with your deploment name and details, and someone from the support team will be able to help.
 
@@ -90,7 +90,7 @@ If you think your configuration is correct, please get in touch with your deplom
 
 Please verify that all the fields have the correct values and that you have enabled the "Accept survey submissions from this source" toggle (it should be green/on!)
 
-![Example with disabled "Twitter" datasource.](<../.gitbook/assets/screen-shot-2019-08-03-at-11.08.49 (1) (2) (1) (1).png>)
+![Example with disabled "Twitter" datasource.](<../.gitbook/assets/screen-shot-2019-08-03-at-11.08.49 (1) (2) (1) (2) (1) (1).png>)
 
 If the configuration values are correct, then proceed to check the following in the platform API.
 
@@ -169,12 +169,12 @@ To contribute code to the Ushahidi platform, please follow the guidelines [here]
 
 Translating the platform into different langauges helps us allow more people access to Ushahidi. You can help us translate the platform into as many languages as possible by following the instructions to start translating here: [Instructions on how to start translating](translation/software-localization-and-translation.md)
 
-### How  can I join the Ushahidi Community?
+### How can I join the Ushahidi Community?
 
 Connect with the wider Ushahidi community:
 
-* Join the discussion on [our forum](http://forums.ushahidi.com)
-* Sign up on the [mailing list](http://list.ushahidi.com)
+* Join the discussion on [our forum](http://forums.ushahidi.com/)
+* Sign up on the [mailing list](http://list.ushahidi.com/)
 * Chat with us on:
   * IRC at [#ushahidi on Freenode](http://irc/irc.freenode.net/#ushahidi)
   * Gitter at [ushahidi/Community](https://gitter.im/ushahidi/community)

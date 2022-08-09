@@ -82,6 +82,8 @@ $router->group([
     ], function () use ($router) {
         // Public access
         $router->post('/', 'PostController@store');
+        // temporary endpoints, these should eventually go away
         $router->post('/_ussd', 'USSDController@store');
+        $router->post('/_whatsapp', 'WhatsAppController@store');
     });
 });

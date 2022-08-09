@@ -26,13 +26,21 @@ Problems with the setup? Make sure to check our section [#issues-and-solutions](
 Please make sure you install everything in this list before you proceed with the platform setup.
 {% endhint %}
 
-* [Vagrant](https://www.vagrantup.com/downloads.html) and [Laravel Homestead](https://laravel.com/docs/homestead)
+* [Vagrant](https://www.vagrantup.com/downloads.html)
 * Recommended: [Vagrant host-updater plugin](https://github.com/cogitatio/vagrant-hostsupdater) - this is useful to avoid having to update /etc/hosts by hand (Note: The plugin homepage says that this plugin is not maintained anymore. For now, it still seems to work fine, so you can ignore this warning.)
-* [VirtualBox](https://www.virtualbox.org/wiki/Downloads) - Note: Windows users may be required to Enable VT-X \(Intel Virtualization Technology\) in the computer's bios settings, disable Hyper-V on program and features page in the control panel, and install the VirtualBox Extension Pack \(installation instructions here.\)
+* [VirtualBox](https://www.virtualbox.org/wiki/Downloads) - Note: Windows users may be required to Enable VT-X (Intel Virtualization Technology) in the computer's bios settings, disable Hyper-V on program and features page in the control panel, and install the VirtualBox Extension Pack (installation instructions here.)
 * [Composer](https://getcomposer.org/doc/00-intro.md#system-requirements)
 * PHP >=7.0 <7.2 - if you are using Platform V4.0.0
 * PHP >=7.1 <7.4 - if you are using Platform V4.1.0 or later
 * PHP >=7.2 <7.4 - if you are using Platform V4.4.0 or later
+
+#### Additional requisites setup
+
+* **VirtualBox > 6.1.28** . As described here [https://github.com/laravel/homestead/issues/1717](https://github.com/laravel/homestead/issues/1717) , you may need to add the virtual internal network to a configuration file in VirtualBox. Our Vagrant/Homestead setup is coded to use the 192.168.33.0/24 network.\
+  \
+  Please create the file `/etc/vbox/networks.conf` (or equivalent in Windows (?)) and make sure it has the following line in it:\
+  \
+  `* 192.168.33.0/24`\\
 
 ### Getting the API Code
 
@@ -120,8 +128,7 @@ Now that you (hopefully) have a working vagrant machine, you will have to ssh in
 vagrant ssh
 ```
 
-Change to the project directory. This is shared by Vagrant / VirtualBox between your virtual server and your machine for
-easy updating during development:
+Change to the project directory. This is shared by Vagrant / VirtualBox between your virtual server and your machine for easy updating during development:
 
 ```bash
 cd ~/Code/platform-api
@@ -190,7 +197,7 @@ Congratulations! You have set up the API. You may want now to [build and install
 
 <summary>Vagrant says "The IP address configured for the host-only network is not within the allowed ranges. Please update the address used to be within the allowed ranges and run the command again."</summary>
 
-According to information found here  [https://lifesaver.codes/answer/virtualbox-6-1-28-no-longer-auto-assigns-hostonly-ips-1717](https://lifesaver.codes/answer/virtualbox-6-1-28-no-longer-auto-assigns-hostonly-ips-1717) , a change in VirtualBox's handling of networking can render Homestead installations invalid.
+According to information found here [https://lifesaver.codes/answer/virtualbox-6-1-28-no-longer-auto-assigns-hostonly-ips-1717](https://lifesaver.codes/answer/virtualbox-6-1-28-no-longer-auto-assigns-hostonly-ips-1717) , a change in VirtualBox's handling of networking can render Homestead installations invalid.
 
 The solution seems to involve creating a `/etc/vbox/networks.conf` file with the following content:
 

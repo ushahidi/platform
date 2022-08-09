@@ -32,6 +32,20 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         abort "Homestead settings file not found in #{confDir}"
     end
 
+    # Patch around the pitfalls of the imho dreadful composer update script in Homestead
+    config.vm.provision "shell", inline: "mkdir -p /home/vagrant/.composer"
+
+    # Homestead before v11.4 has a problem with trying to initialise Postgres databases
+    # even if the postgres server is not available. Here we short-circuit that.
+    $hide_postgres = <<-'SCRIPT'
+    createdb_bin=/usr/bin/createdb
+    if [ -e "$createdb_bin" ]; then
+      mv $createdb_bin ${createdb_bin}.disabled
+      ln -s /bin/true /usr/local/bin/createdb
+    fi
+    SCRIPT
+    config.vm.provision "shell", inline: $hide_postgres
+
     Homestead.configure(config, settings)
 
     if File.exist? afterScriptPath then
