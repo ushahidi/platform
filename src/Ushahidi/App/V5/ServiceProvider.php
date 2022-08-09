@@ -13,6 +13,7 @@ class ServiceProvider extends AggregateServiceProvider
      * @var array
      */
     protected $providers = [
+        Providers\AuthServiceProvider::class,
         Providers\EventServiceProvider::class,
         Providers\MorphServiceProvider::class,
     ];
@@ -27,7 +28,7 @@ class ServiceProvider extends AggregateServiceProvider
         Route::prefix('api')
             ->middleware('api')
             ->namespace('Ushahidi\App\V5\Http\Controllers')
-            ->group(base_path('src/Ushahidi/App/V5/routes/api.php'));
+            ->group(__DIR__ . '/routes/api.php');
     }
 
     /**

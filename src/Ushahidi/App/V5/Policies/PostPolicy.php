@@ -2,17 +2,16 @@
 
 namespace Ushahidi\App\V5\Policies;
 
-use Ushahidi\App\V5\Models\Survey;
 use Ushahidi\App\V5\Models\Post\Post;
 use Ushahidi\Core\Entity;
-use Ushahidi\App\Auth\GenericUser;
 use Ushahidi\Contracts\Permission;
 use Ushahidi\Core\Concerns\PrivAccess;
 use Ushahidi\Core\Concerns\AdminAccess;
 use Ushahidi\Core\Concerns\OwnerAccess;
 use Ushahidi\Core\Concerns\UserContext;
 use Ushahidi\Core\Concerns\ParentAccess;
-use Ushahidi\App\Auth\GenericUser as User;
+use App\Auth\GenericUser as User;
+use Ushahidi\App\V5\Models\Survey;
 use Ushahidi\Core\Concerns\Acl as AccessControlList;
 use Ushahidi\Core\Concerns\PrivateDeployment;
 use Ushahidi\Contracts\Entity as EntityContract;
