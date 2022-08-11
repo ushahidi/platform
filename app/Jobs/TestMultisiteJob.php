@@ -2,10 +2,11 @@
 
 namespace App\Jobs;
 
+use Ushahidi\Multisite\MultisiteManager;
 use Illuminate\Support\Facades\Log;
+use Ushahidi\Multisite\MultisiteAwareJob;
 use Ushahidi\Contracts\Repository\Entity\ConfigRepository;
 use Ushahidi\Contracts\Repository\Entity\ExportBatchRepository;
-use App\Multisite\MultisiteAwareJob;
 
 class TestMultisiteJob extends Job
 {
@@ -27,7 +28,7 @@ class TestMultisiteJob extends Job
      *
      * @return void
      */
-    public function handle(\App\Multisite\MultisiteManager $multisite)
+    public function handle(MultisiteManager $multisite)
     {
         // Get deployment ID
         Log::debug('Site', [$multisite->getSite()]);
