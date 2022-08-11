@@ -14,7 +14,7 @@ namespace Ushahidi\DataSource\Console;
 use Illuminate\Console\Command;
 use Ushahidi\DataSource\DataSourceManager;
 use Ushahidi\DataSource\DataSourceStorage;
-use Ushahidi\Contracts\DataSource\IncomingDataSource;
+use Ushahidi\DataSource\Contracts\IncomingDataSource;
 
 class IncomingCommand extends Command
 {

@@ -12,7 +12,7 @@ namespace Ushahidi\Tests\Unit\DataSource;
 
 use Mockery as M;
 use Ushahidi\Tests\TestCase;
-use Ushahidi\Contracts\DataSource\IncomingDataSource;
+use Ushahidi\DataSource\Contracts\IncomingDataSource;
 use Ushahidi\Contracts\Repository\Entity\ConfigRepository;
 use Ushahidi\Core\Entity\Config;
 use Ushahidi\DataSource\DataSourceManager;

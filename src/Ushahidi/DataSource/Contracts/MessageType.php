@@ -1,6 +1,6 @@
 <?php
 
-namespace Ushahidi\Contracts\DataSource;
+namespace Ushahidi\DataSource\Contracts;
 
 /**
  * Interface for DataSource Message Types

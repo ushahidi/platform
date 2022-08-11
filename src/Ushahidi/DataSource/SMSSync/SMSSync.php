@@ -13,8 +13,8 @@ namespace Ushahidi\DataSource\SMSSync;
 
 use Illuminate\Routing\Router;
 use Ushahidi\Core\Entity\Contact;
-use Ushahidi\Contracts\DataSource\MessageType;
-use Ushahidi\Contracts\DataSource\CallbackDataSource;
+use Ushahidi\DataSource\Contracts\MessageType;
+use Ushahidi\DataSource\Contracts\CallbackDataSource;
 use Ushahidi\DataSource\Concerns\MapsInboundFields;
 
 class SMSSync implements CallbackDataSource

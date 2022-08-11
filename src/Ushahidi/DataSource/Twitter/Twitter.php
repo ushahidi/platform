@@ -16,11 +16,11 @@ use Illuminate\Support\Facades\Log;
 use Symm\Gisconverter\Decoders\WKT;
 use Abraham\TwitterOAuth\TwitterOAuth;
 use Symm\Gisconverter\Decoders\GeoJSON;
-use Ushahidi\Contracts\DataSource\MessageType;
+use Ushahidi\DataSource\Contracts\MessageType;
 use Abraham\TwitterOAuth\TwitterOAuthException;
-use Ushahidi\Contracts\DataSource\MessageStatus;
-use Ushahidi\Contracts\DataSource\IncomingDataSource;
-use Ushahidi\Contracts\DataSource\OutgoingDataSource;
+use Ushahidi\DataSource\Contracts\MessageStatus;
+use Ushahidi\DataSource\Contracts\IncomingDataSource;
+use Ushahidi\DataSource\Contracts\OutgoingDataSource;
 use Ushahidi\DataSource\Concerns\MapsInboundFields;
 use Ushahidi\Contracts\Repository\Entity\ConfigRepository;
 

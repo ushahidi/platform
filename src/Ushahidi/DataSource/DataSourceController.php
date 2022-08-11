@@ -14,13 +14,13 @@ namespace Ushahidi\DataSource;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Ramsey\Uuid\Exception\UnsatisfiedDependencyException;
-use Ushahidi\Contracts\DataSource\MessageStatus;
+use Ushahidi\DataSource\Contracts\MessageStatus;
 use Ramsey\Uuid\Uuid;
 
 abstract class DataSourceController extends Controller
 {
     /**
-     * @var string | \Ushahidi\Contracts\DataSource\DataSource
+     * @var string | \Ushahidi\DataSource\Contracts\DataSource
      */
     protected $source;
 

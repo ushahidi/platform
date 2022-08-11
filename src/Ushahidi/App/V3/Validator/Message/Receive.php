@@ -12,8 +12,8 @@
 namespace Ushahidi\App\V3\Validator\Message;
 
 use Ushahidi\App\V3\Validator\LegacyValidator;
-use Ushahidi\Contracts\DataSource\MessageStatus;
-use Ushahidi\Contracts\DataSource\MessageDirection;
+use Ushahidi\DataSource\Contracts\MessageStatus;
+use Ushahidi\DataSource\Contracts\MessageDirection;
 use Ushahidi\Contracts\Repository\Usecase\CreateMessageRepository;
 
 class Receive extends LegacyValidator

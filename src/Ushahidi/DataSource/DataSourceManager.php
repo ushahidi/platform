@@ -6,8 +6,8 @@ use Closure;
 use InvalidArgumentException;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Cache;
-use Ushahidi\Contracts\DataSource\DataSource;
-use Ushahidi\Contracts\DataSource\CallbackDataSource;
+use Ushahidi\DataSource\Contracts\DataSource;
+use Ushahidi\DataSource\Contracts\CallbackDataSource;
 use Ushahidi\Contracts\Repository\Entity\ConfigRepository;
 use Ushahidi\Contracts\Repository\Entity\MessageRepository;
 
@@ -52,7 +52,7 @@ class DataSourceManager
     /**
      * The array of data sources.
      *
-     * @var \Ushahidi\Contracts\DataSource\DataSource[]
+     * @var \Ushahidi\DataSource\Contracts\DataSource[]
      */
     protected $loadedSources = [];
 
@@ -169,7 +169,7 @@ class DataSourceManager
     {
         foreach (array_merge($this->sources, $this->customSources) as $name => $class) {
             if ($class instanceof Closure) {
-                /** @var \Ushahidi\Contracts\DataSource\CallbackDataSource */
+                /** @var \Ushahidi\DataSource\Contracts\CallbackDataSource */
                 $class = $this->getSource($name);
             }
             if (in_array(CallbackDataSource::class, class_implements($class))) {

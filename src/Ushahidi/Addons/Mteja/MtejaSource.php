@@ -12,12 +12,12 @@ namespace Ushahidi\Addons\Mteja;
  */
 
 use Illuminate\Routing\Router;
-use Ushahidi\Contracts\DataSource\MessageType;
-use Ushahidi\Contracts\DataSource\MessageStatus;
+use Ushahidi\DataSource\Contracts\MessageType;
+use Ushahidi\DataSource\Contracts\MessageStatus;
 use Ushahidi\Addons\Mteja\ShortMessageController;
 use Ushahidi\DataSource\Concerns\MapsInboundFields;
-use Ushahidi\Contracts\DataSource\CallbackDataSource;
-use Ushahidi\Contracts\DataSource\OutgoingDataSource;
+use Ushahidi\DataSource\Contracts\CallbackDataSource;
+use Ushahidi\DataSource\Contracts\OutgoingDataSource;
 
 class MtejaSource implements CallbackDataSource, OutgoingDataSource
 {

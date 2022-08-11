@@ -14,8 +14,8 @@ namespace Ushahidi\App\V3\Validator\Message;
 use Ushahidi\App\V3\Validator\LegacyValidator;
 use Ushahidi\Contracts\Repository\Usecase\CreateMessageRepository;
 use Ushahidi\Contracts\Repository\Entity\UserRepository;
-use Ushahidi\Contracts\DataSource\MessageDirection;
-use Ushahidi\Contracts\DataSource\MessageStatus;
+use Ushahidi\DataSource\Contracts\MessageDirection;
+use Ushahidi\DataSource\Contracts\MessageStatus;
 
 class Create extends LegacyValidator
 {

@@ -14,10 +14,10 @@ namespace Ushahidi\DataSource\Email;
 use Ushahidi\Core\Entity\Contact;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Contracts\Mail\Mailer;
-use Ushahidi\Contracts\DataSource\IncomingDataSource;
+use Ushahidi\DataSource\Contracts\IncomingDataSource;
 use Ushahidi\DataSource\Concerns\MapsInboundFields;
 use Ushahidi\Contracts\Repository\Entity\MessageRepository;
-use Ushahidi\Contracts\DataSource\MessageType;
+use Ushahidi\DataSource\Contracts\MessageType;
 
 class Email extends OutgoingEmail implements IncomingDataSource
 {

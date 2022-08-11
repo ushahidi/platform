@@ -14,11 +14,11 @@ namespace Ushahidi\Addons\AfricasTalking;
 use Closure;
 use Illuminate\Routing\Router;
 use AfricasTalking\SDK\AfricasTalking;
-use Ushahidi\Contracts\DataSource\MessageType;
-use Ushahidi\Contracts\DataSource\MessageStatus;
+use Ushahidi\DataSource\Contracts\MessageType;
+use Ushahidi\DataSource\Contracts\MessageStatus;
 use Ushahidi\DataSource\Concerns\MapsInboundFields;
-use Ushahidi\Contracts\DataSource\CallbackDataSource;
-use Ushahidi\Contracts\DataSource\OutgoingDataSource;
+use Ushahidi\DataSource\Contracts\CallbackDataSource;
+use Ushahidi\DataSource\Contracts\OutgoingDataSource;
 
 class AfricasTalkingSource implements CallbackDataSource, OutgoingDataSource
 {

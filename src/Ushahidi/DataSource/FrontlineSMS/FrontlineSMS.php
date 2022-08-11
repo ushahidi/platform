@@ -14,11 +14,11 @@ namespace Ushahidi\DataSource\FrontlineSMS;
 use Illuminate\Routing\Router;
 use Ushahidi\Core\Entity\Contact;
 use Illuminate\Support\Facades\Log;
-use Ushahidi\Contracts\DataSource\CallbackDataSource;
-use Ushahidi\Contracts\DataSource\OutgoingDataSource;
+use Ushahidi\DataSource\Contracts\CallbackDataSource;
+use Ushahidi\DataSource\Contracts\OutgoingDataSource;
 use Ushahidi\DataSource\Concerns\MapsInboundFields;
-use Ushahidi\Contracts\DataSource\MessageType as MessageType;
-use Ushahidi\Contracts\DataSource\MessageStatus as MessageStatus;
+use Ushahidi\DataSource\Contracts\MessageType as MessageType;
+use Ushahidi\DataSource\Contracts\MessageStatus as MessageStatus;
 
 class FrontlineSMS implements CallbackDataSource, OutgoingDataSource
 {

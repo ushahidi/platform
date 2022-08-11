@@ -13,7 +13,7 @@ namespace Ushahidi\DataSource\Nexmo;
 
 use Ushahidi\DataSource\DataSourceController;
 use Ushahidi\Core\Entity\Contact;
-use Ushahidi\Contracts\DataSource\MessageType;
+use Ushahidi\DataSource\Contracts\MessageType;
 use Illuminate\Http\Request;
 
 class NexmoController extends DataSourceController

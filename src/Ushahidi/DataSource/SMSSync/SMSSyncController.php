@@ -13,7 +13,7 @@
 
     use Ushahidi\DataSource\DataSourceController;
     use Illuminate\Http\Request;
-    use Ushahidi\Contracts\DataSource\MessageType;
+    use Ushahidi\DataSource\Contracts\MessageType;
     use Ushahidi\Core\Entity\Contact;
 
 class SMSSyncController extends DataSourceController

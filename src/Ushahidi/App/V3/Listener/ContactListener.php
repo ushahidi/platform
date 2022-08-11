@@ -20,7 +20,7 @@ use Ushahidi\Contracts\Repository\Entity\FormRepository;
 use Ushahidi\Contracts\Repository\Entity\PostRepository;
 use Ushahidi\Contracts\Repository\Entity\ContactRepository;
 use Ushahidi\Contracts\Repository\Entity\MessageRepository;
-use Ushahidi\Contracts\DataSource\MessageType as MessageType;
+use Ushahidi\DataSource\Contracts\MessageType as MessageType;
 use Ushahidi\Contracts\Repository\Entity\FormAttributeRepository;
 use Ushahidi\Contracts\Repository\Entity\TargetedSurveyStateRepository;
 
