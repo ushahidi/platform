@@ -9,6 +9,7 @@ use Ushahidi\App\V5\Models\Post\Post as v5Post;
 class PostResource extends BaseResource
 {
     public static $wrap = 'result';
+    private const DEFAULT_SOURCE_TYPE = 'web';
 
     /**
      *
@@ -123,6 +124,14 @@ class PostResource extends BaseResource
         return $result;
     }
 
+    private function getPostSource()
+    {
+        $message = $this->message;
+        return $message && isset($message->type)
+            ? $message->type
+            : self::DEFAULT_SOURCE_TYPE;
+    }
+
     /**
      * Transform the resource into an array.
      *
@@ -135,6 +144,7 @@ class PostResource extends BaseResource
         // @TODO-jan27 make id required
         $fields = $this->includeResourceFields($request);
         $result = $this->setResourceFields($fields);
+        $result['source'] = $this->getPostSource();
         $hydrated = $this->hydrateResourceRelationships($request);
         $allowed_privs = ['allowed_privileges' => $this->getResourcePrivileges()];
         return array_merge($result, $hydrated, $allowed_privs);

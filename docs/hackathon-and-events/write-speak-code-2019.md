@@ -13,9 +13,9 @@ description: >-
 
 Credits to [Jessica Weber](https://github.com/jessicaweberdev) for adding a new description in the Ushahidi settings page, making it much more clear what the user is going to achieve by making a deployment private. <3
 
-\*\*\*\*[**https://github.com/ushahidi/platform-client/pull/1320** ](https://github.com/ushahidi/platform/issues/2716) _\*\*_
+\*\*\*\*[**https://github.com/ushahidi/platform-client/pull/1320** ](https://github.com/ushahidi/platform/issues/2716)_\*\*_
 
-![](<../../.gitbook/assets/63230917-e5879a00-c1c8-11e9-8f6e-e62c83dd1d85 (1) (1) (1).png>)
+![](<../../.gitbook/assets/63230917-e5879a00-c1c8-11e9-8f6e-e62c83dd1d85 (1) (1) (2) (1) (1).png>)
 
 \*\*\*\*
 
@@ -43,8 +43,8 @@ Hi! We are excited to be a part of the open source day with Write Speak Code thi
 
 * New to OSS? Tickets tagged [First timers only](https://github.com/ushahidi/platform/labels/first-timers-only) are great to get started if you are new to open source development. We reserve those to make sure people who haven't contributed before can have a chance to fix small issues that make our platform better.
 * Tickets tagged [WSC](https://github.com/ushahidi/platform/issues?q=is%3Aissue+is%3Aopen+label%3Awsc2019) will be prioritized for the participants of this open-source day. All tickets tagged for the event will have the secondary tag [Docs testing](https://github.com/ushahidi/platform/issues?utf8=%E2%9C%93\&q=is%3Aissue+is%3Aopen+label%3Awsc2019+label%3A%22Docs+testing%22+), [Testing](https://github.com/ushahidi/platform/issues?utf8=%E2%9C%93\&q=is%3Aissue+is%3Aopen+label%3Awsc2019+label%3ATesting+), [Client](https://github.com/ushahidi/platform/issues?utf8=%E2%9C%93\&q=is%3Aissue+is%3Aopen+label%3Awsc2019+label%3AClient+) , [API](https://github.com/ushahidi/platform/issues?q=is%3Aissue+is%3Aopen+label%3Awsc2019+label%3AAPI) so you can get a good idea of what they will involve.
-  * Tickets tagged `wsc2019` are here to ensure there were some pre-selected issues that most folxs will be able to get started on quickly, but if you find an issue that you want to contribute and isn't tagged for the conference feel free to grab it (just leave a comment on it so other folks avoid picking the same issue, and tag @rowasc if you need some help ) :)&#x20;
-* Tickets tagged [Needs Triage](https://github.com/ushahidi/platform/issues?utf8=%E2%9C%93\&q=is%3Aopen+is%3Aissue+label%3A%22Needs+Triage%22+)  (even if the wsc2019 tag isn't present) are fair game for anyone who is looking to help verify that issues are still happening, or to folks interested in helping write descriptions and categorize the types of changes needed for them. Please do make sure to tag @rowasc or @Erioldoesdesign when you work on them so we can support you.
+  * Tickets tagged `wsc2019` are here to ensure there were some pre-selected issues that most folxs will be able to get started on quickly, but if you find an issue that you want to contribute and isn't tagged for the conference feel free to grab it (just leave a comment on it so other folks avoid picking the same issue, and tag @rowasc if you need some help ) :)
+* Tickets tagged [Needs Triage](https://github.com/ushahidi/platform/issues?utf8=%E2%9C%93\&q=is%3Aopen+is%3Aissue+label%3A%22Needs+Triage%22+) (even if the wsc2019 tag isn't present) are fair game for anyone who is looking to help verify that issues are still happening, or to folks interested in helping write descriptions and categorize the types of changes needed for them. Please do make sure to tag @rowasc or @Erioldoesdesign when you work on them so we can support you.
 
 🤝 Please add a comment when you work on a ticket so others know it's already in progress
 

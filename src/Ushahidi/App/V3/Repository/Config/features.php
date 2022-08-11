@@ -34,8 +34,8 @@ return [
         'nexmo' => true,
         'testservice' => false,
         'gmail' => false,
-        'mteja' => true,
-        'africastalking' => true,
+        'mteja' => false,
+        'africastalking' => false,
     ],
 
     // Client limits

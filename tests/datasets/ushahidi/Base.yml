@@ -2631,6 +2631,12 @@ permissions:
     name: Edit their own posts
   -
     name: Manage Collections and Saved Searches
+  -
+    name: Delete Posts
+  -
+    name: Delete Their Own Posts
+
+
 roles_permissions:
   -
     role: manager
@@ -2662,6 +2668,19 @@ roles_permissions:
   -
     role: importer
     permission: Edit their own posts
+  -
+    role: user
+    permission: Delete Their Own Posts
+  -
+    role: manager
+    permission: Delete Their Own Posts
+  -
+    role: importer
+    permission: Delete Their Own Posts
+  -
+    role: manager
+    permission: Delete Posts
+
 targeted_survey_state:
   -
     post_id: 452

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9753da1c5e31bb80e6603720a103a425",
+    "content-hash": "bf4484a59a9e6635ea366a20b4ff5abb",
     "packages": [
         {
             "name": "abraham/twitteroauth",
@@ -59,6 +59,62 @@
                 "twitter"
             ],
             "time": "2015-08-18T15:56:04+00:00"
+        },
+        {
+            "name": "africastalking/africastalking",
+            "version": "v3.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/AfricasTalkingLtd/africastalking-php.git",
+                "reference": "94e17a13eaaf782cf7697bfc7da020398a2b6f13"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/AfricasTalkingLtd/africastalking-php/zipball/94e17a13eaaf782cf7697bfc7da020398a2b6f13",
+                "reference": "94e17a13eaaf782cf7697bfc7da020398a2b6f13",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^6.0 || ^7.0",
+                "php": ">=7.1"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "AfricasTalking\\SDK\\": "src/",
+                    "AfricasTalking\\SDK\\Tests\\": "tests"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Africas's Talking",
+                    "email": "support@africastalking.com",
+                    "homepage": "https://www.africastalking.com"
+                }
+            ],
+            "description": "Official Africa's Talking PHP SDK",
+            "homepage": "http://github.com/AfricasTalkingLtd/africastalking-php",
+            "keywords": [
+                "Africastalking",
+                "airtime",
+                "api",
+                "sms",
+                "text message",
+                "ussd",
+                "voice"
+            ],
+            "support": {
+                "issues": "https://github.com/AfricasTalkingLtd/africastalking-php/issues",
+                "source": "https://github.com/AfricasTalkingLtd/africastalking-php/tree/v3.0.0"
+            },
+            "time": "2020-10-11T00:52:15+00:00"
         },
         {
             "name": "asm89/stack-cors",
@@ -7468,36 +7524,31 @@
         },
         {
             "name": "laravel/homestead",
-            "version": "v5.4.0",
+            "version": "v11.2.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/homestead.git",
-                "reference": "f54a9f0b6a0de85c96d5e82fd94a563d979f8288"
+                "reference": "e20bb5c6edcec632b4776665647a3f6805bb8657"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/homestead/zipball/f54a9f0b6a0de85c96d5e82fd94a563d979f8288",
-                "reference": "f54a9f0b6a0de85c96d5e82fd94a563d979f8288",
+                "url": "https://api.github.com/repos/laravel/homestead/zipball/e20bb5c6edcec632b4776665647a3f6805bb8657",
+                "reference": "e20bb5c6edcec632b4776665647a3f6805bb8657",
                 "shasum": ""
             },
             "require": {
-                "php": "^5.6 || ^7.0",
-                "symfony/console": "~2.3|~3.0",
-                "symfony/process": "~2.3|~3.0",
-                "symfony/yaml": "~2.3|~3.0"
+                "php": "^7.1",
+                "symfony/console": "~3.0||~4.0||~5.0",
+                "symfony/process": "~3.0||~4.0||~5.0",
+                "symfony/yaml": "~3.0||~4.0||~5.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^5.7 || ^6.0"
+                "phpunit/phpunit": "^6.0"
             },
             "bin": [
                 "bin/homestead"
             ],
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "4.0-dev"
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "Laravel\\Homestead\\": "src/"
@@ -7510,11 +7561,15 @@
             "authors": [
                 {
                     "name": "Taylor Otwell",
-                    "email": "taylorotwell@gmail.com"
+                    "email": "taylor@laravel.com"
                 }
             ],
             "description": "A virtual machine for web artisans.",
-            "time": "2017-06-09T13:53:37+00:00"
+            "support": {
+                "issues": "https://github.com/laravel/homestead/issues",
+                "source": "https://github.com/laravel/homestead/tree/v11.2.4"
+            },
+            "time": "2020-10-10T19:45:05+00:00"
         },
         {
             "name": "leanphp/phpspec-code-coverage",
@@ -9967,8 +10022,8 @@
         "league/csv": 20,
         "league/event": 20,
         "ohanzee/database": 20,
-        "ushahidi/kohana-validation": 20,
         "ushahidi/gmail-support": 20,
+        "ushahidi/kohana-validation": 20,
         "heroku/heroku-buildpack-php": 20,
         "satooshi/php-coveralls": 20
     },
@@ -9978,5 +10033,5 @@
         "php": ">=7.2 <7.4"
     },
     "platform-dev": [],
-    "plugin-api-version": "1.1.0"
+    "plugin-api-version": "2.3.0"
 }
