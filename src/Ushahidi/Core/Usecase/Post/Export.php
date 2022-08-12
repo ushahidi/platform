@@ -46,7 +46,7 @@ class Export implements Usecase
     private $hxlFromAttributeHxlAttributeTagRepo;
 
     /**
-     * @var SearchRepository
+     * @var \Ushahidi\Contracts\Repository\Entity\ExportBatchRepository
      */
     protected $repo;
 
@@ -72,26 +72,26 @@ class Export implements Usecase
 
     public function setExportJobRepository(ExportJobRepository $repo)
     {
-        $this->exportJobRepository = $repo;//service('repository.export_job');
+        $this->exportJobRepository = $repo;
     }
 
     public function setHXLFromAttributeHxlAttributeTagRepo(HXLFormAttributeHXLAttributeTagRepository $repo)
     {
-        $this->hxlFromAttributeHxlAttributeTagRepo = $repo;//service('repository.form_attribute_hxl_attribute_tag');
+        $this->hxlFromAttributeHxlAttributeTagRepo = $repo;
     }
 
     public function setFormAttributeRepository(AttributeRepository $repo)
     {
-        $this->formAttributeRepository = $repo; //service('repository.form_attribute');
+        $this->formAttributeRepository = $repo;
     }
 
     public function setPostExportRepository(ExportRepository $repo)
     {
-        $this->postExportRepository = $repo; //service('repository.posts_export');
+        $this->postExportRepository = $repo;
     }
 
     /**
-     * @return array|mixed|\Ushahidi\Core\Array
+     * @return array|mixed
      */
     public function interact()
     {
@@ -222,7 +222,7 @@ class Export implements Usecase
 
     /**
      * @param $job
-     * @param $hxl heading row
+     * @param $hxl
      */
     private function saveHXLHeaderRow($job, $hxl)
     {

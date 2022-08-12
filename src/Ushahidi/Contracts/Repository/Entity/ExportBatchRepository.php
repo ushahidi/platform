@@ -12,11 +12,13 @@
 namespace Ushahidi\Contracts\Repository\Entity;
 
 use Ushahidi\Contracts\Repository\CreateRepository;
+use Ushahidi\Contracts\Repository\SearchRepository;
 use Ushahidi\Contracts\Repository\UpdateRepository;
 
 interface ExportBatchRepository extends
     CreateRepository,
-    UpdateRepository
+    UpdateRepository,
+    SearchRepository
 {
     /**
      * Get all batches for job id
