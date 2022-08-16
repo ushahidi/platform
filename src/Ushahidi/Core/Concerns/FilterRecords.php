@@ -21,9 +21,6 @@ namespace Ushahidi\Core\Concerns;
 
 trait FilterRecords
 {
-    /**
-     * @var Array
-     */
     protected $filters = [];
 
     /**
@@ -90,9 +87,9 @@ trait FilterRecords
      *     // Get a parameter, setting a default
      *     $role = $this->getFilter('role', 'user');
      *
-     * @param  String $name
-     * @param  Mixed  $default
-     * @return Mixed
+     * @param  string $name
+     * @param  mixed  $default
+     * @return mixed
      */
     public function getFilter($name, $default = null)
     {

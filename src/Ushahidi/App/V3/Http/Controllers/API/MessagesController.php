@@ -4,7 +4,7 @@ namespace Ushahidi\App\V3\Http\Controllers\API;
 
 use Illuminate\Http\Request;
 use Ushahidi\Contracts\Repository\Entity\MessageRepository;
-use Ushahidi\Factory\UsecaseFactory;
+use Ushahidi\App\V3\Factory\UsecaseFactory;
 use Ushahidi\App\V3\Http\Controllers\RESTController;
 use Ushahidi\Multisite\MultisiteManager;
 
@@ -18,7 +18,7 @@ use Ushahidi\Multisite\MultisiteManager;
 class MessagesController extends RESTController
 {
     /**
-     * @var \Ushahidi\Factory\UsecaseFactory
+     * @var \Ushahidi\App\V3\Factory\UsecaseFactory
      */
     protected $usecaseFactory;
 

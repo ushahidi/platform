@@ -17,6 +17,7 @@ use Ushahidi\Contracts\Repository\ReadRepository;
 use Ushahidi\Contracts\Repository\SearchRepository;
 use Ushahidi\Core\Entity\DataProvider as DataProviderEntity;
 use Ushahidi\Contracts\Repository\Entity\DataProviderRepository as DataProviderRepositoryContract;
+use Ushahidi\Contracts\Search;
 
 class DataProviderRepository implements
     ReadRepository,
@@ -84,7 +85,7 @@ class DataProviderRepository implements
     }
 
     // SearchRepository
-    public function setSearchParams(SearchData $search)
+    public function setSearchParams(Search $search)
     {
         $this->search_params = $search;
     }
@@ -118,5 +119,9 @@ class DataProviderRepository implements
     public function getSearchTotal()
     {
         return $this->search_total;
+    }
+
+    public function exists($id)
+    {
     }
 }

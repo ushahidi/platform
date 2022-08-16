@@ -13,9 +13,10 @@
 
 namespace Ushahidi\Core\Tool;
 
+use Ushahidi\Contracts\Search;
 use Ushahidi\Core\Concerns\FilterRecords;
 
-class SearchData
+class SearchData implements Search
 {
     use FilterRecords;
 

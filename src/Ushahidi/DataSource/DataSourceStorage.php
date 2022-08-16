@@ -12,8 +12,9 @@ namespace Ushahidi\DataSource;
  */
 
 use Illuminate\Support\Facades\Log;
+use Ushahidi\Contracts\Repository\Entity\ContactRepository;
 use Ushahidi\Contracts\Repository\Entity\MessageRepository;
-use Ushahidi\Contracts\Usecase;
+use Ushahidi\Core\Usecase\Message\ReceiveMessage;
 
 class DataSourceStorage
 {
@@ -21,10 +22,16 @@ class DataSourceStorage
     protected $receiveUsecase;
     protected $messageRepo;
 
-    public function __construct(Usecase $receiveUsecase, MessageRepository $messageRepo)
-    {
+    public function __construct(
+        ReceiveMessage $receiveUsecase,
+        ContactRepository $contactRepo,
+        MessageRepository $messageRepo
+    ) {
         $this->receiveUsecase = $receiveUsecase;
         $this->messageRepo = $messageRepo;
+
+        $receiveUsecase->setRepository($messageRepo);
+        $receiveUsecase->setContactRepository($contactRepo);
     }
 
     /**
@@ -38,7 +45,7 @@ class DataSourceStorage
      * @param  string to      To contact
      * @param  string title   Received Message title
      * @param  string data_source_message_id Message ID
-     * @return void
+     * @return array|void
      */
     public function receive(
         $source_id,

@@ -19,6 +19,11 @@ use Ushahidi\Contracts\Repository\Entity\UserRepository;
 class LoginUser extends ReadUsecase
 {
     /**
+     *
+     * @var \Ushahidi\Contracts\Repository\Entity\UserRepository
+     */
+    protected $repo;
+    /**
      * @var PasswordAuthenticator
      */
     protected $authenticator;
@@ -49,13 +54,15 @@ class LoginUser extends ReadUsecase
         $entity = $this->getEntity();
 
         // Rate limit login attempts
-        $this->rateLimiter->limit($entity);
+        if ($this->rateLimiter) {
+            $this->rateLimiter->limit($entity);
+        }
 
         // ... verify that the password matches
         $this->authenticator->checkPassword($this->getRequiredIdentifier('password'), $entity->password);
 
         // ... and return the formatted result.
-        return $this->formatter->__invoke($entity);
+        return $this->formatter ? ($this->formatter)($entity) : $entity;
     }
 
     // ReadUsecase

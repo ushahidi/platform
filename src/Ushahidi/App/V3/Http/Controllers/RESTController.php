@@ -12,7 +12,7 @@ namespace Ushahidi\App\V3\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
-use Ushahidi\Factory\UsecaseFactory;
+use Ushahidi\App\V3\Factory\UsecaseFactory;
 use App\Exceptions\ValidationException;
 use Ushahidi\Multisite\MultisiteManager;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -31,7 +31,7 @@ abstract class RESTController extends BaseController
     protected static $version = '3';
 
     /**
-     * @var \Ushahidi\Factory\UsecaseFactory
+     * @var \Ushahidi\App\V3\Factory\UsecaseFactory
      */
     protected $usecaseFactory;
 

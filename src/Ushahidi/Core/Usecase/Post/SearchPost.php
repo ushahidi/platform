@@ -12,6 +12,7 @@
 namespace Ushahidi\Core\Usecase\Post;
 
 use Ushahidi\Core\Usecase\SearchUsecase;
+use Ushahidi\Core\Usecase\Concerns\VerifyParentLoaded;
 
 class SearchPost extends SearchUsecase
 {
@@ -21,7 +22,7 @@ class SearchPost extends SearchUsecase
     /**
      * Get filter parameters that are used for paging.
      *
-     * @return Array
+     * @return array
      */
     protected function getPagingFields()
     {

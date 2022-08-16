@@ -20,6 +20,7 @@ use Ushahidi\Contracts\Repository\Entity\FormRepository as FormRepositoryContrac
 use Ushahidi\Core\Concerns\UserContext;
 use Ushahidi\Core\Tool\Permissions\InteractsWithFormPermissions;
 use Ushahidi\App\V3\Repository\OhanzeeRepository;
+use Ushahidi\Contracts\Search;
 
 class StageRepository extends OhanzeeRepository implements
     FormStageRepositoryContract
@@ -83,7 +84,7 @@ class StageRepository extends OhanzeeRepository implements
     }
 
     // Override SearchRepository
-    public function setSearchParams(SearchData $search)
+    public function setSearchParams(Search $search)
     {
         $form_id = null;
         if ($search->form_id) {

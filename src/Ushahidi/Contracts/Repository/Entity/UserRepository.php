@@ -11,16 +11,15 @@
 
 namespace Ushahidi\Contracts\Repository\Entity;
 
+use Ushahidi\Contracts\Entity;
 use Ushahidi\Contracts\EntityCreate;
 use Ushahidi\Contracts\EntityCreateMany;
-use Ushahidi\Contracts\EntityGet;
-use Ushahidi\Contracts\EntityExists;
+use Ushahidi\Contracts\Repository\ReadRepository;
 
 interface UserRepository extends
-    EntityGet,
+    ReadRepository,
     EntityCreate,
-    EntityCreateMany,
-    EntityExists
+    EntityCreateMany
 {
     /**
      * @param string $email

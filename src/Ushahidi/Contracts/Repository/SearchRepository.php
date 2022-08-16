@@ -11,29 +11,30 @@
 
 namespace Ushahidi\Contracts\Repository;
 
+use Ushahidi\Contracts\Search;
 use Ushahidi\Core\Tool\SearchData;
 
 interface SearchRepository
 {
     /**
      * Converts an array of entity data into an object.
-     * @param  Array $data
-     * @return Entity
+     * @param array $data
+     * @return \Ushahidi\Contracts\Entity
      */
     public function getEntity(array $data = null);
 
     /**
      * Get fields that can be used for searches.
-     * @return Array
+     * @return array
      */
     public function getSearchFields();
 
     /**
-     * @param  SearchData $search
+     * @param \Ushahidi\Contracts\Search $search
      *
      * @return $this
      */
-    public function setSearchParams(SearchData $search);
+    public function setSearchParams(Search $search);
 
     /**
      * @return [Ushahidi\Core\Entity, ...]

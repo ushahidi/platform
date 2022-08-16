@@ -4,7 +4,9 @@ namespace Ushahidi\DataSource;
 
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
+use Ushahidi\Core\Usecase\Message\ReceiveMessage;
 use Ushahidi\Contracts\Repository\Entity\ConfigRepository;
+use Ushahidi\Contracts\Repository\Entity\ContactRepository;
 use Ushahidi\Contracts\Repository\Entity\MessageRepository;
 
 class DataSourceServiceProvider extends ServiceProvider
@@ -62,10 +64,10 @@ class DataSourceServiceProvider extends ServiceProvider
 
     protected function makeStorage()
     {
-        $receiveUsecase = $this->app->make(\Ushahidi\Factory\UsecaseFactory::class)
-            ->get('messages', 'receive');
         $messageRepo = $this->app->make(MessageRepository::class);
-        return new DataSourceStorage($receiveUsecase, $messageRepo);
+        $contactRepo = $this->app->make(ContactRepository::class);
+        $receiveUsecase = $this->app->make(ReceiveMessage::class);
+        return new DataSourceStorage($receiveUsecase, $contactRepo, $messageRepo);
     }
 
     public function registerCommands()

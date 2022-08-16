@@ -12,12 +12,13 @@
 namespace Ushahidi\App\V3\Repository;
 
 use Ohanzee\DB;
-use Ushahidi\Contracts\Entity;
-use Ushahidi\Core\Tool\SearchData;
-use Ushahidi\Contracts\Repository;
-use Ushahidi\Core\Concerns\CollectionLoader;
-use Ushahidi\Core\Tool\OhanzeeResolver;
 use RuntimeException;
+use Ushahidi\Contracts\Entity;
+use Ushahidi\Contracts\Search;
+use Ushahidi\Contracts\Repository;
+use Ushahidi\Core\Tool\SearchData;
+use Ushahidi\Core\Tool\OhanzeeResolver;
+use Ushahidi\Core\Concerns\CollectionLoader;
 
 abstract class OhanzeeRepository implements
     Repository\CreateRepository,
@@ -106,7 +107,7 @@ abstract class OhanzeeRepository implements
     }
 
     // SearchRepository
-    public function setSearchParams(SearchData $search)
+    public function setSearchParams(Search $search)
     {
         $this->search_query = $this->selectQuery();
 

@@ -9,7 +9,7 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Ushahidi\Core\Usecase;
+namespace Ushahidi\Core\Usecase\Post;
 
 use Traversable;
 use Ushahidi\Core\Entity\CSV;
@@ -23,7 +23,7 @@ use Ushahidi\Core\Usecase\Concerns\Authorizer as AuthorizerTrait;
 use Ushahidi\Core\Usecase\Concerns\Translator as TranslatorTrait;
 use Ushahidi\Contracts\Repository\ImportRepository;
 
-class ImportUsecase implements Usecase
+class ImportPost implements Usecase
 {
     // Uses several traits to assign tools. Each of these traits provides a
     // setter method for the tool. For example, the AuthorizerTrait provides

@@ -3,9 +3,9 @@
 namespace Ushahidi\App\V3;
 
 use Ushahidi\Core\Tool\Verifier;
-use Ushahidi\Factory\UsecaseFactory;
+use Ushahidi\App\V3\Factory\UsecaseFactory;
 use Illuminate\Support\Facades\Route;
-use Ushahidi\Core\Usecase\Post\Export;
+use Ushahidi\Core\Usecase\Post\ExportPost;
 use Ushahidi\Core\Usecase\Export\Job\PostCount;
 use Ushahidi\Contracts\Repository\Entity\PostRepository;
 use Ushahidi\Contracts\Repository\Entity\UserRepository;
@@ -18,6 +18,8 @@ use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 use Ushahidi\Contracts\Repository\Entity\ExportBatchRepository;
 use Ushahidi\Contracts\Repository\Entity\FormAttributeRepository;
 use Ushahidi\Contracts\Repository\Entity\TargetedSurveyStateRepository;
+use Ushahidi\Core\Usecase\Message\ReceiveMessage;
+use Ushahidi\Core\Usecase\User\LoginUser;
 
 class ServiceProvider extends BaseServiceProvider
 {
@@ -106,6 +108,18 @@ class ServiceProvider extends BaseServiceProvider
             return service('tool.verifier');
         });
 
+        $this->app->singleton(LoginUser::class, function ($app) {
+            return service('factory.usecase')
+                    // Override action
+                    ->get('users', 'login');
+        });
+
+        $this->app->singleton(ReceiveMessage::class, function ($app) {
+            return service('factory.usecase')
+                    // Override action
+                    ->get('messages', 'receive');
+        });
+
         $this->app->singleton(PostCount::class, function ($app) {
             return service('factory.usecase')
                     // Override action
@@ -114,7 +128,7 @@ class ServiceProvider extends BaseServiceProvider
                     ->setAuthorizer(service('authorizer.external_auth')); // @todo remove the need for this?
         });
 
-        $this->app->singleton(Export::class, function ($app) {
+        $this->app->singleton(ExportPost::class, function ($app) {
             return service('factory.usecase')
                     ->get('posts_export', 'export')
                     ->setAuthorizer(service('authorizer.export_job'));

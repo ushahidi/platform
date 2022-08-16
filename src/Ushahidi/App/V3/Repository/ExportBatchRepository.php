@@ -13,6 +13,7 @@ namespace Ushahidi\App\V3\Repository;
 
 use Ushahidi\Core\Entity\ExportBatch;
 use Ushahidi\Contracts\Repository\Entity\ExportBatchRepository as ExportBatchRepositoryContract;
+use Ushahidi\Contracts\Search;
 
 class ExportBatchRepository extends EloquentRepository implements ExportBatchRepositoryContract
 {
@@ -51,5 +52,20 @@ class ExportBatchRepository extends EloquentRepository implements ExportBatchRep
             ->get();
 
         return $this->getCollection($results);
+    }
+
+    public function getSearchFields()
+    {
+    }
+
+    public function getSearchTotal()
+    {
+    }
+
+    public function getSearchResults()
+    {
+    }
+    public function setSearchParams(Search $search)
+    {
     }
 }

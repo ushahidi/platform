@@ -12,11 +12,13 @@ namespace Ushahidi\Tests\Unit\DataSource;
 
 use Illuminate\Support\Facades\Log;
 use Mockery as M;
+use Ushahidi\Contracts\Repository\Entity\ContactRepository;
 use Ushahidi\Tests\TestCase;
 use Ushahidi\Contracts\Repository\Entity\MessageRepository;
 use Ushahidi\Contracts\Usecase;
 use Ushahidi\Core\Entity\Message;
 use Ushahidi\Core\Exception\NotFoundException;
+use Ushahidi\Core\Usecase\Message\ReceiveMessage;
 use Ushahidi\DataSource\DataSourceStorage;
 
 /**
@@ -29,13 +31,22 @@ class DataSourceStorageTest extends TestCase
     {
         parent::setUp();
 
-        $this->usecase = M::mock(Usecase::class);
+        $this->usecase = M::mock(ReceiveMessage::class);
         $this->messageRepo = M::mock(MessageRepository::class);
+        $this->contactRepo = M::mock(ContactRepository::class);
+
+        $this->usecase->shouldReceive('setRepository')
+            ->with($this->messageRepo)
+            ->andReturn($this->usecase);
+
+        $this->usecase->shouldReceive('setContactRepository')
+            ->with($this->contactRepo)
+            ->andReturn($this->usecase);
     }
 
     public function testReceive()
     {
-        $storage = new DataSourceStorage($this->usecase, $this->messageRepo);
+        $storage = new DataSourceStorage($this->usecase, $this->contactRepo, $this->messageRepo);
 
         $this->usecase
             ->shouldReceive('setPayload')->once()
@@ -81,7 +92,7 @@ class DataSourceStorageTest extends TestCase
 
     public function testFailedReceive()
     {
-        $storage = new DataSourceStorage($this->usecase, $this->messageRepo);
+        $storage = new DataSourceStorage($this->usecase, $this->contactRepo, $this->messageRepo);
 
         $this->usecase
             ->shouldReceive('setPayload')
@@ -130,7 +141,7 @@ class DataSourceStorageTest extends TestCase
 
     public function testGetPendingMessages()
     {
-        $storage = new DataSourceStorage($this->usecase, $this->messageRepo);
+        $storage = new DataSourceStorage($this->usecase, $this->contactRepo, $this->messageRepo);
 
         // Test default params
         $this->messageRepo
@@ -157,7 +168,7 @@ class DataSourceStorageTest extends TestCase
 
     public function testGetPendingMessagesByType()
     {
-        $storage = new DataSourceStorage($this->usecase, $this->messageRepo);
+        $storage = new DataSourceStorage($this->usecase, $this->contactRepo, $this->messageRepo);
 
         // Test default params
         $this->messageRepo
@@ -184,7 +195,7 @@ class DataSourceStorageTest extends TestCase
 
     public function testUpdateMessageStatus()
     {
-        $storage = new DataSourceStorage($this->usecase, $this->messageRepo);
+        $storage = new DataSourceStorage($this->usecase, $this->contactRepo, $this->messageRepo);
 
         // Test default params
         $this->messageRepo

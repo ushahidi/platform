@@ -26,7 +26,7 @@ class FrontlineSMS implements CallbackDataSource, OutgoingDataSource
 
     protected $config;
 
-     /**
+    /**
      * Contact type user for this provider
      */
     public $contact_type = Contact::PHONE;
@@ -70,10 +70,10 @@ class FrontlineSMS implements CallbackDataSource, OutgoingDataSource
                 'rules' => ['required']
             ],
             'key' => [
-                    'label' => 'Key',
-                    'input' => 'text',
-                    'description' => 'The API key',
-                    'rules' => ['required']
+                'label' => 'Key',
+                'input' => 'text',
+                'description' => 'The API key',
+                'rules' => ['required']
             ],
             'secret' => [
                 'label' => 'Secret',
@@ -132,12 +132,12 @@ class FrontlineSMS implements CallbackDataSource, OutgoingDataSource
 
         try {
             $response = $this->client->request('POST', $serverUrl . $this->apiUrl, [
-                    'headers' => [
-                        'Accept'               => 'application/json',
-                        'Content-Type'         => 'application/json'
-                    ],
-                    'json' => $data
-                ]);
+                'headers' => [
+                    'Accept'               => 'application/json',
+                    'Content-Type'         => 'application/json'
+                ],
+                'json' => $data
+            ]);
             // Successfully executed the request
 
             if ($response->getStatusCode() === 200) {
@@ -150,7 +150,7 @@ class FrontlineSMS implements CallbackDataSource, OutgoingDataSource
                 'Could not make a successful POST request',
                 ['message' => $response->messages[$status], 'status' => $status]
             );
-        } catch (\GuzzleHttp\Exception\ClientException $e) {
+        } catch (\GuzzleHttp\Exception\ClientException | \GuzzleHttp\Exception\RequestException $e) {
             // Log warning to log file.
             Log::warning(
                 'Could not make a successful POST request',

@@ -13,10 +13,12 @@ namespace Ushahidi\Contracts\Repository\Entity;
 
 use Ushahidi\Contracts\EntityGet;
 use Ushahidi\Contracts\EntityExists;
+use Ushahidi\Contracts\Repository\SearchRepository;
 
 interface MediaRepository extends
     EntityGet,
-    EntityExists
+    EntityExists,
+    SearchRepository
 {
 
 }

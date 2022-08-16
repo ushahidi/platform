@@ -33,6 +33,7 @@ use Ushahidi\Contracts\Repository\Entity\FormRepository as FormRepositoryContrac
 use Ushahidi\Contracts\Repository\Entity\PostRepository as PostRepositoryContract;
 use Ushahidi\Contracts\Repository\Entity\FormStageRepository as FormStageRepositoryContract;
 use Ushahidi\Contracts\Repository\Entity\FormAttributeRepository as FormAttributeRepositoryContract;
+use Ushahidi\Contracts\Search;
 
 class PostRepository extends OhanzeeRepository implements
     PostRepositoryContract,
@@ -358,7 +359,7 @@ class PostRepository extends OhanzeeRepository implements
     }
 
     // SearchRepository
-    public function setSearchParams(SearchData $search)
+    public function setSearchParams(Search $search)
     {
         $this->search_query = $this->selectQuery();
 

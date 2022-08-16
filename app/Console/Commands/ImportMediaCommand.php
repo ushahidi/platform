@@ -3,12 +3,10 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use Ushahidi\Core\Tool\SearchData;
 use Illuminate\Contracts\Bus\Dispatcher;
-use Illuminate\Support\Collection;
-
-use Ushahidi\Core\Entity\MediaRepository;
-use Ushahidi\Core\SearchData;
-use App\Jobs\ImportMediaJob;
+use Ushahidi\App\V3\Jobs\ImportMediaJob;
+use Ushahidi\Contracts\Repository\Entity\MediaRepository;
 
 class ImportMediaCommand extends Command
 {
@@ -37,7 +35,7 @@ class ImportMediaCommand extends Command
      * @var string
      */
     protected $description = 'Import referenced media to deployment\'s filesystem';
-    
+
     protected $dispatcher;
 
 
@@ -51,7 +49,7 @@ class ImportMediaCommand extends Command
     public function handle(MediaRepository $mediaRepo)
     {
         // Find all media rows
-        $mediaRepo->setSearchParams(new SearchData());
+        $mediaRepo->setSearchParams(new SearchData);
         $results = $mediaRepo->getSearchResults();
 
         // Filter out results by regex

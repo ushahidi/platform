@@ -15,6 +15,7 @@ use Ohanzee\DB;
 use Ohanzee\Database;
 use Ramsey\Uuid\Uuid;
 use Ushahidi\Contracts\Entity;
+use Ushahidi\Contracts\Search;
 use Illuminate\Support\Collection;
 use Ushahidi\Core\Tool\SearchData;
 use Ushahidi\Core\Concerns\UserContext;
@@ -145,7 +146,7 @@ class AttributeRepository extends OhanzeeRepository implements
     }
 
     // Override SearchRepository
-    public function setSearchParams(SearchData $search)
+    public function setSearchParams(Search $search)
     {
         $form_id = null;
         if ($search->form_id) {

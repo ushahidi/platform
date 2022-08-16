@@ -4,7 +4,7 @@ namespace Ushahidi\App\V3\Jobs;
 
 use Ushahidi\Core\Tool\Job;
 use Illuminate\Support\Facades\Log;
-use Ushahidi\Core\Usecase\Post\Export;
+use Ushahidi\Core\Usecase\Post\ExportPost as Export;
 use Ushahidi\Multisite\MultisiteAwareJob;
 use Ushahidi\Core\Concerns\RecordsExportJobFailure;
 use Ushahidi\Contracts\Repository\Entity\ExportJobRepository;

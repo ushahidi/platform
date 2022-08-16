@@ -12,6 +12,7 @@
 namespace Ushahidi\Core\Usecase\Post;
 
 use Ushahidi\Core\Usecase\CreateUsecase;
+use Ushahidi\Core\Usecase\Concerns\VerifyParentLoaded;
 
 class CreatePost extends CreateUsecase
 {

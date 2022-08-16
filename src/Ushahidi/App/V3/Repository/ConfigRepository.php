@@ -274,4 +274,8 @@ class ConfigRepository implements
 
         return $result;
     }
+
+    public function exists($id)
+    {
+    }
 }

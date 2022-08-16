@@ -18,6 +18,7 @@ use Ushahidi\Contracts\Entity;
 use Ushahidi\Core\Concerns\Event;
 use Ushahidi\Core\Entity\SavedSearch;
 use Ushahidi\Contracts\Repository\Entity\SetRepository as SetRepositoryContract;
+use Ushahidi\Contracts\Search;
 
 class SetRepository extends OhanzeeRepository implements SetRepositoryContract
 {
@@ -126,7 +127,7 @@ class SetRepository extends OhanzeeRepository implements SetRepositoryContract
     }
 
     // SearchRepository
-    public function setSearchParams(SearchData $search)
+    public function setSearchParams(Search $search)
     {
         // Overriding so we can alter sorting logic
         // @todo make it easier to override just sorting

@@ -22,34 +22,31 @@ use Ushahidi\Core\Entity\Message;
 use Ushahidi\Core\Usecase\CreateUsecase;
 use Ushahidi\Core\Concerns\DispatchesEvents;
 use Ushahidi\Core\Exception\ValidatorException;
-use Ushahidi\Core\Exception\AuthorizerException;
-use Ushahidi\Contracts\Repository\CreateRepository;
+use Ushahidi\Contracts\Repository\Entity\ContactRepository;
 
 class ReceiveMessage extends CreateUsecase
 {
     use DispatchesEvents;
 
     /**
-     * @var CreateRepository
+     * @var \Ushahidi\Contracts\Repository\Entity\ContactRepository
      */
     protected $contactRepo;
 
     /**
+     * @var \Ushahidi\Contracts\Validator
+     */
+    protected $contactValidator;
+
+    /**
      * Inject a contact repository
      *
-     * @param  $repo CreateRepository
-     * @return $this
      */
-    public function setContactRepository(CreateRepository $contactRepo)
+    public function setContactRepository(ContactRepository $contactRepo)
     {
         $this->contactRepo = $contactRepo;
         return $this;
     }
-
-    /**
-     * @var Validator
-     */
-    protected $contactValidator;
 
     /**
      * Inject a contact validator
@@ -114,7 +111,7 @@ class ReceiveMessage extends CreateUsecase
     /**
      * Get an empty entity, apply the payload.
      *
-     * @return Entity
+     * @return \Ushahidi\Contracts\Entity
      */
     protected function getEntity()
     {
@@ -129,7 +126,7 @@ class ReceiveMessage extends CreateUsecase
     /**
      * Create contact record for message
      *
-     * @return Entity $contact
+     * @return \Ushahidi\Contracts\Entity $contact
      */
     protected function getContactEntity()
     {
@@ -149,8 +146,8 @@ class ReceiveMessage extends CreateUsecase
     /**
      * Create contact (if its new)
      *
-     * @param  Entity $contact
-     * @return Int
+     * @param  \Ushahidi\Contracts\Entity $contact
+     * @return int
      */
     protected function createContact(Entity $contact)
     {
@@ -164,6 +161,10 @@ class ReceiveMessage extends CreateUsecase
 
     protected function verifyValidContact(Entity $contact)
     {
+        if (!$this->contactValidator) {
+            return;
+        }
+
         // validate contact
         if (!$this->contactValidator->check($contact->asArray())) {
             $this->contactValidatorError($contact);
@@ -173,9 +174,8 @@ class ReceiveMessage extends CreateUsecase
     /**
      * Throw a ValidatorException
      *
-     * @param  Entity $entity
-     * @return null
-     * @throws ValidatorException
+     * @param  \Ushahidi\Contracts\Entity $entity
+     * @throws \Ushahidi\Core\Exception\ValidatorException
      */
     protected function contactValidatorError(Entity $entity)
     {
@@ -191,9 +191,8 @@ class ReceiveMessage extends CreateUsecase
     /**
      * Verifies the current user is allowed receive access on $entity
      *
-     * @param  Entity $entity
-     * @return void
-     * @throws AuthorizerException
+     * @param \Ushahidi\Contracts\Entity $entity
+     * @throws \Ushahidi\Core\Exception\AuthorizerException
      */
     protected function verifyReceiveAuth(Entity $entity)
     {
