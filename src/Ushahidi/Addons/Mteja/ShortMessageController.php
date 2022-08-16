@@ -13,7 +13,7 @@ namespace Ushahidi\Addons\Mteja;
 
 use Illuminate\Http\Request;
 use Ramsey\Uuid\Uuid as UUID;
-use Ushahidi\Core\Entity\Contact;
+use Ushahidi\Contracts\Contact;
 use Ushahidi\DataSource\Contracts\MessageType;
 use Ushahidi\DataSource\DataSourceController;
 

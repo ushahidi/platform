@@ -11,7 +11,7 @@ namespace Ushahidi\DataSource\Email;
  * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License Version 3 (GPLv3)
  */
 
-use Ushahidi\Core\Entity\Contact;
+use Ushahidi\Contracts\Contact;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Contracts\Mail\Mailer;
 use Ushahidi\DataSource\Contracts\IncomingDataSource;

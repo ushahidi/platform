@@ -1,20 +1,20 @@
 <?php
 
-    namespace Ushahidi\DataSource\SMSSync;
+namespace Ushahidi\DataSource\SMSSync;
 
-    /**
-     * SMS Sync Callback controller
-     *
-     * @author     Ushahidi Team <team@ushahidi.com>
-     * @package    DataSource\SMSSync
-     * @copyright  2013 Ushahidi
-     * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License Version 3 (GPLv3)
-     */
+/**
+ * SMS Sync Callback controller
+ *
+ * @author     Ushahidi Team <team@ushahidi.com>
+ * @package    DataSource\SMSSync
+ * @copyright  2013 Ushahidi
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License Version 3 (GPLv3)
+ */
 
-    use Ushahidi\DataSource\DataSourceController;
-    use Illuminate\Http\Request;
-    use Ushahidi\DataSource\Contracts\MessageType;
-    use Ushahidi\Core\Entity\Contact;
+use Ushahidi\DataSource\DataSourceController;
+use Illuminate\Http\Request;
+use Ushahidi\DataSource\Contracts\MessageType;
+use Ushahidi\Contracts\Contact;
 
 class SMSSyncController extends DataSourceController
 {

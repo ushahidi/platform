@@ -11,7 +11,7 @@ namespace Ushahidi\DataSource\Twitter;
  * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License Version 3 (GPLv3)
  */
 
-use Ushahidi\Core\Entity\Contact;
+use Ushahidi\Contracts\Contact;
 use Illuminate\Support\Facades\Log;
 use Symm\Gisconverter\Decoders\WKT;
 use Abraham\TwitterOAuth\TwitterOAuth;
@@ -35,7 +35,6 @@ class Twitter implements IncomingDataSource, OutgoingDataSource
     protected $request_count; // track requests per window
     protected $search_terms;
     protected $window_timestamp;
-
     protected $config;
     protected $configRepo;
 

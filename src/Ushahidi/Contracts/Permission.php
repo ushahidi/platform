@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Ushahidi Reader factory interface
+ * Ushahidi Permision Types
  *
  *
  * @author     Ushahidi Team <team@ushahidi.com>

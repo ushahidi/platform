@@ -15,12 +15,6 @@ use Ushahidi\Core\StaticEntity;
 
 class Contact extends StaticEntity
 {
-    // Valid contact types
-    const EMAIL    = 'email';
-    const PHONE    = 'phone';
-    const TWITTER  = 'twitter';
-    const WHATSAPP = 'whatsapp';
-
     protected $id;
     protected $user_id;
     protected $data_source;

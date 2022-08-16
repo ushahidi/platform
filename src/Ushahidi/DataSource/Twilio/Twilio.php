@@ -12,7 +12,7 @@ namespace Ushahidi\DataSource\Twilio;
  */
 
 use Illuminate\Routing\Router;
-use Ushahidi\Core\Entity\Contact;
+use Ushahidi\Contracts\Contact;
 use Illuminate\Support\Facades\Log;
 use Ushahidi\DataSource\Contracts\MessageType;
 use Ushahidi\DataSource\Contracts\MessageStatus;

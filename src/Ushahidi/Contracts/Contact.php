@@ -1,22 +1,22 @@
 <?php
 
 /**
- * Ushahidi Rate Limiter interface
+ * Ushahidi Contact Types
  *
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Platform
- * @copyright  2014 Ushahidi
+ * @copyright  2022 Ushahidi
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
 namespace Ushahidi\Contracts;
 
-interface RateLimiter
+interface Contact
 {
-    /**
-     * @param \Ushahidi\Contracts\Entity $entity
-     * @throws \Exception
-     */
-    public function limit(Entity $entity);
+    // Valid contact types
+    const EMAIL    = 'email';
+    const PHONE    = 'phone';
+    const TWITTER  = 'twitter';
+    const WHATSAPP = 'whatsapp';
 }
