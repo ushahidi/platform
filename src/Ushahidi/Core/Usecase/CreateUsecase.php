@@ -76,7 +76,9 @@ class CreateUsecase implements Usecase
         $this->verifyCreateAuth($entity);
 
         // ... verify that the entity is in a valid state
-        $this->verifyValid($entity);
+        if ($this->validator) {
+            $this->verifyValid($entity);
+        }
 
         // ... persist the new entity
         $id = $this->repo->create($entity);
@@ -93,7 +95,7 @@ class CreateUsecase implements Usecase
         // ... check that the entity can be read by the current user
         if ($this->auth->isAllowed($entity, 'read')) {
             // ... and either return the formatted entity
-            return $this->formatter->__invoke($entity);
+            return $this->formatter ? ($this->formatter)($entity) : $entity;
         } else {
             // ... or just return nothing
             return;

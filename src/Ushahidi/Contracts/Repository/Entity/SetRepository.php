@@ -13,11 +13,15 @@ namespace Ushahidi\Contracts\Repository\Entity;
 
 use Ushahidi\Contracts\EntityGet;
 use Ushahidi\Contracts\EntityExists;
+use Ushahidi\Contracts\Repository\SearchRepository;
 
 interface SetRepository extends
     EntityGet,
-    EntityExists
+    EntityExists,
+    SearchRepository
 {
+    public function setSavedSearch($saveSearch);
+
     /**
      * @param  Int $set_id
      * @param  Int $post_id

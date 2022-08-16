@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Console\Commands;
+namespace Ushahidi\App\V3\Console;
 
 use Illuminate\Console\Command;
 

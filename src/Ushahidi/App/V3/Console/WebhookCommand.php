@@ -8,7 +8,7 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace App\Console\Commands;
+namespace Ushahidi\App\V3\Console;
 
 use Illuminate\Console\Command;
 use Ushahidi\Core\Tool\Signer;
@@ -18,10 +18,22 @@ class WebhookCommand extends Command
 {
     protected $resolver;
 
+    /**
+     *
+     * @var \Ushahidi\Contracts\Repository\Entity\PostRepository
+     */
     private $postRepository;
 
+    /**
+     *
+     * @var \Ushahidi\Contracts\Repository\Entity\WebhookRepository
+     */
     private $webhookRepository;
 
+    /**
+     *
+     * @var \Ushahidi\Contracts\Repository\Entity\WebhookJobRepository
+     */
     private $webhookJobRepository;
 
     private $client;
@@ -63,7 +75,7 @@ class WebhookCommand extends Command
         return $this->resolver->connection();
     }
 
-    public function handle(OhanzeeResolver $resolver)
+    public function handle()
     {
         $this->webhookRepository = service('repository.webhook');
         $this->postRepository = service('repository.post');

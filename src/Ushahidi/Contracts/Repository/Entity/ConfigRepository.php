@@ -11,10 +11,10 @@
 
 namespace Ushahidi\Contracts\Repository\Entity;
 
-use Ushahidi\Contracts\EntityGet;
+use Ushahidi\Contracts\Repository\ReadRepository;
 use Ushahidi\Contracts\Repository\UpdateRepository;
 
-interface ConfigRepository extends EntityGet, UpdateRepository
+interface ConfigRepository extends ReadRepository, UpdateRepository
 {
     /**
      * @return array

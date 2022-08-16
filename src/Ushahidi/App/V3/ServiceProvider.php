@@ -2,6 +2,7 @@
 
 namespace Ushahidi\App\V3;
 
+use Ushahidi\App\V3\Console;
 use Ushahidi\Core\Tool\Verifier;
 use Ushahidi\App\V3\Factory\UsecaseFactory;
 use Illuminate\Support\Facades\Route;
@@ -15,8 +16,11 @@ use Ushahidi\Contracts\Repository\Entity\ContactRepository;
 use Ushahidi\Contracts\Repository\Entity\MessageRepository;
 use Ushahidi\Contracts\Repository\Entity\ExportJobRepository;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
+use Ushahidi\App\V3\Repository\TosRepository;
+use Ushahidi\Contracts\Repository\Entity\ApiKeyRepository;
 use Ushahidi\Contracts\Repository\Entity\ExportBatchRepository;
 use Ushahidi\Contracts\Repository\Entity\FormAttributeRepository;
+use Ushahidi\Contracts\Repository\Entity\SetRepository;
 use Ushahidi\Contracts\Repository\Entity\TargetedSurveyStateRepository;
 use Ushahidi\Core\Usecase\Message\ReceiveMessage;
 use Ushahidi\Core\Usecase\User\LoginUser;
@@ -44,6 +48,8 @@ class ServiceProvider extends BaseServiceProvider
     public function register()
     {
         $this->registerServicesFromAura();
+
+        $this->registerCommands();
     }
 
     public function registerServicesFromAura()
@@ -56,6 +62,11 @@ class ServiceProvider extends BaseServiceProvider
         $this->app->singleton(UserRepository::class, function ($app) {
             // Just return it from AuraDI
             return service('repository.user');
+        });
+
+        $this->app->singleton(ApiKeyRepository::class, function ($app) {
+            // Just return it from AuraDI
+            return service('repository.apikey');
         });
 
         $this->app->singleton(MessageRepository::class, function ($app) {
@@ -103,6 +114,16 @@ class ServiceProvider extends BaseServiceProvider
             return service('repository.media');
         });
 
+        $this->app->singleton(SetRepository::class, function ($app) {
+            // Just return it from AuraDI
+            return service('repository.set');
+        });
+
+        $this->app->singleton(TosRepository::class, function ($app) {
+            // Just return it from AuraDI
+            return service('repository.tos');
+        });
+
         $this->app->singleton(Verifier::class, function ($app) {
             // Just return it from AuraDI
             return service('tool.verifier');
@@ -133,5 +154,25 @@ class ServiceProvider extends BaseServiceProvider
                     ->get('posts_export', 'export')
                     ->setAuthorizer(service('authorizer.export_job'));
         });
+    }
+
+    public function registerCommands()
+    {
+        $this->commands([
+            Console\NotificationCommand::class,
+            Console\WebhookCommand::class,
+            Console\ImportMediaCommand::class,
+            Console\ObfuscateDataCommand::class,
+            Console\PostExporterCommand::class,
+            Console\MigrateCommand::class,
+            Console\MigrateInstallCommand::class,
+            Console\MigrateMakeCommand::class,
+            Console\MigrateRefreshCommand::class,
+            Console\MigrateResetCommand::class,
+            Console\MigrateRollbackCommand::class,
+            Console\MigrateStatusCommand::class,
+            Console\SeedCommand::class,
+            Console\SeedMakeCommand::class,
+        ]);
     }
 }

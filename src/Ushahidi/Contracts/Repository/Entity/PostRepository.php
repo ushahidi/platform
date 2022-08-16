@@ -11,18 +11,18 @@
 
 namespace Ushahidi\Contracts\Repository\Entity;
 
-use Ushahidi\Contracts\EntityGet;
 use Ushahidi\Contracts\EntityCreate;
 use Ushahidi\Contracts\EntityCreateMany;
 use Ushahidi\Contracts\Repository\CreateRepository;
+use Ushahidi\Contracts\Repository\SearchRepository;
 use Ushahidi\Contracts\Repository\UpdateRepository;
 
 interface PostRepository extends
-    EntityGet,
     EntityCreate,
     EntityCreateMany,
     CreateRepository,
-    UpdateRepository
+    UpdateRepository,
+    SearchRepository
 {
     /**
      * @param  int $id

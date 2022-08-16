@@ -11,7 +11,11 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use Ushahidi\Core\Facade\Features;
+use Illuminate\Support\Facades\Validator;
 use Ushahidi\Core\Exception\ValidatorException;
+use Ushahidi\Contracts\Repository\Entity\TosRepository;
+use Ushahidi\Contracts\Repository\Entity\UserRepository;
 
 class UserCreateCommand extends Command
 {
@@ -45,11 +49,9 @@ class UserCreateCommand extends Command
         parent::__construct();
     }
 
-    public function handle()
+    public function handle(UserRepository $userRepo, TosRepository $tosRepo)
     {
-        $this->repo = service('repository.user');
         $this->validator = service('factory.validator')->get('users', 'create');
-        $this->tosRepo = service('repository.tos');
 
         $state = [
             'realname' => $this->option('realname') ?: null,
@@ -59,24 +61,40 @@ class UserCreateCommand extends Command
             'password' => $this->option('password'),
         ];
 
-        if (! $this->validator->check($state)) {
-            throw new ValidatorException('Failed to validate user', $this->validator->errors());
+        $validator = Validator::make($state, [
+            'email' => 'required|email|unique:users',
+            'password' => 'required|min:7|max:72',
+            'realname' => 'max:150',
+            'role' => ['exists:roles', function ($attribute, $value, $fail) use ($userRepo) {
+                $limit = Features::getLimit('admin_users');
+                if ($limit !== INF && $value == 'admin') {
+                    $total = $userRepo->getTotalCount(['role' => 'admin']);
+
+                    if ($total >= $limit) {
+                        $fail(trans('user.adminUserLimitReached'));
+                    }
+                }
+            }]
+        ]);
+
+        if (!$validator->failed()) {
+            throw new ValidatorException('Failed to validate user', $validator->errors());
         }
 
-        $entity = $this->repo->getEntity();
+        $entity = $userRepo->getEntity();
         $entity->setState($state);
-        $id = $this->option('with-hash') ? $this->repo->createWithHash($entity) : $this->repo->create($entity);
+        $id = $this->option('with-hash') ? $userRepo->createWithHash($entity) : $userRepo->create($entity);
 
         $acceptTos = $this->option('tos');
         if ($acceptTos) {
-            $tos = $this->tosRepo->getEntity([
+            $tos = $tosRepo->getEntity([
                 'user_id' => $id,
                 'tos_version_date' => getenv('TOS_RELEASE_DATE')
-                ? date_create(getenv('TOS_RELEASE_DATE'), new \DateTimeZone('UTC'))
-                : date_create(),
+                    ? date_create(getenv('TOS_RELEASE_DATE'), new \DateTimeZone('UTC'))
+                    : date_create(),
             ]);
 
-            $this->tosRepo->create($tos);
+            $tosRepo->create($tos);
         }
 
         $this->info("Account was created successfully, id: {$id}");

@@ -78,7 +78,9 @@ class UpdateUsecase implements Usecase
         $this->verifyUpdateAuth($entity);
 
         // ... verify that the entity is in a valid state
-        $this->verifyValid($entity);
+        if ($this->validator) {
+            $this->verifyValid($entity);
+        }
 
         // ... persist the changes
         $this->repo->update($entity);
@@ -116,7 +118,7 @@ class UpdateUsecase implements Usecase
     /**
      * Find entity based on identifying parameters.
      *
-     * @return Entity
+     * @return \Ushahidi\Contracts\Entity
      */
     protected function getEntity()
     {

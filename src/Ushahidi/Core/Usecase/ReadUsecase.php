@@ -66,7 +66,6 @@ class ReadUsecase implements Usecase
     // Usecase
     public function interact()
     {
-
         // Fetch the entity, using provided identifiers...
         $entity = $this->getEntity();
 
@@ -74,7 +73,7 @@ class ReadUsecase implements Usecase
         $this->verifyReadAuth($entity);
 
         // ... and return the formatted result.
-        return $this->formatter->__invoke($entity);
+        return $this->formatter ? ($this->formatter)($entity) : $entity;
     }
 
     /**

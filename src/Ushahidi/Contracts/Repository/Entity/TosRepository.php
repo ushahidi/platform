@@ -11,11 +11,14 @@
 
 namespace Ushahidi\Contracts\Repository\Entity;
 
+use Ushahidi\Contracts\Entity;
+use Ushahidi\Contracts\EntityCreate;
 use Ushahidi\Contracts\EntityGet;
 use Ushahidi\Contracts\EntityExists;
 
 interface TosRepository extends
     EntityGet,
+    EntityCreate,
     EntityExists
 {
 

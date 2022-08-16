@@ -14,12 +14,14 @@ namespace Ushahidi\Contracts\Repository\Entity;
 use Ushahidi\Contracts\Entity;
 use Ushahidi\Contracts\EntityCreate;
 use Ushahidi\Contracts\EntityCreateMany;
+use Ushahidi\Contracts\Repository\DeleteRepository;
 use Ushahidi\Contracts\Repository\ReadRepository;
 
 interface UserRepository extends
     ReadRepository,
     EntityCreate,
-    EntityCreateMany
+    EntityCreateMany,
+    DeleteRepository
 {
     /**
      * @param string $email
