@@ -12,7 +12,6 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        \App\Events\Event::class => [],
         \Ushahidi\App\V3\Events\SendToHDXEvent::class => [
             \Ushahidi\App\V3\Listener\SendToHDXEventListener::class,
         ],

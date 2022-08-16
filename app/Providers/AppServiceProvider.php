@@ -5,6 +5,7 @@ namespace App\Providers;
 use Ushahidi\Core\Tool\Features;
 use Ushahidi\Addons\Mteja\MtejaSource;
 use Illuminate\Support\ServiceProvider;
+use Ushahidi\Core\Tool\OhanzeeResolver;
 use Ushahidi\Addons\AfricasTalking\AfricasTalkingSource;
 use Ushahidi\Contracts\Repository\Entity\ConfigRepository;
 
@@ -41,6 +42,11 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->singleton('features', function ($app) {
             return new Features($app[ConfigRepository::class]);
+        });
+
+        // Register OhanzeeResolver
+        $this->app->singleton(OhanzeeResolver::class, function ($app) {
+            return new OhanzeeResolver();
         });
     }
 }
