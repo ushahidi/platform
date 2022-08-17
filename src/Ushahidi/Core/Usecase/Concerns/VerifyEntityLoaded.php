@@ -24,10 +24,10 @@ trait VerifyEntityLoaded
     /**
      * Verifies that a given entity has been loaded, by checking that the "id"
      * property is not empty.
-     * @param  Entity  $entity
-     * @param  Mixed   $lookup
-     * @return Entity
-     * @throws NotFoundException
+     * @param  \Ushahidi\Contracts\Entity $entity
+     * @param  mixed $lookup
+     * @return \Ushahidi\Contracts\Entity
+     * @throws \Ushahidi\Core\Exception\NotFoundException
      */
     protected function verifyEntityLoaded(Entity $entity, $lookup)
     {

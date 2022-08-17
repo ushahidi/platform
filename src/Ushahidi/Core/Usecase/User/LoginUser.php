@@ -23,13 +23,14 @@ class LoginUser extends ReadUsecase
      * @var \Ushahidi\Contracts\Repository\Entity\UserRepository
      */
     protected $repo;
+
     /**
-     * @var PasswordAuthenticator
+     * @var \Ushahidi\Contracts\PasswordAuthenticator
      */
     protected $authenticator;
 
     /**
-     * @var RateLimiter
+     * @var \Ushahidi\Contracts\RateLimiter
      */
     protected $rateLimiter;
 
