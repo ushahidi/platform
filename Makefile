@@ -18,6 +18,9 @@ pre-test:
 test:
 	docker-compose exec platform composer run test-dev
 
+pre-push-test:
+	docker-compose exec platform composer run pre-push-test
+
 test-ci:
 	docker-compose exec platform composer run test
 
