@@ -128,7 +128,7 @@
             "@migrate"
         ],
         "lint": [
-            "phpcs --standard=src/ruleset.xml --ignore=./resources/lang/*,./bootstrap/cache/* ./",
+            "phpcs --standard=src/ruleset.xml --ignore=./resources/lang/*,./bootstrap/cache/*,./storage/framework/* ./",
             "phpcs --standard=tests/spec/ruleset.xml ./tests/spec/",
             "phpcs --standard=migrations/ruleset.xml ./migrations/ ./database"
         ],
