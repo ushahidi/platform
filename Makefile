@@ -9,6 +9,10 @@ up:
 	docker-compose up -d
 	docker-compose exec platform composer run compile
 
+start:
+	make build
+	make up
+
 enter:
 	docker-compose exec platform bash
 
