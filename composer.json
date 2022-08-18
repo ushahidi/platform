@@ -145,7 +145,7 @@
         ],
         "migrate": [
             "@verify",
-            "phinx migrate -c phinx.php"
+            "@php artisan phinx:migrate"
         ],
         "pre-test": [
             "@migrate",

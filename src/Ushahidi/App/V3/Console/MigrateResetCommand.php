@@ -11,7 +11,7 @@ class MigrateResetCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'migrate:reset';
+    protected $signature = 'phinx:migrate:reset';
 
     /**
      * The console command description.
@@ -27,7 +27,7 @@ class MigrateResetCommand extends Command
      */
     public function handle()
     {
-        $this->call('migrate:rollback', [
+        $this->call('phinx:migrate:rollback', [
             '--target' => 0,
         ]);
     }

@@ -14,6 +14,8 @@ class MigrateCommand extends PhinxMigrateCommand
     {
         parent::configure();
 
+        $this->setName('phinx:migrate');
+
         $this->addOption('force', 'f', InputOption::VALUE_NONE);
     }
 }

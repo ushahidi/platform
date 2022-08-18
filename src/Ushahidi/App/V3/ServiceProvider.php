@@ -2,28 +2,28 @@
 
 namespace Ushahidi\App\V3;
 
-use Ushahidi\App\V3\Console;
-use Ushahidi\Core\Tool\Verifier;
-use Ushahidi\App\V3\Factory\UsecaseFactory;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\ServiceProvider as BaseServiceProvider;
+use Ushahidi\App\V3\Console;
+use Ushahidi\App\V3\Factory\UsecaseFactory;
+use Ushahidi\App\V3\Repository\TosRepository;
+use Ushahidi\Core\Tool\Verifier;
+use Ushahidi\Core\Usecase\User\LoginUser;
 use Ushahidi\Core\Usecase\Post\ExportPost;
 use Ushahidi\Core\Usecase\Export\Job\PostCount;
+use Ushahidi\Core\Usecase\Message\ReceiveMessage;
+use Ushahidi\Contracts\Repository\Entity\SetRepository;
 use Ushahidi\Contracts\Repository\Entity\PostRepository;
 use Ushahidi\Contracts\Repository\Entity\UserRepository;
 use Ushahidi\Contracts\Repository\Entity\MediaRepository;
+use Ushahidi\Contracts\Repository\Entity\ApiKeyRepository;
 use Ushahidi\Contracts\Repository\Entity\ConfigRepository;
 use Ushahidi\Contracts\Repository\Entity\ContactRepository;
 use Ushahidi\Contracts\Repository\Entity\MessageRepository;
 use Ushahidi\Contracts\Repository\Entity\ExportJobRepository;
-use Illuminate\Support\ServiceProvider as BaseServiceProvider;
-use Ushahidi\App\V3\Repository\TosRepository;
-use Ushahidi\Contracts\Repository\Entity\ApiKeyRepository;
 use Ushahidi\Contracts\Repository\Entity\ExportBatchRepository;
 use Ushahidi\Contracts\Repository\Entity\FormAttributeRepository;
-use Ushahidi\Contracts\Repository\Entity\SetRepository;
 use Ushahidi\Contracts\Repository\Entity\TargetedSurveyStateRepository;
-use Ushahidi\Core\Usecase\Message\ReceiveMessage;
-use Ushahidi\Core\Usecase\User\LoginUser;
 
 class ServiceProvider extends BaseServiceProvider
 {
@@ -37,7 +37,7 @@ class ServiceProvider extends BaseServiceProvider
         Route::prefix('api')
             ->middleware('api')
             ->namespace('Ushahidi\App\V3\Http\Controllers')
-            ->group(__DIR__.'/routes/api.php');
+            ->group(__DIR__ . '/routes/api.php');
     }
 
     /**
@@ -131,48 +131,50 @@ class ServiceProvider extends BaseServiceProvider
 
         $this->app->singleton(LoginUser::class, function ($app) {
             return service('factory.usecase')
-                    // Override action
-                    ->get('users', 'login');
+                // Override action
+                ->get('users', 'login');
         });
 
         $this->app->singleton(ReceiveMessage::class, function ($app) {
             return service('factory.usecase')
-                    // Override action
-                    ->get('messages', 'receive');
+                // Override action
+                ->get('messages', 'receive');
         });
 
         $this->app->singleton(PostCount::class, function ($app) {
             return service('factory.usecase')
-                    // Override action
-                    ->get('export_jobs', 'post-count')
-                    // Override authorizer
-                    ->setAuthorizer(service('authorizer.external_auth')); // @todo remove the need for this?
+                // Override action
+                ->get('export_jobs', 'post-count')
+                // Override authorizer
+                ->setAuthorizer(service('authorizer.external_auth')); // @todo remove the need for this?
         });
 
         $this->app->singleton(ExportPost::class, function ($app) {
             return service('factory.usecase')
-                    ->get('posts_export', 'export')
-                    ->setAuthorizer(service('authorizer.export_job'));
+                ->get('posts_export', 'export')
+                ->setAuthorizer(service('authorizer.export_job'));
         });
     }
 
     public function registerCommands()
     {
-        $this->commands([
-            Console\NotificationCommand::class,
-            Console\WebhookCommand::class,
-            Console\ImportMediaCommand::class,
-            Console\ObfuscateDataCommand::class,
-            Console\PostExporterCommand::class,
-            Console\MigrateCommand::class,
-            Console\MigrateInstallCommand::class,
-            Console\MigrateMakeCommand::class,
-            Console\MigrateRefreshCommand::class,
-            Console\MigrateResetCommand::class,
-            Console\MigrateRollbackCommand::class,
-            Console\MigrateStatusCommand::class,
-            Console\SeedCommand::class,
-            Console\SeedMakeCommand::class,
-        ]);
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                Console\NotificationCommand::class,
+                Console\WebhookCommand::class,
+                Console\ImportMediaCommand::class,
+                Console\ObfuscateDataCommand::class,
+                Console\PostExporterCommand::class,
+                Console\MigrateCommand::class,
+                Console\MigrateInstallCommand::class,
+                Console\MigrateMakeCommand::class,
+                Console\MigrateRefreshCommand::class,
+                Console\MigrateResetCommand::class,
+                Console\MigrateRollbackCommand::class,
+                Console\MigrateStatusCommand::class,
+                Console\SeedCommand::class,
+                Console\SeedMakeCommand::class,
+            ]);
+        }
     }
 }

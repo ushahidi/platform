@@ -14,6 +14,6 @@ class MigrateStatusCommand extends PhinxStatusCommand
     {
         parent::configure();
 
-        $this->setName('migrate:status');
+        $this->setName('phinx:migrate:status');
     }
 }

@@ -13,6 +13,6 @@ class SeedMakeCommand extends PhinxSeedCreateCommand
     {
         parent::configure();
 
-        $this->setName('make:seeder');
+        $this->setName('phinx:seed:create');
     }
 }

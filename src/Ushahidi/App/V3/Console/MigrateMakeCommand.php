@@ -14,6 +14,6 @@ class MigrateMakeCommand extends PhinxCreateCommand
     {
         parent::configure();
 
-        $this->setName('migrate:make');
+        $this->setName('phinx:migrate:make');
     }
 }

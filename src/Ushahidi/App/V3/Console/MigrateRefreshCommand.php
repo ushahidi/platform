@@ -11,7 +11,7 @@ class MigrateRefreshCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'migrate:refresh
+    protected $signature = 'phinx:migrate:refresh
         {--t|target=0 : The version number to rollback to}
         {--d|date= : The date to rollback to}
     ';
@@ -37,7 +37,7 @@ class MigrateRefreshCommand extends Command
             $options['--date'] = $this->option('date');
         }
 
-        $this->call('migrate:rollback', $options);
-        $this->call('migrate');
+        $this->call('phinx:migrate:rollback', $options);
+        $this->call('phinx:migrate');
     }
 }

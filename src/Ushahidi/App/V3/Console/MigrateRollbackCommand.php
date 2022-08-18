@@ -14,6 +14,6 @@ class MigrateRollbackCommand extends PhinxRollbackCommand
     {
         parent::configure();
 
-        $this->setName('migrate:rollback');
+        $this->setName('phinx:migrate:rollback');
     }
 }

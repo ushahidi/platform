@@ -2,7 +2,6 @@
 
 namespace Ushahidi\App\V3\Console;
 
-use Illuminate\Console\Command;
 use Phinx\Console\Command\SeedRun as PhinxSeedRunCommand;
 
 class SeedCommand extends PhinxSeedRunCommand
@@ -14,6 +13,6 @@ class SeedCommand extends PhinxSeedRunCommand
     {
         parent::configure();
 
-        $this->setName('db:seed');
+        $this->setName('phinx:seed:run');
     }
 }
