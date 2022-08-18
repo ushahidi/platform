@@ -27,7 +27,10 @@
     "autoload": {
         "psr-4": {
             "Ushahidi\\App\\V3\\": ""
-        }
+        },
+        "files": [
+            "helpers.php"
+        ]
     },
     "extra": {},
     "suggest": {},

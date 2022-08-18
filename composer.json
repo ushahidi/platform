@@ -82,9 +82,7 @@
             "Ushahidi\\": "src/Ushahidi",
             "App\\": "app/"
         },
-        "files": [
-            "app/helpers.php"
-        ]
+        "files": []
     },
     "autoload-dev": {
         "psr-4": {
@@ -94,15 +92,13 @@
     },
     "extra": {
         "laravel": {
-            "dont-discover": [
-            ]
+            "dont-discover": []
         },
         "merge-plugin": {
             "include": [
                 "src/Ushahidi/App/*/composer.json"
             ],
-            "require": [
-            ],
+            "require": [],
             "recurse": true,
             "replace": false,
             "ignore-duplicates": false,
