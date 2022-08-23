@@ -21,6 +21,7 @@ use Ushahidi\Contracts\Repository\ReadRepository;
 use Ushahidi\Contracts\Repository\DeleteRepository;
 use Ushahidi\Contracts\Repository\UpdateRepository;
 use Ushahidi\Contracts\Repository\Entity\ConfigRepository as ConfigRepositoryContract;
+use Ushahidi\Multisite\Facade\Multisite;
 
 class ConfigRepository implements
     ReadRepository,
@@ -118,12 +119,11 @@ class ConfigRepository implements
         $config = [];
 
         // Multisite IDs
-        if (app('multisite')->enabled()) {
-            $multi = app('multisite');
+        if (Multisite::enabled()) {
             $config['multisite'] = [
                 'enabled' => true,
-                'site_id' => $multi->getSiteId(),
-                'site_fqdn' => $multi->getSite()->getClientUri(),
+                'site_id' => Multisite::getSiteId(),
+                'site_fqdn' => Multisite::getSite()->getClientUri(),
             ];
         } else {
             $config['multisite'] = [];

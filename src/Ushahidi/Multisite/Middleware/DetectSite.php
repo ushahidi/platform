@@ -1,10 +1,12 @@
 <?php
 
-namespace Ushahidi\Multisite;
+namespace Ushahidi\Multisite\Middleware;
 
 use Closure;
+use Ushahidi\Multisite\MultisiteManager;
+use Ushahidi\Multisite\SiteNotFoundException;
 
-class DetectSiteMiddleware
+class DetectSite
 {
     /**
      * @var \Ushahidi\Multisite\MultisiteManager;

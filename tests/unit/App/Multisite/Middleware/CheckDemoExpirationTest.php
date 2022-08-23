@@ -8,12 +8,12 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Ushahidi\Tests\Unit\App\Http\Middleware;
+namespace Ushahidi\Tests\Unit\Multisite\Middleware;
 
 use Illuminate\Http\Request;
 use Mockery as M;
 use Ushahidi\Tests\TestCase;
-use App\Http\Middleware\CheckDemoExpiration;
+use Ushahidi\Multisite\Middleware\CheckDemoExpiration;
 use Ushahidi\Multisite\MultisiteManager;
 use Ushahidi\Multisite\Site;
 

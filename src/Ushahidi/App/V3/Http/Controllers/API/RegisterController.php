@@ -4,6 +4,7 @@ namespace Ushahidi\App\V3\Http\Controllers\API;
 
 use Illuminate\Http\Request;
 use Ushahidi\Core\Facade\Features;
+use Ushahidi\Multisite\Facade\Multisite;
 use Ushahidi\App\V3\Http\Controllers\RESTController;
 
 /**
@@ -31,7 +32,7 @@ class RegisterController extends RESTController
     {
         // If the disable registration feature is enabled and site registration is disabled in config
         if (Features::isEnabled('disable_registration')
-            && app('multisite')->getSite()->getSiteConfig('disable_registration', false)) {
+            && Multisite::getSite()->getSiteConfig('disable_registration', false)) {
             abort(403, 'Registration Disabled');
         }
 

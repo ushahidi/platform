@@ -1,11 +1,21 @@
 <?php
 
-namespace App\Http\Middleware;
+namespace Ushahidi\Multisite\Middleware;
 
 use Closure;
+use Ushahidi\Multisite\MultisiteManager;
 
 class MaintenanceMode
 {
+    /**
+     * @var \Ushahidi\Multisite\MultisiteManager;
+     */
+    protected $multisite;
+
+    public function __construct(MultisiteManager $multisite)
+    {
+        $this->multisite = $multisite;
+    }
     /**
      * Handle an incoming request.
      *
@@ -16,12 +26,12 @@ class MaintenanceMode
      */
     public function handle($request, Closure $next, $guard = null)
     {
-        $maintenanceMode = env('MAINTENANCE_MODE');
-        if ($maintenanceMode) {
+        if (env('MAINTENANCE_MODE') == true) {
             $maintenanceMessage = 'This site is down for maintenance';
-            if ($site = app('multisite')->getSite()) {
-                $maintenanceMessage = $site->getName().' is down for maintenance.';
+            if ($site = $this->multisite->getSite()) {
+                $maintenanceMessage = $site->getName() . ' is down for maintenance.';
             }
+
             abort(
                 503,
                 $maintenanceMessage

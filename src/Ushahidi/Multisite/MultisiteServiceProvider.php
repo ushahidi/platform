@@ -6,6 +6,9 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 use Ushahidi\Core\Tool\OhanzeeResolver;
+use Ushahidi\Multisite\Middleware\CheckDemoExpiration;
+use Ushahidi\Multisite\Middleware\DetectSite;
+use Ushahidi\Tests\Unit\App\Http\Middleware\CheckDemoExpirationTest;
 
 class MultisiteServiceProvider extends ServiceProvider
 {
@@ -14,7 +17,7 @@ class MultisiteServiceProvider extends ServiceProvider
         // Register manager
         $this->app->singleton('multisite', function ($app) {
             return new MultisiteManager(
-                config('multisite'),
+                $this->app['config']['multisite'],
                 $app[SiteRepository::class],
                 $app[\Illuminate\Contracts\Events\Dispatcher::class]
             );
@@ -26,8 +29,17 @@ class MultisiteServiceProvider extends ServiceProvider
     // @todo move some of this into manager?
     public function boot()
     {
+        $this->app['router']->middleware(DetectSite::class);
+        $this->app['router']->middleware(MaintenanceMode::class);
+        $this->app['router']->aliasMiddleware('expiration', CheckDemoExpiration::class);
+
         $this->setupListeners();
 
+        $this->setupSite();
+    }
+
+    protected function setupSite()
+    {
         $multisite = $this->app->make('multisite');
 
         // If multisite is disabled, use the default connection
@@ -46,7 +58,6 @@ class MultisiteServiceProvider extends ServiceProvider
             }
         }
     }
-
     protected function setupListeners()
     {
         Event::listen('multisite.site.changed', function (Site $site) {

@@ -20,11 +20,8 @@ class Kernel extends HttpKernel
         // \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
         \App\Http\Middleware\TrustProxies::class,
         \App\Http\Middleware\AddContentLength::class,
-        \Ushahidi\Multisite\DetectSiteMiddleware::class,
         \Barryvdh\Cors\HandleCors::class,
-        \App\Http\Middleware\MaintenanceMode::class,
         \App\Http\Middleware\SetLocale::class,
-        \Ushahidi\App\V5\Http\Middleware\V5GlobalScopes::class,
     ];
 
     /**
@@ -66,7 +63,6 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'scopes' => \App\Http\Middleware\CheckScopes::class,
         'scope'  => \App\Http\Middleware\CheckForAnyScope::class,
-        'expiration' => \App\Http\Middleware\CheckDemoExpiration::class,
         'signature' => \App\Http\Middleware\SignatureAuth::class,
         'feature' => \App\Http\Middleware\CheckFeature::class,
         'invalidJSON' => \App\Http\Middleware\CheckForInvalidJSON::class,

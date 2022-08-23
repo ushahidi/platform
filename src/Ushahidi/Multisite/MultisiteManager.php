@@ -15,8 +15,19 @@ use Illuminate\Contracts\Events\Dispatcher;
 
 class MultisiteManager
 {
+    /**
+     * @var bool
+     */
     protected $enabled;
+
+    /**
+     * @var string
+     */
     protected $domain;
+
+    /**
+     * @var \Ushahidi\Multisite\Site
+     */
     protected $currentSite;
 
     /**
@@ -131,7 +142,7 @@ class MultisiteManager
     }
 
     /**
-     * @return Site
+     * @return int|bool
      */
     public function getSiteId()
     {

@@ -11,10 +11,12 @@
 
 namespace Ushahidi\Multisite;
 
+use Ushahidi\Multisite\Facade\Multisite;
+
 trait UsesSiteInfo
 {
     public function getSite()
     {
-        return app('multisite')->getSite();
+        return Multisite::getSite();
     }
 }

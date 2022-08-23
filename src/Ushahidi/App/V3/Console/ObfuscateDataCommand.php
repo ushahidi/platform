@@ -15,6 +15,7 @@ use Faker;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Ushahidi\Core\Tool\OhanzeeResolver;
+use Ushahidi\Multisite\Facade\Multisite;
 
 class ObfuscateDataCommand extends Command
 {
@@ -134,8 +135,7 @@ class ObfuscateDataCommand extends Command
 
     protected function isThisAMultisiteInstall()
     {
-        // @TODO: is this the correct way to check against multisite
-        return app('multisite')->enabled();
+        return Multisite::enabled();
     }
 
     /* optional implementations...

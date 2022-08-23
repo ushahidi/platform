@@ -1,15 +1,15 @@
 <?php
 
-namespace Ushahidi\Tests\Unit\App\Multisite;
+namespace Ushahidi\Tests\Unit\Multisite\Middleware;
 
 use Mockery as M;
 use Ushahidi\Tests\TestCase;
-use Ushahidi\Multisite\DetectSiteMiddleware;
+use Ushahidi\Multisite\Middleware\DetectSite as DetectSiteMiddleware;
 use Ushahidi\Multisite\MultisiteManager;
 use Ushahidi\Multisite\Site;
 use Ushahidi\Multisite\SiteNotFoundException;
 
-class DetectSiteMiddlewareTest extends TestCase
+class DetectSiteTest extends TestCase
 {
     public function testNothingCalledWhenDisabled()
     {

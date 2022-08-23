@@ -7,6 +7,7 @@ use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 use Ushahidi\App\V3\Console;
 use Ushahidi\App\V3\Factory\UsecaseFactory;
 use Ushahidi\App\V3\Repository\TosRepository;
+use Ushahidi\App\V5\Http\Middleware\V5GlobalScopes;
 use Ushahidi\Core\Tool\Verifier;
 use Ushahidi\Core\Usecase\User\LoginUser;
 use Ushahidi\Core\Usecase\Post\ExportPost;
@@ -34,6 +35,8 @@ class ServiceProvider extends BaseServiceProvider
      */
     public function boot()
     {
+        Route::middleware(V5GlobalScopes::class);
+
         Route::prefix('api')
             ->middleware('api')
             ->namespace('Ushahidi\App\V3\Http\Controllers')

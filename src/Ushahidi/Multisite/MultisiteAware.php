@@ -2,10 +2,11 @@
 
 namespace Ushahidi\Multisite;
 
-use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Queue\SerializesModels;
+use Ushahidi\Multisite\Facade\Multisite;
 
-trait MultisiteAwareJob
+trait MultisiteAware
 {
 
     /**
@@ -20,9 +21,8 @@ trait MultisiteAwareJob
 
     public function __sleep()
     {
-        $multisite = app('multisite');
         if (!$this->site_id) {
-            $this->site_id = $multisite->getSiteId();
+            $this->site_id = Multisite::getSiteId();
             Log::debug('Saving deployment id for job', [$this->site_id]);
         }
 
@@ -35,8 +35,7 @@ trait MultisiteAwareJob
     {
         if (isset($this->site_id) && $this->site_id) {
             Log::debug('Restoring deployment id for job', [$this->site_id]);
-            $multisite = app('multisite');
-            $multisite->setSiteByID($this->site_id);
+            Multisite::setSiteByID($this->site_id);
         }
 
         $this->serializedWakeup();

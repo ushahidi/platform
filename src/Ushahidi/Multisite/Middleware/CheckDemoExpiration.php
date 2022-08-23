@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Middleware;
+namespace Ushahidi\Multisite\Middleware;
 
 use Closure;
 use Ushahidi\Multisite\MultisiteManager;
@@ -8,14 +8,13 @@ use Ushahidi\Multisite\MultisiteManager;
 class CheckDemoExpiration
 {
     /**
-     * @var \App\Multisite\MultisiteManager;
+     * @var \Ushahidi\Multisite\MultisiteManager;
      */
     protected $multisite;
 
     /**
      * Create a new middleware instance.
      *
-     * @param  \Illuminate\Contracts\Auth\Factory  $auth
      * @return void
      */
     public function __construct(MultisiteManager $multisite)
