@@ -17,7 +17,7 @@
 // **If you haven't already done so, you should run `composer install` now.**
 //
 // [composer]: http://getcomposer.org/
-require_once __DIR__ . '/../vendor/autoload.php';
+// require_once __DIR__ . '/../vendor/autoload.php';
 
 // The global [Dependency Injection][di] container lives inside of a global
 // `service()` function. This avoids the need to have a global variable, and
@@ -33,9 +33,9 @@ function service($what = null)
     if (!$di) {
         $builder = new Aura\Di\ContainerBuilder();
         $di = $builder->newConfiguredInstance([
-            Ushahidi\Core\CoreConfig::class,
-            Ushahidi\App\AppConfig::class,
-            App\Providers\LumenAuraConfig::class,
+            \Ushahidi\App\V3\ContainerConfig\CoreConfig::class,
+            \Ushahidi\App\V3\ContainerConfig\AppConfig::class,
+            \Ushahidi\App\V3\ContainerConfig\LaravelConfig::class,
         ]);
     }
     if ($what) {

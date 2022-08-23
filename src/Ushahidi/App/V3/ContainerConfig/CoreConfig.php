@@ -1,6 +1,6 @@
 <?php
 
-namespace Ushahidi\Core;
+namespace Ushahidi\App\V3\ContainerConfig;
 
 use Aura\Di\Container;
 use Aura\Di\ContainerConfig;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Ushahidi\App;
+namespace Ushahidi\App\V3\ContainerConfig;
 
 use Ushahidi\Core;
 use Ushahidi\App\V3;

@@ -1,15 +1,14 @@
 <?php
 
-namespace App\Providers;
+namespace Ushahidi\App\V3\ContainerConfig;
 
 use App\Tools\Mailer;
 use App\Tools\Session;
 use Aura\Di\Container;
 use Aura\Di\ContainerConfig;
 use Illuminate\Support\Facades\Storage;
-use Ushahidi\Multisite\OhanzeeResolver;
 
-class LumenAuraConfig extends ContainerConfig
+class LaravelConfig extends ContainerConfig
 {
     /**
      * Define params, setters, and services before the Container is locked.

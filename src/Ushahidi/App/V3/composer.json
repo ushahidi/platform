@@ -29,6 +29,7 @@
             "Ushahidi\\App\\V3\\": ""
         },
         "files": [
+            "init.php",
             "helpers.php"
         ]
     },
