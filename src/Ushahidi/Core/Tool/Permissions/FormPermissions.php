@@ -11,7 +11,7 @@
 
 namespace Ushahidi\Core\Tool\Permissions;
 
-use Ushahidi\Core\Entity\User;
+use Ushahidi\Contracts\Entity;
 use Ushahidi\Contracts\Permission;
 use Ushahidi\Core\Concerns\Acl as AccessControlList;
 use Ushahidi\Core\Concerns\AdminAccess;
@@ -24,11 +24,11 @@ class FormPermissions
     /**
      * Does the user have permission to edit the form?
      *
-     * @param  User   $user
-     * @param  Int    $form_id
-     * @return Boolean
+     * @param  \Ushahidi\Contracts\Entity   $user
+     * @param  int|string    $form_id
+     * @return boolean
      */
-    public function canUserEditForm(User $user, $form_id)
+    public function canUserEditForm(Entity $user, $form_id)
     {
         // @todo delegate to form authorizer
         return $this->acl->hasPermission($user, Permission::MANAGE_POSTS);

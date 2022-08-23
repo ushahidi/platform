@@ -17,13 +17,15 @@ interface Authorizer
 {
     /**
      * Get a list of the allowed privileges for a given entity.
+     *
      * @return array
      */
     public function getAllowedPrivs(Entity $entity);
 
     /**
      * Check if access to an entity is allowed.
-     * @param  Entity  $entity     Entity being accessed
+     *
+     * @param  \Ushahidi\Contracts\Entity  $entity     Entity being accessed
      * @param  string  $privilege  Privilege that is requested
      * @return boolean
      */
@@ -31,12 +33,14 @@ interface Authorizer
 
     /**
      * Get the user for the current authorization context.
+     *
      * @return \Ushahidi\Contracts\Entity
      */
     public function getUser();
 
     /**
      * Get the userid for the current authorization context.
+     *
      * @return integer
      */
     public function getUserId();

@@ -11,8 +11,7 @@
 
 namespace Ushahidi\Core\Tool\Permissions;
 
-use Ushahidi\Core\Entity\Post;
-use Ushahidi\Core\Entity\User;
+use Ushahidi\Contracts\Entity;
 use Ushahidi\Contracts\Permission;
 use Ushahidi\Core\Concerns\AdminAccess;
 use Ushahidi\Core\Concerns\Acl as AccessControlList;
@@ -26,11 +25,11 @@ class PostPermissions
     /**
      * Does the current user have permission to see if a post if locked?
      *
-     * @param  User   $user
-     * @param  Post   $post
+     * @param \Ushahidi\Contracts\Entity $user
+     * @param \Ushahidi\Contracts\Entity $post
      * @return boolean
      */
-    public function canUserSeePostLock(User $user, Post $post)
+    public function canUserSeePostLock(Entity $user, Entity $post)
     {
         // At present only logged in users with Manage Post Permission can see that a Post is locked
         // @todo if we're checking manage posts, check that - don't check if a user can edit a form!?
@@ -41,12 +40,12 @@ class PostPermissions
     /**
      * Does the user have permission to view this posts author
      *
-     * @param  User           $user
-     * @param  Post           $post
-     * @param  FormRepository $form_repo
+     * @param  \Ushahidi\Contracts\Entity $user
+     * @param  \Ushahidi\Contracts\Entity $post
+     * @param  \Ushahidi\Contracts\Repository\Entity\FormRepository $form_repo
      * @return boolean
      */
-    public function canUserSeeAuthor(User $user, Post $post, FormRepository $form_repo)
+    public function canUserSeeAuthor(Entity $user, Entity $post, FormRepository $form_repo)
     {
         // If the user has manage post permission
         // @todo delegate to authorizer
@@ -69,12 +68,12 @@ class PostPermissions
     /**
      * Does the user have permission to view this posts exact time
      *
-     * @param  User           $user
-     * @param  Post           $post
-     * @param  FormRepository $form_repo
+     * @param  \Ushahidi\Contracts\Entity $user
+     * @param  \Ushahidi\Contracts\Entity $post
+     * @param  \Ushahidi\Contracts\Repository\Entity\FormRepository $form_repo
      * @return boolean
      */
-    public function canUserSeeTime(User $user, Post $post, FormRepository $form_repo)
+    public function canUserSeeTime(Entity $user, Entity $post, FormRepository $form_repo)
     {
         // If the user has manage post permission
         // @todo delegate to authorizer
@@ -97,12 +96,12 @@ class PostPermissions
     /**
      * Does the user have permission to view this posts exact location
      *
-     * @param  User           $user
-     * @param  Post           $post
-     * @param  FormRepository $form_repo
+     * @param  \Ushahidi\Contracts\Entity $user
+     * @param  \Ushahidi\Contracts\Entity $post
+     * @param  \Ushahidi\Contracts\Repository\Entity\FormRepository $form_repo
      * @return boolean
      */
-    public function canUserSeeLocation(User $user, Post $post, FormRepository $form_repo)
+    public function canUserSeeLocation(Entity $user, Entity $post, FormRepository $form_repo)
     {
         // If the user has manage post permission
         // @todo delegate to authorizer
@@ -125,10 +124,10 @@ class PostPermissions
     /**
      * Test whether the user can manage posts
      *
-     * @param  Post $post
-     * @return Boolean
+     * @param  \Ushahidi\Contracts\Entity $user
+     * @return boolean
      */
-    public function canUserManagePosts(User $user)
+    public function canUserManagePosts(Entity $user)
     {
         // Delegate to post authorizer
         return $this->acl->hasPermission($user, Permission::MANAGE_POSTS);
@@ -137,10 +136,10 @@ class PostPermissions
     /**
      * Test whether the post instance requires value restriction
      *
-     * @param  Post $post
+     * @param  \Ushahidi\Contracts\Entity $user
      * @return Boolean
      */
-    public function canUserReadPrivateValues(User $user)
+    public function canUserReadPrivateValues(Entity $user)
     {
         // Delegate to post authorizer
         return $this->acl->hasPermission($user, Permission::MANAGE_POSTS);
@@ -149,10 +148,10 @@ class PostPermissions
     /**
      * Does user have permission to see unpublished (draft/archived) posts
      *
-     * @param  User   $user
+     * @param  \Ushahidi\Contracts\Entity   $user
      * @return boolean
      */
-    public function canUserViewUnpublishedPosts(User $user)
+    public function canUserViewUnpublishedPosts(Entity $user)
     {
         return $user && $this->acl->hasPermission($user, Permission::MANAGE_POSTS);
     }

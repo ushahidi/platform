@@ -2,15 +2,7 @@
 
 namespace Ushahidi\App\V5\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
-use Ushahidi\App\V3\Repository\FormRepository;
-use Ushahidi\App\V3\Validator\LegacyValidator;
-use Ushahidi\Core\Entity\Permission;
-use Ushahidi\Core\Tool\Permissions\InteractsWithFormPermissions;
 use Ushahidi\Core\Tool\Permissions\InteractsWithPostPermissions;
 
 class PostStages extends BaseModel
