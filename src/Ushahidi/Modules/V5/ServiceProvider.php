@@ -42,6 +42,6 @@ class ServiceProvider extends AggregateServiceProvider
     {
         parent::register();
 
-        $this->app->bind(UserRepository::class, RepositoryUserRepository::class);
+        // $this->app->bind(UserRepository::class, RepositoryUserRepository::class);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Ushahidi\Modules\V3;
 
+use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 use Ushahidi\Modules\V3\Console;
@@ -35,7 +36,7 @@ class ServiceProvider extends BaseServiceProvider
      */
     public function boot()
     {
-        Route::middleware(V5GlobalScopes::class);
+        $this->app[Kernel::class]->pushMiddleware(V5GlobalScopes::class);
 
         Route::prefix('api')
             ->middleware('api')

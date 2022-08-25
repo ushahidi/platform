@@ -8,7 +8,6 @@ use Illuminate\Support\ServiceProvider;
 use Ushahidi\Core\Tool\OhanzeeResolver;
 use Ushahidi\Multisite\Middleware\CheckDemoExpiration;
 use Ushahidi\Multisite\Middleware\DetectSite;
-use Ushahidi\Tests\Unit\App\Http\Middleware\CheckDemoExpirationTest;
 
 class MultisiteServiceProvider extends ServiceProvider
 {
