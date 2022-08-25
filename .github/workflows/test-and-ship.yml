@@ -31,9 +31,10 @@ jobs:
 
     - name: Get Composer Cache Directory
       id: composer-cache
-      run: |
-        echo "::set-output name=dir::$(composer config cache-files-dir)"
-    - uses: actions/cache@v1
+      run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+    - name: Cache dependencies
+      uses: actions/cache@v2
       with:
         path: ${{ steps.composer-cache.outputs.dir }}
         key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
@@ -62,29 +63,28 @@ jobs:
         mysql -e "SET GLOBAL sql_mode = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'" ;
 
         # installing our own composer as a stop-gap measure
-        installer_sig=`curl https://composer.github.io/installer.sha384sum | cut -f 1 -d ' '`
-        php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-        php -r "if (hash_file('sha384', 'composer-setup.php') === '${installer_sig}') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
-        php composer-setup.php --install-dir=bin --version=2.3.7
-        php -r "unlink('composer-setup.php');"
+        # installer_sig=`curl https://composer.github.io/installer.sha384sum | cut -f 1 -d ' '`
+        # php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+        # php -r "if (hash_file('sha384', 'composer-setup.php') === '${installer_sig}') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
+        # php composer-setup.php --install-dir=bin --version=2.3.7
+        # php -r "unlink('composer-setup.php');"
 
-        php bin/composer.phar install --no-interaction ;
-
+        composer install --no-interaction ;
 
     - name: Check linting
       run: |
         set -e;
 
-        php bin/composer.phar lint
+        composer lint
 
     - name: Run tests
       run: |
         set -e;
 
-        php bin/composer.phar pre-test;
+        composer pre-test;
         mysql -e 'SET @@GLOBAL.wait_timeout=1800';
         ( cd httpdocs/; php -S localhost:8000 -t . index.php &)
-        php bin/composer.phar test ;
+        composer test ;
 
     services:
       mysql:
