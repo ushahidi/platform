@@ -126,12 +126,12 @@
         "lint": [
             "phpcs --standard=src/ruleset.xml --ignore=./resources/lang/*,./bootstrap/cache/*,./storage/framework/* ./",
             "phpcs --standard=tests/spec/ruleset.xml ./tests/spec/",
-            "phpcs --standard=migrations/ruleset.xml ./migrations/ ./database"
+            "phpcs --standard=database/migrations/phinx/ruleset.xml ./database/migrations"
         ],
         "fixlint": [
             "phpcbf --standard=src/ruleset.xml --ignore=./resources/lang/*,./bootstrap/cache/* ./",
             "phpcbf --standard=tests/spec/ruleset.xml ./tests/spec/",
-            "phpcbf --standard=migrations/ruleset.xml ./migrations/ ./database"
+            "phpcbf --standard=database/migrations/phinx/ruleset.xml ./database/migrations"
         ],
         "pre-coverage": [
             "rm -rf coverage/"
