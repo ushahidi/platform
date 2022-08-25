@@ -170,9 +170,9 @@ return [
         Barryvdh\Cors\ServiceProvider::class,
         Sentry\SentryLaravel\SentryLaravelServiceProvider::class,
 
-        Ushahidi\App\V2\ServiceProvider::class,
-        Ushahidi\App\V3\ServiceProvider::class,
-        Ushahidi\App\V5\ServiceProvider::class,
+        Ushahidi\Modules\V2\ServiceProvider::class,
+        Ushahidi\Modules\V3\ServiceProvider::class,
+        Ushahidi\Modules\V5\ServiceProvider::class,
 
         Ushahidi\Multisite\MultisiteServiceProvider::class,
         Ushahidi\DataSource\DataSourceServiceProvider::class,

@@ -12,8 +12,6 @@
 namespace Ushahidi\Core\Entity;
 
 use Ushahidi\Core\StaticEntity;
-use Ushahidi\App\Events\SendToHDXEvent;
-use Illuminate\Support\Facades\Event;
 
 class ExportJob extends StaticEntity
 {

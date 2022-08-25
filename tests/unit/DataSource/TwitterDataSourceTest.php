@@ -25,7 +25,7 @@ class TwitterDataSourceTest extends TestCase
     {
         $mockTwitterOAuth = M::mock(\Abraham\TwitterOAuth\TwitterOAuth::class);
         $mockResponse = M::mock(\Abraham\TwitterOAuth\Response::class);
-        $mockRepo = M::mock(\Ushahidi\App\V3\Repository\ConfigRepository::class);
+        $mockRepo = M::mock(\Ushahidi\Modules\V3\Repository\ConfigRepository::class);
 
         $twitter = new Twitter(
             [],
@@ -47,7 +47,7 @@ class TwitterDataSourceTest extends TestCase
         $mockTwitterOAuth = M::mock(\Abraham\TwitterOAuth\TwitterOAuth::class);
         $mockTwitterOAuth->shouldReceive('setTimeouts')->once();
         $mockResponse = M::mock(\Abraham\TwitterOAuth\Response::class);
-        $mockRepo = M::mock(\Ushahidi\App\V3\Repository\ConfigRepository::class);
+        $mockRepo = M::mock(\Ushahidi\Modules\V3\Repository\ConfigRepository::class);
 
         $twitter = new Twitter(
             [
@@ -85,7 +85,7 @@ class TwitterDataSourceTest extends TestCase
         $mockTwitterOAuth = M::mock(\Abraham\TwitterOAuth\TwitterOAuth::class);
         $mockTwitterOAuth->shouldReceive('setTimeouts')->once();
         $mockResponse = M::mock(\Abraham\TwitterOAuth\Response::class);
-        $mockRepo = M::mock(\Ushahidi\App\V3\Repository\ConfigRepository::class);
+        $mockRepo = M::mock(\Ushahidi\Modules\V3\Repository\ConfigRepository::class);
 
         $twitter = new Twitter(
             [
@@ -140,7 +140,7 @@ class TwitterDataSourceTest extends TestCase
         $mockTwitterOAuth = M::mock(\Abraham\TwitterOAuth\TwitterOAuth::class);
         $mockTwitterOAuth->shouldReceive('setTimeouts')->once();
         $mockResponse = M::mock(\Abraham\TwitterOAuth\Response::class);
-        $mockRepo = M::mock(\Ushahidi\App\V3\Repository\ConfigRepository::class);
+        $mockRepo = M::mock(\Ushahidi\Modules\V3\Repository\ConfigRepository::class);
 
         $twitter = new Twitter(
             [

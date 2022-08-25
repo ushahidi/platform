@@ -18,9 +18,9 @@ use Ushahidi\Core\Entity\Config;
 use Ushahidi\Core\Entity\Contact;
 use Ushahidi\Core\Entity\Message;
 use Ushahidi\Core\Entity\Post;
-use Ushahidi\App\V3\Listener\CreatePostFromMessage;
-use Ushahidi\App\V3\Listener\HandleTargetedSurveyResponse;
-use Ushahidi\App\V3\EventSubscriber as Subscriber;
+use Ushahidi\Modules\V3\Listener\CreatePostFromMessage;
+use Ushahidi\Modules\V3\Listener\HandleTargetedSurveyResponse;
+use Ushahidi\Modules\V3\EventSubscriber as Subscriber;
 
 /**
  * @backupGlobals disabled

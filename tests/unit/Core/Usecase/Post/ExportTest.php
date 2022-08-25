@@ -17,9 +17,9 @@ use Ushahidi\Core\Entity\HXL\HXLMetadata;
 use Ushahidi\Core\Entity\Post;
 use Ushahidi\Core\Entity\User;
 use Ushahidi\Core\Tool\SearchData;
-use Ushahidi\App\V3\Repository\ExportJobRepository;
-use Ushahidi\App\V3\Repository\Form\AttributeRepository;
-use Ushahidi\App\V3\Repository\Post\ExportRepository;
+use Ushahidi\Modules\V3\Repository\ExportJobRepository;
+use Ushahidi\Modules\V3\Repository\Form\AttributeRepository;
+use Ushahidi\Modules\V3\Repository\Post\ExportRepository;
 
 class ExportTest extends TestCase
 {

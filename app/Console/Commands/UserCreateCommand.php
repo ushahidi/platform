@@ -51,8 +51,6 @@ class UserCreateCommand extends Command
 
     public function handle(UserRepository $userRepo, TosRepository $tosRepo)
     {
-        $this->validator = service('factory.validator')->get('users', 'create');
-
         $state = [
             'realname' => $this->option('realname') ?: null,
             'email' => $this->option('email'),

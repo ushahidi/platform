@@ -18,10 +18,10 @@ class ExportJobAPI extends TestCase
     public function testCreateJob()
     {
         $this->withoutMiddleware();
-        $this->expectsJobs(\Ushahidi\App\V3\Jobs\ExportPostsJob::class);
+        $this->expectsJobs(\Ushahidi\Modules\V3\Jobs\ExportPostsJob::class);
 
         $this
-            ->actingAs(new \Ushahidi\App\Auth\GenericUser(['id' => 2]))
+            ->actingAs(new \App\Auth\GenericUser(['id' => 2]))
             ->json('POST', '/api/v3/exports/jobs', [
                 'fields' => 'test',
                 'filters' => [
@@ -54,7 +54,7 @@ class ExportJobAPI extends TestCase
         $this->withoutMiddleware();
 
         $this
-            ->actingAs(new \Ushahidi\App\Auth\GenericUser(['id' => 2]))
+            ->actingAs(new \Ushahidi\Modules\Auth\GenericUser(['id' => 2]))
             ->json('POST', '/api/v3/exports/jobs', [
                 'fields' => 'test',
                 'filters' => [

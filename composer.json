@@ -96,14 +96,15 @@
         },
         "merge-plugin": {
             "include": [
-                "src/Ushahidi/App/*/composer.json"
+                "src/Ushahidi/*/composer.json",
+                "src/Ushahidi/**/*/composer.json"
             ],
             "require": [],
             "recurse": true,
             "replace": false,
             "ignore-duplicates": false,
             "merge-dev": true,
-            "merge-extra": false,
+            "merge-extra": true,
             "merge-extra-deep": false,
             "merge-scripts": true
         }

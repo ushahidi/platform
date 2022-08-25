@@ -17,15 +17,15 @@ use Illuminate\Support\Facades\Log;
 use Ushahidi\Core\Entity\ExportBatch;
 use Ushahidi\Core\Concerns\UserContext;
 use Ushahidi\Core\Concerns\FilterRecords;
-use Ushahidi\App\V3\Repository\ExportJobRepository;
-use Ushahidi\App\V3\Repository\Post\ExportRepository;
-use Ushahidi\App\V3\Repository\Form\AttributeRepository;
+use Ushahidi\Modules\V3\Repository\ExportJobRepository;
+use Ushahidi\Modules\V3\Repository\Post\ExportRepository;
+use Ushahidi\Modules\V3\Repository\Form\AttributeRepository;
+use Ushahidi\Modules\V3\Repository\HXL\HXLFormAttributeHXLAttributeTagRepository;
 use Ushahidi\Core\Usecase\Concerns\VerifyParentLoaded;
 use Ushahidi\Contracts\Repository\Entity\ExportBatchRepository;
 use Ushahidi\Core\Usecase\Concerns\Formatter as FormatterTrait;
 use Ushahidi\Core\Usecase\Concerns\Authorizer as AuthorizerTrait;
 use Ushahidi\Core\Usecase\Concerns\Translator as TranslatorTrait;
-use Ushahidi\App\V3\Repository\HXL\HXLFormAttributeHXLAttributeTagRepository;
 
 class ExportPost implements Usecase
 {
