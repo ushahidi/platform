@@ -3,6 +3,7 @@
 namespace Ushahidi\Modules\V5\Models\PostValues;
 
 use Ushahidi\Modules\V5\Models\BaseModel;
+use Ushahidi\Modules\V5\Models\Translation;
 use Ushahidi\Modules\V5\Models\Helpers\HideTime;
 
 class PostValue extends BaseModel
@@ -38,7 +39,7 @@ class PostValue extends BaseModel
      */
     public function translations()
     {
-        return $this->morphMany('Ushahidi\Modules\V5\Models\Translation', 'translatable', null, 'translatable_id', 'id');
+        return $this->morphMany(Translation::class, 'translatable', null, 'translatable_id', 'id');
     }//end translations()
 
     /**
