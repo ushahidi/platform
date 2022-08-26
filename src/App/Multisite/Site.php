@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Request;
+use League\Flysystem\Config;
 use Ushahidi\Contracts\Repository\Entity\ConfigRepository;
 
 // @todo consider just an Eloquent model? or ushahidi entity
@@ -23,7 +24,7 @@ class Site
     /**
      * Cache lifetime in minutes
      */
-    const CACHE_LIFETIME = 1;
+    const DEFAULT_CACHE_LIFETIME = 1;
 
     public $id;
     public $subdomain;
@@ -32,15 +33,20 @@ class Site
     public $deployed_date;
     public $expiration_date;
     public $extension_date;
-    public $db_host;
-    public $db_host_replica;
-    public $db_name;
-    public $db_username;
-    public $db_password;
+    private $db_host;
+    private $db_host_replica;
+    private $db_name;
+    private $db_username;
+    private $db_password;
     protected $status;
     public $tier;
 
-    public function __construct(array $data)
+    /**
+     * @var int
+     */
+    private $cache_lifetime;
+
+    public function __construct(array $data, ?int $cache_lifetime = null)
     {
         // Assign all data to object
         foreach ($data as $k => $v) {
@@ -48,6 +54,8 @@ class Site
                 $this->{$k} = $v;
             }
         }
+
+        $this->cache_lifetime = $cache_lifetime ?? $this::DEFAULT_CACHE_LIFETIME;
     }
 
     /**
@@ -77,7 +85,7 @@ class Site
      */
     public function getSiteConfig($param = false, $default = null)
     {
-        $siteConfig = Cache::remember('config.site', self::CACHE_LIFETIME, function () {
+        $siteConfig = Cache::remember('config.site', $this->cache_lifetime, function () {
             // @todo inject repo
             return app(ConfigRepository::class)->get('site');
         });
