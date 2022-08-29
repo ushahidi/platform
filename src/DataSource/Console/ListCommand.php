@@ -47,7 +47,7 @@ class ListCommand extends Command
     {
         if ($source = $this->option('source')) {
             return [$source];
-        } 
+        }
         
         if ($this->option('all')) {
             return $this->sources->getSources();
