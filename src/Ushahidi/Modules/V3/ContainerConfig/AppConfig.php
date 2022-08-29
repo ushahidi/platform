@@ -258,7 +258,7 @@ class AppConfig extends ContainerConfig
         $di->set('repository.config', $di->lazyNew(V3\Repository\ConfigRepository::class));
         $di->set('repository.contact', $di->lazyNew(V3\Repository\ContactRepository::class));
         $di->set('repository.country_code', $di->lazyNew(V3\Repository\CountryCodeRepository::class));
-        $di->set('repository.dataprovider', $di->lazyNew(V3\Repository\DataproviderRepository::class));
+        $di->set('repository.dataprovider', $di->lazyNew(V3\Repository\DataProviderRepository::class));
         $di->set('repository.form', $di->lazyNew(V3\Repository\FormRepository::class));
         $di->set('repository.form_role', $di->lazyNew(V3\Repository\Form\RoleRepository::class));
         $di->set('repository.form_contact', $di->lazyNew(V3\Repository\Form\ContactRepository::class));
