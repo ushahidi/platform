@@ -31,7 +31,8 @@ jobs:
 
     - name: Get Composer Cache Directory
       id: composer-cache
-      run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+      run: |
+        echo "::set-output name=dir::$(composer config cache-files-dir)"
 
     - name: Cache dependencies
       uses: actions/cache@v2
