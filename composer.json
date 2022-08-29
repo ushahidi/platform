@@ -120,6 +120,10 @@
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover"
         ],
+        "post-install-cmd": [
+            "captainhook install -f",
+            "php artisan passport:keys || php -r \"return 0;\""
+        ],
         "compile": [
             "@migrate"
         ],
@@ -159,10 +163,6 @@
             "phpunit --stop-on-failure",
             "phpspec run",
             "behat --strict"
-        ],
-        "post-install-cmd": [
-            "\\SebastianFeldmann\\CaptainHook\\Composer\\Cmd::install",
-            "php artisan passport:keys || php -r \"return 0;\""
         ],
         "bootstrap:passport": [
             "php artisan passport:keys",
