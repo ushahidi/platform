@@ -31,8 +31,5 @@ test-ci:
 cleanup:
 	docker-compose exec platform composer run fixlint
 
-down:
-	docker-compose down
-
 stop:
 	docker-compose stop
