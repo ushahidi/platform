@@ -28,14 +28,14 @@ class ImportFromV2Command extends Command
      *
      * @var string
      */
-    protected $name = 'import:from-v2';
+    protected $name = 'import:v2';
 
     /**
      * The console command signature.
      *
      * @var string
      */
-    protected $signature = 'import:from-v2
+    protected $signature = 'import:v2
                             {database : The name of the database to import}
                             {--u|user= : The username to connect to the DB}
                             {--p|password= : The password to connect to the DB}

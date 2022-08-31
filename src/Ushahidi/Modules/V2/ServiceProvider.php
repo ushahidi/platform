@@ -41,5 +41,12 @@ class ServiceProvider extends BaseServiceProvider
             Contracts\ImportDataTools::class,
             Utils\ImportDataTools::class
         );
+
+
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                Console\ImportFromV2Command::class,
+            ]);
+        }
     }
 }
