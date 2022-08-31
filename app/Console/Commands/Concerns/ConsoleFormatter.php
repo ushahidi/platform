@@ -25,22 +25,16 @@ trait ConsoleFormatter
                         $value = trim($value);
                     }
 
-switch ($field) {
-    case 'created':
-        $data[$field] = date(\DateTime::W3C, $value);
-        break;
-    case 'updated':
-        $data[$field] = $value ? date(\DateTime::W3C) : null;
-        break;
-    default:
-        $data[$field] = $value;
-        break;
-}
-                        $data[$field] = date(\DateTime::W3C, $value);
-                    } elseif ($field == 'updated') {
-                        $data[$field] = $value ? date(\DateTime::W3C) : null;
-                    } else {
-                        $data[$field] = $value;
+                    switch ($field) {
+                        case 'created':
+                            $data[$field] = date(\DateTime::W3C, $value);
+                            break;
+                        case 'updated':
+                            $data[$field] = $value ? date(\DateTime::W3C) : null;
+                            break;
+                        default:
+                            $data[$field] = $value;
+                            break;
                     }
                 }
 
