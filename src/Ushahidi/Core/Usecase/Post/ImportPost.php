@@ -63,7 +63,7 @@ class ImportPost implements Usecase
      *
      * @todo  setPayload doesn't match signature for other usecases
      *
-     * @param  $repo Iterator
+     * @param  \Iterator $payload
      * @return $this
      */
     public function setPayload(Traversable $payload)
@@ -80,7 +80,7 @@ class ImportPost implements Usecase
     /**
      * Inject a repository that can create entities.
      *
-     * @param  $repo Iterator
+     * @param  \Iterator $repo
      * @return $this
      */
     public function setTransformer(Transformer $transformer)

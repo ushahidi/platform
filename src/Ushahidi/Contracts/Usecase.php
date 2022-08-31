@@ -39,31 +39,7 @@ interface Usecase
      * - updating an entity
      * - deleting an entity
      *
-     * @return array
+     * @return array|\Ushahidi\Contracts\Entity[]
      */
     public function interact();
-
-    // /**
-    //  * Set parameters that can be used to uniquely identify a **single** entity:
-    //  *
-    //  * @param array $identifiers
-    //  * @return $this
-    //  */
-    // public function setIdentifiers(array $identifiers);
-
-    // /**
-    //  * Set parameters that can be used to uniquely identify a **single** entity:
-    //  *
-    //  * @param array $payload
-    //  * @return $this
-    //  */
-    // public function setPayload(array $payload);
-
-    // /**
-    //  * Set parameters that can be used to identify **multiple** records:
-    //  *
-    //  * @param array $filters
-    //  * @return $this
-    //  */
-    // public function setFilters(array $filters);
 }
