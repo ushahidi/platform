@@ -59,6 +59,7 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         $this->registerServicesFromAura();
+        $this->registerBusses();
 
         // $this->registerFilesystem();
         // $this->registerMailer();
