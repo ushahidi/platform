@@ -2,6 +2,12 @@
 
 namespace Ushahidi\App\Providers;
 
+use Ushahidi\App\Bus\Command\CommandBus;
+use Ushahidi\App\Bus\Command\Example\ExampleCommand;
+use Ushahidi\App\Bus\Command\Example\ExampleCommandHandler;
+use Ushahidi\App\Bus\Query\Example\ExampleQuery;
+use Ushahidi\App\Bus\Query\Example\ExampleQueryHandler;
+use Ushahidi\App\Bus\Query\QueryBus;
 use Ushahidi\App\Tools\Features;
 use Ushahidi\Core\Tools\Verifier;
 use Ushahidi\Factory\UsecaseFactory;
@@ -193,6 +199,26 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->singleton('features', function ($app) {
             return new Features($app[ConfigRepository::class]);
+        });
+    }
+
+    private function registerBusses(): void
+    {
+        $this->app->singleton(CommandBus::class, function ($app) {
+            $commandBus = new CommandBus();
+
+            $commandBus->register(ExampleCommand::class, ExampleCommandHandler::class);
+
+            return $commandBus;
+        });
+
+
+        $this->app->singleton(QueryBus::class, function ($app) {
+            $queryBus = new QueryBus();
+
+            $queryBus->register(ExampleQuery::class, ExampleQueryHandler::class);
+
+            return $queryBus;
         });
     }
 }
