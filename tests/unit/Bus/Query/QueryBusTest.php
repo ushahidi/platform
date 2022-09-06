@@ -1,96 +1,95 @@
 <?php
 
-namespace Tests\Unit\Bus\Command;
+namespace Tests\Unit\Bus\Query;
 
 use Illuminate\Contracts\Container\Container;
-use Ushahidi\App\Bus\Action;
-use Ushahidi\App\Bus\Command\Command;
-use Ushahidi\App\Bus\Command\CommandBus;
 use PHPUnit\Framework\TestCase;
+use Ushahidi\App\Bus\Command\Command;
 use Ushahidi\App\Bus\Command\CommandHandler;
 use Ushahidi\App\Bus\Handler;
+use Ushahidi\App\Bus\Query\QueryBus;
 use Ushahidi\App\Bus\Query\QueryHandler;
 use Ushahidi\App\Bus\Query\Query;
 
-class CommandBusTest extends TestCase
+class QueryBusTest extends TestCase
 {
     public function testShouldFailWhenWrongActionIsProvidedToRegister(): void
     {
         // GIVEN
         $mockContainer = $this->createMock(Container::class);
-        $mockHandler = $this->createMock(Handler::class);
+        $handler = $this->createMock(Handler::class);
 
         // WHEN
-        $commandBus = new CommandBus($mockContainer);
-        $action = $this->createMock(Query::class);
+        $queryBus = new QueryBus($mockContainer);
+        $action = $this->createMock(Command::class);
 
         // THEN
         $this->expectExceptionMessage(
             sprintf(
                 'Invalid argument. Expected instance of %s. Got %s',
-                Command::class,
+                Query::class,
                 get_class($action)
             )
         );
-        $commandBus->register(get_class($action), get_class($mockHandler));
+        $queryBus->register(get_class($action), get_class($handler));
     }
 
     public function testShouldFailWhenProvidedHandlerIsIncorrect(): void
     {
         // GIVEN
         $mockContainer = $this->createMock(Container::class);
-        $handler = $this->createMock(QueryHandler::class);
+        $handler = $this->createMock(CommandHandler::class);
 
         // WHEN
-        $commandBus = new CommandBus($mockContainer);
-        $action = new class implements Command {};
+        $queryBus = new QueryBus($mockContainer);
+        $action = new class implements Query {};
 
         // THEN
         $this->expectExceptionMessage(
             sprintf(
                 'Invalid argument. Expected instance of %s. Got %s',
-                CommandHandler::class,
+                QueryHandler::class,
                 get_class($handler)
             )
         );
-        $commandBus->register(get_class($action), get_class($handler));
+        $queryBus->register(get_class($action), get_class($handler));
     }
 
-    public function testShouldFailWhenWrongCommandIsNotRegistered(): void
+    public function testShouldFailWhenWrongQueryIsNotRegistered(): void
     {
         // GIVEN
         $mockContainer = $this->createMock(Container::class);
 
         // WHEN
-        $commandBus = new CommandBus($mockContainer);
-        $action = $this->createMock(Command::class);
+        $queryBus = new QueryBus($mockContainer);
+        $action = $this->createMock(Query::class);
 
         // THEN
         $this->expectExceptionMessage(
             sprintf(
-                'Invalid argument. %s is not registered.',
+                'Invalid argument. %s is not registered',
                 get_class($action)
             )
         );
-        $commandBus->handle($action);
+        $queryBus->handle($action);
     }
 
-    public function testShouldSucceedWhenCommandHasItsHandler(): void
+    public function testShouldSucceedWhenQueryHasItsHandler(): void
     {
         // GIVEN
-        $handler = $this->createMock(CommandHandler::class);
-        $handler->expects($this->once())->method('__invoke');
+        $handler = $this->createMock(QueryHandler::class);
+        $handler->expects($this->once())->method('__invoke')->willReturn(new \stdClass());
 
-        $command = $this->createMock(Command::class);
+        $query = $this->createMock(Query::class);
 
         $mockContainer = $this->createMock(Container::class);
         $mockContainer->method('make')->withAnyParameters()->willReturn($handler);
 
         // WHEN
-        $commandBus = new CommandBus($mockContainer);
+        $queryBus = new QueryBus($mockContainer);
 
         // THEN
-        $commandBus->register(get_class($command), get_class($handler));
-        $commandBus->handle($command);
+        $queryBus->register(get_class($query), get_class($handler));
+        $queryBus->handle($query);
     }
 }

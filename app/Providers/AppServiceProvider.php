@@ -206,7 +206,7 @@ class AppServiceProvider extends ServiceProvider
     private function registerBusses(): void
     {
         $this->app->singleton(CommandBus::class, function ($app) {
-            $commandBus = new CommandBus();
+            $commandBus = new CommandBus($app);
 
             $commandBus->register(ExampleCommand::class, ExampleCommandHandler::class);
 
@@ -215,7 +215,7 @@ class AppServiceProvider extends ServiceProvider
 
 
         $this->app->singleton(QueryBus::class, function ($app) {
-            $queryBus = new QueryBus();
+            $queryBus = new QueryBus($app);
 
             $queryBus->register(ExampleQuery::class, ExampleQueryHandler::class);
 

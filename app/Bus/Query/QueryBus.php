@@ -4,9 +4,8 @@ namespace Ushahidi\App\Bus\Query;
 
 use Ushahidi\App\Bus\Action;
 use Ushahidi\App\Bus\Bus;
-use Ushahidi\App\Bus\Command\Command;
-use Ushahidi\App\Bus\Command\CommandHandler;
-use Ushahidi\App\Bus\Handler;
+use Illuminate\Contracts\Container\Container;
+use Webmozart\Assert\Assert;
 
 class QueryBus implements Bus
 {
@@ -15,9 +14,15 @@ class QueryBus implements Bus
      */
     private $queries;
 
-    public function __construct()
+    /**
+     * @var Container
+     */
+    private $container;
+
+    public function __construct(Container $container)
     {
         $this->queries = [];
+        $this->container = $container;
     }
 
     public function handle(Action $action): object
@@ -27,7 +32,7 @@ class QueryBus implements Bus
 
         $handler = $this->queries[get_class($action)];
 
-        return resolve($handler)($action);
+        return $this->container->make($handler)($action);
     }
 
     public function register(string $action, string $handler): void
@@ -44,7 +49,7 @@ class QueryBus implements Bus
      */
     private function assertIsQuery(string $action): void
     {
-        assert(
+        Assert::true(
             is_subclass_of($action, Query::class),
             sprintf(
                 'Invalid argument. Expected instance of %s. Got %s',
@@ -60,7 +65,7 @@ class QueryBus implements Bus
      */
     private function assertIsQueryHandler(string $handler): void
     {
-        assert(
+        Assert::true(
             is_subclass_of($handler, QueryHandler::clasS),
             sprintf(
                 'Invalid argument. Expected instance of %s. Got %s',
@@ -77,7 +82,7 @@ class QueryBus implements Bus
     private function assertQueryRegistered(Action $action): void
     {
         $actionName = get_class($action);
-        assert(
+        Assert::true(
             array_key_exists($actionName, $this->queries),
             sprintf('Invalid argument. %s is not registered.', $actionName)
         );

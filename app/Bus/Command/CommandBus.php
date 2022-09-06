@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace Ushahidi\App\Bus\Command;
 
+use Illuminate\Contracts\Container\Container;
 use Ushahidi\App\Bus\Action;
 use Ushahidi\App\Bus\Bus;
-use Ushahidi\App\Bus\Handler;
+use Webmozart\Assert\Assert;
 
 class CommandBus implements Bus
 {
@@ -15,9 +16,15 @@ class CommandBus implements Bus
      */
     private $commands;
 
-    public function __construct()
+    /**
+     * @var Container
+     */
+    private $container;
+
+    public function __construct(Container $container)
     {
         $this->commands = [];
+        $this->container = $container;
     }
 
     /**
@@ -31,7 +38,7 @@ class CommandBus implements Bus
 
         $handler = $this->commands[get_class($action)];
 
-        resolve($handler)($action);
+        $this->container->make($handler)($action);
     }
 
     /**
@@ -53,7 +60,7 @@ class CommandBus implements Bus
      */
     private function assertIsCommand(string $action): void
     {
-        assert(
+        Assert::true(
             is_subclass_of($action, Command::class),
             sprintf(
                 'Invalid argument. Expected instance of %s. Got %s',
@@ -69,7 +76,7 @@ class CommandBus implements Bus
      */
     private function assertIsCommandHandler(string $handler): void
     {
-        assert(
+        Assert::true(
             is_subclass_of($handler, CommandHandler::class),
             sprintf(
                 'Invalid argument. Expected instance of %s. Got %s',
@@ -86,7 +93,7 @@ class CommandBus implements Bus
     private function assertCommandRegistered(Action $action): void
     {
         $actionName = get_class($action);
-        assert(
+        Assert::true(
             array_key_exists($actionName, $this->commands),
             sprintf('Invalid argument. %s is not registered.', $actionName)
         );
