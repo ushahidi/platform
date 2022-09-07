@@ -2,9 +2,9 @@
 
 namespace Ushahidi\App\Bus\Query;
 
+use Illuminate\Contracts\Container\Container;
 use Ushahidi\App\Bus\Action;
 use Ushahidi\App\Bus\Bus;
-use Illuminate\Contracts\Container\Container;
 use Webmozart\Assert\Assert;
 
 class QueryBus implements Bus
@@ -35,14 +35,6 @@ class QueryBus implements Bus
         return $this->container->make($handler)($action);
     }
 
-    public function register(string $action, string $handler): void
-    {
-        $this->assertIsQuery($action);
-        $this->assertIsQueryHandler($handler);
-
-        $this->queries[$action] = $handler;
-    }
-
     /**
      * @param string $action
      * @return void
@@ -60,6 +52,27 @@ class QueryBus implements Bus
     }
 
     /**
+     * @param Action $action
+     * @return void
+     */
+    private function assertQueryRegistered(Action $action): void
+    {
+        $actionName = get_class($action);
+        Assert::true(
+            array_key_exists($actionName, $this->queries),
+            sprintf('Invalid argument. %s is not registered.', $actionName)
+        );
+    }
+
+    public function register(string $action, string $handler): void
+    {
+        $this->assertIsQuery($action);
+        $this->assertIsQueryHandler($handler);
+
+        $this->queries[$action] = $handler;
+    }
+
+    /**
      * @param string $handler
      * @return void
      */
@@ -72,19 +85,6 @@ class QueryBus implements Bus
                 QueryHandler::class,
                 $handler
             )
-        );
-    }
-
-    /**
-     * @param Action $action
-     * @return void
-     */
-    private function assertQueryRegistered(Action $action): void
-    {
-        $actionName = get_class($action);
-        Assert::true(
-            array_key_exists($actionName, $this->queries),
-            sprintf('Invalid argument. %s is not registered.', $actionName)
         );
     }
 }

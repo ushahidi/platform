@@ -43,19 +43,6 @@ class CommandBus implements Bus
 
     /**
      * @param string $action
-     * @param string $handler
-     * @return void
-     */
-    public function register(string $action, string $handler): void
-    {
-        $this->assertIsCommand($action);
-        $this->assertIsCommandHandler($handler);
-
-        $this->commands[$action] = $handler;
-    }
-
-    /**
-     * @param string $action
      * @return void
      */
     private function assertIsCommand(string $action): void
@@ -71,6 +58,32 @@ class CommandBus implements Bus
     }
 
     /**
+     * @param Action $action
+     * @return void
+     */
+    private function assertCommandRegistered(Action $action): void
+    {
+        $actionName = get_class($action);
+        Assert::true(
+            array_key_exists($actionName, $this->commands),
+            sprintf('Invalid argument. %s is not registered.', $actionName)
+        );
+    }
+
+    /**
+     * @param string $action
+     * @param string $handler
+     * @return void
+     */
+    public function register(string $action, string $handler): void
+    {
+        $this->assertIsCommand($action);
+        $this->assertIsCommandHandler($handler);
+
+        $this->commands[$action] = $handler;
+    }
+
+    /**
      * @param string $handler
      * @return void
      */
@@ -83,19 +96,6 @@ class CommandBus implements Bus
                 CommandHandler::class,
                 $handler
             )
-        );
-    }
-
-    /**
-     * @param Action $action
-     * @return void
-     */
-    private function assertCommandRegistered(Action $action): void
-    {
-        $actionName = get_class($action);
-        Assert::true(
-            array_key_exists($actionName, $this->commands),
-            sprintf('Invalid argument. %s is not registered.', $actionName)
         );
     }
 }

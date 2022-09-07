@@ -3,14 +3,13 @@
 namespace Tests\Unit\Bus\Command;
 
 use Illuminate\Contracts\Container\Container;
-use Ushahidi\App\Bus\Action;
+use PHPUnit\Framework\TestCase;
 use Ushahidi\App\Bus\Command\Command;
 use Ushahidi\App\Bus\Command\CommandBus;
-use PHPUnit\Framework\TestCase;
 use Ushahidi\App\Bus\Command\CommandHandler;
 use Ushahidi\App\Bus\Handler;
-use Ushahidi\App\Bus\Query\QueryHandler;
 use Ushahidi\App\Bus\Query\Query;
+use Ushahidi\App\Bus\Query\QueryHandler;
 
 class CommandBusTest extends TestCase
 {
@@ -43,7 +42,8 @@ class CommandBusTest extends TestCase
 
         // WHEN
         $commandBus = new CommandBus($mockContainer);
-        $action = new class implements Command {};
+        $action = new class implements Command {
+        };
 
         // THEN
         $this->expectExceptionMessage(

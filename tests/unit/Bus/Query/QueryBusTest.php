@@ -4,12 +4,13 @@ namespace Tests\Unit\Bus\Query;
 
 use Illuminate\Contracts\Container\Container;
 use PHPUnit\Framework\TestCase;
+use stdClass;
 use Ushahidi\App\Bus\Command\Command;
 use Ushahidi\App\Bus\Command\CommandHandler;
 use Ushahidi\App\Bus\Handler;
+use Ushahidi\App\Bus\Query\Query;
 use Ushahidi\App\Bus\Query\QueryBus;
 use Ushahidi\App\Bus\Query\QueryHandler;
-use Ushahidi\App\Bus\Query\Query;
 
 class QueryBusTest extends TestCase
 {
@@ -42,7 +43,8 @@ class QueryBusTest extends TestCase
 
         // WHEN
         $queryBus = new QueryBus($mockContainer);
-        $action = new class implements Query {};
+        $action = new class implements Query {
+        };
 
         // THEN
         $this->expectExceptionMessage(
@@ -78,7 +80,7 @@ class QueryBusTest extends TestCase
     {
         // GIVEN
         $handler = $this->createMock(QueryHandler::class);
-        $handler->expects($this->once())->method('__invoke')->willReturn(new \stdClass());
+        $handler->expects($this->once())->method('__invoke')->willReturn(new stdClass());
 
         $query = $this->createMock(Query::class);
 

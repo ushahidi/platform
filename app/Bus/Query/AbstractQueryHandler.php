@@ -2,12 +2,14 @@
 
 namespace Ushahidi\App\Bus\Query;
 
+use InvalidArgumentException;
+
 abstract class AbstractQueryHandler implements QueryHandler
 {
     /**
      * @param Query $query
-     * @throws \InvalidArgumentException
      * @return mixed
+     * @throws InvalidArgumentException
      */
     protected abstract function isSupported(Query $query);
 }

@@ -2,14 +2,14 @@
 
 namespace Ushahidi\App\Bus\Command;
 
-use Ushahidi\App\Bus\Action;
+use InvalidArgumentException;
 
 abstract class AbstractCommandHandler implements CommandHandler
 {
     /**
      * @param Command $command
-     * @throws \InvalidArgumentException
      * @return void
+     * @throws InvalidArgumentException
      */
     protected abstract function isSupported(Command $command);
 }

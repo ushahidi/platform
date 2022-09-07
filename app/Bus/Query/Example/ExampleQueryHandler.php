@@ -25,15 +25,15 @@ class ExampleQueryHandler extends AbstractQueryHandler
      * @param Action|ExampleQuery $action
      * @return string
      */
-   public function __invoke(Action $action): string
-   {
-       $this->isSupported($action);
+    public function __invoke(Action $action): string
+    {
+        $this->isSupported($action);
 
         return $this->repository
             ->findByIndex(
                 $action->getIndex()
             );
-   }
+    }
 
     protected function isSupported(Query $query)
     {
