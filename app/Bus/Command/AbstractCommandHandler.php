@@ -11,5 +11,5 @@ abstract class AbstractCommandHandler implements CommandHandler
      * @return void
      * @throws InvalidArgumentException
      */
-    protected abstract function isSupported(Command $command);
+    abstract protected function isSupported(Command $command);
 }

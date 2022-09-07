@@ -11,5 +11,5 @@ abstract class AbstractQueryHandler implements QueryHandler
      * @return mixed
      * @throws InvalidArgumentException
      */
-    protected abstract function isSupported(Query $query);
+    abstract protected function isSupported(Query $query);
 }
