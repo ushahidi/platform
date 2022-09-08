@@ -2,32 +2,25 @@
 
 namespace Ushahidi\App\Providers;
 
-use Ushahidi\App\Bus\Command\CommandBus;
-use Ushahidi\App\Bus\Command\Example\ExampleCommand;
-use Ushahidi\App\Bus\Command\Example\ExampleCommandHandler;
-use Ushahidi\App\Bus\Query\Example\ExampleQuery;
-use Ushahidi\App\Bus\Query\Example\ExampleQueryHandler;
-use Ushahidi\App\Bus\Query\QueryBus;
-use Ushahidi\App\Tools\Features;
-use Ushahidi\Core\Tools\Verifier;
-use Ushahidi\Factory\UsecaseFactory;
-use Ushahidi\Addons\Mteja\MtejaSource;
-use Ushahidi\Core\Usecase\Post\Export;
 use Illuminate\Support\ServiceProvider;
-use Ushahidi\Core\Usecase\Export\Job\PostCount;
-use Ushahidi\DataSource\DataSourceServiceProvider;
-use Ushahidi\App\Multisite\MultisiteServiceProvider;
-use Ushahidi\App\Providers\FilesystemServiceProvider;
 use Ushahidi\Addons\AfricasTalking\AfricasTalkingSource;
-use Ushahidi\Contracts\Repository\Entity\PostRepository;
-use Ushahidi\Contracts\Repository\Entity\UserRepository;
+use Ushahidi\Addons\Mteja\MtejaSource;
+use Ushahidi\App\Multisite\MultisiteServiceProvider;
+use Ushahidi\App\Tools\Features;
 use Ushahidi\Contracts\Repository\Entity\ConfigRepository;
 use Ushahidi\Contracts\Repository\Entity\ContactRepository;
-use Ushahidi\Contracts\Repository\Entity\MessageRepository;
-use Ushahidi\Contracts\Repository\Entity\ExportJobRepository;
 use Ushahidi\Contracts\Repository\Entity\ExportBatchRepository;
+use Ushahidi\Contracts\Repository\Entity\ExportJobRepository;
 use Ushahidi\Contracts\Repository\Entity\FormAttributeRepository;
+use Ushahidi\Contracts\Repository\Entity\MessageRepository;
+use Ushahidi\Contracts\Repository\Entity\PostRepository;
 use Ushahidi\Contracts\Repository\Entity\TargetedSurveyStateRepository;
+use Ushahidi\Contracts\Repository\Entity\UserRepository;
+use Ushahidi\Core\Tools\Verifier;
+use Ushahidi\Core\Usecase\Export\Job\PostCount;
+use Ushahidi\Core\Usecase\Post\Export;
+use Ushahidi\DataSource\DataSourceServiceProvider;
+use Ushahidi\Factory\UsecaseFactory;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -59,7 +52,6 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         $this->registerServicesFromAura();
-        $this->registerBusses();
 
         // $this->registerFilesystem();
         // $this->registerMailer();
@@ -149,16 +141,16 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->singleton(PostCount::class, function ($app) {
             return service('factory.usecase')
-                    // Override action
-                    ->get('export_jobs', 'post-count')
-                    // Override authorizer
-                    ->setAuthorizer(service('authorizer.external_auth')); // @todo remove the need for this?
+                // Override action
+                ->get('export_jobs', 'post-count')
+                // Override authorizer
+                ->setAuthorizer(service('authorizer.external_auth')); // @todo remove the need for this?
         });
 
         $this->app->singleton(Export::class, function ($app) {
             return service('factory.usecase')
-                    ->get('posts_export', 'export')
-                    ->setAuthorizer(service('authorizer.export_job'));
+                ->get('posts_export', 'export')
+                ->setAuthorizer(service('authorizer.export_job'));
         });
     }
 
@@ -200,26 +192,6 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->singleton('features', function ($app) {
             return new Features($app[ConfigRepository::class]);
-        });
-    }
-
-    private function registerBusses(): void
-    {
-        $this->app->singleton(CommandBus::class, function ($app) {
-            $commandBus = new CommandBus($app);
-
-            $commandBus->register(ExampleCommand::class, ExampleCommandHandler::class);
-
-            return $commandBus;
-        });
-
-
-        $this->app->singleton(QueryBus::class, function ($app) {
-            $queryBus = new QueryBus($app);
-
-            $queryBus->register(ExampleQuery::class, ExampleQueryHandler::class);
-
-            return $queryBus;
         });
     }
 }
