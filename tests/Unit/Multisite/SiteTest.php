@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Unit tests for Lumen implementation of Ushahidi\Core\Tool\Mailer
+ * Unit tests for Lumen implementation of Ushahidi\Core\Tools\Mailer
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @copyright  2013 Ushahidi
@@ -31,7 +31,7 @@ class SiteTest extends TestCase
             'multisite.email' => 'deploy@multisite.ushahidi.app',
         ]);
 
-        $site = new Site([]);
+        $site = new Site([], 0);
 
         $this->assertEquals('deploy@multisite.ushahidi.app', $site->getEmail());
     }
@@ -44,14 +44,14 @@ class SiteTest extends TestCase
         ]);
 
         // Mock the config repo
-        $configRepo = M::mock(ConfigRepository::class);
-        // Return email in config
-        $configRepo->shouldReceive('get')->with('site')->andReturn(new Config([
-            'email' => 'us@site.com',
-        ]));
-        $this->app->instance(ConfigRepository::class, $configRepo);
+        $configRepo = M::mock(ConfigRepository::class, function (M\MockInterface $mock) {
+            $mock->shouldReceive('get')->with('site')->andReturn(new Config([
+                'email' => 'us@site.com'
+            ]));
+        });
+        $this->instance(ConfigRepository::class, $configRepo);
 
-        $site = new Site([]);
+        $site = new Site([], 0);
 
         $this->assertEquals('us@site.com', $site->getEmail());
     }
@@ -64,13 +64,15 @@ class SiteTest extends TestCase
         ]);
 
         // Mock the config repo
-        $configRepo = M::mock(ConfigRepository::class);
-        // Return empty config
-        $configRepo->shouldReceive('get')->with('site')->andReturn(new Config([]));
-        $this->app->instance(ConfigRepository::class, $configRepo);
+        $configRepo = M::mock(ConfigRepository::class, function (M\MockInterface $mock) {
+            $mock->shouldReceive('get')
+                ->with('site')
+                ->andReturn(new Config(['email' => null]));
+        });
+        $this->instance(ConfigRepository::class, $configRepo);
 
         // Fake the request
-        $this->app->instance(
+        $this->instance(
             Request::class,
             new Request([], [], [], [], [], [
                 'HTTP_HOST' => 'host.com',
@@ -80,9 +82,7 @@ class SiteTest extends TestCase
 
         \Illuminate\Support\Facades\Request::swap($this->app->make(Request::class));
 
-        $site = $this->app->make(Site::class, [
-            'data' => []
-        ]);
+        $site = new Site([], 0);
 
         $this->assertEquals('noreply@host.com', $site->getEmail());
     }

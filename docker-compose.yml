@@ -39,7 +39,7 @@ services:
       - "80:8080"
     volumes:
       - storage-app-public:/var/www/storage/app/public
-      - ./:/vols/src
+      - .:/var/www
   platform_tasks:
     build: .
     environment:

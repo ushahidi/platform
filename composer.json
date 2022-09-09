@@ -153,6 +153,10 @@
             "php artisan passport:keys",
             "chmod 660 storage/passport/*.key"
         ],
+        "pre-push-test": [
+            "phpunit --no-coverage",
+            "behat --strict"
+        ],
         "test": [
             "phpunit --no-coverage",
             "phpspec run --no-code-generation",

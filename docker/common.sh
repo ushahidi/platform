@@ -17,8 +17,8 @@ function copy_external_config() {
 }
 
 function check_vols_src() {
-  if [ ! -d /vols/src ]; then
-    echo "No /vols/src with code"
+  if [ ! -d /var/www ]; then
+    echo "No /var/www with code"
     exit 1
   fi
 }
@@ -93,7 +93,7 @@ function sync {
     echo "- storage/passport/**"
     echo "- tmp"
   } > /tmp/rsync_exclude
-  rsync -ar --exclude-from=/tmp/rsync_exclude --delete-during /vols/src/ ./
+  rsync -ar --exclude-from=/tmp/rsync_exclude --delete-during /var/www/ ./
   rm -f phpunit.xml behat.yml phpspec.yml
 }
 
