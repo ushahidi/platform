@@ -2,26 +2,25 @@
 
 namespace Ushahidi\App\Providers;
 
-use Ushahidi\App\Tools\Features;
-use Ushahidi\Core\Tools\Verifier;
-use Ushahidi\Factory\UsecaseFactory;
-use Ushahidi\Addons\Mteja\MtejaSource;
-use Ushahidi\Core\Usecase\Post\Export;
 use Illuminate\Support\ServiceProvider;
-use Ushahidi\Core\Usecase\Export\Job\PostCount;
-use Ushahidi\DataSource\DataSourceServiceProvider;
-use Ushahidi\App\Multisite\MultisiteServiceProvider;
-use Ushahidi\App\Providers\FilesystemServiceProvider;
 use Ushahidi\Addons\AfricasTalking\AfricasTalkingSource;
-use Ushahidi\Contracts\Repository\Entity\PostRepository;
-use Ushahidi\Contracts\Repository\Entity\UserRepository;
+use Ushahidi\Addons\Mteja\MtejaSource;
+use Ushahidi\App\Multisite\MultisiteServiceProvider;
+use Ushahidi\App\Tools\Features;
 use Ushahidi\Contracts\Repository\Entity\ConfigRepository;
 use Ushahidi\Contracts\Repository\Entity\ContactRepository;
-use Ushahidi\Contracts\Repository\Entity\MessageRepository;
-use Ushahidi\Contracts\Repository\Entity\ExportJobRepository;
 use Ushahidi\Contracts\Repository\Entity\ExportBatchRepository;
+use Ushahidi\Contracts\Repository\Entity\ExportJobRepository;
 use Ushahidi\Contracts\Repository\Entity\FormAttributeRepository;
+use Ushahidi\Contracts\Repository\Entity\MessageRepository;
+use Ushahidi\Contracts\Repository\Entity\PostRepository;
 use Ushahidi\Contracts\Repository\Entity\TargetedSurveyStateRepository;
+use Ushahidi\Contracts\Repository\Entity\UserRepository;
+use Ushahidi\Core\Tools\Verifier;
+use Ushahidi\Core\Usecase\Export\Job\PostCount;
+use Ushahidi\Core\Usecase\Post\Export;
+use Ushahidi\DataSource\DataSourceServiceProvider;
+use Ushahidi\Factory\UsecaseFactory;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -142,16 +141,16 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->singleton(PostCount::class, function ($app) {
             return service('factory.usecase')
-                    // Override action
-                    ->get('export_jobs', 'post-count')
-                    // Override authorizer
-                    ->setAuthorizer(service('authorizer.external_auth')); // @todo remove the need for this?
+                // Override action
+                ->get('export_jobs', 'post-count')
+                // Override authorizer
+                ->setAuthorizer(service('authorizer.external_auth')); // @todo remove the need for this?
         });
 
         $this->app->singleton(Export::class, function ($app) {
             return service('factory.usecase')
-                    ->get('posts_export', 'export')
-                    ->setAuthorizer(service('authorizer.export_job'));
+                ->get('posts_export', 'export')
+                ->setAuthorizer(service('authorizer.export_job'));
         });
     }
 

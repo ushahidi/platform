@@ -174,6 +174,7 @@ return [
          * Application Service Providers...
          */
         Ushahidi\App\Providers\AppServiceProvider::class,
+        Ushahidi\App\Providers\BusServiceProvider::class,
         Ushahidi\App\Providers\AuthServiceProvider::class,
         Ushahidi\App\Providers\BroadcastServiceProvider::class,
         Ushahidi\App\Providers\EventServiceProvider::class,
