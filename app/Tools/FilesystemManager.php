@@ -1,6 +1,6 @@
 <?php
 
-namespace Ushahidi\App\Tools;
+namespace App\Tools;
 
 use Illuminate\Filesystem\FilesystemManager as LaravelFilesystemManager;
 use League\Flysystem\Rackspace\RackspaceAdapter;

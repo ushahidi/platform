@@ -1,9 +1,8 @@
 <?php
-
-namespace Tests;
+namespace Ushahidi\Tests;
 
 use Illuminate\Foundation\Testing\DatabaseTransactions as LaravelDatabaseTransactions;
-use Ushahidi\App\Multisite\OhanzeeResolver;
+use Ushahidi\Core\Tool\OhanzeeResolver;
 use Ohanzee\DB;
 
 /**
@@ -60,7 +59,6 @@ trait DatabaseTransactions
      * @param  string  $table
      * @param  array  $data
      * @param  string|null $onConnection
-     * @return $this
      */
     protected function seeInOhanzeeDatabase($table, array $data)
     {
@@ -89,7 +87,6 @@ trait DatabaseTransactions
      * @param  string  $table
      * @param  array  $data
      * @param  string|null $onConnection
-     * @return $this
      */
     protected function notSeeInOhanzeeDatabase($table, array $data)
     {
@@ -121,7 +118,6 @@ trait DatabaseTransactions
      * @param  string  $table
      * @param  array  $data
      * @param  string|null $onConnection
-     * @return $this
      */
     protected function seeCountInOhanzeeDatabase($table, array $data, $assertCount)
     {

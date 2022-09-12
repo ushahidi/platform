@@ -8,12 +8,18 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Ushahidi\App\Console\Commands;
+namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use Ushahidi\Contracts\Repository\Entity\ConfigRepository;
+use Ushahidi\Core\Tool\Authorizer\ConsoleAuthorizer;
+use Ushahidi\Core\Usecase\UpdateUsecase;
+use App\Console\Commands\Concerns\ConsoleFormatter;
 
 class ConfigSetCommand extends Command
 {
+    use ConsoleFormatter;
+
     /**
      * The console command name.
      *
@@ -46,28 +52,16 @@ class ConfigSetCommand extends Command
         parent::__construct();
     }
 
-    protected function getUsecase()
-    {
-        if (! $this->usecase) {
-            // @todo inject
-            $this->usecase = service('factory.usecase')
-                ->get('config', 'update')
-                // Override authorizer for console
-                ->setAuthorizer(service('authorizer.console'))
-                // Override formatter for console
-                ->setFormatter(service('formatter.entity.console'));
-        }
-
-        return $this->usecase;
-    }
-
     /**
      * Execute the console command.
      *
      * @return void
      */
-    public function handle()
-    {
+    public function handle(
+        UpdateUsecase $updateUsecase,
+        ConfigRepository $configRepo,
+        ConsoleAuthorizer $consoleAuth
+    ) {
         $group = $this->argument('group');
         $key = $this->option('key');
         $is_json = $this->option('json');
@@ -84,10 +78,17 @@ class ConfigSetCommand extends Command
             }
         }
 
-        $this->getUsecase()->setIdentifiers(['id' => $group])
-            ->setPayload($value);
+        $updateUsecase->setIdentifiers(['id' => $group]);
 
-        $response = $this->getUsecase()->interact();
+        $updateUsecase->setPayload($value);
+
+        $updateUsecase->setAuthorizer($consoleAuth);
+
+        $updateUsecase->setRepository($configRepo);
+
+        $updateUsecase->setFormatter($this->getFormatter());
+
+        $response = $updateUsecase->interact();
 
         // Format the response and output
         $this->handleResponse($response);

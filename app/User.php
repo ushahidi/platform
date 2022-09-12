@@ -1,6 +1,6 @@
 <?php
 
-namespace Ushahidi\App;
+namespace App;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
