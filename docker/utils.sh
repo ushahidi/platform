@@ -113,3 +113,15 @@ function wait_for_mysql {
     sleep 1
   done
 }
+
+function bootstrap_done {
+  # TODO: at some point the container should run with UID != 0 and this should be
+  #       going to a specific path
+  touch /bootstrapped
+}
+
+function wait_bootstrap {
+  while [ ! -f /bootstrapped ]; do
+    sleep 1
+  done
+}
