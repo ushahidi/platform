@@ -48,7 +48,7 @@ jobs:
 
         cp .env.testing .env ;
         . .env ;
-        . docker/common.sh ;
+        . docker/utils.sh ;
         wait_for_mysql ;
 
         cat > $HOME/.my.cnf <<EOF

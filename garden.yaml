@@ -106,7 +106,7 @@ tasks:
     - /bin/bash
     - -c
     - >-
-      . docker/common.sh ;
+      . docker/utils.sh ;
       run_composer_install ;
       (cd httpdocs/; php -S localhost:8000 -t . index.php &) ;
       ./bin/behat --strict --profile ci ${var.flags || ''} ${var.spec_filename || ''}
