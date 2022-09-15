@@ -33,7 +33,7 @@ The backend will be listening on localhost:8080.
 
 You may use `make start` to restart the containers (does a full container build).
 
-You may use `make apply` to apply dependency and migration changes to containers (without full container build).
+You may use `make apply` to apply dependency and migration changes to containers (without full container build). **Note:** this requires containers to be up.
 ​
 To stop Docker containers run `make stop`
 
