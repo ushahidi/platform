@@ -1,0 +1,25 @@
+{
+    "name": "ushahidi/v5",
+    "description": "Ushahidi Platform V5 API codebase",
+    "homepage": "http://ushahidi.com/",
+    "type": "project",
+    "license": "AGPL-3.0",
+    "repositories": [],
+    "require": {
+        "php": ">=7.2 <7.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "Ushahidi\\Modules\\V5\\": ""
+        },
+        "files": []
+    },
+    "extra": {},
+    "suggest": {},
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "scripts": {
+    }
+}

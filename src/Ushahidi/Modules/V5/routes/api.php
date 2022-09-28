@@ -86,4 +86,13 @@ $router->group([
         $router->post('/_ussd', 'USSDController@store');
         $router->post('/_whatsapp', 'WhatsAppController@store');
     });
+
+    $router->group([
+        'prefix' => 'datasources',
+        // 'middleware' => ['auth:api']
+    ], function () use ($router) {
+        // Public access
+        $router->get('/', 'DataSourceController@index');
+        $router->get('/{source}', 'DataSourceController@show');
+    });
 });
