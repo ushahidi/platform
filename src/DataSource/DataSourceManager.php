@@ -227,7 +227,7 @@ class DataSourceManager
         // sources using their own customized source creator Closure to create it.
         if (isset($this->customCreators[$source])) {
             return $this->sources[$source] = call_user_func($this->customCreators[$source], $config);
-        } elseif ($this->$this->customSources[$source]) {
+        } elseif (isset($this->customSources[$source])) {
             return $this->sources[$source] = new $this->customSources[$source]($config);
         } else {
             $method = 'create' . ucfirst($source) . 'Source';
