@@ -86,4 +86,14 @@ $router->group([
         $router->post('/_ussd', 'USSDController@store');
         $router->post('/_whatsapp', 'WhatsAppController@store');
     });
+
+    // Restricted access
+    $router->group([
+        'prefix' => 'tos',
+        'middleware' => ['auth:api', 'scope:tos']
+    ], function () use ($router) {
+        $router->get('/', 'TosController@index');
+        $router->get('/{id}', 'TosController@show');
+        $router->post('/', 'TosController@store');
+    });
 });
