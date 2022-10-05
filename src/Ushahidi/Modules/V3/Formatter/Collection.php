@@ -13,11 +13,74 @@
 
 namespace Ushahidi\Modules\V3\Formatter;
 
-use Ushahidi\Core\Tool\Formatter\CollectionFormatter;
+use Ushahidi\Core\Tool\SearchData;
+use Ushahidi\Contracts\Formatter;
+use Ushahidi\Core\Exception\FormatterException;
 
-class Collection extends CollectionFormatter
+class Collection implements Formatter
 {
-    // CollectionFormatter
+    protected $formatter;
+
+    /**
+     * @var \Ushahidi\Core\Tool\SearchData
+     */
+    protected $search;
+
+    /**
+     * @var integer
+     */
+    protected $total;
+
+    /**
+     * Collection formatter recursively invokes an entity-specific formatter.
+     *
+     * @param \Ushahidi\Contracts\Formatter $formatter
+     */
+    public function __construct(Formatter $formatter)
+    {
+        $this->formatter = $formatter;
+    }
+
+    /**
+     * Store paging parameters.
+     */
+    public function setSearch(SearchData $search, int $total = null)
+    {
+        $this->search = $search;
+        $this->total  = $total;
+        return $this;
+    }
+
+    // Formatter
+    public function __invoke($entities)
+    {
+        if (!is_array($entities)) {
+            throw new FormatterException('Collection formatter requries an array of entities');
+        }
+
+        $results = [];
+        foreach ($entities as $entity) {
+            $results[] = $this->formatter->__invoke($entity);
+        }
+
+        $output = [
+            'count'   => count($results),
+            'results' => $results,
+        ];
+
+        if ($this->search) {
+            $output += $this->getPaging();
+        }
+
+        return $output;
+    }
+
+    /**
+     * Collections are always paged, which requires pages metadata to be added
+     * to the results.
+     *
+     * @return array
+     */
     public function getPaging()
     {
         // Get paging parameters, ensuring all values are set
