@@ -15,9 +15,9 @@ abstract class EloquentRepository implements
 {
     /**
      *
-     * @var string
+     * @var string|\Ushahidi\Core\EloquentEntity
      */
-    protected static $model;
+    protected static $root;
 
     public function get($id)
     {
@@ -26,7 +26,7 @@ abstract class EloquentRepository implements
 
     public function getEntity(array $data = null)
     {
-        return new self::$model($data);
+        return new self::$root($data);
     }
 
     /**
@@ -48,6 +48,6 @@ abstract class EloquentRepository implements
 
     public function __call(string $name, array $arguments)
     {
-        return Container::getInstance()->make(static::$model)->{$name}(...$arguments);
+        return Container::getInstance()->make(static::$root)->{$name}(...$arguments);
     }
 }
