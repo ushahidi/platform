@@ -15,11 +15,12 @@
 namespace Ushahidi\Core;
 
 use Ushahidi\Contracts\Entity;
+use Illuminate\Support\Collection;
 use Ushahidi\Core\Concerns\DeriveData;
 use Ushahidi\Core\Concerns\DefaultData;
 use Ushahidi\Core\Concerns\TransformData;
-use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model as EloquentModel;
+use Illuminate\Support\Arr;
 
 abstract class EloquentEntity extends EloquentModel implements Entity
 {
@@ -37,7 +38,9 @@ abstract class EloquentEntity extends EloquentModel implements Entity
     public function __construct(array $attributes = null)
     {
         parent::__construct(
-            $this->prepareEntityData($this->addDefaultDataToArray($attributes ?? []))
+            $this->getEntityData(
+                $this->addDefaultDataToArray($attributes ?? [])
+            )
         );
     }
 
@@ -67,9 +70,11 @@ abstract class EloquentEntity extends EloquentModel implements Entity
 
     public function setState(array $data)
     {
-        $this->syncOriginal();
+        if(empty($this->original)){
+            $this->syncOriginal();
+        }
 
-        $this->fill($this->prepareEntityData($data));
+        $this->fill($this->getEntityData($data));
 
         return $this;
     }
@@ -90,22 +95,11 @@ abstract class EloquentEntity extends EloquentModel implements Entity
 
         // return $this->attributesToArray();
 
-        // return get_object_vars($this)['attributes'];
-
-        // So basically get all properties and iterate through them
-        // checking if they were declared in class we reflected.
-
-        $class = new \ReflectionClass($this);
-
-        $properties = array_filter($class->getProperties(), function(\ReflectionProperty $prop) use($class){
-            return $prop->getDeclaringClass()->getName() == $class->getName();
-        });
-
-        if (empty($properties)) {
+        if (empty($properties = $this->getEntityProperties())) {
             return $this->attributesToArray();
         }
 
-        return $this->only(Collection::make($properties)->pluck('name')->toArray());
+        return $this->only($properties);
     }
 
     public function jsonSerialize()
@@ -113,10 +107,10 @@ abstract class EloquentEntity extends EloquentModel implements Entity
         return $this->asArray();
     }
 
-    protected function prepareEntityData($data)
+    protected function getEntityData($data)
     {
         // Get the immutable values. Once set, these cannot be changed.
-        $immutable = $this->getImmutable();
+         $immutable = $this->getImmutable();
 
         $filtered = Collection::make($this->derive($data))->filter(
             function($value, $key) use ($immutable)  {
@@ -129,6 +123,19 @@ abstract class EloquentEntity extends EloquentModel implements Entity
         )->toArray();
 
         return $this->transform($filtered);
+    }
+
+    protected function getEntityProperties()
+    {
+        // So basically get all properties and iterate through them
+        // checking if they were declared in class we reflected.
+        $class = new \ReflectionClass($this);
+
+        $properties = array_filter($class->getProperties(), function(\ReflectionProperty $prop) use($class){
+            return $prop->getDeclaringClass()->getName() == $class->getName() && $prop->isProtected();
+        });
+
+        return Collection::make($properties)->pluck('name')->toArray();
     }
 
     protected function getDerived()

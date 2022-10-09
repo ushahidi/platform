@@ -28,13 +28,6 @@ abstract class BasicEntity implements Entity
     protected $attributes = [];
 
     /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [];
-
-    /**
      * Transparent access to dynamic entity properties.
      *
      * @param string $key
@@ -69,16 +62,11 @@ abstract class BasicEntity implements Entity
 
     public function getId()
     {
-        return $this->id;
-    }
-
-    protected function getDefinition()
-    {
-        return $this->casts;
+        return $this->attributes['id'] ?? null;
     }
 
     protected function getImmutable()
     {
-        return [];
+        return ['id', 'created'];
     }
 }
