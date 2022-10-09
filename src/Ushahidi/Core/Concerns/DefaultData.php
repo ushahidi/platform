@@ -13,7 +13,7 @@ namespace Ushahidi\Core\Concerns;
 
 trait DefaultData
 {
-    protected function addDefaultDataToArray($data)
+    protected function addDefaultDataToArray(array $data = null)
     {
         // We can't define the method getDefaultData in this trait
         // due to the way method overriding works with trait inheritance.
@@ -28,6 +28,6 @@ trait DefaultData
             }
         }
 
-        return $data;
+        return $data ?? [];
     }
 }

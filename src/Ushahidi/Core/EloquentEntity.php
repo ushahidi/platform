@@ -14,15 +14,14 @@
 
 namespace Ushahidi\Core;
 
+use Illuminate\Support\Arr;
 use Ushahidi\Contracts\Entity;
-use Illuminate\Support\Collection;
 use Ushahidi\Core\Concerns\DeriveData;
+use Illuminate\Database\Eloquent\Model;
 use Ushahidi\Core\Concerns\DefaultData;
 use Ushahidi\Core\Concerns\TransformData;
-use Illuminate\Database\Eloquent\Model as EloquentModel;
-use Illuminate\Support\Arr;
 
-abstract class EloquentEntity extends EloquentModel implements Entity
+abstract class EloquentEntity extends Model implements Entity
 {
     use DefaultData, DeriveData, TransformData;
 
@@ -54,15 +53,6 @@ abstract class EloquentEntity extends EloquentModel implements Entity
         return $this->getAttributeFromArray($this->getKeyName());
     }
 
-    // public function getCasts()
-    // {
-    //     if (method_exists($this, 'getDefinition')) {
-    //         return array_merge($this->getDefinition(), parent::getCasts());
-    //     }
-
-    //     return parent::getCasts();
-    // }
-
     public function getResource()
     {
         return $this->resource;
@@ -89,13 +79,12 @@ abstract class EloquentEntity extends EloquentModel implements Entity
         return $this->getDirty();
     }
 
+    //
     public function asArray()
     {
-        // return $this->getAttributes();
-
-        // return $this->attributesToArray();
-
         if (empty($properties = $this->getEntityProperties())) {
+            // return $this->getAttributes();
+
             return $this->attributesToArray();
         }
 
@@ -107,20 +96,18 @@ abstract class EloquentEntity extends EloquentModel implements Entity
         return $this->asArray();
     }
 
-    protected function getEntityData($data)
+    protected function getEntityData(array $data)
     {
         // Get the immutable values. Once set, these cannot be changed.
          $immutable = $this->getImmutable();
 
-        $filtered = Collection::make($this->derive($data))->filter(
-            function($value, $key) use ($immutable)  {
-                if (in_array($key, $immutable) && isset($this->original[$key])) {
-                    // Value has already been set and cannot be changed.
-                    return false;
-                }
-                return true;
+        $filtered = Arr::where($this->derive($data),function($value, $key) use ($immutable)  {
+            if (in_array($key, $immutable) && isset($this->original[$key])) {
+                // Value has already been set and cannot be changed.
+                return false;
             }
-        )->toArray();
+            return true;
+        });
 
         return $this->transform($filtered);
     }
@@ -129,13 +116,28 @@ abstract class EloquentEntity extends EloquentModel implements Entity
     {
         // So basically get all properties and iterate through them
         // checking if they were declared in class we reflected.
+        $getProperties = function (\ReflectionClass $class) {
+            return array_filter($class->getProperties(), function(\ReflectionProperty $prop) use($class){
+                return $prop->getDeclaringClass()->getName() == $class->getName() && $prop->isProtected();
+            });
+        };
+
         $class = new \ReflectionClass($this);
 
-        $properties = array_filter($class->getProperties(), function(\ReflectionProperty $prop) use($class){
-            return $prop->getDeclaringClass()->getName() == $class->getName() && $prop->isProtected();
-        });
+        $properties = $getProperties($class);
 
-        return Collection::make($properties)->pluck('name')->toArray();
+        // In the case an entity that extends a parent entity,
+        // we should be able to get the properties of the parent class and
+        // merge it with the child class.
+        //
+        // We're specifically checking if the parent class isn't abstract,
+        // as we don't want the properties of the base entity class with data logic
+        // i.e Eloquent properties
+        if(($parentClass = $class->getParentClass()) && !$parentClass->isAbstract()) {
+            $properties = array_merge($properties, $getProperties($parentClass));
+        }
+
+        return Arr::pluck($properties, 'name');
     }
 
     protected function getDerived()
@@ -152,20 +154,4 @@ abstract class EloquentEntity extends EloquentModel implements Entity
     {
         return ['id', 'created'];
     }
-
-    // protected function asDateTime($value)
-    // {
-    //     $value = parent::asDateTime($value);
-
-    //     return $value->toDateTime();
-    // }
-
-    // protected function castAttribute($key, $value)
-    // {
-    //     if($func = $this->getCustomTransformer($this->getCastType($key))) {
-    //         return static::$func($value);
-    //     }
-
-    //     return parent::castAttribute($key, $value);
-    // }
 }
