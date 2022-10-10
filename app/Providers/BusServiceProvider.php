@@ -7,6 +7,11 @@ use App\Bus\Command\Example\ExampleCommand;
 use App\Bus\Command\Example\ExampleCommandHandler;
 use App\Bus\Query\Example\ExampleQuery;
 use App\Bus\Query\Example\ExampleQueryHandler;
+use Ushahidi\Modules\V5\Commands\Tos\CreateTosCommand;
+use Ushahidi\Modules\V5\Commands\Tos\CreateTosCommandHandler;
+use Ushahidi\Modules\V5\Queries\Tos\GetTosQuery;
+use Ushahidi\Modules\V5\Queries\Tos\GetTosQueryHandler;
+
 use App\Bus\Query\QueryBus;
 use Illuminate\Support\ServiceProvider;
 
@@ -29,7 +34,8 @@ class BusServiceProvider extends ServiceProvider
             $commandBus = new CommandBus($app);
 
             $commandBus->register(ExampleCommand::class, ExampleCommandHandler::class);
-
+            $commandBus->register(CreateTosCommand::class, CreateTosCommandHandler::class);
+            
             return $commandBus;
         });
     }
@@ -40,6 +46,7 @@ class BusServiceProvider extends ServiceProvider
             $queryBus = new QueryBus($app);
 
             $queryBus->register(ExampleQuery::class, ExampleQueryHandler::class);
+            $queryBus->register(GetTosQuery::class, GetTosQueryHandler::class);
 
             return $queryBus;
         });

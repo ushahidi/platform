@@ -14,6 +14,11 @@ use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Illuminate\Validation\ValidationException as LaravelValidationException;
+use Ushahidi\Core\Exception\AuthorizerException;
+use Ushahidi\Core\Exception\NotFoundException;
+use Ushahidi\Core\Exception\ThrottlingException;
+use Ushahidi\Core\Exception\ValidatorException;
+
 
 class Handler extends ExceptionHandler
 {
@@ -84,8 +89,6 @@ class Handler extends ExceptionHandler
             abort(404, $exception->getMessage());
         } elseif ($exception instanceof ValidatorException) {
             $exception = new ValidationException($exception->getMessage(), $exception);
-        } elseif ($exception instanceof \InvalidArgumentException) {
-            abort(400, 'Bad request: '.$exception->getMessage());
         } elseif ($exception instanceof AuthorizerException) {
           //  If we don't have an Authorization header, return 401
             if (! $request->headers->has('Authorization')) {
@@ -100,7 +103,10 @@ class Handler extends ExceptionHandler
             }
         } elseif ($exception instanceof ThrottlingException) {
              abort(429, 'Too Many Requests');
+        } elseif ($exception instanceof \InvalidArgumentException) {
+            abort(400, 'Bad request: '.$exception->getMessage());
         }
+
         // If request asks for JSON then we return the error as JSON
         if ($request->ajax() || $request->wantsJson()) {
             $statusCode = 500;

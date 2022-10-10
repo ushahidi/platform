@@ -25,31 +25,7 @@ class TosController extends V5Controller
     {
         return ['user_id', 'agreement_date'];
     }
-
-    private function runAuthorizer($ability, $object)
-    {
-        $authorizer = service('authorizer.tos');
-        // if there's no user the guards will kick them off already, but if there
-        // is one we need to check the authorizer to ensure we don't let
-        // users without admin perms create forms etc
-        // this is an unfortunate problem with using an old version of lumen
-        // that doesn't let me do guest user checks without adding more risk.
-        $user = $authorizer->getUser();
-        if ($user) {
-            $this->authorize($ability, $object);
-        }
-        return $user;
-    }
-
-    private function setInputDefaults($input, $action, $user)
-    {
-        if ($action === 'store') {
-            // Save the agreement date to the current time and the user ID
-            $input['user_id'] = $user->id;
-            $input['agreement_date'] =  time();
-        }
-        return $input;
-    }
+    
     /**
      * Display the specified resource.
      *
@@ -91,29 +67,4 @@ class TosController extends V5Controller
          return new TosResource($command->getModel());
     }//end store()
 
-    public function store1(Request $request, CommandBus $commandBus)
-    {
-         $input = $this->getFields($request->input());
-        
-        if (empty($input)) {
-            return self::make500('POST body cannot be empty');
-        }
-         $user = $this->runAuthorizer('store', Tos::class);
-
-         $input = $this->setInputDefaults($input, 'store', $user);
-
-         $tos = new Tos();
-        if (!$tos->validate($input)) {
-            return self::make422($tos->errors);
-        }
-         DB::beginTransaction();
-        try {
-            $tos = tos::create($input);
-            DB::commit();
-            return new TosResource($tos);
-        } catch (\Exception $e) {
-            DB::rollback();
-            return self::make500($e->getMessage());
-        }
-    }//end store()
 }//end class

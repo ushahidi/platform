@@ -7,9 +7,15 @@ use App\Bus\Command\Command;
 use Ushahidi\Modules\V5\Commands\Tos\CreateTosCommand;
 use Ushahidi\Modules\V5\Models\Tos;
 use Illuminate\Support\Facades\DB;
+use Ushahidi\Modules\V5\Common\Authorize;
+use Ushahidi\Modules\V5\Common\Errors;
+
 
 class CreateTosCommandHandler extends AbstractBaseCommandHandler
 {
+    use Authorize;
+    use Errors;
+
     /**
      * @param CreateTosCommand $command
      * @return void
@@ -19,9 +25,8 @@ class CreateTosCommandHandler extends AbstractBaseCommandHandler
         $this->isSupported($command);
 
       
-        $user = $this->runAuthorizer('store', Tos::class);
-
-        $input = $this->setInputDefaults($command->getInput(), 'store', $user);
+        $this->authorizeForUser('store', Tos::class);
+        $input = $this->setInputDefaults($command->getInput(), 'store', $this->getUser());
         $tos = new Tos();
         if (!$tos->validate($input)) {
             $this->errorInvalidData("Tos", $tos->errors->messages());
@@ -43,21 +48,6 @@ class CreateTosCommandHandler extends AbstractBaseCommandHandler
             get_class($command) === CreateTosCommand::class,
             'Provided command not supported'
         );
-    }
-
-    private function runAuthorizer($ability, $object)
-    {
-        $authorizer = service('authorizer.tos');
-        // if there's no user the guards will kick them off already, but if there
-        // is one we need to check the authorizer to ensure we don't let
-        // users without admin perms create forms etc
-        // this is an unfortunate problem with using an old version of lumen
-        // that doesn't let me do guest user checks without adding more risk.
-        $user = $authorizer->getUser();
-        if ($user) {
-            //$this->authorize($ability, $object);
-        }
-        return $user;
     }
 
     private function setInputDefaults($input, $action, $user)

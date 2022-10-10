@@ -2,19 +2,17 @@
 
 namespace Ushahidi\Modules\V5\Policies;
 
-use Ushahidi\Core\Entity;
 use Ushahidi\Modules\V5\Models\Tos;
-use Ushahidi\Core\Concerns\PrivAccess;
-use Ushahidi\Core\Concerns\AdminAccess;
-use Ushahidi\Core\Concerns\UserContext;
-use Ushahidi\Core\Concerns\OwnerAccess;
-use Ushahidi\Core\Concerns\PrivateDeployment;
+use App\Auth\GenericUser as User;
+use Ushahidi\Modules\V5\Common\PrivAccess;
+use Ushahidi\Modules\V5\Common\AdminAccess;
+use Ushahidi\Modules\V5\Common\OwnerAccess;
+use Ushahidi\Modules\V5\Common\PrivateDeployment;
+
 
 class TosPolicy
 {
 
-    // The access checks are run under the context of a specific user
-    use UserContext;
 
     // It uses methods from several traits to check access:
     // - `AdminAccess` to check if the user has admin access
@@ -32,78 +30,68 @@ class TosPolicy
 
     protected $user;
 
-    // It requires a `TagRepository` to load parent posts too.
-    //protected $tag_repo;
-
     /**
-     *
+     * @param User $user
      * @return bool
      */
-    public function index()
+    public function index(User $user):bool
     {
-        $empty_tos = new Entity\Tos();
-        return $this->isAllowed($empty_tos, 'search');
+        $empty_tos = new Tos();
+        return $this->isAllowed($empty_tos, 'search',$user);
     }
 
     /**
-     *
+     * @param User $user
      * @param Tos $tos
      * @return bool
      */
-    public function show(Tos $tos)
+    public function show(User $user,Tos $tos):bool
     {
-        $tos = new Entity\Tos($tos->toArray());
-        return $this->isAllowed($tos, 'read');
+        return $this->isAllowed($tos, 'read',$user);
     }
 
     /**
-     *
+     * @param User $user
      * @param Tos $tos
      * @return bool
      */
-    public function delete(Tos $tos)
+    public function delete(User $user,Tos $tos):bool
     {
-        $tos = new Entity\Tos($tos->toArray());
-        return $this->isAllowed($tos, 'delete');
+        return $this->isAllowed($tos, 'delete',$user);
     }
     /**
+     * @param User $user
      * @param Tos $tos
      * @return bool
      */
-    public function update(Tos $tos)
+    public function update(User $user,Tos $tos):bool
     {
-        // we convert to a form entity to be able to continue using the old authorizers and classes.
-        $tos = new Entity\Tos($tos->toArray());
-        return $this->isAllowed($tos, 'update');
+        return $this->isAllowed($tos, 'update',$user);
     }
 
 
     /**
-     * @param Tos $tos
+     * @param User $user
+     *  @param Tos $tos
      * @return bool
      */
-    public function store()
+    public function store(User $user):bool
     {
-        // we convert to a form entity to be able to continue using the old authorizers and classes.
-        $tos = new Entity\Tos();
-        return $this->isAllowed($tos, 'create');
+        $tos = new Tos();
+        return $this->isAllowed($tos, 'create',$user);
     }
+
     /**
-     * @param $entity
+     * @param Tos $tos
      * @param string $privilege
+     * @param user $user
      * @return bool
      */
-    public function isAllowed($entity, $privilege)
+    public function isAllowed($tos, $privilege,$user=null):bool
     {
-
-        $authorizer = service('authorizer.tos');
-
-        // These checks are run within the user context.
-        $user = $authorizer->getUser();
-
         //if user is not actual user, but is in fact anonymous
         if (($privilege === 'search' || $privilege === 'create')
-            && $this->isUserAndOwnerAnonymous($entity, $user)) {
+            && $this->isUserAndOwnerAnonymous($tos, $user)) {
             return false;
         }
 
@@ -112,15 +100,15 @@ class TosPolicy
             return false;
         }
 
-        if ($user->getId() and $privilege === 'create') {
+        if ($user->id and $privilege === 'create') {
             return true;
         }
 
-        if ($user->getId() and $privilege === 'search') {
+        if ($user->id and $privilege === 'search') {
             return true;
         }
 
-        if ($privilege === 'read' && $entity->user_id === $user->id) {
+        if ($privilege === 'read' && $tos->user_id === $user->id) {
             return true;
         }
 

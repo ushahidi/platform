@@ -5,6 +5,7 @@ namespace Ushahidi\Modules\V5\Common;
 use Exception;
 use Ushahidi\Core\Exception\NotFoundException;
 use Ushahidi\Core\Exception\ValidatorException;
+use Ushahidi\Core\Exception\AuthorizerException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 trait Errors
@@ -51,6 +52,19 @@ trait Errors
         throw $exception;
     }
 
+    
+    /**
+     * Unauthorizer
+     * @param string $message
+     * @return void
+     * @throws HttpException
+     */
+    public static function errorAuthorizer(string $message = null): void
+    {
+        // To Do create DB Exception
+        throw new AuthorizerException($message);
+    }
+
     /**
      * undefined error
      * @param string $message
@@ -62,4 +76,7 @@ trait Errors
         // To Do create DB Exception
         throw new HttpException($message, $exception);
     }
+
+
+    
 }

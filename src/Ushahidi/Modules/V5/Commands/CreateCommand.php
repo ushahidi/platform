@@ -4,7 +4,6 @@ namespace Ushahidi\Modules\V5\Commands;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Bus\Command\Command;
-use Ushahidi\Modules\V5\Common\Errors;
 
 class CreateCommand implements Command
 {
