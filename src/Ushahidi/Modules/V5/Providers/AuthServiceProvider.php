@@ -2,6 +2,7 @@
 
 namespace Ushahidi\Modules\V5\Providers;
 
+use Ushahidi\Modules\V3\Policies\CountryCodePolicy;
 use Ushahidi\Modules\V5\Models;
 use Ushahidi\Modules\V5\Policies;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
@@ -17,7 +18,8 @@ class AuthServiceProvider extends ServiceProvider
     protected $policies = [
         Models\Survey::class => Policies\SurveyPolicy::class,
         Models\Category::class => Policies\CategoryPolicy::class,
-        Models\Post\Post::class => Policies\PostPolicy::class
+        Models\Post\Post::class => Policies\PostPolicy::class,
+        Models\CountryCode::class => CountryCodePolicy::class
     ];
 
     /**

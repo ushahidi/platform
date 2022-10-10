@@ -11,13 +11,13 @@ default:
             contexts:
                 - Ushahidi\Tests\Integration\Bootstrap\FeatureContext
                 - Ushahidi\Tests\Integration\Bootstrap\RestContext:
-                    baseUrl: http://localhost:8000
+                    baseUrl: http://localhost:8080
                     # proxyUrl: localhost:8888
                 - Ushahidi\Tests\Integration\Bootstrap\PHPUnitFixtureContext
             extensions:
                 Behat\MinkExtension:
                     default_session: laravel
-                    base_url:  http://localhost:8000
+                    base_url:  http://localhost:8080
                     laravel: ~
                     sessions:
                         default:
@@ -25,7 +25,7 @@ default:
                     goutte:
                         guzzle_parameters:
                             curl.options:
-                                3 : 8000 #CURLOPT_PORT=3
+                                3 : 8080 #CURLOPT_PORT=3
                                 # 10004: localhost:8888 #CURLOPT_PROXY=10004
 ci:
     suites:

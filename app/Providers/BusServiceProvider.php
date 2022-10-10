@@ -9,6 +9,10 @@ use App\Bus\Query\Example\ExampleQuery;
 use App\Bus\Query\Example\ExampleQueryHandler;
 use App\Bus\Query\QueryBus;
 use Illuminate\Support\ServiceProvider;
+use Ushahidi\Modules\V5\Actions\CountryCode\Query\FetchCountryCodeByIdQuery;
+use Ushahidi\Modules\V5\Actions\CountryCode\Query\FetchCountryCodeQuery;
+use Ushahidi\Modules\V5\Actions\CountryCode\QueryHandler\FetchCountryCodeByIdQueryHandler;
+use Ushahidi\Modules\V5\Actions\CountryCode\QueryHandler\FetchCountryCodeQueryHandler;
 
 class BusServiceProvider extends ServiceProvider
 {
@@ -39,7 +43,8 @@ class BusServiceProvider extends ServiceProvider
         $this->app->singleton(QueryBus::class, function ($app) {
             $queryBus = new QueryBus($app);
 
-            $queryBus->register(ExampleQuery::class, ExampleQueryHandler::class);
+            $queryBus->register(FetchCountryCodeQuery::class, FetchCountryCodeQueryHandler::class);
+            $queryBus->register(FetchCountryCodeByIdQuery::class, FetchCountryCodeByIdQueryHandler::class);
 
             return $queryBus;
         });
