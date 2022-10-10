@@ -12,8 +12,9 @@
 namespace Ushahidi\Core\Entity;
 
 use Ushahidi\Core\StaticEntity;
+use Ushahidi\Core\EloquentEntity;
 
-class FormStage extends StaticEntity
+class FormStage extends EloquentEntity
 {
     protected $id;
     protected $form_id;

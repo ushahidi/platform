@@ -11,6 +11,7 @@
 
 namespace Ushahidi\Core\Entity;
 
+use Ushahidi\Core\EloquentEntity;
 use Ushahidi\Core\StaticEntity;
 
 class User extends StaticEntity
@@ -53,5 +54,13 @@ class User extends StaticEntity
     public function getResource()
     {
         return 'users';
+    }
+
+    public function getDefaultData()
+    {
+        return [
+            'logins' => 0,
+            'failed_attempts' => 0
+        ];
     }
 }

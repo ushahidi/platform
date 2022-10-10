@@ -1,7 +1,8 @@
 <?php
 
 /**
- * Ushahidi Media Entity
+ * Ushahidi Media Entity For Posts
+ *
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Platform
