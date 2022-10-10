@@ -13,11 +13,12 @@
 
 namespace Ushahidi\Modules\V3\Formatter;
 
-use Ushahidi\Core\Tool\SearchData;
 use Ushahidi\Contracts\Formatter;
+use Ushahidi\Contracts\CollectionFormatter;
 use Ushahidi\Core\Exception\FormatterException;
 
-class Collection implements Formatter
+
+class Collection implements CollectionFormatter
 {
     protected $formatter;
 
@@ -43,8 +44,11 @@ class Collection implements Formatter
 
     /**
      * Store paging parameters.
+     *
+     * @param \Ushahidi\Core\Tool\SearchData $search
+     *
      */
-    public function setSearch(SearchData $search, int $total = null)
+    public function setSearch($search, int $total = null)
     {
         $this->search = $search;
         $this->total  = $total;
