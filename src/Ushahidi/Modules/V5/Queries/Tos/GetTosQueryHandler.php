@@ -6,12 +6,15 @@ use App\Bus\Action;
 use App\Bus\Query\AbstractQueryHandler;
 use App\Bus\Query\Query;
 use Ushahidi\Modules\V5\Common\Errors;
+use Ushahidi\Modules\V5\Common\Authorize;
 use Ushahidi\Modules\V5\Queries\Tos\GetTosQuery;
 use Ushahidi\Modules\V5\Models\Tos;
 
 class GetTosQueryHandler extends AbstractQueryHandler
 {
+    use Authorize;
     use Errors;
+
 
     /**
      * @param Action|GetTosQuery $action
@@ -26,10 +29,12 @@ class GetTosQueryHandler extends AbstractQueryHandler
     public function run(GetTosQuery $query) //: array
     {
         if ($query->isList()) {
-            // return new TosCollection(Tos::orderBy($this->orderBy($query->request()),$this->order($query->request()))->paginate($this->countOfItemsPerPage($query->request())));
+            $this->authorizeForUser('index', Tos::class);
             return Tos::orderBy($query->orderBy(), $query->order())->paginate($query->perPage());
         } else {
             $tos = Tos::find($query->getId());
+            $this->authorizeForUser('show', $tos);
+
             if (!$tos) {
                 $this->errorNotFound("Tos", $query->getId());
             }
