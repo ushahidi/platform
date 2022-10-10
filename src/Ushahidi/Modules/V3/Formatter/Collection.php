@@ -17,7 +17,6 @@ use Ushahidi\Contracts\Formatter;
 use Ushahidi\Contracts\CollectionFormatter;
 use Ushahidi\Core\Exception\FormatterException;
 
-
 class Collection implements CollectionFormatter
 {
     protected $formatter;
