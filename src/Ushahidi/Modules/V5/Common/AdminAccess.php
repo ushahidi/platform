@@ -1,6 +1,7 @@
 <?php
 
 namespace Ushahidi\Modules\V5\Common;
+
 use Ushahidi\Modules\V5\Models\User as User;
 
 trait AdminAccess

@@ -7,9 +7,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Contracts\Auth\Access\Gate;
 use Ushahidi\Modules\V5\Common\UserContext;
 
-
-
-
 trait Authorize
 {
     use UserContext;
@@ -67,6 +64,4 @@ trait Authorize
 
         return [debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 3)[2]['function'], $ability];
     }
-
-    
 }

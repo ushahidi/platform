@@ -1,9 +1,11 @@
 <?php
 namespace Ushahidi\Modules\V5\Common;
+
 use App\Auth\GenericUser as user;
 use Illuminate\Database\Eloquent\Model;
 
-trait OwnerAccess{
+trait OwnerAccess
+{
     /**
      * Check if $user is the owner of $ownable
      *

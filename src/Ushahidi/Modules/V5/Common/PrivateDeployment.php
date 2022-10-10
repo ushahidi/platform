@@ -8,7 +8,6 @@
 
 namespace Ushahidi\Modules\V5\Common;
 
-
 use Ushahidi\Core\Facade\Features;
 use Ushahidi\Multisite\UsesSiteInfo;
 

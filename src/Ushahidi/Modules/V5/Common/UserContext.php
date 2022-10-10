@@ -8,9 +8,6 @@ use Illuminate\Support\Facades\Auth;
 //use Ushahidi\Core\Concerns\UserContext;
 use Ushahidi\Modules\V5\Models\User;
 
-
-
-
 trait UserContext
 {
 
@@ -48,10 +45,9 @@ trait UserContext
         return $this->cachedUser;
     }
 
-    public function getGenericUser(){
+    public function getGenericUser()
+    {
         $genericUser = Auth::guard()->user();
         return $genericUser;
     }
-
-    
 }

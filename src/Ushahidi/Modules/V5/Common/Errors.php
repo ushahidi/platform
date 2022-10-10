@@ -76,7 +76,4 @@ trait Errors
         // To Do create DB Exception
         throw new HttpException($message, $exception);
     }
-
-
-    
 }

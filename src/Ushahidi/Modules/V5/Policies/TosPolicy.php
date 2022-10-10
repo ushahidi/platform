@@ -9,7 +9,6 @@ use Ushahidi\Modules\V5\Common\AdminAccess;
 use Ushahidi\Modules\V5\Common\OwnerAccess;
 use Ushahidi\Modules\V5\Common\PrivateDeployment;
 
-
 class TosPolicy
 {
 
@@ -37,7 +36,7 @@ class TosPolicy
     public function index(User $user):bool
     {
         $empty_tos = new Tos();
-        return $this->isAllowed($empty_tos, 'search',$user);
+        return $this->isAllowed($empty_tos, 'search', $user);
     }
 
     /**
@@ -45,9 +44,9 @@ class TosPolicy
      * @param Tos $tos
      * @return bool
      */
-    public function show(User $user,Tos $tos):bool
+    public function show(User $user, Tos $tos):bool
     {
-        return $this->isAllowed($tos, 'read',$user);
+        return $this->isAllowed($tos, 'read', $user);
     }
 
     /**
@@ -55,18 +54,18 @@ class TosPolicy
      * @param Tos $tos
      * @return bool
      */
-    public function delete(User $user,Tos $tos):bool
+    public function delete(User $user, Tos $tos):bool
     {
-        return $this->isAllowed($tos, 'delete',$user);
+        return $this->isAllowed($tos, 'delete', $user);
     }
     /**
      * @param User $user
      * @param Tos $tos
      * @return bool
      */
-    public function update(User $user,Tos $tos):bool
+    public function update(User $user, Tos $tos):bool
     {
-        return $this->isAllowed($tos, 'update',$user);
+        return $this->isAllowed($tos, 'update', $user);
     }
 
 
@@ -78,7 +77,7 @@ class TosPolicy
     public function store(User $user):bool
     {
         $tos = new Tos();
-        return $this->isAllowed($tos, 'create',$user);
+        return $this->isAllowed($tos, 'create', $user);
     }
 
     /**
@@ -87,7 +86,7 @@ class TosPolicy
      * @param user $user
      * @return bool
      */
-    public function isAllowed($tos, $privilege,$user=null):bool
+    public function isAllowed($tos, $privilege, $user = null):bool
     {
         //if user is not actual user, but is in fact anonymous
         if (($privilege === 'search' || $privilege === 'create')

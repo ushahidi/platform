@@ -19,7 +19,6 @@ use Ushahidi\Core\Exception\NotFoundException;
 use Ushahidi\Core\Exception\ThrottlingException;
 use Ushahidi\Core\Exception\ValidatorException;
 
-
 class Handler extends ExceptionHandler
 {
     /**

@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\DB;
 use Ushahidi\Modules\V5\Common\Authorize;
 use Ushahidi\Modules\V5\Common\Errors;
 
-
 class CreateTosCommandHandler extends AbstractBaseCommandHandler
 {
     use Authorize;

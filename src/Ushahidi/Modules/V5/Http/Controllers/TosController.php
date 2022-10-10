@@ -66,5 +66,4 @@ class TosController extends V5Controller
          $commandBus->handle($command);
          return new TosResource($command->getModel());
     }//end store()
-
 }//end class

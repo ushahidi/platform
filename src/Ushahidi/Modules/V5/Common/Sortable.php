@@ -20,11 +20,10 @@ trait Sortable
 
     private function setSortingParameters(Request $request):void
     {
-         $this->order = 
+         $this->order =
             $this->hasCustomOrder($request)?$request->get("order"):config('paging.default_order');
-        $this->order_by = 
+        $this->order_by =
             $this->hasCustomOrderBy($request)?$request->get("order_by"):config('paging.default_order_by');
-
     }
     public function order(): string
     {
@@ -44,6 +43,6 @@ trait Sortable
 
     private function hasCustomOrderBy(Request $request):bool
     {
-        return ($request->has("order_by") && in_array(strtolower($request->get("order_by")),["asc","desc"]));
+        return ($request->has("order_by") && in_array(strtolower($request->get("order_by")), ["asc","desc"]));
     }
 }
