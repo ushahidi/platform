@@ -60,7 +60,7 @@ abstract class EloquentEntity extends Model implements Entity
 
     public function setState(array $data)
     {
-        if(empty($this->original)){
+        if (empty($this->original)) {
             $this->syncOriginal();
         }
 
@@ -101,7 +101,7 @@ abstract class EloquentEntity extends Model implements Entity
         // Get the immutable values. Once set, these cannot be changed.
          $immutable = $this->getImmutable();
 
-        $filtered = Arr::where($this->derive($data),function($value, $key) use ($immutable)  {
+        $filtered = Arr::where($this->derive($data), function ($value, $key) use ($immutable) {
             if (in_array($key, $immutable) && isset($this->original[$key])) {
                 // Value has already been set and cannot be changed.
                 return false;
@@ -117,7 +117,7 @@ abstract class EloquentEntity extends Model implements Entity
         // So basically get all properties and iterate through them
         // checking if they were declared in class we reflected.
         $getProperties = function (\ReflectionClass $class) {
-            return array_filter($class->getProperties(), function(\ReflectionProperty $prop) use($class){
+            return array_filter($class->getProperties(), function (\ReflectionProperty $prop) use ($class) {
                 return $prop->getDeclaringClass()->getName() == $class->getName() && $prop->isProtected();
             });
         };
@@ -133,7 +133,7 @@ abstract class EloquentEntity extends Model implements Entity
         // We're specifically checking if the parent class isn't abstract,
         // as we don't want the properties of the base entity class with data logic
         // i.e Eloquent properties
-        if(($parentClass = $class->getParentClass()) && !$parentClass->isAbstract()) {
+        if (($parentClass = $class->getParentClass()) && !$parentClass->isAbstract()) {
             $properties = array_merge($properties, $getProperties($parentClass));
         }
 
