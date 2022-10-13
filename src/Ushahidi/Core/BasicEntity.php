@@ -69,4 +69,9 @@ abstract class BasicEntity implements Entity
     {
         return ['id', 'created'];
     }
+
+    protected function getDefinition()
+    {
+        return [];
+    }
 }

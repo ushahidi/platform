@@ -26,11 +26,16 @@ abstract class EloquentRepository implements
 
     public function getEntity(array $data = null)
     {
-        return new self::$root($data);
+        return new static::$root($data);
+    }
+
+    public function exists($id)
+    {
+        return $this->whereKey($id)->exists();
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      *
      * @param \Ushahidi\Core\EloquentEntity $entity
      */
@@ -41,9 +46,24 @@ abstract class EloquentRepository implements
         return $entity->{$this->getKeyName()};
     }
 
-    public function exists($id)
+    /**
+     * {@inheritdoc}
+     *
+     * @param \Ushahidi\Core\EloquentEntity $entity
+     */
+    public function update(Entity $entity)
     {
-        return $this->whereKey($id)->exists();
+        $entity->save();
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @param \Ushahidi\Core\EloquentEntity $entity
+     */
+    public function delete(Entity $entity)
+    {
+        return $entity->delete();
     }
 
     public function __call(string $name, array $arguments)

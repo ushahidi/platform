@@ -11,9 +11,9 @@
 
 namespace Ushahidi\Core\Entity;
 
-use Ushahidi\Core\StaticEntity;
+use Ushahidi\Core\EloquentEntity;
 
-class Role extends StaticEntity
+class Role extends EloquentEntity
 {
     protected $id;
     protected $name;

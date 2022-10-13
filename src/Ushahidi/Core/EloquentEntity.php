@@ -37,15 +37,10 @@ abstract class EloquentEntity extends Model implements Entity
     public function __construct(array $attributes = null)
     {
         parent::__construct(
-            $this->getEntityData(
+            $this->resolveEntityData(
                 $this->addDefaultDataToArray($attributes ?? [])
             )
         );
-    }
-
-    public function get($id)
-    {
-        return self::query()->find($id);
     }
 
     public function getId()
@@ -64,7 +59,7 @@ abstract class EloquentEntity extends Model implements Entity
             $this->syncOriginal();
         }
 
-        $this->fill($this->getEntityData($data));
+        $this->fill($this->resolveEntityData($data));
 
         return $this;
     }
@@ -84,7 +79,6 @@ abstract class EloquentEntity extends Model implements Entity
     {
         if (empty($properties = $this->getEntityProperties())) {
             // return $this->getAttributes();
-
             return $this->attributesToArray();
         }
 
@@ -96,10 +90,10 @@ abstract class EloquentEntity extends Model implements Entity
         return $this->asArray();
     }
 
-    protected function getEntityData(array $data)
+    protected function resolveEntityData(array $data)
     {
         // Get the immutable values. Once set, these cannot be changed.
-         $immutable = $this->getImmutable();
+        $immutable = $this->getImmutable();
 
         $filtered = Arr::where($this->derive($data), function ($value, $key) use ($immutable) {
             if (in_array($key, $immutable) && isset($this->original[$key])) {
@@ -137,7 +131,18 @@ abstract class EloquentEntity extends Model implements Entity
             $properties = array_merge($properties, $getProperties($parentClass));
         }
 
-        return Arr::pluck($properties, 'name');
+        $properties = Arr::pluck($properties, 'name');
+
+        $excepts = ['attributes', 'casts', 'dates', 'fillable', 'hidden', 'resource', 'table'];
+
+        $properties = Arr::where($properties, function ($value, $key) use ($excepts) {
+            if (in_array($value, $excepts)) {
+                return false;
+            }
+            return true;
+        });
+
+        return $properties;
     }
 
     protected function getDerived()
