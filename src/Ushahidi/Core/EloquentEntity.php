@@ -74,7 +74,6 @@ abstract class EloquentEntity extends Model implements Entity
         return $this->getDirty();
     }
 
-    //
     public function asArray()
     {
         if (empty($properties = $this->getEntityProperties())) {
