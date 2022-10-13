@@ -15,7 +15,7 @@ use Ushahidi\Modules\V5\Traits\HasOnlyParameters;
 class BaseModel extends Model
 {
     use HasSlug;
-    Use HasValidator;
+    use HasValidator;
     use HasOnlyParameters;
 
     /**

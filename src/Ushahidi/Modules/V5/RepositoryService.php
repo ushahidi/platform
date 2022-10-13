@@ -4,7 +4,6 @@ namespace Ushahidi\Modules\V5;
 
 use Closure;
 
-
 class RepositoryService
 {
     /**

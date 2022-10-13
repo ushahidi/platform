@@ -13,7 +13,6 @@ use Ushahidi\Modules\V5\Repository\TagRepository as RepositoryTagRepository;
 use Ushahidi\Modules\V5\Repository\RoleRepository as RepositoryRoleRepository;
 use Ushahidi\Modules\V5\Repository\UserRepository as RepositoryUserRepository;
 
-
 class ServiceProvider extends AggregateServiceProvider
 {
     /**
