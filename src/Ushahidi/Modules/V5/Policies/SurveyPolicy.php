@@ -2,7 +2,7 @@
 
 namespace Ushahidi\Modules\V5\Policies;
 
-use App\Auth\GenericUser as User;
+use Ushahidi\Authzn\GenericUser as User;
 use Ushahidi\Core\Entity;
 use Ushahidi\Modules\V5\Models\Survey;
 use Ushahidi\Contracts\Permission;

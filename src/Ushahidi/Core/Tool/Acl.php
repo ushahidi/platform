@@ -20,6 +20,7 @@ use Ushahidi\Contracts\Repository\Entity\RoleRepository;
 class Acl implements AclInterface
 {
     protected $role_repo;
+
     const DEFAULT_ROLES = [
         'user'  => [Permission::EDIT_OWN_POSTS]
     ];
@@ -27,6 +28,8 @@ class Acl implements AclInterface
     public function setRoleRepo(RoleRepository $role_repo)
     {
         $this->role_repo = $role_repo;
+
+        return $this;
     }
 
     // Acl interface

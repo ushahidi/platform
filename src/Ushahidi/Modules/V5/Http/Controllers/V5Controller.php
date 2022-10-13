@@ -2,35 +2,21 @@
 
 namespace Ushahidi\Modules\V5\Http\Controllers;
 
-use Ushahidi\Modules\V5\Models\Translation;
+use Ushahidi\Authzn\GenericUser;
 use Illuminate\Support\Arr;
-use Illuminate\Http\Request;
-use Ushahidi\Modules\V5\Common\ValidatorRunner;
 use Illuminate\Validation\Rule;
-use Illuminate\Http\JsonResponse;
-use Ushahidi\Modules\Auth\GenericUser;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\Validator;
-use Illuminate\Contracts\Auth\Access\Gate;
-use Illuminate\Validation\ValidationException;
+use Ushahidi\Modules\V5\Models\Translation;
+use Ushahidi\Modules\V5\Common\ValidatorRunner;
 use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+
 
 class V5Controller extends BaseController
 {
+    use AuthorizesRequests, ValidatesRequests;
 
-    /**
-     * The response builder callback.
-     *
-     * @var \Closure
-     */
-    protected static $responseBuilder;
-
-    /**
-     * The error formatter callback.
-     *
-     * @var \Closure
-     */
-    protected static $errorFormatter;
     /**
      * @param null $message
      * @return \Illuminate\Http\JsonResponse
@@ -92,93 +78,11 @@ class V5Controller extends BaseController
         );
     }
 
-        /**
-     * Validate the given request with the given rules.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  array  $rules
-     * @param  array  $messages
-     * @param  array  $customAttributes
-     * @return void
-     */
-    public function validate(Request $request, array $rules, array $messages = [], array $customAttributes = [])
-    {
-        $validator = $this->getValidationFactory()->make($request->all(), $rules, $messages, $customAttributes);
-
-        if ($validator->fails()) {
-            $this->throwValidationException($request, $validator);
-        }
-    }
-
-    /**
-     * Throw the failed validation exception.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Illuminate\Contracts\Validation\Validator  $validator
-     * @return void
-     */
-    protected function throwValidationException(Request $request, $validator)
-    {
-        throw new ValidationException($validator, $this->buildFailedValidationResponse(
-            $request,
-            $this->formatValidationErrors($validator)
-        ));
-    }
-
-    /**
-     * Authorize a given action against a set of arguments.
-     *
-     * @param  mixed  $ability
-     * @param  mixed|array  $arguments
-     * @return \Illuminate\Auth\Access\Response
-     *
-     * @throws \Illuminate\Auth\Access\AuthorizationException
-     */
-    public function authorize($ability, $arguments = [])
-    {
-        list($ability, $arguments) = $this->parseAbilityAndArguments($ability, $arguments);
-
-        return app(Gate::class)->authorize($ability, $arguments);
-    }
-
-        /**
-     * Authorize a given action for a user.
-     *
-     * @param  \Illuminate\Contracts\Auth\Authenticatable|mixed  $user
-     * @param  mixed  $ability
-     * @param  mixed|array  $arguments
-     * @return \Illuminate\Auth\Access\Response
-     *
-     * @throws \Illuminate\Auth\Access\AuthorizationException
-     */
-    public function authorizeForUser($user, $ability, $arguments = [])
-    {
-        list($ability, $arguments) = $this->parseAbilityAndArguments($ability, $arguments);
-
-        return app(Gate::class)->forUser($user)->authorize($ability, $arguments);
-    }
-
     public function authorizeAnyone($ability, $arguments = [])
     {
         list($ability, $arguments) = $this->parseAbilityAndArguments($ability, $arguments);
 
         return $this->authorizeForUser(Auth::user() ?? new GenericUser(['role' => 'guest']), $ability, $arguments);
-    }
-
-    /**
-     * Guesses the ability's name if it wasn't provided.
-     *
-     * @param  mixed  $ability
-     * @param  mixed|array  $arguments
-     * @return array
-     */
-    protected function parseAbilityAndArguments($ability, $arguments)
-    {
-        if (is_string($ability)) {
-            return [$ability, $arguments];
-        }
-
-        return [debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 3)[2]['function'], $ability];
     }
 
     /**
@@ -190,6 +94,14 @@ class V5Controller extends BaseController
     protected function ignoreInput()
     {
         return [];
+    }
+
+    protected function getField($key, $inputValue)
+    {
+        if (in_array($key, $this->ignoreInput())) {
+            return null;
+        }
+        return $inputValue;
     }
 
     /**
@@ -207,6 +119,7 @@ class V5Controller extends BaseController
         }
         return $return;
     }
+
     /**
      * @param $input
      * @return array
@@ -276,47 +189,6 @@ class V5Controller extends BaseController
                 ['field' => trans('bulk.items')]
             ),
         ];
-    }
-
-    /**
-     * @param $key
-     * @param $inputValue
-     * @return array
-     */
-    protected function getField($key, $inputValue)
-    {
-        if (in_array($key, $this->ignoreInput())) {
-            return null;
-        }
-        return $inputValue;
-    }
-
-    /**
-     * Get a validation factory instance.
-     *
-     * @return \Illuminate\Contracts\Validation\Factory
-     */
-    protected function getValidationFactory()
-    {
-        return app('validator');
-    }
-
-    protected function formatValidationErrors(Validator $validator)
-    {
-        if (isset(static::$errorFormatter)) {
-            return call_user_func(static::$errorFormatter, $validator);
-        }
-
-        return $validator->errors()->getMessages();
-    }
-
-    protected function buildFailedValidationResponse(Request $request, array $errors)
-    {
-        if (isset(static::$responseBuilder)) {
-            return call_user_func(static::$responseBuilder, $request, $errors);
-        }
-
-        return new JsonResponse($errors, 422);
     }
 
     /**
