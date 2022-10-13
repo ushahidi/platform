@@ -44,7 +44,7 @@ class Role extends EloquentEntity
     // Entity
     public function getId()
     {
-        return $this->name;
+        return $this->getAttribute('name');
     }
 
     // StatefulData
