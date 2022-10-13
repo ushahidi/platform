@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Auth;
+namespace Ushahidi\Authzn;
 
-use Illuminate\Contracts\Auth\Authenticatable as UserContract;
+use Ushahidi\Core\BasicEntity;
 use Laravel\Passport\HasApiTokens;
+use Illuminate\Contracts\Auth\Authenticatable as UserContract;
 
-class GenericUser implements UserContract
+class GenericUser extends BasicEntity implements UserContract
 {
     use HasApiTokens;
 
@@ -25,6 +26,11 @@ class GenericUser implements UserContract
     public function __construct(array $attributes)
     {
         $this->attributes = $attributes;
+    }
+
+    public function getResource()
+    {
+        return 'users';
     }
 
     /**

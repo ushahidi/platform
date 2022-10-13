@@ -19,7 +19,7 @@ use League\OAuth2\Server\Exception\OAuthServerException;
 use League\OAuth2\Server\ResourceServer;
 use Symfony\Bridge\PsrHttpMessage\Factory\DiactorosFactory;
 use Ushahidi\Contracts\Repository\Entity\UserRepository;
-use App\Auth\GenericUser;
+use Ushahidi\Authzn\GenericUser;
 
 class TokenGuard //implements Guard
 {

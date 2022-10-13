@@ -13,12 +13,25 @@
 
 namespace Ushahidi\Core\Concerns;
 
+use Ushahidi\Contracts\Entity;
 use Ushahidi\Contracts\Session;
 
 trait UserContext
 {
+    // user
+    protected $user;
+
     // storage for the user
     protected $session;
+
+    /**
+     * Get the user session
+     * @return \Ushahidi\Contracts\Session
+     */
+    public function getSession()
+    {
+        return $this->session;
+    }
 
     /**
      * Set the user session
@@ -31,25 +44,28 @@ trait UserContext
     }
 
     /**
-     * Get the user session
-     * @return \Ushahidi\Contracts\Session
-     */
-    public function getSession()
-    {
-        return $this->session;
-    }
-
-    /**
      * Get the user context.
+     *
      * @return \Ushahidi\Contracts\Entity
      */
     public function getUser()
     {
+        if($this->user) {
+            return $this->user;
+        }
+
         if (!$this->session) {
             throw new \RuntimeException('Cannot get the user context before it has been set');
         }
 
         return $this->session->getUser();
+    }
+
+    public function setUser(Entity $user)
+    {
+        $this->user = $user;
+
+        return $this;
     }
 
     /**
