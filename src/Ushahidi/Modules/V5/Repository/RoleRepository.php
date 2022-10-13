@@ -24,6 +24,6 @@ class RoleRepository extends EloquentRepository implements RoleRepositoryInterfa
 
     public function getByName($name)
     {
-       return $this->where('name', $name)->first();
+        return $this->where('name', $name)->first();
     }
 }

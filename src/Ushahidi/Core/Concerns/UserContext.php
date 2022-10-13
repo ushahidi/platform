@@ -50,7 +50,7 @@ trait UserContext
      */
     public function getUser()
     {
-        if($this->user) {
+        if ($this->user) {
             return $this->user;
         }
 

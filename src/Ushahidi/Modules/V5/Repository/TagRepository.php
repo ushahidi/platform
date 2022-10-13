@@ -11,7 +11,9 @@ class TagRepository extends EloquentRepository implements TagRepositoryInterface
 {
     protected static $root = Tag::class;
 
-    public function doesTagExist($value) { }
+    public function doesTagExist($value)
+    {
+    }
 
     public function createMany(Collection $collection)
     {
