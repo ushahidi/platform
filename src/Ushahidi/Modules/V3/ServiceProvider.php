@@ -2,13 +2,11 @@
 
 namespace Ushahidi\Modules\V3;
 
-use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 use Ushahidi\Modules\V3\Console;
 use Ushahidi\Modules\V3\Factory\UsecaseFactory;
 use Ushahidi\Modules\V3\Repository\TosRepository;
-use Ushahidi\Modules\V5\Http\Middleware\V5GlobalScopes;
 use Ushahidi\Core\Tool\Verifier;
 use Ushahidi\Core\Usecase\User\LoginUser;
 use Ushahidi\Core\Usecase\Post\ExportPost;
@@ -36,8 +34,6 @@ class ServiceProvider extends BaseServiceProvider
      */
     public function boot()
     {
-        $this->app[Kernel::class]->pushMiddleware(V5GlobalScopes::class);
-
         Route::prefix('api')
             ->middleware('api')
             ->namespace('Ushahidi\Modules\V3\Http\Controllers')
