@@ -2,9 +2,8 @@
 
 namespace Ushahidi\Modules\V5\Policies;
 
-use App\Auth\GenericUser;
 use Ushahidi\Core\Entity;
-use App\Auth\GenericUser as User;
+use Ushahidi\Authzn\GenericUser as User;
 use Ushahidi\Contracts\Permission;
 use Ushahidi\Modules\V5\Models\Category;
 use Ushahidi\Core\Concerns\PrivAccess;
@@ -47,33 +46,18 @@ class CategoryPolicy
         return $this->isAllowed($empty_tag, 'search');
     }
 
-    /**
-     *
-     * @param GenericUser $user
-     * @param Category $category
-     * @return bool
-     */
     public function show(User $user, Category $category)
     {
         $tag = new Entity\Tag($category->toArray());
         return $this->isAllowed($tag, 'read');
     }
 
-    /**
-     *
-     * @param GenericUser $user
-     * @param Category $category
-     * @return bool
-     */
     public function delete(User $user, Category $category)
     {
         $tag = new Entity\Tag($category->toArray());
         return $this->isAllowed($tag, 'delete');
     }
-    /**
-     * @param Category $category
-     * @return bool
-     */
+
     public function update(User $user, Category $category)
     {
         // we convert to a form entity to be able to continue using the old authorizers and classes.
@@ -81,22 +65,13 @@ class CategoryPolicy
         return $this->isAllowed($tag, 'update');
     }
 
-
-    /**
-     * @param Survey $survey
-     * @return bool
-     */
     public function store()
     {
         // we convert to a form entity to be able to continue using the old authorizers and classes.
         $tag = new Entity\Tag();
         return $this->isAllowed($tag, 'create');
     }
-    /**
-     * @param $entity
-     * @param string $privilege
-     * @return bool
-     */
+
     public function isAllowed($entity, $privilege)
     {
         $authorizer = service('authorizer.tag');
