@@ -17,33 +17,28 @@ class CategoryPolicy
         $this->authorizer->setAcl($acl);
     }
 
-    public function before(User $user, $ability)
-    {
-        $this->authorizer->setUser($user);
-    }
-
     public function view(User $user, Category $category)
     {
-        return $this->authorizer->isAllowed($category, 'search');
+        return $this->authorizer->setUser($user)->isAllowed($category, 'search');
     }
 
     public function create(User $user)
     {
-        return $this->authorizer->isAllowed(new Category, 'create');
+        return $this->authorizer->setUser($user)->isAllowed(new Category, 'create');
     }
 
     public function show(User $user, Category $category)
     {
-        return $this->authorizer->isAllowed($category, 'read');
+        return $this->authorizer->setUser($user)->isAllowed($category, 'read');
     }
 
     public function delete(User $user, Category $category)
     {
-        return $this->authorizer->isAllowed($category, 'delete');
+        return $this->authorizer->setUser($user)->isAllowed($category, 'delete');
     }
 
     public function update(User $user, Category $category)
     {
-        return $this->authorizer->isAllowed($category, 'update');
+        return $this->authorizer->setUser($user)->isAllowed($category, 'update');
     }
 }

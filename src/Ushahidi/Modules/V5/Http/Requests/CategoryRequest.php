@@ -210,9 +210,9 @@ class CategoryRequest extends FormRequest
     {
         if ($this->exists('parent_id')) {
             $this->parent = Category::find($this->input('parent_id'));
-        } else if ($this->exists('id')) {
+        } elseif ($this->exists('id')) {
             $this->parent = Category::find($this->input('id'))->parent;
-        } else if (isset($this->category->parent)) {
+        } elseif (isset($this->category->parent)) {
             $this->parent = $this->category->parent;
         } else {
             $this->parent = null;

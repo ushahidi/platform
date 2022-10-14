@@ -2,25 +2,26 @@
 
 namespace Ushahidi\Modules\V3;
 
-use Illuminate\Support\Facades\Route;
-use Illuminate\Support\ServiceProvider as BaseServiceProvider;
-use Ushahidi\Modules\V3\Console;
-use Ushahidi\Modules\V3\Factory\UsecaseFactory;
-use Ushahidi\Modules\V3\Repository\TosRepository;
 use Ushahidi\Core\Tool\Verifier;
+use Ushahidi\Modules\V3\Console;
+use Illuminate\Support\Facades\Route;
 use Ushahidi\Core\Usecase\User\LoginUser;
 use Ushahidi\Core\Usecase\Post\ExportPost;
 use Ushahidi\Core\Usecase\Export\Job\PostCount;
+use Ushahidi\Modules\V3\Factory\UsecaseFactory;
 use Ushahidi\Core\Usecase\Message\ReceiveMessage;
+use Ushahidi\Modules\V3\Repository\TosRepository;
 use Ushahidi\Contracts\Repository\Entity\SetRepository;
 use Ushahidi\Contracts\Repository\Entity\PostRepository;
 use Ushahidi\Contracts\Repository\Entity\UserRepository;
 use Ushahidi\Contracts\Repository\Entity\MediaRepository;
+use Ushahidi\Modules\V3\Http\Middleware\RepositoryBinder;
 use Ushahidi\Contracts\Repository\Entity\ApiKeyRepository;
 use Ushahidi\Contracts\Repository\Entity\ConfigRepository;
 use Ushahidi\Contracts\Repository\Entity\ContactRepository;
 use Ushahidi\Contracts\Repository\Entity\MessageRepository;
 use Ushahidi\Contracts\Repository\Entity\ExportJobRepository;
+use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 use Ushahidi\Contracts\Repository\Entity\ExportBatchRepository;
 use Ushahidi\Contracts\Repository\Entity\FormAttributeRepository;
 use Ushahidi\Contracts\Repository\Entity\TargetedSurveyStateRepository;
@@ -35,7 +36,7 @@ class ServiceProvider extends BaseServiceProvider
     public function boot()
     {
         Route::prefix('api')
-            ->middleware('api')
+            ->middleware(['api'])
             ->namespace('Ushahidi\Modules\V3\Http\Controllers')
             ->group(__DIR__ . '/routes/api.php');
     }
@@ -54,74 +55,76 @@ class ServiceProvider extends BaseServiceProvider
 
     public function registerServicesFromAura()
     {
+        // RepositoryBinder::repositoryBinderResolver(function () {
+            $this->app->singleton(UserRepository::class, function ($app) {
+                // Just return it from AuraDI
+                return service('repository.user');
+            });
+
+            $this->app->singleton(ApiKeyRepository::class, function ($app) {
+                // Just return it from AuraDI
+                return service('repository.apikey');
+            });
+
+            $this->app->singleton(MessageRepository::class, function ($app) {
+                // Just return it from AuraDI
+                return service('repository.message');
+            });
+
+            $this->app->singleton(ConfigRepository::class, function ($app) {
+                // Just return it from AuraDI
+                return service('repository.config');
+            });
+
+            $this->app->singleton(ContactRepository::class, function ($app) {
+                // Just return it from AuraDI
+                return service('repository.contact');
+            });
+
+            $this->app->singleton(PostRepository::class, function ($app) {
+                // Just return it from AuraDI
+                return service('repository.post');
+            });
+
+            $this->app->singleton(ExportJobRepository::class, function ($app) {
+                // Just return it from AuraDI
+                return service('repository.export_job');
+            });
+
+            $this->app->singleton(ExportBatchRepository::class, function ($app) {
+                // Just return it from AuraDI
+                return service('repository.export_batch');
+            });
+
+            $this->app->singleton(TargetedSurveyStateRepository::class, function ($app) {
+                // Just return it from AuraDI
+                return service('repository.targeted_survey_state');
+            });
+
+            $this->app->singleton(FormAttributeRepository::class, function ($app) {
+                // Just return it from AuraDI
+                return service('repository.form_attribute');
+            });
+
+            $this->app->singleton(MediaRepository::class, function ($app) {
+                // Just return it from AuraDI
+                return service('repository.media');
+            });
+
+            $this->app->singleton(SetRepository::class, function ($app) {
+                // Just return it from AuraDI
+                return service('repository.set');
+            });
+
+            $this->app->singleton(TosRepository::class, function ($app) {
+                // Just return it from AuraDI
+                return service('repository.tos');
+            });
+        // });
+
         $this->app->singleton(UsecaseFactory::class, function ($app) {
             // Just return it from AuraDI
             return service('factory.usecase');
-        });
-
-        $this->app->singleton(UserRepository::class, function ($app) {
-            // Just return it from AuraDI
-            return service('repository.user');
-        });
-
-        $this->app->singleton(ApiKeyRepository::class, function ($app) {
-            // Just return it from AuraDI
-            return service('repository.apikey');
-        });
-
-        $this->app->singleton(MessageRepository::class, function ($app) {
-            // Just return it from AuraDI
-            return service('repository.message');
-        });
-
-        $this->app->singleton(ConfigRepository::class, function ($app) {
-            // Just return it from AuraDI
-            return service('repository.config');
-        });
-
-        $this->app->singleton(ContactRepository::class, function ($app) {
-            // Just return it from AuraDI
-            return service('repository.contact');
-        });
-
-        $this->app->singleton(PostRepository::class, function ($app) {
-            // Just return it from AuraDI
-            return service('repository.post');
-        });
-
-        $this->app->singleton(ExportJobRepository::class, function ($app) {
-            // Just return it from AuraDI
-            return service('repository.export_job');
-        });
-
-        $this->app->singleton(ExportBatchRepository::class, function ($app) {
-            // Just return it from AuraDI
-            return service('repository.export_batch');
-        });
-
-        $this->app->singleton(TargetedSurveyStateRepository::class, function ($app) {
-            // Just return it from AuraDI
-            return service('repository.targeted_survey_state');
-        });
-
-        $this->app->singleton(FormAttributeRepository::class, function ($app) {
-            // Just return it from AuraDI
-            return service('repository.form_attribute');
-        });
-
-        $this->app->singleton(MediaRepository::class, function ($app) {
-            // Just return it from AuraDI
-            return service('repository.media');
-        });
-
-        $this->app->singleton(SetRepository::class, function ($app) {
-            // Just return it from AuraDI
-            return service('repository.set');
-        });
-
-        $this->app->singleton(TosRepository::class, function ($app) {
-            // Just return it from AuraDI
-            return service('repository.tos');
         });
 
         $this->app->singleton(Verifier::class, function ($app) {

@@ -133,11 +133,11 @@ class CategoryController extends V5Controller
 
         $request = new CategoryRequest;
 
-        if (($validator = Validator::make(
-                $entity_array,
-                $request->rules($entity_array),
-                $request->messages()
-            ))
+        if (($validator = $this->getValidationFactory()->make(
+            $entity_array,
+            $request->rules($entity_array),
+            $request->messages()
+        ))
             && $validator->fails()
         ) {
             return $validator->errors()->toArray();

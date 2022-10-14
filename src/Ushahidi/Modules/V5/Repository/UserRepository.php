@@ -13,6 +13,7 @@ class UserRepository extends EloquentRepository implements UserRepositoryInterfa
 
     public function getByEmail($email)
     {
+        return $this->where('email', $email)->first();
     }
 
     public function isValidResetToken($token)
