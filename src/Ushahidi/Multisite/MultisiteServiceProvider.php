@@ -57,9 +57,18 @@ class MultisiteServiceProvider extends ServiceProvider
             }
         }
     }
+
     protected function setupListeners()
     {
-        Event::listen('multisite.site.changed', function (Site $site) {
+        Event::listen('site.restored', function ($site) {
+            if (isset($site)) {
+                $this->app['multisite']->setSiteById($site);
+            } else {
+                $this->app['multisite']->setDefaultSite();
+            }
+        });
+
+        Event::listen('site.changed', function (Site $site) {
             // Log::debug('Handling multisite.site.change', [$site]);
             $dbConfig = $site->getDbConfig();
             $connectionName = 'deployment-'.$site->getId();

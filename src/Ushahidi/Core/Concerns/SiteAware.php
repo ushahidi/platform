@@ -1,18 +1,18 @@
 <?php
 
-namespace Ushahidi\Multisite;
+namespace Ushahidi\Core\Concerns;
 
+use Ushahidi\Core\Facade\Site;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Queue\SerializesModels;
-use Ushahidi\Multisite\Facade\Multisite;
 
-trait MultisiteAware
+trait SiteAware
 {
-
     /**
      * @var int The hostname ID of the previously active deployment
      */
-    protected $site_id;
+    protected $site;
 
     use SerializesModels {
         __sleep as serializedSleep;
@@ -21,9 +21,9 @@ trait MultisiteAware
 
     public function __sleep()
     {
-        if (!$this->site_id) {
-            $this->site_id = Multisite::getSiteId();
-            Log::debug('Saving deployment id for job', [$this->site_id]);
+        if (!$this->site) {
+            $this->site = Site::instance()->getId();
+            Log::debug('Saving deployment id for job', [$this->site]);
         }
 
         $attributes = $this->serializedSleep();
@@ -33,9 +33,9 @@ trait MultisiteAware
 
     public function __wakeup()
     {
-        if (isset($this->site_id) && $this->site_id) {
-            Log::debug('Restoring deployment id for job', [$this->site_id]);
-            Multisite::setSiteByID($this->site_id);
+        if (isset($this->site) && $this->site) {
+            Log::debug('Restoring deployment id for job', [$this->site]);
+            Event::dispatch('site.restored', ['site' => $this->site]);
         }
 
         $this->serializedWakeup();
