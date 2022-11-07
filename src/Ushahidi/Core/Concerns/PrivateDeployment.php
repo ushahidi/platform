@@ -14,7 +14,7 @@
 namespace Ushahidi\Core\Concerns;
 
 use Ushahidi\Core\Facade\Features;
-use Ushahidi\Multisite\UsesSiteInfo;
+use Ushahidi\Core\Concerns\UsesSiteInfo;
 
 trait PrivateDeployment
 {

@@ -9,14 +9,14 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Ushahidi\Multisite;
+namespace Ushahidi\Core\Concerns;
 
-use Ushahidi\Multisite\Facade\Multisite;
+use Ushahidi\Core\Facade\Site;
 
 trait UsesSiteInfo
 {
     public function getSite()
     {
-        return Multisite::getSite();
+        return Site::instance();
     }
 }
