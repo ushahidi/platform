@@ -2,9 +2,10 @@
 
 namespace App\Providers;
 
-use Ushahidi\Core\Tool\Features;
 use Ushahidi\Addons\Mteja\MtejaSource;
 use Illuminate\Support\ServiceProvider;
+use Ushahidi\Core\Tool\FeaturesManager;
+use Ushahidi\Core\Tool\SiteManager;
 use Ushahidi\Core\Tool\OhanzeeResolver;
 use Ushahidi\Addons\AfricasTalking\AfricasTalkingSource;
 use Ushahidi\Contracts\Repository\Entity\ConfigRepository;
@@ -40,8 +41,19 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton('features', function ($app) {
-            return new Features($app[ConfigRepository::class]);
+        $this->app->singleton('site', function ($app, $params) {
+            return new SiteManager(
+                $app[ConfigRepository::class],
+                $params ? $params['cache_lifetime'] : null
+            );
+        });
+
+        $this->app['events']->listen('site.changed', function ($site) {
+            $this->app['site']->setDefault($site);
+        });
+
+        $this->app->bind('features', function ($app) {
+            return new FeaturesManager($app[ConfigRepository::class]);
         });
 
         // Register OhanzeeResolver
