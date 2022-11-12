@@ -35,13 +35,9 @@ class AppServiceProvider extends ServiceProvider
          * For now this configuration is temporary,
          * should be moved to an isolated place within the addon directory
          */
-        $this->app['datasources']->extend('africastalking', function ($config) {
-            return new AfricasTalkingSource($config);
-        });
+        $this->app['datasources']->extend('africastalking', AfricasTalkingSource::class);
 
-        $this->app['datasources']->extend('mteja', function ($config) {
-            return new MtejaSource($config);
-        });
+        $this->app['datasources']->extend('mteja', MtejaSource::class);
     }
 
     /**

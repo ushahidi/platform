@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bf4484a59a9e6635ea366a20b4ff5abb",
+    "content-hash": "a0a314ddc7fa92a89072c8e5659c6e1f",
     "packages": [
         {
             "name": "abraham/twitteroauth",
@@ -6570,16 +6570,16 @@
         },
         {
             "name": "ushahidi/gmail-support",
-            "version": "dev-master",
+            "version": "dev-develop",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ushahidi/gmail-support.git",
-                "reference": "b47d2e00a36b073660840ef752606161b4597293"
+                "reference": "23cb1283510eae6a97a2c260292296e2e0aa145a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ushahidi/gmail-support/zipball/b47d2e00a36b073660840ef752606161b4597293",
-                "reference": "b47d2e00a36b073660840ef752606161b4597293",
+                "url": "https://api.github.com/repos/ushahidi/gmail-support/zipball/23cb1283510eae6a97a2c260292296e2e0aa145a",
+                "reference": "23cb1283510eae6a97a2c260292296e2e0aa145a",
                 "shasum": ""
             },
             "require": {
@@ -6622,7 +6622,12 @@
                 }
             ],
             "description": "Support Gmail as Data Provider",
-            "time": "2021-11-29T10:07:30+00:00"
+            "support": {
+                "chat": "https://gitter.im/ushahidi/Community",
+                "issues": "https://github.com/ushahidi/gmail-support",
+                "source": "https://github.com/ushahidi/gmail-support"
+            },
+            "time": "2022-09-30T17:47:02+00:00"
         },
         {
             "name": "ushahidi/kohana-validation",
