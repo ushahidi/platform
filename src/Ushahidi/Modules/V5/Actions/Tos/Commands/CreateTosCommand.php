@@ -1,22 +1,20 @@
 <?php
 
-namespace Ushahidi\Modules\V5\Commands;
+namespace Ushahidi\Modules\V5\Actions\Tos\Commands;
 
-use Illuminate\Database\Eloquent\Model;
 use App\Bus\Command\Command;
 
-class CreateCommand implements Command
+class CreateTosCommand implements Command
 {
-    
-     /**
+    /**
      * @var array
      */
     private $input;
 
     /**
-     * @var Model
+     * @var int
      */
-    private $model;
+    private $id;
    
 
     public function __construct(array $input)
@@ -42,18 +40,18 @@ class CreateCommand implements Command
     }
 
     /**
-     * @return Model
+     * @return int
      */
-    public function getModel(): Model
+    public function getId(): int
     {
-        return $this->model;
+        return $this->id;
     }
 
      /**
      * @return void
      */
-    public function setModel(Model $model): void
+    public function setId(int $id): void
     {
-         $this->model = $model;
+         $this->id = $id;
     }
 }

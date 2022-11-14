@@ -8,9 +8,10 @@ use Ushahidi\Modules\V5\Http\Resources\TosCollection;
 use Ushahidi\Modules\V5\Http\Resources\TosResource;
 use Illuminate\Http\Request;
 use Ushahidi\Modules\V5\Models\Tos;
-use Illuminate\Support\Facades\DB;
-use Ushahidi\Modules\V5\Commands\Tos\CreateTosCommand;
-use Ushahidi\Modules\V5\Queries\Tos\GetTosQuery;
+use Ushahidi\Modules\V5\Actions\Tos\Commands\CreateTosCommand;
+use Ushahidi\Modules\V5\Requests\StoreTosRequest;
+use Ushahidi\Modules\V5\Actions\Tos\Queries\FetchTosByIdQuery;
+use Ushahidi\Modules\V5\Actions\Tos\Queries\FetchTosQuery;
 
 class TosController extends V5Controller
 {
@@ -33,10 +34,11 @@ class TosController extends V5Controller
      * @return mixed
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function show(Request $request, int $id, QueryBus $queryBus)
+    public function show(int $id, QueryBus $queryBus)
     {
-        $query = new GetTosQuery($request, $id);
-        return new TosResource($queryBus->handle($query));
+        $tos = $queryBus->handle(new FetchTosByIdQuery($id));
+        $this->authorizeForCurrentUser('show', $tos);
+        return new TosResource($tos);
     }//end show()
 
    
@@ -48,8 +50,18 @@ class TosController extends V5Controller
      */
     public function index(Request $request, QueryBus $queryBus)
     {
-        $query = new GetTosQuery($request);
-        return new TosCollection($queryBus->handle($query));
+        $this->authorizeForCurrentUser('index', Tos::class);
+        $resourceCollection = new TosCollection(
+            $queryBus->handle(
+                new FetchTosQuery(
+                    $request->query('limit', config('paging.default_limit')),
+                    $request->query('page', 1),
+                    $request->query('sortBy', config('paging.default_sort_by')),
+                    $request->query('order', config('paging.default_order'))
+                )
+            )
+        );
+         return $resourceCollection;
     }//end index()
 
     
@@ -60,10 +72,26 @@ class TosController extends V5Controller
      * @return \Illuminate\Http\JsonResponse|CategoryResource
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function store(Request $request, CommandBus $commandBus)
+    public function store(StoreTosRequest $request, CommandBus $commandBus, QueryBus $queryBus)
     {
-         $command = new CreateTosCommand($this->getFields($request->input()));
+        $this->authorizeForCurrentUser('store', Tos::class);
+        $command = new CreateTosCommand(
+            $this->setInputDefaults(
+                $this->getFields($request->input()),
+                $this->getGenericUser()
+            )
+        );
          $commandBus->handle($command);
-         return new TosResource($command->getModel());
+         return new TosResource(
+             $queryBus->handle(new FetchTosByIdQuery($command->getId()))
+         );
     }//end store()
+
+    private function setInputDefaults($input, $user)
+    {
+        $input['user_id'] = $user->id;
+        // Save the agreement date to the current time
+        $input['agreement_date'] =  time();
+        return $input;
+    }
 }//end class

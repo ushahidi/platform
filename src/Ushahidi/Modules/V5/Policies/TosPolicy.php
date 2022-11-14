@@ -4,10 +4,10 @@ namespace Ushahidi\Modules\V5\Policies;
 
 use Ushahidi\Modules\V5\Models\Tos;
 use App\Auth\GenericUser as User;
-use Ushahidi\Modules\V5\Common\PrivAccess;
-use Ushahidi\Modules\V5\Common\AdminAccess;
 use Ushahidi\Modules\V5\Common\OwnerAccess;
-use Ushahidi\Modules\V5\Common\PrivateDeployment;
+use Ushahidi\Core\Concerns\AdminAccess;
+use Ushahidi\Core\Concerns\PrivAccess;
+use Ushahidi\Core\Concerns\PrivateDeployment;
 
 class TosPolicy
 {
@@ -71,7 +71,7 @@ class TosPolicy
 
     /**
      * @param User $user
-     *  @param Tos $tos
+     * @param Tos $tos
      * @return bool
      */
     public function store(User $user):bool

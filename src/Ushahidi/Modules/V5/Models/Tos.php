@@ -2,14 +2,6 @@
 
 namespace Ushahidi\Modules\V5\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Str;
-use Illuminate\Validation\Rule;
-use Illuminate\Support\Facades\Validator;
-use Ushahidi\Core\Entity\Permission;
-use Illuminate\Support\Facades\Input;
-use Ushahidi\Modules\V5\Models\Scopes\CategoryAllowed;
-
 class Tos extends BaseModel
 {
     /**
@@ -58,35 +50,5 @@ class Tos extends BaseModel
     public function getAgreementDateAttribute($value)
     {
         return date('Y-m-d H:i:s', $value);
-    }
-    
-   
-    /**
-     * Return all validation rules
-     * @param null $data
-     * @return array
-     */
-    public function getRules($data = null)
-    {
-        return [
-            'tos_version_date'        => [
-                'required',
-                'date'
-            ]
-        ];
-    }
-
-    public function validationMessages()
-    {
-        return [
-            'tos_version_date.required'      => trans(
-                'validation.not_empty',
-                ['field' => trans('fields.tos_version_date')]
-            ),
-            'tos_version_date.date'      => trans(
-                'validation.date',
-                ['field' => trans('fields.tos_version_date')]
-            ),
-        ];
     }
 }//end class

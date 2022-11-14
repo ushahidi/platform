@@ -15,7 +15,7 @@ Feature: Testing the Tos API
         Then the response is JSON
         And the response has a "result" property
         And the type of the "result.id" property is "numeric"
-        Then the guzzle status code should be 201
+        Then the guzzle status code should be 200
         
 @resetFixture
     Scenario: Anonymous users cannot create a TOS entry
