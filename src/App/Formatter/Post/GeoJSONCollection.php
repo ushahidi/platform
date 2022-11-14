@@ -59,6 +59,8 @@ class GeoJSONCollection implements Formatter
                         'marker-color' => $color,
                         'id' => $entity->id,
                         'url' => url(RESTController::url($entity->getResource(), $entity->id)),
+                        'source' => $entity->source ?? 'web',
+                        'data_source_message_id' => $entity->data_source_message_id
                         // @todo add mark- attributes based on tag symbol+color
                         //'marker-size' => '',
                         //'marker-symbol' => '',
