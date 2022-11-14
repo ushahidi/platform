@@ -28,6 +28,7 @@ class CreateTosCommandHandler extends AbstractCommandHandler
 
 
     /**
+     * run the command handler
      * @param CreateTosCommand $command
      * @return int
      */
