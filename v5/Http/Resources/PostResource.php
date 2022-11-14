@@ -124,12 +124,14 @@ class PostResource extends BaseResource
         return $result;
     }
 
-    private function getPostSource()
+    private function getPostSourceDetails()
     {
         $message = $this->message;
-        return $message && isset($message->type)
+        $details['source'] = $message && isset($message->type)
             ? $message->type
             : self::DEFAULT_SOURCE_TYPE;
+        $details['data_source_message_id'] = $message->data_source_message_id ?? null;
+        return $details;
     }
 
     /**
@@ -143,8 +145,10 @@ class PostResource extends BaseResource
         // @TODO-jan27 make translations and enabled_languages optional
         // @TODO-jan27 make id required
         $fields = $this->includeResourceFields($request);
-        $result = $this->setResourceFields($fields);
-        $result['source'] = $this->getPostSource();
+        $result = array_merge(
+            $this->setResourceFields($fields),
+            $this->getPostSourceDetails()
+        );
         $hydrated = $this->hydrateResourceRelationships($request);
         $allowed_privs = ['allowed_privileges' => $this->getResourcePrivileges()];
         return array_merge($result, $hydrated, $allowed_privs);
