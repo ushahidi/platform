@@ -33,5 +33,5 @@ interface TosRepository
      * @param array $data
      * @return int
      */
-    public function Create(array $data): int;
+    public function create(array $data): int;
 }
