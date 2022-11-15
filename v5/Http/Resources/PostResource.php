@@ -31,10 +31,11 @@ class PostResource extends BaseResource
             'status',
             'published_to',
             'locale',
+            'color',
             'created',
             'updated',
             'post_date',
-            //            'base_language' => $this->base_language,
+            'base_language' => $this->base_language,
             //            'translations' => new TranslationCollection($this->translations),
             //            'enabled_languages' => [
             //                'default'=> $this->base_language,
