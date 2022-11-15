@@ -86,4 +86,14 @@ $router->group([
         $router->post('/_ussd', 'USSDController@store');
         $router->post('/_whatsapp', 'WhatsAppController@store');
     });
+
+
+    // Permissions
+    $router->group([
+        'prefix' => 'permissions',
+        'middleware' => ['auth:api', 'scope:tos','expiration']
+    ], function () use ($router) {
+        $router->get('/', 'PermissionsController@index');
+        $router->get('/{id}', 'PermissionsController@show');
+    });
 });

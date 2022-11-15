@@ -9,6 +9,10 @@ use App\Bus\Query\Example\ExampleQuery;
 use App\Bus\Query\Example\ExampleQueryHandler;
 use App\Bus\Query\QueryBus;
 use Illuminate\Support\ServiceProvider;
+use Ushahidi\Modules\V5\Actions\Permissions\Queries\FetchPermissionsQuery;
+use Ushahidi\Modules\V5\Actions\Permissions\Handlers\FetchPermissionsQueryHandler;
+use Ushahidi\Modules\V5\Actions\Permissions\Queries\FetchPermissionsByIdQuery;
+use Ushahidi\Modules\V5\Actions\Permissions\Handlers\FetchPermissionsByIdQueryHandler;
 
 class BusServiceProvider extends ServiceProvider
 {
@@ -40,6 +44,9 @@ class BusServiceProvider extends ServiceProvider
             $queryBus = new QueryBus($app);
 
             $queryBus->register(ExampleQuery::class, ExampleQueryHandler::class);
+            $queryBus->register(FetchPermissionsQuery::class, FetchPermissionsQueryHandler::class);
+            $queryBus->register(FetchPermissionsByIdQuery::class, FetchPermissionsByIdQueryHandler::class);
+
 
             return $queryBus;
         });
