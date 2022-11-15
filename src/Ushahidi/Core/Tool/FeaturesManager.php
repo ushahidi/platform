@@ -10,11 +10,10 @@ class FeaturesManager
     /**
      * Cache lifetime in minutes
      */
-    const CACHE_LIFETIME = 1;
+    const DEFAULT_CACHE_LIFETIME = 1;
 
-    /**
-     * @param array $configRepo
-     */
+    protected $configRepo;
+
     public function __construct(ConfigRepository $configRepo)
     {
         $this->configRepo = $configRepo;
@@ -22,7 +21,7 @@ class FeaturesManager
 
     protected function getFeatureConfig()
     {
-        return Cache::remember('config.features', self::CACHE_LIFETIME, function () {
+        return Cache::remember('config.features', self::DEFAULT_CACHE_LIFETIME, function () {
             return $this->configRepo->get('features');
         });
     }

@@ -15,7 +15,7 @@ class SiteManager
 
     protected static $site;
 
-    protected $repo;
+    protected $configRepo;
 
     /**
      * @var int
@@ -24,7 +24,7 @@ class SiteManager
 
     public function __construct(ConfigRepository $configRepo, ?int $cache_lifetime = null)
     {
-        $this->repo = $configRepo;
+        $this->configRepo = $configRepo;
 
         $this->cache_lifetime = $cache_lifetime ?? self::DEFAULT_CACHE_LIFETIME;
     }
@@ -51,7 +51,7 @@ class SiteManager
             'config.site',
             $this->cache_lifetime,
             function () {
-                return $this->repo->get('site');
+                return $this->configRepo->get('site');
             }
         );
 
