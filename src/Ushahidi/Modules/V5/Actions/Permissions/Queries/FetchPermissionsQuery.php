@@ -9,7 +9,7 @@ class FetchPermissionsQuery implements Query
     const DEFAULT_LIMIT = 0;
     const DEFAULT_ORDER = "ASC";
     const DEFAULT_SORT_BY = "id";
-    const AVAILABLE_SEARCH_FIELDS = ['q','fg' /* LIKE name */];
+    const AVAILABLE_SEARCH_FIELDS = ['q' /* LIKE name */];
     
     private $limit;
     private $page;

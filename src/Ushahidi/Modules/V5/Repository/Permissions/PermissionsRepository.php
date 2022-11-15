@@ -16,7 +16,13 @@ interface PermissionsRepository
      * @param string $order
      * @return Permissions[]
      */
-    public function fetch(int $limit, int $skip, string $sortBy, string $order, array $search_data): LengthAwarePaginator;
+    public function fetch(
+        int $limit,
+        int $skip,
+        string $sortBy,
+        string $order,
+        array $search_data
+    ): LengthAwarePaginator;
 
     /**
      * This method will fetch a single Permissions from the database utilising
