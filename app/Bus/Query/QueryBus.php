@@ -1,10 +1,10 @@
 <?php
 
-namespace Ushahidi\App\Bus\Query;
+namespace App\Bus\Query;
 
+use App\Bus\Action;
+use App\Bus\Bus;
 use Illuminate\Contracts\Container\Container;
-use Ushahidi\App\Bus\Action;
-use Ushahidi\App\Bus\Bus;
 use Webmozart\Assert\Assert;
 
 class QueryBus implements Bus

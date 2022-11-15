@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 
-namespace Ushahidi\App\Bus;
+namespace App\Bus;
 
 interface Bus
 {

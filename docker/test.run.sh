@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. `dirname $0`/common.sh
+. `dirname $0`/utils.sh
 
 set -e
 

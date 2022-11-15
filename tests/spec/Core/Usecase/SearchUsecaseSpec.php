@@ -9,7 +9,7 @@ use Ushahidi\Contracts\Authorizer;
 use Ushahidi\Contracts\Entity;
 use Ushahidi\Contracts\Formatter;
 use Ushahidi\Contracts\Repository\SearchRepository;
-use Ushahidi\Core\Tools\SearchData;
+use Ushahidi\Core\Tool\SearchData;
 
 class SearchUsecaseSpec extends ObjectBehavior
 {
@@ -20,7 +20,7 @@ class SearchUsecaseSpec extends ObjectBehavior
         SearchRepository $repo,
         Translator $translator
     ) {
-        $format->beADoubleOf('Ushahidi\Core\Tools\Formatter\CollectionFormatter');
+        $format->beADoubleOf('Ushahidi\Core\Tool\Formatter\CollectionFormatter');
 
         $this->setAuthorizer($auth);
         $this->setData($search);

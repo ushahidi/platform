@@ -1,6 +1,6 @@
 <?php
 
-namespace Ushahidi\App\Passport;
+namespace App\Passport;
 
 use Exception;
 use Firebase\JWT\JWT;
@@ -19,7 +19,7 @@ use League\OAuth2\Server\Exception\OAuthServerException;
 use League\OAuth2\Server\ResourceServer;
 use Symfony\Bridge\PsrHttpMessage\Factory\DiactorosFactory;
 use Ushahidi\Contracts\Repository\Entity\UserRepository;
-use Ushahidi\App\Auth\GenericUser;
+use App\Auth\GenericUser;
 
 class TokenGuard //implements Guard
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Ushahidi\App\Providers;
+namespace App\Providers;
 
 use Illuminate\Support\Facades\Broadcast;
 use Illuminate\Support\ServiceProvider;

@@ -1,10 +1,10 @@
 <?php
 
-namespace Ushahidi\App\Bus\Query\Example;
+namespace App\Bus\Query\Example;
 
-use Ushahidi\App\Bus\Action;
-use Ushahidi\App\Bus\Query\AbstractQueryHandler;
-use Ushahidi\App\Bus\Query\Query;
+use App\Bus\Action;
+use App\Bus\Query\AbstractQueryHandler;
+use App\Bus\Query\Query;
 
 class ExampleQueryHandler extends AbstractQueryHandler
 {

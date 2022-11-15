@@ -1,6 +1,6 @@
 <?php
 
-namespace Ushahidi\App\Bus\Query\Example;
+namespace App\Bus\Query\Example;
 
 use Error;
 

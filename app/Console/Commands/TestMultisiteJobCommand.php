@@ -1,6 +1,6 @@
 <?php
 
-namespace Ushahidi\App\Console\Commands;
+namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 
@@ -27,6 +27,6 @@ class TestMultisiteJobCommand extends Command
      */
     public function handle()
     {
-        dispatch(new \Ushahidi\App\Jobs\TestMultisiteJob());
+        dispatch(new \App\Jobs\TestMultisiteJob());
     }
 }

@@ -8,9 +8,10 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Ushahidi\App\Console\Commands;
+namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use Ushahidi\Contracts\Repository\Entity\UserRepository;
 use Ushahidi\Core\Exception\NotFoundException;
 
 class UserDeleteCommand extends Command
@@ -43,13 +44,11 @@ class UserDeleteCommand extends Command
         parent::__construct();
     }
 
-    public function handle()
+    public function handle(UserRepository $userRepo)
     {
-        $this->repo = service('repository.user');
-
         $email = $this->option('email');
 
-        $entity = $this->repo->getByEmail($email);
+        $entity = $userRepo->getByEmail($email);
 
         if (! $entity->getId()) {
             throw new NotFoundException(sprintf(
@@ -59,7 +58,7 @@ class UserDeleteCommand extends Command
             ));
         }
 
-        $id = $this->repo->delete($entity);
+        $id = $userRepo->delete($entity);
 
         $this->info("Account was deleted successfully, id: {$id}");
     }

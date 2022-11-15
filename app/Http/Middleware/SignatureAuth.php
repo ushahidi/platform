@@ -1,9 +1,9 @@
 <?php
 
-namespace Ushahidi\App\Http\Middleware;
+namespace App\Http\Middleware;
 
 use Closure;
-use Ushahidi\Core\Tools\Verifier;
+use Ushahidi\Core\Tool\Verifier;
 
 class SignatureAuth
 {

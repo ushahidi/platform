@@ -1,8 +1,8 @@
 <?php
 
-namespace Ushahidi\App\Bus\Command\Example;
+namespace App\Bus\Command\Example;
 
-use Ushahidi\App\Bus\Command\Command;
+use App\Bus\Command\Command;
 
 /**
  * This class is not meant to be used. Treat it only as an example.

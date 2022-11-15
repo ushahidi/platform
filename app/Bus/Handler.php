@@ -1,6 +1,6 @@
 <?php
 
-namespace Ushahidi\App\Bus;
+namespace App\Bus;
 
 interface Handler
 {

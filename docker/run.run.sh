@@ -8,7 +8,7 @@ fi
 
 ## Perform container initialisation
 
-. $(dirname $0)/common.sh
+. $(dirname $0)/utils.sh
 
 set -e
 
@@ -36,5 +36,8 @@ fi
 # Show logs so far , untrap exit
 trap - EXIT
 dump_logs
+
+# Mark bootstrap complete
+bootstrap_done
 
 exec "$@"

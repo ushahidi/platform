@@ -1,6 +1,6 @@
 <?php
 
-namespace Ushahidi\App\Passport;
+namespace App\Passport;
 
 use Laravel\Passport\Bridge\RefreshTokenRepository as LaravelRefreshTokenRepository;
 

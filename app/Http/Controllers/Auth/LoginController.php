@@ -1,9 +1,9 @@
 <?php
 
-namespace Ushahidi\App\Http\Controllers\Auth;
+namespace App\Http\Controllers\Auth;
 
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Ushahidi\App\Http\Controllers\Controller;
+use App\Http\Controllers\Controller;
 
 class LoginController extends Controller
 {

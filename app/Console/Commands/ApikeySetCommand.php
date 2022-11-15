@@ -8,12 +8,19 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Ushahidi\App\Console\Commands;
+namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use Ushahidi\Core\Usecase\CreateUsecase;
+use Illuminate\Contracts\Events\Dispatcher;
+use App\Console\Commands\Concerns\ConsoleFormatter;
+use Ushahidi\Core\Tool\Authorizer\ConsoleAuthorizer;
+use Ushahidi\Contracts\Repository\Entity\ApiKeyRepository as EntityApiKeyRepository;
 
 class ApikeySetCommand extends Command
 {
+    use ConsoleFormatter;
+
     /**
      * The console command signature.
      *
@@ -30,29 +37,23 @@ class ApikeySetCommand extends Command
 
     /**
      * @var \Ushahidi\Contracts\Usecase
-     * @todo  support multiple entity types
      */
     protected $usecase;
 
-    protected function getUsecase()
-    {
-        if (! $this->usecase) {
-            // @todo inject
-            $this->usecase = service('factory.usecase')
-                ->get('apikeys', 'create')
-                // Override authorizer for console
-                ->setAuthorizer(service('authorizer.console'))
-                // Override formatter for console
-                ->setFormatter(service('formatter.entity.console'));
-        }
-
-        return $this->usecase;
-    }
-
     // Execution router takes the action argument and uses it to reroute execution.
-    public function handle()
-    {
-        $response = $this->getUsecase()->interact();
+    public function handle(
+        CreateUsecase $createUsecase,
+        EntityApiKeyRepository $apiRepo,
+        ConsoleAuthorizer $consoleAuth,
+        Dispatcher $dispatcher
+    ) {
+        $createUsecase->setDispatcher($dispatcher);
+
+        $response = $createUsecase
+            ->setRepository($apiRepo)
+            ->setAuthorizer($consoleAuth)
+            ->setFormatter($this->getFormatter())
+            ->interact();
 
         // Format the response and output
         $this->handleResponse($response);

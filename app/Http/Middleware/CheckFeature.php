@@ -1,9 +1,9 @@
 <?php
 
-namespace Ushahidi\App\Http\Middleware;
+namespace App\Http\Middleware;
 
 use Closure;
-use Ushahidi\App\Facades\Features;
+use Ushahidi\Core\Facade\Features;
 
 class CheckFeature
 {

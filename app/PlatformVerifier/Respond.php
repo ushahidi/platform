@@ -1,8 +1,8 @@
 <?php
 
-namespace Ushahidi\App\PlatformVerifier;
+namespace App\PlatformVerifier;
 
-use Ushahidi\App\Tools\OutputText;
+use Ushahidi\Core\Tool\OutputText;
 
 class Respond
 {

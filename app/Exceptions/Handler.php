@@ -1,6 +1,6 @@
 <?php
 
-namespace Ushahidi\App\Exceptions;
+namespace App\Exceptions;
 
 use Exception;
 use Asm89\Stack\CorsService;
