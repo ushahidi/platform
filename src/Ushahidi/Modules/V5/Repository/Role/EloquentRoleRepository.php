@@ -19,8 +19,13 @@ class EloquentRoleRepository implements RoleRepository
      * @param string $order
      * @return Role[]
      */
-    public function fetch(int $limit, int $skip, string $sortBy, string $order, array $search_data): LengthAwarePaginator
-    {
+    public function fetch(
+        int $limit,
+        int $skip,
+        string $sortBy,
+        string $order,
+        array $search_data
+    ): LengthAwarePaginator {
         return $this->setSearchCondition(
             $search_data,
             Role::take($limit)
