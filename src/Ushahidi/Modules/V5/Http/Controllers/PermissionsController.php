@@ -43,7 +43,7 @@ class PermissionsController extends V5Controller
                 new FetchPermissionsQuery(
                     $request->query('limit', FetchPermissionsQuery::DEFAULT_LIMIT),
                     $request->query('page', 1),
-                    $request->query('sortBy', FetchPermissionsQuery::DEFAULT_SORT_BY), /*config('paging.default_sort_by')*/
+                    $request->query('sortBy', FetchPermissionsQuery::DEFAULT_SORT_BY), 
                     $request->query('order', FetchPermissionsQuery::DEFAULT_ORDER),
                     $this->getSearchData($request->input(), FetchPermissionsQuery::AVAILABLE_SEARCH_FIELDS)
                 )
