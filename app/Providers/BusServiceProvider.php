@@ -44,6 +44,15 @@ class BusServiceProvider extends ServiceProvider
                 Role\Handlers\DeleteRoleCommandHandler::class
             );
 
+            $commandBus->register(
+                Role\Commands\CreateRolePermissionCommand::class,
+                Role\Handlers\CreateRolePermissionCommandHandler::class
+            );
+            $commandBus->register(
+                Role\Commands\DeleteRolePermissionByRoleCommand::class,
+                Role\Handlers\DeleteRolePermissionByRoleCommandHandler::class
+            );
+
             return $commandBus;
         });
     }

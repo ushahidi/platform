@@ -18,11 +18,13 @@ use Ushahidi\Core\Exception\AuthorizerException;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Contracts\Auth\Access\Gate;
+use Ushahidi\Modules\V5\Actions\Role\Commands\CreateRolePermissionCommand;
+use Ushahidi\Modules\V5\Actions\Role\Commands\DeleteRolePermissionByRoleCommand;
 
 class RoleController extends V5Controller
 {
 
-      
+
     /**
      * Display the specified resource.
      *
@@ -35,9 +37,9 @@ class RoleController extends V5Controller
         $role = $queryBus->handle(new FetchRoleByIdQuery($id));
         $this->authorizeForCurrentUserForRole('show', $role);
         return new RoleResource($role);
-    }//end show()
+    } //end show()
 
-   
+
     /**
      * Display the specified resource.
      *
@@ -58,10 +60,10 @@ class RoleController extends V5Controller
                 )
             )
         );
-         return $resourceCollection;
-    }//end index()
+        return $resourceCollection;
+    } //end index()
 
-    
+
     /**
      * Create new Role.
      *
@@ -74,13 +76,40 @@ class RoleController extends V5Controller
     {
         $this->authorizeForCurrentUserForRole('store', Role::class);
         $command = new CreateRoleCommand($this->getFields($request->input()));
-         $commandBus->handle($command);
-         return new RoleResource(
-             $queryBus->handle(new FetchRoleByIdQuery($command->getId()))
-         );
-    }//end store()
+        $commandBus->handle($command);
+        if (isset($request->input()["permissions"])) {
+            $this->addRolePermissions(
+                $commandBus,
+                $request->input()["permissions"],
+                $request->input()["name"]
+            );
+        }
+        return new RoleResource(
+            $queryBus->handle(new FetchRoleByIdQuery($command->getId()))
+        );
+    } //end store()
 
-    
+    private function addRolePermissions(CommandBus $commandBus, array $permissions, $role)
+    {
+        foreach ($permissions as $permission_name) {
+            $commandBus->handle(
+                new CreateRolePermissionCommand(
+                    $role,
+                    $permission_name
+                )
+            );
+        }
+    }
+
+    private function deleteRolePermissionsByRole(CommandBus $commandBus, $role)
+    {
+        $commandBus->handle(
+            new DeleteRolePermissionByRoleCommand(
+                $role
+            )
+        );
+    }
+
     /**
      * update Role.
      *
@@ -92,18 +121,25 @@ class RoleController extends V5Controller
     {
         $role = $queryBus->handle(new FetchRoleByIdQuery($id));
         $this->authorizeForCurrentUserForRole('update', $role);
-        $command = new UpdateRoleCommand(
-            $id,
-            $this->getFields($request->input()),
+        $inputs =  $this->getFields($request->input());
+        unset($inputs["protected"]);
+        $commandBus->handle(new UpdateRoleCommand($id, $inputs));
+
+        $this->deleteRolePermissionsByRole($commandBus, $role->name);
+        if (isset($request->input()["permissions"])) {
+            $this->addRolePermissions(
+                $commandBus,
+                $request->input()["permissions"],
+                $role->name
+            );
+        }
+        return new RoleResource(
+            $queryBus->handle(new FetchRoleByIdQuery($id))
         );
-         $commandBus->handle($command);
-         return new RoleResource(
-             $queryBus->handle(new FetchRoleByIdQuery($command->getId()))
-         );
-    }//end store()
+    } //end store()
 
 
-     /**
+    /**
      * delete Role.
      *
      * @param int $id
@@ -118,9 +154,9 @@ class RoleController extends V5Controller
         if ($role->protected) {
             throw new AuthorizationException("Can't delete protected role ");
         }
-         $commandBus->handle(new DeleteRoleCommand($id));
-         return new RoleResource($role);
-    }//end store()
+        $commandBus->handle(new DeleteRoleCommand($id));
+        return new RoleResource($role);
+    } //end store()
 
 
     private function getSearchData(array $input, array $available_search_fields): array

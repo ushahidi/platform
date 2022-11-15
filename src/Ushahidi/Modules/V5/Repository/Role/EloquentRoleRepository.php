@@ -7,6 +7,7 @@ use Ushahidi\Modules\V5\Repository\Role\RoleRepository as RoleRepository;
 use Ushahidi\Core\Exception\NotFoundException;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
+use Ushahidi\Modules\V5\Models\RolePermissions;
 
 class EloquentRoleRepository implements RoleRepository
 {
@@ -90,6 +91,7 @@ class EloquentRoleRepository implements RoleRepository
      */
     public function update(int $id, array $input): void
     {
+
         $role = Role::find($id);
         if (!$role instanceof Role) {
             throw new NotFoundException('role not found');
@@ -97,7 +99,7 @@ class EloquentRoleRepository implements RoleRepository
         
         DB::beginTransaction();
         try {
-            Role::where('id', '=', $id)->update($input);
+            Role::find($id)->fill($input)->save();
             DB::commit();
         } catch (\Exception $e) {
             DB::rollback();
@@ -114,5 +116,38 @@ class EloquentRoleRepository implements RoleRepository
     public function delete(int $id): void
     {
         $this->findById($id)->delete();
+    }
+
+
+    /**
+     * This method will create a Role permission
+     * @param array $data
+     * @return int
+     */
+    public function createRolePermission(string $role, string $permission): int
+    {
+        DB::beginTransaction();
+        try {
+            $rolePermission = RolePermissions::create([
+                "role"=>$role,
+                "permission"=>$permission
+            ]);
+            DB::commit();
+            return $rolePermission->id;
+        } catch (\Exception $e) {
+            DB::rollback();
+            throw $e;
+        }
+    }
+
+
+    
+    /**
+     * This method will delete the Role permission by role
+     * @param int $id
+     */
+    public function deleteRolePermissionByRole(string $role): void
+    {
+        RolePermissions::where("role", "=", $role)->delete();
     }
 }

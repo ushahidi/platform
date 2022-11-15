@@ -52,5 +52,21 @@ interface RoleRepository
      * This method will delete the Role
      * @param int $id
      */
-    public function delete(int $daidta): void;
+    public function delete(int $id): void;
+
+
+    /**
+     * This method will create a Role permission
+     * @param array $data
+     * @return int
+     */
+    public function createRolePermission(string $role, string $permission): int;
+
+
+    
+    /**
+     * This method will delete the Role permission by role
+     * @param int $id
+     */
+    public function deleteRolePermissionByRole(string $role): void;
 }
