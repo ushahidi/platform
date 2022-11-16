@@ -9,7 +9,7 @@ class PermissionsResource extends Resource
 
     use RequestCachedResource;
 
-    public static $wrap = 'result';
+    public static $wrap = 'data';
 
     /**
      * Transform the resource into an array.

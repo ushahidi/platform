@@ -90,7 +90,7 @@ class PermissionsPolicy
 
       // Only allow admin access
         if ($this->isUserAdmin($user)
-          and in_array($privilege, ['search', 'read'])) {
+          && in_array($privilege, ['search', 'read'])) {
             return true;
         }
 

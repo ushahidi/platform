@@ -17,7 +17,7 @@ Feature: Testing the Permissions API
         And that the api_url is "api/v5"
         When I request "/permissions/3"
         Then the response is JSON
-        And the response has a "result.name" property
+        And the response has a "data.name" property
         Then the guzzle status code should be 200
 
     Scenario: Admin cannot create new permission
