@@ -33,12 +33,12 @@ class FetchRoleQueryHandler extends AbstractQueryHandler
     {
         $this->isSupported($query);
         $skip = $query->getLimit() * ($query->getPage() - 1);
-          return $this->roleRepository->fetch(
-              $query->getLimit(),
-              $skip,
-              $query->getSortBy(),
-              $query->getOrder(),
-              $query->getSearchData()
-          );
+        return $this->roleRepository->fetch(
+            $query->getLimit(),
+            $skip,
+            $query->getSortBy(),
+            $query->getOrder(),
+            $query->getSearchData()
+        );
     }
 }

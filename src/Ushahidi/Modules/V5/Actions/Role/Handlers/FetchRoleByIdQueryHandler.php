@@ -34,7 +34,6 @@ class FetchRoleByIdQueryHandler extends AbstractQueryHandler
     public function __invoke(Action $query) //: array
     {
         $this->isSupported($query);
-        $tos = $this->roleRepository->findById($query->getId());
-        return $tos;
+        return $this->roleRepository->findById($query->getId());
     }
 }

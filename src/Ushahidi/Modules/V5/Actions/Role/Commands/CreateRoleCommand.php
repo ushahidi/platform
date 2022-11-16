@@ -16,12 +16,10 @@ class CreateRoleCommand implements Command
      */
     private $id;
    
-
     public function __construct(array $input)
     {
-        $this->setInput($input);
+        $this->input = $input;
     }
-
 
     /**
      * @return array
@@ -31,20 +29,12 @@ class CreateRoleCommand implements Command
         return $this->input;
     }
 
-     /**
-     * @return void
-     */
-    public function setInput(array $input): void
-    {
-         $this->input = $input;
-    }
-
     /**
      * @return int
      */
     public function getId(): int
     {
-        return $this->id;
+        return  $this->id;
     }
 
      /**

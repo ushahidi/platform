@@ -62,26 +62,12 @@ class StoreRoleRequest extends FormRequest
         try {
             parent::failedValidation($validator);
         } catch (ValidationException $e) {
-            $errors = $e->errors();
-
             throw new HttpResponseException(
                 response()->json([
                     'error' => 422,
-                    'messages' => $errors,
+                    'messages' => $e->errors(),
                 ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY)
             );
         }
-    }
-
-    /**
-     * Handle a failed authorization attempt.
-     *
-     * @return void
-     *
-     * @throws \Illuminate\Validation\UnauthorizedException
-     */
-    protected function failedAuthorization()
-    {
-        parent::failedAuthorization();
     }
 }

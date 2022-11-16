@@ -15,8 +15,7 @@ class DeleteRolePermissionByRoleCommand implements Command
 
     public function __construct(string $role)
     {
-
-        $this->setRole($role);
+        $this->role = $role;
     }
 
 
@@ -26,13 +25,5 @@ class DeleteRolePermissionByRoleCommand implements Command
     public function getRole(): string
     {
         return $this->role;
-    }
-
-     /**
-     * @return void
-     */
-    public function setRole(string $role): void
-    {
-         $this->role = $role;
     }
 }

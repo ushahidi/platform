@@ -15,8 +15,7 @@ class DeleteRoleCommand implements Command
 
     public function __construct(int $id)
     {
-
-        $this->setId($id);
+        $this->id = $id;
     }
 
 
@@ -26,13 +25,5 @@ class DeleteRoleCommand implements Command
     public function getId(): int
     {
         return $this->id;
-    }
-
-     /**
-     * @return void
-     */
-    public function setId(int $id): void
-    {
-         $this->id = $id;
     }
 }

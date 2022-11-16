@@ -24,6 +24,13 @@ use Ushahidi\Modules\V5\Actions\Role\Commands\DeleteRolePermissionByRoleCommand;
 class RoleController extends V5Controller
 {
 
+    private $queryBus;
+    private $commandBus;
+    public function __construct(QueryBus $queryBus, CommandBus $commandBus)
+    {
+        $this->queryBus = $queryBus;
+        $this->commandBus = $commandBus;
+    }
 
     /**
      * Display the specified resource.
@@ -32,9 +39,9 @@ class RoleController extends V5Controller
      * @return mixed
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function show(int $id, QueryBus $queryBus)
+    public function show(int $id)
     {
-        $role = $queryBus->handle(new FetchRoleByIdQuery($id));
+        $role = $this->queryBus->handle(new FetchRoleByIdQuery($id));
         $this->authorizeForCurrentUserForRole('show', $role);
         return new RoleResource($role);
     } //end show()
@@ -46,11 +53,11 @@ class RoleController extends V5Controller
      * @return RoleCollection
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function index(Request $request, QueryBus $queryBus)
+    public function index(Request $request)
     {
         $this->authorizeForCurrentUserForRole('index', Role::class);
         $resourceCollection = new RoleCollection(
-            $queryBus->handle(
+            $this->queryBus->handle(
                 new FetchRoleQuery(
                     $request->query('limit', FetchRoleQuery::DEFAULT_LIMIT),
                     $request->query('page', 1),
@@ -72,27 +79,26 @@ class RoleController extends V5Controller
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     //public function store(StoreRoleRequest $request, CommandBus $commandBus, QueryBus $queryBus)
-    public function store(Request $request, CommandBus $commandBus, QueryBus $queryBus)
+    public function store(Request $request)
     {
         $this->authorizeForCurrentUserForRole('store', Role::class);
         $command = new CreateRoleCommand($this->getFields($request->input()));
-        $commandBus->handle($command);
+        $this->commandBus->handle($command);
         if (isset($request->input()["permissions"])) {
             $this->addRolePermissions(
-                $commandBus,
                 $request->input()["permissions"],
                 $request->input()["name"]
             );
         }
         return new RoleResource(
-            $queryBus->handle(new FetchRoleByIdQuery($command->getId()))
+            $this->queryBus->handle(new FetchRoleByIdQuery($command->getId()))
         );
     } //end store()
 
-    private function addRolePermissions(CommandBus $commandBus, array $permissions, $role)
+    private function addRolePermissions(array $permissions, $role)
     {
         foreach ($permissions as $permission_name) {
-            $commandBus->handle(
+            $this->commandBus->handle(
                 new CreateRolePermissionCommand(
                     $role,
                     $permission_name
@@ -101,12 +107,10 @@ class RoleController extends V5Controller
         }
     }
 
-    private function deleteRolePermissionsByRole(CommandBus $commandBus, $role)
+    private function deleteRolePermissionsByRole($role)
     {
-        $commandBus->handle(
-            new DeleteRolePermissionByRoleCommand(
-                $role
-            )
+        $this->commandBus->handle(
+            new DeleteRolePermissionByRoleCommand($role)
         );
     }
 
@@ -117,24 +121,23 @@ class RoleController extends V5Controller
      * @return \Illuminate\Http\JsonResponse|RoleResource
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function update(Request $request, int $id, CommandBus $commandBus, QueryBus $queryBus)
+    public function update(Request $request, int $id)
     {
-        $role = $queryBus->handle(new FetchRoleByIdQuery($id));
+        $role = $this->queryBus->handle(new FetchRoleByIdQuery($id));
         $this->authorizeForCurrentUserForRole('update', $role);
         $inputs =  $this->getFields($request->input());
         unset($inputs["protected"]);
-        $commandBus->handle(new UpdateRoleCommand($id, $inputs));
+        $this->commandBus->handle(new UpdateRoleCommand($id, $inputs));
 
-        $this->deleteRolePermissionsByRole($commandBus, $role->name);
+        $this->deleteRolePermissionsByRole($role->name);
         if (isset($request->input()["permissions"])) {
             $this->addRolePermissions(
-                $commandBus,
                 $request->input()["permissions"],
                 $role->name
             );
         }
         return new RoleResource(
-            $queryBus->handle(new FetchRoleByIdQuery($id))
+            $this->queryBus->handle(new FetchRoleByIdQuery($id))
         );
     } //end store()
 
@@ -146,15 +149,15 @@ class RoleController extends V5Controller
      * @return \Illuminate\Http\JsonResponse|RoleResource
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function delete(int $id, CommandBus $commandBus, QueryBus $queryBus)
+    public function delete(int $id)
     {
-        $role = $queryBus->handle(new FetchRoleByIdQuery($id));
+        $role = $this->queryBus->handle(new FetchRoleByIdQuery($id));
         $this->authorizeForCurrentUserForRole('delete', $role);
 
         if ($role->protected) {
             throw new AuthorizationException("Can't delete protected role ");
         }
-        $commandBus->handle(new DeleteRoleCommand($id));
+        $this->commandBus->handle(new DeleteRoleCommand($id));
         return new RoleResource($role);
     } //end store()
 
@@ -169,7 +172,7 @@ class RoleController extends V5Controller
     }
 
     // To Do : Replace with authorizeForCurrentUser after merge
-    public function authorizeForCurrentUserForRole($ability, $arguments = [])
+    private function authorizeForCurrentUserForRole($ability, $arguments = [])
     {
         $gUser = $this->getGenericUserForRole();
 
@@ -177,7 +180,7 @@ class RoleController extends V5Controller
         return app(Gate::class)->forUser($gUser)->authorize($ability, $arguments);
     }
 
-    public function getGenericUserForRole()
+    private function getGenericUserForRole()
     {
         return  Auth::guard()->user();
     }

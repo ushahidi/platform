@@ -19,8 +19,8 @@ class UpdateRoleCommand implements Command
 
     public function __construct(int $id, array $input)
     {
-        $this->setInput($input);
-        $this->setId($id);
+        $this->input = $input ;
+        $this->id = $id;
     }
 
 
@@ -32,13 +32,6 @@ class UpdateRoleCommand implements Command
         return $this->input;
     }
 
-     /**
-     * @return void
-     */
-    public function setInput(array $input): void
-    {
-         $this->input = $input;
-    }
 
     /**
      * @return int
@@ -46,13 +39,5 @@ class UpdateRoleCommand implements Command
     public function getId(): int
     {
         return $this->id;
-    }
-
-     /**
-     * @return void
-     */
-    public function setId(int $id): void
-    {
-         $this->id = $id;
     }
 }

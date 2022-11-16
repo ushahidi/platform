@@ -19,8 +19,8 @@ class CreateRolePermissionCommand implements Command
 
     public function __construct(string $role, string $permission)
     {
-        $this->setRole($role);
-        $this->setPermission($permission);
+        $this->role = $role;
+        $this->permission = $permission;
     }
 
 
@@ -33,28 +33,12 @@ class CreateRolePermissionCommand implements Command
     {
         return $this->role;
     }
-
-     /**
-     * @return void
-     */
-    public function setRole(string $role): void
-    {
-         $this->role = $role;
-    }
-
+  
     /**
      * @return string
      */
     public function getPermission(): string
     {
         return $this->permission;
-    }
-
-     /**
-     * @return void
-     */
-    public function setPermission(string $permission): void
-    {
-         $this->permission = $permission;
     }
 }

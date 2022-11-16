@@ -29,7 +29,7 @@ class RolePermissions extends BaseModel
     protected $fillable = [
         'role',
         'permission'
-        ];
+    ];
 
     public function permission()
     {
