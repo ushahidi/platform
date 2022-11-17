@@ -8,6 +8,7 @@ use Illuminate\Support\ServiceProvider;
 use Ushahidi\Core\Tool\OhanzeeResolver;
 use Ushahidi\Addons\AfricasTalking\AfricasTalkingSource;
 use Ushahidi\Contracts\Repository\Entity\ConfigRepository;
+use Ushahidi\Modules\V5\Repository\User;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -48,5 +49,14 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(OhanzeeResolver::class, function ($app) {
             return new OhanzeeResolver();
         });
+
+        $this->app->bind(
+            User\UserRepository::class,
+            User\EloquentUserRepository::class
+        );
+        $this->app->bind(
+            user\UserSettingRepository::class,
+            user\EloquentUserSettingRepository::class
+        );
     }
 }

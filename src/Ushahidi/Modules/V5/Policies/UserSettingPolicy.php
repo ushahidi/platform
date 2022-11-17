@@ -1,0 +1,107 @@
+<?php
+
+namespace Ushahidi\Modules\V5\Policies;
+
+use Ushahidi\Modules\V5\Models\UserSetting;
+use App\Auth\GenericUser as User;
+use Ushahidi\Core\Concerns\AdminAccess;
+use Ushahidi\Core\Concerns\PrivAccess;
+use Ushahidi\Core\Concerns\UserContext;
+
+class UserSettingPolicy
+{
+
+
+    use UserContext;
+
+    // It uses `PrivAccess` to provide the `getAllowedPrivs` method.
+    use PrivAccess;
+
+    // Check if user has Admin access
+    use AdminAccess;
+
+    protected $user;
+
+    /**
+     * @param User $user
+     * @return bool
+     */
+    public function index(User $user):bool
+    {
+        $empty_user_setting = new UserSetting();
+        return $this->isAllowed($empty_user_setting, 'search', $user);
+    }
+
+    /**
+     * @param User $user
+     * @param UserSetting $user_setting
+     * @return bool
+     */
+    public function show(User $user, UserSetting $user_setting):bool
+    {
+        return $this->isAllowed($user_setting, 'read', $user);
+    }
+
+    /**
+     * @param User $user
+     * @param UserSetting $user_setting
+     * @return bool
+     */
+    public function delete(User $user, UserSetting $user_setting):bool
+    {
+        return $this->isAllowed($user_setting, 'delete', $user);
+    }
+    /**
+     * @param User $user
+     * @param UserSetting $user_setting
+     * @return bool
+     */
+    public function update(User $user, UserSetting $user_setting):bool
+    {
+        return $this->isAllowed($user_setting, 'update', $user);
+    }
+
+
+    /**
+     * @param User $user
+     * @param UserSetting $user_setting
+     * @return bool
+     */
+    public function store(User $user):bool
+    {
+        $user_setting = new UserSetting();
+        return $this->isAllowed($user_setting, 'create', $user);
+    }
+
+    /**
+     * @param UserSetting $user_setting
+     * @param string $privilege
+     * @param user $user
+     * @return bool
+     */
+    public function isAllowed($user_setting, $privilege, $user = null):bool
+    {
+        
+        $authorizer = service('authorizer.user_setting');
+        $user = $authorizer->getUser();
+
+        // Only logged in users have access if the deployment is private
+        if (!$this->canAccessDeployment($user)) {
+            return false;
+        }
+
+        // Regular user should be able to perform all actions on their own settings
+        if ($this->isUserOwner($entity, $user)) {
+            return true;
+        }
+
+        // Anyone can search, this is highly problematic because the results
+        // are loaded and then filtered out based on the read priv
+        if ($privilege === 'search') {
+            return true;
+        }
+
+        // If no other access checks succeed, we default to denying access
+        return false;
+    }
+}
