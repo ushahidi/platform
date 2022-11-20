@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Bus\Query;
 
+use stdClass;
 use App\Bus\Command\Command;
 use App\Bus\Command\CommandHandler;
 use App\Bus\Handler;
@@ -10,7 +11,6 @@ use App\Bus\Query\QueryBus;
 use App\Bus\Query\QueryHandler;
 use Illuminate\Contracts\Container\Container;
 use PHPUnit\Framework\TestCase;
-use stdClass;
 
 class QueryBusTest extends TestCase
 {
