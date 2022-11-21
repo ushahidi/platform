@@ -3,13 +3,14 @@
 namespace Ushahidi\Modules\V5\Actions\User\Commands;
 
 use App\Bus\Command\Command;
+use Ushahidi\Core\Entity\User as UserEntity;
 
 class UpdateUserCommand implements Command
 {
     /**
-     * @var array
+     * @var UserEntity
      */
-    private $input;
+    private $entity;
 
     /**
      * @var int
@@ -17,19 +18,19 @@ class UpdateUserCommand implements Command
     private $id;
    
 
-    public function __construct(int $id, array $input)
+    public function __construct(int $id, UserEntity $entity)
     {
-        $this->input = $input ;
+        $this->entity = $entity ;
         $this->id = $id;
     }
 
 
     /**
-     * @return array
+     * @return UserEntity
      */
-    public function getInput(): array
+    public function getEntity(): UserEntity
     {
-        return $this->input;
+        return $this->entity;
     }
 
 

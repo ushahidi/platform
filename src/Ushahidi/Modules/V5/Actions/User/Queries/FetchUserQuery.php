@@ -3,27 +3,29 @@
 namespace Ushahidi\Modules\V5\Actions\User\Queries;
 
 use App\Bus\Query\Query;
+use Ushahidi\Modules\V5\DTO\UserSearchFields;
 
 class FetchUserQuery implements Query
 {
     const DEFAULT_LIMIT = 0;
     const DEFAULT_ORDER = "ASC";
     const DEFAULT_SORT_BY = "id";
-    const AVAILABLE_SEARCH_FIELDS = ['name','q']; // q like name
     
     private $limit;
     private $page;
     private $sortBy;
     private $order;
-    private $search_data;
+    private $user_search_fields;
+    
 
-    public function __construct(int $limit, int $page, string $sortBy, string $order, array $search_data)
+
+    public function __construct(int $limit, int $page, string $sortBy, string $order, UserSearchFields $user_search_fields)
     {
         $this->limit = $limit;
         $this->page = $page;
         $this->sortBy = $sortBy;
         $this->order = $order;
-        $this->search_data = $search_data;
+        $this->user_search_fields = $user_search_fields;
     }
 
     public function getLimit(): int
@@ -46,8 +48,8 @@ class FetchUserQuery implements Query
         return $this->order;
     }
 
-    public function getSearchData()
+    public function getUserSearchFields()
     {
-        return $this->search_data;
+        return $this->user_search_fields;
     }
 }

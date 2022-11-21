@@ -36,7 +36,7 @@ class CreateUserCommandHandler extends AbstractCommandHandler
     {
         $this->isSupported($command);
         $command->setId(
-            $this->user_repository->create($command->getInput())
+            $this->user_repository->create($command->getEntity())
         );
     }
 }

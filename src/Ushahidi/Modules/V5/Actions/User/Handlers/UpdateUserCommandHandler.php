@@ -35,6 +35,6 @@ class UpdateUserCommandHandler extends AbstractCommandHandler
     public function __invoke(Action $command) //: int
     {
         $this->isSupported($command);
-        $this->user_repository->update($command->getId(), $command->getInput());
+        $this->user_repository->update($command->getId(), $command->getEntity());
     }
 }

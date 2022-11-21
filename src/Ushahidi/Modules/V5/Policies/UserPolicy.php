@@ -102,9 +102,9 @@ class UserPolicy
         }
 
         // User should not be able to delete self
-        if ($privilege === 'delete' && $this->isUserSelf($model_user)) {
-            return false;
-        }
+        // if ($privilege === 'delete' && $this->isUserSelf($user)) {
+        //     return false;
+        // }
 
         // Role with the Manage Users permission can manage all users
         // if ($this->acl->hasPermission($user, Permission::MANAGE_USERS)) {

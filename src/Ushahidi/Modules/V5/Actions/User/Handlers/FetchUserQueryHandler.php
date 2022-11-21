@@ -38,7 +38,7 @@ class FetchUserQueryHandler extends AbstractQueryHandler
             $skip,
             $query->getSortBy(),
             $query->getOrder(),
-            $query->getSearchData()
+            $query->getUserSearchFields()
         );
     }
 }

@@ -11,6 +11,7 @@ use Ushahidi\Modules\V5\Models\User;
 use Ushahidi\Modules\V5\Actions\User\Queries\FetchUserByIdQuery;
 use Ushahidi\Modules\V5\Actions\User\Queries\FetchUserQuery;
 use Ushahidi\Modules\V5\Requests\StoreUserRequest;
+use Ushahidi\Modules\V5\Requests\UpdateUserRequest;
 use Ushahidi\Modules\V5\Actions\User\Commands\CreateUserCommand;
 use Ushahidi\Modules\V5\Actions\User\Commands\DeleteUserCommand;
 use Ushahidi\Modules\V5\Actions\User\Commands\UpdateUserCommand;
@@ -18,6 +19,8 @@ use Ushahidi\Core\Exception\AuthorizerException;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Contracts\Auth\Access\Gate;
+use Ushahidi\Core\Entity\User as UserEntity;
+use Ushahidi\Modules\V5\DTO\UserSearchFields;
 
 class UserController extends V5Controller
 {
@@ -76,7 +79,7 @@ class UserController extends V5Controller
                     $request->query('page', 1),
                     $request->query('sortBy', "id"),
                     $request->query('order', FetchUserQuery::DEFAULT_ORDER),
-                    $this->getSearchData($request->input(), FetchUserQuery::AVAILABLE_SEARCH_FIELDS)
+                    new UserSearchFields($request)
                 )
             )
         );
@@ -91,11 +94,11 @@ class UserController extends V5Controller
      * @return \Illuminate\Http\JsonResponse|CategoryResource
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    //public function store(StoreUserRequest $request, CommandBus $commandBus, QueryBus $queryBus)
+    //public function store(StoreUserRequest $request)
     public function store(Request $request)
     {
         $this->authorizeForCurrentUserForUser('store', User::class);
-        $command = new CreateUserCommand($this->getFields($request->input()));
+        $command = new CreateUserCommand($this->buildUserEntity("create", $request));
         $this->commandBus->handle($command);
         return new UserResource(
             $this->queryBus->handle(new FetchUserByIdQuery($command->getId()))
@@ -110,13 +113,14 @@ class UserController extends V5Controller
      * @return \Illuminate\Http\JsonResponse|UserResource
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
+    //public function update(UpdateUserRequest $request, int $id)
     public function update(Request $request, int $id)
     {
         $user = $this->queryBus->handle(new FetchUserByIdQuery($id));
         $this->authorizeForCurrentUserForUser('update', $user);
-        $inputs =  $this->getFields($request->input());
-        unset($inputs["protected"]);
-        $this->commandBus->handle(new UpdateUserCommand($id, $inputs));
+        $this->commandBus->handle(
+            new UpdateUserCommand($id, $this->buildUserEntity("update", $request, $user))
+        );
         return new UserResource(
             $this->queryBus->handle(new FetchUserByIdQuery($id))
         );
@@ -134,9 +138,9 @@ class UserController extends V5Controller
         $id = $this->getGenericUserForUser()->id;
         $user = $this->queryBus->handle(new FetchUserByIdQuery($id));
         $this->authorizeForCurrentUserForUser('update', $user);
-        $inputs =  $this->getFields($request->input());
-        unset($inputs["protected"]);
-        $this->commandBus->handle(new UpdateUserCommand($id, $inputs));
+        $this->commandBus->handle(
+            new UpdateUserCommand($id, $this->buildUserEntity("update", $request, $user))
+        );
         return new UserResource(
             $this->queryBus->handle(new FetchUserByIdQuery($id))
         );
@@ -154,23 +158,42 @@ class UserController extends V5Controller
     {
         $user = $this->queryBus->handle(new FetchUserByIdQuery($id));
         $this->authorizeForCurrentUserForUser('delete', $user);
-
-        if ($user->protected) {
-            throw new AuthorizationException("Can't delete protected user ");
-        }
         $this->commandBus->handle(new DeleteUserCommand($id));
         return new UserResource($user);
     } //end store()
 
-
-    private function getSearchData(array $input, array $available_search_fields): array
+    private function buildUserEntity(string $action, Request $request, User $user = null): UserEntity
     {
-        $search_data = [];
-        foreach ($available_search_fields as $field) {
-            $search_data[$field] = isset($input[$field]) ? $input[$field] : false;
+        if ($action === "update") {
+            $user_entity = new UserEntity([
+                "id" => $user->id,
+                "email" => $request->input("email", $user->email),
+                "password" => $request->input("password", $user->email),
+                "realname" => $request->input("realname", $user->email),
+                "role" => $request->input("role", $user->email),
+                "gravatar" => $request->input("gravatar", $user->email),
+                "logins" => $request->input("logins", $user->email),
+                "failed_attempts" => $request->input("failed_attempts", $user->email),
+                "last_login" => $request->input("last_login", $user->email),
+                "created" => $user->created,
+                "updated" => time()
+            ]);
+        } else { // create
+            $user_entity = new UserEntity([
+                "email" => $request->input("email"),
+                "password" => $request->input("password"),
+                "realname" => $request->input("realname"),
+                "role" => $request->input("role"),
+                "gravatar" => $request->input("gravatar"),
+                "logins" => 0,
+                "failed_attempts" => 0,
+                "last_login" => null,
+                "created" => time()
+            ]);
         }
-        return $search_data;
+        return ($user_entity);
     }
+
 
     // To Do : Replace with authorizeForCurrentUser after merge
     private function authorizeForCurrentUserForUser($ability, $arguments = [])

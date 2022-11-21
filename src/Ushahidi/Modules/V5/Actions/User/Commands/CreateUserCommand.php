@@ -3,30 +3,31 @@
 namespace Ushahidi\Modules\V5\Actions\User\Commands;
 
 use App\Bus\Command\Command;
+use Ushahidi\Core\Entity\User as UserEntity;
 
 class CreateUserCommand implements Command
 {
     /**
-     * @var array
+     * @var UserEntity
      */
-    private $input;
+    private $entity;
 
     /**
      * @var int
      */
     private $id;
    
-    public function __construct(array $input)
+    public function __construct(UserEntity $user_entity)
     {
-        $this->input = $input;
+        $this->entity = $user_entity;
     }
 
     /**
-     * @return array
+     * @return UserEntity
      */
-    public function getInput(): array
+    public function getEntity(): UserEntity
     {
-        return $this->input;
+        return $this->entity;
     }
 
     /**

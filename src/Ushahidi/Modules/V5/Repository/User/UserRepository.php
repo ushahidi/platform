@@ -4,6 +4,8 @@ namespace Ushahidi\Modules\V5\Repository\User;
 
 use Ushahidi\Modules\V5\Models\User;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Ushahidi\Core\Entity\User as UserEntity;
+use Ushahidi\Modules\V5\DTO\UserSearchFields;
 
 interface UserRepository
 {
@@ -14,6 +16,7 @@ interface UserRepository
      * @param int $skip
      * @param string $sortBy
      * @param string $order
+     * @param UserSearchFields user_search_fields
      * @return User[]
      */
     public function fetch(
@@ -21,7 +24,7 @@ interface UserRepository
         int $skip,
         string $sortBy,
         string $order,
-        array $search_data
+        UserSearchFields $user_search_fields
     ): LengthAwarePaginator;
 
     /**
@@ -36,17 +39,17 @@ interface UserRepository
 
     /**
      * This method will create a User
-     * @param array $data
+     * @param UserEntity $user_entity
      * @return int
      */
-    public function create(array $data): int;
+    public function create(UserEntity $user_entity): int;
 
     /**
      * This method will update the User
      * @param int $id
-     * @param array $data
+     * @param UserEntity $user_entity
      */
-    public function update(int $id, array $data): void;
+    public function update(int $id, UserEntity $user_entity): void;
 
        /**
      * This method will delete the User

@@ -7,6 +7,8 @@ use Ushahidi\Modules\V5\Repository\User\UserRepository as UserRepository;
 use Ushahidi\Core\Exception\NotFoundException;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
+use Ushahidi\Core\Entity\User as UserEntity;
+use Ushahidi\Modules\V5\DTO\UserSearchFields;
 
 class EloquentUserRepository implements UserRepository
 {
@@ -17,6 +19,7 @@ class EloquentUserRepository implements UserRepository
      * @param int $skip
      * @param string $sortBy
      * @param string $order
+     * @param UserSearchFields user_search_fields
      * @return User[]
      */
     public function fetch(
@@ -24,10 +27,10 @@ class EloquentUserRepository implements UserRepository
         int $skip,
         string $sortBy,
         string $order,
-        array $search_data
+        UserSearchFields $user_search_fields
     ): LengthAwarePaginator {
         return $this->setSearchCondition(
-            $search_data,
+            $user_search_fields,
             User::take($limit)
                 ->skip($skip)
                 ->orderBy($sortBy, $order)
@@ -51,29 +54,29 @@ class EloquentUserRepository implements UserRepository
         return $User;
     }
 
-    private function setSearchCondition(array $search_data, $builder)
+    private function setSearchCondition(UserSearchFields $user_search_fields, $builder)
     {
 
-        if ($search_data['q']) {
-            $builder->where('name', 'LIKE', "%" . $search_data['q'] . "%");
+        if ($user_search_fields->q()) {
+            $builder->where('realname', 'LIKE', "%" . $user_search_fields->q() . "%");
         }
-        if ($search_data['name']) {
-            $builder->where('name', '=', $search_data['name']);
+        if ($user_search_fields->role()) {
+            $builder->whereIn('role', $user_search_fields->role());
         }
         return $builder;
     }
 
     /**
      * This method will create a User
-     * @param array $data
+     * @param UserEntity $user
      * @return int
      * @throws \Exception
      */
-    public function create(array $input): int
+    public function create(UserEntity $user_entity): int
     {
         DB::beginTransaction();
         try {
-            $User = User::create($input);
+            $User = User::create($user_entity->asArray());
             DB::commit();
             return $User->id;
         } catch (\Exception $e) {
@@ -85,12 +88,11 @@ class EloquentUserRepository implements UserRepository
      /**
      * This method will update the User
      * @param int @id
-     * @param array $input
+     * @param UserEntity $user_entity
      * @throws NotFoundException
      */
-    public function update(int $id, array $input): void
+    public function update(int $id, UserEntity $user_entity): void
     {
-
         $User = User::find($id);
         if (!$User instanceof User) {
             throw new NotFoundException('User not found');
@@ -98,7 +100,7 @@ class EloquentUserRepository implements UserRepository
         
         DB::beginTransaction();
         try {
-            User::find($id)->fill($input)->save();
+            User::find($id)->fill($user_entity->asArray())->save();
             DB::commit();
         } catch (\Exception $e) {
             DB::rollback();
