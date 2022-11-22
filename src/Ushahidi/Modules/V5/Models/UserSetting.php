@@ -8,19 +8,24 @@ class UserSetting extends BaseModel
 
     protected $table = 'user_settings';
     /**
-     * The attributes that should be mutated to dates.
+     * The attributes that are mass assignable.
      * @var array
-    */
-    protected $dates = ['created', 'updated'];
-
-    /**
-    * The attributes that are mass assignable.
-    * @var array
-    */
+     */
     protected $fillable = [
         'id',
         'config_key',
         'config_value',
-        'user_id'
+        'user_id',
+        'created',
+        'updated'
     ];
+
+    public function getCreatedAttribute($value)
+    {
+        return $value ? date('Y-m-d H:i:s', $value) : null;
+    }
+    public function getUpdatedAttribute($value)
+    {
+        return $value ? date('Y-m-d H:i:s', $value) : null;
+    }
 }

@@ -3,30 +3,31 @@
 namespace Ushahidi\Modules\V5\Actions\User\Commands;
 
 use App\Bus\Command\Command;
+use Ushahidi\Core\Entity\UserSetting as UserSettingEntity;
 
 class CreateUserSettingCommand implements Command
 {
     /**
-     * @var array
+     * @var UserSettingEntity
      */
-    private $input;
+    private $user_setting_entity;
 
     /**
      * @var int
      */
     private $id;
-   
-    public function __construct(array $input)
+
+    public function __construct(UserSettingEntity $user_setting_entity)
     {
-        $this->input = $input;
+        $this->user_setting_entity = $user_setting_entity;
     }
 
     /**
-     * @return array
+     * @return UserSettingEntity
      */
-    public function getInput(): array
+    public function getEntity(): UserSettingEntity
     {
-        return $this->input;
+        return $this->user_setting_entity;
     }
 
     /**
@@ -37,11 +38,11 @@ class CreateUserSettingCommand implements Command
         return  $this->id;
     }
 
-     /**
+    /**
      * @return void
      */
     public function setId(int $id): void
     {
-         $this->id = $id;
+        $this->id = $id;
     }
 }

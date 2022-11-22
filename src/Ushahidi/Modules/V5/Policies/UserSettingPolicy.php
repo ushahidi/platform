@@ -7,6 +7,9 @@ use App\Auth\GenericUser as User;
 use Ushahidi\Core\Concerns\AdminAccess;
 use Ushahidi\Core\Concerns\PrivAccess;
 use Ushahidi\Core\Concerns\UserContext;
+use Ushahidi\Core\Concerns\PrivateDeployment;
+use Ushahidi\Core\Concerns\OwnerAccess;
+use Ushahidi\Core\Concerns\Acl as AccessControlList;
 
 class UserSettingPolicy
 {
@@ -20,13 +23,22 @@ class UserSettingPolicy
     // Check if user has Admin access
     use AdminAccess;
 
+    // It uses `PrivateDeployment` to check whether a deployment is private
+    use PrivateDeployment;
+
+    // Check that the user has the necessary permissions
+    use AccessControlList;
+
+    use OwnerAccess;
+
+
     protected $user;
 
     /**
      * @param User $user
      * @return bool
      */
-    public function index(User $user):bool
+    public function index(User $user): bool
     {
         $empty_user_setting = new UserSetting();
         return $this->isAllowed($empty_user_setting, 'search', $user);
@@ -37,7 +49,7 @@ class UserSettingPolicy
      * @param UserSetting $user_setting
      * @return bool
      */
-    public function show(User $user, UserSetting $user_setting):bool
+    public function show(User $user, UserSetting $user_setting): bool
     {
         return $this->isAllowed($user_setting, 'read', $user);
     }
@@ -47,7 +59,7 @@ class UserSettingPolicy
      * @param UserSetting $user_setting
      * @return bool
      */
-    public function delete(User $user, UserSetting $user_setting):bool
+    public function delete(User $user, UserSetting $user_setting): bool
     {
         return $this->isAllowed($user_setting, 'delete', $user);
     }
@@ -56,7 +68,7 @@ class UserSettingPolicy
      * @param UserSetting $user_setting
      * @return bool
      */
-    public function update(User $user, UserSetting $user_setting):bool
+    public function update(User $user, UserSetting $user_setting): bool
     {
         return $this->isAllowed($user_setting, 'update', $user);
     }
@@ -67,7 +79,7 @@ class UserSettingPolicy
      * @param UserSetting $user_setting
      * @return bool
      */
-    public function store(User $user):bool
+    public function store(User $user): bool
     {
         $user_setting = new UserSetting();
         return $this->isAllowed($user_setting, 'create', $user);
@@ -79,9 +91,9 @@ class UserSettingPolicy
      * @param user $user
      * @return bool
      */
-    public function isAllowed($user_setting, $privilege, $user = null):bool
+    public function isAllowed($user_setting, $privilege, $userModle = null): bool
     {
-        
+
         $authorizer = service('authorizer.user_setting');
         $user = $authorizer->getUser();
 
@@ -91,9 +103,9 @@ class UserSettingPolicy
         }
 
         // Regular user should be able to perform all actions on their own settings
-        if ($this->isUserOwner($entity, $user)) {
-            return true;
-        }
+        //  if ($this->isUserOwner($userModle, $user)) {
+        return true;
+        // }
 
         // Anyone can search, this is highly problematic because the results
         // are loaded and then filtered out based on the read priv

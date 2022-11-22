@@ -5,7 +5,7 @@ namespace Ushahidi\Modules\V5\Actions\User\Handlers;
 use App\Bus\Action;
 use App\Bus\Command\AbstractCommandHandler;
 use App\Bus\Command\Command;
-use Ushahidi\Modules\V5\Actions\User\Commands\CreateUserSettingCommand;
+use Ushahidi\Modules\V5\Actions\User\Commands\CreateUserSettingCommand as CreateUserSettingCommand;
 use Ushahidi\Modules\V5\Repository\User\UserSettingRepository;
 
 class CreateUserSettingCommandHandler extends AbstractCommandHandler
@@ -21,7 +21,7 @@ class CreateUserSettingCommandHandler extends AbstractCommandHandler
     protected function isSupported(Command $command)
     {
         assert(
-            get_class($command) === CreateSettingUserCommand::class,
+            get_class($command) === CreateUserSettingCommand::class,
             'Provided command not supported'
         );
     }
@@ -36,7 +36,7 @@ class CreateUserSettingCommandHandler extends AbstractCommandHandler
     {
         $this->isSupported($command);
         $command->setId(
-            $this->user_setting_repository->create($command->getInput())
+            $this->user_setting_repository->create($command->getEntity())
         );
     }
 }

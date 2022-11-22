@@ -5,7 +5,7 @@ namespace Ushahidi\Modules\V5\Actions\User\Handlers;
 use App\Bus\Action;
 use App\Bus\Command\AbstractCommandHandler;
 use App\Bus\Command\Command;
-use Ushahidi\Modules\V5\Actions\User\Commands\DeleteUserSettingCommand;
+use Ushahidi\Modules\V5\Actions\User\Commands\DeleteUserSettingCommand as DeleteUserSettingCommand;
 use Ushahidi\Modules\V5\Repository\User\UserSettingRepository;
 
 class DeleteUserSettingCommandHandler extends AbstractCommandHandler
@@ -21,7 +21,7 @@ class DeleteUserSettingCommandHandler extends AbstractCommandHandler
     protected function isSupported(Command $command)
     {
         assert(
-            get_class($command) === DeleteUserCommand::class,
+            get_class($command) === DeleteUserSettingCommand::class,
             'Provided command not supported'
         );
     }
@@ -35,6 +35,6 @@ class DeleteUserSettingCommandHandler extends AbstractCommandHandler
     public function __invoke(Action $command) //: int
     {
         $this->isSupported($command);
-        $this->user_setting_repository->delete($command->getId());
+        $this->user_setting_repository->delete($command->getId(), $command->getUserId());
     }
 }

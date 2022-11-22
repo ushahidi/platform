@@ -9,21 +9,20 @@ class FetchUserSettingQuery implements Query
     const DEFAULT_LIMIT = 0;
     const DEFAULT_ORDER = "ASC";
     const DEFAULT_SORT_BY = "id";
-    const AVAILABLE_SEARCH_FIELDS = ['name','q']; // q like name
-    
+
     private $limit;
     private $page;
     private $sortBy;
     private $order;
-    private $search_data;
+    private $user_id;
 
-    public function __construct(int $limit, int $page, string $sortBy, string $order, array $search_data)
+    public function __construct(int $user_id, int $limit, int $page, string $sortBy, string $order)
     {
         $this->limit = $limit;
         $this->page = $page;
         $this->sortBy = $sortBy;
         $this->order = $order;
-        $this->search_data = $search_data;
+        $this->user_id = $user_id;
     }
 
     public function getLimit(): int
@@ -45,9 +44,8 @@ class FetchUserSettingQuery implements Query
     {
         return $this->order;
     }
-
-    public function getSearchData()
+    public function getUserId(): string
     {
-        return $this->search_data;
+        return $this->user_id;
     }
 }

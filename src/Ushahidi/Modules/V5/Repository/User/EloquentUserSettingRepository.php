@@ -3,16 +3,18 @@
 namespace Ushahidi\Modules\V5\Repository\User;
 
 use Ushahidi\Modules\V5\Models\UserSetting;
-use Ushahidi\Modules\V5\Repository\User\UserSettingRepository ;
+use Ushahidi\Modules\V5\Repository\User\UserSettingRepository;
 use Ushahidi\Core\Exception\NotFoundException;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
+use Ushahidi\Core\Entity\UserSetting as UserSettingEntity;
 
 class EloquentUserSettingRepository implements UserSettingRepository
 {
     /**
      * This method will fetch all the UserSetting for the logged user from the database utilising
      * Laravel Eloquent ORM and return them as an array
+     * @param int $user_id
      * @param int $limit
      * @param int $skip
      * @param string $sortBy
@@ -20,18 +22,17 @@ class EloquentUserSettingRepository implements UserSettingRepository
      * @return UserSetting[]
      */
     public function fetch(
+        int $user_id,
         int $limit,
         int $skip,
         string $sortBy,
-        string $order,
-        array $search_data
+        string $order
     ): LengthAwarePaginator {
-        return $this->setSearchCondition(
-            $search_data,
-            UserSetting::take($limit)
-                ->skip($skip)
-                ->orderBy($sortBy, $order)
-        )->paginate($limit);
+        return UserSetting::take($limit)
+            ->skip($skip)
+            ->orderBy($sortBy, $order)
+            ->where('user_id', '=', $user_id)
+            ->paginate($limit);
     }
 
     /**
@@ -50,30 +51,17 @@ class EloquentUserSettingRepository implements UserSettingRepository
         }
         return $UserSetting;
     }
-
-    private function setSearchCondition(array $search_data, $builder)
-    {
-
-        if ($search_data['q']) {
-            $builder->where('name', 'LIKE', "%" . $search_data['q'] . "%");
-        }
-        if ($search_data['name']) {
-            $builder->where('name', '=', $search_data['name']);
-        }
-        return $builder;
-    }
-
     /**
      * This method will create a UserSetting
-     * @param array $data
+     * @param UserSettingEntity $data
      * @return int
      * @throws \Exception
      */
-    public function create(array $input): int
+    public function create(UserSettingEntity $entity): int
     {
         DB::beginTransaction();
         try {
-            $UserSetting = UserSetting::create($input);
+            $UserSetting = UserSetting::create($entity->asArray());
             DB::commit();
             return $UserSetting->id;
         } catch (\Exception $e) {
@@ -82,23 +70,23 @@ class EloquentUserSettingRepository implements UserSettingRepository
         }
     }
 
-     /**
+    /**
      * This method will update the UserSetting
      * @param int @id
-     * @param array $input
+     * @param UserSettingEntity $entity
      * @throws NotFoundException
      */
-    public function update(int $id, array $input): void
+    public function update(int $id, UserSettingEntity $entity): void
     {
 
         $UserSetting = UserSetting::find($id);
         if (!$UserSetting instanceof UserSetting) {
             throw new NotFoundException('UserSetting not found');
         }
-        
+
         DB::beginTransaction();
         try {
-            UserSetting::find($id)->fill($input)->save();
+            UserSetting::find($id)->fill($entity->asArray())->save();
             DB::commit();
         } catch (\Exception $e) {
             DB::rollback();
@@ -106,14 +94,15 @@ class EloquentUserSettingRepository implements UserSettingRepository
         }
     }
 
-     /**
+    /**
      * This method will create a UserSetting
      * @param int $id
+     * @param int $user_id
      * @return int
      * @throws NotFoundException
      */
-    public function delete(int $id): void
+    public function delete(int $id, int $user_id): void
     {
-        $this->findById($id)->delete();
+        UserSetting::where('user_id', "=", $user_id)->where('id', "=", $id)->delete();
     }
 }

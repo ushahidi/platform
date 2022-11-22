@@ -18,6 +18,7 @@ use Ushahidi\Core\Exception\AuthorizerException;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Contracts\Auth\Access\Gate;
+use Ushahidi\Core\Entity\UserSetting as UserSettingEntity;
 
 class UserSettingController extends V5Controller
 {
@@ -51,17 +52,19 @@ class UserSettingController extends V5Controller
      * @return UserSettingCollection
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function index(Request $request)
+    public function index(Request $request, int $user_id)
     {
         $this->authorizeForCurrentUserForUserSetting('index', UserSetting::class);
         $resourceCollection = new UserSettingCollection(
             $this->queryBus->handle(
                 new FetchUserSettingQuery(
+                    $user_id,
                     $request->query('limit', FetchUserSettingQuery::DEFAULT_LIMIT),
                     $request->query('page', 1),
                     $request->query('sortBy', "id"),
                     $request->query('order', FetchUserSettingQuery::DEFAULT_ORDER),
-                    $this->getSearchData($request->input(), FetchUserSettingQuery::AVAILABLE_SEARCH_FIELDS)
+                    []
+                    // $this->getSearchData($request->input(), FetchUserSettingQuery::AVAILABLE_SEARCH_FIELDS)
                 )
             )
         );
@@ -77,10 +80,10 @@ class UserSettingController extends V5Controller
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     //public function store(StoreUserSettingRequest $request, CommandBus $commandBus, QueryBus $queryBus)
-    public function store(Request $request)
+    public function store(Request $request, int $user_id)
     {
         $this->authorizeForCurrentUserForUserSetting('store', UserSetting::class);
-        $command = new CreateUserSettingCommand($this->getFields($request->input()));
+        $command = new CreateUserSettingCommand($this->buildEntity("create", $user_id, $request));
         $this->commandBus->handle($command);
         return new UserSettingResource(
             $this->queryBus->handle(new FetchUserSettingByIdQuery($command->getId()))
@@ -94,13 +97,16 @@ class UserSettingController extends V5Controller
      * @return \Illuminate\Http\JsonResponse|UserSettingResource
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function update(Request $request, int $id)
+    public function update(Request $request, int $user_id, int $id)
     {
         $user_setting = $this->queryBus->handle(new FetchUserSettingByIdQuery($id));
         $this->authorizeForCurrentUserForUserSetting('update', $user_setting);
-        $inputs =  $this->getFields($request->input());
-        unset($inputs["protected"]);
-        $this->commandBus->handle(new UpdateUserSettingCommand($id, $inputs));
+        $this->commandBus->handle(
+            new UpdateUserSettingCommand(
+                $id,
+                $this->buildEntity("update", $user_id, $request, $user_setting)
+            )
+        );
         return new UserSettingResource(
             $this->queryBus->handle(new FetchUserSettingByIdQuery($id))
         );
@@ -114,26 +120,36 @@ class UserSettingController extends V5Controller
      * @return \Illuminate\Http\JsonResponse|UserSettingResource
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function delete(int $id)
+    public function delete(int $user_id, int $id)
     {
         $user_setting = $this->queryBus->handle(new FetchUserSettingByIdQuery($id));
         $this->authorizeForCurrentUserForUserSetting('delete', $user_setting);
-
-        if ($user_setting->protected) {
-            throw new AuthorizationException("Can't delete protected user_setting ");
-        }
-        $this->commandBus->handle(new DeleteUserSettingCommand($id));
+        $this->commandBus->handle(new DeleteUserSettingCommand($id, $user_id));
         return new UserSettingResource($user_setting);
     } //end store()
 
-
-    private function getSearchData(array $input, array $available_search_fields): array
+    private function buildEntity(string $action, int $user_id, Request $request, UserSetting $user_setting = null): UserSettingEntity
     {
-        $search_data = [];
-        foreach ($available_search_fields as $field) {
-            $search_data[$field] = isset($input[$field]) ? $input[$field] : false;
+        if ($action === "update") {
+            $user_entity = new UserSettingEntity([
+                "id" => $user_setting->id,
+                "config_key" => $request->input("config_key", $user_setting->email),
+                "config_value" => $request->input("config_value", $user_setting->email),
+                "user_id" => $user_id,
+                "created" => $user_setting->created,
+                "updated" => time()
+            ]);
+        } else { // create
+            $user_entity = new UserSettingEntity([
+                "config_key" => $request->input("config_key"),
+                "config_value" => $request->input("config_value"),
+                "user_id" => $user_id,
+                "created" => time(),
+                "updated" => time()
+
+            ]);
         }
-        return $search_data;
+        return ($user_entity);
     }
 
     // To Do : Replace with authorizeForCurrentUser after merge

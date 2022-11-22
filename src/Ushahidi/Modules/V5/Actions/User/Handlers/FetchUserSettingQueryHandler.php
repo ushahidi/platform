@@ -34,11 +34,11 @@ class FetchUserSettingQueryHandler extends AbstractQueryHandler
         $this->isSupported($query);
         $skip = $query->getLimit() * ($query->getPage() - 1);
         return $this->user_setting_repository->fetch(
+            $query->getUserId(),
             $query->getLimit(),
             $skip,
             $query->getSortBy(),
-            $query->getOrder(),
-            $query->getSearchData()
+            $query->getOrder()
         );
     }
 }

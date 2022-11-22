@@ -13,9 +13,15 @@ class DeleteUserSettingCommand implements Command
      */
     private $id;
 
-    public function __construct(int $id)
+    /**
+     * @var int
+     */
+    private $user_id;
+
+    public function __construct(int $id, int $user_id)
     {
         $this->id = $id;
+        $this->user_id = $user_id;
     }
 
 
@@ -25,5 +31,13 @@ class DeleteUserSettingCommand implements Command
     public function getId(): int
     {
         return $this->id;
+    }
+
+    /**
+     * @return int
+     */
+    public function getUserId(): int
+    {
+        return $this->user_id;
     }
 }
