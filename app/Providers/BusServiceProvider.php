@@ -9,10 +9,10 @@ use App\Bus\Query\Example\ExampleQuery;
 use App\Bus\Query\Example\ExampleQueryHandler;
 use App\Bus\Query\QueryBus;
 use Illuminate\Support\ServiceProvider;
-use Ushahidi\Modules\V5\Actions\CountryCode\Query\FetchCountryCodeByIdQuery;
-use Ushahidi\Modules\V5\Actions\CountryCode\Query\FetchCountryCodeQuery;
-use Ushahidi\Modules\V5\Actions\CountryCode\QueryHandler\FetchCountryCodeByIdQueryHandler;
-use Ushahidi\Modules\V5\Actions\CountryCode\QueryHandler\FetchCountryCodeQueryHandler;
+use Ushahidi\Modules\V5\Actions\CountryCode\Queries\FetchCountryCodeByIdQuery;
+use Ushahidi\Modules\V5\Actions\CountryCode\Queries\FetchCountryCodeQuery;
+use Ushahidi\Modules\V5\Actions\CountryCode\Handlers\FetchCountryCodeByIdQueryHandler;
+use Ushahidi\Modules\V5\Actions\CountryCode\Handlers\FetchCountryCodeQueryHandler;
 
 class BusServiceProvider extends ServiceProvider
 {

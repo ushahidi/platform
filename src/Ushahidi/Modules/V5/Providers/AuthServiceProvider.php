@@ -2,10 +2,10 @@
 
 namespace Ushahidi\Modules\V5\Providers;
 
-use Ushahidi\Modules\V3\Policies\CountryCodePolicy;
+use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Ushahidi\Modules\V5\Models;
 use Ushahidi\Modules\V5\Policies;
-use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Ushahidi\Modules\V5\Policies\CountryCodePolicy;
 
 class AuthServiceProvider extends ServiceProvider
 {

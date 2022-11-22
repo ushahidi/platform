@@ -1,11 +1,11 @@
 <?php
 
-namespace Ushahidi\Modules\V5\Actions\CountryCode\QueryHandler;
+namespace Ushahidi\Modules\V5\Actions\CountryCode\Handlers;
 
 use App\Bus\Action;
 use App\Bus\Query\AbstractQueryHandler;
 use App\Bus\Query\Query;
-use Ushahidi\Modules\V5\Actions\CountryCode\Query\FetchCountryCodeByIdQuery;
+use Ushahidi\Modules\V5\Actions\CountryCode\Queries\FetchCountryCodeByIdQuery;
 use Ushahidi\Modules\V5\Models\CountryCode;
 use Ushahidi\Modules\V5\Repository\CountryCode\CountryCodeRepository;
 

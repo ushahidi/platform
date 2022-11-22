@@ -1,10 +1,9 @@
 <?php
 
-namespace Ushahidi\Modules\V3\Policies;
+namespace Ushahidi\Modules\V5\Policies;
 
 use App\Auth\GenericUser as User;
 use Ushahidi\Contracts\Permission;
-use Ushahidi\Core\Tool\Acl;
 use Ushahidi\Modules\V5\Repository\Role\RoleRepository;
 
 class CountryCodePolicy

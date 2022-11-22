@@ -2,9 +2,9 @@
 
 namespace Tests\Unit\Bus\Handler\Query;
 
-use Ushahidi\Modules\V5\Actions\CountryCode\Query\FetchCountryCodeByIdQuery;
-use Ushahidi\Modules\V5\Actions\CountryCode\Query\FetchCountryCodeQuery;
-use Ushahidi\Modules\V5\Actions\CountryCode\QueryHandler\FetchCountryCodeByIdQueryHandler;
+use Ushahidi\Modules\V5\Actions\CountryCode\Queries\FetchCountryCodeByIdQuery;
+use Ushahidi\Modules\V5\Actions\CountryCode\Queries\FetchCountryCodeQuery;
+use Ushahidi\Modules\V5\Actions\CountryCode\Handlers\FetchCountryCodeByIdQueryHandler;
 use PHPUnit\Framework\TestCase;
 use Ushahidi\Modules\V5\Models\CountryCode;
 use Ushahidi\Modules\V5\Repository\CountryCode\CountryCodeRepository;

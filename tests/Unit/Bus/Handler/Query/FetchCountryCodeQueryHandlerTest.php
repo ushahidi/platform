@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Bus\Handler\Query;
 
-use Ushahidi\Modules\V5\Actions\CountryCode\Query\FetchCountryCodeQuery;
-use Ushahidi\Modules\V5\Actions\CountryCode\QueryHandler\FetchCountryCodeQueryHandler;
+use Ushahidi\Modules\V5\Actions\CountryCode\Queries\FetchCountryCodeQuery;
+use Ushahidi\Modules\V5\Actions\CountryCode\Handlers\FetchCountryCodeQueryHandler;
 use Ushahidi\Modules\V5\Http\Resources\CountryCodeCollection;
 use Ushahidi\Modules\V5\Models\CountryCode;
 use Ushahidi\Modules\V5\Repository\CountryCode\CountryCodeRepository;

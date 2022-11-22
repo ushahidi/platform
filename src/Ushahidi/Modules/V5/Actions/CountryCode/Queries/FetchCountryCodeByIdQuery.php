@@ -1,6 +1,6 @@
 <?php
 
-namespace Ushahidi\Modules\V5\Actions\CountryCode\Query;
+namespace Ushahidi\Modules\V5\Actions\CountryCode\Queries;
 
 use App\Bus\Query\Query;
 
