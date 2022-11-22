@@ -34,7 +34,7 @@ class CountryCodeCollection extends ResourceCollection
     public function toArray($request): array
     {
         $data = $this->collection
-            ->map(function($countryCode) {
+            ->map(function ($countryCode) {
                 return new CountryCodeResource($countryCode);
             })
             ->toArray();
