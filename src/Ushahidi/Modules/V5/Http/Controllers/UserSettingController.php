@@ -55,7 +55,7 @@ class UserSettingController extends V5Controller
     public function index(Request $request, int $user_id)
     {
         $this->authorizeForCurrentUserForUserSetting('index', UserSetting::class);
-        $resourceCollection = new UserSettingCollection(
+        return new UserSettingCollection(
             $this->queryBus->handle(
                 new FetchUserSettingQuery(
                     $user_id,
@@ -68,7 +68,6 @@ class UserSettingController extends V5Controller
                 )
             )
         );
-        return $resourceCollection;
     } //end index()
 
 

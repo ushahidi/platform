@@ -165,7 +165,7 @@ class UserController extends V5Controller
     private function buildUserEntity(string $action, Request $request, User $user = null): UserEntity
     {
         if ($action === "update") {
-            $user_entity = new UserEntity([
+            return new UserEntity([
                 "id" => $user->id,
                 "email" => $request->input("email", $user->email),
                 "password" => $request->input("password", $user->email),
@@ -178,20 +178,19 @@ class UserController extends V5Controller
                 "created" => $user->created,
                 "updated" => time()
             ]);
-        } else { // create
-            $user_entity = new UserEntity([
-                "email" => $request->input("email"),
-                "password" => $request->input("password"),
-                "realname" => $request->input("realname"),
-                "role" => $request->input("role"),
-                "gravatar" => $request->input("gravatar"),
-                "logins" => 0,
-                "failed_attempts" => 0,
-                "last_login" => null,
-                "created" => time()
-            ]);
         }
-        return ($user_entity);
+        return  new UserEntity([
+            "email" => $request->input("email"),
+            "password" => $request->input("password"),
+            "realname" => $request->input("realname"),
+            "role" => $request->input("role"),
+            "gravatar" => $request->input("gravatar"),
+            "logins" => 0,
+            "failed_attempts" => 0,
+            "last_login" => null,
+            "created" => time(),
+
+        ]);
     }
 
 

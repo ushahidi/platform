@@ -19,8 +19,7 @@ class UserSearchFields
     public function __construct(Request $request)
     {
         $this->query = $request->query('q');
-        $this->role =
-            $request->query('role')
+        $this->role = $request->query('role')
             ? explode(',', $request->query('role'))
             : null;
     }
@@ -33,14 +32,5 @@ class UserSearchFields
     public function role(): ?array
     {
         return $this->role;
-    }
-
-    public function roleAsMysqlInCondition(): ?string
-    {
-        $role_in_condition = "(";
-        foreach ($this->role as $key => $item) {
-            $role_in_condition .= $key==0 ? $item."," : $item;
-        }
-        return $role_in_condition.= ")";
     }
 }
