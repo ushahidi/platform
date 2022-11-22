@@ -10,17 +10,22 @@ class FetchUserQuery implements Query
     const DEFAULT_LIMIT = 0;
     const DEFAULT_ORDER = "ASC";
     const DEFAULT_SORT_BY = "id";
-    
+
     private $limit;
     private $page;
     private $sortBy;
     private $order;
     private $user_search_fields;
-    
 
 
-    public function __construct(int $limit, int $page, string $sortBy, string $order, UserSearchFields $user_search_fields)
-    {
+
+    public function __construct(
+        int $limit,
+        int $page,
+        string $sortBy,
+        string $order,
+        UserSearchFields $user_search_fields
+    ) {
         $this->limit = $limit;
         $this->page = $page;
         $this->sortBy = $sortBy;

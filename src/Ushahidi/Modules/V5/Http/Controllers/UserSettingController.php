@@ -128,8 +128,12 @@ class UserSettingController extends V5Controller
         return new UserSettingResource($user_setting);
     } //end store()
 
-    private function buildEntity(string $action, int $user_id, Request $request, UserSetting $user_setting = null): UserSettingEntity
-    {
+    private function buildEntity(
+        string $action,
+        int $user_id,
+        Request $request,
+        UserSetting $user_setting = null
+    ): UserSettingEntity {
         if ($action === "update") {
             $user_entity = new UserSettingEntity([
                 "id" => $user_setting->id,
