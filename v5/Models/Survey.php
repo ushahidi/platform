@@ -406,8 +406,8 @@ class Survey extends BaseModel
         // NOTE: this acl->hasPermission check is all `canUserEditForm` does, so we're doing that directly
         // to avoid an hydration issue with InteractsWithFormPermissions
         if ($authorizer->acl->hasPermission($user, Permission::MANAGE_POSTS)) {
-            // if this permission is set we can go ahead and hydrate all the stages
-            return $this->hasMany('v5\Models\Stage', 'form_id');
+            // if this permission is set we can go ahead and hydrate all the stages ordered by priority
+            return $this->hasMany('v5\Models\Stage', 'form_id')->orderBy("priority", "asc");
         }
 
         return $this->hasMany(
