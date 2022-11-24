@@ -17,7 +17,8 @@ class AuthServiceProvider extends ServiceProvider
     protected $policies = [
         Models\Survey::class => Policies\SurveyPolicy::class,
         Models\Category::class => Policies\CategoryPolicy::class,
-        Models\Post\Post::class => Policies\PostPolicy::class
+        Models\Post\Post::class => Policies\PostPolicy::class,
+        Models\Tos::class => Policies\TosPolicy::class,
     ];
 
     /**
