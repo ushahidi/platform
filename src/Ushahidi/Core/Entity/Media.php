@@ -12,8 +12,9 @@
 namespace Ushahidi\Core\Entity;
 
 use Ushahidi\Core\StaticEntity;
+use Ushahidi\Core\EloquentEntity;
 
-class Media extends StaticEntity
+class Media extends EloquentEntity
 {
     protected $id;
     protected $user_id;

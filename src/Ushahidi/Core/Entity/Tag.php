@@ -11,9 +11,9 @@
 
 namespace Ushahidi\Core\Entity;
 
-use Ushahidi\Core\StaticEntity;
+use Ushahidi\Core\EloquentEntity;
 
-class Tag extends StaticEntity
+class Tag extends EloquentEntity
 {
     protected $id;
     protected $parent_id;
@@ -75,6 +75,7 @@ class Tag extends StaticEntity
     {
         return 'tags';
     }
+
     protected function getImmutable()
     {
         // Hack: Add computed properties to immutable list

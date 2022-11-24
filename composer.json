@@ -122,7 +122,7 @@
         ],
         "post-install-cmd": [
             "captainhook install -f",
-            "php artisan passport:keys || php -r \"return 0;\""
+            "@php artisan passport:keys || @php -r \"return 0;\""
         ],
         "compile": [
             "@migrate"
@@ -150,7 +150,7 @@
         ],
         "pre-test": [
             "@migrate",
-            "php artisan passport:keys",
+            "@php artisan passport:keys",
             "chmod 660 storage/passport/*.key"
         ],
         "pre-push-test": [
@@ -170,7 +170,7 @@
             "behat --strict"
         ],
         "bootstrap:passport": [
-            "php artisan passport:keys",
+            "@php artisan passport:keys",
             "chmod 660 storage/passport/*.key"
         ],
         "verify": [

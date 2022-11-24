@@ -18,7 +18,8 @@ touch_logs
 # Dump lumen disk logs if something fails
 trap dump_logs EXIT
 
-run_composer_install
+run_composer_install --no-dev --no-scripts
+run_composer dumpautoload
 provision_passport_keys
 set_storage_permissions
 

@@ -19,7 +19,7 @@ class SavedSearch extends Set
     protected function getDefinition()
     {
         return parent::getDefinition() + [
-            'filter'       => '*json',
+            'filter' => '*json',
         ];
     }
 
@@ -27,5 +27,10 @@ class SavedSearch extends Set
     public function getResource()
     {
         return 'savedsearches';
+    }
+
+    public function getTable()
+    {
+        return 'sets';
     }
 }

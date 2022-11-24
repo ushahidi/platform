@@ -17,8 +17,8 @@ use Illuminate\Support\Collection;
 interface EntityCreateMany
 {
     /**
-     * @param  Collection $collection
-     * @return array      ids of rows created
+     * @param \Illuminate\Support\Collection $collection
+     * @return array|\Illuminate\Support\Collection ids of rows created
      */
-    public function createMany(Collection $collection) : array;
+    public function createMany(Collection $collection);
 }

@@ -16,7 +16,7 @@
 
 namespace Ushahidi\Core\Concerns;
 
-trait DataTransformer
+trait TransformData
 {
     /**
      * Transform a string into an email, removing all characters that cannot
@@ -230,7 +230,7 @@ trait DataTransformer
      *         'email'    => function($val) { return filter_val($val, FILTER_SANITIZE_EMAIL); }
      *     ];
      *
-     * @return Array
+     * @return array
      */
     abstract protected function getDefinition();
 }

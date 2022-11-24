@@ -92,4 +92,84 @@ $router->group([
         $router->get('/', 'CountryCodeController@index');
         $router->get('/{id}', 'CountryCodeController@show');
     });
+    
+    /* Users */
+    // Restricted access
+    $router->group([
+        'prefix' => 'users',
+        'middleware' => ['scope:users', 'auth:api', 'expiration']
+    ], function () use ($router) {
+        $router->get('/me', 'UserController@showMe');
+        $router->put('/me', 'UserController@updateMe');
+    });
+
+
+    // Public access
+    $router->group([
+        'prefix' => 'users',
+        'middleware' => ['scope:users', 'expiration'],
+    ], function () use ($router) {
+        $router->get('/', 'UserController@index');
+        $router->get('/{id}', 'UserController@show');
+    });
+
+       // Restricted access
+       $router->group([
+        'prefix' => 'users',
+        'middleware' => ['scope:users', 'auth:api', 'expiration']
+       ], function () use ($router) {
+        $router->post('/', 'UserController@store');
+        $router->put('/{id}', 'UserController@update');
+        $router->delete('/{id}', 'UserController@delete');
+        
+        $router->group([
+            'prefix' => '{user_id}/settings',
+            'middleware' => ['scope:users', 'auth:api', 'feature:user-settings', 'expiration']
+        ], function () use ($router) {
+            $router->get('/', 'UserSettingController@index');
+            $router->get('/{id}', 'UserSettingController@show');
+            $router->post('/', 'UserSettingController@store');
+            $router->put('/{id}', 'UserSettingController@update');
+            $router->delete('/{id}', 'UserSettingController@delete');
+        });
+       });
+
+
+    // Permissions
+    $router->group([
+        'prefix' => 'permissions',
+        'middleware' => ['auth:api', 'scope:tos','expiration']
+    ], function () use ($router) {
+        $router->get('/', 'PermissionsController@index');
+        $router->get('/{id}', 'PermissionsController@show');
+    });
+     /* Roles */
+    // Public access
+    $router->group([
+        'prefix' => 'roles',
+        'middleware' => ['scope:roles', 'expiration']
+    ], function () use ($router) {
+        $router->get('/', 'RoleController@index');
+        $router->get('/{id}', 'RoleController@show');
+    });
+
+    // Restricted access
+    $router->group([
+        'prefix' => 'roles',
+        'middleware' => ['auth:api', 'scope:roles']
+    ], function () use ($router) {
+        $router->post('/', 'RoleController@store');
+        $router->put('/{id}', 'RoleController@update');
+        $router->delete('/{id}', 'RoleController@delete');
+    });
+        
+    // Restricted access
+    $router->group([
+        'prefix' => 'tos',
+        'middleware' => ['auth:api', 'scope:tos']
+    ], function () use ($router) {
+        $router->get('/', 'TosController@index');
+        $router->get('/{id}', 'TosController@show');
+        $router->post('/', 'TosController@store');
+    });
 });

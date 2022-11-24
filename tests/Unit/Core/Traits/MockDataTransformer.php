@@ -4,7 +4,7 @@ namespace Ushahidi\Tests\Unit\Core\Traits;
 
 class MockDataTransformer
 {
-    use \Ushahidi\Core\Concerns\DataTransformer;
+    use \Ushahidi\Core\Concerns\TransformData;
 
     protected function getDefinition()
     {
