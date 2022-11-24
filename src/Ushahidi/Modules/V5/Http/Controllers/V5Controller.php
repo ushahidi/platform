@@ -165,6 +165,28 @@ class V5Controller extends BaseController
         return $this->authorizeForUser(Auth::user() ?? new GenericUser(['role' => 'guest']), $ability, $arguments);
     }
 
+      /**
+     * Authorize a given action for a the current user.
+     *
+     * @param  mixed  $ability
+     * @param  mixed|array  $arguments
+     * @return \Illuminate\Auth\Access\Response
+     *
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
+    public function authorizeForCurrentUser($ability, $arguments = [])
+    {
+        $gUser = $this->getGenericUser();
+
+        list($ability, $arguments) = $this->parseAbilityAndArguments($ability, $arguments);
+        return app(Gate::class)->forUser($gUser)->authorize($ability, $arguments);
+    }
+
+    public function getGenericUser()
+    {
+        return  Auth::guard()->user();
+    }
+
     /**
      * Guesses the ability's name if it wasn't provided.
      *
