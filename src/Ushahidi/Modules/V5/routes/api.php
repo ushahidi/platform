@@ -1,12 +1,10 @@
 <?php
 /**
- * API version number
+ * API version 5
  */
-$apiVersion = '5';
-$apiBase = '/v' . $apiVersion;
 
 $router->group([
-    'prefix' => $apiBase,
+    'prefix' => '/v5',
 ], function () use ($router) {
     // Forms
     $router->group([
@@ -87,6 +85,14 @@ $router->group([
         $router->post('/_whatsapp', 'WhatsAppController@store');
     });
 
+    $router->group([
+        'prefix' => 'country-codes',
+        'middleware' => ['auth:api', 'scope:country_codes'],
+    ], function () use ($router) {
+        $router->get('/', 'CountryCodeController@index');
+        $router->get('/{id}', 'CountryCodeController@show');
+    });
+    
     /* Users */
     // Restricted access
     $router->group([

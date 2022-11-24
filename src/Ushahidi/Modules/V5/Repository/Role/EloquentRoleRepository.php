@@ -3,6 +3,7 @@
 namespace Ushahidi\Modules\V5\Repository\Role;
 
 use Ushahidi\Modules\V5\Models\Role;
+use Illuminate\Database\Eloquent\Model;
 use Ushahidi\Modules\V5\Repository\Role\RoleRepository as RoleRepository;
 use Ushahidi\Core\Exception\NotFoundException;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -50,6 +51,14 @@ class EloquentRoleRepository implements RoleRepository
             throw new NotFoundException('role not found');
         }
         return $role;
+    }
+    
+    /**
+     * @return Role|Model
+     */
+    public function findByRole(string $role): Role
+    {
+        return Role::query()->where('name', $role)->first();
     }
 
     private function setSearchCondition(array $search_data, $builder)

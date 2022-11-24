@@ -157,6 +157,7 @@
             "phpunit --no-coverage",
             "behat --strict"
         ],
+        "behat": "behat --strict",
         "test": [
             "phpunit --no-coverage",
             "phpspec run --no-code-generation",

@@ -3,6 +3,7 @@
 namespace Ushahidi\Modules\V5\Repository\Role;
 
 use Ushahidi\Modules\V5\Models\Role;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 interface RoleRepository
@@ -34,6 +35,12 @@ interface RoleRepository
      */
     public function findById(int $id): Role;
 
+    /**
+     * @param string $role
+     * @return Model|Role
+     */
+    public function findByRole(string $role): Role;
+    
     /**
      * This method will create a Role
      * @param array $data

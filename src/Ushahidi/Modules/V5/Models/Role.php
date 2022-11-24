@@ -2,6 +2,9 @@
 
 namespace Ushahidi\Modules\V5\Models;
 
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
+
 class Role extends BaseModel
 {
     /**
@@ -40,5 +43,10 @@ class Role extends BaseModel
     public function permissions()
     {
         return $this->hasMany('Ushahidi\Modules\V5\Models\RolePermissions', 'role', 'name');
+    }
+    
+    public function getPermission(): Collection
+    {
+        return RolePermission::where('role', $this->name)->get();
     }
 }//end class
