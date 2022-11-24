@@ -11,9 +11,10 @@
 
 namespace Ushahidi\Core\Entity;
 
+use Ushahidi\Core\EloquentEntity;
 use Ushahidi\Core\StaticEntity;
 
-class Form extends StaticEntity
+class Form extends EloquentEntity
 {
     protected $id;
     protected $parent_id;

@@ -11,9 +11,9 @@
 
 namespace Ushahidi\Core\Entity;
 
-use Ushahidi\Core\StaticEntity;
+use Ushahidi\Core\EloquentEntity;
 
-class User extends StaticEntity
+class User extends EloquentEntity
 {
     protected $id;
     protected $email;
@@ -53,5 +53,13 @@ class User extends StaticEntity
     public function getResource()
     {
         return 'users';
+    }
+
+    public function getDefaultData()
+    {
+        return [
+            'logins' => 0,
+            'failed_attempts' => 0
+        ];
     }
 }

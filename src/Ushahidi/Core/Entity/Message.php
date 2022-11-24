@@ -11,25 +11,34 @@
 
 namespace Ushahidi\Core\Entity;
 
+use Ushahidi\Core\BasicEntity;
+use Ushahidi\Core\EloquentEntity;
 use Ushahidi\Core\StaticEntity;
 
-class Message extends StaticEntity
+class Message extends EloquentEntity
 {
     // Valid boxes are defined as constants.
     const INBOX          = 'inbox';
+
     const OUTBOX         = 'sent';
 
     // Valid directions are defined as constants.
     const INCOMING       = 'incoming';
+
     const OUTGOING       = 'outgoing';
 
     // Valid status types are defined as constants.
     const PENDING        = 'pending';
+
     const RECEIVED       = 'received';
+
     const EXPIRED        = 'expired';
+
     const CANCELLED      = 'cancelled';
+
     const FAILED         = 'failed';
-    const DEFAULT_STATUS = 'pending';
+
+    const DEFAULT_STATUS = self::PENDING;
 
     protected $id;
     protected $parent_id;
@@ -81,7 +90,7 @@ class Message extends StaticEntity
     protected function getDefaultData()
     {
         return [
-            'status' => $this::DEFAULT_STATUS,
+            'status' => self::PENDING,
         ];
     }
 
@@ -101,7 +110,7 @@ class Message extends StaticEntity
     protected function getDerived()
     {
         return [
-            'user_id'   => ['user', 'user.id'], /* alias */
+            'user_id' => ['user', 'user.id'], /* alias */
         ];
     }
 }

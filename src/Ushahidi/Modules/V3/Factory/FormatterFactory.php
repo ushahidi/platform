@@ -64,11 +64,11 @@ class FormatterFactory
     /**
      * Gets a formatter from the map by resource and action.
      * If the action is a collection action, the formatter will be returned
-     * as a `CollectionFormatter`.
+     * as a `Collection`.
      *
      * @param  string $resource
      * @param  string $action
-     * @return \Ushahidi\Core\Tool\Formatter\CollectionFormatter|\Ushahidi\Contracts\Formatter
+     * @return \Ushahidi\Contracts\Formatter
      */
     public function get($resource, $action)
     {

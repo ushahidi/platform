@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Ushahidi Platform Formatter Tool
+ * Ushahidi Platform Formatter Interface
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Platform

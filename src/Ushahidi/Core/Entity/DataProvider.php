@@ -11,9 +11,10 @@
 
 namespace Ushahidi\Core\Entity;
 
+use Ushahidi\Core\BasicEntity;
 use Ushahidi\Core\StaticEntity;
 
-class DataProvider extends StaticEntity
+class DataProvider extends BasicEntity
 {
     protected $id;
     protected $name;

@@ -79,7 +79,7 @@ class DeleteUsecase implements Usecase
         $this->verifyReadAuth($entity);
 
         // ... and return the formatted entity
-        return $this->formatter->__invoke($entity);
+        return $this->formatter ? ($this->formatter)($entity) : $entity;
     }
 
     /**
