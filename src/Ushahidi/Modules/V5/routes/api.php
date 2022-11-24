@@ -105,7 +105,7 @@ $router->group([
         $router->post('/', 'RoleController@store');
         $router->put('/{id}', 'RoleController@update');
         $router->delete('/{id}', 'RoleController@delete');
-     });
+    });
         
     // Restricted access
     $router->group([
