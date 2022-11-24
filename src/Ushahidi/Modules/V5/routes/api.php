@@ -105,5 +105,13 @@ $router->group([
         $router->post('/', 'RoleController@store');
         $router->put('/{id}', 'RoleController@update');
         $router->delete('/{id}', 'RoleController@delete');
+    // Restricted access
+    $router->group([
+        'prefix' => 'tos',
+        'middleware' => ['auth:api', 'scope:tos']
+    ], function () use ($router) {
+        $router->get('/', 'TosController@index');
+        $router->get('/{id}', 'TosController@show');
+        $router->post('/', 'TosController@store');
     });
 });
