@@ -96,4 +96,33 @@ $router->group([
         $router->get('/', 'PermissionsController@index');
         $router->get('/{id}', 'PermissionsController@show');
     });
+     /* Roles */
+    // Public access
+    $router->group([
+        'prefix' => 'roles',
+        'middleware' => ['scope:roles', 'expiration']
+    ], function () use ($router) {
+        $router->get('/', 'RoleController@index');
+        $router->get('/{id}', 'RoleController@show');
+    });
+
+    // Restricted access
+    $router->group([
+        'prefix' => 'roles',
+        'middleware' => ['auth:api', 'scope:roles']
+    ], function () use ($router) {
+        $router->post('/', 'RoleController@store');
+        $router->put('/{id}', 'RoleController@update');
+        $router->delete('/{id}', 'RoleController@delete');
+    });
+        
+    // Restricted access
+    $router->group([
+        'prefix' => 'tos',
+        'middleware' => ['auth:api', 'scope:tos']
+    ], function () use ($router) {
+        $router->get('/', 'TosController@index');
+        $router->get('/{id}', 'TosController@show');
+        $router->post('/', 'TosController@store');
+    });
 });
