@@ -16,6 +16,7 @@ use Ushahidi\Modules\V5\Actions\Tos\Handlers\FetchTosByIdQueryHandler;
 
 use App\Bus\Query\QueryBus;
 use Illuminate\Support\ServiceProvider;
+use Ushahidi\Modules\V5\Actions\User;
 use Ushahidi\Modules\V5\Actions\Permissions\Queries\FetchPermissionsQuery;
 use Ushahidi\Modules\V5\Actions\Permissions\Handlers\FetchPermissionsQueryHandler;
 use Ushahidi\Modules\V5\Actions\Permissions\Queries\FetchPermissionsByIdQuery;
@@ -64,6 +65,32 @@ class BusServiceProvider extends ServiceProvider
                 Role\Handlers\DeleteRolePermissionByRoleCommandHandler::class
             );
 
+            $commandBus->register(
+                User\Commands\CreateUserCommand::class,
+                User\Handlers\CreateUserCommandHandler::class
+            );
+            $commandBus->register(
+                User\Commands\UpdateUserCommand::class,
+                User\Handlers\UpdateUserCommandHandler::class
+            );
+            $commandBus->register(
+                User\Commands\DeleteUserCommand::class,
+                User\Handlers\DeleteUserCommandHandler::class
+            );
+
+            $commandBus->register(
+                User\Commands\CreateUserSettingCommand::class,
+                User\Handlers\CreateUserSettingCommandHandler::class
+            );
+            $commandBus->register(
+                User\Commands\UpdateUserSettingCommand::class,
+                User\Handlers\UpdateUserSettingCommandHandler::class
+            );
+            $commandBus->register(
+                User\Commands\DeleteUserSettingCommand::class,
+                User\Handlers\DeleteUserSettingCommandHandler::class
+            );
+
             $commandBus->register(CreateTosCommand::class, CreateTosCommandHandler::class);
             
             return $commandBus;
@@ -90,6 +117,24 @@ class BusServiceProvider extends ServiceProvider
 
             $queryBus->register(FetchTosQuery::class, FetchTosQueryHandler::class);
             $queryBus->register(FetchTosByIdQuery::class, FetchTosByIdQueryHandler::class);
+
+            $queryBus->register(
+                User\Queries\FetchUserQuery::class,
+                User\Handlers\FetchUserQueryHandler::class
+            );
+            $queryBus->register(
+                User\Queries\FetchUserByIdQuery::class,
+                User\Handlers\FetchUserByIdQueryHandler::class
+            );
+            
+            $queryBus->register(
+                User\Queries\FetchUserSettingQuery::class,
+                User\Handlers\FetchUserSettingQueryHandler::class
+            );
+            $queryBus->register(
+                User\Queries\FetchUserSettingByIdQuery::class,
+                User\Handlers\FetchUserSettingByIdQueryHandler::class
+            );
 
             return $queryBus;
         });

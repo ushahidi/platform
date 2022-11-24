@@ -8,6 +8,7 @@ use Illuminate\Support\ServiceProvider;
 use Ushahidi\Core\Tool\OhanzeeResolver;
 use Ushahidi\Addons\AfricasTalking\AfricasTalkingSource;
 use Ushahidi\Contracts\Repository\Entity\ConfigRepository;
+use Ushahidi\Modules\V5\Repository\User;
 use Ushahidi\Modules\V5\Repository\Permissions\PermissionsRepository;
 use Ushahidi\Modules\V5\Repository\Permissions\EloquentPermissionsRepository;
 use Ushahidi\Modules\V5\Repository\Role\RoleRepository;
@@ -55,6 +56,14 @@ class AppServiceProvider extends ServiceProvider
             return new OhanzeeResolver();
         });
 
+        $this->app->bind(
+            User\UserRepository::class,
+            User\EloquentUserRepository::class
+        );
+        $this->app->bind(
+            user\UserSettingRepository::class,
+            user\EloquentUserSettingRepository::class
+        );
         $this->app->bind(PermissionsRepository::class, EloquentPermissionsRepository::class);
         $this->app->bind(RoleRepository::class, EloquentRoleRepository::class);
         $this->app->bind(TosRepository::class, EloquentTosRepository::class);
