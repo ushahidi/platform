@@ -16,6 +16,10 @@ use Ushahidi\Modules\V5\Actions\Tos\Handlers\FetchTosByIdQueryHandler;
 
 use App\Bus\Query\QueryBus;
 use Illuminate\Support\ServiceProvider;
+use Ushahidi\Modules\V5\Actions\Permissions\Queries\FetchPermissionsQuery;
+use Ushahidi\Modules\V5\Actions\Permissions\Handlers\FetchPermissionsQueryHandler;
+use Ushahidi\Modules\V5\Actions\Permissions\Queries\FetchPermissionsByIdQuery;
+use Ushahidi\Modules\V5\Actions\Permissions\Handlers\FetchPermissionsByIdQueryHandler;
 use Ushahidi\Modules\V5\Actions\Role;
 
 class BusServiceProvider extends ServiceProvider
@@ -72,6 +76,8 @@ class BusServiceProvider extends ServiceProvider
             $queryBus = new QueryBus($app);
 
             $queryBus->register(ExampleQuery::class, ExampleQueryHandler::class);
+            $queryBus->register(FetchPermissionsQuery::class, FetchPermissionsQueryHandler::class);
+            $queryBus->register(FetchPermissionsByIdQuery::class, FetchPermissionsByIdQueryHandler::class);
                
             $queryBus->register(
                 Role\Queries\FetchRoleQuery::class,
