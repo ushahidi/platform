@@ -49,5 +49,4 @@ class Role extends BaseModel
     {
         return RolePermission::where('role', $this->name)->get();
     }
-    
 }//end class
