@@ -18,9 +18,9 @@ class AuthServiceProvider extends ServiceProvider
         Models\Survey::class => Policies\SurveyPolicy::class,
         Models\Category::class => Policies\CategoryPolicy::class,
         Models\Role::class => Policies\RolePolicy::class,
-        Models\Post\Post::class => Policies\PostPolicy::class
         Models\Post\Post::class => Policies\PostPolicy::class,
-        Models\Tos::class => Policies\TosPolicy::class,
+        Models\Post\Post::class => Policies\PostPolicy::class,
+        Models\Tos::class => Policies\TosPolicy::class
     ];
 
     /**
