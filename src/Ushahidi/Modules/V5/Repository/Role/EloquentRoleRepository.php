@@ -2,7 +2,6 @@
 
 namespace Ushahidi\Modules\V5\Repository\Role;
 
-
 use Ushahidi\Modules\V5\Models\Role;
 use Illuminate\Database\Eloquent\Model;
 use Ushahidi\Modules\V5\Repository\Role\RoleRepository as RoleRepository;
