@@ -24,6 +24,7 @@ use Illuminate\Support\Facades\Input;
 use Ushahidi\App\Validator\LegacyValidator;
 use Ushahidi\Core\Tools\Permissions\InteractsWithPostPermissions;
 use Illuminate\Http\Request;
+use v5\Rules\StandardText;
 
 class Post extends BaseModel
 {
@@ -309,7 +310,8 @@ class Post extends BaseModel
             'title'            => [
                 'required',
                 'max:150',
-                'regex:' . LegacyValidator::REGEX_STANDARD_TEXT,
+                new StandardText,
+                // 'regex:' . LegacyValidator::REGEX_STANDARD_TEXT,
             ],
             'slug'        => [
                 'required',
