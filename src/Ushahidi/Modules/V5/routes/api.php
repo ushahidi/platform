@@ -92,7 +92,7 @@ $router->group([
         $router->get('/', 'CountryCodeController@index');
         $router->get('/{id}', 'CountryCodeController@show');
     });
-    
+
     /* Users */
     // Restricted access
     $router->group([
@@ -121,7 +121,7 @@ $router->group([
         $router->post('/', 'UserController@store');
         $router->put('/{id}', 'UserController@update');
         $router->delete('/{id}', 'UserController@delete');
-        
+
         $router->group([
             'prefix' => '{user_id}/settings',
             'middleware' => ['scope:users', 'auth:api', 'feature:user-settings', 'expiration']
@@ -162,7 +162,7 @@ $router->group([
         $router->put('/{id}', 'RoleController@update');
         $router->delete('/{id}', 'RoleController@delete');
     });
-        
+
     // Restricted access
     $router->group([
         'prefix' => 'tos',
@@ -171,5 +171,10 @@ $router->group([
         $router->get('/', 'TosController@index');
         $router->get('/{id}', 'TosController@show');
         $router->post('/', 'TosController@store');
+    });
+
+    $router->group(['prefix' => 'datasources'], function () use ($router) {
+        $router->get('/', 'DatasourceController@index');
+        $router->get('/{source}', 'DatasourceController@show');
     });
 });
