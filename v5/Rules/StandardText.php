@@ -9,10 +9,8 @@ class StandardText implements Rule
     protected $patterns = [
         // Regex that only allows letters, numbers, punctuation, and space.
         '/^[\pL\pN\pP ]++$/uD',
-        // Regex for bengali characters
-        '/^[\p{Bengali} ]{0,100}$/u',
-        // Regex for bengali characters
-        '/^[\p{Gujarati} ]{0,100}$/u'
+        // Regex for bengali, gujarati, kannada, latin characters and numbers, punctuation and space
+        '/^[\p{Bengali}\p{Gujarati}\p{Kannada}\p{Malayalam}\p{Telugu}\pL\pN\pP ]{0,100}$/u',
     ];
 
     /**
