@@ -2,14 +2,28 @@
 
 namespace Ushahidi\Modules\V5\Http\Controllers;
 
+use App\Bus\Command\CommandBus;
+use App\Bus\Query\QueryBus;
+use Ushahidi\Modules\V5\Actions\Category\Commands\StoreCategoryCommand;
 use Ushahidi\Modules\V5\Http\Resources\CategoryCollection;
 use Ushahidi\Modules\V5\Http\Resources\CategoryResource;
 use Illuminate\Http\Request;
 use Ushahidi\Modules\V5\Models\Category;
 use Illuminate\Support\Facades\DB;
+use Ushahidi\Modules\V5\Actions\Category\Queries\FetchAllCategoriesQuery;
+use Ushahidi\Modules\V5\Actions\Category\Queries\FetchCategoryByIdQuery;
+use Ushahidi\Modules\V5\Requests\StoreCategoryRequest;
 
 class CategoryController extends V5Controller
 {
+    private $commandBus;
+    private $queryBus;
+
+    public function __construct(CommandBus $commandBus, QueryBus $queryBus)
+    {
+        $this->commandBus = $commandBus;
+        $this->queryBus = $queryBus;
+    }
 
     /**
      * Not all fields are things we want to allow on the body of requests
@@ -51,14 +65,12 @@ class CategoryController extends V5Controller
      * @return mixed
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function show(int $id)
+    public function show(int $id): CategoryResource
     {
-        $category = Category::find($id);
-        if (!$category) {
-            return self::make404();
-        }
+        $category = $this->queryBus->handle(new FetchCategoryByIdQuery($id));
+
         return new CategoryResource($category);
-    }//end show()
+    }
 
     /**
      * Display the specified resource.
@@ -68,31 +80,30 @@ class CategoryController extends V5Controller
      */
     public function index()
     {
-        return new CategoryCollection(Category::get());
-    }//end index()
+        return new CategoryCollection(
+            $this->queryBus->handle(
+                new FetchAllCategoriesQuery()
+            )
+        );
+    }
 
     /**
      * Display the specified resource.
      *
      * @TODO   transactions =)
-     * @param Request $request
+     * @param StoreCategoryRequest $request
      * @return \Illuminate\Http\JsonResponse|CategoryResource
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function store(Request $request)
+    public function store(StoreCategoryRequest $request)
     {
-        $input = $this->getFields($request->input());
-        if (empty($input)) {
-            return self::make500('POST body cannot be empty');
-        }
-        $this->runAuthorizer('store', Category::class);
+        $request->validate();
 
-        $input = $this->setInputDefaults($input, 'store');
+        $id = $this->commandBus->handle(StoreCategoryCommand::createFromRequest($request));
 
-        $category = new Category();
-        if (!$category->validate($input)) {
-            return self::make422($category->errors);
-        }
+        $category = $this->queryBus->handle(new FetchCategoryByIdQuery($id));
+
+        return new CategoryResource($category);
         DB::beginTransaction();
         try {
             $category = Category::create(
