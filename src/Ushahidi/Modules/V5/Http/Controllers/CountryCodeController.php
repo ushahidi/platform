@@ -5,7 +5,6 @@ namespace Ushahidi\Modules\V5\Http\Controllers;
 use App\Bus\Query\QueryBus;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Gate;
 use Ushahidi\Modules\V5\Actions\CountryCode\Queries\FetchCountryCodeByIdQuery;
 use Ushahidi\Modules\V5\Actions\CountryCode\Queries\FetchCountryCodeQuery;
@@ -44,7 +43,7 @@ final class CountryCodeController extends V5Controller
         return $result->toResponse($request);
     }
 
-    public function show(Request $request)
+    public function show(Request $request): CountryCodeResource
     {
         $this->abortOnGate('show');
 
