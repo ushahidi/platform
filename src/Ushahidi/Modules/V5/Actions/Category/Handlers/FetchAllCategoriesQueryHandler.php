@@ -18,7 +18,7 @@ class FetchAllCategoriesQueryHandler extends AbstractQueryHandler
     }
     protected function isSupported(Query $query)
     {
-        if ($query instanceof FetchAllCategoriesQuery) {
+        if (!$query instanceof FetchAllCategoriesQuery) {
             throw new \Exception('Provided query is not a FetchAllCategoriesQuery');
         }
     }

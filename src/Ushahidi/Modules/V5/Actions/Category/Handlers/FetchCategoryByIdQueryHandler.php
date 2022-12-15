@@ -10,7 +10,7 @@ use Ushahidi\Modules\V5\Actions\Category\Queries\FetchCategoryByIdQuery;
 use Ushahidi\Modules\V5\Models\Category;
 use Ushahidi\Modules\V5\Repository\Category\CategoryRepository;
 
-class FetchUserByIdQueryHandler extends AbstractQueryHandler
+class FetchCategoryByIdQueryHandler extends AbstractQueryHandler
 {
     private $categoryRepository;
 
@@ -24,7 +24,7 @@ class FetchUserByIdQueryHandler extends AbstractQueryHandler
         if (!$query instanceof FetchCategoryByIdQuery) {
             throw new \Exception('Provided query is not a FetchCategoryByIdQuery');
         }
-    } 
+    }
 
     public function __invoke(Action $action): Category
     {

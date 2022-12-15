@@ -1,4 +1,4 @@
-@tagsFixture @rolesEnabled
+@tagsFixture @rolesEnabled @categories-v5
 Feature: Testing the Categories API
     Scenario: Creating a new Tag with a base language
         Given that I want to make a new "Category"
@@ -301,9 +301,8 @@ Feature: Testing the Categories API
         And that the request "data" is:
             """
             {
-                "tag":"Updated",
+                "tag":"Updated Non Existent",
                 "slug":"updated",
-                "type":"varchar",
                 "priority":1
             }
             """
@@ -451,7 +450,7 @@ Feature: Testing the Categories API
         And that its "id" is "1333"
         When I request "/categories"
         Then the response is JSON
-        And the response has a "error" property
+        And the response has a "errors" property
         Then the guzzle status code should be 404
 
     Scenario: Deleting a Tag
@@ -551,7 +550,7 @@ Feature: Testing the Categories API
         """
         When I request "/categories"
         Then the response is JSON
-        And the response has a "error" property
+        And the response has a "messages" property
         And the "messages.role.0" property contains "The child category role must be the same as the parent role."
         Then the guzzle status code should be 422
 
@@ -597,7 +596,7 @@ Feature: Testing the Categories API
             """
         When I request "/categories"
         Then the response is JSON
-        And the response has a "error" property
+        And the response has a "messages" property
         And the "messages.role.0" property equals "The child category role must be the same as the parent role."
         Then the guzzle status code should be 422
 
@@ -608,6 +607,7 @@ Feature: Testing the Categories API
         And that the request "data" is:
             """
             {
+                "parent_id":11,
                 "tag":"Child 2",
                 "slug":"child-2",
                 "type":"category",
@@ -617,7 +617,7 @@ Feature: Testing the Categories API
         And that its "id" is "11"
         When I request "/categories"
         Then the response is JSON
-        And the response has a "error" property
-        And the "messages.role.0" property equals "The child category role must be the same as the parent role."
+        And the response has a "errors" property
+        And the "errors.role.0" property equals "The child category role must be the same as the parent role."
         Then the guzzle status code should be 422
 

@@ -15,16 +15,6 @@ use Ushahidi\Modules\V5\Models\CountryCode;
 
 final class CountryCodeController extends V5Controller
 {
-    /**
-     * @var QueryBus $queryBus
-     */
-    private $queryBus;
-
-    public function __construct(QueryBus $queryBus)
-    {
-        $this->queryBus = $queryBus;
-    }
-
     public function index(Request $request): JsonResponse
     {
         $this->abortOnGate('view');

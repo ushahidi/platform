@@ -2,6 +2,9 @@
 
 namespace Ushahidi\Modules\V5\Http\Controllers;
 
+use App\Bus\Command\CommandBus;
+use App\Bus\Query\QueryBus;
+use Ushahidi\Modules\V5\Actions\Translation\Commands\AddTranslationCommand;
 use Ushahidi\Modules\V5\Models\Translation;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
@@ -17,6 +20,15 @@ use Illuminate\Routing\Controller as BaseController;
 
 class V5Controller extends BaseController
 {
+
+    protected $queryBus;
+    protected $commandBus;
+
+    public function __construct(QueryBus $queryBus, CommandBus $commandBus)
+    {
+        $this->queryBus = $queryBus;
+        $this->commandBus = $commandBus;
+    }
 
     /**
      * The response builder callback.
@@ -387,15 +399,9 @@ class V5Controller extends BaseController
                     $translated = json_encode($translated);
                 }
 
-                $t = Translation::create(
-                    [
-                        'translatable_type' => $type,
-                        'translatable_id'   => $translatable_id,
-                        'translated_key'    => $key,
-                        'translation'       => $translated,
-                        'language'          => $language,
-                    ]
-                );
+                $this->commandBus->handle(new AddTranslationCommand(
+                    $type, $translatable_id, $key, $translated, $language
+                ));
             }
         }
         return $errors;

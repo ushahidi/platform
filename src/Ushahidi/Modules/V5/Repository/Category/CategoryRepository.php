@@ -13,4 +13,35 @@ interface CategoryRepository
     public function fetchByIdOrFail(int $id): Category;
 
     public function fetchAll(): Collection;
+
+    public function store(
+        ?string $parentId,
+        string $tag,
+        string  $slug,
+        string  $type,
+        ?string $description,
+        ?string $color,
+        ?string  $icon,
+        int     $priority,
+        ?array  $role,
+        string $defaultBaseLanguage,
+        array $availableLanguages
+    ): int;
+
+    public function slugExists(string $slug): bool;
+
+    public function update(
+        int $id,
+        ?string $parentId,
+        ?string $tag,
+        ?string  $slug,
+        ?string  $type,
+        ?string $description,
+        ?string $color,
+        ?string  $icon,
+        ?int     $priority,
+        ?array  $role,
+        ?string $defaultBaseLanguage,
+        ?array $availableLanguages
+    ): int;
 }

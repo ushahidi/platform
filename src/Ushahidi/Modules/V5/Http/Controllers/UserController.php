@@ -25,14 +25,6 @@ use Ushahidi\Modules\V5\DTO\UserSearchFields;
 class UserController extends V5Controller
 {
 
-    private $queryBus;
-    private $commandBus;
-    public function __construct(QueryBus $queryBus, CommandBus $commandBus)
-    {
-        $this->queryBus = $queryBus;
-        $this->commandBus = $commandBus;
-    }
-
     /**
      * Display the specified resource.
      *

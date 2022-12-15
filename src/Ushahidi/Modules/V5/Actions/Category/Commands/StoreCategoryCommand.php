@@ -3,10 +3,13 @@
 namespace Ushahidi\Modules\V5\Actions\Category\Commands;
 
 use App\Bus\Command\Command;
+use Ushahidi\Modules\V5\Models\Category;
 use Ushahidi\Modules\V5\Requests\StoreCategoryRequest;
 
 class StoreCategoryCommand implements Command
 {
+    // todo: At some point we might want to change it into a parameter
+    const DEFAULT_LANUGAGE = 'en';
     /**
      * @var ?string
      */
@@ -48,21 +51,35 @@ class StoreCategoryCommand implements Command
     private $priority;
 
     /**
-     * @var string
+     * @var ?array
      */
     private $role;
 
+    /**
+    * @var string
+    */
+    private $defaultLanguage;
+
+    /**
+    * @var array
+    */
+    private $availableLanguages;
+
     public function __construct(
-        ?string $parentId,
+        ?int $parentId,
         string  $slug,
+        string $tag,
         string  $type,
         ?string $description,
         ?string $color,
-        string  $icon,
+        ?string  $icon,
         int     $priority,
-        string  $role
+        ?array  $role,
+        ?string $defaultLanguage = 'en',
+        array   $availableanguages = []
     ) {
         $this->parentId    = $parentId;
+        $this->tag         = $tag;
         $this->slug        = $slug;
         $this->type        = $type;
         $this->description = $description;
@@ -70,19 +87,29 @@ class StoreCategoryCommand implements Command
         $this->icon        = $icon;
         $this->priority    = $priority;
         $this->role        = $role;
+        $this->defaultLanguage = $defaultLanguage;
+        $this->availableLanguages = $availableanguages;
     }
 
     public static function createFromRequest(StoreCategoryRequest $request): self
     {
+        $slug = $request->input('slug');
+        if (!$slug) {
+            $slug = Category::makeSlug($request->input('slug') ?? $request->input('tag'));
+        }
+
         return new self(
-            $request->input('parent_id'),
-            $request->input('slug'),
+            (int) $request->input('parent_id'),
+            $slug,
+            $request->input('tag'),
             $request->input('type'),
             $request->input('description'),
             $request->input('color'),
             $request->input('icon'),
-            $request->input('priority'),
-            $request->input('role')
+            (int) $request->input('priority'),
+            $request->input('role'),
+            self::DEFAULT_LANUGAGE,
+            []
         );
     }
 
@@ -129,7 +156,7 @@ class StoreCategoryCommand implements Command
     /**
      * @return string
      */
-    public function getIcon(): string
+    public function getIcon(): ?string
     {
         return $this->icon;
     }
@@ -143,9 +170,9 @@ class StoreCategoryCommand implements Command
     }
 
     /**
-     * @return string
+     * @return array
      */
-    public function getRole(): string
+    public function getRole(): ?array
     {
         return $this->role;
     }
@@ -156,5 +183,15 @@ class StoreCategoryCommand implements Command
     public function getTag(): string
     {
         return $this->tag;
+    }
+
+    public function getDefaultLanguage(): string
+    {
+        return $this->defaultLanguage;
+    }
+
+    public function getAvailableLanguages(): array
+    {
+        return $this->availableLanguages;
     }
 }

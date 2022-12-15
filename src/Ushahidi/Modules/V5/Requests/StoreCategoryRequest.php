@@ -2,7 +2,9 @@
 
 namespace Ushahidi\Modules\V5\Requests;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Validation\Rule;
 use Ushahidi\Modules\V5\Models\Category;
 
@@ -26,9 +28,8 @@ class StoreCategoryRequest extends FormRequest
                 Rule::unique('tags', 'tag')
             ],
             'slug' => [
-                'required',
+                'nullable',
                 'min:2',
-                Rule::unique('tags', 'slug')
             ],
             'type' => [
                 'required',
@@ -152,5 +153,10 @@ class StoreCategoryRequest extends FormRequest
                 ['field' => trans('fields.priority')]
             )
         ];
+    }
+
+    public function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(response()->json(['messages' => $validator->errors()], 422));
     }
 }

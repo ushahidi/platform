@@ -4,7 +4,15 @@ namespace Ushahidi\Modules\V5\Http\Controllers;
 
 use App\Bus\Command\CommandBus;
 use App\Bus\Query\QueryBus;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Contracts\Routing\ResponseFactory;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Foundation\Application;
+use Illuminate\Http\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
+use Ushahidi\Modules\V5\Actions\Category\Commands\DeleteCategoryCommand;
 use Ushahidi\Modules\V5\Actions\Category\Commands\StoreCategoryCommand;
+use Ushahidi\Modules\V5\Actions\Category\Commands\UpdateCategoryCommand;
 use Ushahidi\Modules\V5\Http\Resources\CategoryCollection;
 use Ushahidi\Modules\V5\Http\Resources\CategoryResource;
 use Illuminate\Http\Request;
@@ -13,18 +21,10 @@ use Illuminate\Support\Facades\DB;
 use Ushahidi\Modules\V5\Actions\Category\Queries\FetchAllCategoriesQuery;
 use Ushahidi\Modules\V5\Actions\Category\Queries\FetchCategoryByIdQuery;
 use Ushahidi\Modules\V5\Requests\StoreCategoryRequest;
+use Ushahidi\Modules\V5\Requests\UpdateCategoryRequest;
 
 class CategoryController extends V5Controller
 {
-    private $commandBus;
-    private $queryBus;
-
-    public function __construct(CommandBus $commandBus, QueryBus $queryBus)
-    {
-        $this->commandBus = $commandBus;
-        $this->queryBus = $queryBus;
-    }
-
     /**
      * Not all fields are things we want to allow on the body of requests
      * an author won't change after the fact so we limit that change
@@ -63,7 +63,7 @@ class CategoryController extends V5Controller
      *
      * @param integer $id
      * @return mixed
-     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @throws AuthorizationException
      */
     public function show(int $id): CategoryResource
     {
@@ -76,7 +76,7 @@ class CategoryController extends V5Controller
      * Display the specified resource.
      *
      * @return CategoryCollection
-     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @throws AuthorizationException
      */
     public function index()
     {
@@ -86,34 +86,20 @@ class CategoryController extends V5Controller
             )
         );
     }
-
-    /**
+     /**
      * Display the specified resource.
      *
-     * @TODO   transactions =)
      * @param StoreCategoryRequest $request
-     * @return \Illuminate\Http\JsonResponse|CategoryResource
-     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @return ResponseFactory|Application|JsonResponse|Response
+     * @throws AuthorizationException
      */
     public function store(StoreCategoryRequest $request)
     {
-        $request->validate();
-
-        $id = $this->commandBus->handle(StoreCategoryCommand::createFromRequest($request));
-
-        $category = $this->queryBus->handle(new FetchCategoryByIdQuery($id));
-
-        return new CategoryResource($category);
         DB::beginTransaction();
         try {
-            $category = Category::create(
-                array_merge(
-                    $input,
-                    [
-                        'created' => time(),
-                    ]
-                )
-            );
+            $id = $this->commandBus->handle(StoreCategoryCommand::createFromRequest($request));
+
+            $category = $this->queryBus->handle(new FetchCategoryByIdQuery($id));
             $errors = $this->saveTranslations(
                 $category,
                 $category->toArray(),
@@ -121,49 +107,35 @@ class CategoryController extends V5Controller
                 $category->id,
                 'category'
             );
+
             if (!empty($errors)) {
                 DB::rollback();
-                return self::make422($errors, 'translation');
+                return response()->json($errors, 403);
             }
+
             DB::commit();
-            return new CategoryResource($category);
+            $resource = new CategoryResource($category);
+            return response(['result' => $resource], 201);
         } catch (\Exception $e) {
             DB::rollback();
             return self::make500($e->getMessage());
         }
-    }//end store()
+    }
 
     /**
      * Display the specified resource.
      *
-     * @TODO   transactions =)
      * @param integer $id
      * @param Request $request
      * @return mixed
-     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @throws AuthorizationException
      */
-    public function update(int $id, Request $request)
+    public function update(int $id, UpdateCategoryRequest $request)
     {
-        $category = Category::withoutGlobalScopes()->find($id);
-
-        if (!$category) {
-            return self::make404();
-        }
-        $this->authorize('update', $category);
-
-        $input = $request->input();
-
-        if (empty($input)) {
-            return self::make500('POST body cannot be empty');
-        }
-
-        if (!$category->validate($input)) {
-            return self::make422($category->errors);
-        }
-
         DB::beginTransaction();
         try {
-            $category->update($request->input());
+            $command = UpdateCategoryCommand::fromRequest($id, $request);
+            $category = $this->commandBus->handle($command);
             $errors = $this->updateTranslations(
                 new Category(),
                 $category->toArray(),
@@ -179,9 +151,12 @@ class CategoryController extends V5Controller
             return new CategoryResource($category);
         } catch (\Exception $e) {
             DB::rollback();
+            if ($e instanceof ModelNotFoundException) {
+                return self::make404();
+            }
             return self::make500($e->getMessage());
         }
-    }//end update()
+    }
 
     /**
      * @param Category $category
@@ -206,20 +181,15 @@ class CategoryController extends V5Controller
      */
     public function delete(int $id, Request $request)
     {
-        $category = Category::withoutGlobalScopes()->find($id);
-        if (!$category) {
-            return self::make404();
-        }
-        $this->authorize('delete', $category);
-        $success = DB::transaction(function () use ($id, $request, $category) {
-            $category->translations()->delete();
-            $success = $category->delete();
-            return $success;
-        });
-        if ($success) {
+        /// $this->authorize('delete', $category); todo: should be done before controller double check if isn't
+        try {
+            $this->commandBus->handle(new DeleteCategoryCommand($id));
             return response()->json(['result' => ['deleted' => $id]]);
-        } else {
-            return self::make500('Could not delete model');
+        } catch (\Exception $e) {
+            if ($e instanceof ModelNotFoundException) {
+                return self::make404();
+            }
+            return self::make500($e->getMessage());
         }
-    }//end delete()
-}//end class
+    }
+}

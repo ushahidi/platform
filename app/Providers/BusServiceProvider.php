@@ -20,12 +20,15 @@ use Ushahidi\Modules\V5\Actions\CountryCode\Queries\FetchCountryCodeByIdQuery;
 use Ushahidi\Modules\V5\Actions\CountryCode\Queries\FetchCountryCodeQuery;
 use Ushahidi\Modules\V5\Actions\CountryCode\Handlers\FetchCountryCodeByIdQueryHandler;
 use Ushahidi\Modules\V5\Actions\CountryCode\Handlers\FetchCountryCodeQueryHandler;
+use Ushahidi\Modules\V5\Actions\Translation\Commands\AddTranslationCommand;
+use Ushahidi\Modules\V5\Actions\Translation\Handlers\AddTranslationCommandHandler;
 use Ushahidi\Modules\V5\Actions\User;
 use Ushahidi\Modules\V5\Actions\Permissions\Queries\FetchPermissionsQuery;
 use Ushahidi\Modules\V5\Actions\Permissions\Handlers\FetchPermissionsQueryHandler;
 use Ushahidi\Modules\V5\Actions\Permissions\Queries\FetchPermissionsByIdQuery;
 use Ushahidi\Modules\V5\Actions\Permissions\Handlers\FetchPermissionsByIdQueryHandler;
 use Ushahidi\Modules\V5\Actions\Role;
+use Ushahidi\Modules\V5\Actions\Category;
 
 class BusServiceProvider extends ServiceProvider
 {
@@ -46,7 +49,7 @@ class BusServiceProvider extends ServiceProvider
             $commandBus = new CommandBus($app);
 
             $commandBus->register(ExampleCommand::class, ExampleCommandHandler::class);
-            
+
             $commandBus->register(
                 Role\Commands\CreateRoleCommand::class,
                 Role\Handlers\CreateRoleCommandHandler::class
@@ -96,7 +99,14 @@ class BusServiceProvider extends ServiceProvider
             );
 
             $commandBus->register(CreateTosCommand::class, CreateTosCommandHandler::class);
-            
+
+            $commandBus->register(Category\Commands\StoreCategoryCommand::class, Category\Handlers\StoreCategoryCommandHandler::class);
+
+            $commandBus->register(AddTranslationCommand::class, AddTranslationCommandHandler::class);
+
+            $commandBus->register(Category\Commands\DeleteCategoryCommand::class, Category\Handlers\DeleteCategoryCommandHandler::class);
+            $commandBus->register(Category\Commands\UpdateCategoryCommand::class, Category\Handlers\UpdateCategoryCommandHandler::class);
+
             return $commandBus;
         });
     }
@@ -111,7 +121,7 @@ class BusServiceProvider extends ServiceProvider
             $queryBus->register(ExampleQuery::class, ExampleQueryHandler::class);
             $queryBus->register(FetchPermissionsQuery::class, FetchPermissionsQueryHandler::class);
             $queryBus->register(FetchPermissionsByIdQuery::class, FetchPermissionsByIdQueryHandler::class);
-               
+
             $queryBus->register(
                 Role\Queries\FetchRoleQuery::class,
                 Role\Handlers\FetchRoleQueryHandler::class
@@ -132,7 +142,7 @@ class BusServiceProvider extends ServiceProvider
                 User\Queries\FetchUserByIdQuery::class,
                 User\Handlers\FetchUserByIdQueryHandler::class
             );
-            
+
             $queryBus->register(
                 User\Queries\FetchUserSettingQuery::class,
                 User\Handlers\FetchUserSettingQueryHandler::class
@@ -140,6 +150,16 @@ class BusServiceProvider extends ServiceProvider
             $queryBus->register(
                 User\Queries\FetchUserSettingByIdQuery::class,
                 User\Handlers\FetchUserSettingByIdQueryHandler::class
+            );
+
+            $queryBus->register(
+                Category\Queries\FetchCategoryByIdQuery::class,
+                Category\Handlers\FetchCategoryByIdQueryHandler::class
+            );
+
+            $queryBus->register(
+                Category\Queries\FetchAllCategoriesQuery::class,
+                Category\Handlers\FetchAllCategoriesQueryHandler::class
             );
 
             return $queryBus;

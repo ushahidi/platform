@@ -29,16 +29,17 @@ class CommandBus implements Bus
 
     /**
      * @param Action $action
-     * @return void
+     *
+     * @return int|void
      */
-    public function handle(Action $action): void
+    public function handle(Action $action)
     {
         $this->assertIsCommand(get_class($action));
         $this->assertCommandRegistered($action);
 
         $handler = $this->commands[get_class($action)];
 
-        $this->container->make($handler)($action);
+        return $this->container->make($handler)($action);
     }
 
     /**
