@@ -7,6 +7,10 @@ use App\Bus\Command\Example\ExampleCommand;
 use App\Bus\Command\Example\ExampleCommandHandler;
 use App\Bus\Query\Example\ExampleQuery;
 use App\Bus\Query\Example\ExampleQueryHandler;
+use Ushahidi\Modules\V5\Actions\Datasource\Handlers\FetchDataSourceQueryHandler;
+use Ushahidi\Modules\V5\Actions\Datasource\Handlers\SearchDataSourcesQueryHandler;
+use Ushahidi\Modules\V5\Actions\Datasource\Queries\FetchDataSourceQuery;
+use Ushahidi\Modules\V5\Actions\Datasource\Queries\SearchDataSourcesQuery;
 use Ushahidi\Modules\V5\Actions\Tos\Commands\CreateTosCommand;
 use Ushahidi\Modules\V5\Actions\Tos\Handlers\CreateTosCommandHandler;
 use Ushahidi\Modules\V5\Actions\Tos\Queries\FetchTosQuery;
@@ -46,7 +50,7 @@ class BusServiceProvider extends ServiceProvider
             $commandBus = new CommandBus($app);
 
             $commandBus->register(ExampleCommand::class, ExampleCommandHandler::class);
-            
+
             $commandBus->register(
                 Role\Commands\CreateRoleCommand::class,
                 Role\Handlers\CreateRoleCommandHandler::class
@@ -96,7 +100,7 @@ class BusServiceProvider extends ServiceProvider
             );
 
             $commandBus->register(CreateTosCommand::class, CreateTosCommandHandler::class);
-            
+
             return $commandBus;
         });
     }
@@ -111,7 +115,7 @@ class BusServiceProvider extends ServiceProvider
             $queryBus->register(ExampleQuery::class, ExampleQueryHandler::class);
             $queryBus->register(FetchPermissionsQuery::class, FetchPermissionsQueryHandler::class);
             $queryBus->register(FetchPermissionsByIdQuery::class, FetchPermissionsByIdQueryHandler::class);
-               
+
             $queryBus->register(
                 Role\Queries\FetchRoleQuery::class,
                 Role\Handlers\FetchRoleQueryHandler::class
@@ -132,7 +136,7 @@ class BusServiceProvider extends ServiceProvider
                 User\Queries\FetchUserByIdQuery::class,
                 User\Handlers\FetchUserByIdQueryHandler::class
             );
-            
+
             $queryBus->register(
                 User\Queries\FetchUserSettingQuery::class,
                 User\Handlers\FetchUserSettingQueryHandler::class
@@ -140,6 +144,16 @@ class BusServiceProvider extends ServiceProvider
             $queryBus->register(
                 User\Queries\FetchUserSettingByIdQuery::class,
                 User\Handlers\FetchUserSettingByIdQueryHandler::class
+            );
+
+            $queryBus->register(
+                FetchDataSourceQuery::class,
+                FetchDataSourceQueryHandler::class
+            );
+
+            $queryBus->register(
+                SearchDataSourcesQuery::class,
+                SearchDataSourcesQueryHandler::class
             );
 
             return $queryBus;
