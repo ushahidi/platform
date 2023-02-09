@@ -29,7 +29,7 @@ class DataSourceManager
      * Default Sources to be configured
      *
      *
-     * @var \Ushahidi\Contracts\DataSource\DataSource[]
+     * @var \Ushahidi\DataSource\Contracts\DataSource[]
      */
     protected $defaultSources = [
         'email' => Email\Email::class,
@@ -44,7 +44,7 @@ class DataSourceManager
     /**
      * Custom sources to be configured.
      *
-     * @var \Ushahidi\Contracts\DataSource\DataSource[]
+     * @var \Ushahidi\DataSource\Contracts\DataSource[]
      */
     protected $customSources = [];
 
