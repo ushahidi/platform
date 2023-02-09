@@ -26,7 +26,6 @@ use Ushahidi\Core\Tool\Permissions\InteractsWithPostPermissions;
 use Illuminate\Http\Request;
 use Ushahidi\Modules\V5\Rules\StandardText;
 
-
 class Post extends BaseModel
 {
     use InteractsWithPostPermissions;

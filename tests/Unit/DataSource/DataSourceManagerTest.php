@@ -142,7 +142,6 @@ class DataSourceManagerTest extends TestCase
         $this->assertTrue($manager->isEnabledSource('custom-2'));
         $this->assertInstanceOf(CustomSource::class, $manager->getSource('custom-1'));
         $this->assertInstanceOf(CustomSource::class, $manager->getSource('custom-2'));
-
     }
 
     public function testGetSourceForType()
