@@ -1,10 +1,10 @@
 <?php
 
-namespace Ushahidi\App\Bus\Command\Example;
+namespace App\Bus\Command\Example;
 
-use Ushahidi\App\Bus\Action;
-use Ushahidi\App\Bus\Command\AbstractCommandHandler;
-use Ushahidi\App\Bus\Command\Command;
+use App\Bus\Action;
+use App\Bus\Command\AbstractCommandHandler;
+use App\Bus\Command\Command;
 
 class ExampleCommandHandler extends AbstractCommandHandler
 {

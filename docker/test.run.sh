@@ -1,12 +1,14 @@
 #!/bin/bash
 
-. `dirname $0`/common.sh
+. `dirname $0`/utils.sh
 
 set -e
 
 sync
 cp .env.testing .env
-run_composer_install
+run_composer_install --no-dev --no-scripts
+run_composer dumpautoload
+provision_passport_keys
 wait_for_mysql
 composer pre-test
 (cd httpdocs/; php -S localhost:8000 -t . index.php &)

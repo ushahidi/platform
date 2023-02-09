@@ -4,50 +4,35 @@
     "homepage": "http://ushahidi.com/",
     "type": "project",
     "license": "AGPL-3.0",
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/ushahidi/ohanzee-db"
-        },
-        {
-            "type": "vcs",
-            "url": "https://github.com/ushahidi/kohana-validation"
-        }
-    ],
     "require": {
         "php": ">=7.2 <7.4",
         "abraham/twitteroauth": "^0.5.3",
         "africastalking/africastalking": "^3.0",
         "asm89/stack-cors": "1.2.0",
-        "aura/di": "~3.4",
         "barryvdh/laravel-cors": "^0.11.0",
-        "beheh/flaps": "dev-master",
         "doctrine/cache": "^1.6.2",
         "fideloper/proxy": "~3.3",
         "germanazo/laravel-ckan-api": "^1.0",
-        "intercom/intercom-php": "^3.1.2",
         "ircmaxell/password-compat": "^1.0.4",
         "laravel/framework": "5.5.*",
         "laravel/passport": "^4.0",
         "laravel/tinker": "~1.0",
         "lcobucci/jwt": "3.3.1",
         "league/csv": "~7.1@dev",
-        "league/event": "^2.2@dev",
         "league/flysystem": "~1.0",
         "league/flysystem-aws-s3-v3": "~1.0",
         "league/flysystem-rackspace": "~1.0",
         "netresearch/jsonmapper": "^1.6.0",
         "nexmo/client": "^1.1",
-        "ohanzee/database": "dev-namespaces",
         "predis/predis": "~1.1",
         "ramsey/uuid": "^3.4.1",
-        "robmorgan/phinx": "~0.8.0",
         "sentry/sentry-laravel": "^0.8.0",
         "symfony/yaml": "~3.0",
         "symm/gisconverter": "~1.0.5",
         "twilio/sdk": "^5.15",
         "ushahidi/gmail-support": "dev-develop",
         "ushahidi/kohana-validation": "dev-master",
+        "wikimedia/composer-merge-plugin": "^2.0",
         "willdurand/negotiation": "^2.3"
     },
     "require-dev": {
@@ -84,8 +69,9 @@
         "preferred-install": "dist",
         "sort-packages": true,
         "allow-plugins": {
+            "symfony/thanks": true,
             "kylekatarnls/update-helper": true,
-            "symfony/thanks": true
+            "wikimedia/composer-merge-plugin": true
         }
     },
     "autoload": {
@@ -94,26 +80,34 @@
             "database/factories"
         ],
         "psr-4": {
-            "Ushahidi\\": "src/",
-            "Ushahidi\\App\\": "app/",
-            "Ushahidi\\Datasource\\": "src/DataSource",
-            "v5\\": "v5/"
+            "Ushahidi\\": "src/Ushahidi",
+            "App\\": "app/"
         },
-        "files": [
-            "app/helpers.php"
-        ]
+        "files": []
     },
     "autoload-dev": {
         "psr-4": {
             "Tests\\": "tests/",
-            "Tests\\Unit\\": "tests/unit/",
-            "Tests\\Integration\\Bootstrap\\": "tests/integration/boostrap/"
+            "Ushahidi\\Tests\\": "tests/"
         }
     },
     "extra": {
         "laravel": {
-            "dont-discover": [
-            ]
+            "dont-discover": []
+        },
+        "merge-plugin": {
+            "include": [
+                "src/Ushahidi/*/composer.json",
+                "src/Ushahidi/**/*/composer.json"
+            ],
+            "require": [],
+            "recurse": true,
+            "replace": false,
+            "ignore-duplicates": false,
+            "merge-dev": true,
+            "merge-extra": true,
+            "merge-extra-deep": false,
+            "merge-scripts": true
         }
     },
     "scripts": {
@@ -127,18 +121,22 @@
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover"
         ],
+        "post-install-cmd": [
+            "captainhook install -f",
+            "@php artisan passport:keys || @php -r \"return 0;\""
+        ],
         "compile": [
             "@migrate"
         ],
         "lint": [
-            "phpcs --standard=src/ruleset.xml --ignore=./resources/lang/*,./bootstrap/cache/* ./",
+            "phpcs --standard=src/ruleset.xml --ignore=./resources/lang/*,./bootstrap/cache/*,./storage/framework/* ./",
             "phpcs --standard=tests/spec/ruleset.xml ./tests/spec/",
-            "phpcs --standard=migrations/ruleset.xml ./migrations/ ./database"
+            "phpcs --standard=database/migrations/phinx/ruleset.xml ./database/migrations"
         ],
         "fixlint": [
             "phpcbf --standard=src/ruleset.xml --ignore=./resources/lang/*,./bootstrap/cache/* ./",
             "phpcbf --standard=tests/spec/ruleset.xml ./tests/spec/",
-            "phpcbf --standard=migrations/ruleset.xml ./migrations/ ./database"
+            "phpcbf --standard=database/migrations/phinx/ruleset.xml ./database/migrations"
         ],
         "pre-coverage": [
             "rm -rf coverage/"
@@ -149,13 +147,18 @@
         ],
         "migrate": [
             "@verify",
-            "phinx migrate -c phinx.php"
+            "@php artisan phinx:migrate"
         ],
         "pre-test": [
             "@migrate",
-            "php artisan passport:keys",
+            "@php artisan passport:keys",
             "chmod 660 storage/passport/*.key"
         ],
+        "pre-push-test": [
+            "phpunit --no-coverage",
+            "behat --strict"
+        ],
+        "behat": "behat --strict",
         "test": [
             "phpunit --no-coverage",
             "phpspec run --no-code-generation",
@@ -167,22 +170,18 @@
             "phpspec run",
             "behat --strict"
         ],
-        "post-install-cmd": [
-            "\\SebastianFeldmann\\CaptainHook\\Composer\\Cmd::install",
-            "php artisan passport:keys || php -r \"return 0;\""
-        ],
         "bootstrap:passport": [
-            "php artisan passport:keys",
+            "@php artisan passport:keys",
             "chmod 660 storage/passport/*.key"
         ],
         "verify": [
             "php artisan environment:verify"
         ],
         "installdebug:enable": [
-            "\\Ushahidi\\App\\PlatformVerifier\\DebugMode::enable"
+            "\\App\\PlatformVerifier\\DebugMode::enable"
         ],
         "installdebug:disable": [
-            "\\Ushahidi\\App\\PlatformVerifier\\DebugMode::disable"
+            "\\App\\PlatformVerifier\\DebugMode::disable"
         ],
         "snowboard-v3-serve": [
             "snowboard http docs/api/index.apib"

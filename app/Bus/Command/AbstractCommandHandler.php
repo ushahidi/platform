@@ -1,6 +1,6 @@
 <?php
 
-namespace Ushahidi\App\Bus\Command;
+namespace App\Bus\Command;
 
 use InvalidArgumentException;
 

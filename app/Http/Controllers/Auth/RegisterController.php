@@ -1,11 +1,11 @@
 <?php
 
-namespace Ushahidi\App\Http\Controllers\Auth;
+namespace App\Http\Controllers\Auth;
 
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Validator;
-use Ushahidi\App\Http\Controllers\Controller;
-use Ushahidi\App\User;
+use App\Http\Controllers\Controller;
+use App\User;
 
 class RegisterController extends Controller
 {
@@ -58,7 +58,7 @@ class RegisterController extends Controller
      * Create a new user instance after a valid registration.
      *
      * @param  array  $data
-     * @return \Ushahidi\App\User
+     * @return \App\User
      */
     protected function create(array $data)
     {

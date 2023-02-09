@@ -1,6 +1,6 @@
 <?php
 
-namespace Ushahidi\App\Providers;
+namespace App\Providers;
 
 use Carbon\Carbon;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
@@ -16,7 +16,7 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        'Ushahidi\App\Model' => 'Ushahidi\App\Policies\ModelPolicy',
+        'App\Model' => 'App\Policies\ModelPolicy',
     ];
 
 
@@ -69,9 +69,6 @@ class AuthServiceProvider extends ServiceProvider
         // Define passport scopes
         $this->defineScopes();
         // need to use a string here or laravel goes wild and doesn't authorize anything
-        Gate::policy('v5\Models\Survey', 'v5\Policies\SurveyPolicy');
-        Gate::policy('v5\Models\Category', 'v5\Policies\CategoryPolicy');
-        Gate::policy('v5\Models\Post\Post', 'v5\Policies\PostPolicy');
     }
 
     protected function defineScopes()

@@ -8,13 +8,19 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Ushahidi\App\Console\Commands;
+namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use Ushahidi\Contracts\Usecase;
+use Ushahidi\Core\Usecase\ReadUsecase;
+use App\Console\Commands\Concerns\ConsoleFormatter;
+use Ushahidi\Contracts\Repository\Entity\ConfigRepository;
+use Ushahidi\Core\Tool\Authorizer\ConsoleAuthorizer;
 
 class ConfigGetCommand extends Command
 {
+    use ConsoleFormatter;
+
     /**
      * The console command name.
      *
@@ -48,9 +54,9 @@ class ConfigGetCommand extends Command
         parent::__construct();
     }
 
-    protected function getUsecase() : Usecase
+    protected function getUsecase(): Usecase
     {
-        if (! $this->usecase) {
+        if (!$this->usecase) {
             // @todo inject
             $this->usecase = service('factory.usecase')
                 ->get('config', 'read')
@@ -63,13 +69,22 @@ class ConfigGetCommand extends Command
         return $this->usecase;
     }
 
-    public function handle()
-    {
+    public function handle(
+        ReadUsecase $readUsecase,
+        ConfigRepository $configRepo,
+        ConsoleAuthorizer $consoleAuth
+    ) {
         $group = $this->argument('group');
 
-        $this->getUsecase()->setIdentifiers(['id' => $group]);
+        $readUsecase->setIdentifiers(['id' => $group]);
 
-        $response = $this->getUsecase()->interact();
+        $readUsecase->setAuthorizer($consoleAuth);
+
+        $readUsecase->setFormatter($this->getFormatter());
+
+        $readUsecase->setRepository($configRepo);
+
+        $response = $readUsecase->interact();
 
         // Format the response and output
         $this->handleResponse($response);

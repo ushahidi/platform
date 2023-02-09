@@ -1,13 +1,25 @@
 <?php
 
-namespace Ushahidi\App;
+namespace App;
 
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use Ushahidi\Core\EloquentEntity;
+use Illuminate\Auth\Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Auth\Passwords\CanResetPassword;
+use Illuminate\Foundation\Auth\Access\Authorizable;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
+use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+use Laravel\Passport\HasApiTokens;
 
-class User extends Authenticatable
+class User extends EloquentEntity implements
+    AuthenticatableContract,
+    AuthorizableContract,
+    CanResetPasswordContract
 {
-    use Notifiable;
+    use Authenticatable, Authorizable, CanResetPassword;
+
+    use HasApiTokens, Notifiable;
 
     /**
      * The attributes that are mass assignable.

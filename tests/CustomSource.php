@@ -1,8 +1,8 @@
 <?php
 
-namespace Tests;
+namespace Ushahidi\Tests;
 
-use Ushahidi\Contracts\DataSource\IncomingDataSource;
+use Ushahidi\DataSource\Contracts\IncomingDataSource;
 
 class CustomSource implements IncomingDataSource
 {

@@ -36,10 +36,10 @@ services:
       QUEUE_DRIVER: redis
     command: start
     ports:
-      - "80:8080"
+      - "8080:8080"
     volumes:
       - storage-app-public:/var/www/storage/app/public
-      - ./:/vols/src
+      - .:/var/www
   platform_tasks:
     build: .
     environment:

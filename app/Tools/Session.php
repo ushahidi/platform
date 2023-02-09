@@ -8,7 +8,7 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Ushahidi\App\Tools;
+namespace App\Tools;
 
 use Illuminate\Support\Facades\Auth;
 use Ushahidi\Contracts\EntityGet;

@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Routing\Router;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,16 +14,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-/**
- * API version number
- */
-$apiVersion = '3';
-$apiBase = '/v'.$apiVersion;
-
-Route::get($apiBase, "API\IndexController@index");
-Route::group([
-    'prefix' => $apiBase,
-    'namespace' => 'API',
-], function (Router $router) {
-    require __DIR__. '/v3/index.php';
+Route::middleware('auth:api')->get('/user', function (Request $request) {
+    return $request->user();
 });

@@ -1,8 +1,8 @@
 <?php
 
-namespace Ushahidi\App\Bus\Query\Example;
+namespace App\Bus\Query\Example;
 
-use Ushahidi\App\Bus\Query\Query;
+use App\Bus\Query\Query;
 
 class ExampleQuery implements Query
 {

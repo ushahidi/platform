@@ -1,9 +1,10 @@
 <?php
 
-namespace Ushahidi\App\Auth;
+namespace App\Auth;
 
 use Illuminate\Contracts\Auth\Authenticatable as UserContract;
 use Laravel\Passport\HasApiTokens;
+use Ushahidi\Core\Entity\User;
 
 class GenericUser implements UserContract
 {
@@ -133,5 +134,10 @@ class GenericUser implements UserContract
     public function __unset($key)
     {
         unset($this->attributes[$key]);
+    }
+
+    public function generateEntityFromSelf(): User
+    {
+        return new User($this->attributes);
     }
 }

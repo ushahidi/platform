@@ -2,26 +2,24 @@
 
 namespace spec\Ushahidi\Core\Usecase;
 
-use Illuminate\Contracts\Translation\Translator;
-use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-use Ushahidi\Contracts\Authorizer;
+use PhpSpec\ObjectBehavior;
 use Ushahidi\Contracts\Entity;
-use Ushahidi\Contracts\Formatter;
+use Ushahidi\Contracts\Authorizer;
+use Ushahidi\Core\Tool\SearchData;
+use Ushahidi\Contracts\CollectionFormatter;
+use Illuminate\Contracts\Translation\Translator;
 use Ushahidi\Contracts\Repository\SearchRepository;
-use Ushahidi\Core\Tools\SearchData;
 
 class SearchUsecaseSpec extends ObjectBehavior
 {
     public function let(
         Authorizer $auth,
         SearchData $search,
-        Formatter $format,
+        CollectionFormatter $format,
         SearchRepository $repo,
         Translator $translator
     ) {
-        $format->beADoubleOf('Ushahidi\Core\Tools\Formatter\CollectionFormatter');
-
         $this->setAuthorizer($auth);
         $this->setData($search);
         $this->setFormatter($format);

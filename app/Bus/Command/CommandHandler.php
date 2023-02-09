@@ -1,8 +1,8 @@
 <?php
 
-namespace Ushahidi\App\Bus\Command;
+namespace App\Bus\Command;
 
-use Ushahidi\App\Bus\Handler;
+use App\Bus\Handler;
 
 interface CommandHandler extends Handler
 {

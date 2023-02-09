@@ -1,10 +1,10 @@
 <?php
 
-namespace Ushahidi\App\Providers;
+namespace App\Providers;
 
 use Illuminate\Auth\RequestGuard;
 use Laravel\Passport\TokenRepository;
-use Ushahidi\App\Passport\TokenGuard;
+use App\Passport\TokenGuard;
 use League\OAuth2\Server\ResourceServer;
 use Ushahidi\Contracts\Repository\Entity\UserRepository;
 use Laravel\Passport\ClientRepository as LaravelPassportClientRepository;
@@ -23,17 +23,17 @@ class PassportServiceProvider extends LaravelPassportServiceProvider
     {
         $this->app->bind(
             LaravelPassportClientRepository::class,
-            \Ushahidi\App\Passport\ClientRepository::class
+            \App\Passport\ClientRepository::class
         );
 
         $this->app->bind(
             LaravelPassportUserRepository::class,
-            \Ushahidi\App\Passport\UserRepository::class
+            \App\Passport\UserRepository::class
         );
 
         $this->app->bind(
             LaravelPassportRefreshTokenRepository::class,
-            \Ushahidi\App\Passport\RefreshTokenRepository::class
+            \App\Passport\RefreshTokenRepository::class
         );
 
         parent::boot();

@@ -146,7 +146,7 @@ return [
         Illuminate\Bus\BusServiceProvider::class,
         Illuminate\Cache\CacheServiceProvider::class,
         Illuminate\Foundation\Providers\ConsoleSupportServiceProvider::class,
-        // Illuminate\Cookie\CookieServiceProvider::class,
+        Illuminate\Cookie\CookieServiceProvider::class,
         Illuminate\Database\DatabaseServiceProvider::class,
         Illuminate\Encryption\EncryptionServiceProvider::class,
         // Illuminate\Filesystem\FilesystemServiceProvider::class,
@@ -159,7 +159,7 @@ return [
         Illuminate\Queue\QueueServiceProvider::class,
         Illuminate\Redis\RedisServiceProvider::class,
         Illuminate\Auth\Passwords\PasswordResetServiceProvider::class,
-        // Illuminate\Session\SessionServiceProvider::class,
+        Illuminate\Session\SessionServiceProvider::class,
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
@@ -170,19 +170,24 @@ return [
         Barryvdh\Cors\ServiceProvider::class,
         Sentry\SentryLaravel\SentryLaravelServiceProvider::class,
 
+        Ushahidi\Modules\V2\ServiceProvider::class,
+        Ushahidi\Modules\V3\ServiceProvider::class,
+        Ushahidi\Modules\V5\ServiceProvider::class,
+
+        Ushahidi\Multisite\MultisiteServiceProvider::class,
+        Ushahidi\DataSource\DataSourceServiceProvider::class,
+
         /*
          * Application Service Providers...
          */
-        Ushahidi\App\Providers\AppServiceProvider::class,
-        Ushahidi\App\Providers\BusServiceProvider::class,
-        Ushahidi\App\Providers\AuthServiceProvider::class,
-        Ushahidi\App\Providers\BroadcastServiceProvider::class,
-        Ushahidi\App\Providers\EventServiceProvider::class,
-        Ushahidi\App\Providers\FilesystemServiceProvider::class,
-        Ushahidi\App\Providers\RouteServiceProvider::class,
-        Ushahidi\App\Providers\PassportServiceProvider::class,
-        v5\Providers\MorphServiceProvider::class,
-        v5\Providers\EventServiceProvider::class,
+        App\Providers\BusServiceProvider::class,
+        App\Providers\AppServiceProvider::class,
+        App\Providers\AuthServiceProvider::class,
+        App\Providers\BroadcastServiceProvider::class,
+        App\Providers\EventServiceProvider::class,
+        App\Providers\FilesystemServiceProvider::class,
+        App\Providers\RouteServiceProvider::class,
+        App\Providers\PassportServiceProvider::class,
     ],
 
     /*

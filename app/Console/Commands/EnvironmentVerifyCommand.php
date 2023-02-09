@@ -1,9 +1,9 @@
 <?php
 
-namespace Ushahidi\App\Console\Commands;
+namespace App\Console\Commands;
 
+use Ushahidi\Core\Tool\OutputText;
 use Illuminate\Console\Command;
-use Ushahidi\App\Tools\OutputText;
 
 class EnvironmentVerifyCommand extends Command
 {
@@ -40,21 +40,21 @@ class EnvironmentVerifyCommand extends Command
 
     public static function verifyOauth($console = true)
     {
-        $oauth = new \Ushahidi\App\PlatformVerifier\OAuth();
+        $oauth = new \App\PlatformVerifier\OAuth();
 
         return $oauth->verifyRequirements(true);
     }
 
     public static function verifyRequirements($console = true)
     {
-        $env = new \Ushahidi\App\PlatformVerifier\Env();
+        $env = new \App\PlatformVerifier\Env();
 
         return $env->verifyRequirements(true);
     }
 
     public function verifyDB()
     {
-        $db = new \Ushahidi\App\PlatformVerifier\Database();
+        $db = new \App\PlatformVerifier\Database();
 
         return $db->verifyRequirements(true);
     }

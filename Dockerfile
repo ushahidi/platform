@@ -6,9 +6,10 @@ COPY composer.lock ./
 RUN composer install --no-autoloader --no-scripts
 
 COPY . .
-COPY docker/common.sh /common.sh
+COPY docker/utils.sh /utils.sh
 COPY docker/run.tasks.conf /etc/chaperone.d/
 COPY docker/run.run.sh /run.run.sh
+RUN echo '#!/bin/bash\n. /utils.sh\n"$@"' > /bin/util ; chmod +x /bin/util ;
 
 RUN $DOCKERCES_MANAGE_UTIL add /run.run.sh
 
