@@ -417,6 +417,7 @@ class Survey extends BaseModel
             ->where('form_stages.show_when_published', '=', '1')
             ->where('form_stages.task_is_internal_only', '=', '0')
             ->orderBy("priority", "asc");
+
     } //end tasks()
 
 
