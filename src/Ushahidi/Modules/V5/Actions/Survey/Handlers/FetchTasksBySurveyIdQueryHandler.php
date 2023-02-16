@@ -30,7 +30,6 @@ class FetchTasksBySurveyIdQueryHandler extends AbstractQueryHandler
      * @return LengthAwarePaginator
      */
     public function __invoke(Action $query) //: LengthAwarePaginator
-
     {
         $this->isSupported($query);
         return $this->task_repository->fetch(

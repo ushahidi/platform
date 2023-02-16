@@ -33,7 +33,6 @@ class CreateCollectionCommandHandler extends AbstractCommandHandler
      * @return int
      */
     public function __invoke($command) //: int
-
     {
         $this->isSupported($command);
         return $this->collection_repository->create($command->getEntity());

@@ -33,7 +33,6 @@ class DeleteSurveyRolesBySurveyIDCommandHandler extends V5CommandHandler
      * @return int
      */
     public function __invoke($command) //: int
-
     {
         $this->isSupported($command);
         $this->survey_role_repository->deleteBySurveyId($command->getSurveyId());

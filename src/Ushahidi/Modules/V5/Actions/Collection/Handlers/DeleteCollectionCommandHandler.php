@@ -33,7 +33,6 @@ class DeleteCollectionCommandHandler extends AbstractCommandHandler
      * @return int
      */
     public function __invoke($command) //: int
-
     {
         $this->isSupported($command);
         $this->collection_repository->delete($command->getId());

@@ -30,7 +30,6 @@ class FetchSavedSearchQueryHandler extends AbstractQueryHandler
      * @return LengthAwarePaginator
      */
     public function __invoke($query) //: LengthAwarePaginator
-
     {
         $this->isSupported($query);
         $skip = $query->getLimit() * ($query->getPage() - 1);

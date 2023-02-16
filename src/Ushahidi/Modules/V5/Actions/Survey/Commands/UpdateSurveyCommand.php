@@ -7,9 +7,9 @@ use Ushahidi\Core\Entity\Form as SurveyEntity;
 
 class UpdateSurveyCommand implements Command
 {
-    
+
     private $id;
-    
+
     /**
      * @var SurveyEntity
      */
@@ -18,8 +18,13 @@ class UpdateSurveyCommand implements Command
     private $tasks;
     private $translations;
     private $current_task_ids;
-    public function __construct(int $id, SurveyEntity $survey_entity, array $tasks = [], array $translations = [], array $current_task_ids = [])
-    {
+    public function __construct(
+        int $id,
+        SurveyEntity $survey_entity,
+        array $tasks = [],
+        array $translations = [],
+        array $current_task_ids = []
+    ) {
         $this->id = $id;
         $this->entity = $survey_entity;
         $this->tasks = $tasks;

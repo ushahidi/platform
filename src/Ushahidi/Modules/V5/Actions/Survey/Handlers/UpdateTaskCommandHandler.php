@@ -37,7 +37,6 @@ class UpdateTaskCommandHandler extends V5CommandHandler
      * @return int
      */
     public function __invoke($command) //: int
-
     {
         $this->isSupported($command);
         $this->task_repository->update($command->getEntity()->id, $command->getEntity());

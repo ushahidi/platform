@@ -32,7 +32,6 @@ class CreateSurveyRoleCommandHandler extends V5CommandHandler
      * @return int
      */
     public function __invoke($command) //: int
-
     {
         $this->isSupported($command);
         foreach ($command->getRoleIds() as $role_id) {

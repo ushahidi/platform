@@ -38,7 +38,6 @@ class CreateSurveyCommandHandler extends V5CommandHandler
      * @return int
      */
     public function __invoke($command) //: int
-
     {
         $this->isSupported($command);
         $survey = $this->survey_repository->create($command->getEntity());

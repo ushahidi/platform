@@ -33,7 +33,6 @@ class DeleteSavedSearchCommandHandler extends AbstractCommandHandler
      * @return int
      */
     public function __invoke($command) //: int
-
     {
         $this->isSupported($command);
         $this->saved_search_repository->delete($command->getId(), true);

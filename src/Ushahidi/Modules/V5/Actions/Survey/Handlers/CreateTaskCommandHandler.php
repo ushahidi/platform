@@ -39,7 +39,6 @@ class CreateTaskCommandHandler extends V5CommandHandler
      * @return int
      */
     public function __invoke($command) //: int
-
     {
         $this->isSupported($command);
         $task = $this->task_repository->create($command->getEntity());

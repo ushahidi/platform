@@ -21,7 +21,7 @@ class Form extends StaticEntity
     const DEFAULT_EVERYONE_CAN_CREATE = 1;
     const DEFAULT_HIDE_AUTHOR = 0;
     const DEFAULT_HIDE_TIME = 0;
-    const DEFAULT_HIDE_Location = 0;
+    const DEFAULT_HIDE_LOCATION = 0;
     const DEFAULT_DISABLED = 0;
     const DEFAULT_BASE_LANGUAGE = 'en-US';
 
@@ -176,7 +176,7 @@ class Form extends StaticEntity
 
             "hide_location" => isset($input["hide_location"])
             ? $input["hide_location"]
-            : self::DEFAULT_HIDE_Location,
+            : self::DEFAULT_HIDE_LOCATION,
 
             "created" => time(),
             "updated" => time(),

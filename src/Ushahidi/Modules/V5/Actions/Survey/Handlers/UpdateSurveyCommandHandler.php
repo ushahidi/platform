@@ -22,8 +22,11 @@ class UpdateSurveyCommandHandler extends V5CommandHandler
 
     private $commandBus;
 
-    public function __construct(CommandBus $commandBus, SurveyRepository $survey_repository, TaskRepository $task_repository)
-    {
+    public function __construct(
+        CommandBus $commandBus,
+        SurveyRepository $survey_repository,
+        TaskRepository $task_repository
+    ) {
         $this->survey_repository = $survey_repository;
         $this->task_repository = $task_repository;
 
@@ -45,7 +48,6 @@ class UpdateSurveyCommandHandler extends V5CommandHandler
      * @return int
      */
     public function __invoke($command) //: int
-
     {
         $this->isSupported($command);
         $this->survey_repository->update($command->getId(), $command->getEntity());

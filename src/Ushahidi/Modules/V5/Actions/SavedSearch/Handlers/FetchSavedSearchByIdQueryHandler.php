@@ -32,7 +32,6 @@ class FetchSavedSearchByIdQueryHandler extends AbstractQueryHandler
      * @return array
      */
     public function __invoke(Action $query) //: array
-
     {
         $this->isSupported($query);
         return $this->saved_search_repository->findById($query->getId(), 1);

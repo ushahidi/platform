@@ -38,7 +38,6 @@ class FetchSurveyStatsQueryHandler extends V5QueryHandler
      * @return Survey
      */
     public function __invoke($query) //: array
-
     {
         $only = $this->getSelectFields(
             $query->getFormat(),
@@ -58,21 +57,4 @@ class FetchSurveyStatsQueryHandler extends V5QueryHandler
         return $survey;
     }
 
-
-    private function add_can_create(&$survey)
-    {
-
-        $survey_roles = $this->queryBus->handle(
-            new FetchRolesCanCreateSurveyPostsQuery(
-                $survey->id,
-                FetchRolesCanCreateSurveyPostsQuery::DEFAULT_SORT_BY,
-                FetchRolesCanCreateSurveyPostsQuery::DEFAULT_ORDER
-            )
-        );
-        $roles = [];
-        foreach ($survey_roles as $survey_role) {
-            $roles[] = $survey_role->role()->value('name');
-        }
-        $survey->can_create = $roles;
-    }
 }

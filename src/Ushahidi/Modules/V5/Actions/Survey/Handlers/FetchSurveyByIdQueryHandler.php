@@ -38,7 +38,6 @@ class FetchSurveyByIdQueryHandler extends V5QueryHandler
      * @return Survey
      */
     public function __invoke($query) //: array
-
     {
         $only = $this->getSelectFields(
             $query->getFormat(),
@@ -84,10 +83,10 @@ class FetchSurveyByIdQueryHandler extends V5QueryHandler
                     break;
             }
         }
-        $this->add_can_create($survey);
+        $this->addCanCreate($survey);
     }
 
-    private function add_can_create(&$survey)
+    private function addCanCreate(&$survey)
     {
 
         $survey_roles = $this->queryBus->handle(

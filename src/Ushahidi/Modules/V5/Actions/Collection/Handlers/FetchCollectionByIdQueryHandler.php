@@ -32,7 +32,6 @@ class FetchCollectionByIdQueryHandler extends AbstractQueryHandler
      * @return array
      */
     public function __invoke(Action $query) //: array
-
     {
         $this->isSupported($query);
         return $this->collection_repository->findById($query->getId());

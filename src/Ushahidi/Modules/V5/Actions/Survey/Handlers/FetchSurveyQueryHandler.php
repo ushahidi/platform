@@ -37,7 +37,6 @@ class FetchSurveyQueryHandler extends V5QueryHandler
      * @return LengthAwarePaginator
      */
     public function __invoke($query) //: LengthAwarePaginator
-
     {
         $this->isSupported($query);
         $skip = $query->getLimit() * ($query->getPage() - 1);
@@ -96,10 +95,10 @@ class FetchSurveyQueryHandler extends V5QueryHandler
             }
         }
 
-        $this->add_can_create($survey);
+        $this->addCanCreate($survey);
     }
 
-    private function add_can_create(&$survey)
+    private function addCanCreate(&$survey)
     {
 
         $survey_roles = $this->queryBus->handle(

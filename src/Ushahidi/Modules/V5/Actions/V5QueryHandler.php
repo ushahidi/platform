@@ -14,8 +14,12 @@ abstract class V5QueryHandler extends AbstractQueryHandler
      * @param array $required_fields
      * @return array
      */
-    public function getSelectFields(?string $format, ?string $only, array $approved_fields = [], array $required_fields = [])
-    {
+    public function getSelectFields(
+        ?string $format,
+        ?string $only,
+        array $approved_fields = [],
+        array $required_fields = []
+    ) {
         $only_fields = [];
         if ($format === 'minimal') {
             $only_fields = ['id', 'name', 'description', 'translations'];

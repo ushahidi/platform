@@ -33,7 +33,6 @@ class CreateSavedSearchCommandHandler extends AbstractCommandHandler
      * @return int
      */
     public function __invoke($command) //: int
-
     {
         $this->isSupported($command);
         return $this->saved_search_repository->create($command->getEntity());

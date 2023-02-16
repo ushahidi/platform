@@ -17,8 +17,13 @@ class FetchSavedSearchQuery implements Query
     private $order;
     private $search_data;
 
-    public function __construct(int $limit, int $page, string $sortBy, string $order, SavedSearchSearchFields $search_data)
-    {
+    public function __construct(
+        int $limit,
+        int $page,
+        string $sortBy,
+        string $order,
+        SavedSearchSearchFields $search_data
+    ) {
         $this->limit = $limit;
         $this->page = $page;
         $this->sortBy = $sortBy;
