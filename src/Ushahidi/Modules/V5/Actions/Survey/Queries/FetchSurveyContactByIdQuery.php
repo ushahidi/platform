@@ -17,8 +17,12 @@ class FetchSurveyByIdQuery implements Query
     private $only_fields;
     private $hydrate;
 
-    public function __construct(int $id = 0, ?string $format = null, ?string $only_fields = null, ?string $hydrate = null)
-    {
+    public function __construct(
+        int $id = 0,
+        ?string $format = null,
+        ?string $only_fields = null,
+        ?string $hydrate = null
+    ) {
 
         $this->id = $id;
         $this->format = $format;
