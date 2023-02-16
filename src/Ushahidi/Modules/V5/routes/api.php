@@ -134,6 +134,14 @@ $router->group([
         }
     );
 
+    $router->group([
+        'prefix' => 'country-codes',
+        'middleware' => ['auth:api', 'scope:country_codes'],
+    ], function () use ($router) {
+        $router->get('/', 'CountryCodeController@index');
+        $router->get('/{id}', 'CountryCodeController@show');
+    });
+    
     /* Users */
     // Restricted access
     $router->group(

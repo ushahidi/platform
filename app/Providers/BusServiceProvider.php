@@ -16,6 +16,10 @@ use Ushahidi\Modules\V5\Actions\Tos\Handlers\FetchTosByIdQueryHandler;
 
 use App\Bus\Query\QueryBus;
 use Illuminate\Support\ServiceProvider;
+use Ushahidi\Modules\V5\Actions\CountryCode\Queries\FetchCountryCodeByIdQuery;
+use Ushahidi\Modules\V5\Actions\CountryCode\Queries\FetchCountryCodeQuery;
+use Ushahidi\Modules\V5\Actions\CountryCode\Handlers\FetchCountryCodeByIdQueryHandler;
+use Ushahidi\Modules\V5\Actions\CountryCode\Handlers\FetchCountryCodeQueryHandler;
 use Ushahidi\Modules\V5\Actions\User;
 use Ushahidi\Modules\V5\Actions\Permissions\Queries\FetchPermissionsQuery;
 use Ushahidi\Modules\V5\Actions\Permissions\Handlers\FetchPermissionsQueryHandler;
@@ -174,6 +178,8 @@ class BusServiceProvider extends ServiceProvider
             $queryBus = new QueryBus($app);
 
             $queryBus->register(ExampleQuery::class, ExampleQueryHandler::class);
+            $queryBus->register(FetchCountryCodeQuery::class, FetchCountryCodeQueryHandler::class);
+            $queryBus->register(FetchCountryCodeByIdQuery::class, FetchCountryCodeByIdQueryHandler::class);
             $queryBus->register(FetchPermissionsQuery::class, FetchPermissionsQueryHandler::class);
             $queryBus->register(FetchPermissionsByIdQuery::class, FetchPermissionsByIdQueryHandler::class);
 
