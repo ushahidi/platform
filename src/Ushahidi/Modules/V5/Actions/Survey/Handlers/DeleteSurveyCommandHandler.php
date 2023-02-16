@@ -2,11 +2,9 @@
 
 namespace Ushahidi\Modules\V5\Actions\Survey\Handlers;
 
-use App\Bus\Action;
 use Ushahidi\Modules\V5\Actions\V5CommandHandler;
 use App\Bus\Command\Command;
 use Ushahidi\Modules\V5\Actions\Survey\Commands\DeleteSurveyCommand;
-use Ushahidi\Modules\V5\Actions\Survey\Commands\DeleteTasksBySurveyIdCommand;
 use Ushahidi\Modules\V5\Repository\Survey\SurveyRepository;
 use App\Bus\Command\CommandBus;
 

@@ -2,7 +2,6 @@
 
 namespace Ushahidi\Modules\V5\Actions\Survey\Handlers;
 
-use App\Bus\Action;
 use Ushahidi\Modules\V5\Actions\V5QueryHandler;
 use App\Bus\Query\Query;
 use Ushahidi\Modules\V5\Actions\Survey\Queries\FetchSurveyQuery;

@@ -2,15 +2,10 @@
 
 namespace Ushahidi\Modules\V5\Actions\Survey\Handlers;
 
-use App\Bus\Action;
 use Ushahidi\Modules\V5\Actions\V5CommandHandler;
-use Ushahidi\Modules\V5\Models\Stage as Task;
-use Ushahidi\Modules\V5\Models\Attribute as Field;
 use App\Bus\Command\Command;
 use Ushahidi\Modules\V5\Actions\Survey\Commands\CreateTaskCommand;
 use Ushahidi\Modules\V5\Repository\Survey\TaskRepository;
-use Ushahidi\Core\Entity\FormAttribute as FieldEntity;
-use Ushahidi\Core\Entity\FormStage as TaskEntity;
 
 use Ramsey\Uuid\Uuid;
 

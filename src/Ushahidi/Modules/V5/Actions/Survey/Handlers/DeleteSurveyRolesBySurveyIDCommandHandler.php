@@ -2,7 +2,6 @@
 
 namespace Ushahidi\Modules\V5\Actions\Survey\Handlers;
 
-use App\Bus\Action;
 use Ushahidi\Modules\V5\Actions\V5CommandHandler;
 use App\Bus\Command\Command;
 use Ushahidi\Modules\V5\Actions\Survey\Commands\DeleteSurveyRolesBySurveyIDCommand;

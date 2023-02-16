@@ -2,7 +2,6 @@
 
 namespace Ushahidi\Modules\V5\Actions\Collection\Handlers;
 
-use App\Bus\Action;
 use App\Bus\Command\AbstractCommandHandler;
 use App\Bus\Command\Command;
 use Ushahidi\Modules\V5\Actions\Collection\Commands\UpdateCollectionCommand;

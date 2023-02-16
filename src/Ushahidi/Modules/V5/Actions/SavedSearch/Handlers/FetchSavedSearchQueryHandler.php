@@ -2,7 +2,6 @@
 
 namespace Ushahidi\Modules\V5\Actions\SavedSearch\Handlers;
 
-use App\Bus\Action;
 use App\Bus\Query\AbstractQueryHandler;
 use App\Bus\Query\Query;
 use Ushahidi\Modules\V5\Actions\SavedSearch\Queries\FetchSavedSearchQuery;

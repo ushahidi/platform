@@ -2,12 +2,9 @@
 
 namespace Ushahidi\Modules\V5\Actions\Survey\Handlers;
 
-use App\Bus\Action;
 use Ushahidi\Modules\V5\Actions\V5QueryHandler;
 use App\Bus\Query\Query;
 use Ushahidi\Modules\V5\Actions\Survey\Queries\FetchSurveyByIdQuery;
-use Ushahidi\Modules\V5\Actions\Survey\Queries\FetchTasksBySurveyIdQuery;
-use Ushahidi\Modules\V5\Actions\Survey\Queries\FetchRolesCanCreateSurveyPostsQuery;
 use Ushahidi\Modules\V5\Repository\Survey\SurveyRepository;
 use Ushahidi\Modules\V5\Models\Survey;
 use App\Bus\Query\QueryBus;
@@ -56,5 +53,4 @@ class FetchSurveyStatsQueryHandler extends V5QueryHandler
         $survey->offsetUnset('base_language');
         return $survey;
     }
-
 }

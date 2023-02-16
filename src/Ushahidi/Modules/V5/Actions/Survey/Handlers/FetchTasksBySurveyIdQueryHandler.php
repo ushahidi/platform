@@ -2,7 +2,6 @@
 
 namespace Ushahidi\Modules\V5\Actions\Survey\Handlers;
 
-use App\Bus\Action;
 use App\Bus\Query\AbstractQueryHandler;
 use App\Bus\Query\Query;
 use Ushahidi\Modules\V5\Actions\Survey\Queries\FetchTasksBySurveyIdQuery;
@@ -29,7 +28,7 @@ class FetchTasksBySurveyIdQueryHandler extends AbstractQueryHandler
      * @param FetchSurveyQuery $query
      * @return LengthAwarePaginator
      */
-    public function __invoke(Action $query) //: LengthAwarePaginator
+    public function __invoke($query) //: LengthAwarePaginator
     {
         $this->isSupported($query);
         return $this->task_repository->fetch(

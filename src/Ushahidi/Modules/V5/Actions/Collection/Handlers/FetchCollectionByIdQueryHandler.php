@@ -2,7 +2,6 @@
 
 namespace Ushahidi\Modules\V5\Actions\Collection\Handlers;
 
-use App\Bus\Action;
 use App\Bus\Query\AbstractQueryHandler;
 use App\Bus\Query\Query;
 use Ushahidi\Modules\V5\Actions\Collection\Queries\FetchCollectionByIdQuery;
@@ -31,7 +30,7 @@ class FetchCollectionByIdQueryHandler extends AbstractQueryHandler
      * @param FetchCollectionByIdQuery $query
      * @return array
      */
-    public function __invoke(Action $query) //: array
+    public function __invoke($query) //: array
     {
         $this->isSupported($query);
         return $this->collection_repository->findById($query->getId());

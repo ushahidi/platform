@@ -2,7 +2,6 @@
 
 namespace Ushahidi\Modules\V5\Actions\SavedSearch\Handlers;
 
-use App\Bus\Action;
 use App\Bus\Query\AbstractQueryHandler;
 use App\Bus\Query\Query;
 use Ushahidi\Modules\V5\Actions\SavedSearch\Queries\FetchSavedSearchByIdQuery;
@@ -31,7 +30,7 @@ class FetchSavedSearchByIdQueryHandler extends AbstractQueryHandler
      * @param FetchSavedSearchByIdQuery $query
      * @return array
      */
-    public function __invoke(Action $query) //: array
+    public function __invoke($query) //: array
     {
         $this->isSupported($query);
         return $this->saved_search_repository->findById($query->getId(), 1);
