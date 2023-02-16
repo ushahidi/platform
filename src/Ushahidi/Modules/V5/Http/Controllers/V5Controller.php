@@ -14,9 +14,12 @@ use Illuminate\Validation\Validator;
 use Illuminate\Contracts\Auth\Access\Gate;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Routing\Controller as BaseController;
+use App\Bus\Query\QueryBus;
+use App\Bus\Command\CommandBus;
 
 class V5Controller extends BaseController
 {
+
 
     /**
      * The response builder callback.
@@ -30,6 +33,16 @@ class V5Controller extends BaseController
      *
      * @var \Closure
      */
+
+    protected $queryBus;
+    protected $commandBus;
+    public function __construct(QueryBus $queryBus, CommandBus $commandBus)
+    {
+        $this->queryBus = $queryBus;
+        $this->commandBus = $commandBus;
+    }
+
+
     protected static $errorFormatter;
     /**
      * @param null $message
@@ -39,7 +52,7 @@ class V5Controller extends BaseController
     {
         return response()->json(
             [
-                'error'   => 403,
+                'error' => 403,
                 'message' => $message ?? trans('errors.generic403'),
             ],
             403
@@ -53,7 +66,7 @@ class V5Controller extends BaseController
     {
         return response()->json(
             [
-                'error'   => 500,
+                'error' => 500,
                 'message' => $message ?? trans('errors.generic500'),
             ],
             500
@@ -68,7 +81,7 @@ class V5Controller extends BaseController
     {
         return response()->json(
             [
-                'error'   => 404,
+                'error' => 404,
                 'message' => $message ?? 'Not found',
             ],
             404
@@ -84,7 +97,7 @@ class V5Controller extends BaseController
     {
         return response()->json(
             [
-                'error'   => 422,
+                'error' => 422,
                 'messages' => $messages,
                 'type' => $type
             ],
@@ -92,7 +105,7 @@ class V5Controller extends BaseController
         );
     }
 
-        /**
+    /**
      * Validate the given request with the given rules.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -119,10 +132,13 @@ class V5Controller extends BaseController
      */
     protected function throwValidationException(Request $request, $validator)
     {
-        throw new ValidationException($validator, $this->buildFailedValidationResponse(
-            $request,
-            $this->formatValidationErrors($validator)
-        ));
+        throw new ValidationException(
+            $validator,
+            $this->buildFailedValidationResponse(
+                $request,
+                $this->formatValidationErrors($validator)
+            )
+        );
     }
 
     /**
@@ -141,7 +157,7 @@ class V5Controller extends BaseController
         return app(Gate::class)->authorize($ability, $arguments);
     }
 
-        /**
+    /**
      * Authorize a given action for a user.
      *
      * @param  \Illuminate\Contracts\Auth\Authenticatable|mixed  $user
@@ -165,7 +181,7 @@ class V5Controller extends BaseController
         return $this->authorizeForUser(Auth::user() ?? new GenericUser(['role' => 'guest']), $ability, $arguments);
     }
 
-      /**
+    /**
      * Authorize a given action for a the current user.
      *
      * @param  mixed  $ability
@@ -184,7 +200,7 @@ class V5Controller extends BaseController
 
     public function getGenericUser()
     {
-        return  Auth::guard()->user();
+        return Auth::guard()->user();
     }
 
     /**
@@ -277,23 +293,23 @@ class V5Controller extends BaseController
     protected function getBulkEnvelopeValidationMessages()
     {
         return [
-            'operation.required'                      => trans(
+            'operation.required' => trans(
                 'validation.required',
                 ['field' => trans('bulk.operation')]
             ),
-            'operation.string'                      => trans(
+            'operation.string' => trans(
                 'validation.string',
                 ['field' => trans('bulk.operation')]
             ),
-            'operation.in'                      => trans(
+            'operation.in' => trans(
                 'validation.in_array',
                 ['field' => trans('bulk.operation')]
             ),
-            'items.array'                             => trans(
+            'items.array' => trans(
                 'validation.array',
                 ['field' => trans('bulk.items')]
             ),
-            'items.required'                          => trans(
+            'items.required' => trans(
                 'validation.not_empty',
                 ['field' => trans('bulk.items')]
             ),
@@ -390,16 +406,16 @@ class V5Controller extends BaseController
                 $t = Translation::create(
                     [
                         'translatable_type' => $type,
-                        'translatable_id'   => $translatable_id,
-                        'translated_key'    => $key,
-                        'translation'       => $translated,
-                        'language'          => $language,
+                        'translatable_id' => $translatable_id,
+                        'translated_key' => $key,
+                        'translation' => $translated,
+                        'language' => $language,
                     ]
                 );
             }
         }
         return $errors;
-    }//end saveTranslations()
+    } //end saveTranslations()
 
     /**
      * @param $entity
@@ -421,5 +437,27 @@ class V5Controller extends BaseController
         }
         Translation::where('translatable_id', $translatable_id)->where('translatable_type', $type)->delete();
         return $this->saveTranslations($entity, $entity_array, $translation_input, $translatable_id, $type);
-    }//end updateTranslations()
+    } //end updateTranslations()
+
+
+    /**
+     * get the approved hedrate relationships
+     *
+     * @param  array  $relationships
+     * @param Request $request
+     * @return array
+     */
+    public function getHydrate(array $relationships, Request $request): array
+    {
+        if ($request->has('hydrate') && !$request->get('hydrate')) {
+            $required_relationships = [];
+        } elseif ($request->get('hydrate')) {
+            $required_relationships = explode(',', $request->get('hydrate'));
+        } else {
+            $required_relationships = $relationships;
+        }
+        return array_filter($required_relationships, function ($o) use ($relationships) {
+            return in_array($o, $relationships);
+        });
+    }
 }

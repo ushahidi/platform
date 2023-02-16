@@ -2,8 +2,6 @@
 
 namespace Ushahidi\Modules\V5\Http\Controllers;
 
-use App\Bus\Query\QueryBus;
-use App\Bus\Command\CommandBus;
 use Ushahidi\Modules\V5\Http\Resources\User\UserSettingCollection;
 use Ushahidi\Modules\V5\Http\Resources\User\UserSettingResource;
 use Illuminate\Http\Request;
@@ -14,22 +12,12 @@ use Ushahidi\Modules\V5\Requests\StoreUserSettingRequest;
 use Ushahidi\Modules\V5\Actions\User\Commands\CreateUserSettingCommand;
 use Ushahidi\Modules\V5\Actions\User\Commands\DeleteUserSettingCommand;
 use Ushahidi\Modules\V5\Actions\User\Commands\UpdateUserSettingCommand;
-use Ushahidi\Core\Exception\AuthorizerException;
-use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Contracts\Auth\Access\Gate;
 use Ushahidi\Core\Entity\UserSetting as UserSettingEntity;
 
 class UserSettingController extends V5Controller
 {
-
-    private $queryBus;
-    private $commandBus;
-    public function __construct(QueryBus $queryBus, CommandBus $commandBus)
-    {
-        $this->queryBus = $queryBus;
-        $this->commandBus = $commandBus;
-    }
 
     /**
      * Display the specified resource.
@@ -166,6 +154,6 @@ class UserSettingController extends V5Controller
 
     private function getGenericUserForUserSetting()
     {
-        return  Auth::guard()->user();
+        return Auth::guard()->user();
     }
-}//end class
+} //end class

@@ -2,8 +2,6 @@
 
 namespace Ushahidi\Modules\V5\Http\Controllers;
 
-use App\Bus\Query\QueryBus;
-use App\Bus\Command\CommandBus;
 use Ushahidi\Modules\V5\Http\Resources\Role\RoleCollection;
 use Ushahidi\Modules\V5\Http\Resources\Role\RoleResource;
 use Illuminate\Http\Request;
@@ -24,13 +22,6 @@ use Ushahidi\Modules\V5\Actions\Role\Commands\DeleteRolePermissionByRoleCommand;
 class RoleController extends V5Controller
 {
 
-    private $queryBus;
-    private $commandBus;
-    public function __construct(QueryBus $queryBus, CommandBus $commandBus)
-    {
-        $this->queryBus = $queryBus;
-        $this->commandBus = $commandBus;
-    }
 
     /**
      * Display the specified resource.
@@ -125,7 +116,7 @@ class RoleController extends V5Controller
     {
         $role = $this->queryBus->handle(new FetchRoleByIdQuery($id));
         $this->authorizeForCurrentUserForRole('update', $role);
-        $inputs =  $this->getFields($request->input());
+        $inputs = $this->getFields($request->input());
         unset($inputs["protected"]);
         $this->commandBus->handle(new UpdateRoleCommand($id, $inputs));
 
@@ -182,6 +173,6 @@ class RoleController extends V5Controller
 
     private function getGenericUserForRole()
     {
-        return  Auth::guard()->user();
+        return Auth::guard()->user();
     }
-}//end class
+} //end class

@@ -2,8 +2,6 @@
 
 namespace Ushahidi\Modules\V5\Http\Controllers;
 
-use App\Bus\Query\QueryBus;
-use App\Bus\Command\CommandBus;
 use Ushahidi\Modules\V5\Http\Resources\User\UserCollection;
 use Ushahidi\Modules\V5\Http\Resources\User\UserResource;
 use Illuminate\Http\Request;
@@ -11,12 +9,9 @@ use Ushahidi\Modules\V5\Models\User;
 use Ushahidi\Modules\V5\Actions\User\Queries\FetchUserByIdQuery;
 use Ushahidi\Modules\V5\Actions\User\Queries\FetchUserQuery;
 use Ushahidi\Modules\V5\Requests\StoreUserRequest;
-use Ushahidi\Modules\V5\Requests\UpdateUserRequest;
 use Ushahidi\Modules\V5\Actions\User\Commands\CreateUserCommand;
 use Ushahidi\Modules\V5\Actions\User\Commands\DeleteUserCommand;
 use Ushahidi\Modules\V5\Actions\User\Commands\UpdateUserCommand;
-use Ushahidi\Core\Exception\AuthorizerException;
-use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Contracts\Auth\Access\Gate;
 use Ushahidi\Core\Entity\User as UserEntity;
@@ -24,14 +19,6 @@ use Ushahidi\Modules\V5\DTO\UserSearchFields;
 
 class UserController extends V5Controller
 {
-
-    private $queryBus;
-    private $commandBus;
-    public function __construct(QueryBus $queryBus, CommandBus $commandBus)
-    {
-        $this->queryBus = $queryBus;
-        $this->commandBus = $commandBus;
-    }
 
     /**
      * Display the specified resource.
@@ -179,7 +166,7 @@ class UserController extends V5Controller
                 "updated" => time()
             ]);
         }
-        return  new UserEntity([
+        return new UserEntity([
             "email" => $request->input("email"),
             "password" => $request->input("password"),
             "realname" => $request->input("realname"),
@@ -205,6 +192,6 @@ class UserController extends V5Controller
 
     private function getGenericUserForUser()
     {
-        return  Auth::guard()->user();
+        return Auth::guard()->user();
     }
-}//end class
+} //end class

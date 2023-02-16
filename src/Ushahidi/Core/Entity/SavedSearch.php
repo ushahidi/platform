@@ -13,13 +13,21 @@ namespace Ushahidi\Core\Entity;
 
 class SavedSearch extends Set
 {
+
+    const DEFAULT_VIEW = 'list';
+    const DEFAULT_FEATURED = 0;
+
     protected $filter;
+    protected $search;
+
 
     // DataTransformer
     protected function getDefinition()
     {
         return parent::getDefinition() + [
             'filter' => '*json',
+            'search' => 'boolean',
+
         ];
     }
 
@@ -29,8 +37,14 @@ class SavedSearch extends Set
         return 'savedsearches';
     }
 
-    public function getTable()
+    public static function buildEntity(array $input, $action = "create", array $old_Values = null): Set
     {
-        return 'sets';
+        if ($action === "update") {
+            $filter = isset($input["filter"]) ? $input["filter"] : $old_Values['filter'];
+        } else {
+            $filter = isset($input["filter"]) ? $input["filter"] : null;
+        }
+        $entity = Set::buildEntity($input, $action, $old_Values);
+        return new SavedSearch(array_merge($entity->asArray(), ["search" => "1", "filter" => $filter]));
     }
 }

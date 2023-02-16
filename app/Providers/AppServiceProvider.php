@@ -8,8 +8,6 @@ use Illuminate\Support\ServiceProvider;
 use Ushahidi\Core\Tool\OhanzeeResolver;
 use Ushahidi\Addons\AfricasTalking\AfricasTalkingSource;
 use Ushahidi\Contracts\Repository\Entity\ConfigRepository;
-use Ushahidi\Modules\V5\Repository\CountryCode\CountryCodeRepository;
-use Ushahidi\Modules\V5\Repository\CountryCode\EloquentCountryCodeRepository;
 use Ushahidi\Modules\V5\Repository\User;
 use Ushahidi\Modules\V5\Repository\Permissions\PermissionsRepository;
 use Ushahidi\Modules\V5\Repository\Permissions\EloquentPermissionsRepository;
@@ -17,6 +15,8 @@ use Ushahidi\Modules\V5\Repository\Role\RoleRepository;
 use Ushahidi\Modules\V5\Repository\Role\EloquentRoleRepository;
 use Ushahidi\Modules\V5\Repository\Tos\TosRepository;
 use Ushahidi\Modules\V5\Repository\Tos\EloquentTosRepository;
+use Ushahidi\Modules\V5\Repository\Survey;
+use Ushahidi\Modules\V5\Repository\Set;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -58,7 +58,6 @@ class AppServiceProvider extends ServiceProvider
             return new OhanzeeResolver();
         });
 
-        $this->app->bind(CountryCodeRepository::class, EloquentCountryCodeRepository::class);
         $this->app->bind(
             User\UserRepository::class,
             User\EloquentUserRepository::class
@@ -70,5 +69,9 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(PermissionsRepository::class, EloquentPermissionsRepository::class);
         $this->app->bind(RoleRepository::class, EloquentRoleRepository::class);
         $this->app->bind(TosRepository::class, EloquentTosRepository::class);
+        $this->app->bind(Survey\SurveyRepository::class, Survey\EloquentSurveyRepository::class);
+        $this->app->bind(Survey\TaskRepository::class, Survey\EloquentTaskRepository::class);
+        $this->app->bind(Survey\SurveyRoleRepository::class, Survey\EloquentSurveyRoleRepository::class);
+        $this->app->bind(Set\SetRepository::class, Set\EloquentsetRepository::class);
     }
 }
