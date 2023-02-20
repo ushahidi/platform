@@ -13,6 +13,7 @@ COPY docker/run.run.sh /run.run.sh
 RUN $DOCKERCES_MANAGE_UTIL add /run.run.sh
 
 ENV ENABLE_PLATFORM_TASKS=true \
+    DB_MIGRATIONS_HANDLED=true \
     RUN_PLATFORM_MIGRATIONS=true \
     VHOST_ROOT=/var/www/httpdocs \
     VHOST_INDEX=index.php \

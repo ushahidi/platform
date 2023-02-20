@@ -30,8 +30,9 @@
         "symfony/yaml": "~3.0",
         "symm/gisconverter": "~1.0.5",
         "twilio/sdk": "^5.15",
-        "ushahidi/gmail-support": "dev-master",
+        "ushahidi/gmail-support": "dev-mzima",
         "wikimedia/composer-merge-plugin": "^2.0",
+        "ushahidi/kohana-validation": "dev-master",
         "willdurand/negotiation": "^2.3"
     },
     "require-dev": {
