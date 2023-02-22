@@ -14,27 +14,27 @@ namespace Ushahidi\Core\Tools;
 class FileData extends Data
 {
     /**
-     * @var String $file filesystem path
+     * @var string $file filesystem path
      */
     public $file;
 
     /**
-     * @var String $type MIME type
+     * @var string $type MIME type
      */
     public $type;
 
     /**
-     * @var Integer $size in bytes
+     * @var integer $size in bytes
      */
     public $size;
 
     /**
-     * @var Integer $width image width (if image)
+     * @var integer $width image width (if image)
      */
     public $width;
 
     /**
-     * @var Integer $height image height (if image)
+     * @var integer $height image height (if image)
      */
     public $height;
 }
