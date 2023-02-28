@@ -16,7 +16,7 @@ use Ushahidi\Contracts\Entity;
 use Ushahidi\Core\Concerns\AdminAccess;
 use Ushahidi\Core\Concerns\UserContext;
 use Ushahidi\Core\Entity\Notification;
-use Ushahidi\Contracts\Repository\Entity\NotificationRepository as NotificationRepositoryContract;
+use Ushahidi\Core\Entity\NotificationRepository as NotificationRepositoryContract;
 
 class NotificationRepository extends OhanzeeRepository implements NotificationRepositoryContract
 {

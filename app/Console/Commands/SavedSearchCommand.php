@@ -12,8 +12,8 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use Ushahidi\Contracts\Repository\Entity\PostRepository;
-use Ushahidi\Contracts\Repository\Entity\SetRepository;
+use Ushahidi\Core\Entity\PostRepository;
+use Ushahidi\Core\Entity\SetRepository;
 use Ushahidi\Core\Tool\SearchData;
 
 class SavedSearchCommand extends Command

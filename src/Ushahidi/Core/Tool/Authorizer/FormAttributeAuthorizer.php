@@ -14,7 +14,7 @@ namespace Ushahidi\Core\Tool\Authorizer;
 use Ushahidi\Contracts\Entity;
 use Ushahidi\Contracts\Authorizer;
 use Ushahidi\Core\Concerns\UserContext;
-use Ushahidi\Contracts\Repository\Entity\FormStageRepository;
+use Ushahidi\Core\Entity\FormStageRepository;
 
 // The `FormAttributeAuthorizer` class is responsible
 // for access checks on Form Attributes

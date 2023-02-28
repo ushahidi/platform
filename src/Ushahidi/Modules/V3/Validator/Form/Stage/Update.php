@@ -12,7 +12,7 @@
 namespace Ushahidi\Modules\V3\Validator\Form\Stage;
 
 use Ushahidi\Modules\V3\Validator\LegacyValidator;
-use Ushahidi\Contracts\Repository\Entity\FormRepository;
+use Ushahidi\Core\Entity\FormRepository;
 
 class Update extends LegacyValidator
 {

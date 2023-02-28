@@ -13,8 +13,8 @@ use Ushahidi\Core\Entity\ExportBatch;
 use Illuminate\Support\Facades\Storage;
 use Ushahidi\Core\Concerns\RecordsExportJobFailure;
 use Illuminate\Support\Facades\File as LocalFilesystem;
-use Ushahidi\Contracts\Repository\Entity\ExportJobRepository;
-use Ushahidi\Contracts\Repository\Entity\ExportBatchRepository;
+use Ushahidi\Core\Entity\ExportJobRepository;
+use Ushahidi\Core\Entity\ExportBatchRepository;
 
 class CombineExportedPostBatchesJob extends Job
 {

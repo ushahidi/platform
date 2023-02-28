@@ -21,7 +21,7 @@ use Ushahidi\Core\Concerns\UserContext;
 use Ushahidi\Contracts\Repository\CreateRepository;
 use Ushahidi\Contracts\Repository\SearchRepository;
 use Ushahidi\Contracts\Repository\UpdateRepository;
-use Ushahidi\Contracts\Repository\Entity\ContactRepository as ContactRepositoryContract;
+use Ushahidi\Core\Entity\ContactRepository as ContactRepositoryContract;
 
 class ContactRepository extends OhanzeeRepository implements
     ContactRepositoryContract,

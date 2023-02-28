@@ -18,7 +18,7 @@ use Ushahidi\Contracts\Entity;
 use Ushahidi\Core\Entity\Webhook;
 use Ushahidi\Core\Concerns\AdminAccess;
 use Ushahidi\Core\Concerns\UserContext;
-use Ushahidi\Contracts\Repository\Entity\WebhookRepository as WebhookRepositoryContract;
+use Ushahidi\Core\Entity\WebhookRepository as WebhookRepositoryContract;
 
 class WebhookRepository extends OhanzeeRepository implements WebhookRepositoryContract
 {

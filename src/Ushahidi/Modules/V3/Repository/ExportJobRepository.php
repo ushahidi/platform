@@ -22,8 +22,8 @@ use Ushahidi\Core\Concerns\AdminAccess;
 use Ushahidi\Core\Concerns\UserContext;
 use Ushahidi\Core\Concerns\FilterRecords;
 use Ushahidi\Modules\V3\Events\SendToHDXEvent;
-use Ushahidi\Contracts\Repository\Entity\PostRepository;
-use Ushahidi\Contracts\Repository\Entity\ExportJobRepository as ExportJobRepositoryContract;
+use Ushahidi\Core\Entity\PostRepository;
+use Ushahidi\Core\Entity\ExportJobRepository as ExportJobRepositoryContract;
 
 class ExportJobRepository extends OhanzeeRepository implements ExportJobRepositoryContract
 {

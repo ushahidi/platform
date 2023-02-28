@@ -14,7 +14,7 @@ use Illuminate\Console\Command;
 use Ushahidi\Contracts\Usecase;
 use Ushahidi\Core\Usecase\ReadUsecase;
 use App\Console\Commands\Concerns\ConsoleFormatter;
-use Ushahidi\Contracts\Repository\Entity\ConfigRepository;
+use Ushahidi\Core\Entity\ConfigRepository;
 use Ushahidi\Core\Tool\Authorizer\ConsoleAuthorizer;
 
 class ConfigGetCommand extends Command

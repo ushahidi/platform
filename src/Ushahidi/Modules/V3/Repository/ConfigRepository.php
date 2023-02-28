@@ -20,7 +20,7 @@ use Ushahidi\Core\Entity\Config as ConfigEntity;
 use Ushahidi\Contracts\Repository\ReadRepository;
 use Ushahidi\Contracts\Repository\DeleteRepository;
 use Ushahidi\Contracts\Repository\UpdateRepository;
-use Ushahidi\Contracts\Repository\Entity\ConfigRepository as ConfigRepositoryContract;
+use Ushahidi\Core\Entity\ConfigRepository as ConfigRepositoryContract;
 use Ushahidi\Multisite\Facade\Multisite;
 
 class ConfigRepository implements

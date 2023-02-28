@@ -20,7 +20,7 @@ use Ushahidi\Core\Tool\OhanzeeResolver;
 use Ushahidi\Modules\V3\Repository\FormRepository;
 use Ushahidi\Modules\V3\Repository\OhanzeeRepository;
 use Ushahidi\Contracts\Repository\SearchRepository;
-use Ushahidi\Contracts\Repository\Entity\FormStatsRepository;
+use Ushahidi\Core\Entity\FormStatsRepository;
 
 class StatsRepository extends OhanzeeRepository implements
     FormStatsRepository,

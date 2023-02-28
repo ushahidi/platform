@@ -11,11 +11,11 @@
 namespace Ushahidi\Modules\V3\Validator\HXL\HXLFormAttributeHXLAttributeTag;
 
 use Ushahidi\Modules\V3\Validator\LegacyValidator;
-use Ushahidi\Contracts\Repository\Entity\HXLTagRepository;
-use Ushahidi\Contracts\Repository\Entity\ExportJobRepository;
-use Ushahidi\Contracts\Repository\Entity\HXLAttributeRepository;
-use Ushahidi\Contracts\Repository\Entity\FormAttributeRepository;
-use Ushahidi\Contracts\Repository\Entity\HXLFormAttributeHXLAttributeTagRepository;
+use Ushahidi\Core\Entity\HXL\HXLTagRepository;
+use Ushahidi\Core\Entity\ExportJobRepository;
+use Ushahidi\Core\Entity\HXL\HXLAttributeRepository;
+use Ushahidi\Core\Entity\FormAttributeRepository;
+use Ushahidi\Core\Entity\HXL\HXLFormAttributeHXLAttributeTagRepository;
 
 class Create extends LegacyValidator
 {

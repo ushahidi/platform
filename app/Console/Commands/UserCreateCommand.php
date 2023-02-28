@@ -14,8 +14,8 @@ use Illuminate\Console\Command;
 use Ushahidi\Core\Facade\Features;
 use Illuminate\Support\Facades\Validator;
 use Ushahidi\Core\Exception\ValidatorException;
-use Ushahidi\Contracts\Repository\Entity\TosRepository;
-use Ushahidi\Contracts\Repository\Entity\UserRepository;
+use Ushahidi\Core\Entity\TosRepository;
+use Ushahidi\Core\Entity\UserRepository;
 
 class UserCreateCommand extends Command
 {

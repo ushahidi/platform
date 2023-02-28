@@ -6,7 +6,7 @@ use Illuminate\Auth\RequestGuard;
 use Laravel\Passport\TokenRepository;
 use App\Passport\TokenGuard;
 use League\OAuth2\Server\ResourceServer;
-use Ushahidi\Contracts\Repository\Entity\UserRepository;
+use Ushahidi\Core\Entity\UserRepository;
 use Laravel\Passport\ClientRepository as LaravelPassportClientRepository;
 use Laravel\Passport\Bridge\UserRepository as LaravelPassportUserRepository;
 use Laravel\Passport\PassportServiceProvider as LaravelPassportServiceProvider;

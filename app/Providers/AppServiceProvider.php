@@ -7,7 +7,7 @@ use Ushahidi\Addons\Mteja\MtejaSource;
 use Illuminate\Support\ServiceProvider;
 use Ushahidi\Core\Tool\OhanzeeResolver;
 use Ushahidi\Addons\AfricasTalking\AfricasTalkingSource;
-use Ushahidi\Contracts\Repository\Entity\ConfigRepository;
+use Ushahidi\Core\Entity\ConfigRepository;
 use Ushahidi\Modules\V5\Repository\CountryCode\CountryCodeRepository;
 use Ushahidi\Modules\V5\Repository\CountryCode\EloquentCountryCodeRepository;
 use Ushahidi\Modules\V5\Repository\User;

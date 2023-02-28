@@ -8,8 +8,8 @@ use Ushahidi\Core\Entity\ExportJob;
 use Ushahidi\Core\Entity\ExportBatch;
 use Illuminate\Support\Facades\Storage;
 use Ushahidi\Modules\V3\Jobs\CombineExportedPostBatchesJob;
-use Ushahidi\Contracts\Repository\Entity\ExportJobRepository;
-use Ushahidi\Contracts\Repository\Entity\ExportBatchRepository;
+use Ushahidi\Core\Entity\ExportJobRepository;
+use Ushahidi\Core\Entity\ExportBatchRepository;
 
 /**
  * @group api

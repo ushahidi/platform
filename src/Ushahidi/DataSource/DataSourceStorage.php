@@ -12,8 +12,8 @@ namespace Ushahidi\DataSource;
  */
 
 use Illuminate\Support\Facades\Log;
-use Ushahidi\Contracts\Repository\Entity\ContactRepository;
-use Ushahidi\Contracts\Repository\Entity\MessageRepository;
+use Ushahidi\Core\Entity\ContactRepository;
+use Ushahidi\Core\Entity\MessageRepository;
 use Ushahidi\Core\Usecase\Message\ReceiveMessage;
 
 class DataSourceStorage

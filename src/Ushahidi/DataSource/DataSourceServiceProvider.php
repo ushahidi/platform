@@ -5,9 +5,9 @@ namespace Ushahidi\DataSource;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 use Ushahidi\Core\Usecase\Message\ReceiveMessage;
-use Ushahidi\Contracts\Repository\Entity\ConfigRepository;
-use Ushahidi\Contracts\Repository\Entity\ContactRepository;
-use Ushahidi\Contracts\Repository\Entity\MessageRepository;
+use Ushahidi\Core\Entity\ConfigRepository;
+use Ushahidi\Core\Entity\ContactRepository;
+use Ushahidi\Core\Entity\MessageRepository;
 
 class DataSourceServiceProvider extends ServiceProvider
 {

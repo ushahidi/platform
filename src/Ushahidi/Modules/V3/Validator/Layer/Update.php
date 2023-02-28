@@ -12,7 +12,7 @@
 namespace Ushahidi\Modules\V3\Validator\Layer;
 
 use Ushahidi\Modules\V3\Validator\LegacyValidator;
-use Ushahidi\Contracts\Repository\Entity\MediaRepository;
+use Ushahidi\Core\Entity\MediaRepository;
 
 class Update extends LegacyValidator
 {

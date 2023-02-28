@@ -22,7 +22,7 @@ use Ushahidi\Modules\V3\Repository\Concerns;
 use Ushahidi\Contracts\Repository\Usecase\DeleteTagRepository;
 use Ushahidi\Contracts\Repository\Usecase\UpdateTagRepository;
 use Ushahidi\Contracts\Repository\Usecase\UpdatePostTagRepository;
-use Ushahidi\Contracts\Repository\Entity\TagRepository as TagRepositoryContract;
+use Ushahidi\Core\Entity\TagRepository as TagRepositoryContract;
 
 class TagRepository extends OhanzeeRepository implements
     UpdateTagRepository,

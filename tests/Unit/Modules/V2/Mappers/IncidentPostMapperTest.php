@@ -7,7 +7,7 @@ use Ushahidi\Modules\V2\Contracts\ImportMappingRepository;
 use Ushahidi\Modules\V2\Contracts\ImportDataTools;
 use Ushahidi\Core\Entity\Post;
 use Ushahidi\Core\Entity\FormAttribute;
-use Ushahidi\Contracts\Repository\Entity\FormAttributeRepository;
+use Ushahidi\Core\Entity\FormAttributeRepository;
 use Ushahidi\Tests\Unit\Modules\V2\ImportMock;
 use Ushahidi\Tests\TestCase;
 use Mockery as M;

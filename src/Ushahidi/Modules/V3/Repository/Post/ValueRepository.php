@@ -14,7 +14,7 @@ namespace Ushahidi\Modules\V3\Repository\Post;
 use Ohanzee\DB;
 use Ushahidi\Core\Entity\PostValue;
 use Ushahidi\Modules\V3\Repository\OhanzeeRepository;
-use Ushahidi\Contracts\Repository\Entity\PostValueRepository;
+use Ushahidi\Core\Entity\PostValueRepository;
 use Ushahidi\Contracts\Repository\Usecase\ValuesForPostRepository;
 use Ushahidi\Contracts\Repository\Usecase\UpdatePostValueRepository;
 

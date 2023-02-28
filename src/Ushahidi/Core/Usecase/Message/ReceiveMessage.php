@@ -22,14 +22,14 @@ use Ushahidi\Core\Entity\Message;
 use Ushahidi\Core\Usecase\CreateUsecase;
 use Ushahidi\Core\Concerns\DispatchesEvents;
 use Ushahidi\Core\Exception\ValidatorException;
-use Ushahidi\Contracts\Repository\Entity\ContactRepository;
+use Ushahidi\Core\Entity\ContactRepository;
 
 class ReceiveMessage extends CreateUsecase
 {
     use DispatchesEvents;
 
     /**
-     * @var \Ushahidi\Contracts\Repository\Entity\ContactRepository
+     * @var \Ushahidi\Core\Entity\ContactRepository
      */
     protected $contactRepo;
 

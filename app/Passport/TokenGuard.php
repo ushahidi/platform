@@ -18,7 +18,7 @@ use Laravel\Passport\TransientToken;
 use League\OAuth2\Server\Exception\OAuthServerException;
 use League\OAuth2\Server\ResourceServer;
 use Symfony\Bridge\PsrHttpMessage\Factory\DiactorosFactory;
-use Ushahidi\Contracts\Repository\Entity\UserRepository;
+use Ushahidi\Core\Entity\UserRepository;
 use App\Auth\GenericUser;
 
 class TokenGuard //implements Guard

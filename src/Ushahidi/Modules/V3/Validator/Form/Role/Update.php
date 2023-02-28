@@ -12,8 +12,8 @@
 namespace Ushahidi\Modules\V3\Validator\Form\Role;
 
 use Ushahidi\Modules\V3\Validator\LegacyValidator;
-use Ushahidi\Contracts\Repository\Entity\FormRepository;
-use Ushahidi\Contracts\Repository\Entity\RoleRepository;
+use Ushahidi\Core\Entity\FormRepository;
+use Ushahidi\Core\Entity\RoleRepository;
 
 class Update extends LegacyValidator
 {

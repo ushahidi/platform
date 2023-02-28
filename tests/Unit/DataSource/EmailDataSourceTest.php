@@ -15,7 +15,7 @@ use Illuminate\Mailer\Message;
 use Mockery as M;
 use phpmock\mockery\PHPMockery;
 use Ushahidi\Tests\TestCase;
-use Ushahidi\Contracts\Repository\Entity\MessageRepository;
+use Ushahidi\Core\Entity\MessageRepository;
 use Ushahidi\DataSource\Email\Email;
 use Ushahidi\Multisite\Site;
 

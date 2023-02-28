@@ -14,7 +14,7 @@ namespace Ushahidi\Modules\V3\Repository;
 use Ushahidi\Core\Tool\SearchData;
 use Ushahidi\Contracts\Entity;
 use Ushahidi\Core\Entity\CSV;
-use Ushahidi\Contracts\Repository\Entity\CSVRepository as CSVRepositoryContract;
+use Ushahidi\Core\Entity\CSVRepository as CSVRepositoryContract;
 use Ushahidi\Core\Concerns\Event;
 
 class CSVRepository extends OhanzeeRepository implements

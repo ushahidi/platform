@@ -15,7 +15,7 @@ use Ramsey\Uuid\Uuid;
 use Ushahidi\Contracts\Entity;
 use Ushahidi\Core\Tool\SearchData;
 use Ushahidi\Core\Entity\ApiKey;
-use Ushahidi\Contracts\Repository\Entity\ApiKeyRepository as ApiKeyRepositoryContract;
+use Ushahidi\Core\Entity\ApiKeyRepository as ApiKeyRepositoryContract;
 use Ushahidi\Core\Concerns\AdminAccess;
 
 class ApiKeyRepository extends OhanzeeRepository implements ApiKeyRepositoryContract

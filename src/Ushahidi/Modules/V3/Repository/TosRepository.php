@@ -16,7 +16,7 @@ use Ushahidi\Core\Entity\Tos;
 use Ushahidi\Core\Tool\SearchData;
 use Ushahidi\Contracts\Entity;
 use Ushahidi\Core\Concerns\UserContext;
-use Ushahidi\Contracts\Repository\Entity\TosRepository as TosRepositoryContract;
+use Ushahidi\Core\Entity\TosRepository as TosRepositoryContract;
 
 class TosRepository extends OhanzeeRepository implements
     TosRepositoryContract

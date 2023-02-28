@@ -15,7 +15,7 @@ use Ushahidi\Contracts\Entity;
 use Ushahidi\Contracts\Authorizer;
 use Ushahidi\Core\Concerns\AdminAccess;
 use Ushahidi\Core\Concerns\UserContext;
-use Ushahidi\Contracts\Repository\Entity\FormRepository;
+use Ushahidi\Core\Entity\FormRepository;
 
 /** The `FormContactAuthorizer` class is responsible
  for access checks on `Contacts` that are created for a targetted survey

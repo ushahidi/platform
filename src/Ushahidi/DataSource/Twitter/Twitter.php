@@ -22,7 +22,7 @@ use Ushahidi\DataSource\Contracts\MessageStatus;
 use Ushahidi\DataSource\Contracts\IncomingDataSource;
 use Ushahidi\DataSource\Contracts\OutgoingDataSource;
 use Ushahidi\DataSource\Concerns\MapsInboundFields;
-use Ushahidi\Contracts\Repository\Entity\ConfigRepository;
+use Ushahidi\Core\Entity\ConfigRepository;
 
 class Twitter implements IncomingDataSource, OutgoingDataSource
 {

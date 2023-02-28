@@ -16,7 +16,7 @@ use Illuminate\Http\Request;
 // use Illuminate\Support\Facades\Mail;
 use Ushahidi\Multisite\Site;
 use Ushahidi\Core\Entity\Config;
-use Ushahidi\Contracts\Repository\Entity\ConfigRepository;
+use Ushahidi\Core\Entity\ConfigRepository;
 
 /**
  * @backupGlobals disabled

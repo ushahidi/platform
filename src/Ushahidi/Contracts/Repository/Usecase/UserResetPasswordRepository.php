@@ -12,9 +12,8 @@
 namespace Ushahidi\Contracts\Repository\Usecase;
 
 use Ushahidi\Contracts\Entity;
-use Ushahidi\Contracts\Repository\Entity\UserRepository;
 
-interface UserResetPasswordRepository extends UserRepository
+interface UserResetPasswordRepository
 {
     public function getResetToken(Entity $entity);
 

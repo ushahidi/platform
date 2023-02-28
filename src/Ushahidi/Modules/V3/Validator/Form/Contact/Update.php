@@ -12,9 +12,9 @@
 namespace Ushahidi\Modules\V3\Validator\Form\Contact;
 
 use Ushahidi\Modules\V3\Validator\LegacyValidator;
-use Ushahidi\Contracts\Repository\Entity\FormRepository;
-use Ushahidi\Contracts\Repository\Entity\ContactRepository;
-use Ushahidi\Contracts\Repository\Entity\FormContactRepository;
+use Ushahidi\Core\Entity\FormRepository;
+use Ushahidi\Core\Entity\ContactRepository;
+use Ushahidi\Core\Entity\FormContactRepository;
 
 class Update extends LegacyValidator
 {

@@ -15,7 +15,7 @@ use Ohanzee\DB;
 use Ushahidi\Contracts\Entity;
 use Ushahidi\Core\Tool\SearchData;
 use Ushahidi\Core\Entity\Role;
-use Ushahidi\Contracts\Repository\Entity\RoleRepository as RoleRepositoryContract;
+use Ushahidi\Core\Entity\RoleRepository as RoleRepositoryContract;
 
 class RoleRepository extends OhanzeeRepository implements
     RoleRepositoryContract

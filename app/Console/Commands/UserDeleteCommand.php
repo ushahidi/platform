@@ -11,7 +11,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use Ushahidi\Contracts\Repository\Entity\UserRepository;
+use Ushahidi\Core\Entity\UserRepository;
 use Ushahidi\Core\Exception\NotFoundException;
 
 class UserDeleteCommand extends Command

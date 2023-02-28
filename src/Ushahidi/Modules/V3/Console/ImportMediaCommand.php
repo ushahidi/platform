@@ -6,7 +6,7 @@ use Illuminate\Console\Command;
 use Ushahidi\Core\Tool\SearchData;
 use Illuminate\Contracts\Bus\Dispatcher;
 use Ushahidi\Modules\V3\Jobs\ImportMediaJob;
-use Ushahidi\Contracts\Repository\Entity\MediaRepository;
+use Ushahidi\Core\Entity\MediaRepository;
 
 class ImportMediaCommand extends Command
 {

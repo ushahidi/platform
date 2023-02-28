@@ -12,7 +12,7 @@ namespace Ushahidi\Modules\V3\Repository\HXL;
 
 use Ushahidi\Core\Tool\SearchData;
 use Ushahidi\Core\Entity\HXL\HXLMetadata;
-use Ushahidi\Contracts\Repository\Entity\HXLMetadataRepository as HXLMetadataRepositoryContract;
+use Ushahidi\Core\Entity\HXL\HXLMetadataRepository as HXLMetadataRepositoryContract;
 use Ushahidi\Modules\V3\Repository\OhanzeeRepository;
 
 class HXLMetadataRepository extends OhanzeeRepository implements

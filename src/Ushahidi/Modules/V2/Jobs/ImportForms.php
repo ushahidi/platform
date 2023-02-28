@@ -13,9 +13,9 @@ use Ushahidi\Core\Tool\SearchData;
 use Ushahidi\Core\Entity\FormAttribute;
 use Illuminate\Contracts\Container\Container;
 use Ushahidi\Modules\V2\ManifestSchemas\ImportParameters;
-use Ushahidi\Contracts\Repository\Entity\TagRepository;
-use Ushahidi\Contracts\Repository\Entity\FormRepository;
-use Ushahidi\Contracts\Repository\Entity\FormAttributeRepository;
+use Ushahidi\Core\Entity\TagRepository;
+use Ushahidi\Core\Entity\FormRepository;
+use Ushahidi\Core\Entity\FormAttributeRepository;
 
 class ImportForms extends ImportFromV2Job
 {

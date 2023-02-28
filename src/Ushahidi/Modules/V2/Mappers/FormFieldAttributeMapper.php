@@ -3,7 +3,7 @@
 namespace Ushahidi\Modules\V2\Mappers;
 
 use Ushahidi\Core\Entity\FormAttribute;
-use Ushahidi\Contracts\Repository\Entity\FormStageRepository;
+use Ushahidi\Core\Entity\FormStageRepository;
 use Ushahidi\Modules\V2\Import;
 use Ushahidi\Modules\V2\Jobs\ImportForms;
 use Ushahidi\Modules\V2\Contracts\Mapper;

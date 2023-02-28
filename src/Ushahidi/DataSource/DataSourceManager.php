@@ -8,8 +8,8 @@ use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Cache;
 use Ushahidi\DataSource\Contracts\DataSource;
 use Ushahidi\DataSource\Contracts\CallbackDataSource;
-use Ushahidi\Contracts\Repository\Entity\ConfigRepository;
-use Ushahidi\Contracts\Repository\Entity\MessageRepository;
+use Ushahidi\Core\Entity\ConfigRepository;
+use Ushahidi\Core\Entity\MessageRepository;
 
 class DataSourceManager
 {
@@ -21,7 +21,7 @@ class DataSourceManager
     /**
      * Config repo instance
      *
-     * @var \Ushahidi\Contracts\Repository\Entity\ConfigRepository|null;
+     * @var \Ushahidi\Core\Entity\ConfigRepository|null;
      */
     protected $configRepo;
 
@@ -65,7 +65,7 @@ class DataSourceManager
     /**
      * Create a new datasource manager instance.
      *
-     * @param  \Ushahidi\Contracts\Repository\Entity\ConfigRepository  $configRepo
+     * @param  \Ushahidi\Core\Entity\ConfigRepository  $configRepo
      * @return void
      */
     public function __construct(ConfigRepository $configRepo)

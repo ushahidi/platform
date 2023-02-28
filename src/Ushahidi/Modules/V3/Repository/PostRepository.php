@@ -27,12 +27,12 @@ use Ushahidi\Core\Tool\Permissions\InteractsWithPostPermissions;
 use Ushahidi\Modules\V3\Repository\Post\ValueFactory as PostValueFactory;
 use Ushahidi\Contracts\Repository\Usecase\SetPostRepository;
 use Ushahidi\Contracts\Repository\Usecase\UpdatePostRepository;
-use Ushahidi\Contracts\Repository\Entity\ContactRepository;
-use Ushahidi\Contracts\Repository\Entity\PostLockRepository;
-use Ushahidi\Contracts\Repository\Entity\FormRepository as FormRepositoryContract;
-use Ushahidi\Contracts\Repository\Entity\PostRepository as PostRepositoryContract;
-use Ushahidi\Contracts\Repository\Entity\FormStageRepository as FormStageRepositoryContract;
-use Ushahidi\Contracts\Repository\Entity\FormAttributeRepository as FormAttributeRepositoryContract;
+use Ushahidi\Core\Entity\ContactRepository;
+use Ushahidi\Core\Entity\PostLockRepository;
+use Ushahidi\Core\Entity\FormRepository as FormRepositoryContract;
+use Ushahidi\Core\Entity\PostRepository as PostRepositoryContract;
+use Ushahidi\Core\Entity\FormStageRepository as FormStageRepositoryContract;
+use Ushahidi\Core\Entity\FormAttributeRepository as FormAttributeRepositoryContract;
 use Ushahidi\Contracts\Search;
 
 class PostRepository extends OhanzeeRepository implements

@@ -11,7 +11,7 @@
 
 namespace Ushahidi\Core\Usecase\Set;
 
-use Ushahidi\Contracts\Repository\Entity\SetRepository;
+use Ushahidi\Core\Entity\SetRepository;
 
 trait SetRepositoryTrait
 {

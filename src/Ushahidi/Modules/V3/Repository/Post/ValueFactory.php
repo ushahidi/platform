@@ -26,7 +26,7 @@ class ValueFactory
      *
      * @param  string $type
      *
-     * @return \Ushahidi\Contracts\Repository\Entity\PostValueRepository
+     * @return \Ushahidi\Core\Entity\PostValueRepository
      */
     public function getRepo($type)
     {

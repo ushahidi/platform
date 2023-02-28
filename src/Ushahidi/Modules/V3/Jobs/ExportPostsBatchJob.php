@@ -6,7 +6,7 @@ use Ushahidi\Core\Tool\Job;
 use Illuminate\Support\Facades\Log;
 use Ushahidi\Core\Usecase\Post\ExportPost as Export;
 use Ushahidi\Core\Concerns\RecordsExportJobFailure;
-use Ushahidi\Contracts\Repository\Entity\ExportJobRepository;
+use Ushahidi\Core\Entity\ExportJobRepository;
 
 class ExportPostsBatchJob extends Job
 {

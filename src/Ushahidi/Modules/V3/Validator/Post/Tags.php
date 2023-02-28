@@ -11,7 +11,7 @@
 
 namespace Ushahidi\Modules\V3\Validator\Post;
 
-use Ushahidi\Contracts\Repository\Entity\TagRepository;
+use Ushahidi\Core\Entity\TagRepository;
 
 class Tags extends ValueValidator
 {

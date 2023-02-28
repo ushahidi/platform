@@ -16,13 +16,13 @@ namespace Ushahidi\Modules\V3\Listener;
 use League\Event\EventInterface;
 use League\Event\AbstractListener;
 use Illuminate\Support\Facades\Log;
-use Ushahidi\Contracts\Repository\Entity\FormRepository;
-use Ushahidi\Contracts\Repository\Entity\PostRepository;
-use Ushahidi\Contracts\Repository\Entity\ContactRepository;
-use Ushahidi\Contracts\Repository\Entity\MessageRepository;
+use Ushahidi\Core\Entity\FormRepository;
+use Ushahidi\Core\Entity\PostRepository;
+use Ushahidi\Core\Entity\ContactRepository;
+use Ushahidi\Core\Entity\MessageRepository;
 use Ushahidi\DataSource\Contracts\MessageType as MessageType;
-use Ushahidi\Contracts\Repository\Entity\FormAttributeRepository;
-use Ushahidi\Contracts\Repository\Entity\TargetedSurveyStateRepository;
+use Ushahidi\Core\Entity\FormAttributeRepository;
+use Ushahidi\Core\Entity\TargetedSurveyStateRepository;
 
 class ContactListener extends AbstractListener
 {

@@ -6,7 +6,7 @@ use Ushahidi\Tests\TestCase;
 use Ushahidi\Core\Usecase\Post\ExportPost;
 use Ushahidi\Modules\V3\Jobs\ExportPostsBatchJob;
 use Ushahidi\Modules\V3\Jobs\CombineExportedPostBatchesJob;
-use Ushahidi\Contracts\Repository\Entity\ExportJobRepository;
+use Ushahidi\Core\Entity\ExportJobRepository;
 
 /**
  * @group api

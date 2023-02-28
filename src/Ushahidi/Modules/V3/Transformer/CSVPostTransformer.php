@@ -12,7 +12,7 @@
 namespace Ushahidi\Modules\V3\Transformer;
 
 use Ushahidi\Contracts\MappingTransformer;
-use Ushahidi\Contracts\Repository\Entity\PostRepository;
+use Ushahidi\Core\Entity\PostRepository;
 
 class CSVPostTransformer implements MappingTransformer
 {

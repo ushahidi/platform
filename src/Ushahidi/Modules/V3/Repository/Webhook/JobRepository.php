@@ -15,7 +15,7 @@ use Ushahidi\Core\Tool\SearchData;
 use Ushahidi\Contracts\Entity;
 use Ushahidi\Core\Entity\WebhookJob;
 use Ushahidi\Modules\V3\Repository\OhanzeeRepository;
-use Ushahidi\Contracts\Repository\Entity\WebhookJobRepository as WebhookJobRepositoryContract;
+use Ushahidi\Core\Entity\WebhookJobRepository as WebhookJobRepositoryContract;
 
 class JobRepository extends OhanzeeRepository implements WebhookJobRepositoryContract
 {

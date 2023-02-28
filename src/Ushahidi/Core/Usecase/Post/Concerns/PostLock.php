@@ -12,7 +12,7 @@
 namespace Ushahidi\Core\Usecase\Post\Concerns;
 
 use Ushahidi\Contracts\Entity;
-use Ushahidi\Contracts\Repository\Entity\PostRepository;
+use Ushahidi\Core\Entity\PostRepository;
 
 trait PostLock
 {

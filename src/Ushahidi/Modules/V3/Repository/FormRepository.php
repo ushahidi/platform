@@ -18,7 +18,7 @@ use Ushahidi\Core\Concerns\Event;
 use Illuminate\Support\Collection;
 use Ushahidi\Contracts\Entity;
 use Ushahidi\Modules\V3\Repository\Concerns\FormsTags;
-use Ushahidi\Contracts\Repository\Entity\FormRepository as FormRepositoryContract;
+use Ushahidi\Core\Entity\FormRepository as FormRepositoryContract;
 
 class FormRepository extends OhanzeeRepository implements
     FormRepositoryContract

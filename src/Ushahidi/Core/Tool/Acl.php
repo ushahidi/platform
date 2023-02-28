@@ -15,7 +15,7 @@ use Ushahidi\Contracts\Entity;
 use Ushahidi\Core\Facade\Features;
 use Ushahidi\Contracts\Permission;
 use Ushahidi\Contracts\Acl as AclInterface;
-use Ushahidi\Contracts\Repository\Entity\RoleRepository;
+use Ushahidi\Core\Entity\RoleRepository;
 
 class Acl implements AclInterface
 {

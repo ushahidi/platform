@@ -13,7 +13,7 @@ namespace Ushahidi\Modules\V3\Repository;
 
 use Ohanzee\DB;
 use Ushahidi\Core\Entity;
-use Ushahidi\Contracts\Repository\Entity\TargetedSurveyStateRepository as TargetedSurveyStateRepositoryContract;
+use Ushahidi\Core\Entity\TargetedSurveyStateRepository as TargetedSurveyStateRepositoryContract;
 
 class TargetedSurveyStateRepository extends OhanzeeRepository implements
     TargetedSurveyStateRepositoryContract

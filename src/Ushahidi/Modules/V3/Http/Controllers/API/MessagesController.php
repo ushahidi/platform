@@ -3,7 +3,7 @@
 namespace Ushahidi\Modules\V3\Http\Controllers\API;
 
 use Illuminate\Http\Request;
-use Ushahidi\Contracts\Repository\Entity\MessageRepository;
+use Ushahidi\Core\Entity\MessageRepository;
 use Ushahidi\Modules\V3\Factory\UsecaseFactory;
 use Ushahidi\Modules\V3\Http\Controllers\RESTController;
 use Ushahidi\Multisite\MultisiteManager;

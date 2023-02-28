@@ -13,7 +13,7 @@ namespace Ushahidi\Modules\V3\Repository\HXL;
 
 use Ushahidi\Core\Tool\SearchData;
 use Ushahidi\Core\Entity\HXL\HXLLicense;
-use Ushahidi\Contracts\Repository\Entity\HXLLicenseRepository as HXLLicenseRepositoryContract;
+use Ushahidi\Core\Entity\HXL\HXLLicenseRepository as HXLLicenseRepositoryContract;
 use Ushahidi\Modules\V3\Repository\OhanzeeRepository;
 
 class HXLLicenseRepository extends OhanzeeRepository implements

@@ -13,8 +13,8 @@ namespace Ushahidi\Core\Usecase\Concerns;
 
 use Ushahidi\Contracts\Entity;
 use Ushahidi\Core\Exception\ValidatorException;
-use Ushahidi\Contracts\Repository\Entity\FormRepository;
-use Ushahidi\Contracts\Repository\Entity\FormContactRepository;
+use Ushahidi\Core\Entity\FormRepository;
+use Ushahidi\Core\Entity\FormContactRepository;
 
 trait VerifyFormLoaded
 {

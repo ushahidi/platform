@@ -19,7 +19,7 @@ use League\Event\ListenerInterface;
 use Ushahidi\Contracts\Entity;
 use Ushahidi\Core\Concerns\UserContext;
 use Ushahidi\Modules\V3\Repository\OhanzeeRepository;
-use Ushahidi\Contracts\Repository\Entity\PostLockRepository;
+use Ushahidi\Core\Entity\PostLockRepository;
 use Ushahidi\Modules\V3\Repository\UserRepository;
 use Ushahidi\Core\Tool\OhanzeeResolver;
 

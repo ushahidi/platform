@@ -8,12 +8,12 @@ namespace Ushahidi\Tests\Unit\Core\Usecase;
 
 use Mockery as M;
 use Ushahidi\Tests\TestCase;
-use Ushahidi\Contracts\Repository\Entity\ConfigRepository;
-use Ushahidi\Contracts\Repository\Entity\ContactRepository;
-use Ushahidi\Contracts\Repository\Entity\FormAttributeRepository;
-use Ushahidi\Contracts\Repository\Entity\MessageRepository;
-use Ushahidi\Contracts\Repository\Entity\PostRepository;
-use Ushahidi\Contracts\Repository\Entity\TargetedSurveyStateRepository;
+use Ushahidi\Core\Entity\ConfigRepository;
+use Ushahidi\Core\Entity\ContactRepository;
+use Ushahidi\Core\Entity\FormAttributeRepository;
+use Ushahidi\Core\Entity\MessageRepository;
+use Ushahidi\Core\Entity\PostRepository;
+use Ushahidi\Core\Entity\TargetedSurveyStateRepository;
 use Ushahidi\Core\Entity\Config;
 use Ushahidi\Core\Entity\Contact;
 use Ushahidi\Core\Entity\Message;

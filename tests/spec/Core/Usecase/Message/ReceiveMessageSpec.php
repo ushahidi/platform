@@ -10,7 +10,7 @@ use Ushahidi\Contracts\Authorizer;
 use Ushahidi\Contracts\Entity;
 use Ushahidi\Contracts\Formatter;
 use Ushahidi\Contracts\Repository\CreateRepository;
-use Ushahidi\Contracts\Repository\Entity\ContactRepository;
+use Ushahidi\Core\Entity\ContactRepository;
 use Ushahidi\Contracts\Validator;
 use Ushahidi\Core\Entity\Contact;
 use Ushahidi\Core\Exception\ValidatorException;

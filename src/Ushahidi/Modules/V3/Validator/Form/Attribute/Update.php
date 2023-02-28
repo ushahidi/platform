@@ -13,8 +13,8 @@ namespace Ushahidi\Modules\V3\Validator\Form\Attribute;
 
 use Kohana\Validation\Validation;
 use Ushahidi\Modules\V3\Validator\LegacyValidator;
-use Ushahidi\Contracts\Repository\Entity\FormStageRepository;
-use Ushahidi\Contracts\Repository\Entity\FormAttributeRepository;
+use Ushahidi\Core\Entity\FormStageRepository;
+use Ushahidi\Core\Entity\FormAttributeRepository;
 
 class Update extends LegacyValidator
 {

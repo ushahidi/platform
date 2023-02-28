@@ -11,7 +11,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use Ushahidi\Contracts\Repository\Entity\ConfigRepository;
+use Ushahidi\Core\Entity\ConfigRepository;
 use Ushahidi\Core\Tool\Authorizer\ConsoleAuthorizer;
 use Ushahidi\Core\Usecase\UpdateUsecase;
 use App\Console\Commands\Concerns\ConsoleFormatter;

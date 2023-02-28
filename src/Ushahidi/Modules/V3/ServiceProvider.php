@@ -14,18 +14,18 @@ use Ushahidi\Core\Usecase\User\LoginUser;
 use Ushahidi\Core\Usecase\Post\ExportPost;
 use Ushahidi\Core\Usecase\Export\Job\PostCount;
 use Ushahidi\Core\Usecase\Message\ReceiveMessage;
-use Ushahidi\Contracts\Repository\Entity\SetRepository;
-use Ushahidi\Contracts\Repository\Entity\PostRepository;
-use Ushahidi\Contracts\Repository\Entity\UserRepository;
-use Ushahidi\Contracts\Repository\Entity\MediaRepository;
-use Ushahidi\Contracts\Repository\Entity\ApiKeyRepository;
-use Ushahidi\Contracts\Repository\Entity\ConfigRepository;
-use Ushahidi\Contracts\Repository\Entity\ContactRepository;
-use Ushahidi\Contracts\Repository\Entity\MessageRepository;
-use Ushahidi\Contracts\Repository\Entity\ExportJobRepository;
-use Ushahidi\Contracts\Repository\Entity\ExportBatchRepository;
-use Ushahidi\Contracts\Repository\Entity\FormAttributeRepository;
-use Ushahidi\Contracts\Repository\Entity\TargetedSurveyStateRepository;
+use Ushahidi\Core\Entity\SetRepository;
+use Ushahidi\Core\Entity\PostRepository;
+use Ushahidi\Core\Entity\UserRepository;
+use Ushahidi\Core\Entity\MediaRepository;
+use Ushahidi\Core\Entity\ApiKeyRepository;
+use Ushahidi\Core\Entity\ConfigRepository;
+use Ushahidi\Core\Entity\ContactRepository;
+use Ushahidi\Core\Entity\MessageRepository;
+use Ushahidi\Core\Entity\ExportJobRepository;
+use Ushahidi\Core\Entity\ExportBatchRepository;
+use Ushahidi\Core\Entity\FormAttributeRepository;
+use Ushahidi\Core\Entity\TargetedSurveyStateRepository;
 
 class ServiceProvider extends BaseServiceProvider
 {

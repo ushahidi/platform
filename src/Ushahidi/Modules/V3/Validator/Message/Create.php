@@ -13,7 +13,7 @@ namespace Ushahidi\Modules\V3\Validator\Message;
 
 use Ushahidi\Modules\V3\Validator\LegacyValidator;
 use Ushahidi\Contracts\Repository\Usecase\CreateMessageRepository;
-use Ushahidi\Contracts\Repository\Entity\UserRepository;
+use Ushahidi\Core\Entity\UserRepository;
 use Ushahidi\DataSource\Contracts\MessageDirection;
 use Ushahidi\DataSource\Contracts\MessageStatus;
 

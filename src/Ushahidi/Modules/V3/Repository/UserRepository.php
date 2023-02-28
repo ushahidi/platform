@@ -25,7 +25,7 @@ use Ushahidi\Core\Tool\SearchData;
 use Illuminate\Support\Facades\Hash;
 use Ushahidi\Contracts\Repository\Usecase\UserRegisterRepository;
 use Ushahidi\Contracts\Repository\Usecase\UserResetPasswordRepository;
-use Ushahidi\Contracts\Repository\Entity\UserRepository as UserRepositoryContract;
+use Ushahidi\Core\Entity\UserRepository as UserRepositoryContract;
 
 class UserRepository extends OhanzeeRepository implements
     UserRepositoryContract,

@@ -5,7 +5,7 @@ namespace Ushahidi\Modules\V5;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\AggregateServiceProvider;
 use Ushahidi\Modules\V5\Repository\UserRepository as RepositoryUserRepository;
-use Ushahidi\Contracts\Repository\Entity\UserRepository;
+use Ushahidi\Core\Entity\UserRepository;
 
 class ServiceProvider extends AggregateServiceProvider
 {

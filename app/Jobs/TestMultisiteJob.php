@@ -5,8 +5,8 @@ namespace App\Jobs;
 use Ushahidi\Multisite\MultisiteManager;
 use Illuminate\Support\Facades\Log;
 use Ushahidi\Multisite\MultisiteAware;
-use Ushahidi\Contracts\Repository\Entity\ConfigRepository;
-use Ushahidi\Contracts\Repository\Entity\ExportBatchRepository;
+use Ushahidi\Core\Entity\ConfigRepository;
+use Ushahidi\Core\Entity\ExportBatchRepository;
 
 class TestMultisiteJob extends Job
 {

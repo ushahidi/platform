@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Contracts\Mail\Mailer;
 use Ushahidi\DataSource\Contracts\IncomingDataSource;
 use Ushahidi\DataSource\Concerns\MapsInboundFields;
-use Ushahidi\Contracts\Repository\Entity\MessageRepository;
+use Ushahidi\Core\Entity\MessageRepository;
 use Ushahidi\DataSource\Contracts\MessageType;
 
 class Email extends OutgoingEmail implements IncomingDataSource

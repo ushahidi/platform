@@ -15,7 +15,7 @@ use Ushahidi\Core\Tool\SearchData;
 use Ushahidi\Core\Entity\CountryCode;
 use Ushahidi\Contracts\Repository\ReadRepository;
 use Ushahidi\Contracts\Repository\SearchRepository;
-use Ushahidi\Contracts\Repository\Entity\CountryCodeRepository as CountryCodeRepositoryContract;
+use Ushahidi\Core\Entity\CountryCodeRepository as CountryCodeRepositoryContract;
 
 class CountryCodeRepository extends OhanzeeRepository implements
     CountryCodeRepositoryContract,

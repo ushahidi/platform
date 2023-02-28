@@ -12,7 +12,7 @@
 namespace Ushahidi\Modules\V3\Validator\Tag;
 
 use Ushahidi\Modules\V3\Validator\LegacyValidator;
-use Ushahidi\Contracts\Repository\Entity\RoleRepository;
+use Ushahidi\Core\Entity\RoleRepository;
 use Ushahidi\Contracts\Repository\Usecase\UpdateTagRepository;
 
 class Update extends LegacyValidator

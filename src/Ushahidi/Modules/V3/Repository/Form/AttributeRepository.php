@@ -26,9 +26,9 @@ use Ushahidi\Modules\V3\Repository\Concerns\CachesData;
 use Ushahidi\Modules\V3\Repository\Concerns\JsonTranscode;
 use Ushahidi\Modules\V3\Repository\Concerns\UsesBulkAutoIncrement;
 use Ushahidi\Core\Tool\Permissions\InteractsWithFormPermissions;
-use Ushahidi\Contracts\Repository\Entity\FormRepository as FormRepositoryContract;
-use Ushahidi\Contracts\Repository\Entity\FormStageRepository as FormStageRepositoryContract;
-use Ushahidi\Contracts\Repository\Entity\FormAttributeRepository as FormAttributeRepositoryContract;
+use Ushahidi\Core\Entity\FormRepository as FormRepositoryContract;
+use Ushahidi\Core\Entity\FormStageRepository as FormStageRepositoryContract;
+use Ushahidi\Core\Entity\FormAttributeRepository as FormAttributeRepositoryContract;
 
 class AttributeRepository extends OhanzeeRepository implements
     FormAttributeRepositoryContract

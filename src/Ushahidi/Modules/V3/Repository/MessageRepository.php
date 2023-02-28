@@ -20,7 +20,7 @@ use Ushahidi\DataSource\Contracts\MessageStatus;
 use Ushahidi\DataSource\Contracts\MessageDirection;
 use Ushahidi\Contracts\Repository\Usecase\CreateMessageRepository;
 use Ushahidi\Contracts\Repository\Usecase\UpdateMessageRepository;
-use Ushahidi\Contracts\Repository\Entity\MessageRepository as MessageRepositoryContract;
+use Ushahidi\Core\Entity\MessageRepository as MessageRepositoryContract;
 
 class MessageRepository extends OhanzeeRepository implements
     MessageRepositoryContract,

@@ -16,7 +16,7 @@ use Illuminate\Support\Collection;
 use Ushahidi\Contracts\Repository\ReadRepository;
 use Ushahidi\Contracts\Repository\SearchRepository;
 use Ushahidi\Core\Entity\DataProvider as DataProviderEntity;
-use Ushahidi\Contracts\Repository\Entity\DataProviderRepository as DataProviderRepositoryContract;
+use Ushahidi\Core\Entity\DataProviderRepository as DataProviderRepositoryContract;
 use Ushahidi\Contracts\Search;
 
 class DataProviderRepository implements

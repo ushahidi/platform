@@ -15,7 +15,7 @@ use Ushahidi\Contracts\Entity;
 use Ushahidi\Contracts\Permission;
 use Ushahidi\Core\Concerns\AdminAccess;
 use Ushahidi\Core\Concerns\Acl as AccessControlList;
-use Ushahidi\Contracts\Repository\Entity\FormRepository;
+use Ushahidi\Core\Entity\FormRepository;
 
 class PostPermissions
 {
@@ -42,7 +42,7 @@ class PostPermissions
      *
      * @param  \Ushahidi\Contracts\Entity $user
      * @param  \Ushahidi\Contracts\Entity $post
-     * @param  \Ushahidi\Contracts\Repository\Entity\FormRepository $form_repo
+     * @param  \Ushahidi\Core\Entity\FormRepository $form_repo
      * @return boolean
      */
     public function canUserSeeAuthor(Entity $user, Entity $post, FormRepository $form_repo)
@@ -70,7 +70,7 @@ class PostPermissions
      *
      * @param  \Ushahidi\Contracts\Entity $user
      * @param  \Ushahidi\Contracts\Entity $post
-     * @param  \Ushahidi\Contracts\Repository\Entity\FormRepository $form_repo
+     * @param  \Ushahidi\Core\Entity\FormRepository $form_repo
      * @return boolean
      */
     public function canUserSeeTime(Entity $user, Entity $post, FormRepository $form_repo)
@@ -98,7 +98,7 @@ class PostPermissions
      *
      * @param  \Ushahidi\Contracts\Entity $user
      * @param  \Ushahidi\Contracts\Entity $post
-     * @param  \Ushahidi\Contracts\Repository\Entity\FormRepository $form_repo
+     * @param  \Ushahidi\Core\Entity\FormRepository $form_repo
      * @return boolean
      */
     public function canUserSeeLocation(Entity $user, Entity $post, FormRepository $form_repo)

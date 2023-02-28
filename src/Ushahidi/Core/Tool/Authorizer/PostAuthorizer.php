@@ -21,8 +21,8 @@ use Ushahidi\Core\Concerns\UserContext;
 use Ushahidi\Core\Concerns\ParentAccess;
 use Ushahidi\Core\Concerns\PrivateDeployment;
 use Ushahidi\Core\Concerns\Acl as AccessControlList;
-use Ushahidi\Contracts\Repository\Entity\FormRepository;
-use Ushahidi\Contracts\Repository\Entity\PostRepository;
+use Ushahidi\Core\Entity\FormRepository;
+use Ushahidi\Core\Entity\PostRepository;
 
 // The `PostAuthorizer` class is responsible for access checks on `Post` Entities
 class PostAuthorizer implements Authorizer
@@ -83,7 +83,7 @@ class PostAuthorizer implements Authorizer
         if (($privilege !== "delete") && ($this->acl->hasPermission($user, Permission::MANAGE_POSTS))) {
             return true;
         }
-        
+
         if (($privilege === "delete") && ($this->acl->hasPermission($user, Permission::DELETE_POSTS))) {
             return true;
         }
@@ -150,7 +150,7 @@ class PostAuthorizer implements Authorizer
             && $this->acl->hasPermission($user, Permission::EDIT_OWN_POSTS)) {
             return true;
         }
-        
+
         // If the user is the owner of this post & they have delete own posts permission
         // they are allowed to edit or delete the post.
         if ($this->isUserOwner($entity, $user)

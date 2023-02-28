@@ -13,7 +13,7 @@ namespace Ushahidi\Core\Usecase\Concerns;
 
 use Ushahidi\Contracts\Entity;
 use Ushahidi\Core\Entity\FormAttribute;
-use Ushahidi\Contracts\Repository\Entity\FormStageRepository;
+use Ushahidi\Core\Entity\FormStageRepository;
 
 trait VerifyStageLoaded
 {

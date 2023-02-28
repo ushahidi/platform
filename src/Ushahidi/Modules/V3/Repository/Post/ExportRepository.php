@@ -15,10 +15,10 @@ use Ohanzee\DB;
 use Ushahidi\Core\Entity\Post;
 use Ushahidi\Core\Concerns\AdminAccess;
 use Ushahidi\Modules\V3\Repository\PostRepository;
-use Ushahidi\Contracts\Repository\Entity\SetRepository;
-use Ushahidi\Contracts\Repository\Entity\TagRepository;
-use Ushahidi\Contracts\Repository\Entity\MessageRepository;
-use Ushahidi\Contracts\Repository\Entity\PostExportRepository;
+use Ushahidi\Core\Entity\SetRepository;
+use Ushahidi\Core\Entity\TagRepository;
+use Ushahidi\Core\Entity\MessageRepository;
+use Ushahidi\Core\Entity\PostExportRepository;
 
 class ExportRepository extends PostRepository implements PostExportRepository
 {

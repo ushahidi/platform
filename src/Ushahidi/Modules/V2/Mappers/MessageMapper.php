@@ -7,7 +7,7 @@ use Ushahidi\Modules\V2\Import;
 use Ushahidi\Modules\V2\Contracts\Mapper;
 use Ushahidi\Modules\V2\Contracts\ImportMappingRepository;
 use Ushahidi\Core\Entity\Message;
-use Ushahidi\Contracts\Repository\Entity\ContactRepository;
+use Ushahidi\Core\Entity\ContactRepository;
 
 class MessageMapper implements Mapper
 {

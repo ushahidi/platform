@@ -11,7 +11,7 @@ use League\Flysystem\Util\MimeType;
 use Ushahidi\Modules\V2\Contracts\Mapper;
 use Ushahidi\Modules\V2\Contracts\ImportDataTools;
 use Ushahidi\Modules\V2\Contracts\ImportMappingRepository;
-use Ushahidi\Contracts\Repository\Entity\FormAttributeRepository;
+use Ushahidi\Core\Entity\FormAttributeRepository;
 
 class IncidentPostMapper implements Mapper
 {

@@ -18,11 +18,11 @@ use Ushahidi\Core\Tool\OhanzeeResolver;
 use Ushahidi\Modules\V3\Repository\PostRepository;
 use Ushahidi\Modules\V3\Repository\Post\ValueFactory;
 use Ushahidi\Core\Tool\Permissions\PostPermissions;
-use Ushahidi\Contracts\Repository\Entity\FormRepository;
-use Ushahidi\Contracts\Repository\Entity\ContactRepository;
-use Ushahidi\Contracts\Repository\Entity\PostLockRepository;
-use Ushahidi\Contracts\Repository\Entity\FormStageRepository;
-use Ushahidi\Contracts\Repository\Entity\FormAttributeRepository;
+use Ushahidi\Core\Entity\FormRepository;
+use Ushahidi\Core\Entity\ContactRepository;
+use Ushahidi\Core\Entity\PostLockRepository;
+use Ushahidi\Core\Entity\FormStageRepository;
+use Ushahidi\Core\Entity\FormAttributeRepository;
 
 /**
  * @backupGlobals disabled

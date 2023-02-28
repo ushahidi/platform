@@ -4,7 +4,7 @@ namespace Ushahidi\Modules\V2\Jobs;
 
 use Exception;
 use Ushahidi\Modules\V2;
-use Ushahidi\Contracts\Repository\Entity;
+use Ushahidi\Core\Entity;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use Ushahidi\Modules\V2\ManifestSchemas\ImportParameters;

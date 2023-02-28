@@ -14,7 +14,7 @@ namespace Ushahidi\Modules\V3\Repository\Form;
 use Ohanzee\DB;
 use Ushahidi\Core\Tool\SearchData;
 use Ushahidi\Core\Entity\FormRole;
-use Ushahidi\Contracts\Repository\Entity\FormRoleRepository;
+use Ushahidi\Core\Entity\FormRoleRepository;
 use Ushahidi\Modules\V3\Repository\OhanzeeRepository;
 
 class RoleRepository extends OhanzeeRepository implements

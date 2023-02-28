@@ -17,7 +17,7 @@ use Ushahidi\Core\Entity\HXL\HXLAttribute;
 use Ushahidi\Modules\V3\Repository\OhanzeeRepository;
 use Ushahidi\Contracts\Repository\ReadRepository;
 use Ushahidi\Contracts\Repository\SearchRepository;
-use Ushahidi\Contracts\Repository\Entity\HXLAttributeRepository as HXLAttributeRepositoryContract;
+use Ushahidi\Core\Entity\HXL\HXLAttributeRepository as HXLAttributeRepositoryContract;
 
 class HXLAttributeRepository extends OhanzeeRepository implements
     HXLAttributeRepositoryContract,

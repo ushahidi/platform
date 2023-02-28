@@ -4,7 +4,7 @@ namespace Ushahidi\Modules\V5\Repository;
 
 use Ushahidi\Contracts\Entity;
 use Illuminate\Support\Collection;
-use Ushahidi\Contracts\Repository\Entity\UserRepository as EntityUserRepository;
+use Ushahidi\Core\Entity\UserRepository as EntityUserRepository;
 
 class UserRepository implements EntityUserRepository
 {

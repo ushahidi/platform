@@ -7,7 +7,7 @@ use Ushahidi\Contracts\Authorizer;
 use Ushahidi\Contracts\Entity;
 use Ushahidi\Contracts\Formatter;
 use Ushahidi\Contracts\RateLimiter;
-use Ushahidi\Contracts\Repository\Entity\UserRepository;
+use Ushahidi\Core\Entity\UserRepository;
 use Ushahidi\Contracts\Repository\ReadRepository;
 use Ushahidi\Contracts\PasswordAuthenticator;
 

@@ -8,7 +8,7 @@ use Ushahidi\Core\Entity\Form;
 use Illuminate\Support\Facades\Log;
 use Ushahidi\Core\Entity\FormStage;
 use Ushahidi\Core\Entity\FormAttribute;
-use Ushahidi\Contracts\Repository\Entity;
+use Ushahidi\Core\Entity;
 
 class CreateDefaultSurvey extends Job
 {

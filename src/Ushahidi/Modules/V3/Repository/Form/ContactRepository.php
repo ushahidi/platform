@@ -18,10 +18,10 @@ use Ushahidi\Core\Concerns\Event;
 use Ushahidi\Modules\V3\Repository\OhanzeeRepository;
 use Ushahidi\Core\Tool\OhanzeeResolver;
 use Ushahidi\Contracts\Repository\SearchRepository;
-use Ushahidi\Contracts\Repository\Entity\FormRepository;
-use Ushahidi\Contracts\Repository\Entity\MessageRepository;
-use Ushahidi\Contracts\Repository\Entity\FormContactRepository;
-use Ushahidi\Contracts\Repository\Entity\TargetedSurveyStateRepository;
+use Ushahidi\Core\Entity\FormRepository;
+use Ushahidi\Core\Entity\MessageRepository;
+use Ushahidi\Core\Entity\FormContactRepository;
+use Ushahidi\Core\Entity\TargetedSurveyStateRepository;
 
 class ContactRepository extends OhanzeeRepository implements
     FormContactRepository,
