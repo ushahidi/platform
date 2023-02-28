@@ -57,7 +57,7 @@ class ExtendableTest extends TestCase
 
     public function testDynamicallyImplementingClass()
     {
-        ExtendableTestExampleImplementableClass::extend(function($obj) {
+        ExtendableTestExampleImplementableClass::extend(function ($obj) {
             $obj->implementClassWith('ExtendableTestExampleBehaviorClass2');
             $obj->implementClassWith('ExtendableTestExampleBehaviorClass2');
             $obj->implementClassWith('ExtendableTestExampleBehaviorClass2');

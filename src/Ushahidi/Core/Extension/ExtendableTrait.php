@@ -90,8 +90,7 @@ trait ExtendableTrait
     public static function extendableExtendCallback($callback)
     {
         $class = get_called_class();
-        if (
-            !isset(self::$extendableCallbacks[$class]) ||
+        if (!isset(self::$extendableCallbacks[$class]) ||
             !is_array(self::$extendableCallbacks[$class])
         ) {
             self::$extendableCallbacks[$class] = [];
@@ -152,8 +151,7 @@ trait ExtendableTrait
 
         $extensionMethods = get_class_methods($extensionName);
         foreach ($extensionMethods as $methodName) {
-            if (
-                $methodName === '__construct' ||
+            if ($methodName === '__construct' ||
                 $extensionObject->extensionIsHiddenMethod($methodName)
             ) {
                 continue;
@@ -171,8 +169,7 @@ trait ExtendableTrait
      */
     public function addDynamicMethod($dynamicName, $method, $extension = null)
     {
-        if (
-            is_string($method) &&
+        if (is_string($method) &&
             $extension &&
             ($extensionObj = $this->getClassExtension($extension))
         ) {
@@ -317,8 +314,7 @@ trait ExtendableTrait
     public function asExtension($shortName)
     {
         foreach ($this->extensionData['extensions'] as $class => $obj) {
-            if (
-                preg_match('@\\\\([\w]+)$@', $class, $matches) &&
+            if (preg_match('@\\\\([\w]+)$@', $class, $matches) &&
                 $matches[1] === $shortName
             ) {
                 return $obj;
@@ -402,8 +398,7 @@ trait ExtendableTrait
         }
 
         foreach ($this->extensionData['extensions'] as $extensionObject) {
-            if (
-                property_exists($extensionObject, $name) &&
+            if (property_exists($extensionObject, $name) &&
                 $this->extendableIsAccessible($extensionObject, $name)
             ) {
                 return true;
@@ -435,8 +430,7 @@ trait ExtendableTrait
     public function extendableGet($name)
     {
         foreach ($this->extensionData['extensions'] as $extensionObject) {
-            if (
-                property_exists($extensionObject, $name) &&
+            if (property_exists($extensionObject, $name) &&
                 $this->extendableIsAccessible($extensionObject, $name)
             ) {
                 return $extensionObject->{$name};
@@ -541,8 +535,7 @@ trait ExtendableTrait
 
             $class = new ReflectionClass($className);
             $defaultProperties = $class->getDefaultProperties();
-            if (
-                array_key_exists('implement', $defaultProperties) &&
+            if (array_key_exists('implement', $defaultProperties) &&
                 ($implement = $defaultProperties['implement'])
             ) {
                 /*
@@ -573,7 +566,7 @@ trait ExtendableTrait
 
             if (method_exists($extension, $name) && is_callable([$extension, $name])) {
                 $extension::$extendableStaticCalledClass = $className;
-                $result = forward_static_call_array(array($extension, $name), $params);
+                $result = forward_static_call_array([$extension, $name], $params);
                 $extension::$extendableStaticCalledClass = null;
                 return $result;
             }
