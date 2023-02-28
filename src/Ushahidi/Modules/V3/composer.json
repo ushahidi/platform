@@ -20,8 +20,6 @@
         "beheh/flaps": "dev-master",
         "intercom/intercom-php": "^3.1.2",
         "league/event": "^2.2@dev",
-        "ohanzee/database": "dev-namespaces",
-        "robmorgan/phinx": "~0.8.0",
         "ushahidi/kohana-validation": "dev-master"
     },
     "autoload": {
