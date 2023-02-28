@@ -25,6 +25,8 @@ use Ushahidi\DataSource\DataSourceStorage;
  */
 class OutgoingCommandTest extends TestCase
 {
+    public $mockConsoleOutput = false;
+
     public function setUp()
     {
         parent::setUp();
