@@ -1,4 +1,4 @@
-## Rain Extensions
+## Extensions
 
 Adds the ability for classes to have *private traits*, also known as Behaviors. These are similar to native PHP Traits except they have some distinct benefits:
 
@@ -20,8 +20,8 @@ A behavior is used in a similar fashion:
     class MyClass extends \Ushahidi\Core\Extension\Extendable
     {
         public $implement = [
-            'October.Rain.UtilityFunctions',
-            'October.Rain.DeferredBinding',
+            'Ushahidi.Core.UtilityFunctions',
+            'Ushahidi.Core.DeferredBinding',
         ];
     }
 
