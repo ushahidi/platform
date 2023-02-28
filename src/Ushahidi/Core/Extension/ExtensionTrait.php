@@ -47,8 +47,7 @@ trait ExtensionTrait
     public static function extensionExtendCallback($callback)
     {
         $class = get_called_class();
-        if (
-            !isset(self::$extensionCallbacks[$class]) ||
+        if (!isset(self::$extensionCallbacks[$class]) ||
             !is_array(self::$extensionCallbacks[$class])
         ) {
             self::$extensionCallbacks[$class] = [];
