@@ -26,7 +26,7 @@ class ListCommandTest extends TestCase
 {
     public $mockConsoleOutput = false;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

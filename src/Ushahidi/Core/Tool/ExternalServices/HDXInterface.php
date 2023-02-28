@@ -12,6 +12,7 @@ namespace Ushahidi\Core\Tool\ExternalServices;
  */
 
 use GuzzleHttp\Client;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
 use Germanazo\CkanApi\CkanApiClient;
 use Ushahidi\Core\Concerns\FormatRackspaceURL;
@@ -138,7 +139,7 @@ class HDXInterface
         if (!$title || !$organisation_name) {
             throw new \Exception("Cannot create a slug without an organisation name and dataset title");
         }
-        return str_slug("$organisation_name $title");
+        return Str::slug("$organisation_name $title");
     }
 
     /** Note: if error condition is the result, then we ignore it gracefully,

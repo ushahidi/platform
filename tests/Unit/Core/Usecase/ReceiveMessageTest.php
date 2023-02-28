@@ -28,7 +28,7 @@ use Ushahidi\Modules\V3\EventSubscriber as Subscriber;
  */
 class ReceiveMessageTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setup();
 
@@ -39,15 +39,17 @@ class ReceiveMessageTest extends TestCase
         $this->formAttributeRepo = M::mock(FormAttributeRepository::class);
 
         $this->app->instance(CreatePostFromMessage::class, new CreatePostFromMessage(
-            $this->messageRepo,
-            $this->targetedSurveyStateRepo,
-            $this->postRepo
-        ));
+                $this->messageRepo,
+                $this->targetedSurveyStateRepo,
+                $this->postRepo
+        )
+        );
         $this->app->instance(HandleTargetedSurveyResponse::class, new HandleTargetedSurveyResponse(
-            $this->messageRepo,
-            $this->targetedSurveyStateRepo,
-            $this->formAttributeRepo
-        ));
+                $this->messageRepo,
+                $this->targetedSurveyStateRepo,
+                $this->formAttributeRepo
+        )
+        );
 
         $events = app('events');
         $events->subscribe(Subscriber::class);
@@ -74,11 +76,6 @@ class ReceiveMessageTest extends TestCase
             ],
         ]));
         $this->app->instance(ConfigRepository::class, $configRepo);
-    }
-
-    public function tearDown()
-    {
-        parent::tearDown();
     }
 
     public function testReceiveMessage()

@@ -2,6 +2,7 @@
 
 namespace App\Passport;
 
+use Illuminate\Support\Str;
 use Ramsey\Uuid\Uuid as UUID;
 use Laravel\Passport\Passport;
 use Laravel\Passport\PersonalAccessClient;
@@ -102,7 +103,7 @@ class ClientRepository extends LaravelPassportClientRepository
         $client = (new Client)->forceFill([
             'user_id' => $userId,
             'name' => $name,
-            'secret' => str_random(40),
+            'secret' => Str::random(40),
             'redirect' => $redirect,
             'personal_access_client' => $personalAccess,
             'password_client' => $password,
@@ -168,7 +169,7 @@ class ClientRepository extends LaravelPassportClientRepository
     public function regenerateSecret(LaravelPassportClient $client)
     {
         $client->forceFill([
-            'secret' => str_random(40),
+            'secret' => Str::random(40),
         ])->save();
 
         return $client;

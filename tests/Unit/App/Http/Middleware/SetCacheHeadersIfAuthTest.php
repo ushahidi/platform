@@ -23,16 +23,6 @@ use App\Http\Middleware\SetCacheHeadersIfAuth;
  */
 class SetCacheHeadersIfAuthTest extends TestCase
 {
-    public function setUp()
-    {
-        parent::setUp();
-    }
-
-    public function tearDown()
-    {
-        parent::tearDown();
-    }
-
     protected function mockAuth(bool $isAuthenticated) : AuthFactory
     {
         $auth = M::mock(AuthFactory::class);

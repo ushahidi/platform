@@ -2,15 +2,16 @@
 
 namespace Ushahidi\Modules\V5\Http\Controllers;
 
-use Illuminate\Support\Collection;
 use Ramsey\Uuid\Uuid;
-use Ushahidi\Modules\V5\Http\Resources\SurveyCollection;
-use Ushahidi\Modules\V5\Http\Resources\SurveyResource;
-use Ushahidi\Modules\V5\Models\Attribute;
+use Illuminate\Support\Arr;
+use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Ushahidi\Modules\V5\Models\Stage;
 use Ushahidi\Modules\V5\Models\Survey;
-use Illuminate\Http\Request;
+use Ushahidi\Modules\V5\Models\Attribute;
 use Ushahidi\Modules\V5\Models\Translation;
+use Ushahidi\Modules\V5\Http\Resources\SurveyResource;
+use Ushahidi\Modules\V5\Http\Resources\SurveyCollection;
 
 class SurveyController extends V5Controller
 {
@@ -226,7 +227,7 @@ class SurveyController extends V5Controller
     private function normalizeCategoryOptions(array $options)
     {
         if (!$this->isArrayOfNumbers($options)) {
-            return array_flatten(array_pluck($options, 'id'));
+            return Arr::flatten(Arr::pluck($options, 'id'));
         }
         return $options;
     }

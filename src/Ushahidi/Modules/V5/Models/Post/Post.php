@@ -14,16 +14,17 @@
 
 namespace Ushahidi\Modules\V5\Models\Post;
 
-use Ushahidi\Modules\V5\Models\Message;
-use Ushahidi\Modules\V5\Models\BaseModel;
+use Illuminate\Support\Arr;
+use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
-use Ushahidi\Modules\V5\Models\Helpers\HideTime;
-use Ushahidi\Modules\V5\Models\Helpers\HideAuthor;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Input;
+use Ushahidi\Modules\V5\Models\Message;
+use Ushahidi\Modules\V5\Models\BaseModel;
+use Ushahidi\Modules\V5\Models\Helpers\HideTime;
 use Ushahidi\Modules\V3\Validator\LegacyValidator;
+use Ushahidi\Modules\V5\Models\Helpers\HideAuthor;
 use Ushahidi\Core\Tool\Permissions\InteractsWithPostPermissions;
-use Illuminate\Http\Request;
 
 class Post extends BaseModel
 {
@@ -594,7 +595,7 @@ class Post extends BaseModel
                 $values[] = $this->{"$rel"};
             }
         }
-        return Collection::make(array_flatten($values));
+        return Collection::make(Arr::flatten($values));
     }
 
     /**
