@@ -18,7 +18,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Request as RequestFacade;
 use Ushahidi\Modules\V5\Models\Message;
 use Ushahidi\Modules\V5\Models\BaseModel;
 use Ushahidi\Modules\V5\Models\Helpers\HideTime;
@@ -337,12 +337,12 @@ class Post extends BaseModel
             'post_content.*.fields.*.required' => [
                 function ($attribute, $value, $fail) {
                     if (!!$value) {
-                        $field_content = Input::get(str_replace('.required', '', $attribute));
+                        $field_content = RequestFacade::input(str_replace('.required', '', $attribute));
                         $label = $field_content['label'] ?: $field_content['id'];
-                        $get_value = Input::get(str_replace('.required', '.value.value', $attribute));
+                        $get_value = RequestFacade::input(str_replace('.required', '.value.value', $attribute));
                         $is_empty = (is_null($get_value) || $get_value === '');
-                        $is_title = Input::get(str_replace('.required', '.type', $attribute)) === 'title';
-                        $is_desc = Input::get(str_replace('.required', '.type', $attribute)) === 'description';
+                        $is_title = RequestFacade::input(str_replace('.required', '.type', $attribute)) === 'title';
+                        $is_desc = RequestFacade::input(str_replace('.required', '.type', $attribute)) === 'description';
                         if ($is_empty && !$is_desc && !$is_title) {
                             return $fail(
                                 trans('validation.required_by_label', [
@@ -355,7 +355,7 @@ class Post extends BaseModel
             ],
             'post_content.*.fields.*.type' => [
                 function ($attribute, $value, $fail) {
-                    $get_value = Input::get(str_replace('.type', '.value.value', $attribute));
+                    $get_value = RequestFacade::input(str_replace('.type', '.value.value', $attribute));
                     if ($value === 'tags' && !is_array($get_value)) {
                         return $fail(trans('validation.tag_field_must_be_array'));
                     }

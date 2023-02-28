@@ -151,7 +151,6 @@ return [
          * Package Service Providers...
          */
         Barryvdh\Cors\ServiceProvider::class,
-        Sentry\SentryLaravel\SentryLaravelServiceProvider::class,
 
         Ushahidi\Modules\V2\ServiceProvider::class,
         Ushahidi\Modules\V3\ServiceProvider::class,
@@ -219,7 +218,7 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-        'Sentry' => Sentry\SentryLaravel\SentryFacade::class,
+        'Sentry' => Sentry\Laravel\Facade::class,
     ],
 
 ];

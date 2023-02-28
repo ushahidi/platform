@@ -5,19 +5,20 @@ namespace App\Exceptions;
 use Exception;
 use Asm89\Stack\CorsService;
 use Illuminate\Auth\AuthenticationException;
+use Ushahidi\Core\Exception\NotFoundException;
+use Ushahidi\Core\Exception\ValidatorException;
+use Ushahidi\Core\Exception\AuthorizerException;
+use Ushahidi\Core\Exception\ThrottlingException;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use League\OAuth2\Server\Exception\OAuthServerException;
+use Laravel\Passport\Exceptions\OAuthServerException as LaravelOAuthServerException;
+use League\OAuth2\Server\Exception\OAuthServerException as LeagueOAuthServerException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Illuminate\Validation\ValidationException as LaravelValidationException;
-use Ushahidi\Core\Exception\AuthorizerException;
-use Ushahidi\Core\Exception\NotFoundException;
-use Ushahidi\Core\Exception\ThrottlingException;
-use Ushahidi\Core\Exception\ValidatorException;
 
 class Handler extends ExceptionHandler
 {
@@ -32,7 +33,8 @@ class Handler extends ExceptionHandler
         HttpException::class,
         ModelNotFoundException::class,
         LaravelValidationException::class,
-        OAuthServerException::class,
+        LaravelOAuthServerException::class,
+        LeagueOAuthServerException::class,
     ];
 
     /**
@@ -75,6 +77,8 @@ class Handler extends ExceptionHandler
         if ($exception instanceof HttpResponseException) {
             // @todo check if we should still reformat this for json
             return $exception->getResponse();
+        } elseif ($exception instanceof LaravelOAuthServerException) {
+            return $exception->render($request);
         } elseif ($exception instanceof ModelNotFoundException) {
             $exception = new NotFoundHttpException($exception->getMessage(), $exception);
         } elseif ($exception instanceof AuthorizationException) {

@@ -7,7 +7,7 @@ default:
     suites:
         default:
             paths:
-                - %paths.base%/tests/Integration
+                - %paths.base%/tests/integration
             contexts:
                 - Ushahidi\Tests\Integration\Bootstrap\FeatureContext
                 - Ushahidi\Tests\Integration\Bootstrap\RestContext:
