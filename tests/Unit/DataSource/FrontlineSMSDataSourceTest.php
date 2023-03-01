@@ -30,7 +30,7 @@ class FrontlineSMSDataSourceTest extends TestCase
         );
         $response = $sms->send(1234, 'A message');
 
-        $this->assertInternalType('array', $response);
+        $this->assertIsArray($response);
         $this->assertEquals('failed', $response[0]);
         $this->assertFalse($response[1]);
     }
@@ -71,7 +71,7 @@ class FrontlineSMSDataSourceTest extends TestCase
 
         $response = $sms->send(1234, 'A message');
 
-        $this->assertInternalType('array', $response);
+        $this->assertIsArray($response);
         $this->assertEquals('sent', $response[0]);
         $this->assertEquals(null, $response[1]);
     }
@@ -89,7 +89,7 @@ class FrontlineSMSDataSourceTest extends TestCase
 
         $response = $sms->send(1234, 'A message');
 
-        $this->assertInternalType('array', $response);
+        $this->assertIsArray($response);
         $this->assertEquals('failed', $response[0]);
         $this->assertEquals(false, $response[1]);
     }

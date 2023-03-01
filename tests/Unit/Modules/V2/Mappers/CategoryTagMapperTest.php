@@ -35,7 +35,7 @@ class CategoryTagMapperTest extends TestCase
         $import = ImportMock::forId(1);
         $result = $mapper($import, $input);
 
-        $this->assertInternalType('array', $result);
+        $this->assertIsArray($result);
         $this->assertArrayHasKey('result', $result);
         $tag = $result['result'];
 
@@ -66,7 +66,7 @@ class CategoryTagMapperTest extends TestCase
         $import = ImportMock::forId(1);
         $result = $mapper($import, $input);
 
-        $this->assertInternalType('array', $result);
+        $this->assertIsArray($result);
         $this->assertArrayHasKey('result', $result);
         $tag = $result['result'];
 
@@ -99,7 +99,7 @@ class CategoryTagMapperTest extends TestCase
         $import = ImportMock::forId(1);
         $result = $mapper($import, $input);
 
-        $this->assertInternalType('array', $result);
+        $this->assertIsArray($result);
         $this->assertArrayHasKey('result', $result);
         $tag = $result['result'];
 
@@ -116,7 +116,7 @@ class CategoryTagMapperTest extends TestCase
 
         $result = $mapper($import, $input);
 
-        $this->assertInternalType('array', $result);
+        $this->assertIsArray($result);
         $this->assertArrayHasKey('result', $result);
         $tag = $result['result'];
 

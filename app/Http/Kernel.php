@@ -20,7 +20,7 @@ class Kernel extends HttpKernel
         // \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
         \App\Http\Middleware\TrustProxies::class,
         \App\Http\Middleware\AddContentLength::class,
-        \Barryvdh\Cors\HandleCors::class,
+        \Fruitcake\Cors\HandleCors::class,
         \App\Http\Middleware\SetLocale::class,
     ];
 

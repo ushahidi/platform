@@ -78,6 +78,9 @@ class ReceiveMessageTest extends TestCase
         $this->app->instance(ConfigRepository::class, $configRepo);
     }
 
+    /**
+     * @doesNotPerformAssertions
+     */
     public function testReceiveMessage()
     {
         $message = new Message();

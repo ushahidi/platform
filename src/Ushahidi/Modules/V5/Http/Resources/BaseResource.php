@@ -15,7 +15,7 @@
 namespace Ushahidi\Modules\V5\Http\Resources;
 
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\Resource;
+use Illuminate\Http\Resources\Json\JsonResource as Resource;
 use Ushahidi\Modules\V5\Traits\HasHydrate;
 use Ushahidi\Modules\V5\Traits\HasOnlyParameters;
 

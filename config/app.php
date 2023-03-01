@@ -150,7 +150,6 @@ return [
         /*
          * Package Service Providers...
          */
-        Barryvdh\Cors\ServiceProvider::class,
 
         Ushahidi\Modules\V2\ServiceProvider::class,
         Ushahidi\Modules\V3\ServiceProvider::class,

@@ -1,7 +1,7 @@
 <?php
 namespace Ushahidi\Modules\V5\Http\Resources\Role;
 
-use Illuminate\Http\Resources\Json\Resource;
+use Illuminate\Http\Resources\Json\JsonResource as Resource;
 use Ushahidi\Modules\V5\Http\Resources\RequestCachedResource;
 use Ushahidi\Modules\V5\Http\Resources\Permissions\PermissionsCollection;
 use Ushahidi\Modules\V5\Actions\Permissions\Queries\FetchPermissionsByIdQuery;
@@ -31,7 +31,7 @@ class RoleResource extends Resource
             'display_name'=> $this->display_name,
             'protected'=> $this->protected,
             'permissions' =>$this->getResourcePermissions($this->permissions)
-            
+
 
         ];
     }
