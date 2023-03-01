@@ -119,7 +119,7 @@ trait ExtendableTrait
         } elseif (is_array($this->behaviors)) {
             $uses = $this->behaviors;
         } else {
-            throw new Exception(sprintf('Class %s contains an invalid $Behaviors value', get_class($this)));
+            throw new Exception(sprintf('Class %s contains an invalid $behaviors value', get_class($this)));
         }
 
         foreach ($uses as &$use) {
@@ -533,18 +533,18 @@ trait ExtendableTrait
 
             $class = new ReflectionClass($className);
             $defaultProperties = $class->getDefaultProperties();
-            if (array_key_exists('Behaviors', $defaultProperties) &&
-                ($Behaviors = $defaultProperties['Behaviors'])
+            if (array_key_exists('behaviors', $defaultProperties) &&
+                ($behaviors = $defaultProperties['behaviors'])
             ) {
                 /*
                  * Apply extensions
                  */
-                if (is_string($Behaviors)) {
-                    $uses = explode(',', $Behaviors);
-                } elseif (is_array($Behaviors)) {
-                    $uses = $Behaviors;
+                if (is_string($behaviors)) {
+                    $uses = explode(',', $behaviors);
+                } elseif (is_array($behaviors)) {
+                    $uses = $behaviors;
                 } else {
-                    throw new Exception(sprintf('Class %s contains an invalid $Behaviors value', $className));
+                    throw new Exception(sprintf('Class %s contains an invalid $behaviors value', $className));
                 }
 
                 foreach ($uses as $use) {
