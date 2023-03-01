@@ -107,10 +107,10 @@ class Post extends BaseModel
      * @var array
      */
     protected $attributes = [
-        'type'                => 'report',
-        'locale'              => 'en_US',
-        'published_to'        => '',
-        'status'              => PostStatus::DRAFT
+        'type' => 'report',
+        'locale' => 'en_US',
+        'published_to' => '',
+        'status' => PostStatus::DRAFT
     ];
 
     /**
@@ -120,10 +120,10 @@ class Post extends BaseModel
      */
     protected $casts = [
         'everyone_can_create' => 'boolean',
-        'hide_author'         => 'boolean',
-        'require_approval'    => 'boolean',
-        'disabled'            => 'boolean',
-        'published_to'        => 'json'
+        'hide_author' => 'boolean',
+        'require_approval' => 'boolean',
+        'disabled' => 'boolean',
+        'published_to' => 'json'
     ];
 
     private function getBulkRules()
@@ -165,60 +165,60 @@ class Post extends BaseModel
     public function validationMessages()
     {
         return [
-            'form_id.exists'                             => trans(
+            'form_id.exists' => trans(
                 'validation.exists',
                 ['field' => trans('fields.form_id')]
             ),
-            'user_id.exists'                             => trans(
+            'user_id.exists' => trans(
                 'validation.exists',
                 ['field' => trans('fields.user_id')]
             ),
-            'type.required'                             => trans(
+            'type.required' => trans(
                 'validation.required',
                 ['field' => trans('fields.type')]
             ),
-            'type.in'                             => trans(
+            'type.in' => trans(
                 'validation.in_array',
                 ['field' => trans('fields.type')]
             ),
-            'title.required'                             => trans(
+            'title.required' => trans(
                 'validation.required',
                 ['field' => trans('fields.title')]
             ),
-            'title.max'                             => trans(
+            'title.max' => trans(
                 'validation.max',
                 [
                     'param2' => 150,
-                    'field'  => trans('fields.title'),
+                    'field' => trans('fields.title'),
                 ]
             ),
-            'title.regex'                             => trans(
+            'title.regex' => trans(
                 'validation.regex',
                 [
-                    'field'  => trans('fields.title'),
+                    'field' => trans('fields.title'),
                 ]
             ),
-            'slug.required'                             => trans(
+            'slug.required' => trans(
                 'validation.required',
                 ['field' => trans('fields.slug')]
             ),
-            'slug.min'                             => trans(
+            'slug.min' => trans(
                 'validation.min',
                 [
                     'param2' => 2,
-                    'field'  => trans('fields.slug'),
+                    'field' => trans('fields.slug'),
                 ]
             ),
-            'slug.unique'                             => trans(
+            'slug.unique' => trans(
                 'validation.unique',
                 [
-                    'field'  => trans('fields.slug'),
+                    'field' => trans('fields.slug'),
                 ]
             ),
-            'content.string'                             => trans(
+            'content.string' => trans(
                 'validation.string',
                 [
-                    'field'  => trans('fields.content'),
+                    'field' => trans('fields.content'),
                 ]
             )
         ];
@@ -232,19 +232,19 @@ class Post extends BaseModel
     private function bulkValidationMessages()
     {
         return [
-            'items.*.id.required'                 => trans(
+            'items.*.id.required' => trans(
                 'validation.exists',
                 ['field' => 'id']
             ),
-            'items.*.id.integer'                  => trans(
+            'items.*.id.integer' => trans(
                 'validation.integer',
                 ['field' => 'id']
             ),
-            'items.*.id.exists'                      => trans(
+            'items.*.id.exists' => trans(
                 'validation.ref_exists',
                 ['field' => 'id', 'model' => 'post']
             ),
-            'items.*.id.distinct'                      => trans(
+            'items.*.id.distinct' => trans(
                 'bulk.distinct',
                 ['field' => 'id']
             ),
@@ -261,15 +261,15 @@ class Post extends BaseModel
         return array_merge(
             $this->bulkValidationMessages(),
             [
-                'items.*.status.required'                 => trans(
+                'items.*.status.required' => trans(
                     'validation.exists',
                     ['field' => 'status']
                 ),
-                'items.*.status.string'                  => trans(
+                'items.*.status.string' => trans(
                     'validation.string',
                     ['field' => 'status']
                 ),
-                'items.*.status.in'                      => trans(
+                'items.*.status.in' => trans(
                     'validation.in_array',
                     ['field' => 'id']
                 )
@@ -297,7 +297,7 @@ class Post extends BaseModel
         return [
             'form_id' => 'nullable|sometimes|exists:forms,id',
             'user_id' => 'nullable|sometimes|exists:users,id',
-            'type'             => [
+            'type' => [
                 'required',
                 Rule::in(
                     [
@@ -307,12 +307,12 @@ class Post extends BaseModel
                     ]
                 )
             ],
-            'title'            => [
+            'title' => [
                 'required',
                 'max:150',
                 'regex:' . LegacyValidator::REGEX_STANDARD_TEXT,
             ],
-            'slug'        => [
+            'slug' => [
                 'required',
                 'min:2',
                 Rule::unique('posts')->ignore($this->id)
@@ -328,10 +328,10 @@ class Post extends BaseModel
                     PostStatus::all()
                 )
             ],
-            'post_content.*.form_id'                   => [
+            'post_content.*.form_id' => [
                 'same:form_id'
             ],
-            'post_content.*.fields'                   => [
+            'post_content.*.fields' => [
                 'present'
             ],
             'post_content.*.fields.*.required' => [
@@ -342,7 +342,9 @@ class Post extends BaseModel
                         $get_value = RequestFacade::input(str_replace('.required', '.value.value', $attribute));
                         $is_empty = (is_null($get_value) || $get_value === '');
                         $is_title = RequestFacade::input(str_replace('.required', '.type', $attribute)) === 'title';
-                        $is_desc = RequestFacade::input(str_replace('.required', '.type', $attribute)) === 'description';
+                        $is_desc = RequestFacade::input(
+                            str_replace('.required', '.type', $attribute)
+                        ) === 'description';
                         if ($is_empty && !$is_desc && !$is_title) {
                             return $fail(
                                 trans('validation.required_by_label', [
@@ -700,4 +702,4 @@ class Post extends BaseModel
 
         ]);
     }
-}//end class
+} //end class

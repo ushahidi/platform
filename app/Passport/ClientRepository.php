@@ -109,8 +109,7 @@ class ClientRepository extends LaravelPassportClientRepository
         $personalAccess = false,
         $password = false,
         $confidential = true
-        )
-    {
+    ) {
         $client = (new Client)->forceFill([
             'user_id' => $userId,
             'name' => $name,
