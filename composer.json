@@ -38,7 +38,7 @@
         "ohanzee/database": "dev-namespaces",
         "php-http/curl-client": "^2.2",
         "predis/predis": "~1.1",
-        "robmorgan/phinx": "~0.12.2",
+        "robmorgan/phinx": "~0.11.2",
         "sentry/sentry-laravel": "*",
         "symfony/psr-http-message-bridge": "^2.0",
         "symm/gisconverter": "~1.0.5",
