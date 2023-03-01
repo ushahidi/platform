@@ -19,7 +19,7 @@ jobs:
       matrix:
         php_version:
           - 7.3
-          - 8.0
+          - 7.4
 
 
     steps:
