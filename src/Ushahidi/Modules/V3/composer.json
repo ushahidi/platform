@@ -7,10 +7,6 @@
     "repositories": [
         {
             "type": "vcs",
-            "url": "https://github.com/ushahidi/ohanzee-db"
-        },
-        {
-            "type": "vcs",
             "url": "https://github.com/ushahidi/kohana-validation"
         }
     ],
