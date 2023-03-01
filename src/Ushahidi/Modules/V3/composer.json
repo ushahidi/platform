@@ -15,7 +15,6 @@
         }
     ],
     "require": {
-        "php": ">=7.2 <7.4",
         "aura/di": "~3.4",
         "beheh/flaps": "dev-master",
         "league/event": "^2.2@dev",
