@@ -285,16 +285,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.261.1",
+            "version": "3.261.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "cb7f6d7ca313bfd3135ff23c49d734c1a7616d6a"
+                "reference": "4f9cd0d3fc439372cd9f57d4f1bea9744216d2f0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/cb7f6d7ca313bfd3135ff23c49d734c1a7616d6a",
-                "reference": "cb7f6d7ca313bfd3135ff23c49d734c1a7616d6a",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/4f9cd0d3fc439372cd9f57d4f1bea9744216d2f0",
+                "reference": "4f9cd0d3fc439372cd9f57d4f1bea9744216d2f0",
                 "shasum": ""
             },
             "require": {
@@ -373,9 +373,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.261.1"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.261.2"
             },
-            "time": "2023-02-28T19:22:11+00:00"
+            "time": "2023-03-01T19:22:23+00:00"
         },
         {
             "name": "beheh/flaps",
