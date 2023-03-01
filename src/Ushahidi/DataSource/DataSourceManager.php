@@ -291,7 +291,7 @@ class DataSourceManager
     protected function createNexmoSource(array $config)
     {
         return new Nexmo\Nexmo($config, function ($apiKey, $apiSecret) {
-            return new \Nexmo\Client(new \Nexmo\Client\Credentials\Basic($apiKey, $apiSecret));
+            return new \Vonage\Client(new \Vonage\Client\Credentials\Basic($apiKey, $apiSecret));
         });
     }
 

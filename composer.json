@@ -4,38 +4,43 @@
     "homepage": "http://ushahidi.com/",
     "type": "project",
     "license": "AGPL-3.0",
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/ushahidi/laravel-ckan-api"
+        }
+    ],
     "require": {
-        "php": ">=7.2 <7.4",
+        "php": "^7.3|^8.0",
         "abraham/twitteroauth": "^0.5.3",
         "africastalking/africastalking": "^3.0",
         "asm89/stack-cors": "2.0",
         "doctrine/cache": "^1.6.2",
         "doctrine/dbal": "^2.0",
-        "facade/ignition": "^2.0",
         "fideloper/proxy": "~4.0",
         "fruitcake/laravel-cors": "^2.0",
-        "germanazo/laravel-ckan-api": "^1.0",
+        "guzzlehttp/guzzle": "~7.0.1",
+        "intercom/intercom-php": "^4.4",
         "ircmaxell/password-compat": "^1.0.4",
-        "laravel/framework": "^7.0",
-        "laravel/passport": "^9.3.2",
-        "laravel/tinker": "~2.0",
-        "lcobucci/jwt": "3.3.1",
+        "laravel/framework": "^8.0",
+        "laravel/passport": "^10.0",
+        "laravel/tinker": "^2.5",
         "league/csv": "~7.1@dev",
         "league/flysystem": "~1.0",
         "league/flysystem-aws-s3-v3": "~1.0",
         "league/flysystem-rackspace": "~1.0",
         "netresearch/jsonmapper": "^1.6.0",
-        "nexmo/client": "^1.1",
-        "nunomaduro/collision": "^4.1",
         "nyholm/psr7": "^1.5",
         "ohanzee/database": "dev-namespaces",
+        "php-http/curl-client": "^2.2",
         "predis/predis": "~1.1",
-        "ramsey/uuid": "^3.4.1",
         "robmorgan/phinx": "~0.11.2",
         "sentry/sentry-laravel": "*",
         "symfony/psr-http-message-bridge": "^2.0",
         "symm/gisconverter": "~1.0.5",
         "twilio/sdk": "^5.15",
+        "ushahidi/laravel-ckan-api": "dev-master",
+        "vonage/client": "^2.3",
         "wikimedia/composer-merge-plugin": "^2.0",
         "willdurand/negotiation": "^2.3"
     },
@@ -43,16 +48,16 @@
         "behat/behat": "^3.3",
         "captainhook/captainhook": "^5.0",
         "dms/phpunit-arraysubset-asserts": "^0.4.0",
-        "facade/ignition": "~2.0",
-        "fzaninotto/faker": "~1.4",
-        "guzzlehttp/guzzle": "~6.3.2",
+        "facade/ignition": "~2.5",
+        "fzaninotto/faker": "^1.9.1",
         "heroku/heroku-buildpack-php": "dev-master",
         "laravel/homestead": "^11.0",
-        "mockery/mockery": "^1.0",
+        "mockery/mockery": "^1.4.4",
+        "nunomaduro/collision": "^5.10",
         "php-coveralls/php-coveralls": "^2.0@dev",
         "php-mock/php-mock-mockery": "^1.2",
         "phpspec/phpspec": "~7.0",
-        "phpunit/phpunit": "^8.5",
+        "phpunit/phpunit": "^9.0",
         "squizlabs/php_codesniffer": "~3.0",
         "symfony/thanks": "^1.0"
     },
@@ -74,7 +79,8 @@
         "allow-plugins": {
             "symfony/thanks": true,
             "kylekatarnls/update-helper": true,
-            "wikimedia/composer-merge-plugin": true
+            "wikimedia/composer-merge-plugin": true,
+            "php-http/discovery": true
         }
     },
     "autoload": {
@@ -84,7 +90,9 @@
         ],
         "psr-4": {
             "Ushahidi\\": "src/Ushahidi",
-            "App\\": "app/"
+            "App\\": "app/",
+            "Database\\Factories\\": "database/factories/",
+            "Database\\Seeders\\": "database/seeders/"
         },
         "files": []
     },

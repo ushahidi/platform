@@ -62,11 +62,11 @@ class SetCacheHeadersIfAuthTest extends TestCase
 
         // Ensure we have max-age or public clauses in cache-control header
         $cache_control = $return->headers->get('cache-control') ?? '';
-        $this->assertRegExp('/max-age/i', $cache_control);
-        $this->assertRegExp('/public/i', $cache_control);
+        $this->assertMatchesRegularExpression('/max-age/i', $cache_control);
+        $this->assertMatchesRegularExpression('/public/i', $cache_control);
 
         // Ensure that authentication variance is added
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/Authorization/i',
             $return->headers->get('vary')
         );
@@ -100,8 +100,8 @@ class SetCacheHeadersIfAuthTest extends TestCase
 
         // Ensure we don't have max-age or public clauses in cache-control header
         $cache_control = $return->headers->get('cache-control') ?? '';
-        $this->assertNotRegExp('/max-age/i', $cache_control);
-        $this->assertNotRegExp('/public/i', $cache_control);
+        $this->assertDoesNotMatchRegularExpression('/max-age/i', $cache_control);
+        $this->assertDoesNotMatchRegularExpression('/public/i', $cache_control);
     }
 
     /**
@@ -132,12 +132,12 @@ class SetCacheHeadersIfAuthTest extends TestCase
         );
 
         // Ensure we got a no-store cache-control header
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/no-store/i',
             $return->headers->get('cache-control')
         );
         // Ensure that authentication variance is added
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/Authorization/i',
             $return->headers->get('vary')
         );
@@ -182,7 +182,7 @@ class SetCacheHeadersIfAuthTest extends TestCase
             $return->headers->get('cache-control') ?? ''
         );
         // Ensure that authentication variance is added
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/Authorization/i',
             $return->headers->get('vary')
         );
