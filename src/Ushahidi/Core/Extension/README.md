@@ -19,7 +19,7 @@ A behavior is used in a similar fashion:
 
     class MyClass extends \Ushahidi\Core\Extension\Extendable
     {
-        public $implement = [
+        public $behaviors = [
             'Ushahidi.Core.UtilityFunctions',
             'Ushahidi.Core.DeferredBinding',
         ];
@@ -98,7 +98,7 @@ This `Controller` class will implement the `FormController` behavior and then th
         /**
          * Implement the FormController behavior
          */
-        public $implement = [
+        public $behaviors = [
             'MyNamespace.Behaviors.FormController'
         ];
 
@@ -149,19 +149,19 @@ If a behavior class does not exist, like a trait, an *Class not found* error wil
 
     class User extends \Ushahidi\Core\Extension\Extendable
     {
-        public $implement = ['@RainLab.Translate.Behaviors.TranslatableModel'];
+        public $behaviors = ['@App.Behaviors.TranslatableModel'];
     }
 
-If the class name `RainLab\Translate\Behaviors\TranslatableModel` does not exist, no error will be thrown. This is the equivalent of the following code:
+If the class name `App\Behaviors\TranslatableModel` does not exist, no error will be thrown. This is the equivalent of the following code:
 
     class User extends \Ushahidi\Core\Extension\Extendable
     {
-        public $implement = [];
+        public $behaviors = [];
 
         public function __construct()
         {
-            if (class_exists('RainLab\Translate\Behaviors\TranslatableModel')) {
-                $controller->implement[] = 'RainLab.Translate.Behaviors.TranslatableModel';
+            if (class_exists('App\Behaviors\TranslatableModel')) {
+                $controller->behaviors[] = 'App.Behaviors.TranslatableModel';
             }
 
             parent::__construct();
