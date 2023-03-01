@@ -514,7 +514,7 @@ class RestContext implements Context
      */
     public function theResponseIsEmpty()
     {
-        \PHPUnit_Framework_Assert::assertEquals(0, $this->response->getBody()->getSize());
+        \PHPUnit\Framework\Assert::assertEquals(0, $this->response->getBody()->getSize());
     }
 
     /**
