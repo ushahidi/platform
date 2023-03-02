@@ -122,19 +122,19 @@
         }
     },
     "scripts": {
+        "post-autoload-dump": [
+            "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
+            "@php artisan package:discover --ansi"
+        ],
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
         ],
         "post-create-project-cmd": [
-            "@php artisan key:generate"
-        ],
-        "post-autoload-dump": [
-            "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
-            "@php artisan package:discover"
+            "@php artisan key:generate --ansi"
         ],
         "post-install-cmd": [
             "captainhook install -f",
-            "@php artisan passport:keys || @php -r \"return 0;\""
+            "@php artisan passport:keys || php -r \"return 0;\""
         ],
         "compile": [
             "@migrate"
