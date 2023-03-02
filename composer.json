@@ -161,9 +161,9 @@
             "@php artisan phinx:migrate"
         ],
         "pre-test": [
-            "@migrate",
-            "@php artisan passport:keys",
-            "chmod 660 storage/passport/*.key"
+            "@php artisan passport:keys || php -r \"return 0;\"",
+            "chmod 660 storage/passport/*.key",
+            "@migrate"
         ],
         "pre-push-test": [
             "phpunit --no-coverage",
