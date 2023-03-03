@@ -15,11 +15,7 @@ class RoleRepository extends EloquentRepository implements RoleRepositoryInterfa
 
     public function doRolesExist(?array $roles = null)
     {
-        if (!$roles) {
-            return true;
-        }
-
-        return $this->whereIn('role', $roles)->exists();
+        return $roles ? $this->whereIn('role', $roles)->exists() : true;
     }
 
     public function getByName($name)
