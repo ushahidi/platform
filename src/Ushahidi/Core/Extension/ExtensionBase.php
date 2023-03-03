@@ -4,7 +4,6 @@ namespace Ushahidi\Core\Extension;
 /**
  * ExtensionBase allows for "private traits"
  *
- * @package ushahidi\extension
  */
 class ExtensionBase
 {

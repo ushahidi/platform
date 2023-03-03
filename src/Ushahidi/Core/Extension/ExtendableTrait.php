@@ -11,10 +11,8 @@ use Exception;
 /**
  * ExtendableTrait trait is used when access to the underlying base class
  * is not available, such as classes that belong to the foundation
- * framework (Laravel). It is currently used by the Controller and
- * Model classes.
+ * framework (Laravel).
  *
- * @package ushahidi\extension
  * @see \Ushahidi\Core\Extension\Extendable
  */
 trait ExtendableTrait
@@ -67,7 +65,7 @@ trait ExtendableTrait
         /*
          * Apply extensions
          */
-        foreach ($this->extensionExtractImplements() as $useClass) {
+        foreach ($this->extensionExtractBehaviors() as $useClass) {
             /*
              * Soft implement
              */
@@ -108,20 +106,20 @@ trait ExtendableTrait
     }
 
     /**
-     * extensionExtractImplements will return classes to implement.
+     * extensionExtractBehaviors will return classes to implement.
      */
-    protected function extensionExtractImplements(): array
+    protected function extensionExtractBehaviors(): array
     {
-        if (!$this->implement) {
+        if (!$this->behaviors) {
             return [];
         }
 
-        if (is_string($this->implement)) {
-            $uses = explode(',', $this->implement);
-        } elseif (is_array($this->implement)) {
-            $uses = $this->implement;
+        if (is_string($this->behaviors)) {
+            $uses = explode(',', $this->behaviors);
+        } elseif (is_array($this->behaviors)) {
+            $uses = $this->behaviors;
         } else {
-            throw new Exception(sprintf('Class %s contains an invalid $implement value', get_class($this)));
+            throw new Exception(sprintf('Class %s contains an invalid $behaviors value', get_class($this)));
         }
 
         foreach ($uses as &$use) {
@@ -143,7 +141,7 @@ trait ExtendableTrait
         if (!method_exists($extensionObject, 'extensionIsHiddenMethod')) {
             throw new Exception(
                 sprintf(
-                    'Extension %s should inherit Ushahidi\Core\Extension\ExtensionBase or implement Ushahidi\Core\Extension\ExtensionTrait.',
+                    'Extension %s should inherit Ushahidi\Core\Extension\ExtensionBase or $this->behaviors Ushahidi\Core\Extension\ExtensionTrait.',
                     $extensionName
                 )
             );
@@ -255,11 +253,11 @@ trait ExtendableTrait
     {
         $extensionName = str_replace('.', '\\', trim($extensionName));
 
-        if (in_array($extensionName, $this->extensionExtractImplements())) {
+        if (in_array($extensionName, $this->extensionExtractBehaviors())) {
             return;
         }
 
-        $this->implement[] = $extensionName;
+        $this->behaviors[] = $extensionName;
     }
 
     /**
@@ -425,7 +423,7 @@ trait ExtendableTrait
     /**
      * extendableGet magic method for `__get()`
      * @param  string $name
-     * @return string
+     * @return string|void
      */
     public function extendableGet($name)
     {
@@ -447,7 +445,7 @@ trait ExtendableTrait
      * extendableSet magic method for `__set()`
      * @param  string $name
      * @param  string $value
-     * @return string
+     * @return string|void
      */
     public function extendableSet($name, $value)
     {
@@ -535,18 +533,18 @@ trait ExtendableTrait
 
             $class = new ReflectionClass($className);
             $defaultProperties = $class->getDefaultProperties();
-            if (array_key_exists('implement', $defaultProperties) &&
-                ($implement = $defaultProperties['implement'])
+            if (array_key_exists('behaviors', $defaultProperties) &&
+                ($behaviors = $defaultProperties['behaviors'])
             ) {
                 /*
                  * Apply extensions
                  */
-                if (is_string($implement)) {
-                    $uses = explode(',', $implement);
-                } elseif (is_array($implement)) {
-                    $uses = $implement;
+                if (is_string($behaviors)) {
+                    $uses = explode(',', $behaviors);
+                } elseif (is_array($behaviors)) {
+                    $uses = $behaviors;
                 } else {
-                    throw new Exception(sprintf('Class %s contains an invalid $implement value', $className));
+                    throw new Exception(sprintf('Class %s contains an invalid $behaviors value', $className));
                 }
 
                 foreach ($uses as $use) {

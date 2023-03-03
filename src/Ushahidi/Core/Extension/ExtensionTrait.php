@@ -4,7 +4,6 @@ namespace Ushahidi\Core\Extension;
 /**
  * ExtensionTrait allows for "private traits"
  *
- * @package ushahidi\extension
  * @see Ushahidi\Core\Extension\ExtensionBase
  */
 trait ExtensionTrait

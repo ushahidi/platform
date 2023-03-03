@@ -12,16 +12,15 @@ namespace Ushahidi\Core\Extension;
  *
  * See the `ExtensionBase` class for creating extension classes.
  *
- * @package ushahidi\extension
  */
 class Extendable
 {
     use ExtendableTrait;
 
     /**
-     * @var array Extensions implemented by this class.
+     * @var array Behaviours used by this class.
      */
-    public $implement = [];
+    public $behaviors = [];
 
     /**
      * Constructor

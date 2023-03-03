@@ -166,7 +166,7 @@ class ExtendableTest extends TestCase
     public function testInvalidImplementValue()
     {
         $this->expectException(Exception::class);
-        $this->expectExceptionMessage('Class ExtendableTestInvalidExtendableClass contains an invalid $implement value');
+        $this->expectExceptionMessage('Class ExtendableTestInvalidExtendableClass contains an invalid $behaviors value');
 
         $result = new ExtendableTestInvalidExtendableClass;
     }
@@ -299,7 +299,7 @@ class ExtendableTestExampleBehaviorClass2 extends ExtensionBase
  */
 class ExtendableTestInvalidExtendableClass extends Extendable
 {
-    public $implement = 24;
+    public $behaviors = 24;
 
     public $classAttribute;
 }
@@ -309,7 +309,7 @@ class ExtendableTestInvalidExtendableClass extends Extendable
  */
 class ExtendableTestExampleExtendableClass extends Extendable
 {
-    public $implement = ['ExtendableTestExampleBehaviorClass1'];
+    public $behaviors = ['ExtendableTestExampleBehaviorClass1'];
 
     public $classAttribute;
 
@@ -341,7 +341,7 @@ class ExtendableTestExampleExtendableClass extends Extendable
  */
 class ExtendableTestExampleImplementableClass extends Extendable
 {
-    public $implement = ['ExtendableTestExampleBehaviorClass1'];
+    public $behaviors = ['ExtendableTestExampleBehaviorClass1'];
 }
 
 /**
@@ -360,7 +360,7 @@ class ExtendableTestExampleClass
  */
 class ExtendableTestExampleExtendableSoftImplementFakeClass extends Extendable
 {
-    public $implement = ['@RabbleRabbleRabble'];
+    public $behaviors = ['@RabbleRabbleRabble'];
 
     public static function getStatus()
     {
@@ -373,7 +373,7 @@ class ExtendableTestExampleExtendableSoftImplementFakeClass extends Extendable
  */
 class ExtendableTestExampleExtendableSoftImplementRealClass extends Extendable
 {
-    public $implement = ['@ExtendableTestExampleBehaviorClass1'];
+    public $behaviors = ['@ExtendableTestExampleBehaviorClass1'];
 }
 
 /*
@@ -381,7 +381,7 @@ class ExtendableTestExampleExtendableSoftImplementRealClass extends Extendable
  */
 class ExtendableTestExampleExtendableSoftImplementComboClass extends Extendable
 {
-    public $implement = [
+    public $behaviors = [
         'ExtendableTestExampleBehaviorClass1',
         '@ExtendableTestExampleBehaviorClass2',
         '@RabbleRabbleRabble'
@@ -393,7 +393,7 @@ class ExtendableTestExampleExtendableSoftImplementComboClass extends Extendable
  */
 class ExtendableTestExampleExtendableClassDotNotation extends Extendable
 {
-    public $implement = ['ExtendableTest.ExampleBehaviorClass1'];
+    public $behaviors = ['ExtendableTest.ExampleBehaviorClass1'];
 
     public $classAttribute;
 
