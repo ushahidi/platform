@@ -4,6 +4,7 @@ namespace Ushahidi\Modules\V5\Repository\Post;
 
 use Illuminate\Database\Connection;
 use Ushahidi\Modules\V5\Entity\PostEntity;
+use Ushahidi\Modules\V5\Models\Post\Post;
 
 class EloquentPostRepository implements PostRepository
 {

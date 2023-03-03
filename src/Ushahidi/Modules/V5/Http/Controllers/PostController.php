@@ -2,10 +2,12 @@
 
 namespace Ushahidi\Modules\V5\Http\Controllers;
 
+use App\Bus\Query\QueryBus;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
+use Ushahidi\Modules\V5\Actions\Post\Queries\FindPostByIdQuery;
 use Ushahidi\Modules\V5\Events\PostCreatedEvent;
 use Ushahidi\Modules\V5\Events\PostUpdatedEvent;
 use Ushahidi\Modules\V5\Http\Resources\PostCollection;
@@ -20,9 +22,15 @@ use Ushahidi\Modules\V5\Models\Lock;
 class PostController extends V5Controller
 {
 
+    private $queryBus;
+    public function __construct(QueryBus $queryBus)
+    {
+        $this->queryBus = $queryBus;
+    }
+
     /**
      * Not all fields are things we want to allow on the body of requests
-     * an author won't change after the fact so we limit that change
+     * an author won't change after the fact, so we limit that change
      * to avoid issues from the frontend.
      * @return string[]
      */
@@ -34,21 +42,18 @@ class PostController extends V5Controller
     /**
      * Display the specified resource.
      *
-     * @param integer $id
-     * @return mixed
-     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @return JsonResponse|PostResource
      */
-    public function show(Request $request, int $id)
+    public function show(int $id)
     {
-        $post = Post::withPostValues()->where('id', $id)->first(POST::selectModelFields($request));
+        $post = $this->queryBus->handle(FindPostByIdQuery::of($id));
 
         if (!$post) {
             return self::make404();
         }
 
         return new PostResource($post);
-    } //end show()
-
+    }
 
     /**
      * Display the specified resource.
