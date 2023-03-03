@@ -158,6 +158,7 @@
             "behat --strict"
         ],
         "behat": "behat --strict",
+        "unit": "phpunit --no-coverage --stop-on-failure",
         "test": [
             "phpunit --no-coverage",
             "phpspec run --no-code-generation",
