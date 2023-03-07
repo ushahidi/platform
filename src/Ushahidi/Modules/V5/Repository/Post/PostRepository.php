@@ -2,9 +2,9 @@
 
 namespace Ushahidi\Modules\V5\Repository\Post;
 
-use Ushahidi\Modules\V5\Entity\PostEntity;
+use Ushahidi\Modules\V5\Models\Post\Post;
 
 interface PostRepository
 {
-    public function fetchById(int $id): ?PostEntity;
+    public function fetchById(int $id): Post;
 }

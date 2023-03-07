@@ -1,5 +1,26 @@
-@post @rolesEnabled
+@post @post-v5 @rolesEnabled
 Feature: Testing the Posts API
+  @show @rolesEnabled
+  Scenario: Showing a Post
+    Given that I want to find a "Post"
+    And that the oauth token is "testadminuser"
+    And that the api_url is "api/v5"
+    When I request "/posts/1"
+    Then the response is JSON
+    And the response has a "result.id" property
+    And the type of the "result.id" property is "numeric"
+    And the response has a "result.title" property
+  Scenario: Showing not existing Post
+    Given that I want to find a "Post"
+    And that the oauth token is "testadminuser"
+    And that the api_url is "api/v5"
+    When I request "/posts/99999999"
+    Then the response is JSON
+    And the response has a "errors" property
+    And the response has a "errors.0.message" property
+    And the "errors.0.message" property equals "Post not found"
+    And the response has a "errors.0.status" property
+    And the "errors.0.status" property equals "404"
   @create @rolesEnabled
   Scenario: Creating a new Post
     Given that I want to make a new "Post"

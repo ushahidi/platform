@@ -2,27 +2,27 @@
 
 namespace Ushahidi\Modules\V5\Repository\Post;
 
-use Illuminate\Database\Connection;
-use Ushahidi\Modules\V5\Entity\PostEntity;
+use Illuminate\Database\Eloquent\Builder;
+use Ushahidi\Core\Exception\NotFoundException;
 use Ushahidi\Modules\V5\Models\Post\Post;
 
 class EloquentPostRepository implements PostRepository
 {
-    private $db;
+    private $queryBuilder;
 
-    public function __construct(Connection $db)
+    public function __construct(Builder $queryBuilder)
     {
-        $this->db = $db;
+        $this->queryBuilder = $queryBuilder;
     }
 
-    public function fetchById(int $id): ?PostEntity
+    public function fetchById(int $id): Post
     {
-        $post = $this->db->table('posts')->find($id);
+        $post = $this->queryBuilder->find($id);
 
-        if ($post === null) {
-            return null;
+        if (!$post instanceof Post) {
+            throw new NotFoundException('Post not found', 404);
         }
 
-        return PostEntity::fromModel($post);
+        return $post;
     }
 }
