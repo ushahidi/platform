@@ -22,6 +22,7 @@ use Illuminate\Contracts\Auth\Access\Gate;
 use Ushahidi\Core\Entity\User as UserEntity;
 use Ushahidi\Modules\V5\DTO\UserSearchFields;
 use Ushahidi\Core\Tool\Hasher\Password as PasswordHash;
+use Ushahidi\Modules\V5\Requests\UserRequest;
 
 class UserController extends V5Controller
 {
@@ -91,12 +92,12 @@ class UserController extends V5Controller
     /**
      * Create new User.
      *
-     * @param Request $request
+     * @param UserRequest $request
      * @return \Illuminate\Http\JsonResponse|CategoryResource
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     //public function store(StoreUserRequest $request)
-    public function store(Request $request)
+    public function store(UserRequest $request)
     {
         $this->authorizeForCurrentUserForUser('store', User::class);
         $command = new CreateUserCommand($this->buildUserEntity("create", $request));
@@ -110,12 +111,12 @@ class UserController extends V5Controller
     /**
      * update User.
      *
-     * @param Request $request
+     * @param UserRequest $request
      * @return \Illuminate\Http\JsonResponse|UserResource
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     //public function update(UpdateUserRequest $request, int $id)
-    public function update(Request $request, int $id)
+    public function update(UserRequest $request, int $id)
     {
         $user = $this->queryBus->handle(new FetchUserByIdQuery($id));
         $this->authorizeForCurrentUserForUser('update', $user);
