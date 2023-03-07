@@ -21,6 +21,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Contracts\Auth\Access\Gate;
 use Ushahidi\Core\Entity\User as UserEntity;
 use Ushahidi\Modules\V5\DTO\UserSearchFields;
+use Ushahidi\Core\Tool\Hasher\Password as PasswordHash;
+use Ushahidi\Modules\V5\Requests\UserRequest;
 
 class UserController extends V5Controller
 {
@@ -90,12 +92,12 @@ class UserController extends V5Controller
     /**
      * Create new User.
      *
-     * @param Request $request
+     * @param UserRequest $request
      * @return \Illuminate\Http\JsonResponse|CategoryResource
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     //public function store(StoreUserRequest $request)
-    public function store(Request $request)
+    public function store(UserRequest $request)
     {
         $this->authorizeForCurrentUserForUser('store', User::class);
         $command = new CreateUserCommand($this->buildUserEntity("create", $request));
@@ -109,12 +111,12 @@ class UserController extends V5Controller
     /**
      * update User.
      *
-     * @param Request $request
+     * @param UserRequest $request
      * @return \Illuminate\Http\JsonResponse|UserResource
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     //public function update(UpdateUserRequest $request, int $id)
-    public function update(Request $request, int $id)
+    public function update(UserRequest $request, int $id)
     {
         $user = $this->queryBus->handle(new FetchUserByIdQuery($id));
         $this->authorizeForCurrentUserForUser('update', $user);
@@ -168,20 +170,20 @@ class UserController extends V5Controller
             return new UserEntity([
                 "id" => $user->id,
                 "email" => $request->input("email", $user->email),
-                "password" => $request->input("password", $user->email),
+                "password" => (new PasswordHash())->hash($request->input("password", $user->password)),
                 "realname" => $request->input("realname", $user->email),
                 "role" => $request->input("role", $user->email),
                 "gravatar" => $request->input("gravatar", $user->email),
                 "logins" => $request->input("logins", $user->email),
                 "failed_attempts" => $request->input("failed_attempts", $user->email),
                 "last_login" => $request->input("last_login", $user->email),
-                "created" => $user->created,
+                "created" => $user->created ? $user->created : time(),
                 "updated" => time()
             ]);
         }
-        return  new UserEntity([
+        return new UserEntity([
             "email" => $request->input("email"),
-            "password" => $request->input("password"),
+            "password" => (new PasswordHash())->hash($request->input("password")),
             "realname" => $request->input("realname"),
             "role" => $request->input("role"),
             "gravatar" => $request->input("gravatar"),
@@ -205,6 +207,6 @@ class UserController extends V5Controller
 
     private function getGenericUserForUser()
     {
-        return  Auth::guard()->user();
+        return Auth::guard()->user();
     }
-}//end class
+} //end class

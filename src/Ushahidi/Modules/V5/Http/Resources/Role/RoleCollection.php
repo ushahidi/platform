@@ -7,7 +7,7 @@ use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class RoleCollection extends ResourceCollection
 {
-    public static $wrap = 'results';
+    public static $wrap = 'data';
 
     /**
      * The resource that this resource collects.
