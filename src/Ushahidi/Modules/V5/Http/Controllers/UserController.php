@@ -176,11 +176,11 @@ class UserController extends V5Controller
                 "logins" => $request->input("logins", $user->email),
                 "failed_attempts" => $request->input("failed_attempts", $user->email),
                 "last_login" => $request->input("last_login", $user->email),
-                "created" => $user->created,
+                "created" => $user->created ? $user->created : time(),
                 "updated" => time()
             ]);
         }
-        return  new UserEntity([
+        return new UserEntity([
             "email" => $request->input("email"),
             "password" => (new PasswordHash())->hash($request->input("password")),
             "realname" => $request->input("realname"),
@@ -206,6 +206,6 @@ class UserController extends V5Controller
 
     private function getGenericUserForUser()
     {
-        return  Auth::guard()->user();
+        return Auth::guard()->user();
     }
-}//end class
+} //end class
