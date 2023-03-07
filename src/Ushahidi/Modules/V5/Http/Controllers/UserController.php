@@ -21,6 +21,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Contracts\Auth\Access\Gate;
 use Ushahidi\Core\Entity\User as UserEntity;
 use Ushahidi\Modules\V5\DTO\UserSearchFields;
+use Ushahidi\Core\Tool\Hasher\Password as PasswordHash;
 
 class UserController extends V5Controller
 {
@@ -168,7 +169,7 @@ class UserController extends V5Controller
             return new UserEntity([
                 "id" => $user->id,
                 "email" => $request->input("email", $user->email),
-                "password" => $request->input("password", $user->email),
+                "password" => (new PasswordHash())->hash($request->input("password", $user->password)),
                 "realname" => $request->input("realname", $user->email),
                 "role" => $request->input("role", $user->email),
                 "gravatar" => $request->input("gravatar", $user->email),
@@ -181,7 +182,7 @@ class UserController extends V5Controller
         }
         return  new UserEntity([
             "email" => $request->input("email"),
-            "password" => $request->input("password"),
+            "password" => (new PasswordHash())->hash($request->input("password")),
             "realname" => $request->input("realname"),
             "role" => $request->input("role"),
             "gravatar" => $request->input("gravatar"),
