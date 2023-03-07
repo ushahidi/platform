@@ -33,11 +33,22 @@ class UserResource extends Resource
             'logins'=> $this->logins,
             'failed_attempts'=> $this->failed_attempts,
             'last_login'=> $this->last_login,
-            'last_attempt'=> $this->last_attempt
+            'last_attempt'=> $this->last_attempt,
+            'permissions' =>$this->getResourcePermissions($this->getPermission())
+
 
            // 'Contacts' =>$this->Contacts
             
 
         ];
+    }
+
+    private function getResourcePermissions(Collection $permissions)
+    {
+        $permissions_name = [];
+        foreach ($permissions->all() as $permission) {
+            $permissions_name[] = $permission->permission;
+        }
+        return $permissions_name;
     }
 }
