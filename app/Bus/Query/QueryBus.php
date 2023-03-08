@@ -5,7 +5,6 @@ namespace App\Bus\Query;
 use App\Bus\Action;
 use App\Bus\Bus;
 use Illuminate\Contracts\Container\Container;
-use Webmozart\Assert\Assert;
 
 class QueryBus implements Bus
 {
@@ -41,14 +40,15 @@ class QueryBus implements Bus
      */
     private function assertIsQuery(string $action): void
     {
-        Assert::true(
-            is_subclass_of($action, Query::class),
-            sprintf(
-                'Invalid argument. Expected instance of %s. Got %s',
-                Query::class,
-                $action
-            )
-        );
+        if (!is_subclass_of($action, Query::class)) {
+            throw new \Exception(
+                sprintf(
+                    'Invalid argument. Expected instance of %s. Got %s',
+                    Query::class,
+                    $action
+                )
+            );
+        }
     }
 
     /**
@@ -58,10 +58,11 @@ class QueryBus implements Bus
     private function assertQueryRegistered(Action $action): void
     {
         $actionName = get_class($action);
-        Assert::true(
-            array_key_exists($actionName, $this->queries),
-            sprintf('Invalid argument. %s is not registered.', $actionName)
-        );
+        if (!array_key_exists($actionName, $this->queries)) {
+            throw new \Exception(
+                sprintf('Invalid argument. %s is not registered.', $actionName)
+            );
+        }
     }
 
     public function register(string $action, string $handler): void
@@ -78,13 +79,14 @@ class QueryBus implements Bus
      */
     private function assertIsQueryHandler(string $handler): void
     {
-        Assert::true(
-            is_subclass_of($handler, QueryHandler::clasS),
-            sprintf(
-                'Invalid argument. Expected instance of %s. Got %s',
-                QueryHandler::class,
-                $handler
-            )
-        );
+        if (!is_subclass_of($handler, QueryHandler::class)) {
+            throw new \Exception(
+                sprintf(
+                    'Invalid argument. Expected instance of %s. Got %s',
+                    QueryHandler::class,
+                    $handler
+                )
+            );
+        }
     }
 }
