@@ -13,6 +13,8 @@ use Ushahidi\Modules\V5\Actions\Datasource\Queries\FetchDataSourceQuery;
 use Ushahidi\Modules\V5\Actions\Datasource\Queries\SearchDataSourcesQuery;
 use Ushahidi\Modules\V5\Actions\Post\Queries\FindPostByIdQuery;
 use Ushahidi\Modules\V5\Actions\Post\Handlers\FindPostByIdQueryHandler;
+use Ushahidi\Modules\V5\Actions\Post\Queries\ListPostsQuery;
+use Ushahidi\Modules\V5\Actions\Post\Handlers\ListPostsQueryHandler;
 use Ushahidi\Modules\V5\Actions\Tos\Commands\CreateTosCommand;
 use Ushahidi\Modules\V5\Actions\Tos\Handlers\CreateTosCommandHandler;
 use Ushahidi\Modules\V5\Actions\Tos\Queries\FetchTosQuery;
@@ -161,6 +163,11 @@ class BusServiceProvider extends ServiceProvider
             $queryBus->register(
                 FindPostByIdQuery::class,
                 FindPostByIdQueryHandler::class
+            );
+
+            $queryBus->register(
+                ListPostsQuery::class,
+                ListPostsQueryHandler::class
             );
 
             return $queryBus;
