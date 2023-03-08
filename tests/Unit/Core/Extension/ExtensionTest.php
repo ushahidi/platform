@@ -25,7 +25,7 @@ class ExtensionTest extends TestCase
  */
 class ExtensionTestExampleExtendableClass extends Extendable
 {
-    public $implement = ['ExtensionTestExampleBehaviorClass1'];
+    public $behaviors = ['ExtensionTestExampleBehaviorClass1'];
 }
 
 /**

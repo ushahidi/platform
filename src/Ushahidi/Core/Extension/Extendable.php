@@ -8,7 +8,7 @@ namespace Ushahidi\Core\Extension;
  *
  * Usage:
  *
- *     public $implement = [\Path\To\Some\Namespace\Class::class];
+ *     protected $behaviors = [\Path\To\Some\Namespace\Class::class];
  *
  * See the `ExtensionBase` class for creating extension classes.
  *
@@ -20,7 +20,7 @@ class Extendable
     /**
      * @var array Behaviours used by this class.
      */
-    public $behaviors = [];
+    protected $behaviors = [];
 
     /**
      * Constructor
