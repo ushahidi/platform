@@ -44,7 +44,7 @@ class QueryBus implements Bus
             throw new \Exception(
                 sprintf(
                     'Invalid argument. Expected instance of %s. Got %s',
-                    CommandHandler::class,
+                    Query::class,
                     $action
                 )
             );
@@ -83,7 +83,7 @@ class QueryBus implements Bus
             throw new \Exception(
                 sprintf(
                     'Invalid argument. Expected instance of %s. Got %s',
-                    CommandHandler::class,
+                    QueryHandler::class,
                     $handler
                 )
             );
