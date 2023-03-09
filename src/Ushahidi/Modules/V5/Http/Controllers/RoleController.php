@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Contracts\Auth\Access\Gate;
 use Ushahidi\Modules\V5\Actions\Role\Commands\CreateRolePermissionCommand;
 use Ushahidi\Modules\V5\Actions\Role\Commands\DeleteRolePermissionByRoleCommand;
+use Ushahidi\Modules\V5\Requests\RoleRequest;
 
 class RoleController extends V5Controller
 {
@@ -74,12 +75,12 @@ class RoleController extends V5Controller
     /**
      * Create new Role.
      *
-     * @param Request $request
+     * @param RoleRequest $request
      * @return \Illuminate\Http\JsonResponse|CategoryResource
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     //public function store(StoreRoleRequest $request, CommandBus $commandBus, QueryBus $queryBus)
-    public function store(Request $request)
+    public function store(RoleRequest $request)
     {
         $this->authorizeForCurrentUserForRole('store', Role::class);
         $command = new CreateRoleCommand($this->getFields($request->input()));
@@ -117,11 +118,11 @@ class RoleController extends V5Controller
     /**
      * update Role.
      *
-     * @param Request $request
+     * @param RoleRequest $request
      * @return \Illuminate\Http\JsonResponse|RoleResource
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function update(Request $request, int $id)
+    public function update(RoleRequest $request, int $id)
     {
         $role = $this->queryBus->handle(new FetchRoleByIdQuery($id));
         $this->authorizeForCurrentUserForRole('update', $role);
