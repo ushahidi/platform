@@ -56,7 +56,7 @@ class CreateSurveyCommandHandler extends V5CommandHandler
                     new CreateTaskCommand(
                         TaskEntity::buildEntity(array_merge($task_values, ["survey_id" => $survey->id])),
                         $task_values['fields'] ?? [],
-                        $task_values['translations'] ?? [],
+                        $task_values['translations'] ?? []
                     )
                 );
             }
