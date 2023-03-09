@@ -32,7 +32,7 @@ jobs:
     - name: Get Composer Cache Directory
       id: composer-cache
       run: |
-        echo "::set-output name=dir::$(composer config cache-files-dir)"
+        echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
 
     - name: Cache dependencies
       uses: actions/cache@v1
@@ -62,13 +62,6 @@ jobs:
 
         mysql -e "SELECT version();" ;
         mysql -e "SET GLOBAL sql_mode = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'" ;
-
-        # installing our own composer as a stop-gap measure
-        # installer_sig=`curl https://composer.github.io/installer.sha384sum | cut -f 1 -d ' '`
-        # php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-        # php -r "if (hash_file('sha384', 'composer-setup.php') === '${installer_sig}') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
-        # php composer-setup.php --install-dir=bin --version=2.3.7
-        # php -r "unlink('composer-setup.php');"
 
         composer install --no-interaction ;
 
