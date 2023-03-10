@@ -13,7 +13,7 @@ abstract class RowBased implements Operation
 
     public function execute($connection, $dataSet): void
     {
-        $databaseDataSet = $connection->createDataSet();
+        $databaseDataset = $connection->createDataset();
 
         $dsIterator = $this->iteratorDirection == self::ITERATOR_TYPE_REVERSE ? $dataSet->getReverseIterator() : $dataSet->getIterator();
 
@@ -24,7 +24,7 @@ abstract class RowBased implements Operation
             $rowCount = $table->getRowCount();
 
             if ($rowCount !== 0) {
-                $databaseTableMetaData = $databaseDataSet->getTableMetaData($table->getTableMetaData()->getTableName());
+                $databaseTableMetaData = $databaseDataset->getTableMetaData($table->getTableMetaData()->getTableName());
                 $query                 = $this->buildOperationQuery($databaseTableMetaData, $table, $connection);
                 $disablePrimaryKeys    = $this->disablePrimaryKeys($databaseTableMetaData, $table, $connection);
 

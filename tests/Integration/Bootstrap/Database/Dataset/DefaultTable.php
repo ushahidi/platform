@@ -1,6 +1,6 @@
 <?php
 
-namespace Ushahidi\Tests\Integration\Bootstrap\Database\DataSet;
+namespace Ushahidi\Tests\Integration\Bootstrap\Database\Dataset;
 
 class DefaultTable extends AbstractTable
 {

@@ -1,8 +1,8 @@
 <?php
 
-namespace Ushahidi\Tests\Integration\Bootstrap\Database\DataSet;
+namespace Ushahidi\Tests\Integration\Bootstrap\Database\Dataset;
 
-abstract class AbstractDataSet
+abstract class AbstractDataset
 {
     public function __toString()
     {

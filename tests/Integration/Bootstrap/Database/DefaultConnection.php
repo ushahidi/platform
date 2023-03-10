@@ -32,13 +32,13 @@ class DefaultConnection
         return $this->getMetaData()->getSchema();
     }
 
-    public function createDataSet(array $tableNames = null)
+    public function createDataset(array $tableNames = null)
     {
         if (empty($tableNames)) {
-            return new DataSet($this);
+            return new Dataset($this);
         }
 
-        return new FilteredDataSet($this, $tableNames);
+        return new FilteredDataset($this, $tableNames);
     }
 
     public function getConfig(): void

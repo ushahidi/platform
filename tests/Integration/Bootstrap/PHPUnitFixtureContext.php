@@ -6,7 +6,7 @@ use Behat\Behat\Context\Context;
 use Ushahidi\Tests\Integration\Bootstrap\Database\DefaultTester;
 use Ushahidi\Tests\Integration\Bootstrap\Database\DefaultConnection;
 use Ushahidi\Tests\Integration\Bootstrap\Database\Operation\Factory;
-use Ushahidi\Tests\Integration\Bootstrap\Database\DataSet\YamlDataSet;
+use Ushahidi\Tests\Integration\Bootstrap\Database\Dataset\YamlDataset;
 use Ushahidi\Tests\Integration\Bootstrap\Database\Operation\Composite;
 
 class PHPUnitFixtureContext implements Context
@@ -196,7 +196,7 @@ class PHPUnitFixtureContext implements Context
         $this->databaseTester = null;
 
         $this->getDatabaseTester()->setSetUpOperation($this->getSetUpOperation());
-        $this->getDatabaseTester()->setDataSet($this->getDataSet($dataset));
+        $this->getDatabaseTester()->setDataset($this->getDataset($dataset));
         $this->getDatabaseTester()->onSetUp();
     }
 
@@ -204,7 +204,7 @@ class PHPUnitFixtureContext implements Context
     public function tearDownDBTester($dataset)
     {
         $this->getDatabaseTester()->setTearDownOperation($this->getTearDownOperation());
-        $this->getDatabaseTester()->setDataSet($this->getDataSet($dataset));
+        $this->getDatabaseTester()->setDataset($this->getDataset($dataset));
         $this->getDatabaseTester()->onTearDown();
 
         /**
@@ -219,9 +219,9 @@ class PHPUnitFixtureContext implements Context
      *
      * @param string|array $dataset Dataset filename
      */
-    protected function getDataSet($dataset)
+    protected function getDataset($dataset)
     {
-        return new YamlDataSet(
+        return new YamlDataset(
             __DIR__ . '/../../datasets/' . $dataset . '.yml'
         );
     }

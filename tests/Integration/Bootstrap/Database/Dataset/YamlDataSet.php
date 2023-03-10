@@ -1,8 +1,8 @@
 <?php
 
-namespace Ushahidi\Tests\Integration\Bootstrap\Database\DataSet;
+namespace Ushahidi\Tests\Integration\Bootstrap\Database\Dataset;
 
-class YamlDataSet extends AbstractDataSet
+class YamlDataset extends AbstractDataset
 {
     protected $tables = [];
 

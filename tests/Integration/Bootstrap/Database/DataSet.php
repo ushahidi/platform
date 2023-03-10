@@ -2,11 +2,11 @@
 
 namespace Ushahidi\Tests\Integration\Bootstrap\Database;
 
-use Ushahidi\Tests\Integration\Bootstrap\Database\DataSet\AbstractDataSet;
-use Ushahidi\Tests\Integration\Bootstrap\Database\DataSet\DefaultTableMetadata;
+use Ushahidi\Tests\Integration\Bootstrap\Database\Dataset\AbstractDataset;
+use Ushahidi\Tests\Integration\Bootstrap\Database\Dataset\DefaultTableMetadata;
 
 
-class DataSet extends AbstractDataSet
+class Dataset extends AbstractDataset
 {
     protected $tables = [];
     protected $databaseConnection;

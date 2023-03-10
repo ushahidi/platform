@@ -2,7 +2,7 @@
 
 namespace Ushahidi\Tests\Integration\Bootstrap\Database;
 
-class FilteredDataSet extends DataSet
+class FilteredDataset extends Dataset
 {
     protected $tableNames;
 

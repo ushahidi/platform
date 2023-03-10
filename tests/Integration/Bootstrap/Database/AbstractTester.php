@@ -25,22 +25,22 @@ abstract class AbstractTester
         $connection->close();
     }
 
-    public function getDataSet()
+    public function getDataset()
     {
         return $this->dataSet;
     }
 
     public function onSetUp(): void
     {
-        $this->getSetUpOperation()->execute($this->getConnection(), $this->getDataSet());
+        $this->getSetUpOperation()->execute($this->getConnection(), $this->getDataset());
     }
 
     public function onTearDown(): void
     {
-        $this->getTearDownOperation()->execute($this->getConnection(), $this->getDataSet());
+        $this->getTearDownOperation()->execute($this->getConnection(), $this->getDataset());
     }
 
-    public function setDataSet($dataSet): void
+    public function setDataset($dataSet): void
     {
         $this->dataSet = $dataSet;
     }

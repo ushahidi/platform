@@ -1,8 +1,8 @@
 <?php
 
-namespace Ushahidi\Tests\Integration\Bootstrap\Database\DataSet;
+namespace Ushahidi\Tests\Integration\Bootstrap\Database\Dataset;
 
-use Ushahidi\Tests\Integration\Bootstrap\Database\DataSet\AbstractTableMetadata;
+use Ushahidi\Tests\Integration\Bootstrap\Database\Dataset\AbstractTableMetadata;
 
 class DefaultTableMetadata extends AbstractTableMetadata
 {
