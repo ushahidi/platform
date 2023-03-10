@@ -5,7 +5,7 @@ namespace Ushahidi\Modules\V2;
 use Ushahidi\Modules\V2;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
-use Ushahidi\Contracts\EntityCreateMany;
+use Ushahidi\Contracts\Repository\EntityCreateMany;
 
 class Importer
 {

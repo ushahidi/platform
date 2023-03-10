@@ -13,7 +13,7 @@ namespace Ushahidi\Core\Tool\Authorizer;
 
 use Ushahidi\Contracts\Entity;
 use Ushahidi\Contracts\Authorizer;
-use Ushahidi\Contracts\EntityGet;
+use Ushahidi\Contracts\Repository\EntityGet;
 use Ushahidi\Contracts\Permission;
 use Ushahidi\Core\Concerns\PrivAccess;
 use Ushahidi\Core\Concerns\AdminAccess;

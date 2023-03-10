@@ -10,7 +10,9 @@
  *             GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Ushahidi\Contracts;
+namespace Ushahidi\Contracts\Repository;
+
+use Ushahidi\Contracts\Entity;
 
 interface EntityCreate
 {

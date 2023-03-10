@@ -11,10 +11,10 @@
 
 namespace Ushahidi\Core\Entity;
 
-use Ushahidi\Contracts\EntityCreate;
-use Ushahidi\Contracts\EntityCreateMany;
-use Ushahidi\Contracts\EntityGet;
-use Ushahidi\Contracts\EntityExists;
+use Ushahidi\Contracts\Repository\EntityCreate;
+use Ushahidi\Contracts\Repository\EntityCreateMany;
+use Ushahidi\Contracts\Repository\EntityGet;
+use Ushahidi\Contracts\Repository\EntityExists;
 use Ushahidi\Contracts\Repository\CreateRepository;
 
 interface ContactRepository extends

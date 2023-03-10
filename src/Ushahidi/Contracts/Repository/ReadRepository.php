@@ -11,8 +11,8 @@
 
 namespace Ushahidi\Contracts\Repository;
 
-use Ushahidi\Contracts\EntityExists;
-use Ushahidi\Contracts\EntityGet;
+use Ushahidi\Contracts\Repository\EntityExists;
+use Ushahidi\Contracts\Repository\EntityGet;
 
 interface ReadRepository extends EntityGet, EntityExists
 {

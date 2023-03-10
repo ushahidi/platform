@@ -200,7 +200,7 @@ class MessageRepository extends OhanzeeRepository implements
         return $this->executeInsert($this->removeNullValues($message));
     }
 
-    public function createMany(Collection $collection) : array
+    public function createMany(Collection $collection): array
     {
         $this->checkAutoIncMode();
 

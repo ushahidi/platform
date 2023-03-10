@@ -11,7 +11,7 @@
 
 namespace Ushahidi\Core\Entity;
 
-use Ushahidi\Contracts\EntityExists;
+use Ushahidi\Contracts\Repository\EntityExists;
 use Ushahidi\Contracts\Repository\ReadRepository;
 use Ushahidi\Contracts\Repository\CreateRepository;
 use Ushahidi\Contracts\Repository\UpdateRepository;

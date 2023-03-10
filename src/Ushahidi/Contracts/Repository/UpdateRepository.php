@@ -12,7 +12,7 @@
 namespace Ushahidi\Contracts\Repository;
 
 use Ushahidi\Contracts\Entity;
-use Ushahidi\Contracts\EntityGet;
+use Ushahidi\Contracts\Repository\EntityGet;
 
 interface UpdateRepository extends EntityGet
 {

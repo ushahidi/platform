@@ -11,7 +11,7 @@
 namespace App\Tools;
 
 use Illuminate\Support\Facades\Auth;
-use Ushahidi\Contracts\EntityGet;
+use Ushahidi\Contracts\Repository\EntityGet;
 use Ushahidi\Contracts\Session as SessionContract;
 
 class Session implements SessionContract

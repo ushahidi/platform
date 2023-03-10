@@ -11,8 +11,8 @@
 
 namespace Ushahidi\Core\Entity;
 
-use Ushahidi\Contracts\EntityCreate;
-use Ushahidi\Contracts\EntityCreateMany;
+use Ushahidi\Contracts\Repository\EntityCreate;
+use Ushahidi\Contracts\Repository\EntityCreateMany;
 use Ushahidi\Contracts\Repository\CreateRepository;
 use Ushahidi\Contracts\Repository\SearchRepository;
 use Ushahidi\Contracts\Repository\UpdateRepository;

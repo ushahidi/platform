@@ -11,7 +11,7 @@
 
 namespace Ushahidi\Core\Entity;
 
-use Ushahidi\Contracts\EntityGet;
+use Ushahidi\Contracts\Repository\EntityGet;
 
 interface PostLockRepository extends EntityGet
 {

@@ -17,7 +17,7 @@
 
 namespace Ushahidi\Core\Concerns;
 
-use Ushahidi\Contracts\EntityGet;
+use Ushahidi\Contracts\Repository\EntityGet;
 use Ushahidi\Contracts\Entity;
 
 trait EnsureUserEntity

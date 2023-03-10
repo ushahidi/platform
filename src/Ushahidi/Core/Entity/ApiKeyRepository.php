@@ -11,7 +11,7 @@
 
 namespace Ushahidi\Core\Entity;
 
-use Ushahidi\Contracts\EntityExists;
+use Ushahidi\Contracts\Repository\EntityExists;
 use Ushahidi\Contracts\Repository\CreateRepository;
 
 interface ApiKeyRepository extends CreateRepository, EntityExists

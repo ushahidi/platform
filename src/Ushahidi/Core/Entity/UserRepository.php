@@ -12,8 +12,8 @@
 namespace Ushahidi\Core\Entity;
 
 use Ushahidi\Contracts\Entity;
-use Ushahidi\Contracts\EntityCreate;
-use Ushahidi\Contracts\EntityCreateMany;
+use Ushahidi\Contracts\Repository\EntityCreate;
+use Ushahidi\Contracts\Repository\EntityCreateMany;
 use Ushahidi\Contracts\Repository\DeleteRepository;
 use Ushahidi\Contracts\Repository\ReadRepository;
 
