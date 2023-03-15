@@ -39,7 +39,7 @@
         "php-http/curl-client": "^2.2",
         "predis/predis": "~1.1",
         "robmorgan/phinx": "~0.11.2",
-        "sentry/sentry-laravel": "*",
+        "sentry/sentry-laravel": "^1.9|^2.11",
         "symfony/psr-http-message-bridge": "^2.0",
         "symm/gisconverter": "~1.0.5",
         "twilio/sdk": "^5.15",

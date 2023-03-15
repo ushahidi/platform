@@ -2,7 +2,7 @@
 
 namespace App\Exceptions;
 
-use Exception;
+use Throwable;
 use Asm89\Stack\CorsService;
 use Illuminate\Auth\AuthenticationException;
 use Ushahidi\Core\Exception\NotFoundException;
@@ -12,14 +12,13 @@ use Ushahidi\Core\Exception\ThrottlingException;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Laravel\Passport\Exceptions\OAuthServerException as LaravelOAuthServerException;
-use League\OAuth2\Server\Exception\OAuthServerException as LeagueOAuthServerException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Illuminate\Validation\ValidationException as LaravelValidationException;
-use Throwable;
+use Laravel\Passport\Exceptions\OAuthServerException as LaravelOAuthServerException;
+use League\OAuth2\Server\Exception\OAuthServerException as LeagueOAuthServerException;
 
 class Handler extends ExceptionHandler
 {
@@ -59,7 +58,7 @@ class Handler extends ExceptionHandler
     public function report(Throwable $exception)
     {
         if ($this->shouldReport($exception) && app()->bound('sentry')) {
-            app('sentry')->captureException($exception);
+            \Sentry\Laravel\Facade::captureException($exception);
         }
 
         parent::report($exception);

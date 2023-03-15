@@ -4,9 +4,13 @@ return [
 
     'dsn' => env('SENTRY_LARAVEL_DSN', env('SENTRY_DSN', false) ?: env('RAVEN_URL', false)),
 
-    // The release version of your application
-    // Example with dynamic git hash: trim(exec('git --git-dir ' . base_path('.git') . ' log --pretty="%h" -n1 HEAD'))
-    'release' => env('SENTRY_RELEASE', null),
+    'release' => env(
+        'SENTRY_RELEASE',
+        trim(
+            // capture release as git sha
+            exec('git --git-dir ' . base_path('.git') . ' log --pretty="%h" -n1 HEAD')
+        )
+    ),
 
     // When left empty or `null` the Laravel environment will be used
     'environment' => env('SENTRY_ENVIRONMENT'),
@@ -44,20 +48,15 @@ return [
         // Capture views as spans
         'views' => true,
 
-        // Capture HTTP client requests as spans
-        'http_client_requests' => true,
-
         // Indicates if the tracing integrations supplied by Sentry should be loaded
         'default_integrations' => true,
-
-        // Indicates that requests without a matching route should be traced
-        'missing_routes' => false,
     ],
 
-    // @see: https://docs.sentry.io/platforms/php/guides/laravel/configuration/options/#send-default-pii
+    // @see: https://docs.sentry.io/platforms/php/configuration/options/#send-default-pii
     'send_default_pii' => env('SENTRY_SEND_DEFAULT_PII', false),
 
-    // @see: https://docs.sentry.io/platforms/php/guides/laravel/configuration/options/#traces-sample-rate
-    'traces_sample_rate' => env('SENTRY_TRACES_SAMPLE_RATE') === null ? null : (float)env('SENTRY_TRACES_SAMPLE_RATE'),
+    'traces_sample_rate' => (float) (env('SENTRY_TRACES_SAMPLE_RATE', 0.0)),
+
+    'controllers_base_namespace' => env('SENTRY_CONTROLLERS_BASE_NAMESPACE', 'App\\Http\\Controllers'),
 
 ];
