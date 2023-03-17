@@ -10,6 +10,7 @@ use Ushahidi\Core\Concerns\AdminAccess;
 use Ushahidi\Core\Concerns\UserContext;
 use Ushahidi\Core\Concerns\PrivAccess;
 use Ushahidi\Core\Concerns\PrivateDeployment;
+use Ushahidi\Core\Concerns\OwnerAccess;
 use Ushahidi\Core\Concerns\Acl as AccessControlList;
 
 class CollectionPolicy
@@ -30,6 +31,9 @@ class CollectionPolicy
 
     // Check that the user has the necessary permissions
     use AccessControlList;
+   
+    // It uses `OwnerAccess` to provide  the `isUserOwner` method.
+    use OwnerAccess;
 
     protected $user;
 
@@ -108,22 +112,24 @@ class CollectionPolicy
             return false;
         }
 
-        // First check whether there is a role with the right permissions
-        if ($authorizer->acl->hasPermission($user, Permission::MANAGE_SETS)) {
-            return true;
-        }
-
         // Then we check if a user has the 'admin' role. If they do they're
         // allowed access to everything (all entities and all privileges)
         if ($this->isUserAdmin($user)) {
             return true;
         }
-
+       // dd(get_class($entity));
         // Non-admin users are not allowed to make sets featured
-        if (in_array($privilege, ['create', 'update']) and $entity->hasChanged('featured')) {
+        if (in_array($privilege, ['create', 'update']) && $entity->hasChanged('featured')) {
             return false;
         }
 
+
+        // First check whether there is a role with the right permissions
+        if ($authorizer->acl->hasPermission($user, Permission::MANAGE_SETS)) {
+            return true;
+        }
+
+        
         // If the user is the owner of this set, they can do anything
         if ($this->isUserOwner($entity, $user)) {
             return true;

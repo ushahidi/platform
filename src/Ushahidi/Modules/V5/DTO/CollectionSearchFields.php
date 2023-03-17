@@ -3,6 +3,7 @@
 namespace Ushahidi\Modules\V5\DTO;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CollectionSearchFields
 {
@@ -13,10 +14,13 @@ class CollectionSearchFields
 
     protected $search;
 
+    protected $role;
+
     public function __construct(Request $request)
     {
         $this->query = $request->query('q');
         $this->search = false;
+        $this->role = Auth::user()->role;
     }
 
     public function q(): ?string
@@ -27,5 +31,10 @@ class CollectionSearchFields
     public function search(): bool
     {
         return $this->search;
+    }
+
+    public function role(): ?string
+    {
+        return $this->role;
     }
 }

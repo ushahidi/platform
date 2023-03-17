@@ -8,8 +8,8 @@ use Ushahidi\Modules\V5\DTO\CollectionSearchFields;
 class FetchCollectionQuery implements Query
 {
     const DEFAULT_LIMIT = 0;
-    const DEFAULT_ORDER = "ASC";
-    const DEFAULT_SORT_BY = "id";
+    const DEFAULT_ORDER = "DESC";
+    const DEFAULT_SORT_BY = "featured";
 
     private $limit;
     private $page;

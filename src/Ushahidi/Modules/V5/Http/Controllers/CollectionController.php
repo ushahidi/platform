@@ -14,6 +14,7 @@ use Ushahidi\Modules\V5\DTO\CollectionSearchFields;
 use Ushahidi\Core\Entity\Set as CollectionEntity;
 use Ushahidi\Modules\V5\Requests\CollectionRequest;
 use Ushahidi\Modules\V5\Models\Set as Collection;
+use Ushahidi\Modules\V5\Policies\CollectionPolicy;
 
 class CollectionController extends V5Controller
 {
@@ -28,8 +29,8 @@ class CollectionController extends V5Controller
      */
     public function show(int $id)
     {
-        $saved_search = $this->queryBus->handle(new FetchCollectionByIdQuery($id));
-        return new CollectionResource($saved_search);
+        $collection = $this->queryBus->handle(new FetchCollectionByIdQuery($id));
+        return new CollectionResource($collection);
     } //end show()
 
 
@@ -42,7 +43,7 @@ class CollectionController extends V5Controller
      */
     public function index(Request $request)
     {
-        $surveys = $this->queryBus->handle(
+        $collections = $this->queryBus->handle(
             new FetchCollectionQuery(
                 $request->query('limit', FetchCollectionQuery::DEFAULT_LIMIT),
                 $request->query('page', 1),
@@ -51,7 +52,7 @@ class CollectionController extends V5Controller
                 new CollectionSearchFields($request),
             )
         );
-        return new CollectionCollection($surveys);
+        return new CollectionCollection($collections);
     } //end index()
 
 
@@ -89,8 +90,8 @@ class CollectionController extends V5Controller
 
     public function delete(int $id)
     {
-        $saved_search = $this->queryBus->handle(new FetchCollectionByIdQuery($id));
-        $this->authorize('delete', $saved_search);
+        $collection = $this->queryBus->handle(new FetchCollectionByIdQuery($id));
+        $this->authorize('delete', $collection);
         $this->commandBus->handle(new DeleteCollectionCommand($id));
         return response()->json(['result' => ['deleted' => $id]]);
     }

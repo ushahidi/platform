@@ -11,9 +11,10 @@
 
 namespace Ushahidi\Core\Entity;
 
-use Ushahidi\Core\StaticEntity;
+use Ushahidi\Core\EloquentEntity;
+use Illuminate\Support\Facades\Auth;
 
-class Set extends StaticEntity
+class Set extends EloquentEntity
 {
     protected $id;
     protected $user_id;
@@ -83,7 +84,7 @@ class Set extends StaticEntity
             ]);
         }
         return new Set([
-            "user_id" => isset($input["user_id"]) ? $input["user_id"] : null,
+            "user_id" => isset($input["user_id"]) ? $input["user_id"] : Auth::id(),
             "name" => isset($input["name"]) ? $input["name"] : '',
             "description" => isset($input["description"]) ? $input["description"] : '',
             "view" => isset($input["view"]) ? $input["view"] : self::DEFAULT_VIEW,

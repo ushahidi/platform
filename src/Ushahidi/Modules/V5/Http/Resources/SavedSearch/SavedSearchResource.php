@@ -20,6 +20,7 @@ class SavedSearchResource extends Resource
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'user_id'=> $this->user_id,
             'description' => $this->description,
             'role' => $this->role,
             'filter' => $this->filter,

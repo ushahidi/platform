@@ -101,10 +101,20 @@ class CollectionRequest extends FormRequest
         try {
             parent::failedValidation($validator);
         } catch (ValidationException $e) {
+            $errors = [];
+            foreach ($e->errors() as $field => $error_messages) {
+                $errors[] = [
+                    "field" => $field,
+                    "error_messages" => $error_messages
+                ];
+            }
             throw new HttpResponseException(
                 response()->json([
-                    'error' => 422,
-                    'messages' => $e->errors(),
+                    'errors' => [
+                        'status' => 422,
+                        'message' => 'please recheck the your inputs',
+                        'failed_validations' => $errors,
+                    ]
                 ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY)
             );
         }

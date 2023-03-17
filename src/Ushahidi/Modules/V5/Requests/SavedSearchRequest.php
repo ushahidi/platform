@@ -35,8 +35,8 @@ class SavedSearchRequest extends FormRequest
                     'unique:sets'
                 ],
                 'filter' => [
-                    'required',
-                    'array'
+                    'required'
+                    //,'array'
                 ],
                 'role' => [
                     'nullable',
@@ -54,8 +54,8 @@ class SavedSearchRequest extends FormRequest
                     'unique:sets'
                 ],
                 'filter' => [
-                    'filled',
-                    'array'
+                    'filled'
+                   // ,'array'
                 ],
                 'role' => [
                     'nullable',
@@ -88,28 +88,28 @@ class SavedSearchRequest extends FormRequest
             ),
             'filter.required' => trans(
                 'validation.not_empty',
-                ['field' => trans('fields.name')]
+                ['field' => trans('fields.filter')]
             ),
             'filter.array' => trans(
                 'validation.array',
-                ['field' => trans('fields.name')]
+                ['field' => trans('fields.filter')]
             ),
             'filter.filled' => trans(
                 'validation.not_empty',
-                ['field' => trans('fields.name')]
+                ['field' => trans('fields.filter')]
             ),
             'role.array' => trans(
                 'validation.array',
-                ['field' => trans('fields.name')]
+                ['field' => trans('fields.role')]
             ),
             'view_options.array' => trans(
                 'validation.array',
-                ['field' => trans('fields.name')]
+                ['field' => trans('fields.view_options')]
             ),
         ];
     }
 
-    /**
+     /**
      * Handle a failed validation attempt.
      *
      * @param  \Illuminate\Contracts\Validation\Validator $validator
@@ -122,10 +122,20 @@ class SavedSearchRequest extends FormRequest
         try {
             parent::failedValidation($validator);
         } catch (ValidationException $e) {
+            $errors = [];
+            foreach ($e->errors() as $field => $error_messages) {
+                $errors[] = [
+                    "field" => $field,
+                    "error_messages" => $error_messages
+                ];
+            }
             throw new HttpResponseException(
                 response()->json([
-                    'error' => 422,
-                    'messages' => $e->errors(),
+                    'errors' => [
+                        'status' => 422,
+                        'message' => 'please recheck the your inputs',
+                        'failed_validations' => $errors,
+                    ]
                 ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY)
             );
         }

@@ -44,6 +44,12 @@ class EloquentSetRepository implements SetRepository
         if ($search_fields->q()) {
             $builder->where('name', 'LIKE', "%" . $search_fields->q() . "%");
         }
+        if ($search_fields->role()) {
+            $builder->where(function ($query) use ($search_fields) {
+                $query->whereNull('role')
+                    ->orWhere('role', 'LIKE', "%" . $search_fields->role() . "%");
+            });
+        }
         $builder->where('search', '=', $search_fields->search());
 
         return $builder;
