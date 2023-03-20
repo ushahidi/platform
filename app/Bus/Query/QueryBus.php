@@ -58,6 +58,7 @@ class QueryBus implements Bus
     private function assertQueryRegistered(Action $action): void
     {
         $actionName = get_class($action);
+
         if (!array_key_exists($actionName, $this->queries)) {
             throw new \Exception(
                 sprintf('Invalid argument. %s is not registered.', $actionName)

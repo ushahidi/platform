@@ -14,16 +14,16 @@
 
 namespace Ushahidi\Modules\V5\Models\Post;
 
-use Ushahidi\Modules\V5\Models\Message;
-use Ushahidi\Modules\V5\Models\BaseModel;
+use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
-use Ushahidi\Modules\V5\Models\Helpers\HideTime;
-use Ushahidi\Modules\V5\Models\Helpers\HideAuthor;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Input;
-use Ushahidi\Modules\V3\Validator\LegacyValidator;
+use Ushahidi\Modules\V5\Models\Message;
+use Ushahidi\Modules\V5\Models\BaseModel;
+use Ushahidi\Modules\V5\Rules\StandardText;
+use Ushahidi\Modules\V5\Models\Helpers\HideTime;
+use Ushahidi\Modules\V5\Models\Helpers\HideAuthor;
 use Ushahidi\Core\Tool\Permissions\InteractsWithPostPermissions;
-use Illuminate\Http\Request;
 
 class Post extends BaseModel
 {
@@ -309,7 +309,8 @@ class Post extends BaseModel
             'title'            => [
                 'required',
                 'max:150',
-                'regex:' . LegacyValidator::REGEX_STANDARD_TEXT,
+                new StandardText,
+                // 'regex:' . LegacyValidator::REGEX_STANDARD_TEXT,
             ],
             'slug'        => [
                 'required',
