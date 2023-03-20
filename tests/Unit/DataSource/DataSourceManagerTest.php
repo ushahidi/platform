@@ -12,13 +12,13 @@ namespace Ushahidi\Tests\Unit\DataSource;
 
 use Mockery as M;
 use Ushahidi\Tests\TestCase;
-use Ushahidi\DataSource\Contracts\IncomingDataSource;
-use Ushahidi\Contracts\Repository\Entity\ConfigRepository;
 use Ushahidi\Core\Entity\Config;
-use Ushahidi\DataSource\DataSourceManager;
+use Ushahidi\Tests\CustomSource;
 use Ushahidi\DataSource\Email\Email;
 use Ushahidi\DataSource\Nexmo\Nexmo;
 use Ushahidi\DataSource\Twitter\Twitter;
+use Ushahidi\DataSource\DataSourceManager;
+use Ushahidi\Contracts\Repository\Entity\ConfigRepository;
 
 /**
  * @backupGlobals disabled
@@ -113,7 +113,8 @@ class DataSourceManagerTest extends TestCase
                     'nexmo' => true,
                     'twitter' => true,
                     'email' => true,
-                    'custom-provider' => true,
+                    'custom-1' => true,
+                    'custom-2' => true,
                 ],
             ]));
 
@@ -122,65 +123,25 @@ class DataSourceManagerTest extends TestCase
             ->andReturn(new Config([
                 'data-providers' => [
                     'email' => true,
-                    'custom-provider' => true,
+                    'custom-1' => true,
+                    'custom-2' => true,
                 ],
             ]));
 
-        $customSource = function ($config = []) {
-            return new class($config) implements IncomingDataSource {
-                protected $config;
-
-                public function __construct($config)
-                {
-                    $this->config = $config;
-                }
-
-                public function fetch($limit = false)
-                {
-                }
-
-                public function getName()
-                {
-                }
-
-                public function getId()
-                {
-                }
-
-                public function getServices()
-                {
-                }
-
-                public function getOptions()
-                {
-                }
-
-                public function getInboundFields()
-                {
-                }
-
-                public function getInboundFormId()
-                {
-                }
-
-                public function getInboundFieldMappings()
-                {
-                }
-
-                public function isUserConfigurable()
-                {
-                }
-            };
+        $customSourceCallback = function ($config = []) {
+            return new CustomSource($config);
         };
 
-        $manager->extend('custom-provider', $customSource);
+        $manager->extend('custom-1', CustomSource::class);
 
-        $this->assertCount(2, $manager->getEnabledSources());
+        $manager->extend('custom-2', CustomSource::class, $customSourceCallback);
+
+        $this->assertCount(3, $manager->getEnabledSources());
         $this->assertFalse($manager->isEnabledSource('twitter'));
-        $this->assertTrue($manager->isEnabledSource('custom-provider'));
-
-        $class = call_user_func($customSource);
-        $this->assertInstanceOf(get_class($class), $manager->getSource('custom-provider'));
+        $this->assertTrue($manager->isEnabledSource('custom-1'));
+        $this->assertTrue($manager->isEnabledSource('custom-2'));
+        $this->assertInstanceOf(CustomSource::class, $manager->getSource('custom-1'));
+        $this->assertInstanceOf(CustomSource::class, $manager->getSource('custom-2'));
     }
 
     public function testGetSourceForType()

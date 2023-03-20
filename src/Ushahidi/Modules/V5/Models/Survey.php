@@ -407,7 +407,7 @@ class Survey extends BaseModel
         // to avoid an hydration issue with InteractsWithFormPermissions
         if ($authorizer->acl->hasPermission($user, Permission::MANAGE_POSTS)) {
             // if this permission is set we can go ahead and hydrate all the stages
-            return $this->hasMany('Ushahidi\Modules\V5\Models\Stage', 'form_id');
+            return $this->hasMany('Ushahidi\Modules\V5\Models\Stage', 'form_id')->orderBy("priority", "asc");
         }
 
         return $this->hasMany(
@@ -415,7 +415,8 @@ class Survey extends BaseModel
             'form_id'
         )
             ->where('form_stages.show_when_published', '=', '1')
-            ->where('form_stages.task_is_internal_only', '=', '0');
+            ->where('form_stages.task_is_internal_only', '=', '0')
+            ->orderBy("priority", "asc");
     } //end tasks()
 
 
