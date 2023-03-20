@@ -1,8 +1,8 @@
 <?php
 
-namespace Ushahidi\App\Bus\Query;
+namespace App\Bus\Query;
 
-use Ushahidi\App\Bus\Action;
+use App\Bus\Action;
 
 interface Query extends Action
 {

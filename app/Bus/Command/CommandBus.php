@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Ushahidi\App\Bus\Command;
+namespace App\Bus\Command;
 
 use Illuminate\Contracts\Container\Container;
-use Ushahidi\App\Bus\Action;
-use Ushahidi\App\Bus\Bus;
+use App\Bus\Action;
+use App\Bus\Bus;
 use Webmozart\Assert\Assert;
 
 class CommandBus implements Bus

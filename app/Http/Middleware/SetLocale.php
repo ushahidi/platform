@@ -1,6 +1,6 @@
 <?php
 
-namespace Ushahidi\App\Http\Middleware;
+namespace App\Http\Middleware;
 
 use Closure;
 use Negotiation\LanguageNegotiator;

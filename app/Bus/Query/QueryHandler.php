@@ -1,8 +1,8 @@
 <?php
 
-namespace Ushahidi\App\Bus\Query;
+namespace App\Bus\Query;
 
-use Ushahidi\App\Bus\Handler;
+use App\Bus\Handler;
 
 interface QueryHandler extends Handler
 {

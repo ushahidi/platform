@@ -1,6 +1,6 @@
 <?php
 
-namespace Ushahidi\App\PlatformVerifier;
+namespace App\PlatformVerifier;
 
 class OAuth
 {

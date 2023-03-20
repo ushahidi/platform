@@ -3,8 +3,8 @@ build:
     image: build
     dockerfile_path: docker/build.Dockerfile
   volumes:
-    - .:/vols/src
-    - ./tmp/out:/vols/out
+    - .:/var/www
+    - ./tmp/out:/tmp/out
   cached: true
   default_cache_branch: develop
 
@@ -53,7 +53,7 @@ test/base: &_test_defaults
   build: &_test_build_defaults
     dockerfile_path: docker/test.Dockerfile
   volumes:
-    - .:/vols/src
+    - .:/var/www
   environment: &_test_env_defaults
     DB_PORT: 3306
     DB_DATABASE: ushahidi
@@ -95,14 +95,14 @@ test/php-7.3:
 aglio:
   image: humangeo/aglio
   volumes:
-    - .:/vols/src
+    - .:/var/www
 
 awscli:
   build:
     image: awscli
     dockerfile_path: docker/awscli.Dockerfile
   volumes:
-    - .:/vols/src
+    - .:/var/www
   encrypted_env_file: deployment.env.encrypted
   cached: true
 

@@ -1,26 +1,25 @@
 <?php
 
-namespace Ushahidi\App\Providers;
+namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
-use Ushahidi\Addons\AfricasTalking\AfricasTalkingSource;
+use Ushahidi\Core\Tool\Features;
+use Ushahidi\Core\Tool\Verifier;
+use Ushahidi\Factory\UsecaseFactory;
 use Ushahidi\Addons\Mteja\MtejaSource;
-use Ushahidi\App\Multisite\MultisiteServiceProvider;
-use Ushahidi\App\Tools\Features;
+use Ushahidi\Core\Usecase\Post\Export;
+use Illuminate\Support\ServiceProvider;
+use Ushahidi\Core\Tool\OhanzeeResolver;
+use Ushahidi\Core\Usecase\Export\Job\PostCount;
+use Ushahidi\Addons\AfricasTalking\AfricasTalkingSource;
+use Ushahidi\Contracts\Repository\Entity\PostRepository;
+use Ushahidi\Contracts\Repository\Entity\UserRepository;
 use Ushahidi\Contracts\Repository\Entity\ConfigRepository;
 use Ushahidi\Contracts\Repository\Entity\ContactRepository;
-use Ushahidi\Contracts\Repository\Entity\ExportBatchRepository;
-use Ushahidi\Contracts\Repository\Entity\ExportJobRepository;
-use Ushahidi\Contracts\Repository\Entity\FormAttributeRepository;
 use Ushahidi\Contracts\Repository\Entity\MessageRepository;
-use Ushahidi\Contracts\Repository\Entity\PostRepository;
+use Ushahidi\Contracts\Repository\Entity\ExportJobRepository;
+use Ushahidi\Contracts\Repository\Entity\ExportBatchRepository;
+use Ushahidi\Contracts\Repository\Entity\FormAttributeRepository;
 use Ushahidi\Contracts\Repository\Entity\TargetedSurveyStateRepository;
-use Ushahidi\Contracts\Repository\Entity\UserRepository;
-use Ushahidi\Core\Tools\Verifier;
-use Ushahidi\Core\Usecase\Export\Job\PostCount;
-use Ushahidi\Core\Usecase\Post\Export;
-use Ushahidi\DataSource\DataSourceServiceProvider;
-use Ushahidi\Factory\UsecaseFactory;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -52,30 +51,7 @@ class AppServiceProvider extends ServiceProvider
         // $this->registerFilesystem();
         // $this->registerMailer();
 
-        $this->registerMultisite();
-        $this->registerDataSources();
-
         $this->registerFeatures();
-
-        $this->app->singleton(
-            \Ushahidi\App\ImportUshahidiV2\Contracts\ImportMappingRepository::class,
-            \Ushahidi\App\ImportUshahidiV2\Repositories\ImportMappingRepository::class
-        );
-
-        $this->app->singleton(
-            \Ushahidi\App\ImportUshahidiV2\Contracts\ImportRepository::class,
-            \Ushahidi\App\ImportUshahidiV2\Repositories\ImportRepository::class
-        );
-
-        $this->app->singleton(
-            \Ushahidi\App\ImportUshahidiV2\Contracts\ImportSourceDataRepository::class,
-            \Ushahidi\App\ImportUshahidiV2\Repositories\ImportSourceDataRepository::class
-        );
-
-        $this->app->singleton(
-            \Ushahidi\App\ImportUshahidiV2\Contracts\ImportDataTools::class,
-            \Ushahidi\App\ImportUshahidiV2\Utils\ImportDataTools::class
-        );
     }
 
     public function registerServicesFromAura()
@@ -174,20 +150,15 @@ class AppServiceProvider extends ServiceProvider
         });
     }
 
-    public function registerMultisite()
-    {
-        $this->app->register(MultisiteServiceProvider::class);
-    }
-
-    public function registerDataSources()
-    {
-        $this->app->register(DataSourceServiceProvider::class);
-    }
-
     public function registerFeatures()
     {
         $this->app->singleton('features', function ($app) {
             return new Features($app[ConfigRepository::class]);
+        });
+
+        // Register OhanzeeResolver
+        $this->app->singleton(OhanzeeResolver::class, function ($app) {
+            return new OhanzeeResolver();
         });
     }
 }

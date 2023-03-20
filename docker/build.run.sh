@@ -1,14 +1,14 @@
 #!/bin/bash
 
 check_vols_src() {
-  if [ ! -d /vols/src ]; then
-    echo "No /vols/src with code"
+  if [ ! -d /var/www ]; then
+    echo "No /var/www with code"
     exit 1
   fi
 }
 check_vols_out() {
-  if [ ! -d /vols/out ]; then
-    echo "No /vols/out for output!"
+  if [ ! -d /var/out ]; then
+    echo "No /var/out for output!"
     exit 1
   fi
 }
@@ -27,7 +27,7 @@ function sync {
     echo "- vendor"
     echo "- tmp"
   } > /tmp/rsync_exclude
-  rsync -ar --exclude-from=/tmp/rsync_exclude --delete-during /vols/src/ ./
+  rsync -ar --exclude-from=/tmp/rsync_exclude --delete-during /var/www/ ./
 }
 
 function run_composer_install {
@@ -37,7 +37,7 @@ function run_composer_install {
 function bundle {
   check_vols_out
   local version=${GITHUB_VERSION:-${CI_BRANCH:-v0.0.0}}
-  DEST_DIR=/vols/out ./bin/release $version
+  DEST_DIR=/var/out ./bin/release $version
 }
 
 sync

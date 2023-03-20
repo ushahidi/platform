@@ -9,24 +9,15 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Ushahidi\App\Console\Commands;
+namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use Ushahidi\Contracts\Repository\Entity\PostRepository;
+use Ushahidi\Contracts\Repository\Entity\SetRepository;
+use Ushahidi\Core\Tool\SearchData;
 
 class SavedSearchCommand extends Command
 {
-    private $data;
-
-    private $postSearchData;
-
-    private $contactRepository;
-
-    private $setRepository;
-
-    private $postRepository;
-
-    private $messageRepository;
-
     /**
      * The console command name.
      *
@@ -53,37 +44,32 @@ class SavedSearchCommand extends Command
         parent::__construct();
     }
 
-    public function handle()
+    public function handle(PostRepository $postRepo, SetRepository $setRepo, SearchData $data)
     {
-        $this->data = service('factory.data');
-        $this->contactRepository = service('repository.contact');
-        $this->setRepository = service('repository.savedsearch');
-        $this->postRepository = service('repository.post');
-        $this->messageRepository = service('repository.message');
-
         $count = 0;
 
+        $setRepo->setSavedSearch(true);
+
         // Get saved searches
-        $this->setRepository->setSearchParams($this->data->get('search'));
+        $setRepo->setSearchParams($data);
 
         // @todo Might need to limit the number of saved searches retrieved at a time
-        $savedSearches = $this->setRepository->getSearchResults();
+        $savedSearches = $setRepo->getSearchResults();
 
         foreach ($savedSearches as $savedSearch) {
             // Get fresh SearchData
-            $data = $this->data->get('search');
 
             // Get posts with the search filter
             foreach ($savedSearch->filter as $key => $filter) {
                 $data->$key = $filter;
             }
 
-            $this->postRepository->setSearchParams($data);
-            $posts = $this->postRepository->getSearchResults();
+            $postRepo->setSearchParams($data);
+            $posts = $postRepo->getSearchResults();
 
             foreach ($posts as $post) {
-                if (! $this->setRepository->setPostExists($savedSearch->id, $post->id)) {
-                    $this->setRepository->addPostToSet($savedSearch->id, $post->id);
+                if (! $setRepo->setPostExists($savedSearch->id, $post->id)) {
+                    $setRepo->addPostToSet($savedSearch->id, $post->id);
                     $count++;
                 }
             }

@@ -1,10 +1,8 @@
 <?php
 
-namespace Ushahidi\App\PlatformVerifier;
+namespace App\PlatformVerifier;
 
-use Composer\Installer\PackageEvent;
-use Composer\Script\Event;
-use Ushahidi\App\Tools\OutputText;
+use Ushahidi\Core\Tool\OutputText;
 
 // Methods to check whether the installation debug mode is enabled , as well
 // to create and delete the file that enables it

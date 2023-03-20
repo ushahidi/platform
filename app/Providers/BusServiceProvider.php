@@ -1,14 +1,14 @@
 <?php
 
-namespace Ushahidi\App\Providers;
+namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Ushahidi\App\Bus\Command\CommandBus;
-use Ushahidi\App\Bus\Command\Example\ExampleCommand;
-use Ushahidi\App\Bus\Command\Example\ExampleCommandHandler;
-use Ushahidi\App\Bus\Query\Example\ExampleQuery;
-use Ushahidi\App\Bus\Query\Example\ExampleQueryHandler;
-use Ushahidi\App\Bus\Query\QueryBus;
+use App\Bus\Command\CommandBus;
+use App\Bus\Command\Example\ExampleCommand;
+use App\Bus\Command\Example\ExampleCommandHandler;
+use App\Bus\Query\Example\ExampleQuery;
+use App\Bus\Query\Example\ExampleQueryHandler;
+use App\Bus\Query\QueryBus;
 
 class BusServiceProvider extends ServiceProvider
 {

@@ -1,16 +1,16 @@
 <?php
 
-namespace Tests\Unit\Bus\Query;
+namespace Ushahidi\Tests\Unit\Bus\Query;
 
 use Illuminate\Contracts\Container\Container;
 use PHPUnit\Framework\TestCase;
 use stdClass;
-use Ushahidi\App\Bus\Command\Command;
-use Ushahidi\App\Bus\Command\CommandHandler;
-use Ushahidi\App\Bus\Handler;
-use Ushahidi\App\Bus\Query\Query;
-use Ushahidi\App\Bus\Query\QueryBus;
-use Ushahidi\App\Bus\Query\QueryHandler;
+use App\Bus\Command\Command;
+use App\Bus\Command\CommandHandler;
+use App\Bus\Handler;
+use App\Bus\Query\Query;
+use App\Bus\Query\QueryBus;
+use App\Bus\Query\QueryHandler;
 
 class QueryBusTest extends TestCase
 {

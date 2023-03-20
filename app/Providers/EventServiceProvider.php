@@ -1,6 +1,6 @@
 <?php
 
-namespace Ushahidi\App\Providers;
+namespace App\Providers;
 
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
@@ -12,11 +12,8 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        \Ushahidi\App\Events\Event::class => [
-            \Ushahidi\App\Listeners\EventListener::class,
-        ],
-        \Ushahidi\App\Events\SendToHDXEvent::class => [
-            \Ushahidi\App\Listeners\SendToHDXEventListener::class,
+        \Ushahidi\Modules\V3\Events\SendToHDXEvent::class => [
+            \Ushahidi\Modules\V3\Listener\SendToHDXEventListener::class,
         ],
     ];
 
@@ -26,7 +23,7 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $subscribe = [
-        \Ushahidi\App\EventSubscriber::class,
+        \Ushahidi\Modules\V3\EventSubscriber::class,
     ];
 
     /**

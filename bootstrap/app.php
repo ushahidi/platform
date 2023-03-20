@@ -2,18 +2,6 @@
 
 /*
 |--------------------------------------------------------------------------
-| Turn On The Lights
-|--------------------------------------------------------------------------
-|
-| We need the Aura DI container, so let us turn on the lights.
-| This bootstraps the dependencies and gets it ready for use.
-|
-*/
-
-require_once __DIR__.'/init.php';
-
-/*
-|--------------------------------------------------------------------------
 | Create The Application
 |--------------------------------------------------------------------------
 |
@@ -40,17 +28,17 @@ $app = new Illuminate\Foundation\Application(
 
 $app->singleton(
     Illuminate\Contracts\Http\Kernel::class,
-    Ushahidi\App\Http\Kernel::class
+    App\Http\Kernel::class
 );
 
 $app->singleton(
     Illuminate\Contracts\Console\Kernel::class,
-    Ushahidi\App\Console\Kernel::class
+    App\Console\Kernel::class
 );
 
 $app->singleton(
     Illuminate\Contracts\Debug\ExceptionHandler::class,
-    Ushahidi\App\Exceptions\Handler::class
+    App\Exceptions\Handler::class
 );
 
 /*
