@@ -69,7 +69,7 @@ class Post extends BaseModel
      *
      * @var string[]
      */
-    protected $with = ['message', 'translations'];
+    protected $with = ['message', 'translations', 'survey'];
 
     protected $translations;
     /**
@@ -397,6 +397,12 @@ class Post extends BaseModel
             $this->getAttributeValue('user_id')
         );
     }
+
+    public function getColorAttribute()
+    {
+        return $this->survey->color ?? null;
+    }
+
     /**
      * @return bool
      */

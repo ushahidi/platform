@@ -4,6 +4,9 @@ namespace Ushahidi\Core\Facade;
 
 use Illuminate\Support\Facades\Facade;
 
+/**
+ * @see \Ushahidi\Core\Tool\Features
+ */
 class Features extends Facade
 {
     /**

@@ -43,6 +43,7 @@ function provision_passport_keys() {
   if [ ! -f storage/passport/oauth-private.key ]; then
     composer bootstrap:passport
   fi
+  chmod 0600 storage/passport/*
 }
 
 function touch_logs() {
@@ -97,12 +98,12 @@ function sync {
   rm -f phpunit.xml behat.yml phpspec.yml
 }
 
+function run_composer {
+  composer "$@"  
+}
+
 function run_composer_install {
-  if [ ! -d storage/passport ]; then
-    mkdir -p storage/passport
-  fi
   composer install --no-interaction "$@"
-  chmod 0600 storage/passport/*
 }
 
 function wait_for_mysql {
@@ -110,6 +111,18 @@ function wait_for_mysql {
   local db_port=${DB_PORT:-3306}
   until nc -z $db_host $db_port; do
     >&2 echo "Mysql ($db_host:$db_port) is unavailable - sleeping"
+    sleep 1
+  done
+}
+
+function bootstrap_done {
+  # TODO: at some point the container should run with UID != 0 and this should be
+  #       going to a specific path
+  touch /bootstrapped
+}
+
+function wait_bootstrap {
+  while [ ! -f /bootstrapped ]; do
     sleep 1
   done
 }

@@ -13,9 +13,13 @@ namespace Ushahidi\Core\Concerns;
 
 trait StatefulData
 {
+    use DefaultData;
+
+    use DeriveData;
+
     // Uses DataTransformer to ensure type consistency. Prevents unexpected failures
     // when comparing, for example, a string with a number (`'5' === 5`).
-    use DataTransformer;
+    use TransformData;
 
     use RecursiveArrayDiff;
 
@@ -23,34 +27,21 @@ trait StatefulData
      * Tracks which properties have been changed, separately from internal object
      * properties, organized by the unique object id.
      *
-     * @var Array
+     * @var array
      */
     protected static $changed = [];
 
     /**
      * Sets initial state by hydrating the object with values in the data.
      *
-     * @param Array $data
+     * @param array $data
      */
     public function __construct(array $data = null)
     {
         // Initialize change tracking.
         static::$changed[$this->getObjectId()] = [];
 
-        $data = $data ?: [];
-
-        // We can't define the method getDefaultData in this trait
-        // due to the way method overriding works with trait inheritance.
-        // The class using this trait can override the method,
-        // but a subclass of that class cannot.
-        if (method_exists($this, 'getDefaultData')) {
-            // fill in available defaults for any missing values
-            foreach ($this->getDefaultData() as $key => $default_value) {
-                if (!isset($data[$key])) {
-                    $data[$key] = $default_value;
-                }
-            }
-        }
+        $data = $this->addDefaultDataToArray($data);
 
         if ($data) {
             // Define the initial state.
@@ -68,16 +59,16 @@ trait StatefulData
      *
      * NOTE: All object properties should have `protected` or `private` visibility!
      *
-     * @param  String $key
-     * @return Mixed
+     * @param  string $key
+     * @return mixed
      */
     abstract public function __get($key);
 
     /**
      * Direct access to object properties must not be allowed, to maintain state.
      *
-     * @param  String $key
-     * @param  Mixed  $value
+     * @param  string $key
+     * @param  mixed  $value
      * @return void
      * @throws \RuntimeException
      */
@@ -92,8 +83,8 @@ trait StatefulData
     /**
      * Direct access to object properties must not be allowed, to maintain state.
      *
-     * @param  String $key
-     * @return Boolean
+     * @param  string $key
+     * @return boolean
      */
     abstract public function __isset($key);
 
@@ -111,7 +102,7 @@ trait StatefulData
     /**
      * Get a unique identifer for this object.
      *
-     * @return String
+     * @return string
      */
     final protected function getObjectId()
     {
@@ -122,53 +113,13 @@ trait StatefulData
      * Change the internal state of the entity, updating values and tracking any
      * changes that are made.
      *
-     * @param  Array  $data
+     * @param  array  $data
      * @return $this
      */
     public function setState(array $data)
     {
         // Allow for data to be filled in by deriving from other values.
-        foreach ($this->getDerived() as $key => $possible) {
-            if (!array_key_exists($key, $data)) {
-                if (!is_array($possible)) {
-                    // Always possible to derive data from more than one source.
-                    $possible = [$possible];
-                }
-                foreach ($possible as $from) {
-                    if ($from instanceof \Closure) {
-                        // Callable function which returns the derived value
-                        //
-                        // function ($data) {
-                        //     return $data['foo'] . '-' . uniqid();
-                        // }
-                        //
-                        // Its important we check for Closure here rather than
-                        // using is_callable which allows global function as well
-                        if ($derivedValue = $from($data)) {
-                            $data[$key] = $derivedValue;
-                        }
-                    } elseif (array_key_exists($from, $data)) {
-                        // Derived value comes from a simple alias:
-                        //
-                        //     $data['foo'] = $data['bar'];
-                        //
-                        $data[$key] = $data[$from];
-                    } elseif (strpos($from, '.')) {
-                        // Derived value comes from a complex alias:
-                        //
-                        //     $data['foo'] = $data['relation']['bar'];
-                        //
-                        list($arr, $from) = explode('.', $from, 2);
-                        if (array_key_exists($arr, $data)
-                            && is_array($data[$arr])
-                            && array_key_exists($from, $data[$arr])
-                        ) {
-                            $data[$key] = $data[$arr][$from];
-                        }
-                    }
-                }
-            }
-        }
+        $data = $this->derive($data);
 
         // To prevent polluting object properties, changes are tracked through a
         // static property, indexed by the object id. This ensures that all object
@@ -236,8 +187,8 @@ trait StatefulData
      * This method is an alternative to `__set`, because PHP does not allow magic
      * methods to have `protected` visibility.
      *
-     * @param  String $key
-     * @param  Mixed  $value
+     * @param  string $key
+     * @param  mixed  $value
      * @return void
      */
     abstract protected function setStateValue($key, $value);
@@ -245,10 +196,10 @@ trait StatefulData
     /**
      * Check if a property has been changed.
      *
-     * @param  String $key
-     * @param  String $array_key the sub key we want to check, presently we
+     * @param  string $key
+     * @param  string $array_key the sub key we want to check, presently we
      *         only go one level deep within nested arrays
-     * @return Boolean
+     * @return boolean
      */
     public function hasChanged($key, $array_key = null)
     {
@@ -267,7 +218,7 @@ trait StatefulData
     /**
      * Get all values that have been changed since initial state was defined.
      *
-     * @return Array
+     * @return array
      */
     public function getChanged()
     {
@@ -285,7 +236,7 @@ trait StatefulData
     /**
      * Return the data that can be derived from other values.
      *
-     * @return Array
+     * @return array
      */
     protected function getDerived()
     {
@@ -295,7 +246,7 @@ trait StatefulData
     /**
      * Return the names of values that cannot be modified once set.
      *
-     * @return Array
+     * @return array
      */
     protected function getImmutable()
     {

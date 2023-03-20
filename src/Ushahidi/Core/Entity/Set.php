@@ -12,8 +12,9 @@
 namespace Ushahidi\Core\Entity;
 
 use Ushahidi\Core\StaticEntity;
+use Ushahidi\Core\EloquentEntity;
 
-class Set extends StaticEntity
+class Set extends EloquentEntity
 {
     protected $id;
     protected $user_id;

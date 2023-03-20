@@ -12,8 +12,9 @@
 namespace Ushahidi\Core\Entity;
 
 use Ushahidi\Core\StaticEntity;
+use Ushahidi\Core\EloquentEntity;
 
-class CountryCode extends StaticEntity
+class CountryCode extends EloquentEntity
 {
     protected $id;
     protected $country_name;

@@ -1,3 +1,4 @@
+Makefile
 codeship-*.yml
 deployment.env
 deployment.env.encrypted

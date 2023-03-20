@@ -11,9 +11,9 @@
 
 namespace Ushahidi\Core\Entity;
 
-use Ushahidi\Core\StaticEntity;
+use Ushahidi\Core\EloquentEntity;
 
-class Role extends StaticEntity
+class Role extends EloquentEntity
 {
     protected $id;
     protected $name;
@@ -44,7 +44,7 @@ class Role extends StaticEntity
     // Entity
     public function getId()
     {
-        return $this->name;
+        return $this->getAttribute('name');
     }
 
     // StatefulData
