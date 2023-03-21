@@ -23,6 +23,8 @@ use Ushahidi\Core\Entity\User as UserEntity;
 use Ushahidi\Modules\V5\DTO\UserSearchFields;
 use Ushahidi\Core\Tool\Hasher\Password as PasswordHash;
 use Ushahidi\Modules\V5\Requests\UserRequest;
+use Illuminate\Support\Facades\Log;
+use Ushahidi\Core\Exception\NotFoundException;
 
 class UserController extends V5Controller
 {
@@ -60,6 +62,9 @@ class UserController extends V5Controller
     public function showMe()
     {
         $id = $this->getGenericUserForUser()->id;
+        if (!$id) {
+            throw new NotFoundException('User not found');
+        }
         $user = $this->queryBus->handle(new FetchUserByIdQuery($id));
         $this->authorizeForCurrentUserForUser('show', $user);
         return new UserResource($user);
