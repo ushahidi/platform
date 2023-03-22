@@ -67,7 +67,7 @@ class StoreTosRequest extends FormRequest
             throw new HttpResponseException(
                 response()->json([
                     'error' => 422,
-                    'messages' => $errors,
+                    'messages' => $errors
                 ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY)
             );
         }

@@ -72,7 +72,7 @@ class StoreUserRequest extends FormRequest
             throw new HttpResponseException(
                 response()->json([
                     'error' => 422,
-                    'messages' => $e->errors(),
+                    'messages' => $e->errors()
                 ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY)
             );
         }

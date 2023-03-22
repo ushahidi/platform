@@ -113,7 +113,7 @@ class CollectionRequest extends FormRequest
                     'errors' => [
                         'status' => 422,
                         'message' => 'please recheck the your inputs',
-                        'failed_validations' => $errors,
+                        'failed_validations' => $errors
                     ]
                 ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY)
             );
