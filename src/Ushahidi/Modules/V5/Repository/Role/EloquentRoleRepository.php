@@ -9,7 +9,7 @@ use Ushahidi\Core\Exception\NotFoundException;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 use Ushahidi\Modules\V5\Models\RolePermissions;
-use Ushahidi\Core\Entity\role as RoleEntity;
+use Ushahidi\Core\Entity\Role as RoleEntity;
 use Ushahidi\Modules\V5\DTO\RoleSearchFields;
 
 class EloquentRoleRepository implements RoleRepository
