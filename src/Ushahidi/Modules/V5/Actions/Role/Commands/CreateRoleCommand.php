@@ -16,10 +16,16 @@ class CreateRoleCommand implements Command
      * @var int
      */
     private $id;
-   
-    public function __construct(RoleEntity $entity)
+
+    /**
+     * @var array
+     */
+    private $permissions;
+
+    public function __construct(RoleEntity $entity, array $permissions = [])
     {
         $this->entity = $entity;
+        $this->permissions = $permissions;
     }
 
     /**
@@ -31,18 +37,28 @@ class CreateRoleCommand implements Command
     }
 
     /**
+     * @return array
+     */
+    public function getPermissions(): array
+    {
+        return $this->permissions;
+    }
+
+
+
+    /**
      * @return int
      */
     public function getId(): int
     {
-        return  $this->id;
+        return $this->id;
     }
 
-     /**
+    /**
      * @return void
      */
     public function setId(int $id): void
     {
-         $this->id = $id;
+        $this->id = $id;
     }
 }

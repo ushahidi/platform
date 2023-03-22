@@ -83,7 +83,8 @@ class User extends EloquentEntity
                 "realname" => isset($input["realname"]) ? $input["realname"] : $old_Values['realname'],
                 "role" => isset($input["role"]) ? $input["role"] : $old_Values['role'],
                 "logins" => isset($input["logins"]) ? $input["logins"] : $old_Values['logins'],
-                "failed_attempts" => isset($input["failed_attempts"]) ? $input["failed_attempts"] : $old_Values['failed_attempts'],
+                "failed_attempts" =>
+                isset($input["failed_attempts"]) ? $input["failed_attempts"] : $old_Values['failed_attempts'],
                 "last_login" => isset($input["last_login"]) ? $input["last_login"] : $old_Values['last_login'],
                 "language" => isset($input["language"]) ? $input["language"] : $old_Values['language'],
                 "created" => $old_Values['created'] ?? time(),

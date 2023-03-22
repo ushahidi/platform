@@ -3,27 +3,27 @@
 namespace Ushahidi\Modules\V5\Actions\Role\Queries;
 
 use App\Bus\Query\Query;
+use Ushahidi\Modules\V5\DTO\RoleSearchFields;
 
 class FetchRoleQuery implements Query
 {
     const DEFAULT_LIMIT = 0;
     const DEFAULT_ORDER = "ASC";
     const DEFAULT_SORT_BY = "id";
-    const AVAILABLE_SEARCH_FIELDS = ['name','q']; // q like name
     
     private $limit;
     private $page;
     private $sortBy;
     private $order;
-    private $search_data;
+    private $role_search_fields;
 
-    public function __construct(int $limit, int $page, string $sortBy, string $order, array $search_data)
+    public function __construct(int $limit, int $page, string $sortBy, string $order, RoleSearchFields $role_search_fields)
     {
         $this->limit = $limit;
         $this->page = $page;
         $this->sortBy = $sortBy;
         $this->order = $order;
-        $this->search_data = $search_data;
+        $this->role_search_fields = $role_search_fields;
     }
 
     public function getLimit(): int
@@ -46,8 +46,8 @@ class FetchRoleQuery implements Query
         return $this->order;
     }
 
-    public function getSearchData()
+    public function getRoleSearchFields()
     {
-        return $this->search_data;
+        return $this->role_search_fields;
     }
 }

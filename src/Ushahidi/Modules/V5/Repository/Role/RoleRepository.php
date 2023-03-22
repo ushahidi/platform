@@ -6,6 +6,7 @@ use Ushahidi\Modules\V5\Models\Role;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Ushahidi\Core\Entity\role as RoleEntity;
+use Ushahidi\Modules\V5\DTO\RoleSearchFields;
 
 interface RoleRepository
 {
@@ -16,6 +17,7 @@ interface RoleRepository
      * @param int $skip
      * @param string $sortBy
      * @param string $order
+     * @param RoleSearchFields role_search_fields
      * @return Role[]
      */
     public function fetch(
@@ -23,7 +25,7 @@ interface RoleRepository
         int $skip,
         string $sortBy,
         string $order,
-        array $search_data
+        RoleSearchFields $role_search_fields
     ): LengthAwarePaginator;
 
     /**

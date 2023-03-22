@@ -16,16 +16,22 @@ class UpdateRoleCommand implements Command
      * @var int
      */
     private $id;
-   
 
-    public function __construct(int $id, RoleEntity $entity)
+    /**
+     * @var array
+     */
+    private $permissions;
+
+
+    public function __construct(int $id, RoleEntity $entity, array $permissions = [])
     {
         $this->entity = $entity;
         $this->id = $id;
+        $this->permissions = $permissions;
     }
 
 
-   /**
+    /**
      * @return RoleEntity
      */
     public function getEntity(): RoleEntity
@@ -40,5 +46,13 @@ class UpdateRoleCommand implements Command
     public function getId(): int
     {
         return $this->id;
+    }
+
+    /**
+     * @return array
+     */
+    public function getPermissions(): array
+    {
+        return $this->permissions;
     }
 }
