@@ -85,7 +85,7 @@ class CollectionRequest extends FormRequest
             'view_options.array' => trans(
                 'validation.array',
                 ['field' => trans('fields.name')]
-            ),
+            )
         ];
     }
     /**

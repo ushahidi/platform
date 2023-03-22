@@ -42,7 +42,7 @@ class Set extends EloquentEntity
             'role' => '*json',
             'featured' => 'boolean',
             'created' => 'int',
-            'updated' => 'int',
+            'updated' => 'int'
         ];
     }
 
@@ -62,7 +62,7 @@ class Set extends EloquentEntity
     protected function getDerived()
     {
         return [
-            'user_id' => ['user', 'user.id'], /* alias */
+            'user_id' => ['user', 'user.id'] /* alias */
         ];
     }
 
@@ -80,7 +80,7 @@ class Set extends EloquentEntity
                 "role" => isset($input["role"]) ? $input["role"] : $old_Values['role'],
                 "featured" => isset($input["featured"]) ? $input["featured"] : $old_Values['featured'],
                 "created" => $old_Values['created'] ?? time(),
-                "updated" => time(),
+                "updated" => time()
             ]);
         }
         return new Set([
@@ -92,8 +92,7 @@ class Set extends EloquentEntity
             "role" => isset($input["role"]) ? $input["role"] : null,
             "featured" => isset($input["featured"]) ? $input["featured"] : self::DEFAULT_FEATURED,
             "created" => time(),
-            "updated" => time(),
-
+            "updated" => time()
         ]);
     }
 }

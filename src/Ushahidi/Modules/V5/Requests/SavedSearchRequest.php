@@ -105,7 +105,7 @@ class SavedSearchRequest extends FormRequest
             'view_options.array' => trans(
                 'validation.array',
                 ['field' => trans('fields.view_options')]
-            ),
+            )
         ];
     }
 

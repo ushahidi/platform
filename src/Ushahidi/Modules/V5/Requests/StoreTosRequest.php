@@ -45,7 +45,7 @@ class StoreTosRequest extends FormRequest
             'tos_version_date.date'      => trans(
                 'validation.date',
                 ['field' => trans('fields.tos_version_date')]
-            ),
+            )
         ];
     }
 

@@ -26,7 +26,7 @@ class SavedSearch extends Set
     {
         return parent::getDefinition() + [
             'filter' => '*json',
-            'search' => 'boolean',
+            'search' => 'boolean'
 
         ];
     }

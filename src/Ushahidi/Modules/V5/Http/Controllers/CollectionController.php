@@ -49,7 +49,7 @@ class CollectionController extends V5Controller
                 $request->query('page', 1),
                 $request->query('sortBy', FetchCollectionQuery::DEFAULT_SORT_BY),
                 $request->query('order', FetchCollectionQuery::DEFAULT_ORDER),
-                new CollectionSearchFields($request),
+                new CollectionSearchFields($request)
             )
         );
         return new CollectionCollection($collections);
@@ -82,7 +82,7 @@ class CollectionController extends V5Controller
         $this->commandBus->handle(
             new UpdateCollectionCommand(
                 $id,
-                CollectionEntity::buildEntity($request->input(), 'update', $saved_search->toArray()),
+                CollectionEntity::buildEntity($request->input(), 'update', $saved_search->toArray())
             )
         );
         return $this->show($id);

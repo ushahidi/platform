@@ -34,7 +34,7 @@ class StoreSurveyRequest extends FormRequest
             ],
             'password' => [
                 'required'
-            ],
+            ]
         ];
     }
 
@@ -52,7 +52,7 @@ class StoreSurveyRequest extends FormRequest
             'password.required' => trans(
                 'validation.not_empty',
                 ['field' => trans('fields.name')]
-            ),
+            )
         ];
     }
 
@@ -81,7 +81,7 @@ class StoreSurveyRequest extends FormRequest
                     'errors' => [
                         'status' => 422,
                         'message' => 'please recheck the your inputs',
-                        'failed_validations' => $errors,
+                        'failed_validations' => $errors
                     ]
                 ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY)
             );

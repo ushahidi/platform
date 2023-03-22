@@ -47,7 +47,7 @@ class SavedSearchController extends V5Controller
                 $request->query('page', 1),
                 $request->query('sortBy', FetchSavedSearchQuery::DEFAULT_SORT_BY),
                 $request->query('order', FetchSavedSearchQuery::DEFAULT_ORDER),
-                new SavedSearchSearchFields($request),
+                new SavedSearchSearchFields($request)
             )
         );
         return new SavedSearchCollection($surveys);
@@ -80,7 +80,7 @@ class SavedSearchController extends V5Controller
         $this->commandBus->handle(
             new UpdateSavedSearchCommand(
                 $id,
-                SavedSearchEntity::buildEntity($request->input(), 'update', $saved_search->toArray()),
+                SavedSearchEntity::buildEntity($request->input(), 'update', $saved_search->toArray())
             )
         );
         return $this->show($id);

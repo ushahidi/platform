@@ -34,7 +34,7 @@ class StoreUserRequest extends FormRequest
             ],
             'password' => [
                 'required'
-            ],
+            ]
         ];
     }
 
@@ -52,7 +52,7 @@ class StoreUserRequest extends FormRequest
             'password.required'      => trans(
                 'validation.not_empty',
                 ['field' => trans('fields.name')]
-            ),
+            )
         ];
     }
 
