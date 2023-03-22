@@ -23,8 +23,7 @@ class FetchRoleQuery implements Query
         string $sortBy,
         string $order,
         RoleSearchFields $role_search_fields
-    )
-    {
+    ) {
         $this->limit = $limit;
         $this->page = $page;
         $this->sortBy = $sortBy;
