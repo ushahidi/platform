@@ -41,16 +41,19 @@ class EloquentSetRepository implements SetRepository
     private function setSearchCondition(CollectionSearchFields $search_fields, $builder)
     {
 
+        $builder->where('search', '=', $search_fields->search());
+
         if ($search_fields->q()) {
             $builder->where('name', 'LIKE', "%" . $search_fields->q() . "%");
         }
         if ($search_fields->role()) {
-            $builder->where(function ($query) use ($search_fields) {
+            $GLOBALS['role'] = $search_fields->role();
+            $builder->where(function ($query) {
                 $query->whereNull('role')
-                    ->orWhere('role', 'LIKE', "%" . $search_fields->role() . "%");
+                    ->orWhere('role', 'LIKE', "%" . $GLOBALS['role'] . "%");
             });
+            unset($GLOBALS['role']);
         }
-        $builder->where('search', '=', $search_fields->search());
 
         return $builder;
     }
