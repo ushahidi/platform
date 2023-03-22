@@ -10,8 +10,6 @@ use Illuminate\Http\Request;
 use Ushahidi\Modules\V5\Models\User;
 use Ushahidi\Modules\V5\Actions\User\Queries\FetchUserByIdQuery;
 use Ushahidi\Modules\V5\Actions\User\Queries\FetchUserQuery;
-use Ushahidi\Modules\V5\Requests\StoreUserRequest;
-use Ushahidi\Modules\V5\Requests\UpdateUserRequest;
 use Ushahidi\Modules\V5\Actions\User\Commands\CreateUserCommand;
 use Ushahidi\Modules\V5\Actions\User\Commands\DeleteUserCommand;
 use Ushahidi\Modules\V5\Actions\User\Commands\UpdateUserCommand;
@@ -101,7 +99,6 @@ class UserController extends V5Controller
      * @return \Illuminate\Http\JsonResponse|CategoryResource
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    //public function store(StoreUserRequest $request)
     public function store(UserRequest $request)
     {
         $this->authorizeForCurrentUserForUser('store', User::class);
@@ -176,12 +173,11 @@ class UserController extends V5Controller
                 "id" => $user->id,
                 "email" => $request->input("email", $user->email),
                 "password" => (new PasswordHash())->hash($request->input("password", $user->password)),
-                "realname" => $request->input("realname", $user->email),
-                "role" => $request->input("role", $user->email),
-                "gravatar" => $request->input("gravatar", $user->email),
-                "logins" => $request->input("logins", $user->email),
-                "failed_attempts" => $request->input("failed_attempts", $user->email),
-                "last_login" => $request->input("last_login", $user->email),
+                "realname" => $request->input("realname", $user->realname),
+                "role" => $request->input("role", $user->role),
+                "logins" => $request->input("logins", $user->logins),
+                "failed_attempts" => $request->input("failed_attempts", $user->failed_attempts),
+                "last_login" => $request->input("last_login", $user->last_login),
                 "created" => $user->created ? $user->created : time(),
                 "updated" => time()
             ]);
@@ -191,12 +187,10 @@ class UserController extends V5Controller
             "password" => (new PasswordHash())->hash($request->input("password")),
             "realname" => $request->input("realname"),
             "role" => $request->input("role"),
-            "gravatar" => $request->input("gravatar"),
             "logins" => 0,
             "failed_attempts" => 0,
             "last_login" => null,
-            "created" => time(),
-
+            "created" => time()
         ]);
     }
 
