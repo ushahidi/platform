@@ -154,12 +154,11 @@ class RoleController extends V5Controller
     {
         $role = $this->queryBus->handle(new FetchRoleByIdQuery($id));
         $this->authorizeForCurrentUserForRole('delete', $role);
-
         if ($role->protected) {
             throw new AuthorizationException("Can't delete protected role ");
         }
         $this->commandBus->handle(new DeleteRoleCommand($id));
-        return new RoleResource($role);
+        return $this->deleteResposnse($id);
     } //end store()
 
 

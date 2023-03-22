@@ -163,7 +163,9 @@ class UserController extends V5Controller
         $user = $this->queryBus->handle(new FetchUserByIdQuery($id));
         $this->authorizeForCurrentUserForUser('delete', $user);
         $this->commandBus->handle(new DeleteUserCommand($id));
-        return new UserResource($user);
+        //return new UserResource($user);
+
+        return $this->deleteResposnse($id);
     } //end store()
 
     private function buildUserEntity(string $action, Request $request, User $user = null): UserEntity
