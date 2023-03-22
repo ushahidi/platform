@@ -15,7 +15,7 @@ class RoleResource extends Resource
 
     use RequestCachedResource;
 
-    public static $wrap = 'data';
+    public static $wrap = 'result';
     private function getResourcePrivileges()
     {
         $authorizer = service('authorizer.role');
