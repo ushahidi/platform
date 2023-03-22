@@ -26,15 +26,14 @@ class UpdateRoleCommandHandler extends AbstractCommandHandler
         );
     }
 
-
     /**
      * run the command handler
      * @param UpdateRoleCommand $command
      * @return int
      */
-    public function __invoke(Action $command) //: int
+    public function __invoke($command) //: int
     {
         $this->isSupported($command);
-        $this->roleRepository->update($command->getId(), $command->getInput());
+        $this->roleRepository->update($command->getId(), $command->getEntity());
     }
 }

@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Contracts\Auth\Access\Gate;
 use Ushahidi\Core\Entity\User as UserEntity;
 use Ushahidi\Modules\V5\DTO\UserSearchFields;
-use Ushahidi\Core\Tool\Hasher\Password as PasswordHash;
+//use Ushahidi\Core\Tool\Hasher\Password as PasswordHash;
 use Ushahidi\Modules\V5\Requests\UserRequest;
 use Illuminate\Support\Facades\Log;
 use Ushahidi\Core\Exception\NotFoundException;
@@ -102,7 +102,7 @@ class UserController extends V5Controller
     public function store(UserRequest $request)
     {
         $this->authorizeForCurrentUserForUser('store', User::class);
-        $command = new CreateUserCommand($this->buildUserEntity("create", $request));
+        $command = new CreateUserCommand(UserEntity::buildEntity($request->input()));
         $this->commandBus->handle($command);
         return new UserResource(
             $this->queryBus->handle(new FetchUserByIdQuery($command->getId()))
@@ -117,13 +117,12 @@ class UserController extends V5Controller
      * @return \Illuminate\Http\JsonResponse|UserResource
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    //public function update(UpdateUserRequest $request, int $id)
     public function update(UserRequest $request, int $id)
     {
         $user = $this->queryBus->handle(new FetchUserByIdQuery($id));
         $this->authorizeForCurrentUserForUser('update', $user);
         $this->commandBus->handle(
-            new UpdateUserCommand($id, $this->buildUserEntity("update", $request, $user))
+            new UpdateUserCommand($id, UserEntity::buildEntity($request->input(), 'update', $user->toArray()))
         );
         return new UserResource(
             $this->queryBus->handle(new FetchUserByIdQuery($id))
@@ -133,13 +132,13 @@ class UserController extends V5Controller
     /**
      * update Me.
      *
-     * @param Request $request
+     * @param UserRequest $request
      * @return \Illuminate\Http\JsonResponse|UserResource
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function updateMe(Request $request)
+    public function updateMe(UserRequest $request)
     {
-        $id = $this->getGenericUserForUser()->id;
+        $id = AUTH::id();//$this->getGenericUserForUser()->id;
         $user = $this->queryBus->handle(new FetchUserByIdQuery($id));
         $this->authorizeForCurrentUserForUser('update', $user);
         $this->commandBus->handle(
@@ -163,38 +162,9 @@ class UserController extends V5Controller
         $user = $this->queryBus->handle(new FetchUserByIdQuery($id));
         $this->authorizeForCurrentUserForUser('delete', $user);
         $this->commandBus->handle(new DeleteUserCommand($id));
-        //return new UserResource($user);
-
-        return $this->deleteResposnse($id);
+        return $this->deleteResponse($id);
     } //end store()
 
-    private function buildUserEntity(string $action, Request $request, User $user = null): UserEntity
-    {
-        if ($action === "update") {
-            return new UserEntity([
-                "id" => $user->id,
-                "email" => $request->input("email", $user->email),
-                "password" => (new PasswordHash())->hash($request->input("password", $user->password)),
-                "realname" => $request->input("realname", $user->realname),
-                "role" => $request->input("role", $user->role),
-                "logins" => $request->input("logins", $user->logins),
-                "failed_attempts" => $request->input("failed_attempts", $user->failed_attempts),
-                "last_login" => $request->input("last_login", $user->last_login),
-                "created" => $user->created ? $user->created : time(),
-                "updated" => time()
-            ]);
-        }
-        return new UserEntity([
-            "email" => $request->input("email"),
-            "password" => (new PasswordHash())->hash($request->input("password")),
-            "realname" => $request->input("realname"),
-            "role" => $request->input("role"),
-            "logins" => 0,
-            "failed_attempts" => 0,
-            "last_login" => null,
-            "created" => time()
-        ]);
-    }
 
 
     // To Do : Replace with authorizeForCurrentUser after merge

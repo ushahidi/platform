@@ -10,11 +10,11 @@ use Illuminate\Http\Request;
 use Ushahidi\Modules\V5\Models\Role;
 use Ushahidi\Modules\V5\Actions\Role\Queries\FetchRoleByIdQuery;
 use Ushahidi\Modules\V5\Actions\Role\Queries\FetchRoleQuery;
-use Ushahidi\Modules\V5\Requests\StoreRoleRequest;
 use Ushahidi\Modules\V5\Actions\Role\Commands\CreateRoleCommand;
 use Ushahidi\Modules\V5\Actions\Role\Commands\DeleteRoleCommand;
 use Ushahidi\Modules\V5\Actions\Role\Commands\UpdateRoleCommand;
 use Ushahidi\Core\Exception\AuthorizerException;
+use Ushahidi\Core\Entity\role as RoleEntity;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Contracts\Auth\Access\Gate;
@@ -83,7 +83,7 @@ class RoleController extends V5Controller
     public function store(RoleRequest $request)
     {
         $this->authorizeForCurrentUserForRole('store', Role::class);
-        $command = new CreateRoleCommand($this->getFields($request->input()));
+        $command = new CreateRoleCommand(RoleEntity::buildEntity($request->input()));
         $this->commandBus->handle($command);
         if (isset($request->input()["permissions"])) {
             $this->addRolePermissions(
@@ -126,9 +126,14 @@ class RoleController extends V5Controller
     {
         $role = $this->queryBus->handle(new FetchRoleByIdQuery($id));
         $this->authorizeForCurrentUserForRole('update', $role);
-        $inputs =  $this->getFields($request->input());
-        unset($inputs["protected"]);
-        $this->commandBus->handle(new UpdateRoleCommand($id, $inputs));
+      //  $inputs = $this->getFields($request->input());
+       // unset($inputs["protected"]);
+        $this->commandBus->handle(
+            new UpdateRoleCommand(
+                $id,
+                RoleEntity::buildEntity($request->input(), 'update', $role->toArray())
+            )
+        );
 
         $this->deleteRolePermissionsByRole($role->name);
         if (isset($request->input()["permissions"])) {
@@ -158,7 +163,7 @@ class RoleController extends V5Controller
             throw new AuthorizationException("Can't delete protected role ");
         }
         $this->commandBus->handle(new DeleteRoleCommand($id));
-        return $this->deleteResposnse($id);
+        return $this->deleteResponse($id);
     } //end store()
 
 
@@ -182,6 +187,6 @@ class RoleController extends V5Controller
 
     private function getGenericUserForRole()
     {
-        return  Auth::guard()->user();
+        return Auth::guard()->user();
     }
-}//end class
+} //end class

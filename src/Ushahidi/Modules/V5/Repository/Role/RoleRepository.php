@@ -5,6 +5,7 @@ namespace Ushahidi\Modules\V5\Repository\Role;
 use Ushahidi\Modules\V5\Models\Role;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Ushahidi\Core\Entity\role as RoleEntity;
 
 interface RoleRepository
 {
@@ -46,14 +47,14 @@ interface RoleRepository
      * @param array $data
      * @return int
      */
-    public function create(array $data): int;
+    public function create(RoleEntity $entity): int;
 
     /**
      * This method will update the Role
      * @param int $id
      * @param array $data
      */
-    public function update(int $id, array $data): void;
+    public function update(int $id, RoleEntity $entity): void;
 
        /**
      * This method will delete the Role

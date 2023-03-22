@@ -32,11 +32,11 @@ class CreateRoleCommandHandler extends AbstractCommandHandler
      * @param CreateRoleCommand $command
      * @return int
      */
-    public function __invoke(Action $command) //: int
+    public function __invoke($command) //: int
     {
         $this->isSupported($command);
         $command->setId(
-            $this->roleRepository->create($command->getInput())
+            $this->roleRepository->create($command->getEntity())
         );
     }
 }

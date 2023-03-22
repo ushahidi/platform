@@ -68,15 +68,15 @@ class EloquentUserRepository implements UserRepository
 
     /**
      * This method will create a User
-     * @param UserEntity $user
+     * @param UserEntity $entity
      * @return int
      * @throws \Exception
      */
-    public function create(UserEntity $user_entity): int
+    public function create(UserEntity $entity): int
     {
         DB::beginTransaction();
         try {
-            $User = User::create($user_entity->asArray());
+            $User = User::create($entity->asArray());
             DB::commit();
             return $User->id;
         } catch (\Exception $e) {
@@ -88,10 +88,10 @@ class EloquentUserRepository implements UserRepository
      /**
      * This method will update the User
      * @param int @id
-     * @param UserEntity $user_entity
+     * @param UserEntity $entity
      * @throws NotFoundException
      */
-    public function update(int $id, UserEntity $user_entity): void
+    public function update(int $id, UserEntity $entity): void
     {
         $User = User::find($id);
         if (!$User instanceof User) {
@@ -100,7 +100,7 @@ class EloquentUserRepository implements UserRepository
         
         DB::beginTransaction();
         try {
-            User::find($id)->fill($user_entity->asArray())->save();
+            User::find($id)->fill($entity->asArray())->save();
             DB::commit();
         } catch (\Exception $e) {
             DB::rollback();

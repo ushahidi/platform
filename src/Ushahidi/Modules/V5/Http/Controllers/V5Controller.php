@@ -427,7 +427,7 @@ class V5Controller extends BaseController
     } //end updateTranslations()
 
 
-    function deleteResposnse(int $id)
+    protected function deleteResponse(int $id)
     {
         return response()->json(['result' => ['deleted' => $id]]);
     }

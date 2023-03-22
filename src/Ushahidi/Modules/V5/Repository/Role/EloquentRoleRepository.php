@@ -9,6 +9,7 @@ use Ushahidi\Core\Exception\NotFoundException;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 use Ushahidi\Modules\V5\Models\RolePermissions;
+use Ushahidi\Core\Entity\role as RoleEntity;
 
 class EloquentRoleRepository implements RoleRepository
 {
@@ -79,11 +80,11 @@ class EloquentRoleRepository implements RoleRepository
      * @return int
      * @throws \Exception
      */
-    public function create(array $input): int
+    public function create(RoleEntity $entity): int
     {
         DB::beginTransaction();
         try {
-            $role = Role::create($input);
+            $role = Role::create($entity->asArray());
             DB::commit();
             return $role->id;
         } catch (\Exception $e) {
@@ -98,7 +99,7 @@ class EloquentRoleRepository implements RoleRepository
      * @param array $input
      * @throws NotFoundException
      */
-    public function update(int $id, array $input): void
+    public function update(int $id, RoleEntity $entity): void
     {
 
         $role = Role::find($id);
@@ -108,7 +109,7 @@ class EloquentRoleRepository implements RoleRepository
         
         DB::beginTransaction();
         try {
-            Role::find($id)->fill($input)->save();
+            Role::find($id)->fill($entity->asArray())->save();
             DB::commit();
         } catch (\Exception $e) {
             DB::rollback();

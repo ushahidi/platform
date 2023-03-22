@@ -3,30 +3,31 @@
 namespace Ushahidi\Modules\V5\Actions\Role\Commands;
 
 use App\Bus\Command\Command;
+use Ushahidi\Core\Entity\role as RoleEntity;
 
 class CreateRoleCommand implements Command
 {
     /**
-     * @var array
+     * @var RoleEntity
      */
-    private $input;
+    private $entity;
 
     /**
      * @var int
      */
     private $id;
    
-    public function __construct(array $input)
+    public function __construct(RoleEntity $entity)
     {
-        $this->input = $input;
+        $this->entity = $entity;
     }
 
     /**
-     * @return array
+     * @return RoleEntity
      */
-    public function getInput(): array
+    public function getEntity(): RoleEntity
     {
-        return $this->input;
+        return $this->entity;
     }
 
     /**
