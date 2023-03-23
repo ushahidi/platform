@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 use Ushahidi\Modules\V3\Console;
 use Ushahidi\Modules\V3\Factory\UsecaseFactory;
-use Ushahidi\Modules\V3\Repository\TosRepository;
+use Ushahidi\Core\Ohanzee\Repositories\TosRepository;
 use Ushahidi\Modules\V5\Http\Middleware\V5GlobalScopes;
 use Ushahidi\Core\Tool\Verifier;
 use Ushahidi\Core\Usecase\User\LoginUser;
