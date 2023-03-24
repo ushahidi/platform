@@ -10,7 +10,7 @@ class UserSettingResource extends Resource
 
     use RequestCachedResource;
 
-    public static $wrap = 'data';
+    public static $wrap = 'result';
 
     /**
      * Transform the resource into an array.

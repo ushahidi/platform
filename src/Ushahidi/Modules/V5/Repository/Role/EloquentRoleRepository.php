@@ -9,6 +9,8 @@ use Ushahidi\Core\Exception\NotFoundException;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 use Ushahidi\Modules\V5\Models\RolePermissions;
+use Ushahidi\Core\Entity\Role as RoleEntity;
+use Ushahidi\Modules\V5\DTO\RoleSearchFields;
 
 class EloquentRoleRepository implements RoleRepository
 {
@@ -19,6 +21,7 @@ class EloquentRoleRepository implements RoleRepository
      * @param int $skip
      * @param string $sortBy
      * @param string $order
+     * @param RoleSearchFields role_search_fields
      * @return Role[]
      */
     public function fetch(
@@ -26,10 +29,10 @@ class EloquentRoleRepository implements RoleRepository
         int $skip,
         string $sortBy,
         string $order,
-        array $search_data
+        RoleSearchFields $role_search_fields
     ): LengthAwarePaginator {
         return $this->setSearchCondition(
-            $search_data,
+            $role_search_fields,
             Role::take($limit)
                 ->skip($skip)
                 ->orderBy($sortBy, $order)
@@ -61,14 +64,14 @@ class EloquentRoleRepository implements RoleRepository
         return Role::query()->where('name', $role)->first();
     }
 
-    private function setSearchCondition(array $search_data, $builder)
+    private function setSearchCondition(RoleSearchFields $role_search_fields, $builder)
     {
 
-        if ($search_data['q']) {
-            $builder->where('name', 'LIKE', "%" . $search_data['q'] . "%");
+        if ($role_search_fields->q()) {
+            $builder->where('name', 'LIKE', "%" . $role_search_fields->q() . "%");
         }
-        if ($search_data['name']) {
-            $builder->where('name', '=', $search_data['name']);
+        if ($role_search_fields->name()) {
+            $builder->where('name', '=', $role_search_fields->name());
         }
         return $builder;
     }
@@ -79,11 +82,11 @@ class EloquentRoleRepository implements RoleRepository
      * @return int
      * @throws \Exception
      */
-    public function create(array $input): int
+    public function create(RoleEntity $entity): int
     {
         DB::beginTransaction();
         try {
-            $role = Role::create($input);
+            $role = Role::create($entity->asArray());
             DB::commit();
             return $role->id;
         } catch (\Exception $e) {
@@ -98,7 +101,7 @@ class EloquentRoleRepository implements RoleRepository
      * @param array $input
      * @throws NotFoundException
      */
-    public function update(int $id, array $input): void
+    public function update(int $id, RoleEntity $entity): void
     {
 
         $role = Role::find($id);
@@ -108,7 +111,7 @@ class EloquentRoleRepository implements RoleRepository
         
         DB::beginTransaction();
         try {
-            Role::find($id)->fill($input)->save();
+            Role::find($id)->fill($entity->asArray())->save();
             DB::commit();
         } catch (\Exception $e) {
             DB::rollback();

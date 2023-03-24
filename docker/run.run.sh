@@ -23,6 +23,9 @@ run_composer dumpautoload
 provision_passport_keys
 set_storage_permissions
 
+# Not all setups require containers handling migrations (i.e. multisite)
+if [ "${DB_MIGRATIONS_HANDLED}" == "true" ]; then
+# Not all containers may need to run migrations
 if [ "${RUN_PLATFORM_MIGRATIONS}" == "true" ]; then
 	run_migrations
 else
@@ -32,6 +35,7 @@ else
 		sleep 5
 	done
 	echo
+fi
 fi
 
 # Show logs so far , untrap exit

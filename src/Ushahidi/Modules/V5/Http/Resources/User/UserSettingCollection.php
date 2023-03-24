@@ -7,7 +7,7 @@ use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class UserSettingCollection extends ResourceCollection
 {
-    public static $wrap = 'data';
+    public static $wrap = 'results';
 
     /**
      * The resource that this resource collects.

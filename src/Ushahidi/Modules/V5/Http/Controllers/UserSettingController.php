@@ -8,13 +8,12 @@ use Illuminate\Http\Request;
 use Ushahidi\Modules\V5\Models\UserSetting;
 use Ushahidi\Modules\V5\Actions\User\Queries\FetchUserSettingByIdQuery;
 use Ushahidi\Modules\V5\Actions\User\Queries\FetchUserSettingQuery;
-use Ushahidi\Modules\V5\Requests\StoreUserSettingRequest;
 use Ushahidi\Modules\V5\Actions\User\Commands\CreateUserSettingCommand;
 use Ushahidi\Modules\V5\Actions\User\Commands\DeleteUserSettingCommand;
 use Ushahidi\Modules\V5\Actions\User\Commands\UpdateUserSettingCommand;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Contracts\Auth\Access\Gate;
 use Ushahidi\Core\Entity\UserSetting as UserSettingEntity;
+use Ushahidi\Modules\V5\Requests\UserSettingRequest;
 
 class UserSettingController extends V5Controller
 {
@@ -29,7 +28,7 @@ class UserSettingController extends V5Controller
     public function show(int $id)
     {
         $user_setting = $this->queryBus->handle(new FetchUserSettingByIdQuery($id));
-        $this->authorizeForCurrentUserForUserSetting('show', $user_setting);
+        $this->authorize('show', $user_setting);
         return new UserSettingResource($user_setting);
     } //end show()
 
@@ -42,7 +41,7 @@ class UserSettingController extends V5Controller
      */
     public function index(Request $request, int $user_id)
     {
-        $this->authorizeForCurrentUserForUserSetting('index', UserSetting::class);
+        $this->authorize('index', new UserSetting());
         return new UserSettingCollection(
             $this->queryBus->handle(
                 new FetchUserSettingQuery(
@@ -62,15 +61,16 @@ class UserSettingController extends V5Controller
     /**
      * Create new UserSetting.
      *
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse|CategoryResource
+     * @param UserSettingRequest $request
+     * @return \Illuminate\Http\JsonResponse|UserSettingResource
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    //public function store(StoreUserSettingRequest $request, CommandBus $commandBus, QueryBus $queryBus)
-    public function store(Request $request, int $user_id)
+    public function store(UserSettingRequest $request, int $user_id)
     {
-        $this->authorizeForCurrentUserForUserSetting('store', UserSetting::class);
-        $command = new CreateUserSettingCommand($this->buildEntity("create", $user_id, $request));
+        $this->authorize('store', new UserSetting());
+        $command = new CreateUserSettingCommand(
+            UserSettingEntity::buildEntity(array_merge($request->input(), ["user_id" => $user_id]))
+        );
         $this->commandBus->handle($command);
         return new UserSettingResource(
             $this->queryBus->handle(new FetchUserSettingByIdQuery($command->getId()))
@@ -80,18 +80,22 @@ class UserSettingController extends V5Controller
     /**
      * update UserSetting.
      *
-     * @param Request $request
+     * @param UserSettingRequest $request
      * @return \Illuminate\Http\JsonResponse|UserSettingResource
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function update(Request $request, int $user_id, int $id)
+    public function update(UserSettingRequest $request, int $user_id, int $id)
     {
         $user_setting = $this->queryBus->handle(new FetchUserSettingByIdQuery($id));
-        $this->authorizeForCurrentUserForUserSetting('update', $user_setting);
+        $this->authorize('update', $user_setting);
         $this->commandBus->handle(
             new UpdateUserSettingCommand(
                 $id,
-                $this->buildEntity("update", $user_id, $request, $user_setting)
+                UserSettingEntity::buildEntity(
+                    array_merge($request->input(), ["user_id" => $user_id]),
+                    'update',
+                    $user_setting->toArray()
+                )
             )
         );
         return new UserSettingResource(
@@ -110,50 +114,8 @@ class UserSettingController extends V5Controller
     public function delete(int $user_id, int $id)
     {
         $user_setting = $this->queryBus->handle(new FetchUserSettingByIdQuery($id));
-        $this->authorizeForCurrentUserForUserSetting('delete', $user_setting);
+        $this->authorize('delete', $user_setting);
         $this->commandBus->handle(new DeleteUserSettingCommand($id, $user_id));
-        return new UserSettingResource($user_setting);
+        return $this->deleteResponse($id);
     } //end store()
-
-    private function buildEntity(
-        string $action,
-        int $user_id,
-        Request $request,
-        UserSetting $user_setting = null
-    ): UserSettingEntity {
-        if ($action === "update") {
-            $user_entity = new UserSettingEntity([
-                "id" => $user_setting->id,
-                "config_key" => $request->input("config_key", $user_setting->email),
-                "config_value" => $request->input("config_value", $user_setting->email),
-                "user_id" => $user_id,
-                "created" => $user_setting->created,
-                "updated" => time()
-            ]);
-        } else { // create
-            $user_entity = new UserSettingEntity([
-                "config_key" => $request->input("config_key"),
-                "config_value" => $request->input("config_value"),
-                "user_id" => $user_id,
-                "created" => time(),
-                "updated" => time()
-
-            ]);
-        }
-        return ($user_entity);
-    }
-
-    // To Do : Replace with authorizeForCurrentUser after merge
-    private function authorizeForCurrentUserForUserSetting($ability, $arguments = [])
-    {
-        $gUser = $this->getGenericUserForUserSetting();
-
-        list($ability, $arguments) = $this->parseAbilityAndArguments($ability, $arguments);
-        return app(Gate::class)->forUser($gUser)->authorize($ability, $arguments);
-    }
-
-    private function getGenericUserForUserSetting()
-    {
-        return Auth::guard()->user();
-    }
 } //end class

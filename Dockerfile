@@ -14,6 +14,7 @@ RUN echo '#!/bin/bash\n. /utils.sh\n"$@"' > /bin/util ; chmod +x /bin/util ;
 RUN $DOCKERCES_MANAGE_UTIL add /run.run.sh
 
 ENV ENABLE_PLATFORM_TASKS=true \
+    DB_MIGRATIONS_HANDLED=true \
     RUN_PLATFORM_MIGRATIONS=true \
     VHOST_ROOT=/var/www/httpdocs \
     VHOST_INDEX=index.php \
