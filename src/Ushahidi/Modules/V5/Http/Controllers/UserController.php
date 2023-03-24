@@ -139,7 +139,7 @@ class UserController extends V5Controller
         $id = AUTH::id();
         $user = $this->queryBus->handle(new FetchUserByIdQuery($id));
         $this->commandBus->handle(
-            new UpdateUserCommand($id, $this->buildUserEntity("update", $request, $user))
+            new UpdateUserCommand($id, UserEntity::buildEntity($request->input(), 'update', $user->toArray()))
         );
         return $this->showMe();
     } //end update()
