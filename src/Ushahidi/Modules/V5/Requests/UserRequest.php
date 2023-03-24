@@ -32,7 +32,7 @@ class UserRequest extends BaseRequest
             ];
         } elseif ($request->isMethod('put')) {
             return [
-                'email' => ['filled','unique:users,email','email','max:150'],
+                'email' => ['filled','unique:users,email,'.$request->route('id'),'email','max:150'],
                 'password' => ['filled','min:7','max:72'],
                 'realname'=>['max:150'],
                 'role'=>['string','exists:roles,name']

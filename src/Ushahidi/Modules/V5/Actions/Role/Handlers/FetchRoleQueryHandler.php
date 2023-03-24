@@ -38,7 +38,7 @@ class FetchRoleQueryHandler extends AbstractQueryHandler
             $skip,
             $query->getSortBy(),
             $query->getOrder(),
-            $query->getSearchData()
+            $query->getRoleSearchFields()
         );
     }
 }

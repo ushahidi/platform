@@ -39,17 +39,17 @@ interface UserRepository
 
     /**
      * This method will create a User
-     * @param UserEntity $user_entity
+     * @param UserEntity $entity
      * @return int
      */
-    public function create(UserEntity $user_entity): int;
+    public function create(UserEntity $entity): int;
 
     /**
      * This method will update the User
      * @param int $id
-     * @param UserEntity $user_entity
+     * @param UserEntity $entity
      */
-    public function update(int $id, UserEntity $user_entity): void;
+    public function update(int $id, UserEntity $entity): void;
 
        /**
      * This method will delete the User

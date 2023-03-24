@@ -10,18 +10,12 @@ use Illuminate\Http\Request;
 use Ushahidi\Modules\V5\Models\User;
 use Ushahidi\Modules\V5\Actions\User\Queries\FetchUserByIdQuery;
 use Ushahidi\Modules\V5\Actions\User\Queries\FetchUserQuery;
-use Ushahidi\Modules\V5\Requests\StoreUserRequest;
-use Ushahidi\Modules\V5\Requests\UpdateUserRequest;
 use Ushahidi\Modules\V5\Actions\User\Commands\CreateUserCommand;
 use Ushahidi\Modules\V5\Actions\User\Commands\DeleteUserCommand;
 use Ushahidi\Modules\V5\Actions\User\Commands\UpdateUserCommand;
-use Ushahidi\Core\Exception\AuthorizerException;
-use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Contracts\Auth\Access\Gate;
 use Ushahidi\Core\Entity\User as UserEntity;
 use Ushahidi\Modules\V5\DTO\UserSearchFields;
-use Ushahidi\Core\Tool\Hasher\Password as PasswordHash;
 use Ushahidi\Modules\V5\Requests\UserRequest;
 use Illuminate\Support\Facades\Log;
 use Ushahidi\Core\Exception\NotFoundException;
@@ -47,7 +41,7 @@ class UserController extends V5Controller
     public function show(int $id)
     {
         $user = $this->queryBus->handle(new FetchUserByIdQuery($id));
-        $this->authorizeForCurrentUserForUser('show', $user);
+        $this->authorize('show', $user);
         return new UserResource($user);
     } //end show()
 
@@ -61,12 +55,11 @@ class UserController extends V5Controller
      */
     public function showMe()
     {
-        $id = $this->getGenericUserForUser()->id;
+        $id = AUTH::id();
         if (!$id) {
             throw new NotFoundException('User not found');
         }
         $user = $this->queryBus->handle(new FetchUserByIdQuery($id));
-        $this->authorizeForCurrentUserForUser('show', $user);
         return new UserResource($user);
     } //end show()
 
@@ -78,7 +71,8 @@ class UserController extends V5Controller
      */
     public function index(Request $request)
     {
-        $this->authorizeForCurrentUserForUser('index', User::class);
+        $this->authorize('index', new User());
+
         $resourceCollection = new UserCollection(
             $this->queryBus->handle(
                 new FetchUserQuery(
@@ -98,14 +92,14 @@ class UserController extends V5Controller
      * Create new User.
      *
      * @param UserRequest $request
-     * @return \Illuminate\Http\JsonResponse|CategoryResource
+     * @return \Illuminate\Http\JsonResponse|UserResource
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    //public function store(StoreUserRequest $request)
     public function store(UserRequest $request)
     {
-        $this->authorizeForCurrentUserForUser('store', User::class);
-        $command = new CreateUserCommand($this->buildUserEntity("create", $request));
+        $this->authorize('store', new User());
+
+        $command = new CreateUserCommand(UserEntity::buildEntity($request->input()));
         $this->commandBus->handle($command);
         return new UserResource(
             $this->queryBus->handle(new FetchUserByIdQuery($command->getId()))
@@ -120,13 +114,13 @@ class UserController extends V5Controller
      * @return \Illuminate\Http\JsonResponse|UserResource
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    //public function update(UpdateUserRequest $request, int $id)
     public function update(UserRequest $request, int $id)
     {
         $user = $this->queryBus->handle(new FetchUserByIdQuery($id));
-        $this->authorizeForCurrentUserForUser('update', $user);
+        $this->authorize('update', $user);
+
         $this->commandBus->handle(
-            new UpdateUserCommand($id, $this->buildUserEntity("update", $request, $user))
+            new UpdateUserCommand($id, UserEntity::buildEntity($request->input(), 'update', $user->toArray()))
         );
         return new UserResource(
             $this->queryBus->handle(new FetchUserByIdQuery($id))
@@ -136,21 +130,18 @@ class UserController extends V5Controller
     /**
      * update Me.
      *
-     * @param Request $request
+     * @param UserRequest $request
      * @return \Illuminate\Http\JsonResponse|UserResource
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function updateMe(Request $request)
+    public function updateMe(UserRequest $request)
     {
-        $id = $this->getGenericUserForUser()->id;
+        $id = AUTH::id();
         $user = $this->queryBus->handle(new FetchUserByIdQuery($id));
-        $this->authorizeForCurrentUserForUser('update', $user);
         $this->commandBus->handle(
             new UpdateUserCommand($id, $this->buildUserEntity("update", $request, $user))
         );
-        return new UserResource(
-            $this->queryBus->handle(new FetchUserByIdQuery($id))
-        );
+        return $this->showMe();
     } //end update()
 
 
@@ -164,54 +155,8 @@ class UserController extends V5Controller
     public function delete(int $id)
     {
         $user = $this->queryBus->handle(new FetchUserByIdQuery($id));
-        $this->authorizeForCurrentUserForUser('delete', $user);
+        $this->authorize('delete', $user);
         $this->commandBus->handle(new DeleteUserCommand($id));
-        return new UserResource($user);
+        return $this->deleteResponse($id);
     } //end store()
-
-    private function buildUserEntity(string $action, Request $request, User $user = null): UserEntity
-    {
-        if ($action === "update") {
-            return new UserEntity([
-                "id" => $user->id,
-                "email" => $request->input("email", $user->email),
-                "password" => (new PasswordHash())->hash($request->input("password", $user->password)),
-                "realname" => $request->input("realname", $user->email),
-                "role" => $request->input("role", $user->email),
-                "gravatar" => $request->input("gravatar", $user->email),
-                "logins" => $request->input("logins", $user->email),
-                "failed_attempts" => $request->input("failed_attempts", $user->email),
-                "last_login" => $request->input("last_login", $user->email),
-                "created" => $user->created ? $user->created : time(),
-                "updated" => time()
-            ]);
-        }
-        return new UserEntity([
-            "email" => $request->input("email"),
-            "password" => (new PasswordHash())->hash($request->input("password")),
-            "realname" => $request->input("realname"),
-            "role" => $request->input("role"),
-            "gravatar" => $request->input("gravatar"),
-            "logins" => 0,
-            "failed_attempts" => 0,
-            "last_login" => null,
-            "created" => time(),
-
-        ]);
-    }
-
-
-    // To Do : Replace with authorizeForCurrentUser after merge
-    private function authorizeForCurrentUserForUser($ability, $arguments = [])
-    {
-        $gUser = $this->getGenericUserForUser();
-
-        list($ability, $arguments) = $this->parseAbilityAndArguments($ability, $arguments);
-        return app(Gate::class)->forUser($gUser)->authorize($ability, $arguments);
-    }
-
-    private function getGenericUserForUser()
-    {
-        return Auth::guard()->user();
-    }
 } //end class
