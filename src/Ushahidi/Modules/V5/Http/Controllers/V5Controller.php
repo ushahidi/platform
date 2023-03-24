@@ -14,9 +14,12 @@ use Illuminate\Validation\Validator;
 use Illuminate\Contracts\Auth\Access\Gate;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Routing\Controller as BaseController;
+use App\Bus\Query\QueryBus;
+use App\Bus\Command\CommandBus;
 
 class V5Controller extends BaseController
 {
+
 
     /**
      * The response builder callback.
@@ -30,6 +33,16 @@ class V5Controller extends BaseController
      *
      * @var \Closure
      */
+
+    protected $queryBus;
+    protected $commandBus;
+    public function __construct(QueryBus $queryBus, CommandBus $commandBus)
+    {
+        $this->queryBus = $queryBus;
+        $this->commandBus = $commandBus;
+    }
+
+
     protected static $errorFormatter;
     /**
      * @param null $message
@@ -427,6 +440,27 @@ class V5Controller extends BaseController
     } //end updateTranslations()
 
 
+    /**
+     * get the approved hedrate relationships
+     *
+     * @param  array  $relationships
+     * @param Request $request
+     * @return array
+     */
+    public function getHydrate(array $relationships, Request $request): array
+    {
+        if ($request->has('hydrate') && !$request->get('hydrate')) {
+            $required_relationships = [];
+        } elseif ($request->get('hydrate')) {
+            $required_relationships = explode(',', $request->get('hydrate'));
+        } else {
+            $required_relationships = $relationships;
+        }
+        return array_filter($required_relationships, function ($o) use ($relationships) {
+            return in_array($o, $relationships);
+        });
+    }
+    
     protected function deleteResponse(int $id)
     {
         return response()->json(['result' => ['deleted' => $id]]);

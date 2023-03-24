@@ -34,7 +34,7 @@ class FieldResource extends Resource
             'config' => $this->config,
             'response_private' => (boolean) $this->response_private,
             'form_stage_id' => $this->form_stage_id,
-            'translations' => new TranslationCollection($this->translations),
+            'translations' => (new TranslationCollection($this->translations))->toArray(null)
         ];
     }
 }
