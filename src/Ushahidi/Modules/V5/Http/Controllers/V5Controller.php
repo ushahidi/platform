@@ -459,6 +459,8 @@ class V5Controller extends BaseController
         return array_filter($required_relationships, function ($o) use ($relationships) {
             return in_array($o, $relationships);
         });
+    }
+    
     protected function deleteResponse(int $id)
     {
         return response()->json(['result' => ['deleted' => $id]]);
