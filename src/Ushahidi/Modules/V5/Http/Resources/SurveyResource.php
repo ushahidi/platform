@@ -1,7 +1,6 @@
 <?php
 namespace Ushahidi\Modules\V5\Http\Resources;
 
-
 class SurveyResource extends BaseResource
 {
     public static $wrap = 'result';
