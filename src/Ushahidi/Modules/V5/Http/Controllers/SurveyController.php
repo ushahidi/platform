@@ -2,7 +2,6 @@
 
 namespace Ushahidi\Modules\V5\Http\Controllers;
 
-
 use Illuminate\Http\Request;
 use Ushahidi\Modules\V5\Models\Survey;
 use Ushahidi\Modules\V5\Actions\Survey\Queries\FetchSurveyByIdQuery;
