@@ -10,7 +10,7 @@ class PermissionsResource extends Resource
 
     use RequestCachedResource;
 
-    public static $wrap = 'data';
+    public static $wrap = 'result';
 
 
     private function getResourcePrivileges()

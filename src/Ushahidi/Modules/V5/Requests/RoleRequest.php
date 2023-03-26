@@ -32,7 +32,7 @@ class RoleRequest extends BaseRequest
             ];
         } elseif ($request->isMethod('put')) {
             return [
-                'name' => ['filled','unique:roles,name','max:50'],
+                'name' => ['filled','unique:roles,name,'.$request->route('id'),'max:50'],
                 'display_name' => ['filled','max:50'],
                 'permissions'=>['array'],
                 'permissions.*'=>['string','exists:permissions,name']

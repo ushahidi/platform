@@ -3,6 +3,7 @@
 namespace Ushahidi\Modules\V5\Requests;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserRequest extends BaseRequest
 {
@@ -23,6 +24,7 @@ class UserRequest extends BaseRequest
      */
     public function rules(Request $request)
     {
+        $user_id= $request->route('id')?$request->route('id'):Auth::id();
         if ($request->isMethod('post')) {
             return [
                 'email' => ['required','unique:users,email','email','max:150'],
@@ -32,7 +34,7 @@ class UserRequest extends BaseRequest
             ];
         } elseif ($request->isMethod('put')) {
             return [
-                'email' => ['filled','unique:users,email','email','max:150'],
+                'email' => ['filled','unique:users,email,'.$user_id,'email','max:150'],
                 'password' => ['filled','min:7','max:72'],
                 'realname'=>['max:150'],
                 'role'=>['string','exists:roles,name']

@@ -8,7 +8,7 @@ use Illuminate\Validation\ValidationException;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Contracts\Validation\Validator;
 
-class StoreUserRequest extends FormRequest
+class StoreSurveyRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -34,29 +34,29 @@ class StoreUserRequest extends FormRequest
             ],
             'password' => [
                 'required'
-            ],
+            ]
         ];
     }
 
     public function messages()
     {
         return [
-            'email.required'      => trans(
+            'email.required' => trans(
                 'validation.not_empty',
                 ['field' => trans('fields.name')]
             ),
-            'email.unique'      => trans(
+            'email.unique' => trans(
                 'validation.unique',
                 ['field' => trans('fields.name')]
             ),
-            'password.required'      => trans(
+            'password.required' => trans(
                 'validation.not_empty',
                 ['field' => trans('fields.name')]
-            ),
+            )
         ];
     }
 
-    /**
+     /**
      * Handle a failed validation attempt.
      *
      * @param  \Illuminate\Contracts\Validation\Validator $validator
@@ -69,10 +69,20 @@ class StoreUserRequest extends FormRequest
         try {
             parent::failedValidation($validator);
         } catch (ValidationException $e) {
+            $errors = [];
+            foreach ($e->errors() as $field => $error_messages) {
+                $errors[] = [
+                    "field" => $field,
+                    "error_messages" => $error_messages
+                ];
+            }
             throw new HttpResponseException(
                 response()->json([
-                    'error' => 422,
-                    'messages' => $e->errors(),
+                    'errors' => [
+                        'status' => 422,
+                        'message' => 'please recheck the your inputs',
+                        'failed_validations' => $errors
+                    ]
                 ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY)
             );
         }

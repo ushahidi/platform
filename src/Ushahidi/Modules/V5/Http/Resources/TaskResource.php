@@ -26,7 +26,7 @@ class TaskResource extends Resource
             'show_when_published' => $this->show_when_published,
             'task_is_internal_only' => $this->task_is_internal_only,
             'fields' => new FieldCollection($this->fields),
-            'translations' => new TranslationCollection($this->translations)
+            'translations' => (new TranslationCollection($this->translations))->toArray(null)
         ];
     }
 }

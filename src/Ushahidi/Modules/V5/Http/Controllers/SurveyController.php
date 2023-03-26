@@ -2,16 +2,20 @@
 
 namespace Ushahidi\Modules\V5\Http\Controllers;
 
-use Ramsey\Uuid\Uuid;
-use Illuminate\Support\Arr;
+
 use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
-use Ushahidi\Modules\V5\Models\Stage;
 use Ushahidi\Modules\V5\Models\Survey;
-use Ushahidi\Modules\V5\Models\Attribute;
-use Ushahidi\Modules\V5\Models\Translation;
-use Ushahidi\Modules\V5\Http\Resources\SurveyResource;
+use Ushahidi\Modules\V5\Actions\Survey\Queries\FetchSurveyByIdQuery;
+use Ushahidi\Modules\V5\Actions\Survey\Queries\FetchSurveyQuery;
+use Ushahidi\Modules\V5\Actions\Survey\Commands\CreateSurveyCommand;
+use Ushahidi\Modules\V5\Actions\Survey\Commands\UpdateSurveyCommand;
+use Ushahidi\Modules\V5\Actions\Survey\Commands\DeleteSurveyCommand;
 use Ushahidi\Modules\V5\Http\Resources\SurveyCollection;
+use Ushahidi\Modules\V5\Http\Resources\SurveyResource;
+use Ushahidi\Modules\V5\DTO\SurveySearchFields;
+use Ushahidi\Core\Entity\Form as SurveyEntity;
+use Ushahidi\Core\Exception\NotFoundException;
+use Ushahidi\Modules\V5\Http\Resources\TranslationCollection;
 
 class SurveyController extends V5Controller
 {
@@ -24,11 +28,27 @@ class SurveyController extends V5Controller
      */
     public function show(Request $request, int $id)
     {
-        $survey = Survey::find($id, Survey::selectModelFields($request));
-        if (!$survey) {
-            return self::make404();
+        try {
+            $survey = $this->queryBus->handle(
+                new FetchSurveyByIdQuery(
+                    $id,
+                    $request->input('formater') ?? null,
+                    $request->input('only') ?? null,
+                    $request->input('hydrate') ?? null
+                )
+            );
+            return new SurveyResource($survey);
+        } catch (NotFoundException $e) {
+            return response()->json(
+                [
+                    'errors' => [
+                        'status' => 404,
+                        'message' => $e->getMessage()
+                    ]
+                ],
+                404
+            );
         }
-        return new SurveyResource($survey);
     } //end show()
 
 
@@ -40,7 +60,19 @@ class SurveyController extends V5Controller
      */
     public function index(Request $request)
     {
-        return new SurveyCollection(Survey::all(Survey::selectModelFields($request)));
+        $surveys = $this->queryBus->handle(
+            new FetchSurveyQuery(
+                $request->query('limit', FetchSurveyQuery::DEFAULT_LIMIT),
+                $request->query('page', 1),
+                $request->query('sortBy', "id"),
+                $request->query('order', FetchSurveyQuery::DEFAULT_ORDER),
+                new SurveySearchFields($request),
+                $request->input('formater') ?? null,
+                $request->input('only') ?? null,
+                $request->input('hydrate') ?? null
+            )
+        );
+        return new SurveyCollection($surveys);
     } //end index()
 
     /**
@@ -66,68 +98,15 @@ class SurveyController extends V5Controller
         }
 
         $this->validate($request, $survey->getRules($request->input()), $survey->validationMessages());
-        $survey = Survey::create(
-            array_merge(
-                $request->input(),
-                [
-                    'updated' => time(),
-                    'created' => time(),
-                ]
+        $survey_id = $this->commandBus->handle(
+            new CreateSurveyCommand(
+                SurveyEntity::buildEntity($request->input()),
+                $request->input('tasks') ?? [],
+                $request->input('translations') ?? []
             )
         );
-        $this->saveTranslations(
-            new Survey(),
-            $survey->toArray(),
-            $request->input('translations') ?? [],
-            $survey->id,
-            'survey'
-        );
-        if ($request->input('tasks')) {
-            foreach ($request->input('tasks') as $stage) {
-                $stage_model = $survey->tasks()->create(
-                    array_merge(
-                        $stage,
-                        [
-                            'updated' => time(),
-                            'created' => time(),
-                        ]
-                    )
-                );
-                $this->saveTranslations(
-                    new Stage(),
-                    $stage_model->toArray(),
-                    ($stage['translations'] ?? []),
-                    $stage_model->id,
-                    'task'
-                );
-                foreach ($stage['fields'] as $attribute) {
-                    $uuid = Uuid::uuid4();
-                    $attribute['key'] = $uuid->toString();
 
-                    if ($attribute['type'] === 'tags') {
-                        $attribute['options'] = $this->normalizeCategoryOptions($attribute['options']);
-                    }
-                    $field_model = $stage_model->fields()->create(
-                        array_merge(
-                            $attribute,
-                            [
-                                'updated' => time(),
-                                'created' => time(),
-                            ]
-                        )
-                    );
-                    $this->saveTranslations(
-                        new Attribute(),
-                        $field_model->toArray(),
-                        ($attribute['translations'] ?? []),
-                        $field_model->id,
-                        'field'
-                    );
-                }
-            } //end foreach
-        } //end if
-
-        return new SurveyResource($survey);
+        return $this->show($request, $survey_id);
     } //end store()
 
     /**
@@ -141,10 +120,7 @@ class SurveyController extends V5Controller
      */
     public function update(int $id, Request $request)
     {
-        $survey = Survey::find($id);
-        if (!$survey) {
-            return self::make404();
-        }
+        $survey = $this->queryBus->handle(new FetchSurveyByIdQuery($id));
 
         $this->authorize('update', $survey);
         if (!$survey) {
@@ -152,167 +128,36 @@ class SurveyController extends V5Controller
         }
         $this->validate($request, $survey->getRules($request->input()), $survey->validationMessages());
 
-        $survey->update(
-            array_merge(
-                $request->input(),
-                ['updated' => time()]
+        $current_task_ids = $survey->tasks->modelKeys();
+        $this->commandBus->handle(
+            new UpdateSurveyCommand(
+                $id,
+                SurveyEntity::buildEntity($request->input(), 'update', $survey->toArray()),
+                $request->input('tasks') ?? [],
+                $request->input('translations') ?? [],
+                $current_task_ids ?? []
             )
         );
-        $this->updateTranslations(
-            $survey,
-            $survey->toArray(),
-            $request->input('translations'),
-            $survey->id,
-            'survey'
-        );
-
-        $this->updateTasks(($request->input('tasks') ?? []), $survey);
-        $survey->load('tasks');
-
-        return new SurveyResource($survey);
+        return $this->show($request, $id);
     } //end update()
-
-    /**
-     * @param array $input_tasks
-     * @param Survey $survey
-     */
-    private function updateTasks(array $input_tasks, Survey $survey)
-    {
-        $added_tasks = [];
-        foreach ($input_tasks as $stage) {
-            if (isset($stage['id'])) {
-                $stage_model = $survey->tasks->find($stage['id']);
-                if (!$stage_model) {
-                    continue;
-                }
-
-                $stage_model->update($stage);
-                $stage_model = Stage::find($stage['id']);
-            } else {
-                $stage_model = $survey->tasks()->create(
-                    array_merge(
-                        $stage,
-                        ['updated' => time()]
-                    )
-                );
-                $added_tasks[] = $stage_model->id;
-            }
-            $this->updateTranslations(
-                $stage_model,
-                $stage_model->toArray(),
-                $stage['translations'] ?? [],
-                $stage_model->id,
-                'task'
-            );
-            $this->updateFields(($stage['fields'] ?? []), $stage_model);
-        } //end foreach
-
-        $input_tasks_collection = new Collection($input_tasks);
-        $survey->load('tasks');
-
-        $tasks_to_delete = $survey->tasks->whereNotIn(
-            'id',
-            array_merge($added_tasks, $input_tasks_collection->groupBy('id')->keys()->toArray())
-        );
-        foreach ($tasks_to_delete as $task_to_delete) {
-            Stage::where('id', $task_to_delete->id)->delete();
-        }
-    } //end updateTasks()
-
-    private function isArrayOfNumbers(array $arr)
-    {
-        return $arr === array_filter($arr, 'is_numeric');
-    }
-
-    private function normalizeCategoryOptions(array $options)
-    {
-        if (!$this->isArrayOfNumbers($options)) {
-            return Arr::flatten(Arr::pluck($options, 'id'));
-        }
-        return $options;
-    }
-    /**
-     * @param array $input_fields
-     * @param Survey $survey
-     * @param Stage $stage
-     */
-    private function updateFields(array $input_fields, Stage $stage)
-    {
-        $added_fields = [];
-        foreach ($input_fields as $field) {
-            if (isset($field['id'])) {
-                $field_model = $stage->fields->find($field['id']);
-                if (!$field_model) {
-                    continue;
-                }
-                if ($field['type'] === 'tags') {
-                    $field['options'] = $this->normalizeCategoryOptions($field['options']);
-                }
-                $field_model->update($field);
-                $field_model = Attribute::find($field['id']);
-            } else {
-                $uuid = Uuid::uuid4();
-                if ($field['type'] === 'tags') {
-                    $field['options'] = $this->normalizeCategoryOptions($field['options']);
-                }
-                $field_model = $stage->fields()->create(
-                    array_merge(
-                        $field,
-                        [
-                            'updated' => time(),
-                            'key'     => $uuid->toString(),
-                        ]
-                    )
-                );
-                $added_fields[] = $field_model->id;
-            } //end if
-
-            $this->updateTranslations(
-                $field_model,
-                $field_model->toArray(),
-                ($field['translations'] ?? []),
-                $field_model->id,
-                'field'
-            );
-        } //end foreach
-
-        $input_fields_collection = new Collection($input_fields);
-        $stage->load('fields');
-
-        $fields_to_delete = $stage->fields->whereNotIn(
-            'id',
-            array_merge($added_fields, $input_fields_collection->groupBy('id')->keys()->toArray())
-        );
-        foreach ($fields_to_delete as $field_to_delete) {
-            Attribute::where('id', $field_to_delete->id)->delete();
-        }
-    } //end updateFields()
-
-
     /**
      * @param integer $id
      */
     public function delete(int $id, Request $request)
     {
-        $survey = Survey::find($id);
+        $survey = $this->queryBus->handle(new FetchSurveyByIdQuery($id, null, 'id', 'tasks'));
         $this->authorize('delete', $survey);
         $task_ids = $survey->tasks->modelKeys();
-
         $field_ids = $survey->tasks->map(function ($task, $key) use (&$field_ids) {
             return $task->fields->modelKeys();
         })->flatten();
-
-        Translation::whereIn('translatable_id', $task_ids)
-            ->where('translatable_type', 'task')
-            ->delete();
-
-        Translation::whereIn('translatable_id', $field_ids)
-            ->where('translatable_type', 'field')
-            ->delete();
-
-        $survey->translations()->delete();
-        $survey->delete();
-
+        $this->commandBus->handle(new DeleteSurveyCommand($id, $task_ids ?? [], $field_ids->toArray() ?? []));
         return response()->json(['result' => ['deleted' => $id]]);
     } //end delete()
-}//end class
+
+
+    public function stats(int $id, Request $request)
+    {
+        return response()->json(['result' => ['stats' => $id]]);
+    } //end delete()
+} //end class
