@@ -36,7 +36,7 @@ class EloquentRoleRepository implements RoleRepository
             Role::take($limit)
                 ->skip($skip)
                 ->orderBy($sortBy, $order)
-        )->paginate($limit);
+        )->paginate($limit ? $limit : config('paging.default_laravel_pageing_limit'));
     }
 
     /**
@@ -55,7 +55,7 @@ class EloquentRoleRepository implements RoleRepository
         }
         return $role;
     }
-    
+
     /**
      * @return Role|Model
      */
@@ -95,7 +95,7 @@ class EloquentRoleRepository implements RoleRepository
         }
     }
 
-     /**
+    /**
      * This method will update the Role
      * @param int @id
      * @param array $input
@@ -108,7 +108,7 @@ class EloquentRoleRepository implements RoleRepository
         if (!$role instanceof Role) {
             throw new NotFoundException('role not found');
         }
-        
+
         DB::beginTransaction();
         try {
             Role::find($id)->fill($entity->asArray())->save();
@@ -119,7 +119,7 @@ class EloquentRoleRepository implements RoleRepository
         }
     }
 
-     /**
+    /**
      * This method will create a Role
      * @param int $id
      * @return int
@@ -141,8 +141,8 @@ class EloquentRoleRepository implements RoleRepository
         DB::beginTransaction();
         try {
             $rolePermission = RolePermissions::create([
-                "role"=>$role,
-                "permission"=>$permission
+                "role" => $role,
+                "permission" => $permission
             ]);
             DB::commit();
             return $rolePermission->id;
@@ -153,7 +153,7 @@ class EloquentRoleRepository implements RoleRepository
     }
 
 
-    
+
     /**
      * This method will delete the Role permission by role
      * @param int $id

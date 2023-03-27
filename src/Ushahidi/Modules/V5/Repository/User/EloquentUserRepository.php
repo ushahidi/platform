@@ -34,7 +34,7 @@ class EloquentUserRepository implements UserRepository
             User::take($limit)
                 ->skip($skip)
                 ->orderBy($sortBy, $order)
-        )->paginate($limit);
+        )->paginate($limit ? $limit : config('paging.default_laravel_pageing_limit'));
     }
 
     /**
@@ -85,7 +85,7 @@ class EloquentUserRepository implements UserRepository
         }
     }
 
-     /**
+    /**
      * This method will update the User
      * @param int @id
      * @param UserEntity $entity
@@ -97,7 +97,7 @@ class EloquentUserRepository implements UserRepository
         if (!$User instanceof User) {
             throw new NotFoundException('User not found');
         }
-        
+
         DB::beginTransaction();
         try {
             User::find($id)->fill($entity->asArray())->save();
@@ -108,7 +108,7 @@ class EloquentUserRepository implements UserRepository
         }
     }
 
-     /**
+    /**
      * This method will create a User
      * @param int $id
      * @return int

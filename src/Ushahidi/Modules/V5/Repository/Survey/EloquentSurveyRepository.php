@@ -38,7 +38,7 @@ class EloquentSurveyRepository implements SurveyRepository
                 ->take($limit)
                 ->skip($skip)
                 ->orderBy($sortBy, $order)
-        )->paginate($limit);
+        )->paginate($limit ? $limit : config('paging.default_laravel_pageing_limit'));
     }
 
     /**
@@ -52,11 +52,11 @@ class EloquentSurveyRepository implements SurveyRepository
      */
     public function findById(int $id, ?array $required_fields): Survey
     {
-        
-        $survey = $required_fields?
-        Survey::select($required_fields)->where('id', '=', $id)->first()
-        :Survey::all()->where('id', '=', $id)->first();
-       
+
+        $survey = $required_fields ?
+            Survey::select($required_fields)->where('id', '=', $id)->first()
+            : Survey::all()->where('id', '=', $id)->first();
+
         if (!$survey instanceof Survey) {
             throw new NotFoundException('Survey not found');
         }
@@ -69,7 +69,7 @@ class EloquentSurveyRepository implements SurveyRepository
         if ($survey_search_fields->q()) {
             $builder->where('name', 'LIKE', "%" . $survey_search_fields->q() . "%");
         }
-        
+
         return $builder;
     }
 
@@ -92,7 +92,7 @@ class EloquentSurveyRepository implements SurveyRepository
         }
     }
 
-     /**
+    /**
      * This method will update the Survey
      * @param int @id
      * @param SurveyEntity $survey_entity
@@ -104,7 +104,7 @@ class EloquentSurveyRepository implements SurveyRepository
         if (!$Survey instanceof Survey) {
             throw new NotFoundException('Survey not found');
         }
-        
+
         DB::beginTransaction();
         try {
             Survey::find($id)->fill($survey_entity->asArray())->save();
@@ -115,7 +115,7 @@ class EloquentSurveyRepository implements SurveyRepository
         }
     }
 
-     /**
+    /**
      * This method will create a Survey
      * @param int $id
      * @throws NotFoundException
