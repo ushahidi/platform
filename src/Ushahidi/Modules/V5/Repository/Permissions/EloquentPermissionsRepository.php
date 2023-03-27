@@ -30,7 +30,7 @@ class EloquentPermissionsRepository implements PermissionsRepository
             Permissions::take($limit)
                 ->skip($skip)
                 ->orderBy($sortBy, $order)
-        )->paginate($limit);
+        )->paginate($limit ? $limit : config('paging.default_laravel_pageing_limit'));
     }
 
     /**

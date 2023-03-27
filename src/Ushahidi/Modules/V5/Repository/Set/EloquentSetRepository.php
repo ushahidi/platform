@@ -35,7 +35,7 @@ class EloquentSetRepository implements SetRepository
             Set::take($limit)
                 ->skip($skip)
                 ->orderBy($sortBy, $order)
-        )->paginate($limit);
+        )->paginate($limit ? $limit : config('paging.default_laravel_pageing_limit'));
     }
 
     private function setSearchCondition(CollectionSearchFields $search_fields, $builder)
