@@ -15,6 +15,7 @@ use Ushahidi\Modules\V5\DTO\SurveySearchFields;
 use Ushahidi\Core\Entity\Form as SurveyEntity;
 use Ushahidi\Core\Exception\NotFoundException;
 use Ushahidi\Modules\V5\Http\Resources\TranslationCollection;
+use Ushahidi\Modules\V5\Requests\SurveyRequest;
 
 class SurveyController extends V5Controller
 {
@@ -81,11 +82,11 @@ class SurveyController extends V5Controller
      * Display the specified resource.
      *
      * @TODO   transactions =)
-     * @param Request $request
+     * @param SurveyRequest $request
      * @return SurveyResource
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function store(Request $request)
+    public function store(SurveyRequest $request)
     {
         $authorizer = service('authorizer.form');
         // if there's no user the guards will kick them off already, but if there
@@ -99,7 +100,6 @@ class SurveyController extends V5Controller
             $this->authorize('store', Survey::class);
         }
 
-        $this->validate($request, $survey->getRules($request->input()), $survey->validationMessages());
         $survey_id = $this->commandBus->handle(
             new CreateSurveyCommand(
                 SurveyEntity::buildEntity($request->input()),
@@ -116,11 +116,11 @@ class SurveyController extends V5Controller
      *
      * @TODO   transactions =)
      * @param integer $id
-     * @param Request $request
+     * @param SurveyRequest $request
      * @return mixed
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function update(int $id, Request $request)
+    public function update(int $id, SurveyRequest $request)
     {
         $survey = $this->queryBus->handle(new FetchSurveyByIdQuery($id));
 
@@ -128,7 +128,6 @@ class SurveyController extends V5Controller
         if (!$survey) {
             return self::make404();
         }
-        $this->validate($request, $survey->getRules($request->input()), $survey->validationMessages());
 
         $current_task_ids = $survey->tasks->modelKeys();
         $this->commandBus->handle(

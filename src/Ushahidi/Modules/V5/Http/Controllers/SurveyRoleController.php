@@ -21,8 +21,10 @@ class SurveyRoleController extends V5Controller
      */
     public function index(int $survey_id, Request $request)
     {
+        $survey = $this->queryBus->handle(new FetchSurveyByIdQuery($survey_id, null, null, null));
+
         // All access is based on the survey itself, not the role.
-        $this->authorize('show', new Survey());
+       // $this->authorize('show', $survey);
         $resourceCollection = new SurveyRoleCollection(
             $this->queryBus->handle(
                 new FetchRolesCanCreateSurveyPostsQuery(
