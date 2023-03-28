@@ -20,7 +20,11 @@ class CollectionSearchFields
     {
         $this->query = $request->query('q');
         $this->search = false;
-        $this->role = Auth::user()->role;
+        if (Auth::user()) {
+            $this->role = Auth::user()->role;
+        } else {
+            $this->role = null;
+        }
     }
 
     public function q(): ?string
