@@ -20,9 +20,9 @@ class CollectionSearchFields
     {
         $this->query = $request->query('q');
         $this->search = false;
-        if (Auth::user()){
+        if (Auth::user()) {
             $this->role = Auth::user()->role;
-        }else{
+        } else {
             $this->role = null;
         }
     }
