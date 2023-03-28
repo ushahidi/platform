@@ -11,10 +11,10 @@
 
 namespace Ushahidi\Modules\V3\Transformer;
 
-use Ushahidi\Contracts\MappingTransformer;
+use Ushahidi\Contracts\Transformer;
 use Ushahidi\Core\Entity\PostRepository;
 
-class CSVPostTransformer implements MappingTransformer
+class CSVPostTransformer implements Transformer
 {
     protected $columnNames;
     protected $map;

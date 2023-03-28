@@ -11,7 +11,7 @@
 
 namespace Ushahidi\Core\Ohanzee\Repositories\Post;
 
-use Ushahidi\Core\Entity\PostValue;
+use Ushahidi\Core\Ohanzee\Entities\PostValue;
 
 class IntegerRepository extends ValueRepository
 {

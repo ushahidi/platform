@@ -12,12 +12,12 @@
 namespace Ushahidi\Core\Usecase\User;
 
 use Ushahidi\Contracts\Usecase;
+use Ushahidi\Core\Entity\UserRepository;
 use Ushahidi\Core\Usecase\Concerns\ModifyRecords;
 use Ushahidi\Core\Usecase\Concerns\Formatter as FormatterTrait;
 use Ushahidi\Core\Usecase\Concerns\Validator as ValidatorTrait;
 use Ushahidi\Core\Usecase\Concerns\Authorizer as AuthorizerTrait;
 use Ushahidi\Core\Usecase\Concerns\Translator as TranslatorTrait;
-use Ushahidi\Contracts\Repository\Usecase\UserResetPasswordRepository;
 
 class ResetUserPassword implements Usecase
 {
@@ -46,7 +46,7 @@ class ResetUserPassword implements Usecase
         return false;
     }
 
-    public function setRepository(UserResetPasswordRepository $repo)
+    public function setRepository(UserRepository $repo)
     {
         $this->repo = $repo;
         return $this;

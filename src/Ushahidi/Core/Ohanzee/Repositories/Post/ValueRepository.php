@@ -12,16 +12,10 @@
 namespace Ushahidi\Core\Ohanzee\Repositories\Post;
 
 use Ohanzee\DB;
-use Ushahidi\Core\Entity\PostValue;
+use Ushahidi\Core\Ohanzee\Entities\PostValue;
 use Ushahidi\Core\Ohanzee\Repositories\OhanzeeRepository;
-use Ushahidi\Core\Entity\PostValueRepository;
-use Ushahidi\Contracts\Repository\Usecase\ValuesForPostRepository;
-use Ushahidi\Contracts\Repository\Usecase\UpdatePostValueRepository;
 
-abstract class ValueRepository extends OhanzeeRepository implements
-    PostValueRepository,
-    ValuesForPostRepository,
-    UpdatePostValueRepository
+abstract class ValueRepository extends OhanzeeRepository
 {
 
     // OhanzeeRepository

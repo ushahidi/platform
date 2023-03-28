@@ -11,10 +11,10 @@
 
 namespace Ushahidi\Core\Ohanzee\Repositories;
 
-use Ushahidi\Core\Tool\SearchData;
-use Ushahidi\Core\Entity\Media;
-use Ushahidi\Core\Entity\MediaRepository as MediaRepositoryContract;
 use Ushahidi\Core\Tool\Uploader;
+use Ushahidi\Core\Tool\SearchData;
+use Ushahidi\Core\Ohanzee\Entities\Media;
+use Ushahidi\Core\Entity\MediaRepository as MediaRepositoryContract;
 
 class MediaRepository extends OhanzeeRepository implements
     MediaRepositoryContract

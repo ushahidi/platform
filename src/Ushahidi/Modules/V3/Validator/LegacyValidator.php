@@ -26,15 +26,15 @@ abstract class LegacyValidator implements Validator
     /**
      * Must return an array of rules that the validator should apply
      *
-     * @return  Array  $rules array of $key => $rule
+     * @return array  $rules array of $key => $rule
      */
     abstract protected function getRules();
 
     /**
      * Check the data against the rules returned by getRules()
      *
-     * @param  Array $data      an array of changed values to check in $key => $value format
-     * @param  Array $fullData  an array of full entity data for reference during validation
+     * @param  array $data      an array of changed values to check in $key => $value format
+     * @param  array $fullData  an array of full entity data for reference during validation
      * @return bool
      */
     public function check(array $data, array $fullData = []) : bool
@@ -53,8 +53,8 @@ abstract class LegacyValidator implements Validator
     /**
      * Return an array of any errors that occurred during validation
      *
-     * @param  String $source
-     * @return Array
+     * @param  string $source
+     * @return array
      */
     public function errors($source = null) : array
     {

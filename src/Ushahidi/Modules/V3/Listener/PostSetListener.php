@@ -15,13 +15,13 @@ namespace Ushahidi\Modules\V3\Listener;
 
 use League\Event\EventInterface;
 use League\Event\AbstractListener;
-use Ushahidi\Core\Entity\NotificationQueueRepository;
+use Ushahidi\Core\Ohanzee\Repositories\Notification\QueueRepository;
 
 class PostSetListener extends AbstractListener
 {
     protected $repo;
 
-    public function setRepo(NotificationQueueRepository $repo)
+    public function setRepo(QueueRepository $repo)
     {
         $this->repo = $repo;
     }

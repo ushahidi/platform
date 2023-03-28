@@ -8,9 +8,11 @@
 
 namespace Ushahidi\Tests\Unit\Core\Entity;
 
+use Ushahidi\Core\Ohanzee\StatefulData;
+
 class MockPostEntity
 {
-    use \Ushahidi\Core\Concerns\StatefulData;
+    use StatefulData;
 
     protected $id;
 

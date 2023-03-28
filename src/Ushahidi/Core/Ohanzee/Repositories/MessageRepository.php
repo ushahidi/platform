@@ -12,20 +12,16 @@
 namespace Ushahidi\Core\Ohanzee\Repositories;
 
 use Ohanzee\DB;
-use Ushahidi\Core\Tool\SearchData;
 use Ushahidi\Contracts\Entity;
-use Ushahidi\Core\Entity\Message;
 use Illuminate\Support\Collection;
+use Ushahidi\Core\Tool\SearchData;
+use Ushahidi\Core\Ohanzee\Entities\Message;
 use Ushahidi\DataSource\Contracts\MessageStatus;
 use Ushahidi\DataSource\Contracts\MessageDirection;
-use Ushahidi\Contracts\Repository\Usecase\CreateMessageRepository;
-use Ushahidi\Contracts\Repository\Usecase\UpdateMessageRepository;
 use Ushahidi\Core\Entity\MessageRepository as MessageRepositoryContract;
 
 class MessageRepository extends OhanzeeRepository implements
-    MessageRepositoryContract,
-    UpdateMessageRepository,
-    CreateMessageRepository
+    MessageRepositoryContract
 {
     // Use the JSON transcoder to encode properties
     use Concerns\JsonTranscode;
@@ -49,7 +45,13 @@ class MessageRepository extends OhanzeeRepository implements
     public function getSearchFields()
     {
         return [
-            'box', 'status', 'contact', 'parent', 'post', 'type', 'data_source',
+            'box',
+            'status',
+            'contact',
+            'parent',
+            'post',
+            'type',
+            'data_source',
             'q' /* LIKE contact, title, message */
         ];
     }
@@ -65,7 +67,7 @@ class MessageRepository extends OhanzeeRepository implements
     {
         $query = $this->search_query
             ->join('contacts')
-                ->on('contact_id', '=', 'contacts.id');
+            ->on('contact_id', '=', 'contacts.id');
 
         if ($search->box === 'outbox') {
             // Outbox only shows outgoing messages
@@ -99,20 +101,13 @@ class MessageRepository extends OhanzeeRepository implements
             $query->and_where_close();
         }
 
-        foreach ([
-            'contact',
-            'parent',
-            'post',
-        ] as $fk) {
+        foreach (['contact', 'parent', 'post',] as $fk) {
             if ($search->$fk) {
                 $query->where("messages.{$fk}_id", '=', $search->$fk);
             }
         }
 
-        foreach ([
-            'type',
-            'data_source',
-        ] as $key) {
+        foreach (['type', 'data_source',] as $key) {
             if ($search->$key) {
                 $query->where("messages.{$key}", '=', $search->$key);
             }
@@ -131,7 +126,7 @@ class MessageRepository extends OhanzeeRepository implements
             ->join('contacts', 'LEFT')->on('contacts.id', '=', 'messages.contact_id')
             ->select('contacts.contact')
             ->select(['contacts.type', 'contact_type'])
-            ;
+        ;
 
         if ($data_source) {
             $query->where('messages.data_source', '=', $data_source);
@@ -156,7 +151,7 @@ class MessageRepository extends OhanzeeRepository implements
             ->select(['contacts.type', 'contact_type'])
             // Only return messages without a specified provider
             ->where('messages.data_source', 'IS', null)
-            ;
+        ;
 
         if ($type) {
             $query->where('messages.type', '=', $type);
@@ -171,7 +166,7 @@ class MessageRepository extends OhanzeeRepository implements
     public function updateMessageStatus($id, $status, $data_source_message_id = null)
     {
         $changes = [
-            'status'   => $status,
+            'status' => $status,
             'data_source_message_id' => $data_source_message_id
         ];
 
@@ -287,7 +282,7 @@ class MessageRepository extends OhanzeeRepository implements
                 'desc'
             )
             ->limit(1);
-        $result =   $query->execute($this->db());
+        $result = $query->execute($this->db());
 
         $last_uid = $result->get('uid', 0) ? $result->get('uid', 0) : null;
 

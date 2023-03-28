@@ -20,9 +20,9 @@ interface UserSettingRepository extends
 {
 
     /**
-     * @param  int $form_id
+     * @param mixed $user_id
      *
-     * @return [Ushahidi\Core\Entity\UserSetting, ...]
+     * @return \Ushahidi\Core\Entity\UserSetting[]
      */
     public function getByUser($user_id);
 }

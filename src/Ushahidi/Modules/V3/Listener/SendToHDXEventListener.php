@@ -8,20 +8,6 @@ use Ushahidi\Modules\V3\Events\SendToHDXEvent;
 class SendToHDXEventListener
 {
     /**
-     * Create the event listener.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        //
-    }
-
-    protected function getUsecase()
-    {
-    }
-
-    /**
      * Handle the event.
      *
      * @param  SendToHDXEvent  $event

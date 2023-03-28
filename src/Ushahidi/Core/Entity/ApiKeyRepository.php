@@ -16,4 +16,11 @@ use Ushahidi\Contracts\Repository\CreateRepository;
 
 interface ApiKeyRepository extends CreateRepository, EntityExists
 {
+    /**
+     * Check if an api key exists
+     *
+     * @param  string  $api_key
+     * @return boolean
+     */
+    public function apiKeyExists($api_key);
 }

@@ -13,7 +13,7 @@ namespace Ushahidi\Core\Ohanzee\Repositories;
 
 use Ohanzee\DB;
 use Ushahidi\Contracts\Entity;
-use Ushahidi\Core\Entity\Contact;
+use Ushahidi\Core\Ohanzee\Entities\Contact;
 use Illuminate\Support\Collection;
 use Ushahidi\Core\Tool\SearchData;
 use Ushahidi\Core\Concerns\AdminAccess;

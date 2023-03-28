@@ -12,8 +12,6 @@
 namespace Ushahidi\Core\Ohanzee\Repositories\Post;
 
 use Ohanzee\DB;
-use Ushahidi\Core\Entity\PostValue;
-use Ushahidi\Core\Entity\PostValueRepository as PostValueRepositoryContract;
 
 class GeometryRepository extends ValueRepository
 {

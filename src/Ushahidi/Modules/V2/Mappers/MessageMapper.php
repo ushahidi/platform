@@ -2,12 +2,12 @@
 
 namespace Ushahidi\Modules\V2\Mappers;
 
-use Illuminate\Support\Collection;
 use Ushahidi\Modules\V2\Import;
+use Illuminate\Support\Collection;
 use Ushahidi\Modules\V2\Contracts\Mapper;
-use Ushahidi\Modules\V2\Contracts\ImportMappingRepository;
-use Ushahidi\Core\Entity\Message;
 use Ushahidi\Core\Entity\ContactRepository;
+use Ushahidi\Core\Ohanzee\Entities\Message;
+use Ushahidi\Modules\V2\Contracts\ImportMappingRepository;
 
 class MessageMapper implements Mapper
 {

@@ -4,12 +4,12 @@ namespace Ushahidi\Tests\Unit\Modules\V3\Jobs;
 
 use Mockery as M;
 use Ushahidi\Tests\TestCase;
-use Ushahidi\Core\Entity\ExportJob;
-use Ushahidi\Core\Entity\ExportBatch;
 use Illuminate\Support\Facades\Storage;
-use Ushahidi\Modules\V3\Jobs\CombineExportedPostBatchesJob;
 use Ushahidi\Core\Entity\ExportJobRepository;
+use Ushahidi\Core\Ohanzee\Entities\ExportJob;
 use Ushahidi\Core\Entity\ExportBatchRepository;
+use Ushahidi\Core\Ohanzee\Entities\ExportBatch;
+use Ushahidi\Modules\V3\Jobs\CombineExportedPostBatchesJob;
 
 /**
  * @group api

@@ -3,7 +3,7 @@
 namespace Ushahidi\Modules\V2\Jobs;
 
 use Ushahidi\Modules\V2;
-use Ushahidi\Core\Entity;
+use Ushahidi\Core\Ohanzee\Entities;
 use Illuminate\Support\Facades\DB;
 use Ushahidi\Core\Entity\ContactRepository;
 

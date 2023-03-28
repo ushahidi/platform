@@ -12,8 +12,8 @@
 namespace Ushahidi\Core\Ohanzee\Repositories\Post;
 
 use Ohanzee\DB;
+use Ushahidi\Core\Entity\TagRepository;
 use Ushahidi\Core\Tool\OhanzeeResolver;
-use Ushahidi\Contracts\Repository\Usecase\UpdatePostTagRepository;
 
 class TagsRepository extends ValueRepository
 {
@@ -21,7 +21,7 @@ class TagsRepository extends ValueRepository
 
     public function __construct(
         OhanzeeResolver $resolver,
-        UpdatePostTagRepository $tag_repo
+        TagRepository $tag_repo
     ) {
         parent::__construct($resolver);
         $this->tag_repo = $tag_repo;

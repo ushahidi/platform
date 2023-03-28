@@ -2,17 +2,17 @@
 
 namespace Ushahidi\Tests\Unit\Modules\V2\Mappers;
 
+use Faker;
+use Mockery as M;
+use Ushahidi\Tests\TestCase;
+use Ushahidi\Core\Entity\FormAttribute;
 use Ushahidi\Modules\V2\Jobs\ImportForms;
+use Ushahidi\Core\Entity\FormStageRepository;
+use Ushahidi\Core\Ohanzee\Entities\FormStage;
+use Ushahidi\Tests\Unit\Modules\V2\ImportMock;
+use Ushahidi\Modules\V2\Contracts\ImportDataTools;
 use Ushahidi\Modules\V2\Mappers\FormFieldAttributeMapper;
 use Ushahidi\Modules\V2\Contracts\ImportMappingRepository;
-use Ushahidi\Modules\V2\Contracts\ImportDataTools;
-use Ushahidi\Core\Entity\FormAttribute;
-use Ushahidi\Core\Entity\FormStage;
-use Ushahidi\Core\Entity\FormStageRepository;
-use Ushahidi\Tests\Unit\Modules\V2\ImportMock;
-use Ushahidi\Tests\TestCase;
-use Mockery as M;
-use Faker;
 
 /**
  * @backupGlobals disabled

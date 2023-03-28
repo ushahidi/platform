@@ -11,8 +11,8 @@
 
 namespace Ushahidi\Core\Concerns;
 
-use Illuminate\Support\Carbon;
 use Carbon\CarbonInterval;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 
 trait FormatRackspaceURL

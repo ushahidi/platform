@@ -12,8 +12,8 @@ namespace Ushahidi\Tests\Unit\DataSource;
 
 use Mockery as M;
 use Ushahidi\Tests\TestCase;
-use Ushahidi\Core\Entity\Config;
 use Ushahidi\DataSource\Twitter\Twitter;
+use Ushahidi\Core\Ohanzee\Entities\Config;
 
 /**
  * @backupGlobals disabled
@@ -161,6 +161,14 @@ class TwitterDataSourceTest extends TestCase
             'since_id' => 1234,
             'search_terms' => '#ushahidi,#test',
         ]);
+
+        // $config = M::mock(Config::class);
+
+        // $config->shouldReceive('asArray')->once()->andReturn([
+        //     'id' => 'twitter',
+        //     'since_id' => 1234,
+        //     'search_terms' => '#ushahidi,#test',
+        // ]);
 
         $mockRepo->shouldReceive('get')->atLeast()->once()
             ->with('twitter')

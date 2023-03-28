@@ -22,7 +22,7 @@ trait JsonTranscode
 
     /**
      * Return an array of properties to be json encoded
-     * @return Array
+     * @return array
      */
     abstract protected function getJsonProperties();
 

@@ -11,12 +11,12 @@
 namespace Ushahidi\Tests\Unit\Multisite;
 
 use Mockery as M;
-use Ushahidi\Tests\TestCase;
 use Illuminate\Http\Request;
-// use Illuminate\Support\Facades\Mail;
 use Ushahidi\Multisite\Site;
-use Ushahidi\Core\Entity\Config;
+// use Illuminate\Support\Facades\Mail;
+use Ushahidi\Tests\TestCase;
 use Ushahidi\Core\Entity\ConfigRepository;
+use Ushahidi\Core\Ohanzee\Entities\Config;
 
 /**
  * @backupGlobals disabled

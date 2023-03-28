@@ -12,13 +12,13 @@
 namespace Ushahidi\Core\Ohanzee\Repositories;
 
 use Ushahidi\Core\Tool\SearchData;
-use Ushahidi\Core\Entity\CountryCode;
+use Ushahidi\Core\Ohanzee\Entities\CountryCode;
+use Ushahidi\Contracts\Repository\EntityGet;
 use Ushahidi\Contracts\Repository\ReadRepository;
 use Ushahidi\Contracts\Repository\SearchRepository;
-use Ushahidi\Core\Entity\CountryCodeRepository as CountryCodeRepositoryContract;
 
 class CountryCodeRepository extends OhanzeeRepository implements
-    CountryCodeRepositoryContract,
+    EntityGet,
     ReadRepository,
     SearchRepository
 {

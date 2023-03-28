@@ -11,33 +11,19 @@
 
 namespace Ushahidi\Core\Entity;
 
-use Ushahidi\Core\StaticEntity;
+use Ushahidi\Contracts\Entity;
 
-class Permission extends StaticEntity
+interface Permission extends Entity
 {
-    protected $id;
-    protected $name;
-    protected $description;
-
-    // DataTransformer
-    public function getDefinition()
-    {
-        return [
-            'id' => 'int',
-            'name' => 'string',
-            'description' => 'string',
-        ];
-    }
-
-    // Entity
-    public function getResource()
-    {
-        return 'permission';
-    }
-
-    // StatefulData
-    protected function getImmutable()
-    {
-        return array_merge(parent::getImmutable(), ['name']);
-    }
+        // FIXME: this LEGACY_DATA_IMPORT has to be removed after the prod release
+        const LEGACY_DATA_IMPORT    = 'Bulk Data Import';
+        // Standard permissions names
+        const DATA_IMPORT_EXPORT    = 'Bulk Data Import and Export';
+        const MANAGE_POSTS          = 'Manage Posts';
+        const MANAGE_SETS           = 'Manage Collections and Saved Searches';
+        const MANAGE_SETTINGS       = 'Manage Settings';
+        const MANAGE_USERS          = 'Manage Users';
+        const EDIT_OWN_POSTS        = 'Edit their own posts';
+        const DELETE_POSTS          = 'Delete Posts';
+        const DELETE_OWN_POSTS      = 'Delete Their Own Posts';
 }

@@ -13,9 +13,9 @@ namespace Ushahidi\Core\Ohanzee\Repositories;
 
 use Ramsey\Uuid\Uuid;
 use Ushahidi\Contracts\Entity;
-use Ushahidi\Core\Entity\ApiKey;
 use Ushahidi\Core\Tool\SearchData;
 use Ushahidi\Core\Concerns\AdminAccess;
+use Ushahidi\Core\Ohanzee\Entities\ApiKey;
 use Ushahidi\Contracts\Repository\EntityExists;
 use Ushahidi\Contracts\Repository\CreateRepository;
 use Ushahidi\Core\Entity\ApiKeyRepository as ApiKeyRepositoryContract;

@@ -10,9 +10,9 @@
 
 namespace Ushahidi\Tests\Unit\Core\Ohanzee\Repositories;
 
-use Ushahidi\Core\Entity\Contact;
 use Ushahidi\Tests\TestCase;
 use Ushahidi\Tests\DatabaseTransactions;
+use Ushahidi\Core\Ohanzee\Entities\Contact;
 
 /**
  * @backupGlobals disabled

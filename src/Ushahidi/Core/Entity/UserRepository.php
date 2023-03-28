@@ -13,9 +13,9 @@ namespace Ushahidi\Core\Entity;
 
 use Ushahidi\Contracts\Entity;
 use Ushahidi\Contracts\Repository\EntityCreate;
-use Ushahidi\Contracts\Repository\EntityCreateMany;
-use Ushahidi\Contracts\Repository\DeleteRepository;
 use Ushahidi\Contracts\Repository\ReadRepository;
+use Ushahidi\Contracts\Repository\DeleteRepository;
+use Ushahidi\Contracts\Repository\EntityCreateMany;
 
 interface UserRepository extends
     ReadRepository,
@@ -30,20 +30,17 @@ interface UserRepository extends
      */
     public function getByEmail($email);
 
-    /**
-     *
-     * @param [type] $token
-     *
-     * @return bool
-     */
+    public function isUniqueEmail($email);
+
+    public function register(Entity $entity);
+
+    public function getResetToken(Entity $entity);
+
     public function isValidResetToken($token);
 
-    /**
-     * Undocumented function
-     *
-     * @param array $array
-     *
-     * @return int
-     */
+    public function setPassword($token, $password);
+
+    public function deleteResetToken($token);
+
     public function getTotalCount(array $array);
 }

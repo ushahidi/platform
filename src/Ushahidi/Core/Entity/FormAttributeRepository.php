@@ -28,30 +28,30 @@ interface FormAttributeRepository extends
      * @param  string $key
      * @param  int    $form_id
      * @param  boolean $include_no_form  Include attributes with null form_id
-     * @return \Ushahidi\Contracts\Entity
+     * @return \Ushahidi\Core\Entity\FormAttribute
      */
     public function getByKey($key, $form_id = null, $include_no_form = false);
 
     /**
      * @param  int $form_id
-     * @return [Ushahidi\Core\Entity\FormAttribute, ...]
+     * @return \Ushahidi\Core\Entity\FormAttribute[]
      */
     public function getByForm($form_id);
 
     /**
      * @param  int $form_id
-     * @return [Ushahidi\Core\Entity\FormAttribute, ...]
+     * @return \Ushahidi\Core\Entity\FormAttribute[]
      */
     public function getFirstNonDefaultByForm($form_id);
 
     /**
-     * @return [Ushahidi\Core\Entity\FormAttribute, ...]
+     * @return \Ushahidi\Core\Entity\FormAttribute[]
      */
     public function getAll();
 
     /**
      * @param  int $stage_id
-     * @return [Ushahidi\Core\Entity\FormAttribute, ...]
+     * @return \Ushahidi\Core\Entity\FormAttribute[]
      */
     public function getRequired($stage_id);
 
@@ -69,7 +69,7 @@ interface FormAttributeRepository extends
 
     /**
      * @param int $form_id
-     * @return Entity
+     * @return \Ushahidi\Core\Entity\FormAttribute[]
      */
     public function getNextByFormAttribute($last_attribute_id);
 }

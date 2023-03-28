@@ -8,19 +8,19 @@ namespace Ushahidi\Tests\Unit\Core\Usecase;
 
 use Mockery as M;
 use Ushahidi\Tests\TestCase;
-use Ushahidi\Core\Entity\ConfigRepository;
-use Ushahidi\Core\Entity\ContactRepository;
-use Ushahidi\Core\Entity\FormAttributeRepository;
-use Ushahidi\Core\Entity\MessageRepository;
 use Ushahidi\Core\Entity\PostRepository;
+use Ushahidi\Core\Ohanzee\Entities\Post;
+use Ushahidi\Core\Entity\ConfigRepository;
+use Ushahidi\Core\Ohanzee\Entities\Config;
+use Ushahidi\Core\Entity\ContactRepository;
+use Ushahidi\Core\Entity\MessageRepository;
+use Ushahidi\Core\Ohanzee\Entities\Contact;
+use Ushahidi\Core\Ohanzee\Entities\Message;
+use Ushahidi\Core\Entity\FormAttributeRepository;
+use Ushahidi\Modules\V3\EventSubscriber as Subscriber;
 use Ushahidi\Core\Entity\TargetedSurveyStateRepository;
-use Ushahidi\Core\Entity\Config;
-use Ushahidi\Core\Entity\Contact;
-use Ushahidi\Core\Entity\Message;
-use Ushahidi\Core\Entity\Post;
 use Ushahidi\Modules\V3\Listener\CreatePostFromMessage;
 use Ushahidi\Modules\V3\Listener\HandleTargetedSurveyResponse;
-use Ushahidi\Modules\V3\EventSubscriber as Subscriber;
 
 /**
  * @backupGlobals disabled

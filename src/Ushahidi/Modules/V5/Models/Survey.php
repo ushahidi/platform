@@ -3,7 +3,7 @@
 namespace Ushahidi\Modules\V5\Models;
 
 use Illuminate\Validation\Rule;
-use Ushahidi\Contracts\Permission;
+use Ushahidi\Core\Entity\Permission;
 use Illuminate\Support\Facades\Input;
 use Ushahidi\Modules\V3\Validator\LegacyValidator;
 use Ushahidi\Core\Tool\Permissions\InteractsWithFormPermissions;

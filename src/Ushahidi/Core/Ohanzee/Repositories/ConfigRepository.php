@@ -16,7 +16,7 @@ use Ushahidi\Core\Concerns\Event;
 use Ushahidi\Contracts\Entity;
 use Ushahidi\Core\Tool\OhanzeeResolver;
 use Ushahidi\Core\Exception\NotFoundException;
-use Ushahidi\Core\Entity\Config as ConfigEntity;
+use Ushahidi\Core\Ohanzee\Entities\Config as ConfigEntity;
 use Ushahidi\Contracts\Repository\ReadRepository;
 use Ushahidi\Contracts\Repository\DeleteRepository;
 use Ushahidi\Contracts\Repository\UpdateRepository;
@@ -43,7 +43,7 @@ class ConfigRepository implements
     /**
      * Get current connection
      *
-     * @return Ohanzee\Database;
+     * @return \Ohanzee\Database;
      */
     protected function db()
     {

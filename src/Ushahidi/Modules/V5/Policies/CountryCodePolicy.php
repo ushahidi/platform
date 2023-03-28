@@ -3,7 +3,7 @@
 namespace Ushahidi\Modules\V5\Policies;
 
 use App\Auth\GenericUser as User;
-use Ushahidi\Contracts\Permission;
+use Ushahidi\Core\Entity\Permission;
 use Ushahidi\Modules\V5\Repository\Role\RoleRepository;
 
 class CountryCodePolicy

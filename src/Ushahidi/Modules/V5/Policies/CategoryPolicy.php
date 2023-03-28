@@ -3,9 +3,9 @@
 namespace Ushahidi\Modules\V5\Policies;
 
 use App\Auth\GenericUser;
-use Ushahidi\Core\Entity;
+use Ushahidi\Core\Ohanzee\Entities\Tag;
 use App\Auth\GenericUser as User;
-use Ushahidi\Contracts\Permission;
+use Ushahidi\Core\Entity\Permission;
 use Ushahidi\Modules\V5\Models\Category;
 use Ushahidi\Core\Concerns\PrivAccess;
 use Ushahidi\Core\Concerns\AdminAccess;
@@ -43,7 +43,7 @@ class CategoryPolicy
      */
     public function index()
     {
-        $empty_tag = new Entity\Tag();
+        $empty_tag = new Tag();
         return $this->isAllowed($empty_tag, 'search');
     }
 
@@ -55,7 +55,7 @@ class CategoryPolicy
      */
     public function show(User $user, Category $category)
     {
-        $tag = new Entity\Tag($category->toArray());
+        $tag = new Tag($category->toArray());
         return $this->isAllowed($tag, 'read');
     }
 
@@ -67,7 +67,7 @@ class CategoryPolicy
      */
     public function delete(User $user, Category $category)
     {
-        $tag = new Entity\Tag($category->toArray());
+        $tag = new Tag($category->toArray());
         return $this->isAllowed($tag, 'delete');
     }
     /**
@@ -77,7 +77,7 @@ class CategoryPolicy
     public function update(User $user, Category $category)
     {
         // we convert to a form entity to be able to continue using the old authorizers and classes.
-        $tag = new Entity\Tag($category->toArray());
+        $tag = new Tag($category->toArray());
         return $this->isAllowed($tag, 'update');
     }
 
@@ -89,7 +89,7 @@ class CategoryPolicy
     public function store()
     {
         // we convert to a form entity to be able to continue using the old authorizers and classes.
-        $tag = new Entity\Tag();
+        $tag = new Tag();
         return $this->isAllowed($tag, 'create');
     }
     /**

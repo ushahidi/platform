@@ -2,12 +2,12 @@
 
 namespace Ushahidi\Tests\Unit\Core\Ohanzee\Repositories;
 
-use Ushahidi\Core\Ohanzee\Repositories\UserRepository;
-use Ushahidi\Core\Entity\User;
-use Ushahidi\Tests\TestCase;
-use Ushahidi\Tests\DatabaseTransactions;
-use Mockery as M;
 use Faker;
+use Mockery as M;
+use Ushahidi\Tests\TestCase;
+use Ushahidi\Core\Ohanzee\Entities\User;
+use Ushahidi\Tests\DatabaseTransactions;
+use Ushahidi\Core\Ohanzee\Repositories\UserRepository;
 
 /**
  * @backupGlobals disabled

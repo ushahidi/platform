@@ -12,22 +12,16 @@
 namespace Ushahidi\Core\Ohanzee\Repositories;
 
 use Ohanzee\DB;
-use Illuminate\Support\Collection;
-use Ushahidi\Core\Entity\Tag;
-use Ushahidi\Core\Tool\SearchData;
 use Ushahidi\Contracts\Entity;
+use Illuminate\Support\Collection;
+use Ushahidi\Core\Tool\SearchData;
+use Ushahidi\Core\Ohanzee\Entities\Tag;
 use Ushahidi\Contracts\ValidationEngine;
-use Ushahidi\Core\Ohanzee\Repositories\OhanzeeRepository;
 use Ushahidi\Core\Ohanzee\Repositories\Concerns;
-use Ushahidi\Contracts\Repository\Usecase\DeleteTagRepository;
-use Ushahidi\Contracts\Repository\Usecase\UpdateTagRepository;
-use Ushahidi\Contracts\Repository\Usecase\UpdatePostTagRepository;
+use Ushahidi\Core\Ohanzee\Repositories\OhanzeeRepository;
 use Ushahidi\Core\Entity\TagRepository as TagRepositoryContract;
 
 class TagRepository extends OhanzeeRepository implements
-    UpdateTagRepository,
-    DeleteTagRepository,
-    UpdatePostTagRepository,
     TagRepositoryContract
 {
     // Use the JSON transcoder to encode properties

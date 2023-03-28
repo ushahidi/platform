@@ -12,10 +12,9 @@
 namespace Ushahidi\Core\Tool\Authorizer;
 
 use Ushahidi\Contracts\Entity;
-use Ushahidi\Core\Entity\User;
-use Ushahidi\Core\Entity\Set;
-use Ushahidi\Contracts\Permission;
 use Ushahidi\Contracts\Authorizer;
+use Ushahidi\Core\Entity\Set;
+use Ushahidi\Core\Entity\Permission;
 use Ushahidi\Core\Concerns\AdminAccess;
 use Ushahidi\Core\Concerns\OwnerAccess;
 use Ushahidi\Core\Concerns\UserContext;

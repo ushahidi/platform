@@ -16,7 +16,7 @@
 
 namespace Ushahidi\Core\Concerns;
 
-use Ushahidi\Contracts\Entity as User;
+use Ushahidi\Core\Entity\User;
 
 trait AdminAccess
 {

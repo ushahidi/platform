@@ -11,14 +11,13 @@ use Illuminate\Support\Facades\Log;
 use Ushahidi\Core\Entity\ExportJob;
 use Ushahidi\Core\Entity\ExportBatch;
 use Illuminate\Support\Facades\Storage;
-use Ushahidi\Core\Concerns\RecordsExportJobFailure;
-use Illuminate\Support\Facades\File as LocalFilesystem;
 use Ushahidi\Core\Entity\ExportJobRepository;
 use Ushahidi\Core\Entity\ExportBatchRepository;
+use Illuminate\Support\Facades\File as LocalFilesystem;
 
 class CombineExportedPostBatchesJob extends Job
 {
-    use RecordsExportJobFailure;
+    use Concerns\RecordsExportJobFailure;
 
     protected $jobId;
 

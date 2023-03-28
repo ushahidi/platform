@@ -13,20 +13,21 @@ namespace Ushahidi\Modules\V3\Validator\Post;
 
 use Kohana\Validation\Validation;
 use Ushahidi\Core\Facade\Features;
-use Ushahidi\Contracts\Permission;
-use Ushahidi\Core\Concerns\AdminAccess;
-use Ushahidi\Core\Concerns\UserContext;
-use Ushahidi\Modules\V3\Validator\LegacyValidator;
-use Ushahidi\Core\Concerns\Acl as AccessControlList;
+use Ushahidi\Core\Concerns\{
+    AdminAccess,
+    UserContext,
+    Acl as AccessControlList
+};
+use Ushahidi\Core\Entity\Permission;
+use Ushahidi\Core\Entity\TagRepository;
 use Ushahidi\Core\Entity\FormRepository;
+use Ushahidi\Core\Entity\PostRepository;
+use Ushahidi\Core\Entity\PostLockRepository;
 use Ushahidi\Core\Entity\RoleRepository;
 use Ushahidi\Core\Entity\UserRepository;
-use Ushahidi\Core\Entity\PostLockRepository;
 use Ushahidi\Core\Entity\FormStageRepository;
-use Ushahidi\Contracts\Repository\Usecase\UpdatePostRepository;
 use Ushahidi\Core\Entity\FormAttributeRepository;
-use Ushahidi\Contracts\Repository\Usecase\UpdatePostTagRepository;
-use Ushahidi\Core\Ohanzee\Repositories\Post\ValueFactory as PostValueFactory;
+use Ushahidi\Modules\V3\Validator\LegacyValidator;
 
 class Create extends LegacyValidator
 {
@@ -39,26 +40,26 @@ class Create extends LegacyValidator
     use AdminAccess;
 
     protected $repo;
+    protected $form_repo;
+    protected $role_repo;
     protected $attribute_repo;
     protected $stage_repo;
     protected $tag_repo;
-    protected $post_lock_repo;
     protected $user_repo;
-    protected $post_value_factory;
+    protected $post_lock_repo;
     protected $post_value_validator_factory;
 
     protected $default_error_source = 'post';
 
     public function __construct(
-        UpdatePostRepository $repo,
+        PostRepository $repo,
         FormAttributeRepository $attribute_repo,
         FormStageRepository $stage_repo,
-        UpdatePostTagRepository $tag_repo,
+        TagRepository $tag_repo,
         UserRepository $user_repo,
         FormRepository $form_repo,
         RoleRepository $role_repo,
         PostLockRepository $post_lock_repo,
-        PostValueFactory $post_value_factory,
         ValueFactory $post_value_validator_factory
     ) {
 
@@ -70,7 +71,6 @@ class Create extends LegacyValidator
         $this->form_repo = $form_repo;
         $this->role_repo = $role_repo;
         $this->post_lock_repo = $post_lock_repo;
-        $this->post_value_factory = $post_value_factory;
         $this->post_value_validator_factory = $post_value_validator_factory;
     }
 
@@ -103,9 +103,14 @@ class Create extends LegacyValidator
                 // @todo check locale is valid
                 // @todo if the translation exists and we're performing an Update,
                 //       passing locale should not throw an error
-                [[$this->repo, 'doesTranslationExist'], [
-                    ':value', $parent_id, $type
-                ]],
+                [
+                    [$this->repo, 'doesTranslationExist'],
+                    [
+                        ':value',
+                        $parent_id,
+                        $type
+                    ]
+                ],
             ],
             'form_id' => [
                 ['numeric'],
@@ -133,20 +138,32 @@ class Create extends LegacyValidator
                 ['max_length', [':value', 150]],
             ],
             'status' => [
-                ['in_array', [':value', [
-                    'published',
-                    'draft',
-                    'archived'
-                ]]],
+                [
+                    'in_array',
+                    [
+                        ':value',
+                        [
+                            'published',
+                            'draft',
+                            'archived'
+                        ]
+                    ]
+                ],
                 [[$this, 'checkApprovalRequired'], [':validation', ':value', ':fulldata']],
                 [[$this, 'checkPublishedLimit'], [':validation', ':value']]
             ],
             'type' => [
-                ['in_array', [':value', [
-                    'report',
-                    'revision',
-                    'translation'
-                ]]],
+                [
+                    'in_array',
+                    [
+                        ':value',
+                        [
+                            'report',
+                            'revision',
+                            'translation'
+                        ]
+                    ]
+                ],
             ],
             'published_to' => [
                 [[$this->role_repo, 'exists'], [':value']],
@@ -195,7 +212,7 @@ class Create extends LegacyValidator
         // Are we trying to change publish a post that requires approval?
         if ($requireApproval && $status !== 'draft') {
             $validation->error('status', 'postNeedsApprovalBeforePublishing');
-        // Are we trying to unpublish or archive an auto-approved post?
+            // Are we trying to unpublish or archive an auto-approved post?
         } elseif (!$requireApproval && $status !== 'published') {
             $validation->error('status', 'postCanOnlyBeUnpublishedByAdmin');
         }
@@ -212,7 +229,7 @@ class Create extends LegacyValidator
                 $tag = $tag['id'];
             }
 
-            if (! $this->tag_repo->doesTagExist($tag)) {
+            if (!$this->tag_repo->doesTagExist($tag)) {
                 $validation->error('tags', 'tagDoesNotExist', [$tag]);
             }
         }
@@ -226,12 +243,12 @@ class Create extends LegacyValidator
             return;
         }
 
-        $post_id = ! empty($fullData['id']) ? $fullData['id'] : 0;
+        $post_id = !empty($fullData['id']) ? $fullData['id'] : 0;
 
         foreach ($attributes as $key => $values) {
             // Check attribute exists
             $attribute = $this->attribute_repo->getByKey($key, $fullData['form_id'], true);
-            if (! $attribute->id) {
+            if (!$attribute->id) {
                 $validation->error('values', 'attributeDoesNotExist', [$key]);
                 return;
             }
@@ -262,8 +279,8 @@ class Create extends LegacyValidator
      * Check completed stages actually exist in form
      *
      * @param  Validation $validation
-     * @param  Array      $attributes
-     * @param  Array      $fullData
+     * @param  array      $attributes
+     * @param  array      $fullData
      */
     public function checkStageInForm(Validation $validation, $completed_stages, $fullData)
     {
@@ -273,7 +290,7 @@ class Create extends LegacyValidator
 
         foreach ($completed_stages as $stage_id) {
             // Check stage exists in form
-            if (! $this->stage_repo->existsInForm($stage_id, $fullData['form_id'])) {
+            if (!$this->stage_repo->existsInForm($stage_id, $fullData['form_id'])) {
                 $validation->error('completed_stages', 'stageDoesNotExist', [$stage_id]);
                 return;
             }
@@ -284,8 +301,8 @@ class Create extends LegacyValidator
      * Check required stages are completed before publishing
      *
      * @param  Validation $validation
-     * @param  Array      $attributes
-     * @param  Array      $fullData
+     * @param  array      $attributes
+     * @param  array      $fullData
      */
     public function checkRequiredStages(Validation $validation, $fullData)
     {
@@ -297,7 +314,7 @@ class Create extends LegacyValidator
             $required_stages = $this->stage_repo->getRequired($fullData['form_id']);
             foreach ($required_stages as $stage) {
                 // Check the required stages have been completed
-                if (! in_array($stage->id, $completed_stages)) {
+                if (!in_array($stage->id, $completed_stages)) {
                     // If its not completed, add a validation error
                     $validation->error('completed_stages', 'stageRequired', [$stage->label]);
                 }
@@ -309,8 +326,8 @@ class Create extends LegacyValidator
      * Check required attributes are completed before completing stages
      *
      * @param  Validation $validation
-     * @param  Array      $attributes
-     * @param  Array      $fullData
+     * @param  array      $attributes
+     * @param  array      $fullData
      */
     public function checkRequiredPostAttributes(Validation $validation, $attributes, $fullData)
     {
@@ -335,8 +352,8 @@ class Create extends LegacyValidator
      * Check required attributes are completed before completing stages
      *
      * @param  Validation $validation
-     * @param  Array      $attributes
-     * @param  Array      $fullData
+     * @param  array      $attributes
+     * @param  array      $fullData
      */
     public function checkRequiredTaskAttributes(Validation $validation, $attributes, $fullData)
     {
@@ -369,7 +386,7 @@ class Create extends LegacyValidator
      */
     public function onlyAuthorOrUserSet($user_id, $fullData)
     {
-        return (empty($user_id) or (empty($fullData['author_email']) and empty($fullData['author_realname'])) );
+        return (empty($user_id) or (empty($fullData['author_email']) and empty($fullData['author_realname'])));
     }
 
     public function validDate($str)

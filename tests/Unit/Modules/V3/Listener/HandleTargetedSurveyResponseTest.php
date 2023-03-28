@@ -6,9 +6,9 @@ use Ushahidi\Tests\TestCase;
 use Ushahidi\Core\Entity\FormAttributeRepository;
 use Ushahidi\Core\Entity\MessageRepository;
 use Ushahidi\Core\Entity\TargetedSurveyStateRepository;
-use Ushahidi\Core\Entity\FormAttribute;
-use Ushahidi\Core\Entity\Message;
-use Ushahidi\Core\Entity\TargetedSurveyState;
+use Ushahidi\Core\Ohanzee\Entities\FormAttribute;
+use Ushahidi\Core\Ohanzee\Entities\Message;
+use Ushahidi\Core\Ohanzee\Entities\TargetedSurveyState;
 use Ushahidi\Modules\V3\Listener\HandleTargetedSurveyResponse;
 
 /**
@@ -272,6 +272,7 @@ class HandleTargetedSurveyResponseTest extends TestCase
         $this->assertEquals($formAttribute->id, $targetedSurveyState->form_attribute_id);
         $this->assertEquals('SURVEY FINISHED', $targetedSurveyState->survey_status);
     }
+
 
     public function testNotInTargetedSurvey()
     {

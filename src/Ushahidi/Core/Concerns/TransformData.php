@@ -22,8 +22,8 @@ trait TransformData
      * Transform a string into an email, removing all characters that cannot
      * exist in an email address.
      *
-     * @return String $value
-     * @return String
+     * @return string $value
+     * @return string
      */
     protected static function transformEmail($value)
     {
@@ -34,8 +34,8 @@ trait TransformData
      * Transforms a JSON string to native type. Objects will be represented
      * with associative arrays.
      *
-     * @param  String $value
-     * @return Mixed
+     * @param  string $value
+     * @return mixed
      */
     protected static function transformJson($value)
     {
@@ -57,7 +57,7 @@ trait TransformData
     /**
      * Requires that all `json` type fields are returned as arrays.
      *
-     * @return Boolean
+     * @return boolean
      */
     protected static function optionJsonAlwaysArray()
     {
@@ -68,8 +68,8 @@ trait TransformData
      * Transform a string to a slug, replacing non-alphanumeric characters
      * with dashes.
      *
-     * @param  String $value
-     * @return String
+     * @param  string $value
+     * @return string
      */
     protected static function transformSlug($value)
     {
@@ -90,8 +90,8 @@ trait TransformData
      * Transform a string into a URL, removing all characters that cannot
      * exist in a URL address.
      *
-     * @return String $value
-     * @return String
+     * @return string $value
+     * @return string
      */
     protected static function transformUrl($value)
     {
@@ -101,8 +101,8 @@ trait TransformData
     /**
      * Transforms a date(time) string to a UNIX timestamp.
      *
-     * @param  String $value
-     * @return Integer
+     * @param  string $value
+     * @return integer
      */
     protected static function transformTimestamp($value)
     {
@@ -185,8 +185,8 @@ trait TransformData
      * NOTE: Unless an anonymous function is used, null values in the data will
      * be ignored! Any definition that uses a closure will always be executed.
      *
-     * @param  Array $data
-     * @return Array
+     * @param  array $data
+     * @return array
      */
     protected function transform(array $data)
     {

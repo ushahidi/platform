@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Ushahidi Set
+ * Ushahidi Platform Set Entity
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Platform
@@ -11,58 +11,9 @@
 
 namespace Ushahidi\Core\Entity;
 
-use Ushahidi\Core\StaticEntity;
-use Ushahidi\Core\EloquentEntity;
+use Ushahidi\Contracts\Entity;
 
-class Set extends EloquentEntity
+interface Set extends Entity
 {
-    protected $id;
-    protected $user_id;
-    protected $name;
-    protected $description;
-    protected $url;
-    protected $view;
-    protected $view_options;
-    protected $role;
-    protected $featured;
-    protected $created;
-    protected $updated;
 
-    // DataTransformer
-    protected function getDefinition()
-    {
-        return [
-            'id'           => 'int',
-            'user_id'      => 'int',
-            'name'         => 'string',
-            'description'  => 'string',
-            'url'          => '*url',
-            'view'         => 'string',
-            'view_options' => '*json',
-            'role'   => '*json',
-            'featured'     => 'boolean',
-            'created'      => 'int',
-            'updated'      => 'int',
-        ];
-    }
-
-    // Entity
-    public function getResource()
-    {
-        return 'sets';
-    }
-
-    // StatefulData
-    protected function getImmutable()
-    {
-        return array_merge(parent::getImmutable(), ['user_id']);
-    }
-
-    // StatefulData
-    protected function getDerived()
-    {
-        return [
-            'user_id'   => ['user', 'user.id'], /* alias */
-        ];
-    }
 }

@@ -3,9 +3,9 @@
 namespace Ushahidi\Modules\V5\Policies;
 
 use App\Auth\GenericUser as User;
-use Ushahidi\Core\Entity;
+use Ushahidi\Core\Ohanzee\Entities;
 use Ushahidi\Modules\V5\Models\Survey;
-use Ushahidi\Contracts\Permission;
+use Ushahidi\Core\Entity\Permission;
 use Ushahidi\Core\Concerns\AdminAccess;
 use Ushahidi\Core\Concerns\UserContext;
 use Ushahidi\Core\Concerns\PrivAccess;
@@ -43,7 +43,7 @@ class SurveyPolicy
      */
     public function index()
     {
-        $empty_form = new Entity\Form();
+        $empty_form = new Entities\Form();
         return $this->isAllowed($empty_form, 'search');
     }
 
@@ -55,7 +55,7 @@ class SurveyPolicy
      */
     public function show(User $user, Survey $survey)
     {
-        $form = new Entity\Form($survey->toArray());
+        $form = new Entities\Form($survey->toArray());
         return $this->isAllowed($form, 'read');
     }
 
@@ -67,7 +67,7 @@ class SurveyPolicy
      */
     public function delete(User $user, Survey $survey)
     {
-        $form = new Entity\Form($survey->toArray());
+        $form = new Entities\Form($survey->toArray());
         return $this->isAllowed($form, 'delete');
     }
     /**
@@ -77,7 +77,7 @@ class SurveyPolicy
     public function update(User $user, Survey $survey)
     {
         // we convert to a form entity to be able to continue using the old authorizers and classes.
-        $form = new Entity\Form($survey->toArray());
+        $form = new Entities\Form($survey->toArray());
         return $this->isAllowed($form, 'update');
     }
 
@@ -89,7 +89,7 @@ class SurveyPolicy
     public function store()
     {
         // we convert to a form entity to be able to continue using the old authorizers and classes.
-        $form = new Entity\Form();
+        $form = new Entities\Form();
         return $this->isAllowed($form, 'create');
     }
     /**
@@ -144,7 +144,7 @@ class SurveyPolicy
      * @param  Entity $entity
      * @return Boolean
      */
-    protected function isFormDisabled(Entity\Form $entity)
+    protected function isFormDisabled(Entities\Form $entity)
     {
         return (bool) $entity->disabled;
     }

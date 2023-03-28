@@ -4,14 +4,13 @@ namespace Ushahidi\Modules\V3\Jobs;
 
 use Ushahidi\Core\Tool\Job;
 use Illuminate\Support\Facades\Log;
-use Ushahidi\Core\Entity\ExportJob;
+use Ushahidi\Core\Ohanzee\Entities\ExportJob;
 use Ushahidi\Core\Usecase\Export\Job\PostCount;
-use Ushahidi\Core\Concerns\RecordsExportJobFailure;
 use Ushahidi\Core\Entity\ExportJobRepository;
 
 class ExportPostsJob extends Job
 {
-    use RecordsExportJobFailure;
+    use Concerns\RecordsExportJobFailure;
 
     protected $batchSize;
 

@@ -4,7 +4,7 @@ namespace Ushahidi\Modules\V5\Policies;
 
 use Ushahidi\Modules\V5\Models\User as ModelUser;
 use App\Auth\GenericUser as User;
-use Ushahidi\Contracts\Permission;
+use Ushahidi\Core\Entity\Permission;
 use Ushahidi\Core\Concerns\AdminAccess;
 use Ushahidi\Core\Concerns\PrivAccess;
 use Ushahidi\Core\Concerns\UserContext;
@@ -31,7 +31,7 @@ class UserPolicy
     use AccessControlList;
 
     protected $user;
-    
+
 
     /**
      * @param User $user

@@ -11,9 +11,7 @@
 
 namespace Ushahidi\Core\Ohanzee\Repositories\Post;
 
-use Ushahidi\Contracts\Repository\Usecase\ValuesForPostRepository;
-
-class ValueProxy implements ValuesForPostRepository
+class ValueProxy
 {
     protected $factory;
     protected $include_types;

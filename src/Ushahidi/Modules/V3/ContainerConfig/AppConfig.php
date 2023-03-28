@@ -387,10 +387,10 @@ class AppConfig extends ContainerConfig
         $di->setters[V3\Validator\Form\Contact\Create::class]['setFormRepo'] =
             $di->lazyGet('repository.form');
 
-        $di->setters[V3\Validator\Form\Contact\Create::class]['setContactRepo'] =
-            $di->lazyGet('repository.contact');
-        $di->setters[V3\Validator\Form\Contact\Create::class]['setFormContactRepo'] =
-            $di->lazyGet('repository.form_contact');
+        // $di->setters[V3\Validator\Form\Contact\Create::class]['setContactRepo'] =
+        //     $di->lazyGet('repository.contact');
+        // $di->setters[V3\Validator\Form\Contact\Create::class]['setFormContactRepo'] =
+        //     $di->lazyGet('repository.form_contact');
 
 
         // Form Attribute repository parameters

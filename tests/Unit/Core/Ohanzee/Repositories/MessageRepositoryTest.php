@@ -11,10 +11,9 @@
 
 namespace Ushahidi\Tests\Unit\Core\Ohanzee\Repositories;
 
-use Ushahidi\Core\Ohanzee\Repositories\MessageRepository;
-use Ushahidi\Core\Entity\Message;
 use Ushahidi\Tests\TestCase;
 use Ushahidi\Tests\DatabaseTransactions;
+use Ushahidi\Core\Ohanzee\Entities\Message;
 
 /**
  * @backupGlobals disabled

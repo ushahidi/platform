@@ -18,6 +18,7 @@ interface EntityCreate
 {
     /**
      * Creates a new record and returns the created id.
+     * @param  array|\Ushahidi\Contracts\Entity $entity
      * @return mixed
      */
     public function create(Entity $entity);

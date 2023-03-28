@@ -11,15 +11,14 @@
 
 namespace Ushahidi\Core\Ohanzee\Repositories;
 
-use Ushahidi\Core\Entity\ExportBatch;
+use Ushahidi\Core\Ohanzee\Entities\ExportBatch;
 use Ushahidi\Core\Entity\ExportBatchRepository as ExportBatchRepositoryContract;
-use Ushahidi\Contracts\Search;
 
 class ExportBatchRepository extends EloquentRepository implements ExportBatchRepositoryContract
 {
     /**
      * Get the entity for this repository.
-     * @param  Array  $data
+     * @param  array  $data
      * @return \Ushahidi\Contracts\Entity
      */
     public function getEntity(array $data = null)
@@ -29,7 +28,7 @@ class ExportBatchRepository extends EloquentRepository implements ExportBatchRep
 
     /**
      * Get the table name for this repository.
-     * @return String
+     * @return string
      */
     protected function getTable()
     {
@@ -52,20 +51,5 @@ class ExportBatchRepository extends EloquentRepository implements ExportBatchRep
             ->get();
 
         return $this->getCollection($results);
-    }
-
-    public function getSearchFields()
-    {
-    }
-
-    public function getSearchTotal()
-    {
-    }
-
-    public function getSearchResults()
-    {
-    }
-    public function setSearchParams(Search $search)
-    {
     }
 }

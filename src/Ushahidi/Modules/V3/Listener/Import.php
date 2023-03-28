@@ -12,10 +12,10 @@ namespace Ushahidi\Modules\V3\Listener;
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-use League\Event\AbstractListener;
 use League\Event\EventInterface;
-use Ushahidi\Core\Entity\Set;
+use League\Event\AbstractListener;
 use Ushahidi\Core\Facade\Features;
+use Ushahidi\Core\Ohanzee\Entities\Set;
 
 class Import extends AbstractListener
 {
@@ -69,7 +69,7 @@ class Import extends AbstractListener
             // ... persist the new entity
             try {
                 $id = $this->repo->create($entity);
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $errors++;
             }
             service('repository.set')->addPostToSet($collection_id, $id);

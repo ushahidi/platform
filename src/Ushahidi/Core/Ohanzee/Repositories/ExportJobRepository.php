@@ -15,14 +15,14 @@ use Ohanzee\DB;
 use Ushahidi\Contracts\Entity;
 use Ushahidi\Core\Tool\SearchData;
 use Illuminate\Support\Facades\Log;
-use Ushahidi\Core\Entity\ExportJob;
 use Illuminate\Support\Facades\Event;
 use Ushahidi\Core\Entity\ExportBatch;
 use Ushahidi\Core\Concerns\AdminAccess;
 use Ushahidi\Core\Concerns\UserContext;
-use Ushahidi\Core\Concerns\FilterRecords;
-use Ushahidi\Modules\V3\Events\SendToHDXEvent;
 use Ushahidi\Core\Entity\PostRepository;
+use Ushahidi\Core\Concerns\FilterRecords;
+use Ushahidi\Core\Ohanzee\Entities\ExportJob;
+use Ushahidi\Modules\V3\Events\SendToHDXEvent;
 use Ushahidi\Core\Entity\ExportJobRepository as ExportJobRepositoryContract;
 
 class ExportJobRepository extends OhanzeeRepository implements ExportJobRepositoryContract

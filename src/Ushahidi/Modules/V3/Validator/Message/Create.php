@@ -11,18 +11,21 @@
 
 namespace Ushahidi\Modules\V3\Validator\Message;
 
-use Ushahidi\Modules\V3\Validator\LegacyValidator;
-use Ushahidi\Contracts\Repository\Usecase\CreateMessageRepository;
 use Ushahidi\Core\Entity\UserRepository;
-use Ushahidi\DataSource\Contracts\MessageDirection;
+use Ushahidi\Core\Entity\MessageRepository;
 use Ushahidi\DataSource\Contracts\MessageStatus;
+use Ushahidi\Modules\V3\Validator\LegacyValidator;
+use Ushahidi\DataSource\Contracts\MessageDirection;
 
 class Create extends LegacyValidator
 {
     protected $repo;
+
+    protected $user_repo;
+
     protected $default_error_source = 'message';
 
-    public function __construct(CreateMessageRepository $repo, UserRepository $user_repo)
+    public function __construct(MessageRepository $repo, UserRepository $user_repo)
     {
         $this->repo = $repo;
         $this->user_repo = $user_repo;

@@ -11,6 +11,8 @@
 
 namespace Ushahidi\Core\Ohanzee\Repositories\Post;
 
+use Ushahidi\Core\Ohanzee\Entities\PostValueMedia;
+
 class MediaRepository extends ValueRepository
 {
 
@@ -22,7 +24,7 @@ class MediaRepository extends ValueRepository
          * depending on the repository used
          */
         $data['value'] = ['o_filename' => $data['o_filename'], 'id' => $data['id']];
-        return new \Ushahidi\Core\Entity\PostValueMedia($data);
+        return new PostValueMedia($data);
     }
 
     // OhanzeeRepository

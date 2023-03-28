@@ -12,16 +12,14 @@
 namespace Ushahidi\Core\Ohanzee\Repositories\Post;
 
 use Ohanzee\DB;
-use Ohanzee\Database;
-use Ushahidi\Core\Concerns\Event;
-use Ushahidi\Core\Entity\PostLock;
-use League\Event\ListenerInterface;
 use Ushahidi\Contracts\Entity;
+use Ushahidi\Core\Concerns\Event;
 use Ushahidi\Core\Concerns\UserContext;
-use Ushahidi\Core\Ohanzee\Repositories\OhanzeeRepository;
-use Ushahidi\Core\Entity\PostLockRepository;
-use Ushahidi\Core\Ohanzee\Repositories\UserRepository;
 use Ushahidi\Core\Tool\OhanzeeResolver;
+use Ushahidi\Core\Entity\PostLockRepository;
+use Ushahidi\Core\Ohanzee\Entities\PostLock;
+use Ushahidi\Core\Ohanzee\Repositories\UserRepository;
+use Ushahidi\Core\Ohanzee\Repositories\OhanzeeRepository;
 
 class LockRepository extends OhanzeeRepository implements PostLockRepository
 {
@@ -56,7 +54,6 @@ class LockRepository extends OhanzeeRepository implements PostLockRepository
     // OhanzeeRepository
     public function getEntity(array $data = null)
     {
-
         return new PostLock($data);
     }
 

@@ -11,14 +11,16 @@
 
 namespace Ushahidi\Core\Ohanzee\Repositories;
 
-use Ushahidi\Core\Tool\SearchData;
 use Ushahidi\Contracts\Entity;
+use Ushahidi\Contracts\Repository\{EntityGet, EntityExists};
+use Ushahidi\Core\Tool\SearchData;
+use Ushahidi\Core\Ohanzee\Entities\Notification;
 use Ushahidi\Core\Concerns\AdminAccess;
 use Ushahidi\Core\Concerns\UserContext;
-use Ushahidi\Core\Entity\Notification;
-use Ushahidi\Core\Entity\NotificationRepository as NotificationRepositoryContract;
 
-class NotificationRepository extends OhanzeeRepository implements NotificationRepositoryContract
+class NotificationRepository extends OhanzeeRepository implements
+    EntityGet,
+    EntityExists
 {
     use UserContext;
     use AdminAccess;
@@ -46,14 +48,11 @@ class NotificationRepository extends OhanzeeRepository implements NotificationRe
 
         // Limit search to user's records unless they are admin
         // or if we get user=me as a search param
-        if (! $this->isUserAdmin($user) || $search->user === 'me') {
+        if (!$this->isUserAdmin($user) || $search->user === 'me') {
             $search->user = $this->getUserId();
         }
 
-        foreach ([
-            'user',
-            'set',
-        ] as $fk) {
+        foreach (['user', 'set',] as $fk) {
             if ($search->$fk) {
                 $query->where("notifications.{$fk}_id", '=', $search->$fk);
             }

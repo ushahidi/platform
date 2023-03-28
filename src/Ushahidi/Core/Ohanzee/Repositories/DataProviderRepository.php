@@ -11,33 +11,30 @@
 
 namespace Ushahidi\Core\Ohanzee\Repositories;
 
-use Ushahidi\Core\Tool\SearchData;
 use Illuminate\Support\Collection;
+use Ushahidi\Contracts\Search;
 use Ushahidi\Contracts\Repository\ReadRepository;
 use Ushahidi\Contracts\Repository\SearchRepository;
-use Ushahidi\Core\Entity\DataProvider as DataProviderEntity;
-use Ushahidi\Core\Entity\DataProviderRepository as DataProviderRepositoryContract;
-use Ushahidi\Contracts\Search;
+use Ushahidi\Core\Ohanzee\Entities\DataProvider;
 
 class DataProviderRepository implements
     ReadRepository,
-    SearchRepository,
-    DataProviderRepositoryContract
+    SearchRepository
 {
+
+    protected $datasources;
 
     public function __construct()
     {
         $this->datasources = app('datasources');
     }
 
-    // use CollectionLoader;
-
     /**
      * Converts a laravel collection of data sources into an array of entities
      * indexed by the entity id.
      *
      * @param  Collection $sources
-     * @return Array
+     * @return array
      */
     protected function getCollection(Collection $sources)
     {
@@ -56,7 +53,7 @@ class DataProviderRepository implements
     // ReadRepository
     public function getEntity(array $data = null)
     {
-        return new DataProviderEntity($data);
+        return new DataProvider($data);
     }
 
     // ReadRepository

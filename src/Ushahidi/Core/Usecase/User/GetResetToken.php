@@ -13,11 +13,11 @@ namespace Ushahidi\Core\Usecase\User;
 
 use Ushahidi\Contracts\Mailer;
 use Ushahidi\Contracts\Usecase;
+use Ushahidi\Core\Entity\UserRepository;
 use Ushahidi\Core\Usecase\Concerns\ModifyRecords;
 use Ushahidi\Core\Usecase\Concerns\Formatter as FormatterTrait;
 use Ushahidi\Core\Usecase\Concerns\Authorizer as AuthorizerTrait;
 use Ushahidi\Core\Usecase\Concerns\Translator as TranslatorTrait;
-use Ushahidi\Contracts\Repository\Usecase\UserResetPasswordRepository;
 
 class GetResetToken implements Usecase
 {
@@ -43,16 +43,13 @@ class GetResetToken implements Usecase
         return false;
     }
 
-    /**
-     * @var \Ushahidi\Contracts\Repository\Usecase\UserResetPasswordRepository
-     */
     protected $repo;
 
     /**
      * Inject a repository
      *
      */
-    public function setRepository(UserResetPasswordRepository $repo)
+    public function setRepository(UserRepository $repo)
     {
         $this->repo = $repo;
         return $this;

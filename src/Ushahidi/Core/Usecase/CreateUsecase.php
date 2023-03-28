@@ -123,7 +123,7 @@ class CreateUsecase implements Usecase
     /**
      * Get the created entity.
      *
-     * @param  Mixed $id
+     * @param  mixed $id
      * @return Entity
      */
     protected function getCreatedEntity($id)

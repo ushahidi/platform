@@ -12,13 +12,13 @@
 namespace Ushahidi\Core\Ohanzee\Repositories;
 
 use Ohanzee\DB;
-use Ushahidi\Core\Entity\Set;
-use Ushahidi\Core\Tool\SearchData;
 use Ushahidi\Contracts\Entity;
-use Ushahidi\Core\Concerns\Event;
-use Ushahidi\Core\Entity\SavedSearch;
-use Ushahidi\Core\Entity\SetRepository as SetRepositoryContract;
 use Ushahidi\Contracts\Search;
+use Ushahidi\Core\Concerns\Event;
+use Ushahidi\Core\Tool\SearchData;
+use Ushahidi\Core\Ohanzee\Entities\Set;
+use Ushahidi\Core\Ohanzee\Entities\SavedSearch;
+use Ushahidi\Core\Entity\SetRepository as SetRepositoryContract;
 
 class SetRepository extends OhanzeeRepository implements SetRepositoryContract
 {

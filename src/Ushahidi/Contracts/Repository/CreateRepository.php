@@ -11,15 +11,7 @@
 
 namespace Ushahidi\Contracts\Repository;
 
-use Ushahidi\Contracts\Entity;
-use Ushahidi\Contracts\Repository\EntityGet;
-
-interface CreateRepository extends EntityGet
+interface CreateRepository extends EntityGet, EntityCreate
 {
-    /**
-     * Creates a new record and returns the created id.
-     * @param  array|\Ushahidi\Contracts\Entity $entity
-     * @return mixed
-     */
-    public function create(Entity $entity);
+
 }

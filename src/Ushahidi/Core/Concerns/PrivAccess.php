@@ -20,7 +20,7 @@ trait PrivAccess
     /**
      * Get a list of all possible privilges.
      * By default, returns standard HTTP REST methods.
-     * @return Array
+     * @return array
      */
     protected function getAllPrivs()
     {

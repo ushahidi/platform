@@ -13,12 +13,12 @@ namespace Ushahidi\Core\Ohanzee\Repositories;
 
 use Ushahidi\Core\Tool\SearchData;
 use Ushahidi\Contracts\Entity;
-use Ushahidi\Core\Entity\CSV;
-use Ushahidi\Core\Entity\CSVRepository as CSVRepositoryContract;
+use Ushahidi\Contracts\Repository\{EntityGet, EntityExists};
+use Ushahidi\Core\Ohanzee\Entities\CSV;
 use Ushahidi\Core\Concerns\Event;
 
 class CSVRepository extends OhanzeeRepository implements
-    CSVRepositoryContract
+    EntityGet, EntityExists
 {
 
     // Use the JSON transcoder to encode properties

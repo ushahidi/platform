@@ -3,7 +3,7 @@ namespace Ushahidi\Tests\Unit\Modules\V3\Jobs;
 
 use Mockery as M;
 use Ushahidi\Tests\TestCase;
-use Ushahidi\Core\Entity\ExportJob;
+use Ushahidi\Core\Ohanzee\Entities\ExportJob;
 use Ushahidi\Modules\V3\Jobs\ExportPostsJob;
 use Ushahidi\Modules\V3\Jobs\ExportPostsBatchJob;
 use Ushahidi\Core\Usecase\Export\Job\PostCount;

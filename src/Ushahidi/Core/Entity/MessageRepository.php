@@ -11,11 +11,10 @@
 
 namespace Ushahidi\Core\Entity;
 
-use Ushahidi\Contracts\Entity;
-use Ushahidi\Contracts\Repository\EntityCreate;
-use Ushahidi\Contracts\Repository\EntityCreateMany;
 use Ushahidi\Contracts\Repository\EntityGet;
 use Ushahidi\Contracts\Repository\EntityExists;
+use Ushahidi\Contracts\Repository\EntityCreate;
+use Ushahidi\Contracts\Repository\EntityCreateMany;
 use Ushahidi\Contracts\Repository\CreateRepository;
 use Ushahidi\Contracts\Repository\UpdateRepository;
 
@@ -31,20 +30,19 @@ interface MessageRepository extends
     /**
      * Load pending message by data provider
      *
-     * @param  String $status
-     * @param  String $data_source
+     * @param  string $status
+     * @param  string $data_source
      * @param  integer $limit
-     * @return [Message, ...]
+     * @return \Ushahidi\Core\Entity\Message[]
      */
     public function getPendingMessages($data_source, $limit);
 
     /**
      * Load pending message by type
      *
-     * @param  String $status
-     * @param  String $data_source
+     * @param  string $status
      * @param  integer $limit
-     * @return [Message, ...]
+     * @return \Ushahidi\Core\Entity\Message[]
      */
     public function getPendingMessagesByType($type, $limit);
 
@@ -78,4 +76,17 @@ interface MessageRepository extends
      * @return string
      */
     public function getLastUID($data_source);
+
+    /**
+     * @param  int $parent_id
+     * @return boolean
+     */
+    public function parentExists($parent_id);
+
+    /**
+     * @param  string $status
+     * @param  string $direction
+     * @return boolean
+     */
+    public function checkStatus($status, $direction);
 }

@@ -20,9 +20,9 @@ use Ushahidi\Core\Entity\FormRepository;
 use Ushahidi\Core\Entity\PostRepository;
 use Ushahidi\Core\Entity\ContactRepository;
 use Ushahidi\Core\Entity\MessageRepository;
-use Ushahidi\DataSource\Contracts\MessageType as MessageType;
 use Ushahidi\Core\Entity\FormAttributeRepository;
 use Ushahidi\Core\Entity\TargetedSurveyStateRepository;
+use Ushahidi\DataSource\Contracts\MessageType as MessageType;
 
 class ContactListener extends AbstractListener
 {
@@ -162,7 +162,7 @@ class ContactListener extends AbstractListener
                     'form_id' => $form_id,
                     'post_id' => $postId,
                     'contact_id' => $contactId,
-                    'survey_status' => \Ushahidi\Core\Entity\TargetedSurveyState::PENDING_RESPONSE
+                    'survey_status' => \Ushahidi\Core\Ohanzee\Entities\TargetedSurveyState::PENDING_RESPONSE
                 ]
             );
 

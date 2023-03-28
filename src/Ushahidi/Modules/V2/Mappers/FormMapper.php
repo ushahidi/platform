@@ -2,10 +2,10 @@
 
 namespace Ushahidi\Modules\V2\Mappers;
 
-use Ushahidi\Core\Entity\Form;
 use Ushahidi\Modules\V2\Import;
-use Ushahidi\Modules\V2\Contracts\Mapper;
 use Illuminate\Support\Facades\Log;
+use Ushahidi\Core\Ohanzee\Entities\Form;
+use Ushahidi\Modules\V2\Contracts\Mapper;
 
 class FormMapper implements Mapper
 {

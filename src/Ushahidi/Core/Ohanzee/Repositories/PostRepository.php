@@ -14,31 +14,27 @@ namespace Ushahidi\Core\Ohanzee\Repositories;
 use Ohanzee\DB;
 use Ohanzee\Database;
 use Ushahidi\Contracts\Entity;
-use Ushahidi\Core\Entity\Post;
-use Ushahidi\Core\Entity\Media;
+use Ushahidi\Contracts\Search;
 use Ushahidi\Core\Concerns\Event;
 use Illuminate\Support\Collection;
-use Ushahidi\Core\Entity\PostLock;
 use Ushahidi\Core\Tool\SearchData;
 use Ushahidi\Core\Tool\BoundingBox;
 use Ushahidi\Core\Concerns\UserContext;
 use Ushahidi\Core\Tool\OhanzeeResolver;
-use Ushahidi\Core\Tool\Permissions\InteractsWithPostPermissions;
-use Ushahidi\Core\Ohanzee\Repositories\Post\ValueFactory as PostValueFactory;
-use Ushahidi\Contracts\Repository\Usecase\SetPostRepository;
-use Ushahidi\Contracts\Repository\Usecase\UpdatePostRepository;
+use Ushahidi\Core\Entity\FormRepository;
+use Ushahidi\Core\Ohanzee\Entities\Post;
+use Ushahidi\Core\Ohanzee\Entities\Media;
 use Ushahidi\Core\Entity\ContactRepository;
 use Ushahidi\Core\Entity\PostLockRepository;
-use Ushahidi\Core\Entity\FormRepository as FormRepositoryContract;
+use Ushahidi\Core\Ohanzee\Entities\PostLock;
+use Ushahidi\Core\Entity\FormStageRepository;
+use Ushahidi\Core\Entity\FormAttributeRepository;
+use Ushahidi\Core\Tool\Permissions\InteractsWithPostPermissions;
 use Ushahidi\Core\Entity\PostRepository as PostRepositoryContract;
-use Ushahidi\Core\Entity\FormStageRepository as FormStageRepositoryContract;
-use Ushahidi\Core\Entity\FormAttributeRepository as FormAttributeRepositoryContract;
-use Ushahidi\Contracts\Search;
+use Ushahidi\Core\Ohanzee\Repositories\Post\ValueFactory as PostValueFactory;
 
 class PostRepository extends OhanzeeRepository implements
-    PostRepositoryContract,
-    UpdatePostRepository,
-    SetPostRepository
+    PostRepositoryContract
 {
     use UserContext;
 
@@ -56,6 +52,7 @@ class PostRepository extends OhanzeeRepository implements
     protected $form_attribute_repo;
     protected $form_stage_repo;
     protected $form_repo;
+    protected $post_lock_repo;
     protected $contact_repo;
     protected $post_value_factory;
     protected $bounding_box_factory;
@@ -92,9 +89,9 @@ class PostRepository extends OhanzeeRepository implements
 
     public function __construct(
         OhanzeeResolver $resolver,
-        FormAttributeRepositoryContract $form_attribute_repo,
-        FormStageRepositoryContract $form_stage_repo,
-        FormRepositoryContract $form_repo,
+        FormAttributeRepository $form_attribute_repo,
+        FormStageRepository $form_stage_repo,
+        FormRepository $form_repo,
         PostLockRepository $post_lock_repo,
         ContactRepository $contact_repo,
         PostValueFactory $post_value_factory,

@@ -19,7 +19,7 @@ use Ushahidi\Core\Tool\OhanzeeResolver;
 use Ushahidi\Core\Ohanzee\Repositories\OhanzeeRepository;
 use Ushahidi\Contracts\Repository\ReadRepository;
 use Ushahidi\Contracts\Repository\SearchRepository;
-use Ushahidi\Core\Entity\HXLTagRepository as HXLTagRepositoryContract;
+use Ushahidi\Core\Entity\HXL\HXLTagRepository as HXLTagRepositoryContract;
 
 class HXLTagRepository extends OhanzeeRepository implements
     HXLTagRepositoryContract,

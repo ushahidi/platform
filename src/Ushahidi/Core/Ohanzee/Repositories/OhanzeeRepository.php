@@ -12,13 +12,11 @@
 namespace Ushahidi\Core\Ohanzee\Repositories;
 
 use Ohanzee\DB;
-use RuntimeException;
 use Ushahidi\Contracts\Entity;
 use Ushahidi\Contracts\Search;
 use Ushahidi\Contracts\Repository;
 use Ushahidi\Core\Tool\SearchData;
 use Ushahidi\Core\Tool\OhanzeeResolver;
-use Ushahidi\Core\Concerns\CollectionLoader;
 
 abstract class OhanzeeRepository implements
     Repository\CreateRepository,
@@ -28,8 +26,6 @@ abstract class OhanzeeRepository implements
     Repository\SearchRepository,
     Repository\ImportRepository
 {
-
-    use CollectionLoader;
 
     protected $search_query;
     protected $resolver;
@@ -60,7 +56,7 @@ abstract class OhanzeeRepository implements
     /**
      * Get the table name for this repository.
      *
-     * @return String
+     * @return string
      */
     abstract protected function getTable();
 
@@ -68,7 +64,7 @@ abstract class OhanzeeRepository implements
      * Apply search conditions from input data.
      * Must be overloaded to enable searching.
      *
-     * @throws LogicException
+     * @throws \LogicException
      * @param  SearchData $search
      * @return void
      */
@@ -159,8 +155,8 @@ abstract class OhanzeeRepository implements
     /**
      * Remove all `null` values, to allow the database to set defaults.
      *
-     * @param  Array $data
-     * @return Array
+     * @param  array $data
+     * @return array
      */
     protected function removeNullValues(array $data)
     {
@@ -172,8 +168,8 @@ abstract class OhanzeeRepository implements
     /**
      * Get a copy of the current search query, optionally removing the LIMIT,
      * OFFSET, and ORDER BY parameters (for query that can be COUNT'ed).
-     * @throws RuntimeException if called before search parameters are set
-     * @param  Boolean $countable  remove limit/offset/orderby
+     * @throws \RuntimeException if called before search parameters are set
+     * @param  boolean $countable  remove limit/offset/orderby
      * @return Database_Query_Select
      */
     protected function getSearchQuery($countable = false)
@@ -198,8 +194,8 @@ abstract class OhanzeeRepository implements
 
     /**
      * Get a single record meeting some conditions.
-     * @param  Array $where hash of conditions
-     * @return Array
+     * @param  array $where hash of conditions
+     * @return array
      */
     protected function selectOne(array $where = [])
     {
@@ -211,8 +207,8 @@ abstract class OhanzeeRepository implements
 
     /**
      * Get a count of records meeting some conditions.
-     * @param  Array $where hash of conditions
-     * @return Integer
+     * @param  array $where hash of conditions
+     * @return integer
      */
     protected function selectCount(array $where = [])
     {
@@ -225,7 +221,7 @@ abstract class OhanzeeRepository implements
 
     /**
      * Return a SELECT query, optionally with preconditions.
-     * @param  Array $where optional hash of conditions
+     * @param  array $where optional hash of conditions
      * @return Database_Query_Builder_Select
      */
     protected function selectQuery(array $where = [])
@@ -240,16 +236,18 @@ abstract class OhanzeeRepository implements
 
     /**
      * Create a single record from input and return the created ID.
-     * @param  Array $input hash of input
-     * @return Integer
+     * @param  array $input hash of input
+     * @return integer
      */
     protected function executeInsert(array $input)
     {
         if (!$input) {
-            throw new \RuntimeException(sprintf(
-                'Cannot create an empty record in table "%s"',
-                $this->getTable()
-            ));
+            throw new \RuntimeException(
+                sprintf(
+                    'Cannot create an empty record in table "%s"',
+                    $this->getTable()
+                )
+            );
         }
 
         $query = DB::insert($this->getTable())
@@ -262,17 +260,19 @@ abstract class OhanzeeRepository implements
 
     /**
      * Update records from input with conditions and return the number affected.
-     * @param  Array $where hash of conditions
-     * @param  Array $input hash of input
-     * @return Integer
+     * @param  array $where hash of conditions
+     * @param  array $input hash of input
+     * @return integer
      */
     protected function executeUpdate(array $where, array $input)
     {
         if (!$where) {
-            throw new \RuntimeException(sprintf(
-                'Cannot update every record in table "%s"',
-                $this->getTable()
-            ));
+            throw new \RuntimeException(
+                sprintf(
+                    'Cannot update every record in table "%s"',
+                    $this->getTable()
+                )
+            );
         }
 
         // Prevent overwriting created timestamp
@@ -296,17 +296,19 @@ abstract class OhanzeeRepository implements
 
     /**
      * Delete records with conditions and return the number affected.
-     * @param  Array $where hash of conditions
-     * @return Integer
+     * @param  array $where hash of conditions
+     * @return integer
      */
     protected function executeDelete(array $where)
     {
 
         if (!$where) {
-            throw new \RuntimeException(sprintf(
-                'Cannot delete every record in table "%s"',
-                $this->getTable()
-            ));
+            throw new \RuntimeException(
+                sprintf(
+                    'Cannot delete every record in table "%s"',
+                    $this->getTable()
+                )
+            );
         }
 
         $query = DB::delete($this->getTable());
@@ -331,5 +333,21 @@ abstract class OhanzeeRepository implements
         return (bool) $this->selectCount([
             $this->getTable() . '.id' => $id
         ]);
+    }
+
+    /**
+     * Converts an array of results into an array of entities,
+     * indexed by the entity id.
+     * @param  array $results
+     * @return array
+     */
+    protected function getCollection(array $results)
+    {
+        $collection = [];
+        foreach ($results as $row) {
+            $entity = $this->getEntity($row);
+            $collection[$entity->getId()] = $entity;
+        }
+        return $collection;
     }
 }

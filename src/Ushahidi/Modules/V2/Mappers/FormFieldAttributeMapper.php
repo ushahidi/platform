@@ -2,15 +2,15 @@
 
 namespace Ushahidi\Modules\V2\Mappers;
 
-use Ushahidi\Core\Entity\FormAttribute;
-use Ushahidi\Core\Entity\FormStageRepository;
 use Ushahidi\Modules\V2\Import;
-use Ushahidi\Modules\V2\Jobs\ImportForms;
+use Illuminate\Support\Facades\Log;
 use Ushahidi\Modules\V2\Contracts\Mapper;
-use Ushahidi\Modules\V2\Contracts\ImportMappingRepository;
+use Ushahidi\Modules\V2\Jobs\ImportForms;
+use Ushahidi\Core\Entity\FormStageRepository;
+use Ushahidi\Core\Ohanzee\Entities\FormAttribute;
 use Ushahidi\Modules\V2\Contracts\ImportDataTools;
 
-use Illuminate\Support\Facades\Log;
+use Ushahidi\Modules\V2\Contracts\ImportMappingRepository;
 
 class FormFieldAttributeMapper implements Mapper
 {

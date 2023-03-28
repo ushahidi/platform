@@ -1,7 +1,6 @@
 <?php
-
 /**
- * Ushahidi Role
+ * Ushahidi Role Entity
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Platform
@@ -11,45 +10,8 @@
 
 namespace Ushahidi\Core\Entity;
 
-use Ushahidi\Core\EloquentEntity;
+use Ushahidi\Contracts\Entity;
 
-class Role extends EloquentEntity
+interface Role extends Entity
 {
-    protected $id;
-    protected $name;
-    protected $display_name;
-    protected $description;
-    protected $permissions;
-    protected $protected;
-
-    // DataTransformer
-    protected function getDefinition()
-    {
-        return [
-            'id'           => 'int',
-            'name'         => 'string',
-            'display_name' => 'string',
-            'description'  => 'string',
-            'permissions'  => 'array',
-            'protected'    => 'boolean',
-        ];
-    }
-
-    // Entity
-    public function getResource()
-    {
-        return 'roles';
-    }
-
-    // Entity
-    public function getId()
-    {
-        return $this->getAttribute('name');
-    }
-
-    // StatefulData
-    protected function getImmutable()
-    {
-        return array_merge(parent::getImmutable(), ['name','protected']);
-    }
 }

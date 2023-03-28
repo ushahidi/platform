@@ -23,5 +23,7 @@ interface PostLockRepository extends EntityGet
 
     public function getPostLock($entity_id);
 
+    public function getNoneExpiredPostLock($entity_id);
+
     public function postIsLocked($entity_id);
 }

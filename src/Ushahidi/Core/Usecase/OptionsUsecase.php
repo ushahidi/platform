@@ -32,7 +32,7 @@ class OptionsUsecase implements Usecase
     use IdentifyRecords;
 
     /**
-     * @var SearchRepository
+     * @var \Ushahidi\Contracts\Repository\ReadRepository
      */
     protected $repo;
 

@@ -11,55 +11,9 @@
 
 namespace Ushahidi\Core\Entity;
 
-use Ushahidi\Core\EloquentEntity;
+use Ushahidi\Contracts\Entity;
 
-class User extends EloquentEntity
+interface User extends Entity
 {
-    protected $id;
-    protected $email;
-    protected $realname;
-    protected $password;
-    protected $logins = 0;
-    protected $failed_attempts = 0;
-    protected $last_login;
-    protected $last_attempt;
-    protected $created;
-    protected $updated;
-    protected $role;
-    protected $language;
-    protected $contacts;
 
-    // DataTransformer
-    protected function getDefinition()
-    {
-        return [
-            'id'              => 'int',
-            'email'           => '*email',
-            'realname'        => 'string',
-            'password'        => 'string',
-            'logins'          => 'int',
-            'failed_attempts' => 'int',
-            'last_login'      => 'int',
-            'last_attempt'    => 'int',
-            'created'         => 'int',
-            'updated'         => 'int',
-            'role'            => 'string',
-            'language'        => 'string',
-            'contacts'        => 'array'
-        ];
-    }
-
-    // Entity
-    public function getResource()
-    {
-        return 'users';
-    }
-
-    public function getDefaultData()
-    {
-        return [
-            'logins' => 0,
-            'failed_attempts' => 0
-        ];
-    }
 }

@@ -11,13 +11,12 @@
 
 namespace Ushahidi\Core\Ohanzee\Repositories;
 
-use Log;
 use Ramsey\Uuid\Uuid;
-use Ushahidi\Core\Tool\SearchData;
 use Ushahidi\Contracts\Entity;
-use Ushahidi\Core\Entity\Webhook;
+use Ushahidi\Core\Tool\SearchData;
 use Ushahidi\Core\Concerns\AdminAccess;
 use Ushahidi\Core\Concerns\UserContext;
+use Ushahidi\Core\Ohanzee\Entities\Webhook;
 use Ushahidi\Core\Entity\WebhookRepository as WebhookRepositoryContract;
 
 class WebhookRepository extends OhanzeeRepository implements WebhookRepositoryContract

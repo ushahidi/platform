@@ -51,7 +51,7 @@ trait Event
     /**
      * Add Event listener
      * @param  string   $event triggered event
-     * @param  ListenerInterface $listener
+     * @param  \League\Event\ListenerInterface $listener
      * @param  int      $priority
      * @return object   $this
      */

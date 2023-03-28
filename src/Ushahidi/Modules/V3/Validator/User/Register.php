@@ -13,15 +13,15 @@
 
 namespace Ushahidi\Modules\V3\Validator\User;
 
+use Ushahidi\Core\Entity\UserRepository;
 use Ushahidi\Modules\V3\Validator\LegacyValidator;
-use Ushahidi\Contracts\Repository\Usecase\UserRegisterRepository;
 
 class Register extends LegacyValidator
 {
     protected $default_error_source = 'user';
     private $repo;
 
-    public function __construct(UserRegisterRepository $repo)
+    public function __construct(UserRepository $repo)
     {
         $this->repo = $repo;
     }

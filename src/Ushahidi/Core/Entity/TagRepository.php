@@ -22,5 +22,25 @@ interface TagRepository extends
     EntityCreateMany,
     EntityExists
 {
+
+    /**
+     * @param  string $slug
+     *
+     * @return boolean
+     */
+    public function isSlugAvailable($slug);
+
+    /**
+     * @param string $tag
+     *
+     * @return \Ushahidi\Core\Entity\Tag
+     */
+    public function getByTag($tag);
+
+    /**
+     * @param int|string|\Ushahidi\Core\Entity\Tag $value
+     *
+     * @return boolean
+     */
     public function doesTagExist($value);
 }

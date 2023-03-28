@@ -28,7 +28,7 @@ interface PostRepository extends
      * @param  int $id
      * @param  int $parent_id
      * @param  string $type
-     * @return \Ushahidi\Contracts\Entity
+     * @return \Ushahidi\Core\Entity\Post
      */
     public function getByIdAndParent($id, $parent_id, $type);
 
@@ -36,9 +36,48 @@ interface PostRepository extends
      * @param  string $locale
      * @param  int $parent_id
      * @param  string $type
-     * @return \Ushahidi\Contracts\Entity
+     * @return \Ushahidi\Core\Entity\Post
      */
     public function getByLocale($locale, $parent_id, $type);
 
+        /**
+     * @param  string $slug
+     *
+     * @return boolean
+     */
+    public function isSlugAvailable($slug);
+
+    /**
+     * @param  string $locale
+     * @param  int    $parent_id
+     * @param  string $type
+     *
+     * @return boolean
+     */
+    public function doesTranslationExist($locale, $parent_id, $type);
+
+    /**
+     * Checking if a post requires approval via the form it belongs too
+     *
+     * @param int|null $formId
+     * @return boolean
+     */
+    public function doesPostRequireApproval($formId);
+
+    /**
+     * @param  int    $post_id
+     * @param  int    $set_id
+     *
+     * @return \Ushahidi\Core\Entity\Post
+     */
+    public function getPostInSet($post_id, $set_id);
+
+
     public function getTotal();
+
+    /**
+     * Get total number of published posts
+     * @return int
+     */
+    public function getPublishedTotal();
 }

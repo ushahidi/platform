@@ -13,35 +13,34 @@ namespace Ushahidi\Contracts\Repository;
 
 use Ushahidi\Contracts\Search;
 
-interface SearchRepository
+interface SearchRepository extends EntityGet
 {
     /**
-     * Converts an array of entity data into an object.
-     * @param array $data
-     * @return \Ushahidi\Contracts\Entity
-     */
-    public function getEntity(array $data = null);
-
-    /**
      * Get fields that can be used for searches.
+     *
      * @return array
      */
     public function getSearchFields();
 
     /**
-     * @param \Ushahidi\Contracts\Search $search
+     * Set the search parameters.
      *
+     * @param \Ushahidi\Contracts\Search $search
      * @return $this
      */
     public function setSearchParams(Search $search);
 
     /**
-     * @return [Ushahidi\Core\Entity, ...]
+     * Get the results for the last search.
+     *
+     * @return \Ushahidi\Contracts\Entity[]
      */
     public function getSearchResults();
 
     /**
-     * @return Integer
+     * Get the total number of results for the last search.
+     *
+     * @return integer
      */
     public function getSearchTotal();
 }

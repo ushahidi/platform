@@ -3,10 +3,8 @@
 namespace Ushahidi\Tests\Unit\Core\Ohanzee\Repositories;
 
 use Faker;
-use Mockery as M;
 use Ushahidi\Tests\TestCase;
-use Ushahidi\Core\Entity\Tag;
-use Ushahidi\Core\Ohanzee\Repositories\TagRepository;
+use Ushahidi\Core\Ohanzee\Entities\Tag;
 
 /**
  * @backupGlobals disabled

@@ -11,16 +11,13 @@
 
 namespace Ushahidi\Core\Ohanzee\Repositories\Post;
 
-use Ohanzee\DB;
-use Ushahidi\Core\Entity\Post;
 use Ushahidi\Core\Concerns\AdminAccess;
 use Ushahidi\Core\Ohanzee\Repositories\PostRepository;
 use Ushahidi\Core\Entity\SetRepository;
 use Ushahidi\Core\Entity\TagRepository;
 use Ushahidi\Core\Entity\MessageRepository;
-use Ushahidi\Core\Entity\PostExportRepository;
 
-class ExportRepository extends PostRepository implements PostExportRepository
+class ExportRepository extends PostRepository
 {
     use AdminAccess;
     protected $tag_repo;

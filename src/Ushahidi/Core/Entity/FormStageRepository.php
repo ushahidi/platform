@@ -11,26 +11,25 @@
 
 namespace Ushahidi\Core\Entity;
 
-use Ushahidi\Contracts\Repository\EntityCreate;
 use Ushahidi\Contracts\Repository\EntityGet;
 use Ushahidi\Contracts\Repository\EntityExists;
+use Ushahidi\Contracts\Repository\EntityCreate;
 
 interface FormStageRepository extends
     EntityGet,
     EntityExists,
     EntityCreate
 {
-
     /**
      * @param  int $form_id
-     * @return [Ushahidi\Core\Entity\FormStage, ...]
+     * @return \Ushahidi\Core\Entity\FormStage[]
      */
     public function getByForm($form_id);
 
     /**
      * @param  int $id
      * @param  int $form_id
-     * @return [Ushahidi\Core\Entity\FormStage, ...]
+     * @return \Ushahidi\Core\Entity\FormStage[]
      */
     public function existsInForm($id, $form_id);
 
@@ -38,7 +37,7 @@ interface FormStageRepository extends
      * Get required stages for form
      *
      * @param  int $form_id
-     * @return [Ushahidi\Core\Entity\FormAttribute, ...]
+     * @return \Ushahidi\Core\Entity\FormStage[]
      */
     public function getRequired($form_id);
 
@@ -46,7 +45,7 @@ interface FormStageRepository extends
      * Get 'post' type stage for form
      *
      * @param  int $form_id
-     * @return \Ushahidi\Contracts\Entity
+     * @return \Ushahidi\Core\Entity\FormStage
      */
     public function getPostStage($form_id);
 }

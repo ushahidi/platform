@@ -13,11 +13,11 @@ namespace Ushahidi\Core\Ohanzee\Repositories\Post;
 
 use Ohanzee\DB;
 use Ohanzee\Database;
-use Ushahidi\Core\Entity\PostValue;
 use Symm\Gisconverter\Decoders\WKT;
 use Symm\Gisconverter\Geometry\Point;
-use Symm\Gisconverter\Exceptions\InvalidText;
 use Ushahidi\Core\Tool\OhanzeeResolver;
+use Symm\Gisconverter\Exceptions\InvalidText;
+use Ushahidi\Core\Ohanzee\Entities\PostValue;
 
 class PointRepository extends ValueRepository
 {

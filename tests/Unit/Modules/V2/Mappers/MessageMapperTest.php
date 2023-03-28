@@ -2,17 +2,15 @@
 
 namespace Ushahidi\Tests\Unit\Modules\V2\Mappers;
 
-use Ushahidi\Modules\V2\Mappers\MessageMapper;
-use Ushahidi\Modules\V2\Contracts\ImportMappingRepository;
-use Ushahidi\Core\Entity\Message;
-use Ushahidi\Core\Entity\Contact;
-use Ushahidi\Core\Entity\ContactRepository;
-use Ushahidi\Tests\Unit\Modules\V2\ImportMock;
-use Ushahidi\Tests\TestCase;
 use Mockery as M;
-use Faker;
+use Ushahidi\Tests\TestCase;
+use Ushahidi\Core\Entity\Message;
+use Ushahidi\Core\Entity\ContactRepository;
+use Ushahidi\Core\Ohanzee\Entities\Contact;
+use Ushahidi\Modules\V2\Mappers\MessageMapper;
+use Ushahidi\Tests\Unit\Modules\V2\ImportMock;
 
-use Illuminate\Support\Collection;
+use Ushahidi\Modules\V2\Contracts\ImportMappingRepository;
 
 /**
  * @backupGlobals disabled

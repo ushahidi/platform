@@ -3,7 +3,7 @@
 namespace Ushahidi\Modules\V5\Http\Resources;
 
 use Illuminate\Support\Collection;
-use Ushahidi\Core\Entity\Post;
+use Ushahidi\Core\Ohanzee\Entities\Post;
 use Ushahidi\Modules\V5\Models\Post\Post as v5Post;
 
 class PostResource extends BaseResource

@@ -13,7 +13,7 @@ namespace Ushahidi\Core\Ohanzee\Repositories\Form;
 
 use Ohanzee\DB;
 use Ohanzee\Database;
-use Ushahidi\Core\Entity;
+use Ushahidi\Core\Ohanzee\Entities;
 use Ushahidi\Core\Concerns\Event;
 use Ushahidi\Core\Tool\SearchData;
 use Ushahidi\Core\Tool\OhanzeeResolver;
@@ -56,7 +56,7 @@ class StatsRepository extends OhanzeeRepository implements
     // ReadRepository
     public function getEntity(array $data = null)
     {
-        return new Entity\FormStats($data);
+        return new Entities\FormStats($data);
     }
 
     // SearchRepository
@@ -99,9 +99,9 @@ class StatsRepository extends OhanzeeRepository implements
             'posts.form_id' => $form_id,
             'messages.direction' => 'incoming',
             'targeted_survey_state.survey_status' => [
-                Entity\TargetedSurveyState::RECEIVED_RESPONSE,
-                Entity\TargetedSurveyState::PENDING_RESPONSE,
-                Entity\TargetedSurveyState::SURVEY_FINISHED,
+                Entities\TargetedSurveyState::RECEIVED_RESPONSE,
+                Entities\TargetedSurveyState::PENDING_RESPONSE,
+                Entities\TargetedSurveyState::SURVEY_FINISHED,
             ]
         ];
         $query = $this->selectQuery($where);
@@ -284,9 +284,9 @@ class StatsRepository extends OhanzeeRepository implements
         $where = [
             'posts.form_id' => $form_id,
             'targeted_survey_state.survey_status' => [
-                Entity\TargetedSurveyState::RECEIVED_RESPONSE,
-                Entity\TargetedSurveyState::PENDING_RESPONSE,
-                Entity\TargetedSurveyState::SURVEY_FINISHED,
+                Entities\TargetedSurveyState::RECEIVED_RESPONSE,
+                Entities\TargetedSurveyState::PENDING_RESPONSE,
+                Entities\TargetedSurveyState::SURVEY_FINISHED,
             ]
         ];
         $query = $this->selectQuery($where)

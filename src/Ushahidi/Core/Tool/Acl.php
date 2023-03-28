@@ -11,15 +11,16 @@
 
 namespace Ushahidi\Core\Tool;
 
-use Ushahidi\Contracts\Entity;
-use Ushahidi\Core\Facade\Features;
-use Ushahidi\Contracts\Permission;
+use Ushahidi\Core\Entity\Permission;
 use Ushahidi\Contracts\Acl as AclInterface;
+use Ushahidi\Core\Entity\User as Entity;
+use Ushahidi\Core\Facade\Features;
 use Ushahidi\Core\Entity\RoleRepository;
 
 class Acl implements AclInterface
 {
     protected $role_repo;
+
     const DEFAULT_ROLES = [
         'user'  => [Permission::EDIT_OWN_POSTS]
     ];
@@ -30,7 +31,7 @@ class Acl implements AclInterface
     }
 
     // Acl interface
-    public function hasPermission(Entity $user, $permission)
+    public function hasPermission($user, $permission)
     {
         // If the user has no role, they have no permissions
         if (!$user->role) {
@@ -51,7 +52,8 @@ class Acl implements AclInterface
             return $this->defaultHasPermission($user, $permission);
         }
     }
-    protected function customRoleHasPermission(Entity $user, $permission)
+
+    protected function customRoleHasPermission($user, $permission)
     {
         $role = $this->role_repo->getByName($user->role);
 
@@ -59,7 +61,7 @@ class Acl implements AclInterface
         return in_array($permission, $role->permissions);
     }
 
-    protected function defaultHasPermission(Entity $user, $permission)
+    protected function defaultHasPermission($user, $permission)
     {
         $defaultRoles = static::DEFAULT_ROLES;
         $rolePermissions = isset($defaultRoles[$user->role]) ? $defaultRoles[$user->role] : [];

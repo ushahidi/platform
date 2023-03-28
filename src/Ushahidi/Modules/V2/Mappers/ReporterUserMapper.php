@@ -2,13 +2,12 @@
 
 namespace Ushahidi\Modules\V2\Mappers;
 
-use Ushahidi\Core\Entity\Contact;
 use Ushahidi\Modules\V2\Import;
-use Ushahidi\Modules\V2\Contracts\Mapper;
-use Ushahidi\Modules\V2\Contracts\ImportMappingRepository;
-
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
+use Ushahidi\Modules\V2\Contracts\Mapper;
+use Ushahidi\Core\Ohanzee\Entities\Contact;
+use Ushahidi\Modules\V2\Contracts\ImportMappingRepository;
 
 class ReporterUserMapper implements Mapper
 {

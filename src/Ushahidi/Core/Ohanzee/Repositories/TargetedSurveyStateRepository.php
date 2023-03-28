@@ -12,7 +12,7 @@
 namespace Ushahidi\Core\Ohanzee\Repositories;
 
 use Ohanzee\DB;
-use Ushahidi\Core\Entity;
+use Ushahidi\Core\Ohanzee\Entities;
 use Ushahidi\Core\Entity\TargetedSurveyStateRepository as TargetedSurveyStateRepositoryContract;
 
 class TargetedSurveyStateRepository extends OhanzeeRepository implements
@@ -28,7 +28,7 @@ class TargetedSurveyStateRepository extends OhanzeeRepository implements
     // ReadRepository
     public function getEntity(array $data = null)
     {
-        return new Entity\TargetedSurveyState($data);
+        return new Entities\TargetedSurveyState($data);
     }
 
     // SearchRepository
@@ -45,7 +45,7 @@ class TargetedSurveyStateRepository extends OhanzeeRepository implements
 
     public function getByPost($post)
     {
-        return new Entity\Post($this->selectOne(compact('post')));
+        return new Entities\Post($this->selectOne(compact('post')));
     }
 
     public function getActiveByContactId($contact_id)
@@ -53,15 +53,15 @@ class TargetedSurveyStateRepository extends OhanzeeRepository implements
         return $this->getEntity($this->selectOne([
             'contact_id' => $contact_id,
             'survey_status' => [
-                Entity\TargetedSurveyState::PENDING_RESPONSE,
-                Entity\TargetedSurveyState::RECEIVED_RESPONSE
+                Entities\TargetedSurveyState::PENDING_RESPONSE,
+                Entities\TargetedSurveyState::RECEIVED_RESPONSE
             ]
         ]));
     }
 
     public function getByForm($form)
     {
-        return new Entity\Form($this->selectOne(compact('form')));
+        return new Entities\Form($this->selectOne(compact('form')));
     }
 
 
@@ -84,8 +84,8 @@ class TargetedSurveyStateRepository extends OhanzeeRepository implements
                 'survey_status',
                 'IN',
                 [
-                    Entity\TargetedSurveyState::PENDING_RESPONSE,
-                    Entity\TargetedSurveyState::RECEIVED_RESPONSE
+                    Entities\TargetedSurveyState::PENDING_RESPONSE,
+                    Entities\TargetedSurveyState::RECEIVED_RESPONSE
                 ]
             )
             ->and_where(

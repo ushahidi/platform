@@ -53,10 +53,7 @@ abstract class EloquentRepository implements
      * Converts an array/collection of results into an collection
      * of entities, indexed by the entity id.
      *
-     * Included directly instead of using \Ushahidi\Core\Concerns\CollectionLoader
-     * because this implementation returns an \Illuminate\Support\Collection
-     *
-     * @param array|\Iterable $results
+     * @param array|\Iterator $results
      *
      * @return \Illuminate\Support\Collection
      */
@@ -252,7 +249,7 @@ abstract class EloquentRepository implements
     {
         return $this->connection()->table($this->getTable())
             ->select($this->getTable() . '.*') // @todo do we need this?
-            ->where($where) // @todo do we need to handle whereIn here too?
+            // ->where($where) // @todo do we need to handle whereIn here too?
             ->exists();
     }
 }

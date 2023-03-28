@@ -14,7 +14,7 @@ namespace Ushahidi\Core\Ohanzee\Repositories;
 use Ohanzee\DB;
 use Ushahidi\Contracts\Entity;
 use Ushahidi\Core\Tool\SearchData;
-use Ushahidi\Core\Entity\Role;
+use Ushahidi\Core\Ohanzee\Entities\Role;
 use Ushahidi\Core\Entity\RoleRepository as RoleRepositoryContract;
 
 class RoleRepository extends OhanzeeRepository implements
@@ -28,7 +28,8 @@ class RoleRepository extends OhanzeeRepository implements
 
     protected function getPermissions($role)
     {
-        return DB::select('permission')->from('roles_permissions')
+        return DB::select('permission')
+                ->from('roles_permissions')
                 ->where('role', '=', $role)
                 ->execute($this->db())
                 ->as_array(null, 'permission');

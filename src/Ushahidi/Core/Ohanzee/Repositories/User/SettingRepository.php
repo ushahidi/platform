@@ -13,9 +13,9 @@ namespace Ushahidi\Core\Ohanzee\Repositories\User;
 
 use Ushahidi\Contracts\Entity;
 use Ushahidi\Core\Tool\SearchData;
-use Ushahidi\Core\Entity\UserSetting;
-use Ushahidi\Core\Entity\UserSettingRepository as UserSettingRepositoryContract;
+use Ushahidi\Core\Ohanzee\Entities\UserSetting;
 use Ushahidi\Core\Ohanzee\Repositories\OhanzeeRepository;
+use Ushahidi\Core\Entity\UserSettingRepository as UserSettingRepositoryContract;
 
 class SettingRepository extends OhanzeeRepository implements
     UserSettingRepositoryContract

@@ -12,12 +12,12 @@
 namespace Ushahidi\Core\Ohanzee\Repositories\Notification;
 
 use Ushahidi\Contracts\Entity;
-use Ushahidi\Core\Tool\SearchData;
-use Ushahidi\Core\Entity\NotificationQueue;
-use Ushahidi\Core\Entity\NotificationQueueRepository as NotificationQueueRepositoryContract;
+use Ushahidi\Contracts\Repository\{EntityGet, EntityExists, CreateRepository};
+use Ushahidi\Core\Ohanzee\Entities\NotificationQueue;
 use Ushahidi\Core\Ohanzee\Repositories\OhanzeeRepository;
+use Ushahidi\Core\Tool\SearchData;
 
-class QueueRepository extends OhanzeeRepository implements NotificationQueueRepositoryContract
+class QueueRepository extends OhanzeeRepository implements EntityGet, EntityExists, CreateRepository
 {
     protected function getTable()
     {

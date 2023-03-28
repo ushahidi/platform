@@ -12,8 +12,8 @@
 namespace Ushahidi\Core\Ohanzee\Repositories;
 
 use Ushahidi\Contracts\Entity;
-use Ushahidi\Core\Entity\Layer;
 use Ushahidi\Core\Tool\SearchData;
+use Ushahidi\Core\Ohanzee\Entities\Layer;
 
 class LayerRepository extends OhanzeeRepository
 {

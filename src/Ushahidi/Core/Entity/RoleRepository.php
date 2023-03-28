@@ -19,14 +19,8 @@ interface RoleRepository extends
     EntityExists
 {
     /**
-     * @param  Array $roles
-     * @return Boolean
+     * @param string $value
+     * @return \Ushahidi\Core\Entity\Role
      */
-    public function doRolesExist(array $roles = null);
-
-    /**
-     * @param string $name
-     * @return \Ushahidi\Contracts\Entity
-     */
-    public function getByName($name);
+    public function getByName($value);
 }

@@ -3,8 +3,8 @@
 namespace Ushahidi\Modules\V5\Policies;
 
 use Ushahidi\Modules\V5\Models\Post\Post;
-use Ushahidi\Core\Entity;
-use Ushahidi\Contracts\Permission;
+use Ushahidi\Core\Ohanzee\Entities;
+use Ushahidi\Core\Entity\Permission;
 use Ushahidi\Core\Concerns\PrivAccess;
 use Ushahidi\Core\Concerns\AdminAccess;
 use Ushahidi\Core\Concerns\OwnerAccess;
@@ -52,7 +52,7 @@ class PostPolicy
      */
     public function index()
     {
-        $empty_form = new Entity\Form();
+        $empty_form = new Entities\Form();
         return $this->isAllowed($empty_form, 'search');
     }
 
@@ -64,7 +64,7 @@ class PostPolicy
      */
     public function show(User $user, Survey $survey)
     {
-        $form = new Entity\Form($survey->toArray());
+        $form = new Entities\Form($survey->toArray());
         return $this->isAllowed($form, 'read');
     }
 
@@ -76,7 +76,7 @@ class PostPolicy
      */
     public function delete(User $user, Post $post)
     {
-        $post = new Entity\Post($post->toArray());
+        $post = new Entities\Post($post->toArray());
         return $this->isAllowed($post, 'delete');
     }
     /**
@@ -85,7 +85,7 @@ class PostPolicy
      */
     public function update(User $user, Post $post)
     {
-        $post = new Entity\Post($post->toArray());
+        $post = new Entities\Post($post->toArray());
         // we convert to a form entity to be able to continue using the old authorizers and classes.
         return $this->isAllowed($post, 'update');
     }
@@ -96,7 +96,7 @@ class PostPolicy
     public function patch(User $user, Post $post)
     {
         dd('hell');
-        $post = new Entity\Post($post->toArray());
+        $post = new Entities\Post($post->toArray());
         // we convert to a form entity to be able to continue using the old authorizers and classes.
         return $this->isAllowed($post, 'update');
     }
@@ -106,7 +106,7 @@ class PostPolicy
      */
     public function changeStatus(User $user, Post $post)
     {
-        $post = new Entity\Post($post->toArray());
+        $post = new Entities\Post($post->toArray());
         // we convert to a form entity to be able to continue using the old authorizers and classes.
         return $this->isAllowed($post, 'update');
     }
@@ -118,7 +118,7 @@ class PostPolicy
     public function store(User $user, $form_id, $user_id)
     {
         // we convert to a form entity to be able to continue using the old authorizers and classes.
-        $post = new Entity\Post(['form_id' => $form_id, 'user_id' => $user_id]);
+        $post = new Entities\Post(['form_id' => $form_id, 'user_id' => $user_id]);
         return $this->isAllowed($post, 'create');
     }
     /**
@@ -233,7 +233,7 @@ class PostPolicy
      * @param  Entity $entity
      * @return Boolean
      */
-    protected function isFormDisabled(Entity\Post $entity)
+    protected function isFormDisabled(Entities\Post $entity)
     {
         return (bool) $entity->disabled;
     }
@@ -243,7 +243,7 @@ class PostPolicy
         // If the post has a parent_id, we attempt to load it from the `PostRepository`
         if ($entity->parent_id) {
             $parent = Post::find($entity->parent_id);
-            return new Entity\Post($parent->toArray());
+            return new Entities\Post($parent->toArray());
         }
 
         return false;

@@ -12,14 +12,14 @@
 namespace Ushahidi\Modules\V3\Validator\Message;
 
 use Ushahidi\Modules\V3\Validator\LegacyValidator;
-use Ushahidi\Contracts\Repository\Usecase\UpdateMessageRepository;
+use Ushahidi\Core\Entity\MessageRepository;
 
 class Update extends LegacyValidator
 {
     protected $repo;
     protected $default_error_source = 'message';
 
-    public function __construct(UpdateMessageRepository $repo)
+    public function __construct(MessageRepository $repo)
     {
         $this->repo = $repo;
     }

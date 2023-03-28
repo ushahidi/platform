@@ -19,7 +19,7 @@ use Ushahidi\Contracts\Search;
 use Illuminate\Support\Collection;
 use Ushahidi\Core\Tool\SearchData;
 use Ushahidi\Core\Concerns\UserContext;
-use Ushahidi\Core\Entity\FormAttribute;
+use Ushahidi\Core\Ohanzee\Entities\FormAttribute;
 use Ushahidi\Core\Ohanzee\Repositories\OhanzeeRepository;
 use Ushahidi\Core\Ohanzee\Repositories\Concerns\FormsTags;
 use Ushahidi\Core\Ohanzee\Repositories\Concerns\CachesData;

@@ -33,7 +33,7 @@ interface ExportJobRepository extends
     /**
      * Check if job batches are finished?
      *
-     * @param  Int  $jobId
+     * @param  int  $jobId
      * @return boolean
      */
     public function areBatchesFinished($jobId);

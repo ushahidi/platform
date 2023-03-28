@@ -14,14 +14,14 @@ namespace Ushahidi\Modules\V3\Validator\Message;
 use Ushahidi\Modules\V3\Validator\LegacyValidator;
 use Ushahidi\DataSource\Contracts\MessageStatus;
 use Ushahidi\DataSource\Contracts\MessageDirection;
-use Ushahidi\Contracts\Repository\Usecase\CreateMessageRepository;
+use Ushahidi\Core\Entity\MessageRepository;
 
 class Receive extends LegacyValidator
 {
     protected $repo;
     protected $default_error_source = 'message';
 
-    public function __construct(CreateMessageRepository $repo)
+    public function __construct(MessageRepository $repo)
     {
         $this->repo = $repo;
     }

@@ -13,7 +13,7 @@ namespace Ushahidi\Core\Ohanzee\Repositories;
 
 use Ohanzee\DB;
 use Ushahidi\Core\Tool\SearchData;
-use Ushahidi\Core\Entity\Form;
+use Ushahidi\Core\Ohanzee\Entities\Form;
 use Ushahidi\Core\Concerns\Event;
 use Illuminate\Support\Collection;
 use Ushahidi\Contracts\Entity;

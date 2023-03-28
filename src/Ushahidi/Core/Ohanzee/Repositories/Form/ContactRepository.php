@@ -12,7 +12,7 @@
 namespace Ushahidi\Core\Ohanzee\Repositories\Form;
 
 use Ohanzee\DB;
-use Ushahidi\Core\Entity;
+use Ushahidi\Core\Ohanzee\Entities;
 use Ushahidi\Core\Tool\SearchData;
 use Ushahidi\Core\Concerns\Event;
 use Ushahidi\Core\Ohanzee\Repositories\OhanzeeRepository;
@@ -32,11 +32,6 @@ class ContactRepository extends OhanzeeRepository implements
     protected $message_repo;
     protected $targeted_survey_state_repo;
 
-    /**
-     * Construct
-     * @param \Ushahidi\Core\Tool\OhanzeeResolver $resolver
-     * @param FormRepository $form_repo
-     */
     public function __construct(
         OhanzeeResolver $resolver,
         FormRepository $form_repo,
@@ -59,22 +54,22 @@ class ContactRepository extends OhanzeeRepository implements
     // ReadRepository
     public function getEntity(array $data = null)
     {
-        return new Entity\Contact($data);
+        return new Entities\Contact($data);
     }
 
     /**
      * @param $contact
      * @param array $data
-     * @return Entity\Contact (return the entity from the database
+     * @return \Ushahidi\Core\Entity\Contact (return the entity from the database
      * if there's a match,or a new one if not)
      */
     public function getEntityWithData($contact, $data = [])
     {
         $contact = $this->selectQuery(['contact' => $contact])->execute($this->db())->current();
         if (!$contact) {
-            return new Entity\Contact($data);
+            return new Entities\Contact($data);
         }
-        return new Entity\Contact($contact);
+        return new Entities\Contact($contact);
     }
 
 
@@ -119,7 +114,7 @@ class ContactRepository extends OhanzeeRepository implements
                 **/
                 $message = $this->message_repo->get($contactOnActiveSurvey['message_id']);
                 if ($message->id) {
-                    $message->setState(['status' => Entity\Message::EXPIRED]);
+                    $message->setState(['status' => Entities\Message::EXPIRED]);
                     $this->message_repo->update($message);
                 }
                 $invalidatedContacts[] = [
@@ -165,7 +160,7 @@ class ContactRepository extends OhanzeeRepository implements
     }
     /**
      * @param int $form_id
-     * @return Entity[]|Entity\Contact[]
+     * @return \Ushahidi\Core\Entity\Contact[]
      * Returns all
      */
     public function getByForm($form_id)
@@ -267,8 +262,8 @@ class ContactRepository extends OhanzeeRepository implements
         $where = [
             'contacts.contact' => $contact,
             'targeted_survey_state.survey_status' => [
-                Entity\TargetedSurveyState::PENDING_RESPONSE,
-                Entity\TargetedSurveyState::RECEIVED_RESPONSE
+                Entities\TargetedSurveyState::PENDING_RESPONSE,
+                Entities\TargetedSurveyState::RECEIVED_RESPONSE
             ]
         ];
         $query = $this->selectQuery($where)
@@ -300,7 +295,7 @@ class ContactRepository extends OhanzeeRepository implements
             'survey_status' => str_replace(
                 '###',
                 $form_id,
-                Entity\TargetedSurveyState::INVALID_CONTACT_MOVED
+                Entities\TargetedSurveyState::INVALID_CONTACT_MOVED
             )
         ]);
         $this->targeted_survey_state_repo->update($entity);

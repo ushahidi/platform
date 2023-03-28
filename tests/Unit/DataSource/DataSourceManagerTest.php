@@ -12,13 +12,13 @@ namespace Ushahidi\Tests\Unit\DataSource;
 
 use Mockery as M;
 use Ushahidi\Tests\TestCase;
-use Ushahidi\DataSource\Contracts\IncomingDataSource;
-use Ushahidi\Core\Entity\ConfigRepository;
-use Ushahidi\Core\Entity\Config;
-use Ushahidi\DataSource\DataSourceManager;
 use Ushahidi\DataSource\Email\Email;
 use Ushahidi\DataSource\Nexmo\Nexmo;
 use Ushahidi\DataSource\Twitter\Twitter;
+use Ushahidi\Core\Entity\ConfigRepository;
+use Ushahidi\Core\Ohanzee\Entities\Config;
+use Ushahidi\DataSource\DataSourceManager;
+use Ushahidi\DataSource\Contracts\IncomingDataSource;
 
 /**
  * @backupGlobals disabled

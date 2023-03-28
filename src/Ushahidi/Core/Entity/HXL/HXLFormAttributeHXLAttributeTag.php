@@ -11,7 +11,7 @@
 
 namespace Ushahidi\Core\Entity\HXL;
 
-use Ushahidi\Core\StaticEntity;
+use Ushahidi\Core\Ohanzee\StaticEntity;
 
 class HXLFormAttributeHXLAttributeTag extends StaticEntity
 {
