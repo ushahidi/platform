@@ -35,4 +35,58 @@ class BaseResource extends Resource
         }
         return $result;
     }
+
+
+
+    /**
+     * get the approved only fields from the request
+     * @param Request $request
+     * @param array $approved_fields
+     * @param array $required_fields
+     * @return array
+     */
+    public function onlyFields(Request $request, array $approved_fields = [], array $required_fields = [])
+    {
+        $only_fields = $approved_fields;
+        if ($request->has('only') && !$request->get('only')) {
+            return [];
+        }
+        if ($request->query('format') === 'minimal') {
+            $only_fields = ['id', 'name', 'description', 'translations'];
+        } elseif ($request->get('only')) {
+            $only_fields = explode(',', $request->get('only'));
+        }
+
+        if (count($only_fields) > 0) {
+            $only_fields = array_filter($only_fields, function ($f) use ($approved_fields) {
+                return in_array($f, $approved_fields);
+            });
+        }
+        return array_merge($required_fields, $only_fields);
+    }
+
+
+    /**
+     * get the approved hydrate relations from the request
+     * @param Request $request
+     * @param array $approved_relations
+     * @param array $required_relations
+     * @return array
+     */
+    public function hydrateRelations(Request $request, array $approved_relations = [], array $required_relations = [])
+    {
+        $hydrate_relations = $approved_relations;
+        if ($request->has('hydrate') && !$request->get('hydrate')) {
+            return [];
+        }
+        if ($request->get('hydrate')) {
+            $hydrate_relations = explode(',', $request->get('hydrate'));
+        }
+        if (count($hydrate_relations) > 0) {
+            $hydrate = array_filter($hydrate_relations, function ($f) use ($approved_relations) {
+                return in_array($f, $approved_relations);
+            });
+        }
+        return array_merge($required_relations, $hydrate);
+    }
 }

@@ -15,12 +15,12 @@ Feature: Testing the Users API
 			"""
 		When I request "/users"
 		Then the response is JSON
-		And the response has a "data.id" property
-		And the type of the "data.id" property is "numeric"
-		And the response has a "data.email" property
-		And the "data.email" property equals "linda@ushahidi.com"
-		And the "data.role" property equals "admin"
-		And the response does not have a "data.password" property
+		And the response has a "result.id" property
+		And the type of the "result.id" property is "numeric"
+		And the response has a "result.email" property
+		And the "result.email" property equals "linda@ushahidi.com"
+		And the "result.role" property equals "admin"
+		And the response does not have a "result.password" property
 		Then the guzzle status code should be 200
  	@usersFixture
 	Scenario: Updating a User
@@ -62,12 +62,12 @@ Feature: Testing the Users API
 		And that its "id" is "1"
 		When I request "/users"
 		Then the response is JSON
-		And the response has a "data.id" property
-		And the type of the "data.id" property is "numeric"
-		And the "data.id" property equals "1"
-		And the response has a "data.email" property
-		And the "data.email" property equals "Mike@ushahidi.com"
-		And the "data.role" property equals "admin"
+		And the response has a "result.id" property
+		And the type of the "result.id" property is "numeric"
+		And the "result.id" property equals "1"
+		And the response has a "result.email" property
+		And the "result.email" property equals "Mike@ushahidi.com"
+		And the "result.role" property equals "admin"
 		Then the guzzle status code should be 200
 
 
@@ -127,7 +127,7 @@ Feature: Testing the Users API
 		When I request "/users"
 		Then the response is JSON
 		And the "meta.total" property equals "1"
-		And the "data.0.realname" property equals "Robbie Mackay"
+		And the "results.0.realname" property equals "Robbie Mackay"
 		Then the guzzle status code should be 200
 
 	Scenario: Finding a User
@@ -136,9 +136,9 @@ Feature: Testing the Users API
 		And that its "id" is "1"
 		When I request "/users"
 		Then the response is JSON
-		And the response has a "data.id" property
-		And the type of the "data.id" property is "numeric"
-		And the "data.realname" property equals "Robbie Mackay"
+		And the response has a "result.id" property
+		And the type of the "result.id" property is "numeric"
+		And the "result.realname" property equals "Robbie Mackay"
 		Then the guzzle status code should be 200
 
 	Scenario: Finding a User as Admin gives full details
@@ -148,10 +148,10 @@ Feature: Testing the Users API
 		And that the oauth token is "defaulttoken"
 		When I request "/users"
 		Then the response is JSON
-		And the response has a "data.id" property
-		And the type of the "data.id" property is "numeric"
-		And the "data.realname" property equals "Test User"
-		And the "data.email" property equals "test@v3.ushahidi.com"
+		And the response has a "result.id" property
+		And the type of the "result.id" property is "numeric"
+		And the "result.realname" property equals "Test User"
+		And the "result.email" property equals "test@v3.ushahidi.com"
 		Then the guzzle status code should be 200
 
 	Scenario: Loading own user gives full details
@@ -161,10 +161,10 @@ Feature: Testing the Users API
 		And that the oauth token is "testbasicuser"
 		When I request "/users"
 		Then the response is JSON
-		And the response has a "data.id" property
-		And the type of the "data.id" property is "numeric"
-		And the "data.realname" property equals "Robbie Mackay"
-		And the "data.email" property equals "robbie@ushahidi.com"
+		And the response has a "result.id" property
+		And the type of the "result.id" property is "numeric"
+		And the "result.realname" property equals "Robbie Mackay"
+		And the "result.email" property equals "robbie@ushahidi.com"
 		Then the guzzle status code should be 200
 
 	Scenario: Loading own user without login
