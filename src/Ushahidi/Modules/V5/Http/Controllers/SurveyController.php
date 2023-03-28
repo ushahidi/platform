@@ -27,6 +27,7 @@ class SurveyController extends V5Controller
      */
     public function show(Request $request, int $id)
     {
+        $this->authorize('show', new Survey());
         try {
             $survey = $this->queryBus->handle(
                 new FetchSurveyByIdQuery(
@@ -59,6 +60,8 @@ class SurveyController extends V5Controller
      */
     public function index(Request $request)
     {
+        $this->authorize('index', new Survey());
+
         $surveys = $this->queryBus->handle(
             new FetchSurveyQuery(
                 $request->query('limit', FetchSurveyQuery::DEFAULT_LIMIT),
