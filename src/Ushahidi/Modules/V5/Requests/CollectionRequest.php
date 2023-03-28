@@ -9,7 +9,7 @@ use Illuminate\Validation\ValidationException;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Contracts\Validation\Validator;
 
-class CollectionRequest extends FormRequest
+class CollectionRequest extends BaseRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -47,7 +47,7 @@ class CollectionRequest extends FormRequest
             return [
                 'name' => [
                     'filled',
-                    'unique:sets,name,'.$request->route('id')
+                    'unique:sets,name,' . $request->route('id')
                 ],
                 'role' => [
                     'nullable',
@@ -87,36 +87,5 @@ class CollectionRequest extends FormRequest
                 ['field' => trans('fields.name')]
             )
         ];
-    }
-    /**
-     * Handle a failed validation attempt.
-     *
-     * @param  \Illuminate\Contracts\Validation\Validator $validator
-     * @return void
-     *
-     * @throws \Illuminate\Validation\ValidationException
-     */
-    protected function failedValidation(Validator $validator)
-    {
-        try {
-            parent::failedValidation($validator);
-        } catch (ValidationException $e) {
-            $errors = [];
-            foreach ($e->errors() as $field => $error_messages) {
-                $errors[] = [
-                    "field" => $field,
-                    "error_messages" => $error_messages
-                ];
-            }
-            throw new HttpResponseException(
-                response()->json([
-                    'errors' => [
-                        'status' => 422,
-                        'message' => 'please recheck the your inputs',
-                        'failed_validations' => $errors
-                    ]
-                ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY)
-            );
-        }
     }
 }

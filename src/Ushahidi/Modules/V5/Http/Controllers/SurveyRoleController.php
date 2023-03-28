@@ -9,6 +9,7 @@ use Ushahidi\Modules\V5\Actions\Survey\Commands\DeleteSurveyRolesBySurveyIDComma
 use Ushahidi\Modules\V5\Actions\Survey\Commands\CreateSurveyRoleCommand;
 use Ushahidi\Modules\V5\Models\Survey;
 use Ushahidi\Modules\V5\Actions\Survey\Queries\FetchSurveyByIdQuery;
+use Ushahidi\Modules\V5\Requests\SurveyRoleRequest;
 
 class SurveyRoleController extends V5Controller
 {
@@ -37,11 +38,11 @@ class SurveyRoleController extends V5Controller
     /**
      * replace a roles of survey.
      *
-     * @param Request $request
+     * @param SurveyRoleRequest $request
      * @return \Illuminate\Http\JsonResponse
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function replace(int $survey_id, Request $request)
+    public function replace(int $survey_id, SurveyRoleRequest $request)
     {
         $survey = $this->queryBus->handle(new FetchSurveyByIdQuery($survey_id, null, null, null));
 

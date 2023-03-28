@@ -174,7 +174,7 @@ Feature: Testing the Users API
 		And that the oauth token is "testanon"
 		When I request "/users"
 		Then the response is JSON
-		Then the guzzle status code should be 404
+		Then the guzzle status code should be 403
 
 	Scenario: Finding a User as anonymous user does not give details
 		Given that I want to find a "User"
