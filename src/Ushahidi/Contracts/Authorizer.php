@@ -41,7 +41,7 @@ interface Authorizer
     /**
      * Get the userid for the current authorization context.
      *
-     * @return integer
+     * @return mixed
      */
     public function getUserId();
 }

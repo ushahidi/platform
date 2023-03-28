@@ -26,7 +26,7 @@ interface Validator
     /**
      * Return an array of any errors that occurred during validation
      *
-     * @return Array
+     * @return array
      */
     public function errors() : array;
 }

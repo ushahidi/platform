@@ -11,11 +11,10 @@
 
 namespace Ushahidi\Core\Tool\FileReader;
 
-use Ushahidi\Contracts\FileReader;
 use Ushahidi\Contracts\ReaderFactory;
 use Ushahidi\Core\Exception\ValidatorException;
 
-class CSV implements FileReader
+class CSV
 {
     protected $limit;
 

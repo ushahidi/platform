@@ -17,7 +17,7 @@ interface ValidationEngine
     /**
      * Set or reset the data to be validated
      *
-     * @param Array $data array of data in $key => $value format
+     * @param array $data array of data in $key => $value format
      */
     public function setData(array $data);
 
@@ -32,7 +32,7 @@ interface ValidationEngine
     /**
      * Set or reset the full data array to be referenced for validation
      *
-     * @param Array $data array of data in $key => $value format
+     * @param array $data array of data in $key => $value format
      */
     public function setFullData(array $data);
 
