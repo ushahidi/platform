@@ -32,7 +32,7 @@ class SavedSearchRequest extends FormRequest
             return [
                 'name' => [
                     'required',
-                    'unique:sets'
+                    'unique:sets,name'
                 ],
                 'filter' => [
                     'required'
@@ -51,7 +51,7 @@ class SavedSearchRequest extends FormRequest
             return [
                 'name' => [
                     'filled',
-                    'unique:sets'
+                    'unique:sets,name,'.$request->route('id')
                 ],
                 'filter' => [
                     'filled'

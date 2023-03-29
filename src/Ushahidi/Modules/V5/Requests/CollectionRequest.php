@@ -32,7 +32,7 @@ class CollectionRequest extends FormRequest
             return [
                 'name' => [
                     'required',
-                    'unique:sets'
+                    'unique:sets,name'
                 ],
                 'role' => [
                     'nullable',
@@ -47,7 +47,7 @@ class CollectionRequest extends FormRequest
             return [
                 'name' => [
                     'filled',
-                    'unique:sets'
+                    'unique:sets,name,'.$request->route('id')
                 ],
                 'role' => [
                     'nullable',
