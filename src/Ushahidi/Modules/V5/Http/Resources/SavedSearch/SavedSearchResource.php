@@ -1,9 +1,9 @@
 <?php
 namespace Ushahidi\Modules\V5\Http\Resources\SavedSearch;
 
-use Illuminate\Http\Resources\Json\Resource;
+use Illuminate\Http\Resources\Json\JsonResource;
 
-class SavedSearchResource extends Resource
+class SavedSearchResource extends JsonResource
 {
 
 

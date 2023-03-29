@@ -13,7 +13,7 @@ class SurveyResource extends BaseResource
      */
     public function toArray($request)
     {
-        $data = json_decode($this->toJson(), true);
+        $data = $this->resource->toArray();
         $data['translations'] = (new TranslationCollection($this->translations))->toArray(null);
         $data['tasks'] = new TaskCollection($this->tasks);
         return $data;

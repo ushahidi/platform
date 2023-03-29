@@ -1,9 +1,9 @@
 <?php
 namespace Ushahidi\Modules\V5\Http\Resources\Collection;
 
-use Illuminate\Http\Resources\Json\Resource;
+use Illuminate\Http\Resources\Json\JsonResource;
 
-class CollectionResource extends Resource
+class CollectionResource extends JsonResource
 {
 
 
