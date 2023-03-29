@@ -32,9 +32,17 @@ class SurveyResource extends BaseResource
     public function toArray($request)
     {
         $data = json_decode($this->toJson(), true);
-        $data['translations'] = (new TranslationCollection($this->translations))->toArray(null);
-        $data['tasks'] = new TaskCollection($this->tasks);
-        $data['allowed_privileges']=  $this->getResourcePrivileges();
+        if ($this->translations) {
+            $data['translations'] = (new TranslationCollection($this->translations))->toArray(null);
+        } else {
+            unset($data['translations']);
+        }
+        if ($this->tasks) {
+            $data['tasks'] = new TaskCollection($this->tasks);
+        } else {
+            unset($data['tasks']);
+        }
+        $data['allowed_privileges'] = $this->getResourcePrivileges();
 
         return $data;
     }
