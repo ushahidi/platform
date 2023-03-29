@@ -25,7 +25,9 @@ use Ushahidi\DataSource\DataSourceStorage;
  */
 class OutgoingCommandTest extends TestCase
 {
-    public function setUp()
+    public $mockConsoleOutput = false;
+
+    public function setUp(): void
     {
         parent::setUp();
         // Ensure enabled providers is in a known state
@@ -65,7 +67,7 @@ class OutgoingCommandTest extends TestCase
     {
         $value = $this->artisan('datasource:outgoing', []);
 
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             "/\+--------------\+-------\+
 | Source       | Total |
 \+--------------\+-------\+
@@ -83,7 +85,7 @@ class OutgoingCommandTest extends TestCase
     {
         $value = $this->artisan('datasource:outgoing', ['--all' => true]);
 
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             "/\+--------------\+-------\+
 | Source       | Total |
 \+--------------\+-------\+
@@ -103,7 +105,7 @@ class OutgoingCommandTest extends TestCase
     {
         $value = $this->artisan('datasource:outgoing', ['--source' => 'nexmo']);
 
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             "/\+--------\+-------\+
 | Source | Total |
 \+--------\+-------\+

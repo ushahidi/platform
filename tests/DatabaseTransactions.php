@@ -43,7 +43,7 @@ trait DatabaseTransactions
         $this->database->rollback();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->rollbackDatabaseTransaction();
 

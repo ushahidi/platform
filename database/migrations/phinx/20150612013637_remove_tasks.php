@@ -9,7 +9,7 @@ class RemoveTasks extends AbstractMigration
      */
     public function up()
     {
-        $this->dropTable('tasks');
+        $this->table('tasks')->drop()->save();
     }
 
     /**

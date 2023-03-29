@@ -28,7 +28,7 @@ class UserMapperTest extends TestCase
         $import = ImportMock::forId(1);
         $result = $mapper($import, $input);
 
-        $this->assertInternalType('array', $result);
+        $this->assertIsArray($result);
         $this->assertArrayHasKey('result', $result);
         $user = $result['result'];
 
@@ -51,7 +51,7 @@ class UserMapperTest extends TestCase
         $import = ImportMock::forId(1);
         $result = $mapper($import, $input);
 
-        $this->assertInternalType('array', $result);
+        $this->assertIsArray($result);
         $this->assertArrayHasKey('result', $result);
         $user = $result['result'];
 
@@ -75,7 +75,7 @@ class UserMapperTest extends TestCase
         $import = ImportMock::forId(1);
         $result = $mapper($import, $input);
 
-        $this->assertInternalType('array', $result);
+        $this->assertIsArray($result);
         $this->assertArrayHasKey('result', $result);
         $user = $result['result'];
 

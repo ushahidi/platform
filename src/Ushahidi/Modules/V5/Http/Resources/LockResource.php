@@ -1,7 +1,7 @@
 <?php
 namespace Ushahidi\Modules\V5\Http\Resources;
 
-use Illuminate\Http\Resources\Json\Resource;
+use Illuminate\Http\Resources\Json\JsonResource as Resource;
 use Ushahidi\Modules\V5\Models\User as User;
 
 class LockResource extends Resource
