@@ -142,7 +142,7 @@ class ExportJobRepository extends OhanzeeRepository implements ExportJobReposito
         $return = parent::update($entity);
 
         if ($fireHDX) {
-            Event::fire(new SendToHDXEvent($entity->getId()));
+            Event::dispatch(new SendToHDXEvent($entity->getId()));
         }
         return $return;
     }

@@ -30,7 +30,7 @@ class FrontlineSMSDataSourceTest extends TestCase
         );
         $response = $sms->send(1234, 'A message');
 
-        $this->assertInternalType('array', $response);
+        $this->assertIsArray($response);
         $this->assertEquals('failed', $response[0]);
         $this->assertFalse($response[1]);
     }
@@ -38,7 +38,7 @@ class FrontlineSMSDataSourceTest extends TestCase
     public function testSend()
     {
         $mockGuzzle = M::mock(GuzzleClient::class);
-        $mockResponse = M::mock(Psr\Http\Message\ResponseInterface::class);
+        $mockResponse = M::mock(\Psr\Http\Message\ResponseInterface::class);
 
         $sms = new FrontlineSMS([
             'key' => 'secret',
@@ -71,7 +71,7 @@ class FrontlineSMSDataSourceTest extends TestCase
 
         $response = $sms->send(1234, 'A message');
 
-        $this->assertInternalType('array', $response);
+        $this->assertIsArray($response);
         $this->assertEquals('sent', $response[0]);
         $this->assertEquals(null, $response[1]);
     }
@@ -79,17 +79,18 @@ class FrontlineSMSDataSourceTest extends TestCase
     public function testSendFails()
     {
         $mockGuzzle = M::mock(GuzzleClient::class);
-        $mockResponse = M::mock(Psr\Http\Message\ResponseInterface::class);
+        $mockResponse = M::mock(\Psr\Http\Message\ResponseInterface::class);
+        $mockError = M::mock(\GuzzleHttp\Exception\ClientException::class);
 
         $sms = new FrontlineSMS([
             'key' => 'secret',
         ], $mockGuzzle);
 
-        $mockGuzzle->shouldReceive('request')->once()->andThrow(M::mock(\GuzzleHttp\Exception\ClientException::class));
+        $mockGuzzle->shouldReceive('request')->once()->andThrow($mockError);
 
         $response = $sms->send(1234, 'A message');
 
-        $this->assertInternalType('array', $response);
+        $this->assertIsArray($response);
         $this->assertEquals('failed', $response[0]);
         $this->assertEquals(false, $response[1]);
     }

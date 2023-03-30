@@ -2,12 +2,13 @@
 
 namespace Ushahidi\Modules\V5\Models;
 
+use Illuminate\Support\Arr;
+use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Ushahidi\Contracts\Permission;
-use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Request as RequestFacade;
 use Ushahidi\Modules\V3\Validator\LegacyValidator;
 use Ushahidi\Core\Tool\Permissions\InteractsWithFormPermissions;
-use Illuminate\Http\Request;
 
 class Survey extends BaseModel
 {
@@ -362,7 +363,7 @@ class Survey extends BaseModel
             'tasks.*.fields.*.response_private' => [
                 'boolean',
                 function ($attribute, $value, $fail) {
-                    $type_field = array_get(Input::get(), str_replace('response_private', 'type', $attribute));
+                    $type_field = Arr::get(RequestFacade::input(), str_replace('response_private', 'type', $attribute));
                     if ($type_field === 'tags' && $value != false) {
                         return $fail(trans('validation.tag_field_type_cannot_be_private'));
                     }

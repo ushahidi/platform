@@ -2,7 +2,7 @@
 
 // TODO: maybe we should swap this for the standard Route::resource()
 //       (not clear yet what it does differently)
-if (! function_exists('resource')) {
+if (!function_exists('resource')) {
     // Helper to generate routes similar to laravels Route::resource()
     function resource($router, $uri, $controller, array $options = [])
     {
@@ -25,23 +25,23 @@ if (! function_exists('resource')) {
             'prefix' => $uri,
         ] + $options, function () use ($router, $id, $methods, $controller) {
             if (in_array('index', $methods)) {
-                $router->get('/', ['as' => 'index', 'uses' => $controller.'@index']);
+                $router->get('/', ['as' => 'index', 'uses' => $controller . '@index']);
             }
 
             if (in_array('store', $methods)) {
-                $router->post('/', ['as' => 'store', 'uses' => $controller.'@store']);
+                $router->post('/', ['as' => 'store', 'uses' => $controller . '@store']);
             }
 
             if (in_array('show', $methods)) {
-                $router->get('/{'.$id.'}', ['as' => 'show', 'uses' => $controller.'@show']);
+                $router->get('/{' . $id . '}', ['as' => 'show', 'uses' => $controller . '@show']);
             }
 
             if (in_array('update', $methods)) {
-                $router->put('/{'.$id.'}', ['as' => 'update', 'uses' => $controller.'@update']);
+                $router->put('/{' . $id . '}', ['as' => 'update', 'uses' => $controller . '@update']);
             }
 
             if (in_array('destroy', $methods)) {
-                $router->delete('/{'.$id.'}', ['as' => 'destroy', 'uses' => $controller.'@destroy']);
+                $router->delete('/{' . $id . '}', ['as' => 'destroy', 'uses' => $controller . '@destroy']);
             }
         });
     }
@@ -54,7 +54,7 @@ if (! function_exists('resource')) {
  * settings that should activate caching behavior for this route.
  * See config/api.php for the defined levels
  */
-if (! function_exists('add_cache_control')) {
+if (!function_exists('add_cache_control')) {
     function add_cache_control(string $route_level)
     {
         /*
@@ -68,8 +68,20 @@ if (! function_exists('add_cache_control')) {
          */
         return [
             // These are parsed bottom first, so the default is to cache (if the config allows it)
-            "cache.headers.ifAuth:{$route_level},api,preset/dont-cache",    // applies to api-authenticated requests
+            "cache.headers.ifAuth:{$route_level},api,preset/dont-cache",
+            // applies to api-authenticated requests
             "cache.headers.ifAuth:{$route_level},,preset/default",
         ];
+    }
+}
+
+
+if (!function_exists('camel_case')) {
+    /**
+     * Convert a string to camel case.
+     */
+    function camel_case(string $string)
+    {
+        return \Illuminate\Support\Str::camel($string);
     }
 }

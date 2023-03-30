@@ -1,7 +1,7 @@
 <?php
 namespace Ushahidi\Modules\V5\Http\Resources\User;
 
-use Illuminate\Http\Resources\Json\Resource;
+use Illuminate\Http\Resources\Json\JsonResource as Resource;
 use Ushahidi\Modules\V5\Http\Resources\RequestCachedResource;
 use Illuminate\Support\Collection;
 use Ushahidi\Core\Entity\User;

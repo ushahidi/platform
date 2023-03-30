@@ -3,6 +3,7 @@ FROM ushahidi/php-fpm-nginx:php-7.3
 WORKDIR /var/www
 COPY composer.json ./
 COPY composer.lock ./
+RUN composer self-update --2
 RUN composer install --no-autoloader --no-scripts
 
 COPY . .
