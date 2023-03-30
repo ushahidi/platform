@@ -317,9 +317,9 @@ class AppConfig extends ContainerConfig
         // Repository parameters
 
         // Abstract repository parameters
-        $di->params[Core\Ohanzee\Repositories\EloquentRepository::class] = [
-            'resolver' => $di->lazyGet('db.eloquent.resolver'),
-        ];
+        // $di->params[Core\Ohanzee\Repositories\EloquentRepository::class] = [
+        //     'resolver' => $di->lazyGet('db.eloquent.resolver'),
+        // ];
         $di->params[Core\Ohanzee\Repositories\OhanzeeRepository::class] = [
             'resolver' => $di->lazyGet('db.ohanzee.resolver'),
         ];

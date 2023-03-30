@@ -11,10 +11,11 @@
 
 namespace Ushahidi\Core\Ohanzee\Repositories;
 
+use Illuminate\Support\Collection;
 use Ushahidi\Core\Ohanzee\Entities\ExportBatch;
 use Ushahidi\Core\Entity\ExportBatchRepository as ExportBatchRepositoryContract;
 
-class ExportBatchRepository extends EloquentRepository implements ExportBatchRepositoryContract
+class ExportBatchRepository extends OhanzeeRepository implements ExportBatchRepositoryContract
 {
     /**
      * Get the entity for this repository.
@@ -39,7 +40,7 @@ class ExportBatchRepository extends EloquentRepository implements ExportBatchRep
      * Get all batches for job id
      * @param  int $jobId
      * @param  string $status
-     * @return \Illuminate\Support\Collection
+     * @return array|\Illuminate\Support\Collection
      */
     public function getByJobId($jobId, $status = ExportBatch::STATUS_COMPLETED)
     {
@@ -48,8 +49,34 @@ class ExportBatchRepository extends EloquentRepository implements ExportBatchRep
                 'export_job_id' => $jobId,
                 'status' => $status
             ])
-            ->get();
+            ->execute($this->db());
 
-        return $this->getCollection($results);
+        return $this->getCollection($results->as_array());
+    }
+
+	/**
+	 * Get fields that can be used for searches.
+	 * @return array
+	 */
+	public function getSearchFields()
+    {
+        return [];
+	}
+
+    /**
+     * Converts an array/collection of results into an collection
+     * of entities, indexed by the entity id.
+     *
+     *
+     * @param array|\iterable $results
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    protected function getCollection($results)
+    {
+        return Collection::wrap($results)->mapWithKeys(function ($item, $key) {
+            $entity = $this->getEntity((array) $item);
+            return [$entity->getId() => $entity];
+        });
     }
 }
