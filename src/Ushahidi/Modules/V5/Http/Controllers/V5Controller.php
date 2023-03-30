@@ -183,7 +183,12 @@ class V5Controller extends BaseController
     {
         list($ability, $arguments) = $this->parseAbilityAndArguments($ability, $arguments);
 
-        return $this->authorizeForUser($this->getGenericUser() ?? new GenericUser(['role' => 'guest']), $ability, $arguments);
+        return $this->authorizeForUser(
+            $this->getGenericUser() ??
+            new GenericUser(['role' => 'guest']),
+            $ability,
+            $arguments
+        );
     }
 
     public function getGenericUser()

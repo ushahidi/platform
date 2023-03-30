@@ -29,9 +29,10 @@ class GenericUser implements Entity, AuthContract
         $this->attributes = $attributes;
     }
 
-    public function getId() {
+    public function getId()
+    {
         return $this->getAuthIdentifier();
-     }
+    }
 
     public function getResource()
     {
