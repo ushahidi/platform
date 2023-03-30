@@ -38,6 +38,6 @@ class AddUserSettingsTable extends AbstractMigration
     */
     public function down()
     {
-        $this->dropTable('user_settings');
+        $this->table('user_settings')->drop()->save();
     }
 }

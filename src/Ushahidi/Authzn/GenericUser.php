@@ -2,10 +2,12 @@
 
 namespace Ushahidi\Authzn;
 
+use Illuminate\Contracts\Auth\Authenticatable as AuthContract;
 use Laravel\Passport\HasApiTokens;
-use Illuminate\Contracts\Auth\Authenticatable as UserContract;
+use Ushahidi\Contracts\Entity;
+use Ushahidi\Core\Entity\User;
 
-class GenericUser implements UserContract
+class GenericUser implements Entity, AuthContract
 {
     use HasApiTokens;
 
@@ -25,6 +27,30 @@ class GenericUser implements UserContract
     public function __construct(array $attributes)
     {
         $this->attributes = $attributes;
+    }
+
+    public function getId() {
+        return $this->getAuthIdentifier();
+     }
+
+    public function getResource()
+    {
+        return 'users';
+    }
+
+    public function setState(array $data)
+    {
+        throw new \Exception('Not implemented');
+    }
+
+    public function hasChanged($key, $array_key = null)
+    {
+        throw new \Exception('Not implemented');
+    }
+
+    public function getChanged()
+    {
+        throw new \Exception('Not implemented');
     }
 
     /**
@@ -90,6 +116,11 @@ class GenericUser implements UserContract
         return 'remember_token';
     }
 
+    public function asArray()
+    {
+        return $this->attributes;
+    }
+
     /**
      * Dynamically access the user's attributes.
      *
@@ -133,5 +164,10 @@ class GenericUser implements UserContract
     public function __unset($key)
     {
         unset($this->attributes[$key]);
+    }
+
+    public function generateEntityFromSelf(): User
+    {
+        return new User($this->attributes);
     }
 }

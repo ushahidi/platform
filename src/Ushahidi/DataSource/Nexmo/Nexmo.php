@@ -28,7 +28,7 @@ class Nexmo implements CallbackDataSource, OutgoingDataSource
     /**
      * Client to talk to the Nexmo API
      *
-     * @var \Nexmo\Message\Client
+     * @var \Vonage\Message\Client
      */
     private $client;
 
@@ -106,7 +106,7 @@ class Nexmo implements CallbackDataSource, OutgoingDataSource
         // Make twilio client
         $client = ($this->clientFactory)($this->config['api_key'], $this->config['api_secret']);
 
-        if (!($client instanceof \Nexmo\Client)) {
+        if (!($client instanceof \Vonage\Client)) {
             throw new \Exception("Client is not an instance of Nexmo\Client");
         }
 
@@ -114,14 +114,16 @@ class Nexmo implements CallbackDataSource, OutgoingDataSource
 
         // Send!
         try {
-            $message = $client->message()->send([
-                'to' => $to,
-                'from' => $from,
-                'text' => $message
-            ]);
+            $message = $client->sms()->send(
+                new \Vonage\SMS\Message\SMS(
+                    $to,
+                    $from,
+                    $message
+                )
+            );
 
-            return [MessageStatus::SENT, $message->getMessageId()];
-        } catch (\Nexmo\Client\Exception\Exception $e) {
+            return [MessageStatus::SENT, $message->current()->getMessageId()];
+        } catch (\Throwable $e) {
             Log::warning($e->getMessage());
         }
 

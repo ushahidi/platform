@@ -24,5 +24,7 @@ return array(
     'tasks.fields.cardinality' => 'Field cardinality',
     'tasks.fields.response_private' => 'Should responses be private?',
     'status' => 'Post status',
-    'id' => 'Id'
+    'id' => 'Id',
+    'tos_version_date' => 'Version Date'
+
 );

@@ -206,7 +206,7 @@ class CategoryRequest extends FormRequest
      *
      * @return array
      */
-    protected function validationData()
+    public function validationData()
     {
         if ($this->exists('parent_id')) {
             $this->parent = Category::find($this->input('parent_id'));

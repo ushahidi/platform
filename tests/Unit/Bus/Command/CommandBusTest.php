@@ -1,15 +1,15 @@
 <?php
 
-namespace Tests\Unit\Bus\Command;
+namespace Ushahidi\Tests\Unit\Bus\Command;
 
+use Illuminate\Contracts\Container\Container;
+use PHPUnit\Framework\TestCase;
 use App\Bus\Command\Command;
 use App\Bus\Command\CommandBus;
 use App\Bus\Command\CommandHandler;
 use App\Bus\Handler;
 use App\Bus\Query\Query;
 use App\Bus\Query\QueryHandler;
-use Illuminate\Contracts\Container\Container;
-use PHPUnit\Framework\TestCase;
 
 class CommandBusTest extends TestCase
 {

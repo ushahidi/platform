@@ -38,7 +38,7 @@ class FormAttributesRelations extends AbstractMigration
         }
 
         // drop the pivot table
-        $this->dropTable('form_groups_form_attributes');
+        $this->table('form_groups_form_attributes')->drop()->save();
     }
 
     /**
