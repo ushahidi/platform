@@ -14,7 +14,7 @@ namespace Ushahidi\DataSource\FrontlineSMS;
 use Ushahidi\DataSource\DataSourceController;
 use Illuminate\Http\Request;
 use Ushahidi\DataSource\Contracts\MessageType;
-use Ushahidi\Contracts\Contact;
+use Ushahidi\Core\Contracts\Contact;
 
 class FrontlineSMSController extends DataSourceController
 {

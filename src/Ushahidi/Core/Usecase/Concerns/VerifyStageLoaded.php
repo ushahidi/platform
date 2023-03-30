@@ -11,7 +11,7 @@
 
 namespace Ushahidi\Core\Usecase\Concerns;
 
-use Ushahidi\Contracts\Entity;
+use Ushahidi\Core\Contracts\Entity;
 use Ushahidi\Core\Entity\FormAttribute;
 use Ushahidi\Core\Entity\FormStageRepository;
 

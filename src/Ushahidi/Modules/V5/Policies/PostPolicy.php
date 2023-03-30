@@ -14,7 +14,7 @@ use App\Auth\GenericUser as User;
 use Ushahidi\Modules\V5\Models\Survey;
 use Ushahidi\Core\Concerns\Acl as AccessControlList;
 use Ushahidi\Core\Concerns\PrivateDeployment;
-use Ushahidi\Contracts\Entity as EntityContract;
+use Ushahidi\Core\Contracts\Entity as EntityContract;
 
 class PostPolicy
 {

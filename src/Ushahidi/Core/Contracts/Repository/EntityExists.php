@@ -10,7 +10,7 @@
  *             GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Ushahidi\Contracts\Repository;
+namespace Ushahidi\Core\Contracts\Repository;
 
 interface EntityExists
 {

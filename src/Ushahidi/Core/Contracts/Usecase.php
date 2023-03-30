@@ -9,7 +9,7 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Ushahidi\Contracts;
+namespace Ushahidi\Core\Contracts;
 
 interface Usecase
 {
@@ -39,7 +39,7 @@ interface Usecase
      * - updating an entity
      * - deleting an entity
      *
-     * @return array|\Ushahidi\Contracts\Entity[]
+     * @return array|\Ushahidi\Core\Contracts\Entity[]
      */
     public function interact();
 }

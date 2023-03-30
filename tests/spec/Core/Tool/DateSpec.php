@@ -2,7 +2,7 @@
 namespace spec\Ushahidi\Core\Tool;
 
 use PhpSpec\ObjectBehavior;
-use Ushahidi\Contracts\Entity;
+use Ushahidi\Core\Contracts\Entity;
 use Ushahidi\Core\Entity\ConfigRepository;
 use Ushahidi\Core\Tool\Date;
 

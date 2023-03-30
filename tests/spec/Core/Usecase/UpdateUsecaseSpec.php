@@ -5,11 +5,11 @@ namespace spec\Ushahidi\Core\Usecase;
 use Illuminate\Contracts\Translation\Translator;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-use Ushahidi\Contracts\Authorizer;
-use Ushahidi\Contracts\Entity;
-use Ushahidi\Contracts\Formatter;
-use Ushahidi\Contracts\Repository\UpdateRepository;
-use Ushahidi\Contracts\Validator;
+use Ushahidi\Core\Contracts\Authorizer;
+use Ushahidi\Core\Contracts\Entity;
+use Ushahidi\Core\Contracts\Formatter;
+use Ushahidi\Core\Contracts\Repository\UpdateRepository;
+use Ushahidi\Core\Contracts\Validator;
 
 class UpdateUsecaseSpec extends ObjectBehavior
 {

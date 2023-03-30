@@ -11,11 +11,11 @@
 
 namespace Ushahidi\Core\Usecase;
 
-use Ushahidi\Contracts\Entity;
-use Ushahidi\Contracts\Usecase;
+use Ushahidi\Core\Contracts\Entity;
+use Ushahidi\Core\Contracts\Usecase;
 use Ushahidi\Core\Concerns\DispatchesEvents;
 use Ushahidi\Core\Usecase\Concerns\ModifyRecords;
-use Ushahidi\Contracts\Repository\CreateRepository;
+use Ushahidi\Core\Contracts\Repository\CreateRepository;
 use Ushahidi\Core\Usecase\Concerns\Formatter as FormatterTrait;
 use Ushahidi\Core\Usecase\Concerns\Validator as ValidatorTrait;
 use Ushahidi\Core\Usecase\Concerns\Authorizer as AuthorizerTrait;

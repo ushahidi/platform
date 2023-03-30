@@ -11,7 +11,7 @@
 
 namespace Ushahidi\Core\Usecase\Set;
 
-use Ushahidi\Contracts\Entity;
+use Ushahidi\Core\Contracts\Entity;
 
 trait GetSetEntityTrait
 {

@@ -12,7 +12,7 @@
 namespace Ushahidi\Core\Tool;
 
 use Ushahidi\Core\Entity\Permission;
-use Ushahidi\Contracts\Acl as AclInterface;
+use Ushahidi\Core\Contracts\Acl as AclInterface;
 use Ushahidi\Core\Entity\User as Entity;
 use Ushahidi\Core\Facade\Features;
 use Ushahidi\Core\Entity\RoleRepository;

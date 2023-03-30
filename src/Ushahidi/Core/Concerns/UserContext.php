@@ -13,7 +13,7 @@
 
 namespace Ushahidi\Core\Concerns;
 
-use Ushahidi\Contracts\Session;
+use Ushahidi\Core\Contracts\Session;
 
 trait UserContext
 {
@@ -22,7 +22,7 @@ trait UserContext
 
     /**
      * Set the user session
-     * @param  \Ushahidi\Contracts\Session $session  set the context
+     * @param  \Ushahidi\Core\Contracts\Session $session  set the context
      * @return void
      */
     public function setSession(Session $session)
@@ -32,7 +32,7 @@ trait UserContext
 
     /**
      * Get the user session
-     * @return \Ushahidi\Contracts\Session
+     * @return \Ushahidi\Core\Contracts\Session
      */
     public function getSession()
     {
@@ -41,7 +41,7 @@ trait UserContext
 
     /**
      * Get the user context.
-     * @return \Ushahidi\Contracts\Entity
+     * @return \Ushahidi\Core\Contracts\Entity
      */
     public function getUser()
     {
@@ -63,7 +63,7 @@ trait UserContext
 
     /**
      * Checks if currently logged in user is the same as passed entity/array
-     * @param  \Ushahidi\Contracts\Entity  $entity entity to check
+     * @param  \Ushahidi\Core\Contracts\Entity  $entity entity to check
      * @return boolean
      */
     protected function isUserSelf($entity)

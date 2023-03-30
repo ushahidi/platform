@@ -15,7 +15,7 @@ use Illuminate\Console\Command;
 class PostExporterCommand extends Command
 {
     /**
-     * @var \Ushahidi\Contracts\Usecase
+     * @var \Ushahidi\Core\Contracts\Usecase
      */
     private $usecase;
 

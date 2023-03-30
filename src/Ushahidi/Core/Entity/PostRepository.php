@@ -11,11 +11,11 @@
 
 namespace Ushahidi\Core\Entity;
 
-use Ushahidi\Contracts\Repository\EntityCreate;
-use Ushahidi\Contracts\Repository\EntityCreateMany;
-use Ushahidi\Contracts\Repository\CreateRepository;
-use Ushahidi\Contracts\Repository\SearchRepository;
-use Ushahidi\Contracts\Repository\UpdateRepository;
+use Ushahidi\Core\Contracts\Repository\EntityCreate;
+use Ushahidi\Core\Contracts\Repository\EntityCreateMany;
+use Ushahidi\Core\Contracts\Repository\CreateRepository;
+use Ushahidi\Core\Contracts\Repository\SearchRepository;
+use Ushahidi\Core\Contracts\Repository\UpdateRepository;
 
 interface PostRepository extends
     EntityCreate,

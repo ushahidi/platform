@@ -15,8 +15,8 @@ use Ohanzee\Database;
 use Ushahidi\Core\Tool\SearchData;
 use Ushahidi\Core\Entity\HXL\HXLAttribute;
 use Ushahidi\Core\Ohanzee\Repositories\OhanzeeRepository;
-use Ushahidi\Contracts\Repository\ReadRepository;
-use Ushahidi\Contracts\Repository\SearchRepository;
+use Ushahidi\Core\Contracts\Repository\ReadRepository;
+use Ushahidi\Core\Contracts\Repository\SearchRepository;
 use Ushahidi\Core\Entity\HXL\HXLAttributeRepository as HXLAttributeRepositoryContract;
 
 class HXLAttributeRepository extends OhanzeeRepository implements
@@ -50,7 +50,7 @@ class HXLAttributeRepository extends OhanzeeRepository implements
 
     /**
      * @param array|null $data
-     * @return \Ushahidi\Contracts\Entity
+     * @return \Ushahidi\Core\Contracts\Entity
      */
     public function getEntity(array $data = null)
     {

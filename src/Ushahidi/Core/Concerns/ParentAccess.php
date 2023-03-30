@@ -17,7 +17,7 @@
 
 namespace Ushahidi\Core\Concerns;
 
-use Ushahidi\Contracts\Entity;
+use Ushahidi\Core\Contracts\Entity;
 
 // The `ParentAccess` trait checks for access to a parent entity
 trait ParentAccess

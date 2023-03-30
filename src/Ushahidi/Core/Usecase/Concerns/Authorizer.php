@@ -15,8 +15,8 @@
 
 namespace Ushahidi\Core\Usecase\Concerns;
 
-use Ushahidi\Contracts\Entity;
-use Ushahidi\Contracts\Authorizer as AuthorizerInterface;
+use Ushahidi\Core\Contracts\Entity;
+use Ushahidi\Core\Contracts\Authorizer as AuthorizerInterface;
 use Ushahidi\Core\Exception\AuthorizerException;
 
 trait Authorizer

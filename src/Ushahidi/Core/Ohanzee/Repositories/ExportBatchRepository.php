@@ -20,7 +20,7 @@ class ExportBatchRepository extends OhanzeeRepository implements ExportBatchRepo
     /**
      * Get the entity for this repository.
      * @param  array  $data
-     * @return \Ushahidi\Contracts\Entity
+     * @return \Ushahidi\Core\Contracts\Entity
      */
     public function getEntity(array $data = null)
     {

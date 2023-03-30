@@ -1,7 +1,7 @@
 <?php
 namespace Ushahidi\Core\Usecase\User;
 
-use Ushahidi\Contracts\Entity;
+use Ushahidi\Core\Contracts\Entity;
 use Ushahidi\Core\Usecase\UpdateUsecase;
 
 class UpdateUser extends UpdateUsecase

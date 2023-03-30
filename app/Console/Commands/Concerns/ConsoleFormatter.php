@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands\Concerns;
 
-use Ushahidi\Contracts\Formatter;
+use Ushahidi\Core\Contracts\Formatter;
 
 trait ConsoleFormatter
 {
@@ -11,7 +11,7 @@ trait ConsoleFormatter
         return new class implements Formatter
         {
             /**
-             * @param \Ushahidi\Contracts\Entity $entity
+             * @param \Ushahidi\Core\Contracts\Entity $entity
              * @return array
              */
             public function __invoke($entity)

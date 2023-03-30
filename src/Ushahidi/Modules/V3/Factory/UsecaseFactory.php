@@ -11,7 +11,7 @@
 
 namespace Ushahidi\Modules\V3\Factory;
 
-use Ushahidi\Contracts\Usecase;
+use Ushahidi\Core\Contracts\Usecase;
 
 class UsecaseFactory
 {
@@ -92,7 +92,7 @@ class UsecaseFactory
      * @param  string $resource
      * @param  string $action
      *
-     * @return \Ushahidi\Contracts\Usecase
+     * @return \Ushahidi\Core\Contracts\Usecase
      */
     public function get($resource, $action) : Usecase
     {

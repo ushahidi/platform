@@ -3,7 +3,7 @@
 namespace Ushahidi\Core\Ohanzee\Repositories\Concerns;
 
 use Illuminate\Support\Facades\Cache;
-use Ushahidi\Contracts\Entity;
+use Ushahidi\Core\Contracts\Entity;
 
 trait CachesData
 {

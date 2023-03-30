@@ -11,14 +11,14 @@
 
 namespace Ushahidi\Core\Usecase;
 
-use Ushahidi\Contracts\Entity;
-use Ushahidi\Contracts\Usecase;
+use Ushahidi\Core\Contracts\Entity;
+use Ushahidi\Core\Contracts\Usecase;
 use Ushahidi\Core\Tool\SearchData;
 use Ushahidi\Core\Usecase\Concerns\Formatter as FormatterTrait;
 use Ushahidi\Core\Usecase\Concerns\Authorizer as AuthorizerTrait;
 use Ushahidi\Core\Usecase\Concerns\Translator as TranslatorTrait;
 use Ushahidi\Core\Concerns\FilterRecords;
-use Ushahidi\Contracts\Repository\SearchRepository;
+use Ushahidi\Core\Contracts\Repository\SearchRepository;
 
 class SearchUsecase implements Usecase
 {

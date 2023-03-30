@@ -1,7 +1,8 @@
 <?php
 
 /**
- * Permissions Repository
+ * Ushahidi Contact Types
+ *
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Platform
@@ -9,14 +10,13 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Ushahidi\Core\Entity;
+namespace Ushahidi\Core\Contracts;
 
-use Ushahidi\Core\Contracts\Repository\EntityGet;
-use Ushahidi\Core\Contracts\Repository\EntityExists;
-
-interface PermissionRepository extends
-    EntityGet,
-    EntityExists
+interface Contact
 {
-
+    // Valid contact types
+    const EMAIL    = 'email';
+    const PHONE    = 'phone';
+    const TWITTER  = 'twitter';
+    const WHATSAPP = 'whatsapp';
 }

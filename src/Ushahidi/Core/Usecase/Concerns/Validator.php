@@ -13,8 +13,8 @@
 
 namespace Ushahidi\Core\Usecase\Concerns;
 
-use Ushahidi\Contracts\Entity;
-use Ushahidi\Contracts\Validator as ValidatorInterface;
+use Ushahidi\Core\Contracts\Entity;
+use Ushahidi\Core\Contracts\Validator as ValidatorInterface;
 use Ushahidi\Core\Exception\ValidatorException;
 
 trait Validator

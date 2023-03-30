@@ -11,7 +11,7 @@
 
 namespace Ushahidi\Core\Usecase\Set;
 
-use Ushahidi\Contracts\Entity;
+use Ushahidi\Core\Contracts\Entity;
 use Ushahidi\Core\Usecase\CreateUsecase;
 use Ushahidi\Core\Usecase\Concerns\VerifyEntityLoaded;
 

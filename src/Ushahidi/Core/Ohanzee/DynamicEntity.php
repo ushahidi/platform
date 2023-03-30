@@ -14,7 +14,7 @@
 
 namespace Ushahidi\Core\Ohanzee;
 
-use Ushahidi\Contracts\Entity;
+use Ushahidi\Core\Contracts\Entity;
 
 abstract class DynamicEntity implements Entity
 {

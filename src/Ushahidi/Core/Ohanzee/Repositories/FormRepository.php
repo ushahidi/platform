@@ -16,7 +16,7 @@ use Ushahidi\Core\Tool\SearchData;
 use Ushahidi\Core\Ohanzee\Entities\Form;
 use Ushahidi\Core\Concerns\Event;
 use Illuminate\Support\Collection;
-use Ushahidi\Contracts\Entity;
+use Ushahidi\Core\Contracts\Entity;
 use Ushahidi\Core\Ohanzee\Repositories\Concerns\FormsTags;
 use Ushahidi\Core\Entity\FormRepository as FormRepositoryContract;
 

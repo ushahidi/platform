@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Ushahidi Platform Read Repository
+ * Ushahidi Platform Formatter Tool
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Platform
@@ -9,8 +9,9 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Ushahidi\Contracts\Repository;
+namespace Ushahidi\Core\Contracts;
 
-interface ReadRepository extends EntityGet, EntityExists
+interface CollectionFormatter extends Formatter
 {
+    public function setSearch($search, int $total = null);
 }

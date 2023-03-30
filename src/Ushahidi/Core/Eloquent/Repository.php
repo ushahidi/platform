@@ -2,7 +2,7 @@
 
 namespace Ushahidi\Core\Eloquent;
 
-use Ushahidi\Contracts\Entity;
+use Ushahidi\Core\Contracts\Entity;
 use Illuminate\Container\Container;
 
 abstract class Repository {

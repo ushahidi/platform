@@ -1,8 +1,7 @@
 <?php
 
 /**
- * Ushahidi Contact Types
- *
+ * Ushahidi Platform Create Repository
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Platform
@@ -10,13 +9,9 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Ushahidi\Contracts;
+namespace Ushahidi\Core\Contracts\Repository;
 
-interface Contact
+interface ImportRepository extends CreateRepository, UpdateRepository
 {
-    // Valid contact types
-    const EMAIL    = 'email';
-    const PHONE    = 'phone';
-    const TWITTER  = 'twitter';
-    const WHATSAPP = 'whatsapp';
+
 }

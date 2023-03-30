@@ -11,7 +11,7 @@
 
 namespace Ushahidi\Modules\V3\Validator;
 
-use Ushahidi\Contracts\Validator;
+use Ushahidi\Core\Contracts\Validator;
 use Ushahidi\Core\Concerns\ValidationEngine;
 
 abstract class LegacyValidator implements Validator

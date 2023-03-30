@@ -12,7 +12,7 @@ namespace Ushahidi\Addons\AfricasTalking;
  */
 
 use Illuminate\Http\Request;
-use Ushahidi\Contracts\Contact;
+use Ushahidi\Core\Contracts\Contact;
 use Ushahidi\DataSource\Contracts\MessageType;
 use Ushahidi\DataSource\DataSourceController;
 

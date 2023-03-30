@@ -12,7 +12,7 @@ namespace Ushahidi\Core\Tool;
  *             GNU Affero General Public License Version 3 (AGPL3)
  */
 
-use Ushahidi\Contracts\ValidationEngine;
+use Ushahidi\Core\Contracts\ValidationEngine;
 use Kohana\Validation\Validation as KohanaValidation;
 use Illuminate\Contracts\Translation\Translator;
 

@@ -36,7 +36,7 @@ class ApikeySetCommand extends Command
     protected $description = 'Set apikey';
 
     /**
-     * @var \Ushahidi\Contracts\Usecase
+     * @var \Ushahidi\Core\Contracts\Usecase
      */
     protected $usecase;
 

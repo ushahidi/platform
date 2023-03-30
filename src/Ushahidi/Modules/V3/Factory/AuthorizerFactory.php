@@ -34,7 +34,7 @@ class AuthorizerFactory
     /**
      * Gets an authorizer from the map by resource.
      * @param  string $resource
-     * @return \Ushahidi\Contracts\Authorizer
+     * @return \Ushahidi\Core\Contracts\Authorizer
      */
     public function get($resource)
     {

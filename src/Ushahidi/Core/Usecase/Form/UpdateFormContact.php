@@ -11,7 +11,7 @@
 
 namespace Ushahidi\Core\Usecase\Form;
 
-use Ushahidi\Contracts\Entity;
+use Ushahidi\Core\Contracts\Entity;
 use Ushahidi\Core\Usecase\UpdateUsecase;
 use Ushahidi\Core\Usecase\Concerns\IdentifyRecords;
 use Ushahidi\Core\Usecase\Concerns\VerifyFormLoaded;

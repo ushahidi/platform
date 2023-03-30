@@ -12,12 +12,12 @@
 namespace Ushahidi\Core\Usecase\Post;
 
 use Traversable;
-use Ushahidi\Contracts\Entity;
-use Ushahidi\Contracts\Usecase;
+use Ushahidi\Core\Contracts\Entity;
+use Ushahidi\Core\Contracts\Usecase;
 use Ushahidi\Core\Concerns\Event;
-use Ushahidi\Contracts\Transformer;
+use Ushahidi\Core\Contracts\Transformer;
 use Ushahidi\Core\Ohanzee\Entities\CSV;
-use Ushahidi\Contracts\Repository\ImportRepository;
+use Ushahidi\Core\Contracts\Repository\ImportRepository;
 use Ushahidi\Core\Usecase\Concerns\Formatter as FormatterTrait;
 use Ushahidi\Core\Usecase\Concerns\Validator as ValidatorTrait;
 use Ushahidi\Core\Usecase\Concerns\Authorizer as AuthorizerTrait;

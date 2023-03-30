@@ -11,7 +11,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use Ushahidi\Contracts\Usecase;
+use Ushahidi\Core\Contracts\Usecase;
 use Ushahidi\Core\Usecase\ReadUsecase;
 use App\Console\Commands\Concerns\ConsoleFormatter;
 use Ushahidi\Core\Entity\ConfigRepository;
@@ -43,7 +43,7 @@ class ConfigGetCommand extends Command
     protected $description = 'Get config params';
 
     /**
-     * @var \Ushahidi\Contracts\Usecase
+     * @var \Ushahidi\Core\Contracts\Usecase
      *
      * @todo  support multiple entity types
      */

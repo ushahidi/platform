@@ -22,7 +22,7 @@ trait AdminAccess
 {
     /**
      * Check if the user has an Admin role
-     * @param  \Ushahidi\Contracts\Entity  $user
+     * @param  \Ushahidi\Core\Contracts\Entity  $user
      * @return boolean
      */
     protected function isUserAdmin(User $user)

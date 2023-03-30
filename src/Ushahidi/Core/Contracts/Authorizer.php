@@ -9,9 +9,9 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Ushahidi\Contracts;
+namespace Ushahidi\Core\Contracts;
 
-use Ushahidi\Contracts\Entity;
+use Ushahidi\Core\Contracts\Entity;
 
 interface Authorizer
 {
@@ -25,7 +25,7 @@ interface Authorizer
     /**
      * Check if access to an entity is allowed.
      *
-     * @param  \Ushahidi\Contracts\Entity  $entity     Entity being accessed
+     * @param  \Ushahidi\Core\Contracts\Entity  $entity     Entity being accessed
      * @param  string  $privilege  Privilege that is requested
      * @return boolean
      */
@@ -34,7 +34,7 @@ interface Authorizer
     /**
      * Get the user for the current authorization context.
      *
-     * @return \Ushahidi\Contracts\Entity
+     * @return \Ushahidi\Core\Contracts\Entity
      */
     public function getUser();
 

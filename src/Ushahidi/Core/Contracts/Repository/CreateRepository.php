@@ -1,8 +1,7 @@
 <?php
 
 /**
- * Ushahidi Reader factory interface
- *
+ * Ushahidi Platform Create Repository
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Platform
@@ -10,12 +9,9 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Ushahidi\Contracts;
+namespace Ushahidi\Core\Contracts\Repository;
 
-interface ReaderFactory
+interface CreateRepository extends EntityGet, EntityCreate
 {
-    /**
-     * @param \SplFileObject|string $file
-     */
-    public function createReader($file);
+
 }

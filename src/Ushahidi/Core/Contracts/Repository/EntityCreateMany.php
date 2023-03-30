@@ -10,14 +10,14 @@
  *             GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Ushahidi\Contracts\Repository;
+namespace Ushahidi\Core\Contracts\Repository;
 
 use Illuminate\Support\Collection;
 
 interface EntityCreateMany
 {
     /**
-     * @param \Illuminate\Support\Collection<\Ushahidi\Contracts\Entity> $collection
+     * @param \Illuminate\Support\Collection<\Ushahidi\Core\Contracts\Entity> $collection
      * @return array ids of rows created
      */
     public function createMany(Collection $collection);

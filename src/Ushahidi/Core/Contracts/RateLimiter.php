@@ -10,12 +10,12 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Ushahidi\Contracts;
+namespace Ushahidi\Core\Contracts;
 
 interface RateLimiter
 {
     /**
-     * @param \Ushahidi\Contracts\Entity $entity
+     * @param \Ushahidi\Core\Contracts\Entity $entity
      * @throws \Exception
      */
     public function limit(Entity $entity);

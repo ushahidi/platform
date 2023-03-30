@@ -11,11 +11,11 @@
 
 namespace Ushahidi\Core\Usecase;
 
-use Ushahidi\Contracts\Entity;
-use Ushahidi\Contracts\Usecase;
+use Ushahidi\Core\Contracts\Entity;
+use Ushahidi\Core\Contracts\Usecase;
 use Ushahidi\Core\Usecase\Concerns\IdentifyRecords;
 use Ushahidi\Core\Usecase\Concerns\ModifyRecords;
-use Ushahidi\Contracts\Repository\UpdateRepository;
+use Ushahidi\Core\Contracts\Repository\UpdateRepository;
 use Ushahidi\Core\Usecase\Concerns\Formatter as FormatterTrait;
 use Ushahidi\Core\Usecase\Concerns\Validator as ValidatorTrait;
 use Ushahidi\Core\Usecase\Concerns\Authorizer as AuthorizerTrait;
@@ -118,7 +118,7 @@ class UpdateUsecase implements Usecase
     /**
      * Find entity based on identifying parameters.
      *
-     * @return \Ushahidi\Contracts\Entity
+     * @return \Ushahidi\Core\Contracts\Entity
      */
     protected function getEntity()
     {

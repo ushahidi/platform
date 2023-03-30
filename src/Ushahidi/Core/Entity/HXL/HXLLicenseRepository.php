@@ -11,9 +11,9 @@
 
 namespace Ushahidi\Core\Entity\HXL;
 
-use Ushahidi\Contracts\Repository\EntityGet;
-use Ushahidi\Contracts\Repository\ReadRepository;
-use Ushahidi\Contracts\Repository\SearchRepository;
+use Ushahidi\Core\Contracts\Repository\EntityGet;
+use Ushahidi\Core\Contracts\Repository\ReadRepository;
+use Ushahidi\Core\Contracts\Repository\SearchRepository;
 
 interface HXLLicenseRepository extends
     EntityGet,

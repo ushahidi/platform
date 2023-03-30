@@ -11,7 +11,7 @@
 
 namespace Ushahidi\Core\Tool\Hasher;
 
-use Ushahidi\Contracts\Hasher;
+use Ushahidi\Core\Contracts\Hasher;
 
 class Password implements Hasher
 {

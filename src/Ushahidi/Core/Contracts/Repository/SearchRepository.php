@@ -9,9 +9,9 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Ushahidi\Contracts\Repository;
+namespace Ushahidi\Core\Contracts\Repository;
 
-use Ushahidi\Contracts\Search;
+use Ushahidi\Core\Contracts\Search;
 
 interface SearchRepository extends EntityGet
 {
@@ -25,7 +25,7 @@ interface SearchRepository extends EntityGet
     /**
      * Set the search parameters.
      *
-     * @param \Ushahidi\Contracts\Search $search
+     * @param \Ushahidi\Core\Contracts\Search $search
      * @return $this
      */
     public function setSearchParams(Search $search);
@@ -33,7 +33,7 @@ interface SearchRepository extends EntityGet
     /**
      * Get the results for the last search.
      *
-     * @return \Ushahidi\Contracts\Entity[]
+     * @return \Ushahidi\Core\Contracts\Entity[]
      */
     public function getSearchResults();
 

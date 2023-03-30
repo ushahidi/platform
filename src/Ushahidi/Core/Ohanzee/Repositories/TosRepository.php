@@ -11,7 +11,7 @@
 
 namespace Ushahidi\Core\Ohanzee\Repositories;
 
-use Ushahidi\Contracts\Entity;
+use Ushahidi\Core\Contracts\Entity;
 use Ushahidi\Core\Tool\SearchData;
 use Ushahidi\Core\Concerns\UserContext;
 use Ushahidi\Core\Ohanzee\Entities\Tos;

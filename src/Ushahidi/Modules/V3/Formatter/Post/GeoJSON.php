@@ -11,8 +11,8 @@
 
 namespace Ushahidi\Modules\V3\Formatter\Post;
 
-use Ushahidi\Contracts\Entity;
-use Ushahidi\Contracts\Formatter;
+use Ushahidi\Core\Contracts\Entity;
+use Ushahidi\Core\Contracts\Formatter;
 use Ushahidi\Core\Concerns\GeometryConverter;
 
 class GeoJSON implements Formatter

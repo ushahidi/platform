@@ -13,7 +13,7 @@
 
 namespace Ushahidi\Core\Concerns;
 
-use Ushahidi\Contracts\Entity;
+use Ushahidi\Core\Contracts\Entity;
 
 trait PrivAccess
 {

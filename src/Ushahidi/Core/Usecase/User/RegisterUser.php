@@ -12,8 +12,8 @@
 namespace Ushahidi\Core\Usecase\User;
 
 use Ushahidi\Core\Usecase\CreateUsecase;
-use Ushahidi\Contracts\Entity;
-use Ushahidi\Contracts\RateLimiter;
+use Ushahidi\Core\Contracts\Entity;
+use Ushahidi\Core\Contracts\RateLimiter;
 
 class RegisterUser extends CreateUsecase
 {

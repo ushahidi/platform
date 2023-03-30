@@ -11,8 +11,8 @@
 
 namespace Ushahidi\Core\Entity;
 
-use Ushahidi\Contracts\Repository\ReadRepository;
-use Ushahidi\Contracts\Repository\UpdateRepository;
+use Ushahidi\Core\Contracts\Repository\ReadRepository;
+use Ushahidi\Core\Contracts\Repository\UpdateRepository;
 
 interface ConfigRepository extends ReadRepository, UpdateRepository
 {

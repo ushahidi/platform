@@ -12,7 +12,7 @@
 namespace Ushahidi\Core\Ohanzee\Repositories;
 
 use Ohanzee\DB;
-use Ushahidi\Contracts\Entity;
+use Ushahidi\Core\Contracts\Entity;
 use Illuminate\Support\Collection;
 use Ushahidi\Core\Tool\SearchData;
 use Ushahidi\Core\Ohanzee\Entities\Message;

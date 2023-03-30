@@ -11,7 +11,7 @@
 
 namespace Ushahidi\Core\Tool\Permissions;
 
-use Ushahidi\Contracts\Entity;
+use Ushahidi\Core\Contracts\Entity;
 use Ushahidi\Core\Entity\Permission;
 use Ushahidi\Core\Concerns\AdminAccess;
 use Ushahidi\Core\Concerns\Acl as AccessControlList;
@@ -25,8 +25,8 @@ class PostPermissions
     /**
      * Does the current user have permission to see if a post if locked?
      *
-     * @param \Ushahidi\Contracts\Entity $user
-     * @param \Ushahidi\Contracts\Entity $post
+     * @param \Ushahidi\Core\Contracts\Entity $user
+     * @param \Ushahidi\Core\Contracts\Entity $post
      * @return boolean
      */
     public function canUserSeePostLock(Entity $user, Entity $post)
@@ -40,8 +40,8 @@ class PostPermissions
     /**
      * Does the user have permission to view this posts author
      *
-     * @param  \Ushahidi\Contracts\Entity $user
-     * @param  \Ushahidi\Contracts\Entity $post
+     * @param  \Ushahidi\Core\Contracts\Entity $user
+     * @param  \Ushahidi\Core\Contracts\Entity $post
      * @param  \Ushahidi\Core\Entity\FormRepository $form_repo
      * @return boolean
      */
@@ -68,8 +68,8 @@ class PostPermissions
     /**
      * Does the user have permission to view this posts exact time
      *
-     * @param  \Ushahidi\Contracts\Entity $user
-     * @param  \Ushahidi\Contracts\Entity $post
+     * @param  \Ushahidi\Core\Contracts\Entity $user
+     * @param  \Ushahidi\Core\Contracts\Entity $post
      * @param  \Ushahidi\Core\Entity\FormRepository $form_repo
      * @return boolean
      */
@@ -96,8 +96,8 @@ class PostPermissions
     /**
      * Does the user have permission to view this posts exact location
      *
-     * @param  \Ushahidi\Contracts\Entity $user
-     * @param  \Ushahidi\Contracts\Entity $post
+     * @param  \Ushahidi\Core\Contracts\Entity $user
+     * @param  \Ushahidi\Core\Contracts\Entity $post
      * @param  \Ushahidi\Core\Entity\FormRepository $form_repo
      * @return boolean
      */
@@ -124,7 +124,7 @@ class PostPermissions
     /**
      * Test whether the user can manage posts
      *
-     * @param  \Ushahidi\Contracts\Entity $user
+     * @param  \Ushahidi\Core\Contracts\Entity $user
      * @return boolean
      */
     public function canUserManagePosts(Entity $user)
@@ -136,7 +136,7 @@ class PostPermissions
     /**
      * Test whether the post instance requires value restriction
      *
-     * @param  \Ushahidi\Contracts\Entity $user
+     * @param  \Ushahidi\Core\Contracts\Entity $user
      * @return Boolean
      */
     public function canUserReadPrivateValues(Entity $user)
@@ -148,7 +148,7 @@ class PostPermissions
     /**
      * Does user have permission to see unpublished (draft/archived) posts
      *
-     * @param  \Ushahidi\Contracts\Entity   $user
+     * @param  \Ushahidi\Core\Contracts\Entity   $user
      * @return boolean
      */
     public function canUserViewUnpublishedPosts(Entity $user)

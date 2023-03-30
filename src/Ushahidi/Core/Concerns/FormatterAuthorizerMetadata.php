@@ -13,8 +13,8 @@
 
 namespace Ushahidi\Core\Concerns;
 
-use Ushahidi\Contracts\Entity;
-use Ushahidi\Contracts\Authorizer;
+use Ushahidi\Core\Contracts\Entity;
+use Ushahidi\Core\Contracts\Authorizer;
 
 trait FormatterAuthorizerMetadata
 {

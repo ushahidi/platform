@@ -8,7 +8,7 @@ use Mockery as M;
 use Ohanzee\Database;
 use Ushahidi\Tests\TestCase;
 use Aura\Di\Injection\Factory;
-use Ushahidi\Contracts\Session;
+use Ushahidi\Core\Contracts\Session;
 use Illuminate\Support\Collection;
 use Ushahidi\Core\Tool\SearchData;
 use Ushahidi\Core\Tool\OhanzeeResolver;

@@ -13,7 +13,7 @@
 
 namespace Ushahidi\Core\Concerns;
 
-use Ushahidi\Contracts\Acl as AclInterface;
+use Ushahidi\Core\Contracts\Acl as AclInterface;
 
 trait Acl
 {

@@ -12,7 +12,7 @@
 namespace Ushahidi\Core\Ohanzee\Repositories\Post;
 
 use Ohanzee\DB;
-use Ushahidi\Contracts\Entity;
+use Ushahidi\Core\Contracts\Entity;
 use Ushahidi\Core\Concerns\Event;
 use Ushahidi\Core\Concerns\UserContext;
 use Ushahidi\Core\Tool\OhanzeeResolver;

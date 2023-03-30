@@ -12,7 +12,7 @@ namespace Ushahidi\DataSource\FrontlineSMS;
  */
 
 use Illuminate\Routing\Router;
-use Ushahidi\Contracts\Contact;
+use Ushahidi\Core\Contracts\Contact;
 use Illuminate\Support\Facades\Log;
 use Ushahidi\DataSource\Contracts\CallbackDataSource;
 use Ushahidi\DataSource\Contracts\OutgoingDataSource;

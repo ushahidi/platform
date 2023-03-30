@@ -9,10 +9,10 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Ushahidi\Contracts\Repository;
+namespace Ushahidi\Core\Contracts\Repository;
 
-use Ushahidi\Contracts\Entity;
-use Ushahidi\Contracts\Repository\EntityGet;
+use Ushahidi\Core\Contracts\Entity;
+use Ushahidi\Core\Contracts\Repository\EntityGet;
 
 interface DeleteRepository extends EntityGet
 {

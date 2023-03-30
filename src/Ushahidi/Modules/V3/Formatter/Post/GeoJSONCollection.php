@@ -12,7 +12,7 @@
 namespace Ushahidi\Modules\V3\Formatter\Post;
 
 use Ushahidi\Core\Tool\SearchData;
-use Ushahidi\Contracts\Formatter;
+use Ushahidi\Core\Contracts\Formatter;
 use Ushahidi\Core\Exception\FormatterException;
 use Ushahidi\Modules\V3\Http\Controllers\RESTController;
 use Ushahidi\Core\Concerns\GeometryConverter;

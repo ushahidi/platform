@@ -10,15 +10,15 @@
  *             GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Ushahidi\Contracts\Repository;
+namespace Ushahidi\Core\Contracts\Repository;
 
-use Ushahidi\Contracts\Entity;
+use Ushahidi\Core\Contracts\Entity;
 
 interface EntityCreate
 {
     /**
      * Creates a new record and returns the created id.
-     * @param  array|\Ushahidi\Contracts\Entity $entity
+     * @param  array|\Ushahidi\Core\Contracts\Entity $entity
      * @return mixed
      */
     public function create(Entity $entity);

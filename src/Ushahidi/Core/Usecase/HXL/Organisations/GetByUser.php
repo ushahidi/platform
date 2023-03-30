@@ -14,7 +14,7 @@ use Ushahidi\Core\Entity\UserSettingRepository;
 use Ushahidi\Core\Usecase\Concerns\Authorizer as AuthorizerTrait;
 use Ushahidi\Core\Tool\ExternalServices\HDXInterface;
 use Ushahidi\Core\Usecase\Concerns\Formatter as FormatterTrait;
-use Ushahidi\Contracts\Usecase;
+use Ushahidi\Core\Contracts\Usecase;
 use Ushahidi\Core\Usecase\Concerns\Translator as TranslatorTrait;
 use Log;
 

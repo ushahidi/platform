@@ -1,9 +1,8 @@
 <?php
 
 /**
- * Ushahidi Platform Transformer Tool
+ * Ushahidi Reader factory interface
  *
- * Transform a record from one format to another
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Ushahidi\Platform
@@ -11,9 +10,12 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Ushahidi\Contracts;
+namespace Ushahidi\Core\Contracts;
 
-interface Transformer
+interface ReaderFactory
 {
-    public function interact(array $data);
+    /**
+     * @param \SplFileObject|string $file
+     */
+    public function createReader($file);
 }

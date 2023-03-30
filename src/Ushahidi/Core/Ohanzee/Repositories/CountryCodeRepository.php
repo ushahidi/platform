@@ -13,9 +13,9 @@ namespace Ushahidi\Core\Ohanzee\Repositories;
 
 use Ushahidi\Core\Tool\SearchData;
 use Ushahidi\Core\Ohanzee\Entities\CountryCode;
-use Ushahidi\Contracts\Repository\EntityGet;
-use Ushahidi\Contracts\Repository\ReadRepository;
-use Ushahidi\Contracts\Repository\SearchRepository;
+use Ushahidi\Core\Contracts\Repository\EntityGet;
+use Ushahidi\Core\Contracts\Repository\ReadRepository;
+use Ushahidi\Core\Contracts\Repository\SearchRepository;
 
 class CountryCodeRepository extends OhanzeeRepository implements
     EntityGet,

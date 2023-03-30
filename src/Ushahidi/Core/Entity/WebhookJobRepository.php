@@ -11,9 +11,9 @@
 
 namespace Ushahidi\Core\Entity;
 
-use Ushahidi\Contracts\Repository\EntityGet;
-use Ushahidi\Contracts\Repository\EntityExists;
-use Ushahidi\Contracts\Repository\CreateRepository;
+use Ushahidi\Core\Contracts\Repository\EntityGet;
+use Ushahidi\Core\Contracts\Repository\EntityExists;
+use Ushahidi\Core\Contracts\Repository\CreateRepository;
 
 interface WebhookJobRepository extends
     EntityGet,

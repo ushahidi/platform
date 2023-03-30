@@ -11,8 +11,8 @@
 
 namespace Ushahidi\Core\Usecase\Set;
 
-use Ushahidi\Contracts\Entity;
-use Ushahidi\Contracts\Authorizer;
+use Ushahidi\Core\Contracts\Entity;
+use Ushahidi\Core\Contracts\Authorizer;
 
 use Ushahidi\Core\Exception\AuthorizerException;
 

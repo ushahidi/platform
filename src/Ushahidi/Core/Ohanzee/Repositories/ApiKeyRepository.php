@@ -12,12 +12,12 @@
 namespace Ushahidi\Core\Ohanzee\Repositories;
 
 use Ramsey\Uuid\Uuid;
-use Ushahidi\Contracts\Entity;
+use Ushahidi\Core\Contracts\Entity;
 use Ushahidi\Core\Tool\SearchData;
 use Ushahidi\Core\Concerns\AdminAccess;
 use Ushahidi\Core\Ohanzee\Entities\ApiKey;
-use Ushahidi\Contracts\Repository\EntityExists;
-use Ushahidi\Contracts\Repository\CreateRepository;
+use Ushahidi\Core\Contracts\Repository\EntityExists;
+use Ushahidi\Core\Contracts\Repository\CreateRepository;
 use Ushahidi\Core\Entity\ApiKeyRepository as ApiKeyRepositoryContract;
 
 class ApiKeyRepository extends OhanzeeRepository implements ApiKeyRepositoryContract, CreateRepository, EntityExists

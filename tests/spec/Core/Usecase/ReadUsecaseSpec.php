@@ -4,10 +4,10 @@ namespace spec\Ushahidi\Core\Usecase;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-use Ushahidi\Contracts\Authorizer;
-use Ushahidi\Contracts\Entity;
-use Ushahidi\Contracts\Formatter;
-use Ushahidi\Contracts\Repository\ReadRepository;
+use Ushahidi\Core\Contracts\Authorizer;
+use Ushahidi\Core\Contracts\Entity;
+use Ushahidi\Core\Contracts\Formatter;
+use Ushahidi\Core\Contracts\Repository\ReadRepository;
 
 class ReadUsecaseSpec extends ObjectBehavior
 {

@@ -17,8 +17,8 @@ use Ushahidi\Core\Entity\HXL\HXLTag;
 use Ushahidi\Core\Tool\SearchData;
 use Ushahidi\Core\Tool\OhanzeeResolver;
 use Ushahidi\Core\Ohanzee\Repositories\OhanzeeRepository;
-use Ushahidi\Contracts\Repository\ReadRepository;
-use Ushahidi\Contracts\Repository\SearchRepository;
+use Ushahidi\Core\Contracts\Repository\ReadRepository;
+use Ushahidi\Core\Contracts\Repository\SearchRepository;
 use Ushahidi\Core\Entity\HXL\HXLTagRepository as HXLTagRepositoryContract;
 
 class HXLTagRepository extends OhanzeeRepository implements
@@ -52,7 +52,7 @@ class HXLTagRepository extends OhanzeeRepository implements
 
     /**
      * @param array|null $data
-     * @return \Ushahidi\Core\Ohanzee\Repositories\Ushahidi\Core\Entity|HXLTag|\Ushahidi\Contracts\Repository\Usecase\Entity
+     * @return \Ushahidi\Core\Ohanzee\Repositories\Ushahidi\Core\Entity|HXLTag|\Ushahidi\Core\Contracts\Repository\Usecase\Entity
      */
     public function getEntity(array $data = null)
     {

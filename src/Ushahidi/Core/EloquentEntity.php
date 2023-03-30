@@ -15,7 +15,7 @@
 namespace Ushahidi\Core;
 
 use Illuminate\Support\Arr;
-use Ushahidi\Contracts\Entity;
+use Ushahidi\Core\Contracts\Entity;
 use Ushahidi\Core\Concerns\DeriveData;
 use Illuminate\Database\Eloquent\Model;
 use Ushahidi\Core\Concerns\DefaultData;

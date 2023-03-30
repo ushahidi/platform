@@ -10,7 +10,7 @@
  *             GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Ushahidi\Contracts\Repository;
+namespace Ushahidi\Core\Contracts\Repository;
 
 interface EntityGet
 {
@@ -18,7 +18,7 @@ interface EntityGet
      * @param  mixed $id
      * @param  array $options
      *
-     * @return \Ushahidi\Contracts\Entity
+     * @return \Ushahidi\Core\Contracts\Entity
      */
     public function get($id);
 
@@ -26,7 +26,7 @@ interface EntityGet
      * Converts an array of data into an entity object.
      *
      * @param  array $data
-     * @return \Ushahidi\Contracts\Entity
+     * @return \Ushahidi\Core\Contracts\Entity
      */
     public function getEntity(array $data = null);
 }
