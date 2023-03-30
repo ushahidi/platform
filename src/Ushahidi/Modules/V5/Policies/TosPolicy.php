@@ -11,8 +11,6 @@ use Ushahidi\Core\Concerns\PrivateDeployment;
 
 class TosPolicy
 {
-
-
     // It uses methods from several traits to check access:
     // - `AdminAccess` to check if the user has admin access
     use AdminAccess;
@@ -22,7 +20,6 @@ class TosPolicy
 
     // It uses `PrivateDeployment` to check whether a deployment is private
     use PrivateDeployment;
-
     // To check whether user owns the webhook
     use OwnerAccess;
 

@@ -81,7 +81,6 @@ class RolePolicy
      */
     public function isAllowed($role, $privilege, $user = null):bool
     {
-
         $authorizer = service('authorizer.role');
         $user = $authorizer->getUser();
 

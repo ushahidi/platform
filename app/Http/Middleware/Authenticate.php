@@ -2,7 +2,9 @@
 
 namespace App\Http\Middleware;
 
+use App\Auth\GenericUser;
 use Closure;
+use Illuminate\Auth\RequestGuard;
 use Illuminate\Contracts\Auth\Factory as Auth;
 
 class Authenticate

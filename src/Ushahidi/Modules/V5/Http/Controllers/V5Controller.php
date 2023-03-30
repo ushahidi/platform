@@ -3,9 +3,9 @@
 namespace Ushahidi\Modules\V5\Http\Controllers;
 
 use App\Bus\Query\QueryBus;
+use App\Bus\Command\CommandBus;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
-use App\Bus\Command\CommandBus;
 use Illuminate\Validation\Rule;
 use Ushahidi\Authzn\GenericUser;
 use Illuminate\Http\JsonResponse;
@@ -22,6 +22,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 class V5Controller extends BaseController
 {
     use AuthorizesRequests, ValidatesRequests;
+
 
     /**
      * The response builder callback.
@@ -162,7 +163,19 @@ class V5Controller extends BaseController
         return new JsonResponse($errors, 422);
     }
 
-        /**
+    public function authorizeAnyone($ability, $arguments = [])
+    {
+        list($ability, $arguments) = $this->parseAbilityAndArguments($ability, $arguments);
+
+        return $this->authorizeForUser(
+            $this->getGenericUser() ??
+            new GenericUser(['role' => 'guest']),
+            $ability,
+            $arguments
+        );
+    }
+
+    /**
      * Authorize a given action for a the current user.
      *
      * @param  mixed  $ability
@@ -177,18 +190,6 @@ class V5Controller extends BaseController
 
         list($ability, $arguments) = $this->parseAbilityAndArguments($ability, $arguments);
         return app(Gate::class)->forUser($gUser)->authorize($ability, $arguments);
-    }
-
-    public function authorizeAnyone($ability, $arguments = [])
-    {
-        list($ability, $arguments) = $this->parseAbilityAndArguments($ability, $arguments);
-
-        return $this->authorizeForUser(
-            $this->getGenericUser() ??
-            new GenericUser(['role' => 'guest']),
-            $ability,
-            $arguments
-        );
     }
 
     public function getGenericUser()
@@ -405,7 +406,6 @@ class V5Controller extends BaseController
             return in_array($o, $relationships);
         });
     }
-
     protected function deleteResponse(int $id)
     {
         return response()->json(['result' => ['deleted' => $id]]);

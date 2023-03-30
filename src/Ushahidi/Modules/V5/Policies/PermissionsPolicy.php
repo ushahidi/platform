@@ -81,7 +81,6 @@ class PermissionsPolicy
      */
     public function isAllowed($permissions, $privilege, $user = null):bool
     {
-
         $authorizer = service('authorizer.permission');
         $user = $authorizer->getUser();
 

@@ -17,11 +17,10 @@ use Nyholm\Psr7\Factory\Psr17Factory;
 use League\OAuth2\Server\ResourceServer;
 use Illuminate\Contracts\Encryption\Encrypter;
 use Illuminate\Contracts\Debug\ExceptionHandler;
-use Laravel\Passport\Exceptions\OAuthServerException;
+use League\OAuth2\Server\Exception\OAuthServerException as LeagueException;
 use Ushahidi\Contracts\Repository\Entity\UserRepository;
 use Symfony\Bridge\PsrHttpMessage\Factory\PsrHttpFactory;
 use Laravel\Passport\ClientRepository as LaravelPassportClientRepository;
-use League\OAuth2\Server\Exception\OAuthServerException as LeagueException;
 
 class TokenGuard
 {

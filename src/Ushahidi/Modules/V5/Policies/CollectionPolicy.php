@@ -31,7 +31,6 @@ class CollectionPolicy
 
     // Check that the user has the necessary permissions
     use AccessControlList;
-
     // It uses `OwnerAccess` to provide  the `isUserOwner` method.
     use OwnerAccess;
 
@@ -40,7 +39,6 @@ class CollectionPolicy
 
     /**
      *
-     * @param  \Ushahidi\Modules\User  $user
      * @return bool
      */
     public function index()
@@ -51,7 +49,7 @@ class CollectionPolicy
 
     /**
      *
-     * @param GenericUser $user
+     * @param User $user
      * @param Set $set
      * @return bool
      */
@@ -128,7 +126,6 @@ class CollectionPolicy
         if ($authorizer->acl->hasPermission($user, Permission::MANAGE_SETS)) {
             return true;
         }
-
 
         // If the user is the owner of this set, they can do anything
         if ($this->isUserOwner($entity, $user)) {

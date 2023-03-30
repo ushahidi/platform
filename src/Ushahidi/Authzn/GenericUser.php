@@ -41,17 +41,17 @@ class GenericUser implements Entity, AuthContract
 
     public function setState(array $data)
     {
-        throw new \Exception('Not implemented');
+        throw new \LogicException('Not implemented');
     }
 
     public function hasChanged($key, $array_key = null)
     {
-        throw new \Exception('Not implemented');
+        throw new \LogicException('Not implemented');
     }
 
     public function getChanged()
     {
-        throw new \Exception('Not implemented');
+        throw new \LogicException('Not implemented');
     }
 
     /**
