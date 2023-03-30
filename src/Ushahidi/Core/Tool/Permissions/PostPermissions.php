@@ -14,12 +14,12 @@ namespace Ushahidi\Core\Tool\Permissions;
 use Ushahidi\Core\Contracts\Entity;
 use Ushahidi\Core\Entity\Permission;
 use Ushahidi\Core\Concerns\AdminAccess;
-use Ushahidi\Core\Concerns\Acl as AccessControlList;
+use Ushahidi\Core\Concerns\Acl;
 use Ushahidi\Core\Entity\FormRepository;
 
 class PostPermissions
 {
-    use AccessControlList;
+    use Acl;
     use AdminAccess;
 
     /**

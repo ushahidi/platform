@@ -11,13 +11,12 @@
 
 namespace Ushahidi\Core\Tool;
 
-use Ushahidi\Core\Entity\Permission;
-use Ushahidi\Core\Contracts\Acl as AclInterface;
-use Ushahidi\Core\Entity\User as Entity;
+use Ushahidi\Core\Contracts\AccessControl;
 use Ushahidi\Core\Facade\Features;
+use Ushahidi\Core\Entity\Permission;
 use Ushahidi\Core\Entity\RoleRepository;
 
-class Acl implements AclInterface
+class Acl implements AccessControl
 {
     protected $role_repo;
 

@@ -20,7 +20,7 @@ use Ushahidi\Core\Concerns\OwnerAccess;
 use Ushahidi\Core\Concerns\UserContext;
 use Ushahidi\Core\Concerns\PrivAccess;
 use Ushahidi\Core\Concerns\PrivateDeployment;
-use Ushahidi\Core\Concerns\Acl as AccessControlList;
+use Ushahidi\Core\Concerns\Acl;
 
 // The `SetAuthorizer` class is responsible for access checks on `Sets`
 class SetAuthorizer implements Authorizer
@@ -41,7 +41,7 @@ class SetAuthorizer implements Authorizer
 
     // Check that the user has the necessary permissions
     // if roles are available for this deployment.
-    use AccessControlList;
+    use Acl;
 
     protected function isVisibleToUser(Set $entity, $user)
     {

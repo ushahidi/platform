@@ -18,7 +18,7 @@ use Ushahidi\Core\Concerns\OwnerAccess;
 use Ushahidi\Core\Concerns\UserContext;
 use Ushahidi\Core\Concerns\PrivAccess;
 use Ushahidi\Core\Concerns\PrivateDeployment;
-use Ushahidi\Core\Concerns\Acl as AccessControlList;
+use Ushahidi\Core\Concerns\Acl;
 
 class ExternalAuthorizer implements Authorizer
 {
@@ -39,7 +39,7 @@ class ExternalAuthorizer implements Authorizer
 
     // Check that the user has the necessary permissions
     // if roles are available for this deployment.
-    use AccessControlList;
+    use Acl;
 
 
     /* Authorizer */

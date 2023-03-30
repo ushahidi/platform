@@ -17,7 +17,7 @@ use Ushahidi\Core\Contracts\Authorizer;
 use Ushahidi\Core\Concerns\AdminAccess;
 use Ushahidi\Core\Concerns\UserContext;
 use Ushahidi\Core\Concerns\PrivAccess;
-use Ushahidi\Core\Concerns\Acl as AccessControlList;
+use Ushahidi\Core\Concerns\Acl;
 
 // The `ConfigAuthorizer` class is responsible for access checks on `Config` Entities
 class ConfigAuthorizer implements Authorizer
@@ -33,7 +33,7 @@ class ConfigAuthorizer implements Authorizer
 
     // Check that the user has the necessary permissions
     // if roles are available for this deployment.
-    use AccessControlList;
+    use Acl;
 
     /**
      * Public config groups

@@ -11,7 +11,7 @@
 
 namespace Ushahidi\Core\Contracts;
 
-interface Acl
+interface AccessControl
 {
     /**
      * Check if user has permissions

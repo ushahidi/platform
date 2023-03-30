@@ -16,7 +16,7 @@ use Ushahidi\Core\Facade\Features;
 use Ushahidi\Core\Concerns\{
     AdminAccess,
     UserContext,
-    Acl as AccessControlList
+    Acl as Acl
 };
 use Ushahidi\Core\Entity\Permission;
 use Ushahidi\Core\Entity\TagRepository;
@@ -34,7 +34,7 @@ class Create extends LegacyValidator
     use UserContext;
 
     // Provides `acl`
-    use AccessControlList;
+    use Acl;
 
     // Checks if user is Admin
     use AdminAccess;

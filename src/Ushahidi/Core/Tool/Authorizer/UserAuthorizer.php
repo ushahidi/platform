@@ -19,7 +19,7 @@ use Ushahidi\Core\Concerns\AdminAccess;
 use Ushahidi\Core\Concerns\UserContext;
 use Ushahidi\Core\Concerns\PrivAccess;
 use Ushahidi\Core\Concerns\PrivateDeployment;
-use Ushahidi\Core\Concerns\Acl as AccessControlList;
+use Ushahidi\Core\Concerns\Acl;
 
 // The `UserAuthorizer` class is responsible for access checks on `Users`
 class UserAuthorizer implements Authorizer
@@ -37,7 +37,7 @@ class UserAuthorizer implements Authorizer
     use PrivateDeployment;
 
     // Check that the user has the necessary permissions
-    use AccessControlList;
+    use Acl;
 
     /**
      * Get a list of all possible privilges.

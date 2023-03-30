@@ -19,7 +19,7 @@ use Ushahidi\Core\Concerns\AdminAccess;
 use Ushahidi\Core\Concerns\UserContext;
 use Ushahidi\Core\Concerns\ParentAccess;
 use Ushahidi\Core\Concerns\PrivateDeployment;
-use Ushahidi\Core\Concerns\Acl as AccessControlList;
+use Ushahidi\Core\Concerns\Acl;
 use Ushahidi\Core\Entity\FormRepository;
 
 // The `FormAuthorizer` class is responsible for access checks on `Forms`
@@ -40,7 +40,7 @@ class FormAuthorizer implements Authorizer
     use PrivateDeployment;
 
     // Check that the user has the necessary permissions
-    use AccessControlList;
+    use Acl;
 
     // It requires a `FormRepository` to load parent posts too.
     protected $form_repo;

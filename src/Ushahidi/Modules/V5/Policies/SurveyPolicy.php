@@ -10,7 +10,7 @@ use Ushahidi\Core\Concerns\AdminAccess;
 use Ushahidi\Core\Concerns\UserContext;
 use Ushahidi\Core\Concerns\PrivAccess;
 use Ushahidi\Core\Concerns\PrivateDeployment;
-use Ushahidi\Core\Concerns\Acl as AccessControlList;
+use Ushahidi\Core\Concerns\Acl;
 
 class SurveyPolicy
 {
@@ -29,7 +29,7 @@ class SurveyPolicy
     use PrivateDeployment;
 
     // Check that the user has the necessary permissions
-    use AccessControlList;
+    use Acl;
 
     protected $user;
 

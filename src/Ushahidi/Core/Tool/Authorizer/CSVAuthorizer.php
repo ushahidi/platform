@@ -18,7 +18,7 @@ use Ushahidi\Core\Contracts\Authorizer;
 use Ushahidi\Core\Concerns\AdminAccess;
 use Ushahidi\Core\Concerns\UserContext;
 use Ushahidi\Core\Concerns\PrivAccess;
-use Ushahidi\Core\Concerns\Acl as AccessControlList;
+use Ushahidi\Core\Concerns\Acl;
 use Ushahidi\Core\Facade\Features;
 
 class CSVAuthorizer implements Authorizer
@@ -33,7 +33,7 @@ class CSVAuthorizer implements Authorizer
 
     // Check that the user has the necessary permissions
     // if roles are available for this deployment.
-    use AccessControlList;
+    use Acl;
 
     /* Authorizer */
     public function isAllowed(Entity $entity, $privilege)

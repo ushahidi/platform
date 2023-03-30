@@ -20,7 +20,7 @@ use Ushahidi\Core\Concerns\OwnerAccess;
 use Ushahidi\Core\Concerns\UserContext;
 use Ushahidi\Core\Concerns\ParentAccess;
 use Ushahidi\Core\Concerns\PrivateDeployment;
-use Ushahidi\Core\Concerns\Acl as AccessControlList;
+use Ushahidi\Core\Concerns\Acl;
 use Ushahidi\Core\Entity\FormRepository;
 use Ushahidi\Core\Entity\PostRepository;
 
@@ -44,7 +44,7 @@ class PostAuthorizer implements Authorizer
 
     // Check that the user has the necessary permissions
     // if roles are available for this deployment.
-    use AccessControlList;
+    use Acl;
 
     /**
      * Get a list of all possible privilges.

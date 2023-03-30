@@ -13,13 +13,13 @@
 
 namespace Ushahidi\Core\Concerns;
 
-use Ushahidi\Core\Contracts\Acl as AclInterface;
+use Ushahidi\Core\Contracts\AccessControl;
 
 trait Acl
 {
     public $acl;
 
-    public function setAcl(AclInterface $acl)
+    public function setAcl(AccessControl $acl)
     {
         $this->acl = $acl;
     }

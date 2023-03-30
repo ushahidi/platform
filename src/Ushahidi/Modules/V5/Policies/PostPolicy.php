@@ -12,7 +12,7 @@ use Ushahidi\Core\Concerns\UserContext;
 use Ushahidi\Core\Concerns\ParentAccess;
 use App\Auth\GenericUser as User;
 use Ushahidi\Modules\V5\Models\Survey;
-use Ushahidi\Core\Concerns\Acl as AccessControlList;
+use Ushahidi\Core\Concerns\Acl;
 use Ushahidi\Core\Concerns\PrivateDeployment;
 use Ushahidi\Core\Contracts\Entity as EntityContract;
 
@@ -33,7 +33,7 @@ class PostPolicy
     use PrivateDeployment;
 
     // Check that the user has the necessary permissions
-    use AccessControlList;
+    use Acl;
     use ParentAccess;
     use OwnerAccess;
 
