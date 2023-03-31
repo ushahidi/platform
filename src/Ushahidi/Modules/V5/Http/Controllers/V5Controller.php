@@ -24,6 +24,7 @@ class V5Controller extends BaseController
     use AuthorizesRequests, ValidatesRequests;
 
 
+
     /**
      * The response builder callback.
      *
