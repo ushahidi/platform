@@ -2,7 +2,7 @@
 
 namespace Ushahidi\Modules\V5\Http\Controllers;
 
-use Ushahidi\Modules\V5\Http\Resources\SurveyRoleCollection;
+use Ushahidi\Modules\V5\Http\Resources\Survey\SurveyRoleCollection;
 use Illuminate\Http\Request;
 use Ushahidi\Modules\V5\Actions\Survey\Queries\FetchRolesCanCreateSurveyPostsQuery;
 use Ushahidi\Modules\V5\Actions\Survey\Commands\DeleteSurveyRolesBySurveyIDCommand;

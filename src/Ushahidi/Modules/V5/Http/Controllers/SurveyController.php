@@ -9,13 +9,16 @@ use Ushahidi\Modules\V5\Actions\Survey\Queries\FetchSurveyQuery;
 use Ushahidi\Modules\V5\Actions\Survey\Commands\CreateSurveyCommand;
 use Ushahidi\Modules\V5\Actions\Survey\Commands\UpdateSurveyCommand;
 use Ushahidi\Modules\V5\Actions\Survey\Commands\DeleteSurveyCommand;
-use Ushahidi\Modules\V5\Http\Resources\SurveyCollection;
-use Ushahidi\Modules\V5\Http\Resources\SurveyResource;
+use Ushahidi\Modules\V5\Http\Resources\Survey\SurveyCollection;
+use Ushahidi\Modules\V5\Http\Resources\Survey\SurveyResource;
 use Ushahidi\Modules\V5\DTO\SurveySearchFields;
 use Ushahidi\Core\Entity\Form as SurveyEntity;
 use Ushahidi\Core\Exception\NotFoundException;
 use Ushahidi\Modules\V5\Http\Resources\TranslationCollection;
 use Ushahidi\Modules\V5\Requests\SurveyRequest;
+use Ushahidi\Modules\V5\Actions\Survey\Queries\FetchSurveyStatsQuery;
+use Ushahidi\Modules\V5\DTO\SurveyStatesSearchFields;
+use Ushahidi\Modules\V5\Http\Resources\Survey\SurveyStateResource;
 
 class SurveyController extends V5Controller
 {
@@ -28,28 +31,17 @@ class SurveyController extends V5Controller
      */
     public function show(Request $request, int $id)
     {
-        $this->authorize('show', new Survey());
-        try {
-            $survey = $this->queryBus->handle(
-                new FetchSurveyByIdQuery(
-                    $id,
-                    $request->input('formater') ?? null,
-                    $request->input('only') ?? null,
-                    $request->input('hydrate') ?? null
-                )
-            );
-            return new SurveyResource($survey);
-        } catch (NotFoundException $e) {
-            return response()->json(
-                [
-                    'errors' => [
-                        'status' => 404,
-                        'message' => $e->getMessage()
-                    ]
-                ],
-                404
-            );
-        }
+        $survey = $this->queryBus->handle(
+            new FetchSurveyByIdQuery(
+                $id,
+                $request->input('formater') ?? null,
+                $request->input('only') ?? null,
+                $request->input('hydrate') ?? null
+            )
+        );
+
+        $this->authorize('show', $survey);
+        return new SurveyResource($survey);
     } //end show()
 
 
@@ -159,6 +151,9 @@ class SurveyController extends V5Controller
 
     public function stats(int $id, Request $request)
     {
-        return response()->json(['result' => ['stats' => $id]]);
-    } //end delete()
+        $this->authorize('stats', new Survey());
+
+        $stats = $this->queryBus->handle(new FetchSurveyStatsQuery($id, new SurveyStatesSearchFields($request)));
+        return new SurveyStateResource($stats);
+    } //end stats()
 } //end class

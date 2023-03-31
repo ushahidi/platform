@@ -1,7 +1,10 @@
 <?php
-namespace Ushahidi\Modules\V5\Http\Resources;
+namespace Ushahidi\Modules\V5\Http\Resources\Survey;
 
 use Illuminate\Http\Resources\Json\Resource;
+use Ushahidi\Modules\V5\Http\Resources\RequestCachedResource;
+use Ushahidi\Modules\V5\Http\Resources\TranslationCollection;
+use Ushahidi\Modules\V5\Http\Resources\CategoryCollection;
 
 class FieldResource extends Resource
 {
