@@ -2,7 +2,6 @@
 
 namespace Ushahidi\Modules\V5\Models;
 
-
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
