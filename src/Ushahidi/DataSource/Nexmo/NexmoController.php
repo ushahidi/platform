@@ -22,8 +22,12 @@ class NexmoController extends DataSourceController
 
     public function handleRequest(Request $request)
     {
-        $message = \Nexmo\Message\InboundMessage::createFromGlobals();
-        if (!$message->isValid() || !$message->getBody() || !$message->getFrom()) {
+        try {
+            $message = \Nexmo\Message\InboundMessage::createFromGlobals();
+            if (!$message->isValid() || !$message->getBody() || !$message->getFrom()) {
+                abort(400, "Invalid message");
+            }
+        } catch (\Throwable $th) {
             abort(400, "Invalid message");
         }
 

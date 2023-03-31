@@ -21,7 +21,7 @@ class PostValueRepositoryTest extends \PHPUnit\Framework\TestCase
 {
     protected $repository;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

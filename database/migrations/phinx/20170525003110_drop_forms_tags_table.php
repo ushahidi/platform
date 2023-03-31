@@ -27,7 +27,7 @@ class DropFormsTagsTable extends AbstractMigration
      */
     public function up()
     {
-        $this->dropTable('forms_tags');
+        $this->table('forms_tags')->drop()->save();
     }
 
     public function down()

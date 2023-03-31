@@ -54,6 +54,6 @@ class ContactPostState extends AbstractMigration
      */
     public function down()
     {
-        $this->dropTable('targeted_survey_state');
+        $this->table('targeted_survey_state')->drop()->save();
     }
 }

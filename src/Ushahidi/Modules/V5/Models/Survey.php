@@ -2,9 +2,14 @@
 
 namespace Ushahidi\Modules\V5\Models;
 
-use Ushahidi\Contracts\Permission;
-use Ushahidi\Core\Tool\Permissions\InteractsWithFormPermissions;
+
+use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
+use Ushahidi\Contracts\Permission;
+use Illuminate\Support\Facades\Request as RequestFacade;
+use Ushahidi\Modules\V3\Validator\LegacyValidator;
+use Ushahidi\Core\Tool\Permissions\InteractsWithFormPermissions;
 
 class Survey extends BaseModel
 {
@@ -123,6 +128,7 @@ class Survey extends BaseModel
         'require_approval' => 'boolean',
         'disabled' => 'boolean',
     ];
+
 
     public function canMakePrivate($value, $type)
     {

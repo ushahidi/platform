@@ -2,6 +2,8 @@
 
 namespace App\PlatformVerifier;
 
+use Dotenv\Dotenv;
+
 class Env
 {
     private static $NO_ENV = 'Required environment variables missing and no environment file found.';
@@ -40,8 +42,9 @@ class Env
         $success = [];
 
         if ($this->envExists()) {
-            // load DotEnv for this script
-            (new \Dotenv\Dotenv(__DIR__.'/../../'))->load();
+             // load DotEnv for this script
+             $dotenv = Dotenv::createImmutable(__DIR__ . "/../../");
+             $dotenv->load();
         }
 
         $failures = false;

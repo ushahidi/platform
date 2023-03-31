@@ -53,6 +53,6 @@ class AddCountryCodeTable extends AbstractMigration
      */
     public function down()
     {
-        $this->dropTable('country_codes');
+        $this->table('country_codes')->drop()->save();
     }
 }
