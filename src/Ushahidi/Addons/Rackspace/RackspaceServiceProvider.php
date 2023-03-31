@@ -28,10 +28,18 @@ class RackspaceServiceProvider extends ServiceProvider
                 'username' => $config['username'], 'apiKey' => $config['key'],
             ]);
 
-            $store = $client -> objectStoreService('cloudFiles', $config['region'], $config['urlType'] ?? null);
+            $store = $client->objectStoreService(
+                'cloudFiles',
+                $config['region'],
+                $config['urlType'] ?? null
+            );
 
             return new Filesystem(
-                new RackspaceAdapter($store -> getContainer($config['container']), $config['root'] ?? null), $config
+                new RackspaceAdapter(
+                    $store->getContainer($config['container']),
+                    $config['root'] ?? null
+                ),
+                $config
             );
         });
     }
