@@ -100,7 +100,7 @@ class Site extends StaticEntity // Change to Basic Entity
         // The work around using static entity
         // $siteConfig = $this->asArray();
 
-        if($param) {
+        if ($param) {
             return $siteConfig[$param] ?? $default;
         }
 

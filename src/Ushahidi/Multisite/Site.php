@@ -67,8 +67,10 @@ class Site extends BaseSite
             // build the url from config + subdomain
             return implode('.', array_filter([
                 $this->subdomain,
-                config('multisite.client_domain',
-                    $this->domain)
+                config(
+                    'multisite.client_domain',
+                    $this->domain
+                )
             ]));
         }
 
