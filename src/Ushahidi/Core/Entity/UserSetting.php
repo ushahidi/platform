@@ -26,12 +26,12 @@ class UserSetting extends StaticEntity
     protected function getDefinition()
     {
         return [
-            'id'       => 'int',
-            'user_id'  => 'int',
-            'config_key'  => 'string',
-            'config_value'  => 'string',
-            'created'      => 'int',
-            'updated'      => 'int',
+            'id' => 'int',
+            'user_id' => 'int',
+            'config_key' => 'string',
+            'config_value' => 'string',
+            'created' => 'int',
+            'updated' => 'int',
         ];
     }
 
@@ -39,5 +39,28 @@ class UserSetting extends StaticEntity
     public function getResource()
     {
         return 'user_settings';
+    }
+
+    public static function buildEntity(array $input, $action = "create", array $old_Values = null): UserSetting
+    {
+        if ($action === "update") {
+            return new UserSetting([
+                "id" => $old_Values['id'],
+                "user_id" => $old_Values['user_id'],
+                "config_key" => isset($input["config_key"]) ? $input["config_key"] : $old_Values['config_key'],
+                "config_value" =>
+                isset($input["config_value"]) ? $input["config_value"] : $old_Values['config_value'],
+                "created" => $old_Values['created'] ?? time(),
+                "updated" => time()
+            ]);
+        }
+        return new UserSetting([
+            "user_id" => isset($input["user_id"]) ? $input["user_id"] : null,
+            "config_key" => $input["config_key"],
+            "config_value" => $input["config_value"],
+            "created" => time(),
+            "updated" => time()
+
+        ]);
     }
 }

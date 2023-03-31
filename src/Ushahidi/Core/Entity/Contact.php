@@ -12,8 +12,9 @@
 namespace Ushahidi\Core\Entity;
 
 use Ushahidi\Core\StaticEntity;
+use Ushahidi\Core\EloquentEntity;
 
-class Contact extends StaticEntity
+class Contact extends EloquentEntity
 {
     protected $id;
     protected $user_id;
@@ -40,7 +41,7 @@ class Contact extends StaticEntity
             'id'            => 'int',
             'user'          => false, /* alias */
             'user_id'       => 'int',
-            'data_source' => 'string',
+            'data_source'   => 'string',
             'type'          => 'string',
             'contact'       => 'string',
             'created'       => 'int',

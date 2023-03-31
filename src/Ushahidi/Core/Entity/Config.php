@@ -12,8 +12,9 @@
 namespace Ushahidi\Core\Entity;
 
 use Ushahidi\Core\DynamicEntity;
+use Ushahidi\Core\EloquentEntity;
 
-class Config extends DynamicEntity
+class Config extends EloquentEntity
 {
     // DataTransformer
     protected function getDefinition()

@@ -11,7 +11,7 @@
 namespace Ushahidi\Tests\Unit\Modules\V3\Validator\Role;
 
 use Mockery as M;
-use Ushahidi\Core\Tool\Features;
+use Ushahidi\Core\Tool\FeatureManager as Feature;
 use Ushahidi\Tests\TestCase;
 use Kohana\Validation\Validation;
 use Ushahidi\Modules\V3\Validator\Role\Update;
@@ -27,9 +27,9 @@ class UpdateTest extends TestCase
 
     public function testRoleDisabled()
     {
-        $features = M::mock(Features::class);
+        $features = M::mock(Feature::class);
         $features->shouldReceive('isEnabled')->with('roles')->andReturn(false);
-        $this->app->instance('features', $features);
+        $this->app->instance('feature', $features);
 
         $validationMock = M::mock(Validation::class);
         /** @var PermissionRepository */
@@ -44,9 +44,9 @@ class UpdateTest extends TestCase
 
     public function testRoleEnabled()
     {
-        $features = M::mock(Features::class);
+        $features = M::mock(Feature::class);
         $features->shouldReceive('isEnabled')->with('roles')->andReturn(true);
-        $this->app->instance('features', $features);
+        $this->app->instance('feature', $features);
 
         $validationMock = M::mock(Validation::class);
         /** @var PermissionRepository */

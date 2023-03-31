@@ -1,57 +1,28 @@
 <?php
 namespace Ushahidi\Modules\V5\Http\Resources;
 
-use Illuminate\Http\Resources\Json\Resource;
-use Ushahidi\Modules\V5\Http\Controllers\SurveyController;
-use Ushahidi\Modules\V5\Models\Survey;
+use Ushahidi\Core\Entity\Form as SurveyEntity;
 
 class SurveyResource extends BaseResource
 {
     public static $wrap = 'result';
-    /*
-     * @param  \Illuminate\Http\Request  $request
-     * @return array
-     */
-    private function includeResourceFields($request)
+
+    private function getResourcePrivileges()
     {
-        return self::includeFields($request, [
-            'id',
-            'name',
-            'description',
-            'type',
-            'disabled',
-            'require_approval',
-            'everyone_can_create',
-            'color',
-            'hide_author',
-            'hide_time',
-            'hide_location',
-            'targeted_survey',
-            'can_create'
-        ]);
+        $authorizer = service('authorizer.form');
+        // Obtain v3 entity from the v5 post model
+        // Note that we use attributesToArray instead of toArray because the first
+        // would have the effect of causing unnecessary requests to the database
+        // (relations are not needed in this case by the authorizer)
+        $entity = new SurveyEntity($this->resource->attributesToArray());
+        // if there's no user the guards will kick them off already, but if there
+        // is one we need to check the authorizer to ensure we don't let
+        // users without admin perms create forms etc
+        // this is an unfortunate problem with using an old version of lumen
+        // that doesn't let me do guest user checks without adding more risk.
+        return $authorizer->getAllowedPrivs($entity);
     }
-    private function hydrateResourceRelationships($request)
-    {
-        $hydrate = $this->getHydrate(Survey::$relationships, $request);
-        $result = [];
-        foreach ($hydrate as $relation) {
-            switch ($relation) {
-                case 'tasks':
-                    $result['tasks'] = new TaskCollection($this->tasks);
-                    break;
-                case 'translations':
-                    $result['translations'] = new TranslationCollection($this->translations);
-                    break;
-                case 'enabled_languages':
-                    $result['enabled_languages'] = [
-                        'default'=> $this->base_language,
-                        'available' => $this->translations->groupBy('language')->keys()
-                    ];
-                    break;
-            }
-        }
-        return $result;
-    }
+
     /**
      * Transform the resource into an array.
      *
@@ -60,11 +31,11 @@ class SurveyResource extends BaseResource
      */
     public function toArray($request)
     {
-        // @TODO-jan27 make translations and enabled_languages optional
-        // @TODO-jan27 make id required
-        $fields = $this->includeResourceFields($request);
-        $result = $this->setResourceFields($fields);
-        $hydrated = $this->hydrateResourceRelationships($request);
-        return array_merge($result, $hydrated);
+        $data = $this->resource->toArray();
+        $data['translations'] = (new TranslationCollection($this->translations))->toArray(null);
+        $data['tasks'] = new TaskCollection($this->tasks);
+        $data['allowed_privileges']=  $this->getResourcePrivileges();
+
+        return $data;
     }
 }

@@ -12,7 +12,7 @@
 namespace Ushahidi\Core\Tool;
 
 use Ushahidi\Contracts\Entity;
-use Ushahidi\Core\Facade\Features;
+use Ushahidi\Core\Facade\Feature;
 use Ushahidi\Contracts\Permission;
 use Ushahidi\Contracts\Acl as AclInterface;
 use Ushahidi\Contracts\Repository\Entity\RoleRepository;
@@ -45,7 +45,7 @@ class Acl implements AclInterface
 
         // Don't check for permissions if we don't have the
         // roles feature enabled
-        if (Features::isEnabled('roles')) {
+        if (Feature::isEnabled('roles')) {
             return $this->customRoleHasPermission($user, $permission);
         } else {
             return $this->defaultHasPermission($user, $permission);

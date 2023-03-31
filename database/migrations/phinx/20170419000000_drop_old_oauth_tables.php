@@ -9,16 +9,16 @@ class DropOldOauthTables extends AbstractMigration
      */
     public function up()
     {
-        $this->dropTable('oauth_session_refresh_tokens');
-        $this->dropTable('oauth_session_token_scopes');
-        $this->dropTable('oauth_session_authcode_scopes');
-        $this->dropTable('oauth_session_access_tokens');
-        $this->dropTable('oauth_session_authcodes');
-        $this->dropTable('oauth_session_redirects');
-        $this->dropTable('oauth_sessions');
-        $this->dropTable('oauth_client_endpoints');
-        $this->dropTable('oauth_clients');
-        $this->dropTable('oauth_scopes');
+        $this->table('oauth_session_refresh_tokens')->drop()->save();
+        $this->table('oauth_session_token_scopes')->drop()->save();
+        $this->table('oauth_session_authcode_scopes')->drop()->save();
+        $this->table('oauth_session_access_tokens')->drop()->save();
+        $this->table('oauth_session_authcodes')->drop()->save();
+        $this->table('oauth_session_redirects')->drop()->save();
+        $this->table('oauth_sessions')->drop()->save();
+        $this->table('oauth_client_endpoints')->drop()->save();
+        $this->table('oauth_clients')->drop()->save();
+        $this->table('oauth_scopes')->drop()->save();
     }
 
     /**

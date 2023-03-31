@@ -11,7 +11,7 @@
 
 namespace Ushahidi\Modules\V3\Validator\Form;
 
-use Ushahidi\Core\Facade\Features;
+use Ushahidi\Core\Facade\Feature;
 use Ushahidi\Modules\V3\Validator\LegacyValidator;
 use Ushahidi\Contracts\Repository\Entity\FormRepository;
 
@@ -60,7 +60,7 @@ class Update extends LegacyValidator
 
     public function checkPostTypeLimit(\Kohana\Validation\Validation $validation)
     {
-        $limit = Features::getLimit('forms');
+        $limit = Feature::getLimit('forms');
         if ($limit !== INF) {
             $total_forms = $this->repo->getTotalCount();
 

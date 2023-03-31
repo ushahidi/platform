@@ -154,7 +154,7 @@ trait Authorizer
     /**
      * Get all allowed privs on an Entity
      * @param  Entity $entity
-     * @return Array
+     * @return array
      */
     protected function getAllowedPrivs(Entity $entity)
     {

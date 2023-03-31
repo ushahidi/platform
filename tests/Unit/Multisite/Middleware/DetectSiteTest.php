@@ -11,6 +11,9 @@ use Ushahidi\Multisite\SiteNotFoundException;
 
 class DetectSiteTest extends TestCase
 {
+    /**
+     * @doesNotPerformAssertions
+     */
     public function testNothingCalledWhenDisabled()
     {
         $multisite = M::mock(MultisiteManager::class);

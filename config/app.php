@@ -110,23 +110,6 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Logging Configuration
-    |--------------------------------------------------------------------------
-    |
-    | Here you may configure the log settings for your application. Out of
-    | the box, Laravel uses the Monolog PHP logging library. This gives
-    | you a variety of powerful log handlers / formatters to utilize.
-    |
-    | Available Settings: "single", "daily", "syslog", "errorlog"
-    |
-    */
-
-    'log' => env('APP_LOG', 'single'),
-
-    'log_level' => env('APP_LOG_LEVEL', 'debug'),
-
-    /*
-    |--------------------------------------------------------------------------
     | Autoloaded Service Providers
     |--------------------------------------------------------------------------
     |
@@ -146,7 +129,7 @@ return [
         Illuminate\Bus\BusServiceProvider::class,
         Illuminate\Cache\CacheServiceProvider::class,
         Illuminate\Foundation\Providers\ConsoleSupportServiceProvider::class,
-        // Illuminate\Cookie\CookieServiceProvider::class,
+        Illuminate\Cookie\CookieServiceProvider::class,
         Illuminate\Database\DatabaseServiceProvider::class,
         Illuminate\Encryption\EncryptionServiceProvider::class,
         // Illuminate\Filesystem\FilesystemServiceProvider::class,
@@ -159,7 +142,7 @@ return [
         Illuminate\Queue\QueueServiceProvider::class,
         Illuminate\Redis\RedisServiceProvider::class,
         Illuminate\Auth\Passwords\PasswordResetServiceProvider::class,
-        // Illuminate\Session\SessionServiceProvider::class,
+        Illuminate\Session\SessionServiceProvider::class,
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
@@ -167,8 +150,6 @@ return [
         /*
          * Package Service Providers...
          */
-        Barryvdh\Cors\ServiceProvider::class,
-        Sentry\SentryLaravel\SentryLaravelServiceProvider::class,
 
         Ushahidi\Multisite\MultisiteServiceProvider::class,
         Ushahidi\DataSource\DataSourceServiceProvider::class,
@@ -236,7 +217,7 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-        'Sentry' => Sentry\SentryLaravel\SentryFacade::class,
+        'Sentry' => Sentry\Laravel\Facade::class,
     ],
 
 ];

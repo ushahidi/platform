@@ -11,10 +11,12 @@
 
 namespace Ushahidi\Core\Entity;
 
-use Illuminate\Support\Facades\Request;
 use Ushahidi\Core\StaticEntity;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Request;
+use Ushahidi\Contracts\Repository\Entity\ConfigRepository;
 
-class Site extends StaticEntity // Change to Basic Entity 
+class Site extends StaticEntity // Change to Basic Entity
 {
     protected $id;
 
@@ -91,12 +93,12 @@ class Site extends StaticEntity // Change to Basic Entity
     public function getSiteConfig($param = false, $default = null)
     {
         // TODO: I think there should be a way to work around this implementation
-        // $siteConfig = Cache::remember('config.site', $this->cache_lifetime, function () {
-        //     return app(ConfigRepository::class)->get('site');
-        // });
+        $siteConfig = Cache::remember('config.site', $this->cache_lifetime, function () {
+            return app(ConfigRepository::class)->get('site');
+        });
 
         // The work around using static entity
-        $siteConfig = $this->asArray();
+        // $siteConfig = $this->asArray();
 
         if($param) {
             return $siteConfig[$param] ?? $default;

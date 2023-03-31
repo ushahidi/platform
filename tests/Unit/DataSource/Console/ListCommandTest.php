@@ -24,7 +24,9 @@ use Ushahidi\DataSource\DataSourceManager;
  */
 class ListCommandTest extends TestCase
 {
-    public function setUp()
+    public $mockConsoleOutput = false;
+
+    public function setUp(): void
     {
         parent::setUp();
 
