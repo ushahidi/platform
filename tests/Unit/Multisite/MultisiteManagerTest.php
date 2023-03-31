@@ -12,7 +12,7 @@ use Ushahidi\Multisite\SiteRepository;
 
 class MultisiteManagerTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

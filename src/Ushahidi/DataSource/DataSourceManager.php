@@ -14,9 +14,9 @@ use Ushahidi\Contracts\Repository\Entity\MessageRepository;
 class DataSourceManager
 {
     /**
-     * Cache lifetime in minutes
+     * Cache lifetime in seconds
      */
-    const CACHE_LIFETIME = 1;
+    const CACHE_LIFETIME = 60;
 
     /**
      * Config repo instance
@@ -26,13 +26,12 @@ class DataSourceManager
     protected $configRepo;
 
     /**
-     * Sources to be configured
+     * Default Sources to be configured
      *
-     * [name => classname]
      *
-     * @var [string, ...]
+     * @var \Ushahidi\DataSource\Contracts\DataSource[]
      */
-    protected $sources = [
+    protected $defaultSources = [
         'email' => Email\Email::class,
         'outgoingemail' => Email\OutgoingEmail::class,
         'frontlinesms' => FrontlineSMS\FrontlineSMS::class,
@@ -43,18 +42,25 @@ class DataSourceManager
     ];
 
     /**
-     * The registered custom data sources.
+     * Custom sources to be configured.
+     *
+     * @var \Ushahidi\DataSource\Contracts\DataSource[]
+     */
+    protected $customSources = [];
+
+    /**
+     * The registered custom datasource resolver.
      *
      * @var array
      */
-    protected $customSources = [];
+    protected $customCreators = [];
 
     /**
      * The array of data sources.
      *
      * @var \Ushahidi\DataSource\Contracts\DataSource[]
      */
-    protected $loadedSources = [];
+    protected $sources = [];
 
     /**
      * Data Source Storage
@@ -73,9 +79,9 @@ class DataSourceManager
         $this->configRepo = $configRepo;
     }
 
-    public function getSources() : array
+    public function getSources(): array
     {
-        return array_keys(array_merge($this->sources, $this->customSources));
+        return array_keys(array_merge($this->defaultSources, $this->customSources));
     }
 
     /**
@@ -83,7 +89,7 @@ class DataSourceManager
      *
      * @return string[]
      */
-    public function getEnabledSources() : array
+    public function getEnabledSources(): array
     {
         return Cache::remember('datasources.enabled', self::CACHE_LIFETIME, function () {
             // Load enabled sources
@@ -96,7 +102,7 @@ class DataSourceManager
                 $this->configRepo->get('features')->asArray()['data-providers']
             );
 
-            $allSources = array_merge($this->sources, $this->customSources);
+            $allSources = array_merge($this->defaultSources, $this->customSources);
 
             $sources = array_intersect_key(
                 $allSources,
@@ -113,7 +119,7 @@ class DataSourceManager
      * @param  string  $name
      * @return boolean
      */
-    public function isEnabledSource(string $name) : bool
+    public function isEnabledSource(string $name): bool
     {
         $sources = $this->getEnabledSources();
 
@@ -125,9 +131,9 @@ class DataSourceManager
      * @param  string $name
      * @return DataSource
      */
-    public function getSource(string $name) : Datasource
+    public function getSource(string $name): Datasource
     {
-        return $this->loadedSources[$name] ?? $this->resolve($name);
+        return $this->sources[$name] ?? $this->source($name);
     }
 
     /**
@@ -135,7 +141,7 @@ class DataSourceManager
      * @param  string $name
      * @return DataSource
      */
-    public function getEnabledSource(string $name) : DataSource
+    public function getEnabledSource(string $name): DataSource
     {
         if (!$this->isEnabledSource($name)) {
             throw new InvalidArgumentException("Source [{$name}] is not enabled.");
@@ -145,7 +151,7 @@ class DataSourceManager
     }
 
     /**
-     * Get the enable source for a specific type
+     * Get the enabled source for a specific type
      * @param  string $type
      * @return DataSource|boolean
      */
@@ -167,14 +173,12 @@ class DataSourceManager
      */
     public function registerRoutes(Router $router)
     {
-        foreach (array_merge($this->sources, $this->customSources) as $name => $class) {
-            if ($class instanceof Closure) {
-                /** @var \Ushahidi\DataSource\Contracts\CallbackDataSource */
-                $class = $this->getSource($name);
+        /** @var \Ushahidi\DataSource\Contracts\CallbackDataSource $class */
+        foreach (array_values(array_merge($this->defaultSources, $this->customSources)) as $class) {
+            if (!in_array(CallbackDataSource::class, class_implements($class))) {
+                continue;
             }
-            if (in_array(CallbackDataSource::class, class_implements($class))) {
-                $class::registerRoutes($router);
-            }
+            $class::registerRoutes($router);
         }
     }
 
@@ -191,7 +195,7 @@ class DataSourceManager
      * Get data source storage
      * @return DataSourceStorage
      */
-    public function getStorage() : DataSourceStorage
+    public function getStorage(): DataSourceStorage
     {
         return $this->storage;
     }
@@ -201,7 +205,7 @@ class DataSourceManager
      * @param  string $name
      * @return array
      */
-    protected function getConfig(string $name) : array
+    protected function getConfig(string $name): array
     {
         $config = Cache::remember('config.data-provider', self::CACHE_LIFETIME, function () {
             return $this->configRepo->get('data-provider')->asArray();
@@ -211,25 +215,30 @@ class DataSourceManager
     }
 
     /**
-     * Resolve data source class
-     * @param  string $name
+     * Get a data source instance
+     * @param string  $source
      * @return DataSource
      */
-    protected function resolve(string $name) : DataSource
+    public function source(string $source): DataSource
     {
-        $config = $this->getConfig($name);
+        $config = $this->getConfig($source);
 
-        if (isset($this->customSources[$name])) {
-            return $this->loadedSources[$name] = call_user_func($this->customSources[$name], $config);
-        }
-
-        $driverMethod = 'create'.ucfirst($name).'Source';
-
-        if (method_exists($this, $driverMethod)) {
-            return $this->loadedSources[$name] = $this->{$driverMethod}($config);
+        // We'll check to see if a creator method exists for the given source. If not we
+        // will check for a custom source creator, which allows developers to create
+        // sources using their own customized source creator Closure to create it.
+        if (isset($this->customCreators[$source])) {
+            return $this->sources[$source] = call_user_func($this->customCreators[$source], $config);
+        } elseif (isset($this->customSources[$source])) {
+            return $this->sources[$source] = new $this->customSources[$source]($config);
         } else {
-            throw new InvalidArgumentException("Source [{$name}] is not supported.");
+            $method = 'create' . ucfirst($source) . 'Source';
+
+            if (method_exists($this, $method)) {
+                return $this->sources[$source] = $this->{$method}($config);
+            }
         }
+
+        throw new InvalidArgumentException("Source [{$source}] not supported.");
     }
 
     /**
@@ -237,19 +246,24 @@ class DataSourceManager
      */
     public function clearResolvedSources()
     {
-        $this->loadedSources = [];
+        $this->sources = [];
     }
 
     /**
      * Register a custom data source Closure.
      *
-     * @param  string    $name
+     * @param  string   $name
+     * @param  string   $class
      * @param  Closure  $callback
      * @return $this
      */
-    public function extend(string $name, Closure $callback)
+    public function extend(string $name, string $class, Closure $callback = null)
     {
-        $this->customSources[$name] = $callback;
+        $this->customSources[$name] = $class;
+
+        if (!is_null($callback)) {
+            $this->customCreators[$name] = $callback;
+        }
 
         return $this;
     }
@@ -291,7 +305,7 @@ class DataSourceManager
     protected function createNexmoSource(array $config)
     {
         return new Nexmo\Nexmo($config, function ($apiKey, $apiSecret) {
-            return new \Nexmo\Client(new \Nexmo\Client\Credentials\Basic($apiKey, $apiSecret));
+            return new \Vonage\Client(new \Vonage\Client\Credentials\Basic($apiKey, $apiSecret));
         });
     }
 

@@ -1,12 +1,12 @@
 Feature: CORS headers and preflight requests
-    
+
     Scenario: Preflight config request
         Given that I want to make an OPTIONS request
         And that the request "Origin" header is "http://local.dev"
         And that the request "Access-Control-Request-Method" header is "POST"
         And that the request "Access-Control-Request-Headers" header is "Authorization, Content-Type, Accept"
         When I request "/posts"
-        Then the guzzle status code should be 200
+        Then the guzzle status code should be 204
         And the "Access-Control-Allow-Origin" header should be "http://local.dev"
         And the "Access-Control-Allow-Methods" header should exist
         And the "Access-Control-Allow-Headers" header should be "authorization, content-type, accept"

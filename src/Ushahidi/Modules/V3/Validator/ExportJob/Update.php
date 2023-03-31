@@ -11,7 +11,7 @@
 
 namespace Ushahidi\Modules\V3\Validator\ExportJob;
 
-use Ushahidi\Core\Facade\Features;
+use Ushahidi\Core\Facade\Feature;
 use Ushahidi\Modules\V3\Validator\LegacyValidator;
 use Ushahidi\Contracts\Repository\Entity\UserRepository;
 use Ushahidi\Contracts\Repository\Entity\ExportJobRepository;
@@ -77,7 +77,7 @@ class Update extends LegacyValidator
     private function getHxlRules()
     {
         $hxl_rules = [];
-        if (Features::isEnabled('hxl')) {
+        if (Feature::isEnabled('hxl')) {
             $hxl_rules = [
                 'send_to_hdx' => [
                     [[$this, 'sendToBrowserIsFalse'], [':value', ':fulldata', ':validation']],

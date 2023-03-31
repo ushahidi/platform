@@ -2,18 +2,23 @@
 
 namespace App\Exceptions;
 
-use Exception;
+use Throwable;
 use Asm89\Stack\CorsService;
 use Illuminate\Auth\AuthenticationException;
+use Ushahidi\Core\Exception\NotFoundException;
+use Ushahidi\Core\Exception\ValidatorException;
+use Ushahidi\Core\Exception\AuthorizerException;
+use Ushahidi\Core\Exception\ThrottlingException;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use League\OAuth2\Server\Exception\OAuthServerException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Illuminate\Validation\ValidationException as LaravelValidationException;
+use Laravel\Passport\Exceptions\OAuthServerException as LaravelOAuthServerException;
+use League\OAuth2\Server\Exception\OAuthServerException as LeagueOAuthServerException;
 
 class Handler extends ExceptionHandler
 {
@@ -28,7 +33,8 @@ class Handler extends ExceptionHandler
         HttpException::class,
         ModelNotFoundException::class,
         LaravelValidationException::class,
-        OAuthServerException::class,
+        LaravelOAuthServerException::class,
+        LeagueOAuthServerException::class,
     ];
 
     /**
@@ -45,14 +51,14 @@ class Handler extends ExceptionHandler
      * Report or log an exception.
      *
      * This is a great spot to send exceptions to Sentry, Bugsnag, etc.
+     * @param \Throwable $exception
      *
-     * @param  \Exception  $exception
      * @return void
      */
-    public function report(Exception $exception)
+    public function report(Throwable $exception)
     {
         if ($this->shouldReport($exception) && app()->bound('sentry')) {
-            app('sentry')->captureException($exception);
+            \Sentry\Laravel\Facade::captureException($exception);
         }
 
         parent::report($exception);
@@ -62,15 +68,17 @@ class Handler extends ExceptionHandler
      * Render an exception into an HTTP response.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \Exception  $exception
+     * @param  \Throwable  $exception
      * @return \Illuminate\Http\Response
      */
-    public function render($request, Exception $exception)
+    public function render($request, Throwable $exception)
     {
         // First handle some special cases
         if ($exception instanceof HttpResponseException) {
             // @todo check if we should still reformat this for json
             return $exception->getResponse();
+        } elseif ($exception instanceof LaravelOAuthServerException) {
+            return $exception->render($request);
         } elseif ($exception instanceof ModelNotFoundException) {
             $exception = new NotFoundHttpException($exception->getMessage(), $exception);
         } elseif ($exception instanceof AuthorizationException) {
@@ -80,6 +88,26 @@ class Handler extends ExceptionHandler
         } elseif ($exception instanceof LaravelValidationException && $exception->getResponse()) {
             // @todo check if we should still reformat this for json
             return $exception->getResponse();
+        } elseif ($exception instanceof NotFoundException) {
+            abort(404, $exception->getMessage());
+        } elseif ($exception instanceof ValidatorException) {
+            $exception = new ValidationException($exception->getMessage(), $exception);
+        } elseif ($exception instanceof AuthorizerException) {
+          //  If we don't have an Authorization header, return 401
+            if (! $request->headers->has('Authorization')) {
+                abort(
+                    401,
+                    'The request is missing an access token in either the Authorization header.',
+                    ['www-authenticate' => 'Bearer realm="OAuth"']
+                );
+            } else {
+                // Otherwise throw a 403
+                abort(403, $exception->getMessage());
+            }
+        } elseif ($exception instanceof ThrottlingException) {
+             abort(429, 'Too Many Requests');
+        } elseif ($exception instanceof \InvalidArgumentException) {
+            abort(400, 'Bad request: '.$exception->getMessage());
         }
 
         // If request asks for JSON then we return the error as JSON

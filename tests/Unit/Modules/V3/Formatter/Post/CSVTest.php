@@ -20,7 +20,7 @@ class CSVTest extends TestCase
 
     protected $fs;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setup();
         $this->fs = \Mockery::mock(\League\Flysystem\Filesystem::class);
@@ -30,11 +30,6 @@ class CSVTest extends TestCase
         $this->fs->shouldReceive('getMimetype')->andReturn('text/csv');
         $this->formatter = new CSV();
         $this->formatter->setFilesystem($this->fs);
-    }
-
-    public function tearDown()
-    {
-        parent::tearDown();
     }
 
     public function testCSVRowsAreCreated()

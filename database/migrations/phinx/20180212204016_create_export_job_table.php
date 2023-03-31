@@ -31,6 +31,6 @@ class CreateExportJobTable extends AbstractMigration
      */
     public function down()
     {
-        $this->dropTable('export_job');
+        $this->table('export_job')->drop()->save();
     }
 }
