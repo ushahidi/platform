@@ -1,9 +1,7 @@
 <?php
-namespace Ushahidi\Modules\V5\Http\Resources\Survey;
+namespace Ushahidi\Modules\V5\Http\Resources;
 
 use Ushahidi\Core\Entity\Form as SurveyEntity;
-use Ushahidi\Modules\V5\Http\Resources\BaseResource;
-use Ushahidi\Modules\V5\Http\Resources\TranslationCollection;
 
 class SurveyResource extends BaseResource
 {
@@ -34,17 +32,9 @@ class SurveyResource extends BaseResource
     public function toArray($request)
     {
         $data = $this->resource->toArray();
-        if ($this->translations) {
-            $data['translations'] = (new TranslationCollection($this->translations))->toArray(null);
-        } else {
-            unset($data['translations']);
-        }
-        if ($this->tasks) {
-            $data['tasks'] = new TaskCollection($this->tasks);
-        } else {
-            unset($data['tasks']);
-        }
-        $data['allowed_privileges'] = $this->getResourcePrivileges();
+        $data['translations'] = (new TranslationCollection($this->translations))->toArray(null);
+        $data['tasks'] = new TaskCollection($this->tasks);
+        $data['allowed_privileges']=  $this->getResourcePrivileges();
 
         return $data;
     }

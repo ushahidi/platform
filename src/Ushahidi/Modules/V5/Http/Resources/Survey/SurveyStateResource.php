@@ -15,7 +15,7 @@ class SurveyStateResource extends Resource
      */
     public function toArray($request)
     {
-        $data = json_decode($this->toJson(), true);
+        $data = $this->resource->toArray();
         return [
             'total_responses' => $data['total_responses'],
             'total_recipients' => $data['total_recipients'],
