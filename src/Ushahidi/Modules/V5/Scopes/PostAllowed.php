@@ -10,14 +10,15 @@
  */
 
 
-namespace Ushahidi\Modules\V5\Models\Scopes;
+namespace Ushahidi\Modules\V5\Scopes;
 
 use Illuminate\Database\Eloquent\Scope;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 
-class StageAllowed implements Scope
+class PostAllowed implements Scope
 {
+
     /**
      * Apply the scope to a given Eloquent query builder.
      *
@@ -27,7 +28,7 @@ class StageAllowed implements Scope
      */
     public function apply(Builder $builder, Model $model)
     {
-        $authorizer = service('authorizer.form');
+        $authorizer = service('authorizer.post');
         // if there's no user the guards will kick them off already, but if there
         // is one we need to check the authorizer to ensure we don't let
         // users without admin perms create forms etc
@@ -35,18 +36,23 @@ class StageAllowed implements Scope
         // that doesn't let me do guest user checks without adding more risk.
         $user = $authorizer->getUser();
 
-        $formPermissions = new \Ushahidi\Core\Tool\Permissions\FormPermissions();
-        $formPermissions->setAcl($authorizer->acl);
+        $postPermissions = new \Ushahidi\Core\Tool\Permissions\PostPermissions();
+        $postPermissions->setAcl($authorizer->acl);
+        $builder->where('posts.type', '=', 'report');
         /**
          * With scopes and the $builder, we check for basic permissions right on our initial
-         * queries rather than process them after the fact.
-         * Are you wondering "why do we send a null form_id to canUserEditForm?"
-         * well dear reader that's because that method doesn't use a $form id at all
-         * but *it likes to pretend it does* and I don't want to refactor /v3 today.
+         * queries rather than process them after the fact
          */
-        if (!$formPermissions->canUserEditForm($user, null)) {
-            $builder->where('show_when_published', '=', '1');
-            $builder->where('task_is_internal_only', '=', '0');
+        if (!$postPermissions->canUserViewUnpublishedPosts(
+            $user
+        )) {
+            $builder->where(function ($query) use ($user) {
+                $query->where('posts.status', '=', 'published');
+                if ($user->getId()) {
+                    $query->orWhere('posts.user_id', '=', $user->getId());
+                }
+                return $query;
+            });
         }
     }
 }

@@ -2,14 +2,18 @@
 
 namespace Ushahidi\Modules\V5\Repository;
 
-use Ushahidi\Contracts\Entity;
+use Ushahidi\Core\Entity\User;
 use Illuminate\Support\Collection;
-use Ushahidi\Contracts\Repository\Entity\UserRepository as EntityUserRepository;
+use Ushahidi\Core\EloquentRepository;
+use Ushahidi\Contracts\Repository\Entity\UserRepository as UserRepositoryInterface;
 
-class UserRepository implements EntityUserRepository
+class UserRepository extends EloquentRepository implements UserRepositoryInterface
 {
+    protected static $root = User::class;
+
     public function getByEmail($email)
     {
+        return $this->where('email', $email)->first();
     }
 
     public function isValidResetToken($token)
@@ -20,27 +24,7 @@ class UserRepository implements EntityUserRepository
     {
     }
 
-    public function get($id)
-    {
-    }
-
-    public function getEntity(?array $data = null)
-    {
-    }
-
-    public function exists($id)
-    {
-    }
-
-    public function create(Entity $entity)
-    {
-    }
-
-    public function createMany(Collection $collection): array
-    {
-    }
-
-    public function delete(Entity $entity)
+    public function createMany(Collection $collection)
     {
     }
 }

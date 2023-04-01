@@ -21,7 +21,7 @@ abstract class EloquentRepository implements
 
     public function get($id)
     {
-        return $this->find($id);
+        return $this->find($id) ?? $this->getEntity();
     }
 
     public function getEntity(array $data = null)
