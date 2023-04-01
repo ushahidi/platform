@@ -1,9 +1,7 @@
 <?php
 
-namespace Ushahidi\Tests\Unit\Bus\Query;
+namespace Tests\Unit\Bus\Query;
 
-use Illuminate\Contracts\Container\Container;
-use PHPUnit\Framework\TestCase;
 use stdClass;
 use App\Bus\Command\Command;
 use App\Bus\Command\CommandHandler;
@@ -11,6 +9,8 @@ use App\Bus\Handler;
 use App\Bus\Query\Query;
 use App\Bus\Query\QueryBus;
 use App\Bus\Query\QueryHandler;
+use Illuminate\Contracts\Container\Container;
+use PHPUnit\Framework\TestCase;
 
 class QueryBusTest extends TestCase
 {
