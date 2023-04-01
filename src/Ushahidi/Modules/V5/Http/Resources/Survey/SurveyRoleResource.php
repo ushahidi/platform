@@ -1,9 +1,10 @@
 <?php
-namespace Ushahidi\Modules\V5\Http\Resources;
+namespace Ushahidi\Modules\V5\Http\Resources\Survey;
 
-use Illuminate\Http\Resources\Json\Resource;
+use Illuminate\Http\Resources\Json\JsonResource as Resource;
 use Ushahidi\Modules\V5\Models\SurveyRole;
 use Ushahidi\Core\Entity\FormRole as SurveyRoleEntity;
+use Ushahidi\Modules\V5\Http\Resources\BaseResource;
 
 class SurveyRoleResource extends BaseResource
 {

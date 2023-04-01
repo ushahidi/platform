@@ -2,11 +2,14 @@
 
 namespace Ushahidi\Modules\V5\Http\Controllers;
 
-use Ushahidi\Modules\V5\Http\Resources\SurveyRoleCollection;
+use Ushahidi\Modules\V5\Http\Resources\Survey\SurveyRoleCollection;
 use Illuminate\Http\Request;
 use Ushahidi\Modules\V5\Actions\Survey\Queries\FetchRolesCanCreateSurveyPostsQuery;
 use Ushahidi\Modules\V5\Actions\Survey\Commands\DeleteSurveyRolesBySurveyIDCommand;
 use Ushahidi\Modules\V5\Actions\Survey\Commands\CreateSurveyRoleCommand;
+use Ushahidi\Modules\V5\Models\Survey;
+use Ushahidi\Modules\V5\Actions\Survey\Queries\FetchSurveyByIdQuery;
+use Ushahidi\Modules\V5\Requests\SurveyRoleRequest;
 
 class SurveyRoleController extends V5Controller
 {
@@ -18,7 +21,10 @@ class SurveyRoleController extends V5Controller
      */
     public function index(int $survey_id, Request $request)
     {
-        //$this->authorizeForCurrentUser('index', SurveyRole::class);
+        $survey = $this->queryBus->handle(new FetchSurveyByIdQuery($survey_id, null, null, null));
+
+        // All access is based on the survey itself, not the role.
+       // $this->authorize('show', $survey);
         $resourceCollection = new SurveyRoleCollection(
             $this->queryBus->handle(
                 new FetchRolesCanCreateSurveyPostsQuery(
@@ -34,12 +40,16 @@ class SurveyRoleController extends V5Controller
     /**
      * replace a roles of survey.
      *
-     * @param Request $request
+     * @param SurveyRoleRequest $request
      * @return \Illuminate\Http\JsonResponse
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function replace(int $survey_id, Request $request)
+    public function replace(int $survey_id, SurveyRoleRequest $request)
     {
+        $survey = $this->queryBus->handle(new FetchSurveyByIdQuery($survey_id, null, null, null));
+
+        $this->authorize('update', $survey);
+
         // to do validate the role is found
         $this->commandBus->handle(new DeleteSurveyRolesBySurveyIDCommand($survey_id));
         $this->commandBus->handle(new CreateSurveyRoleCommand($survey_id, $request->input('roles')));

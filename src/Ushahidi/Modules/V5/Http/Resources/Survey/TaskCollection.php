@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Ushahidi\Modules\V5\Http\Resources;
+namespace Ushahidi\Modules\V5\Http\Resources\Survey;
 
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
@@ -12,7 +12,7 @@ class TaskCollection extends ResourceCollection
      *
      * @var string
      */
-    public $collects = 'Ushahidi\Modules\V5\Http\Resources\TaskResource';
+    public $collects = 'Ushahidi\Modules\V5\Http\Resources\Survey\TaskResource';
     /**
      * Transform the resource collection into an array.
      *
