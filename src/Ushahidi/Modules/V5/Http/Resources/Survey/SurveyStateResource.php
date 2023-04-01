@@ -1,7 +1,7 @@
 <?php
 namespace Ushahidi\Modules\V5\Http\Resources\Survey;
 
-use Illuminate\Http\Resources\Json\Resource;
+use Illuminate\Http\Resources\Json\JsonResource as Resource;
 
 class SurveyStateResource extends Resource
 {
