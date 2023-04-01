@@ -89,7 +89,7 @@ abstract class EloquentEntity extends Model implements Entity
         return $this->asArray();
     }
 
-    protected function resolveEntityData(array $data)
+    protected function resolveEntityData(array $data) : array
     {
         // Get the immutable values. Once set, these cannot be changed.
         $immutable = $this->getImmutable();
