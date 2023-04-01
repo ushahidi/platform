@@ -14,7 +14,7 @@ class FindPostByIdQueryHandlerTest extends TestCase
     public function testSuccessfullyFindingPost(): void
     {
         // Given
-        $postModel = factory(Post::class)->create();
+        $postModel = Post::factory()->create();
         $postRepository = $this->createMock(PostRepository::class);
         $postRepository->method('fetchById')->willReturn($postModel);
 

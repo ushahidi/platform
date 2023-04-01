@@ -14,7 +14,7 @@ class ListPostsQueryHandlerTest extends TestCase
 {
     public function testShouldReturnPaginatedResult(): void
     {
-        $post = factory(Post::class)->create();
+        $post =  Post::factory()->create();
         $postRepository = $this->createMock(PostRepository::class);
         $postRepository->method('paginate')->willReturn(new LengthAwarePaginator([$post], 1, 1));
         $query = ListPostsQuery::fromArray([

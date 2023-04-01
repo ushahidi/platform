@@ -13,7 +13,7 @@ class EloquentPostRepositoryTest extends TestCase
 {
     public function testFindingAPostById()
     {
-        $post = factory(Post::class)->create();
+        $post = Post::factory()->create();
         $builder = $this->createMock(Builder::class);
         $builder->method('find')->willReturn($post);
 
@@ -48,7 +48,7 @@ class EloquentPostRepositoryTest extends TestCase
 
     public function testPaginationWithResults()
     {
-        $post = factory(Post::class)->create();
+        $post = Post::factory()->create();
         $builder = $this->createMock(Builder::class);
         $builder->method('paginate')->willReturn(new LengthAwarePaginator([$post], 1, 10));
 
