@@ -18,6 +18,7 @@ Puppetfile.lock
 .tmp/*
 *.vscode
 .env
+.phpunit.result.cache
 phpunit.xml
 phpspec.yml
 phinx.yml
