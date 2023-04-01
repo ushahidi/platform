@@ -65,9 +65,9 @@ class CreateHxlTagsTables extends AbstractMigration
 
     public function down()
     {
-        $this->dropTable('hxl_tag_attributes');
-        $this->dropTable('hxl_attribute_type_tag');
-        $this->dropTable('hxl_attributes');
-        $this->dropTable('hxl_tags');
+        $this->table('hxl_tag_attributes')->drop()->save();
+        $this->table('hxl_attribute_type_tag')->drop()->save();
+        $this->table('hxl_attributes')->drop()->save();
+        $this->table('hxl_tags')->drop()->save();
     }
 }

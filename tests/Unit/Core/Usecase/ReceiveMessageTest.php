@@ -28,7 +28,7 @@ use Ushahidi\Modules\V3\EventSubscriber as Subscriber;
  */
 class ReceiveMessageTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setup();
 
@@ -76,11 +76,9 @@ class ReceiveMessageTest extends TestCase
         $this->app->instance(ConfigRepository::class, $configRepo);
     }
 
-    public function tearDown()
-    {
-        parent::tearDown();
-    }
-
+    /**
+     * @doesNotPerformAssertions
+     */
     public function testReceiveMessage()
     {
         $message = new Message();

@@ -14,9 +14,9 @@ use Ushahidi\Contracts\Repository\Entity\MessageRepository;
 class DataSourceManager
 {
     /**
-     * Cache lifetime in minutes
+     * Cache lifetime in seconds
      */
-    const CACHE_LIFETIME = 1;
+    const CACHE_LIFETIME = 60;
 
     /**
      * Config repo instance
@@ -305,7 +305,7 @@ class DataSourceManager
     protected function createNexmoSource(array $config)
     {
         return new Nexmo\Nexmo($config, function ($apiKey, $apiSecret) {
-            return new \Nexmo\Client(new \Nexmo\Client\Credentials\Basic($apiKey, $apiSecret));
+            return new \Vonage\Client(new \Vonage\Client\Credentials\Basic($apiKey, $apiSecret));
         });
     }
 
