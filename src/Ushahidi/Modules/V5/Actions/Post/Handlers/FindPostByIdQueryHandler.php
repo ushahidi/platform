@@ -34,4 +34,3 @@ class FindPostByIdQueryHandler extends AbstractQueryHandler
         return $this->postRepository->fetchById($action->getId());
     }
 }
-

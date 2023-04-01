@@ -24,6 +24,6 @@ class AddApiKeyTable extends AbstractMigration
      */
     public function down()
     {
-        $this->dropTable('apikeys');
+        $this->table('apikeys')->drop()->save();
     }
 }

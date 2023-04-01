@@ -7,7 +7,6 @@ namespace App\Bus\Command;
 use App\Bus\Action;
 use App\Bus\Bus;
 use Illuminate\Contracts\Container\Container;
-use Webmozart\Assert\Assert;
 
 class CommandBus implements Bus
 {
@@ -31,14 +30,14 @@ class CommandBus implements Bus
      * @param Action $action
      * @return void
      */
-    public function handle(Action $action): void
+    public function handle(Action $action)
     {
         $this->assertIsCommand(get_class($action));
         $this->assertCommandRegistered($action);
 
         $handler = $this->commands[get_class($action)];
 
-        $this->container->make($handler)($action);
+        return $this->container->make($handler)($action);
     }
 
     /**
@@ -47,14 +46,15 @@ class CommandBus implements Bus
      */
     private function assertIsCommand(string $action): void
     {
-        Assert::true(
-            is_subclass_of($action, Command::class),
-            sprintf(
-                'Invalid argument. Expected instance of %s. Got %s',
-                Command::class,
-                $action
-            )
-        );
+        if (!is_subclass_of($action, Command::class)) {
+            throw new \Exception(
+                sprintf(
+                    'Invalid argument. Expected instance of %s. Got %s',
+                    Command::class,
+                    $action
+                )
+            );
+        }
     }
 
     /**
@@ -64,10 +64,12 @@ class CommandBus implements Bus
     private function assertCommandRegistered(Action $action): void
     {
         $actionName = get_class($action);
-        Assert::true(
-            array_key_exists($actionName, $this->commands),
-            sprintf('Invalid argument. %s is not registered.', $actionName)
-        );
+
+        if (!array_key_exists($actionName, $this->commands)) {
+            throw new \Exception(
+                sprintf('Invalid argument. %s is not registered.', $actionName)
+            );
+        }
     }
 
     /**
@@ -89,13 +91,14 @@ class CommandBus implements Bus
      */
     private function assertIsCommandHandler(string $handler): void
     {
-        Assert::true(
-            is_subclass_of($handler, CommandHandler::class),
-            sprintf(
-                'Invalid argument. Expected instance of %s. Got %s',
-                CommandHandler::class,
-                $handler
-            )
-        );
+        if (!is_subclass_of($handler, CommandHandler::class)) {
+            throw new \Exception(
+                sprintf(
+                    'Invalid argument. Expected instance of %s. Got %s',
+                    CommandHandler::class,
+                    $handler
+                )
+            );
+        }
     }
 }

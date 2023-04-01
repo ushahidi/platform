@@ -21,6 +21,16 @@ Feature: Testing the Posts API
     And the "errors.0.message" property equals "Post not found"
     And the response has a "errors.0.status" property
     And the "errors.0.status" property equals "404"
+  Scenario: List posts
+    Given that I want to get all "Post"
+    And that the oauth token is "testadminuser"
+    And that the api_url is "api/v5"
+    When I request "/posts"
+    Then the response is JSON
+    And the response has a "results" property
+    And the "results" property count is "20"
+    And the type of the "results" property is "array"
+    And the response has a "results.0.id" property
   @create @rolesEnabled
   Scenario: Creating a new Post
     Given that I want to make a new "Post"

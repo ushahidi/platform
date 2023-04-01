@@ -55,6 +55,6 @@ class AddHxlMetadataTable extends AbstractMigration
 
     public function down()
     {
-        $this->dropTable('hxl_meta_data');
+        $this->table('hxl_meta_data')->drop()->save();
     }
 }

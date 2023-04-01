@@ -7,15 +7,15 @@ class RenameGroupsToStages extends AbstractMigration
     public function up()
     {
         $this->table('form_groups')
-            ->rename('form_stages');
+            ->rename('form_stages')
+            ->save();
 
-        $attributes = $this->table('form_attributes');
-        $attributes
+        $this->table('form_attributes')
             ->dropForeignKey('form_group_id')
-            ->renameColumn('form_group_id', 'form_stage_id')
-            ->update();
+            ->save();
 
-        $attributes
+        $this->table('form_attributes')
+            ->renameColumn('form_group_id', 'form_stage_id')
             ->addForeignKey('form_stage_id', 'form_stages', 'id', [
                 'delete' => 'CASCADE',
             ])

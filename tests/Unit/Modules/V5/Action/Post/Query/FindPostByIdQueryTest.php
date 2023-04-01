@@ -5,7 +5,6 @@ namespace Tests\Unit\Modules\V5\Action\Post\Query;
 use Ushahidi\Modules\V5\Actions\Post\Queries\FindPostByIdQuery;
 use Ushahidi\Tests\TestCase;
 
-
 class FindPostByIdQueryTest extends TestCase
 {
     public function testCanCreateWithAPositiveNumber()

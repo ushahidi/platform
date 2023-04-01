@@ -3,13 +3,14 @@
 namespace Ushahidi\Tests\Integration\Bootstrap;
 
 use Behat\Behat\Context\Context;
+use Ushahidi\Tests\Integration\Bootstrap\Database\DefaultTester;
+use Ushahidi\Tests\Integration\Bootstrap\Database\DefaultConnection;
+use Ushahidi\Tests\Integration\Bootstrap\Database\Operation\Factory;
+use Ushahidi\Tests\Integration\Bootstrap\Database\Dataset\YamlDataset;
+use Ushahidi\Tests\Integration\Bootstrap\Database\Operation\Composite;
 
 class PHPUnitFixtureContext implements Context
 {
-
-    /**
-     * @var PHPUnit_Extensions_Database_ITester
-     */
     private $databaseTester;
 
     /**
@@ -67,16 +68,6 @@ class PHPUnitFixtureContext implements Context
                     (30 20, 20 25, 20 15, 30 20)))'));");
     }
 
-    protected function setConfig($group, $key, $value)
-    {
-        $pdo_connection = $this->getConnection()->getConnection();
-        $pdo_connection->query("
-          INSERT INTO `config`
-          (`group_name`, `config_key`, `config_value`) VALUES ('$group', '$key', '$value')
-          ON DUPLICATE KEY UPDATE `config_value` = '$value';
-        ");
-    }
-
     /** @BeforeScenario @private */
     public function makePrivate()
     {
@@ -121,7 +112,6 @@ class PHPUnitFixtureContext implements Context
         $this->setConfig('feature', 'private', '{"enabled":false}');
     }
 
-
     /**
      * @BeforeScenario @hxlEnabled
      **/
@@ -162,11 +152,20 @@ class PHPUnitFixtureContext implements Context
         $this->setConfig('feature', 'data-import', '{"enabled":false}');
     }
 
+    protected function setConfig($group, $key, $value)
+    {
+        $pdo_connection = $this->getConnection()->getConnection();
+        $pdo_connection->query("
+          INSERT INTO `config`
+          (`group_name`, `config_key`, `config_value`) VALUES ('$group', '$key', '$value')
+          ON DUPLICATE KEY UPDATE `config_value` = '$value';
+        ");
+    }
+
     /**
      * Creates a connection to the unittesting database
      * Overriding to fix database type in DSN - must be lowercase
      *
-     * @return PDO
      */
     public function getConnection()
     {
@@ -191,28 +190,13 @@ class PHPUnitFixtureContext implements Context
         return $this->createDefaultDBConnection($pdo, $config['connection']['database']);
     }
 
-    /**
-     * Returns the test dataset.
-     *
-     * @param string|array $dataset Dataset filename
-     * @return PHPUnit_Extensions_Database_DataSet_IDataSet
-     */
-    protected function getDataSet($dataset)
-    {
-        return new \PHPUnit_Extensions_Database_DataSet_YamlDataSet(
-            __DIR__ . '/../../datasets/' . $dataset . '.yml'
-        );
-    }
-
-
-
     /** Call this in a BeforeScenario hook */
     public function setUpDBTester($dataset)
     {
         $this->databaseTester = null;
 
         $this->getDatabaseTester()->setSetUpOperation($this->getSetUpOperation());
-        $this->getDatabaseTester()->setDataSet($this->getDataSet($dataset));
+        $this->getDatabaseTester()->setDataset($this->getDataset($dataset));
         $this->getDatabaseTester()->onSetUp();
     }
 
@@ -220,7 +204,7 @@ class PHPUnitFixtureContext implements Context
     public function tearDownDBTester($dataset)
     {
         $this->getDatabaseTester()->setTearDownOperation($this->getTearDownOperation());
-        $this->getDatabaseTester()->setDataSet($this->getDataSet($dataset));
+        $this->getDatabaseTester()->setDataset($this->getDataset($dataset));
         $this->getDatabaseTester()->onTearDown();
 
         /**
@@ -231,11 +215,22 @@ class PHPUnitFixtureContext implements Context
     }
 
     /**
-     * Gets the IDatabaseTester for this testCase. If the IDatabaseTester is
+     * Returns the test dataset.
+     *
+     * @param string|array $dataset Dataset filename
+     */
+    protected function getDataset($dataset)
+    {
+        return new YamlDataset(
+            __DIR__ . '/../../datasets/' . $dataset . '.yml'
+        );
+    }
+
+    /**
+     * Gets the database tester for this testCase. If the database tester is
      * not set yet, this method calls newDatabaseTester() to obtain a new
      * instance.
      *
-     * @return PHPUnit_Extensions_Database_ITester
      */
     protected function getDatabaseTester()
     {
@@ -246,51 +241,46 @@ class PHPUnitFixtureContext implements Context
     }
 
     /**
-     * Creates a IDatabaseTester for this testCase.
+     * Creates a Database Tester for this testCase.
      *
-     * @return PHPUnit_Extensions_Database_ITester
-     */
+     *      */
     protected function newDatabaseTester()
     {
-        return new \PHPUnit_Extensions_Database_DefaultTester($this->getConnection());
+        return new DefaultTester($this->getConnection());
     }
 
     /**
      * Returns the database operation executed in test setup.
      * Overriding to fix Mysql 5.5 truncate errors
      *
-     * @return PHPUnit_Extensions_Database_Operation_DatabaseOperation
      */
     protected function getSetUpOperation()
     {
-        //return PHPUnit_Extensions_Database_Operation_Factory::CLEAN_INSERT();
         $cascadeTruncates = true;
-        return new \PHPUnit_Extensions_Database_Operation_Composite([
-            new \Tests\Support\MySQL55Truncate($cascadeTruncates),
-            \PHPUnit_Extensions_Database_Operation_Factory::INSERT()
+        return new Composite([
+            Factory::TRUNCATE($cascadeTruncates),
+            Factory::INSERT()
         ]);
     }
 
     /**
      * Returns the database operation executed in test cleanup.
      *
-     * @return PHPUnit_Extensions_Database_Operation_DatabaseOperation
      */
     protected function getTearDownOperation()
     {
-        return \PHPUnit_Extensions_Database_Operation_Factory::NONE();
+        return Factory::NONE();
     }
 
     /**
      * Creates a new DefaultDatabaseConnection using the given PDO connection
      * and database schema name.
      *
-     * @param PDO $connection
+     * @param \PDO $connection
      * @param string $schema
-     * @return PHPUnit_Extensions_Database_DB_DefaultDatabaseConnection
      */
     protected function createDefaultDBConnection(\PDO $connection, $schema = '')
     {
-        return new \PHPUnit_Extensions_Database_DB_DefaultDatabaseConnection($connection, $schema);
+        return new DefaultConnection($connection, $schema);
     }
 }

@@ -27,7 +27,8 @@ Feature: Testing the Surveys API
         And the "result.everyone_can_create" property is true
         And the response has a "result.can_create" property
         And the "result.can_create" property is empty
-        Then the guzzle status code should be 201
+        Then the guzzle status code should be 200
+   
     Scenario: A tag field with a response_private true value should fail
         Given that I want to make a new "Survey"
         And that the oauth token is "testmanager"
@@ -95,8 +96,10 @@ Feature: Testing the Surveys API
             """
         When I request "/surveys"
         Then the response is JSON
-        And the response has a "tasks.0.fields.0.response_private" property
-        And the "tasks.0.fields.0.response_private" property contains "Tag fields cannot be private."
+        And the response has a "errors.failed_validations.0.field" property
+        And the "errors.failed_validations.0.field" property contains "tasks.0.fields.0.response_private"
+        And the response has a "errors.failed_validations.0.error_messages" property
+        And the "errors.failed_validations.0.error_messages" property contains "Tag fields cannot be private."
         Then the guzzle status code should be 422
 
     Scenario: Updating a Survey to clear name should fail
@@ -135,16 +138,17 @@ Feature: Testing the Surveys API
         And that its "id" is "440"
         When I request "/surveys"
         Then the response is JSON
-        And the response has a "error" property
+        And the response has a "errors" property
         Then the guzzle status code should be 404
 
+    @resetFixture    
     Scenario: Listing All Surveys
         Given that I want to get all "Surveys"
         And that the api_url is "api/v5"
         And that the oauth token is "testmanager"
         When I request "/surveys"
         Then the response is JSON
-        And the "results" property count is "11"
+        And the "results" property count is "10"
         Then the guzzle status code should be 200
 
     Scenario: Finding a Survey
@@ -160,21 +164,22 @@ Feature: Testing the Surveys API
 
     Scenario: Deleting a Survey
         Given that I want to delete a "Survey"
-        And that its "id" is "1"
+        And that its "id" is "2"
         And that the api_url is "api/v5"
         And that the oauth token is "testmanager"
         When I request "/surveys"
         Then the response is JSON
         And the response has a "result.deleted" property
         And the type of the "result.deleted" property is "numeric"
-        And the "result.deleted" property equals "1"
+        And the "result.deleted" property equals "2"
         Then the guzzle status code should be 200
+   
     Scenario: Finding a non-existent Survey
         Given that I want to find a "Survey"
         And that the api_url is "api/v5"
         And that the oauth token is "testmanager"
-        And that its "id" is "1"
+        And that its "id" is "2"
         When I request "/surveys"
         Then the response is JSON
-        And the response has a "error" property
+        And the response has a "errors" property
         Then the guzzle status code should be 404

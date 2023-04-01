@@ -29,16 +29,16 @@ class FetchRoleQueryHandler extends AbstractQueryHandler
      * @param FetchRoleQuery $action
      * @return LengthAwarePaginator
      */
-    public function __invoke(Action $action) //: LengthAwarePaginator
+    public function __invoke(Action $query) //: LengthAwarePaginator
     {
-        $this->isSupported($action);
-        $skip = $action->getLimit() * ($action->getPage() - 1);
+        $this->isSupported($query);
+        $skip = $query->getLimit() * ($query->getPage() - 1);
         return $this->roleRepository->fetch(
-            $action->getLimit(),
+            $query->getLimit(),
             $skip,
-            $action->getSortBy(),
-            $action->getOrder(),
-            $action->getSearchData()
+            $query->getSortBy(),
+            $query->getOrder(),
+            $query->getRoleSearchFields()
         );
     }
 }

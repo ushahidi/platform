@@ -8,6 +8,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use Ushahidi\Modules\V5\Actions\Post\Queries\FindPostByIdQuery;
+use Ushahidi\Modules\V5\Actions\Post\Queries\ListPostsQuery;
 use Ushahidi\Modules\V5\Events\PostCreatedEvent;
 use Ushahidi\Modules\V5\Events\PostUpdatedEvent;
 use Ushahidi\Modules\V5\Http\Resources\PostCollection;
@@ -22,11 +23,11 @@ use Ushahidi\Modules\V5\Models\Lock;
 class PostController extends V5Controller
 {
 
-    private $queryBus;
-    public function __construct(QueryBus $queryBus)
-    {
-        $this->queryBus = $queryBus;
-    }
+    // private $queryBus;
+    // public function __construct(QueryBus $queryBus)
+    // {
+    //     $this->queryBus = $queryBus;
+    // }
 
     /**
      * Not all fields are things we want to allow on the body of requests
@@ -55,16 +56,23 @@ class PostController extends V5Controller
         return new PostResource($post);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @return PostCollection
-     * @throws \Illuminate\Auth\Access\AuthorizationException
-     */
-    public function index(Request $request)
+    public function index(Request $request): PostCollection
     {
-        return new PostCollection(Post::withPostValues()->paginate(20, POST::selectModelFields($request)));
-    } //end index()
+        $fields = [];
+        if ($request->get('format') === 'minimal') {
+            $fields = ['id', 'name', 'description', 'translations'];
+        } elseif ($request->get('only') && $request->get('format') === null) {
+            $fields = explode(',', $request->get('only'));
+        }
+
+        $query = ListPostsQuery::fromArray([
+            'fields' => $fields,
+            'limit' => $request->query('limit', 20),
+        ]);
+
+        $paginator = $this->queryBus->handle($query);
+        return new PostCollection($paginator);
+    }
 
     private function getUser()
     {

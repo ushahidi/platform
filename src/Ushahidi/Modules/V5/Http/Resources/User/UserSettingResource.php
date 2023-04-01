@@ -1,7 +1,7 @@
 <?php
 namespace Ushahidi\Modules\V5\Http\Resources\User;
 
-use Illuminate\Http\Resources\Json\Resource;
+use Illuminate\Http\Resources\Json\JsonResource as Resource;
 use Ushahidi\Modules\V5\Http\Resources\RequestCachedResource;
 use Illuminate\Support\Collection;
 
@@ -10,7 +10,7 @@ class UserSettingResource extends Resource
 
     use RequestCachedResource;
 
-    public static $wrap = 'data';
+    public static $wrap = 'result';
 
     /**
      * Transform the resource into an array.

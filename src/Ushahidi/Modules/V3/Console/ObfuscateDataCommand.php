@@ -12,6 +12,7 @@ namespace Ushahidi\Modules\V3\Console;
  */
 
 use Faker;
+use Illuminate\Support\Str;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Ushahidi\Core\Tool\OhanzeeResolver;
@@ -367,7 +368,7 @@ class ObfuscateDataCommand extends Command
         //in all cases, if the username is specified, we create an admin user and password
         if ($this->option('admin-username')) { // checking length in fire()
             $adminEmail = $this->option('admin-username');
-            $adminPassword = str_random(25);
+            $adminPassword = Str::random(25);
             $this->info('Generated password: '.$adminPassword);
             $id = $this->saveAdminUser($adminEmail, $adminPassword);
             $this->info('Created admin user '.$adminEmail.' with Id: '.$id);
