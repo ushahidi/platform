@@ -9,8 +9,8 @@ use Ushahidi\Core\Entity\ContactRepository;
 use Ushahidi\Core\Ohanzee\Entities\Contact;
 use Ushahidi\Modules\V2\Mappers\MessageMapper;
 use Ushahidi\Tests\Unit\Modules\V2\ImportMock;
-
 use Ushahidi\Modules\V2\Contracts\ImportMappingRepository;
+use DMS\PHPUnitExtensions\ArraySubset\ArraySubsetAsserts;
 
 /**
  * @backupGlobals disabled
@@ -18,6 +18,8 @@ use Ushahidi\Modules\V2\Contracts\ImportMappingRepository;
  */
 class MessageMapperTest extends TestCase
 {
+    use ArraySubsetAsserts;
+
     /**
      * @dataProvider reporterProvider
      */
@@ -48,7 +50,7 @@ class MessageMapperTest extends TestCase
         $mapper = new MessageMapper($mappingRepo, $contactRepo);
         $result = $mapper($import, $input);
 
-        $this->assertInternalType('array', $result);
+        $this->assertIsArray($result);
         $this->assertArrayHasKey('result', $result);
         $message = $result['result'];
 

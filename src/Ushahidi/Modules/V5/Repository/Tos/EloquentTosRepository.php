@@ -22,9 +22,9 @@ class EloquentTosRepository implements TosTosRepository
     public function fetch(int $limit, int $skip, string $sortBy, string $order): LengthAwarePaginator
     {
         return Tos::take($limit)
-        ->skip($skip)
-        ->orderBy($sortBy, $order)
-        ->paginate($limit);
+            ->skip($skip)
+            ->orderBy($sortBy, $order)
+            ->paginate($limit ? $limit : config('paging.default_laravel_pageing_limit'));
     }
 
     /**

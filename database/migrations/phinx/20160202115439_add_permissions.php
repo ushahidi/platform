@@ -23,6 +23,6 @@ class AddPermissions extends AbstractMigration
 
     public function down()
     {
-        $this->dropTable('permissions');
+        $this->table('permissions')->drop()->save();
     }
 }

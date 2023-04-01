@@ -26,20 +26,20 @@ class NexmoDataSourceTest extends TestCase
         $nexmo = new Nexmo(
             [],
             function () {
-                return M::mock(\Nexmo\Client::class);
+                return M::mock(\Vonage\Client::class);
             }
         );
         $response = $nexmo->send(1234, 'A message');
 
-        $this->assertInternalType('array', $response);
+        $this->assertIsArray($response);
         $this->assertEquals('failed', $response[0]);
         $this->assertFalse($response[1]);
     }
 
     public function testSend()
     {
-        $mockNexmo = M::mock(\Nexmo\Client::class);
-        $mockMessage = M::mock(\Nexmo\Message\Message::class);
+        $mockNexmo = M::mock(\Vonage\Client::class);
+        $mockMessage = M::mock(\Vonage\SMS\Collection::class);
 
         $nexmo = new Nexmo([
             'api_key' => 'secret',
@@ -48,20 +48,19 @@ class NexmoDataSourceTest extends TestCase
             return $mockNexmo;
         });
 
-        $mockNexmo->shouldReceive('message->send')->once()->andReturn($mockMessage);
-        $mockMessage->shouldReceive('getMessageId')->once()->andReturn(1234);
+        $mockNexmo->shouldReceive('sms->send')->once()->andReturn($mockMessage);
+        $mockMessage->shouldReceive('current->getMessageId')->once()->andReturn(1234);
 
         $response = $nexmo->send(1234, 'A message');
 
-        $this->assertInternalType('array', $response);
+        $this->assertIsArray($response);
         $this->assertEquals('sent', $response[0]);
         $this->assertEquals(1234, $response[1]);
     }
 
     public function testSendFails()
     {
-        $mockNexmo = M::mock(\Nexmo\Client::class);
-        $mockMessage = M::mock(\Nexmo\Message\Message::class);
+        $mockNexmo = M::mock(\Vonage\Client::class);
 
         $nexmo = new Nexmo([
             'api_key' => 'secret',
@@ -70,11 +69,11 @@ class NexmoDataSourceTest extends TestCase
             return $mockNexmo;
         });
 
-        $mockNexmo->shouldReceive('message->send')->once()->andThrow(M::mock(\Nexmo\Client\Exception\Exception::class));
+        $mockNexmo->shouldReceive('sms->send')->once()->andThrow(M::mock(\Vonage\Client\Exception\Exception::class));
 
         $response = $nexmo->send(1234, 'A message');
 
-        $this->assertInternalType('array', $response);
+        $this->assertIsArray($response);
         $this->assertEquals('failed', $response[0]);
         $this->assertEquals(false, $response[1]);
     }

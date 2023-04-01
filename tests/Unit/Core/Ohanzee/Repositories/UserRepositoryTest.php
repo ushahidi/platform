@@ -51,7 +51,7 @@ class UserRepositoryTest extends TestCase
 
         $token = $repo->getResetToken($user);
 
-        $this->assertInternalType('string', $token);
+        $this->assertIsString($token);
     }
 
     public function testCreateMany()

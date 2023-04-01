@@ -24,7 +24,9 @@ use Illuminate\Console\Application as Artisan;
  */
 class ListCommandTest extends TestCase
 {
-    public function setUp()
+    public $mockConsoleOutput = false;
+
+    public function setUp(): void
     {
         parent::setUp();
 

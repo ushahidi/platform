@@ -35,10 +35,10 @@ class KohanaValidationEngine extends KohanaValidation implements ValidationEngin
         return function ($file, $field, $error = null) {
             if ($error) {
                 return $this->translator->has("$file.$field.$error") ?
-                    $this->translator->trans("$file.$field.$error") : false;
+                    $this->translator->get("$file.$field.$error") : false;
             } else {
                 return $this->translator->has("$file.$field") ?
-                    $this->translator->trans("$file.$field") : false;
+                    $this->translator->get("$file.$field") : false;
             }
         };
     }

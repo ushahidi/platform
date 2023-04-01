@@ -7,10 +7,6 @@ use App\Bus\Command\Example\ExampleCommand;
 use App\Bus\Command\Example\ExampleCommandHandler;
 use App\Bus\Query\Example\ExampleQuery;
 use App\Bus\Query\Example\ExampleQueryHandler;
-use Ushahidi\Modules\V5\Actions\Datasource\Handlers\FetchDataSourceQueryHandler;
-use Ushahidi\Modules\V5\Actions\Datasource\Handlers\SearchDataSourcesQueryHandler;
-use Ushahidi\Modules\V5\Actions\Datasource\Queries\FetchDataSourceQuery;
-use Ushahidi\Modules\V5\Actions\Datasource\Queries\SearchDataSourcesQuery;
 use Ushahidi\Modules\V5\Actions\Tos\Commands\CreateTosCommand;
 use Ushahidi\Modules\V5\Actions\Tos\Handlers\CreateTosCommandHandler;
 use Ushahidi\Modules\V5\Actions\Tos\Queries\FetchTosQuery;
@@ -30,6 +26,9 @@ use Ushahidi\Modules\V5\Actions\Permissions\Handlers\FetchPermissionsQueryHandle
 use Ushahidi\Modules\V5\Actions\Permissions\Queries\FetchPermissionsByIdQuery;
 use Ushahidi\Modules\V5\Actions\Permissions\Handlers\FetchPermissionsByIdQueryHandler;
 use Ushahidi\Modules\V5\Actions\Role;
+use Ushahidi\Modules\V5\Actions\Survey;
+use Ushahidi\Modules\V5\Actions\SavedSearch;
+use Ushahidi\Modules\V5\Actions\Collection;
 
 class BusServiceProvider extends ServiceProvider
 {
@@ -99,6 +98,74 @@ class BusServiceProvider extends ServiceProvider
                 User\Handlers\DeleteUserSettingCommandHandler::class
             );
 
+
+            $commandBus->register(
+                Survey\Commands\CreateTaskCommand::class,
+                Survey\Handlers\CreateTaskCommandHandler::class
+            );
+            $commandBus->register(
+                Survey\Commands\DeleteTasksCommand::class,
+                Survey\Handlers\DeleteTasksCommandHandler::class
+            );
+            $commandBus->register(
+                Survey\Commands\UpdateTaskCommand::class,
+                Survey\Handlers\UpdateTaskCommandHandler::class
+            );
+
+
+            $commandBus->register(
+                Survey\Commands\CreateSurveyCommand::class,
+                Survey\Handlers\CreateSurveyCommandHandler::class
+            );
+            $commandBus->register(
+                Survey\Commands\UpdateSurveyCommand::class,
+                Survey\Handlers\UpdateSurveyCommandHandler::class
+            );
+            $commandBus->register(
+                Survey\Commands\DeleteSurveyCommand::class,
+                Survey\Handlers\DeleteSurveyCommandHandler::class
+            );
+
+            $commandBus->register(
+                Survey\Commands\CreateSurveyRoleCommand::class,
+                Survey\Handlers\CreateSurveyRoleCommandHandler::class
+            );
+
+            $commandBus->register(
+                Survey\Commands\DeleteSurveyRolesBySurveyIDCommand::class,
+                Survey\Handlers\DeleteSurveyRolesBySurveyIDCommandHandler::class
+            );
+
+
+
+            $commandBus->register(
+                SavedSearch\Commands\CreateSavedSearchCommand::class,
+                SavedSearch\Handlers\CreateSavedSearchCommandHandler::class
+            );
+            $commandBus->register(
+                SavedSearch\Commands\UpdateSavedSearchCommand::class,
+                SavedSearch\Handlers\UpdateSavedSearchCommandHandler::class
+            );
+            $commandBus->register(
+                SavedSearch\Commands\DeleteSavedSearchCommand::class,
+                SavedSearch\Handlers\DeleteSavedSearchCommandHandler::class
+            );
+
+
+            $commandBus->register(
+                Collection\Commands\CreateCollectionCommand::class,
+                Collection\Handlers\CreateCollectionCommandHandler::class
+            );
+            $commandBus->register(
+                Collection\Commands\UpdateCollectionCommand::class,
+                Collection\Handlers\UpdateCollectionCommandHandler::class
+            );
+            $commandBus->register(
+                Collection\Commands\DeleteCollectionCommand::class,
+                Collection\Handlers\DeleteCollectionCommandHandler::class
+            );
+
+
             $commandBus->register(CreateTosCommand::class, CreateTosCommandHandler::class);
 
             return $commandBus;
@@ -110,9 +177,9 @@ class BusServiceProvider extends ServiceProvider
         $this->app->singleton(QueryBus::class, function ($app) {
             $queryBus = new QueryBus($app);
 
+            $queryBus->register(ExampleQuery::class, ExampleQueryHandler::class);
             $queryBus->register(FetchCountryCodeQuery::class, FetchCountryCodeQueryHandler::class);
             $queryBus->register(FetchCountryCodeByIdQuery::class, FetchCountryCodeByIdQueryHandler::class);
-            $queryBus->register(ExampleQuery::class, ExampleQueryHandler::class);
             $queryBus->register(FetchPermissionsQuery::class, FetchPermissionsQueryHandler::class);
             $queryBus->register(FetchPermissionsByIdQuery::class, FetchPermissionsByIdQueryHandler::class);
 
@@ -147,13 +214,42 @@ class BusServiceProvider extends ServiceProvider
             );
 
             $queryBus->register(
-                FetchDataSourceQuery::class,
-                FetchDataSourceQueryHandler::class
+                Survey\Queries\FetchRolesCanCreateSurveyPostsQuery::class,
+                Survey\Handlers\FetchRolesCanCreateSurveyPostsQueryHandler::class
             );
 
             $queryBus->register(
-                SearchDataSourcesQuery::class,
-                SearchDataSourcesQueryHandler::class
+                Survey\Queries\FetchTasksBySurveyIdQuery::class,
+                Survey\Handlers\FetchTasksBySurveyIdQueryHandler::class
+            );
+
+            $queryBus->register(
+                Survey\Queries\FetchSurveyQuery::class,
+                Survey\Handlers\FetchSurveyQueryHandler::class
+            );
+            $queryBus->register(
+                Survey\Queries\FetchSurveyByIdQuery::class,
+                Survey\Handlers\FetchSurveyByIdQueryHandler::class
+            );
+
+
+            $queryBus->register(
+                SavedSearch\Queries\FetchSavedSearchQuery::class,
+                SavedSearch\Handlers\FetchSavedSearchQueryHandler::class
+            );
+            $queryBus->register(
+                SavedSearch\Queries\FetchSavedSearchByIdQuery::class,
+                SavedSearch\Handlers\FetchSavedSearchByIdQueryHandler::class
+            );
+
+
+            $queryBus->register(
+                Collection\Queries\FetchCollectionQuery::class,
+                Collection\Handlers\FetchCollectionQueryHandler::class
+            );
+            $queryBus->register(
+                Collection\Queries\FetchCollectionByIdQuery::class,
+                Collection\Handlers\FetchCollectionByIdQueryHandler::class
             );
 
             return $queryBus;

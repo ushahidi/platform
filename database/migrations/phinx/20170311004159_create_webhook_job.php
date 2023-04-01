@@ -25,6 +25,6 @@ class CreateWebhookJob extends AbstractMigration
      */
     public function down()
     {
-        $this->dropTable('webhook_job');
+        $this->table('webhook_job')->drop()->save();
     }
 }

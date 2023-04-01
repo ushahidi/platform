@@ -17,7 +17,7 @@ use Ushahidi\Modules\V3\Listener\HandleTargetedSurveyResponse;
  */
 class HandleTargetedSurveyResponseTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setup();
 
@@ -30,11 +30,6 @@ class HandleTargetedSurveyResponseTest extends TestCase
             $this->targetedSurveyStateRepo,
             $this->formAttributeRepo
         );
-    }
-
-    public function tearDown()
-    {
-        parent::tearDown();
     }
 
     public function testReceivesResponse()

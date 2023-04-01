@@ -10,9 +10,9 @@ class Features
     protected $configRepo;
 
     /**
-     * Cache lifetime in minutes
+     * Cache lifetime in seconds
      */
-    const CACHE_LIFETIME = 1;
+    const CACHE_LIFETIME = 60;
 
     /**
      * @param array $configRepo

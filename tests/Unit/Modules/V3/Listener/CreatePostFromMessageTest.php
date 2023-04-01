@@ -17,7 +17,7 @@ use Ushahidi\Modules\V3\Listener\CreatePostFromMessage;
  */
 class CreatePostFromMessageTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setup();
 
@@ -30,11 +30,6 @@ class CreatePostFromMessageTest extends TestCase
             $this->targetedSurveyStateRepo,
             $this->postRepo
         );
-    }
-
-    public function tearDown()
-    {
-        parent::tearDown();
     }
 
     public function testCreatesSimplePost()

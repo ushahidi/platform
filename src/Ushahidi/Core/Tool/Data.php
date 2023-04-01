@@ -24,13 +24,13 @@ abstract class Data
     }
 
     /**
-     * @var Array allowed keys that were in the input data
+     * @var array allowed keys that were in the input data
      */
     private static $defined_input_keys = [];
 
     /**
      * Stores what (allowed) keys were defined by input data.
-     * @param  Array  $data  raw input
+     * @param  array  $data  raw input
      * @return void
      */
     public function __construct(array $data)
@@ -69,7 +69,7 @@ abstract class Data
 
     /**
      * Get all values in the current object, reducing the result to defined input.
-     * @return Array
+     * @return array
      */
     public function asArray()
     {
@@ -85,7 +85,7 @@ abstract class Data
     /**
      * Compare with some existing data and get the delta between the two.
      * Only values that were present in the input data will be returned!
-     * @param  Array  $compare  existing data
+     * @param  array  $compare  existing data
      * @return Data
      */
     public function getDifferent(array $compare)

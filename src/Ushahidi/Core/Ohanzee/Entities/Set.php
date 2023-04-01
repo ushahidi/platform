@@ -12,7 +12,8 @@
 namespace Ushahidi\Core\Ohanzee\Entities;
 
 use Ushahidi\Core\Ohanzee\StaticEntity;
-use \Ushahidi\Core\Entity\Set as EntitySet;
+use Illuminate\Support\Facades\Auth;
+use Ushahidi\Core\Entity\Set as EntitySet;
 
 class Set extends StaticEntity implements EntitySet
 {
@@ -65,4 +66,35 @@ class Set extends StaticEntity implements EntitySet
             'user_id'   => ['user', 'user.id'], /* alias */
         ];
     }
+
+    public static function buildEntity(array $input, $action = "create", array $old_Values = null)
+    {
+
+        if ($action === "update") {
+            return new Set([
+                "id" => $old_Values['id'],
+                "user_id" => isset($input["user_id"]) ? $input["user_id"] : $old_Values['user_id'],
+                "name" => isset($input["name"]) ? $input["name"] : $old_Values['name'],
+                "description" => isset($input["description"]) ? $input["description"] : $old_Values['description'],
+                "view" => isset($input["view"]) ? $input["view"] : $old_Values['view'],
+                "view_options" => isset($input["view_options"]) ? $input["view_options"] : $old_Values['view_options'],
+                "role" => isset($input["role"]) ? $input["role"] : $old_Values['role'],
+                "featured" => isset($input["featured"]) ? $input["featured"] : $old_Values['featured'],
+                "created" => $old_Values['created'] ?? time(),
+                "updated" => time()
+            ]);
+        }
+        return new Set([
+            "user_id" => isset($input["user_id"]) ? $input["user_id"] : Auth::id(),
+            "name" => isset($input["name"]) ? $input["name"] : '',
+            "description" => isset($input["description"]) ? $input["description"] : '',
+            "view" => isset($input["view"]) ? $input["view"] : self::DEFAULT_VIEW,
+            "view_options" => isset($input["view_options"]) ? $input["view_options"] : null,
+            "role" => isset($input["role"]) ? $input["role"] : null,
+            "featured" => isset($input["featured"]) ? $input["featured"] : self::DEFAULT_FEATURED,
+            "created" => time(),
+            "updated" => time()
+        ]);
+    }
+
 }

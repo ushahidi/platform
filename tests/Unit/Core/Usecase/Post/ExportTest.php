@@ -31,7 +31,7 @@ class ExportTest extends TestCase
 
     protected $hxlLicenseId;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setup();
         $this->withoutMiddleware();
@@ -79,7 +79,7 @@ class ExportTest extends TestCase
         $this->usecase->setPostExportRepository($this->postExportRepository);
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         parent::tearDown();
         service('repository.hxl_license')->delete(

@@ -116,7 +116,7 @@ class IncidentPostMapperTest extends TestCase
         $mapper = new IncidentPostMapper($mappingRepo, $attrRepo, $dataTools);
         $result = $mapper($import, $input);
 
-        $this->assertInternalType('array', $result);
+        $this->assertIsArray($result);
         $this->assertArrayHasKey('result', $result);
         $post = $result['result'];
 
@@ -256,7 +256,7 @@ class IncidentPostMapperTest extends TestCase
         $mapper = new IncidentPostMapper($mappingRepo, $attrRepo, $dataTools);
         $result = $mapper($import, $input);
 
-        $this->assertInternalType('array', $result);
+        $this->assertIsArray($result);
         $this->assertArrayHasKey('result', $result);
         $post = $result['result'];
 
@@ -475,7 +475,7 @@ class IncidentPostMapperTest extends TestCase
         $mapper = new IncidentPostMapper($mappingRepo, $attrRepo, $dataTools);
         $result = $mapper($import, $input);
 
-        $this->assertInternalType('array', $result);
+        $this->assertIsArray($result);
         $this->assertArrayHasKey('result', $result);
         $post = $result['result'];
 

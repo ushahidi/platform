@@ -15,5 +15,4 @@ use Ushahidi\Core\Contracts\Entity;
 
 interface User extends Entity
 {
-
 }

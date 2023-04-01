@@ -22,9 +22,9 @@ use Ushahidi\Core\Entity\ConfigRepository;
 class Site
 {
     /**
-     * Cache lifetime in minutes
+     * Cache lifetime in seconds
      */
-    const DEFAULT_CACHE_LIFETIME = 1;
+    const DEFAULT_CACHE_LIFETIME = 60;
 
     public $id;
     public $subdomain;

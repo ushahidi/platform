@@ -27,7 +27,7 @@ use Ushahidi\Core\Usecase\Message\ReceiveMessage;
  */
 class DataSourceStorageTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

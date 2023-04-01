@@ -30,6 +30,6 @@ class CreateLicenseTable extends AbstractMigration
      */
     public function down()
     {
-        $this->dropTable('hxl_license');
+        $this->table('hxl_license')->drop()->save();
     }
 }
