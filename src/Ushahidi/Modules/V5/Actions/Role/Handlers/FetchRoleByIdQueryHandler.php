@@ -25,15 +25,15 @@ class FetchRoleByIdQueryHandler extends AbstractQueryHandler
             'Provided query is not supported'
         );
     }
-    
+
 
     /**
-     * @param FetchRoleByIdQuery $query
+     * @param FetchRoleByIdQuery $action
      * @return array
      */
-    public function __invoke(Action $query) //: array
+    public function __invoke(Action $action) //: array
     {
-        $this->isSupported($query);
-        return $this->roleRepository->findById($query->getId());
+        $this->isSupported($action);
+        return $this->roleRepository->findById($action->getId());
     }
 }
