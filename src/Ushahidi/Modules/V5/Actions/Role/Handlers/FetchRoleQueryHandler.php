@@ -36,9 +36,9 @@ class FetchRoleQueryHandler extends AbstractQueryHandler
         return $this->roleRepository->fetch(
             $action->getLimit(),
             $skip,
-            $action->getSortBy(),
-            $action->getOrder(),
-            $action->getSearchData()
+            $query->getSortBy(),
+            $query->getOrder(),
+            $query->getRoleSearchFields()
         );
     }
 }

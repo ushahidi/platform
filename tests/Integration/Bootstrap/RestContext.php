@@ -14,6 +14,7 @@ use stdClass;
 use Aura\Di\Exception;
 use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\PyStringNode;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
 
 /**
@@ -513,7 +514,7 @@ class RestContext implements Context
      */
     public function theResponseIsEmpty()
     {
-        \PHPUnit_Framework_Assert::assertEquals(0, $this->response->getBody()->getSize());
+        \PHPUnit\Framework\Assert::assertEquals(0, $this->response->getBody()->getSize());
     }
 
     /**
@@ -525,7 +526,7 @@ class RestContext implements Context
         $data = json_decode($this->response->getBody(true), true);
         $this->theResponseIsJson();
 
-        if (array_get($data, $propertyName) === null) {
+        if (Arr::get($data, $propertyName) === null) {
             throw new \Exception("Property '".$propertyName."' is not set!\n");
         }
     }
@@ -542,7 +543,7 @@ class RestContext implements Context
 
         foreach ($paths as $path) {
 //            *.items.*.fields
-            if (array_get($data, $path) === null) {
+            if (Arr::get($data, $path) === null) {
                 throw new \Exception("Property $path in '".$propertyPathPattern."' is not set\n");
             }
         }
@@ -558,7 +559,7 @@ class RestContext implements Context
 
         $this->theResponseIsJson();
 
-        if (array_get($data, $propertyName) !== null) {
+        if (Arr::get($data, $propertyName) !== null) {
             throw new \Exception("Property '".$propertyName."' is set but should not be!\n");
         }
     }
@@ -586,7 +587,7 @@ class RestContext implements Context
         $data = json_decode($this->response->getBody(true), true);
         $this->theResponseIsJson();
 
-        $actualPropertyValue = array_get($data, $propertyName);
+        $actualPropertyValue = Arr::get($data, $propertyName);
 
         if ($actualPropertyValue === null) {
             throw new \Exception("Property '".$propertyName."' is not set!\n");
@@ -610,7 +611,7 @@ class RestContext implements Context
 
         $this->theResponseIsJson();
 
-        $actualPropertyValue = array_get($data, $propertyName);
+        $actualPropertyValue = Arr::get($data, $propertyName);
 
         if ($actualPropertyValue === null) {
             throw new \Exception("Property '".$propertyName."' is not set!\n");
@@ -633,7 +634,7 @@ class RestContext implements Context
 
         $this->theResponseIsJson();
 
-        $actualPropertyValue = array_get($data, $propertyName);
+        $actualPropertyValue = Arr::get($data, $propertyName);
 
         if ($actualPropertyValue === null) {
             throw new \Exception("Property '".$propertyName."' is not set!\n");
@@ -652,7 +653,7 @@ class RestContext implements Context
 
         $this->theResponseIsJson();
 
-        $actualPropertyValue = array_get($data, $propertyName);
+        $actualPropertyValue = Arr::get($data, $propertyName);
 
         if ($actualPropertyValue === null) {
             throw new \Exception("Property '".$propertyName."' is not set!\n");
@@ -671,7 +672,7 @@ class RestContext implements Context
 
         $this->theResponseIsJson();
 
-        $actualPropertyValue = array_get($data, $propertyName);
+        $actualPropertyValue = Arr::get($data, $propertyName);
 
         if ($actualPropertyValue === null) {
             throw new Exception("Property '".$propertyName."' is not set!\n");
@@ -703,7 +704,7 @@ class RestContext implements Context
 
         $this->theResponseIsJson();
 
-        $actualPropertyValue = array_get($data, $propertyName);
+        $actualPropertyValue = Arr::get($data, $propertyName);
 
         if ($actualPropertyValue === null) {
             throw new Exception("Property '".$propertyName."' is not set!\n");
@@ -735,7 +736,7 @@ class RestContext implements Context
 
         $this->theResponseIsJson();
 
-        $actualPropertyValue = array_get($data, $propertyName);
+        $actualPropertyValue = Arr::get($data, $propertyName);
 
         if ($actualPropertyValue === null) {
             throw new \Exception("Property '".$propertyName."' is not set!\n");
@@ -760,7 +761,7 @@ class RestContext implements Context
 
         $this->theResponseIsJson();
 
-        $actualPropertyValue = array_get($data, $propertyName);
+        $actualPropertyValue = Arr::get($data, $propertyName);
 
         if ($actualPropertyValue === null) {
             throw new \Exception("Property '".$propertyName."' is not set!\n");
@@ -793,7 +794,7 @@ class RestContext implements Context
 
         $this->theResponseIsJson();
 
-        $actualPropertyValue = array_get($data, $propertyName);
+        $actualPropertyValue = Arr::get($data, $propertyName);
 
         if (! empty($actualPropertyValue)) {
             throw new \Exception("Property '{$propertyName}' is not empty but '{$actualPropertyValue}'\n");
@@ -936,15 +937,16 @@ HTTP/{$this->response->getProtocolVersion()} {$this->response->getStatusCode()} 
      */
     public function thatTheOauthTokenIs($tokenId)
     {
-        $key = new \League\OAuth2\Server\CryptKey('file://'.\Laravel\Passport\Passport::keyPath('oauth-private.key'));
+        $keyPath = 'file://' . \Laravel\Passport\Passport::keyPath('oauth-private.key');
+        $key = new \League\OAuth2\Server\CryptKey($keyPath);
         $scope = new \Laravel\Passport\Bridge\Scope('*');
         $client = new \Laravel\Passport\Bridge\Client('demoapp', 'demoapp', '/');
 
-        $accessToken = new \Laravel\Passport\Bridge\AccessToken($this->tokenUserMap[$tokenId], [$scope]);
+        $accessToken = new \Laravel\Passport\Bridge\AccessToken($this->tokenUserMap[$tokenId], [$scope], $client);
+        $accessToken->setPrivateKey($key);
         $accessToken->setIdentifier($tokenId);
-        $accessToken->setExpiryDateTime((new \DateTime())->add(new \DateInterval('P1D')));
-        $accessToken->setClient($client);
-        $token = $accessToken->convertToJwt($key);
+        $accessToken->setExpiryDateTime((new \DateTimeImmutable())->add(new \DateInterval('P1D')));
+        $token = (string) $accessToken;
 
         $this->headers['Authorization'] = "Bearer $token";
     }

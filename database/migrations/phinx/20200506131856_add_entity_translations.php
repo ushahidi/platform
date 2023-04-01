@@ -18,6 +18,6 @@ class AddEntityTranslations extends AbstractMigration
     }
     public function down()
     {
-        $this->dropTable('translations');
+        $this->table('translations')->drop()->save();
     }
 }

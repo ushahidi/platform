@@ -194,7 +194,8 @@ class CSV extends API
 
         foreach ($records as $record) {
             $values = $this->formatRecordForCSV($record, $attributes);
-            fputcsv($stream, $values);
+            // fputcsv($stream, $values);
+            fputcsv($stream, mb_convert_encoding($values, 'UTF-8'));
         }
 
         return $this->writeStreamToFS($stream);
@@ -225,39 +226,6 @@ class CSV extends API
             $values[] = $this->getValueFromRecord($record, $key, $attributes);
         }
         return $values;
-    }
-
-    private function writeStreamToFS($stream)
-    {
-
-        $filepath = implode(DIRECTORY_SEPARATOR, [
-            config('media.csv_batch_prefix', 'csv'),
-            $this->tmpfname,
-        ]);
-
-        // Remove any leading slashes on the filename, path is always relative.
-        $filepath = ltrim($filepath, DIRECTORY_SEPARATOR);
-
-        $extension = pathinfo($filepath, PATHINFO_EXTENSION);
-
-        $mimeType = MimeType::detectByFileExtension($extension) ?: 'text/plain';
-
-        $config = ['mimetype' => $mimeType];
-
-        $this->fs->putStream($filepath, $stream, $config);
-
-        if (is_resource($stream)) {
-            fclose($stream);
-        }
-
-        $size = $this->fs->getSize($filepath);
-        $type = $this->fs->getMimetype($filepath);
-
-        return new FileData([
-            'file' => $filepath,
-            'type' => $type,
-            'size' => $size,
-        ]);
     }
 
     /**
@@ -298,6 +266,7 @@ class CSV extends API
             && $recordAttributes['unstructured'] && isset($record['form_id'])) {
             $should_return = true;
         }
+
         // Check if we are dealing with twitter
         if (is_array($recordAttributes) && isset($recordAttributes['unstructured'])
             && $recordAttributes['unstructured'] && isset($record['source']) && $record['source'] === 'twitter') {
@@ -352,6 +321,12 @@ class CSV extends API
             $recordValue[$headingKey][$key] = Storage::url($recordValue[$headingKey][$key]);
         }
 
+        // handle values that are checkboxes to have consistent formatting
+        $isCheckboxField = $recordAttributes['input'] === 'checkbox' && $recordAttributes['type'] === 'varchar';
+        if ($isCheckboxField && isset($recordValue[$headingKey])) {
+            $recordValue[$headingKey] = $this->decodeCheckboxValue($recordValue[$headingKey][$key]);
+        }
+
         /**
          * We have 3 formats. A single value array is only a lat/lon right now but would be usable
          * for other formats where we have a specific way to separate their fields in columns
@@ -366,7 +341,7 @@ class CSV extends API
             /**
              * A single_array is a comma separated list of values (like categories) in a column
              * we need to join the array items in a single comma separated string.
-             * We handle all arryas as singles at the moment
+             * We handle all arrays as singles at the moment
              */
             $return = $this->singleColumnArray($recordValue, $headingKey);
         } elseif ($format === 'single_raw') {
@@ -377,6 +352,39 @@ class CSV extends API
             $return = $this->singleRaw($recordValue, $record, $headingKey, $key);
         }
         return $return;
+    }
+
+    private function writeStreamToFS($stream)
+    {
+
+        $filepath = implode(DIRECTORY_SEPARATOR, [
+            config('media.csv_batch_prefix', 'csv'),
+            $this->tmpfname,
+        ]);
+
+        // Remove any leading slashes on the filename, path is always relative.
+        $filepath = ltrim($filepath, DIRECTORY_SEPARATOR);
+
+        $extension = pathinfo($filepath, PATHINFO_EXTENSION);
+
+        $mimeType = MimeType::detectByFileExtension($extension) ?: 'text/plain';
+
+        $config = ['mimetype' => $mimeType];
+
+        $this->fs->putStream($filepath, $stream, $config);
+
+        if (is_resource($stream)) {
+            fclose($stream);
+        }
+
+        $size = $this->fs->getSize($filepath);
+        $type = $this->fs->getMimetype($filepath);
+
+        return new FileData([
+            'file' => $filepath,
+            'type' => $type,
+            'size' => $size,
+        ]);
     }
 
     private function singleRaw($recordValue, $record, $headingKey, $key)
@@ -395,7 +403,7 @@ class CSV extends API
         return isset($recordValue[$headingKey][$key]) ? ($recordValue[$headingKey][$key]) : '';
     }
 
-    private function singleColumnArray($recordValue, $headingKey, $separator = ',')
+    private function singleColumnArray($recordValue, $headingKey, $separator = ', ')
     {
         /**
          * we need to join the array items in a single comma separated string
@@ -485,6 +493,27 @@ class CSV extends API
     {
         return is_array($value) && array_key_exists('lon', $value) &&
             array_key_exists('lat', $value);
+    }
+
+    /**
+     * Decode checkbox value
+     *
+     * @param mixed $value
+     *
+     * @return array
+     */
+    protected function decodeCheckboxValue($value)
+    {
+        // Our current approach here is to store the checkbox array value
+        // encoded as JSON
+        if ($value[0] === '[' && ($decodedValue = json_decode($value)) != null) {
+            return $decodedValue;
+        }
+
+        // However, that wasn't always the case and some datasets may have
+        // this encodeded as comma separated values. Note that this didn't
+        // support having commas in the checkbox labels.
+        return explode(",", $value);
     }
 
     /**

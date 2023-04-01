@@ -3,6 +3,7 @@
 namespace Ushahidi\Modules\V5\Models;
 
 use function PHPSTORM_META\map;
+use Illuminate\Support\Collection;
 
 class User extends BaseModel
 {
@@ -30,6 +31,8 @@ class User extends BaseModel
         'updated'
     ];
 
+
+    
     public function getCreatedAttribute($value)
     {
         return $value?date('Y-m-d H:i:s', $value):null;
@@ -37,5 +40,10 @@ class User extends BaseModel
     public function getUpdatedAttribute($value)
     {
         return $value?date('Y-m-d H:i:s', $value):null;
+    }
+
+    public function getPermission(): Collection
+    {
+        return RolePermission::where('role', $this->role)->get();
     }
 }

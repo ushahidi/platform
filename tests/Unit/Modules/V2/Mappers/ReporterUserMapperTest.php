@@ -2,15 +2,14 @@
 
 namespace Ushahidi\Tests\Unit\Modules\V2\Mappers;
 
-use Ushahidi\Modules\V2\Mappers\ReporterUserMapper;
-use Ushahidi\Modules\V2\Contracts\ImportMappingRepository;
+use Faker;
+use Mockery as M;
+use Ushahidi\Tests\TestCase;
 use Ushahidi\Core\Entity\Contact;
 use Ushahidi\Tests\Unit\Modules\V2\ImportMock;
-use Ushahidi\Tests\TestCase;
-use Mockery as M;
-use Faker;
-
-use Illuminate\Support\Collection;
+use Ushahidi\Modules\V2\Mappers\ReporterUserMapper;
+use DMS\PHPUnitExtensions\ArraySubset\ArraySubsetAsserts;
+use Ushahidi\Modules\V2\Contracts\ImportMappingRepository;
 
 /**
  * @backupGlobals disabled
@@ -18,6 +17,8 @@ use Illuminate\Support\Collection;
  */
 class ReporterUserMapperTest extends TestCase
 {
+    use ArraySubsetAsserts;
+
     /**
      * @dataProvider reporterProvider
      */
@@ -32,7 +33,7 @@ class ReporterUserMapperTest extends TestCase
         $import = ImportMock::forId(1);
         $result = $mapper($import, $input);
 
-        $this->assertInternalType('array', $result);
+        $this->assertIsArray($result);
         $this->assertArrayHasKey('result', $result);
         $contact = $result['result'];
 

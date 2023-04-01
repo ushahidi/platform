@@ -2,17 +2,15 @@
 
 namespace Ushahidi\Tests\Unit\Modules\V2\Mappers;
 
-use Ushahidi\Modules\V2\Mappers\MessageMapper;
-use Ushahidi\Modules\V2\Contracts\ImportMappingRepository;
-use Ushahidi\Core\Entity\Message;
-use Ushahidi\Core\Entity\Contact;
-use Ushahidi\Contracts\Repository\Entity\ContactRepository;
-use Ushahidi\Tests\Unit\Modules\V2\ImportMock;
-use Ushahidi\Tests\TestCase;
 use Mockery as M;
-use Faker;
-
-use Illuminate\Support\Collection;
+use Ushahidi\Tests\TestCase;
+use Ushahidi\Core\Entity\Contact;
+use Ushahidi\Core\Entity\Message;
+use Ushahidi\Modules\V2\Mappers\MessageMapper;
+use Ushahidi\Tests\Unit\Modules\V2\ImportMock;
+use DMS\PHPUnitExtensions\ArraySubset\ArraySubsetAsserts;
+use Ushahidi\Modules\V2\Contracts\ImportMappingRepository;
+use Ushahidi\Contracts\Repository\Entity\ContactRepository;
 
 /**
  * @backupGlobals disabled
@@ -20,6 +18,8 @@ use Illuminate\Support\Collection;
  */
 class MessageMapperTest extends TestCase
 {
+    use ArraySubsetAsserts;
+
     /**
      * @dataProvider reporterProvider
      */
@@ -50,7 +50,7 @@ class MessageMapperTest extends TestCase
         $mapper = new MessageMapper($mappingRepo, $contactRepo);
         $result = $mapper($import, $input);
 
-        $this->assertInternalType('array', $result);
+        $this->assertIsArray($result);
         $this->assertArrayHasKey('result', $result);
         $message = $result['result'];
 
