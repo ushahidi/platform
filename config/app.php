@@ -157,6 +157,7 @@ return [
 
         Ushahidi\Multisite\MultisiteServiceProvider::class,
         Ushahidi\DataSource\DataSourceServiceProvider::class,
+        Ushahidi\Addons\Rackspace\RackspaceServiceProvider::class,
 
         /*
          * Application Service Providers...
