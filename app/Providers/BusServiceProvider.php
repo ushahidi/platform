@@ -231,6 +231,11 @@ class BusServiceProvider extends ServiceProvider
                 Survey\Queries\FetchSurveyByIdQuery::class,
                 Survey\Handlers\FetchSurveyByIdQueryHandler::class
             );
+            $queryBus->register(
+                Survey\Queries\FetchSurveyStatsQuery::class,
+                Survey\Handlers\FetchSurveyStatsQueryHandler::class
+            );
+
 
 
             $queryBus->register(

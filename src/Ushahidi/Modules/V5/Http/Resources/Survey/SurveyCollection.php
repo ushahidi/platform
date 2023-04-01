@@ -1,11 +1,11 @@
 <?php
 
 
-namespace Ushahidi\Modules\V5\Http\Resources;
+namespace Ushahidi\Modules\V5\Http\Resources\Survey;
 
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class SurveyRoleCollection extends ResourceCollection
+class SurveyCollection extends ResourceCollection
 {
     public static $wrap = 'results';
 
@@ -14,7 +14,7 @@ class SurveyRoleCollection extends ResourceCollection
      *
      * @var string
      */
-    public $collects = 'Ushahidi\Modules\V5\Http\Resources\SurveyRoleResource';
+    public $collects = 'Ushahidi\Modules\V5\Http\Resources\Survey\SurveyResource';
     /**
      * Transform the resource collection into an array.
      *

@@ -92,6 +92,17 @@ class SurveyPolicy
         $form = new Entity\Form();
         return $this->isAllowed($form, 'create');
     }
+
+     /**
+     *
+     * @param  \Ushahidi\Modules\User  $user
+     * @return bool
+     */
+    public function stats()
+    {
+        $empty_form = new Entity\Form();
+        return $this->isAllowed($empty_form, 'stats');
+    }
     /**
      * @param $entity
      * @param string $privilege

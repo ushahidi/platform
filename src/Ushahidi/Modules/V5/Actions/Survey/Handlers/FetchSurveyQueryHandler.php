@@ -70,7 +70,12 @@ class FetchSurveyQueryHandler extends V5QueryHandler
 
     private function addHydrateRelationships(&$survey, $only, $hydrate)
     {
-        $result = [];
+        $relations = [
+            'tasks' => false,
+            'translations' => false,
+            'enabled_languages' => false,
+        ];
+
         foreach ($hydrate as $relation) {
             switch ($relation) {
                 case 'tasks':
@@ -81,18 +86,28 @@ class FetchSurveyQueryHandler extends V5QueryHandler
                             FetchTasksBySurveyIdQuery::DEFAULT_ORDER
                         )
                     );
+                    $relations['tasks'] = true;
                     break;
                 case 'translations':
-                    $survey->translations = $survey->translations;
+                    $relations['translations'] = true;
                     break;
                 case 'enabled_languages':
                     $survey->enabled_languages = [
                         'default' => $survey->base_language,
                         'available' => $survey->translations->groupBy('language')->keys()
                     ];
+                    $relations['enabled_languages'] = true;
                     break;
             }
         }
+
+        if (!$relations['tasks']) {
+            $survey->tasks = null;
+        }
+        if (!$relations['translations']) {
+            $survey->translations = null;
+        }
+
 
         $this->addCanCreate($survey);
     }

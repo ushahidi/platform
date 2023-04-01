@@ -40,4 +40,16 @@ class BaseRequest extends FormRequest
             );
         }
     }
+
+    /**
+     * Handle a failed authorization attempt.
+     *
+     * @return void
+     *
+     * @throws \Illuminate\Validation\UnauthorizedException
+     */
+    protected function failedAuthorization()
+    {
+        parent::failedAuthorization();
+    }
 }
