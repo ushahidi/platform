@@ -8,6 +8,7 @@ use Ushahidi\Core\Exception\NotFoundException;
 use Ushahidi\Modules\V5\Models\Post\Post;
 use Ushahidi\Modules\V5\Repository\Post\EloquentPostRepository;
 use Ushahidi\Tests\TestCase;
+
 class EloquentPostRepositoryTest extends TestCase
 {
     public function testFindingAPostById()

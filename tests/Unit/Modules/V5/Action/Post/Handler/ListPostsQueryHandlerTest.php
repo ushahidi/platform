@@ -10,7 +10,6 @@ use Ushahidi\Modules\V5\Models\Post\Post;
 use Ushahidi\Modules\V5\Repository\Post\PostRepository;
 use Ushahidi\Tests\TestCase;
 
-
 class ListPostsQueryHandlerTest extends TestCase
 {
     public function testShouldReturnPaginatedResult(): void
