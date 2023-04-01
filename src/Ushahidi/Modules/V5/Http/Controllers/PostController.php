@@ -23,11 +23,11 @@ use Ushahidi\Modules\V5\Models\Lock;
 class PostController extends V5Controller
 {
 
-    private $queryBus;
-    public function __construct(QueryBus $queryBus)
-    {
-        $this->queryBus = $queryBus;
-    }
+    // private $queryBus;
+    // public function __construct(QueryBus $queryBus)
+    // {
+    //     $this->queryBus = $queryBus;
+    // }
 
     /**
      * Not all fields are things we want to allow on the body of requests
