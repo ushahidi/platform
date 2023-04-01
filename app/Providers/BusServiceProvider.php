@@ -7,6 +7,10 @@ use App\Bus\Command\Example\ExampleCommand;
 use App\Bus\Command\Example\ExampleCommandHandler;
 use App\Bus\Query\Example\ExampleQuery;
 use App\Bus\Query\Example\ExampleQueryHandler;
+use Ushahidi\Modules\V5\Actions\Post\Queries\FindPostByIdQuery;
+use Ushahidi\Modules\V5\Actions\Post\Handlers\FindPostByIdQueryHandler;
+use Ushahidi\Modules\V5\Actions\Post\Queries\ListPostsQuery;
+use Ushahidi\Modules\V5\Actions\Post\Handlers\ListPostsQueryHandler;
 use Ushahidi\Modules\V5\Actions\Tos\Commands\CreateTosCommand;
 use Ushahidi\Modules\V5\Actions\Tos\Handlers\CreateTosCommandHandler;
 use Ushahidi\Modules\V5\Actions\Tos\Queries\FetchTosQuery;
@@ -231,6 +235,11 @@ class BusServiceProvider extends ServiceProvider
                 Survey\Queries\FetchSurveyByIdQuery::class,
                 Survey\Handlers\FetchSurveyByIdQueryHandler::class
             );
+            $queryBus->register(
+                Survey\Queries\FetchSurveyStatsQuery::class,
+                Survey\Handlers\FetchSurveyStatsQueryHandler::class
+            );
+
 
 
             $queryBus->register(
@@ -250,6 +259,16 @@ class BusServiceProvider extends ServiceProvider
             $queryBus->register(
                 Collection\Queries\FetchCollectionByIdQuery::class,
                 Collection\Handlers\FetchCollectionByIdQueryHandler::class
+            );
+
+            $queryBus->register(
+                FindPostByIdQuery::class,
+                FindPostByIdQueryHandler::class
+            );
+
+            $queryBus->register(
+                ListPostsQuery::class,
+                ListPostsQueryHandler::class
             );
 
             return $queryBus;

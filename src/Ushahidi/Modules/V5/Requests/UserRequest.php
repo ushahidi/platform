@@ -56,7 +56,7 @@ class UserRequest extends BaseRequest
             'password.required' => trans('validation.not_empty', ['field' => trans('fields.password')]),
             'password.max' => trans('validation.max', ['field' => trans('fields.password')]),
             'password.filled' => trans('validation.not_empty', ['field' => trans('fields.password')]),
-          
+
             'realname.max' => trans('validation.max', ['field' => trans('fields.realname')]),
 
             'role.string' => trans('validation.string', ['field' => trans('fields.role')]),

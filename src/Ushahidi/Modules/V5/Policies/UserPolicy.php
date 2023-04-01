@@ -3,7 +3,7 @@
 namespace Ushahidi\Modules\V5\Policies;
 
 use Ushahidi\Modules\V5\Models\User as ModelUser;
-use App\Auth\GenericUser as User;
+use Ushahidi\Authzn\GenericUser as User;
 use Ushahidi\Contracts\Permission;
 use Ushahidi\Core\Concerns\AdminAccess;
 use Ushahidi\Core\Concerns\PrivAccess;

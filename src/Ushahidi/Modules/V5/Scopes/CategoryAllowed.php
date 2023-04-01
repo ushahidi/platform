@@ -10,14 +10,21 @@
  */
 
 
-namespace Ushahidi\Modules\V5\Models\Scopes;
+namespace Ushahidi\Modules\V5\Scopes;
 
-use Illuminate\Database\Eloquent\Scope;
+use Ushahidi\Authzn\Session;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Scope;
 use Illuminate\Database\Eloquent\Builder;
 
 class CategoryAllowed implements Scope
 {
+    protected $session;
+
+    public function __construct(Session $session)
+    {
+        $this->session = $session;
+    }
 
     /**
      * Scope helper to only pull tags we are allowed to get from the db
@@ -32,8 +39,8 @@ class CategoryAllowed implements Scope
          * If no roles are selected, the Tag is considered
          * completely public.
          */
-        $authorizer = service('authorizer.post');
-        $user = $authorizer->getUser();
+        $user = $this->session->getUser();
+
         if ($user->role === 'admin') {
             // we don't need extra queries to let an admin do things to categories
             return;
@@ -60,6 +67,7 @@ class CategoryAllowed implements Scope
                     ->orWhereIn('role', ['[]', 'null'])
                     ->orWhere('role', 'LIKE', "%$user->role%");
             });
+
             $builder->where(function ($query) use ($user) {
                 return $query
                     ->whereNotIn('parent_id', function ($query) use ($user) {

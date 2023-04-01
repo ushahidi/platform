@@ -10,7 +10,7 @@
  */
 
 
-namespace Ushahidi\Modules\V5\Models\Scopes;
+namespace Ushahidi\Modules\V5\Scopes;
 
 use Illuminate\Database\Eloquent\Scope;
 use Illuminate\Database\Eloquent\Model;

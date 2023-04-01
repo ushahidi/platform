@@ -151,8 +151,10 @@ return [
          * Package Service Providers...
          */
 
+        Ushahidi\Authzn\ServiceProvider::class,
         Ushahidi\Multisite\MultisiteServiceProvider::class,
         Ushahidi\DataSource\DataSourceServiceProvider::class,
+        Ushahidi\Addons\Rackspace\RackspaceServiceProvider::class,
 
         Ushahidi\Modules\V2\ServiceProvider::class,
         Ushahidi\Modules\V3\ServiceProvider::class,

@@ -25,16 +25,16 @@ class FetchTosByIdQueryHandler extends AbstractQueryHandler
             'Provided query is not supported'
         );
     }
-    
+
 
     /**
-     * @param FetchTosByIdQuery $query
+     * @param FetchTosByIdQuery $action
      * @return array
      */
-    public function __invoke(Action $query) //: array
+    public function __invoke(Action $action) //: array
     {
-        $this->isSupported($query);
-        $tos = $this->tosRepository->findById($query->getId());
+        $this->isSupported($action);
+        $tos = $this->tosRepository->findById($action->getId());
         return $tos;
     }
 }

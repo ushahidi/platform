@@ -8,51 +8,55 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace App\Tools;
+namespace Ushahidi\Authzn;
 
 use Illuminate\Support\Facades\Auth;
-use Ushahidi\Contracts\EntityGet;
 use Ushahidi\Contracts\Session as SessionContract;
+use Ushahidi\Contracts\Repository\Entity\UserRepository;
 
 class Session implements SessionContract
 {
+    protected $user = null;
+
+    protected $cachedUser = null;
+
     protected $userRepo;
 
-    protected $overrideUserId = false;
-
-    protected $cachedUser = false;
-
-    public function __construct(EntityGet $userRepo)
+    public function __construct(UserRepository $userRepo = null)
     {
         $this->userRepo = $userRepo;
     }
 
     /**
-     * Override the user set in oauth / lumen auth layer
+     * Override the user set in oauth / framework auth layer
      * with something else.
      *
      * This is primarily used to when running background jobs in a user
      * context. ie. an export that needs to run with the same permissions
      * as a user who triggered it
      *
-     * @param int $userId
+     * @param int $user
      */
-    public function setUser(int $userId)
+    public function setUser(int $user)
     {
         // Override user id
-        $this->overrideUserId = $userId;
+        $this->user = $user;
+    }
+
+    public function setUserRepo(UserRepository $userRepo)
+    {
+        $this->userRepo = $userRepo;
     }
 
     public function getUser()
     {
         // If user override is set
-        if ($this->overrideUserId) {
+        if ($this->user) {
             // Use that
-            $userId = $this->overrideUserId;
+            $userId = $this->user;
         } else {
             // Using the OAuth resource server, get the userid (owner id) for this request
-            $genericUser = Auth::guard()->user();
-            $userId = $genericUser ? $genericUser->id : null;
+            $userId = ($genericUser = Auth::guard()->user()) ? $genericUser->id : null;
         }
 
         // If we have no user id return

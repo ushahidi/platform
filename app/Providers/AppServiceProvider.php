@@ -13,8 +13,11 @@ use Ushahidi\Addons\AfricasTalking\AfricasTalkingSource;
 use Ushahidi\Contracts\Repository\Entity\PostRepository;
 use Ushahidi\Contracts\Repository\Entity\UserRepository;
 use Ushahidi\Contracts\Repository\Entity\ConfigRepository;
+use Ushahidi\Modules\V5\Models\Post\Post;
 use Ushahidi\Modules\V5\Repository\CountryCode\CountryCodeRepository;
 use Ushahidi\Modules\V5\Repository\CountryCode\EloquentCountryCodeRepository;
+use Ushahidi\Modules\V5\Repository\Post\EloquentPostRepository;
+use Ushahidi\Modules\V5\Repository\Post\PostRepository as V5PostRepository ;
 use Ushahidi\Modules\V5\Repository\User;
 use Ushahidi\Modules\V5\Repository\Permissions\PermissionsRepository;
 use Ushahidi\Modules\V5\Repository\Permissions\EloquentPermissionsRepository;
@@ -189,9 +192,13 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(PermissionsRepository::class, EloquentPermissionsRepository::class);
         $this->app->bind(RoleRepository::class, EloquentRoleRepository::class);
         $this->app->bind(TosRepository::class, EloquentTosRepository::class);
+        $this->app->bind(V5PostRepository::class, function ($app) {
+            return new EloquentPostRepository(Post::query());
+        });
         $this->app->bind(Survey\SurveyRepository::class, Survey\EloquentSurveyRepository::class);
         $this->app->bind(Survey\TaskRepository::class, Survey\EloquentTaskRepository::class);
         $this->app->bind(Survey\SurveyRoleRepository::class, Survey\EloquentSurveyRoleRepository::class);
+        $this->app->bind(Survey\SurveyStatesRepository::class, Survey\EloquentSurveyStatesRepository::class);
         $this->app->bind(Set\SetRepository::class, Set\EloquentSetRepository::class);
     }
 }
