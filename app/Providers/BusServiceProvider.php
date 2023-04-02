@@ -175,12 +175,24 @@ class BusServiceProvider extends ServiceProvider
 
             $commandBus->register(CreateTosCommand::class, CreateTosCommandHandler::class);
 
-            $commandBus->register(Category\Commands\StoreCategoryCommand::class, Category\Handlers\StoreCategoryCommandHandler::class);
+            $commandBus->register(
+                Category\Commands\StoreCategoryCommand::class,
+                Category\Handlers\StoreCategoryCommandHandler::class
+            );
 
-            $commandBus->register(AddTranslationCommand::class, AddTranslationCommandHandler::class);
+            $commandBus->register(
+                AddTranslationCommand::class,
+                AddTranslationCommandHandler::class
+            );
 
-            $commandBus->register(Category\Commands\DeleteCategoryCommand::class, Category\Handlers\DeleteCategoryCommandHandler::class);
-            $commandBus->register(Category\Commands\UpdateCategoryCommand::class, Category\Handlers\UpdateCategoryCommandHandler::class);
+            $commandBus->register(
+                Category\Commands\DeleteCategoryCommand::class,
+                Category\Handlers\DeleteCategoryCommandHandler::class
+            );
+            $commandBus->register(
+                Category\Commands\UpdateCategoryCommand::class,
+                Category\Handlers\UpdateCategoryCommandHandler::class
+            );
 
             return $commandBus;
         });
@@ -192,10 +204,22 @@ class BusServiceProvider extends ServiceProvider
             $queryBus = new QueryBus($app);
 
             $queryBus->register(ExampleQuery::class, ExampleQueryHandler::class);
-            $queryBus->register(FetchCountryCodeQuery::class, FetchCountryCodeQueryHandler::class);
-            $queryBus->register(FetchCountryCodeByIdQuery::class, FetchCountryCodeByIdQueryHandler::class);
-            $queryBus->register(FetchPermissionsQuery::class, FetchPermissionsQueryHandler::class);
-            $queryBus->register(FetchPermissionsByIdQuery::class, FetchPermissionsByIdQueryHandler::class);
+            $queryBus->register(
+                FetchCountryCodeQuery::class,
+                FetchCountryCodeQueryHandler::class
+            );
+            $queryBus->register(
+                FetchCountryCodeByIdQuery::class,
+                FetchCountryCodeByIdQueryHandler::class
+            );
+            $queryBus->register(
+                FetchPermissionsQuery::class,
+                FetchPermissionsQueryHandler::class
+            );
+            $queryBus->register(
+                FetchPermissionsByIdQuery::class,
+                FetchPermissionsByIdQueryHandler::class
+            );
 
             $queryBus->register(
                 Role\Queries\FetchRoleQuery::class,
