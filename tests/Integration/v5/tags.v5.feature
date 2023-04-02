@@ -31,7 +31,7 @@ Feature: Testing the Categories API
         And the "result.enabled_languages.default" property equals "en"
         And the response has a "result.role" property
         And the "result.parent.id" property equals "1"
-        Then the guzzle status code should be 201
+        Then the guzzle status code should be 200
     Scenario: Creating a new Tag with a base language and translation
         Given that I want to make a new "Category"
         And that the oauth token is "testadminuser"
@@ -68,7 +68,7 @@ Feature: Testing the Categories API
         And the "result.enabled_languages.available.0" property equals "es"
         And the response has a "result.role" property
         And the "result.parent.id" property equals "1"
-        Then the guzzle status code should be 201
+        Then the guzzle status code should be 200
     Scenario: Listing Tag 1 and checking children have translations
         Given that I want to find a "Category"
         And that its "id" is "1"
@@ -141,7 +141,7 @@ Feature: Testing the Categories API
         Then the response is JSON
         And the response has a "result.slug" property
         And the "result.slug" property equals "my-boxes"
-        Then the guzzle status code should be 201
+        Then the guzzle status code should be 200
     Scenario: Creating a tag with a long name fails
         Given that I want to make a new "Category"
         And that the oauth token is "testadminuser"
@@ -186,7 +186,7 @@ Feature: Testing the Categories API
         And the type of the "result.id" property is "numeric"
         And the response has a "result.slug" property
         And the "result.slug" property equals "i-expect-tags"
-        Then the guzzle status code should be 201
+        Then the guzzle status code should be 200
 
     Scenario: Check hash on color input has no effect when creating tag
         Given that I want to make a new "Category"
@@ -209,7 +209,7 @@ Feature: Testing the Categories API
         And the response has a "result.id" property
         And the type of the "result.id" property is "numeric"
         And the "result.color" property equals "#00ff00"
-        Then the guzzle status code should be 201
+        Then the guzzle status code should be 200
 
     Scenario: Creating a tag with non-existent parent fails
         Given that I want to make a new "Category"
@@ -250,7 +250,7 @@ Feature: Testing the Categories API
             """
         When I request "/categories"
         Then the response is JSON
-        Then the guzzle status code should be 201
+        Then the guzzle status code should be 200
 
     Scenario: Creating a tag with empty parent_id works
         Given that I want to make a new "Category"
@@ -270,7 +270,7 @@ Feature: Testing the Categories API
             """
         When I request "/categories"
         Then the response is JSON
-        Then the guzzle status code should be 201
+        Then the guzzle status code should be 200
     Scenario: Updating a Tag
         Given that I want to update a "Category"
         And that the oauth token is "testadminuser"
@@ -528,7 +528,7 @@ Feature: Testing the Categories API
         And the "result.type" property equals "category"
         And the response does not have a "result.role" property
         And the "result.parent.id" property equals "9"
-        Then the guzzle status code should be 201
+        Then the guzzle status code should be 200
 
 
     Scenario: Creating a new invalid child for a tag with role=admin

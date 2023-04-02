@@ -2,8 +2,6 @@
 
 namespace Ushahidi\Modules\V5\Http\Controllers;
 
-use App\Bus\Command\CommandBus;
-use App\Bus\Query\QueryBus;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -16,48 +14,29 @@ use Ushahidi\Modules\V5\Actions\Category\Commands\UpdateCategoryCommand;
 use Ushahidi\Modules\V5\Http\Resources\CategoryCollection;
 use Ushahidi\Modules\V5\Http\Resources\CategoryResource;
 use Illuminate\Http\Request;
-use Ushahidi\Modules\V5\Models\Category;
 use Illuminate\Support\Facades\DB;
 use Ushahidi\Modules\V5\Actions\Category\Queries\FetchAllCategoriesQuery;
 use Ushahidi\Modules\V5\Actions\Category\Queries\FetchCategoryByIdQuery;
 use Ushahidi\Modules\V5\Requests\StoreCategoryRequest;
 use Ushahidi\Modules\V5\Requests\UpdateCategoryRequest;
 
+use Illuminate\Support\Facades\Validator;
+use Ushahidi\Modules\V5\Models\Category;
+use Ushahidi\Modules\V5\Http\Requests\CategoryRequest;
+
 class CategoryController extends V5Controller
 {
     /**
-     * Not all fields are things we want to allow on the body of requests
-     * an author won't change after the fact so we limit that change
-     * to avoid issues from the frontend.
-     * @return string[]
+     * Display the specified resource.
+     *
+     * @return CategoryCollection
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    protected function ignoreInput()
-    {
-        return ['author_email', 'slug', 'user_id', 'author_realname', 'created', 'updated'];
-    }
+    // public function index()
+    // {
+    //     return new CategoryCollection(Category::get());
+    // }
 
-    private function runAuthorizer($ability, $object)
-    {
-        $authorizer = service('authorizer.form');
-        // if there's no user the guards will kick them off already, but if there
-        // is one we need to check the authorizer to ensure we don't let
-        // users without admin perms create forms etc
-        // this is an unfortunate problem with using an old version of lumen
-        // that doesn't let me do guest user checks without adding more risk.
-        $user = $authorizer->getUser();
-        if ($user) {
-            $this->authorize($ability, $object);
-        }
-        return $user;
-    }
-
-    private function setInputDefaults($input, $action)
-    {
-        if ($action === 'store') {
-            $input['slug'] = Category::makeSlug($input['slug'] ?? $input['tag']);
-        }
-        return $input;
-    }
     /**
      * Display the specified resource.
      *
@@ -103,24 +82,64 @@ class CategoryController extends V5Controller
             $errors = $this->saveTranslations(
                 $category,
                 $category->toArray(),
-                $request->input('translations') ?? [],
+                $request->input('translations', []),
                 $category->id,
                 'category'
             );
-
             if (!empty($errors)) {
                 DB::rollback();
-                return response()->json($errors, 403);
+                return self::make422($errors, 'translation');
             }
-
             DB::commit();
-            $resource = new CategoryResource($category);
-            return response(['result' => $resource], 201);
+            return new CategoryResource($category);
         } catch (\Exception $e) {
             DB::rollback();
             return self::make500($e->getMessage());
         }
     }
+
+    /**
+     * Display the specified resource.
+     *
+     * @TODO   transactions =)
+     * @param integer $id
+     * @param Request $request
+     * @return mixed
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
+    // public function update(CategoryRequest $request)
+    // {
+    //     // Doing this so tests can pass, apparently the test suite
+    //     // assumes finding the resource before validation.
+    //     // This is achievable if we use route model binding.
+    //     $category = $request->category;
+
+    //     $this->authorize('update', $category);
+
+    //     DB::beginTransaction();
+    //     try {
+    //         $category->update($request->validated());
+    //         $errors = $this->updateTranslations(
+    //             $category,
+    //             $category->toArray(),
+    //             $request->input('translations') ?? [],
+    //             $category->id,
+    //             'category'
+    //         );
+
+    //         if (!empty($errors)) {
+    //             DB::rollback();
+    //             return response()->json($errors, 403);
+    //         }
+
+    //         DB::commit();
+    //         $resource = new CategoryResource($category);
+    //         return response(['result' => $resource], 201);
+    //     } catch (\Exception $e) {
+    //         DB::rollback();
+    //         return self::make500($e->getMessage());
+    //     }
+    // }
 
     /**
      * Display the specified resource.
@@ -167,23 +186,48 @@ class CategoryController extends V5Controller
     public function validateTranslations($category, $entity_array, array $translations)
     {
         $entity_array = array_merge($entity_array, $translations);
+
         if (isset($entity_array['slug'])) {
-            $entity_array['slug'] = Category::makeSlug($entity_array['slug']);
+            $entity_array['slug'] = $category::makeSlug($entity_array['slug']);
         }
-        if (!$category->validate($entity_array)) {
-            return $category->errors->toArray();
+
+        $request = new CategoryRequest;
+
+        if (($validator = $this->getValidationFactory()->make(
+            $entity_array,
+            $request->rules($entity_array),
+            $request->messages()
+        ))
+            && $validator->fails()
+        ) {
+            return $validator->errors()->toArray();
         }
+
         return [];
     }
 
     /**
      * @param integer $id
      */
-    public function delete(int $id, Request $request)
+    public function delete(int $id)
     {
         /// $this->authorize('delete', $category); todo: should be done before controller double check if isn't
         try {
             $this->commandBus->handle(new DeleteCategoryCommand($id));
+        // $category = Category::withoutGlobalScopes()->find($id);
+        // if (!$category) {
+        //     return self::make404();
+        // }
+
+        // $this->authorize('delete', $category);
+
+        // $success = DB::transaction(function () use ($category) {
+        //     $category->translations()->delete();
+        //     $success = $category->delete();
+        //     return $success;
+        // });
+
+        // if ($success) {
             return response()->json(['result' => ['deleted' => $id]]);
         } catch (\Exception $e) {
             if ($e instanceof ModelNotFoundException) {
@@ -192,4 +236,15 @@ class CategoryController extends V5Controller
             return self::make500($e->getMessage());
         }
     }
+
+    /**
+     * Not all fields are things we want to allow on the body of requests
+     * an author won't change after the fact so we limit that change
+     * to avoid issues from the frontend.
+     * @return string[]
+     */
+    // protected function ignoreInput()
+    // {
+    //     return ['author_email', 'slug', 'user_id', 'author_realname', 'created', 'updated'];
+    // }
 }

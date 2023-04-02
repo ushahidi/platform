@@ -3,11 +3,10 @@
 namespace Ushahidi\Modules\V5\Policies;
 
 use Ushahidi\Modules\V5\Models\User as ModelUser;
-use App\Auth\GenericUser as User;
+use Ushahidi\Authzn\GenericUser as User;
 use Ushahidi\Contracts\Permission;
 use Ushahidi\Core\Concerns\AdminAccess;
 use Ushahidi\Core\Concerns\PrivAccess;
-use Ushahidi\Core\Concerns\UserContext;
 use Ushahidi\Core\Concerns\PrivateDeployment;
 use Ushahidi\Core\Concerns\Acl as AccessControlList;
 use Ushahidi\Core\Tool\Acl;
@@ -16,7 +15,6 @@ class UserPolicy
 {
 
 
-    use UserContext;
 
     // It uses `PrivAccess` to provide the `getAllowedPrivs` method.
     use PrivAccess;
@@ -31,7 +29,7 @@ class UserPolicy
     use AccessControlList;
 
     protected $user;
-    
+
 
     /**
      * @param User $user
@@ -90,7 +88,7 @@ class UserPolicy
      * @param user $user
      * @return bool
      */
-    public function isAllowed($model_user, $privilege, $user = null): bool
+    public function isAllowed($model_user, $privilege, $user_generic = null): bool
     {
 
         $authorizer = service('authorizer.user');
@@ -101,15 +99,15 @@ class UserPolicy
             return false;
         }
 
-        // User should not be able to delete self
-        // if ($privilege === 'delete' && $this->isUserSelf($user)) {
-        //     return false;
-        // }
+        //User should not be able to delete self
+        if ($privilege === 'delete' && $this->isUserSelf($model_user->id, $user->id)) {
+            return false;
+        }
 
         // Role with the Manage Users permission can manage all users
-        // if ($this->acl->hasPermission($user, Permission::MANAGE_USERS)) {
-        //     return true;
-        // }
+        if ($authorizer->acl->hasPermission($user, Permission::MANAGE_USERS)) {
+            return true;
+        }
 
         // Admin user should be able to do anything - short of deleting self
         if ($this->isUserAdmin($user)) {
@@ -117,12 +115,17 @@ class UserPolicy
         }
 
         // User cannot change their own role
-        if ('update' === $privilege && $this->isUserSelf($model_user) && $model_user->hasChanged('role')) {
+        if ('update' === $privilege
+            && $this->isUserSelf($model_user->id, $user->id)
+            && $user->hasChanged('role')
+        ) {
             return false;
         }
 
         // Regular user should be able to update and read_full only self
-        if ($this->isUserSelf($model_user) && in_array($privilege, ['update', 'read_full', 'read'])) {
+        if ($this->isUserSelf($model_user->id, $user->id)
+            && in_array($privilege, ['update', 'read_full', 'read'])
+        ) {
             return true;
         }
 
@@ -133,5 +136,10 @@ class UserPolicy
 
         // If no other access checks succeed, we default to denying access
         return false;
+    }
+
+    private function isUserSelf($user_id, $loggedin_user_id)
+    {
+        return ((int) $user_id === (int) $loggedin_user_id);
     }
 }

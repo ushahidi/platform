@@ -29,8 +29,7 @@ class EloquentCategoryRepository implements CategoryRepository
         ?array  $role,
         string  $defaultBaseLanguage,
         array   $availableLanguages
-    ): int
-    {
+    ): int {
         $input = array_filter([
             'parent_id' => $parentId,
             'tag' => $tag,

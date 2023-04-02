@@ -3,6 +3,7 @@
 namespace Ushahidi\Modules\V5\Policies;
 
 use Ushahidi\Modules\V5\Models\Post\Post;
+use Ushahidi\Authzn\GenericUser as User;
 use Ushahidi\Core\Entity;
 use Ushahidi\Contracts\Permission;
 use Ushahidi\Core\Concerns\PrivAccess;
@@ -10,7 +11,6 @@ use Ushahidi\Core\Concerns\AdminAccess;
 use Ushahidi\Core\Concerns\OwnerAccess;
 use Ushahidi\Core\Concerns\UserContext;
 use Ushahidi\Core\Concerns\ParentAccess;
-use App\Auth\GenericUser as User;
 use Ushahidi\Modules\V5\Models\Survey;
 use Ushahidi\Core\Concerns\Acl as AccessControlList;
 use Ushahidi\Core\Concerns\PrivateDeployment;

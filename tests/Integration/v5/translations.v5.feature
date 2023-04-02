@@ -93,4 +93,4 @@ Feature: Testing translations
         And the "result.tasks.0.translations.es.label" property equals "Reporte"
         And the "result.tasks.0.fields.0.translations.es.instructions" property equals "Instrucciones"
         And the "result.name" property equals "new"
-        Then the guzzle status code should be 201
+        Then the guzzle status code should be 200

@@ -25,15 +25,15 @@ class FetchUserByIdQueryHandler extends AbstractQueryHandler
             'Provided query is not supported'
         );
     }
-    
+
 
     /**
-     * @param FetchUserByIdQuery $query
+     * @param FetchUserByIdQuery $action
      * @return array
      */
-    public function __invoke(Action $query) //: array
+    public function __invoke(Action $action) //: array
     {
-        $this->isSupported($query);
-        return $this->user_repository->findById($query->getId());
+        $this->isSupported($action);
+        return $this->user_repository->findById($action->getId());
     }
 }

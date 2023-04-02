@@ -40,13 +40,13 @@ abstract class StaticEntity implements Entity
      * @param  String  $key
      * @return Mixed
      */
-    final public function __isset($key)
+    public function __isset($key)
     {
         return property_exists($this, $key);
     }
 
     // StatefulData
-    final protected function setStateValue($key, $value)
+    protected function setStateValue($key, $value)
     {
         if (property_exists($this, $key)) {
             $this->$key = $value;

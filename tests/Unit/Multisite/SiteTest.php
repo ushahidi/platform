@@ -31,7 +31,7 @@ class SiteTest extends TestCase
             'multisite.email' => 'deploy@multisite.ushahidi.app',
         ]);
 
-        $site = new Site([], 0);
+        $site = new Site([]);
 
         $this->assertEquals('deploy@multisite.ushahidi.app', $site->getEmail());
     }
@@ -49,9 +49,12 @@ class SiteTest extends TestCase
                 'email' => 'us@site.com'
             ]));
         });
+
         $this->instance(ConfigRepository::class, $configRepo);
 
-        $site = new Site([], 0);
+        $manager = $this->app->makeWith('site', ['cache_lifetime' => 0]);
+
+        $site = new Site($manager->getConfig());
 
         $this->assertEquals('us@site.com', $site->getEmail());
     }
@@ -69,6 +72,7 @@ class SiteTest extends TestCase
                 ->with('site')
                 ->andReturn(new Config(['email' => null]));
         });
+
         $this->instance(ConfigRepository::class, $configRepo);
 
         // Fake the request

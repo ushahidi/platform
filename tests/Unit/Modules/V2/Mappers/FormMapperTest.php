@@ -28,7 +28,7 @@ class FormMapperTest extends TestCase
         $import = ImportMock::forId(1);
         $result = $mapper($import, $input);
 
-        $this->assertInternalType('array', $result);
+        $this->assertIsArray($result);
         $this->assertArrayHasKey('result', $result);
         $form = $result['result'];
 
@@ -51,7 +51,7 @@ class FormMapperTest extends TestCase
         $import = ImportMock::forId(1);
         $result = $mapper($import, $input);
 
-        $this->assertInternalType('array', $result);
+        $this->assertIsArray($result);
         $this->assertArrayHasKey('result', $result);
         $form = $result['result'];
 

@@ -22,7 +22,7 @@ class PermissionsController extends V5Controller
     public function show(int $id, QueryBus $queryBus)
     {
         $permissions = $queryBus->handle(new FetchPermissionsByIdQuery($id));
-       // $this->authorizeForCurrentUser('show', $permissions);
+        $this->authorizeForCurrentUser('show', $permissions);
         return new PermissionsResource($permissions);
     }//end show()
 
@@ -35,7 +35,7 @@ class PermissionsController extends V5Controller
      */
     public function index(Request $request, QueryBus $queryBus)
     {
-       // $this->authorizeForCurrentUser('index', Permissions::class);
+        $this->authorizeForCurrentUser('index', Permissions::class);
         $resourceCollection = new PermissionsCollection(
             $queryBus->handle(
                 new FetchPermissionsQuery(
