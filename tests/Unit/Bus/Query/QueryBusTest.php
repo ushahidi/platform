@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Bus\Query;
+namespace Ushahidi\Tests\Unit\Bus\Query;
 
 use stdClass;
 use App\Bus\Command\Command;

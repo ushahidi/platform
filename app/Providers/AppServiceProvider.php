@@ -2,14 +2,13 @@
 
 namespace App\Providers;
 
-use Ushahidi\Core\Tool\Features;
-use Ushahidi\Core\Tool\Verifier;
-use Ushahidi\Factory\UsecaseFactory;
-use Ushahidi\Addons\Mteja\MtejaSource;
-use Ushahidi\Core\Usecase\Post\Export;
 use Illuminate\Support\ServiceProvider;
+use Ushahidi\Core\Tool\FeatureManager;
+use Ushahidi\Core\Tool\SiteManager;
 use Ushahidi\Core\Tool\OhanzeeResolver;
+use Ushahidi\Core\Usecase\Post\Export;
 use Ushahidi\Core\Usecase\Export\Job\PostCount;
+use Ushahidi\Addons\Mteja\MtejaSource;
 use Ushahidi\Addons\AfricasTalking\AfricasTalkingSource;
 use Ushahidi\Contracts\Repository\Entity\PostRepository;
 use Ushahidi\Contracts\Repository\Entity\UserRepository;
@@ -54,6 +53,26 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->app->singleton('site', function ($app, $params) {
+            return new SiteManager(
+                $app[ConfigRepository::class],
+                $params ? $params['cache_lifetime'] : null
+            );
+        });
+
+        $this->app['events']->listen('site.changed', function ($site) {
+            $this->app['site']->setDefault($site);
+        });
+
+        $this->app->bind('feature', function ($app) {
+            return new FeatureManager($app[ConfigRepository::class]);
+        });
+
+        // Register OhanzeeResolver
+        $this->app->singleton(OhanzeeResolver::class, function ($app) {
+            return new OhanzeeResolver();
+        });
+
         $this->registerServicesFromAura();
 
         // $this->registerFilesystem();
@@ -160,14 +179,6 @@ class AppServiceProvider extends ServiceProvider
 
     public function registerFeatures()
     {
-        $this->app->singleton('features', function ($app) {
-            return new Features($app[ConfigRepository::class]);
-        });
-
-        // Register OhanzeeResolver
-        $this->app->singleton(OhanzeeResolver::class, function ($app) {
-            return new OhanzeeResolver();
-        });
         $this->app->bind(CountryCodeRepository::class, EloquentCountryCodeRepository::class);
 
         $this->app->bind(

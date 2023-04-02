@@ -5,7 +5,7 @@ namespace Ushahidi\Core\Tool;
 use Illuminate\Support\Facades\Cache;
 use Ushahidi\Contracts\Repository\Entity\ConfigRepository;
 
-class Features
+class FeatureManager
 {
     /**
      * Cache lifetime in seconds
@@ -13,8 +13,10 @@ class Features
     const CACHE_LIFETIME = 60;
 
     /**
-     * @param array $configRepo
+     * Cache lifetime in seconds
      */
+    const DEFAULT_CACHE_LIFETIME = 60;
+
     public function __construct(ConfigRepository $configRepo)
     {
         $this->configRepo = $configRepo;
@@ -22,7 +24,7 @@ class Features
 
     protected function getFeatureConfig()
     {
-        return Cache::remember('config.features', self::CACHE_LIFETIME, function () {
+        return Cache::remember('config.features', self::DEFAULT_CACHE_LIFETIME, function () {
             return $this->configRepo->get('features');
         });
     }

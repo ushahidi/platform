@@ -26,6 +26,17 @@ class MultisiteManager
     protected $domain;
 
     /**
+     * @var \Ushahidi\Multisite\SiteRepository
+     */
+    protected $repo;
+
+    /**
+     *
+     * @var \Illuminate\Contracts\Events\Dispatcher
+     */
+    protected $events;
+
+    /**
      * @var \Ushahidi\Multisite\Site
      */
     protected $currentSite;
@@ -54,7 +65,7 @@ class MultisiteManager
     /**
      * @param string $host
      * @return void
-     * @throws SiteNotFoundException
+     * @throws \Ushahidi\Multisite\SiteNotFoundException
      */
     public function setSiteFromHost(string $host)
     {
@@ -130,7 +141,7 @@ class MultisiteManager
         $this->currentSite = $site;
 
         // Trigger DB changes, etc
-        $this->events->dispatch('multisite.site.changed', ['site' => $site]);
+        $this->events->dispatch('site.changed', ['site' => $site]);
     }
 
     /**

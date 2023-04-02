@@ -11,7 +11,7 @@
 
 namespace Ushahidi\Modules\V3\Validator\User;
 
-use Ushahidi\Core\Facade\Features;
+use Ushahidi\Core\Facade\Feature;
 use Ushahidi\Core\Concerns\UserContext;
 use Ushahidi\Modules\V3\Validator\LegacyValidator;
 use Ushahidi\Contracts\Repository\Entity\RoleRepository;
@@ -56,7 +56,7 @@ class Update extends LegacyValidator
 
     public function checkAdminRoleLimit(\Kohana\Validation\Validation $validation, $role)
     {
-        $limit = Features::getLimit('admin_users');
+        $limit = Feature::getLimit('admin_users');
         if ($limit !== INF && $role == 'admin') {
             $total = $this->repo->getTotalCount(['role' => 'admin']);
 
