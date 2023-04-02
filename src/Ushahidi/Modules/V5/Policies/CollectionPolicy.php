@@ -2,7 +2,7 @@
 
 namespace Ushahidi\Modules\V5\Policies;
 
-use App\Auth\GenericUser as User;
+use Ushahidi\Authzn\GenericUser as User;
 use Ushahidi\Core\Entity;
 use Ushahidi\Modules\V5\Models\Set;
 use Ushahidi\Contracts\Permission;
@@ -31,7 +31,6 @@ class CollectionPolicy
 
     // Check that the user has the necessary permissions
     use AccessControlList;
-   
     // It uses `OwnerAccess` to provide  the `isUserOwner` method.
     use OwnerAccess;
 
@@ -40,7 +39,6 @@ class CollectionPolicy
 
     /**
      *
-     * @param  \Ushahidi\Modules\User  $user
      * @return bool
      */
     public function index()
@@ -51,7 +49,7 @@ class CollectionPolicy
 
     /**
      *
-     * @param GenericUser $user
+     * @param User $user
      * @param Set $set
      * @return bool
      */
@@ -129,7 +127,6 @@ class CollectionPolicy
             return true;
         }
 
-        
         // If the user is the owner of this set, they can do anything
         if ($this->isUserOwner($entity, $user)) {
             return true;

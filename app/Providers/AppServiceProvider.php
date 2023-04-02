@@ -2,20 +2,22 @@
 
 namespace App\Providers;
 
-use Ushahidi\Core\Tool\Features;
-use Ushahidi\Core\Tool\Verifier;
-use Ushahidi\Factory\UsecaseFactory;
-use Ushahidi\Addons\Mteja\MtejaSource;
-use Ushahidi\Core\Usecase\Post\Export;
 use Illuminate\Support\ServiceProvider;
+use Ushahidi\Core\Tool\FeatureManager;
+use Ushahidi\Core\Tool\SiteManager;
 use Ushahidi\Core\Tool\OhanzeeResolver;
+use Ushahidi\Core\Usecase\Post\Export;
 use Ushahidi\Core\Usecase\Export\Job\PostCount;
+use Ushahidi\Addons\Mteja\MtejaSource;
 use Ushahidi\Addons\AfricasTalking\AfricasTalkingSource;
 use Ushahidi\Contracts\Repository\Entity\PostRepository;
 use Ushahidi\Contracts\Repository\Entity\UserRepository;
 use Ushahidi\Contracts\Repository\Entity\ConfigRepository;
+use Ushahidi\Modules\V5\Models\Post\Post;
 use Ushahidi\Modules\V5\Repository\CountryCode\CountryCodeRepository;
 use Ushahidi\Modules\V5\Repository\CountryCode\EloquentCountryCodeRepository;
+use Ushahidi\Modules\V5\Repository\Post\EloquentPostRepository;
+use Ushahidi\Modules\V5\Repository\Post\PostRepository as V5PostRepository ;
 use Ushahidi\Modules\V5\Repository\User;
 use Ushahidi\Modules\V5\Repository\Permissions\PermissionsRepository;
 use Ushahidi\Modules\V5\Repository\Permissions\EloquentPermissionsRepository;
@@ -51,6 +53,26 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->app->singleton('site', function ($app, $params) {
+            return new SiteManager(
+                $app[ConfigRepository::class],
+                $params ? $params['cache_lifetime'] : null
+            );
+        });
+
+        $this->app['events']->listen('site.changed', function ($site) {
+            $this->app['site']->setDefault($site);
+        });
+
+        $this->app->bind('feature', function ($app) {
+            return new FeatureManager($app[ConfigRepository::class]);
+        });
+
+        // Register OhanzeeResolver
+        $this->app->singleton(OhanzeeResolver::class, function ($app) {
+            return new OhanzeeResolver();
+        });
+
         $this->registerServicesFromAura();
 
         // $this->registerFilesystem();
@@ -157,14 +179,6 @@ class AppServiceProvider extends ServiceProvider
 
     public function registerFeatures()
     {
-        $this->app->singleton('features', function ($app) {
-            return new Features($app[ConfigRepository::class]);
-        });
-
-        // Register OhanzeeResolver
-        $this->app->singleton(OhanzeeResolver::class, function ($app) {
-            return new OhanzeeResolver();
-        });
         $this->app->bind(CountryCodeRepository::class, EloquentCountryCodeRepository::class);
 
         $this->app->bind(
@@ -178,9 +192,13 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(PermissionsRepository::class, EloquentPermissionsRepository::class);
         $this->app->bind(RoleRepository::class, EloquentRoleRepository::class);
         $this->app->bind(TosRepository::class, EloquentTosRepository::class);
+        $this->app->bind(V5PostRepository::class, function ($app) {
+            return new EloquentPostRepository(Post::query());
+        });
         $this->app->bind(Survey\SurveyRepository::class, Survey\EloquentSurveyRepository::class);
         $this->app->bind(Survey\TaskRepository::class, Survey\EloquentTaskRepository::class);
         $this->app->bind(Survey\SurveyRoleRepository::class, Survey\EloquentSurveyRoleRepository::class);
+        $this->app->bind(Survey\SurveyStatesRepository::class, Survey\EloquentSurveyStatesRepository::class);
         $this->app->bind(Set\SetRepository::class, Set\EloquentSetRepository::class);
     }
 }

@@ -36,7 +36,7 @@ abstract class TestCase extends BaseTestCase
         return $this->app[Kernel::class]->output();
     }
 
-        /**
+    /**
      * Assert that a given where condition exists in the database.
      *
      * @param  string  $table

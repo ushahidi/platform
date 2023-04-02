@@ -18,7 +18,7 @@ Feature: Testing the v5 posts API for anonymous users
     And that the api_url is "api/v5"
     When I request "/posts"
     Then the response is JSON
-    And the response has a "error" property
+    And the response has a "errors" property
     Then the guzzle status code should be 404
   @resetFixture @search
   Scenario: Getting one published post for anonymous user

@@ -13,8 +13,8 @@
 
 namespace Ushahidi\Core\Concerns;
 
-use Ushahidi\Core\Facade\Features;
-use Ushahidi\Multisite\UsesSiteInfo;
+use Ushahidi\Core\Facade\Feature;
+use Ushahidi\Core\Concerns\UsesSiteInfo;
 
 trait PrivateDeployment
 {
@@ -27,7 +27,7 @@ trait PrivateDeployment
     public function isPrivate()
     {
         // if feature enabled and site set private in config
-        if (Features::isEnabled('private') && $this->getSite()->getSiteConfig('private', false)) {
+        if (Feature::isEnabled('private') && $this->getSite()->getSiteConfig('private', false)) {
             return true;
         }
 

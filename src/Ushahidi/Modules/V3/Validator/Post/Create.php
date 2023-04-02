@@ -12,7 +12,7 @@
 namespace Ushahidi\Modules\V3\Validator\Post;
 
 use Kohana\Validation\Validation;
-use Ushahidi\Core\Facade\Features;
+use Ushahidi\Core\Facade\Feature;
 use Ushahidi\Contracts\Permission;
 use Ushahidi\Core\Concerns\AdminAccess;
 use Ushahidi\Core\Concerns\UserContext;
@@ -160,7 +160,7 @@ class Create extends LegacyValidator
 
     public function checkPublishedLimit(Validation $validation, $status)
     {
-        $limit = Features::getLimit('posts');
+        $limit = Feature::getLimit('posts');
         if ($limit !== INF && $status == 'published') {
             $total_published = $this->repo->getPublishedTotal();
 

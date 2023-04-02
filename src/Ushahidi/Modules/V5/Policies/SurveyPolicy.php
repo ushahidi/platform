@@ -2,7 +2,7 @@
 
 namespace Ushahidi\Modules\V5\Policies;
 
-use App\Auth\GenericUser as User;
+use Ushahidi\Authzn\GenericUser as User;
 use Ushahidi\Core\Entity;
 use Ushahidi\Modules\V5\Models\Survey;
 use Ushahidi\Contracts\Permission;
@@ -91,6 +91,17 @@ class SurveyPolicy
         // we convert to a form entity to be able to continue using the old authorizers and classes.
         $form = new Entity\Form();
         return $this->isAllowed($form, 'create');
+    }
+
+     /**
+     *
+     * @param  \Ushahidi\Modules\User  $user
+     * @return bool
+     */
+    public function stats()
+    {
+        $empty_form = new Entity\Form();
+        return $this->isAllowed($empty_form, 'stats');
     }
     /**
      * @param $entity
