@@ -7,6 +7,7 @@ use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\JsonResponse;
+use Ushahidi\Modules\V5\DTO\Paging;
 use Symfony\Component\HttpFoundation\Response;
 use Ushahidi\Modules\V5\Actions\Category\Commands\DeleteCategoryCommand;
 use Ushahidi\Modules\V5\Actions\Category\Commands\StoreCategoryCommand;
@@ -23,6 +24,7 @@ use Ushahidi\Modules\V5\Requests\UpdateCategoryRequest;
 use Illuminate\Support\Facades\Validator;
 use Ushahidi\Modules\V5\Models\Category;
 use Ushahidi\Modules\V5\Http\Requests\CategoryRequest;
+use Ushahidi\Modules\V5\DTO\CategorySearchFields;
 
 class CategoryController extends V5Controller
 {
@@ -57,15 +59,15 @@ class CategoryController extends V5Controller
      * @return CategoryCollection
      * @throws AuthorizationException
      */
-    public function index()
+    public function index(Request $request)
     {
         return new CategoryCollection(
             $this->queryBus->handle(
-                new FetchAllCategoriesQuery()
+                new FetchAllCategoriesQuery(new Paging($request), new CategorySearchFields($request))
             )
         );
     }
-     /**
+    /**
      * Display the specified resource.
      *
      * @param StoreCategoryRequest $request
@@ -197,7 +199,8 @@ class CategoryController extends V5Controller
             $entity_array,
             $request->rules($entity_array),
             $request->messages()
-        ))
+        )
+            )
             && $validator->fails()
         ) {
             return $validator->errors()->toArray();
@@ -211,9 +214,12 @@ class CategoryController extends V5Controller
      */
     public function delete(int $id)
     {
-        /// $this->authorize('delete', $category); todo: should be done before controller double check if isn't
-        try {
-            $this->commandBus->handle(new DeleteCategoryCommand($id));
+        // try {
+        $category = $this->queryBus->handle(new FetchCategoryByIdQuery($id));
+        $this->authorize('delete', $category);
+        $this->commandBus->handle(new DeleteCategoryCommand($id));
+        return $this->deleteResponse($id);
+
         // $category = Category::withoutGlobalScopes()->find($id);
         // if (!$category) {
         //     return self::make404();
@@ -228,23 +234,23 @@ class CategoryController extends V5Controller
         // });
 
         // if ($success) {
-            return response()->json(['result' => ['deleted' => $id]]);
-        } catch (\Exception $e) {
-            if ($e instanceof ModelNotFoundException) {
-                return self::make404();
-            }
-            return self::make500($e->getMessage());
-        }
+        //    return response()->json(['result' => ['deleted' => $id]]);
+        // } catch (\Exception $e) {
+        //     if ($e instanceof ModelNotFoundException) {
+        //         return self::make404();
+        //     }
+        //     return self::make500($e->getMessage());
+        // }
     }
 
-    /**
-     * Not all fields are things we want to allow on the body of requests
-     * an author won't change after the fact so we limit that change
-     * to avoid issues from the frontend.
-     * @return string[]
-     */
-    // protected function ignoreInput()
-    // {
-    //     return ['author_email', 'slug', 'user_id', 'author_realname', 'created', 'updated'];
-    // }
+/**
+ * Not all fields are things we want to allow on the body of requests
+ * an author won't change after the fact so we limit that change
+ * to avoid issues from the frontend.
+ * @return string[]
+ */
+// protected function ignoreInput()
+// {
+//     return ['author_email', 'slug', 'user_id', 'author_realname', 'created', 'updated'];
+// }
 }

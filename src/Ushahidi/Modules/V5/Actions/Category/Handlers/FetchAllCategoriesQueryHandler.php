@@ -29,7 +29,6 @@ class FetchAllCategoriesQueryHandler extends AbstractQueryHandler
          * @var FetchAllCategoriesQuery $action
          */
         $this->isSupported($action);
-
-        return $this->categoryRepository->fetchAll();
+        return $this->categoryRepository->fetchAll($action->getPaging(), $action->getCategorySearchFields());
     }
 }

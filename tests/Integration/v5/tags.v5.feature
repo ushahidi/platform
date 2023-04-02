@@ -496,7 +496,7 @@ Feature: Testing the Categories API
         And that the oauth token is "testadminuser"
         And that its "id" is "353"
         When I request "/categories"
-        And the response has a "error" property
+        And the response has a "errors" property
         Then the guzzle status code should be 404
 
     Scenario: Creating a new child for a tag with role=null
