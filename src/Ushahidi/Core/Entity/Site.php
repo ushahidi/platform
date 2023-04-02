@@ -94,7 +94,7 @@ class Site extends StaticEntity // Change to Basic Entity
     {
         // TODO: I think there should be a way to work around this implementation
         $siteConfig = Cache::remember('config.site', $this->cache_lifetime, function () {
-            return app(ConfigRepository::class)->get('site');
+            return app(ConfigRepository::class)->get('site')->asArray();
         });
 
         // The work around using static entity
