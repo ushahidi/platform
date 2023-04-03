@@ -15,7 +15,7 @@ class FetchAllCategoriesQuery implements Query
     private $paging;
     private $category_search_fields;
 
-    function __construct(Paging $paging, CategorySearchFields $category_search_fields)
+    public function __construct(Paging $paging, CategorySearchFields $category_search_fields)
     {
         $this->paging = $paging;
         $this->category_search_fields = $category_search_fields;
