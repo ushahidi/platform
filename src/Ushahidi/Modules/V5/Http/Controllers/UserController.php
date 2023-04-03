@@ -30,6 +30,11 @@ class UserController extends V5Controller
      */
     public function show(int $id)
     {
+        try {
+            $user = $this->queryBus->handle(new FetchUserByIdQuery($id));
+        } catch (\Exception $e) {
+   // dd(get_class($e));
+        }
         $user = $this->queryBus->handle(new FetchUserByIdQuery($id));
         $this->authorize('show', $user);
         return new UserResource($user);

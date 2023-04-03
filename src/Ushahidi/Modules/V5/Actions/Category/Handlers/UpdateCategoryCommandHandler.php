@@ -47,6 +47,6 @@ class UpdateCategoryCommandHandler extends AbstractCommandHandler
         );
 
         return $this->categoryRepository
-            ->fetchByIdOrFail($action->getCategoryId());
+            ->findById($action->getCategoryId());
     }
 }

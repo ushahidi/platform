@@ -32,7 +32,7 @@ class DeleteCategoryCommandHandler extends AbstractCommandHandler
          */
         $this->isSupported($action);
 
-        $category = $this->categoryRepository->fetchByIdOrFail($action->getId());
+        $category = $this->categoryRepository->findById($action->getId());
         $removed = DB::transaction(function () use ($category) {
             $category->translations()->delete();
             return $category->delete();

@@ -9,10 +9,15 @@ use Ushahidi\Modules\V5\DTO\CategorySearchFields;
 
 interface CategoryRepository
 {
-    /**
-     * @throws \Exception if category is not found
+     /**
+     * This method will fetch a single Category from the dsatabase utilising
+     * Laravel Eloquent ORM. Will throw an exception if provided identifier does
+     * not exist in the database.
+     * @param int $id
+     * @return Category
+     * @throws NotFoundException
      */
-    public function fetchByIdOrFail(int $id): Category;
+    public function findById(int $id): Category;
 
     public function fetchAll(Paging $paging, CategorySearchFields $category_search_fields);
 
@@ -43,5 +48,5 @@ interface CategoryRepository
         ?array $role,
         ?string $defaultBaseLanguage,
         ?array $availableLanguages
-        ): int;
+    ): int;
 }

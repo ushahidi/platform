@@ -32,7 +32,6 @@ class FetchCategoryByIdQueryHandler extends AbstractQueryHandler
          * @var FetchCategoryByIdQuery $action
          */
         $this->isSupported($action);
-
-        return $this->categoryRepository->fetchByIdOrFail($action->getId());
+        return $this->categoryRepository->findById($action->getId());
     }
 }

@@ -6,6 +6,7 @@ use Illuminate\Support\Collection;
 use Ushahidi\Modules\V5\Models\Category;
 use Ushahidi\Modules\V5\DTO\Paging;
 use Ushahidi\Modules\V5\DTO\CategorySearchFields;
+use Ushahidi\Core\Exception\NotFoundException;
 
 class EloquentCategoryRepository implements CategoryRepository
 {
@@ -29,11 +30,23 @@ class EloquentCategoryRepository implements CategoryRepository
         }
         return $builder;
     }
-    public function fetchByIdOrFail(int $id): Category
+    
+    /**
+     * This method will fetch a single Category from the database utilising
+     * Laravel Eloquent ORM. Will throw an exception if provided identifier does
+     * not exist in the database.
+     * @param int $id
+     * @return Category
+     * @throws NotFoundException
+     */
+    public function findById(int $id): Category
     {
-        return Category::findOrFail($id);
+        $category = Category::find($id);
+        if (!$category instanceof Category) {
+            throw new NotFoundException('Category not found');
+        }
+        return $category;
     }
-
     public function fetchAll(Paging $paging, CategorySearchFields $category_search_fields)
     {
         return $this->setSearchCondition(

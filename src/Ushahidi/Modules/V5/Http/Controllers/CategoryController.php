@@ -21,24 +21,15 @@ use Ushahidi\Modules\V5\Actions\Category\Queries\FetchCategoryByIdQuery;
 use Ushahidi\Modules\V5\Requests\StoreCategoryRequest;
 use Ushahidi\Modules\V5\Requests\UpdateCategoryRequest;
 
+
 use Illuminate\Support\Facades\Validator;
 use Ushahidi\Modules\V5\Models\Category;
 use Ushahidi\Modules\V5\Http\Requests\CategoryRequest;
 use Ushahidi\Modules\V5\DTO\CategorySearchFields;
+use Ushahidi\Modules\V5\Models\User;
 
 class CategoryController extends V5Controller
 {
-    /**
-     * Display the specified resource.
-     *
-     * @return CategoryCollection
-     * @throws \Illuminate\Auth\Access\AuthorizationException
-     */
-    // public function index()
-    // {
-    //     return new CategoryCollection(Category::get());
-    // }
-
     /**
      * Display the specified resource.
      *
@@ -48,11 +39,18 @@ class CategoryController extends V5Controller
      */
     public function show(int $id): CategoryResource
     {
+//try{
         $category = $this->queryBus->handle(new FetchCategoryByIdQuery($id));
+//     }catch(\Exception $e){
+// //dd(get_class($e));
+// throw $e;
+    
+// }
 
         return new CategoryResource($category);
     }
 
+   
     /**
      * Display the specified resource.
      *
@@ -76,6 +74,7 @@ class CategoryController extends V5Controller
      */
     public function store(StoreCategoryRequest $request)
     {
+
         DB::beginTransaction();
         try {
             $id = $this->commandBus->handle(StoreCategoryCommand::createFromRequest($request));
@@ -153,6 +152,7 @@ class CategoryController extends V5Controller
      */
     public function update(int $id, UpdateCategoryRequest $request)
     {
+        
         DB::beginTransaction();
         try {
             $command = UpdateCategoryCommand::fromRequest($id, $request);
@@ -214,9 +214,11 @@ class CategoryController extends V5Controller
      */
     public function delete(int $id)
     {
+
         // try {
         $category = $this->queryBus->handle(new FetchCategoryByIdQuery($id));
-        $this->authorize('delete', $category);
+       // dd($category);
+     //   $this->authorize('delete', $category);
         $this->commandBus->handle(new DeleteCategoryCommand($id));
         return $this->deleteResponse($id);
 
