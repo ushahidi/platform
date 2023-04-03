@@ -15,6 +15,7 @@ use Ushahidi\Contracts\Entity;
 use Ushahidi\Contracts\Authorizer;
 use Ushahidi\Contracts\EntityGet;
 use Ushahidi\Contracts\Permission;
+use Ushahidi\Contracts\Repository\Entity\TagRepository;
 use Ushahidi\Core\Concerns\PrivAccess;
 use Ushahidi\Core\Concerns\AdminAccess;
 use Ushahidi\Core\Concerns\UserContext;
@@ -47,9 +48,14 @@ class TagAuthorizer implements Authorizer
     // It requires a `TagRepository` to load parents too.
     protected $tag_repo;
 
-    public function __construct(EntityGet $tag_repo)
+    public function __construct(TagRepository $tag_repo = null)
     {
         $this->tag_repo = $tag_repo;
+    }
+
+    public function setTagRepo(EntityGet $tagRepo)
+    {
+        $this->tag_repo = $tagRepo;
     }
 
     /* ParentAccess */

@@ -3,11 +3,6 @@
 namespace Ushahidi\Modules\V5\Requests;
 
 use Illuminate\Http\Request;
-use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Validation\ValidationException;
-use Illuminate\Http\Exceptions\HttpResponseException;
-use Illuminate\Contracts\Validation\Validator;
 
 class SavedSearchRequest extends BaseRequest
 {

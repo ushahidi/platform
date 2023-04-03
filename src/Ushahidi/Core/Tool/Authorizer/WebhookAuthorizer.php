@@ -18,7 +18,7 @@ use Ushahidi\Core\Concerns\OwnerAccess;
 use Ushahidi\Core\Concerns\UserContext;
 use Ushahidi\Core\Concerns\PrivAccess;
 use Ushahidi\Core\Concerns\PrivateDeployment;
-use Ushahidi\Core\Facade\Features;
+use Ushahidi\Core\Facade\Feature;
 
 class WebhookAuthorizer implements Authorizer
 {
@@ -43,7 +43,7 @@ class WebhookAuthorizer implements Authorizer
     {
 
         // Check if the webhooks feature enabled
-        if (!Features::isEnabled('webhooks')) {
+        if (!Feature::isEnabled('webhooks')) {
             return false;
         }
 

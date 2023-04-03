@@ -29,8 +29,7 @@ class SiteRepository
             // Note this is an inner join, so a deployment without a tier won't be found
             ->join('tiers', 'tiers.id', '=', 'deployments.tier_id')
             ->where(compact('subdomain', 'domain'))
-            ->first()
-            ;
+            ->first();
 
         if (!$result) {
             return false;
@@ -46,8 +45,7 @@ class SiteRepository
             // Note this is an inner join, so a deployment without a tier won't be found
             ->join('tiers', 'tiers.id', '=', 'deployments.tier_id')
             ->where('deployments.id', '=', $id)
-            ->first()
-            ;
+            ->first();
 
         if (!$result) {
             return false;

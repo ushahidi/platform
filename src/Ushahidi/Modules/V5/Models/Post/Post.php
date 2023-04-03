@@ -25,11 +25,12 @@ use Ushahidi\Modules\V5\Models\Helpers\HideTime;
 use Ushahidi\Modules\V5\Models\Helpers\HideAuthor;
 use Illuminate\Support\Facades\Request as RequestFacade;
 use Ushahidi\Core\Tool\Permissions\InteractsWithPostPermissions;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Post extends BaseModel
 {
     use InteractsWithPostPermissions;
-
+    use HasFactory;
     /**
      * This relationships aren't real, they are fabricated
      * with the intention of using them in Resource objects
