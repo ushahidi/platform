@@ -14,10 +14,14 @@ RUN echo '#!/bin/bash\n. /utils.sh\n"$@"' > /bin/util ; chmod +x /bin/util ;
 
 RUN $DOCKERCES_MANAGE_UTIL add /run.run.sh
 
+ARG GIT_COMMIT_ID
+ARG GIT_BUILD_REF
+
 ENV ENABLE_PLATFORM_TASKS=true \
     DB_MIGRATIONS_HANDLED=true \
     RUN_PLATFORM_MIGRATIONS=true \
     VHOST_ROOT=/var/www/httpdocs \
     VHOST_INDEX=index.php \
-    PHP_EXEC_TIME_LIMIT=3600
-
+    PHP_EXEC_TIME_LIMIT=3600 \
+    GIT_COMMIT_ID=${GIT_COMMIT_ID} \
+    GIT_BUILD_REF=${GIT_BUILD_REF}
