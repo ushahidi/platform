@@ -40,14 +40,15 @@
         "predis/predis": "~1.1",
         "robmorgan/phinx": "~0.11.2",
         "sentry/sentry-laravel": "^1.9|^2.11",
+        "symfony/event-dispatcher": "^5.4",
         "symfony/psr-http-message-bridge": "^2.0",
         "symm/gisconverter": "~1.0.5",
         "twilio/sdk": "^5.15",
         "ushahidi/gmail-support": "dev-mzima",
+        "ushahidi/kohana-validation": "dev-master",
         "ushahidi/laravel-ckan-api": "dev-master",
         "vonage/client": "^2.3",
         "wikimedia/composer-merge-plugin": "^2.0",
-        "ushahidi/kohana-validation": "dev-master",
         "willdurand/negotiation": "^2.3"
     },
     "require-dev": {
