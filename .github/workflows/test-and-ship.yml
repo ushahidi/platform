@@ -18,7 +18,6 @@ jobs:
     strategy:
       matrix:
         php_version:
-          - 7.3
           - 7.4
 
     steps:
