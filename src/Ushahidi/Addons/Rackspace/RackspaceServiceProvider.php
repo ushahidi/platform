@@ -73,7 +73,8 @@ class RackspaceServiceProvider extends ServiceProvider
             $container = $store->getContainer($config['container']);
 
             return new Filesystem(
-                new RackspaceAdapter($container, $account), $config
+                new RackspaceAdapter($container, $account),
+                $config
             );
         });
     }
