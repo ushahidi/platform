@@ -6,7 +6,7 @@ return [
 
     'release' => env(
         'SENTRY_RELEASE',
-        trim(
+        env('GIT_COMMIT_ID', false) ?: trim(
             // capture release as git sha
             exec('git --git-dir ' . base_path('.git') . ' log --pretty="%h" -n1 HEAD')
         )
