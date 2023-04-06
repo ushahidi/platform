@@ -4,7 +4,8 @@ namespace Ushahidi\Modules\V5\Policies;
 
 use Ushahidi\Core\Tool\Acl;
 use Ushahidi\Authzn\GenericUser as User;
-use Ushahidi\Modules\V5\Models\Category;
+use Ushahidi\Core\Entity\Tag as StaticCategory;
+use Ushahidi\Modules\V5\Models\Category as EloquentCategory;
 use Ushahidi\Core\Tool\Authorizer\TagAuthorizer;
 
 class CategoryPolicy
@@ -17,28 +18,34 @@ class CategoryPolicy
         $this->authorizer->setAcl($acl);
     }
 
-    public function view(User $user, Category $category)
+    public function view(User $user, EloquentCategory $category)
     {
-        return $this->authorizer->setUser($user)->isAllowed($category, 'search');
+        $accessedCategory = new StaticCategory($category->toArray());
+
+        return $this->authorizer->setUser($user)->isAllowed($accessedCategory, 'search');
     }
 
     public function create(User $user)
     {
-        return $this->authorizer->setUser($user)->isAllowed(new Category, 'create');
+        return $this->authorizer->setUser($user)->isAllowed(new StaticCategory, 'create');
     }
 
-    public function show(User $user, Category $category)
+    public function show(User $user, EloquentCategory $category)
     {
-        return $this->authorizer->setUser($user)->isAllowed($category, 'read');
+        $accessedCategory = new StaticCategory($category->toArray());
+
+        return $this->authorizer->setUser($user)->isAllowed($accessedCategory, 'read');
     }
 
-    public function delete(User $user, Category $category)
+    public function delete(User $user, EloquentCategory $category)
     {
-        return $this->authorizer->setUser($user)->isAllowed($category, 'delete');
+        $accessedCategory = new StaticCategory($category->toArray());
+        return $this->authorizer->setUser($user)->isAllowed($accessedCategory, 'delete');
     }
 
-    public function update(User $user, Category $category)
+    public function update(User $user, EloquentCategory $category)
     {
-        return $this->authorizer->setUser($user)->isAllowed($category, 'update');
+        $accessedCategory = new StaticCategory($category->toArray());
+        return $this->authorizer->setUser($user)->isAllowed($accessedCategory, 'update');
     }
 }

@@ -51,7 +51,10 @@ class CategoryController extends V5Controller
     {
         $this->authorize('create', Category::class);
 
-        $input = $this->getFields($request->all());
+        $input = $this->setInputDefaults(
+            $this->getFields($request->all()),
+            'store'
+        );
 
         DB::beginTransaction();
         try {
@@ -180,5 +183,13 @@ class CategoryController extends V5Controller
     protected function ignoreInput()
     {
         return ['author_email', 'slug', 'user_id', 'author_realname', 'created', 'updated'];
+    }
+
+    private function setInputDefaults($input, $action)
+    {
+        if ($action === 'store') {
+            $input['slug'] = Category::makeSlug($input['slug'] ?? $input['tag']);
+        }
+        return $input;
     }
 }
