@@ -75,9 +75,6 @@ class AppServiceProvider extends ServiceProvider
 
         $this->registerServicesFromAura();
 
-        // $this->registerFilesystem();
-        // $this->registerMailer();
-
         $this->registerFeatures();
     }
 
@@ -150,30 +147,6 @@ class AppServiceProvider extends ServiceProvider
             return service('factory.usecase')
                 ->get('posts_export', 'export')
                 ->setAuthorizer(service('authorizer.export_job'));
-        });
-    }
-
-    public function registerMailer()
-    {
-        // Add mailer
-        $this->app->singleton('mailer', function ($app) {
-            return $app->make(
-                'mail',
-                \Illuminate\Mail\MailServiceProvider::class,
-                'mailer'
-            );
-        });
-    }
-
-    public function registerFilesystem()
-    {
-        // Add filesystem
-        $this->app->singleton('filesystem', function ($app) {
-            return $app->make(
-                'filesystems',
-                FilesystemServiceProvider::class,
-                'filesystem'
-            );
         });
     }
 
