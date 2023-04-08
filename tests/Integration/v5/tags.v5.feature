@@ -378,6 +378,7 @@ Feature: Testing the Categories API
         Then the response is JSON
         And the "results" property count is "11"
         Then the guzzle status code should be 200
+        
     Scenario: Listing All Tags available to non-users
         Given that I want to get all "Categories"
         And that the api_url is "api/v5"

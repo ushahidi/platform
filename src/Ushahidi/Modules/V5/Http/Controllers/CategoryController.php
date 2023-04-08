@@ -19,14 +19,11 @@ use Illuminate\Support\Facades\DB;
 use Ushahidi\Modules\V5\Actions\Category\Queries\FetchAllCategoriesQuery;
 use Ushahidi\Modules\V5\Actions\Category\Queries\FetchCategoryByIdQuery;
 use Ushahidi\Modules\V5\Requests\CategoryRequest;
-//use Ushahidi\Modules\V5\Requests\UpdateCategoryRequest;
 
 
-use Illuminate\Support\Facades\Validator;
 use Ushahidi\Modules\V5\Models\Category;
 use Ushahidi\Modules\V5\Http\Requests\CategoryRequest as ValidationCategoryRequest;
 use Ushahidi\Modules\V5\DTO\CategorySearchFields;
-use Ushahidi\Modules\V5\Models\User;
 
 class CategoryController extends V5Controller
 {
@@ -39,7 +36,10 @@ class CategoryController extends V5Controller
      */
     public function show(int $id): CategoryResource
     {
+
         $category = $this->queryBus->handle(new FetchCategoryByIdQuery($id));
+       // $this->authorize('show', $category);
+
         return new CategoryResource($category);
     }
 
@@ -52,6 +52,8 @@ class CategoryController extends V5Controller
      */
     public function index(Request $request)
     {
+       // $this->authorize('index', new Category());
+
         return new CategoryCollection(
             $this->queryBus->handle(
                 new FetchAllCategoriesQuery(new Paging($request), new CategorySearchFields($request))
@@ -67,7 +69,7 @@ class CategoryController extends V5Controller
      */
     public function store(CategoryRequest $request)
     {
-       // $this->authorize('store', new Category());
+        $this->authorize('store', new Category());
 
         DB::beginTransaction();
         try {
@@ -104,7 +106,7 @@ class CategoryController extends V5Controller
     public function update(int $id, CategoryRequest $request)
     {
         $category = $this->queryBus->handle(new FetchCategoryByIdQuery($id));
-       // $this->authorize('update', $category);
+        $this->authorize('update', $category);
 
         DB::beginTransaction();
         try {
@@ -168,7 +170,7 @@ class CategoryController extends V5Controller
 
         // try {
         $category = $this->queryBus->handle(new FetchCategoryByIdQuery($id));
-        //$this->authorize('delete', $category);
+        $this->authorize('delete', $category);
 
      // $success = DB::transaction(function () use ($category) {
         //     $category->translations()->delete();
@@ -177,13 +179,6 @@ class CategoryController extends V5Controller
         // });
 
         $this->commandBus->handle(new DeleteCategoryCommand($id));
-        return $this->deleteResponse($id);        
-
-        // $success = DB::transaction(function () use ($category) {
-        //     $category->translations()->delete();
-        //     $success = $category->delete();
-        //     return $success;
-        // });
-
+        return $this->deleteResponse($id);
     }
 }
