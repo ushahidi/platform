@@ -124,7 +124,7 @@ class EloquentCategoryRepository implements CategoryRepository
         ], function ($element) {
             return !is_null($element);
         });
-        $category = Category::findOrFail($id);
+        $category = $this->findById($id);
         // Ugly workaround for the role field being nullable
         // todo: make it better
         $category->role = $role;

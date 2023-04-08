@@ -3,7 +3,7 @@
 namespace Ushahidi\Modules\V5\Actions\Category\Commands;
 
 use App\Bus\Command\Command;
-use Ushahidi\Modules\V5\Requests\UpdateCategoryRequest;
+use Ushahidi\Modules\V5\Requests\CategoryRequest;
 
 class UpdateCategoryCommand implements Command
 {
@@ -96,7 +96,7 @@ class UpdateCategoryCommand implements Command
         $this->availableLanguages = $availableLanguages;
     }
 
-    public static function fromRequest(int $id, UpdateCategoryRequest $request): self
+    public static function fromRequest(int $id, CategoryRequest $request): self
     {
         return new self(
             $id,

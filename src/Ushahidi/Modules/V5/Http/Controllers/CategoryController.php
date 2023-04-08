@@ -18,13 +18,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Ushahidi\Modules\V5\Actions\Category\Queries\FetchAllCategoriesQuery;
 use Ushahidi\Modules\V5\Actions\Category\Queries\FetchCategoryByIdQuery;
-use Ushahidi\Modules\V5\Requests\StoreCategoryRequest;
-use Ushahidi\Modules\V5\Requests\UpdateCategoryRequest;
+use Ushahidi\Modules\V5\Requests\CategoryRequest;
+//use Ushahidi\Modules\V5\Requests\UpdateCategoryRequest;
 
 
 use Illuminate\Support\Facades\Validator;
 use Ushahidi\Modules\V5\Models\Category;
-use Ushahidi\Modules\V5\Http\Requests\CategoryRequest;
+use Ushahidi\Modules\V5\Http\Requests\CategoryRequest as ValidationCategoryRequest;
 use Ushahidi\Modules\V5\DTO\CategorySearchFields;
 use Ushahidi\Modules\V5\Models\User;
 
@@ -39,14 +39,7 @@ class CategoryController extends V5Controller
      */
     public function show(int $id): CategoryResource
     {
-//try{
         $category = $this->queryBus->handle(new FetchCategoryByIdQuery($id));
-//     }catch(\Exception $e){
-// //dd(get_class($e));
-// throw $e;
-    
-// }
-
         return new CategoryResource($category);
     }
 
@@ -68,12 +61,13 @@ class CategoryController extends V5Controller
     /**
      * Display the specified resource.
      *
-     * @param StoreCategoryRequest $request
+     * @param CategoryRequest $request
      * @return ResponseFactory|Application|JsonResponse|Response
      * @throws AuthorizationException
      */
-    public function store(StoreCategoryRequest $request)
+    public function store(CategoryRequest $request)
     {
+       // $this->authorize('store', new Category());
 
         DB::beginTransaction();
         try {
@@ -102,57 +96,16 @@ class CategoryController extends V5Controller
     /**
      * Display the specified resource.
      *
-     * @TODO   transactions =)
-     * @param integer $id
-     * @param Request $request
-     * @return mixed
-     * @throws \Illuminate\Auth\Access\AuthorizationException
-     */
-    // public function update(CategoryRequest $request)
-    // {
-    //     // Doing this so tests can pass, apparently the test suite
-    //     // assumes finding the resource before validation.
-    //     // This is achievable if we use route model binding.
-    //     $category = $request->category;
-
-    //     $this->authorize('update', $category);
-
-    //     DB::beginTransaction();
-    //     try {
-    //         $category->update($request->validated());
-    //         $errors = $this->updateTranslations(
-    //             $category,
-    //             $category->toArray(),
-    //             $request->input('translations') ?? [],
-    //             $category->id,
-    //             'category'
-    //         );
-
-    //         if (!empty($errors)) {
-    //             DB::rollback();
-    //             return response()->json($errors, 403);
-    //         }
-
-    //         DB::commit();
-    //         $resource = new CategoryResource($category);
-    //         return response(['result' => $resource], 201);
-    //     } catch (\Exception $e) {
-    //         DB::rollback();
-    //         return self::make500($e->getMessage());
-    //     }
-    // }
-
-    /**
-     * Display the specified resource.
-     *
      * @param integer $id
      * @param Request $request
      * @return mixed
      * @throws AuthorizationException
      */
-    public function update(int $id, UpdateCategoryRequest $request)
+    public function update(int $id, CategoryRequest $request)
     {
-        
+        $category = $this->queryBus->handle(new FetchCategoryByIdQuery($id));
+       // $this->authorize('update', $category);
+
         DB::beginTransaction();
         try {
             $command = UpdateCategoryCommand::fromRequest($id, $request);
@@ -166,16 +119,14 @@ class CategoryController extends V5Controller
             );
             if (!empty($errors)) {
                 DB::rollback();
+                // To do : change the return results to Exception
                 return self::make422($errors, 'translation');
             }
-            DB::commit();
-            return new CategoryResource($category);
+             DB::commit();
+             return new CategoryResource($category);
         } catch (\Exception $e) {
             DB::rollback();
-            if ($e instanceof ModelNotFoundException) {
-                return self::make404();
-            }
-            return self::make500($e->getMessage());
+            throw $e;
         }
     }
 
@@ -193,7 +144,7 @@ class CategoryController extends V5Controller
             $entity_array['slug'] = $category::makeSlug($entity_array['slug']);
         }
 
-        $request = new CategoryRequest;
+        $request = new ValidationCategoryRequest;
 
         if (($validator = $this->getValidationFactory()->make(
             $entity_array,
@@ -217,17 +168,16 @@ class CategoryController extends V5Controller
 
         // try {
         $category = $this->queryBus->handle(new FetchCategoryByIdQuery($id));
-       // dd($category);
-     //   $this->authorize('delete', $category);
+        //$this->authorize('delete', $category);
+
+     // $success = DB::transaction(function () use ($category) {
+        //     $category->translations()->delete();
+        //     $success = $category->delete();
+        //     return $success;
+        // });
+
         $this->commandBus->handle(new DeleteCategoryCommand($id));
-        return $this->deleteResponse($id);
-
-        // $category = Category::withoutGlobalScopes()->find($id);
-        // if (!$category) {
-        //     return self::make404();
-        // }
-
-        // $this->authorize('delete', $category);
+        return $this->deleteResponse($id);        
 
         // $success = DB::transaction(function () use ($category) {
         //     $category->translations()->delete();
@@ -235,24 +185,5 @@ class CategoryController extends V5Controller
         //     return $success;
         // });
 
-        // if ($success) {
-        //    return response()->json(['result' => ['deleted' => $id]]);
-        // } catch (\Exception $e) {
-        //     if ($e instanceof ModelNotFoundException) {
-        //         return self::make404();
-        //     }
-        //     return self::make500($e->getMessage());
-        // }
     }
-
-/**
- * Not all fields are things we want to allow on the body of requests
- * an author won't change after the fact so we limit that change
- * to avoid issues from the frontend.
- * @return string[]
- */
-// protected function ignoreInput()
-// {
-//     return ['author_email', 'slug', 'user_id', 'author_realname', 'created', 'updated'];
-// }
 }

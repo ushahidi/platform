@@ -3,19 +3,41 @@
 namespace Ushahidi\Modules\V5\Requests;
 
 use Illuminate\Contracts\Validation\Validator;
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Validation\Rule;
 use Ushahidi\Modules\V5\Models\Category;
+use Illuminate\Http\Request;
 
-class StoreCategoryRequest extends FormRequest
+class CategoryRequest extends BaseRequest
 {
     public function authorize(): bool
     {
         return true;
     }
 
-    public function rules(): array
+    public function rules(Request $request)
+    {
+        $category_id= $request->route('id')?$request->route('id'):null;
+
+        if ($request->isMethod('post')) {
+            return $this->postMethodRules();
+        } elseif ($request->isMethod('put')) {
+            $rules = $this->postMethodRules();
+            $rules['tag'] = [
+                'filled',
+                'min:2',
+                'max:255',
+                'regex:/^[\pL\pN\pP ]++$/uD',
+                'unique:tags,tag,'.$category_id
+            ];
+            $rules['type'] = ['filled',Rule::in(['category','status'])];
+            return $rules;
+        } else {
+            return [];
+        }
+    }
+    
+    public function postMethodRules(): array
     {
         $parentId = $this->input('parent_id');
         return [
@@ -155,8 +177,15 @@ class StoreCategoryRequest extends FormRequest
         ];
     }
 
-    public function failedValidation(Validator $validator)
-    {
-        throw new HttpResponseException(response()->json(['messages' => $validator->errors()], 422));
-    }
+    // public function failedValidation(Validator $validator)
+    // {
+    //     throw new HttpResponseException(response()->json([
+    //         'errors' => $validator->errors()
+    //     ], 422));
+    // }
+
+    // public function failedValidation(Validator $validator)
+    // {
+    //     throw new HttpResponseException(response()->json(['messages' => $validator->errors()], 422));
+    // }
 }

@@ -4,7 +4,7 @@ namespace Ushahidi\Modules\V5\Actions\Category\Commands;
 
 use App\Bus\Command\Command;
 use Ushahidi\Modules\V5\Models\Category;
-use Ushahidi\Modules\V5\Requests\StoreCategoryRequest;
+use Ushahidi\Modules\V5\Requests\CategoryRequest;
 
 class StoreCategoryCommand implements Command
 {
@@ -91,7 +91,7 @@ class StoreCategoryCommand implements Command
         $this->availableLanguages = $availableanguages;
     }
 
-    public static function createFromRequest(StoreCategoryRequest $request): self
+    public static function createFromRequest(CategoryRequest $request): self
     {
         $slug = $request->input('slug');
         if (!$slug) {
