@@ -18,12 +18,12 @@ class FindPostByIdQueryTest extends TestCase
     public function testCannotCreateWithANegativeNumber()
     {
         $this->expectException(\InvalidArgumentException::class);
-        FindPostByIdQuery::of(-1);
+        new FindPostByIdQuery(-1);
     }
 
     public function testCannotCreateWithZero()
     {
         $this->expectException(\InvalidArgumentException::class);
-        FindPostByIdQuery::of(0);
+        new FindPostByIdQuery(0);
     }
 }
