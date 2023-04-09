@@ -16,7 +16,7 @@ class FindPostByIdQueryHandlerTest extends TestCase
         // Given
         $postModel = Post::factory()->create();
         $postRepository = $this->createMock(PostRepository::class);
-        $postRepository->method('fetchById')->willReturn($postModel);
+        $postRepository->method('findById')->willReturn($postModel);
 
         // When
         $handler = new FindPostByIdQueryHandler($postRepository);

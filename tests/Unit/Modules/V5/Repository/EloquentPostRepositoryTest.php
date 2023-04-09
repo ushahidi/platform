@@ -30,7 +30,7 @@ class EloquentPostRepositoryTest extends TestCase
 
         $repository = new EloquentPostRepository($builder);
         $this->expectException(NotFoundException::class);
-        $repository->fetchById(1);
+        $repository->findById(1);
     }
 
     public function testPaginationWithNoResults()
