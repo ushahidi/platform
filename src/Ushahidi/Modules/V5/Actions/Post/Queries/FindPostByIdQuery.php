@@ -17,7 +17,7 @@ class FindPostByIdQuery implements Query
     private $fields_for_relationships;
 
 
-    private function __construct(int $id, array $fields = [], array $hydrates = [])
+    public function __construct(int $id, array $fields = [], array $hydrates = [])
     {
         $this->id = $id;
         $this->fields = array_unique(array_merge($fields, Post::REQUIRED_FIELDS));

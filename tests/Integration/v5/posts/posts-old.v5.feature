@@ -583,9 +583,9 @@ Feature: Testing the Posts API
 		Given that I want to delete a "Post"
 		And that the api_url is "api/v5"
 		And that the oauth token is "testbasicuser"
-		And that its "id" is "35"
+		And that its "id" is "37"
 		When I request "/posts"
-		Then the guzzle status code should be 403
+		Then the guzzle status code should be 404
 
 	@create
 	Scenario: Creating a new Post with UTF-8 title

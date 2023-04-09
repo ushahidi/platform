@@ -9,6 +9,9 @@ use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use Ushahidi\Modules\V5\Actions\Post\Queries\FindPostByIdQuery;
 use Ushahidi\Modules\V5\Actions\Post\Queries\ListPostsQuery;
+use Ushahidi\Modules\V5\Actions\Post\Commands\DeletePostCommand;
+use Ushahidi\Modules\V5\Actions\Post\Commands\CreatePostCommand;
+use Ushahidi\Modules\V5\Actions\Post\Commands\UpdatePostCommand;
 use Ushahidi\Modules\V5\Events\PostCreatedEvent;
 use Ushahidi\Modules\V5\Events\PostUpdatedEvent;
 use Ushahidi\Modules\V5\Http\Resources\PostCollection;
@@ -50,20 +53,8 @@ class PostController extends V5Controller
 
     public function index(Request $request): NewPostCollection
     {
-        // $fields = [];
-        // if ($request->get('format') === 'minimal') {
-        //     $fields = ['id', 'name', 'description', 'translations'];
-        // } elseif ($request->get('only') && $request->get('format') === null) {
-        //     $fields = explode(',', $request->get('only'));
-        // }
-
-        // $query = ListPostsQuery::fromArray([
-        //     'fields' => $fields,
-        //     'limit' => $request->query('limit', 20),
-        // ]);
-        $paginator = $this->queryBus->handle(ListPostsQuery::FromRequest($request));
-       // $paginator = $this->queryBus->handle($query);
-        return new NewPostCollection($paginator);
+        $posts = $this->queryBus->handle(ListPostsQuery::FromRequest($request));
+        return new NewPostCollection($posts);
     }
 
     private function getUser()
@@ -570,17 +561,11 @@ class PostController extends V5Controller
      */
     public function delete(int $id, Request $request)
     {
-        $post = Post::find($id);
+        $post = $this->queryBus->handle(new FindPostByIdQuery($id, ['id','user_id']));
         $this->authorize('delete', $post);
-        $success = DB::transaction(function () use ($id, $request, $post) {
-            $post->translations()->delete();
-            return $post->delete();
-        });
-        if ($success) {
-            return response()->json(['result' => ['deleted' => $id]]);
-        } else {
-            return self::make500('Could not delete model');
-        }
+
+        $this->commandBus->handle(new DeletePostCommand($id));
+        return $this->deleteResponse($id);
     } //end delete()
 
     protected function validateLockState($post_id)

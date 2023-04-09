@@ -10,7 +10,14 @@ use Ushahidi\Modules\V5\DTO\PostSearchFields;
 
 interface PostRepository
 {
-    public function fetchById(int $id, array $fields = [], array $with = []): Post;
+    public function findById(int $id, array $fields = [], array $with = []): Post;
 
-    public function paginate(Paging $paging, PostSearchFields $search_fields, array $fields = [], array $with = []): LengthAwarePaginator;
+    public function paginate(
+        Paging $paging,
+        PostSearchFields $search_fields,
+        array $fields = [],
+        array $with = []
+    ): LengthAwarePaginator;
+
+    public function delete(int $id): void;
 }

@@ -36,6 +36,7 @@ use Ushahidi\Modules\V5\Actions\Category;
 use Ushahidi\Modules\V5\Actions\Survey;
 use Ushahidi\Modules\V5\Actions\SavedSearch;
 use Ushahidi\Modules\V5\Actions\Collection;
+use Ushahidi\Modules\V5\Actions\Post;
 
 class BusServiceProvider extends ServiceProvider
 {
@@ -174,16 +175,18 @@ class BusServiceProvider extends ServiceProvider
 
 
             $commandBus->register(CreateTosCommand::class, CreateTosCommandHandler::class);
+            
+            $commandBus->register(
+                AddTranslationCommand::class,
+                AddTranslationCommandHandler::class
+            );
 
             $commandBus->register(
                 Category\Commands\StoreCategoryCommand::class,
                 Category\Handlers\StoreCategoryCommandHandler::class
             );
 
-            $commandBus->register(
-                AddTranslationCommand::class,
-                AddTranslationCommandHandler::class
-            );
+           
 
             $commandBus->register(
                 Category\Commands\DeleteCategoryCommand::class,
@@ -194,6 +197,19 @@ class BusServiceProvider extends ServiceProvider
                 Category\Handlers\UpdateCategoryCommandHandler::class
             );
 
+            $commandBus->register(
+                Post\Commands\CreatePostCommand::class,
+                Post\Handlers\CreatePostCommandHandler::class
+            );
+            $commandBus->register(
+                Post\Commands\UpdatePostCommand::class,
+                Post\Handlers\UpdatePostCommandHandler::class
+            );
+            $commandBus->register(
+                Post\Commands\DeletePostCommand::class,
+                Post\Handlers\DeletePostCommandHandler::class
+            );
+            
             return $commandBus;
         });
     }

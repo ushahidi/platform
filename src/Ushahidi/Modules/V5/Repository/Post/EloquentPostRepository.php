@@ -65,7 +65,7 @@ class EloquentPostRepository implements PostRepository
     }
 
 
-    public function fetchById(int $id, array $fields = [], array $with = []): Post
+    public function findById(int $id, array $fields = [], array $with = []): Post
     {
         $query = Post::where('id', '=', $id);
         if (count($fields)) {
@@ -93,10 +93,12 @@ class EloquentPostRepository implements PostRepository
         return $post;
     }
 
-    public function paginate(Paging $paging, PostSearchFields $search_fields, array $fields = [], array $with = []): LengthAwarePaginator
-    {
-
-
+    public function paginate(
+        Paging $paging,
+        PostSearchFields $search_fields,
+        array $fields = [],
+        array $with = []
+    ): LengthAwarePaginator {
         $query = Post::take($paging->getLimit())
             ->skip($paging->getSkip())
             ->orderBy($paging->getOrderBy(), $paging->getOrder());
@@ -110,5 +112,10 @@ class EloquentPostRepository implements PostRepository
 
         $query = $this->setSearchCondition($search_fields, $query);
         return $query->paginate($paging->getLimit());
+    }
+
+    public function delete(int $id): void
+    {
+        $this->findById($id, ['id'])->delete();
     }
 }

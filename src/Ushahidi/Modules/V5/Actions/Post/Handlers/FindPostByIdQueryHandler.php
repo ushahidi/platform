@@ -38,7 +38,7 @@ class FindPostByIdQueryHandler extends AbstractQueryHandler
          */
         $this->isSupported($action);
 
-        $post = $this->postRepository->fetchById(
+        $post = $this->postRepository->findById(
             $action->getId(),
             array_unique(array_merge($action->getFields(), $action->getFieldsForRelationship())),
             $action->getWithRelationship()
