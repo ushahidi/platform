@@ -10,7 +10,6 @@ use Ushahidi\Modules\V5\Repository\Post\PostRepository;
 use Ushahidi\Modules\V5\Models\Post\Post;
 use Illuminate\Support\Collection;
 use Ushahidi\Modules\V5\Http\Resources\PostValueCollection;
-use Ushahidi\Modules\V5\Http\Resources\TranslationCollection;
 use Ushahidi\Modules\V5\Http\Resources\ContactPointerResource;
 use Ushahidi\Modules\V5\Http\Resources\MessagePointerResource;
 use Ushahidi\Modules\V5\Http\Resources\LockCollection;
@@ -61,7 +60,6 @@ class FindPostByIdQueryHandler extends AbstractQueryHandler
                     break;
                 case 'completed_stages':
                     $post->completed_stages = $post->postStages;
-                    // dd($post->completed_stages);
 
                     break;
                 case 'post_content':

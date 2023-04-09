@@ -45,30 +45,25 @@ class PostController extends V5Controller
     public function show(int $id, Request $request)
     {
         $post = $this->queryBus->handle(FindPostByIdQuery::FromRequest($id, $request));
-
-        // if (!$post) {
-        //     return self::make404();
-        // }
-
         return new NewPostResource($post);
     }
 
-    public function index(Request $request): PostCollection
+    public function index(Request $request): NewPostCollection
     {
-        $fields = [];
-        if ($request->get('format') === 'minimal') {
-            $fields = ['id', 'name', 'description', 'translations'];
-        } elseif ($request->get('only') && $request->get('format') === null) {
-            $fields = explode(',', $request->get('only'));
-        }
+        // $fields = [];
+        // if ($request->get('format') === 'minimal') {
+        //     $fields = ['id', 'name', 'description', 'translations'];
+        // } elseif ($request->get('only') && $request->get('format') === null) {
+        //     $fields = explode(',', $request->get('only'));
+        // }
 
-        $query = ListPostsQuery::fromArray([
-            'fields' => $fields,
-            'limit' => $request->query('limit', 20),
-        ]);
-
-        $paginator = $this->queryBus->handle($query);
-        return new PostCollection($paginator);
+        // $query = ListPostsQuery::fromArray([
+        //     'fields' => $fields,
+        //     'limit' => $request->query('limit', 20),
+        // ]);
+        $paginator = $this->queryBus->handle(ListPostsQuery::FromRequest($request));
+       // $paginator = $this->queryBus->handle($query);
+        return new NewPostCollection($paginator);
     }
 
     private function getUser()

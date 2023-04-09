@@ -3,7 +3,6 @@
 namespace Ushahidi\Modules\V5\Actions\Post\Queries;
 
 use App\Bus\Query\Query;
-use Ushahidi\Core\Entity\Post as PostEntity;
 use Ushahidi\Modules\V5\Models\Post\Post;
 use Illuminate\Http\Request;
 
@@ -21,8 +20,8 @@ class FindPostByIdQuery implements Query
     private function __construct(int $id, array $fields = [], array $hydrates = [])
     {
         $this->id = $id;
-        $this->hydrates = $hydrates;
         $this->fields = array_unique(array_merge($fields, Post::REQUIRED_FIELDS));
+        $this->hydrates = $hydrates;
         $this->with_relationships = [];
         $this->fields_for_relationships = [];
         foreach ($hydrates as $hydrate) {

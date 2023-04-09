@@ -49,7 +49,7 @@ class PostResource extends BaseResource
         // @TODO-jan27 make translations and enabled_languages optional
         // @TODO-jan27 make id required
         $data = $this->resource->toArray();
-        if ($this->translations) {
+        if (isset($data['translations'])) {
             $data['translations'] = (new TranslationCollection($this->translations))->toArray(null);
         }
 

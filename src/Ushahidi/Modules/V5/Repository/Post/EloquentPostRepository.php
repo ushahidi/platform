@@ -45,12 +45,25 @@ class EloquentPostRepository implements PostRepository
         return $post;
     }
 
-    public function paginate(int $limit, array $fields): LengthAwarePaginator
+    public function paginate(int $limit, array $fields = [], array $with = []): LengthAwarePaginator
     {
-        if (empty($fields)) {
-            $fields = ['*'];
-        }
 
-        return $this->queryBuilder->paginate($limit, $fields);
+        
+
+        $query = Post::take($limit);
+        if (count($fields)) {
+            $query->select($fields);
+        }
+        if (count($with)) {
+            $query->with($with);
+        }
+       
+        return $query->paginate($limit);
+
+        // if (empty($fields)) {
+        //     $fields = ['*'];
+        // }
+
+        // return $this->queryBuilder->paginate($limit, $fields);
     }
 }

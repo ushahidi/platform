@@ -10,5 +10,5 @@ interface PostRepository
 {
     public function fetchById(int $id, array $fields = [], array $with = []): Post;
 
-    public function paginate(int $limit, array $fields): LengthAwarePaginator;
+    public function paginate(int $limit, array $fields = [], array $with = []): LengthAwarePaginator;
 }
