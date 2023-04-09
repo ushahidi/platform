@@ -6,7 +6,6 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Ushahidi\Core\Exception\NotFoundException;
-use Ushahidi\Modules\V5\Http\Resources\PostCollection;
 use Ushahidi\Modules\V5\Models\Post\Post;
 
 class EloquentPostRepository implements PostRepository
@@ -18,9 +17,26 @@ class EloquentPostRepository implements PostRepository
         $this->queryBuilder = $queryBuilder;
     }
 
-    public function fetchById(int $id): Post
+    public function fetchById(int $id, array $fields = [], array $with = []): Post
     {
-        $post = $this->queryBuilder->find($id);
+        $query = Post::where('id', '=', $id);
+        if (count($fields)) {
+            $query->select($fields);
+        }
+        if (count($with)) {
+            $query->with($with);
+        }
+       
+        $post = $query->first();
+
+
+        // ? Post::select($fields)->where('id', '=', $id)->first()
+        // : Post::find($id);
+        // if(!count($fields)){
+        //     $post = $this->queryBuilder->find($id);
+        // }else{
+        //     $post = $this->queryBuilder->find($id);
+        // }
 
         if (!$post instanceof Post) {
             throw new NotFoundException('Post not found', 404);

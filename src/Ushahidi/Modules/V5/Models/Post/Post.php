@@ -31,6 +31,66 @@ class Post extends BaseModel
 {
     use InteractsWithPostPermissions;
     use HasFactory;
+
+    public const DEFAULT_SOURCE_TYPE = "web";
+    public const REQUIRED_FIELDS = [
+        'id'
+    ];
+    
+    public const ALLOWED_FIELDS = [
+        'id',
+        'parent_id',
+        'form_id',
+        'status',
+        'user_id',
+        'type',
+        'title',
+        'slug',
+        'content',
+        'author_email',
+        'author_realname',
+        'status',
+        'published_to',
+        'locale',
+        'post_date',
+        'base_language',
+        'created',
+        'updated'
+    ];
+
+    public const ALLOWED_RELATIONSHIPS = [
+        'locks' => ['fields' => [], 'relationships' => ["locks"]],
+        'categories' => ['fields' => [], 'relationships' => ["categories"]],
+        'message' => ['fields' => [], 'relationships' => ['message']],
+        'contact' => ['fields' => [], 'relationships' => ['message']],
+        'completed_stages' => ['fields' => [], 'relationships' => ["postStages"]],
+        'translations' => ['fields' => [], 'relationships' => ["translations"]],
+        'enabled_languages' => ['fields' => ['base_language'], 'relationships' => ['translations']],
+        'source' => ['fields' => [], 'relationships' => ["message"]],
+        'data_source_message_id' => ['fields' => [], 'relationships' => ["message"]],
+        'post_content' => [
+            'fields' => ['form_id'],
+            'relationships' => [
+                "survey",
+                'valuesVarchar',
+                'valuesText',
+                'valuesDatetime',
+                'valuesDecimal',
+                'valuesGeometry',
+                'valuesInt',
+                'valuesMarkdown',
+                'valuesMedia',
+                'valuesPoint',
+                'valuesRelation',
+                'valuesPostsMedia',
+                // 'valuesPostsSet',
+                'valuesPostTag'
+            ]
+        ]
+
+
+    ];
+
     /**
      * This relationships aren't real, they are fabricated
      * with the intention of using them in Resource objects
@@ -71,7 +131,7 @@ class Post extends BaseModel
      *
      * @var string[]
      */
-    protected $with = ['message', 'translations', 'survey'];
+    // protected $with = ['message', 'translations', 'survey'];
 
     protected $translations;
     /**

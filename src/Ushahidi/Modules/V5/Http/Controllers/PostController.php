@@ -20,14 +20,11 @@ use Illuminate\Support\Facades\DB;
 use Ushahidi\Modules\V5\Common\ValidatorRunner;
 use Ushahidi\Modules\V5\Models\Lock;
 
+use Ushahidi\Modules\V5\Http\Resources\Post\PostCollection as NewPostCollection;
+use Ushahidi\Modules\V5\Http\Resources\Post\PostResource as NewPostResource;
+
 class PostController extends V5Controller
 {
-
-    // private $queryBus;
-    // public function __construct(QueryBus $queryBus)
-    // {
-    //     $this->queryBus = $queryBus;
-    // }
 
     /**
      * Not all fields are things we want to allow on the body of requests
@@ -45,15 +42,15 @@ class PostController extends V5Controller
      *
      * @return JsonResponse|PostResource
      */
-    public function show(int $id)
+    public function show(int $id, Request $request)
     {
-        $post = $this->queryBus->handle(FindPostByIdQuery::of($id));
+        $post = $this->queryBus->handle(FindPostByIdQuery::FromRequest($id, $request));
 
-        if (!$post) {
-            return self::make404();
-        }
+        // if (!$post) {
+        //     return self::make404();
+        // }
 
-        return new PostResource($post);
+        return new NewPostResource($post);
     }
 
     public function index(Request $request): PostCollection
