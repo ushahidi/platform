@@ -18,7 +18,7 @@ class EloquentPostRepositoryTest extends TestCase
         $builder->method('find')->willReturn($post);
 
         $repository = new EloquentPostRepository($builder);
-        $foundPost = $repository->fetchById($post->id);
+        $foundPost = $repository->findById($post->id);
         $this->assertInstanceOf(Post::class, $foundPost);
         $this->assertEquals($post->id, $foundPost->id);
     }
