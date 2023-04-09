@@ -7,6 +7,9 @@ use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Validation\Rule;
 use Ushahidi\Modules\V5\Models\Post;
 use Illuminate\Http\Request;
+use Ushahidi\Modules\V5\Rules\StandardText;
+use Ushahidi\Modules\V5\Models\Post\PostStatus;
+use Illuminate\Support\Facades\Request as RequestFacade;
 
 class PostRequest extends BaseRequest
 {
@@ -20,115 +23,141 @@ class PostRequest extends BaseRequest
         $category_id= $request->route('id')?$request->route('id'):null;
 
         if ($request->isMethod('post')) {
-            return $this->postMethodRules();
+            return $this->storeRules();
         } elseif ($request->isMethod('put')) {
-            $rules = $this->postMethodRules();
-            $rules['tag'] = [
-                'filled',
-                'min:2',
-                'max:255',
-                'regex:/^[\pL\pN\pP ]++$/uD',
-                'unique:tags,tag,'.$category_id
-            ];
-            $rules['type'] = ['filled',Rule::in(['category','status'])];
-            return $rules;
+           // dd($this->storeRules());
+
+          //  dd($this->updateRules());
+            return $this->updateRules();
         } else {
             return [];
         }
     }
     
-    public function postMethodRules(): array
+    public function storeRules(): array
     {
-        $parentId = $this->input('parent_id');
         return [
-            'parent_id' => 'nullable|sometimes|exists:tags,id',
-            'tag' => [
+            'form_id' => 'required|sometimes|exists:forms,id',
+            'user_id' => 'nullable|sometimes|exists:users,id',
+            'type' => [
                 'required',
-                'min:2',
-                'max:255',
-                'regex:/^[\pL\pN\pP ]++$/uD',
-                Rule::unique('tags', 'tag')
+                Rule::in(['report','update','revision'])
+            ],
+            'title' => [
+                'required',
+                'max:150',
+                new StandardText,
             ],
             'slug' => [
                 'nullable',
                 'min:2',
+                Rule::unique('posts')->ignore($this->id)
             ],
-            'type' => [
-                'required',
-                Rule::in([
-                    'category',
-                    'status'
-                ])
+            'content' => [
+                'string'
             ],
-            'description' => [
-                'nullable',
-                'min:2',
-                'max:255'
+            'author_email' => 'nullable|sometimes|email|max:150',
+            'author_realname' => 'nullable|sometimes|max:150',
+            'status' => [
+                'filled',
+                Rule::in(PostStatus::all())
             ],
-            'color' => [
-                'string',
-                'nullable',
+            'post_content.*.form_id' => [
+                'same:form_id'
             ],
-            'icon' => [
-                'regex:/^[\pL\s\_\-]++$/uD'
+            'post_content.*.fields' => [
+                'present'
             ],
-            'priority' => [
-                'numeric'
-            ],
-            'role' => [
-                function ($attribute, $value, $fail) use ($parentId) {
-                    $parent = $parentId ? Category::find($parentId) : null;
-                    // ... and check if the role matches its parent
-                    if ($parent && $parent->role != $value) {
-                        return $fail(trans('validation.child_parent_role_match'));
-                    }
-                    if (is_array($value) && empty($value)) {
-                        return $fail(trans('validation.role_cannot_be_empty'));
+            'post_content.*.fields.*.required' => [
+                function ($attribute, $value, $fail) {
+                    if (!!$value) {
+                        $field_content = RequestFacade::input(str_replace('.required', '', $attribute));
+                        $label = $field_content['label'] ?: $field_content['id'];
+                        $get_value = RequestFacade::input(str_replace('.required', '.value.value', $attribute));
+                        $is_empty = (is_null($get_value) || $get_value === '');
+                        $is_title = RequestFacade::input(str_replace('.required', '.type', $attribute)) === 'title';
+                        $is_desc = RequestFacade::input(
+                            str_replace('.required', '.type', $attribute)
+                        ) === 'description';
+                        if ($is_empty && !$is_desc && !$is_title) {
+                            return $fail(
+                                trans('validation.required_by_label', [
+                                    'label' => $label
+                                ])
+                            );
+                        }
                     }
                 }
-            ]
+            ],
+            'post_content.*.fields.*.type' => [
+                function ($attribute, $value, $fail) {
+                    $get_value = RequestFacade::input(str_replace('.type', '.value.value', $attribute));
+                    if ($value === 'tags' && !is_array($get_value)) {
+                        return $fail(trans('validation.tag_field_must_be_array'));
+                    }
+                }
+            ],
+            'locale',
+            'post_date'
         ];
     }
 
+    public function updateRules(): array
+    {
+        $rules = $this->storeRules();
+        // change reuired to filled in update
+        $rules['type'][0] = "filled";
+        $rules['form_id'] = "filled|sometimes|exists:forms,id";
+        $rules['title'][0] = "filled";
+        $rules['status'][0] = "filled";
+        //unset($rules['post_content.*.fields.*.required']);
+        //unset($rules['post_content.*.fields.*.type']);
+//dd($rules);
+        //dd($rules['post_content.*.fields.*.required'] = );
+        return $rules;
+    }
     public function messages(): array
     {
         return [
-            'parent_id.exists' => trans(
+            'form_id.exists' => trans(
                 'validation.exists',
-                ['field' => trans('fields.parent_id')]
+                ['field' => trans('fields.form_id')]
             ),
-            'tag.required' => trans(
-                'validation.not_empty',
-                ['field' => trans('fields.tag')]
+            'user_id.exists' => trans(
+                'validation.exists',
+                ['field' => trans('fields.user_id')]
             ),
-            'tag.unique' => trans(
-                'validation.unique',
-                ['field' => trans('fields.tag')]
+            'type.required' => trans(
+                'validation.required',
+                ['field' => trans('fields.type')]
             ),
-            'tag.min' => trans(
-                'validation.min_length',
+            'type.in' => trans(
+                'validation.in_array',
+                ['field' => trans('fields.type')]
+            ),
+            'title.required' => trans(
+                'validation.required',
+                ['field' => trans('fields.title')]
+            ),
+            'title.max' => trans(
+                'validation.max',
                 [
-                    'param2' => 2,
-                    'field' => trans('fields.tag'),
+                    'param2' => 150,
+                    'field' => trans('fields.title'),
                 ]
             ),
-            'tag.max' => trans(
-                'validation.max_length',
-                [
-                    'param2' => 255,
-                    'field' => trans('fields.tag'),
-                ]
-            ),
-            'tag.regex' => trans(
+            'title.regex' => trans(
                 'validation.regex',
-                ['field' => trans('fields.tag')]
+                [
+                    'field' => trans('fields.title'),
+                ]
             ),
             'slug.required' => trans(
-                'validation.not_empty',
+                'validation.required',
                 ['field' => trans('fields.slug')]
             ),
             'slug.min' => trans(
-                'validation.min_length',
+                'validation.min',
                 [
                     'param2' => 2,
                     'field' => trans('fields.slug'),
@@ -136,56 +165,16 @@ class PostRequest extends BaseRequest
             ),
             'slug.unique' => trans(
                 'validation.unique',
-                ['field' => trans('fields.slug')]
-            ),
-            'type.required' => trans(
-                'validation.not_empty',
-                ['field' => trans('fields.type')]
-            ),
-            'type.in' => trans(
-                'validation.in_array',
-                ['field' => trans('fields.type')]
-            ),
-            'description.regex' => trans(
-                'validation.regex',
-                ['field' => trans('fields.description')]
-            ),
-
-            'description.min' => trans(
-                'validation.min_length',
                 [
-                    'param2' => 2,
-                    'field' => trans('fields.description')
+                    'field' => trans('fields.slug'),
                 ]
             ),
-
-            'description.max' => trans(
-                'validation.max_length',
+            'content.string' => trans(
+                'validation.string',
                 [
-                    'param2' => 255,
-                    'field' => trans('fields.description')
+                    'field' => trans('fields.content'),
                 ]
-            ),
-            'icon.regex' => trans(
-                'validation.regex',
-                ['field' => trans('fields.icon')]
-            ),
-            'priority.numeric' => trans(
-                'validation.numeric',
-                ['field' => trans('fields.priority')]
             )
         ];
     }
-
-    // public function failedValidation(Validator $validator)
-    // {
-    //     throw new HttpResponseException(response()->json([
-    //         'errors' => $validator->errors()
-    //     ], 422));
-    // }
-
-    // public function failedValidation(Validator $validator)
-    // {
-    //     throw new HttpResponseException(response()->json(['messages' => $validator->errors()], 422));
-    // }
 }

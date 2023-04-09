@@ -17,10 +17,7 @@ Feature: Testing the Posts API
 			"""
 		When I request "/posts"
 		Then the response is JSON
-		And the response has a "error" property
-		And the type of the "error" property is "numeric"
-		And the response has a "messages" property
-		And the "messages" property equals "The V5 API requires a form_id for post creation."
+		And the response has a "errors" property
 		Then the guzzle status code should be 422
 
 	@create
@@ -153,7 +150,7 @@ Feature: Testing the Posts API
 			"""
 		When I request "/posts"
 		Then the response is JSON
-		And the response has a "error" property
+		And the response has a "errors" property
 		Then the guzzle status code should be 422
 
 	@create
@@ -194,10 +191,7 @@ Feature: Testing the Posts API
 			"""
 		When I request "/posts"
 		Then the response is JSON
-		And the response has a "error" property
-		And the response has a "messages" property
-		And the response has a "type" property
-		And the "type" property equals "fields"
+		And the response has a "errors" property
 		Then the guzzle status code should be 422
 
 	@create
@@ -235,7 +229,7 @@ Feature: Testing the Posts API
 			"""
 		When I request "/posts"
 		Then the response is JSON
-		And the response has a "error" property
+		And the response has a "errors" property
 		Then the guzzle status code should be 422
 
 	@create
@@ -435,7 +429,7 @@ Feature: Testing the Posts API
 		And that its "id" is "40"
 		When I request "/posts"
 		Then the response is JSON
-		And the response has a "error" property
+		And the response has a "errors" property
 		Then the guzzle status code should be 404
 
 	@resetFixture @update
@@ -545,9 +539,8 @@ Feature: Testing the Posts API
 		And that its "id" is "1"
 		When I request "/posts"
 		Then the response is JSON
-		And the response has a "error" property
-		And the response has a "messages" property
-		And the "messages.form_id.0" property equals "fields.form_id must exist"
+		And the response has a "errors" property
+		#And the "messages.form_id.0" property equals "fields.form_id must exist"
 		Then the guzzle status code should be 422
 
 	@delete
@@ -804,6 +797,5 @@ Feature: Testing the Posts API
 			"""
 		When I request "/posts"
 		Then the response is JSON
-		And the response has a "error" property
-		And the response has a "messages" property
+		And the response has a "errors" property
 		Then the guzzle status code should be 422

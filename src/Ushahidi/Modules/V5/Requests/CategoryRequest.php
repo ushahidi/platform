@@ -20,9 +20,9 @@ class CategoryRequest extends BaseRequest
         $category_id= $request->route('id')?$request->route('id'):null;
 
         if ($request->isMethod('post')) {
-            return $this->postMethodRules();
+            return $this->storeRules();
         } elseif ($request->isMethod('put')) {
-            $rules = $this->postMethodRules();
+            $rules = $this->storeRules();
             $rules['tag'] = [
                 'filled',
                 'min:2',
@@ -37,7 +37,7 @@ class CategoryRequest extends BaseRequest
         }
     }
     
-    public function postMethodRules(): array
+    private function storeRules(): array
     {
         $parentId = $this->input('parent_id');
         return [

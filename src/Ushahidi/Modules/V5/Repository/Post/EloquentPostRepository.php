@@ -99,6 +99,7 @@ class EloquentPostRepository implements PostRepository
         array $fields = [],
         array $with = []
     ): LengthAwarePaginator {
+
         $query = Post::take($paging->getLimit())
             ->skip($paging->getSkip())
             ->orderBy($paging->getOrderBy(), $paging->getOrder());

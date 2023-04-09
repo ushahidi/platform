@@ -25,6 +25,7 @@ use Ushahidi\Modules\V5\Models\Lock;
 
 use Ushahidi\Modules\V5\Http\Resources\Post\PostCollection as NewPostCollection;
 use Ushahidi\Modules\V5\Http\Resources\Post\PostResource as NewPostResource;
+use Ushahidi\Modules\V5\Requests\PostRequest;
 
 class PostController extends V5Controller
 {
@@ -93,22 +94,25 @@ class PostController extends V5Controller
      * @return PostResource|JsonResponse
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function store(Request $request)
+    public function store(PostRequest $request)
     {
         $input = $this->getFields($request->input());
-        if (empty($input)) {
-            return self::make500('POST body cannot be empty');
-        }
-        if (empty($input['form_id'])) {
-            return self::make422("The V5 API requires a form_id for post creation.");
-        }
+        // if (empty($input)) {
+        //     return self::make500('POST body cannot be empty');
+        // }
+        // if (empty($input['form_id'])) {
+             //return self::make422("The V5 API requires a form_id for post creation.");
+        // }
+
         // Check post permissions
         $user = $this->runAuthorizer('store', [Post::class, $input['form_id'], $this->getUser()->getId()]);
+        
         $input = $this->setInputDefaults($input, $user, 'store');
         $post = new Post();
-        if (!$post->validate($input)) {
-            return self::make422($post->errors);
-        }
+        // if (!$post->validate($input)) {
+        //     return self::make422($post->errors);
+        // }
+        // handler
         DB::beginTransaction();
         try {
             $post = Post::create(
@@ -117,6 +121,7 @@ class PostController extends V5Controller
                     ['created' => time()]
                 )
             );
+
             if (isset($input['completed_stages'])) {
                 $this->savePostStages($post, $input['completed_stages']);
             }
@@ -130,7 +135,9 @@ class PostController extends V5Controller
 
             if (!empty($errors)) {
                 DB::rollback();
-                return self::make422($errors, 'fields');
+               // return self::make422($errors, 'fields');
+               //dd($errors);
+                return  $this->failedValidation($errors);
             }
             $errors = $this->saveTranslations(
                 $post,
@@ -333,26 +340,37 @@ class PostController extends V5Controller
      * @return mixed
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function update(int $id, Request $request)
+    public function update(int $id, PostRequest $request)
     {
-        $post = Post::find($id);
-        if (!$post) {
-            return self::make404();
-        }
+       // dd('in update');
+        $post = $this->queryBus->handle(new FindPostByIdQuery($id, Post::ALLOWED_FIELDS));
+
+        //$post = Post::find($id);
+        // if (!$post) {
+        //     return self::make404();
+        // }
+
+        // check permissions
         $this->authorize('update', $post);
+
+        // input handling in command
         $input = $this->getFields($request->input());
         $post_values = $input['post_content'];
         if (!$post->slug) {
             $input['slug'] = Post::makeSlug($input['slug'] ?? $input['title']);
         }
-        if (!$post->validate($input)) {
-            return self::make422($post->errors);
-        }
+        
+        // if (!$post->validate($input)) {
+        //     return self::make422($post->errors);
+        // }
+
+
         if (!$this->validateLockState($id)) {
             return self::make422(Lock::getPostLockedErrorMessage($id));
         }
 
 
+        // handler
         DB::beginTransaction();
         try {
             $post->update(array_merge($input, ['updated' => time()]));
@@ -515,7 +533,7 @@ class PostController extends V5Controller
                         );
                     }
                 } else {
-                    $errors['task_id.' . $stage['id'] . '.field_id.' . $field['id']] = $post_value->errors->toArray();
+                    $errors['task_id.' . $stage['id'] . '.field_id.' . $field['id']] = ($post_value->errors->toArray())['value'];
                 }
             }
         }
@@ -574,5 +592,26 @@ class PostController extends V5Controller
             return false;
         }
         return true;
+    }
+
+    protected function failedValidation(array $validation_errors)
+    {
+            //$errors = [];
+        foreach ($validation_errors as $field => $error_messages) {
+            $errors[] = [
+                "field" => $field,
+                "error_messages" => $error_messages
+            ];
+        }
+           // dd($errors);
+           // throw new \Illuminate\Http\Exceptions\HttpResponseException(
+               return response()->json([
+                    'errors' => [
+                        'status' => 422,
+                        'message' => 'please recheck the your inputs',
+                        'failed_validations' => $errors,
+                    ]
+                ], 422);
+        //    );
     }
 }//end class
