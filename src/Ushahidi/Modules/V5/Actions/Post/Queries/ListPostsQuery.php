@@ -12,7 +12,7 @@ class ListPostsQuery implements Query
 {
     //private const DEFAULT_LIMIT = 20;
 
-/**
+    /**
      * @var Paging
      */
     private $paging;
@@ -54,8 +54,12 @@ class ListPostsQuery implements Query
      */
     private $limit;
 
-    private function __construct(Paging $paging, PostSearchFields $search_fields, array $fields = [], array $hydrates = [])
-    {
+    private function __construct(
+        Paging $paging,
+        PostSearchFields $search_fields,
+        array $fields = [],
+        array $hydrates = []
+    ) {
         $this->paging = $paging;
         $this->search_fields = $search_fields;
 
@@ -132,7 +136,7 @@ class ListPostsQuery implements Query
 
     public static function fromRequest(Request $request): self
     {
-        
+
         // do we need to throw execption if send an field not found ?!
         if ($request->get('format') === 'minimal') {
             $fields = ['id', 'title', 'content'];
