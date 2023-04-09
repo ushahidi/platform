@@ -36,6 +36,12 @@ class Paging
         $this->order = $request->query('order', $default_order);
     }
 
+    public static function fromRequest(Request $request)
+    {
+        return new self($request);
+    }
+
+
     public function getLimit(): int
     {
         return $this->limit;

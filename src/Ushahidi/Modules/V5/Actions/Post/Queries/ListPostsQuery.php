@@ -5,10 +5,18 @@ namespace Ushahidi\Modules\V5\Actions\Post\Queries;
 use App\Bus\Query\Query;
 use Ushahidi\Modules\V5\Models\Post\Post;
 use Illuminate\Http\Request;
+use Ushahidi\Modules\V5\DTO\Paging;
+use Ushahidi\Modules\V5\DTO\PostSearchFields;
 
 class ListPostsQuery implements Query
 {
-    private const DEFAULT_LIMIT = 20;
+    //private const DEFAULT_LIMIT = 20;
+
+/**
+     * @var Paging
+     */
+    private $paging;
+    private $search_fields;
 
     // private const ALLOWED_FIELDS = [
     //     'id',
@@ -46,8 +54,11 @@ class ListPostsQuery implements Query
      */
     private $limit;
 
-    private function __construct(array $fields = [], array $hydrates = [])
+    private function __construct(Paging $paging, PostSearchFields $search_fields, array $fields = [], array $hydrates = [])
     {
+        $this->paging = $paging;
+        $this->search_fields = $search_fields;
+
         $this->fields = $fields;
         $this->limit = 20;
         $this->fields = array_unique(array_merge($fields, Post::REQUIRED_FIELDS));
@@ -109,6 +120,16 @@ class ListPostsQuery implements Query
     //     return new self($fields, $limit);
     // }
 
+    public function getPaging(): Paging
+    {
+        return $this->paging;
+    }
+
+    public function getSearchFields()
+    {
+        return $this->search_fields;
+    }
+
     public static function fromRequest(Request $request): self
     {
         
@@ -132,7 +153,7 @@ class ListPostsQuery implements Query
             }
         }
 
-        return new self($fields, $hydrates);
+        return new self(Paging::fromRequest($request), new PostSearchFields($request), $fields, $hydrates);
     }
 
     public function getLimit(): int

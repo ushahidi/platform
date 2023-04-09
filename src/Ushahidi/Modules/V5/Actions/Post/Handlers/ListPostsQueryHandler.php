@@ -41,7 +41,8 @@ class ListPostsQueryHandler extends AbstractQueryHandler
 
         $posts = $this->postRepository
             ->paginate(
-                $action->getLimit(),
+                $action->getPaging(),
+                $action->getSearchFields(),
                 array_unique(array_merge($action->getFields(), $action->getFieldsForRelationship())),
                 $action->getWithRelationship()
             );

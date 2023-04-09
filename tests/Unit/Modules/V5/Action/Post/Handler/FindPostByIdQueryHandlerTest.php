@@ -20,7 +20,7 @@ class FindPostByIdQueryHandlerTest extends TestCase
 
         // When
         $handler = new FindPostByIdQueryHandler($postRepository);
-        $post = $handler(FindPostByIdQuery::of(1));
+        $post = $handler(new FindPostByIdQuery(1));
 
         // Then
         $this->assertInstanceOf(Post::class, $post);

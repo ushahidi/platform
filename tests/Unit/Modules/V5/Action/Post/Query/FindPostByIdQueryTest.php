@@ -9,7 +9,7 @@ class FindPostByIdQueryTest extends TestCase
 {
     public function testCanCreateWithAPositiveNumber()
     {
-        $query = FindPostByIdQuery::of(1);
+        $query = new FindPostByIdQuery(1);
 
         $this->assertInstanceOf(FindPostByIdQuery::class, $query);
         $this->assertEquals($query->getId(), 1);
