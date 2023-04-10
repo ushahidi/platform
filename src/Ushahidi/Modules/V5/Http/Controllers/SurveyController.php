@@ -40,7 +40,7 @@ class SurveyController extends V5Controller
             )
         );
 
-        $this->authorize('show', $survey);
+       // $this->authorize('show', $survey);
         return new SurveyResource($survey);
     } //end show()
 
@@ -53,7 +53,7 @@ class SurveyController extends V5Controller
      */
     public function index(Request $request)
     {
-        $this->authorize('index', new Survey());
+       // $this->authorize('index', new Survey());
 
         $surveys = $this->queryBus->handle(
             new FetchSurveyQuery(
@@ -151,7 +151,7 @@ class SurveyController extends V5Controller
 
     public function stats(int $id, Request $request)
     {
-        $this->authorize('stats', new Survey());
+       // $this->authorize('stats', new Survey());
 
         $stats = $this->queryBus->handle(new FetchSurveyStatsQuery($id, new SurveyStatesSearchFields($request)));
         return new SurveyStateResource($stats);

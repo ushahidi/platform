@@ -19,7 +19,6 @@ jobs:
       matrix:
         php_version:
           - 7.3
-          - 7.4
 
     steps:
     - uses: actions/checkout@v3
@@ -148,5 +147,8 @@ jobs:
         push: ${{ github.event_name != 'pull_request' }}
         labels: ${{ steps.meta.outputs.labels }}
         tags: ${{ steps.meta.outputs.tags }}
+        build-args: |
+          GIT_COMMIT_ID=${{ github.sha }}
+          GIT_BUILD_REF=${{ github.head_ref }}
         cache-from: type=gha
         cache-to: type=gha,mode=max
