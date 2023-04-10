@@ -17,6 +17,9 @@ use Ushahidi\Core\Tool\Permissions\Permissionable;
 
 class Post extends StaticEntity
 {
+    const DEFAULT_STATUS = 'draft';
+    const DEFAULT_LOCAL = 'en_US';
+
     protected $id;
     protected $parent_id;
     protected $form_id;

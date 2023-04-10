@@ -17,7 +17,17 @@ class PostResource extends BaseResource
 {
     public static $wrap = 'result';
     private const DEFAULT_SOURCE_TYPE = 'web';
+    private $http_status;
+    public function __construct($resource, $status = 200)
+    {
+        parent::__construct($resource);
+        $this->http_status = $status;
+    }
 
+    public function withResponse($request, $response)
+    {
+        $response->setStatusCode((int)$this->http_status);
+    }
 
     private function getResourcePrivileges()
     {

@@ -494,12 +494,19 @@ class Post extends BaseModel
 
     public function setPostDateAttribute($value)
     {
-        // Set default value for post_date
+        if ($value instanceof DateTime) {
+            dd(get_class($value));
+        }
+                // Set default value for post_date
         if (empty($value)) {
             $value = date_create()->format("Y-m-d H:i:s");
             // Convert post_date to mysql format
         } else {
-            $value = date_create($value)->format("Y-m-d H:i:s");
+            if (!is_string($value)) { // datetime from entity
+                $value = $value->format('Y-m-d H:i:s');
+            } else {
+                $value = date_create($value)->format("Y-m-d H:i:s");
+            }
         }
         $this->attributes['post_date'] = $value;
     }

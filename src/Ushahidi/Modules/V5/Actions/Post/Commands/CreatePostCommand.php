@@ -3,195 +3,105 @@
 namespace Ushahidi\Modules\V5\Actions\Post\Commands;
 
 use App\Bus\Command\Command;
-use Ushahidi\Modules\V5\Models\Post;
+use Ushahidi\Modules\V5\Models\Post\Post;
 use Ushahidi\Modules\V5\Requests\PostRequest;
+use Illuminate\Support\Facades\Auth;
+use Ushahidi\Core\Entity\Post as PostEntity;
+use Ushahidi\Modules\V5\Models\Stage;
 
 class CreatePostCommand implements Command
 {
+    /**
+     * @var PostEntity
+     */
+    private $post_entity;
+
+    /**
+     * @var int[]
+     */
+    private $completed_stages;
+
+    /**
+     * @var array
+     * Stage[]
+     */
+    private $post_content;
+    private $translations;
+
+    
     // todo: At some point we might want to change it into a parameter
     const DEFAULT_LANUGAGE = 'en';
-    /**
-     * @var ?string
-     */
-    private $parentId;
-
-    /**
-     * @var string
-     */
-    private $tag;
-
-    /**
-     * @var string
-     */
-    private $slug;
-
-    /**
-     * @var string
-     */
-    private $type;
-
-    /**
-     * @var ?string
-     */
-    private $description;
-
-    /**
-     * @var ?string
-     */
-    private $color;
-
-    /**
-     * @var string
-     */
-    private $icon;
-
-    /**
-     * @var int
-     */
-    private $priority;
-
-    /**
-     * @var ?array
-     */
-    private $role;
-
-    /**
-    * @var string
-    */
-    private $defaultLanguage;
-
-    /**
-    * @var array
-    */
     private $availableLanguages;
 
     public function __construct(
-        ?int $parentId,
-        string  $slug,
-        string $tag,
-        string  $type,
-        ?string $description,
-        ?string $color,
-        ?string  $icon,
-        int     $priority,
-        ?array  $role,
-        ?string $defaultLanguage = 'en',
-        array   $availableanguages = []
+        PostEntity $post_entity,
+        array $completed_stages,
+        array $post_content,
+        array $translations
     ) {
-        $this->parentId    = $parentId;
-        $this->tag         = $tag;
-        $this->slug        = $slug;
-        $this->type        = $type;
-        $this->description = $description;
-        $this->color       = $color;
-        $this->icon        = $icon;
-        $this->priority    = $priority;
-        $this->role        = $role;
-        $this->defaultLanguage = $defaultLanguage;
-        $this->availableLanguages = $availableanguages;
+        $this->post_entity = $post_entity;
+        $this->completed_stages = $completed_stages;
+        $this->post_content = $post_content;
+        $this->translations = $translations;
     }
 
-    public static function createFromRequest(CategoryRequest $request): self
+    public static function createFromRequest(PostRequest $request): self
     {
-        $slug = $request->input('slug');
-        if (!$slug) {
-            $slug = Category::makeSlug($request->input('slug') ?? $request->input('tag'));
-        }
-
+        $user = Auth::user();
+        $input['slug'] = Post::makeSlug($request->input('slug') ?? $request->input('title'));
+        $input['user_id'] = $request->input('user_id') ?? ($user ? $user->id : null);
+        $input['author_email'] = $request->input('author_email') ?? ($user ? $user->email : null);
+        $input['author_realname'] = $request->input('author_realname') ??($user ? $user->realname : null);
+        $input['form_id'] = $request->input('form_id');
+        $input['parent_id'] = $request->input('parent_id');
+        $input['type'] = $request->input('type');
+        $input['title'] = $request->input('title');
+        $input['content'] = $request->input('content');
+        $input['status'] = $request->input('status') ?? PostEntity::DEFAULT_STATUS;
+        $input['post_date'] = $request->input('post_date');
+        $input['locale'] = $request->input('locale') ?? PostEntity::DEFAULT_LOCAL;
+        $input['base_language'] = $request->input('base_language') ?? PostEntity::DEFAULT_LOCAL;
+        $input['published_to'] = $request->input('published_to');
+        $input['created'] = time();
+        $input['update'] = null;
+      
         return new self(
-            (int) $request->input('parent_id'),
-            $slug,
-            $request->input('tag'),
-            $request->input('type'),
-            $request->input('description'),
-            $request->input('color'),
-            $request->input('icon'),
-            (int) $request->input('priority'),
-            $request->input('role'),
-            self::DEFAULT_LANUGAGE,
-            []
+            new PostEntity($input),
+            $request->input['completed_stages']??[],
+            $request->input['post_content']??[],
+            $request->input['translations']??[],
         );
     }
 
     /**
-     * @return string|null
+     * @return PostEntity
      */
-    public function getParentId(): ?string
+    public function getPostEntity(): PostEntity
     {
-        return $this->parentId;
-    }
-
-    /**
-     * @return string
-     */
-    public function getSlug(): string
-    {
-        return $this->slug;
-    }
-
-    /**
-     * @return string
-     */
-    public function getType(): string
-    {
-        return $this->type;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getDescription(): ?string
-    {
-        return $this->description;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getColor(): ?string
-    {
-        return $this->color;
-    }
-
-    /**
-     * @return string
-     */
-    public function getIcon(): ?string
-    {
-        return $this->icon;
-    }
-
-    /**
-     * @return int
-     */
-    public function getPriority(): int
-    {
-        return $this->priority;
+        return $this->post_entity;
     }
 
     /**
      * @return array
      */
-    public function getRole(): ?array
+    public function getCompletedStages(): array
     {
-        return $this->role;
+        return $this->completed_stages;
     }
 
     /**
-     * @return string
+     * @return array
      */
-    public function getTag(): string
+    public function getPostContent(): array
     {
-        return $this->tag;
+        return $this->post_content;
     }
 
-    public function getDefaultLanguage(): string
+    /**
+     * @return array
+     */
+    public function getTranslations(): array
     {
-        return $this->defaultLanguage;
-    }
-
-    public function getAvailableLanguages(): array
-    {
-        return $this->availableLanguages;
+        return $this->translations;
     }
 }

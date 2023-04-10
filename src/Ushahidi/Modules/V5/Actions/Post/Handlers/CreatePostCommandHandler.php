@@ -6,10 +6,12 @@ use App\Bus\Action;
 use App\Bus\Command\AbstractCommandHandler;
 use App\Bus\Command\Command;
 use Ushahidi\Modules\V5\Actions\Post\Commands\CreatePostCommand;
-use Ushahidi\Modules\V5\Models\Post;
 use Ushahidi\Modules\V5\Repository\Post\PostRepository;
+use Illuminate\Support\Facades\DB;
+use Ushahidi\Modules\V5\Models\Post\Post;
+use Ushahidi\Modules\V5\Actions\Post\Handlers\AbstractPostCommandHandler;
 
-class CreatePostCommandHandler extends AbstractCommandHandler
+class CreatePostCommandHandler extends AbstractPostCommandHandler
 {
     private $post_repository;
 
@@ -32,30 +34,50 @@ class CreatePostCommandHandler extends AbstractCommandHandler
     public function __invoke(Action $action): int
     {
         $this->isSupported($action);
+        return $this->createPost($action);
+    }
 
-    //     $slug = $action->getSlug();
-    //     if ($this->categoryRepository->slugExists($slug)) {
-    //         $slug = Category::makeSlug($action->getTag());
-    //     }
+    private function createPost(CreatePostCommand $action)
+    {
+        DB::beginTransaction();
+        try {
+            // to do call from repo
+            $post = Post::create($action->getPostEntity()->asArray());
 
-    //     $parentId = $action->getParentId();
-    //     if ($parentId == 0) {
-    //         $parentId = null;
-    //     }
+            if (count($action->getCompletedStages())) {
+                $this->savePostStages($post, $action->getCompletedStages());
+            }
 
-    //     return $this->categoryRepository->store(
-    //         $parentId,
-    //         ucfirst($action->getTag()),
-    //         $slug,
-    //         $action->getType(),
-    //         $action->getDescription(),
-    //         $action->getColor(),
-    //         $action->getIcon(),
-    //         $action->getPriority(),
-    //         $action->getRole(),
-    //         $action->getDefaultLanguage(),
-    //         $action->getAvailableLanguages()
-    //     );
-        return 0;
+            // Attempt auto-publishing post on creation
+            if ($post->tryAutoPublish()) {
+                $post->save();
+            }
+
+            $errors = $this->savePostValues($post, $action->getPostContent(), $post->id);
+            if (!empty($errors)) {
+                DB::rollback();
+                return $this->failedValidation($errors);
+            }
+            $errors = $this->saveTranslations(
+                $post,
+                $post->toArray(),
+                $action->getTranslations() ?? [],
+                $post->id,
+                'post'
+            );
+            if (!empty($errors)) {
+                DB::rollback();
+               // return self::make422($errors, 'translation');
+                return $this->failedValidation($errors);
+            }
+            DB::commit();
+            // note: done after commit to avoid deadlock in the db
+            // see comment in bulkPatchOperation() below
+            return $post->id;
+        } catch (\Exception $e) {
+            DB::rollback();
+            throw $e;
+            //return self::make500($e->getMessage());
+        }
     }
 }

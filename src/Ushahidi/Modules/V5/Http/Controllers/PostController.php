@@ -91,22 +91,40 @@ class PostController extends V5Controller
      * Display the specified resource.
      *
      * @param Request $request
-     * @return PostResource|JsonResponse
+     * @return NewPostResource|JsonResponse
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function store(PostRequest $request)
     {
+
+        $user = $this->runAuthorizer('store', [Post::class, $request->input('form_id'), $this->getUser()->getId()]);
+        $id = $this->commandBus->handle(CreatePostCommand::createFromRequest($request));
+        $post = $this->queryBus->handle(
+            new FindPostByIdQuery(
+                $id,
+                Post::ALLOWED_FIELDS,
+                array_keys(Post::ALLOWED_RELATIONSHIPS)
+            )
+        );
+        event(new PostCreatedEvent($post));
+        return new NewPostResource($post, 201);
+
+
+
+
+
+        // old
         $input = $this->getFields($request->input());
         // if (empty($input)) {
         //     return self::make500('POST body cannot be empty');
         // }
         // if (empty($input['form_id'])) {
-             //return self::make422("The V5 API requires a form_id for post creation.");
+        //return self::make422("The V5 API requires a form_id for post creation.");
         // }
 
         // Check post permissions
         $user = $this->runAuthorizer('store', [Post::class, $input['form_id'], $this->getUser()->getId()]);
-        
+
         $input = $this->setInputDefaults($input, $user, 'store');
         $post = new Post();
         // if (!$post->validate($input)) {
@@ -132,12 +150,10 @@ class PostController extends V5Controller
             }
 
             $errors = $this->savePostValues($post, $input['post_content'], $post->id);
-
+//dd($errors);
             if (!empty($errors)) {
                 DB::rollback();
-               // return self::make422($errors, 'fields');
-               //dd($errors);
-                return  $this->failedValidation($errors);
+                return $this->failedValidation($errors);
             }
             $errors = $this->saveTranslations(
                 $post,
@@ -342,7 +358,7 @@ class PostController extends V5Controller
      */
     public function update(int $id, PostRequest $request)
     {
-       // dd('in update');
+        // dd('in update');
         $post = $this->queryBus->handle(new FindPostByIdQuery($id, Post::ALLOWED_FIELDS));
 
         //$post = Post::find($id);
@@ -359,7 +375,7 @@ class PostController extends V5Controller
         if (!$post->slug) {
             $input['slug'] = Post::makeSlug($input['slug'] ?? $input['title']);
         }
-        
+
         // if (!$post->validate($input)) {
         //     return self::make422($post->errors);
         // }
@@ -438,7 +454,7 @@ class PostController extends V5Controller
                     continue;
                 }
 
-                $value =  $field['value']['value']; // field value input
+                $value = $field['value']['value']; // field value input
                 $value_meta = $field['value']['value_meta'] ?? [];
                 $value_translations = $field['value']['translations'] ?? [];
 
@@ -533,7 +549,8 @@ class PostController extends V5Controller
                         );
                     }
                 } else {
-                    $errors['task_id.' . $stage['id'] . '.field_id.' . $field['id']] = ($post_value->errors->toArray())['value'];
+                    $errors['task_id.' . $stage['id'] . '.field_id.' . $field['id']]
+                        = ($post_value->errors->toArray())['value'];
                 }
             }
         }
@@ -579,7 +596,7 @@ class PostController extends V5Controller
      */
     public function delete(int $id, Request $request)
     {
-        $post = $this->queryBus->handle(new FindPostByIdQuery($id, ['id','user_id']));
+        $post = $this->queryBus->handle(new FindPostByIdQuery($id, ['id', 'user_id']));
         $this->authorize('delete', $post);
 
         $this->commandBus->handle(new DeletePostCommand($id));
@@ -596,22 +613,22 @@ class PostController extends V5Controller
 
     protected function failedValidation(array $validation_errors)
     {
-            //$errors = [];
+        //$errors = [];
         foreach ($validation_errors as $field => $error_messages) {
             $errors[] = [
                 "field" => $field,
                 "error_messages" => $error_messages
             ];
         }
-           // dd($errors);
-           // throw new \Illuminate\Http\Exceptions\HttpResponseException(
-               return response()->json([
-                    'errors' => [
-                        'status' => 422,
-                        'message' => 'please recheck the your inputs',
-                        'failed_validations' => $errors,
-                    ]
-                ], 422);
+        // dd($errors);
+        // throw new \Illuminate\Http\Exceptions\HttpResponseException(
+        return response()->json([
+            'errors' => [
+                'status' => 422,
+                'message' => 'please recheck the your inputs',
+                'failed_validations' => $errors,
+            ]
+        ], 422);
         //    );
     }
-}//end class
+} //end class
