@@ -64,12 +64,12 @@ class CreatePostCommand implements Command
         $input['published_to'] = $request->input('published_to');
         $input['created'] = time();
         $input['update'] = null;
-      
+
         return new self(
             new PostEntity($input),
-            $request->input['completed_stages']??[],
-            $request->input['post_content']??[],
-            $request->input['translations']??[],
+            $request->input('completed_stages')??[],
+            $request->input('post_content')??[],
+            $request->input('translations')??[],
         );
     }
 

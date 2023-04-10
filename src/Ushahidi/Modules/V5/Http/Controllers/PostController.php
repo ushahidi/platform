@@ -77,16 +77,16 @@ class PostController extends V5Controller
         return $user;
     }
 
-    private function setInputDefaults($input, $user, $action)
-    {
-        if ($action === 'store') {
-            $input['slug'] = Post::makeSlug($input['slug'] ?? $input['title']);
-            $input['user_id'] = $input['user_id'] ?? $user->getId();
-            $input['author_email'] = $input['author_email'] ?? $user->email;
-            $input['author_realname'] = $input['author_realname'] ?? $user->realname;
-        }
-        return $input;
-    }
+    // private function setInputDefaults($input, $user, $action)
+    // {
+    //     if ($action === 'store') {
+    //         $input['slug'] = Post::makeSlug($input['slug'] ?? $input['title']);
+    //         $input['user_id'] = $input['user_id'] ?? $user->getId();
+    //         $input['author_email'] = $input['author_email'] ?? $user->email;
+    //         $input['author_realname'] = $input['author_realname'] ?? $user->realname;
+    //     }
+    //     return $input;
+    // }
     /**
      * Display the specified resource.
      *
@@ -97,7 +97,7 @@ class PostController extends V5Controller
     public function store(PostRequest $request)
     {
 
-        $user = $this->runAuthorizer('store', [Post::class, $request->input('form_id'), $this->getUser()->getId()]);
+        $this->runAuthorizer('store', [Post::class, $request->input('form_id'), $this->getUser()->getId()]);
         $id = $this->commandBus->handle(CreatePostCommand::createFromRequest($request));
         $post = $this->queryBus->handle(
             new FindPostByIdQuery(
@@ -108,73 +108,6 @@ class PostController extends V5Controller
         );
         event(new PostCreatedEvent($post));
         return new NewPostResource($post, 201);
-
-
-
-
-
-        // old
-        $input = $this->getFields($request->input());
-        // if (empty($input)) {
-        //     return self::make500('POST body cannot be empty');
-        // }
-        // if (empty($input['form_id'])) {
-        //return self::make422("The V5 API requires a form_id for post creation.");
-        // }
-
-        // Check post permissions
-        $user = $this->runAuthorizer('store', [Post::class, $input['form_id'], $this->getUser()->getId()]);
-
-        $input = $this->setInputDefaults($input, $user, 'store');
-        $post = new Post();
-        // if (!$post->validate($input)) {
-        //     return self::make422($post->errors);
-        // }
-        // handler
-        DB::beginTransaction();
-        try {
-            $post = Post::create(
-                array_merge(
-                    $input,
-                    ['created' => time()]
-                )
-            );
-
-            if (isset($input['completed_stages'])) {
-                $this->savePostStages($post, $input['completed_stages']);
-            }
-
-            // Attempt auto-publishing post on creation
-            if ($post->tryAutoPublish()) {
-                $post->save();
-            }
-
-            $errors = $this->savePostValues($post, $input['post_content'], $post->id);
-//dd($errors);
-            if (!empty($errors)) {
-                DB::rollback();
-                return $this->failedValidation($errors);
-            }
-            $errors = $this->saveTranslations(
-                $post,
-                $post->toArray(),
-                $request->input('translations') ?? [],
-                $post->id,
-                'post'
-            );
-            if (!empty($errors)) {
-                DB::rollback();
-                return self::make422($errors, 'translation');
-            }
-            DB::commit();
-            // note: done after commit to avoid deadlock in the db
-            // see comment in bulkPatchOperation() below
-            event(new PostCreatedEvent($post));
-            return new PostResource($post);
-        } catch (\Exception $e) {
-            DB::rollback();
-            return self::make500($e->getMessage());
-        }
     } //end store()
 
     /**
@@ -609,26 +542,5 @@ class PostController extends V5Controller
             return false;
         }
         return true;
-    }
-
-    protected function failedValidation(array $validation_errors)
-    {
-        //$errors = [];
-        foreach ($validation_errors as $field => $error_messages) {
-            $errors[] = [
-                "field" => $field,
-                "error_messages" => $error_messages
-            ];
-        }
-        // dd($errors);
-        // throw new \Illuminate\Http\Exceptions\HttpResponseException(
-        return response()->json([
-            'errors' => [
-                'status' => 422,
-                'message' => 'please recheck the your inputs',
-                'failed_validations' => $errors,
-            ]
-        ], 422);
-        //    );
     }
 } //end class

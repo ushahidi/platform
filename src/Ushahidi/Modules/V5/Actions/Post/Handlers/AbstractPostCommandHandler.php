@@ -4,7 +4,9 @@
     use Ushahidi\Modules\V5\Actions\V5CommandHandler;
     use Ushahidi\Modules\V5\Models\Post\Post;
     use Illuminate\Support\Facades\DB;
-
+    use Illuminate\Http\JsonResponse;
+    use Illuminate\Http\Exceptions\HttpResponseException;
+    
 abstract class AbstractPostCommandHandler extends V5CommandHandler
 {
 
@@ -27,6 +29,7 @@ abstract class AbstractPostCommandHandler extends V5CommandHandler
  */
     protected function savePostValues(Post $post, array $post_content, int $post_id)
     {
+
         $errors = [];
         $post->valuesPostTag()->delete();
         foreach ($post_content as $stage) {
@@ -175,14 +178,25 @@ abstract class AbstractPostCommandHandler extends V5CommandHandler
             ];
         }
         // dd($errors);
-        throw new \Illuminate\Http\Exceptions\HttpResponseException(
+        // throw new \Illuminate\Http\Exceptions\HttpResponseException(
+        //     response()->json([
+        //     'errors' => [
+        //         'status' => 422,
+        //         'message' => 'please recheck the your inputs',
+        //         'failed_validations' => $errors,
+        //     ]
+        //     ])
+        // );
+
+
+        throw new HttpResponseException(
             response()->json([
-            'errors' => [
-                'status' => 422,
-                'message' => 'please recheck the your inputs',
-                'failed_validations' => $errors,
-            ]
-            ])
+                'errors' => [
+                    'status' => 422,
+                    'message' => 'please recheck the your inputs',
+                    'failed_validations' => $errors,
+                ]
+            ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY)
         );
     }
 }

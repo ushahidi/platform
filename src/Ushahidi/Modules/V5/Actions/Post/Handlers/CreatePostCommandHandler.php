@@ -56,7 +56,7 @@ class CreatePostCommandHandler extends AbstractPostCommandHandler
             $errors = $this->savePostValues($post, $action->getPostContent(), $post->id);
             if (!empty($errors)) {
                 DB::rollback();
-                return $this->failedValidation($errors);
+                $this->failedValidation($errors);
             }
             $errors = $this->saveTranslations(
                 $post,
@@ -76,6 +76,7 @@ class CreatePostCommandHandler extends AbstractPostCommandHandler
             return $post->id;
         } catch (\Exception $e) {
             DB::rollback();
+           // dd($e);
             throw $e;
             //return self::make500($e->getMessage());
         }
