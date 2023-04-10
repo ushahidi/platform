@@ -4,8 +4,6 @@
     use Ushahidi\Modules\V5\Actions\V5CommandHandler;
     use Ushahidi\Modules\V5\Models\Post\Post;
     use Illuminate\Support\Facades\DB;
-    use Illuminate\Http\JsonResponse;
-    use Illuminate\Http\Exceptions\HttpResponseException;
     
 abstract class AbstractPostCommandHandler extends V5CommandHandler
 {
@@ -166,37 +164,5 @@ abstract class AbstractPostCommandHandler extends V5CommandHandler
                 ]
             );
         }
-    }
-
-    protected function failedValidation(array $validation_errors)
-    {
-        //$errors = [];
-        foreach ($validation_errors as $field => $error_messages) {
-            $errors[] = [
-                "field" => $field,
-                "error_messages" => $error_messages
-            ];
-        }
-        // dd($errors);
-        // throw new \Illuminate\Http\Exceptions\HttpResponseException(
-        //     response()->json([
-        //     'errors' => [
-        //         'status' => 422,
-        //         'message' => 'please recheck the your inputs',
-        //         'failed_validations' => $errors,
-        //     ]
-        //     ])
-        // );
-
-
-        throw new HttpResponseException(
-            response()->json([
-                'errors' => [
-                    'status' => 422,
-                    'message' => 'please recheck the your inputs',
-                    'failed_validations' => $errors,
-                ]
-            ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY)
-        );
     }
 }

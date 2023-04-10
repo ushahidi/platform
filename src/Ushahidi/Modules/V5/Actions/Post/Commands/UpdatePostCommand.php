@@ -3,174 +3,124 @@
 namespace Ushahidi\Modules\V5\Actions\Post\Commands;
 
 use App\Bus\Command\Command;
+use Ushahidi\Modules\V5\Models\Post\Post;
 use Ushahidi\Modules\V5\Requests\PostRequest;
+use Ushahidi\Core\Entity\Post as PostEntity;
+use Illuminate\Support\Facades\Auth;
 
 class UpdatePostCommand implements Command
 {
-    const DEFAULT_LANUGAGE = 'en';
+
     /**
      * @var int
      */
-    private $categoryId;
+    private $id;
 
     /**
-     * @var ?string
+     * @var PostEntity
      */
-    private $parentId;
+    private $post_entity;
 
     /**
-     * @var ?string
+     * @var int[]
      */
-    private $tag;
+    private $completed_stages;
 
     /**
-     * @var ?string
+     * @var array
+     * Stage[]
      */
-    private $slug;
-
-    /**
-     * @var ?string
-     */
-    private $type;
-
-    /**
-     * @var ?string
-     */
-    private $description;
-
-    /**
-     * @var ?string
-     */
-    private $color;
-
-    /**
-     * @var ?string
-     */
-    private $icon;
-
-    /**
-     * @var ?int
-     */
-    private $priority;
-
-    /**
-     * @var ?array
-     */
-    private $role;
-
-    /**
-     * @var ?string
-     */
-    private $defaultLanguage;
-
-    /**
-     * @var ?array
-     */
-    private $availableLanguages;
-
+    private $post_content;
+    private $translations;
     public function __construct(
-        int $categoryId,
-        ?string $parentId,
-        ?string $tag,
-        ?string $slug,
-        ?string $description,
-        ?string $type,
-        ?string $color,
-        ?string $icon,
-        ?int $priority,
-        ?array $role,
-        ?string $defaultLanguage,
-        ?array $availableLanguages
+        int $id,
+        PostEntity $post_entity,
+        array $completed_stages,
+        array $post_content,
+        array $translations
     ) {
-        $this->categoryId = $categoryId;
-        $this->parentId = $parentId;
-        $this->tag = $tag;
-        $this->slug = $slug;
-        $this->description = $description;
-        $this->type = $type;
-        $this->color = $color;
-        $this->icon = $icon;
-        $this->priority = $priority;
-        $this->role = $role;
-        $this->defaultLanguage = $defaultLanguage;
-        $this->availableLanguages = $availableLanguages;
+        $this->id = $id;
+        $this->post_entity = $post_entity;
+        $this->completed_stages = $completed_stages;
+        $this->post_content = $post_content;
+        $this->translations = $translations;
     }
 
-    public static function fromRequest(int $id, CategoryRequest $request): self
+    public static function fromRequest(int $id, PostRequest $request, Post $current_post): self
     {
+        $user = Auth::user();
+        if (self::hasPermissionToUpdateUser($user)) {
+            $input['user_id'] = $request->input('user_id') ?? $current_post->user_id;
+        } else {
+            $input['user_id'] = $current_post->user_id;
+        }
+
+        $input['slug'] = $request->input('slug') ? Post::makeSlug($request->input('slug')) : $current_post->slug;
+        $input['author_email'] = $request->input('author_email') ?? $current_post->author_email;
+        $input['author_realname'] = $request->input('author_realname') ?? $current_post->author_realname;
+        $input['form_id'] = $request->input('form_id') ?? $current_post->form_id;
+        $input['parent_id'] = $request->input('parent_id') ?? $current_post->parent_id;
+        $input['type'] = $request->input('type') ?? $current_post->type;
+        $input['title'] = $request->input('title') ?? $current_post->title;
+        $input['content'] = $request->input('content') ?? $current_post->content;
+        $input['status'] = $request->input('status') ?? $current_post->status;
+        $input['post_date'] = $request->input('post_date') ?? $current_post->post_date;
+        $input['locale'] = $request->input('locale') ?? $current_post->locale;
+        $input['base_language'] = $request->input('base_language') ?? $current_post->base_language;
+        $input['published_to'] = $request->input('published_to') ?? $current_post->published_to;
+        $input['created'] = $current_post->created;
+        $input['update'] = time();
+
+
         return new self(
             $id,
-            $request->input('parent_id'),
-            $request->input('tag'),
-            $request->input('slug'),
-            $request->input('description'),
-            $request->input('type'),
-            $request->input('color'),
-            $request->input('icon'),
-            $request->input('priority'),
-            $request->input('role'),
-            self::DEFAULT_LANUGAGE,
-            []
+            new PostEntity($input),
+            $request->input('completed_stages') ?? [],
+            $request->input('post_content') ?? [],
+            $request->input('translations') ?? [],
         );
     }
-
-    public function getCategoryId(): int
+    private static function hasPermissionToUpdateUser($user)
     {
-        return $this->categoryId;
+        if ($user->role === "admin") {
+            return true;
+        }
+        return false;
     }
 
-    public function getParentId(): ?string
+    public function getId(): int
     {
-        return $this->parentId;
+        return $this->id;
+    }
+    /**
+     * @return PostEntity
+     */
+    public function getPostEntity(): PostEntity
+    {
+        return $this->post_entity;
     }
 
-    public function getTag(): ?string
+    /**
+     * @return array
+     */
+    public function getCompletedStages(): array
     {
-        return $this->tag;
+        return $this->completed_stages;
     }
 
-    public function getSlug(): ?string
+    /**
+     * @return array
+     */
+    public function getPostContent(): array
     {
-        return $this->slug;
+        return $this->post_content;
     }
 
-    public function getDescription(): ?string
+    /**
+     * @return array
+     */
+    public function getTranslations(): array
     {
-        return $this->description;
-    }
-
-    public function getType(): ?string
-    {
-        return $this->type;
-    }
-
-    public function getColor(): ?string
-    {
-        return $this->color;
-    }
-
-    public function getIcon(): ?string
-    {
-        return $this->icon;
-    }
-
-    public function getPriority(): ?int
-    {
-        return $this->priority;
-    }
-
-    public function getRole(): ?array
-    {
-        return $this->role;
-    }
-
-    public function getDefaultLanguage(): ?string
-    {
-        return $this->defaultLanguage;
-    }
-
-    public function getAvailableLanguages(): ?array
-    {
-        return $this->availableLanguages;
+        return $this->translations;
     }
 }

@@ -110,10 +110,8 @@ class PostRequest extends BaseRequest
         $rules['form_id'] = "filled|sometimes|exists:forms,id";
         $rules['title'][0] = "filled";
         $rules['status'][0] = "filled";
-        //unset($rules['post_content.*.fields.*.required']);
+        unset($rules['post_content.*.fields.*.required']);
         //unset($rules['post_content.*.fields.*.type']);
-//dd($rules);
-        //dd($rules['post_content.*.fields.*.required'] = );
         return $rules;
     }
     public function messages(): array

@@ -77,16 +77,7 @@ class PostController extends V5Controller
         return $user;
     }
 
-    // private function setInputDefaults($input, $user, $action)
-    // {
-    //     if ($action === 'store') {
-    //         $input['slug'] = Post::makeSlug($input['slug'] ?? $input['title']);
-    //         $input['user_id'] = $input['user_id'] ?? $user->getId();
-    //         $input['author_email'] = $input['author_email'] ?? $user->email;
-    //         $input['author_realname'] = $input['author_realname'] ?? $user->realname;
-    //     }
-    //     return $input;
-    // }
+ 
     /**
      * Display the specified resource.
      *
@@ -291,220 +282,20 @@ class PostController extends V5Controller
      */
     public function update(int $id, PostRequest $request)
     {
-        // dd('in update');
         $post = $this->queryBus->handle(new FindPostByIdQuery($id, Post::ALLOWED_FIELDS));
-
-        //$post = Post::find($id);
-        // if (!$post) {
-        //     return self::make404();
-        // }
-
-        // check permissions
         $this->authorize('update', $post);
+        $this->commandBus->handle(UpdatePostCommand::fromRequest($id, $request, $post));
 
-        // input handling in command
-        $input = $this->getFields($request->input());
-        $post_values = $input['post_content'];
-        if (!$post->slug) {
-            $input['slug'] = Post::makeSlug($input['slug'] ?? $input['title']);
-        }
-
-        // if (!$post->validate($input)) {
-        //     return self::make422($post->errors);
-        // }
-
-
-        if (!$this->validateLockState($id)) {
-            return self::make422(Lock::getPostLockedErrorMessage($id));
-        }
-
-
-        // handler
-        DB::beginTransaction();
-        try {
-            $post->update(array_merge($input, ['updated' => time()]));
-
-            if (isset($input['completed_stages'])) {
-                $this->savePostStages($post, $input['completed_stages']);
-            }
-
-            // TODO: handle status update?
-
-            $errors = $this->savePostValues($post, $post_values, $post->id);
-            if (!empty($errors)) {
-                DB::rollback();
-                return self::make422($errors);
-            }
-            $translations_input = $request->input('translations') ? $request->input('translations') : [];
-            $this->updateTranslations(new Post(), $post->toArray(), $translations_input, $post->id, 'post');
-            Lock::releaseLock($id);
-            DB::commit();
-
-            // note: done after commit to avoid deadlock in the db
-            // see comment in bulkPatchOperation()
-            event(new PostUpdatedEvent($post));
-            $post->load('translations');
-            return new PostResource($post);
-        } catch (\Exception $e) {
-            DB::rollback();
-            return self::make500($e->getMessage());
-        }
+        $post = $this->queryBus->handle(
+            new FindPostByIdQuery(
+                $id,
+                Post::ALLOWED_FIELDS,
+                array_keys(Post::ALLOWED_RELATIONSHIPS)
+            )
+        );
+        event(new PostUpdatedEvent($post));
+        return new NewPostResource($post);
     } //end update()
-
-    protected function savePostStages($post, $completed)
-    {
-        $post->postStages()->delete();
-        foreach ($completed as $stage_id) {
-            $post->postStages()->create(['post_id' => $post, 'form_stage_id' => $stage_id, 'completed' => 1]);
-        }
-    }
-
-    /**
-     * @param Post $post
-     * @param array $post_content
-     * @param int $post_id
-     * @throws \Exception
-     * Stage: fields
-     * Fields: value, type, id
-     */
-    protected function savePostValues(Post $post, array $post_content, int $post_id)
-    {
-        $errors = [];
-        $post->valuesPostTag()->delete();
-        foreach ($post_content as $stage) {
-            if (!isset($stage['fields'])) {
-                continue;
-            }
-            foreach ($stage['fields'] as $field) {
-                if (!isset($field['value'])) {
-                    continue;
-                }
-
-                // We only want to check if a field input value is set, not if it's empty
-                // The reason is when a field value input is updated and then left empty (as long it's not required)
-                // the user wants to override the existing input value with an empty value.
-                if (!isset($field['value']['value'])) {
-                    continue;
-                }
-
-                $value = $field['value']['value']; // field value input
-                $value_meta = $field['value']['value_meta'] ?? [];
-                $value_translations = $field['value']['translations'] ?? [];
-
-                $type = $field['type'];
-
-                if ($type === 'tags') {
-                    $type === 'tags' ? 'tag' : $type;
-                    $this->savePostTags($post, $field['id'], $value);
-                    continue;
-                }
-
-                $class_name = "Ushahidi\Modules\V5\Models\PostValues\Post" . ucfirst($type);
-                if (!class_exists($class_name) &&
-                    in_array(
-                        $class_name,
-                        [
-                            'Ushahidi\Modules\V5\Models\PostValues\PostTitle',
-                            'Ushahidi\Modules\V5\Models\PostValues\PostDescription'
-                        ]
-                    )
-                ) {
-                    continue;
-                } elseif (!class_exists($class_name)) {
-                    throw new \Exception("Type '$type' is invalid.");
-                }
-
-                $post_value = $class_name::select('post_' . $type . '.*')
-                    ->where('post_' . $type . '.form_attribute_id', $field['id'])
-                    ->where('post_' . $type . '.post_id', $post_id)
-                    ->get()
-                    ->first();
-
-                $update_id = $post_value->id ?? null; // use null coalescing operator
-                if (!$update_id) {
-                    $post_value = new $class_name;
-                }
-
-                if ($type === 'geometry') {
-                    if (is_string($value) && $value === '') {
-                        $value = null;
-                    } else {
-                        $value = DB::raw("ST_GeomFromText('$value')");
-                    }
-                }
-
-                $data = [
-                    'post_id' => $post_id,
-                    'form_attribute_id' => $field['id'],
-                    'value' => $value
-                ];
-
-                if ($type === 'datetime') {
-                    // We intend to save the request value as a datetime, we intend to know
-                    // what format the request value is either a date or timestamp
-                    if (strlen($value) == 10) {
-                        $data['metadata']['is_date'] = true; // it's a date
-                    } else {
-                        $data['metadata']['is_date'] = false; // it's a timestamp
-                    }
-
-                    $data['metadata'] = array_merge($data['metadata'], $value_meta);
-                }
-
-                foreach ($data as $k => $v) {
-                    $post_value->setAttribute($k, $v);
-                }
-
-                if ($type === 'point') {
-                    $data['value'] = DB::raw("ST_GeomFromText('POINT({$value['lon']} {$value['lat']})')");
-                }
-
-                $validation = $post_value->validate();
-
-                if ($validation) {
-                    if ($update_id) { // If post value is an update
-                        $post_value->update($data);
-                        $this->updateTranslations(
-                            new $class_name(),
-                            $post_value->toArray(),
-                            $value_translations,
-                            $update_id,
-                            "post_value_$type"
-                        );
-                    } else {
-                        $field_value = get_class($post_value)::create($data);
-                        $this->saveTranslations(
-                            new $class_name(),
-                            $field_value->toArray(),
-                            $value_translations,
-                            $field_value->id,
-                            "post_value_$type"
-                        );
-                    }
-                } else {
-                    $errors['task_id.' . $stage['id'] . '.field_id.' . $field['id']]
-                        = ($post_value->errors->toArray())['value'];
-                }
-            }
-        }
-        return $errors;
-    }
-
-    protected function savePostTags($post, $attr_id, $tags)
-    {
-        if (!is_array($tags)) {
-            throw new \Exception("$attr_id: tag format is invalid.");
-        }
-        foreach ($tags as $tag_id) {
-            $post->valuesPostTag()->create(
-                [
-                    'post_id' => $post->id,
-                    'form_attribute_id' => $attr_id,
-                    'tag_id' => $tag_id
-                ]
-            );
-        }
-    }
 
     /**
      * @param Post $post
@@ -512,17 +303,17 @@ class PostController extends V5Controller
      * @param array $translations
      * @return array
      */
-    public function validateTranslations($post, $entity_array, array $translations)
-    {
-        $entity_array = array_merge($entity_array, $translations);
-        if (isset($entity_array['slug'])) {
-            $entity_array['slug'] = Post::makeSlug($entity_array['slug']);
-        }
-        if (!$post->validate($entity_array)) {
-            return $post->errors->toArray();
-        }
-        return [];
-    }
+    // public function validateTranslations($post, $entity_array, array $translations)
+    // {
+    //     $entity_array = array_merge($entity_array, $translations);
+    //     if (isset($entity_array['slug'])) {
+    //         $entity_array['slug'] = Post::makeSlug($entity_array['slug']);
+    //     }
+    //     if (!$post->validate($entity_array)) {
+    //         return $post->errors->toArray();
+    //     }
+    //     return [];
+    // }
 
     /**
      * @param integer $id
@@ -535,12 +326,4 @@ class PostController extends V5Controller
         $this->commandBus->handle(new DeletePostCommand($id));
         return $this->deleteResponse($id);
     } //end delete()
-
-    protected function validateLockState($post_id)
-    {
-        if (Lock::postIsLocked($post_id)) {
-            return false;
-        }
-        return true;
-    }
 } //end class
