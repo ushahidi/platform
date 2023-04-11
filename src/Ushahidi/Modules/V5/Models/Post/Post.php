@@ -599,7 +599,7 @@ class Post extends BaseModel
     public function locks()
     {
         //return $this->hasMany('Ushahidi\Modules\V5\Models\PostValues\PostLock', 'post_id', 'id');
-        return $this->hasMany('Ushahidi\Modules\V5\Models\Lock', 'post_id', 'id')
+        return $this->hasMany('Ushahidi\Modules\V5\Models\PostLock', 'post_id', 'id')
             ->where('post_locks.expires', '>=', time());
     }
 
