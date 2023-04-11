@@ -21,11 +21,15 @@ use Ushahidi\Modules\V5\Models\Post\PostStatus;
 use Ushahidi\Modules\V5\Exceptions\V5Exception;
 use Illuminate\Support\Facades\DB;
 use Ushahidi\Modules\V5\Common\ValidatorRunner;
-use Ushahidi\Modules\V5\Models\Lock;
 
 use Ushahidi\Modules\V5\Http\Resources\Post\PostCollection as NewPostCollection;
 use Ushahidi\Modules\V5\Http\Resources\Post\PostResource as NewPostResource;
+use Ushahidi\Modules\V5\Http\Resources\Post\PostLockResource ;
 use Ushahidi\Modules\V5\Requests\PostRequest;
+
+use Ushahidi\Modules\V5\Actions\Post\Commands\UpdatePostLockCommand;
+use Ushahidi\Modules\V5\Actions\Post\Commands\DeletePostLockCommand;
+use Ushahidi\Modules\V5\Actions\Post\Queries\FetchPostLockByPostIdQuery;
 
 class PostController extends V5Controller
 {
@@ -326,4 +330,61 @@ class PostController extends V5Controller
         $this->commandBus->handle(new DeletePostCommand($id));
         return $this->deleteResponse($id);
     } //end delete()
+
+
+    public function stats(Request $request)
+    {
+        dd('stats');
+        $post = $this->queryBus->handle(FindPostByIdQuery::FromRequest($id, $request));
+        return new NewPostResource($post);
+    }
+
+    public function indexGeoJson(Request $request): NewPostCollection
+    {
+        dd('list geo json');
+
+        $posts = $this->queryBus->handle(ListPostsQuery::FromRequest($request));
+        return new NewPostCollection($posts);
+    }
+
+    public function indexGeoJsonWithZoom(Request $request): NewPostCollection
+    {
+        dd('list geo json with zoom');
+
+        $posts = $this->queryBus->handle(ListPostsQuery::FromRequest($request));
+        return new NewPostCollection($posts);
+    }
+
+
+    public function showPostGeoJson(Request $request): NewPostCollection
+    {
+        dd('show geo json ');
+
+        $posts = $this->queryBus->handle(ListPostsQuery::FromRequest($request));
+        return new NewPostCollection($posts);
+    }
+
+
+    public function updateLock(int $post_id, Request $request)
+    {
+
+        $post = $this->queryBus->handle(new FindPostByIdQuery($post_id, ['id', 'user_id']));
+        $this->authorize('update', $post);
+
+        $this->commandBus->handle(new UpdatePostLockCommand($post_id));
+        $post_lock = $this->queryBus->handle(new FetchPostLockByPostIdQuery($post_id));
+        return new PostLockResource($post_lock);
+
+        //return $this->deleteResponse($post_id); //??
+    }
+
+
+    public function deleteLock(int $post_id, Request $request)
+    {
+        $post = $this->queryBus->handle(new FindPostByIdQuery($post_id, ['id', 'user_id']));
+        $this->authorize('update', $post);
+
+        $this->commandBus->handle(new DeletePostLockCommand($post_id));
+        return $this->deleteResponse($post_id);
+    }
 } //end class

@@ -101,8 +101,13 @@ $router->group([
         ],
         function () use ($router) {
             // Public access
+
             $router->get('/', 'PostController@index');
+            $router->get('/stats', 'PostController@stats');
+            $router->get('/geojson', 'PostController@indexGeoJson');
+            $router->get('/geojson/{zoom}/{x}/{y}', 'PostController@indexGeoJsonWithZoom');
             $router->get('/{id}', 'PostController@show');
+            $router->get('/{id}/geojson', 'PostController@showPostGeoJson');
         }
     );
 
@@ -117,6 +122,17 @@ $router->group([
             $router->put('/{id}', 'PostController@update');
             $router->patch('/{id}', 'PostController@patch');
             $router->delete('/{id}', 'PostController@delete');
+            
+            $router->group(
+                [
+                    'prefix' => '{post_id}/lock',
+                    'middleware' => ['scope:posts', 'auth:api', 'expiration']
+                ],
+                function () use ($router) {
+                        $router->put('/', 'PostController@updateLock');
+                        $router->delete('/', 'PostController@deleteLock');
+                }
+            );
         }
     );
 
@@ -282,7 +298,7 @@ $router->group([
             $router->group(
                 [
                     'prefix' => '{collection_id}/posts',
-                    'middleware' => ['scope:users', 'auth:api', 'feature:user-settings', 'expiration']
+                    'middleware' => ['scope:collections', 'auth:api',  'expiration']
                 ],
                 function () use ($router) {
                         $router->get('/', 'CollectionPostController@index');
@@ -305,11 +321,10 @@ $router->group([
             $router->group(
                 [
                     'prefix' => '{collection_id}/posts',
-                    'middleware' => ['scope:users', 'auth:api', 'feature:user-settings', 'expiration']
+                    'middleware' => ['scope:collections', 'auth:api',  'expiration']
                 ],
                 function () use ($router) {
                         $router->post('/', 'CollectionPostController@store');
-                        //$router->put('/{id}', 'CollectionPostController@update');
                         $router->delete('/{id}', 'CollectionPostController@delete');
                 }
             );
