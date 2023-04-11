@@ -180,5 +180,6 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(Survey\SurveyRoleRepository::class, Survey\EloquentSurveyRoleRepository::class);
         $this->app->bind(Survey\SurveyStatesRepository::class, Survey\EloquentSurveyStatesRepository::class);
         $this->app->bind(Set\SetRepository::class, Set\EloquentSetRepository::class);
+        $this->app->bind(Set\SetPostRepository::class, Set\EloquentSetPostRepository::class);
     }
 }

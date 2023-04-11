@@ -52,6 +52,7 @@ class PostSearchFields
         }
         $this->locale = $request->query('locale');
         $this->slug = $request->query('slug');
+        $this->set = $request->query('set')?explode(',', $request->get('set')):[];
 
 
        // $this->tag = $request->query('tag');
@@ -83,6 +84,12 @@ class PostSearchFields
     public function status(): array
     {
         return $this->status;
+    }
+
+
+    public function set(): array
+    {
+        return $this->set;
     }
 
     public function tags()

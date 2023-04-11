@@ -51,6 +51,24 @@ class EloquentPostRepository implements PostRepository
             $query->where('slug', '=', $search_fields->slug());
         }
 
+
+        if (count($search_fields->set())) {
+            $query->join("posts_sets", 'posts.id', '=', 'posts_sets.post_id');
+            $query->whereIn('posts_sets.set_id', $search_fields->set());
+        }
+        //set
+
+        // if (!empty($search->set)) {
+        //     $set = $search->set;
+        //     if (!is_array($set)) {
+        //         $set = explode(',', $set);
+        //     }
+
+        //     $query
+        //         ->join('posts_sets', 'INNER')->on('posts.id', '=', 'posts_sets.post_id')
+        //         ->where('posts_sets.set_id', 'IN', $set);
+        // }
+
         // if ($search_fields->type()) {
         //     $query->where('type', '=', $search_fields->type());
         // }

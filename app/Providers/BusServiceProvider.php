@@ -209,7 +209,15 @@ class BusServiceProvider extends ServiceProvider
                 Post\Commands\DeletePostCommand::class,
                 Post\Handlers\DeletePostCommandHandler::class
             );
-            
+
+            $commandBus->register(
+                Collection\Commands\CreateCollectionPostCommand::class,
+                Collection\Handlers\CreateCollectionPostCommandHandler::class
+            );
+            $commandBus->register(
+                Collection\Commands\DeleteCollectionPostCommand::class,
+                Collection\Handlers\DeleteCollectionPostCommandHandler::class
+            );
             return $commandBus;
         });
     }
@@ -330,6 +338,13 @@ class BusServiceProvider extends ServiceProvider
                 ListPostsQuery::class,
                 ListPostsQueryHandler::class
             );
+
+            $queryBus->register(
+                Collection\Queries\FetchCollectionPostByIdQuery::class,
+                Collection\Handlers\FetchCollectionPostByIdQueryHandler::class
+            );
+
+            
 
             return $queryBus;
         });
