@@ -12,8 +12,6 @@ use Ushahidi\Modules\V5\Actions\Permissions\Queries\FetchPermissionsQuery;
 
 class PermissionsController extends V5Controller
 {
-
-      
     /**
      * Display the specified resource.
      *
@@ -28,7 +26,7 @@ class PermissionsController extends V5Controller
         return new PermissionsResource($permissions);
     }//end show()
 
-   
+
     /**
      * Display the specified resource.
      *

@@ -13,6 +13,11 @@ use Ushahidi\Addons\AfricasTalking\AfricasTalkingSource;
 use Ushahidi\Contracts\Repository\Entity\PostRepository;
 use Ushahidi\Contracts\Repository\Entity\UserRepository;
 use Ushahidi\Contracts\Repository\Entity\ConfigRepository;
+use Ushahidi\Modules\V5\Repository\Category\CategoryRepository;
+use Ushahidi\Modules\V5\Repository\Category\EloquentCategoryRepository;
+use Ushahidi\Modules\V5\Repository\Translation\EloquentTranslationRepository;
+use Ushahidi\Modules\V5\Repository\Translation\TranslationRepository;
+
 use Ushahidi\Modules\V5\Models\Post\Post;
 use Ushahidi\Modules\V5\Repository\CountryCode\CountryCodeRepository;
 use Ushahidi\Modules\V5\Repository\CountryCode\EloquentCountryCodeRepository;
@@ -165,6 +170,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(PermissionsRepository::class, EloquentPermissionsRepository::class);
         $this->app->bind(RoleRepository::class, EloquentRoleRepository::class);
         $this->app->bind(TosRepository::class, EloquentTosRepository::class);
+        $this->app->bind(CategoryRepository::class, EloquentCategoryRepository::class);
+        $this->app->bind(TranslationRepository::class, EloquentTranslationRepository::class);
         $this->app->bind(V5PostRepository::class, function ($app) {
             return new EloquentPostRepository(Post::query());
         });
@@ -173,5 +180,6 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(Survey\SurveyRoleRepository::class, Survey\EloquentSurveyRoleRepository::class);
         $this->app->bind(Survey\SurveyStatesRepository::class, Survey\EloquentSurveyStatesRepository::class);
         $this->app->bind(Set\SetRepository::class, Set\EloquentSetRepository::class);
+        $this->app->bind(Set\SetPostRepository::class, Set\EloquentSetPostRepository::class);
     }
 }

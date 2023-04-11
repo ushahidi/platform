@@ -6,7 +6,7 @@ use Ushahidi\Core\Entity\Tag;
 use Illuminate\Support\Facades\Validator;
 use Ushahidi\Modules\V5\Models\Concerns\HasSlug;
 
-class Category extends Tag
+class Category extends BaseModel
 {
     use HasSlug;
 
@@ -110,4 +110,14 @@ class Category extends Tag
             $this->attributes['color'] = ltrim($value, '#');
         }
     }
+
+    // public function setRoleAttribute($value)
+    // {
+    //     $this->attributes['role'] = $value ? json_encode($value) : null;
+    // }
+
+    // public function getRoleAttribute($value)
+    // {
+    //     return $value ? json_decode($value, true) : null;
+    // }
 }

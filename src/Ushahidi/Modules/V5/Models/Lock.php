@@ -147,7 +147,7 @@ class Lock extends BaseModel
     {
         $user_id = self::where("post_id", "=", $post_id)->first()->user_id;
         $owner = User::where('id', '=', $user_id)->first();
-        $error = [""=>[trans('validation.post_locked', ['user' => $owner->realname])]];
+        $error = ["lock"=>[trans('validation.post_locked', ['user' => $owner->realname])]];
         return $error;
     }
 }//end class
