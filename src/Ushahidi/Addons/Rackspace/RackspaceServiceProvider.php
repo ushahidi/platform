@@ -27,35 +27,13 @@ class RackspaceServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Storage::extend('rackspace', function ($app, $config) {
-            // $client = new Rackspace(
-            //     $config['endpoint'],
-            //     [
-            //         'username' => $config['username'],
-            //         'apiKey' => $config['key'],
-            //     ]
-            // );
-
-            // $store = $client->objectStoreService(
-            //     'cloudFiles',
-            //     $config['region'],
-            //     $config['urlType'] ?? null
-            // );
-
-            // return new Filesystem(
-            //     new RackspaceAdapter(
-            //         $store->getContainer($config['container']),
-            //         $config['root'] ?? null
-            //     ),
-            //     $config
-            // );
-
             $httpClient = new Client([
                 'base_uri' => TransportUtils::normalizeUrl($config['authUrl']),
                 'handler'  => HandlerStack::create(),
             ]);
 
             $options = [
-                'authUrl'         => $config['endpoint'],
+                'authUrl'         => $config['authUrl'],
                 'region'          => $config['region'],
                 'username'        => $config['username'],
                 'password'        => $config['password'],
