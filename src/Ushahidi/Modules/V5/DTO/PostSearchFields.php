@@ -49,8 +49,6 @@ class PostSearchFields
         $this->status = [];
         if ($request->query('status')) {
             $this->status = explode(',', $request->get('status'));
-        } else {
-            $this->status =["published"];
         }
         $this->locale = $request->query('locale');
         $this->slug = $request->query('slug');
