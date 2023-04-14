@@ -38,6 +38,10 @@ class RackspaceServiceProvider extends ServiceProvider
                 'username'        => $config['username'],
                 'password'        => $config['password'],
                 'tenantId'        => $config['tenantid'],
+                'user'            => [
+                    'id'       => $config['username'],
+                    'password' => $config['password'],
+                ],
                 'identityService' => Service::factory($httpClient),
             ];
 
