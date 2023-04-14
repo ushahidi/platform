@@ -69,7 +69,7 @@ return [
             'key'       => env('RS_APIKEY'),
             'container' => env('RS_CONTAINER'),
             'password'  => env('RS_PASSWORD'),
-            'authUrl'   => 'https://identity.api.rackspacecloud.com/v2.0/',
+            'authUrl'   => 'https://lon.identity.api.rackspacecloud.com/v2.0/',
             'region'    => env('RS_REGION'),
             'tenantid'  => env('RS_TENANTID', '1'),
             'url_type'  => 'publicURL',
