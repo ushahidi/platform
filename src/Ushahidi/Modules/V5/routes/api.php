@@ -282,7 +282,7 @@ $router->group([
             $router->group(
                 [
                     'prefix' => '{collection_id}/posts',
-                    'middleware' => ['scope:users', 'auth:api', 'feature:user-settings', 'expiration']
+                    'middleware' => ['scope:collections,sets',  'expiration']
                 ],
                 function () use ($router) {
                         $router->get('/', 'CollectionPostController@index');
@@ -305,7 +305,7 @@ $router->group([
             $router->group(
                 [
                     'prefix' => '{collection_id}/posts',
-                    'middleware' => ['scope:users', 'auth:api', 'feature:user-settings', 'expiration']
+                    'middleware' => ['scope:collections,sets', 'auth:api', 'expiration']
                 ],
                 function () use ($router) {
                         $router->post('/', 'CollectionPostController@store');
