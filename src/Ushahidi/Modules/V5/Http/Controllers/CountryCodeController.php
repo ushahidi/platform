@@ -13,7 +13,6 @@ use Ushahidi\Modules\V5\Models\CountryCode;
 
 final class CountryCodeController extends V5Controller
 {
-  
     public function index(Request $request): JsonResponse
     {
         $this->abortOnGate('view');

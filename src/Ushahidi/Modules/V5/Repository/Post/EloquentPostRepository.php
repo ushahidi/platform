@@ -6,8 +6,9 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Ushahidi\Core\Exception\NotFoundException;
-use Ushahidi\Modules\V5\Http\Resources\PostCollection;
 use Ushahidi\Modules\V5\Models\Post\Post;
+use Ushahidi\Modules\V5\DTO\Paging;
+use Ushahidi\Modules\V5\DTO\PostSearchFields;
 
 class EloquentPostRepository implements PostRepository
 {
@@ -18,9 +19,90 @@ class EloquentPostRepository implements PostRepository
         $this->queryBuilder = $queryBuilder;
     }
 
-    public function fetchById(int $id): Post
+
+    private function setSearchCondition(PostSearchFields $search_fields, $query)
     {
-        $post = $this->queryBuilder->find($id);
+        if ($search_fields->q()) {
+            if (is_numeric($search_fields->q())) {
+                $query->where('id', '=', $search_fields->q());
+            } else {
+                $query->whereRaw(
+                    '(title like ? OR content like ?)',
+                    ["%" . $search_fields->q() . "%", "%" . $search_fields->q() . "%"]
+                );
+            }
+        }
+
+        if ($search_fields->postID()) {
+            if (is_numeric($search_fields->postID())) {
+                $query->where('id', '=', $search_fields->postID());
+            }
+        }
+
+        if (count($search_fields->status())) {
+                $query->whereIn('status', $search_fields->status());
+        }
+
+        if ($search_fields->locale()) {
+            $query->where('locale', '=', $search_fields->locale());
+        }
+
+        if ($search_fields->slug()) {
+            $query->where('slug', '=', $search_fields->slug());
+        }
+
+
+        if (count($search_fields->set())) {
+            $query->join("posts_sets", 'posts.id', '=', 'posts_sets.post_id');
+            $query->whereIn('posts_sets.set_id', $search_fields->set());
+        }
+        //set
+
+        // if (!empty($search->set)) {
+        //     $set = $search->set;
+        //     if (!is_array($set)) {
+        //         $set = explode(',', $set);
+        //     }
+
+        //     $query
+        //         ->join('posts_sets', 'INNER')->on('posts.id', '=', 'posts_sets.post_id')
+        //         ->where('posts_sets.set_id', 'IN', $set);
+        // }
+
+        // if ($search_fields->type()) {
+        //     $query->where('type', '=', $search_fields->type());
+        // }
+
+        // if ($search_fields->tags()) {
+        //     $query->where('tag', '=', $search_fields->tags());
+        // }
+        // if ($search_fields->parent()) {
+        //     $query->where('parent_id', '=', $search_fields->parent());
+        // }
+        return $query;
+    }
+
+
+    public function findById(int $id, array $fields = [], array $with = []): Post
+    {
+        $query = Post::where('id', '=', $id);
+        if (count($fields)) {
+            $query->select($fields);
+        }
+        if (count($with)) {
+            $query->with($with);
+        }
+
+        $post = $query->first();
+
+
+        // ? Post::select($fields)->where('id', '=', $id)->first()
+        // : Post::find($id);
+        // if(!count($fields)){
+        //     $post = $this->queryBuilder->find($id);
+        // }else{
+        //     $post = $this->queryBuilder->find($id);
+        // }
 
         if (!$post instanceof Post) {
             throw new NotFoundException('Post not found', 404);
@@ -29,12 +111,30 @@ class EloquentPostRepository implements PostRepository
         return $post;
     }
 
-    public function paginate(int $limit, array $fields): LengthAwarePaginator
-    {
-        if (empty($fields)) {
-            $fields = ['*'];
+    public function paginate(
+        Paging $paging,
+        PostSearchFields $search_fields,
+        array $fields = [],
+        array $with = []
+    ): LengthAwarePaginator {
+
+        $query = Post::take($paging->getLimit())
+            ->skip($paging->getSkip())
+            ->orderBy($paging->getOrderBy(), $paging->getOrder());
+
+        if (count($fields)) {
+            $query->select($fields);
+        }
+        if (count($with)) {
+            $query->with($with);
         }
 
-        return $this->queryBuilder->paginate($limit, $fields);
+        $query = $this->setSearchCondition($search_fields, $query);
+        return $query->paginate($paging->getLimit());
+    }
+
+    public function delete(int $id): void
+    {
+        $this->findById($id, ['id'])->delete();
     }
 }

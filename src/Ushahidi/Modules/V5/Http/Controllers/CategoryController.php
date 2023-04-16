@@ -2,65 +2,77 @@
 
 namespace Ushahidi\Modules\V5\Http\Controllers;
 
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Contracts\Routing\ResponseFactory;
+use Illuminate\Foundation\Application;
+use Illuminate\Http\JsonResponse;
+use Ushahidi\Modules\V5\DTO\Paging;
+use Symfony\Component\HttpFoundation\Response;
+use Ushahidi\Modules\V5\Actions\Category\Commands\DeleteCategoryCommand;
+use Ushahidi\Modules\V5\Actions\Category\Commands\StoreCategoryCommand;
+use Ushahidi\Modules\V5\Actions\Category\Commands\UpdateCategoryCommand;
+use Ushahidi\Modules\V5\Http\Resources\CategoryCollection;
+use Ushahidi\Modules\V5\Http\Resources\CategoryResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Validator;
+use Ushahidi\Modules\V5\Actions\Category\Queries\FetchAllCategoriesQuery;
+use Ushahidi\Modules\V5\Actions\Category\Queries\FetchCategoryByIdQuery;
+use Ushahidi\Modules\V5\Requests\CategoryRequest;
 use Ushahidi\Modules\V5\Models\Category;
-use Ushahidi\Modules\V5\Http\Requests\CategoryRequest;
-use Ushahidi\Modules\V5\Http\Resources\CategoryResource;
-use Ushahidi\Modules\V5\Http\Resources\CategoryCollection;
+use Ushahidi\Modules\V5\Http\Requests\CategoryRequest as ValidationCategoryRequest;
+use Ushahidi\Modules\V5\DTO\CategorySearchFields;
 
 class CategoryController extends V5Controller
 {
     /**
      * Display the specified resource.
      *
-     * @return CategoryCollection
-     * @throws \Illuminate\Auth\Access\AuthorizationException
-     */
-    public function index()
-    {
-        return new CategoryCollection(Category::get());
-    }
-
-    /**
-     * Display the specified resource.
-     *
      * @param integer $id
      * @return mixed
-     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @throws AuthorizationException
      */
-    public function show(int $id)
+    public function show(int $id): CategoryResource
     {
-        $category = Category::find($id);
-        if (!$category) {
-            return self::make404();
-        }
+
+        $category = $this->queryBus->handle(new FetchCategoryByIdQuery($id));
+       // $this->authorize('show', $category);
+
         return new CategoryResource($category);
     }
 
+
     /**
      * Display the specified resource.
      *
-     * @TODO   transactions =)
+     * @return CategoryCollection
+     * @throws AuthorizationException
+     */
+    public function index(Request $request)
+    {
+       // $this->authorize('index', new Category());
+
+        return new CategoryCollection(
+            $this->queryBus->handle(
+                new FetchAllCategoriesQuery(new Paging($request), new CategorySearchFields($request))
+            )
+        );
+    }
+    /**
+     * Display the specified resource.
      *
-     * @return \Illuminate\Http\JsonResponse|CategoryResource
-     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @param CategoryRequest $request
+     * @return ResponseFactory|Application|JsonResponse|Response
+     * @throws AuthorizationException
      */
     public function store(CategoryRequest $request)
     {
         $this->authorize('create', Category::class);
 
-        $input = $this->setInputDefaults(
-            $this->getFields($request->all()),
-            'store'
-        );
-
         DB::beginTransaction();
         try {
-            $category = Category::create(
-                array_merge($input, ['created' => time()])
-            );
+            $id = $this->commandBus->handle(StoreCategoryCommand::createFromRequest($request));
+
+            $category = $this->queryBus->handle(new FetchCategoryByIdQuery($id));
             $errors = $this->saveTranslations(
                 $category,
                 $category->toArray(),
@@ -83,26 +95,22 @@ class CategoryController extends V5Controller
     /**
      * Display the specified resource.
      *
-     * @TODO   transactions =)
      * @param integer $id
      * @param Request $request
      * @return mixed
-     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @throws AuthorizationException
      */
-    public function update(CategoryRequest $request)
+    public function update(int $id, CategoryRequest $request)
     {
-        // Doing this so tests can pass, apparently the test suite
-        // assumes finding the resource before validation.
-        // This is achievable if we use route model binding.
-        $category = $request->category;
-
+        $category = $this->queryBus->handle(new FetchCategoryByIdQuery($id));
         $this->authorize('update', $category);
 
         DB::beginTransaction();
         try {
-            $category->update($request->validated());
+            $command = UpdateCategoryCommand::fromRequest($id, $request);
+            $category = $this->commandBus->handle($command);
             $errors = $this->updateTranslations(
-                $category,
+                new Category(),
                 $category->toArray(),
                 $request->input('translations') ?? [],
                 $category->id,
@@ -110,13 +118,14 @@ class CategoryController extends V5Controller
             );
             if (!empty($errors)) {
                 DB::rollback();
+                // To do : change the return results to Exception
                 return self::make422($errors, 'translation');
             }
-            DB::commit();
-            return new CategoryResource($category);
+             DB::commit();
+             return new CategoryResource($category);
         } catch (\Exception $e) {
             DB::rollback();
-            return self::make500($e->getMessage());
+            throw $e;
         }
     }
 
@@ -134,13 +143,14 @@ class CategoryController extends V5Controller
             $entity_array['slug'] = $category::makeSlug($entity_array['slug']);
         }
 
-        $request = new CategoryRequest;
+        $request = new ValidationCategoryRequest;
 
         if (($validator = $this->getValidationFactory()->make(
             $entity_array,
             $request->rules($entity_array),
             $request->messages()
-        ))
+        )
+            )
             && $validator->fails()
         ) {
             return $validator->errors()->toArray();
@@ -154,35 +164,19 @@ class CategoryController extends V5Controller
      */
     public function delete(int $id)
     {
-        $category = Category::withoutGlobalScopes()->find($id);
-        if (!$category) {
-            return self::make404();
-        }
 
+        // try {
+        $category = $this->queryBus->handle(new FetchCategoryByIdQuery($id));
         $this->authorize('delete', $category);
 
-        $success = DB::transaction(function () use ($category) {
-            $category->translations()->delete();
-            $success = $category->delete();
-            return $success;
-        });
+     // $success = DB::transaction(function () use ($category) {
+        //     $category->translations()->delete();
+        //     $success = $category->delete();
+        //     return $success;
+        // });
 
-        if ($success) {
-            return response()->json(['result' => ['deleted' => $id]]);
-        } else {
-            return self::make500('Could not delete model');
-        }
-    }
-
-    /**
-     * Not all fields are things we want to allow on the body of requests
-     * an author won't change after the fact so we limit that change
-     * to avoid issues from the frontend.
-     * @return string[]
-     */
-    protected function ignoreInput()
-    {
-        return ['author_email', 'slug', 'user_id', 'author_realname', 'created', 'updated'];
+        $this->commandBus->handle(new DeleteCategoryCommand($id));
+        return $this->deleteResponse($id);
     }
 
     private function setInputDefaults($input, $action)

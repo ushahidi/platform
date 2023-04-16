@@ -4,9 +4,30 @@ namespace Ushahidi\Modules\V5\Actions;
 
 use App\Bus\Command\AbstractCommandHandler;
 use Ushahidi\Modules\V5\Models\Translation;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 abstract class V5CommandHandler extends AbstractCommandHandler
 {
+
+    protected function failedValidation(array $validation_errors)
+    {
+        foreach ($validation_errors as $field => $error_messages) {
+            $errors[] = [
+                "field" => $field,
+                "error_messages" => $error_messages
+            ];
+        }
+        throw new HttpResponseException(
+            response()->json([
+                'errors' => [
+                    'status' => 422,
+                    'message' => 'please recheck the your inputs',
+                    'failed_validations' => $errors,
+                ]
+            ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY)
+        );
+    }
 
     /**
      * @param $entity

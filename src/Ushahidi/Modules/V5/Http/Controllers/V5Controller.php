@@ -2,8 +2,10 @@
 
 namespace Ushahidi\Modules\V5\Http\Controllers;
 
-use App\Bus\Query\QueryBus;
 use App\Bus\Command\CommandBus;
+use App\Bus\Query\QueryBus;
+use Ushahidi\Modules\V5\Actions\Translation\Commands\AddTranslationCommand;
+use Ushahidi\Modules\V5\Models\Translation;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -12,7 +14,6 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Validator;
 use Illuminate\Contracts\Auth\Access\Gate;
-use Ushahidi\Modules\V5\Models\Translation;
 use Illuminate\Validation\ValidationException;
 use Ushahidi\Modules\V5\Common\ValidatorRunner;
 use Illuminate\Routing\Controller as BaseController;
@@ -22,6 +23,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 class V5Controller extends BaseController
 {
     use AuthorizesRequests, ValidatesRequests;
+
 
 
 
@@ -351,15 +353,22 @@ class V5Controller extends BaseController
                     $translated = json_encode($translated);
                 }
 
-                $t = Translation::create(
-                    [
-                        'translatable_type' => $type,
-                        'translatable_id' => $translatable_id,
-                        'translated_key' => $key,
-                        'translation' => $translated,
-                        'language' => $language,
-                    ]
-                );
+                $this->commandBus->handle(new AddTranslationCommand(
+                    $type,
+                    $translatable_id,
+                    $key,
+                    $translated,
+                    $language
+                ));
+                // $t = Translation::create(
+                //     [
+                //         'translatable_type' => $type,
+                //         'translatable_id' => $translatable_id,
+                //         'translated_key' => $key,
+                //         'translation' => $translated,
+                //         'language' => $language,
+                //     ]
+                // );
             }
         }
         return $errors;

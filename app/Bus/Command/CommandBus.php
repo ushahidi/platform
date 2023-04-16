@@ -28,7 +28,8 @@ class CommandBus implements Bus
 
     /**
      * @param Action $action
-     * @return void
+     *
+     * @return int|void
      */
     public function handle(Action $action)
     {

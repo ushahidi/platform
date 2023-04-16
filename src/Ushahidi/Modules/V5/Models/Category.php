@@ -104,4 +104,14 @@ class Category extends BaseModel
             $this->attributes['color'] = ltrim($value, '#');
         }
     }
+
+    // public function setRoleAttribute($value)
+    // {
+    //     $this->attributes['role'] = $value ? json_encode($value) : null;
+    // }
+
+    // public function getRoleAttribute($value)
+    // {
+    //     return $value ? json_decode($value, true) : null;
+    // }
 }
