@@ -178,12 +178,4 @@ class CategoryController extends V5Controller
         $this->commandBus->handle(new DeleteCategoryCommand($id));
         return $this->deleteResponse($id);
     }
-
-    private function setInputDefaults($input, $action)
-    {
-        if ($action === 'store') {
-            $input['slug'] = Category::makeSlug($input['slug'] ?? $input['tag']);
-        }
-        return $input;
-    }
 }
