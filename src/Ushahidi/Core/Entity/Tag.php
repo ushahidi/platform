@@ -11,9 +11,9 @@
 
 namespace Ushahidi\Core\Entity;
 
-use Ushahidi\Core\EloquentEntity;
+use Ushahidi\Core\StaticEntity;
 
-class Tag extends EloquentEntity
+class Tag extends StaticEntity
 {
     protected $id;
     protected $parent_id;

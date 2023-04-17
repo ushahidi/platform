@@ -11,10 +11,10 @@
 
 namespace Ushahidi\Core\Entity;
 
-use Ushahidi\Core\EloquentEntity;
 use Illuminate\Support\Facades\Auth;
+use Ushahidi\Core\StaticEntity;
 
-class Set extends EloquentEntity
+class Set extends StaticEntity
 {
     protected $id;
     protected $user_id;
