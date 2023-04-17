@@ -99,11 +99,8 @@ class Site extends StaticEntity
     {
         // TODO: I think there should be a way to work around this implementation
         $siteConfig = Cache::remember('config.site', self::DEFAULT_CACHE_LIFETIME, function () {
-            return app(ConfigRepository::class)->get('site')->asArray();
+            return $this->asArray() + app(ConfigRepository::class)->get('site')->asArray();
         });
-
-        // The work around using static entity
-        // $siteConfig = $this->asArray();
 
         if ($param) {
             return $siteConfig[$param] ?? $default;
