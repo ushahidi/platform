@@ -11,10 +11,10 @@
 
 namespace Ushahidi\Core\Entity;
 
-use Ushahidi\Core\EloquentEntity;
+use Ushahidi\Core\StaticEntity;
 use Ushahidi\Core\Tool\Hasher\Password as PasswordHash;
 
-class User extends EloquentEntity
+class User extends StaticEntity
 {
 
     const DEFAULT_LOGINS = 0;
