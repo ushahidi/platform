@@ -55,7 +55,8 @@ class CollectionPolicy
      */
     public function show(User $user, Set $set)
     {
-        $set_entity = new Entity\Set($set->toArray());
+        $set_entity = new Entity\Set();
+        $set_entity->setState($set->toArray());
         return $this->isAllowed($set_entity, 'read');
     }
 
@@ -67,7 +68,8 @@ class CollectionPolicy
      */
     public function delete(User $user, Set $set)
     {
-        $set_entity = new Entity\Set($set->toArray());
+        $set_entity = new Entity\Set();
+        $set_entity->setState($set->toArray());
         return $this->isAllowed($set_entity, 'delete');
     }
     /**
@@ -78,7 +80,8 @@ class CollectionPolicy
     {
 
         // we convert to a form entity to be able to continue using the old authorizers and classes.
-        $set_entity = new Entity\Set($set->toArray());
+        $set_entity = new Entity\Set();
+        $set_entity->setState($set->toArray());
         return $this->isAllowed($set_entity, 'update');
     }
 
