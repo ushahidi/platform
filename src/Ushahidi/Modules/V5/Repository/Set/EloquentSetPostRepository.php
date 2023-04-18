@@ -48,6 +48,6 @@ class EloquentSetPostRepository implements SetPostRepository
      */
     public function delete(int $collection_id, int $post_id): void
     {
-        $this->findById($collection_id, $post_id)->delete();
+        SetPost::where('post_id', '=', $post_id)->where('set_id', '=', $collection_id)->delete();
     }
 }

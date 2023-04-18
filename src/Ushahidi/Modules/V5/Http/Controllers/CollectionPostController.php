@@ -91,9 +91,14 @@ class CollectionPostController extends V5Controller
      */
     public function delete(int $collection_id, int $id, Request $request)
     {
-        $collection =  $this->queryBus->handle(new FetchCollectionByIdQuery($collection_id));
-       // $this->authorize('edit', $collection);
+        $this->checkCollectionIsFound($collection_id);
+
+       // $post = $this->queryBus->handle(new FindPostByIdQuery($id, ['id', 'user_id']));
+       // $this->authorize('delete', $post);
+        
         $this->checkPostIsFoundInCollection($collection_id, $id);
+
+
         $this->commandBus->handle(new DeleteCollectionPostCommand($collection_id, $id));
 
         return $this->deleteResponse($id);
