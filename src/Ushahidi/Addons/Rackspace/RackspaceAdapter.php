@@ -56,7 +56,7 @@ final class RackspaceAdapter extends AbstractAdapter
 
         $object = $this->storage[$location] ?? null;
 
-        if (!isset($object)){
+        if (!isset($object)) {
             $object = $this->container->getObject($location);
 
             $object->retrieve();
