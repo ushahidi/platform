@@ -29,6 +29,8 @@ final class RackspaceAdapter extends AbstractAdapter
 
     private $account;
 
+    private $storage = [];
+
     public function __construct(Container $container, Account $account, string $prefix = '')
     {
         $this->setPathPrefix($prefix);
@@ -52,7 +54,17 @@ final class RackspaceAdapter extends AbstractAdapter
     {
         $location = $this->applyPathPrefix($path);
 
-        return $this->container->getObject($location);
+        $object = $this->storage[$location] ?? null;
+
+        if (!isset($object)){
+            $object = $this->container->getObject($location);
+
+            $object->retrieve();
+
+            $this->storage[$location] = $object;
+        }
+
+        return $object;
     }
 
     public function write($path, $contents, Config $config)
@@ -60,13 +72,15 @@ final class RackspaceAdapter extends AbstractAdapter
         $location = $this->applyPathPrefix($path);
         $headers = $config->get('headers', []);
 
-        $response = $this->container->createObject([
+        $object = $this->container->createObject([
             'name' => $location,
             'content' => $contents,
             'headers' => $headers,
         ]);
 
-        return $this->normalizeObject($response);
+        $this->storage[$location] = $object;
+
+        return $this->normalizeObject($object);
     }
 
     /**
