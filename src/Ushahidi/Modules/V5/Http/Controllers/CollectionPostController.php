@@ -116,14 +116,13 @@ class CollectionPostController extends V5Controller
 
         $this->checkCollectionIsFound($collection_id);
 
-        $post = $this->queryBus->handle(new FindPostByIdQuery($id, ['id', 'user_id']));
-        $this->authorize('delete', $post);
+       // $post = $this->queryBus->handle(new FindPostByIdQuery($id, ['id', 'user_id']));
+       // $this->authorize('delete', $post);
         
         $this->checkPostIsFoundInCollection($collection_id, $id);
 
 
         //To do : Transaction
-        $this->commandBus->handle(new DeletePostCommand($id));
         $this->commandBus->handle(new DeleteCollectionPostCommand($collection_id, $id));
 
         return $this->deleteResponse($id);
