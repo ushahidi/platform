@@ -11,10 +11,9 @@
 
 namespace Ushahidi\Core\Entity;
 
-use Ushahidi\Core\EloquentEntity;
 use Ushahidi\Core\StaticEntity;
 
-class FormAttribute extends EloquentEntity
+class FormAttribute extends StaticEntity
 {
     protected $id;
     protected $key;
@@ -31,10 +30,10 @@ class FormAttribute extends EloquentEntity
     protected $form_stage_id;
     protected $response_private;
 
-    protected $attributes = [
-        'instructions' => null,
-        'config' => [],
-    ];
+    // protected $attributes = [
+    //     'instructions' => null,
+    //     'config' => [],
+    // ];
 
     // StatefulData
     protected function getDerived()

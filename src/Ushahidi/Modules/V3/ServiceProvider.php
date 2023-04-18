@@ -13,6 +13,7 @@ use Ushahidi\Core\Usecase\Message\ReceiveMessage;
 use Ushahidi\Modules\V3\Repository\TosRepository;
 use Ushahidi\Contracts\Repository\Entity\SetRepository;
 use Ushahidi\Contracts\Repository\Entity\PostRepository;
+use Ushahidi\Contracts\Repository\Entity\RoleRepository;
 use Ushahidi\Contracts\Repository\Entity\UserRepository;
 use Ushahidi\Contracts\Repository\Entity\MediaRepository;
 use Ushahidi\Modules\V3\Http\Middleware\RepositoryBinder;
@@ -59,6 +60,11 @@ class ServiceProvider extends BaseServiceProvider
             $this->app->singleton(UserRepository::class, function ($app) {
                 // Just return it from AuraDI
                 return service('repository.user');
+            });
+
+            $this->app->singleton(RoleRepository::class, function ($app) {
+                // Just return it from AuraDI
+                return service('repository.role');
             });
 
             $this->app->singleton(ApiKeyRepository::class, function ($app) {

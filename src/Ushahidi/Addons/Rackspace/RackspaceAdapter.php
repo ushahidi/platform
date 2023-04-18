@@ -312,7 +312,7 @@ final class RackspaceAdapter extends AbstractAdapter
      * @param  string $path
      * @return string
      */
-    protected function getUrl($path)
+    public function getUrl($path)
     {
         return (string) $this->container->getObject($path)->getPublicUri();
     }
