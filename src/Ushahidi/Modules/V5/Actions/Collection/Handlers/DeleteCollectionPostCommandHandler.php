@@ -5,7 +5,7 @@ namespace Ushahidi\Modules\V5\Actions\Collection\Handlers;
 use App\Bus\Command\AbstractCommandHandler;
 use App\Bus\Command\Command;
 use Ushahidi\Modules\V5\Actions\Collection\Commands\DeleteCollectionPostCommand;
-use Ushahidi\Modules\V5\Repository\Set\SetRepository as CollectionPostRepository;
+use Ushahidi\Modules\V5\Repository\Set\SetPostRepository as CollectionPostRepository;
 
 class DeleteCollectionPostCommandHandler extends AbstractCommandHandler
 {
