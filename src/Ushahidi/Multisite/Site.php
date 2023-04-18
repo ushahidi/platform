@@ -17,11 +17,6 @@ use Ushahidi\Core\Entity\Site as BaseSite;
 
 class Site extends BaseSite
 {
-    /**
-     * Cache lifetime in seconds
-     */
-    const DEFAULT_CACHE_LIFETIME = 60;
-
     protected $subdomain;
 
     protected $tier;

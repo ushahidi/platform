@@ -16,8 +16,13 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Request;
 use Ushahidi\Contracts\Repository\Entity\ConfigRepository;
 
-class Site extends StaticEntity // Change to Basic Entity
+class Site extends StaticEntity
 {
+    /**
+     * Cache lifetime in seconds
+     */
+    const DEFAULT_CACHE_LIFETIME = 60;
+
     protected $id;
 
     protected $email;
@@ -93,12 +98,12 @@ class Site extends StaticEntity // Change to Basic Entity
     public function getSiteConfig($param = false, $default = null)
     {
         // TODO: I think there should be a way to work around this implementation
-        // $siteConfig = Cache::remember('config.site', $this->cache_lifetime, function () {
-        //     return app(ConfigRepository::class)->get('site')->asArray();
+
+        // $siteConfig = Cache::remember('config.site', self::DEFAULT_CACHE_LIFETIME, function () {
+        //     return $this->asArray() + app(ConfigRepository::class)->get('site')->asArray();
         // });
 
-        // The work around using static entity
-        $siteConfig = $this->asArray();
+        $siteConfig = $this->asArray() + app(ConfigRepository::class)->get('site')->asArray();
 
         if ($param) {
             return $siteConfig[$param] ?? $default;
