@@ -12,7 +12,8 @@
 namespace Ushahidi\Core\Ohanzee\Repositories;
 
 use Ushahidi\Contracts\Entity;
-use Ushahidi\Contracts\Repository\{EntityGet, EntityExists};
+use Ushahidi\Contracts\Repository\EntityGet;
+use Ushahidi\Contracts\Repository\EntityExists;
 use Ushahidi\Core\Tool\SearchData;
 use Ushahidi\Core\Ohanzee\Entities\Notification;
 use Ushahidi\Core\Concerns\AdminAccess;

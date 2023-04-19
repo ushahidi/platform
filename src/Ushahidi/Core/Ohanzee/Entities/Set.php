@@ -96,5 +96,4 @@ class Set extends StaticEntity implements EntitySet
             "updated" => time()
         ]);
     }
-
 }

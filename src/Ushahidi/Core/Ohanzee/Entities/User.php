@@ -102,5 +102,4 @@ class User extends StaticEntity implements EntityUser
             "created" => time()
         ]);
     }
-
 }

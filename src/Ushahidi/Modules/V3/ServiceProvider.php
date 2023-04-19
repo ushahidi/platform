@@ -25,7 +25,6 @@ use Ushahidi\Core\Usecase\Message\ReceiveMessage;
 use Ushahidi\Modules\V3\Console;
 use Ushahidi\Modules\V3\Factory\UsecaseFactory;
 
-
 class ServiceProvider extends BaseServiceProvider
 {
     /**

@@ -97,5 +97,4 @@ class FormStage extends StaticEntity implements EntityFormStage
             : self::DEFAULT_TASK_IS_INTERNAL_ONLY,
         ]);
     }
-
 }

@@ -54,14 +54,14 @@ class ExportBatchRepository extends OhanzeeRepository implements ExportBatchRepo
         return $this->getCollection($results->as_array());
     }
 
-	/**
-	 * Get fields that can be used for searches.
-	 * @return array
-	 */
-	public function getSearchFields()
+    /**
+     * Get fields that can be used for searches.
+     * @return array
+     */
+    public function getSearchFields()
     {
         return [];
-	}
+    }
 
     /**
      * Converts an array/collection of results into an collection

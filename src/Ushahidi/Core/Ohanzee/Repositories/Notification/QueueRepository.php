@@ -12,7 +12,9 @@
 namespace Ushahidi\Core\Ohanzee\Repositories\Notification;
 
 use Ushahidi\Contracts\Entity;
-use Ushahidi\Contracts\Repository\{EntityGet, EntityExists, CreateRepository};
+use Ushahidi\Contracts\Repository\EntityGet;
+use Ushahidi\Contracts\Repository\EntityExists;
+use Ushahidi\Contracts\Repository\CreateRepository;
 use Ushahidi\Core\Ohanzee\Entities\NotificationQueue;
 use Ushahidi\Core\Ohanzee\Repositories\OhanzeeRepository;
 use Ushahidi\Core\Tool\SearchData;

@@ -7,10 +7,8 @@ use Ushahidi\Core\Config\SiteManager;
 use Ushahidi\Core\Config\FeatureManager;
 use Ushahidi\Core\Tool\OhanzeeResolver;
 use Ushahidi\Core\Entity\ConfigRepository;
-use Ushahidi\Addons\{
-    Mteja\MtejaSource,
-    AfricasTalking\AfricasTalkingSource
-};
+use Ushahidi\Addons\Mteja\MtejaSource;
+use Ushahidi\Addons\AfricasTalking\AfricasTalkingSource;
 use Ushahidi\Modules\V5\Repository\Set;
 use Ushahidi\Modules\V5\Repository\User;
 use Ushahidi\Modules\V5\Models\Post\Post;

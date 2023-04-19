@@ -10,5 +10,4 @@ interface ExportBatch extends Entity
     const STATUS_COMPLETED   = 'completed';
 
     const STATUS_FAILED      = 'failed';
-
 }
