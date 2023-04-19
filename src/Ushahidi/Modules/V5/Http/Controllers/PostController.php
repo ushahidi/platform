@@ -30,6 +30,10 @@ use Ushahidi\Modules\V5\Requests\PostRequest;
 use Ushahidi\Modules\V5\Actions\Post\Commands\UpdatePostLockCommand;
 use Ushahidi\Modules\V5\Actions\Post\Commands\DeletePostLockCommand;
 use Ushahidi\Modules\V5\Actions\Post\Queries\FetchPostLockByPostIdQuery;
+use Ushahidi\Modules\V5\Actions\Post\Queries\FindPostGeometryByIdQuery;
+use Ushahidi\Modules\V5\Actions\Post\Queries\ListPostsGeometryQuery;
+use Ushahidi\Modules\V5\Http\Resources\Post\PostGeometryCollection ;
+use Ushahidi\Modules\V5\Http\Resources\Post\PostGeometryResource ;
 
 class PostController extends V5Controller
 {
@@ -339,29 +343,31 @@ class PostController extends V5Controller
         return new NewPostResource($post);
     }
 
-    public function indexGeoJson(Request $request): NewPostCollection
+    public function indexGeoJson(Request $request): PostGeometryCollection
     {
-        dd('list geo json');
+       // dd('list geo json');
 
-        $posts = $this->queryBus->handle(ListPostsQuery::FromRequest($request));
-        return new NewPostCollection($posts);
+        $posts = $this->queryBus->handle(ListPostsGeometryQuery::FromRequest($request));
+        //dd($posts);
+        return new PostGeometryCollection($posts);
     }
 
     public function indexGeoJsonWithZoom(Request $request): NewPostCollection
     {
-        dd('list geo json with zoom');
+      //  dd('list geo json with zoom');
 
-        $posts = $this->queryBus->handle(ListPostsQuery::FromRequest($request));
-        return new NewPostCollection($posts);
+       // $posts = $this->queryBus->handle(ListPostsQuery::FromRequest($request));
+       // return new NewPostCollection($posts);
+
+   // $post_geometry = $this->queryBus->handle(ListPostsQuery::FromRequest($id,$request));
+     //   return new PostGeometryCollection($post_geometry);
     }
 
 
-    public function showPostGeoJson(Request $request): NewPostCollection
+    public function showPostGeoJson($id, Request $request): PostGeometryResource
     {
-        dd('show geo json ');
-
-        $posts = $this->queryBus->handle(ListPostsQuery::FromRequest($request));
-        return new NewPostCollection($posts);
+        $post_geometry = $this->queryBus->handle(FindPostGeometryByIdQuery::FromRequest($id, $request));
+        return new PostGeometryResource($post_geometry);
     }
 
 
@@ -374,8 +380,6 @@ class PostController extends V5Controller
         $this->commandBus->handle(new UpdatePostLockCommand($post_id));
         $post_lock = $this->queryBus->handle(new FetchPostLockByPostIdQuery($post_id));
         return new PostLockResource($post_lock);
-
-        //return $this->deleteResponse($post_id); //??
     }
 
 

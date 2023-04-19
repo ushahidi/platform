@@ -660,15 +660,18 @@ class Post extends BaseModel
         foreach ($this->valueTypesRelationships() as $rel) {
             if ($rel == 'valuesPostTag') {
                 // For categories, preload the categories key relations
-                $values[] = $this->valuesPostTag()->with(['tag.parent', 'tag.children', 'tag.translations'])->get();
+                $value = $this->valuesPostTag()->with(['tag.parent', 'tag.children', 'tag.translations'])->get();
             } else {
-                $values[] = $this->{"$rel"};
+                $value = $this->{"$rel"};
             }
+            $value->makeHidden('post');
+
+            $values[] = $value;
         }
         return Collection::make(Arr::flatten($values));
     }
 
-    /**
+      /**
      * Post values relationships
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */

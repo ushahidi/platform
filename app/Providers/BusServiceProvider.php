@@ -358,7 +358,15 @@ class BusServiceProvider extends ServiceProvider
                 Post\Queries\FetchPostLockByPostIdQuery::class,
                 Post\Handlers\FetchPostLockByPostIdQueryHandler::class
             );
-
+            $queryBus->register(
+                Post\Queries\FindPostGeometryByIdQuery::class,
+                Post\Handlers\FindPostGeometryByIdQueryHandler::class
+            );
+            $queryBus->register(
+                Post\Queries\ListPostsGeometryQuery::class,
+                Post\Handlers\ListPostsGeometryQueryHandler::class
+            );
+            
 
             return $queryBus;
         });

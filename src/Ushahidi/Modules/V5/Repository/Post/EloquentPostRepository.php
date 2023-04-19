@@ -9,6 +9,7 @@ use Ushahidi\Core\Exception\NotFoundException;
 use Ushahidi\Modules\V5\Models\Post\Post;
 use Ushahidi\Modules\V5\DTO\Paging;
 use Ushahidi\Modules\V5\DTO\PostSearchFields;
+use DB;
 
 class EloquentPostRepository implements PostRepository
 {
@@ -40,7 +41,7 @@ class EloquentPostRepository implements PostRepository
         }
 
         if (count($search_fields->status())) {
-                $query->whereIn('status', $search_fields->status());
+            $query->whereIn('status', $search_fields->status());
         }
 
         if ($search_fields->locale()) {
@@ -136,5 +137,50 @@ class EloquentPostRepository implements PostRepository
     public function delete(int $id): void
     {
         $this->findById($id, ['id'])->delete();
+    }
+
+    public function getCountOfPosts(PostSearchFields $search_fields): int
+    {
+        $query = Post::select(['id']);
+        $query = $this->setSearchCondition($search_fields, $query);
+        return $query->count();
+    }
+
+    private function addGeoJsonSelect($query)
+    {
+        $query->selectRaw("CONCAT( 
+            '{\"type\":\"FeatureCollection\",'
+            ,'\"features\":[', 
+                GROUP_CONCAT( CONCAT( '{\"type\":\"Feature\",', '\"geometry\":', ST_AsGeoJSON(post_point.value), ',\"properties\":{} }' ) SEPARATOR ',' )
+            , ']}' ) 
+            AS geojson");
+            return $query;
+    }
+    public function getPostsGeoJson(
+        Paging $paging,
+        PostSearchFields $search_fields
+    ) {
+        $query = DB::table('posts')->skip($paging->getSkip())
+        ->orderBy($paging->getOrderBy(), $paging->getOrder());
+        $query->select('posts.id as id');
+        $query = $this->addGeoJsonSelect($query);
+        $query->join('post_point', 'post_point.post_id', '=', 'posts.id');
+        $query->groupBy('posts.id');
+        return $query->paginate($paging->getLimit());
+    }
+
+    public function getPostGeoJson(int $post_id)
+    {
+        $query = DB::table('posts');
+         $query->select('posts.id as id');
+         $query->where('posts.id', '=', $post_id);
+         $query = $this->addGeoJsonSelect($query);
+        $query->join('post_point', 'post_point.post_id', '=', 'posts.id');
+        $query->groupBy('posts.id');
+        $post_geo = $query->first();
+        if (is_null($post_geo)) {
+            throw new NotFoundException('Post '.$post_id.' does not have a location info', 404);
+        }
+        return collect($post_geo);
     }
 }

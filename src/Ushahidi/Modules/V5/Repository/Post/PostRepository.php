@@ -20,4 +20,9 @@ interface PostRepository
     ): LengthAwarePaginator;
 
     public function delete(int $id): void;
+
+    public function getCountOfPosts(PostSearchFields $search_fields):int;
+
+    public function getPostsGeoJson(Paging $paging, PostSearchFields $search_fields);
+    public function getPostGeoJson(int $post_id);
 }
