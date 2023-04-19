@@ -12,7 +12,7 @@
 namespace Ushahidi\Core\Ohanzee\Entities;
 
 use Ushahidi\Core\Entity\ExportJob as EntityExportJob;
-use Ushahidi\Core\Ohanzee\StaticEntity;
+use Ushahidi\Core\StaticEntity;
 
 class ExportJob extends StaticEntity implements EntityExportJob
 {

@@ -11,7 +11,7 @@
 
 namespace Ushahidi\Core\Ohanzee\Entities;
 
-use Ushahidi\Core\Ohanzee\StaticEntity;
+use Ushahidi\Core\StaticEntity;
 use Illuminate\Support\Facades\Auth;
 use Ushahidi\Core\Entity\Set as EntitySet;
 

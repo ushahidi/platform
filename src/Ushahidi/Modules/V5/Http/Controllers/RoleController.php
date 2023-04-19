@@ -19,8 +19,6 @@ use Ushahidi\Modules\V5\DTO\RoleSearchFields;
 
 class RoleController extends V5Controller
 {
-
-
     /**
      * Display the specified resource.
      *

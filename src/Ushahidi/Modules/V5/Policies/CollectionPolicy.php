@@ -2,8 +2,8 @@
 
 namespace Ushahidi\Modules\V5\Policies;
 
-use App\Auth\GenericUser as User;
-use Ushahidi\Core\Ohanzee\Entities\Set as EntitySet;
+use Ushahidi\Authzn\GenericUser as User;
+use Ushahidi\Core\Ohanzee\Entities\Set as StaticSet;
 use Ushahidi\Modules\V5\Models\Set;
 use Ushahidi\Core\Entity\Permission;
 use Ushahidi\Core\Concerns\AdminAccess;
@@ -11,7 +11,7 @@ use Ushahidi\Core\Concerns\UserContext;
 use Ushahidi\Core\Concerns\PrivAccess;
 use Ushahidi\Core\Concerns\PrivateDeployment;
 use Ushahidi\Core\Concerns\OwnerAccess;
-use Ushahidi\Core\Concerns\Acl as AccessControlList;
+use Ushahidi\Core\Concerns\Acl as AccessControl;
 
 class CollectionPolicy
 {
@@ -30,73 +30,50 @@ class CollectionPolicy
     use PrivateDeployment;
 
     // Check that the user has the necessary permissions
-    use AccessControlList;
+    use AccessControl;
 
     // It uses `OwnerAccess` to provide  the `isUserOwner` method.
     use OwnerAccess;
 
     protected $user;
 
-
     public function index()
     {
-        $set_entity = new EntitySet();
+        $set_entity = new StaticSet();
         return $this->isAllowed($set_entity, 'search');
     }
 
-    /**
-     *
-     * @param GenericUser $user
-     * @param Set $set
-     * @return bool
-     */
     public function show(User $user, Set $set)
     {
-        $set_entity = new EntitySet($set->toArray());
+        $set_entity = new StaticSet();
+        $set_entity->setState($set->toArray());
         return $this->isAllowed($set_entity, 'read');
     }
 
-    /**
-     *
-     * @param GenericUser $user
-     * @param Set $set
-     * @return bool
-     */
     public function delete(User $user, Set $set)
     {
-        $set_entity = new EntitySet($set->toArray());
+        $set_entity = new StaticSet();
+        $set_entity->setState($set->toArray());
         return $this->isAllowed($set_entity, 'delete');
     }
-    /**
-     * @param Set $set
-     * @return bool
-     */
+
     public function update(User $user, Set $set)
     {
-
-        // we convert to a form entity to be able to continue using the old authorizers and classes.
-        $set_entity = new EntitySet($set->toArray());
+        $set_entity = new StaticSet();
+        $set_entity->setState($set->toArray());
         return $this->isAllowed($set_entity, 'update');
     }
 
-
-    /**
-     * @param Survey $set
-     * @return bool
-     */
     public function store()
     {
         // we convert to a form entity to be able to continue using the old authorizers and classes.
-        $set_entity = new EntitySet();
+        $set_entity = new StaticSet();
         return $this->isAllowed($set_entity, 'create');
     }
-    /**
-     * @param $entity
-     * @param string $privilege
-     * @return bool
-     */
+
     public function isAllowed($entity, $privilege)
     {
+        /** @var $authorizer \Ushahidi\Core\Tool\Authorizer\Set */
         $authorizer = service('authorizer.set');
 
         // These checks are run within the user context.
@@ -118,12 +95,10 @@ class CollectionPolicy
             return false;
         }
 
-
         // First check whether there is a role with the right permissions
         if ($authorizer->acl->hasPermission($user, Permission::MANAGE_SETS)) {
             return true;
         }
-
 
         // If the user is the owner of this set, they can do anything
         if ($this->isUserOwner($entity, $user)) {
@@ -149,7 +124,7 @@ class CollectionPolicy
         return false;
     }
 
-    protected function isVisibleToUser(EntitySet $entity, $user)
+    protected function isVisibleToUser(StaticSet $entity, $user)
     {
         if ($entity->role) {
             return in_array($user->role, $entity->role);

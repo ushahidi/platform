@@ -11,10 +11,11 @@
 
 namespace Ushahidi\Core\Entity;
 
-use Ushahidi\Core\Contracts\Repository\ReadRepository;
-use Ushahidi\Core\Contracts\Repository\UpdateRepository;
+use Ushahidi\Contracts\Repository\ReadRepository;
+use Ushahidi\Contracts\Repository\DeleteRepository;
+use Ushahidi\Contracts\Repository\UpdateRepository;
 
-interface ConfigRepository extends ReadRepository, UpdateRepository
+interface ConfigRepository extends ReadRepository, UpdateRepository, DeleteRepository
 {
     /**
      * @return array

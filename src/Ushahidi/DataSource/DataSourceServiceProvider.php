@@ -11,6 +11,8 @@ use Ushahidi\Core\Entity\MessageRepository;
 
 class DataSourceServiceProvider extends ServiceProvider
 {
+    protected $defer = true;
+
     /**
      * Register any application services.
      *
@@ -27,7 +29,7 @@ class DataSourceServiceProvider extends ServiceProvider
     {
         $this->app->make('datasources')->registerRoutes($this->app->router);
 
-        Event::listen('multisite.site.changed', function () {
+        Event::listen('site.changed', function () {
             // Reset datasources
             $this->app->make('datasources')->clearResolvedSources();
         });
@@ -77,5 +79,13 @@ class DataSourceServiceProvider extends ServiceProvider
             Console\OutgoingCommand::class,
             Console\ListCommand::class,
         ]);
+    }
+
+    public function provides()
+    {
+        return [
+            'datasources',
+            DataSourceManager::class,
+        ];
     }
 }

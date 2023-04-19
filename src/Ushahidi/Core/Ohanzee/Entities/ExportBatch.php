@@ -12,7 +12,7 @@
 namespace Ushahidi\Core\Ohanzee\Entities;
 
 use Ushahidi\Core\Entity\ExportBatch as EntityExportBatch;
-use Ushahidi\Core\Ohanzee\StaticEntity;
+use Ushahidi\Core\StaticEntity;
 
 class ExportBatch extends StaticEntity implements EntityExportBatch
 {

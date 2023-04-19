@@ -11,7 +11,7 @@
 
 namespace Ushahidi\Modules\V3\Formatter;
 
-use Ushahidi\Core\Contracts\Formatter;
+use Ushahidi\Contracts\Formatter;
 use Ushahidi\Core\Tool\OutputFormatter;
 use Ushahidi\Core\Exception\FormatterException;
 

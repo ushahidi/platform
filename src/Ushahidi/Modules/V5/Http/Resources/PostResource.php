@@ -5,6 +5,8 @@ namespace Ushahidi\Modules\V5\Http\Resources;
 use Illuminate\Support\Collection;
 use Ushahidi\Core\Ohanzee\Entities\Post;
 use Ushahidi\Modules\V5\Models\Post\Post as v5Post;
+use Ushahidi\Modules\V5\Http\Resources\Survey\TaskCollection;
+use Ushahidi\Modules\V5\Http\Resources\BaseResource;
 
 class PostResource extends BaseResource
 {

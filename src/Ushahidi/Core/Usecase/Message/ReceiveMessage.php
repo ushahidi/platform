@@ -16,8 +16,8 @@
 
 namespace Ushahidi\Core\Usecase\Message;
 
-use Ushahidi\Core\Contracts\Entity;
-use Ushahidi\Core\Contracts\Validator;
+use Ushahidi\Contracts\Entity;
+use Ushahidi\Contracts\Validator;
 use Ushahidi\Core\Entity\Message;
 use Ushahidi\Core\Usecase\CreateUsecase;
 use Ushahidi\Core\Concerns\DispatchesEvents;
@@ -34,7 +34,7 @@ class ReceiveMessage extends CreateUsecase
     protected $contactRepo;
 
     /**
-     * @var \Ushahidi\Core\Contracts\Validator
+     * @var \Ushahidi\Contracts\Validator
      */
     protected $contactValidator;
 
@@ -111,7 +111,7 @@ class ReceiveMessage extends CreateUsecase
     /**
      * Get an empty entity, apply the payload.
      *
-     * @return \Ushahidi\Core\Contracts\Entity
+     * @return \Ushahidi\Contracts\Entity
      */
     protected function getEntity()
     {
@@ -126,7 +126,7 @@ class ReceiveMessage extends CreateUsecase
     /**
      * Create contact record for message
      *
-     * @return \Ushahidi\Core\Contracts\Entity $contact
+     * @return \Ushahidi\Contracts\Entity $contact
      */
     protected function getContactEntity()
     {
@@ -146,7 +146,7 @@ class ReceiveMessage extends CreateUsecase
     /**
      * Create contact (if its new)
      *
-     * @param  \Ushahidi\Core\Contracts\Entity $contact
+     * @param  \Ushahidi\Contracts\Entity $contact
      * @return int
      */
     protected function createContact(Entity $contact)
@@ -174,7 +174,7 @@ class ReceiveMessage extends CreateUsecase
     /**
      * Throw a ValidatorException
      *
-     * @param  \Ushahidi\Core\Contracts\Entity $entity
+     * @param  \Ushahidi\Contracts\Entity $entity
      * @throws \Ushahidi\Core\Exception\ValidatorException
      */
     protected function contactValidatorError(Entity $entity)
@@ -191,7 +191,7 @@ class ReceiveMessage extends CreateUsecase
     /**
      * Verifies the current user is allowed receive access on $entity
      *
-     * @param \Ushahidi\Core\Contracts\Entity $entity
+     * @param \Ushahidi\Contracts\Entity $entity
      * @throws \Ushahidi\Core\Exception\AuthorizerException
      */
     protected function verifyReceiveAuth(Entity $entity)

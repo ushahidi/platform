@@ -4,12 +4,12 @@ namespace spec\Ushahidi\Core\Usecase;
 
 use Prophecy\Argument;
 use PhpSpec\ObjectBehavior;
-use Ushahidi\Core\Contracts\Entity;
-use Ushahidi\Core\Contracts\Authorizer;
+use Ushahidi\Contracts\Entity;
+use Ushahidi\Contracts\Authorizer;
 use Ushahidi\Core\Tool\SearchData;
-use Ushahidi\Core\Contracts\CollectionFormatter;
+use Ushahidi\Contracts\CollectionFormatter;
 use Illuminate\Contracts\Translation\Translator;
-use Ushahidi\Core\Contracts\Repository\SearchRepository;
+use Ushahidi\Contracts\Repository\SearchRepository;
 
 class SearchUsecaseSpec extends ObjectBehavior
 {

@@ -11,8 +11,8 @@
 
 namespace Ushahidi\Modules\V3\Formatter;
 
-use Ushahidi\Core\Contracts\Entity;
-use Ushahidi\Core\Contracts\Authorizer;
+use Ushahidi\Contracts\Entity;
+use Ushahidi\Contracts\Authorizer;
 use Ushahidi\Core\Concerns\FormatterAuthorizerMetadata;
 
 class User extends API

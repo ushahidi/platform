@@ -25,16 +25,16 @@ class FetchPermissionsByIdQueryHandler extends AbstractQueryHandler
             'Provided query is not supported'
         );
     }
-    
+
 
     /**
-     * @param FetchPermissionsByIdQuery $query
+     * @param FetchPermissionsByIdQuery $action
      * @return array
      */
-    public function __invoke(Action $query) //: array
+    public function __invoke(Action $action) //: array
     {
-        $this->isSupported($query);
-        $tos = $this->permissionsRepository->findById($query->getId());
+        $this->isSupported($action);
+        $tos = $this->permissionsRepository->findById($action->getId());
         return $tos;
     }
 }

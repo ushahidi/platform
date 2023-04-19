@@ -11,7 +11,7 @@
 
 namespace Ushahidi\Core\Tool\Authenticator;
 
-use Ushahidi\Core\Contracts\PasswordAuthenticator;
+use Ushahidi\Contracts\PasswordAuthenticator;
 use Ushahidi\Core\Exception\AuthenticatorException;
 
 class Password implements PasswordAuthenticator

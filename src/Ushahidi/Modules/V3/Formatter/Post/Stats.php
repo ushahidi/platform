@@ -12,9 +12,9 @@
 namespace Ushahidi\Modules\V3\Formatter\Post;
 
 use Ushahidi\Core\Concerns\FormatterAuthorizerMetadata;
-use Ushahidi\Core\Contracts\Entity;
+use Ushahidi\Contracts\Entity;
 use Ushahidi\Core\Tool\SearchData;
-use Ushahidi\Core\Contracts\Formatter;
+use Ushahidi\Contracts\Formatter;
 use Ushahidi\Core\Exception\FormatterException;
 
 class Stats implements Formatter

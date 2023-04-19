@@ -67,13 +67,13 @@ class Uploader
 
         try {
             $this->fs->putStream($filepath, $stream, $config);
-        } catch (\Guzzle\Http\Exception\ClientErrorResponseException $e) {
+        } catch (\GuzzleHttp\Exception\ClientException $e) {
             // Flysystem and FlysystemRackspace are very leaky abstractions
             // so we have to manually catch guzzle errors here
             $response = $e->getResponse();
 
             throw new \InvalidArgumentException('Could not upload file: '. $response->getBody(true));
-        } catch (\Guzzle\Http\Exception\BadResponseException $e) {
+        } catch (\GuzzleHttp\Exception\BadResponseException $e) {
             // Flysystem and FlysystemRackspace are very leaky abstractions
             // so we have to manually catch guzzle errors here
 

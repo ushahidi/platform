@@ -3,13 +3,13 @@
 namespace spec\Ushahidi\Core\Usecase\User;
 
 use PhpSpec\ObjectBehavior;
-use Ushahidi\Core\Contracts\Authorizer;
-use Ushahidi\Core\Contracts\Entity;
-use Ushahidi\Core\Contracts\Formatter;
-use Ushahidi\Core\Contracts\RateLimiter;
+use Ushahidi\Contracts\Authorizer;
+use Ushahidi\Contracts\Entity;
+use Ushahidi\Contracts\Formatter;
+use Ushahidi\Contracts\RateLimiter;
 use Ushahidi\Core\Entity\UserRepository;
-use Ushahidi\Core\Contracts\Repository\ReadRepository;
-use Ushahidi\Core\Contracts\PasswordAuthenticator;
+use Ushahidi\Contracts\Repository\ReadRepository;
+use Ushahidi\Contracts\PasswordAuthenticator;
 
 class LoginUserSpec extends ObjectBehavior
 {

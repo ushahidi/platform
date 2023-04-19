@@ -20,7 +20,7 @@ use Ushahidi\Core\Entity\FormRepository as FormRepositoryContract;
 use Ushahidi\Core\Concerns\UserContext;
 use Ushahidi\Core\Tool\Permissions\InteractsWithFormPermissions;
 use Ushahidi\Core\Ohanzee\Repositories\OhanzeeRepository;
-use Ushahidi\Core\Contracts\Search;
+use Ushahidi\Contracts\Search;
 
 class StageRepository extends OhanzeeRepository implements
     FormStageRepositoryContract

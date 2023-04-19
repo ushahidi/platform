@@ -12,7 +12,7 @@
 namespace Ushahidi\Core\Tool\FileReader;
 
 use League\Csv\Reader;
-use Ushahidi\Core\Contracts\ReaderFactory;
+use Ushahidi\Contracts\ReaderFactory;
 
 class CSVReaderFactory implements ReaderFactory
 {

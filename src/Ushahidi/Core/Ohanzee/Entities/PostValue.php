@@ -12,7 +12,7 @@
 namespace Ushahidi\Core\Ohanzee\Entities;
 
 use Ushahidi\Core\Entity\PostValue as EntityPostValue;
-use Ushahidi\Core\Ohanzee\StaticEntity;
+use Ushahidi\Core\StaticEntity;
 
 class PostValue extends StaticEntity implements EntityPostValue
 {

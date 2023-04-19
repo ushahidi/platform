@@ -12,7 +12,7 @@
 namespace Ushahidi\Core\Ohanzee\Entities;
 
 use Ushahidi\Core\Entity\User as EntityUser;
-use Ushahidi\Core\Ohanzee\StaticEntity;
+use Ushahidi\Core\StaticEntity;
 use Ushahidi\Core\Tool\Hasher\Password as PasswordHash;
 
 class User extends StaticEntity implements EntityUser

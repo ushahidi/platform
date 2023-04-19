@@ -12,8 +12,8 @@
 namespace Ushahidi\Core\Ohanzee\Repositories;
 
 use Ohanzee\DB;
-use Ushahidi\Core\Contracts\Entity;
-use Ushahidi\Core\Contracts\Search;
+use Ushahidi\Contracts\Entity;
+use Ushahidi\Contracts\Search;
 use Ushahidi\Core\Concerns\Event;
 use Ushahidi\Core\Tool\SearchData;
 use Ushahidi\Core\Ohanzee\Entities\Set;

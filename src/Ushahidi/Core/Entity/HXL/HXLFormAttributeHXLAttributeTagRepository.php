@@ -11,7 +11,7 @@
 
 namespace Ushahidi\Core\Entity\HXL;
 
-use Ushahidi\Core\Contracts\Repository\EntityGet;
+use Ushahidi\Contracts\Repository\EntityGet;
 
 interface HXLFormAttributeHXLAttributeTagRepository extends
     EntityGet

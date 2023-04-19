@@ -11,15 +11,15 @@
 
 namespace Ushahidi\Core\Tool\Authorizer;
 
-use Ushahidi\Core\Contracts\Entity;
+use Ushahidi\Contracts\Entity;
 use Ushahidi\Core\Entity\CSV;
 use Ushahidi\Core\Entity\Permission;
-use Ushahidi\Core\Contracts\Authorizer;
+use Ushahidi\Contracts\Authorizer;
 use Ushahidi\Core\Concerns\AdminAccess;
 use Ushahidi\Core\Concerns\UserContext;
 use Ushahidi\Core\Concerns\PrivAccess;
-use Ushahidi\Core\Concerns\Acl;
-use Ushahidi\Core\Facade\Features;
+use Ushahidi\Core\Concerns\Acl as AccessControl;
+use Ushahidi\Core\Facade\Feature;
 
 class CSVAuthorizer implements Authorizer
 {
@@ -33,13 +33,13 @@ class CSVAuthorizer implements Authorizer
 
     // Check that the user has the necessary permissions
     // if roles are available for this deployment.
-    use Acl;
+    use AccessControl;
 
     /* Authorizer */
     public function isAllowed(Entity $entity, $privilege)
     {
         // Check if the user can import data first
-        if (!Features::isEnabled('data-import')) {
+        if (!Feature::isEnabled('data-import')) {
             return false;
         }
 

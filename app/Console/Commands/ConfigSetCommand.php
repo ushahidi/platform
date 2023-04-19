@@ -42,7 +42,7 @@ class ConfigSetCommand extends Command
     protected $description = 'Set config params';
 
     /**
-     * @var \Ushahidi\Core\Contracts\Usecase
+     * @var \Ushahidi\Contracts\Usecase
      * @todo  support multiple entity types
      */
     protected $usecase;

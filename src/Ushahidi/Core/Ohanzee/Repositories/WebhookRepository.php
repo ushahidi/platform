@@ -12,7 +12,7 @@
 namespace Ushahidi\Core\Ohanzee\Repositories;
 
 use Ramsey\Uuid\Uuid;
-use Ushahidi\Core\Contracts\Entity;
+use Ushahidi\Contracts\Entity;
 use Ushahidi\Core\Tool\SearchData;
 use Ushahidi\Core\Concerns\AdminAccess;
 use Ushahidi\Core\Concerns\UserContext;

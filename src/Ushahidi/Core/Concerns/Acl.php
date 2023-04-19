@@ -13,7 +13,7 @@
 
 namespace Ushahidi\Core\Concerns;
 
-use Ushahidi\Core\Contracts\AccessControl;
+use Ushahidi\Contracts\AccessControl;
 
 trait Acl
 {

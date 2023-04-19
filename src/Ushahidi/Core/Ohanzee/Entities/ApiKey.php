@@ -12,7 +12,7 @@
 namespace Ushahidi\Core\Ohanzee\Entities;
 
 use Ushahidi\Core\Entity\ApiKey as EntityApiKey;
-use Ushahidi\Core\Ohanzee\StaticEntity;
+use Ushahidi\Core\StaticEntity;
 
 class ApiKey extends StaticEntity implements EntityApiKey
 {

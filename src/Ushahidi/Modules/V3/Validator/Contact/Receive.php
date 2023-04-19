@@ -11,7 +11,7 @@
 
 namespace Ushahidi\Modules\V3\Validator\Contact;
 
-use Ushahidi\Core\Contracts\Contact;
+use Ushahidi\Contracts\Contact;
 
 class Receive extends Create
 {

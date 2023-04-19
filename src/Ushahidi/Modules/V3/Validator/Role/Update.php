@@ -11,7 +11,7 @@
 
 namespace Ushahidi\Modules\V3\Validator\Role;
 
-use Ushahidi\Core\Facade\Features;
+use Ushahidi\Core\Facade\Feature;
 use Ushahidi\Modules\V3\Validator\LegacyValidator;
 use Ushahidi\Core\Entity\PermissionRepository;
 
@@ -44,7 +44,7 @@ class Update extends LegacyValidator
 
     public function checkRolesEnabled(\Kohana\Validation\Validation $validation)
     {
-        if (!Features::isEnabled('roles')) {
+        if (!Feature::isEnabled('roles')) {
             $validation->error('name', 'rolesNotEnabled');
             return;
         }

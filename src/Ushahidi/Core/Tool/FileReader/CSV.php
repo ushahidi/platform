@@ -11,7 +11,7 @@
 
 namespace Ushahidi\Core\Tool\FileReader;
 
-use Ushahidi\Core\Contracts\ReaderFactory;
+use Ushahidi\Contracts\ReaderFactory;
 use Ushahidi\Core\Exception\ValidatorException;
 
 class CSV

@@ -11,8 +11,8 @@
 
 namespace Ushahidi\Core\Tool;
 
-use Ushahidi\Core\Contracts\RateLimiter as RateLimiterInterface;
-use Ushahidi\Core\Contracts\Entity;
+use Ushahidi\Contracts\RateLimiter as RateLimiterInterface;
+use Ushahidi\Contracts\Entity;
 use BehEh\Flaps\Flap;
 use BehEh\Flaps\ThrottlingStrategyInterface;
 

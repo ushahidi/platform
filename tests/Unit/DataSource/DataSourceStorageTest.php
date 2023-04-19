@@ -12,7 +12,7 @@ namespace Ushahidi\Tests\Unit\DataSource;
 
 use Mockery as M;
 use Ushahidi\Tests\TestCase;
-use Ushahidi\Core\Contracts\Usecase;
+use Ushahidi\Contracts\Usecase;
 use Illuminate\Support\Facades\Log;
 use Ushahidi\DataSource\DataSourceStorage;
 use Ushahidi\Core\Entity\ContactRepository;

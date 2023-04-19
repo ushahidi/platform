@@ -2,23 +2,22 @@
 
 namespace Ushahidi\Modules\V5\Policies;
 
-use Ushahidi\Modules\V5\Models\Post\Post;
 use Ushahidi\Core\Ohanzee\Entities;
 use Ushahidi\Core\Entity\Permission;
 use Ushahidi\Core\Concerns\PrivAccess;
 use Ushahidi\Core\Concerns\AdminAccess;
 use Ushahidi\Core\Concerns\OwnerAccess;
 use Ushahidi\Core\Concerns\UserContext;
+use Ushahidi\Core\Concerns\Acl as AccessControl;
+use Ushahidi\Authzn\GenericUser as User;
 use Ushahidi\Core\Concerns\ParentAccess;
-use App\Auth\GenericUser as User;
 use Ushahidi\Modules\V5\Models\Survey;
-use Ushahidi\Core\Concerns\Acl;
+use Ushahidi\Modules\V5\Models\Post\Post;
 use Ushahidi\Core\Concerns\PrivateDeployment;
-use Ushahidi\Core\Contracts\Entity as EntityContract;
+use Ushahidi\Contracts\Entity as EntityContract;
 
 class PostPolicy
 {
-
     // The access checks are run under the context of a specific user
     use UserContext;
 
@@ -33,8 +32,10 @@ class PostPolicy
     use PrivateDeployment;
 
     // Check that the user has the necessary permissions
-    use Acl;
+    use AccessControl;
+
     use ParentAccess;
+
     use OwnerAccess;
 
     protected $user;
@@ -45,65 +46,38 @@ class PostPolicy
     // It requires a `FormRepository` to load parent posts too.
     protected $post_repo;
 
-    /**
-     *
-     * @param  \Ushahidi\Modules\User  $user
-     * @return bool
-     */
     public function index()
     {
         $empty_form = new Entities\Form();
         return $this->isAllowed($empty_form, 'search');
     }
 
-    /**
-     *
-     * @param GenericUser $user
-     * @param Survey $survey
-     * @return bool
-     */
     public function show(User $user, Survey $survey)
     {
         $form = new Entities\Form($survey->toArray());
         return $this->isAllowed($form, 'read');
     }
 
-    /**
-     *
-     * @param GenericUser $user
-     * @param Survey $survey
-     * @return bool
-     */
     public function delete(User $user, Post $post)
     {
         $post = new Entities\Post($post->toArray());
         return $this->isAllowed($post, 'delete');
     }
-    /**
-     * @param Survey $survey
-     * @return bool
-     */
+
     public function update(User $user, Post $post)
     {
         $post = new Entities\Post($post->toArray());
         // we convert to a form entity to be able to continue using the old authorizers and classes.
         return $this->isAllowed($post, 'update');
     }
-    /**
-     * @param Survey $survey
-     * @return bool
-     */
+
     public function patch(User $user, Post $post)
     {
-        dd('hell');
         $post = new Entities\Post($post->toArray());
         // we convert to a form entity to be able to continue using the old authorizers and classes.
         return $this->isAllowed($post, 'update');
     }
-    /**
-     * @param Survey $survey
-     * @return bool
-     */
+
     public function changeStatus(User $user, Post $post)
     {
         $post = new Entities\Post($post->toArray());
@@ -111,21 +85,13 @@ class PostPolicy
         return $this->isAllowed($post, 'update');
     }
 
-    /**
-     * @param Survey $survey
-     * @return bool
-     */
     public function store(User $user, $form_id, $user_id)
     {
         // we convert to a form entity to be able to continue using the old authorizers and classes.
         $post = new Entities\Post(['form_id' => $form_id, 'user_id' => $user_id]);
         return $this->isAllowed($post, 'create');
     }
-    /**
-     * @param $entity
-     * @param string $privilege
-     * @return bool
-     */
+
     public function isAllowed($entity, $privilege)
     {
         $authorizer = service('authorizer.post');
@@ -228,11 +194,6 @@ class PostPolicy
         return false;
     }
 
-    /**
-     * Check if a form is disabled.
-     * @param  Entity $entity
-     * @return Boolean
-     */
     protected function isFormDisabled(Entities\Post $entity)
     {
         return (bool) $entity->disabled;

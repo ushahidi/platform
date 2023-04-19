@@ -2,7 +2,7 @@
 
 namespace Ushahidi\Tests\Unit\Core\Entity;
 
-use Ushahidi\Core\Contracts\Entity;
+use Ushahidi\Contracts\Entity;
 
 /**
  * Ushahidi Export Job

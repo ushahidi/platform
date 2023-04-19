@@ -12,9 +12,9 @@
 namespace Ushahidi\Core\Ohanzee\Repositories;
 
 use Illuminate\Support\Collection;
-use Ushahidi\Core\Contracts\Search;
-use Ushahidi\Core\Contracts\Repository\ReadRepository;
-use Ushahidi\Core\Contracts\Repository\SearchRepository;
+use Ushahidi\Contracts\Search;
+use Ushahidi\Contracts\Repository\ReadRepository;
+use Ushahidi\Contracts\Repository\SearchRepository;
 use Ushahidi\Core\Ohanzee\Entities\DataProvider;
 
 class DataProviderRepository implements

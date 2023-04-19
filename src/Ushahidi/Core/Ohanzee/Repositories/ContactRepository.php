@@ -12,15 +12,15 @@
 namespace Ushahidi\Core\Ohanzee\Repositories;
 
 use Ohanzee\DB;
-use Ushahidi\Core\Contracts\Entity;
+use Ushahidi\Contracts\Entity;
 use Ushahidi\Core\Ohanzee\Entities\Contact;
 use Illuminate\Support\Collection;
 use Ushahidi\Core\Tool\SearchData;
 use Ushahidi\Core\Concerns\AdminAccess;
 use Ushahidi\Core\Concerns\UserContext;
-use Ushahidi\Core\Contracts\Repository\CreateRepository;
-use Ushahidi\Core\Contracts\Repository\SearchRepository;
-use Ushahidi\Core\Contracts\Repository\UpdateRepository;
+use Ushahidi\Contracts\Repository\CreateRepository;
+use Ushahidi\Contracts\Repository\SearchRepository;
+use Ushahidi\Contracts\Repository\UpdateRepository;
 use Ushahidi\Core\Entity\ContactRepository as ContactRepositoryContract;
 
 class ContactRepository extends OhanzeeRepository implements

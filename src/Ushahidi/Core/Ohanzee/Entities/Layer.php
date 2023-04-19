@@ -11,7 +11,7 @@
 
 namespace Ushahidi\Core\Ohanzee\Entities;
 
-use Ushahidi\Core\Ohanzee\StaticEntity;
+use Ushahidi\Core\StaticEntity;
 
 // The layer entity is used to store map overlays
 class Layer extends StaticEntity

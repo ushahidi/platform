@@ -11,7 +11,7 @@
 
 namespace Ushahidi\Core\Tool;
 
-use Ushahidi\Core\Contracts\Repository\EntityGet;
+use Ushahidi\Contracts\Repository\EntityGet;
 
 class Date
 {

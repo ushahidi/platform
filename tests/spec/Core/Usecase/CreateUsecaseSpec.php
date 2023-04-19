@@ -6,11 +6,11 @@ use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Contracts\Translation\Translator;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-use Ushahidi\Core\Contracts\Authorizer;
-use Ushahidi\Core\Contracts\Entity;
-use Ushahidi\Core\Contracts\Formatter;
-use Ushahidi\Core\Contracts\Repository\CreateRepository;
-use Ushahidi\Core\Contracts\Validator;
+use Ushahidi\Contracts\Authorizer;
+use Ushahidi\Contracts\Entity;
+use Ushahidi\Contracts\Formatter;
+use Ushahidi\Contracts\Repository\CreateRepository;
+use Ushahidi\Contracts\Validator;
 
 class CreateUsecaseSpec extends ObjectBehavior
 {

@@ -41,7 +41,7 @@ abstract class RESTController extends BaseController
     protected $multisite;
 
     /**
-     * @var \Ushahidi\Core\Contracts\Usecase
+     * @var \Ushahidi\Contracts\Usecase
      */
     protected $usecase;
 

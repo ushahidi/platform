@@ -13,8 +13,8 @@
 
 namespace Ushahidi\Modules\V3\Formatter;
 
-use Ushahidi\Core\Contracts\Formatter;
-use Ushahidi\Core\Contracts\CollectionFormatter;
+use Ushahidi\Contracts\Formatter;
+use Ushahidi\Contracts\CollectionFormatter;
 use Ushahidi\Core\Exception\FormatterException;
 
 class Collection implements CollectionFormatter
@@ -34,7 +34,7 @@ class Collection implements CollectionFormatter
     /**
      * Collection formatter recursively invokes an entity-specific formatter.
      *
-     * @param \Ushahidi\Core\Contracts\Formatter $formatter
+     * @param \Ushahidi\Contracts\Formatter $formatter
      */
     public function __construct(Formatter $formatter)
     {

@@ -23,7 +23,7 @@ class MessagesController extends RESTController
     protected $usecaseFactory;
 
     /**
-     * @var \Ushahidi\Core\Contracts\Usecase
+     * @var \Ushahidi\Contracts\Usecase
      */
     protected $usecase;
 

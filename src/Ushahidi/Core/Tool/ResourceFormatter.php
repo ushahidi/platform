@@ -11,7 +11,7 @@
 
 namespace Ushahidi\Core\Tool;
 
-use Ushahidi\Core\Contracts\Formatter;
+use Ushahidi\Contracts\Formatter;
 use Illuminate\Http\Resources\Json\JsonResource as Resource;
 
 class ResourceFormatter extends Resource implements Formatter

@@ -11,7 +11,7 @@
 
 namespace Ushahidi\Core\Ohanzee\Entities;
 
-use Ushahidi\Core\Ohanzee\StaticEntity;
+use Ushahidi\Core\StaticEntity;
 use Ushahidi\Core\Entity\Post as EntityPost;
 
 class Post extends StaticEntity implements EntityPost

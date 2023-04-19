@@ -11,9 +11,9 @@
 
 namespace Ushahidi\Core\Usecase\User;
 
-use Ushahidi\Core\Contracts\RateLimiter;
+use Ushahidi\Contracts\RateLimiter;
 use Ushahidi\Core\Usecase\ReadUsecase;
-use Ushahidi\Core\Contracts\PasswordAuthenticator;
+use Ushahidi\Contracts\PasswordAuthenticator;
 use Ushahidi\Core\Entity\UserRepository;
 
 class LoginUser extends ReadUsecase
@@ -25,12 +25,12 @@ class LoginUser extends ReadUsecase
     protected $repo;
 
     /**
-     * @var \Ushahidi\Core\Contracts\PasswordAuthenticator
+     * @var \Ushahidi\Contracts\PasswordAuthenticator
      */
     protected $authenticator;
 
     /**
-     * @var \Ushahidi\Core\Contracts\RateLimiter
+     * @var \Ushahidi\Contracts\RateLimiter
      */
     protected $rateLimiter;
 

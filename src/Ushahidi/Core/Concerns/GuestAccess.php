@@ -16,7 +16,7 @@
 
 namespace Ushahidi\Core\Concerns;
 
-use Ushahidi\Core\Contracts\Entity;
+use Ushahidi\Contracts\Entity;
 
 trait GuestAccess
 {

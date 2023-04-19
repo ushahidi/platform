@@ -11,11 +11,11 @@
 
 namespace Ushahidi\Core\Entity;
 
-use Ushahidi\Core\Contracts\Entity;
-use Ushahidi\Core\Contracts\Repository\EntityCreate;
-use Ushahidi\Core\Contracts\Repository\ReadRepository;
-use Ushahidi\Core\Contracts\Repository\DeleteRepository;
-use Ushahidi\Core\Contracts\Repository\EntityCreateMany;
+use Ushahidi\Contracts\Entity;
+use Ushahidi\Contracts\Repository\EntityCreate;
+use Ushahidi\Contracts\Repository\ReadRepository;
+use Ushahidi\Contracts\Repository\DeleteRepository;
+use Ushahidi\Contracts\Repository\EntityCreateMany;
 
 interface UserRepository extends
     ReadRepository,
@@ -26,7 +26,7 @@ interface UserRepository extends
     /**
      * @param string $email
      *
-     * @return \Ushahidi\Core\Contracts\Entity
+     * @return \Ushahidi\Contracts\Entity
      */
     public function getByEmail($email);
 

@@ -12,7 +12,7 @@
 namespace Ushahidi\Modules\V3\Validator\Post;
 
 use Kohana\Validation\Validation;
-use Ushahidi\Core\Facade\Features;
+use Ushahidi\Core\Facade\Feature;
 use Ushahidi\Core\Concerns\{
     AdminAccess,
     UserContext,
@@ -177,7 +177,7 @@ class Create extends LegacyValidator
 
     public function checkPublishedLimit(Validation $validation, $status)
     {
-        $limit = Features::getLimit('posts');
+        $limit = Feature::getLimit('posts');
         if ($limit !== INF && $status == 'published') {
             $total_published = $this->repo->getPublishedTotal();
 
@@ -382,7 +382,7 @@ class Create extends LegacyValidator
      * Check that only author or user info is set
      * @param  int $user_id
      * @param  array $fullData
-     * @return Boolean
+     * @return boolean
      */
     public function onlyAuthorOrUserSet($user_id, $fullData)
     {

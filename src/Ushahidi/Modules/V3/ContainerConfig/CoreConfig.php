@@ -295,7 +295,7 @@ class CoreConfig extends ContainerConfig
         $di->setters[Usecase\Set\AuthorizeSet::class]['setSetAuthorizer']
             = $di->lazyGet('authorizer.set');
 
-        // repositories for Ushahidi\Core\Contracts\Repository\Usecase\Post\Export usecase
+        // repositories for Ushahidi\Contracts\Repository\Usecase\Post\Export usecase
         $di->setters[Usecase\Post\ExportPost::class]['setExportJobRepository']
             = $di->lazyGet('repository.export_job');
         $di->setters[Usecase\Post\ExportPost::class]['setFormAttributeRepository']

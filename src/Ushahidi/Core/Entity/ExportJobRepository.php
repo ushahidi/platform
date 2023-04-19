@@ -11,10 +11,10 @@
 
 namespace Ushahidi\Core\Entity;
 
-use Ushahidi\Core\Contracts\Repository\EntityExists;
-use Ushahidi\Core\Contracts\Repository\ReadRepository;
-use Ushahidi\Core\Contracts\Repository\CreateRepository;
-use Ushahidi\Core\Contracts\Repository\UpdateRepository;
+use Ushahidi\Contracts\Repository\EntityExists;
+use Ushahidi\Contracts\Repository\ReadRepository;
+use Ushahidi\Contracts\Repository\CreateRepository;
+use Ushahidi\Contracts\Repository\UpdateRepository;
 
 interface ExportJobRepository extends
     EntityExists,

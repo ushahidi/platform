@@ -13,7 +13,7 @@
 
 namespace Ushahidi\Core\Tool;
 
-use Ushahidi\Core\Contracts\Search;
+use Ushahidi\Contracts\Search;
 use Ushahidi\Core\Concerns\FilterRecords;
 
 class SearchData implements Search

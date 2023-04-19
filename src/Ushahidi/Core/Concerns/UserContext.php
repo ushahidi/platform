@@ -13,16 +13,29 @@
 
 namespace Ushahidi\Core\Concerns;
 
-use Ushahidi\Core\Contracts\Session;
+use Ushahidi\Core\Entity\User;
+use Ushahidi\Contracts\Session;
 
 trait UserContext
 {
+    // user
+    protected $user;
+
     // storage for the user
     protected $session;
 
     /**
+     * Get the user session
+     * @return \Ushahidi\Contracts\Session
+     */
+    public function getSession()
+    {
+        return $this->session;
+    }
+
+    /**
      * Set the user session
-     * @param  \Ushahidi\Core\Contracts\Session $session  set the context
+     * @param  \Ushahidi\Contracts\Session $session  set the context
      * @return void
      */
     public function setSession(Session $session)
@@ -31,25 +44,27 @@ trait UserContext
     }
 
     /**
-     * Get the user session
-     * @return \Ushahidi\Core\Contracts\Session
-     */
-    public function getSession()
-    {
-        return $this->session;
-    }
-
-    /**
      * Get the user context.
-     * @return \Ushahidi\Core\Contracts\Entity
+     * @return \Ushahidi\Core\Entity\User
      */
     public function getUser()
     {
+        if ($this->user) {
+            return $this->user;
+        }
+
         if (!$this->session) {
             throw new \RuntimeException('Cannot get the user context before it has been set');
         }
 
         return $this->session->getUser();
+    }
+
+    public function setUser(User $user)
+    {
+        $this->user = $user;
+
+        return $this;
     }
 
     /**
@@ -63,7 +78,7 @@ trait UserContext
 
     /**
      * Checks if currently logged in user is the same as passed entity/array
-     * @param  \Ushahidi\Core\Contracts\Entity  $entity entity to check
+     * @param  \Ushahidi\Contracts\Entity  $entity entity to check
      * @return boolean
      */
     protected function isUserSelf($entity)

@@ -10,7 +10,7 @@
 
 namespace Ushahidi\Core\Ohanzee\Entities;
 
-use Ushahidi\Core\Ohanzee\StaticEntity;
+use Ushahidi\Core\StaticEntity;
 
 class PostLock extends StaticEntity
 {

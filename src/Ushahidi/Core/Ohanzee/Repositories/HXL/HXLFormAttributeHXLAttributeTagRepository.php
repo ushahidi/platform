@@ -16,8 +16,8 @@ use Ushahidi\Core\Entity\HXL\HXLFormAttributeHXLAttributeTag;
 use Ushahidi\Core\Tool\SearchData;
 use Ushahidi\Core\Entity\HXL\HXLFormAttributeHXLAttributeTagRepository
     as HXLFormAttributeHXLAttributeTagRepositoryContract;
-use Ushahidi\Core\Contracts\Repository\ReadRepository;
-use Ushahidi\Core\Contracts\Repository\SearchRepository;
+use Ushahidi\Contracts\Repository\ReadRepository;
+use Ushahidi\Contracts\Repository\SearchRepository;
 use Ushahidi\Core\Ohanzee\Repositories\OhanzeeRepository;
 
 class HXLFormAttributeHXLAttributeTagRepository extends OhanzeeRepository implements
@@ -94,7 +94,7 @@ class HXLFormAttributeHXLAttributeTagRepository extends OhanzeeRepository implem
     }
     /**
      * @param array|null $data
-     * @return \Ushahidi\Core\Ohanzee\Repositories\Ushahidi\Core\Entity|HXLTag|\Ushahidi\Core\Contracts\Repository\Usecase\Entity
+     * @return \Ushahidi\Core\Ohanzee\Repositories\Ushahidi\Core\Entity|HXLTag|\Ushahidi\Contracts\Repository\Usecase\Entity
      */
     public function getEntity(array $data = null)
     {

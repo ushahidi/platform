@@ -11,8 +11,8 @@
 
 namespace Ushahidi\Core\Entity;
 
-use Ushahidi\Core\Contracts\Repository\CreateRepository;
-use Ushahidi\Core\Contracts\Repository\UpdateRepository;
+use Ushahidi\Contracts\Repository\CreateRepository;
+use Ushahidi\Contracts\Repository\UpdateRepository;
 
 interface ExportBatchRepository extends
     CreateRepository,

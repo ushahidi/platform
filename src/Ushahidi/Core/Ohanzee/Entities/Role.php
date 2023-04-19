@@ -11,7 +11,7 @@
 
 namespace Ushahidi\Core\Ohanzee\Entities;
 
-use Ushahidi\Core\Ohanzee\StaticEntity;
+use Ushahidi\Core\StaticEntity;
 use Ushahidi\Core\Entity\Role as EntityRole;
 
 class Role extends StaticEntity implements EntityRole

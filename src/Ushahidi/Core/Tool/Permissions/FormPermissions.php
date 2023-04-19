@@ -11,7 +11,7 @@
 
 namespace Ushahidi\Core\Tool\Permissions;
 
-use Ushahidi\Core\Contracts\Entity;
+use Ushahidi\Contracts\Entity;
 use Ushahidi\Core\Entity\Permission;
 use Ushahidi\Core\Concerns\Acl;
 use Ushahidi\Core\Concerns\AdminAccess;
@@ -24,7 +24,7 @@ class FormPermissions
     /**
      * Does the user have permission to edit the form?
      *
-     * @param  \Ushahidi\Core\Contracts\Entity   $user
+     * @param  \Ushahidi\Contracts\Entity   $user
      * @param  int|string    $form_id
      * @return boolean
      */

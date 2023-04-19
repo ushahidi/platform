@@ -11,9 +11,9 @@
 
 namespace Ushahidi\Core\Entity;
 
-use Ushahidi\Core\Contracts\Repository\EntityGet;
-use Ushahidi\Core\Contracts\Repository\EntityExists;
-use Ushahidi\Core\Contracts\Repository\SearchRepository;
+use Ushahidi\Contracts\Repository\EntityGet;
+use Ushahidi\Contracts\Repository\EntityExists;
+use Ushahidi\Contracts\Repository\SearchRepository;
 
 interface MediaRepository extends
     EntityGet,

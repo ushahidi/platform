@@ -30,6 +30,11 @@ class UserController extends V5Controller
      */
     public function show(int $id)
     {
+        try {
+            $user = $this->queryBus->handle(new FetchUserByIdQuery($id));
+        } catch (\Exception $e) {
+   // dd(get_class($e));
+        }
         $user = $this->queryBus->handle(new FetchUserByIdQuery($id));
         $this->authorize('show', $user);
         return new UserResource($user);
@@ -47,7 +52,7 @@ class UserController extends V5Controller
     {
         $id = AUTH::id();
         if (!$id) {
-            throw new NotFoundException('User not found');
+                $this->authorize('show', null);
         }
         $user = $this->queryBus->handle(new FetchUserByIdQuery($id));
         return new UserResource($user);
@@ -107,10 +112,11 @@ class UserController extends V5Controller
     public function update(UserRequest $request, int $id)
     {
         $user = $this->queryBus->handle(new FetchUserByIdQuery($id));
-        $this->authorize('update', $user);
+        $userEntity = UserEntity::buildEntity($request->input(), 'update', $user->toArray());
+        $this->authorize('update', $user->fill($userEntity->asArray()));
 
         $this->commandBus->handle(
-            new UpdateUserCommand($id, UserEntity::buildEntity($request->input(), 'update', $user->toArray()))
+            new UpdateUserCommand($id, $userEntity)
         );
         return new UserResource(
             $this->queryBus->handle(new FetchUserByIdQuery($id))
@@ -127,6 +133,9 @@ class UserController extends V5Controller
     public function updateMe(UserRequest $request)
     {
         $id = AUTH::id();
+        if (!$id) {
+            $this->authorize('update', null);
+        }
         $user = $this->queryBus->handle(new FetchUserByIdQuery($id));
         $this->commandBus->handle(
             new UpdateUserCommand($id, UserEntity::buildEntity($request->input(), 'update', $user->toArray()))

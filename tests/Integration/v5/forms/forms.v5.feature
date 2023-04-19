@@ -96,8 +96,10 @@ Feature: Testing the Surveys API
             """
         When I request "/surveys"
         Then the response is JSON
-        And the response has a "tasks.0.fields.0.response_private" property
-        And the "tasks.0.fields.0.response_private" property contains "Tag fields cannot be private."
+        And the response has a "errors.failed_validations.0.field" property
+        And the "errors.failed_validations.0.field" property contains "tasks.0.fields.0.response_private"
+        And the response has a "errors.failed_validations.0.error_messages" property
+        And the "errors.failed_validations.0.error_messages" property contains "Tag fields cannot be private."
         Then the guzzle status code should be 422
 
     Scenario: Updating a Survey to clear name should fail

@@ -11,7 +11,7 @@
 
 namespace Ushahidi\Modules\V3\Formatter;
 
-use Ushahidi\Core\Contracts\Entity;
+use Ushahidi\Contracts\Entity;
 use Ushahidi\Core\Concerns\FormatterAuthorizerMetadata;
 use Illuminate\Support\Facades\Storage;
 

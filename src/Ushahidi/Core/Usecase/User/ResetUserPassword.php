@@ -11,7 +11,7 @@
 
 namespace Ushahidi\Core\Usecase\User;
 
-use Ushahidi\Core\Contracts\Usecase;
+use Ushahidi\Contracts\Usecase;
 use Ushahidi\Core\Entity\UserRepository;
 use Ushahidi\Core\Usecase\Concerns\ModifyRecords;
 use Ushahidi\Core\Usecase\Concerns\Formatter as FormatterTrait;

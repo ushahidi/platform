@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Ushahidi Platform Eloquent Model
+ * Ushahidi Platform Eloquent Entity
  *
  * Gives eloquent models compatibility with clean architecture entity:
  *
@@ -15,7 +15,7 @@
 namespace Ushahidi\Core;
 
 use Illuminate\Support\Arr;
-use Ushahidi\Core\Contracts\Entity;
+use Ushahidi\Contracts\Entity;
 use Ushahidi\Core\Concerns\DeriveData;
 use Illuminate\Database\Eloquent\Model;
 use Ushahidi\Core\Concerns\DefaultData;
@@ -89,7 +89,7 @@ abstract class EloquentEntity extends Model implements Entity
         return $this->asArray();
     }
 
-    protected function resolveEntityData(array $data)
+    protected function resolveEntityData(array $data) : array
     {
         // Get the immutable values. Once set, these cannot be changed.
         $immutable = $this->getImmutable();

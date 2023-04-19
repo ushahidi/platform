@@ -11,10 +11,10 @@ namespace Ushahidi\DataSource\Email;
  * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License Version 3 (GPLv3)
  */
 
-use Ushahidi\Core\Contracts\Contact;
+use Ushahidi\Contracts\Contact;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Contracts\Mail\Mailer;
-use Ushahidi\Multisite\UsesSiteInfo;
+use Ushahidi\Core\Concerns\UsesSiteInfo;
 use Ushahidi\DataSource\Contracts\OutgoingDataSource;
 use Ushahidi\DataSource\Concerns\MapsInboundFields;
 use Ushahidi\DataSource\Contracts\MessageType as MessageType;

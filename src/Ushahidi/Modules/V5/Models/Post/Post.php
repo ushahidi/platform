@@ -25,10 +25,71 @@ use Ushahidi\Modules\V5\Models\Helpers\HideTime;
 use Ushahidi\Modules\V5\Models\Helpers\HideAuthor;
 use Illuminate\Support\Facades\Request as RequestFacade;
 use Ushahidi\Core\Tool\Permissions\InteractsWithPostPermissions;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Post extends BaseModel
 {
     use InteractsWithPostPermissions;
+    use HasFactory;
+
+    public const DEFAULT_SOURCE_TYPE = "web";
+    public const REQUIRED_FIELDS = [
+        'id'
+    ];
+    
+    public const ALLOWED_FIELDS = [
+        'id',
+        'parent_id',
+        'form_id',
+        'status',
+        'user_id',
+        'type',
+        'title',
+        'slug',
+        'content',
+        'author_email',
+        'author_realname',
+        'status',
+        'published_to',
+        'locale',
+        'post_date',
+        'base_language',
+        'created',
+        'updated'
+    ];
+
+    public const ALLOWED_RELATIONSHIPS = [
+        'locks' => ['fields' => [], 'relationships' => ["locks"]],
+        'categories' => ['fields' => [], 'relationships' => ["categories"]],
+        'message' => ['fields' => [], 'relationships' => ['message']],
+        'contact' => ['fields' => [], 'relationships' => ['message']],
+        'completed_stages' => ['fields' => [], 'relationships' => ["postStages"]],
+        'translations' => ['fields' => [], 'relationships' => ["translations"]],
+        'enabled_languages' => ['fields' => ['base_language'], 'relationships' => ['translations']],
+        'source' => ['fields' => [], 'relationships' => ["message"]],
+        'data_source_message_id' => ['fields' => [], 'relationships' => ["message"]],
+        'post_content' => [
+            'fields' => ['form_id'],
+            'relationships' => [
+                "survey",
+                'valuesVarchar',
+                'valuesText',
+                'valuesDatetime',
+                'valuesDecimal',
+                'valuesGeometry',
+                'valuesInt',
+                'valuesMarkdown',
+                'valuesMedia',
+                'valuesPoint',
+                'valuesRelation',
+                'valuesPostsMedia',
+                // 'valuesPostsSet',
+                'valuesPostTag'
+            ]
+        ]
+
+
+    ];
 
     /**
      * This relationships aren't real, they are fabricated
@@ -70,7 +131,7 @@ class Post extends BaseModel
      *
      * @var string[]
      */
-    protected $with = ['message', 'translations', 'survey'];
+    // protected $with = ['message', 'translations', 'survey'];
 
     protected $translations;
     /**
@@ -433,12 +494,19 @@ class Post extends BaseModel
 
     public function setPostDateAttribute($value)
     {
-        // Set default value for post_date
+        if ($value instanceof DateTime) {
+            dd(get_class($value));
+        }
+                // Set default value for post_date
         if (empty($value)) {
             $value = date_create()->format("Y-m-d H:i:s");
             // Convert post_date to mysql format
         } else {
-            $value = date_create($value)->format("Y-m-d H:i:s");
+            if (!is_string($value)) { // datetime from entity
+                $value = $value->format('Y-m-d H:i:s');
+            } else {
+                $value = date_create($value)->format("Y-m-d H:i:s");
+            }
         }
         $this->attributes['post_date'] = $value;
     }

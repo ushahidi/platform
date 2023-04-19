@@ -11,10 +11,10 @@
 
 namespace Ushahidi\Core\Tool;
 
-use Ushahidi\Core\Contracts\AccessControl;
-use Ushahidi\Core\Facade\Features;
+use Ushahidi\Contracts\AccessControl;
 use Ushahidi\Core\Entity\Permission;
 use Ushahidi\Core\Entity\RoleRepository;
+use Ushahidi\Core\Facade\Feature;
 
 class Acl implements AccessControl
 {
@@ -27,6 +27,8 @@ class Acl implements AccessControl
     public function setRoleRepo(RoleRepository $role_repo)
     {
         $this->role_repo = $role_repo;
+
+        return $this;
     }
 
     // Acl interface
@@ -45,7 +47,7 @@ class Acl implements AccessControl
 
         // Don't check for permissions if we don't have the
         // roles feature enabled
-        if (Features::isEnabled('roles')) {
+        if (Feature::isEnabled('roles')) {
             return $this->customRoleHasPermission($user, $permission);
         } else {
             return $this->defaultHasPermission($user, $permission);

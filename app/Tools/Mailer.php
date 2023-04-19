@@ -11,13 +11,15 @@
 namespace App\Tools;
 
 use Illuminate\Support\Str;
-use Ushahidi\Multisite\UsesSiteInfo;
-use Ushahidi\Core\Contracts\Mailer as MailerContract;
+use Ushahidi\Core\Concerns\UsesSiteInfo;
+use Ushahidi\Contracts\Mailer as MailerContract;
 use Illuminate\Contracts\Mail\Mailer as LaravelMailer;
 
 class Mailer implements MailerContract
 {
     use UsesSiteInfo;
+
+    protected $mailer;
 
     public function __construct(LaravelMailer $mailer)
     {

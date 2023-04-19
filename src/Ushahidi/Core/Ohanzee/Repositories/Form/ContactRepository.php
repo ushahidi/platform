@@ -17,7 +17,7 @@ use Ushahidi\Core\Tool\SearchData;
 use Ushahidi\Core\Concerns\Event;
 use Ushahidi\Core\Ohanzee\Repositories\OhanzeeRepository;
 use Ushahidi\Core\Tool\OhanzeeResolver;
-use Ushahidi\Core\Contracts\Repository\SearchRepository;
+use Ushahidi\Contracts\Repository\SearchRepository;
 use Ushahidi\Core\Entity\FormRepository;
 use Ushahidi\Core\Entity\MessageRepository;
 use Ushahidi\Core\Entity\FormContactRepository;

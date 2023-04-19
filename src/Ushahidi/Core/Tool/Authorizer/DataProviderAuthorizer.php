@@ -11,8 +11,8 @@
 
 namespace Ushahidi\Core\Tool\Authorizer;
 
-use Ushahidi\Core\Contracts\Authorizer;
-use Ushahidi\Core\Contracts\Entity;
+use Ushahidi\Contracts\Authorizer;
+use Ushahidi\Contracts\Entity;
 use Ushahidi\Core\Entity\Permission;
 use Ushahidi\Core\Concerns\UserContext;
 use Ushahidi\Core\Concerns\AdminAccess;

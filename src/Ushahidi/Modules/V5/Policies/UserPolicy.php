@@ -2,19 +2,17 @@
 
 namespace Ushahidi\Modules\V5\Policies;
 
-use Ushahidi\Modules\V5\Models\User as ModelUser;
-use App\Auth\GenericUser as User;
 use Ushahidi\Core\Entity\Permission;
-use Ushahidi\Core\Concerns\AdminAccess;
 use Ushahidi\Core\Concerns\PrivAccess;
+use Ushahidi\Core\Concerns\AdminAccess;
+use Ushahidi\Authzn\GenericUser as User;
 use Ushahidi\Core\Concerns\PrivateDeployment;
-use Ushahidi\Core\Concerns\Acl;
+use Ushahidi\Core\Concerns\Acl as AccessControl;
+use Ushahidi\Modules\V5\Models\User as EloquentUser;
+use Ushahidi\Core\Ohanzee\Entities\User as StaticUser;
 
 class UserPolicy
 {
-
-
-
     // It uses `PrivAccess` to provide the `getAllowedPrivs` method.
     use PrivAccess;
 
@@ -25,71 +23,47 @@ class UserPolicy
     use PrivateDeployment;
 
     // Check that the user has the necessary permissions
-    use Acl;
+    use AccessControl;
 
     protected $user;
 
-
-    /**
-     * @param User $user
-     * @return bool
-     */
     public function index(User $user): bool
     {
-        $empty_model_user = new ModelUser();
-        return $this->isAllowed($empty_model_user, 'search', $user);
+        $empty_model_user = new StaticUser();
+        return $this->isAllowed($empty_model_user, 'search');
     }
 
-    /**
-     * @param User $user
-     * @param ModelUser $model_user
-     * @return bool
-     */
-    public function show(User $user, ModelUser $model_user): bool
+    public function show(User $user, EloquentUser $eloquentUser): bool
     {
-        return $this->isAllowed($model_user, 'read', $user);
+        $entity = new StaticUser();
+        $entity->setState($eloquentUser->toArray());
+        return $this->isAllowed($entity, 'read');
     }
 
-    /**
-     * @param User $user
-     * @param ModelUser $model_user
-     * @return bool
-     */
-    public function delete(User $user, ModelUser $model_user): bool
+    public function delete(User $user, EloquentUser $eloquentUser): bool
     {
-        return $this->isAllowed($model_user, 'delete', $user);
+        $entity = new StaticUser();
+        $entity->setState($eloquentUser->toArray());
+
+        return $this->isAllowed($entity, 'delete');
     }
-    /**
-     * @param User $user
-     * @param ModelUser $model_user
-     * @return bool
-     */
-    public function update(User $user, ModelUser $model_user): bool
+
+    public function update(User $user, EloquentUser $eloquentUser): bool
     {
-        return $this->isAllowed($model_user, 'update', $user);
+        $entity = new StaticUser();
+        $entity->setState($eloquentUser->toArray());
+
+        return $this->isAllowed($entity, 'update');
     }
 
-
-    /**
-     * @param User $user
-     * @param ModelUser $model_user
-     * @return bool
-     */
     public function store(User $user): bool
     {
-        $model_user = new ModelUser();
-        return $this->isAllowed($model_user, 'create', $user);
+        $entity = new StaticUser();
+        return $this->isAllowed($entity, 'create');
     }
 
-    /**
-     * @param ModelUser $model_user
-     * @param string $privilege
-     * @param user $user
-     * @return bool
-     */
-    public function isAllowed($model_user, $privilege, $user_generic = null): bool
+    public function isAllowed($entity, $privilege): bool
     {
-
         $authorizer = service('authorizer.user');
         $user = $authorizer->getUser();
 
@@ -99,7 +73,7 @@ class UserPolicy
         }
 
         //User should not be able to delete self
-        if ($privilege === 'delete' && $this->isUserSelf($model_user->id, $user->id)) {
+        if ($privilege === 'delete' && $this->isUserSelf($entity->id, $user->id)) {
             return false;
         }
 
@@ -115,14 +89,14 @@ class UserPolicy
 
         // User cannot change their own role
         if ('update' === $privilege
-            && $this->isUserSelf($model_user->id, $user->id)
-            && $user->hasChanged('role')
+            && $this->isUserSelf($entity->id, $user->id)
+            && $entity->hasChanged('role')
         ) {
             return false;
         }
 
         // Regular user should be able to update and read_full only self
-        if ($this->isUserSelf($model_user->id, $user->id)
+        if ($this->isUserSelf($entity->id, $user->id)
             && in_array($privilege, ['update', 'read_full', 'read'])
         ) {
             return true;

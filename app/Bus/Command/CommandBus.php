@@ -11,7 +11,7 @@ use Illuminate\Contracts\Container\Container;
 class CommandBus implements Bus
 {
     /**
-     * @var Array<Command>
+     * @var array<\App\Bus\Command\Command>
      */
     private $commands;
 
@@ -28,6 +28,8 @@ class CommandBus implements Bus
 
     /**
      * @param Action $action
+     *
+     * @return int|void
      */
     public function handle(Action $action)
     {

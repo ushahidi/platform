@@ -11,7 +11,7 @@
 
 namespace Ushahidi\Core\Usecase\HXL;
 
-use Ushahidi\Core\Contracts\Usecase;
+use Ushahidi\Contracts\Usecase;
 use Illuminate\Support\Facades\Log;
 use Ushahidi\Core\Entity\ExportJobRepository;
 use Ushahidi\Core\Entity\UserSettingRepository;

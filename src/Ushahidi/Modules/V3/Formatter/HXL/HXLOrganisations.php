@@ -11,7 +11,7 @@
 
 namespace Ushahidi\Modules\V3\Formatter\HXL;
 
-use Ushahidi\Core\Contracts\Formatter;
+use Ushahidi\Contracts\Formatter;
 use Ushahidi\Core\Concerns\FormatterAuthorizerMetadata;
 
 class HXLOrganisations implements Formatter

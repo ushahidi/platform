@@ -2,18 +2,8 @@
 
 namespace Ushahidi\Modules\V3;
 
-use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
-use Ushahidi\Modules\V3\Console;
-use Ushahidi\Modules\V3\Factory\UsecaseFactory;
-use Ushahidi\Core\Ohanzee\Repositories\TosRepository;
-use Ushahidi\Modules\V5\Http\Middleware\V5GlobalScopes;
-use Ushahidi\Core\Tool\Verifier;
-use Ushahidi\Core\Usecase\User\LoginUser;
-use Ushahidi\Core\Usecase\Post\ExportPost;
-use Ushahidi\Core\Usecase\Export\Job\PostCount;
-use Ushahidi\Core\Usecase\Message\ReceiveMessage;
 use Ushahidi\Core\Entity\SetRepository;
 use Ushahidi\Core\Entity\PostRepository;
 use Ushahidi\Core\Entity\UserRepository;
@@ -26,6 +16,15 @@ use Ushahidi\Core\Entity\ExportJobRepository;
 use Ushahidi\Core\Entity\ExportBatchRepository;
 use Ushahidi\Core\Entity\FormAttributeRepository;
 use Ushahidi\Core\Entity\TargetedSurveyStateRepository;
+use Ushahidi\Core\Tool\Verifier;
+use Ushahidi\Core\Ohanzee\Repositories\TosRepository;
+use Ushahidi\Core\Usecase\User\LoginUser;
+use Ushahidi\Core\Usecase\Post\ExportPost;
+use Ushahidi\Core\Usecase\Export\Job\PostCount;
+use Ushahidi\Core\Usecase\Message\ReceiveMessage;
+use Ushahidi\Modules\V3\Console;
+use Ushahidi\Modules\V3\Factory\UsecaseFactory;
+
 
 class ServiceProvider extends BaseServiceProvider
 {
@@ -36,10 +35,8 @@ class ServiceProvider extends BaseServiceProvider
      */
     public function boot()
     {
-        $this->app[Kernel::class]->pushMiddleware(V5GlobalScopes::class);
-
         Route::prefix('api')
-            ->middleware('api')
+            ->middleware(['api'])
             ->namespace('Ushahidi\Modules\V3\Http\Controllers')
             ->group(__DIR__ . '/routes/api.php');
     }
@@ -58,14 +55,15 @@ class ServiceProvider extends BaseServiceProvider
 
     public function registerServicesFromAura()
     {
-        $this->app->singleton(UsecaseFactory::class, function ($app) {
-            // Just return it from AuraDI
-            return service('factory.usecase');
-        });
-
+        // RepositoryBinder::repositoryBinderResolver(function () {
         $this->app->singleton(UserRepository::class, function ($app) {
             // Just return it from AuraDI
             return service('repository.user');
+        });
+
+        $this->app->singleton(RoleRepository::class, function ($app) {
+            // Just return it from AuraDI
+            return service('repository.role');
         });
 
         $this->app->singleton(ApiKeyRepository::class, function ($app) {
@@ -126,6 +124,12 @@ class ServiceProvider extends BaseServiceProvider
         $this->app->singleton(TosRepository::class, function ($app) {
             // Just return it from AuraDI
             return service('repository.tos');
+        });
+        // });
+
+        $this->app->singleton(UsecaseFactory::class, function ($app) {
+            // Just return it from AuraDI
+            return service('factory.usecase');
         });
 
         $this->app->singleton(Verifier::class, function ($app) {

@@ -16,7 +16,7 @@
 
 namespace Ushahidi\Core\Usecase\Concerns;
 
-use Ushahidi\Core\Contracts\Entity;
+use Ushahidi\Contracts\Entity;
 use Ushahidi\Core\Exception\NotFoundException;
 
 trait VerifyEntityLoaded
@@ -24,9 +24,9 @@ trait VerifyEntityLoaded
     /**
      * Verifies that a given entity has been loaded, by checking that the "id"
      * property is not empty.
-     * @param  \Ushahidi\Core\Contracts\Entity $entity
+     * @param  \Ushahidi\Contracts\Entity $entity
      * @param  mixed $lookup
-     * @return \Ushahidi\Core\Contracts\Entity
+     * @return \Ushahidi\Contracts\Entity
      * @throws \Ushahidi\Core\Exception\NotFoundException
      */
     protected function verifyEntityLoaded(Entity $entity, $lookup)

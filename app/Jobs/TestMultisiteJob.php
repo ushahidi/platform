@@ -2,15 +2,15 @@
 
 namespace App\Jobs;
 
-use Ushahidi\Multisite\MultisiteManager;
 use Illuminate\Support\Facades\Log;
-use Ushahidi\Multisite\MultisiteAware;
+use Ushahidi\Core\Concerns\SiteAware;
+use Ushahidi\Multisite\MultisiteManager;
 use Ushahidi\Core\Entity\ConfigRepository;
 use Ushahidi\Core\Entity\ExportBatchRepository;
 
 class TestMultisiteJob extends Job
 {
-    use MultisiteAware;
+    use SiteAware;
 
     /**
      * Create a new job instance.

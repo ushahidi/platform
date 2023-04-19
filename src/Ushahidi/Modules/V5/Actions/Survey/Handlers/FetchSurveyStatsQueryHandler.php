@@ -4,53 +4,73 @@ namespace Ushahidi\Modules\V5\Actions\Survey\Handlers;
 
 use Ushahidi\Modules\V5\Actions\V5QueryHandler;
 use App\Bus\Query\Query;
-use Ushahidi\Modules\V5\Actions\Survey\Queries\FetchSurveyByIdQuery;
-use Ushahidi\Modules\V5\Repository\Survey\SurveyRepository;
+use Ushahidi\Modules\V5\Actions\Survey\Queries\FetchSurveyStatsQuery;
+use Ushahidi\Modules\V5\Repository\Survey\SurveyStatesRepository;
 use Ushahidi\Modules\V5\Models\Survey;
 use App\Bus\Query\QueryBus;
 
 class FetchSurveyStatsQueryHandler extends V5QueryHandler
 {
 
-    private $survey_repository;
+    private $survey_states_repository;
     private $queryBus;
 
-    public function __construct(QueryBus $queryBus, SurveyRepository $survey_repository)
+    public function __construct(QueryBus $queryBus, SurveyStatesRepository $survey_states_repository)
     {
-        $this->survey_repository = $survey_repository;
+        $this->survey_states_repository = $survey_states_repository;
         $this->queryBus = $queryBus;
     }
 
     protected function isSupported(Query $query)
     {
         assert(
-            get_class($query) === FetchSurveyByIdQuery::class,
+            get_class($query) === FetchSurveyStatsQuery::class,
             'Provided query is not supported'
         );
     }
 
 
     /**
-     * @param FetchSurveyByIdQuery $query
+     * @param FetchSurveyStatsQuery $query
      * @return Survey
      */
     public function __invoke($query) //: array
     {
-        $only = $this->getSelectFields(
-            $query->getFormat(),
-            $query->getOnlyFields(),
-            Survey::$approved_fields_for_select,
-            Survey::$required_fields_for_select
-        );
         $this->isSupported($query);
-        $survey = $this->survey_repository->findById($query->getId(), $only);
 
-        $this->addHydrateRelationships(
-            $survey,
-            $only,
-            $this->getHydrateRelationshpis(Survey::$relationships, $query->getHydrate())
+        $total_responses = $this->survey_states_repository->getResponses(
+            $query->getSurveyId(),
+            $query->getSearchFields()
         );
-        $survey->offsetUnset('base_language');
-        return $survey;
+        $total_recipients = $this->survey_states_repository->getRecipients(
+            $query->getSurveyId(),
+            $query->getSearchFields()
+        );
+        $total_response_recipients = $this->survey_states_repository->getResponseRecipients(
+            $query->getSurveyId(),
+            $query->getSearchFields()
+        );
+        $out_going_messages = $this->survey_states_repository->countOutgoingMessages(
+            $query->getSurveyId(),
+            $query->getSearchFields()
+        );
+        $total_messages_pending = $this->survey_states_repository->countTotalPending(
+            $query->getSurveyId(),
+            0
+        );
+        $total_by_data_source = $this->survey_states_repository->getPostCountByDataSource(
+            $query->getSurveyId(),
+            $query->getSearchFields()
+        );
+
+        $states = [
+            "total_responses" => $total_responses,
+            "total_recipients" => $total_recipients,
+            "total_response_recipients" => $total_response_recipients,
+            "total_messages_sent" => $out_going_messages['sent'],
+            "total_messages_pending" => $total_messages_pending,
+            "total_by_data_source" => $total_by_data_source
+        ];
+        return collect($states);
     }
 }

@@ -271,8 +271,6 @@ $router->group([
         }
     );
 
-
-
     $router->group(
         [
             'prefix' => 'collections',
@@ -281,6 +279,16 @@ $router->group([
         function () use ($router) {
             $router->get('/', 'CollectionController@index');
             $router->get('/{id}', 'CollectionController@show');
+            $router->group(
+                [
+                    'prefix' => '{collection_id}/posts',
+                    'middleware' => ['scope:collections,sets',  'expiration']
+                ],
+                function () use ($router) {
+                        $router->get('/', 'CollectionPostController@index');
+                        $router->get('/{id}', 'CollectionPostController@show');
+                }
+            );
         }
     );
 
@@ -293,6 +301,18 @@ $router->group([
             $router->post('/', 'CollectionController@store');
             $router->put('/{id}', 'CollectionController@update');
             $router->delete('/{id}', 'CollectionController@delete');
+
+            $router->group(
+                [
+                    'prefix' => '{collection_id}/posts',
+                    'middleware' => ['scope:collections,sets', 'auth:api', 'expiration']
+                ],
+                function () use ($router) {
+                        $router->post('/', 'CollectionPostController@store');
+                        //$router->put('/{id}', 'CollectionPostController@update');
+                        $router->delete('/{id}', 'CollectionPostController@delete');
+                }
+            );
         }
     );
 });

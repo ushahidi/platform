@@ -14,7 +14,7 @@ namespace Ushahidi\DataSource\SMSSync;
 use Ushahidi\DataSource\DataSourceController;
 use Illuminate\Http\Request;
 use Ushahidi\DataSource\Contracts\MessageType;
-use Ushahidi\Core\Contracts\Contact;
+use Ushahidi\Contracts\Contact;
 
 class SMSSyncController extends DataSourceController
 {

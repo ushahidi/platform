@@ -2,24 +2,27 @@
 
 namespace Ushahidi\Modules\V5\Http\Controllers;
 
-use App\Auth\GenericUser;
+use App\Bus\Command\CommandBus;
 use App\Bus\Query\QueryBus;
+use Ushahidi\Modules\V5\Actions\Translation\Commands\AddTranslationCommand;
+use Ushahidi\Modules\V5\Models\Translation;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
-use App\Bus\Command\CommandBus;
 use Illuminate\Validation\Rule;
+use Ushahidi\Authzn\GenericUser;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Validator;
 use Illuminate\Contracts\Auth\Access\Gate;
-use Ushahidi\Modules\V5\Models\Translation;
 use Illuminate\Validation\ValidationException;
 use Ushahidi\Modules\V5\Common\ValidatorRunner;
 use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class V5Controller extends BaseController
 {
-
+    use AuthorizesRequests, ValidatesRequests;
 
     /**
      * The response builder callback.
@@ -44,8 +47,9 @@ class V5Controller extends BaseController
 
 
     protected static $errorFormatter;
+
     /**
-     * @param null $message
+     * @param $message
      * @return \Illuminate\Http\JsonResponse
      */
     public static function make403($message = null)
@@ -59,7 +63,7 @@ class V5Controller extends BaseController
         );
     }
     /**
-     * @param null $message
+     * @param $message
      * @return \Illuminate\Http\JsonResponse
      */
     public static function make500($message = null)
@@ -141,44 +145,34 @@ class V5Controller extends BaseController
         );
     }
 
-    /**
-     * Authorize a given action against a set of arguments.
-     *
-     * @param  mixed  $ability
-     * @param  mixed|array  $arguments
-     * @return \Illuminate\Auth\Access\Response
-     *
-     * @throws \Illuminate\Auth\Access\AuthorizationException
-     */
-    public function authorize($ability, $arguments = [])
+    protected function formatValidationErrors(Validator $validator)
     {
-        list($ability, $arguments) = $this->parseAbilityAndArguments($ability, $arguments);
+        if (isset(static::$errorFormatter)) {
+            return call_user_func(static::$errorFormatter, $validator);
+        }
 
-        return app(Gate::class)->authorize($ability, $arguments);
+        return $validator->errors()->getMessages();
     }
 
-    /**
-     * Authorize a given action for a user.
-     *
-     * @param  \Illuminate\Contracts\Auth\Authenticatable|mixed  $user
-     * @param  mixed  $ability
-     * @param  mixed|array  $arguments
-     * @return \Illuminate\Auth\Access\Response
-     *
-     * @throws \Illuminate\Auth\Access\AuthorizationException
-     */
-    public function authorizeForUser($user, $ability, $arguments = [])
+    protected function buildFailedValidationResponse(Request $request, array $errors)
     {
-        list($ability, $arguments) = $this->parseAbilityAndArguments($ability, $arguments);
+        if (isset(static::$responseBuilder)) {
+            return call_user_func(static::$responseBuilder, $request, $errors);
+        }
 
-        return app(Gate::class)->forUser($user)->authorize($ability, $arguments);
+        return new JsonResponse($errors, 422);
     }
 
     public function authorizeAnyone($ability, $arguments = [])
     {
         list($ability, $arguments) = $this->parseAbilityAndArguments($ability, $arguments);
 
-        return $this->authorizeForUser(Auth::user() ?? new GenericUser(['role' => 'guest']), $ability, $arguments);
+        return $this->authorizeForUser(
+            $this->getGenericUser() ??
+            new GenericUser(['role' => 'guest']),
+            $ability,
+            $arguments
+        );
     }
 
     /**
@@ -204,22 +198,6 @@ class V5Controller extends BaseController
     }
 
     /**
-     * Guesses the ability's name if it wasn't provided.
-     *
-     * @param  mixed  $ability
-     * @param  mixed|array  $arguments
-     * @return array
-     */
-    protected function parseAbilityAndArguments($ability, $arguments)
-    {
-        if (is_string($ability)) {
-            return [$ability, $arguments];
-        }
-
-        return [debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 3)[2]['function'], $ability];
-    }
-
-    /**
      * Not all fields are things we want to allow on the body of requests
      * an author won't change after the fact so we limit that change
      * to avoid issues from the frontend.
@@ -228,6 +206,14 @@ class V5Controller extends BaseController
     protected function ignoreInput()
     {
         return [];
+    }
+
+    protected function getField($key, $inputValue)
+    {
+        if (in_array($key, $this->ignoreInput())) {
+            return null;
+        }
+        return $inputValue;
     }
 
     /**
@@ -245,6 +231,7 @@ class V5Controller extends BaseController
         }
         return $return;
     }
+
     /**
      * @param $input
      * @return array
@@ -317,47 +304,6 @@ class V5Controller extends BaseController
     }
 
     /**
-     * @param $key
-     * @param $inputValue
-     * @return array
-     */
-    protected function getField($key, $inputValue)
-    {
-        if (in_array($key, $this->ignoreInput())) {
-            return null;
-        }
-        return $inputValue;
-    }
-
-    /**
-     * Get a validation factory instance.
-     *
-     * @return \Illuminate\Contracts\Validation\Factory
-     */
-    protected function getValidationFactory()
-    {
-        return app('validator');
-    }
-
-    protected function formatValidationErrors(Validator $validator)
-    {
-        if (isset(static::$errorFormatter)) {
-            return call_user_func(static::$errorFormatter, $validator);
-        }
-
-        return $validator->errors()->getMessages();
-    }
-
-    protected function buildFailedValidationResponse(Request $request, array $errors)
-    {
-        if (isset(static::$responseBuilder)) {
-            return call_user_func(static::$responseBuilder, $request, $errors);
-        }
-
-        return new JsonResponse($errors, 422);
-    }
-
-    /**
      * @param $entity
      * @param array $entity_array
      * @param array $translations
@@ -403,15 +349,22 @@ class V5Controller extends BaseController
                     $translated = json_encode($translated);
                 }
 
-                $t = Translation::create(
-                    [
-                        'translatable_type' => $type,
-                        'translatable_id' => $translatable_id,
-                        'translated_key' => $key,
-                        'translation' => $translated,
-                        'language' => $language,
-                    ]
-                );
+                $this->commandBus->handle(new AddTranslationCommand(
+                    $type,
+                    $translatable_id,
+                    $key,
+                    $translated,
+                    $language
+                ));
+                // $t = Translation::create(
+                //     [
+                //         'translatable_type' => $type,
+                //         'translatable_id' => $translatable_id,
+                //         'translated_key' => $key,
+                //         'translation' => $translated,
+                //         'language' => $language,
+                //     ]
+                // );
             }
         }
         return $errors;
@@ -460,7 +413,6 @@ class V5Controller extends BaseController
             return in_array($o, $relationships);
         });
     }
-
     protected function deleteResponse(int $id)
     {
         return response()->json(['result' => ['deleted' => $id]]);

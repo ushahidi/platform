@@ -11,8 +11,8 @@
 
 namespace Ushahidi\Core\Ohanzee\Repositories\Notification;
 
-use Ushahidi\Core\Contracts\Entity;
-use Ushahidi\Core\Contracts\Repository\{EntityGet, EntityExists, CreateRepository};
+use Ushahidi\Contracts\Entity;
+use Ushahidi\Contracts\Repository\{EntityGet, EntityExists, CreateRepository};
 use Ushahidi\Core\Ohanzee\Entities\NotificationQueue;
 use Ushahidi\Core\Ohanzee\Repositories\OhanzeeRepository;
 use Ushahidi\Core\Tool\SearchData;

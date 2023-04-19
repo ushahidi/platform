@@ -17,10 +17,10 @@ use Ushahidi\Core\Ohanzee\Entities;
 use Ushahidi\Core\Concerns\Event;
 use Ushahidi\Core\Tool\SearchData;
 use Ushahidi\Core\Tool\OhanzeeResolver;
-use Ushahidi\Core\Contracts\Repository\EntityGet;
-use Ushahidi\Core\Contracts\Repository\EntityExists;
+use Ushahidi\Contracts\Repository\EntityGet;
+use Ushahidi\Contracts\Repository\EntityExists;
 use Ushahidi\Core\Ohanzee\Repositories\FormRepository;
-use Ushahidi\Core\Contracts\Repository\SearchRepository;
+use Ushahidi\Contracts\Repository\SearchRepository;
 use Ushahidi\Core\Ohanzee\Repositories\OhanzeeRepository;
 
 class StatsRepository extends OhanzeeRepository implements

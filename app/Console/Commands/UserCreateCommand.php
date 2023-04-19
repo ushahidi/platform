@@ -11,7 +11,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use Ushahidi\Core\Facade\Features;
+use Ushahidi\Core\Facade\Feature;
 use Illuminate\Support\Facades\Validator;
 use Ushahidi\Core\Exception\ValidatorException;
 use Ushahidi\Core\Entity\TosRepository;
@@ -64,7 +64,7 @@ class UserCreateCommand extends Command
             'password' => 'required|min:7|max:72',
             'realname' => 'max:150',
             'role' => ['exists:roles', function ($attribute, $value, $fail) use ($userRepo) {
-                $limit = Features::getLimit('admin_users');
+                $limit = Feature::getLimit('admin_users');
                 if ($limit !== INF && $value == 'admin') {
                     $total = $userRepo->getTotalCount(['role' => 'admin']);
 

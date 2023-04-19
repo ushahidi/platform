@@ -13,7 +13,7 @@
 
 namespace Ushahidi\Core\Usecase\Concerns;
 
-use Ushahidi\Core\Contracts\Formatter as FormatterInterface;
+use Ushahidi\Contracts\Formatter as FormatterInterface;
 
 trait Formatter
 {

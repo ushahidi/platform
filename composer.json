@@ -15,7 +15,7 @@
         }
     ],
     "require": {
-        "php": "^7.3||^8.0",
+        "php": ">=7.3 <7.4",
         "abraham/twitteroauth": "^0.5.3",
         "africastalking/africastalking": "^3.0",
         "asm89/stack-cors": "^2.1",
@@ -32,21 +32,22 @@
         "league/csv": "~7.1@dev",
         "league/flysystem": "~1.0",
         "league/flysystem-aws-s3-v3": "~1.0",
-        "league/flysystem-rackspace": "~1.0",
         "netresearch/jsonmapper": "^1.6.0",
         "nyholm/psr7": "^1.5",
         "ohanzee/database": "dev-namespaces",
         "php-http/curl-client": "^2.2",
+        "php-opencloud/openstack": "^3.2",
         "predis/predis": "~1.1",
         "robmorgan/phinx": "~0.11.2",
         "sentry/sentry-laravel": "^1.9|^2.11",
+        "symfony/event-dispatcher": "^5.4",
         "symfony/psr-http-message-bridge": "^2.0",
         "symm/gisconverter": "~1.0.5",
         "twilio/sdk": "^5.15",
+        "ushahidi/kohana-validation": "dev-master",
         "ushahidi/laravel-ckan-api": "dev-master",
         "vonage/client": "^2.3",
         "wikimedia/composer-merge-plugin": "^2.0",
-        "ushahidi/kohana-validation": "dev-master",
         "willdurand/negotiation": "^2.3"
     },
     "require-dev": {
@@ -171,6 +172,7 @@
             "behat --strict"
         ],
         "behat": "behat --strict",
+        "unit": "phpunit --no-coverage --stop-on-failure",
         "test": [
             "phpunit --no-coverage",
             "phpspec run --no-code-generation",
