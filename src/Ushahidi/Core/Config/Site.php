@@ -11,11 +11,11 @@
 
 namespace Ushahidi\Core\Config;
 
-use Ushahidi\Core\Entity\Site as SiteEntity;
 use Ushahidi\Core\StaticEntity;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Request;
-use Ushahidi\Contracts\Repository\Entity\ConfigRepository;
+use Ushahidi\Core\Entity\ConfigRepository;
+use Ushahidi\Core\Entity\Site as SiteEntity;
 
 class Site extends StaticEntity implements SiteEntity
 {

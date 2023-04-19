@@ -141,7 +141,8 @@ trait ExtendableTrait
         if (!method_exists($extensionObject, 'extensionIsHiddenMethod')) {
             throw new Exception(
                 sprintf(
-                    'Extension %s should inherit Ushahidi\Core\Extension\ExtensionBase or $this->behaviors Ushahidi\Core\Extension\ExtensionTrait.',
+                    'Extension %s should inherit Ushahidi\Core\Extension\ExtensionBase
+                     or $this->behaviors Ushahidi\Core\Extension\ExtensionTrait.',
                     $extensionName
                 )
             );

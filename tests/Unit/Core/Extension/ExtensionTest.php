@@ -1,7 +1,6 @@
 <?php
+namespace Tests\Unit\Core\Extension;
 
-use Ushahidi\Core\Extension\Extendable;
-use Ushahidi\Core\Extension\ExtensionBase;
 use Ushahidi\Tests\TestCase;
 
 class ExtensionTest extends TestCase
@@ -20,18 +19,3 @@ class ExtensionTest extends TestCase
     }
 }
 
-/*
- * Example class that has extensions enabled
- */
-class ExtensionTestExampleExtendableClass extends Extendable
-{
-    public $behaviors = ['ExtensionTestExampleBehaviorClass1'];
-}
-
-/**
- * Example behavior classes
- */
-class ExtensionTestExampleBehaviorClass1 extends ExtensionBase
-{
-    public $behaviorAttribute = 'foo';
-}
