@@ -177,63 +177,6 @@
             "time": "2022-01-18T09:12:03+00:00"
         },
         {
-            "name": "aura/di",
-            "version": "3.4.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/auraphp/Aura.Di.git",
-                "reference": "f676b38a0d1c3b0d7897b0a082f4811eb8b08faa"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/auraphp/Aura.Di/zipball/f676b38a0d1c3b0d7897b0a082f4811eb8b08faa",
-                "reference": "f676b38a0d1c3b0d7897b0a082f4811eb8b08faa",
-                "shasum": ""
-            },
-            "require": {
-                "container-interop/container-interop": "~1.0",
-                "php": ">=5.5.0"
-            },
-            "provide": {
-                "container-interop/container-interop-implementation": "^1.0"
-            },
-            "require-dev": {
-                "acclimate/container": "~1.0",
-                "mouf/picotainer": "~1.0",
-                "phpunit/phpunit": "~5.7 || ~4.8"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Aura\\Di\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Aura.Di Contributors",
-                    "homepage": "https://github.com/auraphp/Aura.Di/contributors"
-                }
-            ],
-            "description": "A serializable dependency injection container with constructor and setter injection, interface and trait awareness, configuration inheritance, and much more.",
-            "homepage": "https://github.com/auraphp/Aura.Di",
-            "keywords": [
-                "container",
-                "dependency injection",
-                "dependency injection container",
-                "di",
-                "di container"
-            ],
-            "support": {
-                "issues": "https://github.com/auraphp/Aura.Di/issues",
-                "source": "https://github.com/auraphp/Aura.Di/tree/3.x"
-            },
-            "time": "2017-07-30T04:14:30+00:00"
-        },
-        {
             "name": "aws/aws-crt-php",
             "version": "v1.2.1",
             "source": {
@@ -380,64 +323,6 @@
                 "source": "https://github.com/aws/aws-sdk-php/tree/3.263.4"
             },
             "time": "2023-04-05T18:21:54+00:00"
-        },
-        {
-            "name": "beheh/flaps",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/beheh/flaps.git",
-                "reference": "327110f6c97a3a3e90bd39c47ebb9e2f02db9d61"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/beheh/flaps/zipball/327110f6c97a3a3e90bd39c47ebb9e2f02db9d61",
-                "reference": "327110f6c97a3a3e90bd39c47ebb9e2f02db9d61",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.0"
-            },
-            "require-dev": {
-                "doctrine/cache": "~1.4",
-                "phpunit/phpunit": "~4.0",
-                "predis/predis": "~1.0"
-            },
-            "suggest": {
-                "doctrine/cache": "Enables a wide variety of caching systems as storage",
-                "predis/predis": "Enable Redis as storage system"
-            },
-            "default-branch": true,
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "BehEh\\Flaps\\": "src/Flaps"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "ISC"
-            ],
-            "authors": [
-                {
-                    "name": "Benedict Etzel",
-                    "email": "developer@beheh.de",
-                    "homepage": "https://beheh.de",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Modular library for rate limiting requests in applications",
-            "homepage": "https://github.com/beheh/flaps",
-            "keywords": [
-                "http",
-                "rate limit",
-                "throttle"
-            ],
-            "support": {
-                "issues": "https://github.com/beheh/flaps/issues",
-                "source": "https://github.com/beheh/flaps/tree/0.2.0"
-            },
-            "time": "2017-06-02T21:56:31+00:00"
         },
         {
             "name": "brick/math",
@@ -1015,42 +900,6 @@
                 }
             ],
             "time": "2022-01-17T14:14:24+00:00"
-        },
-        {
-            "name": "container-interop/container-interop",
-            "version": "1.2.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/container-interop/container-interop.git",
-                "reference": "79cbf1341c22ec75643d841642dd5d6acd83bdb8"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/container-interop/container-interop/zipball/79cbf1341c22ec75643d841642dd5d6acd83bdb8",
-                "reference": "79cbf1341c22ec75643d841642dd5d6acd83bdb8",
-                "shasum": ""
-            },
-            "require": {
-                "psr/container": "^1.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Interop\\Container\\": "src/Interop/Container/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "Promoting the interoperability of container objects (DIC, SL, etc.)",
-            "homepage": "https://github.com/container-interop/container-interop",
-            "support": {
-                "issues": "https://github.com/container-interop/container-interop/issues",
-                "source": "https://github.com/container-interop/container-interop/tree/master"
-            },
-            "abandoned": "psr/container",
-            "time": "2017-02-14T19:40:03+00:00"
         },
         {
             "name": "defuse/php-encryption",
@@ -2406,22 +2255,22 @@
         },
         {
             "name": "guzzlehttp/psr7",
-            "version": "2.4.4",
+            "version": "2.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/psr7.git",
-                "reference": "3cf1b6d4f0c820a2cf8bcaec39fc698f3443b5cf"
+                "reference": "b635f279edd83fc275f822a1188157ffea568ff6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/psr7/zipball/3cf1b6d4f0c820a2cf8bcaec39fc698f3443b5cf",
-                "reference": "3cf1b6d4f0c820a2cf8bcaec39fc698f3443b5cf",
+                "url": "https://api.github.com/repos/guzzle/psr7/zipball/b635f279edd83fc275f822a1188157ffea568ff6",
+                "reference": "b635f279edd83fc275f822a1188157ffea568ff6",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.2.5 || ^8.0",
                 "psr/http-factory": "^1.0",
-                "psr/http-message": "^1.0",
+                "psr/http-message": "^1.1 || ^2.0",
                 "ralouphie/getallheaders": "^3.0"
             },
             "provide": {
@@ -2441,9 +2290,6 @@
                 "bamarni-bin": {
                     "bin-links": true,
                     "forward-command": false
-                },
-                "branch-alias": {
-                    "dev-master": "2.4-dev"
                 }
             },
             "autoload": {
@@ -2505,7 +2351,7 @@
             ],
             "support": {
                 "issues": "https://github.com/guzzle/psr7/issues",
-                "source": "https://github.com/guzzle/psr7/tree/2.4.4"
+                "source": "https://github.com/guzzle/psr7/tree/2.5.0"
             },
             "funding": [
                 {
@@ -2521,7 +2367,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-03-09T13:19:02+00:00"
+            "time": "2023-04-17T16:11:26+00:00"
         },
         {
             "name": "guzzlehttp/uri-template",
@@ -5897,21 +5743,21 @@
         },
         {
             "name": "psr/http-factory",
-            "version": "1.0.1",
+            "version": "1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/http-factory.git",
-                "reference": "12ac7fcd07e5b077433f5f2bee95b3a771bf61be"
+                "reference": "e616d01114759c4c489f93b099585439f795fe35"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/http-factory/zipball/12ac7fcd07e5b077433f5f2bee95b3a771bf61be",
-                "reference": "12ac7fcd07e5b077433f5f2bee95b3a771bf61be",
+                "url": "https://api.github.com/repos/php-fig/http-factory/zipball/e616d01114759c4c489f93b099585439f795fe35",
+                "reference": "e616d01114759c4c489f93b099585439f795fe35",
                 "shasum": ""
             },
             "require": {
                 "php": ">=7.0.0",
-                "psr/http-message": "^1.0"
+                "psr/http-message": "^1.0 || ^2.0"
             },
             "type": "library",
             "extra": {
@@ -5931,7 +5777,7 @@
             "authors": [
                 {
                     "name": "PHP-FIG",
-                    "homepage": "http://www.php-fig.org/"
+                    "homepage": "https://www.php-fig.org/"
                 }
             ],
             "description": "Common interfaces for PSR-7 HTTP message factories",
@@ -5946,9 +5792,9 @@
                 "response"
             ],
             "support": {
-                "source": "https://github.com/php-fig/http-factory/tree/master"
+                "source": "https://github.com/php-fig/http-factory/tree/1.0.2"
             },
-            "time": "2019-04-30T12:38:16+00:00"
+            "time": "2023-04-10T20:10:41+00:00"
         },
         {
             "name": "psr/http-message",
@@ -14312,9 +14158,7 @@
         "ushahidi/kohana-validation": 20,
         "ushahidi/laravel-ckan-api": 20,
         "heroku/heroku-buildpack-php": 20,
-        "php-coveralls/php-coveralls": 20,
-        "beheh/flaps": 20,
-        "league/event": 20
+        "php-coveralls/php-coveralls": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,
@@ -14322,5 +14166,5 @@
         "php": ">=7.3 <7.4"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.2.0"
+    "plugin-api-version": "2.3.0"
 }
