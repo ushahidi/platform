@@ -8,7 +8,6 @@ use Ushahidi\Factory\UsecaseFactory;
 use Ushahidi\Addons\Mteja\MtejaSource;
 use Ushahidi\Core\Usecase\Post\Export;
 use Illuminate\Support\ServiceProvider;
-use Ushahidi\Core\Tool\OhanzeeResolver;
 use Ushahidi\Core\Usecase\Export\Job\PostCount;
 use Ushahidi\Addons\AfricasTalking\AfricasTalkingSource;
 use Ushahidi\Contracts\Repository\Entity\PostRepository;
@@ -157,11 +156,6 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->singleton('features', function ($app) {
             return new Features($app[ConfigRepository::class]);
-        });
-
-        // Register OhanzeeResolver
-        $this->app->singleton(OhanzeeResolver::class, function ($app) {
-            return new OhanzeeResolver();
         });
 
         $this->app->bind(CountryCodeRepository::class, EloquentCountryCodeRepository::class);
