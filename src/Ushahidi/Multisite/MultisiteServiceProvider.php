@@ -27,7 +27,7 @@ class MultisiteServiceProvider extends ServiceProvider
          // Register OhanzeeResolver
          $this->app->singleton(OhanzeeResolver::class, function ($app) {
             return new OhanzeeResolver();
-        });
+         });
     }
 
     // @todo move some of this into manager?
