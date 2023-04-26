@@ -151,17 +151,25 @@ class EloquentPostRepository implements PostRepository
         $query->selectRaw("CONCAT( 
             '{\"type\":\"FeatureCollection\",'
             ,'\"features\":[', 
-                GROUP_CONCAT( CONCAT( '{\"type\":\"Feature\",', '\"geometry\":', ST_AsGeoJSON(post_point.value), ',\"properties\":{} }' ) SEPARATOR ',' )
+                GROUP_CONCAT( 
+                    CONCAT( 
+                        '{
+                            \"type\":\"Feature\",',
+                            '\"geometry\":',
+                            ST_AsGeoJSON(post_point.value),
+                            ',\"properties\":{} }'
+                         )
+                     SEPARATOR ',' )
             , ']}' ) 
             AS geojson");
-            return $query;
+        return $query;
     }
     public function getPostsGeoJson(
         Paging $paging,
         PostSearchFields $search_fields
     ) {
         $query = DB::table('posts')->skip($paging->getSkip())
-        ->orderBy($paging->getOrderBy(), $paging->getOrder());
+            ->orderBy($paging->getOrderBy(), $paging->getOrder());
         $query->select('posts.id as id');
         $query = $this->addGeoJsonSelect($query);
         $query->join('post_point', 'post_point.post_id', '=', 'posts.id');
@@ -172,14 +180,14 @@ class EloquentPostRepository implements PostRepository
     public function getPostGeoJson(int $post_id)
     {
         $query = DB::table('posts');
-         $query->select('posts.id as id');
-         $query->where('posts.id', '=', $post_id);
-         $query = $this->addGeoJsonSelect($query);
+        $query->select('posts.id as id');
+        $query->where('posts.id', '=', $post_id);
+        $query = $this->addGeoJsonSelect($query);
         $query->join('post_point', 'post_point.post_id', '=', 'posts.id');
         $query->groupBy('posts.id');
         $post_geo = $query->first();
         if (is_null($post_geo)) {
-            throw new NotFoundException('Post '.$post_id.' does not have a location info', 404);
+            throw new NotFoundException('Post ' . $post_id . ' does not have a location info', 404);
         }
         return collect($post_geo);
     }
