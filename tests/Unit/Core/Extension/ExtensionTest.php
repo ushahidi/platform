@@ -18,4 +18,3 @@ class ExtensionTest extends TestCase
         $this->assertEquals('bar', $subject->behaviorAttribute);
     }
 }
-

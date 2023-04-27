@@ -16,5 +16,4 @@ interface Post extends Entity
 {
     const DEFAULT_STATUS = 'draft';
     const DEFAULT_LOCAL = 'en_US';
-
 }
