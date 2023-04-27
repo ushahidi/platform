@@ -351,7 +351,7 @@ final class RackspaceAdapter extends AbstractAdapter
      */
     public function getUrl($path)
     {
-        if( $this->cdnContainer === null ) {
+        if ($this->cdnContainer === null) {
             return (string) $this->container->getObject($path)->getPublicUri();
         }
 
