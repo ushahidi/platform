@@ -111,12 +111,12 @@ class UserController extends V5Controller
      */
     public function update(UserRequest $request, int $id)
     {
-        //dd("dsa");
         $user = $this->queryBus->handle(new FetchUserByIdQuery($id));
-        $this->authorize('update', $user);
+        $userEntity = UserEntity::buildEntity($request->input(), 'update', $user->toArray());
+        $this->authorize('update', $user->fill($userEntity->asArray()));
 
         $this->commandBus->handle(
-            new UpdateUserCommand($id, UserEntity::buildEntity($request->input(), 'update', $user->toArray()))
+            new UpdateUserCommand($id, $userEntity)
         );
         return new UserResource(
             $this->queryBus->handle(new FetchUserByIdQuery($id))

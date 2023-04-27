@@ -2,14 +2,8 @@
 
 namespace Ushahidi\Modules\V5\Models;
 
-use Ushahidi\Core\Entity\Tag;
-use Illuminate\Support\Facades\Validator;
-use Ushahidi\Modules\V5\Models\Concerns\HasSlug;
-
 class Category extends BaseModel
 {
-    use HasSlug;
-
     /**
      * Add eloquent style timestamps
      *

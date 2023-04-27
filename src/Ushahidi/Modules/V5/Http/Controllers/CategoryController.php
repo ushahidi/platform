@@ -4,7 +4,6 @@ namespace Ushahidi\Modules\V5\Http\Controllers;
 
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\Routing\ResponseFactory;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\JsonResponse;
 use Ushahidi\Modules\V5\DTO\Paging;
@@ -19,8 +18,6 @@ use Illuminate\Support\Facades\DB;
 use Ushahidi\Modules\V5\Actions\Category\Queries\FetchAllCategoriesQuery;
 use Ushahidi\Modules\V5\Actions\Category\Queries\FetchCategoryByIdQuery;
 use Ushahidi\Modules\V5\Requests\CategoryRequest;
-
-
 use Ushahidi\Modules\V5\Models\Category;
 use Ushahidi\Modules\V5\Http\Requests\CategoryRequest as ValidationCategoryRequest;
 use Ushahidi\Modules\V5\DTO\CategorySearchFields;
@@ -43,7 +40,7 @@ class CategoryController extends V5Controller
         return new CategoryResource($category);
     }
 
-   
+
     /**
      * Display the specified resource.
      *
@@ -69,7 +66,7 @@ class CategoryController extends V5Controller
      */
     public function store(CategoryRequest $request)
     {
-        $this->authorize('store', new Category());
+        $this->authorize('create', Category::class);
 
         DB::beginTransaction();
         try {
