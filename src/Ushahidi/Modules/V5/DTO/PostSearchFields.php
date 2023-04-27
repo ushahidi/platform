@@ -9,50 +9,51 @@ class PostSearchFields
     /**
      * @var ?string
      */
-    private $query;
-    private $post_id;
+    protected $query;
+    protected $post_id;
 
-    private $status;
-    private $locale;
-    private $slug;
+    protected $status;
+    protected $locale;
+    protected $slug;
+
+    protected $type;
 
     // before ready
-    private $type;
-    private $parent;
-    private $user;
-    private $form;
-    private $set;
-    private $tags;
-    private $source;
-    private $created_before_by_id;
-    private $created_after_by_id;
-    private $created_before;
-    private $created_after;
-    private $updated_before;
-    private $updated_after;
-    private $date_before;
-    private $date_after;
-    private $bbox;
-    private $center_point;
-    private $published_to;
-    private $include_types;
-    private $include_attributes;
-    private $include_unmapped;
-    private $has_location;
-    private $output_core_post;
-    private $within_km;
+    protected $parent;
+    protected $user;
+    protected $form;
+    protected $set;
+    protected $tags;
+    protected $source;
+    protected $created_before_by_id;
+    protected $created_after_by_id;
+    protected $created_before;
+    protected $created_after;
+    protected $updated_before;
+    protected $updated_after;
+    protected $date_before;
+    protected $date_after;
+    protected $bbox;
+    protected $center_point;
+    protected $published_to;
+    protected $include_types;
+    protected $include_attributes;
+    protected $has_location;
+    protected $output_core_post;
+    protected $within_km;
 
     public function __construct(Request $request)
     {
         $this->query = $request->query('q');
         $this->post_id = $request->query('post_id');
-        $this->status = [];
+        $this->status = ['published']; // default filter vlue
         if ($request->query('status')) {
             $this->status = explode(',', $request->get('status'));
         }
         $this->locale = $request->query('locale');
         $this->slug = $request->query('slug');
         $this->set = $request->query('set')?explode(',', $request->get('set')):[];
+        $this->type = $request->query('type');
 
 
        // $this->tag = $request->query('tag');
@@ -99,7 +100,7 @@ class PostSearchFields
 
     public function type()
     {
-        return $this->type;
+        return $this->type??'report';
     }
 
     public function parent()

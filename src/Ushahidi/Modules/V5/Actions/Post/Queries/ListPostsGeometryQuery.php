@@ -18,28 +18,6 @@ class ListPostsGeometryQuery implements Query
     private $paging;
     private $search_fields;
 
-    // private const ALLOWED_FIELDS = [
-    //     'id',
-    //     'parent_id',
-    //     'base_language',
-    //     'form_id',
-    //     'status',
-    //     'form_id',
-    //     'user_id',
-    //     'type',
-    //     'title',
-    //     'slug',
-    //     'content',
-    //     'author_email',
-    //     'author_realname',
-    //     'status',
-    //     'published_to',
-    //     'locale',
-    //     'post_date',
-    //     'base_language',
-    //     'created',
-    //     'updated'
-    // ];
     /**
      * @var array
      */
@@ -64,7 +42,6 @@ class ListPostsGeometryQuery implements Query
         $this->search_fields = $search_fields;
 
         $this->fields = $fields;
-       // $this->limit = 20;
         $this->fields = array_unique(array_merge($fields, Post::REQUIRED_FIELDS));
         $this->hydrates = $hydrates;
         $this->with_relationships = [];
@@ -122,12 +99,6 @@ class ListPostsGeometryQuery implements Query
 
         return new self(Paging::fromRequest($request), new PostSearchFields($request), $fields, $hydrates);
     }
-
-    // public function getLimit(): int
-    // {
-    //     return $this->limit;
-    // }
-
 
     public function getFields(): array
     {

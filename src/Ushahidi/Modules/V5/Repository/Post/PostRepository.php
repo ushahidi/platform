@@ -25,4 +25,6 @@ interface PostRepository
 
     public function getPostsGeoJson(Paging $paging, PostSearchFields $search_fields);
     public function getPostGeoJson(int $post_id);
+
+    public function getPostsStats(PostSearchFields $search_fields);
 }

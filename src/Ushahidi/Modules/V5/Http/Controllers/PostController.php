@@ -32,8 +32,10 @@ use Ushahidi\Modules\V5\Actions\Post\Commands\DeletePostLockCommand;
 use Ushahidi\Modules\V5\Actions\Post\Queries\FetchPostLockByPostIdQuery;
 use Ushahidi\Modules\V5\Actions\Post\Queries\FindPostGeometryByIdQuery;
 use Ushahidi\Modules\V5\Actions\Post\Queries\ListPostsGeometryQuery;
+use Ushahidi\Modules\V5\Actions\Post\Queries\PostsStatsQuery;
 use Ushahidi\Modules\V5\Http\Resources\Post\PostGeometryCollection ;
 use Ushahidi\Modules\V5\Http\Resources\Post\PostGeometryResource ;
+use Ushahidi\Modules\V5\Http\Resources\Post\PostStatsResource ;
 
 class PostController extends V5Controller
 {
@@ -338,29 +340,20 @@ class PostController extends V5Controller
 
     public function stats(Request $request)
     {
-        dd('stats');
-        $post = $this->queryBus->handle(FindPostByIdQuery::FromRequest($id, $request));
-        return new NewPostResource($post);
+        $stats = $this->queryBus->handle(PostsStatsQuery::FromRequest($request));
+        return new PostStatsResource($stats);
     }
 
     public function indexGeoJson(Request $request): PostGeometryCollection
     {
-       // dd('list geo json');
-
         $posts = $this->queryBus->handle(ListPostsGeometryQuery::FromRequest($request));
-        //dd($posts);
         return new PostGeometryCollection($posts);
     }
 
-    public function indexGeoJsonWithZoom(Request $request): NewPostCollection
+    public function indexGeoJsonWithZoom(Request $request): PostGeometryCollection
     {
-      //  dd('list geo json with zoom');
-
-       // $posts = $this->queryBus->handle(ListPostsQuery::FromRequest($request));
-       // return new NewPostCollection($posts);
-
-   // $post_geometry = $this->queryBus->handle(ListPostsQuery::FromRequest($id,$request));
-     //   return new PostGeometryCollection($post_geometry);
+        $posts = $this->queryBus->handle(ListPostsGeometryQuery::FromRequest($request));
+        return new PostGeometryCollection($posts);
     }
 
 

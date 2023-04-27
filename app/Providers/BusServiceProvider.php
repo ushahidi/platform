@@ -366,6 +366,10 @@ class BusServiceProvider extends ServiceProvider
                 Post\Queries\ListPostsGeometryQuery::class,
                 Post\Handlers\ListPostsGeometryQueryHandler::class
             );
+            $queryBus->register(
+                Post\Queries\PostsStatsQuery::class,
+                Post\Handlers\PostsStatsQueryHandler::class
+            );
             
 
             return $queryBus;
