@@ -2,12 +2,14 @@
 
 namespace Ushahidi\Multisite;
 
+use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 use Ushahidi\Core\Tool\OhanzeeResolver;
-use Ushahidi\Multisite\Middleware\CheckDemoExpiration;
 use Ushahidi\Multisite\Middleware\DetectSite;
+use Ushahidi\Multisite\Middleware\MaintenanceMode;
+use Ushahidi\Multisite\Middleware\CheckDemoExpiration;
 
 class MultisiteServiceProvider extends ServiceProvider
 {
@@ -33,8 +35,9 @@ class MultisiteServiceProvider extends ServiceProvider
     // @todo move some of this into manager?
     public function boot()
     {
-        $this->app['router']->middleware(DetectSite::class);
-        $this->app['router']->middleware(MaintenanceMode::class);
+        $this->app[Kernel::class]->pushMiddleware(DetectSite::class);
+        $this->app[Kernel::class]->pushMiddleware(MaintenanceMode::class);
+
         $this->app['router']->aliasMiddleware('expiration', CheckDemoExpiration::class);
 
         $this->setupListeners();
