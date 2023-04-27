@@ -46,7 +46,8 @@ class PostSearchFields
     {
         $this->query = $request->query('q');
         $this->post_id = $request->query('post_id');
-        $this->status = ['published']; // default filter vlue
+       // $this->status = ['published']; // default filter vlue
+        $this->status = []; // default filter vlue
         if ($request->query('status')) {
             $this->status = explode(',', $request->get('status'));
         }
@@ -101,6 +102,7 @@ class PostSearchFields
     public function type()
     {
         return $this->type??'report';
+        //return $this->type;
     }
 
     public function parent()
