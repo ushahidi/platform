@@ -14,6 +14,7 @@ use OpenStack\Common\Error\BadResponseError;
 use OpenStack\ObjectStore\v1\Models\Account;
 use OpenStack\ObjectStore\v1\Models\Container;
 use OpenStack\ObjectStore\v1\Models\StorageObject;
+use Ushahidi\Addons\Rackspace\CDN\Models\Container as CdnContainer;
 
 use Throwable;
 
@@ -22,6 +23,8 @@ final class RackspaceAdapter extends AbstractAdapter
 {
     use StreamedCopyTrait;
     use NotSupportingVisibilityTrait;
+
+    private $cdnContainer;
 
     private $container;
 
@@ -321,6 +324,26 @@ final class RackspaceAdapter extends AbstractAdapter
     }
 
     /**
+     * Get the CDN Container.
+     *
+     * @param string $path
+     */
+    public function getCdnContainer(): CdnContainer
+    {
+        return $this->cdnContainer;
+    }
+
+    /**
+     * Set the CDN Container.
+     *
+     * @param string $path
+     */
+    public function setCdnContainer(CdnContainer $container)
+    {
+        $this->cdnContainer = $container;
+    }
+
+    /**
      * Get the URL for the file at the given path.
      *
      * @param  string $path
@@ -328,7 +351,15 @@ final class RackspaceAdapter extends AbstractAdapter
      */
     public function getUrl($path)
     {
-        return (string) $this->container->getObject($path)->getPublicUri();
+        if( $this->cdnContainer === null ) {
+            return (string) $this->container->getObject($path)->getPublicUri();
+        }
+
+        $this->cdnContainer->retrieve();
+
+        $cdnBaseUrl = $this->cdnContainer->getCdnSslUri();
+
+        return (string) Utils::uriFor($cdnBaseUrl . '/' .$path);
     }
 
     /**
@@ -350,10 +381,12 @@ final class RackspaceAdapter extends AbstractAdapter
 
         // check for proper method
         if ($method != 'GET' && $method != 'PUT') {
-            throw new Exception(sprintf(
-                'Bad method [%s] for TempUrl; only GET or PUT supported',
-                $method
-            ));
+            throw new Exception(
+                sprintf(
+                    'Bad method [%s] for TempUrl; only GET or PUT supported',
+                    $method
+                )
+            );
         }
 
         if (!($secret = $this->account->getMetadata()['Temp-Url-Key'])) {

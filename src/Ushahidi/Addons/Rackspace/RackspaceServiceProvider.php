@@ -3,14 +3,15 @@
 namespace Ushahidi\Addons\Rackspace;
 
 use GuzzleHttp\Client;
-use OpenStack\OpenStack;
 use GuzzleHttp\HandlerStack;
+use OpenStack\OpenStack;
+use OpenStack\Common\Service\Builder;
+use OpenStack\Identity\v2\Service as IdentityService;
+use OpenStack\Common\Transport\Utils as TransportUtils;
 use League\Flysystem\Filesystem;
-use OpenStack\Identity\v2\Service;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\ServiceProvider;
 use Ushahidi\Addons\Rackspace\Identity\Api;
-use OpenStack\Common\Transport\Utils as TransportUtils;
 
 class RackspaceServiceProvider extends ServiceProvider
 {
@@ -28,33 +29,63 @@ class RackspaceServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Storage::extend('rackspace', function ($app, $config) {
-            $client = new Client([
-                'base_uri' => TransportUtils::normalizeUrl($config['authUrl']),
-                'handler'  => HandlerStack::create(),
-            ]);
-
             $options = [
-                'authUrl'         => $config['authUrl'],
-                'region'          => $config['region'],
-                'username'        => $config['username'],
-                'apiKey'          => $config['key'],
-                'tenantId'        => $config['tenantid'],
-                'identityService' => new Service($client, new Api()),
+                'authUrl'  => $config['authUrl'],
+                'region'   => $config['region'],
+                'username' => $config['username'],
+                'apiKey'   => $config['key'],
+                'tenantId' => $config['tenantid'],
             ];
 
-            $openstack = new OpenStack($options);
-
-            $store = $openstack->objectStoreV1([
-                'catalogName' => 'cloudFiles',
+            $httpClient = new Client([
+                'base_uri' => TransportUtils::normalizeUrl($options['authUrl']),
+                'handler' => HandlerStack::create(),
             ]);
 
-            $account = $store->getAccount();
-            $container = $store->getContainer($config['container']);
+            $identityService = new IdentityService($httpClient, new Api());
+
+            /** @var \Ushahidi\Addons\Rackspace\CDN\Service $cdnService */
+            $cdnService = $this->cdnService($options, $identityService);
+            $objectStoreService = $this->objectStoreService($options, $identityService);
+
+            $account = $objectStoreService->getAccount();
+            $container = $objectStoreService->getContainer($config['container']);
+            $cdnContainer = $cdnService->getContainer($config['container']);
+
+            $adapter = new RackspaceAdapter($container, $account);
+            $adapter->setCdnContainer($cdnContainer);
 
             return new Filesystem(
-                new RackspaceAdapter($container, $account),
+                $adapter,
                 $config
             );
         });
+    }
+
+    protected function cdnService(array $options = [], $identityService)
+    {
+        if (!isset($options['identityService'])) {
+            $options['identityService'] = $identityService;
+        }
+
+        $openstack = new Builder($options, 'Ushahidi\Addons');
+
+        return $openstack->createService('Rackspace\CDN', [
+            'catalogName' => 'cloudFilesCDN',
+            'catalogType' => 'rax:object-cdn',
+        ]);
+    }
+
+    protected function objectStoreService(array $options = [], $identityService)
+    {
+        if (!isset($options['identityService'])) {
+            $options['identityService'] = $identityService;
+        }
+
+        $openstack = new OpenStack($options);
+
+        return $openstack->objectStoreV1([
+            'catalogName' => 'cloudFiles',
+        ]);
     }
 }
