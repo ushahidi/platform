@@ -6,7 +6,7 @@ use App\Bus\Command\Command;
 use Ushahidi\Modules\V5\Models\Post\Post;
 use Ushahidi\Modules\V5\Requests\PostRequest;
 use Illuminate\Support\Facades\Auth;
-use Ushahidi\Core\Entity\Post as PostEntity;
+use Ushahidi\Core\Ohanzee\Entities\Post as PostEntity;
 use Ushahidi\Modules\V5\Models\Stage;
 
 class CreatePostCommand implements Command
@@ -28,7 +28,7 @@ class CreatePostCommand implements Command
     private $post_content;
     private $translations;
 
-    
+
     // todo: At some point we might want to change it into a parameter
     const DEFAULT_LANUGAGE = 'en';
     private $availableLanguages;

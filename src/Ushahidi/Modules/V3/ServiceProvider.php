@@ -7,6 +7,7 @@ use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 use Ushahidi\Core\Entity\SetRepository;
 use Ushahidi\Core\Entity\PostRepository;
 use Ushahidi\Core\Entity\UserRepository;
+use Ushahidi\Core\Entity\RoleRepository;
 use Ushahidi\Core\Entity\MediaRepository;
 use Ushahidi\Core\Entity\ApiKeyRepository;
 use Ushahidi\Core\Entity\ConfigRepository;

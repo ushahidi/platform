@@ -5,7 +5,7 @@ namespace Ushahidi\Modules\V5\Actions\Post\Commands;
 use App\Bus\Command\Command;
 use Ushahidi\Modules\V5\Models\Post\Post;
 use Ushahidi\Modules\V5\Requests\PostRequest;
-use Ushahidi\Core\Entity\Post as PostEntity;
+use Ushahidi\Core\Ohanzee\Entities\Post as PostEntity;
 use Illuminate\Support\Facades\Auth;
 
 class UpdatePostCommand implements Command

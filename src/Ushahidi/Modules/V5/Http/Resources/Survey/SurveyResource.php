@@ -1,7 +1,7 @@
 <?php
 namespace Ushahidi\Modules\V5\Http\Resources\Survey;
 
-use Ushahidi\Core\Entity\Form as SurveyEntity;
+use Ushahidi\Core\Ohanzee\Entities\Form as SurveyEntity;
 use Ushahidi\Modules\V5\Http\Resources\BaseResource;
 use Ushahidi\Modules\V5\Http\Resources\TranslationCollection;
 

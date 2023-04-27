@@ -15,6 +15,8 @@ use Ushahidi\Modules\V5\Models\Post\Post;
 use Ushahidi\Modules\V5\Repository\Survey;
 use Ushahidi\Modules\V5\Repository\Tos\TosRepository;
 use Ushahidi\Modules\V5\Repository\Tos\EloquentTosRepository;
+use Ushahidi\Modules\V5\Repository\Category\CategoryRepository;
+use Ushahidi\Modules\V5\Repository\Category\EloquentCategoryRepository;
 use Ushahidi\Modules\V5\Repository\Post\PostRepository;
 use Ushahidi\Modules\V5\Repository\Post\EloquentPostRepository;
 use Ushahidi\Modules\V5\Repository\Role\RoleRepository;
@@ -23,6 +25,8 @@ use Ushahidi\Modules\V5\Repository\CountryCode\CountryCodeRepository;
 use Ushahidi\Modules\V5\Repository\CountryCode\EloquentCountryCodeRepository;
 use Ushahidi\Modules\V5\Repository\Permissions\PermissionsRepository;
 use Ushahidi\Modules\V5\Repository\Permissions\EloquentPermissionsRepository;
+use Ushahidi\Modules\V5\Repository\Translation\TranslationRepository;
+use Ushahidi\Modules\V5\Repository\Translation\EloquentTranslationRepository;
 
 class AppServiceProvider extends ServiceProvider
 {

@@ -3,15 +3,15 @@
 namespace Ushahidi\Modules\V5\Http\Resources\Post;
 
 use Illuminate\Support\Collection;
-use Ushahidi\Core\Entity\Post;
+use Ushahidi\Core\Ohanzee\Entities\Post;
 use Ushahidi\Modules\V5\Models\Post\Post as v5Post;
-use Ushahidi\Modules\V5\Http\Resources\Survey\TaskCollection;
 use Ushahidi\Modules\V5\Http\Resources\BaseResource;
+use Ushahidi\Modules\V5\Http\Resources\LockCollection;
 use Ushahidi\Modules\V5\Http\Resources\PostValueCollection;
+use Ushahidi\Modules\V5\Http\Resources\Survey\TaskCollection;
 use Ushahidi\Modules\V5\Http\Resources\TranslationCollection;
 use Ushahidi\Modules\V5\Http\Resources\ContactPointerResource;
 use Ushahidi\Modules\V5\Http\Resources\MessagePointerResource;
-use Ushahidi\Modules\V5\Http\Resources\LockCollection;
 
 class PostResource extends BaseResource
 {

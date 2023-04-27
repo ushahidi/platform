@@ -4,7 +4,7 @@ namespace Ushahidi\Authzn;
 
 use Ushahidi\Core\Tool\Acl;
 use Ushahidi\Contracts\Acl as AclInterface;
-use Ushahidi\Contracts\Repository\Entity\RoleRepository;
+use Ushahidi\Core\Entity\RoleRepository;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 
 class ServiceProvider extends BaseServiceProvider
