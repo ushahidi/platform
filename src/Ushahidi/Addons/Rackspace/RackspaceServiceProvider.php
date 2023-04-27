@@ -44,9 +44,11 @@ class RackspaceServiceProvider extends ServiceProvider
 
             $identityService = new IdentityService($httpClient, new Api());
 
+            $options['identityService'] = $identityService;
+
             /** @var \Ushahidi\Addons\Rackspace\CDN\Service $cdnService */
-            $cdnService = $this->cdnService($options, $identityService);
-            $objectStoreService = $this->objectStoreService($options, $identityService);
+            $cdnService = $this->cdnService($options);
+            $objectStoreService = $this->objectStoreService($options);
 
             $account = $objectStoreService->getAccount();
             $container = $objectStoreService->getContainer($config['container']);
@@ -62,12 +64,8 @@ class RackspaceServiceProvider extends ServiceProvider
         });
     }
 
-    protected function cdnService(array $options = [], $identityService)
+    protected function cdnService(array $options)
     {
-        if (!isset($options['identityService'])) {
-            $options['identityService'] = $identityService;
-        }
-
         $openstack = new Builder($options, 'Ushahidi\Addons');
 
         return $openstack->createService('Rackspace\CDN', [
@@ -76,12 +74,8 @@ class RackspaceServiceProvider extends ServiceProvider
         ]);
     }
 
-    protected function objectStoreService(array $options = [], $identityService)
+    protected function objectStoreService(array $options)
     {
-        if (!isset($options['identityService'])) {
-            $options['identityService'] = $identityService;
-        }
-
         $openstack = new OpenStack($options);
 
         return $openstack->objectStoreV1([
