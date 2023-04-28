@@ -3,13 +3,14 @@
 namespace Ushahidi\Addons\Rackspace;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\HandlerStack;
 use OpenStack\OpenStack;
-use OpenStack\Identity\v2\Service;
-use OpenStack\Common\Transport\Utils as TransportUtils;
+use GuzzleHttp\HandlerStack;
 use League\Flysystem\Filesystem;
+use OpenStack\Identity\v2\Service;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\ServiceProvider;
+use Ushahidi\Addons\Rackspace\Identity\Api;
+use OpenStack\Common\Transport\Utils as TransportUtils;
 
 class RackspaceServiceProvider extends ServiceProvider
 {
@@ -27,40 +28,18 @@ class RackspaceServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Storage::extend('rackspace', function ($app, $config) {
-            // $client = new Rackspace(
-            //     $config['endpoint'],
-            //     [
-            //         'username' => $config['username'],
-            //         'apiKey' => $config['key'],
-            //     ]
-            // );
-
-            // $store = $client->objectStoreService(
-            //     'cloudFiles',
-            //     $config['region'],
-            //     $config['urlType'] ?? null
-            // );
-
-            // return new Filesystem(
-            //     new RackspaceAdapter(
-            //         $store->getContainer($config['container']),
-            //         $config['root'] ?? null
-            //     ),
-            //     $config
-            // );
-
-            $httpClient = new Client([
+            $client = new Client([
                 'base_uri' => TransportUtils::normalizeUrl($config['authUrl']),
                 'handler'  => HandlerStack::create(),
             ]);
 
             $options = [
-                'authUrl'         => $config['endpoint'],
+                'authUrl'         => $config['authUrl'],
                 'region'          => $config['region'],
                 'username'        => $config['username'],
-                'password'        => $config['password'],
+                'apiKey'          => $config['key'],
                 'tenantId'        => $config['tenantid'],
-                'identityService' => Service::factory($httpClient),
+                'identityService' => new Service($client, new Api()),
             ];
 
             $openstack = new OpenStack($options);
