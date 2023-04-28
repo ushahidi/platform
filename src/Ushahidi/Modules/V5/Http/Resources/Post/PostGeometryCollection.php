@@ -1,11 +1,11 @@
 <?php
 
 
-namespace Ushahidi\Modules\V5\Http\Resources\Collection;
+namespace Ushahidi\Modules\V5\Http\Resources\Post;
 
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class CollectionCollection extends ResourceCollection
+class PostGeometryCollection extends ResourceCollection
 {
     public static $wrap = 'results';
 
@@ -14,7 +14,7 @@ class CollectionCollection extends ResourceCollection
      *
      * @var string
      */
-    public $collects = 'Ushahidi\Modules\V5\Http\Resources\Collection\CollectionResource';
+    public $collects = 'Ushahidi\Modules\V5\Http\Resources\Post\PostGeometryResource';
     /**
      * Transform the resource collection into an array.
      *
