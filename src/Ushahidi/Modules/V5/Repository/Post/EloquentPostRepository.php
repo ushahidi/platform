@@ -11,18 +11,26 @@ use Ushahidi\Modules\V5\DTO\Paging;
 use Ushahidi\Modules\V5\DTO\PostSearchFields;
 use Ushahidi\Modules\V5\DTO\PostStatsSearchFields;
 use DB;
+use Ushahidi\Core\Tool\BoundingBox;
 
 class EloquentPostRepository implements PostRepository
 {
     private $queryBuilder;
+    private $filter_joined_tables;
+
     public function __construct(Builder $queryBuilder)
     {
         $this->queryBuilder = $queryBuilder;
+        $this->filter_joined_tables = [];
     }
 
 
     private function setSearchCondition(PostSearchFields $search_fields, $query)
     {
+
+        // Remove all previous where conditions
+        //  $query->getQuery()->wheres = [];
+
         // table posts filters
         if ($search_fields->q()) {
             if (is_numeric($search_fields->q())) {
@@ -45,6 +53,25 @@ class EloquentPostRepository implements PostRepository
             $query->whereIn('posts.status', $search_fields->status());
         }
 
+        if (count($search_fields->form())) {
+            $query->whereIn('posts.form_id', $search_fields->form());
+        } elseif ($search_fields->formNone()) {
+            $query->whereNull('posts.form_id');
+        }
+
+        if (count($search_fields->user())) {
+            $query->whereIn('posts.user_id', $search_fields->user());
+        } elseif ($search_fields->userNone()) {
+            $query->whereNull('posts.user_id');
+        }
+
+
+        if (count($search_fields->parent())) {
+            $query->whereIn('posts.parent_id', $search_fields->parent());
+        } elseif ($search_fields->parentNone()) {
+            $query->whereNull('posts.parent_id');
+        }
+
         if ($search_fields->locale()) {
             $query->where('posts.locale', '=', $search_fields->locale());
         }
@@ -56,45 +83,171 @@ class EloquentPostRepository implements PostRepository
             $query->where('posts.type', '=', $search_fields->type());
         }
 
+        if ($search_fields->createdAfterById()) {
+            $query->where('posts.id', '>', $search_fields->createdAfterById());
+        }
 
+        if ($search_fields->createdBeforeById()) {
+            $query->where('posts.id', '<', $search_fields->createdBeforeById());
+        }
 
-        // relation filters
-        if (count($search_fields->set())) {
-            $query->join("posts_sets", 'posts.id', '=', 'posts_sets.post_id');
-            $query->whereIn('posts_sets.set_id', $search_fields->set());
+        if ($search_fields->createdBefore()) {
+            $query->where('posts.created', '<', $search_fields->createdBefore());
+        }
+
+        if ($search_fields->createdAfter()) {
+            $query->where('posts.created', '>', $search_fields->createdAfter());
+        }
+
+        if ($search_fields->updatedBefore()) {
+            $query->where('posts.updated', '<', $search_fields->updatedBefore());
+        }
+
+        if ($search_fields->updatedAfter()) {
+            $query->where('posts.updated', '>', $search_fields->updatedAfter());
+        }
+
+        if ($search_fields->dateBefore()) {
+            $query->where('posts.updated', '<', $search_fields->dateBefore());
+        }
+
+        if ($search_fields->dateAfter()) {
+            $query->where('posts.updated', '>', $search_fields->dateAfter());
         }
 
 
 
-        //set
 
-        // if (!empty($search->set)) {
-        //     $set = $search->set;
-        //     if (!is_array($set)) {
-        //         $set = explode(',', $set);
-        //     }
+        // relation filters
+        if (count($search_fields->set())) {
+            $this->filter_joined_tables[] = 'posts_sets';
+            $query->join("posts_sets", 'posts.id', '=', 'posts_sets.post_id');
+            $query->whereIn('posts_sets.set_id', $search_fields->set());
+        }
 
-        //     $query
-        //         ->join('posts_sets', 'INNER')->on('posts.id', '=', 'posts_sets.post_id')
-        //         ->where('posts_sets.set_id', 'IN', $set);
-        // }
+        if (count($search_fields->tags())) {
+            if (isset($search_fields->tags()['any'])) {
+                $tags = $search_fields->tags()['any'];
+                if (!is_array($tags)) {
+                    $tags = explode(',', $tags);
+                }
+                $this->filter_joined_tables[] = 'posts_tags';
+                $query->join("posts_tags", 'posts.id', '=', 'posts_tags.post_id');
+                $query->whereIn('posts_tags.tag_id', $tags);
+            } elseif (isset($search->tags['all'])) {
+                $tags = $search_fields->tags()['all'];
+                if (!is_array($tags)) {
+                    $tags = explode(',', $tags);
+                }
 
-        // if ($search_fields->type()) {
-        //     $query->where('type', '=', $search_fields->type());
-        // }
+                foreach ($tags as $tag) {
+                    $query->whereRaw("posts.id in (select post_id from posts_tags where tag_id = ".$tag.")");
+                }
+            } else {
+                $tags = $search_fields->tags();
+                if (!is_array($tags)) {
+                    $tags = explode(',', $tags);
+                }
+                $this->filter_joined_tables[] = 'posts_tags';
+                $query->join("posts_tags", 'posts.id', '=', 'posts_tags.post_id');
+                $query->whereIn('posts_tags.tag_id', $tags);
+            }
+        }
 
-        // if ($search_fields->tags()) {
-        //     $query->where('tag', '=', $search_fields->tags());
-        // }
-        // if ($search_fields->parent()) {
-        //     $query->where('parent_id', '=', $search_fields->parent());
-        // }
+        if (count($search_fields->source())) {
+            $this->filter_joined_tables[] = 'messages';
+            $query->leftJoin("messages", 'posts.id', '=', 'messages.post_id');
+            if ($search_fields->webSource()) {
+                $query->where(function ($builder) use ($search_fields) {
+                    $builder->whereNull('messages.type')
+                        ->orWhereIn('messages.type', $search_fields->source());
+                });
+            } else {
+                $query->whereIn('messages.type', $search_fields->source());
+            }
+        }
+
+        if ($search_fields->hasLocation() === 'mapped') {
+            $query->whereRaw("posts.id in (select post_point.post_id from post_point)");
+        } elseif ($search_fields->hasLocation() === 'unmapped') {
+            $query->whereRaw("posts.id not in (select post_point.post_id from post_point)");
+        }
+
+        // bbox
+        $bounding_box = null;
+        if ($search_fields->bbox()) {
+            $bounding_box = $this->createBoundingBoxFromCSV($search_fields->bbox);
+        } elseif ($search_fields->centerPoint() && $search_fields->withinKm()) {
+            $bounding_box = $this->createBoundingBoxFromCenter(
+                $search_fields->centerPoint(),
+                $search_fields->withinKm()
+            );
+        }
+
+        if ($bounding_box) {
+           // $query->whereIn('posts.id', $this->getBoundingBoxPostIds($bounding_box));
+            $query->whereRaw(
+                "posts.id in (select post_id from post_point"
+                ." where CONTAINS(ST_GeomFromText('".$bounding_box->toWKT()."'), value) = 1)"
+            );
+        }
+
         return $query;
     }
 
+    private function createBoundingBoxFromCSV($csv)
+    {
+        list($bb_west, $bb_north, $bb_east, $bb_south)
+                = array_map('floatval', explode(',', $csv));
+        return new BoundingBox($bb_west, $bb_north, $bb_east, $bb_south);
+    }
+
+    private function createBoundingBoxFromCenter($center, $within_km = 0)
+    {
+        // if a $center point and $within_km distance was given,
+        // create a bounding box that matches those conditions.
+        $center_point = explode(',', $center);
+        $center_lat = $center_point[0];
+        $center_lon = $center_point[1];
+
+        $bounding_box = new BoundingBox(
+            $center_lon,
+            $center_lat,
+            $center_lon,
+            $center_lat
+        );
+
+        if ($within_km) {
+            $bounding_box->expandByKilometers($within_km);
+        }
+
+        return $bounding_box;
+    }
+
+    private function getBoundingBoxPostIds(BoundingBox $bounding_box)
+    {
+        $query =  DB::table('post_point')->select('post_id')->distinct();
+        $query->whereRaw('CONTAINS(ST_GeomFromText("'.$bounding_box->toWKT().'"), value) = 1');
+        $post_ids = [];
+        $results = $query->get();
+        foreach ($results as $result) {
+            $post_ids[] = $result->post_id;
+        }
+        return $post_ids;
+    }
+
+    private function addPostsTableNamePrefix($fields)
+    {
+        $after_update = [];
+        foreach ($fields as $field) {
+            $after_update[] = 'posts.'.$field;
+        }
+        return $after_update;
+    }
 
     public function findById(int $id, array $fields = [], array $with = []): Post
     {
+        $fields = $this->addPostsTableNamePrefix($fields);
         $query = Post::where('id', '=', $id);
         if (count($fields)) {
             $query->select($fields);
@@ -108,7 +261,6 @@ class EloquentPostRepository implements PostRepository
         if (!$post instanceof Post) {
             throw new NotFoundException('Post not found', 404);
         }
-
         return $post;
     }
 
@@ -118,10 +270,12 @@ class EloquentPostRepository implements PostRepository
         array $fields = [],
         array $with = []
     ): LengthAwarePaginator {
-
+        $fields = $this->addPostsTableNamePrefix($fields);
         $query = Post::take($paging->getLimit())
-            ->skip($paging->getSkip())
+            //->skip($paging->getSkip())
             ->orderBy($paging->getOrderBy(), $paging->getOrder());
+
+        $query = $this->setSearchCondition($search_fields, $query);
 
         if (count($fields)) {
             $query->select($fields);
@@ -130,7 +284,6 @@ class EloquentPostRepository implements PostRepository
             $query->with($with);
         }
 
-        $query = $this->setSearchCondition($search_fields, $query);
         return $query->paginate($paging->getLimit());
     }
 
@@ -151,14 +304,14 @@ class EloquentPostRepository implements PostRepository
         $query = DB::table('posts');
         $query->leftJoin('messages', 'messages.post_id', '=', 'posts.id');
         // get color
-         $query->leftJoin('forms', 'posts.form_id', '=', 'forms.id');
+        $query->leftJoin('forms', 'posts.form_id', '=', 'forms.id');
 
         $select_raw = "posts.id as id
             ,Max(posts.title) as title
             ,Max(posts.content) as description";
         $select_raw .= ",Max(IFNULL(messages.type,'web')) as source
             ,Max(messages.data_source_message_id) as 'data_source_message_id'";
-        $select_raw .=",Max(forms.color) as 'marker-color'";
+        $select_raw .= ",Max(forms.color) as 'marker-color'";
         $select_raw .= ",CONCAT( 
             '{\"type\":\"FeatureCollection\",'
             ,'\"features\":[', 
@@ -207,16 +360,15 @@ class EloquentPostRepository implements PostRepository
         return collect($this->getGroupedTotals($search_fields));
     }
 
-    private function getMainSearchQuery(PostStatsSearchFields $search)
+    private function getMainSearchQuery(PostStatsSearchFields $search_fields)
     {
         $search_query = DB::table('posts');
         $search_query->selectRaw('COUNT(DISTINCT posts.id) as total');
-
-        //? why I need this join
-        $search_query->leftJoin('messages', 'messages.post_id', '=', 'posts.id');
-
+        $search_query = $this->setSearchCondition($search_fields, $search_query);
+        if (!in_array('messages', $this->filter_joined_tables)) {
+            $search_query->leftJoin('messages', 'messages.post_id', '=', 'posts.id');
+        }
         // Set filters
-        $search_query = $this->setSearchCondition($search, $search_query);
         return $search_query;
     }
 
@@ -262,14 +414,16 @@ class EloquentPostRepository implements PostRepository
                 $search_query->leftJoin('forms', 'posts.form_id', '=', 'forms.id');
                 $search_query->selectRaw(
                     'MAX(forms.name) as label'
-                            . ',forms.id as id'
+                    . ',forms.id as id'
                 );
-                        $search_query->groupBy('forms.id');
+                $search_query->groupBy('forms.id');
 
                 break;
             // Group by tags
             case 'tags':
-                $search_query->join('posts_tags', 'posts.id', '=', 'posts_tags.post_id');
+                if (!in_array('posts_tags', $this->filter_joined_tables)) {
+                    $search_query->join('posts_tags', 'posts.id', '=', 'posts_tags.post_id');
+                }
                 $search_query->join('tags', 'posts_tags.tag_id', '=', 'tags.id');
 
                 if ($search->groupByParentTags() == 'all') {
@@ -349,8 +503,6 @@ class EloquentPostRepository implements PostRepository
         }
         return $results;
     }
-
-
 
 
     private function getUnmappedTotal(PostStatsSearchFields $search, int $total_posts)

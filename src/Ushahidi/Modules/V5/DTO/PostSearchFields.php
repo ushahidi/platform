@@ -3,6 +3,7 @@
 namespace Ushahidi\Modules\V5\DTO;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PostSearchFields
 {
@@ -15,16 +16,14 @@ class PostSearchFields
     protected $status;
     protected $locale;
     protected $slug;
+    protected $form;
+    protected $form_none;
+    protected $parent;
+    protected $parent_none;
+    protected $user;
+    protected $user_none;
 
     protected $type;
-
-    // before ready
-    protected $parent;
-    protected $user;
-    protected $form;
-    protected $set;
-    protected $tags;
-    protected $source;
     protected $created_before_by_id;
     protected $created_after_by_id;
     protected $created_before;
@@ -33,33 +32,110 @@ class PostSearchFields
     protected $updated_after;
     protected $date_before;
     protected $date_after;
+    
+
+    // relations
+    protected $source;
+    protected $web_source;
+    protected $has_location;
+    protected $within_km;
+
     protected $bbox;
     protected $center_point;
+
+
+    // before ready
+    protected $set;
+    protected $tags;
     protected $published_to;
     protected $include_types;
     protected $include_attributes;
-    protected $has_location;
     protected $output_core_post;
-    protected $within_km;
 
+    private function getParameterAsArray($parameter_value)
+    {
+        $filter_values = [];
+        if ($parameter_value) {
+            if (is_array($parameter_value)) {
+                $filter_values = $parameter_value;
+            } else {
+                $filter_values = explode(',', $parameter_value);
+            }
+        }
+        return $filter_values;
+    }
     public function __construct(Request $request)
     {
+
         $this->query = $request->query('q');
         $this->post_id = $request->query('post_id');
-       // $this->status = ['published']; // default filter vlue
-        $this->status = []; // default filter vlue
-        if ($request->query('status')) {
-            $this->status = explode(',', $request->get('status'));
+        if ($request->get('status')=='all') {
+            $this->status = []; // no conditions
+        } else {
+            $this->status = $this->getParameterAsArray($request->get('status'));
         }
+        $this->user_none = false;
+        if ($request->get('user')=='me') {
+            if (Auth::id()) {
+                $this->user = [Auth::id()];
+            } else {
+                $this->user = []; // no conditions
+            }
+        } elseif ($request->get('user')=='none') {
+            $this->user = []; // no conditions
+            $this->user_none = true;
+        } else {
+            $this->user = $this->getParameterAsArray($request->get('user'));
+        }
+
+        $this->parent_none = false;
+        if ($request->get('parent')=='none') {
+            $this->parent = []; // no conditions
+            $this->parent_none = true;
+        } else {
+            $this->parent = $this->getParameterAsArray($request->get('parent'));
+        }
+
+        $this->form_none = false;
+        if ($request->get('form')=='none') {
+            $this->form = []; // no conditions
+            $this->form_none = true;
+        } else {
+            $this->form = $this->getParameterAsArray($request->get('form'));
+        }
+
+        if ($request->get('status')=='all') {
+            $this->status = []; // no conditions
+        } else {
+            $this->status = $this->getParameterAsArray($request->get('status'));
+        }
+
+
         $this->locale = $request->query('locale');
         $this->slug = $request->query('slug');
-        $this->set = $request->query('set')?explode(',', $request->get('set')):[];
         $this->type = $request->query('type');
 
+        $this->created_before_by_id = $request->query('created_before_by_id')??0;
+        $this->created_after_by_id = $request->query('created_after_by_id')??0;
+        $this->created_before = strtotime($request->query('created_before'))??null;
+        $this->created_after = strtotime($request->query('created_after'))??null;
+        $this->updated_before = strtotime($request->query('updated_before'))??null;
+        $this->updated_after = strtotime($request->query('updated_after'))??null;
+        $this->date_before = $request->query('date_before')??null;
+        $this->date_after = $request->query('date_after')??null;
 
-       // $this->tag = $request->query('tag');
-      //  $this->type = $request->query('type');
-       // $this->parent = $request->query('parent');
+        
+        $this->source = $this->getParameterAsArray($request->get('source'));
+        if (in_array('web', $this->source)) {
+            $this->web_source = true;
+        }
+        $this->has_location = $request->query('has_location');
+        $this->within_km = $request->query('within_km');
+        $this->center_point = $request->query('center_point');
+        $this->bbox = $request->query('bbox');
+
+        $this->set = $this->getParameterAsArray($request->get('set'));
+        $this->tags = $this->getParameterAsArray($request->get('tags'));
     }
 
 
@@ -83,12 +159,78 @@ class PostSearchFields
     {
         return $this->post_id;
     }
+
+    public function createdAfterById(): int
+    {
+        return $this->created_after_by_id;
+    }
+    public function createdBeforeById(): int
+    {
+        return $this->created_before_by_id;
+    }
+    public function createdBefore(): ?string
+    {
+        return $this->created_before;
+    }
+    public function createdAfter(): ?string
+    {
+        return $this->created_after;
+    }
+
+    public function updatedBefore(): ?string
+    {
+        return $this->updated_before;
+    }
+    public function updatedAfter(): ?string
+    {
+        return $this->updated_after;
+    }
+    public function dateBefore(): ?string
+    {
+        return $this->date_before;
+    }
+    public function dateAfter(): ?string
+    {
+        return $this->date_after;
+    }
+    
     public function status(): array
     {
         return $this->status;
     }
 
 
+    public function form(): array
+    {
+        return $this->form;
+    }
+
+    public function formNone(): bool
+    {
+        return $this->form_none;
+    }
+
+
+    public function user(): array
+    {
+        return $this->user;
+    }
+
+    public function userNone(): bool
+    {
+        return $this->user_none;
+    }
+
+
+    public function parent(): array
+    {
+        return $this->parent;
+    }
+
+    public function parentNone(): bool
+    {
+        return $this->parent_none;
+    }
     public function set(): array
     {
         return $this->set;
@@ -102,11 +244,34 @@ class PostSearchFields
     public function type()
     {
         return $this->type??'report';
-        //return $this->type;
     }
 
-    public function parent()
+    public function source()
     {
-        return $this->parent;
+        return $this->source;
+    }
+
+    public function webSource()
+    {
+        return $this->web_source;
+    }
+
+    public function hasLocation()
+    {
+        return $this->has_location;
+    }
+
+    public function bbox()
+    {
+        return $this->bbox;
+    }
+
+    public function centerPoint()
+    {
+        return $this->center_point;
+    }
+    public function withinKm()
+    {
+        return $this->within_km;
     }
 }
