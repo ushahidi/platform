@@ -23,14 +23,6 @@ class CategoryCollection extends ResourceCollection
      */
     public function toArray($request)
     {
-        return [
-            'count' => $this->count(),
-            'results' => $this->collection
-        ];
-    }
-
-    public function count()
-    {
-        return count($this->collection);
+        return $this->collection;
     }
 }
