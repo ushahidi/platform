@@ -22,12 +22,12 @@ class Api implements ApiInterface
                 'username' => [
                     'type'     => 'string',
                     'required' => true,
-                    'path'     => 'auth.apiKeyCredentials',
+                    'path'     => 'auth.RAX-KSKEY:apiKeyCredentials',
                 ],
                 'apiKey' => [
                     'type'     => 'string',
                     'required' => true,
-                    'path'     => 'auth.apiKeyCredentials',
+                    'path'     => 'auth.RAX-KSKEY:apiKeyCredentials',
                 ],
             ],
         ];
