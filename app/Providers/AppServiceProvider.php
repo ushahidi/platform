@@ -9,9 +9,10 @@ use Ushahidi\Core\Tool\OhanzeeResolver;
 use Ushahidi\Core\Entity\ConfigRepository;
 use Ushahidi\Addons\Mteja\MtejaSource;
 use Ushahidi\Addons\AfricasTalking\AfricasTalkingSource;
+use Ushahidi\Modules\V5\Models\Post\Post as PostModel;
 use Ushahidi\Modules\V5\Repository\Set;
 use Ushahidi\Modules\V5\Repository\User;
-use Ushahidi\Modules\V5\Models\Post\Post;
+use Ushahidi\Modules\V5\Repository\Post;
 use Ushahidi\Modules\V5\Repository\Survey;
 use Ushahidi\Modules\V5\Repository\Tos\TosRepository;
 use Ushahidi\Modules\V5\Repository\Tos\EloquentTosRepository;
@@ -85,8 +86,8 @@ class AppServiceProvider extends ServiceProvider
             User\EloquentUserRepository::class
         );
         $this->app->bind(
-            user\UserSettingRepository::class,
-            user\EloquentUserSettingRepository::class
+            User\UserSettingRepository::class,
+            User\EloquentUserSettingRepository::class
         );
         $this->app->bind(PermissionsRepository::class, EloquentPermissionsRepository::class);
         $this->app->bind(RoleRepository::class, EloquentRoleRepository::class);
@@ -94,7 +95,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(CategoryRepository::class, EloquentCategoryRepository::class);
         $this->app->bind(TranslationRepository::class, EloquentTranslationRepository::class);
         $this->app->bind(PostRepository::class, function ($app) {
-            return new EloquentPostRepository(Post::query());
+            return new EloquentPostRepository(PostModel::query());
         });
         $this->app->bind(Survey\SurveyRepository::class, Survey\EloquentSurveyRepository::class);
         $this->app->bind(Survey\TaskRepository::class, Survey\EloquentTaskRepository::class);
@@ -102,5 +103,6 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(Survey\SurveyStatesRepository::class, Survey\EloquentSurveyStatesRepository::class);
         $this->app->bind(Set\SetRepository::class, Set\EloquentSetRepository::class);
         $this->app->bind(Set\SetPostRepository::class, Set\EloquentSetPostRepository::class);
+        $this->app->bind(Post\PostLockRepository::class, Post\EloquentPostLockRepository::class);
     }
 }

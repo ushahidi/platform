@@ -29,6 +29,10 @@ The shortest path to get up and running is:
 
 The backend will be listening on localhost:8080.
 
+> **What about the browser client application?**
+
+> Once your Platform backend is running, head over to the [platform-client-mzima](https://github.com/ushahidi/platform-client-mzima) repository to get the in-browser Platform experience!
+
 ### Other helpful commands
 
 You may use `make start` to restart the containers (does a full container build).
@@ -38,6 +42,8 @@ You may use `make apply` to apply dependency and migration changes to containers
 To stop Docker containers run `make stop`
 
 To take everything down (including deleting the database) `make down` will do that for you.
+
+
 
 **WIP**: to run the automated tests ...
 
