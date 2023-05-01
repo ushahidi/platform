@@ -32,7 +32,7 @@ class PostSearchFields
     protected $updated_after;
     protected $date_before;
     protected $date_after;
-    
+
 
     // relations
     protected $source;
@@ -64,24 +64,32 @@ class PostSearchFields
         }
         return $filter_values;
     }
+    private function checkIfEmpty($value, $default = null)
+    {
+        if (trim($value) === "") {
+            return $default;
+        } else {
+            return $value;
+        }
+    }
     public function __construct(Request $request)
     {
 
         $this->query = $request->query('q');
         $this->post_id = $request->query('post_id');
-        if ($request->get('status')=='all') {
+        if ($request->get('status') == 'all') {
             $this->status = []; // no conditions
         } else {
             $this->status = $this->getParameterAsArray($request->get('status'));
         }
         $this->user_none = false;
-        if ($request->get('user')=='me') {
+        if ($request->get('user') == 'me') {
             if (Auth::id()) {
                 $this->user = [Auth::id()];
             } else {
                 $this->user = []; // no conditions
             }
-        } elseif ($request->get('user')=='none') {
+        } elseif ($request->get('user') == 'none') {
             $this->user = []; // no conditions
             $this->user_none = true;
         } else {
@@ -89,7 +97,7 @@ class PostSearchFields
         }
 
         $this->parent_none = false;
-        if ($request->get('parent')=='none') {
+        if ($request->get('parent') == 'none') {
             $this->parent = []; // no conditions
             $this->parent_none = true;
         } else {
@@ -97,14 +105,14 @@ class PostSearchFields
         }
 
         $this->form_none = false;
-        if ($request->get('form')=='none') {
+        if ($request->get('form') == 'none') {
             $this->form = []; // no conditions
             $this->form_none = true;
         } else {
             $this->form = $this->getParameterAsArray($request->get('form'));
         }
 
-        if ($request->get('status')=='all') {
+        if ($request->get('status') == 'all') {
             $this->status = []; // no conditions
         } else {
             $this->status = $this->getParameterAsArray($request->get('status'));
@@ -115,16 +123,16 @@ class PostSearchFields
         $this->slug = $request->query('slug');
         $this->type = $request->query('type');
 
-        $this->created_before_by_id = $request->query('created_before_by_id')??0;
-        $this->created_after_by_id = $request->query('created_after_by_id')??0;
-        $this->created_before = strtotime($request->query('created_before'))??null;
-        $this->created_after = strtotime($request->query('created_after'))??null;
-        $this->updated_before = strtotime($request->query('updated_before'))??null;
-        $this->updated_after = strtotime($request->query('updated_after'))??null;
-        $this->date_before = $request->query('date_before')??null;
-        $this->date_after = $request->query('date_after')??null;
+        $this->created_before_by_id = $this->checkIfEmpty($request->query('created_before_by_id') ?? 0, 0);
+        $this->created_after_by_id = $this->checkIfEmpty($request->query('created_after_by_id') ?? 0, 0);
+        $this->created_before = strtotime($request->query('created_before')) ?? null;
+        $this->created_after = strtotime($request->query('created_after')) ?? null;
+        $this->updated_before = strtotime($request->query('updated_before')) ?? null;
+        $this->updated_after = strtotime($request->query('updated_after')) ?? null;
+        $this->date_before = $request->query('date_before') ?? null;
+        $this->date_after = $request->query('date_after') ?? null;
 
-        
+
         $this->source = $this->getParameterAsArray($request->get('source'));
         if (in_array('web', $this->source)) {
             $this->web_source = true;
@@ -139,7 +147,7 @@ class PostSearchFields
     }
 
 
-    
+
 
     public function q(): ?string
     {
@@ -154,7 +162,7 @@ class PostSearchFields
         return $this->slug;
     }
 
-    
+
     public function postID(): ?string
     {
         return $this->post_id;
@@ -193,7 +201,7 @@ class PostSearchFields
     {
         return $this->date_after;
     }
-    
+
     public function status(): array
     {
         return $this->status;
@@ -243,7 +251,7 @@ class PostSearchFields
 
     public function type()
     {
-        return $this->type??'report';
+        return $this->type ?? 'report';
     }
 
     public function source()
