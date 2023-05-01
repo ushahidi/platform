@@ -331,4 +331,17 @@ $router->group([
             );
         }
     );
+
+    // Restricted access
+    $router->group(
+        [
+            'prefix' => 'config',
+            'middleware' => ['auth:api', 'scope:config']
+        ],
+        function () use ($router) {
+            $router->get('/', 'ConfigController@index');
+            $router->get('/{group_name}', 'ConfigController@show');
+            $router->put('/{group_name}', 'ConfigController@update');
+        }
+    );
 });

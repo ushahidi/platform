@@ -37,6 +37,7 @@ use Ushahidi\Modules\V5\Actions\Survey;
 use Ushahidi\Modules\V5\Actions\SavedSearch;
 use Ushahidi\Modules\V5\Actions\Collection;
 use Ushahidi\Modules\V5\Actions\Post;
+use Ushahidi\Modules\V5\Actions\Config;
 
 class BusServiceProvider extends ServiceProvider
 {
@@ -226,7 +227,10 @@ class BusServiceProvider extends ServiceProvider
                 Post\Commands\DeletePostLockCommand::class,
                 Post\Handlers\DeletePostLockCommandHandler::class
             );
-
+            $commandBus->register(
+                Config\Commands\UpdateConfigCommand::class,
+                Config\Handlers\UpdateConfigCommandHandler::class
+            );
             
             return $commandBus;
         });
@@ -370,8 +374,15 @@ class BusServiceProvider extends ServiceProvider
                 Post\Queries\PostsStatsQuery::class,
                 Post\Handlers\PostsStatsQueryHandler::class
             );
-            
 
+            $queryBus->register(
+                Config\Queries\ListConfigsQuery::class,
+                Config\Handlers\ListConfigsQueryHandler::class
+            );
+            $queryBus->register(
+                Config\Queries\FindConfigByNameQuery::class,
+                Config\Handlers\FindConfigByNameQueryHandler::class
+            );
             return $queryBus;
         });
     }
