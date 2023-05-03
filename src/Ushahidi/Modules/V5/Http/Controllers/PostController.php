@@ -21,11 +21,21 @@ use Ushahidi\Modules\V5\Models\Post\PostStatus;
 use Ushahidi\Modules\V5\Exceptions\V5Exception;
 use Illuminate\Support\Facades\DB;
 use Ushahidi\Modules\V5\Common\ValidatorRunner;
-use Ushahidi\Modules\V5\Models\Lock;
 
 use Ushahidi\Modules\V5\Http\Resources\Post\PostCollection as NewPostCollection;
 use Ushahidi\Modules\V5\Http\Resources\Post\PostResource as NewPostResource;
+use Ushahidi\Modules\V5\Http\Resources\Post\PostLockResource ;
 use Ushahidi\Modules\V5\Requests\PostRequest;
+
+use Ushahidi\Modules\V5\Actions\Post\Commands\UpdatePostLockCommand;
+use Ushahidi\Modules\V5\Actions\Post\Commands\DeletePostLockCommand;
+use Ushahidi\Modules\V5\Actions\Post\Queries\FetchPostLockByPostIdQuery;
+use Ushahidi\Modules\V5\Actions\Post\Queries\FindPostGeometryByIdQuery;
+use Ushahidi\Modules\V5\Actions\Post\Queries\ListPostsGeometryQuery;
+use Ushahidi\Modules\V5\Actions\Post\Queries\PostsStatsQuery;
+use Ushahidi\Modules\V5\Http\Resources\Post\PostGeometryCollection ;
+use Ushahidi\Modules\V5\Http\Resources\Post\PostGeometryResource ;
+use Ushahidi\Modules\V5\Http\Resources\Post\PostStatsResource ;
 
 class PostController extends V5Controller
 {
@@ -326,4 +336,52 @@ class PostController extends V5Controller
         $this->commandBus->handle(new DeletePostCommand($id));
         return $this->deleteResponse($id);
     } //end delete()
+
+
+    public function stats(Request $request)
+    {
+        $stats = $this->queryBus->handle(PostsStatsQuery::FromRequest($request));
+        return new PostStatsResource($stats);
+    }
+
+    public function indexGeoJson(Request $request): PostGeometryCollection
+    {
+        $posts = $this->queryBus->handle(ListPostsGeometryQuery::FromRequest($request));
+        return new PostGeometryCollection($posts);
+    }
+
+    public function indexGeoJsonWithZoom(Request $request): PostGeometryCollection
+    {
+        $posts = $this->queryBus->handle(ListPostsGeometryQuery::FromRequest($request));
+        return new PostGeometryCollection($posts);
+    }
+
+
+    public function showPostGeoJson($id, Request $request): PostGeometryResource
+    {
+        $post_geometry = $this->queryBus->handle(FindPostGeometryByIdQuery::FromRequest($id, $request));
+        return new PostGeometryResource($post_geometry);
+    }
+
+
+    public function updateLock(int $post_id, Request $request)
+    {
+
+        $post = $this->queryBus->handle(new FindPostByIdQuery($post_id, ['id', 'user_id']));
+        $this->authorize('update', $post);
+
+        $this->commandBus->handle(new UpdatePostLockCommand($post_id));
+        $post_lock = $this->queryBus->handle(new FetchPostLockByPostIdQuery($post_id));
+        return new PostLockResource($post_lock);
+    }
+
+
+    public function deleteLock(int $post_id, Request $request)
+    {
+        $post = $this->queryBus->handle(new FindPostByIdQuery($post_id, ['id', 'user_id']));
+        $this->authorize('update', $post);
+
+        $this->commandBus->handle(new DeletePostLockCommand($post_id));
+        return $this->deleteResponse($post_id);
+    }
 } //end class

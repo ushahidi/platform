@@ -18,8 +18,14 @@ use Ushahidi\Addons\AfricasTalking\AfricasTalkingSource;
 use Ushahidi\Contracts\Repository\Entity\PostRepository;
 use Ushahidi\Contracts\Repository\Entity\UserRepository;
 use Ushahidi\Contracts\Repository\Entity\ConfigRepository;
+use Ushahidi\Modules\V5\Models\Post\Post as PostModel;
 use Ushahidi\Modules\V5\Repository\Tos\EloquentTosRepository;
 use Ushahidi\Modules\V5\Repository\Category\CategoryRepository;
+use Ushahidi\Modules\V5\Repository\Category\EloquentCategoryRepository;
+use Ushahidi\Modules\V5\Repository\Translation\EloquentTranslationRepository;
+use Ushahidi\Modules\V5\Repository\Translation\TranslationRepository;
+use Ushahidi\Modules\V5\Repository\CountryCode\CountryCodeRepository;
+use Ushahidi\Modules\V5\Repository\CountryCode\EloquentCountryCodeRepository;
 use Ushahidi\Modules\V5\Repository\Post\EloquentPostRepository;
 use Ushahidi\Modules\V5\Repository\Role\EloquentRoleRepository;
 use Ushahidi\Modules\V5\Repository\CountryCode\CountryCodeRepository;
@@ -29,7 +35,13 @@ use Ushahidi\Modules\V5\Repository\Category\EloquentCategoryRepository;
 use Ushahidi\Modules\V5\Repository\Post\PostRepository as V5PostRepository ;
 use Ushahidi\Modules\V5\Repository\CountryCode\EloquentCountryCodeRepository;
 use Ushahidi\Modules\V5\Repository\Permissions\EloquentPermissionsRepository;
-use Ushahidi\Modules\V5\Repository\Translation\EloquentTranslationRepository;
+use Ushahidi\Modules\V5\Repository\Role\RoleRepository;
+use Ushahidi\Modules\V5\Repository\Role\EloquentRoleRepository;
+use Ushahidi\Modules\V5\Repository\Tos\TosRepository;
+use Ushahidi\Modules\V5\Repository\Tos\EloquentTosRepository;
+use Ushahidi\Modules\V5\Repository\Survey;
+use Ushahidi\Modules\V5\Repository\Set;
+use Ushahidi\Modules\V5\Repository\Post;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -171,7 +183,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(CategoryRepository::class, EloquentCategoryRepository::class);
         $this->app->bind(TranslationRepository::class, EloquentTranslationRepository::class);
         $this->app->bind(V5PostRepository::class, function ($app) {
-            return new EloquentPostRepository(Post::query());
+            return new EloquentPostRepository(PostModel::query());
         });
         $this->app->bind(Survey\SurveyRepository::class, Survey\EloquentSurveyRepository::class);
         $this->app->bind(Survey\TaskRepository::class, Survey\EloquentTaskRepository::class);
@@ -179,5 +191,6 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(Survey\SurveyStatesRepository::class, Survey\EloquentSurveyStatesRepository::class);
         $this->app->bind(Set\SetRepository::class, Set\EloquentSetRepository::class);
         $this->app->bind(Set\SetPostRepository::class, Set\EloquentSetPostRepository::class);
+        $this->app->bind(Post\PostLockRepository::class, Post\EloquentPostLockRepository::class);
     }
 }

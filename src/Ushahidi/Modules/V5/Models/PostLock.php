@@ -5,7 +5,7 @@ namespace Ushahidi\Modules\V5\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Validator;
 
-class Lock extends BaseModel
+class PostLock extends BaseModel
 {
     /**
      * Specify the table

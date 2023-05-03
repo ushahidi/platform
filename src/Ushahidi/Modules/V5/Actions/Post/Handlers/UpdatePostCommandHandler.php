@@ -11,7 +11,7 @@ use Ushahidi\Modules\V5\Repository\Post\PostRepository;
 use Ushahidi\Modules\V5\Actions\Post\Commands\UpdatePostCommand;
 use Illuminate\Support\Facades\DB;
 use Ushahidi\Modules\V5\Actions\Post\Handlers\AbstractPostCommandHandler;
-use Ushahidi\Modules\V5\Models\Lock;
+use Ushahidi\Modules\V5\Models\PostLock as Lock;
 
 class UpdatePostCommandHandler extends AbstractPostCommandHandler
 {
