@@ -1,7 +1,7 @@
 <?php
 namespace Ushahidi\Modules\V5\Http\Resources\Role;
 
-use Illuminate\Http\Resources\Json\Resource;
+use Illuminate\Http\Resources\Json\JsonResource as Resource;
 use Ushahidi\Modules\V5\Http\Resources\RequestCachedResource;
 use Ushahidi\Modules\V5\Http\Resources\Permissions\PermissionsCollection;
 use Illuminate\Support\Collection;
@@ -15,7 +15,7 @@ class RoleResource extends Resource
 
     use RequestCachedResource;
 
-    public static $wrap = 'data';
+    public static $wrap = 'result';
     private function getResourcePrivileges()
     {
         $authorizer = service('authorizer.role');
@@ -49,7 +49,7 @@ class RoleResource extends Resource
             'permissions' =>$this->getResourcePermissions($this->permissions),
             'allowed_privileges' => $this->getResourcePrivileges()
 
-            
+
 
         ];
     }

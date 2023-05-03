@@ -18,7 +18,7 @@ interface DeleteRepository extends EntityGet
 {
 
     /**
-     * @param  Entity $entity
+     * @param  \Ushahidi\Contracts\Entity $entity
      *
      * @return integer|void
      */

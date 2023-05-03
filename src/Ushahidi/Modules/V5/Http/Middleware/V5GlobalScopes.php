@@ -6,6 +6,11 @@ use Closure;
 use Ushahidi\Modules\V5\Models\Stage;
 use Ushahidi\Modules\V5\Models\Category;
 use Ushahidi\Modules\V5\Models\Post\Post;
+use Ushahidi\Modules\V5\RepositoryService;
+use Ushahidi\Modules\V5\Scopes\PostAllowed;
+use Ushahidi\Modules\V5\Scopes\StageAllowed;
+use Ushahidi\Modules\V5\Scopes\CategoryAllowed;
+use Ushahidi\Modules\V5\Scopes\PostValueAllowed;
 use Ushahidi\Modules\V5\Models\PostValues\PostInt;
 use Ushahidi\Modules\V5\Models\PostValues\PostTag;
 use Ushahidi\Modules\V5\Models\PostValues\PostText;
@@ -18,10 +23,6 @@ use Ushahidi\Modules\V5\Models\PostValues\PostDatetime;
 use Ushahidi\Modules\V5\Models\PostValues\PostGeometry;
 use Ushahidi\Modules\V5\Models\PostValues\PostMarkdown;
 use Ushahidi\Modules\V5\Models\PostValues\PostRelation;
-use Ushahidi\Modules\V5\Models\Scopes\StageAllowed;
-use Ushahidi\Modules\V5\Models\Scopes\PostAllowed;
-use Ushahidi\Modules\V5\Models\Scopes\CategoryAllowed;
-use Ushahidi\Modules\V5\Models\Scopes\PostValueAllowed;
 
 class V5GlobalScopes
 {
@@ -42,8 +43,10 @@ class V5GlobalScopes
                 'api/v5/posts/_whatsapp'
             ]);
 
+        RepositoryService::resolveRepositoryBinder();
+
         if (!$isSavingPost) {
-            Category::addGlobalScope(new CategoryAllowed);
+            Category::addGlobalScope(resolve(CategoryAllowed::class));
             Post::addGlobalScope(new PostAllowed);
             Stage::addGlobalScope(new StageAllowed);
             PostValue::addGlobalScope(new PostValueAllowed);

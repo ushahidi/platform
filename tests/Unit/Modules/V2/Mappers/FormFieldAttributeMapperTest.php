@@ -2,17 +2,17 @@
 
 namespace Ushahidi\Tests\Unit\Modules\V2\Mappers;
 
+use Mockery as M;
+use Ushahidi\Tests\TestCase;
+use Ushahidi\Core\Entity\FormStage;
+use Ushahidi\Core\Entity\FormAttribute;
 use Ushahidi\Modules\V2\Jobs\ImportForms;
+use Ushahidi\Tests\Unit\Modules\V2\ImportMock;
+use Ushahidi\Modules\V2\Contracts\ImportDataTools;
+use DMS\PHPUnitExtensions\ArraySubset\ArraySubsetAsserts;
 use Ushahidi\Modules\V2\Mappers\FormFieldAttributeMapper;
 use Ushahidi\Modules\V2\Contracts\ImportMappingRepository;
-use Ushahidi\Modules\V2\Contracts\ImportDataTools;
-use Ushahidi\Core\Entity\FormAttribute;
-use Ushahidi\Core\Entity\FormStage;
 use Ushahidi\Contracts\Repository\Entity\FormStageRepository;
-use Ushahidi\Tests\Unit\Modules\V2\ImportMock;
-use Ushahidi\Tests\TestCase;
-use Mockery as M;
-use Faker;
 
 /**
  * @backupGlobals disabled
@@ -20,6 +20,8 @@ use Faker;
  */
 class FormFieldAttributeMapperTest extends TestCase
 {
+    use ArraySubsetAsserts;
+
     /**
      * @dataProvider formFieldProvider
      */
@@ -51,7 +53,7 @@ class FormFieldAttributeMapperTest extends TestCase
         $import = ImportMock::forId(1);
         $result = $mapper($import, $input);
 
-        $this->assertInternalType('array', $result);
+        $this->assertIsArray($result);
         $this->assertArrayHasKey('result', $result);
         $attr = $result['result'];
 

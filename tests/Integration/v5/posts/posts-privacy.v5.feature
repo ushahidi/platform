@@ -53,7 +53,7 @@ Feature: Testing the Posts API
     And that its "id" is "35"
     When I request "/posts"
     Then the response is JSON
-    And the response has a "error" property
+    And the response has a "errors" property
     Then the guzzle status code should be 404
 
   @get @postsAnon

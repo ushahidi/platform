@@ -21,7 +21,7 @@ class ExportJobAPI extends TestCase
         $this->expectsJobs(\Ushahidi\Modules\V3\Jobs\ExportPostsJob::class);
 
         $this
-            ->actingAs(new \App\Auth\GenericUser(['id' => 2]))
+            ->actingAs(new \Ushahidi\Authzn\GenericUser(['id' => 2]))
             ->json('POST', '/api/v3/exports/jobs', [
                 'fields' => 'test',
                 'filters' => [

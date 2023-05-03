@@ -19,7 +19,7 @@ use Ushahidi\Core\Concerns\AdminAccess;
 use Ushahidi\Core\Concerns\UserContext;
 use Ushahidi\Core\Concerns\PrivAccess;
 use Ushahidi\Core\Concerns\Acl as AccessControlList;
-use Ushahidi\Core\Facade\Features;
+use Ushahidi\Core\Facade\Feature;
 
 class CSVAuthorizer implements Authorizer
 {
@@ -39,7 +39,7 @@ class CSVAuthorizer implements Authorizer
     public function isAllowed(Entity $entity, $privilege)
     {
         // Check if the user can import data first
-        if (!Features::isEnabled('data-import')) {
+        if (!Feature::isEnabled('data-import')) {
             return false;
         }
 

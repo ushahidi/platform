@@ -2,7 +2,7 @@
 
 namespace Ushahidi\Modules\V5\Http\Resources\Datasource;
 
-use Illuminate\Http\Resources\Json\Resource;
+use Illuminate\Http\Resources\Json\JsonResource as Resource;
 
 class DataSourceResource extends Resource
 {

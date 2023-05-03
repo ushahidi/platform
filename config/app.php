@@ -110,23 +110,6 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Logging Configuration
-    |--------------------------------------------------------------------------
-    |
-    | Here you may configure the log settings for your application. Out of
-    | the box, Laravel uses the Monolog PHP logging library. This gives
-    | you a variety of powerful log handlers / formatters to utilize.
-    |
-    | Available Settings: "single", "daily", "syslog", "errorlog"
-    |
-    */
-
-    'log' => env('APP_LOG', 'single'),
-
-    'log_level' => env('APP_LOG_LEVEL', 'debug'),
-
-    /*
-    |--------------------------------------------------------------------------
     | Autoloaded Service Providers
     |--------------------------------------------------------------------------
     |
@@ -149,7 +132,7 @@ return [
         Illuminate\Cookie\CookieServiceProvider::class,
         Illuminate\Database\DatabaseServiceProvider::class,
         Illuminate\Encryption\EncryptionServiceProvider::class,
-        // Illuminate\Filesystem\FilesystemServiceProvider::class,
+        Illuminate\Filesystem\FilesystemServiceProvider::class,
         Illuminate\Foundation\Providers\FoundationServiceProvider::class,
         Illuminate\Hashing\HashServiceProvider::class,
         Illuminate\Mail\MailServiceProvider::class,
@@ -167,15 +150,15 @@ return [
         /*
          * Package Service Providers...
          */
-        Barryvdh\Cors\ServiceProvider::class,
-        Sentry\SentryLaravel\SentryLaravelServiceProvider::class,
+
+        Ushahidi\Authzn\ServiceProvider::class,
+        Ushahidi\Multisite\MultisiteServiceProvider::class,
+        Ushahidi\DataSource\DataSourceServiceProvider::class,
+        Ushahidi\Addons\Rackspace\RackspaceServiceProvider::class,
 
         Ushahidi\Modules\V2\ServiceProvider::class,
         Ushahidi\Modules\V3\ServiceProvider::class,
         Ushahidi\Modules\V5\ServiceProvider::class,
-
-        Ushahidi\Multisite\MultisiteServiceProvider::class,
-        Ushahidi\DataSource\DataSourceServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -185,7 +168,6 @@ return [
         App\Providers\AuthServiceProvider::class,
         App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
-        App\Providers\FilesystemServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\PassportServiceProvider::class,
     ],
@@ -236,7 +218,7 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-        'Sentry' => Sentry\SentryLaravel\SentryFacade::class,
+        'Sentry' => Sentry\Laravel\Facade::class,
     ],
 
 ];

@@ -14,27 +14,27 @@ namespace Ushahidi\Core\Tool;
 class UploadData extends Data
 {
     /**
-     * @var String  $name original file name
+     * @var string  $name original file name
      */
     public $name;
 
-    /*
-     * @var String $type MIME type (not reliable!)
+    /**
+     * @var string $type MIME type (not reliable!)
      */
     public $type;
 
-    /*
-     * @var Integer $size in bytes
+    /**
+     * @var integer $size in bytes
      */
     public $size;
 
-    /*
-     * @var Integer $tmp_name temporary filesystem path
+    /**
+     * @var integer $tmp_name temporary filesystem path
      */
     public $tmp_name;
 
-    /*
-     * @var Integer $error PHP error code
+    /**
+     * @var integer $error PHP error code
      */
     public $error;
 }
