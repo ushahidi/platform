@@ -27,6 +27,7 @@ use Ushahidi\Modules\V5\Repository\Role\RoleRepository;
 use Ushahidi\Modules\V5\Repository\Role\EloquentRoleRepository;
 use Ushahidi\Modules\V5\Repository\Tos\TosRepository;
 use Ushahidi\Modules\V5\Repository\Tos\EloquentTosRepository;
+use Ushahidi\Modules\V5\Repository\User;
 use Ushahidi\Modules\V5\Repository\Survey;
 use Ushahidi\Modules\V5\Repository\Set;
 use Ushahidi\Modules\V5\Repository\Post;
