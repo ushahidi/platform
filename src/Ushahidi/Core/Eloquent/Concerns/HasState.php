@@ -2,7 +2,8 @@
 namespace Ushahidi\Core\Eloquent;
 
 /**
- * @mixin \Ushahidi\Contracts\Entity
+ * @property-read \Illuminate\Database\Eloquent\Model $model
+ * @see \Ushahidi\Contracts\Entity
  */
 trait HasState
 {

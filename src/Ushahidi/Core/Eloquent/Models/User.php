@@ -1,20 +1,26 @@
 <?php
 namespace Ushahidi\Core\Eloquent\Models;
 
+use Illuminate\Database\Eloquent\Model;
+use Ushahidi\Core\Eloquent\HasState;
 use Ushahidi\Core\Entity\User as EntityUser;
 
-
-class User implements EntityUser
+class User extends Model implements EntityUser
 {
-    public function getId() { }
+    use HasState;
 
-    public function getResource() { }
+    public function getId()
+    {
+        return $this->getAttributeFromArray($this->getKeyName());
+    }
 
-    public function asArray() { }
+    public function getResource()
+    {
+        return 'users';
+    }
 
-    public function setState(array $data) { }
-
-    public function hasChanged($key, $array_key = null) { }
-
-    public function getChanged() { }
+    public function asArray()
+    {
+        return $this->toArray();
+    }
 }
