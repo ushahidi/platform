@@ -15,7 +15,9 @@ namespace Ushahidi\Contracts\Repository;
 interface EntityGet
 {
     /**
-     * @param  mixed $id
+     * Finds an entity with ID.
+     *
+     * @param  int|string $id
      * @param  array $options
      *
      * @return \Ushahidi\Contracts\Entity
