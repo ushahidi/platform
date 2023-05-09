@@ -41,6 +41,9 @@ class User extends BaseModel
 
     public function getPermission(): Collection
     {
+        if ($this->role = "admin") {
+            return RolePermission::get();
+        }
         return RolePermission::where('role', $this->role)->get();
     }
 }
