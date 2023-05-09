@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Ushahidi\Modules\V5\Models\Config;
 use Ushahidi\Modules\V5\Actions\Config\Queries\FindConfigByNameQuery;
 use Ushahidi\Modules\V5\Actions\Config\Queries\ListConfigsQuery;
+use Ushahidi\Modules\V5\Actions\Config\Commands\UpdateConfigCommand;
 
 class ConfigController extends V5Controller
 {
@@ -24,7 +25,7 @@ class ConfigController extends V5Controller
         $group_configs = $this->queryBus->handle(new FindConfigByNameQuery($group_name));
         //$this->authorizeForCurrentUser('show', $group_configs);
         return new ConfigResource($group_configs);
-    }//end show()
+    } //end show()
 
 
     /**
@@ -38,9 +39,16 @@ class ConfigController extends V5Controller
         //$this->authorizeForCurrentUser('index', Config::class);
 
         return new ConfigCollection($this->queryBus->handle(new ListConfigsQuery()));
-    }//end index()
+    } //end index()
 
-    public function update(Request $request, string $config_name)
+    public function update(Request $request, string $group_name)
     {
+        $current_group_configs = $this->queryBus->handle(new FindConfigByNameQuery($group_name));
+
+            $this->commandBus->handle(UpdateConfigCommand::fromRequest(
+                $group_name,
+                $request,
+                $current_group_configs->toArray()
+            ));
     } //end store()
-}//end class
+} //end class

@@ -15,4 +15,17 @@ class EloquentConfigRepository implements ConfigRepository
     {
          return Config::select("config_key", "config_value")->where('group_name', $group_name)->get();
     }
+
+    public function create(string $group_name, string $key, $value)
+    {
+    }
+    public function updateByKey(string $group_name, string $key, $value)
+    {
+        $config = Config::where(["group_name"=>$group_name,"config_key"=>$key])->first();
+        $config->config_value = $value;
+    }
+    public function deleteByKey(string $group_name, string $key)
+    {
+         Config::where(["group_name"=>$group_name,"config_key"=>$key])->delete();
+    }
 }

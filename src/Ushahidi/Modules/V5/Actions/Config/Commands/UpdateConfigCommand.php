@@ -3,124 +3,84 @@
 namespace Ushahidi\Modules\V5\Actions\Config\Commands;
 
 use App\Bus\Command\Command;
-use Ushahidi\Modules\V5\Models\Post\Post;
-use Ushahidi\Modules\V5\Requests\PostRequest;
-use Ushahidi\Core\Entity\Post as PostEntity;
+use Ushahidi\Modules\V5\Models\Config;
 use Illuminate\Support\Facades\Auth;
+use Ushahidi\Core\Exception\NotFoundException;
+use Illuminate\Http\Request;
 
 class UpdateConfigCommand implements Command
 {
 
     /**
-     * @var int
+     * @var string
      */
-    private $id;
-
-    /**
-     * @var PostEntity
-     */
-    private $post_entity;
-
-    /**
-     * @var int[]
-     */
-    private $completed_stages;
+    private $group;
 
     /**
      * @var array
-     * Stage[]
      */
-    private $post_content;
-    private $translations;
-    public function __construct(
-        int $id,
-        PostEntity $post_entity,
-        array $completed_stages,
-        array $post_content,
-        array $translations
-    ) {
-        $this->id = $id;
-        $this->post_entity = $post_entity;
-        $this->completed_stages = $completed_stages;
-        $this->post_content = $post_content;
-        $this->translations = $translations;
+    private $update_configs;
+
+    private $insert_configs;
+    private $delete_configs;
+
+    public function __construct(string $group, array $update_configs, array $insert_configs, array $delete_configs)
+    {
+        $this->group = $group;
+        $this->update_configs = $update_configs;
+        $this->insert_configs = $insert_configs;
+        $this->delete_configs = $delete_configs;
     }
 
-    public static function fromRequest(int $id, PostRequest $request, Post $current_post): self
+    public static function fromRequest(string $group, Request $request, array $current_configs): self
     {
-        $user = Auth::user();
-        if (self::hasPermissionToUpdateUser($user)) {
-            $input['user_id'] = $request->input('user_id') ?? $current_post->user_id;
-        } else {
-            $input['user_id'] = $current_post->user_id;
+
+        $update_configs = [];
+        $insert_configs = [];
+        $delete_configs = [];
+        $new_configs = $request->input();
+        foreach ($new_configs as $key => $value) {
+            if ($key == 'id') {
+                // ignor it
+                continue;
+            }
+            if (key_exists($key, $current_configs)) {
+                $update_configs[$key] = $value;
+            } else {
+                $insert_configs[$key] = $value;
+            }
+        }
+        foreach ($current_configs as $key => $value) {
+            if (!key_exists($key, $new_configs)) {
+                $delete_configs[$key] = $value;
+            }
         }
 
-        $input['slug'] = $request->input('slug') ? Post::makeSlug($request->input('slug')) : $current_post->slug;
-        $input['author_email'] = $request->input('author_email') ?? $current_post->author_email;
-        $input['author_realname'] = $request->input('author_realname') ?? $current_post->author_realname;
-        $input['form_id'] = $request->input('form_id') ?? $current_post->form_id;
-        $input['parent_id'] = $request->input('parent_id') ?? $current_post->parent_id;
-        $input['type'] = $request->input('type') ?? $current_post->type;
-        $input['title'] = $request->input('title') ?? $current_post->title;
-        $input['content'] = $request->input('content') ?? $current_post->content;
-        $input['status'] = $request->input('status') ?? $current_post->status;
-        $input['post_date'] = $request->input('post_date') ?? $current_post->post_date;
-        $input['locale'] = $request->input('locale') ?? $current_post->locale;
-        $input['base_language'] = $request->input('base_language') ?? $current_post->base_language;
-        $input['published_to'] = $request->input('published_to') ?? $current_post->published_to;
-        $input['created'] = $current_post->created;
-        $input['update'] = time();
 
-
-        return new self(
-            $id,
-            new PostEntity($input),
-            $request->input('completed_stages') ?? [],
-            $request->input('post_content') ?? [],
-            $request->input('translations') ?? [],
-        );
+        return new self($group, $update_configs, $insert_configs, $delete_configs);
     }
-    private static function hasPermissionToUpdateUser($user)
+
+    public function getGroup(): String
     {
-        if ($user->role === "admin") {
-            return true;
+        return $this->group;
+    }
+    /**
+     * @return array
+     */
+    public function getUpdateConfigs(): array
+    {
+        return $this->update_configs;
+    }
+
+    public function getInsertConfigs(): array
+    {
+        return $this->insert_configs;
+    }
+
+    protected function verifyGroup($group)
+    {
+        if (!in_array($group, Config::AVIALABLE_CONFIG_GROUPS)) {
+            throw new NotFoundException("Requested group does not exist: " . $group);
         }
-        return false;
-    }
-
-    public function getId(): int
-    {
-        return $this->id;
-    }
-    /**
-     * @return PostEntity
-     */
-    public function getPostEntity(): PostEntity
-    {
-        return $this->post_entity;
-    }
-
-    /**
-     * @return array
-     */
-    public function getCompletedStages(): array
-    {
-        return $this->completed_stages;
-    }
-
-    /**
-     * @return array
-     */
-    public function getPostContent(): array
-    {
-        return $this->post_content;
-    }
-
-    /**
-     * @return array
-     */
-    public function getTranslations(): array
-    {
-        return $this->translations;
     }
 }

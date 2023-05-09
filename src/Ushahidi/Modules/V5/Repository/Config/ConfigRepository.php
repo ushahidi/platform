@@ -13,4 +13,8 @@ interface ConfigRepository
      * @return Config
      */
     public function findByGroupName(string $group_name);
+
+    public function create(string $group_name, string $key, $value);
+    public function updateByKey(string $group_name, string $key);
+    public function deleteByKey(string $group_name, string $key);
 }
