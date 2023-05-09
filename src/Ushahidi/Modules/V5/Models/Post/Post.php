@@ -610,9 +610,8 @@ class Post extends BaseModel
         return $this->belongsToMany('Ushahidi\Modules\V5\Models\Category', 'posts_tags', 'post_id', 'tag_id');
     }
 
-    public function Sets()
+    public function sets()
     {
-        // return $this->belongsToMany('Ushahidi\Modules\V5\Models\Set', 'posts_sets', 'post_id', 'set_id')->pluck('id');
         return $this->belongsToMany('Ushahidi\Modules\V5\Models\Set', 'posts_sets', 'post_id', 'set_id');
     }
 
