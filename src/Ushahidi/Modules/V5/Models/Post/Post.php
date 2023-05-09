@@ -61,6 +61,7 @@ class Post extends BaseModel
     public const ALLOWED_RELATIONSHIPS = [
         'locks' => ['fields' => [], 'relationships' => ["locks"]],
         'categories' => ['fields' => [], 'relationships' => ["categories"]],
+        'sets' => ['fields' => [], 'relationships' => ["sets"]],
         'message' => ['fields' => [], 'relationships' => ['message']],
         'contact' => ['fields' => [], 'relationships' => ['message']],
         'completed_stages' => ['fields' => [], 'relationships' => ["postStages"]],
@@ -101,6 +102,7 @@ class Post extends BaseModel
         'survey',
         'locks',
         'categories',
+        'Sets',
         'comments',
         'message',
         'contact',
@@ -606,6 +608,12 @@ class Post extends BaseModel
     public function categories()
     {
         return $this->belongsToMany('Ushahidi\Modules\V5\Models\Category', 'posts_tags', 'post_id', 'tag_id');
+    }
+
+    public function Sets()
+    {
+        // return $this->belongsToMany('Ushahidi\Modules\V5\Models\Set', 'posts_sets', 'post_id', 'set_id')->pluck('id');
+        return $this->belongsToMany('Ushahidi\Modules\V5\Models\Set', 'posts_sets', 'post_id', 'set_id');
     }
 
     public function comments()
