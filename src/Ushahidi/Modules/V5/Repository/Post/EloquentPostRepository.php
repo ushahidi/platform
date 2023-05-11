@@ -299,10 +299,12 @@ class EloquentPostRepository implements PostRepository
         return $query->count();
     }
 
-    private function getGeoJsonQuery(PostSearchFields $search_fields)
+    private function getGeoJsonQuery(PostSearchFields $search_fields = null)
     {
         $query = DB::table('posts');
-        $query = $this->setSearchCondition($search_fields, $query);
+        if ($search_fields) {
+            $query = $this->setSearchCondition($search_fields, $query);
+        }
         if (!in_array('messages', $this->filter_joined_tables)) {
             $query->leftJoin('messages', 'messages.post_id', '=', 'posts.id');
         }

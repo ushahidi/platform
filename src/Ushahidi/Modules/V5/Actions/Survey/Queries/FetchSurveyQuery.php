@@ -7,7 +7,7 @@ use Ushahidi\Modules\V5\DTO\SurveySearchFields;
 
 class FetchSurveyQuery implements Query
 {
-    const DEFAULT_LIMIT = 0;
+    const DEFAULT_LIMIT = 100000;
     const DEFAULT_ORDER = "ASC";
     const DEFAULT_SORT_BY = "id";
 
