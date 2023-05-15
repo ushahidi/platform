@@ -75,10 +75,16 @@ class Set extends StaticEntity
             return new Set([
                 "id" => $old_Values['id'],
                 "user_id" => array_key_exists("user_id", $input) ? $input["user_id"] : $old_Values['user_id'],
-                "name" => array_key_exists("name", $input)  ? $input["name"] : $old_Values['name'],
-                "description" => array_key_exists("description", $input) ? $input["description"] : $old_Values['description'],
-                "view" => array_key_exists("view", $input)  ? $input["view"] : $old_Values['view'],
-                "view_options" => array_key_exists("view_options", $input)  ? $input["view_options"] : $old_Values['view_options'],
+                "name" => array_key_exists("name", $input) ? $input["name"] : $old_Values['name'],
+                "description" =>
+                array_key_exists("description", $input)
+                ? $input["description"]
+                : $old_Values['description'],
+                "view" => array_key_exists("view", $input) ? $input["view"] : $old_Values['view'],
+                "view_options" =>
+                array_key_exists("view_options", $input)
+                ? $input["view_options"]
+                : $old_Values['view_options'],
                 "role" => array_key_exists("role", $input) ? $input["role"] : $old_Values['role'],
                 "featured" => array_key_exists("featured", $input) ? $input["featured"] : $old_Values['featured'],
                 "created" => $old_Values['created'] ?? time(),
