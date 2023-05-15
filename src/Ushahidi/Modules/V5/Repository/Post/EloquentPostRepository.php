@@ -12,6 +12,7 @@ use Ushahidi\Modules\V5\DTO\PostSearchFields;
 use Ushahidi\Modules\V5\DTO\PostStatsSearchFields;
 use DB;
 use Ushahidi\Core\Tool\BoundingBox;
+use Illuminate\Support\Facades\Auth;
 
 class EloquentPostRepository implements PostRepository
 {
@@ -24,6 +25,14 @@ class EloquentPostRepository implements PostRepository
         $this->filter_joined_tables = [];
     }
 
+    private function setGuestConditions($query)
+    {
+        $user = Auth::user();
+        if (!$user || !$user->id) {
+            $query->where('posts.status', '=', 'published');
+        }
+        return $query;
+    }
 
     private function setSearchCondition(PostSearchFields $search_fields, $query)
     {
@@ -100,19 +109,19 @@ class EloquentPostRepository implements PostRepository
         }
 
         if ($search_fields->updatedBefore()) {
-            $query->where('posts.updated', '<', $search_fields->updatedBefore());
+            $query->where('posts.updated', '<', strtotime($search_fields->updatedBefore()));
         }
 
         if ($search_fields->updatedAfter()) {
-            $query->where('posts.updated', '>', $search_fields->updatedAfter());
+            $query->where('posts.updated', '>', strtotime($search_fields->updatedAfter()));
         }
 
         if ($search_fields->dateBefore()) {
-            $query->where('posts.updated', '<', $search_fields->dateBefore());
+            $query->where('posts.created', '<', strtotime($search_fields->dateBefore()));
         }
 
         if ($search_fields->dateAfter()) {
-            $query->where('posts.updated', '>', $search_fields->dateAfter());
+            $query->where('posts.created', '>', strtotime($search_fields->dateAfter()));
         }
 
 
@@ -176,7 +185,7 @@ class EloquentPostRepository implements PostRepository
         // bbox
         $bounding_box = null;
         if ($search_fields->bbox()) {
-            $bounding_box = $this->createBoundingBoxFromCSV($search_fields->bbox);
+            $bounding_box = $this->createBoundingBoxFromCSV($search_fields->bbox());
         } elseif ($search_fields->centerPoint() && $search_fields->withinKm()) {
             $bounding_box = $this->createBoundingBoxFromCenter(
                 $search_fields->centerPoint(),
@@ -276,6 +285,7 @@ class EloquentPostRepository implements PostRepository
             ->orderBy($paging->getOrderBy(), $paging->getOrder());
 
         $query = $this->setSearchCondition($search_fields, $query);
+        $query = $this->setGuestConditions($query);
 
         if (count($fields)) {
             $query->select($fields);
@@ -296,6 +306,7 @@ class EloquentPostRepository implements PostRepository
     {
         $query = Post::select(['id']);
         $query = $this->setSearchCondition($search_fields, $query);
+        $query = $this->setGuestConditions($query);
         return $query->count();
     }
 
@@ -305,6 +316,7 @@ class EloquentPostRepository implements PostRepository
         if ($search_fields) {
             $query = $this->setSearchCondition($search_fields, $query);
         }
+        $query = $this->setGuestConditions($query);
         if (!in_array('messages', $this->filter_joined_tables)) {
             $query->leftJoin('messages', 'messages.post_id', '=', 'posts.id');
         }
@@ -371,6 +383,7 @@ class EloquentPostRepository implements PostRepository
         $search_query = DB::table('posts');
         $search_query->selectRaw('COUNT(DISTINCT posts.id) as total');
         $search_query = $this->setSearchCondition($search_fields, $search_query);
+        $query = $this->setGuestConditions($search_query);
         if (!in_array('messages', $this->filter_joined_tables)) {
             $search_query->leftJoin('messages', 'messages.post_id', '=', 'posts.id');
         }

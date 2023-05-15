@@ -29,7 +29,9 @@ class CollectionController extends V5Controller
      */
     public function show(int $id)
     {
+
         $collection = $this->queryBus->handle(new FetchCollectionByIdQuery($id));
+        $this->authorize('show', $collection);
         return new CollectionResource($collection);
     } //end show()
 
@@ -43,6 +45,8 @@ class CollectionController extends V5Controller
      */
     public function index(Request $request)
     {
+        $this->authorize('index', new Collection());
+
         $collections = $this->queryBus->handle(
             new FetchCollectionQuery(
                 $request->query('limit', FetchCollectionQuery::DEFAULT_LIMIT),
@@ -77,12 +81,12 @@ class CollectionController extends V5Controller
 
     public function update(int $id, CollectionRequest $request)
     {
-        $saved_search = $this->queryBus->handle(new FetchCollectionByIdQuery($id));
-        $this->authorize('update', $saved_search);
+        $collection = $this->queryBus->handle(new FetchCollectionByIdQuery($id));
+        $this->authorize('update', $collection);
         $this->commandBus->handle(
             new UpdateCollectionCommand(
                 $id,
-                CollectionEntity::buildEntity($request->input(), 'update', $saved_search->toArray())
+                CollectionEntity::buildEntity($request->input(), 'update', $collection->toArray())
             )
         );
         return $this->show($id);

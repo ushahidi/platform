@@ -12,6 +12,7 @@ use Ushahidi\Core\Concerns\PrivAccess;
 use Ushahidi\Core\Concerns\PrivateDeployment;
 use Ushahidi\Core\Concerns\OwnerAccess;
 use Ushahidi\Core\Concerns\Acl as AccessControlList;
+use Illuminate\Support\Facades\Auth;
 
 class CollectionPolicy
 {
@@ -107,7 +108,7 @@ class CollectionPolicy
 
         // These checks are run within the user context.
         $user = $authorizer->getUser();
-
+        //$user = Auth::user();
         // Only logged in users have access if the deployment is private
         if (!$this->canAccessDeployment($user)) {
             return false;
@@ -118,7 +119,6 @@ class CollectionPolicy
         if ($this->isUserAdmin($user)) {
             return true;
         }
-       // dd(get_class($entity));
         // Non-admin users are not allowed to make sets featured
         if (in_array($privilege, ['create', 'update']) && $entity->hasChanged('featured')) {
             return false;

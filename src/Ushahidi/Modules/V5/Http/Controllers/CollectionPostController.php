@@ -27,7 +27,7 @@ class CollectionPostController extends V5Controller
      */
     private function checkCollectionIsFound(int $collection_id)
     {
-        $this->queryBus->handle(new FetchCollectionByIdQuery($collection_id));
+        return $this->queryBus->handle(new FetchCollectionByIdQuery($collection_id));
     }
 
     /**
@@ -77,7 +77,8 @@ class CollectionPostController extends V5Controller
     {
 
         $collection =  $this->queryBus->handle(new FetchCollectionByIdQuery($collection_id));
-      // $this->authorize('edit', $collection);
+
+        $this->authorize('update', $collection);
 
         $post_id = $request->input('post_id');
 
@@ -91,10 +92,9 @@ class CollectionPostController extends V5Controller
      */
     public function delete(int $collection_id, int $id, Request $request)
     {
-        $this->checkCollectionIsFound($collection_id);
+        $collection =  $this->queryBus->handle(new FetchCollectionByIdQuery($collection_id));
 
-       // $post = $this->queryBus->handle(new FindPostByIdQuery($id, ['id', 'user_id']));
-       // $this->authorize('delete', $post);
+        $this->authorize('update', $collection);
         
         $this->checkPostIsFoundInCollection($collection_id, $id);
 
