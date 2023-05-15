@@ -36,6 +36,7 @@ use Ushahidi\Modules\V5\Actions\Post\Queries\PostsStatsQuery;
 use Ushahidi\Modules\V5\Http\Resources\Post\PostGeometryCollection ;
 use Ushahidi\Modules\V5\Http\Resources\Post\PostGeometryResource ;
 use Ushahidi\Modules\V5\Http\Resources\Post\PostStatsResource ;
+use Ushahidi\Core\Tool\Tile;
 
 class PostController extends V5Controller
 {
@@ -352,8 +353,26 @@ class PostController extends V5Controller
 
     public function indexGeoJsonWithZoom(Request $request): PostGeometryCollection
     {
+        $this->prepBoundingBox($request);
+
         $posts = $this->queryBus->handle(ListPostsGeometryQuery::FromRequest($request));
         return new PostGeometryCollection($posts);
+    }
+
+    public function prepBoundingBox(Request $request)
+    {
+        $params = $request->route()->parameters();
+
+        // If zoom/x/y are passed get bounding box
+        $zoom = isset($params['zoom']) ? $params['zoom'] : false;
+        $x = isset($params['x']) ? $params['x'] : false;
+        $y = isset($params['y']) ? $params['y'] : false;
+        if ($zoom !== false and
+            $x !== false and
+            $y !== false) {
+            $boundingBox = Tile::tileToBoundingBox($zoom, $x, $y);
+            $request->merge(['bbox' => implode(',', $boundingBox->asArray())]);
+        }
     }
 
 
