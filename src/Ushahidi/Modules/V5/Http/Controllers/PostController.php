@@ -370,7 +370,7 @@ class PostController extends V5Controller
         if ($zoom !== false and
             $x !== false and
             $y !== false) {
-            $boundingBox = Tile::tileToBoundingBox($zoom, $x, $y);
+            $boundingBox = Tile::pointToBoundingBox($zoom, $x, $y);
             $request->merge(['bbox' => implode(',', $boundingBox->asArray())]);
         }
     }
