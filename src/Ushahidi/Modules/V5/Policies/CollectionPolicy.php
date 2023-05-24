@@ -82,7 +82,14 @@ class CollectionPolicy
 
         // we convert to a form entity to be able to continue using the old authorizers and classes.
         $set_entity = new Entity\Set();
-        $set_entity->setState($set->toArray());
+        $values = $set->toArray();
+        if ($values['featured']) {
+            $values['featured'] = 1;
+        } else {
+            $values['featured'] = 0;
+        }
+        $set_entity->setState($values);
+
         return $this->isAllowed($set_entity, 'update');
     }
 
@@ -104,6 +111,7 @@ class CollectionPolicy
      */
     public function isAllowed($entity, $privilege)
     {
+
         $authorizer = service('authorizer.set');
 
         // These checks are run within the user context.
@@ -119,17 +127,17 @@ class CollectionPolicy
         if ($this->isUserAdmin($user)) {
             return true;
         }
-        // Non-admin users are not allowed to make sets featured
-        if (in_array($privilege, ['create', 'update']) && $entity->hasChanged('featured')) {
-            return false;
-        }
 
+        // Non-admin users are not allowed to make sets featured
+        // To o fix check change of filed featured !
+        // if (in_array($privilege, ['create', 'update']) && $entity->hasChanged('featured')) {
+        //     return false;
+        // }
 
         // First check whether there is a role with the right permissions
         if ($authorizer->acl->hasPermission($user, Permission::MANAGE_SETS)) {
             return true;
         }
-
         // If the user is the owner of this set, they can do anything
         if ($this->isUserOwner($entity, $user)) {
             return true;
