@@ -30,7 +30,7 @@ class CollectionController extends V5Controller
     {
 
         $collection = $this->queryBus->handle(new FetchCollectionByIdQuery($id));
-      //  $this->authorize('show', $collection);
+        $this->authorizeAnyone('show', $collection);
         return new CollectionResource($collection);
     } //end show()
 
@@ -45,7 +45,7 @@ class CollectionController extends V5Controller
     public function index(Request $request)
     {
 
-      //  $this->authorize('index', new CollectionModel());
+        $this->authorizeAnyone('index', new CollectionModel());
 
         $collections = $this->queryBus->handle(
             new FetchCollectionQuery(

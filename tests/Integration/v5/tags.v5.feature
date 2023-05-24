@@ -550,7 +550,7 @@ Feature: Testing the Categories API
                 "type":"category",
                 "priority":1,
                 "color":"00ff00",
-                "role": "interesting"
+                "role": ["interesting"]
             }
         """
         When I request "/categories"
@@ -574,7 +574,7 @@ Feature: Testing the Categories API
                 "type":"category",
                 "priority":1,
                 "color":"00ff00",
-                "role": "null"
+                "role": [null]
             }
         """
         When I request "/categories"
@@ -599,7 +599,7 @@ Feature: Testing the Categories API
                 "type":"category",
                 "priority":1,
                 "color":"00ff00",
-                "role":"user"
+                "role":["user"]
             }
             """
         When I request "/categories"
@@ -620,7 +620,7 @@ Feature: Testing the Categories API
                 "tag":"Child 2",
                 "slug":"child-2",
                 "type":"category",
-                "role":"['user']"
+                "role":["user"]
             }
             """
         And that its "id" is "11"
