@@ -13,8 +13,7 @@ use Ushahidi\Modules\V5\Actions\Collection\Commands\DeleteCollectionCommand;
 use Ushahidi\Modules\V5\DTO\CollectionSearchFields;
 use Ushahidi\Core\Entity\Set as CollectionEntity;
 use Ushahidi\Modules\V5\Requests\CollectionRequest;
-use Ushahidi\Modules\V5\Models\Set as Collection;
-use Ushahidi\Modules\V5\Policies\CollectionPolicy;
+use Ushahidi\Modules\V5\Models\Set as CollectionModel;
 
 class CollectionController extends V5Controller
 {
@@ -31,7 +30,7 @@ class CollectionController extends V5Controller
     {
 
         $collection = $this->queryBus->handle(new FetchCollectionByIdQuery($id));
-        $this->authorize('show', $collection);
+      //  $this->authorize('show', $collection);
         return new CollectionResource($collection);
     } //end show()
 
@@ -45,7 +44,8 @@ class CollectionController extends V5Controller
      */
     public function index(Request $request)
     {
-        $this->authorize('index', new Collection());
+
+      //  $this->authorize('index', new CollectionModel());
 
         $collections = $this->queryBus->handle(
             new FetchCollectionQuery(
@@ -69,7 +69,7 @@ class CollectionController extends V5Controller
      */
     public function store(CollectionRequest $request)
     {
-        $this->authorize('store', Collection::class);
+        $this->authorize('store', CollectionModel::class);
         return $this->show(
             $this->commandBus->handle(
                 new CreateCollectionCommand(

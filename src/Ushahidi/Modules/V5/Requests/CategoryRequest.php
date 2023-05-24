@@ -75,7 +75,7 @@ class CategoryRequest extends BaseRequest
             'priority' => [
                 'numeric'
             ],
-            'role' => [
+            'role' => ["array",
                 function ($attribute, $value, $fail) use ($parentId) {
                     $parent = $parentId ? Category::find($parentId) : null;
                     // ... and check if the role matches its parent
