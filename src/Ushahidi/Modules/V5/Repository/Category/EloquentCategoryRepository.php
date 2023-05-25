@@ -22,8 +22,9 @@ class EloquentCategoryRepository implements CategoryRepository
         if ($category_search_fields->type()) {
             $builder->where('type', '=', $category_search_fields->type());
         }
-        if ($category_search_fields->level()) {
-            $builder->where('level', '=', $category_search_fields->level());
+
+        if ($category_search_fields->level() === 'parent') {
+            $builder->whereNull('parent_id');
         }
         if ($category_search_fields->parentId()) {
             $builder->where('parent_id', '=', $category_search_fields->parentId());

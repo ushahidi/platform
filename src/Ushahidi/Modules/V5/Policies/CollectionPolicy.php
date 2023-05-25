@@ -13,6 +13,8 @@ use Ushahidi\Core\Concerns\PrivateDeployment;
 use Ushahidi\Core\Concerns\OwnerAccess;
 use Ushahidi\Core\Concerns\Acl as AccessControlList;
 use Illuminate\Support\Facades\Auth;
+use App\Bus\Query\QueryBus;
+use Ushahidi\Modules\V5\Actions\Collection\Queries\FetchCollectionByIdQuery;
 
 class CollectionPolicy
 {
@@ -37,6 +39,12 @@ class CollectionPolicy
 
     protected $user;
 
+
+    private $queryBus;
+    public function __construct(QueryBus $queryBus)
+    {
+        $this->queryBus = $queryBus;
+    }
 
     /**
      *
@@ -79,17 +87,8 @@ class CollectionPolicy
      */
     public function update(User $user, Set $set)
     {
-
         // we convert to a form entity to be able to continue using the old authorizers and classes.
-        $set_entity = new Entity\Set();
-        $values = $set->toArray();
-        if ($values['featured']) {
-            $values['featured'] = 1;
-        } else {
-            $values['featured'] = 0;
-        }
-        $set_entity->setState($values);
-
+        $set_entity = new Entity\Set($set->toArray());
         return $this->isAllowed($set_entity, 'update');
     }
 
@@ -111,7 +110,6 @@ class CollectionPolicy
      */
     public function isAllowed($entity, $privilege)
     {
-
         $authorizer = service('authorizer.set');
 
         // These checks are run within the user context.
@@ -127,21 +125,30 @@ class CollectionPolicy
         if ($this->isUserAdmin($user)) {
             return true;
         }
-
         // Non-admin users are not allowed to make sets featured
-        // To o fix check change of filed featured !
-        // if (in_array($privilege, ['create', 'update']) && $entity->hasChanged('featured')) {
-        //     return false;
-        // }
+        $old_set = Set::where('id', '=', $entity->id)->first();
+
+        if (in_array($privilege, ['create', 'update'])
+            && $this->valueIsChanged(
+                'featured',
+                $entity->featured,
+                $old_set->toArray()
+            )
+        ) {
+            return false;
+        }
+
+        // If the user is the owner of this set, they can do anything
+        if ($this->isUserOwner($entity, $user)) {
+            return true;
+        }
+
 
         // First check whether there is a role with the right permissions
         if ($authorizer->acl->hasPermission($user, Permission::MANAGE_SETS)) {
             return true;
         }
-        // If the user is the owner of this set, they can do anything
-        if ($this->isUserOwner($entity, $user)) {
-            return true;
-        }
+
 
         // Check if the Set is only visible to specific roles.
         if ($this->isVisibleToUser($entity, $user) and $privilege === 'read') {
@@ -170,5 +177,13 @@ class CollectionPolicy
 
         // If no roles are selected, the Set is considered completely public.
         return true;
+    }
+
+    function valueIsChanged($key, $value, $old_values)
+    {
+        if ($value == $old_values[$key]) {
+            return true;
+        }
+        return false;
     }
 }
