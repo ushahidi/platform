@@ -7,27 +7,37 @@ use Ushahidi\Modules\V5\Models\Category;
 use Ushahidi\Modules\V5\DTO\Paging;
 use Ushahidi\Modules\V5\DTO\CategorySearchFields;
 use Ushahidi\Core\Exception\NotFoundException;
+use Illuminate\Support\Facades\Auth;
 
 class EloquentCategoryRepository implements CategoryRepository
 {
-    private function setSearchCondition(CategorySearchFields $category_search_fields, $builder)
+    private function setSearchCondition(CategorySearchFields $search_fields, $builder)
     {
 
-        if ($category_search_fields->q()) {
-            $builder->where('tag', 'LIKE', "%" . $category_search_fields->q() . "%");
+        if ($search_fields->q()) {
+            $builder->where('tag', 'LIKE', "%" . $search_fields->q() . "%");
         }
-        if ($category_search_fields->tag()) {
-            $builder->where('tag', '=', $category_search_fields->tag());
+        if ($search_fields->tag()) {
+            $builder->where('tag', '=', $search_fields->tag());
         }
-        if ($category_search_fields->type()) {
-            $builder->where('type', '=', $category_search_fields->type());
+        if ($search_fields->type()) {
+            $builder->where('type', '=', $search_fields->type());
         }
 
-        if ($category_search_fields->level() === 'parent') {
+        if ($search_fields->level() === 'parent') {
             $builder->whereNull('parent_id');
         }
-        if ($category_search_fields->parentId()) {
-            $builder->where('parent_id', '=', $category_search_fields->parentId());
+        if ($search_fields->parentId()) {
+            $builder->where('parent_id', '=', $search_fields->parentId());
+        }
+
+        if (!Auth::user() || !Auth::user()->id) {
+            $builder->whereNull('role');
+        } elseif ($search_fields->role() && $search_fields->role() != "admin") {
+            $builder->where(function ($query) use ($search_fields) {
+                $query->whereNull('role')
+                    ->orWhere('role', 'LIKE', "%" . $search_fields->role() . "%");
+            });
         }
         return $builder;
     }

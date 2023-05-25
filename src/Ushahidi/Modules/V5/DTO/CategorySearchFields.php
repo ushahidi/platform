@@ -3,6 +3,7 @@
 namespace Ushahidi\Modules\V5\DTO;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CategorySearchFields
 {
@@ -21,6 +22,11 @@ class CategorySearchFields
         $this->type = $request->query('type');
         $this->level = $request->query('level');
         $this->parent_id = $request->query('parent_id');
+        if (Auth::user()) {
+            $this->role = Auth::user()->role;
+        } else {
+            $this->role = null;
+        }
     }
 
     public function q(): ?string
@@ -46,5 +52,10 @@ class CategorySearchFields
     public function parentId()
     {
         return $this->parent_id;
+    }
+
+    public function role(): ?string
+    {
+        return $this->role;
     }
 }
