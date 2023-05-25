@@ -179,7 +179,7 @@ class CollectionPolicy
         return true;
     }
 
-    function valueIsChanged($key, $value, $old_values)
+    private function valueIsChanged($key, $value, $old_values)
     {
         if ($value == $old_values[$key]) {
             return true;
