@@ -5,7 +5,7 @@ namespace Ushahidi\Modules\V5\Http\Controllers;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Ushahidi\Modules\V5\Actions\Post\Queries\FindPostByIdQuery;
-use Ushahidi\Modules\V5\Models\Post\Post;
+use Ushahidi\Modules\V5\Models\SetPost as CollectionPost;
 use Ushahidi\Modules\V5\Http\Resources\Collection\CollectionPostResource;
 use Ushahidi\Modules\V5\Http\Resources\Post\PostCollection;
 use Ushahidi\Modules\V5\Http\Resources\Post\PostResource;
@@ -15,7 +15,6 @@ use Ushahidi\Modules\V5\Actions\Collection\Queries\FetchCollectionByIdQuery;
 use Ushahidi\Modules\V5\Actions\Collection\Queries\FetchCollectionPostByIdQuery;
 use Ushahidi\Modules\V5\Actions\Collection\Commands\DeleteCollectionPostCommand;
 use Ushahidi\Modules\V5\Actions\Collection\Commands\CreateCollectionPostCommand;
-use Vonage\SMS\Collection;
 use Ushahidi\Core\Exception\NotFoundException;
 use Ushahidi\Modules\V5\Requests\CollectionPostRequest;
 
@@ -23,7 +22,7 @@ class CollectionPostController extends V5Controller
 {
 
     /**
-     * @throws ExceptionNotFound
+     * @throws NotFoundException
      */
     private function checkCollectionIsFound(int $collection_id)
     {
@@ -31,7 +30,7 @@ class CollectionPostController extends V5Controller
     }
 
     /**
-     * @throws ExceptionNotFound
+     * @throws NotFoundException
      */
     private function checkPostIsFoundInCollection(int $collection_id, int $post_id)
     {
@@ -71,14 +70,18 @@ class CollectionPostController extends V5Controller
      *
      * @param Request $request
      * @return CollectionPostResource|JsonResponse
-     * @throws ExceptionNotFound
+     * @throws NotFoundException
      */
     public function store(int $collection_id, CollectionPostRequest $request): CollectionPostResource
     {
 
-        $collection =  $this->queryBus->handle(new FetchCollectionByIdQuery($collection_id));
+        $collection_post = new CollectionPost();
+        $collection_post->post_id = $request->input('post_id');
+        $collection_post->set_id = $collection_id;
+       
+        $this->authorize('store', $collection_post);
 
-        $this->authorize('update', $collection);
+        $this->checkCollectionIsFound($collection_id);
 
         $post_id = $request->input('post_id');
 
@@ -92,10 +95,15 @@ class CollectionPostController extends V5Controller
      */
     public function delete(int $collection_id, int $id, Request $request)
     {
-        $collection =  $this->queryBus->handle(new FetchCollectionByIdQuery($collection_id));
-
-        $this->authorize('update', $collection);
         
+        $collection_post = new CollectionPost();
+        $collection_post->post_id = $id;
+        $collection_post->set_id = $collection_id;
+
+        $this->authorize('delete', $collection_post);
+        
+        $this->checkCollectionIsFound($collection_id);
+
         $this->checkPostIsFoundInCollection($collection_id, $id);
 
 

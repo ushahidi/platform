@@ -4,7 +4,7 @@ namespace Ushahidi\Modules\V5\Policies;
 
 use Ushahidi\Authzn\GenericUser as User;
 use Ushahidi\Core\Entity;
-use Ushahidi\Modules\V5\Models\Set;
+use Ushahidi\Modules\V5\Models\SetPost;
 use Ushahidi\Contracts\Permission;
 use Ushahidi\Core\Concerns\AdminAccess;
 use Ushahidi\Core\Concerns\UserContext;
@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Bus\Query\QueryBus;
 use Ushahidi\Modules\V5\Actions\Collection\Queries\FetchCollectionByIdQuery;
 
-class CollectionPolicy
+class CollectionPostPolicy
 {
 
     // The access checks are run under the context of a specific user
@@ -39,70 +39,58 @@ class CollectionPolicy
 
     protected $user;
 
-
     private $queryBus;
     public function __construct(QueryBus $queryBus)
     {
         $this->queryBus = $queryBus;
     }
-
     /**
      *
      * @return bool
      */
     public function index()
     {
-        $set_entity = new Entity\Set();
-        return $this->isAllowed($set_entity, 'search');
+        $set_post_entity = new Entity\SetPost();
+        return $this->isAllowed($set_post_entity, 'search');
     }
 
     /**
      *
      * @param User $user
-     * @param Set $set
+     * @param SetPost $set_post
      * @return bool
      */
-    public function show(User $user, Set $set)
+    public function show(User $user, SetPost $set_post)
     {
-        $set_entity = new Entity\Set();
-        $set_entity->setState($set->toArray());
-        return $this->isAllowed($set_entity, 'read');
+        $set_post_entity = new Entity\SetPost();
+        $set_post_entity->setState($set_post->toArray());
+        return $this->isAllowed($set_post_entity, 'read');
     }
 
     /**
      *
      * @param GenericUser $user
-     * @param Set $set
+     * @param SetPost $set_post
      * @return bool
      */
-    public function delete(User $user, Set $set)
+    public function delete(User $user, SetPost $set_post)
     {
-        $set_entity = new Entity\Set();
-        $set_entity->setState($set->toArray());
-        return $this->isAllowed($set_entity, 'delete');
+        $set_post_entity = new Entity\SetPost();
+        $set_post_entity->setState($set_post->toArray());
+        return $this->isAllowed($set_post_entity, 'delete');
     }
     /**
-     * @param Set $set
+     * @param SetPost $set
      * @return bool
      */
-    public function update(User $user, Set $set)
+    public function store(User $user, SetPost $set_post)
     {
         // we convert to a form entity to be able to continue using the old authorizers and classes.
-        $set_entity = new Entity\Set($set->toArray());
-        return $this->isAllowed($set_entity, 'update');
+        $set_post_entity = new Entity\SetPost();
+        $set_post_entity->setState($set_post->toArray());
+        return $this->isAllowed($set_post_entity, 'create');
     }
 
-
-    /**
-     * @param Survey $set
-     * @return bool
-     */
-    public function store()
-    {
-        // we convert to a form entity to be able to continue using the old authorizers and classes.
-        $set_entity = new Entity\Set();
-        return $this->isAllowed($set_entity, 'create');
-    }
     /**
      * @param $entity
      * @param string $privilege
@@ -115,73 +103,48 @@ class CollectionPolicy
         // These checks are run within the user context.
         $user = $authorizer->getUser();
         //$user = Auth::user();
+       
         // Only logged in users have access if the deployment is private
+
         if (!$this->canAccessDeployment($user)) {
             return false;
         }
+
 
         // Then we check if a user has the 'admin' role. If they do they're
         // allowed access to everything (all entities and all privileges)
         if ($this->isUserAdmin($user)) {
             return true;
         }
-        // Non-admin users are not allowed to make sets featured
-        $old_set = Set::where('id', '=', $entity->id)->first();
-
-        if (in_array($privilege, ['create', 'update'])
-            && $this->valueIsChanged(
-                'featured',
-                $entity->featured,
-                $old_set->toArray()
-            )
-        ) {
-            return false;
-        }
-
-        // If the user is the owner of this set, they can do anything
-        if ($this->isUserOwner($entity, $user)) {
-            return true;
-        }
-
 
         // First check whether there is a role with the right permissions
         if ($authorizer->acl->hasPermission($user, Permission::MANAGE_SETS)) {
             return true;
         }
 
-
-        // Check if the Set is only visible to specific roles.
-        if ($this->isVisibleToUser($entity, $user) and $privilege === 'read') {
+        // If the user is the owner of this set, they can do anything
+        if ($this->isCollectionOwner($user, $entity->set_id)) {
             return true;
         }
+
 
         // All *logged in* users can create sets
-        if ($user->getId() and $privilege === 'create') {
-            return true;
-        }
+        // if ($user->getId() and $privilege === 'create') {
+        //     return true;
+        // }
 
         // Finally, all users can search sets
         if ($privilege === 'search') {
             return true;
         }
-
         // If no other access checks succeed, we default to denying access
         return false;
     }
 
-    protected function isVisibleToUser(Entity\Set $entity, $user)
+    private function isCollectionOwner($user, $collection_id)
     {
-        if ($entity->role) {
-            return in_array($user->role, $entity->role);
-        }
-
-        // If no roles are selected, the Set is considered completely public.
-        return true;
-    }
-
-    private function valueIsChanged($key, $value, $old_values)
-    {
-        if ($value == $old_values[$key]) {
+        $collection =  $this->queryBus->handle(new FetchCollectionByIdQuery($collection_id));
+        if (($collection->user_id) && ($user) && ($user->id === $collection->user_id)) {
             return true;
         }
         return false;
