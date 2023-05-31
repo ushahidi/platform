@@ -33,10 +33,10 @@ class EloquentPostRepository implements PostRepository
             $query->where('posts.status', '=', 'published');
         } elseif ($user->id) {
             if (!$this->userHasManagePostPermissions($user)) {
-               // $query->where('posts.status', '=', 'published');
+                // $query->where('posts.status', '=', 'published');
                 $query->where(function ($query) use ($user) {
                     $query->where('posts.user_id', '=', $user->id)
-                          ->orWhere('posts.status', '=', 'published');
+                        ->orWhere('posts.status', '=', 'published');
                 });
             }
         }
@@ -48,7 +48,8 @@ class EloquentPostRepository implements PostRepository
         if ($user->role === "admin") {
             return true;
         }
-        $permissions = RolePermission::select("permission")->where('role', '=', $user->role)->get()->pluck('permission');
+        $permissions =
+            RolePermission::select("permission")->where('role', '=', $user->role)->get()->pluck('permission');
         if (in_array("Manage Posts", $permissions->toArray())) {
             return true;
         }
