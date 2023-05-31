@@ -82,13 +82,11 @@ class CollectionController extends V5Controller
     public function update(int $id, CollectionRequest $request)
     {
         $collection = $this->queryBus->handle(new FetchCollectionByIdQuery($id));
-        $this->authorize('update', $collection);
-        $this->commandBus->handle(
-            new UpdateCollectionCommand(
-                $id,
-                CollectionEntity::buildEntity($request->input(), 'update', $collection->toArray())
-            )
-        );
+        $collection_entity = CollectionEntity::buildEntity($request->input(), 'update', $collection->toArray());
+        $new_collection = new CollectionModel($collection_entity->asArray());
+        $new_collection->id = $collection_entity->id;
+        $this->authorize('update', $new_collection);
+        $this->commandBus->handle(new UpdateCollectionCommand($id, $collection_entity));
         return $this->show($id);
     }
 
