@@ -13,6 +13,7 @@ use Ushahidi\Modules\V5\DTO\PostStatsSearchFields;
 use DB;
 use Ushahidi\Core\Tool\BoundingBox;
 use Illuminate\Support\Facades\Auth;
+use Ushahidi\Modules\V5\Models\RolePermission;
 
 class EloquentPostRepository implements PostRepository
 {
@@ -30,10 +31,30 @@ class EloquentPostRepository implements PostRepository
         $user = Auth::user();
         if (!$user || !$user->id) {
             $query->where('posts.status', '=', 'published');
+        } elseif ($user->id) {
+            if (!$this->userHasManagePostPermissions($user)) {
+                // $query->where('posts.status', '=', 'published');
+                $query->where(function ($query) use ($user) {
+                    $query->where('posts.user_id', '=', $user->id)
+                        ->orWhere('posts.status', '=', 'published');
+                });
+            }
         }
         return $query;
     }
 
+    private function userHasManagePostPermissions($user)
+    {
+        if ($user->role === "admin") {
+            return true;
+        }
+        $permissions =
+            RolePermission::select("permission")->where('role', '=', $user->role)->get()->pluck('permission');
+        if (in_array("Manage Posts", $permissions->toArray())) {
+            return true;
+        }
+        return false;
+    }
     private function setSearchCondition(PostSearchFields $search_fields, $query)
     {
 

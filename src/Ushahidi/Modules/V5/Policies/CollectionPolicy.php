@@ -126,13 +126,16 @@ class CollectionPolicy
             return true;
         }
         // Non-admin users are not allowed to make sets featured
-        $old_set = Set::where('id', '=', $entity->id)->first();
-
+        $old_values = [];
+        if ($entity->id) {
+            $old_set = Set::where('id', '=', $entity->id)->first();
+            $old_values = $old_set->toArray();
+        }
         if (in_array($privilege, ['create', 'update'])
             && $this->valueIsChanged(
                 'featured',
-                $entity->featured,
-                $old_set->toArray()
+                $entity->asArray(),
+                $old_values
             )
         ) {
             return false;
@@ -179,9 +182,9 @@ class CollectionPolicy
         return true;
     }
 
-    private function valueIsChanged($key, $value, $old_values)
+    private function valueIsChanged($key, $new_values, $old_values)
     {
-        if ($value == $old_values[$key]) {
+        if (isset($old_values[$key]) && $new_values[$key] != $old_values[$key]) {
             return true;
         }
         return false;
