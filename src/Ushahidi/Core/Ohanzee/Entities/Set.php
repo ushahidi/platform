@@ -67,7 +67,7 @@ class Set extends StaticEntity implements EntitySet
         ];
     }
 
-    public static function buildEntity(array $input, $action = "create", array $old_Values = null): Set
+    public static function buildEntity(array $input, $action = "create", array $old_Values = null)
     {
 
         if ($action === "update") {
