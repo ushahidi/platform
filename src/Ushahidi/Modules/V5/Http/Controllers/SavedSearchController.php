@@ -76,13 +76,11 @@ class SavedSearchController extends V5Controller
     public function update(int $id, SavedSearchRequest $request)
     {
         $saved_search = $this->queryBus->handle(new FetchSavedSearchByIdQuery($id));
-        $this->authorize('update', $saved_search);
-        $this->commandBus->handle(
-            new UpdateSavedSearchCommand(
-                $id,
-                SavedSearchEntity::buildEntity($request->input(), 'update', $saved_search->toArray())
-            )
-        );
+        $saved_search_entity = SavedSearchEntity::buildEntity($request->input(), 'update', $saved_search->toArray());
+        $new_saved_search = new SavedSearch($saved_search_entity->asArray());
+        $new_saved_search->id = $saved_search_entity->id;
+        $this->authorize('update', $new_saved_search);
+        $this->commandBus->handle(new UpdateSavedSearchCommand($id, $saved_search_entity));
         return $this->show($id);
     }
 

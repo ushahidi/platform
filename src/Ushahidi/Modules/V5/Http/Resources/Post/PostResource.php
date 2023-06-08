@@ -62,6 +62,13 @@ class PostResource extends BaseResource
         if (isset($data['translations'])) {
             $data['translations'] = (new TranslationCollection($this->translations))->toArray(null);
         }
+        if (isset($data['sets'])) {
+            $set_ids = [];
+            foreach ($data['sets'] as $set) {
+                $set_ids[] = $set['id'];
+            }
+            $data['sets'] = $set_ids;
+        }
 
         $data ['allowed_privileges'] = $this->getResourcePrivileges();
         return $data;

@@ -42,12 +42,32 @@ class Tile
      */
     public static function tileToBoundingBox($zoom, $x, $y)
     {
+
         $bb_north = self::tileToLat($y, $zoom);
         $bb_south = self::tileToLat($y + 1, $zoom);
         $bb_west = self::tileToLon($x, $zoom);
         $bb_east = self::tileToLon($x + 1, $zoom);
 
         return new BoundingBox($bb_west, $bb_north, $bb_east, $bb_south);
+    }
+
+    public static function pointToBoundingBox($zoom, $lon, $lat)
+    {
+        $n = pow(2, $zoom);
+        $x = intval(($lon + 180) / 360 * $n);
+        $y = intval((1 - log(tan(deg2rad($lat)) + 1 / cos(deg2rad($lat))) / pi()) / 2 * $n);
+        $tile_bbox = self::getTileBbox($x, $y, $zoom);
+        return $tile_bbox;
+    }
+    
+    private static function getTileBbox($x, $y, $zoom)
+    {
+        $n = pow(2, $zoom);
+        $lon_left = round($x / $n * 360.0 - 180.0, 4);
+        $lat_top = round(atan(sinh(pi() * (1 - 2 * $y / $n))) * 180.0 / pi(), 4);
+        $lon_right = round(($x + 1) / $n * 360.0 - 180.0, 4);
+        $lat_bottom = round(atan(sinh(pi() * (1 - 2 * ($y + 1) / $n))) * 180.0 / pi(), 4);
+        return new BoundingBox($lon_left, $lat_bottom, $lon_right, $lat_top);
     }
 
     /**

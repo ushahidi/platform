@@ -17,7 +17,7 @@ class CategoryRequest extends BaseRequest
 
     public function rules(Request $request)
     {
-        $category_id= $request->route('id')?$request->route('id'):null;
+        $category_id = $request->route('id') ? $request->route('id') : null;
 
         if ($request->isMethod('post')) {
             return $this->storeRules();
@@ -28,15 +28,15 @@ class CategoryRequest extends BaseRequest
                 'min:2',
                 'max:255',
                 'regex:/^[\pL\pN\pP ]++$/uD',
-                'unique:tags,tag,'.$category_id
+                'unique:tags,tag,' . $category_id
             ];
-            $rules['type'] = ['filled',Rule::in(['category','status'])];
+            $rules['type'] = ['filled', Rule::in(['category', 'status'])];
             return $rules;
         } else {
             return [];
         }
     }
-    
+
     private function storeRules(): array
     {
         $parentId = $this->input('parent_id');
@@ -76,6 +76,8 @@ class CategoryRequest extends BaseRequest
                 'numeric'
             ],
             'role' => [
+                "array",
+                'nullable',
                 function ($attribute, $value, $fail) use ($parentId) {
                     $parent = $parentId ? Category::find($parentId) : null;
                     // ... and check if the role matches its parent
@@ -177,15 +179,15 @@ class CategoryRequest extends BaseRequest
         ];
     }
 
-    // public function failedValidation(Validator $validator)
-    // {
-    //     throw new HttpResponseException(response()->json([
-    //         'errors' => $validator->errors()
-    //     ], 422));
-    // }
+// public function failedValidation(Validator $validator)
+// {
+//     throw new HttpResponseException(response()->json([
+//         'errors' => $validator->errors()
+//     ], 422));
+// }
 
-    // public function failedValidation(Validator $validator)
-    // {
-    //     throw new HttpResponseException(response()->json(['messages' => $validator->errors()], 422));
-    // }
+// public function failedValidation(Validator $validator)
+// {
+//     throw new HttpResponseException(response()->json(['messages' => $validator->errors()], 422));
+// }
 }

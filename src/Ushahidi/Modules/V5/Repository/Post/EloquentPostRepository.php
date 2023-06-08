@@ -12,6 +12,8 @@ use Ushahidi\Modules\V5\DTO\PostSearchFields;
 use Ushahidi\Modules\V5\DTO\PostStatsSearchFields;
 use DB;
 use Ushahidi\Core\Tool\BoundingBox;
+use Illuminate\Support\Facades\Auth;
+use Ushahidi\Modules\V5\Models\RolePermission;
 
 class EloquentPostRepository implements PostRepository
 {
@@ -24,7 +26,35 @@ class EloquentPostRepository implements PostRepository
         $this->filter_joined_tables = [];
     }
 
+    private function setGuestConditions($query)
+    {
+        $user = Auth::user();
+        if (!$user || !$user->id) {
+            $query->where('posts.status', '=', 'published');
+        } elseif ($user->id) {
+            if (!$this->userHasManagePostPermissions($user)) {
+                // $query->where('posts.status', '=', 'published');
+                $query->where(function ($query) use ($user) {
+                    $query->where('posts.user_id', '=', $user->id)
+                        ->orWhere('posts.status', '=', 'published');
+                });
+            }
+        }
+        return $query;
+    }
 
+    private function userHasManagePostPermissions($user)
+    {
+        if ($user->role === "admin") {
+            return true;
+        }
+        $permissions =
+            RolePermission::select("permission")->where('role', '=', $user->role)->get()->pluck('permission');
+        if (in_array("Manage Posts", $permissions->toArray())) {
+            return true;
+        }
+        return false;
+    }
     private function setSearchCondition(PostSearchFields $search_fields, $query)
     {
 
@@ -100,19 +130,19 @@ class EloquentPostRepository implements PostRepository
         }
 
         if ($search_fields->updatedBefore()) {
-            $query->where('posts.updated', '<', $search_fields->updatedBefore());
+            $query->where('posts.updated', '<', strtotime($search_fields->updatedBefore()));
         }
 
         if ($search_fields->updatedAfter()) {
-            $query->where('posts.updated', '>', $search_fields->updatedAfter());
+            $query->where('posts.updated', '>', strtotime($search_fields->updatedAfter()));
         }
 
         if ($search_fields->dateBefore()) {
-            $query->where('posts.updated', '<', $search_fields->dateBefore());
+            $query->where('posts.created', '<', strtotime($search_fields->dateBefore()));
         }
 
         if ($search_fields->dateAfter()) {
-            $query->where('posts.updated', '>', $search_fields->dateAfter());
+            $query->where('posts.created', '>', strtotime($search_fields->dateAfter()));
         }
 
 
@@ -141,7 +171,7 @@ class EloquentPostRepository implements PostRepository
                 }
 
                 foreach ($tags as $tag) {
-                    $query->whereRaw("posts.id in (select post_id from posts_tags where tag_id = ".$tag.")");
+                    $query->whereRaw("posts.id in (select post_id from posts_tags where tag_id = " . $tag . ")");
                 }
             } else {
                 $tags = $search_fields->tags();
@@ -176,7 +206,7 @@ class EloquentPostRepository implements PostRepository
         // bbox
         $bounding_box = null;
         if ($search_fields->bbox()) {
-            $bounding_box = $this->createBoundingBoxFromCSV($search_fields->bbox);
+            $bounding_box = $this->createBoundingBoxFromCSV($search_fields->bbox());
         } elseif ($search_fields->centerPoint() && $search_fields->withinKm()) {
             $bounding_box = $this->createBoundingBoxFromCenter(
                 $search_fields->centerPoint(),
@@ -185,10 +215,10 @@ class EloquentPostRepository implements PostRepository
         }
 
         if ($bounding_box) {
-           // $query->whereIn('posts.id', $this->getBoundingBoxPostIds($bounding_box));
+            // $query->whereIn('posts.id', $this->getBoundingBoxPostIds($bounding_box));
             $query->whereRaw(
                 "posts.id in (select post_id from post_point"
-                ." where CONTAINS(ST_GeomFromText('".$bounding_box->toWKT()."'), value) = 1)"
+                . " where CONTAINS(ST_GeomFromText('" . $bounding_box->toWKT() . "'), value) = 1)"
             );
         }
 
@@ -198,7 +228,7 @@ class EloquentPostRepository implements PostRepository
     private function createBoundingBoxFromCSV($csv)
     {
         list($bb_west, $bb_north, $bb_east, $bb_south)
-                = array_map('floatval', explode(',', $csv));
+            = array_map('floatval', explode(',', $csv));
         return new BoundingBox($bb_west, $bb_north, $bb_east, $bb_south);
     }
 
@@ -226,8 +256,8 @@ class EloquentPostRepository implements PostRepository
 
     private function getBoundingBoxPostIds(BoundingBox $bounding_box)
     {
-        $query =  DB::table('post_point')->select('post_id')->distinct();
-        $query->whereRaw('CONTAINS(ST_GeomFromText("'.$bounding_box->toWKT().'"), value) = 1');
+        $query = DB::table('post_point')->select('post_id')->distinct();
+        $query->whereRaw('CONTAINS(ST_GeomFromText("' . $bounding_box->toWKT() . '"), value) = 1');
         $post_ids = [];
         $results = $query->get();
         foreach ($results as $result) {
@@ -240,7 +270,7 @@ class EloquentPostRepository implements PostRepository
     {
         $after_update = [];
         foreach ($fields as $field) {
-            $after_update[] = 'posts.'.$field;
+            $after_update[] = 'posts.' . $field;
         }
         return $after_update;
     }
@@ -276,6 +306,7 @@ class EloquentPostRepository implements PostRepository
             ->orderBy($paging->getOrderBy(), $paging->getOrder());
 
         $query = $this->setSearchCondition($search_fields, $query);
+        $query = $this->setGuestConditions($query);
 
         if (count($fields)) {
             $query->select($fields);
@@ -296,13 +327,20 @@ class EloquentPostRepository implements PostRepository
     {
         $query = Post::select(['id']);
         $query = $this->setSearchCondition($search_fields, $query);
+        $query = $this->setGuestConditions($query);
         return $query->count();
     }
 
-    private function getGeoJsonQuery()
+    private function getGeoJsonQuery(PostSearchFields $search_fields = null)
     {
         $query = DB::table('posts');
-        $query->leftJoin('messages', 'messages.post_id', '=', 'posts.id');
+        if ($search_fields) {
+            $query = $this->setSearchCondition($search_fields, $query);
+        }
+        $query = $this->setGuestConditions($query);
+        if (!in_array('messages', $this->filter_joined_tables)) {
+            $query->leftJoin('messages', 'messages.post_id', '=', 'posts.id');
+        }
         // get color
         $query->leftJoin('forms', 'posts.form_id', '=', 'forms.id');
 
@@ -338,7 +376,7 @@ class EloquentPostRepository implements PostRepository
         Paging $paging,
         PostSearchFields $search_fields
     ) {
-        $query = $this->getGeoJsonQuery();
+        $query = $this->getGeoJsonQuery($search_fields);
         $query->skip($paging->getSkip())
             ->orderBy($paging->getOrderBy(), $paging->getOrder());
         return $query->paginate($paging->getLimit());
@@ -357,6 +395,7 @@ class EloquentPostRepository implements PostRepository
 
     public function getPostsStats(PostSearchFields $search_fields)
     {
+
         return collect($this->getGroupedTotals($search_fields));
     }
 
@@ -365,6 +404,7 @@ class EloquentPostRepository implements PostRepository
         $search_query = DB::table('posts');
         $search_query->selectRaw('COUNT(DISTINCT posts.id) as total');
         $search_query = $this->setSearchCondition($search_fields, $search_query);
+        $query = $this->setGuestConditions($search_query);
         if (!in_array('messages', $this->filter_joined_tables)) {
             $search_query->leftJoin('messages', 'messages.post_id', '=', 'posts.id');
         }

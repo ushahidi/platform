@@ -100,7 +100,7 @@ class EloquentSurveyStatesRepository implements SurveyStatesRepository
 
         $query = $this->betweenDates(
             $query,
-            'created',
+            'messages.created',
             $search_fields->createdAfter(),
             $search_fields->createdBefore()
         );
@@ -184,7 +184,7 @@ class EloquentSurveyStatesRepository implements SurveyStatesRepository
 
         $query = $this->betweenDates(
             $query,
-            'created',
+            'posts.created',
             $search_fields->createdAfter(),
             $search_fields->createdBefore()
         );

@@ -140,4 +140,9 @@ class Set extends BaseModel
     {
         return $value ? json_decode($value, true) : null;
     }
+
+    public function getFeaturedAttribute($value)
+    {
+        return (bool)$value;
+    }
 } //end class

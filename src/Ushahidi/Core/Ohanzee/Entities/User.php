@@ -17,7 +17,6 @@ use Ushahidi\Core\Tool\Hasher\Password as PasswordHash;
 
 class User extends StaticEntity implements EntityUser
 {
-
     const DEFAULT_LOGINS = 0;
     const DEFAULT_LAST_LOGIN = null;
     const DEFAULT_FAILED_ATTEMPTS = 0;
@@ -98,7 +97,7 @@ class User extends StaticEntity implements EntityUser
             "logins" => self::DEFAULT_LOGINS,
             "failed_attempts" => self::DEFAULT_FAILED_ATTEMPTS,
             "last_login" => self::DEFAULT_LAST_LOGIN,
-            "language" => isset($input["realname"])?$input["realname"]:self::DEFAULT_LANGUAGE,
+            "language" => isset($input["language"])?$input["language"]:self::DEFAULT_LANGUAGE,
             "created" => time()
         ]);
     }
