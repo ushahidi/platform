@@ -23,7 +23,7 @@ class FetchContactQueryHandler extends AbstractQueryHandler
             'Provided query is not supported'
         );
     }
-
+    
     /**
      * @param FetchContactQuery $query
      * @return LengthAwarePaginator
@@ -31,13 +31,9 @@ class FetchContactQueryHandler extends AbstractQueryHandler
     public function __invoke($query) //: LengthAwarePaginator
     {
         $this->isSupported($query);
-        $skip = $query->getLimit() * ($query->getPage() - 1);
         return $this->contact_repository->fetch(
-            $query->getLimit(),
-            $skip,
-            $query->getSortBy(),
-            $query->getOrder(),
-            $query->getSearchData()
+            $query->getPaging(),
+            $query->getSearchFields()
         );
     }
 }

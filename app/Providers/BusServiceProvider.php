@@ -38,6 +38,7 @@ use Ushahidi\Modules\V5\Actions\SavedSearch;
 use Ushahidi\Modules\V5\Actions\Collection;
 use Ushahidi\Modules\V5\Actions\Post;
 use Ushahidi\Modules\V5\Actions\Config;
+use Ushahidi\Modules\V5\Actions\Contact;
 
 class BusServiceProvider extends ServiceProvider
 {
@@ -231,6 +232,19 @@ class BusServiceProvider extends ServiceProvider
                 Config\Commands\UpdateConfigCommand::class,
                 Config\Handlers\UpdateConfigCommandHandler::class
             );
+
+            $commandBus->register(
+                Contact\Commands\CreateContactCommand::class,
+                Contact\Handlers\CreateContactCommandHandler::class
+            );
+            $commandBus->register(
+                Contact\Commands\UpdateContactCommand::class,
+                Contact\Handlers\UpdateContactCommandHandler::class
+            );
+            $commandBus->register(
+                Contact\Commands\DeleteContactCommand::class,
+                Contact\Handlers\DeleteContactCommandHandler::class
+            );
             
             return $commandBus;
         });
@@ -383,6 +397,16 @@ class BusServiceProvider extends ServiceProvider
                 Config\Queries\FindConfigByNameQuery::class,
                 Config\Handlers\FindConfigByNameQueryHandler::class
             );
+
+            $queryBus->register(
+                Contact\Queries\FetchContactQuery::class,
+                Contact\Handlers\FetchContactQueryHandler::class
+            );
+            $queryBus->register(
+                Contact\Queries\FetchContactByIdQuery::class,
+                Contact\Handlers\FetchContactByIdQueryHandler::class
+            );
+
             return $queryBus;
         });
     }

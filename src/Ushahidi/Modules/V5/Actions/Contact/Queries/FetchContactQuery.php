@@ -3,6 +3,8 @@
 namespace Ushahidi\Modules\V5\Actions\Contact\Queries;
 
 use App\Bus\Query\Query;
+use Illuminate\Http\Request;
+use Ushahidi\Modules\V5\DTO\Paging;
 use Ushahidi\Modules\V5\DTO\ContactSearchFields;
 
 class FetchContactQuery implements Query
@@ -11,48 +13,32 @@ class FetchContactQuery implements Query
     const DEFAULT_ORDER = "DESC";
     const DEFAULT_SORT_BY = "featured";
 
-    private $limit;
-    private $page;
-    private $sortBy;
-    private $order;
-    private $search_data;
+    /**
+     * @var Paging
+     */
+    private $paging;
+    private $search_fields;
 
-    public function __construct(
-        int $limit,
-        int $page,
-        string $sortBy,
-        string $order,
-        CollectionSearchFields $search_data
+    private function __construct(
+        Paging $paging,
+        ContactSearchFields $search_fields
     ) {
-        $this->limit = $limit;
-        $this->page = $page;
-        $this->sortBy = $sortBy;
-        $this->order = $order;
-        $this->search_data = $search_data;
+        $this->paging = $paging;
+        $this->search_fields = $search_fields;
     }
 
-    public function getLimit(): int
+    public static function fromRequest(Request $request): self
     {
-        return $this->limit;
+        return new self(Paging::fromRequest($request), new ContactSearchFields($request));
     }
 
-    public function getPage(): int
+    public function getPaging(): Paging
     {
-        return $this->page;
+        return $this->paging;
     }
 
-    public function getSortBy(): string
+    public function getSearchFields()
     {
-        return $this->sortBy;
-    }
-
-    public function getOrder(): string
-    {
-        return $this->order;
-    }
-
-    public function getSearchData()
-    {
-        return $this->search_data;
+        return $this->search_fields;
     }
 }

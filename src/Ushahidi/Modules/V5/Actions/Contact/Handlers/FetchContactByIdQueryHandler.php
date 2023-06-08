@@ -1,13 +1,13 @@
 <?php
 
-namespace Ushahidi\Modules\V5\Actions\Collection\Handlers;
+namespace Ushahidi\Modules\V5\Actions\Contact\Handlers;
 
 use App\Bus\Query\AbstractQueryHandler;
 use App\Bus\Query\Query;
-use Ushahidi\Modules\V5\Actions\Collection\Queries\FetchContactByIdQuery;
+use Ushahidi\Modules\V5\Actions\Contact\Queries\FetchContactByIdQuery;
 use Ushahidi\Modules\V5\Repository\Contact\ContactRepository;
 
-class FetchCollectionByIdQueryHandler extends AbstractQueryHandler
+class FetchContactByIdQueryHandler extends AbstractQueryHandler
 {
 
     private $contact_repository;
@@ -24,7 +24,6 @@ class FetchCollectionByIdQueryHandler extends AbstractQueryHandler
             'Provided query is not supported'
         );
     }
-
 
     /**
      * @param FetchContactByIdQuery $query

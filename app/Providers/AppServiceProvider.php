@@ -34,6 +34,7 @@ use Ushahidi\Modules\V5\Repository\Survey;
 use Ushahidi\Modules\V5\Repository\Set;
 use Ushahidi\Modules\V5\Repository\Post;
 use Ushahidi\Modules\V5\Repository\Config;
+use Ushahidi\Modules\V5\Repository\Contact;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -185,5 +186,6 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(Set\SetPostRepository::class, Set\EloquentSetPostRepository::class);
         $this->app->bind(Post\PostLockRepository::class, Post\EloquentPostLockRepository::class);
         $this->app->bind(Config\ConfigRepository::class, Config\EloquentConfigRepository::class);
+        $this->app->bind(Contact\ContactRepository::class, Contact\EloquentContactRepository::class);
     }
 }

@@ -344,4 +344,60 @@ $router->group([
             $router->put('/{group_name}', 'ConfigController@update');
         }
     );
+
+    $router->group(
+        [
+            'prefix' => 'contacts',
+            'middleware' => ['scope:contacts', 'auth:api', 'expiration']
+        ],
+        function () use ($router) {
+            $router->get('/', 'ContactController@index');
+            $router->get('/{id}', 'ContactController@show');
+            $router->post('/', 'ContactController@store');
+            $router->put('/{id}', 'ContactController@update');
+            $router->delete('/{id}', 'ContactController@delete');
+        }
+    );
+
+    $router->group(
+        [
+            'prefix' => 'messages',
+            'middleware' => ['scope:messages', 'auth:api', 'expiration']
+        ],
+        function () use ($router) {
+            $router->get('/', 'MessageController@index');
+            $router->get('/{id}', 'MessageController@show');
+            $router->post('/', 'MessageController@store');
+            $router->put('/{id}', 'MessageController@update');
+            $router->delete('/{id}', 'MessageController@delete');
+        }
+    );
+
+    $router->group(
+        [
+            'prefix' => 'notifications',
+            'middleware' => ['scope:notifications', 'auth:api', 'expiration']
+        ],
+        function () use ($router) {
+            $router->get('/', 'NotificationController@index');
+            $router->get('/{id}', 'NotificationController@show');
+            $router->post('/', 'NotificationController@store');
+            $router->put('/{id}', 'NotificationController@update');
+            $router->delete('/{id}', 'NotificationController@delete');
+        }
+    );
+
+    $router->group(
+        [
+            'prefix' => 'layers',
+            'middleware' => ['scope:layers', 'auth:api', 'expiration']
+        ],
+        function () use ($router) {
+            $router->get('/', 'LayerController@index');
+            $router->get('/{id}', 'LayerController@show');
+            $router->post('/', 'LayerController@store');
+            $router->put('/{id}', 'LayerController@update');
+            $router->delete('/{id}', 'LayerController@delete');
+        }
+    );
 });
