@@ -70,27 +70,35 @@ class Set extends StaticEntity
     {
 
         if ($action === "update") {
+            //dd($input["role"]);
+            //if (array_key_exists("role",$input))
             return new Set([
                 "id" => $old_Values['id'],
-                "user_id" => isset($input["user_id"]) ? $input["user_id"] : $old_Values['user_id'],
-                "name" => isset($input["name"]) ? $input["name"] : $old_Values['name'],
-                "description" => isset($input["description"]) ? $input["description"] : $old_Values['description'],
-                "view" => isset($input["view"]) ? $input["view"] : $old_Values['view'],
-                "view_options" => isset($input["view_options"]) ? $input["view_options"] : $old_Values['view_options'],
-                "role" => isset($input["role"]) ? $input["role"] : $old_Values['role'],
-                "featured" => isset($input["featured"]) ? $input["featured"] : $old_Values['featured'],
+                "user_id" => array_key_exists("user_id", $input) ? $input["user_id"] : $old_Values['user_id'],
+                "name" => array_key_exists("name", $input) ? $input["name"] : $old_Values['name'],
+                "description" =>
+                array_key_exists("description", $input)
+                ? $input["description"]
+                : $old_Values['description'],
+                "view" => array_key_exists("view", $input) ? $input["view"] : $old_Values['view'],
+                "view_options" =>
+                array_key_exists("view_options", $input)
+                ? $input["view_options"]
+                : $old_Values['view_options'],
+                "role" => array_key_exists("role", $input) ? $input["role"] : $old_Values['role'],
+                "featured" => array_key_exists("featured", $input) ? $input["featured"] : $old_Values['featured'],
                 "created" => $old_Values['created'] ?? time(),
                 "updated" => time()
             ]);
         }
         return new Set([
-            "user_id" => isset($input["user_id"]) ? $input["user_id"] : Auth::id(),
-            "name" => isset($input["name"]) ? $input["name"] : '',
-            "description" => isset($input["description"]) ? $input["description"] : '',
-            "view" => isset($input["view"]) ? $input["view"] : self::DEFAULT_VIEW,
-            "view_options" => isset($input["view_options"]) ? $input["view_options"] : null,
-            "role" => isset($input["role"]) ? $input["role"] : null,
-            "featured" => isset($input["featured"]) ? $input["featured"] : self::DEFAULT_FEATURED,
+            "user_id" => array_key_exists("user_id", $input) ? $input["user_id"] : Auth::id(),
+            "name" => array_key_exists("name", $input) ? $input["name"] : '',
+            "description" => array_key_exists("description", $input) ? $input["description"] : '',
+            "view" => array_key_exists("view", $input) ? $input["view"] : self::DEFAULT_VIEW,
+            "view_options" => array_key_exists("view_options", $input) ? $input["view_options"] : null,
+            "role" => array_key_exists("role", $input) ? $input["role"] : null,
+            "featured" => array_key_exists("featured", $input) ? $input["featured"] : self::DEFAULT_FEATURED,
             "created" => time(),
             "updated" => time()
         ]);

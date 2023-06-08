@@ -6,6 +6,7 @@ use Ushahidi\Modules\V5\Actions\V5CommandHandler;
 use App\Bus\Command\Command;
 use Ushahidi\Modules\V5\Actions\Survey\Commands\CreateTaskCommand;
 use Ushahidi\Modules\V5\Repository\Survey\TaskRepository;
+use Illuminate\Support\Arr;
 
 use Ramsey\Uuid\Uuid;
 
@@ -78,7 +79,7 @@ class CreateTaskCommandHandler extends V5CommandHandler
     private function normalizeCategoryOptions(array $options)
     {
         if (!$this->isArrayOfNumbers($options)) {
-            return array_flatten(array_pluck($options, 'id'));
+            return Arr::flatten(Arr::pluck($options, 'id'));
         }
         return $options;
     }

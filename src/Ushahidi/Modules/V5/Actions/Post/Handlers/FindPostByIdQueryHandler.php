@@ -58,6 +58,9 @@ class FindPostByIdQueryHandler extends AbstractQueryHandler
                 case 'categories':
                     // $result['categories'] = $post->categories;
                     break;
+                case 'sets':
+                 //    $post->sets = $post->sets->pluck('id');
+                    break;
                 case 'completed_stages':
                     $post->completed_stages = $post->postStages;
 

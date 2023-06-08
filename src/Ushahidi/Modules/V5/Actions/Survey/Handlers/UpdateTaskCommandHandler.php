@@ -9,6 +9,7 @@ use Ushahidi\Modules\V5\Models\Attribute as Field;
 use App\Bus\Command\Command;
 use Ushahidi\Modules\V5\Actions\Survey\Commands\UpdateTaskCommand;
 use Ushahidi\Modules\V5\Repository\Survey\TaskRepository;
+use Illuminate\Support\Arr;
 
 use Ramsey\Uuid\Uuid;
 
@@ -106,7 +107,7 @@ class UpdateTaskCommandHandler extends V5CommandHandler
     private function normalizeCategoryOptions(array $options)
     {
         if (!$this->isArrayOfNumbers($options)) {
-            return array_flatten(array_pluck($options, 'id'));
+            return Arr::flatten(Arr::pluck($options, 'id'));
         }
         return $options;
     }
