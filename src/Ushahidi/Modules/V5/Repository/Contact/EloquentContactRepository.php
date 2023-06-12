@@ -15,20 +15,20 @@ class EloquentContactRepository implements ContactRepository
 {
     private function setSearchCondition(ContactSearchFields $search_fields, $builder)
     {
-        if ($search_fields->user()) {
-            $builder->where('user', '=', $search_fields->user());
+        if (count($search_fields->user())) {
+            $builder->whereIn('contacts.user_id', $search_fields->user());
         }
 
         if ($search_fields->type()) {
-            $builder->where('type', '=', $search_fields->type());
+            $builder->where('contacts.type', '=', $search_fields->type());
         }
 
         if ($search_fields->contact()) {
-            $builder->where('contact', '=', $search_fields->contact());
+            $builder->where('contacts.contact', '=', $search_fields->contact());
         }
 
         if ($search_fields->dataSource()) {
-            $builder->where('data_source', '=', $search_fields->dataSource());
+            $builder->where('contacts.data_source', '=', $search_fields->dataSource());
         }
         return $builder;
     }

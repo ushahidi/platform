@@ -30,54 +30,9 @@ class CreateContactCommandHandler extends AbstractCommandHandler
      * @param CreateContactCommand|Action $action
      * @return int Identifier of newly created record in the database.
      */
-    public function __invoke(Action $action): int
+    public function __invoke(Action $action)
     {
         $this->isSupported($action);
-        return $this->createContact($action);
-    }
-
-    private function createContact(CreateContactCommand $action)
-    {
-        DB::beginTransaction();
-        try {
-            // to do call from repo
-            $contact = Contact::create($action->getContactEntity()->asArray());
-
-            if (count($action->getCompletedStages())) {
-                $this->saveContactStages($contact, $action->getCompletedStages());
-            }
-
-            // Attempt auto-publishing contact on creation
-            if ($contact->tryAutoPublish()) {
-                $contact->save();
-            }
-
-            $errors = $this->saveContactValues($contact, $action->getContactContent(), $contact->id);
-            if (!empty($errors)) {
-                DB::rollback();
-                $this->failedValidation($errors);
-            }
-            $errors = $this->saveTranslations(
-                $contact,
-                $contact->toArray(),
-                $action->getTranslations() ?? [],
-                $contact->id,
-                'contact'
-            );
-            if (!empty($errors)) {
-                DB::rollback();
-               // return self::make422($errors, 'translation');
-                return $this->failedValidation($errors);
-            }
-            DB::commit();
-            // note: done after commit to avoid deadlock in the db
-            // see comment in bulkPatchOperation() below
-            return $contact->id;
-        } catch (\Exception $e) {
-            DB::rollback();
-           // dd($e);
-            throw $e;
-            //return self::make500($e->getMessage());
-        }
+        return $this->contact_repository->create($action->getContactEntity());
     }
 }

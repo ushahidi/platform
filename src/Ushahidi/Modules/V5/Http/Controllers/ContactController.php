@@ -10,11 +10,9 @@ use Ushahidi\Modules\V5\Http\Resources\Contact\ContactCollection;
 use Ushahidi\Modules\V5\Actions\Contact\Commands\CreateContactCommand;
 use Ushahidi\Modules\V5\Actions\Contact\Commands\UpdateContactCommand;
 use Ushahidi\Modules\V5\Actions\Contact\Commands\DeleteContactCommand;
-use Ushahidi\Modules\V5\DTO\ContactSearchFields;
-use Ushahidi\Core\Entity\Contact as ContactEntity;
 use Ushahidi\Modules\V5\Requests\ContactRequest;
 use Ushahidi\Modules\V5\Models\Contact;
-use Ushahidi\Modules\V5\Policies\ContactPolicy;
+use Ushahidi\Core\Exception\NotFoundException;
 
 class ContactController extends V5Controller
 {
@@ -30,6 +28,7 @@ class ContactController extends V5Controller
     public function show(int $id)
     {
         $collection = $this->queryBus->handle(new FetchContactByIdQuery($id));
+        $this->authorize('show', $collection);
         return new ContactResource($collection);
     } //end show()
 
@@ -43,6 +42,7 @@ class ContactController extends V5Controller
      */
     public function index(Request $request)
     {
+        $this->authorize('index', Contact::class);
         $collections = $this->queryBus->handle(FetchContactQuery::FromRequest($request));
         return new ContactCollection($collections);
     } //end index()
@@ -51,40 +51,52 @@ class ContactController extends V5Controller
     /**
      * Create new Contact.
      *
-     * @param Request $request
+     * @param ContactRequest $request
      * @return \Illuminate\Http\JsonResponse
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function store(ContactRequest $request)
     {
-        $this->authorize('store', Contact::class);
-        return $this->show(
-            $this->commandBus->handle(
-                new CreateContactCommand(
-                    ContactEntity::buildEntity($request->input())
-                )
-            )
-        );
+        $command = CreateContactCommand::fromRequest($request);
+        $new_contact = new Contact($command->getContactEntity()->asArray());
+        $this->authorize('store', $new_contact);
+        return $this->show($this->commandBus->handle($command));
     } //end store()
 
+     /**
+     * update  Contact.
+     *
+     * @param int id
+     * @param ContactRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function update(int $id, ContactRequest $request)
     {
-        $saved_search = $this->queryBus->handle(new FetchContactByIdQuery($id));
-        $this->authorize('update', $saved_search);
-        $this->commandBus->handle(
-            new UpdateContactCommand(
-                $id,
-                ContactEntity::buildEntity($request->input(), 'update', $saved_search->toArray())
-            )
-        );
+        $old_contact = $this->queryBus->handle(new FetchContactByIdQuery($id));
+        $command = UpdateContactCommand::fromRequest($id, $request, $old_contact);
+        $new_contact = new Contact($command->getContactEntity()->asArray());
+        $this->authorize('update', $new_contact);
+        $this->commandBus->handle($command);
         return $this->show($id);
-    }
+    }// end update
 
+     /**
+     * Create new Contact.
+     *
+     * @param int id
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function delete(int $id)
     {
-        $collection = $this->queryBus->handle(new FetchContactByIdQuery($id));
-        $this->authorize('delete', $collection);
+        try {
+            $contact = $this->queryBus->handle(new FetchContactByIdQuery($id));
+        } catch (NotFoundException $e) {
+            $contact = new Contact();
+        }
+        $this->authorize('delete', $contact);
         $this->commandBus->handle(new DeleteContactCommand($id));
-        return response()->json(['result' => ['deleted' => $id]]);
-    }
+        return $this->deleteResponse($id);
+    }// end delete
 } //end class

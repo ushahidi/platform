@@ -15,7 +15,7 @@ class ContactResource extends Resource
     public static $wrap = 'result';
     private function getResourcePrivileges()
     {
-        $authorizer = service('authorizer.config');
+        $authorizer = service('authorizer.contatc');
         // Obtain v3 entity from the v5 post model
         // Note that we use attributesToArray instead of toArray because the first
         // would have the effect of causing unnecessary requests to the database
@@ -38,6 +38,7 @@ class ContactResource extends Resource
     public function toArray($request)
     {
         $data = $this->resource->toArray();
+        $data['can_notify'] = (bool)$data['can_notify'];
         $data['allowed_privileges'] = $this->getResourcePrivileges();
         return $data;
     }

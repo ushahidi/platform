@@ -4,6 +4,7 @@ namespace Ushahidi\Modules\V5\DTO;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Ushahidi\Modules\V5\Helpers\ParameterUtilities;
 
 class ContactSearchFields
 {
@@ -21,6 +22,12 @@ class ContactSearchFields
         $this->data_source = $request->query('data_source');
         
         $this->user = $request->query('user');
+
+        if ($request->get('user') == 'me' || !ParameterUtilities::checkIfUserAdmin()) {
+                $this->user = [Auth::id()];
+        } else {
+            $this->user = ParameterUtilities::getParameterAsArray($request->get('user'));
+        }
     }
 
     public function contact()
