@@ -1,13 +1,13 @@
 <?php
-namespace Ushahidi\Modules\V5\Http\Resources\Contact;
+namespace Ushahidi\Modules\V5\Http\Resources\Message;
 
 use Illuminate\Http\Resources\Json\JsonResource as Resource;
-use Ushahidi\Core\Entity\Contact as ContactEntity;
+use Ushahidi\Core\Entity\Message as MessageEntity;
 
 
 use App\Bus\Query\QueryBus;
 
-class ContactResource extends Resource
+class MessageResource extends Resource
 {
 
     // use RequestCachedResource;
@@ -15,12 +15,12 @@ class ContactResource extends Resource
     public static $wrap = 'result';
     private function getResourcePrivileges()
     {
-        $authorizer = service('authorizer.contact');
+        $authorizer = service('authorizer.layer');
         // Obtain v3 entity from the v5 post model
         // Note that we use attributesToArray instead of toArray because the first
         // would have the effect of causing unnecessary requests to the database
         // (relations are not needed in this case by the authorizer)
-        $entity = new ContactEntity($this->resource->toArray());
+        $entity = new MessageEntity($this->resource->toArray());
         // if there's no user the guards will kick them off already, but if there
         // is one we need to check the authorizer to ensure we don't let
         // users without admin perms create forms etc
@@ -35,11 +35,10 @@ class ContactResource extends Resource
      * @param  \Illuminate\Http\Request  $request
      * @return array
      */
-    public function toArray($request)
-    {
-        $data = $this->resource->toArray();
-        $data['can_notify'] = (bool)$data['can_notify'];
-        $data['allowed_privileges'] = $this->getResourcePrivileges();
-        return $data;
-    }
+    // public function toArray($request)
+    // {
+    //     $data = $this->resource->toArray();
+    //     $data['allowed_privileges'] = $this->getResourcePrivileges();
+    //     return $data;
+    // }
 }

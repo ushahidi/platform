@@ -18,6 +18,18 @@ class ParameterUtilities
         }
         return $filter_values;
     }
+
+    public static function checkIfNullOrEmpty($value, $accept_empty_string = false)
+    {
+        if ($value === null) {
+            return true;
+        } elseif (trim($value) === "" && !$accept_empty_string) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public static function checkIfEmpty($value, $default = null)
     {
         if (trim($value) === "") {

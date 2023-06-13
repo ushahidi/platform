@@ -39,6 +39,9 @@ use Ushahidi\Modules\V5\Actions\Collection;
 use Ushahidi\Modules\V5\Actions\Post;
 use Ushahidi\Modules\V5\Actions\Config;
 use Ushahidi\Modules\V5\Actions\Contact;
+use Ushahidi\Modules\V5\Actions\Message;
+use Ushahidi\Modules\V5\Actions\Notification;
+use Ushahidi\Modules\V5\Actions\Layer;
 
 class BusServiceProvider extends ServiceProvider
 {
@@ -245,6 +248,50 @@ class BusServiceProvider extends ServiceProvider
                 Contact\Commands\DeleteContactCommand::class,
                 Contact\Handlers\DeleteContactCommandHandler::class
             );
+
+
+            $commandBus->register(
+                Message\Commands\CreateMessageCommand::class,
+                Message\Handlers\CreateMessageCommandHandler::class
+            );
+            $commandBus->register(
+                Message\Commands\UpdateMessageCommand::class,
+                Message\Handlers\UpdateMessageCommandHandler::class
+            );
+            $commandBus->register(
+                Message\Commands\DeleteMessageCommand::class,
+                Message\Handlers\DeleteMessageCommandHandler::class
+            );
+
+
+
+            $commandBus->register(
+                Notification\Commands\CreateNotificationCommand::class,
+                Notification\Handlers\CreateNotificationCommandHandler::class
+            );
+            $commandBus->register(
+                Notification\Commands\UpdateNotificationCommand::class,
+                Notification\Handlers\UpdateNotificationCommandHandler::class
+            );
+            $commandBus->register(
+                Notification\Commands\DeleteNotificationCommand::class,
+                Notification\Handlers\DeleteNotificationCommandHandler::class
+            );
+
+
+
+            $commandBus->register(
+                Layer\Commands\CreateLayerCommand::class,
+                Layer\Handlers\CreateLayerCommandHandler::class
+            );
+            $commandBus->register(
+                Layer\Commands\UpdateLayerCommand::class,
+                Layer\Handlers\UpdateLayerCommandHandler::class
+            );
+            $commandBus->register(
+                Layer\Commands\DeleteLayerCommand::class,
+                Layer\Handlers\DeleteLayerCommandHandler::class
+            );
             
             return $commandBus;
         });
@@ -405,6 +452,36 @@ class BusServiceProvider extends ServiceProvider
             $queryBus->register(
                 Contact\Queries\FetchContactByIdQuery::class,
                 Contact\Handlers\FetchContactByIdQueryHandler::class
+            );
+
+
+            $queryBus->register(
+                Message\Queries\FetchMessageQuery::class,
+                Message\Handlers\FetchMessageQueryHandler::class
+            );
+            $queryBus->register(
+                Message\Queries\FetchMessageByIdQuery::class,
+                Message\Handlers\FetchMessageByIdQueryHandler::class
+            );
+
+
+            $queryBus->register(
+                Notification\Queries\FetchNotificationQuery::class,
+                Notification\Handlers\FetchNotificationQueryHandler::class
+            );
+            $queryBus->register(
+                Notification\Queries\FetchNotificationByIdQuery::class,
+                Notification\Handlers\FetchNotificationByIdQueryHandler::class
+            );
+
+
+            $queryBus->register(
+                Layer\Queries\FetchLayerQuery::class,
+                Layer\Handlers\FetchLayerQueryHandler::class
+            );
+            $queryBus->register(
+                Layer\Queries\FetchLayerByIdQuery::class,
+                Layer\Handlers\FetchLayerByIdQueryHandler::class
             );
 
             return $queryBus;

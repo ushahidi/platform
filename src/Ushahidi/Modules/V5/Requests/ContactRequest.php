@@ -111,10 +111,6 @@ class ContactRequest extends BaseRequest
                 'validation.not_empty',
                 ['field' => trans('fields.type')]
             ),
-            'type.unique' => trans(
-                'validation.unique',
-                ['field' => trans('fields.type')]
-            ),
             'type.min' => trans(
                 'validation.min_length',
                 [

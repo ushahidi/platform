@@ -62,11 +62,11 @@ class EloquentContactRepository implements ContactRepository
      */
     public function findById(int $id): Contact
     {
-        $Contact = Contact::find($id);
-        if (!$Contact instanceof Contact) {
+        $contact = Contact::find($id);
+        if (!$contact instanceof Contact) {
             throw new NotFoundException('Contact not found');
         }
-        return $Contact;
+        return $contact;
     }
 
 
@@ -80,9 +80,9 @@ class EloquentContactRepository implements ContactRepository
     {
         DB::beginTransaction();
         try {
-            $Contact = Contact::create($entity->asArray());
+            $contact = Contact::create($entity->asArray());
             DB::commit();
-            return $Contact->id;
+            return $contact->id;
         } catch (\Exception $e) {
             DB::rollback();
             throw $e;
@@ -97,8 +97,8 @@ class EloquentContactRepository implements ContactRepository
      */
     public function update(int $id, ContactEntity $entity): void
     {
-        $Contact = Contact::find($id);
-        if (!$Contact instanceof Contact) {
+        $contact = Contact::find($id);
+        if (!$contact instanceof Contact) {
             throw new NotFoundException('Contact not found');
         }
 
