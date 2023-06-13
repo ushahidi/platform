@@ -189,7 +189,10 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(Config\ConfigRepository::class, Config\EloquentConfigRepository::class);
         $this->app->bind(Contact\ContactRepository::class, Contact\EloquentContactRepository::class);
         $this->app->bind(Message\MessageRepository::class, Message\EloquentMessageRepository::class);
-        $this->app->bind(Notification\NotificationRepository::class, Notification\EloquentNotificationRepository::class);
+        $this->app->bind(
+            Notification\NotificationRepository::class,
+            Notification\EloquentNotificationRepository::class
+        );
         $this->app->bind(Layer\LayerRepository::class, Layer\EloquentLayerRepository::class);
     }
 }

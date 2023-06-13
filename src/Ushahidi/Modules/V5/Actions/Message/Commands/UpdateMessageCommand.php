@@ -47,9 +47,11 @@ class UpdateMessageCommand implements Command
         $input['status'] = $request->input('status') ?? $current_message->status;
         $input['direction'] = $request->input('direction') ?? $current_message->direction;
         $input['data_source'] = $request->input('data_source') ?? $current_message->data_source;
-        $input['data_source_message_id'] = $request->input('data_source_message_id') ?? $current_message->data_source_message_id;
+        $input['data_source_message_id'] = $request->input('data_source_message_id')
+            ?? $current_message->data_source_message_id;
         $input['additional_data'] = $request->input('additional_data') ?? $current_message->additional_data;
-        $input['notification_post_id'] = $request->input('notification_post_id') ?? $current_message->notification_post_id;
+        $input['notification_post_id'] = $request->input('notification_post_id')
+            ?? $current_message->notification_post_id;
         $input['created'] = strtotime($current_message->created);
 
         return new self($id, new MessageEntity($input));
