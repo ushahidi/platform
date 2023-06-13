@@ -31,6 +31,11 @@ use Ushahidi\Modules\V5\Repository\User;
 use Ushahidi\Modules\V5\Repository\Survey;
 use Ushahidi\Modules\V5\Repository\Set;
 use Ushahidi\Modules\V5\Repository\Post;
+use Ushahidi\Modules\V5\Repository\Config;
+use Ushahidi\Modules\V5\Repository\Contact;
+use Ushahidi\Modules\V5\Repository\Message;
+use Ushahidi\Modules\V5\Repository\Notification;
+use Ushahidi\Modules\V5\Repository\Layer;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -181,5 +186,13 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(Set\SetRepository::class, Set\EloquentSetRepository::class);
         $this->app->bind(Set\SetPostRepository::class, Set\EloquentSetPostRepository::class);
         $this->app->bind(Post\PostLockRepository::class, Post\EloquentPostLockRepository::class);
+        $this->app->bind(Config\ConfigRepository::class, Config\EloquentConfigRepository::class);
+        $this->app->bind(Contact\ContactRepository::class, Contact\EloquentContactRepository::class);
+        $this->app->bind(Message\MessageRepository::class, Message\EloquentMessageRepository::class);
+        $this->app->bind(
+            Notification\NotificationRepository::class,
+            Notification\EloquentNotificationRepository::class
+        );
+        $this->app->bind(Layer\LayerRepository::class, Layer\EloquentLayerRepository::class);
     }
 }
