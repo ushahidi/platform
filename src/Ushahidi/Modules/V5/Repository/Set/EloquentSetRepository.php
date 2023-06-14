@@ -9,6 +9,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 use Ushahidi\Modules\V5\DTO\CollectionSearchFields;
 use Ushahidi\Core\Entity\Set as CollectionEntity;
+use Illuminate\Support\Facades\Auth;
 
 class EloquentSetRepository implements SetRepository
 {
@@ -46,7 +47,10 @@ class EloquentSetRepository implements SetRepository
         if ($search_fields->q()) {
             $builder->where('name', 'LIKE', "%" . $search_fields->q() . "%");
         }
-        if ($search_fields->role()) {
+        // guest
+        if (!Auth::user() || !Auth::user()->id) {
+            $builder->whereNull('role');
+        } elseif ($search_fields->role() && $search_fields->role() != "admin") {
             $builder->where(function ($query) use ($search_fields) {
                 $query->whereNull('role')
                     ->orWhere('role', 'LIKE', "%" . $search_fields->role() . "%");

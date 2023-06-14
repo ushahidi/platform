@@ -12,6 +12,9 @@ use Ushahidi\Core\Concerns\PrivAccess;
 use Ushahidi\Core\Concerns\PrivateDeployment;
 use Ushahidi\Core\Concerns\OwnerAccess;
 use Ushahidi\Core\Concerns\Acl as AccessControlList;
+use Illuminate\Support\Facades\Auth;
+use App\Bus\Query\QueryBus;
+use Ushahidi\Modules\V5\Actions\Collection\Queries\FetchCollectionByIdQuery;
 
 class CollectionPolicy
 {
@@ -36,6 +39,12 @@ class CollectionPolicy
 
     protected $user;
 
+
+    private $queryBus;
+    public function __construct(QueryBus $queryBus)
+    {
+        $this->queryBus = $queryBus;
+    }
 
     /**
      *
@@ -78,10 +87,8 @@ class CollectionPolicy
      */
     public function update(User $user, Set $set)
     {
-
         // we convert to a form entity to be able to continue using the old authorizers and classes.
-        $set_entity = new Entity\Set();
-        $set_entity->setState($set->toArray());
+        $set_entity = new Entity\Set($set->toArray());
         return $this->isAllowed($set_entity, 'update');
     }
 
@@ -107,7 +114,7 @@ class CollectionPolicy
 
         // These checks are run within the user context.
         $user = $authorizer->getUser();
-
+        //$user = Auth::user();
         // Only logged in users have access if the deployment is private
         if (!$this->canAccessDeployment($user)) {
             return false;
@@ -118,10 +125,25 @@ class CollectionPolicy
         if ($this->isUserAdmin($user)) {
             return true;
         }
-       // dd(get_class($entity));
         // Non-admin users are not allowed to make sets featured
-        if (in_array($privilege, ['create', 'update']) && $entity->hasChanged('featured')) {
+        $old_values = [];
+        if ($entity->id) {
+            $old_set = Set::where('id', '=', $entity->id)->first();
+            $old_values = $old_set->toArray();
+        }
+        if (in_array($privilege, ['create', 'update'])
+            && $this->valueIsChanged(
+                'featured',
+                $entity->asArray(),
+                $old_values
+            )
+        ) {
             return false;
+        }
+
+        // If the user is the owner of this set, they can do anything
+        if ($this->isUserOwner($entity, $user)) {
+            return true;
         }
 
 
@@ -130,10 +152,6 @@ class CollectionPolicy
             return true;
         }
 
-        // If the user is the owner of this set, they can do anything
-        if ($this->isUserOwner($entity, $user)) {
-            return true;
-        }
 
         // Check if the Set is only visible to specific roles.
         if ($this->isVisibleToUser($entity, $user) and $privilege === 'read') {
@@ -162,5 +180,13 @@ class CollectionPolicy
 
         // If no roles are selected, the Set is considered completely public.
         return true;
+    }
+
+    private function valueIsChanged($key, $new_values, $old_values)
+    {
+        if (isset($old_values[$key]) && $new_values[$key] != $old_values[$key]) {
+            return true;
+        }
+        return false;
     }
 }

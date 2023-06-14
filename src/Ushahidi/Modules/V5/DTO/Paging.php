@@ -28,6 +28,7 @@ class Paging
         if ($default_limit === null) {
             $default_limit = config('paging.default_limit');
         }
+        
 
         $limit = $request->query('limit', $default_limit);
         $this->limit = $limit ? $limit : config('paging.default_laravel_pageing_limit');

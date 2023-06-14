@@ -68,8 +68,8 @@ class UpdatePostCommand implements Command
         $input['locale'] = $request->input('locale') ?? $current_post->locale;
         $input['base_language'] = $request->input('base_language') ?? $current_post->base_language;
         $input['published_to'] = $request->input('published_to') ?? $current_post->published_to;
-        $input['created'] = $current_post->created;
-        $input['update'] = time();
+        $input['created'] = strtotime($current_post->created);
+        $input['updated'] = time();
 
 
         return new self(

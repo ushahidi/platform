@@ -99,7 +99,7 @@ class User extends StaticEntity
             "logins" => self::DEFAULT_LOGINS,
             "failed_attempts" => self::DEFAULT_FAILED_ATTEMPTS,
             "last_login" => self::DEFAULT_LAST_LOGIN,
-            "language" => isset($input["realname"])?$input["realname"]:self::DEFAULT_LANGUAGE,
+            "language" => isset($input["language"])?$input["language"]:self::DEFAULT_LANGUAGE,
             "created" => time()
         ]);
     }

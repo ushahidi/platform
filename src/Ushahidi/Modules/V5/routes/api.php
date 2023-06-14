@@ -290,7 +290,7 @@ $router->group([
     $router->group(
         [
             'prefix' => 'collections',
-            'middleware' => ['scope:collections,sets']
+            'middleware' => ['scope:sets']
         ],
         function () use ($router) {
             $router->get('/', 'CollectionController@index');
@@ -299,7 +299,7 @@ $router->group([
                 [
                     'prefix' => '{collection_id}/posts',
 
-                    'middleware' => ['scope:collections,sets',  'expiration']
+                    'middleware' => ['scope:sets',  'expiration']
                 ],
                 function () use ($router) {
                         $router->get('/', 'CollectionPostController@index');
@@ -312,7 +312,7 @@ $router->group([
     $router->group(
         [
             'prefix' => 'collections',
-            'middleware' => ['scope:collections,sets', 'auth:api', 'expiration']
+            'middleware' => ['scope:sets', 'auth:api', 'expiration']
         ],
         function () use ($router) {
             $router->post('/', 'CollectionController@store');
@@ -322,13 +322,82 @@ $router->group([
             $router->group(
                 [
                     'prefix' => '{collection_id}/posts',
-                    'middleware' => ['scope:collections,sets', 'auth:api', 'expiration']
+                    'middleware' => ['scope: sets', 'auth:api', 'expiration']
                 ],
                 function () use ($router) {
                         $router->post('/', 'CollectionPostController@store');
                         $router->delete('/{id}', 'CollectionPostController@delete');
                 }
             );
+        }
+    );
+
+    // Restricted access
+    $router->group(
+        [
+            'prefix' => 'config',
+            'middleware' => ['auth:api', 'scope:config']
+        ],
+        function () use ($router) {
+            $router->get('/', 'ConfigController@index');
+            $router->get('/{group_name}', 'ConfigController@show');
+            $router->put('/{group_name}', 'ConfigController@update');
+        }
+    );
+
+    $router->group(
+        [
+            'prefix' => 'contacts',
+            'middleware' => ['scope:contacts', 'auth:api', 'expiration']
+        ],
+        function () use ($router) {
+            $router->get('/', 'ContactController@index');
+            $router->get('/{id}', 'ContactController@show');
+            $router->post('/', 'ContactController@store');
+            $router->put('/{id}', 'ContactController@update');
+            $router->delete('/{id}', 'ContactController@delete');
+        }
+    );
+
+    $router->group(
+        [
+            'prefix' => 'messages',
+            'middleware' => ['scope:messages', 'auth:api', 'expiration']
+        ],
+        function () use ($router) {
+            $router->get('/', 'MessageController@index');
+            $router->get('/{id}', 'MessageController@show');
+            $router->post('/', 'MessageController@store');
+            $router->put('/{id}', 'MessageController@update');
+            $router->delete('/{id}', 'MessageController@delete');
+        }
+    );
+
+    $router->group(
+        [
+            'prefix' => 'notifications',
+            'middleware' => ['scope:notifications', 'auth:api', 'expiration']
+        ],
+        function () use ($router) {
+            $router->get('/', 'NotificationController@index');
+            $router->get('/{id}', 'NotificationController@show');
+            $router->post('/', 'NotificationController@store');
+            $router->put('/{id}', 'NotificationController@update');
+            $router->delete('/{id}', 'NotificationController@delete');
+        }
+    );
+
+    $router->group(
+        [
+            'prefix' => 'layers',
+            'middleware' => ['scope:layers', 'auth:api', 'expiration']
+        ],
+        function () use ($router) {
+            $router->get('/', 'LayerController@index');
+            $router->get('/{id}', 'LayerController@show');
+            $router->post('/', 'LayerController@store');
+            $router->put('/{id}', 'LayerController@update');
+            $router->delete('/{id}', 'LayerController@delete');
         }
     );
 });

@@ -25,4 +25,9 @@ class CategoryCollection extends ResourceCollection
     {
         return $this->collection;
     }
+
+    public function count()
+    {
+        return count($this->collection);
+    }
 }
