@@ -60,7 +60,7 @@ class MessageController extends V5Controller
      */
     public function store(MessageRequest $request)
     {
-       
+
         $request = $this->retrieveDatafromParent($request);
         $command = CreateMessageCommand::fromRequest($request);
         $new_message = new Message($command->getMessageEntity()->asArray());
