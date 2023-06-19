@@ -4,14 +4,12 @@ namespace Ushahidi\Modules\V5\Http\Controllers;
 
 use Ramsey\Uuid\Uuid as UUID;
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-
 use Ushahidi\Modules\V5\Http\Resources\PostResource;
 use Ushahidi\Modules\V5\Models\Message;
 use Ushahidi\Modules\V5\Models\Contact;
-use Ushahidi\Modules\V5\Models\Post\Post;
 use Ushahidi\Modules\V5\Common\ValidatorRunner;
+use Ushahidi\Modules\V5\Requests\PostRequest;
 
 /**
  * ---> WARNING: This is a crutch <---
@@ -24,20 +22,10 @@ use Ushahidi\Modules\V5\Common\ValidatorRunner;
  */
 class USSDController extends PostController
 {
-    public function show(Request $request, int $id)
-    {
-        throw new \Exception("Invalid controller method");
-    }
-
-    public function index(Request $request)
-    {
-        throw new \Exception("Invalid controller method");
-    }
-
     /**
      * Overriding the POST method so as to handle contact information
      */
-    public function store(Request $request)
+    public function store(PostRequest $request)
     {
         /* TODO: USSD-specific authorization?
          *
@@ -134,20 +122,5 @@ class USSDController extends PostController
             DB::rollback();
             return self::make500($e->getMessage());
         }
-    }
-
-    public function patch(int $id, Request $request)
-    {
-        throw new \Exception("Invalid controller method");
-    }
-
-    public function update(int $id, Request $request)
-    {
-        throw new \Exception("Invalid controller method");
-    }
-
-    public function delete(int $id, Request $request)
-    {
-        throw new \Exception("Invalid controller method");
     }
 }

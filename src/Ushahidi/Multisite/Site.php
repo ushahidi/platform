@@ -127,7 +127,8 @@ class Site extends BaseSite
     {
         try {
             // @todo confirm this can't use the wrong db
-            return DB::connection('deployment-' . $this->id)->getSchemaBuilder()->hasTable('users');
+            $connection = DB::connection('deployment-' . $this->id);
+            return $connection->getSchemaBuilder()->hasTable('users');
         } catch (\Exception $e) {
             Log::warning($e->getMessage() . PHP_EOL . 'Database for deployment-' . $this->id . ' is not ready.');
             Log::debug($e->getTraceAsString());

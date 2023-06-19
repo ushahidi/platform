@@ -3,7 +3,9 @@
 namespace Ushahidi\Multisite;
 
 use Illuminate\Contracts\Http\Kernel;
+use Illuminate\Database\DatabaseManager;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 use Ushahidi\Core\Tool\OhanzeeResolver;
@@ -75,12 +77,17 @@ class MultisiteServiceProvider extends ServiceProvider
             // Log::debug('Handling multisite.site.change', [$site]);
             $dbConfig = $site->getDbConfig();
             $connectionName = 'deployment-'.$site->getId();
+
             $this->app->make(OhanzeeResolver::class)->setConnection($connectionName, $dbConfig);
 
-            // @todo save db config into config
-            $defaults = config('database.connections.mysql'); // @todo use actual default config
-            config(['database.connections.'.$connectionName => $dbConfig + $defaults]);
+            $default = Config::get('database.default');
+            Config::set(
+                'database.connections.'.$connectionName,
+                array_merge(Config::get("database.connections.{$default}"), $dbConfig)
+            );
+
             $this->app['db']->setDefaultConnection($connectionName);
+            Config::set('passport.storage.database.connection', $connectionName);
 
             // Set cache prefix
             if (method_exists(Cache::store()->getStore(), 'setPrefix')) {
