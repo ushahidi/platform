@@ -22,4 +22,5 @@ interface MessageStatus
     const FAILED         = 'failed';
     const UNKNOWN        = 'unknown';
     const DEFAULT_STATUS = 'pending';
+    const ARCHIVED       = 'archived';
 }

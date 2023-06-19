@@ -369,7 +369,7 @@ $router->group([
             $router->get('/{id}', 'MessageController@show');
             $router->post('/', 'MessageController@store');
             $router->put('/{id}', 'MessageController@update');
-            $router->delete('/{id}', 'MessageController@delete');
+            $router->get('/{id}/post', 'MessageController@showPost');
         }
     );
 

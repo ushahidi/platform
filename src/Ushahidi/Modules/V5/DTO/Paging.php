@@ -28,7 +28,7 @@ class Paging
         if ($default_limit === null) {
             $default_limit = config('paging.default_limit');
         }
-        
+
 
         $limit = $request->query('limit', $default_limit);
         $this->limit = $limit ? $limit : config('paging.default_laravel_pageing_limit');
@@ -37,9 +37,14 @@ class Paging
         $this->order = $request->query('order', $default_order);
     }
 
-    public static function fromRequest(Request $request)
-    {
-        return new self($request);
+    public static function fromRequest(
+        Request $request,
+        $default_sort_by = null,
+        $default_order = null,
+        $default_limit = null,
+        $default_page = 1
+    ) {
+        return new self($request, $default_sort_by, $default_order, $default_limit, $default_page);
     }
 
 

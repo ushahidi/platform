@@ -36,8 +36,8 @@ class CreateMessageCommand implements Command
         $input['message'] = $request->input('message');
         $input['datetime'] = $request->input('datetime');
         $input['type'] = $request->input('type');
-        $input['status'] = $request->input('status');
-        $input['direction'] = $request->input('direction');
+        $input['status'] = MessageEntity::PENDING; //$request->input('status');
+        $input['direction'] = MessageEntity::OUTGOING;//$request->input('direction');
         $input['data_source'] = $request->input('data_source');
         $input['data_source_message_id'] = $request->input('data_source_message_id');
         $input['additional_data'] = $request->input('additional_data');
