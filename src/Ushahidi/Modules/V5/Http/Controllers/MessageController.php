@@ -13,6 +13,8 @@ use Ushahidi\Modules\V5\Actions\Message\Commands\DeleteMessageCommand;
 use Ushahidi\Modules\V5\Requests\MessageRequest;
 use Ushahidi\Modules\V5\Models\Message;
 use Ushahidi\Core\Exception\NotFoundException;
+use Ushahidi\Modules\V5\Actions\Post\Queries\FindPostByIdQuery;
+use Ushahidi\Modules\V5\Http\Resources\Post\PostResource ;
 
 class MessageController extends V5Controller
 {
@@ -27,9 +29,9 @@ class MessageController extends V5Controller
      */
     public function show(int $id)
     {
-        $collection = $this->queryBus->handle(new FetchMessageByIdQuery($id));
-        $this->authorize('show', $collection);
-        return new MessageResource($collection);
+        $message = $this->queryBus->handle(new FetchMessageByIdQuery($id));
+        $this->authorize('show', $message);
+        return new MessageResource($message);
     } //end show()
 
 
@@ -43,8 +45,8 @@ class MessageController extends V5Controller
     public function index(Request $request)
     {
         $this->authorize('index', Message::class);
-        $collections = $this->queryBus->handle(FetchMessageQuery::FromRequest($request));
-        return new MessageCollection($collections);
+        $messages = $this->queryBus->handle(FetchMessageQuery::FromRequest($request));
+        return new MessageCollection($messages);
     } //end index()
 
 
@@ -57,6 +59,8 @@ class MessageController extends V5Controller
      */
     public function store(MessageRequest $request)
     {
+       
+        $request = $this->retrieveDatafromParent($request);
         $command = CreateMessageCommand::fromRequest($request);
         $new_message = new Message($command->getMessageEntity()->asArray());
         $this->authorize('store', $new_message);
@@ -76,27 +80,50 @@ class MessageController extends V5Controller
         $old_message = $this->queryBus->handle(new FetchMessageByIdQuery($id));
         $command = UpdateMessageCommand::fromRequest($id, $request, $old_message);
         $new_message = new Message($command->getMessageEntity()->asArray());
-        $this->authorize('update', $new_message);
+        //$this->authorize('update', $new_message);
+        $this->authorize('update', $old_message);
         $this->commandBus->handle($command);
         return $this->show($id);
     }// end update
 
-     /**
-     * Create new Message.
+    /**
+     * Display the specified resource.
      *
-     * @param int id
-     * @return \Illuminate\Http\JsonResponse
+     * @param integer $id
+     * @return mixed
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function delete(int $id)
+    public function showPost(int $id)
     {
-        try {
-            $message = $this->queryBus->handle(new FetchMessageByIdQuery($id));
-        } catch (NotFoundException $e) {
-            $message = new Message();
+        $message = $this->queryBus->handle(new FetchMessageByIdQuery($id));
+        $this->authorize('show', $message);
+        if ($message->post_id) {
+            $post = $this->queryBus->handle(new FindPostByIdQuery($message->post_id));
+            return new postResource($post);
         }
-        $this->authorize('delete', $message);
-        $this->commandBus->handle(new DeleteMessageCommand($id));
-        return $this->deleteResponse($id);
-    }// end delete
+        throw new NotFoundException("Post does not exist for this message");
+    } //end show()
+
+
+    private function retrieveDatafromParent($request)
+    {
+        if ($request->input('parent_id')) {
+            try {
+                $parent = $this->show($request->input('parent_id'));
+            } catch (NotFoundException $e) {
+                $parent = null;
+            }
+            if ($parent) {
+                $request->merge(['type' => $parent->type]);
+                $request->merge(['data_source' => $parent->data_source]);
+            }
+          //  $input['type'] = $request->input('type');
+          //  $input['data_source'] = $request->input('data_source');
+
+     //       $parent = $this->repo->get($this->payload['parent_id']);
+      //      $entity->setState(['type' => $parent->type,
+      //                         'data_source' => $parent->data_source]);
+        }
+        return $request;
+    }
 } //end class
