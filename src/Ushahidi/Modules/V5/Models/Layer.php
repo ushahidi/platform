@@ -31,7 +31,7 @@ class Layer extends BaseModel
      *
      * @var string
      */
-    protected $table = 'Layers';
+    protected $table = 'layers';
 
     /**
      * Add relations to eager load

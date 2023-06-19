@@ -76,7 +76,8 @@ class NotificationController extends V5Controller
         $old_notification = $this->queryBus->handle(new FetchNotificationByIdQuery($id));
         $command = UpdateNotificationCommand::fromRequest($id, $request, $old_notification);
         $new_notification = new Notification($command->getNotificationEntity()->asArray());
-        $this->authorize('update', $new_notification);
+        //$this->authorize('update', $new_notification);
+        $this->authorize('update', $old_notification);
         $this->commandBus->handle($command);
         return $this->show($id);
     }// end update
