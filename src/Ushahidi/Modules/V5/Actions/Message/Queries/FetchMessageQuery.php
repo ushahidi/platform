@@ -29,7 +29,7 @@ class FetchMessageQuery implements Query
 
     public static function fromRequest(Request $request): self
     {
-        return new self(Paging::fromRequest($request), new MessageSearchFields($request));
+        return new self(Paging::fromRequest($request, null, "ASC"), new MessageSearchFields($request));
     }
 
     public function getPaging(): Paging

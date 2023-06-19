@@ -2,6 +2,7 @@
 
 namespace Ushahidi\Modules\V5\Requests;
 
+use Google\Service\CivicInfo\MessageSet;
 use Google\Service\CloudSearch\MessageDeleted;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
@@ -39,7 +40,7 @@ class MessageRequest extends BaseRequest
             'parent_id' => 'nullable|sometimes|exists:messages,id',
             'post_id' => 'nullable|sometimes|exists:posts,id',
             'contact_id' => 'nullable|sometimes|exists:contacts,id',
-            'direction' => ['required', Rule::in([MessageDirection::OUTGOING, MessageDirection::INCOMING])],
+            'direction' => ['required', Rule::in([MessageDirection::OUTGOING])],
             'message' => ['required'],
             'type' => ['nullable', Rule::in(['sms', 'ivr', 'email', 'twitter'])],
             'status' => ['nullable', Rule::in([MessageStatus::PENDING, MessageStatus::RECEIVED, MessageStatus::SENT])],
@@ -62,7 +63,14 @@ class MessageRequest extends BaseRequest
             'direction' => ['filled', Rule::in([MessageDirection::OUTGOING, MessageDirection::INCOMING])],
             'message' => ['filled'],
             'type' => ['filled', Rule::in(['sms', 'ivr', 'email', 'twitter'])],
-            'status' => ['filled', Rule::in([MessageStatus::PENDING, MessageStatus::RECEIVED, MessageStatus::SENT])],
+            'status' => ['filled', Rule::in([
+                MessageStatus::PENDING,
+                MessageStatus::RECEIVED,
+                MessageStatus::SENT,
+                MessageStatus::EXPIRED,
+                MessageStatus::CANCELLED,
+                MessageStatus::ARCHIVED
+            ])],
             'data_source_message_id' => ['max:511'],
             'data_source' => [
                 'nullable',
