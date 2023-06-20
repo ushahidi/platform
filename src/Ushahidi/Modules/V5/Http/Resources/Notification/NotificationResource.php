@@ -15,7 +15,7 @@ class NotificationResource extends Resource
     public static $wrap = 'result';
     private function getResourcePrivileges()
     {
-        $authorizer = service('authorizer.layer');
+        $authorizer = service('authorizer.notification');
         // Obtain v3 entity from the v5 post model
         // Note that we use attributesToArray instead of toArray because the first
         // would have the effect of causing unnecessary requests to the database
