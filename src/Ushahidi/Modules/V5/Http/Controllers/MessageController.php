@@ -15,6 +15,7 @@ use Ushahidi\Modules\V5\Models\Message;
 use Ushahidi\Core\Exception\NotFoundException;
 use Ushahidi\Modules\V5\Actions\Post\Queries\FindPostByIdQuery;
 use Ushahidi\Modules\V5\Http\Resources\Post\PostResource ;
+use Ushahidi\Modules\V5\Models\Post\Post;
 
 class MessageController extends V5Controller
 {
@@ -98,7 +99,7 @@ class MessageController extends V5Controller
         $message = $this->queryBus->handle(new FetchMessageByIdQuery($id));
         $this->authorize('show', $message);
         if ($message->post_id) {
-            $post = $this->queryBus->handle(new FindPostByIdQuery($message->post_id));
+            $post = $this->queryBus->handle(new FindPostByIdQuery($message->post_id, Post::ALLOWED_FIELDS));
             return new postResource($post);
         }
         throw new NotFoundException("Post does not exist for this message");
