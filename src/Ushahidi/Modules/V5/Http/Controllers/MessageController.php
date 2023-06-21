@@ -17,7 +17,6 @@ use Ushahidi\Modules\V5\Actions\Post\Queries\FindPostByIdQuery;
 use Ushahidi\Modules\V5\Http\Resources\Post\PostResource ;
 use Ushahidi\Modules\V5\Models\Post\Post;
 
-
 class MessageController extends V5Controller
 {
 
