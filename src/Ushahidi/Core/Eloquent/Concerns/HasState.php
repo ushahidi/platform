@@ -1,5 +1,5 @@
 <?php
-namespace Ushahidi\Core\Eloquent;
+namespace Ushahidi\Core\Eloquent\Concerns;
 
 /**
  * @property-read \Illuminate\Database\Eloquent\Model $model

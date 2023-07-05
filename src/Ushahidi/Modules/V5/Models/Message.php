@@ -65,6 +65,7 @@ class Message extends BaseModel
         'datetime',
         'type',
         'status',
+        'user_id',
         'direction',
         'created',
         'additional_data',

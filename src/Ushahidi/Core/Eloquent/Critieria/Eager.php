@@ -5,7 +5,7 @@ namespace Ushahidi\Core\Eloquent\Critieria;
 use Illuminate\Support\Arr;
 use Ushahidi\Core\Eloquent\Criterion;
 
-class EagerLoad implements Criterion
+class Eager implements Criterion
 {
     /**
      * @var array

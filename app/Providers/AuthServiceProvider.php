@@ -36,11 +36,6 @@ class AuthServiceProvider extends ServiceProvider
 
         // Register routes
         $this->passportRoutes();
-
-        // Provide connection class binding for Passport
-        $this->app->singleton(Connection::class, function () {
-            return $this->app['db.connection'];
-        });
     }
 
     /**

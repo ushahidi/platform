@@ -63,7 +63,7 @@ class CreatePostCommand implements Command
         $input['base_language'] = $request->input('base_language') ?? PostEntity::DEFAULT_LOCAL;
         $input['published_to'] = $request->input('published_to');
         $input['created'] = time();
-        $input['update'] = null;
+        $input['updated'] = null;
 
         return new self(
             new PostEntity($input),

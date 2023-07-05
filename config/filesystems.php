@@ -60,7 +60,15 @@ return [
             'key' => env('AWS_ACCESS_KEY_ID'),
             'secret' => env('AWS_SECRET_ACCESS_KEY'),
             'region' => env('AWS_DEFAULT_REGION'),
-            'bucket' => env('AWS_BUCKET'),
+            'bucket' => env('S3_BUCKET', env('AWS_BUCKET')),
+            # for S3 services outside AWS
+            'endpoint' => env('S3_ENDPOINT'),
+            # subpath within bucket
+            'root' => env('S3_ROOT'),
+            # neededs to be true for i.e. minio
+            'use_path_style_endpoint' => (bool) env('S3_USE_PATH_STYLE_ENDPOINT', false),
+            # base URL where uploaded objects can be accessed, useful for CDN
+            'url' => env('S3_PUBLIC_URL'),
         ],
 
         'rackspace' => [
