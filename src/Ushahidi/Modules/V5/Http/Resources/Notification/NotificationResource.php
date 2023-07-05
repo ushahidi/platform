@@ -2,8 +2,7 @@
 namespace Ushahidi\Modules\V5\Http\Resources\Notification;
 
 use Illuminate\Http\Resources\Json\JsonResource as Resource;
-use Ushahidi\Core\Entity\Notification as NotificationEntity;
-
+use Ushahidi\Core\Ohanzee\Entities\Notification as OhanzeeNotification;
 
 use App\Bus\Query\QueryBus;
 
@@ -20,7 +19,7 @@ class NotificationResource extends Resource
         // Note that we use attributesToArray instead of toArray because the first
         // would have the effect of causing unnecessary requests to the database
         // (relations are not needed in this case by the authorizer)
-        $entity = new NotificationEntity($this->resource->toArray());
+        $entity = new OhanzeeNotification($this->resource->toArray());
         // if there's no user the guards will kick them off already, but if there
         // is one we need to check the authorizer to ensure we don't let
         // users without admin perms create forms etc
