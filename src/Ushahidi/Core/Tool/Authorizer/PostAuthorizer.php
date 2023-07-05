@@ -72,7 +72,7 @@ class PostAuthorizer implements Authorizer
     }
 
     /* Authorizer */
-    public function isAllowed(Post $post, $privilege)
+    public function isAllowed(Entity $post, $privilege)
     {
         // These checks are run within the user context.
         $user = $this->getUser();
