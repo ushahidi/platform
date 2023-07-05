@@ -5,7 +5,7 @@ namespace Ushahidi\Modules\V5\Actions\Layer\Commands;
 use App\Bus\Command\Command;
 use Ushahidi\Modules\V5\Models\Layer;
 use Ushahidi\Modules\V5\Requests\LayerRequest;
-use Ushahidi\Core\Entity\Layer as LayerEntity;
+use Ushahidi\Core\Ohanzee\Entities\Layer as LayerEntity;
 use Illuminate\Support\Facades\Auth;
 use Ushahidi\Modules\V5\Helpers\ParameterUtilities;
 

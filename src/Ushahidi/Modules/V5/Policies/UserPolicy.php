@@ -9,7 +9,7 @@ use Ushahidi\Authzn\GenericUser as User;
 use Ushahidi\Core\Concerns\PrivateDeployment;
 use Ushahidi\Core\Concerns\Acl as AccessControl;
 use Ushahidi\Modules\V5\Models\User as EloquentUser;
-use Ushahidi\Core\Ohanzee\Entities\User as StaticUser;
+use Ushahidi\Core\Ohanzee\Entities\User as OhanzeeUser;
 
 class UserPolicy
 {
@@ -29,20 +29,20 @@ class UserPolicy
 
     public function index(User $user): bool
     {
-        $empty_model_user = new StaticUser();
+        $empty_model_user = new OhanzeeUser();
         return $this->isAllowed($empty_model_user, 'search');
     }
 
     public function show(User $user, EloquentUser $eloquentUser): bool
     {
-        $entity = new StaticUser();
+        $entity = new OhanzeeUser();
         $entity->setState($eloquentUser->toArray());
         return $this->isAllowed($entity, 'read');
     }
 
     public function delete(User $user, EloquentUser $eloquentUser): bool
     {
-        $entity = new StaticUser();
+        $entity = new OhanzeeUser();
         $entity->setState($eloquentUser->toArray());
 
         return $this->isAllowed($entity, 'delete');
@@ -50,7 +50,7 @@ class UserPolicy
 
     public function update(User $user, EloquentUser $eloquentUser): bool
     {
-        $entity = new StaticUser();
+        $entity = new OhanzeeUser();
         $entity->setState($eloquentUser->toArray());
 
         return $this->isAllowed($entity, 'update');

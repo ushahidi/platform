@@ -9,7 +9,7 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Ushahidi\Core\Entity;
+namespace Ushahidi\Core\Ohanzee\Entities;
 
 use Illuminate\Support\Facades\Auth;
 use Ushahidi\Core\StaticEntity;

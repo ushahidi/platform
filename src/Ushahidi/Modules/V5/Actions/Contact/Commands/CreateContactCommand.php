@@ -6,7 +6,7 @@ use App\Bus\Command\Command;
 use Ushahidi\Modules\V5\Models\Contact;
 use Ushahidi\Modules\V5\Requests\ContactRequest;
 use Illuminate\Support\Facades\Auth;
-use Ushahidi\Core\Entity\Contact as ContactEntity;
+use Ushahidi\Core\Ohanzee\Entities\Contact as ContactEntity;
 use Ushahidi\Modules\V5\Models\Stage;
 
 class CreateContactCommand implements Command
@@ -17,7 +17,7 @@ class CreateContactCommand implements Command
     private $contact_entity;
 
 
-    
+
 
     public function __construct(ContactEntity $contact_entity)
     {

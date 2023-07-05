@@ -5,7 +5,7 @@ namespace Ushahidi\Modules\V5\Actions\Message\Commands;
 use App\Bus\Command\Command;
 use Ushahidi\Modules\V5\Models\Message;
 use Ushahidi\Modules\V5\Requests\MessageRequest;
-use Ushahidi\Core\Entity\Message as MessageEntity;
+use Ushahidi\Core\Ohanzee\Entities\Message as MessageEntity;
 use Illuminate\Support\Facades\Auth;
 use Ushahidi\Modules\V5\Helpers\ParameterUtilities;
 

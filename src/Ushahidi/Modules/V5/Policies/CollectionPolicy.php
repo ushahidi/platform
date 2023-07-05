@@ -4,8 +4,8 @@ namespace Ushahidi\Modules\V5\Policies;
 
 use App\Bus\Query\QueryBus;
 use Ushahidi\Authzn\GenericUser as User;
-use Ushahidi\Core\Ohanzee\Entities\Set as StaticSet;
-use Ushahidi\Modules\V5\Models\Set;
+use Ushahidi\Core\Ohanzee\Entities\Set as OhanzeeSet;
+use Ushahidi\Modules\V5\Models\Set as EloquentSet;
 use Ushahidi\Core\Entity\Permission;
 use Ushahidi\Core\Concerns\AdminAccess;
 use Ushahidi\Core\Concerns\UserContext;
@@ -52,27 +52,27 @@ class CollectionPolicy
      */
     public function index()
     {
-        $set_entity = new StaticSet();
+        $set_entity = new OhanzeeSet();
         return $this->isAllowed($set_entity, 'search');
     }
 
-    public function show(User $user, Set $set)
+    public function show(User $user, EloquentSet $set)
     {
-        $set_entity = new StaticSet();
+        $set_entity = new OhanzeeSet();
         $set_entity->setState($set->toArray());
         return $this->isAllowed($set_entity, 'read');
     }
 
-    public function delete(User $user, Set $set)
+    public function delete(User $user, EloquentSet $set)
     {
-        $set_entity = new StaticSet();
+        $set_entity = new OhanzeeSet();
         $set_entity->setState($set->toArray());
         return $this->isAllowed($set_entity, 'delete');
     }
 
-    public function update(User $user, Set $set)
+    public function update(User $user, EloquentSet $set)
     {
-        $set_entity = new StaticSet();
+        $set_entity = new OhanzeeSet();
         $set_entity->setState($set->toArray());
         return $this->isAllowed($set_entity, 'update');
     }
@@ -80,7 +80,7 @@ class CollectionPolicy
     public function store()
     {
         // we convert to a form entity to be able to continue using the old authorizers and classes.
-        $set_entity = new StaticSet();
+        $set_entity = new OhanzeeSet();
         return $this->isAllowed($set_entity, 'create');
     }
 
@@ -105,7 +105,7 @@ class CollectionPolicy
         // Non-admin users are not allowed to make sets featured
         $old_values = [];
         if ($entity->id) {
-            $old_set = Set::where('id', '=', $entity->id)->first();
+            $old_set = EloquentSet::where('id', '=', $entity->id)->first();
             $old_values = $old_set->toArray();
         }
         if (in_array($privilege, ['create', 'update'])
@@ -148,7 +148,7 @@ class CollectionPolicy
         return false;
     }
 
-    protected function isVisibleToUser(StaticSet $entity, $user)
+    protected function isVisibleToUser(OhanzeeSet $entity, $user)
     {
         if ($entity->role) {
             return in_array($user->role, $entity->role);

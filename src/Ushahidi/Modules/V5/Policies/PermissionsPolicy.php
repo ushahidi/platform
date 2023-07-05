@@ -2,7 +2,7 @@
 
 namespace Ushahidi\Modules\V5\Policies;
 
-use Ushahidi\Modules\V5\Models\Permissions;
+use Ushahidi\Modules\V5\Models\Permissions as EloquentPermissions;
 use Ushahidi\Authzn\GenericUser as User;
 use Ushahidi\Core\Concerns\AdminAccess;
 use Ushahidi\Core\Concerns\PrivAccess;
@@ -22,61 +22,38 @@ class PermissionsPolicy
 
     protected $user;
 
-    /**
-     * @param User $user
-     * @return bool
-     */
     public function index(User $user):bool
     {
-        $empty_permissions = new Permissions();
+        $empty_permissions = new EloquentPermissions();
         return $this->isAllowed($empty_permissions, 'search', $user);
     }
 
-    /**
-     * @param User $user
-     * @param Permissions $permissions
-     * @return bool
-     */
-    public function show(User $user, Permissions $permissions):bool
+    public function show(User $user, EloquentPermissions $permissions):bool
     {
         return $this->isAllowed($permissions, 'read', $user);
     }
 
-    /**
-     * @param User $user
-     * @param Permissions $permissions
-     * @return bool
-     */
-    public function delete(User $user, Permissions $permissions):bool
+    public function delete(User $user, EloquentPermissions $permissions):bool
     {
         return $this->isAllowed($permissions, 'delete', $user);
     }
-    /**
-     * @param User $user
-     * @param Permissions $permissions
-     * @return bool
-     */
-    public function update(User $user, Permissions $permissions):bool
+
+    public function update(User $user, EloquentPermissions $permissions):bool
     {
         return $this->isAllowed($permissions, 'update', $user);
     }
 
 
-    /**
-     * @param User $user
-     * @param Permissions $permissions
-     * @return bool
-     */
     public function store(User $user):bool
     {
-        $permissions = new Permissions();
+        $permissions = new EloquentPermissions();
         return $this->isAllowed($permissions, 'create', $user);
     }
 
     /**
-     * @param Permissions $permissions
+     * @param EloquentPermissions $permissions
      * @param string $privilege
-     * @param user $user
+     * @param User $user
      * @return bool
      */
     public function isAllowed($permissions, $privilege, $user = null):bool

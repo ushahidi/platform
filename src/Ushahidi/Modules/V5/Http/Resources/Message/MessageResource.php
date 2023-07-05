@@ -2,7 +2,7 @@
 namespace Ushahidi\Modules\V5\Http\Resources\Message;
 
 use Illuminate\Http\Resources\Json\JsonResource as Resource;
-use Ushahidi\Core\Entity\Message as MessageEntity;
+use Ushahidi\Core\Ohanzee\Entities\Message as MessageEntity;
 
 
 use App\Bus\Query\QueryBus;

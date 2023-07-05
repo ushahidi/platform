@@ -3,16 +3,15 @@
 namespace Ushahidi\Modules\V5\Policies;
 
 use Ushahidi\Authzn\GenericUser as User;
-use Ushahidi\Core\Entity;
-use Ushahidi\Modules\V5\Models\SetPost;
-use Ushahidi\Contracts\Permission;
+use Ushahidi\Core\Ohanzee\Entities\SetPost as OhanzeeSetPost;
+use Ushahidi\Modules\V5\Models\SetPost as EloquentSetPost;
+use Ushahidi\Core\Entity\Permission;
 use Ushahidi\Core\Concerns\AdminAccess;
 use Ushahidi\Core\Concerns\UserContext;
 use Ushahidi\Core\Concerns\PrivAccess;
 use Ushahidi\Core\Concerns\PrivateDeployment;
 use Ushahidi\Core\Concerns\OwnerAccess;
 use Ushahidi\Core\Concerns\Acl as AccessControlList;
-use Illuminate\Support\Facades\Auth;
 use App\Bus\Query\QueryBus;
 use Ushahidi\Modules\V5\Actions\Collection\Queries\FetchCollectionByIdQuery;
 
@@ -44,49 +43,31 @@ class CollectionPostPolicy
     {
         $this->queryBus = $queryBus;
     }
-    /**
-     *
-     * @return bool
-     */
+
     public function index()
     {
-        $set_post_entity = new Entity\SetPost();
+        $set_post_entity = new OhanzeeSetPost();
         return $this->isAllowed($set_post_entity, 'search');
     }
 
-    /**
-     *
-     * @param User $user
-     * @param SetPost $set_post
-     * @return bool
-     */
-    public function show(User $user, SetPost $set_post)
+    public function show(User $user, EloquentSetPost $set_post)
     {
-        $set_post_entity = new Entity\SetPost();
+        $set_post_entity = new OhanzeeSetPost();
         $set_post_entity->setState($set_post->toArray());
         return $this->isAllowed($set_post_entity, 'read');
     }
 
-    /**
-     *
-     * @param GenericUser $user
-     * @param SetPost $set_post
-     * @return bool
-     */
-    public function delete(User $user, SetPost $set_post)
+    public function delete(User $user, EloquentSetPost $set_post)
     {
-        $set_post_entity = new Entity\SetPost();
+        $set_post_entity = new OhanzeeSetPost();
         $set_post_entity->setState($set_post->toArray());
         return $this->isAllowed($set_post_entity, 'delete');
     }
-    /**
-     * @param SetPost $set
-     * @return bool
-     */
-    public function store(User $user, SetPost $set_post)
+
+    public function store(User $user, EloquentSetPost $set_post)
     {
         // we convert to a form entity to be able to continue using the old authorizers and classes.
-        $set_post_entity = new Entity\SetPost();
+        $set_post_entity = new OhanzeeSetPost();
         $set_post_entity->setState($set_post->toArray());
         return $this->isAllowed($set_post_entity, 'create');
     }
@@ -103,7 +84,7 @@ class CollectionPostPolicy
         // These checks are run within the user context.
         $user = $authorizer->getUser();
         //$user = Auth::user();
-       
+
         // Only logged in users have access if the deployment is private
 
         if (!$this->canAccessDeployment($user)) {

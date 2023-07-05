@@ -3,8 +3,8 @@
 namespace Ushahidi\Modules\V5\Policies;
 
 use Ushahidi\Authzn\GenericUser as User;
-use Ushahidi\Core\Ohanzee\Entities;
-use Ushahidi\Modules\V5\Models\Survey;
+use Ushahidi\Core\Ohanzee\Entities\Form as OhanzeeForm;
+use Ushahidi\Modules\V5\Models\Survey as EloquentSurvey;
 use Ushahidi\Core\Entity\Permission;
 use Ushahidi\Core\Concerns\AdminAccess;
 use Ushahidi\Core\Concerns\UserContext;
@@ -37,39 +37,39 @@ class SurveyPolicy
 
     public function index()
     {
-        $empty_form = new Entities\Form();
+        $empty_form = new OhanzeeForm();
         return $this->isAllowed($empty_form, 'search');
     }
 
-    public function show(User $user, Survey $survey)
+    public function show(User $user, EloquentSurvey $survey)
     {
-        $form = new Entities\Form($survey->toArray());
+        $form = new OhanzeeForm($survey->toArray());
         return $this->isAllowed($form, 'read');
     }
 
-    public function delete(User $user, Survey $survey)
+    public function delete(User $user, EloquentSurvey $survey)
     {
-        $form = new Entities\Form($survey->toArray());
+        $form = new OhanzeeForm($survey->toArray());
         return $this->isAllowed($form, 'delete');
     }
 
-    public function update(User $user, Survey $survey)
+    public function update(User $user, EloquentSurvey $survey)
     {
         // we convert to a form entity to be able to continue using the old authorizers and classes.
-        $form = new Entities\Form($survey->toArray());
+        $form = new OhanzeeForm($survey->toArray());
         return $this->isAllowed($form, 'update');
     }
 
     public function store()
     {
         // we convert to a form entity to be able to continue using the old authorizers and classes.
-        $form = new Entities\Form();
+        $form = new OhanzeeForm();
         return $this->isAllowed($form, 'create');
     }
 
     public function stats()
     {
-        $empty_form = new Entities\Form();
+        $empty_form = new OhanzeeForm();
         return $this->isAllowed($empty_form, 'stats');
     }
 
@@ -115,7 +115,7 @@ class SurveyPolicy
         return false;
     }
 
-    protected function isFormDisabled(Entities\Form $entity)
+    protected function isFormDisabled(OhanzeeForm $entity)
     {
         return (bool) $entity->disabled;
     }

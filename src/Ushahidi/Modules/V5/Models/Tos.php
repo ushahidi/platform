@@ -19,7 +19,7 @@ class Tos extends BaseModel
     protected $table = 'tos';
 
 
-    
+
     /**
      * The attributes that are mass assignable.
      *

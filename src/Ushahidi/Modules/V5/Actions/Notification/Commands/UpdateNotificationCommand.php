@@ -5,7 +5,7 @@ namespace Ushahidi\Modules\V5\Actions\Notification\Commands;
 use App\Bus\Command\Command;
 use Ushahidi\Modules\V5\Models\Notification;
 use Ushahidi\Modules\V5\Requests\NotificationRequest;
-use Ushahidi\Core\Entity\Notification as NotificationEntity;
+use Ushahidi\Core\Ohanzee\Entities\Notification as NotificationEntity;
 use Illuminate\Support\Facades\Auth;
 use Ushahidi\Modules\V5\Helpers\ParameterUtilities;
 

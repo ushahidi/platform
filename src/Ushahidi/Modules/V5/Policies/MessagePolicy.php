@@ -2,16 +2,16 @@
 
 namespace Ushahidi\Modules\V5\Policies;
 
-use Ushahidi\Authzn\GenericUser as User;
-use Ushahidi\Core\Entity;
-use Ushahidi\Modules\V5\Models\Message;
-use Ushahidi\Contracts\Permission;
-use Ushahidi\Core\Concerns\AdminAccess;
-use Ushahidi\Core\Concerns\UserContext;
+use Ushahidi\Core\Entity\Permission;
 use Ushahidi\Core\Concerns\PrivAccess;
-use Ushahidi\Core\Concerns\PrivateDeployment;
+use Ushahidi\Core\Concerns\AdminAccess;
 use Ushahidi\Core\Concerns\OwnerAccess;
+use Ushahidi\Core\Concerns\UserContext;
+use Ushahidi\Authzn\GenericUser as User;
+use Ushahidi\Core\Concerns\PrivateDeployment;
 use Ushahidi\Core\Concerns\Acl as AccessControlList;
+use Ushahidi\Modules\V5\Models\Message as EloquentMessage;
+use Ushahidi\Core\Ohanzee\Entities\Message as OhanzeeMessage;
 
 class MessagePolicy
 {
@@ -31,75 +31,50 @@ class MessagePolicy
 
     // Check that the user has the necessary permissions
     use AccessControlList;
-    
+
     use OwnerAccess;
 
     protected $user;
 
-    private function getEntity(Message $message)
+    private function getEntity(EloquentMessage $message)
     {
         $data = $message->toArray();
         $data['contact_type'] = $data['contact']['type'];
         $data['contact'] = $data['contact']['contact'];
-        return new Entity\Message($data);
+        return new OhanzeeMessage($data);
     }
-    /**
-     *
-     * @param  \Ushahidi\Modules\User  $user
-     * @return bool
-     */
+
     public function index()
     {
-        $empty_message_entity = new Entity\Message();
+        $empty_message_entity = new OhanzeeMessage();
         return $this->isAllowed($empty_message_entity, 'search');
     }
 
-    /**
-     *
-     * @param GenericUser $user
-     * @param Message $message
-     * @return bool
-     */
-    public function show(User $user, Message $message)
+    public function show(User $user, EloquentMessage $message)
     {
         $message_entity = $this->getEntity($message);
         return $this->isAllowed($message_entity, 'read');
     }
 
-    /**
-     *
-     * @param GenericUser $user
-     * @param Message $message
-     * @return bool
-     */
-    public function delete(User $user, Message $message)
+    public function delete(User $user, EloquentMessage $message)
     {
-        $message_entity = new Entity\Message($message->toArray());
+        $message_entity = new OhanzeeMessage($message->toArray());
         return $this->isAllowed($message_entity, 'delete');
     }
-    /**
-     * @param Message $message
-     * @return bool
-     */
-    public function update(User $user, Message $message)
+
+    public function update(User $user, EloquentMessage $message)
     {
         // we convert to a Message entity to be able to continue using the old authorizers and classes.
         $message_entity = $this->getEntity($message);
         return $this->isAllowed($message_entity, 'update');
     }
 
-
-    /**
-     * @param Message $message
-     * @return bool
-     */
-    public function store(User $user, Message $message)
+    public function store(User $user, EloquentMessage $message)
     {
         // we convert to a message_entity entity to be able to continue using the old authorizers and classes.
-        $message_entity = new Entity\Message($message->toArray());
+        $message_entity = new OhanzeeMessage($message->toArray());
         return $this->isAllowed($message_entity, 'create');
     }
-
 
     /**
      * @param $entity

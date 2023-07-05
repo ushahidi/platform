@@ -2,7 +2,7 @@
 namespace Ushahidi\Modules\V5\Http\Resources\Contact;
 
 use Illuminate\Http\Resources\Json\JsonResource as Resource;
-use Ushahidi\Core\Entity\Contact as ContactEntity;
+use Ushahidi\Core\Ohanzee\Entities\Contact as ContactEntity;
 
 
 use App\Bus\Query\QueryBus;

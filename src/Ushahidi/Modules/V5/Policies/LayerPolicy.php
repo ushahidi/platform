@@ -3,8 +3,8 @@
 namespace Ushahidi\Modules\V5\Policies;
 
 use Ushahidi\Authzn\GenericUser as User;
-use Ushahidi\Core\Entity;
-use Ushahidi\Modules\V5\Models\Layer;
+use Ushahidi\Core\Ohanzee\Entities\Layer as OhanzeeLayer;
+use Ushahidi\Modules\V5\Models\Layer as EloquentLayer;
 use Ushahidi\Contracts\Permission;
 use Ushahidi\Core\Concerns\AdminAccess;
 use Ushahidi\Core\Concerns\UserContext;
@@ -31,66 +31,42 @@ class LayerPolicy
 
     // Check that the user has the necessary permissions
     use AccessControlList;
-    
+
     use OwnerAccess;
 
     protected $user;
 
 
-    /**
-     *
-     * @param  \Ushahidi\Modules\User  $user
-     * @return bool
-     */
     public function index()
     {
-        $empty_layer_entity = new Entity\Layer();
+        $empty_layer_entity = new OhanzeeLayer();
         return $this->isAllowed($empty_layer_entity, 'search');
     }
 
-    /**
-     *
-     * @param GenericUser $user
-     * @param Layer $layer
-     * @return bool
-     */
-    public function show(User $user, Layer $layer)
+    public function show(User $user, EloquentLayer $layer)
     {
-        $layer_entity = new Entity\Layer($layer->toArray());
+        $layer_entity = new OhanzeeLayer($layer->toArray());
         return $this->isAllowed($layer_entity, 'read');
     }
 
-    /**
-     *
-     * @param GenericUser $user
-     * @param Layer $layer
-     * @return bool
-     */
-    public function delete(User $user, Layer $layer)
+    public function delete(User $user, EloquentLayer $layer)
     {
-        $layer_entity = new Entity\Layer($layer->toArray());
+        $layer_entity = new OhanzeeLayer($layer->toArray());
         return $this->isAllowed($layer_entity, 'delete');
     }
-    /**
-     * @param Layer $layer
-     * @return bool
-     */
-    public function update(User $user, Layer $layer)
+
+    public function update(User $user, EloquentLayer $layer)
     {
         // we convert to a Layer entity to be able to continue using the old authorizers and classes.
-        $layer_entity = new Entity\Layer($layer->toArray());
+        $layer_entity = new OhanzeeLayer($layer->toArray());
         return $this->isAllowed($layer_entity, 'update');
     }
 
 
-    /**
-     * @param Layer $layer
-     * @return bool
-     */
-    public function store(User $user, Layer $layer)
+    public function store(User $user, EloquentLayer $layer)
     {
         // we convert to a layer_entity entity to be able to continue using the old authorizers and classes.
-        $layer_entity = new Entity\Layer($layer->toArray());
+        $layer_entity = new OhanzeeLayer($layer->toArray());
         return $this->isAllowed($layer_entity, 'create');
     }
 

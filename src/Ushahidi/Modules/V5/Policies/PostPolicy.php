@@ -2,19 +2,20 @@
 
 namespace Ushahidi\Modules\V5\Policies;
 
-use Ushahidi\Core\Ohanzee\Entities;
-use Ushahidi\Core\Entity\Permission;
+use Ushahidi\Contracts\Entity as EntityContract;
 use Ushahidi\Core\Concerns\PrivAccess;
+use Ushahidi\Core\Concerns\ParentAccess;
 use Ushahidi\Core\Concerns\AdminAccess;
 use Ushahidi\Core\Concerns\OwnerAccess;
 use Ushahidi\Core\Concerns\UserContext;
 use Ushahidi\Core\Concerns\Acl as AccessControl;
-use Ushahidi\Authzn\GenericUser as User;
-use Ushahidi\Core\Concerns\ParentAccess;
-use Ushahidi\Modules\V5\Models\Survey;
-use Ushahidi\Modules\V5\Models\Post\Post;
 use Ushahidi\Core\Concerns\PrivateDeployment;
-use Ushahidi\Contracts\Entity as EntityContract;
+use Ushahidi\Core\Entity\Permission;
+use Ushahidi\Core\Ohanzee\Entities\Post as OhanzeePost;
+use Ushahidi\Core\Ohanzee\Entities\Form as OhanzeeForm;
+use Ushahidi\Authzn\GenericUser as User;
+use Ushahidi\Modules\V5\Models\Survey as EloquentSurvey;
+use Ushahidi\Modules\V5\Models\Post\Post as EloquentPost;
 
 class PostPolicy
 {
@@ -48,39 +49,39 @@ class PostPolicy
 
     public function index()
     {
-        $empty_form = new Entities\Form();
+        $empty_form = new OhanzeeForm();
         return $this->isAllowed($empty_form, 'search');
     }
 
-    public function show(User $user, Survey $survey)
+    public function show(User $user, EloquentSurvey $survey)
     {
-        $form = new Entities\Form($survey->toArray());
+        $form = new OhanzeeForm($survey->toArray());
         return $this->isAllowed($form, 'read');
     }
 
-    public function delete(User $user, Post $post)
+    public function delete(User $user, EloquentPost $post)
     {
-        $post = new Entities\Post($post->toArray());
+        $post = new OhanzeePost($post->toArray());
         return $this->isAllowed($post, 'delete');
     }
 
-    public function update(User $user, Post $post)
+    public function update(User $user, EloquentPost $post)
     {
-        $post = new Entities\Post($post->toArray());
+        $post = new OhanzeePost($post->toArray());
         // we convert to a form entity to be able to continue using the old authorizers and classes.
         return $this->isAllowed($post, 'update');
     }
 
-    public function patch(User $user, Post $post)
+    public function patch(User $user, EloquentPost $post)
     {
-        $post = new Entities\Post($post->toArray());
+        $post = new OhanzeePost($post->toArray());
         // we convert to a form entity to be able to continue using the old authorizers and classes.
         return $this->isAllowed($post, 'update');
     }
 
-    public function changeStatus(User $user, Post $post)
+    public function changeStatus(User $user, EloquentPost $post)
     {
-        $post = new Entities\Post($post->toArray());
+        $post = new OhanzeePost($post->toArray());
         // we convert to a form entity to be able to continue using the old authorizers and classes.
         return $this->isAllowed($post, 'update');
     }
@@ -88,7 +89,7 @@ class PostPolicy
     public function store(User $user, $form_id, $user_id)
     {
         // we convert to a form entity to be able to continue using the old authorizers and classes.
-        $post = new Entities\Post(['form_id' => $form_id, 'user_id' => $user_id]);
+        $post = new OhanzeePost(['form_id' => $form_id, 'user_id' => $user_id]);
         return $this->isAllowed($post, 'create');
     }
 
@@ -194,7 +195,7 @@ class PostPolicy
         return false;
     }
 
-    protected function isFormDisabled(Entities\Post $entity)
+    protected function isFormDisabled(OhanzeePost $entity)
     {
         return (bool) $entity->disabled;
     }
@@ -203,8 +204,8 @@ class PostPolicy
     {
         // If the post has a parent_id, we attempt to load it from the `PostRepository`
         if ($entity->parent_id) {
-            $parent = Post::find($entity->parent_id);
-            return new Entities\Post($parent->toArray());
+            $parent = EloquentPost::find($entity->parent_id);
+            return new OhanzeePost($parent->toArray());
         }
 
         return false;

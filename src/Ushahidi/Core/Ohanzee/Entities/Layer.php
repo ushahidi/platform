@@ -12,9 +12,10 @@
 namespace Ushahidi\Core\Ohanzee\Entities;
 
 use Ushahidi\Core\StaticEntity;
+use Ushahidi\Core\Entity\Layer as EntityLayer;
 
 // The layer entity is used to store map overlays
-class Layer extends StaticEntity
+class Layer extends StaticEntity implements EntityLayer
 {
     protected $id;
     // A layer needs a name so we can list it in the layer control

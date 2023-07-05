@@ -2,7 +2,7 @@
 namespace Ushahidi\Modules\V5\Http\Resources\Layer;
 
 use Illuminate\Http\Resources\Json\JsonResource as Resource;
-use Ushahidi\Core\Entity\Layer as LayerEntity;
+use Ushahidi\Core\Ohanzee\Entities\Layer as LayerEntity;
 
 
 use App\Bus\Query\QueryBus;

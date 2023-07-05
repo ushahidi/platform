@@ -7,7 +7,7 @@ use Illuminate\Support\Collection;
 use Ushahidi\Modules\V5\Models\Layer;
 use Ushahidi\Modules\V5\DTO\Paging;
 use Ushahidi\Modules\V5\DTO\LayerSearchFields;
-use Ushahidi\Core\Entity\Layer as LayerEntity;
+use Ushahidi\Core\Ohanzee\Entities\Layer as LayerEntity;
 
 interface LayerRepository
 {
