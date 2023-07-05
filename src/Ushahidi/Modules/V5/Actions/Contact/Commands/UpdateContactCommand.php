@@ -3,9 +3,10 @@
 namespace Ushahidi\Modules\V5\Actions\Contact\Commands;
 
 use App\Bus\Command\Command;
-use Ushahidi\Modules\V5\Models\Contact;
 use Ushahidi\Modules\V5\Requests\ContactRequest;
 use Ushahidi\Core\Entity\Contact as ContactEntity;
+use Ushahidi\Core\Ohanzee\Entities\Contact as OhanzeeContact;
+use Ushahidi\Modules\V5\Models\Contact as EloquentContact;
 use Illuminate\Support\Facades\Auth;
 use Ushahidi\Modules\V5\Helpers\ParameterUtilities;
 
@@ -29,7 +30,7 @@ class UpdateContactCommand implements Command
         $this->contact_entity = $contact_entity;
     }
 
-    public static function fromRequest(int $id, ContactRequest $request, Contact $current_contact): self
+    public static function fromRequest(int $id, ContactRequest $request, EloquentContact $current_contact): self
     {
         $user = Auth::user();
         if (self::hasPermissionToUpdateUser($user)) {
@@ -47,7 +48,7 @@ class UpdateContactCommand implements Command
         $input['created'] = strtotime($current_contact->created);
         $input['updated'] = time();
 
-        return new self($id, new ContactEntity($input));
+        return new self($id, new OhanzeeContact($input));
     }
     private static function hasPermissionToUpdateUser($user)
     {

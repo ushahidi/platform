@@ -12,8 +12,9 @@
 namespace Ushahidi\Core\Ohanzee\Entities;
 
 use Ushahidi\Core\StaticEntity;
+use Ushahidi\Core\Entity\Notification as NotificationEntity;
 
-class Notification extends StaticEntity
+class Notification extends StaticEntity implements NotificationEntity
 {
     protected $id;
     protected $user_id;

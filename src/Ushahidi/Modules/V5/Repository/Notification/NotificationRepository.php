@@ -36,8 +36,6 @@ interface NotificationRepository
 
     /**
      * This method will create a Notification
-     * @param NotificationEntity $entity
-     * @return int
      */
     public function create(NotificationEntity $entity): int;
 

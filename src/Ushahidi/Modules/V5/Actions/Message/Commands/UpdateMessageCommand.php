@@ -3,9 +3,10 @@
 namespace Ushahidi\Modules\V5\Actions\Message\Commands;
 
 use App\Bus\Command\Command;
-use Ushahidi\Modules\V5\Models\Message;
 use Ushahidi\Modules\V5\Requests\MessageRequest;
-use Ushahidi\Core\Ohanzee\Entities\Message as MessageEntity;
+use Ushahidi\Modules\V5\Models\Message as EloquentMessage;
+use Ushahidi\Core\Entity\Message as MessageEntity;
+use Ushahidi\Core\Ohanzee\Entities\Message as OhanzeeMessage;
 use Illuminate\Support\Facades\Auth;
 use Ushahidi\Modules\V5\Helpers\ParameterUtilities;
 
@@ -29,7 +30,7 @@ class UpdateMessageCommand implements Command
         $this->message_entity = $message_entity;
     }
 
-    public static function fromRequest(int $id, MessageRequest $request, Message $current_message): self
+    public static function fromRequest(int $id, MessageRequest $request, EloquentMessage $current_message): self
     {
         $user = Auth::user();
         if (self::hasPermissionToUpdateUser($user)) {
@@ -54,7 +55,7 @@ class UpdateMessageCommand implements Command
             ?? $current_message->notification_post_id;
         $input['created'] = strtotime($current_message->created);
 
-        return new self($id, new MessageEntity($input));
+        return new self($id, new OhanzeeMessage($input));
     }
     private static function hasPermissionToUpdateUser($user)
     {

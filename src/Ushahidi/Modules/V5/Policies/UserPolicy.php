@@ -58,7 +58,7 @@ class UserPolicy
 
     public function store(User $user): bool
     {
-        $entity = new StaticUser();
+        $entity = new OhanzeeUser();
         return $this->isAllowed($entity, 'create');
     }
 
