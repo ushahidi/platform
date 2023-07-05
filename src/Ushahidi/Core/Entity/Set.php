@@ -12,8 +12,12 @@
 namespace Ushahidi\Core\Entity;
 
 use Ushahidi\Contracts\Entity;
+use Ushahidi\Contracts\OwnableEntity;
 
-interface Set extends Entity
+/**
+ * @property string $name
+ */
+interface Set extends Entity, OwnableEntity
 {
 
 }

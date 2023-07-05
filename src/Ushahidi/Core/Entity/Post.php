@@ -11,8 +11,15 @@
 namespace Ushahidi\Core\Entity;
 
 use Ushahidi\Contracts\Entity;
+use Ushahidi\Contracts\OwnableEntity;
+use Ushahidi\Contracts\ParentableEntity;
 
-interface Post extends Entity
+/**
+ * @property int|string|null $form_id The id of the form this post belongs to
+ * @property string $status The status of this post
+ * @property array $published_to The list of roles that can access this post
+ */
+interface Post extends Entity, OwnableEntity, ParentableEntity
 {
     const DEFAULT_STATUS = 'draft';
     const DEFAULT_LOCAL = 'en_US';

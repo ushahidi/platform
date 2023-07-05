@@ -11,17 +11,20 @@
 
 namespace Ushahidi\Core\Tool\Authorizer;
 
-use Ushahidi\Core\Concerns\Acl;
+use Ushahidi\Core\Entity\Tag;
 use Ushahidi\Contracts\Entity;
+use Ushahidi\Core\Entity\User;
+use Ushahidi\Core\Concerns\Acl;
+use Ushahidi\Contracts\Authorizer;
 use Ushahidi\Core\Entity\Permission;
 use Ushahidi\Core\Concerns\PrivAccess;
 use Ushahidi\Core\Concerns\AdminAccess;
 use Ushahidi\Core\Concerns\UserContext;
-use Ushahidi\Contracts\Authorizer;
 use Ushahidi\Core\Entity\TagRepository;
+use Ushahidi\Contracts\ParentableEntity;
 use Ushahidi\Core\Concerns\ParentAccess;
-use Ushahidi\Core\Concerns\PrivateDeployment;
 use Ushahidi\Contracts\Repository\EntityGet;
+use Ushahidi\Core\Concerns\PrivateDeployment;
 
 // The `TagAuthorizer` class is responsible for access checks on `Tags`
 class TagAuthorizer implements Authorizer
@@ -59,9 +62,9 @@ class TagAuthorizer implements Authorizer
     }
 
     /* ParentAccess */
-    protected function getParent(Entity $entity)
+    protected function getParent(ParentableEntity $entity)
     {
-        // If the post has a parent_id, we attempt to load it from the `PostRepository`
+        // If the tag has a parent_id, we attempt to load it from the `PostRepository`
         if ($entity->parent_id) {
             return $this->tag_repo->get($entity->parent_id);
         }
@@ -69,10 +72,10 @@ class TagAuthorizer implements Authorizer
         return false;
     }
 
-    protected function isUserOfRole(Entity $entity, $user)
+    protected function isUserOfRole(Tag $tag, User $user)
     {
-        if ($entity->role) {
-            return in_array($user->role, $entity->role);
+        if ($tag->role) {
+            return in_array($user->role, $tag->role);
         }
 
         // If no roles are selected, the Tag is considered completely public.
@@ -80,7 +83,7 @@ class TagAuthorizer implements Authorizer
     }
 
     /* Authorizer */
-    public function isAllowed(Entity $entity, $privilege)
+    public function isAllowed(Tag $tag, string $privilege)
     {
         // These checks are run within the user context.
         $user = $this->getUser();
@@ -104,12 +107,12 @@ class TagAuthorizer implements Authorizer
         // We check if the user has access to a parent tag. This doesn't
         // grant them access, but is used to deny access even if the child tag
         // is public.
-        if (! $this->isAllowedParent($entity, $privilege, $user)) {
+        if (! $this->isAllowedParent($tag, $privilege)) {
             return false;
         }
 
         // Finally, we check if the Tag is only visible to specific roles.
-        if ($privilege === 'read' && $this->isUserOfRole($entity, $user)) {
+        if ($privilege === 'read' && $this->isUserOfRole($tag, $user)) {
             return true;
         }
 

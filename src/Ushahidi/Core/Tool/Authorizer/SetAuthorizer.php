@@ -11,7 +11,6 @@
 
 namespace Ushahidi\Core\Tool\Authorizer;
 
-use Ushahidi\Contracts\Entity;
 use Ushahidi\Contracts\Authorizer;
 use Ushahidi\Core\Entity\Set;
 use Ushahidi\Core\Entity\Permission;
@@ -43,10 +42,10 @@ class SetAuthorizer implements Authorizer
     // if roles are available for this deployment.
     use Acl;
 
-    protected function isVisibleToUser(Set $entity, $user)
+    protected function isVisibleToUser(Set $set, $user)
     {
-        if ($entity->role) {
-            return in_array($user->role, $entity->role);
+        if ($set->role) {
+            return in_array($user->role, $set->role);
         }
 
         // If no roles are selected, the Set is considered completely public.
@@ -54,7 +53,7 @@ class SetAuthorizer implements Authorizer
     }
 
     /* Authorizer */
-    public function isAllowed(Entity $entity, $privilege)
+    public function isAllowed(Set $set, $privilege)
     {
         // These checks are run within the user context.
         $user = $this->getUser();
@@ -76,17 +75,17 @@ class SetAuthorizer implements Authorizer
         }
 
         // Non-admin users are not allowed to make sets featured
-        if (in_array($privilege, ['create', 'update']) and $entity->hasChanged('featured')) {
+        if (in_array($privilege, ['create', 'update']) and $set->hasChanged('featured')) {
             return false;
         }
 
         // If the user is the owner of this set, they can do anything
-        if ($this->isUserOwner($entity, $user)) {
+        if ($this->isUserOwner($set, $user)) {
             return true;
         }
 
         // Check if the Set is only visible to specific roles.
-        if ($this->isVisibleToUser($entity, $user) and $privilege === 'read') {
+        if ($this->isVisibleToUser($set, $user) and $privilege === 'read') {
             return true;
         }
 

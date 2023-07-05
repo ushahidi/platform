@@ -13,6 +13,9 @@ namespace Ushahidi\Core\Entity;
 
 use Ushahidi\Contracts\Entity;
 
+/**
+ * @property string|array $role role(s) for this tag
+ */
 interface Tag extends Entity
 {
 

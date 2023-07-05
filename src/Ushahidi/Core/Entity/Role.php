@@ -12,6 +12,9 @@ namespace Ushahidi\Core\Entity;
 
 use Ushahidi\Contracts\Entity;
 
+/**
+ * @property-read array $permissions The permissions this role has
+ */
 interface Role extends Entity
 {
 }
