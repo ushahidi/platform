@@ -37,7 +37,7 @@ class MediaAuthorizer implements Authorizer
     use PrivateDeployment;
 
     /* Authorizer */
-    public function isAllowed(Entity $entity, $privilege)
+    public function isAllowed(Entity $media, $privilege)
     {
         // These checks are run within the user context.
         $user = $this->getUser();
@@ -63,7 +63,7 @@ class MediaAuthorizer implements Authorizer
         }
 
         // Owners can removed media they own.
-        if ($this->isUserOwner($entity, $user) && $privilege === 'delete') {
+        if ($this->isUserOwner($media, $user) && $privilege === 'delete') {
             return true;
         }
 

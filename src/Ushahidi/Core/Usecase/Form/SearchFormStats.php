@@ -11,16 +11,17 @@
 
 namespace Ushahidi\Core\Usecase\Form;
 
-use Ushahidi\Core\Usecase\Concerns\IdentifyRecords;
 use Ushahidi\Core\Usecase\SearchUsecase;
+use Ushahidi\Core\Concerns\IdentifyRecords;
 
 class SearchFormStats extends SearchUsecase
 {
     use IdentifyRecords;
+
     /**
      * Get filter parameters and default values that are used for paging.
      *
-     * @return Array
+     * @return array
      */
 
     // Usecase

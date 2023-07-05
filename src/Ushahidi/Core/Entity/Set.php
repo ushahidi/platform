@@ -15,7 +15,7 @@ use Ushahidi\Contracts\Entity;
 use Ushahidi\Contracts\OwnableEntity;
 
 /**
- * @property string $name
+ * @property array $role
  */
 interface Set extends Entity, OwnableEntity
 {

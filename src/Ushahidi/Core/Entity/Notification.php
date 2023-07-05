@@ -12,8 +12,12 @@
 namespace Ushahidi\Core\Entity;
 
 use Ushahidi\Contracts\Entity;
+use Ushahidi\Contracts\OwnableEntity;
 
-interface Notification extends Entity
+/**
+ * @property int $set_id
+ */
+interface Notification extends Entity, OwnableEntity
 {
 
 }

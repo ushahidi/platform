@@ -36,7 +36,7 @@ class ContactAuthorizer implements Authorizer
     use PrivateDeployment;
 
     /* Authorizer */
-    public function isAllowed(Entity $entity, $privilege)
+    public function isAllowed(Entity $contact, $privilege)
     {
         // These checks are run within the user context.
         $user = $this->getUser();
@@ -54,7 +54,7 @@ class ContactAuthorizer implements Authorizer
 
         // Allow create, read and update if owner.
         // Contacts should not be deleted.
-        if ($this->isUserOwner($entity, $user)
+        if ($this->isUserOwner($contact, $user)
             and in_array($privilege, ['create', 'read', 'update'])) {
             return true;
         }

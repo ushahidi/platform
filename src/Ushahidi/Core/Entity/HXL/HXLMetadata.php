@@ -11,9 +11,10 @@
 
 namespace Ushahidi\Core\Entity\HXL;
 
+use Ushahidi\Contracts\OwnableEntity;
 use Ushahidi\Core\StaticEntity;
 
-class HXLMetadata extends StaticEntity
+class HXLMetadata extends StaticEntity implements OwnableEntity
 {
     protected $id;
     protected $private;
