@@ -12,7 +12,7 @@
 namespace Ushahidi\Core\Usecase\Set;
 
 use Ushahidi\Contracts\Entity;
-use Ushahidi\Core\Usecase\Concerns\IdentifyRecords;
+use Ushahidi\Core\Concerns\IdentifyRecords;
 use Ushahidi\Core\Usecase\Concerns\VerifyEntityLoaded;
 use Ushahidi\Core\Usecase\CreateUsecase;
 

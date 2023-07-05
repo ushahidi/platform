@@ -11,7 +11,7 @@
 
 namespace Ushahidi\Core\Usecase\Concerns;
 
-use Ushahidi\Core\Usecase\Concerns\IdentifyRecords;
+use Ushahidi\Core\Concerns\IdentifyRecords;
 use Ushahidi\Core\Usecase\Concerns\VerifyEntityLoaded;
 
 trait VerifyParentLoaded

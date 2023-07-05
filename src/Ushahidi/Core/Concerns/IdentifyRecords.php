@@ -16,12 +16,12 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Ushahidi\Core\Usecase\Concerns;
+namespace Ushahidi\Core\Concerns;
 
 trait IdentifyRecords
 {
     /**
-     * @var Array
+     * @var array
      */
     protected $identifiers = [];
 
@@ -32,7 +32,7 @@ trait IdentifyRecords
      *         'id' => 5,
      *     ]);
      *
-     * @param  Array $identifiers
+     * @param  array $identifiers
      * @return $this
      */
     public function setIdentifiers(array $identifiers)
@@ -45,9 +45,9 @@ trait IdentifyRecords
      * Get a parameter by name. A default value can be provided, which will be
      * returned if the parameter does not exist.
      *
-     * @param  String $name
-     * @param  Mixed  $default
-     * @return Mixed
+     * @param  string $name
+     * @param  mixed  $default
+     * @return mixed
      */
     protected function getIdentifier($name, $default = null)
     {
@@ -62,8 +62,8 @@ trait IdentifyRecords
      * an exception will be thrown.
      *
      * @throws \InvalidArgumentException
-     * @param  String $name
-     * @return Mixed
+     * @param  string $name
+     * @return mixed
      */
     protected function getRequiredIdentifier($name)
     {

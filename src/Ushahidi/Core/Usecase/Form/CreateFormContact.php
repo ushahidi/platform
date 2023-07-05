@@ -13,7 +13,7 @@ namespace Ushahidi\Core\Usecase\Form;
 
 use Ushahidi\Core\Exception\ValidatorException;
 use Ushahidi\Core\Usecase\Contact\CreateContact;
-use Ushahidi\Core\Usecase\Concerns\IdentifyRecords;
+use Ushahidi\Core\Concerns\IdentifyRecords;
 use Ushahidi\Core\Usecase\Concerns\VerifyFormLoaded;
 use Ushahidi\Core\Usecase\Concerns\VerifyEntityLoaded;
 

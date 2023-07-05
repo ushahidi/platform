@@ -13,8 +13,8 @@ namespace Ushahidi\Core\Usecase;
 
 use Ushahidi\Contracts\Entity;
 use Ushahidi\Contracts\Usecase;
-use Ushahidi\Core\Usecase\Concerns\IdentifyRecords;
-use Ushahidi\Core\Usecase\Concerns\ModifyRecords;
+use Ushahidi\Core\Concerns\IdentifyRecords;
+use Ushahidi\Core\Concerns\ModifyRecords;
 use Ushahidi\Contracts\Repository\UpdateRepository;
 use Ushahidi\Core\Usecase\Concerns\Formatter as FormatterTrait;
 use Ushahidi\Core\Usecase\Concerns\Validator as ValidatorTrait;

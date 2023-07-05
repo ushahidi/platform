@@ -13,11 +13,11 @@ namespace Ushahidi\Core\Usecase;
 
 use Ushahidi\Contracts\Entity;
 use Ushahidi\Contracts\Usecase;
+use Ushahidi\Core\Concerns\IdentifyRecords;
+use Ushahidi\Contracts\Repository\DeleteRepository;
 use Ushahidi\Core\Usecase\Concerns\Formatter as FormatterTrait;
 use Ushahidi\Core\Usecase\Concerns\Authorizer as AuthorizerTrait;
 use Ushahidi\Core\Usecase\Concerns\Translator as TranslatorTrait;
-use Ushahidi\Core\Usecase\Concerns\IdentifyRecords;
-use Ushahidi\Contracts\Repository\DeleteRepository;
 
 class DeleteUsecase implements Usecase
 {

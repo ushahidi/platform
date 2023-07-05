@@ -6,6 +6,7 @@ use Ushahidi\Modules\V2\Importer;
 use Ushahidi\Modules\V2\Contracts\ImportMappingRepository;
 use Ushahidi\Modules\V2\Contracts\Mapper;
 use Ushahidi\Contracts\Repository\EntityCreateMany;
+use Ushahidi\Contracts\Entity;
 use Illuminate\Support\Collection;
 use Ushahidi\Tests\TestCase;
 use Mockery as M;
