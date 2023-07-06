@@ -14,20 +14,83 @@
 
 namespace Ushahidi\Modules\V5\Models\Post;
 
+use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Input;
 use Ushahidi\Modules\V5\Models\Message;
 use Ushahidi\Modules\V5\Models\BaseModel;
 use Ushahidi\Modules\V5\Rules\StandardText;
 use Ushahidi\Modules\V5\Models\Helpers\HideTime;
 use Ushahidi\Modules\V5\Models\Helpers\HideAuthor;
+use Illuminate\Support\Facades\Request as RequestFacade;
 use Ushahidi\Core\Tool\Permissions\InteractsWithPostPermissions;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Post extends BaseModel
 {
     use InteractsWithPostPermissions;
+    use HasFactory;
+
+    public const DEFAULT_SOURCE_TYPE = "web";
+    public const REQUIRED_FIELDS = [
+        'id'
+    ];
+    
+    public const ALLOWED_FIELDS = [
+        'id',
+        'parent_id',
+        'form_id',
+        'status',
+        'user_id',
+        'type',
+        'title',
+        'slug',
+        'content',
+        'author_email',
+        'author_realname',
+        'status',
+        'published_to',
+        'locale',
+        'post_date',
+        'base_language',
+        'created',
+        'updated'
+    ];
+
+    public const ALLOWED_RELATIONSHIPS = [
+        'locks' => ['fields' => [], 'relationships' => ["locks"]],
+        'categories' => ['fields' => [], 'relationships' => ["categories"]],
+        'sets' => ['fields' => [], 'relationships' => ["sets"]],
+        'message' => ['fields' => [], 'relationships' => ['message']],
+        'contact' => ['fields' => [], 'relationships' => ['message']],
+        'completed_stages' => ['fields' => [], 'relationships' => ["postStages"]],
+        'translations' => ['fields' => [], 'relationships' => ["translations"]],
+        'enabled_languages' => ['fields' => ['base_language'], 'relationships' => ['translations']],
+        'source' => ['fields' => [], 'relationships' => ["message"]],
+        'data_source_message_id' => ['fields' => [], 'relationships' => ["message"]],
+        'post_content' => [
+            'fields' => ['form_id'],
+            'relationships' => [
+                "survey",
+                'valuesVarchar',
+                'valuesText',
+                'valuesDatetime',
+                'valuesDecimal',
+                'valuesGeometry',
+                'valuesInt',
+                'valuesMarkdown',
+                'valuesMedia',
+                'valuesPoint',
+                'valuesRelation',
+                'valuesPostsMedia',
+                // 'valuesPostsSet',
+                'valuesPostTag'
+            ]
+        ]
+
+
+    ];
 
     /**
      * This relationships aren't real, they are fabricated
@@ -39,6 +102,7 @@ class Post extends BaseModel
         'survey',
         'locks',
         'categories',
+        'Sets',
         'comments',
         'message',
         'contact',
@@ -69,7 +133,7 @@ class Post extends BaseModel
      *
      * @var string[]
      */
-    protected $with = ['message', 'translations', 'survey'];
+    // protected $with = ['message', 'translations', 'survey'];
 
     protected $translations;
     /**
@@ -106,10 +170,10 @@ class Post extends BaseModel
      * @var array
      */
     protected $attributes = [
-        'type'                => 'report',
-        'locale'              => 'en_US',
-        'published_to'        => '',
-        'status'              => PostStatus::DRAFT
+        'type' => 'report',
+        'locale' => 'en_US',
+        'published_to' => '',
+        'status' => PostStatus::DRAFT
     ];
 
     /**
@@ -119,10 +183,10 @@ class Post extends BaseModel
      */
     protected $casts = [
         'everyone_can_create' => 'boolean',
-        'hide_author'         => 'boolean',
-        'require_approval'    => 'boolean',
-        'disabled'            => 'boolean',
-        'published_to'        => 'json'
+        'hide_author' => 'boolean',
+        'require_approval' => 'boolean',
+        'disabled' => 'boolean',
+        'published_to' => 'json'
     ];
 
     private function getBulkRules()
@@ -164,60 +228,60 @@ class Post extends BaseModel
     public function validationMessages()
     {
         return [
-            'form_id.exists'                             => trans(
+            'form_id.exists' => trans(
                 'validation.exists',
                 ['field' => trans('fields.form_id')]
             ),
-            'user_id.exists'                             => trans(
+            'user_id.exists' => trans(
                 'validation.exists',
                 ['field' => trans('fields.user_id')]
             ),
-            'type.required'                             => trans(
+            'type.required' => trans(
                 'validation.required',
                 ['field' => trans('fields.type')]
             ),
-            'type.in'                             => trans(
+            'type.in' => trans(
                 'validation.in_array',
                 ['field' => trans('fields.type')]
             ),
-            'title.required'                             => trans(
+            'title.required' => trans(
                 'validation.required',
                 ['field' => trans('fields.title')]
             ),
-            'title.max'                             => trans(
+            'title.max' => trans(
                 'validation.max',
                 [
                     'param2' => 150,
-                    'field'  => trans('fields.title'),
+                    'field' => trans('fields.title'),
                 ]
             ),
-            'title.regex'                             => trans(
+            'title.regex' => trans(
                 'validation.regex',
                 [
-                    'field'  => trans('fields.title'),
+                    'field' => trans('fields.title'),
                 ]
             ),
-            'slug.required'                             => trans(
+            'slug.required' => trans(
                 'validation.required',
                 ['field' => trans('fields.slug')]
             ),
-            'slug.min'                             => trans(
+            'slug.min' => trans(
                 'validation.min',
                 [
                     'param2' => 2,
-                    'field'  => trans('fields.slug'),
+                    'field' => trans('fields.slug'),
                 ]
             ),
-            'slug.unique'                             => trans(
+            'slug.unique' => trans(
                 'validation.unique',
                 [
-                    'field'  => trans('fields.slug'),
+                    'field' => trans('fields.slug'),
                 ]
             ),
-            'content.string'                             => trans(
+            'content.string' => trans(
                 'validation.string',
                 [
-                    'field'  => trans('fields.content'),
+                    'field' => trans('fields.content'),
                 ]
             )
         ];
@@ -231,19 +295,19 @@ class Post extends BaseModel
     private function bulkValidationMessages()
     {
         return [
-            'items.*.id.required'                 => trans(
+            'items.*.id.required' => trans(
                 'validation.exists',
                 ['field' => 'id']
             ),
-            'items.*.id.integer'                  => trans(
+            'items.*.id.integer' => trans(
                 'validation.integer',
                 ['field' => 'id']
             ),
-            'items.*.id.exists'                      => trans(
+            'items.*.id.exists' => trans(
                 'validation.ref_exists',
                 ['field' => 'id', 'model' => 'post']
             ),
-            'items.*.id.distinct'                      => trans(
+            'items.*.id.distinct' => trans(
                 'bulk.distinct',
                 ['field' => 'id']
             ),
@@ -260,15 +324,15 @@ class Post extends BaseModel
         return array_merge(
             $this->bulkValidationMessages(),
             [
-                'items.*.status.required'                 => trans(
+                'items.*.status.required' => trans(
                     'validation.exists',
                     ['field' => 'status']
                 ),
-                'items.*.status.string'                  => trans(
+                'items.*.status.string' => trans(
                     'validation.string',
                     ['field' => 'status']
                 ),
-                'items.*.status.in'                      => trans(
+                'items.*.status.in' => trans(
                     'validation.in_array',
                     ['field' => 'id']
                 )
@@ -296,7 +360,7 @@ class Post extends BaseModel
         return [
             'form_id' => 'nullable|sometimes|exists:forms,id',
             'user_id' => 'nullable|sometimes|exists:users,id',
-            'type'             => [
+            'type' => [
                 'required',
                 Rule::in(
                     [
@@ -306,13 +370,12 @@ class Post extends BaseModel
                     ]
                 )
             ],
-            'title'            => [
+            'title' => [
                 'required',
                 'max:150',
                 new StandardText,
-                // 'regex:' . LegacyValidator::REGEX_STANDARD_TEXT,
             ],
-            'slug'        => [
+            'slug' => [
                 'required',
                 'min:2',
                 Rule::unique('posts')->ignore($this->id)
@@ -328,21 +391,23 @@ class Post extends BaseModel
                     PostStatus::all()
                 )
             ],
-            'post_content.*.form_id'                   => [
+            'post_content.*.form_id' => [
                 'same:form_id'
             ],
-            'post_content.*.fields'                   => [
+            'post_content.*.fields' => [
                 'present'
             ],
             'post_content.*.fields.*.required' => [
                 function ($attribute, $value, $fail) {
                     if (!!$value) {
-                        $field_content = Input::get(str_replace('.required', '', $attribute));
+                        $field_content = RequestFacade::input(str_replace('.required', '', $attribute));
                         $label = $field_content['label'] ?: $field_content['id'];
-                        $get_value = Input::get(str_replace('.required', '.value.value', $attribute));
+                        $get_value = RequestFacade::input(str_replace('.required', '.value.value', $attribute));
                         $is_empty = (is_null($get_value) || $get_value === '');
-                        $is_title = Input::get(str_replace('.required', '.type', $attribute)) === 'title';
-                        $is_desc = Input::get(str_replace('.required', '.type', $attribute)) === 'description';
+                        $is_title = RequestFacade::input(str_replace('.required', '.type', $attribute)) === 'title';
+                        $is_desc = RequestFacade::input(
+                            str_replace('.required', '.type', $attribute)
+                        ) === 'description';
                         if ($is_empty && !$is_desc && !$is_title) {
                             return $fail(
                                 trans('validation.required_by_label', [
@@ -355,7 +420,7 @@ class Post extends BaseModel
             ],
             'post_content.*.fields.*.type' => [
                 function ($attribute, $value, $fail) {
-                    $get_value = Input::get(str_replace('.type', '.value.value', $attribute));
+                    $get_value = RequestFacade::input(str_replace('.type', '.value.value', $attribute));
                     if ($value === 'tags' && !is_array($get_value)) {
                         return $fail(trans('validation.tag_field_must_be_array'));
                     }
@@ -431,12 +496,19 @@ class Post extends BaseModel
 
     public function setPostDateAttribute($value)
     {
-        // Set default value for post_date
+        if ($value instanceof DateTime) {
+            dd(get_class($value));
+        }
+                // Set default value for post_date
         if (empty($value)) {
             $value = date_create()->format("Y-m-d H:i:s");
             // Convert post_date to mysql format
         } else {
-            $value = date_create($value)->format("Y-m-d H:i:s");
+            if (!is_string($value)) { // datetime from entity
+                $value = $value->format('Y-m-d H:i:s');
+            } else {
+                $value = date_create($value)->format("Y-m-d H:i:s");
+            }
         }
         $this->attributes['post_date'] = $value;
     }
@@ -529,13 +601,18 @@ class Post extends BaseModel
     public function locks()
     {
         //return $this->hasMany('Ushahidi\Modules\V5\Models\PostValues\PostLock', 'post_id', 'id');
-        return $this->hasMany('Ushahidi\Modules\V5\Models\Lock', 'post_id', 'id')
+        return $this->hasMany('Ushahidi\Modules\V5\Models\PostLock', 'post_id', 'id')
             ->where('post_locks.expires', '>=', time());
     }
 
     public function categories()
     {
         return $this->belongsToMany('Ushahidi\Modules\V5\Models\Category', 'posts_tags', 'post_id', 'tag_id');
+    }
+
+    public function sets()
+    {
+        return $this->belongsToMany('Ushahidi\Modules\V5\Models\Set', 'posts_sets', 'post_id', 'set_id');
     }
 
     public function comments()
@@ -590,15 +667,18 @@ class Post extends BaseModel
         foreach ($this->valueTypesRelationships() as $rel) {
             if ($rel == 'valuesPostTag') {
                 // For categories, preload the categories key relations
-                $values[] = $this->valuesPostTag()->with(['tag.parent', 'tag.children', 'tag.translations'])->get();
+                $value = $this->valuesPostTag()->with(['tag.parent', 'tag.children', 'tag.translations'])->get();
             } else {
-                $values[] = $this->{"$rel"};
+                $value = $this->{"$rel"};
             }
+            $value->makeHidden('post');
+
+            $values[] = $value;
         }
-        return Collection::make(array_flatten($values));
+        return Collection::make(Arr::flatten($values));
     }
 
-    /**
+      /**
      * Post values relationships
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
@@ -700,4 +780,4 @@ class Post extends BaseModel
 
         ]);
     }
-}//end class
+} //end class

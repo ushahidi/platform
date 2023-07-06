@@ -13,89 +13,31 @@ namespace Ushahidi\Multisite;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Request;
-use League\Flysystem\Config;
-use Ushahidi\Contracts\Repository\Entity\ConfigRepository;
+use Ushahidi\Core\Entity\Site as BaseSite;
 
-// @todo consider just an Eloquent model? or ushahidi entity
-class Site
+class Site extends BaseSite
 {
-    /**
-     * Cache lifetime in minutes
-     */
-    const DEFAULT_CACHE_LIFETIME = 1;
+    protected $subdomain;
 
-    public $id;
-    public $subdomain;
-    public $domain;
-    protected $deployment_name;
-    public $deployed_date;
-    public $expiration_date;
-    public $extension_date;
-    private $db_host;
-    private $db_host_replica;
-    private $db_name;
-    private $db_username;
-    private $db_password;
+    protected $tier;
+
+    protected $deployed_date;
+
+    protected $expiration_date;
+
+    protected $extension_date;
+
     protected $status;
-    public $tier;
 
-    /**
-     * @var int
-     */
-    private $cache_lifetime;
+    protected $db_host;
 
-    public function __construct(array $data, ?int $cache_lifetime = null)
-    {
-        // Assign all data to object
-        foreach ($data as $k => $v) {
-            if (property_exists($this, $k)) {
-                $this->{$k} = $v;
-            }
-        }
+    protected $db_host_replica;
 
-        $this->cache_lifetime = $cache_lifetime ?? $this::DEFAULT_CACHE_LIFETIME;
-    }
+    protected $db_name;
 
-    /**
-     * Get site id
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
+    protected $db_username;
 
-    /**
-     * Get deployment name from deployments table or site config
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->getSiteConfig('name', $this->deployment_name ?: 'Deployment');
-    }
-
-    /**
-     * Get site config
-     *
-     * @param  mixed $param   param to return
-     * @param  mixed $default default if param not set
-     * @return mixed
-     */
-    public function getSiteConfig($param = false, $default = null)
-    {
-        $siteConfig = Cache::remember('config.site', $this->cache_lifetime, function () {
-            // @todo inject repo
-            return app(ConfigRepository::class)->get('site');
-        });
-
-        if ($param) {
-            return $siteConfig->$param ?? $default;
-        }
-
-        return $siteConfig;
-    }
+    protected $db_password;
 
     /**
      * Get deployment email from multisite config or site config
@@ -108,15 +50,9 @@ class Site
         if (config('multisite.enabled') && $multisite_email = config('multisite.email')) {
             // use multisite email
             return $multisite_email;
-        } elseif ($site_email = $this->getSiteConfig('email')) {
-            // Otherwise get email from site config
-            return $site_email;
-        } else {
-            // Get host from app request
-            // @todo handle missing request?
-            $host = Request::getHost();
-            return $host ? 'noreply@' . $host : false;
         }
+
+        return parent::getEmail();
     }
 
     /**
@@ -126,15 +62,20 @@ class Site
      */
     public function getClientUri()
     {
-        // @todo this feels kind like mixing responsibilities?
         // If we're in multisite mode
         if (config('multisite.enabled')) {
             // build the url from config + subdomain
-            return implode('.', array_filter([$this->subdomain, config('multisite.client_domain', $this->domain)]));
-        } else {
-            // get client_url from site config
-            return $this->getSiteConfig('client_url', false);
+            return implode('.', array_filter([
+                $this->subdomain,
+                config(
+                    'multisite.client_domain',
+                    $this->domain
+                )
+            ]));
         }
+
+        // get client_url from site config
+        return parent::getClientUri();
     }
 
     /**
@@ -186,9 +127,10 @@ class Site
     {
         try {
             // @todo confirm this can't use the wrong db
-            return DB::connection('deployment-'.$this->id)->getSchemaBuilder()->hasTable('users');
+            $connection = DB::connection('deployment-' . $this->id);
+            return $connection->getSchemaBuilder()->hasTable('users');
         } catch (\Exception $e) {
-            Log::warning($e->getMessage() . PHP_EOL . 'Database for deployment-'.$this->id.' is not ready.');
+            Log::warning($e->getMessage() . PHP_EOL . 'Database for deployment-' . $this->id . ' is not ready.');
             Log::debug($e->getTraceAsString());
             return false;
         }
@@ -201,11 +143,11 @@ class Site
     public function getDbConfig()
     {
         return [
-            'host'     => $this->db_host,
-            'write'     => [
+            'host' => $this->db_host,
+            'write' => [
                 'host' => $this->db_host,
             ],
-            'read'    => [
+            'read' => [
                 'host' => !empty($this->db_host_replica) ? $this->db_host_replica : $this->db_host
             ],
             'database' => $this->db_name,

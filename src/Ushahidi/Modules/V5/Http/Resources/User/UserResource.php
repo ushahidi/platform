@@ -1,7 +1,7 @@
 <?php
 namespace Ushahidi\Modules\V5\Http\Resources\User;
 
-use Illuminate\Http\Resources\Json\Resource;
+use Illuminate\Http\Resources\Json\JsonResource as Resource;
 use Ushahidi\Modules\V5\Http\Resources\RequestCachedResource;
 use Illuminate\Support\Collection;
 use Ushahidi\Core\Entity\User;
@@ -13,7 +13,7 @@ class UserResource extends Resource
 
     use RequestCachedResource;
 
-    public static $wrap = 'data';
+    public static $wrap = 'result';
     private function getResourcePrivileges()
     {
         $authorizer = service('authorizer.user');
@@ -59,7 +59,7 @@ class UserResource extends Resource
             'last_attempt' => $this->last_attempt,
             'gravatar' => $this->getGravatar($this->email),
             'contacts' => [],
-            'permissions' => $this->getResourcePermissions($this->getPermission()),
+            'permissions' => $this->getResourcePermissions(),
             'allowed_privileges' => $this->getResourcePrivileges()
 
 
@@ -70,12 +70,22 @@ class UserResource extends Resource
         ];
     }
 
-    private function getResourcePermissions(Collection $permissions)
+    private function getResourcePermissions()
     {
         $permissions_name = [];
-        foreach ($permissions->all() as $permission) {
-            $permissions_name[] = $permission->permission;
+
+        if ($this->role === "admin") {
+            $admin_permissions = $this->getAdminPermission();
+            foreach ($admin_permissions->all() as $permission) {
+                $permissions_name[] = $permission->name;
+            }
+        } else {
+            $role_permissions = $this->getPermission();
+            foreach ($role_permissions->all() as $permission) {
+                $permissions_name[] = $permission->permission;
+            }
         }
+        
         return $permissions_name;
     }
 }

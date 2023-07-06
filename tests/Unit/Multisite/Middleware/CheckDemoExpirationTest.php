@@ -23,16 +23,6 @@ use Ushahidi\Multisite\Site;
  */
 class CheckDemoExpirationTest extends TestCase
 {
-    public function setUp()
-    {
-        parent::setUp();
-    }
-
-    public function tearDown()
-    {
-        parent::tearDown();
-    }
-
     public function testMultisiteDisabled()
     {
         $multisite = M::mock(MultisiteManager::class);

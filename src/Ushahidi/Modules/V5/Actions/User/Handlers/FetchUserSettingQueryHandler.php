@@ -26,19 +26,19 @@ class FetchUserSettingQueryHandler extends AbstractQueryHandler
     }
 
     /**
-     * @param FetchUserSettingQuery $query
+     * @param FetchUserSettingQuery $action
      * @return LengthAwarePaginator
      */
-    public function __invoke(Action $query) //: LengthAwarePaginator
+    public function __invoke(Action $action) //: LengthAwarePaginator
     {
-        $this->isSupported($query);
-        $skip = $query->getLimit() * ($query->getPage() - 1);
+        $this->isSupported($action);
+        $skip = $action->getLimit() * ($action->getPage() - 1);
         return $this->user_setting_repository->fetch(
-            $query->getUserId(),
-            $query->getLimit(),
+            $action->getUserId(),
+            $action->getLimit(),
             $skip,
-            $query->getSortBy(),
-            $query->getOrder()
+            $action->getSortBy(),
+            $action->getOrder()
         );
     }
 }

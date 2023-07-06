@@ -26,7 +26,7 @@ class FetchRoleQueryHandler extends AbstractQueryHandler
     }
 
     /**
-     * @param FetchRoleQuery $query
+     * @param FetchRoleQuery $action
      * @return LengthAwarePaginator
      */
     public function __invoke(Action $query) //: LengthAwarePaginator
@@ -38,7 +38,7 @@ class FetchRoleQueryHandler extends AbstractQueryHandler
             $skip,
             $query->getSortBy(),
             $query->getOrder(),
-            $query->getSearchData()
+            $query->getRoleSearchFields()
         );
     }
 }

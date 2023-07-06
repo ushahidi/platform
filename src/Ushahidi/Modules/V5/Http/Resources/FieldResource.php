@@ -1,7 +1,7 @@
 <?php
 namespace Ushahidi\Modules\V5\Http\Resources;
 
-use Illuminate\Http\Resources\Json\Resource;
+use Illuminate\Http\Resources\Json\JsonResource as Resource;
 
 class FieldResource extends Resource
 {
@@ -34,7 +34,7 @@ class FieldResource extends Resource
             'config' => $this->config,
             'response_private' => (boolean) $this->response_private,
             'form_stage_id' => $this->form_stage_id,
-            'translations' => new TranslationCollection($this->translations),
+            'translations' => (new TranslationCollection($this->translations))->toArray(null)
         ];
     }
 }

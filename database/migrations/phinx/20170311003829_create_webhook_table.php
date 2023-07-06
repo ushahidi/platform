@@ -30,6 +30,6 @@ class CreateWebhookTable extends AbstractMigration
      */
     public function down()
     {
-        $this->dropTable('webhooks');
+        $this->table('webhooks')->drop()->save();
     }
 }

@@ -15,7 +15,6 @@ use Mockery as M;
 use Ushahidi\Contracts\Repository\Entity\ContactRepository;
 use Ushahidi\Tests\TestCase;
 use Ushahidi\Contracts\Repository\Entity\MessageRepository;
-use Ushahidi\Contracts\Usecase;
 use Ushahidi\Core\Entity\Message;
 use Ushahidi\Core\Exception\NotFoundException;
 use Ushahidi\Core\Usecase\Message\ReceiveMessage;
@@ -27,7 +26,7 @@ use Ushahidi\DataSource\DataSourceStorage;
  */
 class DataSourceStorageTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

@@ -28,6 +28,6 @@ class AddPostLockTable extends AbstractMigration
      */
     public function down()
     {
-        $this->dropTable('post_locks');
+        $this->table('post_locks')->drop()->save();
     }
 }

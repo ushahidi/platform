@@ -13,8 +13,8 @@ Feature: Testing the Roles API
             """
         When I request "/roles"
         Then the response is JSON
-        And the response has a "data" property
-        And the type of the "data.id" property is "numeric"
+        And the response has a "result" property
+        And the type of the "result.id" property is "numeric"
         Then the guzzle status code should be 200
 
      Scenario: Create a new role with permissions
@@ -32,9 +32,9 @@ Feature: Testing the Roles API
             """
         When I request "/roles"
         Then the response is JSON
-        And the response has a "data" property
-        And the type of the "data.id" property is "numeric"
-        And the "data.permissions.0" property equals "Manage Users"
+        And the response has a "result" property
+        And the type of the "result.id" property is "numeric"
+        And the "result.permissions.0" property equals "Manage Users"
         Then the guzzle status code should be 200
 
    Scenario: Assign a permission to a role
@@ -49,9 +49,9 @@ Feature: Testing the Roles API
             """
         And that its "id" is "4"
         When I request "/roles"
-        And the response has a "data" property
-        And the "data.permissions.0" property equals "Manage Users"
-        And the "data.permissions.1" property equals "Manage Settings"
+        And the response has a "result" property
+        And the "result.permissions.0" property equals "Manage Users"
+        And the "result.permissions.1" property equals "Manage Settings"
         Then the guzzle status code should be 200
 
      Scenario: Change permission of a role
@@ -66,8 +66,8 @@ Feature: Testing the Roles API
             """
         And that its "id" is "4"
         When I request "/roles"
-        And the response has a "data" property
-        And the "data.permissions.0" property equals "Manage Posts"
+        And the response has a "result" property
+        And the "result.permissions.0" property equals "Manage Posts"
         Then the guzzle status code should be 200
 
      Scenario: Removing permissions from a role
@@ -82,8 +82,8 @@ Feature: Testing the Roles API
             """
         And that its "id" is "4"
         When I request "/roles"
-        And the response has a "data" property
-        And the "data.permissions" property is empty
+        And the response has a "result" property
+        And the "result.permissions" property is empty
         Then the guzzle status code should be 200
 
      Scenario: Get role by name
@@ -97,7 +97,7 @@ Feature: Testing the Roles API
         When I request "/roles"
         Then the response is JSON
         And the "meta.total" property equals "1"
-        And the "data.0.name" property equals "manager"
+        And the "results.0.name" property equals "manager"
         Then the guzzle status code should be 200
 
      Scenario: Get protected status of protected role
@@ -107,8 +107,8 @@ Feature: Testing the Roles API
         And that its "id" is "1"
         When I request "/roles"
         Then the response is JSON
-		And the response has a "data" property
-		And the "data.protected" property is true
+		And the response has a "result" property
+		And the "result.protected" property is true
         Then the guzzle status code should be 200
 
      Scenario: Get protected status of unprotected role
@@ -118,8 +118,8 @@ Feature: Testing the Roles API
         And that its "id" is "4"
         When I request "/roles"
         Then the response is JSON
-		And the response has a "data" property
-		And the "data.protected" property is false
+		And the response has a "result" property
+		And the "result.protected" property is false
         Then the guzzle status code should be 200
 
      Scenario: Delete a protected role
@@ -151,8 +151,8 @@ Feature: Testing the Roles API
         And that its "id" is "1"
         When I request "/roles"
         Then the response is JSON
-		And the response has a "data" property
-		And the "data.protected" property is true
+		And the response has a "result" property
+		And the "result.protected" property is true
         Then the guzzle status code should be 200
 
 #    @rolesDisabled

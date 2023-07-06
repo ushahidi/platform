@@ -11,11 +11,9 @@
 
 namespace Ushahidi\Core\Entity;
 
-use Ushahidi\Core\BasicEntity;
-use Ushahidi\Core\EloquentEntity;
 use Ushahidi\Core\StaticEntity;
 
-class Message extends EloquentEntity
+class Message extends StaticEntity
 {
     // Valid boxes are defined as constants.
     const INBOX          = 'inbox';

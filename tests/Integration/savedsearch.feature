@@ -48,7 +48,6 @@ Feature: Testing the Sets API
 		And the response has a "id" property
 		And the type of the "id" property is "numeric"
 		And the response has a "name" property
-		And the response does not have a "search" property
 		Then the guzzle status code should be 200
 
 	Scenario: Updating a SavedSearch

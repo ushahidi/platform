@@ -3,7 +3,7 @@
 namespace Ushahidi\Modules\V5\Policies;
 
 use Ushahidi\Modules\V5\Models\Permissions;
-use App\Auth\GenericUser as User;
+use Ushahidi\Authzn\GenericUser as User;
 use Ushahidi\Core\Concerns\AdminAccess;
 use Ushahidi\Core\Concerns\PrivAccess;
 use Ushahidi\Core\Concerns\UserContext;
@@ -81,7 +81,6 @@ class PermissionsPolicy
      */
     public function isAllowed($permissions, $privilege, $user = null):bool
     {
-        
         $authorizer = service('authorizer.permission');
         $user = $authorizer->getUser();
 

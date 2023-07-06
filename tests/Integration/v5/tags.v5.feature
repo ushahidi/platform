@@ -1,4 +1,4 @@
-@tagsFixture @rolesEnabled
+@tagsFixture @rolesEnabled @categories-v5
 Feature: Testing the Categories API
     Scenario: Creating a new Tag with a base language
         Given that I want to make a new "Category"
@@ -31,7 +31,7 @@ Feature: Testing the Categories API
         And the "result.enabled_languages.default" property equals "en"
         And the response has a "result.role" property
         And the "result.parent.id" property equals "1"
-        Then the guzzle status code should be 201
+        Then the guzzle status code should be 200
     Scenario: Creating a new Tag with a base language and translation
         Given that I want to make a new "Category"
         And that the oauth token is "testadminuser"
@@ -68,7 +68,7 @@ Feature: Testing the Categories API
         And the "result.enabled_languages.available.0" property equals "es"
         And the response has a "result.role" property
         And the "result.parent.id" property equals "1"
-        Then the guzzle status code should be 201
+        Then the guzzle status code should be 200
     Scenario: Listing Tag 1 and checking children have translations
         Given that I want to find a "Category"
         And that its "id" is "1"
@@ -96,8 +96,9 @@ Feature: Testing the Categories API
             """
         When I request "/categories"
         Then the response is JSON
-        And the response has a "messages.tag" property
-        And the "messages.tag.0" property equals "Tag must be unique"
+        And the response has a "errors.failed_validations" property
+        And the "errors.failed_validations.0.field" property equals "tag"
+        And the "errors.failed_validations.0.error_messages.0" property equals "Tag must be unique"
         Then the guzzle status code should be 422
     Scenario: Creating a child tag with the wrong role for its parent
         Given that I want to make a new "Category"
@@ -117,8 +118,9 @@ Feature: Testing the Categories API
             """
         When I request "/categories"
         Then the response is JSON
-        And the response has a "messages.role" property
-        And the "messages.role.0" property equals "The child category role must be the same as the parent role."
+        And the response has a "errors.failed_validations" property
+        And the "errors.failed_validations.0.field" property equals "role"
+        And the "errors.failed_validations.0.error_messages.0" property equals "The child category role must be the same as the parent role." 
         Then the guzzle status code should be 422
     Scenario: Creating a tag with a duplicate slug is not possible
         Given that I want to make a new "Category"
@@ -141,7 +143,7 @@ Feature: Testing the Categories API
         Then the response is JSON
         And the response has a "result.slug" property
         And the "result.slug" property equals "my-boxes"
-        Then the guzzle status code should be 201
+        Then the guzzle status code should be 200
     Scenario: Creating a tag with a long name fails
         Given that I want to make a new "Category"
         And that the oauth token is "testadminuser"
@@ -160,8 +162,9 @@ Feature: Testing the Categories API
             """
         When I request "/categories"
         Then the response is JSON
-        And the response has a "messages.tag" property
-        And the "messages.tag.0" property equals "Tag must not exceed 255 characters long"
+        And the response has a "errors.failed_validations" property
+        And the "errors.failed_validations.0.field" property equals "tag"
+        And the "errors.failed_validations.0.error_messages.0" property equals "Tag must not exceed 255 characters long"
         Then the guzzle status code should be 422
 
     Scenario: Check slug is generated on new tag
@@ -186,7 +189,7 @@ Feature: Testing the Categories API
         And the type of the "result.id" property is "numeric"
         And the response has a "result.slug" property
         And the "result.slug" property equals "i-expect-tags"
-        Then the guzzle status code should be 201
+        Then the guzzle status code should be 200
 
     Scenario: Check hash on color input has no effect when creating tag
         Given that I want to make a new "Category"
@@ -209,7 +212,7 @@ Feature: Testing the Categories API
         And the response has a "result.id" property
         And the type of the "result.id" property is "numeric"
         And the "result.color" property equals "#00ff00"
-        Then the guzzle status code should be 201
+        Then the guzzle status code should be 200
 
     Scenario: Creating a tag with non-existent parent fails
         Given that I want to make a new "Category"
@@ -229,8 +232,9 @@ Feature: Testing the Categories API
             """
         When I request "/categories"
         Then the response is JSON
-        And the response has a "messages.parent_id" property
-        And the "messages.parent_id.0" property equals "Parent category must exist"
+        And the response has a "errors.failed_validations" property
+        And the "errors.failed_validations.0.field" property equals "parent_id"
+        And the "errors.failed_validations.0.error_messages.0" property equals "Parent category must exist"
         Then the guzzle status code should be 422
 
     Scenario: Creating a tag with no parent_id works
@@ -250,7 +254,7 @@ Feature: Testing the Categories API
             """
         When I request "/categories"
         Then the response is JSON
-        Then the guzzle status code should be 201
+        Then the guzzle status code should be 200
 
     Scenario: Creating a tag with empty parent_id works
         Given that I want to make a new "Category"
@@ -270,7 +274,7 @@ Feature: Testing the Categories API
             """
         When I request "/categories"
         Then the response is JSON
-        Then the guzzle status code should be 201
+        Then the guzzle status code should be 200
     Scenario: Updating a Tag
         Given that I want to update a "Category"
         And that the oauth token is "testadminuser"
@@ -301,16 +305,15 @@ Feature: Testing the Categories API
         And that the request "data" is:
             """
             {
-                "tag":"Updated",
+                "tag":"Updated Non Existent",
                 "slug":"updated",
-                "type":"varchar",
                 "priority":1
             }
             """
         And that its "id" is "40"
         When I request "/categories"
         Then the response is JSON
-        And the response has a "error" property
+        And the response has a "errors" property
         Then the guzzle status code should be 404
 
     @resetFixture
@@ -373,14 +376,15 @@ Feature: Testing the Categories API
         And that the api_url is "api/v5"
         When I request "/categories"
         Then the response is JSON
-        And the "results" property count is "11"
+        And the "results" property count is "9"
         Then the guzzle status code should be 200
+        
     Scenario: Listing All Tags available to non-users
         Given that I want to get all "Categories"
         And that the api_url is "api/v5"
         When I request "/categories"
         Then the response is JSON
-        And the "results" property count is "10"
+        And the "results" property count is "7"
         Then the guzzle status code should be 200
 #
 #    @resetFixture
@@ -451,7 +455,7 @@ Feature: Testing the Categories API
         And that its "id" is "1333"
         When I request "/categories"
         Then the response is JSON
-        And the response has a "error" property
+        And the response has a "errors" property
         Then the guzzle status code should be 404
 
     Scenario: Deleting a Tag
@@ -497,7 +501,7 @@ Feature: Testing the Categories API
         And that the oauth token is "testadminuser"
         And that its "id" is "353"
         When I request "/categories"
-        And the response has a "error" property
+        And the response has a "errors" property
         Then the guzzle status code should be 404
 
     Scenario: Creating a new child for a tag with role=null
@@ -529,7 +533,7 @@ Feature: Testing the Categories API
         And the "result.type" property equals "category"
         And the response does not have a "result.role" property
         And the "result.parent.id" property equals "9"
-        Then the guzzle status code should be 201
+        Then the guzzle status code should be 200
 
 
     Scenario: Creating a new invalid child for a tag with role=admin
@@ -540,19 +544,20 @@ Feature: Testing the Categories API
         """
             {
                 "parent_id":16,
-                "tag":"Valid child",
-                "slug":"valid-child",
-                "description":"I am a valid tag",
+                "tag":"Invalid child",
+                "slug":"invalid-child",
+                "description":"I am a invalid tag",
                 "type":"category",
                 "priority":1,
                 "color":"00ff00",
-                "role": "interesting"
+                "role": ["interesting"]
             }
         """
         When I request "/categories"
         Then the response is JSON
-        And the response has a "error" property
-        And the "messages.role.0" property contains "The child category role must be the same as the parent role."
+        And the response has a "errors.failed_validations" property
+        And the "errors.failed_validations.0.field" property equals "role"
+        And the "errors.failed_validations.0.error_messages.0" property equals "The child category role must be the same as the parent role."       
         Then the guzzle status code should be 422
 
     Scenario: Creating a new child with no role for a tag with role=["admin"]
@@ -569,12 +574,14 @@ Feature: Testing the Categories API
                 "type":"category",
                 "priority":1,
                 "color":"00ff00",
-                "role": "null"
+                "role": [null]
             }
         """
         When I request "/categories"
         Then the response is JSON
-        And the "messages.role.0" property equals "The child category role must be the same as the parent role."
+        And the response has a "errors.failed_validations" property
+        And the "errors.failed_validations.0.field" property equals "role"
+        And the "errors.failed_validations.0.error_messages.0" property equals "The child category role must be the same as the parent role."       
         Then the guzzle status code should be 422
 
     @resetFixture
@@ -592,13 +599,14 @@ Feature: Testing the Categories API
                 "type":"category",
                 "priority":1,
                 "color":"00ff00",
-                "role":"user"
+                "role":["user"]
             }
             """
         When I request "/categories"
         Then the response is JSON
-        And the response has a "error" property
-        And the "messages.role.0" property equals "The child category role must be the same as the parent role."
+        And the response has a "errors.failed_validations" property
+        And the "errors.failed_validations.0.field" property equals "role"
+        And the "errors.failed_validations.0.error_messages.0" property equals "The child category role must be the same as the parent role."
         Then the guzzle status code should be 422
 
     Scenario: Updating a child tag to a different role from its parent should fail
@@ -608,16 +616,18 @@ Feature: Testing the Categories API
         And that the request "data" is:
             """
             {
+                "parent_id":11,
                 "tag":"Child 2",
                 "slug":"child-2",
                 "type":"category",
-                "role":"['user']"
+                "role":["user"]
             }
             """
         And that its "id" is "11"
         When I request "/categories"
         Then the response is JSON
-        And the response has a "error" property
-        And the "messages.role.0" property equals "The child category role must be the same as the parent role."
+        And the response has a "errors.failed_validations" property
+        And the "errors.failed_validations.0.field" property equals "role"
+        And the "errors.failed_validations.0.error_messages.0" property equals "The child category role must be the same as the parent role."
         Then the guzzle status code should be 422
 

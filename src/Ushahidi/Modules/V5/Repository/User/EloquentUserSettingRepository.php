@@ -32,7 +32,7 @@ class EloquentUserSettingRepository implements UserSettingRepository
             ->skip($skip)
             ->orderBy($sortBy, $order)
             ->where('user_id', '=', $user_id)
-            ->paginate($limit);
+            ->paginate($limit ? $limit : config('paging.default_laravel_pageing_limit'));
     }
 
     /**
