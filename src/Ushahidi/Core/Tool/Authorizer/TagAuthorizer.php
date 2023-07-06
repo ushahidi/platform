@@ -83,7 +83,7 @@ class TagAuthorizer implements Authorizer
     }
 
     /* Authorizer */
-    public function isAllowed(Entity $tag, string $privilege)
+    public function isAllowed(Entity $tag, $privilege)
     {
         // These checks are run within the user context.
         $user = $this->getUser();

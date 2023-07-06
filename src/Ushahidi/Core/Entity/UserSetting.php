@@ -12,8 +12,9 @@
 namespace Ushahidi\Core\Entity;
 
 use Ushahidi\Contracts\Entity;
+use Ushahidi\Contracts\OwnableEntity;
 
-interface UserSetting extends Entity
+interface UserSetting extends Entity, OwnableEntity
 {
 
 }

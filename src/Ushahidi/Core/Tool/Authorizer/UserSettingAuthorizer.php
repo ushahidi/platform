@@ -43,7 +43,7 @@ class UserSettingAuthorizer implements Authorizer
     /**
      * Get a list of all possible privilges.
      * By default, returns standard HTTP REST methods.
-     * @return Array
+     * @return array
      */
     protected function getAllPrivs()
     {
@@ -51,7 +51,7 @@ class UserSettingAuthorizer implements Authorizer
     }
 
     /* Authorizer */
-    public function isAllowed(Entity $entity, $privilege)
+    public function isAllowed(Entity $setting, $privilege)
     {
         // These checks are run within the user context.
         $user = $this->getUser();
@@ -62,7 +62,7 @@ class UserSettingAuthorizer implements Authorizer
         }
 
         // Regular user should be able to perform all actions on their own settings
-        if ($this->isUserOwner($entity, $user)) {
+        if ($this->isUserOwner($setting, $user)) {
             return true;
         }
 

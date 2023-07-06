@@ -14,6 +14,7 @@ namespace Ushahidi\Core\Entity;
 use Ushahidi\Contracts\Entity;
 
 /**
+ * @property int $id
  * @property string|array $role The role(s) of the user
  */
 interface User extends Entity

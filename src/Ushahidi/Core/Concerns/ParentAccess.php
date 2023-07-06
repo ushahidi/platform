@@ -28,7 +28,7 @@ trait ParentAccess
      *
      * @return boolean
      */
-    public function isAllowedParent(Entity $entity, string $privilege)
+    public function isAllowedParent(Entity $entity, $privilege)
     {
         // If `$entity` has a parent..
         if ($parent = $this->getParent($entity)) {

@@ -11,9 +11,10 @@
 
 namespace Ushahidi\Core\Ohanzee\Entities;
 
+use Ushahidi\Contracts\OwnableEntity;
 use Ushahidi\Core\StaticEntity;
 
-class Tos extends StaticEntity
+class Tos extends StaticEntity implements OwnableEntity
 {
     protected $id;
     protected $user_id;
