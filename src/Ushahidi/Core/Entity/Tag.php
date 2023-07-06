@@ -12,11 +12,12 @@
 namespace Ushahidi\Core\Entity;
 
 use Ushahidi\Contracts\Entity;
+use Ushahidi\Contracts\ParentableEntity;
 
 /**
  * @property string|array $role role(s) for this tag
  */
-interface Tag extends Entity
+interface Tag extends Entity, ParentableEntity
 {
 
 }
