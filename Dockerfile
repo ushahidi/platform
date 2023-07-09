@@ -1,4 +1,5 @@
 FROM ushahidi/php-fpm-nginx:php-7.3
+LABEL org.opencontainers.image.source="https://github.com/ushahidi/platform"
 
 WORKDIR /var/www
 COPY composer.json ./
