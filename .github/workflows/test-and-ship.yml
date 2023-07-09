@@ -128,12 +128,20 @@ jobs:
       with:
         registry: 513259414768.dkr.ecr.eu-west-1.amazonaws.com
 
+    - name: Login to GitHub Container Registry
+      uses: docker/login-action@v1
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+
     - name: Docker meta
       id: meta
       uses: docker/metadata-action@v3
       with:
         images: |
           513259414768.dkr.ecr.eu-west-1.amazonaws.com/platform
+          ghcr.io/ushahidi/platform
         tags: |
           type=ref,event=branch
           type=ref,event=pr
