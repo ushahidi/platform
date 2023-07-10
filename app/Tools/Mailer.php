@@ -19,6 +19,8 @@ class Mailer implements MailerContract
 {
     use UsesSiteInfo;
 
+    protected $mailer;
+
     public function __construct(LaravelMailer $mailer)
     {
         $this->mailer = $mailer;
@@ -40,11 +42,13 @@ class Mailer implements MailerContract
     {
         $site_name = $this->getSite()->getName();
         $site_email = $this->getSite()->getEmail();
+        $site_client_url = $this->getSite()->getClientUri() ?? env('DEFAULT_CLIENT_URL');
+        $token = $params['token'];
 
         $data = [
             'site_name' => $site_name,
-            'token' => $params['token'],
-            'client_url' => $this->getSite()->getClientUri(),
+            'token' => $token,
+            'client_url' => $site_client_url,
         ];
 
         $subject = $site_name.': Password reset';
