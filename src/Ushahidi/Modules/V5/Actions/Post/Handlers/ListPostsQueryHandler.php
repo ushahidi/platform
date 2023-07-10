@@ -64,6 +64,9 @@ class ListPostsQueryHandler extends AbstractQueryHandler
     {
         foreach ($hydrates as $hydrate) {
             switch ($hydrate) {
+                case 'color':
+                    $post->color = $post->survey ? $post->survey->color : null;
+                    break;
                 case 'categories':
                     // $result['categories'] = $post->categories;
                     break;
