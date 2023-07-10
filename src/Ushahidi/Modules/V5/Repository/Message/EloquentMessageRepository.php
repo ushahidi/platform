@@ -32,9 +32,9 @@ class EloquentMessageRepository implements MessageRepository
 
 
         if ($search_fields->box() === 'outbox') {
-            $builder->whereIn('messages.direction', "outgoing");
+            $builder->whereIn('messages.direction', ["outgoing"]);
         } elseif ($search_fields->box() === 'inbox') {
-            $builder->whereIn('messages.direction', "incoming");
+            $builder->whereIn('messages.direction', ["incoming"]);
         }
        
         if ($search_fields->box() === 'archived') {

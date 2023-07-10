@@ -125,4 +125,5 @@ function wait_bootstrap {
   while [ ! -f /bootstrapped ]; do
     sleep 1
   done
+  true;
 }

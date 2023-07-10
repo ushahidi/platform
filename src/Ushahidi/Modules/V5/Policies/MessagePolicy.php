@@ -84,7 +84,7 @@ class MessagePolicy
     public function update(User $user, Message $message)
     {
         // we convert to a Message entity to be able to continue using the old authorizers and classes.
-        $message_entity = new Entity\Message($message->toArray());
+        $message_entity = $this->getEntity($message);
         return $this->isAllowed($message_entity, 'update');
     }
 

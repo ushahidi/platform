@@ -3,6 +3,7 @@ Feature: Testing the Layers API
 
     Scenario: Listing All Layers
         Given that I want to get all "Layers"
+        And that the api_url is "api/v5"
         When I request "/layers"
         Then the response is JSON
         And the response has a "count" property
@@ -13,6 +14,7 @@ Feature: Testing the Layers API
     @resetFixture
     Scenario: Search All Layers by type
         Given that I want to get all "Layers"
+        And that the api_url is "api/v5"
         And that the request "query string" is:
             """
             type=geojson
@@ -25,6 +27,7 @@ Feature: Testing the Layers API
     @resetFixture
     Scenario: Search All Layers by active
         Given that I want to get all "Layers"
+        And that the api_url is "api/v5"
         And that the request "query string" is:
             """
             active=0
@@ -36,15 +39,17 @@ Feature: Testing the Layers API
 
     Scenario: Finding a Layer
         Given that I want to find a "Layer"
+        And that the api_url is "api/v5"
         And that its "id" is "1"
         When I request "/layers"
         Then the response is JSON
-        And the response has a "id" property
-        And the type of the "id" property is "numeric"
+        And the response has a "result.id" property
+        And the type of the "result.id" property is "numeric"
         Then the guzzle status code should be 200
 
     Scenario: Finding a non-existent Layer
         Given that I want to find a "Layer"
+        And that the api_url is "api/v5"
         And that its "id" is "35"
         When I request "/layers"
         Then the response is JSON
@@ -53,6 +58,7 @@ Feature: Testing the Layers API
 
     Scenario: Creating a new Layer
         Given that I want to make a new "Layer"
+        And that the api_url is "api/v5"
         And that the request "data" is:
             """
             {
@@ -68,18 +74,19 @@ Feature: Testing the Layers API
             """
         When I request "/layers"
         Then the response is JSON
-        And the response has a "id" property
-        And the type of the "id" property is "numeric"
-        And the "name" property equals "test"
-        And the "data_url" property equals "http://ushahidi-platform.dev/media/test.geojson"
-        And the "type" property equals "geojson"
-        And the "active" property equals "1"
-        And the "visible_by_default" property equals "1"
-        And the type of the "options" property is "array"
+        And the response has a "result.id" property
+        And the type of the "result.id" property is "numeric"
+        And the "result.name" property equals "test"
+        And the "result.data_url" property equals "http://ushahidi-platform.dev/media/test.geojson"
+        And the "result.type" property equals "geojson"
+        And the "result.active" property equals "1"
+        And the "result.visible_by_default" property equals "1"
+        And the type of the "result.options" property is "array"
         Then the guzzle status code should be 200
 
     Scenario: Creating a new Layer with invalid data fails
         Given that I want to make a new "Layer"
+        And that the api_url is "api/v5"
         And that the request "data" is:
             """
             {
@@ -97,6 +104,7 @@ Feature: Testing the Layers API
 
     Scenario: Creating a new Layer with missing data fails
         Given that I want to make a new "Layer"
+        And that the api_url is "api/v5"
         And that the request "data" is:
             """
             {
@@ -112,6 +120,7 @@ Feature: Testing the Layers API
 
     Scenario: Creating a new Layer with no url or media fails
         Given that I want to make a new "Layer"
+        And that the api_url is "api/v5"
         And that the request "data" is:
             """
             {
@@ -128,6 +137,7 @@ Feature: Testing the Layers API
 
     Scenario: Creating a new Layer invalid media fails
         Given that I want to make a new "Layer"
+        And that the api_url is "api/v5"
         And that the request "data" is:
             """
             {
@@ -145,6 +155,7 @@ Feature: Testing the Layers API
 
     Scenario: Updating a Layer
         Given that I want to update a "Layer"
+        And that the api_url is "api/v5"
         And that the request "data" is:
             """
             {
@@ -158,21 +169,23 @@ Feature: Testing the Layers API
         And that its "id" is "1"
         When I request "/layers"
         Then the response is JSON
-        And the response has a "id" property
-        And the type of the "id" property is "numeric"
-        And the "id" property equals "1"
-        And the response has a "name" property
-        And the "name" property equals "test updated"
+        And the response has a "result.id" property
+        And the type of the "result.id" property is "numeric"
+        And the "result.id" property equals "1"
+        And the response has a "result.name" property
+        And the "result.name" property equals "test updated"
         Then the guzzle status code should be 200
 
     Scenario: Deleting a Layer
         Given that I want to delete a "Layer"
+        And that the api_url is "api/v5"
         And that its "id" is "1"
         When I request "/layers"
         Then the guzzle status code should be 200
 
     Scenario: Deleting a non-existent Layer
         Given that I want to delete a "Layer"
+        And that the api_url is "api/v5"
         And that its "id" is "35"
         When I request "/layers"
         And the response has a "errors" property
