@@ -27,6 +27,7 @@ class EloquentConfigRepository implements ConfigRepository
     }
     public function updateOrInsertByKey(string $group_name, string $key, $value)
     {
+
         $config = Config::where(["group_name"=>$group_name,"config_key"=>$key])->first();
         if ($config) {
             $config->config_value = $value;
