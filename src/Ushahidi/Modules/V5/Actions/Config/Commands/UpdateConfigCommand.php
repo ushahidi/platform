@@ -14,7 +14,7 @@ class UpdateConfigCommand implements Command
     /**
      * @var string
      */
-    private $group;
+    private $group_name;
 
     /**
      * @var array
@@ -24,46 +24,99 @@ class UpdateConfigCommand implements Command
     private $insert_configs;
     private $delete_configs;
 
-    public function __construct(string $group, array $update_configs, array $insert_configs, array $delete_configs)
+    public function __construct(string $group_name, array $update_configs, array $insert_configs, array $delete_configs)
     {
-        $this->group = $group;
+        $this->group_name = $group_name;
         $this->update_configs = $update_configs;
         $this->insert_configs = $insert_configs;
         $this->delete_configs = $delete_configs;
     }
 
-    public static function fromRequest(string $group, Request $request, array $current_configs): self
-    {
+    public static function fromRequest(
+        string $group_name,
+        Request $request,
+        array $current_configs,
+        ?string $config_key = null
+    ): self {
 
         $update_configs = [];
         $insert_configs = [];
         $delete_configs = [];
         $new_configs = $request->input();
-        foreach ($new_configs as $key => $value) {
-            if ($key == 'id') {
-                // ignor it
-                continue;
+        // case it is key
+        if ($config_key) {
+            $value = $new_configs;
+            if (self::is_data_provider($group_name)) {
+                foreach ($current_configs as $old_key => $old_value) {
+                    if ($old_key === 'id' || $old_key === "allowed_privileges") {
+                        continue;
+                    }
+                    $providers[$old_key] = $old_value['enabled'];
+                }
+                $providers[$config_key] = $value["enabled"];
+                $value = $value['params'];
+            } elseif (count($new_configs) === 1 && array_keys($new_configs) === [0]) {
+                $value = $new_configs[0];
             }
-            if (key_exists($key, $current_configs)) {
-                $update_configs[$key] = $value;
+            if (key_exists($config_key, $current_configs)) {
+                $update_configs[$config_key] = $value;
             } else {
-                $insert_configs[$key] = $value;
+                $insert_configs[$config_key] = $value;
+            }
+        } else {
+                $providers = [] ;//=   $current_configs['providers']
+                $authenticable = [] ;
+            foreach ($new_configs as $key => $value) {
+                if ($key === 'id' || $key === "allowed_privileges") {
+                    continue;
+                }
+                if (self::is_data_provider($group_name)) {
+                    $providers[$key] = $value['enabled'];
+                    $value = $value['params'];
+                }
+                    
+                if (key_exists($key, $current_configs)) {
+                    $update_configs[$key] = $value;
+                } else {
+                    $insert_configs[$key] = $value;
+                }
+            }
+            foreach ($current_configs as $key => $value) {
+                if ($key === 'id' || $key === "allowed_privileges") {
+                    continue;
+                }
+
+                if (self::is_data_provider($group_name)) {
+                    $value = $value['params'];
+                }
+
+                if (!key_exists($key, $new_configs)) {
+                    $delete_configs[$key] = $value;
+                }
             }
         }
-        foreach ($current_configs as $key => $value) {
-            if (!key_exists($key, $new_configs)) {
-                $delete_configs[$key] = $value;
-            }
+        if (self::is_data_provider($group_name)) {
+            $update_configs["providers"] = $providers;
         }
-
-
-        return new self($group, $update_configs, $insert_configs, $delete_configs);
+        return new self($group_name, $update_configs, $insert_configs, $delete_configs);
     }
 
-    public function getGroup(): String
+    protected static function is_data_provider($group_name)
     {
-        return $this->group;
+        return $group_name === "data-provider";
     }
+
+    protected static function remove_extra_data_provider($provider_value)
+    {
+        unset($provider_value['']);
+        return $provider_value;
+    }
+
+    public function getGroupName(): String
+    {
+        return $this->group_name;
+    }
+
     /**
      * @return array
      */
@@ -77,10 +130,8 @@ class UpdateConfigCommand implements Command
         return $this->insert_configs;
     }
 
-    protected function verifyGroup($group)
+    public function getDeleteConfigs(): array
     {
-        if (!in_array($group, Config::AVIALABLE_CONFIG_GROUPS)) {
-            throw new NotFoundException("Requested group does not exist: " . $group);
-        }
+        return $this->delete_configs;
     }
 }
