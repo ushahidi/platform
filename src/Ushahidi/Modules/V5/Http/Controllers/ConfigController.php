@@ -5,6 +5,7 @@ namespace Ushahidi\Modules\V5\Http\Controllers;
 use App\Bus\Query\QueryBus;
 use Ushahidi\Modules\V5\Http\Resources\Config\ConfigCollection;
 use Ushahidi\Modules\V5\Http\Resources\Config\ConfigResource;
+use Ushahidi\Modules\V5\Http\Resources\Config\ConfigKeyResource;
 use Illuminate\Http\Request;
 use Ushahidi\Modules\V5\Models\Config;
 use Ushahidi\Modules\V5\Actions\Config\Queries\FindConfigByNameQuery;
@@ -22,9 +23,17 @@ class ConfigController extends V5Controller
      */
     public function show(string $group_name)
     {
+                //$this->authorizeForCurrentUser('show', $group_configs);
         $group_configs = $this->queryBus->handle(new FindConfigByNameQuery($group_name));
-        //$this->authorizeForCurrentUser('show', $group_configs);
         return new ConfigResource($group_configs);
+    } //end show()
+
+    public function showKey(string $group_name, string $key)
+    {
+
+                //$this->authorizeForCurrentUser('show', $group_configs);
+        $group_configs = $this->queryBus->handle(new FindConfigByNameQuery($group_name, $key));
+        return new ConfigKeyResource($group_configs);
     } //end show()
 
 
@@ -50,5 +59,18 @@ class ConfigController extends V5Controller
                 $request,
                 $current_group_configs->toArray()
             ));
-    } //end store()
+        return $this->show($group_name);
+    }
+ 
+    public function updateKey(Request $request, string $group_name, string $key)
+    {
+        $current_group_configs = $this->queryBus->handle(new FindConfigByNameQuery($group_name));
+        $this->commandBus->handle(UpdateConfigCommand::fromRequest(
+            $group_name,
+            $request,
+            $current_group_configs->toArray(),
+            $key
+        ));
+        return $this->showKey($group_name, $key);
+    }
 } //end class

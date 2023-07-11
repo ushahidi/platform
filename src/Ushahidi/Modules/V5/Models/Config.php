@@ -44,19 +44,26 @@ class Config extends BaseModel
         'config_value',
         'updated'
     ];
-
-    public function getProtectedAttribute($value): bool
-    {
-        return $value;
-    }
-
+    
     public function setConfigValueAttribute($value)
     {
-        $this->attributes['config_value'] = $value ? json_encode($value) : null;
+        if (is_bool($value)) {
+            $this->attributes['config_value'] = $value ? 'true' : 'false';
+        } elseif (! is_array($value)) {
+            $this->attributes['config_value'] = $value;
+        } else {
+            $this->attributes['config_value'] =  json_encode($value) ;
+        }
     }
 
     public function getConfigValueAttribute($value)
     {
-        return $value ? json_decode($value, true) : null;
+        if ($value === 'true') {
+            return true;
+        } elseif ($value === 'false') {
+            return false;
+        }
+
+        return json_decode($value, true);
     }
 } //end class
