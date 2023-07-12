@@ -55,20 +55,22 @@ class FindConfigByNameQueryHandler extends AbstractQueryHandler
             return collect($this->getDataProvider($group_configs));
         }
         if ($action->getKey()) {
+
             $key_config =[
                 "group_name"=> $action->getGroupName(),
                 "key_name"=> $action->getKey(),
                 "key_value"=>$group_configs[$action->getKey()]
             ];
             return collect($key_config);
-        }
+
             return collect($group_configs);
     }
 
     protected function getDataProvider($raw_data_providers)
     {
         $data_providers = [];
-        $data_providers['id'] = "data-providers";
+
+        $data_providers['id'] = "data-provider";
         foreach ($raw_data_providers['providers'] as $provider_name => $provider_status) {
             $data_providers[$provider_name] = $this->getOneDataProvider($raw_data_providers, $provider_name);
         }
