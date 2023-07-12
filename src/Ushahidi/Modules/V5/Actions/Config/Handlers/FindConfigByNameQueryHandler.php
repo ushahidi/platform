@@ -49,7 +49,6 @@ class FindConfigByNameQueryHandler extends AbstractQueryHandler
         // handle data provider
         if ($action->getGroupName() === "data-provider") {
             if ($action->getKey()) {
-
                 $this->verifyDataProvider($group_configs, $action->getKey());
                 return collect($this->getOneDataProvider($group_configs, $action->getKey()));
             }
@@ -65,6 +64,7 @@ class FindConfigByNameQueryHandler extends AbstractQueryHandler
         }
         return collect($group_configs);
     }
+
 
     protected function getDataProvider($raw_data_providers)
     {
