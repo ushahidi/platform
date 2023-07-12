@@ -14,36 +14,36 @@ class FindConfigByNameQueryHandler extends AbstractQueryHandler
 {
     private $config_repository;
 
-public function __construct(ConfigRepository $config_repository)
-{
-    $this->config_repository = $config_repository;
-}
-
-protected function isSupported(Query $query)
-{
-    if (!$query instanceof FindConfigByNameQuery) {
-        throw new \InvalidArgumentException('Provided action is not supported');
-    }
-}
-
-public function __invoke(Action $action)
-{
-    /**
-     * @var FindConfigByNameQuery $action
-     */
-    $this->isSupported($action);
-
-    $this->verifyGroup($action->getGroupName());
-    $configs = $this->config_repository->findByGroupName($action->getGroupName());
-    $group_configs = ['id' => $action->getGroupName()];
-    foreach ($configs as $config) {
-        $group_configs[$config->config_key] = $config->config_value;
+    public function __construct(ConfigRepository $config_repository)
+    {
+        $this->config_repository = $config_repository;
     }
 
+    protected function isSupported(Query $query)
+    {
+        if (!$query instanceof FindConfigByNameQuery) {
+            throw new \InvalidArgumentException('Provided action is not supported');
+        }
+    }
 
-    // Merge defaults
-    $defaults = $this->getDefaults($action->getGroupName());
-    $group_configs = array_replace_recursive($defaults, $group_configs);
+    public function __invoke(Action $action)
+    {
+        /**
+         * @var FindConfigByNameQuery $action
+         */
+        $this->isSupported($action);
+
+        $this->verifyGroup($action->getGroupName());
+        $configs = $this->config_repository->findByGroupName($action->getGroupName());
+        $group_configs = ['id' => $action->getGroupName()];
+        foreach ($configs as $config) {
+            $group_configs[$config->config_key] = $config->config_value;
+        }
+
+
+        // Merge defaults
+        $defaults = $this->getDefaults($action->getGroupName());
+        $group_configs = array_replace_recursive($defaults, $group_configs);
 
 
         // handle data provider
