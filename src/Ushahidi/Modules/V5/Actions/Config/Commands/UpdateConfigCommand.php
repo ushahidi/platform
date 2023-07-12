@@ -55,8 +55,8 @@ class UpdateConfigCommand implements Command
                 }
                 $providers[$config_key] = $value["enabled"];
                 $value = $value['params'];
-            } elseif (count($new_configs) === 1 && array_keys($new_configs) === [0]) {
-                $value = $new_configs[0];
+            } else {
+                $value = $new_configs["key_value"];
             }
             if (key_exists($config_key, $current_configs)) {
                 $update_configs[$config_key] = $value;
