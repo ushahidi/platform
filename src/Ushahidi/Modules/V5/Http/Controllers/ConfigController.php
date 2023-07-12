@@ -24,7 +24,6 @@ class ConfigController extends V5Controller
      */
     public function show(string $group_name)
     {
-                //$this->authorizeForCurrentUser('show', $group_configs);
         $group_configs = $this->queryBus->handle(new FindConfigByNameQuery($group_name));
         $this->authorize('show', new Config(["group_name"=>$group_name]));
         return new ConfigResource($group_configs);
