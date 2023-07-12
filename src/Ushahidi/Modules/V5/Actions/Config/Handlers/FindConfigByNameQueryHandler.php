@@ -14,56 +14,57 @@ class FindConfigByNameQueryHandler extends AbstractQueryHandler
 {
     private $config_repository;
 
-public function __construct(ConfigRepository $config_repository)
-{
-    $this->config_repository = $config_repository;
-}
-
-protected function isSupported(Query $query)
-{
-    if (!$query instanceof FindConfigByNameQuery) {
-        throw new \InvalidArgumentException('Provided action is not supported');
-    }
-}
-
-public function __invoke(Action $action)
-{
-    /**
-     * @var FindConfigByNameQuery $action
-     */
-    $this->isSupported($action);
-
-    $this->verifyGroup($action->getGroupName());
-    $configs = $this->config_repository->findByGroupName($action->getGroupName());
-    $group_configs = ['id' => $action->getGroupName()];
-    foreach ($configs as $config) {
-        $group_configs[$config->config_key] = $config->config_value;
+    public function __construct(ConfigRepository $config_repository)
+    {
+        $this->config_repository = $config_repository;
     }
 
-
-    // Merge defaults
-    $defaults = $this->getDefaults($action->getGroupName());
-    $group_configs = array_replace_recursive($defaults, $group_configs);
-
-        
-    // handle data provider
-    if ($action->getGroupName() === "data-provider") {
-        if ($action->getKey()) {
-            $this->verifyDataProvider($group_configs, $action->getKey());
-            return collect($this->getOneDataProvider($group_configs, $action->getKey()));
+    protected function isSupported(Query $query)
+    {
+        if (!$query instanceof FindConfigByNameQuery) {
+            throw new \InvalidArgumentException('Provided action is not supported');
         }
-        return collect($this->getDataProvider($group_configs));
     }
-    if ($action->getKey()) {
-        $key_config =[
-            "group_name"=> $action->getGroupName(),
-            "key_name"=> $action->getKey(),
-            "key_value"=>$group_configs[$action->getKey()]
-        ];
-        return collect($key_config);
 
+    public function __invoke(Action $action)
+    {
+        /**
+         * @var FindConfigByNameQuery $action
+         */
+        $this->isSupported($action);
+
+        $this->verifyGroup($action->getGroupName());
+        $configs = $this->config_repository->findByGroupName($action->getGroupName());
+        $group_configs = ['id' => $action->getGroupName()];
+        foreach ($configs as $config) {
+            $group_configs[$config->config_key] = $config->config_value;
+        }
+
+
+        // Merge defaults
+        $defaults = $this->getDefaults($action->getGroupName());
+        $group_configs = array_replace_recursive($defaults, $group_configs);
+
+
+        // handle data provider
+        if ($action->getGroupName() === "data-provider") {
+            if ($action->getKey()) {
+                $this->verifyDataProvider($group_configs, $action->getKey());
+                return collect($this->getOneDataProvider($group_configs, $action->getKey()));
+            }
+            return collect($this->getDataProvider($group_configs));
+        }
+        if ($action->getKey()) {
+            $key_config = [
+                "group_name" => $action->getGroupName(),
+                "key_name" => $action->getKey(),
+                "key_value" => $group_configs[$action->getKey()]
+            ];
+            return collect($key_config);
+        }
         return collect($group_configs);
     }
+
 
     protected function getDataProvider($raw_data_providers)
     {
@@ -86,7 +87,7 @@ public function __invoke(Action $action)
         $data_provider["params"] = isset($raw_data_providers[$provider_name])
             ? $raw_data_providers[$provider_name]
             : [];
-            return $data_provider;
+        return $data_provider;
     }
     protected function verifyGroup($group)
     {
