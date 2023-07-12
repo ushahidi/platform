@@ -64,6 +64,6 @@ class Config extends BaseModel
             return false;
         }
 
-        return json_decode($value, true);
+        return json_decode($value, true)?json_decode($value, true):$value;
     }
 } //end class

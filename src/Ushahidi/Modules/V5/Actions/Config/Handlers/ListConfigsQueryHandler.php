@@ -38,7 +38,11 @@ class ListConfigsQueryHandler extends AbstractQueryHandler
         $this->isSupported($action);
 
         $results = [];
-        foreach (Config::AVIALABLE_CONFIG_GROUPS as $group_name) {
+        $required_groups = Config::AVIALABLE_CONFIG_GROUPS;
+        if ($action->getSearchFields()->groups()) {
+            $required_groups = $action->getSearchFields()->groups();
+        }
+        foreach ($required_groups as $group_name) {
             $group_configs = $this->queryBus->handle(new FindConfigByNameQuery($group_name));
             $results[] = $group_configs;
         }
