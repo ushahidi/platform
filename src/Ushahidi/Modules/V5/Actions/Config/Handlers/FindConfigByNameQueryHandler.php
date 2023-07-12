@@ -69,7 +69,7 @@ class FindConfigByNameQueryHandler extends AbstractQueryHandler
     protected function getDataProvider($raw_data_providers)
     {
         $data_providers = [];
-        $data_providers['id'] = "data-provider";
+        $data_providers['id'] = "data-providers";
         foreach ($raw_data_providers['providers'] as $provider_name => $provider_status) {
             $data_providers[$provider_name] = $this->getOneDataProvider($raw_data_providers, $provider_name);
         }
