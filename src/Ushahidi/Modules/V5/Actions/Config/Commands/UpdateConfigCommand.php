@@ -57,7 +57,6 @@ class UpdateConfigCommand implements Command
                 $value = $value['params'];
             } else {
                 $value = $new_configs["key_value"];
-
             }
             if (key_exists($config_key, $current_configs)) {
                 $update_configs[$config_key] = $value;
