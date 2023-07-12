@@ -46,7 +46,7 @@ class UpdateConfigCommand implements Command
         // case it is key
         if ($config_key) {
             $value = $new_configs;
-            if (self::is_data_provider($group_name)) {
+            if (self::isDataProvider($group_name)) {
                 foreach ($current_configs as $old_key => $old_value) {
                     if ($old_key === 'id' || $old_key === "allowed_privileges") {
                         continue;
@@ -70,7 +70,7 @@ class UpdateConfigCommand implements Command
                 if ($key === 'id' || $key === "allowed_privileges") {
                     continue;
                 }
-                if (self::is_data_provider($group_name)) {
+                if (self::isDataProvider($group_name)) {
                     $providers[$key] = $value['enabled'];
                     $value = $value['params'];
                 }
@@ -86,7 +86,7 @@ class UpdateConfigCommand implements Command
                     continue;
                 }
 
-                if (self::is_data_provider($group_name)) {
+                if (self::isDataProvider($group_name)) {
                     $value = $value['params'];
                 }
 
@@ -95,23 +95,17 @@ class UpdateConfigCommand implements Command
                 }
             }
         }
-        if (self::is_data_provider($group_name)) {
+        if (self::isDataProvider($group_name)) {
             $update_configs["providers"] = $providers;
         }
         return new self($group_name, $update_configs, $insert_configs, $delete_configs);
     }
 
-    protected static function is_data_provider($group_name)
+    protected static function isDataProvider($group_name)
     {
         return $group_name === "data-provider";
     }
-
-    protected static function remove_extra_data_provider($provider_value)
-    {
-        unset($provider_value['']);
-        return $provider_value;
-    }
-
+    
     public function getGroupName(): String
     {
         return $this->group_name;
