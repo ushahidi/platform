@@ -45,7 +45,7 @@ class FindConfigByNameQueryHandler extends AbstractQueryHandler
         $defaults = $this->getDefaults($action->getGroupName());
         $group_configs = array_replace_recursive($defaults, $group_configs);
 
-        
+
         // handle data provider
         if ($action->getGroupName() === "data-provider") {
             if ($action->getKey()) {
@@ -55,9 +55,14 @@ class FindConfigByNameQueryHandler extends AbstractQueryHandler
             return collect($this->getDataProvider($group_configs));
         }
         if ($action->getKey()) {
-            return collect($group_configs[$action->getKey()]);
+            $key_config = [
+                "group_name" => $action->getGroupName(),
+                "key_name" => $action->getKey(),
+                "key_value" => $group_configs[$action->getKey()]
+            ];
+            return collect($key_config);
         }
-            return collect($group_configs);
+        return collect($group_configs);
     }
 
     protected function getDataProvider($raw_data_providers)
@@ -80,7 +85,7 @@ class FindConfigByNameQueryHandler extends AbstractQueryHandler
         $data_provider["params"] = isset($raw_data_providers[$provider_name])
             ? $raw_data_providers[$provider_name]
             : [];
-            return $data_provider;
+        return $data_provider;
     }
     protected function verifyGroup($group)
     {
