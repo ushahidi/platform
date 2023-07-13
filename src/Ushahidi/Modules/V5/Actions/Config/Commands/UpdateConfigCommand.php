@@ -64,8 +64,8 @@ class UpdateConfigCommand implements Command
                 $insert_configs[$config_key] = $value;
             }
         } else {
-                $providers = [] ;//=   $current_configs['providers']
-                $authenticable = [] ;
+            $providers = []; //=   $current_configs['providers']
+            $authenticable = [];
             foreach ($new_configs as $key => $value) {
                 if ($key === 'id' || $key === "allowed_privileges") {
                     continue;
@@ -74,7 +74,7 @@ class UpdateConfigCommand implements Command
                     $providers[$key] = $value['enabled'];
                     $value = $value['params'];
                 }
-                    
+
                 if (key_exists($key, $current_configs)) {
                     $update_configs[$key] = $value;
                 } else {
@@ -105,7 +105,7 @@ class UpdateConfigCommand implements Command
     {
         return $group_name === "data-provider";
     }
-    
+
     public function getGroupName(): String
     {
         return $this->group_name;
