@@ -186,8 +186,7 @@
 																					<tr>
 																						<td align="left"
 																							style="font:16px/24px Open Sans, Arial, Helvetica, sans-serif; font-weight: normal; color: #383E45; padding: 0 0 24px;">
-																							Hi
-																							<?php echo $user_name ?>.
+																							Hi <?php echo $user_name ?>.
 																						</td>
 																					</tr>
 																					<tr>
@@ -218,19 +217,26 @@
 																					<tr>
 																						<td align="left"
 																							style="font:16px/24px Open Sans, Arial, Helvetica, sans-serif; font-weight: normal; color: #383E45;">
-																							<?php if ($client_url): ?> Or
-																								click the link <a
-																									href="<?php echo $client_url . '/forgotpassword/confirm/' . urlencode($reset_string); ?>"
+																							<?php if ($client_url): ?>
+																								Or click the link
+																								<a href="<?php echo $client_url . '/forgotpassword/confirm/' . urlencode($reset_string); ?>"
 																									target="_blank"
-																									style="color: #AA8223; font-weight: 600; letter-spacing: 0.03125em;"><?php echo $client_url . '/forgotpassword/confirm/' . urlencode($reset_string); ?></a> or paste
-																							<?php else: ?> Paste
-																							<?php endif; ?> the code below
+																									style="color: #AA8223; font-weight: 600; letter-spacing: 0.03125em;">
+																									<?php echo $client_url . '/forgotpassword/confirm/' . urlencode($reset_string); ?>
+																								</a>
+																								or paste
+																							<?php else: ?>
+																								Paste
+																							<?php endif; ?>
+																							the code below
 																							into the token field on the
 																							recovery page. Note that the
 																							reset token will expire after
 																							<?php echo $duration ?> minutes
 																						</td>
 																					</tr>
+
+																					<?php if ($client_url) : ?>
 																					<tr>
 																						<td align="left"
 																							style="padding: 8px 0;">
@@ -246,13 +252,14 @@
 																							</table>
 																						</td>
 																					</tr>
+
 																					<tr>
 																						<td align="left"
 																							style="font:16px/24px Open Sans, Arial, Helvetica, sans-serif; font-weight: normal; color: #383E45; padding: 24px 0;">
 																							If you didn't initiate this
 																							request, please ignore and
 																							contact us on <a
-																								href="support@ushahidi.com"
+																								href="mailto:support@ushahidi.com"
 																								target="_blank"
 																								style="color: #AA8223; font-weight: 600; letter-spacing: 0.03125em;">support@ushahidi.com</a>
 																						</td>
@@ -260,8 +267,7 @@
 																					<tr>
 																						<td align="left"
 																							style="font:16px/24px Open Sans, Arial, Helvetica, sans-serif; font-weight: normal; color: #383E45;">
-																							Best regards, <br> The Ushahidi
-																							Team
+																							Best regards, <br> The Ushahidi Team
 																						</td>
 																					</tr>
 																				</table>
@@ -276,7 +282,7 @@
 																						<td align="left"
 																							style="padding: 24px 0 16px;">
 																							<a target="_blank" href="#">
-																								<img src="img/logo.png"
+																								<img src="http://github.ushahidi.org/platform-pattern-library/assets/img/ushahidi-wordmark-fullcolor.png"
 																									border="0" width="117"
 																									height="24"
 																									alt="Ushahidi"
