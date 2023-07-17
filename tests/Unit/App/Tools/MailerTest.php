@@ -61,7 +61,7 @@ class MailerTest extends TestCase
                 'emails/forgot-password',
                 M::on(function ($data) {
                     $this->assertArrayHasKey('site_name', $data);
-                    $this->assertArrayHasKey('token', $data);
+                    $this->assertArrayHasKey('code', $data);
                     $this->assertArrayHasKey('client_url', $data);
 
                     return true;
