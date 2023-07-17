@@ -47,8 +47,12 @@ class MailerTest extends TestCase
             $illuminateMailer
         );
 
+        $code = 'abc123';
         $mailer->send('noone@ushahidi.com', 'Resetpassword', [
-            'token' => 'abc123',
+            'code' => $code,
+            'user_name' => 'No One',
+            'string' => base64_encode($code),
+            'duration' => 30,
         ]);
 
         $illuminateMailer->shouldHaveReceived('send')
