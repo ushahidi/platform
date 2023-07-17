@@ -98,24 +98,29 @@
 																					</tr>
 																					<tr>
 																						<td align="left" style="font:16px/24px Open Sans, Arial, Helvetica, sans-serif; font-weight: normal; color: #383E45; padding: 0 0 24px;">
-																							Hi {{ username }}.
+																							Hi <?php echo $user_name ?>.
 																						</td>
 																					</tr>
 																					<tr>
 																						<td align="left" style="font:16px/24px Open Sans, Arial, Helvetica, sans-serif; font-weight: normal; color: #383E45; padding: 0 0 8px;">
-																							We received a request to reset the password for your account. To reset the password, click on the button below.
+																							We received a request to reset the password for your account. <?php if ($client_url) : ?> Click the button below to reset your password. <?php endif; ?>
 																						</td>
 																					</tr>
+
+																					<?php if ($client_url) : ?>
 																					<tr>
 																						<td align="center" style="padding: 0 0 24px;">
-																							<a href="<?php echo $client_url.'/forgotpassword/confirm/'.urlencode($token); ?>" class="btn" style="font:16px/20px Open Sans, Arial, Helvetica, sans-serif; display: block; text-decoration: none; font-weight: 500; color: #181B21; padding: 10px; background: #FFC235; border-radius: 4px;">
+																							<a href="<?php echo $client_url.'/forgotpassword/confirm/'.urlencode($reset_string); ?>" class="btn" style="font:16px/20px Open Sans, Arial, Helvetica, sans-serif; display: block; text-decoration: none; font-weight: 500; color: #181B21; padding: 10px; background: #FFC235; border-radius: 4px;">
 																								Recover Password
 																							</a>
 																						</td>
 																					</tr>
+																					<?php endif; ?>
+
 																					<tr>
 																						<td align="left" style="font:16px/24px Open Sans, Arial, Helvetica, sans-serif; font-weight: normal; color: #383E45;">
-																							Or click the link <a href="<?php echo $client_url.'/forgotpassword/confirm/'.urlencode($token); ?>" target="_blank" style="color: #AA8223; font-weight: 600; letter-spacing: 0.03125em;"><?php echo $client_url.'/forgotpassword/confirm/'.urlencode($token); ?></a> and paste the token into the token field on the recovery page. Note that this reset token will expire after {{ duration }} minutes
+																							<?php if ($client_url) : ?> Or click the link <a href="<?php echo $client_url.'/forgotpassword/confirm/'.urlencode($reset_string); ?>" target="_blank" style="color: #AA8223; font-weight: 600; letter-spacing: 0.03125em;"><?php echo $client_url.'/forgotpassword/confirm/'.urlencode($reset_string); ?></a> or paste
+																							<?php else: ?> Paste <?php endif; ?> the code below into the token field on the recovery page. Note that the reset token will expire after <?php echo $duration ?> minutes
 																						</td>
 																					</tr>
 																					<tr>
@@ -123,12 +128,13 @@
 																							<table cellpadding="0" cellspacing="0" width="100%">
 																								<tr>
 																									<td align="center" style="font:14px/21px Open Sans, Arial, Helvetica, sans-serif; font-weight: 700; text-align: center; color: #383E45; padding: 16px; word-break:break-all; background: #F5F5F5; border-radius: 8px;">
-                                                                                                        <?php echo $token; ?>
+                                                                                                        <?php echo $reset_code; ?>
 																									</td>
 																								</tr>
 																							</table>
 																						</td>
 																					</tr>
+
 																					<tr>
 																						<td align="left" style="font:16px/24px Open Sans, Arial, Helvetica, sans-serif; font-weight: normal; color: #383E45; padding: 24px 0;">
 																							If you didn't initiate this request, please ignore and contact us on <a href="support@ushahidi.com" target="_blank" style="color: #AA8223; font-weight: 600; letter-spacing: 0.03125em;">support@ushahidi.com</a>
@@ -136,7 +142,7 @@
 																					</tr>
 																					<tr>
 																						<td align="left" style="font:16px/24px Open Sans, Arial, Helvetica, sans-serif; font-weight: normal; color: #383E45;">
-																							Best regards, <br> Cecilia
+																							Best regards, <br> The Ushahidi Team
 																						</td>
 																					</tr>
 																				</table>
@@ -157,11 +163,11 @@
 																							Ushahidi empowers people through citizen-generated data to develop solutions that strengthen their communities.
 																						</td>
 																					</tr>
-																					<tr>
+																					<!-- <tr>
 																						<td align="left" style="font:14px/18px Open Sans, Arial, Helvetica, sans-serif; font-weight: normal; color: #6C7074; padding: 8px 0 0;">
 																							No longer interested? <a href="#" style="font-weight: 600; color: #6C7074;">Unsubscribe</a> or <a href="#" style="font-weight: 600; color: #6C7074;">manage your subscriptions</a>
 																						</td>
-																					</tr>
+																					</tr> -->
 																				</table>
 																			</td>
 																		</tr>

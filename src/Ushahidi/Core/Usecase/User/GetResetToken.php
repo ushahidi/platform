@@ -81,15 +81,18 @@ class GetResetToken implements Usecase
         $entity = $this->getEntity();
 
         if ($entity->getId()) {
-            // Generate a reset token
-            $token = $this->repo->getResetToken($entity);
+            // Get the reset code on the user
+            $code = $this->repo->getResetToken($entity);
 
             // Email the reset token
             $this->mailer->send(
                 $entity->email,
                 'resetpassword',
                 [
-                    'token' => $token
+                    'user_name' => $entity->realname,
+                    'code' => $code,
+                    'string' => base64_encode($code),
+                    'duration' => 30,
                 ]
             );
         }

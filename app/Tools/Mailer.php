@@ -43,12 +43,14 @@ class Mailer implements MailerContract
         $site_name = $this->getSite()->getName();
         $site_email = $this->getSite()->getEmail();
         $site_client_url = $this->getSite()->getClientUri() ?? env('DEFAULT_CLIENT_URL');
-        $token = $params['token'];
 
         $data = [
-            'site_name' => $site_name,
-            'token' => $token,
             'client_url' => $site_client_url,
+            'site_name' => $site_name,
+            'user_name' => $params['user_name'],
+            'reset_string' => $params['string'],
+            'reset_code' => $params['code'],
+            'duration' => $params['duration']
         ];
 
         $subject = $site_name.': Password reset';
