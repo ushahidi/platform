@@ -49,7 +49,7 @@ class UserRepositoryTest extends TestCase
             []
         );
 
-        $token = $repo->getResetToken($user);
+        $token = $repo->getResetToken($user, '1B3D6');
 
         $this->assertIsString($token);
     }

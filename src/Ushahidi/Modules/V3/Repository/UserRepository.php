@@ -22,7 +22,8 @@ use Ushahidi\Core\Concerns\Event;
 use Ushahidi\Core\Entity\Contact;
 use Illuminate\Support\Collection;
 use Ushahidi\Core\Tool\SearchData;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Contracts\Encryption\DecryptException;
 use Ushahidi\Contracts\Repository\Usecase\UserRegisterRepository;
 use Ushahidi\Contracts\Repository\Usecase\UserResetPasswordRepository;
 use Ushahidi\Contracts\Repository\Entity\UserRepository as UserRepositoryContract;
@@ -237,7 +238,7 @@ class UserRepository extends OhanzeeRepository implements
     // ResetPasswordRepository
     public function getResetToken(Entity $entity)
     {
-        $token = Hash::make(Str::random(40));
+        $token = sprintf('%06X', mt_rand(0, 16777215));
 
         $input = [
             'reset_token' => $token,
@@ -246,7 +247,7 @@ class UserRepository extends OhanzeeRepository implements
         ];
 
         // Save the token
-        $query = DB::insert('user_reset_tokens')
+        DB::insert('user_reset_tokens')
             ->columns(array_keys($input))
             ->values(array_values($input))
             ->execute($this->db());
