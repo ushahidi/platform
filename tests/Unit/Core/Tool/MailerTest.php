@@ -8,12 +8,11 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Ushahidi\Tests\Unit\App\Tools;
+namespace Ushahidi\Tests\Unit\Core\Tool;
 
 use Mockery as M;
-use App\Tools\Mailer;
-use Ushahidi\Multisite\Site;
 use Ushahidi\Tests\TestCase;
+use Ushahidi\Core\Entity\Site;
 
 /**
  * @backupGlobals disabled
@@ -61,7 +60,7 @@ class MailerTest extends TestCase
                 'emails/forgot-password',
                 M::on(function ($data) {
                     $this->assertArrayHasKey('site_name', $data);
-                    $this->assertArrayHasKey('code', $data);
+                    $this->assertArrayHasKey('reset_code', $data);
                     $this->assertArrayHasKey('client_url', $data);
 
                     return true;
