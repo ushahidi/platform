@@ -254,14 +254,8 @@
 																					</tr>
 
 																					<tr>
-																						<td align="left"
-																							style="font:16px/24px Open Sans, Arial, Helvetica, sans-serif; font-weight: normal; color: #383E45; padding: 24px 0;">
-																							If you didn't initiate this
-																							request, please ignore and
-																							contact us on <a
-																								href="mailto:support@ushahidi.com"
-																								target="_blank"
-																								style="color: #AA8223; font-weight: 600; letter-spacing: 0.03125em;">support@ushahidi.com</a>
+																						<td align="left" style="font:16px/24px Open Sans, Arial, Helvetica, sans-serif; font-weight: normal; color: #383E45; padding: 24px 0;">
+																							If you didn't initiate this request, please ignore and contact us on <a href="mailto:support@ushahidi.com" target="_blank" style="color: #AA8223; font-weight: 600; letter-spacing: 0.03125em;">support@ushahidi.com</a>
 																						</td>
 																					</tr>
 																					<tr>
@@ -282,11 +276,7 @@
 																						<td align="left"
 																							style="padding: 24px 0 16px;">
 																							<a target="_blank" href="#">
-																								<img src="http://github.ushahidi.org/platform-pattern-library/assets/img/ushahidi-wordmark-fullcolor.png"
-																									border="0" width="117"
-																									height="24"
-																									alt="Ushahidi"
-																									style="vertical-align: top; width: 117px; height: 24px;" />
+																								<img src="https://github.ushahidi.org/platform-pattern-library/assets/img/ushahidi-wordmark-fullcolor.png" border="0" width="117" height="24" alt="Ushahidi" style="vertical-align: top; width: 117px; height: 24px;" />
 																							</a>
 																						</td>
 																					</tr>
