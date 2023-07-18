@@ -39,7 +39,7 @@ class MailerTest extends TestCase
             'password' => config('database.connections.mysql.password'),
         ]);
         $site->shouldReceive('getId')->andReturn(1);
-        $this->app->make('site')->setSite($site);
+        $this->app->make('site')->setDefault($site);
 
         $illuminateMailer = M::spy(app('mailer'));
 
