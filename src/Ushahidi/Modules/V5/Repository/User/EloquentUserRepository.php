@@ -58,7 +58,10 @@ class EloquentUserRepository implements UserRepository
     {
 
         if ($user_search_fields->q()) {
-            $builder->where('realname', 'LIKE', "%" . $user_search_fields->q() . "%");
+            $builder->whereRaw(
+                '(users.realname like ? OR users.email like ?)',
+                ["%" . $user_search_fields->q() . "%", "%" . $user_search_fields->q() . "%"]
+            );
         }
         if ($user_search_fields->role()) {
             $builder->whereIn('role', $user_search_fields->role());
