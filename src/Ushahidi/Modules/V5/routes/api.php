@@ -322,7 +322,7 @@ $router->group([
             $router->group(
                 [
                     'prefix' => '{collection_id}/posts',
-                    'middleware' => ['scope: sets', 'auth:api', 'expiration']
+                    'middleware' => ['scope:sets', 'auth:api', 'expiration']
                 ],
                 function () use ($router) {
                     $router->post('/', 'CollectionPostController@store');
