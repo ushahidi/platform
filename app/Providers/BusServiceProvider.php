@@ -42,6 +42,8 @@ use Ushahidi\Modules\V5\Actions\Contact;
 use Ushahidi\Modules\V5\Actions\Message;
 use Ushahidi\Modules\V5\Actions\Notification;
 use Ushahidi\Modules\V5\Actions\Layer;
+use Ushahidi\Modules\V5\Actions\CSV;
+use Ushahidi\Modules\V5\Actions\Export;
 
 class BusServiceProvider extends ServiceProvider
 {
@@ -292,6 +294,36 @@ class BusServiceProvider extends ServiceProvider
                 Layer\Commands\DeleteLayerCommand::class,
                 Layer\Handlers\DeleteLayerCommandHandler::class
             );
+
+
+            $commandBus->register(
+                CSV\Commands\CreateCSVCommand::class,
+                CSV\Handlers\CreateCSVCommandHandler::class
+            );
+            $commandBus->register(
+                CSV\Commands\UpdateCSVCommand::class,
+                CSV\Handlers\UpdateCSVCommandHandler::class
+            );
+            $commandBus->register(
+                CSV\Commands\DeleteCSVCommand::class,
+                CSV\Handlers\DeleteCSVCommandHandler::class
+            );
+
+
+            $commandBus->register(
+                Export\Commands\CreateExportJobCommand::class,
+                Export\Handlers\CreateExportJobCommandHandler::class
+            );
+            $commandBus->register(
+                Export\Commands\UpdateExportJobCommand::class,
+                Export\Handlers\UpdateExportJobCommandHandler::class
+            );
+            $commandBus->register(
+                Export\Commands\DeleteExportJobCommand::class,
+                Export\Handlers\DeleteExportJobCommandHandler::class
+            );
+            
+
             
             return $commandBus;
         });
@@ -482,6 +514,26 @@ class BusServiceProvider extends ServiceProvider
             $queryBus->register(
                 Layer\Queries\FetchLayerByIdQuery::class,
                 Layer\Handlers\FetchLayerByIdQueryHandler::class
+            );
+
+
+            $queryBus->register(
+                CSV\Queries\FetchCSVQuery::class,
+                CSV\Handlers\FetchCSVQueryHandler::class
+            );
+            $queryBus->register(
+                CSV\Queries\FetchCSVByIdQuery::class,
+                CSV\Handlers\FetchCSVByIdQueryHandler::class
+            );
+
+
+            $queryBus->register(
+                Export\Queries\FetchExportJobQuery::class,
+                Export\Handlers\FetchExportJobQueryHandler::class
+            );
+            $queryBus->register(
+                Export\Queries\FetchExportJobByIdQuery::class,
+                Export\Handlers\FetchExportJobByIdQueryHandler::class
             );
 
             return $queryBus;

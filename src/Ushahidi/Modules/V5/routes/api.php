@@ -402,4 +402,36 @@ $router->group([
             $router->delete('/{id}', 'LayerController@delete');
         }
     );
+
+
+    $router->group(
+        [
+            'prefix' => 'csv',
+            'middleware' => ['scope:csv', 'auth:api', 'expiration']
+        ],
+        function () use ($router) {
+            $router->get('/', 'CSVController@index');
+            $router->get('/{id}', 'CSVController@show');
+            $router->post('/', 'CSVController@store');
+            $router->put('/{id}', 'CSVController@update');
+            $router->delete('/{id}', 'CSVController@delete');
+            $router->post('/{id}/import', 'CSVController@import');
+        }
+    );
+
+
+
+    $router->group(
+        [
+            'prefix' => 'exports/jobs',
+            'middleware' => ['scope:posts', 'auth:api', 'expiration']
+        ],
+        function () use ($router) {
+            $router->get('/', 'ExportJobController@index');
+            $router->get('/{id}', 'ExportJobController@show');
+            $router->post('/', 'ExportJobController@store');
+            $router->put('/{id}', 'ExportJobController@update');
+            $router->delete('/{id}', 'ExportJobController@delete');
+        }
+    );
 });
