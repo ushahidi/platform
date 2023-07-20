@@ -56,10 +56,12 @@ class EloquentUserRepository implements UserRepository
 
     private function setSearchCondition(UserSearchFields $user_search_fields, $builder)
     {
+        $builder->where(function ($query) use ($user_search_fields) {
+            $query->where("users.realname", "like", "%" . $user_search_fields->q() . "%");
+            $query->orWhere("users.email", "like", "%" . $user_search_fields->q() . "%");
+        });
 
-        if ($user_search_fields->q()) {
-            $builder->where('realname', 'LIKE', "%" . $user_search_fields->q() . "%");
-        }
+
         if ($user_search_fields->role()) {
             $builder->whereIn('role', $user_search_fields->role());
         }

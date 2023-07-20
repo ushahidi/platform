@@ -8,12 +8,12 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace App\Tools;
+namespace Ushahidi\Core\Tool;
 
 use Illuminate\Support\Str;
-use Ushahidi\Core\Concerns\UsesSiteInfo;
-use Ushahidi\Contracts\Mailer as MailerContract;
 use Illuminate\Contracts\Mail\Mailer as LaravelMailer;
+use Ushahidi\Contracts\Mailer as MailerContract;
+use Ushahidi\Core\Concerns\UsesSiteInfo;
 
 class Mailer implements MailerContract
 {
@@ -42,11 +42,15 @@ class Mailer implements MailerContract
     {
         $site_name = $this->getSite()->getName();
         $site_email = $this->getSite()->getEmail();
+        $site_client_url = $this->getSite()->getClientUri() ?? env('DEFAULT_CLIENT_URL');
 
         $data = [
+            'client_url' => $site_client_url,
             'site_name' => $site_name,
-            'token' => $params['token'],
-            'client_url' => $this->getSite()->getClientUri(),
+            'user_name' => $params['user_name'],
+            'reset_string' => $params['string'],
+            'reset_code' => $params['code'],
+            'duration' => $params['duration']
         ];
 
         $subject = $site_name.': Password reset';

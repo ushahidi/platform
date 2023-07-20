@@ -95,6 +95,11 @@ class Set extends BaseModel
         return $query;
     }
 
+    public function posts()
+    {
+        return $this->belongsToMany('Ushahidi\Modules\V5\Models\Post\Post', 'posts_sets', 'set_id');
+    }
+
     public function errors()
     {
         return $this->errors;

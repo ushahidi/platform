@@ -27,9 +27,9 @@ class ContactController extends V5Controller
      */
     public function show(int $id)
     {
-        $collection = $this->queryBus->handle(new FetchContactByIdQuery($id));
-        $this->authorize('show', $collection);
-        return new ContactResource($collection);
+        $contact = $this->queryBus->handle(new FetchContactByIdQuery($id));
+        $this->authorize('show', $contact);
+        return new ContactResource($contact);
     } //end show()
 
 
@@ -43,8 +43,8 @@ class ContactController extends V5Controller
     public function index(Request $request)
     {
         $this->authorize('index', Contact::class);
-        $collections = $this->queryBus->handle(FetchContactQuery::FromRequest($request));
-        return new ContactCollection($collections);
+        $contacts = $this->queryBus->handle(FetchContactQuery::FromRequest($request));
+        return new ContactCollection($contacts);
     } //end index()
 
 

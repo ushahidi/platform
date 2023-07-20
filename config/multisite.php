@@ -34,4 +34,5 @@ return [
     'domain'  => env('MULTISITE_DOMAIN'),
     'email'   => env('MULTISITE_EMAIL'),
     'client_domain' => env('MULTISITE_CLIENT_DOMAIN'),
+    'client_scheme' => env('MULTISITE_CLIENT_SCHEME', 'http')
 ];

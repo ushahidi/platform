@@ -33,6 +33,8 @@ use Ushahidi\Modules\V5\Repository\Contact;
 use Ushahidi\Modules\V5\Repository\Message;
 use Ushahidi\Modules\V5\Repository\Notification;
 use Ushahidi\Modules\V5\Repository\Layer;
+use Ushahidi\Modules\V5\Repository\CSV;
+use Ushahidi\Modules\V5\Repository\Export;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -117,5 +119,7 @@ class AppServiceProvider extends ServiceProvider
             Notification\EloquentNotificationRepository::class
         );
         $this->app->bind(Layer\LayerRepository::class, Layer\EloquentLayerRepository::class);
+        $this->app->bind(CSV\CSVRepository::class, CSV\EloquentCSVRepository::class);
+        $this->app->bind(Export\ExportJobRepository::class, Export\EloquentExportJobRepository::class);
     }
 }

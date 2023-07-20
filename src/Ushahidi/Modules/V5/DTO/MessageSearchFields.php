@@ -25,7 +25,7 @@ class MessageSearchFields
         $this->box = $request->query('box');
         $this->status = $request->query('status');
         $this->contact = $request->query('contact');
-        $this->parent = $request->query('parent');
+        $this->parent = ParameterUtilities::getParameterAsArray($request->get('parent'));
         $this->post = $request->query('post');
         $this->type = $request->query('type');
         $this->data_source = $request->query('data_source');

@@ -65,13 +65,15 @@ class Site extends BaseSite
         // If we're in multisite mode
         if (config('multisite.enabled')) {
             // build the url from config + subdomain
-            return implode('.', array_filter([
+            $http_host = implode('.', array_filter([
                 $this->subdomain,
                 config(
                     'multisite.client_domain',
                     $this->domain
                 )
             ]));
+
+            return config('multisite.client_scheme') . "://$http_host";
         }
 
         // get client_url from site config

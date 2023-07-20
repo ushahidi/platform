@@ -61,6 +61,7 @@ class Post extends BaseModel
     public const ALLOWED_RELATIONSHIPS = [
         'locks' => ['fields' => [], 'relationships' => ["locks"]],
         'categories' => ['fields' => [], 'relationships' => ["categories"]],
+        'color' => ['fields' => [], 'relationships' => ["survey"]],
         'sets' => ['fields' => [], 'relationships' => ["sets"]],
         'message' => ['fields' => [], 'relationships' => ['message']],
         'contact' => ['fields' => [], 'relationships' => ['message']],

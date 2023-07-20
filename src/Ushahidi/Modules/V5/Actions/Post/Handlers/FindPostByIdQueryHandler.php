@@ -55,11 +55,14 @@ class FindPostByIdQueryHandler extends AbstractQueryHandler
     {
         foreach ($hydrates as $hydrate) {
             switch ($hydrate) {
+                case 'color':
+                    $post->color = $post->survey ? $post->survey->color : null;
+                    break;
                 case 'categories':
                     // $result['categories'] = $post->categories;
                     break;
                 case 'sets':
-                 //    $post->sets = $post->sets->pluck('id');
+                    //    $post->sets = $post->sets->pluck('id');
                     break;
                 case 'completed_stages':
                     $post->completed_stages = $post->postStages;
@@ -110,6 +113,8 @@ class FindPostByIdQueryHandler extends AbstractQueryHandler
                     break;
             }
         }
+        //  dd($post);
+
         return $post;
     }
     private function hideFieldsUsedByRelationships(Post $post, array $fields = [])
@@ -142,7 +147,7 @@ class FindPostByIdQueryHandler extends AbstractQueryHandler
 
         // hide source relationships
         if (!in_array('message', $hydrates)) {
-             $post->makeHidden('message');
+            $post->makeHidden('message');
         }
 
         // hide completed_stages relationships

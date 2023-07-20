@@ -12,11 +12,12 @@ use Ushahidi\Modules\V5\Repository\Config\ConfigRepository;
 use Ushahidi\Modules\V5\Actions\Config\Commands\UpdateConfigCommand;
 use Illuminate\Support\Facades\DB;
 use Ushahidi\Core\Entity\Config as ConfigEntity;
+use Ushahidi\Core\Exception\NotFoundException;
 
 class UpdateConfigCommandHandler extends AbstractCommandHandler
 {
-       // Use Event trait to trigger events
-       use Event;
+    // Use Event trait to trigger events
+    use Event;
     private $config_repository;
 
     public function __construct(ConfigRepository $config_repository)
@@ -26,7 +27,7 @@ class UpdateConfigCommandHandler extends AbstractCommandHandler
 
     protected function isSupported(Command $command): void
     {
-        if (!$command instanceof UpdatePUpdateConfigCommandostCommand) {
+        if (!$command instanceof UpdateConfigCommand) {
             throw new \Exception('Provided $command is not instance of UpdateConfigCommand');
         }
     }
@@ -38,117 +39,32 @@ class UpdateConfigCommandHandler extends AbstractCommandHandler
          */
         $this->isSupported($action);
 
-     
-         $this->updateConfig($action);
+
+        $this->updateConfig($action);
     }
 
 
     private function updateConfig(UpdateConfigCommand $action)
     {
-        $intercom_data = [];
-        $group = $action->getGroup();
 
- //       $this->verifyGroup($group);
+        $this->verifyGroup($action->getGroupName());
 
-        if ($group == 'deployment_id') {
+        if ($action->getGroupName() == 'deployment_id') {
             return; /* noop */
         }
-
-        // Intercom count datasources
-        if ($group === 'data-provider') {
-            $intercom_data['num_data_sources'] = 0;
-            foreach ($entity->providers as $key => $value) {
-                $value ? $intercom_data['num_data_sources']++ : null;
-            }
+        foreach ($action->getInsertConfigs() as $key => $value) {
+            $this->config_repository->createByKey($action->getGroupName(), $key, $value);
         }
 
-        $immutable = $entity->getImmutable();
-        foreach ($entity->getChanged() as $key => $val) {
-            // Emit Intercom Update events
-            if ($key === 'description') {
-                $intercom_data['has_description'] = true;
-            }
-
-            if ($key === 'image_header') {
-                $intercom_data['has_logo'] = true;
-            }
-
-            // New User - set their deployment created date
-            if ($key === 'first_login') {
-                $intercom_data['deployment_created_date'] = date("Y-m-d H:i:s");
-            }
-
-            if (! in_array($key, $immutable)) {
-                $this->insertOrUpdate($group, $key, $val);
-            }
+        foreach ($action->getUpdateConfigs() as $key => $value) {
+            $this->config_repository->updateOrInsertByKey($action->getGroupName(), $key, $value);
         }
 
-        if ($intercom_data) {
-            $this->emit($this->event, $intercom_data);
-        }
-    }
-
-
-    public function update(Entity $entity)
-    {
-        $intercom_data = [];
-        $group = $entity->getId();
-
-        $this->verifyGroup($group);
-
-        if ($group == 'deployment_id') {
-            return; /* noop */
+        foreach ($action->getDeleteConfigs() as $key => $value) {
+            $this->config_repository->deleteByKey($action->getGroupName(), $key);
         }
 
-        // Intercom count datasources
-        if ($group === 'data-provider') {
-            $intercom_data['num_data_sources'] = 0;
-            foreach ($entity->providers as $key => $value) {
-                $value ? $intercom_data['num_data_sources']++ : null;
-            }
-        }
-
-        $immutable = $entity->getImmutable();
-        foreach ($entity->getChanged() as $key => $val) {
-            // Emit Intercom Update events
-            if ($key === 'description') {
-                $intercom_data['has_description'] = true;
-            }
-
-            if ($key === 'image_header') {
-                $intercom_data['has_logo'] = true;
-            }
-
-            // New User - set their deployment created date
-            if ($key === 'first_login') {
-                $intercom_data['deployment_created_date'] = date("Y-m-d H:i:s");
-            }
-
-            if (! in_array($key, $immutable)) {
-                $this->insertOrUpdate($group, $key, $val);
-            }
-        }
-
-        if ($intercom_data) {
-            $this->emit($this->event, $intercom_data);
-        }
-    }
-
-    private function insertOrUpdate($group, $key, $value)
-    {
-        $value = json_encode($value);
-
-        DB::query(Database::INSERT, "
-			INSERT INTO `config`
-			(`group_name`, `config_key`, `config_value`) VALUES (:group, :key, :value)
-			ON DUPLICATE KEY UPDATE `config_value` = :value;
-		")
-        ->parameters([
-            ':group' => $group,
-            ':key' => $key,
-            ':value' => $value
-        ])
-        ->execute($this->db());
+        // To Do  add intercom event from V3
     }
 
     protected function verifyGroup($group)

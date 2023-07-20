@@ -26,10 +26,14 @@ class AuthServiceProvider extends ServiceProvider
         Models\Tos::class => Policies\TosPolicy::class,
         Models\Set::class => Policies\CollectionPolicy::class,
         Models\SetPost::class => Policies\CollectionPostPolicy::class,
+        Models\Config::class => Policies\ConfigPolicy::class,
         Models\Contact::class => Policies\ContactPolicy::class,
         Models\Message::class => Policies\MessagePolicy::class,
         Models\Notification::class => Policies\NotificationPolicy::class,
-        Models\Layer::class => Policies\LayerPolicy::class
+        Models\Layer::class => Policies\LayerPolicy::class,
+        Models\CSV::class => Policies\CSVPolicy::class,
+        Models\ExportJob::class => Policies\ExportJobPolicy::class
+
 
     ];
 

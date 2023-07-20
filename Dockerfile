@@ -1,4 +1,5 @@
 FROM ushahidi/php-fpm-nginx:php-7.3
+LABEL org.opencontainers.image.source="https://github.com/ushahidi/platform"
 
 WORKDIR /var/www
 COPY composer.json ./
@@ -25,3 +26,5 @@ ENV ENABLE_PLATFORM_TASKS=true \
     PHP_EXEC_TIME_LIMIT=3600 \
     GIT_COMMIT_ID=${GIT_COMMIT_ID} \
     GIT_BUILD_REF=${GIT_BUILD_REF}
+
+CMD [ "start" ]
