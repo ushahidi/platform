@@ -8,12 +8,12 @@
  * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
-namespace Ushahidi\Tests\Unit\App\Tools;
+namespace Ushahidi\Tests\Unit\Core\Tool;
 
 use Mockery as M;
-use App\Tools\Mailer;
-use Ushahidi\Multisite\Site;
 use Ushahidi\Tests\TestCase;
+use Ushahidi\Core\Entity\Site;
+use Ushahidi\Core\Tool\Mailer;
 
 /**
  * @backupGlobals disabled
@@ -39,7 +39,7 @@ class MailerTest extends TestCase
             'password' => config('database.connections.mysql.password'),
         ]);
         $site->shouldReceive('getId')->andReturn(1);
-        $this->app->make('multisite')->setSite($site);
+        $this->app->make('site')->setDefault($site);
 
         $illuminateMailer = M::spy(app('mailer'));
 
@@ -47,8 +47,12 @@ class MailerTest extends TestCase
             $illuminateMailer
         );
 
+        $code = 'abc123';
         $mailer->send('noone@ushahidi.com', 'Resetpassword', [
-            'token' => 'abc123',
+            'code' => $code,
+            'user_name' => 'No One',
+            'string' => base64_encode($code),
+            'duration' => 30,
         ]);
 
         $illuminateMailer->shouldHaveReceived('send')
@@ -57,7 +61,7 @@ class MailerTest extends TestCase
                 'emails/forgot-password',
                 M::on(function ($data) {
                     $this->assertArrayHasKey('site_name', $data);
-                    $this->assertArrayHasKey('token', $data);
+                    $this->assertArrayHasKey('reset_code', $data);
                     $this->assertArrayHasKey('client_url', $data);
 
                     return true;

@@ -9,15 +9,21 @@ use Illuminate\Http\Request;
 class FindConfigByNameQuery implements Query
 {
     private $group_name;
+    private $key;
 
 
-
-    public function __construct(string $group_name)
+    public function __construct(string $group_name, string $key = null)
     {
         $this->group_name = $group_name;
+        $this->key = $key;
     }
     public function getGroupName(): string
     {
         return $this->group_name;
+    }
+
+    public function getKey(): ?string
+    {
+        return $this->key;
     }
 }

@@ -11,6 +11,7 @@
 
 namespace Ushahidi\Core\Usecase\User;
 
+use Illuminate\Support\Facades\Hash;
 use Ushahidi\Contracts\Usecase;
 use Ushahidi\Core\Usecase\Concerns\ModifyRecords;
 use Ushahidi\Core\Usecase\Concerns\Formatter as FormatterTrait;
@@ -62,6 +63,8 @@ class ResetUserPassword implements Usecase
         ];
 
         $this->verifyValid($entity_array);
+
+        $token = is_base64($token) ? base64_decode($token, true) : $token;
 
         $this->repo->setPassword($token, $password);
 

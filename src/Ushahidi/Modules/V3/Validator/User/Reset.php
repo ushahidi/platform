@@ -40,6 +40,8 @@ class Reset extends LegacyValidator
 
     public function checkResetToken(\Kohana\Validation\Validation $validation, $token)
     {
+        $token = is_base64($token) ? base64_decode($token, true) : $token;
+
         if (!$this->repo->isValidResetToken($token)) {
             $validation->error('token', 'invalidResetToken');
         }

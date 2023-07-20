@@ -27,7 +27,7 @@ $router->group([
                     'middleware' => ['scope:users', 'auth:api', 'feature:user-settings', 'expiration']
                 ],
                 function () use ($router) {
-                        $router->get('/', 'SurveyRoleController@index');
+                    $router->get('/', 'SurveyRoleController@index');
                 }
             );
         }
@@ -50,7 +50,7 @@ $router->group([
                     'middleware' => ['scope:users', 'auth:api', 'feature:user-settings', 'expiration']
                 ],
                 function () use ($router) {
-                        $router->put('/', 'SurveyRoleController@replace');
+                    $router->put('/', 'SurveyRoleController@replace');
                 }
             );
         }
@@ -122,15 +122,15 @@ $router->group([
             $router->put('/{id}', 'PostController@update');
             $router->patch('/{id}', 'PostController@patch');
             $router->delete('/{id}', 'PostController@delete');
-            
+
             $router->group(
                 [
                     'prefix' => '{post_id}/lock',
                     'middleware' => ['scope:posts', 'auth:api', 'expiration']
                 ],
                 function () use ($router) {
-                        $router->put('/', 'PostController@updateLock');
-                        $router->delete('/', 'PostController@deleteLock');
+                    $router->put('/', 'PostController@updateLock');
+                    $router->delete('/', 'PostController@deleteLock');
                 }
             );
         }
@@ -157,7 +157,7 @@ $router->group([
         $router->get('/', 'CountryCodeController@index');
         $router->get('/{id}', 'CountryCodeController@show');
     });
-    
+
     /* Users */
     // Restricted access
     $router->group(
@@ -201,11 +201,11 @@ $router->group([
                     'middleware' => ['scope:users', 'auth:api', 'feature:user-settings', 'expiration']
                 ],
                 function () use ($router) {
-                        $router->get('/', 'UserSettingController@index');
-                        $router->get('/{id}', 'UserSettingController@show');
-                        $router->post('/', 'UserSettingController@store');
-                        $router->put('/{id}', 'UserSettingController@update');
-                        $router->delete('/{id}', 'UserSettingController@delete');
+                    $router->get('/', 'UserSettingController@index');
+                    $router->get('/{id}', 'UserSettingController@show');
+                    $router->post('/', 'UserSettingController@store');
+                    $router->put('/{id}', 'UserSettingController@update');
+                    $router->delete('/{id}', 'UserSettingController@delete');
                 }
             );
         }
@@ -302,8 +302,8 @@ $router->group([
                     'middleware' => ['scope:sets',  'expiration']
                 ],
                 function () use ($router) {
-                        $router->get('/', 'CollectionPostController@index');
-                        $router->get('/{id}', 'CollectionPostController@show');
+                    $router->get('/', 'CollectionPostController@index');
+                    $router->get('/{id}', 'CollectionPostController@show');
                 }
             );
         }
@@ -322,11 +322,11 @@ $router->group([
             $router->group(
                 [
                     'prefix' => '{collection_id}/posts',
-                    'middleware' => ['scope: sets', 'auth:api', 'expiration']
+                    'middleware' => ['scope:sets', 'auth:api', 'expiration']
                 ],
                 function () use ($router) {
-                        $router->post('/', 'CollectionPostController@store');
-                        $router->delete('/{id}', 'CollectionPostController@delete');
+                    $router->post('/', 'CollectionPostController@store');
+                    $router->delete('/{id}', 'CollectionPostController@delete');
                 }
             );
         }
@@ -341,7 +341,9 @@ $router->group([
         function () use ($router) {
             $router->get('/', 'ConfigController@index');
             $router->get('/{group_name}', 'ConfigController@show');
+            $router->get('/{group_name}/{key}', 'ConfigController@showKey');
             $router->put('/{group_name}', 'ConfigController@update');
+            $router->put('/{group_name}/{key}', 'ConfigController@updateKey');
         }
     );
 
@@ -398,6 +400,38 @@ $router->group([
             $router->post('/', 'LayerController@store');
             $router->put('/{id}', 'LayerController@update');
             $router->delete('/{id}', 'LayerController@delete');
+        }
+    );
+
+
+    $router->group(
+        [
+            'prefix' => 'csv',
+            'middleware' => ['scope:csv', 'auth:api', 'expiration']
+        ],
+        function () use ($router) {
+            $router->get('/', 'CSVController@index');
+            $router->get('/{id}', 'CSVController@show');
+            $router->post('/', 'CSVController@store');
+            $router->put('/{id}', 'CSVController@update');
+            $router->delete('/{id}', 'CSVController@delete');
+            $router->post('/{id}/import', 'CSVController@import');
+        }
+    );
+
+
+
+    $router->group(
+        [
+            'prefix' => 'exports/jobs',
+            'middleware' => ['scope:posts', 'auth:api', 'expiration']
+        ],
+        function () use ($router) {
+            $router->get('/', 'ExportJobController@index');
+            $router->get('/{id}', 'ExportJobController@show');
+            $router->post('/', 'ExportJobController@store');
+            $router->put('/{id}', 'ExportJobController@update');
+            $router->delete('/{id}', 'ExportJobController@delete');
         }
     );
 });
