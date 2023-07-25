@@ -2,14 +2,14 @@
 
 namespace Ushahidi\Modules\V5\Policies;
 
-use Ushahidi\Authzn\GenericUser as User;
-use Ushahidi\Core\Entity\Config as EntityConfig;
 use Ushahidi\Contracts\Entity;
-use Ushahidi\Modules\V5\Models\Config;
-use Ushahidi\Contracts\Permission;
+use Ushahidi\Core\Entity\Permission;
+use Ushahidi\Core\Concerns\PrivAccess;
+use Ushahidi\Modules\V5\Models\Config as EloquentConfig;
 use Ushahidi\Core\Concerns\AdminAccess;
 use Ushahidi\Core\Concerns\UserContext;
-use Ushahidi\Core\Concerns\PrivAccess;
+use Ushahidi\Authzn\GenericUser as User;
+use Ushahidi\Core\Ohanzee\Entities\Config as OhanzeeConfig;
 use Ushahidi\Core\Concerns\Acl as AccessControlList;
 
 class ConfigPolicy
@@ -40,65 +40,35 @@ class ConfigPolicy
      */
     protected $readonly_groups = ['features', 'deployment_id'];
 
-
-
-
-
-
-    /**
-     *
-     * @param  \Ushahidi\Modules\User  $user
-     * @return bool
-     */
     public function index()
     {
-        $empty_config_entity = new EntityConfig();
+        $empty_config_entity = new OhanzeeConfig();
         return $this->isAllowed($empty_config_entity, 'search');
     }
 
-    /**
-     *
-     * @param GenericUser $user
-     * @param Config $config
-     * @return bool
-     */
-    public function show(User $user, Config $config)
+    public function show(User $user, EloquentConfig $config)
     {
-        $config_entity = new EntityConfig($config->toArray());
+        $config_entity = new OhanzeeConfig($config->toArray());
         return $this->isAllowed($config_entity, 'read');
     }
 
-    /**
-     *
-     * @param GenericUser $user
-     * @param Config $config
-     * @return bool
-     */
-    public function delete(User $user, Config $config)
+    public function delete(User $user, EloquentConfig $config)
     {
-        $config_entity = new EntityConfig($config->toArray());
+        $config_entity = new OhanzeeConfig($config->toArray());
         return $this->isAllowed($config_entity, 'delete');
     }
-    /**
-     * @param Config $config
-     * @return bool
-     */
-    public function update(User $user, Config $config)
+
+    public function update(User $user, EloquentConfig $config)
     {
         // we convert to a Config entity to be able to continue using the old authorizers and classes.
-        $config_entity = new EntityConfig($config->toArray());
+        $config_entity = new OhanzeeConfig($config->toArray());
         return $this->isAllowed($config_entity, 'update');
     }
 
-
-    /**
-     * @param Config $config
-     * @return bool
-     */
-    public function store(User $user, Config $config)
+    public function store(User $user, EloquentConfig $config)
     {
         // we convert to a config_entity entity to be able to continue using the old authorizers and classes.
-        $config_entity = new EntityConfig($config->toArray());
+        $config_entity = new OhanzeeConfig($config->toArray());
         return $this->isAllowed($config_entity, 'create');
     }
 
@@ -135,14 +105,14 @@ class ConfigPolicy
             return true;
         }
 
-// If no other access checks succeed, we default to denying access
+        // If no other access checks succeed, we default to denying access
         return false;
     }
 
 
      /**
      * Check if a config group is public
-     * @param  EntityBase  $entity
+     * @param  Entity $entity
      * @return boolean
      */
     protected function isConfigPublic(Entity $entity)
@@ -161,7 +131,7 @@ class ConfigPolicy
 
     /**
      * Check if a config group is read only
-     * @param  EntityBase  $entity
+     * @param  Entity  $entity
      * @return boolean
      */
     protected function isConfigReadOnly(Entity $entity)

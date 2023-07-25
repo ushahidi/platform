@@ -2,16 +2,16 @@
 
 namespace Ushahidi\Modules\V5\Policies;
 
-use Ushahidi\Authzn\GenericUser as User;
-use Ushahidi\Core\Entity;
-use Ushahidi\Modules\V5\Models\ExportJob;
-use Ushahidi\Contracts\Permission;
-use Ushahidi\Core\Concerns\AdminAccess;
-use Ushahidi\Core\Concerns\UserContext;
-use Ushahidi\Core\Concerns\PrivAccess;
 use Ushahidi\Core\Concerns\PrivateDeployment;
-use Ushahidi\Core\Concerns\OwnerAccess;
 use Ushahidi\Core\Concerns\Acl as AccessControlList;
+use Ushahidi\Core\Entity\Permission;
+use Ushahidi\Core\Concerns\PrivAccess;
+use Ushahidi\Core\Concerns\AdminAccess;
+use Ushahidi\Core\Concerns\OwnerAccess;
+use Ushahidi\Core\Concerns\UserContext;
+use Ushahidi\Authzn\GenericUser as User;
+use Ushahidi\Modules\V5\Models\ExportJob;
+use Ushahidi\Core\Ohanzee\Entities\ExportJob as OhanzeeExportJob;
 
 class ExportJobPolicy
 {
@@ -38,68 +38,40 @@ class ExportJobPolicy
 
 
     /**
-     *
-     * @param  \Ushahidi\Modules\User  $user
      * @return bool
      */
     public function index()
     {
-        $empty_export_job_entity = new Entity\ExportJob();
+        $empty_export_job_entity = new OhanzeeExportJob();
         return $this->isAllowed($empty_export_job_entity, 'search');
     }
 
-    /**
-     *
-     * @param GenericUser $user
-     * @param ExportJob $export_job
-     * @return bool
-     */
     public function show(User $user, ExportJob $export_job)
     {
-        $export_job_entity = new Entity\ExportJob($export_job->toArray());
+        $export_job_entity = new OhanzeeExportJob($export_job->toArray());
         return $this->isAllowed($export_job_entity, 'read');
     }
 
-    /**
-     *
-     * @param GenericUser $user
-     * @param ExportJob $export_job
-     * @return bool
-     */
     public function delete(User $user, ExportJob $export_job)
     {
-        $export_job_entity = new Entity\ExportJob($export_job->toArray());
+        $export_job_entity = new OhanzeeExportJob($export_job->toArray());
         return $this->isAllowed($export_job_entity, 'delete');
     }
-    /**
-     * @param ExportJob $export_job
-     * @return bool
-     */
+
     public function update(User $user, ExportJob $export_job)
     {
         // we convert to a ExportJob entity to be able to continue using the old authorizers and classes.
-        $export_job_entity = new Entity\ExportJob($export_job->toArray());
+        $export_job_entity = new OhanzeeExportJob($export_job->toArray());
         return $this->isAllowed($export_job_entity, 'update');
     }
 
-
-    /**
-     * @param ExportJob $export_job
-     * @return bool
-     */
     public function store(User $user, ExportJob $export_job)
     {
         // we convert to a export_job_entity entity to be able to continue using the old authorizers and classes.
-        $export_job_entity = new Entity\ExportJob($export_job->toArray());
+        $export_job_entity = new OhanzeeExportJob($export_job->toArray());
         return $this->isAllowed($export_job_entity, 'create');
     }
 
-
-    /**
-     * @param $entity
-     * @param string $privilege
-     * @return bool
-     */
     public function isAllowed($entity, $privilege)
     {
         $authorizer = service('authorizer.export_job');

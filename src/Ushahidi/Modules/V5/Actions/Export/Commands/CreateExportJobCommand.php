@@ -7,6 +7,7 @@ use Ushahidi\Modules\V5\Models\ExportJob;
 use Ushahidi\Modules\V5\Requests\ExportJobRequest;
 use Illuminate\Support\Facades\Auth;
 use Ushahidi\Core\Entity\ExportJob as ExportJobEntity;
+use Ushahidi\Core\Ohanzee\Entities\ExportJob as OhanzeeExportJob;
 use Ushahidi\Modules\V5\Models\Stage;
 
 class CreateExportJobCommand implements Command
@@ -17,7 +18,7 @@ class CreateExportJobCommand implements Command
     private $export_job_entity;
 
 
-    
+
 
     public function __construct(ExportJobEntity $export_job_entity)
     {
@@ -47,7 +48,7 @@ class CreateExportJobCommand implements Command
         $input['created'] = time();
         $input['updated'] = time();
 
-        return new self(new ExportJobEntity($input));
+        return new self(new OhanzeeExportJob($input));
     }
 
     /**

@@ -5,7 +5,7 @@ use Illuminate\Http\Resources\Json\JsonResource as Resource;
 use Ushahidi\Modules\V5\Http\Resources\RequestCachedResource;
 use Ushahidi\Modules\V5\Http\Resources\Permissions\PermissionsCollection;
 use Illuminate\Support\Collection;
-use Ushahidi\Core\Entity\Config as ConfigEntity;
+use Ushahidi\Core\Ohanzee\Entities\Config as OhanzeeConfig;
 
 
 use App\Bus\Query\QueryBus;
@@ -23,7 +23,7 @@ class ConfigResource extends Resource
         // Note that we use attributesToArray instead of toArray because the first
         // would have the effect of causing unnecessary requests to the database
         // (relations are not needed in this case by the authorizer)
-        $entity = new ConfigEntity($this->resource->toArray());
+        $entity = new OhanzeeConfig($this->resource->toArray());
         // if there's no user the guards will kick them off already, but if there
         // is one we need to check the authorizer to ensure we don't let
         // users without admin perms create forms etc

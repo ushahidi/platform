@@ -2,12 +2,13 @@
 
 namespace Ushahidi\Modules\V5\Repository\Export;
 
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
-use Ushahidi\Modules\V5\Models\ExportJob;
 use Ushahidi\Modules\V5\DTO\Paging;
+use Ushahidi\Modules\V5\Models\ExportJob;
+use Ushahidi\Core\Exception\NotFoundException;
 use Ushahidi\Modules\V5\DTO\ExportJobSearchFields;
 use Ushahidi\Core\Entity\ExportJob as ExportJobEntity;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 interface ExportJobRepository
 {
