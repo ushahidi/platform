@@ -69,7 +69,7 @@
 																				<tr>
 																					<td align="left">
 																						<a target="_blank" href="#">
-																							<img src="https://raw.githubusercontent.com/ushahidi/platform-pattern-library/master/assets/img/wordmark_GoldonLight_2x.png" border="0" width="117" height="30" alt="Ushahidi" style="vertical-align: top; width: 117px; height: 24px;" />
+																							<img src="https://raw.githubusercontent.com/ushahidi/platform-pattern-library/master/assets/img/wordmark_GoldonLight_2x.png" border="0" alt="Ushahidi" style="vertical-align: top; width: 115px; height: 25px;" />
 																						</a>
 																					</td>
 																				</tr>
@@ -160,7 +160,7 @@
 																				<tr>
 																					<td align="left" style="padding: 24px 0 16px;">
 																						<a target="_blank" href="#">
-																							<img src="https://raw.githubusercontent.com/ushahidi/platform-pattern-library/master/assets/img/wordmark_GoldonLight_2x.png" border="0" width="117" height="25" alt="Ushahidi" style="vertical-align: top; width: 117px; height: 24px;" />
+																							<img src="https://raw.githubusercontent.com/ushahidi/platform-pattern-library/master/assets/img/wordmark_GoldonLight_2x.png" border="0" alt="Ushahidi" style="vertical-align: top; width: 115px; height: 25px;" />
 																						</a>
 																					</td>
 																				</tr>
