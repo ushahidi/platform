@@ -32,7 +32,10 @@ class AuthServiceProvider extends ServiceProvider
         Models\Notification::class => Policies\NotificationPolicy::class,
         Models\Layer::class => Policies\LayerPolicy::class,
         Models\CSV::class => Policies\CSVPolicy::class,
-        Models\ExportJob::class => Policies\ExportJobPolicy::class
+        Models\ExportJob::class => Policies\ExportJobPolicy::class,
+        Models\Media::class => Policies\MediaPolicy::class,
+        Models\Apikey::class => Policies\APIKeyPolicy::class,
+
 
 
     ];

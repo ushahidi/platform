@@ -1,4 +1,5 @@
 <?php
+
 /**
  * API version number
  */
@@ -432,6 +433,52 @@ $router->group([
             $router->post('/', 'ExportJobController@store');
             $router->put('/{id}', 'ExportJobController@update');
             $router->delete('/{id}', 'ExportJobController@delete');
+        }
+    );
+
+    // Password reset
+    $router->post('/passwordreset', 'AuthController@reset');
+    $router->post('/passwordreset/confirm', 'AuthController@confirm');
+
+    // Register
+    $router->post('/register', 'AuthController@register');
+
+
+    // Media
+    $router->group(
+        [
+            'prefix' => 'media',
+            'middleware' => ['scope:media']
+        ],
+        function () use ($router) {
+            $router->get('/{id}', 'MediaController@show');
+            $router->post('/', 'MediaController@store');
+        }
+    );
+
+    $router->group(
+        [
+            'prefix' => 'media',
+            'middleware' => ['scope:media', 'auth:api', 'expiration']
+        ],
+        function () use ($router) {
+            $router->put('/{id}', 'MediaController@update');
+            $router->delete('/{id}', 'MediaController@delete');
+        }
+    );
+
+    $router->group(
+        [
+            'prefix' => 'apikeys',
+            'middleware' => ['scope:apikeys', 'auth:api', 'expiration']
+        ],
+        function () use ($router) {
+            $router->get('/', 'ApiKeysController@index');
+            $router->get('/{id}', 'ApiKeysController@show');
+            $router->post('/', 'ApiKeysController@store');
+            $router->put('/{id}', 'ApiKeysController@update');
+            $router->delete('/{id}', 'ApiKeysController@delete');
+            $router->post('/{id}/import', 'ApiKeysController@import');
         }
     );
 });

@@ -38,6 +38,16 @@ interface UserRepository
     public function findById(int $id): User;
 
     /**
+     * This method will fetch a single User from the database utilising
+     * Laravel Eloquent ORM.
+     * @param string $email
+     * @return User
+     */
+    public function findByEmail(string $email): ?User;
+
+   
+
+    /**
      * This method will create a User
      * @param UserEntity $entity
      * @return int
@@ -56,4 +66,17 @@ interface UserRepository
      * @param int $id
      */
     public function delete(int $id): void;
+
+    /**
+     * This method will create a token to reset the password.
+     * @param int $id
+     * @return User
+     */
+    public function getResetToken(int $user_id);
+
+    public function isValidResetToken($token): bool;
+
+    public function setPassword($token, $password);
+    
+    public function deleteResetToken($token);
 }

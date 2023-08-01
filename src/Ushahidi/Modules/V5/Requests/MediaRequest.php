@@ -9,7 +9,7 @@ use Ushahidi\Modules\V5\Models\Notification;
 use Illuminate\Http\Request;
 use Ushahidi\Core\Facade\Feature;
 
-class ExportJobRequest extends BaseRequest
+class MediaRequest extends BaseRequest
 {
     public function authorize(): bool
     {
@@ -30,16 +30,14 @@ class ExportJobRequest extends BaseRequest
 
     private function storeRules(Request $request): array
     {
-        // To Do : add hxl columns validation
         return [
-            'entity_type' => ['required',Rule::in(['post'])]
+            'file' => 'required|file',
         ];
     }
 
     private function updateRules(Request $request): array
     {
         return [
-            'entity_type' => ['filled',Rule::in(['post'])]
         ];
     }
 
@@ -47,13 +45,13 @@ class ExportJobRequest extends BaseRequest
     public function messages(): array
     {
         return [
-            'entity_type.in' => trans(
-                'validation.in_array',
-                ['field' => trans('fields.entity_type')]
-            ),
-            'entity_type.required' => trans(
+            'file.required' => trans(
                 'validation.not_empty',
-                ['field' => trans('fields.entity_type')]
+                ['field' => trans('fields.file')]
+            ),
+            'file.file' => trans(
+                'validation.file',
+                ['field' => trans('fields.file')]
             ),
         ];
     }

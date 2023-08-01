@@ -44,6 +44,9 @@ use Ushahidi\Modules\V5\Actions\Notification;
 use Ushahidi\Modules\V5\Actions\Layer;
 use Ushahidi\Modules\V5\Actions\CSV;
 use Ushahidi\Modules\V5\Actions\Export;
+use Ushahidi\Modules\V5\Actions\Auth;
+use Ushahidi\Modules\V5\Actions\Media;
+use Ushahidi\Modules\V5\Actions\Apikey;
 
 class BusServiceProvider extends ServiceProvider
 {
@@ -322,6 +325,47 @@ class BusServiceProvider extends ServiceProvider
                 Export\Commands\DeleteExportJobCommand::class,
                 Export\Handlers\DeleteExportJobCommandHandler::class
             );
+
+            $commandBus->register(
+                Auth\Commands\PasswordResetCommand::class,
+                Auth\Handlers\PasswordResetCommandHandler::class
+            );
+            $commandBus->register(
+                Auth\Commands\PasswordResetConfirmCommand::class,
+                Auth\Handlers\PasswordResetConfirmCommandHandler::class
+            );
+            $commandBus->register(
+                Auth\Commands\RegisterCommand::class,
+                Auth\Handlers\RegisterCommandHandler::class
+            );
+
+
+            $commandBus->register(
+                Media\Commands\CreateMediaCommand::class,
+                Media\Handlers\CreateMediaCommandHandler::class
+            );
+            $commandBus->register(
+                Media\Commands\UpdateMediaCommand::class,
+                Media\Handlers\UpdateMediaCommandHandler::class
+            );
+            $commandBus->register(
+                Media\Commands\DeleteMediaCommand::class,
+                Media\Handlers\DeleteMediaCommandHandler::class
+            );
+
+
+            $commandBus->register(
+                Apikey\Commands\CreateApikeyCommand::class,
+                Apikey\Handlers\CreateApikeyCommandHandler::class
+            );
+            $commandBus->register(
+                Apikey\Commands\UpdateApikeyCommand::class,
+                Apikey\Handlers\UpdateApikeyCommandHandler::class
+            );
+            $commandBus->register(
+                Apikey\Commands\DeleteApikeyCommand::class,
+                Apikey\Handlers\DeleteApikeyCommandHandler::class
+            );
             
 
             
@@ -534,6 +578,21 @@ class BusServiceProvider extends ServiceProvider
             $queryBus->register(
                 Export\Queries\FetchExportJobByIdQuery::class,
                 Export\Handlers\FetchExportJobByIdQueryHandler::class
+            );
+
+
+            $queryBus->register(
+                Media\Queries\FetchMediaByIdQuery::class,
+                Media\Handlers\FetchMediaByIdQueryHandler::class
+            );
+
+            $queryBus->register(
+                Apikey\Queries\FetchApikeyQuery::class,
+                Apikey\Handlers\FetchApikeyQueryHandler::class
+            );
+            $queryBus->register(
+                Apikey\Queries\FetchApikeyByIdQuery::class,
+                Apikey\Handlers\FetchApikeyByIdQueryHandler::class
             );
 
             return $queryBus;

@@ -38,6 +38,8 @@ use Ushahidi\Modules\V5\Repository\Notification;
 use Ushahidi\Modules\V5\Repository\Layer;
 use Ushahidi\Modules\V5\Repository\CSV;
 use Ushahidi\Modules\V5\Repository\Export;
+use Ushahidi\Modules\V5\Repository\Media;
+use Ushahidi\Modules\V5\Repository\Apikey;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -198,5 +200,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(Layer\LayerRepository::class, Layer\EloquentLayerRepository::class);
         $this->app->bind(CSV\CSVRepository::class, CSV\EloquentCSVRepository::class);
         $this->app->bind(Export\ExportJobRepository::class, Export\EloquentExportJobRepository::class);
+        $this->app->bind(Media\MediaRepository::class, Media\EloquentMediaRepository::class);
+        $this->app->bind(Apikey\ApikeyRepository::class, Apikey\EloquentApikeyRepository::class);
     }
 }
