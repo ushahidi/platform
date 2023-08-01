@@ -9,6 +9,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 use Ushahidi\Core\Entity\User as UserEntity;
 use Ushahidi\Modules\V5\DTO\UserSearchFields;
+use Ushahidi\Modules\V5\Models\UserResettoken;
 
 class EloquentUserRepository implements UserRepository
 {
@@ -52,6 +53,19 @@ class EloquentUserRepository implements UserRepository
             throw new NotFoundException('User not found');
         }
         return $User;
+    }
+
+
+
+    /**
+     * This method will fetch a single User from the database utilising
+     * Laravel Eloquent ORM.
+     * @param string $email
+     * @return User
+     */
+    public function findByEmail(string $email): ?User
+    {
+        return User::where('email', '=', $email)->first();
     }
 
     private function setSearchCondition(UserSearchFields $user_search_fields, $builder)
@@ -119,5 +133,55 @@ class EloquentUserRepository implements UserRepository
     public function delete(int $id): void
     {
         $this->findById($id)->delete();
+    }
+
+
+    /**
+     * This method will create a token to reset the password.
+     * @param int $id
+     * @return User
+     */
+    public function getResetToken(int $user_id)
+    {
+        $token = sprintf('%06X', mt_rand(0, 16777215));
+
+        $input = [
+            'reset_token' => $token,
+            'user_id' => $user_id,
+            'created' => time()
+        ];
+        // Question do we need to delete the old token ?!
+        //UserResettoken::where("user_id",$user_id)->delete();
+        
+        // Save the token
+        $result =  UserResettoken::create($input);
+        return $token;
+    }
+
+    // ResetPasswordRepository
+    public function isValidResetToken($token): bool
+    {
+        $count = UserResettoken::select(['user_id'])
+            ->where('reset_token', '=', $token)
+            ->where('created', '>', time() - 1800) // Expire tokens after less than 30 mins
+            ->count();
+        return $count !== 0;
+    }
+
+    // ResetPasswordRepository
+    public function setPassword($token, $hashed_password)
+    {
+        $user_reset_token = UserResettoken::select(['user_id'])
+            ->where('reset_token', '=', $token)->first();
+
+        $user = User::find($user_reset_token->user_id);
+        $user->update(["password" => $hashed_password]);
+    }
+
+    // ResetPasswordRepository
+    public function deleteResetToken($token)
+    {
+        UserResettoken::select(['user_id'])
+            ->where('reset_token', '=', $token)->delete();
     }
 }

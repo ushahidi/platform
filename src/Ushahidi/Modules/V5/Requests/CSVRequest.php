@@ -17,7 +17,6 @@ class CSVRequest extends BaseRequest
 
     public function rules(Request $request)
     {
-        $notification_id = $request->route('id') ? $request->route('id') : null;
 
         if ($request->isMethod('post')) {
             return $this->storeRules($request);
