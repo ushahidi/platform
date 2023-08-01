@@ -7,7 +7,7 @@ use Illuminate\Support\Collection;
 use Ushahidi\Modules\V5\Models\Apikey;
 use Ushahidi\Modules\V5\DTO\Paging;
 use Ushahidi\Modules\V5\DTO\ApikeySearchFields;
-use Ushahidi\Core\Entity\Apikey as ApikeyEntity;
+use Ushahidi\Core\Entity\ApiKey as ApikeyEntity;
 
 interface ApikeyRepository
 {

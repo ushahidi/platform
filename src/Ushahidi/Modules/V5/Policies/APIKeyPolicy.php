@@ -44,7 +44,7 @@ class APIKeyPolicy
      */
     public function index()
     {
-        $empty_apikey_entity = new Entity\Apikey();
+        $empty_apikey_entity = new Entity\ApiKey();
         return $this->isAllowed($empty_apikey_entity, 'search');
     }
 
@@ -56,7 +56,7 @@ class APIKeyPolicy
      */
     public function show(User $user, Apikey $apikey)
     {
-        $apikey_entity = new Entity\Apikey($apikey->toArray());
+        $apikey_entity = new Entity\ApiKey($apikey->toArray());
         return $this->isAllowed($apikey_entity, 'read');
     }
 
@@ -68,7 +68,7 @@ class APIKeyPolicy
      */
     public function delete(User $user, Apikey $apikey)
     {
-        $apikey_entity = new Entity\Apikey($apikey->toArray());
+        $apikey_entity = new Entity\ApiKey($apikey->toArray());
         return $this->isAllowed($apikey_entity, 'delete');
     }
     /**
@@ -78,7 +78,7 @@ class APIKeyPolicy
     public function update(User $user, Apikey $apikey)
     {
         // we convert to a Apikey entity to be able to continue using the old authorizers and classes.
-        $apikey_entity = new Entity\Apikey($apikey->toArray());
+        $apikey_entity = new Entity\ApiKey($apikey->toArray());
         return $this->isAllowed($apikey_entity, 'update');
     }
 
@@ -90,7 +90,7 @@ class APIKeyPolicy
     public function store(User $user, Apikey $apikey)
     {
         // we convert to a apikey_entity entity to be able to continue using the old authorizers and classes.
-        $apikey_entity = new Entity\Apikey($apikey->toArray());
+        $apikey_entity = new Entity\ApiKey($apikey->toArray());
         return $this->isAllowed($apikey_entity, 'create');
     }
 

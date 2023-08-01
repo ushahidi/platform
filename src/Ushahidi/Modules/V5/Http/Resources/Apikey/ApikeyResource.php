@@ -2,7 +2,7 @@
 namespace Ushahidi\Modules\V5\Http\Resources\Apikey;
 
 use Illuminate\Http\Resources\Json\JsonResource as Resource;
-use Ushahidi\Core\Entity\Apikey as ApikeyEntity;
+use Ushahidi\Core\Entity\ApiKey as ApikeyEntity;
 
 
 use App\Bus\Query\QueryBus;

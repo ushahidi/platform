@@ -5,8 +5,8 @@ namespace Ushahidi\Modules\V5\Actions\Apikey\Commands;
 use Ramsey\Uuid\Uuid;
 use App\Bus\Command\Command;
 use Ushahidi\Modules\V5\Models\Apikey;
-use Ushahidi\Modules\V5\Requests\ApikeyRequest;
-use Ushahidi\Core\Entity\Apikey as ApikeyEntity;
+use Ushahidi\Modules\V5\Requests\ApiKeyRequest;
+use Ushahidi\Core\Entity\ApiKey as ApikeyEntity;
 use Ushahidi\Modules\V5\Helpers\ParameterUtilities;
 
 class UpdateApikeyCommand implements Command
@@ -29,7 +29,7 @@ class UpdateApikeyCommand implements Command
         $this->apikey_entity = $apikey_entity;
     }
 
-    public static function fromRequest(int $id, ApikeyRequest $request, Apikey $current_apikey): self
+    public static function fromRequest(int $id, ApiKeyRequest $request, Apikey $current_apikey): self
     {
         $uuid = Uuid::uuid4();
         $input['api_key'] = $uuid->toString();

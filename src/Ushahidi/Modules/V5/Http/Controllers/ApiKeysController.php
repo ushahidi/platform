@@ -10,7 +10,7 @@ use Ushahidi\Modules\V5\Http\Resources\Apikey\ApikeyCollection;
 use Ushahidi\Modules\V5\Actions\Apikey\Commands\CreateApikeyCommand;
 use Ushahidi\Modules\V5\Actions\Apikey\Commands\UpdateApikeyCommand;
 use Ushahidi\Modules\V5\Actions\Apikey\Commands\DeleteApikeyCommand;
-use Ushahidi\Modules\V5\Requests\ApikeyRequest;
+use Ushahidi\Modules\V5\Requests\ApiKeyRequest;
 use Ushahidi\Modules\V5\Models\Apikey;
 use Ushahidi\Core\Exception\NotFoundException;
 
@@ -51,11 +51,11 @@ class ApiKeysController extends V5Controller
     /**
      * Create new Apikey.
      *
-     * @param ApikeyRequest $request
+     * @param ApiKeyRequest $request
      * @return \Illuminate\Http\JsonResponse
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function store(ApikeyRequest $request)
+    public function store(ApiKeyRequest $request)
     {
         $command = CreateApikeyCommand::fromRequest($request);
         $new_apikey = new Apikey($command->getApikeyEntity()->asArray());
@@ -67,11 +67,11 @@ class ApiKeysController extends V5Controller
      * update  Apikey.
      *
      * @param int id
-     * @param ApikeyRequest $request
+     * @param ApiKeyRequest $request
      * @return \Illuminate\Http\JsonResponse
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function update(int $id, ApikeyRequest $request)
+    public function update(int $id, ApiKeyRequest $request)
     {
         $old_apikey = $this->queryBus->handle(new FetchApikeyByIdQuery($id));
         $command = UpdateApikeyCommand::fromRequest($id, $request, $old_apikey);
