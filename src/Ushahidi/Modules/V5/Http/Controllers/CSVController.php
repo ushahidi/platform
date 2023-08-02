@@ -13,10 +13,13 @@ use Ushahidi\Modules\V5\Actions\CSV\Commands\DeleteCSVCommand;
 use Ushahidi\Modules\V5\Requests\CSVRequest;
 use Ushahidi\Modules\V5\Models\CSV;
 use Ushahidi\Core\Exception\NotFoundException;
+use Ushahidi\Core\Concerns\Event;
+use Ushahidi\Modules\V3\Listener\Import;
 
 class CSVController extends V5Controller
 {
-
+   // Use Event trait to trigger events
+    use Event;
 
     /**
      * Display the specified resource.
@@ -103,7 +106,8 @@ class CSVController extends V5Controller
 
     public function import(int $id)
     {
-                /**
+        // To Do deprecate calling V3 code
+        /**
          * Step two of import.
          * Support all line endings without manually specifying it
          * (primarily added because of OS9 line endings which do not work by default )
@@ -124,10 +128,40 @@ class CSVController extends V5Controller
         // Get records
         // @todo read up to a sensible offset and process the rest later
         $records = $reader->process($file);
-
         // Set map and fixed values for transformer
         $transformer->setColumnNames($csv->columns);
         $transformer->setMap($csv->maps_to);
         $transformer->setFixedValues($csv->fixed);
+
+        $new_status = 'PENDING';
+        $csv->setState([
+            'status' => $new_status
+        ]);
+
+        service('repository.csv')->update($csv);
+        $repo = service('repository.post');
+        $this->setEmitter(new \League\Event\Emitter);
+        $this->setEvent("ImportPosts");
+        $this->setListener(new Import());
+        $this->emit(
+            $this->event,
+            $records,
+            $csv,
+            $transformer,
+            $repo,
+            $this
+        );
+
+
+        return response()->json(['result' => ['import' => $new_status]]);
+    }
+
+    public function verify($entity)
+    {
+        // ... verify that the entity can be created by the current user
+       // $this->verifyCreateAuth($entity);
+
+        // ... verify that the entity is in a valid state
+       // $this->verifyValid($entity);
     }
 } //end class

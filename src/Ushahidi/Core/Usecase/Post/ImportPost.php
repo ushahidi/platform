@@ -127,7 +127,6 @@ class ImportPost implements Usecase
         ]);
 
         service('repository.csv')->update($this->csv);
-
         $this->emit(
             $this->event,
             $this->payload,
