@@ -60,11 +60,15 @@ class PostController extends V5Controller
     public function show(int $id, Request $request)
     {
         $post = $this->queryBus->handle(FindPostByIdQuery::FromRequest($id, $request));
+        $this->authorizeAnyone('show', $post);
+
         return new NewPostResource($post);
     }
 
     public function index(Request $request): NewPostCollection
     {
+        $this->authorizeAnyone('index', Post::class);
+
         $posts = $this->queryBus->handle(ListPostsQuery::FromRequest($request));
         return new NewPostCollection($posts);
     }

@@ -11,7 +11,6 @@ use Ushahidi\Core\Concerns\AdminAccess;
 use Ushahidi\Core\Concerns\OwnerAccess;
 use Ushahidi\Core\Concerns\UserContext;
 use Ushahidi\Core\Concerns\ParentAccess;
-use Ushahidi\Modules\V5\Models\Survey;
 use Ushahidi\Core\Concerns\Acl as AccessControlList;
 use Ushahidi\Core\Concerns\PrivateDeployment;
 use Ushahidi\Contracts\Entity as EntityContract;
@@ -56,70 +55,80 @@ class PostPolicy
         return $this->isAllowed($empty_form, 'search');
     }
 
+    private function getPostArray(Post $post)
+    {
+        $data = $post->toArray();
+        unset($data["completed_stages"]);
+        unset($data["enabled_languages"]);
+        unset($data["post_content"]);
+        unset($data["translations"]);
+        unset($data["sets"]);
+        unset($data["categories"]);
+        return $data;
+    }
     /**
      *
      * @param GenericUser $user
-     * @param Survey $survey
+     * @param Post $post
      * @return bool
      */
-    public function show(User $user, Survey $survey)
+    public function show(User $user, Post $post)
     {
-        $form = new Entity\Form($survey->toArray());
-        return $this->isAllowed($form, 'read');
+        $post_entity = new Entity\Post($this->getPostArray($post));
+        return $this->isAllowed($post_entity, 'read');
     }
 
     /**
      *
      * @param GenericUser $user
-     * @param Survey $survey
+     * @param Post $post
      * @return bool
      */
     public function delete(User $user, Post $post)
     {
-        $post = new Entity\Post($post->toArray());
-        return $this->isAllowed($post, 'delete');
+        $post_entity = new Entity\Post($this->getPostArray($post));
+        return $this->isAllowed($post_entity, 'delete');
     }
     /**
-     * @param Survey $survey
+     * @param Post $post
      * @return bool
      */
     public function update(User $user, Post $post)
     {
-        $post = new Entity\Post($post->toArray());
+        $post_entity = new Entity\Post($this->getPostArray($post));
         // we convert to a form entity to be able to continue using the old authorizers and classes.
-        return $this->isAllowed($post, 'update');
+        return $this->isAllowed($post_entity, 'update');
     }
     /**
-     * @param Survey $survey
+     * @param Post $post
      * @return bool
      */
     public function patch(User $user, Post $post)
     {
-        dd('hell');
-        $post = new Entity\Post($post->toArray());
+        $post_entity = new Entity\Post($this->getPostArray($post));
         // we convert to a form entity to be able to continue using the old authorizers and classes.
-        return $this->isAllowed($post, 'update');
+        return $this->isAllowed($post_entity, 'update');
     }
     /**
-     * @param Survey $survey
+     * @param Post $post
      * @return bool
      */
     public function changeStatus(User $user, Post $post)
     {
-        $post = new Entity\Post($post->toArray());
+        $post_entity = new Entity\Post($this->getPostArray($post));
         // we convert to a form entity to be able to continue using the old authorizers and classes.
-        return $this->isAllowed($post, 'update');
+        return $this->isAllowed($post_entity, 'update');
     }
 
     /**
-     * @param Survey $survey
+     * @param Post $post
      * @return bool
      */
     public function store(User $user, $form_id, $user_id)
     {
         // we convert to a form entity to be able to continue using the old authorizers and classes.
-        $post = new Entity\Post(['form_id' => $form_id, 'user_id' => $user_id]);
-        return $this->isAllowed($post, 'create');
+        $post_entity = new Entity\Post(['form_id' => $form_id, 'user_id' => $user_id]);
+        return $this->isAllowed($post_entity, 'create');
     }
     /**
      * @param $entity
@@ -156,7 +165,7 @@ class PostPolicy
         // We check if the user has access to a parent post. This doesn't
         // grant them access, but is used to deny access even if the child post
         // is public.
-        if (! $this->isAllowedParent($entity, $privilege, $user)) {
+        if (!$this->isAllowedParent($entity, $privilege, $user)) {
             return false;
         }
 
@@ -187,7 +196,7 @@ class PostPolicy
         }
 
         // If entity isn't loaded (ie. pre-flight check) then *anyone* can view it.
-        if ($privilege === 'read' && ! $entity->getId()) {
+        if ($privilege === 'read' && !$entity->getId()) {
             return true;
         }
 
@@ -206,21 +215,24 @@ class PostPolicy
         // ownership but those are already checked above
         if ($this->isUserOwner($entity, $user)
             && in_array($privilege, ['update', 'lock'])
-            && $authorizer->acl->hasPermission($user, Permission::EDIT_OWN_POSTS)) {
+            && $authorizer->acl->hasPermission($user, Permission::EDIT_OWN_POSTS)
+        ) {
             return true;
         }
 
         // If the user is the owner of this post & they have delete own posts permission
         // they are allowed to edit or delete the post.
         if ($this->isUserOwner($entity, $user)
-            &&($privilege === "delete")
-            && $authorizer->acl->hasPermission($user, Permission::DELETE_OWN_POSTS)) {
+            && ($privilege === "delete")
+            && $authorizer->acl->hasPermission($user, Permission::DELETE_OWN_POSTS)
+        ) {
             return true;
         }
 
         // If the user is the owner of this post they can always view the post
         if ($this->isUserOwner($entity, $user)
-            && in_array($privilege, ['read'])) {
+            && in_array($privilege, ['read'])
+        ) {
             return true;
         }
 
@@ -268,6 +280,23 @@ class PostPolicy
             }
         }
 
+        return true;
+    }
+    protected function isPostPublishedToUser(EntityContract $entity, $user)
+    {
+        if ($entity->status === 'published' && $this->isUserOfRole($entity, $user)) {
+            return true;
+        }
+        return false;
+    }
+
+    protected function isUserOfRole(EntityContract $entity, $user)
+    {
+        if ($entity->published_to) {
+            return in_array($user->role, $entity->published_to);
+        }
+
+        // If no visibility info, assume public
         return true;
     }
 }
