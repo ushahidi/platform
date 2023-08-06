@@ -40,7 +40,7 @@ class SurveyController extends V5Controller
             )
         );
 
-       // $this->authorize('show', $survey);
+        $this->authorizeAnyone('show', $survey);
         return new SurveyResource($survey);
     } //end show()
 
@@ -53,7 +53,7 @@ class SurveyController extends V5Controller
      */
     public function index(Request $request)
     {
-       // $this->authorize('index', new Survey());
+        $this->authorizeAnyone('index', Survey::class);
 
         $surveys = $this->queryBus->handle(
             new FetchSurveyQuery(
