@@ -41,6 +41,7 @@ class HXLMetadataAuthorizer extends HXLAuthorizer
     public function isAllowed(Entity $entity, $privilege)
     {
         if (parent::isAllowed($entity, $privilege)) {
+            dd($entity);
             $user = $this->getUser();
             return $this->isUserOwner($entity, $user);
         }

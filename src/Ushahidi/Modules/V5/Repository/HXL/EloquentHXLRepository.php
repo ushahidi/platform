@@ -12,7 +12,8 @@ use Ushahidi\Modules\V5\DTO\HXLMetadataSearchFields;
 use Ushahidi\Modules\V5\DTO\HXLOrganizationSearchFields;
 use Ushahidi\Modules\V5\DTO\HXLLicenseSearchFields;
 use Illuminate\Support\Facades\DB;
-use Ushahidi\Core\Entity\HXL as HXLEntity;
+use Ushahidi\Core\Entity\HXL\HXLMetadata as HXLMetadataEntity;
+use Ushahidi\Modules\V5\Models\HXL\HXLMetaData;
 
 class EloquentHXLRepository implements HXLRepository
 {
@@ -94,6 +95,11 @@ class EloquentHXLRepository implements HXLRepository
         if (count($search_fields->user())) {
             $builder->whereIn('hxls.user_id', $search_fields->user());
         }
+        if ($search_fields->datasetTitle()) {
+            $builder->where("datasetTitle", "like", "%" . $search_fields->datasetTitle() . "%");
+        }
+
+        
 
         return $builder->paginate($paging->getLimit()
             ? $paging->getLimit()
@@ -126,28 +132,37 @@ class EloquentHXLRepository implements HXLRepository
         if ($search_fields->code()) {
             $builder->where("code", "like", "%" . $search_fields->code() . "%");
         }
-
-
-
-
         return $builder->paginate($paging->getLimit()
             ? $paging->getLimit()
             : config('paging.default_laravel_pageing_limit'));
     }
 
+     /**
+     * This method will fetch a HXML Metadata by id
+     * @param int $id
+     * @return HXLMetaData
+     */
+    public function fetchHXLMetadataById(int $id): HXLMetaData
+    {
+        $hxl_metadata =  HXLMetaData::find($id);
+        if (!$hxl_metadata instanceof HXLMetaData) {
+            throw new NotFoundException('HXL Metadata not found');
+        }
+        return $hxl_metadata;
+    }
 
 
     /**
      * This method will create a HXL
-     * @param HXLEntity $entity
+     * @param HXLMetadataEntity $entity
      * @return int
      * @throws \Exception
      */
-    public function create(HXLEntity $entity): int
+    public function create(HXLMetadataEntity $entity): int
     {
         DB::beginTransaction();
         try {
-            $hxl = HXL::create($entity->asArray());
+            $hxl = HXLMetaData::create($entity->asArray());
             DB::commit();
             return $hxl->id;
         } catch (\Exception $e) {

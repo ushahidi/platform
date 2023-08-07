@@ -650,6 +650,13 @@ class BusServiceProvider extends ServiceProvider
                 HXL\Queries\FetchHXLTagsQuery::class,
                 HXL\Handlers\FetchHXLTagsQueryHandler::class
             );
+            $queryBus->register(
+                HXL\Queries\FetchHXLMetadataByIdQuery::class,
+                HXL\Handlers\FetchHXLMetadataByIdQueryHandler::class
+            );
+
+
+            
 
             return $queryBus;
         });

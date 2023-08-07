@@ -10,6 +10,7 @@ class HXLMetadataSearchFields
 {
     
     private $user;
+    private $dataset_title;
     public function __construct(Request $request)
     {
         $this->user = $request->query('user');
@@ -19,10 +20,17 @@ class HXLMetadataSearchFields
         } else {
             $this->user = ParameterUtilities::getParameterAsArray($request->get('user'));
         }
+
+        $this->dataset_title = $request->query('dataset_title');
     }
 
     public function user()
     {
         return $this->user;
+    }
+
+    public function datasetTitle()
+    {
+        return $this->dataset_title;
     }
 }
