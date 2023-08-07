@@ -481,4 +481,42 @@ $router->group([
             $router->post('/{id}/import', 'ApiKeysController@import');
         }
     );
+
+    $router->group(
+        [
+            'prefix' => 'webhooks',
+            'middleware' => ['scope:webhooks', 'auth:api', 'expiration']
+        ],
+        function () use ($router) {
+            $router->get('/', 'WebhookController@index');
+            $router->get('/{id}', 'WebhookController@show');
+            $router->post('/', 'WebhookController@store');
+            $router->put('/{id}', 'WebhookController@update');
+            $router->delete('/{id}', 'WebhookController@delete');
+        }
+    );
+    $router->group(
+        [
+            'prefix' => 'webhooks',
+            'middleware' => ['scope:webhooks', 'expiration']
+        ],
+        function () use ($router) {
+            $router->put('/posts/{id}', 'WebhookController@updatePosts');
+        }
+    );
+
+    $router->group(
+        [
+            'prefix' => 'hxl',
+            'middleware' => ['auth:api', 'expiration']
+        ],
+        function () use ($router) {
+            $router->get('/', 'HXLController@index');
+            $router->get('/licenses', 'HXLController@indexLicenses');
+            $router->get('/tags', 'HXLController@indexTags');
+            $router->get('/metadata', 'HXLController@indexMetadata');
+            $router->post('/metadata', 'HXLController@storeMetadata');
+            $router->get('/organisations', 'HXLController@indexOrganizations');
+        }
+    );
 });

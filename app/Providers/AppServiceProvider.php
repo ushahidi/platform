@@ -40,6 +40,8 @@ use Ushahidi\Modules\V5\Repository\CSV;
 use Ushahidi\Modules\V5\Repository\Export;
 use Ushahidi\Modules\V5\Repository\Media;
 use Ushahidi\Modules\V5\Repository\Apikey;
+use Ushahidi\Modules\V5\Repository\Webhook;
+use Ushahidi\Modules\V5\Repository\HXL;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -202,5 +204,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(Export\ExportJobRepository::class, Export\EloquentExportJobRepository::class);
         $this->app->bind(Media\MediaRepository::class, Media\EloquentMediaRepository::class);
         $this->app->bind(Apikey\ApikeyRepository::class, Apikey\EloquentApikeyRepository::class);
+        $this->app->bind(Webhook\WebhookRepository::class, Webhook\EloquentWebhookRepository::class);
+        $this->app->bind(HXL\HXLRepository::class, HXL\EloquentHXLRepository::class);
     }
 }

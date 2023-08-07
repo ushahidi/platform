@@ -35,9 +35,7 @@ class AuthServiceProvider extends ServiceProvider
         Models\ExportJob::class => Policies\ExportJobPolicy::class,
         Models\Media::class => Policies\MediaPolicy::class,
         Models\Apikey::class => Policies\APIKeyPolicy::class,
-
-
-
+        Models\Webhooks\Webhook::class => Policies\WebhookPolicy::class
     ];
 
     /**
