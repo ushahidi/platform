@@ -20,6 +20,7 @@ use Ushahidi\Modules\V5\Actions\Tos\Handlers\FetchTosByIdQueryHandler;
 
 use App\Bus\Query\QueryBus;
 use Illuminate\Support\ServiceProvider;
+use Ushahidi\Core\Entity\Webhook as EntityWebhook;
 use Ushahidi\Modules\V5\Actions\CountryCode\Queries\FetchCountryCodeByIdQuery;
 use Ushahidi\Modules\V5\Actions\CountryCode\Queries\FetchCountryCodeQuery;
 use Ushahidi\Modules\V5\Actions\CountryCode\Handlers\FetchCountryCodeByIdQueryHandler;
@@ -47,6 +48,8 @@ use Ushahidi\Modules\V5\Actions\Export;
 use Ushahidi\Modules\V5\Actions\Auth;
 use Ushahidi\Modules\V5\Actions\Media;
 use Ushahidi\Modules\V5\Actions\Apikey;
+use Ushahidi\Modules\V5\Actions\Webhook;
+use Ushahidi\Modules\V5\Actions\HXL;
 
 class BusServiceProvider extends ServiceProvider
 {
@@ -367,8 +370,29 @@ class BusServiceProvider extends ServiceProvider
                 Apikey\Handlers\DeleteApikeyCommandHandler::class
             );
             
-
+            $commandBus->register(
+                Webhook\Commands\CreateWebhookCommand::class,
+                Webhook\Handlers\CreateWebhookCommandHandler::class
+            );
+            $commandBus->register(
+                Webhook\Commands\UpdateWebhookCommand::class,
+                Webhook\Handlers\UpdateWebhookCommandHandler::class
+            );
+            $commandBus->register(
+                Webhook\Commands\DeleteWebhookCommand::class,
+                Webhook\Handlers\DeleteWebhookCommandHandler::class
+            );
+            $commandBus->register(
+                Webhook\Commands\UpdateWebhookPostsCommand::class,
+                Webhook\Handlers\UpdateWebhookPostsCommandHandler::class
+            );
             
+
+            $commandBus->register(
+                HXL\Commands\CreateHXLMetaDataCommand::class,
+                HXL\Handlers\CreateHXLMetaDataCommandHandler::class
+            );
+
             return $commandBus;
         });
     }
@@ -593,6 +617,38 @@ class BusServiceProvider extends ServiceProvider
             $queryBus->register(
                 Apikey\Queries\FetchApikeyByIdQuery::class,
                 Apikey\Handlers\FetchApikeyByIdQueryHandler::class
+            );
+
+
+            $queryBus->register(
+                Webhook\Queries\FetchWebhookQuery::class,
+                Webhook\Handlers\FetchWebhookQueryHandler::class
+            );
+            $queryBus->register(
+                Webhook\Queries\FetchWebhookByIdQuery::class,
+                Webhook\Handlers\FetchWebhookByIdQueryHandler::class
+            );
+
+
+            $queryBus->register(
+                HXL\Queries\FetchHXLLicensesQuery::class,
+                HXL\Handlers\FetchHXLLicensesQueryHandler::class
+            );
+            $queryBus->register(
+                HXL\Queries\FetchHXLMetaDataQuery::class,
+                HXL\Handlers\FetchHXLMetaDataQueryHandler::class
+            );
+            $queryBus->register(
+                HXL\Queries\FetchHXLOrganizationsQuery::class,
+                HXL\Handlers\FetchHXLOrganizationsQueryHandler::class
+            );
+            $queryBus->register(
+                HXL\Queries\FetchHXLQuery::class,
+                HXL\Handlers\FetchHXLQueryHandler::class
+            );
+            $queryBus->register(
+                HXL\Queries\FetchHXLTagsQuery::class,
+                HXL\Handlers\FetchHXLTagsQueryHandler::class
             );
 
             return $queryBus;
