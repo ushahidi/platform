@@ -6,6 +6,7 @@ use App\Bus\Command\Command;
 use Ushahidi\Modules\V5\Requests\WebhookRequest;
 use Illuminate\Support\Facades\Auth;
 use Ushahidi\Core\Entity\Webhook as WebhookEntity;
+use Ramsey\Uuid\Uuid;
 
 class CreateWebhookCommand implements Command
 {
@@ -26,11 +27,14 @@ class CreateWebhookCommand implements Command
     {
 
         $user = Auth::user();
+        $uuid = Uuid::uuid4();
+        $uuid = $uuid->toString();
+
         $input['user_id'] = $request->input('user_id') ?? ($user ? $user->id : null);
         $input['form_id'] = $request->input('form_id');
         $input['name'] = $request->input('name');
         $input['shared_secret'] = $request->input('shared_secret');
-        $input['webhook_uuid'] = $request->input('webhook_uuid');
+        $input['webhook_uuid'] = $uuid;
         $input['url'] = $request->input('url');
         $input['event_type'] = $request->input('event_type');
         $input['entity_type'] = $request->input('entity_type');
