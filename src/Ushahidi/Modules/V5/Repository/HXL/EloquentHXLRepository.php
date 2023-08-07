@@ -43,7 +43,9 @@ class EloquentHXLRepository implements HXLRepository
             });
         }
 
-        return $builder->paginate($paging->getLimit() ? $paging->getLimit() : config('paging.default_laravel_pageing_limit'));
+        return $builder->paginate($paging->getLimit()
+            ? $paging->getLimit()
+            : config('paging.default_laravel_pageing_limit'));
     }
 
 
@@ -65,7 +67,9 @@ class EloquentHXLRepository implements HXLRepository
 
         // set search conditions
 
-        return $builder->paginate($paging->getLimit() ? $paging->getLimit() : config('paging.default_laravel_pageing_limit'));
+        return $builder->paginate($paging->getLimit()
+            ? $paging->getLimit()
+            : config('paging.default_laravel_pageing_limit'));
     }
 
 
@@ -91,7 +95,9 @@ class EloquentHXLRepository implements HXLRepository
             $builder->whereIn('hxls.user_id', $search_fields->user());
         }
 
-        return $builder->paginate($paging->getLimit() ? $paging->getLimit() : config('paging.default_laravel_pageing_limit'));
+        return $builder->paginate($paging->getLimit()
+            ? $paging->getLimit()
+            : config('paging.default_laravel_pageing_limit'));
     }
 
 
@@ -124,7 +130,9 @@ class EloquentHXLRepository implements HXLRepository
 
 
 
-        return $builder->paginate($paging->getLimit() ? $paging->getLimit() : config('paging.default_laravel_pageing_limit'));
+        return $builder->paginate($paging->getLimit()
+            ? $paging->getLimit()
+            : config('paging.default_laravel_pageing_limit'));
     }
 
 

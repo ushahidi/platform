@@ -39,14 +39,15 @@ class UpdateWebhookCommand implements Command
         }
 
         $input['form_id'] = $request->input('form_id') ?? $current_webhook->form_id;
-        $input['name'] = $request->input('name')??$current_webhook->name;
+        $input['name'] = $request->input('name') ?? $current_webhook->name;
         $input['shared_secret'] = $request->input('shared_secret') ?? $current_webhook->shared_secret;
         $input['webhook_uuid'] = $request->input('webhook_uuid') ?? $current_webhook->webhook_uuid;
         $input['url'] = $request->input('url') ?? $current_webhook->url;
         $input['event_type'] = $request->input('event_type') ?? $current_webhook->event_type;
         $input['entity_type'] = $request->input('entity_type') ?? $current_webhook->entity_type;
         $input['source_field_key'] = $request->input('source_field_key') ?? $current_webhook->source_field_key;
-        $input['destination_field_key'] = $request->input('destination_field_key') ?? $current_webhook->destination_field_key;
+        $input['destination_field_key'] = $request->input('destination_field_key')
+            ?? $current_webhook->destination_field_key;
         $input['created'] = strtotime($current_webhook->created);
         $input['updated'] = time();
 
