@@ -27,7 +27,9 @@ class RegisterRequest extends BaseRequest
     {
         return [
             "email"=>['required','email','unique:users,email','max:150'],
-            "password"=>['required','min:7','max:72']
+            "password"=>['required','min:7','max:72'],
+            "realname"=>['required','max:150']
+
         ];
     }
 
@@ -48,6 +50,9 @@ class RegisterRequest extends BaseRequest
             'password.required' => trans('validation.not_empty', ['field' => trans('fields.password')]),
             'password.min' => trans('validation.min', ['field' => trans('fields.password')]),
             'password.max' => trans('validation.max', ['field' => trans('fields.password')]),
+            
+            'realname.required' => trans('validation.not_empty', ['field' => trans('fields.realname')]),
+            'realname.max' => trans('validation.max', ['field' => trans('fields.realname')]),
 
 
         ];
