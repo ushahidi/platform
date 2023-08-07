@@ -31,6 +31,7 @@ class MediaRequest extends BaseRequest
     private function storeRules(Request $request): array
     {
         return [
+            'user_id' => 'nullable|sometimes|exists:users,id',
             'file' => 'required|file',
         ];
     }
@@ -38,6 +39,7 @@ class MediaRequest extends BaseRequest
     private function updateRules(Request $request): array
     {
         return [
+            'user_id' => 'nullable|sometimes|exists:users,id',
         ];
     }
 
@@ -45,6 +47,10 @@ class MediaRequest extends BaseRequest
     public function messages(): array
     {
         return [
+            'user_id.exists' => trans(
+                'validation.exists',
+                ['field' => trans('fields.user_id')]
+            ),
             'file.required' => trans(
                 'validation.not_empty',
                 ['field' => trans('fields.file')]
