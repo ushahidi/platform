@@ -4,7 +4,6 @@ namespace Ushahidi\Modules\V5\Repository\Post;
 
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Collection;
 use Ushahidi\Core\Exception\NotFoundException;
 use Ushahidi\Modules\V5\Models\Post\Post;
 use Ushahidi\Modules\V5\DTO\Paging;
@@ -161,10 +160,10 @@ class EloquentPostRepository implements PostRepository
                 if (!is_array($tags)) {
                     $tags = explode(',', $tags);
                 }
-                $this->filter_joined_tables[] = 'posts_tags';
-                $query->join("posts_tags", 'posts.id', '=', 'posts_tags.post_id');
-                $query->whereIn('posts_tags.tag_id', $tags);
-            } elseif (isset($search->tags['all'])) {
+                $query->whereRaw(
+                    "posts.id in (select post_id from posts_tags where tag_id in ( " . implode(',', $tags) . ") )"
+                );
+            } elseif (isset($search_fields->tags()['all'])) {
                 $tags = $search_fields->tags()['all'];
                 if (!is_array($tags)) {
                     $tags = explode(',', $tags);
@@ -178,9 +177,10 @@ class EloquentPostRepository implements PostRepository
                 if (!is_array($tags)) {
                     $tags = explode(',', $tags);
                 }
-                $this->filter_joined_tables[] = 'posts_tags';
-                $query->join("posts_tags", 'posts.id', '=', 'posts_tags.post_id');
-                $query->whereIn('posts_tags.tag_id', $tags);
+
+                $query->whereRaw(
+                    "posts.id in (select post_id from posts_tags where tag_id in ( " . implode(',', $tags) . ") )"
+                );
             }
         }
 

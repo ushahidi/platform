@@ -125,7 +125,7 @@ class CollectionPolicy
         if ($this->isUserAdmin($user)) {
             return true;
         }
-        // Non-admin users are not allowed to make sets featured
+        // Non-admin users are not allowed to change collection featured
         $old_values = [];
         if ($entity->id) {
             $old_set = Set::where('id', '=', $entity->id)->first();
