@@ -39,4 +39,18 @@ class HXLMetaData extends BaseModel
         'updated'
 
     ];
+
+    public function getCreatedAttribute($value)
+    {
+        return $value ? date('Y-m-d H:i:s', $value) : null;
+    }
+    public function getUpdatedAttribute($value)
+    {
+        return $value ? date('Y-m-d H:i:s', $value) : null;
+    }
+
+    public function getPrivateAttribute($value)
+    {
+        return (bool)$value;
+    }
 }//end class

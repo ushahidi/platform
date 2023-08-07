@@ -4,46 +4,48 @@ namespace Ushahidi\Modules\V5\Actions\HXL\Commands;
 
 use App\Bus\Command\Command;
 use Ushahidi\Modules\V5\Models\Contact;
-use Ushahidi\Modules\V5\Requests\ContactRequest;
 use Illuminate\Support\Facades\Auth;
-use Ushahidi\Core\Entity\Contact as ContactEntity;
+use Ushahidi\Core\Entity\HXL\HXLMetadata as HXLMetadataEntity;
 use Ushahidi\Modules\V5\Models\Stage;
+use Ushahidi\Modules\V5\Requests\HXLMetadataRequest;
 
 class CreateHXLMetaDataCommand implements Command
 {
     /**
-     * @var ContactEntity
+     * @var HXLMetadataEntity
      */
-    private $contact_entity;
+    private $hxl_metdata_entity;
 
 
     
 
-    public function __construct(ContactEntity $contact_entity)
+    public function __construct(HXLMetadataEntity $hxl_metdata_entity)
     {
-        $this->contact_entity = $contact_entity;
+        $this->hxl_metdata_entity = $hxl_metdata_entity;
     }
 
-    public static function fromRequest(ContactRequest $request): self
+    public static function fromRequest(HXLMetadataRequest $request): self
     {
 
         $user = Auth::user();
         $input['user_id'] = $request->input('user_id') ?? ($user ? $user->id : null);
-        $input['data_source'] = $request->input('data_source');
-        $input['type'] = $request->input('type');
-        $input['contact'] = $request->input('contact');
-        $input['can_notify'] = $request->input('can_notify');
+        $input['private'] = $request->input('private');
+        $input['dataset_title'] = $request->input('dataset_title');
+        $input['license_id'] = $request->input('license_id');
+        $input['organisation_id'] = $request->input('organisation_id');
+        $input['organisation_name'] = $request->input('organisation_name');
+        $input['source'] = $request->input('source');
         $input['created'] = time();
         $input['updated'] = null;
 
-        return new self(new ContactEntity($input));
+        return new self(new HXLMetadataEntity($input));
     }
 
     /**
-     * @return ContactEntity
+     * @return HXLMetadataEntity
      */
-    public function getContactEntity(): ContactEntity
+    public function getHXLMetadataEntity(): HXLMetadataEntity
     {
-        return $this->contact_entity;
+        return $this->hxl_metdata_entity;
     }
 }

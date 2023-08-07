@@ -8,6 +8,8 @@ use Ushahidi\Modules\V5\Actions\HXL\Queries\FetchHXLLicensesQuery;
 use Ushahidi\Modules\V5\Actions\HXL\Queries\FetchHXLOrganizationsQuery;
 use Ushahidi\Modules\V5\Actions\HXL\Queries\FetchHXLTagsQuery;
 use Ushahidi\Modules\V5\Actions\HXL\Queries\FetchHXLMetaDataQuery;
+use Ushahidi\Modules\V5\Actions\HXL\Queries\FetchHXLMetadataByIdQuery;
+
 use Ushahidi\Modules\V5\Actions\HXL\Commands\CreateHXLMetaDataCommand;
 
 use Ushahidi\Modules\V5\Http\Resources\HXL\HXLLicenseCollection;
@@ -15,15 +17,13 @@ use Ushahidi\Modules\V5\Http\Resources\HXL\HXLMetadataCollection;
 use Ushahidi\Modules\V5\Http\Resources\HXL\HXLOrganizationCollection;
 use Ushahidi\Modules\V5\Http\Resources\HXL\HXLTagCollection;
 
-use Ushahidi\Modules\V5\Requests\HXLRequest;
+use Ushahidi\Modules\V5\Requests\HXLMetadataRequest;
 use Ushahidi\Modules\V5\Models\HXL;
 use Ushahidi\Core\Exception\NotFoundException;
+use Ushahidi\Modules\V5\Http\Resources\HXL\HXLMetadataResource;
 
 class HXLController extends V5Controller
 {
-
-
-
 
     /**
      * Display the specified resource.
@@ -70,11 +70,13 @@ class HXLController extends V5Controller
      * @return \Illuminate\Http\JsonResponse
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function storeMetadata(HXLRequest $request)
+    public function storeMetadata(HXLMetadataRequest $request)
     {
         $command = CreateHXLMetaDataCommand::fromRequest($request);
-        $new_hxl = new HXL($command->getHXLEntity()->asArray());
-        $this->authorize('store', $new_hxl);
-        return $this->show($this->commandBus->handle($command));
+        //$new_hxl_metadata = new HXL\HXLMetaData($command->getHXLMetadataEntity()->asArray());
+        //$this->authorize('store', $new_hxl_metadata);
+        $hxl_metadata_id = $this->commandBus->handle($command);
+        $hxl_metadata = $this->queryBus->handle(new FetchHXLMetadataByIdQuery($hxl_metadata_id));
+        return new HXLMetadataResource($hxl_metadata);
     } //end store()
 } //end class

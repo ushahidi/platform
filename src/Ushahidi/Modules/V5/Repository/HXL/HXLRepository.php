@@ -3,16 +3,13 @@
 namespace Ushahidi\Modules\V5\Repository\HXL;
 
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Collection;
-use Ushahidi\Modules\V5\Models\HXL;
 use Ushahidi\Modules\V5\DTO\Paging;
 use Ushahidi\Modules\V5\DTO\HXLTagSearchFields;
 use Ushahidi\Modules\V5\DTO\HXLMetadataSearchFields;
 use Ushahidi\Modules\V5\DTO\HXLOrganizationSearchFields;
 use Ushahidi\Modules\V5\DTO\HXLLicenseSearchFields;
-
-
-use Ushahidi\Core\Entity\HXL as HXLEntity;
+use Ushahidi\Modules\V5\Models\HXL\HXLMetaData;
+use Ushahidi\Core\Entity\HXL\HXLMetadata as HXLMetadataEntity;
 
 interface HXLRepository
 {
@@ -57,6 +54,13 @@ interface HXLRepository
     public function fetchMetadata(Paging $paging, HXLMetadataSearchFields $search_fields): LengthAwarePaginator;
 
 
+     /**
+     * This method will fetch a HXML Metadata by id
+     * @param int $id
+     * @return HXLMetaData
+     */
+    public function fetchHXLMetadataById(int $id): HXLMetaData;
+
 
      /**
      * This method will fetch list of the HXL Tags for the logged user from the database utilising
@@ -73,8 +77,8 @@ interface HXLRepository
    
     /**
      * This method will create a HXL
-     * @param HXLEntity $entity
+     * @param HXLMetadataEntity $entity
      * @return int
      */
-    public function create(HXLEntity $entity): int;
+    public function create(HXLMetadataEntity $entity): int;
 }
