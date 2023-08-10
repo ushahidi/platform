@@ -35,6 +35,7 @@
     'first_login'   => true,
     'tier'          => 'free',
     'private'       => false,
+    'api_version'   => 'v5',
     'donation'      => [
        'enabled'      => false,
        'title'        => '',
