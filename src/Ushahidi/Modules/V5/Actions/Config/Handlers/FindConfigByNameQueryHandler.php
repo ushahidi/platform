@@ -44,7 +44,9 @@ class FindConfigByNameQueryHandler extends AbstractQueryHandler
         // Merge defaults
         $defaults = $this->getDefaults($action->getGroupName());
         $group_configs = array_replace_recursive($defaults, $group_configs);
-
+        if ($action->getGroupName() === "site") {
+            $group_configs = $this->addApiVersionIfMissing($group_configs);
+        }
 
         // handle data provider
         if ($action->getGroupName() === "data-provider") {
@@ -123,5 +125,13 @@ class FindConfigByNameQueryHandler extends AbstractQueryHandler
             return require $file;
         }
         return [];
+    }
+
+    private function addApiVersionIfMissing($site_config)
+    {
+        if (!in_array("api_version", array_keys($site_config))) {
+            $site_config["api_version"] = "v3";
+        }
+        return $site_config;
     }
 }
