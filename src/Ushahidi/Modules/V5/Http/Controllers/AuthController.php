@@ -3,8 +3,6 @@
 namespace Ushahidi\Modules\V5\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Ushahidi\Modules\V5\Http\Resources\Contact\ContactResource;
-use Ushahidi\Modules\V5\Http\Resources\Contact\ContactCollection;
 use Ushahidi\Modules\V5\Actions\Auth\Commands\RegisterCommand;
 use Ushahidi\Modules\V5\Actions\Auth\Commands\PasswordResetCommand;
 use Ushahidi\Modules\V5\Actions\Auth\Commands\PasswordResetConfirmCommand;
@@ -13,6 +11,7 @@ use Ushahidi\Modules\V5\Requests\ResetPasswordRequest;
 use Ushahidi\Modules\V5\Requests\PasswordresetConfirmRequest;
 use Ushahidi\Modules\V5\Http\Resources\User\UserResource;
 use Ushahidi\Modules\V5\Actions\User\Queries\FetchUserByIdQuery;
+use Ushahidi\Modules\V5\Models\User;
 
 
 use Ushahidi\Core\Exception\NotFoundException;
@@ -30,6 +29,8 @@ class AuthController extends V5Controller
      */
     public function register(RegisterRequest $request)
     {
+        $this->authorize('register', new User());
+
         $id = $this->commandBus->handle(RegisterCommand::fromRequest($request));
         return new UserResource($this->queryBus->handle(new FetchUserByIdQuery($id)));
     } //end register()

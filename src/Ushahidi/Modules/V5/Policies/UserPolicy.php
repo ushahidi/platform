@@ -70,12 +70,31 @@ class UserPolicy
         return $this->isAllowed($entity, 'create');
     }
 
+    public function register(User $user, EloquentUser $eloquentUser): bool
+    {
+        $entity = new StaticUser();
+        $entity->setState($eloquentUser->toArray());
+
+        return $this->isAllowed($entity, 'register');
+    }
+
     public function isAllowed($entity, $privilege): bool
     {
 
         $authorizer = service('authorizer.user');
         $user = $authorizer->getUser();
 
+
+         //User should not be able to register if it's private
+        if ($privilege === 'register') {
+            // Only logged in users have access if the deployment is private
+            if (!$this->canAccessDeployment($user)) {
+                return false;
+            } else {
+                return true;
+            }
+        }
+         
         // Only logged in users have access if the deployment is private
         if (!$this->canAccessDeployment($user)) {
             return false;
