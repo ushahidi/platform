@@ -29,7 +29,7 @@ class AuthController extends V5Controller
      */
     public function register(RegisterRequest $request)
     {
-        $this->authorize('register', new User());
+        $this->authorizeAnyone('register', new User());
 
         $id = $this->commandBus->handle(RegisterCommand::fromRequest($request));
         return new UserResource($this->queryBus->handle(new FetchUserByIdQuery($id)));
