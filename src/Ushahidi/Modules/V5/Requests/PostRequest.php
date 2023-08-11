@@ -46,7 +46,7 @@ class PostRequest extends BaseRequest
             'title' => [
                 'required',
                 'max:150',
-                new StandardText,
+                //new StandardText,
             ],
             'slug' => [
                 'nullable',
