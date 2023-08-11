@@ -34,11 +34,11 @@ class RegisterCommandHandler extends V5CommandHandler
          * @var RegisterCommand $action
          */
         $this->isSupported($action);
-        $this->checkDisapleRegisteration();
+        $this->checkDisableRegisteration();
         return $this->user_repository->create($action->getUserEntity());
     }
 
-    private function checkDisapleRegisteration()
+    private function checkDisableRegisteration()
     {
         if (Feature::isEnabled('disable_registration')
             && $this->getSite()->getSiteConfig('disable_registration', false)
