@@ -40,7 +40,9 @@ class RegisterCommandHandler extends V5CommandHandler
 
     private function checkDisapleRegisteration()
     {
-        if (Feature::isEnabled('disable_registration')&&$this->getSite()->getSiteConfig('disable_registration', false)) {
+        if (Feature::isEnabled('disable_registration')
+            && $this->getSite()->getSiteConfig('disable_registration', false)
+        ) {
             abort(403, 'Registration Disabled');
         }
     }
