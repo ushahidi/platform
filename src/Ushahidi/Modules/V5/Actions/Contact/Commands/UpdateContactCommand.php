@@ -41,9 +41,7 @@ class UpdateContactCommand implements Command
         $input['data_source'] = $request->input('data_source') ?? $current_contact->data_source;
         $input['type'] = $request->input('type')?$request->input('type'):$current_contact->type;
         $input['contact'] = $request->input('contact') ?? $current_contact->contact;
-        $input['can_notify'] = ParameterUtilities::checkIfEmpty($request->input('can_notify'))
-            ? $request->input('can_notify')
-            : $current_contact->can_notify;
+        $input['can_notify'] = $request->input('can_notify') ?? $current_contact->can_notify;
         $input['created'] = strtotime($current_contact->created);
         $input['updated'] = time();
 
