@@ -48,26 +48,44 @@ class UpdatePostCommand implements Command
 
     public static function fromRequest(int $id, PostRequest $request, Post $current_post): self
     {
+       // $jsonData = json_decode($request->getContent(), true);
+//dd($jsonData);
+      //  dd($request->input());
+
         $user = Auth::user();
         if (self::hasPermissionToUpdateUser($user)) {
-            $input['user_id'] = $request->input('user_id') ?? $current_post->user_id;
+            $input['user_id'] = $request->has('user_id')
+                ? $request->input('user_id') : $current_post->author_email;
+            ;
         } else {
             $input['user_id'] = $current_post->user_id;
         }
 
         $input['slug'] = $request->input('slug') ? Post::makeSlug($request->input('slug')) : $current_post->slug;
-        $input['author_email'] = $request->input('author_email') ?? $current_post->author_email;
-        $input['author_realname'] = $request->input('author_realname') ?? $current_post->author_realname;
-        $input['form_id'] = $request->input('form_id') ?? $current_post->form_id;
-        $input['parent_id'] = $request->input('parent_id') ?? $current_post->parent_id;
-        $input['type'] = $request->input('type') ?? $current_post->type;
-        $input['title'] = $request->input('title') ?? $current_post->title;
-        $input['content'] = $request->input('content') ?? $current_post->content;
-        $input['status'] = $request->input('status') ?? $current_post->status;
-        $input['post_date'] = $request->input('post_date') ?? $current_post->post_date;
-        $input['locale'] = $request->input('locale') ?? $current_post->locale;
-        $input['base_language'] = $request->input('base_language') ?? $current_post->base_language;
-        $input['published_to'] = $request->input('published_to') ?? $current_post->published_to;
+        $input['author_email'] = $request->has('author_email')
+            ? $request->input('author_email') : $current_post->author_email;
+        $input['author_realname'] = $request->has('author_realname')
+            ? $request->input('author_realname') : $current_post->author_realname;
+        $input['form_id'] = $request->has('form_id')
+            ? $request->input('form_id') : $current_post->form_id;
+        $input['parent_id'] = $request->has('parent_id')
+            ? $request->input('parent_id') : $current_post->parent_id;
+        $input['type'] = $request->has('type')
+            ? $request->input('type') : $current_post->type;
+        $input['title'] = $request->has('title')
+            ? $request->input('title') : $current_post->title;
+        $input['content'] = $request->has('content')
+            ? $request->input('content') : $current_post->content;
+        $input['status'] = $request->has('status')
+            ? $request->input('status') : $current_post->status;
+        $input['post_date'] = $request->has('post_date')
+            ? $request->input('post_date') : $current_post->post_date;
+        $input['locale'] = $request->has('locale')
+            ? $request->input('locale') : $current_post->locale;
+        $input['base_language'] = $request->has('base_language')
+            ? $request->input('base_language') : $current_post->base_language;
+        $input['published_to'] = $request->has('published_to')
+            ? $request->input('published_to') : $current_post->published_to;
         $input['created'] = strtotime($current_post->created);
         $input['updated'] = time();
 

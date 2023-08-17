@@ -42,12 +42,15 @@ class PostValueCollection extends ResourceCollection
             $task_trans = new TranslationCollection($task->translations);
             $task = $task->toArray();
             $task['translations'] = $task_trans;
+            $task['required'] = (bool)$task['required'];
             $task['fields'] = $fields->map(function ($field, $key) use ($values) {
                 $field->load('translations');
                 $field_obj = $field;
                 $trans = new TranslationCollection($field->translations);
                 $field = $field->toArray();
                 $field['translations'] = $trans;
+                $field['required'] = (bool)$field['required'];
+                $field['response_private'] = (bool)$field['response_private'];
                 $field['value'] = null;
                 if (!$values) {
                     return $field;
@@ -109,6 +112,10 @@ class PostValueCollection extends ResourceCollection
             $c->setAttribute('id', $f->tag_id);
             return ForbiddenCategoryResource::make($c);
         });
+    }
+
+    private function convertBooleanTaskValues($Task)
+    {
     }
 
     private function makeCollectionItem()
