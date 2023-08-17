@@ -27,7 +27,6 @@ abstract class AbstractPostCommandHandler extends V5CommandHandler
  */
     protected function savePostValues(Post $post, array $post_content, int $post_id)
     {
-
         $errors = [];
         $post->valuesPostTag()->delete();
         foreach ($post_content as $stage) {
@@ -35,28 +34,35 @@ abstract class AbstractPostCommandHandler extends V5CommandHandler
                 continue;
             }
             foreach ($stage['fields'] as $field) {
+                $for_delete = false;
+                $type = $field['type'];
                 if (!isset($field['value'])) {
-                    continue;
+                    if ($type === 'tags') {
+                        continue;
+                    }
+                    $for_delete = true;
                 }
 
                 // We only want to check if a field input value is set, not if it's empty
                 // The reason is when a field value input is updated and then left empty (as long it's not required)
                 // the user wants to override the existing input value with an empty value.
                 if (!isset($field['value']['value'])) {
-                    continue;
+                    if ($type === 'tags') {
+                        continue;
+                    }
+                    $for_delete = true;
                 }
 
-                $value = $field['value']['value']; // field value input
-                $value_meta = $field['value']['value_meta'] ?? [];
-                $value_translations = $field['value']['translations'] ?? [];
-
-                $type = $field['type'];
+               
 
                 if ($type === 'tags') {
+                    // To Do : delete the tags
                     $type === 'tags' ? 'tag' : $type;
-                    $this->savePostTags($post, $field['id'], $value);
+                    $this->savePostTags($post, $field['id'], $field['value']['value']);
                     continue;
                 }
+             
+            
 
                 $class_name = "Ushahidi\Modules\V5\Models\PostValues\Post" . ucfirst($type);
                 if (!class_exists($class_name) &&
@@ -83,6 +89,18 @@ abstract class AbstractPostCommandHandler extends V5CommandHandler
                 if (!$update_id) {
                     $post_value = new $class_name;
                 }
+                // delete
+                if ($for_delete) {
+                    if ($update_id) {
+                        $post_value->delete();
+                    }
+                    continue;
+                }
+
+
+                $value = $field['value']['value']; // field value input
+                $value_meta = $field['value']['value_meta'] ?? [];
+                $value_translations = $field['value']['translations'] ?? [];
 
                 if ($type === 'geometry') {
                     if (is_string($value) && $value === '') {
