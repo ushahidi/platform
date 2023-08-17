@@ -25,7 +25,7 @@ class ConfigController extends V5Controller
     public function show(string $group_name)
     {
         $group_configs = $this->queryBus->handle(new FindConfigByNameQuery($group_name));
-        $this->authorize('show', new Config(["group_name"=>$group_name]));
+        $this->authorizeAnyone('show', new Config(["group_name"=>$group_name]));
         return new ConfigResource($group_configs);
     } //end show()
 
@@ -33,7 +33,7 @@ class ConfigController extends V5Controller
     {
 
         $group_configs = $this->queryBus->handle(new FindConfigByNameQuery($group_name, $key));
-        $this->authorize('show', new Config(["group_name"=>$group_name]));
+        $this->authorizeAnyone('show', new Config(["group_name"=>$group_name]));
         return new ConfigKeyResource($group_configs);
     } //end show()
 
@@ -46,7 +46,7 @@ class ConfigController extends V5Controller
      */
     public function index(Request $request)
     {
-        $this->authorize('index', Config::class);
+        $this->authorizeAnyone('index', Config::class);
         return new ConfigCollection($this->queryBus->handle(new ListConfigsQuery(new ConfigSearchFields($request))));
     } //end index()
 
