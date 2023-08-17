@@ -122,7 +122,7 @@ class EloquentCategoryRepository implements CategoryRepository
         ?string $defaultBaseLanguage,
         ?array $availableLanguages
     ): int {
-        $input = array_filter([
+           $input = [
             'parent_id' => $parentId,
             'tag' => $tag,
             'slug' => $slug,
@@ -132,17 +132,15 @@ class EloquentCategoryRepository implements CategoryRepository
             'icon' => $icon,
             'priority' => $priority,
             'base_language' => $defaultBaseLanguage
-        ], function ($element) {
-            return !is_null($element);
-        });
-        $category = $this->findById($id);
+           ];
+           $category = $this->findById($id);
         // Ugly workaround for the role field being nullable
         // todo: make it better
-        $category->role = $role;
-        $category->fill($input);
-        $category->saveOrFail();
-        $category->refresh();
+           $category->role = $role;
+           $category->fill($input);
+           $category->saveOrFail();
+           $category->refresh();
 
-        return $category->id;
+           return $category->id;
     }
 }

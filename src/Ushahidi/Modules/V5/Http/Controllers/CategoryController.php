@@ -107,10 +107,9 @@ class CategoryController extends V5Controller
     {
         $category = $this->queryBus->handle(new FetchCategoryByIdQuery($id));
         $this->authorize('update', $category);
-
         DB::beginTransaction();
         try {
-            $command = UpdateCategoryCommand::fromRequest($id, $request);
+            $command = UpdateCategoryCommand::fromRequest($id, $request, $category);
             $category = $this->commandBus->handle($command);
             $errors = $this->updateTranslations(
                 new Category(),
