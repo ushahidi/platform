@@ -33,11 +33,13 @@ class UpdateNotificationCommand implements Command
     {
         $user = Auth::user();
         if (self::hasPermissionToUpdateUser($user)) {
-            $input['user_id'] = $request->input('user_id') ?? $current_notification->user_id;
+            $input['user_id'] = $request->has('user_id')
+                ? $request->input('user_id') : $current_notification->user_id;
         } else {
             $input['user_id'] = $current_notification->user_id;
         }
-        $input['set_id'] = $request->input('set_id') ?? $current_notification->set_id;
+        $input['set_id'] = $request->has('set_id')
+            ? $request->input('set_id') : $current_notification->set_id;
         $input['created'] = strtotime($current_notification->created);
 
         return new self($id, new NotificationEntity($input));

@@ -33,15 +33,16 @@ class UpdateContactCommand implements Command
     {
         $user = Auth::user();
         if (self::hasPermissionToUpdateUser($user)) {
-            $input['user_id'] = $request->input('user_id') ?? $current_contact->user_id;
+            $input['user_id'] = $request->has('user_id') ? $request->input('user_id') : $current_contact->user_id;
         } else {
             $input['user_id'] = $current_contact->user_id;
         }
-
-        $input['data_source'] = $request->input('data_source') ?? $current_contact->data_source;
-        $input['type'] = $request->input('type')?$request->input('type'):$current_contact->type;
-        $input['contact'] = $request->input('contact') ?? $current_contact->contact;
-        $input['can_notify'] = $request->input('can_notify') ?? $current_contact->can_notify;
+        $input['data_source'] = $request->has('data_source')
+            ? $request->input('data_source') : $current_contact->data_source;
+        $input['type'] = $request->has('type') ? $request->input('type') : $current_contact->type;
+        $input['contact'] = $request->has('contact') ? $request->input('contact') : $current_contact->contact;
+        $input['can_notify'] = $request->has('can_notify')
+            ? $request->input('can_notify') : $current_contact->can_notify;
         $input['created'] = strtotime($current_contact->created);
         $input['updated'] = time();
 
