@@ -390,7 +390,7 @@ class PostController extends V5Controller
     public function updateLock(int $post_id, Request $request)
     {
 
-        $post = $this->queryBus->handle(new FindPostByIdQuery($post_id, ['id', 'user_id']));
+        $post = $this->queryBus->handle(new FindPostByIdQuery($post_id, ['id', 'user_id','form_id']));
         $this->authorize('update', $post);
 
         $this->commandBus->handle(new UpdatePostLockCommand($post_id));
@@ -401,7 +401,7 @@ class PostController extends V5Controller
 
     public function deleteLock(int $post_id, Request $request)
     {
-        $post = $this->queryBus->handle(new FindPostByIdQuery($post_id, ['id', 'user_id']));
+        $post = $this->queryBus->handle(new FindPostByIdQuery($post_id, ['id', 'user_id','form_id']));
         $this->authorize('update', $post);
 
         $this->commandBus->handle(new DeletePostLockCommand($post_id));
