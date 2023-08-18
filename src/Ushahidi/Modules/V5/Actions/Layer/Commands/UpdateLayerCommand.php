@@ -31,13 +31,14 @@ class UpdateLayerCommand implements Command
 
     public static function fromRequest(int $id, LayerRequest $request, Layer $current_layer): self
     {
-        $input['media_id'] = $request->input('media_id') ?? $current_layer->media_id;
-        $input['name'] = $request->input('name')?$request->input('name'):$current_layer->name;
-        $input['type'] = $request->input('type')?$request->input('type'):$current_layer->type;
-        $input['data_url'] = $request->input('data_url')?$request->input('data_url'):$current_layer->data_url;
-        $input['options'] = $request->input('options')?$request->input('options'):$current_layer->options;
-        $input['active'] = $request->input('active')?$request->input('active'):$current_layer->active;
-        $input['visible_by_default'] = $request->input('visible_by_default')??$current_layer->visible_by_default;
+        $input['media_id'] = $request->has('media_id') ? $request->input('media_id') : $current_layer->media_id;
+        $input['name'] = $request->has('name') ? $request->input('name') : $current_layer->name;
+        $input['type'] = $request->has('type') ? $request->input('type') : $current_layer->type;
+        $input['data_url'] = $request->has('data_url') ? $request->input('data_url') : $current_layer->data_url;
+        $input['options'] = $request->has('options') ? $request->input('options') : $current_layer->options;
+        $input['active'] = $request->has('active') ? $request->input('active') : $current_layer->active;
+        $input['visible_by_default'] = $request->has('visible_by_default')
+        ? $request->input('visible_by_default') : $current_layer->visible_by_default;
         $input['created'] = strtotime($current_layer->created);
         $input['updated'] = time();
 

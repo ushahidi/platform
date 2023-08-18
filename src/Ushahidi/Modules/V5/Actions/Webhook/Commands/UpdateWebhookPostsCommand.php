@@ -33,17 +33,15 @@ class UpdateWebhookPostsCommand implements Command
     {
         $user = Auth::user();
         if (self::hasPermissionToUpdateUser($user)) {
-            $input['user_id'] = $request->input('user_id') ?? $current_webhook->user_id;
+            $input['user_id'] = $request->has('user_id') ? $request->input('user_id') : $current_webhook->user_id;
         } else {
             $input['user_id'] = $current_webhook->user_id;
         }
 
-        $input['data_source'] = $request->input('data_source') ?? $current_webhook->data_source;
-        $input['type'] = $request->input('type')?$request->input('type'):$current_webhook->type;
-        $input['webhook'] = $request->input('webhook') ?? $current_webhook->webhook;
-        $input['can_notify'] = ParameterUtilities::checkIfEmpty($request->input('can_notify'))
-            ? $request->input('can_notify')
-            : $current_webhook->can_notify;
+        $input['data_source'] = $request->has('data_source')
+            ? $request->input('data_source') : $current_webhook->data_source;
+        $input['type'] = $request->has('type') ? $request->input('type') : $current_webhook->type;
+        $input['webhook'] = $request->has('webhook') ? $request->input('webhook') : $current_webhook->webhook;
         $input['created'] = strtotime($current_webhook->created);
         $input['updated'] = time();
 
