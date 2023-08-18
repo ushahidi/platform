@@ -55,7 +55,7 @@ class UpdatePostCommand implements Command
         $user = Auth::user();
         if (self::hasPermissionToUpdateUser($user)) {
             $input['user_id'] = $request->has('user_id')
-                ? $request->input('user_id') : $current_post->author_email;
+                ? $request->input('user_id') : $current_post->user_id;
             ;
         } else {
             $input['user_id'] = $current_post->user_id;
