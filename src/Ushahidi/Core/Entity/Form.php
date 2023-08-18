@@ -145,7 +145,7 @@ class Form extends StaticEntity
                 ? $input["hide_location"]
                 : $old_Values['hide_location'],
 
-                "created" => $old_Values['created'] ?? time(),
+                "created" => $old_Values['created'] ? strtotime($old_Values['created']): time(),
                 "updated" => time(),
 
             ]);

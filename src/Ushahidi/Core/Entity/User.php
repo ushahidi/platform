@@ -87,7 +87,7 @@ class User extends StaticEntity
                 isset($input["failed_attempts"]) ? $input["failed_attempts"] : $old_Values['failed_attempts'],
                 "last_login" => isset($input["last_login"]) ? $input["last_login"] : $old_Values['last_login'],
                 "language" => isset($input["language"]) ? $input["language"] : $old_Values['language'],
-                "created" => $old_Values['created'] ?? time(),
+                "created" => $old_Values['created'] ? strtotime($old_Values['created']): time(),
                 "updated" => time()
             ]);
         }
