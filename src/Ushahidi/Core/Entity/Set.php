@@ -87,7 +87,7 @@ class Set extends StaticEntity
                 : $old_Values['view_options'],
                 "role" => array_key_exists("role", $input) ? $input["role"] : $old_Values['role'],
                 "featured" => array_key_exists("featured", $input) ? $input["featured"] : $old_Values['featured'],
-                "created" => $old_Values['created'] ?? time(),
+                "created" => $old_Values['created'] ? strtotime($old_Values['created']): time(),
                 "updated" => time()
             ]);
         }
