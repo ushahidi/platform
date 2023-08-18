@@ -333,6 +333,17 @@ $router->group([
         }
     );
 
+    $router->group(
+        [
+            'prefix' => 'config',
+            'middleware' => ['scope:config']
+        ],
+        function () use ($router) {
+            $router->get('/', 'ConfigController@index');
+            $router->get('/{group_name}', 'ConfigController@show');
+            $router->get('/{group_name}/{key}', 'ConfigController@showKey');
+        }
+    );
     // Restricted access
     $router->group(
         [
@@ -340,9 +351,6 @@ $router->group([
             'middleware' => ['auth:api', 'scope:config']
         ],
         function () use ($router) {
-            $router->get('/', 'ConfigController@index');
-            $router->get('/{group_name}', 'ConfigController@show');
-            $router->get('/{group_name}/{key}', 'ConfigController@showKey');
             $router->put('/{group_name}', 'ConfigController@update');
             $router->put('/{group_name}/{key}', 'ConfigController@updateKey');
         }
