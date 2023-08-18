@@ -33,12 +33,12 @@ class UpdateMediaCommand implements Command
     {
         $user = Auth::user();
         if (self::hasPermissionToUpdateUser($user)) {
-            $input['user_id'] = $request->input('user_id') ?? $current_media->user_id;
+            $input['user_id'] = $request->has('user_id') ? $request->input('user_id') : $current_media->user_id;
         } else {
             $input['user_id'] = $current_media->user_id;
         }
 
-        $input['caption'] = $request->input('caption') ?? $current_media->caption;
+        $input['caption'] = $request->has('caption') ? $request->input('caption') : $current_media->caption;
         $input['mime'] = $current_media->mime;
         $input['o_filename'] = $current_media->o_filename;
         $input['o_size'] = $current_media->o_size;

@@ -165,9 +165,7 @@ class FindPostByIdQueryHandler extends AbstractQueryHandler
             'values' => $values,
             'tasks' => $post->survey ? $post->survey->tasks : []
         ]);
-        if ($no_values && $post->survey) {
-            $post_content = new TaskCollection($post->survey->tasks);
-        } elseif ($post->survey) {
+        if ($post->survey) {
             $post_content = new PostValueCollection($col);
         } else {
             $post_content = Collection::make([]);

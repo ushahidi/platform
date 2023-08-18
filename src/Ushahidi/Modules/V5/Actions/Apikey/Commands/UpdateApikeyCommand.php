@@ -33,8 +33,9 @@ class UpdateApikeyCommand implements Command
     {
         $uuid = Uuid::uuid4();
         $input['api_key'] = $uuid->toString();
-        $input['client_id'] = $request->input('client_id')?? $current_apikey->client_id;
-        $input['client_secret'] = $request->input('client_secret') ?? $current_apikey->client_secret;
+        $input['client_id'] = $request->has('client_id') ? $request->input('client_id') : $current_apikey->client_id;
+        $input['client_secret'] = $request->has('client_secret')
+            ? $request->input('client_secret') : $current_apikey->client_secret;
         $input['created'] = strtotime($current_apikey->created);
         $input['updated'] = time();
         return new self($id, new ApikeyEntity($input));

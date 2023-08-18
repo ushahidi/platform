@@ -50,7 +50,7 @@ class UserSetting extends StaticEntity
                 "config_key" => isset($input["config_key"]) ? $input["config_key"] : $old_Values['config_key'],
                 "config_value" =>
                 isset($input["config_value"]) ? $input["config_value"] : $old_Values['config_value'],
-                "created" => $old_Values['created'] ?? time(),
+                "created" => $old_Values['created'] ? strtotime($old_Values['created']): time(),
                 "updated" => time()
             ]);
         }
