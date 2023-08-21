@@ -34,7 +34,7 @@ class UserSettingController extends V5Controller
     {
         $user_setting = $this->queryBus->handle(new FetchUserSettingByIdQuery($id));
         $this->checkUser($user_id);
-        $this->authorize('show', $user_setting);
+        $this->authorizeAnyone('show', $user_setting);
         return new UserSettingResource($user_setting);
     } //end show()
 
@@ -47,7 +47,7 @@ class UserSettingController extends V5Controller
      */
     public function index(Request $request, int $user_id)
     {
-        $this->authorize('index', new UserSetting());
+        $this->authorizeAnyone('index', new UserSetting());
         $this->checkUser($user_id);
         return new UserSettingCollection(
             $this->queryBus->handle(
