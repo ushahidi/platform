@@ -34,7 +34,7 @@ class UserSettingController extends V5Controller
     {
         $user_setting = $this->queryBus->handle(new FetchUserSettingByIdQuery($id));
         $this->checkUser($user_id);
-        $this->authorize('show', $user_setting);
+        $this->authorizeAnyone('show', $user_setting);
         return new UserSettingResource($user_setting);
     } //end show()
 
@@ -47,7 +47,7 @@ class UserSettingController extends V5Controller
      */
     public function index(Request $request, int $user_id)
     {
-        $this->authorize('index', new UserSetting());
+        $this->authorizeAnyone('index', new UserSetting());
         $this->checkUser($user_id);
         return new UserSettingCollection(
             $this->queryBus->handle(
@@ -74,7 +74,7 @@ class UserSettingController extends V5Controller
      */
     public function store(UserSettingRequest $request, int $user_id)
     {
-        $this->authorize('store', new UserSetting());
+        $this->authorizeAnyone('store', new UserSetting());
         $this->checkUser($user_id);
         $command = new CreateUserSettingCommand(
             UserSettingEntity::buildEntity(array_merge($request->input(), ["user_id" => $user_id]))
@@ -95,7 +95,7 @@ class UserSettingController extends V5Controller
     public function update(UserSettingRequest $request, int $user_id, int $id)
     {
         $user_setting = $this->queryBus->handle(new FetchUserSettingByIdQuery($id));
-        $this->authorize('update', $user_setting);
+        $this->authorizeAnyone('update', $user_setting);
         $this->checkUser($user_id);
         $this->commandBus->handle(
             new UpdateUserSettingCommand(
@@ -123,7 +123,7 @@ class UserSettingController extends V5Controller
     public function delete(int $user_id, int $id)
     {
         $user_setting = $this->queryBus->handle(new FetchUserSettingByIdQuery($id));
-        $this->authorize('delete', $user_setting);
+        $this->authorizeAnyone('delete', $user_setting);
         $this->checkUser($user_id);
         $this->commandBus->handle(new DeleteUserSettingCommand($id, $user_id));
         return $this->deleteResponse($id);
