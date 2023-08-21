@@ -7,6 +7,10 @@ use Illuminate\Support\Facades\Auth;
 
 class Paging
 {
+    const ORDER_ASC = 'ASC';
+    const ORDER_DESC = 'DESC';
+
+
     private $limit;
     private $page;
     private $order_by;

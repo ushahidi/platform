@@ -54,7 +54,7 @@ class CategoryController extends V5Controller
         return new CategoryCollection(
             $this->queryBus->handle(
                 new FetchAllCategoriesQuery(
-                    new Paging($request, null, null, 0),
+                    new Paging($request, 'id', Paging::ORDER_ASC, 0),
                     new CategorySearchFields($request)
                 )
             )
