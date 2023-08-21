@@ -32,7 +32,14 @@ class CollectionRequest extends BaseRequest
             return [
                 'name' => [
                     'required',
+                    'max:255',
                     'unique:sets,name'
+                ],
+                'description'=>[
+                    'max:255'
+                ],
+                'view'=>[
+                    'max:255'
                 ],
                 'role' => [
                     'nullable',
@@ -47,7 +54,14 @@ class CollectionRequest extends BaseRequest
             return [
                 'name' => [
                     'filled',
+                    'max:255',
                     'unique:sets,name,' . $request->route('id')
+                ],
+                'description'=>[
+                    'max:255'
+                ],
+                'view'=>[
+                    'max:255'
                 ],
                 'role' => [
                     'nullable',
@@ -77,6 +91,29 @@ class CollectionRequest extends BaseRequest
             'name.filled' => trans(
                 'validation.not_empty',
                 ['field' => trans('fields.name')]
+            ),
+            'name.max' => trans(
+                'validation.max_length',
+                [
+                    'param2' => 255,
+                    'field' => trans('fields.name'),
+                ]
+            ),
+
+            'description.max' => trans(
+                'validation.max_length',
+                [
+                    'param2' => 255,
+                    'field' => trans('fields.description'),
+                ]
+            ),
+
+            'view.max' => trans(
+                'validation.max_length',
+                [
+                    'param2' => 255,
+                    'field' => trans('fields.view'),
+                ]
             ),
             'role.array' => trans(
                 'validation.array',

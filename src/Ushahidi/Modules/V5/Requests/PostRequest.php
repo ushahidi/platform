@@ -20,20 +20,20 @@ class PostRequest extends BaseRequest
 
     public function rules(Request $request)
     {
-        $category_id= $request->route('id')?$request->route('id'):null;
+        $category_id = $request->route('id') ? $request->route('id') : null;
 
         if ($request->isMethod('post')) {
             return $this->storeRules();
         } elseif ($request->isMethod('put')) {
-           // dd($this->storeRules());
+            // dd($this->storeRules());
 
-          //  dd($this->updateRules());
+            //  dd($this->updateRules());
             return $this->updateRules();
         } else {
             return [];
         }
     }
-    
+
     public function storeRules(): array
     {
         return [
@@ -41,16 +41,17 @@ class PostRequest extends BaseRequest
             'user_id' => 'nullable|sometimes|exists:users,id',
             'type' => [
                 'required',
-                Rule::in(['report','update','revision'])
+                Rule::in(['report', 'update', 'revision'])
             ],
             'title' => [
                 'required',
-                'max:150',
+                'max:255',
                 //new StandardText,
             ],
             'slug' => [
                 'nullable',
                 'min:2',
+                'max:150',
                 Rule::unique('posts')->ignore($this->id)
             ],
             'content' => [
@@ -98,7 +99,10 @@ class PostRequest extends BaseRequest
                 }
             ],
             'locale',
-            'post_date'
+            'post_date',
+            'base_language' => [
+                'max:255'
+            ],
         ];
     }
 
@@ -140,7 +144,7 @@ class PostRequest extends BaseRequest
             'title.max' => trans(
                 'validation.max',
                 [
-                    'param2' => 150,
+                    'param2' => 255,
                     'field' => trans('fields.title'),
                 ]
             ),
@@ -161,6 +165,13 @@ class PostRequest extends BaseRequest
                     'field' => trans('fields.slug'),
                 ]
             ),
+            'slug.max' => trans(
+                'validation.max',
+                [
+                    'param2' => 150,
+                    'field' => trans('fields.slug'),
+                ]
+            ),
             'slug.unique' => trans(
                 'validation.unique',
                 [
@@ -171,6 +182,13 @@ class PostRequest extends BaseRequest
                 'validation.string',
                 [
                     'field' => trans('fields.content'),
+                ]
+            ),
+            'base_language.max' => trans(
+                'validation.max',
+                [
+                    'param2' => 255,
+                    'field' => trans('fields.base_language'),
                 ]
             )
         ];

@@ -94,6 +94,7 @@ class ContactRequest extends BaseRequest
             ],
             'data_source' => [
                 'nullable',
+                'max:150',
                 Rule::in($sources->getEnabledSources())
             ]
         ];
@@ -163,6 +164,13 @@ class ContactRequest extends BaseRequest
             'data_source.in' => trans(
                 'validation.in_array',
                 ['field' => trans('fields.data_source')]
+            ),
+            'data_source.max' => trans(
+                'validation.max_length',
+                [
+                    'param2' => 150,
+                    'field' => trans('fields.data_source'),
+                ]
             ),
         ];
     }
