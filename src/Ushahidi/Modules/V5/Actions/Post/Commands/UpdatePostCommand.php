@@ -27,6 +27,11 @@ class UpdatePostCommand implements Command
     private $completed_stages;
 
     /**
+     * @var bool
+     */
+    private $has_completed_stages;
+
+    /**
      * @var array
      * Stage[]
      */
@@ -35,9 +40,9 @@ class UpdatePostCommand implements Command
     public function __construct(
         int $id,
         PostEntity $post_entity,
-        array $completed_stages,
-        array $post_content,
-        array $translations
+        ?array $completed_stages,
+        ?array $post_content,
+        ?array $translations
     ) {
         $this->id = $id;
         $this->post_entity = $post_entity;
@@ -48,9 +53,9 @@ class UpdatePostCommand implements Command
 
     public static function fromRequest(int $id, PostRequest $request, Post $current_post): self
     {
-       // $jsonData = json_decode($request->getContent(), true);
-//dd($jsonData);
-      //  dd($request->input());
+        // $jsonData = json_decode($request->getContent(), true);
+        //dd($jsonData);
+        //  dd($request->input());
 
         $user = Auth::user();
         if (self::hasPermissionToUpdateUser($user)) {
@@ -89,13 +94,30 @@ class UpdatePostCommand implements Command
         $input['created'] = strtotime($current_post->created);
         $input['updated'] = time();
 
+        if ($request->has('completed_stages')) {
+            $completed_stages = $request->input('completed_stages') ?? [];
+        } else {
+            $completed_stages = null;
+        }
+
+        if ($request->has('translations')) {
+            $translations = $request->input('translations') ?? [];
+        } else {
+            $translations = null;
+        }
+
+        if ($request->has('post_content')) {
+            $post_content = $request->input('post_content') ?? [];
+        } else {
+            $post_content = null;
+        }
 
         return new self(
             $id,
             new PostEntity($input),
-            $request->input('completed_stages') ?? [],
-            $request->input('post_content') ?? [],
-            $request->input('translations') ?? [],
+            $completed_stages,
+            $post_content,
+            $translations,
         );
     }
     private static function hasPermissionToUpdateUser($user)
@@ -121,7 +143,7 @@ class UpdatePostCommand implements Command
     /**
      * @return array
      */
-    public function getCompletedStages(): array
+    public function getCompletedStages(): ?array
     {
         return $this->completed_stages;
     }
@@ -129,7 +151,7 @@ class UpdatePostCommand implements Command
     /**
      * @return array
      */
-    public function getPostContent(): array
+    public function getPostContent(): ?array
     {
         return $this->post_content;
     }
@@ -137,7 +159,7 @@ class UpdatePostCommand implements Command
     /**
      * @return array
      */
-    public function getTranslations(): array
+    public function getTranslations(): ?array
     {
         return $this->translations;
     }

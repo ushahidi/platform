@@ -54,28 +54,30 @@ class UpdatePostCommandHandler extends AbstractPostCommandHandler
         // return $this->categoryRepository
         //     ->findById($action->getCategoryId());
         //return new Post();
-         $this->updatePost($action);
+        $this->updatePost($action);
     }
 
 
     private function updatePost(UpdatePostCommand $action)
     {
         if (!$this->validateLockState($action->getId())) {
-          //  return self::make422(Lock::getPostLockedErrorMessage($id));
+            //  return self::make422(Lock::getPostLockedErrorMessage($id));
             $this->failedValidation(Lock::getPostLockedErrorMessage($action->getId()));
         }
         DB::beginTransaction();
         try {
+            $errors = [];
             // to do call from repo
-          //  $post = Post::create($action->getPostEntity()->asArray());
+            //  $post = Post::create($action->getPostEntity()->asArray());
             $post  = Post::find($action->getId());
             $post->fill($action->getPostEntity()->asArray())->save();
 
-            if (count($action->getCompletedStages())) {
+            if ($action->getCompletedStages()) {
                 $this->savePostStages($post, $action->getCompletedStages());
             }
-
-            $errors = $this->savePostValues($post, $action->getPostContent(), $post->id);
+            if ($action->getPostContent()) {
+                $errors = $this->savePostValues($post, $action->getPostContent(), $post->id);
+            }
             if (!empty($errors)) {
                 DB::rollback();
                 $this->failedValidation($errors);
@@ -91,8 +93,8 @@ class UpdatePostCommandHandler extends AbstractPostCommandHandler
             );
             if (!empty($errors)) {
                 DB::rollback();
-               // return self::make422($errors, 'translation');
-                 $this->failedValidation($errors);
+                // return self::make422($errors, 'translation');
+                $this->failedValidation($errors);
             }
             Lock::releaseLock($action->getId());
             DB::commit();
@@ -102,7 +104,7 @@ class UpdatePostCommandHandler extends AbstractPostCommandHandler
             return $post->id;
         } catch (\Exception $e) {
             DB::rollback();
-           // dd($e);
+            // dd($e);
             throw $e;
             //return self::make500($e->getMessage());
         }

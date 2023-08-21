@@ -1,30 +1,33 @@
 <?php
-    namespace Ushahidi\Modules\V5\Actions\Post\Handlers;
 
-    use Ushahidi\Modules\V5\Actions\V5CommandHandler;
-    use Ushahidi\Modules\V5\Models\Post\Post;
-    use Illuminate\Support\Facades\DB;
-    
+namespace Ushahidi\Modules\V5\Actions\Post\Handlers;
+
+use Ushahidi\Modules\V5\Actions\V5CommandHandler;
+use Ushahidi\Modules\V5\Models\Post\Post;
+use Illuminate\Support\Facades\DB;
+
 abstract class AbstractPostCommandHandler extends V5CommandHandler
 {
 
     protected function savePostStages(Post $post, array $completed)
     {
         $post->postStages()->delete();
-        foreach ($completed as $stage_id) {
-            $post->postStages()->create(['post_id' => $post, 'form_stage_id' => $stage_id, 'completed' => 1]);
+        if (count($completed)) {
+            foreach ($completed as $stage_id) {
+                $post->postStages()->create(['post_id' => $post, 'form_stage_id' => $stage_id, 'completed' => 1]);
+            }
         }
     }
 
 
     /**
- * @param Post $post
- * @param array $post_content
- * @param int $post_id
- * @throws \Exception
- * Stage: fields
- * Fields: value, type, id
- */
+     * @param Post $post
+     * @param array $post_content
+     * @param int $post_id
+     * @throws \Exception
+     * Stage: fields
+     * Fields: value, type, id
+     */
     protected function savePostValues(Post $post, array $post_content, int $post_id)
     {
         $errors = [];
@@ -53,7 +56,7 @@ abstract class AbstractPostCommandHandler extends V5CommandHandler
                     $for_delete = true;
                 }
 
-               
+
 
                 if ($type === 'tags') {
                     // To Do : delete the tags
@@ -61,8 +64,8 @@ abstract class AbstractPostCommandHandler extends V5CommandHandler
                     $this->savePostTags($post, $field['id'], $field['value']['value']);
                     continue;
                 }
-             
-            
+
+
 
                 $class_name = "Ushahidi\Modules\V5\Models\PostValues\Post" . ucfirst($type);
                 if (!class_exists($class_name) &&
