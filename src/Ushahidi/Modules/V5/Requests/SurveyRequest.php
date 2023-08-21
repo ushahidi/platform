@@ -157,10 +157,20 @@ class SurveyRequest extends BaseRequest
                 'validation.regex',
                 ['field' => trans('fields.tasks.fields.response_private')]
             ),
+            
             // 'tasks.*.fields.*.response_private' => [
             // @TODO add this custom validator for canMakePrivate
             // [[$this, 'canMakePrivate'], [':value', $type]]
             // ]
+
+            
+            'base_language.max' => trans(
+                'validation.max',
+                [
+                    'param2' => 255,
+                    'field' => trans('fields.base_language'),
+                ]
+            )
         ];
     }
   
@@ -266,6 +276,10 @@ class SurveyRequest extends BaseRequest
                     }
                 }
             ]
+            ,
+            'base_language' => [
+                'max:255'
+            ],
         ];
     }
 }

@@ -52,6 +52,7 @@ class CategoryRequest extends BaseRequest
             'slug' => [
                 'nullable',
                 'min:2',
+                'max:255',
             ],
             'type' => [
                 'required',
@@ -68,8 +69,11 @@ class CategoryRequest extends BaseRequest
             'color' => [
                 'string',
                 'nullable',
+                'max:7',
+
             ],
             'icon' => [
+                'max:20',
                 'regex:/^[\pL\s\_\-]++$/uD'
             ],
             'priority' => [
@@ -88,7 +92,10 @@ class CategoryRequest extends BaseRequest
                         return $fail(trans('validation.role_cannot_be_empty'));
                     }
                 }
-            ]
+            ],
+            'base_language' => [
+                'max:255'
+            ],
         ];
     }
 
@@ -136,6 +143,13 @@ class CategoryRequest extends BaseRequest
                     'field' => trans('fields.slug'),
                 ]
             ),
+            'slug.max' => trans(
+                'validation.max',
+                [
+                    'param2' => 255,
+                    'field' => trans('fields.slug'),
+                ]
+            ),
             'slug.unique' => trans(
                 'validation.unique',
                 ['field' => trans('fields.slug')]
@@ -168,13 +182,34 @@ class CategoryRequest extends BaseRequest
                     'field' => trans('fields.description')
                 ]
             ),
+            'color.max' => trans(
+                'validation.max',
+                [
+                    'param2' => 6,
+                    'field' => trans('fields.color'),
+                ]
+            ),
             'icon.regex' => trans(
                 'validation.regex',
                 ['field' => trans('fields.icon')]
             ),
+            'icon.max' => trans(
+                'validation.max',
+                [
+                    'param2' => 20,
+                    'field' => trans('fields.icon'),
+                ]
+            ),
             'priority.numeric' => trans(
                 'validation.numeric',
                 ['field' => trans('fields.priority')]
+            ),
+            'base_language.max' => trans(
+                'validation.max',
+                [
+                    'param2' => 255,
+                    'field' => trans('fields.base_language'),
+                ]
             )
         ];
     }

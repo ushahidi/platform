@@ -47,6 +47,7 @@ class MessageRequest extends BaseRequest
             'data_source_message_id' => ['max:511'],
             'data_source' => [
                 'nullable',
+                'max:150',
                 Rule::in($sources->getEnabledSources())
             ]
         ];
@@ -143,6 +144,13 @@ class MessageRequest extends BaseRequest
                 [
                     'param2' => 255,
                     'field' => trans('fields.data_source_message_id'),
+                ]
+            ),
+            'data_source.max' => trans(
+                'validation.max_length',
+                [
+                    'param2' => 150,
+                    'field' => trans('fields.data_source'),
                 ]
             ),
         ];
