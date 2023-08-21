@@ -182,6 +182,17 @@ $router->group([
         function () use ($router) {
             $router->get('/', 'UserController@index');
             $router->get('/{id}', 'UserController@show');
+
+            $router->group(
+                [
+                    'prefix' => '{user_id}/settings',
+                    'middleware' => ['scope:users', 'feature:user-settings', 'expiration']
+                ],
+                function () use ($router) {
+                    $router->get('/', 'UserSettingController@index');
+                    $router->get('/{id}', 'UserSettingController@show');
+                }
+            );
         }
     );
 
@@ -195,15 +206,13 @@ $router->group([
             $router->post('/', 'UserController@store');
             $router->put('/{id}', 'UserController@update');
             $router->delete('/{id}', 'UserController@delete');
-
+           
             $router->group(
                 [
                     'prefix' => '{user_id}/settings',
-                    'middleware' => ['scope:users', 'auth:api', 'feature:user-settings', 'expiration']
+                    'middleware' => ['scope:users', 'feature:user-settings', 'expiration']
                 ],
                 function () use ($router) {
-                    $router->get('/', 'UserSettingController@index');
-                    $router->get('/{id}', 'UserSettingController@show');
                     $router->post('/', 'UserSettingController@store');
                     $router->put('/{id}', 'UserSettingController@update');
                     $router->delete('/{id}', 'UserSettingController@delete');
