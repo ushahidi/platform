@@ -72,10 +72,10 @@ class UpdatePostCommandHandler extends AbstractPostCommandHandler
             $post  = Post::find($action->getId());
             $post->fill($action->getPostEntity()->asArray())->save();
 
-            if ($action->getCompletedStages()) {
+            if (is_array($action->getCompletedStages())) {
                 $this->savePostStages($post, $action->getCompletedStages());
             }
-            if ($action->getPostContent()) {
+            if (is_array($action->getPostContent())) {
                 $errors = $this->savePostValues($post, $action->getPostContent(), $post->id);
             }
             if (!empty($errors)) {
