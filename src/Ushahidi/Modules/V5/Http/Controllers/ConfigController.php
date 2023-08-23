@@ -12,6 +12,7 @@ use Ushahidi\Modules\V5\Actions\Config\Queries\FindConfigByNameQuery;
 use Ushahidi\Modules\V5\Actions\Config\Queries\ListConfigsQuery;
 use Ushahidi\Modules\V5\Actions\Config\Commands\UpdateConfigCommand;
 use Ushahidi\Modules\V5\DTO\ConfigSearchFields;
+use Ushahidi\Modules\V5\Http\Resources\DataProvider\DataProviderCollection;
 
 class ConfigController extends V5Controller
 {
@@ -26,6 +27,12 @@ class ConfigController extends V5Controller
     {
         $group_configs = $this->queryBus->handle(new FindConfigByNameQuery($group_name));
         $this->authorizeAnyone('show', new Config(["group_name"=>$group_name]));
+        if ($group_name === "data-provider") {
+            $group_configs = $group_configs->toArray();
+            unset($group_configs['id']);
+            return new DataProviderCollection(array_values($group_configs));
+        }
+
         return new ConfigResource($group_configs);
     } //end show()
 

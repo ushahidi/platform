@@ -39,6 +39,7 @@ use Ushahidi\Modules\V5\Actions\SavedSearch;
 use Ushahidi\Modules\V5\Actions\Collection;
 use Ushahidi\Modules\V5\Actions\Post;
 use Ushahidi\Modules\V5\Actions\Config;
+use Ushahidi\Modules\V5\Actions\DataProvider;
 use Ushahidi\Modules\V5\Actions\Contact;
 use Ushahidi\Modules\V5\Actions\Message;
 use Ushahidi\Modules\V5\Actions\Notification;
@@ -544,6 +545,16 @@ class BusServiceProvider extends ServiceProvider
                 Config\Queries\FindConfigByNameQuery::class,
                 Config\Handlers\FindConfigByNameQueryHandler::class
             );
+
+            $queryBus->register(
+                DataProvider\Queries\FetchDataProviderQuery::class,
+                DataProvider\Handlers\FetchDataProviderQueryHandler::class
+            );
+            $queryBus->register(
+                DataProvider\Queries\FetchDataProviderByIdQuery::class,
+                DataProvider\Handlers\FetchDataProviderByIdQueryHandler::class
+            );
+            
 
             $queryBus->register(
                 Contact\Queries\FetchContactQuery::class,
