@@ -159,6 +159,14 @@ $router->group([
         $router->get('/{id}', 'CountryCodeController@show');
     });
 
+    $router->group([
+        'prefix' => 'dataproviders',
+        'middleware' => ['auth:api', 'scope:dataproviders'],
+    ], function () use ($router) {
+        $router->get('/', 'DataProviderController@index');
+        $router->get('/{id}', 'DataProviderController@show');
+    });
+
     /* Users */
     // Restricted access
     $router->group(
