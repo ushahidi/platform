@@ -76,7 +76,6 @@ class Email extends OutgoingEmail implements IncomingDataSource
             'incoming_server' => [
                 'label' => 'Incoming Server',
                 'input' => 'text',
-                'description' => '',
                 'description' => 'Examples: mail.yourwebsite.com, imap.gmail.com, pop.gmail.com',
                 'rules' => ['required']
             ],

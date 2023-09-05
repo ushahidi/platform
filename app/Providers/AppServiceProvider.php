@@ -2,13 +2,11 @@
 
 namespace App\Providers;
 
-use Ushahidi\Core\Tool\SiteManager;
-use Ushahidi\Addons\Mteja\MtejaSource;
-use Ushahidi\Core\Tool\FeatureManager;
 use Illuminate\Support\ServiceProvider;
+use Ushahidi\Core\Tool\SiteManager;
+use Ushahidi\Core\Tool\FeatureManager;
 use Ushahidi\Core\Tool\OhanzeeResolver;
 use Ushahidi\Core\Usecase\Export\Job\PostCount;
-use Ushahidi\Addons\AfricasTalking\AfricasTalkingSource;
 use Ushahidi\Contracts\Repository\Entity\PostRepository;
 use Ushahidi\Contracts\Repository\Entity\UserRepository;
 use Ushahidi\Contracts\Repository\Entity\ConfigRepository;
@@ -42,6 +40,10 @@ use Ushahidi\Modules\V5\Repository\Media;
 use Ushahidi\Modules\V5\Repository\Apikey;
 use Ushahidi\Modules\V5\Repository\Webhook;
 use Ushahidi\Modules\V5\Repository\HXL;
+use Ushahidi\Addons\AfricasTalking\AfricasTalkingSource;
+use Ushahidi\Addons\Infobip\InfobipSMS\InfobipSMS;
+use Ushahidi\Addons\Mteja\MtejaSource;
+use Ushahidi\Addons\HttpSMS\HttpSMS;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -59,6 +61,10 @@ class AppServiceProvider extends ServiceProvider
         $this->app['datasources']->extend('africastalking', AfricasTalkingSource::class);
 
         $this->app['datasources']->extend('mteja', MtejaSource::class);
+
+        $this->app['datasources']->extend('infobip-sms', InfobipSMS::class);
+
+        $this->app['datasources']->extend('httpsms', HttpSMS::class);
     }
 
     /**

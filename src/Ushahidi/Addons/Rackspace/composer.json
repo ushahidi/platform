@@ -1,0 +1,29 @@
+{
+    "name": "ushahidi/rackspace-addon",
+    "description": "Rackspace adapter for Flysystem package",
+    "type": "library",
+    "license": "AGPL-3.0",
+    "require": {
+        "php-opencloud/openstack": "^3.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Ushahidi\\Addons\\Rackspace\\": ""
+        },
+        "files": []
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Ushahidi\\Addons\\RackspaceServiceProvider"
+            ],
+            "aliases": {
+            }
+        }
+    },
+    "suggest": {},
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev"
+}

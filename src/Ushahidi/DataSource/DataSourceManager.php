@@ -92,22 +92,17 @@ class DataSourceManager
     public function getEnabledSources(): array
     {
         return Cache::remember('datasources.enabled', self::CACHE_LIFETIME, function () {
-            // Load enabled sources
-            $enabledSources = array_filter(
-                $this->configRepo->get('data-provider')->asArray()['providers']
-            );
-
-            // Load available sources
-            $availableSources = array_filter(
-                $this->configRepo->get('features')->asArray()['data-providers']
-            );
 
             $allSources = array_merge($this->defaultSources, $this->customSources);
+
+            // Load enabled sources
+            $enabledSources = array_filter(
+                $this->configRepo->get('features')->asArray()['data-sources']
+            );
 
             $sources = array_intersect_key(
                 $allSources,
                 $enabledSources,
-                $availableSources
             );
 
             return array_keys($sources);
@@ -173,6 +168,8 @@ class DataSourceManager
      */
     public function registerRoutes(Router $router)
     {
+        // TODO: Switch to something like this here https://laravel-news.com/route-registrars
+
         /** @var \Ushahidi\DataSource\Contracts\CallbackDataSource $class */
         foreach (array_values(array_merge($this->defaultSources, $this->customSources)) as $class) {
             if (!in_array(CallbackDataSource::class, class_implements($class))) {

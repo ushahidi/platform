@@ -16,8 +16,6 @@
     ],
     "require": {
         "php": ">=7.3 <7.4",
-        "abraham/twitteroauth": "^0.5.3",
-        "africastalking/africastalking": "^3.0",
         "asm89/stack-cors": "^2.1",
         "doctrine/cache": "^1.6.2",
         "doctrine/dbal": "^2.0",
@@ -36,18 +34,14 @@
         "nyholm/psr7": "^1.5",
         "ohanzee/database": "dev-namespaces",
         "php-http/curl-client": "^2.2",
-        "php-opencloud/openstack": "^3.2",
         "predis/predis": "~1.1",
         "robmorgan/phinx": "~0.11.2",
         "sentry/sentry-laravel": "^1.9|^2.11",
         "symfony/event-dispatcher": "^5.4",
         "symfony/psr-http-message-bridge": "^2.0",
         "symm/gisconverter": "~1.0.5",
-        "twilio/sdk": "^5.15",
-        "ushahidi/gmail-support": "dev-mzima",
         "ushahidi/kohana-validation": "dev-master",
         "ushahidi/laravel-ckan-api": "dev-master",
-        "vonage/client": "^2.3",
         "wikimedia/composer-merge-plugin": "^2.0",
         "willdurand/negotiation": "^2.3"
     },
@@ -203,6 +197,12 @@
         ],
         "snowboard-v5-serve": [
             "snowboard http docs/api/v5/index.apib"
+        ],
+        "safe-update-dev": [
+            "composer update --ignore-platform-req=php"
+        ],
+        "safe-install-dev": [
+            "composer install --ignore-platform-req=php"
         ]
     },
     "minimum-stability": "dev",

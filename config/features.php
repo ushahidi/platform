@@ -3,10 +3,6 @@
 /**
  * Feature Config
  *
- * @author     Ushahidi Team <team@ushahidi.com>
- * @package    Ushahidi\Application\Config
- * @copyright  2014 Ushahidi
- * @license    https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License Version 3 (AGPL3)
  */
 
 return [
@@ -24,18 +20,19 @@ return [
     ],
 
     // Data sources
-    'data-providers' => [
-        'smssync' => true,
-        'twitter' => true,
-        'frontlinesms' => true,
+    'data-sources' => [
         'email' => true,
+        'smssync' => false,
+        'twitter' => true,
+        'frontlinesms' => false,
         'outgoingemail' => true,
-        'twilio' => true,
-        'nexmo' => true,
-        'testservice' => false,
+        'twilio' => false,
+        'nexmo' => false,
         'gmail' => false,
         'mteja' => false,
         'africastalking' => false,
+        'httpsms' => false,
+        'infobip' => false,
     ],
 
     // Client limits

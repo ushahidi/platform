@@ -1,0 +1,29 @@
+{
+    "name": "ushahidi/httpsms-addon",
+    "description": "HttpSMS addon to Ushahidi data source component",
+    "homepage": "http://ushahidi.com/",
+    "type": "library",
+    "license": "AGPL-3.0",
+    "repositories": [],
+    "require": {
+        "firebase/php-jwt": "^6.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Ushahidi\\Addons\\HttpSMS\\": ""
+        },
+        "files": []
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Ushahidi\\Addons\\HttpSMS\\ServiceProvider"
+            ]
+        }
+    },
+    "suggest": {},
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev"
+}

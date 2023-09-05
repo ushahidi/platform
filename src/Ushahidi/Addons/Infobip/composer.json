@@ -1,0 +1,22 @@
+{
+    "name": "ushahidi/infobip-support",
+    "description": "Infobip addon for the Ushahidi data source component",
+    "homepage": "http://ushahidi.com/",
+    "type": "library",
+    "license": "AGPL-3.0",
+    "repositories": [],
+    "require": {
+    },
+    "autoload": {
+        "psr-4": {
+            "Ushahidi\\Addons\\Infobip\\": ""
+        },
+        "files": []
+    },
+    "extra": {},
+    "suggest": {},
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev"
+}
