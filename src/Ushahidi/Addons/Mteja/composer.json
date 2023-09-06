@@ -13,7 +13,13 @@
         },
         "files": []
     },
-    "extra": {},
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Ushahidi\\Addons\\Mteja\\ServiceProvider"
+            ]
+        }
+    },
     "suggest": {},
     "config": {
         "sort-packages": true

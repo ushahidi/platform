@@ -14,7 +14,13 @@
         },
         "files": []
     },
-    "extra": {},
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Ushahidi\\Addons\\AfricasTalking\\ServiceProvider"
+            ]
+        }
+    },
     "suggest": {},
     "config": {
         "sort-packages": true

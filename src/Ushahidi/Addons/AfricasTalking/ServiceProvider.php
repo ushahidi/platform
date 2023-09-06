@@ -1,6 +1,6 @@
 <?php
 
-namespace Ushahidi\Addons\HttpSMS;
+namespace Ushahidi\Addons\AfricasTalking;
 
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 
@@ -13,6 +13,6 @@ class ServiceProvider extends BaseServiceProvider
      */
     public function boot()
     {
-        $this->app['datasources']->extend('httpsms', HttpSMS::class);
+        $this->app['datasources']->extend('africastalking', AfricasTalkingSource::class);
     }
 }

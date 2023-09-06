@@ -22,9 +22,9 @@ class InfobipSMSController extends DataSourceController
 
     public function handleRequest(Request $request)
     {
-       $results = collect($request->input('results'));
+        $results = collect($request->input('results'));
 
-       $results->each(function ($result) {
+        $results->each(function ($result) {
             $data = [
                 'type' => MessageType::SMS,
                 'from' => $result['from'],
@@ -40,8 +40,8 @@ class InfobipSMSController extends DataSourceController
             ];
 
             $this->save($data);
-       });
+        });
 
-       return response()->json(['status' => 'ok']);
+        return response()->json(['status' => 'ok']);
     }
 }

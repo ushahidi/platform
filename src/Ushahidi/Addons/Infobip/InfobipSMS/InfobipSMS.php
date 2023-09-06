@@ -57,7 +57,8 @@ class InfobipSMS implements CallbackDataSource, OutgoingDataSource
             'api_base_url' => [
                 'label' => 'API Base URL',
                 'input' => 'text',
-                'description' => 'To see your base URL, login to your Infobip dashboard and you should see it in this format i.e xxxxx.api.infobip.com.',
+                'description' => 'To see your base URL, login to your Infobip dashboard and you should see it in this format
+                  i.e xxxxx.api.infobip.com.',
                 'rules' => ['required']
             ],
             'api_key' => [
@@ -76,7 +77,7 @@ class InfobipSMS implements CallbackDataSource, OutgoingDataSource
                 'label' => 'Signing Key',
                 'input' => 'text',
                 'description' => 'Set a secret so that it is used to verify the webhook sent from httpSMS server.
-					You need to configure the same secret when setting up a webhook in your httpSMS settings dashboard.',
+				  You need to configure the same secret when setting up a webhook in your httpSMS settings dashboard.',
                 'rules' => ['required']
             ]
         ];

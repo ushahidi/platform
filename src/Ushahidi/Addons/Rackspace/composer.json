@@ -1,5 +1,5 @@
 {
-    "name": "ushahidi/rackspace-addon",
+    "name": "ushahidi/flysystem-rackspace",
     "description": "Rackspace adapter for Flysystem package",
     "type": "library",
     "license": "AGPL-3.0",
@@ -15,10 +15,8 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Ushahidi\\Addons\\RackspaceServiceProvider"
-            ],
-            "aliases": {
-            }
+                "Ushahidi\\Addons\\Rackspace\\RackspaceServiceProvider"
+            ]
         }
     },
     "suggest": {},

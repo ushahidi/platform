@@ -3,6 +3,7 @@
 namespace Ushahidi\Addons\Infobip;
 
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
+use Ushahidi\Addons\Infobip\InfobipSMS\InfobipSMS;
 
 class ServiceProvider extends BaseServiceProvider
 {
@@ -13,10 +14,6 @@ class ServiceProvider extends BaseServiceProvider
      */
     public function boot()
     {
-    }
-
-    public function provides()
-    {
-        return [];
+        $this->app['datasources']->extend('infobip-sms', InfobipSMS::class);
     }
 }
