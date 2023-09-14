@@ -46,6 +46,7 @@ class FindConfigByNameQueryHandler extends AbstractQueryHandler
         $group_configs = array_replace_recursive($defaults, $group_configs);
         if ($action->getGroupName() === "site") {
             $group_configs = $this->addApiVersionIfMissing($group_configs);
+            $group_configs = $this->addImageMaxSize($group_configs);
         }
 
         // handle data provider
@@ -132,6 +133,14 @@ class FindConfigByNameQueryHandler extends AbstractQueryHandler
         if (!in_array("api_version", array_keys($site_config))) {
             $site_config["api_version"] = "v3";
         }
+        return $site_config;
+    }
+
+    private function addImageMaxSize($site_config)
+    {
+       // if (!in_array("image_max_size", array_keys($site_config))) {
+        $site_config["image_max_size"] = env('IMAGE_MAX_SIZE', '4194304');
+        //}
         return $site_config;
     }
 }

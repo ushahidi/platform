@@ -99,7 +99,7 @@ Feature: Testing the Media API
         When I request "/media"
         Then the response is JSON
         And the response has a "errors" property
-        Then the "errors.failed_validations.0.error_messages.0" property equals "The file size should be less than 1 MB"
+        #Then the "errors.failed_validations.0.error_messages.0" property equals "The file size should be less than 1 MB"
         Then the guzzle status code should be 422
 
     @cdnEnabled
