@@ -61,7 +61,7 @@ class CreateMediaCommand implements Command
            
             // Now, you can create an array with the extracted information
             $file_array = [
-                'name' => $fileName,
+                'name' => str_replace(' ', '_', $fileName),
                 'extension' => $fileExtension,
                 'size' => $fileSize,
                 'type' => $fileMimeType,
