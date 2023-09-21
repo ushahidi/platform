@@ -74,7 +74,7 @@ class ListPostsGeometryQuery implements Query
         return $this->search_fields;
     }
 
-    public static function fromRequest(Request $request): self
+    public static function fromRequest(Request $request, array $surveys_with_private_location): self
     {
 
         // do we need to throw execption if send an field not found ?!
@@ -97,7 +97,9 @@ class ListPostsGeometryQuery implements Query
             }
         }
 
-        return new self(Paging::fromRequest($request), new PostSearchFields($request), $fields, $hydrates);
+        $post_search_fields = new PostSearchFields($request);
+        $post_search_fields->excludeFormIds($surveys_with_private_location);
+        return new self(Paging::fromRequest($request), $post_search_fields, $fields, $hydrates);
     }
 
     public function getFields(): array

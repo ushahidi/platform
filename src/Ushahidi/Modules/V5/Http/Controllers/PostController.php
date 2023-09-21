@@ -24,7 +24,7 @@ use Ushahidi\Modules\V5\Common\ValidatorRunner;
 
 use Ushahidi\Modules\V5\Http\Resources\Post\PostCollection as NewPostCollection;
 use Ushahidi\Modules\V5\Http\Resources\Post\PostResource as NewPostResource;
-use Ushahidi\Modules\V5\Http\Resources\Post\PostLockResource ;
+use Ushahidi\Modules\V5\Http\Resources\Post\PostLockResource;
 use Ushahidi\Modules\V5\Requests\PostRequest;
 
 use Ushahidi\Modules\V5\Actions\Post\Commands\UpdatePostLockCommand;
@@ -33,10 +33,11 @@ use Ushahidi\Modules\V5\Actions\Post\Queries\FetchPostLockByPostIdQuery;
 use Ushahidi\Modules\V5\Actions\Post\Queries\FindPostGeometryByIdQuery;
 use Ushahidi\Modules\V5\Actions\Post\Queries\ListPostsGeometryQuery;
 use Ushahidi\Modules\V5\Actions\Post\Queries\PostsStatsQuery;
-use Ushahidi\Modules\V5\Http\Resources\Post\PostGeometryCollection ;
-use Ushahidi\Modules\V5\Http\Resources\Post\PostGeometryResource ;
-use Ushahidi\Modules\V5\Http\Resources\Post\PostStatsResource ;
+use Ushahidi\Modules\V5\Http\Resources\Post\PostGeometryCollection;
+use Ushahidi\Modules\V5\Http\Resources\Post\PostGeometryResource;
+use Ushahidi\Modules\V5\Http\Resources\Post\PostStatsResource;
 use Ushahidi\Core\Tool\Tile;
+use Ushahidi\Modules\V5\Actions\Survey\Queries\GetSurveyIdsWithPrivateLocationQuery;
 
 class PostController extends V5Controller
 {
@@ -92,7 +93,7 @@ class PostController extends V5Controller
         return $user;
     }
 
- 
+
     /**
      * Display the specified resource.
      *
@@ -351,7 +352,14 @@ class PostController extends V5Controller
 
     public function indexGeoJson(Request $request): PostGeometryCollection
     {
-        $posts = $this->queryBus->handle(ListPostsGeometryQuery::FromRequest($request));
+
+        $surveys_with_private_location  = $this->queryBus->handle(new GetSurveyIdsWithPrivateLocationQuery());
+        $posts = $this->queryBus->handle(
+            ListPostsGeometryQuery::FromRequest(
+                $request,
+                $surveys_with_private_location->pluck('id')->toArray()
+            )
+        );
         return new PostGeometryCollection($posts);
     }
 
@@ -373,7 +381,8 @@ class PostController extends V5Controller
         $y = isset($params['y']) ? $params['y'] : false;
         if ($zoom !== false and
             $x !== false and
-            $y !== false) {
+            $y !== false
+        ) {
             $boundingBox = Tile::pointToBoundingBox($zoom, $x, $y);
             $request->merge(['bbox' => implode(',', $boundingBox->asArray())]);
         }
@@ -390,7 +399,7 @@ class PostController extends V5Controller
     public function updateLock(int $post_id, Request $request)
     {
 
-        $post = $this->queryBus->handle(new FindPostByIdQuery($post_id, ['id', 'user_id','form_id']));
+        $post = $this->queryBus->handle(new FindPostByIdQuery($post_id, ['id', 'user_id', 'form_id']));
         $this->authorize('update', $post);
 
         $this->commandBus->handle(new UpdatePostLockCommand($post_id));
@@ -401,7 +410,7 @@ class PostController extends V5Controller
 
     public function deleteLock(int $post_id, Request $request)
     {
-        $post = $this->queryBus->handle(new FindPostByIdQuery($post_id, ['id', 'user_id','form_id']));
+        $post = $this->queryBus->handle(new FindPostByIdQuery($post_id, ['id', 'user_id', 'form_id']));
         $this->authorize('update', $post);
 
         $this->commandBus->handle(new DeletePostLockCommand($post_id));
