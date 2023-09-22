@@ -39,9 +39,17 @@ use Ushahidi\Modules\V5\Http\Resources\Post\PostStatsResource;
 use Ushahidi\Core\Tool\Tile;
 use Ushahidi\Modules\V5\Actions\Survey\Queries\GetSurveyIdsWithPrivateLocationQuery;
 
+use Ushahidi\Contracts\Permission;
+use Ushahidi\Core\Concerns\AdminAccess;
+
 class PostController extends V5Controller
 {
 
+     // It uses methods from several traits to check access:
+    // - `AdminAccess` to check if the user has admin access
+    use AdminAccess;
+
+    
     /**
      * Not all fields are things we want to allow on the body of requests
      * an author won't change after the fact, so we limit that change
@@ -354,21 +362,38 @@ class PostController extends V5Controller
     {
 
         $surveys_with_private_location  = $this->queryBus->handle(new GetSurveyIdsWithPrivateLocationQuery());
-        $posts = $this->queryBus->handle(
-            ListPostsGeometryQuery::FromRequest(
-                $request,
-                $surveys_with_private_location->pluck('id')->toArray()
-            )
-        );
+        
+        if ($this->canUserseePostsWithPrivateLocation()) {
+            $posts = $this->queryBus->handle(ListPostsGeometryQuery::FromRequest($request));
+        } else {
+            $posts = $this->queryBus->handle(
+                ListPostsGeometryQuery::FromRequest(
+                    $request,
+                    $surveys_with_private_location->pluck('id')->toArray()
+                )
+            );
+        }
+        
         return new PostGeometryCollection($posts);
     }
 
     public function indexGeoJsonWithZoom(Request $request): PostGeometryCollection
     {
         $this->prepBoundingBox($request);
+        return $this->indexGeoJson($request);
+    }
 
-        $posts = $this->queryBus->handle(ListPostsGeometryQuery::FromRequest($request));
-        return new PostGeometryCollection($posts);
+    private function canUserseePostsWithPrivateLocation()
+    {
+        $authorizer = service('authorizer.post');
+        $user = $authorizer->getUser();
+        if ($this->isUserAdmin($user)) {
+            return true;
+        }
+        if ($authorizer->acl->hasPermission($user, Permission::MANAGE_POSTS)) {
+            return true;
+        }
+        return false;
     }
 
     public function prepBoundingBox(Request $request)

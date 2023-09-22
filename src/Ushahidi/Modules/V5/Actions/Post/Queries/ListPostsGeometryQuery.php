@@ -74,7 +74,7 @@ class ListPostsGeometryQuery implements Query
         return $this->search_fields;
     }
 
-    public static function fromRequest(Request $request, array $surveys_with_private_location): self
+    public static function fromRequest(Request $request, array $surveys_with_private_location = []): self
     {
 
         // do we need to throw execption if send an field not found ?!
