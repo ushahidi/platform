@@ -17,7 +17,7 @@ class PostSearchFields
     protected $locale;
     protected $slug;
     protected $form;
-    protected $form_none;
+    protected $form_condition;
     protected $parent;
     protected $parent_none;
     protected $user;
@@ -104,11 +104,11 @@ class PostSearchFields
             $this->parent = $this->getParameterAsArray($request->get('parent'));
         }
 
-        $this->form_none = false;
         if ($request->get('form') == 'none') {
             $this->form = []; // no conditions
-            $this->form_none = true;
+            $this->form_condition = "null";
         } else {
+            $this->form_condition = "include";
             $this->form = $this->getParameterAsArray($request->get('form'));
         }
 
@@ -213,9 +213,21 @@ class PostSearchFields
         return $this->form;
     }
 
-    public function formNone(): bool
+    public function excludeFormIds($excluded_form_ids)
     {
-        return $this->form_none;
+        if (!empty($excluded_form_ids)) {
+            if (!empty($this->form)) {
+                $this->form  = array_diff($this->form, $excluded_form_ids);
+            } elseif ($this->form_condition != "null") {
+                $this->form  = $excluded_form_ids;
+                $this->form_condition = "exclude";
+            }
+        }
+    }
+
+    public function formCondition(): string
+    {
+        return $this->form_condition;
     }
 
 

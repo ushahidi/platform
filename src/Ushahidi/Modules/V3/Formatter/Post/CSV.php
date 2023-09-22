@@ -195,7 +195,7 @@ class CSV extends API
         foreach ($records as $record) {
             $values = $this->formatRecordForCSV($record, $attributes);
             // fputcsv($stream, $values);
-            fputcsv($stream, mb_convert_encoding($values, 'UTF-8'));
+            fputcsv($stream, mb_convert_encoding($values, 'UTF-8', 'auto'));
         }
 
         return $this->writeStreamToFS($stream);

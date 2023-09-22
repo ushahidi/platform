@@ -7,6 +7,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Ushahidi\Core\Entity\Form as SurveyEntity;
 use Ushahidi\Modules\V5\DTO\SurveySearchFields;
 use Ushahidi\Modules\V5\Models\SurveyRole;
+use Illuminate\Database\Eloquent\Collection;
 
 interface SurveyRepository
 {
@@ -68,4 +69,11 @@ interface SurveyRepository
      * @retrun SurveyRole[]
      */
     public function getRolesCanCreatePosts(int $survey_id);
+
+    /**
+     *  Get survey ids with private location.
+     *
+     * @return Collection
+     */
+    public function getSurveysIdsWithPrivateLocation(): Collection;
 }
