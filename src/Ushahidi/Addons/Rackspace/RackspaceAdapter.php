@@ -220,7 +220,7 @@ final class RackspaceAdapter extends AbstractAdapter
         $data = $this->normalizeObject($object);
 
         $stream = $object->download();
-        $data['contents'] = $stream->read($object->contentLength);
+        $data['contents'] = $stream->read((int) $object->contentLength);
         $stream->close();
 
         return $data;
