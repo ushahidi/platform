@@ -3,9 +3,10 @@
 namespace Ushahidi\Modules\V5\Repository\Set;
 
 use Ushahidi\Modules\V5\Models\Set;
-use Illuminate\Pagination\LengthAwarePaginator;
-use Ushahidi\Modules\V5\DTO\CollectionSearchFields;
 use Ushahidi\Core\Entity\Set as CollectionEntity;
+use Ushahidi\Core\Exception\NotFoundException;
+use Ushahidi\Core\Tool\SearchData;
+use Ushahidi\Modules\V5\DTO\CollectionSearchFields;
 
 interface SetRepository
 {
@@ -17,15 +18,9 @@ interface SetRepository
      * @param string $sortBy
      * @param string $order
      * @param bool $search
-     * @return Set[]
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator<Set>
      */
-    public function fetch(
-        int $limit,
-        int $skip,
-        string $sortBy,
-        string $order,
-        CollectionSearchFields $search_fields
-    ): LengthAwarePaginator;
+    public function fetch();
 
     /**
      * This method will fetch a single Set from the database utilising
@@ -57,4 +52,6 @@ interface SetRepository
      * @param int $id
      */
     public function delete(int $id, bool $search = false): void;
+
+    public function setSearchParams(SearchData $searchData);
 }
