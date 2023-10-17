@@ -32,11 +32,7 @@ class UpdateCategoryCommandHandler extends AbstractCommandHandler
          */
         $this->isSupported($action);
 
-        $user_id = null;
-        $role = $action->getRole();
-        if ($role[0] = "me") {
-            $user_id = Auth::guard()->user()->id;
-        }
+        $user_id = Auth::guard()->user()->id ?? null;
 
         $this->categoryRepository->update(
             $action->getCategoryId(),
@@ -49,7 +45,7 @@ class UpdateCategoryCommandHandler extends AbstractCommandHandler
             $action->getColor(),
             $action->getIcon(),
             $action->getPriority(),
-            $role,
+            $action->getRole(),
             $action->getDefaultLanguage(),
             $action->getAvailableLanguages()
         );
