@@ -30,7 +30,8 @@ class EloquentSetRepository implements SetRepository
      *
      * @return Set[]|LengthAwarePaginator
      */
-    public function fetch() {
+    public function fetch()
+    {
         $data = $this->searchData;
 
         $query = $this->setSearchCondition(Set::query(), $data);
@@ -41,7 +42,7 @@ class EloquentSetRepository implements SetRepository
             $query->orderBy($sort, $order);
         }
 
-        if($data->getFilter('with_post_count')) {
+        if ($data->getFilter('with_post_count')) {
             $query->withCount('posts');
         }
 
@@ -58,13 +59,13 @@ class EloquentSetRepository implements SetRepository
         $builder->where('search', '=', $is_saved_search);
 
         $keyword = $search_fields->getFilter('keyword');
-        if (isset($keyword) && !empty($keyword) ) {
+        if (isset($keyword) && !empty($keyword)) {
             $builder->where('name', 'LIKE', "%" . $keyword . "%");
         }
 
         $is_admin = $search_fields->getFilter('is_admin');
         if ($is_admin == false) {
-            $builder->where(function ($query) use ($search_fields){
+            $builder->where(function ($query) use ($search_fields) {
                 // Default search for everyone and guest user
                 $query->where('role', 'LIKE', "%everyone%");
 

@@ -58,5 +58,4 @@ class SetPolicy
         $set_entity = new OhanzeeSet($set->toArray());
         return $this->authorizer->isAllowed($set_entity, 'update');
     }
-
 }
