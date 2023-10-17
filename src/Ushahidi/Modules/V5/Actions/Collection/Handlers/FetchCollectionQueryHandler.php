@@ -74,7 +74,8 @@ class FetchCollectionQueryHandler extends AbstractQueryHandler
 
         $this->collection_repository->setSearchParams($search);
 
-        // TODO: We shouldn't let the repository return a Laravel paginator instance, this should be created in the controller
+        // TODO: We shouldn't let the repository return a Laravel paginator instance,
+        // this should be created in the controller
         $result = $this->collection_repository->fetch();
 
         return $result;
