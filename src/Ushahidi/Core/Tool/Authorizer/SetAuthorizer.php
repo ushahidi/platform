@@ -44,10 +44,10 @@ class SetAuthorizer implements Authorizer
     // if roles are available for this deployment.
     use AccessControlList;
 
-    protected function isVisibleToUser(Set $entity, $user)
+    protected function isVisibleToUser(Set $set, $user)
     {
-        if ($entity->role) {
-            return in_array($user->role, $entity->role);
+        if ($set->role) {
+            return in_array($user->role, $set->role);
         }
 
         // If no roles are selected, the Set is considered completely public.
@@ -57,6 +57,11 @@ class SetAuthorizer implements Authorizer
     /* Authorizer */
     public function isAllowed(Entity $entity, $privilege)
     {
+        // Firstly, all users can search sets
+        if ($privilege === 'search') {
+            return true;
+        }
+
         // These checks are run within the user context.
         $user = $this->getUser();
 
@@ -70,6 +75,16 @@ class SetAuthorizer implements Authorizer
             return true;
         }
 
+        $isUserOwner = $this->isUserOwner($entity, $user);
+        // If the user is the owner of this set, they can do anything
+        if ($isUserOwner) {
+            return true;
+        }
+
+        // if (!$isUserOwner && $entity->view_options['only_me'] == true) {
+        //     return false;
+        // }
+
         // Then we check if a user has the 'admin' role. If they do they're
         // allowed access to everything (all entities and all privileges)
         if ($this->isUserAdmin($user)) {
@@ -81,11 +96,6 @@ class SetAuthorizer implements Authorizer
             return false;
         }
 
-        // If the user is the owner of this set, they can do anything
-        if ($this->isUserOwner($entity, $user)) {
-            return true;
-        }
-
         // Check if the Set is only visible to specific roles.
         if ($this->isVisibleToUser($entity, $user) and $privilege === 'read') {
             return true;
@@ -93,11 +103,6 @@ class SetAuthorizer implements Authorizer
 
         // All *logged in* users can create sets
         if ($user->getId() and $privilege === 'create') {
-            return true;
-        }
-
-        // Finally, all users can search sets
-        if ($privilege === 'search') {
             return true;
         }
 

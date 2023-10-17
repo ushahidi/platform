@@ -31,7 +31,7 @@ trait FilterRecords
      *         'orderby' => 'username',
      *     ]);
      *
-     * @param  Array $filters
+     * @param  array $filters
      * @return $this
      */
     public function setFilters(array $filters)
@@ -45,8 +45,8 @@ trait FilterRecords
      *
      *     $this->setFilter('role', 'admin');
      *
-     * @param  String $name
-     * @param  Mixed  $value
+     * @param  string $name
+     * @param  mixed  $value
      * @return $this
      */
     public function setFilter($name, $value)
@@ -64,9 +64,9 @@ trait FilterRecords
      *
      * NOTE: Defaults cannot be provided when using this method!
      *
-     * @param  Array $allowed  allowed parameters
-     * @param  Array $force    force all parameters to be defined
-     * @return Array
+     * @param  array $allowed  allowed parameters
+     * @param  array $force    force all parameters to be defined
+     * @return array
      */
     public function getFilters(array $allowed, $force = false)
     {

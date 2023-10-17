@@ -172,8 +172,7 @@ class V5Controller extends BaseController
         list($ability, $arguments) = $this->parseAbilityAndArguments($ability, $arguments);
 
         return $this->authorizeForUser(
-            $this->getGenericUser() ??
-            new GenericUser(['role' => 'guest']),
+            $this->getAuthUser() ?? new GenericUser(['role' => 'guest']),
             $ability,
             $arguments
         );
@@ -190,13 +189,13 @@ class V5Controller extends BaseController
      */
     public function authorizeForCurrentUser($ability, $arguments = [])
     {
-        $gUser = $this->getGenericUser();
+        $user = $this->getAuthUser();
 
         list($ability, $arguments) = $this->parseAbilityAndArguments($ability, $arguments);
-        return app(Gate::class)->forUser($gUser)->authorize($ability, $arguments);
+        return app(Gate::class)->forUser($user)->authorize($ability, $arguments);
     }
 
-    public function getGenericUser()
+    public function getAuthUser()
     {
         return Auth::guard()->user();
     }
