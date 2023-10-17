@@ -70,9 +70,21 @@ class SetAuthorizer implements Authorizer
             return false;
         }
 
-        // First check whether there is a role with the right permissions
+        // We check if a user has the 'admin' role. If they do they're
+        // allowed access to everything (all entities and all privileges)
+        $is_admin = $this->isUserAdmin($user);
+        if ($is_admin) {
+            return true;
+        }
+
+        // We check whether there is a role with the right permissions
         if ($this->acl->hasPermission($user, Permission::MANAGE_SETS)) {
             return true;
+        }
+
+        // Non-admin users are not allowed to make sets featured
+        if (!$is_admin && $entity->hasChanged('featured') && in_array($privilege, ['create', 'update'])) {
+            return false;
         }
 
         $isUserOwner = $this->isUserOwner($entity, $user);
@@ -81,20 +93,10 @@ class SetAuthorizer implements Authorizer
             return true;
         }
 
+        // TODO: We want to check if the set entity is available only to owner
         // if (!$isUserOwner && $entity->view_options['only_me'] == true) {
         //     return false;
         // }
-
-        // Then we check if a user has the 'admin' role. If they do they're
-        // allowed access to everything (all entities and all privileges)
-        if ($this->isUserAdmin($user)) {
-            return true;
-        }
-
-        // Non-admin users are not allowed to make sets featured
-        if (in_array($privilege, ['create', 'update']) and $entity->hasChanged('featured')) {
-            return false;
-        }
 
         // Check if the Set is only visible to specific roles.
         if ($this->isVisibleToUser($entity, $user) and $privilege === 'read') {
