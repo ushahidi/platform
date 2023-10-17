@@ -31,7 +31,7 @@ class EloquentCategoryRepository implements CategoryRepository
 
     private function setSearchCondition(Builder $builder, ?SearchData $search_fields)
     {
-        if($search_fields === null) {
+        if ($search_fields === null) {
             return $builder;
         }
 
@@ -56,7 +56,7 @@ class EloquentCategoryRepository implements CategoryRepository
 
         if (isset($parent_id)) {
             $builder->where('parent_id', '=', $parent_id);
-        } else if ($is_parent === false) {
+        } elseif ($is_parent === false) {
             $builder->whereNull('parent_id');
         }
 
@@ -82,12 +82,11 @@ class EloquentCategoryRepository implements CategoryRepository
                     });
                 }
 
-                if (isset($role) && !is_null($role)){
+                if (isset($role) && !is_null($role)) {
                     $builder->orWhere(function (Builder $query) use ($role) {
                         $query->where('role', 'LIKE', "%" . $role . "%");
                     });
                 }
-
             });
         }
 
@@ -117,7 +116,7 @@ class EloquentCategoryRepository implements CategoryRepository
             Category::take($paging->getLimit())
                 ->skip($paging->getSkip())
                 ->orderBy($paging->getOrderBy(), $paging->getOrder()),
-                $this->searchData
+            $this->searchData
         )->paginate($paging->getLimit());
     }
 
