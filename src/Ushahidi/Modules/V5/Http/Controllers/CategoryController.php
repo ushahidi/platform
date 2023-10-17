@@ -71,11 +71,12 @@ class CategoryController extends V5Controller
     {
         $this->authorize('create', Category::class);
 
+        $id = $this->commandBus->handle(StoreCategoryCommand::createFromRequest($request));
+
+        $category = $this->queryBus->handle(new FetchCategoryByIdQuery($id));
+
         DB::beginTransaction();
         try {
-            $id = $this->commandBus->handle(StoreCategoryCommand::createFromRequest($request));
-
-            $category = $this->queryBus->handle(new FetchCategoryByIdQuery($id));
             $errors = $this->saveTranslations(
                 $category,
                 $category->toArray(),
@@ -88,11 +89,12 @@ class CategoryController extends V5Controller
                 return self::make422($errors, 'translation');
             }
             DB::commit();
-            return new CategoryResource($category);
         } catch (\Exception $e) {
             DB::rollback();
             return self::make500($e->getMessage());
         }
+
+        return new CategoryResource($category);
     }
 
     /**
