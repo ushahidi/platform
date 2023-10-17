@@ -34,6 +34,6 @@ class CreateCollectionPostCommandHandler extends AbstractCommandHandler
     public function __invoke($action) //: int
     {
         $this->isSupported($action);
-        $this->collection_post_repository->Create($action->getCollectionId(), $action->getPostId());
+        $this->collection_post_repository->create($action->getCollectionId(), $action->getPostId());
     }
 }
