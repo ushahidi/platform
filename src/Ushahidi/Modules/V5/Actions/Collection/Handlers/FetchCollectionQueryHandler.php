@@ -24,8 +24,7 @@ class FetchCollectionQueryHandler extends AbstractQueryHandler
     public function __construct(
         CollectionRepository $collection_repository,
         SetAuthorizer $setAuthorizer
-    )
-    {
+    ) {
         $this->collection_repository = $collection_repository;
         $this->setAuthorizer = $setAuthorizer;
     }
