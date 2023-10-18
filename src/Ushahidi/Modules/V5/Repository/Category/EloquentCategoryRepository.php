@@ -86,7 +86,6 @@ class EloquentCategoryRepository implements CategoryRepository
                             ->where('user_id', $user_id);
                     });
                 }
-
             });
         }
 
