@@ -55,7 +55,10 @@ class SetPolicy
         $this->authorizer->setUser($user);
 
         // we convert to a form entity to be able to continue using the old authorizers and classes.
-        $set_entity = new OhanzeeSet($set->toArray());
+        $set_entity = new OhanzeeSet($set->getOriginal());
+
+        $set_entity->setState($set->getDirty());
+
         return $this->authorizer->isAllowed($set_entity, 'update');
     }
 }
