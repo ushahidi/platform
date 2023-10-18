@@ -35,30 +35,32 @@ class EloquentCategoryRepository implements CategoryRepository
             return $builder;
         }
 
-        $keyword = $search_fields->getFilter('keyword');
-        $tag = $search_fields->getFilter('tag');
-        $type = $search_fields->getFilter('type');
-
-        if (isset($keyword)) {
-            $builder->where('tag', 'LIKE', "%" . $keyword . "%");
-        }
-
-        if (isset($tag)) {
-            $builder->where('tag', 'LIKE', "%" . $keyword . "%");
-        }
-
-        if (isset($type)) {
-            $builder->where('type', '=', $type);
-        }
-
         $parent_id = $search_fields->getFilter('parent_id');
         $is_parent = $search_fields->getFilter('is_parent');
 
         if (isset($parent_id)) {
-            $builder->where('parent_id', '=', $parent_id);
+            $builder->where('parent_id', $parent_id);
         } elseif ($is_parent === false) {
             $builder->whereNull('parent_id');
         }
+
+        $builder->where(function (Builder $builder) use ($search_fields) {
+            $keyword = $search_fields->getFilter('keyword');
+            $tag = $search_fields->getFilter('tag');
+            $type = $search_fields->getFilter('type');
+
+            if (isset($keyword)) {
+                $builder->where('tag', 'LIKE', "%" . $keyword . "%");
+            }
+
+            if (isset($tag)) {
+                $builder->orWhere('tag', 'LIKE', "%" . $keyword . "%");
+            }
+
+            if (isset($type)) {
+                $builder->orWhere('type', '=', $type);
+            }
+        });
 
         $is_admin = $search_fields->getFilter('is_admin');
         if ($is_admin === false) {
@@ -67,29 +69,29 @@ class EloquentCategoryRepository implements CategoryRepository
                 $builder->whereNull('role');
 
                 // This query isn't working as expected
-                $builder->orWhere('role', 'like', "%\everyone\%");
+                $builder->orWhere('role', 'like', '%everyone%');
 
                 $role = $search_fields->getFilter('role');
-                $user_id = $search_fields->getFilter('user_id');
+                if (isset($role) && !is_null($role)) {
+                    $builder->orWhere('role', 'like', "%" . $role . "%");
+                }
 
-                // If it's a logged in user and not an admin
+                // If it's a logged in user
+                $user_id = $search_fields->getFilter('user_id');
                 if (isset($user_id) && !is_null($user_id)) {
                     // Where the user is the owner of the category
                     $builder->orWhere(function (Builder $query) use ($user_id) {
                         //TODO: Fix this query in future release
-                        $query->where('role', 'LIKE', "%me%")
-                            ->where('user_id', '=', $user_id);
+                        $query->where('role', 'like', '%me%')
+                            ->where('user_id', $user_id);
                     });
                 }
 
-                if (isset($role) && !is_null($role)) {
-                    $builder->orWhere(function (Builder $query) use ($role) {
-                        $query->where('role', 'LIKE', "%" . $role . "%");
-                    });
-                }
             });
         }
 
+        // var_dump($builder->toSql());
+        // exit;
         return $builder;
     }
 
