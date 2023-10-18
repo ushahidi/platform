@@ -161,7 +161,7 @@ class Email extends OutgoingEmail implements IncomingDataSource
 
         // To connect to an SSL IMAP or POP3 server with a self-signed certificate,
         // add /novalidate-cert after the encryption protocol specification:
-        $no_cert_validation = !is_empty($encryption) ? '/novalidate-cert' : '';
+        $no_cert_validation = !empty($encryption) ? '/novalidate-cert' : '';
         
         try {
             // Try to connect
