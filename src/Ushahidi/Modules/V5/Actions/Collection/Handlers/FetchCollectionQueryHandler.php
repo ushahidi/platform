@@ -41,6 +41,8 @@ class FetchCollectionQueryHandler extends AbstractQueryHandler
      * @param FetchCollectionQuery $action
      *
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     *
+     * phpcs:disable
      */
     public function __invoke($query) //: LengthAwarePaginator
     {
