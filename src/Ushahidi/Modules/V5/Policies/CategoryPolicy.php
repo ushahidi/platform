@@ -45,7 +45,7 @@ class CategoryPolicy
 
     public function update(User $user, EloquentCategory $category)
     {
-        $accessedCategory = new StaticCategory($category->getOriginal());
+        $accessedCategory = new StaticCategory($category->getRawOriginal());
 
         $accessedCategory->setState($category->getDirty());
 
