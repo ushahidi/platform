@@ -160,9 +160,9 @@ class Email extends OutgoingEmail implements IncomingDataSource
         $encryption = (strcasecmp($encryption, 'none') != 0) ? '/'.$encryption : '';
 
         // To connect to an SSL IMAP or POP3 server with a self-signed certificate,
-        // add /ssl/novalidate-cert after the protocol specification:
-        $no_cert_validation = '/novalidate-cert';
-
+        // add /novalidate-cert after the encryption protocol specification:
+        $no_cert_validation = !is_empty($encryption) ? '/novalidate-cert' : '';
+        
         try {
             // Try to connect
             $inbox = '{'.$server.':'.$port.'/'.$type.$encryption.$no_cert_validation.'}INBOX';
