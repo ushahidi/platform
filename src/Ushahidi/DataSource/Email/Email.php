@@ -165,7 +165,7 @@ class Email extends OutgoingEmail implements IncomingDataSource
 
         try {
             // Try to connect
-            $inbox = '{'.$server.':'.$port.'/'.$type.$encryption.$no_cert_validation'}INBOX';
+            $inbox = '{'.$server.':'.$port.'/'.$type.$encryption.$no_cert_validation.'}INBOX';
             $connection = @imap_open($inbox, $username, $password, 0, 1);
 
             $errors = imap_errors();
