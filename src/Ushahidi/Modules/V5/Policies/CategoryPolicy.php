@@ -45,7 +45,10 @@ class CategoryPolicy
 
     public function update(User $user, EloquentCategory $category)
     {
-        $accessedCategory = new StaticCategory($category->toArray());
+        $accessedCategory = new StaticCategory($category->getOriginal());
+
+        $accessedCategory->setState($category->getDirty());
+
         return $this->authorizer->setUser($user)->isAllowed($accessedCategory, 'update');
     }
 }
