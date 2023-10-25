@@ -27,7 +27,9 @@ class DataSourceServiceProvider extends ServiceProvider
 
     public function boot()
     {
-        $this->app->make('datasources')->registerRoutes($this->app->router);
+        $this->app->booted(function () {
+            $this->app->make('datasources')->registerRoutes($this->app['router']);
+        });
 
         Event::listen('site.changed', function () {
             // Reset datasources
