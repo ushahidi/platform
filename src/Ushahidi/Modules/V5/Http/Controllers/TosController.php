@@ -26,7 +26,7 @@ class TosController extends V5Controller
     {
         return ['user_id', 'agreement_date'];
     }
-    
+
     /**
      * Display the specified resource.
      *
@@ -41,7 +41,7 @@ class TosController extends V5Controller
         return new TosResource($tos);
     }//end show()
 
-   
+
     /**
      * Display the specified resource.
      *
@@ -64,7 +64,7 @@ class TosController extends V5Controller
          return $resourceCollection;
     }//end index()
 
-    
+
     /**
      * Create new Tos.
      *
@@ -78,7 +78,7 @@ class TosController extends V5Controller
         $command = new CreateTosCommand(
             $this->setInputDefaults(
                 $this->getFields($request->input()),
-                $this->getGenericUser()
+                $this->getAuthUser()
             )
         );
          $commandBus->handle($command);

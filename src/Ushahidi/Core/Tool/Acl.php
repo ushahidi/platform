@@ -57,10 +57,14 @@ class Acl implements AclInterface
     protected function customRoleHasPermission(Entity $user, $permission)
     {
         $role = $this->role_repo->getByName($user->role);
-        $permissions = array_map('strtolower', $role->permissions);
-        
-        // Does the user have the permission?
-        return in_array(strtolower($permission), $permissions);
+        if (isset($role->permissions) && is_array($role->permissions)) {
+            $permissions = array_map('strtolower', $role->permissions);
+
+            // Does the user have the permission?
+            return in_array(strtolower($permission), $permissions);
+        }
+
+        return false;
     }
 
     protected function defaultHasPermission(Entity $user, $permission)

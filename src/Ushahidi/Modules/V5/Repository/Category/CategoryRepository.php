@@ -6,6 +6,7 @@ use Illuminate\Support\Collection;
 use Ushahidi\Modules\V5\Models\Category;
 use Ushahidi\Modules\V5\DTO\Paging;
 use Ushahidi\Modules\V5\DTO\CategorySearchFields;
+use Ushahidi\Core\Tool\SearchData;
 
 interface CategoryRepository
 {
@@ -19,10 +20,11 @@ interface CategoryRepository
      */
     public function findById(int $id): Category;
 
-    public function fetchAll(Paging $paging, CategorySearchFields $category_search_fields);
+    public function fetchAll(Paging $paging);
 
     public function store(
         ?string $parentId,
+        ?int $userId,
         string $tag,
         string $slug,
         string $type,
@@ -38,6 +40,7 @@ interface CategoryRepository
     public function update(
         int $id,
         ?string $parentId,
+        ?int $userId,
         ?string $tag,
         ?string $slug,
         ?string $type,
@@ -49,4 +52,6 @@ interface CategoryRepository
         ?string $defaultBaseLanguage,
         ?array $availableLanguages
     ): int;
+
+    public function setSearchParams(SearchData $searchData);
 }

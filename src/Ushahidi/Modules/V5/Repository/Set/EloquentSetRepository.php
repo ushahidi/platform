@@ -11,9 +11,15 @@ use Illuminate\Support\Facades\DB;
 use Ushahidi\Modules\V5\DTO\CollectionSearchFields;
 use Ushahidi\Core\Entity\Set as CollectionEntity;
 use Illuminate\Support\Facades\Auth;
+use Ushahidi\Core\Tool\SearchData;
 
 class EloquentSetRepository implements SetRepository
 {
+    /**
+     * @var SearchData
+     */
+    protected $searchData;
+
     /**
      * This method will fetch all the Set for the logged user from the database utilising
      * Laravel Eloquent ORM and return them as an array
@@ -22,42 +28,74 @@ class EloquentSetRepository implements SetRepository
      * @param string $sortBy
      * @param string $order
      *
-     * @return Set[]
+     * @return Set[]|LengthAwarePaginator
      */
-    public function fetch(
-        int $limit,
-        int $skip,
-        string $sortBy,
-        string $order,
-        CollectionSearchFields $search_fields
-    ): LengthAwarePaginator {
+    public function fetch()
+    {
+        $data = $this->searchData;
 
-        return $this->setSearchCondition(
-            $search_fields,
-            Set::query()->withCount('posts')->take($limit)
-                ->skip($skip)
-                ->orderBy($sortBy, $order)
-        )->paginate($limit ? $limit : config('paging.default_laravel_pageing_limit'));
+        $query = $this->setSearchCondition(Set::query(), $data);
+
+        $sort = $data->getFilter('sort');
+        $order = $data->getFilter('order');
+        if (isset($sort)) {
+            $query->orderBy($sort, $order);
+        }
+
+        if ($data->getFilter('with_post_count')) {
+            $query->withCount('posts');
+        }
+
+        $limit = $data->getFilter('limit');
+        if (isset($limit)) {
+            return $query->paginate($limit);
+        }
+        return $query->get();
     }
 
-    private function setSearchCondition(CollectionSearchFields $search_fields, Builder $builder)
+    private function setSearchCondition(Builder $builder, SearchData $search_fields)
     {
-        $builder->where('search', '=', $search_fields->search());
+        $is_saved_search = (int) $search_fields->getFilter('is_saved_search');
+        $builder->where('search', '=', $is_saved_search);
 
-        if ($search_fields->q()) {
-            $builder->where('name', 'LIKE', "%" . $search_fields->q() . "%");
+        $keyword = $search_fields->getFilter('keyword');
+        if (isset($keyword) && !empty($keyword)) {
+            $builder->where('name', 'LIKE', "%" . $keyword . "%");
         }
-        // guest
-        if (!Auth::user() || !Auth::user()->id) {
-            $builder->whereNull('role');
-        } elseif ($search_fields->role() && $search_fields->role() != "admin") {
+
+        $is_admin = $search_fields->getFilter('is_admin');
+        if ($is_admin == false) {
             $builder->where(function ($query) use ($search_fields) {
-                $query->whereNull('role')
-                    ->orWhere('role', 'LIKE', "%" . $search_fields->role() . "%");
+                // Default search for everyone and guest user
+                $query->where('role', 'LIKE', "%everyone%");
+
+                $query->orWhereNull('role');
+
+                // is owner
+                $user_id = $search_fields->getFilter('user_id');
+                if (isset($user_id) && !is_null($user_id)) {
+                    $query->orWhere(function ($query) use ($user_id) {
+                        $query->where('role', 'LIKE', "%me%")
+                            ->where('user_id', '=', $user_id);
+                    });
+                }
+
+                // is not admin
+                $role = $search_fields->getFilter('role');
+                if (isset($role) && !is_null($role)) {
+                    $query->orWhere(function ($builder) use ($search_fields) {
+                        $builder->where('role', 'LIKE', "%" . $search_fields->getFilter('role') . "%");
+                    });
+                }
             });
         }
 
         return $builder;
+    }
+
+    public function setSearchParams(SearchData $searchData)
+    {
+        $this->searchData = $searchData;
     }
 
     /**

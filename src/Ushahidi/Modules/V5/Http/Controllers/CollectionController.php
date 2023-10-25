@@ -30,7 +30,7 @@ class CollectionController extends V5Controller
     {
 
         $collection = $this->queryBus->handle(new FetchCollectionByIdQuery($id));
-        $this->authorizeAnyone('show', $collection);
+        $this->authorizeAnyone('view', $collection);
         return new CollectionResource($collection);
     } //end show()
 
@@ -44,18 +44,18 @@ class CollectionController extends V5Controller
      */
     public function index(Request $request)
     {
+        $this->authorizeAnyone('viewAny', CollectionModel::class);
 
-        $this->authorizeAnyone('index', new CollectionModel());
-
-        $collections = $this->queryBus->handle(
-            new FetchCollectionQuery(
-                $request->query('limit', FetchCollectionQuery::DEFAULT_LIMIT),
-                $request->query('page', 1),
-                $request->query('sortBy', FetchCollectionQuery::DEFAULT_SORT_BY),
-                $request->query('order', FetchCollectionQuery::DEFAULT_ORDER),
-                new CollectionSearchFields($request)
-            )
+        $action = new FetchCollectionQuery(
+            $request->query('limit', FetchCollectionQuery::DEFAULT_LIMIT),
+            $request->query('page', 1),
+            $request->query('sortBy', FetchCollectionQuery::DEFAULT_SORT_BY),
+            $request->query('order', FetchCollectionQuery::DEFAULT_ORDER),
+            new CollectionSearchFields($request)
         );
+
+        $collections = $this->queryBus->handle($action);
+
         return new CollectionCollection($collections);
     } //end index()
 
