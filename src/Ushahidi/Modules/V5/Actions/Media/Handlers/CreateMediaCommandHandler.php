@@ -41,8 +41,7 @@ class CreateMediaCommandHandler extends V5CommandHandler
 
     protected function validateFileData(MediaEntity $file)
     {
-        // To Do : config
-        $max_bytes = 2048000;
+        $max_bytes = env('IMAGE_MAX_SIZE', '4194304');
         $errors = [];
         if (!in_array($file->mime, ['image/gif', 'image/jpg', 'image/jpeg', 'image/png'])) {
             $errors['file'][] = "File type not supported. Please upload an image file.";

@@ -45,7 +45,7 @@ class CollectionResource extends JsonResource
             'featured' => $this->featured,
             'created' => $this->created,
             'updated' => $this->updated,
-            'posts_count'=>$this->posts->count(),
+            'posts_count'=>$this->posts_count,
             'allowed_privileges' => $this->getResourcePrivileges()
         ];
     }

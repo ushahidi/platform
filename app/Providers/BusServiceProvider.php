@@ -484,6 +484,11 @@ class BusServiceProvider extends ServiceProvider
                 Survey\Handlers\FetchSurveyStatsQueryHandler::class
             );
 
+            $queryBus->register(
+                Survey\Queries\GetSurveyIdsWithPrivateLocationQuery::class,
+                Survey\Handlers\GetSurveyIdsWithPrivateLocationQueryHandler::class
+            );
+            
 
 
             $queryBus->register(

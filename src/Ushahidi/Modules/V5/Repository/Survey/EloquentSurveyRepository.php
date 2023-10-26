@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Ushahidi\Core\Entity\Form as SurveyEntity;
 use Ushahidi\Modules\V5\DTO\SurveySearchFields;
 use Ushahidi\Modules\V5\Models\SurveyRole;
+use Illuminate\Database\Eloquent\Collection;
 
 class EloquentSurveyRepository implements SurveyRepository
 {
@@ -133,5 +134,20 @@ class EloquentSurveyRepository implements SurveyRepository
     public function getRolesCanCreatePosts(int $survey_id)
     {
         return SurveyRole::where("form_id", "=", $survey_id)->with('role')->get();
+    }
+
+    /**
+     *  Get survey ids with private location.
+     *
+     * @return array
+     */
+    public function getSurveysIdsWithPrivateLocation(): Collection
+    {
+        return Survey::select(["id"])->whereHas('tasks', function ($query) {
+            $query->whereHas('fields', function ($query) {
+                $query->where('input', 'location')
+                    ->where('response_private', 1);
+            });
+        })->get();
     }
 }

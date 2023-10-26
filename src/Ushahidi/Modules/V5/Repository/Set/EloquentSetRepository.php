@@ -2,6 +2,7 @@
 
 namespace Ushahidi\Modules\V5\Repository\Set;
 
+use Illuminate\Database\Eloquent\Builder;
 use Ushahidi\Modules\V5\Models\Set;
 use Ushahidi\Modules\V5\Repository\Set\SetRepository;
 use Ushahidi\Core\Exception\NotFoundException;
@@ -33,15 +34,14 @@ class EloquentSetRepository implements SetRepository
 
         return $this->setSearchCondition(
             $search_fields,
-            Set::take($limit)
+            Set::query()->withCount('posts')->take($limit)
                 ->skip($skip)
                 ->orderBy($sortBy, $order)
         )->paginate($limit ? $limit : config('paging.default_laravel_pageing_limit'));
     }
 
-    private function setSearchCondition(CollectionSearchFields $search_fields, $builder)
+    private function setSearchCondition(CollectionSearchFields $search_fields, Builder $builder)
     {
-
         $builder->where('search', '=', $search_fields->search());
 
         if ($search_fields->q()) {

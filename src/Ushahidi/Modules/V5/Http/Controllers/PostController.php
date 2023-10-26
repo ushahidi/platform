@@ -24,7 +24,7 @@ use Ushahidi\Modules\V5\Common\ValidatorRunner;
 
 use Ushahidi\Modules\V5\Http\Resources\Post\PostCollection as NewPostCollection;
 use Ushahidi\Modules\V5\Http\Resources\Post\PostResource as NewPostResource;
-use Ushahidi\Modules\V5\Http\Resources\Post\PostLockResource ;
+use Ushahidi\Modules\V5\Http\Resources\Post\PostLockResource;
 use Ushahidi\Modules\V5\Requests\PostRequest;
 
 use Ushahidi\Modules\V5\Actions\Post\Commands\UpdatePostLockCommand;
@@ -33,14 +33,23 @@ use Ushahidi\Modules\V5\Actions\Post\Queries\FetchPostLockByPostIdQuery;
 use Ushahidi\Modules\V5\Actions\Post\Queries\FindPostGeometryByIdQuery;
 use Ushahidi\Modules\V5\Actions\Post\Queries\ListPostsGeometryQuery;
 use Ushahidi\Modules\V5\Actions\Post\Queries\PostsStatsQuery;
-use Ushahidi\Modules\V5\Http\Resources\Post\PostGeometryCollection ;
-use Ushahidi\Modules\V5\Http\Resources\Post\PostGeometryResource ;
-use Ushahidi\Modules\V5\Http\Resources\Post\PostStatsResource ;
+use Ushahidi\Modules\V5\Http\Resources\Post\PostGeometryCollection;
+use Ushahidi\Modules\V5\Http\Resources\Post\PostGeometryResource;
+use Ushahidi\Modules\V5\Http\Resources\Post\PostStatsResource;
 use Ushahidi\Core\Tool\Tile;
+use Ushahidi\Modules\V5\Actions\Survey\Queries\GetSurveyIdsWithPrivateLocationQuery;
+
+use Ushahidi\Contracts\Permission;
+use Ushahidi\Core\Concerns\AdminAccess;
 
 class PostController extends V5Controller
 {
 
+     // It uses methods from several traits to check access:
+    // - `AdminAccess` to check if the user has admin access
+    use AdminAccess;
+
+    
     /**
      * Not all fields are things we want to allow on the body of requests
      * an author won't change after the fact, so we limit that change
@@ -92,7 +101,7 @@ class PostController extends V5Controller
         return $user;
     }
 
- 
+
     /**
      * Display the specified resource.
      *
@@ -351,16 +360,40 @@ class PostController extends V5Controller
 
     public function indexGeoJson(Request $request): PostGeometryCollection
     {
-        $posts = $this->queryBus->handle(ListPostsGeometryQuery::FromRequest($request));
+
+        $surveys_with_private_location  = $this->queryBus->handle(new GetSurveyIdsWithPrivateLocationQuery());
+        
+        if ($this->canUserseePostsWithPrivateLocation()) {
+            $posts = $this->queryBus->handle(ListPostsGeometryQuery::FromRequest($request));
+        } else {
+            $posts = $this->queryBus->handle(
+                ListPostsGeometryQuery::FromRequest(
+                    $request,
+                    $surveys_with_private_location->pluck('id')->toArray()
+                )
+            );
+        }
+        
         return new PostGeometryCollection($posts);
     }
 
     public function indexGeoJsonWithZoom(Request $request): PostGeometryCollection
     {
         $this->prepBoundingBox($request);
+        return $this->indexGeoJson($request);
+    }
 
-        $posts = $this->queryBus->handle(ListPostsGeometryQuery::FromRequest($request));
-        return new PostGeometryCollection($posts);
+    private function canUserseePostsWithPrivateLocation()
+    {
+        $authorizer = service('authorizer.post');
+        $user = $authorizer->getUser();
+        if ($this->isUserAdmin($user)) {
+            return true;
+        }
+        if ($authorizer->acl->hasPermission($user, Permission::MANAGE_POSTS)) {
+            return true;
+        }
+        return false;
     }
 
     public function prepBoundingBox(Request $request)
@@ -373,7 +406,8 @@ class PostController extends V5Controller
         $y = isset($params['y']) ? $params['y'] : false;
         if ($zoom !== false and
             $x !== false and
-            $y !== false) {
+            $y !== false
+        ) {
             $boundingBox = Tile::pointToBoundingBox($zoom, $x, $y);
             $request->merge(['bbox' => implode(',', $boundingBox->asArray())]);
         }
@@ -390,7 +424,7 @@ class PostController extends V5Controller
     public function updateLock(int $post_id, Request $request)
     {
 
-        $post = $this->queryBus->handle(new FindPostByIdQuery($post_id, ['id', 'user_id','form_id']));
+        $post = $this->queryBus->handle(new FindPostByIdQuery($post_id, ['id', 'user_id', 'form_id']));
         $this->authorize('update', $post);
 
         $this->commandBus->handle(new UpdatePostLockCommand($post_id));
@@ -401,7 +435,7 @@ class PostController extends V5Controller
 
     public function deleteLock(int $post_id, Request $request)
     {
-        $post = $this->queryBus->handle(new FindPostByIdQuery($post_id, ['id', 'user_id','form_id']));
+        $post = $this->queryBus->handle(new FindPostByIdQuery($post_id, ['id', 'user_id', 'form_id']));
         $this->authorize('update', $post);
 
         $this->commandBus->handle(new DeletePostLockCommand($post_id));

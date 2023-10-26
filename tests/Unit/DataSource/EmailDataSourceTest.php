@@ -108,7 +108,7 @@ class EmailDataSourceTest extends TestCase
         $mockImapOpen = PHPMockery::mock("Ushahidi\DataSource\Email", 'imap_open');
         $mockImapOpen
             ->with(
-                '{imap.somewhere.com:993/imap/ssl}INBOX',
+                '{imap.somewhere.com:993/imap/ssl/novalidate-cert}INBOX',
                 'someuser',
                 'mypassword',
                 0,

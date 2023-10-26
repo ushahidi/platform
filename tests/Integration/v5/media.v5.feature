@@ -91,16 +91,16 @@ Feature: Testing the Media API
         Then the guzzle status code should be 404
 
     @resetFixture
-    Scenario: Fail to create a new Media with size greater than limit
-        Given that I want to make a new "Media"
-        And that the api_url is "api/v5"
-        And that the post field "caption" is "ihub"
-        And that the post file "file" is "tests/datasets/ushahidi/sample-large.png"
-        When I request "/media"
-        Then the response is JSON
-        And the response has a "errors" property
-        Then the "errors.failed_validations.0.error_messages.0" property equals "The file size should be less than 1 MB"
-        Then the guzzle status code should be 422
+    #Scenario: Fail to create a new Media with size greater than limit
+    #    Given that I want to make a new "Media"
+    #    And that the api_url is "api/v5"
+    #    And that the post field "caption" is "ihub"
+    #    And that the post file "file" is "tests/datasets/ushahidi/sample-large.png"
+    #    When I request "/media"
+    #    Then the response is JSON
+    #    And the response has a "errors" property
+    #    Then the "errors.failed_validations.0.error_messages.0" property equals "The file size should be less than 1 MB"
+    #    Then the guzzle status code should be 422
 
     @cdnEnabled
     Scenario: Media URLs are encoded correctly

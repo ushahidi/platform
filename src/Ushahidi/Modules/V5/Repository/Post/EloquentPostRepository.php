@@ -82,10 +82,12 @@ class EloquentPostRepository implements PostRepository
             $query->whereIn('posts.status', $search_fields->status());
         }
 
-        if (count($search_fields->form())) {
-            $query->whereIn('posts.form_id', $search_fields->form());
-        } elseif ($search_fields->formNone()) {
+        if ($search_fields->formCondition() === "null") {
             $query->whereNull('posts.form_id');
+        } elseif ((count($search_fields->form())) && ($search_fields->formCondition() === "include")) {
+            $query->whereIn('posts.form_id', $search_fields->form());
+        } elseif ((count($search_fields->form())) && ($search_fields->formCondition() === "exclude")) {
+            $query->whereNotIn('posts.form_id', $search_fields->form());
         }
 
         if (count($search_fields->user())) {
@@ -218,7 +220,7 @@ class EloquentPostRepository implements PostRepository
             // $query->whereIn('posts.id', $this->getBoundingBoxPostIds($bounding_box));
             $query->whereRaw(
                 "posts.id in (select post_id from post_point"
-                . " where CONTAINS(ST_GeomFromText('" . $bounding_box->toWKT() . "'), value) = 1)"
+                    . " where CONTAINS(ST_GeomFromText('" . $bounding_box->toWKT() . "'), value) = 1)"
             );
         }
 
@@ -433,33 +435,33 @@ class EloquentPostRepository implements PostRepository
             $search_query
                 ->selectRaw(
                     'FLOOR(' . $time_field . '/' . (int) $search->timelineInterval() . ')'
-                    . '*' . (int) $search->timelineInterval()
-                    . ' as time_label'
+                        . '*' . (int) $search->timelineInterval()
+                        . ' as time_label'
                 )
                 ->groupBy('time_label');
         }
 
         switch ($search->groupBy()) {
-            // Group by attribute
+                // Group by attribute
             case 'attribute':
                 break;
-            // Group by statsus
+                // Group by statsus
             case 'status':
                 $search_query->selectRaw('posts.status as label , NULL as id');
                 $search_query->groupBy('label');
 
                 break;
-            // Group by forms
+                // Group by forms
             case 'form':
                 $search_query->leftJoin('forms', 'posts.form_id', '=', 'forms.id');
                 $search_query->selectRaw(
                     'MAX(forms.name) as label'
-                    . ',forms.id as id'
+                        . ',forms.id as id'
                 );
                 $search_query->groupBy('forms.id');
 
                 break;
-            // Group by tags
+                // Group by tags
             case 'tags':
                 if (!in_array('posts_tags', $this->filter_joined_tables)) {
                     $search_query->join('posts_tags', 'posts.id', '=', 'posts_tags.post_id');
@@ -492,7 +494,7 @@ class EloquentPostRepository implements PostRepository
                     }
                 }
                 break;
-            // no group by
+                // no group by
             default:
                 $search_query->selectRaw(" Max('all') as label,COUNT(DISTINCT posts.id) as total");
 
