@@ -19,8 +19,8 @@ return [
         'plan' => false,
     ],
 
-    // Data sources
-    'data-sources' => [
+    // Data Providers
+    'data-providers' => [
         'email' => true,
         'smssync' => false,
         'twitter' => true,

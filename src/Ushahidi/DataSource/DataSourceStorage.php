@@ -83,28 +83,33 @@ class DataSourceStorage
             return $this->receiveUsecase->setPayload($payload)
                 ->interact();
         } catch (\Ushahidi\Core\Exception\NotFoundException $e) {
-            Log::error($e->getMessage(), $payload);
+            report($e);
+            Log::debug($e->getMessage(), $payload);
             if (!app()->runningInConsole()) {
                 abort(404, $e->getMessage());
             }
         } catch (\Ushahidi\Core\Exception\AuthorizerException $e) {
+            report($e);
             Log::error($e->getMessage(), $payload);
             if (!app()->runningInConsole()) {
                 abort(403, $e->getMessage());
             }
         } catch (\Ushahidi\Core\Exception\ValidatorException $e) {
+            report($e);
             $payload['errors'] = $e->getErrors();
-            Log::error($e->getMessage(), $payload);
+            Log::debug($e->getMessage(), $payload);
             if (!app()->runningInConsole()) {
                 abort(422, 'Validation Error: ' . $e->getMessage() . '; ' .  implode(', ', $e->getErrors()));
             }
         } catch (\InvalidArgumentException $e) {
-            Log::error($e->getMessage(), $payload);
+            report($e);
+            Log::debug($e->getMessage(), $payload);
             if (!app()->runningInConsole()) {
                 abort(400, 'Bad request: ' . $e->getMessage());
             }
         } catch (\Exception $e) {
-            Log::error($e->getMessage(), $payload);
+            report($e);
+            Log::debug($e->getMessage(), $payload);
             if (!app()->runningInConsole()) {
                 abort(500, 'Internal Server Error: ' . $e->getMessage());
             }

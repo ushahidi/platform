@@ -156,11 +156,11 @@ class ConfigRepository implements
             return; /* noop */
         }
 
-        // Intercom count datasources
+        // Intercom count data providers
         if ($group === 'features') {
             $intercom_data['num_data_sources'] = 0;
-            $datasources = $entity->asArray()['data-sources'];
-            foreach ($datasources as $key => $value) {
+            $dataproviders = $entity->asArray()['data-providers'];
+            foreach ($dataproviders as $key => $value) {
                 $value ? $intercom_data['num_data_sources']++ : null;
             }
         }

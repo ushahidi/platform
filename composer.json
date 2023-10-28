@@ -15,7 +15,7 @@
         }
     ],
     "require": {
-        "php": ">=7.3 <7.4",
+        "php": ">=7.3 <=7.4",
         "asm89/stack-cors": "^2.1",
         "doctrine/cache": "^1.6.2",
         "doctrine/dbal": "^2.0",
@@ -74,6 +74,7 @@
             "http",
             "git"
         ],
+
         "optimize-autoloader": true,
         "preferred-install": "dist",
         "sort-packages": true,

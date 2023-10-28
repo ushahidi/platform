@@ -1,6 +1,6 @@
 <?php
 
-namespace Ushahidi\Addons\Infobip\InfobipSMS;
+namespace Ushahidi\Addons\Infobip;
 
 /**
  * InfobipSMS Callback controller
@@ -18,7 +18,7 @@ use Ushahidi\DataSource\DataSourceController;
 
 class InfobipSMSController extends DataSourceController
 {
-    protected $source = 'infobip-sms';
+    protected $source = 'infobip';
 
     public function handleRequest(Request $request)
     {

@@ -35,6 +35,7 @@ abstract class DataSourceController extends Controller
         try {
             $this->source = $manager->getEnabledSource($this->source);
         } catch (\InvalidArgumentException $e) {
+            report($e);
         }
     }
 

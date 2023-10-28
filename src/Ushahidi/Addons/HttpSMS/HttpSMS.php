@@ -130,6 +130,9 @@ class HttpSMS implements CallbackDataSource, OutgoingDataSource
 
     public static function registerRoutes(Router $router)
     {
-        $router->post('sms/http-sms', HttpSMSController::class . '@handleRequest');
+        $router->middleware([SubstituteBearerTokenMiddleware::class])->group(function () use ($router) {
+            $router->post('/httpsms', HttpSMSController::class . '@handleRequest');
+            $router->post('/sms/httpsms', HttpSMSController::class . '@handleRequest');
+        });
     }
 }

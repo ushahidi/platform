@@ -97,7 +97,7 @@ class DataSourceManager
 
             // Load enabled sources
             $enabledSources = array_filter(
-                $this->configRepo->get('features')->asArray()['data-sources']
+                $this->configRepo->get('features')->asArray()['data-providers']
             );
 
             $sources = array_intersect_key(

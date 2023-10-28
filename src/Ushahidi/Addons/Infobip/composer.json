@@ -6,6 +6,7 @@
     "license": "AGPL-3.0",
     "repositories": [],
     "require": {
+        "infobip-community/infobip-api-php-sdk": "1.*"
     },
     "autoload": {
         "psr-4": {
@@ -16,7 +17,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Ushahidi\\Addons\\Infobip\\ServiceProvider"
+                "Ushahidi\\Addons\\Infobip\\LaravelServiceProvider"
             ]
         }
     },

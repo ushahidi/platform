@@ -8,6 +8,7 @@ use Ushahidi\Contracts\Repository\Entity\TargetedSurveyStateRepository;
 
 class CreatePostFromMessage
 {
+    protected $targetedSurveyStateRepo;
     protected $messageRepo;
     protected $contactRepo;
     protected $postRepo;

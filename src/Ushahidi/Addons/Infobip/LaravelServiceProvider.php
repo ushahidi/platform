@@ -3,9 +3,8 @@
 namespace Ushahidi\Addons\Infobip;
 
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
-use Ushahidi\Addons\Infobip\InfobipSMS\InfobipSMS;
 
-class ServiceProvider extends BaseServiceProvider
+class LaravelServiceProvider extends BaseServiceProvider
 {
     /**
      * Bootstrap any application services.
@@ -14,6 +13,6 @@ class ServiceProvider extends BaseServiceProvider
      */
     public function boot()
     {
-        $this->app['datasources']->extend('infobip-sms', InfobipSMS::class);
+        $this->app['datasources']->extend('infobip', InfobipServiceProvider::class);
     }
 }

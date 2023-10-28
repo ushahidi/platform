@@ -1,6 +1,6 @@
 <?php
 
-namespace Ushahidi\Addons\Infobip\InfobipSMS;
+namespace Ushahidi\Addons\Infobip;
 
 /**
  * Infobip SMS Data Source
@@ -21,7 +21,7 @@ use Ushahidi\DataSource\Contracts\CallbackDataSource;
 use Ushahidi\DataSource\Contracts\OutgoingDataSource;
 use Illuminate\Support\Facades\Log;
 
-class InfobipSMS implements CallbackDataSource, OutgoingDataSource
+class InfobipServiceProvider implements CallbackDataSource, OutgoingDataSource
 {
     use MapsInboundFields;
 
@@ -38,7 +38,7 @@ class InfobipSMS implements CallbackDataSource, OutgoingDataSource
 
     public function getName()
     {
-        return 'InfoBip-SMS';
+        return 'Infobip';
     }
 
     public function getId()
@@ -67,19 +67,12 @@ class InfobipSMS implements CallbackDataSource, OutgoingDataSource
                 'description' => 'The API key to be used when sending requests to the infobip server',
                 'rules' => ['required']
             ],
-            'phone_number' => [
-                'label' => 'SMS Phone number',
+            'sender_name' => [
+                'label' => 'Sender Name (Alphanumeric/Numeric/Short code)',
                 'input' => 'text',
-                'description' => 'The phone number which is registered for sending and receiving SMS messages',
-                'rules' => ['required']
+                'description' => 'The Sender names which is registered for sending and receiving SMS messages',
+                'rules' => []
             ],
-            'signing_key' => [
-                'label' => 'Signing Key',
-                'input' => 'text',
-                'description' => 'Set a secret so that it is used to verify the webhook sent from httpSMS server.
-				  You need to configure the same secret when setting up a webhook in your httpSMS settings dashboard.',
-                'rules' => ['required']
-            ]
         ];
     }
 
@@ -124,13 +117,17 @@ class InfobipSMS implements CallbackDataSource, OutgoingDataSource
 
     public function verifyToken($token)
     {
-        $decodedToken = JWT::decode($token, new Key($this->config['signing_key'], 'HS256'));
-
-        return false;
+        try {
+            $decodedToken = JWT::decode($token, new Key($this->config['signing_key'], 'HS256'));
+            return isset($decodedToken) ? true : false;
+        } catch (\Throwable $th) {
+            //throw $th;
+            return false;
+        }
     }
 
     public static function registerRoutes(Router $router)
     {
-        $router->post('/http-sms', HttpSMSController::class . '@handleRequest');
+        $router->post('/sms/infobip', InfobipSMSController::class . '@handleRequest');
     }
 }
