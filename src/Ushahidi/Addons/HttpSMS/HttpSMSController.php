@@ -76,6 +76,5 @@ class HttpSMSController extends DataSourceController
         // Then return success
 
         return response()->json(['message' => 'Webhook event processed successfully']);
-
     }
 }
