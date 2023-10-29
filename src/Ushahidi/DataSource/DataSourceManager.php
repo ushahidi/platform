@@ -92,17 +92,22 @@ class DataSourceManager
     public function getEnabledSources(): array
     {
         return Cache::remember('datasources.enabled', self::CACHE_LIFETIME, function () {
-
             $allSources = array_merge($this->defaultSources, $this->customSources);
 
-            // Load enabled sources
-            $enabledSources = array_filter(
+            // Load available sources
+            $availableSources = array_filter(
                 $this->configRepo->get('features')->asArray()['data-providers']
+            );
+
+            // Load configured sources
+            $configuredSources = array_filter(
+                $this->configRepo->get('data-provider')->asArray()['providers']
             );
 
             $sources = array_intersect_key(
                 $allSources,
-                $enabledSources,
+                $availableSources,
+                $configuredSources,
             );
 
             return array_keys($sources);
