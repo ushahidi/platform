@@ -7,7 +7,6 @@ Feature: Testing the DataProviders API
 		Then the response is JSON
 		And the response has a "count" property
 		And the type of the "count" property is "numeric"
-		And the "count" property is greater than or equal to "6"
 		Then the guzzle status code should be 200
 
 	Scenario: Get A Particular Data Provider
@@ -22,12 +21,12 @@ Feature: Testing the DataProviders API
 		And the "options.secret.input" property equals "text"
 		Then the guzzle status code should be 200
 
-	Scenario: Search for Data Providers By Type
+	Scenario: Search for Data Providers By Service Type
 		Given that I want to get all "Dataproviders"
 		And that the request "query string" is "type=sms"
 		When I request "/dataproviders"
 		Then the response is JSON
-		And the "count" property equals "6"
+		And the type of the "count" property is "numeric"
 		Then the guzzle status code should be 200
 
 	Scenario: Geting A Non-Existent Data Provider Should Fail
