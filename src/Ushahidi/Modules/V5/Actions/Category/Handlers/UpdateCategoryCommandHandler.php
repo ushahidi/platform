@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Ushahidi\Modules\V5\Models\Category;
 use Ushahidi\Modules\V5\Repository\Category\CategoryRepository;
 use Ushahidi\Modules\V5\Actions\Category\Commands\UpdateCategoryCommand;
+use Illuminate\Support\Facades\Auth;
 
 class UpdateCategoryCommandHandler extends AbstractCommandHandler
 {
@@ -31,9 +32,12 @@ class UpdateCategoryCommandHandler extends AbstractCommandHandler
          */
         $this->isSupported($action);
 
+        $user_id = Auth::guard()->user()->id ?? null;
+
         $this->categoryRepository->update(
             $action->getCategoryId(),
             $action->getParentId(),
+            $user_id,
             $action->getTag(),
             $action->getSlug(),
             $action->getType(),

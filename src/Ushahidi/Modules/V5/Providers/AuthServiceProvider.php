@@ -24,7 +24,7 @@ class AuthServiceProvider extends ServiceProvider
         Models\Role::class => Policies\RolePolicy::class,
         Models\Post\Post::class => Policies\PostPolicy::class,
         Models\Tos::class => Policies\TosPolicy::class,
-        Models\Set::class => Policies\CollectionPolicy::class,
+        Models\Set::class => Policies\SetPolicy::class,
         Models\SetPost::class => Policies\CollectionPostPolicy::class,
         Models\Config::class => Policies\ConfigPolicy::class,
         Models\Contact::class => Policies\ContactPolicy::class,

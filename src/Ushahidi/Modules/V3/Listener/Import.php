@@ -58,8 +58,8 @@ class Import extends AbstractListener
             // ... transform record
             $entity = $this->transform($record);
 
-            // Ensure that under review is correctly mapped to draft
-            if (strcasecmp($entity->status, 'under review')== 0) {
+            // Ensure that empty status or under review is correctly mapped to draft
+            if (is_null($entity->status) || strcasecmp($entity->status, 'under review') == 0) {
                 $entity->setState(['status' => 'draft']);
             }
 
@@ -69,7 +69,7 @@ class Import extends AbstractListener
             // ... persist the new entity
             try {
                 $id = $this->repo->create($entity);
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $errors++;
             }
             service('repository.set')->addPostToSet($collection_id, $id);

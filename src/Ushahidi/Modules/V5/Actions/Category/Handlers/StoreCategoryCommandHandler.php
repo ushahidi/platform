@@ -8,6 +8,7 @@ use App\Bus\Command\Command;
 use Ushahidi\Modules\V5\Actions\Category\Commands\StoreCategoryCommand;
 use Ushahidi\Modules\V5\Models\Category;
 use Ushahidi\Modules\V5\Repository\Category\CategoryRepository;
+use Illuminate\Support\Facades\Auth;
 
 class StoreCategoryCommandHandler extends AbstractCommandHandler
 {
@@ -43,8 +44,11 @@ class StoreCategoryCommandHandler extends AbstractCommandHandler
             $parentId = null;
         }
 
+        $user_id = Auth::guard()->user()->id ?? null;
+
         return $this->categoryRepository->store(
             $parentId,
+            $user_id,
             ucfirst($action->getTag()),
             $slug,
             $action->getType(),
