@@ -74,9 +74,16 @@ class DataSourceManager
      * @param  \Ushahidi\Contracts\Repository\Entity\ConfigRepository  $configRepo
      * @return void
      */
-    public function __construct(ConfigRepository $configRepo)
+    public function __construct(ConfigRepository $configRepo = null)
     {
         $this->configRepo = $configRepo;
+    }
+
+    public function setConfig(ConfigRepository $configRepo)
+    {
+        $this->configRepo = $configRepo;
+
+        return $this;
     }
 
     public function getSources(): array

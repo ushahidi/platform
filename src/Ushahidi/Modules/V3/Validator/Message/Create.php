@@ -31,6 +31,7 @@ class Create extends LegacyValidator
     protected function getRules()
     {
         // @todo inject
+        /** @var \Ushahidi\DataSource\DatasourceManager */
         $sources = app('datasources');
 
         return [

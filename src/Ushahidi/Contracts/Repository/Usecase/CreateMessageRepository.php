@@ -15,7 +15,7 @@ interface CreateMessageRepository
 {
     /**
      * @param  int $parent_id
-     * @return Boolean
+     * @return boolean
      */
     public function parentExists($parent_id);
 }

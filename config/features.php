@@ -23,7 +23,7 @@ return [
     'data-providers' => [
         'email' => true,
         'smssync' => false,
-        'twitter' => true,
+        'twitter' => false,
         'frontlinesms' => false,
         'outgoingemail' => true,
         'twilio' => false,
