@@ -33,7 +33,7 @@ class FetchCollectionQuery implements Query
 
     public function getLimit(): int
     {
-        return $this->limit;
+        return $this->limit > 0 ? $this->limit : config('paging.default_laravel_pageing_limit');
     }
 
     public function getPage(): int

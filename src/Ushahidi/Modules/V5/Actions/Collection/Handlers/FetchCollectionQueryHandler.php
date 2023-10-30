@@ -53,20 +53,20 @@ class FetchCollectionQueryHandler extends AbstractQueryHandler
 
         $search = new SearchData();
 
+        // TODO: Move this to the Query class
         $user = Auth::guard()->user();
+
+        $search->setFilter('is_saved_search', false);
+        $search->setFilter('with_post_count', true);
 
         // Querying Values
         $search->setFilter('keyword', $search_fields->q());
         $search->setFilter('role', $search_fields->role());
-        $search->setFilter('is_admin', $search_fields->role() == "admin");
-        // $search->setFilter('is_guest', !Auth::user() || !Auth::user()->id);
-        // $search->setFilter('is_me_only', $search_fields->public());
+        $search->setFilter('is_admin', $search_fields->role() === "admin");
         $search->setFilter('user_id', $user->id ?? null);
 
-        $search->setFilter('is_saved_search', false);
-
         // Paging Values
-        $limit = $query->getLimit() ?? config('paging.default_laravel_pageing_limit');
+        $limit = $query->getLimit();
         $search->setFilter('limit', $limit);
         $search->setFilter('skip', $limit * ($query->getPage() - 1));
 
