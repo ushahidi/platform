@@ -22,12 +22,12 @@ return [
     // Data Providers
     'data-providers' => [
         'email' => true,
-        'smssync' => false,
-        'twitter' => false,
-        'frontlinesms' => false,
+        'smssync' => true,
+        'twitter' => true,
+        'frontlinesms' => true,
         'outgoingemail' => true,
-        'twilio' => false,
-        'nexmo' => false,
+        'twilio' => true,
+        'nexmo' => true,
         'gmail' => false,
         'mteja' => false,
         'africastalking' => false,
