@@ -82,13 +82,13 @@ class EloquentSetRepository implements SetRepository
                 });
             }
 
-             // is not admin and has role
-             $role = $search_fields->getFilter('role');
-             if (isset($role) && !is_null($role)) {
-                 $builder->orWhere(function (Builder $query) use ($role) {
-                     $query->where('role', 'LIKE', "%" . $role . "%");
-                 });
-             }
+            // is not admin and has role
+            $role = $search_fields->getFilter('role');
+            if (isset($role) && !is_null($role)) {
+                $builder->orWhere(function (Builder $query) use ($role) {
+                    $query->where('role', 'LIKE', "%" . $role . "%");
+                });
+            }
         }
 
         return $builder;
