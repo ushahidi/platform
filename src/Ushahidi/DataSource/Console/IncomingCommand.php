@@ -84,21 +84,26 @@ class IncomingCommand extends Command
 
             $messages = $source->fetch($limit);
 
-            foreach ($messages as $message) {
-                $this->storage->receive(
-                    $sourceId,
-                    $message['type'],
-                    $message['contact_type'],
-                    $message['from'],
-                    $message['message'],
-                    $message['to'],
-                    $message['title'],
-                    $message['datetime'],
-                    $message['data_source_message_id'],
-                    $message['additional_data'],
-                    $source->getInboundFormId(),
-                    $source->getInboundFieldMappings()
-                );
+            foreach ($messages as $index => $message) {
+                try {
+                    $this->storage->receive(
+                        $sourceId,
+                        $message['type'],
+                        $message['contact_type'],
+                        $message['from'],
+                        $message['message'],
+                        $message['to'],
+                        $message['title'],
+                        $message['datetime'],
+                        $message['data_source_message_id'],
+                        $message['additional_data'],
+                        $source->getInboundFormId(),
+                        $source->getInboundFieldMappings()
+                    );
+                } catch (\Throwable $th) {
+                    report($th);
+                    unset($messages[$index]);
+                }
             }
 
             $totals[] = [

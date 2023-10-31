@@ -67,6 +67,7 @@ class FetchCollectionQueryHandler extends AbstractQueryHandler
 
         // Paging Values
         $limit = $query->getLimit();
+
         $search->setFilter('limit', $limit);
         $search->setFilter('skip', $limit * ($query->getPage() - 1));
 

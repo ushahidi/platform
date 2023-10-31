@@ -72,7 +72,6 @@ class EloquentSetRepository implements SetRepository
                 $query->orWhere('role', 'LIKE', "%everyone%");
             });
 
-
             // is owner
             $user_id = $search_fields->getFilter('user_id');
             if (isset($user_id) && !is_null($user_id)) {
