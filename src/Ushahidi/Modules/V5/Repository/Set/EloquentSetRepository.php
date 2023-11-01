@@ -42,7 +42,7 @@ class EloquentSetRepository implements SetRepository
             $query->orderBy($sort, $order);
         }
 
-        if ($data->getFilter('with_post_count')) {
+        if ($data->getFilter('with_post_count') == true) {
             $query->withCount('posts');
         }
 
@@ -65,29 +65,29 @@ class EloquentSetRepository implements SetRepository
 
         $is_admin = $search_fields->getFilter('is_admin');
         if ($is_admin == false) {
-            $builder->where(function ($query) use ($search_fields) {
-                // Default search for everyone and guest user
-                $query->where('role', 'LIKE', "%everyone%");
+            // Default search for everyone and guest user
+            $builder->where(function (Builder $query) {
+                $query->whereNull('role');
 
-                $query->orWhereNull('role');
-
-                // is owner
-                $user_id = $search_fields->getFilter('user_id');
-                if (isset($user_id) && !is_null($user_id)) {
-                    $query->orWhere(function ($query) use ($user_id) {
-                        $query->where('role', 'LIKE', "%me%")
-                            ->where('user_id', '=', $user_id);
-                    });
-                }
-
-                // is not admin
-                $role = $search_fields->getFilter('role');
-                if (isset($role) && !is_null($role)) {
-                    $query->orWhere(function ($builder) use ($search_fields) {
-                        $builder->where('role', 'LIKE', "%" . $search_fields->getFilter('role') . "%");
-                    });
-                }
+                $query->orWhere('role', 'LIKE', "%everyone%");
             });
+
+            // is owner
+            $user_id = $search_fields->getFilter('user_id');
+            if (isset($user_id) && !is_null($user_id)) {
+                $builder->orWhere(function (Builder $query) use ($user_id) {
+                    $query->where('role', 'LIKE', "%me%")
+                        ->where('user_id', '=', $user_id);
+                });
+            }
+
+            // is not admin and has role
+            $role = $search_fields->getFilter('role');
+            if (isset($role) && !is_null($role)) {
+                $builder->orWhere(function (Builder $query) use ($role) {
+                    $query->where('role', 'LIKE', "%" . $role . "%");
+                });
+            }
         }
 
         return $builder;
