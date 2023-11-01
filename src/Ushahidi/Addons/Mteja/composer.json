@@ -1,0 +1,28 @@
+{
+    "name": "ushahidi/mteja-addon",
+    "description": "Mteja Addon for Ushahidi DataSource",
+    "homepage": "http://ushahidi.com/",
+    "type": "library",
+    "license": "AGPL-3.0",
+    "repositories": [],
+    "require": {
+    },
+    "autoload": {
+        "psr-4": {
+            "Ushahidi\\Addons\\Mteja\\": ""
+        },
+        "files": []
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Ushahidi\\Addons\\Mteja\\ServiceProvider"
+            ]
+        }
+    },
+    "suggest": {},
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev"
+}

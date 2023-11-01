@@ -1,0 +1,24 @@
+{
+    "name": "ushahidi/datasource",
+    "description": "Ushahidi Data Source Component",
+    "homepage": "http://ushahidi.com/",
+    "type": "project",
+    "repositories": [],
+    "require": {
+        "abraham/twitteroauth": "^0.5.3",
+        "vonage/client": "^2.3",
+        "twilio/sdk": "^5.15"
+    },
+    "autoload": {
+        "psr-4": {
+            "Ushahidi\\DataSource\\": ""
+        },
+        "files": []
+    },
+    "extra": {},
+    "suggest": {},
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev"
+}

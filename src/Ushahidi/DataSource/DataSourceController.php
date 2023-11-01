@@ -13,7 +13,6 @@ namespace Ushahidi\DataSource;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Ramsey\Uuid\Exception\UnsatisfiedDependencyException;
 use Ushahidi\DataSource\Contracts\MessageStatus;
 use Ramsey\Uuid\Uuid;
 
@@ -36,6 +35,7 @@ abstract class DataSourceController extends Controller
         try {
             $this->source = $manager->getEnabledSource($this->source);
         } catch (\InvalidArgumentException $e) {
+            report($e);
         }
     }
 
@@ -57,7 +57,7 @@ abstract class DataSourceController extends Controller
                     $message->setState([
                         'data_source_message_id' => $uuid->toString()
                     ]);
-                } catch (UnsatisfiedDependencyException $e) {
+                } catch (\Exception $e) {
                     // continue
                 }
             }

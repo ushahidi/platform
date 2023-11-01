@@ -57,6 +57,8 @@ class PostRepository extends OhanzeeRepository implements
     protected $form_stage_repo;
     protected $form_repo;
     protected $contact_repo;
+    protected $post_lock_repo;
+
     protected $post_value_factory;
     protected $bounding_box_factory;
     // By default remove all private responses
