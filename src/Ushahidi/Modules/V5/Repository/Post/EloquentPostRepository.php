@@ -54,7 +54,7 @@ class EloquentPostRepository implements PostRepository
         }
         return false;
     }
-    private function setSearchCondition(PostSearchFields $search_fields, $query)
+    private function setSearchCondition(PostSearchFields $search_fields, $query, bool $unstrucured_posts_only = false)
     {
 
         // Remove all previous where conditions
@@ -81,13 +81,30 @@ class EloquentPostRepository implements PostRepository
         if (count($search_fields->status())) {
             $query->whereIn('posts.status', $search_fields->status());
         }
-
-        if ($search_fields->formCondition() === "null") {
+        if ($unstrucured_posts_only) {
             $query->whereNull('posts.form_id');
+        } elseif ($search_fields->formCondition() === "null") {
+            $query->whereNull('posts.form_id');
+        } elseif ($search_fields->formCondition() === "not_null") {
+            $query->whereNotNull('posts.form_id');
         } elseif ((count($search_fields->form())) && ($search_fields->formCondition() === "include")) {
-            $query->whereIn('posts.form_id', $search_fields->form());
+            if ($search_fields->includeUnstructuredPosts()) {
+                $query->where(function ($query) use ($search_fields) {
+                    $query->whereIn('posts.form_id', $search_fields->form())
+                        ->orWhereNull('posts.form_id');
+                });
+            } else {
+                $query->whereIn('posts.form_id', $search_fields->form());
+            }
         } elseif ((count($search_fields->form())) && ($search_fields->formCondition() === "exclude")) {
-            $query->whereNotIn('posts.form_id', $search_fields->form());
+            if ($search_fields->includeUnstructuredPosts()) {
+                $query->whereNotIn('posts.form_id', $search_fields->form());
+            } else {
+                $query->where(function ($query) use ($search_fields) {
+                    $query->whereNotIn('posts.form_id', $search_fields->form())
+                        ->whereNotNull('posts.form_id');
+                });
+            }
         }
 
         if (count($search_fields->user())) {
@@ -401,11 +418,11 @@ class EloquentPostRepository implements PostRepository
         return collect($this->getGroupedTotals($search_fields));
     }
 
-    private function getMainSearchQuery(PostStatsSearchFields $search_fields)
+    private function getMainSearchQuery(PostStatsSearchFields $search_fields, bool $unstrucured_posts_only = false)
     {
         $search_query = DB::table('posts');
         $search_query->selectRaw('COUNT(DISTINCT posts.id) as total');
-        $search_query = $this->setSearchCondition($search_fields, $search_query);
+        $search_query = $this->setSearchCondition($search_fields, $search_query, $unstrucured_posts_only);
         $query = $this->setGuestConditions($search_query);
         if (!in_array('messages', $this->filter_joined_tables)) {
             $search_query->leftJoin('messages', 'messages.post_id', '=', 'posts.id');
@@ -543,6 +560,10 @@ class EloquentPostRepository implements PostRepository
             // Append unmapped totals to stats
             $results['unmapped'] = $this->getUnmappedTotal($search, $results['total_posts']);
         }
+        if ($search->includeUnstructuredPosts()) {
+            // Append include Unstructured Posts totals to stats
+            $results['unstructured_posts'] = $this->getUnstructuredPostsTotal($search);
+        }
         return $results;
     }
 
@@ -558,6 +579,19 @@ class EloquentPostRepository implements PostRepository
             $mapped = $search_query->first()->total;
         }
         return $total_posts - $mapped;
+    }
+
+    private function getUnstructuredPostsTotal(PostStatsSearchFields $search)
+    {
+
+        // unset form
+        //$updated_search = $search;
+        //$updated_search->setFormCondition("null");
+            $search_query = $this->getMainSearchQuery($search, true);
+            $search_query->rightJoin('post_point', 'post_point.post_id', 'posts.id');
+            $Unstructured = $search_query->first()->total;
+     
+        return $Unstructured;
     }
 
     private function getSearchTotal(PostStatsSearchFields $search)
