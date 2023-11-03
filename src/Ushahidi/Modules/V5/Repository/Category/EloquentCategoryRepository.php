@@ -82,8 +82,8 @@ class EloquentCategoryRepository implements CategoryRepository
                     // Where the user is the owner of the category
                     $builder->orWhere(function (Builder $query) use ($user_id) {
                         //TODO: Fix this query in future release
-                        $query->where('role', 'like', '%me%')
-                            ->where('user_id', $user_id);
+                        $query->where('role', 'like', '%me%');
+                          //  ->where('user_id', $user_id);
                     });
                 }
             });
@@ -137,7 +137,7 @@ class EloquentCategoryRepository implements CategoryRepository
     ): int {
         $input = array_filter([
             'parent_id' => $parentId,
-            'user_id' => $userId,
+            //'user_id' => $userId,
             'tag' => $tag,
             'slug' => $slug,
             'type' => $type,
@@ -179,7 +179,7 @@ class EloquentCategoryRepository implements CategoryRepository
     ): int {
            $input = [
             'parent_id' => $parentId,
-            'user_id' => $userId,
+            //'user_id' => $userId,
             'tag' => $tag,
             'slug' => $slug,
             'type' => $type,
