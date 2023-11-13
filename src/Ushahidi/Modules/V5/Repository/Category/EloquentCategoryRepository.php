@@ -83,14 +83,12 @@ class EloquentCategoryRepository implements CategoryRepository
                     $builder->orWhere(function (Builder $query) use ($user_id) {
                         //TODO: Fix this query in future release
                         $query->where('role', 'like', '%me%')
-                            ->where('user_id', $user_id);
+                           ->where('user_id', $user_id);
                     });
                 }
             });
         }
 
-        // var_dump($builder->toSql());
-        // exit;
         return $builder;
     }
 
@@ -179,7 +177,7 @@ class EloquentCategoryRepository implements CategoryRepository
     ): int {
            $input = [
             'parent_id' => $parentId,
-            'user_id' => $userId,
+            //'user_id' => $userId,
             'tag' => $tag,
             'slug' => $slug,
             'type' => $type,

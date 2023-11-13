@@ -71,6 +71,7 @@ class Survey extends BaseModel
      * @var array
      */
     protected $fillable = [
+        'id',
         'parent_id',
         'name',
         'description',
