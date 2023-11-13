@@ -55,6 +55,7 @@ class FetchSurveyQueryHandler extends V5QueryHandler
             $only
         );
 
+        // TODO: This should happen at the repository level
         $hydrates = $this->getHydrateRelationshpis(Survey::$relationships, $query->getHydrate());
         foreach ($surveys as $survey) {
             $this->addHydrateRelationships(
@@ -79,6 +80,7 @@ class FetchSurveyQueryHandler extends V5QueryHandler
         foreach ($hydrate as $relation) {
             switch ($relation) {
                 case 'tasks':
+                    // TODO: This is wrong and should be done at the repository level instead to create an aggregate
                     $survey->tasks = $this->queryBus->handle(
                         new FetchTasksBySurveyIdQuery(
                             $survey->id,
