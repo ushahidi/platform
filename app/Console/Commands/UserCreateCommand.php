@@ -63,7 +63,7 @@ class UserCreateCommand extends Command
             'email' => 'required|email|unique:users',
             'password' => 'required|min:7|max:72',
             'realname' => 'max:150',
-            'role' => ['exists:roles', function ($attribute, $value, $fail) use ($userRepo) {
+            'role' => ['exists:roles,name', function ($attribute, $value, $fail) use ($userRepo) {
                 $limit = Feature::getLimit('admin_users');
                 if ($limit !== INF && $value == 'admin') {
                     $total = $userRepo->getTotalCount(['role' => 'admin']);
@@ -75,8 +75,8 @@ class UserCreateCommand extends Command
             }]
         ]);
 
-        if (!$validator->failed()) {
-            throw new ValidatorException('Failed to validate user', $validator->errors());
+        if ($validator->failed()) {
+            throw new ValidatorException('Failed to validate user', $validator->errors()->toArray());
         }
 
         $entity = $userRepo->getEntity();

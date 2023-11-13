@@ -2,27 +2,27 @@
 
 namespace Ushahidi\Modules\V3;
 
-use Ushahidi\Core\Tool\Verifier;
-use Ushahidi\Modules\V3\Console;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\ServiceProvider as BaseServiceProvider;
+use Ushahidi\Modules\V3\Console;
+use Ushahidi\Modules\V3\Factory\UsecaseFactory;
+use Ushahidi\Modules\V3\Http\Middleware\RepositoryBinder;
+use Ushahidi\Core\Tool\Verifier;
 use Ushahidi\Core\Usecase\User\LoginUser;
 use Ushahidi\Core\Usecase\Post\ExportPost;
-use Ushahidi\Core\Usecase\Export\Job\PostCount;
-use Ushahidi\Modules\V3\Factory\UsecaseFactory;
 use Ushahidi\Core\Usecase\Message\ReceiveMessage;
-use Ushahidi\Modules\V3\Repository\TosRepository;
+use Ushahidi\Core\Usecase\Export\Job\PostCount;
+use Ushahidi\Contracts\Repository\Entity\TosRepository;
 use Ushahidi\Contracts\Repository\Entity\SetRepository;
 use Ushahidi\Contracts\Repository\Entity\PostRepository;
 use Ushahidi\Contracts\Repository\Entity\RoleRepository;
 use Ushahidi\Contracts\Repository\Entity\UserRepository;
 use Ushahidi\Contracts\Repository\Entity\MediaRepository;
-use Ushahidi\Modules\V3\Http\Middleware\RepositoryBinder;
 use Ushahidi\Contracts\Repository\Entity\ApiKeyRepository;
 use Ushahidi\Contracts\Repository\Entity\ConfigRepository;
 use Ushahidi\Contracts\Repository\Entity\ContactRepository;
 use Ushahidi\Contracts\Repository\Entity\MessageRepository;
 use Ushahidi\Contracts\Repository\Entity\ExportJobRepository;
-use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 use Ushahidi\Contracts\Repository\Entity\ExportBatchRepository;
 use Ushahidi\Contracts\Repository\Entity\FormAttributeRepository;
 use Ushahidi\Contracts\Repository\Entity\TargetedSurveyStateRepository;
