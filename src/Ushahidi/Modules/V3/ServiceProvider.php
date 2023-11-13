@@ -12,7 +12,7 @@ use Ushahidi\Core\Usecase\User\LoginUser;
 use Ushahidi\Core\Usecase\Post\ExportPost;
 use Ushahidi\Core\Usecase\Message\ReceiveMessage;
 use Ushahidi\Core\Usecase\Export\Job\PostCount;
-use Ushahidi\Contracts\Repository\Entity\TosRepository;
+use Ushahidi\Contracts\Repository\Entity\TagRepository;
 use Ushahidi\Contracts\Repository\Entity\SetRepository;
 use Ushahidi\Contracts\Repository\Entity\PostRepository;
 use Ushahidi\Contracts\Repository\Entity\RoleRepository;
