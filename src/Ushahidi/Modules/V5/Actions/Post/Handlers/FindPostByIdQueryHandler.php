@@ -4,10 +4,11 @@ namespace Ushahidi\Modules\V5\Actions\Post\Handlers;
 
 use App\Bus\Action;
 use App\Bus\Query\Query;
-use App\Bus\Query\AbstractQueryHandler;
+use Ushahidi\Modules\V5\Actions\Post\Handlers\AbstractPostQueryHandler;
 use Ushahidi\Modules\V5\Actions\Post\Queries\FindPostByIdQuery;
 use Ushahidi\Modules\V5\Repository\Post\PostRepository;
 use Ushahidi\Modules\V5\Models\Post\Post;
+use Ushahidi\Modules\V5\Models\Contact;
 use Illuminate\Support\Collection;
 use Ushahidi\Modules\V5\Http\Resources\PostValueCollection;
 use Ushahidi\Modules\V5\Http\Resources\ContactPointerResource;
@@ -15,7 +16,7 @@ use Ushahidi\Modules\V5\Http\Resources\MessagePointerResource;
 use Ushahidi\Modules\V5\Http\Resources\LockCollection;
 use Ushahidi\Modules\V5\Http\Resources\Survey\TaskCollection;
 
-class FindPostByIdQueryHandler extends AbstractQueryHandler
+class FindPostByIdQueryHandler extends AbstractPostQueryHandler
 {
     private $postRepository;
 
@@ -40,7 +41,9 @@ class FindPostByIdQueryHandler extends AbstractQueryHandler
 
         $post = $this->postRepository->findById(
             $action->getId(),
-            array_unique(array_merge($action->getFields(), $action->getFieldsForRelationship())),
+            $this->updateSelectFieldsDependsOnPermissions(
+                array_unique(array_merge($action->getFields(), $action->getFieldsForRelationship()))
+            ),
             $action->getWithRelationship()
         );
         $post = $this->addHydrateRelationships($post, $action->getHydrates());
@@ -76,14 +79,12 @@ class FindPostByIdQueryHandler extends AbstractQueryHandler
                 case 'contact':
                     $post->contact = null;
                     if ($post->message) {
-                        //$post->contact = new ContactPointerResource($post->message->contact);
-                        $post->contact = $post->message->contact;
+                        if ($this->userHasManagePostPermissions()) {
+                            $post->contact = $post->message->contact;
+                        } else {
+                            $post->contact = $post->message->contact->setVisible(["id"]);
+                        }
                     }
-                    break;
-                case 'message':
-                    // if ($post->message) {
-                    //     $post->message = new MessagePointerResource($post->message);
-                    // }
                     break;
                 case 'locks':
                     $post->locks = new LockCollection($post->locks);
@@ -104,6 +105,11 @@ class FindPostByIdQueryHandler extends AbstractQueryHandler
                         $post->data_source_message_id = $message->data_source_message_id ?? null;
                     }
                     break;
+                case 'message':
+                    if ($post->message && !$this->userHasManagePostPermissions()) {
+                            $post->message->makeHidden("contact");
+                    }
+                    break;
                 case 'enabled_languages':
                     $post->enabled_languages = [
                         'default' => $post->base_language,
@@ -113,8 +119,6 @@ class FindPostByIdQueryHandler extends AbstractQueryHandler
                     break;
             }
         }
-        //  dd($post);
-
         return $post;
     }
     private function hideFieldsUsedByRelationships(Post $post, array $fields = [])
