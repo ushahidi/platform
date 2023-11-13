@@ -2,7 +2,7 @@
 
 namespace Ushahidi\Modules\V5\Actions\Post\Handlers;
 
-use App\Bus\Query\AbstractQueryHandler;
+use Ushahidi\Modules\V5\Actions\Post\Handlers\AbstractPostQueryHandler;
 use App\Bus\Query\Query;
 use App\Bus\Action;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
@@ -16,7 +16,7 @@ use Ushahidi\Modules\V5\Http\Resources\MessagePointerResource;
 use Ushahidi\Modules\V5\Http\Resources\LockCollection;
 use Ushahidi\Modules\V5\Http\Resources\Survey\TaskCollection;
 
-class ListPostsQueryHandler extends AbstractQueryHandler
+class ListPostsQueryHandler extends AbstractPostQueryHandler
 {
     private $postRepository;
 
@@ -43,7 +43,9 @@ class ListPostsQueryHandler extends AbstractQueryHandler
             ->paginate(
                 $action->getPaging(),
                 $action->getSearchFields(),
-                array_unique(array_merge($action->getFields(), $action->getFieldsForRelationship())),
+                $this->updateSelectFieldsDependsOnPermissions(
+                    array_unique(array_merge($action->getFields(), $action->getFieldsForRelationship()))
+                ),
                 $action->getWithRelationship()
             );
             $result = [];
@@ -82,14 +84,12 @@ class ListPostsQueryHandler extends AbstractQueryHandler
                 case 'contact':
                     $post->contact = null;
                     if ($post->message) {
-                        //$post->contact = new ContactPointerResource($post->message->contact);
-                        $post->contact = $post->message->contact;
+                        if ($this->userHasManagePostPermissions()) {
+                            $post->contact = $post->message->contact;
+                        } else {
+                            $post->contact = $post->message->contact->setVisible(["id"]);
+                        }
                     }
-                    break;
-                case 'message':
-                    // if ($post->message) {
-                    //     $post->message = new MessagePointerResource($post->message);
-                    // }
                     break;
                 case 'locks':
                     $post->locks = new LockCollection($post->locks);
@@ -108,6 +108,11 @@ class ListPostsQueryHandler extends AbstractQueryHandler
                     $message = $post->message;
                     if ($message) {
                         $post->data_source_message_id = $message->data_source_message_id ?? null;
+                    }
+                    break;
+                case 'message':
+                    if ($post->message && !$this->userHasManagePostPermissions()) {
+                        $post->message->makeHidden("contact");
                     }
                     break;
                 case 'enabled_languages':
