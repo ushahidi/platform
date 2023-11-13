@@ -11,6 +11,7 @@ use Ushahidi\Core\Entity\Form as SurveyEntity;
 use Ushahidi\Modules\V5\DTO\SurveySearchFields;
 use Ushahidi\Modules\V5\Models\SurveyRole;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Builder;
 
 class EloquentSurveyRepository implements SurveyRepository
 {
@@ -33,13 +34,26 @@ class EloquentSurveyRepository implements SurveyRepository
         SurveySearchFields $search_fields,
         array $required_fields
     ): LengthAwarePaginator {
-        return $this->setSearchCondition(
+        /** @var Builder */
+        $builder = $this->setSearchCondition(
             $search_fields,
             Survey::select($required_fields)
                 ->take($limit)
                 ->skip($skip)
                 ->orderBy($sortBy, $order)
-        )->paginate($limit ? $limit : config('paging.default_laravel_pageing_limit'));
+        );
+
+        $results = $builder->paginate($limit ? $limit : config('paging.default_laravel_pageing_limit'));
+
+        if ($search_fields->showUnknownForm) {
+            $results->push((new Survey)->fill([
+                'id' => 0,
+                'name' => 'Unknown Form',
+                'base_language' => 'en',
+            ]));
+        }
+
+        return $results;
     }
 
     /**
@@ -66,7 +80,6 @@ class EloquentSurveyRepository implements SurveyRepository
 
     private function setSearchCondition(SurveySearchFields $survey_search_fields, $builder)
     {
-
         if ($survey_search_fields->q()) {
             $builder->where('name', 'LIKE', "%" . $survey_search_fields->q() . "%");
         }

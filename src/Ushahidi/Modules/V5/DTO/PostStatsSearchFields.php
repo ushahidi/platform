@@ -15,6 +15,8 @@ class PostStatsSearchFields extends PostSearchFields
     private $timeline_interval;
     private $include_unmapped;
 
+    public $include_unformed;
+
     //  getFilter ??
 
 
@@ -29,6 +31,7 @@ class PostStatsSearchFields extends PostSearchFields
         $this->timeline_attribute = $request->query('timeline_attribute');
         $this->timeline_interval = $request->query('timeline_interval');
         $this->include_unmapped = $request->query('include_unmapped');
+        $this->include_unformed = $request->query('include_unformed');
     }
 
     public function groupBy(): ?string

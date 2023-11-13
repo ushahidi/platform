@@ -42,6 +42,7 @@ class PostSearchFields
 
     protected $bbox;
     protected $center_point;
+    protected $include_unstructured_posts;
 
 
     // before ready
@@ -104,13 +105,23 @@ class PostSearchFields
             $this->parent = $this->getParameterAsArray($request->get('parent'));
         }
 
-        if ($request->get('form') == 'none') {
-            $this->form = []; // no conditions
-            $this->form_condition = "null";
+        $this->form_condition = "all";
+        $this->form = []; // no conditions
+        if (!$request->has('form')) {
+            if ($request->has('include_unstructured_posts') && !$request->get('include_unstructured_posts')) {
+                $this->form_condition = "not_null";
+                $this->form = []; // no conditions
+            }
         } else {
-            $this->form_condition = "include";
-            $this->form = $this->getParameterAsArray($request->get('form'));
+            if ($request->get('form') == 'none') {
+                $this->form = []; // no conditions
+                $this->form_condition = "null";
+            } else {
+                $this->form_condition = "include";
+                $this->form = $this->getParameterAsArray($request->get('form'));
+            }
         }
+        
 
         if ($request->get('status') == 'all') {
             $this->status = []; // no conditions
@@ -144,6 +155,7 @@ class PostSearchFields
 
         $this->set = $this->getParameterAsArray($request->get('set'));
         $this->tags = $this->getParameterAsArray($request->get('tags'));
+        $this->include_unstructured_posts = $request->query('include_unstructured_posts');
     }
 
 
@@ -293,5 +305,9 @@ class PostSearchFields
     public function withinKm()
     {
         return $this->within_km;
+    }
+    public function includeUnstructuredPosts()
+    {
+        return $this->include_unstructured_posts;
     }
 }
