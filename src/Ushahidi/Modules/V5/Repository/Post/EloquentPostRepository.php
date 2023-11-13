@@ -369,11 +369,11 @@ class EloquentPostRepository implements PostRepository
         $select_raw .= ",Max(IFNULL(messages.type,'web')) as source
             ,Max(messages.data_source_message_id) as 'data_source_message_id'";
         $select_raw .= ",Max(forms.color) as 'marker-color'";
-        $select_raw .= ",CONCAT( 
+        $select_raw .= ",CONCAT(
             '{\"type\":\"FeatureCollection\",'
-            ,'\"features\":[', 
-                GROUP_CONCAT( 
-                    CONCAT( 
+            ,'\"features\":[',
+                GROUP_CONCAT(
+                    CONCAT(
                         '{
                             \"type\":\"Feature\",',
                             '\"geometry\":',
@@ -381,7 +381,7 @@ class EloquentPostRepository implements PostRepository
                             ',\"properties\":{} }'
                          )
                      SEPARATOR ',' )
-            , ']}' ) 
+            , ']}' )
             AS geojson";
         $query->selectRaw($select_raw);
         $query->join('post_point', 'post_point.post_id', '=', 'posts.id');
@@ -472,8 +472,9 @@ class EloquentPostRepository implements PostRepository
             case 'form':
                 $search_query->leftJoin('forms', 'posts.form_id', '=', 'forms.id');
                 $search_query->selectRaw(
-                    'MAX(forms.name) as label'
-                        . ',forms.id as id'
+                    "COALESCE(MAX(forms.name), 'Unkown Form') as label"
+                    . ","
+                    . "COALESCE(forms.id, 0) as id"
                 );
                 $search_query->groupBy('forms.id');
 
@@ -590,7 +591,7 @@ class EloquentPostRepository implements PostRepository
             $search_query = $this->getMainSearchQuery($search, true);
             $search_query->rightJoin('post_point', 'post_point.post_id', 'posts.id');
             $Unstructured = $search_query->first()->total;
-     
+
         return $Unstructured;
     }
 
