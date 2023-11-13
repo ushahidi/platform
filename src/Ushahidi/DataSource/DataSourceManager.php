@@ -74,9 +74,16 @@ class DataSourceManager
      * @param  \Ushahidi\Contracts\Repository\Entity\ConfigRepository  $configRepo
      * @return void
      */
-    public function __construct(ConfigRepository $configRepo)
+    public function __construct(ConfigRepository $configRepo = null)
     {
         $this->configRepo = $configRepo;
+    }
+
+    public function setConfig(ConfigRepository $configRepo)
+    {
+        $this->configRepo = $configRepo;
+
+        return $this;
     }
 
     public function getSources(): array
@@ -92,22 +99,22 @@ class DataSourceManager
     public function getEnabledSources(): array
     {
         return Cache::remember('datasources.enabled', self::CACHE_LIFETIME, function () {
-            // Load enabled sources
-            $enabledSources = array_filter(
-                $this->configRepo->get('data-provider')->asArray()['providers']
-            );
+            $allSources = array_merge($this->defaultSources, $this->customSources);
 
             // Load available sources
             $availableSources = array_filter(
                 $this->configRepo->get('features')->asArray()['data-providers']
             );
 
-            $allSources = array_merge($this->defaultSources, $this->customSources);
+            // Load configured sources
+            $configuredSources = array_filter(
+                $this->configRepo->get('data-provider')->asArray()['providers']
+            );
 
             $sources = array_intersect_key(
                 $allSources,
-                $enabledSources,
-                $availableSources
+                $availableSources,
+                $configuredSources,
             );
 
             return array_keys($sources);
@@ -173,6 +180,8 @@ class DataSourceManager
      */
     public function registerRoutes(Router $router)
     {
+        // TODO: Switch to something like this here https://laravel-news.com/route-registrars
+
         /** @var \Ushahidi\DataSource\Contracts\CallbackDataSource $class */
         foreach (array_values(array_merge($this->defaultSources, $this->customSources)) as $class) {
             if (!in_array(CallbackDataSource::class, class_implements($class))) {

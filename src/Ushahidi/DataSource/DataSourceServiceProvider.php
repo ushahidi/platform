@@ -14,6 +14,19 @@ class DataSourceServiceProvider extends ServiceProvider
     protected $defer = true;
 
     /**
+     * Bootstrap any application services.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        Event::listen('site.changed', function () {
+            // Reset datasources
+            $this->app->make('datasources')->clearResolvedSources();
+        });
+    }
+
+    /**
      * Register any application services.
      *
      * @return void
@@ -23,17 +36,9 @@ class DataSourceServiceProvider extends ServiceProvider
         $this->registerStorage();
         $this->registerManager();
         $this->registerCommands();
-    }
 
-    public function boot()
-    {
         $this->app->booted(function () {
             $this->app->make('datasources')->registerRoutes($this->app['router']);
-        });
-
-        Event::listen('site.changed', function () {
-            // Reset datasources
-            $this->app->make('datasources')->clearResolvedSources();
         });
     }
 

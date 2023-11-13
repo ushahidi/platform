@@ -38,16 +38,22 @@ class ReceiveMessageTest extends TestCase
         $this->postRepo = M::mock(PostRepository::class);
         $this->formAttributeRepo = M::mock(FormAttributeRepository::class);
 
-        $this->app->instance(CreatePostFromMessage::class, new CreatePostFromMessage(
-            $this->messageRepo,
-            $this->targetedSurveyStateRepo,
-            $this->postRepo
-        ));
-        $this->app->instance(HandleTargetedSurveyResponse::class, new HandleTargetedSurveyResponse(
-            $this->messageRepo,
-            $this->targetedSurveyStateRepo,
-            $this->formAttributeRepo
-        ));
+        $this->app->instance(
+            CreatePostFromMessage::class,
+            new CreatePostFromMessage(
+                $this->messageRepo,
+                $this->targetedSurveyStateRepo,
+                $this->postRepo
+            )
+        );
+        $this->app->instance(
+            HandleTargetedSurveyResponse::class,
+            new HandleTargetedSurveyResponse(
+                $this->messageRepo,
+                $this->targetedSurveyStateRepo,
+                $this->formAttributeRepo
+            )
+        );
 
         $events = app('events');
         $events->subscribe(Subscriber::class);
@@ -63,17 +69,29 @@ class ReceiveMessageTest extends TestCase
         // Mock the config repo
         $configRepo = M::mock(ConfigRepository::class);
         // Return email in config
-        $configRepo->shouldReceive('get')->with('data-provider')->andReturn(new Config([
-            'providers' => [
-                'smssync' => true,
-            ],
-        ]));
-        $configRepo->shouldReceive('get')->with('features')->andReturn(new Config([
-            'data-providers' => [
-                'smssync' => true,
-            ],
-        ]));
-        $this->app->instance(ConfigRepository::class, $configRepo);
+        $configRepo->shouldReceive('get')
+            ->with('data-provider')
+            ->andReturn(new Config([
+                'providers' => [
+                    'smssync' => true,
+                ],
+            ]));
+        $configRepo->shouldReceive('get')
+            ->with('features')
+            ->andReturn(new Config([
+                'data-providers' => [
+                    'smssync' => true,
+                ],
+            ]));
+
+        // app()->resolving(ConfigRepository::class, function () use ($configRepo) {
+        //     return $configRepo;
+        // });
+
+        app()->extend('datasources', function ($manager) use ($configRepo) {
+            $manager->setConfig($configRepo);
+            return $manager;
+        });
     }
 
     /**

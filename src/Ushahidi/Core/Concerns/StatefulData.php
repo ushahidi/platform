@@ -229,7 +229,7 @@ trait StatefulData
     /**
      * Get the current entity state as an associative array.
      *
-     * @return Array
+     * @return array
      */
     abstract public function asArray();
 

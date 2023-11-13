@@ -43,7 +43,7 @@ class ConfigRepository implements
     /**
      * Get current connection
      *
-     * @return Ohanzee\Database;
+     * @return \Ohanzee\Database;
      */
     protected function db()
     {
@@ -63,10 +63,9 @@ class ConfigRepository implements
         // since we're now using it as a file name
         $this->verifyGroup($group);
 
-        // @todo replace with separate entities
-        $file = __DIR__ . '/Config/' . $group . '.php';
-        if (file_exists($file)) {
-            return require $file;
+        $setting = config('settings.' . $group);
+        if (is_array($setting)) {
+            return $setting;
         }
 
         return [];
@@ -157,10 +156,11 @@ class ConfigRepository implements
             return; /* noop */
         }
 
-        // Intercom count datasources
-        if ($group === 'data-provider') {
+        // Intercom count data providers
+        if ($group === 'features') {
             $intercom_data['num_data_sources'] = 0;
-            foreach ($entity->providers as $key => $value) {
+            $dataproviders = $entity->asArray()['data-providers'];
+            foreach ($dataproviders as $key => $value) {
                 $value ? $intercom_data['num_data_sources']++ : null;
             }
         }
@@ -219,21 +219,12 @@ class ConfigRepository implements
     // ConfigRepository
     public function groups()
     {
-        return [
-            'features',
-            'site',
-            'deployment_id',
-            'test',
-            'data-provider',
-            'map',
-            'twitter',
-            'gmail'
-        ];
+        return config('settings.groups');
     }
 
     /**
      * @param  string $group
-     * @throws InvalidArgumentException when group is invalid
+     * @throws \InvalidArgumentException when group is invalid
      * @return void
      */
     protected function verifyGroup($group)
@@ -245,7 +236,7 @@ class ConfigRepository implements
 
     /**
      * @param  array $groups
-     * @throws InvalidArgumentException when any group is invalid
+     * @throws \InvalidArgumentException when any group is invalid
      * @return void
      */
     protected function verifyGroups(array $groups)

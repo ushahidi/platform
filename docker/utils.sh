@@ -122,8 +122,16 @@ function bootstrap_done {
 }
 
 function wait_bootstrap {
+  local timeout=${1:-0}   # 0 = no timeout
   while [ ! -f /bootstrapped ]; do
     sleep 1
+    if [ $timeout -gt 0 ]; then
+      timeout=$((timeout - 1))
+      if [ $timeout -eq 0 ]; then
+        echo "Timeout waiting for bootstrap"
+        exit 1
+      fi
+    fi
   done
   true;
 }

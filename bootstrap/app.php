@@ -43,6 +43,27 @@ $app->singleton(
 
 /*
 |--------------------------------------------------------------------------
+| Extend Package Manifest
+|--------------------------------------------------------------------------
+|
+| This script extends the package manifest to include packages that are
+| not discovered by Laravel by default. This is useful for packages
+| that are not installed via composer, but are still in the app.
+| This is the case for the Ushahidi Platform Addons loaded via
+| the Wikimedia Composer Merge Plugin.
+|
+*/
+
+$app->extend(\Illuminate\Foundation\PackageManifest::class, function ($manifest) {
+    return new \Ushahidi\Core\LaravelPackageManifest(
+        $manifest->files,
+        $manifest->basePath,
+        $manifest->manifestPath
+    );
+});
+
+/*
+|--------------------------------------------------------------------------
 | Return The Application
 |--------------------------------------------------------------------------
 |
