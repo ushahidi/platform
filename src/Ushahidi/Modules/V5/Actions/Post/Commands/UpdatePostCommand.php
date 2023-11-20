@@ -91,7 +91,7 @@ class UpdatePostCommand implements Command
             ? $request->input('base_language') : $current_post->base_language;
         $input['published_to'] = $request->has('published_to')
             ? $request->input('published_to') : $current_post->published_to;
-        $input['created'] = strtotime($current_post->created);
+        // $input['created'] = strtotime($current_post->created);
         $input['updated'] = time();
 
         if ($request->has('completed_stages')) {
