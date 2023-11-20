@@ -91,7 +91,7 @@ class UpdatePostCommand implements Command
             ? $request->input('base_language') : $current_post->base_language;
         $input['published_to'] = $request->has('published_to')
             ? $request->input('published_to') : $current_post->published_to;
-        // $input['created'] = strtotime($current_post->created);
+        $input['created'] = self::ensureTimestamp($current_post->created);
         $input['updated'] = time();
 
         if ($request->has('completed_stages')) {
@@ -120,6 +120,30 @@ class UpdatePostCommand implements Command
             $translations,
         );
     }
+
+    private static function ensureTimestamp($var)
+    {
+        // Check if it's an integer
+        if (is_int($var)) {
+            // Check if it's a valid Unix timestamp
+            $date = \DateTime::createFromFormat('U', $var);
+            if ($date && $date->getTimestamp() == $var) {
+                return $var;
+            }
+        }
+
+        // Assuming it's a date string and converting it to a timestamp
+        $timestamp = strtotime($var);
+
+        // Check if the conversion was successful
+        if ($timestamp === false) {
+            // Handle the error according to your needs
+            throw new \Exception("Invalid date or timestamp: $var");
+        }
+
+        return $timestamp;
+    }
+
     private static function hasPermissionToUpdateUser($user)
     {
         if ($user->role === "admin") {
