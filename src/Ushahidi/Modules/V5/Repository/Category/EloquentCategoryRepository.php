@@ -64,29 +64,29 @@ class EloquentCategoryRepository implements CategoryRepository
 
         $is_admin = $search_fields->getFilter('is_admin');
         if ($is_admin === false) {
-            $builder->where(function (Builder $builder) use ($search_fields) {
+            $builder->where(function (Builder $builder) {
                 // Default always get categories with null roles or has everyone
                 $builder->whereNull('role');
 
                 // This query isn't working as expected
-                $builder->orWhere('role', 'like', '%everyone%');
-
-                $role = $search_fields->getFilter('role');
-                if (isset($role) && !is_null($role)) {
-                    $builder->orWhere('role', 'like', "%" . $role . "%");
-                }
-
-                // If it's a logged in user
-                $user_id = $search_fields->getFilter('user_id');
-                if (isset($user_id) && !is_null($user_id)) {
-                    // Where the user is the owner of the category
-                    $builder->orWhere(function (Builder $query) use ($user_id) {
-                        //TODO: Fix this query in future release
-                        $query->where('role', 'like', '%me%')
-                           ->where('user_id', $user_id);
-                    });
-                }
+                $builder->orWhere('role', 'LIKE', "%everyone%");
             });
+
+            $user_id = $search_fields->getFilter('user_id');
+            if (isset($user_id) && !is_null($user_id)) {
+                // Where the user is the owner of the category
+                $builder->orWhere(function (Builder $query) use ($user_id) {
+                    $query->where('role', 'LIKE', "%me%")
+                        ->where('user_id', $user_id);
+                });
+            }
+
+            $role = $search_fields->getFilter('role');
+            if (isset($role) && !is_null($role)) {
+                $builder->orWhere(function (Builder $query) use ($role) {
+                    $query->where('role', 'LIKE', "%" . $role . "%");
+                });
+            }
         }
 
         return $builder;
