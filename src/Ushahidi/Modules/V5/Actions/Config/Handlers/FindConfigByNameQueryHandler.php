@@ -120,11 +120,11 @@ class FindConfigByNameQueryHandler extends AbstractQueryHandler
         // since we're now using it as a file name
         $this->verifyGroup($group);
 
-        // @todo add them to config!
-        $file = __DIR__ . "/../../../.." . '/V3/Repository/Config/' . $group . '.php';
-        if (file_exists($file)) {
-            return require $file;
+        $setting = config('settings.' . $group);
+        if (is_array($setting)) {
+            return $setting;
         }
+
         return [];
     }
 
