@@ -4,6 +4,7 @@
 *.DS_Store
 .htaccess
 composer.phar
+composer.lock
 /vendor
 vendor/*
 bin/*
@@ -60,3 +61,7 @@ dist/*
 
 # Garden
 .garden
+
+# Test Coverage
+coverage
+.phpunit.result.cache
