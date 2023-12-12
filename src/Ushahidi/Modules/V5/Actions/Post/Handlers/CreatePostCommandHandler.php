@@ -42,7 +42,8 @@ class CreatePostCommandHandler extends AbstractPostCommandHandler
         DB::beginTransaction();
         try {
             // to do call from repo
-            $post = Post::create($action->getPostEntity()->asArray());
+            $data = $action->getPostEntity()->asArray();
+            $post = Post::create($data);
 
             if (count($action->getCompletedStages())) {
                 $this->savePostStages($post, $action->getCompletedStages());

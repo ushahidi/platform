@@ -33,6 +33,7 @@ class FormStats extends StaticEntity
                 'sms' => 'int',
                 'web' => 'int',
                 'twitter' => 'int',
+                'mobile' => 'int',
                 'email' => 'int'
             ],
         ];

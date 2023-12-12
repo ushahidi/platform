@@ -214,6 +214,11 @@ class EloquentPostRepository implements PostRepository
             } else {
                 $query->whereIn('messages.type', $search_fields->source());
             }
+
+            // Check if $search_fields->source() contains 'mobile' and if so, add make a if else statement
+            if (in_array('mobile', $search_fields->source())) {
+               $query->orWhere('posts.source', 'mobile');
+            }
         }
 
         if ($search_fields->hasLocation() === 'mapped') {
@@ -518,9 +523,10 @@ class EloquentPostRepository implements PostRepository
 
                 break;
         }
+
         if ($search->enableGroupBySource()) {
-            $search_query->selectRaw('IFNULL(messages.type,"web") as source');
-            $search_query->groupBy('messages.type');
+            $search_query->selectRaw('COALESCE(posts.source, MAX(messages.type), "web") as source');
+            $search_query->groupBy('posts.source');
         } else {
             $search_query->selectRaw('MAX("all") as source');
         }

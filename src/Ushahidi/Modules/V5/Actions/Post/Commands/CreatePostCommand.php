@@ -6,6 +6,7 @@ use App\Bus\Command\Command;
 use Ushahidi\Modules\V5\Models\Post\Post;
 use Ushahidi\Modules\V5\Requests\PostRequest;
 use Illuminate\Support\Facades\Auth;
+use Jenssegers\Agent\Facades\Agent;
 use Ushahidi\Core\Entity\Post as PostEntity;
 use Ushahidi\Modules\V5\Models\Stage;
 
@@ -28,7 +29,7 @@ class CreatePostCommand implements Command
     private $post_content;
     private $translations;
 
-    
+
     // todo: At some point we might want to change it into a parameter
     const DEFAULT_LANUGAGE = 'en';
     private $availableLanguages;
@@ -62,6 +63,16 @@ class CreatePostCommand implements Command
         $input['locale'] = $request->input('locale') ?? PostEntity::DEFAULT_LOCAL;
         $input['base_language'] = $request->input('base_language') ?? PostEntity::DEFAULT_LOCAL;
         $input['published_to'] = $request->input('published_to');
+        if (Agent::isMobile()) {
+            $input['source'] = 'mobile';
+            $input['metadata'] = [
+                'source' => [
+                    'platform' => Agent::platform(),
+                    'browser' => Agent::browser(),
+                    'device' => Agent::device(),
+                ]
+            ];
+        }
         $input['created'] = time();
         $input['updated'] = null;
 
