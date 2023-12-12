@@ -60,7 +60,7 @@ class Post extends StaticEntity
             'type' => 'report',
             'locale' => 'en_US',
             'published_to' => [],
-            'metadata' => [],
+            'metadata' => null,
         ];
     }
 
