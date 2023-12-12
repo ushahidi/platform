@@ -217,7 +217,7 @@ class EloquentPostRepository implements PostRepository
 
             // Check if $search_fields->source() contains 'mobile' and if so, add make a if else statement
             if (in_array('mobile', $search_fields->source())) {
-               $query->orWhere('posts.source', 'mobile');
+                $query->orWhere('posts.source', 'mobile');
             }
         }
 
