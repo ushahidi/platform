@@ -63,16 +63,16 @@ class CreatePostCommand implements Command
         $input['locale'] = $request->input('locale') ?? PostEntity::DEFAULT_LOCAL;
         $input['base_language'] = $request->input('base_language') ?? PostEntity::DEFAULT_LOCAL;
         $input['published_to'] = $request->input('published_to');
-        if (Agent::isMobile()) {
+        if (Agent::isMobile() && Agent::browser() == false) {
             $input['source'] = 'mobile';
-            $input['metadata'] = [
-                'source' => [
-                    'platform' => Agent::platform(),
-                    'browser' => Agent::browser(),
-                    'device' => Agent::device(),
-                ]
-            ];
+        } else if (($browser = Agent::browser()) && isset($browser)) {
+            $input['source'] = 'web';
         }
+        $input['metadata']['source'] = [
+                'platform' => Agent::platform(),
+                'browser' => Agent::browser(),
+                'device' => Agent::device(),
+        ];
         $input['created'] = time();
         $input['updated'] = null;
 
