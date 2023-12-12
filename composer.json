@@ -24,6 +24,7 @@
         "guzzlehttp/guzzle": "^6.5|^7.0.1",
         "intercom/intercom-php": "^4.4",
         "ircmaxell/password-compat": "^1.0.4",
+        "jenssegers/agent": "^2.6",
         "laravel/framework": "^8.0",
         "laravel/passport": "^10.0",
         "laravel/tinker": "^2.5",

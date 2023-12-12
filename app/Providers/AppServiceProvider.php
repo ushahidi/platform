@@ -37,6 +37,7 @@ use Ushahidi\Modules\V5\Repository\Media;
 use Ushahidi\Modules\V5\Repository\Apikey;
 use Ushahidi\Modules\V5\Repository\Webhook;
 use Ushahidi\Modules\V5\Repository\HXL;
+use Jenssegers\Agent\Agent;
 
 class AppServiceProvider extends ServiceProvider
 {
