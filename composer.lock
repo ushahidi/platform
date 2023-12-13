@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a6c299024d6c7bc97fb3edd11e3cd376",
+    "content-hash": "93d3b656659fc638ac55813063160704",
     "packages": [
         {
             "name": "abraham/twitteroauth",
@@ -66,16 +66,16 @@
         },
         {
             "name": "africastalking/africastalking",
-            "version": "v3.0.0",
+            "version": "v3.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/AfricasTalkingLtd/africastalking-php.git",
-                "reference": "94e17a13eaaf782cf7697bfc7da020398a2b6f13"
+                "reference": "eaa02a84d5743692bd212d1cc9874c0906d9ec3c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/AfricasTalkingLtd/africastalking-php/zipball/94e17a13eaaf782cf7697bfc7da020398a2b6f13",
-                "reference": "94e17a13eaaf782cf7697bfc7da020398a2b6f13",
+                "url": "https://api.github.com/repos/AfricasTalkingLtd/africastalking-php/zipball/eaa02a84d5743692bd212d1cc9874c0906d9ec3c",
+                "reference": "eaa02a84d5743692bd212d1cc9874c0906d9ec3c",
                 "shasum": ""
             },
             "require": {
@@ -116,9 +116,9 @@
             ],
             "support": {
                 "issues": "https://github.com/AfricasTalkingLtd/africastalking-php/issues",
-                "source": "https://github.com/AfricasTalkingLtd/africastalking-php/tree/v3.0.0"
+                "source": "https://github.com/AfricasTalkingLtd/africastalking-php/tree/v3.0.1"
             },
-            "time": "2020-10-11T00:52:15+00:00"
+            "time": "2023-11-07T11:35:25+00:00"
         },
         {
             "name": "asm89/stack-cors",
@@ -438,6 +438,7 @@
                 "issues": "https://github.com/beheh/flaps/issues",
                 "source": "https://github.com/beheh/flaps/tree/0.2.0"
             },
+            "abandoned": true,
             "time": "2017-06-02T21:56:31+00:00"
         },
         {
@@ -3281,6 +3282,67 @@
             "time": "2023-02-15T16:40:09+00:00"
         },
         {
+            "name": "laravel/ui",
+            "version": "v3.4.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel/ui.git",
+                "reference": "65ec5c03f7fee2c8ecae785795b829a15be48c2c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel/ui/zipball/65ec5c03f7fee2c8ecae785795b829a15be48c2c",
+                "reference": "65ec5c03f7fee2c8ecae785795b829a15be48c2c",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/console": "^8.42|^9.0",
+                "illuminate/filesystem": "^8.42|^9.0",
+                "illuminate/support": "^8.82|^9.0",
+                "illuminate/validation": "^8.42|^9.0",
+                "php": "^7.3|^8.0"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^6.23|^7.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.x-dev"
+                },
+                "laravel": {
+                    "providers": [
+                        "Laravel\\Ui\\UiServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Laravel\\Ui\\": "src/",
+                    "Illuminate\\Foundation\\Auth\\": "auth-backend/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Taylor Otwell",
+                    "email": "taylor@laravel.com"
+                }
+            ],
+            "description": "Laravel UI utilities and presets.",
+            "keywords": [
+                "laravel",
+                "ui"
+            ],
+            "support": {
+                "source": "https://github.com/laravel/ui/tree/v3.4.6"
+            },
+            "time": "2022-05-20T13:38:08+00:00"
+        },
+        {
             "name": "lcobucci/jwt",
             "version": "3.4.6",
             "source": {
@@ -5264,16 +5326,16 @@
         },
         {
             "name": "php-opencloud/openstack",
-            "version": "v3.2.3",
+            "version": "v3.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-opencloud/openstack.git",
-                "reference": "aef36abf773bd1992cc416a4c8da951743c1d8e4"
+                "reference": "42e66d8b274d50f629697d6e9d8a4d80e3bfa1f4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-opencloud/openstack/zipball/aef36abf773bd1992cc416a4c8da951743c1d8e4",
-                "reference": "aef36abf773bd1992cc416a4c8da951743c1d8e4",
+                "url": "https://api.github.com/repos/php-opencloud/openstack/zipball/42e66d8b274d50f629697d6e9d8a4d80e3bfa1f4",
+                "reference": "42e66d8b274d50f629697d6e9d8a4d80e3bfa1f4",
                 "shasum": ""
             },
             "require": {
@@ -5327,9 +5389,9 @@
             ],
             "support": {
                 "issues": "https://github.com/php-opencloud/openstack/issues",
-                "source": "https://github.com/php-opencloud/openstack/tree/v3.2.3"
+                "source": "https://github.com/php-opencloud/openstack/tree/v3.3.0"
             },
-            "time": "2023-06-24T18:13:37+00:00"
+            "time": "2023-09-25T18:30:00+00:00"
         },
         {
             "name": "phpoption/phpoption",
