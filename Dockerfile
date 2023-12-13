@@ -1,6 +1,17 @@
 FROM ushahidi/php-fpm-nginx:php-7.3
 LABEL org.opencontainers.image.source="https://github.com/ushahidi/platform"
 
+COPY docker-php-ext-enable /usr/local/bin/
+RUN apt-get update 
+RUN apt-get install -y php-pear php7.3-dev
+RUN pecl channel-update pecl.php.net
+RUN pecl install xdebug-3.1.6 
+ENV PHP_INI_DIR=/etc/php/7.3/fpm
+RUN docker-php-ext-enable xdebug
+ENV PHP_INI_DIR=/etc/php/7.3/cli
+RUN docker-php-ext-enable xdebug
+COPY docker-php-ext-xdebug.ini /etc/php/7.3/fpm/conf.d
+
 WORKDIR /var/www
 COPY composer.json ./
 COPY composer.lock ./
