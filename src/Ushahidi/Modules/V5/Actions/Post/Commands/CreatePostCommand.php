@@ -65,7 +65,7 @@ class CreatePostCommand implements Command
         $input['published_to'] = $request->input('published_to');
         if (Agent::isMobile() && Agent::browser() == false) {
             $input['source'] = 'mobile';
-        } else if (($browser = Agent::browser()) && isset($browser)) {
+        } elseif (($browser = Agent::browser()) && isset($browser)) {
             $input['source'] = 'web';
         }
         $input['metadata']['source'] = [
