@@ -60,3 +60,7 @@ dist/*
 
 # Garden
 .garden
+
+# Test Coverage
+coverage
+.phpunit.result.cache
