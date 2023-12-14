@@ -1,4 +1,5 @@
 <?php
+
 namespace Ushahidi\Modules\V5\Models\Helpers;
 
 class HideTime
@@ -34,12 +35,10 @@ class HideTime
     private static function createDateTime($value)
     {
         $d = new \DateTime();
-        try {
-            $d = new \DateTime($value);
-        } catch (\Exception $e) {
-            if (is_numeric($value)) {
-                $d->setTimestamp($value);
-            }
+        if (is_numeric($value)) {
+            $d->setTimestamp($value);
+        } else {
+            $d = new \DateTime((string)$value);
         }
         return $d;
     }
