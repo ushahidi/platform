@@ -17,6 +17,12 @@ class Config extends BaseModel
         'twitter',
         'gmail'
     ];
+    const AVIALABLE_CONFIG_GROUPS_FOR_NON_ADMIN = [
+        'features',
+        'site',
+        'deployment_id',
+        'map'
+    ];
     /**
      * Add eloquent style timestamps
      *

@@ -41,6 +41,7 @@ class ParameterUtilities
 
     public static function checkIfUserAdmin()
     {
-        return (Auth::user()->role === "admin");
+        $role = ($genericUser = Auth::guard()->user()) ? $genericUser->role : null;
+        return ($role && $role == "admin");
     }
 }
