@@ -29,7 +29,7 @@ class UserSetting extends StaticEntity
             'id' => 'int',
             'user_id' => 'int',
             'config_key' => 'string',
-            'config_value' => 'string',
+           // 'config_value' => 'string',
             'created' => 'int',
             'updated' => 'int',
         ];

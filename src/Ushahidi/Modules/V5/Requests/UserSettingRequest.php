@@ -31,7 +31,7 @@ class UserSettingRequest extends BaseRequest
                     'min:3',
                     'max:255'
                 ],
-                'config_value' => ['required', 'string', 'min:3', 'max:255'],
+                'config_value' => ['required'],
             ];
         } elseif ($request->isMethod('put')) {
             return [
@@ -43,7 +43,7 @@ class UserSettingRequest extends BaseRequest
                     'min:3',
                     'max:255'
                 ],
-                'config_value' => ['filled', 'string', 'min:3', 'max:255'],
+                'config_value' => ['filled', 'min:3', 'max:255'],
             ];
         } else {
             return [];
