@@ -12,6 +12,7 @@ use Ushahidi\Modules\V5\Repository\Config\ConfigRepository;
 use Ushahidi\Modules\V5\Models\Config;
 use Illuminate\Support\Collection;
 use Ushahidi\Modules\V5\Actions\Config\Queries\FindConfigByNameQuery;
+use Ushahidi\Modules\V5\Helpers\ParameterUtilities;
 
 class ListConfigsQueryHandler extends AbstractQueryHandler
 {
@@ -38,7 +39,8 @@ class ListConfigsQueryHandler extends AbstractQueryHandler
         $this->isSupported($action);
 
         $results = [];
-        $required_groups = Config::AVIALABLE_CONFIG_GROUPS;
+        $required_groups =  (ParameterUtilities::checkIfUserAdmin())
+            ? Config::AVIALABLE_CONFIG_GROUPS : Config::AVIALABLE_CONFIG_GROUPS_FOR_NON_ADMIN;
         if ($action->getSearchFields()->groups()) {
             $required_groups = $action->getSearchFields()->groups();
         }

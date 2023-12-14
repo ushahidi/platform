@@ -13,6 +13,8 @@ use Ushahidi\Modules\V5\Actions\Config\Commands\UpdateConfigCommand;
 use Illuminate\Support\Facades\DB;
 use Ushahidi\Core\Entity\Config as ConfigEntity;
 use Ushahidi\Core\Exception\NotFoundException;
+use Ushahidi\Core\Exception\AuthorizerException;
+use Ushahidi\Modules\V5\Helpers\ParameterUtilities;
 
 class UpdateConfigCommandHandler extends AbstractCommandHandler
 {
@@ -71,6 +73,9 @@ class UpdateConfigCommandHandler extends AbstractCommandHandler
     {
         if (!in_array($group, Config::AVIALABLE_CONFIG_GROUPS)) {
             throw new NotFoundException("Requested group does not exist: " . $group);
+        }
+        if (!ParameterUtilities::checkIfUserAdmin() && (!in_array($group, Config::AVIALABLE_CONFIG_GROUPS_FOR_NON_ADMIN))) {
+            throw new AuthorizerException();
         }
     }
 }
