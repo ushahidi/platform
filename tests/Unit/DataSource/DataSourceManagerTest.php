@@ -26,6 +26,7 @@ use Ushahidi\Contracts\Repository\Entity\ConfigRepository;
  */
 class DataSourceManagerTest extends TestCase
 {
+
     public function testGetSource()
     {
         $configRepo = M::mock(ConfigRepository::class);
@@ -43,6 +44,8 @@ class DataSourceManagerTest extends TestCase
 
     public function testEnabledSources()
     {
+        \Illuminate\Support\Facades\Config::set('cache.default', 'array');
+
         $configRepo = M::mock(ConfigRepository::class);
         $manager = new DataSourceManager($configRepo);
 
@@ -73,6 +76,8 @@ class DataSourceManagerTest extends TestCase
 
     public function testAvailableSources()
     {
+        \Illuminate\Support\Facades\Config::set('cache.default', 'array');
+
         $configRepo = M::mock(ConfigRepository::class);
         $manager = new DataSourceManager($configRepo);
 
@@ -103,6 +108,8 @@ class DataSourceManagerTest extends TestCase
 
     public function testCustomSources()
     {
+        \Illuminate\Support\Facades\Config::set('cache.default', 'array');
+
         $configRepo = M::mock(ConfigRepository::class);
         $manager = new DataSourceManager($configRepo);
 
@@ -146,6 +153,8 @@ class DataSourceManagerTest extends TestCase
 
     public function testGetSourceForType()
     {
+        \Illuminate\Support\Facades\Config::set('cache.default', 'array');
+
         $configRepo = M::mock(ConfigRepository::class);
         $manager = new DataSourceManager($configRepo);
 

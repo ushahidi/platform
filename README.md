@@ -56,7 +56,7 @@ If you are starting a deployment for a grassroots organization, you can apply fo
 ### Platform User Manual
 
 The official reference on how to use the Platform. Create surveys, configure data sources... it's all in there!
-[Platform User Manual](https://docs.ushahidi.com/ushahidi-platform-user-manual/)
+[Platform User Manual](https://docs.ushahidi.com/platform-user-manual/)
 
 ### Platform Developer Documentation
 
