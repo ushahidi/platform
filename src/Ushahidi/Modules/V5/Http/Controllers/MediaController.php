@@ -3,6 +3,9 @@
 namespace Ushahidi\Modules\V5\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Http\JsonResponse;
+
 use Ushahidi\Modules\V5\Actions\Media\Queries\FetchMediaByIdQuery;
 use Ushahidi\Modules\V5\Http\Resources\Media\MediaResource;
 use Ushahidi\Modules\V5\Actions\Media\Commands\CreateMediaCommand;
@@ -97,4 +100,40 @@ class MediaController extends V5Controller
         $this->commandBus->handle(new DeleteMediaCommand($id));
         return $this->deleteResponse($id);
     }// end delete
+
+    /**
+     * Patch media item
+     * @param int $id
+     * @param Request $request
+     * @return MediaResource|JsonResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
+    public function patch(int $id, Request $request)
+    {
+        $media = Media::find($id);
+        $caption = $this->getField('caption', $request->input('caption'));
+        if (!$media) {
+            return self::make404();
+        }
+        if (!$caption) {
+            return self::make422("Caption required for media patch call.");
+        }
+
+        DB::beginTransaction();
+        try {
+            $media->setAttribute('caption', $caption);
+            $this->authorize('update', $media);
+
+            if ($media->save()) {
+                DB::commit();
+                return new MediaResource($media);
+            } else {
+                DB::rollback();
+                return self::make422($media->errors);
+            }
+        } catch (\Exception $e) {
+            DB::rollback();
+            return self::make500($e->getMessage());
+        }
+    } // end patch
 } //end class
