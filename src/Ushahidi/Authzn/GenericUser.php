@@ -5,7 +5,6 @@ namespace Ushahidi\Authzn;
 use Illuminate\Contracts\Auth\Authenticatable as AuthContract;
 use Laravel\Passport\HasApiTokens;
 use Ushahidi\Contracts\Entity;
-use Ushahidi\Core\Entity\User;
 
 class GenericUser implements Entity, AuthContract
 {
@@ -130,7 +129,7 @@ class GenericUser implements Entity, AuthContract
      */
     public function __get($key)
     {
-        return $this->attributes[$key];
+        return $this->attributes[$key] ?? null;
     }
 
     /**
@@ -165,10 +164,5 @@ class GenericUser implements Entity, AuthContract
     public function __unset($key)
     {
         unset($this->attributes[$key]);
-    }
-
-    public function generateEntityFromSelf(): User
-    {
-        return new User($this->attributes);
     }
 }

@@ -130,9 +130,9 @@ class PostResource extends BaseResource
     private function getPostSourceDetails()
     {
         $message = $this->message;
-        $details['source'] = $message && isset($message->type)
+        $details['source'] = $this->source ?? ($message && isset($message->type)
             ? $message->type
-            : self::DEFAULT_SOURCE_TYPE;
+            : self::DEFAULT_SOURCE_TYPE);
         $details['data_source_message_id'] = $message->data_source_message_id ?? null;
         return $details;
     }
