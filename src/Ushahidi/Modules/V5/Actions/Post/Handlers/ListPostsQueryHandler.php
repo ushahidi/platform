@@ -97,9 +97,9 @@ class ListPostsQueryHandler extends AbstractPostQueryHandler
 
                 case 'source':
                     $message = $post->message;
-                    $post->source = $message && isset($message->type)
+                    $post->source = $post->source ?? ($message && isset($message->type)
                         ? $message->type
-                        : Post::DEFAULT_SOURCE_TYPE;
+                        : Post::DEFAULT_SOURCE_TYPE);
 
                     break;
 

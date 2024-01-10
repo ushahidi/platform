@@ -48,6 +48,9 @@ class Post extends StaticEntity
     protected $source;
     // When originating in an SMS message
     protected $contact_id;
+
+    protected $metadata;
+
     protected $data_source_message_id;
 
     // StatefulData
@@ -57,6 +60,7 @@ class Post extends StaticEntity
             'type' => 'report',
             'locale' => 'en_US',
             'published_to' => [],
+            'metadata' => null,
         ];
     }
 
@@ -109,6 +113,8 @@ class Post extends StaticEntity
             'completed_stages'=> '*arrayInt',
             'sets'            => 'array',
             'lock'            => 'array',
+            'source'          => 'string',
+            'metadata'        => '*json',
             'data_source_message_id'  => 'string'
         ];
     }

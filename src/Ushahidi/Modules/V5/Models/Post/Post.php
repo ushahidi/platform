@@ -36,7 +36,7 @@ class Post extends BaseModel
     public const REQUIRED_FIELDS = [
         'id'
     ];
-    
+
     public const ALLOWED_FIELDS = [
         'id',
         'parent_id',
@@ -54,6 +54,8 @@ class Post extends BaseModel
         'locale',
         'post_date',
         'base_language',
+        'source',
+        'metadata',
         'created',
         'updated'
     ];
@@ -161,6 +163,8 @@ class Post extends BaseModel
         'locale',
         'post_date',
         'base_language',
+        'source',
+        'metadata',
         'created',
         'updated'
     ];
@@ -187,7 +191,8 @@ class Post extends BaseModel
         'hide_author' => 'boolean',
         'require_approval' => 'boolean',
         'disabled' => 'boolean',
-        'published_to' => 'json'
+        'published_to' => 'json',
+        'metadata' => 'json',
     ];
 
     private function getBulkRules()
@@ -497,10 +502,7 @@ class Post extends BaseModel
 
     public function setPostDateAttribute($value)
     {
-        if ($value instanceof DateTime) {
-            dd(get_class($value));
-        }
-                // Set default value for post_date
+        // Set default value for post_date
         if (empty($value)) {
             $value = date_create()->format("Y-m-d H:i:s");
             // Convert post_date to mysql format
