@@ -214,7 +214,7 @@ $router->group([
             $router->post('/', 'UserController@store');
             $router->put('/{id}', 'UserController@update');
             $router->delete('/{id}', 'UserController@delete');
-           
+
             $router->group(
                 [
                     'prefix' => '{user_id}/settings',
@@ -489,6 +489,7 @@ $router->group([
         function () use ($router) {
             $router->put('/{id}', 'MediaController@update');
             $router->delete('/{id}', 'MediaController@delete');
+            $router->patch('/{id}', 'MediaController@patch');
         }
     );
 

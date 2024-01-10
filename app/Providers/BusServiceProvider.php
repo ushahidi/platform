@@ -189,7 +189,7 @@ class BusServiceProvider extends ServiceProvider
 
 
             $commandBus->register(CreateTosCommand::class, CreateTosCommandHandler::class);
-            
+
             $commandBus->register(
                 AddTranslationCommand::class,
                 AddTranslationCommandHandler::class
@@ -200,7 +200,7 @@ class BusServiceProvider extends ServiceProvider
                 Category\Handlers\StoreCategoryCommandHandler::class
             );
 
-           
+
 
             $commandBus->register(
                 Category\Commands\DeleteCategoryCommand::class,
@@ -353,6 +353,10 @@ class BusServiceProvider extends ServiceProvider
                 Media\Handlers\UpdateMediaCommandHandler::class
             );
             $commandBus->register(
+                Media\Commands\UpdateMediaCaptionCommand::class,
+                Media\Handlers\UpdateMediaCaptionCommandHandler::class
+            );
+            $commandBus->register(
                 Media\Commands\DeleteMediaCommand::class,
                 Media\Handlers\DeleteMediaCommandHandler::class
             );
@@ -370,7 +374,7 @@ class BusServiceProvider extends ServiceProvider
                 Apikey\Commands\DeleteApikeyCommand::class,
                 Apikey\Handlers\DeleteApikeyCommandHandler::class
             );
-            
+
             $commandBus->register(
                 Webhook\Commands\CreateWebhookCommand::class,
                 Webhook\Handlers\CreateWebhookCommandHandler::class
@@ -387,7 +391,7 @@ class BusServiceProvider extends ServiceProvider
                 Webhook\Commands\UpdateWebhookPostsCommand::class,
                 Webhook\Handlers\UpdateWebhookPostsCommandHandler::class
             );
-            
+
 
             $commandBus->register(
                 HXL\Commands\CreateHXLMetaDataCommand::class,
@@ -488,7 +492,7 @@ class BusServiceProvider extends ServiceProvider
                 Survey\Queries\GetSurveyIdsWithPrivateLocationQuery::class,
                 Survey\Handlers\GetSurveyIdsWithPrivateLocationQueryHandler::class
             );
-            
+
 
 
             $queryBus->register(
@@ -559,7 +563,7 @@ class BusServiceProvider extends ServiceProvider
                 DataProvider\Queries\FetchDataProviderByIdQuery::class,
                 DataProvider\Handlers\FetchDataProviderByIdQueryHandler::class
             );
-            
+
 
             $queryBus->register(
                 Contact\Queries\FetchContactQuery::class,
@@ -672,7 +676,7 @@ class BusServiceProvider extends ServiceProvider
             );
 
 
-            
+
 
             return $queryBus;
         });

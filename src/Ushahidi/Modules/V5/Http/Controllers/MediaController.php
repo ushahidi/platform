@@ -3,10 +3,14 @@
 namespace Ushahidi\Modules\V5\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Http\JsonResponse;
+
 use Ushahidi\Modules\V5\Actions\Media\Queries\FetchMediaByIdQuery;
 use Ushahidi\Modules\V5\Http\Resources\Media\MediaResource;
 use Ushahidi\Modules\V5\Actions\Media\Commands\CreateMediaCommand;
 use Ushahidi\Modules\V5\Actions\Media\Commands\UpdateMediaCommand;
+use Ushahidi\Modules\V5\Actions\Media\Commands\UpdateMediaCaptionCommand;
 use Ushahidi\Modules\V5\Actions\Media\Commands\DeleteMediaCommand;
 use Ushahidi\Modules\V5\Requests\MediaRequest;
 use Ushahidi\Modules\V5\Models\Media;
@@ -97,4 +101,20 @@ class MediaController extends V5Controller
         $this->commandBus->handle(new DeleteMediaCommand($id));
         return $this->deleteResponse($id);
     }// end delete
+
+    /**
+     * Patch media item (currently only caption)
+     * @param int $id
+     * @param Request $request
+     * @return MediaResource|JsonResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
+    public function patch(int $id, Request $request)
+    {
+        $caption = $request->input('caption');
+        $media = $this->queryBus->handle(new FetchMediaByIdQuery($id));
+        $this->authorize('update', $media);
+        $command = new UpdateMediaCaptionCommand($caption, $media);
+        return $this->commandBus->handle($command);
+    } // end patch
 } //end class

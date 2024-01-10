@@ -48,7 +48,7 @@ interface MediaRepository
      */
     public function update(int $id, MediaEntity $entity): void;
 
-       /**
+    /**
      * This method will delete the Media
      * @param int $id
      */
