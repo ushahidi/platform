@@ -117,5 +117,4 @@ class MediaController extends V5Controller
         $command = new UpdateMediaCaptionCommand($caption, $media);
         return $this->commandBus->handle($command);
     } // end patch
-
 } //end class
