@@ -10,6 +10,7 @@ use Ushahidi\Modules\V5\Actions\Media\Queries\FetchMediaByIdQuery;
 use Ushahidi\Modules\V5\Http\Resources\Media\MediaResource;
 use Ushahidi\Modules\V5\Actions\Media\Commands\CreateMediaCommand;
 use Ushahidi\Modules\V5\Actions\Media\Commands\UpdateMediaCommand;
+use Ushahidi\Modules\V5\Actions\Media\Commands\UpdateMediaCaptionCommand;
 use Ushahidi\Modules\V5\Actions\Media\Commands\DeleteMediaCommand;
 use Ushahidi\Modules\V5\Requests\MediaRequest;
 use Ushahidi\Modules\V5\Models\Media;
@@ -102,7 +103,7 @@ class MediaController extends V5Controller
     }// end delete
 
     /**
-     * Patch media item
+     * Patch media item (currently only caption)
      * @param int $id
      * @param Request $request
      * @return MediaResource|JsonResponse
@@ -110,30 +111,11 @@ class MediaController extends V5Controller
      */
     public function patch(int $id, Request $request)
     {
-        $media = Media::find($id);
-        $caption = $this->getField('caption', $request->input('caption'));
-        if (!$media) {
-            return self::make404();
-        }
-        if (!$caption) {
-            return self::make422("Caption required for media patch call.");
-        }
-
-        DB::beginTransaction();
-        try {
-            $media->setAttribute('caption', $caption);
-            $this->authorize('update', $media);
-
-            if ($media->save()) {
-                DB::commit();
-                return new MediaResource($media);
-            } else {
-                DB::rollback();
-                return self::make422($media->errors);
-            }
-        } catch (\Exception $e) {
-            DB::rollback();
-            return self::make500($e->getMessage());
-        }
+        $caption = $request->input('caption');
+        $media = $this->queryBus->handle(new FetchMediaByIdQuery($id));
+        $this->authorize('update', $media);
+        $command = new UpdateMediaCaptionCommand($caption, $media);
+        return $this->commandBus->handle($command);
     } // end patch
+
 } //end class
