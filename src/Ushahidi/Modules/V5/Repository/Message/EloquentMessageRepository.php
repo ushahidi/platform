@@ -26,10 +26,6 @@ class EloquentMessageRepository implements MessageRepository
                 //     ["%" . $search_fields->q() . "%", "%" . $search_fields->q() . "%"]
                 // );
         }
-        if ($search_fields->contact()) {
-            $builder->whereIn('messages.contact_id', $search_fields->contact());
-        }
-
 
         if ($search_fields->box() === 'outbox') {
             $builder->whereIn('messages.direction', ["outgoing"]);
@@ -53,7 +49,7 @@ class EloquentMessageRepository implements MessageRepository
         }
 
         if ($search_fields->contact()) {
-            $builder->whereIn('messages.contact_id', $search_fields->contact());
+            $builder->where('messages.contact_id', '=', $search_fields->contact());
         }
 
         if ($search_fields->type()) {
