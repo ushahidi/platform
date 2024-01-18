@@ -338,6 +338,7 @@ class EloquentPostRepository implements PostRepository
         if (count($with)) {
             $query->with($with);
         }
+        $query->distinct();
 
         return $query->paginate($paging->getLimit());
     }
