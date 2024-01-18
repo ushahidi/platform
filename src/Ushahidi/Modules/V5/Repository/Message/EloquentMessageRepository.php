@@ -52,6 +52,10 @@ class EloquentMessageRepository implements MessageRepository
             $builder->where('messages.contact_id', '=', $search_fields->contact());
         }
 
+        if ($search_fields->post()) {
+            $builder->where('messages.post_id', '=', $search_fields->post());
+        }
+
         if ($search_fields->type()) {
             $builder->where('messages.type', '=', $search_fields->type());
         }
