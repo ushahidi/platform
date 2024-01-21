@@ -24,16 +24,6 @@ fi
 echo "Copy to temp dir"
 cp -R ./ $WORK_DIR
 
-pushd $WORK_DIR
-
-if [ -d "./.git" ]; then
-    echo "Clean out extra files"
-    git clean -fdx
-fi
-
-popd
-pushd $TMP_DIR
-
 # Tar it up.
 echo "Building tarball"
 if [ ! -d "$DEST_DIR" ]; then
@@ -41,7 +31,7 @@ if [ ! -d "$DEST_DIR" ]; then
 fi
 TARFILE="${DEST_DIR}/ushahidi-platform-bundle-${VERSION}.tar"
 
-tar -cf $TARFILE \
+tar -C $TMP_DIR -cf $TARFILE \
     --exclude 'build' \
     --exclude 'docs' \
     --exclude 'storage/logs/*' \
@@ -58,7 +48,5 @@ gzip -f $TARFILE
 echo "Release tarball: ${TARFILE}.gz"
 
 ls -la ${TARFILE}.gz
-
-popd
 
 rm -rf $TMP_DIR
