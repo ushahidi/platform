@@ -1,0 +1,53 @@
+name: 'Release tar'
+description: Build and upload a tarball to GitHub releases
+# inputs:
+#   version:
+#     description: 'Version to release'
+#     required: true
+
+runs:
+  using: "composite"
+
+  steps:
+    - name: Set version number
+      id: version
+      run: |
+        RELEASE_VERSION="${GITHUB_REF##*/}";
+        RELEASE_FILE="ushahidi-platform-bundle-${RELEASE_VERSION}.tar.gz"
+        echo "RELEASE_VERSION=${RELEASE_VERSION}" >> $GITHUB_OUTPUT
+        echo "RELEASE_FILE=${RELEASE_FILE}" >> $GITHUB_OUTPUT
+    
+    - name: Build image
+      uses: docker/build-push-action@v3
+      with:
+        context: .
+        push: false
+        load: true
+        tags: local/platform:latest
+        build-args: |
+          GIT_COMMIT_ID=${{ github.sha }}
+          GIT_BUILD_REF=${{ github.head_ref }}
+
+    - name: Prepare folder
+      run:
+        mkdir -p tmp/out
+
+    - name: Create release file
+      uses: addnab/docker-run-action@v3
+      with:
+        image: local/platform:latest
+        run: docker/release.sh ${{ steps.version.outputs.RELEASE_VERSION }}
+        options: |
+          --entrypoint /bin/bash
+          -v ${{ github.workspace }}/tmp/out:/var/www/build
+
+    - name: List release content
+      run: |
+        tar -tvf tmp/out/${{ steps.version.outputs.RELEASE_FILE }};  
+
+    - name: Upload tarball
+      uses: softprops/action-gh-release@v1
+      with:
+        draft: true
+        files: |
+          tmp/out/${{ steps.version.outputs.RELEASE_FILE }}

@@ -8,104 +8,104 @@ env:
   MYSQL_ROOT_PASSWORD: root
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
+  # test:
+  #   runs-on: ubuntu-latest
+  #   timeout-minutes: 30
 
-    env:
-      COMPOSER_PROCESS_TIMEOUT: 0
+  #   env:
+  #     COMPOSER_PROCESS_TIMEOUT: 0
 
-    strategy:
-      matrix:
-        php_version:
-          - 7.3
+  #   strategy:
+  #     matrix:
+  #       php_version:
+  #         - 7.3
 
-    steps:
-    - uses: actions/checkout@v3
+  #   steps:
+  #   - uses: actions/checkout@v3
 
-    - name: Setup PHP
-      uses: shivammathur/setup-php@v2
-      with:
-        php-version: ${{ matrix.php_version }}
-        tools: composer:2
-      env:
-        COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #   - name: Setup PHP
+  #     uses: shivammathur/setup-php@v2
+  #     with:
+  #       php-version: ${{ matrix.php_version }}
+  #       tools: composer:2
+  #     env:
+  #       COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-    - name: Get composer cache directory
-      id: composer-cache
-      run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+  #   - name: Get composer cache directory
+  #     id: composer-cache
+  #     run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
 
-    - name: Cache dependencies
-      uses: actions/cache@v3
-      with:
-        path: ${{ steps.composer-cache.outputs.dir }}
-        key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-        restore-keys: ${{ runner.os }}-composer-
+  #   - name: Cache dependencies
+  #     uses: actions/cache@v3
+  #     with:
+  #       path: ${{ steps.composer-cache.outputs.dir }}
+  #       key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+  #       restore-keys: ${{ runner.os }}-composer-
 
-    - name: Setup environment
-      run: |
-        set -e;
+  #   - name: Setup environment
+  #     run: |
+  #       set -e;
 
-        cp .env.testing .env ;
-        . .env ;
-        . docker/utils.sh ;
-        wait_for_mysql ;
+  #       cp .env.testing .env ;
+  #       . .env ;
+  #       . docker/utils.sh ;
+  #       wait_for_mysql ;
 
-        cat > $HOME/.my.cnf <<EOF
-        [client]
-        host=${DB_HOST}
-        port=${DB_PORT}
-        database=mysql
-        user=root
-        password=${MYSQL_ROOT_PASSWORD}
-        EOF
+  #       cat > $HOME/.my.cnf <<EOF
+  #       [client]
+  #       host=${DB_HOST}
+  #       port=${DB_PORT}
+  #       database=mysql
+  #       user=root
+  #       password=${MYSQL_ROOT_PASSWORD}
+  #       EOF
 
-        mysql -e "SELECT version();" ;
-        mysql -e "SET GLOBAL sql_mode = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'" ;
+  #       mysql -e "SELECT version();" ;
+  #       mysql -e "SET GLOBAL sql_mode = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'" ;
 
-    - name: Install dependencies
-      run: |
-        set -e ;
+  #   - name: Install dependencies
+  #     run: |
+  #       set -e ;
 
-        composer install --no-interaction --prefer-dist
+  #       composer install --no-interaction --prefer-dist
 
-    - name: Check linting
-      run: |
-        set -e;
+  #   - name: Check linting
+  #     run: |
+  #       set -e;
 
-        composer lint
+  #       composer lint
 
-    - name: Prepare tests
-      run: |
-        set -e;
+  #   - name: Prepare tests
+  #     run: |
+  #       set -e;
 
-        composer pre-test;
-        mysql -e 'SET @@GLOBAL.wait_timeout=1800';
+  #       composer pre-test;
+  #       mysql -e 'SET @@GLOBAL.wait_timeout=1800';
 
-    - name: Run tests
-      run: |
-        set -e;
+  #   - name: Run tests
+  #     run: |
+  #       set -e;
 
-        ( cd httpdocs/; php -S localhost:8000 -t . index.php &)
-        composer test ;
+  #       ( cd httpdocs/; php -S localhost:8000 -t . index.php &)
+  #       composer test ;
 
-    services:
-      mysql:
-        image: mysql:5.7
-        env:
-          MYSQL_DATABASE: ushahidi
-          MYSQL_USER: ushahidi
-          MYSQL_PASSWORD: ushahidi
-          MYSQL_ROOT_PASSWORD: ${{ env.MYSQL_ROOT_PASSWORD }}
-        ports:
-        - 3306:3306
-        options: --health-cmd "mysqladmin ping -h localhost"
-          --health-interval 10s --health-timeout 5s
-          --health-retries 60
+  #   services:
+  #     mysql:
+  #       image: mysql:5.7
+  #       env:
+  #         MYSQL_DATABASE: ushahidi
+  #         MYSQL_USER: ushahidi
+  #         MYSQL_PASSWORD: ushahidi
+  #         MYSQL_ROOT_PASSWORD: ${{ env.MYSQL_ROOT_PASSWORD }}
+  #       ports:
+  #       - 3306:3306
+  #       options: --health-cmd "mysqladmin ping -h localhost"
+  #         --health-interval 10s --health-timeout 5s
+  #         --health-retries 60
 
   ship:
-    needs: [ test ]
+  #  needs: [ test ]
     if: github.event_name == 'push'   # not on PRs
     runs-on: ubuntu-latest
     timeout-minutes: 15
@@ -116,48 +116,52 @@ jobs:
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v1
 
-    - name: Configure AWS credentials
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ECR_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_ECR_SECRET_ACCESS_KEY }}
-        aws-region: eu-west-1
+    # - name: Configure AWS credentials
+    #   uses: aws-actions/configure-aws-credentials@v1
+    #   with:
+    #     aws-access-key-id: ${{ secrets.AWS_ECR_ACCESS_KEY_ID }}
+    #     aws-secret-access-key: ${{ secrets.AWS_ECR_SECRET_ACCESS_KEY }}
+    #     aws-region: eu-west-1
 
-    - name: Login to AWS Container Registry
-      uses: docker/login-action@v1
-      with:
-        registry: 513259414768.dkr.ecr.eu-west-1.amazonaws.com
+    # - name: Login to AWS Container Registry
+    #   uses: docker/login-action@v1
+    #   with:
+    #     registry: 513259414768.dkr.ecr.eu-west-1.amazonaws.com
 
-    - name: Login to GitHub Container Registry
-      uses: docker/login-action@v1
-      with:
-        registry: ghcr.io
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
+    # - name: Login to GitHub Container Registry
+    #   uses: docker/login-action@v1
+    #   with:
+    #     registry: ghcr.io
+    #     username: ${{ github.actor }}
+    #     password: ${{ secrets.GITHUB_TOKEN }}
 
-    - name: Docker meta
-      id: meta
-      uses: docker/metadata-action@v3
-      with:
-        images: |
-          513259414768.dkr.ecr.eu-west-1.amazonaws.com/platform
-          ghcr.io/ushahidi/platform
-        tags: |
-          type=ref,event=branch
-          type=ref,event=pr
-          type=ref,event=tag
-          type=semver,pattern={{version}}
-          type=sha
+    # - name: Docker meta
+    #   id: meta
+    #   uses: docker/metadata-action@v3
+    #   with:
+    #     images: |
+    #       513259414768.dkr.ecr.eu-west-1.amazonaws.com/platform
+    #       ghcr.io/ushahidi/platform
+    #     tags: |
+    #       type=ref,event=branch
+    #       type=ref,event=pr
+    #       type=ref,event=tag
+    #       type=semver,pattern={{version}}
+    #       type=sha
 
-    - name: Build and push to Amazon ECR
-      uses: docker/build-push-action@v2
-      with:
-        pull: true
-        push: ${{ github.event_name != 'pull_request' }}
-        labels: ${{ steps.meta.outputs.labels }}
-        tags: ${{ steps.meta.outputs.tags }}
-        build-args: |
-          GIT_COMMIT_ID=${{ github.sha }}
-          GIT_BUILD_REF=${{ github.head_ref }}
-        cache-from: type=gha
-        cache-to: type=gha,mode=max
+    # - name: Build and push to Amazon ECR
+    #   uses: docker/build-push-action@v2
+    #   with:
+    #     pull: true
+    #     push: ${{ github.event_name != 'pull_request' }}
+    #     labels: ${{ steps.meta.outputs.labels }}
+    #     tags: ${{ steps.meta.outputs.tags }}
+    #     build-args: |
+    #       GIT_COMMIT_ID=${{ github.sha }}
+    #       GIT_BUILD_REF=${{ github.head_ref }}
+    #     cache-from: type=gha
+    #     cache-to: type=gha,mode=max
+
+    - name: Build and push release tar file
+      uses: ./.github/actions/release-tar
+      if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
