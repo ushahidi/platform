@@ -13,6 +13,9 @@ test $# -eq 1 || usage
 VERSION=$1
 CWD=$(pwd)
 
+# Install composer dependencies (with autoload file generation enabled)
+composer install --no-scripts;
+
 TMP_DIR=$(mktemp -d 2>/dev/null || mktemp -d -t platform-build)
 WORK_DIR=$TMP_DIR/ushahidi-platform-bundle-${VERSION}
 mkdir $WORK_DIR
