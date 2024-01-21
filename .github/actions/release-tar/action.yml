@@ -11,6 +11,7 @@ runs:
   steps:
     - name: Set version number
       id: version
+      shell: bash
       run: |
         RELEASE_VERSION="${GITHUB_REF##*/}";
         RELEASE_FILE="ushahidi-platform-bundle-${RELEASE_VERSION}.tar.gz"
@@ -29,6 +30,7 @@ runs:
           GIT_BUILD_REF=${{ github.head_ref }}
 
     - name: Prepare folder
+      shell: bash
       run:
         mkdir -p tmp/out
 
@@ -42,6 +44,7 @@ runs:
           -v ${{ github.workspace }}/tmp/out:/var/www/build
 
     - name: List release content
+      shell: bash
       run: |
         tar -tvf tmp/out/${{ steps.version.outputs.RELEASE_FILE }};  
 
