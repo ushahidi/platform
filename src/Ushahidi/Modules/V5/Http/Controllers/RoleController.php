@@ -98,11 +98,10 @@ class RoleController extends V5Controller
 
         $permissions = [];
         if ($role->name === RoleEntity::ADMIN) {
-            foreach($role->getPermission()->toArray() as $permission) {
+            foreach ($role->getPermission()->toArray() as $permission) {
                 $permissions[] = $permission['permission'];
             }
-        }
-        else {
+        } else {
             $permissions = $request->input('permissions') ?? [];
         }
 

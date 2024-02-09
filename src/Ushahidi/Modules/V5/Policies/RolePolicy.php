@@ -84,7 +84,7 @@ class RolePolicy
         $authorizer = service('authorizer.role');
         $user = $authorizer->getUser();
 
-        if ($privilege === 'delete' && $role->protected === true ) {
+        if ($privilege === 'delete' && $role->protected === true) {
             return false;
         }
 
