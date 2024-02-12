@@ -91,11 +91,25 @@ class RoleController extends V5Controller
     {
         $role = $this->queryBus->handle(new FetchRoleByIdQuery($id));
         $this->authorize('update', $role);
+
+        if ($role->name !== $request->input('name')) {
+            return self::make422("Role name cannot be updated.");
+        }
+
+        $permissions = [];
+        if ($role->name === RoleEntity::ADMIN) {
+            foreach ($role->getPermission()->toArray() as $permission) {
+                $permissions[] = $permission['permission'];
+            }
+        } else {
+            $permissions = $request->input('permissions') ?? [];
+        }
+
         $this->commandBus->handle(
             new UpdateRoleCommand(
                 $id,
                 RoleEntity::buildEntity($request->input(), 'update', $role->toArray()),
-                $request->input('permissions') ?? []
+                $permissions
             )
         );
 

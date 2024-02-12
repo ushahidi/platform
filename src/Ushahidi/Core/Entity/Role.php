@@ -15,6 +15,8 @@ use Ushahidi\Core\StaticEntity;
 
 class Role extends StaticEntity
 {
+
+    const ADMIN = 'admin';
     const DEFAULT_PROTECTED = 0;
     protected $id;
     protected $name;
