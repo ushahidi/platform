@@ -43,7 +43,7 @@ class UserSettingRequest extends BaseRequest
                     'min:3',
                     'max:255'
                 ],
-                'config_value' => ['filled', 'min:3', 'max:255'],
+                'config_value' => ['filled'],
             ];
         } else {
             return [];
