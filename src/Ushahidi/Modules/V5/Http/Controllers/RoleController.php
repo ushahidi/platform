@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Ushahidi\Modules\V5\Models\Role;
 use Ushahidi\Modules\V5\Actions\Role\Queries\FetchRoleByIdQuery;
 use Ushahidi\Modules\V5\Actions\Role\Queries\FetchRoleQuery;
+use Ushahidi\Modules\V5\Actions\Permissions\Queries\FetchPermissionsQuery;
 use Ushahidi\Modules\V5\Actions\Role\Commands\CreateRoleCommand;
 use Ushahidi\Modules\V5\Actions\Role\Commands\DeleteRoleCommand;
 use Ushahidi\Modules\V5\Actions\Role\Commands\UpdateRoleCommand;
@@ -30,6 +31,7 @@ class RoleController extends V5Controller
     {
         $role = $this->queryBus->handle(new FetchRoleByIdQuery($id));
         $this->authorize('show', $role);
+        $role->permissions_name = $this->getPermissions($role);
         return new RoleResource($role);
     } //end show()
 
@@ -75,9 +77,7 @@ class RoleController extends V5Controller
             $request->input('permissions') ?? []
         );
         $this->commandBus->handle($command);
-        return new RoleResource(
-            $this->queryBus->handle(new FetchRoleByIdQuery($command->getId()))
-        );
+        return $this->show($command->getId());
     } //end store()
 
     /**
@@ -92,7 +92,8 @@ class RoleController extends V5Controller
         $role = $this->queryBus->handle(new FetchRoleByIdQuery($id));
         $this->authorize('update', $role);
 
-        if ($role->name !== $request->input('name')) {
+        
+        if ($request->has('name') && $role->name !== $request->input('name')) {
             return self::make422("Role name cannot be updated.");
         }
 
@@ -113,9 +114,7 @@ class RoleController extends V5Controller
             )
         );
 
-        return new RoleResource(
-            $this->queryBus->handle(new FetchRoleByIdQuery($id))
-        );
+        return $this->show($id);
     } //end store()
 
 
@@ -136,4 +135,37 @@ class RoleController extends V5Controller
         $this->commandBus->handle(new DeleteRoleCommand($id));
         return $this->deleteResponse($id);
     } //end store()
+
+    private function getPermissions(Role $role)
+    {
+        $permissions_name = [];
+        if ($role->name === RoleEntity::ADMIN) {
+            $permissions_name = $this->getAllPermissionsName();
+        } else {
+            foreach ($role->getPermission()->toArray() as $permission) {
+                $permissions_name[] = $permission['permission'];
+            }
+        }
+        return $permissions_name;
+    }
+
+    private function getAllPermissionsName()
+    {
+        $permissions_name = [];
+       
+            $permissions =  $this->queryBus->handle(
+                new FetchPermissionsQuery(
+                    FetchPermissionsQuery::DEFAULT_LIMIT,
+                    1,
+                    FetchPermissionsQuery::DEFAULT_SORT_BY,
+                    FetchPermissionsQuery::DEFAULT_ORDER,
+                    ['q' => false, 'name' => false]
+                )
+            );
+        foreach ($permissions as $permission) {
+            $permissions_name[] = $permission->name;
+        }
+        
+        return $permissions_name;
+    }
 } //end class
