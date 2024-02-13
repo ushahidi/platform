@@ -46,20 +46,11 @@ class RoleResource extends Resource
             'description' => $this->description,
             'display_name'=> $this->display_name,
             'protected'=> $this->protected,
-            'permissions' =>$this->getResourcePermissions($this->permissions),
+            'permissions' =>$this->permissions_name,
             'allowed_privileges' => $this->getResourcePrivileges()
 
 
 
         ];
-    }
-
-    private function getResourcePermissions(Collection $permissions)
-    {
-        $permissions_name = [];
-        foreach ($permissions->all() as $permission) {
-            $permissions_name[] = $permission->permission;
-        }
-        return $permissions_name;
     }
 }
