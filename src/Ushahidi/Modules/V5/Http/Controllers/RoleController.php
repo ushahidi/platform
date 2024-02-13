@@ -92,7 +92,8 @@ class RoleController extends V5Controller
         $role = $this->queryBus->handle(new FetchRoleByIdQuery($id));
         $this->authorize('update', $role);
 
-        if ($role->name !== $request->input('name')) {
+        
+        if ($request->has('name') && $role->name !== $request->input('name')) {
             return self::make422("Role name cannot be updated.");
         }
 
