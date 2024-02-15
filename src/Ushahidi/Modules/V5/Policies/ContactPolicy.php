@@ -31,7 +31,7 @@ class ContactPolicy
 
     // Check that the user has the necessary permissions
     use AccessControlList;
-    
+
     use OwnerAccess;
 
     protected $user;
@@ -118,11 +118,8 @@ class ContactPolicy
             return true;
         }
 
-
-        // Allow create, read and update if owner.
-        // Contacts should not be deleted.
-        if ($this->isUserOwner($entity, $user)
-            and in_array($privilege, ['create', 'read', 'update'])) {
+        // Users can delete their own contacts
+        if ($this->isUserOwner($entity, $user)) {
             return true;
         }
 
