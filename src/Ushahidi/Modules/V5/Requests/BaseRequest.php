@@ -33,7 +33,7 @@ class BaseRequest extends FormRequest
                 response()->json([
                     'errors' => [
                         'status' => 422,
-                        'message' => 'please recheck the your inputs',
+                        'message' => 'Please remove invalid characters from your input (e.g., +, $)',
                         'failed_validations' => $errors,
                     ]
                 ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY)
