@@ -26,10 +26,14 @@ class CSVRequest extends BaseRequest
             return [];
         }
     }
+    
     public function getMaxBytes()
     {
         // To Do: make it config
-        return 20000;
+        // David Losada update 2024-03-15: originally 20KB, that size not useful to anyone.
+        //    Setting to 20MiB, instead.
+        //    This very much needs to become a config setting.
+        return 20 * 1024 * 1024;
     }
 
     private function storeRules(Request $request): array
