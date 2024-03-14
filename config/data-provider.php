@@ -31,7 +31,7 @@ return [
         'incoming_username' => '',
         'incoming_password' => '',
         'incoming_unread_only' => 'Unread',
-        'incoming_last_uid' => 0
+        'incoming_last_uid' => '0'
     ],
     'twilio' => [],
     'smssync' => [],
