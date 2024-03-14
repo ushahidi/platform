@@ -38,7 +38,7 @@ class Email extends OutgoingEmail implements IncomingDataSource
     public function __construct(
         array $config,
         Mailer $mailer = null,
-        MessageRepository $messageRepo = null,
+        MessageRepository $messageRepo = null
     ) {
         $this->config = $config;
         $this->mailer = $mailer;
