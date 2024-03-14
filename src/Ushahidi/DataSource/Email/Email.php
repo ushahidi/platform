@@ -165,7 +165,7 @@ class Email extends OutgoingEmail implements IncomingDataSource
         $username = $this->config['incoming_username'] ?? '';
         $password = $this->config['incoming_password'] ?? '';
         $unread_only = $this->config['incoming_all_unread'] ?? 'Unread';
-        $last_uid = $this->config['incoming_last_uid'];
+        $last_uid = $this->config['incoming_last_uid'] ?? 0;
         $new_last_uid = 0;
 
         // Encryption type
