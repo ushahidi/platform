@@ -2198,7 +2198,7 @@ config:
   -
     group_name: "data-provider"
     config_key: email
-    config_value: '{"incoming_type":"","incoming_server":"","incoming_port":"","incoming_security":"","incoming_username":"","incoming_password":"","incoming_last_uid":"0","incoming_all_unread":""}'
+    config_value: '{"incoming_type":"","incoming_server":"","incoming_port":"","incoming_security":"","incoming_username":"","incoming_password":"","incoming_last_uid":"","incoming_all_unread":""}'
   -
     group_name: "data-provider"
     config_key: frontlinesms
