@@ -196,8 +196,9 @@ class Email extends OutgoingEmail implements IncomingDataSource
             Log::info("Connected to $inbox", [$mailboxinfo]);
 
             // Allow an existing installation to transition to config based without forcing the platform to download everything again.
-            if (! $last_uid)
+            if (! $last_uid) {
                 $last_uid = $this->messageRepo->getLastUID('email');
+            }
 
             if ($last_uid > 0) {
                 $max_range = $last_uid + $limit;
@@ -224,8 +225,9 @@ class Email extends OutgoingEmail implements IncomingDataSource
                         break;
                     }
 
-                    if ($unread_only == 'Unread' and $email->seen == 1)
+                    if ($unread_only == 'Unread' and $email->seen == 1) {
                         continue;
+                    }
 
                     $message = $html_message = "";
                     $structure = imap_fetchstructure($connection, $email->uid, FT_UID);
@@ -279,7 +281,8 @@ class Email extends OutgoingEmail implements IncomingDataSource
         return $messages;
     }
 
-    private function updateLastUid($config, $last_uid) {
+    private function updateLastUid($config, $last_uid)
+    {
         $providerConfig = $this->configRepo->get('data-provider');
         $config['incoming_last_uid'] = $last_uid;
         $providerConfigArray = $providerConfig->asArray();
