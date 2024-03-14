@@ -39,12 +39,11 @@ class Email extends OutgoingEmail implements IncomingDataSource
         array $config,
         Mailer $mailer = null,
         MessageRepository $messageRepo = null,
-        ConfigRepository $configRepo = null
     ) {
         $this->config = $config;
         $this->mailer = $mailer;
         $this->messageRepo = $messageRepo;
-        $this->configRepo = $configRepo;
+        $this->configRepo = service('repository.config');
     }
 
     public function getName()

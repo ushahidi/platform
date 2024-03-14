@@ -288,7 +288,6 @@ class DataSourceManager
             $config,
             app('mailer'),
             app(MessageRepository::class),
-            $this->configRepo
         );
     }
 
