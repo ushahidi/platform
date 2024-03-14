@@ -101,7 +101,7 @@ class EmailDataSourceTest extends TestCase
                 'incoming_username' => 'someuser',
                 'incoming_password' => 'mypassword',
                 'incoming_all_unread' => 'All',
-                'incoming_last_uid' => 0
+                'incoming_last_uid' => '0'
             ],
             $mockMailer,
             $mockMessageRepo
