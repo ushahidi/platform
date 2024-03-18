@@ -31,10 +31,10 @@ class ShortMessageController extends DataSourceController
             'from' => $from,
             'contact_type' => Contact::PHONE,
             'message' => $request->input('text'),
-            'to' => $request->input('to'),
+            'to' =>  $request->input('virtualNumber'),
             'title' => null,
             'datetime' => $request->input('date'),
-            'data_source_message_id' => $request->input('virtualNumber'),
+            'data_source_message_id' => $request->input('atSmsId', UUID::uuid4()->toString()),
             'data_source' => 'mteja',
             'additional_data' => [
                 'appId' => $request->input('appId'),
