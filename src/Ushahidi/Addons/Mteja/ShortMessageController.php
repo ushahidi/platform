@@ -24,7 +24,7 @@ class ShortMessageController extends DataSourceController
     public function handleRequest(Request $request)
     {
         // Remove Non-Numeric characters because that's what the DB has
-        $from  = preg_replace("/[^0-9,+.]/", "", $request->input('from'));
+        $from  = preg_replace("/[^0-9,+.]/", "", $request->input('customerNumber'));
 
         $this->save([
             'type' => MessageType::SMS,
@@ -33,12 +33,12 @@ class ShortMessageController extends DataSourceController
             'message' => $request->input('text'),
             'to' => $request->input('to'),
             'title' => null,
-            'datetime' => null,
-            'data_source_message_id' => "mteja-" . UUID::uuid4()->toString(),
+            'datetime' => $request->input('date'),
+            'data_source_message_id' => $request->input('virtualNumber'),
             'data_source' => 'mteja',
             'additional_data' => [
-                'fieldName' => $request->input('fieldName'),
-                'questionText' => $request->input('questionText')
+                'appId' => $request->input('appId'),
+                // 'questionText' => $request->input('questionText')
             ]
         ]);
 
