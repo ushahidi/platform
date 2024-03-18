@@ -5,7 +5,7 @@ on:
 - pull_request
 
 env:
-  MYSQL_ROOT_PASSWORD: root
+  MARIADB_ROOT_PASSWORD: root
 
 jobs:
   test:
@@ -58,7 +58,7 @@ jobs:
         port=${DB_PORT}
         database=mysql
         user=root
-        password=${MYSQL_ROOT_PASSWORD}
+        password=${MARIADB_ROOT_PASSWORD}
         EOF
 
         mysql -e "SELECT version();" ;
@@ -92,12 +92,12 @@ jobs:
 
     services:
       mysql:
-        image: mysql:5.7
+        image: mariadb:10.11
         env:
-          MYSQL_DATABASE: ushahidi
-          MYSQL_USER: ushahidi
-          MYSQL_PASSWORD: ushahidi
-          MYSQL_ROOT_PASSWORD: ${{ env.MYSQL_ROOT_PASSWORD }}
+          MARIADB_DATABASE: ushahidi
+          MARIADB_USER: ushahidi
+          MARIADB_PASSWORD: ushahidi
+          MARIADB_ROOT_PASSWORD: ${{ env.MARIADB_ROOT_PASSWORD }}
         ports:
         - 3306:3306
         options: --health-cmd "mysqladmin ping -h localhost"
