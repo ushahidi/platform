@@ -34,16 +34,18 @@ class Email extends OutgoingEmail implements IncomingDataSource
      * @param array $config
      * @param Mailer|null $mailer
      * @param MessageRepository|null $messageRepo
+     * @param ConfigRepository|null $configRepo
      */
     public function __construct(
         array $config,
         Mailer $mailer = null,
-        MessageRepository $messageRepo = null
+        MessageRepository $messageRepo = null,
+        ConfigRepository $configRepo = null
     ) {
         $this->config = $config;
         $this->mailer = $mailer;
         $this->messageRepo = $messageRepo;
-        $this->configRepo = service('repository.config');
+        $this->configRepo = $configRepo;
     }
 
     public function getName()
@@ -165,7 +167,7 @@ class Email extends OutgoingEmail implements IncomingDataSource
         $username = $this->config['incoming_username'] ?? '';
         $password = $this->config['incoming_password'] ?? '';
         $unread_only = $this->config['incoming_all_unread'] ?? 'Unread';
-        $last_uid = $this->config['incoming_last_uid'] ?? 0;
+        $last_uid = $this->config['incoming_last_uid'] ?? '';
         $new_last_uid = 0;
 
         // Encryption type
@@ -196,7 +198,7 @@ class Email extends OutgoingEmail implements IncomingDataSource
             Log::info("Connected to $inbox", [$mailboxinfo]);
 
             // Allow an existing installation to transition to config based without forcing the platform to download everything again.
-            if (! isset($last_uid)) {
+            if (empty($last_uid)) {
                 $last_uid = $this->messageRepo->getLastUID('email');
             }
 
