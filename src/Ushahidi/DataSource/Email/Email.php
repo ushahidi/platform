@@ -198,7 +198,7 @@ class Email extends OutgoingEmail implements IncomingDataSource
             Log::info("Connected to $inbox", [$mailboxinfo]);
 
             // Allow an existing installation to transition to config based without forcing the platform to download everything again.
-            if (empty($last_uid)) {
+            if ($last_uid == '') {
                 $last_uid = $this->messageRepo->getLastUID('email');
             }
 
