@@ -20,6 +20,7 @@ use Ushahidi\Contracts\Repository\Entity\MessageRepository;
 use Ushahidi\Contracts\Repository\Entity\ConfigRepository;
 use Ushahidi\DataSource\Contracts\MessageType;
 
+
 class Email extends OutgoingEmail implements IncomingDataSource
 {
     use MapsInboundFields;
@@ -339,14 +340,16 @@ class Email extends OutgoingEmail implements IncomingDataSource
     protected function getEmail($from)
     {
         $pattern = '/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b/i';
-
+        $validEmails = [];
+        
         if (preg_match_all($pattern, $from, $emails)) {
-            foreach ($emails as $key => $value) {
-                if (isset($value[0])) {
-                    return $value[0];
+            foreach ($emails[0] as $email) {
+                if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                    $validEmails[] = $email;
                 }
             }
         }
+    
 
         return null;
     }
