@@ -18,6 +18,7 @@ return [
         'mteja' => false,
         'africastalking' => false,
         'httpsms' => false,
+        'infobip' => false,
     ],
 
     'authenticable-providers' => [
