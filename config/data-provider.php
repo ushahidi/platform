@@ -17,6 +17,7 @@ return [
         'gmail' => false,
         'mteja' => false,
         'africastalking' => false,
+        'httpsms' => false,
     ],
 
     'authenticable-providers' => [
