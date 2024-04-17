@@ -63,7 +63,7 @@ class Attribute extends BaseModel
                     return $v->id;
                 }
                 return $v;
-            }, json_decode($value));
+            }, json_decode($value) ?? []);
             return Category::whereIn('id', $values)->with(['parent', 'children', 'translations'])->get();
         }
         return json_decode($value);

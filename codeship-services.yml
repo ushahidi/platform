@@ -37,12 +37,12 @@ deploy:
 
 
 mysql/base: &_mysql_base
-  image: mysql:5.7
+  image: mariadb:10.11
   environment:
-    - MYSQL_DATABASE=ushahidi
-    - MYSQL_USER=ushahidi
-    - MYSQL_PASSWORD=ushahidi
-    - MYSQL_ROOT_PASSWORD=root
+    - MARIADB_DATABASE=ushahidi
+    - MARIADB_USER=ushahidi
+    - MARIADB_PASSWORD=ushahidi
+    - MARIADB_ROOT_PASSWORD=root
 mysql-7.2:
   <<: *_mysql_base
 mysql-7.3:

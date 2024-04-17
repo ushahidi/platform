@@ -210,14 +210,17 @@ class EloquentPostRepository implements PostRepository
                 $query->where(function ($builder) use ($search_fields) {
                     $builder->whereNull('messages.type')
                         ->orWhereIn('messages.type', $search_fields->source());
+                    if (in_array('mobile', $search_fields->source())) {
+                            $builder->orWhere('posts.source', 'mobile');
+                    }
                 });
             } else {
-                $query->whereIn('messages.type', $search_fields->source());
-            }
-
-            // Check if $search_fields->source() contains 'mobile' and if so, add make a if else statement
-            if (in_array('mobile', $search_fields->source())) {
-                $query->orWhere('posts.source', 'mobile');
+                $query->where(function ($builder) use ($search_fields) {
+                    $builder->WhereIn('messages.type', $search_fields->source());
+                    if (in_array('mobile', $search_fields->source())) {
+                            $builder->orWhere('posts.source', 'mobile');
+                    }
+                });
             }
         }
 

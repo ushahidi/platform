@@ -31,8 +31,8 @@ return [
         'gmail' => false,
         'mteja' => false,
         'africastalking' => false,
-        'httpsms' => false,
-        'infobip' => false,
+        'httpsms' => true,
+        'infobip' => true,
     ],
 
     // Client limits
