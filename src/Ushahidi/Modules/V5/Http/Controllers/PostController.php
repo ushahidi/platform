@@ -45,11 +45,11 @@ use Ushahidi\Core\Concerns\AdminAccess;
 class PostController extends V5Controller
 {
 
-     // It uses methods from several traits to check access:
+    // It uses methods from several traits to check access:
     // - `AdminAccess` to check if the user has admin access
     use AdminAccess;
 
-    
+
     /**
      * Not all fields are things we want to allow on the body of requests
      * an author won't change after the fact, so we limit that change
@@ -354,7 +354,18 @@ class PostController extends V5Controller
 
     public function stats(Request $request)
     {
-        $stats = $this->queryBus->handle(PostsStatsQuery::FromRequest($request));
+        $surveys_with_private_location  = $this->queryBus->handle(new GetSurveyIdsWithPrivateLocationQuery());
+        if ($this->canUserseePostsWithPrivateLocation()) {
+            $stats = $this->queryBus->handle(PostsStatsQuery::FromRequest($request));
+        } else {
+            $stats = $this->queryBus->handle(
+                PostsStatsQuery::FromRequest(
+                    $request,
+                    $surveys_with_private_location->pluck('id')->toArray()
+                )
+            );
+        }
+
         return new PostStatsResource($stats);
     }
 
@@ -362,7 +373,7 @@ class PostController extends V5Controller
     {
 
         $surveys_with_private_location  = $this->queryBus->handle(new GetSurveyIdsWithPrivateLocationQuery());
-        
+
         if ($this->canUserseePostsWithPrivateLocation()) {
             $posts = $this->queryBus->handle(ListPostsGeometryQuery::FromRequest($request));
         } else {
@@ -373,7 +384,7 @@ class PostController extends V5Controller
                 )
             );
         }
-        
+
         return new PostGeometryCollection($posts);
     }
 
