@@ -406,8 +406,8 @@ class EloquentPostRepository implements PostRepository
         PostSearchFields $search_fields
     ) {
         $query = $this->getGeoJsonQuery($search_fields);
-        $query->skip($paging->getSkip())
-            ->orderBy($paging->getOrderBy(), $paging->getOrder());
+        $query->skip($paging->getSkip());
+      //      ->orderBy('posts.'.$paging->getOrderBy(), $paging->getOrder());
         return $query->paginate($paging->getLimit());
     }
 
