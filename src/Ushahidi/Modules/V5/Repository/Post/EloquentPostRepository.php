@@ -378,6 +378,7 @@ class EloquentPostRepository implements PostRepository
         $select_raw .= ",Max(IFNULL(messages.type,'web')) as source
             ,Max(messages.data_source_message_id) as 'data_source_message_id'";
         $select_raw .= ",Max(forms.color) as 'marker-color'";
+        $select_raw .= ",Max(forms.hide_location) as 'hide_location'";
         $select_raw .= ",CONCAT(
             '{\"type\":\"FeatureCollection\",'
             ,'\"features\":[',
