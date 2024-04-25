@@ -16,12 +16,26 @@ class PostGeometryResource extends BaseResource
      */
     public function toArray($request)
     {
+        $map_config = service('map.config');
+
         if (is_a($this->resource, "stdClass")) {
             $data = (array) $this->resource;
         } else {
             $data = $this->resource->toArray();
         }
+
         $data['geojson'] = json_decode($data['geojson'], true);
+
+        if (isset($data['hide_location']) && $data['hide_location']) {
+            foreach ($data['geojson']['features'] as $key => $feature) {
+                $feature['geometry']['coordinates'][0] =
+                    round($feature['geometry']['coordinates'][0], $map_config['location_precision']);
+                $feature['geometry']['coordinates'][1] =
+                    round($feature['geometry']['coordinates'][1], $map_config['location_precision']);
+                $data['geojson']['features'][$key] = $feature;
+            }
+        }
+        unset($data['hide_location']);
         return $data;
     }
 }
