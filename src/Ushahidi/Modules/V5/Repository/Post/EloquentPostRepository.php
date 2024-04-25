@@ -378,6 +378,7 @@ class EloquentPostRepository implements PostRepository
         $select_raw .= ",Max(IFNULL(messages.type,'web')) as source
             ,Max(messages.data_source_message_id) as 'data_source_message_id'";
         $select_raw .= ",Max(forms.color) as 'marker-color'";
+        $select_raw .= ",Max(forms.hide_location) as 'hide_location'";
         $select_raw .= ",CONCAT(
             '{\"type\":\"FeatureCollection\",'
             ,'\"features\":[',
@@ -405,8 +406,8 @@ class EloquentPostRepository implements PostRepository
         PostSearchFields $search_fields
     ) {
         $query = $this->getGeoJsonQuery($search_fields);
-        $query->skip($paging->getSkip())
-            ->orderBy($paging->getOrderBy(), $paging->getOrder());
+        $query->skip($paging->getSkip());
+      //      ->orderBy('posts.'.$paging->getOrderBy(), $paging->getOrder());
         return $query->paginate($paging->getLimit());
     }
 
