@@ -354,14 +354,13 @@ class PostController extends V5Controller
 
     public function stats(Request $request)
     {
-        $surveys_with_private_location  = $this->queryBus->handle(new GetSurveyIdsWithPrivateLocationQuery());
         if ($this->canUserseePostsWithPrivateLocation()) {
             $stats = $this->queryBus->handle(PostsStatsQuery::FromRequest($request));
         } else {
             $stats = $this->queryBus->handle(
                 PostsStatsQuery::FromRequest(
                     $request,
-                    $surveys_with_private_location->pluck('id')->toArray()
+                    $this->queryBus->handle(new GetSurveyIdsWithPrivateLocationQuery())->pluck('id')->toArray()
                 )
             );
         }
@@ -371,16 +370,13 @@ class PostController extends V5Controller
 
     public function indexGeoJson(Request $request): PostGeometryCollection
     {
-
-        $surveys_with_private_location  = $this->queryBus->handle(new GetSurveyIdsWithPrivateLocationQuery());
-
         if ($this->canUserseePostsWithPrivateLocation()) {
             $posts = $this->queryBus->handle(ListPostsGeometryQuery::FromRequest($request));
         } else {
             $posts = $this->queryBus->handle(
                 ListPostsGeometryQuery::FromRequest(
                     $request,
-                    $surveys_with_private_location->pluck('id')->toArray()
+                    $this->queryBus->handle(new GetSurveyIdsWithPrivateLocationQuery())->pluck('id')->toArray()
                 )
             );
         }
