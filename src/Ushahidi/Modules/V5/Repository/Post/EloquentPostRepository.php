@@ -529,8 +529,10 @@ class EloquentPostRepository implements PostRepository
         }
 
         if ($search->enableGroupBySource()) {
-            $search_query->selectRaw('COALESCE(posts.source, MAX(messages.type), "web") as source');
+            // TO DO : need to redo when updqte the source handling
+            $search_query->selectRaw('COALESCE(posts.source, messages.type, "web") as source');
             $search_query->groupBy('posts.source');
+            $search_query->groupBy('messages.type');
         } else {
             $search_query->selectRaw('MAX("all") as source');
         }
@@ -596,10 +598,8 @@ class EloquentPostRepository implements PostRepository
     {
 
         // unset form
-        //$updated_search = $search;
-        //$updated_search->setFormCondition("null");
             $search_query = $this->getMainSearchQuery($search, true);
-            $search_query->rightJoin('post_point', 'post_point.post_id', 'posts.id');
+            $search_query->whereNull('posts.form_id');
             $Unstructured = $search_query->first()->total;
 
         return $Unstructured;
