@@ -113,11 +113,9 @@ class PostSearchFields
         if (!$request->has('form')) {
             if (!$this->include_unstructured_posts) {
                 $this->form_condition = "not_null";
-                $this->form = []; // no conditions
             }
         } else {
             if ($request->get('form') == 'none') {
-                $this->form = []; // no conditions
                 $this->form_condition = "null";
             } else {
                 $this->form_condition = "include";
