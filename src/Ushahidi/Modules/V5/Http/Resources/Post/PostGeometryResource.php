@@ -35,6 +35,12 @@ class PostGeometryResource extends BaseResource
                 $data['geojson']['features'][$key] = $feature;
             }
         }
+        // TODO : next code just keep the first location , later we may add a flag for primary location field
+        foreach ($data['geojson']['features'] as $key => $feature) {
+            if ($key > 0) {
+                unset($data['geojson']['features'][$key]);
+            }
+        }
         unset($data['hide_location']);
         return $data;
     }
