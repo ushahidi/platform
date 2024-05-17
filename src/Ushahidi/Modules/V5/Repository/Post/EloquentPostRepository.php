@@ -205,7 +205,11 @@ class EloquentPostRepository implements PostRepository
 
         if (count($search_fields->source())) {
             $this->filter_joined_tables[] = 'messages';
-            $query->leftJoin("messages", 'posts.id', '=', 'messages.post_id');
+
+            $query->leftJoin('messages', function ($join) {
+                $join->on('posts.id', '=', 'messages.post_id');
+                $join->where('messages.direction', '=', "incoming");
+            });
             if ($search_fields->webSource()) {
                 $query->where(function ($builder) use ($search_fields) {
                     $builder->whereNull('messages.type')
@@ -222,7 +226,6 @@ class EloquentPostRepository implements PostRepository
                     }
                 });
             }
-            $query->where("messages.direction", "incoming");
         }
 
         if ($search_fields->hasLocation() === 'mapped') {
