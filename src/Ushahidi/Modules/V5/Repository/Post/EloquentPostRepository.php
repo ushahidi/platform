@@ -209,10 +209,15 @@ class EloquentPostRepository implements PostRepository
                 $join->on('posts.id', '=', 'messages.post_id');
                 $join->where('messages.direction', '=', "incoming");
             });
+            // To Do : update when put all source in one place , no this condition id complex !!
             if ($search_fields->webSource()) {
                 $query->where(function ($builder) use ($search_fields) {
-                    $builder->whereNull('messages.type')
-                        ->orWhereIn('messages.type', $search_fields->source());
+                    $builder->where(function ($builder_1) {
+                        $builder_1->whereNull('messages.type')
+                        ->whereNull('posts.source');
+                    });
+                    $builder->orWhere('posts.source', 'web');
+                    $builder->orWhereIn('messages.type', $search_fields->source());
                     if (in_array('mobile', $search_fields->source())) {
                             $builder->orWhere('posts.source', 'mobile');
                     }
