@@ -222,6 +222,7 @@ class EloquentPostRepository implements PostRepository
                     }
                 });
             }
+            $query->where("messages.direction", "incoming");
         }
 
         if ($search_fields->hasLocation() === 'mapped') {
