@@ -210,14 +210,17 @@ class EloquentPostRepository implements PostRepository
                 $query->where(function ($builder) use ($search_fields) {
                     $builder->whereNull('messages.type')
                         ->orWhereIn('messages.type', $search_fields->source());
+                    if (in_array('mobile', $search_fields->source())) {
+                            $builder->orWhere('posts.source', 'mobile');
+                    }
                 });
             } else {
-                $query->whereIn('messages.type', $search_fields->source());
-            }
-
-            // Check if $search_fields->source() contains 'mobile' and if so, add make a if else statement
-            if (in_array('mobile', $search_fields->source())) {
-                $query->orWhere('posts.source', 'mobile');
+                $query->where(function ($builder) use ($search_fields) {
+                    $builder->WhereIn('messages.type', $search_fields->source());
+                    if (in_array('mobile', $search_fields->source())) {
+                            $builder->orWhere('posts.source', 'mobile');
+                    }
+                });
             }
         }
 
@@ -375,6 +378,7 @@ class EloquentPostRepository implements PostRepository
         $select_raw .= ",Max(IFNULL(messages.type,'web')) as source
             ,Max(messages.data_source_message_id) as 'data_source_message_id'";
         $select_raw .= ",Max(forms.color) as 'marker-color'";
+        $select_raw .= ",Max(forms.hide_location) as 'hide_location'";
         $select_raw .= ",CONCAT(
             '{\"type\":\"FeatureCollection\",'
             ,'\"features\":[',
@@ -402,8 +406,8 @@ class EloquentPostRepository implements PostRepository
         PostSearchFields $search_fields
     ) {
         $query = $this->getGeoJsonQuery($search_fields);
-        $query->skip($paging->getSkip())
-            ->orderBy($paging->getOrderBy(), $paging->getOrder());
+        $query->skip($paging->getSkip());
+      //      ->orderBy('posts.'.$paging->getOrderBy(), $paging->getOrder());
         return $query->paginate($paging->getLimit());
     }
 
@@ -526,8 +530,10 @@ class EloquentPostRepository implements PostRepository
         }
 
         if ($search->enableGroupBySource()) {
-            $search_query->selectRaw('COALESCE(posts.source, MAX(messages.type), "web") as source');
+            // TO DO : need to redo when updqte the source handling
+            $search_query->selectRaw('COALESCE(posts.source, messages.type, "web") as source');
             $search_query->groupBy('posts.source');
+            $search_query->groupBy('messages.type');
         } else {
             $search_query->selectRaw('MAX("all") as source');
         }
@@ -593,10 +599,8 @@ class EloquentPostRepository implements PostRepository
     {
 
         // unset form
-        //$updated_search = $search;
-        //$updated_search->setFormCondition("null");
             $search_query = $this->getMainSearchQuery($search, true);
-            $search_query->rightJoin('post_point', 'post_point.post_id', 'posts.id');
+            $search_query->whereNull('posts.form_id');
             $Unstructured = $search_query->first()->total;
 
         return $Unstructured;

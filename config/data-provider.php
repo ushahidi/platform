@@ -17,6 +17,8 @@ return [
         'gmail' => false,
         'mteja' => false,
         'africastalking' => false,
+        'httpsms' => false,
+        'infobip' => false,
     ],
 
     'authenticable-providers' => [
@@ -30,6 +32,8 @@ return [
         'incoming_security' => '',
         'incoming_username' => '',
         'incoming_password' => '',
+        'incoming_unread_only' => 'Unread',
+        'incoming_last_uid' => '0'
     ],
     'twilio' => [],
     'smssync' => [],

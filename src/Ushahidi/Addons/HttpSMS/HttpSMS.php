@@ -3,7 +3,7 @@
 namespace Ushahidi\Addons\HttpSMS;
 
 /**
- * Infobip Data Source
+ * HttpSMS Data Source
  *
  * @author     Ushahidi Team <team@ushahidi.com>
  * @package    Addons\HttpSMS

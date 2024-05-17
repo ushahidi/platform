@@ -287,7 +287,8 @@ class DataSourceManager
         return new Email\Email(
             $config,
             app('mailer'),
-            app(MessageRepository::class)
+            app(MessageRepository::class),
+            $this->configRepo
         );
     }
 

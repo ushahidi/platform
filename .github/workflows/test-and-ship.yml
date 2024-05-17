@@ -5,7 +5,7 @@ on:
 - pull_request
 
 env:
-  MYSQL_ROOT_PASSWORD: root
+  MARIADB_ROOT_PASSWORD: root
 
 jobs:
   test:
@@ -58,7 +58,7 @@ jobs:
         port=${DB_PORT}
         database=mysql
         user=root
-        password=${MYSQL_ROOT_PASSWORD}
+        password=${MARIADB_ROOT_PASSWORD}
         EOF
 
         mysql -e "SELECT version();" ;
@@ -92,12 +92,12 @@ jobs:
 
     services:
       mysql:
-        image: mysql:5.7
+        image: mariadb:10.11
         env:
-          MYSQL_DATABASE: ushahidi
-          MYSQL_USER: ushahidi
-          MYSQL_PASSWORD: ushahidi
-          MYSQL_ROOT_PASSWORD: ${{ env.MYSQL_ROOT_PASSWORD }}
+          MARIADB_DATABASE: ushahidi
+          MARIADB_USER: ushahidi
+          MARIADB_PASSWORD: ushahidi
+          MARIADB_ROOT_PASSWORD: ${{ env.MARIADB_ROOT_PASSWORD }}
         ports:
         - 3306:3306
         options: --health-cmd "mysqladmin ping -h localhost"
@@ -114,7 +114,7 @@ jobs:
     - uses: actions/checkout@v3
 
     - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v1
+      uses: docker/setup-buildx-action@v3
 
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
@@ -161,3 +161,7 @@ jobs:
           GIT_BUILD_REF=${{ github.head_ref }}
         cache-from: type=gha
         cache-to: type=gha,mode=max
+
+    - name: Build and push release tar file
+      uses: ./.github/actions/release-tar
+      if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')

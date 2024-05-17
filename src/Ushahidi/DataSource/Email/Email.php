@@ -17,6 +17,7 @@ use Illuminate\Contracts\Mail\Mailer;
 use Ushahidi\DataSource\Contracts\IncomingDataSource;
 use Ushahidi\DataSource\Concerns\MapsInboundFields;
 use Ushahidi\Contracts\Repository\Entity\MessageRepository;
+use Ushahidi\Contracts\Repository\Entity\ConfigRepository;
 use Ushahidi\DataSource\Contracts\MessageType;
 
 class Email extends OutgoingEmail implements IncomingDataSource
@@ -26,21 +27,25 @@ class Email extends OutgoingEmail implements IncomingDataSource
     protected $config;
     protected $mailer;
     protected $messageRepo;
+    protected $configRepo;
 
     /**
      * Constructor function for DataSource
      * @param array $config
      * @param Mailer|null $mailer
      * @param MessageRepository|null $messageRepo
+     * @param ConfigRepository|null $configRepo
      */
     public function __construct(
         array $config,
         Mailer $mailer = null,
-        MessageRepository $messageRepo = null
+        MessageRepository $messageRepo = null,
+        ConfigRepository $configRepo = null
     ) {
         $this->config = $config;
         $this->mailer = $mailer;
         $this->messageRepo = $messageRepo;
+        $this->configRepo = $configRepo;
     }
 
     public function getName()
@@ -104,6 +109,17 @@ class Email extends OutgoingEmail implements IncomingDataSource
                 'description' => '',
                 'placeholder' => 'Email account password',
                 'rules' => ['required']
+            ],
+            'incoming_all_unread' => [
+                'label' => 'Fetch Emails',
+                'input' => 'radio',
+                'description' => 'Fetch every email from the inbox, or only unread.',
+                'options' => ['All', 'Unread'],
+                'rules' => ['required']
+            ],
+            'incoming_last_uid' => [
+                'label' => '',
+                'input' => 'hidden',
             ]
         ];
     }
@@ -154,6 +170,9 @@ class Email extends OutgoingEmail implements IncomingDataSource
         $encryption = $this->config['incoming_security'] ?? '';
         $username = $this->config['incoming_username'] ?? '';
         $password = $this->config['incoming_password'] ?? '';
+        $unread_only = $this->config['incoming_all_unread'] ?? 'Unread';
+        $last_uid = $this->config['incoming_last_uid'] ?? '';
+        $new_last_uid = 0;
 
         // Encryption type
         $encryption = (strcasecmp($encryption, 'none') != 0) ? '/'.$encryption : '';
@@ -161,7 +180,7 @@ class Email extends OutgoingEmail implements IncomingDataSource
         // To connect to an SSL IMAP or POP3 server with a self-signed certificate,
         // add /novalidate-cert after the encryption protocol specification:
         $no_cert_validation = !empty($encryption) ? '/novalidate-cert' : '';
-        
+
         try {
             // Try to connect
             $inbox = '{'.$server.':'.$port.'/'.$type.$encryption.$no_cert_validation.'}INBOX';
@@ -173,7 +192,7 @@ class Email extends OutgoingEmail implements IncomingDataSource
             // Return on connection error
             if (! $connection || $errors || $alerts) {
                 $errors = is_array($errors) ? implode(', ', $errors) : "";
-                $alerts = is_array($alerts) ? implode(', ', $errors) : "";
+                $alerts = is_array($alerts) ? implode(', ', $alerts) : "";
                 Log::info("Could not connect to incoming email server", compact('errors', 'alerts'));
                 return [];
             }
@@ -182,7 +201,11 @@ class Email extends OutgoingEmail implements IncomingDataSource
 
             Log::info("Connected to $inbox", [$mailboxinfo]);
 
-            $last_uid = $this->messageRepo->getLastUID('email');
+            // Allow an existing installation to transition to config based without forcing the platform to download everything again.
+            if ($last_uid == '') {
+                $last_uid = $this->messageRepo->getLastUID('email');
+            }
+
             if ($last_uid > 0) {
                 $max_range = $last_uid + $limit;
                 $search_string = $last_uid ? $last_uid + 1 . ':' . $max_range : '1:' . $max_range;
@@ -206,6 +229,10 @@ class Email extends OutgoingEmail implements IncomingDataSource
                     // @todo revist and decide if this is worth doing when imap_search has grabbed everything anyway.
                     if ($limit and count($messages) >= $limit) {
                         break;
+                    }
+
+                    if ($unread_only == 'Unread' and $email->seen == 1) {
+                        continue;
                     }
 
                     $message = $html_message = "";
@@ -235,7 +262,14 @@ class Email extends OutgoingEmail implements IncomingDataSource
                         $message = imap_qprint($message);
                         $messages[] = $this->processIncoming($email, $message);
                     }
+                    if (isset($email->uid)) {
+                        $new_last_uid = isset($email->uid) ? $email->uid : null;
+                    }
                 }
+            }
+
+            if ($new_last_uid && $new_last_uid != $last_uid) {
+                $this->updateLastUid($this->config, $new_last_uid);
             }
 
             imap_errors();
@@ -251,6 +285,16 @@ class Email extends OutgoingEmail implements IncomingDataSource
         }
 
         return $messages;
+    }
+
+    private function updateLastUid($config, $last_uid)
+    {
+        $providerConfig = $this->configRepo->get('data-provider');
+        $config['incoming_last_uid'] = $last_uid;
+        $providerConfigArray = $providerConfig->asArray();
+        $providerConfigArray[$this->getId()] = $config;
+        $providerConfig->setState($providerConfigArray);
+        $this->configRepo->update($providerConfig);
     }
 
     /**
