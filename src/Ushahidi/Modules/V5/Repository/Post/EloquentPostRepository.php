@@ -205,10 +205,7 @@ class EloquentPostRepository implements PostRepository
 
         if (count($search_fields->source())) {
             $this->filter_joined_tables[] = 'messages';
-            $query->leftJoin('messages', function ($join) {
-                $join->on('posts.id', '=', 'messages.post_id');
-                $join->where('messages.direction', '=', "incoming");
-            });
+            $query->leftJoin("messages", 'posts.id', '=', 'messages.post_id');
             // To Do : update when put all source in one place , no this condition id complex !!
             if ($search_fields->webSource()) {
                 $query->where(function ($builder) use ($search_fields) {
