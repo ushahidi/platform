@@ -114,7 +114,7 @@ class PostController extends V5Controller
      * @param Request $request
      * @return Contact
      */
-    private function GetWhatsappContact(PostRequest $request):Contact
+    private function getWhatsappContact(PostRequest $request):Contact
     {
         $search_request = new Request();
         $search_request->merge([
@@ -152,7 +152,7 @@ class PostController extends V5Controller
 
         $this->runAuthorizer('store', [Post::class, $request->input('form_id'), $this->getUser()->getId()]);
         if ($request->input('source') === 'whatsapp') {
-            $contact = $this->GetWhatsappContact($request);
+            $contact = $this->getWhatsappContact($request);
             $request->merge([
                 'contact_id'=>$contact->id,
                 // To Do: this temporay soluation to save the contact object in posts metadata,
