@@ -15,6 +15,8 @@ use Ushahidi\Modules\V5\Http\Resources\ContactPointerResource;
 use Ushahidi\Modules\V5\Http\Resources\MessagePointerResource;
 use Ushahidi\Modules\V5\Http\Resources\LockCollection;
 use Ushahidi\Modules\V5\Http\Resources\Survey\TaskCollection;
+use Ushahidi\Modules\V5\Models\Contact;
+use Ushahidi\Contracts\Sources;
 
 class ListPostsQueryHandler extends AbstractPostQueryHandler
 {
@@ -83,6 +85,17 @@ class ListPostsQueryHandler extends AbstractPostQueryHandler
                     break;
                 case 'contact':
                     $post->contact = null;
+                    if ($post->source === Sources::WHATSAPP) {
+                        if ($this->userHasManagePostPermissions()) {
+                            if (isset($post->metadata['contact'])) {
+                                $post->contact = (new Contact)->fill($post->metadata['contact']);
+                            }
+                        } else {
+                            if (isset($post->metadata['contact']['id'])) {
+                                $post->contact = (new Contact)->fill(['id'=>$post->metadata['contact']['id']]);
+                            }
+                        }
+                    }
                     if ($post->message) {
                         if ($this->userHasManagePostPermissions()) {
                             $post->contact = $post->message->contact;
