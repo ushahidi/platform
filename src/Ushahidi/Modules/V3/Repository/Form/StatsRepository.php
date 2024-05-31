@@ -318,7 +318,7 @@ class StatsRepository extends OhanzeeRepository implements
             ->from('posts')
             ->where('form_id', '=', $form_id);
         $query = $this->betweenDates($query, 'created', $created_before, $created_after);
-        $query = DB::select([DB::expr('COUNT(contact_id)'), 'total'])
+        $query = DB::select([DB::expr('COUNT(messages.contact_id)'), 'total'])
             ->distinct(true)
             ->from([$query,'targeted_posts'])
             ->join('messages', 'INNER')
