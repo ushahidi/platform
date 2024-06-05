@@ -15,6 +15,7 @@ use Ushahidi\Modules\V5\Http\Resources\ContactPointerResource;
 use Ushahidi\Modules\V5\Http\Resources\MessagePointerResource;
 use Ushahidi\Modules\V5\Http\Resources\LockCollection;
 use Ushahidi\Modules\V5\Http\Resources\Survey\TaskCollection;
+use Ushahidi\Contracts\Sources;
 
 class FindPostByIdQueryHandler extends AbstractPostQueryHandler
 {
@@ -78,7 +79,18 @@ class FindPostByIdQueryHandler extends AbstractPostQueryHandler
                     break;
                 case 'contact':
                     $post->contact = null;
-                    if ($post->message) {
+                    if ($post->source === Sources::WHATSAPP) {
+                        if ($this->userHasManagePostPermissions()) {
+                            if (isset($post->metadata['contact'])) {
+                            // $post->contact =  Contact::find($post->contact_id); // not good in case there are many whatsapp posts this will be problem for the DB
+                                $post->contact = (new Contact)->fill($post->metadata['contact']);
+                            }
+                        } else {
+                            if (isset($post->metadata['contact']['id'])) {
+                                $post->contact = (new Contact)->fill(['id'=>$post->metadata['contact']['id']]);
+                            }
+                        }
+                    } elseif ($post->message) {
                         if ($this->userHasManagePostPermissions()) {
                             $post->contact = $post->message->contact;
                         } else {

@@ -42,6 +42,13 @@ use Ushahidi\Modules\V5\Actions\Survey\Queries\GetSurveyIdsWithPrivateLocationQu
 use Ushahidi\Contracts\Permission;
 use Ushahidi\Core\Concerns\AdminAccess;
 
+use Ushahidi\Modules\V5\Actions\Contact\Commands\CreateContactCommand;
+use Ushahidi\Modules\V5\Actions\Contact\Queries\FetchContactQuery;
+use Ushahidi\Modules\V5\Actions\Contact\Queries\FetchContactByIdQuery;
+use Ushahidi\Modules\V5\Models\Contact;
+use Ushahidi\Contracts\Sources;
+use Ushahidi\Contracts\Contact as ContractContact;
+
 class PostController extends V5Controller
 {
 
@@ -101,6 +108,37 @@ class PostController extends V5Controller
         return $user;
     }
 
+    /**
+     * Gets the whatsapp contact from the request. If there are no contacts it creates one
+     *
+     * @param Request $request
+     * @return Contact
+     */
+    private function getWhatsappContact(PostRequest $request):Contact
+    {
+        $search_request = new Request();
+        $search_request->merge([
+            'data_source'=>Sources::WHATSAPP,
+            'contact'=>$request->input('contact')['contact']
+        ]);
+        $contacts = $this->queryBus->handle(FetchContactQuery::FromRequest($search_request));
+
+        if (count($contacts) > 0) {
+            $contact =  $contacts->first();
+        } else {
+            $contact_id =  $this->commandBus->handle(
+                CreateContactCommand::forWhatsapp(
+                    $request->input('user_id'),
+                    $request->input('contact')['contact'],
+                    $request->input('contact')['type'] ?? ContractContact::PHONE,
+                    $request->input('contact')['can_notify'] ?? 0
+                )
+            );
+            $contact = $this->queryBus->handle(new FetchContactByIdQuery($contact_id));
+        }
+        
+        return $contact;
+    }
 
     /**
      * Display the specified resource.
@@ -113,6 +151,15 @@ class PostController extends V5Controller
     {
 
         $this->runAuthorizer('store', [Post::class, $request->input('form_id'), $this->getUser()->getId()]);
+        if ($request->input('source') === 'whatsapp') {
+            $contact = $this->getWhatsappContact($request);
+            $request->merge([
+                'contact_id'=>$contact->id,
+                // To Do: this temporay soluation to save the contact object in posts metadata,
+                // bu this we can avoid extra diplicated join relation!
+                'contact' => $contact
+                 ]) ;
+        }
         $id = $this->commandBus->handle(CreatePostCommand::createFromRequest($request));
         $post = $this->queryBus->handle(
             new FindPostByIdQuery(

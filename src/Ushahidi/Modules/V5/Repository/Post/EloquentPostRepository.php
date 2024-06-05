@@ -13,6 +13,7 @@ use DB;
 use Ushahidi\Core\Tool\BoundingBox;
 use Illuminate\Support\Facades\Auth;
 use Ushahidi\Modules\V5\Models\RolePermission;
+use Ushahidi\Contracts\Sources;
 
 class EloquentPostRepository implements PostRepository
 {
@@ -213,17 +214,23 @@ class EloquentPostRepository implements PostRepository
                         $builder_1->whereNull('messages.type')
                         ->whereNull('posts.source');
                     });
-                    $builder->orWhere('posts.source', 'web');
+                    $builder->orWhere('posts.source', Sources::WEB);
                     $builder->orWhereIn('messages.type', $search_fields->source());
-                    if (in_array('mobile', $search_fields->source())) {
-                            $builder->orWhere('posts.source', 'mobile');
+                    if (in_array(Sources::MOBILE, $search_fields->source())) {
+                            $builder->orWhere('posts.source', Sources::MOBILE);
+                    }
+                    if (in_array(Sources::WHATSAPP, $search_fields->source())) {
+                        $builder->orWhere('posts.source', Sources::WHATSAPP);
                     }
                 });
             } else {
                 $query->where(function ($builder) use ($search_fields) {
                     $builder->WhereIn('messages.type', $search_fields->source());
-                    if (in_array('mobile', $search_fields->source())) {
-                            $builder->orWhere('posts.source', 'mobile');
+                    if (in_array(Sources::MOBILE, $search_fields->source())) {
+                            $builder->orWhere('posts.source', Sources::MOBILE);
+                    }
+                    if (in_array(Sources::WHATSAPP, $search_fields->source())) {
+                        $builder->orWhere('posts.source', Sources::WHATSAPP);
                     }
                 });
             }

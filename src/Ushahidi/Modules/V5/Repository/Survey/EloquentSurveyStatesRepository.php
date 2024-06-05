@@ -176,7 +176,7 @@ class EloquentSurveyStatesRepository implements SurveyStatesRepository
     public function getResponseRecipients($survey_id, SurveyStatesSearchFields $search_fields)
     {
         $query = DB::table('posts')
-            ->selectRaw('COUNT(contact_id) as total')
+            ->selectRaw('COUNT(messages.contact_id) as total')
             ->distinct()
             ->join('messages', 'messages.post_id', '=', 'posts.id')
             ->where('form_id', '=', $survey_id)
