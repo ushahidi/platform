@@ -5,7 +5,7 @@ namespace Ushahidi\Modules\V5\DTO;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class CategorySearchFields
+class CategorySearchFields extends SearchFields
 {
     /**
      * @var ?string

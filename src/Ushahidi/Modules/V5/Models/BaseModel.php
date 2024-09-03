@@ -5,7 +5,6 @@ namespace Ushahidi\Modules\V5\Models;
 use Illuminate\Database\Eloquent\Model;
 use Ushahidi\Modules\V5\Models\Concerns\HasSlug;
 use Ushahidi\Modules\V5\Models\Concerns\HasValidator;
-use Ushahidi\Modules\V5\Traits\HasOnlyParameters;
 
 /**
  * Class ResourceModel
@@ -16,7 +15,6 @@ class BaseModel extends Model
 {
     use HasSlug;
     use HasValidator;
-    use HasOnlyParameters;
 
     /**
      * @param $time timestamp
