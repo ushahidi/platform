@@ -4,7 +4,7 @@ namespace Ushahidi\Modules\V5\DTO;
 
 use Illuminate\Http\Request;
 
-class SurveyStatesSearchFields
+class SurveyStatesSearchFields extends SearchFields
 {
 
     private $created_after;

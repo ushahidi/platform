@@ -4,7 +4,7 @@ namespace Ushahidi\Modules\V5\DTO;
 
 use Illuminate\Http\Request;
 
-class RoleSearchFields
+class RoleSearchFields extends SearchFields
 {
     /**
      * @var ?string
