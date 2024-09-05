@@ -15,7 +15,7 @@ services:
     ports:
       - "33061:3306"
   redis:
-    image: redis:4-alpine
+    image: redis:7.2-alpine
   platform:
     build: .
     environment:
