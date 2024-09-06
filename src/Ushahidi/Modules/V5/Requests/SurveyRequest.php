@@ -237,6 +237,7 @@ class SurveyRequest extends BaseRequest
                         'number',
                         'relation',
                         'upload',
+                        'image',
                         'audio',
                         'document',
                         'video',
