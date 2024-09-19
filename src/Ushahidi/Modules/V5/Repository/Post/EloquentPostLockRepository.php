@@ -38,7 +38,10 @@ class EloquentPostLockRepository implements PostLockRepository
     }
     public function deleteByPostId(int $post_id): void
     {
-        $this->findByPostId($post_id)->delete();
+        $post_locks = PostLock::where('post_id', '=', $post_id)->get();
+        foreach ($post_locks as $post_lock) {
+            $post_lock->delete();
+        }
     }
     public function deleteByUserId(int $user_id): void
     {
