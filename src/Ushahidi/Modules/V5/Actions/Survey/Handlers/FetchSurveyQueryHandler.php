@@ -6,14 +6,15 @@ use Ushahidi\Modules\V5\Actions\V5QueryHandler;
 use App\Bus\Query\Query;
 use Ushahidi\Modules\V5\Actions\Survey\Queries\FetchSurveyQuery;
 use Ushahidi\Modules\V5\Repository\Survey\SurveyRepository;
-use Ushahidi\Modules\V5\Actions\Survey\Queries\FetchTasksBySurveyIdQuery;
-use Ushahidi\Modules\V5\Actions\Survey\Queries\FetchRolesCanCreateSurveyPostsQuery;
 use Ushahidi\Modules\V5\Models\Survey;
 use App\Bus\Query\QueryBus;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Ushahidi\Modules\V5\Actions\Survey\HandleSurveyOnlyParameters;
 
 class FetchSurveyQueryHandler extends V5QueryHandler
 {
+    use HandleSurveyOnlyParameters;
+
     private $survey_repository;
     private $queryBus;
 
@@ -35,99 +36,27 @@ class FetchSurveyQueryHandler extends V5QueryHandler
      * @param FetchSurveyQuery $query
      * @return LengthAwarePaginator
      */
-    public function __invoke($query) //: LengthAwarePaginator
+    public function __invoke($action) //: LengthAwarePaginator
     {
-        $this->isSupported($query);
-        $skip = $query->getLimit() * ($query->getPage() - 1);
-        $only = $this->getSelectFields(
-            $query->getFormat(),
-            $query->getOnlyFields(),
-            Survey::$approved_fields_for_select,
-            Survey::$required_fields_for_select
+        $this->isSupported($action);
+
+        $only_fields =  array_unique(array_merge($action->getFields(), $action->getFieldsForRelationship()));
+
+        $surveys = $this->survey_repository->paginate(
+            $action->getPaging(),
+            $action->getSearchFields(),
+            $only_fields,
+            $action->getWithRelationship()
         );
 
-        $surveys = $this->survey_repository->fetch(
-            $query->getLimit(),
-            $skip,
-            $query->getSortBy(),
-            $query->getOrder(),
-            $query->getSearchFields(),
-            $only
-        );
-
-        // TODO: This should happen at the repository level
-        $hydrates = $this->getHydrateRelationshpis(Survey::$relationships, $query->getHydrate());
         foreach ($surveys as $survey) {
             $this->addHydrateRelationships(
                 $survey,
-                $only,
-                $hydrates
+                $action->getFields(),
+                $action->getHydrates()
             );
             $survey->offsetUnset('base_language');
         }
         return $surveys;
-    }
-
-
-    private function addHydrateRelationships(&$survey, $only, $hydrate)
-    {
-        $relations = [
-            'tasks' => false,
-            'translations' => false,
-            'enabled_languages' => false,
-        ];
-
-        foreach ($hydrate as $relation) {
-            switch ($relation) {
-                case 'tasks':
-                    // TODO: This is wrong and should be done at the repository level instead to create an aggregate
-                    $survey->tasks = $this->queryBus->handle(
-                        new FetchTasksBySurveyIdQuery(
-                            $survey->id,
-                            FetchTasksBySurveyIdQuery::DEFAULT_SORT_BY,
-                            FetchTasksBySurveyIdQuery::DEFAULT_ORDER
-                        )
-                    );
-                    $relations['tasks'] = true;
-                    break;
-                case 'translations':
-                    $relations['translations'] = true;
-                    break;
-                case 'enabled_languages':
-                    $survey->enabled_languages = [
-                        'default' => $survey->base_language,
-                        'available' => $survey->translations->groupBy('language')->keys()
-                    ];
-                    $relations['enabled_languages'] = true;
-                    break;
-            }
-        }
-
-        if (!$relations['tasks']) {
-            $survey->tasks = null;
-        }
-        if (!$relations['translations']) {
-            $survey->translations = null;
-        }
-
-
-        $this->addCanCreate($survey);
-    }
-
-    private function addCanCreate(&$survey)
-    {
-
-        $survey_roles = $this->queryBus->handle(
-            new FetchRolesCanCreateSurveyPostsQuery(
-                $survey->id,
-                FetchRolesCanCreateSurveyPostsQuery::DEFAULT_SORT_BY,
-                FetchRolesCanCreateSurveyPostsQuery::DEFAULT_ORDER
-            )
-        );
-        $roles = [];
-        foreach ($survey_roles as $survey_role) {
-            $roles[] = $survey_role->role()->value('name');
-        }
-        $survey->can_create = $roles;
     }
 }
