@@ -5,14 +5,15 @@ namespace Ushahidi\Modules\V5\Actions\Survey\Handlers;
 use Ushahidi\Modules\V5\Actions\V5QueryHandler;
 use App\Bus\Query\Query;
 use Ushahidi\Modules\V5\Actions\Survey\Queries\FetchSurveyByIdQuery;
-use Ushahidi\Modules\V5\Actions\Survey\Queries\FetchTasksBySurveyIdQuery;
-use Ushahidi\Modules\V5\Actions\Survey\Queries\FetchRolesCanCreateSurveyPostsQuery;
 use Ushahidi\Modules\V5\Repository\Survey\SurveyRepository;
 use Ushahidi\Modules\V5\Models\Survey;
 use App\Bus\Query\QueryBus;
+use Ushahidi\Modules\V5\Actions\Survey\HandleSurveyOnlyParameters;
 
 class FetchSurveyByIdQueryHandler extends V5QueryHandler
 {
+
+    use HandleSurveyOnlyParameters;
 
     private $survey_repository;
     private $queryBus;
@@ -31,87 +32,28 @@ class FetchSurveyByIdQueryHandler extends V5QueryHandler
         );
     }
 
-
     /**
      * @param FetchSurveyByIdQuery $query
      * @return Survey
      */
-    public function __invoke($query) //: array
+    public function __invoke($action) //: array
     {
-        $only = $this->getSelectFields(
-            $query->getFormat(),
-            $query->getOnlyFields(),
-            Survey::$approved_fields_for_select,
-            Survey::$required_fields_for_select
+        $this->isSupported($action);
+        $survey = $this->survey_repository->findById(
+            $action->getId(),
+            array_unique(array_merge(
+                $action->getFields(),
+                $action->getFieldsForRelationship()
+            )),
+            $action->getWithRelationship()
         );
-        $this->isSupported($query);
-        $survey = $this->survey_repository->findById($query->getId(), $only);
         $this->addHydrateRelationships(
             $survey,
-            $only,
-            $this->getHydrateRelationshpis(Survey::$relationships, $query->getHydrate())
+            $action->getFields(),
+            $action->getHydrates()
         );
         $survey->offsetUnset('base_language');
 
         return $survey;
-    }
-    private function addHydrateRelationships(&$survey, $only, $hydrate)
-    {
-        $relations = [
-            'tasks' => false,
-            'translations' => false,
-            'enabled_languages' => false,
-        ];
-
-        foreach ($hydrate as $relation) {
-            switch ($relation) {
-                case 'tasks':
-                    $survey->tasks = $this->queryBus->handle(
-                        new FetchTasksBySurveyIdQuery(
-                            $survey->id,
-                            FetchTasksBySurveyIdQuery::DEFAULT_SORT_BY,
-                            FetchTasksBySurveyIdQuery::DEFAULT_ORDER
-                        )
-                    );
-                    $relations['tasks'] = true;
-                    break;
-                case 'translations':
-                    $relations['translations'] = true;
-                    break;
-                case 'enabled_languages':
-                    $survey->enabled_languages = [
-                        'default' => $survey->base_language,
-                        'available' => $survey->translations->groupBy('language')->keys()
-                    ];
-                    $relations['enabled_languages'] = true;
-                    break;
-            }
-        }
-
-        if (!$relations['tasks']) {
-            $survey->tasks = null;
-        }
-        if (!$relations['translations']) {
-            $survey->translations = null;
-        }
-
-
-        $this->addCanCreate($survey);
-    }
-    private function addCanCreate(&$survey)
-    {
-
-        $survey_roles = $this->queryBus->handle(
-            new FetchRolesCanCreateSurveyPostsQuery(
-                $survey->id,
-                FetchRolesCanCreateSurveyPostsQuery::DEFAULT_SORT_BY,
-                FetchRolesCanCreateSurveyPostsQuery::DEFAULT_ORDER
-            )
-        );
-        $roles = [];
-        foreach ($survey_roles as $survey_role) {
-            $roles[] = $survey_role->role()->value('name');
-        }
-        $survey->can_create = $roles;
     }
 }

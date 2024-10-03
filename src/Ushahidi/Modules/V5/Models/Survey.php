@@ -38,6 +38,37 @@ class Survey extends BaseModel
         'base_language',
     ];
 
+    /** Data used for only parameters
+     *
+     *
+     */
+    public const REQUIRED_FIELDS = [
+        'id'
+    ];
+    public const ALLOWED_FIELDS = [
+        'id',
+        'name',
+        'description',
+        'type',
+        'disabled',
+        'require_approval',
+        'everyone_can_create',
+        'color',
+        'hide_author',
+        'hide_time',
+        'hide_location',
+        'base_language',
+        'targeted_survey',
+        'created',
+        'updated'
+    ];
+    public const ALLOWED_RELATIONSHIPS = [
+        'tasks' => ['fields' => [], 'relationships' => ['tasks']],
+        'can_create' => ['fields' => [], 'relationships' => []], //"SurveyRole"
+        'translations' => ['fields' => [], 'relationships' => ["translations"]],
+        'enabled_languages' => ['fields' => ['base_language'], 'relationships' => ['translations']],
+    ];
+
     /**
      * Add eloquent style timestamps
      *
