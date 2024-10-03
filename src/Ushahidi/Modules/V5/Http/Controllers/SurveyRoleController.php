@@ -13,6 +13,26 @@ use Ushahidi\Modules\V5\Requests\SurveyRoleRequest;
 
 class SurveyRoleController extends V5Controller
 {
+
+
+    private function getSurvey(int $id, ?array $fields = null, ?array $haydrates = null)
+    {
+        if (!$fields) {
+            $fields = Survey::ALLOWED_FIELDS;
+        }
+        if (!$haydrates) {
+            $haydrates = array_keys(Survey::ALLOWED_RELATIONSHIPS);
+        }
+        $find_survey_query = new FetchSurveyByIdQuery($id);
+        $find_survey_query->addOnlyValues(
+            $fields,
+            $haydrates,
+            Survey::ALLOWED_RELATIONSHIPS,
+            Survey::REQUIRED_FIELDS
+        );
+        return $this->queryBus->handle($find_survey_query);
+    }
+
     /**
      * Display the specified resource.
      *
@@ -21,7 +41,7 @@ class SurveyRoleController extends V5Controller
      */
     public function index(int $survey_id, Request $request)
     {
-        $survey = $this->queryBus->handle(new FetchSurveyByIdQuery($survey_id, null, null, null));
+        $survey = $this->getSurvey($survey_id);
 
         // All access is based on the survey itself, not the role.
        // $this->authorize('show', $survey);
@@ -46,7 +66,7 @@ class SurveyRoleController extends V5Controller
      */
     public function replace(int $survey_id, SurveyRoleRequest $request)
     {
-        $survey = $this->queryBus->handle(new FetchSurveyByIdQuery($survey_id, null, null, null));
+        $survey = $this->getSurvey($survey_id);
 
         $this->authorize('update', $survey);
 

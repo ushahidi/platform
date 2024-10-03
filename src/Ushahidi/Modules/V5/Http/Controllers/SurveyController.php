@@ -11,10 +11,7 @@ use Ushahidi\Modules\V5\Actions\Survey\Commands\UpdateSurveyCommand;
 use Ushahidi\Modules\V5\Actions\Survey\Commands\DeleteSurveyCommand;
 use Ushahidi\Modules\V5\Http\Resources\Survey\SurveyCollection;
 use Ushahidi\Modules\V5\Http\Resources\Survey\SurveyResource;
-use Ushahidi\Modules\V5\DTO\SurveySearchFields;
 use Ushahidi\Core\Entity\Form as SurveyEntity;
-use Ushahidi\Core\Exception\NotFoundException;
-use Ushahidi\Modules\V5\Http\Resources\TranslationCollection;
 use Ushahidi\Modules\V5\Requests\SurveyRequest;
 use Ushahidi\Modules\V5\Actions\Survey\Queries\FetchSurveyStatsQuery;
 use Ushahidi\Modules\V5\DTO\SurveyStatesSearchFields;
@@ -32,12 +29,7 @@ class SurveyController extends V5Controller
     public function show(Request $request, int $id)
     {
         $survey = $this->queryBus->handle(
-            new FetchSurveyByIdQuery(
-                $id,
-                $request->input('formater') ?? null,
-                $request->input('only') ?? null,
-                $request->input('hydrate') ?? null
-            )
+            FetchSurveyByIdQuery::fromRequest($id, $request)
         );
 
         $this->authorizeAnyone('show', $survey);
@@ -56,19 +48,29 @@ class SurveyController extends V5Controller
         $this->authorizeAnyone('index', Survey::class);
 
         $surveys = $this->queryBus->handle(
-            new FetchSurveyQuery(
-                $request->query('limit', FetchSurveyQuery::DEFAULT_LIMIT),
-                $request->query('page', 1),
-                $request->query('sortBy', "id"),
-                $request->query('order', FetchSurveyQuery::DEFAULT_ORDER),
-                new SurveySearchFields($request),
-                $request->input('formater') ?? null,
-                $request->input('only') ?? null,
-                $request->input('hydrate') ?? null
-            )
+            FetchSurveyQuery::fromRequest($request)
         );
         return new SurveyCollection($surveys);
     } //end index()
+
+    private function getSurvey(int $id, ?array $fields = null, ?array $haydrates = null)
+    {
+        if (!$fields) {
+            $fields = Survey::ALLOWED_FIELDS;
+        }
+        if (!$haydrates) {
+            $haydrates = array_keys(Survey::ALLOWED_RELATIONSHIPS);
+        }
+        $find_survey_query = new FetchSurveyByIdQuery($id);
+        $find_survey_query->addOnlyValues(
+            $fields,
+            $haydrates,
+            Survey::ALLOWED_RELATIONSHIPS,
+            Survey::REQUIRED_FIELDS
+        );
+        return $this->queryBus->handle($find_survey_query);
+    }
+   
 
     /**
      * Display the specified resource.
@@ -99,7 +101,6 @@ class SurveyController extends V5Controller
                 $request->input('translations') ?? []
             )
         );
-
         return $this->show($request, $survey_id);
     } //end store()
 
@@ -114,8 +115,7 @@ class SurveyController extends V5Controller
      */
     public function update(int $id, SurveyRequest $request)
     {
-        $survey = $this->queryBus->handle(new FetchSurveyByIdQuery($id));
-
+        $survey = $this->getSurvey($id);
         $this->authorize('update', $survey);
         if (!$survey) {
             return self::make404();
@@ -138,7 +138,7 @@ class SurveyController extends V5Controller
      */
     public function delete(int $id, Request $request)
     {
-        $survey = $this->queryBus->handle(new FetchSurveyByIdQuery($id, null, 'id', 'tasks'));
+        $survey = $this->getSurvey($id, ['id'], ['tasks']);
         $this->authorize('delete', $survey);
         $task_ids = $survey->tasks->modelKeys();
         $field_ids = $survey->tasks->map(function ($task, $key) use (&$field_ids) {
