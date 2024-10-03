@@ -14,16 +14,15 @@ use Ushahidi\Modules\V5\Actions\Post\Commands\CreatePostCommand;
 use Ushahidi\Modules\V5\Actions\Post\Commands\UpdatePostCommand;
 use Ushahidi\Modules\V5\Events\PostCreatedEvent;
 use Ushahidi\Modules\V5\Events\PostUpdatedEvent;
-use Ushahidi\Modules\V5\Http\Resources\PostCollection;
-use Ushahidi\Modules\V5\Http\Resources\PostResource;
+use Ushahidi\Modules\V5\Http\Resources\PostResource as OldPostResource;
 use Ushahidi\Modules\V5\Models\Post\Post;
 use Ushahidi\Modules\V5\Models\Post\PostStatus;
 use Ushahidi\Modules\V5\Exceptions\V5Exception;
 use Illuminate\Support\Facades\DB;
 use Ushahidi\Modules\V5\Common\ValidatorRunner;
 
-use Ushahidi\Modules\V5\Http\Resources\Post\PostCollection as NewPostCollection;
-use Ushahidi\Modules\V5\Http\Resources\Post\PostResource as NewPostResource;
+use Ushahidi\Modules\V5\Http\Resources\Post\PostCollection;
+use Ushahidi\Modules\V5\Http\Resources\Post\PostResource;
 use Ushahidi\Modules\V5\Http\Resources\Post\PostLockResource;
 use Ushahidi\Modules\V5\Requests\PostRequest;
 
@@ -78,15 +77,15 @@ class PostController extends V5Controller
         $post = $this->queryBus->handle(FindPostByIdQuery::FromRequest($id, $request));
         $this->authorizeAnyone('show', $post);
 
-        return new NewPostResource($post);
+        return new PostResource($post);
     }
 
-    public function index(Request $request): NewPostCollection
+    public function index(Request $request): PostCollection
     {
         $this->authorizeAnyone('index', Post::class);
 
         $posts = $this->queryBus->handle(ListPostsQuery::FromRequest($request));
-        return new NewPostCollection($posts);
+        return new PostCollection($posts);
     }
 
     private function getUser()
@@ -140,11 +139,28 @@ class PostController extends V5Controller
         return $contact;
     }
 
+    private function getPost(int $id, ?array $fields = null, ?array $haydrates = null)
+    {
+        if (!$fields) {
+            $fields = Post::ALLOWED_FIELDS;
+        }
+        if (!$haydrates) {
+            $haydrates = array_keys(Post::ALLOWED_RELATIONSHIPS);
+        }
+        $find_post_query = new FindPostByIdQuery($id);
+        $find_post_query->addOnlyValues(
+            $fields,
+            $haydrates,
+            Post::ALLOWED_RELATIONSHIPS,
+            Post::REQUIRED_FIELDS
+        );
+        return $this->queryBus->handle($find_post_query);
+    }
     /**
      * Display the specified resource.
      *
      * @param Request $request
-     * @return NewPostResource|JsonResponse
+     * @return PostResource|JsonResponse
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function store(PostRequest $request)
@@ -161,15 +177,9 @@ class PostController extends V5Controller
                  ]) ;
         }
         $id = $this->commandBus->handle(CreatePostCommand::createFromRequest($request));
-        $post = $this->queryBus->handle(
-            new FindPostByIdQuery(
-                $id,
-                Post::ALLOWED_FIELDS,
-                array_keys(Post::ALLOWED_RELATIONSHIPS)
-            )
-        );
+        $post = $this->getPost($id);
         event(new PostCreatedEvent($post));
-        return new NewPostResource($post, 201);
+        return new PostResource($post, 201);
     } //end store()
 
     /**
@@ -202,7 +212,7 @@ class PostController extends V5Controller
                 // note: done after commit to avoid deadlock in the db
                 // see comment in bulkPatchOperation() below
                 event(new PostUpdatedEvent($post));
-                return new PostResource($post);
+                return new OldPostResource($post);
             } else {
                 DB::rollback();
                 return self::make422($post->errors);
@@ -353,19 +363,12 @@ class PostController extends V5Controller
      */
     public function update(int $id, PostRequest $request)
     {
-        $post = $this->queryBus->handle(new FindPostByIdQuery($id, Post::ALLOWED_FIELDS));
-        $this->authorize('update', $post);
-        $this->commandBus->handle(UpdatePostCommand::fromRequest($id, $request, $post));
-
-        $post = $this->queryBus->handle(
-            new FindPostByIdQuery(
-                $id,
-                Post::ALLOWED_FIELDS,
-                array_keys(Post::ALLOWED_RELATIONSHIPS)
-            )
-        );
+        $old_post = $this->getPost($id);
+        $this->authorize('update', $old_post);
+        $this->commandBus->handle(UpdatePostCommand::fromRequest($id, $request, $old_post));
+        $post = $this->getPost($id);
         event(new PostUpdatedEvent($post));
-        return new NewPostResource($post);
+        return new PostResource($post);
     } //end update()
 
     /**
@@ -391,9 +394,8 @@ class PostController extends V5Controller
      */
     public function delete(int $id, Request $request)
     {
-        $post = $this->queryBus->handle(new FindPostByIdQuery($id, ['id', 'user_id']));
+        $post = $this->getPost($id, ['id', 'status','user_id'], []);
         $this->authorize('delete', $post);
-
         $this->commandBus->handle(new DeletePostCommand($id));
         return $this->deleteResponse($id);
     } //end delete()
@@ -477,8 +479,7 @@ class PostController extends V5Controller
 
     public function updateLock(int $post_id, Request $request)
     {
-
-        $post = $this->queryBus->handle(new FindPostByIdQuery($post_id, ['id', 'user_id', 'form_id']));
+        $post = $this->getPost($post_id, ['id', 'status','user_id','form_id'], []);
         $this->authorize('update', $post);
 
         $this->commandBus->handle(new UpdatePostLockCommand($post_id));
@@ -489,7 +490,7 @@ class PostController extends V5Controller
 
     public function deleteLock(int $post_id, Request $request)
     {
-        $post = $this->queryBus->handle(new FindPostByIdQuery($post_id, ['id', 'user_id', 'form_id']));
+        $post = $this->getPost($post_id, ['id', 'status','user_id','form_id'], []);
         $this->authorize('update', $post);
 
         $this->commandBus->handle(new DeletePostLockCommand($post_id));

@@ -8,11 +8,8 @@ use Ushahidi\Modules\V5\DTO\PostStatsSearchFields;
 
 class PostsStatsQuery implements Query
 {
-
-    
     private $search_fields;
-
-   
+      
     private function __construct(
         PostStatsSearchFields $search_fields
     ) {
