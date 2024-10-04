@@ -39,6 +39,7 @@ class DataSourceManager
         'smssync' => SMSSync\SMSSync::class,
         'twilio' => Twilio\Twilio::class,
         'twitter' => Twitter\Twitter::class,
+        'sislog' => Sislog\Sislog::class,
     ];
 
     /**
@@ -333,5 +334,10 @@ class DataSourceManager
                 );
             }
         );
+    }
+
+    protected function createSislogSource(array $config)
+    {
+        return new SislogSource($config);
     }
 }

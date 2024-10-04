@@ -19,6 +19,7 @@ return [
         'africastalking' => false,
         'httpsms' => false,
         'infobip' => false,
+        'sislog' => false,
     ],
 
     'authenticable-providers' => [
