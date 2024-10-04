@@ -338,6 +338,6 @@ class DataSourceManager
 
     protected function createSislogSource(array $config)
     {
-        return new SislogSource($config);
+        return new Sislog\Sislog($config);
     }
 }
