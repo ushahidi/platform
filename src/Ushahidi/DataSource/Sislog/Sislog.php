@@ -136,7 +136,7 @@ class Sislog implements CallbackDataSource, OutgoingDataSource
         // Make a POST request to send the data to frontline cloud
 
         try {
-            $response = $this->client->request('POST', $serverUrl , [
+            $response = $this->client->request('POST', $serverUrl, [
                 'headers' => [
                     'Accept'               => 'application/json',
                     'Content-Type'         => 'application/json',
