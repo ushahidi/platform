@@ -33,7 +33,7 @@ return [
         'africastalking' => false,
         'httpsms' => true,
         'infobip' => true,
-        'sislog' => false,
+        'sislog' => true,
     ],
 
     // Client limits

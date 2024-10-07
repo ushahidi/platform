@@ -338,6 +338,6 @@ class DataSourceManager
 
     protected function createSislogSource(array $config)
     {
-        return new Sislog\Sislog($config);
+        return new Sislog\Sislog($config, new \GuzzleHttp\Client());
     }
 }

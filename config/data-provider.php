@@ -41,6 +41,7 @@ return [
     'twitter' => [],
     'nexmo' => [],
     'frontlinesms' => [],
+    'sislog'=>[],
     'gmail' => [
         'redirect_uri' => 'urn:ietf:wg:oauth:2.0:oob',
         'authenticated' => false
