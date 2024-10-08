@@ -77,8 +77,18 @@ class EloquentSurveyRepository implements SurveyRepository
             $query->with($with);
         }
         $query->distinct();
+        
+        $results = $query->paginate($paging->getLimit() ? $paging->getLimit() : config('paging.default_laravel_pageing_limit'));
 
-        return $query->paginate($paging->getLimit());
+        if ($search_fields->showUnknownForm) {
+            $results->push((new Survey)->fill([
+                'id' => 0,
+                'name' => 'Unknown Form',
+                'base_language' => 'en',
+            ]));
+        }
+
+        return $results;
     }
 
     private function addSurveyTableNamePrefix($fields)
