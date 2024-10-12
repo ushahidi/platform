@@ -66,7 +66,6 @@ abstract class AbstractPostCommandHandler extends V5CommandHandler
                 }
 
 
-
                 $class_name = "Ushahidi\Modules\V5\Models\PostValues\Post" . ucfirst($type);
                 if (!class_exists($class_name) &&
                     in_array(
@@ -104,6 +103,10 @@ abstract class AbstractPostCommandHandler extends V5CommandHandler
                 $value = $field['value']['value']; // field value input
                 $value_meta = $field['value']['value_meta'] ?? [];
                 $value_translations = $field['value']['translations'] ?? [];
+
+                if ($type === 'int' && isset($value)) {
+                    $value = (int) $value;
+                }
 
                 if ($type === 'geometry') {
                     if (is_string($value) && $value === '') {
