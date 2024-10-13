@@ -11,6 +11,24 @@ class PostMedia extends PostValue
     public $table = 'post_media';
 
     /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = [
+        'created',
+    ];
+
+    /**
+     * @var array
+    */
+    protected $fillable = [
+        'post_id',
+        'form_attribute_id',
+        'value'
+    ];
+
+    /**
      * Get the error messages for the defined validation rules.
      *
      * @return array
@@ -18,7 +36,7 @@ class PostMedia extends PostValue
     public function validationMessages()
     {
         return [];
-    }//end validationMessages()
+    }
 
     /**
      * Return all validation rules
@@ -27,12 +45,25 @@ class PostMedia extends PostValue
      */
     public function getRules()
     {
-        $rules = [
-            'value' => [
-                'numeric',
-                Rule::exists('media', 'id')
-            ],
+        return [
+            'post_id' => 'required|exists:posts,id',
+            'value' => 'required|exists:media,id',
+            'form_attribute_id' => 'required|exists:form_attribute,id'
         ];
-        return array_merge(parent::getRules(), $rules);
-    }//end getRules()
-}//end class
+    }
+    public function attribute()
+    {
+        return $this->hasOne('Ushahidi\Modules\V5\Models\Attribute', 'id', 'form_attribute_id');
+    }
+
+    public function media()
+    {
+        return $this->hasOne('Ushahidi\Modules\V5\Models\Media', 'id', 'value');
+    }
+
+    public function post()
+    {
+        return $this->hasOne('Ushahidi\Modules\V5\Models\Post\Post', 'id', 'post_id');
+    }
+
+}
