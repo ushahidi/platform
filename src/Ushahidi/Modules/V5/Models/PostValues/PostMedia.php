@@ -5,6 +5,7 @@ namespace Ushahidi\Modules\V5\Models\PostValues;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use Ushahidi\Modules\V5\Models\Helpers\HideTime;
 
 class PostMedia extends PostValue
 {
@@ -66,4 +67,9 @@ class PostMedia extends PostValue
         return $this->hasOne('Ushahidi\Modules\V5\Models\Post\Post', 'id', 'post_id');
     }
 
+    public function getCreatedAttribute($value)
+    {
+        $time = HideTime::hideTime($value, $this->survey ? $this->survey->hide_time : true);
+        return self::makeDate($time);
+    }
 }
