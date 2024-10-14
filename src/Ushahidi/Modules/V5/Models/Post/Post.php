@@ -429,8 +429,11 @@ class Post extends BaseModel
             'post_content.*.fields.*.type' => [
                 function ($attribute, $value, $fail) {
                     $get_value = RequestFacade::input(str_replace('.type', '.value.value', $attribute));
-                    if (($value === 'tags' || $value === 'media') && !is_array($get_value)) {
+                    if ($value === 'tags'  && !is_array($get_value)) {
                         return $fail(trans('validation.tag_field_must_be_array'));
+                    }
+                    elseif ($value === 'media' && !is_array($get_value)) {
+                        return $fail(trans('validation.media_field_must_be_array'));
                     }
                 }
             ],
