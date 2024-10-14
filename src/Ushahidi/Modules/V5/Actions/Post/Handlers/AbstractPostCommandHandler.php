@@ -32,6 +32,7 @@ abstract class AbstractPostCommandHandler extends V5CommandHandler
     {
         $errors = [];
         $post->valuesPostTag()->delete();
+        $post->valuesMedia()->delete();
         foreach ($post_content as $stage) {
             if (!isset($stage['fields'])) {
                 continue;
@@ -57,7 +58,6 @@ abstract class AbstractPostCommandHandler extends V5CommandHandler
                 }
 
                 if ($type === 'tags') {
-                    // To Do : delete the tags
                     $type === 'tags' ? 'tag' : $type;
                     $this->savePostTags($post, $field['id'], $field['value']['value']);
                     continue;
