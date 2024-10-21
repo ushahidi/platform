@@ -171,7 +171,8 @@ abstract class AbstractPostCommandHandler extends V5CommandHandler
         return $errors;
     }
 
-    protected function savePostMedia($post, $attr_id, $media) {
+    protected function savePostMedia($post, $attr_id, $media)
+    {
         if (!is_array($media)) {
             throw new \Exception("$attr_id: media format is invalid.");
         }

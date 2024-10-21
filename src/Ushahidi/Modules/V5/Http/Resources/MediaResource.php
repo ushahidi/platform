@@ -23,5 +23,4 @@ class MediaResource extends Resource
             'media_id' => $this->value,
         ];
     }
-
 }
