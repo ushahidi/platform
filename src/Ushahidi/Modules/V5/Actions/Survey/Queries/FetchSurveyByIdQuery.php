@@ -4,48 +4,37 @@ namespace Ushahidi\Modules\V5\Actions\Survey\Queries;
 
 use App\Bus\Query\Query;
 use Ushahidi\Modules\V5\Models\Survey;
+use Ushahidi\Modules\V5\Traits\OnlyParameter\QueryWithOnlyParameter;
+use Illuminate\Http\Request;
 
 class FetchSurveyByIdQuery implements Query
 {
 
-
+    use QueryWithOnlyParameter;
     /**
      * int
      */
     private $id;
-    private $format;
-    private $only_fields;
-    private $hydrate;
 
     public function __construct(
-        int $id = 0,
-        ?string $format = null,
-        ?string $only_fields = null,
-        ?string $hydrate = null
+        int $id = 0
     ) {
 
         $this->id = $id;
-        $this->format = $format;
-        $this->only_fields = $only_fields;
-        $this->hydrate = $hydrate;
+    }
+    
+    public static function fromRequest(int $id, Request $request): self
+    {
+        if ($id <= 0) {
+            throw new \InvalidArgumentException('Id must be a positive number');
+        }
+        $query =  new self($id);
+        $query->addOnlyParameteresFromRequest($request, Survey::ALLOWED_FIELDS, Survey::ALLOWED_RELATIONSHIPS, Survey::REQUIRED_FIELDS);
+        return $query;
     }
 
     public function getId(): int
     {
         return $this->id;
-    }
-
-    public function getFormat()
-    {
-        return $this->format;
-    }
-    public function getOnlyFields()
-    {
-        return $this->only_fields;
-    }
-
-    public function getHydrate()
-    {
-        return $this->hydrate;
     }
 }

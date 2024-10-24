@@ -87,6 +87,24 @@ class MessageController extends V5Controller
         return $this->show($id);
     }// end update
 
+    private function getPost(int $id, ?array $fields = null, ?array $haydrates = null)
+    {
+        if (!$fields) {
+            $fields = Post::ALLOWED_FIELDS;
+        }
+        if (!$haydrates) {
+            $haydrates = array_keys(Post::ALLOWED_RELATIONSHIPS);
+        }
+        $find_post_query = new FindPostByIdQuery($id);
+        $find_post_query->addOnlyValues(
+            $fields,
+            $haydrates,
+            Post::ALLOWED_RELATIONSHIPS,
+            Post::REQUIRED_FIELDS
+        );
+        return $this->queryBus->handle($find_post_query);
+    }
+
     /**
      * Display the specified resource.
      *
@@ -99,7 +117,7 @@ class MessageController extends V5Controller
         $message = $this->queryBus->handle(new FetchMessageByIdQuery($id));
         $this->authorize('show', $message);
         if ($message->post_id) {
-            $post = $this->queryBus->handle(new FindPostByIdQuery($message->post_id, Post::ALLOWED_FIELDS));
+            $post = $this->getPost($message->post_id);
             return new postResource($post);
         }
         throw new NotFoundException("Post does not exist for this message");

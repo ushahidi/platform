@@ -36,7 +36,7 @@
         "nyholm/psr7": "^1.5",
         "ohanzee/database": "dev-namespaces",
         "php-http/curl-client": "^2.2",
-        "predis/predis": "~1.1",
+        "predis/predis": "^2.2.2",
         "robmorgan/phinx": "~0.11.2",
         "sentry/sentry-laravel": "^1.9|^2.11",
         "symfony/event-dispatcher": "^5.4",

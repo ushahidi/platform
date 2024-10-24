@@ -33,8 +33,14 @@ class Post extends BaseModel
     use HasFactory;
 
     public const DEFAULT_SOURCE_TYPE = "web";
+    
+    /** Data used for only parameters
+     *
+     *
+     */
     public const REQUIRED_FIELDS = [
-        'id'
+        'id',
+        'status' // this field is needed for permissions
     ];
 
     public const ALLOWED_FIELDS = [
