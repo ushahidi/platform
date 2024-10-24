@@ -13,6 +13,5 @@ class EmbiggenMimeType extends AbstractMigration
 
     public function down()
     {
-
     }
 }
