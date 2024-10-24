@@ -35,7 +35,7 @@ class CreateMediaCommandHandler extends V5CommandHandler
     public function __invoke(Action $action)
     {
         $this->isSupported($action);
-        $this->validateFileData($action->getMediaEntity());
+        // $this->validateFileData($action->getMediaEntity());
         return $this->media_repository->create($action->getMediaEntity());
     }
 

@@ -80,9 +80,9 @@ class Media extends BaseModel
                         ];
                         if (!$value) {
                             return $fail(trans('validation.mime_not_empty'));
-                        } elseif (!in_array($value, $allowed_mime_types)) {
-                            return $fail(trans('validation.mime_type_not_allowed'));
-                        }
+                        } //elseif (!in_array($value, $allowed_mime_types)) {
+                        //     return $fail(trans('validation.mime_type_not_allowed'));
+                        // }
                     }
              ],
 

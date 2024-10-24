@@ -33,6 +33,7 @@ return array(
   'role_cannot_be_empty' => 'The role list must be NULL or an array with at least 1 role',
   'tag_field_type_cannot_be_private' => 'Tag fields cannot be private.',
   'tag_field_must_be_array' => 'Incorrect format for tags property.',
+  'media_field_must_be_array' => 'Incorrect format for media property.',
   'field_required'         => ':field is required',
   'array'         => ':field must be an array',
   'integer'       => ':field must be an integer',

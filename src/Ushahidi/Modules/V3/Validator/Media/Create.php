@@ -69,8 +69,8 @@ class Create extends LegacyValidator
 
         if (!$mime) {
             $validation->error('mime', 'mime_not_empty');
-        } elseif (!in_array($mime, $allowed_mime_types)) {
-            $validation->error('mime', 'mime_type_not_allowed');
-        }
+        } //elseif (!in_array($mime, $allowed_mime_types)) {
+        //     $validation->error('mime', 'mime_type_not_allowed');
+        // }
     }
 }

@@ -32,6 +32,7 @@ abstract class AbstractPostCommandHandler extends V5CommandHandler
     {
         $errors = [];
         $post->valuesPostTag()->delete();
+        $post->valuesMedia()->delete();
         foreach ($post_content as $stage) {
             if (!isset($stage['fields'])) {
                 continue;
@@ -40,7 +41,7 @@ abstract class AbstractPostCommandHandler extends V5CommandHandler
                 $for_delete = false;
                 $type = $field['type'];
                 if (!isset($field['value'])) {
-                    if ($type === 'tags') {
+                    if ($type === 'tags' || $type === 'media') {
                         continue;
                     }
                     $for_delete = true;
@@ -50,22 +51,22 @@ abstract class AbstractPostCommandHandler extends V5CommandHandler
                 // The reason is when a field value input is updated and then left empty (as long it's not required)
                 // the user wants to override the existing input value with an empty value.
                 if (!isset($field['value']['value'])) {
-                    if ($type === 'tags') {
+                    if ($type === 'tags' || $type === 'media') {
                         continue;
                     }
                     $for_delete = true;
                 }
 
-
-
                 if ($type === 'tags') {
-                    // To Do : delete the tags
                     $type === 'tags' ? 'tag' : $type;
                     $this->savePostTags($post, $field['id'], $field['value']['value']);
                     continue;
                 }
 
-
+                if ($type === 'media') {
+                    $this->savePostMedia($post, $field['id'], $field['value']['value']);
+                    continue;
+                }
 
                 $class_name = "Ushahidi\Modules\V5\Models\PostValues\Post" . ucfirst($type);
                 if (!class_exists($class_name) &&
@@ -168,6 +169,22 @@ abstract class AbstractPostCommandHandler extends V5CommandHandler
             }
         }
         return $errors;
+    }
+
+    protected function savePostMedia($post, $attr_id, $media)
+    {
+        if (!is_array($media)) {
+            throw new \Exception("$attr_id: media format is invalid.");
+        }
+        foreach ($media as $media_id) {
+            $post->valuesMedia()->create(
+                [
+                    'post_id' => $post->id,
+                    'form_attribute_id' => $attr_id,
+                    'value' => $media_id
+                ]
+            );
+        }
     }
 
 
