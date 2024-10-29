@@ -136,7 +136,7 @@ Feature: Testing the Posts API
                             "id": 14,
                             "type": "media",
                             "value": {
-                                "value": null
+                                "value": [null]
                             }
                         },
                         {
@@ -391,7 +391,7 @@ Feature: Testing the Posts API
                               "id": 14,
                               "type": "media",
                               "value": {
-                                  "value": null
+                                  "value": [null]
                               }
                           }
                       ],
@@ -618,7 +618,7 @@ Feature: Testing the Posts API
                               "id": 14,
                               "type": "media",
                               "value": {
-                                  "value": null
+                                  "value": [null]
                               }
                           }
                       ],
