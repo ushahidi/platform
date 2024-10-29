@@ -82,6 +82,14 @@ trait HandlePostOnlyParameters
                     ];
                     $relations['enabled_languages'] = true;
                     break;
+                case 'post_media':
+                        $post->post_media = $post->valuesPostMedia;
+                        $post->post_media = $post->post_media->map(function ($media) {
+                            $media = $media->toArray();
+                            unset($media['post']); // Remove the 'post' property
+                            return $media;
+                        });
+                    break;
             }
         }
         return $post;
@@ -113,6 +121,8 @@ trait HandlePostOnlyParameters
         $post->makeHidden('valuesPostsMedia');
         $post->makeHidden('valuesPostsSet');
         $post->makeHidden('valuesPostTag');
+        $post->makeHidden('valuesPostMedia');
+
 
         // hide source relationships
         if (!in_array('message', $hydrates)) {

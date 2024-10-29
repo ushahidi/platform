@@ -68,6 +68,7 @@ class Post extends BaseModel
     ];
 
     public const ALLOWED_RELATIONSHIPS = [
+        'post_media' => ['fields' => [], 'relationships' => ["valuesPostMedia"]],
         'locks' => ['fields' => [], 'relationships' => ["locks"]],
         'categories' => ['fields' => [], 'relationships' => ["categories"]],
         'color' => ['fields' => [], 'relationships' => ["survey"]],
@@ -754,9 +755,14 @@ class Post extends BaseModel
     public function valuesPostsMedia()
     {
         return $this->hasMany('Ushahidi\Modules\V5\Models\PostValues\PostsMedia', 'post_id', 'id')
-            ->select('posts_media.*');
+            ->selectRaw('posts_media.*');
     }
 
+    public function valuesPostMedia()
+    {
+        return $this->hasMany('Ushahidi\Modules\V5\Models\PostValues\PostMedia', 'post_id', 'id')
+            ->select('post_media.*');
+    }
     public function valuesPostsSet()
     {
         return $this->hasMany('Ushahidi\Modules\V5\Models\PostValues\PostsSet', 'post_id', 'id')
