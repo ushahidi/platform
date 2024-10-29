@@ -340,9 +340,13 @@ class EloquentPostRepository implements PostRepository
         array $with = []
     ): LengthAwarePaginator {
         $fields = $this->addPostsTableNamePrefix($fields);
+        // add the order field if not found
+        if (!in_array('posts.'.$paging->getOrderBy(), $fields)) {
+            $fields[] = 'posts.'.$paging->getOrderBy();
+        }
         $query = Post::take($paging->getLimit())
             //->skip($paging->getSkip())
-            ->orderBy($paging->getOrderBy(), $paging->getOrder());
+            ->orderBy('posts.'.$paging->getOrderBy(), $paging->getOrder());
 
         $query = $this->setSearchCondition($search_fields, $query);
         $query = $this->setGuestConditions($query);
