@@ -10,8 +10,8 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 use Ushahidi\Modules\V5\DTO\CollectionSearchFields;
 use Ushahidi\Core\Entity\Set as CollectionEntity;
-use Illuminate\Support\Facades\Auth;
 use Ushahidi\Core\Tool\SearchData;
+use Ushahidi\Modules\V5\DTO\Paging;
 
 class EloquentSetRepository implements SetRepository
 {
@@ -20,51 +20,60 @@ class EloquentSetRepository implements SetRepository
      */
     protected $searchData;
 
+    private function addTableNamePrefix($fields)
+    {
+        $after_update = [];
+        foreach ($fields as $field) {
+            $after_update[] = 'sets.' . $field;
+        }
+        return $after_update;
+    }
+
     /**
      * This method will fetch all the Set for the logged user from the database utilising
      * Laravel Eloquent ORM and return them as an array
-     * @param int $limit
-     * @param int $skip
-     * @param string $sortBy
-     * @param string $order
+     * @param Paging $limit
+     * @param CollectionSearchFields $search_fields
+     * @param array $fields
+     * @param array $with
      *
      * @return Set[]|LengthAwarePaginator
      */
-    public function fetch()
-    {
-        $data = $this->searchData;
-
-        $query = $this->setSearchCondition(Set::query(), $data);
-
-        $sort = $data->getFilter('sort');
-        $order = $data->getFilter('order');
-        if (isset($sort)) {
-            $query->orderBy($sort, $order);
+    public function paginate(
+        Paging $paging,
+        CollectionSearchFields $search_fields,
+        array $fields = [],
+        array $with = []
+    ): LengthAwarePaginator {
+        $fields = $this->addTableNamePrefix($fields);
+        // add the order field if not found
+        if (!in_array('sets.'.$paging->getOrderBy(), $fields)) {
+            $fields[] = 'sets.'.$paging->getOrderBy();
         }
+        $query = Set::take($paging->getLimit())
+            ->orderBy('sets.'.$paging->getOrderBy(), $paging->getOrder());
 
-        if ($data->getFilter('with_post_count') == true) {
-            $query->withCount('posts');
-        }
+        $query = $this->setSearchCondition($search_fields, $query);
 
-        $limit = $data->getFilter('limit');
-        if (isset($limit)) {
-            return $query->paginate($limit);
+        if (count($fields)) {
+            $query->select($fields);
         }
-        return $query->get();
+        if (count($with)) {
+            $query->with($with);
+        }
+        $query->distinct();
+
+        return $query->paginate($paging->getLimit());
     }
-
-    private function setSearchCondition(Builder $builder, SearchData $search_fields)
+    private function setSearchCondition(CollectionSearchFields $search_fields, $builder)
     {
-        $is_saved_search = (int) $search_fields->getFilter('is_saved_search');
-        $builder->where('search', '=', $is_saved_search);
+        $builder->where('search', '=', $search_fields->isSavedSearch());
 
-        $keyword = $search_fields->getFilter('keyword');
-        if (isset($keyword) && !empty($keyword)) {
-            $builder->where('name', 'LIKE', "%" . $keyword . "%");
+        if ($search_fields->q()) {
+            $builder->where('name', 'LIKE', "%" . $search_fields->q() . "%");
         }
-
-        $is_admin = $search_fields->getFilter('is_admin');
-        if ($is_admin == false) {
+        
+        if (!$search_fields->isAdmin()) {
             // Default search for everyone and guest user
             $builder->where(function (Builder $query) {
                 $query->whereNull('role');
@@ -73,7 +82,7 @@ class EloquentSetRepository implements SetRepository
             });
 
             // is owner
-            $user_id = $search_fields->getFilter('user_id');
+            $user_id = $search_fields->userID();
             if (isset($user_id) && !is_null($user_id)) {
                 $builder->orWhere(function (Builder $query) use ($user_id) {
                     $query->where('role', 'LIKE', "%me%")
@@ -82,7 +91,7 @@ class EloquentSetRepository implements SetRepository
             }
 
             // is not admin and has role
-            $role = $search_fields->getFilter('role');
+            $role = $search_fields->role();
             if (isset($role) && !is_null($role)) {
                 $builder->orWhere(function (Builder $query) use ($role) {
                     $query->where('role', 'LIKE', "%" . $role . "%");
@@ -104,12 +113,21 @@ class EloquentSetRepository implements SetRepository
      * not exist in the database.
      * @param int $id
      * @param bool $search
+     * @param array fields
+     * @param array with
      * @return Set
      * @throws NotFoundException
      */
-    public function findById(int $id, bool $search = false): Set
+    public function findById(int $id, bool $search = false, array $fields = [], array $with = []): Set
     {
-        $set = Set::where('id', '=', $id)->where('search', '=', $search)->first();
+        $query = Set::where('id', '=', $id)->where('search', '=', $search);
+        if (count($fields)) {
+            $query->select($fields);
+        }
+        if (count($with)) {
+            $query->with($with);
+        }
+        $set = $query->first();
         if (!$set instanceof Set) {
             throw new NotFoundException('set not found');
         }

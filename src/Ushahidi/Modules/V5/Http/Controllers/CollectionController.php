@@ -10,14 +10,12 @@ use Ushahidi\Modules\V5\Http\Resources\Collection\CollectionCollection;
 use Ushahidi\Modules\V5\Actions\Collection\Commands\CreateCollectionCommand;
 use Ushahidi\Modules\V5\Actions\Collection\Commands\UpdateCollectionCommand;
 use Ushahidi\Modules\V5\Actions\Collection\Commands\DeleteCollectionCommand;
-use Ushahidi\Modules\V5\DTO\CollectionSearchFields;
 use Ushahidi\Core\Entity\Set as CollectionEntity;
 use Ushahidi\Modules\V5\Requests\CollectionRequest;
 use Ushahidi\Modules\V5\Models\Set as CollectionModel;
 
 class CollectionController extends V5Controller
 {
-
 
     /**
      * Display the specified resource.
@@ -26,10 +24,11 @@ class CollectionController extends V5Controller
      * @return mixed
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function show(int $id)
+    public function show(Request $request, int $id)
     {
-
-        $collection = $this->queryBus->handle(new FetchCollectionByIdQuery($id));
+        $collection = $this->queryBus->handle(
+            FetchCollectionByIdQuery::fromRequest($id, $request)
+        );
         $this->authorizeAnyone('view', $collection);
         return new CollectionResource($collection);
     } //end show()
@@ -45,20 +44,31 @@ class CollectionController extends V5Controller
     public function index(Request $request)
     {
         $this->authorizeAnyone('viewAny', CollectionModel::class);
-
-        $action = new FetchCollectionQuery(
-            $request->query('limit', FetchCollectionQuery::DEFAULT_LIMIT),
-            $request->query('page', 1),
-            $request->query('sortBy', FetchCollectionQuery::DEFAULT_SORT_BY),
-            $request->query('order', FetchCollectionQuery::DEFAULT_ORDER),
-            new CollectionSearchFields($request)
+        $collections = $this->queryBus->handle(
+            FetchCollectionQuery::fromRequest($request)
         );
-
-        $collections = $this->queryBus->handle($action);
 
         return new CollectionCollection($collections);
     } //end index()
 
+
+    private function getCollection(int $id, ?array $fields = null, ?array $haydrates = null)
+    {
+        if (!$fields) {
+            $fields = CollectionModel::ALLOWED_FIELDS;
+        }
+        if (!$haydrates) {
+            $haydrates = array_keys(CollectionModel::ALLOWED_RELATIONSHIPS);
+        }
+        $find_collection_query = new FetchCollectionByIdQuery($id);
+        $find_collection_query->addOnlyValues(
+            $fields,
+            $haydrates,
+            CollectionModel::ALLOWED_RELATIONSHIPS,
+            CollectionModel::REQUIRED_FIELDS
+        );
+        return $this->queryBus->handle($find_collection_query);
+    }
 
     /**
      * Create new Collection.
@@ -70,7 +80,9 @@ class CollectionController extends V5Controller
     public function store(CollectionRequest $request)
     {
         $this->authorize('store', CollectionModel::class);
+        // to do fix the create of this
         return $this->show(
+            $request,
             $this->commandBus->handle(
                 new CreateCollectionCommand(
                     CollectionEntity::buildEntity($request->input())
@@ -81,18 +93,18 @@ class CollectionController extends V5Controller
 
     public function update(int $id, CollectionRequest $request)
     {
-        $collection = $this->queryBus->handle(new FetchCollectionByIdQuery($id));
+        $collection = $this->getCollection($id, CollectionModel::ALLOWED_FIELDS, []);
         $collection_entity = CollectionEntity::buildEntity($request->input(), 'update', $collection->toArray());
         $new_collection = new CollectionModel($collection_entity->asArray());
         $new_collection->id = $collection_entity->id;
         $this->authorize('update', $new_collection);
         $this->commandBus->handle(new UpdateCollectionCommand($id, $collection_entity));
-        return $this->show($id);
+        return $this->show($request, $id);
     }
 
     public function delete(int $id)
     {
-        $collection = $this->queryBus->handle(new FetchCollectionByIdQuery($id));
+        $collection = $this->getCollection($id, ['id'], []);
         $this->authorize('delete', $collection);
         $this->commandBus->handle(new DeleteCollectionCommand($id));
         return response()->json(['result' => ['deleted' => $id]]);

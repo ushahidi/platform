@@ -50,6 +50,45 @@ class Set extends BaseModel
         'updated'
     ];
 
+    /** Data used for only parameters
+     *
+     */
+    
+    public const REQUIRED_FIELDS = [
+        'id',
+    ];
+
+    public const ALLOWED_FIELDS = [
+        'id',
+        'user_id',
+        'name',
+        'description',
+        'filter',
+        'view',
+        'view_options',
+        'role',
+        'search',
+        'featured',
+        'created',
+        'updated'
+    ];
+
+    public const COLLECTION_ALLOWED_FIELDS = [
+        'id',
+        'user_id',
+        'name',
+        'description',
+        'view',
+        'view_options',
+        'role',
+        'featured',
+        'created',
+        'updated'
+    ];
+
+    public const ALLOWED_RELATIONSHIPS = [
+        'posts' => ['fields' => [], 'relationships' => ["posts"]],
+    ];
     /**
      * Return all validation rules
      *
