@@ -25,7 +25,6 @@ class FetchSavedSearchByIdQueryHandler extends AbstractQueryHandler
         );
     }
 
-
     /**
      * @param FetchSavedSearchByIdQuery $query
      * @return array
@@ -33,6 +32,14 @@ class FetchSavedSearchByIdQueryHandler extends AbstractQueryHandler
     public function __invoke($query) //: array
     {
         $this->isSupported($query);
-        return $this->saved_search_repository->findById($query->getId(), 1);
+        return $this->saved_search_repository->findById(
+            $query->getId(),
+            1,
+            array_unique(array_merge(
+                $query->getFields(),
+                $query->getFieldsForRelationship()
+            )),
+            $query->getWithRelationship()
+        );
     }
 }
