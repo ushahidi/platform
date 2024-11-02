@@ -33,7 +33,7 @@ class Post extends BaseModel
     use HasFactory;
 
     public const DEFAULT_SOURCE_TYPE = "web";
-    
+
     /** Data used for only parameters
      *
      *
@@ -96,7 +96,8 @@ class Post extends BaseModel
                 'valuesRelation',
                 'valuesPostsMedia',
                 // 'valuesPostsSet',
-                'valuesPostTag'
+                'valuesPostTag',
+                'valuesPhone'
             ]
         ]
 
@@ -660,7 +661,8 @@ class Post extends BaseModel
             'Relation',
             'PostsMedia',
             //            'PostsSet',
-            'PostTag'
+            'PostTag',
+            'Phone'
         ];
         return array_map(function ($t) {
             return "values${t}";
@@ -775,6 +777,12 @@ class Post extends BaseModel
     {
         return $this->hasMany('Ushahidi\Modules\V5\Models\PostValues\PostTag', 'post_id', 'id')
             ->select('posts_tags.*');
+    }
+
+    public function valuesPhone()
+    {
+        return $this->hasMany('Ushahidi\Modules\V5\Models\PostValues\PostPhone', 'post_id', 'id')
+            ->select('post_phone.*');
     }
 
     public function postStages()
