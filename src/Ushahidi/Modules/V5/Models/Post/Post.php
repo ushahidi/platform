@@ -765,7 +765,10 @@ class Post extends BaseModel
     public function valuesPostMedia()
     {
         return $this->hasMany('Ushahidi\Modules\V5\Models\PostValues\PostMedia', 'post_id', 'id')
-            ->select('post_media.*');
+            ->select('post_media.*')->with('attribute')->whereHas('attribute', function ($query) {
+                $query->where('input', 'image')
+                ->orWhere('input', 'upload'); // for old uploaded images
+            });
     }
     public function valuesPostsSet()
     {

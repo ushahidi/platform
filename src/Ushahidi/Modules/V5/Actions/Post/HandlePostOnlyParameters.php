@@ -83,12 +83,17 @@ trait HandlePostOnlyParameters
                     $relations['enabled_languages'] = true;
                     break;
                 case 'post_media':
-                        $post->post_media = $post->valuesPostMedia;
-                        $post->post_media = $post->post_media->map(function ($media) {
-                            $media = $media->toArray();
-                            unset($media['post']); // Remove the 'post' property
-                            return $media;
-                        });
+                        $post->post_media = $post->valuesPostMedia->first();
+                    if ($post->post_media) {
+                        $media = $post->post_media->toArray();
+                        unset($media['post']);
+                        // convert it to field structure
+                        $media_field = $media['attribute'];
+                        unset($media['attribute']);
+                        unset($media['translations']);
+                        $media_field['value'] = $media;
+                        $post->post_media = $media_field;
+                    }
                     break;
             }
         }
