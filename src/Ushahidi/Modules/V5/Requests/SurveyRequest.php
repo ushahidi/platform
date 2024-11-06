@@ -264,6 +264,7 @@ class SurveyRequest extends BaseRequest
                         'title',
                         'description',
                         'tags',
+                        'phone',
                     ]
                 )
             ],
