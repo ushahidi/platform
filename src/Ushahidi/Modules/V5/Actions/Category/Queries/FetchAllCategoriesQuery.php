@@ -5,29 +5,30 @@ namespace Ushahidi\Modules\V5\Actions\Category\Queries;
 use App\Bus\Query\Query;
 use Ushahidi\Modules\V5\DTO\Paging;
 use Ushahidi\Modules\V5\DTO\CategorySearchFields;
+use Ushahidi\Modules\V5\Models\Category;
+use Illuminate\Http\Request;
+use Ushahidi\Modules\V5\Traits\OnlyParameter\QueryWithOnlyParameter;
+use Ushahidi\Modules\V5\Traits\HasPaginate;
+use Ushahidi\Modules\V5\Traits\HasSearchFields;
 
 class FetchAllCategoriesQuery implements Query
 {
 
-    /**
-     * @var Paging
-     */
-    private $paging;
-    private $category_search_fields;
-
-    public function __construct(Paging $paging, CategorySearchFields $category_search_fields)
+    use QueryWithOnlyParameter;
+    use HasPaginate;
+    use HasSearchFields;
+   
+    public static function fromRequest(Request $request): self
     {
-        $this->paging = $paging;
-        $this->category_search_fields = $category_search_fields;
-    }
-
-    public function getPaging(): Paging
-    {
-        return $this->paging;
-    }
-
-    public function getCategorySearchFields()
-    {
-        return $this->category_search_fields;
+        $query = new self();
+        $query->setPaging($request);
+        $query->setSearchFields(new CategorySearchFields($request));
+        $query->addOnlyParameteresFromRequest(
+            $request,
+            Category::ALLOWED_FIELDS,
+            Category::ALLOWED_RELATIONSHIPS,
+            Category::REQUIRED_FIELDS
+        );
+        return $query;
     }
 }

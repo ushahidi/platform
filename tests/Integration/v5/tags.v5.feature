@@ -368,7 +368,7 @@ Feature: Testing the Categories API
         And that the api_url is "api/v5"
         When I request "/categories"
         Then the response is JSON
-        And the "results" property count is "14"
+        And the "results" property count is "19"
         Then the guzzle status code should be 200
     Scenario: Listing All Tags available to regular users
         Given that I want to get all "Categories"
@@ -376,7 +376,7 @@ Feature: Testing the Categories API
         And that the api_url is "api/v5"
         When I request "/categories"
         Then the response is JSON
-        And the "results" property count is "7"
+        And the "results" property count is "9"
         Then the guzzle status code should be 200
 
     Scenario: Listing All Tags available to non-users
@@ -384,7 +384,7 @@ Feature: Testing the Categories API
         And that the api_url is "api/v5"
         When I request "/categories"
         Then the response is JSON
-        And the "results" property count is "5"
+        And the "results" property count is "7"
         Then the guzzle status code should be 200
 #
 #    @resetFixture
