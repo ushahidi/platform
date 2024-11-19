@@ -7,6 +7,7 @@ use Ushahidi\Modules\V5\Models\Category;
 use Ushahidi\Modules\V5\DTO\Paging;
 use Ushahidi\Modules\V5\DTO\CategorySearchFields;
 use Ushahidi\Core\Tool\SearchData;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 interface CategoryRepository
 {
@@ -20,7 +21,22 @@ interface CategoryRepository
      */
     public function findById(int $id): Category;
 
-    public function fetchAll(Paging $paging);
+
+     /**
+     * This method will fetch all the Set for the logged user from the database utilising
+     * Laravel Eloquent ORM and return them as an array
+     * @param Paging $limit
+     * @param CategorySearchFields $search_fields
+     * @param array $fields
+     * @param array $with
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator<Set>
+     */
+    public function paginate(
+        Paging $paging,
+        CategorySearchFields $search_fields,
+        array $fields = [],
+        array $with = []
+    ): LengthAwarePaginator;
 
     public function store(
         ?string $parentId,
