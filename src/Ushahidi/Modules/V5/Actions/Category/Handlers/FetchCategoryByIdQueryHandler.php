@@ -34,7 +34,6 @@ class FetchCategoryByIdQueryHandler extends AbstractQueryHandler
         $this->isSupported($query);
         return $this->categoryRepository->findById(
             $query->getId(),
-            false,
             array_unique(array_merge(
                 $query->getFields(),
                 $query->getFieldsForRelationship()

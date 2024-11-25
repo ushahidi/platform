@@ -16,10 +16,12 @@ interface CategoryRepository
      * Laravel Eloquent ORM. Will throw an exception if provided identifier does
      * not exist in the database.
      * @param int $id
+     * @param array $fields
+     * @param array $with
      * @return Category
      * @throws NotFoundException
      */
-    public function findById(int $id): Category;
+    public function findById(int $id, array $fields = [], array $with = []): Category;
 
 
      /**
