@@ -35,12 +35,23 @@ class EloquentCategoryRepository implements CategoryRepository
      * Laravel Eloquent ORM. Will throw an exception if provided identifier does
      * not exist in the database.
      * @param int $id
+     * @param array $fields
+     * @param array $with
      * @return Category
      * @throws NotFoundException
      */
-    public function findById(int $id): Category
+    public function findById(int $id, array $fields = [], array $with = []): Category
     {
-        $category = Category::find($id);
+        $query = Category::where('id', '=', $id);
+        if (count($fields)) {
+            $query->select($fields);
+        }
+        if (count($with)) {
+            $query->with($with);
+        }
+        $category = $query->first();
+        dd($category);
+
         if (!$category instanceof Category) {
             throw new NotFoundException('Category not found');
         }
@@ -136,7 +147,6 @@ class EloquentCategoryRepository implements CategoryRepository
             ->orderBy('tags.'.$paging->getOrderBy(), $paging->getOrder());
 
         $query = $this->setSearchCondition($search_fields, $query);
-
         if (count($fields)) {
             $query->select($fields);
         }

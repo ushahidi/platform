@@ -78,8 +78,8 @@ class Category extends BaseModel
         'created'
     ];
     public const ALLOWED_RELATIONSHIPS = [
-        'children' => ['fields' => [], 'relationships' => ['children']],
-        'parent' => ['fields' => [], 'relationships' => ['parent']],
+        'children' => ['fields' => ['parent_id'], 'relationships' => ['children']],
+        'parent' => ['fields' => ['parent_id'], 'relationships' => ['parent']],
         'translations' => ['fields' => [], 'relationships' => ["translations"]],
         'enabled_languages' => ['fields' => ['base_language'], 'relationships' => ['translations']],
     ];
