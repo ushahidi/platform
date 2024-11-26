@@ -85,9 +85,9 @@ class UpdateCategoryCommand implements Command
         ?string $icon,
         ?int $priority,
         ?array $role,
+        array $translations,
         ?string $defaultLanguage,
-        ?array  $availableLanguages = [],
-        array $translations
+        ?array  $availableLanguages = []
     ) {
         $this->categoryId = $categoryId;
         $this->parentId = $parentId;
@@ -117,9 +117,9 @@ class UpdateCategoryCommand implements Command
             $request->has('icon')?$request->input('icon'):$current_category->icon,
             $request->has('priority')?$request->input('priority'):$current_category->priority,
             $request->has('role')?$request->input('role'):$current_category->role,
+            $request->input('translations')??[],
             self::DEFAULT_LANUGAGE,
-            [],
-            $request->input('translations')??[]
+            []
         );
     }
 
