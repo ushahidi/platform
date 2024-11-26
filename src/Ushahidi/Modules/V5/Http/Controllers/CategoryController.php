@@ -88,25 +88,6 @@ class CategoryController extends V5Controller
 
         $category = $this->getCategory($id, Category::ALLOWED_FIELDS);
 
-        DB::beginTransaction();
-        try {
-            $errors = $this->saveTranslations(
-                $category,
-                $category->toArray(),
-                $request->input('translations', []),
-                $category->id,
-                'category'
-            );
-            if (!empty($errors)) {
-                DB::rollback();
-                return self::make422($errors, 'translation');
-            }
-            DB::commit();
-        } catch (\Exception $e) {
-            DB::rollback();
-            return self::make500($e->getMessage());
-        }
-
         return new CategoryResource($category);
     }
 
@@ -123,28 +104,8 @@ class CategoryController extends V5Controller
         $category = $this->getCategory($id, Category::ALLOWED_FIELDS, []);
 
         $this->authorize('update', $category);
-        DB::beginTransaction();
-        try {
-            $command = UpdateCategoryCommand::fromRequest($id, $request, $category);
-            $category = $this->commandBus->handle($command);
-            $errors = $this->updateTranslations(
-                new Category(),
-                $category->toArray(),
-                $request->input('translations') ?? [],
-                $category->id,
-                'category'
-            );
-            if (!empty($errors)) {
-                DB::rollback();
-                // To do : change the return results to Exception
-                return self::make422($errors, 'translation');
-            }
-             DB::commit();
-             return new CategoryResource($category);
-        } catch (\Exception $e) {
-            DB::rollback();
-            throw $e;
-        }
+        $this->commandBus->handle(UpdateCategoryCommand::fromRequest($id, $request, $category));
+        return new CategoryResource($this->getCategory($id, Category::ALLOWED_FIELDS));
     }
 
     /**

@@ -50,8 +50,6 @@ class EloquentCategoryRepository implements CategoryRepository
             $query->with($with);
         }
         $category = $query->first();
-        dd($category);
-
         if (!$category instanceof Category) {
             throw new NotFoundException('Category not found');
         }
@@ -172,7 +170,7 @@ class EloquentCategoryRepository implements CategoryRepository
         ?array $role,
         string $defaultBaseLanguage,
         array $availableLanguages
-    ): int {
+    ): Category {
         $input = array_filter([
             'parent_id' => $parentId,
             'user_id' => $userId,
@@ -192,7 +190,7 @@ class EloquentCategoryRepository implements CategoryRepository
 
         $isSaved = $category->saveOrFail();
 
-        return $category->id;
+        return $category;
     }
 
     public function slugExists(string $slug): bool

@@ -24,7 +24,7 @@ class Category extends BaseModel
      * @var  array
      */
     protected $hidden = [
-        'description',
+       // 'description',
     ];
 
     /**
@@ -114,7 +114,7 @@ class Category extends BaseModel
 
     public function children()
     {
-        return $this->hasMany(Category::class, 'parent_id', 'id')->withoutGlobalScopes();
+        return $this->hasMany(Category::class, 'parent_id', 'id')->withoutGlobalScopes()->with('translations');
     }
 
     /**

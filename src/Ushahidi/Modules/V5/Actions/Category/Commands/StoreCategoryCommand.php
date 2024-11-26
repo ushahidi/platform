@@ -64,6 +64,11 @@ class StoreCategoryCommand implements Command
     * @var array
     */
     private $availableLanguages;
+    
+    /**
+    * @var array
+    */
+    private $translations;
 
     public function __construct(
         ?int $parentId,
@@ -76,7 +81,8 @@ class StoreCategoryCommand implements Command
         int     $priority,
         ?array  $role,
         ?string $defaultLanguage = 'en',
-        array   $availableanguages = []
+        array   $availableanguages = [],
+        array $translations
     ) {
         $this->parentId    = $parentId;
         $this->tag         = $tag;
@@ -89,6 +95,7 @@ class StoreCategoryCommand implements Command
         $this->role        = $role;
         $this->defaultLanguage = $defaultLanguage;
         $this->availableLanguages = $availableanguages;
+        $this->translations = $translations;
     }
 
     public static function createFromRequest(CategoryRequest $request): self
@@ -109,7 +116,8 @@ class StoreCategoryCommand implements Command
             (int) $request->input('priority'),
             $request->input('role'),
             self::DEFAULT_LANUGAGE,
-            []
+            [],
+            $request->input('translations')??[]
         );
     }
 
@@ -193,5 +201,12 @@ class StoreCategoryCommand implements Command
     public function getAvailableLanguages(): array
     {
         return $this->availableLanguages;
+    }
+     /**
+     * @return array
+     */
+    public function getTranslations(): array
+    {
+        return $this->translations;
     }
 }

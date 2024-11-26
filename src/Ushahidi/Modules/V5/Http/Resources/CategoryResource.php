@@ -49,6 +49,10 @@ class CategoryResource extends Resource
         }
         if (isset($data['translations'])) {
             $data['translations'] = (new TranslationCollection($this->translations))->toArray(null);
+            $data['enabled_languages'] = [
+                'default'=> $this->base_language,
+                'available' => $this->translations->groupBy('language')->keys()
+            ];
         }
         $data['allowed_privileges']=  $this->getResourcePrivileges();
         return $data;
