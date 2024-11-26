@@ -80,9 +80,9 @@ class StoreCategoryCommand implements Command
         ?string  $icon,
         int     $priority,
         ?array  $role,
+        array $translations,
         ?string $defaultLanguage = 'en',
-        array   $availableanguages = [],
-        array $translations
+        array   $availableanguages = []
     ) {
         $this->parentId    = $parentId;
         $this->tag         = $tag;
@@ -115,9 +115,9 @@ class StoreCategoryCommand implements Command
             $request->input('icon'),
             (int) $request->input('priority'),
             $request->input('role'),
+            $request->input('translations')??[],
             self::DEFAULT_LANUGAGE,
-            [],
-            $request->input('translations')??[]
+            []
         );
     }
 
