@@ -2,7 +2,6 @@
 
 namespace Ushahidi\Modules\V5\Repository\Category;
 
-use Illuminate\Support\Collection;
 use Ushahidi\Modules\V5\Models\Category;
 use Ushahidi\Modules\V5\DTO\Paging;
 use Ushahidi\Modules\V5\DTO\CategorySearchFields;
@@ -53,7 +52,7 @@ interface CategoryRepository
         ?array $role,
         string $defaultBaseLanguage,
         array $availableLanguages
-    ): int;
+    ): Category;
     public function slugExists(string $slug): bool;
     public function update(
         int $id,

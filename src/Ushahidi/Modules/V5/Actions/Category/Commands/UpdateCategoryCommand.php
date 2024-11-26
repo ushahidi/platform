@@ -68,6 +68,11 @@ class UpdateCategoryCommand implements Command
      * @var ?array
      */
     private $availableLanguages;
+    
+    /**
+    * @var array
+    */
+    private $translations;
 
     public function __construct(
         int $categoryId,
@@ -81,7 +86,8 @@ class UpdateCategoryCommand implements Command
         ?int $priority,
         ?array $role,
         ?string $defaultLanguage,
-        ?array $availableLanguages
+        ?array  $availableLanguages = [],
+        array $translations
     ) {
         $this->categoryId = $categoryId;
         $this->parentId = $parentId;
@@ -95,6 +101,7 @@ class UpdateCategoryCommand implements Command
         $this->role = $role;
         $this->defaultLanguage = $defaultLanguage;
         $this->availableLanguages = $availableLanguages;
+        $this->translations = $translations;
     }
 
     public static function fromRequest(int $id, CategoryRequest $request, Category $current_category): self
@@ -111,7 +118,8 @@ class UpdateCategoryCommand implements Command
             $request->has('priority')?$request->input('priority'):$current_category->priority,
             $request->has('role')?$request->input('role'):$current_category->role,
             self::DEFAULT_LANUGAGE,
-            []
+            [],
+            $request->input('translations')??[]
         );
     }
 
@@ -173,5 +181,13 @@ class UpdateCategoryCommand implements Command
     public function getAvailableLanguages(): ?array
     {
         return $this->availableLanguages;
+    }
+     
+    /**
+     * @return array
+     */
+    public function getTranslations(): array
+    {
+        return $this->translations;
     }
 }

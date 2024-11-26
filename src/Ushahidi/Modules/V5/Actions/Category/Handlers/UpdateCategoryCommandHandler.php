@@ -3,15 +3,14 @@
 namespace Ushahidi\Modules\V5\Actions\Category\Handlers;
 
 use App\Bus\Action;
-use App\Bus\Command\AbstractCommandHandler;
 use App\Bus\Command\Command;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Ushahidi\Modules\V5\Models\Category;
 use Ushahidi\Modules\V5\Repository\Category\CategoryRepository;
 use Ushahidi\Modules\V5\Actions\Category\Commands\UpdateCategoryCommand;
 use Illuminate\Support\Facades\Auth;
+use Ushahidi\Modules\V5\Actions\V5CommandHandler;
 
-class UpdateCategoryCommandHandler extends AbstractCommandHandler
+class UpdateCategoryCommandHandler extends V5CommandHandler
 {
     private $categoryRepository;
 
@@ -49,8 +48,15 @@ class UpdateCategoryCommandHandler extends AbstractCommandHandler
             $action->getDefaultLanguage(),
             $action->getAvailableLanguages()
         );
-
-        return $this->categoryRepository
+        $category = $this->categoryRepository
             ->findById($action->getCategoryId());
+        $this->updateTranslations(
+            $category,
+            $category->toArray(),
+            $action->getTranslations(),
+            $category->id,
+            'category'
+        );
+        return $category;
     }
 }
