@@ -71,7 +71,7 @@ class Post extends BaseModel
         'post_media' => ['fields' => [], 'relationships' => ["valuesPostMedia"]],
         'locks' => ['fields' => [], 'relationships' => ["locks"]],
         'categories' => ['fields' => [], 'relationships' => ["categories"]],
-        'color' => ['fields' => [], 'relationships' => ["survey"]],
+        'color' => ['fields' => ['form_id'], 'relationships' => ["survey"]],
         'sets' => ['fields' => [], 'relationships' => ["sets"]],
         'message' => ['fields' => [], 'relationships' => ['message']],
         'contact' => ['fields' => ['metadata','source'], 'relationships' => ['message']],
