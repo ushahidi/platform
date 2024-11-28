@@ -2,6 +2,7 @@
 namespace Ushahidi\Modules\V5\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource as Resource;
+use Ushahidi\Core\Entity\Tag;
 
 class CategoryResource extends Resource
 {
@@ -9,6 +10,24 @@ class CategoryResource extends Resource
     use RequestCachedResource;
 
     public static $wrap = 'result';
+
+    private function getResourcePrivileges()
+    {
+        $authorizer = service('authorizer.tag');
+        // Obtain v3 entity from the v5 post model
+        // Note that we use attributesToArray instead of toArray because the first
+        // would have the effect of causing unnecessary requests to the database
+        // (relations are not needed in this case by the authorizer)
+        $resource_array = $this->resource->attributesToArray();
+        unset($resource_array['completed_stages']);
+        $entity = new Tag($resource_array);
+        // if there's no user the guards will kick them off already, but if there
+        // is one we need to check the authorizer to ensure we don't let
+        // users without admin perms create forms etc
+        // this is an unfortunate problem with using an old version of lumen
+        // that doesn't let me do guest user checks without adding more risk.
+        return $authorizer->getAllowedPrivs($entity);
+    }
 
     /**
      * Transform the resource into an array.
@@ -18,27 +37,25 @@ class CategoryResource extends Resource
      */
     public function toArray($request)
     {
-        // Preload key relations
-        $this->resource->loadMissing(['parent', 'children', 'translations']);
-        return [
-            'id' => $this->id,
-            'parent_id' => $this->parent_id,
-            'tag' => $this->tag,
-            'slug' => $this->slug,
-            'type' => $this->type,
-            'color' => $this->color,
-            'icon' => $this->icon,
-            'description' => $this->description,
-            'role' => $this->makeRole($this->role),
-            'priority' => $this->priority,
-            'children' => $this->makeChildren($this->parent, $this->children),
-            'parent' => $this->makeParent($this->parent),
-            'translations' => new TranslationCollection($this->translations),
-            'enabled_languages' => [
+        $data = $this->resource->toArray();
+        if (isset($data['role'])) {
+            $data['role'] = $this->makeRole($this->role);
+        }
+        if (isset($data['children'])) {
+            $data['children'] = $this->makeChildren($this->parent, $this->children);
+        }
+        if (isset($data['parent'])) {
+            $data['parent'] = $this->makeRole($this->parent);
+        }
+        if (isset($data['translations'])) {
+            $data['translations'] = (new TranslationCollection($this->translations))->toArray(null);
+            $data['enabled_languages'] = [
                 'default'=> $this->base_language,
                 'available' => $this->translations->groupBy('language')->keys()
-            ]
-        ];
+            ];
+        }
+        $data['allowed_privileges']=  $this->getResourcePrivileges();
+        return $data;
     }
 
     protected function makeRole($role)
