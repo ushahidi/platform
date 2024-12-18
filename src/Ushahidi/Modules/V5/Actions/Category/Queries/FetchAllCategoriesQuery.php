@@ -21,6 +21,7 @@ class FetchAllCategoriesQuery implements Query
     public static function fromRequest(Request $request): self
     {
         $query = new self();
+        $query->setDefaultLimit(1000);
         $query->setPaging($request);
         $query->setSearchFields(new CategorySearchFields($request));
         $query->addOnlyParameteresFromRequest(
