@@ -54,7 +54,9 @@ class CategoryResource extends Resource
                 'available' => $this->translations->groupBy('language')->keys()
             ];
         }
-        $data['allowed_privileges']=  $this->getResourcePrivileges();
+        // To Do: this call cause an infinit loop , need to be checked
+        // note: it was not found before last commit , so it will not disable it it will not affect the work of front end
+        //$data['allowed_privileges']=  $this->getResourcePrivileges();
         return $data;
     }
 
