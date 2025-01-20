@@ -52,7 +52,8 @@ class Post extends StaticEntity
     protected $metadata;
 
     protected $data_source_message_id;
-
+    
+    protected $base_language;
     // StatefulData
     protected function getDefaultData()
     {
@@ -115,6 +116,7 @@ class Post extends StaticEntity
             'lock'            => 'array',
             'source'          => 'string',
             'metadata'        => '*json',
+            'base_language'          => 'string',
             'data_source_message_id'  => 'string'
         ];
     }
