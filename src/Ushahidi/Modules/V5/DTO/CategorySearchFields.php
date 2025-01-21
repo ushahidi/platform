@@ -5,7 +5,7 @@ namespace Ushahidi\Modules\V5\DTO;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class CategorySearchFields
+class CategorySearchFields extends SearchFields
 {
     /**
      * @var ?string
@@ -15,6 +15,10 @@ class CategorySearchFields
     private $type;
     private $level;
     private $parent_id;
+    private $role;
+    private $user_id;
+
+
     public function __construct(Request $request)
     {
         $this->query = $request->query('q');
@@ -24,8 +28,10 @@ class CategorySearchFields
         $this->parent_id = $request->query('parent_id');
         if (Auth::user()) {
             $this->role = Auth::user()->role;
+            $this->user_id = Auth::user()->id;
         } else {
             $this->role = null;
+            $this->user_id = null;
         }
     }
 
@@ -57,5 +63,18 @@ class CategorySearchFields
     public function role(): ?string
     {
         return $this->role;
+    }
+
+    public function isAdmin()
+    {
+        return ($this->role === "admin");
+    }
+    public function userId()
+    {
+        return $this->user_id;
+    }
+    public function isParent()
+    {
+        return ($this->level === "parent");
     }
 }

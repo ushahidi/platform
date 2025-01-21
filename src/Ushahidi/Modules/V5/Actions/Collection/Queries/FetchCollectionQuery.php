@@ -4,55 +4,33 @@ namespace Ushahidi\Modules\V5\Actions\Collection\Queries;
 
 use App\Bus\Query\Query;
 use Ushahidi\Modules\V5\DTO\CollectionSearchFields;
+use Ushahidi\Modules\V5\Traits\OnlyParameter\QueryWithOnlyParameter;
+use Ushahidi\Modules\V5\Traits\HasPaginate;
+use Ushahidi\Modules\V5\Traits\HasSearchFields;
+use Illuminate\Http\Request;
+use Ushahidi\Modules\V5\Models\Set as CollectionModel;
 
 class FetchCollectionQuery implements Query
 {
+    use QueryWithOnlyParameter;
+    use HasPaginate;
+    use HasSearchFields;
+
     const DEFAULT_LIMIT = 0;
     const DEFAULT_ORDER = "DESC";
     const DEFAULT_SORT_BY = "featured";
 
-    private $limit;
-    private $page;
-    private $sortBy;
-    private $order;
-    private $search_data;
-
-    public function __construct(
-        int $limit,
-        int $page,
-        string $sortBy,
-        string $order,
-        CollectionSearchFields $search_data
-    ) {
-        $this->limit = $limit;
-        $this->page = $page;
-        $this->sortBy = $sortBy;
-        $this->order = $order;
-        $this->search_data = $search_data;
-    }
-
-    public function getLimit(): int
+    public static function fromRequest(Request $request): self
     {
-        return $this->limit > 0 ? $this->limit : config('paging.default_laravel_pageing_limit');
-    }
-
-    public function getPage(): int
-    {
-        return $this->page;
-    }
-
-    public function getSortBy(): string
-    {
-        return $this->sortBy;
-    }
-
-    public function getOrder(): string
-    {
-        return $this->order;
-    }
-
-    public function getSearchData()
-    {
-        return $this->search_data;
+        $query = new self();
+        $query->setPaging($request, self::DEFAULT_SORT_BY, self::DEFAULT_ORDER, self::DEFAULT_LIMIT);
+        $query->setSearchFields(new CollectionSearchFields($request));
+        $query->addOnlyParameteresFromRequest(
+            $request,
+            CollectionModel::COLLECTION_ALLOWED_FIELDS,
+            CollectionModel::ALLOWED_RELATIONSHIPS,
+            CollectionModel::REQUIRED_FIELDS
+        );
+        return $query;
     }
 }

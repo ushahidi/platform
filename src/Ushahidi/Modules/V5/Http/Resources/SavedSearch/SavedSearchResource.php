@@ -34,19 +34,8 @@ class SavedSearchResource extends JsonResource
      */
     public function toArray($request)
     {
-        return [
-            'id' => $this->id,
-            'name' => $this->name,
-            'user_id'=> $this->user_id,
-            'description' => $this->description,
-            'role' => $this->role,
-            'filter' => $this->filter,
-            'view' => $this->view,
-            'view_options' => $this->view_options,
-            'featured' => $this->featured,
-            'created' => $this->created,
-            'updated' => $this->updated,
-            'allowed_privileges' => $this->getResourcePrivileges()
-        ];
+        $data = $this->resource->toArray();
+        $data['allowed_privileges'] = $this->getResourcePrivileges();
+        return $data;
     }
 }

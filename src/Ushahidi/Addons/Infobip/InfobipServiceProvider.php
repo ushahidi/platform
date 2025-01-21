@@ -110,7 +110,7 @@ class InfobipServiceProvider implements CallbackDataSource, OutgoingDataSource
         if ($content['status'] == 'success') {
             return [MessageStatus::SENT, $content['data']['id']];
         } else {
-            Log::error('HttpSMS: Failed to send message: ' . $content['message']);
+            Log::error('Infobip: Failed to send message: ' . $content['message']);
             return [MessageStatus::FAILED, false];
         }
     }

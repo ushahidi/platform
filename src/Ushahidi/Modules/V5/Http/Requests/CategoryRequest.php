@@ -56,7 +56,7 @@ class CategoryRequest extends FormRequest
             'role' => [
                 function ($attribute, $value, $fail) use ($parent) {
                     // ... and check if the role matches its parent
-                    if ($parent && $parent->getAttribute('role') != $value) {
+                    if ($parent && $parent['role'] != $value) {
                         return $fail(trans('validation.child_parent_role_match'));
                     }
                     if (is_array($value) && empty($value)) {

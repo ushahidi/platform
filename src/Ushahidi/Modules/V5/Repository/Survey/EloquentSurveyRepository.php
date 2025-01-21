@@ -8,6 +8,7 @@ use Ushahidi\Core\Exception\NotFoundException;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 use Ushahidi\Core\Entity\Form as SurveyEntity;
+use Ushahidi\Modules\V5\DTO\Paging;
 use Ushahidi\Modules\V5\DTO\SurveySearchFields;
 use Ushahidi\Modules\V5\Models\SurveyRole;
 use Illuminate\Database\Eloquent\Collection;
@@ -56,21 +57,70 @@ class EloquentSurveyRepository implements SurveyRepository
         return $results;
     }
 
+
+    public function paginate(
+        Paging $paging,
+        SurveySearchFields $search_fields,
+        array $fields = [],
+        array $with = []
+    ): LengthAwarePaginator {
+        $fields = $this->addSurveyTableNamePrefix($fields);
+        $query = Survey::take($paging->getLimit())
+            ->orderBy($paging->getOrderBy(), $paging->getOrder());
+
+        $query = $this->setSearchCondition($search_fields, $query);
+
+        if (count($fields)) {
+            $query->select($fields);
+        }
+        if (count($with)) {
+            $query->with($with);
+        }
+        $query->distinct();
+        
+        $results = $query->paginate($paging->getLimit() ? $paging->getLimit() : config('paging.default_laravel_pageing_limit'));
+
+        if ($search_fields->showUnknownForm) {
+            $results->push((new Survey)->fill([
+                'id' => 0,
+                'name' => 'Unknown Form',
+                'base_language' => 'en',
+            ]));
+        }
+
+        return $results;
+    }
+
+    private function addSurveyTableNamePrefix($fields)
+    {
+        $after_update = [];
+        foreach ($fields as $field) {
+            $after_update[] = 'forms.' . $field;
+        }
+        return $after_update;
+    }
     /**
      * This method will fetch a single Survey from the database utilising
      * Laravel Eloquent ORM. Will throw an exception if provided identifier does
      * not exist in the database.
      * @param int $id
-     * @param array required_fields
+     * @param array fields
+     * @param array with
      * @return Survey
      * @throws NotFoundException
      */
-    public function findById(int $id, ?array $required_fields): Survey
+    public function findById(int $id, array $fields = [], array $with = []): Survey
     {
 
-        $survey = $required_fields ?
-            Survey::select($required_fields)->where('id', '=', $id)->first()
-            : Survey::all()->where('id', '=', $id)->first();
+        $fields = $this->addSurveyTableNamePrefix($fields);
+        $query = Survey::where('id', '=', $id);
+        if (count($fields)) {
+            $query->select($fields);
+        }
+        if (count($with)) {
+            $query->with($with);
+        }
+        $survey = $query->first();
 
         if (!$survey instanceof Survey) {
             throw new NotFoundException('Survey not found');

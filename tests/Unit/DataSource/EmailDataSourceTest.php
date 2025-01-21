@@ -16,6 +16,8 @@ use Mockery as M;
 use phpmock\mockery\PHPMockery;
 use Ushahidi\Tests\TestCase;
 use Ushahidi\Contracts\Repository\Entity\MessageRepository;
+use Ushahidi\Contracts\Repository\Entity\ConfigRepository;
+use Ushahidi\Core\Entity\Config;
 use Ushahidi\DataSource\Email\Email;
 use Ushahidi\Multisite\Site;
 
@@ -51,10 +53,13 @@ class EmailDataSourceTest extends TestCase
         $this->app->make('multisite')->setSite($site);
 
         $mockMailer = M::mock(\Illuminate\Contracts\Mail\Mailer::class);
+        $mockConfigRepo = M::mock(ConfigRepository::class);
 
         $email = new Email(
             [],
-            $mockMailer
+            $mockMailer,
+            null,
+            $mockConfigRepo
         );
 
         $mockMailer->shouldReceive('send')->once()->with(
@@ -92,6 +97,19 @@ class EmailDataSourceTest extends TestCase
 
         $mockMessageRepo->shouldReceive('getLastUID')->once()->andReturn(712);
 
+        $mockConfigRepo = M::mock(ConfigRepository::class);
+        $mockConfigRepo->shouldReceive('get')->once()->andReturn(new Config([
+                'incoming_type' => 'imap',
+                'incoming_server' => 'imap.somewhere.com',
+                'incoming_port' => '993',
+                'incoming_security' => 'ssl',
+                'incoming_username' => 'someuser',
+                'incoming_password' => 'mypassword',
+                'incoming_all_unread' => 'All',
+                'incoming_last_uid' => '712'
+        ]));
+        $mockConfigRepo->shouldReceive('update')->once()->andReturnUndefined();
+
         $email = new Email(
             [
                 'incoming_type' => 'imap',
@@ -100,9 +118,11 @@ class EmailDataSourceTest extends TestCase
                 'incoming_security' => 'ssl',
                 'incoming_username' => 'someuser',
                 'incoming_password' => 'mypassword',
+                'incoming_all_unread' => 'All',
             ],
             $mockMailer,
-            $mockMessageRepo
+            $mockMessageRepo,
+            $mockConfigRepo
         );
 
         $mockImapOpen = PHPMockery::mock("Ushahidi\DataSource\Email", 'imap_open');

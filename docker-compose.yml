@@ -7,15 +7,16 @@ services:
       MARIADB_DATABASE: ushahidi
       MARIADB_USER: ushahidi
       MARIADB_PASSWORD: ushahidi
+      LANG: C.UTF_8
     command:
       - --character-set-server=utf8mb4
-      - --collation-server=utf8mb4_unicode_ci
+      - --collation-server=utf8mb4_unicode_520_ci
       # mysql 8.0
       # - --default-authentication-plugin=mysql_native_password
     ports:
       - "33061:3306"
   redis:
-    image: redis:4-alpine
+    image: redis:7.2-alpine
   platform:
     build: .
     environment:

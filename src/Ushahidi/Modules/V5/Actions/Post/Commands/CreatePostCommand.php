@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Jenssegers\Agent\Facades\Agent;
 use Ushahidi\Core\Entity\Post as PostEntity;
 use Ushahidi\Modules\V5\Models\Stage;
+use Ushahidi\Contracts\Sources;
 
 class CreatePostCommand implements Command
 {
@@ -52,7 +53,7 @@ class CreatePostCommand implements Command
         $input['slug'] = Post::makeSlug($request->input('slug') ?? $request->input('title'));
         $input['user_id'] = $request->input('user_id') ?? ($user ? $user->id : null);
         $input['author_email'] = $request->input('author_email') ?? ($user ? $user->email : null);
-        $input['author_realname'] = $request->input('author_realname') ??($user ? $user->realname : null);
+        $input['author_realname'] = $request->input('author_realname') ?? ($user ? $user->realname : null);
         $input['form_id'] = $request->input('form_id');
         $input['parent_id'] = $request->input('parent_id');
         $input['type'] = $request->input('type');
@@ -63,10 +64,18 @@ class CreatePostCommand implements Command
         $input['locale'] = $request->input('locale') ?? PostEntity::DEFAULT_LOCAL;
         $input['base_language'] = $request->input('base_language') ?? PostEntity::DEFAULT_LOCAL;
         $input['published_to'] = $request->input('published_to');
-        if (Agent::isMobile() && Agent::browser() == false) {
-            $input['source'] = 'mobile';
+
+        if ($request->input('source') === Sources::WHATSAPP) {
+            $input['author_email'] = null;
+            $input['author_realname'] = $request->input('contact')['contact'] ;
+            $input['source'] = Sources::WHATSAPP;
+            $input['contact_id'] = $request->input('contact_id');
+            // To Do : this temporary to store contact object in metadata to avoid duplicated join
+            $input['metadata']['contact'] = $request->input('contact');
+        } elseif (Agent::isMobile() && Agent::browser() == false) {
+            $input['source'] = Sources::MOBILE;
         } elseif (($browser = Agent::browser()) && isset($browser)) {
-            $input['source'] = 'web';
+            $input['source'] = Sources::WEB;
         }
         $input['metadata']['source'] = [
                 'platform' => Agent::platform(),

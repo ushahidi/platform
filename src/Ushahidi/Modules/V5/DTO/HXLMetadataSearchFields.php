@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Ushahidi\Modules\V5\Helpers\ParameterUtilities;
 
-class HXLMetadataSearchFields
+class HXLMetadataSearchFields extends SearchFields
 {
     
     private $user;

@@ -39,6 +39,7 @@ class DataSourceManager
         'smssync' => SMSSync\SMSSync::class,
         'twilio' => Twilio\Twilio::class,
         'twitter' => Twitter\Twitter::class,
+        'sislog' => Sislog\Sislog::class,
     ];
 
     /**
@@ -287,7 +288,8 @@ class DataSourceManager
         return new Email\Email(
             $config,
             app('mailer'),
-            app(MessageRepository::class)
+            app(MessageRepository::class),
+            $this->configRepo
         );
     }
 
@@ -332,5 +334,10 @@ class DataSourceManager
                 );
             }
         );
+    }
+
+    protected function createSislogSource(array $config)
+    {
+        return new Sislog\Sislog($config, new \GuzzleHttp\Client());
     }
 }
