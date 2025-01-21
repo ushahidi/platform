@@ -69,6 +69,7 @@ class PostRepositoryTest extends TestCase
             'type' => 'report',
             'status' => 'published',
             'locale' => 'en_US',
+            'base_language' => 'en_US',
             'values' => [
                 'test-location' => [[
                     'lat' => 1,
@@ -84,6 +85,7 @@ class PostRepositoryTest extends TestCase
             'type' => 'report',
             'status' => 'published',
             'locale' => 'en_US',
+            'base_language' => 'en_US',
             'values' => [
                 'test-location' => [[
                     'lat' => 2,
@@ -99,6 +101,7 @@ class PostRepositoryTest extends TestCase
             'type' => 'report',
             'status' => 'published',
             'locale' => 'en_US',
+            'base_language' => 'en_US',
             'values' => [
                 'test-location' => [[
                     'lat' => 7,
@@ -185,6 +188,7 @@ class PostRepositoryTest extends TestCase
             'type' => 'report',
             'status' => 'published',
             'locale' => 'en_US',
+            'base_language' => 'en_US',
             'values' => [
                 'test-location' => [[
                     'lat' => 1,
@@ -207,6 +211,7 @@ class PostRepositoryTest extends TestCase
             'type' => 'report',
             'status' => 'published',
             'locale' => 'en_US',
+            'base_language' => 'en_US',
             'values' => [
                 'test-location' => [[
                     'lat' => 2,
