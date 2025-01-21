@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 trait QueryWithOnlyParameter
 {
-     /**
+    /**
      * @var array
      */
     private $fields;
@@ -46,10 +46,14 @@ trait QueryWithOnlyParameter
      * @param Request $request
      * @param array $approved_fields
      */
-    private function getOnlyValuesFromRequest(Request $request, array $allowed_fields, array $allowed_relations): void
-    {
+    private function getOnlyValuesFromRequest(
+        Request $request,
+        array $allowed_fields,
+        array $allowed_relations,
+        array $excluded_relations = [] // exclude them if they are not in only in request
+    ): void {
         $this->fields = $allowed_fields;
-        $this->hydrates = array_keys($allowed_relations);
+        $this->hydrates = array_diff(array_keys($allowed_relations), $excluded_relations);
 
         if ($request->query('format') === 'minimal') {
             $this->fields = ['id', 'name', 'description', 'translations'];
@@ -88,15 +92,24 @@ trait QueryWithOnlyParameter
             }
         }
     }
-    public function addOnlyParameteresFromRequest(Request $request, array $allowed_fields, array $allowed_relations, array $required_fields): void
-    {
-        $this->getOnlyValuesFromRequest($request, $allowed_fields, $allowed_relations);
+    public function addOnlyParameteresFromRequest(
+        Request $request,
+        array $allowed_fields,
+        array $allowed_relations,
+        array $required_fields,
+        array $relations_to_prune = [] // exclude them if they are not in request
+    ): void {
+        $this->getOnlyValuesFromRequest($request, $allowed_fields, $allowed_relations, $relations_to_prune);
         $this->fields = array_unique(array_merge($this->fields, $required_fields));
         $this->getNeededRelations($allowed_relations);
     }
-  
-    public function addOnlyValues(array $fields, array $hydrates, array $allowed_relations, array $required_fields)
-    {
+
+    public function addOnlyValues(
+        array $fields,
+        array $hydrates,
+        array $allowed_relations,
+        array $required_fields
+    ) {
         $this->fields = $fields;
         $this->hydrates = $hydrates;
         $this->fields = array_unique(array_merge($this->fields, $required_fields));

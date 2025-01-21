@@ -25,7 +25,8 @@ class FetchSavedSearchQuery implements Query
         $query = new self();
         $query->setPaging($request, self::DEFAULT_SORT_BY, self::DEFAULT_ORDER, self::DEFAULT_LIMIT);
         $query->setSearchFields(new SavedSearchSearchFields($request));
-        $query->addOnlyParameteresFromRequest($request, Set::ALLOWED_FIELDS, Set::ALLOWED_RELATIONSHIPS, Set::REQUIRED_FIELDS);
+        $excluded_relations = ['posts'];
+        $query->addOnlyParameteresFromRequest($request, Set::ALLOWED_FIELDS, Set::ALLOWED_RELATIONSHIPS, Set::REQUIRED_FIELDS, $excluded_relations);
         return $query;
     }
 }
