@@ -27,7 +27,8 @@ class FetchSavedSearchByIdQuery implements Query
             throw new \InvalidArgumentException('Id must be a positive number');
         }
         $query =  new self($id);
-        $query->addOnlyParameteresFromRequest($request, SavedSearch::ALLOWED_FIELDS, SavedSearch::ALLOWED_RELATIONSHIPS, SavedSearch::REQUIRED_FIELDS);
+        $excluded_relations = ['posts'];
+        $query->addOnlyParameteresFromRequest($request, SavedSearch::ALLOWED_FIELDS, SavedSearch::ALLOWED_RELATIONSHIPS, SavedSearch::REQUIRED_FIELDS, $excluded_relations);
         return $query;
     }
 
