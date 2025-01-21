@@ -46,41 +46,13 @@ class FetchCollectionQueryHandler extends AbstractQueryHandler
      */
     public function __invoke($query) //: LengthAwarePaginator
     {
-        // TODO: This is redundant, we should be able to remove this
         $this->isSupported($query);
-
-        $search_fields = $query->getSearchData();
-
-        $search = new SearchData();
-
-        // TODO: Move this to the Query class
-        $user = Auth::guard()->user();
-
-        $search->setFilter('is_saved_search', false);
-        $search->setFilter('with_post_count', true);
-
-        // Querying Values
-        $search->setFilter('keyword', $search_fields->q());
-        $search->setFilter('role', $search_fields->role());
-        $search->setFilter('is_admin', $search_fields->role() === "admin");
-        $search->setFilter('user_id', $user->id ?? null);
-
-        // Paging Values
-        $limit = $query->getLimit();
-
-        $search->setFilter('limit', $limit);
-        $search->setFilter('skip', $limit * ($query->getPage() - 1));
-
-        // Sorting Values
-        $search->setFilter('sort', $query->getSortBy());
-        $search->setFilter('order', $query->getOrder());
-
-        $this->collection_repository->setSearchParams($search);
-
-        // TODO: We shouldn't let the repository return a Laravel paginator instance,
-        // this should be created in the controller
-        $result = $this->collection_repository->fetch();
-
-        return $result;
+        $only_fields =  array_unique(array_merge($query->getFields(), $query->getFieldsForRelationship()));
+        return $this->collection_repository->paginate(
+            $query->getPaging(),
+            $query->getSearchFields(),
+            $only_fields,
+            $query->getWithRelationship()
+        );
     }
 }

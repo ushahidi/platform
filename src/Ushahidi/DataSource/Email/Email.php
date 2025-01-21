@@ -117,6 +117,10 @@ class Email extends OutgoingEmail implements IncomingDataSource
                 'description' => 'Fetch every email from the inbox, or only unread.',
                 'options' => ['All', 'Unread'],
                 'rules' => ['required']
+            ],
+            'incoming_last_uid' => [
+                'label' => '',
+                'input' => 'hidden',
             ]
         ];
     }
@@ -189,7 +193,7 @@ class Email extends OutgoingEmail implements IncomingDataSource
             // Return on connection error
             if (! $connection || $errors || $alerts) {
                 $errors = is_array($errors) ? implode(', ', $errors) : "";
-                $alerts = is_array($alerts) ? implode(', ', $errors) : "";
+                $alerts = is_array($alerts) ? implode(', ', $alerts) : "";
                 Log::info("Could not connect to incoming email server", compact('errors', 'alerts'));
                 return [];
             }

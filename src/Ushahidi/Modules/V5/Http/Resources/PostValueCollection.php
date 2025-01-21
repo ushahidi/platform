@@ -59,12 +59,14 @@ class PostValueCollection extends ResourceCollection
                     return $value->form_attribute_id == $field['id'];
                 })->values();
 
-                if ($field['type'] !== 'tags') {
-                    $field['value'] = $field['value']->first();
-                } else {
+                if ($field['type'] === 'tags') {
                     $field['options'] = $field['options'] ?
                                         new CategoryCollection($field_obj->options) :
                                         $field['options'];
+                } elseif ($field['type'] === 'media') {
+                    $field['value'] = $this->makeMediaValue($field['value']);
+                } else {
+                    $field['value'] = $field['value']->first();
                 }
 
                 if (!empty($field['value'])) {
@@ -73,6 +75,8 @@ class PostValueCollection extends ResourceCollection
                         $field['value'] = $field['value']->toArray($field['value']);
                     } elseif ($field['type'] === 'tags') {
                         $field['value'] = $this->makeCategoryValue($field['value']);
+                    } elseif ($field['type'] === 'media') {
+                        $field['value'] = $field['value']->toArray($field['value']);
                     } else {
                         $field['value'] = $this->makeValue($field['value']);
                     }
@@ -111,6 +115,13 @@ class PostValueCollection extends ResourceCollection
             $c = new Category();
             $c->setAttribute('id', $f->tag_id);
             return ForbiddenCategoryResource::make($c);
+        });
+    }
+
+    private function makeMediaValue($values)
+    {
+        return $values->map(function ($item, $key) {
+            return $item->getOriginal();
         });
     }
 

@@ -24,7 +24,7 @@ class Category extends BaseModel
      * @var  array
      */
     protected $hidden = [
-        'description',
+       // 'description',
     ];
 
     /**
@@ -53,6 +53,35 @@ class Category extends BaseModel
         'role',
         'priority',
         'base_language'
+    ];
+
+     /** Data used for only parameters
+     *
+     *
+     */
+    public const REQUIRED_FIELDS = [
+        'id'
+    ];
+    public const ALLOWED_FIELDS = [
+        'id',
+        'parent_id',
+        'user_id',
+        'tag',
+        'slug',
+        'type',
+        'color',
+        'icon',
+        'description',
+        'role',
+        'priority',
+        'base_language',
+        'created'
+    ];
+    public const ALLOWED_RELATIONSHIPS = [
+        'children' => ['fields' => ['parent_id'], 'relationships' => ['children']],
+        'parent' => ['fields' => ['parent_id'], 'relationships' => ['parent']],
+        'translations' => ['fields' => [], 'relationships' => ["translations"]],
+        'enabled_languages' => ['fields' => ['base_language'], 'relationships' => ['translations']],
     ];
 
     /**
@@ -85,7 +114,7 @@ class Category extends BaseModel
 
     public function children()
     {
-        return $this->hasMany(Category::class, 'parent_id', 'id')->withoutGlobalScopes();
+        return $this->hasMany(Category::class, 'parent_id', 'id')->withoutGlobalScopes()->with('translations');
     }
 
     /**

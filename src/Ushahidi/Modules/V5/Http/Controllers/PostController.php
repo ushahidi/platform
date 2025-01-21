@@ -14,16 +14,15 @@ use Ushahidi\Modules\V5\Actions\Post\Commands\CreatePostCommand;
 use Ushahidi\Modules\V5\Actions\Post\Commands\UpdatePostCommand;
 use Ushahidi\Modules\V5\Events\PostCreatedEvent;
 use Ushahidi\Modules\V5\Events\PostUpdatedEvent;
-use Ushahidi\Modules\V5\Http\Resources\PostCollection;
-use Ushahidi\Modules\V5\Http\Resources\PostResource;
+use Ushahidi\Modules\V5\Http\Resources\PostResource as OldPostResource;
 use Ushahidi\Modules\V5\Models\Post\Post;
 use Ushahidi\Modules\V5\Models\Post\PostStatus;
 use Ushahidi\Modules\V5\Exceptions\V5Exception;
 use Illuminate\Support\Facades\DB;
 use Ushahidi\Modules\V5\Common\ValidatorRunner;
 
-use Ushahidi\Modules\V5\Http\Resources\Post\PostCollection as NewPostCollection;
-use Ushahidi\Modules\V5\Http\Resources\Post\PostResource as NewPostResource;
+use Ushahidi\Modules\V5\Http\Resources\Post\PostCollection;
+use Ushahidi\Modules\V5\Http\Resources\Post\PostResource;
 use Ushahidi\Modules\V5\Http\Resources\Post\PostLockResource;
 use Ushahidi\Modules\V5\Requests\PostRequest;
 
@@ -42,14 +41,21 @@ use Ushahidi\Modules\V5\Actions\Survey\Queries\GetSurveyIdsWithPrivateLocationQu
 use Ushahidi\Contracts\Permission;
 use Ushahidi\Core\Concerns\AdminAccess;
 
+use Ushahidi\Modules\V5\Actions\Contact\Commands\CreateContactCommand;
+use Ushahidi\Modules\V5\Actions\Contact\Queries\FetchContactQuery;
+use Ushahidi\Modules\V5\Actions\Contact\Queries\FetchContactByIdQuery;
+use Ushahidi\Modules\V5\Models\Contact;
+use Ushahidi\Contracts\Sources;
+use Ushahidi\Contracts\Contact as ContractContact;
+
 class PostController extends V5Controller
 {
 
-     // It uses methods from several traits to check access:
+    // It uses methods from several traits to check access:
     // - `AdminAccess` to check if the user has admin access
     use AdminAccess;
 
-    
+
     /**
      * Not all fields are things we want to allow on the body of requests
      * an author won't change after the fact, so we limit that change
@@ -71,15 +77,15 @@ class PostController extends V5Controller
         $post = $this->queryBus->handle(FindPostByIdQuery::FromRequest($id, $request));
         $this->authorizeAnyone('show', $post);
 
-        return new NewPostResource($post);
+        return new PostResource($post);
     }
 
-    public function index(Request $request): NewPostCollection
+    public function index(Request $request): PostCollection
     {
         $this->authorizeAnyone('index', Post::class);
 
         $posts = $this->queryBus->handle(ListPostsQuery::FromRequest($request));
-        return new NewPostCollection($posts);
+        return new PostCollection($posts);
     }
 
     private function getUser()
@@ -101,28 +107,79 @@ class PostController extends V5Controller
         return $user;
     }
 
+    /**
+     * Gets the whatsapp contact from the request. If there are no contacts it creates one
+     *
+     * @param Request $request
+     * @return Contact
+     */
+    private function getWhatsappContact(PostRequest $request):Contact
+    {
+        $search_request = new Request();
+        $search_request->merge([
+            'data_source'=>Sources::WHATSAPP,
+            'contact'=>$request->input('contact')['contact']
+        ]);
+        $contacts = $this->queryBus->handle(FetchContactQuery::FromRequest($search_request));
 
+        if (count($contacts) > 0) {
+            $contact =  $contacts->first();
+        } else {
+            $contact_id =  $this->commandBus->handle(
+                CreateContactCommand::forWhatsapp(
+                    $request->input('user_id'),
+                    $request->input('contact')['contact'],
+                    $request->input('contact')['type'] ?? ContractContact::PHONE,
+                    $request->input('contact')['can_notify'] ?? 0
+                )
+            );
+            $contact = $this->queryBus->handle(new FetchContactByIdQuery($contact_id));
+        }
+        
+        return $contact;
+    }
+
+    private function getPost(int $id, ?array $fields = null, ?array $haydrates = null)
+    {
+        if (!$fields) {
+            $fields = Post::ALLOWED_FIELDS;
+        }
+        if (!$haydrates) {
+            $haydrates = array_keys(Post::ALLOWED_RELATIONSHIPS);
+        }
+        $find_post_query = new FindPostByIdQuery($id);
+        $find_post_query->addOnlyValues(
+            $fields,
+            $haydrates,
+            Post::ALLOWED_RELATIONSHIPS,
+            Post::REQUIRED_FIELDS
+        );
+        return $this->queryBus->handle($find_post_query);
+    }
     /**
      * Display the specified resource.
      *
      * @param Request $request
-     * @return NewPostResource|JsonResponse
+     * @return PostResource|JsonResponse
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function store(PostRequest $request)
     {
 
         $this->runAuthorizer('store', [Post::class, $request->input('form_id'), $this->getUser()->getId()]);
+        if ($request->input('source') === 'whatsapp') {
+            $contact = $this->getWhatsappContact($request);
+            $request->merge([
+                'contact_id'=>$contact->id,
+                // To Do: this temporay soluation to save the contact object in posts metadata,
+                // bu this we can avoid extra diplicated join relation!
+                'contact' => $contact
+                 ]) ;
+        }
         $id = $this->commandBus->handle(CreatePostCommand::createFromRequest($request));
-        $post = $this->queryBus->handle(
-            new FindPostByIdQuery(
-                $id,
-                Post::ALLOWED_FIELDS,
-                array_keys(Post::ALLOWED_RELATIONSHIPS)
-            )
-        );
+        $post = $this->getPost($id);
         event(new PostCreatedEvent($post));
-        return new NewPostResource($post, 201);
+        return new PostResource($post, 201);
     } //end store()
 
     /**
@@ -155,7 +212,7 @@ class PostController extends V5Controller
                 // note: done after commit to avoid deadlock in the db
                 // see comment in bulkPatchOperation() below
                 event(new PostUpdatedEvent($post));
-                return new PostResource($post);
+                return new OldPostResource($post);
             } else {
                 DB::rollback();
                 return self::make422($post->errors);
@@ -306,19 +363,12 @@ class PostController extends V5Controller
      */
     public function update(int $id, PostRequest $request)
     {
-        $post = $this->queryBus->handle(new FindPostByIdQuery($id, Post::ALLOWED_FIELDS));
-        $this->authorize('update', $post);
-        $this->commandBus->handle(UpdatePostCommand::fromRequest($id, $request, $post));
-
-        $post = $this->queryBus->handle(
-            new FindPostByIdQuery(
-                $id,
-                Post::ALLOWED_FIELDS,
-                array_keys(Post::ALLOWED_RELATIONSHIPS)
-            )
-        );
+        $old_post = $this->getPost($id);
+        $this->authorize('update', $old_post);
+        $this->commandBus->handle(UpdatePostCommand::fromRequest($id, $request, $old_post));
+        $post = $this->getPost($id);
         event(new PostUpdatedEvent($post));
-        return new NewPostResource($post);
+        return new PostResource($post);
     } //end update()
 
     /**
@@ -344,9 +394,8 @@ class PostController extends V5Controller
      */
     public function delete(int $id, Request $request)
     {
-        $post = $this->queryBus->handle(new FindPostByIdQuery($id, ['id', 'user_id']));
+        $post = $this->getPost($id, ['id', 'status','user_id'], []);
         $this->authorize('delete', $post);
-
         $this->commandBus->handle(new DeletePostCommand($id));
         return $this->deleteResponse($id);
     } //end delete()
@@ -354,26 +403,33 @@ class PostController extends V5Controller
 
     public function stats(Request $request)
     {
-        $stats = $this->queryBus->handle(PostsStatsQuery::FromRequest($request));
+        if ($this->canUserseePostsWithPrivateLocation()) {
+            $stats = $this->queryBus->handle(PostsStatsQuery::FromRequest($request));
+        } else {
+            $stats = $this->queryBus->handle(
+                PostsStatsQuery::FromRequest(
+                    $request,
+                    $this->queryBus->handle(new GetSurveyIdsWithPrivateLocationQuery())->pluck('id')->toArray()
+                )
+            );
+        }
+
         return new PostStatsResource($stats);
     }
 
     public function indexGeoJson(Request $request): PostGeometryCollection
     {
-
-        $surveys_with_private_location  = $this->queryBus->handle(new GetSurveyIdsWithPrivateLocationQuery());
-        
         if ($this->canUserseePostsWithPrivateLocation()) {
             $posts = $this->queryBus->handle(ListPostsGeometryQuery::FromRequest($request));
         } else {
             $posts = $this->queryBus->handle(
                 ListPostsGeometryQuery::FromRequest(
                     $request,
-                    $surveys_with_private_location->pluck('id')->toArray()
+                    $this->queryBus->handle(new GetSurveyIdsWithPrivateLocationQuery())->pluck('id')->toArray()
                 )
             );
         }
-        
+
         return new PostGeometryCollection($posts);
     }
 
@@ -423,8 +479,7 @@ class PostController extends V5Controller
 
     public function updateLock(int $post_id, Request $request)
     {
-
-        $post = $this->queryBus->handle(new FindPostByIdQuery($post_id, ['id', 'user_id', 'form_id']));
+        $post = $this->getPost($post_id, ['id', 'status','user_id','form_id'], []);
         $this->authorize('update', $post);
 
         $this->commandBus->handle(new UpdatePostLockCommand($post_id));
@@ -435,7 +490,7 @@ class PostController extends V5Controller
 
     public function deleteLock(int $post_id, Request $request)
     {
-        $post = $this->queryBus->handle(new FindPostByIdQuery($post_id, ['id', 'user_id', 'form_id']));
+        $post = $this->getPost($post_id, ['id', 'status','user_id','form_id'], []);
         $this->authorize('update', $post);
 
         $this->commandBus->handle(new DeletePostLockCommand($post_id));
