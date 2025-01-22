@@ -1,6 +1,6 @@
 <?php
 
-namespace Ushahidi\App\Passport;
+namespace App\Passport;
 
 use Laravel\Passport\Bridge\RefreshTokenRepository as LaravelRefreshTokenRepository;
 
@@ -9,7 +9,7 @@ use Laravel\Passport\Bridge\RefreshTokenRepository as LaravelRefreshTokenReposit
 class RefreshTokenRepository extends LaravelRefreshTokenRepository
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function revokeRefreshToken($tokenId)
     {
@@ -19,7 +19,7 @@ class RefreshTokenRepository extends LaravelRefreshTokenRepository
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function isRefreshTokenRevoked($tokenId)
     {

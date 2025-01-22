@@ -5,7 +5,7 @@ on:
 - pull_request
 
 env:
-  MYSQL_ROOT_PASSWORD: root
+  MARIADB_ROOT_PASSWORD: root
 
 jobs:
   test:
@@ -14,39 +14,42 @@ jobs:
 
     env:
       COMPOSER_PROCESS_TIMEOUT: 0
-    
+
     strategy:
       matrix:
         php_version:
-          - 7.2
-          - 7.3
+          - 7.4
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
 
     - name: Setup PHP
-      uses: shivammathur/setup-php@master
+      uses: shivammathur/setup-php@v2
       with:
         php-version: ${{ matrix.php_version }}
+        tools: composer:2
+      env:
+        COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-    - name: Get Composer Cache Directory
+    - name: Get composer cache directory
       id: composer-cache
-      run: |
-        echo "::set-output name=dir::$(composer config cache-files-dir)"
-    - uses: actions/cache@v1
+      run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+    - name: Cache dependencies
+      uses: actions/cache@v3
       with:
         path: ${{ steps.composer-cache.outputs.dir }}
         key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-composer-
-        
+        restore-keys: ${{ runner.os }}-composer-
+
     - name: Setup environment
       run: |
         set -e;
 
         cp .env.testing .env ;
         . .env ;
-        . docker/common.sh ;
+        . docker/utils.sh ;
         wait_for_mysql ;
 
         cat > $HOME/.my.cnf <<EOF
@@ -55,51 +58,63 @@ jobs:
         port=${DB_PORT}
         database=mysql
         user=root
-        password=${MYSQL_ROOT_PASSWORD}
+        password=${MARIADB_ROOT_PASSWORD}
         EOF
 
         mysql -e "SELECT version();" ;
         mysql -e "SET GLOBAL sql_mode = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'" ;
-        
-        composer install --no-interaction ;
+
+    - name: Install dependencies
+      run: |
+        set -e ;
+
+        composer install --no-interaction --prefer-dist
 
     - name: Check linting
       run: |
         set -e;
 
         composer lint
-        
-    - name: Run tests
+
+    - name: Prepare tests
       run: |
         set -e;
 
         composer pre-test;
         mysql -e 'SET @@GLOBAL.wait_timeout=1800';
+
+    - name: Run tests
+      run: |
+        set -e;
+
         ( cd httpdocs/; php -S localhost:8000 -t . index.php &)
         composer test ;
 
     services:
       mysql:
-        image: mysql:5.7
+        image: mariadb:10.11
         env:
-          MYSQL_DATABASE: ushahidi
-          MYSQL_USER: ushahidi
-          MYSQL_PASSWORD: ushahidi
-          MYSQL_ROOT_PASSWORD: ${{ env.MYSQL_ROOT_PASSWORD }}
+          MARIADB_DATABASE: ushahidi
+          MARIADB_USER: ushahidi
+          MARIADB_PASSWORD: ushahidi
+          MARIADB_ROOT_PASSWORD: ${{ env.MARIADB_ROOT_PASSWORD }}
         ports:
         - 3306:3306
         options: --health-cmd "mysqladmin ping -h localhost"
           --health-interval 10s --health-timeout 5s
           --health-retries 60
-  
+
   ship:
     needs: [ test ]
     if: github.event_name == 'push'   # not on PRs
     runs-on: ubuntu-latest
     timeout-minutes: 15
-    
+
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
 
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
@@ -108,21 +123,45 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_ECR_SECRET_ACCESS_KEY }}
         aws-region: eu-west-1
 
-    - name: Get ECR password
-      id: get-ecr-password
-      run: echo "::set-output name=password::$(aws ecr get-login-password)"
-
-    - name: Build and push to Amazon ECR
-      uses: docker/build-push-action@v1
+    - name: Login to AWS Container Registry
+      uses: docker/login-action@v1
       with:
         registry: 513259414768.dkr.ecr.eu-west-1.amazonaws.com
-        repository: platform
-        username: AWS
-        password: ${{ steps.get-ecr-password.outputs.password }}
-        always_pull: true
-        tag_with_sha: true
-        tag_with_ref: true
 
-    - name: Logout from Amazon ECR
-      if: always()
-      run: docker logout ${{ steps.login-ecr.outputs.registry }}
+    - name: Login to GitHub Container Registry
+      uses: docker/login-action@v1
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Docker meta
+      id: meta
+      uses: docker/metadata-action@v3
+      with:
+        images: |
+          513259414768.dkr.ecr.eu-west-1.amazonaws.com/platform
+          ghcr.io/ushahidi/platform
+        tags: |
+          type=ref,event=branch
+          type=ref,event=pr
+          type=ref,event=tag
+          type=semver,pattern={{version}}
+          type=sha
+
+    - name: Build and push to Amazon ECR
+      uses: docker/build-push-action@v2
+      with:
+        pull: true
+        push: ${{ github.event_name != 'pull_request' }}
+        labels: ${{ steps.meta.outputs.labels }}
+        tags: ${{ steps.meta.outputs.tags }}
+        build-args: |
+          GIT_COMMIT_ID=${{ github.sha }}
+          GIT_BUILD_REF=${{ github.head_ref }}
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
+
+    - name: Build and push release tar file
+      uses: ./.github/actions/release-tar
+      if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')

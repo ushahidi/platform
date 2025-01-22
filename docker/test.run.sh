@@ -1,12 +1,14 @@
 #!/bin/bash
 
-. /common.sh
+. `dirname $0`/utils.sh
 
 set -e
 
 sync
 cp .env.testing .env
-run_composer_install
+run_composer_install --no-dev --no-scripts
+run_composer dumpautoload
+provision_passport_keys
 wait_for_mysql
 composer pre-test
 (cd httpdocs/; php -S localhost:8000 -t . index.php &)
@@ -17,7 +19,7 @@ test_reporter() {
   if [ $_ret -ne 0 ]; then
     echo -e "\n\n* Test run failed, output of logs in application/logs follows:"
     echo -e "-------------------- BEGIN LOG OUTPUT --------------------"
-    cat storage/logs/lumen.log
+    cat storage/logs/laravel.log
     echo -e "--------------------- END LOG OUTPUT ---------------------"
     return 1
   else

@@ -4,14 +4,20 @@
 
 The setup in this guide is demonstrated in below video as well if you want to watch and follow the guide at the same time!
 
-{% embed url="https://youtu.be/7ZshCFUM9j0" caption="Setting up Platform backend, recorded in Mac OS" %}
+{% embed url="https://youtu.be/7ZshCFUM9j0" %}
+Setting up Platform backend, recorded in Mac OS
+{% endembed %}
 
 ## Installing the API
 
 This guide relies heavily on Vagrant and assumes some previous knowledge of how to use and/or troubleshoot vagrant.
 
 {% hint style="info" %}
-If you want to learn more about vagrant, please refer to their docs here [https://www.vagrantup.com/intro/getting-started/index.html](https://www.vagrantup.com/intro/getting-started/index.html)
+If you want to learn more about vagrant, please refer to their docs here [https://learn.hashicorp.com/vagrant](https://learn.hashicorp.com/vagrant)
+{% endhint %}
+
+{% hint style="info" %}
+Problems with the setup? Make sure to check our section [#issues-and-solutions](vagrant-setup.md#issues-and-solutions "mention")below!
 {% endhint %}
 
 ## Prerequisites
@@ -21,16 +27,24 @@ Please make sure you install everything in this list before you proceed with the
 {% endhint %}
 
 * [Vagrant](https://www.vagrantup.com/downloads.html)
-* Recommended: [Vagrant host-updater plugin](https://github.com/cogitatio/vagrant-hostsupdater) - this is useful to avoid having to update /etc/hosts by hand
-* [VirtualBox](https://www.virtualbox.org/wiki/Downloads) - Note: Windows users may be required to Enable VT-X \(Intel Virtualization Technology\) in the computer's bios settings, disable Hyper-V on program and features page in the control panel, and install the VirtualBox Extension Pack \(installation instructions here.\)
+* Recommended: [Vagrant host-updater plugin](https://github.com/cogitatio/vagrant-hostsupdater) - this is useful to avoid having to update /etc/hosts by hand (Note: The plugin homepage says that this plugin is not maintained anymore. For now, it still seems to work fine, so you can ignore this warning.)
+* [VirtualBox](https://www.virtualbox.org/wiki/Downloads) - Note: Windows users may be required to Enable VT-X (Intel Virtualization Technology) in the computer's bios settings, disable Hyper-V on program and features page in the control panel, and install the VirtualBox Extension Pack (installation instructions here.)
 * [Composer](https://getcomposer.org/doc/00-intro.md#system-requirements)
-* PHP &gt;=7.0 &lt;7.2 - if you are using Platform V4.0.0
-* PHP &gt;=7.1 &lt;7.4 - if you are using Platform V4.1.0 or later
-* PHP &gt;=7.2 &lt;7.4 - if you are using Platform V4.4.0 or later
+* PHP >=7.0 <7.2 - if you are using Platform V4.0.0
+* PHP >=7.1 <7.4 - if you are using Platform V4.1.0 or later
+* PHP >=7.2 <7.4 - if you are using Platform V4.4.0 or later
+
+#### Additional requisites setup
+
+* **VirtualBox > 6.1.28** . As described here [https://github.com/laravel/homestead/issues/1717](https://github.com/laravel/homestead/issues/1717) , you may need to add the virtual internal network to a configuration file in VirtualBox. Our Vagrant/Homestead setup is coded to use the 192.168.33.0/24 network.\
+  \
+  Please create the file `/etc/vbox/networks.conf` (or equivalent in Windows (?)) and make sure it has the following line in it:\
+  \
+  `* 192.168.33.0/24`\\
 
 ### Getting the API Code
 
-Clone the repository \(this will create a directory named _platform\)_
+Clone the repository (this will create a directory named _platform)_
 
 ```bash
 git clone https://github.com/ushahidi/platform.git
@@ -83,19 +97,19 @@ If you see an error like "Vagrant was unable to mount VirtualBox shared folders.
 {% endhint %}
 
 * [ ] Verify that Vagrant and VirtualBox are up to date.
-* [ ] Verify that the VirtualBox Guest Additions were installed \(and fix it if they weren't\)
-  * [ ] `vagrant ssh` \(to ssh into the machine. If you get an error like 'the path to your private key does not exist' when doing `vagrant ssh`, you need to generate a key, or if you already have one, double-check the path in the file "Homestead.yaml" . One good guide on generating keys is found here: [https://help.github.com/en/github/authenticating-to-github/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent\#generating-a-new-ssh-key](https://help.github.com/en/github/authenticating-to-github/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent#generating-a-new-ssh-key)\)
+* [ ] Verify that the VirtualBox Guest Additions were installed (and fix it if they weren't)
+  * [ ] `vagrant ssh` (to ssh into the machine. If you get an error like 'the path to your private key does not exist' when doing `vagrant ssh`, you need to generate a key, or if you already have one, double-check the path in the file "Homestead.yaml" . One good guide on generating keys is found here: [https://help.github.com/en/github/authenticating-to-github/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent#generating-a-new-ssh-key](https://help.github.com/en/github/authenticating-to-github/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent#generating-a-new-ssh-key))
   * [ ] `lsmod | grep vboxguest`
   * [ ] If this command doesn't return anything, VB Guest additions are likely not installed correctly. A fix for this is to install the vbguest vagrant plugin.
   * [ ] if you are in the vagrant box, type `exit` and hit the return key to exit it
   * [ ] run `vagrant plugin install vagrant-vbguest`
   * [ ] run `vagrant up --provision` to continue
-* [ ] If that doesn't work, and you are in a linux or MacOS environment \(this is not compatible with Windows!\):
+* [ ] If that doesn't work, and you are in a linux or MacOS environment (this is not compatible with Windows!):
 * [ ] open the Homestead.yml file
 * [ ] Add `type: "nfs"` to the two directory mappings as shown below
 * [ ] run `vagrant up`
 
-```text
+```
  -
       map: "./"
       to: /vagrant
@@ -107,19 +121,29 @@ If you see an error like "Vagrant was unable to mount VirtualBox shared folders.
 ```
 
 {% hint style="success" %}
-Now that you \(hopefully\) have a working vagrant machine, you will have to ssh into it to finish installing the dependencies.
+Now that you (hopefully) have a working vagrant machine, you will have to ssh into it to finish installing the dependencies.
 {% endhint %}
 
 ```bash
 vagrant ssh
 ```
 
+Change to the project directory. This is shared by Vagrant / VirtualBox between your virtual server and your machine for easy updating during development:
+
 ```bash
 cd ~/Code/platform-api
 ```
 
+Set required php version. For current version of Ushahidi this should be 7.3:
+
 ```bash
-sudo update-alternatives --set php /usr/bin/php7.1
+sudo update-alternatives --set php /usr/bin/php7.3
+sudo systemctl stop php7.1-fpm.service
+sudo systemctl disable php7.1-fpm.service
+sudo systemctl enable php7.3-fpm.service
+sudo systemctl start php7.3-fpm.service
+sudo sed --in-place=.php7.1.bak "s/php7.1-fpm/php7.3-fpm/g" /etc/nginx/sites-available/*
+sudo systemctl restart nginx.service
 ```
 
 ```bash
@@ -130,16 +154,20 @@ composer install
 **Important:** If you didn't setup vagrant-hostupdater, or if it failed for any reason, you will need to add the following lines to /etc/hosts in your host machine.
 {% endhint %}
 
-```text
+```
 192.168.33.110  platform-api
 192.168.33.110  api.ushahidi.test
 ```
+
+{% hint style="info" %}
+Don't be surprised: This IP address is automatically set up by Vagrant, see `Homestead.yaml` and used in a couple of places.
+{% endhint %}
 
 At this point you should have a running web server, but your deployment isn't set up yet. We still need to configure the database and run the migrations.
 
 ### **Setting up the deployment's database**
 
-* Copy the configuration file `.env.example` to make sure the platform can connect to the database. 
+* Copy the configuration file `.env.example` to make sure the platform can connect to the database.
 
 ```bash
 cp .env.example .env
@@ -151,15 +179,30 @@ cp .env.example .env
 composer migrate
 ```
 
-* Go to [http://192.168.33.110](http://192.168.33.110/) in your browser to check the API is up and running. You should see some JSON with an API version, endpoints and user info.
+* Go to [http://192.168.33.110](http://192.168.33.110) in your browser to check the API is up and running. You should see some JSON with an API version, endpoints and user info.
 
 Example JSON
 
-```javascript
+```json
 {"now":"2018-11-06T19:18:23+00:00","version":"3","user":{"id":null,"email":null,"realname":null}}
 ```
 
 ### Installing the client
 
-Congratulations! You have set up the API. You may want now to [build and install the web client](setting-up-the-platform-client.md) for a full experience.
+Congratulations! You have set up the API. You may want now to [build and install the web client](setting-up-the-platform-client/) for a full experience.
 
+## Issues and solutions
+
+<details>
+
+<summary>Vagrant says "The IP address configured for the host-only network is not within the allowed ranges. Please update the address used to be within the allowed ranges and run the command again."</summary>
+
+According to information found here [https://lifesaver.codes/answer/virtualbox-6-1-28-no-longer-auto-assigns-hostonly-ips-1717](https://lifesaver.codes/answer/virtualbox-6-1-28-no-longer-auto-assigns-hostonly-ips-1717) , a change in VirtualBox's handling of networking can render Homestead installations invalid.
+
+The solution seems to involve creating a `/etc/vbox/networks.conf` file with the following content:
+
+```
+* 192.168.33.0/24
+```
+
+</details>

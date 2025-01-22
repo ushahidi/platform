@@ -1,35 +1,36 @@
 <?php
 
-namespace Ushahidi\App\Passport;
+namespace App\Passport;
 
-use RuntimeException;
-use Illuminate\Contracts\Hashing\Hasher;
+use Laravel\Passport\Bridge\User;
+use Ushahidi\Core\Tool\Authenticator\Password;
+use Ushahidi\Core\Usecase\User\LoginUser;
 use League\OAuth2\Server\Entities\ClientEntityInterface;
 use League\OAuth2\Server\Repositories\UserRepositoryInterface;
-use Laravel\Passport\Bridge\User;
-
-use Ushahidi\Factory\UsecaseFactory;
+use Ushahidi\Contracts\Repository\Entity\UserRepository as EntityUserRepository;
 
 class UserRepository implements UserRepositoryInterface
 {
-    /**
-     * @var UsecaseFactory
-     */
-    protected $usecaseFactory;
+    protected $usecase;
 
     /**
      * Create a new repository instance.
      *
-     * @param  UsecaseFactory  $usecaseFactory
      * @return void
      */
-    public function __construct(UsecaseFactory $usecaseFactory)
+    public function __construct(LoginUser $usecase, Password $passwordAuth, EntityUserRepository $userRepo)
     {
-        $this->usecaseFactory = $usecaseFactory;
+        $this->usecase = $usecase;
+
+        $this->usecase->setAuthenticator($passwordAuth);
+
+        $this->usecase->setRepository($userRepo);
+
+        // $this->usecase->setRateLimiter($rateLimiter);
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getUserEntityByUserCredentials(
         $username,
@@ -37,14 +38,15 @@ class UserRepository implements UserRepositoryInterface
         $grantType,
         ClientEntityInterface $clientEntity
     ) {
-        $usecase = $this->usecaseFactory->get('users', 'login')
+        $this->usecase
             ->setIdentifiers([
                 'email' => $username,
-                'password' => $password
+                'password' => $password,
             ]);
 
         try {
-            $data = $usecase->interact();
+            $data = $this->usecase->interact();
+
             return new User($data['id']);
         } catch (\Exception $e) {
             return false;

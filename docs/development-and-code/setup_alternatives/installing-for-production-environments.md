@@ -24,7 +24,7 @@
   * zip
 * Composer for PHP package management \( [https://getcomposer.org](https://getcomposer.org) \)
 * Nginx version 1.10.x **\(Note: you can technically use apache, but this instructions will provide specific steps for Nginx only\)**
-* MySQL server 5.7.x
+* MariaDB server 10.11
 * Node.js v10.x or higher
 * Redis v3.2
 * Cron daemon
@@ -175,7 +175,7 @@ Follow the instructions in the Platform Client installation steps for your /var/
 Any updates the the platform client code or configuration will require a rebuild of the client. To do so, you can run "gulp build" like you did when installing the client in the server.
 {% endhint %}
 
-{% page-ref page="setting-up-the-platform-client.md" %}
+{% page-ref page="setting-up-the-platform-client/" %}
 
 After you finished the set up, you should have a /var/www/platform-client/server/www directory with the generated files ready to be served by nginx.
 

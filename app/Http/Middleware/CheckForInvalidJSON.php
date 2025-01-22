@@ -1,6 +1,6 @@
 <?php
 
-namespace Ushahidi\App\Http\Middleware;
+namespace App\Http\Middleware;
 
 use Closure;
 
@@ -15,7 +15,7 @@ class CheckForInvalidJSON
      */
     public function handle($request, Closure $next)
     {
-        $request_method =  $_SERVER['REQUEST_METHOD'];
+        $request_method = $_SERVER['REQUEST_METHOD'];
         $put_or_post = $request_method === 'POST' || $request_method === 'PUT';
 
         $data = json_decode($request->getContent());
@@ -51,7 +51,7 @@ class CheckForInvalidJSON
                 return response()->json(
                     [
                         'error'   => 422,
-                        'messages' => $error
+                        'messages' => $error,
                     ],
                     422
                 );

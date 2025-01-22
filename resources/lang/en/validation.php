@@ -2,6 +2,7 @@
 // @codingStandardsIgnoreFile
 
 return array(
+  'string'         => ':field must be text',
   'alpha'         => ':field must contain only letters',
   'alpha_dash'    => ':field must contain only numbers, letters and dashes',
   'alpha_numeric' => ':field must contain only letters and numbers',
@@ -26,4 +27,18 @@ return array(
   'regex'         => ':field does not match the required format',
   'url'           => ':field must be a url',
   'failedToValidate' => 'Failed to validate %s entity',
+  'exists'        => ':field must exist',
+  'unique'        => ':field must be unique',
+  'child_parent_role_match' => 'The child category :attribute must be the same as the parent role.',
+  'role_cannot_be_empty' => 'The role list must be NULL or an array with at least 1 role',
+  'tag_field_type_cannot_be_private' => 'Tag fields cannot be private.',
+  'tag_field_must_be_array' => 'Incorrect format for tags property.',
+  'media_field_must_be_array' => 'Incorrect format for media property.',
+  'field_required'         => ':field is required',
+  'array'         => ':field must be an array',
+  'integer'       => ':field must be an integer',
+  'required'      => ':field is required',
+  'required_by_label' => 'Field ":label" is required',
+  'ref_exists'    => ':field must point at an existing :model',
+  'post_locked'    => 'The post is locked by :user',
 );

@@ -1,10 +1,8 @@
 <?php
 
-namespace Ushahidi\App\Http\Middleware;
+namespace App\Http\Middleware;
 
 use Laravel\Passport\Http\Middleware\CheckForAnyScope as PassportCheckForAnyScope;
-use Illuminate\Auth\AuthenticationException;
-use Laravel\Passport\Exceptions\MissingScopeException;
 
 class CheckForAnyScope extends PassportCheckForAnyScope
 {

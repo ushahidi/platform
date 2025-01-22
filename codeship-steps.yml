@@ -1,13 +1,5 @@
-- name: "Test"
-  type: parallel
-  steps:
-    - name: "Test PHP 7.2"
-      service: test/php-7.2
-      command: test_reporter composer run test --timeout 0
-    - name: "Test PHP 7.3"
-      service: test/php-7.3
-      command: test_reporter composer run test --timeout 0
-
+# run 'jet test/php-7.2 test_reporter composer run test --timeout 0' to run tests on php 7.2
+# run 'jet test/php-7.3 test_reporter composer run test --timeout 0' to run tests on php 7.2
 
 - type: parallel
   steps:
@@ -25,12 +17,12 @@
     steps:
     - name: "Docs (develop)"
       service: aglio
-      command: aglio -i /vols/src/docs/api/index.apib -o /vols/src/docs/api/index.html
+      command: aglio -i /var/www/docs/api/index.apib -o /var/www/docs/api/index.html
     - name: "Deploy Docs (develop)"
       service: awscli
-      command: aws s3 sync /vols/src/docs/ s3://preview.ushahidi.com/platform/develop --acl public-read
+      command: aws s3 sync /var/www/docs/ s3://preview.ushahidi.com/platform/develop --acl public-read
 
   - name: "Deployment director"
     service: deploy
-    command: ush-deployment-director.sh
+    command: CI_NAME=codeship ush-deployment-director.sh
 

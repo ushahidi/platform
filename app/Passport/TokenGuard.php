@@ -1,28 +1,28 @@
 <?php
 
-namespace Ushahidi\App\Passport;
-
-use Illuminate\Contracts\Auth\Guard;
+namespace App\Passport;
 
 use Exception;
 use Firebase\JWT\JWT;
 use Laravel\Passport\Token;
 use Illuminate\Http\Request;
 use Laravel\Passport\Passport;
+use Ushahidi\Authzn\GenericUser;
 use Illuminate\Container\Container;
+use Illuminate\Contracts\Auth\Guard;
 use Laravel\Passport\TransientToken;
 use Laravel\Passport\TokenRepository;
-use Laravel\Passport\ClientRepository as LaravelPassportClientRepository;
-use League\OAuth2\Server\ResourceServer;
+use Nyholm\Psr7\Factory\Psr17Factory;
 //use Illuminate\Contracts\Auth\UserProvider;
+use League\OAuth2\Server\ResourceServer;
 use Illuminate\Contracts\Encryption\Encrypter;
 use Illuminate\Contracts\Debug\ExceptionHandler;
-use League\OAuth2\Server\Exception\OAuthServerException;
-use Symfony\Bridge\PsrHttpMessage\Factory\DiactorosFactory;
+use League\OAuth2\Server\Exception\OAuthServerException as LeagueException;
+use Ushahidi\Contracts\Repository\Entity\UserRepository;
+use Symfony\Bridge\PsrHttpMessage\Factory\PsrHttpFactory;
+use Laravel\Passport\ClientRepository as LaravelPassportClientRepository;
 
-use Ushahidi\Core\Entity\UserRepository as UshahidiUserRepository;
-
-class TokenGuard //implements Guard
+class TokenGuard
 {
     /**
      * The resource server instance.
@@ -63,7 +63,7 @@ class TokenGuard //implements Guard
      * Create a new token guard instance.
      *
      * @param  ResourceServer  $server
-     * @param  UserProvider  $provider
+     * @param  UserRepository  $repo
      * @param  TokenRepository  $tokens
      * @param  ClientRepository  $clients
      * @param  Encrypter  $encrypter
@@ -72,7 +72,7 @@ class TokenGuard //implements Guard
     public function __construct(
         ResourceServer $server,
         //UserProvider $provider,
-        UshahidiUserRepository $repo,
+        UserRepository $repo,
         TokenRepository $tokens,
         LaravelPassportClientRepository $clients,
         Encrypter $encrypter
@@ -110,7 +110,9 @@ class TokenGuard //implements Guard
         // First, we will convert the Symfony request to a PSR-7 implementation which will
         // be compatible with the base OAuth2 library. The Symfony bridge can perform a
         // conversion for us to a Zend Diactoros implementation of the PSR-7 request.
-        $psr = (new DiactorosFactory)->createRequest($request);
+        $psr17Factory = new Psr17Factory();
+        $psrHttpFactory = new PsrHttpFactory($psr17Factory, $psr17Factory, $psr17Factory, $psr17Factory);
+        $psr = $psrHttpFactory->createRequest($request);
 
         try {
             $psr = $this->server->validateAuthenticatedRequest($psr);
@@ -142,10 +144,10 @@ class TokenGuard //implements Guard
                 return;
             }
 
-            $user = new \Ushahidi\App\Auth\GenericUser($user->asArray());
+            $user = new GenericUser($user->asArray());
 
             return $token ? $user->withAccessToken($token) : null;
-        } catch (OAuthServerException $e) {
+        } catch (LeagueException $e) {
             // Log the error
             Container::getInstance()->make(
                 ExceptionHandler::class
@@ -192,7 +194,8 @@ class TokenGuard //implements Guard
         // the user model. The transient token assumes it has all scopes since the user
         // is physically logged into the application via the application's interface.
         if ($user = $this->repo->get($token['sub'])) {
-            $user = new \Ushahidi\App\Auth\GenericUser($user->asArray());
+            $user = new GenericUser($user->asArray());
+
             return $user->withAccessToken(new TransientToken);
         }
     }

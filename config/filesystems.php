@@ -37,7 +37,7 @@ return [
     | may even configure multiple disks of the same driver. Defaults have
     | been setup for each driver as an example of the required options.
     |
-    | Supported Drivers: "local", "ftp", "sftp", "s3", "rackspace"
+    | Supported Drivers: "local", "ftp", "s3", "rackspace"
     |
     */
 
@@ -60,8 +60,15 @@ return [
             'key' => env('AWS_ACCESS_KEY_ID'),
             'secret' => env('AWS_SECRET_ACCESS_KEY'),
             'region' => env('AWS_DEFAULT_REGION'),
-            'bucket' => env('AWS_BUCKET'),
-            'url' => env('AWS_URL'),
+            'bucket' => env('S3_BUCKET', env('AWS_BUCKET')),
+            # for S3 services outside AWS
+            'endpoint' => env('S3_ENDPOINT'),
+            # subpath within bucket
+            'root' => env('S3_ROOT'),
+            # neededs to be true for i.e. minio
+            'use_path_style_endpoint' => (bool) env('S3_USE_PATH_STYLE_ENDPOINT', false),
+            # base URL where uploaded objects can be accessed, useful for CDN
+            'url' => env('S3_PUBLIC_URL'),
         ],
 
         'rackspace' => [
@@ -69,9 +76,9 @@ return [
             'username'  => env('RS_USERNAME'),
             'key'       => env('RS_APIKEY'),
             'container' => env('RS_CONTAINER'),
-            'endpoint'  => 'https://identity.api.rackspacecloud.com/v2.0/',
+            'authUrl'   => 'https://lon.identity.api.rackspacecloud.com/v2.0/',
             'region'    => env('RS_REGION'),
-            'url_type'  => 'publicURL',
+            'tenantid'  => env('RS_TENANTID', '1'),
         ],
 
     ],

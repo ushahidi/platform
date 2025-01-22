@@ -1,8 +1,10 @@
 <?php
-namespace Ushahidi\App\Http\Middleware;
+
+namespace App\Http\Middleware;
 
 use Closure;
-use \Negotiation\LanguageNegotiator;
+use Negotiation\LanguageNegotiator;
+use Illuminate\Support\Facades\Lang;
 
 class SetLocale
 {
@@ -20,7 +22,7 @@ class SetLocale
         if ($langHeader) {
             $negotiator = new LanguageNegotiator();
             $priorities = config('language.locales');
-    
+
             /**
              * NOTE: the negotiation library does not support providing a list of ordered elements in its
              * stable version so defaulting to english is the best we can do right now without a more complex
@@ -32,17 +34,18 @@ class SetLocale
              * decide if we would like to work on extending willduran/negotiation and bring
              * v3.0.3 to stable so that we have getOrderedElements available if it's still
              * being maintained (or I guess fork if it is no longer mantained)
-            */
+             */
             $bestLanguage = $negotiator->getBest($langHeader, $priorities);
             if ($bestLanguage) {
                 $type = $bestLanguage->getType();
             }
-            app('translator')->setLocale($type);
-            app('translator')->setFallback($fallback);
+            Lang::setLocale($type);
+            Lang::setFallback($fallback);
         }
-        
+
         return $next($request);
     }
+
     /**
      * Find a secondary language as fallback within our list of available lang codes without region
      * or use the default ('en' normally) if none is available.
@@ -56,6 +59,7 @@ class SetLocale
         if (array_search($splitLangCode, $locales) > -1) {
             $decision = $splitLangCode;
         }
+
         return $decision;
     }
 }

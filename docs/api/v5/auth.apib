@@ -1,0 +1,82 @@
+# Group Authorization with OAuth 2
+
+Most API requests are authenticated with OAuth2.
+
+## OAuth 2 token exchange [/oauth/token]
+The first step of OAuth is to exchange credentials for an `access_token`. This `access_token` is then used on subsequent resource requests.
+
+Supported grant types:
+
++ `client_credentials`
++ `password`
+
+### Exchange credentials for token [POST]
++ Request Client Credentials grant
+    + Attributes (OAuth grant request)
+    + Headers
+
+            Authorization: Basic ABCDEF
+
++ Response 200 (application/json)
+    + Attributes (OAuth valid response)
+
++ Request Password grant
+    + Attributes (OAuth password grant request)
+
++ Response 200 (application/json)
+    + Attributes (OAuth valid response)
+
+## Accessing a protected resource [/api/v3/protected]
+
+Now we have an `access_token` we add that to the `Authorization` header on all resource requests.
+
+### Accessing a protected resource [GET]
++ Request With Valid token
+    + Headers
+
+            Authorization: Bearer accesstoken
+
++ Response 200 (application/json)
+    + Attributes (Server response)
+
+
++ Request With Invalid or Expired token
+    + Headers
+
+            Authorization: Bearer invalidOrExpireToken
+
++ Response 401 (application/json)
+    + Attributes (Server error response)
+
++ Request With insufficient permissions
+    + Headers
+
+            Authorization: Bearer accesstoken
+
++ Response 403 (application/json)
+    + Attributes (Server error response)
+
+# Data Structures
+
+## OAuth grant request (object)
++ `grant_type`: `client_credentials` (string, required)
++ `client_id` (string, required)
++ `client_secret` (string, required)
++ `scope`: post,user(string, optional)
+
+## OAuth password grant request (object)
++ `grant_type`: `password` (string, required)
++ `client_id` (string, required)
++ `client_secret` (string, required)
++ `username`: someuser@domain.com (string, required)
++ `password`: somepassword (string, required)
++ `scope`: post,user (string, optional)
+
+## OAuth valid response (object)
++ `access_token`: `eyJhbGciOiJIUzI1NiJ9` (string, required) - valid access token
++ scope: all (string, required) - scopes of current token
++ `expires_in`: 300 (number, required)
++ `token_type`: Bearer (string, required)
+
+## Server response (object)
++ status: ok (string, required)

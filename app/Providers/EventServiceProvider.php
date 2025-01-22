@@ -1,8 +1,8 @@
 <?php
 
-namespace Ushahidi\App\Providers;
+namespace App\Providers;
 
-use Laravel\Lumen\Providers\EventServiceProvider as ServiceProvider;
+use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -12,17 +12,29 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        'Ushahidi\App\Events\SendToHDXEvent' => [
-            'Ushahidi\App\Listeners\SendToHDXEventListener',
+        \Ushahidi\Modules\V3\Events\SendToHDXEvent::class => [
+            \Ushahidi\Modules\V3\Listener\SendToHDXEventListener::class,
         ],
     ];
 
-    /*
+    /**
      * The subscriber classes to register.
      *
      * @var array
      */
     protected $subscribe = [
-        'Ushahidi\App\Subscriber',
+        \Ushahidi\Modules\V3\EventSubscriber::class,
     ];
+
+    /**
+     * Register any events for your application.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        parent::boot();
+
+        //
+    }
 }

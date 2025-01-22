@@ -1,0 +1,327 @@
+# Group Posts
+Posts are used respond to surveys.
+
+## Posts [/api/v5/posts]
+
+
+## What's new?
+- Posts can be translated to multiple languages.
+- Posts bring their survey information and fields by default.
+
+## Get a Post [GET /{id}]
+
+- You will only be able to get the post if you are allowed to see it based on the user permissions you have and
+the restrictions set by the deployment owner. 
+- An invalid Authorization token will result in a 401.
+ 
++ Request With Valid token
+
+    + Headers
+            
+            Authorization: Bearer validToken
+            Accept: application/json
+            Content-type: application/json
+
++ Response 200 (application/json)
+    + Attributes (Post)
+
++ Request With Invalid or Expired token
+    + Headers
+
+            Authorization: Bearer invalidOrExpireToken
++ Response 401 (application/json)
+    + Attributes (Server error response)
+
++ Request Get non existent post
+
+    + Parameters
+        + id: `non-existent`
+
++ Response 404 (application/json)
+
+    + Attributes (Not Found error response)
+
+## List All Posts [GET /api/v5/posts]
+ 
++ Request With Valid token
+
+    + Headers
+        
+            Authorization: Bearer validToken
+            Accept: application/json
+            Content-type: application/json
+
++ Response 200 (application/json)
+
+    + Attributes
+        + results (array[Post])
+
+## Create a post [POST /api/v5/posts]
+ 
+- You will only be able to create posts using a user's token that is authorized for that action, or anonymously if the survey is open to everyone. 
+
++ Request With Valid token
+
+    + Headers
+            
+            Authorization: Bearer validToken
+            Accept: application/json
+            Content-type: application/json
++ Request (application/json)
+
+    + Attributes (NewPost)
+
++ Response 200 (application/json)
+
+    + Attributes (Post)
+
++ Request With Invalid or Expired token
+    + Headers
+
+            Authorization: Bearer invalidOrExpireToken
++ Response 401 (application/json)
+    + Attributes (Server error response)
+
++ Request With invalid data (application/json)
+
+    + Attributes (NewPost)
+
++ Response 422 (application/json)
+
+    + Attributes (Validation error response)
+
+## Update a post [PUT /api/v5/posts/{id}]
+
++ Parameters
+
+    + id: 1 (number) - ID of the Post
+
++ Request (application/json)
+
+    + Attributes (Post)
+
++ Response 200 (application/json)
+
+    + Attributes (Post)
+
++ Request With Invalid or Expired token
+
+    + Headers
+            
+            Authorization: Bearer invalidOrExpireToken
++ Response 401 (application/json)
+    + Attributes (Server error response)
+
++ Request With invalid data (application/json)
+
+    + Attributes (Post)
+
++ Response 422 (application/json)
+
+    + Attributes (Validation error response)
+
+
++ Request Update non existent post
+
+    + Parameters
+        + id: `non-existent`
+
++ Response 404 (application/json)
+
+    + Attributes (Not Found error response)
+
+
+## Delete a Post [DELETE /api/v5/posts/{id}]
+
++ Parameters
+
+    + id: 1 (number) - ID of the Post
+
++ Request Delete a post
+
+    + Parameters
+        + id: 123
+
++ Response 200 (application/json)
+
+    + Attributes (DeletedObject)
+
+
++ Request With Invalid or Expired token
+
+    + Headers
+            
+            Authorization: Bearer invalidOrExpireToken
+
++ Response 401 (application/json)
+    + Attributes (Server error response)
+
++ Request Delete non existent post
+
+    + Parameters
+        + id: `non-existent`
+
++ Response 404 (application/json)
+
+    + Attributes (Not Found error response)
+
+## Data Structures
+
+### Post (object)
+#### Properties
++ id: 1 (number, required)
++ form_id: 23 (number, optional)
++ user_id: 33 (number, nullable)
++ type:  report  (enum[string])
+    + Members
+        + report
++ title:  Post title  (string, required)
++ slug:  post-slug  (string, optional)
++ content:  Post description field  (string, optional)
++ author_email:  author@example.com  (string, optional)
++ author_realname:  Author Name  (string, optional)
++ status:  published  (enum[string])
+    + Members
+        + published
+        + draft
+        + archived
++ published_to: [admin] (array[string])   
++ locale:  en_US  (string)
++ base_language:  en  (string)
++ categories: [1, 2, 3] (array)
++ completed_stages: [3,4] (array)
++ created: 2020-07-30 00:00:00 (string, optional)
++ updated: 2020-07-30 00:00:00  (string, optional)
++ post_date: 2020-07-30 07:07:04  (string, optional)
++ post_content: array(PostTask)
++ `allowed_privileges`: [read, create, update, delete, search, change_status, read_full] (array)
++ translations (TranslationValues) 
++ enabled_languages (object)
+    + default (string)
+    + available (array)
+
+### PostTask (object)
+#### Properties
++ id: 8 (number)
++ form_id: 5 (number)
++ label:  A task wrapping fields  (string)
++ priority: 0 (number)
++ required: 0 (enum[number])
+    + Members
+        + 0
+        + 1
++ type:  post  (enum[string])
+    + Members
+        + post
+        + task
++ description:  Description of the task  (string, nullable)
++ show_when_published: 1 (enum[number])
+    + Members
+        + 0
+        + 1
++ task_is_internal_only: 1 (enum[number])
+    + Members
+        + 0
+        + 1
++ fields: array(PostField)
++ translations (TranslationValues) 
+
+### PostField (object)
+#### Properties
++ id :60 (number)
++ key: 9c30e7c9-c26a-492d-a499-1c2e5052a554  (string)
++ label:  Title  (string)
++ instructions :  Fill this field like this  (string, nullable)
++ input:  text  (string)
++ type:  title  (string)
++ required: 1 (number)
++ default:  A default value  (nullable)
++ priority: 1 (number)
++ options (array, nullable)
++ cardinality: 0 (number)
++ config (array)
++ form_stage_id: 3 (number, required)
++ response_private: 0 (number, required)
++ description:  A description for the field  (string, nullable)
++ value:  The value of the user response to the survey field  (required)
++ translations (TranslationValues) 
+
+
+
+### NewPost (object)
+#### Properties
++ form_id: 23 (number, optional)
++ user_id: 33 (number, nullable)
++ type:  report  (enum[string])
+    + Members
+        + report
++ title:  Post title  (string, required)
++ slug:  post-slug  (string, optional)
++ content:  Post description field  (string, optional)
++ author_email:  author@example.com  (string, optional)
++ author_realname:  Author Name  (string, optional)
++ status:  published  (enum[string])
+    + Members
+        + published
+        + draft
+        + archived
++ published_to: [admin] (array[string])   
++ locale:  en_US  (string)
++ base_language:  en  (string)
++ categories: [1, 2, 3] (array)
++ completed_stages: [3,4] (array)
++ created: 2020-07-30 00:00:00  (string, optional)
++ updated: 2020-07-30 00:00:00  (string, optional)
++ post_date: 2020-07-30 07:07:04  (string, optional)
++ post_content: array(NewPostTask)
++ `allowed_privileges`: [read, create, update, delete, search, change_status, read_full] (array)
++ translations (TranslationValues) 
++ enabled_languages (object)
+    + default (string)
+    + available (array)
+
+### NewPostTask (object)
+#### Properties
++ form_id: 5 (number)
++ label:  A task wrapping fields  (string)
++ priority: 0 (number)
++ required: 0 (enum[number])
+    + Members
+        + 0
+        + 1
++ type:  post  (enum[string])
+    + Members
+        + post
+        + task
++ description:  Description of the task  (string, nullable)
++ show_when_published: 1 (enum[number])
+    + Members
+        + 0
+        + 1
++ task_is_internal_only: 1 (enum[number])
+    + Members
+        + 0
+        + 1
++ fields: array(NewPostField)
++ translations (TranslationValues) 
+
+### NewPostField (object)
+#### Properties
++ key: 9c30e7c9-c26a-492d-a499-1c2e5052a554  (string)
++ label:  Title  (string)
++ instructions :  Fill this field like this  (string, nullable)
++ input:  text  (string)
++ type:  title  (string)
++ required: 1 (number)
++ default:  A default value  (nullable)
++ priority: 1 (number)
++ options (array, nullable)
++ cardinality: 0 (number)
++ config (array)
++ form_stage_id: 3 (number, required)
++ response_private: 0 (number, required)
++ description:  A description for the field  (string, nullable)
++ value:  The value of the user response to the survey field  (required)
++ translations (TranslationValues) 
+
+

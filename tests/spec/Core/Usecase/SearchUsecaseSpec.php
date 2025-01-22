@@ -2,27 +2,24 @@
 
 namespace spec\Ushahidi\Core\Usecase;
 
-use Ushahidi\Core\Entity;
-use Ushahidi\Core\SearchData;
-use Ushahidi\Core\Tool\Authorizer;
-use Ushahidi\Core\Tool\Formatter;
-use Ushahidi\Core\Usecase\SearchRepository;
-use Illuminate\Contracts\Translation\Translator;
-
-use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
+use PhpSpec\ObjectBehavior;
+use Ushahidi\Contracts\Entity;
+use Ushahidi\Contracts\Authorizer;
+use Ushahidi\Core\Tool\SearchData;
+use Ushahidi\Contracts\CollectionFormatter;
+use Illuminate\Contracts\Translation\Translator;
+use Ushahidi\Contracts\Repository\SearchRepository;
 
 class SearchUsecaseSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         Authorizer $auth,
         SearchData $search,
-        Formatter $format,
+        CollectionFormatter $format,
         SearchRepository $repo,
         Translator $translator
     ) {
-        $format->beADoubleOf('Ushahidi\Core\Tool\Formatter\CollectionFormatter');
-
         $this->setAuthorizer($auth);
         $this->setData($search);
         $this->setFormatter($format);
@@ -30,7 +27,7 @@ class SearchUsecaseSpec extends ObjectBehavior
         $this->setTranslator($translator);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType('Ushahidi\Core\Usecase\SearchUsecase');
     }
@@ -45,7 +42,7 @@ class SearchUsecaseSpec extends ObjectBehavior
         $entity->getResource()->willReturn('widgets');
     }
 
-    function it_fails_when_authorization_is_denied($auth, $repo, Entity $entity)
+    public function it_fails_when_authorization_is_denied($auth, $repo, Entity $entity)
     {
         // ... fetch an empty entity
         $this->tryGetEntity($repo, $entity);
@@ -59,7 +56,7 @@ class SearchUsecaseSpec extends ObjectBehavior
         $this->shouldThrow('Ushahidi\Core\Exception\AuthorizerException')->duringInteract();
     }
 
-    function it_searchs_for_multiple_records($auth, $repo, $format, $search, Entity $entity, Entity $result)
+    public function it_searchs_for_multiple_records($auth, $repo, $format, $search, Entity $entity, Entity $result)
     {
         // ... fetch an empty entity
         $this->tryGetEntity($repo, $entity);

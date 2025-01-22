@@ -22,7 +22,6 @@ phpunit.xml
 phpspec.yml
 phinx.yml
 bootstrap/gwcheck.enabled
-
 # Homestead / Laravel files
 Homestead.json
 Homestead.yaml
@@ -52,3 +51,16 @@ modules/orm
 deployment.env
 docker.env
 vault.txt
+
+# garden.io
+.garden
+error.log
+# Snowboard
+dist/*
+
+# Garden
+.garden
+
+# Test Coverage
+coverage
+.phpunit.result.cache

@@ -4,7 +4,6 @@
  * Multi Site Config
  */
 
-
 /*
   Multisite DB config must include a deployments table something like:
 
@@ -31,8 +30,9 @@
  * - string   email       from email for password resets, etc
  */
 return [
-    'enabled' => !empty(env("MULTISITE_DOMAIN")),
-    'domain'  => env("MULTISITE_DOMAIN"),
-    'email'   => env("MULTISITE_EMAIL"),
-    'client_domain' => env("MULTISITE_CLIENT_DOMAIN"),
+    'enabled' => ! empty(env('MULTISITE_DOMAIN')),
+    'domain'  => env('MULTISITE_DOMAIN'),
+    'email'   => env('MULTISITE_EMAIL'),
+    'client_domain' => env('MULTISITE_CLIENT_DOMAIN'),
+    'client_scheme' => env('MULTISITE_CLIENT_SCHEME', 'http')
 ];

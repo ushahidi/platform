@@ -1,15 +1,16 @@
 <?php
 
-namespace Ushahidi\App\Passport;
+namespace App\Passport;
 
-use Laravel\Passport\ClientRepository as LaravelPassportClientRepository;
-use Laravel\Passport\Client as LaravelPassportClient;
+use Illuminate\Support\Str;
 use Ramsey\Uuid\Uuid as UUID;
+use Laravel\Passport\Passport;
+use Laravel\Passport\PersonalAccessClient;
+use Laravel\Passport\Client as LaravelPassportClient;
+use Laravel\Passport\ClientRepository as LaravelPassportClientRepository;
 
 class ClientRepository extends LaravelPassportClientRepository
 {
-
-
     /**
      * Get a client by the given ID.
      *
@@ -93,22 +94,33 @@ class ClientRepository extends LaravelPassportClientRepository
      * @param  int  $userId
      * @param  string  $name
      * @param  string  $redirect
+     * @param  string|null  $provider
      * @param  bool  $personalAccess
      * @param  bool  $password
+     * @param  bool  $confidential
+     *
      * @return Client
      */
-    public function create($userId, $name, $redirect, $personalAccess = false, $password = false)
-    {
+    public function create(
+        $userId,
+        $name,
+        $redirect,
+        $provider = null,
+        $personalAccess = false,
+        $password = false,
+        $confidential = true
+    ) {
         $client = (new Client)->forceFill([
             'user_id' => $userId,
             'name' => $name,
-            'secret' => str_random(40),
+            'provider' => $provider,
+            'secret' => ($confidential || $personalAccess) ? Str::random(40) : null,
             'redirect' => $redirect,
             'personal_access_client' => $personalAccess,
             'password_client' => $password,
             'revoked' => false,
             // Set id to UUID
-            'id' => UUID::uuid4()->toString()
+            'id' => UUID::uuid4()->toString(),
         ]);
 
         $client->save();
@@ -135,11 +147,13 @@ class ClientRepository extends LaravelPassportClientRepository
      * @param  int  $userId
      * @param  string  $name
      * @param  string  $redirect
+     * @param  string|null  $provider
+     *
      * @return Client
      */
-    public function createPasswordGrantClient($userId, $name, $redirect)
+    public function createPasswordGrantClient($userId, $name, $redirect, $provider = null)
     {
-        return $this->create($userId, $name, $redirect, false, true);
+        return $this->create($userId, $name, $redirect, $provider, false, true);
     }
 
     /**
@@ -168,7 +182,7 @@ class ClientRepository extends LaravelPassportClientRepository
     public function regenerateSecret(LaravelPassportClient $client)
     {
         $client->forceFill([
-            'secret' => str_random(40),
+            'secret' => Str::random(40),
         ])->save();
 
         return $client;

@@ -3,8 +3,8 @@ build:
     image: build
     dockerfile_path: docker/build.Dockerfile
   volumes:
-    - .:/vols/src
-    - ./tmp/out:/vols/out
+    - .:/var/www
+    - ./tmp/out:/tmp/out
   cached: true
   default_cache_branch: develop
 
@@ -28,24 +28,21 @@ release:
 deploy:
   image: ushahidi/engineering-deployer:latest
   encrypted_env_file: deployment.env.encrypted
-  depends_on:
-    - dockerimg
   add_docker: true
   environment:
     AWS_REGION: us-east-1
-    DOCKER_PUSH_IMAGE_SRC: ushahidi-platform/dockerimg
     DEPLOYMENT_RULES_REPO: deployment-rules
     DEPLOYMENT_RULES_VERSION: master
     DEPLOYMENT_RULES_FILE: platform.yml
 
 
 mysql/base: &_mysql_base
-  image: mysql:5.7
+  image: mariadb:10.11
   environment:
-    - MYSQL_DATABASE=ushahidi
-    - MYSQL_USER=ushahidi
-    - MYSQL_PASSWORD=ushahidi
-    - MYSQL_ROOT_PASSWORD=root
+    - MARIADB_DATABASE=ushahidi
+    - MARIADB_USER=ushahidi
+    - MARIADB_PASSWORD=ushahidi
+    - MARIADB_ROOT_PASSWORD=root
 mysql-7.2:
   <<: *_mysql_base
 mysql-7.3:
@@ -56,7 +53,7 @@ test/base: &_test_defaults
   build: &_test_build_defaults
     dockerfile_path: docker/test.Dockerfile
   volumes:
-    - .:/vols/src
+    - .:/var/www
   environment: &_test_env_defaults
     DB_PORT: 3306
     DB_DATABASE: ushahidi
@@ -98,14 +95,14 @@ test/php-7.3:
 aglio:
   image: humangeo/aglio
   volumes:
-    - .:/vols/src
+    - .:/var/www
 
 awscli:
   build:
     image: awscli
     dockerfile_path: docker/awscli.Dockerfile
   volumes:
-    - .:/vols/src
+    - .:/var/www
   encrypted_env_file: deployment.env.encrypted
   cached: true
 

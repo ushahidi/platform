@@ -1,8 +1,10 @@
 <?php
 
-namespace Ushahidi\App\Http\Middleware;
+namespace App\Http\Middleware;
 
+use App\Auth\GenericUser;
 use Closure;
+use Illuminate\Auth\RequestGuard;
 use Illuminate\Contracts\Auth\Factory as Auth;
 
 class Authenticate
@@ -38,9 +40,7 @@ class Authenticate
         if ($this->auth->guard($guard)->guest()) {
             // Throw a 401 error here so that its passed to the error handler and formatter
             // Hard coding WWW-Authenticate because this isn't handle properly by passport
-            abort(401, "Unauthorized.", ['WWW-Authenticate' => 'Bearer realm="OAuth"']);
-
-            // return response('Unauthorized.', 401);
+            abort(401, 'Unauthorized.', ['WWW-Authenticate' => 'Bearer realm="OAuth"']);
         }
 
         return $next($request);

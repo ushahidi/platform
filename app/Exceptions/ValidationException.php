@@ -1,6 +1,6 @@
 <?php
 
-namespace Ushahidi\App\Exceptions;
+namespace App\Exceptions;
 
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 

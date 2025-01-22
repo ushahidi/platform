@@ -1,19 +1,28 @@
 <?php
 
-namespace Tests;
+namespace Ushahidi\Tests;
 
-abstract class TestCase extends \Laravel\Lumen\Testing\TestCase
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Contracts\Console\Kernel;
+use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
+
+abstract class TestCase extends BaseTestCase
 {
     /**
      * Creates the application.
      *
-     * @return \Laravel\Lumen\Application
+     * @return \Illuminate\Foundation\Application
      */
     public function createApplication()
     {
-        return require __DIR__.'/../bootstrap/app.php';
-    }
+        $app = require __DIR__.'/../bootstrap/app.php';
 
+        $app->make(Kernel::class)->bootstrap();
+
+        Hash::setRounds(4);
+
+        return $app;
+    }
 
     /**
      * Call artisan command and return code.
@@ -24,6 +33,27 @@ abstract class TestCase extends \Laravel\Lumen\Testing\TestCase
      */
     public function artisanOutput()
     {
-        return $this->app['Illuminate\Contracts\Console\Kernel']->output();
+        return $this->app[Kernel::class]->output();
+    }
+
+    /**
+     * Assert that a given where condition exists in the database.
+     *
+     * @param  string  $table
+     * @param  array  $data
+     * @param  string|null $onConnection
+     * @return $this
+     */
+    protected function seeInDatabase($table, array $data, $onConnection = null)
+    {
+        $count = $this->app->make('db')->connection($onConnection)->table($table)->where($data)->count();
+
+        $this->assertGreaterThan(0, $count, sprintf(
+            'Unable to find row in database table [%s] that matched attributes [%s].',
+            $table,
+            json_encode($data)
+        ));
+
+        return $this;
     }
 }

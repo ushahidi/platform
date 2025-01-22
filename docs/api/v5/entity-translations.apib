@@ -1,0 +1,10 @@
+# Group New feature - translations
+
+We added entity translations to the v5 API. 
+This means that the names, titles, descriptions, and content of surveys, tasks, fields and categories can be translated as well as values for posts.
+
+## The flow of the translations are:
+
+1. Define a "default-language" for the entity. This is the language the entity was added in from the beginning and is the language the user will see if no translations are available for the language set for the deployment. To start with, the default-language is the same as the language set for the deployment but this can be changed by sending the parameter: base_language: "The two-letter combination of the ISO-language code" together with the entity (works for surveys, categories and posts but not for stages and fields, those are always the same as default-language for the survey).
+2. Add additional languages. Translations are saved as a separate object for each entity. See structures below for examples. Save or update the entity.
+3. Display languages, the information of available languages are displayed in "enabled_languages"-object, where the default language and languages translated to are defined. This object is not needed when saving an entity, it happens automatically in the api. The translations are included in the response when getting a survey, category or post.

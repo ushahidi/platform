@@ -1,13 +1,16 @@
 <?php
 
-namespace Ushahidi\App\Jobs;
+namespace App\Jobs;
 
 use Illuminate\Support\Facades\Log;
-use Ushahidi\App\Multisite\MultisiteAwareJob;
+use Ushahidi\Multisite\MultisiteManager;
+use Ushahidi\Core\Concerns\SiteAware;
+use Ushahidi\Contracts\Repository\Entity\ConfigRepository;
+use Ushahidi\Contracts\Repository\Entity\ExportBatchRepository;
 
 class TestMultisiteJob extends Job
 {
-    use MultisiteAwareJob;
+    use SiteAware;
 
     /**
      * Create a new job instance.
@@ -25,7 +28,7 @@ class TestMultisiteJob extends Job
      *
      * @return void
      */
-    public function handle(\Ushahidi\App\Multisite\MultisiteManager $multisite)
+    public function handle(MultisiteManager $multisite)
     {
         // Get deployment ID
         Log::debug('Site', [$multisite->getSite()]);
@@ -33,14 +36,14 @@ class TestMultisiteJob extends Job
         // Get config
         Log::debug(
             'Site config',
-            [app(\Ushahidi\Core\Entity\ConfigRepository::class)->get('site')->asArray()]
+            [app(ConfigRepository::class)->get('site')->asArray()]
         );
 
         // Get an ohanzee DB connection
         // Get an illuminate DB connection
         Log::debug(
             'Export batch',
-            [app(\Ushahidi\Core\Entity\ExportBatchRepository::class)->getByJobId(10)]
+            [app(ExportBatchRepository::class)->getByJobId(10)]
         );
     }
 }

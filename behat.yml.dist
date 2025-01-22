@@ -7,18 +7,18 @@ default:
     suites:
         default:
             paths:
-                - %paths.base%/tests/integration
+                - '%paths.base%/tests/Integration'
             contexts:
-                - Tests\Integration\Bootstrap\KohanaContext
-                - Tests\Integration\Bootstrap\FeatureContext
-                - Tests\Integration\Bootstrap\RestContext:
+                - Ushahidi\Tests\Integration\Bootstrap\FeatureContext
+                - Ushahidi\Tests\Integration\Bootstrap\RestContext:
                     baseUrl: http://localhost:8000
                     # proxyUrl: localhost:8888
-                - Tests\Integration\Bootstrap\PHPUnitFixtureContext
-                - Tests\Integration\Bootstrap\MinkExtendedContext
+                - Ushahidi\Tests\Integration\Bootstrap\PHPUnitFixtureContext
             extensions:
                 Behat\MinkExtension:
+                    default_session: laravel
                     base_url:  http://localhost:8000
+                    laravel: ~
                     sessions:
                         default:
                             goutte: ~
