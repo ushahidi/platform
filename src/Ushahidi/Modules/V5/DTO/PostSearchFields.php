@@ -5,7 +5,7 @@ namespace Ushahidi\Modules\V5\DTO;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class PostSearchFields
+class PostSearchFields extends SearchFields
 {
     /**
      * @var ?string
@@ -59,6 +59,11 @@ class PostSearchFields
         if ($parameter_value) {
             if (is_array($parameter_value)) {
                 $filter_values = $parameter_value;
+                foreach ($filter_values as $key => $value) { // to handle case of passing empty value as array
+                    if (trim($value) === "") {
+                        unset($filter_values[$key]);
+                    }
+                }
             } else {
                 $filter_values = explode(',', $parameter_value);
             }
@@ -105,23 +110,24 @@ class PostSearchFields
             $this->parent = $this->getParameterAsArray($request->get('parent'));
         }
 
+        $this->include_unstructured_posts = $request->has('include_unstructured_posts')
+            ? filter_var($request->query('include_unstructured_posts'), FILTER_VALIDATE_BOOLEAN)
+            : true; // defaulte include unstructured posts
         $this->form_condition = "all";
         $this->form = []; // no conditions
         if (!$request->has('form')) {
-            if ($request->has('include_unstructured_posts') && !$request->get('include_unstructured_posts')) {
+            if (!$this->include_unstructured_posts) {
                 $this->form_condition = "not_null";
-                $this->form = []; // no conditions
             }
         } else {
             if ($request->get('form') == 'none') {
-                $this->form = []; // no conditions
                 $this->form_condition = "null";
             } else {
                 $this->form_condition = "include";
                 $this->form = $this->getParameterAsArray($request->get('form'));
             }
         }
-        
+
 
         if ($request->get('status') == 'all') {
             $this->status = []; // no conditions
@@ -155,7 +161,6 @@ class PostSearchFields
 
         $this->set = $this->getParameterAsArray($request->get('set'));
         $this->tags = $this->getParameterAsArray($request->get('tags'));
-        $this->include_unstructured_posts = $request->query('include_unstructured_posts');
     }
 
 

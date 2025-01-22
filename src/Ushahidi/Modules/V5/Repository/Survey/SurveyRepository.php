@@ -5,8 +5,8 @@ namespace Ushahidi\Modules\V5\Repository\Survey;
 use Ushahidi\Modules\V5\Models\Survey;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Ushahidi\Core\Entity\Form as SurveyEntity;
+use Ushahidi\Modules\V5\DTO\Paging;
 use Ushahidi\Modules\V5\DTO\SurveySearchFields;
-use Ushahidi\Modules\V5\Models\SurveyRole;
 use Illuminate\Database\Eloquent\Collection;
 
 interface SurveyRepository
@@ -31,16 +31,25 @@ interface SurveyRepository
         array $required_fields
     ): LengthAwarePaginator;
 
+
+    public function paginate(
+        Paging $paging,
+        SurveySearchFields $search_fields,
+        array $fields = [],
+        array $with = []
+    ): LengthAwarePaginator;
+
     /**
      * This method will fetch a single Survey from the database utilising
      * Laravel Eloquent ORM. Will throw an exception if provided identifier does
      * not exist in the database.
      * @param int $id
-     * @param array required_fields
+     * @param array fields
+     * @param array with
      * @return Survey
      * @throws NotFoundException
      */
-    public function findById(int $id, ?array $required_fields): Survey;
+    public function findById(int $id, array $fields = [], array $with = []): Survey;
 
     /**
      * This method will create a Survey

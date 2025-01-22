@@ -43,7 +43,7 @@ class UpdatePostLockCommandHandler extends V5CommandHandler
         // if user can break the lock "has admin role" then release the old lock if it from other user
         // If the lock is inactive and the lock is not for current user release old one and create new one
 
-        $this->setCurrentPostLock($post_id);
+        $this->getCurrentPostLock($post_id);
 
         if ($this->current_post_lock) {
             if (($this->lockIsBreakable()) || (!$this->currentLockIsActive() && !$this->userOwnsCurrentLock())) {
@@ -76,7 +76,7 @@ class UpdatePostLockCommandHandler extends V5CommandHandler
         $user = Auth::user();
         return intval($user->id) === intval($this->current_post_lock->user_id);
     }
-    private function setCurrentPostLock($post_id): void
+    private function getCurrentPostLock($post_id): void
     {
         try {
             $this->current_post_lock = $this->post_lock_repository->findByPostId($post_id);

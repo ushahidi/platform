@@ -26,7 +26,9 @@ class CollectionPostController extends V5Controller
      */
     private function checkCollectionIsFound(int $collection_id)
     {
-        return $this->queryBus->handle(new FetchCollectionByIdQuery($collection_id));
+        $find_collection_query = new FetchCollectionByIdQuery($collection_id);
+        $find_collection_query->addOnlyValues(['id'], [], [], []);
+        return $this->queryBus->handle($find_collection_query);
     }
 
     /**

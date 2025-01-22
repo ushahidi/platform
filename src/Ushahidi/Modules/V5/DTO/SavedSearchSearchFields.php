@@ -9,6 +9,6 @@ class SavedSearchSearchFields extends CollectionSearchFields
     public function __construct(Request $request)
     {
         parent::__construct($request);
-        $this->search = true;
+        $this->is_saved_search = 1;
     }
 }

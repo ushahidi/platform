@@ -157,13 +157,13 @@ class SurveyRequest extends BaseRequest
                 'validation.regex',
                 ['field' => trans('fields.tasks.fields.response_private')]
             ),
-            
+
             // 'tasks.*.fields.*.response_private' => [
             // @TODO add this custom validator for canMakePrivate
             // [[$this, 'canMakePrivate'], [':value', $type]]
             // ]
 
-            
+
             'base_language.max' => trans(
                 'validation.max',
                 [
@@ -173,7 +173,7 @@ class SurveyRequest extends BaseRequest
             )
         ];
     }
-  
+
     private function postMethodRules()
     {
         return [
@@ -237,6 +237,9 @@ class SurveyRequest extends BaseRequest
                         'number',
                         'relation',
                         'upload',
+                        'image',
+                        'audio',
+                        'document',
                         'video',
                         'markdown',
                         'tags',
@@ -261,6 +264,7 @@ class SurveyRequest extends BaseRequest
                         'title',
                         'description',
                         'tags',
+                        'phone',
                     ]
                 )
             ],

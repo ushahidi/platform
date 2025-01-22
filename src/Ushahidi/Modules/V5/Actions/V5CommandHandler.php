@@ -3,6 +3,7 @@
 namespace Ushahidi\Modules\V5\Actions;
 
 use App\Bus\Command\AbstractCommandHandler;
+use Hamcrest\Arrays\IsArray;
 use Ushahidi\Modules\V5\Models\Translation;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Exceptions\HttpResponseException;
@@ -104,11 +105,17 @@ abstract class V5CommandHandler extends AbstractCommandHandler
         int $translatable_id,
         string $type
     ) {
-        if (empty($translation_input)) {
-            return [];
+        // if (empty($translation_input)) {
+        //     return [];
+        // }
+        if (is_array($translation_input)) {
+            Translation::where('translatable_id', $translatable_id)->where('translatable_type', $type)->delete();
+            if (count($translation_input)) {
+                return $this->saveTranslations($entity, $entity_array, $translation_input, $translatable_id, $type);
+            }
         }
-        Translation::where('translatable_id', $translatable_id)->where('translatable_type', $type)->delete();
-        return $this->saveTranslations($entity, $entity_array, $translation_input, $translatable_id, $type);
+        return [];
+       // return $this->saveTranslations($entity, $entity_array, $translation_input, $translatable_id, $type);
     } //end updateTranslations()
 
     /**

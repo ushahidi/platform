@@ -6,7 +6,6 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\JsonResponse;
-use Ushahidi\Modules\V5\DTO\Paging;
 use Symfony\Component\HttpFoundation\Response;
 use Ushahidi\Modules\V5\Actions\Category\Commands\DeleteCategoryCommand;
 use Ushahidi\Modules\V5\Actions\Category\Commands\StoreCategoryCommand;
@@ -20,7 +19,6 @@ use Ushahidi\Modules\V5\Actions\Category\Queries\FetchCategoryByIdQuery;
 use Ushahidi\Modules\V5\Requests\CategoryRequest;
 use Ushahidi\Modules\V5\Models\Category;
 use Ushahidi\Modules\V5\Http\Requests\CategoryRequest as ValidationCategoryRequest;
-use Ushahidi\Modules\V5\DTO\CategorySearchFields;
 
 class CategoryController extends V5Controller
 {
@@ -31,12 +29,13 @@ class CategoryController extends V5Controller
      * @return mixed
      * @throws AuthorizationException
      */
-    public function show(int $id): CategoryResource
+    public function show(Request $request, int $id): CategoryResource
     {
 
-        $category = $this->queryBus->handle(new FetchCategoryByIdQuery($id));
+        $category = $this->queryBus->handle(
+            FetchCategoryByIdQuery::fromRequest($id, $request)
+        );
        // $this->authorize('show', $category);
-
         return new CategoryResource($category);
     }
 
@@ -50,15 +49,29 @@ class CategoryController extends V5Controller
     public function index(Request $request)
     {
        // $this->authorize('index', new Category());
-
         return new CategoryCollection(
             $this->queryBus->handle(
-                new FetchAllCategoriesQuery(
-                    new Paging($request, 'id', Paging::ORDER_ASC, 0),
-                    new CategorySearchFields($request)
-                )
+                FetchAllCategoriesQuery::fromRequest($request)
             )
         );
+    }
+
+    private function getCategory(int $id, ?array $fields = null, ?array $haydrates = null)
+    {
+        if (!$fields) {
+            $fields = Category::ALLOWED_FIELDS;
+        }
+        if (!$haydrates) {
+            $haydrates = array_keys(Category::ALLOWED_RELATIONSHIPS);
+        }
+        $query = new FetchCategoryByIdQuery($id);
+        $query->addOnlyValues(
+            $fields,
+            $haydrates,
+            Category::ALLOWED_RELATIONSHIPS,
+            Category::REQUIRED_FIELDS
+        );
+        return $this->queryBus->handle($query);
     }
     /**
      * Display the specified resource.
@@ -73,26 +86,7 @@ class CategoryController extends V5Controller
 
         $id = $this->commandBus->handle(StoreCategoryCommand::createFromRequest($request));
 
-        $category = $this->queryBus->handle(new FetchCategoryByIdQuery($id));
-
-        DB::beginTransaction();
-        try {
-            $errors = $this->saveTranslations(
-                $category,
-                $category->toArray(),
-                $request->input('translations', []),
-                $category->id,
-                'category'
-            );
-            if (!empty($errors)) {
-                DB::rollback();
-                return self::make422($errors, 'translation');
-            }
-            DB::commit();
-        } catch (\Exception $e) {
-            DB::rollback();
-            return self::make500($e->getMessage());
-        }
+        $category = $this->getCategory($id, Category::ALLOWED_FIELDS);
 
         return new CategoryResource($category);
     }
@@ -107,30 +101,11 @@ class CategoryController extends V5Controller
      */
     public function update(int $id, CategoryRequest $request)
     {
-        $category = $this->queryBus->handle(new FetchCategoryByIdQuery($id));
+        $category = $this->getCategory($id, Category::ALLOWED_FIELDS, []);
+
         $this->authorize('update', $category);
-        DB::beginTransaction();
-        try {
-            $command = UpdateCategoryCommand::fromRequest($id, $request, $category);
-            $category = $this->commandBus->handle($command);
-            $errors = $this->updateTranslations(
-                new Category(),
-                $category->toArray(),
-                $request->input('translations') ?? [],
-                $category->id,
-                'category'
-            );
-            if (!empty($errors)) {
-                DB::rollback();
-                // To do : change the return results to Exception
-                return self::make422($errors, 'translation');
-            }
-             DB::commit();
-             return new CategoryResource($category);
-        } catch (\Exception $e) {
-            DB::rollback();
-            throw $e;
-        }
+        $this->commandBus->handle(UpdateCategoryCommand::fromRequest($id, $request, $category));
+        return new CategoryResource($this->getCategory($id, Category::ALLOWED_FIELDS));
     }
 
     /**
@@ -169,15 +144,8 @@ class CategoryController extends V5Controller
     public function delete(int $id)
     {
 
-        // try {
-        $category = $this->queryBus->handle(new FetchCategoryByIdQuery($id));
+        $category = $this->getCategory($id, ['id'], []);
         $this->authorize('delete', $category);
-
-     // $success = DB::transaction(function () use ($category) {
-        //     $category->translations()->delete();
-        //     $success = $category->delete();
-        //     return $success;
-        // });
 
         $this->commandBus->handle(new DeleteCategoryCommand($id));
         return $this->deleteResponse($id);

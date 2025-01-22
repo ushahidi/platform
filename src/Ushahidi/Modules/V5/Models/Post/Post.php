@@ -33,8 +33,14 @@ class Post extends BaseModel
     use HasFactory;
 
     public const DEFAULT_SOURCE_TYPE = "web";
+
+    /** Data used for only parameters
+     *
+     *
+     */
     public const REQUIRED_FIELDS = [
-        'id'
+        'id',
+        'status' // this field is needed for permissions
     ];
 
     public const ALLOWED_FIELDS = [
@@ -49,6 +55,7 @@ class Post extends BaseModel
         'content',
         'author_email',
         'author_realname',
+        'contact_id',
         'status',
         'published_to',
         'locale',
@@ -61,12 +68,13 @@ class Post extends BaseModel
     ];
 
     public const ALLOWED_RELATIONSHIPS = [
+        'post_media' => ['fields' => [], 'relationships' => ["valuesPostMedia"]],
         'locks' => ['fields' => [], 'relationships' => ["locks"]],
         'categories' => ['fields' => [], 'relationships' => ["categories"]],
-        'color' => ['fields' => [], 'relationships' => ["survey"]],
+        'color' => ['fields' => ['form_id'], 'relationships' => ["survey"]],
         'sets' => ['fields' => [], 'relationships' => ["sets"]],
         'message' => ['fields' => [], 'relationships' => ['message']],
-        'contact' => ['fields' => [], 'relationships' => ['message']],
+        'contact' => ['fields' => ['metadata','source'], 'relationships' => ['message']],
         'completed_stages' => ['fields' => [], 'relationships' => ["postStages"]],
         'translations' => ['fields' => [], 'relationships' => ["translations"]],
         'enabled_languages' => ['fields' => ['base_language'], 'relationships' => ['translations']],
@@ -88,7 +96,8 @@ class Post extends BaseModel
                 'valuesRelation',
                 'valuesPostsMedia',
                 // 'valuesPostsSet',
-                'valuesPostTag'
+                'valuesPostTag',
+                'valuesPhone'
             ]
         ]
 
@@ -158,6 +167,7 @@ class Post extends BaseModel
         'content',
         'author_email',
         'author_realname',
+        'contact_id',
         'status',
         'published_to',
         'locale',
@@ -427,8 +437,10 @@ class Post extends BaseModel
             'post_content.*.fields.*.type' => [
                 function ($attribute, $value, $fail) {
                     $get_value = RequestFacade::input(str_replace('.type', '.value.value', $attribute));
-                    if ($value === 'tags' && !is_array($get_value)) {
+                    if ($value === 'tags'  && !is_array($get_value)) {
                         return $fail(trans('validation.tag_field_must_be_array'));
+                    } elseif ($value === 'media' && !is_array($get_value)) {
+                        return $fail(trans('validation.media_field_must_be_array'));
                     }
                 }
             ],
@@ -649,7 +661,8 @@ class Post extends BaseModel
             'Relation',
             'PostsMedia',
             //            'PostsSet',
-            'PostTag'
+            'PostTag',
+            'Phone'
         ];
         return array_map(function ($t) {
             return "values${t}";
@@ -746,9 +759,17 @@ class Post extends BaseModel
     public function valuesPostsMedia()
     {
         return $this->hasMany('Ushahidi\Modules\V5\Models\PostValues\PostsMedia', 'post_id', 'id')
-            ->select('posts_media.*');
+            ->selectRaw('posts_media.*');
     }
 
+    public function valuesPostMedia()
+    {
+        return $this->hasMany('Ushahidi\Modules\V5\Models\PostValues\PostMedia', 'post_id', 'id')
+            ->select('post_media.*')->with('attribute')->whereHas('attribute', function ($query) {
+                $query->where('input', 'image')
+                ->orWhere('input', 'upload'); // for old uploaded images
+            });
+    }
     public function valuesPostsSet()
     {
         return $this->hasMany('Ushahidi\Modules\V5\Models\PostValues\PostsSet', 'post_id', 'id')
@@ -759,6 +780,12 @@ class Post extends BaseModel
     {
         return $this->hasMany('Ushahidi\Modules\V5\Models\PostValues\PostTag', 'post_id', 'id')
             ->select('posts_tags.*');
+    }
+
+    public function valuesPhone()
+    {
+        return $this->hasMany('Ushahidi\Modules\V5\Models\PostValues\PostPhone', 'post_id', 'id')
+            ->select('post_phone.*');
     }
 
     public function postStages()
