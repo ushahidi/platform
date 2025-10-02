@@ -68,8 +68,8 @@ class MediaResource extends Resource
         $path = implode("/", $url_path);
 
         $result = Storage::url($path);
-        // If the result is a string and begins with "http"
-        if (is_string($result) && strpos($result, "http") === 0) {
+        // If the result is a non-empty string
+        if (is_string($result) && !empty($result)) {
             // Success
             return $result;
         }
