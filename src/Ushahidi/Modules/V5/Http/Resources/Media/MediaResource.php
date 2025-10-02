@@ -76,11 +76,30 @@ class MediaResource extends Resource
 
         // For some time, we would store files with
         // URL-encoded names. Try that as a fallback
-        $url_path = explode("/", $value);
         $filename = rawurlencode((array_pop($url_path)));
         array_push($url_path, $filename);
         $path = implode("/", $url_path);
-        
-        return Storage::url($path);
+
+        $result = Storage::url($path);
+        // If the result is a non-empty string
+        if (is_string($result) && !empty($result)) {
+            // Success
+            return $result;
+        }
+
+        // Try one more round of urlencoding, just in case
+        $filename = rawurlencode((array_pop($url_path)));
+        array_push($url_path, $filename);
+        $path = implode("/", $url_path);
+
+        $result = Storage::url($path);
+        // If the result is a non-empty string
+        if (is_string($result) && !empty($result)) {
+            // Success
+            return $result;
+        }
+
+        // If we reach here, we failed to find the file
+        return null;
     }
 }
