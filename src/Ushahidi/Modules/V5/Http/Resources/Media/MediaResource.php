@@ -61,6 +61,20 @@ class MediaResource extends Resource
 
     protected function formatOFilename($value)
     {
+        if (empty($value)) {
+            return null;
+        }
+        $url = $this->urlOFilename($value);
+        if ($url === null) {
+            return null;
+        }
+        // Substitute % for %25 to avoid double-encoding issues in browsers
+        $url = str_replace('%', '%25', $url);
+        return $url;
+    }
+
+    protected function urlOFilename($value)
+    {
         // Removes path from image file name, encodes the filename, and joins the path and filename together
         $url_path = explode("/", $value);
         $filename = array_pop($url_path);
