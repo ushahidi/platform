@@ -66,6 +66,21 @@ class MediaResource extends Resource
         $filename = array_pop($url_path);
         array_push($url_path, $filename);
         $path = implode("/", $url_path);
+
+        $result = Storage::url($path);
+        // If the result is a string and begins with "http"
+        if (is_string($result) && strpos($result, "http") === 0) {
+            // Success
+            return $result;
+        }
+
+        // For some time, we would store files with
+        // URL-encoded names. Try that as a fallback
+        $url_path = explode("/", $value);
+        $filename = rawurlencode((array_pop($url_path)));
+        array_push($url_path, $filename);
+        $path = implode("/", $url_path);
+        
         return Storage::url($path);
     }
 }
