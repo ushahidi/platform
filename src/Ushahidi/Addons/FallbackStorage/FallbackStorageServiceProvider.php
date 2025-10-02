@@ -38,4 +38,4 @@ class FallbackStorageServiceProvider extends ServiceProvider
             return new FallbackStorageDriver($driver1, $driver2, $config);
         });
     }
-}   
+}

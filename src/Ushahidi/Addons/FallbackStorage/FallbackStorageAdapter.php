@@ -189,5 +189,4 @@ final class FallbackStorageAdapter extends AbstractAdapter
         }
         return $result;
     }
-
 }
