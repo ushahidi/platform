@@ -81,6 +81,12 @@ return [
             'tenantid'  => env('RS_TENANTID', '1'),
         ],
 
+        'fallback' => [
+            'driver' => 'fallback',
+            'primary' => env('FALLBACK_PRIMARY', 's3'),
+            'secondary' => env('FALLBACK_SECONDARY', 'rackspace'),
+        ],
+
     ],
 
 ];

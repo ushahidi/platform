@@ -63,7 +63,7 @@ class MediaResource extends Resource
     {
         // Removes path from image file name, encodes the filename, and joins the path and filename together
         $url_path = explode("/", $value);
-        $filename = rawurlencode(array_pop($url_path));
+        $filename = array_pop($url_path);
         array_push($url_path, $filename);
         $path = implode("/", $url_path);
         return Storage::url($path);
