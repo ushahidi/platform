@@ -106,5 +106,5 @@ Feature: Testing the Media API
         Then the response is JSON
         And the response has a "original_file_url" property
         And the type of the "original_file_url" property is "string"
-        And the "original_file_url" property contains "/some%20junk%20name.jpg"
+        And the "original_file_url" property contains "/some junk name.jpg"
         Then the guzzle status code should be 200
