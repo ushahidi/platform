@@ -50,5 +50,4 @@ class FallbackStorageDriver extends Filesystem
         $fsAdapter = new FilesystemAdapter($driver);
         return $fsAdapter->url($path);
     }
-
 }
