@@ -103,7 +103,7 @@ Feature: Testing the Media API
     #    Then the guzzle status code should be 422
 
     @cdnEnabled
-    Scenario: Media URLs are encoded correctly
+    Scenario: Media URLs are formed correctly
         Given that I want to find a "Media"
         And that the api_url is "api/v5"
         And that its "id" is "4"
@@ -111,5 +111,5 @@ Feature: Testing the Media API
         Then the response is JSON
         And the response has a "result.original_file_url" property
         And the type of the "result.original_file_url" property is "string"
-        And the "result.original_file_url" property contains "/some%20junk%20name.jpg"
+        And the "result.original_file_url" property contains "/some junk name.jpg"
         Then the guzzle status code should be 200
