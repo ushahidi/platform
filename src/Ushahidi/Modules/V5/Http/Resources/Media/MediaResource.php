@@ -61,11 +61,59 @@ class MediaResource extends Resource
 
     protected function formatOFilename($value)
     {
+        if (empty($value)) {
+            return null;
+        }
+        $url = $this->urlOFilename($value);
+        if ($url === null) {
+            return null;
+        }
+        // Substitute % for %25 to avoid double-encoding issues in browsers
+        $url = str_replace('%', '%25', $url);
+        return $url;
+    }
+
+    protected function urlOFilename($value)
+    {
         // Removes path from image file name, encodes the filename, and joins the path and filename together
         $url_path = explode("/", $value);
-        $filename = rawurlencode(array_pop($url_path));
+        $filename = array_pop($url_path);
         array_push($url_path, $filename);
         $path = implode("/", $url_path);
-        return Storage::url($path);
+
+        $result = Storage::url($path);
+        // If the result is a non-empty string
+        if (is_string($result) && !empty($result)) {
+            // Success
+            return $result;
+        }
+
+        // For some time, we would store files with
+        // URL-encoded names. Try that as a fallback
+        $filename = rawurlencode((array_pop($url_path)));
+        array_push($url_path, $filename);
+        $path = implode("/", $url_path);
+
+        $result = Storage::url($path);
+        // If the result is a non-empty string
+        if (is_string($result) && !empty($result)) {
+            // Success
+            return $result;
+        }
+
+        // Try one more round of urlencoding, just in case
+        $filename = rawurlencode((array_pop($url_path)));
+        array_push($url_path, $filename);
+        $path = implode("/", $url_path);
+
+        $result = Storage::url($path);
+        // If the result is a non-empty string
+        if (is_string($result) && !empty($result)) {
+            // Success
+            return $result;
+        }
+
+        // If we reach here, we failed to find the file
+        return null;
     }
 }

@@ -1,0 +1,27 @@
+{
+    "name": "ushahidi/flysystem-fallback-storage",
+    "description": "Fallback storage adapter for Flysystem package",
+    "type": "library",
+    "license": "AGPL-3.0",
+    "require": {
+        "php-opencloud/openstack": "^3.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Ushahidi\\Addons\\FallbackStorage\\": ""
+        },
+        "files": []
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Ushahidi\\Addons\\FallbackStorage\\FallbackStorageServiceProvider"
+            ]
+        }
+    },
+    "suggest": {},
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev"
+}
