@@ -1,3 +1,6 @@
+## Code of Conduct
+Please read and follow our [Code of Conduct](CODE_OF_CONDUCT.md) before contributing.
+
 ## Getting Involved
 There are many ways to get involved with Ushahidi projects, and some of them are great even for first time contributors. If you never contributed to Open Source Software before, or need more guidance doing it, please jump in our [gitter](https://gitter.im/ushahidi/Community) channel with a clear description of what you are trying to do, and someone in there will try to help you.
 
