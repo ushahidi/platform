@@ -44,6 +44,8 @@ class PostSearchFields extends SearchFields
     protected $center_point;
     protected $include_unstructured_posts;
 
+    protected $role;
+
 
     // before ready
     protected $set;
@@ -161,6 +163,12 @@ class PostSearchFields extends SearchFields
 
         $this->set = $this->getParameterAsArray($request->get('set'));
         $this->tags = $this->getParameterAsArray($request->get('tags'));
+
+        if (Auth::user()) {
+            $this->role = Auth::user()->role;
+        } else {
+            $this->role = null;
+        }
     }
 
 
@@ -314,5 +322,15 @@ class PostSearchFields extends SearchFields
     public function includeUnstructuredPosts()
     {
         return $this->include_unstructured_posts;
+    }
+
+    public function role(): ?string
+    {
+        return $this->role;
+    }
+
+    public function isAdmin(): bool
+    {
+        return $this->role === 'admin';
     }
 }
