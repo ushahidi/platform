@@ -108,33 +108,6 @@ class EloquentPostRepository implements PostRepository
             }
         }
 
-        if (!$search_fields->isAdmin()) {
-            $role = $search_fields->role();
-            $query->where(function ($query) use ($role) {
-                $query->whereNull('posts.form_id')
-                    ->orWhere(function ($formQuery) use ($role) {
-                        $formQuery->whereNotNull('posts.form_id')
-                            ->where(function ($roleQuery) use ($role) {
-                                $roleQuery->whereNotExists(function ($subquery) {
-                                    $subquery->select(DB::raw(1))
-                                        ->from('form_roles')
-                                        ->whereColumn('form_roles.form_id', 'posts.form_id');
-                                });
-
-                                if ($role) {
-                                    $roleQuery->orWhereExists(function ($subquery) use ($role) {
-                                        $subquery->select(DB::raw(1))
-                                            ->from('form_roles')
-                                            ->join('roles', 'roles.id', '=', 'form_roles.role_id')
-                                            ->whereColumn('form_roles.form_id', 'posts.form_id')
-                                            ->where('roles.name', '=', $role);
-                                    });
-                                }
-                            });
-                    });
-            });
-        }
-
         if (count($search_fields->user())) {
             $query->whereIn('posts.user_id', $search_fields->user());
         } elseif ($search_fields->userNone()) {
