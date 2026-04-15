@@ -5,7 +5,11 @@ LABEL org.opencontainers.image.source="https://github.com/ushahidi/platform"
 ENV COMPOSER_ALLOW_SUPERUSER=1
 
 COPY docker-php-ext-enable /usr/local/bin/
-RUN apt-get update 
+RUN apt-key del B188E2B695BD4743 2>/dev/null || true && \
+    curl -sSLo /tmp/debsuryorg-archive-keyring.deb https://packages.sury.org/debsuryorg-archive-keyring.deb && \
+    dpkg -i /tmp/debsuryorg-archive-keyring.deb && \
+    rm /tmp/debsuryorg-archive-keyring.deb && \
+    apt-get update
 RUN apt-get install -y php-pear php${PHP_MAJOR_VERSION}-dev
 RUN pecl channel-update pecl.php.net
 RUN pecl channel-update pecl.php.net
