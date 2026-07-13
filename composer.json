@@ -12,6 +12,14 @@
         {
             "type": "vcs",
             "url": "https://github.com/ushahidi/laravel-ckan-api"
+        },
+        {
+            "comment": "Upstream symm/gisconverter was deleted from GitHub, so its dist URL 404s and composer install fails. Vendored copy, see packages/gisconverter/README.md",
+            "type": "path",
+            "url": "packages/gisconverter",
+            "options": {
+                "symlink": false
+            }
         }
     ],
     "require": {

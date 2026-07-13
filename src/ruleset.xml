@@ -10,6 +10,8 @@
     <rule ref="Generic.Arrays.DisallowLongArraySyntax" />
 
     <exclude-pattern>vendor/*</exclude-pattern>
+    <!-- Vendored third-party source; keep it byte-identical to upstream -->
+    <exclude-pattern>packages/*</exclude-pattern>
     <exclude-pattern>tests/spec/*</exclude-pattern>
     <exclude-pattern>migrations/*</exclude-pattern>
     <exclude-pattern>bin/*</exclude-pattern>

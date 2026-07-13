@@ -1,0 +1,14 @@
+{
+    "name": "symm/gisconverter",
+    "description": "A php library to convert vector geometries between different formats",
+    "version": "1.0.5",
+    "license": "BSD-3-Clause",
+    "require": {
+        "php": ">=5.3.0"
+    },
+    "autoload": {
+        "psr-0": {
+            "Symm\\Gisconverter": "src/"
+        }
+    }
+}
