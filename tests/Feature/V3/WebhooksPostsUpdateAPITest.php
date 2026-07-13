@@ -1,26 +1,21 @@
 <?php
+
 namespace Ushahidi\Tests\Feature\V3;
 
 use Faker;
-use Ushahidi\Tests\TestCase;
 use Ushahidi\Core\Entity\ApiKey;
 use Ushahidi\Core\Entity\Post;
+use Ushahidi\Tests\TestCase;
 
 /**
  * @group api
  * @group integration
  */
-class WebhooksPostsUpdateAPI extends TestCase
+class WebhooksPostsUpdateAPITest extends TestCase
 {
     protected $postId;
 
-    /**
-     * Moved this out of setup.
-     * Helper to set the user role and the job correctly since we
-     * override this setup in the test for authorization
-     * @param $user_role
-     */
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -32,7 +27,7 @@ class WebhooksPostsUpdateAPI extends TestCase
         ]));
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         service('repository.post')->delete(new Post(['id' => $this->postId]));
 
@@ -46,31 +41,27 @@ class WebhooksPostsUpdateAPI extends TestCase
         return base64_encode(hash_hmac('sha256', $data, $sharedSecret, true));
     }
 
-    /**
-     * Get count
-     */
     public function testUpdate()
     {
         $this->withoutMiddleware();
+
         $this->json('PUT', '/api/v3/webhooks/posts/'.$this->postId, [
             'title' => 'Updated',
             'content' => 'Also updated',
-        ]);
-
-        $this->seeStatusCode('200')
-            ->seeJson([
+        ])
+            ->assertStatus(200)
+            ->assertJson([
                 'title' => 'Updated',
                 'content' => 'Also updated',
             ]);
     }
 
     /**
-     * Update a job
+     * Middleware is left enabled here: the point of the test is that a request
+     * carrying a valid X-Ushahidi-Signature is accepted.
      */
     public function testUpdateWithSignature()
     {
-        // Re-enable middleware
-        $this->app->instance('middleware.disable', false);
         // Set the shared secret
         $originalSecret = getenv('PLATFORM_SHARED_SECRET');
         putenv('PLATFORM_SHARED_SECRET=asharedsecret');
@@ -80,32 +71,23 @@ class WebhooksPostsUpdateAPI extends TestCase
         $apiKeyId = $apiKeys->create(new ApiKey([]));
         $apiKey = $apiKeys->get($apiKeyId);
 
+        $url = '/api/v3/webhooks/posts/'.$this->postId.'?api_key='.$apiKey->api_key;
+
+        $payload = [
+            'title' => 'Updated w/sig',
+            'content' => 'Also updated',
+        ];
+
         // Make a signature
         $sig = $this->makeSig(
             'asharedsecret',
-            $this->prepareUrlForRequest(
-                '/api/v3/webhooks/posts/'.$this->postId.'?api_key='.$apiKey->api_key
-            ),
-            json_encode([
-                'title' => 'Updated w/sig',
-                'content' => 'Also updated',
-            ])
+            $this->prepareUrlForRequest($url),
+            json_encode($payload)
         );
 
-        $this->json(
-            'PUT',
-            '/api/v3/webhooks/posts/'.$this->postId.'?api_key='.$apiKey->api_key,
-            [
-                'title' => 'Updated w/sig',
-                'content' => 'Also updated',
-            ],
-            [
-                'X-Ushahidi-Signature' => $sig,
-            ]
-        );
-
-        $this->seeStatusCode('200')
-            ->seeJsonStructure([
+        $this->json('PUT', $url, $payload, ['X-Ushahidi-Signature' => $sig])
+            ->assertStatus(200)
+            ->assertJsonStructure([
                 'id',
                 'user_id',
                 'type',
@@ -116,10 +98,7 @@ class WebhooksPostsUpdateAPI extends TestCase
                 'created',
                 'updated',
             ])
-            ->seeJson([
-                'title' => 'Updated w/sig',
-                'content' => 'Also updated',
-            ]);
+            ->assertJson($payload);
 
         // Clean up
         $apiKeys->delete($apiKey);
