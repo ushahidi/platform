@@ -1,7 +1,4 @@
 Makefile
-codeship-*.yml
-deployment.env
-deployment.env.encrypted
 storage/app/public/**
 storage/app/temp/**
 storage/framework/cache/**
@@ -10,8 +7,11 @@ storage/framework/views/**
 storage/logs/**
 storage/passport/**
 
-# garden.io
-.garden
-garden_modules
-garden.yaml
+# Leftover deployment secrets. The tooling that produced these is gone, but old
+# working copies may still have them -- never let them into the build context.
+*.aes
+deployment.env
+docker.env
+vault.txt
+
 error.log

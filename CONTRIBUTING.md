@@ -1,5 +1,5 @@
 ## Getting Involved
-There are many ways to get involved with Ushahidi projects, and some of them are great even for first time contributors. If you never contributed to Open Source Software before, or need more guidance doing it, please jump in our [gitter](https://gitter.im/ushahidi/Community) channel with a clear description of what you are trying to do, and someone in there will try to help you.
+There are many ways to get involved with Ushahidi projects, and some of them are great even for first time contributors. If you never contributed to Open Source Software before, or need more guidance doing it, please [open an issue](https://github.com/ushahidi/platform/issues) with a clear description of what you are trying to do, and someone will try to help you.
 
 ### You can contribute to Ushahidi projects in these areas:
 
@@ -7,6 +7,6 @@ There are many ways to get involved with Ushahidi projects, and some of them are
 - **Report a bug**: If you found an issue/bug, please report it [here](https://github.com/ushahidi/platform/issues). Someone on the team will jump in to check it, try to help, and prioritize it for future development depending on the issue type. Please follow the bug report template to allow others to reproduce it easily. 
 - **Fix a bug**: If you want to contribute a fix for a bug you or someone else found, we will be happy to review your PR and provide support. Tasks that are suggested for the community can be found by searching for the https://github.com/ushahidi/platform/labels/Community%20Task tag. Please add a comment notifying others that you will be working on a task before you start.
 - **Helping other users in the community**: you are welcome and encouraged to jump in and help other members of the community, either by responding to issues in github or jumping into our community channels to answer questions. 
-- **New features**: our features are generally driven by our product and engineering team members, but if you have a great idea, or found a user need that we have not covered, you are more than welcome to make a suggestion in the form of a github issue [here](https://github.com/ushahidi/platform/issues), or reach out to Ushahidi staff in [gitter](https://gitter.im/ushahidi/Community)
+- **New features**: our features are generally driven by our product and engineering team members, but if you have a great idea, or found a user need that we have not covered, you are more than welcome to make a suggestion in the form of a github issue [here](https://github.com/ushahidi/platform/issues), or reach out to Ushahidi staff through [support](https://www.ushahidi.com/support)
 - **Security issues**: if you think you have found a security issue, please follow 
 [this link where we explain our disclosure and reporting policies](https://www.ushahidi.com/security)

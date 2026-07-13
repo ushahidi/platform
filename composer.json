@@ -64,7 +64,6 @@
         "laravel/homestead": "^11.0",
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^5.10",
-        "php-coveralls/php-coveralls": "^2.0@dev",
         "php-mock/php-mock-mockery": "^1.2",
         "phpspec/phpspec": "~7.0",
         "phpunit/phpunit": "^9.0",

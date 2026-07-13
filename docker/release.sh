@@ -38,11 +38,9 @@ tar -C $TMP_DIR -cf $TARFILE \
     --exclude 'build' \
     --exclude 'docs' \
     --exclude 'storage/logs/*' \
-    --exclude '.travis.yml' \
     --exclude '.vagrant' \
     --exclude 'tmp' \
     --exclude '.env' \
-    --exclude '.env.travis' \
     --exclude '.git' \
     --exclude '.gitbook' \
     ushahidi-platform-bundle-${VERSION}/
