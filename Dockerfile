@@ -23,6 +23,9 @@ COPY docker-php-ext-xdebug.ini /etc/php/${PHP_MAJOR_VERSION}/fpm/conf.d
 WORKDIR /var/www
 COPY composer.json ./
 COPY composer.lock ./
+# symm/gisconverter is a path-repository package (its upstream was deleted); its
+# source must be in the build context before composer install can resolve it.
+COPY packages ./packages
 RUN composer self-update --2
 RUN composer install --no-autoloader --no-scripts
 
