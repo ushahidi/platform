@@ -46,7 +46,7 @@ When you clone a repository, the URL you clone is always created as the "origin"
 
 ### 5. Find a feature to work on
 
-The best way to pick a feature to work on is to say hi to Ushahidi’s developers in our community-channels in gitter/irc, let them know what you’d like to work on \(front end, back end, etc\), and chat about what could be suitable for you. You can find more info on how to contact us [here](../get-in-touch.md).
+The best way to pick a feature to work on is to say hi to Ushahidi’s developers by opening an issue, let them know what you’d like to work on \(front end, back end, etc\), and chat about what could be suitable for you. You can find more info on how to contact us [here](../get-in-touch.md).
 
 Ushahidi issues \(bugs, feature requests, etc\) are in Github Issues. Find something that needs doing.
 

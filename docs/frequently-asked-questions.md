@@ -30,7 +30,7 @@ As with many things, it depends.
 
 * if you plan to modify the code in some way, follow the [Installing for production environments setup guide](development-and-code/setup\_alternatives/installing-for-production-environments.md).
 * If you want to deploy Ushahidi without worrying about upgrading, monitoring services, or hosting it yourself, start a new deployment in [http://ushahidi.io/create](http://ushahidi.io/create) and we will manage all the tech for you.
-* If you're looking for something in between, [Contact the Ushahidi team ](http://gitter.im/ushahidi/Community)and we'll figure it out! We're always happy to chat.
+* If you're looking for something in between, [contact the Ushahidi team](https://www.ushahidi.com/support) and we'll figure it out! We're always happy to chat.
 
 ### How do I install Ushahidi?
 
@@ -73,7 +73,7 @@ First, let's identify your stack.
     * You have used the wrong url in the BACKEND\_URL key of your platform-client .ENV file. Check that when you access the URL in the browser + /api/v3/config it returns a valid json. It should look like this when you call the /api/v3/config endpoint for your API: [https://qa.api.ushahidi.io/api/v3/config](https://qa.api.ushahidi.io/api/v3/config)
     * The server is failing for some reason. If the server is failing, it will likely show an error either in the browser when you call the API URL or in the server logs, which you can see in files contained within {the\_platform\_install\_dir}/storage/logs. Check the errors in the log, as often you will see that there is a permissions error somewhere, or a directory is missing, which you can solve yourself.
 
-    When reporting issues, please note that we will need as much information as you can provide to be able to help you, so please start by checking all of the above, and then contact us with the information you found through[ the Ushahidi gitter](http://gitter.im/ushahidi/Community) channel. Including details about your development environment, what you have tried doing to solve it, what you were doing when this error occured, and your log files are critical in order for us to help you get set up.
+    When reporting issues, please note that we will need as much information as you can provide to be able to help you, so please start by checking all of the above, and then contact us with the information you found by [opening an issue](https://github.com/ushahidi/platform/issues). Including details about your development environment, what you have tried doing to solve it, what you were doing when this error occured, and your log files are critical in order for us to help you get set up.
 * Are you a developer who is only setting up the client and using ushahidi.io for the API? This is most likely an error in your .ENV file, check that your BACKEND\_URL looks like this [http://DEPLOYMENTNAME.api.ushahidi.io](http://test.api.ushahidi.io) (notice the .api after your deployment's name -- it's important!)
 
 ### I have configured the datasources but I'm not getting any posts from them. What could be wrong?
@@ -98,7 +98,7 @@ If the configuration values are correct, then proceed to check the following in 
 php artisan datasource:incoming
 ```
 
-Run the datasource:incoming task manually in the platform API directory (as the example above). It should succeed and not show any errors. If there are errors, check the logs under storage/logs to review what looks wrong. If nothing else, this will help you contact the team through[ the Ushahidi gitter](http://gitter.im/ushahidi/Community) channel with details.
+Run the datasource:incoming task manually in the platform API directory (as the example above). It should succeed and not show any errors. If there are errors, check the logs under storage/logs to review what looks wrong. If nothing else, this will help you contact the team by [opening an issue](https://github.com/ushahidi/platform/issues) with details.
 
 If the incoming task worked, check if new posts are available. If they are, then this means that the problem is that the datasources work but are not being automatically fetched. Check that you have a crontab running periodically for your datasources and other tasks.
 
@@ -117,7 +117,7 @@ MAILTO=admin@example.com
 ```
 {% endcode %}
 
-If after ensuring the crontab is correct and datasources run, you don't see any new posts, please get in touch through[ the Ushahidi gitter](http://gitter.im/ushahidi/Community) channel with all the details about what you tried and what you have seen, and we'll be happy to help.
+If after ensuring the crontab is correct and datasources run, you don't see any new posts, please get in touch by [opening an issue](https://github.com/ushahidi/platform/issues) with all the details about what you tried and what you have seen, and we'll be happy to help.
 
 ### I am getting some sort of PHP error.
 
@@ -175,11 +175,8 @@ Connect with the wider Ushahidi community:
 
 * Join the discussion on [our forum](http://forums.ushahidi.com/)
 * Sign up on the [mailing list](http://list.ushahidi.com/)
-* Chat with us on:
-  * IRC at [#ushahidi on Freenode](http://irc/irc.freenode.net/#ushahidi)
-  * Gitter at [ushahidi/Community](https://gitter.im/ushahidi/community)
-  * [Skype](https://join.skype.com/S9t68IVKzwo8)
-* Messages to any of these channels should show up on all of them!
+* Open an [issue on GitHub](https://github.com/ushahidi/platform/issues)
+* Reach the team through [Ushahidi support](https://www.ushahidi.com/support)
 
 ### How to get help in a different language?
 

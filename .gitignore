@@ -9,57 +9,34 @@ vendor/*
 bin/*
 !bin/tests
 .vagrant/*
-.floo
-.flooignore
-.sublime-project
 build/*
-puppet/modules
-Puppetfile.lock
 .tmp/*
+tmp/
 *.vscode
 .env
+bootstrap/gwcheck.enabled
+
+# Local configs generated from the tracked .dist templates (see docker/utils.sh)
 phpunit.xml
 phpspec.yml
-phinx.yml
-bootstrap/gwcheck.enabled
+behat.yml
+
 # Homestead / Laravel files
 Homestead.json
 Homestead.yaml
 
-# Kohana deployment specifics
-application/logs/*
-application/cache/*
-application/config/environments/development/*.php
-
-# Kohana tests
-behat.yml
-application/tests/behat.yml
-
-# Kohana app uploads
-application/media/uploads/*
-
-# Kohana modules installed composer
-system
-modules/cache
-modules/image
-modules/unittest
-modules/minion
-modules/orm
-
-# Docker Deployment Specifics
+# Leftover deployment secrets. The tooling that produced these is gone, but the
+# files may still exist in old working copies -- keep ignoring them so they can
+# never be committed by accident. Delete your local copies.
 *.aes
 deployment.env
 docker.env
 vault.txt
 
-# garden.io
-.garden
-error.log
-# Snowboard
+# Snowboard (composer snowboard-v3-serve / snowboard-v5-serve)
 dist/*
 
-# Garden
-.garden
+error.log
 
 # Test Coverage
 coverage

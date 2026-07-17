@@ -14,19 +14,6 @@ default:
                     baseUrl: http://localhost:8000
                     # proxyUrl: localhost:8888
                 - Ushahidi\Tests\Integration\Bootstrap\PHPUnitFixtureContext
-            extensions:
-                Behat\MinkExtension:
-                    default_session: laravel
-                    base_url:  http://localhost:8000
-                    laravel: ~
-                    sessions:
-                        default:
-                            goutte: ~
-                    goutte:
-                        guzzle_parameters:
-                            curl.options:
-                                3 : 8000 #CURLOPT_PORT=3
-                                # 10004: localhost:8888 #CURLOPT_PROXY=10004
 ci:
     suites:
         default:

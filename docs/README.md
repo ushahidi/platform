@@ -1,7 +1,5 @@
 # 👋 Welcome | README
 
-[![Build Status](https://travis-ci.org/ushahidi/platform.png)](https://travis-ci.org/ushahidi/platform) [![Coverage Status](https://coveralls.io/repos/github/ushahidi/platform/badge.svg)](https://coveralls.io/github/ushahidi/platform) [![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
-
 ![](<../.gitbook/assets/oss-welcome-banner (1) (1) (2) (2).png>)
 
 ## What is Ushahidi?
