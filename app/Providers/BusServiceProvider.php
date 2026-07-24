@@ -675,6 +675,11 @@ class BusServiceProvider extends ServiceProvider
                 HXL\Handlers\FetchHXLMetadataByIdQueryHandler::class
             );
 
+            $queryBus->register(
+                Auth\Queries\CheckOldPasswordQuery::class,
+                Auth\Handlers\CheckOldPasswordQueryHandler::class
+            );
+
 
 
 
