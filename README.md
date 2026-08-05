@@ -74,7 +74,7 @@ This project follows the [all-contributors](https://github.com/all-contributors/
 ## Useful Links
 - [Code of Conduct](https://docs.ushahidi.com/platform-developer-documentation/code-of-conduct)
 - [Download][download]
-- [Installation guides][setup-guides]
+- [Installation guides](https://docs.ushahidi.com/platform-developer-documentation/v/set-up-the-developer-environment-for-ushahidi/)
 - [Developer and User Support][support]
 - [REST API docs][rest-api-docs]
 - [Get Involved][getin]
