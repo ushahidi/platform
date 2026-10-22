@@ -13,7 +13,7 @@ RUN apt-key del B188E2B695BD4743 2>/dev/null || true && \
 RUN apt-get install -y php-pear php${PHP_MAJOR_VERSION}-dev
 RUN pecl channel-update pecl.php.net
 RUN pecl channel-update pecl.php.net
-RUN pecl install xdebug-3.1.6 
+RUN pecl install https://pecl.php.net/get/xdebug-3.1.6.tgz
 ENV PHP_INI_DIR=/etc/php/${PHP_MAJOR_VERSION}/fpm
 RUN docker-php-ext-enable xdebug
 ENV PHP_INI_DIR=/etc/php/${PHP_MAJOR_VERSION}/cli
