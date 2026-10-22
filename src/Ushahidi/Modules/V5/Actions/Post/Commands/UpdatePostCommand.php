@@ -58,19 +58,11 @@ class UpdatePostCommand implements Command
         //  dd($request->input());
 
         $user = Auth::user();
-        if (self::hasPermissionToUpdateUser($user)) {
-            $input['user_id'] = $request->has('user_id')
-                ? $request->input('user_id') : $current_post->user_id;
-            ;
-        } else {
-            $input['user_id'] = $current_post->user_id;
-        }
+        $input['user_id'] = $user->id;
+        $input['author_realname'] = $user->realname;
+        $input['author_email'] = $user->email;
 
         $input['slug'] = $request->input('slug') ? Post::makeSlug($request->input('slug')) : $current_post->slug;
-        $input['author_email'] = $request->has('author_email')
-            ? $request->input('author_email') : $current_post->author_email;
-        $input['author_realname'] = $request->has('author_realname')
-            ? $request->input('author_realname') : $current_post->author_realname;
         $input['form_id'] = $request->has('form_id')
             ? $request->input('form_id') : $current_post->form_id;
         $input['parent_id'] = $request->has('parent_id')

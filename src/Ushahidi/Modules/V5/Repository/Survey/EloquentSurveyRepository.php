@@ -134,6 +134,27 @@ class EloquentSurveyRepository implements SurveyRepository
             $builder->where('name', 'LIKE', "%" . $survey_search_fields->q() . "%");
         }
 
+        if (!$survey_search_fields->isAdmin()) {
+            $role = $survey_search_fields->role();
+            $builder->where(function (Builder $query) use ($role) {
+                $query->whereNotExists(function ($subquery) {
+                    $subquery->select(DB::raw(1))
+                        ->from('form_roles')
+                        ->whereColumn('form_roles.form_id', 'forms.id');
+                });
+
+                if ($role) {
+                    $query->orWhereExists(function ($subquery) use ($role) {
+                        $subquery->select(DB::raw(1))
+                            ->from('form_roles')
+                            ->join('roles', 'roles.id', '=', 'form_roles.role_id')
+                            ->whereColumn('form_roles.form_id', 'forms.id')
+                            ->where('roles.name', '=', $role);
+                    });
+                }
+            });
+        }
+
         return $builder;
     }
 

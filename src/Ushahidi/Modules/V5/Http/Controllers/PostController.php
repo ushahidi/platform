@@ -67,6 +67,162 @@ class PostController extends V5Controller
         return ['author_email', 'slug', 'user_id', 'author_realname', 'created', 'updated'];
     }
 
+    public function unread(Request $request)
+    {
+        $refreshed_at = $request->query('refreshed_at');
+        $now = time();
+
+        if (!$refreshed_at || !is_numeric($refreshed_at) || (int)$refreshed_at >= $now) {
+            $refreshed_at = $now;
+        }
+
+        $results = DB::select("SELECT COUNT(*) AS count from posts WHERE created > ?", [$refreshed_at]);
+        $count = $results[0]->count ?? 0;
+
+        return response()->json(['count' => $count]);
+    }
+
+    public function move(Request $request)
+    {
+        $authorizer = service('authorizer.form');
+        $user = $authorizer->getUser();
+        $role = $user->role;
+ 
+        if (!in_array($role, ['admin', 'user'], true)) {
+            return response()->json(['error' => 'Unauthorized'], 403);
+        }
+ 
+        $post_id = (int) $request->query('post_id');
+        $form_id = (int) $request->query('form_id');
+ 
+        if (!$post_id || !$form_id) {
+            return response()->json(['error' => 'Missing post_id or form_id'], 422);
+        }
+ 
+        DB::beginTransaction();
+        try {
+            // Step 1: Fetch current post data
+            $post_rows = DB::select(
+                "SELECT form_id as old_form_id, content FROM ushahidi.posts WHERE id = ?",
+                [$post_id]
+            );
+ 
+            if (empty($post_rows)) {
+                DB::rollback();
+                return response()->json(['error' => 'Post not found'], 404);
+            }
+ 
+            $old_form_id = $post_rows[0]->old_form_id;
+            $content     = $post_rows[0]->content ?? '';
+ 
+            // Fetch old and new form names
+            $old_form_rows = DB::select(
+                "SELECT name FROM ushahidi.forms WHERE id = ?",
+                [$old_form_id]
+            );
+            $form_name = $old_form_rows[0]->name ?? $old_form_id;
+ 
+            $new_form_rows = DB::select(
+                "SELECT name FROM ushahidi.forms WHERE id = ?",
+                [$form_id]
+            );
+            $new_form_name = $new_form_rows[0]->name ?? $form_id;
+ 
+            // Append migration note to content
+            $content .= "\n\n--- Survey moved from [{$form_name}] to [{$new_form_name}] ---\n\n";
+ 
+            // Step 2: Fetch old form attributes
+            $old_attributes = DB::select(
+                "SELECT A.id, A.label, A.input, A.type, A.options
+                 FROM ushahidi.form_attributes A
+                 JOIN ushahidi.form_stages B ON (A.form_stage_id = B.id)
+                 WHERE B.form_id = ?",
+                [$old_form_id]
+            );
+ 
+            // Fetch new form attributes
+            $new_attributes = DB::select(
+                "SELECT A.id, A.label, A.input, A.type, A.options
+                 FROM ushahidi.form_attributes A
+                 JOIN ushahidi.form_stages B ON (A.form_stage_id = B.id)
+                 WHERE B.form_id = ?",
+                [$form_id]
+            );
+ 
+            // Step 3: Process each old attribute (skip title and description types)
+            foreach ($old_attributes as $old_attr) {
+                $id      = $old_attr->id;
+                $label   = $old_attr->label;
+                $input   = $old_attr->input;
+                $type    = $old_attr->type;
+                $options = $old_attr->options;
+
+                if (in_array($type, ['title', 'description', 'tags'], true)) {
+                    continue;
+                }
+ 
+                // Look for a matching attribute in the new form
+                $matched_new = null;
+                foreach ($new_attributes as $new_attr) {
+                    if (
+                        $new_attr->label   === $label   &&
+                        $new_attr->input   === $input    &&
+                        $new_attr->type    === $type     &&
+                        $new_attr->options === $options
+                    ) {
+                        $matched_new = $new_attr;
+                        break;
+                    }
+                }
+ 
+                if ($matched_new !== null) {
+                    // Matching attribute found — reassign the post value to the new attribute id
+                    $new_id = $matched_new->id;
+                    DB::statement(
+                        "UPDATE ushahidi.post_{$type}
+                         SET form_attribute_id = ?
+                         WHERE post_id = ? AND form_attribute_id = ?",
+                        [$new_id, $post_id, $id]
+                    );
+                } else {
+                    // No match — retrieve current value, delete the row, and log it in content
+                    $value_rows = DB::select(
+                        "SELECT value FROM ushahidi.post_{$type}
+                         WHERE post_id = ? AND form_attribute_id = ?",
+                        [$post_id, $id]
+                    );
+                    $value = $value_rows[0]->value ?? '';
+ 
+                    DB::statement(
+                        "DELETE FROM ushahidi.post_{$type}
+                         WHERE post_id = ? AND form_attribute_id = ?",
+                        [$post_id, $id]
+                    );
+ 
+                    $content .= "{$label} -> {$value}\n";
+                }
+            }
+ 
+            // Step 4: Update the post with the new form_id and updated content
+            DB::statement(
+                "UPDATE ushahidi.posts SET form_id = ?, content = ? WHERE id = ?",
+                [$form_id, $content, $post_id]
+            );
+ 
+            DB::commit();
+ 
+            return response()->json([
+                'status'  => 'completed',
+                'post_id' => $post_id,
+                'form_id' => $form_id,
+            ], 200);
+ 
+        } catch (\Exception $e) {
+            DB::rollback();
+        return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
     /**
      * Display the specified resource.
      *
