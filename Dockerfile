@@ -1,6 +1,10 @@
 FROM ushahidi/php-fpm-nginx:php-7.4
 LABEL org.opencontainers.image.source="https://github.com/ushahidi/platform"
 
+# crond runs on chaperone, whose scheduler aiocron 2.x rejects the
+# seconds-based intervals in docker/run.tasks.conf; keep it below 2.
+RUN pip3 install --no-cache-dir 'aiocron<2'
+
 # TODO: non-root user container setup
 ENV COMPOSER_ALLOW_SUPERUSER=1
 
