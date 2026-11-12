@@ -257,7 +257,7 @@ class EloquentPostRepository implements PostRepository
             // $query->whereIn('posts.id', $this->getBoundingBoxPostIds($bounding_box));
             $query->whereRaw(
                 "posts.id in (select post_id from post_point"
-                    . " where CONTAINS(ST_GeomFromText('" . $bounding_box->toWKT() . "'), value) = 1)"
+                    . " where MBRContains(ST_GeomFromText('" . $bounding_box->toWKT() . "'), value) = 1)"
             );
         }
 
@@ -296,7 +296,7 @@ class EloquentPostRepository implements PostRepository
     private function getBoundingBoxPostIds(BoundingBox $bounding_box)
     {
         $query = DB::table('post_point')->select('post_id')->distinct();
-        $query->whereRaw('CONTAINS(ST_GeomFromText("' . $bounding_box->toWKT() . '"), value) = 1');
+        $query->whereRaw('MBRContains(ST_GeomFromText("' . $bounding_box->toWKT() . '"), value) = 1');
         $post_ids = [];
         $results = $query->get();
         foreach ($results as $result) {
