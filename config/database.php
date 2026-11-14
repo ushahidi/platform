@@ -163,11 +163,13 @@ return [
             'password' => env('REDIS_PASSWORD', null),
         ],
 
+        // The cache can use its own Redis or Valkey instance (with an
+        // eviction policy), separate from the queue's.
         'cache' => [
-            'host'     => env('REDIS_HOST', '127.0.0.1'),
-            'port'     => env('REDIS_PORT', 6379),
+            'host'     => env('REDIS_CACHE_HOST', env('REDIS_HOST', '127.0.0.1')),
+            'port'     => env('REDIS_CACHE_PORT', env('REDIS_PORT', 6379)),
             'database' => env('REDIS_CACHE_DATABASE', 1),
-            'password' => env('REDIS_PASSWORD', null),
+            'password' => env('REDIS_CACHE_PASSWORD', env('REDIS_PASSWORD', null)),
         ],
 
     ],
