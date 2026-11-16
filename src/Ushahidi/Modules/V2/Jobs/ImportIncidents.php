@@ -144,7 +144,7 @@ class ImportIncidents extends ImportFromV2Job
             // Fetch geometry data for incidents
             $geometryData = $this->getConnection()
                 ->table('geometry')
-                ->select('geometry.*', DB::RAW('AsText(`geometry`.geometry) as geometry_astext'))
+                ->select('geometry.*', DB::RAW('ST_AsText(`geometry`.geometry) as geometry_astext'))
                 ->whereIn('incident_id', $sourceData->pluck('id')->all())
                 ->orderBy('incident_id', 'asc')
                 ->orderBy('id', 'asc')

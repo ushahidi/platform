@@ -1120,7 +1120,7 @@ class PostRepository extends OhanzeeRepository implements
             ->from('post_point')
             ->where(
                 DB::expr(
-                    'CONTAINS(ST_GeomFromText(:bounds), value)',
+                    'MBRContains(ST_GeomFromText(:bounds), value)',
                     [':bounds' => $bounding_box->toWKT()]
                 ),
                 '=',

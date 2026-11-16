@@ -61,7 +61,7 @@ class CopyRawTables extends Job
                 $q = $q->select(
                     'id',
                     'incident_id',
-                    DB::raw('astext(geometry) as geometry'),
+                    DB::raw('ST_AsText(geometry) as geometry'),
                     'geometry_label',
                     'geometry_comment',
                     'geometry_color',

@@ -69,6 +69,10 @@ return [
             'use_path_style_endpoint' => (bool) env('S3_USE_PATH_STYLE_ENDPOINT', false),
             # base URL where uploaded objects can be accessed, useful for CDN
             'url' => env('S3_PUBLIC_URL'),
+            # Send no ACL with uploads: Cloud Storage buckets with uniform
+            # bucket-level access reject any ACL ("Cannot insert legacy ACL").
+            # Access then comes from the bucket's IAM policy alone.
+            'options' => env('S3_DISABLE_ACL', false) ? ['ACL' => null] : [],
         ],
 
         'rackspace' => [
