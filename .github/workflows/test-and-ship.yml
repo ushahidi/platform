@@ -109,6 +109,12 @@ jobs:
     if: github.event_name == 'push'   # not on PRs
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    # id-token: Workload Identity Federation to Google Cloud (no stored keys).
+    # contents: write for the release tarball upload on version tags.
+    permissions:
+      id-token: write
+      contents: write
+      packages: write
 
     steps:
     - uses: actions/checkout@v3
@@ -135,6 +141,35 @@ jobs:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
 
+    # Artifact Registry in GCP: pushes as sa-platform-ci-push through the
+    # foundation's Workload Identity pool.
+    - name: Authenticate to Google Cloud (Workload Identity Federation)
+      id: gcp-auth
+      uses: google-github-actions/auth@v2
+      with:
+        workload_identity_provider: projects/384414633675/locations/global/workloadIdentityPools/foundation-pool/providers/foundation-gh-provider
+        service_account: sa-platform-ci-push@prj-c-shared-2uag.iam.gserviceaccount.com
+        token_format: access_token
+
+    - name: Login to Artifact Registry
+      uses: docker/login-action@v3
+      with:
+        registry: europe-docker.pkg.dev
+        username: oauth2accesstoken
+        password: ${{ steps.gcp-auth.outputs.access_token }}
+
+    # Artifact Registry tags are immutable: a branch build is tagged
+    # <branch>-<sha> (no moving branch tag), a release with its version.
+    - name: Docker meta (Artifact Registry)
+      id: meta_gar
+      uses: docker/metadata-action@v5
+      with:
+        images: |
+          europe-docker.pkg.dev/prj-c-shared-2uag/platform/platform
+        tags: |
+          type=raw,value={{branch}}-{{sha}},enable=${{ github.ref_type == 'branch' }}
+          type=ref,event=tag
+
     - name: Docker meta
       id: meta
       uses: docker/metadata-action@v3
@@ -149,13 +184,15 @@ jobs:
           type=semver,pattern={{version}}
           type=sha
 
-    - name: Build and push to Amazon ECR
+    - name: Build and push to Amazon ECR, GitHub and Artifact Registry
       uses: docker/build-push-action@v2
       with:
         pull: true
         push: ${{ github.event_name != 'pull_request' }}
         labels: ${{ steps.meta.outputs.labels }}
-        tags: ${{ steps.meta.outputs.tags }}
+        tags: |
+          ${{ steps.meta.outputs.tags }}
+          ${{ steps.meta_gar.outputs.tags }}
         build-args: |
           GIT_COMMIT_ID=${{ github.sha }}
           GIT_BUILD_REF=${{ github.head_ref }}
