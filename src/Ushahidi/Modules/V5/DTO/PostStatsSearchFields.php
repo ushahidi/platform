@@ -14,8 +14,9 @@ class PostStatsSearchFields extends PostSearchFields
     private $timeline_attribute;
     private $timeline_interval;
     private $include_unmapped;
-
-    public $include_unformed;
+    protected $form;
+    protected $form_condition;
+    public $include_unstructured_posts;
 
     //  getFilter ??
 
@@ -31,7 +32,23 @@ class PostStatsSearchFields extends PostSearchFields
         $this->timeline_attribute = $request->query('timeline_attribute');
         $this->timeline_interval = $request->query('timeline_interval');
         $this->include_unmapped = $request->query('include_unmapped');
-        $this->include_unformed = $request->query('include_unformed');
+        $this->include_unstructured_posts = $request->query('include_unstructured_posts');
+        $this->form_condition = "all";
+        $this->form = []; // no conditions
+        if (!$request->has('form')) {
+            if ($request->has('include_unstructured_posts') && !$request->get('include_unstructured_posts')) {
+                $this->form_condition = "not_null";
+                $this->form = []; // no conditions
+            }
+        } else {
+            if ($request->get('form') == 'none') {
+                $this->form = []; // no conditions
+                $this->form_condition = "null";
+            } else {
+                $this->form_condition = "include";
+                $this->form = $this->getParameterAsArray($request->get('form'));
+            }
+        }
     }
 
     public function groupBy(): ?string
@@ -74,6 +91,7 @@ class PostStatsSearchFields extends PostSearchFields
     {
         return $this->include_unmapped;
     }
+    
 
     public function status(): array
     {
@@ -81,5 +99,44 @@ class PostStatsSearchFields extends PostSearchFields
             return ['archived','draft','published'];
         }
         return parent::status();
+    }
+
+    public function includeUnstructuredPosts()
+    {
+        return $this->include_unstructured_posts;
+    }
+    
+    public function form(): array
+    {
+        return $this->form;
+    }
+
+    public function excludeFormIds($excluded_form_ids)
+    {
+        if (!empty($excluded_form_ids)) {
+            if (!empty($this->form)) {
+                $this->form  = array_diff($this->form, $excluded_form_ids);
+            } elseif ($this->form_condition != "null") {
+                $this->form  = $excluded_form_ids;
+                $this->form_condition = "exclude";
+            }
+        }
+    }
+
+    public function formCondition(): string
+    {
+        return $this->form_condition;
+    }
+    private function getParameterAsArray($parameter_value)
+    {
+        $filter_values = [];
+        if ($parameter_value) {
+            if (is_array($parameter_value)) {
+                $filter_values = $parameter_value;
+            } else {
+                $filter_values = explode(',', $parameter_value);
+            }
+        }
+        return $filter_values;
     }
 }
