@@ -18,7 +18,10 @@ services:
   redis:
     image: redis:7.2-alpine
   platform:
-    build: .
+    build:
+      context: .
+      args:
+        BASE_TAG: php-7.4-debug
     environment:
       APP_KEY: SomeRandomKey!!!SomeRandomKey!!!
       DOCKERIZE_TIMEOUT: 180s

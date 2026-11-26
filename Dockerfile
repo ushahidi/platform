@@ -1,4 +1,7 @@
-FROM ushahidi/php-fpm-nginx:php-7.4
+# Deployed images build on php-7.4; docker-compose.yml builds local images on
+# php-7.4-debug, which adds Xdebug (make debug, make test with coverage).
+ARG BASE_TAG=php-7.4
+FROM ushahidi/php-fpm-nginx:${BASE_TAG}
 LABEL org.opencontainers.image.source="https://github.com/ushahidi/platform"
 
 # crond runs on chaperone, whose scheduler aiocron 2.x rejects the
@@ -9,20 +12,12 @@ RUN pip3 install --no-cache-dir 'aiocron<2'
 ENV COMPOSER_ALLOW_SUPERUSER=1
 
 COPY docker-php-ext-enable /usr/local/bin/
-RUN apt-key del B188E2B695BD4743 2>/dev/null || true && \
-    curl -sSLo /tmp/debsuryorg-archive-keyring.deb https://packages.sury.org/debsuryorg-archive-keyring.deb && \
-    dpkg -i /tmp/debsuryorg-archive-keyring.deb && \
-    rm /tmp/debsuryorg-archive-keyring.deb && \
-    apt-get update
-RUN apt-get install -y php-pear php${PHP_MAJOR_VERSION}-dev
-RUN pecl channel-update pecl.php.net
-RUN pecl channel-update pecl.php.net
-RUN pecl install https://pecl.php.net/get/xdebug-3.1.6.tgz
-ENV PHP_INI_DIR=/etc/php/${PHP_MAJOR_VERSION}/fpm
-RUN docker-php-ext-enable xdebug
+# Remote-debugging settings for PHP-FPM, only where the base image has Xdebug.
+COPY docker-php-ext-xdebug.ini /tmp/
+RUN if php -m | grep -qx xdebug; then \
+      cp /tmp/docker-php-ext-xdebug.ini /etc/php/${PHP_MAJOR_VERSION}/fpm/conf.d/; \
+    fi && rm /tmp/docker-php-ext-xdebug.ini
 ENV PHP_INI_DIR=/etc/php/${PHP_MAJOR_VERSION}/cli
-RUN docker-php-ext-enable xdebug
-COPY docker-php-ext-xdebug.ini /etc/php/${PHP_MAJOR_VERSION}/fpm/conf.d
 
 WORKDIR /var/www
 COPY composer.json ./
