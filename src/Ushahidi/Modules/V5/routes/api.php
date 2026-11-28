@@ -464,6 +464,8 @@ $router->group([
     // Password reset
     $router->post('/passwordreset', 'AuthController@reset');
     $router->post('/passwordreset/confirm', 'AuthController@confirm');
+    $router->get('/passwordreset/check', 'AuthController@check');
+
 
     // Register
     $router->post('/register', 'AuthController@register');

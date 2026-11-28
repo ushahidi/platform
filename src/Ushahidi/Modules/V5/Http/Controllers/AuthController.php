@@ -6,9 +6,9 @@ use Illuminate\Http\Request;
 use Ushahidi\Modules\V5\Actions\Auth\Commands\RegisterCommand;
 use Ushahidi\Modules\V5\Actions\Auth\Commands\PasswordResetCommand;
 use Ushahidi\Modules\V5\Actions\Auth\Commands\PasswordResetConfirmCommand;
+use Ushahidi\Modules\V5\Actions\Auth\Queries\CheckOldPasswordQuery;
 use Ushahidi\Modules\V5\Requests\RegisterRequest;
 use Ushahidi\Modules\V5\Requests\ResetPasswordRequest;
-use Ushahidi\Modules\V5\Requests\PasswordresetConfirmRequest;
 use Ushahidi\Modules\V5\Http\Resources\User\UserResource;
 use Ushahidi\Modules\V5\Actions\User\Queries\FetchUserByIdQuery;
 use Ushahidi\Modules\V5\Models\User;
@@ -65,4 +65,21 @@ class AuthController extends V5Controller
 
         $command = PasswordResetConfirmCommand::fromRequest($request);
     } //end register()
+
+    /**
+     * check old password.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function check(Request $request)
+    {
+        if ($this->queryBus->handle(CheckOldPasswordQuery::fromRequest($request))) {
+            return response()->json(['result' => ['confirm-reset-password' => true]]);
+        } else {
+            return response()->json(['result' => ['confirm-reset-password' => false]]);
+        }
+
+       // $command = PasswordCheckRequest::fromRequest($request);
+    }
 } //end class
