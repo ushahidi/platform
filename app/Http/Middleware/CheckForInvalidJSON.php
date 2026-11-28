@@ -15,8 +15,7 @@ class CheckForInvalidJSON
      */
     public function handle($request, Closure $next)
     {
-        $request_method = $_SERVER['REQUEST_METHOD'];
-        $put_or_post = $request_method === 'POST' || $request_method === 'PUT';
+        $put_or_post = $request->isMethod('POST') || $request->isMethod('PUT');
 
         $data = json_decode($request->getContent());
 
