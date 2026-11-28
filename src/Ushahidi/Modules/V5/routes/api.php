@@ -105,6 +105,8 @@ $router->group([
 
             $router->get('/', 'PostController@index');
             $router->get('/stats', 'PostController@stats');
+            $router->get('/unread', 'PostController@unread');
+            $router->get('/move', 'PostController@move');
             $router->get('/geojson', 'PostController@indexGeoJson');
             $router->get('/geojson/{zoom}/{x}/{y}', 'PostController@indexGeoJsonWithZoom');
             $router->get('/{id}', 'PostController@show');

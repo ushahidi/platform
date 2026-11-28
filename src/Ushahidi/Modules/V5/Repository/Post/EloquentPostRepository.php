@@ -340,20 +340,30 @@ class EloquentPostRepository implements PostRepository
         array $with = []
     ): LengthAwarePaginator {
         $fields = $this->addPostsTableNamePrefix($fields);
-        // add the order field if not found
-        if (!in_array('posts.'.$paging->getOrderBy(), $fields)) {
-            $fields[] = 'posts.'.$paging->getOrderBy();
-        }
-        $query = Post::take($paging->getLimit())
-            //->skip($paging->getSkip())
-            ->orderBy('posts.'.$paging->getOrderBy(), $paging->getOrder());
+        $orderBy = $paging->getOrderBy();
 
+        $query = Post::query();
+
+        if ($orderBy === 'event_date') {
+            $query->select($fields)
+                ->selectRaw('COALESCE((SELECT MAX(value) FROM post_datetime WHERE post_id = posts.id), posts.post_date) as event_date')
+                ->orderBy('event_date', $paging->getOrder());
+        } else {
+            // add the order field if not found
+            if (!in_array('posts.'.$orderBy, $fields)) {
+                $fields[] = 'posts.'.$orderBy;
+            }
+            $query->orderBy('posts.'.$orderBy, $paging->getOrder());
+
+            if (count($fields)) {
+                $query->select($fields);
+            }
+        }
+
+        $query->take($paging->getLimit());
         $query = $this->setSearchCondition($search_fields, $query);
         $query = $this->setGuestConditions($query);
 
-        if (count($fields)) {
-            $query->select($fields);
-        }
         if (count($with)) {
             $query->with($with);
         }
