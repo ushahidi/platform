@@ -121,7 +121,7 @@ return [
             'collation' => env('DB_COLLATION', 'utf8_unicode_ci'),
             'prefix'    => env('DB_PREFIX', ''),
             'timezone'  => env('DB_TIMEZONE', '+00:00'),
-            'strict'    => env('DB_STRICT_MODE', true),
+            'strict'    => (bool) env('DB_STRICT_MODE', true),
         ],
 
     ],
@@ -154,7 +154,7 @@ return [
 
         'client' => 'phpredis',
 
-        'cluster' => env('REDIS_CLUSTER', false),
+        'cluster' => (bool) env('REDIS_CLUSTER', false),
 
         'default' => [
             'host'     => env('REDIS_HOST', '127.0.0.1'),

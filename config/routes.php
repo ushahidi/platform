@@ -35,7 +35,7 @@ return [
         | Set this to true if you don't want responses to be cached in intermediate
         | proxies, but only in the end user's browsers instead.
         */
-        'private_only' => env('CACHE_CONTROL_PRIVATE', false),
+        'private_only' => (bool) env('CACHE_CONTROL_PRIVATE', false),
 
     ],
 ];
