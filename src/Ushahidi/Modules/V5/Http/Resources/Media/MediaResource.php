@@ -64,56 +64,75 @@ class MediaResource extends Resource
         if (empty($value)) {
             return null;
         }
-        $url = $this->urlOFilename($value);
-        if ($url === null) {
-            return null;
-        }
-        // Substitute % for %25 to avoid double-encoding issues in browsers
-        $url = str_replace('%', '%25', $url);
-        return $url;
+        return $this->resolveMediaUrl($value);
     }
 
-    protected function urlOFilename($value)
+    /**
+     * Resolve the public URL for a media file, trying multiple name-encoding
+     * strategies to account for how the file may have been stored historically.
+     *
+     * Given a DB value like "uploads/some file.jpg", we try:
+     *
+     *   1st) Raw name:     "uploads/some file.jpg"
+     *        → Object in storage is literally named "some file.jpg"
+     *        → S3 URL:  https://s3.../uploads/some%20file.jpg  (S3 encodes it)
+     *        → Return as-is. The URL is already correct.
+     *
+     *   2nd) Single-encoded: "uploads/some%20file.jpg"
+     *        → Object in storage is literally named "some%20file.jpg"
+     *          (old code used rawurlencode before saving to storage)
+     *        → CDN URL: https://cdn.../uploads/some%20file.jpg
+     *        → Problem: browser decodes %20 → requests "some file.jpg" → 404
+     *        → Fix: escape % → %25 so URL becomes .../some%2520file.jpg
+     *          browser decodes %25 → "%" and requests "some%20file.jpg" ✓
+     *
+     *   3rd) Double-encoded: "uploads/some%2520file.jpg"
+     *        → Object in storage is literally named "some%2520file.jpg"
+     *        → Same browser-decoding issue, same %25 fix applied.
+     *
+     * @param string $value  The o_filename value from the database
+     * @return string|null   The public URL, or null if not found
+     */
+    protected function resolveMediaUrl($value)
     {
-        // Removes path from image file name, encodes the filename, and joins the path and filename together
         $url_path = explode("/", $value);
         $filename = array_pop($url_path);
-        array_push($url_path, $filename);
-        $path = implode("/", $url_path);
 
+        // 1st try: raw filename as stored in the DB
+        // e.g. "some file.jpg" → look for object "some file.jpg"
+        $path = implode("/", array_merge($url_path, [$filename]));
         $result = Storage::url($path);
-        // If the result is a non-empty string
         if (is_string($result) && !empty($result)) {
-            // Success
+            // URL from storage is already properly encoded (e.g. S3 returns %20 for spaces)
             return $result;
         }
 
-        // For some time, we would store files with
-        // URL-encoded names. Try that as a fallback
-        $filename = rawurlencode((array_pop($url_path)));
-        array_push($url_path, $filename);
-        $path = implode("/", $url_path);
-
+        // 2nd try: single rawurlencode — for files stored with encoded names
+        // e.g. "some file.jpg" → rawurlencode → "some%20file.jpg"
+        //   look for object literally named "some%20file.jpg"
+        $encodedOnce = rawurlencode($filename);
+        $path = implode("/", array_merge($url_path, [$encodedOnce]));
         $result = Storage::url($path);
-        // If the result is a non-empty string
         if (is_string($result) && !empty($result)) {
-            // Success
-            return $result;
+            // The object name has literal "%" chars (e.g. "some%20file.jpg").
+            // The CDN URL contains those raw %, which browsers would decode.
+            // Escape % → %25 so browsers preserve the literal percent sign.
+            // e.g. ".../some%20file.jpg" → ".../some%2520file.jpg"
+            //   browser decodes %25→% and correctly requests "some%20file.jpg"
+            return str_replace('%', '%25', $result);
         }
 
-        // Try one more round of urlencoding, just in case
-        $filename = rawurlencode((array_pop($url_path)));
-        array_push($url_path, $filename);
-        $path = implode("/", $url_path);
-
+        // 3rd try: double rawurlencode — for doubly-encoded legacy names
+        // e.g. "some%20file.jpg" → rawurlencode → "some%2520file.jpg"
+        //   look for object literally named "some%2520file.jpg"
+        $encodedTwice = rawurlencode($encodedOnce);
+        $path = implode("/", array_merge($url_path, [$encodedTwice]));
         $result = Storage::url($path);
-        // If the result is a non-empty string
         if (is_string($result) && !empty($result)) {
-            // Success
-            return $result;
+            // Same %-escaping logic as the 2nd try
+            return str_replace('%', '%25', $result);
         }
 
-        // If we reach here, we failed to find the file
         return null;
     }
 }
